@@ -521,7 +521,8 @@ class ClientQuery extends ClientPlugin
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {
                                             
-        if ($this->getConfig()->persistentQueries) {
+        if (isset($mapRequest->queryRequest) && 
+            $this->getConfig()->persistentQueries) {
             $mapRequest->queryRequest->bbox = null;
         }
     }
