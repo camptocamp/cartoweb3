@@ -49,7 +49,8 @@ class I18n {
     
     // Detection of language in ACCEPT_LANGUAGE (mode 1) and USER_AGENT
     // variables (mode 2). This function is used in set_language code bellow.
-    // This code is based on phpLang (http://www.phpheaven.net/projects/phpLang/).
+    // This code is based on phpLang:
+    // http://www.phpheaven.net/projects/phplang/
     static function detect_lang($lang_content, $mode)
     {
         $languages = array (
@@ -233,7 +234,8 @@ class I18nGettext implements I18nInterface {
 }
 
 /**
- * Replace arguments in a string with their values. Arguments are represented by % followed by their number.
+ * Replace arguments in a string with their values. Arguments are represented
+ * by % followed by their number.
  *
  * Original code was written by Sagi Bashari <sagi@boom.org.il>
  *
