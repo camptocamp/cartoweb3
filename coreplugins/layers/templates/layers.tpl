@@ -51,7 +51,7 @@
     }
   }
 
-  function checkChildren(id, val) {
+  function checkChildren(id,val) {
     var mydiv = document.getElementById(id);
     if(!mydiv) return;
     
@@ -63,34 +63,39 @@
         divs[i].checked = val;
     }
   }
+  
+  function isChildrenChecked(id) {
+    var dparent = document.getElementById(id);
+    var celts = dparent.getElementsByTagName('input');
+    for (var i = 0; i < celts.length; i++) {
+      if (!celts[i].checked) return false;
+    }
+    return true;
+  }
 
-  function updateChecked(id)
+  function updateChecked(id,skipChildren)
   {
     var obj = document.getElementById('in' + id);
+    if(!obj) return;
     var val = obj.checked;
     
-    checkChildren('id' + id, val);
+    if (!skipChildren) checkChildren('id' + id, val);
     
     var pid = obj.parentNode.getAttribute('id');
-    var iid = 'in' + pid.substr(2);
-    var iparent = document.getElementById(iid);
+    var iid = pid.substr(2);
+    var iparent = document.getElementById('in' + iid);
    
     if (!iparent) return;
 
-    // if node has been unchecked, makes sure parent is unchecked too
-    if (val == false) iparent.checked = false;
-    // if all siblings are checked, makes sure parent is checked too
-    else {
-      var isChecked = true;
-      var dparent = document.getElementById(pid);
-      var celts = dparent.getElementsByTagName('input');
-      for (var i = 0; i < celts.length; i++) {
-        if (!celts[i].checked) {
-          isChecked = false;
-          break;
-        }
-      }
-      iparent.checked = isChecked;
+    // if node has been unchecked, makes sure parents are unchecked too
+    if (val == false) {
+      iparent.checked = false;
+      updateChecked(iid, true);
+    }
+    // if all siblings are checked, makes sure parents are checked too
+    else if (isChildrenChecked(pid)) {
+      iparent.checked = true;
+      updateChecked(iid, true);
     }
   }
 //-->
@@ -99,7 +104,7 @@
 <div id="layerscmd"><a href="javascript:expandAll('layersroot');">{$expand}</a> -
 <a href="javascript:closeAll('layersroot');">{$close}</a><br />
 <a href="javascript:checkChildren('layersroot');">{$check}</a> -
-<a href="javascript:checkChildren('layersroot', false);">{$uncheck}</a></div>
+<a href="javascript:checkChildren('layersroot',false);">{$uncheck}</a></div>
 <div id="layersroot">
 {$layerlist}
 </div>
