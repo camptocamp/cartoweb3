@@ -96,7 +96,7 @@
 
 <div id="banner"><h1>{$cartoclient_title}</h1></div>
 
-<form method="POST" action="{$smarty.server.PHP_SELF}" name="carto_form">
+<form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true" />
 
   <div id="leftbar">    
@@ -135,7 +135,6 @@
     {/foreach}   
   </p>
 
-  <p>
     <table>
       <tr>
         <td><input type="image" src="{$project_gif_north_west}" name="pan_nw" alt="NW" /></td>
@@ -165,10 +164,9 @@
       </tr>
       {if $scalebar_path|default:''}
       <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
-      alt="{$scalebar_alt}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /><td/></tr>
+      alt="{$scalebar_alt}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /></td></tr>
       {/if}
     </table>
-  </p>
 
   <p> LocationInfo: {$location_info} </p>
 
