@@ -103,8 +103,7 @@ class LayerBase extends Serializable {
     }
 
     /**
-     * Unserializes data from structure $struct and populates object 
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
@@ -132,8 +131,7 @@ class LayerContainer extends LayerBase {
     public $children = array();
     
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);   
@@ -163,8 +161,7 @@ class LayerGroup extends LayerContainer {
     public $rendering = 'tree';
 
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);
@@ -187,8 +184,7 @@ class Layer extends LayerContainer {
     public $msLayer;
 
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);
@@ -216,8 +212,7 @@ class Location extends Serializable {
     public $bbox;
     
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
@@ -266,8 +261,7 @@ class LayerState extends Serializable {
     public $unfolded;
 
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
@@ -305,8 +299,7 @@ class InitialMapState extends Serializable {
     public $layers;
 
     /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
+     * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
@@ -391,45 +384,6 @@ class MapInfo extends Serializable {
      * @var GeoDimension
      */
     public $keymapGeoDimension; 
-
-    /**
-     * Unserializes data from structure $struct and populates object
-     * properties.
-     */
-    public function unserialize($struct) {
-        $this->timestamp        = self::unserializeValue($struct, 'timestamp');
-        $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
-  
-        $this->loadPlugins      = self::unserializeArray($struct, 'loadPlugins');
-        $this->autoClassLegend  = self::unserializeValue($struct, 
-                                      'autoClassLegend', 'boolean');
-  
-        $this->notAvailableIcon = self::unserializeValue($struct, 
-                                                    'notAvailableIcon');
-        $this->notAvailablePlusIcon = self::unserializeValue($struct, 
-                                                    'notAvailablePlusIcon');
-        $this->notAvailableMinusIcon = self::unserializeValue($struct, 
-                                                    'notAvailableMinusIcon');
-        
-        // Layers class names are specicified in className attribute
-        $this->layers           = self::unserializeObjectMap($struct, 'layers');
-        $this->initialMapStates = self::unserializeObjectMap($struct, 
-                                      'initialMapStates', 
-                                      'InitialMapState');
-        $this->extent           = self::unserializeObject($struct, 'extent', 
-                                      'Bbox');
-        $this->location         = self::unserializeObject($struct, 'location',
-                                      'Location');
-        $this->keymapGeoDimension = self::unserializeObject($struct, 
-                                      'keymapGeoDimension', 'GeoDimension');
-        
-        foreach (get_object_vars($struct) as $attr => $value) {
-            if (substr($attr, -4) == 'Init') {
-                $this->$attr = self::unserializeObject($struct, $attr, 
-                                   ucfirst($attr));
-            }
-        }
-    }
     
     /**
      * Returns a layer identified by its ID
@@ -499,6 +453,44 @@ class MapInfo extends Serializable {
             $parentLayer->children[] = $childLayerId;
 
         $this->layers[$childLayerId] = $childLayer;
+    }
+    
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->timestamp        = self::unserializeValue($struct, 'timestamp');
+        $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
+  
+        $this->loadPlugins      = self::unserializeArray($struct, 'loadPlugins');
+        $this->autoClassLegend  = self::unserializeValue($struct, 
+                                      'autoClassLegend', 'boolean');
+  
+        $this->notAvailableIcon = self::unserializeValue($struct, 
+                                                    'notAvailableIcon');
+        $this->notAvailablePlusIcon = self::unserializeValue($struct, 
+                                                    'notAvailablePlusIcon');
+        $this->notAvailableMinusIcon = self::unserializeValue($struct, 
+                                                    'notAvailableMinusIcon');
+        
+        // Layers class names are specicified in className attribute
+        $this->layers           = self::unserializeObjectMap($struct, 'layers');
+        $this->initialMapStates = self::unserializeObjectMap($struct, 
+                                      'initialMapStates', 
+                                      'InitialMapState');
+        $this->extent           = self::unserializeObject($struct, 'extent', 
+                                      'Bbox');
+        $this->location         = self::unserializeObject($struct, 'location',
+                                      'Location');
+        $this->keymapGeoDimension = self::unserializeObject($struct, 
+                                      'keymapGeoDimension', 'GeoDimension');
+        
+        foreach (get_object_vars($struct) as $attr => $value) {
+            if (substr($attr, -4) == 'Init') {
+                $this->$attr = self::unserializeObject($struct, $attr, 
+                                   ucfirst($attr));
+            }
+        }
     }
 }
 
