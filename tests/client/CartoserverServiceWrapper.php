@@ -10,6 +10,7 @@
 require_once 'common/GeographicalAssert.php';
 
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
+require_once(CARTOCOMMON_HOME . 'common/Common.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
@@ -123,7 +124,16 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
     // TODO: more than one arguement
     private function callFunction($function, $argument, $direct) {
        try {
-            return $this->getCartoserverService($direct)->$function($argument);
+            if ($direct) {
+                $config = new stdClass();
+                $config->developerIniConfig = true;
+                initializeCartoweb($config);
+            }
+            $ret = $this->getCartoserverService($direct)->$function($argument);
+            if ($direct) {
+                shutdownCartoweb($config);
+            }            
+            return $ret;
         } catch (Exception $e) {
             $message = '';
             if (isset($e->faultstring))
