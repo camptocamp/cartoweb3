@@ -2,7 +2,7 @@ body, html {
   color: black;
   font-size:0.9em;
   font-family:verdana, arial, sans-serif;
-  background: #fff;
+  background: #ff0;
   padding:0;
   margin:0; 
 }
@@ -12,35 +12,57 @@ a {text-decoration: none;color:#5C74BB;}
 a:hover {text-decoration: underline;color:#D0670A;}
 
 #banner {
-  border: 1px #f00 dashed;
+  border: 1px #ccc dashed;
   margin:10px;
 }
 
 #banner h1 {text-align:center;margin:5px;padding:0;font-size:1.1em;}
 
 #leftbar {
-  border: 1px #f00 dashed;
   position: absolute;
   left: 10px;
-  top: 50px;
+  top: 40px;
   width: 180px;
   padding:0;
-  z-index: 2;
+  z-index: 3;
+  background:white;
 }
 
-#leftbar p {text-align:center;padding:10px;}
+#leftbar p {text-align:center;margin:10px;}
+
+.label {padding: 2px 5px 2px 5px;}
+
+.folder {
+  position:absolute;
+  left:10px;
+  top:80px;
+  width:170px;
+  z-index:2;
+  visibility: hidden;
+  text-align:center;
+  padding:5px;
+}
+
+#folder1 select, #folder2 select {max-width:160px;}
+
 #keymap {text-align:center;margin:10px;}
-#keymap img {border:1px solid #eee;}
+#keymap input {border:1px solid #eee;}
 #mapImageDiv {border:1px solid #eee;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {
-  z-index: 0;
-  margin-left: 205px;
-}
+#content {z-index: 0;margin-left: 205px;}
 
-pre {border: 1px #f00 dashed;padding:20px;margin-right:10px;}
+#loadbar {
+  width:170px;
+  padding:10px;
+  background-color:white;
+  border:1px solid #eee;
+  font-weight:bold;
+}
+#loadbar img {border:0;margin-top:10px;}
+
+pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 .separator {
   background-color:#eee;
@@ -51,7 +73,6 @@ pre {border: 1px #f00 dashed;padding:20px;margin-right:10px;}
 }
 
 .form_button {
-  width:100px;
   height:20px;
   border:1px solid #fff;
   border-bottom-color: #aaa;

@@ -7,7 +7,7 @@
 /**
  * @package Tests
  */
-class ServerProjectplugin extends ServerPlugin {
+class ServerProjectplugin extends ClientResponderAdapter {
     private $log;
 
     function __construct() {

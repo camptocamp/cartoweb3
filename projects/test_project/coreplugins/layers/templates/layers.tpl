@@ -1,111 +1,95 @@
-{literal}
-<style type="text/css">
-#layersroot { text-align:left;margin-left:10px; font-size:0.8em;}
-.v, .nov { text-align:left;margin-left:10px;}
-.lk { text-decoration:none;color:black;font-family:courier;font-size:1em;}
-.nov { display:none;}
-</style>
+<input type="hidden" id="openNodes" name="openNodes" />
 <script type="text/javascript">
   <!--
-  function shift(id)
-  {
-    var obj = document.getElementById(id);
-    var key = document.getElementById('x' + id);
-    
-    if(key.innerHTML == '-') { 
-      key.innerHTML = '+';
-      obj.style.display = 'none';
-    }
-    else {
-      key.innerHTML = '-';
-      obj.style.display = 'block';
-    }
-  }
-
-  function expandAll(id)
-  {
-    var mydiv = document.getElementById(id);
-    var divs = mydiv.getElementsByTagName('div');
-    var key;
-    
-    for (var i = 0; i < divs.length; i++) {
-      divs[i].style.display = 'block';
-      key = document.getElementById('x' + divs[i].id);
-      if(key) key.innerHTML = '-';
-    }
-  }
-
-  function closeAll(id)
-  {
-    var mydiv = document.getElementById(id);
-    var divs = mydiv.getElementsByTagName('div');
-    var key;
-    
-    for (var i = 0; i < divs.length; i++) {    
-      key = document.getElementById('x' + divs[i].id);
-      if(key) key.innerHTML = '+';
-        
-      if(divs[i].getAttribute('id')) {
-          divs[i].style.display = 'none';    
-      }
-    }
-  }
-
-  function checkChildren(id,val) {
-    var mydiv = document.getElementById(id);
-    if(!mydiv) return;
-    
-    var divs = mydiv.getElementsByTagName('input');
-    if (val != false) val = true;
-
-    for (var i = 0; i < divs.length; i++) {
-      if(divs[i].name.substring(0, 6) == 'layers')
-        divs[i].checked = val;
-    }
-  }
-  
-  function isChildrenChecked(id) {
-    var dparent = document.getElementById(id);
-    var celts = dparent.getElementsByTagName('input');
-    for (var i = 0; i < celts.length; i++) {
-      if (!celts[i].checked) return false;
-    }
-    return true;
-  }
-
-  function updateChecked(id,skipChildren)
-  {
-    var obj = document.getElementById('in' + id);
-    if(!obj) return;
-    var val = obj.checked;
-    
-    if (!skipChildren) checkChildren('id' + id, val);
-    
-    var pid = obj.parentNode.getAttribute('id');
-    var iid = pid.substr(2);
-    var iparent = document.getElementById('in' + iid);
-   
-    if (!iparent) return;
-
-    // if node has been unchecked, makes sure parents are unchecked too
-    if (val == false) {
-      iparent.checked = false;
-      updateChecked(iid, true);
-    }
-    // if all siblings are checked, makes sure parents are checked too
-    else if (isChildrenChecked(pid)) {
-      iparent.checked = true;
-      updateChecked(iid, true);
-    }
-  }
-//-->
+  var openNodes = new Array('{$startOpenNodes}');
+  writeOpenNodes(true);
+  //-->
 </script>
-{/literal}
-<div id="layerscmd"><a href="javascript:expandAll('layersroot');">{$expand}</a> -
-<a href="javascript:closeAll('layersroot');">{$close}</a><br />
-<a href="javascript:checkChildren('layersroot');">{$check}</a> -
-<a href="javascript:checkChildren('layersroot',false);">{$uncheck}</a></div>
-Project layer template
+<div id="layerscmd"><a href="javascript:expandAll('layersroot');">{t}expand tree{/t}</a> -
+<a href="javascript:closeAll('layersroot');">{t}close tree{/t}</a><br />
+<a href="javascript:checkChildren('layersroot');">{t}check all{/t}</a> -
+<a href="javascript:checkChildren('layersroot',false);">{t}uncheck all{/t}</a></div>
 <div id="layersroot">
-{$layerlist}
+
+{defun name="drawChildren" element=$element}
+
+{capture name=inputElt}
+{if !$element.layerFrozen}
+<input 
+{if $element.layerRendering == 'radio'}type="radio" name="layers_{$element.parentId}"
+{else}type="checkbox" name="layers[]"{/if}
+value="{$element.layerId}" id="in{$element.nodeId}"
+  onclick="javascript:updateChecked({$element.nodeId});" {if $element.layerChecked}checked="checked"{/if} />
+{/if}
+{/capture}
+
+{capture name=caption}
+{if $element.layerLink}<a href="{$element.layerLink}" target="_blank" 
+title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
+{else}
+  {if $element.layerOutRange}<span class="out">{$element.layerLabel}</span>
+  {else}{$element.layerLabel}{/if}
+{/if}
+{/capture}
+
+{capture name=icon}
+{if $element.layerIcon}
+  {if $element.nextscale}<a href="javascript:goToScale({$element.nextscale});">{/if}
+  <img src="{r type=gfx/icons}{$mapId}/{$element.layerIcon}{/r}" alt="" class="pic"
+  {if $element.nextscale}title="{t}Click to go to next visible scale:{/t} 1:{$element.nextscale}"
+  {elseif $element.layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
+  {elseif $element.layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} />
+  {if $element.nextscale}</a>{/if}
+{/if}
+{/capture}                                                                              
+
+{if $element.layerRendering == 'block'}
+<fieldset>
+{/if}
+
+{if $element.isDropDown}
+  <select name="layers_dropdown_{$element.parentId}" 
+  onchange="javascript:FormItemSelected();">
+  {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
+  </select>
+{/if}
+
+{if $element.elements}
+  {if $element.isDropDown || $element.isRadioContainer}
+    <div>
+  {elseif $element.layerId != 'root' && 
+   ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
+    <a href="javascript:shift('id{$element.nodeId}');" id="xid{$element.nodeId}" 
+    class="lk"><img 
+    src="{r type=gfx plugin=layers}{if $element.groupFolded}plus{else}minus{/if}.gif{/r}" 
+    alt="{if $element.groupFolded}+{else}-{/if}" title="" /></a>
+    {$smarty.capture.inputElt}{$smarty.capture.icon}{$smarty.capture.caption}<br />
+    <div class="{if $element.groupFolded}nov{else}v{/if}" id="id{$element.nodeId}">
+  {/if}
+
+  {if $element.layerClassName != 'LayerClass'}
+    {foreach from=$element.elements item=subelement}
+      {fun name="drawChildren" element=$subelement}
+    {/foreach}
+  {/if}
+
+  {if $element.layerId != 'root' && 
+    ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
+    </div>
+  {/if}
+
+{else}
+  {if $element.layerClassName != 'LayerClass'}
+  <span class="leaf"></span>{$smarty.capture.inputElt}{/if}
+  {$smarty.capture.icon}{$smarty.capture.caption}<br />
+{/if}
+
+{if $element.layerRendering == 'block'}
+</fieldset>
+{/if}
+
+{/defun}
+
+Test project template
+
 </div>

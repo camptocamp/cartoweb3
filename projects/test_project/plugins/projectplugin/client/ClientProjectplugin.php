@@ -7,7 +7,8 @@
 /**
  * @package Tests
  */
-class ClientProjectplugin extends ClientPlugin {
+class ClientProjectplugin extends ClientPlugin
+                          implements Sessionable, GuiProvider, ServerCaller {
 
     const PROJECTPLUGIN_INPUT = 'projectplugin_input';
     
@@ -32,9 +33,11 @@ class ClientProjectplugin extends ClientPlugin {
         return $this->count;
     }
     
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
     }
+
+    function handleHttpGetRequest($request) {}
 
     function buildMapRequest($mapRequest) {
         $request = new ProjectpluginRequest();
@@ -46,11 +49,13 @@ class ClientProjectplugin extends ClientPlugin {
         $mapRequest->projectpluginRequest = $request;
     }
 
-    function handleResult($result) {
+    function initializeResult($result) {
         $result = Serializable::unserializeObject($result, NULL, 'ProjectpluginResult');
         $this->message = $result->shuffledMessage;
     }
 
+    function handleResult($result) {}
+    
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
@@ -61,4 +66,5 @@ class ClientProjectplugin extends ClientPlugin {
                           " count: " . $this->count);
     }
 }
+
 ?>
