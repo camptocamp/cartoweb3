@@ -42,7 +42,7 @@ title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
 {if $childrenLayers}
   {if $isDropDown}
     <div>
-  {elseif $layerId != 'root' && $layerRendering != 'dropdown'}
+  {elseif $layerId != 'root' && $layerRendering == 'tree'}
     <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" 
     class="lk"><img 
     src="{r type=gfx plugin=layers}{if $groupFolded}plus{else}minus{/if}.gif{/r}" 
@@ -52,7 +52,7 @@ title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
     <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}{$layer}{/foreach}
-  {if $layerId != 'root' && $layerRendering != 'dropdown'}
+  {if $layerId != 'root' && $layerRendering == 'tree'}
     </div>
   {/if}
 {else}
