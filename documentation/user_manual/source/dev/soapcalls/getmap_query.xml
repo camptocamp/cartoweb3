@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.query">
   <title>Query</title>
   <para>The Query plugin allows to search objects, hilight them on map and 
-    return text results. Search can be executed from a rectangle 
-    selection and/or using a list of object IDs.</para>
-  <para>Query request object is not mandatory. For more information about 
-    Query plugin, see <xref linkend="user.query" />. </para>
+    return text results. Search can be executed from a rectangle selection 
+    and/or using a list of object IDs.</para>
+  <para>Query request object is not mandatory. For more information about Query 
+    plugin, see <xref linkend="user.query" />. </para>
   <sect3 id="dev.soapcalls.getmap.query.request">
     <title>Query Request</title>
     <para>
@@ -26,12 +25,12 @@
       <itemizedlist>
         <listitem>
           <para>POLICY_XOR - XOR selection: when selecting a group of objects, 
-            already selected ones are unselected and not yet selected 
-            ones are selected (default type)</para>
+            already selected ones are unselected and not yet selected ones are 
+            selected (default type)</para>
         </listitem>
         <listitem>
-          <para>POLICY_UNION - union selection: when selecting a group 
-            of objects, already selected ones are kept selected and not yet 
+          <para>POLICY_UNION - union selection: when selecting a group of 
+            objects, already selected ones are kept selected and not yet 
             selected ones are selected</para>
         </listitem>
         <listitem>
@@ -110,13 +109,13 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "QueryRequest" or extended class name if 
-            project implements an extension</para>
+          <para>className - "QueryRequest" or extended class name if project 
+            implements an extension</para>
         </listitem>
         <listitem>
           <para>bbox - bounding box when querying with a rectangle (see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Bbox)</para>
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Bbox)</para>
         </listitem>
         <listitem>
           <para>queryAllLayers - if true, will execute query on all selected 
@@ -132,9 +131,8 @@
         <listitem>
           <para>defaultTableFlags - table flags for new layers (returned by 
             query and but not yet in array querySelections, see <xref 
-            linkend="dev.soapcalls.structures.tables" /> for a 
-            description of type TableFlags). Unused when 
-            queryAllLayers = false</para>
+            linkend="dev.soapcalls.structures.tables" /> for a description of 
+            type TableFlags). Unused when queryAllLayers = false</para>
         </listitem>
         <listitem>
           <para>querySelections - list if query selections. It contains all 
@@ -156,8 +154,8 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "QueryResult" or extended class name if 
-            project implements an extension</para>
+          <para>className - "QueryResult" or extended class name if project 
+            implements an extension</para>
         </listitem>
         <listitem>
           <para>tableGroup - group of tables which contains query results (one 

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.global">
   <title>Global Structures</title>
-  <para>Below is a description of general 
-    requests and results which include plugin-specific ones.</para>
+  <para>Below is a description of general requests and results which include 
+    plugin-specific ones.</para>
   <sect3 id="dev.soapcalls.getmap.global.request">
     <title>Global Request</title>
     <para>
@@ -72,8 +71,8 @@
           <para>timestamp - timestamp which identifies the server 
             configuration. If this timestamp changes, it means server 
             configuration changed and a call to method getMapInfo is required 
-            to get latest version (see <xref 
-            linkend="dev.soapcalls.getmapinfo" />).</para>
+            to get latest version (see <xref linkend="dev.soapcalls.getmapinfo" 
+            />).</para>
         </listitem>
         <listitem>
           <para>serverMessages - list of messages returned by server</para>

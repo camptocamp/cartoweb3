@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.images">
   <title>Images</title>
   <para> The Images plugin generates MapServer images. The three types of 
@@ -32,8 +31,12 @@
           <para>path - relative path of generated image. Not used in 
             request</para>
         </listitem>
-        <listitem><para>width - image width</para></listitem>
-        <listitem><para>height - image height</para></listitem>
+        <listitem>
+          <para>width - image width</para>
+        </listitem>
+        <listitem>
+          <para>height - image height</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ImagesRequest">
@@ -46,13 +49,19 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "ImagesRequest" or extended class name if 
-            project implements an extension</para>
+          <para>className - "ImagesRequest" or extended class name if project 
+            implements an extension</para>
         </listitem>
-        <listitem><para>mainmap - main map image information</para></listitem>
-        <listitem><para>keymap - key map image information</para></listitem>
-        <listitem><para>scalebar - scale bar image information</para></listitem>
-      </itemizedlist>                           
+        <listitem>
+          <para>mainmap - main map image information</para>
+        </listitem>
+        <listitem>
+          <para>keymap - key map image information</para>
+        </listitem>
+        <listitem>
+          <para>scalebar - scale bar image information</para>
+        </listitem>
+      </itemizedlist>
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.images.result">
@@ -68,15 +77,21 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className - "ImagesResult" or extended class name if 
-            project implements an extension</para></listitem>
+        <listitem>
+          <para>className - "ImagesResult" or extended class name if project 
+            implements an extension</para>
+        </listitem>
         <listitem>
           <para>mainmap - main map image information (see <xref 
-            linkend="dev.soapcalls.getmap.images.request" /> for a 
-            description of type Image)</para>
+            linkend="dev.soapcalls.getmap.images.request" /> for a description 
+            of type Image)</para>
         </listitem>
-        <listitem><para>keymap - key map image information</para></listitem>
-        <listitem><para>scalebar - scale bar image information</para></listitem>
+        <listitem>
+          <para>keymap - key map image information</para>
+        </listitem>
+        <listitem>
+          <para>scalebar - scale bar image information</para>
+        </listitem>
       </itemizedlist>
     </para>
   </sect3>

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.layers">
   <title>Layers</title>
   <para> The Layers plugin handles layers selection. Its request object 
-    includes list of layers to be displayed on main map. This plugin has 
-    no specific result object.</para>
+    includes list of layers to be displayed on main map. This plugin has no 
+    specific result object.</para>
   <sect3 id="dev.soapcalls.getmap.layers.request">
     <title>Layers Request</title>
     <para>
@@ -22,18 +21,20 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className - "LayersRequest" or extended class name if 
-            project implements an extension</para></listitem>
         <listitem>
-          <para>layerIds - list of layers to include in map generation (see <xref 
-            linkend="dev.soapcalls.structures.simpletypes" /> for a 
+          <para>className - "LayersRequest" or extended class name if project 
+            implements an extension</para>
+        </listitem>
+        <listitem>
+          <para>layerIds - list of layers to include in map generation (see 
+            <xref linkend="dev.soapcalls.structures.simpletypes" /> for a 
             description of type ArrayOfLayerId)</para>
         </listitem>
         <listitem>
-          <para>resolution - MapServer resolution. Set this to null if 
-            you want to use default resolution</para>
+          <para>resolution - MapServer resolution. Set this to null if you want 
+            to use default resolution</para>
         </listitem>
-      </itemizedlist>                           
+      </itemizedlist>
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.layers.result">
@@ -46,8 +47,10 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className - "LayersResult" or extended class name if 
-            project implements an extension</para></listitem>
+        <listitem>
+          <para>className - "LayersResult" or extended class name if project 
+            implements an extension</para>
+        </listitem>
       </itemizedlist>
     </para>
   </sect3>

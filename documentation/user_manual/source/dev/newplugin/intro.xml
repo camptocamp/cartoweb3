@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<sect1 id="dev.newplugin.intro">
+  <title><indexterm><primary>Plugins</primary></indexterm> 
+    <indexterm><primary>Coreplugins</primary></indexterm>What are 
+    Plugins</title>
+  <sect2 id="dev.newplugin.intro.definition">
+    <title>Definition</title>
+    <para> &cartoweb; plugins are modular packages of files (PHP classes, HTML 
+      templates, images and other resources) that are used to perform a 
+      dedicated action: main map formatting, layers browsing interface, map 
+      browsing (zooming, paning etc.), queries, user authentication, search 
+      interfaces and many more. </para>
+  </sect2>
+  <sect2 id="dev.newplugin.intro.nature">
+    <title>Plugins and Coreplugins</title>
+    <para> There are two kinds of plugins: <itemizedlist> <listitem> <para> 
+      <parameter>coreplugins</parameter>: fundamental plugins that perform 
+      "low-level" actions such as map size handling, browsing tools, layers 
+      selection. Plugins that are frequently used in many &cartoweb; 
+      applications may be included in this category as well. They are always 
+      available and activated. As a result, other plugins may interact with 
+      them. Coreplugins files are grouped in the 
+      <filename>coreplugins/</filename> directory. </para> </listitem> 
+      <listitem> <para> <parameter>plugins</parameter>: "normal" plugins 
+      perform more specificactions and are not always activated. Normal plugins 
+      activation is done by setting the <parameter>loadPlugins</parameter> 
+      parameter in <filename>client_conf/client.ini</filename> for 
+      &cartoclient; plugins and in 
+      <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> for 
+      &cartoserver; ones. For instance: <programlisting><![CDATA[loadPlugins = auth, outline, exportHtml]]>
+       </programlisting> Since they are not always available, simple plugins 
+      usually do not rely on each other. On the other hand, it is not a problem 
+      for them to call some coreplugins functionalities if the latter are 
+      publicly accessible. Simple plugins files are grouped in the 
+      <filename>plugins/</filename> directory. </para> </listitem> 
+      </itemizedlist> </para>
+    <para> The general philosophy is to gather all files of a given plugin in 
+      the same dedicated directory, including files from both &cartoclient; and 
+      &cartoserver; sides of the plugin. Thus it is easy to "plug" a new module 
+      in &cartoweb; architecture by simply pasting it in the 
+      <filename>plugins/</filename> or <filename>coreplugins/</filename> parent 
+      directories. Note however that plugins configuration files (named 
+      <filename>&lt;pluginName&gt;.ini</filename>) are placed in the 
+      <filename>client_conf/</filename> and/or 
+      <filename>server_conf/&lt;mapId&gt;/</filename> depending if those 
+      plugins have &cartoclient;/&cartoserver; components. </para>
+  </sect2>
+  <sect2 id="dev.newplugin.intro.structure">
+    <title><indexterm><primary>Plugins structure</primary></indexterm>Plugins 
+      Structure</title>
+    <para> Plugins and coreplugins have the following general structure: 
+      <programlisting><![CDATA[<pluginName>/
+<pluginName>/client/
+<pluginName>/server/
+<pluginName>/common/
+<pluginName>/templates/
+<pluginName>/htdocs/
+<pluginName>/htdocs/gfx/
+<pluginName>/htdocs/js/
+<pluginName>/htdocs/css/]]></programlisting> <itemizedlist> <listitem> <para> 
+      <filename>client/</filename> contains all specific &cartoclient;-side PHP 
+      files. </para> </listitem> <listitem> <para> <filename>server/</filename> 
+      contains all specific &cartoserver;-side PHP files. </para> </listitem> 
+      <listitem> <para> <filename>common/</filename> contains PHP files shared 
+      by both &cartoclient; and &cartoserver; sides, or at least files that are 
+      not specific to one side or the other. </para> </listitem> <listitem> 
+      <para> <filename>templates/</filename> contains all the plugin-specific 
+      <link linkend="user.template">Smarty templates</link>. Since HTML 
+      templates are only used in &cartoclient;, files from 
+      <filename>templates/</filename> are only called by 
+      <filename>client/</filename> code. </para> </listitem> <listitem> <para> 
+      <filename>htdocs/</filename> contains all files (PHP pages, images, 
+      JavaScript or CSS files, etc.) that may be web-accessed when running the 
+      plugin. Those files are dispatched in various directories depending on 
+      their nature. If necessary, you can create additional subdirectories. For 
+      instance <filename>java/</filename> if your plugin uses a Java applet. To 
+      preserve the plugin independence, it is strongly recommended not to add 
+      your CSS styles in the general &cartoclient; style sheet but to create a 
+      specific file here that will be called separately. </para> </listitem> 
+      </itemizedlist> </para>
+    <para> Note that it is not required to actually create the whole structure 
+      described above. Only directories that contain files are necessairy. For 
+      instance if a plugin only perform &cartoserver; actions, it is no use to 
+      create <filename>client/</filename>, <filename>templates/</filename> and 
+      <filename>htdocs/</filename> directories. <filename>common/</filename> 
+      may be usefull if not-&cartoserver;-specific classes have to be defined. 
+      </para>
+    <para> There are two ways to add a plugin/coreplugin to &cartoweb;: writing 
+      a brand new one or overriding/extending an existing one. </para>
+  </sect2>
+</sect1>

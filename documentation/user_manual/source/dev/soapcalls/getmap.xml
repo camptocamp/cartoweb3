@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect1 id="dev.soapcalls.getmap">
-  <title>Call to getMap</title>  
+  <title>Call to getMap</title>
   <para>For each plugin, SOAP XML format are described for both server calls 
     (i.e. requests) and server results.</para>
-  <xi:include 
-    href="getmap_global.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include 
-    href="getmap_images.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include 
-    href="getmap_layers.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include 
-    href="getmap_location.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
-  <xi:include 
-    href="getmap_query.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
-  <xi:include 
-    href="getmap_outline.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
+  <xi:include href="getmap_global.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_images.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_layers.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_location.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_query.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_outline.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
 </sect1>

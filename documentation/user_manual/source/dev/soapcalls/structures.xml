@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect1 id="dev.soapcalls.structures">
   <title>Standard Structures</title>
   <sect2 id="dev.soapcalls.structures.simpletypes">
@@ -185,8 +184,8 @@
   </sect2>
   <sect2 id="dev.soapcalls.structures.tables">
     <title>Tables</title>
-    <para>These types define a table structure, used in particular in  
-      Query plugin (see <xref linkend="dev.soapcalls.getmap.query" />).</para>
+    <para>These types define a table structure, used in particular in Query 
+      plugin (see <xref linkend="dev.soapcalls.getmap.query" />).</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="TableRow">
@@ -328,8 +327,8 @@
         </listitem>
         <listitem>
           <para>returnTable - if false, won't return any table information. 
-            This can be useful for instance when hilighting an object on 
-            which no information is needed</para>
+            This can be useful for instance when hilighting an object on which 
+            no information is needed</para>
         </listitem>
       </itemizedlist>
     </para>

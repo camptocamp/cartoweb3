@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<sect1 id="dev.newplugin.special">
+  <title><indexterm><primary>Special plugins</primary></indexterm>Special 
+    Plugins</title>
+  <sect2 id="dev.newplugin.special.export">
+    <title><indexterm><primary>Export plugins</primary></indexterm>Export 
+      Plugins</title>
+    <para>
+    </para>
+  </sect2>
+  <sect2 id="dev.newplugin.special.filters">
+    <title><indexterm><primary>Filters</primary></indexterm>Filters</title>
+    <para>
+    </para>
+  </sect2>
+  <sect2 id="dev.newplugin.special.tables">
+    <title><indexterm><primary>Tables</primary></indexterm>Tables</title>
+    <para>
+    </para>
+  </sect2>
+</sect1>

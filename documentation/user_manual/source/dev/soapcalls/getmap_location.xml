@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.location">
   <title>Location</title>
   <para> The Location plugin handles position and moves on the map. Its request 
     process includes different position methods, such as recentering on a 
-    specific object or moves relative to previous position. It returns 
-    the new bounding box and scale.</para>
+    specific object or moves relative to previous position. It returns the new 
+    bounding box and scale.</para>
   <sect3 id="dev.soapcalls.getmap.location.request">
     <title>Location Request</title>
     <para>
@@ -49,8 +48,8 @@
         <listitem>
           <para>maxBbox - maximum bounding box. If given parameters lead to a 
             larger bounding box, it will be cropped (see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Bbox)</para>
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Bbox)</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -71,34 +70,36 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className - "LocationRequest" or extended class name if 
-            project implements an extension</para></listitem>
-        <listitem><para>locationType - type of location</para></listitem>
+        <listitem>
+          <para>className - "LocationRequest" or extended class name if project 
+            implements an extension</para>
+        </listitem>
+        <listitem>
+          <para>locationType - type of location</para>
+        </listitem>
         <listitem>
           <para>bboxLocationRequest - bounding box request parameters (see 
-            <xref linkend="dev.soapcalls.getmap.location.request.bbox" 
-            />) </para>        </listitem>
+            <xref linkend="dev.soapcalls.getmap.location.request.bbox" />) 
+            </para>
+        </listitem>
         <listitem>
-          <para>panLocationRequest - panning request parameters (see 
-            <xref linkend="dev.soapcalls.getmap.location.request.pan" 
+          <para>panLocationRequest - panning request parameters (see <xref 
+            linkend="dev.soapcalls.getmap.location.request.pan" />)</para>
+        </listitem>
+        <listitem>
+          <para>zoomPointLocationRequest - zoom, recenter on point parameters 
+            (see <xref linkend="dev.soapcalls.getmap.location.request.zoom" 
             />)</para>
         </listitem>
         <listitem>
-          <para>zoomPointLocationRequest - zoom, recenter on point 
-            parameters (see 
-            <xref linkend="dev.soapcalls.getmap.location.request.zoom" 
-            />)</para>
+          <para>recenterLocationRequest - recenter on IDs parameters (see <xref 
+            linkend="dev.soapcalls.getmap.location.request.recenter" />)</para>
         </listitem>
         <listitem>
-          <para>recenterLocationRequest - recenter on IDs parameters (see 
-            <xref linkend="dev.soapcalls.getmap.location.request.recenter" 
-            />)</para>
+          <para>locationConstraint - constraint to be respected when location 
+            request is executed</para>
         </listitem>
-        <listitem>
-          <para>locationConstraint - constraint to be respected when 
-            location request is executed</para>
-        </listitem>
-      </itemizedlist>                           
+      </itemizedlist>
     </para>
     <sect4 id="dev.soapcalls.getmap.location.request.bbox">
       <title>BBox Request</title>
@@ -110,10 +111,12 @@
   </all>
 </complexType>]]></programlisting>
         <itemizedlist>
-          <listitem><para>bbox - bounding box to be recentered on (see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Bbox)</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>bbox - bounding box to be recentered on (see <xref 
+              linkend="dev.soapcalls.structures.shapes" /> for a description of 
+              type Bbox)</para>
+          </listitem>
+        </itemizedlist>
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.pan">
@@ -131,17 +134,25 @@
   </restriction>
 </simpleType>]]></programlisting>
         <itemizedlist>
-          <listitem><para>VERTICAL_PAN_NORTH - panning north</para></listitem>
+          <listitem>
+            <para>VERTICAL_PAN_NORTH - panning north</para>
+          </listitem>
           <listitem>
             <para>VERTICAL_PAN_NONE - no vertical panning</para>
           </listitem>
-          <listitem><para>VERTICAL_PAN_SOUTH - panning south</para></listitem>
-          <listitem><para>HORIZONTAL_PAN_WEST - panning west</para></listitem>
+          <listitem>
+            <para>VERTICAL_PAN_SOUTH - panning south</para>
+          </listitem>
+          <listitem>
+            <para>HORIZONTAL_PAN_WEST - panning west</para>
+          </listitem>
           <listitem>
             <para>HORIZONTAL_PAN_NONE - no horizontal panning</para>
           </listitem>
-          <listitem><para>HORIZONTAL_PAN_EAST - panning east</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>HORIZONTAL_PAN_EAST - panning east</para>
+          </listitem>
+        </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="PanDirection">
   <all>
@@ -156,7 +167,7 @@
           <listitem>
             <para>horizontalPan - type of horizontal panning</para>
           </listitem>
-        </itemizedlist>                                 
+        </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="PanLocationRequest">
   <all>
@@ -165,11 +176,15 @@
   </all>
 </complexType>]]></programlisting>
         <itemizedlist>
-          <listitem><para>bbox - current bounding box (see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Bbox)</para></listitem>
-          <listitem><para>panDirection - panning directions</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>bbox - current bounding box (see <xref 
+              linkend="dev.soapcalls.structures.shapes" /> for a description of 
+              type Bbox)</para>
+          </listitem>
+          <listitem>
+            <para>panDirection - panning directions</para>
+          </listitem>
+        </itemizedlist>
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.zoom">
@@ -198,8 +213,10 @@
           <listitem>
             <para>ZOOM_FACTOR - zoom using a custom factor</para>
           </listitem>
-          <listitem><para>ZOOM_SCALE - zoom to a fixed scale</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>ZOOM_SCALE - zoom to a fixed scale</para>
+          </listitem>
+        </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="ZoomPointLocationRequest">
   <all>
@@ -215,8 +232,12 @@
             <para>bbox - bounding box (unused when zoom type = 
               ZOOM_SCALE)</para>
           </listitem>
-          <listitem><para>point - point to recenter on</para></listitem>
-          <listitem><para>zoomType - type of zoom</para></listitem>
+          <listitem>
+            <para>point - point to recenter on</para>
+          </listitem>
+          <listitem>
+            <para>zoomType - type of zoom</para>
+          </listitem>
           <listitem>
             <para>zoomFactor - zoom factor (unused when zoom type != 
               ZOOM_FACTOR)</para>
@@ -225,7 +246,7 @@
             <para>scale - fixed scale (unused when zoom type != 
               ZOOM_SCALE)</para>
           </listitem>
-        </itemizedlist>                                 
+        </itemizedlist>
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.recenter">
@@ -244,12 +265,16 @@
           <listitem>
             <para>layerId - ID of layer on which query will be executed</para>
           </listitem>
-          <listitem><para>idAttribute - name of ID attribute</para></listitem>
+          <listitem>
+            <para>idAttribute - name of ID attribute</para>
+          </listitem>
           <listitem>
             <para>idType - type of ID attribute ("string" or "int")</para>
           </listitem>
-          <listitem><para>selectedIds - list of IDs</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>selectedIds - list of IDs</para>
+          </listitem>
+        </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="ArrayOfIdSelection">
   <complexContent>
@@ -260,8 +285,10 @@
   </complexContent>
 </complexType>]]></programlisting>
         <itemizedlist>
-          <listitem><para>array - list of ID selections</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>array - list of ID selections</para>
+          </listitem>
+        </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="RecenterLocationRequest">
   <all>
@@ -269,8 +296,10 @@
   </all>
 </complexType>]]></programlisting>
         <itemizedlist>
-          <listitem><para>idSelections - list of ID selections</para></listitem>
-        </itemizedlist>                                 
+          <listitem>
+            <para>idSelections - list of ID selections</para>
+          </listitem>
+        </itemizedlist>
       </para>
     </sect4>
   </sect3>
@@ -286,12 +315,18 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className - "LocationResult" or extended class name if 
-            project implements an extension</para></listitem>
-        <listitem><para>bbox - new bounding box (see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Bbox)</para></listitem>
-        <listitem><para>scale - new scale</para></listitem>
+        <listitem>
+          <para>className - "LocationResult" or extended class name if project 
+            implements an extension</para>
+        </listitem>
+        <listitem>
+          <para>bbox - new bounding box (see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Bbox)</para>
+        </listitem>
+        <listitem>
+          <para>scale - new scale</para>
+        </listitem>
       </itemizedlist>
     </para>
   </sect3>

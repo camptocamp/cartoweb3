@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <chapter id="dev.soapcalls">
   <title>Calling Plugins</title>
   <para>This chapter describes the structure of SOAP calls to CartoWeb server 
@@ -17,12 +16,12 @@
     <filename>CARTOWEB_URL/cartoserver.wsdl.php?mapId=project_name.mapfile_name</filename> 
     </para>
   <para>SOAP method getMapInfo is used to retrieve server configuration 
-    information, such as available layers, initial state, etc.. It shouldn't 
-    be called each time a map is requested. A mechanism based on a timestamp 
-    is available to be sure configuration is up-to-date (see <xref 
+    information, such as available layers, initial state, etc.. It shouldn't be 
+    called each time a map is requested. A mechanism based on a timestamp is 
+    available to be sure configuration is up-to-date (see <xref 
     linkend="dev.soapcalls.getmapinfo" />).</para>
-    <para>SOAP method getMap is used each time a new map or related 
-      information are needed.</para>
+  <para>SOAP method getMap is used each time a new map or related information 
+    are needed.</para>
   <xi:include href="soapcalls/structures.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="soapcalls/getmapinfo.xml" 

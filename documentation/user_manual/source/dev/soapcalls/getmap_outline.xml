@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <sect2 id="dev.soapcalls.getmap.outline">
   <title>Outline</title>
   <para>The Outline plugin allows to draw shapes on the main map. Shapes can 
@@ -26,18 +25,17 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "OutlineRequest" or extended class name if 
-            project implements an extension</para>
+          <para>className - "OutlineRequest" or extended class name if project 
+            implements an extension</para>
         </listitem>
         <listitem>
-          <para>shapes - list of shapes (can include points, 
-            rectangles, lines or polygons, see <xref 
-            linkend="dev.soapcalls.structures.shapes" /> for a 
-            description of type Shape)</para>
+          <para>shapes - list of shapes (can include points, rectangles, lines 
+            or polygons, see <xref linkend="dev.soapcalls.structures.shapes" /> 
+            for a description of type Shape)</para>
         </listitem>
         <listitem>
-          <para>maskMode - if true, will draw the complement of all 
-            shapes merged together</para>
+          <para>maskMode - if true, will draw the complement of all shapes 
+            merged together</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -54,8 +52,8 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "OutlineResult" or extended class name if 
-            project implements an extension</para>
+          <para>className - "OutlineResult" or extended class name if project 
+            implements an extension</para>
         </listitem>
         <listitem>
           <para>area - total area for all shapes</para>

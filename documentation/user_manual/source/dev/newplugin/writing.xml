@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<sect1 id="dev.newplugin.writing">
+  <title><indexterm><primary>Plugin creation</primary></indexterm>Writing a 
+    Plugin</title>
+  <sect2 id="dev.newplugin.writing.intro">
+    <title>Introduction</title>
+    <para> If no existing plugin or coreplugin fulfils your requirements and if 
+      none offers close enough functionalities to justify an adaptation, you 
+      can write a new plugin. </para>
+    <para> Plugins main classes (client and/or server if any) must extend 
+      &cartoweb; defined<parameter>ClientPlugin</parameter> and/or 
+      <parameter>ServerPlugin</parameter> classes which provide base plugin 
+      tools. For instance: <programlisting><![CDATA[class ClientYourPlugin extends ClientPlugin {
+
+    /* here comes your plugin client class definition */
+
+}]]></programlisting> </para>
+  </sect2>
+  <sect2 id="dev.newplugin.writing.choice">
+    <title>Plugin or Coreplugin?</title>
+    <para> First of all you have to determine if you are about to design a 
+      simple plugin or a coreplugin. To be a coreplugin, your plugin must be 
+      really generic and present a great interest to the &cartoweb; users 
+      community since it might be included in the upstream distribution. 
+      Contact &cartoweb; development team for more info. In most cases it is 
+      better and sufficient to create a simple plugin. </para>
+    <para> To activate a coreplugin, update the 
+      <parameter>Cartoclient::getCorePluginNames()</parameter> method in 
+      <filename>/client/Cartoclient.php</filename> and/or the 
+      <parameter>ServerContext::getCorePluginNames()</parameter> one in 
+      <filename>/server/ServerContext.php</filename>. For instance: 
+      <programlisting><![CDATA[private function getCorePluginNames() {
+return array('images', 'location', 'layers', 'query', 'mapquery',
+             'tables', 'yourPluginName');
+}]]></programlisting> To load a regular plugin, update the 
+      <parameter>loadPlugins</parameter> parameter from 
+      <filename>client_conf/client.ini</filename> and/or 
+      <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> as in 
+      following example: <programlisting><![CDATA[loadPlugins = auth, outline, exportHtml]]>
+      </programlisting> </para>
+  </sect2>
+  <sect2 id="dev.newplugin.writing.calls">
+    <title><indexterm><primary>Plugins 
+      calling</primary></indexterm><indexterm><primary>Plugins interfaces 
+      implementations</primary></indexterm>How Plugins are Called</title>
+    <para> As explained in <xref linkend="dev.newplugin.intro"/>, plugins are 
+      independent aggregations of PHP code that are called by the &cartoweb; 
+      core classes to perform dedicated actions. Plugins are called several 
+      times during the program execution (entry points). Thus they can interact 
+      at various level of the application. </para>
+    <para> To determine what plugins must be called at what moment and to 
+      perform what action, plugins must implement one or more of the &cartoweb; 
+      plugin interfaces (according to the object-oriented programing meaning). 
+      The interfaces define methods that will be triggered by the main program 
+      during its execution. For example, you can take a look at the following 
+      simplified <parameter>Cartoclient::doMain()</parameter> method ("main 
+      program") defined in <filename>/client/Cartoclient.php</filename>: 
+      <programlisting><![CDATA[private function doMain() {
+    $this->callPluginsImplementing('InitUser', 'handleInit',
+                                   $this->getMapInfo());
+
+    if ($this->isRequestPost()) {
+        $this->cartoForm =
+            $this->httpRequestHandler->handleHttpRequest(
+                                                $this->clientSession,
+                                                $this->cartoForm);
+
+        $request = new FilterRequestModifier($_REQUEST);
+        $this->callPluginsImplementing('FilterProvider',
+                                       'filterPostRequest', $request);
+        $this->callPluginsImplementing('GuiProvider',
+                                       'handleHttpPostRequest',
+                                       $request->getRequest());
+    } else {
+        $request = new FilterRequestModifier($_REQUEST);
+        $this->callPluginsImplementing('FilterProvider',
+                                       'filterGetRequest', $request);
+        $this->callPluginsImplementing('GuiProvider',
+                                       'handleHttpGetRequest',
+                                       $request->getRequest());
+    }
+
+    $mapRequest = $this->getMapRequest();
+    $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
+                                   $mapRequest);
+
+    $this->mapResult = $this->getMapResultFromRequest($mapRequest);
+
+    $this->callPluginsImplementing('ServerCaller', 'initializeResult',
+                                   $this->mapResult);
+
+    $this->callPluginsImplementing('ServerCaller', 'handleResult',
+                                   $this->mapResult);
+
+    $this->formRenderer->showForm($this);
+
+    $this->callPluginsImplementing('Sessionable', 'saveSession');
+    $this->saveSession($this->clientSession);
+}]]></programlisting> <parameter>callPluginsImplementing($interfaceName, 
+      $methodName, $argument)</parameter> is run at various points of the 
+      program and make plugins implementing given &lt;interfaceName&gt; 
+      interface execute given &lt;methodName&gt; with given &lt;argument&gt; 
+      argument. </para>
+    <para> Of course interface-defined methods must be implemented in the 
+      matching plugins. Plugins can implements one or more &cartoweb; 
+      interfaces. </para>
+    <para> Implementing interfaces is not mandatory when writing a plugin but 
+      not doing so will keep plugins from being implicitely called by the main 
+      program. As a result, methods from plugins with no interface 
+      implementation - also called "service plugins" - must be explicitely 
+      called by another piece of code (generally an other plugin). </para>
+    <para>
+      <programlisting><![CDATA[class ClientYourPlugin extends ClientPlugin 
+                       implements Sessionable, GuiProvider {
+
+    /* here comes your plugin client class definition */
+
+}]]></programlisting>
+    </para>
+    <para> For a comprehensive list of available client and server interfaces, 
+      see <filename>/client/ClientPlugin.php</filename> and 
+      <filename>/server/ServerPlugin.php</filename> files or take a look at the 
+      &cartoweb; PHP API documentation. </para>
+  </sect2>
+  <sect2 id="dev.newplugin.writing.checklist">
+    <title>Plugin Creation Check-List</title>
+    <para>
+      <orderedlist>
+        <listitem>
+          <para> Determine if you will write a plugin or a coreplugin. </para>
+        </listitem>
+        <listitem>
+          <para> Create a <filename>&lt;yourPlugin&gt;/</filename> directory in 
+            <filename>/projects/&lt;yourProject&gt;/plugins/</filename> if you 
+            need a simple plugin. Directory name will be the plugin name. You 
+            can use whatever name you want except of course names of already 
+            existing plugins or coreplugins. Yet it is recommended to use 
+            lowercase letters, capitalizing only the first letter of each word 
+            that composes the name (eg. "yourPluginName"). </para>
+          <para> In case of a coreplugin, there is no way to create a 
+            coreplugin in a project context. Coreplugins can only be integrated 
+            in the upstream application. It is not recommended to do so without 
+            &cartoweb; developers agreement because of compatibility troubles 
+            that may occur when upgrading, etc. </para>
+        </listitem>
+        <listitem>
+          <para> Create subdirectories to store all plugin-related resources 
+            files and templates. </para>
+        </listitem>
+        <listitem>
+          <para> Create <filename>client/</filename>, 
+            <filename>server/</filename>, <filename>common/</filename> if your 
+            plugin as &cartoclient;, &cartoserver; and respectively common 
+            parts. </para>
+        </listitem>
+        <listitem>
+          <para> Create your main PHP classes files. Those files must be named 
+            using the first-letter-capitalized name of your plugin, prefixing 
+            it with "Client" or "Server" for client or server components (eg. 
+            <filename>ClientYourPlugin.php</filename>, 
+            <filename>ServerYourPlugin.php</filename>, 
+            <filename>YourPlugin.php</filename>). </para>
+        </listitem>
+        <listitem>
+          <para> Extend <parameter>ClientPlugin</parameter> and/or 
+            <parameter>ServerPlugin</parameter> &cartoweb; classes in the 
+            matching above files and name the result classes using their files 
+            names (with no ".php"). For instance: <programlisting><![CDATA[<?php
+/**
+ * @version ]]>&dollar;<![CDATA[Id: ServerYourPlugin.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ */
+
+class ServerYourPlugin extends ServerPlugin {
+
+]]></programlisting> </para>
+        </listitem>
+        <listitem>
+          <para> Make your classes implement needed interfaces and redefine 
+            corresponding methods. Note that the <filename>common/</filename> 
+            part class "YourPlugin" does not have to extend or implement any 
+            &cartoweb; class or interface. It is used as a container for common 
+            data and treatment used by client and server classes. </para>
+        </listitem>
+        <listitem>
+          <para> Activate your plugin by adding its name to the 
+            <parameter>loadPlugins</parameter> of the matching project 
+            configuration files. </para>
+        </listitem>
+      </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="dev.newplugin.writing.inclusion">
+    <title>Automatic Files Inclusion</title>
+    <para> Main plugin PHP files (eg. 
+      <filename>ClientYourPlugin.php</filename>, 
+      <filename>ServerYourPlugin.php</filename>, 
+      <filename>YourPlugin.php</filename>) are automatically included and their 
+      contained classes and objects are directly accessible. Other files in 
+      <filename>client/</filename>, <filename>server/</filename> or 
+      <filename>common/</filename> are not and must be included explicitely in 
+      the main plugin PHP files. </para>
+    <para> Templates stored in the plugin <filename>templates/</filename> 
+      directory are also accessible directly by using PHP code similar to the 
+      followin one: <programlisting><![CDATA[$smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+$smarty->assign('foo', 'bar');
+return $smarty->fetch('yourPlugin.tpl');]]></programlisting> </para>
+  </sect2>
+</sect1>
