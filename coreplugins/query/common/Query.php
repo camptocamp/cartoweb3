@@ -55,6 +55,8 @@ class LayerResult {
 class QueryResult {
 
     public $layerResults;
+    
+    /* TODO: unserialisation */
 }
 
 ?>
