@@ -12,6 +12,7 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
+require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
 
 /**
  * Wrapper against CartoserverService, to use it inside tests.
@@ -106,7 +107,12 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
        try {
             return $this->getCartoserverService($direct)->$function($argument);
         } catch (Exception $e) {
-            $this->fail("Exception raised: " . $e->faultstring);
+            $message = '';
+            if (isset($e->faultstring))
+                $message = $e->faultstring;
+            else
+                $message = $e->getMessage();
+            $this->fail("Exception raised: " . $message);
         }
     }
 
@@ -118,29 +124,6 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
         $this->assertNotNull($mapResult->imagesResult->mainmap->path);
     }
 
-    public function XtestGetMapDirect() {
-        $mapRequest = new MapRequest();
-
-        try {
-            $mapResult = $this->cartoserverServiceDirect->getMap($mapRequest);
-        } catch (Exception $e) {
-            //var_dump($e->faultstring);   
-            $this->fail("Exception raised: " . $e->faultstring);
-        }
-
-        var_dump($mapResult);
-    }
-
-    public function XtestGetMap() {
-        $mapRequest = new MapRequest();
-        try {
-            $mapResult = $this->cartoserverService->getMap($mapRequest);
-        } catch (Exception $e) {
-            var_dump($e->faultstring);   
-        }
-        var_dump($mapResult);
-    }
-    
 }
 
 ?>
