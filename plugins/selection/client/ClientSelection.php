@@ -7,7 +7,6 @@
 /**
  * Contains the state of a selection.
  */
-// FIXME: same as HilightRequest, maybe encapsulate it inside.
 class SelectionState {
  
     public $layerId;
@@ -93,11 +92,7 @@ class ClientSelection extends ClientPlugin
             $this->selectionState->selectedIds = array();
         }
 
-        if (!empty($request['selection_maskmode'])) {
-            $this->selectionState->maskMode = true;
-        } else {
-            $this->selectionState->maskMode = false;
-        }
+        $this->selectionState->maskMode = !empty($request['selection_maskmode']);
 
         $this->selectedShape = $this->cartoclient->getHttpRequestHandler()
                     ->handleTools($this);
