@@ -35,37 +35,65 @@ public class CartowebTest extends TestCase {
     }
     
     public static Test suite() {
-        if (URL == null)
+    		if (URL == null)
+    			URL = System.getProperty("cartoclient_url");
+    		if (URL == null)
             throw new RuntimeException("Please invoke this test via main(), with URL argument");
         
         return new TestSuite(CartowebTest.class);
     }
 
+    private String getProjectUrl(String projectId) {
+    		
+    		return URL + "?project=" + projectId;
+    }
+    
     private void assertContainsMainmap(WebResponse response) throws Exception {
-
+        
         HTMLElement mainmap = response.getElementWithID("mapImageDiv");
         assertNotNull("No mainmap image on cartoclient page", mainmap);
     }
     
-    public void testMainmapPresent() throws Exception {
+    private void testMainmapPresent(String projectId) throws Exception {
         
         WebConversation     conversation = new WebConversation();
-        WebRequest request = new GetMethodWebRequest(URL);
+        WebRequest request = new GetMethodWebRequest(getProjectUrl(projectId));
         WebResponse response = conversation.getResponse(request);
         
         assertContainsMainmap(response);
     }
+
+		private void testKeymap(String projectId) throws Exception {
+		            
+		    WebConversation     conversation = new WebConversation();
+		    WebResponse response = conversation.getResponse(getProjectUrl(projectId));
+		
+		    assertContainsMainmap(response);
+		
+		    // click on the center of the keymap
+		    SubmitButton keymapButton = response.getFormWithName("carto_form").getSubmitButton("keymap");
+		    keymapButton.click(50, 50);
+		    assertContainsMainmap(conversation.getCurrentPage());
+		}
     
-    public void testKeymap() throws Exception {
-                
-        WebConversation     conversation = new WebConversation();
-        WebResponse response = conversation.getResponse(URL);
-
-        assertContainsMainmap(response);
-
-        // click on the center of the keymap
-        SubmitButton keymapButton = response.getFormWithName("carto_form").getSubmitButton("keymap");
-        keymapButton.click(50, 50);
-        assertContainsMainmap(conversation.getCurrentPage());
+    private void testProject(String projectId) throws Exception {
+        testMainmapPresent("default");
+        testKeymap("default");
     }
+    
+    public void testDefaultProject() throws Exception {
+    		testProject("default");
+    }
+
+    public void testTestprojectProject() throws Exception {
+  			String projectId = "testproject";
+    		testProject(projectId);
+  			
+		    WebConversation conversation = new WebConversation();
+		    WebResponse response = conversation.getResponse(getProjectUrl(projectId));
+		    assertTrue("Testproject title does not contain \"test_project\"", 
+		    		response.getElementWithID("banner").getText().indexOf("testproject") != -1);
+  			
+    }
+
 }
