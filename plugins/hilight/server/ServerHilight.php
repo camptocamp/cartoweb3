@@ -4,6 +4,10 @@
  * @version $Id$
  */
 
+// Misc constants apprearing in config files  (mapfiles, ini, ...) 
+define('HILIGHT_SUFFIX', '_hilight');
+define('HILIGHT_CLASS', 'hilight');
+
 /**
  * @package Plugins
  */
@@ -34,7 +38,12 @@ class ServerHilight extends ServerPlugin {
             $bool_op = ' AND ';
         }
 
-        if ($requ->idType == 'string') {
+        $idType = $requ->idType;
+        if (empty($requ->idType)) {
+            $idType = $this->serverContext->getIdAttributeType($requ->layerId);
+        }
+
+        if ($idType == 'string') {
             $expr_pattern = '"[%s]"%s"%s"';
         } else {
             $expr_pattern = '[%s]%s%s';
@@ -95,15 +104,6 @@ class ServerHilight extends ServerPlugin {
         if (empty($class)) 
             throw new CartoserverException("no class at index $classIndex for layer $msLayer");    
 
-        if (empty($requ->idAttribute)) {
-            // fallback: takes the classItem
-            $idAttribute = $msLayer->classitem; 
-            if (empty($idAttribute))
-                throw new CartoserverException("no idAttribute declared, and no " .
-                        "classitem for layer $msLayer->name");
-            $requ->idAttribute = $idAttribute;
-        }
-        
         $expression = $this->buildExpression($requ, $select);
         $this->log->debug("setting expression $expression");
         $class->setexpression($expression);
@@ -150,9 +150,10 @@ class ServerHilight extends ServerPlugin {
               $this->setClassExpression($layer, $i, $requ);
     }
     
-    function getResultFromRequest($requ) {
-        
+    private function hilightLayer(HilightRequest $requ) {
+
         $mapInfo = $this->serverContext->mapInfo;
+
         $serverLayer = $mapInfo->getLayerById($requ->layerId);
         if (!$serverLayer)
             throw new CartoserverException("can't find serverLayer $requ->layerId");
@@ -168,8 +169,6 @@ class ServerHilight extends ServerPlugin {
         
         // if a layer with HILIGHT_SUFFIX exists, use it as hilight
         
-        define('HILIGHT_SUFFIX', '_hilight');
-
         $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . HILIGHT_SUFFIX);
         if (!empty($msHilightLayer)) {
             $this->log->debug("activating special hilight layer");
@@ -181,8 +180,6 @@ class ServerHilight extends ServerPlugin {
         
         // check if a class named HILIGHT_CLASS exists at position 0
         
-        define('HILIGHT_CLASS', 'hilight');
-
         if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
             $this->log->debug("activating special hilight class");
             $this->setClassExpression($msLayer, $hilightIndex, $requ);
@@ -205,6 +202,8 @@ class ServerHilight extends ServerPlugin {
 
         $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
         $hilightClass->set('name', 'dynamic_class');
+        $hilightClass->set('minscale', $msLayer->minscale);
+        $hilightClass->set('maxscale', $msLayer->maxscale);
 
         // move the new class to the top
         for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {
@@ -216,6 +215,19 @@ class ServerHilight extends ServerPlugin {
         $hilightClass = $this->setupHilightClass($msLayer, $cl);
 
         $this->setClassExpression($msLayer, 0, $requ);
+    }
+    
+    function getResultFromRequest($requ) {
+        
+        // FIXME: HilightRequest should support multiple layers hilight
+        // This is a temporary solution
+        if (isset($requ->multipleRequests)) {
+            foreach ($requ->multipleRequests as $hilightRequest) {
+                $this->hilightLayer($hilightRequest);   
+            }               
+        } else {
+            $this->hilightLayer($requ);
+        }
     }
 }
 ?>
