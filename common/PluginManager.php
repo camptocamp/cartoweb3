@@ -27,24 +27,22 @@ class PluginManager {
         $this->projectHandler = $projectHandler;
     }
 
-    private function getBasePluginPath($basePath, $relativePath, $name, $lookInProject=false) {
-        if ($lookInProject) {
-            return $basePath . $this->projectHandler->getPath($basePath, $relativePath . $name . '/', '');           
-        } else {
+    private function getBasePluginPath($basePath, $relativePath, $name) {
             return $basePath . $relativePath . $name . '/';
-        }
     }
 
-    private function getPath($basePath, $relativePath, $type, $name, $lookInProject=false) {
+    private function getPath($basePath, $relativePath, $type, $name) {
         $lastPath = $type == self::CLIENT_PLUGINS ? 
             'client/' : 'server/';
-        return $this->getBasePluginPath($basePath, $relativePath, $name, $lookInProject) . $lastPath .
-            $this->getClassName($type, $name) . '.php';
+        return $basePath .
+            $this->projectHandler->getPath($basePath, $relativePath .
+                $name . '/' . $lastPath . $this->getClassName($type, $name) . '.php', '');
     }
 
-    private function getCommonPath($basePath, $relativePath, $name, $lookInProject=false) {
-        return $this->getBasePluginPath($basePath, $relativePath, $name, $lookInProject) . 'common/' . 
-            ucfirst($name) . '.php';
+    private function getCommonPath($basePath, $relativePath, $name) {
+        return $basePath .
+            $this->projectHandler->getPath($basePath, $relativePath .
+                $name . '/' . 'common/' . ucfirst($name) . '.php', '');
     }
 
     private function getClassName($type, $name) {
@@ -53,7 +51,7 @@ class PluginManager {
         return $prefix . ucfirst($name);
     }
     
-    public function loadPlugins($basePath, $relativePath, $type, $names, $initArgs=NULL, $lookInProject=false) {
+    public function loadPlugins($basePath, $relativePath, $type, $names, $initArgs=NULL) {
 
         // TODO: load per plugin configuration file
         //  manage plugin dependency, ...
@@ -67,12 +65,13 @@ class PluginManager {
         foreach ($names as $name) {
             $className = $this->getClassName($type, $name);
 
-            $includePath = $this->getPath($basePath, $relativePath, $type, $name, $lookInProject);
+            $includePath = $this->getPath($basePath, $relativePath, $type, $name);
             $this->log->debug("trying to load class $includePath");
+            $this->log->debug($this->getCommonPath($basePath, $relativePath, $name));
 
             // FIXME: this won't work in case of non absolute paths
-            if (is_readable($this->getCommonPath($basePath, $relativePath, $name, $lookInProject)))
-                include_once($this->getCommonPath($basePath, $relativePath, $name, $lookInProject));
+            if (is_readable($this->getCommonPath($basePath, $relativePath, $name)))
+                include_once($this->getCommonPath($basePath, $relativePath, $name));
 
             if (is_readable($includePath))
                 include_once($includePath);
@@ -83,7 +82,7 @@ class PluginManager {
             }
 
             $plugin = new $className();
-            $plugin->setBasePath($this->getBasePluginPath($basePath, $relativePath, $name, $lookInProject));
+            $plugin->setBasePath($this->getBasePluginPath($basePath, $relativePath, $name));
             $plugin->setName($name);
 
             if ($initArgs !== NULL) {
