@@ -10,32 +10,189 @@
  <sect1 id="dev.code_convention.intro"> 
   <title>Introduction</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   As an Open-Source software, Cartoweb needs to be written following some
+   coding guidelines and/or rules. It is the required condition unless the
+   developpers community isn't able to share new features and enhancements.
   </para>
- </sect1>
-
- <sect1 id="dev.code_convention.indent"> 
-  <title>Indent</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Some of those advises may seem obvious, others less. For all, it is principaly
+   a good way to produce more readable, maintainable and portable code.
   </para>
  </sect1>
-
- <sect1 id="dev.code_convention.naming">
-  <title>Php</title>
+ <sect1 id="dev.code_convention.general"> 
+  <title>General coding rules</title>
+  <sect2 id="dev.code_convention.general.paths">
+   <title>Paths</title>
    <para>
-    Avoid nesting blocks too deep:
+    It is required to be dependent of absolute path as less as possible.
+    Cartoclient and Cartoserver may be relocated with very minimal even none reconfiguration.
    </para>
-   <para>This is correct:</para>
-   <programlisting><![CDATA[for ($i = 0; $i < 10; i++) {
+  </sect2>
+  <sect2 id="dev.code_convention.general.extract">
+   <title>Extract and run deployement</title>
+   <para>
+    It should be possible to extract the archive, launch a script,
+    edit few options, and be ready to use the application with
+    the built-in data set (see test mapfile).
+   </para>
+  </sect2>
+  <sect2 id ="dev.code_convertion.general.config">
+   <title>Developpement configuration</title>
+   <para>
+    Developers should absolutely set the following variables to true in their config :
+    <itemizedlist>
+     <listitem><para>showDevelMessages = true</para></listitem>
+     <listitem><para>developerIniConfig = true</para></listitem>
+    </itemizedlist>
+   </para>
+  </sect2>
+  <sect2 id="dev.code_convention.general.unitTests">
+   <title>Unit Tests</title>
+   <para>
+    Code should produce no notices before any CVS commit. Code should pass all tests.
+   </para>
+   <para>
+    This also means that the developpers should add and run unit tests for every new
+    feature they add.
+   </para>
+   <para>
+    See <xref linkend="dev.unit_test" />.
+   </para>
+  </sect2>
+ </sect1>
+ <sect1 id="dev.code_convention.php">
+  <title>Php</title>
+  <sect2 id="dev.code_convertion.php.style">
+   <title>Coding Style</title>
+   <para>
+    Developpers should use the Pear coding standards as the coding style reference
+    in Cartoweb, with some exceptions. Have a look at
+    <ulink url="http://pear.sourceforge.net/en/standards.php" />.
+   </para>
+   <para>
+    Following are briefly described some guidelines to respect.
+   </para>
+   <sect3 id="dev.code_convention.php.style.indent"> 
+    <title>Indent</title>
+    <para>
+     Developers should respect some indentation conventions when writing php code
+     in cartoweb:
+     <itemizedlist>
+      <listitem>
+       <para>
+       4 spaces indentations are recommended,
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+       the use of tabs for indentation is prohibited, use space instead
+       (select the appropriate preferences in your favorite code editor if needed).
+       </para>
+      </listitem>
+     </itemizedlist>
+    </para>
+   </sect3>
+   <sect3 id="dev.code_convention.php.style.control">
+    <title>Control Structures</title>
+    <para>
+     Control statements should have one space between the control keyword
+     and opening parenthesis.
+    </para>
+    <para>
+     It is also recommended to use curly braces even when they are optional.
+    </para>
+    <para>This is correct:</para>
+     <programlisting><![CDATA[if (condition) {
+  ...
+}]]></programlisting>
+   </sect3> 
+   <sect3 id="dev.code_convention.php.style.functioncalls">
+    <title>Function Calls</title>
+    <para>
+     Functions should be called with no spaces between the function name,
+     the opening parenthesis, and the first parameter; spaces between commas
+     and each parameter, and no space between the last parameter, the closing
+     parenthesis, and the semicolon.</para>
+     <para>This is correct:</para>
+     <programlisting><![CDATA[$var = foo($bar, $baz, $quux);
+]]></programlisting>
+   </sect3>
+   <sect3 id="dev.code_convention.php.style.functiondefs">
+    <title>Function Definitions</title>
+    <para>
+     Function declaractions follow the "one true brace" convention.
+    </para>
+    <para>
+     Arguments with default values go at the end of the argument list.
+     Always attempt to return a meaningful value from a function if one is appropriate.
+    </para>
+   </sect3> 
+   <sect3 id="dev.code_convention.php.style.nesting">
+    <title>Nesting</title>
+    <para>
+     Avoid nesting blocks too deep:
+    </para>
+    <para>This is correct:</para>
+     <programlisting><![CDATA[for ($i = 0; $i < 10; i++) {
   if (! something ($i))
     continue;
   doMore();
 }]]></programlisting>
+   </sect3>
+   <sect3 id="dev.code_convention.php.style.tags">
+    <title>Php Code Tags</title>
+    <para>
+     Always use <programlisting><![CDATA[<?php ?>]]></programlisting> to delimit PHP code, not the <programlisting><![CDATA[<? ?>]]></programlisting> shorthand.
+    </para>
+   </sect3>
+   <sect3 id="dev.code.convention.php.style.naming">
+    <title>Naming Conventions</title>
+    <sect4 id="dev.code.convention.php.style.naming.classes">
+     <title>Classes</title>
+     <para>Classes should be given descriptive names that should
+     always begin with an uppercase letter. Avoid using abbreviations.</para>
+    </sect4>
+    <sect4 id="dev.code.convention.php.style.naming.functions">
+     <title>Functions and Methods</title>
+     <para>
+      Functions and methods should be named using the "studly caps"
+      style (also referred to as "bumpy case" or "camel caps").</para>
+      <programlisting><![CDATA[function handleKeymapTool()]]></programlisting>
+     <para>
+      Functions and methods names should always describe actions.
+     </para>
+     <para>
+      Developpers should declare the access modifiers (public, private, protected) for each
+      function or method.
+     </para>
+    </sect4>
+    <sect4 id="dev.code.convention.php.style.naming.constants">
+     <title>Constants</title>
+     <para>
+      Constants should always be all-uppercase, with underscores to seperate words.
+     </para>
+    </sect4>
+   </sect3>
+  </sect2>
+  <sect2 id="dev.code_convention.php.comments">
+   <title>Comments</title>
+   <sect3 id="dev.code_convention.php.comments.doc">
+    <title>Php doc comments:</title>
+    <para>
+     To improve php code and object structure readability, automatic code
+     documentation is implemented in Cartoweb. It is based on specific comments
+     describing classes, methods, interfaces and objects.
+     See <xref linkend="dev.code_documentation" /> for more information.
+    </para>
+   </sect3>
+   <sect3 id="dev.code_convention.php.comments.inline">
+    <title>Inline comments:</title>
+    <para>
+     As often as necessary, the developpers should add code comments to explain verbosly the
+     purposes of commands.
+    </para>
+   </sect3>
+  </sect2>
  </sect1>
 
  <sect1 id="dev.code_convention.xhtml">
