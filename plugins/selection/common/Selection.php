@@ -33,7 +33,6 @@ class SelectionResult extends Serializable {
     public $selectedIds;   
 
     public function unserialize($struct) {
-        $this->layerid = self::unserializeValue($struct, 'layerId');
         $this->selectedIds = self::unserializeArray($struct, 'selectedIds');
     }
 }
