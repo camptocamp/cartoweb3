@@ -45,10 +45,12 @@ class LayerBase extends Serializable {
  * @package Common
  */
 class LayerContainer extends LayerBase {
+    public $hidden = false;
     public $children = array();
     
     function unserialize($struct) {
         parent::unserialize($struct);   
+        $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
         $this->children = self::unserializeArray($struct, 'children');
         // FIXME: do it in unserializeArray ?
         if (is_null($this->children))
