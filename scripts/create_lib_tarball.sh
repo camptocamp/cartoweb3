@@ -11,7 +11,7 @@ PEAR_PACKAGES1="PHPUnit2 Benchmark PhpDocumentor"
 PEAR_PACKAGES2="PEAR Console_Getopt"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
-SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.5.tar.gz"
+SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
