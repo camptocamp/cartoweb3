@@ -1,8 +1,9 @@
+<h3>Selection information: </h3>
 
 select a hilight layer<br/>
 <select name="selection_layerid" onChange="document.carto_form.submit();">
-	{html_options values=$selection_selectionlayers selected=$selection_layerid 
-	   output=$selection_selectionlayers}
+        {html_options values=$selection_selectionlayers selected=$selection_layerid 
+           output=$selection_selectionlayers}
 </select>
 
 <br/>
