@@ -210,7 +210,7 @@ ClientContext:
 
   {if $keymap_path|default:''}
   <div id="keymap">
-  <input id="keymap" type="image" name="keymap" src="{$keymap_path}" 
+  <input type="image" name="keymap" src="{$keymap_path}" 
   style="width:{$keymap_width}px;height:{$keymap_height}px;" />
   </div>
   {/if}
@@ -224,7 +224,7 @@ ClientContext:
 
   {if $hello_active|default:''}
   <p>Hello plugin test: <br />
-  {$hello_message} <br/ >
+  {$hello_message} <br />
   <input type="text" name="hello_input" /></p>
   {/if}
 

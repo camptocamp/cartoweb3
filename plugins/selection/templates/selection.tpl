@@ -2,7 +2,7 @@
 
 <p>{t}Select a hilight layer{/t}&nbsp;
 <select name="selection_layerid" id="selection_layerid"
-onChange="javascript:FormItemSelected();">
+onchange="javascript:FormItemSelected();">
 {html_options values=$selection_selectionlayers selected=$selection_layerid 
 output=$selection_selectionlayers}
 </select></p>
