@@ -86,27 +86,27 @@ class Table extends Serializable {
     /**
      * @var int
      */
-    public $numRows;
+    public $numRows = 0;
     
     /**
      * @var int
      */
-    public $totalRows;
+    public $totalRows = 0;
     
     /**
      * @var int
      */
-    public $offset;
+    public $offset = 0;
     
     /**
      * @var array array of Ids
      */
-    public $columnIds;
+    public $columnIds = array();
     
     /**
      * @var array array of titles
      */
-    public $columnTitles;
+    public $columnTitles = array();
         
     /**
      * @var boolean
@@ -116,7 +116,7 @@ class Table extends Serializable {
     /**
      * @var array array of TableRow
      */
-    public $rows;
+    public $rows = array();
 
     function unserialize($struct) {
     
