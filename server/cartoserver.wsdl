@@ -185,9 +185,24 @@
         </all>
       </complexType>
             
+      <complexType name="ArrayOfLocationScale">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:LocationScale[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="LocationScale">
+        <all>
+          <element name="label" type="xsd:string"/>
+          <element name="value" type="xsd:double"/>
+        </all>
+      </complexType>
+            
       <complexType name="LocationInit">
         <all>
-          <element name="test" type="xsd:string"/>
+          <element name="scales" type="types:ArrayOfLocationScale"/>
         </all>
       </complexType>
             

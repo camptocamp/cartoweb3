@@ -20,6 +20,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
     private $locationRequest;
     private $locationResult;
+    
+    private $scales;
 
     const TOOL_ZOOMIN = 'zoom_in';
     const TOOL_ZOOMOUT = 'zoom_out';
@@ -124,16 +126,20 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $point = clone($center);       
         if (array_key_exists('recenter_x', $_REQUEST) &&
             array_key_exists('recenter_y', $_REQUEST) &&
+            array_key_exists('recenter_doit', $_REQUEST) &&
             $_REQUEST['recenter_x'] != '' &&
-            $_REQUEST['recenter_y'] != '') {
+            $_REQUEST['recenter_y'] != '' &&
+            $_REQUEST['recenter_doit'] == '1') {
             $point->setXY($_REQUEST['recenter_x'], $_REQUEST['recenter_y']);
         }
         $scale = 0;
         if (array_key_exists('recenter_scale', $_REQUEST) &&
-            $_REQUEST['recenter_scale'] != '') {
+            array_key_exists('recenter_doit', $_REQUEST) &&
+            $_REQUEST['recenter_scale'] != '' &&
+            $_REQUEST['recenter_doit'] == '1') {
             $scale = $_REQUEST['recenter_scale']; 
         }
-
+        
         if ($point == $center && $scale == 0) {
             return NULL;
         }
@@ -144,6 +150,21 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             return $this->buildZoomPointRequest(
                       ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);
         }
+    }
+
+    private function drawRecenter() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+        $scaleValues = array(0);
+        $scaleLabels = array('');
+        foreach ($this->scales as $scale) {
+            $scaleValues[] = $scale->value;
+            $scaleLabels[] = $scale->label;            
+        }
+        $this->smarty->assign(array('recenter_scaleValues' => $scaleValues,
+                                    'recenter_scaleLabels' => $scaleLabels,
+                                    'recenter_scale'       => $this->locationResult->scale));
+        return $this->smarty->fetch('recenter.tpl');
     }
 
     function loadSession($sessionObject) {
@@ -297,6 +318,10 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $this->locationResult = $locationResult;
     }
 
+    function handleInit($locationInit) {
+        $this->scales = $locationInit->scales;
+    }
+    
     function renderForm($template) {
         
         $locationInfo = sprintf("Bbox: %s scale %s", 
@@ -318,11 +343,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                 'factor' => $factor,
                                 'recenter_active' => $recenter_active, 
                                 ));
-        
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
-        $template->assign('recenter', $this->smarty->fetch('recenter.tpl'));
-        
+        $template->assign('recenter', $this->drawRecenter());
     }
 
     function saveSession() {

@@ -99,12 +99,17 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     private $log;
     private $oldBbox;
     private $oldScale;
+    private $scaleModeDiscrete;
+    private $scales;
 
-    function __construct($requ, $oldBbox, $oldScale) {
+    function __construct($requ, $oldBbox, $oldScale,
+                         $scaleModeDiscrete, $scales) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($requ);
         $this->oldBbox = $oldBbox;
-        $this->oldScale = $oldScale;
+        $this->oldScale = round($oldScale, 2);  // round
+        $this->scaleModeDiscrete = $scaleModeDiscrete;
+        $this->scales = $scales;
     }
 
     function getBbox() {
@@ -120,27 +125,74 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     }
 
     function getScale() {
-
+    
+        $contScale = 0;
         switch ($this->requ->zoomType) {
         case ZoomPointLocationRequest::ZOOM_DIRECTION_IN:
-            return $this->oldScale / 2.0;//TODO: read config
+            if ($this->scaleModeDiscrete) {
+                $newScale = 0;
+                foreach ($this->scales as $scale) {
+                    if ($scale->value >= $this->oldScale) {
+                        break;
+                    }
+                    $newScale = $scale->value;
+                }
+                if ($newScale == 0) {
+                    $newScale = $this->oldScale;
+                }
+                return $newScale;
+            } else {
+                return $this->oldScale / 2.0;//TODO: read config
+            }
         case ZoomPointLocationRequest::ZOOM_DIRECTION_NONE:
             return NULL;
         case ZoomPointLocationRequest::ZOOM_DIRECTION_OUT:
-            return $this->oldScale * 2.0;//TODO: read config
+            if ($this->scaleModeDiscrete) {
+                $newScale = 0;
+                foreach ($this->scales as $scale) {
+                    $newScale = $scale->value;
+                    if ($newScale > $this->oldScale) {
+                        break;
+                    }
+                }
+                if ($newScale == 0) {
+                    $newScale = $this->oldScale;
+                }
+                return $newScale;
+            } else {
+                return $this->oldScale * 2.0;//TODO: read config
+            }
         case ZoomPointLocationRequest::ZOOM_FACTOR:
             $zoom = $this->requ->zoomFactor;
             if ($zoom > 1)
                 $zoom = (1.0 / $zoom);
             else if ($zoom < 0)
                 $zoom = abs($zoom);
-            return $this->oldScale * $zoom;
+            $contScale = $this->oldScale * $zoom;
+            break;
         case ZoomPointLocationRequest::ZOOM_SCALE:
-            return $this->requ->scale;
+            $contScale = $this->requ->scale;
+            break;
         default:
             throw new CartoserverException("unknown zoom type " .
                                            $this->requ->zoomType);
         }
+        $newScale = 0;
+        if ($this->scaleModeDiscrete) {
+            $min = -1;
+            foreach ($this->scales as $scale) {
+                $diff = abs($contScale - $scale->value);
+                if ($diff < $min || $min == -1) {
+                    $min = $diff;
+                    $newScale = $scale->value;
+                }
+            }         
+        }
+        if ($newScale == 0) {
+            $newScale = $contScale;
+        }
+        return $newScale;
+
     }
 }
 
@@ -149,15 +201,45 @@ class ZoomPointLocationCalculator extends LocationCalculator {
  */
 class ServerLocation extends ServerCorePlugin {
     private $log;
+    
+    private $scales;
+    private $visibleScales;
 
     function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    private function initScales() {
+        $this->scales = array();
+        $this->visibleScales = array();
+
+        $config = $this->getConfig();
+
+        for ($i = 0; ; $i++) {
+            $key = 'scales.' . $i . '.value';
+            if (!$config->$key) {
+                break;
+            }
+            $scale = new LocationScale();
+            $scale->value = $config->$key;
+            
+            $key = 'scales.' . $i . '.label';
+            $scale->label = $config->$key;
+            
+            $key = 'scales.' . $i . '.visible';
+            if ($config->$key) {
+                $this->visibleScales[] = $scale;
+            } 
+            $this->scales[] = $scale;
+        }
+    }
+    
     function getResultFromRequest($requ) {
         $this->log->debug("Get result from request: ");
         $this->log->debug($requ);
+
+        $this->initScales();
 
         $msMapObj = $this->serverContext->msMapObj;
         $location = new LocationResult();
@@ -182,7 +264,9 @@ class ServerLocation extends ServerCorePlugin {
             
             $locCalculator = new ZoomPointLocationCalculator(
                                         $requ->zoomPointLocationRequest,
-                                        $oldBbox, $oldScale);
+                                        $oldBbox, $oldScale, 
+                                        $this->getConfig()->scaleModeDiscrete,
+                                        $this->scales);
             break;
         default:
             throw new CartoserverException('unknown location request type: ' . $requ->locationType);
@@ -204,12 +288,25 @@ class ServerLocation extends ServerCorePlugin {
             $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
             $msMapObj->zoomscale($scale, $center,
                         $msMapObj->width, $msMapObj->height, $msMapObj->extent);
+            $location->scale = $scale;
         }
 
         $location->bbox = new Bbox();
         $location->bbox->setFromMsExtent($msMapObj->extent);
-        $location->scale = $msMapObj->scale;
+        
+        if (!$scale) {
+            $location->scale = $msMapObj->scale;            
+        }
         return $location;
     }    
+    
+    function getInitValues() {
+
+        $this->initScales();
+
+        $init = new LocationInit();
+        $init->scales = $this->visibleScales;
+        return $init;
+    }
 }
 ?>

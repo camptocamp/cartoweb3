@@ -56,6 +56,30 @@ class LocationResult extends Serializable {
 /**
  * @package CorePlugins
  */
+class LocationScale extends Serializable {
+    public $label;
+    public $value;
+
+    public function unserialize($struct) {
+        $this->label = self::unserializeValue($struct, 'label');
+        $this->value = self::unserializeValue($struct, 'value', 'double');
+    }
+}
+
+/**
+ * @package CorePlugins
+ */
+class LocationInit extends Serializable {
+    public $scales;
+
+    public function unserialize($struct) {
+        $this->scales = self::unserializeObjectMap($struct, 'scales', 'LocationScale');
+    }
+}
+
+/**
+ * @package CorePlugins
+ */
 abstract class RelativeLocationRequest extends LocationRequest {
     public $bbox;
 
@@ -147,8 +171,7 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
 
     public function unserialize($struct) {
         $this->zoomType = self::unserializeValue($struct, 'zoomType');
-        $this->point = self::unserializeObject($struct, 'point',
-                            'Point');
+        $this->point = self::unserializeObject($struct, 'point', 'Point');
         $this->zoomFactor = self::unserializeValue($struct, 'zoomFactor', 'float');
         $this->scale = self::unserializeValue($struct, 'scale', 'float');
 
