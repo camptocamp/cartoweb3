@@ -1,5 +1,6 @@
 <?php
 /**
+ * Classes used to store server configuration on client
  * @package Common
  * @version $Id$
  */
@@ -8,25 +9,57 @@
  * Abstract serializable
  */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+
+/**
+ * Standard classes
+ */
 require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
 /**
+ * Exception for common classes
  * @package Common
  */
 class CartocommonException extends Exception {
-
 }
 
 /**
+ * Base class for layers
  * @package Common
  */
 class LayerBase extends Serializable {
     
+    /**
+     * @var string
+     */
     public $id;
+    
+    /**
+     * @var string
+     */
     public $label;
+    
+    /**
+     * Minimum scale where layer is visible
+     * @var int
+     */
     public $minScale = 0;
+    
+    /**
+     * Maximum scale where layer is visible
+     * @var int
+     */
     public $maxScale = 0;
+    
+    /**
+     * Icon to display for layer
+     * @var string
+     */
     public $icon = 'none';
+    
+    /**
+     * External link to be added to label
+     * @var string
+     */
     public $link;
     
     function unserialize($struct) {
@@ -42,9 +75,15 @@ class LayerBase extends Serializable {
 }
 
 /**
+ * Layer with children
  * @package Common
  */
 class LayerContainer extends LayerBase {
+    
+    /**
+     * Array of LayerBase
+     * @var array
+     */
     public $children = array();
     
     function unserialize($struct) {
@@ -57,10 +96,21 @@ class LayerContainer extends LayerBase {
 }
 
 /**
+ * Layer node
  * @package Common
  */
 class LayerGroup extends LayerContainer {
+    
+    /**
+     * If true, children won't be displayed
+     * @var boolean
+     */
     public $aggregate = false;
+    
+    /**
+     * Type of rendering for children (tree, dropdown, radio)
+     * @var string
+     */
     public $rendering = 'tree';
 
     function unserialize($struct) {
@@ -72,11 +122,21 @@ class LayerGroup extends LayerContainer {
 }
 
 /**
+ * Layer linked to a MapServer layer
  * @package Common
  */
 class Layer extends LayerContainer {
 
+    /**
+     * MapServer layer
+     * @var string
+     */
     public $msLayer;
+    
+    /**
+     * Name of attribute for identification
+     * @var string
+     */
     public $idAttributeString;
 
     function unserialize($struct) {
@@ -88,6 +148,7 @@ class Layer extends LayerContainer {
 }
 
 /**
+ * Layer class
  * @package Common
  */
 class LayerClass extends LayerBase {
@@ -95,9 +156,14 @@ class LayerClass extends LayerBase {
 }
 
 /**
+ * Position on a map
  * @package Common
  */
 class Location extends Serializable {
+    
+    /**
+     * @var Bbox
+     */
     public $bbox;
     
     function unserialize($struct) {
@@ -106,20 +172,44 @@ class Location extends Serializable {
 }
 
 /**
+ * Initial position
  * @package Common
+ * @see InitialMapState
  */
 class InitialLocation extends Location {
 
 }
 
 /**
+ * Layer display state
  * @package Common
  */
 class LayerState extends Serializable {
+
+    /**
+     * State's ID
+     * @var string
+     */
     public $id;
+    
+    /**
+     * @var boolean
+     */
     public $hidden;
+
+    /**
+     * @var boolean
+     */
     public $frozen;
+
+    /**
+     * @var boolean
+     */
     public $selected;
+
+    /**
+     * @var boolean
+     */
     public $unfolded;
 
     function unserialize($struct) {
@@ -134,12 +224,27 @@ class LayerState extends Serializable {
 }
 
 /**
+ * Initial display state for a mapfile 
  * @package Common
  */
 class InitialMapState extends Serializable {
 
+    /**
+     * State's ID
+     * @var string
+     */
     public $id;
+    
+    /**
+     * Initial position on map
+     * @var InitialLocation
+     */
     public $location;
+    
+    /**
+     * Array of layers
+     * @var array
+     */
     public $layers;
 
     function unserialize($struct) {
@@ -152,17 +257,57 @@ class InitialMapState extends Serializable {
 }
 
 /**
+ * Main MapInfo class
  * @package Common
  */
 class MapInfo extends Serializable {
+
+    /**
+     * Timestamp for cache check
+     * @var int
+     */
     public $timeStamp;
+    
+    /**
+     * @var string
+     */
     public $mapLabel;
+    
+    /**
+     * IDs of plugins to be loaded
+     * @var array
+     */
     public $loadPlugins;
+    
+    /**
+     * If true, legend's icons will be generated
+     * @var boolean
+     */
     public $autoClassLegend;
+    
+    /**
+     * @var array
+     */
     public $layers;
+    
+    /**
+     * @var array
+     */
     public $initialMapStates;
+    
+    /**
+     * @var Bbox
+     */
     public $extent;
+    
+    /**
+     * @var Location
+     */
     public $location;
+    
+    /**
+     * @var GeoDimension
+     */
     public $keymapGeoDimension; 
 
     function unserialize($struct) {
@@ -193,6 +338,11 @@ class MapInfo extends Serializable {
         }
     }
     
+    /**
+     * Returns a layer identified by its ID
+     * @param string
+     * @return LayerBase
+     */
     function getLayerById($layerId) {
 
         foreach ($this->layers as $layer) {
@@ -203,7 +353,10 @@ class MapInfo extends Serializable {
     }
 
     /**
-     * Helper function to get a mapserver layer from a layerId.
+     * Helper function to get a mapserver layer from a layerId
+     * @param MsMapObj MapServer object
+     * @param string
+     * @return MsLayer MapServer layer object
      */
     function getMsLayerById($msMapObj, $layerId) {
         $layer = $this->getLayerById($layerId);
@@ -215,6 +368,11 @@ class MapInfo extends Serializable {
         return $msLayer;
     }
 
+    /**
+     * Returns a map state identified by its ID
+     * @param string
+     * @return InitialMapState
+     */
     function getInitialMapStateById($mapStateId) {
 
         foreach ($this->initialMapStates as $mapState) {
@@ -224,11 +382,19 @@ class MapInfo extends Serializable {
         return NULL;
     }
 
+    /**
+     * @return array
+     */
     function getLayers() {
 
         return $this->layers;
     }
 
+    /**
+     * Adds a layer as a child of another
+     * @param LayerBase
+     * @param LayerBase
+     */
     function addChildLayerBase($parentLayer, $childLayer) {
         
         $childLayerId = $childLayer->id;

@@ -1,36 +1,72 @@
 <?php
 /**
+ * Plugin management tools
  * @package Common
  * @version $Id$
  */
 
 /**
+ * Class used to manage pool of plugins
  * @package Common
  */
 class PluginManager {
+    
+    /**
+     * @var Logger
+     */
     private $log;
 
     const CLIENT_PLUGINS = 1;
     const SERVER_PLUGINS = 2;
 
+    /**
+     * Plugin objects storage
+     * @var array
+     */
     private $plugins = array();
     
+    /**
+     * @var ProjectHandler
+     */
     private $projectHandler;
     
+    /**
+     * @return array
+     */
     function getPlugins() {
         return $this->plugins;
     }
     
+    /**
+     * @param ProjectHandler
+     */
     function __construct($projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = $projectHandler;
     }
 
+    /**
+     * Returns full plugin base path
+     * @param string path to CartoWeb root
+     * @param string path to plugins root
+     * @param string plugin name
+     * @return string
+     */
     private function getBasePluginPath($basePath, $relativePath, $name) {
             return $basePath . $relativePath . $name . '/';
     }
 
+    /**
+     * Returns plugin's main class file path
+     *
+     * Also depends on the project.
+     * @param string path to CartoWeb root
+     * @param string path to plugins root
+     * @param int type (client or server)
+     * @param string plugin name
+     * @return string
+     */
     private function getPath($basePath, $relativePath, $type, $name) {
         $lastPath = $type == self::CLIENT_PLUGINS ? 
             'client/' : 'server/';
@@ -39,18 +75,45 @@ class PluginManager {
                 $name . '/' . $lastPath . $this->getClassName($type, $name) . '.php', '');
     }
 
+    /**
+     * Returns plugin's common file path 
+     *
+     * Also depends on the project.
+     * @param string path to CartoWeb root
+     * @param string path to plugins root
+     * @param string plugin name
+     * @return string
+     */
     private function getCommonPath($basePath, $relativePath, $name) {
         return $basePath .
             $this->projectHandler->getPath($basePath, $relativePath .
                 $name . '/' . 'common/' . ucfirst($name) . '.php', '');
     }
 
+    /**
+     * Constructs a plugin class name
+     *
+     * Class names are in the form ClientMyPlugin or ServerMyPlugin.
+     * @param int
+     * @param string
+     * @return string
+     */
     private function getClassName($type, $name) {
         $prefix = $type == self::CLIENT_PLUGINS ? 
             'Client' : 'Server';       
         return $prefix . ucfirst($name);
     }
     
+    /**
+     * Loads plugins
+     * 
+     * Includes all plugin files and creates plugin object.
+     * @param string path to CartoWeb root
+     * @param string path to plugins root
+     * @param int type (client or server)
+     * @param array array of plugin names
+     * @param mixed optional initialization arguments
+     */
     public function loadPlugins($basePath, $relativePath, $type, $names, $initArgs=NULL) {
 
         // TODO: load per plugin configuration file
@@ -94,6 +157,12 @@ class PluginManager {
         }
     }
 
+    /**
+     * Calls a function on plugins implementing an interface
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
     function callPluginsImplementing($interface, $functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
@@ -103,6 +172,11 @@ class PluginManager {
         }
     }
 
+    /**
+     * Calls a function on all plugins
+     * @param string function name
+     * @param array function arguments
+     */
     function callPlugins($functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
@@ -110,6 +184,11 @@ class PluginManager {
         }
     }
     
+    /**
+     * Returns plugin object for a plugin name
+     * @param string name
+     * @return PluginBase 
+     */
     function getPlugin($pluginName) {
         
         foreach ($this->plugins as $plugin) {
@@ -120,10 +199,17 @@ class PluginManager {
         return NULL;        
     }
     
+    /**
+     * Returns current plugin objet
+     *
+     * Plugin name is found using URL.
+     * @return PluginBase
+     */
     function getCurrentPlugin() {
         
         ereg('(\/.*)*\/(.*)\/(.*).php', $_SERVER['PHP_SELF'], $match);
         return $this->getPlugin($match[2]);
     }
 }
+
 ?>

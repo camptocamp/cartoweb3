@@ -1,25 +1,36 @@
 <?php
 /**
  * General configuration classes
- *
  * @package Common
  * @version $Id$
  */
 
 /**
  * Main configuration 
- *
  * @package Common
  */
 abstract class Config {
 
+    /**
+     * Client or server root path 
+     * @var string
+     */
     public $basePath;
+    
+    /**
+     * @var ProjectHandler
+     */
     public $projectHandler;
 
+    /**
+     * Array of string which contains contents of .ini configuration file
+     * @var array
+     */
     protected $ini_array;
 
     /**
      * Returns type of config ('client' or 'server')
+     * @return string
      */
     abstract function getKind();
 
@@ -29,6 +40,8 @@ abstract class Config {
      * Will return value set in .ini files or NULL if it doesn't exist
      * !! WARNING: do not use empty() to test agains properties returned
      * by __get(). It will be always empty !!
+     * @param string index
+     * @return string value
      */
     function __get($nm) {
         if (isset($this->ini_array[$nm])) {
@@ -44,6 +57,7 @@ abstract class Config {
      *
      * Reads project's and default .ini file, sets project handler's mapId
      * and initializes paths.
+     * @param ProjectHandler
      */
     function __construct($projectHandler) {
 
@@ -97,17 +111,20 @@ abstract class Config {
 
 /**
  * Configuration for plugins
- * 
  * @package Common
  */
 abstract class PluginConfig extends Config {
 
+    /** 
+     * @var BasePlugin
+     */
     protected $plugin;
 
     /**
      * Returns directory where .ini are located
      *
      * Directory returned is relative to client_conf/server_conf.
+     * @return string path
      */
     abstract function getPath(); 
 
@@ -115,6 +132,8 @@ abstract class PluginConfig extends Config {
      * Constructor
      *
      * Reads project's and default plugin .ini file, if they exist.
+     * @param BasePlugin
+     * @param ProjectHandler
      */
     function __construct($plugin, $projectHandler) {
 
@@ -145,4 +164,5 @@ abstract class PluginConfig extends Config {
         }
     }
 }
+
 ?>

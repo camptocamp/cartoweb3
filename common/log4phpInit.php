@@ -2,15 +2,13 @@
 /**
  * Initializes the log4php library, uses a LoggerConfiguration which changes
  * the file path, to that logs are written to CARTOCLIENT_HOME/log
- * 
  * @package Common
  * @version $Id$
  */
 
 /**
  * Initializes the log4php library
- *
- * @param $isClient whether to initializes 
+ * @param boolean whether to initializes 
  */
 function initializeLog4php($isClient) {
 
