@@ -1,8 +1,12 @@
 <?php
+/**
+ * @package Common
+ */
 
 /**
  * Abstract class for accessing list of users, checking their passwords and
- * getting their roles.
+ * getting their roles
+ * @package Common
  */
 abstract class SecurityContainer {
     
@@ -26,13 +30,16 @@ abstract class SecurityContainer {
 }
 
 /**
- * Class which manages security in cartoweb. It is used to authenticate a
- * username/password pair, and handle the roles associated to a user.
- * This class has only one instance available at any time, using getInstance
- * static method.
- * Once   the user is authenticated, it is made known the this manager through
+ * Class which manages security in Cartoweb
+ * 
+ * It is used to authenticate a username/password pair, and handle the roles
+ * associated to a user. This class has only one instance available at any time,
+ * using getInstance static method.
+ * 
+ * Once the user is authenticated, it is made known the this manager through
  * setUser or setUserAndRoles. From there on, security checks can be done using
  * hasRole method.
+ * @package Common
  */
 class SecurityManager {
 

@@ -16,12 +16,15 @@
  */
 
 /**
- * Cartoclient home dir
+ * Home dirs
  */ 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
 
+/**
+ * Encoding class for charset
+ */
 require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
 // smarty open tag
@@ -36,7 +39,11 @@ $cmd = preg_quote('t');
 // extensions of smarty files, used when going through a directory
 $extensions = array('tpl');
 
-// "fix" string - strip slashes, escape and convert new lines to \n
+/**
+ * "Fix" string - strip slashes, escape and convert new lines to \n
+ * @param string
+ * @return string
+ */
 function fs($str)
 {
     $str = stripslashes($str);
@@ -45,7 +52,12 @@ function fs($str)
     return $str;
 }
 
-// rips gettext strings from $file and prints them in POT format
+/**
+ * Rips gettext strings from $file and prints them in POT format
+ * @param string
+ * @param array map text_to_translate => references
+ * @param array map of texts plurals
+ */
 function do_file($file, &$texts, &$plurals)
 {
     $content = @file_get_contents($file);
@@ -72,7 +84,13 @@ function do_file($file, &$texts, &$plurals)
     }
 }
 
-// go through a directory
+/**
+ * Goes through a directory
+ * @param string
+ * @param string project name or ''
+ * @param array map text_to_translate => references
+ * @param array map of texts plurals
+ */
 function do_dir($dir, $project, &$texts, &$plurals) {
     
     // Include directory if:
@@ -106,6 +124,11 @@ function do_dir($dir, $project, &$texts, &$plurals) {
     }
 }
 
+/**
+ * Finds charset in client.ini
+ * @param string
+ * @return string
+ */
 function getCharset($project) {
     
     $class = null;
@@ -114,8 +137,8 @@ function getCharset($project) {
     if ($project != '') {
         $projectIniFile .= 'projects/' . $project. '/';
     }
-    $iniFile .= 'server_conf/server.ini';
-    $projectIniFile .= 'server_conf/server.ini';
+    $iniFile .= 'client_conf/client.ini';
+    $projectIniFile .= 'client_conf/client.ini';
     if (file_exists($projectIniFile)) {
         $iniArray = parse_ini_file($projectIniFile);
         if (array_key_exists('EncoderClass.config', $iniArray)) {
@@ -136,6 +159,10 @@ function getCharset($project) {
     return $obj->getCharset();
 }
 
+/**
+ * Gets list of projects by reading projects directory
+ * @return array
+ */
 function getProjects() {
 
     $projects = array();
@@ -150,6 +177,11 @@ function getProjects() {
     return $projects;
 }
 
+/**
+ * Finds list of already translated PO files for a project
+ * @param string
+ * @return array
+ */
 function getTranslatedPo($project) {
     
     $files = array();
@@ -175,6 +207,12 @@ function getTranslatedPo($project) {
     return $files;   
 }
 
+/**
+ * Parses an INI file looking for variable ending with '.label'
+ * @param string
+ * @param array map text_to_translate => references
+ * @return boolean
+ */
 function parseIni($project, &$texts) {
 
     $iniPath = CARTOCLIENT_HOME;

@@ -13,14 +13,22 @@
  */
 
 /**
- * Home dir
+ * Home dirs
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 
+/**
+ * Encoding class for charset
+ */
 require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
+/**
+ * Finds charset in client.ini
+ * @param string
+ * @return string
+ */
 function getCharset($project) {
     
     $class = null;
@@ -51,6 +59,13 @@ function getCharset($project) {
     return $obj->getCharset();
 }
 
+/**
+ * Parses an INI file looking for variable ending with '.label'
+ * @param string
+ * @param string
+ * @param array map text_to_translate => references
+ * @return boolean
+ */
 function parseIni($project, $mapId, &$texts) {
 
     $iniPath = CARTOSERVER_HOME;
@@ -82,6 +97,12 @@ function parseIni($project, $mapId, &$texts) {
     return true;
 }
 
+/**
+ * Adds a reference
+ * @param string
+ * @param string
+ * @param array map text_to_translate => references
+ */
 function addMapText($text, $mapId, &$texts) {
     $info = $mapId . '.map';
     if (array_key_exists($text, $texts)) {
@@ -91,6 +112,14 @@ function addMapText($text, $mapId, &$texts) {
     }
 }
 
+/**
+ * Parses a MAP file looking for class names and 'query_returned_attributes'
+ * metadata
+ * @param string
+ * @param string
+ * @param array map text_to_translate => references
+ * @return boolean
+ */
 function parseMap($project, $mapId, &$texts) {
 
     $mapFile = CARTOSERVER_HOME;
@@ -133,6 +162,10 @@ function parseMap($project, $mapId, &$texts) {
     return true;
 }
 
+/**
+ * Gets list of projects by reading projects directory
+ * @return array
+ */
 function getProjects() {
 
     $projects = array();
@@ -147,6 +180,12 @@ function getProjects() {
     return $projects;
 }
 
+
+/**
+ * Gets list of map Ids by reading project directory
+ * @param string
+ * @return array
+ */
 function getMapIds($project) {
     
     $mapIds = array();
@@ -167,6 +206,11 @@ function getMapIds($project) {
     return $mapIds;    
 }
 
+/**
+ * Finds list of already translated PO files for a project
+ * @param string
+ * @return array
+ */
 function getTranslatedPo($project, $mapId) {
     
     $files = array();

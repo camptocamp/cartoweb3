@@ -1,9 +1,15 @@
 <?php
+/**
+ * @package Common
+ */
 
 /**
- * Abstract class for URL provider objects. Extending classes have to provide
- * URL's from a set of parameters in different contexts. For instance, return an
- * URL for accessing files in a plugin htdocs directory.
+ * Abstract class for URL provider objects
+ * 
+ * Extending classes have to provide URL's from a set of parameters in
+ * different contexts. For instance, return an URL for accessing files in a
+ * plugin htdocs directory.
+ * @package Common
  */
 abstract class UrlProvider {
     /**
@@ -49,9 +55,11 @@ abstract class UrlProvider {
 }
 
 /**
- * Url provider for accessing files directly through the web server. Such files
- * are thus accessed via the htdocs directory of cartoweb. The files may be put
- * there using symbolic links, or may be copied directly.
+ * Url provider for accessing files directly through the web server
+ *
+ * Such files are thus accessed via the htdocs directory of cartoweb. The files
+ * may be put there using symbolic links, or may be copied directly.
+ * @package Common
  */
 class SymlinkUrlProvider extends UrlProvider {
 
@@ -85,9 +93,11 @@ class SymlinkUrlProvider extends UrlProvider {
 }
 
 /**
- * Url provider for accessing files through a mini-proxy. This is a php script
- * which reads the requested files directly from filesystem, and returns them
- * to the client.
+ * Url provider for accessing files through a mini-proxy
+ * 
+ * This is a php script which reads the requested files directly from
+ * filesystem, and returns them to the client.
+ * @package Common
  */
 class MiniproxyUrlProvider extends UrlProvider {
 
@@ -143,8 +153,10 @@ class MiniproxyUrlProvider extends UrlProvider {
 }
 
 /**
- * Class to manage resource accesses. It handles the registration of Url
- * provider objects.
+ * Class to manage resource accesses
+ * 
+ * It handles the registration of Url provider objects.
+ * @package Common
  */
 class ResourceHandler {
     /**

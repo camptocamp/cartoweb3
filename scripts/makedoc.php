@@ -55,12 +55,14 @@ if (!is_link('pear_base')) {
 /**
  * Directories and files to include
  */
-define('INCLUDE_FILES', '../client,../server,../common,../plugins,../coreplugins,../tests');
+define('INCLUDE_FILES',
+       '../client,../server,../common,../plugins,../coreplugins,../tests,../scripts');
 
 /**
  * Directories (ending with '/') and files to ignore
  */
-define('IGNORE_FILES', 'scripts/pear_base/,include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
+define('IGNORE_FILES',
+       'scripts/pear_base/,include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
 
 /**
  * Documentation title
@@ -85,7 +87,7 @@ define('PARSE_PRIVATE', 'on');
 /**
  * PHP Doc template to use
  */
-define('TEMPLATE', 'HTML:frames:l0l33t');
+define('TEMPLATE', 'HTML:Smarty:PHP');
  
 $_SERVER['argv'] = array('-d',  INCLUDE_FILES,
                          '-i',  IGNORE_FILES,
@@ -104,4 +106,5 @@ $_SERVER['argv'] = array('-d',  INCLUDE_FILES,
  * @copyright Joshua Eichorn
  */
 include("PhpDocumentor/phpDocumentor/phpdoc.inc");
+
 ?>
