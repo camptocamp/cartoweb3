@@ -68,6 +68,24 @@ class CartoserverService {
             return $url . '?mapId=' . $this->config->mapId;
     }
 
+    private function getCartoserverScriptUrl() {
+
+        $url = '';
+        if (@$this->config->cartoserverScriptUrl)
+            $url = $this->config->cartoserverScriptUrl;
+
+        if ($url == '' && $_SERVER['PHP_SELF'] != '') {
+            $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
+                $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+                '/server.php';
+        }
+
+        if ($url == '' )
+            throw new CartoclientException("No cartoserver Script Url set in config file");
+        else
+            return $url . '?mapId=' . $this->config->mapId;
+    }
+
     private function callFunction($function, $argument, $replayTrace=false) {
 
         if ($this->config->cartoserverDirectAccess) {
@@ -82,8 +100,14 @@ class CartoserverService {
                 ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
 
             $options = $replayTrace === true ? array('trace' => 1) : array();
-            $client = new SoapClient($this->getCartoserverUrl(),
-                                                $options);
+            
+            if (@$this->config->cartoserverUseWsdl) {
+                $client = new SoapClient($this->getCartoserverUrl(), $options);
+            } else {
+                $options['location'] = $this->getCartoserverScriptUrl();;
+                $options['uri'] = 'foo';
+                $client = new SoapClient(null, $options);
+            }            
 
             try {
                 $mapResult = $client->$function($argument);

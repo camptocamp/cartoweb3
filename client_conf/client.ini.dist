@@ -22,7 +22,13 @@ developerIniConfig = false
 # If it is not set, the default location will be used
 #cartoserverHome = "/path/to/cartoserver/"
 
-# The url of the cartoserver SOAP wsdl
+# if true, WSDL will be used for sending SOAP requests
+cartoserverUseWsdl = false
+
+# The url of the cartoserver script used when cartoserverUseWsdl = false
+#cartoserverScriptUrl = "http://your/path/to/server.php"
+
+# The url of the cartoserver SOAP wsdl when cartoserverUseWsdl = true
 # If it is not set, a default location will be guessed
 #cartoserverUrl = "http://your/path/to/cartoserver.wsdl.php"
 
