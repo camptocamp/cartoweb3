@@ -22,16 +22,16 @@
 //
 // Copyright 2000-2001 Joshua Eichorn
 // Email jeichorn@phpdoc.org
-// Web 		http://phpdoc.org/
-// Mirror 	http://phpdocu.sourceforge.net/
-// Project	http://sourceforge.net/projects/phpdocu/
+// Web      http://phpdoc.org/
+// Mirror   http://phpdocu.sourceforge.net/
+// Project  http://sourceforge.net/projects/phpdocu/
 //
 
 // Modified by Yves Bolognini <yves.bolognini@camptocamp.com>
 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-set_include_path(get_include_path() . PATH_SEPARATOR . 
+set_include_path(get_include_path() . PATH_SEPARATOR .
                  CARTOCLIENT_HOME . 'include/pear/' . PATH_SEPARATOR . 
                  CARTOCLIENT_HOME . 'include/pear/PhpDocumentor/');
 
