@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="dev.i18n">
+  <title>Internationalization</title>
+  <sect1 id="dev.i18n.translations">
+    <title>Translations</title>
+    <para>
+    </para>
+  </sect1>
+  <sect1 id="dev.i18n.encoding">
+    <title>Character Set Encoding</title>
+    <para>
+    </para>
+  </sect1>
+</chapter>

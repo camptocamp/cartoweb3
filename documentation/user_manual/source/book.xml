@@ -1,65 +1,75 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <!-- $Id$ -->
-
 <book id="cartoweb">
- <title>&cartoweb; Documentation</title>
- <subtitle></subtitle>
- <bookinfo>
-  <corpauthor>Camptocamp</corpauthor>
-  <pubdate><?dbtimestamp format="Y-m-d"?></pubdate>
- </bookinfo>
-
- <part id="cartoweb.intro">
-  <title>Presentation and Architecture</title>
-  <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-  </partintro>
-  <xi:include href="intro/presentation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="intro/feature.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="intro/architecture.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
- </part>
-
- <part id="cartoweb.user">
-  <title>User Manual</title>
-  <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-  </partintro>
-  <xi:include href="user/install.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/structure.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/config.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/layer.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/location.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/images.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/query.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/annotate.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/output.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/pdf.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/project.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/security.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/i18n.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/template.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
- </part>
-
+  <title>&cartoweb; Documentation</title>
+  <subtitle></subtitle>
+  <bookinfo>
+    <corpauthor>Camptocamp</corpauthor>
+    <pubdate>
+      <?dbtimestamp format="Y-m-d"?>
+    </pubdate>
+  </bookinfo>
+  <part id="cartoweb.intro">
+    <title>Presentation and Architecture</title>
+    <partintro>
+      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli </para>
+    </partintro>
+    <xi:include href="intro/presentation.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="intro/feature.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="intro/architecture.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
+  <part id="cartoweb.user">
+    <title>User Manual</title>
+    <partintro>
+      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli </para>
+    </partintro>
+    <xi:include href="user/install.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/structure.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/project.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/config.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/layer.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/location.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/images.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/query.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/annotate.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/output.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/pdf.xml"
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/security.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/i18n.xml"
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/template.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
   <part id="cartoweb.dev">
     <title>Developer Manual</title>
     <partintro>
@@ -70,11 +80,13 @@
         Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
         Bli Bli </para>
     </partintro>
-    <xi:include href="dev/soapcalls.xml"
+    <xi:include href="dev/soapcalls.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/newplugin.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/security.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/i18n.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/code_convention.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -82,12 +94,10 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/code_documentation.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <xi:include href="dev/debug.xml" 
+    <xi:include href="dev/debug.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/performance.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
-
   <index/>
-
 </book>
