@@ -59,17 +59,36 @@
       dhtmlBox.jitter = 10; // minimum size of a box dimension
       dhtmlBox.d2pts = 3;   // the distance between two points (measure tools);
       dhtmlBox.nbPts = 5;   // number of points for the last vertex
-          
+      {/literal}
+
+      {strip}
+        {capture name="pixSizeX"}
+          {math equation="(maxX - minX) / width"
+                maxX=$bboxMaxX minX=$bboxMinX width=$mainmap_width}
+        {/capture}
+        {capture name="pixSizeY"}
+          {math equation="(maxY - minY) / height"
+                maxY=$bboxMaxY minY=$bboxMinY height=$mainmap_height}
+        {/capture}
+        {capture name="pixelSize"}
+          {math equation="(pixSizeX + pixSizeY) / (2 * factor)"
+                pixSizeX=$smarty.capture.pixSizeX
+                pixSizeY=$smarty.capture.pixSizeY
+                factor=$factor}
+        {/capture}
+      {/strip}
+     {$pixSizeX} 
       // map units values
-      {/literal}dhtmlBox.mapHeight = {$mainmap_height};{literal}
-      dhtmlBox.boxx = -180;
-      dhtmlBox.boxy = -90;
-      dhtmlBox.pixel_size = 0.9;
-      dhtmlBox.dist_msg = '{DIST_MSG}';
-      dhtmlBox.dist_unit = ' {DIST_UNIT}';
-      dhtmlBox.surf_msg = '{SURF_MSG}';
-      dhtmlBox.surf_unit = ' {SURF_UNIT}';
-      dhtmlBox.coord_msg = 'Coords: ';
+      dhtmlBox.mapHeight = {$mainmap_height};
+      dhtmlBox.boxx = {$bboxMinX};
+      dhtmlBox.boxy = {$bboxMinY};
+      dhtmlBox.pixel_size = {$smarty.capture.pixelSize};
+      dhtmlBox.dist_msg = {t}'Approx. distance: '{/t};
+      dhtmlBox.dist_unit = {if $factor == 1000}'km.'{else}'m.'{/if};
+      dhtmlBox.surf_msg = {t}'Approx. surface: '{/t};
+      dhtmlBox.surf_unit = {if $factor == 1000}'km².'{else}'m².'{/if};
+      dhtmlBox.coord_msg = {t}'Coords (m): '{/t};
+  {literal}
           
       dhtmlBox.initialize();
     }
