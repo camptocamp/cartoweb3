@@ -12,8 +12,8 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All client tests
  */
-require_once 'CartoclientTest.php';
-require_once 'CartoserverServiceTest.php';
+require_once 'client/CartoclientTest.php';
+require_once 'client/CartoserverServiceTest.php';
 
 /**
  * @package Tests

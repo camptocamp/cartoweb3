@@ -12,9 +12,10 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All common tests
  */
-require_once 'BasicTypesTest.php';
-require_once 'MapInfoTest.php';
-require_once 'SerializableTest.php';
+require_once 'common/MiscTest.php';
+require_once 'common/BasicTypesTest.php';
+require_once 'common/MapInfoTest.php';
+require_once 'common/SerializableTest.php';
 
 /**
  * @package Tests
@@ -26,6 +27,7 @@ class common_AllTests {
 
         $suite = new PHPUnit2_Framework_TestSuite;
 
+        $suite->addTestSuite('common_MiscTest');
         $suite->addTestSuite('common_BasicTypesTest');
         $suite->addTestSuite('common_MapInfoTest');
         $suite->addTestSuite('common_SerializableTest');

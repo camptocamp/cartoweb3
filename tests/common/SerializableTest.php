@@ -9,7 +9,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCLIENT_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
  * Unit tests for class Serializable
@@ -234,13 +234,13 @@ class SerializableTestClass1 extends Serializable {
     public $obj;
     public $objMap;
     
-    function __construct($my_str) {
+    function __construct($my_str = '') {
         parent::__construct();
         $str = $my_str;
     }
     
     function unserialize($struct) {
-        $this->str       = $struct->str;
+        $this->str       = self::unserializeValue($struct, 'str');
         $this->strArray  = self::unserializeArray($struct, 'strArray');
         $this->intArray  = self::unserializeArray($struct, 'intArray', 'int');
         $this->boolArray = self::unserializeArray($struct, 'boolArray', 'boolean');

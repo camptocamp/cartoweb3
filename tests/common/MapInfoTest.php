@@ -9,7 +9,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCLIENT_HOME . 'common/MapInfo.php');
+require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 
 /**
  * Unit tests for class MapInfo

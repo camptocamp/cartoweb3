@@ -9,7 +9,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
+require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
 /**
  * Unit tests for basic types
