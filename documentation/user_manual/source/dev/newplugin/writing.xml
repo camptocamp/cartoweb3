@@ -48,7 +48,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
   <sect2 id="dev.newplugin.writing.calls">
     <title><indexterm><primary>Plugins 
       calling</primary></indexterm><indexterm><primary>Plugins interfaces 
-      implementations</primary></indexterm>How Plugins are Called</title>
+      implementations</primary></indexterm>How Plugins Are Called</title>
     <para> As explained in <xref linkend="dev.newplugin.intro"/>, plugins are 
       independent aggregations of PHP code that are called by the &cartoweb; 
       core classes to perform dedicated actions. Plugins are called several 

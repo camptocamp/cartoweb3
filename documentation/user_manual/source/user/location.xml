@@ -7,7 +7,7 @@
 <!-- $Id$ -->
 <chapter id="user.location">
   <title>Navigation</title>
-  <subtitle>Plugin location</subtitle>
+  <subtitle>Plugin Location</subtitle>
   <para> The plugin location is the core plugin that deals with geographic 
     navigation on the map. It handles bboxes (visible areas) and scales; it 
     drives the tools zoom-in, zoom-out and panning, the directional arrows 
@@ -16,7 +16,7 @@
     <filename>location.ini</filename> (client-side) and 
     <filename>location.ini</filename> (server-side). </para>
   <sect1 id="user.location.client">
-    <title>location.ini (client-side)</title>
+    <title>location.ini (Client-side)</title>
     <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
@@ -81,7 +81,7 @@
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.server">
-    <title>location.ini (server-side)</title>
+    <title>location.ini (Server-side)</title>
     <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
@@ -147,7 +147,7 @@
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.mapfile">
-    <title>Related elements elsewhere</title>
+    <title>Related Elements Elsewhere</title>
     <para> <indexterm><primary>extent</primary></indexterm>The maximal extent 
       of the geographical zone is set by the EXTENT command in the mapfile. 
       </para>

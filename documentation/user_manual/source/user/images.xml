@@ -7,12 +7,12 @@
 <!-- $Id$ -->
 <chapter id="user.images">
   <title>Image Format Options</title>
-  <subtitle>Plugin images</subtitle>
+  <subtitle>Plugin Images</subtitle>
   <para> The plugin images is the core plugin that deals with the formatting 
     options for the main map. It handles the size of the image and its 
     filetype. </para>
   <sect1 id="user.images.client">
-    <title>images.ini (client-side)</title>
+    <title>images.ini (Client-side)</title>
     <para> Here are the options that can be set : </para>
     <itemizedlist>
       <listitem>
@@ -59,7 +59,7 @@
       pixels. </para>
   </sect1>
   <sect1 id="user.images.server">
-    <title>images.ini (server-side)</title>
+    <title>images.ini (Server-side)</title>
     <para> Here are the options that can be set : </para>
     <itemizedlist>
       <listitem>

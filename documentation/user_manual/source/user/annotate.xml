@@ -8,8 +8,8 @@
 <!-- $Id$ -->
 
 <chapter id="user.annotate">
- <title>Annotation and redlining</title>
- <subtitle>Plugin outline</subtitle>
+ <title>Annotation and Redlining</title>
+ <subtitle>Plugin Outline</subtitle>
 
  <sect1 id="user.annotate.intro"> 
   <title>Introduction</title>
@@ -133,7 +133,7 @@
  <sect1 id="user.annotate.mapfile">
   <title>Mapfile</title>
    <sect2 id="user.annotate.mapfile.layers">
-    <title>layers</title>
+    <title>Layers</title>
     <para>Specific layers must be set in the mapfile in order to draw the shapes.</para>
     <para>Examples<programlisting><![CDATA[
 LAYER
@@ -161,7 +161,7 @@ END]]></programlisting>
     </para>
    </sect2>
    <sect2 id="user.annotate.mapfile.label">
-    <title>labels</title>
+    <title>Labels</title>
     <para>In case of using labels (i.e. labelMode set to true, see 
      <xref linkend="user.annotate.client.ini" />), a LABEL object is needed in the layers' class.
     </para>

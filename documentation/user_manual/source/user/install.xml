@@ -11,7 +11,7 @@
  <title>Installation</title>
 
  <sect1 id="user.install.unix.debian">
-  <title>Mapserver Debian installation</title>
+  <title>Mapserver Debian Installation</title>
   <para>FIXME: put this into unix install ??</para>
   <para>Some Debian packages are available for Php5 and Mapserver<footnote>
     <para>Some of the packages were inspired from 
@@ -35,7 +35,7 @@ deb http://ftp.<country>.debian.org/debian/ sarge main contrib]]></screen>
   </sect2>
   
   <sect2>
-  <title>Setting up your repository and preferences file</title>  
+  <title>Setting Up Your Repository and Preferences File</title>  
   <para>
     Add the following to your <filename>/etc/apt/sources.list</filename>  :
     <screen># cartoweb
@@ -52,7 +52,7 @@ Pin-Priority: 1100</screen>
   </sect2>  
 
   <sect2>
-  <title>Additional steps</title>  
+  <title>Additional Steps</title>  
   <para>
     <orderedlist>
       <listitem>
@@ -74,13 +74,13 @@ Pin-Priority: 1100</screen>
  </sect1>
    
  <sect1 id="user.install.unix">
-  <title>UNIX like install</title>
+  <title>UNIX-like Install</title>
   <para>
     &cartoweb; installer is "cw3setup.php", located in the root directory of the application:
     Simply run <screen>php -f cw3setup.php</screen> to setup the application.
   </para>
   <sect2 id="user.install.unix.commands.list">
-   <title>List of available commands:</title>
+   <title>List of Available Commands</title>
     <para>
 <screen><![CDATA[(no command, by default): install cartoweb3
 cvs                     : install cartoweb3 from cvs
@@ -103,7 +103,7 @@ remove                  : remove cartoweb3
     </para>
    </sect2>
    <sect2 id="user.install.unix.commands.details">
-    <title>Commands details:</title>
+    <title>Commands Details</title>
       <itemizedlist>
        <listitem><para>(no command, by default): install &cartoweb; from a download.</para></listitem>
        <listitem><para>cvs: install &cartoweb; from a cvs checkout. You must have cvs access configured and cvs login done with the right user name.</para></listitem>
@@ -124,7 +124,7 @@ remove                  : remove cartoweb3
 
 
  <sect1 id="user.install.win32">
-  <title>Windows install</title>
+  <title>Windows Install</title>
   <para>
    The process is as simple as for UNIX, but the windows installer is not available yet.
   </para>

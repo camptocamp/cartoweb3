@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.caches">
-  <title>Caches configuration</title>
+  <title>Caches Configuration</title>
   <para>Several different caching mechanisms are available in
     &cartoweb; for maximum capabilities. The different types of caches
     are described in the next chapters.</para>
@@ -39,28 +39,28 @@
       -->
       
   <sect1 id="user.caches.smarty">
-    <title>The templating system used in &cartoweb; is Smarty<footnote>
+    <title>The Templating System Used in &cartoweb; Is Smarty<footnote>
       <para><ulink url="http://smarty.php.net/"></ulink></para></footnote></title>
     <para></para>
   </sect1>
 
   <sect1 id="user.caches.wsdl">
-    <title>Wsdl cache</title>
+    <title>WSDL Cache</title>
     <para></para>
   </sect1>
       
   <sect1 id="user.caches.mapinfo">
-    <title>MapInfo cache</title>
+    <title>MapInfo Cache</title>
     <para></para>
   </sect1>
       
   <sect1 id="user.caches.mapresult">
-    <title>MapResult cache</title>
+    <title>MapResult Cache</title>
     <para></para>
   </sect1>
 
   <sect1 id="user.caches.soapxml">
-    <title>XML SOAP cache</title>
+    <title>XML SOAP Cache</title>
     <para></para>
   </sect1>
   

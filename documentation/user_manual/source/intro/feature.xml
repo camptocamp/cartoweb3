@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="intro.feature">
- <title>Cartographic functionalities</title>
+ <title>Cartographic Functionalities</title>
 
 
  <sect1 id="intro.feature.intro">
@@ -19,7 +19,7 @@
  </sect1>
 
  <sect1 id="intro.feature.navigation">
-  <title>Navigation interface</title>
+  <title>Navigation Interface</title>
   <para>
    <itemizedlist>
     <listitem>
@@ -42,7 +42,7 @@
  </sect1>
 
  <sect1 id="intro.feature.query">
-  <title>Map queries</title>
+  <title>Map Queries</title>
   <para>
    <itemizedlist>
     <listitem>
@@ -65,7 +65,7 @@
  </sect1>
 
  <sect1 id="intro.feature.layer">
-  <title>Arbitrary complex hierarchy of layers</title>
+  <title>Arbitrary Complex Hierarchy of Layers</title>
   <para>
    <itemizedlist>
     <listitem>
@@ -88,7 +88,7 @@
  </sect1>
 
  <sect1 id="intro.feature.measuring">
-  <title>Measuring tools</title>
+  <title>Measuring Tools</title>
   <para>
    <itemizedlist>
     <listitem>
@@ -134,7 +134,7 @@
  </sect1>
 
  <sect1 id="intro.feature.annotation">
-  <title>Annotation and red lining</title>
+  <title>Annotation and Redlining</title>
   <para>
    <itemizedlist>
     <listitem>

@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
   <chapter id="dev.security">
-    <title>Using the security infrastructure</title>
+    <title>Using the Security Infrastructure</title>
 
     <sect1 id="dev.security.intro"> 
       <title>Introduction</title>
@@ -44,13 +44,13 @@
     </sect1>
 
     <sect1 id="dev.security.auth_plugins">
-      <title>Plugins managing security database and authentication</title>
+      <title>Plugins Managing Security Database and Authentication</title>
       <para>Point 1. and 2. in the previous section are the responsibility of 
       specific plugins. For an example, see the <literal>auth</literal> plugin.</para>
     </sect1>
 
     <sect1 id="dev.security.granting_access">
-      <title>Plugins granting or denying access to objects/features in &cartoweb;</title>
+      <title>Plugins Granting or Denying Access to Objects/Features in &cartoweb;</title>
 
       <para>
         This point is the most important for plugin developers wanting to use 

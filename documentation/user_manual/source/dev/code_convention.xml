@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+%cartoweb;
+]>
 
 <!-- $Id$ -->
 
 <chapter id="dev.code_convention">
- <title>Code convention</title>
+ <title>Code Convention</title>
 
  <sect1 id="dev.code_convention.intro"> 
   <title>Introduction</title>
   <para>
-   As an Open-Source software, Cartoweb needs to be written following some
+   As an Open-Source software, &cartoweb; needs to be written following some
    coding guidelines and/or rules. It is the required condition unless the
    developpers community isn't able to share new features and enhancements.
   </para>
@@ -20,16 +23,16 @@
   </para>
  </sect1>
  <sect1 id="dev.code_convention.general"> 
-  <title>General coding rules</title>
+  <title>General Coding Rules</title>
   <sect2 id="dev.code_convention.general.paths">
    <title>Paths</title>
    <para>
-    It is required to be dependent of absolute path as less as possible.
-    Cartoclient and Cartoserver may be relocated with very minimal even none reconfiguration.
+    It is highly recommended to be avoid absolute paths as much as possible.
+    &cartoclient; and &cartoserver; may be relocated with very minimal even none reconfiguration.
    </para>
   </sect2>
   <sect2 id="dev.code_convention.general.extract">
-   <title>Extract and run deployement</title>
+   <title>Extract and Run Deployement</title>
    <para>
     It should be possible to extract the archive, launch a script,
     edit few options, and be ready to use the application with
@@ -37,7 +40,7 @@
    </para>
   </sect2>
   <sect2 id ="dev.code_convertion.general.config">
-   <title>Developpement configuration</title>
+   <title>Development Configuration</title>
    <para>
     Developers should absolutely set the following variables to true in their config
     (on both client and server sides):
@@ -62,12 +65,12 @@
   </sect2>
  </sect1>
  <sect1 id="dev.code_convention.php">
-  <title>Php</title>
+  <title>PHP</title>
   <sect2 id="dev.code_convertion.php.style">
    <title>Coding Style</title>
    <para>
-    Developpers should use the Pear coding standards as the coding style reference
-    in Cartoweb, with some exceptions. Have a look at
+    Developers should use the PEAR coding standards as the coding style reference
+    in &cartoweb;, with some exceptions. Have a look at
     <ulink url="http://pear.sourceforge.net/en/standards.php" />.
    </para>
    <para>
@@ -76,8 +79,8 @@
    <sect3 id="dev.code_convention.php.style.indent"> 
     <title>Indent</title>
     <para>
-     Developers should respect some indentation conventions when writing php code
-     in cartoweb:
+     Developers should respect some indentation conventions when writing PHP code
+     in &cartoweb;:
      <itemizedlist>
       <listitem>
        <para>
@@ -121,7 +124,7 @@
    <sect3 id="dev.code_convention.php.style.functiondefs">
     <title>Function Definitions</title>
     <para>
-     Function declaractions follow the "one true brace" convention.
+     Function declarations follow the "one true brace" convention.
     </para>
     <para>
      Arguments with default values go at the end of the argument list.
@@ -131,7 +134,7 @@
    <sect3 id="dev.code_convention.php.style.nesting">
     <title>Nesting</title>
     <para>
-     Avoid nesting blocks too deep:
+     Avoid deep blocks nesting:
     </para>
     <para>This is correct:</para>
      <programlisting><![CDATA[for ($i = 0; $i < 10; i++) {
@@ -141,7 +144,7 @@
 }]]></programlisting>
    </sect3>
    <sect3 id="dev.code_convention.php.style.tags">
-    <title>Php Code Tags</title>
+    <title>PHP Code Tags</title>
     <para>
      Always use <programlisting><![CDATA[<?php ?>]]></programlisting> to delimit PHP code, not the <programlisting><![CDATA[<? ?>]]></programlisting> shorthand.
     </para>
@@ -178,18 +181,18 @@
   <sect2 id="dev.code_convention.php.comments">
    <title>Comments</title>
    <sect3 id="dev.code_convention.php.comments.doc">
-    <title>Php doc comments:</title>
+    <title>Php Doc Comments</title>
     <para>
      To improve php code and object structure readability, automatic code
-     documentation is implemented in Cartoweb. It is based on specific comments
+     documentation is implemented in &cartoweb;. It is based on specific comments
      describing classes, methods, interfaces and objects.
      See <xref linkend="dev.code_documentation" /> for more information.
     </para>
    </sect3>
    <sect3 id="dev.code_convention.php.comments.inline">
-    <title>Inline comments:</title>
+    <title>Inline Comments</title>
     <para>
-     As often as necessary, the developpers should add code comments to explain verbosly the
+     As often as necessary, the developers should add code comments to explain verbosly the
      purposes of commands.
     </para>
    </sect3>
@@ -199,7 +202,7 @@
  <sect1 id="dev.code_convention.xhtml">
   <title>HTML Coding Standards</title>
   <para>
-   In cartoweb, mainly for the templates, HTML coding should respect 
+   In &cartoweb;, mainly for the templates, HTML coding should respect 
    some rules.
   </para>
   <para>
@@ -224,16 +227,11 @@
    </itemizedlist>
   </para>
   <para>
-   XHTML was chosen vs pure HTML for following reasons:
+   XHTML (standing for eXtensible Hypertext Markup Language) was chosen vs simple HTML for following reasons:
    <itemizedlist> 
     <listitem>
      <para>
-      XHTML stands for EXtensible HyperText Markup Language
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      XHTMLis aimed to replace HTML
+      XHTML is aimed to replace HTML
      </para>
     </listitem>
     <listitem>
@@ -249,20 +247,19 @@
    </itemizedlist>
   </para>
   <para>
-   If people want extra information on XHTML, reference and 
-   tutorial are available here : http://www.w3schools.com/xhtml/ 
+   For more information on XHTML, reference and 
+   tutorial are available here : <ulink url="http://www.w3schools.com/xhtml/">http://www.w3schools.com/xhtml/</ulink> 
    Specially useful pages are:
    <itemizedlist>
     <listitem>
      <para>
       Differences between HTML and XHTML:
-      http://www.w3schools.com/xhtml/xhtml_html.asp
+      <ulink url="http://www.w3schools.com/xhtml/xhtml_html.asp">http://www.w3schools.com/xhtml/xhtml_html.asp</ulink>
      </para>
     </listitem>
     <listitem>
      <para>
-      XHTML
-      syntax: http://www.w3schools.com/xhtml/xhtml_syntax.asp
+      XHTML syntax: <ulink url="http://www.w3schools.com/xhtml/xhtml_syntax.asp">http://www.w3schools.com/xhtml/xhtml_syntax.asp</ulink>
      </para>
     </listitem>
    </itemizedlist>
@@ -291,7 +288,7 @@
   </sect2>
   <sect2>
    <title>Lower Case</title>
-   <subtitle>Tag Names and Attribute Names Must Be In Lower Case</subtitle>
+   <subtitle>Tag Names and Attribute Names Must Be in Lower Case</subtitle>
    <para>
     This is because XHTML documents are XML applications.
     XML is case-sensitive. Tags like <![CDATA[<br>]]> and <![CDATA[<BR>]]>
@@ -362,7 +359,7 @@ Here's an image <img src="happy.gif" alt="Happy face" />
      IMPORTANT Compatibility Note:
     </para>
     <para>
-     To make your XHTML compatible with today's browsers,
+     To make your XHTML compatible with older browsers,
      you should add an extra space before the "/" symbol like this:
      <![CDATA[<br />]]>, and this: <![CDATA[<hr />]]>. 
     </para>
@@ -434,7 +431,7 @@ Here's an image <img src="happy.gif" alt="Happy face" />
   </sect2>
   <sect2>
    <title>Image "alt"</title>
-   <subtitle>Tip: image "alt" attribute</subtitle>
+   <subtitle>Tip: Image "alt" Attribute</subtitle>
    <para>
     "alt" attribute is mandatory for <![CDATA[<img />]]> tag in XHTML. But it can -
     and sometimes should - have a void value. "alt" is used to specify

@@ -13,7 +13,7 @@
       according to who is currently using the application. </para>
     <para> The following concepts are used in this chapter.</para>
     <variablelist>
-      <title>Security mechanisms concepts</title>
+      <title>Security Mechanisms Concepts</title>
       <varlistentry>
         <term>User</term>
         <listitem>
@@ -67,7 +67,7 @@
       plugin. It is basically the management of usernames, passwords and roles. 
       </para>
     <sect2 id="user.security.auth.users_roles">
-      <title>auth.ini (client-side)</title>
+      <title>auth.ini (Client-side)</title>
       <para> The <filename>auth.ini</filename> configuration is located in the 
         client. This file contains the list of usernames, their password and 
         the roles they belong to: </para>
@@ -101,14 +101,14 @@
       </itemizedlist>
     </sect2>
     <sect2 id="user.security.auth.special_roles">
-      <title>Special role names</title>
+      <title>Special Role Names</title>
       <para>The auth plugin configuration described in the previous section 
         references the notion of users and roles. Basically a role can be any 
         string, the application will only use them as a way to check if a 
         feature is allowed or not. However, a set of role name have a special 
         meaning. They are described below.</para>
       <variablelist>
-        <title>Special roles</title>
+        <title>Special Roles</title>
         <varlistentry>
           <term>all<indexterm><primary>all</primary></indexterm></term>
           <listitem>
@@ -137,7 +137,7 @@
       </variablelist>
 
       <example>
-        <title>Special role name usage</title>
+        <title>Special Role Name Usage</title>
         <programlisting><![CDATA[general.allowedRoles = loggedIn]]></programlisting>
       </example>   
     </sect2>
@@ -168,7 +168,7 @@
       permissions which can be used, or make references the the corresponding 
       chapters. </para>
     <sect2 id="user.security.plugin_permissions.layers">
-      <title>Layers related permissions</title>
+      <title>Layers Related Permissions</title>
       <para>It is possible to restrict which layer can be viewed by a set of 
         users. For instance, only logged in admin users can be allowed to view 
         security sensitive layers.</para>
@@ -231,7 +231,7 @@ layers.group_admin.metadata.security_view = admin]]></programlisting>
       </warning>
     </sect2>
     <sect2 id="user.security.plugin_permissions.pdf">
-      <title>Pdf printing permissions</title>
+      <title>PDF Printing Permissions</title>
       <para>The roles management in Pdf printing is explained in detail in 
         <xref linkend="user.pdf"/>. In particular, see <xref 
         linkend="user.pdf.tutorial.roles"/>. </para>
