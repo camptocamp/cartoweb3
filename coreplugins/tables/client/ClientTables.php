@@ -58,11 +58,35 @@ class ClientTables extends ClientPlugin
      * @param mixed Table or array of Table     
      */
     function addTableGroups($tables) {
+        $newTableGroups = array();
         if (!is_array($tables)) {
-            $this->tableGroups[] = $tables;
+            $newTableGroups[] = $tables;
         } else {
-            $this->tableGroups = $this->tableGroups + $tables;
+            $newTableGroups = $tables;
         }
+        $newTableGroups = $this->getTableRulesRegistry()
+                               ->applyRules($newTableGroups);    
+        $newTableGroups = $this->translate($newTableGroups);
+        $this->tableGroups = $this->tableGroups + $newTableGroups;
+    }
+    
+    /**
+     * Returns a table
+     * @param string
+     * @param string
+     * @return Table
+     */
+    function getTable($groupId, $tableId) {
+        foreach ($this->tableGroups as $tableGroup) {
+            if ($tableGroup->groupId == $groupId) {
+                foreach ($tableGroup->tables as $table) {
+                    if ($table->tableId == $tableId) {
+                        return $table;
+                    }
+                }
+            }
+        }
+        return null;
     }
     
     /**
@@ -92,28 +116,29 @@ class ClientTables extends ClientPlugin
     }
 
     /**
-     * Translates all tables strings
+     * Translates and decodes all tables strings
      * @param array
      * @return array array of translated table groups
      */
-    private function translate($tableGroups) {
+    function translate($tableGroups) {
         
-        foreach ($tableGroups as $key1 => $tableGroup) {
-            $tableGroups[$key1]->groupTitle =
-                I18n::gt($tableGroup->groupTitle);            
+        foreach ($tableGroups as $tableGroup) {
+            $tableGroup->groupTitle = I18n::gt($tableGroup->groupTitle);            
             if (empty($tableGroup->tables)) {
                 continue;
             }            
-            foreach ($tableGroup->tables as $key2 => $table) {
-                $tableGroup->tables[$key2]->tableTitle =
-                    I18n::gt($table->tableTitle);
-                if (empty($table->columnTitles)) {
+            foreach ($tableGroup->tables as $table) {
+                $table->tableTitle = I18n::gt($table->tableTitle);
+                foreach ($table->columnTitles as $key => $columnTitle) {
+                    $table->columnTitles[$key] = I18n::gt($columnTitle);                          
+                }
+                if ($table->numRows == 0) {
                     continue;
-                }            
-                foreach ($table->columnTitles as $key3 => $columnTitle) {
-                    $table->columnTitles[$key3] =
-                        I18n::gt($columnTitle);                          
                 }    
+                foreach ($table->rows as $row) {            
+                    $row->rowId = Encoder::decode($row->rowId);
+                    $row->cells = Encoder::decode($row->cells);
+                }
             }
         }
         return $tableGroups;
@@ -123,13 +148,9 @@ class ClientTables extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     function renderForm(Smarty $template) {
-    
-        $filteredTables = $this->getTableRulesRegistry()
-                               ->applyRules($this->tableGroups);    
-        $filteredTables = $this->translate($filteredTables);
-    
+        
         $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
-        $smarty->assign('tables', $filteredTables);
+        $smarty->assign('tables', $this->tableGroups);
         
         $this->assignExportCsv($smarty);
         

@@ -419,15 +419,6 @@ class ClientQuery extends ClientPlugin
             if (!is_null($querySelection)) {
                 $querySelection->selectedIds = $ids;
             }
-            if ($table->numRows > 0) {
-                $table->columnIds = Encoder::decode($table->columnIds);
-                $table->columnTitles = Encoder::decode($table->columnTitles);
-                                                                               
-                foreach ($table->rows as $row) {            
-                    $row->rowId = Encoder::decode($row->rowId);
-                    $row->cells = Encoder::decode($row->cells);
-                }
-            }
         }
         return $queryResult;
     }

@@ -19,6 +19,11 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @var string
      */
+    public $groupId;
+    
+    /**
+     * @var string
+     */
     public $tableId;
     
     /**
@@ -80,8 +85,9 @@ class ClientExportCsv extends ExportPlugin {
      * @see GuiProvider::handleHttpGetRequest()
      */
     function handleHttpGetRequest($request) {
-        
-        if (array_key_exists('exportcsv_tableid', $request)) {
+        if (array_key_exists('exportcsv_groupid', $request)
+            && array_key_exists('exportcsv_tableid', $request)) {
+            $this->groupId = $request['exportcsv_groupid'];
             $this->tableId = $request['exportcsv_tableid'];
             $this->fileName = $this->generateFileName();
         }
@@ -111,7 +117,7 @@ class ClientExportCsv extends ExportPlugin {
      * @param boolean true if UTF8 decoding is required
      * @return string
      */
-    private function exportLine($array, $sep, $tD, $utf8) {
+    private function exportLine($array, $sep, $tD) {
     
         $contents = '';
         $first = true;
@@ -121,11 +127,7 @@ class ClientExportCsv extends ExportPlugin {
             } else {
                 $contents .= $sep;
             }
-            if ($utf8) {
-                $contents .= $tD . $value . $tD;
-            } else {
-                $contents .= $tD . Encoder::decode($value) . $tD;
-            }    
+            $contents .= $tD . $value . $tD;
         }
         $contents .= "\n";
         return $contents;
@@ -138,62 +140,50 @@ class ClientExportCsv extends ExportPlugin {
      */
     function getExport() {
 
-        $mapResult = $this->getExportResult($this->getConfiguration());
+        $this->getExportResult($this->getConfiguration());
+
+        $tablesPlugin = $this->cartoclient->getPluginManager()->tables;
+        $table = $tablesPlugin->getTable($this->groupId, $this->tableId);        
 
         $contents = '';
         
-        if (isset($mapResult->queryResult)) {
-            if (!is_null($this->getConfig()->separator)) {
-                $sep = $this->getConfig()->separator;
-            } else {
-                $sep = ';';
-            }
+        if (!is_null($this->getConfig()->separator)) {
+            $sep = $this->getConfig()->separator;
+        } else {
+            $sep = ';';
+        }
             
-            if (!is_null($this->getConfig()->textDelimiter)) {            
-                $tD = $this->getConfig()->textDelimiter;
-                
-                // special characters
-                switch ($tD) {
-                case 'double-quote':
-                    $tD = '"';
-                    break;
-                }
-            } else {
+        if (!is_null($this->getConfig()->textDelimiter)) {            
+            $tD = $this->getConfig()->textDelimiter;
+            
+            // special characters
+            switch ($tD) {
+            case 'double-quote':
                 $tD = '"';
+                break;
             }
+        } else {
+            $tD = '"';
+        }
             
-            $utf8 = (!is_null($this->getConfig()->charsetUtf8) &&
-                     $this->getConfig()->charsetUtf8);
-            
-            foreach ($mapResult->queryResult->tableGroup->tables as $table) {
-                if ($table->tableId == $this->tableId
-                    && $table->numRows > 0) {
-                    
-                    $lineContent = $table->columnTitles;
-                    if (is_null($lineContent)) {
-                        $lineContent = array();
-                    }                    
-                    if (!$table->noRowId) {                        
-                        $lineContent = array_merge(array(I18n::gt('Id')),
-                                                   $lineContent);
-                    }
-                    $contents .=
-                        $this->exportLine($lineContent, $sep, $tD, $utf8);
+        $lineContent = $table->columnTitles;
+        if (is_null($lineContent)) {
+            $lineContent = array();
+        }            
+        if (!$table->noRowId) {                        
+            $lineContent = array_merge(array(I18n::gt('Id')), $lineContent);
+        }
+        $contents .= $this->exportLine($lineContent, $sep, $tD);
 
-                    foreach ($table->rows as $row) {
-                        $lineContent = $row->cells;
-                        if (is_null($lineContent)) {
-                            $lineContent = array();
-                        }                    
-                        if (!$table->noRowId) {
-                            $lineContent = array_merge(array($row->rowId),
-                                                       $lineContent);
-                        }
-                        $contents .=
-                            $this->exportLine($lineContent, $sep, $tD, $utf8);
-                    }
-                }
+        foreach ($table->rows as $row) {
+            $lineContent = $row->cells;
+            if (is_null($lineContent)) {
+                $lineContent = array();
+            }                    
+            if (!$table->noRowId) {
+                $lineContent = array_merge(array($row->rowId), $lineContent);
             }
+            $contents .= $this->exportLine($lineContent, $sep, $tD);
         }
 
         $output = new ExportOutput();

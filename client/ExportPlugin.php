@@ -395,14 +395,20 @@ abstract class ExportPlugin extends ClientPlugin
             }
 
             $this->cartoclient->callPluginsImplementing('Exportable', 
-                                                      'adjustExportMapRequest',
-                                                      $configuration,
-                                                      $mapRequest);
+                                                        'adjustExportMapRequest',
+                                                        $configuration,
+                                                        $mapRequest);
 
             // Calls getMap
-            return $this->cartoclient->getCartoserverService()->
+            $mapResult = $this->cartoclient->getCartoserverService()->
                                        getMap($mapRequest);
 
+            // Initializes plugins  
+            $this->cartoclient->callPluginsImplementing('ServerCaller', 
+                                                        'initializeResult',
+                                                        $mapResult);                                                 
+            return $mapResult;
+            
         } catch (Exception $exception) {
             $this->cartoclient->getFormRenderer()->showFailure($exception);
             return NULL;

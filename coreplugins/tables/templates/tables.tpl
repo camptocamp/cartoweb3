@@ -21,7 +21,7 @@
     {/foreach}
 </table>
 {if $exportcsv_active|default:''}
-<div class="exportlink"><a href="{$exportcsv_url}exportcsv_tableid={$table->tableId}">{t}Download CSV{/t}</a></div>
+<div class="exportlink"><a href="{$exportcsv_url}project={$project}&exportcsv_groupid={$group->groupId}&exportcsv_tableid={$table->tableId}">{t}Download CSV{/t}</a></div>
 {/if}
 </p>
 {/if}
