@@ -238,8 +238,8 @@ abstract class ClientPlugin extends PluginBase {
             
             // update tools
             foreach ($tools as $tool) {
+                $tool = $this->updateTool($tool);
                 if ($tool->weight >= 0) {
-                    $tool = $this->updateTool($tool);
                     $this->tools[] = $tool;
                 }
             }
