@@ -26,18 +26,18 @@
    <itemizedlist>
     <listitem>
      <para>
-      <filename>client</filename>: Client specific code
+      <filename>client</filename>: Client specific code files
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>client_conf</filename>: Client configuration, 
+      <filename>client_conf</filename>: Client configuration files, 
       see: <xref linkend="user.config"/>.
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>common</filename>: Client and server code. 
+      <filename>common</filename>: Common client and server code files 
      </para>
     </listitem>
     <listitem>
@@ -46,13 +46,13 @@
       <itemizedlist>
        <listitem>
         <para>
-         <filename>images</filename>: Image generation.
+         <filename>images</filename>: Image generation
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>layers</filename>: Layers management, see: 
-         <xref linkend="user.layers"/>.
+         <xref linkend="user.layers"/>
         </para>
        </listitem>
        <listitem>
@@ -70,7 +70,7 @@
        <listitem>
         <para>
          <filename>project</filename>: Projects, see <xref 
-         linkend="user.structure.project"/>.
+         linkend="user.structure.project"/>
         </para>
        </listitem>
        <listitem>
@@ -87,7 +87,7 @@
        </listitem>
        <listitem>
         <para>
-         <filename>tables</filename>: Table rules management.
+         <filename>tables</filename>: Table rules management
         </para>
        </listitem>
       </itemizedlist>
@@ -99,13 +99,13 @@
       <itemizedlist> 
        <listitem>
         <para>
-         <filename>apidoc</filename>: PhpDoc documentation.
+         <filename>apidoc</filename>: PhpDoc documentation
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>user_manual/source</filename>: DocBook XML source of 
-         the present documentation.
+         the present documentation
         </para>
        </listitem>
       </itemizedlist>
@@ -113,21 +113,21 @@
     </listitem>
     <listitem>
      <para>
-      <filename>htdocs</filename>: Web accessible directory.
+      <filename>htdocs</filename>: Web accessible directory
       <itemizedlist>
        <listitem>
         <para>
-         <filename>css</filename>: css files.
+         <filename>css</filename>: css files
         </para>
        </listitem>
        <listitem>
         <para>
-         <filename>gfx</filename>: icons files.
+         <filename>gfx</filename>: icons files
         </para>
        </listitem>
        <listitem>
         <para>
-         <filename>js</filename>: javascript files.
+         <filename>js</filename>: javascript files
         </para>
        </listitem>
       </itemizedlist>
@@ -141,47 +141,47 @@
     <listitem>
      <para>
       <filename>locale</filename>: locale files for internationalization 
-      purposes, see: <xref linkend="user.i18n"/>.
+      purposes, see: <xref linkend="user.i18n"/>
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>log</filename>: logs, mainly used for development
-      and debug purposes. 
+      and debug purposes.
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>plugins</filename>: Standard, but not mandatory plugins, see: <xref 
-      linkend="user.structure.plugin"/>.
+      linkend="user.structure.plugin"/>
       <itemizedlist>
        <listitem>
         <para>
          <filename>auth</filename>: authentification plugin, see: <xref
-         linkend="user.security"/>.
+         linkend="user.security"/>
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>exportCsv</filename>: Csv export plugin, see: <xref
-         linkend="user.output.csv"/>.
+         linkend="user.output.csv"/>
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>exportHtml</filename>: HTML export plugin, see: <xref
-         linkend="user.output.html"/>.
+         linkend="user.output.html"/>
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>exportPdf</filename>: PDF export plugin, see:
-         <xref linkend="user.pdf"/>.
+         <xref linkend="user.pdf"/>
         </para>
        </listitem>
        <listitem>
         <para>
-         <filename>hello</filename>: test plugin.
+         <filename>hello</filename>: test plugin
         </para>
        </listitem>
        <listitem>
@@ -202,50 +202,50 @@
 <listitem> 
 <para>
   <filename>po</filename>: PO templates files, used for gettext translation     system, 
-    see: <xref linkend="user.i18n.translations.template"/>. </para></listitem>
+    see: <xref linkend="user.i18n.translations.template"/></para></listitem>
     <listitem>
      <para>
       <filename>project</filename>: CartoWeb user projects dir, see: <xref 
-      linkend="user.structure.project"/>.
+      linkend="user.structure.project"/>
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>script</filename>: maintenance and administration scripts.
+      <filename>script</filename>: maintenance and administration scripts
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>server</filename>: CartoWeb server code files.
+      <filename>server</filename>: CartoWeb server code files
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>server_conf</filename>: Cartoweb server-side configuration 
-      files, see <xref linkend="user.config.server"/>.
+      files, see <xref linkend="user.config.server"/>
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>templates</filename>: common CartoWeb Smarty templates files,
-      see: <xref linkend="user.template"/>.
+      see: <xref linkend="user.template"/>
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>templates_c</filename>: smarty templates cached files.
+      <filename>templates_c</filename>: smarty templates cached files
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>tests</filename>: CartoWeb unit tests suite, 
-      mainly used for development and debug purposes.
+      mainly used for development and debug purposes
      </para>
     </listitem>
     <listitem>
      <para>
       <filename>www-data</filename>: writable and web accessible directories
-      for generated files.
+      for generated files
       <itemizedlist>
        <listitem>
         <para>
@@ -260,35 +260,35 @@
        <listitem>
         <para>
          <filename>mapinfo_cache</filename>: Client-side server configuration
-         cache, see <xref linkend="user.config.cache"/>.
+         cache, see <xref linkend="user.config.cache"/>
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>mapresult_cache</filename>: Client requests and 
-         associated server results cache.
+         associated server results cache
         </para>
        </listitem>
        <listitem>
         <para>
-         <filename>pdf</filename>: Pdf generated cache files.
+         <filename>pdf</filename>: Pdf generated cache files
         </para>
        </listitem>
        <listitem>
         <para>
-         <filename>saved_post</filename>: ???.
+         <filename>saved_post</filename>: ???
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>soapxml_cache</filename>: Client SOAP XML requests
-         and associated server results cache.
+         and associated server results cache
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>wsdl_cache</filename>:  Client-side WSDL cache, 
-         see <xref linkend="user.config.cache"/>.
+         see <xref linkend="user.config.cache"/>
         </para>
        </listitem>
       </itemizedlist>
@@ -325,27 +325,27 @@
    <itemizedlist>
     <listitem>
      <para>
-      <filename>client</filename>: Client-side plugin code.
+      <filename>client</filename>: Client-side plugin code
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>common</filename>: Client and server code. 
+      <filename>common</filename>: Client and server code 
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>htdocs</filename>: Web accessible directory.
+      <filename>htdocs</filename>: Web accessible directory
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>server</filename>: Server-side plugin code.
+      <filename>server</filename>: Server-side plugin code
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>templates</filename>: Smarty templates.
+      <filename>templates</filename>: Smarty templates
      </para>
     </listitem>
    </itemizedlist>
