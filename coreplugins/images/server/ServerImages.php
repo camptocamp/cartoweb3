@@ -177,7 +177,8 @@ class ServerImages extends ServerPlugin
                            'run the cleaning script. ' .
                     'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
                     $imgCount, self::MAX_IMAGES_WARNING);
-            $serverContext->addMessage($msg, Message::CHANNEL_DEVELOPER);
+            $serverContext->addMessage($this, 'tooManyImages', $msg, 
+                                                    Message::CHANNEL_DEVELOPER);
         }
     }
 

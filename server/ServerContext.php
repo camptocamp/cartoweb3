@@ -158,13 +158,17 @@ class ServerContext {
     }
     
     /**
-     * Adds a message in the messages-to-cartoclient list.
-     * @param string message
-     * @param int message type {@see Message}
+     * Adds a message to be returned to the client
+     * @param PluginBase the plugin attached to this message
+     * @param string message identifier, for machine message parsing
+     * @param string the text of the message
+     * @param int the channel identifier of the message
      */
-    public function addMessage($message, $channel = Message::CHANNEL_USER) {
+    public function addMessage(PluginBase $plugin, $messageId, $message, 
+                                            $channel = Message::CHANNEL_USER) {
 
-        $this->messages[] = new Message($message, $channel);
+        $this->messages[] = new Message($message, $channel, $plugin->getName(), 
+                                                                    $messageId);
     }
     
     /**
