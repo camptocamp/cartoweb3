@@ -113,12 +113,13 @@ class StructHandler {
         if (empty($varInfo))
             $varInfo = array();
 
-        foreach ($struct as $prop => $value) {
-            if (in_array($prop, array_keys($varInfo)))
-                $value = self::getValue($varInfo[$prop], $value, $context);
+        if (is_object($struct))
+            foreach ($struct as $prop => $value) {
+                if (in_array($prop, array_keys($varInfo)))
+                    $value = self::getValue($varInfo[$prop], $value, $context);
             
-            $object->$prop = $value;
-        }
+                $object->$prop = $value;
+            }
 
         if (in_array('endSerialize', get_class_methods($object)))
             $object = $object->endSerialize();
