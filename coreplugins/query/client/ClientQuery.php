@@ -78,9 +78,12 @@ class ClientQuery extends ClientPlugin
                                             40));
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->queryRequest = $this->cartoclient->getHttpRequestHandler()
                     ->handleTools($this);
+    }
+
+    function handleHttpGetRequest($request) {
     }
 
     function buildMapRequest($mapRequest) {

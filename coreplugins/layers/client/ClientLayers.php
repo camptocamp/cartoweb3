@@ -171,7 +171,7 @@ class ClientLayers extends ClientPlugin
         return $children;
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
 
@@ -218,6 +218,9 @@ class ClientLayers extends ClientPlugin
         }
     }
 
+    function handleHttpGetRequest($request) {
+    }
+    
     /**
      * Returns a list of layers that match passed condition.
      */

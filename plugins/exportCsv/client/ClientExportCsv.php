@@ -66,14 +66,17 @@ class ClientExportCsv extends ExportPlugin {
      * Handles HTTP request received by script export.php
      * @param array HTTP request
      */
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
+    }
+
+    function handleHttpGetRequest($request) {
         
         if (array_key_exists('exportcsv_layerid', $request)) {
             $this->layerId = $request['exportcsv_layerid'];
             $this->fileName = $this->generateFileName();
         }
     }
-
+    
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');

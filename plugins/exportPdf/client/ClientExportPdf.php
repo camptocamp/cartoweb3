@@ -405,7 +405,7 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Sets PDF settings objects based on $_REQUEST and configuration data.
      */
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->log->debug('processing exportPdf request');
 
         $ini_array = $this->getConfig()->getIniArray();
@@ -516,6 +516,9 @@ class ClientExportPdf extends ExportPlugin {
         $this->log->debug($this->format);
         $this->log->debug('blocks settings:');
         $this->log->debug($this->blocks);
+    }
+
+    function handleHttpGetRequest($request) {
     }
 
     function renderForm($template) {

@@ -84,7 +84,7 @@ class ClientSelection extends ClientPlugin
         /* nothing to do */
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
 
         if (!empty($request['selection_layerid'])) {
             if ($this->selectionState->layerId != $request['selection_layerid']) { 
@@ -110,6 +110,9 @@ class ClientSelection extends ClientPlugin
 
         $this->selectionState->retrieveAttributes = 
                             !empty($request['selection_retrieve_attributes']);                    
+    }
+
+    function handleHttpGetRequest($request) {
     }
 
     function buildMapRequest($mapRequest) {

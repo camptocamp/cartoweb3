@@ -126,7 +126,7 @@ class ClientLocation extends ClientPlugin
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
     }
 
-    private function handleRecenter() {
+    private function handleRecenter($useDoit = true) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);       
@@ -137,11 +137,18 @@ class ClientLocation extends ClientPlugin
             $point->setXY($_REQUEST['recenter_x'], $_REQUEST['recenter_y']);
         }
         $scale = 0;
-        if (array_key_exists('recenter_scale', $_REQUEST) &&
-            array_key_exists('recenter_doit', $_REQUEST) &&
-            $_REQUEST['recenter_scale'] != '' &&
-            $_REQUEST['recenter_doit'] == '1') {
-            $scale = $_REQUEST['recenter_scale']; 
+        if ($useDoit) {
+            if (array_key_exists('recenter_scale', $_REQUEST) &&
+                array_key_exists('recenter_doit', $_REQUEST) &&
+                $_REQUEST['recenter_scale'] != '' &&
+                $_REQUEST['recenter_doit'] == '1') {
+                $scale = $_REQUEST['recenter_scale'];
+            } 
+        } else {
+            if (array_key_exists('recenter_scale', $_REQUEST)&&
+                $_REQUEST['recenter_scale'] != '') {
+                $scale = $_REQUEST['recenter_scale'];
+            } 
         }
         
         if ($point == $center && $scale == 0) {
@@ -280,7 +287,7 @@ class ClientLocation extends ClientPlugin
         return $this->locationState->bbox;
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
     
         $this->locationRequest = $this->handlePanButtons();
         if (!is_null($this->locationRequest))
@@ -306,6 +313,13 @@ class ClientLocation extends ClientPlugin
         $cartoclient = $this->cartoclient;
         $this->locationRequest = $cartoclient->getHttpRequestHandler()
                                     ->handleTools($this);                                   
+    }
+
+    function handleHttpGetRequest($request) {
+
+        $this->locationRequest = $this->handleRecenter(false);
+        if (!is_null($this->locationRequest))
+            return;
     }
     
     private function getZoomInFactor(Rectangle $rectangle) {

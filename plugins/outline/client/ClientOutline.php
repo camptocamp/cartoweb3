@@ -115,7 +115,7 @@ class ClientOutline extends ClientPlugin
                     );
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
 
         if (!empty($request['outline_clear'])) {
             $this->outlineState->shapes = array();
@@ -135,6 +135,9 @@ class ClientOutline extends ClientPlugin
         } 
     }
 
+    function handleHttpGetRequest($request) {
+    }
+    
     /**
      * @see ServerCaller::buildMapRequest()
      */

@@ -223,7 +223,13 @@ interface GuiProvider {
      * Handles data coming from a post request 
      * @param array HTTP request
      */
-    function handleHttpRequest($request);
+    function handleHttpPostRequest($request);
+
+    /**
+     * Handles data coming from a get request 
+     * @param array HTTP request
+     */
+    function handleHttpGetRequest($request);
 
     /**
      * Manages form output rendering

@@ -39,8 +39,10 @@ class ClientExportHtml extends ExportPlugin {
         return '../';
     }
 
-    function handleHttpRequest($request) {
-        
+    function handleHttpPostRequest($request) {
+    }
+
+    function handleHttpGetRequest($request) {
     }
 
     function renderForm($template) {

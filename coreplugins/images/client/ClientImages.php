@@ -84,7 +84,7 @@ class ClientImages extends ClientPlugin
             new Dimension($mapWidth, $mapHeight);
     }
 
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->imagesState);
         
@@ -98,6 +98,9 @@ class ClientImages extends ClientPlugin
         }
     }
 
+    function handleHttpGetRequest($request) {
+    }
+    
     /**
      * @return Dimension
      */
