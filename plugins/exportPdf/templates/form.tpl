@@ -21,6 +21,8 @@ for="lsp">{t}Landscape{/t}</label></div>
 <label for="pdfScalebar">{t}Scalebar{/t}</label></div>{/if}
 {if $pdfOverview}<div><input type="checkbox" name="pdfOverview" id="pdfOverview" />
 <label for="pdfOverview">{t}Overview{/t}</label></div>{/if}
+{if $pdfQueryResult}<div><input type="checkbox" name="pdfQueryResult" id="pdfQueryResult" />
+<label for="pdfQueryResult">{t}QueryResult{/t}</label></div>{/if}
 
 <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" />
 </form>
