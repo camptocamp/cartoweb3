@@ -13,8 +13,16 @@
  <sect1 id="intro.presentation.about">
   <title>About Cartoweb</title>
   <para>
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   CartoWeb3 is a comprehensive and ready-to-use Web-GIS (Geographical Information 
+   System), including many powerful features that are presented in the next chapter.
+   As a modular and extensible solution, it is also a convenient framework for 
+   building advanced and customized applications.
+  </para>
+  <para>
+  Developed by <ulink url="http://www.camptocamp.com">Camptocamp SA</ulink>, it is 
+  based on the <ulink url="http://mapserver.gis.umn.edu">UMN MapServer</ulink> engine 
+  and is released under the <ulink url="http://www.gnu.org/copyleft/gpl.html">GNU GPL 
+  license</ulink>.
   </para>
  </sect1>
 
@@ -32,27 +40,47 @@
    <itemizedlist>
     <listitem>
      <para>
-     Alexandre Fellay 
+     Sylvain Pasche
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Yves Bolognini
      </para>
     </listitem>
     <listitem>
      <para>
      Alexandre Saunier
      </para>
+    </listitem>  
+    <listitem>
+     <para>
+     Pierre Giraud
+     </para>
+    </listitem>  
+    <listitem>
+     <para>
+     Daniel Faivre
+     </para>
+    </listitem>        
+    <listitem>
+     <para>
+     Alexandre Fellay 
+     </para>
     </listitem>
     <listitem>
      <para>
-     Arnaud Saint Léger
+     Olivier Courtin
+     </para>
+    </listitem>    
+    <listitem>
+     <para>
+     Arnaud Saint LÃ©ger
      </para>
     </listitem>
     <listitem>
      <para>
      Claude Philipona
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-     Daniel Faivre
      </para>
     </listitem>
     <listitem>
@@ -63,26 +91,6 @@
     <listitem>
      <para>
      Marc Fournier
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-     Olivier Courtin
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-     Pierre Giraud
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-     Sylvain Pasche
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-     Yves Bolognini
      </para>
     </listitem>
    </itemizedlist>
