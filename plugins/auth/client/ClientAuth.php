@@ -205,14 +205,14 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     }
 
     /**
-     * @see GuiProvider::handleHttpPostRequest()
+     * Handles Get and Post requests
      */
-    function handleHttpPostRequest($request) {
-        if (!empty($request['logout'])) {
+    private function handleHttpCommonRequest($request){
+    	if (!empty($request['logout'])) {
             $this->auth->logout();
-            $this->interruptFlow();                    
+            $this->interruptFlow();
         }
-        
+
         if (!empty($request['login'])) {
             $this->showLogin();
         }
@@ -221,16 +221,16 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
+    function handleHttpPostRequest($request) {
+		$this->handleHttpCommonRequest($request);
+    }
+
+    /**
+     * @see GuiProvider::handleHttpGetRequest()
+     */
     function handleHttpGetRequest($request) {
-        if (!empty($request['logout'])) {
-            $this->auth->logout();
-            $this->interruptFlow();                    
-        }
-        
-        if (!empty($request['login'])) {
-            $this->showLogin();
-        }
-    }    
+		$this->handleHttpCommonRequest($request);
+    }  
 
     /**
      * Draws the login/logout buttons. Their availibility depends on whether the
