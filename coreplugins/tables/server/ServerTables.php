@@ -29,7 +29,10 @@ class ServerTables extends ServerPlugin {
      */ 
     private $tableRulesRegistry = null;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -38,7 +41,7 @@ class ServerTables extends ServerPlugin {
      * Returns current table rules registry
      * @return TableRulesRegistry
      */
-    function getTableRulesRegistry() {
+    public function getTableRulesRegistry() {
         if (is_null($this->tableRulesRegistry)) {
             $this->tableRulesRegistry =  new TableRulesRegistry();
         }
@@ -50,7 +53,7 @@ class ServerTables extends ServerPlugin {
      * @param array
      * @return array array of {@link TableGroup}
      */
-    function applyRules($tables) {
+    public function applyRules($tables) {
         return $this->getTableRulesRegistry()->applyRules($tables);
     }    
 }

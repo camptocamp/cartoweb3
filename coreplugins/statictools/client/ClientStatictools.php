@@ -11,23 +11,41 @@
  */
 class ClientStatictools extends ClientPlugin
                         implements ToolProvider {
+    /**                 
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * Tools constants
+     */
     const TOOL_DISTANCE = 'distance';
     const TOOL_SURFACE = 'surface';
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
-    function handleMainmapTool(ToolDescription $tool,
+    /**
+     * @see ToolProvider::handleMainmapTool()
+     */
+    public function handleMainmapTool(ToolDescription $tool,
                                Shape $mainmapShape) {}
 
-    function handleKeymapTool(ToolDescription $tool,
+    /**
+     * @see ToolProvider::handleKeymapTool()
+     */
+    public function handleKeymapTool(ToolDescription $tool,
                               Shape $keymapShape) {}
 
-    function getTools() {
+    /**
+     * @see ToolProvider::getTools()
+     */
+    public function getTools() {
         return array(
             new ToolDescription(self::TOOL_DISTANCE, true,
                      new JsToolAttributes(JsToolAttributes::SHAPE_LINE,

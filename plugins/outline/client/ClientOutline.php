@@ -52,7 +52,10 @@ class ClientOutline extends ClientPlugin
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -60,14 +63,14 @@ class ClientOutline extends ClientPlugin
     /**
      * @see Sessionable::loadSession()
      */
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->outlineState = $sessionObject;
     }
 
     /**
      * @see Sessionable::createSession()
      */
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
@@ -78,14 +81,14 @@ class ClientOutline extends ClientPlugin
     /**
      * @see Sessionable::saveSession()
      */
-    function saveSession() {
+    public function saveSession() {
         return $this->outlineState;
     }
 
     /**
      * @see ToolProvider::handleMainmapTool()
      */
-    function handleMainmapTool(ToolDescription $tool, 
+    public function handleMainmapTool(ToolDescription $tool, 
                                Shape $mainmapShape) {
         
         return $mainmapShape;
@@ -94,7 +97,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see ToolProvider::handleKeymapTool()
      */
-    function handleKeymapTool(ToolDescription $tool, 
+    public function handleKeymapTool(ToolDescription $tool, 
                             Shape $keymapShape) {
         /* nothing to do */
     }
@@ -103,7 +106,7 @@ class ClientOutline extends ClientPlugin
      * Returns outline tools : Point, Rectangle and Polygon
      * @return array array of ToolDescription
      */
-    function getTools() {
+    public function getTools() {
         return array(new ToolDescription(self::TOOL_POINT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
                                          70),
@@ -119,7 +122,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
 
         if (!empty($request['outline_clear'])) {
             $this->outlineState->shapes = array();
@@ -142,13 +145,13 @@ class ClientOutline extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
     }
     
     /**
      * @see ServerCaller::buildMapRequest()
      */
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
     
         $outlineRequest = new OutlineRequest();
         $outlineRequest->shapes   = $this->outlineState->shapes;
@@ -160,7 +163,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */ 
-    function initializeResult($outlineResult) {
+    public function initializeResult($outlineResult) {
         if (is_null($outlineResult)) {
             return;
         }
@@ -170,7 +173,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see ServerCaller::handleResult()
      */ 
-    function handleResult($outlineResult) {}
+    public function handleResult($outlineResult) {}
     
     /**
      * Draws Outline form and returns Smarty generated HTML
@@ -187,7 +190,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
 
         $outline_active = $this->getConfig()->outlineActive;
        
@@ -198,7 +201,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see Exportable::adjustExportMapRequest
      */
-    function adjustExportMapRequest(ExportConfiguration $configuration,
+    public function adjustExportMapRequest(ExportConfiguration $configuration,
                                     MapRequest $mapRequest) {
 
         $printOutline = $configuration->getPrintOutline();

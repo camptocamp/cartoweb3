@@ -56,7 +56,16 @@ class LayersState {
  */
 class LayerNode {
  
+    /**
+     * A reference to the layer object defined in MapInfo.
+     * @var LayerBase 
+     */
     public $layer;
+
+    /**
+     * The list of children of this layer. Empty if no children.
+     * @var array Array of LayerBase objects
+     */
     public $children;
     
     /**
@@ -263,7 +272,7 @@ class ClientLayers extends ClientPlugin
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -271,7 +280,7 @@ class ClientLayers extends ClientPlugin
     /**
      * @see PluginBase::initialize()
      */
-    function initialize() {
+    public function initialize() {
         $mapInfo = $this->getCartoclient()->getMapInfo();
         $this->notAvailableIcon = $mapInfo->notAvailableIcon;
         $this->notAvailablePlusIcon = $mapInfo->notAvailablePlusIcon;
@@ -282,7 +291,7 @@ class ClientLayers extends ClientPlugin
      * Retrieves session-saved layers data.
      * @see Sessionable::loadSession()
      */
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
         $this->layersState = $sessionObject;
@@ -308,7 +317,8 @@ class ClientLayers extends ClientPlugin
      * Initializes layers session data and initially populates some properties.
      * @see Sessionable::CreateSession()
      */
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, 
+                                            InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
         $this->layersState = new LayersState();
@@ -351,6 +361,8 @@ class ClientLayers extends ClientPlugin
     /**
      * Callback used to remove nodes which are not visible by the current user.
      * If it returns true, the node will be ignored in the tree.
+     * @param LayerNode The node on which to check access
+     * @return boolean True of this node is not accepted (meaning access denied)
      */
     public function nodesFilterSecurity(LayerNode $node) {
         
@@ -366,6 +378,7 @@ class ClientLayers extends ClientPlugin
     /**
      * Construct a new tree of layerNodes by getting the layers from the
      * mapInfo.
+     * @return LayerNode The root node of the hierarchy of layerNodes.
      */
     private function getLayerNode() {
         
@@ -385,6 +398,7 @@ class ClientLayers extends ClientPlugin
     /**
      * Filters the layers which are not allowed to be viewed by the current
      * user. It returns a flat map of (layerId => Layer object).
+     * @return array An array of LayerBase object.
      */
     private function getLayersSecurityFiltered() {
     
@@ -478,7 +492,7 @@ class ClientLayers extends ClientPlugin
      * Handles layers-related POST'ed data and updates layers statuses.
      * @see GuiProvider::handleHttpPostRequest() 
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
 
@@ -530,7 +544,7 @@ class ClientLayers extends ClientPlugin
      * Handles data from GET request. Not used/implemented yet.
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {}
     
     /**
      * Returns a list of layers that match passed condition.
@@ -686,7 +700,7 @@ class ClientLayers extends ClientPlugin
      * @param array list of layers names
      * @return array list of children, grand-children... of given layers
      */
-    function fetchChildrenFromLayerGroup($layersList) {
+    private function fetchChildrenFromLayerGroup($layersList) {
         if (!$layersList || !is_array($layersList))
             return array();
 
@@ -755,7 +769,7 @@ class ClientLayers extends ClientPlugin
      * Sets selected layers list in MapRequest.
      * @see ServerCaller::buildMapRequest()
      */
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
         $layersMask = $this->getLayersMask();
         
         $this->layerIds = $this->getSelectedLayers(true);
@@ -770,12 +784,12 @@ class ClientLayers extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */
-    function initializeResult($mapResult) {}
+    public function initializeResult($mapResult) {}
 
     /**
      * @see ServerCaller::handleResult()
      */
-    function handleResult($mapResult) {}
+    public function handleResult($mapResult) {}
 
    /**
      * Recursively retrieves the list of Mapserver Classes bound to the layer
@@ -1070,7 +1084,7 @@ class ClientLayers extends ClientPlugin
      * Assigns the layers interface output in the general CartoClient template.
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
         $template->assign('layers', $this->drawLayersList());
     }
 
@@ -1182,7 +1196,7 @@ class ClientLayers extends ClientPlugin
      * Saves layers data in session.
      * @see Sessionable::saveSession()
      */
-    function saveSession() {
+    public function saveSession() {
         $this->log->debug('saving session:');
         $this->log->debug($this->layersState);
 
@@ -1192,7 +1206,7 @@ class ClientLayers extends ClientPlugin
     /**
      * @see Exportable::adjustExportMapRequest()
      */
-    function adjustExportMapRequest(ExportConfiguration $configuration,
+    public function adjustExportMapRequest(ExportConfiguration $configuration,
                                     MapRequest $mapRequest) {
         
         $resolution = $configuration->getResolution();

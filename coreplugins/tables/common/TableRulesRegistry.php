@@ -11,6 +11,9 @@
  */
 class ColumnPosition {
 
+    /**
+     * Type constants
+     */
     const TYPE_ABSOLUTE = 0;   
     const TYPE_RELATIVE = 1; 
     
@@ -33,11 +36,12 @@ class ColumnPosition {
     public $columnId;    
     
     /**
+     * Constructor
      * @param int
      * @param int
      * @param string
      */
-    function __construct($type, $index, $columnId = '') {
+    public function __construct($type, $index, $columnId = '') {
         $this->type = $type;
         $this->index = $index;
         $this->columnId = $columnId;
@@ -57,7 +61,10 @@ abstract class BaseRule {
      */
     protected $log;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(get_class($this));
     }
 }
@@ -139,7 +146,7 @@ abstract class GroupRule extends BaseRule {
      * @param string
      * @param array
      */
-    function checkRule($groupId, &$weights) {
+    private function checkRule($groupId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId . ")");
@@ -157,14 +164,14 @@ abstract class GroupRule extends BaseRule {
      * @param array
      * @see GroupRule::addWeight()
      */
-    function applyRule($group, $params) {}
+    public function applyRule($group, $params) {}
     
     /**
      * Applies a set of rules on a group
      * @param array array of GroupRule
      * @param TableGroup
      */
-    static function applyRules($rules, $group) {
+    static public function applyRules($rules, $group) {
         $weights = array();
         foreach ($rules as $rule) {
             $rule->checkRule($group->groupId, $weights);
@@ -220,7 +227,7 @@ abstract class TableRule extends GroupRule {
      * @param string
      * @param array
      */
-    function checkRule($groupId, $tableId, &$weights) {
+    private function checkRule($groupId, $tableId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId 
@@ -239,7 +246,7 @@ abstract class TableRule extends GroupRule {
      * @param array
      * @see GroupRule::addWeight()
      */
-    function applyRule($table, $params) {}
+    public function applyRule($table, $params) {}
     
     /**
      * Applies a set of rules on a table
@@ -247,7 +254,7 @@ abstract class TableRule extends GroupRule {
      * @param string
      * @param Table
      */
-    static function applyRules($rules, $groupId, $table) {
+    static public function applyRules($rules, $groupId, $table) {
         $weights = array();
         foreach ($rules as $rule) {
             $rule->checkRule($groupId, $table->tableId, $weights);
@@ -320,7 +327,7 @@ abstract class ColumnRule extends TableRule {
      * @param string
      * @param array
      */
-    function checkRule($groupId, $tableId, $columnId, &$weights) {
+    private function checkRule($groupId, $tableId, $columnId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId 
@@ -341,7 +348,7 @@ abstract class ColumnRule extends TableRule {
      * @param array
      * @see TableRule::addWeight()
      */
-    function applyRule($table, $columnId, $params) {}
+    public function applyRule($table, $columnId, $params) {}
 
     /**
      * Applies a set of rules on a column
@@ -350,7 +357,7 @@ abstract class ColumnRule extends TableRule {
      * @param string
      * @param Table
      */
-    static function applyRules($rules, $groupId, $columnId, $table) {
+    static public function applyRules($rules, $groupId, $columnId, $table) {
         $weights = array();
         foreach ($rules as $rule) {
             $rule->checkRule($groupId, $table->tableId, $columnId, $weights);
@@ -385,7 +392,7 @@ class ColumnSelector extends TableRule {
      * @param string
      * @param array
      */
-    function __construct($groupId, $tableId, $columnIds) {
+    public function __construct($groupId, $tableId, $columnIds) {
         parent::__construct();
         $this->groupId   = $groupId;
         $this->tableId   = $tableId;
@@ -436,7 +443,7 @@ class ColumnSelector extends TableRule {
      * @param Table
      * @param array
      */
-    function applyRule($table, $params) {
+    public function applyRule($table, $params) {
         
         $this->selectColumns($table);
     }
@@ -453,7 +460,7 @@ class ColumnUnselector extends ColumnSelector {
      * @param Table
      * @param array
      */
-    function applyRule($table, $params) {
+    public function applyRule($table, $params) {
         
         $this->selectColumns($table, true);
     }
@@ -486,7 +493,7 @@ class GroupFilter extends GroupRule {
      * @param string
      * @param array
      */
-    function __construct($groupId, $callback) {
+    public function __construct($groupId, $callback) {
         parent::__construct();
         $this->groupId  = $groupId;
         $this->callback = $callback;        
@@ -497,7 +504,7 @@ class GroupFilter extends GroupRule {
      * @param TableGroup
      * @param array
      */
-    function applyRule($group, $params) {
+    public function applyRule($group, $params) {
         $group->groupTitle = call_user_func($this->callback,
                                             $group->groupId,
                                             $group->groupTitle);
@@ -532,7 +539,7 @@ class TableFilter extends TableRule {
      * @param string
      * @param array
      */
-    function __construct($groupId, $tableId, $callback) {
+    public function __construct($groupId, $tableId, $callback) {
         parent::__construct();
         $this->groupId   = $groupId;
         $this->tableId  = $tableId;
@@ -544,7 +551,7 @@ class TableFilter extends TableRule {
      * @param Table
      * @param array
      */
-    function applyRule($table, $params) {
+    public function applyRule($table, $params) {
         $table->tableTitle = call_user_func($this->callback,
                                             $table->tableId,
                                             $table->tableTitle);
@@ -580,7 +587,7 @@ class ColumnFilter extends ColumnRule {
      * @param string
      * @param array
      */
-    function __construct($groupId, $tableId, $columnId, $callback) {
+    public function __construct($groupId, $tableId, $columnId, $callback) {
         parent::__construct();
         $this->groupId   = $groupId;
         $this->tableId  = $tableId;
@@ -594,7 +601,7 @@ class ColumnFilter extends ColumnRule {
      * @param string
      * @param array
      */
-    function applyRule($table, $columnId, $params) {
+    public function applyRule($table, $columnId, $params) {
 
         $indexes = $this->getIndexes($table);
         $table->columnTitles[$indexes[$columnId]] =
@@ -641,7 +648,7 @@ class CellFilter extends CellRule {
      * @param array
      * @param array
      */
-    function __construct($groupId, $tableId, $columnId,
+    public function __construct($groupId, $tableId, $columnId,
                          $inputColumnIds, $callback) {
         parent::__construct();
         $this->groupId        = $groupId;
@@ -657,7 +664,7 @@ class CellFilter extends CellRule {
      * @param string
      * @param array
      */
-    function applyRule($table, $columnId, $params) {
+    public function applyRule($table, $columnId, $params) {
         
         if ($table->numRows == 0) {
             return;
@@ -709,7 +716,7 @@ class CellFilterBatch extends CellFilter {
      * @param string
      * @param array
      */
-    function applyRule($table, $columnId, $params) {
+    public function applyRule($table, $columnId, $params) {
     
         if ($table->numRows == 0) {
             return;
@@ -755,7 +762,7 @@ class RowUnselector extends TableRule {
      * @param string
      * @param array
      */
-    function __construct($groupId, $tableId, $columnId, $rowIds) {
+    public function __construct($groupId, $tableId, $columnId, $rowIds) {
         parent::__construct();
         $this->groupId   = $groupId;
         $this->tableId   = $tableId;
@@ -769,7 +776,7 @@ class RowUnselector extends TableRule {
      * @param string
      * @param array
      */
-    function applyRule($table, $columnId) {
+    public function applyRule($table, $columnId) {
         if ($table->numRows == 0) {
             return;
         }
@@ -831,7 +838,7 @@ class ColumnAdder extends TableFilter {
      * @param array
      * @param array
      */
-    function __construct($groupId, $tableId, $columnPosition, $newColumnIds,
+    public function __construct($groupId, $tableId, $columnPosition, $newColumnIds,
                          $inputColumnIds, $callback) {
         parent::__construct($groupId, $tableId, $callback);
         $this->columnPosition = $columnPosition;        
@@ -897,7 +904,7 @@ class ColumnAdder extends TableFilter {
      * @param Table
      * @param array
      */
-    function applyRule($table, $params) {
+    public function applyRule($table, $params) {
         
         $oldColumnIds = $table->columnIds;
         $oldIndexes = $this->getIndexes($table);
@@ -1016,7 +1023,7 @@ class ColumnAdderBatch extends ColumnAdder {
      * @param Table
      * @param array
      */
-    function applyRule($table, $params) {
+    public function applyRule($table, $params) {
 
         $oldColumnIds = $table->columnIds;
         $oldIndexes = $this->getIndexes($table);
@@ -1091,7 +1098,10 @@ class TableRulesRegistry {
      */
     private $log;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(get_class($this));
     }
 

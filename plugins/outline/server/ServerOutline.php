@@ -16,7 +16,7 @@ class ServerOutline extends ClientResponderAdapter {
      */
     private $log;
 
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -191,7 +191,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param OutlineRequest
      * @return OutlineResult
      */
-    function handleDrawing($requ) {
+    public function handleDrawing($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
 

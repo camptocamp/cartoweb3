@@ -29,7 +29,10 @@ class ServerHilight extends ServerPlugin {
      */
     private $log;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
@@ -244,7 +247,7 @@ class ServerHilight extends ServerPlugin {
      * @param QuerySelection
      * @see ServerQuery::handlePreDrawing()
      */
-    function hilightLayer($querySelection) {
+    public function hilightLayer($querySelection) {
         
         $mapInfo = $this->serverContext->getMapInfo();
         

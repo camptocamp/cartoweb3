@@ -21,7 +21,10 @@ class ServerQuery extends ClientResponderAdapter {
      */
     private $drawQuery = false;
 
-    function __construct() {
+    /**
+     * Constructor
+     */ 
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
@@ -61,7 +64,7 @@ class ServerQuery extends ClientResponderAdapter {
      * Returns true if query results must be drawn using Mapserver
      * @return boolean
      */
-    function drawQuery() {
+    public function drawQuery() {
         return $this->drawQuery;
     }
 
@@ -316,7 +319,7 @@ class ServerQuery extends ClientResponderAdapter {
     /**
      * @see ClientResponder::handlePreDrawing()
      */
-    function handlePreDrawing($requ) {
+    public function handlePreDrawing($requ) {
         
         $this->log->debug("handlePreDrawing: ");
         $this->log->debug($requ);

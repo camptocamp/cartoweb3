@@ -16,37 +16,37 @@ class ClientHello extends ClientPlugin
     private $message;
     private $count;
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->count = $sessionObject;
     }
 
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->count = 0;
     }
-    function saveSession() {
+    public function saveSession() {
         return $this->count;
     }
     
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
         $this->message = @$_REQUEST[self::HELLO_INPUT];
     }
 
-    function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {}
 
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
         //$mapRequest->helloRequest = @$_REQUEST[self::HELLO_INPUT];
     }
 
-    function handleResult($result) {}
+    public function handleResult($result) {}
 
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
 
         $template->assign('hello_active', true);
         $template->assign('hello_message', "message: " . $this->message . 

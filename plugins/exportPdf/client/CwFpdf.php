@@ -16,7 +16,7 @@ require_once 'fpdf/fpdf.php';
 class cFPDF extends FPDF {
 
     /**
-     * Builds text labels with 90°-increment orientation.
+     * Builds text labels with 90ï¿½-increment orientation.
      * See http://fpdf.org/fr/script/script31.php
      * "TextWithRotation" is available at the same location as well.
      * @param float reference point x-coord
@@ -67,7 +67,7 @@ class cFPDF extends FPDF {
  * FPDF implementation of PdfWriter.
  * @package Plugins
  */
- class CwFpdf implements PdfWriter {
+class CwFpdf implements PdfWriter {
 
     /**
      * @var Logger
@@ -119,7 +119,7 @@ class cFPDF extends FPDF {
      * Constructor.
      * @param ClientExportPdf
      */
-    function __construct(ClientExportPdf $export) {
+    public function __construct(ClientExportPdf $export) {
        $this->log =& LoggerManager::getLogger(__CLASS__);
        $this->general =& $export->getGeneral();
        $this->format =& $export->getFormat();
@@ -143,7 +143,7 @@ class cFPDF extends FPDF {
      * @return float
      * @see PdfWriter::getPageWidth()
      */
-    function getPageWidth() {
+    public function getPageWidth() {
         return $this->p->w;
     }
 
@@ -151,14 +151,14 @@ class cFPDF extends FPDF {
      * @return float
      * @see PdfWriter::getPageHeight()
      */
-    function getPageHeight() {
+    public function getPageHeight() {
         return $this->p->h;
     }
 
     /**
      * @see PdfWriter::initializeDocument()
      */
-    function initializeDocument() {
+    public function initializeDocument() {
         $this->p->SetMargins($this->format->horizontalMargin,
                              $this->format->verticalMargin);
         $this->p->AliasNbPages();
@@ -168,7 +168,7 @@ class cFPDF extends FPDF {
     /**
      * @see PdfWriter::addPage()
      */
-    function addPage() {
+    public function addPage() {
         $this->closePage();
         $this->p->AddPage();
         $this->space->reset();
@@ -247,7 +247,7 @@ class cFPDF extends FPDF {
      * @param PdfBlock text block object
      * @see PdfWriter::addTextBlock()
      */
-    function addTextBlock(PdfBlock $block) {
+    public function addTextBlock(PdfBlock $block) {
         // text properties
         $this->setTextLayout($block);
 
@@ -305,7 +305,7 @@ class cFPDF extends FPDF {
      * @param PdfBlock graphical (image, PDF) block object
      * @see PdfWriter::addGfxBlock()
      */
-    function addGfxBlock(PdfBlock $block) {
+    public function addGfxBlock(PdfBlock $block) {
         $this->setBoxLayout($block);
 
         $imageWidth = $block->width;
@@ -333,7 +333,7 @@ class cFPDF extends FPDF {
      * @param float height
      * @see PdfWriter::addTableCell()
      */
-    function addTableCell($text, $width, $height) {
+    public function addTableCell($text, $width, $height) {
         // TODO: handle text alignment
         $x = $this->p->GetX();
         $y = $this->p->GetY();
@@ -369,7 +369,7 @@ class cFPDF extends FPDF {
      * @param array row data
      * @see PdfWriter::addTableRow()
      */
-    function addTableRow(PdfBlock $block, TableElement $table, $row) {
+    public function addTableRow(PdfBlock $block, TableElement $table, $row) {
         if (!is_array($row) && !is_object($row))
             $row = array($row);
 
@@ -537,7 +537,7 @@ class cFPDF extends FPDF {
      * @param PdfBlock
      * @see PdfWriter::addTable()
      */
-    function addTable(PdfBlock $block) {
+    public function addTable(PdfBlock $block) {
         if (!is_array($block->content))
             $block->content = array($block->content);
 
@@ -707,7 +707,7 @@ class cFPDF extends FPDF {
      * @param PdfBlock
      * @see PdfWriter::addLegend()
      */
-    function addLegend(PdfBlock $block) {
+    public function addLegend(PdfBlock $block) {
         if (!$block->content || !is_array($block->content))
             return;
         
@@ -788,7 +788,7 @@ class cFPDF extends FPDF {
     /**
      * @see PdfWriter::finalizeDocument()
      */
-    function finalizeDocument() {
+    public function finalizeDocument() {
         $this->closePage();
         return $this->p->Output($this->general->filename, 'S');
     }

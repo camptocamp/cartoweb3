@@ -42,7 +42,7 @@ abstract class LocationCalculator {
      * @param ServerLocation
      * @param LocationRequest
      */
-    function __construct($locationPlugin, $requ) {
+    public function __construct($locationPlugin, $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->locationPlugin = $locationPlugin;
         $this->requ = $requ;
@@ -76,16 +76,22 @@ class BboxLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param BboxLocationRequest
      */
-    function __construct($locationPlugin, BboxLocationRequest $requ) {
+    public function __construct($locationPlugin, BboxLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
     
-    function getBbox() {
+    /**
+     * @see LocationCalculator::getBbox()
+     */
+    public function getBbox() {
         return $this->requ->bbox;
     }
 
-    function getScale() {
+    /**
+     * @see LocationCalculator::getScale()
+     */
+    public function getScale() {
         return NULL;
     }
 }
@@ -110,7 +116,7 @@ class PanLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param PanLocationRequest
      */
-    function __construct($locationPlugin, PanLocationRequest $requ) {
+    public function __construct($locationPlugin, PanLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
         
@@ -138,7 +144,10 @@ class PanLocationCalculator extends LocationCalculator {
         }
     }
     
-    function getBbox() {
+    /**
+     * @see LocationCalculator::getBbox()
+     */
+    public function getBbox() {
         $oldBbox = $this->requ->bbox;
         
         $panRatio = $this->panRatio;
@@ -158,7 +167,10 @@ class PanLocationCalculator extends LocationCalculator {
         return $bbox;
     }
 
-    function getScale() {
+    /**
+     * @see LocationCalculator::getScale()
+     */
+    public function getScale() {
         return NULL;
     }
 }
@@ -183,7 +195,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param ZoomPointLocationRequest
      */
-    function __construct($locationPlugin, ZoomPointLocationRequest $requ) {
+    public function __construct($locationPlugin, ZoomPointLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
         
@@ -194,7 +206,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         $this->scales = $this->locationPlugin->getScales();
     }
 
-    function getBbox() {
+    /**
+     * @see LocationCalculator::getBbox()
+     */
+    public function getBbox() {
         $oldBbox = $this->requ->bbox;
         
         $xHalf = $oldBbox->getWidth() / 2;
@@ -283,7 +298,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $oldScale;
     }
 
-    function getScale() {
+    /**
+     * @see LocationCalculator::getScale()
+     */
+    public function getScale() {
         
         $oldScale = $this->calculateOldScale();
         $this->log->debug("old scale is $oldScale");
@@ -352,7 +370,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param RecenterLocationRequest
      */
-    function __construct($locationPlugin, RecenterLocationRequest $requ) {
+    public function __construct($locationPlugin, RecenterLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
@@ -386,7 +404,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param array
      * @return Bbox
      */
-    function mergeBboxes($bboxes) {
+    public function mergeBboxes($bboxes) {
         if (empty($bboxes))
             throw new CartoserverException("trying to merge empty bboxes");
         if (count($bboxes) == 1)
@@ -407,7 +425,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param double
      * @return Bbox
      */
-    function addMargin(Bbox $bbox, $margin) {
+    private function addMargin(Bbox $bbox, $margin) {
         
         $width = $bbox->getWidth();
         $xDelta = $width * ($margin / 100);
@@ -434,7 +452,10 @@ class RecenterLocationCalculator extends LocationCalculator {
         return $bbox;
     }
 
-    function getBbox() {
+    /**
+     * @see LocationCalculator::getBbox()
+     */
+    public function getBbox() {
 
         $bboxes = array();
         foreach($this->requ->idSelections as $idSelection) {
@@ -463,7 +484,10 @@ class RecenterLocationCalculator extends LocationCalculator {
         return $bbox;
     }
 
-    function getScale() {
+    /**
+     * @see LocationCalculator::getScale()
+     */
+    public function getScale() {
         if (!$this->useDefaultScale)
             return NULL;
         
@@ -503,7 +527,7 @@ class ServerLocation extends ServerPlugin
      */
     private $visibleScales;
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
@@ -705,7 +729,7 @@ class ServerLocation extends ServerPlugin
     /**
      * @see CoreProvider::handleCorePlugin()
      */
-    function handleCorePlugin($requ) {
+    public function handleCorePlugin($requ) {
 
         $this->log->debug('handleCorePlugin: ');
         $this->log->debug($requ);
@@ -753,7 +777,7 @@ class ServerLocation extends ServerPlugin
     /**
      * @see InitProvider::getInit()
      */
-    function getInit() {
+    public function getInit() {
 
         $this->initScales();
 

@@ -31,7 +31,10 @@
     protected $isPageOpen = false;
     protected $images = array();
 
-    function __construct(ClientExportPdf $export) {
+    /**
+     * Constructor
+     */
+    public function __construct(ClientExportPdf $export) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->general =& $export->getGeneral();
         $this->format =& $export->getFormat();
@@ -68,11 +71,11 @@
                                           $this->general->distUnit);       
     }
 
-    function getPageWidth() {
+    private function getPageWidth() {
         return getPageDim('Width');
     }
 
-    function getPageHeight() {
+    private function getPageHeight() {
         return getPageDim('Height');
     }
 
@@ -101,7 +104,7 @@
         }
     }
 
-    function initializeDocument() {
+    private function initializeDocument() {
         try {
             $optlist = 'compatibility ' . $this->general->pdfVersion;
             $this->p->begin_document(false, $optlist);
@@ -114,7 +117,7 @@
     /**
      * Adds a blank page to current PDF document.
      */
-    function addPage() {
+    private function addPage() {
         //$optlist = 'topdown true';
         $optlist = false;
         
@@ -246,7 +249,7 @@
         }        
     }
 
-    function addTextBlock(PdfBlock $block) {
+    private function addTextBlock(PdfBlock $block) {
         // Note: *_textflow() methods are not available with PDFLib Lite 
         // version. Overload this method in an extended class to use them. 
 
@@ -344,7 +347,7 @@
         }
     }
     
-    function addGfxBlock(PdfBlock $block) {
+    private function addGfxBlock(PdfBlock $block) {
         
         $this->drawBox($block);
         
@@ -357,15 +360,15 @@
         */
     }
 
-    function addTableCell() {}
+    private function addTableCell() {}
 
-    function addTableRow() {}
+    private function addTableRow() {}
 
-    function addTable(PdfBlock $block) {}
+    private function addTable(PdfBlock $block) {}
 
-    function addLegend(PdfBlock $block) {}
+    private function addLegend(PdfBlock $block) {}
 
-    function finalizeDocument() {
+    private function finalizeDocument() {
         try {
             if ($this->isPageOpen)
                 $this->p->end_page_ext(false);

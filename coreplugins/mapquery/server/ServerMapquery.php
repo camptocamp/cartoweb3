@@ -16,7 +16,10 @@ class ServerMapquery extends ServerPlugin {
      */
     private $log;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }

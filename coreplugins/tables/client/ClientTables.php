@@ -37,7 +37,10 @@ class ClientTables extends ClientPlugin
      */
     private $tableGroups = array();
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -46,7 +49,7 @@ class ClientTables extends ClientPlugin
      * Returns current table rules registry
      * @return TableRulesRegistry
      */
-    function getTableRulesRegistry() {
+    public function getTableRulesRegistry() {
         if (is_null($this->tableRulesRegistry)) {
             $this->tableRulesRegistry =  new TableRulesRegistry();
         }
@@ -57,7 +60,7 @@ class ClientTables extends ClientPlugin
      * Adds table(s) to the list of tables to be displayed
      * @param mixed Table or array of Table     
      */
-    function addTableGroups($tables) {
+    public function addTableGroups($tables) {
         $newTableGroups = array();
         if (!is_array($tables)) {
             $newTableGroups[] = $tables;
@@ -76,7 +79,7 @@ class ClientTables extends ClientPlugin
      * @param string
      * @return Table
      */
-    function getTable($groupId, $tableId) {
+    public function getTable($groupId, $tableId) {
         foreach ($this->tableGroups as $tableGroup) {
             if ($tableGroup->groupId == $groupId) {
                 foreach ($tableGroup->tables as $table) {
@@ -92,13 +95,13 @@ class ClientTables extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
     }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
     }
 
     /**
@@ -120,7 +123,7 @@ class ClientTables extends ClientPlugin
      * @param array
      * @return array array of translated table groups
      */
-    function translate($tableGroups) {
+    private function translate($tableGroups) {
         
         foreach ($tableGroups as $tableGroup) {
             $tableGroup->groupTitle = I18n::gt($tableGroup->groupTitle);            
@@ -147,7 +150,7 @@ class ClientTables extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
         
         $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $this->tableGroups);

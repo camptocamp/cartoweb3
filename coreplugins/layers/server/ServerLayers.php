@@ -5,55 +5,74 @@
  */
 
 /**
+ * Server plugin for managing the set of layers to render.
  * @package CorePlugins
  */
 class ServerLayers extends ClientResponderAdapter
                    implements CoreProvider {
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * The list of layers requested to be drawn by the client.
+     * @var array Array of string
+     */
     private $requestedLayerNames;
-    private $mapInfo;
     
+    /**
+     * Image type to use for images (outputformat identifier declared in 
+     * mapfile). May be null to use default one.
+     * @var string 
+     */
     private $imageType;
 
     /**
+     * Ratio client-required resolution / Mapserver resolution.
      * @var float
      */
     private $resRatio;
     
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         // If image type is null, will use mapfile image type
         $this->imageType = null;
     }
-
-    private function getMapInfo() {
-        if(!$this->mapInfo) $this->mapInfo =& $this->serverContext->getMapInfo();
-        return $this->mapInfo;
-    }
    
-    function getRequestedLayerNames() {
+    /**
+     * Returns the list of layers requested to be drawn by the client.
+     * @return array
+     */
+    public function getRequestedLayerNames() {
         if(!$this->requestedLayerNames) return array();
         return $this->requestedLayerNames;
     }
 
-    function getImageType() {
+    /**
+     * Returns the image type to use for drawing, or null to use mapfile one. 
+     * @return string
+     */
+    public function getImageType() {
         return $this->imageType;
     }
 
     /**
      * @return float ratio client-required resolution / Mapserver resolution.
      */
-    function getResRatio() {
+    public function getResRatio() {
         return $this->resRatio;
     }
   
     /**
      * @see ClientResponder::initializeRequest()
      */
-    function initializeRequest($requ) {
+    public function initializeRequest($requ) {
         if (isset($requ->resolution) && $requ->resolution) {
         
             $msMapObj = $this->serverContext->getMapObj();
@@ -128,7 +147,10 @@ class ServerLayers extends ClientResponderAdapter
         }
     }
 
-    function handleCorePlugin($requ) {
+    /**
+     * @see CoreProvider::handleCorePlugin()
+     */
+    public function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -153,7 +175,8 @@ class ServerLayers extends ClientResponderAdapter
         foreach ($this->getRequestedLayerNames() as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
             
-            $msLayer = $this->getMapInfo()->getMsLayerById($msMapObj, $requLayerId);
+            $msLayer = $this->serverContext->getMapInfo()->
+                                    getMsLayerById($msMapObj, $requLayerId);
             $msLayer->set('status', MS_ON);
 
             if ($this->resRatio && $this->resRatio != 1)

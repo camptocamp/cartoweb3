@@ -11,8 +11,14 @@
 class ServerImages extends ServerPlugin 
                    implements CoreProvider {
 
-    // the number of generated images before issuing a warning
+    /**
+     * the number of generated images before issuing a warning
+     */
     const MAX_IMAGES_WARNING = 500;
+
+    /**
+     * Path where to write images, relative to the writable server path.
+     */
     const IMAGES_WRITE_PATH = 'images/';
     
     /**
@@ -20,7 +26,10 @@ class ServerImages extends ServerPlugin
      */
     private $log;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
@@ -29,7 +38,7 @@ class ServerImages extends ServerPlugin
      * Sets main map dimensions into MapObj
      * @param ImagesRequest
      */
-    function setupSizes($requ) {
+    public function setupSizes($requ) {
         $this->checkMapDimensions($requ);
         
         $msMapObj = $this->serverContext->getMapObj();
@@ -114,10 +123,11 @@ class ServerImages extends ServerPlugin
     }
 
     /**
-     * Returns the image type for main map
+     * Returns the image type for main map. Image type is the outputformat
+     * identifier declared in mapfile.
      *
      * Gets the information from Layers plugin.
-     * @return string
+     * @return string The image type to use for drawing.
      * @see ServerLayers::getImageType()
      */
     private function getImageType() {
@@ -134,7 +144,7 @@ class ServerImages extends ServerPlugin
      * Uses MapServer draw() or drawQuery().
      * @param ImagesRequest
      */
-    function drawMainmap($requ) {
+    public function drawMainmap($requ) {
         $msMapObj = $this->serverContext->getMapObj();
 
         if (!$msMapObj->web->imagepath) {
@@ -185,7 +195,7 @@ class ServerImages extends ServerPlugin
     /**
      * @see CoreProvider::handleCorePlugin()
      */
-    function handleCorePlugin($requ) {
+    public function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
 

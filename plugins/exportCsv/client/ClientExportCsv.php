@@ -45,7 +45,10 @@ class ClientExportCsv extends ExportPlugin {
         return $scriptPath;
     }
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -76,7 +79,7 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
     }
 
     /**
@@ -84,7 +87,7 @@ class ClientExportCsv extends ExportPlugin {
      * @param array HTTP request
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
         if (array_key_exists('exportcsv_groupid', $request)
             && array_key_exists('exportcsv_tableid', $request)) {
             $this->groupId = $request['exportcsv_groupid'];
@@ -96,10 +99,10 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
     }
 
-    function getConfiguration() {
+    public function getConfiguration() {
         
         $config = new ExportConfiguration();
         $config->setRenderMap(false);
@@ -138,7 +141,7 @@ class ClientExportCsv extends ExportPlugin {
      * @return ExportOutput
      * @see ExportPlugin::getExportResult
      */
-    function getExport() {
+    public function getExport() {
 
         $this->getExportResult($this->getConfiguration());
 

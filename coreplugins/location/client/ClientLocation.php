@@ -11,11 +11,13 @@
 class LocationState {
     
     /**
+     * Current bbox being viewed
      * @var Bbox
      */
     public $bbox;
     
     /**
+     * Current layer identifier selected in the recenter drop-down
      * @var string
      */
     public $idRecenterSelected;
@@ -59,6 +61,9 @@ class ClientLocation extends ClientPlugin
      */
     private $shortcuts;
 
+    /**
+     * Tool constants.
+     */
     const TOOL_ZOOMIN   = 'zoom_in';
     const TOOL_ZOOMOUT  = 'zoom_out';
     const TOOL_PAN      = 'pan';
@@ -68,7 +73,10 @@ class ClientLocation extends ClientPlugin
      */
     private $smarty;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -456,7 +464,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Sessionable::loadSession()
      */
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
 
@@ -466,7 +474,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
         $this->locationState = new LocationState();
@@ -477,7 +485,7 @@ class ClientLocation extends ClientPlugin
      * Returns current bbox
      * @return Bbox
      */
-    function getLocation() {
+    public function getLocation() {
 
         if (!$this->locationState)
             throw new CartoclientException('location state not yet initialized');
@@ -487,7 +495,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
     
         $this->locationRequest = $this->handlePanButtons();
         if (!is_null($this->locationRequest))
@@ -517,7 +525,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
 
         $this->locationRequest = $this->handleBboxRecenter($request, true);
         if (!is_null($this->locationRequest))
@@ -581,7 +589,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ToolProvider::handleMainmapTool() 
      */
-    function handleMainmapTool(ToolDescription $tool, 
+    public function handleMainmapTool(ToolDescription $tool, 
                                Shape $mainmapShape) {
 
         $toolToZoomType = array(
@@ -610,7 +618,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ToolProvider::handleKeymapTool() 
      */
-    function handleKeymapTool(ToolDescription $tool, 
+    public function handleKeymapTool(ToolDescription $tool, 
                               Shape $keymapShape) {
         /* nothing to do */                         
     }
@@ -618,7 +626,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ToolProvider::getTools() 
      */
-    function getTools() {
+    public function getTools() {
         
         return array(new ToolDescription(self::TOOL_ZOOMIN, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE_OR_POINT),
@@ -636,7 +644,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ServerCaller::buildMapRequest()
      */
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
 
         $locationRequest = NULL;
         if (!is_null($this->locationRequest)) 
@@ -652,7 +660,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */
-    function initializeResult($locationResult) {
+    public function initializeResult($locationResult) {
         $this->locationState->bbox = $locationResult->bbox;
         $this->locationResult = $locationResult;
     }
@@ -660,20 +668,20 @@ class ClientLocation extends ClientPlugin
     /**
      * @see ServerCaller::handleResult()
      */
-    function handleResult($locationResult) {}
+    public function handleResult($locationResult) {}
 
     /**
      * Returns current scale
      * @return float
      */
-    function getCurrentScale() {
+    public function getCurrentScale() {
         return $this->locationResult->scale;
     }
 
     /**
      * @see InitUser::handleInit()
      */
-    function handleInit($locationInit) {
+    public function handleInit($locationInit) {
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
@@ -707,7 +715,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
@@ -744,7 +752,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Sessionable::saveSession()
      */
-    function saveSession() {
+    public function saveSession() {
         $this->log->debug('saving session:');
         $this->log->debug($this->locationState);
 
@@ -754,7 +762,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Exportable::adjustExportMapRequest()
      */
-    function adjustExportMapRequest(ExportConfiguration $configuration,
+    public function adjustExportMapRequest(ExportConfiguration $configuration,
                                     MapRequest $mapRequest) {
 
         $locationRequest = $mapRequest->locationRequest;

@@ -35,7 +35,10 @@ class TableFlags extends Serializable {
      */
     public $returnTable;
        
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
 
         $this->returnAttributes = Serializable::unserializeValue($struct,
                                         'returnAttributes', 'boolean');
@@ -60,7 +63,10 @@ class TableRow extends Serializable {
      */
     public $cells;
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
     
         $this->rowId = Serializable::unserializeValue($struct, 'rowId');
         $this->cells = Serializable::unserializeArray($struct, 'cells');
@@ -118,7 +124,10 @@ class Table extends Serializable {
      */
     public $rows = array();
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
     
         $this->tableId       = Serializable::unserializeValue($struct,
                                                              'tableId');
@@ -145,6 +154,11 @@ class Table extends Serializable {
                                                                  'TableRow');
     }
     
+    /**
+     * Returns an array of all row identifiers. Or an empty array of the table
+     * has no row identifiers.
+     * @return array
+     */
     public function getIds() {
         $ids = array();
         if (!is_null($this->rows)) {
@@ -180,7 +194,10 @@ class TableGroup extends Serializable {
      */
     public $tables;
 
-    function unserialize($struct) {    
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {    
         $this->groupId    = Serializable::unserializeValue($struct,        
                                                         'groupId');
         $this->groupTitle = Serializable::unserializeValue($struct,        

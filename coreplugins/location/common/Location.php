@@ -15,6 +15,9 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
  */
 class LocationRequest extends Serializable {
 
+    /**
+     * LocationType constants
+     */
     const LOC_REQ_BBOX = 'bboxLocationRequest';
     const LOC_REQ_PAN = 'panLocationRequest';
     const LOC_REQ_ZOOM_POINT = 'zoomPointLocationRequest';
@@ -50,7 +53,10 @@ class LocationRequest extends Serializable {
      */
     public $locationConstraint;
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->locationType = self::unserializeValue($struct, 'locationType');
 
         $this->bboxLocationRequest = self::unserializeObject($struct, 
@@ -75,10 +81,15 @@ class LocationRequest extends Serializable {
 class LocationConstraint extends Serializable {
     
     /**
+     * Maximum bbox authorized to be viewed. Requests wanting a greater bbox
+     * will be reduced to this bbox.
      * @var Bbox
      */
     public $maxBbox;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->maxBbox = self::unserializeObject($struct, 'maxBbox', 'Bbox');
     }
@@ -100,6 +111,9 @@ class LocationResult extends Serializable {
      */
     public $scale;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
         $this->scale = (double)$struct->scale;
@@ -122,6 +136,9 @@ class LocationScale extends Serializable {
      */ 
     public $value;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->label = self::unserializeValue($struct, 'label');
         $this->value = self::unserializeValue($struct, 'value', 'double');
@@ -144,6 +161,9 @@ class LocationShortcut extends Serializable {
      */
     public $bbox;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->label = self::unserializeValue($struct, 'label');
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
@@ -176,6 +196,9 @@ class LocationInit extends Serializable {
      */
     public $shortcuts;
     
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->scales = self::unserializeObjectMap($struct, 'scales', 'LocationScale');
         $this->minScale = self::unserializeValue($struct, 'minScale', 'float');
@@ -196,6 +219,9 @@ abstract class RelativeLocationRequest extends Serializable {
      */
     public $bbox;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
     }
@@ -212,6 +238,9 @@ class BboxLocationRequest extends RelativeLocationRequest {
      */
     public $type = LocationRequest::LOC_REQ_BBOX;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->type = self::unserializeValue($struct, 'type');
         parent::unserialize($struct);        
@@ -224,10 +253,16 @@ class BboxLocationRequest extends RelativeLocationRequest {
  */
 class PanDirection {
 
+    /**
+     * Vertical direction constants
+     */
     const VERTICAL_PAN_NORTH = 'VERTICAL_PAN_NORTH';
     const VERTICAL_PAN_NONE  = 'VERTICAL_PAN_NONE';
     const VERTICAL_PAN_SOUTH = 'VERTICAL_PAN_SOUTH';
 
+    /**
+     * Horizontal direction constants
+     */
     const HORIZONTAL_PAN_WEST = 'HORIZONTAL_PAN_WEST';
     const HORIZONTAL_PAN_NONE = 'HORIZONTAL_PAN_NONE';
     const HORIZONTAL_PAN_EAST = 'HORIZONTAL_PAN_EAST';
@@ -245,10 +280,13 @@ class PanDirection {
     /**
      * @return string
      */
-    function __toString() {
+    public function __toString() {
         return "$this->verticalPan - $this->horizontalPan";
     }
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->verticalPan = self::unserializeValue($struct, 'verticalPan');
         $this->horizontalPan = self::unserializeValue($struct, 'horizontalPan');
@@ -272,6 +310,9 @@ class PanLocationRequest extends RelativeLocationRequest {
      */
     public $panDirection;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->type = self::unserializeValue($struct, 'type');
         $this->panDirection = self::unserializeObject($struct, 'panDirection',
@@ -299,6 +340,9 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
      */
     public $type = LocationRequest::LOC_REQ_ZOOM_POINT;
 
+    /**
+     * ZoomType constants
+     */
     const ZOOM_DIRECTION_IN   = 'ZOOM_DIRECTION_IN';
     const ZOOM_DIRECTION_OUT  = 'ZOOM_DIRECTION_OUT';
     const ZOOM_DIRECTION_NONE = 'ZOOM_DIRECTION_NONE';
@@ -325,6 +369,9 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
      */
     public $scale;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->zoomType = self::unserializeValue($struct, 'zoomType');
         $this->point = self::unserializeObject($struct, 'point', 'Point');
@@ -363,6 +410,9 @@ class IdSelection extends Serializable {
      */
     public $selectedIds;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->layerId = self::unserializeValue($struct, 'layerId');
         $this->idAttribute = self::unserializeValue($struct, 'idAttribute');
@@ -387,6 +437,9 @@ class RecenterLocationRequest extends Serializable {
      */
     public $idSelections;
  
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         $this->idSelections = self::unserializeObjectMap($struct, 'idSelections', 
                                                          'IdSelection'); 

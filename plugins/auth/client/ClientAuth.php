@@ -87,7 +87,7 @@ class ProxyAuthContainer extends Auth_Container {
      * 
      * @param SecurityManager the manager where to proxy auth requests.
      */
-    function __construct(SecurityManager $securityManager) {
+    public function __construct(SecurityManager $securityManager) {
         $this->securityManager = $securityManager;
     } 
     
@@ -226,14 +226,14 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
         $this->handleHttpCommonRequest($request);
     }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
         $this->handleHttpCommonRequest($request);
     }
 
@@ -254,7 +254,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $smarty) {
+    public function renderForm(Smarty $smarty) {
 
         $auth_active = $this->getConfig()->authActive;
 
@@ -267,21 +267,21 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * @see ServerCaller::buildMapRequest()
      */
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
         // TODO
     }
 
     /**
      * @see ServerCaller::initializeResult()
      */ 
-    function initializeResult($result) {
+    public function initializeResult($result) {
         // TODO
     }
 
     /**
      * @see ServerCaller::handleResult()
      */ 
-    function handleResult($outlineResult) {}
+    public function handleResult($outlineResult) {}
 }
 
 ?>

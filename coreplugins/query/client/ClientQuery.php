@@ -32,12 +32,8 @@ class QueryState {
  * Client part of Query plugin
  * @package CorePlugins
  */
-class ClientQuery extends ClientPlugin
-                  implements Sessionable,   
-                             GuiProvider,
-                             ServerCaller,
-                             ToolProvider,
-                             Exportable {
+class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
+                             ServerCaller, ToolProvider, Exportable {
                   
     /**                 
      * @var Logger
@@ -66,7 +62,10 @@ class ClientQuery extends ClientPlugin
     const DEFAULT_MASKMODE   = false;
     const DEFAULT_ATTRIBUTES = true;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -74,7 +73,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see Sessionable::loadSession()
      */
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->log->debug("loading session:");
         $this->log->debug($sessionObject);
 
@@ -84,7 +83,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
       
         $this->queryState = new QueryState();
@@ -105,7 +104,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see Sessionable::saveSession()
      */
-    function saveSession() {
+    public function saveSession() {
         $this->log->debug("saving session:");
         $this->log->debug($this->queryState);
 
@@ -121,7 +120,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ToolProvider::handleMainmapTool()
      */
-    function handleMainmapTool(ToolDescription $tool, 
+    public function handleMainmapTool(ToolDescription $tool, 
                                Shape $mainmapShape) {
         
         if ($mainmapShape instanceof Point) {
@@ -139,7 +138,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ToolProvider::handleKeymapTool()
      */
-    function handleKeymapTool(ToolDescription $tool, 
+    public function handleKeymapTool(ToolDescription $tool, 
                             Shape $keymapShape) {
         /* nothing to do */
     }
@@ -147,7 +146,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ToolProvider::getTools()
      */
-    function getTools() {
+    public function getTools() {
         return array(new ToolDescription(self::TOOL_QUERY, true,
                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE,
                                             JsToolAttributes::CURSOR_HELP),
@@ -235,7 +234,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
 
         $this->bbox = $this->cartoclient->getHttpRequestHandler()
                         ->handleTools($this);
@@ -299,7 +298,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
 
         $this->handleQuery($request, true);
 
@@ -362,7 +361,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ServerCaller::buildMapRequest()
      */ 
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
     
         if (!is_null($this->bbox)
             || count($this->queryState->querySelections) > 0) {
@@ -383,7 +382,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */ 
-    function initializeResult($queryResult) {
+    public function initializeResult($queryResult) {
         if (empty($queryResult))
             return;
 
@@ -396,7 +395,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see ServerCaller::handleResult()
      */ 
-    function handleResult($queryResult) {}
+    public function handleResult($queryResult) {}
     
     /**
      * Process a query result
@@ -469,7 +468,7 @@ class ClientQuery extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
     
         $queryOutput = $this->drawQuery();
         $template->assign('query_result', $queryOutput);    
@@ -478,7 +477,7 @@ class ClientQuery extends ClientPlugin
     /**    
      * @see Exportable::adjustExportMapRequest()
      */ 
-    function adjustExportMapRequest(ExportConfiguration $configuration, 
+    public function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {
                                             
         if (isset($mapRequest->queryRequest) && 
@@ -493,7 +492,6 @@ class ClientQuery extends ClientPlugin
                                         = $this->queryState->querySelections;        
         }
     }
-    
 }
 
 ?>

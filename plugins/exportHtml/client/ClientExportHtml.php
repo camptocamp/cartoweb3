@@ -19,7 +19,7 @@ class ClientExportHtml extends ExportPlugin {
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
@@ -34,20 +34,20 @@ class ClientExportHtml extends ExportPlugin {
         return '../';
     }
 
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
     }
 
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
     }
 
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
 
         $template->assign(array('exporthtml_active' => true,
                                 'exporthtml_url' => $this->getExportScriptPath()));
 
     }
 
-    function getConfiguration() {
+    public function getConfiguration() {
         
         $config = new ExportConfiguration();
         $config->setRenderMap(true);
@@ -64,7 +64,7 @@ class ClientExportHtml extends ExportPlugin {
      * @return ExportOutput
      * @see ExportPlugin::getExportResult
      */
-    function getExport() {
+    public function getExport() {
     
         $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
         $mapResult = $this->getExportResult($this->getConfiguration());

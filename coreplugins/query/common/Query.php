@@ -17,6 +17,9 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/tables/common/Tables.php');
  */
 class QuerySelection extends IdSelection {
     
+    /**
+     * Policy constants
+     */
     const POLICY_XOR = 'POLICY_XOR';
     const POLICY_UNION = 'POLICY_UNION';
     const POLICY_INTERSECTION = 'POLICY_INTERSECTION';
@@ -41,7 +44,10 @@ class QuerySelection extends IdSelection {
      */
     public $tableFlags; 
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
     
         $this->useInQuery = self::unserializeValue($struct, 'useInQuery',
                                                    'boolean');
@@ -92,7 +98,10 @@ class QueryRequest extends Serializable {
      */
     public $querySelections;
     
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
     
         $this->bbox              = self::unserializeObject($struct,
                                        'bbox', 'Bbox');
@@ -117,7 +126,10 @@ class QueryResult extends Serializable {
      */
     public $tableGroup;
     
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
     
         $this->tableGroup = Serializable::unserializeObject($struct, 
                                         'tableGroup', 'TableGroup');

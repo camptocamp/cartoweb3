@@ -59,7 +59,7 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }

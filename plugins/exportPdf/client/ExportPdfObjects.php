@@ -477,36 +477,36 @@ interface PdfWriter {
     /**
      * Sets general data and opens PDF document.
      */
-    function initializeDocument();
+    public function initializeDocument();
    
     /**
      * Returns page width in PdfGeneral dist_unit.
      * @return float
      */
-    function getPageWidth();
+    public function getPageWidth();
 
     /**
      * Returns page height in PdfGeneral dist_unit.
      * @return float
      */
-    function getPageHeight();
+    public function getPageHeight();
     
     /**
      * Adds a new page to PDF document.
      */
-    function addPage();
+    public function addPage();
     
     /**
      * Adds a block with textual content.
      * @param PdfBlock
      */
-    function addTextBlock(PdfBlock $block);
+    public function addTextBlock(PdfBlock $block);
     
     /**
      * Adds a block with graphical (image, PDF...) content.
      * @param PdfBlock
      */
-    function addGfxBlock(PdfBlock $block);
+    public function addGfxBlock(PdfBlock $block);
    
     /**
      * Draws a tabular element cell.
@@ -514,7 +514,7 @@ interface PdfWriter {
      * @param float width
      * @param float height
     */
-    function addTableCell($text, $width, $height);
+    public function addTableCell($text, $width, $height);
     
     /**
      * Draws a table row.
@@ -522,24 +522,24 @@ interface PdfWriter {
      * @param TableElement
      * @param array row data
      */
-    function addTableRow(PdfBlock $block, TableElement $table, $row);
+    public function addTableRow(PdfBlock $block, TableElement $table, $row);
    
     /**
      * Draws a table block.
      * @param PdfBlock
      */
-    function addTable(PdfBlock $block);
+    public function addTable(PdfBlock $block);
    
     /**
      * Draws the legend block.
      * @param PdfBlock
      */
-    function addLegend(PdfBlock $block);
+    public function addLegend(PdfBlock $block);
     
     /**
      * Performs final PDF operations and outputs document.
      */
-    function finalizeDocument();
+    public function finalizeDocument();
 }
 
 /**
@@ -593,7 +593,7 @@ class SpaceManager {
      * Constructor.
      * @param array contains page max extent + Y-origin location.
      */
-    function __construct($params) {
+    public function __construct($params) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
         $this->minX = $params['horizontalMargin'];

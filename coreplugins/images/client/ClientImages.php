@@ -58,17 +58,27 @@ class ClientImages extends ClientPlugin
      */
     private $mapSizes;
 
+    /**
+     * Default map width, if not specified in config
+     */
     const DEF_MAP_WIDTH  = 400;
+
+    /**
+     * Default map height, if not specified in config
+     */
     const DEF_MAP_HEIGHT = 200;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
     /**
      * @see Sessionable::loadSession()
      */
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->imagesState = $sessionObject;
     }
@@ -76,7 +86,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
         
         $this->imagesState = new ImagesState();
@@ -122,7 +132,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->imagesState);
         
@@ -132,19 +142,21 @@ class ClientImages extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
     }
     
     /**
+     * Returns the dimensions of the main map. It may be used by other plugins.
      * @return Dimension
      */
-    function getMainmapDimensions() {
+    public function getMainmapDimensions() {
         return $this->imagesState->mainmapDimension;
     }    
 
     /**
-     * @return array 
+     * Returns the list of map sizes to display.
+     * @return array Array of map sizes (Map with label, with and height keys) 
      */ 
     private function getMapSizes() {
         if (is_array($this->mapSizes)) return $this->mapSizes;
@@ -184,7 +196,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see ServerCaller::buildMapRequest()
      */
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
 
         $images = new Images();
 
@@ -210,7 +222,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */
-    function initializeResult($imagesResult) {
+    public function initializeResult($imagesResult) {
         assert($imagesResult instanceof ImagesResult);
         $this->imagesResult = $imagesResult;
 
@@ -221,7 +233,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see ServerCaller::handleResult()
      */
-    function handleResult($imagesResult) {}
+    public function handleResult($imagesResult) {}
 
     /**
      * @return string The URL to the image, as put inside the html template
@@ -234,7 +246,7 @@ class ClientImages extends ClientPlugin
 
     /**
      * Reads map sizes from configuration
-     * @return array map sizes
+     * @return array Array of map sizes (Map with label, with and height keys)
      */
     private function initMapSizes() {
         $this->mapSizes = array();
@@ -279,7 +291,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
        
         $template->assign(array(
             'mainmap_path' => 
@@ -315,7 +327,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see Sessionable::saveSession()
      */
-    function saveSession() {
+    public function saveSession() {
         $this->log->debug('saving session:');
         return $this->imagesState;
     }
@@ -323,7 +335,7 @@ class ClientImages extends ClientPlugin
     /**
      * @see Exportable::adjustExportMapRequest()
      */
-    function adjustExportMapRequest(ExportConfiguration $configuration, 
+    public function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {
         
         $isRenderMap = $configuration->isRenderMap();

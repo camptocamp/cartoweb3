@@ -23,7 +23,10 @@ class OutlineRequest extends Serializable {
      */    
     public $maskMode;
     
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->shapes   = self::unserializeObjectMap($struct, 'shapes');
         $this->maskMode = self::unserializeValue($struct, 'maskMode', 'boolean');
     }    
@@ -41,7 +44,10 @@ class OutlineResult extends Serializable {
      */
     public $area;
     
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->area = self::unserializeValue($struct, 'area', 'double');
     }
 }
