@@ -167,7 +167,7 @@ class ServerQuery extends ClientResponderAdapter {
 
     private function hilightSelectionRequest(QueryResult $queryResult) {
 
-        $plugins = $this->serverContext->pluginManager;
+        $plugins = $this->serverContext->getPluginManager();
 
         if (empty($plugins->hilight))
             throw new CartoserverException("hilight plugin not loaded, and needed " .
