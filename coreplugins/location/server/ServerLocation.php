@@ -586,6 +586,25 @@ class ServerLocation extends ServerCorePlugin {
         }
     }
 
+    private function doBboxAdjusting() {
+        $msMapObj = $this->serverContext->msMapObj;
+
+        $bbox = new Bbox();
+        $bbox->setFromMsExtent($msMapObj->extent);
+
+        $this->log->debug("bbox before adjusting is");
+        $this->log->debug($bbox);
+
+        $newBbox = $this->adjustBbox($bbox);
+
+        $this->log->debug("bbox after adjusting is");
+        $this->log->debug($newBbox);
+
+        // TODO: do not setExtent of the bbox is the same
+        $msMapObj->setExtent($newBbox->minx, $newBbox->miny, 
+                             $newBbox->maxx, $newBbox->maxy);
+    }
+
     private function getLocationResult() {
         $msMapObj = $this->serverContext->msMapObj;
         
@@ -621,12 +640,6 @@ class ServerLocation extends ServerCorePlugin {
         $this->log->debug("bbox is");
         $this->log->debug($bbox);
 
-        // FIXME: should bbox be adjusted after setting scale ?
-        $bbox = $this->adjustBbox($bbox);
-
-        $this->log->debug("bbox after adjusting is");
-        $this->log->debug($bbox);
-
         $scale = $calculator->getScale();
         if (is_null($scale)) {
             $scale = $this->getScaleFromBbox($bbox);
@@ -639,6 +652,8 @@ class ServerLocation extends ServerCorePlugin {
         $this->log->debug($scale);
 
         $this->doLocation($bbox, $scale);
+
+        $this->doBboxAdjusting();
 
         return $this->getLocationResult();
     }
