@@ -46,7 +46,7 @@ abstract class ServerPlugin extends PluginBase {
         $requestName = $this->getName() . 'Request';
         $this->log->debug("request name is $requestName");
         $request = @$this->serverContext->mapRequest->$requestName;
-        if (!$request) {
+        if (is_null($request)) {
             $this->log->warn("request variable $requestName not present: skipping plugin " .
                        get_class($this));
             return;
