@@ -150,7 +150,7 @@ class Cartoclient {
 
     private function getCorePluginNames() {
 
-        return array('location', 'layers', 'images', 'query', 'static');
+        return array('location', 'layers', 'images', 'query', 'statictools');
     }
 
     private function initPlugins() {
