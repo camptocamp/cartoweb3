@@ -196,12 +196,10 @@
       </itemizedlist>
      </para>
     </listitem>
-    <listitem>
-     <para>
-      <filename>po</filename>: PO templates files, used for gettext 
-      translation system, see: <xref linkend="user.i18n.template"/>.
-     </para>
-    </listitem>
+<listitem> 
+<para>
+  <filename>po</filename>: PO templates files, used for gettext translation     system, 
+    see: <xref linkend="user.i18n.translations.template"/>. </para></listitem>
     <listitem>
      <para>
       <filename>project</filename>: CartoWeb user projects dir, see: <xref 
