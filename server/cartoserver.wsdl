@@ -98,7 +98,6 @@
           <element name="icon" type="xsd:string"/>
           <element name="link" type="xsd:string" minOccurs="0"/>
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
-          <element name="hidden" type="xsd:boolean" minOccurs="0"/>
         </all>
       </complexType>
       
@@ -136,6 +135,7 @@
         <all>
           <element name="id" type="xsd:string"/>
           <element name="hidden" type="xsd:boolean"/>
+          <element name="unselectable" type="xsd:boolean"/>
           <element name="selected" type="xsd:boolean"/>
           <element name="unfolded" type="xsd:boolean"/>
         </all>
