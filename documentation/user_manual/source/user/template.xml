@@ -5,44 +5,53 @@
 <!-- $Id$ -->
 
 <chapter id="user.template">
- <title>Templating</title>
+ <title><indexterm><primary>Templates</primary></indexterm>Templating</title>
 
  <sect1 id="user.template.intro"> 
   <title>Introduction</title>
   <para>
-   Smarty template is a convenient way to write HTML templates
-   for dynamic pages. CartoWeb 3 templates are located in templates
-   root directory and in plugins templates directory 
+   <indexterm><primary>Smarty Templates</primary></indexterm>Smarty Template Engine is a convenient way to write HTML templates for dynamic pages.
+   It enables to delocalize a great amount of layout processing. Thus it is pretty easy to customize a CartoWeb3 application layout without affecting the application core.
+  </para>
+   
+  <para>
+   CartoWeb 3 templates are located in <filename>templates/</filename>
+   root directory and in plugins <filename>templates/</filename> directories
    (see <xref linkend="user.structure.plugin"/>).
   </para>
   <para>
    More info about Smarty templates can be found here:
-   <ulink url="http://smarty.php.net">http://smarty.php.net</ulink>.
-  </para>
- </sect1>
-
- <sect1 id="user.template.smarty"> 
-  <title>Smarty syntax</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   <ulink url="http://smarty.php.net">http://smarty.php.net</ulink>. A comprehensive online documentation including a reference and examples is available in various languages here: <ulink url="http://smarty.php.net/docs.php">http://smarty.php.net/docs.php</ulink>.
   </para>
  </sect1>
 
  <sect1 id="user.template.i18n"> 
-  <title>Internationalization</title>
+  <title><indexterm><primary>Internationalization, I18n</primary></indexterm>Internationalization</title>
   <para>
-   Texts to be translated are identified using the {t} tag:
-   <programlisting><![CDATA[{t}Default text, please translate me{/t}]]></programlisting>
+   It is possible - and recommended! - to use the <ulink url="http://smarty.incutio.com/?page=SmartyGettext">SmartyGettext</ulink> tool in order to translate template-embedded textual strings. Texts to be translated are identified using the <parameter>{t}</parameter> tag:
+   <programlisting><![CDATA[<p>{t}Default text, please translate me{/t}</p>
+<p>{t name="John Doe"}Hello my name is %1{/t}</p>
+<p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
    See also <xref linkend="user.i18n" />
   </para>
  </sect1>
 	
  <sect1 id="user.template.resource"> 
-  <title>Resources</title>
+  <title><indexterm><primary>Resources</primary></indexterm>Resources</title>
   <para>
-   Resources are identified using the {r} tag. Following list
+   Resources are identified using the <parameter>{r}</parameter> tag. <parameter>{r}</parameter> tags have a mandatory <parameter>type</parameter> attribute and an optional <parameter>plugin</parameter> one. First attribute is used to indicate the relative file location (files are grouped by types) in the file system whereas the second one tells what plugin uses the resource. Filename is placed between opening and closing tags.
+  </para>
+  <para>
+   For instance to get the <filename>logo.png</filename> file located in <filename>htdocs/gfx/layout/</filename>, type in your template:
+   <programlisting><![CDATA[<img src="{r type=gfx/layout}logo.png{/r}" alt="" />]]></programlisting>
+   To get the zoom-in icons from the <parameter>location</parameter> plugin, type:
+   <programlisting><![CDATA[<img src="{r type=gfx plugin=location}zoom_in.gif{/r}" alt="" />]]></programlisting>
+  </para>
+  <para>
+   Generated URLs depend on what <parameter>urlProvider</parameter> has been set in the general client configuration file <filename>client.ini</filename>. See <xref linkend="user.config.client"/> for details about <parameter>urlProvider</parameter>.
+  </para>
+  <para>
+   Following list
    shows all CartoWeb 3 resource types.
   </para>
   <itemizedlist>
@@ -53,17 +62,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /htdocs
+        path: <filename>/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css}toto.css{/r}
+        Smarty: <filename>{r type=css}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /css/toto.css
+        generated URL: <filename>css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -75,17 +89,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /coreplugins/layers/htdocs
+        path: <filename>/coreplugins/layers/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=layers}toto.css{/r}
+        Smarty: <filename>{r type=css plugin=layers}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /layers/css/toto.css
+        generated URL: <filename>layers/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=layers&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -97,17 +116,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /plugins/hello/htdocs
+        path: <filename>/plugins/hello/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=hello}toto.css{/r}
+        Smarty: <filename>{r type=css plugin=hello}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /hello/css/toto.css
+        generated URL: <filename>hello/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=hello&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -119,17 +143,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /coreplugins/layers/htdocs
+        path: <filename>/projects/myproject/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=layers}toto.css{/r}
+        Smarty: <filename>{r type=css}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /layers/css/toto.css
+        generated URL: <filename>myproject/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -141,17 +170,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /projects/myproject/coreplugins/layers/htdocs
+        path: <filename>/projects/myproject/coreplugins/layers/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=layers}toto.css{/r}
+        Smarty: <filename>{r type=css plugin=layers}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /myproject/layers/css/toto.css
+        generated URL: <filename>myproject/layers/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=layers&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -163,17 +197,22 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /projects/myproject/plugins/hello/htdocs
+        path: <filename>/projects/myproject/plugins/hello/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=hello}toto.css{/r}
+        Smarty: <filename>{r type=css plugin=hello}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /myproject/hello/css/toto.css
+        generated URL: <filename>myproject/hello/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=hello&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -185,27 +224,28 @@
      <itemizedlist>
       <listitem>
        <para>
-        path: /projects/myproject/plugins/myplugin/htdocs
+        path: <filename>/projects/myproject/plugins/myplugin/htdocs/css/toto.css</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        smarty: {r type=css plugin=myplugin}toto.css{/r}
+        Smarty: <filename>{r type=css plugin=myplugin}toto.css{/r}</filename>
        </para>
       </listitem>
       <listitem>
        <para>
-        generated URL: /myproject/myplugin/css/toto.css
+        generated URL: <filename>myproject/myplugin/css/toto.css</filename>
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL (Miniproxy): <filename>r.php?t=css&amp;pl=myplugin&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
    </listitem>
   </itemizedlist>
 
-  <para>
-   Type of resource in Smarty 'r' tag may contain slashes, 
-   for instance: {r type=gfx/layout}...{/r}.
-  </para>
  </sect1>
 
 </chapter>
