@@ -407,6 +407,8 @@ class ServerLocation extends ServerCorePlugin {
 
         $init = new LocationInit();
         $init->scales = $this->visibleScales;
+        $init->minScale = $this->getConfig()->minScale;
+        $init->maxScale = $this->getConfig()->maxScale;
         return $init;
     }
 }

@@ -323,13 +323,27 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
     function handleInit($locationInit) {
         $this->scales = $locationInit->scales;
+        $this->minScale = $locationInit->minScale;
+        $this->maxScale = $locationInit->maxScale;
+    }
+    
+    private function getLocationInformation() {
+        
+        $mapInfo = $this->cartoclient->getMapInfo();
+        
+        $percent = (($this->locationResult->scale - $this->minScale) * 100) /
+                    ($this->maxScale - $this->minScale);
+        $percent = round($percent, 1);
+        $locationInfo = sprintf('Bbox_: %s  <br/> scale: min:%s current: %s ' .
+                                'max: %s (percent: %s)', 
+                    $this->locationState->bbox->__toString(),
+                    $this->minScale, $this->locationResult->scale, 
+                    $this->maxScale, $percent);
+        
+        return $locationInfo;
     }
     
     function renderForm($template) {
-        
-        $locationInfo = sprintf("Bbox: %s scale %s", 
-                    $this->locationState->bbox->__toString(),
-                    $this->locationResult->scale);
 
         $recenter_active = $this->getConfig()->recenterActive;
 
@@ -338,7 +352,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             $factor = 1000;
         else $factor = 1;
        
-        $template->assign(array('location_info' => $locationInfo,
+        $template->assign(array('location_info' => $this->getLocationInformation(),
                                 'bboxMinX' => $this->locationState->bbox->minx,
                                 'bboxMinY' => $this->locationState->bbox->miny,
                                 'bboxMaxX' => $this->locationState->bbox->maxx,

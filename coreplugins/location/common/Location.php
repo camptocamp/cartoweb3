@@ -71,9 +71,13 @@ class LocationScale extends Serializable {
  */
 class LocationInit extends Serializable {
     public $scales;
+    public $minScale;
+    public $maxScale;
 
     public function unserialize($struct) {
         $this->scales = self::unserializeObjectMap($struct, 'scales', 'LocationScale');
+        $this->minScale = self::unserializeValue($struct, 'minScale', 'float');
+        $this->maxScale = self::unserializeValue($struct, 'maxScale', 'float');
     }
 }
 
