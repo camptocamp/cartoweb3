@@ -126,9 +126,11 @@ class ServerQuery extends ServerCorePlugin {
 
             $resultElement = new ResultElement();            
             if (!is_null($idAttribute))
-                $resultElement->id = $shape->values[$idAttribute];
+                $resultElement->id = $this->encodingConversion(
+                                                $shape->values[$idAttribute]);
             
-            $filteredValues = $this->filterReturnedAttributes($msLayer, $shape->values);
+            $filteredValues = $this->filterReturnedAttributes($msLayer, 
+                                                              $shape->values);
             if (empty($layerResult->fields)) {
                 $fields = array_keys($filteredValues);
                 $layerResult->fields = $this->arrayEncodingConversion($fields);
@@ -214,7 +216,6 @@ class ServerQuery extends ServerCorePlugin {
     }    
 
     function handleCorePlugin($requ) { /* nothing to do */ }
-
 }
 
 ?>
