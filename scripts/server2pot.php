@@ -49,6 +49,15 @@ function parseIni($project, $mapId, &$texts) {
     return true;
 }
 
+function addMapText($text, $mapId, &$texts) {
+    $info = $mapId . '.map';
+    if (array_key_exists($text, $texts)) {
+        $texts[$text] .= ',' . $info;
+    } else {
+        $texts[$text] = $info;
+    }
+}
+
 function parseMap($project, $mapId, &$texts) {
 
     $mapFile = CARTOSERVER_HOME;
@@ -76,14 +85,17 @@ function parseMap($project, $mapId, &$texts) {
             $class = $layer->getClass($j);
             
             if ($class->name != '') {
-                $info = $mapId . '.map';
-                if (array_key_exists($class->name, $texts)) {
-                    $texts[$class->name] .= ',' . $info;
-                } else {
-                    $texts[$class->name] = $info;
-                }
+                addMapText($class->name, $mapId, $texts);
             }
-        }       
+        }     
+        
+        $returnedAttr = $layer->getMetaData('query_returned_attributes');
+        if (!empty($returnedAttr)) {
+            $attrArray = explode(' ', $returnedAttr);
+            foreach ($attrArray as $attr) {
+                addMapText($attr, $mapId, $texts);
+            }
+        }
     }
     return true;
 }

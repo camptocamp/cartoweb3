@@ -77,10 +77,34 @@ class ClientTables extends ClientPlugin
         }
     }
 
+    private function translate($tableGroups) {
+        
+        foreach ($tableGroups as $key1 => $tableGroup) {
+            $tableGroups[$key1]->groupTitle =
+                I18n::gt($tableGroup->groupTitle);            
+            if (empty($tableGroup->tables)) {
+                continue;
+            }            
+            foreach ($tableGroup->tables as $key2 => $table) {
+                $tableGroup->tables[$key2]->tableTitle =
+                    I18n::gt($table->tableTitle);
+                if (empty($table->columnTitles)) {
+                    continue;
+                }            
+                foreach ($table->columnTitles as $key3 => $columnTitle) {
+                    $table->columnTitles[$key3] =
+                        I18n::gt($columnTitle);                          
+                }    
+            }
+        }
+        return $tableGroups;
+    }
+    
     function renderForm(Smarty $template) {
     
         $filteredTables = $this->getTableRulesRegistry()
-                               ->applyRules($this->tableGroups);
+                               ->applyRules($this->tableGroups);    
+        $filteredTables = $this->translate($filteredTables);
     
         $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $filteredTables);

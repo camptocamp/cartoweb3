@@ -4,7 +4,7 @@
 {if $table->numRows > 0}
 <p>
 <table class="cw3table">
-    <caption>{t}{$table->tableTitle}{/t}</caption>
+    <caption>{$table->tableTitle}</caption>
     <tr>
       {if !$table->noRowId}<th>{t}Id{/t}</th>{/if}
       {foreach from=$table->columnTitles item=column}
