@@ -1,0 +1,102 @@
+;general settings
+general.allowPdfInput = false
+general.formats = A4, A3
+general.defaultFormat = A4
+general.resolutions = 96, 150, 300
+general.defaultResolution = 96
+general.defaultOrientation = portrait
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, test, test2
+
+general.pdfEngine = CwFpdf
+general.pdfVersion = 1.4
+general.distUnit = mm
+general.horizontalMargin = 10
+general.verticalMargin = 10
+
+; formats settings
+formats.a4.label = A4
+formats.a4.bigDimension = 297
+formats.a4.smallDimension = 210
+
+formats.a3.label = A3
+formats.a3.bigDimension = 420
+formats.a3.smallDimension = 297
+formats.a3.horizontalMargin = 30
+formats.a3.verticalMargin = 30
+formats.a3.maxResolution = 150
+
+; blocks default settings
+template.type = text
+template.fontFamily = times
+template.fontSize = 12
+template.fontItalic = false
+template.fontBold = false
+template.color = black
+template.backgroundColor = white
+template.borderWidth = 0.25
+template.borderColor = black
+template.borderStyle = solid
+template.padding = 3
+template.horizontalMargin = 0
+template.verticalMargin = 0
+template.horizontalBasis = left
+template.verticalBasis = top
+template.hCentered = false
+template.zIndex = 1
+template.textAlign = center
+template.verticalAlign = center
+template.orientation = horizontal
+
+; blocks settings
+blocks.title.zIndex = 2
+blocks.title.weight = 10
+blocks.title.verticalBasis = top
+blocks.title.verticalMargin = 15
+blocks.title.hCentered = true
+blocks.title.fontSize = 20
+blocks.title.fontItalic = true
+blocks.title.fontBold = true
+blocks.title.fontUnderline = true
+blocks.title.backgroundColor = #eeeeee
+blocks.title.height = 15
+
+blocks.mainmap.zIndex = 0
+blocks.mainmap.weight = 10
+blocks.mainmap.padding = 0
+blocks.mainmap.borderWidth = 0.25
+blocks.mainmap.verticalMargin = 10
+blocks.mainmap.horizontalMargin = 10
+
+blocks.note.zIndex = 3
+blocks.note.weight = 30
+blocks.note.height = 10
+blocks.note.hCentered = true
+blocks.note.verticalBasis = bottom
+blocks.note.borderWidth = 0;
+
+blocks.test.zIndex = 1
+blocks.test.weight = 50
+blocks.test.content = "texte de test"
+blocks.test.backgroundColor = white
+blocks.test.color = black
+blocks.test.fontItalic = true
+blocks.test.fontFamily = arial
+blocks.test.fontUnderline = true
+blocks.test.borderWidth = 0.5
+blocks.test.borderColor = #ff0000
+blocks.test.height = 7
+blocks.test.parent = mainmap
+
+blocks.test2.zIndex = 1
+blocks.test2.weight = 70
+blocks.test2.content = "Un autre texte de test"
+blocks.test2.backgroundColor = #ffdddd
+blocks.test2.color = #00ff00
+
+blocks.copyright.content = "Cartoweb by Camptocamp SA"
+blocks.copyright.height = 10
+blocks.copyright.verticalBasis = bottom
+blocks.copyright.horizontalBasis = right
+blocks.copyright.zIndex = 5
+blocks.copyright.orientation = vertical
+blocks.copyright.borderWidth = 0;
