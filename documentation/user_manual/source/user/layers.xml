@@ -67,6 +67,30 @@
   <sect2 id="user.layers.tree.layers">
    <title>Layers options</title>
    <para>
+    As seen before, the Layer object maps directly to a layer in the mapfile.
+    By default, all layers in the mapfile are made available as a Layer
+    in the layers.ini, with an identifier having the same name as the name of
+    the mapserver layer. Thus, if you have the following option in you mapfile:
+       <programlisting>LAYER
+  NAME "my_layer"
+  TYPE line
+END</programlisting>
+   This is equivalent as writing the following configuration in the 
+   <filename>layers.ini</filename>:
+    <programlisting>layers.my_layer.class = Layer
+layers.my_layer.label = my_layer
+layers.my_layer.msLayer = my_layer</programlisting>
+    <tip>
+      <para>If you don't need special parameters to your layer, like 
+        <literal>link</literal>, then you can avoid writing it in the 
+        <filename>layers.ini</filename></para>
+    </tip>
+    However, if you want these layers to appear in the layer list, you still have
+    the responsibility to affect them a parent layer, using the 
+      <literal>children</literal> property of the <literal>LayerGroup</literal>
+      layer declarations.
+   </para>
+   <para>
    <indexterm><primary>layers</primary></indexterm>
     Here is the syntax for the various configuration parameters of a Layer.
    <itemizedlist>
@@ -154,8 +178,9 @@
      <para>
        layers.layerId.icon = filename  : filename of the static picto 
        that illustrates this Layer in the layer tree. The path is relative to
-       <filename>myMap.ini</filename>.See also ??? for a
-       description of the automatic legending process.
+       <filename>myMap.ini</filename>.See also 
+        <xref linkend="user.layers.legend"/> for a description of the automatic 
+        legending process.
      </para>
     </listitem>   
     <listitem>
