@@ -3,7 +3,13 @@
   <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" 
   class="lk">{if $groupFolded}+{else}-{/if}</a> <input
   type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
-  onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />{$layerLabel}<br />
+  onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />
+  {if $layerLink}<a href="{$layerLink}" target="_blank" 
+  title="{t}more info on{/t} {$layerLabel}">{/if}
+  {$layerLabel}
+  {if $layerLink}</a>{/if}
+  
+  <br />
   <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}
@@ -18,5 +24,9 @@
   <input type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
   onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />
   {/if}
-  {$layerLabel}<br />
+  {if $layerLink}<a href="{$layerLink}" target="_blank"
+  title="{t}more info on{/t} {$layerLabel}">{/if}
+  {$layerLabel}
+  {if $layerLink}</a>{/if}
+  <br />
 {/if}
