@@ -483,7 +483,14 @@ class ClientQuery extends ClientPlugin
                                             
         if (isset($mapRequest->queryRequest) && 
             $this->getConfig()->persistentQueries) {
+            
+            // Do not re-query in case of persistent queries
             $mapRequest->queryRequest->bbox = null;
+            
+            // In case last request was a rectangle query, add current
+            // selection to last request
+            $mapRequest->queryRequest->querySelections
+                                        = $this->queryState->querySelections;        
         }
     }
     
