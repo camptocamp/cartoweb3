@@ -15,7 +15,7 @@
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
 </span>
 &nbsp;&nbsp;
-<div style="display:none";>
+<div style="display:none;">
   {counter start=-1 print=false name=tindex}
   {foreach from=$tools item=tool}
   <input type="radio" name="tool" 
