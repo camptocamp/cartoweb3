@@ -368,8 +368,10 @@ class ClientLayers extends ClientPlugin
             =& $this->frozenUnselectedLayers;
             
         $this->layersData = array();
-        foreach ($initialMapState->layers as $initialLayerState) {
-            $this->layersData[$initialLayerState->id] = $initialLayerState;
+        if (!is_null($initialMapState->layers)) {
+            foreach ($initialMapState->layers as $initialLayerState) {
+                $this->layersData[$initialLayerState->id] = $initialLayerState;
+            }
         }
 
         $this->hiddenUnselectedLayers = array();
