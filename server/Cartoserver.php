@@ -66,6 +66,10 @@ class ServerConfig extends Config {
  */
 class ServerPluginConfig extends PluginConfig {
 
+    function __construct($plugin, $projectHandler) {
+        parent::__construct($plugin, $projectHandler);
+    }
+    
     function getKind() {
         return 'server';
     }
@@ -76,10 +80,6 @@ class ServerPluginConfig extends PluginConfig {
 
     function getPath() {
         return $this->projectHandler->getMapName() . '/';
-    }
-
-    function __construct($plugin, $projectHandler) {
-        parent::__construct($plugin, $projectHandler);
     }
 }
 
