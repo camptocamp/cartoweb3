@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<appendix id="appendix.debian_mapserver">
+  <title>Mapserver Debian Installation</title>
+  <para>Some Debian packages are available for Php5 and Mapserver<footnote>
+    <para>Some of the packages were inspired from 
+      <ulink url="http://agrogeomatic.educagri.fr/"/></para>
+    </footnote>. For now
+    only the cgi version of Php is available because of threading issues with 
+    Mapserver. 
+  </para>
+  <sect1>
+  <title>Prerequisites for Debian Woody</title>  
+  <para>
+    These packages have some dependencies on packages available in the so-called
+    Sarge Debian repository version. Thus, if you are using Debian Woody, you 
+    will need to add the following lines to your 
+      <filename>/etc/apt/sources.list</filename>:
+      <screen><![CDATA[#debian sarge
+deb http://ftp.<country>.debian.org/debian/ sarge main contrib]]></screen>
+    Of course, replace &lt;country&gt; by two country letter of your nearest mirror.
+    See <ulink url="http://www.debian.org/mirror/list"/> for the full mirror list.
+  </para>
+  </sect1>
+  
+  <sect1>
+  <title>Setting Up Your Repository and Preferences File</title>  
+  <para>
+    Add the following to your <filename>/etc/apt/sources.list</filename>  :
+    <screen># cartoweb
+deb http://dev.camptocamp.com/packages/debian/ sarge main
+deb-src http://dev.camptocamp.com/packages/debian/ sarge main</screen>
+  </para>
+  <para>
+    You may want to pin c2c packages higher than 1000 to have them preferred over
+     the upstream ones, even if downgrading. Add in <filename>/etc/apt/preferences</filename>:
+     <screen>Package: *
+Pin: release o=c2c
+Pin-Priority: 1100</screen>
+  </para>
+  </sect1>  
+
+  <sect1>
+  <title>Additional Steps</title>  
+  <para>
+    <orderedlist>
+      <listitem>
+        <para>Update your <filename>/etc/php5-c2cms-cgi/php.ini</filename> to 
+          load the <literal>php_mapscript.so</literal> extension:
+          <screen>extension=php_mapscript.so</screen>
+          </para>
+      </listitem>
+    </orderedlist>
+    <orderedlist>
+      <listitem>
+        <para> you may want to raise the memory limit:
+          <screen>memory_limit = 30M</screen>
+          </para>
+      </listitem>
+    </orderedlist>    
+  </para>
+  </sect1>
+</appendix>

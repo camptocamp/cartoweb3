@@ -114,5 +114,10 @@
     <xi:include href="dev/performance.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
+
+  <!-- The appendixes -->
+  <xi:include href="appendix/debian_install.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
+
   <index/>
 </book>
