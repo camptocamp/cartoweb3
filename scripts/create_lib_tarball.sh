@@ -5,7 +5,11 @@
 # 
 # You need to adjust the url the libraries if you need a newer version
 
-PEAR_PACKAGES="PHPUnit2 Benchmark Console_Getopt PhpDocumentor"
+# packages with extracted structure PackageName-Version/files
+PEAR_PACKAGES1="PHPUnit2 Benchmark PhpDocumentor"
+# packages with extracted structure /files
+PEAR_PACKAGES2="PEAR Console_Getopt"
+
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
 SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.5.tar.gz"
 
@@ -20,11 +24,21 @@ cd include
 ## pear packages
 
 mkdir -p pear
-for i in $PEAR_PACKAGES; do 
+
+for i in $PEAR_PACKAGES1; do 
     echo "fetching pear package: $i"
     pear download $i
     tar -C pear -zxf $i*gz
     mv pear/$i* pear/$i
+    rm $i*gz
+done
+
+for i in $PEAR_PACKAGES2; do 
+    echo "fetching pear package: $i"
+    pear download $i
+    tar -C pear -zxf $i*gz
+    mv pear/$i*/* pear/
+    rmdir pear/$i?* >/dev/null 2>&1
     rm $i*gz
 done
 
