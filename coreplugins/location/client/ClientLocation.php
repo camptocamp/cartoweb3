@@ -207,7 +207,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         // sits above the plugin mechanism 
 
         $mapResult->location
-            = Serializable::unserializeObject($mapResult->locationResult, 'LocationResult');
+            = Serializable::unserializeObject($mapResult, 'locationResult', 'LocationResult');
 
         $this->locationState->bbox = $mapResult->location->bbox;
         

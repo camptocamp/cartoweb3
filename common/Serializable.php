@@ -9,63 +9,125 @@ abstract class Serializable {
         
     abstract function unserialize ($struct);
 
-    static function unserializeArray ($struct, $type = 'string') {
+    static function unserializeValue ($struct, $property = NULL, $type = 'string') {
+        
+        if (!$struct)
+            return NULL;
+        if ($property) {
+            $objVars = get_object_vars($struct);
+            if (!array_key_exists($property, $objVars))
+                return NULL;
+            $value = $objVars[$property];
+        } else {
+            $value = $struct;
+        }
+        
+        switch($type) {
+        case 'boolean':
+            return (strtolower($value) == 'true' || $value == '1');
+        case 'int':
+            return (int)$value;
+        default:
+            return $value;
+        }        
+    }
+
+    static function unserializeArray ($struct, $property = NULL, $type = 'string') {
+        
+        if (!$struct)
+            return NULL;
+        if ($property) {
+            $objVars = get_object_vars($struct);
+            if (!array_key_exists($property, $objVars))
+                return NULL;
+            $value = $objVars[$property];
+        } else {
+            $value = $struct;
+        }
+
+        $array = array();
+        
+        // Arrays are stored as strings in .ini files
+        if (is_string($value)) {
+            $array = self::unserializeStringArray($value, NULL, $type);
+        } else if (!empty($value)) {
+            $array = $value;
+        }
+        return $array;
+    }
+
+    static function unserializeStringArray ($struct, $property, $type = 'string') {
     
         if (!$struct)
-            return array();
+            return NULL;
+        if ($property) {
+            $objVars = get_object_vars($struct);
+            if (!array_key_exists($property, $objVars))
+                return NULL;
+            $value = $objVars[$property];
+        } else {
+            $value = $struct;
+        }
             
-        $values = ConfigParser::parseArray($struct);
+        $values = ConfigParser::parseArray($value);
         $array = array();
-        foreach ($values as $value) {
-            switch($type) {
-            case 'boolean':
-                $array[] = (boolean)$value;
-                break;            
-            case 'int':
-                $array[] = (int)$value;
-                break;
-            default:
-                $array[] = $value;
-            }
+        foreach ($values as $val) {
+            $array[] = self::unserializeValue($val, NULL, $type);
         }
         return $array;
     }
     
-    static function unserializeObject ($struct, $className = NULL) {
+    static function unserializeObject ($struct, $property = NULL, $className = NULL) {
         
-        if (!$struct) {
+        if (!$struct)
             return NULL;
+        if ($property) {
+            $objVars = get_object_vars($struct);
+            if (!array_key_exists($property, $objVars))
+                return NULL;
+            $value = $objVars[$property];
+        } else {
+            $value = $struct;
         }
         
         if (empty($className)) {
-            $type = $struct->className;
+            $type = $value->className;
         } else {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            return $struct;
+            return $value;
         }
         
         $obj = new $type;
      
         if ($obj instanceof Serializable) {
-            $obj->unserialize($struct);
+            $obj->unserialize($value);
         } else {
-            copy_all_vars($struct, $obj);
+            copy_all_vars($value, $obj);
         }
         return $obj;
     }
     
-    static function unserializeObjectMap ($struct, $className = NULL) {
+    static function unserializeObjectMap ($struct, $property = NULL, $className = NULL) {
         
         if (!$struct)
-            return array();
+            return NULL;
+        if ($property) {
+            $objVars = get_object_vars($struct);
+            if (!array_key_exists($property, $objVars))
+                return NULL;
+            $value = $objVars[$property];
+        } else {
+            $value = $struct;
+        }
+
         $array = array();
-        foreach ($struct as $key => $value) {
+        foreach ($value as $key => $val) {
         
-            if (empty($value->id))
-                $value->id = $key;
-            $array[$key] = self::unserializeObject($value, $className);
+            if (empty($val->id))
+                $val->id = $key;
+            $array[$key] = self::unserializeObject($val, NULL, $className);
         }        
         return $array;
     }

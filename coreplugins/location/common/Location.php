@@ -21,7 +21,7 @@ class LocationResult extends Serializable {
     public $scale;
 
     public function unserialize($struct) {
-        $this->bbox = self::unserializeObject($struct->bbox, 'Bbox');
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
         $this->scale = (double)$struct->scale;
     }
 }

@@ -145,7 +145,7 @@ class Cartoclient {
             $this->config->mapId);
 
         if (!$this->config->cartoserverDirectAccess) 
-            $mapInfo = Serializable::unserializeObject($mapInfo, 'MapInfo');
+            $mapInfo = Serializable::unserializeObject($mapInfo, NULL, 'MapInfo');
         
         $this->mapInfo = $mapInfo; 
         return $mapInfo;

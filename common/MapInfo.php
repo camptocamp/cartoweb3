@@ -29,18 +29,8 @@ class LayerContainer extends LayerBase {
     public $children = array();
     
     function unserialize($struct) {
-        parent::unserialize($struct);
-        
-        // Arrays are stored as strings in .ini files
-        if (is_string($struct->children)) {
-            $this->children = self::unserializeArray($struct->children);
-        } else {
-            if (empty($struct->children)) {
-                $this->children = array();
-            } else {
-                $this->children = $struct->children;
-            }
-        }
+        parent::unserialize($struct);   
+        $this->children = self::unserializeArray($struct, 'children');
     }    
 }
 
@@ -54,7 +44,7 @@ class Layer extends LayerContainer {
 
     function unserialize($struct) {
         parent::unserialize($struct);
-        $this->msLayer = $struct->msLayer; 
+        $this->msLayer = self::unserializeValue($struct, 'msLayer'); 
     }
 }
 
@@ -63,7 +53,7 @@ class LayerClass extends LayerBase {
     
     function unserialize($struct) {
         parent::unserialize($struct);
-        $this->name = $struct->name;
+        $this->name = self::unserializeValue($struct, 'name');
     }
 }
 
@@ -71,7 +61,7 @@ class Location extends Serializable {
     public $bbox;
     
     function unserialize($struct) {
-        $this->bbox = self::unserializeObject($struct->bbox, 'Bbox');
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
     }
 }
 
@@ -86,10 +76,10 @@ class LayerState extends Serializable {
     public $folded;
 
     function unserialize($struct) {
-        $this->id       = $struct->id;
-        $this->hidden   = (boolean)$struct->hidden;
-        $this->selected = (boolean)$struct->selected;
-        $this->folded   = (boolean)$struct->folded;        
+        $this->id       = self::unserializeValue($struct, 'id');
+        $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
+        $this->selected = self::unserializeValue($struct, 'selected', 'boolean');
+        $this->folded   = self::unserializeValue($struct, 'folded', 'boolean');        
     }
 }
 
@@ -100,9 +90,9 @@ class InitialMapState extends Serializable {
     public $layers;
 
     function unserialize($struct) {
-        $this->id       = $struct->id;
-        $this->location = self::unserializeObject($struct->location, 'InitialLocation');
-        $this->layers   = self::unserializeObjectMap($struct->layers, 'LayerState'); 
+        $this->id       = self::unserializeValue($struct, 'id');
+        $this->location = self::unserializeObject($struct, 'location', 'InitialLocation');
+        $this->layers   = self::unserializeObjectMap($struct, 'layers', 'LayerState'); 
     }
 }
 
@@ -115,14 +105,14 @@ class MapInfo extends Serializable {
     public $location;
 
     function unserialize($struct) {
-        $this->mapId            = $struct->mapId;
-        $this->mapLabel         = $struct->mapLabel;
+        $this->mapId            = self::unserializeValue($struct, 'mapId');
+        $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
   
         // Layers class names are specicified in className attribute
-        $this->layers           = self::unserializeObjectMap($struct->layers);
-        $this->initialMapStates = self::unserializeObjectMap($struct->initialMapStates, 'InitialMapState');
-        $this->extent           = self::unserializeObject($struct->extent, 'Bbox');
-        $this->location         = self::unserializeObject($struct->location, 'Location');
+        $this->layers           = self::unserializeObjectMap($struct, 'layers');
+        $this->initialMapStates = self::unserializeObjectMap($struct, 'initialMapStates', 'InitialMapState');
+        $this->extent           = self::unserializeObject($struct, 'extent', 'Bbox');
+        $this->location         = self::unserializeObject($struct, 'location', 'Location');
     }
     
     function getLayerList() {

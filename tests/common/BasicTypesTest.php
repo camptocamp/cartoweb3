@@ -5,7 +5,9 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
 
 /**
- * @author      Yves Bolognini <yves.bolognini@camptocamp.com>
+ * Unit tests for basic types
+ *
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
 
@@ -17,10 +19,36 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $dimension->height);
     }
 
+    public function testDimensionUnserialize() {
+        
+        $struct = new stdclass();
+        $struct->width = 123;
+        $struct->height = 456;
+        
+        $dimension = new Dimension(111, 222);
+        $dimension->unserialize($struct);
+
+        $this->assertEquals(123, $dimension->width);
+        $this->assertEquals(456, $dimension->height);
+    }
+
     public function testPointConstruct() {
     
         $point = new Point(123, 456);
 
+        $this->assertEquals(123, $point->x);
+        $this->assertEquals(456, $point->y);
+    }
+    
+    public function testPointUnserialize() {
+        
+        $struct = new stdclass();
+        $struct->x = 123;
+        $struct->y = 456;
+        
+        $point = new Point(111, 222);
+        $point->unserialize($struct);
+        
         $this->assertEquals(123, $point->x);
         $this->assertEquals(456, $point->y);
     }
@@ -67,6 +95,23 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $bbox = new Bbox();
         $bbox->setFromBbox(12, 34, 56, 78);
         
+        $this->assertEquals(12, $bbox->minx);
+        $this->assertEquals(34, $bbox->miny);
+        $this->assertEquals(56, $bbox->maxx);
+        $this->assertEquals(78, $bbox->maxy);
+    }
+    
+    public function testBboxUnserialize() {
+        
+        $struct = new stdclass();
+        $struct->minx = 12;
+        $struct->miny = 34;
+        $struct->maxx = 56;
+        $struct->maxy = 78;
+        
+        $bbox = new Bbox();
+        $bbox->unserialize($struct);
+
         $this->assertEquals(12, $bbox->minx);
         $this->assertEquals(34, $bbox->miny);
         $this->assertEquals(56, $bbox->maxx);

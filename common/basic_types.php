@@ -64,10 +64,9 @@ class Point extends Shape {
     
     function toBbox($margin = 0) {
         $bbox = new Bbox();
-        if ($margin > 0) {
-        
-        	// TODO
-            $bbox->setFromBbox($this->x, $this->y, $this->x, $this->y);
+        if ($margin > 0) {    
+            $bbox->setFromBbox($this->x - $margin, $this->y - $margin,
+                               $this->x + $margin, $this->y + $margin);
         } else {
             $bbox->setFromBbox($this->x, $this->y, $this->x, $this->y);
         }
