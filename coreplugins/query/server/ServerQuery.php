@@ -170,6 +170,7 @@ class ServerQuery extends ClientResponderAdapter {
         $resultTable = new Table();
         $resultTable->tableId = $table1->tableId;
         $resultTable->tableTitle = $table1->tableTitle;
+        $resultTable->columnIds = $table1->columnIds;
         $resultTable->columnTitles = $table1->columnTitles;
         $resultTable->rows = array();
         $resultTable->numRows = 0;
