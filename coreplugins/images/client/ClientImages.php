@@ -29,7 +29,8 @@ class ImagesState {
  * @package CorePlugins
  */
 class ClientImages extends ClientPlugin
-                   implements Sessionable, GuiProvider, ServerCaller, Exportable {
+                   implements Sessionable, GuiProvider, ServerCaller, 
+                              Exportable {
     /**
      * @var Logger
      */
@@ -404,19 +405,25 @@ class ClientImages extends ClientPlugin
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {
         
-        $mapRequest->imagesRequest->mainmap->isDrawn  = $configuration->isRenderMap();
-        $mapRequest->imagesRequest->keymap->isDrawn   = $configuration->isRenderKeyMap();
-        $mapRequest->imagesRequest->scalebar->isDrawn = $configuration->isRenderScalebar();
+        $isRenderMap = $configuration->isRenderMap();
+        if (!is_null($isRenderMap))
+            $mapRequest->imagesRequest->mainmap->isDrawn = $isRenderMap;
 
-        if ($configuration->getMapHeight()) {
-            $mapRequest->imagesRequest->mainmap->height = 
-                $configuration->getMapHeight();
-        }
+        $isRenderKeyMap = $configuration->isRenderKeyMap();
+        if (!is_null($isRenderKeyMap))
+            $mapRequest->imagesRequest->keymap->isDrawn = $isRenderKeyMap;
 
-        if ($configuration->getMapWidth()) {
-            $mapRequest->imagesRequest->mainmap->width =
-                $configuration->getMapWidth();
-        }
+        $isRenderScalebar = $configuration->isRenderScalebar();
+        if (!is_null($isRenderScalebar))
+            $mapRequest->imagesRequest->scalebar->isDrawn = $isRenderScalebar;
+
+        $mapHeight = $configuration->getMapHeight();
+        if (!is_null($mapHeight))
+            $mapRequest->imagesRequest->mainmap->height = $mapHeight;
+
+        $mapWidth = $configuration->getMapWidth();
+        if (!is_null($mapWidth))
+            $mapRequest->imagesRequest->mainmap->width = $mapWidth;
     }    
 }
 
