@@ -385,6 +385,9 @@ class ClientLayers extends ClientPlugin
                 $this->layersData[$layer->id] = new LayerState;
                 $this->layersData[$layer->id]->id = $layer->id;
             }
+            if ($layer instanceof LayerGroup || $layer instanceof Layer) {
+                $this->nodesIds[] = $layer->id;
+            }
         }
 
         $this->layersState->nodesIds =& $this->nodesIds;
