@@ -25,6 +25,9 @@ require_once 'server/AllTests.php';
  */
 class AllTests {
 
+    /**
+     * @return PHPUnit2_Framework_TestSuite
+     */
     public static function suite() {
 
         $suite = new PHPUnit2_Framework_TestSuite;
