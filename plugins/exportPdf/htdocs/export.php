@@ -19,6 +19,9 @@ Common::preInitializeCartoweb(array('client' => true));
 require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 
 $cartoclient = new Cartoclient();
+if (!$cartoclient->clientAllowed()) {
+    return;
+}
 
 $plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
 $plugin->handleHttpPostRequest($_REQUEST);
