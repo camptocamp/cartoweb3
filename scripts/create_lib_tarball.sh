@@ -5,10 +5,7 @@
 # 
 # You need to adjust the url the libraries if you need a newer version
 
-# packages with extracted structure PackageName-Version/files
-PEAR_PACKAGES1="PHPUnit2 Benchmark PhpDocumentor"
-# packages with extracted structure /files
-PEAR_PACKAGES2="PEAR Console_Getopt"
+PEAR_PACKAGES="PHPUnit2 Benchmark PhpDocumentor PEAR Archive_Tar XML_RPC Console_Getopt"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
 SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
@@ -17,55 +14,67 @@ SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
 TARBALL="cartoweb3_includes.tgz"
 
-[ -d include ] && rm -rf include
-mkdir -p include
-cd include
+prepare()
+{
+    [ -d include ] && rm -rf include
+    mkdir -p include
+    cd include
+}
 
-## pear packages
+fetch_pear()
+{
+    PEAR_DIRECTORY=pear_base
+    PEAR_PHP_DIR=pear
 
-mkdir -p pear
+    # Warning: please remove preferred_state=devel when phpDocumentor is php 5 compatible
 
-for i in $PEAR_PACKAGES1; do 
-    echo "fetching pear package: $i"
-    pear download $i
-    tar -C pear -zxf $i*gz
-    mv pear/$i* pear/$i
-    rm $i*gz
-done
+    pear -s -c $PEAR_DIRECTORY/.pearrc -d preferred_state=devel -d doc_dir=$PEAR_DIRECTORY/docs -d ext_dir=$PEAR_DIRECTORY/ext \
+           -d php_dir=$PEAR_PHP_DIR -d data_dir=$PEAR_DIRECTORY/data -d test_dir=$PEAR_DIRECTORY/tests \
+           -d cache_dir=$PEAR_DIRECTORY/cache -d bin_dir=$PEAR_DIRECTORY/bin 
+          
+    pear -c $PEAR_DIRECTORY/.pearrc install $PEAR_PACKAGES
+}
 
-for i in $PEAR_PACKAGES2; do 
-    echo "fetching pear package: $i"
-    pear download $i
-    tar -C pear -zxf $i*gz
-    mv pear/$i*/* pear/
-    rmdir pear/$i?* >/dev/null 2>&1
-    rm $i*gz
-done
+fetch_contrib()
+{
+    ## log4php
 
-## log4php
+    wget -O- $LOG4PHP|tar zxf -
+    mv log4php*/src/log4php .
+    rm -r log4php?*
 
-wget -O- $LOG4PHP|tar zxf -
-mv log4php*/src/log4php .
-rm -r log4php?*
+    ## smarty
 
-## smarty
+    wget -O- $SMARTY|tar zxf -
+    mv Smarty-*/libs smarty
+    rm -r Smarty-*
+}
 
-wget -O- $SMARTY|tar zxf -
-mv Smarty-*/libs smarty
-rm -r Smarty-*
+create_tarball()
+{
+    cd ..
 
-## create tarball
+    [ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
 
-cd ..
+    cp -rl include_addons include_addons_tmp
+    find include_addons_tmp -name CVS | xargs --no-run-if-empty rm -r
+    (cd include_addons_tmp; \cp -rf --parents include/ .. )
+    rm -rf include_addons_tmp
 
-[ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
+    tar zcf $TARBALL include
+    rm -r include
+}
 
-(cd include_addons; \cp -rf --parents include/ .. )
+upload()
+{
+   if [ -n "$UPLOAD_HOST" ] ; then
+       scp $TARBALL $UPLOAD_HOST
+   fi 
+}
 
-tar zcf $TARBALL include
-rm -r include
-
-if [ -n "$UPLOAD_HOST" ] ; then
-    scp $TARBALL $UPLOAD_HOST
-    #rm $TARBALL
-fi
+# main
+prepare
+fetch_pear
+fetch_contrib
+create_tarball
+upload

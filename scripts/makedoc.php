@@ -43,15 +43,21 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
                  CARTOCLIENT_HOME . 'include/pear/' . PATH_SEPARATOR . 
                  CARTOCLIENT_HOME . 'include/pear/PhpDocumentor/');
 
+// creates a symlink from pear_base --> ../include/pear_base
+// FIXME: is there a better way to do it ?
+if (!is_link('pear_base')) {
+    symlink('../include/pear_base', 'pear_base');
+}
+
 /**
- * Directory where parsing must start
+ * Directories and files to include
  */
-define('ROOT_DIR', '..');
+define('INCLUDE_FILES', '../client,../server,../common,../plugins,../coreplugins,../tests');
 
 /**
  * Directories (ending with '/') and files to ignore
  */
-define('IGNORE_FILES', 'include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
+define('IGNORE_FILES', 'scripts/pear_base/,include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
 
 /**
  * Documentation title
@@ -78,7 +84,7 @@ define('PARSE_PRIVATE', 'on');
  */
 define('TEMPLATE', 'HTML:frames:l0l33t');
  
-$_SERVER['argv'] = array('-d',  ROOT_DIR,
+$_SERVER['argv'] = array('-d',  INCLUDE_FILES,
                          '-i',  IGNORE_FILES,
                          '-ti', DOC_TITLE,
                          '-t',  DOC_DIR,
