@@ -33,6 +33,7 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
         $config->mapId = 'test';
         $config->developerMode = false;
         $config->cartoserverUrl = $this->getCartoserverUrl();        
+        $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
         $this->assertNotNull($config->cartoserverUrl, 'You need to set cartoserverUrl in client.ini');
         $config->cartoserverDirectAccess = true;
         

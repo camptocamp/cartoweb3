@@ -234,6 +234,12 @@ function setupSoapService($cartoserver) {
             // disables WSDL cache
             ini_set("soap.wsdl_cache_enabled", "0");
         }
+        $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
+        if (is_writable($wsdlCacheDir))
+            ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+        
+    } else {
+        // should this case happen ?
     }
 
     $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
