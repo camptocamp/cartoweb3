@@ -1,0 +1,21 @@
+This directory contains tests for cartoweb using HttpUnit
+
+To learn more about HttpUnit, you can go there:
+
+http://httpunit.sourceforge.net/
+
+If you want to run the HttpUnit test from java, 
+ you can type (in this directory):
+
+java -classpath httpunit_all.jar:bin CartowebTest CARTOCLIENT_URL
+
+where CARTOCLIENT_URL is the url of your cartoclient, like for instance:
+
+http://www.example.com/path/to/client.php
+
+If you want to develop these tests, you can edit the .java files in this
+directory, and type "make" to recompile.
+
+Alternaly, if you are using Eclipse, you can import this directory as an 
+eclipse project.
+
