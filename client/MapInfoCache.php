@@ -43,7 +43,7 @@ class MapInfoCache {
      */
     private function getMapInfoWithService($mapId) {
 
-        return $this->cartoclient->cartoserverService->getMapInfo($mapId);
+        return $this->cartoclient->getCartoserverService()->getMapInfo($mapId);
     }
 
     /**
