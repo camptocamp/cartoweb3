@@ -101,6 +101,9 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     }
 
     function handleResult($outlineResult) {
+        if (is_null($outlineResult)) {
+            return;
+        }
         $this->area = $outlineResult->area;
     }
 
