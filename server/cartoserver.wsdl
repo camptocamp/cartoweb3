@@ -16,8 +16,8 @@
 
       <complexType name="Point">
         <all>
-          <element name="x" type="xsd:int"/>
-          <element name="y" type="xsd:int"/>
+          <element name="x" type="xsd:double"/>
+          <element name="y" type="xsd:double"/>
         </all>
       </complexType>
 
