@@ -15,6 +15,7 @@ general.distUnit = mm
 general.horizontalMargin = 10
 general.verticalMargin = 10
 general.allowedRoles = all
+general.importRemotePng = false
 
 ; formats settings
 formats.A4.label = A4
