@@ -7,21 +7,9 @@
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
   <title>{$cartoclient_title}</title>
 
-  {literal}
-  <script language="Javascript" type="text/javascript">
-  <!--
-    function FormItemSelected() {
-      document.carto_form.submit();
-    }
-  
-    function CheckRadio(theIndex) {
-      document.carto_form.tool[theIndex].checked = true;
-    }
-  //-->
-  </script>
+  <script type="text/javascript" src="{$project_js_carto}"></script>
   
   <!-- BEGIN dhtmlHeader -->
-  {/literal}
   <link rel="stylesheet" type="text/css" href="{$project_css_dhtml_tools}" title="stylesheet" />
   {literal}  
   <script type="text/javascript" src="js/x_core_nn4.js"></script>
