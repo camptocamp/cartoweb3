@@ -51,6 +51,21 @@
         $this->space = new SpaceManager($params);
     }
 
+    private function getPageDim($dim) {
+        $dist = $this->{'page' . $dim};
+        return PrintTools::switchDistUnit($dist,
+                                          'pt', 
+                                          $this->general->distUnit);       
+    }
+
+    function getPageWidth() {
+        return getPageDim('Width');
+    }
+
+    function getPageHeight() {
+        return getPageDim('Height');
+    }
+
     /**
      * Shortcut for distance units converter.
      */
