@@ -174,7 +174,7 @@ class ServerSelection extends ClientResponderAdapter {
             $this->log->debug("merged ids are: " . var_export($mergedIds, true));            
         }
 
-        $pluginManager = $this->serverContext->pluginManager;
+        $pluginManager = $this->serverContext->getPluginManager();
         if (!empty($pluginManager->hilight)) {
             $requ->selectedIds = $mergedIds;
             $pluginManager->hilight->hilightLayer($requ);
