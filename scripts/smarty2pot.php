@@ -33,26 +33,26 @@ $plurals = array();
 // "fix" string - strip slashes, escape and convert new lines to \n
 function fs($str)
 {
-	$str = stripslashes($str);
-	$str = str_replace('"', '\"', $str);
-	$str = str_replace("\n", '\n', $str);
-	return $str;
+    $str = stripslashes($str);
+    $str = str_replace('"', '\"', $str);
+    $str = str_replace("\n", '\n', $str);
+    return $str;
 }
 
 // rips gettext strings from $file and prints them in POT format
 function do_file($file)
 {
-	$content = @file_get_contents($file);
+    $content = @file_get_contents($file);
+   
+    if (empty($content)) {
+        return;
+    }
 
-	if (empty($content)) {
-		return;
-	}
+    global $ldq, $rdq, $cmd, $texts, $plurals;
 
-	global $ldq, $rdq, $cmd, $texts, $plurals;
-
-	preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/", $content, $matches);
-	
-	for ($i=0; $i < count($matches[0]); $i++) {
+    preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/", $content, $matches);
+    
+    for ($i=0; $i < count($matches[0]); $i++) {
         $text = fs($matches[3][$i]);
         $ref = substr($file, (strlen(CARTOCLIENT_HOME) - strlen($file)));
         if (array_key_exists($text, $texts)) {
@@ -60,10 +60,10 @@ function do_file($file)
         } else {
             $texts[$text] = $ref;
         }
-		if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
+        if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
             $plurals[$text] = fs($match[1]);
-		}
-	}
+        }
+    }
 }
 
 // go through a directory
@@ -79,27 +79,27 @@ function do_dir($dir)
             && (!strstr($dir, 'projects/')
                 || strstr($dir, 'projects/' . $projectName)))) {
     
-    	$d = dir($dir);
+        $d = dir($dir);
     
-    	while (false !== ($entry = $d->read())) {
-    		if ($entry == '.' || $entry == '..') {
-    			continue;
-    		}
+        while (false !== ($entry = $d->read())) {
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
     
-    		$entry = $dir.'/'.$entry;
+            $entry = $dir.'/'.$entry;
+
+            if (is_dir($entry)) { // if a directory, go through it
+                do_dir($entry);
+            } else { // if file, parse only if extension is matched
+                $pi = pathinfo($entry);
+                
+                if (isset($pi['extension']) && in_array($pi['extension'], $GLOBALS['extensions'])) {
+                    do_file($entry);
+                }
+            }
+        }
     
-    		if (is_dir($entry)) { // if a directory, go through it
-    			do_dir($entry);
-    		} else { // if file, parse only if extension is matched
-    			$pi = pathinfo($entry);
-    			
-    			if (isset($pi['extension']) && in_array($pi['extension'], $GLOBALS['extensions'])) {
-    				do_file($entry);
-    			}
-    		}
-    	}
-    
-    	$d->close();
+        $d->close();
     }
 }
 
