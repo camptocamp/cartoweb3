@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-02-16 17:38+0100\n"
+"POT-Creation-Date: 2005-03-11 17:26+0100\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -35,270 +35,296 @@ msgstr "big"
 msgid "giant"
 msgstr "giant"
 
-#: coreplugins/images/templates/mapsizes.tpl/
+#: coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize:"
 msgstr "Mapsize"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
 msgstr "expand tree"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "close tree"
 msgstr "close tree"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "check all"
 msgstr "check all"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "uncheck all"
 msgstr "uncheck all"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "more info on"
 msgstr "more info on"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
 msgstr "Click to go to next visible scale:"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
 msgstr "Zoom in to see layer"
 
-#: coreplugins/layers/templates/layers.tpl/
+#: coreplugins/layers/templates/layers.tpl
 msgid "Zoom out to see layer"
 msgstr "Zoom out to see layer"
 
-#: coreplugins/location/templates/id_recenter.tpl/
+#: coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on"
 msgstr "Layer to center on"
 
-#: coreplugins/location/templates/id_recenter.tpl/
+#: coreplugins/location/templates/id_recenter.tpl
 #, fuzzy
 msgid "Comma separated id's"
 msgstr "Coma separated id's"
 
-#: coreplugins/location/templates/recenter.tpl/
+#: coreplugins/location/templates/recenter.tpl
 msgid "X"
 msgstr "X"
 
-#: coreplugins/location/templates/recenter.tpl/
+#: coreplugins/location/templates/recenter.tpl
 msgid "Y"
 msgstr "Y"
 
-#: coreplugins/location/templates/scales.tpl/
+#: coreplugins/location/templates/scales.tpl
 msgid "Scale"
 msgstr "Scale"
 
-#: coreplugins/location/templates/shortcuts.tpl/
+#: coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 #, fuzzy
 msgid "Query information:"
 msgstr "Selection information:"
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 msgid "Layer"
 msgstr ""
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 msgid "In Query"
 msgstr ""
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 msgid "Policy"
 msgstr ""
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 #, fuzzy
 msgid "Mask Mode"
 msgstr "Mask mode"
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+#, fuzzy
+msgid "Attributes"
+msgstr "Show attributes"
+
+#: coreplugins/query/templates/query.tpl
+#, fuzzy
+msgid "Table"
+msgstr "Scale"
+
+#: coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
 msgstr ""
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/query/templates/query.tpl
 msgid "query_clear"
 msgstr ""
 
-#: coreplugins/tables/templates/tables.tpl/
+#: coreplugins/tables/templates/tables.tpl
 msgid "Id"
 msgstr "Id"
 
-#: coreplugins/tables/templates/tables.tpl/
+#: coreplugins/tables/templates/tables.tpl
 msgid "Download CSV"
 msgstr "Download CSV"
 
 # images.ini:mapSizes.3.label
-#: plugins/auth/templates/auth.tpl/
+#: plugins/auth/templates/auth.tpl
 #, fuzzy
 msgid "login"
 msgstr "giant"
 
-#: plugins/auth/templates/auth.tpl/
+#: plugins/auth/templates/auth.tpl
 msgid "logout"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/ templates/cartoclient.tpl/
+#: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (EN)"
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Please enter your login and password"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Username"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Password"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Submit"
 msgstr ""
 
-#: plugins/auth/templates/login_page.tpl/
+#: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
 msgstr ""
 
-#: plugins/exportHtml/templates/export.tpl/
-#: plugins/exportPdf/templates/form.tpl/ templates/cartoclient.tpl/
+#: plugins/exportHtml/templates/export.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
 msgid "Print"
 msgstr "Print"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Format:"
 msgstr "Format:"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Resolution:"
 msgstr "Resolution:"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Portrait"
 msgstr "Portrait"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
 msgstr "Landscape"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Title:"
 msgstr "Title:"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Note:"
 msgstr "Note:"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Scalebar"
 msgstr "Scalebar"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Overview"
 msgstr "Overview"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
 msgstr "QueryResult"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "Legend"
 msgstr "Legend"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "On map"
 msgstr "On map"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "In new page"
 msgstr "In new page"
 
-#: plugins/exportPdf/templates/form.tpl/
+#: plugins/exportPdf/templates/form.tpl
 msgid "None"
 msgstr "None"
 
-#: plugins/outline/templates/outline.tpl/
+#: plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr "Draw"
 
-#: plugins/outline/templates/outline.tpl/
+#: plugins/outline/templates/outline.tpl
 msgid "Mask"
 msgstr "Mask"
 
-#: plugins/outline/templates/outline.tpl/
+#: plugins/outline/templates/outline.tpl
 msgid "Total area"
 msgstr "Total area"
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "scalebar_alt"
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid " User messages "
 msgstr " User messages "
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid " Developer messages "
 msgstr " Developer messages "
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "Choose project"
 msgstr ""
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "Navigation"
 msgstr "Navigation"
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "Themes"
 msgstr "Themes"
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "PDF"
 msgstr "PDF"
 
-#: templates/cartoclient.tpl/
+#: templates/cartoclient.tpl
 msgid "keymap_alt"
 msgstr "keymap_alt"
 
-#: templates/dhtmlcode.tpl/
+#: templates/dhtmlcode.tpl
 msgid "Main map"
 msgstr "Main map"
 
-#: templates/dhtmlcode.tpl/
+#: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
 msgstr "Approx. distance: "
 
-#: templates/dhtmlcode.tpl/
+#: templates/dhtmlcode.tpl
 msgid "Approx. surface: "
 msgstr "Approx. surface: "
 
-#: templates/dhtmlcode.tpl/
+#: templates/dhtmlcode.tpl
 msgid "Coords (m): "
 msgstr "Coords (m): "
 
-#: templates/mainmap.tpl/
+#: templates/mainmap.tpl
 msgid "Loading message"
 msgstr "Loading..."
 
-#: templates/unauthorized.tpl/
+#: templates/unauthorized.tpl
 msgid "Unauthorized"
+msgstr ""
+
+#: /home/camptocamp/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:299
+msgid "label"
+msgstr ""
+
+#: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1027
+msgid "Click here to display PDF file"
+msgstr ""
+
+#: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:792
+msgid "Page"
 msgstr ""
 
 #, fuzzy
@@ -310,9 +336,6 @@ msgstr ""
 
 #~ msgid "Select a hilight layer"
 #~ msgstr "Select a hilight layer"
-
-#~ msgid "Show attributes"
-#~ msgstr "Show attributes"
 
 #~ msgid "Selected elements:"
 #~ msgstr "Selected elements:"
