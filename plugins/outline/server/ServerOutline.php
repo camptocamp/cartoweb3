@@ -103,6 +103,8 @@ class ServerOutline extends ClientResponderAdapter {
     private function convertPolygon($polygon) {
         $line = ms_newLineObj();
 
+        if (count($polygon->points) == 0)
+            throw new CartoserverException('Invalid polygon: has 0 points');
         foreach ($polygon->points as $point) {
             $line->addXY($point->x, $point->y);
         }
