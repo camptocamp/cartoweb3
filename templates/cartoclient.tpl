@@ -30,7 +30,7 @@
     } else {
       dhtmlDivs = '<div id="mapImageDiv" class="dhtmldiv" style="visibility:hidden"><img ';
       {/literal}
-      dhtmlDivs += 'src="' + document.image.src + '" alt="{$mainmap_alt}" title="" ';
+      dhtmlDivs += 'src="' + document.image.src + '" alt="{t}Main map{/t}" title="" ';
       dhtmlDivs += 'width="{$mainmap_width}" height="{$mainmap_height}" /></div>';
       {literal}
     }
@@ -95,7 +95,7 @@
     {counter start=-1 print=false name=tindex}
     {foreach from=$tools key=toolcode item=toolname}
     <label for="{$toolcode}"><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
-    id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="gfx/layout/{$toolcode}.gif" alt="{$toolname}" 
+    id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="{r type=gfx/layout}{$toolcode}.gif{/r}" alt="{$toolname}" 
     onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$toolcode}')" /></label>&nbsp;
     {/foreach}   
   </p>
@@ -129,7 +129,7 @@
       </tr>
       {if $scalebar_path|default:''}
       <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
-      alt="{$scalebar_alt}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /></td></tr>
+      alt="{t}scalebar_alt{/t}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /></td></tr>
       {/if}
     </table>
 
@@ -157,7 +157,8 @@ ClientContext:
 
   {if $keymap_path|default:''}
   <div id="keymap">
-  <input id="keymap" type="image" name="keymap" src="{$keymap_path}" />
+  <input id="keymap" type="image" name="keymap" src="{$keymap_path}" 
+  style="width:{$keymap_width}px;height:{$keymap_height}px;" />
   </div>
   {/if}
 
