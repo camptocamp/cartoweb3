@@ -4,6 +4,8 @@
  * @version $Id$
  */
 
+require_once(CARTOCOMMON_HOME . 'coreplugins/query/common/Query.php');
+
 /**
  * Request for hilighting. The IdSelection class which it extends is found 
  * in the location core plugin.
@@ -13,13 +15,13 @@
 class HilightRequest extends IdSelection {
 
     public $maskMode;
-    public $calculateArea;
+    public $retrieveAttributes;
 
     function unserialize($struct) {
         $this->maskMode      = Serializable::unserializeValue($struct, 
                                                         'maskMode', 'boolean');
-        $this->calculateArea = Serializable::unserializeValue($struct, 
-                                                    'calculateArea', 'boolean');
+        $this->retrieveAttributes = Serializable::unserializeValue($struct, 
+                                               'retrieveAttributes', 'boolean');
         parent::unserialize($struct);        
     }
 }
@@ -28,10 +30,11 @@ class HilightRequest extends IdSelection {
  * @package Plugins
  */
 class HilightResult extends Serializable {
-    public $area;
+    public $layerResults;
     
     function unserialize($struct) {
-        $this->area = self::unserializeValue($struct, 'area', 'double');
+        $this->layerResults = Serializable::unserializeObjectMap($struct, 
+                                        'layerResults', 'LayerResult');
     }
 }
 

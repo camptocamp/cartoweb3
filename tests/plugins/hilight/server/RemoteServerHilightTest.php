@@ -21,20 +21,37 @@ require_once(CARTOCOMMON_HOME . 'plugins/hilight/common/Hilight.php');
 class plugins_hilight_server_RemoteServerHilightTest
                     extends client_CartoserverServiceWrapper {
 
+    private function getTotalArea($hilightResult) {
+        if (is_null($hilightResult))
+            return 0.0;
+        $area = 0.0;
+        $layerResult = $hilightResult->layerResults[0];
+        $areaIndex = array_search('area', $layerResult->fields);
+        if ($areaIndex === false)
+            return 0.0;
+        foreach ($layerResult->resultElements as $resElement) {
+            $area += (double)$resElement->values[$areaIndex];
+        }
+        return $area;
+    }
+
     private function doTestHilightRequest($layerId, $selectedIds, 
                                             $expectedArea, $direct) {
 
         $hilightRequest = new HilightRequest();
         $hilightRequest->layerId = $layerId;
         $hilightRequest->selectedIds = $selectedIds;
-        $hilightRequest->calculateArea = true;
-
+        $hilightRequest->retrieveAttributes = true;
+        
         $mapRequest = $this->createRequest();
         $mapRequest->hilightRequest = $hilightRequest;
         
         $mapResult = $this->getMap($mapRequest, $direct);
 
-        $this->assertEquals($expectedArea, $mapResult->hilightResult->area);
+        /* TODO: add some tests for the labels */
+
+        $area = $this->getTotalArea($mapResult->hilightResult);
+        $this->assertEquals($expectedArea, $area);
     }
     
     function testHilightFixedValue0($direct = false) {
