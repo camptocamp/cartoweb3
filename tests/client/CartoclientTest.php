@@ -35,7 +35,8 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         
         // A list of path where to look for Java binary
         //  add your path here according to your system
-        $check_paths = array('/home/sypasche/myfiles/java/jdk/bin');
+        $check_paths = array('/home/sypasche/myfiles/java/jdk/bin',
+                             '/usr/local/jdk/bin');
         $java_path = NULL;
         foreach ($check_paths as $path) {
             if (file_exists($path . '/java')) {
