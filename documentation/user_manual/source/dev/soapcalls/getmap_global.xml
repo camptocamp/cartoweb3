@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect2 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect2 id="dev.soapcalls.getmap.global">
+  <title>Global Structures</title>
+  <para>Below is a description of general 
+    requests and results which include plugin-specific ones.</para>
+  <sect3 id="dev.soapcalls.getmap.global.request">
+    <title>Request</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="MapRequest">
+  <all>
+    <element name="mapId" type="xsd:string"/>
+    ...elements specific to plugins...
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>mapId - project name and mapfile name separated by a 
+            point</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+  <sect3 id="dev.soapcalls.getmap.global.result">
+    <title>Result</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="MapResult">
+  <all>
+    <element name="timeStamp" type="xsd:integer"/>
+    <element name="serverMessages" type="types:ArrayOfMessage" minOccurs="0"/>
+    ...elements specific to plugins...
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>timeStamp -</para>
+        </listitem>
+        <listitem>
+          <para>serverMessages -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
-<chapter id="dev.getmapinfo">
+<sect1 id="dev.soapcalls.getmapinfo">
   <title>Call to getMapInfo</title>
 
-  <sect1 id="dev.getmapinfo.intro">
+  <sect2 id="dev.soapcalls.getmapinfo.intro">
     <title>Introduction</title>
     <para></para>
-  </sect1>
-</chapter>
+  </sect2>
+</sect1>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect2 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect2 id="dev.soapcalls.getmap.images">
+  <title>Images</title>
+  <para>
+    The Images plugin generates MapServer images. [...]
+  </para>
+  <sect3 id="dev.soapcalls.getmap.images.request">
+    <title>Request</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="Image">
+  <all>
+    <element name="isDrawn" type="xsd:boolean"/>
+    <element name="path" type="xsd:string"/>
+    <element name="width" type="xsd:int"/>
+    <element name="height" type="xsd:int"/>
+    <element name="format" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>isDrawn -</para></listitem>
+        <listitem><para>path -</para></listitem>
+        <listitem><para>width -</para></listitem>
+        <listitem><para>height -</para></listitem>
+        <listitem><para>format -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ImagesRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="mainmap" type="types:Image"/>
+    <element name="keymap" type="types:Image"/>
+    <element name="scalebar" type="types:Image"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>className -</para></listitem>
+        <listitem><para>mainmap -</para></listitem>
+        <listitem><para>keymap -</para></listitem>
+        <listitem><para>scalebar -</para></listitem>
+      </itemizedlist>				
+    </para>
+  </sect3>
+  <sect3 id="dev.soapcalls.getmap.images.result">
+    <title>Result</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="ImagesResult">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="mainmap" type="types:Image"/>
+    <element name="keymap" type="types:Image"/>
+    <element name="scalebar" type="types:Image"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>className -</para></listitem>
+        <listitem>
+          <para>mainmap - [...] see <xref 
+            linkend="dev.soapcalls.getmap.images.request" /> </para>
+        </listitem>
+        <listitem><para>keymap -</para></listitem>
+        <listitem><para>scalebar -</para></listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>

@@ -90,11 +90,9 @@
         Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
         Bli Bli </para>
     </partintro>
-    <xi:include href="dev/getmapinfo.xml"
+    <xi:include href="dev/soapcalls.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <xi:include href="dev/getmap.xml" 
-      xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <xi:include href="dev/new_plugin.xml" 
+    <xi:include href="dev/newplugin.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
 

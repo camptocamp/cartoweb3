@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect2 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect2 id="dev.soapcalls.getmap.query">
+  <title>Query</title>
+  <para>The Query plugin [...] </para>
+  <para>TODO: Say it's not mandatory
+  </para>
+  <sect3 id="dev.soapcalls.getmap.query.request">
+    <title>Request</title>
+    <para>
+      <programlisting><![CDATA[
+<simpleType name="QuerySelectionPolicy">
+  <restriction base="xsd:string">
+    <enumeration value="POLICY_XOR"/>
+    <enumeration value="POLICY_UNION"/>
+    <enumeration value="POLICY_INTERSECTION"/>
+  </restriction>
+</simpleType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>POLICY_XOR -</para>
+        </listitem>
+        <listitem>
+          <para>POLICY_UNION -</para>
+        </listitem>
+        <listitem>
+          <para>POLICY_INTERSECTION -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="QuerySelection">
+  <all>
+    <element name="layerId" type="xsd:string"/>
+    <element name="idAttribute" type="xsd:string"/>
+    <element name="idType" type="xsd:string"/>
+    <element name="selectedIds" type="types:ArrayOfString"/>
+    <element name="useInQuery" type="xsd:boolean"/>
+    <element name="policy" type="types:QuerySelectionPolicy"/>
+    <element name="maskMode" type="xsd:boolean"/>
+    <element name="tableFlags" type="types:TableFlags"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>layerId -</para>
+        </listitem>
+        <listitem>
+          <para>idAttribute -</para>
+        </listitem>
+        <listitem>
+          <para>idType -</para>
+        </listitem>
+        <listitem>
+          <para>selectedIds -</para>
+        </listitem>
+        <listitem>
+          <para>useInQuery -</para>
+        </listitem>
+        <listitem>
+          <para>policy -</para>
+        </listitem>
+        <listitem>
+          <para>maskMode -</para>
+        </listitem>
+        <listitem>
+          <para>tableFlags -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfQuerySelection">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:QuerySelection[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="QueryRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="bbox" type="types:Bbox"/>
+    <element name="queryAllLayers" type="xsd:boolean"/>
+    <element name="defaultMaskMode" type="xsd:boolean"/>
+    <element name="defaultTableFlags" type="types:TableFlags"/>
+    <element name="querySelections" type="types:ArrayOfQuerySelection"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>bbox -</para>
+        </listitem>
+        <listitem>
+          <para>queryAllLayers -</para>
+        </listitem>
+        <listitem>
+          <para>defaultMaskMode -</para>
+        </listitem>
+        <listitem>
+          <para>defaultTableFlags -</para>
+        </listitem>
+        <listitem>
+          <para>querySelections -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+  <sect3 id="dev.soapcalls.getmap.query.result">
+    <title>Result</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="QueryResult">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="tableGroup" type="types:TableGroup"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>tableGroup -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>

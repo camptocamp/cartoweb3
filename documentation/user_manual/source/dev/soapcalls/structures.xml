@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect1 id="dev.soapcalls.basictypes">
+  <title>Standard Structures</title>  
+  <sect2 id="dev.getmap.intro.basic">
+    <title>Basic Types</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="Bbox">
+  <all>
+    <element name="minx" type="xsd:double"/>
+    <element name="miny" type="xsd:double"/>
+    <element name="maxx" type="xsd:double"/>
+    <element name="maxy" type="xsd:double"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>minx -</para></listitem>
+        <listitem><para>miny -</para></listitem>
+        <listitem><para>maxx -</para></listitem>
+        <listitem><para>maxy -</para></listitem>
+      </itemizedlist>
+    </para>
+  </sect2>
+  <sect2 id="dev.getmap.intro.tables">
+    <title>Tables</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="TableRow">
+  <all>
+    <element name="rowId" type="xsd:string"/>
+    <element name="cells" type="types:ArrayOfString"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>rowId -</para></listitem>
+        <listitem><para>cells -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfTableRow">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:TableRow[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="Table">
+  <all>
+    <element name="tableId" type="xsd:string"/>
+    <element name="tableTitle" type="xsd:string"/>
+    <element name="numRows" type="xsd:integer"/>
+    <element name="totalRows" type="xsd:integer"/>
+    <element name="offset" type="xsd:integer"/>
+    <element name="columnIds" type="types:ArrayOfString"/>
+    <element name="columnTitles" type="types:ArrayOfString"/>
+    <element name="noRowId" type="xsd:boolean"/>
+    <element name="rows" type="types:ArrayOfTableRow"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>tableId -</para></listitem>
+        <listitem><para>tableTitle -</para></listitem>
+        <listitem><para>numRows -</para></listitem>
+        <listitem><para>totalRows -</para></listitem>
+        <listitem><para>offset -</para></listitem>
+        <listitem><para>columnIds -</para></listitem>
+        <listitem><para>columnTitles -</para></listitem>
+        <listitem><para>noRowId -</para></listitem>
+        <listitem><para>rows -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfTable">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:Table[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="TableGroup">
+  <all>
+    <element name="groupId" type="xsd:string"/>
+    <element name="groupTitle" type="xsd:string"/>
+    <element name="tables" type="types:ArrayOfTable"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>groupId -</para></listitem>
+        <listitem><para>groupTitle -</para></listitem>
+        <listitem><para>tables -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfTableGroup">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:TableGroup[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="TableFlags">
+  <all>
+    <element name="returnAttributes" type="xsd:boolean"/>
+    <element name="returnTable" type="xsd:boolean"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>returnAttributes -</para></listitem>
+        <listitem><para>returnTable -</para></listitem>
+      </itemizedlist>
+  	</para>
+  </sect2>
+</sect1>

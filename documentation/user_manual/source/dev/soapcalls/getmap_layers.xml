@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect2 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect2 id="dev.soapcalls.getmap.layers">
+  <title>Layers</title>
+  <para>
+    The Layers plugin handles layers selection. [...]
+  </para>
+  <sect3 id="dev.soapcalls.getmap.layers.request">
+    <title>Request</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLayerId">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array -</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="LayersRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="layerIds" type="types:ArrayOfLayerId"/>
+    <element name="resolution" type="xsd:int"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>className -</para></listitem>
+        <listitem><para>layerIds -</para></listitem>
+        <listitem><para>resolution -</para></listitem>
+      </itemizedlist>				
+    </para>
+  </sect3>
+  <sect3 id="dev.soapcalls.getmap.layers.result">
+    <title>Result</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="LayersResult">
+  <all>
+    <element name="className" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>className -</para></listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>
