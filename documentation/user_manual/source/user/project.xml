@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.project">
- <title>Projects Handling</title>
+ <title><indexterm><primary>Projects</primary></indexterm>Projects Handling</title>
 
  <sect1 id="user.project.intro"> 
   <title>Introduction</title>
@@ -16,11 +16,159 @@
    Projects are used to customize a &cartoweb; application to your needs. By creating a new project you can override templates, resources files (pictures, style sheets, JavaScript files, etc.), configuration files and even add new plugins or modify existing ones.
   </para>
   <para>
-   For plugin creation or customization, see <xref linkend="dev.newplugin"/> in <xref linkend="cartoweb.dev"/>.
+   It is strongly recommended to use projects when deploying a &cartoweb; application with non-standard layout or plugins. The main reason is the necessity to keep upstream files unchanged in order to easily apply the application upgrades.
   </para>
   <para>
-   It is strongly recommended to use projects when deploying a &cartoweb; application with non-standard layout or plugins. The main reason is the necessity to keep upstream files unchanged in order to easily apply the application upgrades. The main reason is the necessity to keep upstream files unchanged in order to easily apply the application upgrades..
+   Projects are in fact a mirrored collection of directories and files from the original architecture. Files placed in a project are in most cases used preferentially to the original files. There is an exception with plugins PHP classes: the latter must be extended and not simply overriden. In projects you can also add brand new files (for instance new plugins) that have no original version in the upstream structure. Fore more details about how to write or customize plugins in projects, see <xref linkend="dev.newplugin" /> in  <xref linkend="cartoweb.dev"/>. 
   </para>
+  <para>
+   Note that you don't need to duplicate the whole &cartoweb; structure in your projects. Only directories that contain overriding files have to be created.
+  </para>
+  <para>
+  Following files can be "overridden":
+   <itemizedlist>
+    <listitem>
+     <para>
+      <filename>client_conf/*.ini</filename> (client.ini and plugins
+      configuration files)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/client/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/common/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/server/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/htdocs/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/templates/*.tpl</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/css/*.css</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/js/*.js</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/gfx/layout/*.gif</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server_conf/server.ini</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server_conf/&lt;mapId&gt;/*.ini</filename> (&lt;mapId&gt;.ini and plugins
+      configuration files)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>templates/*.tpl</filename>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <indexterm><primary>mapId</primary></indexterm>
+  <para>
+   You can add project-specific mapfiles in directory
+   <filename>/projects/my_project/server_conf/my_mapfile</filename>. To point
+   to the new mapfile, change the mapId value in 
+   <filename>/projects/my_project/client_conf/client.ini</filename>.
+  </para>
+  <para>
+   You can add project-specific plugins in directory 
+   <filename>/projects/my_project/plugins</filename>. To load the new plugin,
+   add its name in <filename>client.ini</filename> and/or 
+   <filename>my_mapfile.ini</filename> (loadPlugins variable).
+  </para>
+ </sect1>
+ <sect1 id="user.project.use"> 
+  <title>Using projects</title>
+  <para>  
+   There are several ways to tell &cartoweb; what project to use: 
+  </para> 
+  <sect2 id="user.project.use.apache"> 
+   <title>Apache environment variable</title>
+   <para>  
+    Set environment variable CW3_PROJECT in Apache configuration.
+    <programlisting><![CDATA[
+<Directory /your/cartoclient/path/>
+ Options FollowSymLinks
+ Action php-script /cgi-bin/php5
+ AddHandler php-script .php
+ 
+ # [...]
+
+ SetEnv CW3_PROJECT your_project_name
+</Directory>]]></programlisting>
+    Warning: You will need Apache's Env module to use SetEnv command. To 
+    load this module, add the following line to your Apache configuration:                              <programlisting><![CDATA[LoadModule env_module /usr/lib/apache/1.3/mod_env.so]]></programlisting>
+   </para> 
+  </sect2>
+  <sect2 id="user.project.use.txt"> 
+   <title>Using current_project.txt</title>
+   <para>  
+    Add a file named <filename>current_project.txt</filename> in Cartoweb 
+    root directory. This file must contain a single line with project name.
+   </para> 
+  </sect2>
+  <sect2 id="user.project.use.get"> 
+   <title>Using a GET parameter</title>
+   <para>  
+    You can pass a GET parameter <parameter>project=YOUR_PROJECT</parameter>
+    to the <filename>client.php</filename> script. 
+   </para> 
+  </sect2>
+  <sect2 id="user.project.use.dropdown"> 
+   <title>Using the drop-down list of projects</title>
+   <para>  
+    Have a look at the configuration of <link 
+    linkend="user.config.client"><filename>client.ini</filename></link>, in
+    particular directives <parameter>showProjectChooser</parameter> and 
+    <parameter>availableProjects</parameter>, to display the project 
+    selection drop-down menu.
+   </para> 
+   <para>
+    If <parameter>showProjectChooser</parameter> is true, a dropdown menu will appear in your &cartoclient; interface, giving the list of all projects available in your <filename>/projects/</filename> directory. Selecting one will make it the active one. Your choice is propagated from page to page. Note that if the selected project has <parameter>showProjectChooser</parameter> set to false, the project selection dropdown will no more appear, keeping you from activating another project. To go back to the initial project, simply hit the "Go" button of your browser address bar.
+   </para>
+  </sect2>
+  <sect2 id="user.project.use.client">
+   <title>Using a modified client.php</title>
+   <para>
+     This should be avoided in production, but may be useful in development
+     if you have to frequently switch the working project : add a new file
+     <filename>client_myproject.php</filename> in the root htdocs directory.
+     This file only sets the environment variable and then calls the
+     normal <filename>client.php</filename>. Each project has so its own URL.
+     <programlisting><![CDATA[<?php
+$_ENV['CW3_PROJECT'] = 'myproject';
+require_once('client.php');
+?>]]></programlisting>
+   </para>
+  </sect2>
  </sect1>
 
 </chapter>
