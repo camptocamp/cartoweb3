@@ -5,35 +5,88 @@
 <!-- $Id$ -->
 
 <chapter id="user.output">
- <title>Other output formats</title>
- <subtitle>Plugins exportCsv, exportHtml</subtitle>
+ <title><indexterm><primary>Export Plugins</primary></indexterm>Export Plugins</title>
+ <subtitle>exportCsv, exportHtml Plugins</subtitle>
 
  <sect1 id="user.output.intro"> 
   <title>Introduction</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   It is possible to export maps and data from the viewer (ie. the Cartoweb user interface) in order to print them or to save them on the user's computer. Three formats are available: PDF, CSV, HTML. 
   </para>
- </sect1>
-
- <sect1 id="user.output.csv"> 
-  <title>CSV output</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
   </para>
  </sect1>
 
  <sect1 id="user.output.html"> 
-  <title>HTML output</title>
+  <title><indexterm><primary>HTML export plugin</primary></indexterm>HTML Export</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   The <parameter>exportHtml</parameter> plugin outputs an HTML simplified version of the viewer: main map, keymap and layers list. It is often launched by clicking on a "HTML print" link or button and opens a new browser window. It is specially useful to quickly (basic HTML layout, same maps used than in viewer) display raw maps in order to print them.
+  </para>
+  <para>
+   No configuration is required. To enable or deactivate this plugin, simply add or remove <parameter>exportHtml</parameter> from the <parameter>loadPlugins</parameter> parameter in <filename>client_conf/client.ini</filename>. For instance:
+   <programlisting><![CDATA[[...]
+
+; exportHtml is listed as activated:
+loadPlugins = auth, outline, exportHtml
+
+[...]]]></programlisting>
+   To customized the exported page layout, simply edit the plugin template file <filename>exportHtml/templates/export.tpl</filename>. It is recommended not to modify the regular template file but to override it in a project version of the <parameter>exportHtml</parameter> plugin. For more info about projects, see <xref linkend="user.structure.project"/>.
+  </para>
+  <para>
+   To get advanced printing capabilities, rather use the Cartoweb3 PDF export plugin, <link linkend="user.pdf"><parameter>exportPdf</parameter></link>, described in next chapter.
+  </para>
+ </sect1>
+
+ <sect1 id="user.output.csv"> 
+  <title><indexterm><primary>CSV export plugin</primary></indexterm>CSV Export</title>
+  <para>
+   The <parameter>exportCsv</parameter> plugin enables to export tabular data from various queries results in a comma-separated (CSV) or assimilated text format. The returned CSV file can then be opened and edited in any text editor or rendered as a table document in OpenOffice or MS Excel. For instance:
+   <programlisting><![CDATA["Id";"Object Description"
+"1";"A Line"]]></programlisting>
+  </para>
+  <para>
+   "CSV export" links are generally displayed in the viewer at the bottom of each queries results tables. Each link can only export a single layer table at a time.
+  </para>
+  <para>
+   A few configuration parameters are available in <filename>client_conf/exportCsv.ini</filename>:
+   <itemizedlist>
+    <listitem>
+     <para>
+      <indexterm><primary>separator, CSV</primary></indexterm><parameter>separator</parameter> indicates what character should be used to distinguish each tabular cell value. Default is ";" (semi-colon).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <indexterm><primary>textDelimiter, CSV</primary></indexterm><parameter>textDelimiter</parameter> tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <parameter>separator</parameter> may be found within the cell content. Default parameter value is <parameter>double-quote</parameter> ie. `"`. The alias is defined to overcome INI syntax issues.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <indexterm><primary>filename, CSV</primary></indexterm><parameter>filename</parameter> specifies the filename naming convention to use. It can include the table name (using the <parameter>[table]</parameter> keyword) and the generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>[date,Ymd-Hi]_[table].csv</parameter> which gives for instance <filename>20050220-2021_myLayer.csv</filename>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <indexterm><primary>charsetUtf8, CSV</primary></indexterm>If the <parameter>charsetUtf8</parameter> boolean is set to <parameter>true</parameter> the result file will be UTF-8 encoded. Else ISO-8859-1 encoding is used, which is the default behavior.
+     </para>
+    </listitem>
+   </itemizedlist>
+   After initial CartoWeb3 installation, <filename>client_conf/exportCsv.ini</filename> is set as follows:
+   <programlisting><![CDATA[; separator between each value, default is ";"
+separator = ";"
+
+; delimiter before and after each value, default is double-quote
+; special characters:
+;     double-quote = "
+textDelimiter = double-quote
+
+; file name format for exported CSV file, default is "[table]-[date,dMY].csv"
+fileName = "[date,Ymd-Hi]_[table].csv"
+
+; if true, exported CSV file will be UTF-8 encoded 
+; if false, it will be ISO-8859-1 encoded, default 
+charsetUtf8 = false]]></programlisting>
   </para>
  </sect1>
 
