@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2005-03-11 17:26+0100\n"
-"PO-Revision-Date: 2005-03-11 19:16+0100\n"
+"PO-Revision-Date: 2005-03-14 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,23 +21,23 @@ msgstr "A3"
 
 # images.ini:mapSizes.0.label
 msgid "small"
-msgstr "petite"
+msgstr "klein"
 
 # images.ini:mapSizes.1.label
 msgid "normal"
-msgstr "normale"
+msgstr "normal"
 
 # images.ini:mapSizes.2.label
 msgid "big"
-msgstr "grande"
+msgstr "gross"
 
 # images.ini:mapSizes.3.label
 msgid "giant"
-msgstr "géante"
+msgstr "riesengross"
 
 #: coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize:"
-msgstr "Taille carte :"
+msgstr "Kartengrösse "
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
@@ -57,11 +57,11 @@ msgstr "alles deselektieren"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "more info on"
-msgstr "plus d'infos sur"
+msgstr "Mehr Infos"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
-msgstr "Prochaine échelle visible :"
+msgstr "Nächster sichtbarer Masstab"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
@@ -90,7 +90,7 @@ msgstr "Y"
 
 #: coreplugins/location/templates/scales.tpl
 msgid "Scale"
-msgstr "Echelle"
+msgstr "Masstab"
 
 #: coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
@@ -127,9 +127,8 @@ msgid "Attributes"
 msgstr ""
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Table"
-msgstr "Echelle"
+msgstr "Tabelle"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
@@ -149,9 +148,8 @@ msgstr "Télécharger CSV"
 
 # images.ini:mapSizes.3.label
 #: plugins/auth/templates/auth.tpl
-#, fuzzy
 msgid "login"
-msgstr "géante"
+msgstr "login"
 
 #: plugins/auth/templates/auth.tpl
 msgid "logout"
@@ -159,7 +157,7 @@ msgstr ""
 
 #: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
-msgstr "Cartoclient (FR)"
+msgstr "Cartoclient "
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
@@ -192,31 +190,31 @@ msgstr "Zurück zur Karte"
 #: plugins/exportHtml/templates/export.tpl
 #: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
 msgid "Print"
-msgstr "Imprimer"
+msgstr "Drucken"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Format:"
-msgstr "Format :"
+msgstr "Format "
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Resolution:"
-msgstr "Auflösung"
+msgstr "Auflösung "
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Portrait"
-msgstr "Portrait"
+msgstr "Hochformat"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
-msgstr "Paysage"
+msgstr "Querformat"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Title:"
-msgstr "Titel"
+msgstr "Titel "
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Note:"
-msgstr "Note :"
+msgstr "Bemerkung "
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Scalebar"
@@ -236,27 +234,27 @@ msgstr "Legende"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "On map"
-msgstr "Carte principale"
+msgstr "In der Karte"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "In new page"
-msgstr "Nouvelle page"
+msgstr "Auf einer neuen Seite"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "None"
-msgstr "Aucun"
+msgstr "Keine"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Draw"
-msgstr "Dessin"
+msgstr "Zeichnen"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Mask"
-msgstr "Masque"
+msgstr "Maske"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Total area"
-msgstr "Surface totale"
+msgstr "Fläche"
 
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
@@ -280,7 +278,7 @@ msgstr "Navigation"
 
 #: templates/cartoclient.tpl
 msgid "Themes"
-msgstr "Thèmes"
+msgstr "Themen"
 
 #: templates/cartoclient.tpl
 msgid "PDF"
