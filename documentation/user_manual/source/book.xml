@@ -12,7 +12,7 @@
     <pubdate>
       <?dbtimestamp format="Y-m-d"?>
     </pubdate>
-   <edition>0.9</edition>
+   <edition>1.0</edition>
    <mediaobject>
      <imageobject>
        <imagedata fileref="logo.png" format="PNG" />
@@ -22,7 +22,12 @@
   <part id="cartoweb.intro">
     <title>Presentation and Architecture</title>
     <partintro>
-      <para>TODO: introduction</para>
+      <para>This first part of the documentation is an overall presentation
+      of both the visible and the hidden features of &cartoweb;. The goals are
+      first to give an idea of what &cartoweb; can readily do if used as it
+      is shipped, and second to explain why it is a powerful framework to 
+      build more advanced applications.
+      </para>
     </partintro>
     <xi:include href="intro/presentation.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -34,8 +39,20 @@
   <part id="cartoweb.user">
     <title>User Manual</title>
     <partintro>
-      <para>TODO: introduction including differences between user and 
-        developer manuals, and who should use this manual</para>
+      <para>
+       This user manual, second part of the &cartoweb; documentation, 
+       is aimed at administrators who have to setup, configure and maintain
+       a &cartoweb; environment. 
+      </para>
+      <para>
+       It is not an end-user documentation, so you won't find here instructions on 
+       how to navigate, select layers or do whatever operations the distant users 
+       are allowed to do through their browser.
+      </para>
+      <para>
+       On the other side, if you want to go beyond the standard, out-of-the-box 
+       possibilities of &cartoweb;, you'll definitely have to look at the third
+       part of this documentation, intended for developers.
     </partintro>
     <xi:include href="user/install.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -71,7 +88,11 @@
   <part id="cartoweb.dev">
     <title>Developer Manual</title>
     <partintro>
-      <para>TODO: introduction</para>
+      <para>
+       As is implied by its name, this part of the documentation is aimed
+       at those who need to customize or extend &cartoweb; for their
+       specific needs.
+      </para>
     </partintro>
     <xi:include href="dev/soapcalls.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
