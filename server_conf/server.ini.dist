@@ -24,7 +24,7 @@ allowTests = false
 ; The kind of URL generated for resources. May be one of 'Miniproxy|Symlink'
 urlProvider = Miniproxy
 
-; path where cartoserver generated images can be accessed
+; path where cartoserver generated images can be accessed. Using this will bypass Miniproxy !
 ;imageUrl = "/path/to/images/"
 
 ; The url of the reverse proxy, if used
