@@ -213,7 +213,23 @@ class ServerQuery extends ClientResponderAdapter {
      * @return Table
      */
     private function queryLayer($bbox, $querySelection) {
-    
+
+        if (is_null($querySelection->tableFlags)) {
+            $querySelection->tableFlags = new TableFlags;
+            $querySelection->tableFlags->returnTable = false;
+            $querySelection->tableFlags->returnAttributes = false;
+        }
+   
+        if (!$querySelection->hilight && 
+            !$querySelection->tableFlags->returnTable) {
+            $table = new Table;
+            $table->tableId = $querySelection->layerId;
+            return $table;
+        }
+
+        if (!$querySelection->tableFlags->returnTable)
+            $querySelection->tableFlags->returnAttributes = false;
+        
         // Activates layer
         if (count($querySelection->selectedIds) > 0
             || $querySelection->useInQuery) {
@@ -226,12 +242,12 @@ class ServerQuery extends ClientResponderAdapter {
         }
     
         // Attributes to be returned
-        $attributes = array();
-        if (!is_null($querySelection->tableFlags)
-            && $querySelection->tableFlags->returnAttributes) {
+        if ($querySelection->tableFlags->returnAttributes) {
             $attributes = $this->getAttributes($querySelection->layerId);
+        } else {
+            $attributes = array();
         }
-    
+
         // ID attribute
         $idAttribute = $querySelection->idAttribute;
         if (is_null($idAttribute)) {
@@ -305,6 +321,10 @@ class ServerQuery extends ClientResponderAdapter {
                 
                 if ($table->numRows > 0) {
                     $querySelection = $hilightQuerySelections[$table->tableId];
+
+                    if (!$querySelection->hilight)
+                        continue;
+                    
                     $querySelection->selectedIds = $table->getIds();
                     $pluginManager->hilight->hilightLayer($querySelection);
                 }
@@ -316,6 +336,11 @@ class ServerQuery extends ClientResponderAdapter {
             $msMapObj = $this->serverContext->getMapObj();
             
             foreach ($tables as $table) {
+                
+                $querySelection = $hilightQuerySelections[$table->tableId]; 
+            
+                if (!$querySelection->hilight)
+                    continue;
             
                 // Checks if layer has Ids
                 $serverLayer = $layersInit->getLayerById($table->tableId);
@@ -333,7 +358,6 @@ class ServerQuery extends ClientResponderAdapter {
                 }
                 
                 // Redo query so hilight by drawQuery works
-                $querySelection = $hilightQuerySelections[$table->tableId]; 
                 $querySelection->selectedIds = $table->getIds();
                 $resultIds = $pluginManager->mapquery
                                      ->queryByIdSelection($querySelection);                                  
@@ -348,11 +372,12 @@ class ServerQuery extends ClientResponderAdapter {
      */
     public function handlePreDrawing($requ) {
         
-        $this->log->debug("handlePreDrawing: ");
+        $this->log->debug('handlePreDrawing: ');
         $this->log->debug($requ);
         $layersOk = array();
         $tables = array();
-                
+        $noReturnTables = array();
+        
         $querySelections = $requ->querySelections;
         if (is_null($querySelections)) {
             $querySelections = array();
@@ -369,8 +394,9 @@ class ServerQuery extends ClientResponderAdapter {
             $defaultQuerySelection->selectedIds = array();
             $defaultQuerySelection->useInQuery  = true;
             $defaultQuerySelection->policy      = QuerySelection::POLICY_UNION;
-            $defaultQuerySelection->maskMode = $requ->defaultMaskMode;
-            $defaultQuerySelection->tableFlags = $requ->defaultTableFlags;
+            $defaultQuerySelection->maskMode    = $requ->defaultMaskMode;
+            $defaultQuerySelection->hilight     = $requ->defaultHilight;
+            $defaultQuerySelection->tableFlags  = $requ->defaultTableFlags;
             foreach ($layerNames as $layerName) {
             
                 $querySelection = clone($defaultQuerySelection);
@@ -379,13 +405,16 @@ class ServerQuery extends ClientResponderAdapter {
                     if ($requQuerySelection->layerId == $layerName) {
                         $querySelection = $requQuerySelection;
 
-                        // In this case, all layers used in query
+                        // In this case, all layers are used in query
                         $querySelection->useInQuery = true;                                               
                     }
                 }
                 $tables[] = $this->queryLayer($requ->bbox, $querySelection);
                 $layersOk[] = $layerName;
                 $hilightQuerySelections[$layerName] = $querySelection;
+                if (!$querySelection->tableFlags->returnTable) {
+                    $noReturnTables[] = $layerName;
+                }
             }            
         }
         foreach ($querySelections as $querySelection) {
@@ -396,14 +425,17 @@ class ServerQuery extends ClientResponderAdapter {
                 $layersOk[] = $querySelection->layerId;
                 $hilightQuerySelections[$querySelection->layerId]
                                                             = $querySelection;
+                if (!$querySelection->tableFlags->returnTable) {
+                    $noReturnTables[] = $querySelection->layerId;
+                }
             }
         }
 
         $queryResult = new QueryResult();
                 
         $queryResult->tableGroup = new TableGroup();
-        $queryResult->tableGroup->groupId = "query";
-        $queryResult->tableGroup->groupTitle = "Query";
+        $queryResult->tableGroup->groupId = 'query';
+        $queryResult->tableGroup->groupTitle = 'Query';
         $queryResult->tableGroup->tables = $tables;
 
         // Applies the registred table rules
@@ -412,6 +444,14 @@ class ServerQuery extends ClientResponderAdapter {
         $queryResult->tableGroup = $groups[0];
 
         $this->hilight($tables, $hilightQuerySelections);
+       
+        // Empties tables with returnTable = false attributes
+        foreach ($queryResult->tableGroup->tables as &$table) {
+            if (in_array($table->tableId, $noReturnTables)) {
+                $table->numRows = 0;
+                $table->rows = array();
+            }
+        }
         
         return $queryResult;
     }    

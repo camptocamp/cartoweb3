@@ -77,7 +77,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */
     const DEFAULT_POLICY     = QuerySelection::POLICY_XOR;
     const DEFAULT_MASKMODE   = false;
+    const DEFAULT_HILIGHT    = true;
     const DEFAULT_ATTRIBUTES = true;
+    const DEFAULT_TABLE      = true;
 
     /**
      * Constructor
@@ -123,7 +125,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see Sessionable::saveSession()
      */
     public function saveSession() {
-        $this->log->debug("saving session:");
+        $this->log->debug('saving session:');
         $this->log->debug($this->queryState);
 
         if (!$this->getConfig()->persistentQueries) {
@@ -241,10 +243,12 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $querySelection->layerId = $layerId;
         $querySelection->policy = self::DEFAULT_POLICY;
         $querySelection->maskMode = self::DEFAULT_MASKMODE;
+        $querySelection->hilight = self::DEFAULT_HILIGHT;
         $querySelection->tableFlags = new TableFlags();
         $querySelection->tableFlags->returnAttributes =
                                           self::DEFAULT_ATTRIBUTES;
-        $querySelection->tableFlags->returnTable = true;
+        $querySelection->tableFlags->returnTable = 
+                                          self::DEFAULT_TABLE;
         $querySelection->selectedIds = array();
         $this->queryState->querySelections[] = $querySelection;
         
@@ -264,7 +268,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $queryUnSelect = $this->getHttpValue($request, 'query_unselect');    
         $queryPolicy   = $this->getHttpValue($request, 'query_policy');    
         $queryMaskMode = $this->getHttpValue($request, 'query_maskmode');    
-        $queryRetAttr  = $this->getHttpValue($request, 'query_return_attributes');    
+        $queryHilight  = $this->getHttpValue($request, 'query_hilight');    
+        $queryRetAttr  = $this->getHttpValue($request, 'query_return_attributes'); 
+        $queryRetTable = $this->getHttpValue($request, 'query_return_table');    
     
         $queryLayers = array();
         $queryLayersLabel = array();
@@ -278,11 +284,17 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             }
             if (!$this->checkBool($queryMaskMode, 'query_maskmode'))
                 return;            
+            if (!$this->checkBool($queryHilight, 'query_hilight'))
+                return;            
             if (!$this->checkBool($queryRetAttr, 'query_return_attributes'))
+                return;
+            if (!$this->checkBool($queryRetTable, 'query_return_table'))
                 return;
         }            
     
-        if (!is_null($queryLayer)) {
+        if (is_null($queryLayer)) {
+            $this->queryState->queryAllLayers = true;
+        } else {
         
             // Query on only one layer
             $this->queryState->queryAllLayers = false; 
@@ -311,9 +323,10 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             
             $querySelection->policy = $queryPolicy;
             $querySelection->maskMode = $queryMaskMode;
+            $querySelection->hilight = $queryHilight;
             $querySelection->tableFlags = new TableFlags();
             $querySelection->tableFlags->returnAttributes = $queryRetAttr;
-            $querySelection->tableFlags->returnTable = true;
+            $querySelection->tableFlags->returnTable = $queryRetTable;
         }
     }
     
@@ -328,7 +341,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $queryLayerIds   = $this->getHttpValue($request, 'query_layerid');
         $queryInQuerys   = $this->getHttpValue($request, 'query_inquery');
         $queryMaskModes  = $this->getHttpValue($request, 'query_maskmode');
+        $queryHilight    = $this->getHttpValue($request, 'query_hilight');
         $queryAttributes = $this->getHttpValue($request, 'query_attributes');
+        $queryTable      = $this->getHttpValue($request, 'query_table');
 
         if (is_null($queryInQuerys)) {
             $queryInQuerys = array();
@@ -336,8 +351,14 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         if (is_null($queryMaskModes)) {
             $queryMaskModes = array();
         }
+        if (is_null($queryHilight)) {
+            $queryHilight = array();
+        }
         if (is_null($queryAttributes)) {
             $queryAttributes = array();
+        }
+        if (is_null($queryTable)) {
+            $queryTable = array();
         }
        
         $this->queryState->queryAllLayers = ($queryAllLayers == '1');
@@ -362,10 +383,13 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                     }   
                     $querySelection->maskMode = 
                         (in_array($queryLayerIds[$i], $queryMaskModes));
+                    $querySelection->hilight = 
+                        (in_array($queryLayerIds[$i], $queryHilight));
                     $querySelection->tableFlags = new TableFlags();
                     $querySelection->tableFlags->returnAttributes =
                         (in_array($queryLayerIds[$i], $queryAttributes));
-                    $querySelection->tableFlags->returnTable = true;
+                    $querySelection->tableFlags->returnTable = 
+                        (in_array($queryLayerIds[$i], $queryTable));
                     $querySelection->useInQuery = 
                         (in_array($queryLayerIds[$i], $queryInQuerys));;
                 }                                
@@ -413,10 +437,12 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             $queryRequest = new QueryRequest();
             $queryRequest->queryAllLayers = $this->queryState->queryAllLayers;
             $queryRequest->defaultMaskMode = self::DEFAULT_MASKMODE;
+            $queryRequest->defaultHilight = self::DEFAULT_HILIGHT;
             $queryRequest->defaultTableFlags = new TableFlags();
             $queryRequest->defaultTableFlags->returnAttributes =
                                              self::DEFAULT_ATTRIBUTES;
-            $queryRequest->defaultTableFlags->returnTable = true;    
+            $queryRequest->defaultTableFlags->returnTable =
+                                             self::DEFAULT_TABLE;    
             $queryRequest->querySelections = $this->queryState->querySelections;        
             $queryRequest->bbox = $this->bbox;
 
@@ -491,8 +517,11 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                         $selection->useInQuery = $querySelection->useInQuery;
                         $selection->policy     = $querySelection->policy;
                         $selection->maskMode   = $querySelection->maskMode;
+                        $selection->hilight    = $querySelection->hilight;
                         $selection->returnAttributes =
                                     $querySelection->tableFlags->returnAttributes;           
+                        $selection->returnTable =
+                                    $querySelection->tableFlags->returnTable;           
                         break;
                     }
                 }            
@@ -535,6 +564,16 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             // selection to last request
             $mapRequest->queryRequest->querySelections
                                         = $this->queryState->querySelections;        
+        }
+
+        $querySelections = $configuration->getQuerySelections();
+        if (!is_null($querySelections)) {
+            $mapRequest->queryRequest->querySelections = $querySelections;
+        }
+
+        $queryBbox = $configuration->getQueryBbox();
+        if (!is_null($queryBbox)) {
+            $mapRequest->queryRequest->bbox = $queryBbox;
         }
     }
 }

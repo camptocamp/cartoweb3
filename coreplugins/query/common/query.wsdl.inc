@@ -6,6 +6,7 @@
           <element name="bbox" type="types:Bbox"/>
           <element name="queryAllLayers" type="xsd:boolean"/>
           <element name="defaultMaskMode" type="xsd:boolean"/>
+          <element name="defaultHilight" type="xsd:boolean"/>
           <element name="defaultTableFlags" type="types:TableFlags"/>
           <element name="querySelections" type="types:ArrayOfQuerySelection"/>
         </all>
@@ -27,6 +28,7 @@
           <element name="useInQuery" type="xsd:boolean"/>
           <element name="policy" type="types:QuerySelectionPolicy"/>
           <element name="maskMode" type="xsd:boolean"/>
+          <element name="hilight" type="xsd:boolean"/>
           <element name="tableFlags" type="types:TableFlags"/>
         </all>
       </complexType>

@@ -2,8 +2,8 @@
 <h3>{t}Query information:{/t}</h3>
 
 <table>
-<tr><th>{t}Layer{/t}</th><th>{t}In Query{/t}</th><th>{t}Policy{/t}<br>u&nbsp;&nbsp;x&nbsp;&nbsp;n</th><th>{t}Mask Mode{/t}</th>
-{if $query_hilightattr_active|default:''}<th>Attributes</th>{/if}</tr>
+<tr><th>{t}Layer{/t}</th><th>{t}In Query{/t}</th><th>{t}Policy{/t}<br>u&nbsp;&nbsp;x&nbsp;&nbsp;n</th><th>{t}Mask Mode{/t}</th><th>{t}Hilight{/t}</th>
+{if $query_hilightattr_active|default:''}<th>{t}Attributes{/t}</th><th>{t}Table{/t}</th>{/if}</tr>
 {foreach from=$query_selections item=selection key=index}
 <tr>
 <td>{$selection->layerLabel}
@@ -24,9 +24,17 @@
 <input type="checkbox" value="{$selection->layerId}" name="query_maskmode[]"
         {if $selection->maskMode} checked="checked"{/if}/>
 </td>
+<td>
+<input type="checkbox" value="{$selection->layerId}" name="query_hilight[]"
+        {if $selection->hilight} checked="checked"{/if}/>
+</td>
 {if $query_hilightattr_active|default:''}<td>
 <input type="checkbox" value="{$selection->layerId}" name="query_attributes[]"
         {if $selection->returnAttributes == '1'} checked="checked"{/if}/>
+</td>
+<td>
+<input type="checkbox" value="{$selection->layerId}" name="query_table[]"
+        {if $selection->returnTable == '1'} checked="checked"{/if}/>
 </td>{/if}
 </tr>
 {/foreach}

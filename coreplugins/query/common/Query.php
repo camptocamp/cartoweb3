@@ -57,6 +57,11 @@ class QuerySelection extends IdSelection {
     public $maskMode;
 
     /**
+     * @var boolean
+     */
+    public $hilight;
+
+    /**
      * @var TableFlags
      */
     public $tableFlags; 
@@ -70,6 +75,8 @@ class QuerySelection extends IdSelection {
                                                    'boolean');
         $this->policy     = self::unserializeValue($struct, 'policy');
         $this->maskMode   = self::unserializeValue($struct, 'maskMode',
+                                                   'boolean');
+        $this->hilight    = self::unserializeValue($struct, 'hilight',
                                                    'boolean');
         $this->tableFlags = self::unserializeObject($struct, 'tableFlags',
                                                     'TableFlags');
@@ -95,6 +102,7 @@ class QueryRequest extends Serializable {
      * - useInQuery = true
      * - policy = POLICY_UNION
      * - maskMode = defaultMaskMode
+     * - hilight = defaultHilight
      * - tableFlags = defaultTableFlags
      * @var boolean
      */
@@ -104,6 +112,11 @@ class QueryRequest extends Serializable {
      * @var boolean
      */
     public $defaultMaskMode;
+
+    /**
+     * @var boolean
+     */
+    public $defaultHilight;
     
     /**
      * @var TableFlags
@@ -126,6 +139,8 @@ class QueryRequest extends Serializable {
                                        'queryAllLayers', 'boolean');
         $this->defaultMaskMode   = self::unserializeValue($struct,
                                        'defaultMaskMode', 'boolean');
+        $this->defaultHilight    = self::unserializeValue($struct,
+                                       'defaultHilight', 'boolean');
         $this->defaultTableFlags = self::unserializeObject($struct,
                                        'defaultTableFlags', 'TableFlags');
         $this->querySelections   = self::unserializeObjectMap($struct,
