@@ -25,3 +25,15 @@ diff -dur include_orig/pear/PHPUnit2/Framework/TestResult.php include/pear/PHPUn
                $errstr,
                $errno,
 Seulement dans include/pear/PHPUnit2/Framework: TestResult.php.orig
+diff -dur include_orig/pear/PHPUnit2/Util/Filter.php include/pear/PHPUnit2/Util/Filter.php
+--- include_orig/pear/PHPUnit2/Util/Filter.php  2005-02-21 11:09:01.000000000 +0100
++++ include/pear/PHPUnit2/Util/Filter.php       2005-03-04 13:23:36.914480888 +0100
+@@ -176,7 +176,7 @@
+         foreach ($stacktrace as $frame) {
+             $filtered = FALSE;
+
+-            if (isset($frame['file']) && !self::isFiltered($frame['file'])) {
++            if (isset($frame['file']) && /* <upstream change> !self::isFiltered($frame['file']) */) {
+                 $filteredStacktrace .= sprintf(
+                   "%s:%s\n",
+
