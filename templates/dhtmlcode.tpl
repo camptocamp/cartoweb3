@@ -1,7 +1,8 @@
 <link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
-  <script type="text/javascript" src="{r type=js}x_core_nn4.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}x_dom_nn4.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}x_event_nn4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_core.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_core_n4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_dom_n4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_event_n4.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}navTools.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}graphTools.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
@@ -12,7 +13,7 @@
     document.image = new Image;
     {/literal}document.image.src = '{$mainmap_path}';{literal}
     
-    if (xIE) {
+    if (xIE4Up) {
       dhtmlDivs = '<div id="mapImageDiv" class="dhtmldiv" style="background-image:url('; 
       dhtmlDivs += document.image.src;
       dhtmlDivs += ');visibility:hidden;background-repeat:no-repeat;"></div>';
