@@ -21,6 +21,7 @@ links:
 	ln -snf ../www-data/images htdocs/images
 
 perms:
+	chmod +x scripts/*sh scripts/*py
 	chmod 777 log
 	chmod 777 www-data/images
 	chmod 777 www-data/saved_posts
@@ -38,7 +39,7 @@ create_config:
 	done
 
 htlinks:
-	scripts/htlinks.sh
+	(cd scripts; ./htlinks.sh)
 
 init: fetch_libs dirs perms links create_config htlinks
 	:
