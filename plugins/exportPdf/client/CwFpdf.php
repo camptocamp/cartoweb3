@@ -153,6 +153,7 @@ class cFPDF extends FPDF {
      * @see PdfWriter::addPage()
      */
     function addPage() {
+        $this->closePage();
         $this->p->AddPage();
         $this->space->reset();
     }
@@ -310,8 +311,6 @@ class cFPDF extends FPDF {
         if (!is_array($row) && !is_object($row))
             $row = array($row);
 
-        $this->p->SetX($table->x0);
-
         $nbLines = 1;
         foreach ($row as $id => $text) {
             $textWidth = $this->p->GetStringWidth($text);
@@ -320,6 +319,13 @@ class cFPDF extends FPDF {
         }
         $height = $nbLines * 20;
         // TODO: get single line height from config
+
+        // FIXME: what if some footer block is placed right above 
+        // bottom margin?!
+        if ($this->p->GetY() + $height > $this->space->maxY())
+            $this->AddPage();
+
+        $this->p->SetX($table->x0);
        
         foreach ($row as $id => $text) {
             $this->addTableCell($text, $table->colsWidth[$id], $height);
@@ -411,7 +417,6 @@ class cFPDF extends FPDF {
         $maxWidth = $this->space->getAvailableSpan($block);
 
         // if total width is too big
-        // TODO: still to test!!
         if ($table->totalWidth > $maxWidth) {       
             $diff = $table->totalWidth - $maxWidth; 
             $colsWidth = $table->colsWidth;
@@ -489,9 +494,33 @@ class cFPDF extends FPDF {
     }
 
     /**
+     * Performs recurrent actions (blocks displaying...) before current
+     * page is closed.
+     */
+    private function closePage() {
+        if ($this->p->PageNo() == 0)
+            return;
+
+        // TODO: similar code is used in ClientExportPdf::getExport()
+        // => make PdfWriter an abstract class instead of an interface
+        // in order to factorize common code and methods.
+        foreach ($this->blocks as $block) {
+            if (!$block->multiPage)
+                continue;
+
+            switch ($block->type) {
+                case 'image': $this->addGfxBlock($block); break;
+                case 'text': $this->addTextBlock($block); break;
+                default: // do nothing
+            }
+        }
+    }
+
+    /**
      * @see PdfWriter::finalizeDocument()
      */
     function finalizeDocument() {
+        $this->closePage();
         return $this->p->Output($this->general->filename, 'S');
     }
 }
