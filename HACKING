@@ -1,0 +1,15 @@
+style
+
+ * Pear coding standards, with some exceptions.
+ * use space, no tabs !!
+
+base policy
+
+ * Be independent of absolute paths ! : cartoclient and server should 
+    be able to be relocated with very minimal if none reconfiguration
+  
+ * Extract and run deployment: it should be possible to extract the archive,
+  launch a script, edit few options, and be ready to use the application with
+  the built-in data set (see test mapfile).
+  
+ * test infrastructure: TBD
