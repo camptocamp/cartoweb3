@@ -222,7 +222,8 @@ class PluginManager {
         }
     }
 
-    function callPluginImplementing($plugin, $interface, $functionName, $args = array()) {
+    function callPluginImplementing($plugin, $interface, $functionName, 
+                                    $args = array()) {
 
         if ($plugin instanceof $interface) {
             $helperClass = $interface . 'Helper';
@@ -233,8 +234,10 @@ class PluginManager {
                         $this->helpers[$interface] = new $helperClass;
                     }
                     $helperArgs = array_merge(array($plugin), $args);
-                    return call_user_func_array(array($this->helpers[$interface],
-                                                $helperMethod), $helperArgs);
+                    return call_user_func_array(array(
+                                                    $this->helpers[$interface],
+                                                    $helperMethod), 
+                                                $helperArgs);
                 }
             }
             return call_user_func_array(array($plugin, $functionName), $args);
@@ -247,10 +250,12 @@ class PluginManager {
      * @param string function name
      * @param array function arguments
      */
-    function callPluginsImplementing($interface, $functionName, $args = array()) {
+    function callPluginsImplementing($interface, $functionName, 
+                                     $args = array()) {
 
         foreach ($this->plugins as $plugin) {
-            $this->callPluginImplementing($plugin, $interface, $functionName, $args);
+            $this->callPluginImplementing($plugin, $interface, $functionName, 
+                                          $args);
         }
     }
 
