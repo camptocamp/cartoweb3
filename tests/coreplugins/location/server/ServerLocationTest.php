@@ -41,7 +41,7 @@ class coreplugins_location_server_ServerLocationTest
 
         $bboxes = array(new Bbox(0, 0, 1, 1), new Bbox(0, 0, 2, 4));
         $merged = $recenterCalculator->mergeBboxes($bboxes);
-        $this->assertSameBbox(new Bbox(0, 0, 1, 4), $merged);   
+        $this->assertSameBbox(new Bbox(0, 0, 2, 4), $merged);   
 
         $bboxes = array(new Bbox(-10, -1, 10, 1), new Bbox(-5, -.5, .5, 1));
         $merged = $recenterCalculator->mergeBboxes($bboxes);
