@@ -113,13 +113,15 @@ class LayerState extends Serializable {
     public $id;
     public $hidden;
     public $selected;
-    public $folded;
+    public $unfolded;
 
     function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
         $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
-        $this->selected = self::unserializeValue($struct, 'selected', 'boolean');
-        $this->folded   = self::unserializeValue($struct, 'folded', 'boolean');        
+        $this->selected = self::unserializeValue($struct, 'selected', 
+                                                 'boolean');
+        $this->unfolded   = self::unserializeValue($struct, 'unfolded', 
+                                                   'boolean');        
     }
 }
 

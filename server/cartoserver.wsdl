@@ -118,7 +118,7 @@
           <element name="id" type="xsd:string"/>
           <element name="hidden" type="xsd:boolean"/>
           <element name="selected" type="xsd:boolean"/>
-          <element name="folded" type="xsd:boolean"/>
+          <element name="unfolded" type="xsd:boolean"/>
         </all>
       </complexType>
       

@@ -135,7 +135,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $struct->id = 'toto';
         $struct->hidden = true;
         $struct->selected = 'false';
-        $struct->folded = 1;
+        $struct->unfolded = 1;
         
         $layerState = new LayerState();
         $layerState->unserialize($struct);
@@ -143,7 +143,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($layerState->id, 'toto');
         $this->assertEquals($layerState->hidden, true);
         $this->assertEquals($layerState->selected, false);
-        $this->assertEquals($layerState->folded, true);
+        $this->assertEquals($layerState->unfolded, true);
     }
 
     public function testInitialMapStateUnserialize() {
@@ -155,13 +155,13 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $structLayer1->id = 'titi';
         $structLayer1->hidden = false;
         $structLayer1->selected = 1;
-        $structLayer1->folded = true;
+        $structLayer1->unfolded = true;
         
         $structLayer2 = new stdclass();
         $structLayer2->id = 'tutu';
         $structLayer2->hidden = true;
         $structLayer2->selected = false;
-        $structLayer2->folded = 0;
+        $structLayer2->unfolded = 0;
       
         $struct = new stdclass();
         $struct->id = 'toto';
@@ -183,11 +183,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($initMapState->layers['titi']->id, 'titi');
         $this->assertEquals($initMapState->layers['titi']->hidden, false);
         $this->assertEquals($initMapState->layers['titi']->selected, true);
-        $this->assertEquals($initMapState->layers['titi']->folded, true);
+        $this->assertEquals($initMapState->layers['titi']->unfolded, true);
         $this->assertEquals($initMapState->layers['tutu']->id, 'tutu');
         $this->assertEquals($initMapState->layers['tutu']->hidden, true);
         $this->assertEquals($initMapState->layers['tutu']->selected, false);
-        $this->assertEquals($initMapState->layers['tutu']->folded, false);
+        $this->assertEquals($initMapState->layers['tutu']->unfolded, false);
     }
     
     public function testMapInfoUnserialize() {
@@ -240,13 +240,13 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $structLayer6->id = 'titi';
         $structLayer6->hidden = false;
         $structLayer6->selected = 1;
-        $structLayer6->folded = true;
+        $structLayer6->unfolded = true;
         
         $structLayer7 = new stdclass();
         $structLayer7->id = 'tutu';
         $structLayer7->hidden = true;
         $structLayer7->selected = false;
-        $structLayer7->folded = 0;
+        $structLayer7->unfolded = 0;
       
         $structInitMapState1 = new stdclass();
         $structInitMapState1->id = 'toto';
