@@ -24,29 +24,6 @@
   </para>
  </sect1>
 
- <sect1 id="user.i18n.usage">
-  <title>Usage</title>
-  <para>
-   Translation may be used at two levels of CartoWeb3 files:
-   <itemizedlist>
-    <listitem>
-     <para>
-      in PHP code using I18n gt() method:
-      <programlisting><![CDATA[$translatedString = I18n::gt($stringToTranslate);]]></programlisting>
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      in Smarty templates using the "t" block function:
-      <programlisting><![CDATA[<p>{t}My text to translate{/t}</p>
-<p>{t name="John Doe"}Hello my name is %1{/t}</p>
-<p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
  <sect1 id="user.i18n.config"> 
   <title>Configuration</title>
   <para>
@@ -65,8 +42,17 @@ I18nClass = I18nDummy
 ]]></programlisting>
   </para>
   <para>
-   Have a look on your system locale setting to 
-   cleanly add a new locale.
+   For each language used, a line must be present in file /etc/locale.alias. The alias ('fr' in the example below) must point to a locale installed on the system.
+   <programlisting><![CDATA[...
+fr    fr_CH.ISO-8859-1
+...]]></programlisting>
+   (you need to run locale-gen after editing /etc/locale.alias)
+  </para>
+  <para>
+   To install a locale, use following command (as root):
+   <programlisting><![CDATA[dpkg-reconfigure locales]]></programlisting>
+   If package locales has never been installed, you have to install it before:
+   <programlisting><![CDATA[apt-get install locales]]></programlisting>
   </para>
  </sect1>
 
@@ -99,29 +85,41 @@ I18nClass = I18nDummy
   </para>
 
   <para>
-   To generate PO template for layers, scales and shortcuts, use the 
-   following commands on the server side:
-   <screen><![CDATA[cd <cartoweb_home>/scripts
+   To do so, follow these steps:
+   <itemizedlist>
+    <listitem>
+     <para>On Client:</para>
+     <para>
+      To generate PO template for layers, scales and shortcuts, use the 
+      following commands on the server side:
+      <screen><![CDATA[cd <cartoweb_home>/scripts
 ./server2pot.php]]></screen>
-   This will generate templates in directory 
-   <filename>&lt;cartoweb_home&gt;/po</filename> for all projects
-   and map files. If templates were already translated, a merge
-   is done using gettext's <command>msgmerge</command> command.
-  </para>
-  <para>
-   In Smarty templates, blocks {t}...{/t} identify which texts should be
-   translated. It uses format defined in smarty-gettext module (Cf : <ulink
-   url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>).
-  </para>
-  <para>
-   To generate PO template for Smarty templates, use the following
-   commands on the client side:
-   <screen><![CDATA[cd <cartoweb_home>/scripts
+      This will generate templates in directory 
+      <filename>&lt;cartoweb_home&gt;/po</filename> for all projects
+      and map files. If templates were already translated, a merge
+      is done using gettext's <command>msgmerge</command> command. (more info about msmerge: <ulink
+      url="http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37">http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37</ulink>)
+     </para>
+     <para>
+      In Smarty templates, blocks {t}...{/t} identify which texts should be
+      translated. It uses format defined in smarty-gettext module (cf. <ulink
+      url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>).
+     </para>
+    </listitem>
+    <listitem>
+     <para>On Client:</para>
+     <para>
+      To generate PO template for Smarty templates, use the following
+      commands on the client side:
+      <screen><![CDATA[cd <cartoweb_home>/scripts
 ./client2pot.php]]></screen>
-   This will generate templates in directory 
-   <filename>&lt;cartoweb_home&gt;/po</filename> for all projects.
-   If templates were already translated, a merge is done using 
-   gettext's <command>msgmerge</command> command.
+      This will generate templates in directory 
+      <filename>&lt;cartoweb_home&gt;/po</filename> for all projects.
+      If templates were already translated, a merge is done using 
+      gettext's <command>msgmerge</command> command.
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
@@ -189,6 +187,29 @@ I18nClass = I18nDummy
       in <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>.
       The directory <filename>fr/LC_MESSAGES</filename> will be created if it 
       does not exist. 
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="user.i18n.usage">
+  <title>Usage</title>
+  <para>
+   Translation may be used at two levels of CartoWeb3 files:
+   <itemizedlist>
+    <listitem>
+     <para>
+      in PHP code using I18n gt() method:
+      <programlisting><![CDATA[$translatedString = I18n::gt($stringToTranslate);]]></programlisting>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      in Smarty templates using the "t" block function:
+      <programlisting><![CDATA[<p>{t}My text to translate{/t}</p>
+<p>{t name="John Doe"}Hello my name is %1{/t}</p>
+<p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
      </para>
     </listitem>
    </itemizedlist>
