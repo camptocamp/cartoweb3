@@ -184,24 +184,25 @@
  <sect1 id="intro.feature.query">
   <title>Map Queries</title>
   <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      Feature 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 2
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 3 and so on...
-     </para>
-    </listitem>
-   </itemizedlist>
+   Using the query tool, you can geographically search for objects. Found 
+    objects are hilighted and their attributes are displayed.
   </para>
+  <para>
+   &cartoweb; adds many functionalities to the raw queries supported by
+   Mapserver. In particular, the queries may be persistent (i.e. you can
+   add new objects to already selected objects), and the hilighting can 
+   be defined on a layer by layer basis.
+  </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_query.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Query example</phrase>
+        </textobject> 
+      </mediaobject>
+    </screenshot>    
  </sect1>
 
  <sect1 id="intro.feature.annotation">
@@ -266,7 +267,18 @@
  <sect1 id="intro.feature.access">
   <title>Access Rights</title>
   <para>
-   
+   Access to different elements of &cartoweb; can be allowed or denied according 
+   to who is currently using the application. Both functionalities and data
+   may have access restrictions. For instance, PDF printing may be totally
+   unavailable for anonymous access, limited (low resolution) for normal user
+   and totally granted (high resolution) for superusers. Similarly, 
+   high-resolution aerial views may only be visible within an organization,
+   while external users should be content with satellite photographs.
+  </para>
+  <para>
+   A basic (file-based) authentication mechanism is included, but any other
+   mechanism that is able to authenticate an user and to link him to a role
+   could be used as well.  
   </para>
  </sect1>
  

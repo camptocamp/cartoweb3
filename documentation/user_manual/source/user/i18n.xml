@@ -9,7 +9,7 @@
   <title>Internationalization</title>
   <sect1 id="user.i18n.translations">
     <title>Translations</title>
-    <para> Tanslation handling in &cartoweb; was designed to use <ulink 
+    <para> Translation handling in &cartoweb; was designed to use <ulink 
       url="http://www.gnu.org/software/gettext/manual">gettext</ulink>. However 
       internationalization architecture is ready for other translation 
       systems.</para>

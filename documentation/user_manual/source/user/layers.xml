@@ -57,7 +57,7 @@
         mapfile. By default, all layers in the mapfile are made available as a 
         Layer in the layers.ini, with an identifier having the same name as the 
         name of the mapserver layer. Thus, if you have the following option in 
-        you mapfile:</para>
+        your mapfile:</para>
       <programlisting><![CDATA[LAYER
   NAME "my_layer"
   TYPE line 
