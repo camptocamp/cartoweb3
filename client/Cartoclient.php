@@ -566,14 +566,14 @@ class Cartoclient {
     
     /**
      * Returns whether the current user has privileges to access cartoweb. It
-     * reads the SecurityAllowedRoles variable in client.ini
+     * reads the securityAllowedRoles variable in client.ini
      */
     public function clientAllowed() {
         // If lots of client security checks are to done there, make a new
         /// ClientSecurityChecker object 
-        if (!$this->config->SecurityAllowedRoles)
+        if (!$this->config->securityAllowedRoles)
             return true;
-        $allowedRoles = ConfigParser::parseArray($this->config->SecurityAllowedRoles);
+        $allowedRoles = ConfigParser::parseArray($this->config->securityAllowedRoles);
         return SecurityManager::getInstance()->hasRole($allowedRoles);
     }
     

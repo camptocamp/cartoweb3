@@ -73,7 +73,7 @@ loadPlugins = auth, hello, selection, outline, exportPdf, exportHtml, exportCsv
 
 ; List of roles which are allowed to access the cartoweb. Set to 'all' if no
 ;  restriction is given.
-SecurityAllowedRoles = all
+securityAllowedRoles = all
 
 ;## Template engine configuration ##
 
