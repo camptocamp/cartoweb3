@@ -749,7 +749,8 @@ class ClientExportPdf extends ExportPlugin {
      * @return string URL
      */
     private function getPdfFileUrl($filename) {
-        if (preg_match("/^(.*)exportPdf\/(.*)$/",
+        if (isset($_SERVER['SCRIPT_URI']) &&
+            preg_match("/^(.*)exportPdf\/(.*)$/",
                        $_SERVER['SCRIPT_URI'], $regs)) {
             return $regs[1] . 'pdf/' . $filename;
         }
