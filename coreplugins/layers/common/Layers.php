@@ -325,18 +325,19 @@ class LayersInit extends Serializable {
 
     /**
      * Adds a layer as a child of another
-     * @param LayerBase
-     * @param LayerBase
+     * @param LayerBase The parent layer where to add this layer, or NULL if no parent
+     * @param LayerBase The child layer to be added.
      */
     public function addChildLayerBase($parentLayer, $childLayer) {
         
         $childLayerId = $childLayer->id;
 
         if (in_array($childLayerId, array_keys($this->layers)))
-            throw new CartocommonException('Trying to replace layer ' .
+            throw new CartocommonException('Trying to replace existing layer ' .
             $childLayerId);
 
-        if (!in_array($childLayerId, $parentLayer->children))
+        if (!is_null($parentLayer) && !in_array($childLayerId, 
+                                                $parentLayer->children))
             $parentLayer->children[] = $childLayerId;
 
         $this->layers[$childLayerId] = $childLayer;
