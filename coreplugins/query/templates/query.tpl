@@ -11,7 +11,6 @@
 
   <table border="1" width="100%">
     <tr>
-       <th>Index</th>
        <th>Id</th>
     {foreach from=$layer_result->fields item=field}
        <th>{$field}</th>               
@@ -19,7 +18,6 @@
     </tr>
     {foreach from=$layer_result->resultElements item=result_element}
     <tr>
-       <td>{$result_element->index}</td>
        <td>{$result_element->id}</td>
         {foreach from=$result_element->values item=value}
        <td>

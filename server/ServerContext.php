@@ -182,8 +182,6 @@ class ServerContext {
             return $idAttribute;   
         }
         
-        throw new CartoserverException("no idAttributeString declared in ini config " .
-                "or metadata, for layer $msLayer->name");
         return NULL;
     } 
     
@@ -195,6 +193,8 @@ class ServerContext {
      */
      function getIdAttribute($layerId) {
         $idAttributeString = $this->getIdAttributeString($layerId);
+        if (is_null($idAttributeString))
+            return NULL;
         $explodedAttr = explode('|', $idAttributeString);
         assert(count($explodedAttr) >= 1);
         return $explodedAttr[0]; 

@@ -129,8 +129,7 @@ class ServerQuery extends ServerCorePlugin {
         $msLayer->open();
 
         $idAttribute = $this->serverContext->getIdAttribute($layerId);
-        if (is_null($idAttribute))
-            throw new CartoserverException("Can't find idAttribute for layer $layerId");
+
         for ($i = $queryArgs->startIndex; 
             $i < $msLayer->getNumResults() && 
             $i - $queryArgs->startIndex < $queryArgs->maxResults; $i++) {
@@ -142,8 +141,8 @@ class ServerQuery extends ServerCorePlugin {
             $this->log->debug($shape);
 
             $resultElement = new ResultElement();            
-            $resultElement->index = $i;
-            $resultElement->id = $shape->values[$idAttribute];
+            if (!is_null($idAttribute))
+                $resultElement->id = $shape->values[$idAttribute];
             
             $filteredValues = $this->filterReturnedAttributes($msLayer, $shape->values);
             if (empty($layerResult->fields)) {

@@ -56,6 +56,9 @@ class ServerHilight extends ServerPlugin {
         $idAttribute = $requ->idAttribute;
         if (empty($idAttribute))
             $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
+        if (empty($idAttribute))
+            throw new CartoserverException("no idAttributeString declared in ini config " .
+                "or metadata, for layer $msLayer->name");
         
         foreach ($ids as $id)
             $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
