@@ -5,40 +5,44 @@
 
 // dhtmlBox constructor
 function dhtmlBox() {
-  this.anchor = xGetElementById("mapAnchorDiv");
-  this.target = xGetElementById("mainDHTMLDiv");
-  this.image = xGetElementById("mapImageDiv");
-  this.canvas = xGetElementById("myCanvasDiv");
-  this.canvas2 = xGetElementById("myCanvas2Div");
-  this.displayContainer = xGetElementById("diplayContainerDiv");
-  this.displayCoords = xGetElementById("displayCoordsDiv");
-  this.displayMeasure = xGetElementById("displayMeasureDiv");
+  this.anchor = xGetElementById("mapAnchorDiv")
+  this.target = xGetElementById("mainDHTMLDiv")
+  this.image = xGetElementById("mapImageDiv")
+  this.canvas = xGetElementById("myCanvasDiv")
+  this.canvas2 = xGetElementById("myCanvas2Div")
+  this.displayContainer = xGetElementById("diplayContainerDiv")
+  this.displayCoords = xGetElementById("displayCoordsDiv")
+  this.displayMeasure = xGetElementById("displayMeasureDiv")
 
-  this.x1 = this.y1 = this.x2 = this.y2 = -1;
-  this.drag = false;
-  this.isActive = false;
-  this.dblClick = false;
-  this.keyEscape = false;
+  this.action = ""
+  this.x1 = this.y1 = this.x2 = this.y2 = -1
+  this.drag = false
+  this.isActive = false
+  this.dblClick = false
+  this.keyEscape = false
+  
+  this.Xpoints = new Array()
+  this.Ypoints = new Array()
 }
 
 // method prototypes
 function dhtmlBox_initialize() {
-  jg = new jsGraphics(this.canvas.id); // a drawing canvas for the lines and points
-  jg2 = new jsGraphics(this.canvas2.id); // a drawing canvas for the last moving vertex
+  jg = new jsGraphics(this.canvas.id) // a drawing canvas for the lines and points
+  jg2 = new jsGraphics(this.canvas2.id) // a drawing canvas for the last moving vertex
 
   dhtmlBox.changeTool() //make the previous tool selected the current one
   
-  this.target.style.zIndex = 1000;
+  this.target.style.zIndex = 1000
 
-  this.width = xWidth(this.anchor);
-  this.height = xHeight(this.anchor);
+  this.width = xWidth(this.anchor)
+  this.height = xHeight(this.anchor)
 
   this.resizeAndMoveDivs()
 
-  if (this.dispPos == "top") this.dispPosPx = -13;
-  else if (this.dispPos == "bottom") this.dispPosPx = this.height;
-  else this.dispPosPx = 0;
-  xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPosPx);
+  if (this.dispPos == "top") this.dispPosPx = -13
+  else if (this.dispPos == "bottom") this.dispPosPx = this.height
+  else this.dispPosPx = 0
+  xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPosPx)
 
 }
 
@@ -65,6 +69,12 @@ function dhtmlBox_resizeAndMoveDivs() {
 // cursorStyle : crosshair, help, move
 // toolName : name of the tool (ie query, zoomin, ...)
 function dhtmlBox_changetool() {
+  // external javascript function
+  if (this.action.indexOf('javascript:') !=  -1) {
+    this.Xpoints = new Array()
+    this.Ypoints = new Array()
+    eval (this.action) 
+  }
   // get the checked tool and its values
   for (var i =0; i < myform.tool.length ; i++) {
     if (myform.tool[i].checked) {
@@ -83,7 +93,6 @@ function dhtmlBox_changetool() {
   xRemoveEventListener(this.target,'mouseup',this.domouseup)
   xRemoveEventListener(this.target,'mousemove',this.domousemove)
   xRemoveEventListener(this.target,'mouseout',this.domouseout)
-  xRemoveEventListener(this.target, 'dblclick', this.dodblclick)
   
   xAddEventListener(this.target,'mousedown',this.domousedown)
   xAddEventListener(this.target,'mouseup',this.domouseup)
@@ -94,13 +103,9 @@ function dhtmlBox_changetool() {
  
   this.isActive = false
 
-  if (this.shapeType == 'polygon' || this.shapeType == 'line') {
-    xAddEventListener(this.target,'dblclick', this.dodblclick)
-  }
-  
-  this.displayMeasure.innerHTML = '';
+  this.displayMeasure.innerHTML = ''
   if (this.action == 'measure') {
-  	this.measure = 0;
+  	this.measure = 0
   }
 
   // cursor style
@@ -109,108 +114,131 @@ function dhtmlBox_changetool() {
 }
 
 function dhtmlBox_mousedown(evt) {
-  var e = new xEvent(evt);
-  
-  if (!(xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) && evt.button == 2) { //right clic
-    dhtmlBox.rightclic = true;
-  } else {
-    dhtmlBox.rightclic = false;
+  if (typeof(xEvent) != 'undefined'
+    && typeof(dhtmlBox) != 'undefined'
+    && typeof(dhtmlBox.displayCoords) != 'undefined') {
 
-    dhtmlBox.x1 = dhtmlBox.x2 = e.offsetX;
-    dhtmlBox.y1 = dhtmlBox.y2 = e.offsetY;
+    var e = new xEvent(evt)
+  
+    if (!(xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) && evt.button == 2) { //right clic
+      dhtmlBox.rightclic = true
+    } else {
+      dhtmlBox.rightclic = false
+    }
+  
+    dhtmlBox.x1 = dhtmlBox.x2 = e.offsetX
+    dhtmlBox.y1 = dhtmlBox.y2 = e.offsetY
+    dhtmlBox.keyEscape = false
 	
     if (dhtmlBox.shapeType == "point") {
-      jg.clear();  // if page not reloaded automaticaly, previous crosses are deleted
+      jg.clear()  // if page not reloaded automaticaly, previous crosses are deleted
     }
 	
-	if (!dhtmlBox.isActive) {
-	  dhtmlBox.isActive = true
-	  dhtmlBox.dblClick = false
+    if (!dhtmlBox.isActive) {
+      dhtmlBox.isActive = true
+      dhtmlBox.dblClick = false
       dhtmlBox.Xpoints = new Array()
-   	  dhtmlBox.Ypoints = new Array()
-	  if (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') { //init
-      	  jg.clear();
-	      //jg2.clear();
-    	  dhtmlBox.cnv_clicks = 0;
-	      dhtmlBox.draw_x = new Array();
-    	  dhtmlBox.draw_y = new Array();
-	      dhtmlBox.measure = 0;
-		  dhtmlBox.dblClick = false;
-    	  dhtmlBox.keyEscape = false;
-	  }
+      dhtmlBox.Ypoints = new Array()
+      if (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') { //init
+        jg.clear();
+        dhtmlBox.cnv_clicks = 0
+        dhtmlBox.draw_x = new Array()
+        dhtmlBox.draw_y = new Array()
+        dhtmlBox.measure = 0
+        dhtmlBox.dblClick = false
+      }
     }
-  }
-  if (dhtmlBox.action == 'submit' && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
-    dhtmlBox.drag = false; // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
-  } else {
-	dhtmlBox.drag = true; // the mouse is down
+  
+    if ((dhtmlBox.action == 'submit' || dhtmlBox.action.indexOf('javascript:' != -1))
+    && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
+      dhtmlBox.drag = false // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
+    } else {
+	  dhtmlBox.drag = true // the mouse is down
+    }
+  
+    if (dhtmlBox.dblClick && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') &&
+      Math.sqrt((dhtmlBox.x2 - dhtmlBox.oldx) * (dhtmlBox.x2 - dhtmlBox.oldx) +
+      (dhtmlBox.y2 - dhtmlBox.oldy) * (dhtmlBox.y2 - dhtmlBox.oldy)) < 10) {
+      dhtmlBox_dblclick(e)
+    }
+    window.setTimeout('dhtmlBox.dblClick = false',400)
+    dhtmlBox.oldx = dhtmlBox.x2
+    dhtmlBox.oldy = dhtmlBox.y2
+    dhtmlBox.dblClick = true
   }
 }
 
 function dhtmlBox_mousemove(evt) {
-  var e = new xEvent(evt);
+  if (typeof(xEvent) != 'undefined'
+    && typeof(dhtmlBox) != 'undefined'
+    && typeof(dhtmlBox.displayCoords) != 'undefined') {
+    var e = new xEvent(evt)
 
-  //show the coords display
-  xShow(dhtmlBox.displayContainer);
+    //show the coords display
+    xShow(dhtmlBox.displayContainer)
 
-  if(dhtmlBox.drag && dhtmlBox.isActive) { //the mouse is down
-    dhtmlBox.x2 = e.offsetX;
-    dhtmlBox.y2 = e.offsetY;
-	if (dhtmlBox.shapeType == 'point') {
-      jg.clear();
-      dhtmlBox.x1 = dhtmlBox.x2;
-      dhtmlBox.y1 = dhtmlBox.y2;
+    if(dhtmlBox.drag && dhtmlBox.isActive) { //the mouse is down
+      dhtmlBox.x2 = e.offsetX
+      dhtmlBox.y2 = e.offsetY
+      if (dhtmlBox.shapeType == 'point') {
+        jg.clear()
+        dhtmlBox.x1 = dhtmlBox.x2
+        dhtmlBox.y1 = dhtmlBox.y2
+      }
+      jg2.clear()
+      dhtmlBox.paint()
+      if (dhtmlBox.shapeType == 'polygon') dhtmlBox.lastLinePaint() // last line is drawn while moving
     }
-    jg2.clear();
-    dhtmlBox.paint();
-    if (dhtmlBox.shapeType == 'polygon') dhtmlBox.lastLinePaint(); // last line is drawn while moving
-  }
-  else if ((dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') && dhtmlBox.isActive == true) {
-      dhtmlBox.x2 = e.offsetX;
-      dhtmlBox.y2 = e.offsetY;
-      dhtmlBox.lastLinePaint(); // the last line is drawn while moving
-  }
-  // display the coordinates
-  dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size) + dhtmlBox.boxy);
+    else if ((dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') && dhtmlBox.isActive == true) {
+        dhtmlBox.x2 = e.offsetX
+        dhtmlBox.y2 = e.offsetY
+        dhtmlBox.lastLinePaint() // the last line is drawn while moving
+    }
+    // display the coordinates
+    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size) + dhtmlBox.boxy)
+  } 
 }
 
 function dhtmlBox_mouseup(evt) {
-  var e = new xEvent(evt);
+  if (typeof(xEvent) != 'undefined'
+    && typeof(dhtmlBox) != 'undefined'
+    && typeof(dhtmlBox.displayCoords) != 'undefined') {
+    var e = new xEvent(evt)
 
-  if (dhtmlBox.rightclic == true) {
-    jg2.clear();
-  } else if (dhtmlBox.isActive) {
+    if (dhtmlBox.rightclic == true) {
+      jg2.clear()
+    } else if (dhtmlBox.isActive) {
 
-    dhtmlBox.drag = false; //the mouse is now up
+      dhtmlBox.drag = false //the mouse is now up
 
-    dhtmlBox.x2 = e.offsetX;
-    dhtmlBox.y2 = e.offsetY;
+      dhtmlBox.x2 = e.offsetX
+      dhtmlBox.y2 = e.offsetY
 
-    //the box is too small
-    if (dhtmlBox.shapeType == 'rectangle_or_point' && ((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter))) {
-        dhtmlBox.x2 = dhtmlBox.x1 = Math.abs(dhtmlBox.x1-dhtmlBox.x2) /2 + Math.min(dhtmlBox.x1, dhtmlBox.x2) //zoom to center of the box
-        dhtmlBox.y2 = dhtmlBox.y1 = Math.abs(dhtmlBox.y1-dhtmlBox.y2) /2 + Math.min(dhtmlBox.y1, dhtmlBox.y2)
-    }
+      //the box is too small
+     if (dhtmlBox.shapeType == 'rectangle_or_point' && ((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter))) {
+          dhtmlBox.x2 = dhtmlBox.x1 = Math.abs(dhtmlBox.x1-dhtmlBox.x2) /2 + Math.min(dhtmlBox.x1, dhtmlBox.x2) //zoom to center of the box
+          dhtmlBox.y2 = dhtmlBox.y1 = Math.abs(dhtmlBox.y1-dhtmlBox.y2) /2 + Math.min(dhtmlBox.y1, dhtmlBox.y2)
+      }
 
-    // rectangle draw finished
-    if (dhtmlBox.shapeType == 'point' || dhtmlBox.shapeType == 'rectangle' || dhtmlBox.shapeType == 'rectangle_or_point' || dhtmlBox.shapeType == 'pan')
-      dhtmlBox.isActive = false;
+      // rectangle draw finished
+      if (dhtmlBox.shapeType == 'point' || dhtmlBox.shapeType == 'rectangle' || dhtmlBox.shapeType == 'rectangle_or_point' || dhtmlBox.shapeType == 'pan')
+        dhtmlBox.isActive = false
     
-    // polygon closed by click on the first point
-    if (dhtmlBox.shapeType == 'polygon' && Math.abs(dhtmlBox.x2 - dhtmlBox.draw_x[1]) <= dhtmlBox.jitter && Math.abs(dhtmlBox.y2 - dhtmlBox.draw_y[1]) <= dhtmlBox.jitter && dhtmlBox.draw_x.length > 2) {
-        dhtmlBox.keyEscape = true;
-        dhtmlBox.isActive = false;
-        jg2.clear();
+      // polygon closed by click on the first point
+      if (dhtmlBox.shapeType == 'polygon' && Math.abs(dhtmlBox.x2 - dhtmlBox.draw_x[1]) <= dhtmlBox.jitter && Math.abs(dhtmlBox.y2 - dhtmlBox.draw_y[1]) <= dhtmlBox.jitter && dhtmlBox.draw_x.length > 2) {
+        dhtmlBox.isActive = false
+        jg2.clear()
+      }
+      dhtmlBox.paint()
     }
-    dhtmlBox.paint();
   }
 }
 
 function dhtmlBox_mouseout(evt) {
-  var e = new xEvent(evt);
+  var e = new xEvent(evt)
 
-  xHide(dhtmlBox.displayContainer);
-  jg2.clear();
+  xHide(dhtmlBox.displayContainer)
+  jg2.clear()
 }
 
 function dhtmlBox_dblclick(evt) {
@@ -234,14 +262,17 @@ function dhtmlBox_keydown(evt) { //
 	else if (dhtmlBox.action == 'measure') {
 		dhtmlBox.paint() //
 	}
+	else if (dhtmlBox.action.indexOf('javascript:') != -1) {
+	    eval (dhtmlBox.action)
+	}
   }
 }
 
 function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, crosses, or pan the map
-  var x, y, w, h;
+  var x, y, w, h
 
-  x = Math.min(this.x1, this.x2);
-  y = Math.min(this.y1, this.y2);
+  x = Math.min(this.x1, this.x2)
+  y = Math.min(this.y1, this.y2)
 
   if (this.shapeType == 'pan') {
     var dx = this.x2 - this.x1
@@ -252,20 +283,20 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
 	
     if (dx == 0 && dy == 0) {
         // special case of click recentering
-        this.Xpoints[0] = dhtmlBox.x2;
-        this.Ypoints[0] = dhtmlBox.y2;
+        this.Xpoints[0] = dhtmlBox.x2
+        this.Ypoints[0] = dhtmlBox.y2
     } else {
-        this.Xpoints[0] = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1);
-        this.Ypoints[0] = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1);
+        this.Xpoints[0] = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1)
+        this.Ypoints[0] = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1)
     }
     //xResizeTo(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0);
   }
   else if (this.shapeType == 'point' ||
 	(this.shapeType == 'rectangle_or_point' && this.x1==this.x2 && this.y1==this.y2)) { //draws only a cross
-	jg.clear();
-    jg.drawLineW(x-this.cursorsize,y - this.thickness /2,this.cursorsize * 2);
-    jg.drawLineH(x - this.thickness /2,y-this.cursorsize ,this.cursorsize * 2);
-    jg.paint();
+	jg.clear()
+    jg.drawLineW(x-this.cursorsize,y - this.thickness /2,this.cursorsize * 2)
+    jg.drawLineH(x - this.thickness /2,y-this.cursorsize ,this.cursorsize * 2)
+    jg.paint()
     this.Xpoints[0] = x
     this.Ypoints[0] = y
     
@@ -288,50 +319,51 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
   else if (this.shapeType == 'line' || this.shapeType == 'polygon') {
     if (!this.keyEscape) { // Escape key is pressed
       ++this.cnv_clicks;
-      this.draw_x[this.cnv_clicks] = this.x2;
-      this.draw_y[this.cnv_clicks] = this.y2;
+      this.draw_x[this.cnv_clicks] = this.x2
+      this.draw_y[this.cnv_clicks] = this.y2
     }
-    this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
-    this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
+    this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks]
+    this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks]
     if (xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) { // IE/Mac specificity
 	  if (!this.isActive && this.shapeType == 'polygon') {
-        this.Xpoints[this.cnv_clicks] = this.draw_x[1];
-        this.Ypoints[this.cnv_clicks] = this.draw_y[1];	  	
+        this.Xpoints[this.cnv_clicks] = this.draw_x[1]
+        this.Ypoints[this.cnv_clicks] = this.draw_y[1]	  	
 	  }
-      jg.clear();
-      jg.drawPolylinePts(this.Xpoints,this.Ypoints, this.d2pts);
+      jg.clear()
+      jg.drawPolylinePts(this.Xpoints,this.Ypoints, this.d2pts)
     }
     else {
-        jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[this.cnv_clicks - 1],this.draw_y[this.cnv_clicks - 1],this.d2pts);
+        jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[this.cnv_clicks - 1],this.draw_y[this.cnv_clicks - 1],this.d2pts)
       	if (!this.isActive  && this.shapeType == 'polygon') // close the polygon
-          jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[1],this.draw_y[1],this.d2pts);		
+          jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[1],this.draw_y[1],this.d2pts)
       }
     }
-    jg.paint();
+    jg.paint()
 	// submit the form with the values
 	if (dhtmlBox.action == 'submit' && !this.isActive ) {
           if (dhtmlBox.shapeType == 'rectangle_or_point')
             dhtmlBox.shapeType = 'rectangle'
           dhtmlBox.submitForm()
-	}
-	if (dhtmlBox.action == 'measure') {
+	} else if (dhtmlBox.action == 'measure') {
 		dhtmlBox.measureShape()
+	} else if (dhtmlBox.action.indexOf('javascript:') != -1) {
+	  eval(dhtmlBox.action)
 	}
+	
 }
 
 function dhtmlBox_lastLinePaint() {
-
-  var x2 = this.x2;
-  var y2 = this.y2;
-  var x = this.draw_x[this.cnv_clicks];
-  var y = this.draw_y[this.cnv_clicks];
-  var x0 = this.draw_x[1];
-  var y0 = this.draw_y[1];
+  var x2 = this.x2
+  var y2 = this.y2
+  var x = this.draw_x[this.cnv_clicks]
+  var y = this.draw_y[this.cnv_clicks]
+  var x0 = this.draw_x[1]
+  var y0 = this.draw_y[1]
 
 //  if (xIE || xUA.indexOf('mac')!=-1) { //use the drawing API
   if (xUA.indexOf('mac')!=-1) { //use the drawing API
-    jg2.clear();
-    jg2.drawLinePts(x2,y2,x,y,this.d2pts); //draw the last vertex
+    jg2.clear()
+    jg2.drawLinePts(x2,y2,x,y,this.d2pts) //draw the last vertex
     if (this.shapeType == 'polygon') {
       jg2.drawLinePts(x2,y2,x0,y0,this.d2pts) // also draw the line to close the polygon
     }
@@ -370,7 +402,8 @@ function dhtmlBox_lastLinePaint() {
 function dhtmlBox_submitForm() {
 	var coords = new String()
 	if (this.dblClick) { // manually delete 2 not needed values
-		this.Xpoints.splice(this.Xpoints.length - 2, 2)
+		this.Xpoints.slice(0,this.Xpoints.length - 1)
+		this.Ypoints.slice(0,this.Ypoints.length - 1)
 	}
 	for (i = 0; i < this.Xpoints.length; i++) {
 		coords += this.Xpoints[i] +"," + this.Ypoints[i] + ";"
@@ -386,17 +419,17 @@ function dhtmlBox_submitForm() {
 */
 	myform.selection_type.value = (this.shapeType == "pan") ? "point" : this.shapeType
 //	alert ("type : " + myform.selection_coords.value + "\n coords : " + myform.selection_coords.value)
-	xShow(dhtmlBox.anchor);
-   	myform.submit();
+	xShow(dhtmlBox.anchor)
+   	myform.submit()
 }
 
 function dhtmlBox_measureShape() {
 	if (this.shapeType == 'line') { //Calculate the distance and display it
 	  if (this.cnv_clicks > 1 && !this.keyEscape) {
         // distance calculation
-        this.dist_x = (this.draw_x[this.cnv_clicks] - this.draw_x[this.cnv_clicks - 1]) * this.pixel_size;
-        this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * this.pixel_size;
-        this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
+        this.dist_x = (this.draw_x[this.cnv_clicks] - this.draw_x[this.cnv_clicks - 1]) * this.pixel_size
+        this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * this.pixel_size
+        this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y)
       }
 	  
       if (this.dist_unit.indexOf('k') != -1) this.measureDisp = Math.round(this.measure*100)/100
@@ -406,23 +439,23 @@ function dhtmlBox_measureShape() {
 	if (this.shapeType == 'polygon') { // calculate the surface and display it
 	  if (this.cnv_clicks > 1  && !this.keyEscape) {
         //surface calculation
-        var i = 0;
-        this.measure = 0;
+        var i = 0
+        this.measure = 0
         while (i < this.cnv_clicks - 1) {
-          this.measure += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i];
-          ++i;
+          this.measure += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i]
+          ++i
         }
-        this.measure += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1];
-        var pix_surf = this.pixel_size * this.pixel_size;
-        this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
+        this.measure += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1]
+        var pix_surf = this.pixel_size * this.pixel_size
+        this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf
 	  }
       if (this.surf_unit.indexOf('k') != -1) this.measure = Math.round(this.measure*10000)/10000
 	  else this.measure = Math.round(this.measure)
-      this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
+      this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit
     }
 }
 
-new dhtmlBox(0);
+new dhtmlBox(0)
 
 dhtmlBox.prototype.initialize = dhtmlBox_initialize // create instance method
 dhtmlBox.prototype.resizeAndMoveDivs = dhtmlBox_resizeAndMoveDivs
