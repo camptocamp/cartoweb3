@@ -297,10 +297,6 @@ class ClientLayers extends ClientCorePlugin {
             throw new CartoclientException('unknown template type');
         }
 
-        // Change gettext domain
-        $cartoclient = $this->getCartoclient();
-        I18n::textdomain($cartoclient->getConfig()->mapId);
-
         $layersOutput = $this->drawLayersList();
         $template->assign('layers', $layersOutput);
     }

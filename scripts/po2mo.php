@@ -13,13 +13,11 @@ define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
-function compileProject ($project = I18n::DEFAULT_PROJECT_DOMAIN) {
-    $input = $project . '.po';
-    $output = $project . '.mo';
-    compile($input, $output);
+function getProjectPo ($project = I18n::DEFAULT_PROJECT_DOMAIN) {
+    return $project;
 }
 
-function compileMapId($project, $mapId) {
+function getMapPo ($project, $mapId) {
 
     $direct = false;
     $iniFile = CARTOCLIENT_HOME;
@@ -32,22 +30,14 @@ function compileMapId($project, $mapId) {
         $direct = $iniArray['cartoserverDirectAccess'];
     }
 
-    // Finds which locales should be fetched
-    $dir = CARTOCLIENT_HOME . 'locale/';
-    $d = dir($dir);
-    $locales = array();
-    while (false !== ($entry = $d->read())) {
-        if ($entry == '.' || $entry == '..' || strlen($entry) != 2) {
-            continue;
-        }
-        $locales[] = $entry;
-    }
+    $locales = I18n::getLocales();
+
+    $input = $project . '.' . $mapId;
     if ($direct) {
  
         foreach ($locales as $locale) {
-            $input = $project . '.' . $mapId . '.po';
             $file = CARTOCLIENT_HOME . 'locale/' . $locale .
-                                            '/LC_MESSAGES/' . $input ;
+                                            '/LC_MESSAGES/' . $input . '.po';
             $serverFile = CARTOCLIENT_HOME;
             if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
                 $serverFile .= 'projects/' . $project . '/';
@@ -55,9 +45,6 @@ function compileMapId($project, $mapId) {
             $serverFile .= 'htdocs/locale/' . $locale .
                                      '/LC_MESSAGES/' . $mapId . '.po' ;
             copy ($serverFile, $file);
-            
-            $output = $project . '.' . $mapId . '.mo';
-            compile($input, $output);      
         }
     } else {
         // Looks for server URL
@@ -81,38 +68,62 @@ function compileMapId($project, $mapId) {
             curl_setopt($ch, CURLOPT_HEADER, 0);
             
             // Gets server PO file
-            $input = $project . '.' . $mapId . '.po';
-            $file = CARTOCLIENT_HOME . 'locale/' . $locale . '/LC_MESSAGES/' . $input ;
+            $file = CARTOCLIENT_HOME . 'locale/' . $locale .
+                                        '/LC_MESSAGES/' . $input . '.po';
             $fh = fopen($file, 'w');
             curl_setopt($ch, CURLOPT_FILE, $fh);
             curl_exec($ch);
             curl_close($ch);  
             fclose($fh);
-        
-            // Compiles it
-            $output = $project . '.' . $mapId . '.mo';
-            compile($input, $output);      
         }
+    }
+    
+    return $input;
+}
+
+function merge($source, $dest) {
+
+    $dir = CARTOCLIENT_HOME . 'locale/';
+    
+    $locales = I18n::getLocales();
+
+    foreach ($locales as $locale) {
+        $fileSource = $dir . $locale . '/LC_MESSAGES/' . $source . '.po';
+        $fileDest = $dir . $locale . '/LC_MESSAGES/' . $dest . '.po';
+        
+        $sourceLines = file($fileSource);
+
+        $fhDest = fopen($fileDest, 'a');
+        
+        $skip = false;
+        foreach ($sourceLines as $line) {
+            if (trim($line) == 'msgid ""') {
+                $skip = true;
+            }
+            if (!$skip) {
+                fwrite($fhDest, $line);
+            } else if (trim($line) == '') {
+                $skip = false;
+            }
+        }
+        
+        fclose($fhDest);
     }
 }
 
-function compile($input, $output) {
+function compile($fileName) {
     
     $dir = CARTOCLIENT_HOME . 'locale/';
     
-    $d = dir($dir);
+    $locales = I18n::getLocales();
     
-    while (false !== ($entry = $d->read())) {
-        if ($entry == '.' || $entry == '..') {
-            continue;
-        }
-        $file = $dir . $entry . '/LC_MESSAGES/' . $input;
+    foreach ($locales as $locale) {
+        $file = $dir . $locale . '/LC_MESSAGES/' . $fileName . '.po';
         if (file_exists($file)) {
-            exec ('msgfmt -o ' . $dir . $entry . '/LC_MESSAGES/' . $output . ' ' . $file);       
+            exec ('msgfmt -o ' . $dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo ' . $file);
+            unlink ($file);       
         }
     }
-    
-    $d->close();
 }
 
 if ($_SERVER['argc'] > 1) {
@@ -125,8 +136,9 @@ if ($_SERVER['argc'] > 1) {
         $mapId = $_SERVER['argv'][2];
     }
     
-    compileProject($projectName);
-    compileMapId($projectName, $mapId);
+    $file = getMapPo($projectName, $mapId);
+    merge(getProjectPo($projectName), $file);
+    compile($file);
 
 } else {
     print "Usage: ./po2mo.php [<project_name>] <map_id>\n";    
