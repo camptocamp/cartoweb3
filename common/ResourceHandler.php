@@ -52,7 +52,7 @@ abstract class UrlProvider {
      * @param string the resource to access. It may contain a path, like
      * css/style.css, or gfx/my_icon.png
      */
-    abstract function getHtdocsUrl($plugin, $project, $resource);
+    public abstract function getHtdocsUrl($plugin, $project, $resource);
     
     /**
      * Returns an URL to access icon images inside icons subdirectory where the
@@ -62,7 +62,7 @@ abstract class UrlProvider {
      * @param string the mapId to use
      * @param string the resource to access (icon name, without path)
      */
-    abstract function getIconUrl($project, $mapId, $resource);
+    public abstract function getIconUrl($project, $mapId, $resource);
     
     /**
      * Returns an URL to access files inside the directory of generated files
@@ -72,7 +72,7 @@ abstract class UrlProvider {
      * @param string the resource to access (this is the resource name relative
      * to the directory of generated files (www-data usually))
      */
-    abstract function getGeneratedUrl($resource);
+    public abstract function getGeneratedUrl($resource);
 }
 
 /**
@@ -157,7 +157,8 @@ class MiniproxyUrlProvider extends UrlProvider {
         if (!empty($project) && $project != ProjectHandler::DEFAULT_PROJECT)
             $queryParams['pr'] = $project;
         
-        return $this->buildQuery($queryParams, $resource);
+        $url = $this->buildQuery($queryParams, $resource);
+        return ResourceHandler::convertXhtml($url);
     }
 
     /**
@@ -249,6 +250,21 @@ class ResourceHandler {
     }
 
     /**
+     * Replaces some URL characters by XHTML-proof ones.
+     * @param string URL to filter
+     * @param boolean switch conversion direction
+     * @return string filtered URL
+     */
+    public static function convertXhtml($url, $back = false) {
+        if ($back) {
+            // back from XHTML to plain
+            return str_replace('&amp;', '&', $url);
+        }
+        
+        return str_replace('&', '&amp;', $url);
+    }
+
+    /**
      * Processes a relative URL to a resource, and convert it so that it is 
      * accessible on the client templates.
      * The relative url may be relative to the client or the server base Url.
@@ -269,9 +285,9 @@ class ResourceHandler {
 
         // if resource is on client, or we are in directAccess, we can use relative URL
         if (!$forceAbsolute && ($client || $this->directAccess)) {
-            return $relativeUrl;
+            return self::convertXhtml($relativeUrl);
         }
-        return $base . $relativeUrl;
+        return self::convertXhtml($base . $relativeUrl);
     }
     
     /**
