@@ -134,7 +134,7 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
                 shutdownCartoweb($config);
             }            
             return $ret;
-        } catch (Exception $e) {
+        } catch (CartowebException $e) {
             $message = '';
             if (isset($e->faultstring))
                 $message = $e->faultstring;
