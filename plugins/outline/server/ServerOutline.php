@@ -1,13 +1,19 @@
 <?
 /**
+ * Outline plugin
  * @package Plugins
  * @version $Id$
  */
 
 /**
+ * Server Outline class
  * @package Plugins
  */
 class ServerOutline extends ServerPlugin {
+    
+    /**
+     * @var Logger
+     */
     private $log;
 
     function __construct() {
@@ -15,6 +21,12 @@ class ServerOutline extends ServerPlugin {
         parent::__construct();
     }
 
+    /**
+     * Returns outline layer if it was defined
+     * @param MsMapObj Mapserver Map object
+     * @param string layer name
+     * @return MsLayer Mapserver Layer object
+     */
     private function getLayer($msMapObj, $layerName) {
         
         $outlineLayer = @$msMapObj->getLayerByName($layerName);
@@ -29,6 +41,14 @@ class ServerOutline extends ServerPlugin {
         return $outlineLayer;
     }
 
+    /**
+     * Adds a point to Mapserver layer
+     *
+     * If point layer is not defined in configuration file, tries with
+     * polygon layer.
+     * @param MsMapObj Mapserver Map object
+     * @param Point
+     */
     private function drawPoint($msMapObj, $point) {
 
         $layerName = $this->getConfig()->pointLayer;
@@ -53,6 +73,14 @@ class ServerOutline extends ServerPlugin {
         
     }
 
+    /**
+     * Adds a rectangle to Mapserver layer
+     *
+     * @see drawPolygon()
+     * @param MsMapObj Mapserver Map object
+     * @param Rectangle
+     * @param boolean mask mode on/off
+     */
     private function drawRectangle($msMapObj, $rectangle, $maskMode) {
 
         $points = array();       
@@ -67,6 +95,11 @@ class ServerOutline extends ServerPlugin {
         $this->drawPolygon($msMapObj, $polygon, $maskMode);
     }
 
+    /**
+     * Converts a Polygon to a Mapserver polygon object
+     * @param Polygon
+     * @return MsPolygonObj
+     */ 
     private function convertPolygon($polygon) {
         $line = ms_newLineObj();
 
@@ -81,6 +114,18 @@ class ServerOutline extends ServerPlugin {
         return $p;
     }
 
+    /**
+     * Adds a polygon to Mapserver layer
+     *
+     * If not in mask mode, simply draws Polygon.
+     *
+     * If in mask mode, uses MapScript pasteImage function to simulate a mask.
+     * This function doesn't include transparency handling. Mask color is set
+     * in configuration file, key maskColor.
+     * @param MsMapObj Mapserver Map object
+     * @param Polygon
+     * @param boolean mask mode on/off
+     */
     private function drawPolygon($msMapObj, $polygon, $maskMode) {
 
         if (!$maskMode) { 
@@ -126,6 +171,11 @@ class ServerOutline extends ServerPlugin {
 
     }
 
+    /**
+     * Handles shapes drawing and area computation
+     * @param OutlineRequest
+     * @return OutlineResult
+     */
     function handleDrawing($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
@@ -162,4 +212,5 @@ class ServerOutline extends ServerPlugin {
         return $result;
     }
 }
+
 ?>

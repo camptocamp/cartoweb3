@@ -1,14 +1,26 @@
 <?
 /**
+ * Outline plugin Serializable objects
  * @package Plugins
  * @version $Id$
  */
 
 /**
+ * Request
  * @package Plugins
  */
 class OutlineRequest extends Serializable {
+    
+    /** 
+     * Shapes to be drawn
+     * @var array
+     */
     public $shapes;
+    
+    /**
+     * If true, must draw a mask instead of a standard shape
+     * @var boolean
+     */    
     public $maskMode;
     
     function unserialize($struct) {
@@ -18,9 +30,15 @@ class OutlineRequest extends Serializable {
 }
 
 /**
+ * Result
  * @package Plugins
  */
 class OutlineResult extends Serializable {
+    
+    /**
+     * Total shapes area
+     * @var double
+     */
     public $area;
     
     function unserialize($struct) {

@@ -1,26 +1,50 @@
 <?php
 /**
+ * Outline plugin
  * @package Plugins
  * @version $Id$
  */
 
 /**
  * Contains the state of an outline.
+ * @package Plugins
  */
 class OutlineState {
- 
+
+    /** 
+     * Current drawn shapes
+     * @var array
+     */
     public $shapes;
+    
+    /**
+     * If true, will draw a mask instead of a standard shape
+     * @var boolean
+     */
     public $maskMode;
 }
 
 /**
+ * Client Outline class
  * @package CorePlugins
  */
 class ClientOutline extends ClientPlugin
                     implements Sessionable, ServerCaller, ToolProvider {
+                    
+    /**                    
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @var OutlineState
+     */
     private $outlineState;
+    
+    /**
+     * Total shapes area
+     * @var double
+     */
     private $area;
     
     const TOOL_POINT     = 'outline_point';
@@ -59,6 +83,10 @@ class ClientOutline extends ClientPlugin
         /* nothing to do */
     }
 
+    /**
+     * Returns outline tools : Point, Rectangle and Polygon
+     * @return array array of ToolDescription
+     */
     function getTools() {
         return array(new ToolDescription(self::TOOL_POINT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
@@ -92,6 +120,9 @@ class ClientOutline extends ClientPlugin
         } 
     }
 
+    /**
+     * @see ServerCaller::buildMapRequest
+     */
     function buildMapRequest($mapRequest) {
     
         $outlineRequest = new OutlineRequest();
@@ -101,6 +132,9 @@ class ClientOutline extends ClientPlugin
         $mapRequest->outlineRequest = $outlineRequest;
     }
 
+    /**
+     * @see ServerCaller::handleResult
+     */ 
     function handleResult($outlineResult) {
         if (is_null($outlineResult)) {
             return;
@@ -108,6 +142,10 @@ class ClientOutline extends ClientPlugin
         $this->area = $outlineResult->area;
     }
 
+    /**
+     * Draws Outline form and returns Smarty generated HTML
+     * @return string
+     */
     private function drawOutline() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
@@ -128,4 +166,5 @@ class ClientOutline extends ClientPlugin
                                 'outline' => $this->drawOutline()));
     }
 }
+
 ?>
