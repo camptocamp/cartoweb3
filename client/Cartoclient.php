@@ -93,13 +93,9 @@ class ClientConfig extends Config {
         parent::__construct($projectHandler);
         
         if (is_null($this->cartoserverBaseUrl)) {
-            if (empty($_SERVER['PHP_SELF']))
-                throw new CartoclientException('You need to set cartoserverBaseUrl ' .
-                        'in client.ini');
-            $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
-            $this->cartoserverBaseUrl = $url;
-        } else if (substr($this->cartoserverBaseUrl, -1) != '/') {
+            throw new CartoclientException('You need to set cartoserverBaseUrl ' .
+                                           'in client.ini');
+        } elseif (substr($this->cartoserverBaseUrl, -1) != '/') {
             $this->cartoserverBaseUrl .= '/';
         }
     }
@@ -396,7 +392,7 @@ class Cartoclient {
      */
     private function saveSession($clientSession) {
     
-        $this->log->debug("saving session:");
+        $this->log->debug('saving session:');
         $this->log->debug($clientSession);
 
         $_SESSION[CLIENT_SESSION_KEY . $this->config->mapId] = $this->clientSession;
@@ -441,11 +437,11 @@ class Cartoclient {
         $this->clientSession = $clientSession;
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
-            $this->log->debug("Loading existing session");
+            $this->log->debug('Loading existing session');
             $this->callPluginsImplementing('Sessionable', 'loadSession');
 
         } else {
-            $this->log->debug("creating new  session");
+            $this->log->debug('creating new  session');
 
             //$_SESSION = array();
             $_REQUEST = array();
@@ -468,7 +464,7 @@ class Cartoclient {
                 $initialMapState = $this->getMapInfo()->getInitialMapStateById( 
                                 $this->config->initialMapStateId);
             if ($initialMapState == NULL)
-                throw new CartoclientException("cant find initial map state " .
+                throw new CartoclientException('cant find initial map state ' .
                         $this->config->initialMapStateId);
             
             $this->callPluginsImplementing('Sessionable', 'createSession',
