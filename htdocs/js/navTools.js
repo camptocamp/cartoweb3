@@ -122,7 +122,7 @@ function dhtmlBox_mousedown(evt) {
 
     var e = new xEvent(evt)
   
-    if (!(xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) && evt.button == 2) { //right clic
+    if (!xMac && xIE4Up && evt.button == 2) { //right clic
       dhtmlBox.rightclic = true
     } else {
       dhtmlBox.rightclic = false
@@ -324,7 +324,7 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     }
     this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks]
     this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks]
-    if (xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) { // IE/Mac specificity
+    if (xMac && xIE4Up) { // IE/Mac specificity
 	  if (!this.isActive && this.shapeType == 'polygon') {
         this.Xpoints[this.cnv_clicks] = this.draw_x[1]
         this.Ypoints[this.cnv_clicks] = this.draw_y[1]	  	
@@ -361,7 +361,7 @@ function dhtmlBox_lastLinePaint() {
   var y0 = this.draw_y[1]
 
 //  if (xIE || xUA.indexOf('mac')!=-1) { //use the drawing API
-  if (xUA.indexOf('mac')!=-1) { //use the drawing API
+  if (xMac) { //use the drawing API
     jg2.clear()
     jg2.drawLinePts(x2,y2,x,y,this.d2pts) //draw the last vertex
     if (this.shapeType == 'polygon') {
