@@ -53,11 +53,10 @@ class Smarty_Cartoclient extends Smarty {
         $oldPath = $this->template_dir;
         $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
         $this->template_dir = CARTOCLIENT_HOME 
-                                . $this->projectHandler->getPath(CARTOCLIENT_HOME,
+                              . $this->projectHandler->getPath(CARTOCLIENT_HOME,
                                             $oldPath, $resource_name);
-        if (!$this->_compile_id) {
-            $this->_compile_id = md5($this->template_dir);
-        }
+        $this->_compile_id = md5($this->template_dir);
+        
         return $this->_get_auto_filename($this->compile_dir, $resource_name,
                                          $this->_compile_id) . '.php';
     }
@@ -76,9 +75,9 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
     }
 }
 
-// TODO: eventually create a class SmartyFormRender, and add a plugin mechanism in configuration
-// file to choose the templating sytem to use, as a class which extends the abstract class
-//  FormRenderer
+// TODO: eventually create a class SmartyFormRender, and add a plugin mechanism
+// in configuration file to choose the templating sytem to use, as a class 
+// which extends the abstract class FormRenderer
 
 /**
  * @package Client
