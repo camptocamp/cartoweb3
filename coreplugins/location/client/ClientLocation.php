@@ -17,7 +17,7 @@ class LocationState {
  */
 class ClientLocation extends ClientPlugin
                      implements Sessionable, GuiProvider, ServerCaller,
-                                InitUser, ToolProvider {
+                                InitUser, ToolProvider, Exportable {
     private $log;
     private $locationState;
 
@@ -582,11 +582,55 @@ class ClientLocation extends ClientPlugin
             $template->assign('shortcuts', $this->drawShortcuts());
     }
 
+    /**
+     * @see Sessionable::saveSession
+     */
     function saveSession() {
         $this->log->debug('saving session:');
         $this->log->debug($this->locationState);
 
         return $this->locationState;
     }
+
+    /**
+     * @see Exportable::adjustExportMapRequest
+     */
+     function adjustExportMapRequest(ExportConfiguration $configuration,
+                                     MapRequest $mapRequest) {
+
+         $locationRequest = $mapRequest->locationRequest;
+
+         $type = $configuration->getLocationType();
+         if (!is_null($type))
+             $locationRequest->locationType = $type;
+
+         $locationType = $locationRequest->locationType;
+
+         // reset every RelativeLocationRequest-typed properties:
+         foreach ($locationRequest as $member) {
+             if ($member instanceof RelativeLocationRequest &&
+                 $member != ucfirst($locationType))
+                 unset($member);
+         }
+
+         if ($locationType == 'zoomPointLocationRequest') {
+             $bbox = $configuration->getBbox();
+             if (!is_null($bbox))
+                 $locationRequest->$locationType->bbox = $bbox;
+    
+             $point = $configuration->getPoint();
+             if (!is_null($point))
+                 $locationRequest->$locationType->point = $point;
+    
+             $scale = $configuration->getScale();
+             if (!is_null($scale))
+                 $locationRequest->$locationType->scale = $scale;
+    
+             $zoomType = $configuration->getZoomType();
+             if (!is_null($zoomType))
+                 $locationRequest->$locationType->zoomType = 
+                     ZoomPointLocationRequest::ZOOM_SCALE;
+         }
+     }
 }
 ?>
