@@ -624,8 +624,8 @@ class cFPDF extends FPDF {
                         ));
             }
 
-            $iWidth = PrintTools::switchDistUnit($iWidth, 'pt',
-                                                 $this->general->distUnit);
+            $iWidth  = PrintTools::switchDistUnit($iWidth, 'pt',
+                                                  $this->general->distUnit);
             $iHeight = PrintTools::switchDistUnit($iHeight, 'pt',
                                                   $this->general->distUnit);
             
@@ -745,8 +745,13 @@ class cFPDF extends FPDF {
                 break;
         }
        
-        // FIXME: add additional background color at the end of last column
+        // adds additional background color at the end of last column
         // if it is smaller than previous ones.
+        if ($this->p->GetY() < $this->maxExtent['topY']) {
+            $y = $this->p->GetY();
+            $this->p->Rect($this->p->GetX(), $y, $block->width,
+                           $this->maxExtent['topY'] - $y, 'F');
+        }
        
         // adds frame
         $this->p->Rect($x0, $y0, $this->maxExtent['topX'] - $x0,
