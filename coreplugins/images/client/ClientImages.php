@@ -274,7 +274,8 @@ class ClientImages extends ClientPlugin
 
         $config = $this->cartoclient->getConfig();
             
-        if (@$config->directAccessImagesUrl)
+        // FIXME: is this really used ?
+        if (isset($config->directAccessImagesUrl))
             return $config->directAccessImagesUrl . $path;
 
         return $path;
@@ -314,7 +315,7 @@ class ClientImages extends ClientPlugin
             $absolutePath = $this->getCartoserverDirname($cartoserverParsedUrl) 
                                . $path;
 
-        if (@$config->reverseProxyPrefix) {
+        if (isset($config->reverseProxyPrefix)) {
             return $config->reverseProxyPrefix . $absolutePath;
         }
 
