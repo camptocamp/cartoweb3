@@ -10,7 +10,7 @@ general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, q
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
-general.output = inline
+general.output = redirection
 general.filename = "map-[date,dMY-Hi].pdf"
 general.distUnit = mm
 general.horizontalMargin = 10
