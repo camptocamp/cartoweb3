@@ -8,40 +8,148 @@
 <!-- $Id$ -->
 
 <chapter id="dev.debug">
- <title>Logging and debug</title>
+ <title>Logging and Debugging</title>
 
  <sect1 id="dev.debug.intro"> 
   <title>Introduction</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  This chapter is about the logging framework used in &cartoweb;, and gives some
+  tips for debugging the application. The two concepts are somewhat related, as
+  logging is often used as a way to ease debugging.
   </para>
  </sect1>
 
  <sect1 id="dev.debug.log"> 
   <title>Logging</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+    Logging is an important feature for being able to see what happens, debug
+    more easily the application, and track invalid or unexpected situations.
   </para>
+  <para>
+    The logging framework used for &cartoweb; is 
+      <ulink url="http://www.vxr.it/log4php/">Log4php</ulink>. Log4php is a portage
+    to Php of the famous Log4j Java logging library. Thus, Log4php has lots 
+    of similarities with Log4j, and users familiar with it will have no
+    problems understaning it.
+  </para>
+  <sect2 id="dev.debug.log.config">
+    <title>Log4php Configuration Files</title>
+    <para>Log4php settings are cusomizable in the 
+      <filename>client_conf/cartoclientLogger.properties</filename>
+      configuration file on the &cartoclient; and 
+      <filename>server_conf/cartoserverLogger.properties</filename>
+      on the &cartoserver;.</para>
+    <para>
+      For the detailed syntax of the configuration file, see the Log4php
+      documentation. A very short introduction is given there. The line
+      <literal>"log4php.rootLogger=DEBUG, A1"</literal> can be 
+      uncommented, which will activate the loggers defined in the lines
+      starting with <literal>log4php.appender.NAME</literal>, 
+      (where <literal>NAME</literal> is the name in the list 
+        <literal>"DEBUG, A1"</literal>). After the loggers are activated, the
+      the log output will be redirected to the corresponding location.
+      In the line <literal>log4php.appender.A1.file="LOG_HOME/cartoclient.log"</literal>
+      the <literal>LOG_HOME</literal> variable has a special meaning: it is expanded
+      to the <filename>log</filename> directory of the &cartoweb; distribution.
+    </para>
+    <para>
+      One powerful feature of Log4php, amon others, is the ability to filter 
+      log message according to their severity. Each log message has a severity
+      which may be <literal>ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF</literal>.
+      As described in the configuration file comments, the lines like 
+      <literal>log4php.logger.CLASSNAME</literal> can be used to apply a filtering
+      of the log message for the class <literal>CLASSNAME</literal>. For instance,
+      adding a line <literal>"log4php.logger.Cartoclient = INFO"</literal>, means 
+      that only log message of severity INFO or above will be printed. This 
+      is useful to avoid displaying unwanted log messages.
+    </para>
+  </sect2>
+  <sect2 id="dev.debug.log.default_location">
+    <title>Default Log File Location</title>
+    <para>
+      From what was said in the previous section, just uncommenting the line 
+        <literal>log4php.rootLogger=...</literal>
+      means that the &cartoclient; log messages will be written to 
+        <filename>log/cartoclient.log</filename> and the &cartoserver; ones to
+        <filename>log/cartoserver.log</filename>. Of course, the
+      Log4php configuration files can be adapted to write messages elsewhere.
+    </para>
+  </sect2>
+  
+  <sect2>
+    <title>Using Log4php in Source Files</title>
+    <para>
+      The Log4php usage in code is quite easy.
+      <orderedlist>
+        <listitem>
+          <para>For objects, it is advised to store a 
+            <classname>Logger</classname> object as an instance variable
+            <programlisting><![CDATA[
+class MyClass {
+    /**
+     * @var Logger
+     */
+    private $log;
+    
+    [...]
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+        [ ... ]
+        parent::__construct();
+    }              
+             ]]>  </programlisting>
+            For non object, a reference to a <classname>Logger</classname>
+            object can be obtained this way:
+                <programlisting><![CDATA[
+  $log =& LoggerManager::getLogger(__METHOD__);
+                ]]>  </programlisting>
+                <tip>
+                  <para>
+                    Using <constant>__METHOD__</constant> allows the same line
+                    to be used independently of the method where it is located.
+                  </para>
+                </tip>
+            </para>
+        </listitem>
+        <listitem>
+          <para>On the <classname>Logger</classname> object, several methods
+            can be used to log messages: 
+              <literal>debug(), info(), warn(), error(), fatal()</literal>
+           They take a <literal>string</literal> as argument, which is the
+           message to log. Example:
+                     <programlisting><![CDATA[
+  $this->log->debug('My Message'); // Inside objects
+  $log->warn('My Message');       // Outside objects
+                ]]>  </programlisting>
+           </para>
+        </listitem>
+      </orderedlist>
+    </para>
+  </sect2>
+  
  </sect1>
 
- <sect1 id="dev.debug.tools"> 
-  <title>Debug tools</title>
+ <sect1 id="dev.debug.debug"> 
+  <title>Debugging</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+    Debugging is a large topic. Everyone has its preference over the tool to
+    be used like using an integraded debugging tool inside an<acronym>IDE</acronym>,
+    using print statements, code printing and reading, ...
+    Because of this, this section does not tells what tools to use, but rather
+    gives some tips when debugging.
   </para>
+  <sect2 id="dev.debug.debug.stacktraces">
+    <title>Understanding Exceptions and Stack Traces</title>
+    <para>TBD</para>
+  </sect2>
+  <sect2 id="dev.debug.debug.directmode">
+    <title>Using Direct For More Verbosity</title>
+    <para>TBD</para>
+  </sect2>
  </sect1>
 
 </chapter>
