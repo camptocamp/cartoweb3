@@ -33,6 +33,74 @@
   </para>
  </sect1>
 
+ <sect1 id="user.layer.metadata"> 
+  <title>Metadata in mapfiles and .ini file</title>
+  <para>FIXME: is is the right place ?
+  </para>
+  <para>
+   Metadata are (keyword, value) pairs which can be associated to a MapServer
+   layer in the mapfile, or to a Layer or LayerGroup in the .ini configuration
+   file. These metadata are used in several different contextes, such as layer
+   specific configuration, security handling, ...
+  </para>
+  <sect2 id="user.layer.metadata.mapfile"> 
+    <title>Metadata in mapfiles</title>
+    <para>
+    Specifying metadata in mapfiles is based on the standard MapServer syntax.
+    For instance:
+    <programlisting>
+  LAYER 
+    NAME "my_layer"
+    [...]
+    METADATA
+    "exported_values" "security_view,security_edit"
+    "security_view" "admin"
+    "security_edit" "admin,editors"
+    
+      "id_attribute_string" "FID|string"
+      "mask_transparency" "50"
+      "mask_color" "255, 255, 0"
+      "area_fixed_value" "10"
+    END 
+    [...]
+  END    
+    </programlisting>
+    The metadata key <constant>exported_values</constant> is a bit special: It gives
+    the list of metadata keys (coma separated), which will be transmitted to the 
+    client. This is required for the metadata keys describing layer security for 
+    instance, as they are used on the &cartoclient;.
+    </para>
+    </sect2>
+  <sect2 id="user.layer.metadata.inifile"> 
+    <title>Metadata in <filename>&lt;mapfile&gt;.ini</filename></title>
+    <para>
+     The .ini configuration file <filename>&lt;mapfile&gt;.ini</filename> may contains
+     metadata (key, value) pairs, in addition to the mapfile. This is needed for 
+     LayerGroup objects, as they have no counter part in the mapfile. For the layer
+     metadata, the metadata specified in the [FIXME:add] have precendence over the 
+     values from [FIXME:add].
+    </para>
+    <para>
+      For each layer object in the .ini file, they may contains the following attribute:
+   <itemizedlist>
+    <listitem>
+     <para>
+    metadata.METADATA: a list of metadata which will be made available to the client. 
+    These can also be set in the mapfile, for the layers. 
+    Now this is used by the layers security mechanism
+     </para>
+    </listitem>      
+    </itemizedlist>
+      For instance:
+      <programlisting>
+mapInfo.layers.group_admin.className = LayerGroup
+mapInfo.layers.group_admin.children = grid_defaulthilight
+mapInfo.layers.group_admin.metadata.security_view = admin        
+     </programlisting>
+    </para>
+  </sect2>
+ </sect1>
+
  <sect1 id="user.layer.initial">
   <title>Initial map states</title>
   <para>
