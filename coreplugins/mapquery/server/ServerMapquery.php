@@ -108,18 +108,18 @@ class ServerMapquery extends ServerPlugin {
         if ($mayIgnore && is_numeric($ignoreQueryThreshold) && 
                                     $numResults > $ignoreQueryThreshold) {
             $this->getServerContext()->addMessage($this, 'queryIgnored', 
-                I18nNoop::gt(sprintf("Query spanned too many objects on layer 
-                        '%s', it was ignored.", 
-                        $layersInit->getLayerById($layerId)->label)));
+                sprintf(I18nNoop::gt(
+                        "Query spanned too many objects on layer '%s', it was ignored."),
+                        $layersInit->getLayerById($layerId)->label));
             return array();
         }
 
         $maxResults = $this->getConfig()->maxResults;
         if (is_numeric($maxResults) && $numResults > $maxResults) {
             $this->getServerContext()->addMessage($this, 'maxResultsHit', 
-                I18nNoop::gt(sprintf("This query hit the maximum number of 
-                        results on '%s', truncating results.",
-                        $layersInit->getLayerById($layerId)->label)));
+                sprintf(I18nNoop::gt(
+                        "This query hit the maximum number of results on '%s', truncating results."),
+                        $layersInit->getLayerById($layerId)->label));
             $numResults = $maxResults;
         }
         
