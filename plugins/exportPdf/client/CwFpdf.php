@@ -94,16 +94,21 @@ class cFPDF extends FPDF {
      * @var SpaceManager
      */
     protected $space;
+
+    /**
+     * @var array
+     */
+     protected $blocks;
     
     /**
      * Constructor.
-     * @param PdfGeneral
-     * @param PdfFormat
+     * @param ClientExportPdf
      */
-    function __construct(PdfGeneral $general, PdfFormat $format) {
+    function __construct(ClientExportPdf $export) {
        $this->log =& LoggerManager::getLogger(__CLASS__);
-       $this->general = $general;
-       $this->format = $format;
+       $this->general =& $export->getGeneral();
+       $this->format =& $export->getFormat();
+       $this->blocks =& $export->getBlocks();
        
        $this->p = new cFPDF(ucfirst($this->general->selectedOrientation),
                             $this->general->distUnit,
@@ -149,6 +154,7 @@ class cFPDF extends FPDF {
      */
     function addPage() {
         $this->p->AddPage();
+        $this->space->reset();
     }
 
     /**
@@ -194,12 +200,7 @@ class cFPDF extends FPDF {
         $this->p->SetLineWidth($borderWidth);
     }
 
-    /**
-     * @param PdfBlock text block object
-     * @see PdfWriter::addTextBlock()
-     */
-    function addTextBlock(PdfBlock $block) {
-        // text properties
+    private function setTextLayout(PdfBlock $block) {
         $fontStyle = false;
         if ($block->fontBold) $fontStyle .= 'B';
         if ($block->fontItalic) $fontStyle .= 'I';
@@ -208,7 +209,23 @@ class cFPDF extends FPDF {
 
         $color = PrintTools::switchColorToRgb($block->color);
         $this->p->SetTextColor($color[0], $color[1], $color[2]);
-   
+    }
+
+    private function setBoxLayout(PdfBlock $block) {
+        $this->setLineWidth($block->borderWidth);        
+        $this->setDrawColor($block->borderColor);
+        $this->setFillColor($block->backgroundColor);
+        // borderStyle property not available with FPDF
+    }
+    
+    /**
+     * @param PdfBlock text block object
+     * @see PdfWriter::addTextBlock()
+     */
+    function addTextBlock(PdfBlock $block) {
+        // text properties
+        $this->setTextLayout($block);
+
         if (!isset($block->width)) {
             $block->width = $this->p->GetStringWidth($block->content);
             $block->width += 2 * $block->padding;
@@ -227,15 +244,12 @@ class cFPDF extends FPDF {
         $textAlign = $this->getTextAlign($block->textAlign);
 
         // box properties
-        $this->setFillColor($block->backgroundColor);
-        
         if ($block->borderWidth) {
             $border = 1;
-            $this->setLineWidth($block->borderWidth);
-            $this->setDrawColor($block->borderColor);
-            // borderStyle property not available with FPDF
+            $this->setBoxLayout($block);
         } else {
             $border = 0;
+            $this->setFillColor($block->backgroundColor);
         }
 
         list($x0, $y0) = $this->space->checkIn($block);
@@ -263,10 +277,7 @@ class cFPDF extends FPDF {
      * @see PdfWriter::addGfxBlock()
      */
     function addGfxBlock(PdfBlock $block) {
-        $this->setLineWidth($block->borderWidth);        
-        $this->setDrawColor($block->borderColor);
-        $this->setFillColor($block->backgroundColor);
-        // borderStyle property not available with FPDF
+        $this->setBoxLayout($block);
 
         $imageWidth = $block->width;
         $imageHeight = $block->height;
@@ -287,11 +298,195 @@ class cFPDF extends FPDF {
             $this->p->Rect($x0, $y0, $block->width, $block->height, 'D');
     }
 
-    function addTableCell() {}
+    function addTableCell($text, $width, $height) {
+        // TODO: handle text alignment
+        $x = $this->p->GetX();
+        $y = $this->p->GetY();
+        $this->p->MultiCell($width, $height, $text, 1, 'C', 1);
+        $this->p->SetXY($x + $width, $y);
+    }
 
-    function addTableRow() {}
+    function addTableRow(TableElement $table, $row) {
+        if (!is_array($row) && !is_object($row))
+            $row = array($row);
+
+        $this->p->SetX($table->x0);
+
+        $nbLines = 1;
+        foreach ($row as $id => $text) {
+            $textWidth = $this->p->GetStringWidth($text);
+            $cellWidth = $table->colsWidth[$id]; // FIXME: remove margins!
+            $nbLines = max($nbLines, ceil($textWidth / $cellWidth));
+        }
+        $height = $nbLines * 20;
+        // TODO: get single line height from config
+       
+        foreach ($row as $id => $text) {
+            $this->addTableCell($text, $table->colsWidth[$id], $height);
+        }
+
+        $this->p->Ln();
+    }
+
+    function addTableCaption(TableElement $table) {
+        $block = $table->caption;
+        $this->setTextLayout($block);
+        $this->setBoxLayout($block);
+        
+        if (!isset($block->height))
+            $block->height = 20;
+
+        $textAlign = $this->getTextAlign($block->textAlign);
+
+        $this->p->Cell($block->width, $block->height, $block->content, 1, 0, 
+                       $textAlign, 1);
+        $this->p->Ln();
+    }
+
+    function addTableHeaders(TableElement $table) {
+        $block = $table->headers;
+        $this->setTextLayout($block);
+        $this->setBoxLayout($block);
+        $this->addTableRow($table, $block->content);
+    }
+
+    function setTableMeta(PdfBlock $block, TableElement $table, $meta) {
+        if (isset($this->blocks[$block->$meta])) {
+            $subBlock = clone $this->blocks[$block->$meta];
+        } else {
+            $subBlock = clone $block;
+            $subBlock->content = '';
+        }
+
+        if ($table->$meta)
+            $subBlock->content = $table->$meta;
+
+        return $subBlock;
+    }
+
+    function setTableWidth(PdfBlock $block, TableElement $table) {
+        if ($table->headers->content) {
+            $this->setTextLayout($table->headers);
+            foreach ($table->headers->content as $id => $header) {
+                $table->colsWidth[$id] = $this->p->GetStringWidth($header)
+                                         + 2 * $table->headers->padding;
+            }
+        }
+
+        $this->setTextLayout($block);
+        $nbCols = 0;
+        foreach ($table->rows as $row) {
+            foreach ($row as $id => $cell) {
+                $cellWidth = $this->p->GetStringWidth($cell)
+                             + 2 * $block->padding;
+                if ($cellWidth > $table->colsWidth[$id])
+                    $table->colsWidth[$id] = $cellWidth;
+            }
+            $nbCols = max($nbCols, count($row));
+        }
+
+        foreach ($table->colsWidth as $width)
+            $table->totalWidth += $width;
+
+        if ($table->caption->content) {
+            $this->setTextLayout($table->caption);
+            $captionWidth = $this->p->GetStringWidth($table->caption->content)
+                            + 2 * $table->caption->padding;
+                            
+            if (!isset($table->caption->width))
+                $table->caption->width = 0;
+                
+            $table->caption->width = max($table->caption->width, $captionWidth,
+                                         $table->totalWidth);
+            
+            if ($table->caption->width > $table->totalWidth) {
+                $delta = $table->caption->width - $table->totalWidth;
+                $delta /= $nbCols; // $nbCols cannot be 0
+                foreach ($table->colsWidth as $width)
+                    $width += $delta;
+                $table->totalWidth = $table->caption->width;
+            }
+        }
+
+        $maxWidth = $this->space->getAvailableSpan($block);
+
+        // if total width is too big
+        // TODO: still to test!!
+        if ($table->totalWidth > $maxWidth) {       
+            $diff = $table->totalWidth - $maxWidth; 
+            $colsWidth = $table->colsWidth;
+            arsort($colsWidth);
+
+            $cw = array();
+            foreach ($colsWidth as $id => $wi) 
+                $cw[] = array('id' => $id, 'wi' => $wi);
+
+            if ($cw[0]['wi'] - $cw[1]['wi'] > $diff) {
+                $table->colsWidth[$cw[0]['id']] = $cw[0]['wi'] - $diff;
+            } else {       
+                $mwi = $diff / $nbCols;
+                $n = 5; 
+                do {       
+                    $redfld = array();
+                    foreach ($cw as $cinfo) {
+                        if ($cinfo['wi'] > $n * $mwi)
+                            $redfld[] = $cinfo['id'];
+                    }
+                    $n--;   
+                }       
+                while (!count($redfld));
+                $mwi = $diff / count($redfld);
+
+                foreach($redfld as $id) 
+                    $table->colsWidth[$id] -= $mwi;
+
+                $table->totalWidth = 0;
+                foreach($table->colsWidth as $wi)
+                    $table->totalWidth += $wi; 
+            }
+        }
+    }
     
-    function addTable() {}
+    function addTable(PdfBlock $block) {
+        if (!is_array($block->content))
+            $block->content = array($block->content);
+
+        $yRef = 0;
+        foreach ($block->content as $table) {
+            if (!$table instanceof TableElement || !$table->rows)
+                continue;
+
+            $table->caption = $this->setTableMeta($block, $table, 'caption');
+            $table->headers = $this->setTableMeta($block, $table, 'headers');
+
+            // sets table width according to content
+            $this->setTableWidth($block, $table);
+
+            list($table->x0, $table->y0) = 
+                $this->space->checkTableIn($block, $table);
+            if ($yRef)
+                $table->y0 = $yRef;
+            
+            $this->p->SetXY($table->x0, $table->y0);
+
+            if ($table->caption->content && 
+                is_string($table->caption->content))
+                $this->addTableCaption($table);
+          
+            if ($table->headers->content)
+                $this->addTableHeaders($table);
+
+            $this->setTextLayout($block);
+            $this->setBoxLayout($block);
+            
+            foreach ($table->rows as $row) {
+                $this->addTableRow($table, $row);
+            }
+
+            $this->p->Ln();
+            $yRef = $this->p->GetY();
+        }
+    }
 
     /**
      * @see PdfWriter::finalizeDocument()
@@ -300,3 +495,4 @@ class cFPDF extends FPDF {
         return $this->p->Output($this->general->filename, 'S');
     }
 }
+?>
