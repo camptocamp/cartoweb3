@@ -1,3 +1,6 @@
+all:
+	:
+
 clean:
 	find -name "*~" -type f -exec  rm {} \;
 	rm -f  www-data/images/*
@@ -13,3 +16,8 @@ perms:
 	sudo chown www-data www-data/saved_posts
 	sudo chown www-data templates_c
 
+
+create_config:
+	for i in `find -name "*.dist"`; do \
+	 cp $$i $${i%%.dist} ;  \
+	done
