@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<chapter id="dev.security">
+ <title>Using the security infrastructure</title>
+
+ <sect1 id="dev.security.intro"> 
+  <title>Introduction</title>
+        <para>
+                The security mechanism can be split into the
+        following parts:
+        <itemizedlist>
+        <listitem>
+           <para>
+            Management of the list of users, passwords and the roles they belong to.
+           </para>
+        </listitem>
+        <listitem>
+           <para>
+            Management of the way user log in and log out. For instance using a 
+            cookie and a login/logout page. It is also possible to develop a plugin
+            which depends on a container application to perform user authentication.
+           </para>
+        </listitem>
+</itemizedlist>
+</para>
+</sect1>
+</chapter>
