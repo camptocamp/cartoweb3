@@ -111,7 +111,11 @@ function parseMap($project, $mapId, &$texts) {
     }
     for ($i = 0; $i < $map->numlayers; $i++) {
         $layer = $map->getLayer($i);
-        
+       
+        if ($layer->name != '') {
+            addMapText($layer->name, $mapId, $texts);
+        }
+
         for ($j = 0; $j < $layer->numclasses; $j++) {
             $class = $layer->getClass($j);
             
