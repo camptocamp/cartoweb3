@@ -17,7 +17,7 @@ for="lsp">{t}Landscape{/t}</label></div>
 
 {if $pdfTitle}<div>{t}Title:{/t} <input type="text" name="pdfTitle" value="" /></div>{/if}
 {if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="" /></div>{/if}
-{if $pdfScalebar}<div><input type="checkbox" name="pdfScalebar" id="pdfScalebar" />
+{if $pdfScalebar}<div><input type="checkbox" name="pdfScalebar" id="pdfScalebar" checked="checked" />
 <label for="pdfScalebar">{t}Scalebar{/t}</label></div>{/if}
 {if $pdfOverview}<div><input type="checkbox" name="pdfOverview" id="pdfOverview" />
 <label for="pdfOverview">{t}Overview{/t}</label></div>{/if}
@@ -31,8 +31,8 @@ for="lsp">{t}Landscape{/t}</label></div>
 for="legendIn">{t}On map{/t}</label></div>
 <div><input type="radio" name="pdfLegend" value="out" id="legendOut" /><label
 for="legendOut">{t}In new page{/t}</label></div>
-<div><input type="radio" name="pdfLegend" value="0" id="legendNone" /><label
-for="legendNone">{t}None{/t}</label></div>
+<div><input type="radio" name="pdfLegend" value="0" id="legendNone" 
+checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
 </fieldset>
 {/if}
 
