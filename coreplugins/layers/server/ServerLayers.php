@@ -67,10 +67,10 @@ class ServerLayers extends ServerCoreplugin {
 
         $layerIds = $requ->layerIds;
         $this->requestedLayerNames = $layerIds;
-
+        
         if (!is_array($layerIds)) {
             throw new CartoclientException('Invalid layer request: ' .
-                    'layerIds not array');            
+            'layerIds not array');
             return;
         }
 
