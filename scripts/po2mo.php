@@ -46,15 +46,19 @@ function getProjectPo($project = '') {
 function getMapPo($project, $mapId) {
 
     $direct = false;
-    $iniFile = '';
+    $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
+    $iniFileProject = '';
     if ($project != '') {
-        $iniFile = CARTOCLIENT_HOME . 'projects/' . $project . '/client_conf/client.ini';
+        $iniFileProject = CARTOCLIENT_HOME . 'projects/' . $project . '/client_conf/client.ini';
     }        
-    if (!file_exists($iniFile)) {
-        $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
+    if (!file_exists($iniFileProject)) {
+        $iniFileProject = $iniFile;
     }
     $iniArray = parse_ini_file($iniFile);
-    if (array_key_exists('cartoserverDirectAccess', $iniArray)) {
+    $iniArrayProject = parse_ini_file($iniFileProject);
+    if (array_key_exists('cartoserverDirectAccess', $iniArrayProject)) {
+        $direct = $iniArrayProject['cartoserverDirectAccess'];
+    } else if (array_key_exists('cartoserverDirectAccess', $iniArray)) {
         $direct = $iniArray['cartoserverDirectAccess'];
     }
 
@@ -70,7 +74,9 @@ function getMapPo($project, $mapId) {
         
     } else {
         // Looks for server URL
-        if (array_key_exists('cartoserverBaseUrl', $iniArray)) {
+        if (array_key_exists('cartoserverBaseUrl', $iniArrayProject)) {
+            $url = $iniArrayProject['cartoserverBaseUrl'];
+        } else if (array_key_exists('cartoserverBaseUrl', $iniArray)) {
             $url = $iniArray['cartoserverBaseUrl'];
         } else {
             print "Warning: Project $project base URL not set in client.ini\n";
@@ -140,14 +146,22 @@ function merge($project, $file1, $file2, $output) {
 
         $fhOut = fopen($fileOutput, 'w');
         
+        $msgIds = array();
         foreach ($file1Lines as $line) {
             fwrite($fhOut, $line);
+            if (ereg('msgid \"(.*)\"', $line, $regs)) {
+                $msgIds[] = $regs[1];
+            }
         }
         
         $skip = false;
         foreach ($file2Lines as $line) {
             if (trim($line) == 'msgid ""') {
                 $skip = true;
+            } else if (ereg('msgid \"(.*)\"', $line, $regs)) {
+                if (in_array($regs[1], $msgIds)) {
+                    $skip = true;
+                }
             }
             if (trim($line) == '') {
                 $skip = false;
@@ -241,11 +255,11 @@ foreach ($projects as $project) {
             $finalFile .= $project . '.';
         }
         $finalFile .= $mapId;
-        if (!merge($project, getProjectPo($project), $file, $finalFile)) {
+        if (!merge($project, $file, getProjectPo($project), $finalFile)) {
             continue;
         }
         if ($project != '') {
-            if (!merge($project, getProjectPo(''), $finalFile, $finalFile)) {
+            if (!merge($project, $finalFile, getProjectPo(''), $finalFile)) {
                 continue;
             }
         }
