@@ -12,8 +12,6 @@
  * @package Server
  */
 class Encoder {
-    
-    const DEFAULT_CONTEXT = 'output';
   
     /**
      * @var Logger
@@ -25,6 +23,12 @@ class Encoder {
      * @var array array of EncoderInterface
      */
     static public $encoders;
+    
+    static private function setDefault($context) {
+        if (!array_key_exists($context, self::$encoders)) {
+            self::$encoders[$context] = new EncoderUTF();
+        }
+    }
     
     /**
      * Initializes encoding
@@ -38,19 +42,17 @@ class Encoder {
         foreach ($iniArray as $key => $value) {
             $keyArray = explode('.', $key);
             if ($keyArray[0] == 'EncoderClass') {
-                self::$encoders[$keyArray[1]] = new $value;
-            }
+                if (class_exists($value)) {
+                    self::$encoders[$keyArray[1]] = new $value;
+                }
+            }            
         }
-        if (!array_key_exists(self::DEFAULT_CONTEXT, self::$encoders)) {
-            self::$encoders[self::DEFAULT_CONTEXT] = new EncoderUTF();
-        }
+        self::setDefault('config');
+        self::setDefault('output');
     }    
     
     static private function getEncoder($context) {
-        if (array_key_exists($context, self::$encoders)) {
-            return self::$encoders[$context];
-        }                
-        return self::$encoders[self::DEFAULT_CONTEXT];
+        return self::$encoders[$context];
     }
     
     /**
@@ -58,7 +60,7 @@ class Encoder {
      * @param string
      * @return string
      */
-    static function encode($text, $context = self::DEFAULT_CONTEXT) {
+    static function encode($text, $context = 'output') {
         return self::getEncoder($context)->encode($text);
     }
 
@@ -67,7 +69,7 @@ class Encoder {
      * @param string
      * @return string
      */
-    static function decode($text, $context = self::DEFAULT_CONTEXT) {
+    static function decode($text, $context = 'output') {
         return self::getEncoder($context)->decode($text);
     }
     
@@ -75,7 +77,7 @@ class Encoder {
      * Calls encoder's getCharset
      * @return string
      */
-    static function getCharset($context = self::DEFAULT_CONTEXT) {
+    static function getCharset($context = 'output') {
         return self::getEncoder($context)->getCharset();
     }
 }
