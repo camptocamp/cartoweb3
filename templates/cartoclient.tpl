@@ -172,7 +172,7 @@
    <span style="color: blue;">
    {t} User messages {/t}</span>
    {foreach from=$user_messages item=message}
-	<p>{$message}</p>
+        <p>{$message}</p>
    {/foreach}   
   {/if}
 
