@@ -1,9 +1,9 @@
 {if $layerType == 'LayerGroup'}
   {if $layerId != 'root'}
-  <a href="#" onclick="shift('{$nodeId}')" id="x{$nodeId}" class="lk">-</a> <input
+  <a href="#" onclick="shift('{$nodeId}')" id="x{$nodeId}" class="lk">+</a> <input
   type="checkbox" name="layers[]" value="{$layerId}" 
   onclick="updateChecked('{$nodeId}', true)" {$layerChecked} />{$layerLabel}<br />
-  <div class="v" id="{$nodeId}">
+  <div class="nov" id="{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}
   {$layer}
