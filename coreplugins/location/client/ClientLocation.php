@@ -157,13 +157,16 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                               $this);
         $scaleValues = array(0);
         $scaleLabels = array('');
-        foreach ($this->scales as $scale) {
+        $scales = $this->scales;
+        if (!is_array($scales)) $scales = array();
+        foreach ($scales as $scale) {
             $scaleValues[] = $scale->value;
             $scaleLabels[] = I18n::gt($scale->label);            
         }
         $this->smarty->assign(array('recenter_scaleValues' => $scaleValues,
                                     'recenter_scaleLabels' => $scaleLabels,
-                                    'recenter_scale'       => $this->locationResult->scale));
+                                    'recenter_scale'       => 
+                                        $this->locationResult->scale));
         return $this->smarty->fetch('recenter.tpl');
     }
 
