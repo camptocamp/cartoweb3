@@ -14,10 +14,177 @@
  <sect1 id="user.annotate.intro"> 
   <title>Introduction</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Imagine you want to draw some features (points, lines, polygons ...)
+   in your map to show specific data and/or print it. The outline plugin
+   is what you need.
   </para>
+  <para>
+   It allows you to draw features and to annotate them with label texts. 
+  </para>
+  <para>
+   It's also possible to use polygons shapes as a mask layer see "Mask mode".
+   User can choose between mask or draw mode with radio buttons.
+   See <xref linkend="user.annotate.server.ini" /> for more information.
+  </para>
+  <para>
+   Shapes colors and styles should be set with specific configuration in the
+   mapfile (See <xref linkend="user.annotate.server.mapfile" />).
+  </para>
+  <para>The total area of the drawn polygons is displayed on the interface.</para>
  </sect1>
+ <sect1 id="user.annotate.client">
+  <title>Client-side configuration</title>
+  <sect2 id="user.annotate.client.ini">
+   <title>outline.ini</title>
+   <para>Here are the options that can be set on the client:
+   </para>
+   <itemizedlist>
+    <listitem>
+     <para> 
+      multipleShapes<indexterm><primary>multipleShapes</primary></indexterm>: 
+      if true, the user is allowed to draw multiple shapes. That means that
+      drawn features remain until browser session is closed. If false, new
+      feature simply erases / overrides currently drawn one.
+      When he wants, the user can erase all the drawn feature by clicking on the
+      "outline_clear" form button.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      labelMode<indexterm><primary>labelMode</primary></indexterm>:
+      if true, user is asked to input a label text that is drawn to annotate
+      drawn shape.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      weightOutlinePoint<indexterm><primary>weightOutlinePoint</primary></indexterm>:
+      integer defining display order of the outline_point tool icon in toolbar 
+      (if not specified, default to 70). A negative weight disables the tool.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      weightOutlineLine<indexterm><primary>weightOutlineLine</primary></indexterm>:
+      see weightOutlinePoint (default to 71)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      weightOutlineRectangle<indexterm><primary>weightOutlineRectangle</primary></indexterm>:
+      see weightOutlinePoint (default to 72)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      weightOutlinePoly<indexterm><primary>weightOutlinePoly</primary></indexterm>:
+      see weightOutlinePoint (default to 73)
+     </para>
+    </listitem>
+   </itemizedlist>
+  </sect2>
+ </sect1>
+ <sect1 id="user.annotate.server">
+  <title>Server-side configuration</title>
+  <sect2 id="user.annotate.server.ini">
+   <title>outline.ini</title>
+   <para>Here are the options that can be set on the server:
+   </para>
+   <itemizedlist>
+        <listitem>
+          <para> 
+            pointLayer<indexterm><primary>pointLayer</primary></indexterm>:
+            defines the name of the mapserver LAYER set in the mapfile to display points.
+            If not set, the polygon layer is automaticaly used instead.
+            </para>
+        </listitem>
+        <listitem>
+          <para>
+            lineLayer<indexterm><primary>lineLayer</primary></indexterm>:
+            defines the name of the mapserver LAYER set in the mapfile to display lines.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            polyLayer<indexterm><primary>polyLayer</primary></indexterm>:
+            defines the name of the mapserver LAYER set in the mapfile to display polygons.
+            Note that rectangles are displayed as polygons.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            maskColor<indexterm><primary>maskColor</primary></indexterm>:
+            defines the RGB color of the mask. This color is used to fill the polygons
+            outside's area. Drawn polys will appear as holes in a colored sheet, showing
+            the map under. This parameter is optional and set by default to 255 255 255 (white).
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            areaFactor<indexterm><primary>areaFactor</primary></indexterm>:
+            defines an optional value for ratio by which the area is multiplied before
+            it is returned to the client. For example, people can use it to convert square meters
+            to square kilometers.
+          </para>
+        </listitem>
+   </itemizedlist>
+  </sect2>
+  <sect2 id="user.annotate.server.mapfile">
+   <title>mapfile</title>
+    <sect3 id="user.annotate.server.mapfile.layers">
+     <title>layers</title>
+     <para>Specific layers must be set in the mapfile in order to draw the shapes.</para>
+     <para>Examples<programlisting><![CDATA[
+LAYER
+  NAME "cartoweb_point_outline"
+  TYPE POINT
+  ...
+END
 
+LAYER
+  NAME "cartoweb_line_outline"
+  TYPE LINE
+  ...
+END
+
+LAYER
+  NAME "cartoweb_polygon_outline"
+  TYPE POLYGON
+  ...
+END]]></programlisting>
+     
+      The point layer is optional as it can be replaced by polygon layer when missing.
+     </para>
+     <para>
+      Don't forget that layers names must be set in the client-side outline.ini
+      file (See <xref linkend="user.annotate.server.ini" />)
+     </para>
+    </sect3>
+    <sect3 id="user.annotate.server.mapfile.label">
+     <title>labels</title>
+     <para>In case of using labels (i.e. labelMode set to true, see 
+      <xref linkend="user.annotate.client.ini" />), a LABEL object is needed in the layers' class.
+     </para>
+     <para>Example:<programlisting><![CDATA[
+LAYER
+  NAME "cartoweb_point_outline"
+  TYPE POINT
+  ...
+  CLASS
+    STYLE
+      ...
+    END
+    LABEL
+      FONT Vera
+      TYPE truetype
+      COLOR 51 51 51
+      SIZE 10
+    END
+  END
+END]]></programlisting>
+     You will find more examples looking in the test.map file in server_conf directory.
+    </para>
+   </sect3>
+  </sect2>
+ </sect1>
 </chapter>
