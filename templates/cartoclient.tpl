@@ -22,7 +22,7 @@
 <div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
-  <input type="hidden" name="posted" value="true" />
+  <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
@@ -107,7 +107,7 @@ ClientContext:
 
       {if $projects_chooser_active|default:''}
       {t}Choose project{/t}
-        <select name="project" onchange="javascript:FormItemSelected();">
+        <select name="project" onchange="javascript:document.carto_form.posted.value=0;FormItemSelected();">
             {html_options values=$project_values output=$project_output 
                                         selected=$project}
         </select><br />

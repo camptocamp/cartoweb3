@@ -499,6 +499,14 @@ class Cartoclient {
     }
     
     /**
+     * Returns true if the request being handled should be treated as a POST
+     * request, or false if as GET request.
+     */
+    private function isRequestPost() {
+        return isset($_REQUEST['posted']) && $_REQUEST['posted'] == '1';
+    }
+    
+    /**
      * Main method
      *
      * - Plugins initialization
@@ -514,7 +522,7 @@ class Cartoclient {
         $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());
                         
-        if (!empty($_REQUEST['posted'])) {
+        if ($this->isRequestPost()) {
         
             // Maps clicks cannot be modified by filters
             $this->cartoForm = 
