@@ -109,8 +109,7 @@ class coreplugins_tables_common_TablesCommonTest
         $tableGroups = $this->getTableGroups();
         
         $registry->addGroupFilter('*', 
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter1'));
+            array($this, 'callbackTitleFilter1'));
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -126,11 +125,9 @@ class coreplugins_tables_common_TablesCommonTest
         $tableGroups = $this->getTableGroups();
         
         $registry->addGroupFilter('*', 
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter1'));
+            array($this, 'callbackTitleFilter1'));
         $registry->addGroupFilter('group_2', 
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter2'));
+            array($this, 'callbackTitleFilter2'));
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -146,14 +143,11 @@ class coreplugins_tables_common_TablesCommonTest
         $tableGroups = $this->getTableGroups();
         
         $registry->addTableFilter('*', 'table*',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter1'));
+            array($this, 'callbackTitleFilter1'));
         $registry->addTableFilter('group_2', '*',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter2'));
+            array($this, 'callbackTitleFilter2'));
         $registry->addTableFilter('*', 'table_1',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter3'));                  
+            array($this, 'callbackTitleFilter3'));                  
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -165,20 +159,29 @@ class coreplugins_tables_common_TablesCommonTest
                                                             '!!! Table 3 !!!');
     }
     
+    static function callbackColumnTitleFilter1($tableId, $columnId, $title) {
+        return "*** $title ***";
+    }
+
+    static function callbackColumnTitleFilter2($tableId, $columnId, $title) {
+        return "!!! $title !!!";
+    }
+    
+    static function callbackColumnTitleFilter3($tableId, $columnId, $title) {
+        return "%%% $title %%%";
+    }
+    
     function testColumnFilter() {
         
         $registry = new TableRulesRegistry();
         $tableGroups = $this->getTableGroups();
         
         $registry->addColumnFilter('*', '*', '*',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter1'));
+            array($this, 'callbackColumnTitleFilter1'));
         $registry->addColumnFilter('group_1', 'table*', '*',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter2'));
+            array($this, 'callbackColumnTitleFilter2'));
         $registry->addColumnFilter('*', '*', 'column_1',
-            array('coreplugins_tables_common_TablesCommonTest',
-                  'callbackTitleFilter3'));
+            array($this, 'callbackColumnTitleFilter3'));
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -229,7 +232,7 @@ class coreplugins_tables_common_TablesCommonTest
                                         array('column_A', 'column_B'));        
     }
     
-    static function callbackCellFilter($inputValues) {
+    static function callbackCellFilter($tableId, $columnId, $inputValues) {
         return $inputValues['column_1'] . '-' . $inputValues['column_3'];
     }
 
@@ -240,8 +243,7 @@ class coreplugins_tables_common_TablesCommonTest
         
         $registry->addCellFilter('*', 'table_1', 'column_2', 
                                  array('column_1', 'column_3'),
-                                 array('coreplugins_tables_common_TablesCommonTest',
-                                       'callbackCellFilter'));
+                                 array($this, 'callbackCellFilter'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -253,7 +255,7 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7-value_9');        
     }
     
-    static function callbackCellFilterBatch($inputValues) {
+    static function callbackCellFilterBatch($tableId, $columnId, $inputValues) {
         $result = array();
         $oldValue = '|';
         foreach($inputValues as $inputValue) {
@@ -271,8 +273,7 @@ class coreplugins_tables_common_TablesCommonTest
         
         $registry->addCellFilterBatch('*', 'table_1', 'column_2', 
                                       array('column_1', 'column_3'),
-                                      array('coreplugins_tables_common_TablesCommonTest',
-                                            'callbackCellFilterBatch'));
+                                      array($this, 'callbackCellFilterBatch'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -285,7 +286,7 @@ class coreplugins_tables_common_TablesCommonTest
         
     }
 
-    static function callbackColumnAdder($inputValues) {
+    static function callbackColumnAdder($tableId, $inputValues) {
         return array('column_4' =>
                      $inputValues['column_1'] . '-' . $inputValues['column_3']);
     }
@@ -298,8 +299,7 @@ class coreplugins_tables_common_TablesCommonTest
         $position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1);
         $registry->addColumnAdder('*', 'table_1', $position, array('column_4'), 
                                   array('column_1', 'column_3'),
-                                  array('coreplugins_tables_common_TablesCommonTest',
-                                        'callbackColumnAdder'));
+                                  array($this, 'callbackColumnAdder'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -324,8 +324,7 @@ class coreplugins_tables_common_TablesCommonTest
                                        'column_3');
         $registry->addColumnAdder('*', 'table_1', $position, array('column_4'), 
                                   array('column_1', 'column_3'),
-                                  array('coreplugins_tables_common_TablesCommonTest',
-                                        'callbackColumnAdder'));
+                                  array($this, 'callbackColumnAdder'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
@@ -362,7 +361,7 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7*value_9');        
     }
 
-    static function callbackColumnAdderMultipleColumn($inputValues) {
+    static function callbackColumnAdderMultipleColumn($tableId, $inputValues) {
         return array('column_4' =>
                      $inputValues['column_1'] . '-' . $inputValues['column_3'],
                      'column_5' =>
@@ -379,7 +378,7 @@ class coreplugins_tables_common_TablesCommonTest
         $registry->addColumnAdder('*', 'table_1', $position,
                                   array('column_4', 'column_5'), 
                                   array('column_1', 'column_3'),
-                                  array('coreplugins_tables_common_TablesCommonTest',
+                                  array($this,
                                         'callbackColumnAdderMultipleColumn'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
@@ -387,7 +386,7 @@ class coreplugins_tables_common_TablesCommonTest
         $this->assertColumnAdderMultipleColumn($filteredTableGroups);
     }
     
-    static function callbackColumnAdderBatch($inputValues) {
+    static function callbackColumnAdderBatch($tableId, $inputValues) {
         $result = array();
         foreach ($inputValues as $inputValue) {
             $result[] = array('column_4' =>
@@ -408,8 +407,7 @@ class coreplugins_tables_common_TablesCommonTest
         $registry->addColumnAdderBatch('*', 'table_1', $position,
                                   array('column_4', 'column_5'), 
                                   array('column_1', 'column_3'),
-                                  array('coreplugins_tables_common_TablesCommonTest',
-                                        'callbackColumnAdderBatch'));
+                                  array($this, 'callbackColumnAdderBatch'));
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 

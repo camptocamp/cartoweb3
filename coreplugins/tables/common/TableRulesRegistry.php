@@ -555,7 +555,7 @@ class TableFilter extends TableRule {
  *
  * Callback method should have the following signature:
  * <pre>
- * static function myCallbackMethod('column_id', 'column_title')
+ * static function myCallbackMethod('table_id', 'column_id', 'column_title')
  *   return 'column_new_title'
  * </pre>
  * @package CorePlugins
@@ -597,7 +597,7 @@ class ColumnFilter extends ColumnRule {
 
         $indexes = $this->getIndexes($table);
         $table->columnTitles[$indexes[$columnId]] =
-                    call_user_func($this->callback, $columnId,
+                    call_user_func($this->callback, $table->tableId, $columnId,
                                    $table->columnTitles[$indexes[$columnId]]);
     }
 } 
@@ -607,7 +607,8 @@ class ColumnFilter extends ColumnRule {
  *
  * Callback method should have the following signature:
  * <pre>
- * static function myCallbackMethod(array ('column_1' => 'value_1',
+ * static function myCallbackMethod('table_id', 'column_id',
+ *                                  array ('column_1' => 'value_1',
  *                                         'column_2' => 'value_2'))
  *   return 'cell_value'
  * </pre>
@@ -642,7 +643,7 @@ class CellFilter extends CellRule {
     function __construct($groupId, $tableId, $columnId,
                          $inputColumnIds, $callback) {
         parent::__construct();
-        $this->groupId   = $groupId;
+        $this->groupId        = $groupId;
         $this->tableId        = $tableId;
         $this->columnId       = $columnId;
         $this->inputColumnIds = $inputColumnIds;
@@ -672,8 +673,9 @@ class CellFilter extends CellRule {
             if (in_array("row_id", $this->inputColumnIds)) {
                 $inputValues["row_id"] = $row->rowId;
             }
-            $row->cells[$indexes[$columnId]] = call_user_func($this->callback,
-                                                              $inputValues);
+            $row->cells[$indexes[$columnId]] =
+                call_user_func($this->callback, $table->tableId,
+                               $columnId, $inputValues);
         }
     }
 }
@@ -683,7 +685,8 @@ class CellFilter extends CellRule {
  *
  * Callback method should have the following signature:
  * <pre>
- * static function myCallbackMethod(array (
+ * static function myCallbackMethod('table_id', 'column_id',
+ *                                  array (
  *                                  '0' => array (
  *                                         'column_1' => 'value_1_row_1',
  *                                         'column_2' => 'value_2_row_1'),
@@ -722,7 +725,8 @@ class CellFilterBatch extends CellFilter {
             }
             $inputValues[] = $inputValuesRow;
         }
-        $result = call_user_func($this->callback, $inputValues);
+        $result = call_user_func($this->callback, $table->tableId, 
+                                 $columnId, $inputValues);
         foreach ($result as $key => $resultValue) {
             $table->rows[$key]->cells[$indexes[$columnId]] = $resultValue;
         }
@@ -734,7 +738,8 @@ class CellFilterBatch extends CellFilter {
  *
  * Callback method should have the following signature:
  * <pre>
- * static function myCallbackMethod(array ('column_1' => 'value_1',
+ * static function myCallbackMethod('table_id',
+ *                                  array ('column_1' => 'value_1',
  *                                         'column_2' => 'value_2'))
  *   return array ('new_column_1' => 'cell_value_1',
  *                 'new_column_2' => 'cell_value_2') 
@@ -851,7 +856,7 @@ class ColumnAdder extends TableFilter {
             if (in_array("row_id", $this->inputColumnIds)) {
                 $inputValues["row_id"] = $row->rowId;
             }
-            $result = call_user_func($this->callback, $inputValues);
+            $result = call_user_func($this->callback, $table->tableId, $inputValues);
             $newCells = array();
             foreach ($table->columnIds as $index => $columnId) {
                 if (array_key_exists($columnId, $result)) {
@@ -923,7 +928,8 @@ class ColumnAdder extends TableFilter {
  *
  * Callback method should have the following signature:
  * <pre>
- * static function myCallbackMethod(array (
+ * static function myCallbackMethod('table_id',
+ *                                  array (
  *                                  '0' => array (
  *                                         'column_1' => 'value_1_row_1',
  *                                         'column_2' => 'value_2_row_1'),
@@ -969,7 +975,7 @@ class ColumnAdderBatch extends ColumnAdder {
             }
             $inputValues[] = $inputValuesRow;
         }
-        $result = call_user_func($this->callback, $inputValues);
+        $result = call_user_func($this->callback, $table->tableId, $inputValues);
         foreach ($result as $key => $resultValue) {
             $newCells = array();
             foreach ($table->columnIds as $index => $columnId) {

@@ -29,20 +29,20 @@ class ServerProjectTableRules extends ServerPlugin {
         return 'tata_' . $columnTitle;
     }
 
-    static function computeColumn1($inputValues) {
+    static function computeColumn1($tableId, $inputValues) {
         return array('column_4' => $inputValues['column_1']
                                    . '/' . $inputValues['column_3'],
                      'column_5' => 'value1'); 
     }
 
-    static function computeColumn2($inputValues) {
+    static function computeColumn2($tableId, $inputValues) {
         return array('column_5' => $inputValues['row_id'] . '-value2',
                      'column_6' => $inputValues['column_2']
                                    . '-' . $inputValues['column_3']               
                                    . '-' . $inputValues['column_4']); 
     }
 
-    static function renameColumn($columnId, $columnTitle) {
+    static function renameColumn($tableId, $columnId, $columnTitle) {
         return str_replace('_', ' ', ucfirst($columnId));
     }
 
