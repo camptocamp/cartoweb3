@@ -168,13 +168,28 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     /**
+     * Removes LayerClasses with no name or empty name from current layer 
+     * children list.
+     */
+    private function filterAnonymLayerClasses($children) {
+        $validChildren = array();
+        foreach ($children as $child) {
+            $childLayer = $this->getLayerByName($child);
+            if (!$childLayer instanceof LayerClass || 
+                strlen(trim($childLayer->label)) != 0)
+                $validChildren[] = $child;
+        }
+        return $validChildren;
+    }
+    
+
+    /**
      * Recursively retrieves the list of Mapserver Classes bound to the layer
      * or its sublayers.
      */
     private function getClassChildren($layer) {
-        if ($layer instanceof Layer && isset($layer->children) &&
-            is_array($layer->children))
-            return $layer->children;
+        if ($layer instanceof LayerClass && strlen(trim($layer->label)) != 0)
+            return array($layer->id);
        
         elseif(!isset($layer->children) || !is_array($layer->children) ||
             !$layer->children)
@@ -204,7 +219,7 @@ class ClientLayers extends ClientCorePlugin {
         if ((!$layer instanceof LayerGroup || 
              !isset($layer->aggregate) || !$layer->aggregate) &&
             !empty($layer->children) && is_array($layer->children)) {
-            $children =& $layer->children;
+            $children = $this->filterAnonymLayerClasses($layer->children);
         } elseif (isset($layer->aggregate) && $layer->aggregate) {
             $children = $this->getClassChildren($layer);
         } else $children = array();
@@ -215,9 +230,6 @@ class ClientLayers extends ClientCorePlugin {
             $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked);
         }
 
-        // TODO: handle LayerClass as well. When a LayerGroup is aggregated
-        // all its children's classes must however be displayed
-
         $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
         $layer->label = utf8_decode($layer->label);
@@ -225,6 +237,7 @@ class ClientLayers extends ClientCorePlugin {
         $template->assign(array('layerLabel' => I18n::gt($layer->label),
                                 'layerId' => $layer->id,
                                 'layerClassName' => $layer->className,
+                                'layerLink' => $layer->link,
                                 'layerChecked' => $layerChecked,
                                 'groupFolded' => $groupFolded,
                                 'nodeId' => $this->nodeId++,
