@@ -55,7 +55,7 @@ initialMapStateId = default
 ; Possible values are : zoom_in, zoom_out, pan, query, selection, distance, surface
 initialTool = zoom_in
 
-:## Project handling configuration ##
+;## Project handling configuration ##
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = true
