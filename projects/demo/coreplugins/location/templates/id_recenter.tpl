@@ -10,10 +10,10 @@
     <tr>
       <td align="center">
         <select name="id_recenter_layer" id="id_recenter_layer">
-	   {html_options values=$id_recenter_layers_id 
+        {html_options values=$id_recenter_layers_id 
            selected=$id_recenter_selected 
            output=$id_recenter_layers_label}
-	</select>
+    </select>
       </td>
     </tr>
     <tr>
@@ -27,7 +27,7 @@
     <tr>
       <td align="center">
         <input type="submit" name="refresh" value="{t}Recenter{/t}" 
-	 class="form_button" />
+     class="form_button" />
       </td>
     </tr>
   </table>

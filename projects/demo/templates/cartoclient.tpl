@@ -102,28 +102,28 @@
       <tr>
        <td colspan="3" align="center">
          <table border="0" cellpadding="0" cellspacing="0" width="90%">
-	   <tr>
-	     <td colspan="2" valign="top" align="center">
+       <tr>
+         <td colspan="2" valign="top" align="center">
               {if $scalebar_path|default:''}
                <img src="{$scalebar_path}" 
                 alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
                 height="{$scalebar_height}" title="" />
               {/if}
-	     </td>
-	   </tr>
-	   <tr>
-	     <td width="50%" align="left">
+         </td>
+       </tr>
+       <tr>
+         <td width="50%" align="left">
               {if $scales_active|default:''}
                 {$scales}
               {/if}
-	      </td>
-	      <td width="50%" align="right">
+          </td>
+          <td width="50%" align="right">
               {if $mapsizes_active|default:''}
                 {$mapsizes}
               {/if}
-	     </td>
-	   </tr>
-	 </table>
+         </td>
+       </tr>
+     </table>
        </td>
       </tr>
 
@@ -131,19 +131,19 @@
       <tr>
        <td colspan="3" align="center">
         <table id="user_message" width="90%" border="0" cellpadding="0" cellspacing="0">
-	  <tr>
+      <tr>
             <th align="left" id="title">{t}User messages{/t}</th>
           </tr>
           <tr>
-	    <td>
-	        <ul>
+        <td>
+            <ul>
                   {foreach from=$user_messages item=message}
                     <li>{$message}</li>
                   {/foreach}   
-	        </ul>
-	     </td>
-	   </tr> 
-	</table>
+            </ul>
+         </td>
+       </tr> 
+    </table>
        </td>
       </tr>
       {/if}
@@ -166,7 +166,7 @@
      <tr>
       <td align="center">
         &nbsp;<br />
-	<input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
+    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
       </td>
      </tr>
      </table>
@@ -178,9 +178,9 @@
     <td colspan="3" align="center">
       <div class="footer" id="footer">
         <div class="footertxt">
-	  Powered by <a href="http://camptocamp.com/srubrique103.html" target="_blank">CartoWeb</a>
+      Powered by <a href="http://camptocamp.com/srubrique103.html" target="_blank">CartoWeb</a>
           &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
-	</div>
+    </div>
       </div>
     </td>
   </tr>
@@ -203,12 +203,12 @@
 
     <p id="row2" style="position:relative">
       <span id="label4" class="label"><a href="javascript:ontop(4)">{t}About{/t}</a></span><span 
-	id="label5" class="label"><a href="javascript:ontop(5)">{t}Outline{/t}</a></span>
+    id="label5" class="label"><a href="javascript:ontop(5)">{t}Outline{/t}</a></span>
     </p>
     <p id="row1" style="position:relative">
       <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Themes{/t}</a></span><span 
-	id="label2" class="label"><a href="javascript:ontop(2)">{t}Print{/t}</a></span><span 
-	id="label3" class="label"><a href="javascript:ontop(3)">{t}Search{/t}</a></span>
+    id="label2" class="label"><a href="javascript:ontop(2)">{t}Print{/t}</a></span><span 
+    id="label3" class="label"><a href="javascript:ontop(3)">{t}Search{/t}</a></span>
     </p>
 
     <div id="container"></div>
