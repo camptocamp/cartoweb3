@@ -14,8 +14,8 @@
     {foreach from=$table->rows item=row}
     <tr>
        <td>{$row->rowId}</td>
-       {foreach from=$table->columnTitles item=column key=columnId}
-       <td>{foreach from=$row->cells item=value key=cellColumnId}{if $columnId==$cellColumnId}{$value}{/if}{/foreach}</td>
+       {foreach from=$row->cells item=value}
+       <td>{$value}</td>
        {/foreach}
     </tr>
     {/foreach}

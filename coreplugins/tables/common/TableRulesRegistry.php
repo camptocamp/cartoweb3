@@ -256,6 +256,21 @@ abstract class TableRule extends GroupRule {
             $weight['rule']->applyRule($table, array_keys($weight['weights']));
         }
     }
+
+    /**
+     * Return the indexes
+     * @param Table
+     * @return array
+     */
+    protected function getIndexes($table) {
+        $indexes = array();
+        if (!empty($table->columnIds)) {
+            foreach ($table->columnIds as $index => $columnId) {
+                $indexes[$columnId] = $index;
+            }
+        }
+        return $indexes;
+    }
 }
 
 /**
@@ -382,19 +397,27 @@ class ColumnSelector extends TableRule {
      * @param array
      */
     function applyRule($table, $params) {
+    
+        $indexes = $this->getIndexes($table);
+        
+        $newIds = array();
         $newTitles = array();
-        foreach($this->columnIds as $columnId) {
-            if (array_key_exists($columnId, $table->columnTitles)) {
-                $newTitles[$columnId] = $table->columnTitles[$columnId];
+        $oldIndexes = array();
+        foreach ($this->columnIds as $columnId) {
+            if (in_array($columnId, $table->columnIds)) {
+                $newIds[] = $columnId;
+                $newTitles[] = $table->columnTitles[$indexes[$columnId]];
+                $oldIndexes[] = $indexes[$columnId];
             }
-        }        
-        $table->columnTitles = $newTitles;        
+        }
+
+        $table->columnIds = $newIds;
+        $table->columnTitles = $newTitles;
+        
         foreach($table->rows as $key => $row) {
             $newCells = array();
-            foreach($row->cells as $columnId => $value) {
-                if (in_array($columnId, $this->columnIds)) {
-                    $newCells[$columnId] = $value;
-                }
+            foreach($oldIndexes as $oldIndex) {
+                $newCells[] = $row->cells[$oldIndex];
             }
             $row->cells = $newCells;
         }
@@ -538,9 +561,10 @@ class ColumnFilter extends ColumnRule {
      */
     function applyRule($table, $columnId, $params) {
 
-        $table->columnTitles[$columnId] =
-            call_user_func($this->callback, $columnId,
-                           $table->columnTitles[$columnId]);
+        $indexes = $this->getIndexes($table);
+        $table->columnTitles[$indexes[$columnId]] =
+                    call_user_func($this->callback, $columnId,
+                                   $table->columnTitles[$indexes[$columnId]]);
     }
 } 
 
@@ -599,15 +623,17 @@ class CellFilter extends CellRule {
      */
     function applyRule($table, $columnId, $params) {
         
+        $indexes = $this->getIndexes($table);
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
-            foreach ($row->cells as $cellColumnId => $value) {
-                if (in_array($cellColumnId, $this->inputColumnIds)) {
-                    $inputValues[$cellColumnId] = $value;
+            foreach ($row->cells as $index => $value) {
+                if (in_array($table->columnIds[$index],
+                             $this->inputColumnIds)) {
+                    $inputValues[$table->columnIds[$index]] = $value;
                 }
             } 
-            $row->cells[$columnId] = call_user_func($this->callback,
-                                                    $inputValues);
+            $row->cells[$indexes[$columnId]] = call_user_func($this->callback,
+                                                              $inputValues);
         }
     }
 }
@@ -639,19 +665,20 @@ class CellFilterBatch extends CellFilter {
      */
     function applyRule($table, $columnId, $params) {
     
+        $indexes = $this->getIndexes($table);
         $inputValues = array();
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
-            foreach ($row->cells as $cellColumnId => $value) {
-                if (in_array($cellColumnId, $this->inputColumnIds)) {
-                    $inputValuesRow[$cellColumnId] = $value;
+            foreach ($row->cells as $index => $value) {
+                if (in_array($table->columnIds[$index], $this->inputColumnIds)) {
+                    $inputValuesRow[$table->columnIds[$index]] = $value;
                 }
             } 
             $inputValues[] = $inputValuesRow;
         }
         $result = call_user_func($this->callback, $inputValues);
         foreach ($result as $key => $resultValue) {
-            $table->row[$key]->cells[$columnId] = $resultValue;
+            $table->row[$key]->cells[$indexes[$columnId]] = $resultValue;
         }
     }
 }
@@ -707,8 +734,8 @@ class ColumnAdder extends TableFilter {
      * @param Table
      * @param array
      */
-    protected function addNewColumns($table, $newColumnIds) {
-    
+    protected function addNewColumns($table, $columnIds) {
+        $newColumnIds = array();
         $newColumnTitles = array();
         $index = null;
         if ($this->columnPosition->type == ColumnPosition::TYPE_ABSOLUTE) {
@@ -718,7 +745,7 @@ class ColumnAdder extends TableFilter {
             }
         } else {
             $i = 0;
-            foreach ($table->columnTitles as $columnId => $columnTitle) {
+            foreach ($table->columnIds as $columnId) {
                 if ($columnId == $this->columnPosition->columnId) {
                     $index = $i;
                 }
@@ -731,21 +758,27 @@ class ColumnAdder extends TableFilter {
         }
         if ($index < count($table->columnTitles)) {
             $i = 0;
-            foreach ($table->columnTitles as $columnId => $columnTitle) {
+            $indexes = $this->getIndexes($table);
+            foreach ($table->columnIds as $columnId) {
                 if ($i == $index) {
-                    foreach ($newColumnIds as $newColumnId) {
-                        $newColumnTitles[$newColumnId] = $newColumnId;
+                    foreach ($columnIds as $newColumnId) {
+                        $newColumnIds[] = $newColumnId;
+                        $newColumnTitles[] = $newColumnId;
                     }
                 }
                 $i++;
-                $newColumnTitles[$columnId] = $columnTitle;
+                $newColumnIds[] = $columnId;
+                $newColumnTitles[] = $table->columnTitles[$indexes[$columnId]];
             }
         } else {
+            $newColumnIds = $table->columnIds;
             $newColumnTitles = $table->columnTitles;
-            foreach ($newColumnIds as $newColumnId) {
-                $newColumnTitles[$newColumnId] = $newColumnId;
+            foreach ($columnIds as $newColumnId) {
+                $newColumnIds[] = $newColumnId;
+                $newColumnTitles[] = $newColumnId;
             }
         }
+        $table->columnIds = $newColumnIds;
         $table->columnTitles = $newColumnTitles;
     }
 
@@ -755,20 +788,28 @@ class ColumnAdder extends TableFilter {
      * @param array
      */
     function applyRule($table, $params) {
-                
-        $this->addNewColumns($table, $params);
-           
+        
+        $oldIndexes = $this->getIndexes($table);
+        $this->addNewColumns($table, $params);           
+        $indexes = $this->getIndexes($table);
+ 
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
-            foreach ($row->cells as $cellColumnId => $value) {
-                if (in_array($cellColumnId, $this->inputColumnIds)) {
-                    $inputValues[$cellColumnId] = $value;
+            foreach ($table->columnIds as $columnId) {
+                if (in_array($columnId, $this->inputColumnIds)) {
+                    $inputValues[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
             $result = call_user_func($this->callback, $inputValues);
-            foreach ($result as $newColumnId => $newValue) { 
-                $row->cells[$newColumnId] = $newValue;
-            }  
+            $newCells = array();
+            foreach ($table->columnIds as $index => $columnId) {
+                if (array_key_exists($columnId, $result)) {
+                    $newCells[$index] = $result[$columnId];
+                } else {
+                    $newCells[$index] = $row->cells[$oldIndexes[$columnId]];
+                }
+            }
+            $row->cells = $newCells;
         }
     }
 
@@ -821,7 +862,7 @@ class ColumnAdder extends TableFilter {
                     $weights[] = array('rule' => $this, 
                                        'weights' => array($newColumnId => $weight));
                 }
-            }            
+            }  
         }
     }
 }
@@ -1062,7 +1103,7 @@ class TableRulesRegistry {
                 
                     // All tables
                     foreach ($group->tables as $table) {
-                        foreach ($table->columnTitles as $columnId => $columnTitle) {
+                        foreach ($table->columnIds as $columnId) {
                             call_user_func(array($class, 'applyRules'), $rules,
                                            $group->groupId, $columnId, $table);
                         }

@@ -36,6 +36,7 @@
           <element name="numRows" type="xsd:integer"/>
           <element name="totalRows" type="xsd:integer"/>
           <element name="offset" type="xsd:integer"/>
+          <element name="columnIds" type="types:ArrayOfString"/>
           <element name="columnTitles" type="types:ArrayOfString"/>
           <element name="rows" type="types:ArrayOfTableRow"/>
         </all>

@@ -212,13 +212,17 @@ class ServerQuery extends ClientResponderAdapter {
             $filteredValues = $this->filterReturnedAttributes($msLayer, 
                                                               $shape->values);
             if (empty($table->columnTitles)) {
+                $columnIds = array();
+                $columnTitles = array();
                 foreach (array_keys($filteredValues) as $columnId) {
-                    $columnTitles[$columnId] = $columnId;
+                    $columnIds[] = $columnId;
+                    $columnTitles[] = $columnId;
                 }
+                $table->columnIds = $this->arrayEncodingConversion($columnIds);
                 $table->columnTitles = $this->arrayEncodingConversion($columnTitles);
             }
 
-            $row->cells = $this->arrayEncodingConversion($filteredValues);
+            $row->cells = $this->arrayEncodingConversion(array_values($filteredValues));
             $table->rows[] = $row;
             $table->numRows++;
         }  
@@ -268,7 +272,6 @@ class ServerQuery extends ClientResponderAdapter {
         if (empty($plugins->hilight))
             throw new CartoserverException("hilight plugin not loaded, and needed " .
                     "for the query hilight drawing");
-print_r($queryResult);
         foreach ($queryResult->tableGroup->tables as $table) {
             $selectionRequest = $this->getLayerSelectionRequest($table);
             $plugins->hilight->hilightLayer($selectionRequest);

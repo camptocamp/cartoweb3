@@ -58,24 +58,17 @@ class ServerProjectTable extends ClientResponderAdapter {
         $myTable->tableId = "table_1";
         $myTable->tableTitle = "Table 1";
         $myTable->numRows = 3;
-        $myTable->columnTitles = array("column_1" => "Column 1",
-                                       "column_2" => "Column 2",
-                                       "column_3" => "Column 3");
+        $myTable->columnIds = array("column_1", "column_2", "column_3");
+        $myTable->columnTitles = array("Column 1", "Column 2", "Column 3");
         $row1 = new TableRow();
         $row1->rowId = "Id1";
-        $row1->cells = array("column_1" => "value_1",
-                             "column_2" => "value_2",
-                             "column_3" => "value_3");
+        $row1->cells = array("value_1", "value_2", "value_3");
         $row2 = new TableRow();
         $row2->rowId = "Id2";
-        $row2->cells = array("column_1" => "value_4",
-                             "column_2" => "value_5",
-                             "column_3" => "value_6");
+        $row2->cells = array("value_4", "value_5", "value_6");
         $row3 = new TableRow();
         $row3->rowId = "Id3";
-        $row3->cells = array("column_1" => "value_7",
-                             "column_2" => "value_8",
-                             "column_3" => "value_9");
+        $row3->cells = array("value_7", "value_8", "value_9");
         $myTable->rows = array($row1, $row2, $row3);
         
         $myTableGroup->tables[] = $myTable;
@@ -85,16 +78,14 @@ class ServerProjectTable extends ClientResponderAdapter {
         $myTable->tableTitle = "Table 2";
         $myTable->numRows = 2;
          
-        $myTable->columnTitles = array("column_A" => "Column A",
-                                       "column_B" => "Column B");
+        $myTable->columnIds = array("column_A", "column_B");
+        $myTable->columnTitles = array("Column A", "Column B");
         $row1 = new TableRow();
         $row1->rowId = "Id1";
-        $row1->cells = array("column_A" => "value_a",
-                             "column_B" => "value_b");
+        $row1->cells = array("value_a", "value_b");
         $row2 = new TableRow();
         $row2->rowId = "Id2";
-        $row2->cells = array("column_A" => "value_c",
-                             "column_B" => "value_d");
+        $row2->cells = array("value_c", "value_d");
         $myTable->rows = array($row1, $row2);
         
         $myTableGroup->tables[] = $myTable;
@@ -103,7 +94,7 @@ class ServerProjectTable extends ClientResponderAdapter {
         $resultTableGroups = $tablesPlugin->applyRules($myTableGroup);
 
         $result->tableGroup = $resultTableGroups[0];
-
+print_r($result->tableGroup);
         return $result;
     }    
 }

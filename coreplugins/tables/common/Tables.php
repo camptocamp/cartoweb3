@@ -39,7 +39,7 @@ class TableRow extends Serializable {
      public $rowId;
 
     /**
-     * @var array array of string (columnId => value)
+     * @var array array of string
      */
     public $cells;
 
@@ -82,10 +82,15 @@ class Table extends Serializable {
     public $offset;
     
     /**
-     * @var array array of titles (columnId => columnTitle)
+     * @var array array of Ids
+     */
+    public $columnIds;
+    
+    /**
+     * @var array array of titles
      */
     public $columnTitles;
-    
+        
     /**
      * @var array array of TableRow
      */
@@ -93,22 +98,24 @@ class Table extends Serializable {
 
     function unserialize($struct) {
     
-        $this->tableId      = Serializable::unserializeValue($struct,
+        $this->tableId       = Serializable::unserializeValue($struct,
                                                              'tableId');
-        $this->tableTitle   = Serializable::unserializeValue($struct,
+        $this->tableTitle    = Serializable::unserializeValue($struct,
                                                              'tableTitle');
-        $this->numRows      = Serializable::unserializeValue($struct, 
+        $this->numRows       = Serializable::unserializeValue($struct, 
                                                              'numRows',
                                                              'int');
-        $this->totalRows    = Serializable::unserializeValue($struct, 
+        $this->totalRows     = Serializable::unserializeValue($struct, 
                                                              'totalRows',
                                                              'int');
-        $this->offset       = Serializable::unserializeValue($struct, 
+        $this->offset        = Serializable::unserializeValue($struct, 
                                                              'offset',
                                                              'int');
-        $this->columnTitles = Serializable::unserializeArray($struct,
+        $this->columnIds     = Serializable::unserializeArray($struct,
+                                                             'columnIds');
+        $this->columnTitles  = Serializable::unserializeArray($struct,
                                                              'columnTitles');
-        $this->rows         = Serializable::unserializeObjectMap($struct,
+        $this->rows          = Serializable::unserializeObjectMap($struct,
                                                                  'rows',
                                                                  'TableRow');
     }
