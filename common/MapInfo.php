@@ -26,7 +26,7 @@ class LayerBase extends Serializable {
     public $label;
     public $minScale = 0;
     public $maxScale = 0;
-    public $icon = "none";
+    public $icon = 'none';
     
     function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
@@ -55,7 +55,12 @@ class LayerContainer extends LayerBase {
  * @package Common
  */
 class LayerGroup extends LayerContainer {
+    public $aggregate = false;
 
+    function unserialize($struct) {
+        parent::unserialize($struct);
+        $this->aggregate = self::unserializeValue($struct, 'aggregate');
+    }
 }
 
 /**
