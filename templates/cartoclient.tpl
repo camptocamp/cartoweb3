@@ -3,11 +3,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
+  {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" title="stylesheet" />{/if}
   <meta name="author" content="Sylvain Pasche" />
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
   <title>{$cartoclient_title}</title>
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
+  {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   
   <!-- BEGIN dhtmlHeader -->
   <link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
