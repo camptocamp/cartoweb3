@@ -28,8 +28,9 @@ delete_client:
 	rm -r plugins/*/templates
 	rm htdocs/client.php
 
-wwwdata_clean:
-	find www-data -type f|xargs -r rm
+soft_clean:
+	-find www-data -type f|xargs -r rm
+	-rm -f templates_c/*
 
 clean: wwwdata_clean
 	find -name "*~" -type f -exec  rm {} \;
