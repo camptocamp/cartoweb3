@@ -222,7 +222,14 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      * @see GuiProvider::handleHttpPostRequest()
      */
     function handleHttpGetRequest($request) {
-        /* nothing to do */
+        if (!empty($request['logout'])) {
+            $this->auth->logout();
+            $this->interruptFlow();                    
+        }
+        
+        if (!empty($request['login'])) {
+            $this->showLogin();
+        }
     }    
 
     /**
