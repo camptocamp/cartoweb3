@@ -1,0 +1,9 @@
+Here are a few hacks to generate documentation automatically.
+
+Steps:
+
+* Create a web accessbile path where to store the doc, and copy the files in this directory there
+* edit gendoc.sh, and edit variables
+* copy the current docbook distrubution in a directory name "docbook"
+* launch gendoc.sh to generate the doc (using cron for instance)
+
