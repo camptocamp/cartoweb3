@@ -41,6 +41,7 @@ dirs:
 	-mkdir -p www-data/images
 	-mkdir -p www-data/saved_posts
 	-mkdir -p www-data/wsdl_cache
+	-mkdir -p www-data/icons
 	-mkdir -p templates_c
 
 links:
@@ -56,6 +57,7 @@ perms:
 	chmod 777 templates_c
 
 perms_sudo:
+	chmod +x scripts/*sh scripts/*py
 	sudo chown www-data log
 	sudo chown -R www-data www-data
 	sudo chown www-data templates_c
@@ -66,7 +68,7 @@ create_config:
 	done
 
 htlinks:
-	(cd scripts; chmod a+x htlinks.sh; ./htlinks.sh)
+	(cd scripts; ./htlinks.sh)
 
 init: fetch_libs dirs perms links create_config htlinks
 	:
