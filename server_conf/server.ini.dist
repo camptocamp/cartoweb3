@@ -6,6 +6,9 @@ noWsdlCache = false
 # disables the caching of getMap requests
 noMapResultCache = false
 
+# disables the caching of SOAP XML requests
+noSoapXMLCache = false
+
 # shows developer messages
 showDevelMessages = false
 
