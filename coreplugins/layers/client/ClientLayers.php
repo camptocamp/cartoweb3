@@ -146,6 +146,25 @@ class ClientLayers extends ClientCorePlugin {
         array_push($this->smartyPool, $template);
     }
 
+    private function getClassChildren($layer) {
+        if ($layer instanceof Layer && isset($layer->children) &&
+            is_array($layer->children))
+            return $layer->children;
+       
+        elseif(!isset($layer->children) || !is_array($layer->children) ||
+            !$layer->children)
+            return array();
+
+        $classChildren = array();
+        foreach ($layer->children as $child) {
+            $childLayer = $this->getLayerByName($child);
+            $sub = $this->getClassChildren($childLayer);
+            $classChildren = array_merge($classChildren, $sub);
+            $classChildren = array_unique($classChildren);
+        }
+        return $classChildren;
+    }
+
     private function drawLayer($layer, $forceSelection = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
@@ -153,14 +172,18 @@ class ClientLayers extends ClientCorePlugin {
         $layerChecked = $forceSelection ||
                         in_array($layer->id, $this->selectedLayers);
 
-        $childrenLayers = array();
-        if ((!isset($layer->aggregate) || !$layer->aggregate) && 
+        if ((!$layer instanceof LayerGroup || 
+             !isset($layer->aggregate) || !$layer->aggregate) &&
             !empty($layer->children) && is_array($layer->children)) {
-            foreach ($layer->children as $child) {
-                $childLayer = $this->getLayerByName($child);
-                $childrenLayers[] = $this->drawLayer($childLayer, 
-                                                     $layerChecked);
-            }
+            $children =& $layer->children;
+        } elseif (isset($layer->aggregate) && $layer->aggregate) {
+            $children = $this->getClassChildren($layer);
+        } else $children = array();
+
+        $childrenLayers = array();
+        foreach ($children as $child) {
+            $childLayer = $this->getLayerByName($child);
+            $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked);
         }
 
         // TODO: handle LayerClass as well. When a LayerGroup is aggregated
@@ -170,6 +193,7 @@ class ClientLayers extends ClientCorePlugin {
         $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
         $template->assign(array('layerLabel' => $layer->label,
                                 'layerId' => $layer->id,
+                                'layerClassName' => $layer->className,
                                 'layerChecked' => $layerChecked,
                                 'groupFolded' => $groupFolded,
                                 'nodeId' => $this->nodeId++,

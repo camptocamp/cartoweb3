@@ -13,7 +13,10 @@
   </div>
   {/if}
 {else}
-<span class="lk">-</span> <input
-type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
-onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />{$layerLabel}<br />
+<span class="lk">-</span>
+  {if $layerClassName != 'LayerClass'}
+  <input type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
+  onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />
+  {/if}
+  {$layerLabel}<br />
 {/if}
