@@ -96,6 +96,10 @@ class ClientExportPdf extends ExportPlugin {
      * @return string
      */
     public function getFilename() {
+        if (preg_match("/^(.*)\[date,(.*)\](.*)$/", 
+                       $this->general->filename, $regs)) {
+            $this->general->filename = $regs[1] . date($regs[2]) . $regs[3];
+        }
         return $this->general->filename;
     }
 
@@ -716,7 +720,6 @@ class ClientExportPdf extends ExportPlugin {
 
             $pdf->addPage();
             $pdf->addTable($this->blocks['table']);
-            //$pdf->addPage();$pdf->addPage();$pdf->addPage();
         }*/
  
         $contents = $pdf->finalizeDocument();
@@ -724,6 +727,74 @@ class ClientExportPdf extends ExportPlugin {
         $output = new ExportOutput();
         $output->setContents($contents);
         return $output;
+    }
+
+    /**
+     * Writes PDF file on disk.
+     * @param string PDF content
+     * @return string filename
+     */
+    private function generatePdfFile($pdfBuffer) {
+        $filename = $this->getFilename();
+        $filepath = PrintTools::getPdfDir() . '/' . $filename;
+        $fp = fopen($filepath, 'w');
+        fwrite($fp, $pdfBuffer);
+        fclose($fp);
+        return $filename;
+    }
+
+    /**
+     * Returns generated PDF file URL.
+     * @param string filename
+     * @return string URL
+     */
+    private function getPdfFileUrl($filename) {
+        if (preg_match("/^(.*)exportPdf\/(.*)$/",
+                       $_SERVER['SCRIPT_URI'], $regs)) {
+            return $regs[1] . 'pdf/' . $filename;
+        }
+
+        return '../pdf/' . $filename;
+    }
+
+    /**
+     * Outputs generated PDF file using config "output" medium.
+     * @param string PDF content
+     */
+    function outputPdf($pdfBuffer) {
+        switch ($this->general->output) {
+            case 'inline':
+                header('Content-type: application/pdf');
+                header('Content-Length: ' . strlen($pdfBuffer));
+                header('Content-Disposition: inline; filename=' . 
+                       $this->getFilename());
+                print $pdfBuffer;
+                break;
+
+            case 'attachment':
+                header('Content-type: application/pdf');
+                header('Content-Length: ' . strlen($pdfBuffer));
+                header('Content-Disposition: attachment; filename=' .
+                       $this->getFilename());
+                print $pdfBuffer;
+                break;
+
+            case 'link':
+                $filename = $this->generatePdfFile($pdfBuffer);
+                // TODO: use template
+                printf('<a href="%s">%s</a>',
+                       $this->getPdfFileUrl($filename),
+                       I18n::gt('Click here to display PDF file'));
+                break;
+
+            case 'redirection':
+            default:
+                $filename = $this->generatePdfFile($pdfBuffer);
+                header('Content-type: application/pdf');
+                header('Location: ' . $this->getPdfFileUrl($filename));
+                break;
+        }
+        exit;
     }
 }
 ?>
