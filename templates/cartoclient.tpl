@@ -94,25 +94,25 @@
 
 <body>
 
-<div class="banner"><h1>{$cartoclient_title}</h1></div>
+<div id="banner"><h1>{$cartoclient_title}</h1></div>
 
 <form method="POST" action="{$smarty.server.PHP_SELF}" name="carto_form">
-  <input type="hidden" name="posted" value="true">
-  <input type="hidden" name="selection_type">
-  <input type="hidden" name="selection_coords">
-    
-  <div class="leftbar">    
+  <input type="hidden" name="posted" value="true" />
+  <input type="hidden" name="selection_type" />
+  <input type="hidden" name="selection_coords" />
+
+  <div id="leftbar">    
 
   {if $keymap_path|default:''}
-  <div align="center"><img src="{$keymap_path}" 
+  <div id="keymap"><img src="{$keymap_path}" 
   alt="{$keymap_alt}" width="{$keymap_width}" height="{$keymap_height}" title="" /></div>
   {/if}
 
-  <p>{$layers}</p>
+  {$layers}
 
   <p>
-    <input type="submit" name="refresh" value="refresh" />
-    <input type="submit" name="reset_session" value="reset_session" />
+    <input type="submit" name="refresh" value="refresh" class="form_button" /><br />
+    <input type="submit" name="reset_session" value="reset_session" class="form_button" />
   </p>
 
   {if $hello_active|default:''}
@@ -127,12 +127,13 @@
 
   </div>
 
-  <div class="content">
+  <div id="content">
 
   <p>
     {foreach from=$tools key=toolcode item=toolname}
-    <label><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
-    onclick="dhtmlBox.changeTool('{$toolcode}')" />{$toolname}</label>
+    <label for="{$toolcode}"><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
+    id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="gfx/layout/{$toolcode}.gif" alt="{$toolname}" 
+    onclick="CheckRadio('{$toolcode}');dhtmlBox.changeTool('{$toolcode}')" /></label>
     {/foreach}   
   </p>
 
@@ -173,27 +174,25 @@
 
   <p> LocationInfo: {$location_info} </p>
 
+  {if $query_result|default:''}
+  <h1>Results: </h1>
+  {$query_result}
+  {/if}
+
+<pre>
+Request:
+{$debug_request}
+<div class="separator"></div>
+ClientContext:
+{$debug_clientcontext}
+</pre>
+
+  <p>&copy; <a href="http://camptocamp.com/" target="_blank">Camptocamp SA</a> -
+  <a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
+  
   </div>
 
 </form>
 
-{if $query_result|default:''}
-<h1>Results: </h1>
- {$query_result}
-{/if}
-
-
-
-<pre>
-<hr/>
-Request:
-{$debug_request}
-<hr/>
-ClientContext:
-{$debug_clientcontext}
-<hr/>
-</pre>
-
-<p><a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
 </body>
 </html>
