@@ -195,7 +195,7 @@ function dhtmlBox_mousemove(evt) {
         dhtmlBox.lastLinePaint() // the last line is drawn while moving
     }
     // display the coordinates
-    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size) + dhtmlBox.boxy)
+    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size_m) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size_m) + dhtmlBox.boxy)
   } 
 }
 

@@ -60,6 +60,11 @@
                 maxY=$bboxMaxY minY=$bboxMinY height=$mainmap_height}
         {/capture}
         {capture name="pixelSize"}
+          {math equation="(pixSizeX + pixSizeY) / 2"
+                pixSizeX=$smarty.capture.pixSizeX
+                pixSizeY=$smarty.capture.pixSizeY}
+        {/capture}
+        {capture name="pixelSizeFactor"}
           {math equation="(pixSizeX + pixSizeY) / (2 * factor)"
                 pixSizeX=$smarty.capture.pixSizeX
                 pixSizeY=$smarty.capture.pixSizeY
@@ -71,7 +76,8 @@
       dhtmlBox.mapHeight = {$mainmap_height};
       dhtmlBox.boxx = {$bboxMinX};
       dhtmlBox.boxy = {$bboxMinY};
-      dhtmlBox.pixel_size = {$smarty.capture.pixelSize};
+      dhtmlBox.pixel_size = {$smarty.capture.pixelSizeFactor};
+      dhtmlBox.pixel_size_m = {$smarty.capture.pixelSize};
       dhtmlBox.dist_msg = '{t}Approx. distance: {/t}';
       dhtmlBox.dist_unit = {if $factor == 1000}' km'{else}' m'{/if};
       dhtmlBox.surf_msg = '{t}Approx. surface: {/t}';
