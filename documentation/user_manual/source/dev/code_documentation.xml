@@ -56,7 +56,7 @@ php ./makedoc.php]]>
       </para>
     </sect2>
     <sect2 id="dev.code_documentation.docblocks.content">
-      <title>DocBlocks Content</title>
+      <title>DocBlocks Contents</title>
       <para>
         <itemizedlist> 
           <listitem>
@@ -113,7 +113,7 @@ php ./makedoc.php]]>
     </sect2>
     <sect2 id="dev.code_documentation.docblocks.example">
       <title>Example</title>    
-      <para>Please note:
+      <para>Here is a code example. Please note:
       <itemizedlist>
         <listitem>
           <para> $simpleVariable doesn't need a description, but @var tag is
