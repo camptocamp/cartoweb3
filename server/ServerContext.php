@@ -42,15 +42,19 @@ class ServerContext {
         // Remembers mapId for future MapInfo creation
         $this->mapId = $mapId;
 
-        $this->mapResult = new MapResult();
-
         $this->projectHandler = new ServerProjectHandler($mapId);
 
         $this->config = new ServerConfig($this->projectHandler);
 
-        $this->plugins = array();  
+        $this->plugins = array();
+        
+        $this->reset();          
     }
     
+    function reset() {
+        $this->mapResult = new MapResult();
+    }
+
     function setMsMainmapImage($msMainmapImage) {
         $this->msMainmapImage = $msMainmapImage;   
     }
@@ -168,7 +172,7 @@ class ServerContext {
     function getMapResult() {
         return $this->mapResult;
     }
-
+    
     // maybe refactorize with cartoclient
     private function getCorePluginNames() {
         return array('images', 'location', 'layers', 'query');

@@ -167,6 +167,9 @@ class Cartoserver {
 
         // serverContext init
         $serverContext = $this->getServerContext($mapRequest->mapId);
+        // serverContext MapResult reset (in case of two calls)
+        $serverContext->reset();
+        
         if ($serverContext->isDevelMessagesEnabled()) {
             require_once('pear/Benchmark/Timer.php');
             $this->timer = new Benchmark_Timer();

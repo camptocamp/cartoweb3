@@ -15,7 +15,7 @@ class ImagesState {
  * @package CorePlugins
  */
 class ClientImages extends ClientCorePlugin
-                   implements Sessionable, ServerCaller {
+                   implements Sessionable, ServerCaller, Exportable {
     private $log;
     private $imagesState;
 
@@ -272,5 +272,13 @@ class ClientImages extends ClientCorePlugin
         $this->log->debug("saving session:");
         return $this->imagesState;
     }
+    
+    function adjustExportMapRequest(ExportConfiguration $configuration, 
+                                    MapRequest $mapRequest) {
+        
+        $mapRequest->imagesRequest->mainmap->isDrawn  = $configuration->isRenderMap();
+        $mapRequest->imagesRequest->keymap->isDrawn   = $configuration->isRenderKeyMap();
+        $mapRequest->imagesRequest->scalebar->isDrawn = $configuration->isRenderScalebar();
+    }    
 }
 ?>

@@ -94,18 +94,12 @@ class PluginManager {
         }
     }
 
-    function callPluginsImplementing($interfaces, $functionName, $args = array()) {
+    function callPluginsImplementing($interface, $functionName, $args = array()) {
 
-        if (!is_array($interfaces)) {
-            $interfaces = array($interfaces);
-        }
         foreach ($this->plugins as $plugin) {
-            foreach ($interfaces as $interface) {
-                if ($plugin instanceof $interface) {
-                    call_user_func_array(array($plugin, $functionName), $args);
-                    break;
-                } 
-            }
+            if ($plugin instanceof $interface) {
+                call_user_func_array(array($plugin, $functionName), $args);
+            } 
         }
     }
 
@@ -114,6 +108,22 @@ class PluginManager {
         foreach ($this->plugins as $plugin) {
             call_user_func_array(array($plugin, $functionName), $args);
         }
+    }
+    
+    function getPlugin($pluginName) {
+        
+        foreach ($this->plugins as $plugin) {
+            if ($pluginName == $plugin->getName()) {
+                return $plugin;
+            }
+        }
+        return NULL;        
+    }
+    
+    function getCurrentPlugin() {
+        
+        ereg('(\/.*)*\/(.*)\/(.*).php', $_SERVER['PHP_SELF'], $match);
+        return $this->getPlugin($match[2]);
     }
 }
 ?>

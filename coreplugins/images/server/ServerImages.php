@@ -96,9 +96,11 @@ class ServerImages extends ServerCoreplugin {
                 $this->serverContext->setMsMainmapImage($msMapObj->draw());
         }
         $this->serverContext->checkMsErrors();
-
-        $this->log->info("mainmap saved");
-        $this->log->info($this->serverContext->getMsMainmapImage());
+        
+        if ($requ->mainmap->isDrawn) {
+            $this->log->info("mainmap saved");
+            $this->log->info($this->serverContext->getMsMainmapImage());
+        }
     }
 
     private function checkMaxImages($serverContext) {

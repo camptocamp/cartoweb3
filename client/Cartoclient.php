@@ -149,6 +149,11 @@ class Cartoclient {
         
         $this->projectHandler = new ClientProjectHandler();
         $this->mapInfoCache = new MapInfoCache($this);
+        
+        $this->initializeObjects();
+
+        session_start();
+        $this->initializeSession();        
     }
 
     function getClientSession() {
@@ -251,7 +256,6 @@ class Cartoclient {
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
             $this->log->debug("Loading existing session");
-
             $this->callPluginsImplementing('Sessionable', 'doLoadSession');
 
         } else {
@@ -264,8 +268,7 @@ class Cartoclient {
             
             $this->clientSession = $this->createClientSession();
 
-            $mapInfo = $this->mapInfo;
-            $mapStates = $this->mapInfo->initialMapStates;
+            $mapStates = $this->getMapInfo()->initialMapStates;
         
             if (empty($mapStates))
                 throw new CartoclientException('No initial map states defined' 
@@ -276,14 +279,14 @@ class Cartoclient {
             $initialMapState = $states[0];
 
             if (@$this->config->initialMapStateId)
-                $initialMapState = $mapInfo->getInitialMapStateById( 
+                $initialMapState = $this->getMapInfo()->getInitialMapStateById( 
                                 $this->config->initialMapStateId);
             if ($initialMapState == NULL)
                 throw new CartoclientException("cant find initial map state " .
                         $this->config->initialMapStateId);
             
             $this->callPluginsImplementing('Sessionable', 'createSession',
-                                           $this->mapInfo, $initialMapState);
+                                           $this->getMapInfo(), $initialMapState);
         }
 
         $this->cartoForm = $this->createCartoForm();
@@ -306,11 +309,8 @@ class Cartoclient {
     
     private function doMain() {
 
-        $this->mapInfo = $this->getMapInfo();
-        $this->callPluginsImplementing('InitProvider', 'dohandleInit', $this->mapInfo);
-                
-        $this->initializeSession();
-        
+        $this->callPluginsImplementing('InitProvider', 'dohandleInit', $this->getMapInfo());
+                        
         if (@$_REQUEST['posted']) {
             $this->cartoForm = 
                 $this->httpRequestHandler->handleHttpRequest($this->clientSession,
@@ -320,6 +320,9 @@ class Cartoclient {
         
         $mapRequest = $this->getMapRequest();
         $this->callPluginsImplementing('ServerCaller', 'buildMapRequest', $mapRequest);
+
+        // Save mapRequest for future use
+        $this->clientSession->lastMapRequest = $mapRequest;
 
         $this->log->debug("maprequest:");
         $this->log->debug($mapRequest);
@@ -336,9 +339,6 @@ class Cartoclient {
         $this->formRenderer->showForm($this);
 
         $this->callPluginsImplementing('Sessionable', 'doSaveSession');
-
-        // Save mapRequest for future use
-        $this->clientSession->lastMapRequest = $mapRequest;
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
@@ -361,21 +361,18 @@ class Cartoclient {
         $this->httpRequestHandler = new HttpRequestHandler($this);
         $this->formRenderer = new FormRenderer($this);
     }
-    
+        
     /**
      * Main entry point. Session is started there, so that nothing
      * should be printed before calling this.
      */
     function main() {
-
-        session_start();
         
         //echo "<pre>";
         
         $this->log->debug("request is : ");
         $this->log->debug($_REQUEST);
 
-        $this->initializeObjects();
         initializeCartoweb($this->config);
         
         try {

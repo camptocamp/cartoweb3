@@ -149,8 +149,8 @@ interface InitProvider {
  */
 interface Exportable {
 
-    function ajdustExportMapRequest(ExportConfiguration $configuration, 
-                                    MapRequest &$mapRequest);
+    function adjustExportMapRequest(ExportConfiguration $configuration, 
+                                    MapRequest $mapRequest);
 }
 
 

@@ -19,5 +19,8 @@
     </tr>
     {/foreach}
 </table>
+{if $exportcsv_active|default:''}
+<div class="exportlink"><a href="{$exportcsv_url}?exportcsv_layerid={$layer_result->layerId}">{t}Download CSV{/t}</a></div>
+{/if}
 {/if}
 {/foreach}

@@ -107,6 +107,8 @@ class ClientQuery extends ClientCorePlugin
         $this->log->debug("query result::");        
         $this->log->debug($queryResult);        
 
+        $this->assignExportCsv($smarty);
+
         $smarty->assign('layer_results', $queryResult->layerResults);
 
 
@@ -145,6 +147,15 @@ class ClientQuery extends ClientCorePlugin
         return $queryResult;
     }
 
+    private function assignExportCsv($template) {
+    
+        $exportCsvPlugin = $this->cartoclient->getPluginManager()->getPlugin('exportCsv');
+        if (!is_null($exportCsvPlugin)) {
+            $template->assign(array('exportcsv_active' => true,
+                                    'exportcsv_url' => ClientExportCsv::EXPORT_SCRIPT_PATH));
+        }
+    }
+
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
@@ -155,7 +166,7 @@ class ClientQuery extends ClientCorePlugin
         
         $queryResult = $this->processResult($this->queryResult);
         $queryOutput = $this->drawQueryResult($queryResult);
-
+    
         $template->assign('query_result', $queryOutput);
     }
 
