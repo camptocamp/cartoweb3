@@ -1,24 +1,34 @@
+<!-- TODO: css and cosmetics -->
 
-<!-- TODO: use a table instead -->
-
-<br/>
+<table>
 
 {foreach from=$layer_results item=layer_result}
+{if $layer_result->fields}
+  <tr bgcolor="#cccccc"><th>
+ {t}{$layer_result->layerId}{/t}
+  </th></tr>
+  <tr><td>
 
-Layer result: {$layer_result->layerId} <br/>
-
+  <table border="1" width="100%">
+    <tr>
     {foreach from=$layer_result->fields item=field}
-                Fields: {$field} <br/>
-                
+       <th>{$field}</th>               
     {/foreach}
-
+    </tr>
     {foreach from=$layer_result->resultElements item=result_element}
-        Result elements: </br>
+    <tr>
         {foreach from=$result_element->values item=value}
-            Value: {$value} </br>
+       <td>
+         {$value}
+       </td>
         {/foreach}
-        <br/>
+    </tr>
     {/foreach}
+  </table>
 
-<br/>
+  </td></tr>
+  <tr><td>&nbsp;</td></tr>
+{/if}
 {/foreach}
+
+</table>
