@@ -273,9 +273,9 @@ class HttpRequestHandler {
     }
 
     /**
-     * Returns true if key map was clicked
-     *
-     * Stores the point selected on key map.
+     * Returns true if key map was clicked and stores the point selected on key
+     * map into $cartoForm.
+     * 
      * @param CartoForm
      * @return boolean
      */
