@@ -5,7 +5,7 @@
 # 
 # You need to adjust the url the libraries if you need a newer version
 
-PEAR_PACKAGES="PHPUnit2 Benchmark PhpDocumentor PEAR Archive_Tar XML_RPC Console_Getopt"
+PEAR_PACKAGES="PHPUnit2 Benchmark PhpDocumentor PEAR Archive_Tar XML_RPC Console_Getopt Auth"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
 SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
