@@ -519,12 +519,12 @@ class ClientLayers extends ClientPlugin
     
     /**
      * Determines activated layers by recursively browsing LayerGroups.
-     * Only keeps Layer objects that are not detected as hidden AND 
-     * not selected.
+     * Only keeps Layer objects that are not detected as {hidden AND 
+     * not selected}.
      * @param array list of layers names
      * @return array list of children, grand-children... of given layers
      */
-    private function fetchChildrenFromLayerGroup($layersList) {
+    function fetchChildrenFromLayerGroup($layersList) {
         if (!$layersList || !is_array($layersList))
             return array();
 
