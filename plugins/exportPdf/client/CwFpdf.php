@@ -127,7 +127,8 @@ class cFPDF extends FPDF {
        
        $this->p = new cFPDF(ucfirst($this->general->selectedOrientation),
                             $this->general->distUnit,
-                            ucfirst($this->general->selectedFormat));
+                            array($this->format->smallDimension,
+                                  $this->format->bigDimension));
 
        $params = array('width' => $this->p->w,
                        'height' => $this->p->h,
