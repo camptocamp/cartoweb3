@@ -3,6 +3,7 @@ general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
 general.defaultResolution = 96
+general.mapServerResolution = 96
 general.defaultOrientation = portrait
 general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, test, test2
 
