@@ -149,6 +149,8 @@ class ZoomPointBboxCalculator extends RelativeBboxCalculator {
     }
 }
 
+/*
+FIXME: this is not used.
 
 class ZoomRectBboxCalculator extends RelativeBboxCalculator {
     private $log;
@@ -167,6 +169,7 @@ class ZoomRectBboxCalculator extends RelativeBboxCalculator {
         // TODO
     }
 }
+*/
 
 class ServerLocation extends ServerCorePlugin {
     private $log;
