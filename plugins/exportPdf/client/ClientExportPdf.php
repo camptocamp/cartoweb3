@@ -594,39 +594,14 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
-     * Returns current Cartoclient base URL.
-     * @return string URL
-     */
-    private function guessBaseUrl() {
-        $url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ) .
-               $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
-        if (preg_match("/^(.*)exportPdf\/(.*)$/", $url, $regs))
-            $url = $regs[1];
-        return $url;
-    }
-
-    /**
-     * Returns the absolute URL of $gfx by prepending CartoServer base URL.
+     * Returns the absolute URL of $gfx, using the ResourceHandler
      * @param string
      * @return string
      */
     private function getGfxPath($gfx) {
-        /* // FIXME: Miniproxy breaks this simplification in direct access mode
-           // maybe investigate further
-        if ($this->cartoclient->getConfig()->cartoserverDirectAccess) {
-            $path =  $this->cartoclient->getConfig()->getBasePath();
-            $path .= 'www-data/' . $gfx;
-            return $path;
-        }
-        */
-        
-        $cartoserverBaseUrl = $this->cartoclient->getConfig()
-                              ->cartoserverBaseUrl;
-        
-        if (is_null($cartoserverBaseUrl) || !$cartoserverBaseUrl)
-            $cartoserverBaseUrl = $this->guessBaseUrl();
-        
-        return $cartoserverBaseUrl . $gfx;
+
+        $resourceHandler = $this->cartoclient->getResourceHandler();
+        return $resourceHandler->getPathOrAbsoluteUrl($gfx);
     }
 
     /**
@@ -870,9 +845,10 @@ class ClientExportPdf extends ExportPlugin {
      * @return string URL
      */
     private function getPdfFileUrl($filename) {
-        $urlProvider = $this->cartoclient->getResourceHandler()->getUrlProvider();
-        $pdfUrl = $urlProvider->getGeneratedUrl('pdf/' . $filename);
-        return $this->guessBaseUrl() . $pdfUrl;
+        $resourceHandler = $this->cartoclient->getResourceHandler();
+        $pdfUrl = $resourceHandler->getUrlProvider()->getGeneratedUrl('pdf/' . 
+                                                                    $filename);
+        return $resourceHandler->getAbsoluteUrl($pdfUrl);
     }
 
     /**

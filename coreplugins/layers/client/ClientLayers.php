@@ -733,19 +733,6 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * @return string The url to the legend icons. In direct access 
-     *  this url is relative. In non-direct, it uses the cartoserverBaseUrl
-     *  in the prefix.
-     */
-    private function getIconUrl($relativeUrl) {
-        $config =$this->getCartoclient()->getConfig();
-        if ($config->cartoserverDirectAccess)
-            return $relativeUrl;
-        else
-            return $config->cartoserverBaseUrl . $relativeUrl;
-    }
-
-    /**
      * Deals with every single layer and recursively calls itself 
      * to build sublayers. 
      * @param LayerBase
@@ -863,7 +850,8 @@ class ClientLayers extends ClientPlugin
             $element['nextscale'] = $nextscale;
         }
 
-        $iconUrl = $this->getIconUrl($layer->icon);
+        $resourceHandler = $this->getCartoclient()->getResourceHandler();
+        $iconUrl = $resourceHandler->convertUrl($layer->icon);
 
         $element = array_merge($element,
                           array('layerLabel'       => I18n::gt($layer->label),
@@ -933,16 +921,9 @@ class ClientLayers extends ClientPlugin
     private function getPrintedIconPath($icon) {
         if (!$icon)
             return '';
-
-        $iconUrl = $this->getIconUrl($icon);
-        if (substr($iconUrl, 0, 4) == 'http')
-            return $iconUrl;
-
-        // FIXME: make this mandatory, and don't test there
-        if (!$this->cartoclient->getConfig()->cartoserverBaseUrl)
-            throw new CartoclientException('You need to set cartoserverBaseUrl'); 
-        // converts relative path to absolute
-        return  $this->cartoclient->getConfig()->cartoserverBaseUrl . $iconUrl;
+        
+        $resourceHandler = $this->getCartoclient()->getResourceHandler();
+        return $resourceHandler->getPathOrAbsoluteUrl($icon);
     }
 
     /**

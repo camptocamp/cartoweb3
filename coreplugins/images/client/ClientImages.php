@@ -220,109 +220,12 @@ class ClientImages extends ClientPlugin
     function handleResult($imagesResult) {}
 
     /**
-     * Returns full URL from parsed URL (results of parse_url function)
-     *
-     * Taken from php manual. By anonymous.
-     * @param array
-     * @return string
+     * @return string The URL to the image, as put inside the html template
      */
-    private function glue_url($parsed) {
-  
-        if (! is_array($parsed)) return false;
+    private function getImageUrl($path) {
 
-        if (isset($parsed['scheme'])) {
-            $sep = (strtolower($parsed['scheme']) == 'mailto' ? ':' : '://');
-            $uri = $parsed['scheme'] . $sep;
-        } else {
-            $uri = '';
-        }
- 
-        if (isset($parsed['pass'])) {
-            $uri .= "$parsed[user]:$parsed[pass]@";
-        } elseif (isset($parsed['user'])) {
-            $uri .= "$parsed[user]@";
-        }
- 
-        if (isset($parsed['host']))     $uri .= $parsed['host'];
-        if (isset($parsed['port']))     $uri .= ":$parsed[port]";
-        if (isset($parsed['path']))     $uri .= $parsed['path'];
-        if (isset($parsed['query']))    $uri .= "?$parsed[query]";
-        if (isset($parsed['fragment'])) $uri .= "#$parsed[fragment]";
- 
-        return $uri;
-    }
-
-    /**
-     * Returns true if path is absolute (starts with '/')
-     * @param string
-     * @return boolean
-     */
-    private function isPathAbsolute($path) {
-
-        return strpos($path, '/') === 0;
-    }
-
-    /**
-     * Returns full path to images (direct mode)
-     * @param string
-     * @return string
-     */
-    private function getDirectAccessImagePath($path) {
-
-        if ($this->isPathAbsolute($path)) 
-            return $path;
-
-        $config = $this->cartoclient->getConfig();
-            
-        // FIXME: is this really used ?
-        if (isset($config->directAccessImagesUrl))
-            return $config->directAccessImagesUrl . $path;
-
-        return $path;
-    }
-
-    /**
-     * Returns Cartoserver directory
-     * @param array parsed URL
-     * @return string 
-     */
-    private function getCartoserverDirname($cartoserverParsedUrl) {
-        
-        return dirname($cartoserverParsedUrl['path']) . '/';
-    }
-
-    /**
-     * Returns full path to images
-     *
-     * 3 cases:
-     * - Absolute path if direct mode
-     * - Through direct proxy if installed
-     * - Server URL otherwise
-     * @param string 
-     * @return string
-     */
-    private function getImagePath($path) {
-
-        $config = $this->cartoclient->getConfig();
-
-        if ($config->cartoserverDirectAccess)
-            return $this->getDirectAccessImagePath($path);
-
-        $cartoserverParsedUrl = parse_url($config->cartoserverBaseUrl . 'foo');
-
-        $absolutePath = $path;
-        if (!$this->isPathAbsolute($path))
-            $absolutePath = $this->getCartoserverDirname($cartoserverParsedUrl) 
-                               . $path;
-
-        if (isset($config->reverseProxyPrefix)) {
-            return $config->reverseProxyPrefix . $absolutePath;
-        }
-
-        $imageParsedUrl = $cartoserverParsedUrl;
-        $imageParsedUrl['path'] = $absolutePath;
-
-        return $this->glue_url($imageParsedUrl);
+        $resourceHandler = $this->getCartoclient()->getResourceHandler();
+        return $resourceHandler->convertUrl($path);
     }
 
     /**
@@ -376,7 +279,7 @@ class ClientImages extends ClientPlugin
        
         $template->assign(array(
             'mainmap_path' => 
-                $this->getImagePath($this->imagesResult->mainmap->path),
+                $this->getImageUrl($this->imagesResult->mainmap->path),
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
                                 ));
@@ -384,7 +287,7 @@ class ClientImages extends ClientPlugin
         if ($this->imagesResult->keymap->isDrawn) {
             $template->assign(array(
                 'keymap_path' => 
-                    $this->getImagePath($this->imagesResult->keymap->path),
+                    $this->getImageUrl($this->imagesResult->keymap->path),
                 'keymap_width' => $this->imagesResult->keymap->width,
                 'keymap_height' => $this->imagesResult->keymap->height,
                                     ));
@@ -393,7 +296,7 @@ class ClientImages extends ClientPlugin
         if ($this->imagesResult->scalebar->isDrawn) {
             $template->assign(array(
                 'scalebar_path' => 
-                    $this->getImagePath($this->imagesResult->scalebar->path),
+                    $this->getImageUrl($this->imagesResult->scalebar->path),
                 'scalebar_width' => $this->imagesResult->scalebar->width,
                 'scalebar_height' => $this->imagesResult->scalebar->height,
                                     ));

@@ -151,9 +151,22 @@ class ResourceHandler {
      * @var UrlProvider the current URL provider to use for generating URL's
      */
     private $urlProvider;
+    
+    /**
+     * @var boolean true if the client is in direct access mode.
+     */
+    private $directAcess;
+    
+    /**
+     * @var string the URL to the cartoserver base.
+     */
+    private $cartoserverBaseUrl;
 
     /**
      * Constructor
+     * 
+     * @param Config the current configuration object
+     * @param ProjectHandler the current project handler.
      */
     public function __construct(Config $config, ProjectHandler $projectHandler) {
 
@@ -165,6 +178,11 @@ class ResourceHandler {
             throw new CartocommonException("Unknown urlProvider named $provider");
 
         $this->urlProvider = new $className($projectHandler);
+        
+        if (!class_exists('ClientConfig') || !$config instanceof ClientConfig)
+            return;
+        $this->directAcess = $config->cartoserverDirectAccess;
+        $this->cartoserverBaseUrl = $config->cartoserverBaseUrl;
     }
  
     /**
@@ -173,6 +191,59 @@ class ResourceHandler {
     public function getUrlProvider() {
         return $this->urlProvider;   
     }
+    
+    /**
+     * Convert a relative resource URL to an absolute one.
+     * 
+     * @param string The relative URL to the resource
+     * @return string The absolute URL to a resource
+     */
+    public function getAbsoluteUrl($relativeUrl) {
+        if (empty($this->cartoserverBaseUrl))
+            throw new CartocommonException('cartoserverBaseUrl not set');
+        return $this->cartoserverBaseUrl . $relativeUrl;
+    }
+
+    /**
+     * Processes a relative URL to a resource, so that when inserted in the html
+     * template, the URL is correct. 
+     * In direct mode, it keeps relative URLs, and returns absolute URL's when
+     * in non direct access mode.
+     * 
+     * @param string The relative URL to a resource to convert
+     * @return string The URL to be used in the html template.
+     */
+    public function convertUrl($relativeUrl) {
+
+        // TODO: handle reverseProxyPrefix (in ClientImages.php cvs history)
+
+        if ($this->directAcess)
+            return $relativeUrl;
+        else
+            return $this->getAbsoluteUrl($relativeUrl);
+    }
+    
+    /**
+     * From a relative resource URL, as returned by the server, returns either a
+     * path to the corresponding file on the file system, if accessible (only
+     * for direct access mode). Otherwise, it will return the absolute URL to
+     * the resource.
+     * 
+     * @param string The relative URL to a resource
+     * @return string The path to the resource file on the filesystem, if
+     * accessible, or the absolute URL to the resource
+     */
+    public function getPathOrAbsoluteUrl($relativeUrl) {
+
+        // FIXME: images on server should return filesystem path, for use in direct 
+        //  access mode, so that we can avoid this crude hack !
+       
+        if (is_readable(CARTOCOMMON_HOME . 'www-data/' .$relativeUrl))
+            return CARTOCOMMON_HOME . 'www-data/' .$relativeUrl;
+        if (is_readable(CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl))
+            return CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl;
+        return $this->getAbsoluteUrl($relativeUrl);
+    }    
 }
 
 ?>
