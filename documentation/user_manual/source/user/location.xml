@@ -144,7 +144,7 @@
  <sect1 id="user.location.mapfile"> 
   <title>Related elements in mapfile</title>
   <para>
-   Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
+   <indexterm><primary>extent</primary></indexterm>Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
   </para> 
  </sect1> 
 
