@@ -54,22 +54,24 @@
     <para>
         The security system in &cartoweb; was developped to be modular and to allow
         different authentications systems to be easily plugged-in.
-                This section describes one implementation of authentication, user
+        This section describes one implementation of authentication, user
         password and roles management, which is the auth plugin shipped with
         &cartoweb;.
 
-<!--
-    <screenshot>
-        <mediaobject>
-            <imageobject>
-                <imagedata width="200" fileref="security.login_dialog.png" format="PNG"/>
-            </imageobject>
-                        <caption>Auth plugin login dialog</caption>
-        </mediaobject>
+       <!--
+        <screenshot>
+            <mediaobject>
+                <imageobject>
+                    <imagedata width="7cm" fileref="user/security.login_dialog.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Auth plugin login dialog</phrase>
+                </textobject>            
+            </mediaobject>
         </screenshot>
--->    
-
-        </para>
+        -->
+        
+    </para>
     <para>
     The auth plugin is not a core plugin. That's why you need to enable it if you
     want to enable users to log-in. See <xref linkend="user.config.intro"/> how

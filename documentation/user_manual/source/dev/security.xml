@@ -13,7 +13,7 @@
  <sect1 id="dev.security.intro"> 
   <title>Introduction</title>
         <para>
-                The security mechanism can be split into the
+        The security mechanism can be split into the
         following parts:
         <itemizedlist>
         <listitem>
