@@ -67,11 +67,11 @@ create_config:
 	 cp -i $$i $${i%%.dist} ;  \
 	done
 
-htlinks:
-	(cd scripts; ./htlinks.sh)
+htcmds:
+	(cd scripts; ./htlinks.sh; ./hticons.sh)
 
-init: fetch_libs dirs perms links create_config htlinks
+init: fetch_libs dirs perms links create_config htcmds
 	:
 
-init_sudo: fetch_libs dirs perms_sudo links create_config htlinks
+init_sudo: fetch_libs dirs perms_sudo links create_config htcmds
 	:
