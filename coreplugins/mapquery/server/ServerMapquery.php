@@ -107,23 +107,23 @@ class ServerMapquery extends ServerPlugin {
         $ignoreQueryThreshold = $this->getConfig()->ignoreQueryThreshold;
         if ($mayIgnore && is_numeric($ignoreQueryThreshold) && 
                                     $numResults > $ignoreQueryThreshold) {
-            /* FIXME Translation will not work rightly in SOAP mode !!! */
+            /* FIXME add translation system */
             $this->getServerContext()->addMessage($this, 'queryIgnored', 
                 sprintf("%s '%s'%s",
-                    i18n::gt('Query spanned too many objects on layer'),
-                    i18n::gt($layersInit->getLayerById($layerId)->label),
-                    i18n::gt(', it was ignored.')));
+                    'Query spanned too many objects on layer',
+                    $layersInit->getLayerById($layerId)->label,
+                    ', it was ignored.'));
             return array();
         }
 
         $maxResults = $this->getConfig()->maxResults;
         if (is_numeric($maxResults) && $numResults > $maxResults) {
-            /* FIXME Translation will not work rightly in SOAP mode !!! */
+            /* FIXME add translation system */
             $this->getServerContext()->addMessage($this, 'maxResultsHit', 
                 sprintf("%s '%s'%s",
-                i18n::gt('This query hit the maximum number of results on'),
-                i18n::gt($layersInit->getLayerById($layerId)->label),
-                i18n::gt(', truncating results.')));
+                'This query hit the maximum number of results on',
+                $layersInit->getLayerById($layerId)->label,
+                ', truncating results.'));
             $numResults = $maxResults;
         }
         
