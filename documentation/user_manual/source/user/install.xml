@@ -10,15 +10,15 @@
 <chapter id="user.install">
  <title>Installation</title>
 
- <sect1 id="user.install.unix"> 
+ <sect1 id="user.install.unix">
   <title>UNIX like install</title>
   <para>
     Cartoweb 3 installer is "cw3setup.php", located in the root directory of the application:
-    Simply run <screen>php -f cw3setup.php</screen> to setup the application.   
+    Simply run <screen>php -f cw3setup.php</screen> to setup the application.
   </para>
-        <sect2 id="user.install.unix.commands">
-         <title>List of available commands:</title>
-          <para>
+  <sect2 id="user.install.unix.commands.list">
+   <title>List of available commands:</title>
+    <para>
 <screen><![CDATA[(no command, by default): install cartoweb3
 cvs                     : install cartoweb3 from cvs
 check                   : check configuration
@@ -26,19 +26,41 @@ get[=user]              : CVS checkout with user name [anonymous]
 get_libs                : get required libraries
 dirs                    : create user directories
 perms[=www-data]        : set writing perms for web-user [www-data]
-                          - set ownership if run as superuser,
+                          - set ownership if ran as superuser,
                           - give write permission instead.
-create_conf             : create the new configuration
-link_or_copy            : link or copy paths for web browser
+createConfig            : create the new configuration (install .dist files)
+setupLinks              : link or copy paths for web browser
+removeLinks             : remove all links created by setupLinks.
+                          - super user rights required to remove dynamic content
 setup[=path]            : setup a new project in existing installation
+mkDirs                  : create all cache directories
+rmDirs                  : remove all temporary files AND directories
 remove                  : remove cartoweb3
 ]]></screen>
-          </para>
-        </sect2>
+    </para>
+   </sect2>
+   <sect2 id="user.install.unix.commands.details">
+    <title>Commands details:</title>
+      <itemizedlist>
+       <listitem><para>(no command, by default): install &cartoweb; from a download.</para></listitem>
+       <listitem><para>cvs: install &cartoweb; from a cvs checkout. You must have cvs access configured and cvs login done with the right user name.</para></listitem>
+       <listitem><para>check: check if the configuration meet requirements.</para></listitem>
+       <listitem><para>get[=user]: CVS checkout with user name "user". You must have done succesfully a cvs login before.</para></listitem>
+       <listitem><para>get_libs: fetch required libraries. You need an internet connection.</para></listitem>
+       <listitem><para>perms[=www-data]: set writing perms for web-user [www-data]. Set the ownership if ran as superuser, and give write permission instead. Warning: the second choice is secureless.</para></listitem>
+       <listitem><para>createConfig: create configuration from .dist files.</para></listitem>
+       <listitem><para>setupLinks: setup symbolic links for a <link linkend="user.config.client">SymLink</link> configuration.</para></listitem>
+       <listitem><para>removeLinks: remove links created by setupLinks.</para></listitem>
+       <listitem><para>setup[=path]: setup a new &cartoweb; project from project sources located in path. </para></listitem>
+       <listitem><para>mkDirs: make user-writeables directories.</para></listitem>
+       <listitem><para>rmDirs: remove user-writeable directories.</para></listitem>
+       <listitem><para>remove: try to completely remove &cartoweb;. Super-user rights may be required for user-writed directories removal.</para></listitem>
+      </itemizedlist>
+   </sect2>
  </sect1>
 
 
- <sect1 id="user.install.win32"> 
+ <sect1 id="user.install.win32">
   <title>Windows install</title>
   <para>
    The process is as simple as for UNIX, but the windows installer is not available yet.
