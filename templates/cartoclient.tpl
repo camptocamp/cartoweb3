@@ -90,7 +90,8 @@
 <pre>
 Request:
 {$debug_request}
-<div class="separator"></div>
+</pre>
+<pre>
 ClientContext:
 {$debug_clientcontext}
 </pre>
