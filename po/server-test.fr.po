@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2004-12-22 10:31+0100\n"
-"PO-Revision-Date: 2004-11-12 15:12+0100\n"
+"POT-Creation-Date: 2005-02-04 14:08+0100\n"
+"PO-Revision-Date: 2005-02-04 14:15+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,10 @@ msgstr "Point"
 msgid "polygon"
 msgstr "polygone"
 
+# test.ini:mapInfo.layers.polygon.attributes.FNAME.label
+msgid "Name"
+msgstr ""
+
 # test.ini:mapInfo.layers.linepoint.label
 msgid "linePoint"
 msgstr "pointLigne"
@@ -68,6 +72,14 @@ msgid "Polygon class 1"
 msgstr "Classe polygone 1"
 
 #: test.map
+msgid "FID"
+msgstr "ID polygone"
+
+#: test.map
+msgid "FNAME"
+msgstr "Nom polygone"
+
+#: test.map
 msgid "0"
 msgstr "0"
 
@@ -84,9 +96,15 @@ msgid "Point class 1"
 msgstr "Classe point 1"
 
 #: test.map
+#, fuzzy
+msgid "Point class 2"
+msgstr "Classe point 1"
+
+#: test.map
 msgid "grid_class"
 msgstr "classe_grille"
 
 #: test.map
 msgid "hilight"
 msgstr "surbrillance"
+

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2004-12-22 10:30+0100\n"
+"POT-Creation-Date: 2005-02-04 14:25+0100\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -79,10 +79,6 @@ msgstr "X"
 msgid "Y"
 msgstr "Y"
 
-#: coreplugins/location/templates/recenter.tpl/
-msgid "Scale"
-msgstr "Echelle"
-
 #: coreplugins/location/templates/shortcuts.tpl/
 msgid "Shortcuts"
 msgstr "Raccourcis"
@@ -95,16 +91,46 @@ msgstr "Couche pour le centrage"
 msgid "Coma separated id's"
 msgstr "Id séparés par des virgules"
 
-#: coreplugins/query/templates/query.tpl/
-msgid "Results:"
-msgstr "Résultats :"
+#: coreplugins/location/templates/scales.tpl/
+msgid "Scale"
+msgstr "Echelle"
 
 #: coreplugins/query/templates/query.tpl/
-#: plugins/selection/templates/selection.tpl/
+#, fuzzy
+msgid "Query information:"
+msgstr "Information de sélection :"
+
+#: coreplugins/query/templates/query.tpl/
+msgid "Layer"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl/
+msgid "In Query"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl/
+msgid "Policy"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl/
+#, fuzzy
+msgid "Mask Mode"
+msgstr "Mode masque"
+
+#: coreplugins/query/templates/query.tpl/
+msgid "Query all selected layers"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl/
+#, fuzzy
+msgid "Clear selection"
+msgstr "effacer sélection"
+
+#: coreplugins/tables/templates/tables.tpl/
 msgid "Id"
 msgstr "Id"
 
-#: coreplugins/query/templates/query.tpl/
+#: coreplugins/tables/templates/tables.tpl/
 msgid "Download CSV"
 msgstr "Télécharger CSV"
 
@@ -120,33 +146,47 @@ msgstr "Masque"
 msgid "Total area"
 msgstr "Surface totale"
 
-#: plugins/selection/templates/selection.tpl/
-msgid "Selection information:"
-msgstr "Information de sélection :"
+# images.ini:mapSizes.3.label
+#: plugins/auth/templates/auth.tpl/
+#, fuzzy
+msgid "login"
+msgstr "géante"
 
-#: plugins/selection/templates/selection.tpl/
-msgid "Select a hilight layer"
-msgstr "Sélectionner une couche de surbrillance"
+#: plugins/auth/templates/auth.tpl/
+msgid "logout"
+msgstr ""
 
-#: plugins/selection/templates/selection.tpl/
-msgid "Mask mode"
-msgstr "Mode masque"
+#: plugins/auth/templates/login_page.tpl/ templates/cartoclient.tpl/
+msgid "Cartoclient Title"
+msgstr "Cartoclient (FR)"
 
-#: plugins/selection/templates/selection.tpl/
-msgid "Show attributes"
-msgstr "Voir attributs"
+#: plugins/auth/templates/login_page.tpl/
+msgid "Login dialog"
+msgstr ""
 
-#: plugins/selection/templates/selection.tpl/
-msgid "Selected elements:"
-msgstr "Eléments sélectionnés :"
+#: plugins/auth/templates/login_page.tpl/
+msgid "You've been logged out"
+msgstr ""
 
-#: plugins/selection/templates/selection.tpl/
-msgid "unselect id"
-msgstr "désélectionner Id"
+#: plugins/auth/templates/login_page.tpl/
+msgid "Please enter your login and password"
+msgstr ""
 
-#: plugins/selection/templates/selection.tpl/
-msgid "clear selection"
-msgstr "effacer sélection"
+#: plugins/auth/templates/login_page.tpl/
+msgid "Username"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl/
+msgid "Password"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl/
+msgid "Submit"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl/
+msgid "Click here to go back to the map"
+msgstr ""
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Format:"
@@ -206,10 +246,6 @@ msgid "Print"
 msgstr "Imprimer"
 
 #: templates/cartoclient.tpl/
-msgid "Cartoclient Title"
-msgstr "Cartoclient (FR)"
-
-#: templates/cartoclient.tpl/
 msgid "scalebar_alt"
 msgstr "alt_barechelle"
 
@@ -220,6 +256,10 @@ msgstr "Messages utilisateurs"
 #: templates/cartoclient.tpl/
 msgid " Developer messages "
 msgstr "Messages développeurs"
+
+#: templates/cartoclient.tpl/
+msgid "Choose project"
+msgstr ""
 
 #: templates/cartoclient.tpl/
 msgid "Navigation"
@@ -236,6 +276,10 @@ msgstr "PDF"
 #: templates/cartoclient.tpl/
 msgid "keymap_alt"
 msgstr "alt_carteclef"
+
+#: templates/unauthorized.tpl/
+msgid "Unauthorized"
+msgstr ""
 
 #: templates/dhtmlcode.tpl/
 msgid "Main map"
@@ -257,3 +301,17 @@ msgstr "Coord. (m) :"
 msgid "Loading message"
 msgstr "Veuillez patienter..."
 
+#~ msgid "Results:"
+#~ msgstr "Résultats :"
+
+#~ msgid "Select a hilight layer"
+#~ msgstr "Sélectionner une couche de surbrillance"
+
+#~ msgid "Show attributes"
+#~ msgstr "Voir attributs"
+
+#~ msgid "Selected elements:"
+#~ msgstr "Eléments sélectionnés :"
+
+#~ msgid "unselect id"
+#~ msgstr "désélectionner Id"
