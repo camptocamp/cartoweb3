@@ -54,7 +54,8 @@ class ServerHilight extends ServerPlugin {
 
         $idType = $querySelection->idType;
         if (empty($querySelection->idType)) {
-            $idType = $this->serverContext->getIdAttributeType($querySelection->layerId);
+            $idType = $this->serverContext->
+                                   getIdAttributeType($querySelection->layerId);
         }
 
         if ($idType == 'string') {
@@ -69,10 +70,12 @@ class ServerHilight extends ServerPlugin {
         
         $idAttribute = $querySelection->idAttribute;
         if (empty($idAttribute))
-            $idAttribute = $this->serverContext->getIdAttribute($querySelection->layerId);
+            $idAttribute = $this->serverContext->
+                                       getIdAttribute($querySelection->layerId);
         if (empty($idAttribute))
-            throw new CartoserverException("no id_attribute_string metadata declared" .
-                " for layer $querySelection->layerId");
+            throw new CartoserverException('no id_attribute_string metadata ' .
+                                           'declared for layer ' .
+                                           $querySelection->layerId);
         
         foreach ($ids as $id) {
             $id = Encoder::decode($id, 'config');
@@ -137,11 +140,13 @@ class ServerHilight extends ServerPlugin {
      * @param int index of layer's class
      * @param QuerySelection
      */
-    private function setClassExpression($msLayer, $classIndex, $querySelection) {
+    private function setClassExpression($msLayer, $classIndex,
+                                        $querySelection) {
         
         $class = $msLayer->getClass($classIndex);
         if (empty($class)) 
-            throw new CartoserverException("no class at index $classIndex for layer $msLayer");    
+            throw new CartoserverException("no class at index $classIndex for "
+                                           . "layer $msLayer");    
 
         $expression = $this->buildExpression($querySelection);
         $this->log->debug("setting expression $expression");
@@ -253,13 +258,15 @@ class ServerHilight extends ServerPlugin {
         
         $serverLayer = $mapInfo->getLayerById($querySelection->layerId);
         if (!$serverLayer)
-            throw new CartoserverException("can't find serverLayer $querySelection->layerId");
+            throw new CartoserverException("can't find serverLayer " .
+                                           $querySelection->layerId);
         
         $msMapObj = $this->serverContext->getMapObj();
         
         $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
         if (empty($msLayer))
-            throw new CartoserverException("can't find mslayer $serverLayer->msLayer");
+            throw new CartoserverException("can't find mslayer " .
+                                           $serverLayer->msLayer);
         
         // activate this layer to be visible
         $msLayer->set('status', MS_ON);
@@ -270,7 +277,8 @@ class ServerHilight extends ServerPlugin {
             // Activate outside mask layer
             $outsideMask = false;
             if ($msLayer->getMetaData('outside_mask')) {
-                $msMaskLayer = @$msMapObj->getLayerByName($msLayer->getMetaData('outside_mask'));
+                $msMaskLayer = @$msMapObj->getLayerByName($msLayer->
+                                                   getMetaData('outside_mask'));
                 if (!empty($msMaskLayer)) {
                     $msMaskLayer->set('status', MS_ON);
                     $outsideMask = true;
@@ -283,7 +291,8 @@ class ServerHilight extends ServerPlugin {
             }                            
             
             // if a layer with MASK_SUFFIX exists, use it as mask
-            $msMaskLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . MASK_SUFFIX);
+            $msMaskLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . 
+                                                                   MASK_SUFFIX);
             if (!empty($msMaskLayer)) {
                 $this->log->debug("activating special mask layer");
                 $msMaskLayer->set('status', MS_ON);
@@ -299,7 +308,8 @@ class ServerHilight extends ServerPlugin {
         } else {
             // if a layer with HILIGHT_SUFFIX exists, use it as hilight
         
-            $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . HILIGHT_SUFFIX);
+            $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer .
+                                                                HILIGHT_SUFFIX);
             if (!empty($msHilightLayer)) {
                 $this->log->debug("activating special hilight layer");
                 $msHilightLayer->set('status', MS_ON);
