@@ -13,6 +13,8 @@ class CartoserverService {
     private $log;
     private $config;
 
+    private $cartoserver;
+
     function __construct($config) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->config = $config;
@@ -30,9 +32,11 @@ class CartoserverService {
 
         require_once($cartoserverHome . 'server/Cartoserver.php');
 
-        $cartoserver = new Cartoserver();
+        if (!$this->cartoserver) {
+            $this->cartoserver = new Cartoserver();
+        }
 
-        $result = $cartoserver->$function($argument);
+        $result = $this->cartoserver->$function($argument);
     
         if ($result instanceof SoapFault) {
             throw $result;
