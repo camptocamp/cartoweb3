@@ -25,6 +25,14 @@ class common_GeographicalAssert extends PHPUnit2_Framework_TestCase {
                            "different bboxes: expected : " . $expected->__toString() . 
                             "  acual: " . $bbox->__toString());
     }
-
+    
+    protected function assertInsideBbox(Bbox $expected, Bbox $bbox) {
+        $this->assertTrue(($expected->minx <= $bbox->minx) &&
+                          ($expected->miny <= $bbox->miny) &&
+                          ($expected->maxx >= $bbox->maxx) &&
+                          ($expected->maxy >= $bbox->maxy),
+                           "Expected bboxes: " . $expected->__toString() . 
+                            "  does not contain : " . $bbox->__toString());
+    }
 }
  
