@@ -171,6 +171,15 @@ class ServerOutline extends ClientResponderAdapter {
 
     }
 
+    private function drawMap($msMapObj) {
+        $plugins = $this->serverContext->pluginManager;
+        if (!empty($plugins->query) && $plugins->query->drawQuery()) {
+            $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
+        } else {
+            $this->serverContext->setMsMainmapImage($msMapObj->draw());
+        }
+    } 
+    
     /**
      * Handles shapes drawing and area computation
      * @param OutlineRequest
@@ -179,8 +188,9 @@ class ServerOutline extends ClientResponderAdapter {
     function handleDrawing($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
+
         if ($requ->maskMode) {
-            $this->serverContext->setMsMainmapImage($msMapObj->draw());
+            $this->drawMap($msMapObj);
             $msMapObj->labelcache->free();
         }
 
@@ -204,7 +214,7 @@ class ServerOutline extends ClientResponderAdapter {
         }
         
         if (!$requ->maskMode) {
-            $this->serverContext->setMsMainmapImage($msMapObj->draw());
+            $this->drawMap($msMapObj);
         }
         
         $result = new OutlineResult();
