@@ -228,7 +228,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
        Extend <parameter>ClientPlugin</parameter> and/or <parameter>ServerPlugin</parameter> &cartoweb; classes in the matching above files and name the result classes using their files names (with no ".php"). For instance:
        <programlisting><![CDATA[<?php
 /**
- * @version $Id : ServerYourPlugin.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ * @version ]]>&dollar;<![CDATA[Id: ServerYourPlugin.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
  */
 
 class ServerYourPlugin extends ServerPlugin {
@@ -253,6 +253,12 @@ class ServerYourPlugin extends ServerPlugin {
    <title>Automatic Files Inclusion</title>
    <para>
     Main plugin PHP files (eg. <filename>ClientYourPlugin.php</filename>, <filename>ServerYourPlugin.php</filename>, <filename>YourPlugin.php</filename>) are automatically included and their contained classes and objects are directly accessible. Other files in <filename>client/</filename>, <filename>server/</filename> or <filename>common/</filename> are not and must be included explicitely in the main plugin PHP files.
+   </para>
+   <para>
+    Templates stored in the plugin <filename>templates/</filename> directory are also accessible directly by using PHP code similar to the followin one:
+    <programlisting><![CDATA[$smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+$smarty->assign('foo', 'bar');
+return $smarty->fetch('yourPlugin.tpl');]]></programlisting>
    </para>
   </sect2>
  </sect1>
@@ -322,7 +328,7 @@ class ServerYourPlugin extends ServerPlugin {
     <programlisting><![CDATA[<?php
 /**
  * @package CorePlugins
- * @version $Id : ClientMyProjectLayers.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ * @version ]]>&dollar;<![CDATA[Id: ClientMyProjectLayers.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
  */
 
 class ClientMyProjectLayers extends ClientLayers {
@@ -407,7 +413,7 @@ function checkMapsize() {
 <input type="text" name="testField" value="{$imagesTest}" />]]></programlisting>
     <programlisting><![CDATA[<?php
 /**
- * @version $Id : ClientYourProjectImages.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ * @version ]]>&dollar;<![CDATA[Id: ClientYourProjectImages.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
  */
 
 class ClientYourProjectImages extends ClientImages {
