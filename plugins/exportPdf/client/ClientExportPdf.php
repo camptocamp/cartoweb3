@@ -398,6 +398,38 @@ class PdfBlock {
      * @var boolean
      */
     public $inFlow           = true;
+
+    /**
+     * Id of caption block (mainly for tables)
+     * @var string
+     */
+     public $caption         = '';
+
+     /**
+      * Id of headers block (mainly for tables)
+      * @var string
+      */
+      public $headers        = '';
+
+      /**
+       * @var boolean
+       */
+       public $standalone    = true;
+}
+
+/**
+ * Description of tabular blocks.
+ * @package Plugins
+ */
+class TableElement {
+
+    public $caption = '';
+    public $headers = array();
+    public $rows    = array();
+    public $totalWidth = 0;
+    public $colsWidth = array();
+    public $x0;
+    public $y0;
 }
 
 /**
@@ -440,11 +472,11 @@ interface PdfWriter {
      */
     function addGfxBlock(PdfBlock $block);
     
-    function addTableCell();
+    function addTableCell($text, $width, $height);
     
-    function addTableRow();
+    function addTableRow(TableElement $table, $row);
     
-    function addTable();
+    function addTable(PdfBlock $block);
     
     /**
      * Performs final PDF operations and outputs document.
@@ -516,6 +548,14 @@ class SpaceManager {
             throw new CartoclientException('Invalid SpaceManager params');
     }
 
+    /**
+     * Resets allocated spaces.
+     */
+    public function reset() {
+        $this->allocated = array();
+        $this->levels = array();
+    }
+    
     /**
      * Records newly added areas in allocated space list.
      * @param PdfBlock
@@ -610,7 +650,7 @@ class SpaceManager {
      * @param PdfBlock
      * @return array (X,Y) of reference point
      */
-    public function checkIn(PdfBlock $block) {
+    public function checkIn(PdfBlock $block, $isTable = false) {
         // TODO: handle block with no initially known dimensions (legend...)
         // TODO: handle blocks too high to fit below previous block and
         // that must be displayed with a X shift etc.
@@ -663,7 +703,28 @@ class SpaceManager {
             $y0 = $this->getY($block, $minY, $maxY);
         }
         
+        if ($isTable)
+            return array($x0, $y0);
+
         return $this->allocateArea($block, $x0, $y0);
+    }
+
+    public function checkTableIn(PdfBlock $block, TableElement $table) {
+        $tableBlock = clone $block;
+        $tableBlock->width = $table->totalWidth;
+        $tableBlock->inFlow = false;
+        $tableBlock->verticalBasis = 'top';
+        return $this->checkIn($tableBlock, true);
+        // FIXME: Pdf Engines with YoAtTop = false will return incorrect Y!
+    }
+
+    public function getAvailableSpan(PdfBlock $block) {
+        if (isset($block->parent)) {
+            $extent = $this->getBlockExtent($block->parent);
+            return $extent['maxX'] - $extent['minX'];
+        }
+        
+        return $this->maxX - $this->minX; 
     }
 }
 
@@ -706,7 +767,9 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * @var array
      */
-    private $optionalInputs = array('title', 'note', 'scalebar', 'overview');
+    private $optionalInputs = array('title', 'note', 'scalebar', 'overview',
+                                    'queryResult');
+    //TODO: display queryResult form option only ifavailable in MapResult
 
     /**
      * Constructor
@@ -716,6 +779,27 @@ class ClientExportPdf extends ExportPlugin {
         parent::__construct();
     }
 
+    /**
+     * @return PdfGeneral
+     */
+    public function getGeneral() {
+        return $this->general;
+    }
+
+    /**
+     * @return PdfFormat
+     */
+    public function getFormat() {
+        return $this->format;
+    }
+
+    /**
+     * @return array array of activated PdfBlocks
+     */
+    public function getBlocks() {
+        return $this->blocks;
+    }
+    
     /**
      * Returns export script path.
      * @return string
@@ -743,8 +827,8 @@ class ClientExportPdf extends ExportPlugin {
         $res = array();
         foreach ($list as $d) {
             $d = trim($d);
-            if ($simple) $res[] = strtolower($d);
-            else $res[strtolower($d)] = I18n::gt($d);
+            if ($simple) $res[] = $d;
+            else $res[$d] = I18n::gt($d);
         }
         return $res;
     }
@@ -785,10 +869,10 @@ class ClientExportPdf extends ExportPlugin {
         $reqname = 'pdf' . ucfirst($name);
 
         if (isset($request[$reqname]) && 
-            in_array(strtolower($request[$reqname]), $choices))
-            return strtolower($request[$reqname]);
+            in_array($request[$reqname], $choices))
+            return $request[$reqname];
 
-        return strtolower($this->general->{'default' . ucfirst($name)});
+        return $this->general->{'default' . ucfirst($name)};
     }
 
     /**
@@ -818,6 +902,62 @@ class ClientExportPdf extends ExportPlugin {
         }
 
         $this->blocks = $blocks;
+    }
+
+    /**
+     * Instanciates a PdfBlock object.
+     * @param array $request
+     * @param stdClass INI object
+     * @param string object id
+     */
+    private function createBlock($request, $iniObjects, $id) {
+        $pdfItem = 'pdf' . ucfirst($id);
+        if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
+            in_array($id, $this->optionalInputs))
+            return;
+        
+        if (isset($iniObjects->blocks->$id))
+            $block = $iniObjects->blocks->$id;
+        else
+            $block = new stdclass();
+            
+        $this->blocks[$id] = StructHandler::mergeOverride(
+                                 $this->blockTemplate,
+                                 $block, true);
+
+        $this->blocks[$id]->id = $id;
+
+        if ($id == 'title' || $id == 'note') {
+            $this->blocks[$id]->content = 
+                stripslashes(trim($request[$pdfItem]));
+        }
+
+        if ($this->blocks[$id]->caption && 
+            !in_array($this->blocks[$id]->caption, $this->blocks)) {
+            
+            $caption = $this->blocks[$id]->caption;
+            $this->createBlock($request, $iniObjects, $caption);
+            
+            $this->blocks[$caption]->standalone = false;
+        }
+
+        if ($this->blocks[$id]->headers &&
+            !in_array($this->blocks[$id]->headers, $this->blocks)) {
+            
+            $headers = $this->blocks[$id]->headers;
+            $this->createBlock($request, $iniObjects, $headers);
+            
+            $this->blocks[$headers]->standalone = false;
+            $this->blocks[$headers]->content = 
+               $this->getArrayFromList($this->blocks[$headers]->content, true);
+        }
+
+        if ($this->blocks[$id]->type == 'table') {
+            // TODO: handle multi-row tables. For now we are limited to 
+            // one single row.
+            $this->blocks[$id]->content = $this->getArrayFromList(
+                                            $this->blocks[$id]->content, true);
+        }
     }
 
     /**
@@ -899,26 +1039,7 @@ class ClientExportPdf extends ExportPlugin {
         $this->overrideProperties($this->blockTemplate, $iniObjects->template);
 
         foreach ($this->general->activatedBlocks as $id) {
-            $pdfItem = 'pdf' . ucfirst($id);
-            if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
-                in_array($id, $this->optionalInputs))
-                continue;
-            
-            if (isset($iniObjects->blocks->$id))
-                $block = $iniObjects->blocks->$id;
-            else
-                $block = new stdclass();
-                
-            $this->blocks[$id] = StructHandler::mergeOverride(
-                                     $this->blockTemplate,
-                                     $block, true);
-
-            $this->blocks[$id]->id = $id;
-
-            if ($id == 'title' || $id == 'note') {
-                $this->blocks[$id]->content = 
-                    stripslashes(trim($request[$pdfItem]));
-            }
+            $this->createBlock($request, $iniObjects, $id);
         }
 
         unset($iniObjects);
@@ -998,17 +1119,18 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Returns given distance at selected printing resolution.
      * @param float distance in PdfGeneral dist_unit
-     * @return float distance in pixels
+     * @return int distance in pixels
      */
     private function getDistWithRes($dist) {
         $dist = PrintTools::switchDistUnit($dist,
                                            $this->general->distUnit, 
                                            'in');
-        return $dist * $this->general->selectedResolution;
+        return round($dist * $this->general->selectedResolution);
     }
 
     /**
      * Builds export configuration.
+     * @param boolean true if configuring to get overview map
      * @return ExportConfiguration
      */
     function getConfiguration($isOverview = false) {
@@ -1026,6 +1148,7 @@ class ClientExportPdf extends ExportPlugin {
                 $mainmap = $this->blocks['mainmap'];
                 
                 $mapWidth = $this->getDistWithRes($mainmap->width);
+                
                 $config->setMapWidth($mapWidth);
                 
                 $mapHeight = $this->getDistWithRes($mainmap->height);
@@ -1036,6 +1159,11 @@ class ClientExportPdf extends ExportPlugin {
         $config->setRenderMap($renderMap);
         $config->setRenderKeymap(false);
         $config->setRenderScalebar($renderScalebar);
+
+        $this->log->debug('Selected resolution: ' .
+                          $this->general->selectedResolution);
+        $this->log->debug('Print config:');
+        $this->log->debug($config);
 
         //TODO: set maps dimensions + resolutions for scalebar and overview
         
@@ -1093,6 +1221,42 @@ class ClientExportPdf extends ExportPlugin {
             $mainmap->height = $pdf->getPageHeight() - 2 * $vmargin;
         }
     }
+
+    /**
+     * Transforms query results from MapResult into TableElements
+     * @param MapResult
+     * @return array array of TableElement
+     */
+    private function getQueryResult($mapResult) {
+        if (!$mapResult instanceof MapResult || 
+            !isset($mapResult->queryResult))
+            return array();
+
+        $results = array();
+        foreach ($mapResult->queryResult->layerResults as $layer) {
+            if (!$layer->numResults)
+                continue;
+
+            $table = new TableElement;
+            
+            $table->caption = I18n::gt($layer->layerId);
+            
+            $table->headers = array('Id');
+            foreach ($layer->fields as $field)
+                $table->headers[] = I18n::gt($field);
+
+            foreach ($layer->resultElements as $res) {
+                $row = array($res->id);
+                foreach ($res->values as $val)
+                    $row[] = $val;
+                $table->rows[] = $row;
+            }
+
+            $results[] = $table;
+        }
+    
+        return $results;
+    }
     
     /**
      * @see ExportPlugin::getExport()
@@ -1107,7 +1271,7 @@ class ClientExportPdf extends ExportPlugin {
             throw new CartoclientException("invalid PDF engine: $pdfClassFile");
         require_once $pdfClassFile;
  
-        $pdf = new $pdfClass($this->general, $this->format);
+        $pdf = new $pdfClass($this);
  
         if (isset($this->blocks['mainmap']))
             $this->setMainMapDim($pdf);
@@ -1121,7 +1285,7 @@ class ClientExportPdf extends ExportPlugin {
         } else {
             $overviewResult = false;
         }
- 
+
         $this->updateMapBlock($mapResult, 'mainmap');
         $this->updateMapBlock($mapResult, 'scalebar');
         $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
@@ -1131,6 +1295,9 @@ class ClientExportPdf extends ExportPlugin {
         $pdf->addPage();
  
         foreach ($this->blocks as $block) {
+            if ($block->inNewPage || !$block->standalone)
+                continue;
+
             switch ($block->type) {
                 case 'image':
                     $pdf->addGfxBlock($block);
@@ -1146,6 +1313,27 @@ class ClientExportPdf extends ExportPlugin {
         }
  
         // TODO: handle blocks to display on other pages
+
+        // query results displaying
+        if (isset($this->blocks['queryResult'])) {
+            $queryResult = $this->getQueryResult($mapResult);        
+            if ($queryResult) {
+                $this->blocks['queryResult']->content = $queryResult;
+                
+                $pdf->addPage();
+                $pdf->addTable($this->blocks['queryResult']);
+            }
+        }
+        
+        if (isset($this->blocks['table'])) {
+            require_once(dirname(__FILE__) . '/table.php');
+            $tableObj = new TableElement;
+            $tableObj->rows = $table;
+            $this->blocks['table']->content = $tableObj;
+
+            $pdf->addPage();
+            $pdf->addTable($this->blocks['table']);
+        }
  
         $contents = $pdf->finalizeDocument();
  
