@@ -17,12 +17,14 @@ class ToolDescription {
     public $icon;
     public $label;
     public $appliesTo;
+    public $jsId;
     
-    function __construct($id, $icon, $label, $appliesTo) {
+    function __construct($id, $icon, $label, $appliesTo, $jsId=NULL) {
         $this->id = $id;
         $this->icon = $icon;
         $this->label = $label;
         $this->appliesTo = $appliesTo;
+        $this->jsId = $jsId;
     }
 }
 

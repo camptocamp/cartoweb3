@@ -95,10 +95,20 @@
 
   <p>
     {counter start=-1 print=false name=tindex}
-    {foreach from=$tools key=toolcode item=toolname}
-    <label for="{$toolcode}"><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
-    id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="{r type=gfx/layout}{$toolcode}.gif{/r}" alt="{$toolname}" 
-    onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$toolcode}');" /></label>&nbsp;
+    {foreach from=$tools key=toolid item=tool}
+    <label for="{$toolid}">
+      <input type="radio" name="tool" value="{$toolid}" 
+                {if $selected_tool == $toolid}checked="checked"{/if} 
+                id="{$toolid}" onclick="dhtmlBox.changeTool('{$tool->jsId}')" />
+           {if $tool->icon}
+            <img src="{r type=gfx/layout}{$toolid}.gif{/r}" alt="{$tool->label}" 
+        onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$tool->jsId}')" />
+           {else}
+            <span onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$tool->jsId}');">
+             {$tool->label}
+            </span>
+           {/if}
+    </label>&nbsp;
     {/foreach}   
   </p>
 
@@ -136,6 +146,11 @@
     </table>
 
   <p> LocationInfo: {$location_info} </p>
+
+  {if $selection_result|default:''}
+  <h1>Selection result: </h1>
+  {$selection_result}
+  {/if}
 
   {if $query_result|default:''}
   <h1>Results: </h1>

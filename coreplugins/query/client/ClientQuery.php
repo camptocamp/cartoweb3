@@ -72,7 +72,7 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
 
     function getTools() {
         
-        return array(new ToolDescription(self::TOOL_QUERY, NULL, 'Query', 
+        return array(new ToolDescription(self::TOOL_QUERY, self::TOOL_QUERY, 'Query', 
             ToolDescription::MAINMAP));
     }
 

@@ -100,19 +100,21 @@ class FormRenderer {
         return $smarty;
     }
 
-    function showForm($cartoclient) {
-
+    private function drawTools($cartoclient) {
+        
         $cartoForm = $cartoclient->getCartoForm();
         $clientSession = $cartoclient->getClientSession();
         $smarty = $this->smarty;
         $plugins = $cartoclient->getPluginManager()->getPlugins();
-
+        
         $tools = array();
         foreach ($plugins as $plugin) {
             if ($plugin instanceof ToolProvider) {
                 $toolsDescription = $plugin->getTools();
                 foreach($toolsDescription as $toolDescription) {
-                    $tools[$toolDescription->id] = $toolDescription->label;
+                    if (is_null($toolDescription->jsId))
+                        $toolDescription->jsId = $toolDescription->id;
+                    $tools[$toolDescription->id] = $toolDescription;
                 }
             }
         }
@@ -126,7 +128,15 @@ class FormRenderer {
         }       
         $smarty->assign('selected_tool', $clientSession->selectedTool);
                 
-        $smarty->assign('tools', $tools);
+        $smarty->assign('tools', $tools);        
+    }
+
+    function showForm($cartoclient) {
+
+        $cartoForm = $cartoclient->getCartoForm();
+        $smarty = $this->smarty;
+
+        $this->drawTools($cartoclient);
 
         // ------------- string translations
 

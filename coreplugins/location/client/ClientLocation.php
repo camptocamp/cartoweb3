@@ -217,16 +217,16 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
     function getTools() {
         
-        return array(new ToolDescription(self::TOOL_ZOOMIN, NULL, 'Zoom in', 
+        return array(new ToolDescription(self::TOOL_ZOOMIN, self::TOOL_ZOOMIN, 'Zoom in', 
             ToolDescription::MAINMAP),
-            new ToolDescription(self::TOOL_ZOOMOUT, NULL, 'Zoom out', 
+            new ToolDescription(self::TOOL_ZOOMOUT, self::TOOL_ZOOMOUT, 'Zoom out', 
                 ToolDescription::MAINMAP),
-            new ToolDescription(self::TOOL_PAN, NULL, 'Pan', 
+            new ToolDescription(self::TOOL_PAN, self::TOOL_PAN, 'Pan', 
                 ToolDescription::MAINMAP),
             // recenter tool is disabled for now.
             // there should be a way to know if we are in html or dhtml mode, and
             // to return the appropriate tools accordingly
-            /* new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
+            /* new ToolDescription(self::TOOL_RECENTER, self::TOOL_RECENTER, 'Recenter', 
                 ToolDescription::MAINMAP) */
                     );
     }
