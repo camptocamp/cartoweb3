@@ -16,7 +16,10 @@ class ClientLayers extends ClientCorePlugin {
     private $layersState;
     private $layers;
     private $selectedLayers = array();
+    private $unfoldedLayerGroups = array();
+    private $unfoldedIds = array();
     private $nodeId = 0;
+    private $nodesIds = array();
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -48,51 +51,89 @@ class ClientLayers extends ClientCorePlugin {
         return $this->layers;
     }
 
-    function handleHttpRequest($request) {
-        $this->log->debug("update form :");
-        $this->log->debug($this->layersState);
-
-        if (!@$request['layers'])
-            $request['layers'] = array();
-        $this->log->debug("requ layers");
-        $this->log->debug($request['layers']);
-        
-        // TODO: hidden layers
-        // TODO: folded layers
-        
-        // disables all layers
-        $this->getLayers();
-        foreach ($this->layers as $layer) {
-            $this->layersState[$layer->id]->selected = false;
-        }
-        
-        foreach ($request['layers'] as $layerId) {
-            $this->layersState[$layerId]->selected = true;
-        }
-    }
-
-    private function getSelectedLayers() {
-        $this->getLayers();
-        foreach ($this->layers as $layer) {
-            if (@$this->layersState[$layer->id]->selected)
-                $this->selectedLayers[] = $layer->id;
-        }
-        return $this->selectedLayers;
-    }
-
-    function buildMapRequest($mapRequest) {
-
-        $layersRequest = new LayersRequest();
-        $layersRequest->layerIds = $this->getSelectedLayers();
-        $mapRequest->layersRequest = $layersRequest; 
-    }
-
-    function handleMapResult($mapResult) {}
-
     private function getLayerByName($layername) {
         if (isset($this->layers[$layername])) return $this->layers[$layername];
         else throw new CartoclientException("unknown layer name: $layername");
     }
+
+    private function getNodesIds($layer) {
+        if ((!isset($layer->aggregate) || !$layer->aggregate) && 
+            !empty($layer->children) && is_array($layer->children)) {
+            foreach ($layer->children as $child) {
+                $childLayer = $this->getLayerByName($child);
+                $this->getNodesIds($childLayer);
+            }
+        }
+
+        $this->nodesIds[] = $layer->id;
+    }
+
+    function handleHttpRequest($request) {
+        $this->log->debug('update form:');
+        $this->log->debug($this->layersState);
+
+        $this->getLayers();
+        
+        // disables all layers before selecting correct ones
+        foreach ($this->layers as $layer) {
+            $this->layersState[$layer->id]->selected = false;
+            $this->layersState[$layer->id]->unfolded = false;
+        }
+
+        // selected layers:
+        if (!@$request['layers']) $request['layers'] = array();
+        $this->log->debug('requ layers');
+        $this->log->debug($request['layers']);
+        
+        foreach ($request['layers'] as $layerId) {
+            $this->layersState[$layerId]->selected = true;
+        }
+
+        // unfolded layergroups:
+        $rootLayer = $this->getLayerByName('root');
+        $this->getNodesIds($rootLayer);
+        
+        if (!@$request['openNodes']) $request['openNodes'] = false;
+        $openNodes = array_unique(explode(',', $request['openNodes']));
+
+        foreach ($openNodes as $nodeId) {
+            if (isset($this->nodesIds[$nodeId]))
+                $this->layersState[$this->nodesIds[$nodeId]]->unfolded = true;
+        }
+
+        // TODO: hidden layers
+    }
+
+    private function getSelectedLayers() {
+        if(!$this->selectedLayers || !is_array($this->selectedLayers)) {
+            $this->getLayers();
+            foreach ($this->layers as $layer) {
+                if (@$this->layersState[$layer->id]->selected)
+                    $this->selectedLayers[] = $layer->id;
+            }
+        }
+        return $this->selectedLayers;
+    }
+
+    private function getUnfoldedLayerGroups() {
+        if(!$this->unfoldedLayerGroups || 
+           !is_array($this->unfoldedLayerGroups)) {
+            $this->getLayers();
+            foreach ($this->layers as $layer) {
+                if (@$this->layersState[$layer->id]->unfolded)
+                    $this->unfoldedLayerGroups[] = $layer->id;
+            }
+        }
+        return $this->unfoldedLayerGroups;
+    }
+
+    function buildMapRequest($mapRequest) {
+        $layersRequest = new LayersRequest();
+        $layersRequest->layerIds = $this->getSelectedLayers();
+        $mapRequest->layersRequest = $layersRequest;
+    }
+
+    function handleMapResult($mapResult) {}
 
     private function getSmartyObj() {
         if(count($this->smartyPool)) return array_shift($this->smartyPool);
@@ -110,7 +151,7 @@ class ClientLayers extends ClientCorePlugin {
 
         $childrenLayers = array();
         if ((!isset($layer->aggregate) || !$layer->aggregate) && 
-            !empty($layer->children) &&is_array($layer->children)) {
+            !empty($layer->children) && is_array($layer->children)) {
             foreach ($layer->children as $child) {
                 $childLayer = $this->getLayerByName($child);
                 $childrenLayers[] = $this->drawLayer($childLayer);
@@ -122,13 +163,18 @@ class ClientLayers extends ClientCorePlugin {
 
         $template =& $this->getSmartyObj();
         $layerChecked = in_array($layer->id, $this->selectedLayers);
+        $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
         $template->assign(array('layerLabel' => $layer->label,
                                 'layerId' => $layer->id,
                                 'layerChecked' => $layerChecked,
+                                'groupFolded' => $groupFolded,
                                 'nodeId' => $this->nodeId++,
                                 'childrenLayers' => $childrenLayers,
                                 ));
-
+        
+        if (!$groupFolded && $this->nodeId != 1) 
+            $this->unfoldedIds[] = $this->nodeId - 1;
+        
         $output_node = $template->fetch('node.tpl');
         $this->freeSmartyObj($template);
         return $output_node;
@@ -141,13 +187,17 @@ class ClientLayers extends ClientCorePlugin {
 
         $this->getLayers();
         $this->getSelectedLayers();
+        $this->getUnfoldedLayerGroups();
 
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
         $this->log->debug('Building of layers items: ' .
             $this->smartyNb + 1 . ' Smarty objects used.');
+        
+        $startOpenNodes = implode(',', $this->unfoldedIds);
 
         $this->smarty->assign(array('layerlist' => $rootNode,
+                                    'startOpenNodes' => $startOpenNodes,
                                     'expand' => 'expand tree', #i18n
                                     'close' => 'close tree', #i18n
                                     'check' => 'check all', #i18n

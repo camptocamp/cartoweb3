@@ -1,3 +1,4 @@
+<input type="hidden" id="openNodes" name="openNodes" />
 {literal}
 <style type="text/css">
 #layersroot { text-align:left;margin-left:10px; font-size:0.8em;}
@@ -7,59 +8,108 @@
 </style>
 <script type="text/javascript">
   <!--
-  function shift(id)
-  {
+  function writeOpenNodes(shortcut) {
+    if (shortcut) {
+      document.carto_form.elements.openNodes.value = openNodes;
+      return;
+    }
+    
+    var nodesList = new Array();
+    for (var i = 0; i < openNodes.length; i++) {
+      if(!isNaN(openNodes[i])) nodesList.push(openNodes[i]);
+    }
+    document.carto_form.elements.openNodes.value = nodesList;
+  }
+
+  function isInOpenNodes(id) {
+    for (var i = 0; i < openNodes.length; i++) {
+      if (openNodes[i] == id) return i;
+    }
+    return false;
+  }
+  
+  function updateOpenNodes(id, open) {
+    var isModified = false;
+    if (open) {
+      var i = isInOpenNodes(id); 
+      if (!isNaN(i)) {
+        // adds node to list
+        openNodes.push(id);
+        isModified = true;
+      }
+    } else {
+      var i = isInOpenNodes(id);
+      if (!isNaN(i)) {
+        // removes node from list
+        delete(openNodes[i]);
+        isModified = true;
+      }
+    }
+    if(isModified) writeOpenNodes();
+  }
+  
+  function shift(id) {
     var obj = document.getElementById(id);
     var key = document.getElementById('x' + id);
+    var iid = id.substr(2);
     
-    if(key.innerHTML == '-') { 
+    if (key.innerHTML == '-') { 
       key.innerHTML = '+';
       obj.style.display = 'none';
+      updateOpenNodes(iid);
     }
     else {
       key.innerHTML = '-';
       obj.style.display = 'block';
+      updateOpenNodes(iid,true);
     }
   }
 
-  function expandAll(id)
-  {
+  function expandAll(id) {
     var mydiv = document.getElementById(id);
     var divs = mydiv.getElementsByTagName('div');
     var key;
     
+    openNodes = new Array();
+    
     for (var i = 0; i < divs.length; i++) {
       divs[i].style.display = 'block';
-      key = document.getElementById('x' + divs[i].id);
-      if(key) key.innerHTML = '-';
+      var nid = divs[i].id;
+      openNodes.push(nid.substr(2));
+      key = document.getElementById('x' + nid);
+      if (key) key.innerHTML = '-';
     }
+
+    writeOpenNodes(true);
   }
 
-  function closeAll(id)
-  {
+  function closeAll(id) {
     var mydiv = document.getElementById(id);
     var divs = mydiv.getElementsByTagName('div');
     var key;
     
     for (var i = 0; i < divs.length; i++) {    
       key = document.getElementById('x' + divs[i].id);
-      if(key) key.innerHTML = '+';
+      if (key) key.innerHTML = '+';
         
-      if(divs[i].getAttribute('id')) {
+      if (divs[i].getAttribute('id')) {
           divs[i].style.display = 'none';    
       }
     }
+
+    openNodes = new Array();
+    writeOpenNodes(true);
   }
 
   function checkChildren(id,val) {
     var mydiv = document.getElementById(id);
-    if(!mydiv) return;
+    if (!mydiv) return;
     
     var divs = mydiv.getElementsByTagName('input');
     if (val != false) val = true;
 
     for (var i = 0; i < divs.length; i++) {
-      if(divs[i].name.substring(0, 6) == 'layers')
+      if (divs[i].name.substring(0, 6) == 'layers')
         divs[i].checked = val;
     }
   }
@@ -73,10 +123,9 @@
     return true;
   }
 
-  function updateChecked(id,skipChildren)
-  {
+  function updateChecked(id,skipChildren) {
     var obj = document.getElementById('in' + id);
-    if(!obj) return;
+    if (!obj) return;
     var val = obj.checked;
     
     if (!skipChildren) checkChildren('id' + id, val);
@@ -101,6 +150,12 @@
 //-->
 </script>
 {/literal}
+<script type="text/javascript">
+  <!--
+  var openNodes = new Array({$startOpenNodes});
+  writeOpenNodes(true);
+  //-->
+</script>
 <div id="layerscmd"><a href="javascript:expandAll('layersroot');">{$expand}</a> -
 <a href="javascript:closeAll('layersroot');">{$close}</a><br />
 <a href="javascript:checkChildren('layersroot');">{$check}</a> -
