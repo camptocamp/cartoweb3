@@ -12,6 +12,9 @@
 class ServerProjectTable extends ClientResponderAdapter {
     private $log;
 
+    /** 
+     * Constructor
+     */
     function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);

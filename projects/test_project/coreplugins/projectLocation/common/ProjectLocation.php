@@ -12,7 +12,10 @@ class ProjectLocationRequest extends Serializable {
     public $locationRequest;
     public $projectRequest;
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
 
         $this->locationRequest = self::unserializeObject($struct, 'locationRequest');        
         $this->projectRequest = self::unserializeValue($struct, 'projectRequest');

@@ -429,7 +429,7 @@ class ServerContext {
      * @param string layer id
      * @return string
      */
-     function getIdAttribute($layerId) {
+     public function getIdAttribute($layerId) {
         $idAttributeString = $this->getIdAttributeString($layerId);
         if (is_null($idAttributeString))
             return NULL;
@@ -444,7 +444,7 @@ class ServerContext {
      * @param string layer id
      * @return string
      */
-     function getIdAttributeType($layerId) {
+     public function getIdAttributeType($layerId) {
         $idAttributeString = $this->getIdAttributeString($layerId);
         $explodedAttr = explode('|', $idAttributeString);
         // by default, type is string

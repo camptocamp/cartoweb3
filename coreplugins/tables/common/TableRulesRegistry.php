@@ -388,6 +388,7 @@ class ColumnSelector extends TableRule {
     public $columnIds;
 
     /**
+     * Constructor
      * @param string
      * @param string
      * @param array
@@ -490,6 +491,7 @@ class GroupFilter extends GroupRule {
     public $callback;
     
     /**
+     * Constructor
      * @param string
      * @param array
      */
@@ -535,6 +537,7 @@ class TableFilter extends TableRule {
     public $callback;
     
     /**
+     * Constructor
      * @param string
      * @param string
      * @param array
@@ -582,6 +585,7 @@ class ColumnFilter extends ColumnRule {
     public $callback;
 
     /**
+     * Constructor
      * @param string
      * @param string
      * @param string
@@ -642,6 +646,7 @@ class CellFilter extends CellRule {
     public $callback;
 
     /**
+     * Constructor
      * @param string
      * @param string
      * @param string
@@ -757,6 +762,7 @@ class RowUnselector extends TableRule {
     private $rowIds;
 
     /**
+     * Constructor
      * @param string
      * @param string
      * @param string
@@ -831,6 +837,7 @@ class ColumnAdder extends TableFilter {
     public $inputColumnIds;
 
     /**
+     * Constructor
      * @param string
      * @param string
      * @param ColumnPosition

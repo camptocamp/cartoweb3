@@ -16,6 +16,9 @@ class ClientProjectplugin extends ClientPlugin
     private $message;
     private $count;
 
+    /** 
+     * Constructor
+     */
     function __construct() {
         parent::__construct();
 

@@ -26,7 +26,7 @@ class I18n {
      * Default language is set in configuration file (variable defaultLang).
      * @param ClientConfig
      */
-    static function init($config) {
+    static public function init($config) {
         self::$i18n = new $config->I18nClass;
        
         self::setLocale($config->defaultLang);
@@ -42,7 +42,7 @@ class I18n {
      * Looks for two-characters directories in locale directory.
      * @return array array of locales (two-characters strings)
      */
-    static function getLocales() {
+    static public function getLocales() {
     
         // Looks in directory locale
         $dir = CARTOCLIENT_HOME . 'locale/';
@@ -68,7 +68,7 @@ class I18n {
      * If no language is found, default language is set.
      * @param string default language
      */
-    static function setLocale($defaultLang) {
+    static public function setLocale($defaultLang) {
         $log =& LoggerManager::getLogger(__METHOD__); 
          
         $locales = self::getLocales();
@@ -142,7 +142,7 @@ class I18n {
      * @param string path to tranlsations
      * @return string full path
      */
-    static function bindtextdomain($domain, $path) {
+    static private function bindtextdomain($domain, $path) {
         return self::$i18n->bindtextdomain($domain, $path);
     }
 
@@ -151,7 +151,7 @@ class I18n {
      * @param string domain
      * @return string domain
      */
-    static function textdomain($domain) {
+    static private function textdomain($domain) {
         return self::$i18n->textdomain($domain);
     }
     
@@ -160,7 +160,7 @@ class I18n {
      * @param string text to translate
      * @return string tranlated text
      */
-    static function gt($text) {
+    static public function gt($text) {
         $result = self::$i18n->gettext($text);
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
@@ -175,7 +175,7 @@ class I18n {
      * @param int count
      * @return string translated text
      */
-    static function ngt($text, $plural, $count) {
+    static public function ngt($text, $plural, $count) {
         $result = self::$i18n->ngettext($text, $plural, $count);
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
@@ -195,20 +195,20 @@ interface I18nInterface {
      * @param string domain
      * @param string path to tranlsations
      */ 
-    function bindtextdomain($domain, $path);
+    public function bindtextdomain($domain, $path);
     
     /**
      * Wrapper for function textdomain
      * @param string domain
      */ 
-    function textdomain($domain);
+    public function textdomain($domain);
     
     /**
      * Wrapper for function gettext
      * @param string text to translate
      * @return string tranlated text
      */
-    static function gettext($text);
+    static public function gettext($text);
 
     /** 
      * Wrapper for function ngettext
@@ -217,7 +217,7 @@ interface I18nInterface {
      * @param int count
      * @return string translated text
      */  
-    static function ngettext($text, $plural, $count);
+    static public function ngettext($text, $plural, $count);
 }
 
 /**
@@ -241,14 +241,14 @@ class I18nDummy implements I18nInterface {
     /**
      * @see I18nInterface::gettext()
      */
-    static function gettext($text) {
+    static public function gettext($text) {
         return $text;
     }
     
     /**
      * @see I18nInterface::ngettext()
      */
-    static function ngettext($text, $plural, $count) {
+    static public function ngettext($text, $plural, $count) {
         return $text;
     }
 }
@@ -282,14 +282,14 @@ class I18nGettext implements I18nInterface {
     /**
      * @see I18nInterface::gettext()
      */
-    static function gettext($text) {
+    static public function gettext($text) {
         return gettext($text);
     }
     
     /**
      * @see I18nInterface::ngettext()
      */
-    static function ngettext($text, $plural, $count) {
+    static public function ngettext($text, $plural, $count) {
         return ngettext($text, $plural, $count);
     }
 }

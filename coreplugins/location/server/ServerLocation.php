@@ -39,6 +39,7 @@ abstract class LocationCalculator {
     public $requ;
     
     /**
+     * Constructor
      * @param ServerLocation
      * @param LocationRequest
      */
@@ -73,6 +74,7 @@ class BboxLocationCalculator extends LocationCalculator {
     private $log;
 
     /**
+     * Constructor
      * @param ServerLocation
      * @param BboxLocationRequest
      */
@@ -113,6 +115,7 @@ class PanLocationCalculator extends LocationCalculator {
     private $panRatio;
 
     /**
+     * Constructor
      * @param ServerLocation
      * @param PanLocationRequest
      */
@@ -192,6 +195,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     private $scaleModeDiscrete;
 
     /**
+     * Constructor
      * @param ServerLocation
      * @param ZoomPointLocationRequest
      */
@@ -367,6 +371,7 @@ class RecenterLocationCalculator extends LocationCalculator {
     private $useDefaultScale;
 
     /**
+     * Constructor
      * @param ServerLocation
      * @param RecenterLocationRequest
      */
@@ -527,6 +532,9 @@ class ServerLocation extends ServerPlugin
      */
     private $visibleScales;
 
+    /** 
+     * Constructor
+     */
     public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);

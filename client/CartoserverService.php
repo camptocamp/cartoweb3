@@ -32,6 +32,7 @@ class CartoserverService {
     private $cartoserver;
 
     /**
+     * Constructor
      * @param ClientConfig
      */
     public function __construct($config) {

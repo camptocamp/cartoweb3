@@ -16,6 +16,9 @@ class ClientHello extends ClientPlugin
     private $message;
     private $count;
 
+    /** 
+     * Constructor
+     */
     public function __construct() {
         parent::__construct();
 

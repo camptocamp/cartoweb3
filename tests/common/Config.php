@@ -16,6 +16,9 @@ class common_Config {
 
     private $ini_array;
 
+    /** 
+     * Constructor
+     */
     function __construct() {
      
         $ini_file = CARTOCOMMON_HOME . '/tests/test.ini';

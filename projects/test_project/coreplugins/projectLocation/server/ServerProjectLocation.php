@@ -17,7 +17,10 @@ class ServerProjectLocation extends ServerLocation {
         return true;
     }
 
-    function handleCorePlugin($requ) {
+    /**
+     * @see CoreProvider::handleCorePlugin()
+     */
+    public function handleCorePlugin($requ) {
 
         $projectResult = new ProjectLocationResult();
         if (isset($requ->locationRequest)) {

@@ -104,20 +104,20 @@ interface EncoderInterface {
      * @param string
      * @return string
      */ 
-    function encode($text);
+    public function encode($text);
     
     /**
      * Wrapper for function decode
      * @param string
      * @return string
      */ 
-    function decode($text);
+    public function decode($text);
     
     /** 
      * Wrapper for function getCharset
      * @return string
      */
-    function getCharset();
+    public function getCharset();
 }
 
 /**

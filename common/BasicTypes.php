@@ -30,16 +30,20 @@ class Dimension extends Serializable {
     public $height;
 
     /**
+     * Constructor
      * @param int
      * @param int
      */
-    function __construct($width = 0, $height = 0) {
+    public function __construct($width = 0, $height = 0) {
         parent::__construct();
         $this->width = $width;
         $this->height = $height;
     }
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->width = $struct->width;
         $this->height = $struct->height;
     }
@@ -62,11 +66,17 @@ class GeoDimension extends Serializable {
      */
     public $bbox;
 
-    function __construct() {
+    /** 
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
     }
 
-    function unserialize ($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->dimension = self::unserializeObject($struct, 'dimension', 'Dimension');
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
     }
@@ -110,16 +120,20 @@ class Point extends Shape {
     public $y;
 
     /**
+     * Constructor
      * @param double
      * @param double
      */
-    function __construct($x = 0, $y = 0) {
+    public function __construct($x = 0, $y = 0) {
         parent::__construct();
         $this->x = $x;
         $this->y = $y;
     }
     
-    function unserialize ($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->x = $struct->x;
         $this->y = $struct->y;
     }
@@ -127,14 +141,14 @@ class Point extends Shape {
     /**
      * @return double
      */
-    function getX() {
+    public function getX() {
         return $this->x;
     }
     
     /**
      * @return double
      */
-    function getY() {
+    public function getY() {
         return $this->y;
     }
     
@@ -142,18 +156,18 @@ class Point extends Shape {
      * @param double
      * @param double
      */
-    function setXY($x, $y) {
+    public function setXY($x, $y) {
         $this->x = $x;
         $this->y = $y;
     }
     
-    function getCenter() {
+    public function getCenter() {
     
         // A point's center is the point itself
         return clone $this;
     }
     
-    function getArea() {
+    public function getArea() {
         return 0.0;
     }
     
@@ -164,7 +178,7 @@ class Point extends Shape {
      * @param double the margin
      * @return Bbox the Point converted to Bbox
      */
-    function toBbox($margin = 0) {
+    public function toBbox($margin = 0) {
         $bbox = new Bbox();
         if ($margin > 0) {    
             $bbox->setFromBbox($this->x - $margin, $this->y - $margin,
@@ -204,12 +218,13 @@ class Bbox extends Shape {
     public $maxy;
 
     /**
+     * Constructor
      * @param double
      * @param double
      * @param double
      * @param double
      */     
-    function __construct($minx = 0, $miny = 0, $maxx = 0, $maxy = 0) {
+    public function __construct($minx = 0, $miny = 0, $maxx = 0, $maxy = 0) {
         parent::__construct();
         $this->minx = $minx;
         $this->miny = $miny;
@@ -223,8 +238,9 @@ class Bbox extends Shape {
      * Value passed can be either a string (format "11, 22, 33, 44") or
      * a structure.
      * @param mixed a string or stdclass
+     * @see Serializable::unserialize()
      */
-    function unserialize($struct) {
+    public function unserialize($struct) {
         if (is_string($struct)) {
             $struct = $this->setFromString($struct);
         } else {
@@ -237,7 +253,7 @@ class Bbox extends Shape {
      * Converts a string to the Bbox (format "11, 22, 33, 44")
      * @param string a string
      */
-    function setFromString($value) {
+    public function setFromString($value) {
         list($minx, $miny, $maxx, $maxy) = explode(',', $value);
 
         $this->setFromBbox((double)$minx, (double)$miny, 
@@ -251,7 +267,7 @@ class Bbox extends Shape {
      * @param double maximum X
      * @param double maximum Y
      */
-    function setFromBbox($minx, $miny, $maxx, $maxy) {
+    public function setFromBbox($minx, $miny, $maxx, $maxy) {
         $this->minx = $minx;
         $this->miny = $miny;
         $this->maxx = $maxx;
@@ -262,7 +278,7 @@ class Bbox extends Shape {
      * Sets Bbox from a Mapserver extent
      * @param msExtent a Mapserver extent
      */
-    function setFromMsExtent($ms_extent) {
+    public function setFromMsExtent($ms_extent) {
         $this->setFromBbox($ms_extent->minx, $ms_extent->miny,
                            $ms_extent->maxx, $ms_extent->maxy);
     }
@@ -272,7 +288,7 @@ class Bbox extends Shape {
      * @param Point first point
      * @param Point second point
      */
-    function setFrom2Points(Point $point0, Point $point1) {
+    public function setFrom2Points(Point $point0, Point $point1) {
         $this->setFromBbox(min($point0->getX(), $point1->getX()),
                            min($point0->getY(), $point1->getY()),
                            max($point0->getX(), $point1->getX()),
@@ -283,7 +299,7 @@ class Bbox extends Shape {
      * Computes Bbox width
      * @return double width
      */
-    function getWidth() {
+    public function getWidth() {
         return $this->maxx - $this->minx;
     }
 
@@ -291,11 +307,11 @@ class Bbox extends Shape {
      * Computes Bbox height
      * @return double height
      */
-    function getHeight() {
+    public function getHeight() {
         return $this->maxy - $this->miny;
     }
 
-    function getCenter() {
+    public function getCenter() {
 
         $width = $this->getWidth();
         $height = $this->getHeight();
@@ -304,7 +320,7 @@ class Bbox extends Shape {
                          $this->miny + ($height / 2.0));
     }
     
-    function getArea() {
+    public function getArea() {
         return $this->getWidth() * $this->getHeight();
     }
     
@@ -312,7 +328,7 @@ class Bbox extends Shape {
      * Converts Bbox to string for display
      * @return string Bbox as a string
      */
-    function __toString() {
+    public function __toString() {
         $args = array($this->minx, $this->miny, $this->maxx, $this->maxy,
                       $this->getWidth(), $this->getHeight());
         $round = 2;
@@ -346,15 +362,18 @@ class Polygon extends Shape {
      */
     public $points;
 
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
     }
 
-    function getCenter() {
+    public function getCenter() {
         /* todo */
     }
     
-    function getArea() {
+    public function getArea() {
         if (count($this->points) < 3) {
             return 0.0;
         } else {

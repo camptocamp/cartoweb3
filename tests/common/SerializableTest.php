@@ -258,6 +258,7 @@ class SerializableTestClass1 extends Serializable {
     public $objMap;
     
     /**
+     * Constructor
      * @param string
      */
     function __construct($my_str = '') {
@@ -265,7 +266,10 @@ class SerializableTestClass1 extends Serializable {
         $str = $my_str;
     }
     
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->str       = self::unserializeValue($struct, 'str');
         $this->strArray  = self::unserializeArray($struct, 'strArray');
         $this->intArray  = self::unserializeArray($struct, 'intArray', 'int');
@@ -287,7 +291,10 @@ class SerializableTestClass2 extends Serializable {
      */
     public $integer;
      
-    function unserialize($struct) {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
         $this->integer = (int)$struct->integer;
     }
 }
