@@ -26,7 +26,7 @@ $pdfbuffer = $plugin->getExport()->getContents();
 
 header('Content-type: application/pdf');
 header('Content-Length: ' . strlen($pdfbuffer));
-header('Content-Disposition: inline; filename=map.pdf');
+header('Content-Disposition: inline; filename=' . $plugin->getFilename());
 
 print $pdfbuffer;
 
