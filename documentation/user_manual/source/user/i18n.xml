@@ -1,222 +1,117 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <!-- $Id$ -->
-
 <chapter id="user.i18n">
- <title>Internationalization</title>
-
- <sect1 id="user.i18n.intro"> 
-  <title>Introduction</title>
-  <para>
-   Internationalization in CartoWeb 3 uses gettext's PO files.
-   It was designed to be used with gettext but as PO files are
-   text files they can be read by any i18n system.
-  </para>
-  <para>
-   About gettext: <ulink 
-   url="http://www.gnu.org/software/gettext/manual">http://www.gnu.org/software/gettext/manual</ulink>
-  </para>
-  <para>
-   About SmartyGettext: <ulink 
-   url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>
-  </para>
- </sect1>
-
- <sect1 id="user.i18n.config"> 
-  <title>Configuration</title>
-  <para>
-   For now only gettext translation system is implemented.
-   If gettext is not installed, you can use a dummy translation
-   system which translates nothing. 
-  </para>
-  <para>
-   This is done in <filename>client_conf/client.ini</filename> :
-   <programlisting><![CDATA[### Internationalization ###
+  <title>Internationalization</title>
+  <para> Internationalization in &cartoweb; was designed to use <ulink 
+    url="http://www.gnu.org/software/gettext/manual">gettext</ulink>. However 
+    internationalization architecture is ready for other translation 
+    systems.</para>
+  <sect1 id="user.i18n.config">
+    <title>Configuration</title>
+    <para> For now only gettext translation system is implemented. If gettext 
+      is not installed, you can use a dummy translation system which translates 
+      nothing. To use gettext, you will need to have PHP gettext module 
+      installed.</para>
+    <para>Choosen translation system is set in client configuration file 
+      <filename>client_conf/client.ini</filename>: <programlisting><![CDATA[### Internationalization ###
 
 # I18n class
 # use I18nDummy for no translation management
 # use I18nGettext for gettext (will need PHP gettext module)
-I18nClass = I18nDummy
-]]></programlisting>
-  </para>
-  <para>
-   For each language used, a line must be present in file /etc/locale.alias. The alias ('fr' in the example below) must point to a locale installed on the system.
-   <programlisting><![CDATA[...
+I18nClass = I18nDummy]]></programlisting> </para>
+    <sect2 id="user.i18n.config.linux">
+      <title>Unix-like</title>
+      <para>In Unix-like environments, file 
+        <filename>/etc/locale.alias</filename> contains aliases to installed 
+        locales. For each language used, a line must be present in this file. 
+        The alias ('fr' in the example below) must point to a locale installed 
+        on the system. <programlisting><![CDATA[...
 fr    fr_CH.ISO-8859-1
-...]]></programlisting>
-   (you need to run locale-gen after editing /etc/locale.alias)
-  </para>
-  <para>
-   To install a locale, use following command (as root):
-   <programlisting><![CDATA[dpkg-reconfigure locales]]></programlisting>
-   If package locales has never been installed, you have to install it before:
-   <programlisting><![CDATA[apt-get install locales]]></programlisting>
-  </para>
- </sect1>
-
- <sect1 id="user.i18n.template"> 
-  <title>PO Templates</title>
-  <para>
-   Texts to be translated can be found in:
-   <itemizedlist>
-    <listitem>
-     <para>
-      Mapfile's .ini and .map (layers labels)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Client plugins .ini files (for instance map sizes)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Server plugins .ini files (for instance scales labels)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Smarty templates
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-
-  <para>
-   To do so, follow these steps:
-   <itemizedlist>
-    <listitem>
-     <para>On Client:</para>
-     <para>
-      To generate PO template for layers, scales and shortcuts, use the 
-      following commands on the server side:
-      <screen><![CDATA[cd <cartoweb_home>/scripts
-./server2pot.php]]></screen>
-      This will generate templates in directory 
-      <filename>&lt;cartoweb_home&gt;/po</filename> for all projects
-      and map files. If templates were already translated, a merge
-      is done using gettext's <command>msgmerge</command> command. (more info about msmerge: <ulink
-      url="http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37">http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37</ulink>)
-     </para>
-     <para>
-      In Smarty templates, blocks {t}...{/t} identify which texts should be
-      translated. It uses format defined in smarty-gettext module (cf. <ulink
-      url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>).
-     </para>
-    </listitem>
-    <listitem>
-     <para>On Client:</para>
-     <para>
-      To generate PO template for Smarty templates, use the following
-      commands on the client side:
-      <screen><![CDATA[cd <cartoweb_home>/scripts
-./client2pot.php]]></screen>
-      This will generate templates in directory 
-      <filename>&lt;cartoweb_home&gt;/po</filename> for all projects.
-      If templates were already translated, a merge is done using 
-      gettext's <command>msgmerge</command> command.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
- <sect1 id="user.i18n.translating"> 
-  <title>Translating</title>
-  <para>
-   As for any gettext system, translating PO files can be done in Emacs,
-   in <ulink url="http://poedit.sourceforge.net/">Poedit</ulink>
-   or in any text editor.
-  </para>
-  <para>
-   Translated PO files must be saved under name 
-   <filename>&lt;template_name&gt;.&lt;lang&gt;.po</filename> ; 
-   where &lt;lang&gt; is the 2-letters ISO language: en, fr, de, etc..
-  </para>
-  <para>
-   As PO compilation is done on client side, server's PO files must
-   be available to the client. A symbolic link (added during installation
-   by script <filename>cw3_admin.py</filename>) makes directory po available
-   in htdocs.  So client can access server's PO files by HTTP.
-  </para>
-
- </sect1>
-
- <sect1 id="user.i18n.compiling"> 
-  <title>Compiling PO to MO</title>
-  <para>
-   To compile all PO files to MO files (gettext's binary format), 
-   use the following commands on client side. This should be done every 
-   time the MapInfo is updated. All languages are compiled at
-   the same time.
-   <screen><![CDATA[cd <cartoweb_home>/scripts
-./po2mo.php]]></screen>
-   Warning: To retrieve PO files from server to client, the script uses 
-   PHP curl functions. PHP curl must be installed.
-  </para>
-  <para>
-   To translate texts in french for project testproject and map file
-   projectmap, follow these steps:
-   <itemizedlist>
-    <listitem>
-     <para> 
-      On server : 
-      <screen><![CDATA[cd <cartoweb_home>/scripts
-./server2pot.php]]></screen>
-      Copy <filename>po/server-testproject.projectmap.po</filename> to 
-      <filename>po/server-testproject.projectmap.fr.po</filename>.
-      Edit french file with Poedit (or any editor).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      On client :
-      <screen><![CDATA[cd <cartoweb_home>/scripts
-./client2pot.php]]></screen>
-      Copy <filename>po/client-testproject.po</filename> to 
-      <filename>po/client-testproject.fr.po</filename>. 
-      Edit french file with Poedit (or any editor).
-     </para>
-     <para>
-      Merge and compile files with the following commands:
-      <screen><![CDATA[cd <cartoweb_home>/scripts
-./po2mo.php]]></screen>
-      Now you should have the file <filename>testproject.projectmap.mo</filename>
-      in <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>.
-      The directory <filename>fr/LC_MESSAGES</filename> will be created if it 
-      does not exist. 
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
- <sect1 id="user.i18n.usage">
-  <title>Usage</title>
-  <para>
-   Translation may be used at two levels of CartoWeb3 files:
-   <itemizedlist>
-    <listitem>
-     <para>
-      in PHP code using I18n gt() method:
-      <programlisting><![CDATA[$translatedString = I18n::gt($stringToTranslate);]]></programlisting>
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      in Smarty templates using the "t" block function:
-      <programlisting><![CDATA[<p>{t}My text to translate{/t}</p>
-<p>{t name="John Doe"}Hello my name is %1{/t}</p>
-<p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
+...]]></programlisting>You will need to run <command>locale-gen</command> after 
+        editing <filename>/etc/locale.alias</filename> to regenerate system's 
+        locales. </para>
+      <para> To install a locale on a Debian installation, use following 
+        command with root priviledges: <screen><![CDATA[dpkg-reconfigure locales]]>
+         </screen> If package locales has never been installed, you have to 
+        install it before: <screen><![CDATA[apt-get install locales]]> 
+        </screen> </para>
+    </sect2>
+    <sect2 id="user.i18n.config.win32">
+      <title>Win32</title>
+      <para>TODO </para>
+    </sect2>
+  </sect1>
+  <sect1 id="user.i18n.template">
+    <title>PO Templates</title>
+    <para> Texts to be translated can be found in: <itemizedlist> <listitem> 
+      <para> Smarty templates using <ulink 
+      url="http://smarty.incutio.com/?page=SmartyGettext">SmartyGettext</ulink> 
+      (see <xref linkend="user.template.i18n" />)</para> </listitem><listitem> 
+      <para> Client plugins .ini files (for instance map sizes) </para> 
+      </listitem> <listitem> <para> Server plugins .ini files (for instance 
+      scales labels) </para> </listitem><listitem> <para> Mapfile's .ini and 
+      .map (layers labels) </para> </listitem><listitem> <para> Client and 
+      server PHP code (see <xref linkend="dev.i18n.translations" />) </para> 
+      </listitem> </itemizedlist> </para>
+    <para> To generate PO templates, you will need to launch scripts on server 
+      and on client. Templates are generated in directory 
+      <filename>&lt;cartoweb_home&gt;/po</filename>. If translation files (see 
+      <xref linkend="user.i18n.translating" />) already exist, a merge is done 
+      using <ulink 
+      url="http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37"><command>msgmerge</command></ulink> 
+      command. Follow these steps:<itemizedlist> <listitem> <para>generate 
+      project and mapfile templates on server: <screen><![CDATA[cd <cartoweb_home>/scripts
+./server2pot.php]]></screen>For each mapfile, two templates will be generated: 
+      <filename>server-&lt;project_name&gt;.po</filename> and 
+      <filename>server-&lt;project_name&gt;.&lt;mapfile_name&gt;.po</filename></para> 
+      </listitem> <listitem> <para>generate project template on client:<screen><![CDATA[cd <cartoweb_home>/scripts
+./client2pot.php]]></screen>For each project, one template will be generated: 
+      <filename>client-&lt;project_name&gt;.po</filename></para> </listitem> 
+      </itemizedlist> </para>
+  </sect1>
+  <sect1 id="user.i18n.translating">
+    <title>Translating</title>
+    <para> As for any gettext system, translating PO files can be done in 
+      Emacs, in <ulink url="http://poedit.sourceforge.net/">Poedit</ulink> or 
+      in any text editor. </para>
+    <para> Translated PO files must be saved under name 
+      <filename>&lt;template_name&gt;.&lt;lang&gt;.po</filename> ; where 
+      &lt;lang&gt; is the 2-letters ISO language: en, fr, de, etc.. For 
+      instance, the mapfile test of default project will have three PO files 
+      for a complete french translation: 
+      <itemizedlist><listitem><para><filename>server-default.po</filename></para></listitem> 
+      <listitem><para><filename>server-default.test.po</filename></para></listitem> 
+      <listitem><para><filename>client-default.po</filename></para></listitem></itemizedlist></para>
+  </sect1>
+  <sect1 id="user.i18n.compiling">
+    <title>Compiling PO to MO</title>
+    <para> To compile all PO files to MO files (gettext's binary format), use 
+      the following commands on client side. This should be done each time 
+      configuration (client or server) is updated, and after each system 
+      update. All languages are compiled at the same time. <screen><![CDATA[cd <cartoweb_home>/scripts
+./po2mo.php]]></screen> Warning: To retrieve PO files from server to client, 
+      the script uses PHP curl functions. PHP curl must be installed. </para>
+    <para> To translate texts in french for project testproject and map file 
+      projectmap, follow these steps: <itemizedlist> <listitem> <para> On 
+      server : <screen><![CDATA[cd <cartoweb_home>/scripts
+./server2pot.php]]></screen> Copy 
+      <filename>po/server-testproject.projectmap.po</filename> to 
+      <filename>po/server-testproject.projectmap.fr.po</filename>. Edit french 
+      file with Poedit (or any editor). </para> </listitem> <listitem> <para> 
+      On client : <screen><![CDATA[cd <cartoweb_home>/scripts
+./client2pot.php]]></screen> Copy <filename>po/client-testproject.po</filename> 
+      to <filename>po/client-testproject.fr.po</filename>. Edit french file 
+      with Poedit (or any editor). </para> <para> Merge and compile files with 
+      the following commands: <screen><![CDATA[cd <cartoweb_home>/scripts
+./po2mo.php]]></screen> Now you should have the file 
+      <filename>testproject.projectmap.mo</filename> in 
+      <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>. The 
+      directory <filename>fr/LC_MESSAGES</filename> will be created if it does 
+      not exist. </para> </listitem> </itemizedlist> </para>
+  </sect1>
 </chapter>
