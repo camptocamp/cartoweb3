@@ -350,6 +350,7 @@ class Cartoclient {
         $this->log->debug($_REQUEST);
 
         $this->initializeObjects();
+        initializeCartoweb($this->config);
         
         try {
             $this->doMain();

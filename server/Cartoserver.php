@@ -251,23 +251,24 @@ function setupSoapService($cartoserver) {
         $mapId = $_REQUEST['mapId'];
 
     $port = '';
-    if (isset($mapId)) {
-        $projectHandler = new ServerProjectHandler($mapId);
-        $config = new ServerConfig($projectHandler);
-        if ($config->soapBrokenPortInfo) {
-            $port = ':' . $config->soapBrokenPortInfo;
-        }
-        if ($config->developerMode) {
-            // disables WSDL cache
-            ini_set("soap.wsdl_cache_enabled", "0");
-        }
-        $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
-        if (is_writable($wsdlCacheDir))
-            ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
-        
-    } else {
-        // should this case happen ?
+    if (!isset($mapId)) {
+        /* FIXME: Should this be fatal ? or find a right default */
+        die('No mapId GET parameter given');
     }
+    $projectHandler = new ServerProjectHandler($mapId);
+    $config = new ServerConfig($projectHandler);
+    if ($config->soapBrokenPortInfo) {
+        $port = ':' . $config->soapBrokenPortInfo;
+    }
+    if ($config->developerMode) {
+        // disables WSDL cache
+        ini_set("soap.wsdl_cache_enabled", "0");
+    }
+    $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
+    if (is_writable($wsdlCacheDir))
+        ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+
+    initializeCartoweb($config);
 
     // This is useful for command line launching of the cartserver.
     //  just put a WSDL_URL environment variable containing the url of the wsdl
