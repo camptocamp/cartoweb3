@@ -33,7 +33,11 @@ class QueryState {
  * @package CorePlugins
  */
 class ClientQuery extends ClientPlugin
-                  implements Sessionable, GuiProvider, ServerCaller, ToolProvider {
+                  implements Sessionable,   
+                             GuiProvider,
+                             ServerCaller,
+                             ToolProvider,
+                             Exportable {
                   
     /**                 
      * @var Logger
@@ -500,6 +504,18 @@ class ClientQuery extends ClientPlugin
         $queryOutput = $this->drawQuery();
         $template->assign('query_result', $queryOutput);    
     }
+
+    /**    
+     * @see Exportable::adjustExportMapRequest()
+     */ 
+    function adjustExportMapRequest(ExportConfiguration $configuration, 
+                                    MapRequest $mapRequest) {
+                                            
+        if ($this->getConfig()->persistentQueries) {
+            $mapRequest->queryRequest->bbox = null;
+        }
+    }
+    
 }
 
 ?>
