@@ -23,7 +23,7 @@
   <para>Results are returned and displayed using Tables plugin. See <xref 
     linkend="user.query.client.tables" /> for more information.</para>
   <sect1 id="user.query.client">
-    <title>Client-Side Configuration</title>
+    <title>Client-side Configuration</title>
     <sect2 id="user.query.client.ini">
       <title>query.ini</title>
       <para> Here are the options that can be set in client's query.ini: </para>
@@ -74,7 +74,7 @@
     </sect2>
   </sect1>
   <sect1 id="user.query.server">
-    <title>Server-Side Configuration</title>
+    <title>Server-side Configuration</title>
     <sect2 id="user.query.server.ini">
       <title>query.ini</title>
       <para> Here are the options that can be set in server's query.ini: </para>

@@ -12,8 +12,8 @@
     options for the main map. It handles the size of the image and its 
     filetype. </para>
   <sect1 id="user.images.client">
-    <title>images.ini (Client-side)</title>
-    <para> Here are the options that can be set : </para>
+    <title>Client-side Configuration</title>
+    <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
         <para> 
@@ -59,8 +59,8 @@
       pixels. </para>
   </sect1>
   <sect1 id="user.images.server">
-    <title>images.ini (Server-side)</title>
-    <para> Here are the options that can be set : </para>
+    <title>Server-side Configuration</title>
+    <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
         <para> 
@@ -123,7 +123,7 @@ END]]></screen>
         when specific layers are selected. A special metadata of the layers 
         triggers this behavior 
         <indexterm><primary>force_imagetype</primary></indexterm>: </para>
-        <screen> <![CDATA[METADATA
+      <screen> <![CDATA[METADATA
      ...
      "force_imagetype" "jpeg|png..."
      ...

@@ -16,7 +16,7 @@
     <filename>location.ini</filename> (client-side) and 
     <filename>location.ini</filename> (server-side). </para>
   <sect1 id="user.location.client">
-    <title>location.ini (Client-side)</title>
+    <title>Client-side Configuration</title>
     <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
@@ -81,7 +81,7 @@
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.server">
-    <title>location.ini (Server-side)</title>
+    <title>Server-side Configuration</title>
     <para> Here are the options that can be set: </para>
     <itemizedlist>
       <listitem>
