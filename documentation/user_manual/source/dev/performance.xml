@@ -8,48 +8,77 @@
 <!-- $Id$ -->
 
 <chapter id="dev.performance">
- <title>Performance testing</title>
-
- <sect1 id="dev.performance.intro"> 
-  <title>Introduction</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
- </sect1>
+ <title>Performance Tests</title>
 
  <sect1 id="dev.performance.parameter"> 
-  <title>Main Performance Parameters</title>
+  <title>Main Parameters</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   These are the interesting parameters for the performance tests:
+   <itemizedlist>
+    <listitem>
+      <para>Cartoweb configuration
+       <itemizedlist>
+        <listitem>
+          <para>Local SOAP, distant SOAP or direct mode</para>
+        </listitem>
+        <listitem>
+          <para>Data on PC or through NFS</para>
+        </listitem>
+        <listitem>
+          <para>Map size</para>
+        </listitem>
+        <listitem>
+          <para>Number of active layers</para>
+        </listitem>
+        <listitem>
+          <para>Dynamic legends or not</para>
+        </listitem>
+       </itemizedlist>
+      </para>
+    </listitem>
+    <listitem>
+      <para>Logs and cache
+       <itemizedlist>
+        <listitem>
+          <para>MapInfo cached or not</para>
+        </listitem>
+        <listitem>
+          <para>MapResult cached or not</para>
+        </listitem>
+        <listitem>
+          <para>SOAP XML cached or not</para>
+        </listitem>
+        <listitem>
+          <para>Logs activated or not</para>
+        </listitem>
+       </itemizedlist>
+      </para>
+    </listitem>
+    <listitem>
+      <para>Map data
+       <itemizedlist>
+        <listitem>
+          <para>Number of layers (10, 50, 250)</para>
+        </listitem>
+       </itemizedlist>
+      </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
- <sect1 id="dev.performance.bench"> 
-  <title>Few Benchmark Results</title>
+ <sect1 id="dev.performance.executing"> 
+  <title>Executing Tests</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
- </sect1>
-
- <sect1 id="dev.performance.test"> 
-  <title>Test performance</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
+  </para>  
+   <sect2 id="dev.performance.executing.simple">
+    <title>Simple Execution Times</title>
+    <para></para>
+   </sect2>
+   <sect2 id="dev.performance.executing.cachegrind">
+    <title>Graphical Interface</title>
+    <para></para>
+   </sect2>
  </sect1>
 
 </chapter>

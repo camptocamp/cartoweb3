@@ -141,7 +141,7 @@ php ./makedoc.php]]>
  * PhpDocumentor DocBlocks in CartoWeb 3.
  * @package MyPackage
  * @author Gustave Dupond <gustave.dupond@camptocamp.com>
- * @version $Id$
+ * @version ]]>&dollar;Id:&dollar;<![CDATA[
  */
 
 /**

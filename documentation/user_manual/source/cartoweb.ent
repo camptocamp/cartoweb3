@@ -4,3 +4,4 @@
 <!ENTITY cartoclient "CartoClient">
 <!ENTITY cartoserver "CartoServer">
 <!ENTITY cw_version "3.0">
+<!ENTITY dollar "$">
