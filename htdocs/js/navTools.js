@@ -30,24 +30,30 @@ function dhtmlBox_initialize() {
   this.width = xWidth(this.anchor);
   this.height = xHeight(this.anchor);
 
-  xResizeTo(this.image,this.width,this.height);
-  xResizeTo(this.target,this.width,this.height);
-  xResizeTo(this.canvas,this.width,this.height);
-  xResizeTo(this.canvas2,this.width,this.height);
-  xWidth(this.displayContainer,this.width);
-
-  xMoveTo(this.image,xPageX(this.anchor),xPageY(this.anchor));
-  xMoveTo(this.target,xPageX(this.anchor),xPageY(this.anchor));
-  xMoveTo(this.canvas,xPageX(this.anchor),xPageY(this.anchor));
-  xMoveTo(this.canvas2,xPageX(this.anchor),xPageY(this.anchor));
-  xShow(this.image);
+  this.resizeAndMoveDivs()
 
   if (this.dispPos == "top") this.dispPos = -13;
   else if (this.dispPos == "bottom") this.dispPos = this.height;
   else this.dispPos = 0;
   xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPos);
 
-  xClip(this.target,0,this.width,this.height,0);
+}
+
+function dhtmlBox_resizeAndMoveDivs() {
+  xResizeTo(this.image,this.width,this.height)
+  xResizeTo(this.target,this.width,this.height)
+  xResizeTo(this.canvas,this.width,this.height)
+  xResizeTo(this.canvas2,this.width,this.height)
+  xWidth(this.displayContainer,this.width)
+
+  xMoveTo(this.image,xPageX(this.anchor),xPageY(this.anchor))
+  xMoveTo(this.target,xPageX(this.anchor),xPageY(this.anchor))
+  xMoveTo(this.canvas,xPageX(this.anchor),xPageY(this.anchor))
+  xMoveTo(this.canvas2,xPageX(this.anchor),xPageY(this.anchor))
+  xShow(this.image)
+
+  xClip(this.target,0,this.width,this.height,0)
+  xClip(this.image,0,this.width,this.height,0)
 }
 
 // the mouse events are managed in this function according to the mapping tool selected
@@ -144,7 +150,7 @@ function dhtmlBox_mousemove(evt) {
   //show the coords display
   xShow(dhtmlBox.displayContainer);
 
-  if(dhtmlBox.drag) { //the mouse is down
+  if(dhtmlBox.drag && dhtmlBox.isActive) { //the mouse is down
     dhtmlBox.x2 = e.offsetX;
     dhtmlBox.y2 = e.offsetY;
 	if (dhtmlBox.shapeType == 'point') {
@@ -170,7 +176,7 @@ function dhtmlBox_mouseup(evt) {
 
   if (dhtmlBox.rightclic == true) {
     jg2.clear();
-  } else {
+  } else if (dhtmlBox.isActive) {
 
     dhtmlBox.drag = false; //the mouse is now up
 
@@ -212,13 +218,18 @@ function dhtmlBox_dblclick(evt) {
 }
 
 function dhtmlBox_keydown(evt) { // 
-  evt = (evt) ? evt : ((event) ? event : null)
-  dhtmlBox = dhtmlBox
-  if (evt.keyCode == '27' && (dhtmlBox.shapeType == 'polygon'  || dhtmlBox.shapeType == 'line')) {
+  if (evt.keyCode == '27') {
     dhtmlBox.keyEscape = true
     dhtmlBox.isActive = false
     jg2.clear()
-    dhtmlBox.paint()
+	if (dhtmlBox.action == 'submit') {
+		dhtmlBox.changeTool() // cancel the use of the current tool
+		dhtmlBox.resizeAndMoveDivs()
+		xHide(dhtmlBox.anchor)
+	}
+	else if (dhtmlBox.action == 'measure') {
+		dhtmlBox.paint() //
+	}
   }
 }
 
@@ -354,11 +365,12 @@ function dhtmlBox_submitForm() {
 	if (dhtmlBox.shapeType == 'polygon') coords += this.Xpoints[0] +"," + this.Ypoints[0] + ";"  // last point equal to first
 	myform.selection_coords.value = coords.substring(0,coords.length - 1) // delete the last coma
 	// change the value of the tool form input
-    for (var i =0; i < myform.tool.length ; i++) {
+/*    for (var i =0; i < myform.tool.length ; i++) {
         if (myform.tool[i].checked) {
 		    myform.tool[i].value = this.toolName
 		}
 	}
+*/
 	myform.selection_type.value = (this.shapeType == "pan") ? "point" : this.shapeType
 //	alert ("type : " + myform.selection_coords.value + "\n coords : " + myform.selection_coords.value)
 	xShow(dhtmlBox.anchor);
@@ -395,13 +407,12 @@ function dhtmlBox_measureShape() {
 	  else this.measure = Math.round(this.measure)
       this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
     }
-	
 }
-
 
 new dhtmlBox(0);
 
 dhtmlBox.prototype.initialize = dhtmlBox_initialize // create instance method
+dhtmlBox.prototype.resizeAndMoveDivs = dhtmlBox_resizeAndMoveDivs
 dhtmlBox.prototype.domousedown = dhtmlBox_mousedown
 dhtmlBox.prototype.domousemove = dhtmlBox_mousemove
 dhtmlBox.prototype.domouseup = dhtmlBox_mouseup
