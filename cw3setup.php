@@ -103,7 +103,6 @@ echo "cvs                     : install cartoweb3 from cvs\n";
 echo "check                   : check configuration\n";
 echo "get[=user]              : CVS checkout with user name [anonymous]\n";
 echo "get_libs                : get required libraries\n";
-echo "dirs                    : create user directories\n";
 echo "perms[=www-data]        : set writing perms for web-user [www-data]\n";
 echo "                          - set ownership if ran as superuser,\n";
 echo "                          - give write permission instead.\n";
@@ -123,7 +122,7 @@ if (count($cmd_array) == 0) {
     $cmd = "FULL INSTALL";
     $cmd_array = array('check' => '',
                        'get_libs' => '',
-                       'dirs' => '',
+                       'mkDirs' => '',
                        'perms' => '',
                        'createConfig' => '',
                        'setupLinks' => ''
@@ -137,7 +136,7 @@ if (in_array('cvs', array_keys($cmd_array))) {
     $cmd_array = array('check' => '',
                        'get' => '',
                        'get_libs' => '',
-                       'dirs' => '',
+                       'mkDirs' => '',
                        'perms' => '',
                        'createConfig' => '',
                        'setupLinks' => ''
