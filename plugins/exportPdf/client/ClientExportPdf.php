@@ -6,9 +6,6 @@
  */
 
 require_once CARTOCLIENT_HOME . 'client/ExportPlugin.php';
-
-// TODO: include this file only when generating PDF documents.
-// Warning: class PdfGeneral is also used in viewer mode.
 require_once dirname(__FILE__) . '/ExportPdfObjects.php';
 
 /**
@@ -68,6 +65,7 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
+     * Returns general data object.
      * @return PdfGeneral
      */
     public function getGeneral() {
@@ -75,6 +73,7 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
+     * Returns formats object.
      * @return PdfFormat
      */
     public function getFormat() {
@@ -213,6 +212,14 @@ class ClientExportPdf extends ExportPlugin {
                                  $this->blockTemplate,
                                  $block, true);
 
+        // checks block permissions
+        $blockRoles =& $this->blocks[$id]->allowedRoles;
+        $blockRoles = $this->getArrayFromList($blockRoles, true);
+        if (!SecurityManager::getInstance()->hasRole($blockRoles)) {
+            unset($this->blocks[$id]);
+            return;
+        }
+
         $this->blocks[$id]->id = $id;
 
         if ($id == 'title' || $id == 'note') {
@@ -320,53 +327,96 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
-     * Sets PDF settings objects based on $_REQUEST and configuration data.
-     * @param array $_REQUEST
-     * @see GuiProvider::handleHttpPostRequest()
+     * Updates available formats list considering allowed roles info.
+     * @param boolean if false, use general::formats keys as format ids
      */
-    function handleHttpPostRequest($request) {
-        if (!isset($request['pdfExport']))
-            return;
+    private function setAllowedFormats($simple) {
+        $allowedFormats = array();
+        foreach ($this->general->formats as $id => $format) {
+            if (!$simple)
+                $format = $id;
+                
+            $formatRoles = $this->getArrayFromIni(
+                                               "formats.$format.allowedRoles");
+            if (!$formatRoles)
+                $formatRoles = SecurityManager::ALL_ROLE;
+                
+            if (SecurityManager::getInstance()->hasRole($formatRoles))
+                $allowedFormats[$id] = $format;
+        }
+        $this->general->formats = $allowedFormats;
+    }
 
-        $this->log->debug('processing exportPdf request');
+    /**
+     * Returns for each allowed format, the list of its allowed resolutions.
+     * Warning: perform allowed formats filtering first!
+     * @return array array(<format> => array(<list of resolutions>))
+     */
+    private function getAllowedResolutions() {
+        $allowedResolutions = array();
+        foreach ($this->general->formats as $id => $format) {
+            $maxResolution = $this->getConfig()->{"formats.$id.maxResolution"};
 
-        $ini_array = $this->getConfig()->getIniArray();
-        $iniObjects = StructHandler::loadFromArray($ini_array);
+            if (!$maxResolution) {
+                $allowedResolutions[$id] = $this->general->resolutions;
+                continue;
+            }
+            
+            $resolutions = array();
+            foreach ($this->general->resolutions as $rid => $resolution) {
+                if ($rid <= $maxResolution)
+                    $resolutions[$rid] = $resolution;
+            }
+            $allowedResolutions[$id] = $resolutions;
+        }
+        return $allowedResolutions;
+    }
 
-        // TODO: check validity of each exportPdf config object???
-        if (!isset($iniObjects->general) || !is_object($iniObjects->general))
-            throw new CartoclientException('invalid exportPdf configuration');
-
-        // general settings retrieving
+    /**
+     * Populates PdfGeneral object.
+     * @param stdclass objects from INI file
+     * @param array user configs (usually $_REQUEST)
+     */
+    private function setGeneral($iniObjects, $request = array()) {
+    
         $this->general = new PdfGeneral;
         $this->overrideProperties($this->general, $iniObjects->general);
         
+        $simple = (count($request) != 0);
         $this->general->formats = $this->getArrayFromList(
-                                      $this->general->formats, true);
+                                                       $this->general->formats,
+                                                       $simple);
+        $this->setAllowedFormats($simple);
         
         $this->general->resolutions = $this->getArrayFromList(
-                                          $this->general->resolutions, true);
+                                                   $this->general->resolutions,
+                                                   $simple);
         
         $this->general->activatedBlocks = $this->getArrayFromList(
-                                              $this->general->activatedBlocks, 
-                                              true);
+                                               $this->general->activatedBlocks, 
+                                               true);
         
-        $this->general->selectedFormat = $this->getSelectedValue(
-                                             'format',
-                                             $this->general->formats,
-                                             $request);
+        $this->general->selectedFormat = $this->getSelectedValue('format',
+                                                       $this->general->formats,
+                                                       $request);
 
         $this->general->selectedResolution = $this->getSelectedValue(
-                                             'resolution',
-                                             $this->general->resolutions,
-                                             $request);
+                                                   'resolution',
+                                                   $this->general->resolutions,
+                                                   $request);
 
         $this->general->selectedOrientation = $this->getSelectedValue(
-                                              'orientation',
-                                              array('portrait', 'landscape'),
-                                              $request);
-        
-        // formats settings retrieving
+                                                'orientation',
+                                                array('portrait', 'landscape'),
+                                                $request);
+    }
+
+    /**
+     * Populates PdfFormat object with selected format info.
+     * @param stdclass objects from INI file
+     */
+    private function setFormat($iniObjects) {
+ 
         $sf = $this->general->selectedFormat;
         
         if (!isset($iniObjects->formats->$sf))
@@ -395,6 +445,28 @@ class ClientExportPdf extends ExportPlugin {
 
         if (!$this->general->width || !$this->general->height)
             throw new CartoclientException('invalid exportPdf dimensions');
+    }
+
+    /**
+     * Sets PDF settings objects based on $_REQUEST and configuration data.
+     * @param array $_REQUEST
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpPostRequest($request) {
+        
+        if (!isset($request['pdfExport']))
+            return;
+
+        $this->log->debug('processing exportPdf request');
+
+        $ini_array = $this->getConfig()->getIniArray();
+        $iniObjects = StructHandler::loadFromArray($ini_array);
+
+        // general settings retrieving
+        $this->setGeneral($iniObjects, $request);
+        
+        // formats settings retrieving
+        $this->setFormat($iniObjects);
 
         // blocks settings retrieving
         $this->blockTemplate = new PdfBlock;
@@ -424,13 +496,13 @@ class ClientExportPdf extends ExportPlugin {
      * Not used/implemented yet.
      * @see GuiProvider::handleHttpGetRequest()
      */
-    function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {}
 
     /**
      * @see GuiProvider::renderForm()
      * @param Smarty
      */
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
 
         $template->assign('exportPdf', $this->drawUserForm());
     }
@@ -440,34 +512,41 @@ class ClientExportPdf extends ExportPlugin {
      * @return string Smarty fetch result
      */
     private function drawUserForm() {
+
+        $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
+        if (!SecurityManager::getInstance()->hasRole($pdfRoles))
+            return '';
+
+        $ini_array = $this->getConfig()->getIniArray();
+        $iniObjects = StructHandler::loadFromArray($ini_array);
+        $this->setGeneral($iniObjects);
+
+        $allowedResolutions = $this->getAllowedResolutions();
+        if (isset($allowedResolutions[$this->general->selectedFormat])) {
+            $pdfResolution_options = 
+                           $allowedResolutions[$this->general->selectedFormat];
+        } else {
+            $pdfResolution_options =
+                           $allowedResolutions[$this->general->defaultFormat];
+        }
+        
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
-
-        $pdfFormat_options = $this->getArrayFromIni('general.formats');
-        $pdfFormat_selected = strtolower($this->getConfig()->
-                                         {'general.defaultFormat'});
-        
-        $pdfResolution_options = $this->getArrayFromIni('general.resolutions');
-        $pdfResolution_selected = $this->getConfig()->
-                                         {'general.defaultResolution'};
-
-        $pdfOrientation = $this->getConfig()->
-                                         {'general.defaultOrientation'};
-
-        $blocks = $this->getArrayFromIni('general.activatedBlocks', 
-                                                  true);
-        
         $this->smarty->assign(array(
                    'exportScriptPath'       => $this->getExportScriptPath(),
-                   'pdfFormat_options'      => $pdfFormat_options,
-                   'pdfFormat_selected'     => $pdfFormat_selected,
+                   'pdfFormat_options'      => $this->general->formats,
+                   'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
-                   'pdfResolution_selected' => $pdfResolution_selected,
-                   'pdfOrientation'         => $pdfOrientation,
+                   'pdfResolution_selected' => $this->general->
+                                                            selectedResolution,
+                   'pdfAllowedResolutions'  => $allowedResolutions,
+                   'pdfOrientation'         => $this->general->
+                                                            defaultOrientation,
                        ));
 
         foreach ($this->optionalInputs as $input) {
             $this->smarty->assign('pdf' . ucfirst($input),
-                                  in_array($input, $blocks));
+                                  in_array($input, 
+                                           $this->general->activatedBlocks));
         }
         
         return $this->smarty->fetch('form.tpl');
@@ -519,7 +598,7 @@ class ClientExportPdf extends ExportPlugin {
      * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
-    function getConfiguration($isOverview = false, $mapBbox = NULL) {
+    public function getConfiguration($isOverview = false, $mapBbox = NULL) {
         
         $config = new ExportConfiguration();
 
@@ -737,7 +816,7 @@ class ClientExportPdf extends ExportPlugin {
      * @param PdfWriter
      * @param PdfBlock
      */
-    function addBlock(PdfWriter $pdf, PdfBlock $block) {
+    private function addBlock(PdfWriter $pdf, PdfBlock $block) {
         switch ($block->type) {
             case 'image':
                 $pdf->addGfxBlock($block);
@@ -762,7 +841,7 @@ class ClientExportPdf extends ExportPlugin {
      * @see ExportPlugin::getExport()
      * @return ExportOutput export result
      */
-    function getExport() {
+    public function getExport() {
 
         $pdfClass =& $this->general->pdfEngine;
         
@@ -854,7 +933,7 @@ class ClientExportPdf extends ExportPlugin {
      */
     private function generatePdfFile($pdfBuffer) {
         $filename = $this->getFilename();
-        $filepath = PrintTools::getPdfDir() . '/' . $filename;
+        $filepath = CARTOCLIENT_HOME . 'www-data/pdf/' . $filename;
         $fp = fopen($filepath, 'w');
         fwrite($fp, $pdfBuffer);
         fclose($fp);
@@ -877,7 +956,7 @@ class ClientExportPdf extends ExportPlugin {
      * Outputs generated PDF file using config "output" medium.
      * @param string PDF content
      */
-    function outputPdf($pdfBuffer) {
+    public function outputPdf($pdfBuffer) {
         switch ($this->general->output) {
             case 'inline':
                 header('Content-type: application/pdf');
