@@ -5,6 +5,9 @@
  * @version $Id$
  */
 
+/**
+ * Table rules management
+ */
 require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
 
 /**

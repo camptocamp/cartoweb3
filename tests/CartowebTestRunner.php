@@ -38,9 +38,6 @@ class PHPUnit2_TextUI_TestRunner_Web extends PHPUnit2_TextUI_TestRunner {
 
 $errors = array ();
 
-/**
- * @package Tests
- */
 function test_error_handler($errno, $errmsg, $file, $line, $vars) {
     global $errors;
 

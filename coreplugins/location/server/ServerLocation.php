@@ -4,7 +4,14 @@
  * @version $Id$
  */
 
+/**
+ * Basic types
+ */
 require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+
+/**
+ * Log4php
+ */
 require_once('log4php/LoggerManager.php');
 
 /**

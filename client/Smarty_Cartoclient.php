@@ -91,7 +91,6 @@ class Smarty_Cartoclient extends Smarty {
      *
      * Transforms {r type=css plugin=myplugin}toto.css{/r} to 
      * myplugin/css/toto.css or currentproject/myplugin/css/toto.css .
-     * @package Client
      * @param array block parameters
      * @param string block text
      * @param Smarty Smarty engine
