@@ -104,7 +104,11 @@ class GeoDimension extends Serializable {
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 abstract class Shape extends Serializable {
-        
+    /**
+     * @var string
+     */
+    public $label;
+    
     /**
      * Computes the shape's center
      * @return Point center
@@ -116,6 +120,13 @@ abstract class Shape extends Serializable {
      * @return double surface
      */
     abstract public function getArea();
+    
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->label = (isset($struct->label))? $struct->label : '';
+    }
 }
 
 /**
@@ -136,11 +147,6 @@ class Point extends Shape {
     public $y;
     
     /**
-     * @var string
-     */
-    public $label;
-
-    /**
      * Constructor
      * @param double
      * @param double
@@ -158,7 +164,7 @@ class Point extends Shape {
     public function unserialize($struct) {
         $this->x = $struct->x;
         $this->y = $struct->y;
-        $this->label = (isset($struct->label))? $struct->label : '';
+        parent::unserialize($struct);
     }
     
     /**
@@ -230,19 +236,13 @@ class Line extends Shape {
      * @var array
      */
     public $points;
-    
-    /**
-     * @var string
-     */
-    public $label;
-
      
     /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
-        $this->label = (isset($struct->label))? $struct->label : '';
+        parent::unserialize($struct);
     }
 
     /**
@@ -318,6 +318,7 @@ class Bbox extends Shape {
             $this->setFromBbox ($struct->minx, $struct->miny,
                                 $struct->maxx, $struct->maxy);
         }
+        parent::unserialize($struct);
     }
 
     /**
@@ -432,8 +433,10 @@ class Rectangle extends Bbox {
             $this->setFromBbox ($struct->minx, $struct->miny,
                                 $struct->maxx, $struct->maxy);
         }
-        $this->label = (isset($struct->label))? $struct->label : '';
+        parent::unserialize($struct);
     }
+    
+
 }
 
 /**
@@ -456,7 +459,7 @@ class Polygon extends Shape {
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
-        $this->label = (isset($struct->label))? $struct->label : '';
+        parent::unserialize($struct);
     }
 
     /**
