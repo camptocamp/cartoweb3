@@ -128,10 +128,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $point = clone($center);       
         if (array_key_exists('recenter_x', $_REQUEST) &&
             array_key_exists('recenter_y', $_REQUEST) &&
-            array_key_exists('recenter_doit', $_REQUEST) &&
             $_REQUEST['recenter_x'] != '' &&
-            $_REQUEST['recenter_y'] != '' &&
-            $_REQUEST['recenter_doit'] == '1') {
+            $_REQUEST['recenter_y'] != '') {
             $point->setXY($_REQUEST['recenter_x'], $_REQUEST['recenter_y']);
         }
         $scale = 0;
