@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Query service plugin
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,8 +58,7 @@ class ServerMapquery extends ServerPlugin {
             if ($idType == 'string')
                 $queryString[] = "'[$idAttribute]' = '$id'";
             else
-                /* TODO */ 
-                x('todo_int_query_string');
+                $queryString[] = "[$idAttribute] = $id";
         } 
         return array('(' . implode(' OR ', $queryString) . ')');
     }
@@ -76,9 +75,8 @@ class ServerMapquery extends ServerPlugin {
     private function databaseQueryString($idAttribute, $idType, $selectedIds) {
         if (count($selectedIds) == 0)
             return array('false');
-        if ($idType != 'string')
-            x('todo_database_int_query_string');
-        $queryString = implode("','", $selectedIds);
+        $idGlue = $idType == 'string' ? "','" : ',';
+        $queryString = implode($idGlue, $selectedIds);
         return array("$idAttribute in ('$queryString')");
     }
 
@@ -223,15 +221,16 @@ class ServerMapquery extends ServerPlugin {
 
         self::checkImplementedConnectionTypes($msLayer);
 
-        $queryStringFunction = (self::isDatabaseLayer($msLayer)) ?
-            'databaseQueryString' : 'genericQueryString';
-
         $ids = Encoder::decode($idSelection->selectedIds, 'config');
 
         // FIXME: can shapefiles support queryString for multiple id's ?
         //  if yes, then improve this handling. 
 
-        $queryString = self::$queryStringFunction($idAttribute, $idType, $ids); 
+        if (self::isDatabaseLayer($msLayer))
+            $queryString = self::databaseQueryString($idAttribute, $idType, $ids);
+        else
+            $queryString = self::genericQueryString($idAttribute, $idType, $ids);
+
         $results = array();
         foreach($queryString as $query) {
             $new_results = self::queryLayerByAttributes($serverContext,
@@ -273,7 +272,6 @@ class ServerMapquery extends ServerPlugin {
             $ret = @$msLayer->queryByRect($rect);
         
             $this->log->debug("Query on layer $layerId: queryByRect($rect)");        
-        
             
         }
         
