@@ -16,7 +16,7 @@ class LocationRequest extends Serializable {
     const LOC_REQ_BBOX = 'bboxLocationRequest';
     const LOC_REQ_PAN = 'panLocationRequest';
     const LOC_REQ_ZOOM_POINT = 'zoomPointLocationRequest';
-    const LOC_REQ_ZOOM_RECTANGLE = 'zoomRectangleLocationRequest';
+    const LOC_REQ_RECENTER = 'recenterLocationRequest';
 
     public $locationType;
 
@@ -24,6 +24,7 @@ class LocationRequest extends Serializable {
     public $panLocationRequest;
     public $zoomPointLocationRequest;
     public $zoomRectangleLocationRequest;
+    public $recenterLocationRequest;
 
     function unserialize($struct) {
         $this->locationType = self::unserializeValue($struct, 'locationType');
@@ -34,9 +35,8 @@ class LocationRequest extends Serializable {
                     'panLocationRequest', 'PanLocationRequest');
         $this->zoomPointLocationRequest = self::unserializeObject($struct, 
                     'zoomPointLocationRequest', 'ZoomPointLocationRequest');
-        $this->zoomRectangleLocationRequest = self::unserializeObject($struct, 
-                    'zoomRectangleLocationRequest', 'ZoomRectangleLocationRequest');
-                    
+        $this->recenterLocationRequest = self::unserializeObject($struct, 
+                    'recenterLocationRequest', 'recenterLocationRequest');
     }
 }
 
@@ -84,12 +84,13 @@ class LocationInit extends Serializable {
 /**
  * @package CorePlugins
  */
-abstract class RelativeLocationRequest extends LocationRequest {
+// FIXME: this should not extend LocationRequest
+abstract class RelativeLocationRequest extends Serializable {
     public $bbox;
 
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
-        parent::unserialize($struct);        
+        //parent::unserialize($struct);        
     }
 }
 
@@ -183,14 +184,31 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     }
 }
 
-/**
- *
- * This may go away. Can be replaced by ZoomPointLocationRequest
- * @package CorePlugins
- */
-class ZoomRectangleLocationRequest extends ZoomLocationRequest {
-    public $type = LocationRequest::LOC_REQ_ZOOM_RECTANGLE;
-    public $rectangle;
+// TODO: maybe make this type common, and reuse it elsewhere, like in HilightRequest
+//  and SelectionRequest
+class IdSelection extends Serializable {
+    public $layerId;
+    public $idAttribute;
+    public $idType; // (string|integer) 
+    public $selectedIds;
+
+    public function unserialize($struct) {
+        $this->layerId = self::unserializeValue($struct, 'layerId');
+        $this->idAttribute = self::unserializeValue($struct, 'idAttribute');
+        $this->idType = self::unserializeValue($struct, 'idType');
+        $this->selectedIds = self::unserializeArray($struct, 'selectedIds');
+    }
+}
+
+class RecenterLocationRequest extends Serializable {
+    public $type = LocationRequest::LOC_REQ_RECENTER;
+ 
+    public $idSelections;
+ 
+    public function unserialize($struct) {
+        $this->idSelections = self::unserializeObjectMap($struct, 'idSelections', 
+                                                         'IdSelection'); 
+    }
 }
 
 ?>
