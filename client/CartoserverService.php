@@ -160,7 +160,7 @@ class CartoserverService {
     }
 
     /**
-     * Retrieve MapInfo from server
+     * Retrieves MapInfo from server
      * @param string mapId
      * @return MapInfo MapInfo returned by server
      */
@@ -169,7 +169,7 @@ class CartoserverService {
     }
 
     /**
-     * Retrieve MapResult from server
+     * Retrieves MapResult from server
      * @param MapRequest map request
      * @return MapResult MapResult returned by server
      */
