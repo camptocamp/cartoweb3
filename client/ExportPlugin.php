@@ -216,12 +216,15 @@ abstract class ExportPlugin extends ClientPlugin
 
         try {
             // Calls all plugins to modify request
-            $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+            $mapRequest = $this->cartoclient->getClientSession()
+                          ->lastMapRequest;
             if (!$mapRequest) {
                 return NULL;
             }
-            $this->cartoclient->callPluginsImplementing('Exportable', 'adjustExportMapRequest',
-                                                    $configuration, $mapRequest);
+            $this->cartoclient->callPluginsImplementing('Exportable', 
+                                                      'adjustExportMapRequest',
+                                                      $configuration,
+                                                      $mapRequest);
 
             // Calls getMap
             return $this->cartoclient->cartoserverService->getMap($mapRequest);
