@@ -25,17 +25,22 @@ class ClientImages extends ClientCorePlugin {
     }
 
     function loadSession($sessionObject) {
-        $this->log->debug("loading session:");
+        $this->log->debug('loading session:');
         $this->imagesState = $sessionObject;
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
-        $this->log->debug("creating session:");
+        $this->log->debug('creating session:');
         
         $this->imagesState = new ImagesState();
         
-        // FIXME: put this in config
-        $this->imagesState->mainmapDimension = new Dimension(400, 200);
+        $mapHeight = $this->getConfig()->mapHeight;
+        $mapWidth  = $this->getConfig()->mapWidth;
+        if (!$mapHeight) $mapHeight = 200;
+        if (!$mapWidth) $mapWidth = 400;
+        
+        $this->imagesState->mainmapDimension = 
+            new Dimension($mapWidth, $mapHeight);
     }
 
     function handleHttpRequest($request) {
