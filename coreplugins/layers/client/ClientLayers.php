@@ -14,6 +14,7 @@ class LayersState {
     public $frozenSelectedLayers;
     public $frozenUnselectedLayers;
     public $nodesIds;
+    public $dropDownSelected;
 }
 
 /**
@@ -181,11 +182,27 @@ class ClientLayers extends ClientCorePlugin {
             $this->layersData[$layer->id]->unfolded = false;
         }
 
+        // selected dropdowns:
+        $this->layersState->dropDownSelected = array();
+
         // selected layers:
         if (!@$request['layers']) $request['layers'] = array();
+        foreach ($request as $k => $v) {
+        
+            if (strstr($k, 'layers_dropdown_')) {
+                $id = substr($k, 16); // 16 = strlen('layers_dropdown_')
+                $this->layersState->dropDownSelected[$id] = $v;
+            
+            } elseif (strstr($k, 'layers_') && 
+                      !in_array($v, $request['layers'])) {
+            
+                $request['layers'][] = $v;
+                unset($request[$k]);
+            }
+        }
         $this->log->debug('requ layers');
         $this->log->debug($request['layers']);
-        
+ 
         foreach ($request['layers'] as $layerId) {
             $this->layersData[$layerId]->selected = true;
         }
@@ -486,9 +503,10 @@ class ClientLayers extends ClientCorePlugin {
      * to build sublayers. 
      */
     private function drawLayer($layer, $forceSelection = false,
-                                       $forceFrozen = false) {
-        // TODO: build switch among various layout (tree, radio, etc.)
-
+                                       $forceFrozen = false,
+                                       $layerRendering = 'tree', 
+                                       $parentId = 0) {
+        
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
             return false;
@@ -500,10 +518,39 @@ class ClientLayers extends ClientCorePlugin {
                        in_array($layer->id, $this->getFrozenLayers());
 
         $childrenLayers = array();
+        $childrenRendering = ($layer instanceof LayerGroup && 
+                              $layer->rendering) ?
+                             $layer->rendering : 'tree';
+
+        $isDropDown = ($layer instanceof LayerGroup && 
+                       $layer->rendering == 'dropdown');
+        
+        if ($isDropDown) {
+            $dropDownChildren = array();
+            if (isset($this->layersState->dropDownSelected[$parentId])) {
+                $dropDownSelected = 
+                    $this->layersState->dropDownSelected[$parentId];
+            } else
+                $i = 0;
+        }
+        
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
+            
+            if ($isDropDown) {
+                $dropDownChildren[$childLayer->id] = 
+                                                  I18n::gt($childLayer->label);
+                
+                if (isset($dropDownSelected)) {
+                    if ($dropDownSelected != $childLayer->id)
+                        continue; 
+                } elseif ($i++) continue;
+            }
+           
             $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked,
-                                                 $layerFrozen);
+                                                 $layerFrozen, 
+                                                 $childrenRendering, 
+                                                 $layer->id);
         }
 
         $template =& $this->getSmartyObj();
@@ -517,6 +564,13 @@ class ClientLayers extends ClientCorePlugin {
             default: $layerOutRange = 0;
         }
 
+        if ($isDropDown) {
+            if (!isset($dropDownSelected)) $dropDownSelected = false;
+            $template->assign(array('dropDownChildren' => $dropDownChildren,
+                                    'dropDownSelected' => $dropDownSelected,
+                                    ));
+        }
+
         $template->assign(array('layerLabel'     => I18n::gt($layer->label),
                                 'layerId'        => $layer->id,
                                 'layerClassName' => $layer->className,
@@ -525,7 +579,10 @@ class ClientLayers extends ClientCorePlugin {
                                 'layerOutRange'  => $layerOutRange,
                                 'layerChecked'   => $layerChecked,
                                 'layerFrozen'    => $layerFrozen,
+                                'layerRendering' => $layerRendering,
+                                'isDropDown'     => $isDropDown,
                                 'groupFolded'    => $groupFolded,
+                                'parentId'       => $parentId,
                                 'nodeId'         => $this->nodeId++,
                                 'childrenLayers' => $childrenLayers,
                                 'mapId'          => $this->mapId,

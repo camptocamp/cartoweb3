@@ -1,6 +1,11 @@
 {capture name=inputElt}
-<input type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
+{if !$layerFrozen}
+<input 
+{if $layerRendering == 'radio'}type="radio" name="layers_{$parentId}"
+{else}type="checkbox" name="layers[]"{/if}
+value="{$layerId}" id="in{$nodeId}"
   onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />
+{/if}
 {/capture}
 
 {capture name=caption}
@@ -19,21 +24,39 @@ title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
 {/if}
 {/capture}
 
+{if $layerRendering == 'block'}
+<fieldset>
+{/if}
+
+{if $isDropDown}
+  <select name="layers_dropdown_{$parentId}" 
+  onchange="javascript:FormItemSelected();">
+  {html_options options=$dropDownChildren selected=$dropDownSelected}
+  </select>
+{/if}
+
 {if $childrenLayers}
-  {if $layerId != 'root'}
-  <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" class="lk"><img 
-  src="{r type=gfx plugin=layers}{if $groupFolded}plus{else}minus{/if}.gif{/r}" 
-  alt="{if $groupFolded}+{else}-{/if}" title="" /></a> 
-  {if !$layerFrozen}{$smarty.capture.inputElt}{/if}
-  {$smarty.capture.icon}{$smarty.capture.caption}<br />
-  <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
+  {if $isDropDown}
+    <div>
+  {elseif $layerId != 'root' && $layerRendering != 'dropdown'}
+    <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" 
+    class="lk"><img 
+    src="{r type=gfx plugin=layers}{if $groupFolded}plus{else}minus{/if}.gif{/r}" 
+    alt="{if $groupFolded}+{else}-{/if}" title="" /></a> 
+    {$smarty.capture.inputElt}
+    {$smarty.capture.icon}{$smarty.capture.caption}<br />
+    <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}{$layer}{/foreach}
-  {if $layerId != 'root'}
-  </div>
+  {if $layerId != 'root' && $layerRendering != 'dropdown'}
+    </div>
   {/if}
 {else}
   {if $layerClassName != 'LayerClass'}
   <span class="leaf"></span>{$smarty.capture.inputElt}{/if}
   {$smarty.capture.icon}{$smarty.capture.caption}<br />
+{/if}
+
+{if $layerRendering == 'block'}
+</fieldset>
 {/if}
