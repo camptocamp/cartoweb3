@@ -13,14 +13,169 @@
       Plugins</title>
     <para>
     </para>
+    <sect3 id="dev.newplugin.special.export.interface">
+      <title>Classes</title>
+      <para>
+      </para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.export.example">
+      <title>Example</title>
+      <para>
+      </para>
+    </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.filters">
     <title><indexterm><primary>Filters</primary></indexterm>Filters</title>
-    <para>
-    </para>
+    <para> Filter plugins can be used to modify parameters transfered from 
+      browser to &cartoweb; client. These parameters can be part of a POST 
+      request (HTML forms) or a GET request (URL query string).</para>
+    <para>Once a new filter plugin has been developed, it can be activated by 
+      adding it to the <parameter>loadPlugins</parameter> variable in file 
+      <filename>client_conf/client.ini</filename>.</para>
+    <sect3 id="dev.newplugin.special.filters.interface">
+      <title>Interface and Classes</title>
+      <para> Interface FilterProvider declares following methods:</para>
+      <itemizedlist>
+        <listitem>
+          <para><function>filterPostRequest(FilterRequestModifier 
+            $request)</function>: modifies parameters transfered via a POST 
+            request</para>
+        </listitem>
+        <listitem>
+          <para><function>filterGetRequest(FilterRequestModifier 
+            $request)</function>: modifies parameters transfered via a GET 
+            request</para>
+        </listitem>
+      </itemizedlist>
+      <para> Class <classname>FilterRequestModifier</classname> is used to get 
+        old values from the request and set new ones. It implements two main 
+        methods:</para>
+      <itemizedlist>
+        <listitem>
+          <para><function>getValue($key)</function>: retrieves old value </para>
+        </listitem>
+        <listitem>
+          <para><function>setValue($key, $value)</function>: sets new 
+            value</para>
+        </listitem>
+      </itemizedlist>
+    </sect3>
+    <sect3 id="dev.newplugin.special.filters.parameters">
+      <title>Available Parameters</title>
+      <para>This is the list of parameters that can be set in a filter plugin 
+        using function <function>setValue()</function>:</para>
+      <itemizedlist>
+        <listitem>
+          <para>Images plugin</para>
+          <itemizedlist>
+            <listitem>
+              <para><parameter>mapsize</parameter> - ID of the selected map 
+                size (see <xref linkend="user.images.client" />) </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Location plugin </para>
+          <itemizedlist>
+            <listitem>
+              <para><parameter>recenter_bbox</parameter> - new bounding box, 
+                comma-separated coordinates, eg. "10.5,20,15.5,28"</para>
+            </listitem>
+            <listitem>
+              <para><parameter>recenter_x</parameter> - re-centering: new 
+                x-coordinate</para>
+            </listitem>
+            <listitem>
+              <para><parameter>recenter_y</parameter> - re-centering: new 
+                y-coordinate</para>
+            </listitem>
+            <listitem>
+              <para><parameter>recenter_scale</parameter> - new scale</para>
+            </listitem>
+            <listitem>
+              <para><parameter>id_recenter_layer</parameter> - 
+                re-centering on objects: layer to look for IDs</para>
+            </listitem>
+            <listitem>
+              <para><parameter>id_recenter_ids</parameter> - re-centering 
+                on objects: list of IDs, comma-separated</para>
+            </listitem>
+            <listitem>
+              <para><parameter>shortcut_id</parameter> - ID of the selected map 
+                size (see <xref linkend="user.location.server" />)</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Query plugin</para>
+          <itemizedlist>
+            <listitem>
+              <para><parameter>query_layer</parameter> - layer to look for 
+                IDs</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_select</parameter> - IDs of objects 
+                to add to selection</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_unselect</parameter> - IDs of objects 
+                to remove from selection</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_policy</parameter> - selection policy: 
+                'POLICY_XOR', 'POLICY_UNION' or 'POLICY_INTERSECTION'</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_maskmode</parameter> - '0' or '1'. 
+                If '1', will show selection as a mask</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_hilight</parameter> - '0' or '1'. If '0', 
+                won't shows selection hilighted</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_return_attributes</parameter> - '0' 
+                or '1'. If '0', won't return attributes other than IDs</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_return_table</parameter> - '0' or 
+                '1'. If '0', won't return any table results</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+      <para>Note that for Query plugin, display of extended selection must be 
+        disabled in client's <filename>query.ini</filename> in order to use 
+        above parameters (see <xref linkend="user.query.client" />).</para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.filters.example">
+      <title>Example</title>
+      <para>The following class implements a filter which allows to recenter on 
+        an object while hilighting it: <programlisting><![CDATA[
+class ClientFilterIdrecenter extends ClientPlugin
+                             implements FilterProvider {
+                       
+    public function filterPostRequest(FilterRequestModifier $request) {}
+    
+    public function filterGetRequest(FilterRequestModifier $request) {
+        
+        $id = $request->getValue('id');
+        if (!is_null($id)) {
+            $layer = 'grid_classhilight';
+            $request->setValue('query_layer', $layer);
+            $request->setValue('query_maskmode', '1');
+            $request->setValue('query_select', $id);
+
+            $request->setValue('id_recenter_layer', $layer);        
+            $request->setValue('id_recenter_ids', $id);
+        }
+    }
+}]]></programlisting> </para>
+    </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.tables">
-    <title><indexterm><primary>Tables</primary></indexterm>Tables</title>
+    <title><indexterm><primary>Table rules</primary></indexterm>Table 
+      Rules</title>
     <para>
     </para>
   </sect2>

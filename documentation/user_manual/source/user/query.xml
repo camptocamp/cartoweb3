@@ -26,29 +26,42 @@
     <title>Client-Side Configuration</title>
     <sect2 id="user.query.client.ini">
       <title>query.ini</title>
-      <para> Here are the options that can be set in client's query.ini: 
-        <itemizedlist> <listitem> <para> 
-        persistentQueries<indexterm><primary>persistentQueries</primary></indexterm>: 
-        if true, queries will be persistent. If false, selection is lost after 
-        next page reload. Note that persistency will work only with layers with 
-        id_attribute_string set (see <xref linkend="user.query.mapfile" />) 
-        </para> </listitem> <listitem> <para> 
-        displayExtendedSelection<indexterm><primary>displayExtendedSelection</primary></indexterm>: 
-        if true, shows form for selection extended functions. This form is 
-        mainly used by developers (see TODO: link to developer's doc)</para> 
-        </listitem> <listitem> <para> 
-        queryLayers<indexterm><primary>queryLayers</primary></indexterm>: the 
-        comma separated list of layers which will appear in the extended 
-        selection form. If this list is absent, all msLayers appear in the 
-        form.</para> </listitem> <listitem> <para> 
-        returnAttributesActive<indexterm><primary>returnAttributesActive</primary></indexterm>: 
-        if true, the layers attributes can be requested. If false, only object 
-        IDs will be returned (default: false)</para> </listitem> <listitem> 
-        <para> 
-        weightQuery<indexterm><primary>weightQuery</primary></indexterm>: 
-        integer which defines display order of the query tool icon in toolbar 
-        (default: 40). Negative weighted tools are disabled</para> </listitem> 
-        </itemizedlist> </para>
+      <para> Here are the options that can be set in client's query.ini: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            persistentQueries<indexterm><primary>persistentQueries</primary></indexterm>: 
+            if true, queries will be persistent. If false, selection is lost 
+            after next page reload. Note that persistency will work only with 
+            layers with id_attribute_string set (see <xref 
+            linkend="user.query.mapfile" />) </para>
+        </listitem>
+        <listitem>
+          <para> 
+            displayExtendedSelection<indexterm><primary>displayExtendedSelection</primary></indexterm>: 
+            if true, shows form for selection extended functions. This form is 
+            mainly used by developers (see TODO: link to developer's doc)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            queryLayers<indexterm><primary>queryLayers</primary></indexterm>: 
+            the comma separated list of layers which will appear in the 
+            extended selection form. If this list is absent, all msLayers 
+            appear in the form.</para>
+        </listitem>
+        <listitem>
+          <para> 
+            returnAttributesActive<indexterm><primary>returnAttributesActive</primary></indexterm>: 
+            if true, the layers attributes can be requested. If false, only 
+            object IDs will be returned (default: false)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            weightQuery<indexterm><primary>weightQuery</primary></indexterm>: 
+            integer which defines display order of the query tool icon in 
+            toolbar (default: 40). Negative weighted tools are disabled</para>
+        </listitem>
+      </itemizedlist>
     </sect2>
     <sect2 id="user.query.client.tables">
       <title>Tables Configuration</title>
@@ -64,49 +77,67 @@
     <title>Server-Side Configuration</title>
     <sect2 id="user.query.server.ini">
       <title>query.ini</title>
-      <para> Here are the options that can be set in server's query.ini: 
-        <itemizedlist> <listitem><para> 
-        drawQueryUsingHilight<indexterm><primary>drawQueryUsingHilight</primary></indexterm>: 
-        if true, query hilighting will use Hilight plugin. In thios cas, 
-        Hilight plugin must be loaded on server. If false, objects will be 
-        hilighed using MapServer query functionality. See also <xref 
-        linkend="user.query.mapfile.hilight" /> (default: false)</para> 
-        </listitem> </itemizedlist> </para>
+      <para> Here are the options that can be set in server's query.ini: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            drawQueryUsingHilight<indexterm><primary>drawQueryUsingHilight</primary></indexterm>: 
+            if true, query hilighting will use Hilight plugin. In thios cas, 
+            Hilight plugin must be loaded on server. If false, objects will be 
+            hilighed using MapServer query functionality. See also <xref 
+            linkend="user.query.mapfile.hilight" /> (default: false)</para>
+        </listitem>
+      </itemizedlist>
     </sect2>
     <sect2 id="user.query.server.mapquery">
       <title>MapServer Query Configuration</title>
       <para> MapQuery plugin can be used by any plugin to retrieve objects 
         information from MapServer. </para>
-      <para>Following options can be set in server's mapquery.ini: 
-        <itemizedlist> <listitem> <para> 
-        maxResults<indexterm><primary>maxResults</primary></indexterm>: Maximum 
-        number of results to handle in the query plugin. This limit is to avoid 
-        high load on the server. It should be the client responsibility not to 
-        ask too many objects to avoid reaching this limit. Ignoring big queries 
-        can be done with the ignoreQueryThreshold parameter, which give a 
-        better behaviour for the user </para> </listitem> <listitem> <para> 
-        ignoreQueryThreshold<indexterm><primary>ignoreQueryThreshold</primary></indexterm>: 
-        Do not take into account the elements selected by a shape (rectangle, 
-        polygon) in a query, if this shape intersects more than 
-        ignoreQueryThreshold objects. It should be less than maxResults to have 
-        informative messages to the user </para> </listitem> </itemizedlist> 
-        </para>
+      <para>Following options can be set in server's mapquery.ini: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            maxResults<indexterm><primary>maxResults</primary></indexterm>: 
+            Maximum number of results to handle in the query plugin. This limit 
+            is to avoid high load on the server. It should be the client 
+            responsibility not to ask too many objects to avoid reaching this 
+            limit. Ignoring big queries can be done with the 
+            ignoreQueryThreshold parameter, which give a better behaviour for 
+            the user </para>
+        </listitem>
+        <listitem>
+          <para> 
+            ignoreQueryThreshold<indexterm><primary>ignoreQueryThreshold</primary></indexterm>: 
+            Do not take into account the elements selected by a shape 
+            (rectangle, polygon) in a query, if this shape intersects more than 
+            ignoreQueryThreshold objects. It should be less than maxResults to 
+            have informative messages to the user </para>
+        </listitem>
+      </itemizedlist>
     </sect2>
   </sect1>
   <sect1 id="user.query.mapfile">
     <title>Related Elements in Mapfile</title>
     <sect2 id="user.query.mapfile.metadata">
       <title>Meta Data</title>
-      <para> Here are the meta data that can be set to mapfile's layers: 
-        <itemizedlist> <listitem><para> 
-        "id_attribute_string"<indexterm><primary>id_attribute_string</primary></indexterm> 
-        "name|type": describes the attribute used for the id, and the type of 
-        the id. Type can be either "integer" or "string". Caution: case 
-        sensitive</para> </listitem><listitem><para> 
-        "query_returned_attributes"<indexterm><primary>query_returned_attributes</primary></indexterm> 
-        "attribute1 attribute2": the names (space separated) of the fields 
-        returned by a query. If not set, all fields are returned. Caution: case 
-        sensitive</para> </listitem> </itemizedlist> Example: <programlisting><![CDATA[
+      <para> Here are the meta data that can be set to mapfile's layers: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            "id_attribute_string"<indexterm><primary>id_attribute_string</primary></indexterm> 
+            "name|type": describes the attribute used for the id, and the type 
+            of the id. Type can be either "integer" or "string". Caution: case 
+            sensitive</para>
+        </listitem>
+        <listitem>
+          <para> 
+            "query_returned_attributes"<indexterm><primary>query_returned_attributes</primary></indexterm> 
+            "attribute1 attribute2": the names (space separated) of the fields 
+            returned by a query. If not set, all fields are returned. Caution: 
+            case sensitive</para>
+        </listitem>
+      </itemizedlist>
+      <para>Example:<programlisting><![CDATA[
 METADATA
   "id_attribute_string" "FID|string"
   "query_returned_attributes" "FID FNAME"
@@ -123,24 +154,46 @@ END]]> </programlisting> </para>
         <para> Hilight on a specific layer can be generated by several means: 
           special layer activation, special class activation, dynamic 
           layer/class generation. Decision is made in the following order: 
-          <orderedlist><listitem><para>looks for a layer named 
-          "&lt;layer_name&gt;_hilight" </para></listitem><listitem><para>if not 
-          found, looks for a class named "hilight" in the current layer 
-          </para></listitem><listitem><para>if not found, dynamically creates a 
-          layer if meta data "hilight_createlayer" is set to "true" 
-          </para></listitem><listitem><para>if meta data "hilight_createlayer" 
-          is not set or set to "false", dynamically creates a 
-          class</para></listitem></orderedlist> Here are the meta data that can 
-          be set to mapfile's layers: <itemizedlist> <listitem><para> 
-          "hilight_color"<indexterm><primary>hilight_color</primary></indexterm> 
-          "0-255 0-255 0-255": the hilight color of a dynamically generated 
-          class</para> </listitem><listitem><para> "hilight_createlayer" 
-          <indexterm><primary>hilight_createlayer</primary></indexterm> "true": 
-          if true, a new layer will be dynamically generated for the hilight 
-          </para> </listitem><listitem><para> "hilight_transparency" 
-          <indexterm><primary>hilight_transparency</primary></indexterm> 
-          "1-100": the transparency, for dynamically generated layers</para> 
-          </listitem></itemizedlist> Examples: </para>
+          </para>
+        <orderedlist>
+          <listitem>
+            <para>looks for a layer named "&lt;layer_name&gt;_hilight" </para>
+          </listitem>
+          <listitem>
+            <para>if not found, looks for a class named "hilight" in the 
+              current layer </para>
+          </listitem>
+          <listitem>
+            <para>if not found, dynamically creates a layer if meta data 
+              "hilight_createlayer" is set to "true" </para>
+          </listitem>
+          <listitem>
+            <para>if meta data "hilight_createlayer" is not set or set to 
+              "false", dynamically creates a class</para>
+          </listitem>
+        </orderedlist>
+        <para>Here are the meta data that can be set to mapfile's layers: 
+          </para>
+        <itemizedlist>
+          <listitem>
+            <para> 
+              "hilight_color"<indexterm><primary>hilight_color</primary></indexterm> 
+              "0-255 0-255 0-255": the hilight color of a dynamically generated 
+              class</para>
+          </listitem>
+          <listitem>
+            <para> "hilight_createlayer" 
+              <indexterm><primary>hilight_createlayer</primary></indexterm> 
+              "true": if true, a new layer will be dynamically generated for 
+              the hilight </para>
+          </listitem>
+          <listitem>
+            <para> "hilight_transparency" 
+              <indexterm><primary>hilight_transparency</primary></indexterm> 
+              "1-100": the transparency, for dynamically generated layers</para>
+          </listitem>
+        </itemizedlist>
+        <para>Examples: </para>
         <para>Hilight using "&lt;layer_name&gt;_hilight" layer <programlisting><![CDATA[
 LAYER
   NAME "foo"
@@ -176,28 +229,55 @@ END]]> </programlisting> </para>
       <sect3 id="user.query.mapfile.hilight.mask">
         <title>Mask Mode</title>
         <para> When mask mode is requested, decision is made in the following 
-          order: <orderedlist><listitem><para>looks for a layer named 
-          "&lt;layer_name&gt;_mask" </para></listitem><listitem><para>if not 
-          found, dynamically creates a mask layer by copying current layer 
-          </para></listitem></orderedlist> Masking process also tries to find a 
-          layer which would hide the area outside all possible selections: 
-          <orderedlist> <listitem><para>tries to activate a layer with name set 
-          in meta data "outside_mask"</para></listitem><listitem><para>if meta 
-          data "outside_mask" is not set, looks for a layer named 
-          "default_outside_mask" </para></listitem><listitem><para>if not 
-          found, no outside mask will be displayed 
-          </para></listitem></orderedlist> Here are the meta data that can be 
-          set to mapfile's layers: <itemizedlist><listitem><para> "mask_color" 
-          <indexterm><primary>mask_color</primary></indexterm> "0-255 0-255 
-          0-255": color of the mask when mask layer (&lt;layer_name&gt;_mask) 
-          is not defined</para> </listitem><listitem><para> "mask_transparency" 
-          <indexterm><primary>mask_transparency</primary></indexterm> "true": 
-          transparency of the mask when mask layer (&lt;layer_name&gt;_mask) is 
-          not defined </para> </listitem><listitem><para> "outside_mask" 
-          <indexterm><primary>outside_mask</primary></indexterm> "layer_name": 
-          name of layer which will mask the outside (aka "complement"). If not 
-          set, will try to find a layer named "default_outside_mask" </para> 
-          </listitem> </itemizedlist> Examples: </para>
+          order: </para>
+        <orderedlist>
+          <listitem>
+            <para>looks for a layer named "&lt;layer_name&gt;_mask" </para>
+          </listitem>
+          <listitem>
+            <para>if not found, dynamically creates a mask layer by copying 
+              current layer </para>
+          </listitem>
+        </orderedlist>
+        <para> Masking process also tries to find a layer which would hide the 
+          area outside all possible selections: </para>
+        <orderedlist>
+          <listitem>
+            <para>tries to activate a layer with name set in meta data 
+              "outside_mask"</para>
+          </listitem>
+          <listitem>
+            <para>if meta data "outside_mask" is not set, looks for a layer 
+              named "default_outside_mask" </para>
+          </listitem>
+          <listitem>
+            <para>if not found, no outside mask will be displayed </para>
+          </listitem>
+        </orderedlist>
+        <para> Here are the meta data that can be set to mapfile's layers: 
+          </para>
+        <itemizedlist>
+          <listitem>
+            <para> "mask_color" 
+              <indexterm><primary>mask_color</primary></indexterm> "0-255 0-255 
+              0-255": color of the mask when mask layer 
+              (&lt;layer_name&gt;_mask) is not defined</para>
+          </listitem>
+          <listitem>
+            <para> "mask_transparency" 
+              <indexterm><primary>mask_transparency</primary></indexterm> 
+              "true": transparency of the mask when mask layer 
+              (&lt;layer_name&gt;_mask) is not defined </para>
+          </listitem>
+          <listitem>
+            <para> "outside_mask" 
+              <indexterm><primary>outside_mask</primary></indexterm> 
+              "layer_name": name of layer which will mask the outside (aka 
+              "complement"). If not set, will try to find a layer named 
+              "default_outside_mask" </para>
+          </listitem>
+        </itemizedlist>
+        <para> Examples: </para>
         <para>Mask using "&lt;layer_name&gt;_mask" layer <programlisting><![CDATA[
 LAYER
   NAME "foo"

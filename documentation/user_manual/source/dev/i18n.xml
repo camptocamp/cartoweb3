@@ -9,25 +9,39 @@
   <title>Internationalization</title>
   <sect1 id="dev.i18n.translations">
     <title>Translations</title>
-    <para> Texts to be translated can be found in: <itemizedlist> <listitem> 
-      <para> Smarty templates (see <xref linkend="user.template.i18n" 
-      />)</para> </listitem><listitem> <para> Client and server .ini files and 
-      map files (see <xref linkend="user.config" />) </para> </listitem> 
-      <listitem> <para> Client and server PHP code </para> </listitem> 
-      </itemizedlist> In the last case, the script which finds strings to be 
-      translated (see <xref linkend="user.i18n.translations.template" />) looks 
-      for calls to <function>gt()</function> functions. There are two different 
-      <function>gt()</function> functions: 
-      <itemizedlist><listitem><para><function>I18n::gt()</function>: tries to 
-      translate the string given as argument and returns the translation. This 
-      function assumes that string is UTF-8 encoded and returns a string ready 
-      for output (see <xref linkend="dev.i18n.encoding" />). It can be used on 
-      client side only 
-      </para></listitem><listitem><para><function>I18nNoop::gt()</function>: 
-      does nothing during runtime ("noop" stands for "no operations"). Call to 
-      this function is only needed to indicates that the string must be 
-      translated. This function can be used on client and server side 
-      </para></listitem></itemizedlist></para>
+    <para> Texts to be translated can be found in: </para>
+    <itemizedlist>
+      <listitem>
+        <para> Smarty templates (see <xref linkend="user.template.i18n" 
+          />)</para>
+      </listitem>
+      <listitem>
+        <para> Client and server .ini files and map files (see <xref 
+          linkend="user.config" />) </para>
+      </listitem>
+      <listitem>
+        <para> Client and server PHP code </para>
+      </listitem>
+    </itemizedlist>
+    <para> In the last case, the script which finds strings to be translated 
+      (see <xref linkend="user.i18n.translations.template" />) looks for calls 
+      to <function>gt()</function> functions. There are two different 
+      <function>gt()</function> functions: </para>
+    <itemizedlist>
+      <listitem>
+        <para><function>I18n::gt()</function>: tries to translate the string 
+          given as argument and returns the translation. This function assumes 
+          that string is UTF-8 encoded and returns a string ready for output 
+          (see <xref linkend="dev.i18n.encoding" />). It can be used on client 
+          side only </para>
+      </listitem>
+      <listitem>
+        <para><function>I18nNoop::gt()</function>: does nothing during runtime 
+          ("noop" stands for "no operations"). Call to this function is only 
+          needed to indicates that the string must be translated. This function 
+          can be used on client and server side </para>
+      </listitem>
+    </itemizedlist>
     <para>Below is an example on how to use <command>I18nNoop::gt()</command>: 
       <programlisting><![CDATA[
 /**
@@ -74,38 +88,53 @@ class ServerMyPlugin extends ClientResponderAdapter {
   </sect1>
   <sect1 id="dev.i18n.encoding">
     <title>Character Set Encoding</title>
-    <para> As already described in <xref linkend="user.i18n.encoding" />,
+    <para> As already described in <xref linkend="user.i18n.encoding" />, 
       character set encoding is done using <classname>Encoder</classname> set 
-      of classes. It uses functions <function>Encoder::encode()</function> 
-      and <function>Encoder::decode()</function>: 
-      <itemizedlist><listitem><para><function>Encoder::encode($text, 
-      $context)</function>: converts text from context's character set to 
-      &cartoweb;'s internal character set (UTF-8) 
-      </para></listitem><listitem><para><function>Encoder::decode($text, 
-      $context)</function>: converts text from &cartoweb;'s internal 
-      character set (UTF-8) to context's 
-      character</para></listitem></itemizedlist> Context can be either 'config' 
-      or 'output', default is 'output'. Corresponding configuration is set in 
-      <filename>server.ini</filename> and <filename>client.ini</filename> (see 
-      <xref linkend="user.i18n.encoding" />).</para>
-      <para>Function <function>Encoder::encode()</function> must be used in 
-        the following situation:<itemizedlist><listitem><para>on client or 
-        server when reading a text from a configuration 
-        file:<programlisting><![CDATA[
-$encodedText = Encoder::encode($readText, 'config');]]></programlisting> 
-        </para></listitem></itemizedlist></para>
-      <para>Function <function>Encoder::decode()</function> must be used in the 
-        following situations:<itemizedlist><listitem><para>on client when 
-        outputing a text without calling 
-        <function>I18n::gt()</function>:<programlisting><![CDATA[
-$textToDisplay = Encoder::decode($encodedText);]]></programlisting> 
-        </para></listitem><listitem><para>on client or server when calling an 
-        external module, eg. Mapserver for a query:<programlisting><![CDATA[
-$textToUseInMapserver = Encoder::decode($encodedText, 'config');]]></programlisting> 
-        </para></listitem></itemizedlist> Note that function 
-        <function>I18n::gt()</function> takes an encoded text as argument and 
-        already prepares texts for output. It means you don't need to call 
-        <function>Encoder::decode()</function> after a call to 
-        <function>I18n::gt()</function>.</para>
+      of classes. It uses functions <function>Encoder::encode()</function> and 
+      <function>Encoder::decode()</function>: </para>
+    <itemizedlist>
+      <listitem>
+        <para><function>Encoder::encode($text, $context)</function>: converts 
+          text from context's character set to &cartoweb;'s internal character 
+          set (UTF-8) </para>
+      </listitem>
+      <listitem>
+        <para><function>Encoder::decode($text, $context)</function>: converts 
+          text from &cartoweb;'s internal character set (UTF-8) to context's 
+          character</para>
+      </listitem>
+    </itemizedlist>
+    <para> Context can be either 'config' or 'output', default is 'output'. 
+      Corresponding configuration is set in <filename>server.ini</filename> and 
+      <filename>client.ini</filename> (see <xref linkend="user.i18n.encoding" 
+      />).</para>
+    <para>Function <function>Encoder::encode()</function> must be used in the 
+      following situation:</para>
+    <itemizedlist>
+      <listitem>
+        <para>on client or server when reading a text from a configuration 
+          file:<programlisting><![CDATA[
+$encodedText = Encoder::encode($readText, 'config');]]></programlisting> </para>
+      </listitem>
+    </itemizedlist>
+    <para>Function <function>Encoder::decode()</function> must be used in the 
+      following situations:</para>
+    <itemizedlist>
+      <listitem>
+        <para>on client when outputing a text without calling 
+          <function>I18n::gt()</function>:<programlisting><![CDATA[
+$textToDisplay = Encoder::decode($encodedText);]]></programlisting> </para>
+      </listitem>
+      <listitem>
+        <para>on client or server when calling an external module, eg. 
+          Mapserver for a query:<programlisting><![CDATA[
+$textToUseInMapserver = Encoder::decode($encodedText, 'config');]]> 
+          </programlisting> </para>
+      </listitem>
+    </itemizedlist>
+    <para> Note that function <function>I18n::gt()</function> takes an encoded 
+      text as argument and already prepares texts for output. It means you 
+      don't need to call <function>Encoder::decode()</function> after a call to 
+      <function>I18n::gt()</function>.</para>
   </sect1>
 </chapter>
