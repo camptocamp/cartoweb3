@@ -118,11 +118,51 @@
     <para>
      roles.USERNAME<indexterm><primary>roles.USERNAME</primary></indexterm>
       List of roles for each user. <constant>USERNAME</constant> is replaced by the
-      user for whom the roles are set.
+      user for whom the roles are set. Some roles have a special meaning, see
+      <xref linkend="user.security.auth.special_roles"/>
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
+ 
+  <sect2 id="user.security.auth.special_roles">
+  <title>Special role names</title>
+  <para>The auth plugin configuration described in the previous section references
+    the notion of users and roles. Basically a role can be any string, the
+    application will only use them as a way to check if a feature is allowed or
+    not. However, a set of role name have a special meaning. They are described below.
+    
+      <variablelist>
+      <title>Special roles</title>
+      <varlistentry>
+          <term>all<indexterm><primary>all</primary></indexterm></term>
+          <listitem>
+           <para>This role belongs to any user. It is useful in case
+            a permission should not be restricted access.</para>
+          </listitem>
+      </varlistentry>
+      <varlistentry>
+          <term>loggedIn<indexterm><primary>loggedIn</primary></indexterm></term>
+          <listitem>
+          <para>This role is given to all users who have logged in the application.
+            It means they are identified to the system with a username.
+          </para>
+          </listitem>
+      </varlistentry>
+      <varlistentry>
+          <term>anonymous<indexterm><primary>anonymous</primary></indexterm></term>
+          <listitem>
+          <para>This role is given to all users not known to the application. This
+            role is attached to anyone who has not yet entered her username and 
+            password.
+          </para>
+          </listitem>
+      </varlistentry>
+      </variablelist>    
+
+    </para>
+  </sect2>
+ 
  </sect1>
   <sect1 id="user.security.global_permissions"> 
     <title>Global &cartoweb; Permissions</title>
@@ -167,7 +207,7 @@
         &cartoclient; configuration file, and are set in the metadata of 
         the mapfile or the <filename>&lt;mapfile&gt;.ini</filename> configuration file.
         The concept of metadata in mapfiles and .ini file
-        is described in <xref linkend="user.layer.metadata"/>. The metadata key
+        is described in <xref linkend="user.layers.metadata"/>. The metadata key
         name which can be used is called <constant>security_view</constant> and 
         contains a coma separated list of roles which are allowed to view this layer.
         If no such metadata key is associated to a layer or layerGroup, anyone can
@@ -206,7 +246,7 @@ END
         <note>
           <para>Notice the usage of the <constant>exported_values</constant>
             metadata key which lists the security related metadata key. 
-            It is explained in <xref linkend="user.layer.metadata"/></para>
+            It is explained in <xref linkend="user.layers.metadata"/></para>
         </note>
 
         </para>
