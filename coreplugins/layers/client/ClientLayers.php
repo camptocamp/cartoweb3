@@ -106,26 +106,26 @@ class ClientLayers extends ClientCorePlugin {
     private function drawLayer($layer) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
-        $template =& $this->getSmartyObj();
-
-        $layerChecked = in_array($layer->id, $this->selectedLayers)
-                        ? 'checked="checked"' : false;
-
-        $template->assign(array('layerType' => $layer->className,
-                                'layerLabel' => $layer->label,
-                                'layerId' => $layer->id,
-                                'layerChecked' => $layerChecked,
-                                'nodeId' => $this->nodeId++,
-                                ));
-
         $childrenLayers = array();
-        if (!empty($layer->children) && is_array($layer->children))
+        if (!$layer->aggregate && 
+            !empty($layer->children) &&is_array($layer->children)) {
             foreach ($layer->children as $child) {
                 $childLayer = $this->getLayerByName($child);
                 $childrenLayers[] = $this->drawLayer($childLayer);
             }
+        }
 
-        $template->assign('childrenLayers', $childrenLayers);
+        // TODO: handle LayerClass as well. When a LayerGroup is aggregated
+        // all its children's classes must however be displayed
+
+        $template =& $this->getSmartyObj();
+        $layerChecked = in_array($layer->id, $this->selectedLayers);
+        $template->assign(array('layerLabel' => $layer->label,
+                                'layerId' => $layer->id,
+                                'layerChecked' => $layerChecked,
+                                'nodeId' => $this->nodeId++,
+                                'childrenLayers' => $childrenLayers,
+                                ));
 
         $output_node = $template->fetch('node.tpl');
         $this->freeSmartyObj($template);
