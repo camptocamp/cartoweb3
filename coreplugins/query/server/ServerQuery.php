@@ -71,7 +71,7 @@ class ServerQuery extends ServerCorePlugin {
 
     function queryLayer($layerId, $shape, $queryArgs) {
     
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         if (!($shape instanceof Bbox)) {
             throw new CartoserverException("shapes other than bbox unsupported");

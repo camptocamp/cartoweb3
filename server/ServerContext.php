@@ -19,8 +19,8 @@ require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 class ServerContext {
     private $log;
 
-    public $msMapObj;
-    public $maxExtent;
+    private $msMapObj;
+    private $maxExtent;
     private $msMainmapImage;
 
     public $mapInfo;
@@ -45,8 +45,6 @@ class ServerContext {
 
         $this->mapInfoHandler = new MapInfoHandler($this, $mapId, $this->projectHandler);
         //$this->mapInfoHandler->loadMapInfo($mapId);
-
-        $this->initializeMapObj($mapId);
 
         // fills mapinfo with dynamic structures
         // PERF: maybe to not do it always
@@ -99,25 +97,32 @@ class ServerContext {
         return (int)$timeStamp;
     }
 
-    private function initializeMapObj($mapId) {
+    public function getMapObj() {
 
-        if (!extension_loaded('mapscript')) {
-            $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
-            if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
-                throw new CartoserverException("can't load mapscript library");
-        }
+        if (!$this->msMapObj) {
+            if (!extension_loaded('mapscript')) {
+                $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
+                if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
+                    throw new CartoserverException("can't load mapscript library");
+            }
         
-        $mapName = $this->projectHandler->getMapName();
-        $mapPath = $this->getMapPath();
-        $this->msMapObj = ms_newMapObj($mapPath);
+            $mapPath = $this->getMapPath();
+            $this->msMapObj = ms_newMapObj($mapPath);
 
-        $this->checkMsErrors();
+            $this->maxExtent = clone($this->getMapObj()->extent);
 
-        $this->maxExtent = clone($this->msMapObj->extent);
+            $this->checkMsErrors();
 
-        if (!$this->msMapObj) { // could this happen ??
-            throw new CartoserverException("cannot open mapfile $mapId for map $mapId");
+            if (!$this->msMapObj) { // could this happen ??
+                throw new CartoserverException("cannot open mapfile $mapId for map $mapId");
+            }
         }
+        return $this->msMapObj;
+    }
+
+    public function getMaxExtent() {
+            
+        return $this->maxExtent;
     }
 
     function resetMsErrors() {

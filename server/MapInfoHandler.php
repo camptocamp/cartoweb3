@@ -94,7 +94,7 @@ class MapInfoHandler {
      */
     private function fillDynamicMap($serverContext) {
         $mapInfo = $this->mapInfo;
-        $msMapObj = $serverContext->msMapObj;
+        $msMapObj = $serverContext->getMapObj();
         
         $mapInfo->mapLabel = $msMapObj->name;
     }
@@ -102,7 +102,7 @@ class MapInfoHandler {
     private function fillDynamicLayers($serverContext) {
         $mapInfo = $this->mapInfo;
         $layers = $mapInfo->getLayers();
-        $msMapObj = $serverContext->msMapObj;
+        $msMapObj = $serverContext->getMapObj();
         
         if ($mapInfo->autoClassLegend) $this->getMapPath($serverContext);
 
@@ -154,7 +154,7 @@ class MapInfoHandler {
 
     private function fillDynamicKeymap($serverContext) {
         
-        $msMapObj = $serverContext->msMapObj;
+        $msMapObj = $serverContext->getMapObj();
         $referenceMapObj = $msMapObj->reference;
 
         $serverContext->checkMsErrors();

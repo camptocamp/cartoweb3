@@ -178,7 +178,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     }
 
     private function calculateOldScale() {
-        $msMapObj = $this->locationPlugin->getServerContext()->msMapObj;
+        $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
         
         $oldBbox = $this->requ->bbox;
         $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny, 
@@ -326,7 +326,7 @@ class RecenterLocationCalculator extends LocationCalculator {
 
         $serverContext = $this->locationPlugin->getServerContext();
         $mapInfo = $this->locationPlugin->getServerContext()->getMapInfo();
-        $msLayer = $mapInfo->getMsLayerById($serverContext->msMapObj, 
+        $msLayer = $mapInfo->getMsLayerById($serverContext->getMapObj(), 
                                             $idSelection->layerId);
         
         $idAttribute = $idSelection->idAttribute;
@@ -488,7 +488,7 @@ class ServerLocation extends ServerCorePlugin {
 
     
     private function getScaleFromBbox($bbox) {
-        $msMapObj = $this->getServerContext()->msMapObj;
+        $msMapObj = $this->getServerContext()->getMapObj();
         
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
@@ -519,7 +519,7 @@ class ServerLocation extends ServerCorePlugin {
         // Old ratio so we can check ratios
         $oldRatio = $oldBbox->getWidth() / $oldBbox->getHeight();
         
-        $maxExtent = $this->serverContext->maxExtent;
+        $maxExtent = $this->serverContext->getMaxExtent();
         
         // Horizontal 
         if ($newBbox->minx < $maxExtent->minx) {
@@ -578,7 +578,7 @@ class ServerLocation extends ServerCorePlugin {
     }
 
     private function doLocation($bbox, $scale) {
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
@@ -592,7 +592,7 @@ class ServerLocation extends ServerCorePlugin {
     }
 
     private function doBboxAdjusting() {
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $bbox = new Bbox();
         $bbox->setFromMsExtent($msMapObj->extent);
@@ -611,7 +611,7 @@ class ServerLocation extends ServerCorePlugin {
     }
 
     private function getLocationResult() {
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
         
         $locationResult = new LocationResult();
         $locationResult->bbox = new Bbox();

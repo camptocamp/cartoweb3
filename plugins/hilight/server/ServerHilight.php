@@ -126,7 +126,7 @@ class ServerHilight extends ServerPlugin {
     private function createLayer($msLayer, $defaultTrans, $defaultColor,
                                  $metaTrans, $metaColor) {
 
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $transparency = $defaultTrans;
         if ($msLayer->getMetaData($metaTrans))
@@ -204,7 +204,7 @@ class ServerHilight extends ServerPlugin {
         if (!$serverLayer)
             throw new CartoserverException("can't find serverLayer $requ->layerId");
         
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
         
         $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
         if (empty($msLayer))

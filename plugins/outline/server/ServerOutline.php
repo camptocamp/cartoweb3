@@ -95,10 +95,10 @@ class ServerOutline extends ServerPlugin {
         
             $image2 = $msMapObj->prepareimage();
             $rectangle = ms_newRectObj();
-            $rectangle->setExtent($this->serverContext->maxExtent->minx,
-                                  $this->serverContext->maxExtent->miny,
-                                  $this->serverContext->maxExtent->maxx,
-                                  $this->serverContext->maxExtent->maxy);
+            $rectangle->setExtent($this->serverContext->getMaxExtent()->minx,
+                                  $this->serverContext->getMaxExtent()->miny,
+                                  $this->serverContext->getMaxExtent()->maxx,
+                                  $this->serverContext->getMaxExtent()->maxy);
 
             $maskLayer = ms_newLayerObj($msMapObj);
             $maskLayer->set("type", MS_LAYER_POLYGON);
@@ -128,7 +128,7 @@ class ServerOutline extends ServerPlugin {
 
     function handleDrawing($requ) {
 
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
         if ($requ->maskMode) {
             $this->serverContext->setMsMainmapImage($msMapObj->draw());
             $msMapObj->labelcache->free();

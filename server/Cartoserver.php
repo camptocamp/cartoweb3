@@ -132,12 +132,12 @@ class Cartoserver {
         // TODO: generate keymap
 
         $serverContext = $this->getServerContext($mapId);
-        $serverContext->msMapObj->set('height', '500');
-        $serverContext->msMapObj->set('width',  '500');
+        $serverContext->getMapObj()->set('height', '500');
+        $serverContext->getMapObj()->set('width',  '500');
         
         //$corePlugins->imagesPlugin->drawMainmap($mapRequest->images);
 
-        $msMainMapImage = $serverContext->msMapObj->draw();
+        $msMainMapImage = $serverContext->getMapObj()->draw();
         $mainMapImagePath = $msMainMapImage->saveWebImage();
         return $mainMapImagePath;
     }

@@ -22,7 +22,7 @@ class ServerImages extends ServerCoreplugin {
     function setupSizes($requ) {
         $this->checkMapDimensions($requ);
         
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $msMapObj->set('height', $requ->mainmap->height);
         $msMapObj->set('width', $requ->mainmap->width);
@@ -47,7 +47,7 @@ class ServerImages extends ServerCoreplugin {
         
         $image->isDrawn = true;
 
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $image->path = $ms_image->saveWebImage();
         $image->width = $ms_image->width;
@@ -77,7 +77,7 @@ class ServerImages extends ServerCoreplugin {
     }
 
     function drawMainmap($requ) {
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         if (!$msMapObj->web->imagepath) {
             $imagePath = $this->serverContext->config->writablePath .
@@ -103,7 +103,7 @@ class ServerImages extends ServerCoreplugin {
 
     private function checkMaxImages($serverContext) {
         
-        $imgPath = $this->serverContext->msMapObj->web->imagepath;
+        $imgPath = $this->serverContext->getMapObj()->web->imagepath;
         $imgCount = count(scandir($imgPath));
         if ($imgCount > MAX_IMAGES_WARNING) {
             $msg = sprintf('Warning: you have a high number of generated images' .
@@ -116,7 +116,7 @@ class ServerImages extends ServerCoreplugin {
 
     function handleCorePlugin($requ) {
 
-        $msMapObj = $this->serverContext->msMapObj;
+        $msMapObj = $this->serverContext->getMapObj();
 
         $imagesResult = new ImagesResult();
 
