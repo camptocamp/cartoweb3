@@ -6,7 +6,7 @@
 
 /**
  * A service plugin to perform queries based on a set of selected id's.
- * @package Coreplugins
+ * @package CorePlugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
 class ServerMapquery extends ServerPlugin {
@@ -145,4 +145,5 @@ class ServerMapquery extends ServerPlugin {
         return $results;
     }      
 }
+
 ?>
