@@ -13,8 +13,8 @@
  <sect1 id="user.structure.intro"> 
   <title>Introduction</title>
   <para>
-   This chapter is an overall tour of the CartoWeb3 code structure. For each 
-   directory, it briefly explains its role. When available, 
+   This chapter is an overall tour of the CartoWeb3 code structure. It briefly 
+   explains the role of each directory. When available, 
    links to relevant chapters of this documentation are also provided.
   </para>
  </sect1>
@@ -57,13 +57,14 @@
        </listitem>
        <listitem>
         <para>
-         <filename>location</filename>: Navigation.
+         <filename>location</filename>: Navigation, see: 
+         <xref linkend="user.location"/>
         </para>
        </listitem>
        <listitem>
         <para>
          <filename>mapquery</filename>: Perform queries based on a
-         set of selected id's.
+         set of selected id's, see: <xref linkend="user.query"/>
         </para>
        </listitem>
        <listitem>
@@ -74,7 +75,8 @@
        </listitem>
        <listitem>
         <para>
-         <filename>query</filename>: Perform queries on layers. 
+         <filename>query</filename>: Perform queries on layers, see: <xref
+         linkend="user.query"/> 
         </para>
        </listitem>
        <listitem>
@@ -102,8 +104,8 @@
        </listitem>
        <listitem>
         <para>
-         <filename>user_manual/source</filename>: DocBook XML current 
-         documentation source.
+         <filename>user_manual/source</filename>: DocBook XML source of 
+         the present documentation.
         </para>
        </listitem>
       </itemizedlist>
@@ -150,7 +152,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>plugins</filename>: Standard plugins, see: <xref 
+      <filename>plugins</filename>: Standard, but not mandatory plugins, see: <xref 
       linkend="user.structure.plugin"/>.
       <itemizedlist>
        <listitem>
@@ -190,7 +192,8 @@
        </listitem>
        <listitem>
         <para>
-         <filename>outline</filename>: shapes drawing 
+         <filename>outline</filename>: redlining and annotations, see: <xref
+         linkend="user.annotate"/>
         </para>
        </listitem>
       </itemizedlist>
@@ -298,6 +301,25 @@
  <sect1 id="user.structure.plugin"> 
   <title>Plugins</title>
   <para>
+   Modularity is a key feature of &cartoweb;. Its functionalities are
+   packaged in logical sets called plugins, that aim to be 
+   independent from each other, although some dependencies cannot be
+   totally avoided. Some plugins (core plugins) cannot be disabled,
+   while the other ones must be explicitly loaded in the server 
+   and/or client configuration files.
+  </para>
+  <para>
+   Nearly all plugins have configuration options set in .ini files. The 
+   full description of these options makes the bulk of this user manual.
+  </para>
+  <para>
+   Modifying existing plugins or writing new ones requires some 
+   acquaintance with PHP5, as it really involves some coding. 
+   The related documentation is thus reported to the developer's
+   part of this manual (see <xref linkend="dev.newplugin.intro"/>).
+   But
+  </para>
+  <para>
    Each plugin directory contains one or more subdirectories. 
    Here are all the possible subdirectories:
    <itemizedlist>
@@ -334,13 +356,12 @@
   <title>Projects</title>
   <para>
    The aim of projects in CartoWeb 3 is to clearly separate mainstream
-   files from project-specific files. Developers should thus work only
+   files from project-specific files. Developers should thus only work 
    in projects, and not modify/add/delete files in the root directory. This
    will ensure smooth updates.
-   <filename>/projects</filename>.
   </para>
   <para>
-   Directory <filename>/projects/my_project</filename> has exactly the same 
+   The directory <filename>/projects/my_project</filename> has exactly the same 
    structure as the root directory shown above: <xref 
    linkend="user.structure.global"/>
   </para>
