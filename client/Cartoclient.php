@@ -222,7 +222,7 @@ class Cartoclient {
     /**
      * @var ClientProjectHandler
      */
-    public $projectHandler;
+    private $projectHandler;
 
     /**
      * Array of user/developer messages
@@ -247,7 +247,6 @@ class Cartoclient {
         $this->mapInfoCache = new MapInfoCache($this);
         
         try {
-        
             $this->initializeObjects();
             session_start();
             $this->initializeSession();        
@@ -271,6 +270,13 @@ class Cartoclient {
         return $this->config;
     }
 
+    /**
+     * @return ProjectHandler the current cartoclient project handler
+     */
+    function getProjectHandler() {
+        return $this->projectHandler;
+    }
+    
     /**
      * @return CartoForm
      */

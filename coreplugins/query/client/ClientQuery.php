@@ -106,8 +106,7 @@ class ClientQuery extends ClientPlugin
 
     private function drawQueryResult($queryResult) {
 
-        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                        $this);
+        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $this->log->debug("query result::");        
         $this->log->debug($queryResult);        

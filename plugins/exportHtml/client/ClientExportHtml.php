@@ -74,7 +74,7 @@ class ClientExportHtml extends ExportPlugin {
         $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
         $mapResult = $this->getExportResult($this->getConfiguration());
 
-        $smarty = new Smarty_CorePlugin($this->getCartoclient()->getConfig(), $this);
+        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
         // TODO: Add icons

@@ -225,7 +225,7 @@ class ClientSelection extends ClientPlugin
     }
 
     private function drawSelectionResult() {
-        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $selectionLayers = array();
         $selectionLayersLabel = array();

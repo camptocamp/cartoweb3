@@ -182,14 +182,12 @@ class ClientLocation extends ClientPlugin
     }
 
     private function drawRecenter() {
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('recenter.tpl');
     }
 
     private function drawScales() {
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $scaleValues = array(0);
         $scaleLabels = array('');
         $scales = $this->scales;
@@ -256,8 +254,7 @@ class ClientLocation extends ClientPlugin
     }
 
     private function drawIdRecenter() {
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
         $layersId = array();
@@ -310,8 +307,7 @@ class ClientLocation extends ClientPlugin
     }
 
     private function drawShortcuts() {
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $shortcutValues = array(-1);
         $shortcutLabels = array('');
         $shortcuts = $this->shortcuts;

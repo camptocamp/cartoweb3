@@ -385,8 +385,7 @@ class ClientExportPdf extends ExportPlugin {
      * @return string Smarty fetch result
      */
     private function drawUserForm() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient()
-                                              ->getConfig(), $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $pdfFormat_options = $this->getArrayFromIni('general.formats');
         $pdfFormat_selected = strtolower($this->getConfig()->

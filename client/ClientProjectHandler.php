@@ -17,6 +17,11 @@ require_once(CARTOCLIENT_HOME . 'common/ProjectHandler.php');
 class ClientProjectHandler extends ProjectHandler {
 
     /**
+     * @var Logger
+     */
+    private $log;
+
+    /**
      * Used for caching the project name.
      * @var string
      */
@@ -31,7 +36,24 @@ class ClientProjectHandler extends ProjectHandler {
      * Request name which contains the project name
      */
     const PROJECT_REQUEST = 'project';
-
+    
+    /**
+     * @var ClientProjectHandler singleton
+     */
+    static private $instance;
+    
+    /**
+     * Constructor
+     */
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+        self::$instance = $this;
+    }
+    
+    static function getInstance() {
+        return self::$instance;
+    }
+    
     /**
      * @see ProjectHandler::getRootPath()
      */
@@ -43,6 +65,7 @@ class ClientProjectHandler extends ProjectHandler {
      * Returns project name
      *
      * Tries to find project name in:
+     * - GET variable 'project'
      * - Root directory, file current_project.txt
      * - $_ENV, variable CW3_PROJECT
      * - $_SERVER, variable CW3_PROJECT
@@ -69,6 +92,8 @@ class ClientProjectHandler extends ProjectHandler {
                 $this->projectName = $_SERVER['REDIRECT_' . self::PROJECT_ENV_VAR];
 
             else $this->projectName = NULL;
+            
+            $this->log->debug("current project is " . $this->projectName);
         }
         return $this->projectName;
     }
@@ -107,9 +132,9 @@ function smartyResource($params, $text, &$smarty) {
         $text = $plugin . '/' . $text;
     }
 
-    // FIXME: performance hit: a new object is created on every instanciation
-    //  do another way !! 
-    $projectHandler = new ClientProjectHandler();
+    $projectHandler = ClientProjectHandler::getInstance();
+    if (is_null($projectHandler))
+        throw new CartoclientException('Project handler not yet initialized');
     $text = $projectHandler->getWebPath($text);
 
     return $text;

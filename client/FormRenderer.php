@@ -31,11 +31,12 @@ class Smarty_Cartoclient extends Smarty {
      * 
      * Initializes dirs and cache, ans registers block functions (resources
      * and i18n).
-     * @param ClientConfig configuration
+     * @param Cartoclient the current cartoclient
      */
-    function __construct($config) {
+    function __construct(Cartoclient $cartoclient) {
         parent::__construct();
 
+        $config = $cartoclient->getConfig();
         $this->template_dir = $config->getBasePath() . 'templates/';
         $this->compile_dir = $config->getBasePath() . 'templates_c/';
         $this->config_dir = $config->getBasePath() . 'configs/';
@@ -45,9 +46,9 @@ class Smarty_Cartoclient extends Smarty {
         $this->compile_check = $config->smartyCompileCheck;
         $this->debugging = $config->smartyDebugging;
         
-        $this->projectHandler = new ClientProjectHandler();
+        $this->projectHandler = $cartoclient->getProjectHandler();
         
-        // Block function for ressources
+        // Block function for resources
         $this->register_block('r', 'smartyResource');
         
         // Block function for translation
@@ -66,6 +67,7 @@ class Smarty_Cartoclient extends Smarty {
     {
         $oldPath = $this->template_dir;
         $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
+        // FIXME: should not hardcode projects constant !
         if (substr($oldPath, 0, 9) == 'projects/') {
             $oldPath = substr($oldPath,
                 strlen($this->projectHandler->getProjectName()) + 10 - strlen($oldPath));
@@ -91,8 +93,8 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
      * @param ClientConfig
      * @param ClientPlugin
      */
-    function __construct(ClientConfig $config, ClientPlugin $plugin) {
-        parent::__construct($config);
+    function __construct(Cartoclient $cartoclient, ClientPlugin $plugin) {
+        parent::__construct($cartoclient);
         
         $this->template_dir = $plugin->getBasePath() . 'templates/';
     }
@@ -128,7 +130,7 @@ class FormRenderer {
      * @return Smarty_Cartoclient
      */
     private function getSmarty() {
-        $smarty = new Smarty_Cartoclient($this->cartoclient->getConfig());
+        $smarty = new Smarty_Cartoclient($this->cartoclient);
         
         return $smarty;
     }
@@ -231,7 +233,7 @@ class FormRenderer {
         // sets the project name
         // templates should at least have a hidden 'project' parameter to 
         //  keep the project while reloading (if using the GET/POST project name).
-        $this->smarty->assign('project', $this->cartoclient->projectHandler->
+        $this->smarty->assign('project', $this->cartoclient->getProjectHandler()->
                                         getProjectName());
 
         $chooserActive =  $this->cartoclient->getConfig()->showProjectChooser;
@@ -245,7 +247,7 @@ class FormRenderer {
             $projects = ConfigParser::parseArray($this->cartoclient->
                                             getConfig()->availableProjects);
         else
-            $projects = $this->cartoclient->projectHandler->getAvailableProjects();
+            $projects = $this->cartoclient->getProjectHandler()->getAvailableProjects();
 
         // TODO: associate project name to a label (in config, in project dir ?, ...)
         $this->smarty->assign(array('project_values' => $projects,
@@ -271,12 +273,9 @@ class FormRenderer {
 
         $this->drawProjectsChooser();
 
-        // ------------- debug
+        // debug printing
 
         $smarty->assign('debug_request', var_export($_REQUEST, true));
-
-        // Print problems : recursive structure
-        //$smarty->assign('debug_cartoclient', var_export($cartoclient, true));
 
         // handle plugins
 

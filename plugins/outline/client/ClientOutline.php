@@ -171,8 +171,7 @@ class ClientOutline extends ClientPlugin
      * @return string
      */
     private function drawOutline() {
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                                              $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
         $this->smarty->assign(array('outline_mask_selected' => $maskSelected,
                                     'outline_area'          => $this->area));

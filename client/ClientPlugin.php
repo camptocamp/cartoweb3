@@ -396,7 +396,7 @@ abstract class ClientPlugin extends PluginBase {
         $this->cartoclient = $initArgs;
 
         $this->config = new ClientPluginConfig($this->getName(),
-                                               $this->cartoclient->projectHandler);        
+                                      $this->cartoclient->getProjectHandler());        
     }
     
     /**

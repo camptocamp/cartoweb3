@@ -789,12 +789,10 @@ class ClientLayers extends ClientPlugin
      */
     private function drawLayersList() {
 
-        $this->smarty = new Smarty_CorePlugin(
-                            $this->getCartoclient()->getConfig(),
-                            $this);
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $this->layersState->nodesIds = array();
-        $this->mapId = $this->getCartoclient()->projectHandler->getMapName();
+        $this->mapId = $this->getCartoclient()->getProjectHandler()->getMapName();
         
         $rootLayer = $this->getLayerByName('root');
         $element = $this->fetchLayer($rootLayer);
