@@ -70,7 +70,7 @@ define('DOC_TITLE', 'CartoWeb 3 Documentation');
 /**
  * Target directory
  */
-define('DOC_DIR', '../doc');
+define('DOC_DIR', '../documentation/apidoc');
 
 /**
  * Default package, when @package is not specified 
