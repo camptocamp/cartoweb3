@@ -30,6 +30,8 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #leftbar p, #keymap {text-align:center;padding:10px;}
 
+#leftbar p, #keymap img {border: 1px #ccc dashed;}
+
 #layerscmd {text-align:center;padding:5px;}
 
 #content {
