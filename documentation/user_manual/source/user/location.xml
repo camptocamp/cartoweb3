@@ -45,6 +45,13 @@
    </listitem>
    <listitem>
     <para>
+     idRecenterLayers<indexterm><primary>idRecenterLayers</primary></indexterm>
+     the comma separated list of layers which will appear in the id recentering
+     selection form. If this list is absent, all msLayers appear in the form.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
      shortcutsActive<indexterm><primary>shortcutsActive</primary></indexterm>: boolean, if true, the shortcuts (direct access dropdown list) are displayed (default: false)
     </para>
    </listitem>
