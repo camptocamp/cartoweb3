@@ -62,6 +62,8 @@ class StructHandler {
             return $ret;
         case 'map':
             $ret = array();
+            if (is_null($value))
+                $ret;
             foreach ($value as $key => $val) {
                 $v = self::getValue($newTypeDescription, $val, $context);
                 if (empty($v->id))
