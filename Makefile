@@ -3,7 +3,7 @@
 # Please note that tasks there can be done with the Php installation script
 # Thus, this file is not needed for installing and running CartoWeb.
 
-LIBS_URL="http://www.cartoweb.org/downloads/cartoweb_includes-3.0.0.tar.gz"
+LIBS_URL="http://www.cartoweb.org/downloads/cartoweb-includes-3.0.0.tar.gz"
 
 all:
 	:

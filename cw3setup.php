@@ -27,7 +27,7 @@ define ('CW3_CVS_LOGIN', 'daniel'); // for tests: your login
 //define ('CW3_CVS_LOGIN', 'anonymous');
 
 // Url of required libraries:
-define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb_includes-3.0.0.tar.gz');
+define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb-includes-3.0.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array('www-data',
