@@ -622,7 +622,7 @@ class CwFpdf implements PdfWriter {
         $shift = $this->legendLevel * $this->legendShift;
        
         $iWidth = 0;
-        $icon =& $layer['icon'];
+        $icon =& ResourceHandler::convertXhtml($layer['icon'], true);
         if ($icon) {
             
             $imageData = @getimagesize($icon);
