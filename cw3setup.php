@@ -107,8 +107,9 @@ echo "dirs                    : create user directories\n";
 echo "perms[=www-data]        : set writing perms for web-user [www-data]\n";
 echo "                          - set ownership if ran as superuser,\n";
 echo "                          - give write permission instead.\n";
-echo "create_conf             : create the new configuration\n";
-echo "link_or_copy            : link or copy paths for web browser\n";
+echo "createConfig            : create the new configuration (install .dist files)\n";
+echo "setupLinks              : link or copy paths for web browser\n";
+echo "removeLinks             : remove all links created by setupLinks. Super user rights required to remove dynamic content\n";
 echo "setup[=path]            : setup a new project in existing installation\n";
 echo "remove                  : remove cartoweb3\n";
 echo "\n";
@@ -121,8 +122,8 @@ if (count($cmd_array) == 0) {
                        'get_libs' => '',
                        'dirs' => '',
                        'perms' => '',
-                       'create_conf' => '',
-                       'link_or_copy' => ''
+                       'createConfig' => '',
+                       'setupLinks' => ''
                       );
 }
 else
@@ -135,8 +136,8 @@ if (in_array('cvs', array_keys($cmd_array))) {
                        'get_libs' => '',
                        'dirs' => '',
                        'perms' => '',
-                       'create_conf' => '',
-                       'link_or_copy' => ''
+                       'createConfig' => '',
+                       'setupLinks' => ''
                       );
 }
 
@@ -169,24 +170,28 @@ foreach($cmd_array as $cmd=>$params) {
             else setPerms('www-data');
             break;
 
-        case 'create_conf':
+        case 'createConfig':
             echo "\nCreating configuration:\n";
             createConfig(getcwd());
             echo " ... installed from dist.\n";
             break;
 
-        case 'link_or_copy':
+        case 'setupLinks':
             echo "\nIf you're using the Miniproxy, cartoweb3 is now installed.\n";
             echo "If not, or don't know, you MUST say yes here: [y]";
             $r = getInput();
             if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Finished\n");
-            setupProjects();
+            setupLinks();
+            break;
+
+        case 'removeLinks':
+            removeLinks();
             break;
 
         case 'setup':
             $dest = ltrim(substr($params, strrpos($params, '/')), '/');
             link_or_copy($params, 'projects/'.$dest);
-            setupProjects();
+            setupLinks();
             break;
 
         case 'remove':
@@ -292,7 +297,9 @@ function createConfig($dir) {
     closedir($dh);
 }
 
-// Create directories
+/**
+ * Create directories
+ */
 function mkDirs() {
     global $CW3_DIRS_TO_CREATE;
 
@@ -303,7 +310,9 @@ function mkDirs() {
     }
 }
 
-// Checkout from cvs
+/**
+ * Checkout from cvs
+ */
 function get($user) {
     global $isWin;
 
@@ -321,14 +330,16 @@ function get($user) {
     rmdirr('cartoweb3');
 }
 
-// Setup projects, plugins, coreplugins:
-function setupProjects() {
+/**
+ * Setup symlinks or copy files for projects, plugins, coreplugins:
+ */
+function setupLinks() {
     // Create symlinks to www-data icons, images, and pdf sub-directories
-    if (@symlink('../www-data/icons', './htdocs/icons'))
+    if (link_or_copy('../www-data/icons', './htdocs/icons'))
         echo "\"../www-data/icons\" linked from \"./htdocs/icons\"\n";
-    if (@symlink('../www-data/images', './htdocs/images'))
+    if (link_or_copy('../www-data/images', './htdocs/images'))
         echo "\"../www-data/images\" linked from \"./htdocs/images\"\n";
-    if (@symlink('../www-data/pdf', './htdocs/pdf'))
+    if (link_or_copy('../www-data/pdf', './htdocs/pdf'))
         echo "\"../www-data/pdf\" linked from \"./htdocs/pdf\"\n";
 
     if (!is_dir('htdocs/gfx/icons')) mkdir('htdocs/gfx/icons');
@@ -342,7 +353,7 @@ function setupProjects() {
             if ($d) {
                 while ($file=readdir($d)) {
                     if($file!="." && $file!=".." && $file != 'CVS') {
-                        // link_or_copy htdocs elements from projects to core
+                        // symlink htdocs elements from projects to core
                         link_or_copy('../../'.$dir.'/'.$project.'/htdocs/'.$file, 'htdocs/'.$project.'/'.$file);
                     }
                 }
@@ -353,7 +364,7 @@ function setupProjects() {
                 if ($pd)  {
                     while ($pfile=readdir($pd)) {
                         if($pfile!="." && $pfile!=".." && $pfile != 'CVS') {
-                            // link_or_copy plugins and coreplugins htdocs elements from projects
+                            // symlink plugins and coreplugins htdocs elements from projects
                             link_or_copy('../../'.$dir.'/'.$project.'/'.$pdir.'/'.$pfile.'/htdocs/', 'htdocs/'.$project.'/'.$pfile);
                         }
                     }
@@ -361,7 +372,45 @@ function setupProjects() {
             }
         }
     }
-    // Link_or_copy projects icons
+}
+
+/**
+ * Remove all links made by setupLinks
+ */
+function removeLinks() {
+    @unlink('./htdocs/icons');
+    @unlink('./htdocs/images');
+    @unlink('./htdocs/pdf');
+    @unlink('./htdocs/gfx/icons');
+    $projdirs =  array('projects', 'plugins', 'coreplugins');
+    foreach($projdirs as $dir) {
+        $pList = getProjects($dir);
+        foreach($pList as $project) {
+            $d = @opendir($dir.'/'.$project.'/htdocs');
+            if ($d) {
+                while ($file=readdir($d)) {
+                    if($file!="." && $file!=".." && $file != 'CVS') {
+                        if (is_link('htdocs/'.$project.'/'.$file))
+                            if (unlink('htdocs/'.$project.'/'.$file))
+                                echo 'htdocs/'.$project.'/'.$file." unlinked\n";
+                    }
+                }
+            }
+            $plugdirs = array('plugins', 'coreplugins');
+            foreach($plugdirs as $pdir) {
+                $pd = @opendir($dir.'/'.$project.'/'.$pdir);
+                if ($pd)  {
+                    while ($pfile=readdir($pd)) {
+                        if($pfile!="." && $pfile!=".." && $pfile != 'CVS') {
+                            if (is_link('htdocs/'.$project.'/'.$pfile))
+                                if (unlink('htdocs/'.$project.'/'.$pfile))
+                                    echo 'htdocs/'.$project.'/'.$pfile." unlinked\n";
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Get the list of projects in directory $dir
