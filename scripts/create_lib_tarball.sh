@@ -58,6 +58,8 @@ rm -r Smarty-*
 
 cd ..
 
+[ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
+
 tar zcf $TARBALL include
 rm -r include
 
