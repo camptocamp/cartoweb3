@@ -48,10 +48,6 @@ dirs:
 	-mkdir -p www-data/pdf
 	-mkdir -p templates_c
 
-links:
-	ln -snf ../www-data/images htdocs/images
-	ln -snf ../www-data/pdf htdocs/pdf
-
 perms:
 	chmod +x scripts/*sh scripts/*py
 	chmod 777 log
@@ -72,8 +68,8 @@ create_config:
 setup_files:
 	./scripts/cw3_admin.py setup_files
 
-init: fetch_libs dirs perms links create_config setup_files
+init: fetch_libs dirs perms create_config setup_files
 	:
 
-init_sudo: fetch_libs dirs perms_sudo links create_config setup_files
+init_sudo: fetch_libs dirs perms_sudo create_config setup_files
 	:
