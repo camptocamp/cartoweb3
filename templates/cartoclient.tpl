@@ -98,7 +98,9 @@
 
 <form method="POST" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true">
-
+  <input type="hidden" name="selection_type">
+  <input type="hidden" name="selection_coords">
+    
   <div class="leftbar">    
 
   {if $keymap_path|default:''}
