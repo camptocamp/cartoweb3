@@ -34,10 +34,12 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {capture name=icon}
 {if $element.layerIcon}
+  {if $element.nextscale}<a href="javascript:goToScale({$element.nextscale});">{/if}
   <img src="{r type=gfx/icons}{$mapId}/{$element.layerIcon}{/r}" alt="" class="pic"
-  {if $element.nextscale}title="{t}Next visible scale:{/t} 1:{$element.nextscale}"
+  {if $element.nextscale}title="{t}Click to go to next visible scale:{/t} 1:{$element.nextscale}"
   {elseif $element.layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
   {elseif $element.layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} />
+  {if $element.nextscale}</a>{/if}
 {/if}
 {/capture}                                                                              
 
@@ -53,9 +55,10 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {/if}
 
 {if $element.elements}
-  {if $element.isDropDown}
+  {if $element.isDropDown || $element.isRadioContainer}
     <div>
-  {elseif $element.layerId != 'root' && $element.layerRendering == 'tree'}
+  {elseif $element.layerId != 'root' && 
+   ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
     <a href="javascript:shift('id{$element.nodeId}');" id="xid{$element.nodeId}" 
     class="lk"><img 
     src="{r type=gfx plugin=layers}{if $element.groupFolded}plus{else}minus{/if}.gif{/r}" 
@@ -70,7 +73,8 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
     {/foreach}
   {/if}
 
-  {if $element.layerId != 'root' && $element.layerRendering == 'tree'}
+  {if $element.layerId != 'root' && 
+    ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
     </div>
   {/if}
 
