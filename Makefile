@@ -68,11 +68,11 @@ create_config:
 	 cp -i $$i $${i%%.dist} ;  \
 	done
 
-htcmds:
-	(cd scripts; ./htlinks.sh; ./hticons.sh)
+setup_files:
+	./scripts/cw3_admin.py setup_files
 
-init: fetch_libs dirs perms links create_config htcmds
+init: fetch_libs dirs perms links create_config setup_files
 	:
 
-init_sudo: fetch_libs dirs perms_sudo links create_config htcmds
+init_sudo: fetch_libs dirs perms_sudo links create_config setup_files
 	:
