@@ -35,17 +35,17 @@ public class CartowebTest extends TestCase {
     }
     
     public static Test suite() {
-    		if (URL == null)
-    			URL = System.getProperty("cartoclient_url");
-    		if (URL == null)
+        if (URL == null)
+            URL = System.getProperty("cartoclient_url");
+        if (URL == null)
             throw new RuntimeException("Please invoke this test via main(), with URL argument");
         
         return new TestSuite(CartowebTest.class);
     }
 
     private String getProjectUrl(String projectId) {
-    		
-    		return URL + "?project=" + projectId;
+                
+        return URL + "?project=" + projectId;
     }
     
     private void assertContainsMainmap(WebResponse response) throws Exception {
@@ -63,18 +63,18 @@ public class CartowebTest extends TestCase {
         assertContainsMainmap(response);
     }
 
-		private void testKeymap(String projectId) throws Exception {
-		            
-		    WebConversation     conversation = new WebConversation();
-		    WebResponse response = conversation.getResponse(getProjectUrl(projectId));
-		
-		    assertContainsMainmap(response);
-		
-		    // click on the center of the keymap
-		    SubmitButton keymapButton = response.getFormWithName("carto_form").getSubmitButton("keymap");
-		    keymapButton.click(50, 50);
-		    assertContainsMainmap(conversation.getCurrentPage());
-		}
+    private void testKeymap(String projectId) throws Exception {
+                            
+        WebConversation     conversation = new WebConversation();
+        WebResponse response = conversation.getResponse(getProjectUrl(projectId));
+                
+        assertContainsMainmap(response);
+                
+        // click on the center of the keymap
+        SubmitButton keymapButton = response.getFormWithName("carto_form").getSubmitButton("keymap");
+        keymapButton.click(50, 50);
+        assertContainsMainmap(conversation.getCurrentPage());
+    }
     
     private void testProject(String projectId) throws Exception {
         testMainmapPresent("default");
@@ -82,18 +82,18 @@ public class CartowebTest extends TestCase {
     }
     
     public void testDefaultProject() throws Exception {
-    		testProject("default");
+        testProject("default");
     }
 
     public void testTestprojectProject() throws Exception {
-  			String projectId = "testproject";
-    		testProject(projectId);
-  			
-		    WebConversation conversation = new WebConversation();
-		    WebResponse response = conversation.getResponse(getProjectUrl(projectId));
-		    assertTrue("Testproject title does not contain \"test_project\"", 
-		    		response.getElementWithID("banner").getText().indexOf("testproject") != -1);
-  			
+        String projectId = "testproject";
+        testProject(projectId);
+                        
+        WebConversation conversation = new WebConversation();
+        WebResponse response = conversation.getResponse(getProjectUrl(projectId));
+        assertTrue("Testproject title does not contain \"test_project\"", 
+                   response.getElementWithID("banner").getText().indexOf("testproject") != -1);
+                        
     }
 
 }
