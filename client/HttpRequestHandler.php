@@ -53,6 +53,7 @@ class PixelCoordsConverter {
 class CompatibilityDhtml {
     
     const PIXEL_COORD_VAR = 'INPUT_COORD';
+    const PIXEL_TYPE_VAR = 'INPUT_TYPE';
     
     static function isMainmapClicked() {
     
@@ -63,10 +64,7 @@ class CompatibilityDhtml {
         return ;
     }
     
-    function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
-        if (HttpRequestHandler::isButtonPushed('mainmap'))
-            x('todo_non_dhml_mainmap');
-            
+    private function getRectangleShape(Dimension $imageSize, Bbox $bbox) {
         $pixelCoords = $_REQUEST[self::PIXEL_COORD_VAR];
         $coords = explode(',', $pixelCoords);
         $coords = array_map('intval', $coords);
@@ -85,7 +83,40 @@ class CompatibilityDhtml {
         $point1 = PixelCoordsConverter::point2Coords($pixelPoint1, $imageSize, $bbox);
         $rect = new Rectangle();
         $rect->setFrom2Points($point0, $point1);        
-        return $rect;
+        return $rect;        
+    }
+    
+    private function getPointShape(Dimension $imageSize, Bbox $bbox) {
+
+        $pixelCoords = $_REQUEST[self::PIXEL_COORD_VAR];
+        $pixelCoords = explode(';', $pixelCoords);
+        $pixelCoords = $pixelCoords[0];
+
+        $coords = explode(',', $pixelCoords);
+        $coords = array_map('intval', $coords);
+        if (count($coords) != 2)
+            throw new CartoclientException("can't parse dhtml coords");
+        
+        $pixelPoint0 = $pixelPoint = new Point($coords[0], $coords[1]);
+        
+        $point0 = PixelCoordsConverter::point2Coords($pixelPoint0, $imageSize, $bbox);
+        
+        return $point0;        
+    }
+    
+    function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
+        //x($_REQUEST);
+        if (HttpRequestHandler::isButtonPushed('mainmap'))
+            x('todo_non_dhml_mainmap');
+            
+        $type = $_REQUEST[self::PIXEL_TYPE_VAR];
+        //x($type);
+        if ($type == 'auto_point') 
+            return self::getPointShape($imageSize, $bbox); 
+        else if ($type == 'auto_rect') 
+            return self::getRectangleShape($imageSize, $bbox); 
+        else
+            throw new CartoclientException("unknown INPUT_TYPE $type");
     }
 }
 

@@ -155,6 +155,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $toolToZoomType = array(
                 self::TOOL_ZOOMIN  => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_IN,
+                self::TOOL_PAN => 
+                  ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
                 self::TOOL_RECENTER => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
                 self::TOOL_ZOOMOUT=> 
@@ -188,8 +190,12 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                 ToolDescription::MAINMAP),
             new ToolDescription(self::TOOL_PAN, NULL, 'Pan', 
                 ToolDescription::MAINMAP),
-            new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
-                ToolDescription::MAINMAP));
+            // recenter tool is disabled for now.
+            // there should be a way to know if we are in html or dhtml mode, and
+            // to return the appropriate tools accordingly
+            /* new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
+                ToolDescription::MAINMAP) */
+                    );
     }
 
     function buildMapRequest($mapRequest) {
