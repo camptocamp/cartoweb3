@@ -39,8 +39,8 @@ class MapQuery {
                 "idAttribute: $idAttribute query: $query");
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
         if ($ret == MS_FAILURE) {
-            throw new CartoserverException("Recentering query returned no " .
-                    "results. Layer: $msLayer->name, idAttrubute: $idAttribute," .
+            throw new CartoserverException("Attribute query returned no " .
+                    "results. Layer: $msLayer->name, idAttribute: $idAttribute," .
                     " query: $query"); 
         }
 
