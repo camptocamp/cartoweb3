@@ -1,1 +1,1 @@
-;staticTools = distance, surface
+; use negative weights to disable some statictools
