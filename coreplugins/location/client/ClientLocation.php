@@ -172,27 +172,38 @@ class ClientLocation extends ClientPlugin
     }
 
     /**
-     * Handles recenter HTTP request
+     * Handles recenter/scales HTTP request
+     *
+     * When useDoit parameter is true, scale is changed only if a scale 
+     * selection was done on form. In this case, a form value ("doit") is
+     * set to '1' using Javascript.      
      * @param array HTTP request
      * @param boolean 
      * @return LocationRequest
      */
-    private function handleRecenter($request, $check = false) {
+    private function handleRecenterScales($request,
+                                          $useDoit = true, 
+                                          $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center); 
         
         $recenterX = $this->getHttpValue($request, 'recenter_x');
         $recenterY = $this->getHttpValue($request, 'recenter_y');
+
+        $scale        = $this->getHttpValue($request, 'recenter_scale');
+        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
                             
         if (!is_null($recenterX) && !is_null($recenterY)) {            
-            $point->setXY($request['recenter_x'], $request['recenter_y']);
+            $point->setXY($recenterX, $recenterY);
         }
         
         if ($check) {
             if (!$this->checkNumeric($recenterX, 'recenter_x'))
                 return NULL;
             if (!$this->checkNumeric($recenterY, 'recenter_Y'))
+                return NULL;
+            if (!$this->checkInt($scale, 'recenter_scale'))
                 return NULL;
 
             if ((is_null($recenterX) && !is_null($recenterY)) ||
@@ -203,46 +214,20 @@ class ClientLocation extends ClientPlugin
             }
         }
                
-        if ($point == $center) {
-            return NULL;
-        }
-        return $this->buildZoomPointRequest(
-                  ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
-    }
-
-    /**
-     * Handles scales HTTP request
-     *
-     * When useDoit parameter is true, scale is changed only if a scale 
-     * selection was done on form. In this case, a form value ("doit") is
-     * set to '1' using Javascript. 
-     * @param array HTTP request
-     * @param boolean 
-     * @param boolean
-     * @return LocationRequest
-     */
-    private function handleScales($request, $useDoit = true, $check = false) {
-
-        $center = $this->locationState->bbox->getCenter();
-        
-        $scale        = $this->getHttpValue($request, 'recenter_scale');
-        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
-                            
-        if ($check) {
-
-            if (!$this->checkInt($scale, 'recenter_scale'))
-                return NULL;
-        }
-        
         if (is_null($scale) || ($recenterDoit != '1' && $useDoit)) {
             $scale = 0;
-        } 
-        
-        if ($scale == 0) {
+        }         
+        if ($point == $center && $scale == 0) {
             return NULL;
         }
-        return $this->buildZoomPointRequest(
-                  ZoomPointLocationRequest::ZOOM_SCALE, $center, 0, $scale);
+        
+        if ($scale == 0) {
+            return $this->buildZoomPointRequest(
+                      ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
+        } else {
+            return $this->buildZoomPointRequest(
+                      ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);        
+        }
     }
 
     /**
@@ -512,11 +497,7 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleRecenter($request);
-        if (!is_null($this->locationRequest))
-            return;
-
-        $this->locationRequest = $this->handleScales($request);
+        $this->locationRequest = $this->handleRecenterScales($request);
         if (!is_null($this->locationRequest))
             return;
 
@@ -542,9 +523,8 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleRecenter($request, true);
-
-        $this->locationRequest = $this->handleScales($request, false, true);
+        $this->locationRequest = $this->handleRecenterScales($request,
+                                                             false, true);
         if (!is_null($this->locationRequest))
             return;
 
