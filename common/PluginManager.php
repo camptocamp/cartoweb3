@@ -142,8 +142,11 @@ class PluginManager {
                 include_once($includePath);
 
             if (!class_exists($className)) {
-                $this->log->warn("Couldn't load plugin $className");
-                continue;
+                if ($type == self::CLIENT_PLUGINS) {
+                    throw new CartoclientException("Couldn't load plugin $className");
+                } else {
+                    throw new CartoserverException("Couldn't load plugin $className");
+                }
             }
 
             $plugin = new $className();

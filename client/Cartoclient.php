@@ -232,10 +232,17 @@ class Cartoclient {
         $this->projectHandler = new ClientProjectHandler();
         $this->mapInfoCache = new MapInfoCache($this);
         
-        $this->initializeObjects();
-
-        session_start();
-        $this->initializeSession();        
+        try {
+        
+            $this->initializeObjects();
+            session_start();
+            $this->initializeSession();        
+        } catch (Exception $exception) {
+            $this->formRenderer->showFailure($exception);
+            
+            // Cartoclient was not initialized, exit
+            exit;
+        }
     }
 
     /**
@@ -556,13 +563,13 @@ class Cartoclient {
         // Internationalization
         I18n::init($this->config);
 
-        // plugins
-        $this->initPlugins();
-
         // initialize objects
         $this->cartoserverService = new CartoserverService($this->getConfig());
         $this->httpRequestHandler = new HttpRequestHandler($this);
         $this->formRenderer = new FormRenderer($this);
+
+        // plugins
+        $this->initPlugins();
     }
         
     /**
