@@ -363,8 +363,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */ 
     public function buildMapRequest($mapRequest) {
     
-        if (!is_null($this->bbox)
-            || count($this->queryState->querySelections) > 0) {
+        if (!is_null($this->bbox) || (!is_null($this->queryState)
+            && count($this->queryState->querySelections) > 0)) {
             $queryRequest = new QueryRequest();
             $queryRequest->queryAllLayers = $this->queryState->queryAllLayers;
             $queryRequest->defaultMaskMode = self::DEFAULT_MASKMODE;
