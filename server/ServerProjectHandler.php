@@ -7,7 +7,7 @@
 /**
  * Project handler
  */
-require_once(CARTOSERVER_HOME . 'coreplugins/project/common/ProjectHandler.php');
+require_once(CARTOSERVER_HOME . 'common/ProjectHandler.php');
 
 /**
  * Project handler for the server
@@ -18,7 +18,6 @@ require_once(CARTOSERVER_HOME . 'coreplugins/project/common/ProjectHandler.php')
 class ServerProjectHandler extends ProjectHandler {
 
     public $projectName;
-    public $mapName;
 
     function __construct ($mapId) {
         $this->setByMapId($mapId);
@@ -26,10 +25,6 @@ class ServerProjectHandler extends ProjectHandler {
 
     function getProjectName () {
         return $this->projectName;
-    }
-    
-    function getMapName () {
-        return $this->mapName;
     }
     
     function setByMapId ($mapId) {

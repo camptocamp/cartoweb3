@@ -12,7 +12,7 @@ require_once('smarty/Smarty.class.php');
 /**
  * Project handler
  */
-require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
 
 /**
  * @package Client
@@ -90,6 +90,13 @@ class FormRenderer {
 
     private function getSmarty() {
         $smarty = new Smarty_Cartoclient($this->cartoclient->getConfig());
+        
+        // Block function for ressources
+        $smarty->register_block('r', 'smartyResource');
+        
+        // Block function for translation
+        $smarty->register_block('t', 'smartyTranslate');
+        
         return $smarty;
     }
 
@@ -137,6 +144,9 @@ class FormRenderer {
         $cartoclient->callPlugins('renderForm', $smarty);
 
         // TODO: plugins should be able to change the flow
+
+        // Change gettext domain
+        textdomain(I18n::DEFAULT_PROJECT_DOMAIN);
 
         $smarty->display('cartoclient.tpl');
     }

@@ -12,8 +12,14 @@ abstract class ProjectHandler {
 
     const PROJECT_DIR = 'projects';
 
-    abstract function getProjectName ();
+    public $mapName;
 
+    abstract function getProjectName ();
+ 
+    function getMapName () {
+        return $this->mapName;
+    }   
+ 
     function isProjectFile ($rootPath, $filePath, $file = '') {
     
         $projectName = $this->getProjectName();
@@ -47,4 +53,5 @@ abstract class ProjectHandler {
     } 
 
 }
+
 ?>

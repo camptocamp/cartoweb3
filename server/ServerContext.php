@@ -11,7 +11,7 @@ require_once(CARTOCOMMON_HOME . 'common/Request.php');
 /**
  * Project handler
  */
-require_once(CARTOSERVER_HOME . 'coreplugins/project/server/ServerProjectHandler.php');
+require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
 /**
  * @package Server

@@ -25,7 +25,9 @@ require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 
-require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
+
+require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
 /**
  * @package Client
@@ -128,7 +130,7 @@ class Cartoclient {
 
     private function getCorePluginNames() {
 
-        return array('location', 'layers', 'images', 'query', 'project');
+        return array('location', 'layers', 'images', 'query');
     }
 
     private function initPlugins() {
@@ -293,6 +295,9 @@ class Cartoclient {
         $this->config = new ClientConfig($this->projectHandler);
 
         $this->log->debug("client context loaded (from session, or new)");
+
+        // Internationalization
+        I18n::init($this->config);
 
         // plugins
         $this->initPlugins();

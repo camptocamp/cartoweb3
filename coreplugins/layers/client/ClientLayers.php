@@ -191,7 +191,8 @@ class ClientLayers extends ClientCorePlugin {
 
         $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
-        $template->assign(array('layerLabel' => $layer->label,
+
+        $template->assign(array('layerLabel' => I18n::gt($layer->label),
                                 'layerId' => $layer->id,
                                 'layerClassName' => $layer->className,
                                 'layerChecked' => $layerChecked,
@@ -239,6 +240,10 @@ class ClientLayers extends ClientCorePlugin {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
         }
+
+        // Change gettext domain
+        $cartoclient = $this->getCartoclient();
+        textdomain($cartoclient->getConfig()->mapId);
 
         $layersOutput = $this->drawLayersList();
         $template->assign('layers', $layersOutput);

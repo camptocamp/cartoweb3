@@ -40,10 +40,16 @@ abstract class Config {
 
         $this->ini_array = parse_ini_file($this->configPath . $file);
 
-        // Set MapId to projectName.mapId
-        $projectName = $this->projectHandler->getProjectName();
-        if ($projectName && array_key_exists('mapId', $this->ini_array)) {
-            $this->ini_array['mapId'] = $projectName . '.' . $this->ini_array['mapId'];
+        if (array_key_exists('mapId', $this->ini_array)) {
+            
+            // Set MapName in projectHandler
+            $this->projectHandler->mapName = $this->ini_array['mapId'];
+                
+            // Set MapId to projectName.mapId
+            $projectName = $this->projectHandler->getProjectName();
+            if ($projectName) {
+                $this->ini_array['mapId'] = $projectName . '.' . $this->ini_array['mapId'];
+            }
         }
         
         if (!@$this->writablePath)

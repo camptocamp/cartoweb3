@@ -14,7 +14,7 @@ define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 /**
  * Project handler
  */
-require_once(CARTOSERVER_HOME . 'coreplugins/project/server/ServerProjectHandler.php');
+require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
 require_once(CARTOSERVER_HOME . 'common/misc_functions.php');
 

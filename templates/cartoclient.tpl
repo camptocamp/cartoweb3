@@ -2,15 +2,15 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" type="text/css" href="{$project_css_style}" title="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
   <meta name="author" content="Sylvain Pasche" />
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
   <title>{$cartoclient_title}</title>
 
-  <script type="text/javascript" src="{$project_js_carto}"></script>
+  <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   
   <!-- BEGIN dhtmlHeader -->
-  <link rel="stylesheet" type="text/css" href="{$project_css_dhtml_tools}" title="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
   {literal}  
   <script type="text/javascript" src="js/x_core_nn4.js"></script>
   <script type="text/javascript" src="js/x_dom_nn4.js"></script>
@@ -102,12 +102,12 @@
 
     <table>
       <tr>
-        <td><input type="image" src="{$project_gif_north_west}" name="pan_nw" alt="NW" /></td>
-        <td align="center"><input type="image" src="{$project_gif_north}" name="pan_n" alt="N" /></td>
-        <td><input type="image" src="{$project_gif_north_east}" name="pan_ne" alt="NE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" alt="NE" /></td>
       </tr>
       <tr>
-        <td><input type="image" src="{$project_gif_west}" name="pan_w" alt="W" /></td>
+        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
         <td>
           <input type="hidden" name="selection_type" />
           <input type="hidden" name="selection_coords" />
@@ -115,17 +115,17 @@
             <table width="{$mainmap_width}" height="{$mainmap_height}">
               <tr>
                 <td align="center" valign="middle">LOADING MESSAGE<br /><img 
-                src="{$project_gif_loadingbar}" width="140" height="10" alt="" /></td>
+                src="{r type=gfx/layout}loadingbar.gif{/r}" width="140" height="10" alt="" /></td>
               </tr>
             </table>
           </div>
         </td>
-        <td><input type="image" src="{$project_gif_east}" name="pan_e" alt="E" /></td>
+        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
       </tr> 
       <tr>
-        <td><input type="image" src="{$project_gif_south_west}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{$project_gif_south}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{$project_gif_south_east}" name="pan_se" alt="SE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
       </tr>
       {if $scalebar_path|default:''}
       <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
