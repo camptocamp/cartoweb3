@@ -39,6 +39,31 @@ class ExportConfiguration {
      * @var int
      */
     private $mapWidth;
+
+    /**
+     * @var Bbox
+     */
+    private $bbox;
+
+    /**
+     * @var float
+     */
+    private $scale;
+
+    /**
+     * @var Point
+     */
+    private $point;
+
+    /**
+     * @var string
+     */
+    private $zoomType;
+
+    /**
+     * @var string
+     */
+    private $locationType;
        
     /**
      * @param boolean
@@ -108,6 +133,76 @@ class ExportConfiguration {
      */
     function getMapWidth() {
         return $this->mapWidth;
+    }
+
+    /**
+     * @param Bbox
+     */
+    function setBbox(Bbox $bbox) {
+        $this->bbox = $bbox;
+    }
+
+    /**
+     * @return Bbox
+     */
+    function getBbox() {
+        return $this->bbox;
+    }
+
+    /**
+     * @param float
+     */
+    function setScale($scale) {
+        $this->scale = $scale;
+    }
+
+    /**
+     * @return float
+     */
+    function getScale() {
+        return $this->scale;
+    }
+
+    /**
+     * @param Point
+     */
+    function setPoint($point) {
+        $this->point = $point;
+    }
+
+    /**
+     * @return Point
+     */
+    function getPoint() {
+        return $this->point;
+    }
+
+    /**
+     * @param string
+     */
+    function setZoomType($zoomType) {
+        $this->zoomType = $zoomType;
+    }
+
+    /**
+     * @return string
+     */
+    function getZoomType() {
+        return $this->zoomType;
+    }
+
+    /**
+     * @param string
+     */
+    function setLocationType($type) {
+        $this->locationType = $type;
+    }
+
+    /**
+     * @return $string
+     */
+    function getLocationType() {
+        return $this->locationType;
     }
 
     // TODO: Add all configuration variables
@@ -204,6 +299,32 @@ abstract class ExportPlugin extends ClientPlugin
                             implements GuiProvider {
 
     /**
+     * Returns session-saved last MapRequest.
+     * @return MapRequest
+     */
+    function getLastMapRequest() {
+        $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+
+        if (!$mapRequest)
+            return NULL;
+
+        return $mapRequest;
+    }
+
+    /**
+     * Returns session-saved last MapResult.
+     * @return MapResult
+     */
+    function getLastMapResult() {
+        $mapResult = $this->cartoclient->getClientSession()->lastMapResult;
+
+        if (!$mapResult)
+            return NULL;
+
+        return $mapResult;
+    }
+    
+    /**
      * Retrieves MapResult
      *
      * - Gets last request
@@ -216,11 +337,11 @@ abstract class ExportPlugin extends ClientPlugin
 
         try {
             // Calls all plugins to modify request
-            $mapRequest = $this->cartoclient->getClientSession()
-                          ->lastMapRequest;
-            if (!$mapRequest) {
+            $mapRequest = $this->getLastMapRequest();
+            if (is_null($mapRequest)) {
                 return NULL;
             }
+            
             $this->cartoclient->callPluginsImplementing('Exportable', 
                                                       'adjustExportMapRequest',
                                                       $configuration,
