@@ -69,15 +69,32 @@ class LocationScale extends Serializable {
 /**
  * @package CorePlugins
  */
+class LocationShortcut extends Serializable {
+    public $label;
+    public $bbox;
+
+    public function unserialize($struct) {
+        $this->label = self::unserializeValue($struct, 'label');
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
+    }
+}
+
+/**
+ * @package CorePlugins
+ */
 class LocationInit extends Serializable {
     public $scales;
     public $minScale;
     public $maxScale;
 
+    public $shortcuts;
+    
     public function unserialize($struct) {
         $this->scales = self::unserializeObjectMap($struct, 'scales', 'LocationScale');
         $this->minScale = self::unserializeValue($struct, 'minScale', 'float');
         $this->maxScale = self::unserializeValue($struct, 'maxScale', 'float');
+
+        $this->shortcuts = self::unserializeObjectMap($struct, 'shortcuts', 'LocationShortcut');
     }
 }
 

@@ -22,6 +22,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     private $locationResult;
     
     private $scales;
+    
+    private $shortcuts;
 
     const TOOL_ZOOMIN   = 'zoom_in';
     const TOOL_ZOOMOUT  = 'zoom_out';
@@ -152,6 +154,25 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         }
     }
 
+    private function handleShortcuts() {
+        if (array_key_exists('shortcut_id', $_REQUEST) &&
+            array_key_exists('shortcut_doit', $_REQUEST) &&
+            $_REQUEST['shortcut_id'] != '' &&
+            $_REQUEST['shortcut_doit'] == '1') {
+            
+            $bboxRequest = new BboxLocationRequest();
+            $bboxRequest->bbox = $this->shortcuts[$_REQUEST['shortcut_id']]->bbox;
+
+            $locationRequest = new LocationRequest();                
+            $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
+            $locationRequest->bboxLocationRequest = $bboxRequest;
+        
+            return $locationRequest;        
+        } else {
+            return NULL;
+        }
+    }
+
     private function drawRecenter() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
@@ -168,6 +189,22 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                     'recenter_scale'       => 
                                         $this->locationResult->scale));
         return $this->smarty->fetch('recenter.tpl');
+    }
+
+    private function drawShortcuts() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+        $shortcutValues = array(-1);
+        $shortcutLabels = array('');
+        $shortcuts = $this->shortcuts;
+        if (!is_array($shortcuts)) $shortcuts = array();
+        foreach ($shortcuts as $key => $shortcut) {
+            $shortcutValues[] = $key;
+            $shortcutLabels[] = I18n::gt($shortcut->label);            
+        }
+        $this->smarty->assign(array('shortcut_values' => $shortcutValues,
+                                    'shortcut_labels' => $shortcutLabels));
+        return $this->smarty->fetch('shortcuts.tpl');
     }
 
     function loadSession($sessionObject) {
@@ -194,17 +231,18 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     function handleHttpRequest($request) {
     
         $this->locationRequest = $this->handlePanButtons();
-
         if (!is_null($this->locationRequest))
             return;
 
         $this->locationRequest = $this->handleKeymapButton();
-
         if (!is_null($this->locationRequest))
             return;
 
         $this->locationRequest = $this->handleRecenter();
-
+        if (!is_null($this->locationRequest))
+            return;
+        
+        $this->locationRequest = $this->handleShortcuts();
         if (!is_null($this->locationRequest))
             return;
         
@@ -325,6 +363,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
+        $this->shortcuts = $locationInit->shortcuts;
     }
     
     private function getLocationInformation() {
@@ -352,6 +391,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     function renderForm($template) {
 
         $recenter_active = $this->getConfig()->recenterActive;
+        $shortcuts_active = $this->getConfig()->shortcutsActive;
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
@@ -366,7 +406,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                 'factor' => $factor,
                                 'recenter_active' => $recenter_active,
                                 'recenter' => $this->drawRecenter(),
-                                ));
+                                'shortcuts_active' => $shortcuts_active,
+                                'shortcuts' => $this->drawShortcuts()));
     }
 
     function saveSession() {

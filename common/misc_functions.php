@@ -137,5 +137,26 @@ class ConfigParser {
         $value = explode(',', $value);
         return array_map('trim', $value);
     }
+    
+    static function parseObjectArray($config, $prefix, $suffixes) {
+        $result = array();        
+        for ($i = 0; ; $i++) {
+            $object = new stdClass();
+            $found = false;
+            foreach ($suffixes as $suffix) {            
+                $key = $prefix . '.' . $i . '.' . $suffix;
+                $object->$suffix = $config->$key;
+                if (!is_null($config->$key)) {
+                    $found = true;
+                }
+            }
+            
+            if (!$found) {
+                break;
+            }
+            $result[] = $object;
+        }   
+        return $result;
+    }
 }
 ?>

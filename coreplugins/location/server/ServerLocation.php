@@ -309,26 +309,17 @@ class ServerLocation extends ServerCorePlugin {
         $this->scales = array();
         $this->visibleScales = array();
 
-        $config = $this->getConfig();
-
-        for ($i = 0; ; $i++) {
-            $key = 'scales.' . $i . '.value';
-            if (!$config->$key) {
-                break;
-            }
-            $scale = new LocationScale();
-            $scale->value = $config->$key;
-            
-            $key = 'scales.' . $i . '.label';
-            $scale->label = $config->$key;
-            
-            $key = 'scales.' . $i . '.visible';
-       
-            if ($config->$key || is_null($config->$key)) {
-                $this->visibleScales[] = $scale;
+        $scales = ConfigParser::parseObjectArray($this->getConfig(), 'scales',
+                                        array('value', 'label', 'visible'));
+        foreach($scales as $scale) {
+            $locScale = new LocationScale();
+            $locScale->value = $scale->value;
+            $locScale->label = $scale->label;
+            if ($scale->visible || is_null($scale->visible)) {
+                $this->visibleScales[] = $locScale;
             } 
-            $this->scales[] = $scale;
-        }
+            $this->scales[] = $locScale;
+        }                                        
     }
     
     function getResultFromRequest($requ) {
@@ -405,10 +396,23 @@ class ServerLocation extends ServerCorePlugin {
 
         $this->initScales();
 
+        $shortcuts = ConfigParser::parseObjectArray($this->getConfig(),
+                                                    'shortcuts',
+                                                    array('label', 'bbox'));
+        $locShortcuts = array();
+        foreach($shortcuts as $shortcut) {
+            $locShortcut = new LocationShortcut();
+            $locShortcut->label = $shortcut->label;
+            $locShortcut->bbox = new Bbox();
+            $locShortcut->bbox->setFromString($shortcut->bbox);
+            $locShortcuts[] = $locShortcut;
+        }
+                                                    
         $init = new LocationInit();
         $init->scales = $this->visibleScales;
         $init->minScale = $this->getConfig()->minScale;
         $init->maxScale = $this->getConfig()->maxScale;
+        $init->shortcuts = $locShortcuts;
         return $init;
     }
 }
