@@ -13,6 +13,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
                  CARTOSERVER_HOME . 'include/');
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
+require_once(CARTOSERVER_HOME . 'server/SoapXMLCache.php');
 
 // APD trace
 if (file_exists(CARTOSERVER_HOME . 'server/trace.apd')) {
@@ -64,10 +65,9 @@ if (array_key_exists('RESTORE_POST', $_ENV)) {
     $HTTP_RAW_POST_DATA = getPostData($_ENV['RESTORE_POST']);
 }
 
-$cartoserver = new Cartoserver();
-
-$server = setupSoapService($cartoserver);
-
-$server->handle();
+if (empty($HTTP_RAW_POST_DATA))
+    return;
+$cache = new SoapXMLCache();
+$cache->printSoapXML($HTTP_RAW_POST_DATA);
 
 ?>
