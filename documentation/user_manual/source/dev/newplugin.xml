@@ -21,7 +21,7 @@
   <sect2 id="dev.new-plugin.intro.nature">
    <title>Plugins and Coreplugins</title>
    <para>
-    They are two kinds of plugins:
+    There are two kinds of plugins:
     <itemizedlist>
      <listitem>
       <para>
