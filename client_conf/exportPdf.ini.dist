@@ -1,5 +1,4 @@
 ;general settings
-general.allowPdfInput = false
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
