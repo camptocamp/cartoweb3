@@ -119,8 +119,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_measuringtools.png" alt="screen_measuringtools"
-           format="PNG"/>
+          <imagedata fileref="screen_measuringtools.png" alt="screen_measuringtools" format="PNG"/>
         </imageobject>
       </mediaobject>
     </screenshot>     
@@ -159,8 +158,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_outline.png" alt="screen_outline"
-           format="PNG"/>
+          <imagedata fileref="screen_outline.png" alt="screen_outline" format="PNG"/>
         </imageobject>
       </mediaobject>
     </screenshot>   
