@@ -1,38 +1,23 @@
-<!-- TODO: css and cosmetics -->
-
-<h1>Results: </h1>
-
-<table>
+<h3>{t}Results:{/t}</h3>
 
 {foreach from=$layer_results item=layer_result}
 {if $layer_result->fields}
-  <tr bgcolor="#cccccc"><th>
- {t}{$layer_result->layerId}{/t}
-  </th></tr>
-  <tr><td>
-
-  <table border="1" width="100%">
+<table class="queryres">
+    <caption>{t}{$layer_result->layerId}{/t}</caption>
     <tr>
-       <th>Id</th>
-    {foreach from=$layer_result->fields item=field}
-       <th>{$field}</th>               
-    {/foreach}
+      <th>{t}Id{/t}</th>
+      {foreach from=$layer_result->fields item=field}
+      <th>{$field}</th>               
+      {/foreach}
     </tr>
     {foreach from=$layer_result->resultElements item=result_element}
     <tr>
        <td>{$result_element->id}</td>
-        {foreach from=$result_element->values item=value}
-       <td>
-         {$value}
-       </td>
-        {/foreach}
+       {foreach from=$result_element->values item=value}
+       <td>{$value}</td>
+       {/foreach}
     </tr>
     {/foreach}
-  </table>
-
-  </td></tr>
-  <tr><td>&nbsp;</td></tr>
+</table>
 {/if}
 {/foreach}
-
-</table>
