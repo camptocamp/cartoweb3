@@ -41,7 +41,6 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->selectionState = new SelectionState();
 
-        $this->selectionState->layerId = 'grid';
         $this->selectionState->selectedIds = array();
 
     }
@@ -76,6 +75,10 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
     }
 
     function handleHttpRequest($request) {
+
+        if (!empty($request['selection_layerid'])) {
+            $this->selectionState->layerId = $request['selection_layerid'];
+        }
         
         if (!empty($request['selection_unselect'])) {
             $unselectId = urldecode($request['selection_unselect']);
@@ -93,15 +96,16 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
 
     function buildMapRequest($mapRequest) {
 
-        if (!empty($this->selectionState->layerId)) {
+        if (empty($this->selectionState->layerId) || 
+                $this->selectionState->layerId == 'no_layer')
+            return;
             
-            $hilightRequest = new HilightRequest();
-            $hilightRequest->layerId = $this->selectionState->layerId; 
-            $hilightRequest->selectedIds = $this->selectionState->selectedIds; 
-            // FIXME: this should be customizable
-            $hilightRequest->idType = 'string';
-            $mapRequest->hilightRequest = $hilightRequest;
-        }
+        $hilightRequest = new HilightRequest();
+        $hilightRequest->layerId = $this->selectionState->layerId; 
+        $hilightRequest->selectedIds = $this->selectionState->selectedIds; 
+        // FIXME: this should be customizable
+        $hilightRequest->idType = 'string';
+        $mapRequest->hilightRequest = $hilightRequest;
 
         if (!empty($this->selectedShape)) {
             $selectionRequest = new SelectionRequest();
@@ -125,6 +129,13 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
 
         $this->log->debug("selection result::");        
         $this->log->debug($selectionResult);        
+
+        // FIXME: use the plugin configuration mechanism to store the info
+        //  when it will be done
+        $selectionLayers = array('grid_nohilight', 'grid_classhilight', 'grid_layerhilight');
+        
+        $selectionLayers = array_merge(array('no_layer'), $selectionLayers);
+        $smarty->assign('selection_selectionlayers', $selectionLayers); 
 
         $smarty->assign('selection_layerid', $this->selectionState->layerId); 
         $smarty->assign('selection_idattribute', $this->selectionState->idAttribute); 
