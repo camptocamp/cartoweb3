@@ -7,6 +7,9 @@ returnAttributesActive = true
 ;activates persistence of queries
 persistentQueries = true
 
+;displays layers selection form
+displayExtendedSelection = true
+
 ; the list of layers which will be shown on the hilight selection list
 ;  if this list is not set, all layers are proposed in the list
 ;queryLayers = grid_defaulthilight, grid_classhilight, grid_layerhilight
