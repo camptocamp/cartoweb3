@@ -2,27 +2,48 @@
 
 usage () {
         echo >&2 "hticons - create symbolic links for layers icons directories
-          usage: hticons [-h] [[-a] [mapId]]
-          -a    CartoWeb is standalone: creates Cartoclient htdocs/gfx/icons link"
+          usage: hticons [-h] [-a] [mapId [projectName]]
+          -h    Returns this help
+          -a    CartoWeb is standalone: creates Cartoclient htdocs/gfx/icons link
+          If no argument: generate links for every mapId in server_conf/."
         exit 1  
 }
 
 addlinks () {
-        cd ../www-data/icons
-        if [ ! -d $@ ]
+        if [ ! -d www-data ]
         then
-                mkdir $@
+                mkdir www-data
+        fi
+        cd www-data
+
+        if [ ! -d icons ]
+        then
+                mkdir icons
+        fi
+        cd icons
+        
+        if [ ! -d $1 ]
+        then
+                mkdir $1
         fi
 
-        [ !  `sudo chown -R www-data $@ > /dev/null 2>&1` ] || [ `chmod -R 777 $@` ]
-
-        cd $@
+        #[ !  `sudo chown -R www-data $1 > /dev/null 2>&1` ] || [ `chmod -R 777 $1` ]
+        chmod -R 777 $1
+        
+        cd $1
        
-        if [ -d ../../../server_conf/$@/icons ]
+        if [ $# -eq 2 ]
         then
-                for i in `ls ../../../server_conf/$@/icons`; do
+                path=../../../../..
+        else
+                path=../../..
+        fi
+        
+        if [ -d $path/server_conf/$1/icons ]
+        then
+                for i in `ls $path/server_conf/$1/icons`; do
                         find -name $i -type l -exec rm {} \;
-                        ln -s ../../../server_conf/$@/icons/$i $i
+                        ln -s $path/server_conf/$1/icons/$i $i
                 done
         fi
 
@@ -30,7 +51,7 @@ addlinks () {
         find -name servicons -type l -exec rm {} \;
         ln -s ../../www-data/icons servicons
 
-        cd ../../scripts
+        cd ../..
         return
 }
 
@@ -40,21 +61,47 @@ addclientlink () {
         then
                 ln -s servicons icons 
         fi
-        cd ../../scripts
 }
 
-if [ "$1" = -h ]
+if [ $# -eq 0 ]
+then
+        cd ..
+        for i in `ls server_conf`; do
+                if [ -d server_conf/$i ] && [ ! "$i" = CVS ]
+                then
+                        addlinks "$i"
+                fi
+        done
+        cd scripts
+        addclientlink
+
+elif [ "$1" = -h ]
 then
         usage
 
-elif [ "$1" = -a ] && [ -d ../server_conf/$2 ]
+elif [ $# -eq 2 ] && 
+     [ -d ../projects/$2/server_conf/$1 ]
 then
-        addlinks "$2"
+        cd ../projects/$2
+        addlinks "$1"
+        cd htdocs
+        addclientlink
+
+elif [ $# -eq 2 ] &&
+     [ -d ../projects/$2 ] &&
+     [ -d ../server_conf/$1 ]
+then
+        cd ../projects/$2
+        addlinks "$1" "foo"
+        cd htdocs
         addclientlink
 
 elif [ -d ../server_conf/$1 ]
 then
+        cd ..
         addlinks "$1"
+        cd scripts
+        addclientlink
 
 elif [ "$1" = -a ]
 then
