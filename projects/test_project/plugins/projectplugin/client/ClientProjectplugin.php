@@ -46,8 +46,8 @@ class ClientProjectplugin extends ClientPlugin {
         $mapRequest->projectpluginRequest = $request;
     }
 
-    function handleMapResult($mapResult) {
-        $result = Serializable::unserializeObject($mapResult, 'projectpluginResult', 'ProjectpluginResult');
+    function handleResult($result) {
+        $result = Serializable::unserializeObject($result, NULL, 'ProjectpluginResult');
         $this->message = $result->shuffledMessage;
     }
 

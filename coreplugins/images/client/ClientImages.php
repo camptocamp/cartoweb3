@@ -106,12 +106,12 @@ class ClientImages extends ClientCorePlugin {
         $mapRequest->imagesRequest = $images;
     }
 
-    function handleMapResult($mapResult) {
-        $this->imagesResult = $mapResult->imagesResult;
-        $imgRes = $mapResult->imagesResult;
+    function handleResult($imagesResult) {
+        assert($imagesResult instanceof ImagesResult);
+        $this->imagesResult = $imagesResult;
 
-        $this->imagesState->mainmapDimension->width = $imgRes->mainmap->width; 
-        $this->imagesState->mainmapDimension->height = $imgRes->mainmap->height; 
+        $this->imagesState->mainmapDimension->width = $imagesResult->mainmap->width; 
+        $this->imagesState->mainmapDimension->height = $imagesResult->mainmap->height; 
     }
 
     /**

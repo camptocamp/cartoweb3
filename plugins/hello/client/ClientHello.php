@@ -41,7 +41,7 @@ class ClientHello extends ClientPlugin {
         //$mapRequest->helloRequest = @$_REQUEST[self::HELLO_INPUT];
     }
 
-    function handleMapResult($mapResult) {}
+    function handleResult($result) {}
 
     function renderForm($template) {
         if (!$template instanceof Smarty) {

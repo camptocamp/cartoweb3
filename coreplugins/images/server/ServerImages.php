@@ -102,7 +102,7 @@ class ServerImages extends ServerCoreplugin {
 
         $msMapObj = $this->serverContext->msMapObj;
 
-        $imagesResult = new Images();
+        $imagesResult = new ImagesResult();
 
         $notdrawnImage = new Image();
         $notdrawnImage->isDrawn = false;

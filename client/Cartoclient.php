@@ -301,7 +301,7 @@ class Cartoclient {
         $this->log->debug("mapresult:");
         $this->log->debug($mapResult);
 
-        $this->callPlugins('dohandleMapResult', $mapResult);
+        $this->callPlugins('internalHandleResult', $mapResult);
 
         $this->log->debug("client context to display");
 
