@@ -7,9 +7,6 @@
 /**
  * Dir path to Cartoclient home
  */
-
-//print '<pre>'; print_r($_REQUEST); print '</pre>';die;
-
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/../../..') . '/');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . 
