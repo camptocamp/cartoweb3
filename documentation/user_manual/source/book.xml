@@ -8,24 +8,16 @@
 <!-- $Id$ -->
 
 <book id="cartoweb">
- <title>CartoWeb Documentation</title>
+ <title>&cartoweb; Documentation</title>
  <subtitle></subtitle>
  <bookinfo>
-  <corpauthor>CampToCamp.</corpauthor>
+  <corpauthor>Camptocamp</corpauthor>
   <pubdate><?dbtimestamp format="Y-m-d"?></pubdate>
  </bookinfo>
 
  <part id="cartoweb.intro">
-  <title>Presentation and architecture</title>
+  <title>Presentation and Architecture</title>
   <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
    <para>
     Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
     Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
@@ -43,14 +35,6 @@
  <part id="cartoweb.user">
   <title>User Manual</title>
   <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
    <para>
     Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
     Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
@@ -77,14 +61,8 @@
  </part>
 
   <part id="cartoweb.dev">
-    <title>Developer's doc</title>
+    <title>Developer Manual</title>
     <partintro>
-      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli </para>
       <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
         Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
         Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
