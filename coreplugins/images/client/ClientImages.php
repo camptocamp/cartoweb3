@@ -14,7 +14,8 @@ class ImagesState {
 /**
  * @package CorePlugins
  */
-class ClientImages extends ClientCorePlugin {
+class ClientImages extends ClientCorePlugin
+                   implements Sessionable, ServerCaller {
     private $log;
     private $imagesState;
 

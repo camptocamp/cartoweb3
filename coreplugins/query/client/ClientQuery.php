@@ -19,7 +19,8 @@ class QueryState {
 /**
  * @package CorePlugins
  */
-class ClientQuery extends ClientCorePlugin implements ToolProvider {
+class ClientQuery extends ClientCorePlugin
+                  implements Sessionable, ServerCaller, ToolProvider {
     private $log;
 
     private $queryState;

@@ -15,7 +15,8 @@ class LocationState {
 /**
  * @package CorePlugins
  */
-class ClientLocation extends ClientCorePlugin implements ToolProvider {
+class ClientLocation extends ClientCorePlugin
+                     implements Sessionable, ServerCaller, InitProvider, ToolProvider {
     private $log;
     private $locationState;
 

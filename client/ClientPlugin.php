@@ -117,6 +117,46 @@ interface ToolProvider {
 /**
  * @package Client
  */
+interface Sessionable {
+
+    function loadSession($sessionObject);
+
+    function createSession(MapInfo $mapInfo, InitialMapState $initialState);
+
+    function saveSession();
+}
+
+/** 
+ * @package Client
+ */
+interface ServerCaller {
+
+    function buildMapRequest($mapRequest);
+
+    function handleResult($result);
+}
+
+/** 
+ * @package Client
+ */
+interface InitProvider {
+
+    function handleInit($initObject); 
+}
+
+/** 
+ * @package Client
+ */
+interface Exportable {
+
+    function ajdustExportMapRequest(ExportConfiguration $configuration, 
+                                    MapRequest &$mapRequest);
+}
+
+
+/**
+ * @package Client
+ */
 abstract class ClientPlugin extends PluginBase {
     private $log;
     protected $cartoclient;
@@ -148,6 +188,9 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     final function doLoadSession() {
+    
+        assert($this instanceof Sessionable);
+        
         $clientSession = $this->cartoclient->getClientSession();
 
         $className = get_class($this);
@@ -165,6 +208,9 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     final function doSaveSession() {
+
+        assert($this instanceof Sessionable);
+        
         $className = get_class($this);
 
         $toSave = $this->saveSession();
@@ -199,6 +245,8 @@ abstract class ClientPlugin extends PluginBase {
 
     final function dohandleInit($mapInfo) {
 
+        assert($this instanceof InitProvider);
+
         $pluginInit = $this->unserializeInit($mapInfo);
         
         if (!empty($pluginInit)) {        
@@ -228,8 +276,9 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     final function doGetTools() {
-        if (! $this instanceof ToolProvider) 
-            return array();
+
+        assert($this instanceof ToolProvider); 
+
         if (is_null($this->tools)) {
             $tools = $this->getTools();
 
@@ -247,24 +296,17 @@ abstract class ClientPlugin extends PluginBase {
         return $this->tools;
     }
 
-    abstract function loadSession($sessionObject);
-    abstract function createSession(MapInfo $mapInfo, InitialMapState $initialState);
-    abstract function saveSession();
-
     abstract function handleHttpRequest($request);
-
-    abstract function buildMapRequest($mapRequest);
-
 
     final function internalHandleResult($mapResult) {
 
+        assert($this instanceof ServerCaller);
+        
         $pluginResult = $this->getRequest(false, $mapResult);
         
         $this->handleResult($pluginResult);
     }
-
-    abstract function handleResult($result);
-
+    
     abstract function renderForm($template);
 }
 

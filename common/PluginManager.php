@@ -94,6 +94,21 @@ class PluginManager {
         }
     }
 
+    function callPluginsImplementing($interfaces, $functionName, $args = array()) {
+
+        if (!is_array($interfaces)) {
+            $interfaces = array($interfaces);
+        }
+        foreach ($this->plugins as $plugin) {
+            foreach ($interfaces as $interface) {
+                if ($plugin instanceof $interface) {
+                    call_user_func_array(array($plugin, $functionName), $args);
+                    break;
+                } 
+            }
+        }
+    }
+
     function callPlugins($functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {

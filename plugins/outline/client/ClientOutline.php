@@ -16,7 +16,8 @@ class OutlineState {
 /**
  * @package CorePlugins
  */
-class ClientOutline extends ClientPlugin implements ToolProvider {
+class ClientOutline extends ClientPlugin
+                    implements Sessionable, ServerCaller, ToolProvider {
     private $log;
 
     private $outlineState;

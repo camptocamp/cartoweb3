@@ -9,7 +9,8 @@
  *
  * @package CorePlugins
  */
-class ClientStatictools extends ClientCorePlugin implements ToolProvider {
+class ClientStatictools extends ClientCorePlugin
+                        implements ToolProvider {
     private $log;
 
     const TOOL_DISTANCE = 'distance';
@@ -19,10 +20,6 @@ class ClientStatictools extends ClientCorePlugin implements ToolProvider {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
-
-    function loadSession($sessionObject) { }
-
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) { }
 
     function handleMainmapTool(ToolDescription $tool,
                                Shape $mainmapShape) {}
@@ -45,14 +42,6 @@ class ClientStatictools extends ClientCorePlugin implements ToolProvider {
 
     function handleHttpRequest($request) {}
 
-    function buildMapRequest($mapRequest) {}
-
-    function handleResult($queryResult) {}
-
     function renderForm($template) {}
-
-    function saveSession() {
-        return NULL;
-    }
 }
 ?>

@@ -23,7 +23,8 @@ class SelectionState {
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class ClientSelection extends ClientPlugin implements ToolProvider {
+class ClientSelection extends ClientPlugin
+                      implements Sessionable, ServerCaller, ToolProvider {
 
     private $selectionState;
 

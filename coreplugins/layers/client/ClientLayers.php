@@ -20,7 +20,8 @@ class LayersState {
 /**
  * @package CorePlugins
  */
-class ClientLayers extends ClientCorePlugin {
+class ClientLayers extends ClientCorePlugin
+                   implements Sessionable, ServerCaller {
     private $log;
     private $smarty;
 
