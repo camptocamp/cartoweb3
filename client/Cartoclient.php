@@ -1,7 +1,6 @@
 <?php
 /**
  * Main classes for Cartoclient
- * 
  * @package Client
  * @version $Id$
  */
@@ -34,7 +33,6 @@ require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
 /**
  * Cartoclient exception 
- *
  * @package Client
  */
 class CartoclientException extends Exception {
@@ -43,7 +41,6 @@ class CartoclientException extends Exception {
 
 /**
  * Stores if mainmap or keymap were clicked, and if yes where
- * 
  * @package Client
  */
 class CartoForm {
@@ -62,7 +59,6 @@ class CartoForm {
 
 /**
  * Configuration for client side
- *
  * @package Client
  */
 class ClientConfig extends Config {
@@ -95,7 +91,6 @@ class ClientConfig extends Config {
 
 /**
  * Configuration for client plugins
- * 
  * @package Client
  */
 class ClientPluginConfig extends PluginConfig {
@@ -124,7 +119,6 @@ class ClientPluginConfig extends PluginConfig {
 
 /**
  * Data stored in session 
- *
  * @package Client
  */
 class ClientSession {
@@ -152,7 +146,6 @@ define('CLIENT_SESSION_KEY', 'client_session_key');
 
 /**
  * Main Cartoclient class
- *
  * @package Client
  */
 class Cartoclient {

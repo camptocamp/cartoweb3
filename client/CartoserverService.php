@@ -1,15 +1,21 @@
 <?php
 /**
+ * Service for server calls
  * @package Client
  * @version $Id$
  */
+ 
 require_once('log4php/LoggerManager.php');
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
+ * Wrapper for server calls
+ *
+ * Hides the calling method (direct or SOAP) from the client.
  * @package Client
  */
 class CartoserverService {
+
     private $log;
     private $config;
 
@@ -20,6 +26,9 @@ class CartoserverService {
         $this->config = $config;
     }
 
+    /**
+     * Calls function using direct mode
+     */
     private function callDirect($function, $argument) {
 
         // read by cartoserver to tell its mode
@@ -40,6 +49,9 @@ class CartoserverService {
         return $result;
     }
 
+    /**
+     * Returns Cartoserver object, creates it if needed
+     */
     private function getCartoserver() {
         if (!$this->cartoserver) {
             $this->cartoserver = new Cartoserver();
@@ -47,6 +59,9 @@ class CartoserverService {
         return $this->cartoserver;
     }
     
+    /**
+     * Constructs Cartoserver URL depending on configuration base URL
+     */
     private function getCartoserverUrl($script) {
 
         $url = '';
@@ -59,6 +74,14 @@ class CartoserverService {
             return $url . $script . '?mapId=' . $this->config->mapId;
     }
 
+    /**
+     * Calls a function using either direct or SOAP mode
+     *
+     * In case of SOAP mode:
+     * - Calls using WSDL or not depending on configuration
+     * - Unserializes result
+     * - Generates a understandable message in case of error
+     */
     private function callFunction($function, $argument, $replayTrace=false) {
 
         if ($this->config->cartoserverDirectAccess) {
@@ -112,10 +135,16 @@ class CartoserverService {
         return $mapResult;
     }
 
+    /**
+     * Retrieve MapInfo from server
+     */
     function getMapInfo($mapId) {
         return $this->callFunction('getMapInfo', $mapId);
     }
 
+    /**
+     * Retrieve MapResult from server
+     */
     function getMap($mapRequest) {
         return $this->callFunction('getMap', $mapRequest);
     }
