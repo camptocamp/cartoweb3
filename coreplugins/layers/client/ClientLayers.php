@@ -509,12 +509,16 @@ class ClientLayers extends ClientCorePlugin
                        $layer->rendering == 'dropdown');
         
         if ($isDropDown) {
+            $isRadioContainer = false;
             $dropDownChildren = array();
             if (isset($this->layersState->dropDownSelected[$parentId])) {
                 $dropDownSelected = 
                     $this->layersState->dropDownSelected[$parentId];
             } else
                 $i = 0;
+        } else {
+            $isRadioContainer = ($layer instanceof LayerGroup &&
+                                 $layer->rendering == 'radio');
         }
         
         foreach ($this->getLayerChildren($layer) as $child) {
@@ -564,19 +568,20 @@ class ClientLayers extends ClientCorePlugin
         }
 
         $element = array_merge($element,
-                          array('layerLabel'     => I18n::gt($layer->label),
-                                'layerId'        => $layer->id,
-                                'layerClassName' => $layer->className,
-                                'layerLink'      => $layer->link,
-                                'layerIcon'      => $layer->icon,
-                                'layerOutRange'  => $layerOutRange,
-                                'layerChecked'   => $layerChecked,
-                                'layerFrozen'    => $layerFrozen,
-                                'layerRendering' => $layerRendering,
-                                'isDropDown'     => $isDropDown,
-                                'groupFolded'    => $groupFolded,
-                                'parentId'       => $parentId,
-                                'nodeId'         => $this->nodeId++,
+                          array('layerLabel'       => I18n::gt($layer->label),
+                                'layerId'          => $layer->id,
+                                'layerClassName'   => $layer->className,
+                                'layerLink'        => $layer->link,
+                                'layerIcon'        => $layer->icon,
+                                'layerOutRange'    => $layerOutRange,
+                                'layerChecked'     => $layerChecked,
+                                'layerFrozen'      => $layerFrozen,
+                                'layerRendering'   => $layerRendering,
+                                'isDropDown'       => $isDropDown,
+                                'isRadioContainer' => $isRadioContainer,
+                                'groupFolded'      => $groupFolded,
+                                'parentId'         => $parentId,
+                                'nodeId'           => $this->nodeId++,
                                 ));
         
         if (!$groupFolded && $this->nodeId != 1) 
