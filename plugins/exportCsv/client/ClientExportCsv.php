@@ -85,7 +85,9 @@ class ClientExportCsv extends ExportPlugin {
         return $contents;
     }
     
-    function export($mapRequest, $mapResult) {
+    function getExport() {
+
+        $mapResult = $this->getExportResult($this->getConfiguration());
 
         if (!is_null($this->getConfig()->separator)) {
             $sep = $this->getConfig()->separator;

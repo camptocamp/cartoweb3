@@ -203,15 +203,15 @@ class ExportOutput {
 abstract class ExportPlugin extends ClientPlugin {
 
     /**
-     * Retrieves MapResult and exports
+     * Retrieves MapResult
      *
      * - Gets last request
      * - Calls plugins to adjust request
      * - Calls server's getMap
-     * - Renders export output by calling child object's export()
-     * @return ExportOutput export result 
+     * @param ExportConfiguration configuration
+     * @return MapResult server result 
      */
-    function getExport() {
+    function getExportResult($configuration) {
 
         try {
             // Calls all plugins to modify request
@@ -219,36 +219,24 @@ abstract class ExportPlugin extends ClientPlugin {
             if (!$mapRequest) {
                 return NULL;
             }
-            $configuration = $this->getConfiguration();
             $this->cartoclient->callPluginsImplementing('Exportable', 'adjustExportMapRequest',
                                                     $configuration, $mapRequest);
 
             // Calls getMap
-            $mapResult = $this->cartoclient->cartoserverService->getMap($mapRequest);
-
-            // Returns export url or contents
-            return $this->export($mapRequest, $mapResult);
+            return $this->cartoclient->cartoserverService->getMap($mapRequest);
 
         } catch (Exception $exception) {
             
             $this->cartoclient->formRenderer->showFailure($exception);
-            return new ExportOutput();
+            return NULL;
         }
     }
 
-    /** 
-     * Returns export configuration
-     * @return ExportConfiguration configuration
-     */
-    abstract function getConfiguration();
-
     /**
      * Renders export
-     * @param MapRequest current map request
-     * @param MapResult MapResult returned by server
      * @return ExportOutput export result
      */
-    abstract function export($mapRequest, $mapResult);
+    abstract function getExport();
 }
 
 ?>

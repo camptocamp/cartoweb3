@@ -48,22 +48,21 @@ class ClientExportHtml extends ExportPlugin {
         return $config;
     }
     
-    function export($mapRequest, $mapResult) {
+    function getExport() {
+    
+        $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+        $mapResult = $this->getExportResult($this->getConfiguration());
 
         $smarty = new Smarty_CorePlugin($this->getCartoclient()->getConfig(), $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
-        
         // TODO: Add icons
         
         $legends = array();
         foreach ($mapRequest->layersRequest->layerIds as $layerId) {
-            if (array_key_exists($layerId, $mapInfo->layers)) {
-                $layer = $mapInfo->layers[$layerId];
-                $legends[] = array('label' => I18n::gt($layer->label)); 
-            }         
+            $layer = $mapInfo->getLayerById($layerId);
+            $legends[] = array('label' => I18n::gt($layer->label)); 
         }
-
         $smarty->assign(array('exporthtml_mainmap'  => $this->getBaseUrl()
                                     . $mapResult->imagesResult->mainmap->path,
                               'exporthtml_keymap'   => $this->getBaseUrl()
