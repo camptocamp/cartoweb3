@@ -249,12 +249,12 @@ class ClientOutline extends ClientPlugin
     }
     
     /**
-     * Draws Outline2 form and returns Smarty generated HTML
+     * Draws Outlinelabel form and returns Smarty generated HTML
      * @return string
      */    
-    private function drawOutline2() {
+    private function drawOutlinelabel() {
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
-        return $this->smarty->fetch('outline2.tpl');
+        return $this->smarty->fetch('outlinelabel.tpl');
     }
 
     /**
@@ -266,7 +266,7 @@ class ClientOutline extends ClientPlugin
        
         $template->assign(array('outline_active' => true,
                                 'outline' => $this->drawOutline(),
-                                'outline2' => $this->drawOutline2()));
+                                'outlinelabel' => $this->drawOutlinelabel()));
     }
 
     /**

@@ -29,7 +29,7 @@
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
 {if $outline_active|default:''}
-  {$outline2}
+  {$outlinelabel}
 {/if}
   <div id="content">
 
