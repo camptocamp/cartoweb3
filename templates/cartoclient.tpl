@@ -1,12 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="css/style.css" title="stylesheet">
-		<meta name="author" content="Sylvain Pasche">
-		<meta name="email" content="sylvain dot pasche at camptocamp dot com">
-		<title>{$cartoclient_title}</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/style.css" title="stylesheet">
+        <meta name="author" content="Sylvain Pasche">
+        <meta name="email" content="sylvain dot pasche at camptocamp dot com">
+        <title>{$cartoclient_title}</title>
     </head>
 
 {literal}
@@ -105,7 +105,7 @@ function CheckRadio(theIndex) {
 
 
 <div class="leftbar">    
- 	<div align="center">
+    <div align="center">
        keymap
     </div>
 
@@ -159,10 +159,10 @@ Outliner plugin:
                 <input type="image" src="gfx/layout/west.gif" name="pan_w"/>
         <td>
         
-	        <input type="hidden" name="INPUT_TYPE" value="">
-			<input type="hidden" name="INPUT_COORD" value="">
-			<div id="mapAnchorDiv" style="position:relative;width:400;height:200;clip:rect(0,400,200,0)">
-			</div>
+            <input type="hidden" name="INPUT_TYPE" value="">
+            <input type="hidden" name="INPUT_COORD" value="">
+            <div id="mapAnchorDiv" style="position:relative;width:400;height:200;clip:rect(0,400,200,0)">
+            </div>
 
         <td>
                 <input type="image" src="gfx/layout/east.gif" name="pan_e"/>
@@ -176,7 +176,7 @@ Outliner plugin:
 <tr>
         <td/>
         <td align="center">
-			Scalebar.
+            Scalebar.
         <td/>
 </table>
 </p>

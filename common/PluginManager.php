@@ -9,7 +9,7 @@ class PluginManager {
     private $plugins = array();
     
     function getPlugins() {
-    	return $this->plugins;
+        return $this->plugins;
     }
     
     function __construct() {
@@ -53,12 +53,12 @@ class PluginManager {
             $includePath = $this->getPath($path, $type, $name) . $className . '.php';
             $this->log->debug("trying to load class $includePath");
 
-			// FIXME: this won't work in case of non absolute paths
+            // FIXME: this won't work in case of non absolute paths
             if (is_readable($this->getCommonPath($path, $name)))
-            	include_once($this->getCommonPath($path, $name));
+                include_once($this->getCommonPath($path, $name));
 
             if (is_readable($includePath))
-            	include_once($includePath);
+                include_once($includePath);
 
             if (!class_exists($className)) {
                 $this->log->warn("Couldn't load plugin $className");

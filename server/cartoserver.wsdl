@@ -3,7 +3,7 @@
     <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://camptocamp.com/cartoserver/xsd">
       <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
 
-	<!-- Basic types -->
+    <!-- Basic types -->
 
       <complexType name="Bbox">
         <all>
@@ -21,7 +21,7 @@
         </all>
       </complexType>
 
-	<!-- Mapinfo structure -->
+    <!-- Mapinfo structure -->
 
       <complexType name="MapInfo">
         <all>

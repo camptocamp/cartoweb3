@@ -13,7 +13,7 @@ class LayerBase {
     
     public $minScale = 0;
     public $maxScale = 0;
-	public $icon = "none";
+    public $icon = "none";
     
     function getVarInfo() {
         return array(
@@ -78,9 +78,9 @@ class Location {
 }
 
 class InitialLocation {
-	public $bbox;
-	
-	function getVarInfo($context) {
+    public $bbox;
+    
+    function getVarInfo($context) {
         if ($context == StructHandler::CONTEXT_INI)
             return array('bbox' => 'bbox');
         else 
@@ -89,10 +89,10 @@ class InitialLocation {
 }
 
 class LayerState {
-	public $id;
-	public $hidden;
-	public $selected;
-	public $folded;
+    public $id;
+    public $hidden;
+    public $selected;
+    public $folded;
 
     function getVarInfo() {
         return array(
@@ -105,9 +105,9 @@ class LayerState {
 
 class InitialMapState {
 
-	public $id;
-	public $location;
-	public $layers;
+    public $id;
+    public $location;
+    public $layers;
 
     function getVarInfo() {
         return array(
@@ -120,7 +120,7 @@ class InitialMapState {
 class MapInfo {
     
     public $layers;
-	public $initialMapStates;
+    public $initialMapStates;
 
     function getVarInfo() {
         return array(

@@ -17,13 +17,13 @@ function x1($a="__died__ \n") {
 
 // only for debug
 function x($a="__died__\n") {
-	x1($a);
+    x1($a);
     die($a."\n");
 }
 
 function bt($a="__died__\n") {
     debug_print_backtrace();
-	x($a);
+    x($a);
 }
 
 function l($arg=false) {

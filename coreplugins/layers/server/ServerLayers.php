@@ -3,24 +3,24 @@
 class ServerLayers extends ServerCoreplugin {
     private $log;
 
-	private $requestedLayerNames;
+    private $requestedLayerNames;
 
     function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-	function getRequestedLayerNames() {
-		if (!$this->requestedLayerNames)
-			return array();
-		return $this->requestedLayerNames;
-	}
+    function getRequestedLayerNames() {
+        if (!$this->requestedLayerNames)
+            return array();
+        return $this->requestedLayerNames;
+    }
 
     function getResultFromRequest($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
 
-		$this->requestedLayerNames = $requ;
+        $this->requestedLayerNames = $requ;
 
         if (!count($requ)) {
             $this->log->info("no layers request: doing nothing");

@@ -40,7 +40,7 @@ abstract class ServerPlugin extends PluginBase {
             return;
 
         if (!$this->log) {
-			throw new CartoserverException('parent plugin not initialized');
+            throw new CartoserverException('parent plugin not initialized');
         }
 
         $requestName = $this->getName() . 'Request';

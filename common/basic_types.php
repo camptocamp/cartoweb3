@@ -11,15 +11,15 @@ class Dimension {
 }
 
 abstract class Shape {
-	/*
-	const TYPE_POINT = 1;
-	const TYPE_RECTANGLE = 2;
-	const TYPE_POLYGON = 3;
-	
-	public $type;
-	*/
-		
-	abstract  function getCenter();
+    /*
+    const TYPE_POINT = 1;
+    const TYPE_RECTANGLE = 2;
+    const TYPE_POLYGON = 3;
+    
+    public $type;
+    */
+        
+    abstract  function getCenter();
 }
 
 class Point extends Shape {
@@ -32,31 +32,31 @@ class Point extends Shape {
     }
     
     function getX() {
-    	return $this->x;
+        return $this->x;
     }
     
     function getY() {
-    	return $this->y;
+        return $this->y;
     }
     
     function setXY($x, $y) {
-    	$this->x = $x;
-    	$this->y = $y;
+        $this->x = $x;
+        $this->y = $y;
     }
     
     function getCenter() {
-    	return clone $this;
+        return clone $this;
     }
     
     function toBbox($margin = 0) {
-    	$bbox = new Bbox();
+        $bbox = new Bbox();
 
-		if ($margin > 0) {
-			x('todo_point_bbox');
-		}
+        if ($margin > 0) {
+            x('todo_point_bbox');
+        }
 
-    	$bbox->setFromBbox($this->x, $this->y, $this->x, $this->y);
-    	return $bbox;
+        $bbox->setFromBbox($this->x, $this->y, $this->x, $this->y);
+        return $bbox;
     }
 }
 
@@ -77,12 +77,12 @@ class Bbox extends Shape {
         $this->maxy = $ms_extent->maxy;
     }
 
-	function setFrom2Points(Point $point0, Point $point1) {
-		$this->minx = min($point0->getX(), $point1->getX());
-		$this->miny = min($point0->getY(), $point1->getY());
-		$this->maxx = max($point0->getX(), $point1->getX());
-		$this->maxy = max($point0->getY(), $point1->getY());
-	}
+    function setFrom2Points(Point $point0, Point $point1) {
+        $this->minx = min($point0->getX(), $point1->getX());
+        $this->miny = min($point0->getY(), $point1->getY());
+        $this->maxx = max($point0->getX(), $point1->getX());
+        $this->maxy = max($point0->getY(), $point1->getY());
+    }
 
     function getWidth() {
         return $this->maxx - $this->minx;
@@ -102,10 +102,14 @@ class Bbox extends Shape {
     }
     
     function __toString() {
-    	return sprintf("BBOX(%s %s-%s %s [%s %s])", 
-    		(int)$this->minx, (int)$this->miny, 
-    		(int)$this->maxx, (int)$this->maxy,
-    		(int)$this->getWidth(), (int)$this->getHeight());
+        return sprintf("BBOX(%s %s;%s %s [%s %s])", 
+            $this->minx, $this->miny, 
+            $this->maxx, $this->maxy,
+            $this->getWidth(), $this->getHeight());
+            /*
+            (int)$this->minx, (int)$this->miny, 
+            (int)$this->maxx, (int)$this->maxy,
+            (int)$this->getWidth(), (int)$this->getHeight()); */
     }
     
 }
@@ -115,7 +119,7 @@ class Rectangle extends Bbox {
 }
 
 class Polygon extends Shape {
-	/* todo: store points */
+    /* todo: store points */
 }
 
 ?>

@@ -19,9 +19,9 @@ class ClientLayers extends ClientCorePlugin {
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
 
-		$this->layersState = array();
-		foreach ($initialMapState->layers as $initialLayerState) {
-        	$this->layersState[$initialLayerState->id] = $initialLayerState;
+        $this->layersState = array();
+        foreach ($initialMapState->layers as $initialLayerState) {
+            $this->layersState[$initialLayerState->id] = $initialLayerState;
         }
     }
 
@@ -49,16 +49,16 @@ class ClientLayers extends ClientCorePlugin {
         }
     }
 
-	private function getSelectedLayers() {
-		$selectedLayers = array();
+    private function getSelectedLayers() {
+        $selectedLayers = array();
         $mapInfo = $this->cartoclient->getMapInfo();
         $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
         foreach ($layers as $layer) {
             if (@$this->layersState[$layer->id]->selected)
-            	$selectedLayers[] = $layer->id;
+                $selectedLayers[] = $layer->id;
         }
-		return $selectedLayers;
-	}
+        return $selectedLayers;
+    }
 
     function buildMapRequest($mapRequest) {
 
@@ -70,7 +70,7 @@ class ClientLayers extends ClientCorePlugin {
     private function drawLayers() {
 
         $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-        				$this);
+                        $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
         $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);

@@ -16,8 +16,8 @@ abstract class Config {
         }
     }
 
-	// !! WARNING: do not use empty() to test agains properties returned
-	//  by __get(). It will be always empty !!
+    // !! WARNING: do not use empty() to test agains properties returned
+    //  by __get(). It will be always empty !!
 
     function __construct() {
 

@@ -6,7 +6,7 @@ class MapRequest {
     public $imagesRequest;
     public $layersRequest;
 
-	// more from plugins
+    // more from plugins
 }
 
 class MapResult {

@@ -9,7 +9,7 @@ cartoserverDirectAccess = false
 
 # The url of the cartoserver SOAP wsdl
 # If it is not set, a default location will be guessed
-##cartoserverUrl = "http://youhost/path/to/cartoserver.wsdl.php"
+##cartoserverUrl = "http://your/path/to/cartoserver.wsdl.php"
 
 #useReverseProxy = true
 #reverseProxy = "/blah"

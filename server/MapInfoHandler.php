@@ -14,22 +14,22 @@ class MapInfoHandler {
         $this->loadMapInfo($mapId);
     }
 
-	/**
-	 * Process mapInfo after being loaded from the configuration.
-	 * Does some basic consistency checks, fills some information.
-	 */
-	private function fixupMapInfo(MapInfo $mapInfo) {
-	
-		foreach ($mapInfo->layers as $layer) {
-			if (empty($layer->label))
-				$layer->label = $layer->id; 
-			if (empty($layer->msLayer))
-				$layer->msLayer = $layer->id; 
+    /**
+     * Process mapInfo after being loaded from the configuration.
+     * Does some basic consistency checks, fills some information.
+     */
+    private function fixupMapInfo(MapInfo $mapInfo) {
+    
+        foreach ($mapInfo->layers as $layer) {
+            if (empty($layer->label))
+                $layer->label = $layer->id; 
+            if (empty($layer->msLayer))
+                $layer->msLayer = $layer->id; 
 
-		}
-		
-		return $mapInfo;
-	}
+        }
+        
+        return $mapInfo;
+    }
 
     private function loadMapInfo($mapId) {
 

@@ -8,13 +8,13 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     private $log;
     private $locationState;
 
-	private $locationRequest;
-	private $locationResult;
+    private $locationRequest;
+    private $locationResult;
 
-	const TOOL_ZOOMIN = 'zoom_in';
-	const TOOL_ZOOMOUT = 'zoom_out';
-	const TOOL_PAN = 'pan';
-	const TOOL_RECENTER = 'recenter';
+    const TOOL_ZOOMIN = 'zoom_in';
+    const TOOL_ZOOMOUT = 'zoom_out';
+    const TOOL_PAN = 'pan';
+    const TOOL_RECENTER = 'recenter';
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -62,7 +62,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                             
         foreach ($panButtonToDirection as $buttonName => $directions) {
             if (!HttpRequestHandler::isButtonPushed($buttonName))
-            	continue;
+                continue;
 
             $verticalPan = $directions[0];                
             $horizontalPan = $directions[1];                
@@ -72,16 +72,16 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                
             $bbox = $this->locationState->bbox;
             $xOffset = $bbox->getWidth() * $panRatio * 
-            	$this->panDirectionToFactor($horizontalPan);
-        	$yOffset = $bbox->getHeight() * $panRatio *
-            	$this->panDirectionToFactor($verticalPan);
+                $this->panDirectionToFactor($horizontalPan);
+            $yOffset = $bbox->getHeight() * $panRatio *
+                $this->panDirectionToFactor($verticalPan);
 
-        	$center = $bbox->getCenter();
-        	$point = new Point($center->x + $xOffset,
+            $center = $bbox->getCenter();
+            $point = new Point($center->x + $xOffset,
                          $center->y + $yOffset);
-        		
-        	$this->locationRequest = $this->buildZoomPointRequest(
-        			ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
+                
+            $this->locationRequest = $this->buildZoomPointRequest(
+                    ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
         }
     }
 
@@ -108,39 +108,39 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
     function handleHttpRequest($request) {
     
-    	$this->handlePanButtons();
+        $this->handlePanButtons();
     }
-	
-	private function getZoomInFactor(Rectangle $rectangle) {
+    
+    private function getZoomInFactor(Rectangle $rectangle) {
 
-		$bbox = $this->locationState->bbox;
-		
-		$widthRatio = $bbox->getWidth() / $rectangle->getWidth();
-		$heightRatio = $bbox->getHeight() / $rectangle->getHeight();
-		
-		return min($widthRatio, $heightRatio);
-	}
+        $bbox = $this->locationState->bbox;
+        
+        $widthRatio = $bbox->getWidth() / $rectangle->getWidth();
+        $heightRatio = $bbox->getHeight() / $rectangle->getHeight();
+        
+        return min($widthRatio, $heightRatio);
+    }
 
-	private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0) {
+    private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0) {
 
-	    $zoomRequest = new ZoomPointLocationRequest();
+        $zoomRequest = new ZoomPointLocationRequest();
         $zoomRequest->locationType = LocationRequest::
-        										LOC_REQ_ZOOM_POINT;
+                                                LOC_REQ_ZOOM_POINT;
         $zoomRequest->point = $point; 
         $zoomRequest->zoomType = $zoomType;
         $zoomRequest->zoomFactor = $zoomFactor;
         $zoomRequest->bbox = $this->locationState->bbox;
 
-		$locationRequest = new LocationRequest();                
+        $locationRequest = new LocationRequest();                
         $locationType = $zoomRequest->locationType;
         $locationRequest->locationType = $locationType;
-    	$locationRequest->$locationType = $zoomRequest;
-    	
-    	return $locationRequest;
-	}
+        $locationRequest->$locationType = $zoomRequest;
+        
+        return $locationRequest;
+    }
 
-	function handleMainmapTool(ToolDescription $tool, 
-							Shape $mainmapShape) {
+    function handleMainmapTool(ToolDescription $tool, 
+                            Shape $mainmapShape) {
 
         $toolToZoomType = array(
                 self::TOOL_ZOOMIN  => 
@@ -152,53 +152,53 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
         $zoomType = @$toolToZoomType[$tool->id];
         if (empty($zoomType))
-        	throw new CartoclientException("unknown mainmap tool " . $tool->id);
+            throw new CartoclientException("unknown mainmap tool " . $tool->id);
 
-		$point = $mainmapShape->getCenter();
+        $point = $mainmapShape->getCenter();
 
-		$zoomFactor = 0;
-		if ($tool->id == self::TOOL_ZOOMIN && $mainmapShape instanceof Rectangle) {
-			$zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
-			$zoomFactor = $this->getZoomInFactor($mainmapShape);
-		}
-		
-		return $this->buildZoomPointRequest($zoomType, $point, $zoomFactor);
-	}
-	
-	function handleKeymapTool(ToolDescription $tool, 
-							Shape $keymapShape) {
-		/* nothing to do */							
-	}
+        $zoomFactor = 0;
+        if ($tool->id == self::TOOL_ZOOMIN && $mainmapShape instanceof Rectangle) {
+            $zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
+            $zoomFactor = $this->getZoomInFactor($mainmapShape);
+        }
+        
+        return $this->buildZoomPointRequest($zoomType, $point, $zoomFactor);
+    }
+    
+    function handleKeymapTool(ToolDescription $tool, 
+                            Shape $keymapShape) {
+        /* nothing to do */                         
+    }
 
-	function getTools() {
-		
-		return array(new ToolDescription(self::TOOL_ZOOMIN, NULL, 'Zoom in', 
-			ToolDescription::MAINMAP),
-			new ToolDescription(self::TOOL_ZOOMOUT, NULL, 'Zoom out', 
-				ToolDescription::MAINMAP),
-			new ToolDescription(self::TOOL_PAN, NULL, 'Pan', 
-				ToolDescription::MAINMAP),
-			new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
-				ToolDescription::MAINMAP));
-	}
+    function getTools() {
+        
+        return array(new ToolDescription(self::TOOL_ZOOMIN, NULL, 'Zoom in', 
+            ToolDescription::MAINMAP),
+            new ToolDescription(self::TOOL_ZOOMOUT, NULL, 'Zoom out', 
+                ToolDescription::MAINMAP),
+            new ToolDescription(self::TOOL_PAN, NULL, 'Pan', 
+                ToolDescription::MAINMAP),
+            new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
+                ToolDescription::MAINMAP));
+    }
 
     function buildMapRequest($mapRequest) {
 
-		$locationRequest = NULL;
-		if (!is_null($this->locationRequest)) 
-			$locationRequest = $this->locationRequest;
-		
-		if (is_null($locationRequest)) {
-		
-		    $cartoclient = $this->cartoclient;
-			$locationRequest = $cartoclient->getHttpRequestHandler()
-									->handleTools($this);
-		}
-		
-		if (is_null($locationRequest)) // stay at the same location
-			$locationRequest = $this->buildZoomPointRequest(
-        				ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
-        				$this->locationState->bbox->getCenter());
+        $locationRequest = NULL;
+        if (!is_null($this->locationRequest)) 
+            $locationRequest = $this->locationRequest;
+        
+        if (is_null($locationRequest)) {
+        
+            $cartoclient = $this->cartoclient;
+            $locationRequest = $cartoclient->getHttpRequestHandler()
+                                    ->handleTools($this);
+        }
+        
+        if (is_null($locationRequest)) // stay at the same location
+            $locationRequest = $this->buildZoomPointRequest(
+                        ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
+                        $this->locationState->bbox->getCenter());
         $mapRequest->locationRequest = $locationRequest;
     }
 
@@ -207,7 +207,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         // sits above the plugin mechanism 
 
         $mapResult->location = StructHandler::unserialize($mapResult->locationResult,
-        											 	  'LocationResult', 
+                                                          'LocationResult', 
                                                           StructHandler::CONTEXT_OBJ);
 
         $this->locationState->bbox = $mapResult->location->bbox;
@@ -216,12 +216,12 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     }
 
     function renderForm($template) {
-	 	
-	 	$locationInfo = sprintf("Bbox: %s scale %s", 
-	 				$this->locationState->bbox->__toString(),
-	 				$this->locationResult->scale);
-	 	
-	 	$template->assign('location_info', $locationInfo);
+        
+        $locationInfo = sprintf("Bbox: %s scale %s", 
+                    $this->locationState->bbox->__toString(),
+                    $this->locationResult->scale);
+        
+        $template->assign('location_info', $locationInfo);
     }
 
     function saveSession() {

@@ -36,13 +36,15 @@ class ServerImages extends ServerCoreplugin {
             
         $imageUrl = NULL;
 
-		if (@$config->imageUrl)
-			return $config->imageUrl;
+        if (@$config->imageUrl)
+            return $config->imageUrl;
+            
+        // FIXME: take into account the reverse proxy url (see cartoserver.wsdl.php) !!
 
-		$wwwDataAccessible = true;
-		if ($config->wwwDataAccessible !== NULL)
-			$wwwDataAccessible = $config->wwwDataAccessible;
-	
+        $wwwDataAccessible = true;
+        if ($config->wwwDataAccessible !== NULL)
+            $wwwDataAccessible = $config->wwwDataAccessible;
+    
         if ($wwwDataAccessible)
             return dirname($_SERVER['PHP_SELF']) . '/../www-data/images/';
         

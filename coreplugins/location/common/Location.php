@@ -80,7 +80,7 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
 /* This may go away. Can be replaced by ZoomPointLocationRequest */
 class ZoomRectangleLocationRequest extends ZoomLocationRequest {
     public $type = LocationRequest::LOC_REQ_ZOOM_RECTANGLE;
-	public $rectangle;
+    public $rectangle;
 }
 
 ?>

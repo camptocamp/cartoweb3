@@ -53,22 +53,22 @@ class ServerContext {
         }
     }
 
-	function resetMsErrors() {
-	    $error = ms_GetErrorObj();
+    function resetMsErrors() {
+        $error = ms_GetErrorObj();
         while($error && $error->code != MS_NOERR) {
             $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n", $error->routine, $error->message);
             $this->log->debug($errorMsg);
             $error = $error->next();
         } 
-	   	ms_ResetErrorList();
-	}
+        ms_ResetErrorList();
+    }
 
     function checkMsErrors() {
         $error = ms_GetErrorObj();
         if (!$error || $error->code == MS_NOERR)
             return;
         
-		$errorMessages = '';
+        $errorMessages = '';
         while($error && $error->code != MS_NOERR) {
             $errorMsg = sprintf("Error in %s: %s<br>\n", $error->routine, $error->message);
             $this->log->fatal($errorMsg);

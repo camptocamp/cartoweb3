@@ -32,11 +32,11 @@ class CartoForm {
     const BUTTON_MAINMAP = 2;
     const BUTTON_KEYMAP = 3;
 
-	// FIXME: is this needed ?, or rather test **shape if not null
+    // FIXME: is this needed ?, or rather test **shape if not null
     public $pushedButton;
 
-	public $mainmapShape;
-	public $keymapShape;
+    public $mainmapShape;
+    public $keymapShape;
 
     public $plugins;
 }
@@ -90,13 +90,13 @@ class Cartoclient {
         return $this->clientSession;
     }
 
-	function getHttpRequestHandler() {
-		return $this->httpRequestHandler;
-	}
-	
-	function getPluginManager() {
-		return $this->pluginManager;
-	}
+    function getHttpRequestHandler() {
+        return $this->httpRequestHandler;
+    }
+    
+    function getPluginManager() {
+        return $this->pluginManager;
+    }
 
     function setClientSession($clientSession) {
         $this->clientSession = $clientSession;
@@ -149,7 +149,7 @@ class Cartoclient {
 
         if (!$this->config->cartoserverDirectAccess) 
             $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', 
-            							StructHandler::CONTEXT_OBJ);
+                                        StructHandler::CONTEXT_OBJ);
         
         $this->mapInfo = $mapInfo; 
         return $mapInfo;
@@ -205,24 +205,24 @@ class Cartoclient {
             
             $this->clientSession = $this->createClientSession();
 
-			$mapInfo = $this->mapInfo;
-			$mapStates = $this->mapInfo->initialMapStates;
-		
-			if (empty($mapStates))
-				throw new CartoclientException('No initial map states defined' 
-								. ' in server configuration');
-		
-			
-			$states = array_values($mapStates);
-			$initialMapState = $states[0];
+            $mapInfo = $this->mapInfo;
+            $mapStates = $this->mapInfo->initialMapStates;
+        
+            if (empty($mapStates))
+                throw new CartoclientException('No initial map states defined' 
+                                . ' in server configuration');
+        
+            
+            $states = array_values($mapStates);
+            $initialMapState = $states[0];
 
-			if (@$this->config->initialMapStateId)
-				$initialMapState = $mapInfo->getInitialMapStateById( 
-								$this->config->initialMapStateId);
-			if ($initialMapState == NULL)
-				throw new CartoclientException("cant find initial map state " .
-						$this->config->initialMapStateId);
-			
+            if (@$this->config->initialMapStateId)
+                $initialMapState = $mapInfo->getInitialMapStateById( 
+                                $this->config->initialMapStateId);
+            if ($initialMapState == NULL)
+                throw new CartoclientException("cant find initial map state " .
+                        $this->config->initialMapStateId);
+            
             $this->callPlugins('createSession', $this->mapInfo, $initialMapState);
         }
 

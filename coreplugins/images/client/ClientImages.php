@@ -10,7 +10,7 @@ class ClientImages extends ClientCorePlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
 
-		// FIXME: put this in config
+        // FIXME: put this in config
         $this->mainmapDimensions = new Dimension(400, 200);
     }
 
@@ -29,14 +29,14 @@ class ClientImages extends ClientCorePlugin {
         return $this->mainmapDimensions;
     }    
 
-	function getKeymapDimensions() {
-		// TODO
-		return new Dimension(-1, -1);
-	}
+    function getKeymapDimensions() {
+        // TODO
+        return new Dimension(-1, -1);
+    }
 
     function buildMapRequest($mapRequest) {
 
-		// TODO: keymap, scalebar, ...
+        // TODO: keymap, scalebar, ...
 
         $images = new Images();
         $mainmap_image = new Image();

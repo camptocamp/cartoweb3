@@ -3,16 +3,16 @@
 require_once('smarty/Smarty.class.php');
 
 class QueryState {
-	/* to be filled */
+    /* to be filled */
 }
 
 class ClientQuery extends ClientCorePlugin implements ToolProvider {
     private $log;
 
     private $queryState;
-	private $queryResult;
-	
-	const TOOL_QUERY = 'query';
+    private $queryResult;
+    
+    const TOOL_QUERY = 'query';
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -28,44 +28,44 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
-		
-		return;
+        
+        return;
     }
 
-	function handleMainmapTool(ToolDescription $tool, 
-							Shape $mainmapShape) {
-		
-		$queryRequest = new QueryRequest();
-		$queryRequest->layers = array();
+    function handleMainmapTool(ToolDescription $tool, 
+                            Shape $mainmapShape) {
+        
+        $queryRequest = new QueryRequest();
+        $queryRequest->layers = array();
 
-		$queryRequest->shape = $mainmapShape;
-		return $queryRequest;
-	}
-	
-	function handleKeymapTool(ToolDescription $tool, 
-							Shape $keymapShape) {
-		/* nothing to do */
-	}
+        $queryRequest->shape = $mainmapShape;
+        return $queryRequest;
+    }
+    
+    function handleKeymapTool(ToolDescription $tool, 
+                            Shape $keymapShape) {
+        /* nothing to do */
+    }
 
-	function getTools() {
-		
-		return array(new ToolDescription(self::TOOL_QUERY, NULL, 'Query', 
-			ToolDescription::MAINMAP));
-	}
+    function getTools() {
+        
+        return array(new ToolDescription(self::TOOL_QUERY, NULL, 'Query', 
+            ToolDescription::MAINMAP));
+    }
 
     function handleHttpRequest($request) {
 
     }
 
     function buildMapRequest($mapRequest) {
-	
-		$queryRequest = $this->cartoclient->getHttpRequestHandler()
-					->handleTools($this);
-		if (!$queryRequest) {
-			//throw new CartoclientException("failed to build query request");
-			return;
-		}
-		
+    
+        $queryRequest = $this->cartoclient->getHttpRequestHandler()
+                    ->handleTools($this);
+        if (!$queryRequest) {
+            //throw new CartoclientException("failed to build query request");
+            return;
+        }
+        
         $mapRequest->queryRequest = $queryRequest;
     }
 
@@ -77,20 +77,20 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         /*
         $mapResult->location = StructHandler::unserialize($mapResult->location, 'LocationResult', 
                                                           StructHandler::CONTEXT_OBJ);
-		*/
-		if (!@$mapResult->queryResult)
-			return;
-		
-		$this->queryResult = $mapResult->queryResult;
+        */
+        if (!@$mapResult->queryResult)
+            return;
+        
+        $this->queryResult = $mapResult->queryResult;
     }
 
     private function drawQueryResult($queryResult) {
 
         $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-        				$this);
+                        $this);
 
-		$this->log->debug("query result::");		
-		$this->log->debug($queryResult);		
+        $this->log->debug("query result::");        
+        $this->log->debug($queryResult);        
 
         $smarty->assign('layer_results', $queryResult->layerResults);
 
@@ -102,9 +102,9 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
         }
-		
-		if (!$this->queryResult)
-			return;
+        
+        if (!$this->queryResult)
+            return;
         
         $queryOutput = $this->drawQueryResult($this->queryResult);
 

@@ -2,31 +2,31 @@
 
 class ToolDescription {
 
-	const MAINMAP = 2;
-	const KEYMAP = 4;
+    const MAINMAP = 2;
+    const KEYMAP = 4;
 
-	public $id;
-	public $icon;
-	public $label;
-	public $appliesTo;
-	
-	function __construct($id, $icon, $label, $appliesTo) {
-		$this->id = $id;
-		$this->icon = $icon;
-		$this->label = $label;
-		$this->appliesTo = $appliesTo;
-	}
+    public $id;
+    public $icon;
+    public $label;
+    public $appliesTo;
+    
+    function __construct($id, $icon, $label, $appliesTo) {
+        $this->id = $id;
+        $this->icon = $icon;
+        $this->label = $label;
+        $this->appliesTo = $appliesTo;
+    }
 }
 
 
 interface ToolProvider {
-	function handleMainmapTool(ToolDescription $tool, 
-							Shape $mainmapShape);
-	
-	function handleKeymapTool(ToolDescription $tool, 
-							Shape $keymapShape);
+    function handleMainmapTool(ToolDescription $tool, 
+                            Shape $mainmapShape);
+    
+    function handleKeymapTool(ToolDescription $tool, 
+                            Shape $keymapShape);
 
-	function getTools();
+    function getTools();
 }
 
 

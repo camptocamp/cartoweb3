@@ -25,21 +25,21 @@ class StructHandler {
          $new_object = clone $object;
          
          foreach(get_object_vars($override) as $property => $value) {
-         	
-         	if (in_array($property, 
-         	    array_keys(get_object_vars($object)))) {
-        	   	
-        		print "Warning: overriding property $property\n";
-        	}
-        	if (in_array($property, 
-        	    array_keys(get_object_vars($object))) &&
-	         	is_object($value)) {
-         		$new_object->$property = 
-         		  $this->mergeOverride($object->$property, 
-         		  				       $value);
-         	} else {
-	         	$new_object->$property = $value;
-         	}
+            
+            if (in_array($property, 
+                array_keys(get_object_vars($object)))) {
+                
+                print "Warning: overriding property $property\n";
+            }
+            if (in_array($property, 
+                array_keys(get_object_vars($object))) &&
+                is_object($value)) {
+                $new_object->$property = 
+                  $this->mergeOverride($object->$property, 
+                                       $value);
+            } else {
+                $new_object->$property = $value;
+            }
          }
          return $new_object;
     }
@@ -67,11 +67,11 @@ class StructHandler {
             foreach ($value as $key => $val) {
                 $v = self::getValue($newTypeDescription, $val, $context);
                 if (empty($v->id))
-                	$v->id = $key;
-				/*
+                    $v->id = $key;
+                /*
                 if ($context == self::CONTEXT_OBJ)
-                	$key = $v->id;
-                	*/
+                    $key = $v->id;
+                    */
                 $ret[$key] = $v;
             }
             return $ret;
