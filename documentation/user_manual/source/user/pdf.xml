@@ -980,7 +980,7 @@ blocks.title.height = 15]]></programlisting>
    <sect3 id="user.pdf.tutorial.block.image">
     <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image Blocks</title>
     <para>
-     Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or a path within the server file system.
+     Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or an absolute path within the server file system. It is also possible to use a relative file path based on the &cartoclient; root directory (eg. <filename>htdocs/gfx/layout/c2c.png</filename>).
     </para>
     <para>
      <parameter>width</parameter> and <parameter>height</parameter> have to be set by the user.
