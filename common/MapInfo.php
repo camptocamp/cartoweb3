@@ -27,10 +27,12 @@ class LayerBase extends Serializable {
     public $minScale = 0;
     public $maxScale = 0;
     public $icon = 'none';
+    public $link;
     
     function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
+        $this->link  = self::unserializeValue($struct, 'link');
 
         // Not implemented
         //$this->minScale = $struct->minscale;
@@ -83,14 +85,7 @@ class Layer extends LayerContainer {
 /**
  * @package Common
  */
-class LayerClass extends LayerBase {
-    public $name;
-    
-    function unserialize($struct) {
-        parent::unserialize($struct);
-        $this->name = self::unserializeValue($struct, 'name');
-    }
-}
+class LayerClass extends LayerBase {}
 
 /**
  * @package Common
