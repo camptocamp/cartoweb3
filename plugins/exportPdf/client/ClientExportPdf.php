@@ -462,16 +462,40 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Builds export configuration.
      * @param boolean true if configuring to get overview map
+     * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
-    function getConfiguration($isOverview = false) {
+    function getConfiguration($isOverview = false, $mapBbox = NULL) {
         
         $config = new ExportConfiguration();
 
+        $scale = $this->getLastScale();
+        $mapWidth = $mapHeight = 0;
+
         if ($isOverview) {
+            // getting overview map
             $renderMap = true;
             $renderScalebar = false;
-        } else {
+
+            $overview = $this->blocks['overview'];
+
+            // overview dimensions
+            $mapWidth = $this->getNewMapDim($overview->width);
+            $mapHeight = $this->getNewMapDim($overview->height);
+
+            // mainmap outline:
+            if (isset($mapBbox)) {
+                $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
+                                         $mapBbox->maxx, $mapBbox->maxy);
+                $config->setPrintOutline($outline);
+            }
+            
+            // scale:
+            if ($this->general->overviewScaleFactor <= 0)
+                $this->general->overviewScaleFactor = 1;
+
+            $scale *= $this->general->overviewScaleFactor;
+       } else {
             $renderMap = isset($this->blocks['mainmap']);
             $renderScalebar = isset($this->blocks['scalebar']);
 
@@ -480,41 +504,41 @@ class ClientExportPdf extends ExportPlugin {
 
                 // new map dimensions:
                 $mapWidth = $this->getNewMapDim($mainmap->width);
-                $config->setMapWidth($mapWidth);
-                
                 $mapHeight = $this->getNewMapDim($mainmap->height);
-                $config->setMapHeight($mapHeight);
 
-                // intermediate scale:
-                $scale = $this->getLastScale();
-                $scale *= $this->general->mapServerResolution;
-                $scale /= $this->general->selectedResolution;
-                $config->setScale($scale);
-
-                // map center coordinates:
-                $savedBbox = $this->getLastBbox();
-                $xCenter = ($savedBbox->minx + $savedBbox->maxx) / 2;
-                $yCenter = ($savedBbox->miny + $savedBbox->maxy) / 2;
-                $point = new Point($xCenter, $yCenter);
-                $config->setPoint($point);
-
-                $config->setBbox($savedBbox);      
-                $config->setZoomType('ZOOM_SCALE');
-                $config->setLocationType('zoomPointLocationRequest');
+                // scale: no change ("paper" scale = "screen" scale)
             }
         }
-        
+       
         $config->setRenderMap($renderMap);
         $config->setRenderKeymap(false);
         $config->setRenderScalebar($renderScalebar);
+
+        // map dimensions:
+        $config->setMapWidth($mapWidth);
+        $config->setMapHeight($mapHeight);
+      
+        // scale:
+        $scale *= $this->general->mapServerResolution;
+        $scale /= $this->general->selectedResolution;
+        $config->setScale($scale);
+        
+        // map center coordinates:
+        $savedBbox = $this->getLastBbox();
+        $xCenter = ($savedBbox->minx + $savedBbox->maxx) / 2;
+        $yCenter = ($savedBbox->miny + $savedBbox->maxy) / 2;
+        $point = new Point($xCenter, $yCenter);
+        $config->setPoint($point);
+
+        $config->setBbox($savedBbox);      
+        $config->setZoomType('ZOOM_SCALE');
+        $config->setLocationType('zoomPointLocationRequest');
 
         $this->log->debug('Selected resolution: ' .
                           $this->general->selectedResolution);
         $this->log->debug('Print config:');
         $this->log->debug($config);
 
-        //TODO: set maps dimensions + resolutions for scalebar and overview
-        
         return $config;
     }
 
@@ -524,7 +548,8 @@ class ClientExportPdf extends ExportPlugin {
      * @return string
      */
     private function getGfxPath($gfx) {
-        //TODO: use local path if direct-access mode is used?
+        // TODO: use local path if direct-access mode is used?
+        // FIXME: what if cartoserverBaseUrl is not set in client.ini?
         return $this->cartoclient->getConfig()->cartoserverBaseUrl . $gfx;
     }
 
@@ -532,7 +557,7 @@ class ClientExportPdf extends ExportPlugin {
      * Updates Mapserver-generated maps PdfBlocks with data returned by 
      * CartoServer.
      * @param MapResult
-     * @param string name of PDF block to update
+     * @param string name of PdfBlock to update
      * @param string name of MapResult property
      */
     private function updateMapBlock($mapObj, $name, $msName = '') {
@@ -548,6 +573,18 @@ class ClientExportPdf extends ExportPlugin {
 
         $block->content = $this->getGfxPath($map->path);
         $block->type = 'image';
+        
+        if (!isset($block->width)) {
+            $width = $map->width / $this->general->selectedResolution;
+            $block->width = PrintTools::switchDistUnit($width,
+                                       'in', $this->general->distUnit);
+        }
+        
+        if (!isset($block->height)) {
+            $height = $map->height / $this->general->selectedResolution;
+            $block->height = PrintTools::switchDistUnit($height,
+                                       'in', $this->general->distUnit);
+        }
     }
 
     /**
@@ -555,18 +592,18 @@ class ClientExportPdf extends ExportPlugin {
      * @param PdfWriter
      */
     private function setMainMapDim(PdfWriter $pdf) {
-        $mainmap = $this->blocks['mainmap'];
+        $mapBlock = $this->blocks['mainmap'];
         
-        if (!isset($mainmap->width)) {
+        if (!isset($mapBlock->width)) {
             $hmargin = $this->format->horizontalMargin 
-                       + $mainmap->horizontalMargin;
-            $mainmap->width = $pdf->getPageWidth() - 2 * $hmargin; 
+                       + $mapBlock->horizontalMargin;
+            $mapBlock->width = $pdf->getPageWidth() - 2 * $hmargin; 
         }
         
-        if (!isset($mainmap->height)) {
+        if (!isset($mapBlock->height)) {
             $vmargin = $this->format->verticalMargin
-                       + $mainmap->verticalMargin;
-            $mainmap->height = $pdf->getPageHeight() - 2 * $vmargin;
+                       + $mapBlock->verticalMargin;
+            $mapBlock->height = $pdf->getPageHeight() - 2 * $vmargin;
         }
     }
 
@@ -628,8 +665,9 @@ class ClientExportPdf extends ExportPlugin {
         $mapResult = $this->getExportResult($this->getConfiguration());
  
         if (isset($this->blocks['overview'])) {
+            $mapBbox = $mapResult->locationResult->bbox;
             $overviewResult = $this->getExportResult(
-                                  $this->getConfiguration(true));
+                                  $this->getConfiguration(true, $mapBbox));
         } else {
             $overviewResult = false;
         }
@@ -674,7 +712,7 @@ class ClientExportPdf extends ExportPlugin {
         }
         
         // TEMPORARY TEST CODE
-        if (isset($this->blocks['table'])) {
+        /*if (isset($this->blocks['table'])) {
             require_once(dirname(__FILE__) . '/table.php');
             $tableObj = new TableElement;
             $tableObj->rows = $table;
@@ -683,7 +721,7 @@ class ClientExportPdf extends ExportPlugin {
             $pdf->addPage();
             $pdf->addTable($this->blocks['table']);
             //$pdf->addPage();$pdf->addPage();$pdf->addPage();
-        }
+        }*/
  
         $contents = $pdf->finalizeDocument();
  
