@@ -12,8 +12,8 @@ dirs:
 	-mkdir -p templates_c
 perms:
 	chmod 777 www-data/images
-        chmod 777 www-data/saved_posts
-        chmod 777 www-data templates_c
+	chmod 777 www-data/saved_posts
+	chmod 777 www-data templates_c
 
 perms_sudo:
 	sudo chown www-data www-data/images
