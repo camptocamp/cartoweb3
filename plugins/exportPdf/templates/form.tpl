@@ -17,7 +17,7 @@ selected=$pdfResolution_selected}</div>
 {if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="" /></div>{/if}
 {if $pdfScalebar}<div><input type="checkbox" name="pdfScalebar" id="pdfScalebar" />
 <label for="pdfScalebar">{t}Scalebar{/t}</label></div>{/if}
-{if $pdfOverview}<div><label><input type="checkbox" name="pdfOverview" id="pdfOverview" />
+{if $pdfOverview}<div><input type="checkbox" name="pdfOverview" id="pdfOverview" />
 <label for="pdfOverview">{t}Overview{/t}</label></div>{/if}
 
 <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" />
