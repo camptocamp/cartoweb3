@@ -96,7 +96,7 @@
     {foreach from=$tools key=toolcode item=toolname}
     <label for="{$toolcode}"><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
     id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="{r type=gfx/layout}{$toolcode}.gif{/r}" alt="{$toolname}" 
-    onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$toolcode}')" /></label>&nbsp;
+    onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$toolcode}');" /></label>&nbsp;
     {/foreach}   
   </p>
 
