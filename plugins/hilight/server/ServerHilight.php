@@ -118,7 +118,8 @@ class ServerHilight extends ServerPlugin {
         else
             $hilightColor = array(0, 255, 0);
             
-        $style = $class->getStyle(0);
+        if ($class->numstyles >= 1)
+            $style = $class->getStyle(0);
         if (!empty($style)) {
             $this->setHilightColor($style->color, $hilightColor);
             $this->setHilightColor($style->outlinecolor, $hilightColor);
@@ -291,7 +292,8 @@ class ServerHilight extends ServerPlugin {
             
             // check if a class named HILIGHT_CLASS exists at position 0
         
-            if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
+            if ($msLayer->numclasses >= 1 && 
+                       $msLayer->getClass(0)->name == HILIGHT_CLASS) {
                 $this->log->debug("activating special hilight class");
                 $this->setClassExpression($msLayer, 0, $querySelection);
                 return;            
@@ -311,7 +313,12 @@ class ServerHilight extends ServerPlugin {
 
             $this->log->debug("fallback: creating new class");
 
-            $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
+            
+            if ($msLayer->numclasses >= 1)
+                $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
+            else
+                $hilightClass = ms_newClassObj($msLayer);
+                
             $hilightClass->set('name', 'dynamic_class');
             $hilightClass->set('minscale', $msLayer->minscale);
             $hilightClass->set('maxscale', $msLayer->maxscale);
