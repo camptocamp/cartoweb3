@@ -11,26 +11,25 @@ header("Content-Type: text/xml");
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-/**
- * Project handler
- */
-require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
+set_include_path(get_include_path() . PATH_SEPARATOR . 
+                 CARTOSERVER_HOME . 'include/');
 
-require_once(CARTOSERVER_HOME . 'common/Utils.php');
+require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
+/*
 function getServerConfig() {
     return parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');
 }
-
+*/
 function getSoapAddress($serverConfig) {
     
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
     
-        if (!isset($serverConfig['reverseProxyUrl']))
+        if (is_null($serverConfig->reverseProxyUrl))
             die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
                 'parameter set in configuration');
     
-        $soapAddress = $serverConfig['reverseProxyUrl'];
+        $soapAddress = $serverConfig->reverseProxyUrl;
     } else {
         $soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
                     $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
@@ -41,23 +40,40 @@ function getSoapAddress($serverConfig) {
 function getQueryString($serverConfig) {
     $queryString = array();
     
-    if (isset($serverConfig['savePosts']) &&
-        $serverConfig['savePosts'])
+    if (!is_null($serverConfig->savePosts) &&
+        $serverConfig->savePosts)
         $queryString['save_posts'] = '1';
     return $queryString;
 }
 
-$serverConfig = getServerConfig();
-$soapAddress = getSoapAddress($serverConfig);
-$queryString = getQueryString($serverConfig);
-                
+function getWsdlFileContents($name, $projectHandler) {
+
+    $pluginFile = 'coreplugins/' . $name . '/common/' . $name . '.wsdl.inc';
+    $pluginFile = CARTOSERVER_HOME
+                  . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);           
+    if (!file_exists($pluginFile)) {
+        $pluginFile = 'plugins/' . $name . '/common/' . $name . '.wsdl.inc';
+        $pluginFile = CARTOSERVER_HOME
+                      . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);            
+        if (!file_exists($pluginFile)) {
+            return NULL;        
+        }
+    }
+    return file_get_contents($pluginFile);
+}
+
 if (array_key_exists('mapId', $_REQUEST) && $_REQUEST['mapId'] != '')
     $mapId = $_REQUEST['mapId'];
 
-$soapAddress .= '/server.php';
+$cartoserver = new Cartoserver();
+$serverContext = $cartoserver->getServerContext($mapId);
+$serverContext->loadPlugins();
 
-if (isset($mapId))
-    $queryString['mapId'] = $mapId;
+$soapAddress = getSoapAddress($serverContext->config);
+$queryString = getQueryString($serverContext->config);
+$queryString['mapId'] = $mapId;                
+
+$soapAddress .= '/server.php';
 
 $wsdlContent = file_get_contents(CARTOSERVER_HOME . 'server/cartoserver.wsdl');
 $soapAddress .= '?' . htmlentities(http_build_query($queryString));
@@ -69,43 +85,63 @@ $pluginsInit = '';
 $pluginsSpecificWsdl = '';
     
 if (isset($mapId)) {
-    $projectHandler = new ServerProjectHandler($mapId);
+
+    $projectHandler = $serverContext->projectHandler;    
+    $plugins = $serverContext->getPluginManager()->getPlugins();
     
-    $iniFile = 'server_conf/' . $projectHandler->getMapName() . '/' . 
-                                $projectHandler->getMapName() . '.ini';
-    $iniFile = CARTOSERVER_HOME . $projectHandler->getPath(CARTOSERVER_HOME, $iniFile);
-
-    $iniArray = parse_ini_file($iniFile);    
-    if (array_key_exists('mapInfo.loadPlugins', $iniArray)) {
-        $plugins = ConfigParser::parseArray($iniArray['mapInfo.loadPlugins']);
-
-        foreach ($plugins as $plugin) {
-
-            $pluginFile = 'plugins/' . $plugin . '/common/' . $plugin . '.wsdl.inc';
-            $pluginFile = CARTOSERVER_HOME . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);
-            
-            if (!file_exists($pluginFile))
-                continue;
+    foreach ($plugins as $plugin) {    
                 
-            $pluginsSpecificWsdl .= file_get_contents($pluginFile);
+        $name = $plugin->getName();
+        $eName = $plugin->getExtendedName();
+
+        if ($plugin instanceof ClientResponder ||
+            $plugin instanceof CoreProvider ||
+            $plugin instanceof InitProvider) {
+
+            $pluginsSpecificWsdl .= getWsdlFileContents($name, $projectHandler);
+            if ($name != $eName) {
+                $pluginsSpecificWsdl .= getWsdlFileContents($eName, $projectHandler);
+            }
+        }
+        if ($plugin instanceof ClientResponder ||
+            $plugin instanceof CoreProvider) {
+        
+            $useERequest = $plugin->useExtendedRequest();
+            $useEResult = $plugin->useExtendedResult();
+            
+            $requName = $name;
+            $resuName = $name;
+
+            if ($useERequest) {
+                $requName = $eName;
+            }
+            if ($useEResult) {
+                $resuName = $eName;
+            }
 
             $pluginsRequest .= 
-                '          <element name="' . $plugin . 'Request" type="types:' .
-                ucfirst($plugin) . 'Request" minOccurs="0"/>
+                '          <element name="' . $plugin->getName() . 'Request" type="types:' .
+                ucfirst($requName) . 'Request" minOccurs="0"/>
                 ';
 
             $pluginsResult .= 
-                '          <element name="' . $plugin . 'Result" type="types:' .
-                ucfirst($plugin) . 'Result" minOccurs="0"/>
+                '          <element name="' . $plugin->getName() . 'Result" type="types:' .
+                ucfirst($resuName) . 'Result" minOccurs="0"/>
                 ';
+        }
+        if ($plugin instanceof InitProvider) {
+            $useEInit = $plugin->useExtendedInit();
 
-            // References MyPluginInit only if defined in .wsdl.inc
-            if (strpos($pluginsSpecificWsdl, $plugin . 'Init')) {
-                $pluginsInit .= 
-                    '          <element name="' . $plugin . 'Init" type="types:' .
-                    ucfirst($plugin) . 'Init" minOccurs="0"/>
-                    ';
+            $initName = $name;
+
+            if ($useEInit) {
+                $initName = $eName;
             }
+
+            $pluginsInit .= 
+                '          <element name="' . $plugin->getName() . 'Init" type="types:' .
+                ucfirst($initName) . 'Init" minOccurs="0"/>
+                ';
         }
     }
 }
