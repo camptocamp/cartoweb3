@@ -405,7 +405,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @return Bbox or NULL on error
      */
     private function getIdSelectionBbox(IdSelection $idSelection) {
-    
+
         $pluginManager = $this->locationPlugin->
                                         getServerContext()->getPluginManager();
         if (empty($pluginManager->mapquery))
@@ -428,7 +428,16 @@ class RecenterLocationCalculator extends LocationCalculator {
             $bbox->setFromMsExtent($result->bounds);
             $bboxes[] = $bbox;
         }
-        return $this->mergeBboxes($bboxes);
+        $bbox = $this->mergeBboxes($bboxes);
+
+        $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
+        $layersInit = $this->locationPlugin->getServerContext()->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $idSelection->layerId);
+        if ($msLayer->getProjection() && ($msLayer->getProjection() != $msMapObj->getProjection())) {
+            $bbox = $this->convertCoords($bbox, $msLayer->getProjection());
+        }
+        
+        return $bbox;
     }
 
     /**
@@ -481,6 +490,31 @@ class RecenterLocationCalculator extends LocationCalculator {
         $border = 1.0;
         $bbox = new Bbox($bbox->minx - $border, $bbox->miny - $border,
                          $bbox->minx + $border, $bbox->miny + $border);
+        return $bbox;
+    }
+    
+    /**
+     * Converts coordinates when specific projection set for the layer
+     * @param Bbox
+     * @param string : projection string
+     * @return Bbox
+     */
+    private function convertCoords($bbox, $projection) {
+        $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();        
+        
+        $rectangle = ms_newRectObj();
+        $rectangle->setExtent($bbox->minx,
+                              $bbox->miny,
+                              $bbox->maxx,
+                              $bbox->maxy);
+                              
+        $projInObj = ms_newprojectionobj($projection);
+        $projOutObj = ms_newprojectionobj($msMapObj->getProjection());
+        
+        $rectangle->project($projInObj, $projOutObj);
+        
+        $bbox = new Bbox($rectangle->minx, $rectangle->miny,
+                         $rectangle->maxx, $rectangle->maxy);
         return $bbox;
     }
 
