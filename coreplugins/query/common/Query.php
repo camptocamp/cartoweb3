@@ -12,6 +12,7 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/tables/common/Tables.php');
 
 /**
  * All infos needed to query one layer
+ * It extends the IdSelection object defined in the Location core plugin.
  * @package CorePlugins
  */
 class QuerySelection extends IdSelection {
@@ -70,7 +71,7 @@ class QueryRequest extends Serializable {
      * Default values:
      * - useInQuery = true
      * - policy = POLICY_UNION
-     * - maskMode = defaulMaskMode
+     * - maskMode = defaultMaskMode
      * - tableFlags = defaultTableFlags
      * @var boolean
      */
