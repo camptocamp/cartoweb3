@@ -267,6 +267,8 @@ class CwFpdf implements PdfWriter {
         // text properties
         $this->setTextLayout($block);
 
+        $block->content = $this->convertCharset($block->content);
+
         if (!isset($block->width)) {
             $block->width = $this->p->GetStringWidth($block->content);
             $block->width += 2 * $block->padding;
@@ -353,6 +355,7 @@ class CwFpdf implements PdfWriter {
         // TODO: handle text alignment
         $x = $this->p->GetX();
         $y = $this->p->GetY();
+        $text = $this->convertCharset($text);
         $this->p->MultiCell($width, $height, $text, 1, 'C', 1);
         $this->p->SetXY($x + $width, $y);
     }
@@ -416,6 +419,8 @@ class CwFpdf implements PdfWriter {
         $block = $table->caption;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
+
+        $block->content = $this->convertCharset($block->content);
         
         if (!isset($block->height))
             $block->height = $table->rowBaseHeight;
@@ -697,6 +702,7 @@ class CwFpdf implements PdfWriter {
         if ($cWidth) {
             $padding = ($icon ? 2 : 1) * $block->padding;
             $this->p->SetXY($xi + $shift + $iWidth + $padding, $yi);
+            $layer['label'] = $this->convertCharset($layer['label']);
             $this->p->MultiCell($cWidth, $block->height,
                                 $layer['label'], 0, 'L', 0);
         }
@@ -835,6 +841,7 @@ class CwFpdf implements PdfWriter {
                 $block->content = sprintf('%s %d/{nb}',
                                           I18n::gt('Page'),
                                           $this->p->PageNo());
+                $block->content = $this->convertCharset($block->content);
             }
             
             switch ($block->type) {
@@ -851,6 +858,26 @@ class CwFpdf implements PdfWriter {
     public function finalizeDocument() {
         $this->closePage();
         return $this->p->Output($this->general->filename, 'S');
+    }
+
+    /**
+     * Converts UTF8 strings in Latin1
+     * @param string string to convert
+     * @return string converted string
+     */
+    private function convertCharset($string) {
+        if (Encoder::getCharset() == 'utf-8')
+            return utf8_decode($string);
+
+        return $string;
+    }
+
+    /**
+     * Returns used character set name.
+     * @result string
+     */
+    public function getCharset() {
+        return 'iso-8859-1';
     }
 }
 ?>

@@ -80,6 +80,11 @@ class ClientExportPdf extends ExportPlugin
     private $mapServerResolution;
 
     /**
+     * @var string
+     */
+    private $charset;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -984,6 +989,7 @@ class ClientExportPdf extends ExportPlugin
         }
  
         $contents = $pdf->finalizeDocument();
+        $this->charset = $pdf->getCharset();
  
         $output = new ExportOutput();
         $output->setContents($contents);
@@ -1027,8 +1033,7 @@ class ClientExportPdf extends ExportPlugin
      * Set type (PDF) and charset header.
      */
     private function setTypeHeader() {
-        header('Content-type: application/pdf; charset=' . 
-               Encoder::getCharset());
+        header('Content-type: application/pdf; charset=' . $this->charset);
     }
 
     /**
