@@ -13,7 +13,7 @@ $plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
 $plugin->handleHttpRequest($_REQUEST);
 
 header('Content-Type: application/csv-tab-delimited-table');
-header("Content-disposition: filename=" . $plugin->layerName . ".csv");
+header("Content-disposition: filename=" . $plugin->fileName);
 
 print $plugin->getExport()->getContents();
 

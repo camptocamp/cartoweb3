@@ -14,18 +14,35 @@ class ClientExportCsv extends ExportPlugin {
     const EXPORT_SCRIPT_PATH = 'exportCsv/export.php';
 
     public $layerId;
-    public $layerName;
+    public $fileName;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
+    private function generateFileName() {
+        
+        $layerName = I18n::gt($this->layerId);
+        
+        if (!is_null($this->getConfig()->fileName)) {
+            $format = $this->getConfig()->fileName;
+        } else {
+            $format = '[layer]-[date,dMY].csv';
+        }
+        $fileName = $format;
+        $fileName = str_replace('[layer]', $layerName, $fileName);
+        ereg('(.*)\[date,(.*)\](.*)', $fileName, $match);
+        $fileName = $match[1] . date($match[2]) . $match[3];
+        
+        return $fileName;
+    }
+
     function handleHttpRequest($request) {
         
         if (array_key_exists('exportcsv_layerid', $request)) {
             $this->layerId = $request['exportcsv_layerid'];
-            $this->layerName = I18n::gt($this->layerId);
+            $this->fileName = $this->generateFileName();
         }
     }
 

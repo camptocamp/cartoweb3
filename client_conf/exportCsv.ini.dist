@@ -5,3 +5,6 @@ separator = ";"
 ; special characters:
 ;     double-quote = "
 textDelimiter = double-quote
+
+; file name format for exported CSV file, default is "[layer]-[date,dMY].csv"
+fileName = "[date,Ymd-Hi]_[layer].csv"
