@@ -9,27 +9,271 @@
 
 <chapter id="user.layer">
  <title>Layers</title>
-
+  
  <sect1 id="user.layer.intro"> 
   <title>Introduction</title>
   <para>
-   This document describes the layer configuration and rendering
-   on the cartoserver.
+   Geographical data are most often apprehended as thematic layers : you may
+   have a layer "Rivers", a layer "Aerial view", a layer "Average income", just
+   to cite a few examples. Now the basic purpose of any viewer is to make 
+   these data available to users by allowing navigation within a layer as 
+   well as comparison between layers. A way to organize the layers is thus 
+   mandatory if an user-friendly application is to be developed. In &cartoweb;,
+   the files that contain the configuration instructions for the layers are on
+   the server-side, in the directory <filename>server_conf/&lt;myMap&gt;</filename>.
+   Usually this directory is part of a project.
   </para>
+  <para>
+   &cartoweb; is based on the geographical engine Mapserver. The Mapserver
+   documentation <ulink url="http://mapserver.gis.umn.edu/doc.html"> 
+   http://mapserver.gis.umn.edu/doc.html</ulink> is an integral part of the
+   &cartoweb; doc. To be concise, you have to know how to write a mapfile if
+   you want to use &cartoweb;. So it doesn't come as a surprise that a mapfile,
+   <filename>myMap.map</filename>, is included in the 
+   <filename>&lt;myMap&gt;</filename> directory, together with its annexes 
+   (typically a symbol file <filename>myMap.sym</filename>, a directory 
+   <filename>etc</filename> for the required fonts, the graphic file used as
+   keymap background, maybe also data files).
+  </para>
+  <para>
+   We'll see that some functionalities of &cartoweb; require small changes of
+   the mapfile content. But most of the configuration is done in the file 
+   <filename>myMap.ini</filename>
+  </para>
+ </sect1>
+
+ <sect1 id="user.layer.tree"> 
+  <title>Hierarchy of layers and rendering</title>
+  <para>
+   Contrary to Mapserver itself, &cartoweb; supports an arbitrarily complex
+   hierarchy of layers and different rendering options. The notion of 
+   LayerGroup makes it possible.
+  </para>
+  <sect2 id="user.layer.tree.types">
+   <title>Layers and LayerGroups</title>
+   <para>
+    There are two types of "layers-like objects" in <filename>myMap.ini</filename>
+    : Layers and LayerGroups. They play fairly different roles and consequently 
+    have different possible attributes. Layers have a 1-to-1 correspondance to
+    Mapserver layers (as defined in the <filename>myMap.map</filename>), while
+    LayerGroups, well, group together atomic Layers or other LayerGroups.
+   </para>
+  </sect2>
+
+  <sect2 id="user.layer.tree.layers">
+   <title>Layers options</title>
+   <para>
+   <indexterm><primary>layers</primary></indexterm>
+    Here is the syntax for the various configuration parameters of a Layer.
+   <itemizedlist>
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.className = Layer  : defines the object as a 
+	Layer; layerId is a string that uniquely identifies the object. The 
+	general rules of syntax for a .ini file must be respected in the 
+	choice of the layerId (e.g. no '-' are allowed).
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.msLayer = string  : name of the corresponding 
+	Mapserver layer in the mapfile
+     </para>
+    </listitem>   
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.label = string  : caption of the layer in the 
+	layer tree on the client; this is a 'raw' label, before any 
+	internationalization. The i18n scripts automatically include this 
+	label in the strings that can be translated.
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.icon = filename  : filename of the static picto 
+	that illustrates this Layer in the layer tree. The path is relative to
+	<filename>myMap.ini</filename>.See also ??? for a
+	description of the automatic legending process.
+     </para>
+    </listitem>   
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.link = url  : provides a link for the layer 
+	(e.g. to some metadata); makes the caption in the tree clickable.
+     </para>
+    </listitem>    
+    </itemizedlist>
+   </para>
+  </sect2>
+
+  <sect2 id="user.layer.tree.layergroups">
+   <title>Layergroups options</title>
+   <para>
+   <indexterm><primary>layergroups</primary></indexterm>
+    Here is the syntax for the various configuration parameters of 
+    LayerGroups. Note that a special LayerGroup with layerId=root must be 
+    <indexterm><primary>root layergroup</primary></indexterm>
+    present. Unsurprisingly, it is the root (top level) of the hierarchy. 
+    It doesn't appear in the visible tree.
+   <itemizedlist>
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.className = LayerGroup  : defines the object 
+	as a LayerGroup; layerId is a string that uniquely identifies the 
+	object. The general rules of syntax for a .ini file must be respected 
+	in the choice of the layerId (e.g. no '-' are allowed).
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.children = list of layerIds  : 
+	comma-separated list of layerIds; these children may be Layers or 
+	other LayerGroups.
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.aggregate = true|false : if true, the 
+	children objects are not listed in the tree and not individually 
+	selectable. Default is false.
+     </para>
+    </listitem>  
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.label = string  : caption of the layer in the 
+	layer tree on the client; this is a 'raw' label, before any 
+	internationalization. The i18n scripts automatically include this 
+	label in the strings that can be translated.
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.icon = filename  : filename of the static picto 
+	that illustrates this Layer in the layer tree. The path is relative to
+	<filename>myMap.ini</filename>.See also ??? for a
+	description of the automatic legending process.
+     </para>
+    </listitem>   
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.link = url  : provides a link for the layer 
+	(e.g. to some metadata); makes the caption in the tree clickable.
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+	mapInfo.layers.layerId.rendering = tree|block|radio|dropdown  : 
+	indicates how to display the LayerGroup children.
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   tree (default value): children layers are rendered below the 
+	   LayerGroup with an indentation. If children are not declared as 
+	   "frozen" or "hidden" they will be preceded by a checkbox input. 
+	   A node folding/unfolding link is displayed before the LayerGroup.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   radio: quite similar to the "tree" rendering with "radio" 
+	   buttons replacing checkboxes. Only one child layer can be 
+	   selected at a time.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   block: children layers are separated as blocks (separation medium
+	   depends on the template layout). Note that the rendering will be 
+	   applied to the children, not to the LayerGroup itself, 
+	   which is not displayed at all.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   dropdown: as for block rendering, the LayerGroup is not 
+	   displayed. Its children are simply rendered as an HTML 
+	   "simple select" options list. If the selected child layer 
+	   cannot be determined using posted or session-saved data, 
+	   first child (according to the mapInfo.layers.layerId.children 
+	   list order) is selected. If any, only the selected child 
+	   layer's own children are displayed under the dropdown list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+     </para>
+    </listitem> 
+    </itemizedlist>
+   </para>
+  </sect2>
+
+  <sect2 id="user.layer.tree.initial">
+   <title>Initial Mapstates</title>
+   <para>
+   <indexterm><primary>initial mapstate</primary></indexterm>
+    Initial map states set the initial aspects of the layers selection 
+    interface when starting using CartoClient : (un)folded nodes, selected 
+    layers... Some of these properties are not modifiable in the layers 
+    selection interface (hidden layers for instance) and thus stay 
+    unchanged throughout the session
+   </para>
+   <para>
+    Several initial map states can be created in <filename>myMap.ini
+    </filename>, but at least one must be present. Each one is identified by a 
+    unique initialMapStateId. The choice to activate one or another is done 
+    client-side in <filename>client_conf/client.ini</filename>.
+   </para>
+  <para>
+   Available properties and syntax for 
+   layers in "initial map states" are:
+   <itemizedlist>
+    <listitem>
+     <para>
+      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+      selected = true|false : if true, layer is initially selected.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+       unfolded = true|false : if true, the layerGroup is represented as 
+       an unfolded node (children layers are visible).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+      hidden = true|false : if true, this layer and its children are not 
+      shown in the layers list (but are still displayed on the map if 
+      they're activated).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+       frozen = true|false: if true, this layer (and its children as well)
+       is listed in tree but without checkbox. Its selection status (defined by 
+      "selected" property) thus cannot be changed.
+     </para>
+    </listitem>
+   </itemizedlist>
+   </para>
+   <para>
+    Example of Initial MapState : 
+      <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
+;mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
+mapInfo.initialMapStates.default.layers.polygon.hidden = true
+...
+
+mapInfo.initialMapStates.map25.layers.polygon.selected = true
+mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting>
+   </para>
+  </sect2>
+
  </sect1>
 
  <sect1 id="user.layer.mapfile">
   <title>MapFile layers configuration</title>
   <para>
-  </para>
- </sect1>
-
- <sect1 id="user.layer.tree"> 
-  <title>Layer hierachical tree</title>
-  <para>
-   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
-   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
-   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
   </para>
  </sect1>
 
@@ -101,69 +345,6 @@ mapInfo.layers.group_admin.metadata.security_view = admin
   </sect2>
  </sect1>
 
- <sect1 id="user.layer.initial">
-  <title>Initial map states</title>
-  <para>
-   Initial Map States are defined in the same file than layers 
-   (<filename>&lt;mapfile&gt;.ini</filename>). They set the initial aspects
-   of layers selection interface when starting using CartoClient : (un)folded 
-   nodes, selected layers... Some of these properties are not modifiable in 
-   the layers selection interface (hidden layers for instance) and thus stay
-   unchanged throughout the browsing.
-  </para>
-  <para>
-   In the same configuration file, several initial map states can be created.
-   The choice to activate one or another is done client-side in 
-   <filename>client_conf/client.ini</filename> :
-  </para>
-  <para>
-   in &lt;mapfile&gt;.ini
-   <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
-;mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
-;this line is commented
-mapInfo.initialMapStates.default.layers.polygon.hidden = true
-...
-
-mapInfo.initialMapStates.map25.layers.polygon.selected = true
-mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting>
-  </para>
-  <para>
-   in client.ini
-   <programlisting><![CDATA[initialMapStateId = default
-#initialMapStateId = map25]]></programlisting>
-   => "default" initial map state is activated
-  </para>
-  <para>
-   Available properties (mainly booleans that default to false) for 
-   layers in "initial map states" are:
-   <itemizedlist>
-    <listitem>
-     <para>
-      hidden: if true, this layer and its children are not shown in the 
-      layers list but are still displayed on the map if their are activated
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      selected: if true, layer is initially selected.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      unfolded: if true, layerGroup is represented as an unfolded 
-      node (children layers appear).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      frozen: if true, this layer (and its children as well) is displayed
-      in tree but with no checkbox. Its selection status (defined by 
-      "selected" property) thus cannot be changed.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
 
  <sect1 id="user.layer.legend">
   <title>Layers legend</title>

@@ -145,10 +145,18 @@
  </sect1>
 
  <sect1 id="user.location.mapfile"> 
-  <title>Related elements in mapfile</title>
+  <title>Related elements elsewhere</title>
   <para>
-   <indexterm><primary>extent</primary></indexterm>Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
+   <indexterm><primary>extent</primary></indexterm>The maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
   </para> 
+  <para>
+   <indexterm><primary>bbox (initial)</primary></indexterm>The initial bbox
+   is set by the active initialMapState. It is to be configured in the 
+   <filename>myMap.ini</filename> file, using the following syntax :   
+  </para> 
+  <para>
+   mapInfo.initialMapStates.initialMapStateId.location.bbox = "xmin,ymin,xmax,ymax"
+  </para>
  </sect1> 
 
 </chapter>
