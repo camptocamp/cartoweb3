@@ -94,7 +94,7 @@ class ServerProjectTable extends ClientResponderAdapter {
         $resultTableGroups = $tablesPlugin->applyRules($myTableGroup);
 
         $result->tableGroup = $resultTableGroups[0];
-print_r($result->tableGroup);
+
         return $result;
     }    
 }
