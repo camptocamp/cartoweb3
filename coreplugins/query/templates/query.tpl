@@ -2,12 +2,12 @@
 <h3>{t}Query information:{/t}</h3>
 
 <table>
-<tr><th>{t}Layer{/t}</th><th>{t}In Query{/t}</th><th>{t}Policy{/t}<br>u&nbsp;&nbsp;x&nbsp;&nbsp;n</th><th>{t}Mask Mode{/t}</th><th>{t}Hilight{/t}</th>
+<tr><th>{t}Layer{/t}</th><th>{t}In Query{/t}</th><th>{t}Policy{/t}<br/>u&nbsp;&nbsp;x&nbsp;&nbsp;n</th><th>{t}Mask Mode{/t}</th><th>{t}Hilight{/t}</th>
 {if $query_hilightattr_active|default:''}<th>{t}Attributes{/t}</th><th>{t}Table{/t}</th>{/if}</tr>
 {foreach from=$query_selections item=selection key=index}
 <tr>
 <td>{$selection->layerLabel}
-<input type="hidden" value="{$selection->layerId}" name="query_layerid[]"></td>
+<input type="hidden" value="{$selection->layerId}" name="query_layerid[]"/></td>
 <td>
 <input type="checkbox" value="{$selection->layerId}" name="query_inquery[]"
         {if $selection->useInQuery} checked="checked"{/if}/>
