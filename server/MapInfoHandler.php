@@ -72,7 +72,8 @@ class MapInfoHandler {
 
             $msLayer = $msMapObj->getLayerByName($layer->msLayer);
             if (!$msLayer)
-                throw new CartoserverException("Could not find msLayer " . $layer->msLayer);
+                throw new CartoserverException('Could not find msLayer ' 
+                                               . $layer->msLayer);
             
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msClass = $msLayer->GetClass($i);
@@ -80,6 +81,7 @@ class MapInfoHandler {
 
                 copy_vars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
+                $layerClass->label = $layerClass->name;
                 
                 $mapInfo->addChildLayerBase($layer, $layerClass);
             }
