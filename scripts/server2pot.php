@@ -1,12 +1,12 @@
 #!/usr/local/bin/php
 <?php
 /**
- * map2pot.php - generates PO templates, merge with old PO files
+ * server2pot.php - generates PO templates, merge with old PO files
  *
  * Uses .ini (for layer labels) and .map (for class names) 
  *
  * Usage:
- * ./map2pot.php
+ * ./server2pot.php
  *
  * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
@@ -127,7 +127,7 @@ function getTranslatedPo($project, $mapId) {
     $files = array();
     $d = dir(CARTOSERVER_PODIR);
 
-    $pattern = "map\\-";
+    $pattern = "server\\-";
     if ($project != '') {
         $pattern .= "$project\\.";
     }
@@ -156,7 +156,7 @@ foreach ($projects as $project) {
     foreach ($mapIds as $mapId) {
     
         $texts = array();
-        $fileName = 'map-';
+        $fileName = 'server-';
         if ($project != '') {
             $fileName .= $project . '.';
         }
@@ -171,7 +171,7 @@ foreach ($projects as $project) {
         $fh = fopen($file, 'w');
     
         // POT header
-        fwrite($fh, '# CartoWeb 3 Map ' . "\n");
+        fwrite($fh, '# CartoWeb 3 translation template ' . "\n");
         fwrite($fh, '#' . "\n");
         fwrite($fh, '#, fuzzy' . "\n");
         fwrite($fh, 'msgid ""' . "\n");

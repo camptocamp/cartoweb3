@@ -11,7 +11,7 @@
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
 
-require_once(CARTOCOMMON_HOME . 'common/log4phpInit.php');
+require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
 require_once(CARTOCLIENT_HOME . 'client/MapInfoCache.php');

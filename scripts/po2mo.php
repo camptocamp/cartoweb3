@@ -40,7 +40,7 @@ function getProjectName($project) {
 }
 
 function getProjectPo($project = '') {
-    return 'smarty-' . getProjectName($project);
+    return 'client-' . getProjectName($project);
 }
 
 function getMapPo($project, $mapId) {
@@ -58,7 +58,7 @@ function getMapPo($project, $mapId) {
         $direct = $iniArray['cartoserverDirectAccess'];
     }
 
-    $fileName = 'map-';
+    $fileName = 'server-';
     if ($project != '') {
         $fileName .= $project . '.';
     }

@@ -16,7 +16,7 @@ define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
  */
 require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
-require_once(CARTOSERVER_HOME . 'common/misc_functions.php');
+require_once(CARTOSERVER_HOME . 'common/Utils.php');
 
 function getServerConfig() {
     return parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');

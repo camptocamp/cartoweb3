@@ -10,7 +10,7 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
 require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOSERVER_HOME . 'coreplugins/location/server/ServerLocation.php');
-require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
+require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit test for server location plugin.

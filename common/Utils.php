@@ -124,57 +124,6 @@ function copy_vars($from_object, $to_object) {
 }
 
 /**
- * To be removed, using rather copy_properties
- * 
- * Does not use reflection.
- * @param mixed
- * @param mixed
- * @return mixed
- */
-function copy_all_vars($from_object, $to_object) {
-
-    $from_vars = get_object_vars($from_object);
-    foreach ($from_vars as $from_var_name => $value) {
-        $to_object->$from_var_name = $from_object->$from_var_name;
-    }
-    return $to_object;
-}
-
-/**
- * Create a new object with properties values copied from source object
- *
- * Uses reflection.
- * @param mixed source object
- * @param string destination object class name
- * @return mixed 
- */
-function unserializeClass($obj, $className) {
-
-    $class = new ReflectionClass($className);
-    $newObj = $class->newInstance();
-    
-    copy_properties($obj, $newObj);
-    return $newObj;
-}
-
-/**
- * Create a new object with properties values copied from source object
- *
- * Does not use reflection.
- * @param mixed source object
- * @param string destination object class name
- * @return mixed 
- */
-function unserializeClassNoRefl($obj, $className) {
-
-    $class = new ReflectionClass($className);
-    $newObj = $class->newInstance();
-    
-    copy_all_vars($obj, $newObj);
-    return $newObj;
-}
-
-/**
  * Tools for configuration files parsing
  * @package Common
  */

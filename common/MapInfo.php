@@ -13,7 +13,7 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 /**
  * Standard classes
  */
-require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
+require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
  * Exception for common classes

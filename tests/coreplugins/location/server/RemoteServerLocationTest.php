@@ -11,7 +11,7 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
 require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
-require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
+require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit test for server location plugin via webservice. 

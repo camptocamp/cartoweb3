@@ -5,7 +5,7 @@
  * @version $Id$
  */
  
-require_once(CARTOCOMMON_HOME . 'common/misc_functions.php');
+require_once(CARTOCOMMON_HOME . 'common/Utils.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php'); // for CartocommonException
 
 /**
@@ -163,7 +163,7 @@ abstract class Serializable {
         if ($obj instanceof Serializable) {
             $obj->unserialize($value);
         } else {
-            copy_all_vars($value, $obj);
+            copy_properties($value, $obj);
         }
         return $obj;
     }

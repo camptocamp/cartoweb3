@@ -17,7 +17,7 @@ if (!defined('CARTOSERVER_HOME')) {
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
-require_once(CARTOCOMMON_HOME . 'common/log4phpInit.php');
+require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
 initializeLog4php(false);
 
 function myErrorHandler($errno, $errstr, $errfile, $errline) {

@@ -1,13 +1,13 @@
 #!/usr/local/bin/php
 <?php
 /**
- * smarty2pot.php - rips gettext strings from smarty template
+ * client2pot.php - rips gettext strings from smarty template and client .ini
  *
- * This command line script rips gettext strings from smarty file, and
+ * This command line script rips gettext strings from smarty file and .ini, and
  * save one file per project. If file already exists, calls msgmerge.
  *
  * Usage:
- * ./smarty2pot.php
+ * ./client2pot.php
  *
  * Original code was tsmarty2c.php written by Sagi Bashari <sagi@boom.org.il>
  *
@@ -123,7 +123,7 @@ function getTranslatedPo($project) {
     $dir = CARTOCLIENT_HOME . 'po/';
     $d = dir($dir);
 
-    $pattern = "smarty\\-";
+    $pattern = "client\\-";
     if ($project == '') {
         $pattern .= "default\\.(.*)\\.po";
     } else {
@@ -189,9 +189,9 @@ foreach ($projects as $project) {
         $texts = array();
         $plurals = array();
 
-        $fileName = 'smarty-default.po';
+        $fileName = 'client-default.po';
         if ($project != '') {
-            $fileName = 'smarty-' . $project . '.po';
+            $fileName = 'client-' . $project . '.po';
         }
 
         print "Creating new template $fileName ";
@@ -199,7 +199,7 @@ foreach ($projects as $project) {
         $fh = fopen(CARTOCLIENT_PODIR . $fileName, 'w');
     
         // POT header
-        fwrite($fh, '# CartoWeb 3 Smarty templates ' . "\n");
+        fwrite($fh, '# CartoWeb 3 translation template ' . "\n");
         fwrite($fh, '#' . "\n");
         fwrite($fh, '#, fuzzy' . "\n");
         fwrite($fh, 'msgid ""' . "\n");

@@ -3,7 +3,7 @@
  * @package CorePlugins
  * @version $Id$
  */
-require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
+require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
  * Informations to save in session
