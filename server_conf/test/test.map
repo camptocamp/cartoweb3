@@ -215,8 +215,8 @@ MAP
 
     CLASS
       STYLE
-        COLOR 155 153 102
-        #OUTLINECOLOR 0 0 204
+        #COLOR 155 153 102
+        OUTLINECOLOR 0 0 204
         SYMBOL 1
         SIZE 1
       END

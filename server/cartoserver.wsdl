@@ -21,20 +21,34 @@
         </all>
       </complexType>
 
+      <complexType name="ArrayOfPoint">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:Point[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
       <complexType name="Shape">
         <all>
-          <element name="shapeType"  type="types:ShapeType"/>
-          <element name="bbox" type="types:Bbox" minOccurs="0"/>
-          <element name="point" type="types:Point" minOccurs="0"/>
+          <element name="className" type="xsd:string"/>
+          <element name="x" type="xsd:double" minOccurs="0"/>
+          <element name="y" type="xsd:double" minOccurs="0"/>
+          <element name="minx" type="xsd:double" minOccurs="0"/>
+          <element name="miny" type="xsd:double" minOccurs="0"/>
+          <element name="maxx" type="xsd:double" minOccurs="0"/>
+          <element name="maxy" type="xsd:double" minOccurs="0"/>
+          <element name="points" type="types:ArrayOfPoint" minOccurs="0"/>
         </all>
       </complexType>     
 
-      <simpleType name="ShapeType">
-        <restriction base="xsd:string">
-          <enumeration value="bbox"/>
-          <enumeration value="point"/>
-        </restriction>
-      </simpleType>
+      <complexType name="ArrayOfShape">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:Shape[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
 
       <complexType name="ArrayOfLayerId">
         <complexContent>

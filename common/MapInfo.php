@@ -153,6 +153,8 @@ class MapInfo extends Serializable {
     public $timeStamp;
     public $mapId;
     public $mapLabel;
+    public $outlineLayer;
+    public $loadPlugins;
     public $layers;
     public $initialMapStates;
     public $extent;
@@ -163,8 +165,9 @@ class MapInfo extends Serializable {
         $this->timeStamp        = self::unserializeValue($struct, 'timeStamp');
         $this->mapId            = self::unserializeValue($struct, 'mapId');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
+        $this->outlineLayer     = self::unserializeValue($struct, 'outlineLayer');
   
-        $this->loadPlugins = self::unserializeArray($struct, 'loadPlugins');
+        $this->loadPlugins      = self::unserializeArray($struct, 'loadPlugins');
   
         // Layers class names are specicified in className attribute
         $this->layers           = self::unserializeObjectMap($struct, 'layers');

@@ -216,8 +216,6 @@ class Bbox extends Shape {
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 class Rectangle extends Bbox {
-    function unserialize ($struct) {
-    }
 }
 
 /**
@@ -225,9 +223,12 @@ class Rectangle extends Bbox {
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 class Polygon extends Shape {
-    /* todo: store points */
-    function unserialize ($struct) {
+    public $points;
+
+    function unserialize($struct) {
+        $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
     }
+
     function getCenter() {
         /* todo */
     }

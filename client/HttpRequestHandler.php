@@ -102,7 +102,24 @@ class DhtmlSelectionParser {
         $rect->setFrom2Points($points[0], $points[1]);        
         return $rect;        
     }
-    
+       
+    private function getPolygonShape(Dimension $imageSize, Bbox $bbox) {
+        
+        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
+                                       $imageSize, $bbox);
+        if (count($points) == 0)
+            throw new CartoclientException("can't parse polygon dhtml coords");
+        
+        // if only one point then return a point
+        if (count($points) == 1) {
+            return $points[0];
+        }
+        
+        $poly = new Polygon();
+        $poly->points = $points;        
+        return $poly;        
+    }
+
     private function getPointShape(Dimension $imageSize, Bbox $bbox) {
 
         $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
@@ -121,7 +138,9 @@ class DhtmlSelectionParser {
         if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
         else if ($type == 'rectangle') 
-            return self::getRectangleShape($imageSize, $bbox); 
+            return self::getRectangleShape($imageSize, $bbox);
+        else if ($type == 'polygon')
+            return self::getPolygonShape($imageSize, $bbox); 
         else
             throw new CartoclientException("unknown selection_type: $type");
     }
