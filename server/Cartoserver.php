@@ -278,6 +278,10 @@ class Cartoserver {
 
         $pluginManager->callPluginsImplementing('ClientResponder', 'initializeRequest');
 
+        // This is called here to handle the case where a plugin changed the
+        //  mapObj in its initializeRequest method.
+        $serverContext->updateStateFromMapObj();
+
         // images size
         // PRE_DRAW: 1) images
         $pluginManager->images->setupSizes($mapRequest->imagesRequest);

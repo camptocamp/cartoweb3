@@ -4,7 +4,6 @@
  * @version $Id$
  */
 
-//require_once('log4php/LoggerManager.php');
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
@@ -204,6 +203,19 @@ class ServerContext {
     }
 
     /**
+     * Update the ServerContext internal state, from the mapscript MapObj object.
+     * This concerns the state that is updated once, when the MapObj has just
+     * been created.
+     */
+    public function updateStateFromMapObj() {
+
+        if (is_null($this->msMapObj))
+            return;
+        $this->maxExtent = clone($this->msMapObj->extent);
+        $this->imageType = $this->msMapObj->imagetype;
+    }
+
+    /**
      * Instanciates a new Mapserver MapObj object.
      * @return Mapscript MapObj
      */
@@ -221,13 +233,12 @@ class ServerContext {
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
 
-            $this->maxExtent = clone($this->msMapObj->extent);
-            $this->imageType = $this->msMapObj->imagetype;
-            
             if (!$this->msMapObj) { // could this happen ??
                 throw new CartoserverException("cannot open mapfile $mapId " .
                                                "for map $mapId");
             }
+            
+            $this->updateStateFromMapObj();
         }
         return $this->msMapObj;
     }
