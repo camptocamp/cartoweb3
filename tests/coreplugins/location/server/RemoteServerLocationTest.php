@@ -162,6 +162,51 @@ class coreplugins_location_server_RemoteServerLocationTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+   public function testPanLocationRequest($direct = false) {
+
+        $panLocationRequest = new PanLocationRequest();
+
+        $panDirection = new PanDirection();
+        $panDirection->verticalPan = PanDirection::VERTICAL_PAN_NORTH;
+        $panDirection->horizontalPan = PanDirection::HORIZONTAL_PAN_EAST;
+
+        $panLocationRequest->panDirection = $panDirection;
+
+        $bbox = new Bbox();
+        $bbox->setFromBbox(-1, 50, 1, 52);
+        $panLocationRequest->bbox = $bbox;
+        
+        $locationRequest = new LocationRequest();
+        $locationRequest->locationType = LocationRequest::LOC_REQ_PAN;
+        $locationRequest->panLocationRequest = $panLocationRequest;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->locationRequest = $locationRequest;
+        
+        // set a square mainmap
+        $mapRequest->imagesRequest->mainmap->width = 200;
+        $mapRequest->imagesRequest->mainmap->height = 200;
+        
+        //var_dump($mapRequest);
+        $mapResult = $this->getMap($mapRequest);
+        
+        $this->assertIsMapResult($mapResult);
+        //var_dump($mapResult);
+    
+        $resultBbox = $mapResult->locationResult->bbox;
+        // FIXME: use unserialize mechanism !!!
+        $tmp = $resultBbox;
+        $resultBbox = new Bbox();
+        //die($resultBbox->minx);
+        $resultBbox->setFromMsExtent($tmp);
+        //die($resultBbox->minx);
+
+        $bbox->setFromBbox(0.5, 51.5, 2.5, 53.5);
+        $this->assertSameBbox($resultBbox, $bbox);
+
+        $this->redoDirect($direct, __METHOD__);
+    }    
+
     // TODO: refactor tests and do more tests
 
 }
