@@ -7,7 +7,7 @@
 <html:html locale="true">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="style.css" title="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/style.css" title="stylesheet">
 <meta name="author" content="Sylvain Pasche">
 <meta name="email" content="sylvain dot pasche at camptocamp dot com">
 <title>{$cartoclient_title}</title>
@@ -202,25 +202,25 @@ Outliner plugin:
 <table>
 <tr>
         <td>
-                <input type="image" src="icons/north_west.gif" name="pan_nw"/>
+                <input type="image" src="gfx/layout/north_west.gif" name="pan_nw"/>
         <td align="center">
-                <input type="image" src="icons/north.gif" name="pan_n"/>
+                <input type="image" src="gfx/layout/north.gif" name="pan_n"/>
         <td>
-                <input type="image" src="icons/north_east.gif" name="pan_ne"/>
+                <input type="image" src="gfx/layout/north_east.gif" name="pan_ne"/>
 <tr>
         <td>
-                <input type="image" src="icons/west.gif" name="pan_w"/>
+                <input type="image" src="gfx/layout/west.gif" name="pan_w"/>
         <td>
                 <input type="image" src="{$mainmap_path}" name="mainmap"/>
         <td>
-                <input type="image" src="icons/east.gif" name="pan_e"/>
+                <input type="image" src="gfx/layout/east.gif" name="pan_e"/>
 <tr>
         <td>
-                <input type="image" src="icons/south_west.gif" name="pan_sw"/>
+                <input type="image" src="gfx/layout/south_west.gif" name="pan_sw"/>
         <td align="center">
-                <input type="image" src="icons/south.gif" name="pan_s"/>
+                <input type="image" src="gfx/layout/south.gif" name="pan_s"/>
         <td>
-                <input type="image" src="icons/south_east.gif" name="pan_se"/>
+                <input type="image" src="gfx/layout/south_east.gif" name="pan_se"/>
 <tr>
         <td/>
         <td align="center">
