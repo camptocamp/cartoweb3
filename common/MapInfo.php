@@ -188,6 +188,19 @@ class MapInfo extends Serializable {
         return NULL;
     }
 
+    /**
+     * Helper function to get a mapserver layer from a layerId.
+     */
+    function getMsLayerById($msMapObj, $layerId) {
+        $layer = $this->getLayerById($layerId);
+        if (is_null($layer))
+            throw new CartocommonException("can't find layer $layerId");
+        $msLayer = @$msMapObj->getLayerByName($layer->msLayer);
+        if (is_null($msLayer))
+            throw new CartocommonException("can't open msLayer $layer->msLayer");
+        return $msLayer;
+    }
+
     function getInitialMapStateById($mapStateId) {
 
         foreach ($this->initialMapStates as $mapState) {
