@@ -39,6 +39,7 @@ require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 
 require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
 require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
+require_once(CARTOSERVER_HOME . 'server/MapResultCache.php');
 
 /**
  * @package Server
@@ -93,13 +94,14 @@ class Cartoserver {
     private $log;
     
     private $serverContext;
+    private $mapResultCache;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->mapResultCache = new MapResultCache($this);
     }
 
-    private function initializeServerContext($mapId) {
-
+    public function getServerContext($mapId) {
         if ($mapId == '')
             throw new CartoserverException("Invalid map id: $mapId");
 
@@ -107,18 +109,18 @@ class Cartoserver {
             $this->serverContext->projectHandler->mapId != $mapId) {
             $this->serverContext = new ServerContext($mapId);
         }
+        return $this->serverContext;
     }
 
     private function doGetMapInfo($mapId) {
 
-        $this->initializeServerContext($mapId);
+        $serverContext = $this->getServerContext($mapId);
+        $serverContext->mapInfoHandler->fillDynamic($serverContext);
 
-        $this->serverContext->mapInfoHandler->fillDynamic($this->serverContext);
+        $serverContext->loadPlugins();
+        $pluginManager = $serverContext->getPluginManager();
 
-        $this->serverContext->loadPlugins();
-        $pluginManager = $this->serverContext->getPluginManager();
-
-        $mapInfo = $this->serverContext->mapInfoHandler->getMapInfo();
+        $mapInfo = $serverContext->mapInfoHandler->getMapInfo();
 
         $pluginManager->callPlugins('getInit', '');
         
@@ -128,12 +130,13 @@ class Cartoserver {
     private function generateImage() {
         // TODO: generate keymap
 
-        $this->serverContext->msMapObj->set('height', '500');
-        $this->serverContext->msMapObj->set('width',  '500');
+        $serverContext = $this->getServerContext($mapId);
+        $serverContext->msMapObj->set('height', '500');
+        $serverContext->msMapObj->set('width',  '500');
         
         //$corePlugins->imagesPlugin->drawMainmap($mapRequest->images);
 
-        $msMainMapImage = $this->serverContext->msMapObj->draw();
+        $msMainMapImage = $serverContext->msMapObj->draw();
         $mainMapImagePath = $msMainMapImage->saveWebImage();
         return $mainMapImagePath;
     }
@@ -156,17 +159,17 @@ class Cartoserver {
         $log =& LoggerManager::getLogger(__METHOD__);
 
         // serverContext init
-        $this->initializeServerContext($mapRequest->mapId);
-        $this->serverContext->loadPlugins();
-        $pluginManager = $this->serverContext->getPluginManager();
+        $serverContext = $this->getServerContext($mapRequest->mapId);
+        $serverContext->loadPlugins();
+        $pluginManager = $serverContext->getPluginManager();
 
         // Unserialize MapRequest
         $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
 
-        $this->serverContext->setMapRequest($mapRequest);
+        $serverContext->setMapRequest($mapRequest);
 
-        $mapResult = $this->serverContext->getMapResult();
-        $mapResult->timeStamp = $this->serverContext->getTimeStamp();
+        $mapResult = $serverContext->getMapResult();
+        $mapResult->timeStamp = $serverContext->getTimeStamp();
 
         // test new image generation
         //$mapResult->new_gen = $this->generateImage();
@@ -198,11 +201,11 @@ class Cartoserver {
         $log->debug("result is:");
         $log->debug($mapResult);
         
-        if ($this->serverContext->config->developerMode)
+        if ($serverContext->config->developerMode)
             $developerMessages = $this->getDeveloperMessages();
         else
             $developerMessages = array();
-        $mapResult->serverMessages = array_merge($this->serverContext->getMessages(),
+        $mapResult->serverMessages = array_merge($serverContext->getMessages(),
                     $developerMessages);
         $log->debug("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return $mapResult;
@@ -218,13 +221,18 @@ class Cartoserver {
 
     }
 
-    function getMap($mapRequest) {
+    function cacheGetMap($mapRequest) {
 
         $this->log->debug("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         $this->log->debug("map request: ");
         $this->log->debug($mapRequest);
 
         return $this->callWithExceptionCheck('doGetMap', $mapRequest);
+    }
+
+    function getMap($mapRequest) {
+
+        return $this->mapResultCache->getMap($mapRequest);
     }
 
     function getMapInfo($mapId) {

@@ -32,11 +32,7 @@ class CartoserverService {
 
         require_once($cartoserverHome . 'server/Cartoserver.php');
 
-        if (!$this->cartoserver) {
-            $this->cartoserver = new Cartoserver();
-        }
-
-        $result = $this->cartoserver->$function($argument);
+        $result = $this->getCartoserver()->$function($argument);
     
         if ($result instanceof SoapFault) {
             throw $result;
@@ -44,6 +40,13 @@ class CartoserverService {
         return $result;
     }
 
+    private function getCartoserver() {
+        if (!$this->cartoserver) {
+            $this->cartoserver = new Cartoserver();
+        }
+        return $this->cartoserver;
+    }
+    
     private function getCartoserverUrl() {
 
         $url = '';
