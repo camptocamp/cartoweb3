@@ -149,10 +149,11 @@ class ClientQuery extends ClientPlugin
 
     private function assignExportCsv($template) {
     
-        $exportCsvPlugin = $this->cartoclient->getPluginManager()->getPlugin('exportCsv');
-        if (!is_null($exportCsvPlugin)) {
+        $pluginManager = $this->cartoclient->getPluginManager();
+        if (!empty($pluginManager->exportCsv)) {
             $template->assign(array('exportcsv_active' => true,
-                                    'exportcsv_url' => $exportCsvPlugin->getExportScriptPath()));
+                                    'exportcsv_url' =>
+                                    $pluginManager->exportCsv->getExportScriptPath()));
         }
     }
 

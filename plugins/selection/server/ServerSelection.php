@@ -5,8 +5,8 @@
  */
 
 /**
- * Service side plugin for handling selection. It may use the HilightPlugin
- * to render the selection on the map.
+ * Server side plugin for handling selection. It may use the HilightPlugin
+ * service plugin to render the selection on the map.
  * 
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
@@ -23,7 +23,6 @@ class ServerSelection extends ClientResponderAdapter {
     private function queryLayer($layerId, $shape) {
         
         $plugins = $this->serverContext->pluginManager;
-
         if (empty($plugins->query))
             throw new CartoserverException("query plugin not loaded, and needed " .
                     "for the selection request");
@@ -64,31 +63,133 @@ class ServerSelection extends ClientResponderAdapter {
             throw new CartoserverException("invalid selection request policy $policy");
         }
     }
-  
-    // dependency: has to be called before hilight plugin
-    function handleInitializing($requ) {
+    
+    private function getLabel($msLayer, $values) {
+        
+        $labelFixedValue = $msLayer->getMetaData('label_fixed_value');
+        if (!empty($labelFixedValue)) {
+            return $labelFixedValue;
+        }
+        
+        $labelFieldName = $msLayer->getMetaData('label_field_name');
+        if (empty($labelFieldName))
+            $labelFieldName = 'label';
 
-        // TODO: mechanism to fetch request from other plugins
-        $hilightRequest = @Serializable::unserializeObject($this->serverContext->
-                mapRequest, 'hilightRequest', 'HilightRequest');
+        // change here to set that a missing label field is fatal
+        $noLabelFieldFatal = false;
+        if (!isset($values[$labelFieldName])) {
+            if ($noLabelFieldFatal)
+                throw new CartoserverException("No label field named " .
+                        "\"$labelFieldName\" found in layer $requ->layerId");
+            return 'no_name';
+        }
+        return $values[$labelFieldName];
+    }
+    
+    private function getArea($msLayer, $values) {
+        $areaFactor = $msLayer->getMetaData('area_factor');
+        if (empty($areaFactor))
+            $areaFactor = 1.0;
+        else
+            $areaFactor = (double)$areaFactor;
         
-        if (empty($hilightRequest))
-            throw new CartoserverException("selectionRequest needs a hilightRequest");
+        $areaFixedValue = $msLayer->getMetaData('area_fixed_value');
+        if (!empty($areaFixedValue)) {
+            return (double)$areaFixedValue * $areaFactor;
+        }
         
-        $layerId = $hilightRequest->layerId;
+        $areaFieldName = $msLayer->getMetaData('area_field_name');
+        if (empty($areaFieldName))
+            $areaFieldName = 'area';
+
+        // change here to set that a missing area field is fatal
+        $noAreaFieldFatal = false;
+        if (!isset($values[$areaFieldName])) {
+            if ($noAreaFieldFatal)
+                throw new CartoserverException("No area field named " .
+                        "\"$areaFieldName\" found in layer $requ->layerId");
+            return 0.0;
+        }
+        return (double)$values[$areaFieldName] * $areaFactor;
+    }
+    
+    private function encodingConversion($str) {
+        // FIXME: $str is asserted to be iso8851-1 
+        return utf8_encode($str);
+    }
+    
+    private function getAttributes($requ) {
+    
+        $mapInfo = $this->serverContext->getMapInfo();
+        $serverLayer = $mapInfo->getLayerById($requ->layerId);
+        if (!$serverLayer)
+            throw new CartoserverException("can't find serverLayer $requ->layerId");
+
+        $msMapObj = $this->serverContext->getMapObj();
         
-        $newIds = $this->queryLayer($layerId, $requ->bbox);
-        $mergedIds = $this->mergeIds($hilightRequest->selectedIds,
-                                        $newIds, $requ->policy);
+        $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
+        if (empty($msLayer))
+            throw new CartoserverException("can't find mslayer $serverLayer->msLayer");
         
-        $this->serverContext->mapRequest->hilightRequest->selectedIds = $mergedIds;
-                                        
-        $this->log->debug("merged ids are: " . var_export($mergedIds, true));
-        $hilightRequest->selectedIds = $mergedIds; 
+        $layerResult = new LayerResult();
+        $layerResult->layerId = $requ->layerId;
+        $layerResult->fields = array('label', 'area');
+        $layerResult->resultElements = array();
+
+        $results = array();
+        if (count($requ->selectedIds) > 0) {
+            require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
+            $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
+        }
+        
+        $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
+        foreach ($results as $result) {
+            $resultElement = new ResultElement();
+            
+            if (!is_null($idAttribute))
+                $resultElement->id = $this->encodingConversion(
+                                                $result->values[$idAttribute]);
+            // warning: filling order has to match field order
+            $resultElement->values[] = $this->encodingConversion(
+                        $this->getLabel($msLayer, $result->values));
+            $resultElement->values[] = 
+                        $this->getArea($msLayer, $result->values);
+            $layerResult->resultElements[] = $resultElement;
+        }
+        
+        return array($layerResult);
+    }
+
+    function handlePreDrawing($requ) {
+
+        $layerId = $requ->layerId;     
+        
+        $mergedIds = $requ->selectedIds;
+        if (!is_null($requ->bbox)) {   
+            $newIds = $this->queryLayer($layerId, $requ->bbox);
+            $mergedIds = $this->mergeIds($requ->selectedIds, $newIds, $requ->policy);
+        
+            $this->log->debug("merged ids are: " . var_export($mergedIds, true));            
+        }
+
+        $pluginManager = $this->serverContext->pluginManager;
+        if (!empty($pluginManager->hilight)) {
+            $requ->selectedIds = $mergedIds;
+            $pluginManager->hilight->hilightLayer($requ);
+        }  
+        
+        if (!$requ->returnResults) {
+            return null;
+        }
         
         $selectionResult = new SelectionResult();
-        
         $selectionResult->selectedIds = $mergedIds; 
+
+        if (!$requ->retrieveAttributes) {
+            return $selectionResult;
+        }
+
+        $selectionResult->layerResults = $this->getAttributes($requ);
 
         return $selectionResult;
     }

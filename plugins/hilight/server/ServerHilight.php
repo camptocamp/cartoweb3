@@ -31,9 +31,9 @@ class ServerHilight extends ClientResponderAdapter {
      * Build a mapserver expression string.
      * 
      */
-    private function buildExpression($requ, $select) {
+    private function buildExpression($requ) {
 
-        if ($select) {
+        if (!$requ->maskMode) {
             $comp_op = '='; 
             $bool_op = ' OR ';
         } else {
@@ -69,9 +69,14 @@ class ServerHilight extends ClientResponderAdapter {
         }
         
         $result = sprintf('(%s)', implode($bool_op, $id_exprs));
-        if (count($id_exprs) == 0 && !$select) {
-            // mask mode, nothing selected, so everything must be masked
-            $result = '(1=1)';
+        if (count($ids) == 0) {
+            if (!$requ->maskMode) {
+                // normal mode, nothing selected, so nothing must be hilighted
+                $result = '(1=0)';
+            } else {
+                // mask mode, nothing selected, so everything must be masked
+                $result = '(1=1)';
+            }
         }
         return $result;  
     }    
@@ -112,13 +117,13 @@ class ServerHilight extends ClientResponderAdapter {
      * Sets the expression of a mapserver class, so that it filters a given set
      * of elements. These elements are specified in the hilightRequest $requ.
      */
-    private function setClassExpression($msLayer, $classIndex, $requ, $select=true) {
+    private function setClassExpression($msLayer, $classIndex, $requ) {
         
         $class = $msLayer->getClass($classIndex);
         if (empty($class)) 
             throw new CartoserverException("no class at index $classIndex for layer $msLayer");    
 
-        $expression = $this->buildExpression($requ, $select);
+        $expression = $this->buildExpression($requ);
         $this->log->debug("setting expression $expression");
         $class->setexpression($expression);
     }
@@ -195,21 +200,14 @@ class ServerHilight extends ClientResponderAdapter {
             $class->setexpression($expression);
         }
     }
-    
-    private function getServerLayer(HilightRequest $requ) {
-
+        
+    function hilightLayer($requ) {
+        
         $mapInfo = $this->serverContext->getMapInfo();
-
+        
         $serverLayer = $mapInfo->getLayerById($requ->layerId);
         if (!$serverLayer)
             throw new CartoserverException("can't find serverLayer $requ->layerId");
-        
-        return $serverLayer;    
-    }
-    
-    private function hilightLayer(HilightRequest $requ) {
-        
-        $serverLayer = $this->getServerLayer($requ);
         
         $msMapObj = $this->serverContext->getMapObj();
         
@@ -303,119 +301,6 @@ class ServerHilight extends ClientResponderAdapter {
             $this->setClassExpression($msLayer, 0, $requ);
         }
     }
-    
-    private function getLabel($msLayer, $values) {
-        
-        $labelFixedValue = $msLayer->getMetaData('label_fixed_value');
-        if (!empty($labelFixedValue)) {
-            return $labelFixedValue;
-        }
-        
-        $labelFieldName = $msLayer->getMetaData('label_field_name');
-        if (empty($labelFieldName))
-            $labelFieldName = 'label';
-
-        // change here to set that a missing label field is fatal
-        $noLabelFieldFatal = false;
-        if (!isset($values[$labelFieldName])) {
-            if ($noLabelFieldFatal)
-                throw new CartoserverException("No label field named " .
-                        "\"$labelFieldName\" found in layer $requ->layerId");
-            return 'no_name';
-        }
-        return $values[$labelFieldName];
-    }
-    
-    private function getArea($msLayer, $values) {
-        $areaFactor = $msLayer->getMetaData('area_factor');
-        if (empty($areaFactor))
-            $areaFactor = 1.0;
-        else
-            $areaFactor = (double)$areaFactor;
-        
-        $areaFixedValue = $msLayer->getMetaData('area_fixed_value');
-        if (!empty($areaFixedValue)) {
-            return (double)$areaFixedValue * $areaFactor;
-        }
-        
-        $areaFieldName = $msLayer->getMetaData('area_field_name');
-        if (empty($areaFieldName))
-            $areaFieldName = 'area';
-
-        // change here to set that a missing area field is fatal
-        $noAreaFieldFatal = false;
-        if (!isset($values[$areaFieldName])) {
-            if ($noAreaFieldFatal)
-                throw new CartoserverException("No area field named " .
-                        "\"$areaFieldName\" found in layer $requ->layerId");
-            return 0.0;
-        }
-        return (double)$values[$areaFieldName] * $areaFactor;
-    }
-    
-    private function encodingConversion($str) {
-        // FIXME: $str is asserted to be iso8851-1 
-        return utf8_encode($str);
-    }
-    
-    private function getHilightResult(HilightRequest $requ) {
-    
-        $serverLayer = $this->getServerLayer($requ);
-        $msMapObj = $this->serverContext->getMapObj();
-        
-        $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
-        if (empty($msLayer))
-            throw new CartoserverException("can't find mslayer $serverLayer->msLayer");
-        
-        $layerResult = new LayerResult();
-        $layerResult->layerId = $requ->layerId;
-        $layerResult->fields = array('label', 'area');
-        $layerResult->resultElements = array();
-
-        $results = array();
-        if (count($requ->selectedIds) > 0) {
-            require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
-            $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
-        }
-        
-        $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
-        foreach ($results as $result) {
-            $resultElement = new ResultElement();
-            
-            if (!is_null($idAttribute))
-                $resultElement->id = $this->encodingConversion(
-                                                $result->values[$idAttribute]);
-            // warning: filling order has to match field order
-            $resultElement->values[] = $this->encodingConversion(
-                        $this->getLabel($msLayer, $result->values));
-            $resultElement->values[] = 
-                        $this->getArea($msLayer, $result->values);
-            $layerResult->resultElements[] = $resultElement;
-        }
-        
-        $hilightResult = new HilightResult();
-        $hilightResult->layerResults = array($layerResult);
-        
-        return $hilightResult;
-    }
-    
-    function handlePreDrawing($requ) {
-        
-        // FIXME: HilightRequest should support multiple layers hilight
-        // This is a temporary solution
-        if (isset($requ->multipleRequests)) {
-            foreach ($requ->multipleRequests as $hilightRequest) {
-                $this->hilightLayer($hilightRequest);   
-            }
-            return null;
-        }
-        
-        $this->hilightLayer($requ);
-        
-        if (!$requ->retrieveAttributes)
-            return null;
-        
-        return $this->getHilightResult($requ);
-    }
 }
+
 ?>

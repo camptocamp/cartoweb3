@@ -155,17 +155,17 @@ class ServerQuery extends ClientResponderAdapter {
         return $ids;
     }
 
-    private function getLayerHilightRequest(LayerResult $layerResult) {
+    private function getLayerSelectionRequest(LayerResult $layerResult) {
     
-        $hilightRequest = new HilightRequest();
+        $selectionRequest = new SelectionRequest();
 
-        $hilightRequest->layerId = $layerResult->layerId;
-        $hilightRequest->selectedIds = $this->getIdsFromLayerResult($layerResult);
+        $selectionRequest->layerId = $layerResult->layerId;
+        $selectionRequest->selectedIds = $this->getIdsFromLayerResult($layerResult);
         
-        return $hilightRequest;
+        return $selectionRequest;
     }
 
-    private function setHilightRequest(QueryResult $queryResult) {
+    private function hilightSelectionRequest(QueryResult $queryResult) {
 
         $plugins = $this->serverContext->pluginManager;
 
@@ -173,17 +173,10 @@ class ServerQuery extends ClientResponderAdapter {
             throw new CartoserverException("hilight plugin not loaded, and needed " .
                     "for the query hilight drawing");
 
-        // FIXME: HilightRequest should support multiple layers hilight
-        // This is a temporary solution
-        $multipleHilightRequest = new HilightRequest();
-        
         foreach ($queryResult->layerResults as $layerResult) {
-            $hilightRequest = $this->getLayerHilightRequest($layerResult);
-            $multipleHilightRequest->multipleRequests[] = 
-                $hilightRequest;
+            $selectionRequest = $this->getLayerSelectionRequest($layerResult);
+            $plugins->hilight->hilightLayer($selectionRequest);
         }
-        
-        $this->serverContext->mapRequest->hilightRequest = $multipleHilightRequest;
     }
 
     function drawQuery() {
@@ -208,7 +201,7 @@ class ServerQuery extends ClientResponderAdapter {
         }
         
         if ($this->getConfig()->drawQueryUsingHilight)
-            $this->setHilightRequest($queryResult);
+            $this->hilightSelectionRequest($queryResult);
         else
             $this->drawQuery = true;
         

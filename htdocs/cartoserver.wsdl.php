@@ -98,7 +98,9 @@ if (isset($mapId)) {
             $pluginFile = 'plugins/' . $plugin . '/common/' . $plugin . '.wsdl.inc';
             $pluginFile = CARTOSERVER_HOME . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);
             
-            $pluginsSpecificWsdl .= file_get_contents($pluginFile);
+            if (file_exists($pluginFile)) {
+                $pluginsSpecificWsdl .= file_get_contents($pluginFile);
+            }
         }
     }
 }
