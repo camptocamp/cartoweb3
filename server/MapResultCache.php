@@ -91,7 +91,7 @@ class MapResultCache {
         $mapResult = $this->readMapResult($mapRequest);   
         // FIXME: there is no config loaded there, messages are always sent.
         // PERFORMANCE: remove this if too much impact (time + network size)
-        if (is_array($mapResult->serverMessages)) {
+        if (isset($mapResult->serverMessages) && is_array($mapResult->serverMessages)) {
             $mapResult->serverMessages[] = new Message('mapResult returned from cache', 
                                                        Message::CHANNEL_DEVELOPER);
         }
