@@ -23,6 +23,7 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
     private $log;
 
     private $queryState;
+    private $queryRequest;
     private $queryResult;
     
     const TOOL_QUERY = 'query';
@@ -76,19 +77,17 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
     }
 
     function handleHttpRequest($request) {
-
+        $this->queryRequest = $this->cartoclient->getHttpRequestHandler()
+                    ->handleTools($this);
     }
 
     function buildMapRequest($mapRequest) {
     
-        $queryRequest = $this->cartoclient->getHttpRequestHandler()
-                    ->handleTools($this);
-        if (!$queryRequest) {
-            //throw new CartoclientException("failed to build query request");
+        if (!$this->queryRequest) {
             return;
         }
         
-        $mapRequest->queryRequest = $queryRequest;
+        $mapRequest->queryRequest = $this->queryRequest;
     }
 
     function handleResult($queryResult) {
