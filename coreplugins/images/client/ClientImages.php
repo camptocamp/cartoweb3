@@ -407,6 +407,16 @@ class ClientImages extends ClientPlugin
         $mapRequest->imagesRequest->mainmap->isDrawn  = $configuration->isRenderMap();
         $mapRequest->imagesRequest->keymap->isDrawn   = $configuration->isRenderKeyMap();
         $mapRequest->imagesRequest->scalebar->isDrawn = $configuration->isRenderScalebar();
+
+        if ($configuration->getMapHeight()) {
+            $mapRequest->imagesRequest->mainmap->height = 
+                $configuration->getMapHeight();
+        }
+
+        if ($configuration->getMapWidth()) {
+            $mapRequest->imagesRequest->mainmap->width =
+                $configuration->getMapWidth();
+        }
     }    
 }
 
