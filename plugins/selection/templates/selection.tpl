@@ -1,23 +1,23 @@
-<h3>Selection information: </h3>
+<h3>{t}Selection information:{/t}</h3>
 
-select a hilight layer<br/>
-<select name="selection_layerid" onChange="document.carto_form.submit();">
-        {html_options values=$selection_selectionlayers selected=$selection_layerid 
-           output=$selection_selectionlayers}
-</select>
+<p>{t}Select a hilight layer{/t}&nbsp;
+<select name="selection_layerid" id="selection_layerid"
+onChange="javascript:FormItemSelected();">
+{html_options values=$selection_selectionlayers selected=$selection_layerid 
+output=$selection_selectionlayers}
+</select></p>
 
-<br/>
-selected elements:
-<br/>
+{if $selection_selectedids}
+<p>{t}Selected elements:{/t}</p>
 
-<input type="hidden" name="selection_unselect"/>
+<input type="hidden" name="selection_unselect" />
+<ul>
 {foreach from=$selection_selectedids item=id}
-<li>
-        selected id: {$id} <a href="javascript:document.carto_form.selection_unselect.value = '{$id|escape:"url"}';document.carto_form.submit();"> 
-        unselect id </a> <br/>
+<li>{t}Selected id:{/t} {$id} <a href="javascript:document.carto_form.selection_unselect.value='{$id|escape:"url"}';FormItemSelected();">{t}unselect id{/t}</a></li>
 {/foreach}
+</ul>
 
-<input type="hidden" name="selection_clear"/>
-<a href="javascript:document.carto_form.selection_clear.value = '1';document.carto_form.submit();">
-clear selection
-</a> 
+<input type="hidden" name="selection_clear" />
+<p><a href="javascript:document.carto_form.selection_clear.value='1';FormItemSelected();">
+{t}clear selection{/t}</a></p>
+{/if}
