@@ -339,6 +339,7 @@ class cFPDF extends FPDF {
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
         
+        // TODO: get caption height from INI
         if (!isset($block->height))
             $block->height = 20;
 
@@ -507,7 +508,13 @@ class cFPDF extends FPDF {
         foreach ($this->blocks as $block) {
             if (!$block->multiPage)
                 continue;
-
+            
+            if ($block->id == 'page') {
+                $block->content = sprintf('%s %d/{nb}',
+                                          I18n::gt('Page'),
+                                          $this->p->PageNo());
+            }
+            
             switch ($block->type) {
                 case 'image': $this->addGfxBlock($block); break;
                 case 'text': $this->addTextBlock($block); break;
