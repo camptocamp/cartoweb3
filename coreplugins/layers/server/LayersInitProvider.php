@@ -241,7 +241,7 @@ class LayersInitProvider implements InitProvider {
                 strlen(trim($msClass->name)) != 0) { 
                 $layerClass = new LayerClass();
 
-                copy_vars($msClass, $layerClass);
+                Utils::copyVars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
                 $layerClass->label = Encoder::encode($msClass->name);
            

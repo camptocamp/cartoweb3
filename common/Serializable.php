@@ -173,6 +173,22 @@ abstract class Serializable {
     }
 
     /**
+     * Copy all properties from one object to another (overwriting previous ones)
+     *
+     * @param mixed Source object to take properties from
+     * @param mixed Destination object where properties are copied
+     * @return mixed The destination object, with copied properties
+     */
+    static private function copyAllVars($from_object, $to_object) {
+    
+        $from_vars = get_object_vars($from_object);
+        foreach ($from_vars as $from_var_name => $value) {
+            $to_object->$from_var_name = $from_object->$from_var_name;
+        }
+        return $to_object;
+    }
+
+    /**
      * Returns an unserialized object from a stdClass structure
      *
      * If object is an instance of {@link Serializable}, calls 
@@ -208,7 +224,7 @@ abstract class Serializable {
         if ($obj instanceof Serializable) {
             $obj->unserialize($value);
         } else {
-            copy_all_vars($value, $obj);
+            self::copyAllVars($value, $obj);
         }
         return $obj;
     }

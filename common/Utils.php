@@ -24,119 +24,57 @@
 require_once ('log4php/LoggerManager.php');
 
 /**
- * For debugging purpose only
- * @param mixed
+ * Utiliy class containing static methods for various common tasks.
+ * @package Common
  */
-function x1($a = "__died__ \n") {
-    $log =& LoggerManager::getLogger('__x__');
+class Utils {
     
-    print "<pre> type ".gettype($a)."\n";
-    if (is_object($a) or is_array($a)) {
-        print "obj\n";
-        $log->debug($a);
-        var_dump($a);
-        x1();
-    }
-    //debug_print_backtrace();
-    $log->debug($a);
-}
-
-/**
- * For debugging purpose only
- * @param mixed
- */
-function x($a = "__died__\n") {
-    x1($a);
-    die($a."\n");
-}
-
-/**
- * For debugging purpose only
- * @param mixed
- */
-function bt($a = "__died__\n") {
-    echo "<pre/>";
-    debug_print_backtrace();
-    x($a);
-}
-
-/**
- * For debugging purpose only
- * @param mixed
- */
-function l($arg = false) {
-    $i = 100;
-    if ($arg !== false)
-        var_dump($arg);
-    while ($i--)
-        print "x";
-    print "\n";
-}
-
-
-/**
- * Copies values from an objet to another
- *
- * Uses reflection.
- * @param mixed
- * @param mixed
- * @return mixed
- */
-function copy_properties($from_object, $to_object) {
-
-    $fromReflectionClass = new ReflectionClass(get_class($from_object));
-    $toReflectionClass = new ReflectionClass(get_class($to_object));
-    $fromProperties = $fromReflectionClass->getProperties();
-
-    foreach ($fromProperties as $fromProperty) {
-
-        try {
-            $toProperty = $toReflectionClass->getProperty($fromProperty->getName());
-        } catch (ReflectionException $e) {
-            continue;
+    /**
+     * Copies values from an objet to another. It uses reflection for reading the 
+     * properties of each objects.
+     * 
+     * @param mixed
+     * @param mixed
+     * @return mixed
+     */
+    public static function copyProperties($from_object, $to_object) {
+    
+        $fromReflectionClass = new ReflectionClass(get_class($from_object));
+        $toReflectionClass = new ReflectionClass(get_class($to_object));
+        $fromProperties = $fromReflectionClass->getProperties();
+    
+        foreach ($fromProperties as $fromProperty) {
+    
+            try {
+                $toProperty = $toReflectionClass->getProperty($fromProperty->getName());
+            } catch (ReflectionException $e) {
+                continue;
+            }
+            $toProperty->setValue($to_object, $fromProperty->getValue($from_object));
         }
-
-        $toProperty->setValue($to_object, $fromProperty->getValue($from_object));
+        return $to_object;
     }
-    return $to_object;
-}
-
-/**
- * Copies values from an objet to another
- *
- * Only updates if destination var exists. Does not use reflection.
- * @param mixed
- * @param mixed
- * @return mixed
- */
-function copy_vars($from_object, $to_object) {
-
-    $from_vars = get_object_vars($from_object);
-    $to_vars = get_object_vars($to_object);
-    foreach ($to_vars as $to_var_name => $value) {
-        if (!in_array($to_var_name, array_keys($from_vars))) {
-            continue;
+    
+    /**
+     * Copies values from an objet to another. It only updates if 
+     * destination var exists. Does not use reflection.
+     * 
+     * @param mixed
+     * @param mixed
+     * @return mixed
+     */
+    public static function copyVars($from_object, $to_object) {
+    
+        $from_vars = get_object_vars($from_object);
+        $to_vars = get_object_vars($to_object);
+        foreach ($to_vars as $to_var_name => $value) {
+            if (!in_array($to_var_name, array_keys($from_vars))) {
+                continue;
+            }
+            $to_object->$to_var_name = $from_object->$to_var_name;
         }
-        $to_object->$to_var_name = $from_object->$to_var_name;
+        return $to_object;
     }
-    return $to_object;
-}
-
-/**
- * To be removed, using rather copy_properties
- *
- * Does not use reflection.
- * @param mixed
- * @param mixed
- * @return mixed
- */
-function copy_all_vars($from_object, $to_object) {
-
-    $from_vars = get_object_vars($from_object);
-    foreach ($from_vars as $from_var_name => $value) {
-        $to_object->$from_var_name = $from_object->$from_var_name;
-    }
-    return $to_object;
 }
 
 /**
@@ -196,6 +134,58 @@ class ConfigParser {
         }   
         return $result;
     }
+}
+
+/////////////////   Misc functions for debugging   /////////////////
+
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
+function x1($a = "__died__ \n") {
+    $log =& LoggerManager::getLogger('__x__');
+    
+    print "<pre> type ".gettype($a)."\n";
+    if (is_object($a) or is_array($a)) {
+        print "obj\n";
+        $log->debug($a);
+        var_dump($a);
+        x1();
+    }
+    //debug_print_backtrace();
+    $log->debug($a);
+}
+
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
+function x($a = "__died__\n") {
+    x1($a);
+    die($a."\n");
+}
+
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
+function bt($a = "__died__\n") {
+    echo "<pre/>";
+    debug_print_backtrace();
+    x($a);
+}
+
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
+function l($arg = false) {
+    $i = 100;
+    if ($arg !== false)
+        var_dump($arg);
+    while ($i--)
+        print "x";
+    print "\n";
 }
 
 ?>
