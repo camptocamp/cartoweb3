@@ -232,6 +232,11 @@ class ClientLayers extends ClientPlugin
      * @var array
      */
     private $nodesIds = array();
+
+    /**
+     * @var array
+     */
+    private $layerIds = array();
     
     /**
      * @var array
@@ -392,6 +397,13 @@ class ClientLayers extends ClientPlugin
         $layerNode = $this->getLayerNode();
         $layerNode->filterNodes(array($this, 'nodesFilterSecurity'));
         return $layerNode->getLayersMap(array());
+    }
+
+    /**
+     * @return array layerIds, list of server-asked layers
+     */
+    public function getLayerIds() {
+        return $this->layerIds;
     }
 
     /**
@@ -746,12 +758,12 @@ class ClientLayers extends ClientPlugin
     function buildMapRequest($mapRequest) {
         $layersMask = $this->getLayersMask();
         
-        $layerIds = $this->getSelectedLayers(true);
-        $layerIds = $this->fetchChildrenFromLayerGroup($layerIds);
-        $layerIds = array_intersect($layerIds, $layersMask);
+        $this->layerIds = $this->getSelectedLayers(true);
+        $this->layerIds = $this->fetchChildrenFromLayerGroup($this->layerIds);
+        $this->layerIds = array_intersect($this->layerIds, $layersMask);
      
         $layersRequest = new LayersRequest();
-        $layersRequest->layerIds = $layerIds;
+        $layersRequest->layerIds = $this->layerIds;
         $mapRequest->layersRequest = $layersRequest;
     }
 
