@@ -844,7 +844,9 @@ class ClientLayers extends ClientPlugin
     }
     
     /**
-     * @return boolean True if this icon is an out of range icon (below or above scale).
+     * @param string icon filename
+     * @return boolean True if this icon is an out of range icon 
+     * (below or above scale).
      */
     private function isOutOfRangeIcon($icon) {
         return $icon == $this->notAvailableIcon ||
