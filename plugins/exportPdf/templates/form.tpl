@@ -1,9 +1,22 @@
 <br />
-<form method="post" action="{$exportScriptPath}" target="_blank">
+<script type="text/javascript">
+<!--
+var resolutions = new Array();
+{foreach from=$pdfAllowedResolutions key=formatId item=formatResolutions}
+resolutions['{$formatId}'] = new Array({foreach 
+from=$formatResolutions name=formatRes key=resId
+item=resLabel}{$resId},'{$resLabel}'{if !$smarty.foreach.formatRes.last},{/if}{/foreach});
+{/foreach}
+//-->
+</script>
+<form method="post" action="{$exportScriptPath}" target="_blank" name="pdfForm">
 <input type="hidden" name="project" value="{$project}" />
 <input type="hidden" name="pdfExport" value="1" />
 <div>{t}Format:{/t} 
-{html_options name="pdfFormat" options=$pdfFormat_options selected=$pdfFormat_selected}</div>
+<select name="pdfFormat"
+onchange="javascript:updateResolutions({$pdfResolution_selected});">
+{html_options options=$pdfFormat_options selected=$pdfFormat_selected}
+</select></div>
 
 <div>{t}Resolution:{/t}
 {html_options name="pdfResolution" options=$pdfResolution_options 
