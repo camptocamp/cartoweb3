@@ -131,6 +131,8 @@ def setup_files():
     for d in projects_path:
         setup_icons(d)
      
+    link_or_copy('../po', join(rootpath, 'htdocs/po'))
+    
     sys.exit(0)
 
 def usage():
