@@ -157,7 +157,7 @@ class ClientLayers extends ClientCorePlugin {
 
     function handleHttpRequest($request) {
         $this->log->debug('update form:');
-        $this->log->debug($this->layersData);
+        $this->log->debug($this->layersState);
 
         // disables all layers before selecting correct ones
         foreach ($this->getLayers() as $layer) {
