@@ -38,6 +38,12 @@ class OutlineState {
      * @var boolean
      */
     public $maskMode;
+    
+    /**
+     * If true, will ask for a label text
+     * @var boolean
+     */
+    public $labelMode;
 }
 
 /**
@@ -92,6 +98,7 @@ class ClientOutline extends ClientPlugin
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
+        $this->outlinestate->labelMode = false;
         
         return;
     }
@@ -125,7 +132,9 @@ class ClientOutline extends ClientPlugin
      * @return array array of ToolDescription
      */
     public function getTools() {
-        return array(new ToolDescription(self::TOOL_POINT, true,
+        switch ($this->getConfig()->labelMode) {
+            case true:
+                return array(new ToolDescription(self::TOOL_POINT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT,
                         JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
                         "addLabel('point label')"),
@@ -147,6 +156,24 @@ class ClientOutline extends ClientPlugin
                         "addLabel('polygon label')"),
                                          73),
                     );
+                break;
+
+            case false:
+                return array(new ToolDescription(self::TOOL_POINT, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
+                                         70),
+                     new ToolDescription(self::TOOL_LINE, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE),
+                                         71),
+                     new ToolDescription(self::TOOL_RECTANGLE, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
+                                         72),
+                     new ToolDescription(self::TOOL_POLYGON, true, 
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON),
+                                         73),
+                    );
+             break;
+        } 
     }
 
     /**
@@ -189,6 +216,7 @@ class ClientOutline extends ClientPlugin
         $outlineRequest = new OutlineRequest();
         $outlineRequest->shapes   = $this->outlineState->shapes;        
         $outlineRequest->maskMode = $this->outlineState->maskMode;
+        $outlineRequest->labelMode = $this->getConfig()->labelMode;
       
         $mapRequest->outlineRequest = $outlineRequest;
     }
