@@ -124,6 +124,23 @@ function copy_vars($from_object, $to_object) {
 }
 
 /**
+ * To be removed, using rather copy_properties
+ *
+ * Does not use reflection.
+ * @param mixed
+ * @param mixed
+ * @return mixed
+ */
+function copy_all_vars($from_object, $to_object) {
+
+    $from_vars = get_object_vars($from_object);
+    foreach ($from_vars as $from_var_name => $value) {
+        $to_object->$from_var_name = $from_object->$from_var_name;
+    }
+    return $to_object;
+}
+
+/**
  * Tools for configuration files parsing
  * @package Common
  */

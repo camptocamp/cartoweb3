@@ -163,7 +163,7 @@ abstract class Serializable {
         if ($obj instanceof Serializable) {
             $obj->unserialize($value);
         } else {
-            copy_properties($value, $obj);
+            copy_all_vars($value, $obj);
         }
         return $obj;
     }
