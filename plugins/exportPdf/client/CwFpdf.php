@@ -177,7 +177,7 @@ class CwFpdf implements PdfWriter {
     /**
      * Translates config text-alignement keyword into FPDF one.
      * @param string horizontal alignment keyword
-     * @return enum('C', 'R', 'L')
+     * @return string enum('C', 'R', 'L')
      */
     private function getTextAlign($align) {
         switch (strtolower($align)) {
