@@ -224,17 +224,16 @@ class FormRenderer {
     
     /**
      * Displays GUI using cartoclient.tpl Smarty template
-     * @param Cartoclient Cartoclient
      */
-    public function showForm(Cartoclient $cartoclient) {
+    public function showForm() {
 
         if (!$this->cartoclient->isInterruptFlow()) {
 
-            $this->drawTools($cartoclient);
+            $this->drawTools($this->cartoclient);
     
-            $messages = array_merge($cartoclient->getMapResult()
+            $messages = array_merge($this->cartoclient->getMapResult()
                                                 ->serverMessages,
-                                    $cartoclient->getMessages());
+                                    $this->cartoclient->getMessages());
             $this->drawMessages($messages);
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
@@ -250,7 +249,7 @@ class FormRenderer {
                                                               true));
     
             // handle plugins
-            $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm',
+            $this->cartoclient->callPluginsImplementing('GuiProvider', 'renderForm',
                                                   $this->smarty);
         }
         

@@ -685,7 +685,7 @@ class Cartoclient {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow())
-            return $this->formRenderer->showForm($this);
+            return $this->formRenderer->showForm();
         
         $mapRequest = $this->getMapRequest();
         $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
