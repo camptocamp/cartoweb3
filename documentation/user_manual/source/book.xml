@@ -12,7 +12,7 @@
     <pubdate>
       <?dbtimestamp format="Y-m-d"?>
     </pubdate>
-   <edition>1.0</edition>
+   <edition>3.0.0</edition>
    <mediaobject>
      <imageobject>
        <imagedata fileref="logo.png" format="PNG" />
