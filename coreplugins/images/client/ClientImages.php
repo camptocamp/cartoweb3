@@ -150,19 +150,34 @@ class ClientImages extends ClientCorePlugin {
     }
 
     function renderForm($template) {
-        
-        /* TODO: also set images dimensions (width, height) */
-        
-        $template->assign("mainmap_path", 
-                          $this->getImagePath($this->imagesResult->mainmap->path));
+       
+        // TODO: add i18n support
+        $template->assign(array(
+            'mainmap_path' => 
+                $this->getImagePath($this->imagesResult->mainmap->path),
+            'mainmap_alt' => 'Main map', #i18n
+            'mainmap_width' => $this->imagesResult->mainmap->width,
+            'mainmap_height' => $this->imagesResult->mainmap->height,
+                                ));
     
         if ($this->imagesResult->keymap->isDrawn) {
-            $template->assign("keymap_path", 
-                          $this->getImagePath($this->imagesResult->keymap->path));
+            $template->assign(array(
+                'keymap_path' => 
+                    $this->getImagePath($this->imagesResult->keymap->path),
+                'keymap_alt' => 'Overwiew map', #i18n
+                'keymap_width' => $this->imagesResult->keymap->width,
+                'keymap_height' => $this->imagesResult->keymap->height,
+                                    ));
         }
+        
         if ($this->imagesResult->scalebar->isDrawn) {
-            $template->assign("scalebar_path", 
-                          $this->getImagePath($this->imagesResult->scalebar->path));
+            $template->assign(array(
+                'scalebar_path' => 
+                    $this->getImagePath($this->imagesResult->scalebar->path),
+                'scalebar_alt' => 'Scale bar', #i18n
+                'scalebar_width' => $this->imagesResult->scalebar->width,
+                'scalebar_height' => $this->imagesResult->scalebar->height,
+                                    ));
         }
     }
 
