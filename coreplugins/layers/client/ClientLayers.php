@@ -1246,6 +1246,10 @@ class ClientLayers extends ClientPlugin
         $resolution = $configuration->getResolution();
         if (!is_null($resolution))
             $mapRequest->layersRequest->resolution = $resolution;
+
+        $layerIds = $configuration->getLayerIds();
+        if (!is_null($layerIds))
+            $mapRequest->layersRequest->layerIds = $layerIds;
     }
 }
 ?>
