@@ -7,6 +7,18 @@
 /**
  * @package CorePlugins
  */
+class LayersState {
+    public $layersData;
+    public $hiddenSelectedLayers;
+    public $hiddenUnselectedLayers;
+    public $frozenSelectedLayers;
+    public $frozenUnselectedLayers;
+    public $nodesIds;
+}
+
+/**
+ * @package CorePlugins
+ */
 class ClientLayers extends ClientCorePlugin {
     private $log;
     private $smarty;
@@ -30,6 +42,12 @@ class ClientLayers extends ClientCorePlugin {
     private $nodesIds = array();
     private $childrenCache = array();
 
+    private $currentScale;
+    private $mapId;
+
+    const BELOW_RANGE_ICON = 'nam.png';
+    const ABOVE_RANGE_ICON = 'nap.png';
+
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
@@ -40,29 +58,36 @@ class ClientLayers extends ClientCorePlugin {
         $this->log->debug($sessionObject);
         $this->layersState = $sessionObject;
         
-        $this->layersData =& $this->layersState['layersData'];
+        $this->layersData =& $this->layersState->layersData;
+        
         $this->hiddenSelectedLayers 
-            =& $this->layersState['hiddenSelectedLayers'];
+            =& $this->layersState->hiddenSelectedLayers;
+        
         $this->hiddenUnselectedLayers
-            =& $this->layersState['hiddenUnselectedLayers'];
+            =& $this->layersState->hiddenUnselectedLayers;
+        
         $this->frozenSelectedLayers
-            =& $this->layersState['frozenSelectedLayers'];
+            =& $this->layersState->frozenSelectedLayers;
+        
         $this->frozenUnselectedLayers
-            =& $this->layersState['frozenUnselectedLayers'];
+            =& $this->layersState->frozenUnselectedLayers;
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
-        $this->layersState = array();
-        $this->layersState['layersData'] =& $this->layersData;
-        $this->layersState['hiddenSelectedLayers']
-            =& $this->hiddenSelectedLayers;
-        $this->layersState['hiddenUnselectedLayers']
+        $this->layersState = new LayersState();
+        
+        $this->layersState->layersData =& $this->layersData;
+        
+        $this->layersState->hiddenSelectedLayers =& $this->hiddenSelectedLayers;
+        
+        $this->layersState->hiddenUnselectedLayers
             =& $this->hiddenUnselectedLayers;
-        $this->layersState['frozenSelectedLayers']
-            =& $this->frozenSelectedLayers;
-        $this->layersState['frozenUnselectedLayers']
+        
+        $this->layersState->frozenSelectedLayers =& $this->frozenSelectedLayers;
+        
+        $this->layersState->frozenUnselectedLayers
             =& $this->frozenUnselectedLayers;
             
         $this->layersData = array();
@@ -92,7 +117,7 @@ class ClientLayers extends ClientCorePlugin {
      */
     private function getLayers() {
         if(!is_array($this->layers)) {
-            $mapInfo = $this->cartoclient->getMapInfo();
+            $mapInfo = $this->getCartoclient()->getMapInfo();
             $this->layers = array();
             foreach ($mapInfo->getLayers() as $layer)
                 $this->layers[$layer->id] = $layer;
@@ -146,18 +171,6 @@ class ClientLayers extends ClientCorePlugin {
         return $children;
     }
 
-    /**
-     * Recursively populates the array ('HTML id' => 'Layer id').
-     */
-    private function getNodesIds($layer) {
-        foreach ($this->getLayerChildren($layer) as $child) {
-            $childLayer = $this->getLayerByName($child);
-            $this->getNodesIds($childLayer);
-        }
-
-        $this->nodesIds[] = $layer->id;
-    }
-
     function handleHttpRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
@@ -178,8 +191,7 @@ class ClientLayers extends ClientCorePlugin {
         }
 
         // unfolded layergroups:
-        $rootLayer = $this->getLayerByName('root');
-        $this->getNodesIds($rootLayer);
+        $this->nodesIds =& $this->layersState->nodesIds;
        
         if (!@$request['openNodes']) $request['openNodes'] = false;
         $openNodes = array_unique(explode(',', $request['openNodes']));
@@ -365,7 +377,7 @@ class ClientLayers extends ClientCorePlugin {
         if(count($this->smartyPool)) return array_shift($this->smartyPool);
         
         $this->smartyNb++;
-        return new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+        return new Smarty_CorePlugin($this->getCartoclient()->getConfig(), $this);
     }
 
     /**
@@ -397,24 +409,54 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     /**
+     * Retrieves current scale from MapResult object.
+     */
+    private function getCurrentScale() {
+        if (!isset($this->currentScale)) {
+            $this->currentScale = 
+                $this->getCartoclient()->getMapResult()->locationResult->scale;
+        }
+        return $this->currentScale;
+    }
+    
+    /**
      * Returns layer icon filename if any.
      */
     private function fetchLayerIcon($layer, &$children = array()) {
-        if (!$layer->icon || $layer->icon == 'none')
+        if (!$layer->icon || $layer->icon == 'none') {
             $layer->icon = false;
         
-        if (!$layer->icon && ($layer instanceof Layer ||
-            ($layer instanceof LayerGroup && $layer->aggregate))) {
+            if ($layer instanceof Layer ||
+                ($layer instanceof LayerGroup && $layer->aggregate)) {
 
-            $nbChildren = count($children);
-            if (!$nbChildren) return false;
+                $nbChildren = count($children);
+                if (!$nbChildren) return false;
 
-            // if layer has no icon, tries using first class icon
-            $childLayer = $this->getLayerByName($children[0]);
-            $layer->icon = $this->fetchLayerIcon($childLayer);
+                // if layer has no icon, tries using first class icon
+                $i = 0;
+                do {
+                    $childLayer = $this->getLayerByName($children[$i++]);
+                    $layer->icon = $this->fetchLayerIcon($childLayer);
+                }
+                while (($layer->icon == self::BELOW_RANGE_ICON ||
+                        $layer->icon == self::ABOVE_RANGE_ICON) &&
+                       isset($children[$i]));
 
-            // in addition, if layer has only one class, does not display it
-            if ($nbChildren == 1) $children = array();
+                // in addition, if layer has only one class, 
+                // does not display it
+                if ($nbChildren == 1 ||
+                    $layer->icon == self::BELOW_RANGE_ICON ||
+                    $layer->icon == self::ABOVE_RANGE_ICON) 
+                    $children = array();
+            }
+        } elseif ($layer->minScale && 
+                  $this->getCurrentScale() < $layer->minScale) {
+            $layer->icon = self::BELOW_RANGE_ICON;
+            $children = array();
+        } elseif ($layer->maxScale &&
+                  $this->getCurrentScale() > $layer->maxScale) {
+            $layer->icon = self::ABOVE_RANGE_ICON;
+            $children = array();
         }
         
         return $layer->icon;
@@ -427,7 +469,7 @@ class ClientLayers extends ClientCorePlugin {
     private function drawLayer($layer, $forceSelection = false,
                                        $forceFrozen = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
-//print_r($layer);
+
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
             return false;
@@ -448,17 +490,26 @@ class ClientLayers extends ClientCorePlugin {
         $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
+        $this->layersState->nodesIds[$this->nodeId] = $layer->id;
+
+        switch($layer->icon) {
+            case self::ABOVE_RANGE_ICON: $layerOutRange = 1; break;
+            case self::BELOW_RANGE_ICON: $layerOutRange = -1; break;
+            default: $layerOutRange = 0;
+        }
 
         $template->assign(array('layerLabel'     => I18n::gt($layer->label),
                                 'layerId'        => $layer->id,
                                 'layerClassName' => $layer->className,
                                 'layerLink'      => $layer->link,
                                 'layerIcon'      => $layer->icon,
+                                'layerOutRange'  => $layerOutRange,
                                 'layerChecked'   => $layerChecked,
                                 'layerFrozen'    => $layerFrozen,
                                 'groupFolded'    => $groupFolded,
                                 'nodeId'         => $this->nodeId++,
                                 'childrenLayers' => $childrenLayers,
+                                'mapId'          => $this->mapId,
                                 ));
         
         if (!$groupFolded && $this->nodeId != 1) 
@@ -474,9 +525,13 @@ class ClientLayers extends ClientCorePlugin {
      */
     private function drawLayersList() {
 
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                        $this);
+        $this->smarty = new Smarty_CorePlugin(
+                            $this->getCartoclient()->getConfig(),
+                            $this);
 
+        $this->layersState->nodesIds = array();
+        $this->mapId = $this->getCartoclient()->getConfig()->mapId;
+        
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
         
