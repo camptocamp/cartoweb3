@@ -25,8 +25,8 @@
       <filename>/etc/apt/sources.list</filename>:
       <screen><![CDATA[#debian sarge
 deb http://ftp.<country>.debian.org/debian/ sarge main contrib]]></screen>
-    Of course, replace &lt;country&gt; by two country letter of your nearest mirror.
-    See <ulink url="http://www.debian.org/mirror/list"/> for the full mirror list.
+    Of course, replace &lt;country&gt; by two-letter country code of your nearest mirror.
+    See <ulink url="http://www.debian.org/mirror/list"/> for the full mirrors list.
   </para>
   </sect1>
   
