@@ -311,7 +311,23 @@ class cFPDF extends FPDF {
         $this->p->SetXY($x + $width, $y);
     }
 
-    function addTableRow(TableElement $table, $row) {
+    function splitMultiPageTable(PdfBlock $block, $height) {
+        // TODO: find a better way to avoid overlapping of potential footer
+        // block (what about headers?) than:
+        $footerHeight = PrintTools::switchDistUnit(15, 'mm',
+                                                   $this->general->distUnit);
+        if ($this->p->GetY() + $height + 
+            $footerHeight > $this->space->maxY()) {
+            $this->addPage();
+            $this->setTextLayout($block);
+            $this->setBoxLayout($block);
+            return true;
+        }
+
+        return false;
+    }
+
+    function addTableRow(PdfBlock $block, TableElement $table, $row) {
         if (!is_array($row) && !is_object($row))
             $row = array($row);
 
@@ -323,10 +339,7 @@ class cFPDF extends FPDF {
         }
         $height = $nbLines * $table->rowBaseHeight;
 
-        // FIXME: what if some footer block is placed right above 
-        // bottom margin?!
-        if ($this->p->GetY() + $height > $this->space->maxY())
-            $this->AddPage();
+        $this->splitMultiPageTable($block, $height);
 
         $this->p->SetX($table->x0);
        
@@ -345,6 +358,9 @@ class cFPDF extends FPDF {
         if (!isset($block->height))
             $block->height = $table->rowBaseHeight;
 
+        if ($this->splitMultiPageTable($block, $block->height))
+            $this->p->SetX($table->x0);
+
         $textAlign = $this->getTextAlign($block->textAlign);
 
         $this->p->Cell($block->width, $block->height, $block->content, 1, 0, 
@@ -356,7 +372,7 @@ class cFPDF extends FPDF {
         $block = $table->headers;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
-        $this->addTableRow($table, $block->content);
+        $this->addTableRow($block, $table, $block->content);
     }
 
     function setTableMeta(PdfBlock $block, TableElement $table, $meta) {
@@ -502,7 +518,7 @@ class cFPDF extends FPDF {
             $this->setBoxLayout($block);
             
             foreach ($table->rows as $row) {
-                $this->addTableRow($table, $row);
+                $this->addTableRow($block, $table, $row);
             }
 
             $this->p->Ln();
