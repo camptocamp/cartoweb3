@@ -45,9 +45,10 @@ class PluginManager {
     static private $replacePlugin = NULL;
     
     /**
+     * Constructor
      * @param ProjectHandler
      */
-    function __construct($rootPath, $kind, $projectHandler) {
+    public function __construct($rootPath, $kind, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->rootPath = $rootPath;
@@ -55,14 +56,19 @@ class PluginManager {
         $this->projectHandler = $projectHandler;
     }
 
-    static function replacePlugin($name) {
+    /**
+     * Tells what plugin the current one replaces.
+     * @param string replacement plugin name
+     */
+    static public function replacePlugin($name) {
         self::$replacePlugin = $name;
     }
 
     /**
+     * Returns the plugins objects list.
      * @return array
      */
-    function getPlugins() {
+    public function getPlugins() {
         return $this->plugins;
     }
     
@@ -222,7 +228,15 @@ class PluginManager {
         }
     }
 
-    function callPluginImplementing($plugin, $interface, $functionName, 
+    /**
+     * Calls a function on the given plugin that implements the given 
+     * interface.
+     * @param PluginBase
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
+    public function callPluginImplementing($plugin, $interface, $functionName, 
                                     $args = array()) {
 
         if ($plugin instanceof $interface) {
@@ -250,7 +264,7 @@ class PluginManager {
      * @param string function name
      * @param array function arguments
      */
-    function callPluginsImplementing($interface, $functionName, 
+    public function callPluginsImplementing($interface, $functionName, 
                                      $args = array()) {
 
         foreach ($this->plugins as $plugin) {
@@ -264,7 +278,7 @@ class PluginManager {
      * @param string function name
      * @param array function arguments
      */
-    function callPlugins($functionName, $args = array()) {
+    public function callPlugins($functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
             call_user_func_array(array($plugin, $functionName), $args);
@@ -276,7 +290,7 @@ class PluginManager {
      * @param string name
      * @return PluginBase 
      */
-    function getPlugin($pluginName) {
+    public function getPlugin($pluginName) {
         
         foreach ($this->plugins as $plugin) {
             if ($pluginName == $plugin->getName()) {
@@ -292,7 +306,7 @@ class PluginManager {
      * Plugin name is found using URL.
      * @return PluginBase
      */
-    function getCurrentPlugin() {
+    public function getCurrentPlugin() {
         
         if (preg_match('#^(.*)(\/?)([a-z0-9_-]*)(\/?)([a-z0-9_-]*).php$#iU', 
                        $_SERVER['PHP_SELF'],

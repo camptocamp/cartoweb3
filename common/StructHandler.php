@@ -21,7 +21,7 @@ class StructHandler {
      * @param array
      * @return stdClass
      */
-    static function loadFromArray($array) {
+    static public function loadFromArray($array) {
         $struct = new stdclass();
 
         foreach($array as $key => $value) {
@@ -39,7 +39,7 @@ class StructHandler {
      * @param string file path
      * @return stdClass
      */
-    static function loadFromIni($iniFile) {
+    static public function loadFromIni($iniFile) {
         $ini_array = parse_ini_file($iniFile);
 
         return self::loadFromArray($ini_array);
@@ -55,7 +55,7 @@ class StructHandler {
      * @param boolean if true, prints no warnings
      * @return mixed result of merge
      */
-    static function mergeOverride($object, $override, $mute = false) {
+    static public function mergeOverride($object, $override, $mute = false) {
          $new_object = clone $object;
          
          foreach(get_object_vars($override) as $property => $value) {

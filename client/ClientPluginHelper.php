@@ -22,7 +22,7 @@ class ClientPluginHelper {
      */
     protected $log;
     
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(get_class($this));
     }
 }

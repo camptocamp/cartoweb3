@@ -75,11 +75,19 @@ class CartoForm {
  */
 class ClientConfig extends Config {
 
-    function getKind() {
+    /**
+     * Returns config type
+     * @return string
+     */
+    public function getKind() {
         return 'client';
     }
 
-    function getBasePath() {
+    /**
+     * Returns base path
+     * @return string
+     */
+    public function getBasePath() {
         return CARTOCLIENT_HOME;
     }
 
@@ -88,7 +96,7 @@ class ClientConfig extends Config {
      *
      * @param ClientProjectHandler Cartoclient's project handler
      */
-    function __construct($projectHandler) {
+    public function __construct($projectHandler) {
         parent::__construct($projectHandler);
         
         if (!$this->cartoserverBaseUrl)
@@ -107,11 +115,19 @@ class ClientConfig extends Config {
  */
 class ClientPluginConfig extends PluginConfig {
 
-    function getKind() {
+    /**
+     * Returns plugin config type
+     * @return string
+     */
+    public function getKind() {
         return 'client';
     }
 
-    function getBasePath() {
+    /**
+     * Returns base path
+     * @return string
+     */
+    public function getBasePath() {
         return CARTOCLIENT_HOME;
     }
     
@@ -121,7 +137,7 @@ class ClientPluginConfig extends PluginConfig {
      * Client's .ini are located directly in client_conf directory.
      * @return string path
      */
-    function getPath() {
+    public function getPath() {
         return '';
     }
 
@@ -130,7 +146,7 @@ class ClientPluginConfig extends PluginConfig {
      * @param string plugin name
      * @param ClientProjectHandler Cartoclient's project handler
      */
-    function __construct($plugin, $projectHandler) {
+    public function __construct($plugin, $projectHandler) {
         parent::__construct($plugin, $projectHandler);
     }
 }

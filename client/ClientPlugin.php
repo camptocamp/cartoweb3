@@ -46,9 +46,9 @@ class JsToolAttributes {
     /**
      * @param int
      * @param int
-     @ @param int
+     * @param int
      */
-    function __construct($shapeType,  $cursorStyle = self::CURSOR_CROSSHAIR, 
+    public function __construct($shapeType,  $cursorStyle = self::CURSOR_CROSSHAIR, 
                          $action = self::ACTION_SUBMIT) { 
         $this->shapeType = $shapeType;
         $this->cursorStyle = $cursorStyle;
@@ -147,7 +147,7 @@ class ToolDescription {
      * @param boolean
      * @param int
      */
-    function __construct($id, $hasIcon, $jsAttributes, 
+    public function __construct($id, $hasIcon, $jsAttributes, 
                          $weight, $plugin = false, $appliesTo = self::MAINMAP) {
         $this->id = $id;
         $this->hasIcon = $hasIcon;
@@ -310,14 +310,14 @@ class FilterRequestModifier {
     /**
      * @param array
      */
-    function __construct($request) {
+    public function __construct($request) {
         $this->request = $request;
     }
     
     /**
      * @return array
      */
-    function getRequest() {
+    public function getRequest() {
         return $this->request;
     }
     
@@ -325,7 +325,7 @@ class FilterRequestModifier {
      * @param string
      * @param string
      */
-    function setValue($key, $value) {
+    public function setValue($key, $value) {
         $this->request[$key] = $value;
     }
     
@@ -333,7 +333,7 @@ class FilterRequestModifier {
      * @param string
      * @return string
      */
-    function getValue($key) {
+    public function getValue($key) {
         if (array_key_exists($key, $this->request)) {
             return $this->request[$key];
         } else {
@@ -384,7 +384,10 @@ abstract class ClientPlugin extends PluginBase {
      */
     private $config;
     
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         parent::__construct();
 
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -394,7 +397,7 @@ abstract class ClientPlugin extends PluginBase {
      * Initializes plugin configuration
      * @param Cartoclient Cartoclient
      */
-    function initializeConfig($initArgs) {
+    public function initializeConfig($initArgs) {
         $this->cartoclient = $initArgs;
 
         $this->config = new ClientPluginConfig($this->getName(),
@@ -411,37 +414,65 @@ abstract class ClientPlugin extends PluginBase {
     /**
      * @return Cartoclient
      */
-    function getCartoclient() {
+    public function getCartoclient() {
         return $this->cartoclient;
     }
-       
-    function checkInt($value, $variable) {
+
+    /**
+     * Checks if variable $variable has an integer positive or zero 
+     * value $value. 
+     * @param mixed variable value
+     * @param string variable name
+     * @return boolean
+     */
+    public function checkInt($value, $variable) {
         if (is_null($value) ||
-            (is_numeric($value) && intval($value) == $value && intval($value) >= 0)) {
+            (is_numeric($value) && intval($value) == $value && 
+             intval($value) >= 0)) {
             return true; 
         }
-        $this->cartoclient->addMessage("Parameter $variable should be an int >= 0");
+        $this->cartoclient->addMessage("Parameter $variable" .
+                                       ' should be an int >= 0');
         return false;
     }
 
-    function checkBool($value, $variable) {
+    /**
+     * Checks if variable $variable has a boolean (0 or 1) value $value.
+     * @param mixed variable value
+     * @param string variable name
+     * @return boolean
+     */
+    public function checkBool($value, $variable) {
         if (is_null($value) ||
-            (is_numeric($value) && (intval($value) == 0 || intval($value) == 1))) {
+            (is_numeric($value) && (intval($value) == 0 || 
+                                    intval($value) == 1))) {
             return true; 
         }
         $this->cartoclient->addMessage("Parameter $variable should be 0 or 1");
         return false;
     }
 
-    function checkNumeric($value, $variable) {
+    /**
+     * Checks if variable $variable has a numeric value $value.
+     * @param mixed variable value
+     * @param string variable name
+     * @return boolean
+     */
+    public function checkNumeric($value, $variable) {
         if (is_null($value) || is_numeric($value)) {
             return true; 
         }
         $this->cartoclient->addMessage("Parameter $variable should be numeric");
         return false;
     }
-        
-    function getHttpValue($request, $key) {
+
+    /**
+     * Returns the user-submitted $key data if it is set.
+     * @param array
+     * @param string
+     * @return string
+     */
+    public function getHttpValue($request, $key) {
         if (array_key_exists($key, $request) &&
             $request[$key] != '') {
             return $request[$key];

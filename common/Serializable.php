@@ -28,7 +28,7 @@ abstract class Serializable {
      * {@link Serializable::unserializeObject()} or
      * {@link Serializable::unserializeObjectMap()}.
      */
-    function __construct() {
+    public function __construct() {
         $this->className = get_class($this);
     } 
         
@@ -67,7 +67,8 @@ abstract class Serializable {
      * @param string
      * @return mixed value
      */
-    static function unserializeValue($struct, $property = NULL, $type = 'string') {
+    static public function unserializeValue($struct, $property = NULL, 
+                                            $type = 'string') {
         
         $value = self::getValue($struct, $property);
         
@@ -93,7 +94,8 @@ abstract class Serializable {
      * @param string
      * @return array 
      */
-    static function unserializeArray($struct, $property = NULL, $type = 'string') {
+    static public function unserializeArray($struct, $property = NULL, 
+                                            $type = 'string') {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -119,7 +121,8 @@ abstract class Serializable {
      * @param string
      * @return array 
      */
-    static function unserializeStringArray($struct, $property, $type = 'string') {
+    static public function unserializeStringArray($struct, $property, 
+                                                  $type = 'string') {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -147,7 +150,8 @@ abstract class Serializable {
     static private function guessClassName($property) {
         if (strpos($property, 'Request') === false) {
             throw new CartocommonException('Object to unserialize has no ' .
-                                           'className attribute, and no class name was given'.$type);
+                                           'className attribute, and no class '
+                                           . 'name was given' . $type);
         }
         return $property;
     }
@@ -163,7 +167,8 @@ abstract class Serializable {
      * @param string
      * @return mixed 
      */
-    static function unserializeObject($struct, $property = NULL, $className = NULL) {
+    static public function unserializeObject($struct, $property = NULL, 
+                                             $className = NULL) {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -178,7 +183,8 @@ abstract class Serializable {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            throw new CartocommonException("unserializing non existant class \"$type\"");
+            throw new CartocommonException('unserializing non existant class' .
+                                           " \"$type\"");
         }
         
         $obj = new $type;
@@ -198,7 +204,8 @@ abstract class Serializable {
      * @param string
      * @return array 
      */
-    static function unserializeObjectMap($struct, $property = NULL, $className = NULL) {
+    static public function unserializeObjectMap($struct, $property = NULL, 
+                                                $className = NULL) {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))

@@ -43,7 +43,7 @@ abstract class Config {
      * @param string index
      * @return string value
      */
-    function __get($nm) {
+    public function __get($nm) {
         if (isset($this->ini_array[$nm])) {
             $r = $this->ini_array[$nm];
             return $r;
@@ -59,7 +59,7 @@ abstract class Config {
      * and initializes paths.
      * @param ProjectHandler
      */
-    function __construct($projectHandler) {
+    public function __construct($projectHandler) {
 
         $this->projectHandler = $projectHandler;
 
@@ -103,8 +103,9 @@ abstract class Config {
 
     /**
      * Returns protected var $ini_array.
+     * @return array
      */
-    function getIniArray() {
+    public function getIniArray() {
         return $this->ini_array;
     }
 }
@@ -135,7 +136,7 @@ abstract class PluginConfig extends Config {
      * @param BasePlugin
      * @param ProjectHandler
      */
-    function __construct($plugin, $projectHandler) {
+    public function __construct($plugin, $projectHandler) {
 
         $this->projectHandler = $projectHandler;
 

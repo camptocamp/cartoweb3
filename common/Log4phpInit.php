@@ -31,13 +31,13 @@ function initializeLog4php($isClient) {
 
     class LoggerPropertyOverriderConfigurator extends LoggerPropertyConfigurator {
 
-        function configure($url = '') {
+        public function configure($url = '') {
             $configurator = new LoggerPropertyOverriderConfigurator();
             $repository = & LoggerManager :: getLoggerRepository();
             return $configurator->doConfigure($url, $repository);
         }
 
-        function doConfigureProperties($properties, & $hierarchy) {
+        public function doConfigureProperties($properties, & $hierarchy) {
 
             // TODO: should search for file appenders instead
             define('FILE_APPENDER', 'log4php.appender.A1.file');

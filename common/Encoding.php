@@ -23,7 +23,11 @@ class Encoder {
      * @var array array of EncoderInterface
      */
     static public $encoders;
-    
+
+    /**
+     * Sets default encoding object (UTF8).
+     * @param string context
+     */
     static private function setDefault($context) {
         if (!array_key_exists($context, self::$encoders)) {
             self::$encoders[$context] = new EncoderUTF();
@@ -34,7 +38,7 @@ class Encoder {
      * Initializes encoding
      * @param Config
      */
-    static function init($config) {
+    static public function init(Config $config) {
         self::$log =& LoggerManager::getLogger(__CLASS__);
 
         self::$encoders = array();
@@ -50,7 +54,11 @@ class Encoder {
         self::setDefault('config');
         self::setDefault('output');
     }    
-    
+   
+    /**
+     * @param string context
+     * @return EncoderInterface
+     */
     static private function getEncoder($context) {
         return self::$encoders[$context];
     }
@@ -60,7 +68,7 @@ class Encoder {
      * @param string
      * @return string
      */
-    static function encode($text, $context = 'output') {
+    static public function encode($text, $context = 'output') {
         // self::$log->debug("ENCODE($text,$context)");
         return self::getEncoder($context)->encode($text);
     }
@@ -70,16 +78,17 @@ class Encoder {
      * @param string
      * @return string
      */
-    static function decode($text, $context = 'output') {
+    static public function decode($text, $context = 'output') {
         // self::$log->debug("DECODE($text,$context)");
         return self::getEncoder($context)->decode($text);
     }
     
     /**
      * Calls encoder's getCharset
+     * @param string context
      * @return string
      */
-    static function getCharset($context = 'output') {
+    static public function getCharset($context = 'output') {
         return self::getEncoder($context)->getCharset();
     }
 }
@@ -122,21 +131,21 @@ class EncoderUTF implements EncoderInterface {
     /**
      * @see EncoderInterface::encode()
      */
-    function encode($text) {
+    public function encode($text) {
         return $text;
     }
 
     /**
      * @see EncoderInterface::decode()
      */
-    function decode($text) {
+    public function decode($text) {
         return $text;
     }
     
     /**
      * @see EncoderInterface::getCharset()
      */
-    function getCharset() {
+    public function getCharset() {
         return 'utf-8';
     }
 }
@@ -150,7 +159,7 @@ class EncoderISO implements EncoderInterface {
     /**
      * @see EncoderInterface::encode()
      */
-    function encode($text) {
+    public function encode($text) {
         if (is_array($text)) {
             $result = array();
             foreach ($text as $key => $value) {
@@ -164,7 +173,7 @@ class EncoderISO implements EncoderInterface {
     /**
      * @see EncoderInterface::decode()
      */
-    function decode($text) {
+    public function decode($text) {
         if (is_array($text)) {
             $result = array();
             foreach ($text as $key => $value) {
@@ -178,7 +187,7 @@ class EncoderISO implements EncoderInterface {
     /**
      * @see EncoderInterface::getCharset()
      */
-    function getCharset() {
+    public function getCharset() {
         return 'iso-8859-1';
     }
 }

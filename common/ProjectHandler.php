@@ -34,7 +34,7 @@ abstract class ProjectHandler {
     /**
      * @return string
      */
-    function getMapName() {
+    public function getMapName() {
         return $this->mapName;
     }   
  
@@ -110,7 +110,8 @@ abstract class ProjectHandler {
      */
     public function getAvailableProjects() {
 
-        // it simply looks for directory name. Maybe a smarter approach could be used
+        // It simply looks for directory name. 
+        // Maybe a smarter approach could be used
         $projects = array('default');
         $directory = $this->getRootPath() . self::PROJECT_DIR . '/';
         $d = dir($directory);

@@ -20,6 +20,7 @@ abstract class UrlProvider {
 
     /**
      * Constructor
+     * @param ProjectHandler
      */
     public function __construct(ProjectHandler $projectHandler) {
         $this->projectHandler = $projectHandler;    

@@ -28,9 +28,10 @@ class MapInfoCache {
     private $timeStamp;
 
     /**
+     * Constructor
      * @param Cartoclient
      */
-    function __construct(CartoClient $cartoclient) {
+    public function __construct(CartoClient $cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->cartoclient = $cartoclient;
@@ -104,7 +105,7 @@ class MapInfoCache {
      * @param int timestamp
      * @param string mapId
      */
-    function checkMapInfoTimestamp($timeStamp, $mapId) {
+    public function checkMapInfoTimestamp($timeStamp, $mapId) {
 
         if ($this->skipCache()) {
             $this->log->debug('not caching mapInfo, skipping test');
@@ -147,7 +148,7 @@ class MapInfoCache {
      * @param string mapId
      * @return MapInfo MapInfo
      */
-    function getMapInfo($mapId) {
+    public function getMapInfo($mapId) {
      
         $mapInfo = $this->doGetMapInfo($mapId);
         $this->timeStamp = $mapInfo->timeStamp;

@@ -31,7 +31,10 @@ class MapRequest extends Serializable {
      */
     public $layersRequest;
 
-    function unserialize($struct) {
+    /**
+     * Sets object properties from $struct data.
+     */
+    public function unserialize($struct) {
         $this->mapId = Serializable::unserializeValue($struct, 'mapId');
             
         foreach (get_object_vars($struct) as $attr => $value) {
@@ -59,9 +62,16 @@ class MapResult extends Serializable {
      */
     public $serverMessages;
 
-    function unserialize($struct) {
-        $this->timeStamp      = Serializable::unserializeValue($struct, 'timeStamp', 'int');
-        $this->serverMessages = Serializable::unserializeObjectMap($struct, 'serverMessages', 'Message');
+    /**
+     * Sets object properties from $struct data.
+     */
+    public function unserialize($struct) {
+        $this->timeStamp = Serializable::unserializeValue($struct, 'timeStamp',
+                                                          'int');
+        $this->serverMessages 
+                         = Serializable::unserializeObjectMap($struct, 
+                                                              'serverMessages',
+                                                              'Message');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -6) == 'Result') {

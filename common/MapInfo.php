@@ -86,7 +86,11 @@ class LayerBase extends Serializable {
         return $this->metaHash[$key];
     }
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object 
+     * properties.
+     */
+    public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
         $this->link  = self::unserializeValue($struct, 'link');
@@ -111,7 +115,11 @@ class LayerContainer extends LayerBase {
      */
     public $children = array();
     
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         parent::unserialize($struct);   
         $this->children = self::unserializeArray($struct, 'children');
         // FIXME: do it in unserializeArray ?
@@ -138,7 +146,11 @@ class LayerGroup extends LayerContainer {
      */
     public $rendering = 'tree';
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         parent::unserialize($struct);
         $this->aggregate = self::unserializeValue($struct, 'aggregate',
                                                   'boolean');
@@ -158,7 +170,11 @@ class Layer extends LayerContainer {
      */
     public $msLayer;
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         parent::unserialize($struct);
         $this->msLayer           = self::unserializeValue($struct, 'msLayer'); 
     }
@@ -183,7 +199,11 @@ class Location extends Serializable {
      */
     public $bbox;
     
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
     }
 }
@@ -229,7 +249,11 @@ class LayerState extends Serializable {
      */
     public $unfolded;
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
         $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
         $this->frozen   = self::unserializeValue($struct, 'frozen', 'boolean');
@@ -264,7 +288,11 @@ class InitialMapState extends Serializable {
      */
     public $layers;
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
         $this->location = self::unserializeObject($struct, 'location', 
                               'InitialLocation');
@@ -345,7 +373,11 @@ class MapInfo extends Serializable {
      */
     public $keymapGeoDimension; 
 
-    function unserialize($struct) {
+    /**
+     * Unserializes data from structure $struct and populates object
+     * properties.
+     */
+    public function unserialize($struct) {
         $this->timeStamp        = self::unserializeValue($struct, 'timeStamp');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
   
@@ -385,7 +417,7 @@ class MapInfo extends Serializable {
      * @param string
      * @return LayerBase
      */
-    function getLayerById($layerId) {
+    public function getLayerById($layerId) {
 
         foreach ($this->layers as $layer) {
             if ($layer->id == $layerId)
@@ -400,7 +432,7 @@ class MapInfo extends Serializable {
      * @param string
      * @return MsLayer MapServer layer object
      */
-    function getMsLayerById($msMapObj, $layerId) {
+    public function getMsLayerById($msMapObj, $layerId) {
         $layer = $this->getLayerById($layerId);
         if (is_null($layer))
             throw new CartocommonException("can't find layer $layerId");
@@ -415,7 +447,7 @@ class MapInfo extends Serializable {
      * @param string
      * @return InitialMapState
      */
-    function getInitialMapStateById($mapStateId) {
+    public function getInitialMapStateById($mapStateId) {
 
         foreach ($this->initialMapStates as $mapState) {
             if ($mapState->id == $mapStateId)
@@ -427,8 +459,7 @@ class MapInfo extends Serializable {
     /**
      * @return array
      */
-    function getLayers() {
-
+    public function getLayers() {
         return $this->layers;
     }
 
@@ -437,7 +468,7 @@ class MapInfo extends Serializable {
      * @param LayerBase
      * @param LayerBase
      */
-    function addChildLayerBase($parentLayer, $childLayer) {
+    public function addChildLayerBase($parentLayer, $childLayer) {
         
         $childLayerId = $childLayer->id;
 

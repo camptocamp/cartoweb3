@@ -181,7 +181,8 @@ class DhtmlSelectionParser {
      * @param Bbox current bbox in geographical coordinates
      * @return Shape shape in geographical coordinates
      */
-    function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
+    public function getMainmapShape($cartoForm, Dimension $imageSize, 
+                                    Bbox $bbox) {
 
         if (HttpRequestHandler::isButtonPushed('mainmap')) {
             $point = HttpRequestHandler::getButtonPixelPoint('mainmap');
@@ -215,9 +216,10 @@ class HttpRequestHandler {
     private $log;
 
     /**
+     * Constructor
      * @param Cartoclient
      */
-    function __construct($cartoclient) {
+    public function __construct($cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
     }
@@ -346,7 +348,7 @@ class HttpRequestHandler {
      * @param ClientPlugin plugin
      * @return mixed request
      */
-    function handleTools(ClientPlugin $plugin) {
+    public function handleTools(ClientPlugin $plugin) {
     
         if (!$plugin instanceof ToolProvider) {
             throw new CartoclientException("tool $plugin is not a tool provider");
@@ -379,7 +381,7 @@ class HttpRequestHandler {
      * @param CartoForm current status
      * @return CartoForm modified status
      */
-    function handleHttpRequest($clientSession, $cartoForm) {
+    public function handleHttpRequest($clientSession, $cartoForm) {
 
         // buttons
         $cartoForm->pushedButton = CartoForm::BUTTON_NONE;

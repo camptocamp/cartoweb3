@@ -27,7 +27,10 @@ abstract class PluginBase {
      */
     private $name;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
@@ -43,7 +46,7 @@ abstract class PluginBase {
     /**
      * @return string
      */
-    function getBasePath() {
+    public function getBasePath() {
         if (!$this->basePath)
             throw new CartocommonException("Base path not defined");
         return $this->basePath;
@@ -52,35 +55,35 @@ abstract class PluginBase {
     /**
      * @param string
      */
-    function setBasePath($basePath) {
+    public function setBasePath($basePath) {
         $this->basePath = $basePath;
     }
 
     /**
      * @param string
      */
-    function setName($name) {
+    public function setName($name) {
         $this->name = $name;
     }
 
     /**
      * @return string
      */
-    function getName() {
+    public function getName() {
         return $this->name;
     }
     
     /**
      * @param string
      */
-    function setExtendedName($extendedName) {
+    public function setExtendedName($extendedName) {
         $this->extendedName = $extendedName;
     }
 
     /**
      * @return string
      */
-    function getExtendedName() {
+    public function getExtendedName() {
         return $this->extendedName;
     }
     
@@ -96,7 +99,7 @@ abstract class PluginBase {
      * @param mixed mapRequest or mapResult
      * @return mixed mapRequest|Result or NULL if no such request|result
      */
-    function getRequest($isRequest, $mapRequest) {
+    public function getRequest($isRequest, $mapRequest) {
 
         $type = $isRequest ? 'Request' : 'Result';
         

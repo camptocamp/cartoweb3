@@ -34,7 +34,7 @@ class CartoserverService {
     /**
      * @param ClientConfig
      */
-    function __construct($config) {
+    public function __construct($config) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->config = $config;
     }
@@ -164,7 +164,7 @@ class CartoserverService {
      * @param string mapId
      * @return MapInfo MapInfo returned by server
      */
-    function getMapInfo($mapId) {
+    public function getMapInfo($mapId) {
         return $this->callFunction('getMapInfo', $mapId);
     }
 
@@ -173,7 +173,7 @@ class CartoserverService {
      * @param MapRequest map request
      * @return MapResult MapResult returned by server
      */
-    function getMap($mapRequest) {
+    public function getMap($mapRequest) {
         return $this->callFunction('getMap', $mapRequest);
     }
 }

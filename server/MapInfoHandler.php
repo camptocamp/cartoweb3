@@ -8,20 +8,55 @@
  * @package Server
  */
 class MapInfoHandler {
+
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var ServerContext
+     */
     private $serverContext;
 
+    /**
+     * @var string
+     */
     public $configMapPath;
 
+    /**
+     * @var MapInfo
+     */
     public $mapInfo;
     
+    /**
+     * @var ProjectHandler
+     */
     private $projectHandler;
 
+    /**
+     * @var string
+     */
     private $iniPath;
+    
+    /**
+     * @var string
+     */
     private $symPath;
+    
+    /**
+     * @var string
+     */
     private $mapPath;
 
-    function __construct($serverContext, $mapId, $projectHandler) {
+    /**
+     * Constructor
+     * @param ServerContext
+     * @param string map id
+     * @param ProjectHandler
+     */
+    public function __construct(ServerContext $serverContext, $mapId, 
+                                ProjectHandler $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->serverContext = $serverContext;
         $this->projectHandler = $projectHandler;
@@ -31,6 +66,8 @@ class MapInfoHandler {
     /**
      * Process mapInfo after being loaded from the configuration.
      * Does some basic consistency checks, fills some information.
+     * @param MapInfo
+     * @return MapInfo
      */
     private function fixupMapInfo(MapInfo $mapInfo) {
         if (isset($mapInfo->layers))
@@ -56,6 +93,13 @@ class MapInfoHandler {
         return $mapInfo;
     }
 
+    /**
+     * Returns given config-typed file path.
+     * @param string storage property name
+     * @param string directory name
+     * @param string file extension
+     * @return string
+     */
     private function getPath($storage, $dir, $ext = false) {
         if(!isset($this->$storage)) {
             $mapName = $this->projectHandler->getMapName();
@@ -66,20 +110,38 @@ class MapInfoHandler {
         return $this->$storage;
     }
     
-    function getIniPath() {
+    /**
+     * Returns ini file path.
+     * @return string
+     */
+    public function getIniPath() {
         return $this->getPath('iniPath', 'server_conf/', 'ini');
-   }
+    }
 
-    function getSymPath() {
+    /**
+     * Returns symbols file path.
+     * @return string
+     */
+    public function getSymPath() {
         return $this->getPath('symPath', 'server_conf/', 'sym');
     }
 
-    function getMapPath($serverContext) {
+    /**
+     * Returns mainmap path.
+     * @param ServerContext
+     * @return string
+     */
+    public function getMapPath(ServerContext $serverContext) {
         if (!isset($this->mapPath))
             $this->mapPath = $serverContext->getMapPath();
         return $this->mapPath;
     }
 
+    /**
+     * Retrieves Map Info from ini file.
+     * @param string map id
+     * @return MapInfo
+     */
     private function loadMapInfo($mapId) {
 
         $mapName = $this->projectHandler->getMapName();
@@ -91,14 +153,18 @@ class MapInfoHandler {
         return $this->mapInfo;
     }
 
-    function getMapInfo() {
+    /**
+     * @return MapInfo
+     */
+    public function getMapInfo() {
         return $this->mapInfo;
     }
 
     /**
      * Fills dynamic general map information, like map name.
+     * @param ServerContext
      */
-    private function fillDynamicMap($serverContext) {
+    private function fillDynamicMap(ServerContext $serverContext) {
         $mapInfo = $this->mapInfo;
         $msMapObj = $serverContext->getMapObj();
         
@@ -115,9 +181,12 @@ class MapInfoHandler {
     }
 
     /**
-     * Fill properties of the given LayerBase object.
+     * Fills properties of the given LayerBase object.
+     * @param ServerContext
+     * @param LayerBase
      */    
-    private function fillDynamicLayerBase(ServerContext $serverContext, LayerBase $layerBase) {
+    private function fillDynamicLayerBase(ServerContext $serverContext, 
+                                          LayerBase $layerBase) {
 
         if (!empty($layerBase->icon))
             $layerBase->icon = $this->getIconUrl($layerBase->icon, false);
@@ -132,8 +201,10 @@ class MapInfoHandler {
     }
     
     /**
-     * Fill properties of the given Layer object. It opens the underlying
+     * Fills properties of the given Layer object. It opens the underlying
      * corresponding mapserver layer object.
+     * @param ServerContext
+     * @param Layer
      */
     private function fillDynamicLayer(ServerContext $serverContext, Layer $layer) {
 
@@ -190,10 +261,11 @@ class MapInfoHandler {
     }
 
     /**
-     * Fill dynamic properties of all layer objects. It calls specific methods
+     * Fills dynamic properties of all layer objects. It calls specific methods
      * for each kind of LayerBase and Layer objects.
+     * @param ServerContext
      */
-    private function fillDynamicLayers($serverContext) {
+    private function fillDynamicLayers(ServerContext $serverContext) {
         $mapInfo = $this->mapInfo;
         $layers = $mapInfo->getLayers();
         
@@ -212,7 +284,8 @@ class MapInfoHandler {
 
     /**
      * Returns the relative path to the icons. It is relative to the directory
-     * for storing generated images.
+     * where generated images are stored.
+     * @return string
      */
     private function getIconsRelativePath() {
         $project = $this->projectHandler->getProjectName();
@@ -223,6 +296,9 @@ class MapInfoHandler {
     /**
      * Returns the URL to the given icon. The URL is calculated using the 
      * Resource handler.
+     * @param string icon relative path
+     * @param boolean indicates if icon has been generated by Cartoserver
+     * @return string
      */
     private function getIconUrl($icon, $generated = false) {
 
@@ -240,6 +316,10 @@ class MapInfoHandler {
 
     /**
      * Generates an icon image for classes, and returns its URL.
+     * @param string class id
+     * @param MapObj
+     * @param ClassObj
+     * @return string
      */
     private function getClassIcon($classId, $msMapObj, $msClassObj) {
         
@@ -261,7 +341,11 @@ class MapInfoHandler {
         return $this->getIconUrl($iconRelativePath, true);
     }
     
-    private function fillDynamicKeymap($serverContext) {
+    /**
+     * Fills dynamic general keymap information.
+     * @param ServerContext
+     */
+    private function fillDynamicKeymap(ServerContext $serverContext) {
         
         $msMapObj = $serverContext->getMapObj();
         $referenceMapObj = $msMapObj->reference;
@@ -278,7 +362,11 @@ class MapInfoHandler {
         $mapInfo->keymapGeoDimension->bbox = $bbox;
     }
 
-    function fillDynamic($serverContext) {
+    /**
+     * Fills dynamic properties for map, layers and keymap objects.
+     * @param ServerContext
+     */
+    public function fillDynamic(ServerContext $serverContext) {
         $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
         $this->fillDynamicMap($serverContext);
         $this->fillDynamicLayers($serverContext);

@@ -48,15 +48,25 @@ class CartoserverException extends CartowebException {
  */
 class ServerConfig extends Config {
 
-    function getKind() {
+    /**
+     * @return string
+     */
+    public function getKind() {
         return 'server';
     }
 
-    function getBasePath() {
+    /**
+     * @return string
+     */
+    public function getBasePath() {
         return CARTOSERVER_HOME;
     }
 
-    function __construct($projectHandler) {
+    /**
+     * Constructor
+     * @param ProjectHandler
+     */
+    public function __construct(ProjectHandler $projectHandler) {
         parent::__construct($projectHandler);
     }
 }
@@ -66,19 +76,33 @@ class ServerConfig extends Config {
  */
 class ServerPluginConfig extends PluginConfig {
 
-    function __construct($plugin, $projectHandler) {
+    /**
+     * Constructor
+     * @param PluginBase
+     * @param ProjectHandler
+     */
+    public function __construct($plugin, ProjectHandler $projectHandler) {
         parent::__construct($plugin, $projectHandler);
     }
     
-    function getKind() {
+    /**
+     * @return string
+     */
+    public function getKind() {
         return 'server';
     }
 
-    function getBasePath() {
+    /**
+     * @return string
+     */
+    public function getBasePath() {
         return CARTOSERVER_HOME;
     }
 
-    function getPath() {
+    /**
+     * @return string
+     */
+    public function getPath() {
         return $this->projectHandler->getMapName() . '/';
     }
 }
@@ -87,17 +111,39 @@ class ServerPluginConfig extends PluginConfig {
  * @package Server
  */
 class Cartoserver {
+    
+    /**
+     * @var Logger
+     */
     private $log;
     
+    /**
+     * @var ServerContext
+     */
     private $serverContext;
+    
+    /**
+     * @var MapResultCache
+     */
     private $mapResultCache;
+
+    /**
+     * @var Benchmark_Timer 
+     */
     private $timer;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->mapResultCache = new MapResultCache($this);
     }
 
+    /**
+     * @param string map id
+     * @return ServerContext
+     */
     public function getServerContext($mapId) {
         if ($mapId == '')
             throw new CartoserverException("Invalid map id: $mapId");
@@ -109,6 +155,11 @@ class Cartoserver {
         return $this->serverContext;
     }
 
+    /**
+     * Performs getMapInfo service.
+     * @param string map id
+     * @return MapInfo
+     */
     private function doGetMapInfo($mapId) {
 
         $serverContext = $this->getServerContext($mapId);
@@ -124,6 +175,10 @@ class Cartoserver {
         return $mapInfo;
     }
 
+    /**
+     * Draws mainmap image.
+     * @return string mainmap path
+     */
     private function generateImage() {
         // TODO: generate keymap
 
@@ -138,6 +193,10 @@ class Cartoserver {
         return $mainMapImagePath;
     }
 
+    /**
+     * Returns developper messages.
+     * @return Message
+     */
     private function getDeveloperMessages() {
 
         $messages = array();
@@ -157,6 +216,9 @@ class Cartoserver {
         return $serverMessages;
     }
 
+    /**
+     * @param MapRequest
+     */
     private function checkRequest($mapRequest) {
         foreach (get_object_vars($mapRequest) as $attr => $value) {
             if (substr($attr, -7) != 'Request') {
@@ -173,10 +235,16 @@ class Cartoserver {
             if (class_exists($class)) {
                 continue;
             }
-            throw new CartoserverException("Plugin server class $class was not loaded");                
+            throw new CartoserverException("Plugin server class $class " .
+                                           'was not loaded');                
         }
     }
 
+    /**
+     * Performs getMap service.
+     * @param MapRequest
+     * @return MapResult
+     */
     private function doGetMap($mapRequest) {
 
         // serverContext init
@@ -255,6 +323,12 @@ class Cartoserver {
         return $mapResult;
     }
 
+    /**
+     * Runs given function with given argument. Returns a SoapFault object
+     * if an exception occured.
+     * @param string function name
+     * @param mixed function argument
+     */
     private function callWithExceptionCheck($function, $argument) {
 
         try {
@@ -265,7 +339,11 @@ class Cartoserver {
 
     }
 
-    function cacheGetMap($mapRequest) {
+    /**
+     * @param MapRequest
+     * @return MapResult
+     */
+    public function cacheGetMap($mapRequest) {
 
         $this->log->debug("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         $this->log->debug("map request: ");
@@ -274,12 +352,20 @@ class Cartoserver {
         return $this->callWithExceptionCheck('doGetMap', $mapRequest);
     }
 
-    function getMap($mapRequest) {
+    /**
+     * @param MapRequest
+     * @return MapResult
+     */
+    public function getMap($mapRequest) {
 
         return $this->mapResultCache->getMap($mapRequest);
     }
 
-    function getMapInfo($mapId) {
+    /**
+     * @param string map id
+     * @return MapInfo
+     */
+    public function getMapInfo($mapId) {
         return $this->callWithExceptionCheck('doGetMapInfo', $mapId);
     }
 }

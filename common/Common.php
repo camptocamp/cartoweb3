@@ -15,8 +15,9 @@ class CartowebException extends Exception {
      * Transforms a backtrace structure into a readable html string
      * 
      * Adapted from diz at ysagoon dot com
+     * @return string
      */
-    function backtrace() {
+    public function backtrace() {
         $output = "Backtrace:\n";
         $backtrace = $this->getTrace();
 
@@ -64,7 +65,13 @@ class CartowebException extends Exception {
         return $output;
     }
 
-    function __construct($message) {
+    /**
+     * Constructor
+     *
+     * Adds backtrace data to current exception message.
+     * @param string exception message
+     */
+    public function __construct($message) {
         $message .= "\n" . $this->backtrace();
         parent::__construct($message);
     }

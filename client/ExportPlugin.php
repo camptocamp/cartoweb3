@@ -78,168 +78,168 @@ class ExportConfiguration {
     /**
      * @param boolean
      */
-    function setRenderMap($renderMap) {
+    public function setRenderMap($renderMap) {
         $this->renderMap = $renderMap;
     }
     
     /**
      * @return boolean
      */
-    function isRenderMap() {
+    public function isRenderMap() {
         return $this->renderMap;
     }
 
     /**
      * @param boolean
      */
-    function setRenderKeymap($renderKeymap) {
+    public function setRenderKeymap($renderKeymap) {
         $this->renderKeymap = $renderKeymap;
     }
     
     /**
      * @return boolean
      */
-    function isRenderKeymap() {
+    public function isRenderKeymap() {
         return $this->renderKeymap;
     }
 
     /**
      * @param boolean
      */
-    function setRenderScalebar($renderScalebar) {
+    public function setRenderScalebar($renderScalebar) {
         $this->renderScalebar = $renderScalebar;
     }
     
     /**
      * @return boolean
      */
-    function isRenderScalebar() {
+    public function isRenderScalebar() {
         return $this->renderScalebar;
     }
 
     /**
      * @param int
      */
-    function setMapHeight($mapHeight) {
+    public function setMapHeight($mapHeight) {
         $this->mapHeight = $mapHeight;
     }
     
     /**
      * @return int
      */
-    function getMapHeight() {
+    public function getMapHeight() {
         return $this->mapHeight;
     }
 
     /**
      * @param int
      */
-    function setMapWidth($mapWidth) {
+    public function setMapWidth($mapWidth) {
         $this->mapWidth = $mapWidth;
     }
     
     /**
      * @return int
      */
-    function getMapWidth() {
+    public function getMapWidth() {
         return $this->mapWidth;
     }
 
     /**
      * @param Bbox
      */
-    function setBbox(Bbox $bbox) {
+    public function setBbox(Bbox $bbox) {
         $this->bbox = $bbox;
     }
 
     /**
      * @return Bbox
      */
-    function getBbox() {
+    public function getBbox() {
         return $this->bbox;
     }
 
     /**
      * @param float
      */
-    function setScale($scale) {
+    public function setScale($scale) {
         $this->scale = $scale;
     }
 
     /**
      * @return float
      */
-    function getScale() {
+    public function getScale() {
         return $this->scale;
     }
 
     /**
      * @param Point
      */
-    function setPoint($point) {
+    public function setPoint($point) {
         $this->point = $point;
     }
 
     /**
      * @return Point
      */
-    function getPoint() {
+    public function getPoint() {
         return $this->point;
     }
 
     /**
      * @param string
      */
-    function setZoomType($zoomType) {
+    public function setZoomType($zoomType) {
         $this->zoomType = $zoomType;
     }
 
     /**
      * @return string
      */
-    function getZoomType() {
+    public function getZoomType() {
         return $this->zoomType;
     }
 
     /**
      * @param string
      */
-    function setLocationType($type) {
+    public function setLocationType($type) {
         $this->locationType = $type;
     }
 
     /**
      * @return string
      */
-    function getLocationType() {
+    public function getLocationType() {
         return $this->locationType;
     }
 
     /**
      * @param Rectangle
      */
-    function setPrintOutline($bbox) {
+    public function setPrintOutline($bbox) {
         $this->printOutline = $bbox;
     }
 
     /**
      * @return Rectangle
      */
-    function getPrintOutline() {
+    public function getPrintOutline() {
         return $this->printOutline;
     }
 
     /**
      * @param int
      */
-    function setResolution($resolution) {
+    public function setResolution($resolution) {
         $this->resolution = $resolution;
     }
 
     /**
      * @return int
      */
-    function getResolution() {
+    public function getResolution() {
         return $this->resolution;
     }
 
@@ -270,6 +270,9 @@ class ExportOutput {
      */
     private $contents;
     
+    /**
+     * Constructor
+     */
     public function __construct() {
         $this->filePath = null;
         $this->fileName = null;

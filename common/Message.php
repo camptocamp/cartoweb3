@@ -27,17 +27,23 @@ class Message extends Serializable {
     public $channel;
 
     /**
+     * Constructor
      * @param string
      * @param int
      */
-    function __construct($message = NULL, $channel = self::CHANNEL_USER) {
+    public function __construct($message = NULL, 
+                                $channel = self::CHANNEL_USER) {
         $this->message = $message;
         $this->channel = $channel;
     }
 
-    function unserialize($struct) {
+    /**
+     * Sets object properties from $struct data.
+     */
+    public function unserialize($struct) {
         $this->message = Serializable::unserializeValue($struct, 'message');
-        $this->channel = Serializable::unserializeValue($struct, 'channel', 'int');
+        $this->channel = Serializable::unserializeValue($struct, 'channel', 
+                                                        'int');
     }
 }
 

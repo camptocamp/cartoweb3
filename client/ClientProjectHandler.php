@@ -40,14 +40,14 @@ class ClientProjectHandler extends ProjectHandler {
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
     /**
      * @see ProjectHandler::getRootPath()
      */
-    function getRootPath() {
+    public function getRootPath() {
         return CARTOCLIENT_HOME;
     }
     
@@ -62,7 +62,7 @@ class ClientProjectHandler extends ProjectHandler {
      * - $_SERVER, variable REDIRECT_CW3_PROJECT (CGI redirect)
      * @return string project name
      */
-    function getProjectName() {
+    public function getProjectName() {
         if ($this->projectName === false) {
             $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
             

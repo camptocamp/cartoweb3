@@ -39,9 +39,10 @@ class FormRenderer {
     private $customForm;
     
     /**
+     * Constructor
      * @param Cartoclient
      */
-    function __construct($cartoclient) {
+    public function __construct($cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
 

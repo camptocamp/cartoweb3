@@ -38,7 +38,7 @@ class Smarty_Cartoclient extends Smarty {
      * and i18n).
      * @param Cartoclient the current cartoclient
      */
-    function __construct(Cartoclient $cartoclient) {
+    public function __construct(Cartoclient $cartoclient) {
         parent::__construct();
 
         if (!self::$headerSent) {
@@ -90,8 +90,7 @@ class Smarty_Cartoclient extends Smarty {
      * @param string resource name
      * @return string path to resource  
      */    
-    function _get_compile_path($resource_name)
-    {
+    public function _get_compile_path($resource_name) {
         $oldPath = $this->template_dir;
         $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
 
@@ -122,7 +121,7 @@ class Smarty_Cartoclient extends Smarty {
      * @param Smarty Smarty engine
      * @return string resource path
      */
-    function smartyResource($params, $text, &$smarty) {
+    public function smartyResource($params, $text, &$smarty) {
         
         $resource = stripslashes($text);
         
@@ -151,8 +150,7 @@ class Smarty_Cartoclient extends Smarty {
      * @param   mixed   Arguments, can be passed in an array or through single variables.
      * @return  string  Modified string
      */
-    private function strarg($str)
-    {
+    private function strarg($str) {
         $tr = array();
         $p = 0;
     
@@ -177,8 +175,9 @@ class Smarty_Cartoclient extends Smarty {
      * Original code was written by Sagi Bashari <sagi@boom.org.il>
      *
      * The block content is the text that should be translated.
-     * Any parameter that is sent to the function will be represented as %n in the translation text, 
-     * where n is 1 for the first parameter. The following parameters are reserved:
+     * Any parameter that is sent to the function will be represented as %n in 
+     * the translation text, where n is 1 for the first parameter. The 
+     * following parameters are reserved:
      *   - escape - sets escape mode:
      *       - 'html' for HTML escaping, this is the default.
      *       - 'js' for javascript escaping.
@@ -190,8 +189,7 @@ class Smarty_Cartoclient extends Smarty {
      * @param Smarty Smarty engine
      * @return string translated text
      */
-    function smartyTranslate($params, $text, &$smarty)
-    {
+    public function smartyTranslate($params, $text, &$smarty) {
         $text = stripslashes($text);
         
         // set escape mode
@@ -226,7 +224,8 @@ class Smarty_Cartoclient extends Smarty {
     
         if (!isset($escape) || $escape == 'html') { // html escape, default
             $text = nl2br(htmlspecialchars($text));
-        } elseif (isset($escape) && ($escape == 'javascript' || $escape == 'js')) { // javascript escape
+        } elseif (isset($escape) && ($escape == 'javascript' || 
+                                     $escape == 'js')) { // javascript escape
             $text = str_replace('\'','\\\'',stripslashes($text));
         }
     
@@ -241,10 +240,11 @@ class Smarty_Cartoclient extends Smarty {
 class Smarty_CorePlugin extends Smarty_Cartoclient {
 
     /**
+     * Constructor
      * @param ClientConfig
      * @param ClientPlugin
      */
-    function __construct(Cartoclient $cartoclient, ClientPlugin $plugin) {
+    public function __construct(Cartoclient $cartoclient, ClientPlugin $plugin) {
         parent::__construct($cartoclient);
         
         $this->template_dir = $plugin->getBasePath() . 'templates/';

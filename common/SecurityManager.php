@@ -74,7 +74,7 @@ class SecurityManager {
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         $this->roles = $this->getPredefinedRoles(true);
         self::$instance = $this;
     }

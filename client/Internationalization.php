@@ -229,13 +229,13 @@ class I18nDummy implements I18nInterface {
     /**
      * @see I18nInterface::bindtextdomain()
      */
-    function bindtextdomain($domain, $path) {
+    public function bindtextdomain($domain, $path) {
     }
     
     /**
      * @see I18nInterface::textdomain()
      */
-    function textdomain($domain) {
+    public function textdomain($domain) {
     }
     
     /**
@@ -264,7 +264,7 @@ class I18nGettext implements I18nInterface {
     /**
      * @see I18nInterface::bindtextdomain()
      */
-    function bindtextdomain($domain, $path) {
+    public function bindtextdomain($domain, $path) {
         bindtextdomain($domain, $path);
         $log =& LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: binddomain ' . $domain . ' ' . $path);
@@ -273,7 +273,7 @@ class I18nGettext implements I18nInterface {
     /**
      * @see I18nInterface::textdomain()
      */
-    function textdomain($domain) {
+    public function textdomain($domain) {
         textdomain($domain);
         $log =& LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: textdomain ' . $domain);

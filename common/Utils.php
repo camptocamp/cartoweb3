@@ -134,7 +134,7 @@ class ConfigParser {
      * @param string
      * @return array
      */
-    static function parseArray($value) {
+    static public function parseArray($value) {
         if (!$value)
             return array();
         $value = explode(',', $value);
@@ -160,7 +160,7 @@ class ConfigParser {
      * @param string prefix
      * @param string possible suffixes
      */
-    static function parseObjectArray($config, $prefix, $suffixes) {
+    static public function parseObjectArray($config, $prefix, $suffixes) {
         $result = array();        
         for ($i = 0; ; $i++) {
             $object = new stdClass();
