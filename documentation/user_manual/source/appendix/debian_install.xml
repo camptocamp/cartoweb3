@@ -48,6 +48,23 @@ Pin-Priority: 1100</screen>
   </sect1>  
 
   <sect1>
+  <title>Installing the packages</title>  
+  <para>
+    To install Mapscript and PHP 5, type the following:
+<screen>
+apt-get update
+apt-get install  php5-mapscript 
+</screen>
+  </para>
+  <para>
+    If want to install PostGIS and PostgreSQL:
+<screen>
+apt-get install  postgis
+</screen>
+  </para>
+  </sect1>  
+
+  <sect1>
   <title>Additional Steps</title>  
   <para>
     <orderedlist>
