@@ -20,7 +20,7 @@ require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 $cartoclient = new Cartoclient();
 
 $plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
-$plugin->handleHttpGetRequest($_REQUEST);
+$plugin->handleHttpPostRequest($_REQUEST);
 
 $pdfbuffer = $plugin->getExport()->getContents();
 
