@@ -43,6 +43,7 @@ class JsToolAttributes {
     
     const ACTION_SUBMIT = 1;
     const ACTION_MEASURE = 2;
+    const ACTION_JAVASCRIPT = 3;
     
     /**
      * @var int
@@ -66,10 +67,11 @@ class JsToolAttributes {
      * @param int
      */
     public function __construct($shapeType,  $cursorStyle = self::CURSOR_CROSSHAIR, 
-                         $action = self::ACTION_SUBMIT) { 
+                         $action = self::ACTION_SUBMIT, $jsFunction = '') { 
         $this->shapeType = $shapeType;
         $this->cursorStyle = $cursorStyle;
         $this->action = $action;
+        $this->jsFunction = $jsFunction;
     }    
 
     /**
@@ -111,6 +113,7 @@ class JsToolAttributes {
         switch($this->action) {
             case self::ACTION_SUBMIT: return 'submit';
             case self::ACTION_MEASURE: return 'measure';
+            case self::ACTION_JAVASCRIPT: return 'javascript:'.$this->jsFunction;
         }
         throw new CartoclientException("unknown action $this->action");            
     }
