@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;
-]>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
 <!-- $Id$ -->
 
@@ -28,24 +25,272 @@
   </para>
  </sect1>
 
- <sect1 id="dev.code_convention.naming"> 
-  <title>Naming</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
+ <sect1 id="dev.code_convention.naming">
+  <title>Php</title>
+   <para>
+    Avoid nesting blocks too deep:
+   </para>
+   <para>This is correct:</para>
+   <programlisting><![CDATA[for ($i = 0; $i < 10; i++) {
+  if (! something ($i))
+    continue;
+  doMore();
+}]]></programlisting>
  </sect1>
 
- <sect1 id="dev.code_convention.xhtml"> 
-  <title>XHTML DTD</title>
+ <sect1 id="dev.code_convention.xhtml">
+  <title>HTML Coding Standards</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   In cartoweb, mainly for the templates, HTML coding should respect 
+   some rules.
   </para>
+  <para>
+   To take benefits of recent browsers enhancements and, above all, 
+   to make HTML codes easier to read and maintain, some HTML-coding 
+   guidelines should be followed.
+   <itemizedlist>
+    <listitem>
+     <para>
+      for indentation : preferably use 2 white spaces (such an 
+      indentation might be used for javascript coding as well).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Generated HTML pages should be XHTML 1.0 (say 
+      Transitional for now) valid and pass matching W3C 
+      validation: <ulink url="http://validator.w3.org/">
+      http://validator.w3.org/</ulink>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   XHTML was chosen vs pure HTML for following reasons:
+   <itemizedlist> 
+    <listitem>
+     <para>
+      XHTML stands for EXtensible HyperText Markup Language
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      XHTMLis aimed to replace HTML
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      XHTML is a stricter and cleaner version of HTML
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      XHTML is HTML defined as an XML application
+     </para>
+    </listitem> 
+   </itemizedlist>
+  </para>
+  <para>
+   If people want extra information on XHTML, reference and 
+   tutorial are available here : http://www.w3schools.com/xhtml/ 
+   Specially useful pages are:
+   <itemizedlist>
+    <listitem>
+     <para>
+      Differences between HTML and XHTML:
+      http://www.w3schools.com/xhtml/xhtml_html.asp
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      XHTML
+      syntax: http://www.w3schools.com/xhtml/xhtml_syntax.asp
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   But, here are some things people must know to get XHTML valid 
+   generated pages.
+  </para>
+  <sect2>
+   <title>Nesting</title>
+   <subtitle>Elements Must Be Properly Nested</subtitle>
+   <para>
+    In HTML some elements can be improperly nested within each other like this:
+    <programlisting><![CDATA[<b><i>This text is bold and italic</b></i>]]></programlisting>
+    In XHTML all elements must be properly nested within each other like this:
+    <programlisting><![CDATA[<b><i>This text is bold and italic</i></b>]]></programlisting>
+    All XHTML elements must be nested within the <![CDATA[<html>]]> root element. All
+    other elements can have sub (children) elements. Sub elements must be
+    in pairs and correctly nested within their parent element. The basic
+    document structure is:
+    <programlisting><![CDATA[<html>
+  <head> ... </head>
+  <body> ... </body>
+</html>]]></programlisting>
+   </para>
+  </sect2>
+  <sect2>
+   <title>Lower Case</title>
+   <subtitle>Tag Names and Attribute Names Must Be In Lower Case</subtitle>
+   <para>
+    This is because XHTML documents are XML applications.
+    XML is case-sensitive. Tags like <![CDATA[<br>]]> and <![CDATA[<BR>]]>
+    are interpreted as different tags.
+   </para>
+   <para>
+    This is wrong:
+    <programlisting><![CDATA[<BODY>
+<P>This is a paragraph</P>
+</BODY>]]></programlisting>    
+   </para>
+   <para>
+    This is correct:
+    <programlisting><![CDATA[<body>
+<p>This is a paragraph</p>
+</body>]]></programlisting>    
+   </para>
+   <para></para>
+   <para>
+    This is wrong:
+    <programlisting><![CDATA[<table WIDTH="100%">]]></programlisting>    
+   </para>
+   <para>
+    This is correct:
+    <programlisting><![CDATA[<table width="100%">]]></programlisting>    
+   </para>
+  </sect2>
+  <sect2>
+   <title>Closing</title>
+   <sect3>
+    <title>All Elements</title>
+    <subtitle>All XHTML Elements Must Be Closed</subtitle>
+    <para>
+     Non-empty elements must have an end tag.
+    </para>
+    <para>
+     This is wrong:
+     <programlisting><![CDATA[<p>This is a paragraph
+<p>This is another paragraph]]></programlisting>    
+    </para>
+    <para>
+     This is correct:
+     <programlisting><![CDATA[<p>This is a paragraph</p>
+<p>This is another paragraph</p>]]></programlisting>    
+    </para>
+   </sect3>
+   <sect3>
+    <title>Empty Elements</title>
+    <subtitle>Empty Elements Must Also Be Closed</subtitle>
+    <para>
+     Empty elements must either have an end tag or the start
+     tag must end with <![CDATA[/>]]>
+    </para>
+    <para>
+     This is wrong:
+     <programlisting><![CDATA[This is a break<br>
+Here comes a horizontal rule:<hr>
+Here's an image <img src="happy.gif" alt="Happy face">]]></programlisting>    
+    </para>
+    <para>
+     This is correct:
+     <programlisting><![CDATA[This is a break<br />
+Here comes a horizontal rule:<hr />
+Here's an image <img src="happy.gif" alt="Happy face" />
+]]></programlisting>
+    </para>
+    <para>
+     IMPORTANT Compatibility Note:
+    </para>
+    <para>
+     To make your XHTML compatible with today's browsers,
+     you should add an extra space before the "/" symbol like this:
+     <![CDATA[<br />]]>, and this: <![CDATA[<hr />]]>. 
+    </para>
+   </sect3>
+  </sect2>
+  <sect2>
+   <title>Minimization</title>
+   <subtitle>Attribute Minimization Is Forbidden</subtitle>
+   <para>
+    This is wrong:
+    <programlisting><![CDATA[<dl compact>
+<input checked>
+<input readonly>
+<input disabled>
+<option selected>
+<frame noresize>]]></programlisting>    
+   </para>
+   <para>
+    This is correct:
+    <programlisting><![CDATA[<dl compact="compact">
+<input checked="checked" />
+<input readonly="readonly" />
+<input disabled="disabled" />
+<option selected="selected" />
+<frame noresize="noresize" />
+]]></programlisting>
+   </para>
+   <para>
+    Here is a list of the minimized attributes in HTML and how
+    they should be written in XHTML:
+   </para>
+    <programlisting><![CDATA[<dl compact="compact">
+<input checked="checked" />
+<input readonly="readonly" />
+<input disabled="disabled" />
+<option selected="selected" />
+<frame noresize="noresize" />
+]]></programlisting>
+  </sect2>
+  <sect2>
+   <title>Id vs Name</title>
+   <subtitle>The id Attribute Replaces The name Attribute</subtitle>
+   <para>
+    HTML 4.01 defines a name attribute for the elements a,
+    applet, frame, iframe, img, and map. In XHTML the name
+    attribute is deprecated. Use id instead.
+   </para>
+   <para>
+    This is wrong:
+   </para>
+   <programlisting><![CDATA[<img src="picture.gif" name="picture1" />]]></programlisting>    
+   <para>
+    This is correct:
+   </para>
+   <programlisting><![CDATA[<img src="picture.gif" id="picture1" />]]></programlisting>
+   <para>
+    Note: To interoperate with older browsers for a while,
+    you should use both name and id, with identical attribute values,
+    like this:
+   </para>
+   <programlisting><![CDATA[<img src="picture.gif" id="picture1" name="picture1" />]]></programlisting>
+   <para>
+    IMPORTANT Compatibility Note:
+   </para>
+   <para>
+    To make your XHTML compatible with today's browsers,
+    you should add an extra space before the "/" symbol. 
+   </para>
+  </sect2>
+  <sect2>
+   <title>Image "alt"</title>
+   <subtitle>Tip: image "alt" attribute</subtitle>
+   <para>
+    "alt" attribute is mandatory for <![CDATA[<img />]]> tag in XHTML. But it can -
+    and sometimes should - have a void value. "alt" is used to specify
+    a replacement text when image is not loaded (image unavailable, not
+    yet loaded or user deactivated images...). For "data" images, a convenient
+    alternative text should be specified but for layout-only pictos it is
+    no use to display a replacement message.
+   </para>
+   <para>
+    For instance:
+   </para>
+   <programlisting><![CDATA[<img src="mainmap.gif" width="400" height="200"
+   alt="Main map" />
+<img src="pixel.gif" width="50px" height="1px" alt="" />]]></programlisting>
+  </sect2>
  </sect1>
-
 </chapter>
