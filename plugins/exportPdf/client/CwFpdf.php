@@ -336,7 +336,7 @@ class CwFpdf implements PdfWriter {
         if ($block->padding)
             $this->p->Rect($x0, $y0, $block->width, $block->height, 'DF');
         
-        $this->p->Image($block->content, $x0 + $shift, $y0 + $shift, 
+        $this->addImage($block->content, $x0 + $shift, $y0 + $shift, 
                         $imageWidth, $imageHeight);
 
         if (!$block->padding)
@@ -690,7 +690,7 @@ class CwFpdf implements PdfWriter {
 
         // actually drawing objects:
         if ($icon) {
-            $this->p->Image($icon, $xi + $block->padding + $shift, $yii, 
+            $this->addImage($icon, $xi + $block->padding + $shift, $yii, 
                             $iWidth, $iHeight, $iType);
         }
 
@@ -773,6 +773,50 @@ class CwFpdf implements PdfWriter {
         // adds frame
         $this->p->Rect($x0, $y0, $this->maxExtent['topX'] - $x0,
                        $this->maxExtent['topY'] - $y0, 'D');
+    }
+
+    /**
+     * Wraps FPDF Image() method and feeds it whith a local copy of argument
+     * image if:
+     * - allowed in exportPdf.ini (general.importRemotePng parameter)
+     * - file is called through URL
+     * - file format is PNG
+     * @param string name of the image file
+     * @param int abscissa of the upper-left corner
+     * @param int ordinate of the upper-left corner
+     * @param int image width
+     * @param int image height
+     * @param string JPG|JPEG|PNG, detected if left blank
+     * @param string URL or FPDF resource (see FPDF doc)
+     */
+    private function addImage($file, $x, $y, $w, $h, $type = '', $link = '') {
+
+        // make a local copy of remote PNG files
+        if ($this->general->importRemotePng &&
+            substr($file, 0, 4) == 'http' &&
+            (stristr($file, '.png') || 
+             strtolower($link) == 'png')) {
+                
+            if (preg_match('/((%2F)?)([a-z0-9_-]*)\.png/i', $file, $regs)) {
+                $filename = strtolower($regs[3]) . '.png';
+            } else {
+                $filename = basename($file);
+            }
+            
+            $filename = CARTOCOMMON_HOME . 'www-data/pdf_cache/' . $filename;
+            
+            // if not in cache, write it
+            if (!is_readable($filename)) {
+                $content = file_get_contents($file);
+
+                $f = fopen($filename, 'wb');
+                fwrite($f, $content);
+                fclose($f);
+            }
+            $file = $filename;
+        }
+    
+        $this->p->Image($file, $x, $y, $w, $h, $type, $link);
     }
 
     /**

@@ -202,6 +202,11 @@ class PdfGeneral {
      * @var string
      */
     public $allowedRoles        = SecurityManager::ALL_ROLE;
+
+    /**
+     * @var boolean
+     */
+    public $importRemotePng     = false;
 }
 
 /**
