@@ -107,10 +107,11 @@ class ClientLayers extends ClientCorePlugin {
         $template->assign('nodeId', 'id' . $this->nodeId++);
 
         $childrenLayers = array();
-        foreach ($layer->children as $child) {
-            $childLayer = $this->getLayerByName($child);
-            $childrenLayers[] = $this->drawLayer($childLayer);
-        }
+        if (!empty($layer->children) && is_array($layer->children))
+            foreach ($layer->children as $child) {
+                $childLayer = $this->getLayerByName($child);
+                $childrenLayers[] = $this->drawLayer($childLayer);
+            }
 
         $template->assign('childrenLayers', $childrenLayers);
 
