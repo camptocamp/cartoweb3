@@ -114,6 +114,7 @@ class PdfFormat {
  * @package Plugins
  */
 class PdfBlock {
+    public $id;
     public $type;
     public $content          = false;
     public $fontFamily       = 'times';
@@ -132,6 +133,7 @@ class PdfBlock {
     public $horizontalBasis  = 'left';
     public $verticalBasis    = 'top';
     public $hCentered        = false;
+    public $vCentered        = false;
     public $textAlign        = 'center';
     public $verticalAlign    = 'center';
     public $orientation      = 'horizontal';
@@ -142,6 +144,7 @@ class PdfBlock {
     public $width;
     public $height;
     public $singleUsage      = true;
+    public $parent;
 }
 
 /**
@@ -166,18 +169,127 @@ interface PdfWriter {
 class SpaceManager {
     
     private $log;
-    private $allocatedAreas = array();
+    private $minX;
+    private $maxX;
+    private $minY;
+    private $maxY;
+    private $YoAtTop = true;
+    private $allocated = array();
+    private $levels = array();
 
-    function __construct() {
+    function __construct($params) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
+
+        $this->minX = $params['horizontalMargin'];
+        $this->minY = $params['verticalMargin'];
+        $this->maxX = $params['width'] - $params['horizontalMargin'];
+        $this->maxY = $params['height'] - $params['verticalMargin'];
+        $this->YoAtTop = $params['YoAtTop'];
+
+        if ($this->minX > $this->maxX || $this->minY > $this->maxY)
+            throw new CartoclientException('Invalid SpaceManager params');
     }
 
     /**
-     * Returns the nearest available reference point according to the block
-     * positioning properties.
+     * Records newly added areas in allocated space list.
      */
-    private function checkIn(PdfBlock $block) {
+    private function allocateArea(PdfBlock $block, $x, $y) {
+        if (!isset($this->allocated[$block->zIndex]))
+            $this->allocated[$block->zIndex] = array();
+
+        $this->allocated[$block->zIndex][$block->id] = 
+            array('minX' => $x,
+                  'minY' => $y,
+                  'maxX' => $x + $block->width,
+                  'maxY' => $y + $block->height);
+
+        $this->levels[$block->id] = $block->zIndex;
+    }
+
+    private function getY(PdfBlock $block, $minY, $maxY) {
+        if ($block->verticalBasis == 'top') {
+            // reference is page top border
+            
+            if ($this->YoAtTop) {
+                // y = 0 at top of page and 
+                // reference point is box top left corner
+                $y = $minY + $block->verticalMargin;
+            } else {
+                // y = 0 at bottom of page and 
+                // reference point is box bottom left corner
+                $y = $maxY - $block->verticalMargin -
+                      $block->height;
+            }
+        } else {
+            // reference is page bottom border
+            if ($this->YoAtTop) {
+                $y = $maxY - $block->verticalMargin -
+                      $block->height;
+            } else {
+                $y = $minY + $block->verticalMargin;
+            }
+        }
+       
+        return $y;
+    }
+
+    private function getX(PdfBlock $block, $minX, $maxX) {
+        if ($block->horizontalBasis == 'left') {
+            $x = $minX + $block->horizontalMargin;
+        } else {
+            $x = $maxX - $block->horizontalMargin - $block->width;
+        }
+
+        return $x;
+    }
+
+    private function getBlockExtent($name) {
+        if (!isset($this->levels[$name]))
+            return array('minX' => $this->minX, 'minY' => $this->minY,
+                         'maxX' => $this->maxX, 'maxY' => $this->maxY);
+
+        $zIndex = $this->levels[$name];
+        return $this->allocated[$zIndex][$name];
+    }
+
+    /**
+     * Returns the nearest available reference point (min X, min Y)
+     * according to the block positioning properties.
+     */
+    public function checkIn(PdfBlock $block) {
+        // TODO: handle block with no initially known dimensions (legend...)
+
+        // if parent specified, block is embedded in it.
+        if (isset($block->parent)) {
+            $extent = $this->getBlockExtent($block->parent);
+            $minX = $extent['minX'];
+            $minY = $extent['minY'];
+            $maxX = $extent['maxX'];
+            $maxY = $extent['maxY'];
+        } else {
+            $minX = $this->minX;
+            $minY = $this->minY;
+            $maxX = $this->maxX;
+            $maxY = $this->maxY;
+        }
+
+        // hCentered : block is horizontally centered, no matter if there are
+        // already others block at the same zIndex...
+        if ($block->hCentered) {
+            $x0 = ($maxX + $minX - $block->width) / 2;
+        } else {
+            $x0 = $this->getX($block, $minX, $maxX);
+        }
+      
+        // vCentered : same than hCentered in Y axis
+        if ($block->vCentered) {
+            $y0 = ($maxY + $minY - $block->height) / 2;
+        } else {
+            $y0 = $this->getY($block, $minY, $maxY);
+        }
         
+        $this->allocateArea($block, $x0, $y0);
+        return array($x0, $y0); 
     }
 }
 
@@ -380,6 +492,8 @@ class ClientExportPdf extends ExportPlugin {
             $this->blocks[$id] = StructHandler::mergeOverride(
                                      $this->blockTemplate,
                                      $block, true);
+
+            $this->blocks[$id]->id = $id;
 
             if ($id == 'title' || $id == 'note') {
                 $this->blocks[$id]->content = 

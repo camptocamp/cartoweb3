@@ -14,6 +14,7 @@
     protected $p;
     protected $general;
     protected $format;
+    protected $space;
 
     protected $pageWidth;
     protected $pageHeight;
@@ -39,6 +40,14 @@
         catch (Exception $e) {
             $this->getException($e);
         }
+
+        $params = array('width' => $this->pageWidth,
+                        'height' => $this->pageHeight,
+                        'horizontalMargin' => $this->format->horizontalMargin,
+                        'verticalMargin' => $this->format->verticalMargin,
+                        'YoAtTop' => false); // y = 0 at page bottom
+
+        $this->space = new SpaceManager($params);
     }
 
     /**

@@ -67,6 +67,7 @@ class cFPDF extends FPDF {
     protected $p;
     protected $general;
     protected $format;
+    protected $space;
     
     function __construct(PdfGeneral $general, PdfFormat $format) {
        $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -76,6 +77,14 @@ class cFPDF extends FPDF {
        $this->p = new cFPDF(ucfirst($this->general->selectedOrientation),
                             $this->general->distUnit,
                             ucfirst($this->general->selectedFormat));
+
+       $params = array('width' => $this->p->w,
+                       'height' => $this->p->h,
+                       'horizontalMargin' => $this->format->horizontalMargin,
+                       'verticalMargin' => $this->format->verticalMargin,
+                       'YoAtTop' => true);
+                       
+       $this->space = new SpaceManager($params);
     }
 
     function initializeDocument() {
@@ -127,8 +136,16 @@ class cFPDF extends FPDF {
 
         $color = PrintTools::switchColorToRgb($block->color);
         $this->p->SetTextColor($color[0], $color[1], $color[2]);
-    
-        $wt = $this->p->GetStringWidth($block->content);
+   
+        if (!isset($block->width)) {
+            $block->width = $this->p->GetStringWidth($block->content);
+            $block->width += 2 * $block->padding;
+        }
+
+        if (!isset($block->height)) {
+            $block->height = 20; // FIXME: dynamically set this value
+            $block->height += 2 * $block->padding;
+        }
 
         $textAlign = $this->getTextAlign($block->textAlign);
 
@@ -144,9 +161,14 @@ class cFPDF extends FPDF {
             $border = 0;
         }
 
-        $this->p->SetXY(0, 0);
-        $this->p->Cell($wt, 30, $block->content, $border, 0, $textAlign, 1);
+        list($x0, $y0) = $this->space->checkIn($block);
+        $this->p->SetXY($x0, $y0);
+        
+        $this->p->Cell($block->width, $block->height, $block->content,
+                       $border, 0, $textAlign, 1);
         // TODO: handle transparent background
+        // TODO: if block height can only be determined precisely after drawing
+        // it (see FIXME above), update allocated space in space manager. 
                        
     }
 
