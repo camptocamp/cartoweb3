@@ -10,19 +10,35 @@
  <sect1 id="user.install.unix"> 
   <title>UNIX like install</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+    Cartoweb 3 installer is "cw3setup.php":
+    Just launch <screen>php -f cw3setup.php</screen> to setup the application.   
   </para>
+	<sect2 id="user.install.unix.commands">
+	 <title>List of available commands:</title>
+	  <para>
+<screen><![CDATA[(no command, by default): install cartoweb3
+cvs                     : install cartoweb3 from cvs
+check                   : check configuration
+get[=user]              : CVS checkout with user name [anonymous]
+get_libs                : get required libraries
+dirs                    : create user directories
+perms[=www-data]        : set writing perms for web-user [www-data]
+                          - set ownership if ran as superuser,
+                          - give write permission instead.
+create_conf             : create the new configuration
+link_or_copy            : link or copy paths for web browser
+setup[=path]            : setup a new project in existing installation
+remove                  : remove cartoweb3
+]]></screen>
+	  </para>
+	</sect2>
  </sect1>
+
 
  <sect1 id="user.install.win32"> 
   <title>Windows install</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Procedure is the same, but the windows installer is not coded yet.
   </para>
  </sect1>
 
