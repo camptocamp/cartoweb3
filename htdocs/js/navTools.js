@@ -25,11 +25,6 @@ function dhtmlBox_initialize() {
 
   dhtmlBox.changeTool() //make the previous tool selected the current one
   
-  // HACK FOR selection tool: find a better solution !!
-  if (myform.tool.length >= 5 && myform.tool[4].checked) {
-     dhtmlBox.changeTool('query');
-  }
-  
   this.target.style.zIndex = 1000;
 
   this.width = xWidth(this.anchor);
@@ -130,7 +125,7 @@ function dhtmlBox_mousedown(evt) {
     	  dhtmlBox.cnv_clicks = 0;
 	      dhtmlBox.draw_x = new Array();
     	  dhtmlBox.draw_y = new Array();
-	      dhtmlBox.distance = 0;
+	      dhtmlBox.measure = 0;
 		  dhtmlBox.dblClick = false;
     	  dhtmlBox.keyEscape = false;
 	  }
@@ -358,9 +353,14 @@ function dhtmlBox_submitForm() {
 	}
 	if (dhtmlBox.shapeType == 'polygon') coords += this.Xpoints[0] +"," + this.Ypoints[0] + ";"  // last point equal to first
 	myform.selection_coords.value = coords.substring(0,coords.length - 1) // delete the last coma
-	myform.tool.value = this.toolName
+	// change the value of the tool form input
+    for (var i =0; i < myform.tool.length ; i++) {
+        if (myform.tool[i].checked) {
+		    myform.tool[i].value = this.toolName
+		}
+	}
 	myform.selection_type.value = (this.shapeType == "pan") ? "point" : this.shapeType
-	// alert ("tool : " + myform.tool.value + "\n type : " + myform.selection_coords.value + "\n coords : " + myform.selection_coords.value)
+//	alert ("type : " + myform.selection_coords.value + "\n coords : " + myform.selection_coords.value)
 	xShow(dhtmlBox.anchor);
    	myform.submit();
 }
@@ -374,8 +374,8 @@ function dhtmlBox_measureShape() {
         this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
       }
 	  
-      if (this.dist_unit == ' m') this.measure = Math.round(this.measure)
-      else if (this.dist_unit == ' km') this.measure = Math.round(this.measure*100)/100
+      if (this.dist_unit.indexOf('k') != -1) this.measure = Math.round(this.measure*100)/100
+      else this.measure = Math.round(this.measure)
       this.displayMeasure.innerHTML = this.dist_msg + this.measure.toString() + this.dist_unit
 	}
 	if (this.shapeType == 'polygon') { // calculate the surface and display it
@@ -391,8 +391,8 @@ function dhtmlBox_measureShape() {
         var pix_surf = this.pixel_size * this.pixel_size;
         this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
 	  }
-      if (this.surf_unit == ' m2') this.measure = Math.round(this.measure);
-      else if (this.surf_unit == ' km2') this.measure = Math.round(this.measure*10000)/10000;
+      if (this.surf_unit.indexOf('k') != -1) this.measure = Math.round(this.measure*10000)/10000
+	  else this.measure = Math.round(this.measure)
       this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
     }
 	
