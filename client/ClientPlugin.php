@@ -17,6 +17,7 @@ class JsToolAttributes {
     const SHAPE_LINE = 3;
     const SHAPE_PAN = 4;
     const SHAPE_POLYGON = 5;
+    const SHAPE_RECTANGLE_OR_POINT = 6;
 
     const CURSOR_CROSSHAIR = 1;
     const CURSOR_HELP = 2;
@@ -65,6 +66,7 @@ class JsToolAttributes {
             case self::SHAPE_LINE:      return 'line';
             case self::SHAPE_PAN:       return 'pan';
             case self::SHAPE_POLYGON:   return 'polygon';
+            case self::SHAPE_RECTANGLE_OR_POINT: return 'rectangle_or_point';
         }
         throw new CartoclientException("unknown shape type $this->shapeType");            
     }

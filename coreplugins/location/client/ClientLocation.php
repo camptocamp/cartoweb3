@@ -643,7 +643,7 @@ class ClientLocation extends ClientPlugin
     function getTools() {
         
         return array(new ToolDescription(self::TOOL_ZOOMIN, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
+                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE_OR_POINT),
                                          10),
                      new ToolDescription(self::TOOL_ZOOMOUT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT),

@@ -57,7 +57,7 @@ function dhtmlBox_resizeAndMoveDivs() {
 }
 
 // the mouse events are managed in this function according to the mapping tool selected
-// shape accepted values : point, rect_or_point, rectangle, line, polygon
+// shape accepted values : point, rect_or_point, rectangle, rectangle_or_point, line, polygon
 // action : submit, measure
 // cursorStyle : crosshair, help, move
 // toolName : name of the tool (ie query, zoomin, ...)
@@ -138,7 +138,7 @@ function dhtmlBox_mousedown(evt) {
     }
   }
   if (dhtmlBox.action == 'submit' && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
-    dhtmlBox.drag = true; //false; // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
+    dhtmlBox.drag = false; // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
   } else {
 	dhtmlBox.drag = true; // the mouse is down
   }
@@ -158,9 +158,9 @@ function dhtmlBox_mousemove(evt) {
       dhtmlBox.x1 = dhtmlBox.x2;
       dhtmlBox.y1 = dhtmlBox.y2;
     }
-	jg2.clear();
+    jg2.clear();
     dhtmlBox.paint();
-	if (dhtmlBox.shapeType == 'polygon') dhtmlBox.lastLinePaint(); // last line is drawn while moving
+    if (dhtmlBox.shapeType == 'polygon') dhtmlBox.lastLinePaint(); // last line is drawn while moving
   }
   else if ((dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') && dhtmlBox.isActive == true) {
       dhtmlBox.x2 = e.offsetX;
@@ -184,20 +184,21 @@ function dhtmlBox_mouseup(evt) {
     dhtmlBox.y2 = e.offsetY;
 
     //the box is too small
-    if(((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter)) && dhtmlBox.shapeType == 'rectangle') {
-      dhtmlBox.x2 = dhtmlBox.x1 = Math.abs(dhtmlBox.x1-dhtmlBox.x2) /2 + Math.min(dhtmlBox.x1, dhtmlBox.x2); //zoom to center of the box
-      dhtmlBox.y2 = dhtmlBox.y1 = Math.abs(dhtmlBox.y1-dhtmlBox.y2) /2 + Math.min(dhtmlBox.y1, dhtmlBox.y2)
+    if (dhtmlBox.shapeType == 'rectangle_or_point' && ((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter))) {
+        dhtmlBox.x2 = dhtmlBox.x1 = Math.abs(dhtmlBox.x1-dhtmlBox.x2) /2 + Math.min(dhtmlBox.x1, dhtmlBox.x2) //zoom to center of the box
+        dhtmlBox.y2 = dhtmlBox.y1 = Math.abs(dhtmlBox.y1-dhtmlBox.y2) /2 + Math.min(dhtmlBox.y1, dhtmlBox.y2)
     }
-	
-	// rectangle draw finished
-	if (dhtmlBox.shapeType == 'point' || dhtmlBox.shapeType == 'rectangle' || dhtmlBox.shapeType == 'pan') dhtmlBox.isActive = false;
-	
-	// polygon closed by click on the first point
-	if (dhtmlBox.shapeType == 'polygon' && Math.abs(dhtmlBox.x2 - dhtmlBox.draw_x[1]) <= dhtmlBox.jitter && Math.abs(dhtmlBox.y2 - dhtmlBox.draw_y[1]) <= dhtmlBox.jitter && dhtmlBox.draw_x.length > 2) {
-		dhtmlBox.keyEscape = true;
-		dhtmlBox.isActive = false;
-		jg2.clear();
-	}
+
+    // rectangle draw finished
+    if (dhtmlBox.shapeType == 'point' || dhtmlBox.shapeType == 'rectangle' || dhtmlBox.shapeType == 'rectangle_or_point' || dhtmlBox.shapeType == 'pan')
+      dhtmlBox.isActive = false;
+    
+    // polygon closed by click on the first point
+    if (dhtmlBox.shapeType == 'polygon' && Math.abs(dhtmlBox.x2 - dhtmlBox.draw_x[1]) <= dhtmlBox.jitter && Math.abs(dhtmlBox.y2 - dhtmlBox.draw_y[1]) <= dhtmlBox.jitter && dhtmlBox.draw_x.length > 2) {
+        dhtmlBox.keyEscape = true;
+        dhtmlBox.isActive = false;
+        jg2.clear();
+    }
     dhtmlBox.paint();
   }
 }
@@ -251,28 +252,29 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     //xResizeTo(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0);
   }
   else if (this.shapeType == 'point' ||
-	(this.shapeType == 'rectangle' && this.x1==this.x2 && this.y1==this.y2)) { //draws only a cross
+	(this.shapeType == 'rectangle_or_point' && this.x1==this.x2 && this.y1==this.y2)) { //draws only a cross
 	jg.clear();
     jg.drawLineW(x-this.cursorsize,y - this.thickness /2,this.cursorsize * 2);
     jg.drawLineH(x - this.thickness /2,y-this.cursorsize ,this.cursorsize * 2);
     jg.paint();
-	this.Xpoints[0] = x
-	this.Ypoints[0] = y
-	if (this.shapeType == 'rectangle') { // submit a rectangle coords (2 equal coords)
-	  this.Xpoints[1] = this.x2
-	  this.Ypoints[1] = this.y2
-	}
+    this.Xpoints[0] = x
+    this.Ypoints[0] = y
+    
+    if (this.shapeType == 'rectangle_or_point') { // submit a rectangle coords (2 equal coords)
+      this.Xpoints[1] = this.x2
+      this.Ypoints[1] = this.y2
+    }
   }
-  else if (this.shapeType == 'rectangle') {
+  else if (this.shapeType == 'rectangle' || this.shapeType == 'rectangle_or_point') {
       w = Math.abs(this.x1-this.x2)
       h = Math.abs(this.y1-this.y2)
       jg.clear()
       jg.drawRect(x,y,w,h,this.thickness)
       jg.paint()
-  	  this.Xpoints[0] = this.x1
-	  this.Ypoints[0] = this.y1
-	  this.Xpoints[1] = this.x2
-	  this.Ypoints[1] = this.y2
+      this.Xpoints[0] = this.x1
+      this.Ypoints[0] = this.y1
+      this.Xpoints[1] = this.x2
+      this.Ypoints[1] = this.y2
   }
   else if (this.shapeType == 'line' || this.shapeType == 'polygon') {
     if (!this.keyEscape) { // Escape key is pressed
@@ -299,7 +301,9 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     jg.paint();
 	// submit the form with the values
 	if (dhtmlBox.action == 'submit' && !this.isActive ) {
-		dhtmlBox.submitForm()
+          if (dhtmlBox.shapeType == 'rectangle_or_point')
+            dhtmlBox.shapeType = 'rectangle'
+          dhtmlBox.submitForm()
 	}
 	if (dhtmlBox.action == 'measure') {
 		dhtmlBox.measureShape()
