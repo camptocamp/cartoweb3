@@ -64,7 +64,7 @@ class plugins_outline_server_RemoteServerOutlineTest
         $mapRequest = $this->createRequest();
         $mapRequest->outlineRequest = $outlineRequest;
         
-        $mapResult = $this->getMap($mapRequest);
+        $mapResult = $this->getMap($mapRequest, $direct);
 
         $this->assertEquals($mapResult->outlineResult->area, $area);
     }
@@ -127,7 +127,7 @@ class plugins_outline_server_RemoteServerOutlineTest
         $mapRequest = $this->createRequest();
         $mapRequest->outlineRequest = $outlineRequest;
         
-        $mapResult = $this->getMap($mapRequest);
+        $mapResult = $this->getMap($mapRequest, $direct);
 
         $this->assertEquals($mapResult->outlineResult->area, $area);
     }
