@@ -142,6 +142,37 @@ function getTranslatedPo($project) {
     return $files;   
 }
 
+function parseIni($project, &$texts) {
+
+    $iniPath = CARTOCLIENT_HOME;
+    if ($project != '') {
+        $iniPath .= 'projects/' . $project. '/';
+    }
+    $iniPath .= 'client_conf/';
+    
+    if (!is_dir($iniPath)) {
+        return true;
+    }
+    $d = dir($iniPath);
+    while (false !== ($entry = $d->read())) {
+        if (!is_dir($entry) && substr($entry, -4) == '.ini') {
+            $iniFile = $iniPath . $entry;
+            $iniArray = parse_ini_file($iniFile);
+            foreach($iniArray as $key => $value) {
+                if (substr($key, -6) == '.label') {
+                    $info = $entry . ':' . $key;
+                    if (array_key_exists($value, $texts)) {
+                        $texts[$value] .= ',' . $info;
+                    } else {
+                        $texts[$value] = $info;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
 $projects = getProjects();
 // Adds default project
 $projects[] = '';
@@ -178,6 +209,7 @@ foreach ($projects as $project) {
         fwrite($fh, '"Content-Type: text/plain; charset=ISO-8859-1\n"' . "\n");
         fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
 
+        parseIni($project, $texts);
         do_dir($dir, $project, $texts, $plurals);
 
         foreach ($texts as $text => $files) {

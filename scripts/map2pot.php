@@ -18,36 +18,35 @@
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 
-function parseIni($project, $mapId, $file, &$texts) {
+function parseIni($project, $mapId, &$texts) {
 
-    $iniFile = CARTOSERVER_HOME;
+    $iniPath = CARTOSERVER_HOME;
     if ($project != '') {
-        $iniFile .= 'projects/' . $project. '/';
+        $iniPath .= 'projects/' . $project. '/';
     }
-    $iniFile .= 'server_conf/' . $mapId . '/' . $file . '.ini';
+    $iniPath .= 'server_conf/' . $mapId . '/';
     
-    if (file_exists($iniFile)) {
-        $iniArray = parse_ini_file($iniFile);
-        foreach($iniArray as $key => $value) {
-            if (substr($key, -6) == '.label') {
-                $info = $file . '.ini:' . $key;
-                if (array_key_exists($value, $texts)) {
-                    $texts[$value] .= ',' . $info;
-                } else {
-                    $texts[$value] = $info;
+    if (!is_dir($iniPath)) {
+        return true;
+    }
+    $d = dir($iniPath);
+    while (false !== ($entry = $d->read())) {
+        if (!is_dir($entry) && substr($entry, -4) == '.ini') {
+            $iniFile = $iniPath . $entry;
+            $iniArray = parse_ini_file($iniFile);
+            foreach($iniArray as $key => $value) {
+                if (substr($key, -6) == '.label') {
+                    $info = $entry . ':' . $key;
+                    if (array_key_exists($value, $texts)) {
+                        $texts[$value] .= ',' . $info;
+                    } else {
+                        $texts[$value] = $info;
+                    }
                 }
             }
         }
     }
     return true;
-}
-
-function parseMapIni($project, $mapId, &$texts) {
-    return parseIni($project, $mapId, $mapId, $texts);
-}
-
-function parseLocationIni($project, $mapId, &$texts) {
-    return parseIni($project, $mapId, 'location', $texts);
 }
 
 function parseMap($project, $mapId, &$texts) {
@@ -166,8 +165,7 @@ foreach ($projects as $project) {
 
         print "Creating new template $fileName ";
         
-        if (!parseMapIni($project, $mapId, $texts)) continue;
-        if (!parseLocationIni($project, $mapId, $texts)) continue;
+        parseIni($project, $mapId, $texts);
         if (!parseMap($project, $mapId, $texts)) continue;
 
         $fh = fopen($file, 'w');
