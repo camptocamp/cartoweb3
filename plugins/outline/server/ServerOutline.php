@@ -208,7 +208,15 @@ class ServerOutline extends ClientResponderAdapter {
         }
         
         $result = new OutlineResult();
-        $result->area = $area;
+
+        $areaFactor = $this->getConfig()->areaFactor;
+        if (is_null($areaFactor)) {
+            $areaFactor = 1.0;
+        } else {
+            $areaFactor = (double)$areaFactor;
+        }
+
+        $result->area = $area * $areaFactor;
         return $result;
     }
 }
