@@ -289,13 +289,22 @@ class PluginManager {
      */
     function getCurrentPlugin() {
         
-        ereg('(\/.*)*\/(.*)\/(.*).php', $_SERVER['PHP_SELF'], $match);
-        if ($match[3] == 'r') {
-            // match for the miniproxy
-            $plugin = $_GET['pl'];
+        if (preg_match('#^(.*)(\/?)([a-z0-9_-]*)(\/?)([a-z0-9_-]*).php$#iU', 
+                       $_SERVER['PHP_SELF'],
+                       $match)) {
+            if ($match[5] == 'r') {
+                // match for the miniproxy
+                $plugin = $_GET['pl'];
+            } else {
+                $plugin = $match[3];
+            }
         } else {
-            $plugin = $match[2];
+            $plugin = false;
         }
+
+        if (!$plugin)
+            throw new CartocommonException('Failed to get current plugin id');
+
         return $this->getPlugin($plugin);
     }
 }
