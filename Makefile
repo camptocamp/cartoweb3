@@ -4,9 +4,9 @@ clean:
 	rm -f  www-data/saved_posts/*
 	rm -f templates_c/*
 dirs:
-	-mkdir www-data/images
-	-mkdir www-data/saved_posts
-	-mkdir templates_c
+	-mkdir -p www-data/images
+	-mkdir -p www-data/saved_posts
+	-mkdir -p templates_c
 
 perms:
 	sudo chown www-data www-data/images
