@@ -213,6 +213,17 @@ class ServerQuery extends ClientResponderAdapter {
      */
     private function queryLayer($bbox, $querySelection) {
     
+        // Activates layer
+        if (count($querySelection->selectedIds) > 0
+            || $querySelection->useInQuery) {
+            
+            $msMapObj = $this->serverContext->getMapObj();
+            $mapInfo = $this->serverContext->getMapInfo();
+            $msLayer = $mapInfo->getMsLayerById($msMapObj,
+                                                $querySelection->layerId);
+            $msLayer->set('status', MS_ON);
+        }
+    
         // Attributes to be returned
         $attributes = array();
         if (!is_null($querySelection->tableFlags)
