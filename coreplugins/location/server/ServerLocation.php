@@ -276,8 +276,8 @@ class RecenterLocationCalculator extends LocationCalculator {
         $mergedBbox = $bboxes[0];
         foreach(array_slice($bboxes, 1) as $bbox) { 
             $mergedBbox->minx = min($bbox->minx, $mergedBbox->minx);
-            $mergedBbox->maxy = max($bbox->maxy, $mergedBbox->maxy);
             $mergedBbox->miny = min($bbox->miny, $mergedBbox->miny);
+            $mergedBbox->maxx = max($bbox->maxx, $mergedBbox->maxx);
             $mergedBbox->maxy = max($bbox->maxy, $mergedBbox->maxy);
         }
         return $mergedBbox;        

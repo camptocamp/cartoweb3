@@ -66,6 +66,7 @@ class coreplugins_location_server_RemoteServerLocationTest
             $this->assertTrue($this->almostEq($expectedScale, $resultScale), 
                 "scale are not the same, expected $expectedScale, got $resultScale");
         }
+        return $mapResult;
     }
     
     private function doTestBboxLocationRequest($bbox, $expectedBbox, 
@@ -305,12 +306,12 @@ class coreplugins_location_server_RemoteServerLocationTest
     /* TODO: add more tests for pan */
 
 
-    public function doTestRecenterLocationRequest($idSelections, $expectedBbox,
+    private function doTestRecenterLocationRequest($idSelections, $expectedBbox,
                                                   $expectedScale = -1, $direct) {
         $recenterLocationRequest = new RecenterLocationRequest();
         $recenterLocationRequest->idSelections = $idSelections;
 
-        $this->doTestLocationRequest(LocationRequest::LOC_REQ_RECENTER,
+        return $this->doTestLocationRequest(LocationRequest::LOC_REQ_RECENTER,
                     'recenterLocationRequest', $recenterLocationRequest,
                     $expectedBbox, $expectedScale, $direct);
     }    
@@ -321,13 +322,33 @@ class coreplugins_location_server_RemoteServerLocationTest
         $idSelection->layerId = 'some_rectangles'; 
         $idSelection->selectedIds = array('onë', 'twò');
         $idSelections[] = $idSelection;
-        $this->doTestRecenterLocationRequest($idSelections, 
-                                      new Bbox(0.300031536463, 51.5847270619,
-                                               0.54225213318, 51.8269476586),
+        $_ = $this->doTestRecenterLocationRequest($idSelections,
+                                         new Bbox(0.320234435375, 51.5430527819,
+                                                  0.645803592079, 51.8686219386),
                                       NULL, $direct);        
         $this->redoDirect($direct, __METHOD__);
     }
 
+    public function testRecenterLocationRequest_BugOrderShouldNotMatter($direct = false) {
+        
+        $idSelection = new IdSelection();
+        $idSelection->layerId = 'grid_defaulthilight'; 
+
+        $idSelection->selectedIds = array('10', '11');
+        $mapResult = $this->doTestRecenterLocationRequest(array($idSelection), NULL, 
+                                             NULL, $direct);        
+        $bbox1 = $mapResult->locationResult->bbox;
+
+        $idSelection->selectedIds = array('11', '10');
+        $mapResult = $this->doTestRecenterLocationRequest(array($idSelection), NULL, 
+                                             NULL, $direct);        
+        
+        $bbox2 = $mapResult->locationResult->bbox;
+        
+        $this->assertSameBbox($bbox1, $bbox2);
+        $this->redoDirect($direct, __METHOD__);
+    }
+    
     public function testRecenterLocationRequest2($direct = false) {
         
         $idSelection = new IdSelection();
