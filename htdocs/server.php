@@ -14,6 +14,11 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
+// APD trace
+if (file_exists(CARTOSERVER_HOME . 'server/trace.apd')) {
+    apd_set_pprof_trace();
+}
+
 function getSavedPostDir() {
     return CARTOSERVER_HOME . 'www-data/saved_posts/';
 }
