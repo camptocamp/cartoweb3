@@ -111,7 +111,6 @@ class Bbox extends Shape {
             (int)$this->maxx, (int)$this->maxy,
             (int)$this->getWidth(), (int)$this->getHeight()); */
     }
-    
 }
 
 class Rectangle extends Bbox {
@@ -120,6 +119,9 @@ class Rectangle extends Bbox {
 
 class Polygon extends Shape {
     /* todo: store points */
+    function getCenter() {
+        /* todo */
+    }
 }
 
 ?>
