@@ -34,13 +34,20 @@ abstract class Config {
         $kind = $this->getKind();
 
         $file = $kind . '.ini';
+        $path = $kind . '_conf/'; 
         if (!@$this->configPath) {
-            $path = $kind . '_conf/'; 
             $this->configPath = $this->basePath
                 . $this->projectHandler->getPath($this->basePath, $path, $file);
         }
 
-        $this->ini_array = parse_ini_file($this->configPath . $file);
+        $defaultPath = $this->basePath . $path;
+        if ($defaultPath != $this->configPath) {
+            $this->ini_array = parse_ini_file($defaultPath . $file);
+        } else {
+            $this->ini_array = array();
+        }
+        $this->ini_array = array_merge($this->ini_array,
+                                       parse_ini_file($this->configPath . $file));
 
         if (array_key_exists('mapId', $this->ini_array)) {
             
@@ -81,16 +88,22 @@ abstract class PluginConfig extends Config {
         $path = $this->getPath();
 
         $file = $plugin . '.ini';
+        $path = $kind . '_conf/' . $path; 
         if (!@$this->configPath) {
-            $path = $kind . '_conf/' . $path; 
             $this->configPath = $this->basePath
                 . $this->projectHandler->getPath($this->basePath, $path, $file);
         }
 
+        $this->ini_array = array();
+        
+        $defaultPath = $this->basePath . $path;
+        if ($defaultPath != $this->configPath && file_exists($defaultPath . $file)) {
+            $this->ini_array = parse_ini_file($defaultPath . $file);
+        }
+
         if (file_exists($this->configPath . $file)) {
-            $this->ini_array = parse_ini_file($this->configPath . $file);
-        } else {
-            $this->ini_array = array();
+            $this->ini_array = array_merge($this->ini_array,
+                                           parse_ini_file($this->configPath . $file));
         }
     }
 }
