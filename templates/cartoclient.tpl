@@ -8,7 +8,7 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" title="stylesheet" />{/if}
   <meta name="author" content="Sylvain Pasche" />
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
-  <title>{$cartoclient_title}</title>
+  <title>{t}Cartoclient Title{/t}</title>
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
@@ -18,11 +18,11 @@
 
 <body>
 
-<div id="banner"><h1>{$cartoclient_title}</h1></div>
+<div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true" />
-  <input type="hidden" name="js_folder_idx" value="0" />
+  <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
 
