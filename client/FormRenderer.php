@@ -188,17 +188,17 @@ class FormRenderer {
      * Draws user and developer messages
      * @param array array of messages
      */
-    private function drawMessages($serverMessages) {
+    private function drawMessages($messages) {
         
-        if (empty($serverMessages))
+        if (empty($messages))
             return;
         
         $userMessages = array();
         $developerMessages = array();
-        foreach ($serverMessages as $message) {
-            if ($message->channel == ServerMessage::CHANNEL_USER)
+        foreach ($messages as $message) {
+            if ($message->channel == Message::CHANNEL_USER)
                 $userMessages[] = I18N::gt($message->message);
-            if ($message->channel == ServerMessage::CHANNEL_DEVELOPER)
+            if ($message->channel == Message::CHANNEL_DEVELOPER)
                 $developerMessages[] = I18N::gt($message->message);
         }
 
@@ -222,7 +222,9 @@ class FormRenderer {
 
         $this->drawTools($cartoclient);
 
-        $this->drawMessages($cartoclient->getMapResult()->serverMessages);
+        $messages = array_merge($cartoclient->getMapResult()->serverMessages,
+                                $cartoclient->getMessages());
+        $this->drawMessages($messages);
 
         $jsFolderIdx = (isset($_REQUEST['js_folder_idx']) &&
                         is_numeric($_REQUEST['js_folder_idx']))

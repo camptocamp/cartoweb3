@@ -84,9 +84,23 @@ class ClientImages extends ClientPlugin
             new Dimension($mapWidth, $mapHeight);
     }
 
-    private function handleMapSize($request) {
-        if (isset($request['mapsize']) && strlen($request['mapsize'])) {
-            $this->imagesState->selectedSize = $request['mapsize'];
+    private function handleMapSize($request, $check = false) {
+    
+        $mapSize = $this->getHttpValue($request, 'mapsize');
+
+        if (!is_null($mapSize)) {        
+
+            if ($check) {
+                if (!$this->checkInt($mapSize, 'mapsize'))
+                    return NULL;
+                
+                if (!array_key_exists($mapSize, $this->getMapSizes())) {
+                    $this->cartoclient->addMessage('Mapsize ID not found');
+                    return NULL;
+                }
+            }
+            
+            $this->imagesState->selectedSize = $mapSize;
 
             $mapWidth = $mapHeight = 0;
             $this->setMapDimensions($mapWidth, $mapHeight);
@@ -103,7 +117,7 @@ class ClientImages extends ClientPlugin
     }
 
     function handleHttpGetRequest($request) {
-        $this->handleMapSize($request);        
+        $this->handleMapSize($request, true);        
     }
     
     /**

@@ -405,6 +405,33 @@ abstract class ClientPlugin extends PluginBase {
     function getCartoclient() {
         return $this->cartoclient;
     }
+    
+    
+    function checkInt($value, $variable) {
+        if (is_null($value) ||
+            (is_numeric($value) && intval($value) == $value)) {
+            return true; 
+        }
+        $this->cartoclient->addMessage("Parameter $variable should be an int");
+        return false;
+    }
+
+    function checkNumeric($value, $variable) {
+        if (is_null($value) || is_numeric($value)) {
+            return true; 
+        }
+        $this->cartoclient->addMessage("Parameter $variable should be numeric");
+        return false;
+    }
+        
+    function getHttpValue($request, $key) {
+        if (array_key_exists($key, $request) &&
+            $request[$key] != '') {
+            return $request[$key];
+        }
+        return NULL;
+    }
+    
 }
 
 ?>

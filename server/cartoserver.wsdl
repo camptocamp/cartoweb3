@@ -171,15 +171,15 @@
         </all>
       </complexType>
       
-      <complexType name="ArrayOfServerMessage">
+      <complexType name="ArrayOfMessage">
         <complexContent>
           <restriction base="enc11:Array">
-            <attribute ref="enc11:arrayType" wsdl:arrayType="types:ServerMessage[]"/>
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:Message[]"/>
           </restriction>
         </complexContent>
       </complexType>
 
-      <complexType name="ServerMessage">
+      <complexType name="Message">
         <all>
           <element name="channel" type="xsd:integer"/>
           <element name="message" type="xsd:string"/>
@@ -193,7 +193,7 @@
           <element name="imagesResult" type="types:ImagesResult"/>
           <element name="queryResult" type="types:QueryResult" minOccurs="0"/>
 
-          <element name="serverMessages" type="types:ArrayOfServerMessage" minOccurs="0"/>
+          <element name="serverMessages" type="types:ArrayOfMessage" minOccurs="0"/>
           {PLUGINS_RESULT}
         </all>
       </complexType>

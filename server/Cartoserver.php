@@ -157,8 +157,7 @@ class Cartoserver {
         
         $serverMessages = array();
         foreach ($messages as $msg) {
-            $serverMessages[] = new ServerMessage($msg,
-                                        ServerMessage::CHANNEL_DEVELOPER);
+            $serverMessages[] = new Message($msg, Message::CHANNEL_DEVELOPER);
         }
         return $serverMessages;
     }

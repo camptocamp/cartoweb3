@@ -24,6 +24,8 @@ require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
+require_once(CARTOCOMMON_HOME . 'common/Message.php');
+
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
 
@@ -209,6 +211,13 @@ class Cartoclient {
     public $projectHandler;
 
     /**
+     * Array of user/developer messages
+     * @var array
+     */
+    private $messages = array();
+
+
+    /**
      * Constructor
      *
      * Initializes:
@@ -285,6 +294,23 @@ class Cartoclient {
     private function getCorePluginNames() {
 
         return array('location', 'layers', 'images', 'query', 'statictools');
+    }
+
+    /**
+     * Adds a message
+     * @param string
+     * @param int
+     */
+    function addMessage($message, $channel = Message::CHANNEL_USER) {
+
+        $this->messages[] = new Message($message, $channel);
+    }
+    
+    /**
+     * @return array
+     */
+    function getMessages() {
+        return $this->messages;
     }
 
     /**

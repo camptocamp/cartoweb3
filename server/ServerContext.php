@@ -7,6 +7,7 @@
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
+require_once(CARTOCOMMON_HOME . 'common/Message.php');
 
 /**
  * Project handler
@@ -71,9 +72,9 @@ class ServerContext {
         return $this->config->showDevelMessages;   
     }
     
-    function addMessage($message, $channel = ServerMessage::CHANNEL_USER) {
+    function addMessage($message, $channel = Message::CHANNEL_USER) {
 
-        $this->messages[] = new ServerMessage($message, $channel);
+        $this->messages[] = new Message($message, $channel);
     }
     
     function getMessages() {

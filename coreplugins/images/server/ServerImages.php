@@ -113,7 +113,7 @@ class ServerImages extends ServerPlugin
                     ' (%u [warning threshold %u]]). You should run the cleaning script. ' .
                     'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
                     $imgCount, MAX_IMAGES_WARNING);
-            $serverContext->addMessage($msg, ServerMessage::CHANNEL_DEVELOPER);
+            $serverContext->addMessage($msg, Message::CHANNEL_DEVELOPER);
         }
     }
 
