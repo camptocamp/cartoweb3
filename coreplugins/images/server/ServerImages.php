@@ -90,12 +90,12 @@ class ServerImages extends ServerCoreplugin {
             if ($this->isDrawQuery())
                 $this->serverContext->msMainmapImage = $msMapObj->drawQuery();
             else
-                $this->serverContext->msMainmapImage = $msMapObj->draw();
+                $this->serverContext->setMsMainmapImage($msMapObj->draw());
         }
         $this->serverContext->checkMsErrors();
 
         $this->log->info("mainmap saved");
-        $this->log->info($this->serverContext->msMainmapImage);
+        $this->log->info($this->serverContext->getMsMainmapImage());
     }
 
     function handleCorePlugin($requ) {
@@ -109,10 +109,10 @@ class ServerImages extends ServerCoreplugin {
 
         // mainmap
         if ($requ->mainmap->isDrawn) {
-            $ms_mainmap = $this->serverContext->msMainmapImage;
+            $ms_mainmap = $this->serverContext->getMsMainmapImage();
             if (!$ms_mainmap) 
                 throw new CartoserverException("drawMainmap was not called before getResult");
-            $this->serverContext->msMainmapImage = $ms_mainmap;
+            $this->serverContext->setMsMainmapImage($ms_mainmap);
             $msMapObj->drawLabelCache($ms_mainmap);
             $imagesResult->mainmap = $this->getImage($ms_mainmap);
         } else {

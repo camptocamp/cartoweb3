@@ -120,7 +120,7 @@ class ServerOutline extends ServerPlugin {
             $p = $this->convertPolygon($polygon);
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
                        
-            $this->serverContext->msMainmapImage->pasteImage($image2, 0xff0000);
+            $this->serverContext->getMsMainmapImage()->pasteImage($image2, 0xff0000);
             
         }
 
@@ -130,7 +130,7 @@ class ServerOutline extends ServerPlugin {
 
         $msMapObj = $this->serverContext->msMapObj;
         if ($requ->maskMode) {
-            $this->serverContext->msMainmapImage = $msMapObj->draw();
+            $this->serverContext->setMsMainmapImage($msMapObj->draw());
             $msMapObj->labelcache->free();
         }
 

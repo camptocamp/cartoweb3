@@ -21,6 +21,7 @@ class ServerContext {
 
     public $msMapObj;
     public $maxExtent;
+    private $msMainmapImage;
 
     public $mapInfo;
     public $mapInfoHandler;
@@ -29,6 +30,7 @@ class ServerContext {
     public $mapResult;
 
     public $config;
+    private $messages = array();
 
     public $projectHandler;
 
@@ -54,6 +56,25 @@ class ServerContext {
         $this->mapInfo = $this->mapInfoHandler->getMapInfo();
 
         $this->plugins = array();  
+    }
+
+    function setMsMainmapImage($msMainmapImage) {
+        $this->msMainmapImage = $msMainmapImage;   
+    }
+    
+    function getMsMainmapImage() {
+        if (empty($this->msMainmapImage))
+            throw new CartoserverException("mainmap image not generated yet");
+        return $this->msMainmapImage;
+    }
+    
+    function addMessage($message, $channel = ServerMessage::CHANNEL_USER) {
+
+        $this->messages[] = new ServerMessage($channel, $message);
+    }
+    
+    function getMessages() {
+        return $this->messages;
     }
 
     function getMapPath() {
@@ -118,13 +139,6 @@ class ServerContext {
         } 
 
         throw new CartoserverException("Mapserver error: " . $errorMessages);
-
-    }
-
-    function getMsMainmapImage() {
-        if (empty($this->msMainmapImage))
-            throw new CartoserverException("mainmap image not generated yet");
-        return $this->msMainmapImage;
     }
 
     function setMapRequest($mapRequest) {
