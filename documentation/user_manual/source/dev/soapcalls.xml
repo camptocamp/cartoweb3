@@ -22,4 +22,6 @@
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="soapcalls/getmap.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="soapcalls/examples.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
 </chapter>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect1 id="dev.soapcalls.examples">
+  <title>Examples</title>
+  <sect2 id="dev.soapcalls.examples.pointscale">
+    <title>Getting a Map Using a Point and a Scale</title>
+    <para>
+      <programlisting><![CDATA[
+<?php
+
+$client = new SoapClient("http://url.to/cartoserver/cartoserver.wsdl.php?mapId=swiss_project.swiss");	
+...]]></programlisting>
+      <programlisting><![CDATA[
+$request->mapId = 'swiss_project.swiss';
+...]]></programlisting>
+      <programlisting><![CDATA[
+$request->imagesRequest->className = 'ImagesRequest';
+
+$request->imagesRequest->mainmap->isDrawn = true;
+$request->imagesRequest->mainmap->path = '';
+$request->imagesRequest->mainmap->width = 500;
+$request->imagesRequest->mainmap->height = 500;
+$request->imagesRequest->mainmap->format = '';
+
+$request->imagesRequest->keymap->isDrawn = false;
+$request->imagesRequest->keymap->path = '';
+$request->imagesRequest->keymap->width = 0;
+$request->imagesRequest->keymap->height = 0;
+$request->imagesRequest->keymap->format = '';
+
+$request->imagesRequest->scalebar->isDrawn = true;
+$request->imagesRequest->scalebar->path = '';
+$request->imagesRequest->scalebar->width = 100;
+$request->imagesRequest->scalebar->height = 100;
+$request->imagesRequest->scalebar->format = '';
+...]]></programlisting>
+      <programlisting><![CDATA[
+$request->layersRequest->className = 'LayersRequest';
+
+$request->layersRequest->layerIds = array('swiss_layer_1', 'swiss_layer_2');
+$request->layersRequest->resolution = 0;
+...]]></programlisting>
+      <programlisting><![CDATA[
+$request->locationRequest->className = 'LocationRequest';
+
+$request->locationRequest->locationType = 'zoomPointLocationRequest';
+$request->locationRequest->zoomPointLocationRequest->bbox->minx = 500000;
+$request->locationRequest->zoomPointLocationRequest->bbox->miny = 100000;
+$request->locationRequest->zoomPointLocationRequest->bbox->maxx = 600000;
+$request->locationRequest->zoomPointLocationRequest->bbox->maxy = 200000;
+$request->locationRequest->zoomPointLocationRequest->point->x = 550000;
+$request->locationRequest->zoomPointLocationRequest->point->y = 150000;
+$request->locationRequest->zoomPointLocationRequest->zoomType = 'ZOOM_SCALE';
+$request->locationRequest->zoomPointLocationRequest->scale = 200000;
+...]]></programlisting>
+      <programlisting><![CDATA[
+try{
+    $result = $client->getMap($request);
+    print_r($result);    
+} catch (SoapFault $fault) {
+    print $fault->faultstring;
+}
+            
+?>]]></programlisting>
+	  </para>
+    <para>
+      <programlisting><![CDATA[
+stdClass Object
+(
+    [timeStamp] => 1107925732
+    [serverMessages] => Array
+        (
+        )
+    [imagesResult] => stdClass Object
+        (
+            [className] => ImagesResult
+            [mainmap] => stdClass Object
+                (
+                    [isDrawn] => 1
+                    [path] => images/110839565198671.jpg
+                    [width] => 500
+                    [height] => 500
+                    [format] => 
+                )
+            [keymap] => stdClass Object
+                (
+                    [isDrawn] => 
+                    [path] => 
+                    [width] => 
+                    [height] => 
+                    [format] => 
+                )
+            [scalebar] => stdClass Object
+                (
+                    [isDrawn] => 1
+                    [path] => images/110839565198672.png
+                    [width] => 300
+                    [height] => 31
+                    [format] => 
+                )
+        )
+    [locationResult] => stdClass Object
+        (
+            [className] => LocationResult
+            [bbox] => stdClass Object
+                (
+                    [minx] => 536770.840477
+                    [miny] => 136770.840477
+                    [maxx] => 563229.159523
+                    [maxy] => 163229.159523
+                )
+            [scale] => 200000
+        )
+)]]></programlisting>      
+    </para>  
+  </sect2>
+  <sect2 id="dev.soapcalls.examples.query">
+    <title>Executing a Query</title>
+    <para>
+		</para>
+  </sect2>
+</sect1>

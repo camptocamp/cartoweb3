@@ -2,9 +2,9 @@
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
-<sect1 id="dev.soapcalls.basictypes">
+<sect1 id="dev.soapcalls.structures">
   <title>Standard Structures</title>  
-  <sect2 id="dev.getmap.intro.basic">
+  <sect2 id="dev.soapcalls.structures.basictypes">
     <title>Basic Types</title>
     <para>
       <programlisting><![CDATA[
@@ -24,7 +24,7 @@
       </itemizedlist>
     </para>
   </sect2>
-  <sect2 id="dev.getmap.intro.tables">
+  <sect2 id="dev.soapcalls.structures.tables">
     <title>Tables</title>
     <para>
       <programlisting><![CDATA[
