@@ -22,7 +22,7 @@ class MapQuery {
     
     private function databaseQueryString($idAttribute, $idType, $selectedIds) {
         if (count($selectedIds) == 0)
-            return array('true');
+            return array('false');
         if ($idType != 'string')
             x('todo_database_int_query_string');
         $queryString = implode("','", $selectedIds);
