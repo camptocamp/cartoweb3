@@ -96,7 +96,7 @@ ClientContext:
 
   {if $keymap_path|default:''}
   <div id="keymap">
-  <input type="image" name="keymap" src="{$keymap_path}" 
+  <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
   style="width:{$keymap_width}px;height:{$keymap_height}px;" />
   </div>
   {/if}
