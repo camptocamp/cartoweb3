@@ -131,7 +131,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $bbox;
     }
 
-    function getPreviousScale($oldScale) {
+    private function getPreviousScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
@@ -146,7 +146,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale; 
     }
     
-    function getNextScale($oldScale) {
+    private function getNextScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
@@ -161,7 +161,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale;
     }
 
-    function getNearestScale($oldScale) {
+    private function getNearestScale($oldScale) {
         $newScale = 0;
         $min = -1;
         foreach ($this->scales as $scale) {
@@ -266,22 +266,22 @@ class RecenterLocationCalculator extends LocationCalculator {
         if ($idType != 'string')
             x('todo_database_int_query_string');
         $queryString = implode("','", $selectedIds);
-        return "$idAttribute in ('$queryString')";
+        return array("$idAttribute in ('$queryString')");
     }
 
     private function isDatabaseLayer($msLayer) {
-        /* TODO */
-        return false;
+        return $msLayer->connectiontype == MS_POSTGIS;
     }
 
     private function queryLayerByAttributes($msLayer, $idAttribute, $query) { 
         
-        $this->log->debug("queryLayerByAttributes $msLayer->name $idAttribute $query");
+        $this->log->debug("queryLayerByAttributes layer: $msLayer->name " .
+                "idAttribute: $idAttribute query: $query");
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
         if ($ret == MS_FAILURE) {
-                $this->log->warn("no record found on ms layer $msLayer->name, or " .
-                    "an error happened");
-            return NULL;   
+            throw new CartoserverException("Recentering query returned no " .
+                    "results. Layer: $msLayer->name, idAttrubute: $idAttribute," .
+                    " query: $query"); 
         }
 
         $this->locationPlugin->getServerContext()->checkMsErrors();
@@ -307,6 +307,17 @@ class RecenterLocationCalculator extends LocationCalculator {
         return $bbox;       
     }
 
+    private function checkImplementedConnectionTypes($msLayer) {
+    
+        $implementedConnectionTypes = array(MS_SHAPEFILE, MS_POSTGIS);
+        
+        if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
+            return;
+            
+        throw new CartoserverException("Layer to center on has an unsupported " .
+                "connection type: $msLayer->connectiontype");
+    }
+
     private function getIdSelectionBbox(IdSelection $idSelection) {
 
         $serverContext = $this->locationPlugin->getServerContext();
@@ -326,6 +337,8 @@ class RecenterLocationCalculator extends LocationCalculator {
         if (is_null($idType)) {
             $idType = $serverContext->getIdAttributeType($idSelection->layerId);
         }
+
+        $this->checkImplementedConnectionTypes($msLayer);
 
         $queryStringFunction = ($this->isDatabaseLayer($msLayer)) ?
             'databaseQueryString' : 'genericQueryString';
