@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
-        <td>
+        <td id="mainmapCell">
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>

@@ -46,8 +46,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
 #folder1 select, #folder2 select {max-width:160px;}
 
 #keymap {text-align:center;margin:10px;}
-#keymap input {border:1px solid #eee;}
-#mapImageDiv {border:1px solid #eee;}
+#keymap input, #mainmapCell {border:1px solid #eee;}
 
 #layerscmd {text-align:center;padding:5px;}
 
