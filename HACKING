@@ -13,3 +13,11 @@ base policy
   the built-in data set (see test mapfile).
   
  * test infrastructure: TBD
+ 
+ * develop with notices enabled !!. Put this in your php.ini:
+   
+   display_errors = On
+   error_reporting  =  E_ALL
+  
+ * Code should produce no notices before going to cvs. Code should pass all tests
+ 
