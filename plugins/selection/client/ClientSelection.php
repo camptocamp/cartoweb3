@@ -50,8 +50,11 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
     
     function getTools() {
         
-        return array(new ToolDescription(self::TOOL_SELECTION, NULL, 'Selection', 
-            ToolDescription::MAINMAP, 'query'));
+        return array(new ToolDescription(self::TOOL_SELECTION, 
+                                         self::TOOL_SELECTION, 
+                                         'Selection', 
+                                         ToolDescription::MAINMAP, 
+                                         'query'));
     }
     
     function handleMainmapTool(ToolDescription $tool, 
