@@ -315,8 +315,6 @@ class ExportConfiguration {
     public function getQueryBbox() {
         return $this->queryBbox;
     }
-    
-    // TODO: Add all configuration variables
 }
 
 
