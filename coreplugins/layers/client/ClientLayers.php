@@ -183,6 +183,8 @@ class ClientLayers extends ClientPlugin
         
         $this->frozenUnselectedLayers
             =& $this->layersState->frozenUnselectedLayers;
+
+        $this->nodesIds =& $this->layersState->nodesIds;
     }
 
     /**
@@ -225,6 +227,8 @@ class ClientLayers extends ClientPlugin
                 $this->layersData[$layer->id]->id = $layer->id;
             }
         }
+
+        $this->layersState->nodesIds =& $this->nodesIds;
     }
 
     /**
@@ -334,8 +338,6 @@ class ClientLayers extends ClientPlugin
         }
 
         // unfolded layergroups:
-        $this->nodesIds =& $this->layersState->nodesIds;
-       
         if (!@$request['openNodes']) $request['openNodes'] = false;
         $openNodes = array_unique(explode(',', $request['openNodes']));
 
@@ -751,7 +753,7 @@ class ClientLayers extends ClientPlugin
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
-        $this->layersState->nodesIds[$nodeId] = $layer->id;
+        $this->nodesIds[$nodeId] = $layer->id;
         $layerOutRange = 0;
 
         if ($isDropDown) {
@@ -807,7 +809,7 @@ class ClientLayers extends ClientPlugin
 
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
-        $this->layersState->nodesIds = array();
+        $this->nodesIds = array();
         $this->mapId = $this->getCartoclient()->getProjectHandler()->getMapName();
         
         $rootLayer = $this->getLayerByName('root');
