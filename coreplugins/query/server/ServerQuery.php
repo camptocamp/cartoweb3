@@ -291,9 +291,11 @@ class ServerQuery extends ClientResponderAdapter {
 
             foreach ($tables as $table) {
                 
-                $querySelection = $hilightQuerySelections[$table->tableId];
-                $querySelection->selectedIds = $table->getIds();
-                $pluginManager->hilight->hilightLayer($querySelection);
+                if ($table->numRows > 0) {
+                    $querySelection = $hilightQuerySelections[$table->tableId];
+                    $querySelection->selectedIds = $table->getIds();
+                    $pluginManager->hilight->hilightLayer($querySelection);
+                }
             }
 
         } else {
