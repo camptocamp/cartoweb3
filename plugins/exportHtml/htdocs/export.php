@@ -9,8 +9,13 @@
 /**
  * Dir path to Cartoclient home
  */
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/../../..') . '/');
-define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+if (!defined('CARTOCLIENT_HOME'))
+    define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) .
+                                        '/../../..') . '/');
+
+if (!defined('CARTOCOMMON_HOME'))
+    define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+
 require_once(CARTOCOMMON_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array('client' => true));
 
