@@ -4,6 +4,9 @@ recenterActive = true
 ; if true, shows shortcuts form
 shortcutsActive = true
 
+; if true, shows recenter on id form
+idRecenterActive = true
+
 ; if current scale is above this limit, measure unit is km else m
 ;scaleUnitLimit = 100000
 

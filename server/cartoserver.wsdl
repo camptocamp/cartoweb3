@@ -188,6 +188,7 @@
           <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
           <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
           <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
+          <element name="recenterLocationRequest" type="types:RecenterLocationRequest" minOccurs="0"/>
         </all>
       </complexType>     
 
@@ -226,7 +227,7 @@
           <enumeration value="bboxLocationRequest"/>
           <enumeration value="panLocationRequest"/>
           <enumeration value="zoomPointLocationRequest"/>
-          <enumeration value="zoomRectangleLocationRequest"/>
+          <enumeration value="recenterLocationRequest"/>
         </restriction>
       </simpleType>
 
@@ -278,6 +279,31 @@
           <element name="zoomType" type="types:ZoomType"/>
           <element name="zoomFactor" type="xsd:float" minOccurs="0"/>
           <element name="scale" type="xsd:integer" minOccurs="0"/>
+        </all>
+      </complexType>
+
+      <complexType name="ArrayOfIdSelection">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:IdSelection[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="IdSelection">
+        <all>
+          <element name="layerId" type="xsd:string"/>
+          <element name="idAttribute" type="xsd:string"/>
+          <!-- should be a struct (string|integer) -->
+          <element name="idType" type="xsd:string"/>
+          <!-- FIXME: integer should be supported also -->
+          <element name="selectedIds" type="types:ArrayOfString"/>
+        </all>
+      </complexType>
+
+      <complexType name="RecenterLocationRequest">
+        <all>
+          <element name="idSelections" type="types:ArrayOfIdSelection"/>
         </all>
       </complexType>
      

@@ -191,6 +191,49 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         return $this->smarty->fetch('recenter.tpl');
     }
 
+    private function handleIdRecenter() {
+
+        $center = $this->locationState->bbox->getCenter();
+        $point = clone($center);       
+        if (!array_key_exists('id_recenter_ids', $_REQUEST) ||
+            $_REQUEST['id_recenter_ids'] == '')
+            return NULL;
+
+        $recenterRequest = new RecenterLocationRequest();
+        
+        $idSelection = new IdSelection();
+        $idSelection->layerId = $_REQUEST['id_recenter_layer'];
+        $idSelection->selectedIds = explode(',', $_REQUEST['id_recenter_ids']);
+        
+        $recenterRequest->idSelections = array($idSelection);
+        
+        $locationRequest = new LocationRequest();              
+        $locationType = $recenterRequest->type;
+        $locationRequest->locationType = $locationType;
+        $locationRequest->$locationType = $recenterRequest;
+        
+        return $locationRequest;
+    }
+
+    private function drawIdRecenter() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+
+        $mapInfo = $this->cartoclient->getMapInfo();
+        $layersId = array();
+        $layersLabel = array();
+        foreach($mapInfo->getLayers() as $layer) {
+            if (! $layer instanceof Layer)
+                continue;
+            $layersId[] = $layer->id; 
+            $layersLabel[] = I18n::gt($layer->label); 
+        }
+
+        $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
+                                    'id_recenter_layers_label' => $layersLabel));
+        return $this->smarty->fetch('id_recenter.tpl');
+    }
+
     private function drawShortcuts() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
@@ -239,6 +282,11 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             return;
 
         $this->locationRequest = $this->handleRecenter();
+        if (!is_null($this->locationRequest))
+            return;
+
+        $this->locationRequest = $this->handleIdRecenter();
+
         if (!is_null($this->locationRequest))
             return;
         
@@ -368,8 +416,6 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     
     private function getLocationInformation() {
         
-        $mapInfo = $this->cartoclient->getMapInfo();
-        
         $delta = $this->maxScale - $this->minScale;
         if ($delta > 0) {
             $percent = (($this->locationResult->scale - $this->minScale) * 100) /
@@ -390,14 +436,15 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     
     function renderForm($template) {
 
-        $recenter_active = $this->getConfig()->recenterActive;
-        $shortcuts_active = $this->getConfig()->shortcutsActive;
-
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
             $factor = 1000;
         else $factor = 1;
-       
+
+        $recenter_active = $this->getConfig()->recenterActive;
+        $id_recenter_active = $this->getConfig()->idRecenterActive;
+        $shortcuts_active = $this->getConfig()->shortcutsActive;
+               
         $template->assign(array('location_info' => $this->getLocationInformation(),
                                 'bboxMinX' => $this->locationState->bbox->minx,
                                 'bboxMinY' => $this->locationState->bbox->miny,
@@ -405,9 +452,16 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                 'bboxMaxY' => $this->locationState->bbox->maxy,
                                 'factor' => $factor,
                                 'recenter_active' => $recenter_active,
-                                'recenter' => $this->drawRecenter(),
+                                'id_recenter_active' => $id_recenter_active,
                                 'shortcuts_active' => $shortcuts_active,
-                                'shortcuts' => $this->drawShortcuts()));
+                                ));
+
+        if ($recenter_active)
+            $template->assign('recenter', $this->drawRecenter());
+        if ($id_recenter_active)
+            $template->assign('id_recenter', $this->drawIdRecenter());
+        if ($shortcuts_active)
+            $template->assign('shurtcuts', $this->drawShortcuts());
     }
 
     function saveSession() {
