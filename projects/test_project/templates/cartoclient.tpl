@@ -96,6 +96,8 @@ ClientContext:
 
   <div id="leftbar">    
     <p>
+      <input type="hidden" name="project" value="{$project}" />
+    
       <input type="submit" name="refresh" value="refresh" class="form_button" />
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
     </p>

@@ -1,4 +1,4 @@
-;## Cartoserver location configuration ##
+;## General application behaviour ##
 
 ; if true, SOAP will be bypassed
 cartoserverDirectAccess = false
@@ -20,6 +20,8 @@ developerIniConfig = false
 
 ; allows tests running through Web interface
 allowTests = false
+
+;## Cartoserver location and paths configuration ##
 
 ; Secifies the path for mapserver generated image when in direct access mode
 ;directAccessImagesUrl = "/path/to/direct/access/images/"
@@ -44,8 +46,21 @@ mapId = test
 ; The id of the initial map state to be loaded on startup
 initialMapStateId = default
 
-; Tools configuration ##
+;## Tools configuration ##
+
+; Indicates which tool is activated when in initial state. 
+; If not specified, the first tool in the toolbar is activated. 
+; Possible values are : zoom_in, zoom_out, pan, query, selection, distance, surface
 initialTool = zoom_in
+
+:## Project handling configuration ##
+
+; Shows a drop-down list for selecting the active project
+showProjectChooser = true
+
+; List of the project to show in the drop down list. If not set, all projects
+;  found will be used. 
+;availableProjects = default, testproject
 
 ;## Plugins ##
 

@@ -216,6 +216,47 @@ class FormRenderer {
     }
     
     /**
+     * Sets template variables for displaying the javascript folders.
+     */
+    private function drawJavascriptFolders() {
+        $smarty = $this->smarty;
+            
+        $jsFolderIdx = (isset($_REQUEST['js_folder_idx']) &&
+                        is_numeric($_REQUEST['js_folder_idx']))
+                        ? $_REQUEST['js_folder_idx'] : '0';
+        $smarty->assign('jsFolderIdx', $jsFolderIdx);
+    }
+    
+    /**
+     * Draw a drop-down list with project names.
+     */
+    private function drawProjectsChooser() {
+               
+        // sets the project name
+        // templates should at least have a hidden 'project' parameter to 
+        //  keep the project while reloading (if using the GET/POST project name).
+        $this->smarty->assign('project', $this->cartoclient->projectHandler->
+                                        getProjectName());
+
+        $chooserActive =  $this->cartoclient->getConfig()->showProjectChooser;
+        $this->smarty->assign('projects_chooser_active', $chooserActive);
+
+        // no more drawing if no project chooser
+        if (!$chooserActive)
+            return;
+        
+        if (!is_null($this->cartoclient->getConfig()->availableProjects))
+            $projects = ConfigParser::parseArray($this->cartoclient->
+                                            getConfig()->availableProjects);
+        else
+            $projects = $this->cartoclient->projectHandler->getAvailableProjects();
+
+        // TODO: associate project name to a label (in config, in project dir ?, ...)
+        $this->smarty->assign(array('project_values' => $projects,
+                                    'project_output' => $projects));
+    }
+    
+    /**
      * Displays GUI using cartoclient.tpl Smarty template
      * @param Cartoclient Cartoclient
      */
@@ -230,10 +271,9 @@ class FormRenderer {
                                 $cartoclient->getMessages());
         $this->drawMessages($messages);
 
-        $jsFolderIdx = (isset($_REQUEST['js_folder_idx']) &&
-                        is_numeric($_REQUEST['js_folder_idx']))
-                        ? $_REQUEST['js_folder_idx'] : '0';
-        $smarty->assign('jsFolderIdx', $jsFolderIdx);
+        $this->drawJavascriptFolders();
+
+        $this->drawProjectsChooser();
 
         // ------------- debug
 

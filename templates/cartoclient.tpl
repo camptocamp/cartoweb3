@@ -104,6 +104,17 @@ ClientContext:
     {/if}
 
     <p>
+
+      {if $projects_chooser_active|default:''}
+      {t}Choose project{/t}
+        <select name="project" onchange="javascript:FormItemSelected();">
+            {html_options values=$project_values output=$project_output 
+                                        selected=$project}
+        </select><br />
+      {else}
+        <input type="hidden" name="project" value="{$project}" />
+      {/if}
+         
       <input type="submit" name="refresh" value="refresh" class="form_button" />
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
     </p>

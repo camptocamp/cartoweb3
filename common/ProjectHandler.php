@@ -94,6 +94,26 @@ abstract class ProjectHandler {
         }
     } 
 
+    /**
+     * Returns a list of available projects.
+     * 
+     * @return array a string array of project names (identifiers)
+     */
+    public function getAvailableProjects() {
+
+        // it simply looks for directory name. Maybe a smarter approach could be used
+        $projects = array('default');
+        $directory = $this->getRootPath() . self::PROJECT_DIR . '/';
+        $d = dir($directory);
+        while (false !== ($entry = $d->read())) {
+            if (is_dir($directory . $entry) && $entry != '.'
+                && $entry != '..' && $entry != 'CVS') {
+                $projects[] = $entry;
+            }
+        }
+        return $projects;
+    }
+    
 }
 
 ?>
