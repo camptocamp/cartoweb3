@@ -20,6 +20,10 @@ class ClientProjectHandler extends ProjectHandler {
     const PROJECT_ENV_VAR = 'CW3_PROJECT';
 
     function getProjectName () {
+        $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
+        if (is_readable($projectFileName))
+            return rtrim(file_get_contents($projectFileName));
+        
         if (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
             return $_SERVER[self::PROJECT_ENV_VAR];
                 
