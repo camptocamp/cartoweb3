@@ -15,8 +15,8 @@ class LayerBase extends Serializable {
     public $icon = "none";
     
     function unserialize($struct) {
-        $this->id    = $struct->id; 
-        $this->label = $struct->label;
+        $this->id    = self::unserializeValue($struct, 'id'); 
+        $this->label = self::unserializeValue($struct, 'label');
 
         // Not implemented
         //$this->minScale = $struct->minscale;
@@ -117,10 +117,6 @@ class MapInfo extends Serializable {
         $this->location         = self::unserializeObject($struct, 'location', 'Location');
     }
     
-    function getLayerList() {
-        return $this->layerList;
-    }
-
     function getLayerById($layerId) {
 
         foreach ($this->layers as $layer) {
