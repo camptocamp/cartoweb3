@@ -33,9 +33,8 @@ class MapInfoHandler {
         foreach ($mapInfo->layers as $layer) {
             if (empty($layer->label))
                 $layer->label = $layer->id; 
-            if (empty($layer->msLayer))
+            if ($layer instanceof Layer && empty($layer->msLayer))
                 $layer->msLayer = $layer->id; 
-
         }
         
         return $mapInfo;
