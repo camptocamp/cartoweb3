@@ -191,6 +191,39 @@ class Point extends Shape {
 }
 
 /**
+ * A (poly)line
+ * @package Common
+ */
+class Line extends Shape {
+
+    /**
+     * Array of points
+     *
+     * @var array
+     */
+    public $points;
+
+     
+    /**
+     * @see Serializable::unserialize()
+     */
+    function unserialize($struct) {
+        $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
+    }
+     
+    function getCenter() {
+        /* TODO */
+    }
+     
+    /**
+     * @return double
+     */
+    function getArea() {
+        return 0.0;
+    }
+}
+
+/**
  * A bounding box (bbox)
  * @package Common
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
@@ -369,10 +402,31 @@ class Polygon extends Shape {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
     }
 
+    /**
+     * @return Point center
+     */
+     // FIXME: need to be check !
     public function getCenter() {
-        /* todo */
+        $x = 0;
+        $y = 0;
+  
+        $lastPoint = $this->points[count($this->points) - 1];
+        foreach ($this->points as $point) {
+            $x += ($lastPoint->x + $point->x) * 
+                  ($lastPoint->x * $point->y - $point->x * $lastPoint->y);
+            $y += ($lastPoint->y + $point->y) * 
+                  ($lastPoint->x * $point->y - $point->x * $lastPoint->y);
+            }
+
+        $x /= count($this->point);
+        $y /= count($this->point);
+            
+        return new Point($x, $y);
     }
     
+    /**
+     * @return double
+     */
     public function getArea() {
         if (count($this->points) < 3) {
             return 0.0;

@@ -78,6 +78,36 @@ class ServerOutline extends ClientResponderAdapter {
     }
 
     /**
+     * Adds a line to Mapserver layer
+     *
+     * @param MsMapObj Mapserver Map object
+     * @param line
+     */
+    private function drawLine($msMapObj, $line) {
+          
+        $points = array();       
+
+        $layerName = $this->getConfig()->lineLayer;
+        $outlineLayer = $this->getLayer($msMapObj, $layerName);
+        $class = $outlineLayer->getClass(0);
+        
+        $outlineLayer->set('status', MS_ON);
+        $class->set('status', MS_ON);
+        
+        $dLine = ms_newLineObj();
+                
+        foreach ($line->points as $point) {
+            $dLine->addXY($point->x, $point->y);
+        }
+            
+        $p = ms_newShapeObj(MS_SHAPE_LINE);
+        $p->add($dLine);
+        
+        $outlineLayer->addFeature($p);
+                
+    }
+
+    /**
      * Adds a rectangle to Mapserver layer
      *
      * @see drawPolygon()
@@ -211,6 +241,9 @@ class ServerOutline extends ClientResponderAdapter {
             switch (get_class($shape)) {
             case 'Point':
                 $this->drawPoint($msMapObj, $shape, $requ->maskMode);
+                break;
+            case 'Line':
+                $this->drawLine($msMapObj, $shape, $requ->maskMode);
                 break;
             case 'Rectangle':
                 $this->drawRectangle($msMapObj, $shape, $requ->maskMode);

@@ -280,6 +280,24 @@ MAP
   END
 
   LAYER
+    NAME "cartoweb_line_outline"
+
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+
+	TRANSPARENCY 50
+    CLASS
+      STYLE
+        OUTLINECOLOR 0 0 204
+        SYMBOL 1
+        SIZE 1
+      END
+    END
+  END
+
+  LAYER
     NAME "cartoweb_polygon_outline"
 
     TYPE POLYGON

@@ -49,6 +49,7 @@ class ClientOutline extends ClientPlugin
     private $area;
     
     const TOOL_POINT     = 'outline_point';
+    const TOOL_LINE      = 'outline_line';
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
 
@@ -111,12 +112,15 @@ class ClientOutline extends ClientPlugin
         return array(new ToolDescription(self::TOOL_POINT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
                                          70),
+                     new ToolDescription(self::TOOL_LINE, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE),
+                                         71),
                      new ToolDescription(self::TOOL_RECTANGLE, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
-                                         71),
+                                         72),
                      new ToolDescription(self::TOOL_POLYGON, true, 
                         new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON),
-                                         72),
+                                         73),
                     );
     }
 

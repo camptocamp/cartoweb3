@@ -111,6 +111,29 @@ class DhtmlSelectionParser {
         }        
         return $points; 
     }
+
+    /**
+     * Parses coords array data stored in $_REQUEST and converts it to a Line
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Line line in geographical coordinates
+     */
+    private function getLineShape(Dimension $imageSize, Bbox $bbox) {
+
+        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS], 
+            $imageSize, $bbox);
+        if (count($points) == 0)
+            throw new CartoclientException("can't parse line dhtml coords");
+                
+        // if only one point then return a point
+        if (count($points) == 1) {
+            return $points[0];
+        }
+                        
+        $line = new Line();
+        $line->points = $points;        
+        return $line;        
+    }
     
     /**
      * Parses coords array data stored in $_REQUEST and converts it to a Rectangle
@@ -194,6 +217,8 @@ class DhtmlSelectionParser {
         $type = $_REQUEST[self::SELECTION_TYPE];
         if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
+        else if ($type == 'line') 
+            return self::getLineShape($imageSize, $bbox);
         else if ($type == 'rectangle') 
             return self::getRectangleShape($imageSize, $bbox);
         else if ($type == 'polygon')
