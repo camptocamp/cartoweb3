@@ -49,21 +49,21 @@ while($line = fgets($DATA)) {
     }
     list($token, $data) = preg_split("/ /",$line, 2);
     if($token == '!') {
-	list ($index, $file) = preg_split("/ /", $data, 2);
-	$file_hash[$index] = $file;
-	continue;
+    list ($index, $file) = preg_split("/ /", $data, 2);
+    $file_hash[$index] = $file;
+    continue;
     }
     if( $token == '&') {
         list ($index, $name, $type) = preg_split("/ /", $data, 3);
         $symbol_hash[$index] = $name;
-	$symbol_type[$index] = $type;
+    $symbol_type[$index] = $type;
         continue;
     }
     if( $token == '+') {
         list($index, $file, $line) = preg_split("/ /",$data, 3);
         if(array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
             continue;
-        }	
+        }
         $index_cur = $index;
         $calls[$index_cur]++;
         array_push($callstack, $index_cur);
@@ -72,10 +72,10 @@ while($line = fgets($DATA)) {
                 printf("%2.02f ", $rtotal/1000000);
             }
             print str_repeat("  ", $indent_cur).$symbol_hash[$index_cur]."\n";
-	    if(array_key_exists('m', $opt)) {
-		print str_repeat("  ", $indent_cur)."C: $file_hash[$file]:$line M: $memory\n";
-	    }
-	}
+        if(array_key_exists('m', $opt)) {
+        print str_repeat("  ", $indent_cur)."C: $file_hash[$file]:$line M: $memory\n";
+        }
+    }
         elseif(array_key_exists('t', $opt)) {
             if ( $indent_last == $indent_cur && $index_last == $index_cur ) {
                 $repcnt++;
@@ -88,18 +88,18 @@ while($line = fgets($DATA)) {
                     printf("%2.02f ", $rtotal/1000000);
                 }
                 print str_repeat("  ", $indent_last).$symbol_hash[$index_last].$repstr."\n";
-		if(array_key_exists('m', $opt)) {
-		   print str_repeat("  ", $indent_cur)."C: $file_hash[$file_last]:$line_last M: $memory\n";
-		}
+        if(array_key_exists('m', $opt)) {
+            print str_repeat("  ", $indent_cur)."C: $file_hash[$file_last]:$line_last M: $memory\n";
+        }
                 $repstr = '';
                 $repcnt = 0;
                 $index_last = $index_cur;
                 $indent_last = $indent_cur;
-		$file_last = $file;
-		$line_last = $line;
+        $file_last = $file;
+        $line_last = $line;
             }
         }
-	$indent_cur++;
+    $indent_cur++;
         continue;
     }
     if( $token == '@') {
@@ -112,7 +112,7 @@ while($line = fgets($DATA)) {
         $rtimes[$top] += $rt;
         $rtotal += $rt;
         array_push($callstack, $top);
-	foreach ($callstack as $stack_element) {
+    foreach ($callstack as $stack_element) {
             $c_utimes[$stack_element] += $ut;
             $c_stimes[$stack_element] += $st;
             $c_rtimes[$stack_element] += $rt;
@@ -189,86 +189,86 @@ foreach (array_keys($symbol_hash) as $j) {
         $c_ssecs = $c_stimes[$j]/1000000;
         $c_usecs = $c_utimes[$j]/1000000;
         $ncalls = $calls[$j];
-	if(array_key_exists('z', $opt)) {
-        	$percall = ($usecs + $ssecs)/$ncalls;
-	        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+    if(array_key_exists('z', $opt)) {
+            $percall = ($usecs + $ssecs)/$ncalls;
+            $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
                 if($utotal + $stotal) {
-		    $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal);
+            $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal);
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('Z', $opt)) {
-        	$percall = ($usecs + $ssecs)/$ncalls;
-	        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+    }
+    if(array_key_exists('Z', $opt)) {
+            $percall = ($usecs + $ssecs)/$ncalls;
+            $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
                 if($utotal + $stotal) {
-		    $pcnt = 100*($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal);
+            $pcnt = 100*($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal);
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('r', $opt)) {
-        	$percall = ($rsecs)/$ncalls;
-	        $cpercall = ($c_rsecs)/$ncalls;
+    }
+    if(array_key_exists('r', $opt)) {
+            $percall = ($rsecs)/$ncalls;
+            $cpercall = ($c_rsecs)/$ncalls;
                 if($rtotal) {
-		    $pcnt = 100*$rtimes[$j]/$rtotal;
+            $pcnt = 100*$rtimes[$j]/$rtotal;
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('R', $opt)) {
-        	$percall = ($rsecs)/$ncalls;
-	        $cpercall = ($c_rsecs)/$ncalls;
+    }
+    if(array_key_exists('R', $opt)) {
+            $percall = ($rsecs)/$ncalls;
+            $cpercall = ($c_rsecs)/$ncalls;
                 if($rtotal) {
-		    $pcnt = 100*$c_rtimes[$j]/$rtotal;
+            $pcnt = 100*$c_rtimes[$j]/$rtotal;
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('u', $opt)) {
-        	$percall = ($usecs)/$ncalls;
-	        $cpercall = ($c_usecs)/$ncalls;
+    }
+    if(array_key_exists('u', $opt)) {
+            $percall = ($usecs)/$ncalls;
+            $cpercall = ($c_usecs)/$ncalls;
                 if($utotal) {
-		    $pcnt = 100*$utimes[$j]/$utotal;
+            $pcnt = 100*$utimes[$j]/$utotal;
                 } 
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('U', $opt)) {
-        	$percall = ($usecs)/$ncalls;
-	        $cpercall = ($c_usecs)/$ncalls;
+    }
+    if(array_key_exists('U', $opt)) {
+            $percall = ($usecs)/$ncalls;
+            $cpercall = ($c_usecs)/$ncalls;
                 if($utotal) {
-		    $pcnt = 100*$c_utimes[$j]/$utotal;
+            $pcnt = 100*$c_utimes[$j]/$utotal;
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('s', $opt)) {
-        	$percall = ($ssecs)/$ncalls;
-	        $cpercall = ($c_ssecs)/$ncalls;
+    }
+    if(array_key_exists('s', $opt)) {
+            $percall = ($ssecs)/$ncalls;
+            $cpercall = ($c_ssecs)/$ncalls;
                 if($stotal) {
-		    $pcnt = 100*$stimes[$j]/$stotal;
+            $pcnt = 100*$stimes[$j]/$stotal;
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
-	if(array_key_exists('S', $opt)) {
-        	$percall = ($ssecs)/$ncalls;
-	        $cpercall = ($c_ssecs)/$ncalls;
+    }
+    if(array_key_exists('S', $opt)) {
+            $percall = ($ssecs)/$ncalls;
+            $cpercall = ($c_ssecs)/$ncalls;
                 if($stotal) {
-		    $pcnt = 100*$c_stimes[$j]/$stotal;
+            $pcnt = 100*$c_stimes[$j]/$stotal;
                 }
                 else {
                     $pcnt = 100;
                 }
-	}
+    }
 //        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
         $mem_usage = $mem[$j];
         $name = $symbol_hash[$j];
