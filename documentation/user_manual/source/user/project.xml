@@ -106,12 +106,12 @@
   </para>
  </sect1>
  <sect1 id="user.project.use"> 
-  <title>Using projects</title>
+  <title>Using Projects</title>
   <para>  
    There are several ways to tell &cartoweb; what project to use: 
   </para> 
   <sect2 id="user.project.use.apache"> 
-   <title>Apache environment variable</title>
+   <title>Apache Environment Variable</title>
    <para>  
     Set environment variable CW3_PROJECT in Apache configuration.
     <programlisting><![CDATA[
@@ -129,21 +129,21 @@
    </para> 
   </sect2>
   <sect2 id="user.project.use.txt"> 
-   <title>Using current_project.txt</title>
+   <title>Using <filename>current_project.txt</filename></title>
    <para>  
     Add a file named <filename>current_project.txt</filename> in Cartoweb 
     root directory. This file must contain a single line with project name.
    </para> 
   </sect2>
   <sect2 id="user.project.use.get"> 
-   <title>Using a GET parameter</title>
+   <title>Using a GET Parameter</title>
    <para>  
     You can pass a GET parameter <parameter>project=YOUR_PROJECT</parameter>
     to the <filename>client.php</filename> script. 
    </para> 
   </sect2>
   <sect2 id="user.project.use.dropdown"> 
-   <title>Using the drop-down list of projects</title>
+   <title>Using the Projects Drop-down List</title>
    <para>  
     Have a look at the configuration of <link 
     linkend="user.config.client"><filename>client.ini</filename></link>, in
@@ -156,7 +156,7 @@
    </para>
   </sect2>
   <sect2 id="user.project.use.client">
-   <title>Using a modified client.php</title>
+   <title>Using a Modified <filename>client.php</filename></title>
    <para>
      This should be avoided in production, but may be useful in development
      if you have to frequently switch the working project : add a new file
