@@ -5,21 +5,52 @@
  */
 require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
+/**
+ * Informations to save in session
+ * @package CorePlugins
+ */
 class ImagesState {
  
+    /**
+     * Main map height ans width
+     * @var Dimension
+     */
     public $mainmapDimension;
+    
+    /**
+     * ID of selected map size
+     * @var int
+     */
     public $selectedSize;
 }
 
 /**
+ * Client part of Images plugin
  * @package CorePlugins
  */
 class ClientImages extends ClientCorePlugin
                    implements Sessionable, ServerCaller, Exportable {
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * Current session state
+     * @var ImagesState
+     */
     private $imagesState;
 
+    /**
+     * Last server result
+     * @var ImagesResult
+     */
     private $imagesResult;
+    
+    /**
+     * Possible map sizes
+     * @var array
+     */
     private $mapSizes;
 
     const DEF_MAP_WIDTH  = 400;
@@ -29,12 +60,17 @@ class ClientImages extends ClientCorePlugin
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
-
+    /**
+     * @see Sessionable::loadSession()
+     */
     function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->imagesState = $sessionObject;
     }
 
+    /**
+     * @see Sessionable::createSession()
+     */
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
         
@@ -62,16 +98,32 @@ class ClientImages extends ClientCorePlugin
         }
     }
 
+    /**
+     * @return Dimension
+     */
     function getMainmapDimensions() {
         return $this->imagesState->mainmapDimension;
     }    
 
+    /**
+     * @return array 
+     */ 
     private function getMapSizes() {
         if (is_array($this->mapSizes)) return $this->mapSizes;
 
         return $this->initMapSizes();
     }
 
+    /**
+     * Sets map width and height
+     * 
+     * Sets from:
+     * - Selected size from predefined list, if config's mapSizesActive = true
+     * - Fixed size from config file
+     * - Default size
+     * @param int width to be set
+     * @param int height to be set
+     */
     private function setMapDimensions(&$mapWidth, &$mapHeight) {
         if ($this->getConfig()->mapSizesActive) {
             $mapSizes = $this->getMapSizes();
@@ -91,6 +143,9 @@ class ClientImages extends ClientCorePlugin
             $mapHeight = self::DEF_MAP_HEIGHT;
     }
 
+    /**
+     * @see ServerCaller::buildMapRequest
+     */
     function buildMapRequest($mapRequest) {
 
         $images = new Images();
@@ -114,6 +169,9 @@ class ClientImages extends ClientCorePlugin
         $mapRequest->imagesRequest = $images;
     }
 
+    /**
+     * @see ServerCaller::handleResult
+     */
     function handleResult($imagesResult) {
         assert($imagesResult instanceof ImagesResult);
         $this->imagesResult = $imagesResult;
@@ -123,7 +181,11 @@ class ClientImages extends ClientCorePlugin
     }
 
     /**
+     * Returns full URL from parsed URL (results of parse_url function)
+     *
      * Taken from php manual. By anonymous.
+     * @param array
+     * @return string
      */
     private function glue_url($parsed) {
   
@@ -151,11 +213,21 @@ class ClientImages extends ClientCorePlugin
         return $uri;
     }
 
+    /**
+     * Returns true if path is absolute (starts with '/')
+     * @param string
+     * @return boolean
+     */
     private function isPathAbsolute($path) {
 
         return strpos($path, '/') === 0;
     }
 
+    /**
+     * Returns full path to images (direct mode)
+     * @param string
+     * @return string
+     */
     private function getDirectAccessImagePath($path) {
 
         if ($this->isPathAbsolute($path)) 
@@ -169,11 +241,26 @@ class ClientImages extends ClientCorePlugin
         return $path;
     }
 
+    /**
+     * Returns Cartoserver directory
+     * @param array parsed URL
+     * @return string 
+     */
     private function getCartoserverDirname($cartoserverParsedUrl) {
         
         return dirname($cartoserverParsedUrl['path']) . '/';
     }
 
+    /**
+     * Returns full path to images
+     *
+     * 3 cases:
+     * - Absolute path if direct mode
+     * - Through direct proxy if installed
+     * - Server URL otherwise
+     * @param string 
+     * @return string
+     */
     private function getImagePath($path) {
 
         $config = $this->cartoclient->getConfig();
@@ -198,6 +285,10 @@ class ClientImages extends ClientCorePlugin
         return $this->glue_url($imageParsedUrl);
     }
 
+    /**
+     * Reads map sizes from configuration
+     * @return array map sizes
+     */
     private function initMapSizes() {
         $this->mapSizes = array();
         $config = $this->getConfig();
@@ -221,6 +312,10 @@ class ClientImages extends ClientCorePlugin
         return $this->mapSizes;
     }
 
+    /**
+     * Draws map sizes choice
+     * @return string Smarty generated HTML content
+     */
     private function drawMapSizes() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
@@ -268,11 +363,17 @@ class ClientImages extends ClientCorePlugin
                                 ));
     }
 
+    /**
+     * @see Sessionable::saveSession
+     */
     function saveSession() {
         $this->log->debug("saving session:");
         return $this->imagesState;
     }
     
+    /**
+     * @see Exportable::adjustExportMapRequest
+     */
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {
         
@@ -281,4 +382,5 @@ class ClientImages extends ClientCorePlugin
         $mapRequest->imagesRequest->scalebar->isDrawn = $configuration->isRenderScalebar();
     }    
 }
+
 ?>
