@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -qn
+#!/usr/local/bin/php
 <?php
 /**
  * po2mo.php - compile all PO files for a mapId
@@ -32,7 +32,7 @@ function compileMapId($project, $mapId) {
         $url = $iniArray['cartoserverUrl'];
     }
     $url = dirname($url) . '/';
-    
+ 
     // Adds project if needed
     if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
         $url .= $project . '/';
@@ -44,7 +44,7 @@ function compileMapId($project, $mapId) {
     $d = dir($dir);
     $locales = array();
     while (false !== ($entry = $d->read())) {
-        if ($entry == '.' || $entry == '..') {
+        if ($entry == '.' || $entry == '..' || !is_dir($entry) || strlen($entry) != 2) {
             continue;
         }
         $locales[] = $entry;

@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -qn
+#!/usr/local/bin/php
 <?php
 /**
  * smarty2pot.php - rips gettext strings from smarty template

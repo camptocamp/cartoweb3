@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -qn
+#!/usr/local/bin/php
 <?php
 /**
  * map2pot.php - generates PO template for a map
@@ -41,7 +41,36 @@ function parseIni($project, $mapId) {
 function parseMap($project, $mapId) {
     global $texts;
 
-    // TODO
+    $mapFile = CARTOSERVER_HOME;
+    if ($project != '') {
+        $mapFile .= 'projects/' . $project. '/';
+    }
+    $mapFile .= 'server_conf/' . $mapId . '/' . $mapId . '.map';
+    
+    if (!extension_loaded('mapscript')) {
+        $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
+        if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
+            print 'Cannot load Mapscript library.';
+            return;
+    }
+    
+    $map = ms_newMapObj($mapFile);
+    for ($i = 0; $i < $map->numlayers; $i++) {
+        $layer = $map->getLayer($i);
+        
+        for ($j = 0; $j < $layer->numclasses; $j++) {
+            $class = $layer->getClass($j);
+            
+            if ($class->name != '') {
+                $info = $mapId . '.map';
+                if (array_key_exists($class->name, $texts)) {
+                    $texts[$class->name] .= ',' . $info;
+                } else {
+                    $texts[$class->name] = $info;
+                }
+            }
+        }       
+    }
 }
 
 if ($_SERVER['argc'] > 1) {
