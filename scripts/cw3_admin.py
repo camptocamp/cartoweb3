@@ -56,6 +56,9 @@ def link_or_copy_glob(base_dir, source_dir):
 
 
 def setup_htdocs(htdocs_directory):
+    if not os.path.isdir(htdocs_directory):
+        print "project has not htdocs directory for: ", htdocs_directory
+        return
     link_or_copy_glob(htdocs_directory , join(htdocs_directory,
                                               '../*plugins/*/htdocs'))
     link_or_copy_glob(htdocs_directory , join(htdocs_directory,
