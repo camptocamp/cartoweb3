@@ -136,16 +136,17 @@ class Cartoserver {
         $log =& LoggerManager::getLogger(__METHOD__);
 
         // serverContext init
-
         $serverContext = $this->initializeServerContext($mapRequest->mapId);
+        $serverContext->loadPlugins();
+        $pluginManager = $serverContext->getPluginManager();
+
+        // Unserialize MapRequest
+        $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
+
         $serverContext->setMapRequest($mapRequest);
 
         $mapResult = $serverContext->getMapResult();
-
         $mapResult->timeStamp = $serverContext->getTimeStamp();
-
-        $serverContext->loadPlugins();
-        $pluginManager = $serverContext->getPluginManager();
 
         // test new image generation
         //$mapResult->new_gen = $this->generateImage($serverContext);

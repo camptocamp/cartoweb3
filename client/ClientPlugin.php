@@ -141,7 +141,7 @@ abstract class ClientPlugin extends PluginBase {
 
     final function dohandleMapResult($mapResult) {
 
-        $pluginResult = $this->unserializeRequest(false, $mapResult);
+        $pluginResult = $this->getRequest(false, $mapResult);
         
         // For compatibility. Uses the old method if the new is not there
         if (method_exists($this, 'handleResult')) {

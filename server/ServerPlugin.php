@@ -65,7 +65,7 @@ abstract class ServerPlugin extends PluginBase {
         }
 
         $mapRequest = $this->serverContext->mapRequest;
-        $request = $this->unserializeRequest(true, $mapRequest);
+        $request = $this->getRequest(true, $mapRequest);
 
         $requestName = $this->getName() . 'Request';
         $resultName = $this->getName() . 'Result';
