@@ -103,6 +103,13 @@ class ClientSelection extends ClientPlugin
                 $this->cartoclient->addMessage('Selection layer not found');
                 return NULL;
             }
+            
+            if (!$this->checkBool($selectionClear, 'selection_clear'))
+                return NULL;            
+            if (!$this->checkBool($selectionMaskMode, 'selection_maskmode'))
+                return NULL;            
+            if (!$this->checkBool($selectionRetrAttr, 'selection_retrieve_attributes'))
+                return NULL;            
         }
 
         if (!is_null($selectionLayer)) {
@@ -123,6 +130,8 @@ class ClientSelection extends ClientPlugin
             } else {
                 $this->selectionState->selectedIds = array_merge(
                     $this->selectionState->selectedIds, $selectIds);
+                $this->selectionState->selectedIds = array_unique(
+                    $this->selectionState->selectedIds);
             }
         }
         
@@ -133,11 +142,12 @@ class ClientSelection extends ClientPlugin
                     $this->selectionState->selectedIds, $unselectIds);
         }
 
-        if (!is_null($selectionClear)) {
+        if (!is_null($selectionClear) && $selectionClear == 1) {
             $this->clearSession();
         }
-        $this->selectionState->maskMode = !is_null($selectionMaskMode);
-        $this->selectionState->retrieveAttributes = !is_null($selectionMaskMode);                    
+        
+        $this->selectionState->maskMode = $selectionMaskMode;
+        $this->selectionState->retrieveAttributes = $selectionRetrAttr;
     }
 
     function handleHttpPostRequest($request) {

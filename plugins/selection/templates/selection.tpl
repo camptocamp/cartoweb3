@@ -8,11 +8,12 @@ output=$selection_selectionlayers}
 </select></p>
 
 <p>{t}Mask mode{/t}&nbsp;
-<input type="checkbox" name="selection_maskmode"{if $selection_maskmode} checked="checked"{/if}/>
+<input type="checkbox" value="1" name="selection_maskmode"
+        {if $selection_maskmode} checked="checked"{/if}/>
 
 {if $selection_hilightattr_active|default:''}
 <br>{t}Show attributes{/t}&nbsp;
-<input type="checkbox" name="selection_retrieve_attributes"
+<input type="checkbox" value="1" name="selection_retrieve_attributes"
         {if $selection_retrieve_attributes|default:''} checked="checked"{/if}/>
 {/if}
 </p>
