@@ -314,6 +314,16 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * Gets a new instance of layers-plugin session-storage class.
+     * Usefull in extended ClientLayers class when using 
+     * extended session storage class. 
+     * @return LayersState
+     */
+    private function getNewSessionObject() {
+        return new LayersState;
+    }
+
+    /**
      * Initializes layers session data and initially populates some properties.
      * @see Sessionable::CreateSession()
      */
@@ -321,7 +331,7 @@ class ClientLayers extends ClientPlugin
                                             InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
-        $this->layersState = new LayersState();
+        $this->layersState = $this->getNewSessionObject();
         
         $this->layersState->layersData =& $this->layersData;
         
@@ -700,7 +710,7 @@ class ClientLayers extends ClientPlugin
      * @param array list of layers names
      * @return array list of children, grand-children... of given layers
      */
-    private function fetchChildrenFromLayerGroup($layersList) {
+    public function fetchChildrenFromLayerGroup($layersList) {
         if (!$layersList || !is_array($layersList))
             return array();
 
