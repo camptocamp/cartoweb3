@@ -83,19 +83,6 @@ class PrintTools {
             case 'white': default: return array(255, 255, 255);
         }
     }
-
-    /**
-     * Returns the PDF writeable directory path (creates it if none).
-     * @return string
-     */
-    static function getPdfDir() {
-        $dir = CARTOCLIENT_HOME . 'www-data/pdf';
-        if (!is_dir($dir)) {
-            //FIXME: security issue?
-            mkdir($dir, 0777);
-        }
-        return $dir;
-    }
 }
 
 /**
@@ -194,6 +181,11 @@ class PdfGeneral {
      * @var string
      */
     public $output              = 'redirection';
+
+    /**
+     * @var string
+     */
+    public $allowedRoles        = SecurityManager::ALL_ROLE;
 }
 
 /**
@@ -231,6 +223,11 @@ class PdfFormat {
      * @var float
      */
     public $maxResolution;
+
+    /**
+     * @var string
+     */
+    public $allowedRoles     = SecurityManager::ALL_ROLE;
 }
 
 /**
@@ -415,6 +412,11 @@ class PdfBlock {
      * @var boolean
      */
     public $standalone       = true;
+
+    /**
+     * @var string
+     */
+    public $allowedRoles     = SecurityManager::ALL_ROLE;
 }
 
 /**
@@ -717,7 +719,7 @@ class SpaceManager {
      * @param PdfBlock
      * @return array (x-rightest, y-lowest)
      */
-    function getMaxExtent(PdfBlock $block) {
+    public function getMaxExtent(PdfBlock $block) {
         $parent = isset($block->parent) ? $block->parent : '';
         $pExtent = $this->getBlockExtent($parent);
         return array($pExtent['maxX'], $pExtent['maxY']);
@@ -727,7 +729,7 @@ class SpaceManager {
      * Returns the nearest available reference point (min X, min Y)
      * according to the block positioning properties.
      * @param PdfBlock
-     * @param boolean
+     * @param boolean if true no space allocation is performed
      * @return array (X,Y) of reference point
      */
     public function checkIn(PdfBlock $block, $dontAllocate = false) {
@@ -788,6 +790,12 @@ class SpaceManager {
         return $this->allocateArea($block, $x0, $y0);
     }
 
+    /**
+     * Determines next available reference point coordinates for given table.
+     * @param PdfBlock table description block
+     * @param TableElement table content
+     * @return array (X,Y) of reference point
+     */
     public function checkTableIn(PdfBlock $block, TableElement $table) {
         $tableBlock = clone $block;
         $tableBlock->width = $table->totalWidth;
@@ -797,6 +805,11 @@ class SpaceManager {
         // FIXME: Pdf Engines with YoAtTop = false will return incorrect Y!
     }
 
+    /**
+     * Returns given block available width (parent block width).
+     * @param PdfBlock
+     * @return float
+     */
     public function getAvailableSpan(PdfBlock $block) {
         if (isset($block->parent)) {
             $extent = $this->getBlockExtent($block->parent);
