@@ -38,18 +38,18 @@ class ClientLayers extends ClientCorePlugin {
 
     private function getLayers() {
         if(!is_array($this->layers)) {
-	    $mapInfo = $this->cartoclient->getMapInfo();
-	    $this->layers = array();
-	    foreach ($mapInfo->getLayers() as $layer)
-	        $this->layers[$layer->id] = $layer;
-	}
-	return $this->layers;
+            $mapInfo = $this->cartoclient->getMapInfo();
+            $this->layers = array();
+            foreach ($mapInfo->getLayers() as $layer)
+                $this->layers[$layer->id] = $layer;
+        }
+        return $this->layers;
     }
 
     function handleHttpRequest($request) {
         $this->log->debug("update form :");
         $this->log->debug($this->layersState);
-        
+
         if (!@$request['layers'])
             $request['layers'] = array();
         $this->log->debug("requ layers");
@@ -87,33 +87,33 @@ class ClientLayers extends ClientCorePlugin {
 
     private function getLayerByName($layername) {
         if (isset($this->layers[$layername])) return $this->layers[$layername];
-	else throw new CartoclientException("unknown layer name: $layername");
+        else throw new CartoclientException("unknown layer name: $layername");
     }
 
     private function drawLayer($layer) {
         // TODO: build switch among various layout (tree, radio, etc.)
-	
-	// FIXME: instancing Smarty object for each layer: performance issue?
-	$template = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-	            $this);
-        
+
+        // FIXME: instancing Smarty object for each layer: performance issue?
+        $template = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                    $this);
+
         $layerChecked = in_array($layer->id, $this->selectedLayers)
-	                ? 'checked="checked"' : false;
-	
-	$template->assign('layerType', $layer->className);
-	$template->assign('layerLabel', $layer->label);
-	$template->assign('layerId', $layer->id);
-	$template->assign('layerChecked', $layerChecked);
-	$template->assign('nodeId', 'id' . $this->nodeId++);
+                        ? 'checked="checked"' : false;
+
+        $template->assign('layerType', $layer->className);
+        $template->assign('layerLabel', $layer->label);
+        $template->assign('layerId', $layer->id);
+        $template->assign('layerChecked', $layerChecked);
+        $template->assign('nodeId', 'id' . $this->nodeId++);
 
         $childrenLayers = array();
         foreach ($layer->children as $child) {
-	    $childLayer = $this->getLayerByName($child);
-	    $childrenLayers[] = $this->drawLayer($childLayer);
-	}
-	
-	$template->assign('childrenLayers', $childrenLayers);
-	
+            $childLayer = $this->getLayerByName($child);
+            $childrenLayers[] = $this->drawLayer($childLayer);
+        }
+
+        $template->assign('childrenLayers', $childrenLayers);
+
         return $template->fetch('node.tpl');
     }
 
@@ -123,11 +123,11 @@ class ClientLayers extends ClientCorePlugin {
                         $this);
 
         $this->getLayers();
-	$this->getSelectedLayers();
+        $this->getSelectedLayers();
 
         $rootLayer = $this->getLayerByName('root');
-	$rootNode = $this->drawLayer($rootLayer);
-	
+        $rootNode = $this->drawLayer($rootLayer);
+
         $this->smarty->assign('layerlist', $rootNode);
         return $this->smarty->fetch('layers.tpl');
     }
