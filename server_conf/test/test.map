@@ -282,7 +282,7 @@ MAP
   LAYER
     NAME "cartoweb_line_outline"
 
-    TYPE POLYGON
+    TYPE LINE
     PROJECTION
       "init=epsg:4326"
     END
