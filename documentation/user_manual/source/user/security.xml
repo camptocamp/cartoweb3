@@ -58,18 +58,16 @@
         password and roles management, which is the auth plugin shipped with
         &cartoweb;.
 
-       <!--
         <screenshot>
             <mediaobject>
                 <imageobject>
-                    <imagedata width="7cm" fileref="user/security.login_dialog.png" format="PNG"/>
+                    <imagedata width="7cm" fileref="security.login_dialog.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase>Auth plugin login dialog</phrase>
                 </textobject>            
             </mediaobject>
         </screenshot>
-        -->
         
     </para>
     <para>
