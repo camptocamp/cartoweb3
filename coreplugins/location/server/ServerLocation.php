@@ -380,11 +380,7 @@ class ServerLocation extends ServerCorePlugin {
         $bbox->setFromMsExtent($msMapObj->extent);
 
         $bbox = $locCalculator->getBbox($bbox);       
-$this->log->debug('--------------------------------');
-$this->log->debug($bbox);
         $bbox = $locCalculator->limitBbox($bbox);
-$this->log->debug('--------------------------------');
-$this->log->debug($bbox);
         
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
@@ -392,7 +388,7 @@ $this->log->debug($bbox);
         $location->bbox = new Bbox();
         $location->bbox->setFromMsExtent($msMapObj->extent);
         
-        $location->scale = $msMapObj->scale;            
+        $location->scale = round($msMapObj->scale, 2);            
         return $location;
     }    
     
