@@ -8,6 +8,9 @@
 define('HILIGHT_SUFFIX', '_hilight');
 define('HILIGHT_CLASS', 'hilight');
 
+define('MASK_SUFFIX', '_mask');
+define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
+
 /**
  * @package Plugins
  */
@@ -58,7 +61,13 @@ class ServerHilight extends ServerPlugin {
         
         foreach ($ids as $id)
             $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
-        return sprintf('(%s)', implode($bool_op, $id_exprs));  
+            
+        $result = sprintf('(%s)', implode($bool_op, $id_exprs));
+        if (count($id_exprs) == 0 && !$select) {
+            // mask mode, nothing selected, so everything must be masked
+            $result = '(1=1)';
+        }
+        return $result;  
     }    
 
     /**
@@ -108,34 +117,42 @@ class ServerHilight extends ServerPlugin {
         $class->setexpression($expression);
     }
     
+    private function createLayer($msLayer, $defaultTrans, $defaultColor,
+                                 $metaTrans, $metaColor) {
+
+        $msMapObj = $this->serverContext->msMapObj;
+
+        $transparency = $defaultTrans;
+        if ($msLayer->getMetaData($metaTrans))
+            $transparency = $msLayer->getMetaData($metaTrans);
+        
+        $color = $defaultColor;
+
+        if ($msLayer->getMetaData($metaColor))
+            $color = $msLayer->getMetaData($metaColor);
+
+        $msNewLayer = ms_newLayerObj($msMapObj, $msLayer);
+
+        $msNewLayer->set('transparency', $transparency);
+
+        $class = $msNewLayer->getClass(0);
+
+        $newColor = explode(',', $color);
+        $style = $class->getStyle(0);
+        $style->color->setRGB($newColor[0], $newColor[1], $newColor[2]);
+        $style->outlinecolor->setRGB($newColor[0], $newColor[1], $newColor[2]);
+
+        return $msNewLayer;
+    }
+    
     /**
      * Create a new layer which is a copy of $msLayer, and change some of 
      * its attributes, to be hilighted. These attributes are read from metadata.
      */
-    private function createHilightLayer($msMapObj, $msLayer) {
+    private function createHilightLayer($msLayer) {
 
-        $msMapObj = $this->serverContext->msMapObj;
-
-        $hilightTransparency = 20;
-        if ($msLayer->getMetaData('hilight_transparency'))
-            $hilightTransparency = $msLayer->getMetaData('hilight_transparency');
-        
-        $hilightColor = '255, 255, 0';
-
-        if ($msLayer->getMetaData('hilight_color'))
-            $hilightColor = $msLayer->getMetaData('hilight_color');
-
-        $msHilightLayer = ms_newLayerObj($msMapObj, $msLayer);
-
-        $msHilightLayer->set('transparency', $hilightTransparency);
-
-        $class = $msHilightLayer->getClass(0);
-
-        $hlColor = explode(',', $hilightColor);
-        $style = $class->getStyle(0);
-        $style->color->setRGB($hlColor[0], $hlColor[1], $hlColor[2]);
-
-        return $msHilightLayer;
+        return $this->createLayer($msLayer, 20, '255, 255, 0', 
+                                  'hilight_transparency', 'hilight_color');
     }
 
     /**
@@ -147,6 +164,30 @@ class ServerHilight extends ServerPlugin {
         
         for ($i = 0; $i < $layer->numclasses; $i++)
               $this->setClassExpression($layer, $i, $requ);
+    }
+    
+    /**
+     * Create a new layer which is a copy of $msLayer, and change some of 
+     * its attributes, to be masked. These attributes are read from metadata.
+     */
+    private function createMaskLayer($msLayer) {
+
+        return $this->createLayer($msLayer, 100, '255, 255, 255', 
+                                  'mask_transparency', 'mask_color');
+    }
+
+    /**
+     * Mask a whole layer, by setting its classes to be masked.
+     */ 
+    private function maskWholeLayer($layer, $requ) {
+        
+        $layer->set('status', MS_ON);
+        
+        for ($i = 0; $i < $layer->numclasses; $i++) {
+            $class = $layer->getClass($i);
+            $expression = $this->buildExpression($requ, false);
+            $class->setexpression($expression);
+        }
     }
     
     private function hilightLayer(HilightRequest $requ) {
@@ -166,54 +207,87 @@ class ServerHilight extends ServerPlugin {
         // activate this layer to be visible
         $msLayer->set('status', MS_ON);
         
-        // if a layer with HILIGHT_SUFFIX exists, use it as hilight
-        
-        $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . HILIGHT_SUFFIX);
-        if (!empty($msHilightLayer)) {
-            $this->log->debug("activating special hilight layer");
-            $msHilightLayer->set('status', MS_ON);
-            $this->hilightWholeLayer($msHilightLayer, $requ);
+        if ($requ->maskMode) {
             
-            return;
-        }
+            // Activate outside mask layer
+            $ousideMask = false;
+            if ($msLayer->getMetaData('outside_mask')) {
+                $msMaskLayer = @$msMapObj->getLayerByName($msLayer->getMetaData('outside_mask'));
+                if (!empty($msMaskLayer)) {
+                    $msMaskLayer->set('status', MS_ON);
+                    $outsideMask = true;
+                }
+            }                            
+            if (!$outsideMask) {
+                $msMaskLayer = @$msMapObj->getLayerByName(MASK_DEFAULT_OUTSIDE);
+                if (!empty($msMaskLayer))
+                    $msMaskLayer->set('status', MS_ON);
+            }                            
+            
+            // if a layer with MASK_SUFFIX exists, use it as mask
+            $msMaskLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . MASK_SUFFIX);
+            if (!empty($msMaskLayer)) {
+                $this->log->debug("activating special mask layer");
+                $msMaskLayer->set('status', MS_ON);
+                $this->maskWholeLayer($msMaskLayer, $requ);
+                return;
+            }
+            
+            // fall-back                                  
+            $newLayer = $this->createMaskLayer($msLayer);
+            $this->maskWholeLayer($newLayer, $requ);
+            return;               
+                
+        } else {
+            // if a layer with HILIGHT_SUFFIX exists, use it as hilight
         
-        // check if a class named HILIGHT_CLASS exists at position 0
+            $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . HILIGHT_SUFFIX);
+            if (!empty($msHilightLayer)) {
+                $this->log->debug("activating special hilight layer");
+                $msHilightLayer->set('status', MS_ON);
+                $this->hilightWholeLayer($msHilightLayer, $requ);
+                
+                return;
+            }
+            
+            // check if a class named HILIGHT_CLASS exists at position 0
         
-        if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
-            $this->log->debug("activating special hilight class");
+            if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
+                $this->log->debug("activating special hilight class");
+                $this->setClassExpression($msLayer, 0, $requ);
+                return;            
+            }
+
+            // if "hilight_createlayer" is set in metadata, create a new layer
+
+            if ($msLayer->getMetaData('hilight_createlayer')) {
+                $this->log->debug("creating hilight layer");
+
+                $newLayer = $this->createHilightLayer($msLayer);
+                $this->hilightWholeLayer($newLayer, $requ);
+                return;
+            }
+
+            // Fallback 1: create a new class with QUERYMAP color
+
+            $this->log->debug("fallback: creating new class");
+
+            $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
+            $hilightClass->set('name', 'dynamic_class');
+            $hilightClass->set('minscale', $msLayer->minscale);
+            $hilightClass->set('maxscale', $msLayer->maxscale);
+
+            // move the new class to the top
+            for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {
+                $msLayer->moveclassup($i);
+            }
+
+            // The new class has to be fetched again. Mapscript bug ?
+            $cl = $msLayer->getClass(0);
+            $hilightClass = $this->setupHilightClass($msLayer, $cl);
+
             $this->setClassExpression($msLayer, 0, $requ);
-            return;            
         }
-
-        // if "hilight_createlayer" is set in metadata, create a new layer
-
-        if ($msLayer->getMetaData('hilight_createlayer')) {
-            $this->log->debug("creating hilight layer");
-
-            $newLayer = $this->createHilightLayer($msLayer);
-            $this->hilightWholeLayer($newLayer, $requ);
-            return;
-        }
-
-        // Fallback 1: create a new class with QUERYMAP color
-
-        $this->log->debug("fallback: creating new class");
-
-        $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
-        $hilightClass->set('name', 'dynamic_class');
-        $hilightClass->set('minscale', $msLayer->minscale);
-        $hilightClass->set('maxscale', $msLayer->maxscale);
-
-        // move the new class to the top
-        for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {
-            $msLayer->moveclassup($i);
-        }
-
-        // The new class has to be fetched again. Mapscript bug ?
-        $cl = $msLayer->getClass(0);
-        $hilightClass = $this->setupHilightClass($msLayer, $cl);
-
-        $this->setClassExpression($msLayer, 0, $requ);
     }
     
     function handlePreDrawing($requ) {

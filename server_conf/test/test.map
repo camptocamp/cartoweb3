@@ -338,6 +338,7 @@ MAP
     STATUS DEFAULT
     METADATA
   	  "id_attribute_string" "FID|string"
+  	  "outside_mask" "my_outside_mask"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -373,6 +374,52 @@ MAP
       STYLE
         COLOR 0 0 0
         OUTLINECOLOR 0 0 0
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 255 255 255
+      END
+    END
+  END
+
+  LAYER
+    NAME "my_outside_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+    END
+    DATA "gridmask"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 255 255 255
       END
     END
   END
