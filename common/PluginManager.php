@@ -128,7 +128,16 @@ class PluginManager {
 
         $path = $basePath . $relativePath; 
         foreach ($names as $name) {
+        
             $className = $this->getClassName($type, $name);
+
+            if (isset($this->$name)) {   
+                $msg = "Plugin $className already loaded";
+                if ($type == self::CLIENT_PLUGINS)
+                    throw new CartoclientException($msg);
+                else
+                    throw new CartoserverException($msg);
+            }
 
             $includePath = $this->getPath($basePath, $relativePath, $type, $name);
             $this->log->debug("trying to load class $includePath");
@@ -142,11 +151,11 @@ class PluginManager {
                 include_once($includePath);
 
             if (!class_exists($className)) {
-                if ($type == self::CLIENT_PLUGINS) {
-                    throw new CartoclientException("Couldn't load plugin $className");
-                } else {
-                    throw new CartoserverException("Couldn't load plugin $className");
-                }
+                $msg = "Couldn't load plugin $className";
+                if ($type == self::CLIENT_PLUGINS)
+                    throw new CartoclientException($msg);
+                else
+                    throw new CartoserverException($msg);
             }
 
             $plugin = new $className();
