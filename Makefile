@@ -18,14 +18,16 @@ dirs:
 	-mkdir -p templates_c
 
 links:
-	ln -s ../www-data/images htdocs/images
+	ln -snf ../www-data/images htdocs/images
 
 perms:
+	chmod 777 log
 	chmod 777 www-data/images
 	chmod 777 www-data/saved_posts
 	chmod 777 www-data templates_c
 
 perms_sudo:
+	sudo chown www-data log
 	sudo chown www-data www-data/images
 	sudo chown www-data www-data/saved_posts
 	sudo chown www-data templates_c
@@ -34,3 +36,9 @@ create_config:
 	for i in `find -name "*.dist"`; do \
 	 cp $$i $${i%%.dist} ;  \
 	done
+
+init: fetch_libs dirs perms links create_config
+	:
+
+init_sudo: fetch_libs dirs perms_sudo links create_config
+	:
