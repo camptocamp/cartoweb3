@@ -283,7 +283,6 @@ MAP
   	  "id_attribute_string" "FID|string"
   	  "mask_transparency" "50"
   	  "mask_color" "255, 255, 0"
-  	  "area_fixed_value" "10"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -310,7 +309,6 @@ MAP
   	  "id_attribute_string" "FID|string"
   	  "mask_transparency" "50"
   	  "mask_color" "255, 255, 0"
-  	  "area_field_name" "FID"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -345,8 +343,6 @@ MAP
     METADATA
   	  "id_attribute_string" "FID|string"
   	  "outside_mask" "my_outside_mask"
-  	  "area_field_name" "FID"
-  	  "area_factor" "10.0"
     END
     DATA "grid"
     CLASSITEM "FID"
