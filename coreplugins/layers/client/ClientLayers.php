@@ -53,7 +53,8 @@ class LayersState {
  * @package CorePlugins
  */
 class ClientLayers extends ClientPlugin
-                   implements Sessionable, GuiProvider, ServerCaller {
+                   implements Sessionable, GuiProvider, ServerCaller, 
+                              Exportable {
     /**
      * @var Logger
      */
@@ -263,15 +264,17 @@ class ClientLayers extends ClientPlugin
     /**
      * Returns the Layer|LayerGroup|LayerClass object whose name is passed.
      * @param string name of layer
+     * @param boolean if true (default), throws exception if invalid layername
      * @return LayerBase layer object of type Layer|LayerGroup|LayerClass
      */
-    private function getLayerByName($layername) {
+    private function getLayerByName($layername, $strict = true) {
         $layers =& $this->getLayers();
 
         if (isset($layers[$layername])) 
             return $layers[$layername];
-        else 
+        elseif ($strict)
             throw new CartoclientException("unknown layer name: $layername");
+        return false;
     }
 
     /**
@@ -932,7 +935,7 @@ class ClientLayers extends ClientPlugin
      * @return array
      */
     private function getPrintedLayerData($layerId) {
-        $layer = $this->getLayerByName($layerId);
+        $layer = $this->getLayerByName($layerId, false);
         $scale = $this->getCurrentScale();
         
         if (($layer->maxScale && $scale > $layer->maxScale) ||
@@ -961,7 +964,7 @@ class ClientLayers extends ClientPlugin
      */
     private function getPrintedParents($layerId, &$selectedLayers, 
                                        &$printedNodes) {
-        $layer = $this->getLayerByName($layerId);
+        $layer = $this->getLayerByName($layerId, false);
         
         if (!$layer instanceof LayerGroup || !$layer->children)
             return;
@@ -1012,6 +1015,9 @@ class ClientLayers extends ClientPlugin
         
         $this->getPrintedParents('root', $selectedLayers, $printedNodes);
         return $printedNodes;
+
+        // TODO: instead of printing parents at the end of the list,
+        // draw them where their aggregated children should have been placed.
     }
 
     /**
@@ -1023,6 +1029,17 @@ class ClientLayers extends ClientPlugin
         $this->log->debug($this->layersState);
 
         return $this->layersState;
+    }
+
+    /**
+     * @see Exportable::adjustExportMapRequest()
+     */
+    function adjustExportMapRequest(ExportConfiguration $configuration,
+                                    MapRequest $mapRequest) {
+        
+        $resolution = $configuration->getResolution();
+        if (!is_null($resolution))
+            $mapRequest->layersRequest->resolution = $resolution;
     }
 }
 ?>
