@@ -15,6 +15,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 require_once 'client/AllTests.php';
 require_once 'common/AllTests.php';
 require_once 'coreplugins/AllTests.php';
+require_once 'plugins/AllTests.php';
 require_once 'server/AllTests.php';
 
 /**
@@ -30,6 +31,7 @@ class AllTests {
         $suite->addTest(client_AllTests::suite());
         $suite->addTest(common_AllTests::suite());
         $suite->addTest(coreplugins_AllTests::suite());
+        $suite->addTest(plugins_AllTests::suite());
         $suite->addTest(server_AllTests::suite());
 
         return $suite;
