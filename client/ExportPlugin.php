@@ -270,7 +270,7 @@ class ExportOutput {
      */
     private $contents;
     
-    function __construct() {
+    public function __construct() {
         $this->filePath = null;
         $this->fileName = null;
         $this->contents = null;
@@ -283,7 +283,7 @@ class ExportOutput {
      * @param string file path
      * @param string file name
      */
-    function setFile($filePath, $fileName) {
+    public function setFile($filePath, $fileName) {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
     }
@@ -294,7 +294,7 @@ class ExportOutput {
      * File and contents shouldn't be set together.
      * @param string output contents
      */
-    function setContents($contents) {
+    public function setContents($contents) {
         $this->contents = $contents;
     }
 
@@ -302,9 +302,10 @@ class ExportOutput {
      * Returns file name if the file exists, null otherwise
      * @return string file name   
      */
-    function getFileName() {
+    public function getFileName() {
     
-        if (is_null($this->fileName) || !file_exists($this->filePath . $this->fileName)) {
+        if (is_null($this->fileName) || 
+            !file_exists($this->filePath . $this->fileName)) {
             return NULL;
         } else {
             return $this->fileName;
@@ -315,7 +316,7 @@ class ExportOutput {
      * Returns contents if it is not null, contents of file otherwise
      * @return string output contents
      */
-    function getContents() {
+    public function getContents() {
         if (is_null($this->contents)) {
             if (!is_null($this->fileName)) {
             
@@ -353,7 +354,7 @@ abstract class ExportPlugin extends ClientPlugin
      * Returns session-saved last MapRequest.
      * @return MapRequest
      */
-    function getLastMapRequest() {
+    public function getLastMapRequest() {
         $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
 
         if (!$mapRequest)
@@ -366,7 +367,7 @@ abstract class ExportPlugin extends ClientPlugin
      * Returns session-saved last MapResult.
      * @return MapResult
      */
-    function getLastMapResult() {
+    public function getLastMapResult() {
         $mapResult = $this->cartoclient->getClientSession()->lastMapResult;
 
         if (!$mapResult)
@@ -384,7 +385,7 @@ abstract class ExportPlugin extends ClientPlugin
      * @param ExportConfiguration configuration
      * @return MapResult server result 
      */
-    function getExportResult($configuration) {
+    public function getExportResult($configuration) {
 
         try {
             // Calls all plugins to modify request
@@ -399,11 +400,11 @@ abstract class ExportPlugin extends ClientPlugin
                                                       $mapRequest);
 
             // Calls getMap
-            return $this->cartoclient->cartoserverService->getMap($mapRequest);
+            return $this->cartoclient->getCartoserverService()->
+                                       getMap($mapRequest);
 
         } catch (Exception $exception) {
-            
-            $this->cartoclient->formRenderer->showFailure($exception);
+            $this->cartoclient->getFormRenderer()->showFailure($exception);
             return NULL;
         }
     }
