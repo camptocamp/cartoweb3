@@ -289,7 +289,7 @@ function setupSoapService($cartoserver) {
     if (!$config->noWsdlCache) {
         // disables WSDL cache
         ini_set('soap.wsdl_cache_enabled', '0');
-    } else x('no_cache');
+    }
     $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
     if (is_writable($wsdlCacheDir))
         ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
