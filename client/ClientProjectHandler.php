@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Common
+ * Class and function needed to handle projects on client
+ * @package Client
  * @version $Id$
  */
 
@@ -13,12 +14,21 @@ require_once(CARTOCLIENT_HOME . 'common/ProjectHandler.php');
  * Project handler for the client
  *
  * Project name is know by environment variable CW3_PROJECT.
- * @package Common
+ * @package Client
  */
 class ClientProjectHandler extends ProjectHandler {
 
     const PROJECT_ENV_VAR = 'CW3_PROJECT';
 
+    /**
+     * Returns project name
+     *
+     * Tries to find project name in:
+     * - Root directory, file current_project.txt
+     * - $_ENV, variable CW3_PROJECT
+     * - $_SERVER, variable CW3_PROJECT
+     * - $_SERVER, variable REDIRECT_CW3_PROJECT (CGI redirect)
+     */
     function getProjectName () {
         $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
         if (is_readable($projectFileName))
@@ -38,6 +48,13 @@ class ClientProjectHandler extends ProjectHandler {
 
 }
 
+/**
+ * Smarty block function for resources
+ *
+ * Transforms {r type=css plugin=myplugin}toto.css{/r} to 
+ * myplugin/css/toto.css or currentproject/myplugin/css/toto.css .
+ * @package Client
+ */
 function smartyResource ($params, $text, &$smarty) {
     
     $text = stripslashes($text);

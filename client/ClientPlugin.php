@@ -1,5 +1,6 @@
 <?php
 /**
+ * Classes and interfaces for client plugins
  * @package Client
  * @version $Id$
  */
@@ -7,8 +8,7 @@ require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 
 /**
  * Class used by ToolDescription, to specify javascript related attributes
- *  for tools.
- * 
+ * for tools.
  * @package Client
  */
 class JsToolAttributes {
@@ -38,6 +38,9 @@ class JsToolAttributes {
         $this->action = $action;
     }    
 
+    /**
+     * Returns shape string identification
+     */
     public function getShapeTypeString() {
         switch($this->shapeType) {
             case self::SHAPE_RECTANGLE: return 'rectangle';
@@ -49,6 +52,9 @@ class JsToolAttributes {
         throw new CartoclientException("unknown shape type $this->shapeType");            
     }
 
+    /**
+     * Returns cursor string identification
+     */
     public function getCursorStyleString() {
         switch($this->cursorStyle) {
             case self::CURSOR_CROSSHAIR: return 'crossHair';
@@ -60,6 +66,9 @@ class JsToolAttributes {
         throw new CartoclientException("unknown cursor style $this->cursorStyle");            
     }
 
+    /**
+     * Returns action string identification
+     */
     public function getActionString() {
         switch($this->action) {
             case self::ACTION_SUBMIT: return 'submit';
@@ -70,6 +79,7 @@ class JsToolAttributes {
 }
 
 /**
+ * Description of a tool
  * @package Client
  */
 class ToolDescription {
@@ -97,16 +107,26 @@ class ToolDescription {
 }
 
 /**
+ * Interface for plugins with tools capability
  * @package Client
  */
 interface ToolProvider {
+
+    /**
+     * Handles tool when main map was clicked
+     */
     function handleMainmapTool(ToolDescription $tool, 
                             Shape $mainmapShape);
     
+    /**
+     * Handles tool when key map was clicked
+     */
     function handleKeymapTool(ToolDescription $tool, 
                             Shape $keymapShape);
 
     /** 
+     * Returns the provided tools
+     * 
      * Warning: this method should not be called directly to obtain the tools !!
      * Callers should use "doGetTools", which uses caching, and does some more
      * treatment on the tools.
@@ -115,49 +135,76 @@ interface ToolProvider {
 }
 
 /**
+ * Interface for plugins with session data
  * @package Client
  */
 interface Sessionable {
 
+    /**
+     * Reloads data from session object
+     */
     function loadSession($sessionObject);
 
+    /**
+     * Initializes session data
+     */
     function createSession(MapInfo $mapInfo, InitialMapState $initialState);
 
+    /**
+     * Saves session data
+     */
     function saveSession();
 }
 
 /** 
+ * Interface for plugins that may call server
  * @package Client
  */
 interface ServerCaller {
 
+    /**
+     * Adds specific plugin information to map request
+     */
     function buildMapRequest($mapRequest);
 
+    /**
+     * Handles server result
+     */
     function handleResult($result);
 }
 
 /** 
+ * Interface for plugins with MapInfo specific data
  * @package Client
  */
 interface InitProvider {
 
+    /**
+     * Handles initialization object taken from MapInfo
+     */
     function handleInit($initObject); 
 }
 
 /** 
+ * Interface for plugins that may modify requests before an export
  * @package Client
  */
 interface Exportable {
 
+    /**
+     * Adjust map request to get a ready for export result
+     */
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest);
 }
 
 
 /**
+ * Client plugin
  * @package Client
  */
 abstract class ClientPlugin extends PluginBase {
+
     private $log;
     protected $cartoclient;
 
@@ -172,6 +219,9 @@ abstract class ClientPlugin extends PluginBase {
         $this->tools = null;
     }
 
+    /**
+     * Initializes plugin configuration
+     */
     function initialize($initArgs) {
         $this->cartoclient = $initArgs;
 
@@ -187,6 +237,11 @@ abstract class ClientPlugin extends PluginBase {
         return $this->cartoclient;
     }
 
+    /**
+     * Loads client session and calls child object's loadSession
+     *
+     * Assumes that plugin implements Sessionable.
+     */
     final function doLoadSession() {
     
         assert($this instanceof Sessionable);
@@ -207,6 +262,11 @@ abstract class ClientPlugin extends PluginBase {
         $this->log->debug(var_export(unserialize($clientSession->pluginStorage->$className), true));
     }
 
+    /**
+     * Gets child object's session data and save it
+     *
+     * Assumes that plugin implements Sessionable
+     */
     final function doSaveSession() {
 
         assert($this instanceof Sessionable);
@@ -225,7 +285,10 @@ abstract class ClientPlugin extends PluginBase {
         $clientSession->pluginStorage->$className = serialize($toSave);
         $this->cartoclient->setClientSession($clientSession);
     }
-        
+       
+    /**
+     * Unserializes init object specific to plugin
+     */
     private function unserializeInit($mapInfo) {
         
         $name = $this->getName();
@@ -243,6 +306,11 @@ abstract class ClientPlugin extends PluginBase {
         return $result;
     }
 
+    /**
+     * Gets init object and calls child object's handleInit
+     *
+     * Assumes that plugin implements InitProvider
+     */
     final function dohandleInit($mapInfo) {
 
         assert($this instanceof InitProvider);
@@ -263,6 +331,12 @@ abstract class ClientPlugin extends PluginBase {
         return implode($n);
     }
 
+    /**
+     * Updates tools info plugin name and weight
+     *
+     * Weight is read in plugin configuration file.
+     * Example: id = my_tool, variable in configuration file = weightMyTool.
+     */
     private function updateTool(ToolDescription $tool) {
 
         $tool->plugin = $this->getName();
@@ -275,6 +349,9 @@ abstract class ClientPlugin extends PluginBase {
         return $tool;
     }
 
+    /** 
+     * Calls child object's getTools, updates tools and returns them
+     */
     final function doGetTools() {
 
         assert($this instanceof ToolProvider); 
@@ -296,8 +373,17 @@ abstract class ClientPlugin extends PluginBase {
         return $this->tools;
     }
 
+    /**
+     * Handles data coming from a post request 
+     */
     abstract function handleHttpRequest($request);
 
+    /**
+     * Gets plugin specific result out of MapResult and calls child object's
+     * handleResult
+     *
+     * Assumes that plugin implements ServerCaller.
+     */
     final function internalHandleResult($mapResult) {
 
         assert($this instanceof ServerCaller);
@@ -307,10 +393,14 @@ abstract class ClientPlugin extends PluginBase {
         $this->handleResult($pluginResult);
     }
     
+    /**
+     * Manages form output rendering
+     */
     abstract function renderForm($template);
 }
 
 /**
+ * Core plugin
  * @package Client
  */
 abstract class ClientCorePlugin extends ClientPlugin {
