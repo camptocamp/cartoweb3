@@ -14,14 +14,14 @@ class ServerQuery extends ServerCorePlugin {
 
     private function getQueryLayerNames($requ) {
     
-        if ($requ->layers && count($requ->layers) > 0)
-            return $requ->layers;
+        if ($requ->layerIds && count($requ->layerIds) > 0)
+            return $requ->layerIds;
         
         $plugins = $this->serverContext->pluginManager;
         return $plugins->layers->getRequestedLayerNames();
     } 
 
-    private function queryLayer($layerId, $shape, $queryArgs) {
+    function queryLayer($layerId, $shape, $queryArgs) {
     
         $msMapObj = $this->serverContext->msMapObj;
 
@@ -42,8 +42,6 @@ class ServerQuery extends ServerCorePlugin {
         $layerResult = new LayerResult();
         $layerResult->layerId = $layerId;
         $layerResult->numResults = 0;
-        $layerResult->startIndex = 0;
-        $layerResult->endIndex = 0;
         
         $layerResult->resultElements = array();
 
@@ -65,8 +63,15 @@ class ServerQuery extends ServerCorePlugin {
             $msLayer->getNumResults() == 0) 
             return $layerResult;
 
+        if (!isset($queryArgs->startIndex))
+            $queryArgs->startIndex = 0;
+        // eventually put it in config
+        define('MAX_RESULTS', 10000);
+        if (!isset($queryArgs->maxResults))
+            $queryArgs->maxResults = MAX_RESULTS;
+
         $msLayer->open();
-        $layerResult->startIndex = $queryArgs->startIndex;
+
         for ($i = $queryArgs->startIndex; 
             $i < $msLayer->getNumResults() && 
             $i - $queryArgs->startIndex < $queryArgs->maxResults; $i++) {
@@ -79,12 +84,17 @@ class ServerQuery extends ServerCorePlugin {
 
             $resultElement = new ResultElement();            
             $resultElement->id = $i;
-            $resultElement->fields = $shape->values;
+            
+            if (empty($layerResult->fields))
+                $layerResult->fields = array_keys($shape->values);
+            $resultElement->values = array_values($shape->values);
+            
             $resultElement->tileindex = $shape->tileindex;
             $resultElement->classindex = $shape->classindex;
             $layerResult->resultElements[] = $resultElement;
+            $layerResult->numResults++;
         }  
-        $layerResult->endIndex = $i;
+        $msLayer->close();
         return $layerResult;
     }
 
@@ -92,20 +102,20 @@ class ServerQuery extends ServerCorePlugin {
     
         $this->log->debug("Get result from request: ");
         $this->log->debug($requ);
-           
-        // TODO: go withoud startIndexes and stuff
+        // FIXME: will go away
+        $requ->bbox = StructHandler::unserialize($requ->bbox, 'Bbox');
+
         $queryArgs = new stdclass();
         // TODO: from config or from request
         $queryArgs->maxResults = 10;  
-        // TODO: from request
-        $queryArgs->startIndex = 0;
         
         $queryResult = new QueryResult();
         $queryResult->layerResults = array();
         foreach ($this->getQueryLayerNames($requ) as $queryLayerName) {
-            $layerResult = $this->queryLayer($queryLayerName, $requ->shape, $queryArgs);
+            $layerResult = $this->queryLayer($queryLayerName, $requ->bbox, $queryArgs);
             $queryResult->layerResults[] = $layerResult;
         }
+        
         return $queryResult;
     }    
 }

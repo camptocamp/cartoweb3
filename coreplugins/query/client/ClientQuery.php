@@ -38,7 +38,16 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         $queryRequest = new QueryRequest();
         $queryRequest->layers = array();
 
-        $queryRequest->shape = $mainmapShape;
+        if ($mainmapShape instanceof Point) {
+            $bbox = new Bbox();
+            $bbox->setFrom2Points($mainmapShape, $mainmapShape);
+            $mainmapShape = $bbox;   
+        } 
+        
+        if (!$mainmapShape instanceof Bbox) 
+            throw new CartoclientException('Only bbox shapes are supported for queries');
+            
+        $queryRequest->bbox = $mainmapShape;
         return $queryRequest;
     }
     
@@ -74,10 +83,6 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         // TODO: have a generic way of request/result serialisation which
         // sits above the plugin mechanism 
 
-        /*
-        $mapResult->location = StructHandler::unserialize($mapResult->location, 'LocationResult', 
-                                                          StructHandler::CONTEXT_OBJ);
-        */
         if (!@$mapResult->queryResult)
             return;
         

@@ -104,7 +104,7 @@ class Cartoclient {
 
     private function getCorePluginNames() {
 
-        return array('location', 'layers', 'images', /* 'query' */);
+        return array('location', 'layers', 'images', 'query');
     }
 
     private function initPlugins() {
@@ -142,10 +142,6 @@ class Cartoclient {
         // TODO: have a mechanism to store mapinfo on hard storage
         $mapInfo = $this->cartoserverService->getMapInfo(
             $this->config->mapId);
-
-        $initialMapInfoId = @$this->config->initialMapInfoId;
-        if (!$initialMapInfoId)
-            $initiMapInfoId = 'default';
 
         if (!$this->config->cartoserverDirectAccess) 
             $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', 

@@ -101,7 +101,7 @@ abstract class ClientPlugin extends PluginBase {
     abstract function renderForm($template);
 }
 
-class ClientCorePlugin extends ClientPlugin {
+abstract class ClientCorePlugin extends ClientPlugin {
 
 }
 ?>

@@ -21,6 +21,29 @@
         </all>
       </complexType>
 
+      <complexType name="Shape">
+        <all>
+          <element name="shapeType"  type="types:ShapeType"/>
+          <element name="bbox" type="types:Bbox" minOccurs="0"/>
+          <element name="point" type="types:Point" minOccurs="0"/>
+        </all>
+      </complexType>     
+
+      <simpleType name="ShapeType">
+        <restriction base="xsd:string">
+          <enumeration value="bbox"/>
+          <enumeration value="point"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="ArrayOfLayerId">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
     <!-- Mapinfo structure -->
 
       <complexType name="MapInfo">
@@ -107,7 +130,7 @@
         <all>
           <element name="locationResult" type="types:LocationResult" minOccurs="0"/>
           <element name="imagesResult" type="types:ImagesResult"/>
-          <element name="queryResult" type="types:QueryRequest" minOccurs="0"/>
+          <element name="queryResult" type="types:QueryResult" minOccurs="0"/>
           <element name="selectionResult" type="types:SelectionResult" minOccurs="0"/>
           <element name="hilightResult" type="types:HilightResult" minOccurs="0"/>
         </all>
@@ -118,16 +141,16 @@
       <complexType name="LocationRequest">
         <all>
           <element name="locationType"  type="types:LocationType"/>
-            <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
-            <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
-            <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
+          <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
+          <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
+          <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
         </all>
       </complexType>     
 
       <complexType name="LocationResult">
         <all>
-           <element name="bbox" type="types:Bbox"/>
-           <element name="scale" type="xsd:double"/>
+          <element name="bbox" type="types:Bbox"/>
+          <element name="scale" type="xsd:double"/>
         </all>
       </complexType>
             
@@ -234,27 +257,92 @@
       <!-- query -->
 
       <complexType name="QueryRequest">
+		<all>
+          <element name="bbox" type="types:Bbox"/>
+          <element name="layerIds" type="types:ArrayOfLayerId"/>
+		</all>
       </complexType>
 
       <complexType name="QueryResult">
+		<all>
+          <element name="layerResults" type="types:ArrayOfLayerResult"/>
+		</all>
+      </complexType>
+
+	  <complexType name="ArrayOfLayerResult">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:LayerResult[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <complexType name="LayerResult">
+		<all>
+          <element name="layerId" type="xsd:string"/>
+          <element name="numResults" type="xsd:integer"/>
+          <element name="fields" type="types:ArrayOfString"/>
+          <element name="resultElements" type="types:ArrayOfResultElement"/>
+		</all>
+      </complexType>
+
+	  <complexType name="ArrayOfString">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+	  <complexType name="ArrayOfResultElement">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:ResultElement[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      
+      <complexType name="ResultElement">
+		<all>
+          <element name="id" type="xsd:string"/>
+          <element name="values" type="types:ArrayOfString"/>
+		</all>
       </complexType>
 
       <!-- selection -->
 
       <complexType name="SelectionRequest">
+		<all>
+          <element name="policy" type="types:SelectionPolicy"/>
+          <element name="bbox" type="types:Bbox"/>
+		</all>
       </complexType>
 
       <complexType name="SelectionResult">
+   		<all>
+		</all>
       </complexType>
+
+      <simpleType name="SelectionPolicy">
+        <restriction base="xsd:string">
+          <enumeration value="POLICY_XOR"/>
+          <enumeration value="POLICY_UNION"/>
+          <enumeration value="POLICY_INTERSECTION"/>
+        </restriction>
+      </simpleType>
 
       <!-- hilight -->
 
       <complexType name="HilightRequest">
+		<all>
+          <element name="layerId" type="xsd:string"/>
+          <element name="selectedIds" type="types:ArrayOfLayerId"/>
+		</all>
       </complexType>
 
       <complexType name="HilightResult">
       </complexType>
-
 
     </schema>
   </wsdl:types>
