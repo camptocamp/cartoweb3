@@ -24,25 +24,6 @@ class ServerSelection extends ServerPlugin {
         // has to be called before hilight plugin
         return ServerPlugin::TYPE_INIT;
     }
-
-    private function getIdsFromResult(HilightRequest $hilightRequ, 
-                                      LayerResult $layerResult) {
-     
-        $idAttribute = $hilightRequ->idAttribute;
-        if (empty($idAttribute))
-            $idAttribute = $this->serverContext->getIdAttribute($hilightRequ->layerId);
-     
-        $resultElements = $layerResult->resultElements;
-        
-        $ids = array();
-        foreach($resultElements as $resultElement) {
-            $idIndex = array_search($idAttribute, $layerResult->fields);
-            if ($idIndex === false)
-                throw new CartoserverException("an item has no $idAttribute field");
-            $ids[] = $resultElement->values[$idIndex];
-        }
-        return $ids;
-    }
   
     private function queryLayer($layerId, $shape) {
         
@@ -56,7 +37,9 @@ class ServerSelection extends ServerPlugin {
         // (but needs an id, retrieved from classItem !!)
         $queryArgs = new stdclass();
         
-        return $plugins->query->queryLayer($layerId, $shape, $queryArgs);
+        $layerResult = $plugins->query->queryLayer($layerId, $shape, $queryArgs);
+        $ids = $plugins->query->getIdsFromLayerResult($layerResult);
+        return $ids;
     }
 
     private function array_union($a, $b) {
@@ -99,9 +82,7 @@ class ServerSelection extends ServerPlugin {
         
         $layerId = $hilightRequest->layerId;
         
-        $layerResult = $this->queryLayer($layerId, $requ->bbox);
-        $newIds = $this->getIdsFromResult($hilightRequest, $layerResult);
-        
+        $newIds = $this->queryLayer($layerId, $requ->bbox);
         $mergedIds = $this->mergeIds($hilightRequest->selectedIds,
                                         $newIds, $requ->policy);
         
