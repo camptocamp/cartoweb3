@@ -1,12 +1,19 @@
 <?php
+/**
+ * @package Tests
+ * @version $Id$
+ */
 
+/**
+ * Abstract test case
+ */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
 require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
 
 /**
  * Unit tests for basic types
- *
+ * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Client
+ * @version $Id$
+ */
 
+/**
+ * @package Client
+ */
 class PixelCoordsConverter {
     private static function pixel2Coord($pixelPos, $pixelMax, $geoMin, $geoMax, 
                                         $inversePix) {
@@ -27,6 +34,9 @@ class PixelCoordsConverter {
     }
 }
 
+/**
+ * @package Client
+ */
 class CompatibilityDhtml {
     
     const PIXEL_COORD_VAR = 'INPUT_COORD';
@@ -66,6 +76,9 @@ class CompatibilityDhtml {
     }
 }
 
+/**
+ * @package Client
+ */
 class HttpRequestHandler {
     private $log;
 

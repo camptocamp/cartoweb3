@@ -1,6 +1,12 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
-// only for debug
+/**
+ * For debugging purpose only
+ */
 function x1($a="__died__ \n") {
     $log =& LoggerManager::getLogger('__x__');
     
@@ -15,18 +21,26 @@ function x1($a="__died__ \n") {
     $log->debug($a);
 }
 
-// only for debug
+/**
+ * For debugging purpose only
+ */
 function x($a="__died__\n") {
     x1($a);
     die($a."\n");
 }
 
+/**
+ * For debugging purpose only
+ */
 function bt($a="__died__\n") {
     echo "<pre/>";
     debug_print_backtrace();
     x($a);
 }
 
+/**
+ * For debugging purpose only
+ */
 function l($arg=false) {
     $i = 100;
     if ($arg !== false)
@@ -36,7 +50,9 @@ function l($arg=false) {
     print "\n";
 }
 
-// uses reflection
+/**
+ * uses reflection
+ */
 function copy_properties($from_object, $to_object) {
 
     $fromReflectionClass = new ReflectionClass(get_class($from_object));
@@ -56,8 +72,10 @@ function copy_properties($from_object, $to_object) {
     return $to_object;
 }
 
-// only updates if destination var exists
-// does not use reflection
+/**
+ * only updates if destination var exists
+ * does not use reflection
+ */
 function copy_vars($from_object, $to_object) {
 
     $from_vars = get_object_vars($from_object);
@@ -71,8 +89,10 @@ function copy_vars($from_object, $to_object) {
     return $to_object;
 }
 
-// To be removed, using rather copy_properties
-// does not use reflection
+/**
+ * To be removed, using rather copy_properties
+ * does not use reflection
+ */
 function copy_all_vars($from_object, $to_object) {
 
     $from_vars = get_object_vars($from_object);
@@ -82,7 +102,9 @@ function copy_all_vars($from_object, $to_object) {
     return $to_object;
 }
 
-// uses reflection
+/**
+ * uses reflection
+ */
 function unserializeClass($obj, $className) {
 
     $class = new ReflectionClass($className);
@@ -92,7 +114,9 @@ function unserializeClass($obj, $className) {
     return $newObj;
 }
 
-// does not use reflection
+/**
+ * does not use reflection
+ */
 function unserializeClassNoRefl($obj, $className) {
 
     $class = new ReflectionClass($className);
@@ -102,6 +126,9 @@ function unserializeClassNoRefl($obj, $className) {
     return $newObj;
 }
 
+/**
+ * @package Common
+ */
 class ConfigParser {
 
     static function parseArray($value) {

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Plugins
+ * @version $Id$
+ */
  
+/**
+ * @package Plugins
+ */
 class SelectionRequest {
 
     const POLICY_XOR = 'POLICY_XOR';
@@ -13,6 +20,9 @@ class SelectionRequest {
     public $policy;
 }
 
+/**
+ * @package Plugins
+ */
 class SelectionResult {
  
     public $layerId;

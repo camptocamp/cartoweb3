@@ -5,6 +5,9 @@
  * @version $Id$
  */
 
+/**
+ * Abstract serializable
+ */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
@@ -92,7 +95,7 @@ class Point extends Shape {
      * Converts the Point to a Bbox.
      *
      * Optional margin will create a square around the point.
-     * @param double margin
+     * @param double the margin
      * @return Bbox the Point converted to Bbox
      */
     function toBbox($margin = 0) {
@@ -119,7 +122,7 @@ class Bbox extends Shape {
      *
      * Value passed can be either a string (format "11, 22, 33, 44") or
      * a structure.
-     * @param ? string or stdclass
+     * @param ? a string or stdclass
      */
     function unserialize($struct) {
         if (is_string($struct)) {
@@ -130,6 +133,10 @@ class Bbox extends Shape {
         }
     }
 
+    /**
+     * Converts a string to the Bbox (format "11, 22, 33, 44")
+     * @param string a string
+     */
     function setFromString($value) {
         list($minx, $miny, $maxx, $maxy) = explode(',', $value);
 
@@ -178,10 +185,6 @@ class Bbox extends Shape {
             $this->minx, $this->miny, 
             $this->maxx, $this->maxy,
             $this->getWidth(), $this->getHeight());
-            /*
-            (int)$this->minx, (int)$this->miny, 
-            (int)$this->maxx, (int)$this->maxy,
-            (int)$this->getWidth(), (int)$this->getHeight()); */
     }
 }
 

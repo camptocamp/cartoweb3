@@ -1,12 +1,19 @@
 <?php
+/**
+ * @package Tests
+ * @version $Id$
+ */
 
+/**
+ * Abstract test case
+ */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
 require_once(CARTOCLIENT_HOME . 'common/Serializable.php');
 
 /**
  * Unit tests for class Serializable
- *
+ * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class common_SerializableTest extends PHPUnit2_Framework_TestCase {
@@ -185,7 +192,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
 
 /**
  * Test class used to test abstract class Serializable
- *
+ * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class SerializableTestClass1 extends Serializable {
@@ -214,7 +221,7 @@ class SerializableTestClass1 extends Serializable {
 
 /**
  * Test class used to test abstract class Serializable
- *
+ * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class SerializableTestClass2 extends Serializable {

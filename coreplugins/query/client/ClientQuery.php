@@ -1,11 +1,24 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * Smarty templates
+ */
 require_once('smarty/Smarty.class.php');
 
+/**
+ * @package CorePlugins
+ */
 class QueryState {
     /* to be filled */
 }
 
+/**
+ * @package CorePlugins
+ */
 class ClientQuery extends ClientCorePlugin implements ToolProvider {
     private $log;
 

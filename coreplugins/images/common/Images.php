@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 class Image {
 
     public $isDrawn;
@@ -10,6 +17,9 @@ class Image {
     public $format;
 }
 
+/**
+ * @package CorePlugins
+ */
 class Images {
 
     public $mainmap;

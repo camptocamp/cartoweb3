@@ -1,9 +1,19 @@
 <?php
+/**
+ * @package Server
+ * @version $Id$
+ */
 
+/**
+ * Root directory for server scripts
+ */
 if (!defined('CARTOSERVER_HOME')) {
     define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 }
 
+/**
+ * Root directory for common scripts
+ */
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
@@ -35,6 +45,9 @@ require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
 require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
 
 
+/**
+ * @package Server
+ */
 class CartoserverException extends Exception {
 
     function __construct($message) {
@@ -44,6 +57,9 @@ class CartoserverException extends Exception {
     }
 }
 
+/**
+ * @package Server
+ */
 class ServerConfig extends Config {
 
     function getKind() {
@@ -57,6 +73,9 @@ class ServerConfig extends Config {
 }
 
 
+/**
+ * @package Server
+ */
 class Cartoserver {
     private $log;
 

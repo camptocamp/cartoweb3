@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 class ServerQuery extends ServerCorePlugin {
     private $log;
 

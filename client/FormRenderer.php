@@ -1,7 +1,17 @@
 <?php
+/**
+ * @package Client
+ * @version $Id$
+ */
 
+/**
+ * Smarty templates
+ */
 require_once('smarty/Smarty.class.php');
 
+/**
+ * @package Client
+ */
 class Smarty_Cartoclient extends Smarty {
 
     function __construct($config) {
@@ -18,6 +28,9 @@ class Smarty_Cartoclient extends Smarty {
     }
 }
 
+/**
+ * @package Client
+ */
 class Smarty_CorePlugin extends Smarty_Cartoclient {
 
     function __construct(ClientConfig $config, ClientPlugin $plugin) {
@@ -31,6 +44,9 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
 // file to choose the templating sytem to use, as a class which extends the abstract class
 //  FormRenderer
 
+/**
+ * @package Client
+ */
 class FormRenderer {
     private $log;
     private $cartoclient;

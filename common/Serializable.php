@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
+/**
+ * @package Common
+ */
 abstract class Serializable {
     public $className;
     

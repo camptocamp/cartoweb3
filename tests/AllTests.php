@@ -1,12 +1,23 @@
 <?php
+/**
+ * @package Tests
+ * @version $Id$
+ */
 
+/**
+ * Abstract test suite
+ */
 require_once 'PHPUnit2/Framework/TestSuite.php';
 
+/**
+ * All tests
+ */
 require_once 'client/AllTests.php';
 require_once 'common/AllTests.php';
 
 /**
- * @author      Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @package Tests
+ * @author  Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class AllTests {
 

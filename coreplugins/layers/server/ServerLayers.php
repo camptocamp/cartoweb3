@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 class ServerLayers extends ServerCoreplugin {
     private $log;
 

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Plugins
+ * @version $Id$
+ */
 
+/**
+ * @package Plugins
+ */
 class Hello extends ClientPlugin {
     private $log;
     private $msg = 'hello world';

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Server
+ * @version $Id$
+ */
 
+/**
+ * @package Server
+ */
 class ServerContext {
     private $log;
 

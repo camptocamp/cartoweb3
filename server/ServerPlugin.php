@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Server
+ * @version $Id$
+ */
 
+/**
+ * @package Server
+ */
 abstract class ServerPlugin extends PluginBase {
     private $log;
 
@@ -18,7 +25,7 @@ abstract class ServerPlugin extends PluginBase {
     }
 
     /**
-     * @initArgs serverContext
+     * @param initArgs serverContext
      */
     function initialize($initArgs) {
         $this->serverContext = $initArgs;
@@ -67,6 +74,9 @@ abstract class ServerPlugin extends PluginBase {
     }
 }
 
+/**
+ * @package Server
+ */
 abstract class ServerCorePlugin extends ServerPlugin {
     private $log;
 

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Plugins
+ * @version $Id$
+ */
 
+/**
+ * @package Plugins
+ */
 class ServerSelection extends ServerPlugin {
 
     private $log;

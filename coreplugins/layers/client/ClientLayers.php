@@ -1,13 +1,11 @@
 <?php
-
 /**
- * Page info
+ * @package CorePlugins
+ * @version $Id$
  */
 
-/* $Id$ */
-
 /**
- * Class info
+ * @package CorePlugins
  */
 class ClientLayers extends ClientCorePlugin {
     private $log;

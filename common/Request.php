@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
+/**
+ * @package Common
+ */
 class MapRequest {
 
     public $locationRequest;
@@ -9,6 +16,9 @@ class MapRequest {
     // more from plugins
 }
 
+/**
+ * @package Common
+ */
 class MapResult {
 
     public $locationResult;

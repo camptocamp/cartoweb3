@@ -1,5 +1,12 @@
 <?
+/**
+ * @package Plugins
+ * @version $Id$
+ */
 
+/**
+ * @package Plugins
+ */
 class ServerOutline extends ServerPlugin {
     private $log;
 

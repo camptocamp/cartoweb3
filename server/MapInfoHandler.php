@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Server
+ * @version $Id$
+ */
 
+/**
+ * @package Server
+ */
 class MapInfoHandler {
     private $log;
     private $serverContext;

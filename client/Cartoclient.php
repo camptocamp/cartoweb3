@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Client
+ * @version $Id$
+ */
 
+/**
+ * Root directory for common scripts
+ */
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
 
@@ -23,10 +30,16 @@ require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 
+/**
+ * @package Client
+ */
 class CartoclientException extends Exception {
 
 }
 
+/**
+ * @package Client
+ */
 class CartoForm {
     const BUTTON_NONE = 1;
     const BUTTON_MAINMAP = 2;
@@ -41,6 +54,9 @@ class CartoForm {
     public $plugins;
 }
 
+/**
+ * @package Client
+ */
 class ClientConfig extends Config {
 
     function getKind() {
@@ -53,6 +69,9 @@ class ClientConfig extends Config {
     }
 }
 
+/**
+ * @package Client
+ */
 class ClientSession {
     public $pluginStorage;
     
@@ -62,6 +81,9 @@ class ClientSession {
 
 define('CLIENT_SESSION_KEY', 'client_session_key');
 
+/**
+ * @package Client
+ */
 class Cartoclient {
     private $log;
 

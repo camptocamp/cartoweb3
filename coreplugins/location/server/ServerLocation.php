@@ -1,5 +1,12 @@
 <?
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 abstract class BboxCalculator {
     private $log;
     protected $requ;
@@ -12,6 +19,9 @@ abstract class BboxCalculator {
     abstract function getBbox();
 }
 
+/**
+ * @package CorePlugins
+ */
 class NoopBboxCalculator extends BboxCalculator {
     private $log;
 
@@ -25,6 +35,9 @@ class NoopBboxCalculator extends BboxCalculator {
     }
 }
 
+/**
+ * @package CorePlugins
+ */
 abstract class RelativeBboxCalculator extends BboxCalculator {
     private $log;
 
@@ -80,6 +93,9 @@ abstract class RelativeBboxCalculator extends BboxCalculator {
     }
 }
 
+/**
+ * @package CorePlugins
+ */
 class PanBboxCalculator extends RelativeBboxCalculator {
     private $log;
 
@@ -121,6 +137,9 @@ class PanBboxCalculator extends RelativeBboxCalculator {
     }
 }
 
+/**
+ * @package CorePlugins
+ */
 class ZoomPointBboxCalculator extends RelativeBboxCalculator {
     private $log;
 
@@ -171,6 +190,9 @@ class ZoomRectBboxCalculator extends RelativeBboxCalculator {
 }
 */
 
+/**
+ * @package CorePlugins
+ */
 class ServerLocation extends ServerCorePlugin {
     private $log;
 

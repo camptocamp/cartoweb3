@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 class QueryRequest {
 
     public $bbox;
@@ -11,12 +18,18 @@ class QueryRequest {
     // resultProperties: layer * maxResult * startIndex
 }
 
+/**
+ * @package CorePlugins
+ */
 class ResultElement {
 
     public $id;
     public $values;
 }
 
+/**
+ * @package CorePlugins
+ */
 class LayerResult {
     
     public $layerId;
@@ -25,6 +38,9 @@ class LayerResult {
     public $resultElements;
 }
 
+/**
+ * @package CorePlugins
+ */
 class QueryResult {
 
     public $layerResults;

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Client
+ * @version $Id$
+ */
 
+/**
+ * @package Client
+ */
 class CartoserverService {
     private $log;
     private $cartoclient;

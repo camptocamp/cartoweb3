@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Client
+ * @version $Id$
+ */
 
+/**
+ * @package Client
+ */
 class ToolDescription {
 
     const MAINMAP = 2;
@@ -18,7 +25,9 @@ class ToolDescription {
     }
 }
 
-
+/**
+ * @package Client
+ */
 interface ToolProvider {
     function handleMainmapTool(ToolDescription $tool, 
                             Shape $mainmapShape);
@@ -29,7 +38,9 @@ interface ToolProvider {
     function getTools();
 }
 
-
+/**
+ * @package Client
+ */
 abstract class ClientPlugin extends PluginBase {
     private $log;
     protected $cartoclient;
@@ -101,6 +112,9 @@ abstract class ClientPlugin extends PluginBase {
     abstract function renderForm($template);
 }
 
+/**
+ * @package Client
+ */
 abstract class ClientCorePlugin extends ClientPlugin {
 
 }

@@ -1,6 +1,14 @@
 <?php
+/**
+ * @package Htdocs
+ * @version $Id$
+ */
+
 header("Content-Type: text/xml");
 
+/**
+ * Root directory for server scripts
+ */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {

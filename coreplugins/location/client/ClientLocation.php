@@ -1,9 +1,19 @@
 <?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * @package CorePlugins
+ */
 class LocationState {
     public $bbox;
 }
 
+/**
+ * @package CorePlugins
+ */
 class ClientLocation extends ClientCorePlugin implements ToolProvider {
     private $log;
     private $locationState;

@@ -1,7 +1,17 @@
 <?
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
 
+/**
+ * Abstract serializable
+ */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
+/**
+ * @package CorePlugins
+ */
 class LocationRequest {
     public $locationType;
 
@@ -16,6 +26,9 @@ class LocationRequest {
     public $zoomRectangleLocationRequest;
 }
 
+/**
+ * @package CorePlugins
+ */
 class LocationResult extends Serializable {
     public $bbox;
     public $scale;
@@ -26,14 +39,23 @@ class LocationResult extends Serializable {
     }
 }
 
+/**
+ * @package CorePlugins
+ */
 abstract class RelativeLocationRequest extends LocationRequest {
     public $bbox;
 }
 
+/**
+ * @package CorePlugins
+ */
 class BboxLocationRequest extends RelativeLocationRequest {
     public $type = LocationRequest::LOC_REQ_BBOX;
 }
 
+/**
+ * @package CorePlugins
+ */
 class PanDirection {
 
     const VERTICAL_PAN_NORTH = 'VERTICAL_PAN_NORTH';
@@ -52,15 +74,24 @@ class PanDirection {
     }
 }
 
+/**
+ * @package CorePlugins
+ */
 class PanLocationRequest extends RelativeLocationRequest {
     public $type = LocationRequest::LOC_REQ_PAN;
     public $panDirection;
 }
 
+/**
+ * @package CorePlugins
+ */
 abstract class ZoomLocationRequest extends RelativeLocationRequest {
 
 }
 
+/**
+ * @package CorePlugins
+ */
 class ZoomPointLocationRequest extends ZoomLocationRequest {
     public $type = LocationRequest::LOC_REQ_ZOOM_POINT;
 
@@ -78,7 +109,11 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     public $scale;
 }
 
-/* This may go away. Can be replaced by ZoomPointLocationRequest */
+/**
+ *
+ * This may go away. Can be replaced by ZoomPointLocationRequest
+ * @package CorePlugins
+ */
 class ZoomRectangleLocationRequest extends ZoomLocationRequest {
     public $type = LocationRequest::LOC_REQ_ZOOM_RECTANGLE;
     public $rectangle;

@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
+/**
+ * @package Common
+ */
 class PluginManager {
     private $log;
 

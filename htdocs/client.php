@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Htdocs
+ * @version $Id$
+ */
 
+/**
+ * For debugging purpose only
+ */
 @include_once('client_debug.php');
 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');

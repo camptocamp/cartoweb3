@@ -1,12 +1,19 @@
 <?php
+/**
+ * @package Tests
+ * @version $Id$
+ */
 
+/**
+ * Abstract test case
+ */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
 require_once(CARTOCLIENT_HOME . 'common/MapInfo.php');
 
 /**
  * Unit tests for class MapInfo
- *
+ * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
@@ -218,7 +225,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $structLayer5->className = 'LayerClass';
         $structLayer5->id = 'layer5';
         $structLayer5->label = 'layer5_label';
-        $structLayer4->name = 'layer5_name';
+        $structLayer5->name = 'layer5_name';
         
         $struct->layers = array ('layer1' => $structLayer1,
                                  'layer2' => $structLayer2,
@@ -290,6 +297,43 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(get_class($mapInfo->extent), 'Bbox');                                  
         $this->assertEquals(get_class($mapInfo->location), 'Location');                                  
         $this->assertEquals(get_class($mapInfo->location->bbox), 'Bbox'); 
+    }
+    
+    public function testMapInfoLayerById() {
+
+        $struct = new stdclass();
+        
+        $structLayer1 = new stdclass();
+        $structLayer1->className = 'LayerGroup';
+        $structLayer1->id = 'layer1';
+        $structLayer1->label = 'layer1_label';
+        $structLayer1->children = 'layer2';
+        
+        $structLayer2 = new stdclass();
+        $structLayer2->className = 'Layer';
+        $structLayer2->id = 'layer2';
+        $structLayer2->label = 'layer2_label';
+        $structLayer2->children = 'layer3';
+        
+        $structLayer3 = new stdclass();
+        $structLayer3->className = 'LayerClass';
+        $structLayer3->id = 'layer3';
+        $structLayer3->label = 'layer3_label';
+        
+        $struct->layers = array ('layer1' => $structLayer1,
+                                 'layer2' => $structLayer2,
+                                 'layer3' => $structLayer3);
+        
+        $mapInfo = new MapInfo();
+        $mapInfo->unserialize($struct);
+        
+        $layer1 = $mapInfo->getLayerById('layer1');
+        $layer2 = $mapInfo->getLayerById('layer2');
+        $layer3 = $mapInfo->getLayerById('layer3');
+        
+        $this->assertEquals($layer1->label, 'layer1_label'); 
+        $this->assertEquals($layer2->label, 'layer2_label'); 
+        $this->assertEquals($layer3->label, 'layer3_label'); 
     }
 }
 

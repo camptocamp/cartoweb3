@@ -1,11 +1,24 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
+/**
+ * Abstract serializable
+ */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
+/**
+ * @package Common
+ */
 class CartocommonException extends Exception {
 
 }
 
+/**
+ * @package Common
+ */
 class LayerBase extends Serializable {
     
     public $id;
@@ -25,6 +38,9 @@ class LayerBase extends Serializable {
     }
 }
 
+/**
+ * @package Common
+ */
 class LayerContainer extends LayerBase {
     public $children = array();
     
@@ -34,10 +50,16 @@ class LayerContainer extends LayerBase {
     }    
 }
 
+/**
+ * @package Common
+ */
 class LayerGroup extends LayerContainer {
 
 }
 
+/**
+ * @package Common
+ */
 class Layer extends LayerContainer {
 
     public $msLayer;
@@ -48,6 +70,9 @@ class Layer extends LayerContainer {
     }
 }
 
+/**
+ * @package Common
+ */
 class LayerClass extends LayerBase {
     public $name;
     
@@ -57,6 +82,9 @@ class LayerClass extends LayerBase {
     }
 }
 
+/**
+ * @package Common
+ */
 class Location extends Serializable {
     public $bbox;
     
@@ -65,10 +93,16 @@ class Location extends Serializable {
     }
 }
 
+/**
+ * @package Common
+ */
 class InitialLocation extends Location {
 
 }
 
+/**
+ * @package Common
+ */
 class LayerState extends Serializable {
     public $id;
     public $hidden;
@@ -83,6 +117,9 @@ class LayerState extends Serializable {
     }
 }
 
+/**
+ * @package Common
+ */
 class InitialMapState extends Serializable {
 
     public $id;
@@ -96,6 +133,9 @@ class InitialMapState extends Serializable {
     }
 }
 
+/**
+ * @package Common
+ */
 class MapInfo extends Serializable {
     public $mapId;
     public $mapLabel;

@@ -1,6 +1,12 @@
 <?php
+/**
+ * @package Common
+ * @version $Id$
+ */
 
-
+/**
+ * @package Common
+ */
 class StructHandler {
     const CONTEXT_INI = 1;
     const CONTEXT_OBJ = 2;
