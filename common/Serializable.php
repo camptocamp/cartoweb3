@@ -86,7 +86,6 @@ abstract class Serializable {
         if (is_null($value))
             return $value;
         
-        
         if (empty($className)) {
             $type = $value->className;
         } else {
@@ -122,14 +121,5 @@ abstract class Serializable {
         }        
         return $array;
     }
-    
-    /**
-     * Unserializes an object in a naive way. This method should go away
-     * when all objects use a specific unserialization method call.
-     */
-    static function lazyUnserialize($struct, $destination) {
-         copy_all_vars($struct, $destination);
-    }
 }
-
 ?>
