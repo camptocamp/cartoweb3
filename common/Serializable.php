@@ -3,6 +3,8 @@
  * @package Common
  * @version $Id$
  */
+require_once(CARTOCOMMON_HOME . 'common/misc_functions.php');
+require_once(CARTOCOMMON_HOME . 'common/MapInfo.php'); // for CartocommonException
 
 /**
  * @package Common
@@ -103,7 +105,7 @@ abstract class Serializable {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            return $value;
+            throw new CartocommonException("unserializing non existant class $type");
         }
         
         $obj = new $type;

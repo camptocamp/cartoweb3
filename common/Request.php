@@ -9,6 +9,8 @@
  */
 class MapRequest {
 
+    public $mapId;
+
     public $locationRequest;
     public $imagesRequest;
     public $layersRequest;

@@ -58,6 +58,11 @@ class PluginManager {
         // TODO: load per plugin configuration file
         //  manage plugin dependency, ...
 
+        if (empty($names)) {
+            $this->log->warn('no plugin to load');
+            return;
+        }        
+
         $path = $basePath . $relativePath; 
         foreach ($names as $name) {
             $className = $this->getClassName($type, $name);

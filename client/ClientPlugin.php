@@ -3,6 +3,7 @@
  * @package Client
  * @version $Id$
  */
+require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 
 /**
  * @package Client

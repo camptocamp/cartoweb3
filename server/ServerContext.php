@@ -3,6 +3,10 @@
  * @package Server
  * @version $Id$
  */
+//require_once('log4php/LoggerManager.php');
+require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
+require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
+require_once(CARTOCOMMON_HOME . 'common/Request.php');
 
 /**
  * Project handler

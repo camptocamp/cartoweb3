@@ -23,10 +23,10 @@ require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
 
-require_once(CARTOCOMMON_HOME . 'common/common.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
+require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 
@@ -172,9 +172,6 @@ class Cartoclient {
         // TODO: have a mechanism to store mapinfo on hard storage
         $mapInfo = $this->cartoserverService->getMapInfo(
             $this->config->mapId);
-
-        if (!$this->config->cartoserverDirectAccess) 
-            $mapInfo = Serializable::unserializeObject($mapInfo, NULL, 'MapInfo');
         
         $this->mapInfo = $mapInfo; 
         return $mapInfo;
@@ -281,8 +278,6 @@ class Cartoclient {
 
         $mapResult = $this->cartoserverService->getMap($mapRequest);
 
-        // TODO: unserialize result object
-
         $this->log->debug("mapresult:");
         $this->log->debug($mapResult);
 
@@ -308,7 +303,7 @@ class Cartoclient {
         $this->initPlugins();
 
         // initialize objects
-        $this->cartoserverService = new CartoserverService($this);
+        $this->cartoserverService = new CartoserverService($this->getConfig());
         $this->httpRequestHandler = new HttpRequestHandler($this);
         $this->formRenderer = new FormRenderer($this);
     }

@@ -17,9 +17,10 @@ if (!defined('CARTOSERVER_HOME')) {
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
-if (!@$direct_access) {
-    define('LOG4PHP_CONFIGURATION', CARTOSERVER_HOME . 
-           'server_conf/cartoserverLogger.properties');
+if (empty($direct_access)) {
+    if (!defined('LOG4PHP_CONFIGURATION'))
+        define('LOG4PHP_CONFIGURATION', CARTOSERVER_HOME . 
+               'server_conf/cartoserverLogger.properties');
 
     require_once('log4php/LoggerManager.php');
 }
@@ -35,7 +36,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 
 require_once(CARTOSERVER_HOME . 'server/MapInfoHandler.php');
 
-require_once(CARTOSERVER_HOME . 'common/common.php');
+//require_once(CARTOSERVER_HOME . 'common/common.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
@@ -114,7 +115,7 @@ class Cartoserver {
         return $mainMapImagePath;
     }
 
-    function doGetMap($mapRequest) {
+    private function doGetMap($mapRequest) {
         $log =& LoggerManager::getLogger(__METHOD__);
 
         // serverContext init

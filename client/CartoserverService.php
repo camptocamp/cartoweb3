@@ -3,17 +3,19 @@
  * @package Client
  * @version $Id$
  */
+require_once('log4php/LoggerManager.php');
+require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
  * @package Client
  */
 class CartoserverService {
     private $log;
-    private $cartoclient;
+    private $config;
 
-    function __construct($cartoclient) {
+    function __construct($config) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        $this->cartoclient = $cartoclient;
+        $this->config = $config;
     }
 
     private function callDirect($function, $argument) {
@@ -21,9 +23,9 @@ class CartoserverService {
         // read by cartoserver to tell its mode
         $direct_access = true;
 
-        $config = $this->cartoclient->getConfig();
-        $cartoserverHome = $config->cartoserverHome;
-        if (!$cartoserverHome)
+        if (isset($this->config->cartoserverHome))
+            $cartoserverHome = $this->config->cartoserverHome;
+        else
             $cartoserverHome = CARTOCLIENT_HOME;
 
         require_once($cartoserverHome . 'server/Cartoserver.php');
@@ -40,10 +42,8 @@ class CartoserverService {
 
     private function getCartoserverUrl() {
 
-        $config = $this->cartoclient->getConfig();
-        
-        if (@$config->cartoserverUrl)
-            return $config->cartoserverUrl;
+        if (@$this->config->cartoserverUrl)
+            return $this->config->cartoserverUrl;
 
         // in config ?
         $guessCartoserver = true;
@@ -60,9 +60,8 @@ class CartoserverService {
     }
 
     private function callFunction($function, $argument) {
-        $config = $this->cartoclient->getConfig();
 
-        if ($config->cartoserverDirectAccess) {
+        if ($this->config->cartoserverDirectAccess) {
             $mapResult = $this->callDirect($function, $argument);
         } else {
 
@@ -72,6 +71,14 @@ class CartoserverService {
             $client = new SoapClient($this->getCartoserverUrl());
 
             $mapResult = $client->$function($argument);
+            
+            $unserializeMap = array('getMapInfo' => 'MapInfo',
+                                    'getMap' => 'MapResult');
+            if (array_key_exists($function, $unserializeMap)) {
+                $targetType = $unserializeMap[$function];
+                $mapResult = Serializable::unserializeObject($mapResult, 
+                                                            NULL, $targetType);
+            }
         }
         return $mapResult;
     }

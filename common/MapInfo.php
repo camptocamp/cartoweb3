@@ -8,6 +8,7 @@
  * Abstract serializable
  */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
 /**
  * @package Common
