@@ -274,13 +274,8 @@ class HttpRequestHandler {
 
         // tools
         if (@$_REQUEST['tool']) {
-            // HACK for javascript bug
-            /* BEGIN HACK */
-            $_REQUEST['old_tool_forjavascriptdebugging'] = @$_REQUEST['tool'];
-
             $tool = explode(',', $_REQUEST['tool']);
-            $_REQUEST['tool'] = $tool[3]; 
-            /* END HACK */
+            $_REQUEST['tool'] = array_pop($tool); 
             $clientSession->selectedTool = $_REQUEST['tool'];
         }
 
