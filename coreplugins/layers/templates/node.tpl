@@ -1,4 +1,4 @@
-{if $layerType == 'LayerGroup'}
+{if $childrenLayers}
   {if $layerId != 'root'}
   <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" class="lk">+</a> <input
   type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
