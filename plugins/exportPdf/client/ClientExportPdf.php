@@ -681,12 +681,12 @@ class ClientExportPdf extends ExportPlugin {
             
             $tableElt->caption = I18n::gt($table->tableTitle);
             
-            $tableElt->headers = array();
+            $tableElt->headers = array(I18n::gt('Id'));
             foreach ($table->columnTitles as $field)
                 $tableElt->headers[] = I18n::gt($field);
 
             foreach ($table->rows as $res) {
-                $row = array();
+                $row = array($res->rowId);
                 foreach ($res->cells as $val)
                     $row[] = $val;
                 $tableElt->rows[] = $row;
@@ -726,6 +726,32 @@ class ClientExportPdf extends ExportPlugin {
             case 'xy':
             default:
                 $block->content = sprintf('x = %d, y = %d', $x, $y);
+        }
+    }
+
+    /**
+     * Draws given block.
+     * @param PdfWriter
+     * @param PdfBlock
+     */
+    function addBlock(PdfWriter $pdf, PdfBlock $block) {
+        switch ($block->type) {
+            case 'image':
+                $pdf->addGfxBlock($block);
+                break;
+            case 'text':
+                $pdf->addTextBlock($block);
+                break;
+            case 'legend':
+                $pdf->addLegend($block);
+                break;
+            case 'table':
+                $pdf->addTable($block);
+                break;
+            default:
+                // ignores block
+            
+            // TODO: handle type = pdf
         }
     }
 
@@ -771,29 +797,22 @@ class ClientExportPdf extends ExportPlugin {
  
         $pdf->addPage();
  
+        $lastPagesBlocks = array();
         foreach ($this->blocks as $block) {
+            if ($block->inLastPages) {
+                $lastPagesBlocks[] = $block->id;
+                continue;
+            }
+        
             if ($block->multiPage || $block->inNewPage || !$block->standalone)
                 continue;
 
-            switch ($block->type) {
-                case 'image':
-                    $pdf->addGfxBlock($block);
-                    break;
-                case 'text':
-                    $pdf->addTextBlock($block);
-                    break;
-                case 'legend':
-                    $pdf->addLegend($this->blocks['legend']);
-                    break;
-                default:
-                    // ignores block
-                // TODO: handle type = pdf
-            }
-            
+            $this->addBlock($pdf, $block);
         }
 
         if (isset($this->blocks['legend']) && 
-            $this->blocks['legend']->inNewPage) {
+            $this->blocks['legend']->inNewPage &&
+            !$this->blocks['legend']->inLastPages) {
             $pdf->addPage();
             $pdf->addLegend($this->blocks['legend']);
         }
@@ -809,18 +828,14 @@ class ClientExportPdf extends ExportPlugin {
             }
         }
         
-        // TEMPORARY TEST CODE
-        /*if (isset($this->blocks['table'])) {
-            require_once(dirname(__FILE__) . '/table.php');
-            $tableObj = new TableElement;
-            $tableObj->rows = $table;
-            $this->blocks['table']->content = $tableObj;
+        // handling inLastPages blocks:
+        foreach ($lastPagesBlocks as $id) {
+            if (!$this->blocks[$id]->content)
+                continue;
 
             $pdf->addPage();
-            $pdf->addTable($this->blocks['table']);
-        }*/
-        
-        // TODO: handle inLastPages blocks
+            $this->addBlock($pdf, $block);
+        }
  
         $contents = $pdf->finalizeDocument();
  
