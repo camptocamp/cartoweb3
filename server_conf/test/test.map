@@ -211,5 +211,98 @@ MAP
     END
   END
 
+  LAYER
+    NAME "grid_nohilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_classhilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      EXPRESSION /_always_false_/
+      NAME "hilight"
+      STYLE
+        COLOR 255 255 0 
+        OUTLINECOLOR 255 255 0
+      END
+    END
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight_hilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 0 0
+        OUTLINECOLOR 0 0 0
+      END
+    END
+  END
+
 END
 
