@@ -93,11 +93,22 @@
 
  <sect1 id="dev.new-plugin.write"> 
   <title>Writing a Plugin</title>
-  <sect2 id="dev.new-plugin.write.choice">
-   <title>Plugin or Coreplugin?</title>
+  <sect2 id="dev.new-plugin.write.intro">
+   <title>Introduction</title>
    <para>
     If no existing plugin or coreplugin fulfils your requirements and if none offers close enough functionalities to justify an adaptation, you can write a new plugin.
    </para>
+   <para>
+    Plugins main classes (client and/or server if any) must extend &cartoweb; defined<parameter>ClientPlugin</parameter> and/or <parameter>ServerPlugin</parameter> classes which provide base plugin tools. For instance:
+    <programlisting><![CDATA[class ClientYourPlugin extends ClientPlugin {
+
+    /* here comes your plugin client class definition */
+
+}]]></programlisting>
+   </para>
+  </sect2>
+  <sect2 id="dev.new-plugin.write.choice">
+   <title>Plugin or Coreplugin?</title>
    <para>
     First of all you have to determine if you are about to design a simple plugin or a coreplugin. To be a coreplugin, your plugin must be really generic and present a great interest to the &cartoweb; users community since it might be included in the upstream distribution. Contact &cartoweb; development team for more info. In most cases it is better to create a simple plugin.
    </para>
@@ -112,7 +123,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.write.calls">
-   <title>Calling Plugins</title>
+   <title>How Plugins are Called</title>
    <para>
     As explained in <xref linkend="dev.new-plugin.intro"/>, plugins are independent aggregations of PHP code that are called by the &cartoweb; core classes to perform dedicated actions. Plugins are called several times during the program execution (entry points). Thus they can interact at various level of the application.
    </para>
@@ -161,6 +172,23 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
     $this->saveSession($this->clientSession);
 }]]></programlisting>
     <parameter>callPluginsImplementing($interfaceName, $methodName, $argument)</parameter> is run at various points of the program and make plugins implementing given &lt;interfaceName&gt; interface execute given &lt;methodName&gt; with given &lt;argument&gt; argument.
+   </para>
+   <para>
+    Of course interface-defined methods must be implemented in the matching plugins. Plugins can implements one or more &cartoweb; interfaces.
+   </para>
+   <para>
+    Implementing interfaces is not mandatory when writing a plugin but not doing so will keep plugins from being implicitely called by the main program. As a result, methods from plugins with no interface implementation - also called "service plugins" - must be explicitely called by another piece of code (generally an other plugin).
+   </para>
+   <para>
+    <programlisting><![CDATA[class ClientYourPlugin extends ClientPlugin 
+                       implements Sessionable, GuiProvider {
+
+    /* here comes your plugin client class definition */
+
+}]]></programlisting>
+   </para>
+   <para>
+    For a comprehensive list of available client and server interfaces, see <filename>/client/ClientPlugin.php</filename> and <filename>/server/ServerPlugin.php</filename> files or take a look at the &cartoweb; PHP API documentation.
    </para>
   </sect2>
  </sect1>
