@@ -149,7 +149,7 @@ function dhtmlBox_mousedown(evt) {
       }
     }
   
-    if ((dhtmlBox.action == 'submit' || dhtmlBox.action.indexOf('javascript:' != -1))
+    if ((dhtmlBox.action == 'submit' || dhtmlBox.action.indexOf('javascript:') != -1)
     && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
       dhtmlBox.drag = false // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
     } else {
