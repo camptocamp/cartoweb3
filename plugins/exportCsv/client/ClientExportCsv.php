@@ -12,7 +12,7 @@ require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
 
 /**
  * CSV Export
- * @package CorePlugins
+ * @package Plugins
  */
 class ClientExportCsv extends ExportPlugin {
 

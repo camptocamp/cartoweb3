@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Coreplugins
+ * @package CorePlugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
 
