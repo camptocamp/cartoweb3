@@ -29,6 +29,9 @@ mapId = test
 # The id of the initial map state to be loaded on startup
 initialMapStateId = default
 
+# Tools configuration ###
+initialTool = zoom_in
+
 ### Plugins ###
 
 # the list of plugins to load, separated by comma
