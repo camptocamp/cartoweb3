@@ -99,15 +99,15 @@ ClientContext:
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
     </p>
     
-    <p id="labels">
-      <span id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
-      id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span>
+    <p>
+      <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
+      id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span>
     </p>
 
     <div id="container"></div>
   </div> 
   
-    <div id="folder1">
+    <div id="folder1" class="folder">
     
       {if $keymap_path|default:''}
       <div id="keymap">
@@ -145,7 +145,7 @@ ClientContext:
     </div>
     <!-- end of folder1 -->
   
-    <div id="folder2">
+    <div id="folder2" class="folder">
       
       {$layers}
     

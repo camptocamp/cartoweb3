@@ -30,9 +30,9 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #leftbar p {text-align:center;margin:10px;}
 
-#label1, #label2 {padding: 2px 5px 2px 5px;}
+.label {padding: 2px 5px 2px 5px;}
 
-#folder1, #folder2 {
+.folder {
   position:absolute;
   left:10px;
   top:80px;
@@ -41,7 +41,6 @@ a:hover {text-decoration: underline;color:#D0670A;}
   visibility: hidden;
   text-align:center;
   padding:5px;
-  /*border:1px #ccc dashed;*/
 }
 
 #folder1 select, #folder2 select {max-width:160px;}
