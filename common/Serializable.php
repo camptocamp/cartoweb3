@@ -18,18 +18,25 @@ abstract class Serializable {
         
     abstract function unserialize ($struct);
 
-    static function unserializeValue ($struct, $property = NULL, $type = 'string') {
-        
+    private static function getValue($struct, $property) {
         if (!$struct)
             return NULL;
         if ($property) {
             $objVars = get_object_vars($struct);
             if (!array_key_exists($property, $objVars))
                 return NULL;
-            $value = $objVars[$property];
+            return $objVars[$property];
         } else {
-            $value = $struct;
+            return $struct;
         }
+        return NULL;        
+    }
+
+    static function unserializeValue ($struct, $property = NULL, $type = 'string') {
+        
+        $value = self::getValue($struct, $property);
+        if (is_null($value))
+            return $value;
         
         switch($type) {
         case 'boolean':
@@ -42,17 +49,10 @@ abstract class Serializable {
     }
 
     static function unserializeArray ($struct, $property = NULL, $type = 'string') {
-        
-        if (!$struct)
-            return NULL;
-        if ($property) {
-            $objVars = get_object_vars($struct);
-            if (!array_key_exists($property, $objVars))
-                return NULL;
-            $value = $objVars[$property];
-        } else {
-            $value = $struct;
-        }
+
+        $value = self::getValue($struct, $property);
+        if (is_null($value))
+            return $value;
 
         $array = array();
         
@@ -66,17 +66,11 @@ abstract class Serializable {
     }
 
     static function unserializeStringArray ($struct, $property, $type = 'string') {
-    
-        if (!$struct)
-            return NULL;
-        if ($property) {
-            $objVars = get_object_vars($struct);
-            if (!array_key_exists($property, $objVars))
-                return NULL;
-            $value = $objVars[$property];
-        } else {
-            $value = $struct;
-        }
+
+        $value = self::getValue($struct, $property);
+        if (is_null($value))
+            return $value;
+        
             
         $values = ConfigParser::parseArray($value);
         $array = array();
@@ -87,17 +81,11 @@ abstract class Serializable {
     }
     
     static function unserializeObject ($struct, $property = NULL, $className = NULL) {
+
+        $value = self::getValue($struct, $property);
+        if (is_null($value))
+            return $value;
         
-        if (!$struct)
-            return NULL;
-        if ($property) {
-            $objVars = get_object_vars($struct);
-            if (!array_key_exists($property, $objVars))
-                return NULL;
-            $value = $objVars[$property];
-        } else {
-            $value = $struct;
-        }
         
         if (empty($className)) {
             $type = $value->className;
@@ -119,17 +107,11 @@ abstract class Serializable {
     }
     
     static function unserializeObjectMap ($struct, $property = NULL, $className = NULL) {
+
+        $value = self::getValue($struct, $property);
+        if (is_null($value))
+            return $value;
         
-        if (!$struct)
-            return NULL;
-        if ($property) {
-            $objVars = get_object_vars($struct);
-            if (!array_key_exists($property, $objVars))
-                return NULL;
-            $value = $objVars[$property];
-        } else {
-            $value = $struct;
-        }
 
         $array = array();
         foreach ($value as $key => $val) {
