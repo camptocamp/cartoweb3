@@ -1,5 +1,5 @@
 <br />
-<form method="post" action="{$exportScriptPath}">
+<form method="post" action="{$exportScriptPath}" target="_blank">
 <input type="hidden" name="pdfExport" value="1" />
 <div>{t}Format:{/t} 
 {html_options name="pdfFormat" options=$pdfFormat_options selected=$pdfFormat_selected}</div>
