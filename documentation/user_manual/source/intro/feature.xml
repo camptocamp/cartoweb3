@@ -14,56 +14,123 @@
  <sect1 id="intro.feature.intro">
   <title>Introduction</title>
   <para>
-   summary of MapServer features
+   &cartoweb; is quite a complex piece of software.
   </para>
+ </sect1>
+
+ <sect1 id="intro.feature.overview">
+  <title>Overview</title>
+  <para>
+   The first figure is an overall view of the user interface of the
+   demo that is shipped with &cartoweb;. The numbers refer to more or
+   less visible underlying features. They are :
+  </para>
+  <para>
+   <orderedlist>
+    <listitem>
+     <para>
+      Main map
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Dynamic keymap
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Navigation tools : zoom-in, zoo-out, panning
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Layers tree
+     </para>
+    </listitem>   
+    <listitem>
+     <para>
+      Geographic query tool
+     </para>
+    </listitem> 
+    <listitem>
+     <para>
+      Redlining tools : to draw points, lines, rectangles, polygons
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Measuring tools : distances and surfaces
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Language switch : internationalization support
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Login link : users and roles support
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Print dialog : PDF production
+     </para>
+    </listitem>
+   </orderedlist>
+  </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_all.jpg" format="JPEG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Overall</phrase>
+        </textobject> 
+      </mediaobject>
+    </screenshot>     
  </sect1>
 
  <sect1 id="intro.feature.navigation">
   <title>Navigation Interface</title>
+   <para>
+    There are many possibilities to navigate on the main map, that is to
+    change the scale and the position.
+  </para>
   <para>
    <itemizedlist>
     <listitem>
      <para>
-      Feature 1
+      The arrows surrounding the main map
      </para>
     </listitem>
     <listitem>
      <para>
-      Feature 2
+      The dynamic (i.e. clickable) keymap
      </para>
     </listitem>
     <listitem>
      <para>
-      Feature 3 and so on...
+      The navigation tools (zoom and pan)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      The drop-down menu "Scale"
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      The various options in the "Search" tab
      </para>
     </listitem>
    </itemizedlist>
   </para>
- </sect1>
-
- <sect1 id="intro.feature.query">
-  <title>Map Queries</title>
   <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      Feature 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 2
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 3 and so on...
-     </para>
-    </listitem>
-   </itemizedlist>
+   The menu "Mapsize" is self-describing.
   </para>
- </sect1>
-
+ </sect1> 
+ 
  <sect1 id="intro.feature.layer">
   <title>Arbitrary Complex Hierarchy of Layers</title>
   <para>
@@ -114,25 +181,8 @@
     </para> 
  </sect1>
 
- <sect1 id="intro.feature.measuring">
-  <title>Measuring Tools</title>
-  <para>
-   Distances and surfaces can be measured on the main map with the following tools :
-  </para>
-    <screenshot>
-      <mediaobject>
-        <imageobject>
-          <imagedata fileref="screen_measuringtools.png" format="PNG"/>
-        </imageobject>
-        <textobject>
-          <phrase>Measuring tools</phrase>
-        </textobject>        
-      </mediaobject>
-    </screenshot>     
- </sect1>
-
- <sect1 id="intro.feature.i18n">
-  <title>Internationalization</title>
+ <sect1 id="intro.feature.query">
+  <title>Map Queries</title>
   <para>
    <itemizedlist>
     <listitem>
@@ -172,51 +222,78 @@
       </mediaobject>
     </screenshot>   
  </sect1>
-
- <sect1 id="intro.feature.print">
-  <title>Printing</title>
-  <subtitle>XHTML and PDF</subtitle>
+  
+ <sect1 id="intro.feature.measuring">
+  <title>Measuring Tools</title>
   <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      Feature 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 2
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 3 and so on...
-     </para>
-    </listitem>
-   </itemizedlist>
+   Distances and surfaces can be measured on the main map with the following tools :
   </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_measuringtools.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Measuring tools</phrase>
+        </textobject>        
+      </mediaobject>
+    </screenshot>     
+ </sect1>
+
+ <sect1 id="intro.feature.i18n">
+  <title>Internationalization</title>
+   <para> Translation handling in &cartoweb; now uses <ulink 
+      url="http://www.gnu.org/software/gettext/manual">gettext</ulink>. However 
+      internationalization architecture is ready for other translation 
+      systems.
+   </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_i18n.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Internationalization</phrase>
+        </textobject>        
+      </mediaobject>
+    </screenshot>    
+   <para>
+     Ta make life easier for translators, scripts that gather the strings 
+     to be translated in the templates and in the configuration files are available.
+   </para>
  </sect1>
 
  <sect1 id="intro.feature.access">
   <title>Access Rights</title>
   <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      Feature 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 2
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      Feature 3 and so on...
-     </para>
-    </listitem>
-   </itemizedlist>
+   
+  </para>
+ </sect1>
+ 
+ <sect1 id="intro.feature.print">
+  <title>PDF output and other export formats</title>
+  <para>
+   &cartoweb; is able to output a fully configurable PDF document. Some
+   options can be chosen by the end user in the following dialog, 
+   while the &cartoweb; admin defines which elements (maps, legends, 
+   tables, additional logos or watermarks...) are to be printed and
+   sets their positions within the page.
+   and
+  </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_printdialog.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Print dialog</phrase>
+        </textobject> 
+      </mediaobject>
+    </screenshot>    
+  <para>
+   Other output formats include the graphic formats (jpeg, png,...) of 
+   the map itself, simplified html templates and comma-separated 
+   values tables of the query results.
   </para>
  </sect1>
 
