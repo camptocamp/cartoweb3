@@ -1,0 +1,5 @@
+; if true, shows recenter on (x,y) / scale form
+recenterActive = true
+
+; if current scale is above this limit, measure unit is km else m
+;scaleUnitLimit = 100000
