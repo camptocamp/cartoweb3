@@ -9,7 +9,7 @@
  <subtitle></subtitle>
  <bookinfo>
   <corpauthor>CampToCamp.</corpauthor>
-  <pubdate>le 20/01/2005</pubdate>
+  <pubdate><?dbtimestamp format="Y-m-d"?></pubdate>
  </bookinfo>
 
  <part id="cartoweb.intro">
