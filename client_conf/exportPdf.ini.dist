@@ -2,7 +2,6 @@ general settings
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
-general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
