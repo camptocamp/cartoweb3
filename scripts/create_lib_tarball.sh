@@ -60,6 +60,8 @@ cd ..
 
 [ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
 
+(cd include_addons; \cp -rf --parents include/ .. )
+
 tar zcf $TARBALL include
 rm -r include
 
