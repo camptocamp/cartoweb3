@@ -65,15 +65,17 @@ class ServerLayers extends ServerCoreplugin {
 
         $msMapObj = $this->serverContext->msMapObj;
 
-        $this->requestedLayerNames = $requ;
+        $layerIds = $requ->layerIds;
+        $this->requestedLayerNames = $layerIds;
 
-        if (!is_array($requ)) {
-            $this->log->info("invalid layers request: doing nothing");
+        if (!is_array($layerIds)) {
+            throw new CartoclientException('Invalid layer request: ' .
+                    'layerIds not array');            
             return;
         }
 
         $this->log->debug("layers to draw: ");
-        $this->log->debug($requ);
+        $this->log->debug($layerIds);
       
         // disable all layers
         for ($i = 0; $i < $msMapObj->numlayers; $i++) {

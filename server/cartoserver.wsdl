@@ -225,11 +225,9 @@
       <!-- layers -->
 
       <complexType name="LayersRequest">
-        <complexContent>
-          <restriction base="enc11:Array">
-            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
-          </restriction>
-        </complexContent>
+        <all>
+          <element name="layerIds" type="types:ArrayOfLayerId"/>
+        </all>
       </complexType>
 
       <!-- no LayersResult -->

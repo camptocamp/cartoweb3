@@ -82,7 +82,9 @@ class ClientLayers extends ClientCorePlugin {
 
     function buildMapRequest($mapRequest) {
 
-        $mapRequest->layersRequest = $this->getSelectedLayers();
+        $layersRequest = new LayersRequest();
+        $layersRequest->layerIds = $this->getSelectedLayers();
+        $mapRequest->layersRequest = $layersRequest; 
     }
 
     function handleMapResult($mapResult) {}
