@@ -60,18 +60,17 @@ function pntCnv()
 
 function mkDivPt(x,y)
 {
-	this.htm += '<div class="point" style="left:'+x+';top:'+y+'"></div>';
-	//this.htm += '<div style="position:absolute;left:'+x+';top:'+y+';width:4px;height:4px;background-color:red;overflow:hidden"></div>';
+	this.htm += '<div class="point" style="left:'+x+'px;top:'+y+'px"></div>';
 }
 
 function mkLineH(x,y,h)
 {
-	this.htm += '<div class="lineH" style="left:'+x+';top:'+y+';height:'+h+'"></div>';	
+	this.htm += '<div class="lineH" style="left:'+x+'px;top:'+y+'px;height:'+h+'px"></div>';	
 }
 
 function mkLineW(x,y,w)
 {
-	this.htm += '<div class="lineW" style="left:'+x+';top:'+y+';width:'+w+'"></div>';
+	this.htm += '<div class="lineW" style="left:'+x+'px;top:'+y+'px;width:'+w+'px"></div>';
 }
 
 function mkLinePts(x1,y1,x2,y2,d2pts) { //function added to draw lines with few points
