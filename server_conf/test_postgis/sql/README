@@ -17,6 +17,11 @@ createuser www-data
 6) set its password to "www-data"
 alter user "www-data" password 'www-data';
 
-5) pay attention to the access rights
+7) allow it to connect through tcp:
+
+add to /etc/postgresql/pg_hba.conf (pay attentiont to the order, should be before ident line)
+host    test_postgis  www-data  127.0.0.1         255.255.255.255   md5
+
+8) pay attention to the access rights
 
 grant select on geometry_columns, spatial_ref_sys, lines, points, polygons to "www-data";
