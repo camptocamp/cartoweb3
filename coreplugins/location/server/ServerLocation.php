@@ -353,7 +353,8 @@ class RecenterLocationCalculator extends LocationCalculator {
 /**
  * @package CorePlugins
  */
-class ServerLocation extends ServerCorePlugin {
+class ServerLocation extends ServerPlugin 
+                     implements CoreProvider, InitProvider {
     private $log;
     
     private $scales;
@@ -564,8 +565,8 @@ class ServerLocation extends ServerCorePlugin {
 
         return $this->getLocationResult();
     }
-    
-    function getInitValues() {
+       
+    function getInit() {
 
         $this->initScales();
 

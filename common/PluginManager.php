@@ -25,6 +25,8 @@ class PluginManager {
      */
     private $plugins = array();
     
+    private $helpers = array();
+    
     /**
      * @var ProjectHandler
      */
@@ -157,6 +159,28 @@ class PluginManager {
         }
     }
 
+    function callPluginImplementing($plugin, $interface, $functionName, $args = array()) {
+
+        if ($plugin instanceof $interface) {
+            $helperClass = $interface . 'Helper';
+   if ($functionName == 'handleInit') {
+       $this->log->debug($plugin->getName() . '-' . $helperClass);
+   }
+            if (class_exists($helperClass)) {
+                $helperMethod = $functionName . 'Helper';
+                if (is_callable(array($helperClass, $helperMethod))) {
+                    if (!array_key_exists($interface, $this->helpers)) {
+                        $this->helpers[$interface] = new $helperClass;
+                    }
+                    $helperArgs = array_merge(array($plugin), $args);
+                    return call_user_func_array(array($this->helpers[$interface],
+                                                $helperMethod), $helperArgs);
+                }
+            }
+            return call_user_func_array(array($plugin, $functionName), $args);
+        }
+    }
+
     /**
      * Calls a function on plugins implementing an interface
      * @param string interface name
@@ -166,21 +190,7 @@ class PluginManager {
     function callPluginsImplementing($interface, $functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
-            if ($plugin instanceof $interface) {
-                call_user_func_array(array($plugin, $functionName), $args);
-            } 
-        }
-    }
-
-    /**
-     * Calls a function on all plugins
-     * @param string function name
-     * @param array function arguments
-     */
-    function callPlugins($functionName, $args = array()) {
-
-        foreach ($this->plugins as $plugin) {
-            call_user_func_array(array($plugin, $functionName), $args);
+            $this->callPluginImplementing($plugin, $interface, $functionName, $args);
         }
     }
     

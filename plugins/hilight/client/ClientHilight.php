@@ -18,7 +18,8 @@ class HilightState {
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class ClientHilight extends ClientPlugin implements SessionAble, ServerCaller {
+class ClientHilight extends ClientPlugin
+                    implements Sessionable, GuiProvider, ServerCaller {
 
     private $hilightState;
     private $layerResult;

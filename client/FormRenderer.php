@@ -149,7 +149,10 @@ class FormRenderer {
         $tools = array();
         foreach ($plugins as $plugin) {
             if ($plugin instanceof ToolProvider) {
-                $toolsDescription = $plugin->doGetTools();
+
+                $toolsDescription = $cartoclient->getPluginManager()->
+                        callPluginImplementing($plugin, 'ToolProvider', 'getTools');
+
                 foreach($toolsDescription as $toolDescription) {
 
                     $jsAttr = $toolDescription->jsAttributes;
@@ -235,7 +238,7 @@ class FormRenderer {
 
         // handle plugins
 
-        $cartoclient->callPlugins('renderForm', $smarty);
+        $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm', $smarty);
 
         // TODO: plugins should be able to change the flow
 

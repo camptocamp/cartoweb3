@@ -11,7 +11,7 @@
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class ServerSelection extends ServerPlugin {
+class ServerSelection extends ServerPluginAdapter {
 
     private $log;
 
@@ -68,8 +68,8 @@ class ServerSelection extends ServerPlugin {
     // dependency: has to be called before hilight plugin
     function handleInit($requ) {
 
+$this->log->debug($this->serverContext->mapRequest);
         // TODO: mechanism to fetch request from other plugins
-
         $hilightRequest = @Serializable::unserializeObject($this->serverContext->
                 mapRequest, 'hilightRequest', 'HilightRequest');
         

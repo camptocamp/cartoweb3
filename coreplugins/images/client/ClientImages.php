@@ -28,8 +28,8 @@ class ImagesState {
  * Client part of Images plugin
  * @package CorePlugins
  */
-class ClientImages extends ClientCorePlugin
-                   implements Sessionable, ServerCaller, Exportable {
+class ClientImages extends ClientPlugin
+                   implements Sessionable, GuiProvider, ServerCaller, Exportable {
     /**
      * @var Logger
      */

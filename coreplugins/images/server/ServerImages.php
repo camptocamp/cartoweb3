@@ -10,7 +10,8 @@ define('MAX_IMAGES_WARNING', 500);
 /**
  * @package CorePlugins
  */
-class ServerImages extends ServerCoreplugin {
+class ServerImages extends ServerPlugin 
+                   implements CoreProvider {
 
     private $log;
 

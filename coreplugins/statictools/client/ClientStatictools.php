@@ -9,7 +9,7 @@
  *
  * @package CorePlugins
  */
-class ClientStatictools extends ClientCorePlugin
+class ClientStatictools extends ClientPlugin
                         implements ToolProvider {
     private $log;
 
@@ -39,9 +39,5 @@ class ClientStatictools extends ClientCorePlugin
                                          JsToolAttributes::ACTION_MEASURE), 81),
         );
     }
-
-    function handleHttpRequest($request) {}
-
-    function renderForm($template) {}
 }
 ?>

@@ -200,7 +200,8 @@ class ExportOutput {
  * Export plugin
  * @package Client
  */
-abstract class ExportPlugin extends ClientPlugin {
+abstract class ExportPlugin extends ClientPlugin
+                            implements GuiProvider {
 
     /**
      * Retrieves MapResult

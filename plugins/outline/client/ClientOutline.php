@@ -29,7 +29,7 @@ class OutlineState {
  * @package Plugins
  */
 class ClientOutline extends ClientPlugin
-                    implements Sessionable, ServerCaller, ToolProvider {
+                    implements Sessionable, GuiProvider, ServerCaller, ToolProvider {
                     
     /**                    
      * @var Logger

@@ -23,7 +23,7 @@ class SelectionState {
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 class ClientSelection extends ClientPlugin
-                      implements Sessionable, ServerCaller, ToolProvider {
+                      implements Sessionable, GuiProvider, ServerCaller, ToolProvider {
 
     private $selectionState;
 
@@ -40,6 +40,7 @@ class ClientSelection extends ClientPlugin
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+
         $this->selectionState = new SelectionState();
 
         $this->selectionState->selectedIds = array();

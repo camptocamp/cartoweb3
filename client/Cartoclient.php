@@ -25,6 +25,7 @@ require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
 
 require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
 
@@ -208,27 +209,6 @@ class Cartoclient {
     public $projectHandler;
 
     /**
-     * @return ClientConfig
-     */
-    function getConfig() {
-        return $this->config;
-    }
-
-    /**
-     * @return CartoForm
-     */
-    function getCartoForm() {
-        return $this->cartoForm;
-    }
-
-    /**
-     * @return MapResult
-     */
-    function getMapResult() {
-        return $this->mapResult;
-    }
-
-    /**
      * Constructor
      *
      * Initializes:
@@ -247,6 +227,27 @@ class Cartoclient {
 
         session_start();
         $this->initializeSession();        
+    }
+
+    /**
+     * @return ClientConfig
+     */
+    function getConfig() {
+        return $this->config;
+    }
+
+    /**
+     * @return CartoForm
+     */
+    function getCartoForm() {
+        return $this->cartoForm;
+    }
+
+    /**
+     * @return MapResult
+     */
+    function getMapResult() {
+        return $this->mapResult;
     }
 
     /**
@@ -322,17 +323,6 @@ class Cartoclient {
     }
 
     /**
-     * Calls all plugins
-     * @param string function name
-     */
-    function callPlugins($functionName) {
-
-        $args = func_get_args();
-        array_shift($args);
-        $this->pluginManager->callPlugins($functionName, $args);
-    }
-
-    /**
      * Returns Map Info, get it from cache if not yet set
      * @see MapInfoCache
      * @return MapInfo MapInfo
@@ -397,7 +387,7 @@ class Cartoclient {
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
             $this->log->debug("Loading existing session");
-            $this->callPluginsImplementing('Sessionable', 'doLoadSession');
+            $this->callPluginsImplementing('Sessionable', 'loadSession');
 
         } else {
             $this->log->debug("creating new  session");
@@ -473,13 +463,13 @@ class Cartoclient {
      */
     private function doMain() {
 
-        $this->callPluginsImplementing('InitProvider', 'dohandleInit', $this->getMapInfo());
+        $this->callPluginsImplementing('InitUser', 'handleInit', $this->getMapInfo());
                         
         if (@$_REQUEST['posted']) {
             $this->cartoForm = 
                 $this->httpRequestHandler->handleHttpRequest($this->clientSession,
                                                     $this->cartoForm);
-            $this->callPlugins('handleHttpRequest', $_REQUEST);
+            $this->callPluginsImplementing('GuiProvider', 'handleHttpRequest', $_REQUEST);
         } 
         
         $mapRequest = $this->getMapRequest();
@@ -496,13 +486,13 @@ class Cartoclient {
         $this->log->debug("mapresult:");
         $this->log->debug($this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'internalHandleResult', $this->mapResult);
+        $this->callPluginsImplementing('ServerCaller', 'handleResult', $this->mapResult);
 
         $this->log->debug("client context to display");
 
         $this->formRenderer->showForm($this);
 
-        $this->callPluginsImplementing('Sessionable', 'doSaveSession');
+        $this->callPluginsImplementing('Sessionable', 'saveSession');
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");

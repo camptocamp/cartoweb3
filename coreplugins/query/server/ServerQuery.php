@@ -7,7 +7,7 @@
 /**
  * @package CorePlugins
  */
-class ServerQuery extends ServerCorePlugin {
+class ServerQuery extends ServerPluginAdapter {
     private $log;
     private $drawQuery = false;
 
@@ -214,8 +214,6 @@ class ServerQuery extends ServerCorePlugin {
         
         return $queryResult;
     }    
-
-    function handleCorePlugin($requ) { /* nothing to do */ }
 }
 
 ?>

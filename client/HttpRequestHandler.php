@@ -359,7 +359,9 @@ class HttpRequestHandler {
         }
         $toolRequest = $_REQUEST['tool'];
         
-        $tools = $plugin->doGetTools();
+        $tools = $this->cartoclient->getPluginManager()->
+                callPluginImplementing($plugin, 'ToolProvider', 'getTools');
+        
         foreach ($tools as $tool) {
             $this->log->debug("tool is " . $tool->id);
             $this->log->debug("request " . $toolRequest);

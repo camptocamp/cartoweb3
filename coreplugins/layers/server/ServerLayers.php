@@ -7,7 +7,8 @@
 /**
  * @package CorePlugins
  */
-class ServerLayers extends ServerCoreplugin {
+class ServerLayers extends ServerPlugin
+                   implements CoreProvider {
     private $log;
 
     private $requestedLayerNames;

@@ -181,6 +181,7 @@ interface ToolProvider {
     /** 
      * Returns the provided tools
      * 
+     * Description OBSOLETE
      * Warning: this method should not be called directly to obtain the tools !!
      * Callers should use {@link ClientPlugin::doGetTools()}, which uses caching,
      * and does some more treatment on the tools.
@@ -214,6 +215,25 @@ interface Sessionable {
     function saveSession();
 }
 
+/**
+ * Interface for plugins that interact with HTML forms
+ * @package Client
+ */
+interface GuiProvider {
+
+    /**
+     * Handles data coming from a post request 
+     * @param array HTTP request
+     */
+    function handleHttpRequest($request);
+
+    /**
+     * Manages form output rendering
+     * @param string template name
+     */
+    function renderForm($template);
+}
+
 /** 
  * Interface for plugins that may call server
  * @package Client
@@ -237,7 +257,7 @@ interface ServerCaller {
  * Interface for plugins with MapInfo specific data
  * @package Client
  */
-interface InitProvider {
+interface InitUser {
 
     /**
      * Handles initialization object taken from {@link MapInfo}
@@ -261,7 +281,6 @@ interface Exportable {
                                     MapRequest $mapRequest);
 }
 
-
 /**
  * Client plugin
  * @package Client
@@ -283,17 +302,10 @@ abstract class ClientPlugin extends PluginBase {
      */
     private $config;
     
-    /**
-     * @var array
-     */
-    private $tools;
-
     function __construct() {
         parent::__construct();
 
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        
-        $this->tools = null;
     }
 
     /**
@@ -320,188 +332,6 @@ abstract class ClientPlugin extends PluginBase {
     function getCartoclient() {
         return $this->cartoclient;
     }
-
-    /**
-     * Loads client session and calls child object's
-     * {@link Sessionable::loadSession()}
-     *
-     * Assumes that plugin implements {@link Sessionable}.
-     */
-    final function doLoadSession() {
-    
-        assert($this instanceof Sessionable);
-        
-        $clientSession = $this->cartoclient->getClientSession();
-
-        $className = get_class($this);
-
-        $this->log->debug(isset($clientSession->pluginStorage->$className));
-        if (empty($clientSession->pluginStorage->$className)) {
-            $this->log->warn("no session to load for plugin $className");
-            return;
-        }
-
-        $this->loadSession(unserialize($clientSession->pluginStorage->$className));
-
-        $this->log->debug("plugin $className loads:");
-        $this->log->debug(var_export(unserialize($clientSession->pluginStorage->$className), true));
-    }
-
-    /**
-     * Gets child object's session data and save it
-     *
-     * Assumes that plugin implements {@link Sessionable}.
-     */
-    final function doSaveSession() {
-
-        assert($this instanceof Sessionable);
-        
-        $className = get_class($this);
-
-        $toSave = $this->saveSession();
-        $this->log->debug("plugin $className wants to save:");
-        $this->log->debug(var_export(serialize($toSave), true));
-        if (!$toSave) {
-            $this->log->debug("Plugin $className did not return a session to save");
-            return;
-        }
-
-        $clientSession = $this->cartoclient->getClientSession();
-        $clientSession->pluginStorage->$className = serialize($toSave);
-        $this->cartoclient->setClientSession($clientSession);
-    }
-       
-    /**
-     * Unserializes init object specific to plugin
-     * @param MapInfo MapInfo
-     */
-    private function unserializeInit($mapInfo) {
-        
-        $name = $this->getName();
-        $field = $name . 'Init';
-        $class = ucfirst($field);
-        
-        if (empty($mapInfo->$field))
-            return NULL;
-            
-        $result = Serializable::unserializeObject($mapInfo, $field, $class);
-        
-        if (!is_null($result))                
-            $mapInfo->$field = $result;
-        
-        return $result;
-    }
-
-    /**
-     * Gets init object and calls child object's {@link InitProvider::handleInit()}
-     *
-     * Assumes that plugin implements {@link InitProvider}.
-     * @param MapInfo MapInfo
-     */
-    final function dohandleInit($mapInfo) {
-
-        assert($this instanceof InitProvider);
-
-        $pluginInit = $this->unserializeInit($mapInfo);
-        
-        if (!empty($pluginInit)) {        
-            $this->handleInit($pluginInit);
-        }
-    }
-
-    /**
-     * Converts a name one_toto_two ==> OneTotoTwo
-     * @param string input name
-     * @return string converted name
-     */
-    private function convertName($name) {
-        $n = explode('_', $name);
-        $n = array_map('ucfirst', $n);
-        return implode($n);
-    }
-
-    /**
-     * Updates tools info plugin name and weight
-     *
-     * Weight is read in plugin configuration file.
-     * Example: id = my_tool, variable in configuration file = weightMyTool.
-     * @param ToolDescription tool to update
-     * @return ToolDescription updated tool
-     */
-    private function updateTool(ToolDescription $tool) {
-
-        $tool->plugin = $this->getName();
-    
-        $weightConfigName = 'weight' . $this->convertName($tool->id);
-        $weight = $this->getConfig()->$weightConfigName;
-        if ($weight)
-            $tool->weight = $weight;
-
-        return $tool;
-    }
-
-    /** 
-     * Calls child object's {@link ToolProvider::getTools()}, updates tools
-     * and returns them
-     * 
-     * Assumes that plugin implements {@link ToolProvider}.
-     * @return array array of {@link ToolDescription}
-     */
-    final function doGetTools() {
-
-        assert($this instanceof ToolProvider); 
-
-        if (is_null($this->tools)) {
-            $tools = $this->getTools();
-
-            unset($this->tools);
-            $this->tools = array();
-            
-            // update tools
-            foreach ($tools as $tool) {
-                $tool = $this->updateTool($tool);
-                if ($tool->weight >= 0) {
-                    $this->tools[] = $tool;
-                }
-            }
-        }   
-        return $this->tools;
-    }
-
-    /**
-     * Handles data coming from a post request 
-     * @param array HTTP request
-     */
-    abstract function handleHttpRequest($request);
-
-    /**
-     * Gets plugin specific result out of {@link MapResult} and calls child
-     * object's {@link ServerCaller::handleResult()}
-     *
-     * Assumes that plugin implements {@link ServerCaller}.
-     * @param MapResult complete MapResult
-     */
-    final function internalHandleResult($mapResult) {
-
-        assert($this instanceof ServerCaller);
-        
-        $pluginResult = $this->getRequest(false, $mapResult);
-        
-        $this->handleResult($pluginResult);
-    }
-    
-    /**
-     * Manages form output rendering
-     * @param string template name
-     */
-    abstract function renderForm($template);
 }
 
-/**
- * Core plugin
- * @package Client
- */
-abstract class ClientCorePlugin extends ClientPlugin {
-
-}
 ?>

@@ -39,6 +39,7 @@ require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 
 require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
 require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
+require_once(CARTOSERVER_HOME . 'server/ServerPluginHelper.php');
 require_once(CARTOSERVER_HOME . 'server/MapResultCache.php');
 
 /**
@@ -123,7 +124,7 @@ class Cartoserver {
 
         $mapInfo = $serverContext->getMapInfoHandler()->getMapInfo();
 
-        $pluginManager->callPlugins('getInit', '');
+        $pluginManager->callPluginsImplementing('InitProvider', 'getInit');
         
         return $mapInfo;
     }
@@ -189,29 +190,32 @@ class Cartoserver {
         // test new image generation
         //$mapResult->new_gen = $this->generateImage();
 
-        $pluginManager->callPlugins('internalHandleInit');
+        $pluginManager->callPluginsImplementing('ClientResponder', 'handleInit');
 
         // images size
         // PRE_DRAW: 1) images
         $pluginManager->images->setupSizes($mapRequest->imagesRequest);
 
         // location
-        $pluginManager->location->internalHandleCorePlugin();
+        $pluginManager->callPluginImplementing($pluginManager->location,
+                                               'CoreProvider', 'handleCorePlugin');
 
         // layer selection
-        $pluginManager->layers->internalHandleCorePlugin();
+        $pluginManager->callPluginImplementing($pluginManager->layers,
+                                               'CoreProvider', 'handleCorePlugin');
 
-        $pluginManager->callPlugins('internalHandlePreDrawing');
+        $pluginManager->callPluginsImplementing('ClientResponder', 'handlePreDrawing');
 
         // prepare output image
         $pluginManager->images->drawMainmap($mapRequest->imagesRequest);
         
-        $pluginManager->callPlugins('internalHandleDrawing');
+        $pluginManager->callPluginsImplementing('ClientResponder', 'handleDrawing');
 
         // images result
-        $pluginManager->images->internalHandleCorePlugin();
-
-        $pluginManager->callPlugins('internalHandlePostDrawing');
+        $pluginManager->callPluginImplementing($pluginManager->images,
+                                               'CoreProvider', 'handleCorePlugin');
+                                               
+        $pluginManager->callPluginsImplementing('ClientResponder', 'handlePostDrawing');
 
         $log->debug("result is:");
         $log->debug($mapResult);
