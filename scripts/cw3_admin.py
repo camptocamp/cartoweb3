@@ -71,12 +71,12 @@ def setup_htdocs(htdocs_directory):
 def setup_icons(directory):
 
     # creates www-data icons for each mapid
-    icon_dirs = glob.glob(join(directory, '../../server_conf/*/icons'))
-    icon_dirs.extend(glob.glob(join(directory, 'server_conf/*/icons')))
+    icon_dirs = glob.glob(join(directory, '../../server_conf/*'))
+    icon_dirs.extend(glob.glob(join(directory, 'server_conf/*')))
 
     for icon_dir in icon_dirs:
         dirs = icon_dir.split(os.sep)
-        map_id = dirs[-2]
+        map_id = dirs[-1]
         www_data_dir = join(directory, 'www-data/icons', map_id)
 
         if not os.path.isdir(www_data_dir):
