@@ -289,3 +289,8 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 .mini {
   font-size:0.8em;
 }
+
+#dummy {
+  width:0;
+  height:0;
+}
