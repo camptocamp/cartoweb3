@@ -67,24 +67,45 @@
  <sect1 id="intro.feature.layer">
   <title>Arbitrary Complex Hierarchy of Layers</title>
   <para>
+    Contrary to Mapserver itself, &cartoweb; supports an arbitrarily 
+    complex hierarchy of layers, with infinite depth. 
+  </para>
+  <para>
+    The elements of the layers tree have different rendering options :
+  </para>
    <itemizedlist>
     <listitem>
      <para>
-      Feature 1
+     normal checkboxes
      </para>
     </listitem>
     <listitem>
      <para>
-      Feature 2
+     blocks
      </para>
-    </listitem>
+    </listitem>    
     <listitem>
      <para>
-      Feature 3 and so on...
+     radio button (exclusive options)
      </para>
-    </listitem>
+    </listitem>    
+    <listitem>
+     <para>
+     drop-down menu (exclusive options)
+     </para>
+    </listitem>  
    </itemizedlist>
-  </para>
+   <para>
+     Examples of these rendering options are presented in the following figure.
+   </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="screen_tree.png" 
+            format="PNG"/>
+        </imageobject>
+      </mediaobject>
+    </screenshot>    
  </sect1>
 
  <sect1 id="intro.feature.measuring">
