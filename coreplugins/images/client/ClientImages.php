@@ -158,11 +158,9 @@ class ClientImages extends ClientCorePlugin {
 
     function renderForm($template) {
        
-        // TODO: add i18n support
         $template->assign(array(
             'mainmap_path' => 
                 $this->getImagePath($this->imagesResult->mainmap->path),
-            'mainmap_alt' => 'Main map', #i18n
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
                                 ));
@@ -171,7 +169,6 @@ class ClientImages extends ClientCorePlugin {
             $template->assign(array(
                 'keymap_path' => 
                     $this->getImagePath($this->imagesResult->keymap->path),
-                'keymap_alt' => 'Overwiew map', #i18n
                 'keymap_width' => $this->imagesResult->keymap->width,
                 'keymap_height' => $this->imagesResult->keymap->height,
                                     ));
@@ -181,7 +178,6 @@ class ClientImages extends ClientCorePlugin {
             $template->assign(array(
                 'scalebar_path' => 
                     $this->getImagePath($this->imagesResult->scalebar->path),
-                'scalebar_alt' => 'Scale bar', #i18n
                 'scalebar_width' => $this->imagesResult->scalebar->width,
                 'scalebar_height' => $this->imagesResult->scalebar->height,
                                     ));
