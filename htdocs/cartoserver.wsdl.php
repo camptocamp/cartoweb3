@@ -18,23 +18,38 @@ require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
 require_once(CARTOSERVER_HOME . 'common/misc_functions.php');
 
+function getServerConfig() {
+    return parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');
+}
 
-$wsdlContent = file_get_contents(CARTOSERVER_HOME . 'server/cartoserver.wsdl');
-
-
-if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+function getSoapAddress($serverConfig) {
     
-    $ini_array = parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');
-
-    if (in_array('reverseProxyUrl', $ini_array))
-        die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
-            'parameter set in configuration');
+    if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
     
-    $soapAddress = $ini_array['reverseProxyUrl'];
-} else {
-    $soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
-                $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
+        if (isset($serverConfig['reverseProxyUrl']))
+            die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
+                'parameter set in configuration');
+    
+        $soapAddress = $serverConfig['reverseProxyUrl'];
+    } else {
+        $soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
+                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
+    }
+    return $soapAddress;
 }           
+
+function getQueryString($serverConfig) {
+    $queryString = array();
+    
+    if (isset($serverConfig['savePosts']) &&
+        $serverConfig['savePosts'])
+        $queryString['save_posts'] = '1';
+    return $queryString;
+}
+
+$serverConfig = getServerConfig();
+$soapAddress = getSoapAddress($serverConfig);
+$queryString = getQueryString($serverConfig);
                 
 if (array_key_exists('mapId', $_REQUEST) && $_REQUEST['mapId'] != '')
     $mapId = $_REQUEST['mapId'];
@@ -42,8 +57,10 @@ if (array_key_exists('mapId', $_REQUEST) && $_REQUEST['mapId'] != '')
 $soapAddress .= '/server.php';
 
 if (isset($mapId))
-    $soapAddress .= '?mapId=' . $mapId;
+    $queryString['mapId'] = $mapId;
 
+$wsdlContent = file_get_contents(CARTOSERVER_HOME . 'server/cartoserver.wsdl');
+$soapAddress .= '?' . htmlentities(http_build_query($queryString));
 $wsdlContent = str_replace('{SOAP_ADDRESS}', $soapAddress, $wsdlContent);
 
 $pluginsRequest = '';
