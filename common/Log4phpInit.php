@@ -8,7 +8,7 @@
 
 /**
  * Initializes the log4php library
- * @param boolean whether to initializes 
+ * @param boolean true if initializing the cartoclient (false for the cartoserver)
  */
 function initializeLog4php($isClient) {
 
