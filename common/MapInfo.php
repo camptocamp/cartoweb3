@@ -33,8 +33,10 @@ class LayerBase extends Serializable {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
         $this->link  = self::unserializeValue($struct, 'link');
-        $this->minScale = self::unserializeValue($struct, 'minScale', 'int');
-        $this->maxScale = self::unserializeValue($struct, 'maxScale', 'int');
+        $this->minScale = self::unserializeValue($struct, 'minScale', 
+                                                 'double');
+        $this->maxScale = self::unserializeValue($struct, 'maxScale',
+                                                 'double');
         $this->icon  = self::unserializeValue($struct, 'icon');
     }
 }

@@ -109,8 +109,8 @@
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
           <element name="children" type="types:ArrayOfLayerId" minOccurs="0"/>
-          <element name="minScale" type="xsd:integer"/>
-          <element name="maxScale" type="xsd:integer"/>
+          <element name="minScale" type="xsd:double"/>
+          <element name="maxScale" type="xsd:double"/>
           <element name="icon" type="xsd:string"/>
           <element name="link" type="xsd:string"/>
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
