@@ -68,7 +68,7 @@ perms_sudo:
 
 create_config:
 	for i in `find -name "*.dist"`; do \
-	 cp -i $$i $${i%%.dist} ;  \
+	 cp -i --reply=no $$i $${i%%.dist} ;  \
 	done
 
 setup_files:
