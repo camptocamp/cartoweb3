@@ -133,6 +133,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
 
     function getPreviousScale($oldScale) {
         $newScale = 0;
+        $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
             if ($scale->value >= $oldScale) {
                 break;
@@ -147,6 +148,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     
     function getNextScale($oldScale) {
         $newScale = 0;
+        $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
             $newScale = $scale->value;
             if ($newScale > $oldScale) {
@@ -229,6 +231,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
             throw new CartoserverException('unknown zoom type ' .
                                            $this->requ->zoomType);
         }
+        $this->log->debug("new scale is $scale");
         return $scale;
     }
 }
@@ -274,9 +277,9 @@ class RecenterLocationCalculator extends LocationCalculator {
     private function queryLayerByAttributes($msLayer, $idAttribute, $query) { 
         
         $this->log->debug("queryLayerByAttributes $msLayer->name $idAttribute $query");
-        $ret = $msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
+        $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
         if ($ret == MS_FAILURE) {
-                $this->log->warn("no record found on layer $isSelection->layerId, or " .
+                $this->log->warn("no record found on ms layer $msLayer->name, or " .
                     "an error happened");
             return NULL;   
         }
