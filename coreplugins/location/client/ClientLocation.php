@@ -601,35 +601,37 @@ class ClientLocation extends ClientPlugin
          $locationRequest = $mapRequest->locationRequest;
 
          $type = $configuration->getLocationType();
-         if (!is_null($type))
+         if (!is_null($type)) {
              $locationRequest->locationType = $type;
 
-         $locationType = $locationRequest->locationType;
-
-         // reset every RelativeLocationRequest-typed properties:
-         foreach ($locationRequest as $member) {
-             if ($member instanceof RelativeLocationRequest &&
-                 $member != ucfirst($locationType))
-                 unset($member);
-         }
-
-         if ($locationType == 'zoomPointLocationRequest') {
-             $bbox = $configuration->getBbox();
-             if (!is_null($bbox))
-                 $locationRequest->$locationType->bbox = $bbox;
+             $locationType = $locationRequest->locationType;
     
-             $point = $configuration->getPoint();
-             if (!is_null($point))
-                 $locationRequest->$locationType->point = $point;
+             // reset every RelativeLocationRequest-typed properties:
+             foreach ($locationRequest as $member) {
+                 if ($member instanceof RelativeLocationRequest &&
+                     $member != ucfirst($locationType))
+                     unset($member);
+             }
     
-             $scale = $configuration->getScale();
-             if (!is_null($scale))
-                 $locationRequest->$locationType->scale = $scale;
-    
-             $zoomType = $configuration->getZoomType();
-             if (!is_null($zoomType))
-                 $locationRequest->$locationType->zoomType = 
-                     ZoomPointLocationRequest::ZOOM_SCALE;
+             if ($locationType == 'zoomPointLocationRequest') {
+                 $bbox = $configuration->getBbox();
+                 if (!is_null($bbox))
+                     $locationRequest->$locationType->bbox = $bbox;
+        
+                 $point = $configuration->getPoint();
+                 if (!is_null($point))
+                     $locationRequest->$locationType->point = $point;
+        
+                 $scale = $configuration->getScale();
+                 if (!is_null($scale))
+                     $locationRequest->$locationType->scale = $scale;
+        
+                 $zoomType = $configuration->getZoomType();
+                 // FIXME: whtaever zoomType, we now use ZOOM_SCALE
+                 if (!is_null($zoomType))
+                     $locationRequest->$locationType->zoomType = 
+                         ZoomPointLocationRequest::ZOOM_SCALE;
+             }
          }
      }
 }
