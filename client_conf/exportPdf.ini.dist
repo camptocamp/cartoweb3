@@ -1,14 +1,15 @@
 ;general settings
 general.formats = A4, A3
 general.defaultFormat = A4
-general.resolutions = 72, 96, 100, 150, 300
+general.resolutions = 96, 150, 300
 general.mapServerResolution = 96
 general.defaultResolution = 96
+general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, test, test2, table, queryResult, page, legend
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, test, test2, queryResult, page
 
 general.pdfEngine = CwFpdf
-general.pdfVersion = 1.4
+general.pdfVersion = 1.3
 general.distUnit = mm
 general.horizontalMargin = 10
 general.verticalMargin = 10
@@ -66,6 +67,12 @@ blocks.mainmap.padding = 0
 blocks.mainmap.verticalMargin = 10
 blocks.mainmap.horizontalMargin = 10
 
+blocks.overview.padding = 0
+blocks.overview.parent = mainmap
+blocks.overview.width = 50
+blocks.overview.height = 40
+blocks.overview.weight = 10
+
 blocks.scalebar.padding = 2
 blocks.scalebar.inFlow = false
 blocks.scalebar.parent = mainmap
@@ -81,11 +88,10 @@ blocks.note.hCentered = true
 blocks.note.verticalBasis = bottom
 blocks.note.borderWidth = 0;
 blocks.note.multiPage = true
-blocks.note.backgroundColor = #ff0000
 
 blocks.test.zIndex = 1
 blocks.test.weight = 20
-blocks.test.content = "texte de test"
+blocks.test.content = "text for testing"
 blocks.test.backgroundColor = white
 blocks.test.color = black
 blocks.test.fontItalic = true
@@ -98,7 +104,7 @@ blocks.test.parent = mainmap
 
 blocks.test2.zIndex = 1
 blocks.test2.weight = 30
-blocks.test2.content = "Un autre texte de test"
+blocks.test2.content = "Another text for testing"
 blocks.test2.backgroundColor = #ffdddd
 blocks.test2.color = #00ff00
 
@@ -120,14 +126,6 @@ blocks.queryResult.height = 15
 blocks.queryResult.verticalMargin = 40
 blocks.queryResult.horizontalMargin = 100
 
-blocks.table.type = table
-blocks.table.inNewPage = true
-blocks.table.caption = tableCaption
-blocks.table.headers = tableHeaders2
-blocks.table.hCentered = true;
-blocks.table.verticalMargin = 200
-blocks.table.height = 10
-
 blocks.tableCaption.backgroundColor = #ff0000
 blocks.tableCaption.color = white
 blocks.tableCaption.content = "Test de tableau"
@@ -137,12 +135,6 @@ blocks.tableCaption.height = 20
 blocks.tableHeaders.backgroundColor = #ffaaaa
 blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff
-
-blocks.tableHeaders2.backgroundColor = #ffaaaa
-blocks.tableHeaders2.fontBold = true
-blocks.tableHeaders2.color = #eeffee
-blocks.tableHeaders2.content = colonne 1, colonne B, colonne III
-blocks.tableHeaders2.height = 15
 
 blocks.legend.type = legend
 blocks.legend.zIndex = 1
@@ -154,3 +146,14 @@ blocks.page.borderWidth = 0
 blocks.page.verticalBasis = bottom
 blocks.page.height = 8
 blocks.page.zIndex = 6
+
+blocks.logo.type = image
+blocks.logo.content = <your_logo_url>
+blocks.logo.width = 40
+blocks.logo.height = 7
+blocks.logo.padding = 2
+blocks.logo.parent = mainmap
+blocks.logo.horizontalBasis = right
+blocks.logo.inFlow = false
+blocks.logo.horizontalMargin = 5
+blocks.logo.verticalMargin = 5
