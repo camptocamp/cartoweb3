@@ -13,3 +13,9 @@
 
       <complexType name="HilightResult">
       </complexType>
+
+      <complexType name="HilightInit">
+        <all>
+        </all>      
+      </complexType>
+      

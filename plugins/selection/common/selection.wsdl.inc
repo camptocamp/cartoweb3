@@ -20,3 +20,9 @@
           <enumeration value="POLICY_INTERSECTION"/>
         </restriction>
       </simpleType>
+
+      <complexType name="SelectionInit">
+        <all>
+        </all>      
+      </complexType>
+      
