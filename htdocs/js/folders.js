@@ -1,3 +1,6 @@
+/* Copyright 2005 Camptocamp SA. 
+   Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
+
 function setupFolders() {
     var current;
     var folder_idx = document.carto_form.js_folder_idx.value;
