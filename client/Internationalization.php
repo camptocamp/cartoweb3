@@ -47,31 +47,7 @@ class I18n {
         return $locales;    
     }
     
-    // Detection of language in ACCEPT_LANGUAGE (mode 1) and USER_AGENT
-    // variables (mode 2). This function is used in set_language code bellow.
-    // This code is based on phpLang:
-    // http://www.phpheaven.net/projects/phplang/
-    static function detect_lang($lang_content, $mode)
-    {
-        $languages = array (
-            'en([-_][[:alpha:]]{2})?|english'   => array('en', 'english'),
-            'fr([-_][[:alpha:]]{2})?|french'    => array('fr', 'french'),
-            'de([-_][[:alpha:]]{2})?|german'    => array('de', 'german'),
-        );
-
-        $ext_lang = '';
-        reset($languages);
-        while ($ext_lang == '' && list($key, $name) = each($languages)) {
-            if ( ($mode == 1 &&  eregi('^'.($key).'$', trim($lang_content))) ||
-                 ($mode == 2 &&  eregi('(\(|\[|;[[:space:]])'.$key.'(;|\]|\))',
-                  $lang_content)) ) {
-                $ext_lang = $name[0];
-            }
-        }
-        return $ext_lang;
-    }
-    
-    /**
+   /**
      * Sets the locale depending on URL, browser or config
      */
     static function setLocale($defaultLang) {
@@ -79,8 +55,9 @@ class I18n {
          
         $locales = self::getLocales();
         
-        // Set language code based on phpLang (www.phpheaven.net)
-        // look in LANG->cookies->$HTTP_ACCEPT_LANGUAGE->$HTTP_USER_AGENT
+        // Set language code based on phpLang:
+        // http://www.phpheaven.net/projects/phplang/
+        // look in LANG->cookies->$HTTP_ACCEPT_LANGUAGE
         // look if LANG has been passed (by url and mod_rewrite)
         // will work with following mod_rewrite rule:
         // RewriteRule   ^(.*)/(fr|de|it|en)/(.*)          $1/$3 [E=LANG:$2]
@@ -96,27 +73,24 @@ class I18n {
         }
         // if not in cookies, looks if valid language is set in $HTTP_ACCEPT_LANGUAGE
         elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $already_tested = array();
             $accepted_lang = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            
             while (!defined('LANG') && list($key, $name) = each($accepted_lang)) {
                 $code = explode(';', $name);
-                $lang_ext = self::detect_lang($code[0], 1); //1 for ACCEPT_LANGUAGE
-                if ($lang_ext != '' && in_array($lang_ext, $locales)) {
+                $lang_ext = substr($code[0], 0, 2);
+                
+                if (in_array($lang_ext, $already_tested)) continue;
+                $already_tested[] = $lang_ext;
+                
+                if (in_array($lang_ext, $locales)) {
                     define('LANG', $lang_ext);
                     $log->debug('LANG: $_SERVER[HTTP_ACCEPT_LANGUAGE] = ' . LANG);
                 }
             }
         }
         
-        // if language not yet set, looks for language of browser in USER_AGENT cannot
-        // be elseif because ACCEPT_LANGUAGE can exist, but without valid lang.
-        if (!defined('LANG') && isset($_SERVER['HTTP_USER_AGENT'])) {
-            $lang_browser = self::detect_lang($_SERVER['HTTP_USER_AGENT'], 2); // 2:USER_AGENT
-            if ($lang_browser != '' && in_array($lang_browser, $locales)) {
-                define('LANG', $lang_browser);
-                $log->debug('LANG: $_SERVER[HTTP_USER_AGENT] = ' . LANG);
-            }
-        }
-        unset ($accepted_lang, $key, $name, $code, $lang_ext, $lang_browser);
+       unset ($accepted_lang, $key, $name, $code, $lang_ext, $already_tested);
 
         // if language not yet set, set to default language)
         if (!defined('LANG')) {
