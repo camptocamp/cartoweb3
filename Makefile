@@ -7,9 +7,11 @@ fetch_libs:
 	-rm -r include
 	wget -O- $(LIBS_URL) | tar xzf -
 
-clean:
-	find -name "*~" -type f -exec  rm {} \;
+wwwdata_clean:
 	find www-data -type f|xargs -r rm
+
+clean: wwwdata_clean
+	find -name "*~" -type f -exec  rm {} \;
 	rm -f templates_c/*
 	find -type l -exec rm {} \;
 
@@ -22,6 +24,9 @@ dirs:
 
 links:
 	ln -snf ../www-data/images htdocs/images
+	-(cd server_conf/test_continuous; for i in ../test/*; do ln -s $$i; done)
+	ln -s test.map server_conf/test_continuous/test_continuous.map
+	ln -s test.ini server_conf/test_continuous/test_continuous.ini
 
 perms:
 	chmod +x scripts/*sh scripts/*py
@@ -36,7 +41,7 @@ perms_sudo:
 
 create_config:
 	for i in `find -name "*.dist"`; do \
-	 cp -i $$i $${i%%.dist} ;  \
+	 cp -i --reply=no $$i $${i%%.dist} ;  \
 	done
 
 htlinks:
