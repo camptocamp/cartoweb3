@@ -306,11 +306,9 @@ class ClientLayers extends ClientPlugin
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
 
-        // disables all layers before selecting correct ones
-        foreach ($this->getLayers() as $layer) {
-            $this->layersData[$layer->id]->selected = false;
-            $this->layersData[$layer->id]->unfolded = false;
-        }
+        // input mask
+        $mask = array_diff(array_values($this->nodesIds),
+                           $this->getHiddenLayers(), $this->getFrozenLayers());
 
         // selected dropdowns:
         $this->layersState->dropDownSelected = array();
@@ -322,7 +320,6 @@ class ClientLayers extends ClientPlugin
             if (strstr($k, 'layers_dropdown_')) {
                 $id = substr($k, 16); // 16 = strlen('layers_dropdown_')
                 $this->layersState->dropDownSelected[$id] = $v;
-            
             } elseif (strstr($k, 'layers_') && 
                       !in_array($v, $request['layers'])) {
             
@@ -333,11 +330,17 @@ class ClientLayers extends ClientPlugin
         $this->log->debug('requ layers');
         $this->log->debug($request['layers']);
  
-        foreach ($request['layers'] as $layerId) {
-            $this->layersData[$layerId]->selected = true;
+        foreach ($mask as $layerId) {
+            $this->layersData[$layerId]->selected = in_array($layerId,
+                                                           $request['layers']);
         }
 
         // unfolded layergroups:
+        // TODO: use "selected layers"-like mask to keep asleep unfolded nodes
+        foreach ($this->getLayers() as $layer) {
+            $this->layersData[$layer->id]->unfolded = false;
+        }
+
         if (!@$request['openNodes']) $request['openNodes'] = false;
         $openNodes = array_unique(explode(',', $request['openNodes']));
 
@@ -366,7 +369,8 @@ class ClientLayers extends ClientPlugin
         if($refresh || !$this->$storageName || 
            !is_array($this->$storageName)) {
             foreach ($this->getLayers() as $layer) {
-                if (@$this->layersData[$layer->id]->$stateProperty)
+                if (isset($this->layersData[$layer->id]) &&
+                    $this->layersData[$layer->id]->$stateProperty)
                     $this->{$storageName}[] = $layer->id;
             }
         }
@@ -536,19 +540,52 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * Recursively determines layers that can be selected in layers selector.
+     * @param string layer id
+     * @return array layers list
+     */
+    private function getLayersMask($layerId = 'root') {
+        $layer = $this->getLayerByName($layerId);
+        
+        if ($layer instanceof LayerClass)
+            return array();
+
+        $mask = array($layerId);
+        
+        if ($layer instanceof Layer)
+            return $mask;
+
+        if ($layer->rendering == 'dropdown') {
+            if (isset($this->layersState->dropDownSelected[$layerId]))
+                $childId = $this->layersState->dropDownSelected[$layerId];
+            else
+                $childId = $layer->children[0];
+
+            $children = $this->getLayersMask($childId);
+            return array_merge($mask, $children);
+        }
+        
+        foreach ($layer->children as $childId) {
+            $children = $this->getLayersMask($childId);
+            $mask = array_merge($mask, $children);
+        }
+
+        return $mask;
+    }
+
+    /**
      * Sets selected layers list in MapRequest.
      * @see ServerCaller::buildMapRequest()
      */
     function buildMapRequest($mapRequest) {
-        $selectedLayers = array_merge($this->hiddenSelectedLayers,
-                                      $this->frozenSelectedLayers);
-        foreach ($selectedLayers as $layerId)
-            $this->layersData[$layerId]->selected = true;
+        $layersMask = $this->getLayersMask();
         
+        $layerIds = $this->getSelectedLayers(true);
+        $layerIds = $this->fetchChildrenFromLayerGroup($layerIds);
+        $layerIds = array_intersect($layerIds, $layersMask);
+     
         $layersRequest = new LayersRequest();
-        $layersRequest->layerIds = $this->getSelectedLayers(true);
-        $layersRequest->layerIds = 
-            $this->fetchChildrenFromLayerGroup($layersRequest->layerIds);
+        $layersRequest->layerIds = $layerIds;
         $mapRequest->layersRequest = $layersRequest;
     }
 
@@ -703,6 +740,7 @@ class ClientLayers extends ClientPlugin
                        $layer->rendering == 'dropdown');
         
         if ($isDropDown) {
+            $parentId = $layer->id;
             $isRadioContainer = false;
             $dropDownChildren = array();
             if (isset($this->layersState->dropDownSelected[$parentId])) {
@@ -721,7 +759,7 @@ class ClientLayers extends ClientPlugin
             $nodeId = 0;
         else
             $nodeId = implode('.', $this->nodeId);
-        
+       
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
             
@@ -734,12 +772,14 @@ class ClientLayers extends ClientPlugin
                         continue; 
                 } elseif ($i++) continue;
             }
-           
-            if ($firstChild) {
-                $firstChild = false;
-                $this->nodeId[] = 1;
-            } else {
-                $this->nodeId[$level]++;
+          
+            if ($layer instanceof LayerGroup) {
+                if ($firstChild) {
+                    $firstChild = false;
+                    $this->nodeId[] = 1;
+                } else {
+                    $this->nodeId[$level]++;
+                }
             }
             
             $childrenLayers[] = $this->fetchLayer($childLayer, $layerChecked,
@@ -748,7 +788,7 @@ class ClientLayers extends ClientPlugin
                                                   $layer->id);
         }
 
-        if ($childrenLayers)
+        if ($layer instanceof LayerGroup && !$layer->aggregate)
             array_pop($this->nodeId);
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
