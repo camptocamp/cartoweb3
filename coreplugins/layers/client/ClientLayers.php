@@ -958,7 +958,7 @@ class ClientLayers extends ClientPlugin
             ($layer->minScale && $scale < $layer->minScale))
             return array();
         
-        $data = array('label' => utf8_decode($layer->label),
+        $data = array('label' => I18n::gt($layer->label),
                       'icon' => $this->getPrintedIconPath($layer->icon),
                       'children' => array());
         
@@ -992,7 +992,7 @@ class ClientLayers extends ClientPlugin
                 if ($layer->aggregate) {
                     if (!isset($printedNodes[$layerId])) {
                         $printedNodes[$layerId] = array(
-                            'label' => utf8_decode($layer->label),
+                            'label' => I18n::gt($layer->label),
                             'icon' => $this->getPrintedIconPath($layer->icon),
                             'children' => array());
                     }
