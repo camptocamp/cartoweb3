@@ -34,8 +34,6 @@ class MapInfoHandler {
                 $layer->label = $layer->id; 
             if ($layer instanceof Layer && empty($layer->msLayer))
                 $layer->msLayer = $layer->id; 
-            if ($layer instanceof LayerGroup && empty($layer->aggregate))
-                $layer->aggregate = false; 
         }
         
         return $mapInfo;
@@ -77,13 +75,16 @@ class MapInfoHandler {
             
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msClass = $msLayer->GetClass($i);
-                $layerClass = new LayerClass();
+                if (isset($msClass->name) && 
+                    strlen(trim($msClass->name)) != 0) { 
+                    $layerClass = new LayerClass();
 
-                copy_vars($msClass, $layerClass);
-                $layerClass->id = $layer->id . '_class_' . $i;
-                $layerClass->label = utf8_encode($msClass->name);
+                    copy_vars($msClass, $layerClass);
+                    $layerClass->id = $layer->id . '_class_' . $i;
+                    $layerClass->label = utf8_encode($msClass->name);
                 
-                $mapInfo->addChildLayerBase($layer, $layerClass);
+                    $mapInfo->addChildLayerBase($layer, $layerClass);
+                }
             }
         }
         
