@@ -1,58 +1,171 @@
 <?php
 /**
+ * Layers selection interface
  * @package CorePlugins
+ * @author Sylvain Pasche, Alexandre Saunier
  * @version $Id$
  */
 
 /**
+ * Container for session-saved data. See also {@link ClientLayers}.
  * @package CorePlugins
  */
 class LayersState {
+   
+    /**
+     * @var array
+     */
     public $layersData;
+    
+    /**
+     * @var array
+     */
     public $hiddenSelectedLayers;
+
+    /**
+     * @var array
+     */
     public $hiddenUnselectedLayers;
+    
+    /**
+     * @var array
+     */
     public $frozenSelectedLayers;
+    
+    /**
+     * @var array
+     */
     public $frozenUnselectedLayers;
+    
+    /**
+     * @var array
+     */
     public $nodesIds;
+    
+    /**
+     * @var array
+     */
     public $dropDownSelected;
 }
 
 /**
+ * Handles layers selection interface
  * @package CorePlugins
  */
 class ClientLayers extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller {
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var Smarty_CorePlugin 
+     */
     private $smarty;
 
+    /**
+     * @var LayersState
+     */
     private $layersState;
+
+    /**
+     * List of LayerState objects. See {@link LayerState}.
+     * @var array
+     */
     private $layersData;
+    
+    /**
+     * @var array
+     */
     private $hiddenSelectedLayers;
+    
+    /**
+     * @var array
+     */
     private $hiddenUnselectedLayers;
+
+    /**
+     * @var array
+     */
     private $frozenSelectedLayers;
+    
+    /**
+     * @var array
+     */
     private $frozenUnselectedLayers;
     
+    /**
+     * @var array
+     */
     private $layers;
+    
+    /**
+     * @var array
+     */
     private $selectedLayers = array();
+    
+    /**
+     * @var array
+     */
     private $hiddenLayers = array();
+    
+    /**
+     * @var array
+     */
     private $frozenLayers = array();
+    
+    /**
+     * @var array
+     */
     private $unfoldedLayerGroups = array();
+    
+    /**
+     * @var array
+     */
     private $unfoldedIds = array();
+    
+    /**
+     * Incrementor for node (layer) id in displayed interface. 
+     * @var int
+     */
     private $nodeId = 0;
+
+    /**
+     * @var array
+     */
     private $nodesIds = array();
+    
+    /**
+     * @var array
+     */
     private $childrenCache = array();
 
+    /**
+     * @var float
+     */
     private $currentScale;
+    
+    /**
+     * @var string
+     */
     private $mapId;
 
     const BELOW_RANGE_ICON = 'nam.png';
     const ABOVE_RANGE_ICON = 'nap.png';
 
+    /**
+     * Constructor
+     */
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
+    /**
+     * Retrieves session-saved layers data.
+     * @see Sessionable::loadSession()
+     */
     function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
@@ -73,6 +186,10 @@ class ClientLayers extends ClientPlugin
             =& $this->layersState->frozenUnselectedLayers;
     }
 
+    /**
+     * Initializes layers session data and initially populates some properties.
+     * @see Sessionable::CreateSession()
+     */
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
@@ -114,6 +231,7 @@ class ClientLayers extends ClientPlugin
     /**
      * Returns the list of Layer|LayerGroup|LayerClass objects available 
      * in MapInfo.
+     * @return array
      */
     private function getLayers() {
         if(!is_array($this->layers)) {
@@ -127,17 +245,23 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Returns the Layer|LayerGroup|LayerClass object whose name is passed.
+     * @param string name of layer
+     * @return LayerBase layer object of type Layer|LayerGroup|LayerClass
      */
     private function getLayerByName($layername) {
         $layers =& $this->getLayers();
 
-        if (isset($layers[$layername])) return $layers[$layername];
-        else throw new CartoclientException("unknown layer name: $layername");
+        if (isset($layers[$layername])) 
+            return $layers[$layername];
+        else 
+            throw new CartoclientException("unknown layer name: $layername");
     }
 
     /**
      * Returns a list of current layer children, taking into account some
      * criteria such as aggregation, LayerClass name validity.
+     * @param LayerBase layer object of type Layer|LayerGroup|LayerClass
+     * @return array array of layers names
      */
     private function getLayerChildren($layer) {
         if(isset($this->childrenCache[$layer->id]))
@@ -171,6 +295,10 @@ class ClientLayers extends ClientPlugin
         return $children;
     }
 
+    /**
+     * Handles layers-related POST'ed data and updates layers statuses.
+     * @see GuiProvider::handleHttpPostRequest() 
+     */
     function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
@@ -218,11 +346,19 @@ class ClientLayers extends ClientPlugin
         }
     }
 
-    function handleHttpGetRequest($request) {
-    }
+    /**
+     * Handles data from GET request. Not used/implemented yet.
+     * @see GuiProvider::handleHttpGetRequest()
+     */
+    function handleHttpGetRequest($request) {}
     
     /**
      * Returns a list of layers that match passed condition.
+     * Is in fact a code factorizer for get*Layers() methods.
+     * @param string name of some LayerBase property. See {@link LayerBase}.
+     * @param string name of ClientLayers property that contains data
+     * @param boolean if true, refreshes storage content (default to false)
+     * @return array
      */
     private function getMatchingLayers($stateProperty, $storageName,
                                        $refresh = false) {
@@ -238,6 +374,8 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Returns the list of activated layers.
+     * @param boolean optional (default: false), if true, forces result refresh
+     * @return array
      */
     private function getSelectedLayers($refresh = false) {
         return $this->getMatchingLayers('selected', 'selectedLayers', 
@@ -246,6 +384,7 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Returns the list of LayerGroups that must be rendered unfolded.
+     * @return array
      */
     private function getUnfoldedLayerGroups() {
         return $this->getMatchingLayers('unfolded', 'unfoldedLayerGroups');
@@ -253,6 +392,7 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Returns the list of explicitely hidden layers.
+     * @return array
      */
     private function getHiddenLayers() {
         return $this->getMatchingLayers('hidden', 'hiddenLayers');
@@ -260,6 +400,7 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Returns the list of explicitely frozen layers.
+     * @return array
      */
     private function getFrozenLayers() {
         return $this->getMatchingLayers('frozen', 'frozenLayers');
@@ -270,6 +411,12 @@ class ClientLayers extends ClientPlugin
      * browser). Since "hidden" property is inheritated by layers
      * from their declared-as-hidden parents, those layers selection statuses
      * are retrieved as well.
+     * @param string layer name
+     * @param boolean (default: false) if true, transmits 'hidden' status to 
+     * children layers
+     * @param boolean (default: false) if true, transmits 'selected' status to
+     * children layers
+     * @return array
      */
     private function fetchHiddenSelectedLayers($layerId, 
                                                $forceHidden = false,
@@ -282,8 +429,14 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Recursively retrieves selected frozen layers. 
-     * See also fetchHiddenSelectedLayers().
+     * Recursively retrieves selected frozen layers.
+     * @param string layer name
+     * @param boolean (default: false) if true, transmits 'frozen' status to
+     * children layers
+     * @param boolean (default: false) if true, transmits 'selected' status to
+     * children layers
+     * @return array
+     * @see fetchHiddenSelectedLayers()
      */
     private function fetchFrozenSelectedLayers($layerId,
                                                $forceFrozen = false,
@@ -299,8 +452,15 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Performs common recusrive job for fetchHiddenSelectedLayers() and
+     * Performs common recursive job for fetchHiddenSelectedLayers() and
      * fetchFrozenSelectedLayers().
+     * @param LayerBase
+     * @param string type of layers detection: 'hidden' or 'frozen'
+     * @param boolean inherited status (see above type)
+     * @param boolean inherited selection status
+     * @return array
+     * @see fetchHiddenSelectedLayers()
+     * @see fetchFrozenSelectedLayers()
      */
     private function fetchRecursively($layer, $type, 
                                       $forceFixed, $forceSelected) {
@@ -340,7 +500,9 @@ class ClientLayers extends ClientPlugin
     /**
      * Determines activated layers by recursively browsing LayerGroups.
      * Only keeps Layer objects that are not detected as hidden AND 
-     * not selected
+     * not selected.
+     * @param array list of layers names
+     * @return array list of children, grand-children... of given layers
      */
     private function fetchChildrenFromLayerGroup($layersList) {
         if (!$layersList || !is_array($layersList)) return false;
@@ -372,6 +534,10 @@ class ClientLayers extends ClientPlugin
         return array_unique($cleanList);
     }
 
+    /**
+     * Sets selected layers list in MapRequest.
+     * @see ServerCaller::buildMapRequest()
+     */
     function buildMapRequest($mapRequest) {
         $selectedLayers = array_merge($this->hiddenSelectedLayers,
                                       $this->frozenSelectedLayers);
@@ -385,13 +551,21 @@ class ClientLayers extends ClientPlugin
         $mapRequest->layersRequest = $layersRequest;
     }
 
+    /**
+     * @see ServerCaller::initializeResult()
+     */
     function initializeResult($mapResult) {}
 
+    /**
+     * @see ServerCaller::handleResult()
+     */
     function handleResult($mapResult) {}
 
    /**
      * Recursively retrieves the list of Mapserver Classes bound to the layer
      * or its sublayers.
+     * @param LayerBase
+     * @return array array of layers names
      */
     private function getClassChildren($layer) {
         if ($layer instanceof LayerClass) return array($layer->id);
@@ -412,6 +586,7 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Retrieves current scale from MapResult object.
+     * @return float
      */
     private function getCurrentScale() {
         if (!isset($this->currentScale)) {
@@ -423,6 +598,9 @@ class ClientLayers extends ClientPlugin
     
     /**
      * Returns layer icon filename if any.
+     * @param LayerBase
+     * @param array list of layer children names (default: empty array)
+     * @return string
      */
     private function fetchLayerIcon($layer, &$children = array()) {
         if (!$layer->icon || $layer->icon == 'none') {
@@ -466,6 +644,8 @@ class ClientLayers extends ClientPlugin
     /**
      * Substitutes out-of-scale icons if current scale is out of the layer
      * range of scales.
+     * @param LayerBase
+     * @return boolean
      */
     private function setOutofScaleIcon($layer) {
         if ($layer->minScale && 
@@ -486,6 +666,14 @@ class ClientLayers extends ClientPlugin
     /**
      * Deals with every single layer and recursively calls itself 
      * to build sublayers. 
+     * @param LayerBase
+     * @param boolean (default: false) if true transmits 'selected' status to
+     * children
+     * @param boolean (default: false) if true transmits 'frozen' status to
+     * children
+     * @param string (default: 'tree') rendering of layers
+     * @param int (default: 0) id of parent layer in displayed interface
+     * @return array array of layer children and grand-children... data 
      */
     private function fetchLayer($layer, $forceSelection = false,
                                         $forceFrozen = false,
@@ -494,7 +682,7 @@ class ClientLayers extends ClientPlugin
         
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
-            return false;
+            return array();
 
         $element = array();
 
@@ -597,6 +785,7 @@ class ClientLayers extends ClientPlugin
 
     /**
      * Initializes layers selector interface.
+     * @return string result of a Smarty fetch
      */
     private function drawLayersList() {
 
@@ -622,6 +811,10 @@ class ClientLayers extends ClientPlugin
         return $this->smarty->fetch('layers.tpl');
     }
 
+    /**
+     * Assigns the layers interface output in the general CartoClient template.
+     * @see GuiProvider::renderForm()
+     */
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
@@ -630,6 +823,10 @@ class ClientLayers extends ClientPlugin
         $template->assign('layers', $this->drawLayersList());
     }
 
+    /**
+     * Saves layers data in session.
+     * @see Sessionable::saveSession()
+     */
     function saveSession() {
         $this->log->debug('saving session:');
         $this->log->debug($this->layersState);
