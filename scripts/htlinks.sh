@@ -7,9 +7,10 @@ usage () {
 }
 
 addlinks () {
-	for i in `ls $@`; do
-		for j in `ls $@/$i`; do
-			if [ "$j" = 'htdocs' ]
+	if [ -d $@ ]
+	then
+		for i in `ls $@`; do
+			if [ -d $@/$i/htdocs ]
 			then
 				cd htdocs
 				find -name $i -type l -exec rm {} \;
@@ -17,7 +18,7 @@ addlinks () {
 				ln -s ../$@/$i/htdocs htdocs/$i
 			fi
 		done
-	done
+	fi
 }
 
 if [ "$1" = -h ]
@@ -32,19 +33,20 @@ then
 	addlinks "plugins"
 	addlinks "coreplugins"
 else
-	for j in `ls ../projects`; do
-		if [ "$j" = "$1" ]
+	if [ -d ../projects/$1 ]
+	then
+		cd ../htdocs
+		find -name $1 -type l -exec rm {} \;
+		
+		if [ -d ../projects/$1/htdocs ]
 		then
-			cd ../htdocs
-			find -name $1 -type l -exec rm {} \;
 			ln -s ../projects/$1/htdocs $1
 			cd $1
 			cd ../../projects/$1
-
+		
 			addlinks "plugins"
-			exit 1
 		fi
-	done
-	
-	usage
+	else	
+		usage
+	fi
 fi
