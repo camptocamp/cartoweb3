@@ -57,8 +57,8 @@ function updateChecked(id, isLayerGroup)
 //-->
 </script>
 {/literal}
-<p style="font-size:0.9em;text-align:center;"><a href="#" onclick="expandAll('layersroot')">expand</a> -
-<a href="#" onclick="closeAll('layersroot')">close</a></p>
+<div id="layerscmd"><a href="#" onclick="expandAll('layersroot')">expand</a> -
+<a href="#" onclick="closeAll('layersroot')">close</a></div>
 <div id="layersroot">
 {$layerlist}
 </div>
