@@ -34,6 +34,12 @@ class Smarty_Cartoclient extends Smarty {
         $this->debugging = $config->smartyDebugging;
         
         $this->projectHandler = new ClientProjectHandler();
+        
+        // Block function for ressources
+        $this->register_block('r', 'smartyResource');
+        
+        // Block function for translation
+        $this->register_block('t', 'smartyTranslate');        
     }
 
     /**
@@ -90,12 +96,6 @@ class FormRenderer {
 
     private function getSmarty() {
         $smarty = new Smarty_Cartoclient($this->cartoclient->getConfig());
-        
-        // Block function for ressources
-        $smarty->register_block('r', 'smartyResource');
-        
-        // Block function for translation
-        $smarty->register_block('t', 'smartyTranslate');
         
         return $smarty;
     }
