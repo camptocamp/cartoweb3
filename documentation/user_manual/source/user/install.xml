@@ -10,12 +10,159 @@
 <chapter id="user.install">
  <title>Installation</title>
 
+ <sect1 id="user.install.prerequisite">
+  <title>Prerequisite for Installing &cartoweb;</title>
+  <para>&cartoweb; depends on several sofware components needed for its proper
+    working. Some are required and others optional, depending on what you
+    intend to do.
+    
+     <variablelist>
+      <title>Required software</title>
+      <varlistentry>
+        <term>PHP >= 5.0.3<footnote>
+          <para>
+            This implies that you have a Web Server configured to execute
+            PHP scripts, such as Apache (<ulink url="http://httpd.apache.org"/>)
+          </para>
+          </footnote></term>
+        <listitem>
+          <para> See <ulink url="http://www.php.net"/> for more informations.
+            You will need to have some features available in PHP
+            <itemizedlist>
+              <listitem>
+                <para>SOAP: This is required by &cartoweb; as it uses SOAP
+                  webservices.</para>
+              </listitem>
+              <listitem>
+                <para>Gettext (optional): You need the Gettext module if you want
+                  to enable the Internationalisation in &cartoweb;. See
+                  <xref linkend="user.i18n"/> for configuration</para>
+              </listitem>
+              <listitem>
+                <para>Curl (optional): Some scripts (like i18n) need Curl 
+                  to fetch files remotely.</para>
+              </listitem>              
+            </itemizedlist>
+            </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Mapserver PHP MapScript (from MapServer &gt;= 4.4)</term>
+        <listitem>
+          <para>See <ulink url="http://www.maptools.org/php_mapscript/"/>
+            for more information and installation instructions.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>PostgreSQL with PostGIS suppport (optional)</term>
+        <listitem>
+          <para>If you want spatial database support in &cartoweb; you
+            will need to install PostGIS of the PostgreSQL database.
+            See <ulink url="http://postgis.refractions.net/"/> 
+            for more information.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    </para>
+ </sect1>
+
+ <sect1 id="user.install.3.0.0">
+  <title>Installation Instructions for Version 3.0.0</title>
+  <para>
+    For version 3.0.0, the installer is not yet completely ready. These are
+    instructions about how to install &cartoweb; with this version. These
+    notes are temporary and will be removed once the installer is totally
+    fonctional.
+  </para>
+  <para>
+    Step by step guide:
+    <orderedlist>
+      <listitem>
+        <para>Download &cartoweb; source from <ulink url="http://www.cartoweb.org/"/>.
+          It is recommended that you download the version with demo for a better
+          user experience.</para>
+      </listitem>
+      <listitem>
+        <para>
+          Uncompress the archive somewhere in your path accessible by your Web 
+          server.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Point your Web browser to the file located in 
+          <filename>htdocs/info.php</filename>, and check that the PHP
+          information page displays correctly (meaning PHP is correctly setup)
+          and that you have a section called MapScript in this page.
+          If it is not the case, &cartoweb; will not run correctly. You should
+          install and setup PHP and PHP MapScript correctly. See 
+            <xref linkend="user.install.prerequisite"/>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>&cartoweb; needs some file to be writable by the Web Server
+          such as the directory where generated images are stored. To set up
+          these permissions, you need to launch the PHP installer with an argument.
+          This needs to be done on the command line (launch <literal>cmd.exe</literal>
+          on Windows). You also need to find the path to your PHP executable. For 
+          instance <filename>c:\wamp\php\php.exe</filename> on Windows, or 
+          <filename>/var/lib/cgi-bin/php</filename> on Unix (just example, they may
+          differ). Once located, launch the following command:
+          <screen>php cw3setup.php perms</screen>
+          Replacing <literal>php</literal> with the path to your PHP.</para>
+      </listitem>
+      <listitem>
+        <para>You can now configure &cartoweb; with your desired options. If you
+          want to quickly test the demo, you need only one option to be modifed.
+          Open in your favorite editor the file named
+            <filename>client_conf/client.ini</filename>.
+          Find the line containing the value <literal>cartoclientBaseUrl</literal>.
+          Uncomment this line (removing the first <literal>;</literal> character
+          and set on the right side the URL which is used to access the 
+          <filename>htdocs</filename>directory inside &cartoweb;.
+          For instance, if you need to type <filename>http://localhost/cartoweb3/htdocs/info.php</filename>
+          to access the PHP information page, then the value to put there will be
+          <filename>http://localhost/cartoweb3/htdocs/</filename>.
+        </para>
+        <para>
+          Then, do the same for the option <literal>cartoserverBaseUrl</literal> 
+          just below.</para>
+      </listitem>
+      <listitem>
+        <para>(Optional) If you did not download &cartoweb; with the demo included, you
+          and want to want to install it afterward, you can get the demo data
+          and extract it inside the <filename>projects/demo/server_conf/demo</filename>
+          directory (this will give you a <filename>projects/demo/server_conf/demo/data</filename>
+          new directory with the data.
+        </para>
+        <para>On Unix, you can type the following in a shell:
+          <screen>cd projects/demo/server_conf/demo
+      tar xvzf cartoweb-demodata-3.0.0.tar.gz</screen>
+        On Windows, you can use a graphical extractor to do the same
+        (you can use <ulink url="http://www.7-zip.org/"/>).
+        </para>
+      </listitem>    
+      <listitem>
+        <para>
+          You should now be able to point your browser to the 
+            <filename>htdocs/demo.php</filename> file, and see &cartoweb; in action
+          (if you have the demo data).
+          If you don't have the demo, you can use the more simple test project
+          with the <filename>htdocs/client.php</filename> URL.
+        </para>
+      </listitem>
+     </orderedlist>
+  </para>
+ </sect1> 
  <sect1 id="user.install.unix">
   <title>UNIX-like Install<footnote>
     <para>
     If you are using Debian, and you need to install Mapserver, you can have a 
     look at <xref linkend="appendix.debian_mapserver"/>
     </para></footnote></title>
+  <para><note><para>
+      For version 3.0.0 installation, please refer to <xref linkend="user.install.3.0.0"/>.
+  </para></note></para>
   <para>
     &cartoweb; installer is "cw3setup.php", located in the root directory of the application:
     Simply run <screen>php -f cw3setup.php</screen> to setup the application.
@@ -66,6 +213,9 @@ remove                  : remove cartoweb3
 
  <sect1 id="user.install.win32">
   <title>Windows Install</title>
+  <para><note><para>
+      For version 3.0.0 installation, please refer to <xref linkend="user.install.3.0.0"/>.
+  </para></note></para>
   <para>
    The process is as simple as for UNIX, but the windows installer is not available yet.
   </para>
