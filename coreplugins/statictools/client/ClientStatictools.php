@@ -53,20 +53,8 @@ class ClientStatictools extends ClientCorePlugin implements ToolProvider {
                               Shape $keymapShape) {}
 
     function getTools() {
-        $tools = array();
-        $activatedTools = $this->getConfig()->staticTools;
-
-        if (!$activatedTools) return $tools;
         
-        $activatedTools = explode(',', $activatedTools);
-        $activatedTools = array_map('trim', $activatedTools);
-
-        foreach ($this->availableTools as $tool) {
-            if (in_array($tool->id, $activatedTools)) {
-                $tools[] = $tool; 
-            }
-        }
-        return $tools;
+        return $this->availableTools;
     }
 
     function handleHttpRequest($request) {}

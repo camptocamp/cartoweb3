@@ -128,6 +128,8 @@ abstract class ClientPlugin extends PluginBase {
         parent::__construct();
 
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        
+        $this->tools = null;
     }
 
     function initialize($initArgs) {
@@ -228,14 +230,18 @@ abstract class ClientPlugin extends PluginBase {
     final function doGetTools() {
         if (! $this instanceof ToolProvider) 
             return array();
-        if (!$this->tools) {
+        if (is_null($this->tools)) {
             $tools = $this->getTools();
 
             unset($this->tools);
+            $this->tools = array();
+            
             // update tools
             foreach ($tools as $tool) {
-                $tool = $this->updateTool($tool);
-                $this->tools[] = $tool;
+                if ($tool->weight >= 0) {
+                    $tool = $this->updateTool($tool);
+                    $this->tools[] = $tool;
+                }
             }
         }   
         return $this->tools;
