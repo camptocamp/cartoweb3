@@ -88,7 +88,6 @@ class CartoserverService {
                 }
 
                 $xmlOutput = $this->callFunction($function, $argument, true);
-                $xmlOutput = htmlentities($xmlOutput);
                 $fault->faultstring = "looks like we got no XML document : $xmlOutput";
                 throw $fault;
             }
