@@ -82,6 +82,9 @@
       dhtmlBox.initialize();
     }
     
+    // dhtml folders settings
+    var myfolders = new Array(1, 2, 3);
+    
     window.onload = function() {
       dboxInit();
       setupFolders();
