@@ -18,7 +18,7 @@ class cFPDF extends FPDF {
      * See http://fpdf.org/fr/script/script31.php
      * "TextWithRotation" is available at the same location as well.
      */
-    private function textWithDirection($x, $y, $txt, $direction = 'R') {       
+    public function textWithDirection($x, $y, $txt, $direction = 'R') {       
         $txt = str_replace(')', '\\)', 
                            str_replace('(', '\\(', 
                                        str_replace('\\', '\\\\', $txt)));
@@ -28,27 +28,27 @@ class cFPDF extends FPDF {
         switch($direction) {
             case 'R':
                 $s = sprintf($expr, 1, 0, 0, 1, $x * $this->k, 
-                             $this->h->$y * $this->k, $txt);
+                             ($this->h - $y) * $this->k, $txt);
                 break;
 
             case 'L':
                 $s = sprintf($expr, -1, 0, 0, -1, $x * $this->k, 
-                             $this->h->$y * $this->k, $txt);
+                             ($this->h - $y) * $this->k, $txt);
                 break;
 
             case 'U':
                 $s = sprintf($expr, 0, 1, -1, 0, $x * $this->k,
-                             $this->h->$y * $this->k, $txt);
+                             ($this->h - $y) * $this->k, $txt);
                 break;
 
             case 'D':
                 $s = sprintf($expr, 0, -1, 1, 0, $x * $this->k,
-                             $this->h->$y * $this->k, $txt);
+                             ($this->h - $y) * $this->k, $txt);
                 break;
 
             default:
                 $s = sprintf('BT %.2f %.2f Td (%s) Tj ET',
-                             $x * $this->k, $this->h->$y * $this->k, $txt);
+                             $x * $this->k, ($this->h - $y) * $this->k, $txt);
         }
         
         if ($this->ColorFlag)
@@ -91,6 +91,7 @@ class cFPDF extends FPDF {
         $this->p->SetMargins($this->format->horizontalMargin,
                              $this->format->verticalMargin);
         $this->p->AliasNbPages();
+        $this->p->SetAutoPageBreak(false);
     }
 
     function addPage() {
@@ -147,6 +148,11 @@ class cFPDF extends FPDF {
             $block->height += 2 * $block->padding;
         }
 
+        if ($block->orientation == 'vertical') {
+            list($block->width, $block->height) = 
+                array($block->height, $block->width);
+        }
+        
         $textAlign = $this->getTextAlign($block->textAlign);
 
         // box properties
@@ -162,10 +168,19 @@ class cFPDF extends FPDF {
         }
 
         list($x0, $y0) = $this->space->checkIn($block);
-        $this->p->SetXY($x0, $y0);
-        
-        $this->p->Cell($block->width, $block->height, $block->content,
-                       $border, 0, $textAlign, 1);
+
+        if ($block->orientation == 'vertical') {
+            $rectOpt = $border ? 'DF' : 'F'; 
+            $this->p->Rect($x0, $y0, $block->width, $block->height, $rectOpt);
+            $this->p->textWithDirection($x0 + $block->width - $block->padding, 
+                                        $y0 + $block->height - $block->padding, 
+                                        $block->content, 'U');
+        } else {
+            $this->p->SetXY($x0, $y0);
+            $this->p->Cell($block->width, $block->height, $block->content,
+                           $border, 0, $textAlign, 1);
+        }
+
         // TODO: handle transparent background
         // TODO: if block height can only be determined precisely after drawing
         // it (see FIXME above), update allocated space in space manager. 
@@ -177,10 +192,24 @@ class cFPDF extends FPDF {
         $this->setDrawColor($block->borderColor);
         $this->setFillColor($block->backgroundColor);
         // borderStyle property not available with FPDF
+
+        $imageWidth = $block->width;
+        $imageHeight = $block->height;
+        $shift = $block->borderWidth + $block->padding;
+
+        $block->width += 2 * $shift;
+        $block->height += 2 * $shift;
         
-        $this->p->Rect(0, 0, $block->width, $block->height, 'DF');
-        $this->p->Image($block->content, 0, 0, $block->width, $block->height);
-        // FIXME: image completely overlap containing box...
+        list($x0, $y0) = $this->space->checkIn($block);
+
+        if ($block->padding)
+            $this->p->Rect($x0, $y0, $block->width, $block->height, 'DF');
+        
+        $this->p->Image($block->content, $x0 + $shift, $y0 + $shift, 
+                        $imageWidth, $imageHeight);
+
+        if (!$block->padding)
+            $this->p->Rect($x0, $y0, $block->width, $block->height, 'D');
     }
 
     function addTableCell() {}

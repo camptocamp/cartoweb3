@@ -145,6 +145,7 @@ class PdfBlock {
     public $height;
     public $singleUsage      = true;
     public $parent;
+    public $inFlow           = true;
 }
 
 /**
@@ -204,8 +205,17 @@ class SpaceManager {
                   'maxY' => $y + $block->height);
 
         $this->levels[$block->id] = $block->zIndex;
+
+        return array($x, $y);
     }
 
+    /**
+     * Computes the block reference point Y-coordinate.
+     * @param PdfBlock
+     * @param float extent minimal Y-coord
+     * @param float extent maximal Y-coord
+     * @return float
+     */
     private function getY(PdfBlock $block, $minY, $maxY) {
         if ($block->verticalBasis == 'top') {
             // reference is page top border
@@ -233,6 +243,13 @@ class SpaceManager {
         return $y;
     }
 
+    /**
+     * Computes the block reference point X-coordinate.
+     * @param PdfBlock
+     * @param float extent minimal X-coord
+     * @param float extent maximal X-coord
+     * @return float
+     */
     private function getX(PdfBlock $block, $minX, $maxX) {
         if ($block->horizontalBasis == 'left') {
             $x = $minX + $block->horizontalMargin;
@@ -243,6 +260,12 @@ class SpaceManager {
         return $x;
     }
 
+    /**
+     * Returns the min and max coordinates of given block. If name is invalid,
+     * returns the maximal allowed extent.
+     * @param string block name
+     * @return array
+     */
     private function getBlockExtent($name) {
         if (!isset($this->levels[$name]))
             return array('minX' => $this->minX, 'minY' => $this->minY,
@@ -258,7 +281,28 @@ class SpaceManager {
      */
     public function checkIn(PdfBlock $block) {
         // TODO: handle block with no initially known dimensions (legend...)
+        // TODO: handle blocks too high to fit below previous block and
+        // that must be displayed with a X shift etc.
+        // TODO: handle more evoluted inter-block positioning than "inFlow"?
+        // TODO: take into account parent-block border-width in block 
+        // positioning: must be shifted of a border-width value in X and Y.
 
+        // if block must be displayed right below previous block
+        if ($block->inFlow && isset($this->allocated[$block->zIndex])) {
+            $elders = array_keys($this->allocated[$block->zIndex]);
+
+            if($elders) {
+                $refBlock = array_pop($elders);
+                $extent = $this->getBlockExtent($refBlock);
+                
+                $x0 = $extent['minX'];
+                $y0 = ($this->YoAtTop) ? $extent['maxY'] 
+                      : $extent['minY'] - $block->height;
+                      
+                return $this->allocateArea($block, $x0, $y0);
+            }
+        }
+        
         // if parent specified, block is embedded in it.
         if (isset($block->parent)) {
             $extent = $this->getBlockExtent($block->parent);
@@ -288,8 +332,7 @@ class SpaceManager {
             $y0 = $this->getY($block, $minY, $maxY);
         }
         
-        $this->allocateArea($block, $x0, $y0);
-        return array($x0, $y0); 
+        return $this->allocateArea($block, $x0, $y0);
     }
 }
 
