@@ -87,6 +87,8 @@ if (isset($mapId)) {
             if (!file_exists($pluginFile))
                 continue;
                 
+            $pluginsSpecificWsdl .= file_get_contents($pluginFile);
+
             $pluginsRequest .= 
                 '          <element name="' . $plugin . 'Request" type="types:' .
                 ucfirst($plugin) . 'Request" minOccurs="0"/>
@@ -97,12 +99,13 @@ if (isset($mapId)) {
                 ucfirst($plugin) . 'Result" minOccurs="0"/>
                 ';
 
-            $pluginsInit .= 
-                '          <element name="' . $plugin . 'Init" type="types:' .
-                ucfirst($plugin) . 'Init" minOccurs="0"/>
-                ';
-
-            $pluginsSpecificWsdl .= file_get_contents($pluginFile);
+            // References MyPluginInit only if defined in .wsdl.inc
+            if (strpos($pluginsSpecificWsdl, $plugin . 'Init')) {
+                $pluginsInit .= 
+                    '          <element name="' . $plugin . 'Init" type="types:' .
+                    ucfirst($plugin) . 'Init" minOccurs="0"/>
+                    ';
+            }
         }
     }
 }
