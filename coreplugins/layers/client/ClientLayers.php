@@ -41,6 +41,10 @@ class ClientLayers extends ClientCorePlugin {
         }
     }
 
+    /**
+     * Returns the list of Layer|LayerGroup|LayerClass objects available 
+     * in MapInfo.
+     */
     private function getLayers() {
         if(!is_array($this->layers)) {
             $mapInfo = $this->cartoclient->getMapInfo();
@@ -51,6 +55,9 @@ class ClientLayers extends ClientCorePlugin {
         return $this->layers;
     }
 
+    /**
+     * Returns the Layer|LayerGroup|LayerClass object whose name is passed.
+     */
     private function getLayerByName($layername) {
         if (isset($this->layers[$layername])) return $this->layers[$layername];
         else throw new CartoclientException("unknown layer name: $layername");
@@ -104,6 +111,9 @@ class ClientLayers extends ClientCorePlugin {
         // TODO: hidden layers
     }
 
+    /**
+     * Returns the list of activated layers.
+     */
     private function getSelectedLayers() {
         if(!$this->selectedLayers || !is_array($this->selectedLayers)) {
             $this->getLayers();
@@ -115,6 +125,9 @@ class ClientLayers extends ClientCorePlugin {
         return $this->selectedLayers;
     }
 
+    /**
+     * Returns the list of LayerGroups that must be rendered unfolded.
+     */
     private function getUnfoldedLayerGroups() {
         if(!$this->unfoldedLayerGroups || 
            !is_array($this->unfoldedLayerGroups)) {
@@ -135,6 +148,11 @@ class ClientLayers extends ClientCorePlugin {
 
     function handleMapResult($mapResult) {}
 
+    /**
+     * Retrieves a Smarty object either by picking one in the available 
+     * template objects list (smartyPool) or by getting a new instance of CW3 
+     * Smarty class if no object is available.
+     */
     private function getSmartyObj() {
         if(count($this->smartyPool)) return array_shift($this->smartyPool);
         
@@ -142,10 +160,17 @@ class ClientLayers extends ClientCorePlugin {
         return new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
     }
 
+    /**
+     * Add the Smarty object to the list of available ones (smartyPool).
+     */
     private function freeSmartyObj($template) {
         array_push($this->smartyPool, $template);
     }
 
+    /**
+     * Recursively retrieves the list of Mapserver Classes bound to the layer
+     * or its sublayers.
+     */
     private function getClassChildren($layer) {
         if ($layer instanceof Layer && isset($layer->children) &&
             is_array($layer->children))
@@ -165,6 +190,10 @@ class ClientLayers extends ClientCorePlugin {
         return $classChildren;
     }
 
+    /**
+     * Deals with every single layer and recursively calls itself 
+     * to build sublayers. 
+     */
     private function drawLayer($layer, $forceSelection = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
@@ -191,6 +220,7 @@ class ClientLayers extends ClientCorePlugin {
 
         $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
+        $layer->label = utf8_decode($layer->label);
 
         $template->assign(array('layerLabel' => I18n::gt($layer->label),
                                 'layerId' => $layer->id,
@@ -209,6 +239,9 @@ class ClientLayers extends ClientCorePlugin {
         return $output_node;
     }
 
+    /**
+     * Initializes layers selector interface
+     */
     private function drawLayersList() {
 
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
@@ -227,10 +260,6 @@ class ClientLayers extends ClientCorePlugin {
 
         $this->smarty->assign(array('layerlist' => $rootNode,
                                     'startOpenNodes' => $startOpenNodes,
-                                    'expand' => 'expand tree', #i18n
-                                    'close' => 'close tree', #i18n
-                                    'check' => 'check all', #i18n
-                                    'uncheck' => 'uncheck all', #i18n
                                     ));
 
         return $this->smarty->fetch('layers.tpl');
@@ -250,7 +279,7 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     function saveSession() {
-        $this->log->debug("saving session:");
+        $this->log->debug('saving session:');
         $this->log->debug($this->layersState);
 
         return $this->layersState;
