@@ -1,5 +1,3 @@
-{strip}
-
 {capture name=inputElt}
 <input type="checkbox" name="layers[]" value="{$layerId}" id="in{$nodeId}"
   onclick="javascript:updateChecked({$nodeId});" {if $layerChecked}checked="checked"{/if} />
@@ -27,5 +25,3 @@
   {if $layerClassName != 'LayerClass'}{$smarty.capture.inputElt}{/if}
   {$smarty.capture.caption}<br />
 {/if}
-
-{/strip}
