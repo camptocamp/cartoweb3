@@ -93,7 +93,13 @@ class SymlinkUrlProvider extends UrlProvider {
         if (!empty($plugin))
             $path = $plugin . '/' . $resource;
 
-        if ($this->projectHandler->isProjectFile('htdocs/' . $path)) {
+        $pluginPath = $this->projectHandler->getPath('coreplugins/' . $plugin);
+        $isCorePlugin = is_dir(CARTOCOMMON_HOME . $pluginPath);
+        $pluginPath = $isCorePlugin ? 'coreplugins/' . $plugin . '/'
+                                    : 'plugins/' . $plugin . '/';         
+
+        if ($this->projectHandler->isProjectFile($pluginPath 
+                                                 . 'htdocs/' . $resource)) {
             return $this->projectHandler->getProjectName() . '/' . $path;
         } else {
             return $path;
