@@ -1,0 +1,151 @@
+/* --------------- global items --------------- */
+
+A {
+  font-family: verdana, arial, sans-serif;
+  text-decoration: none;
+}
+
+A:link	  {
+  text-decoration: none;
+}
+
+A:visited {
+  text-decoration: none;
+}
+
+A:active  {
+  font-size: 125%;
+}
+
+A:hover	  {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h2 {
+  background: black;
+  border-color: white;
+  border-left-width: 15px;
+  border-right-width: 15px;
+  border-style: solid;
+  border-top-width: 15px;
+  color: White;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  padding: 4px;
+}
+
+h3 {
+  background: white;
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+body {
+  color: black;
+  background: #e0e0e0;
+  margin: 10px 0;
+}
+
+.banner {
+  background: black;
+  border-color: White; 
+  border-left-width: 40px;
+  border-right-width: 40px;
+  border-bottom-width: 20px;
+  border-style: solid;
+  color: White;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+
+.hidden { 
+  text-align: center;
+  visibility: hidden;
+}
+
+/* --------------- center area --------------- */
+
+.content {
+  background: Grey;
+  color: black;
+  margin-top: 0px;
+  margin-left: 200px;
+  margin-right: 10px;
+  top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  padding-bottom: 10px;
+  margin-bottom: 40px;
+  z-index: 0;
+}
+
+.blogbody {
+  font-size: 12px;
+  font-weight: normal;
+  padding: 10px 35px;
+}
+
+.comment {
+  border-width: 1px;
+  border-style: dashed;
+  font-size: 12px;
+  font-weight: normal;
+  margin: 10px 20px;
+  padding: 10px 20px;
+}
+
+pre.code {
+  margin: 10pt;
+  background-color: #FFFFEE;
+  border-style:solid;
+  border-width:1pt;
+  border-color:#999999;
+  color:#111111;
+  padding:5px;
+}
+
+
+/* --------------- left bar --------------- */
+
+.leftbar {
+  /*   border-style: solid  */
+  
+  background: White;
+  color: black;
+  font-size: 12px;
+  left: 10px;
+  position: absolute;
+
+  margin-left: 0px;
+
+  text-align: center;
+  top: 120px;
+  width: 180px;
+  z-index: 2;
+}
+
+.leftbar p {
+  margin: 5px 5px;
+  color: green;
+  font-size: 125%;
+  text-align: left;
+}
+
+.entry {
+  margin: 5px 5px;
+}

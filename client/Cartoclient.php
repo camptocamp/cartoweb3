@@ -1,0 +1,290 @@
+<?php
+
+if (!defined('CARTOCOMMON_HOME'))
+    define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+
+define('LOG4PHP_CONFIGURATION', CARTOCLIENT_HOME . 
+       'client_conf/cartoclientLogger.properties');
+
+require_once('log4php/LoggerManager.php');
+
+// NOTE: autoload mechanism can not be used there, because of classes needed while
+//  session unserialization
+
+require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
+require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
+require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
+require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
+
+require_once(CARTOCOMMON_HOME . 'common/common.php');
+require_once(CARTOCOMMON_HOME . 'common/Config.php');
+require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
+require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
+require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
+
+class CartoclientException extends Exception {
+
+}
+
+class CartoForm {
+    const TOOL_ZOOMIN = 1;
+    const TOOL_ZOOMOUT = 2;
+    const TOOL_RECENTER = 3;
+    const TOOL_QUERY = 4;
+
+    public $selectedTool = CartoForm::TOOL_ZOOMIN;
+
+    const BUTTON_NONE = 1;
+    const BUTTON_PAN = 2;
+    const BUTTON_MAINMAP = 3;
+    const BUTTON_KEYMAP = 4;
+
+    public $pushedButton;
+    public $panDirection;
+    public $mainmapClickInfo;
+    public $keymapClickInfo;
+
+    public $plugins;
+}
+
+class ClientConfig extends Config {
+
+    function getKind() {
+        return 'client';
+    }
+
+    function __construct() {
+        $this->basePath = CARTOCLIENT_HOME;
+        parent::__construct();
+    }
+}
+
+class ClientSession {
+    public $pluginStorage;
+    
+    // ui specific
+    public $selectedTool = CartoForm::TOOL_ZOOMIN;
+}
+
+define('CLIENT_SESSION_KEY', 'client_session_key');
+
+class Cartoclient {
+    private $log;
+
+    private $mapInfo;
+    private $clientSession;
+    private $cartoForm;
+       
+    private $config;
+
+    function getConfig() {
+        return $this->config;
+    }
+
+    function getCartoForm() {
+        return $this->cartoForm;
+    }
+
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
+
+    function getClientSession() {
+        return $this->clientSession;
+    }
+
+    function setClientSession($clientSession) {
+        $this->clientSession = $clientSession;
+    }
+
+    private function getCorePluginNames() {
+
+        //return array('location', 'layers', 'images', 'query');
+        return array('location', 'layers', 'images');
+    }
+
+    private function initPlugins() {
+
+        // Two sets of plugins : 
+        // in INCLUDE/cartoclient/plugins
+        // in $LOCAL_PLUGINS
+
+        $this->pluginManager = new PluginManager();
+
+        $corePluginNames = $this->getCorePluginNames();
+
+        $this->pluginManager->loadPlugins($this->config->basePath . 'coreplugins/',
+                                          PluginManager::CLIENT_PLUGINS, $corePluginNames,         
+                                          $this);
+
+        $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
+
+
+        $this->pluginManager->loadPlugins($this->config->basePath . 'plugins/',
+                                          PluginManager::CLIENT_PLUGINS, $pluginNames,
+                                          $this);
+    }
+
+    function callPlugins($functionName) {
+
+        $args = func_get_args();
+        array_shift($args);
+        $this->pluginManager->callPlugins($functionName, $args);
+    }
+
+    function getMapInfo() {
+        if ($this->mapInfo)
+            return $this->mapInfo;
+
+        // TODO: have a mechanism to store mapinfo on hard storage
+        $mapInfo = $this->cartoserverService->getMapInfo(
+            $this->config->mapId);
+
+        $initialMapInfoId = @$this->config->initialMapInfoId;
+        if (!$initialMapInfoId)
+            $initiMapInfoId = 'default';
+
+        if (!$this->config->cartoserverDirectAccess) 
+            $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', StructHandler::CONTEXT_OBJ);
+        $this->mapInfo = $mapInfo; 
+        return $mapInfo;
+    }
+
+    private function saveSession($clientSession) {
+    
+        $this->log->debug("saving session:");
+        $this->log->debug($clientSession);
+
+        $_SESSION[CLIENT_SESSION_KEY] = $this->clientSession;
+        session_write_close();
+    }
+
+    private function createClientSession() {
+        // TODO: init default arguments
+        $clientSession = new ClientSession();
+
+        return $clientSession;
+    }
+
+    private function createCartoForm() {
+
+        $cartoForm = new CartoForm();
+
+        // TODO: sets default cartoform arguments
+        // $this->clientSession
+
+        return $cartoForm;
+    }
+
+    //  case one : first time -> create Session
+    //                               createClientSession, ...
+    //  case two:  second time -> load Session
+    //                               loadClientSession, ...
+    private function initializeSession() {
+
+        $clientSession = @$_SESSION[CLIENT_SESSION_KEY];
+        $this->clientSession = $clientSession;
+
+        if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
+            $this->log->debug("Loading existing session");
+
+            $this->callPlugins('doLoadSession');
+
+        } else {
+            $this->log->debug("creating new  session");
+
+            $_SESSION = array();
+            session_destroy();
+            session_start();
+            
+            $this->clientSession = $this->createClientSession();
+
+            $this->callPlugins('createSession', $this->mapInfo);
+        }
+
+        $this->cartoForm = $this->createCartoForm();
+    }
+
+    private function getMapRequest() {
+
+        $mapRequest = new MapRequest();
+        $mapRequest->mapId = $this->getConfig()->mapId;
+        return $mapRequest;
+    }
+    
+    private function doMain() {
+
+        $this->mapInfo = $this->getMapInfo();
+        $this->initializeSession();
+        
+        if (@$_REQUEST['tool']) {
+            $this->cartoForm = 
+                $this->httpRequestHandler->handleHttpRequest($this->clientSession,
+                                                    $this->cartoForm);
+            $this->callPlugins('handleHttpRequest', $_REQUEST);
+        } 
+        
+        $mapRequest = $this->getMapRequest();
+        $this->callPlugins('buildMapRequest', $mapRequest);
+
+        $this->log->debug("maprequest:");
+        $this->log->debug($mapRequest);
+
+        $mapResult = $this->cartoserverService->getMap($mapRequest);
+
+        // TODO: unserialize result object
+
+        $this->log->debug("mapresult:");
+        $this->log->debug($mapResult);
+
+        $this->callPlugins('dohandleMapResult', $mapResult);
+
+        $this->log->debug("client context to display");
+
+        $this->formRenderer->showForm($this);
+
+        $this->callPlugins('doSaveSession');
+
+        $this->saveSession($this->clientSession);
+        $this->log->debug("session saved\n");
+    }
+
+    private function initializeObjects() {
+
+        $this->config = new ClientConfig();
+
+        $this->log->debug("client context loaded (from session, or new)");
+
+        // plugins
+        $this->initPlugins();
+
+        // initialize objects
+        $this->cartoserverService = new CartoserverService($this);
+        $this->httpRequestHandler = new HttpRequestHandler($this);
+        $this->formRenderer = new FormRenderer($this);
+    }
+    
+    /**
+     * Main entry point. Session is started there, so that nothing
+     * should be printed before calling this.
+     */
+    function main() {
+
+        session_start();
+        
+        //echo "<pre>";
+        
+        $this->log->debug("request is : ");
+        $this->log->debug($_REQUEST);
+
+        $this->initializeObjects();
+        
+        try {
+            $this->doMain();
+        } catch (Exception $exception) {
+            $this->formRenderer->showFailure($exception);
+        }
+    }
+}
+?>

@@ -1,0 +1,39 @@
+<?php
+
+abstract class Config {
+    public $basePath;
+
+    private $ini_array;
+
+    abstract function getKind();
+
+
+    function __get($nm) {
+        if (isset($this->ini_array[$nm])) {
+            $r = $this->ini_array[$nm];
+            return $r;
+        } else {
+            return false;
+        }
+    }
+
+    function __construct() {
+
+        $kind = $this->getKind();
+
+        if (!@$this->configPath)
+            $this->configPath = $this->basePath . 
+                $kind . '_conf/';
+
+        $this->ini_array = parse_ini_file($this->configPath . 
+                                          $kind . '.ini');
+
+        if (!@$this->writablePath)
+            $this->writablePath = $this->basePath . 'www-data/';
+
+        if (!@$this->pluginsPath)
+            $this->pluginsPath = $this->basePath . 'plugins/';
+
+    }
+}
+?>

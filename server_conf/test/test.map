@@ -1,0 +1,202 @@
+MAP
+  NAME "Testing"
+  EXTENT -0.5 50.977222 0.5 51.977222
+  IMAGETYPE PNG
+  IMAGECOLOR 255 255 255
+  STATUS ON
+  SIZE 200 200
+  FONTSET "fonts.txt"
+  SYMBOLSET "symbols.txt"
+
+  SCALEBAR
+    STATUS EMBED
+    POSTLABELCACHE TRUE
+    STYLE 0
+    UNITS METERS
+    SIZE 150 3
+    POSITION LR
+    TRANSPARENT TRUE
+    COLOR 0 0 0
+    IMAGECOLOR 242 255 195
+    BACKGROUNDCOLOR 255 255 255
+    LABEL
+      TYPE BITMAP
+      SIZE TINY
+      COLOR 0 0 0
+      POSITION UR
+      BUFFER 10
+    END
+  END
+
+  WEB
+    METADATA
+      "key1" "value1"
+      "key2" "value2"
+      "key3" "value3"
+      "key4" "value4"
+    END
+    
+    #IMAGEPATH "/var/www/cartoserver/www-data/images/" 
+    #IMAGEURL "/cartogfx/"
+
+  END
+
+  PROJECTION
+    "init=epsg:4326"
+  END
+  
+  LAYER
+    NAME "POLYGON"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "polygon"
+    METADATA
+      "key1" "value1"
+      "key2" "value2"
+      "key3" "value3"
+      "key4" "value4"
+    END
+    CLASSITEM "FNAME"
+    CLASS
+      NAME "0"
+      METADATA
+        "key1" "value1"
+        "key2" "value2"
+        "key3" "value3"
+        "key4" "value4"
+      END
+      STYLE
+        COLOR 255 153 102
+        OUTLINECOLOR 0 0 204
+        SYMBOL 1
+        SIZE 2
+      END
+    END
+    CLASS
+      NAME "1"
+      EXPRESSION "foo"
+      STYLE
+        COLOR 255 153 102
+        OUTLINECOLOR 0 0 204
+        SYMBOL 1
+        SIZE 2
+      END
+    END
+  END
+
+  LAYER
+    NAME "LINE"
+    TYPE LINE
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "line"
+    CLASSITEM "FNAME"
+
+    # for queries
+    TEMPLATE "ttt"
+
+    CLASS
+      NAME "0"
+      STYLE
+        COLOR 0 153 0
+        SYMBOL 1
+        SIZE 3
+      END
+    END
+    CLASS
+      NAME "1"
+      EXPRESSION "foo"
+      STYLE
+        COLOR 0 153 0
+        SYMBOL 1
+        SIZE 3
+      END
+    END
+  END
+
+  LAYER
+    NAME "POINT"
+    #EXTENT -0.5 51.0 0.5 52.0
+    TYPE POINT
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "point"
+    CLASSITEM "FNAME"
+    LABELITEM "FNAME"
+    CLASS
+      NAME "0"
+      STYLE
+        COLOR 0 0 0
+        SYMBOL 1
+        SIZE 13
+      END
+      STYLE
+        COLOR 204 204 204
+        SYMBOL 1
+        SIZE 7
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 10
+        COLOR 0 0 0
+      END
+    END
+    CLASS
+      NAME "1"
+      EXPRESSION "foo"
+      STYLE
+        COLOR 0 0 0
+        SYMBOL 1
+        SIZE 13
+      END
+    END
+  END
+ 
+  LAYER
+    NAME "INLINE"
+    TYPE POINT
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    FEATURE
+      POINTS -0.2 51.5 END
+    END
+    CLASS
+      NAME "0"
+      STYLE
+        COLOR 0 0 0
+        SYMBOL 1
+        SIZE 3
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_selection"
+
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+
+    CLASS
+      STYLE
+        COLOR 155 153 102
+        #OUTLINECOLOR 0 0 204
+        SYMBOL 1
+        SIZE 1
+      END
+    END
+  END
+
+END
+

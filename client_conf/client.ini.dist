@@ -1,0 +1,36 @@
+### Cartoserver location configuration#
+
+# if true, SOAP will be bypassed
+cartoserverDirectAccess = false
+
+# The location of the cartoserver, used when cartoserverDirectAccess is true
+# If it is not set, the default location will be used
+# cartoserverHome = "/path/to/cartoserver/"
+
+# The url of the cartoserver SOAP wsdl
+# If it is not set, a default location will be guessed
+##cartoserverUrl = "http://youhost/path/to/cartoserver.wsdl.php"
+
+### Mapfile configuration ###
+
+# The mapId of the mapfile to use
+mapId = test
+
+# COMMENT ME
+#initialMapInfoId = test
+
+### Plugins ###
+
+# the list of plugins to load, separated by comma
+loadPlugins = hello
+# unused
+localPluginsPath = toto
+# unused
+localPlugins = myLocal
+
+### Template engine configuration ###
+
+# Template configuration
+smartyCaching = false
+smartyCompileCheck = true
+smartyDebugging = false

@@ -1,0 +1,34 @@
+
+
+log4php.debug = "false"
+
+;log4php.rootLogger=INFO, A1
+log4php.rootLogger=DEBUG, A1
+
+;log4php.rootLogger=DEBUG, A1, A2
+
+log4php.appender.A1=LoggerAppenderFile
+log4php.appender.A1.file="/tmp/cartoclient_log"
+;log4php.appender.A1.append=false
+
+
+log4php.appender.A1.layout=LoggerPatternLayout
+log4php.appender.A1.layout.ConversionPattern="Cartoserver: %r [%t] %p %c %x - %m%n"
+
+;log4php.appender.A1.layout=LoggerLayoutTTCC
+
+;log4php.appender.A1.layout=LoggerLayoutHtml
+;log4php.appender.A1.layout.locationInfo = "true"
+
+log4php.appender.A2=LoggerAppenderEcho
+log4php.appender.A2.layout=LoggerLayoutHtml
+log4php.appender.A2.layout.locationInfo = "true"
+
+
+;log4php.logger.Test=INFO
+;log4php.logger.Test.Test=WARN
+;log4php.logger.bar=ERROR
+;log4php.logger.main=FATAL
+
+
+;log4php.logger.main=FATAL
