@@ -11,12 +11,10 @@ class StructHandler {
     const CONTEXT_INI = 1;
     const CONTEXT_OBJ = 2;
 
-    static function loadFromIni($iniFile) {
-
-        $ini_array = parse_ini_file($iniFile);
+    static function loadFromArray($array) {
         $struct = new stdclass();
 
-        foreach($ini_array as $key => $value) {
+        foreach($array as $key => $value) {
             $tokens = explode('.', $key);
             $path = implode('->', $tokens);
             $expr = "\$struct->$path = \"$value\";";
@@ -25,18 +23,25 @@ class StructHandler {
         return $struct;
     }
 
-    // Maybe does not belong to struct handler, as it can be unsed on
+    static function loadFromIni($iniFile) {
+        $ini_array = parse_ini_file($iniFile);
+
+        return self::loadFromArray($ini_array);
+    }
+
+    // Maybe does not belong to struct handler, as it can be used on
     // any structure (to be tested).
-    static function mergeOverride($object, $override) {
+    static function mergeOverride($object, $override, $mute = false) {
          $new_object = clone $object;
          
          foreach(get_object_vars($override) as $property => $value) {
             
-            if (in_array($property, 
+            if (!$mute && in_array($property, 
                 array_keys(get_object_vars($object)))) {
                 
                 print "Warning: overriding property $property\n";
             }
+            
             if (in_array($property, 
                 array_keys(get_object_vars($object))) &&
                 is_object($value)) {
