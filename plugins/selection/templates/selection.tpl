@@ -7,6 +7,10 @@ onChange="javascript:FormItemSelected();">
 output=$selection_selectionlayers}
 </select></p>
 
+<p>{t}Mask mode {/t}&nbsp;
+<input type="checkbox" name="selection_maskmode" checked="checked"/>
+</p>
+
 {if $selection_selectedids}
 <p>{t}Selected elements:{/t}</p>
 
