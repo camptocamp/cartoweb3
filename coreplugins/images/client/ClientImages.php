@@ -395,7 +395,7 @@ class ClientImages extends ClientPlugin
      * @see Sessionable::saveSession
      */
     function saveSession() {
-        $this->log->debug("saving session:");
+        $this->log->debug('saving session:');
         return $this->imagesState;
     }
     

@@ -105,7 +105,7 @@ class ServerImages extends ServerPlugin
         $this->serverContext->checkMsErrors();
         
         if ($requ->mainmap->isDrawn) {
-            $this->log->info("mainmap saved");
+            $this->log->info('mainmap saved');
             $this->log->info($this->serverContext->getMsMainmapImage());
         }
     }
@@ -136,7 +136,7 @@ class ServerImages extends ServerPlugin
         if ($requ->mainmap->isDrawn) {
             $ms_mainmap = $this->serverContext->getMsMainmapImage();
             if (!$ms_mainmap) 
-                throw new CartoserverException("drawMainmap was not called before getResult");
+                throw new CartoserverException('drawMainmap was not called before getResult');
             $this->serverContext->setMsMainmapImage($ms_mainmap);
             $msMapObj->drawLabelCache($ms_mainmap);
                         
