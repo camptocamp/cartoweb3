@@ -12,4 +12,8 @@
           <element name="area" type="xsd:double"/>
         </all>
       </complexType>
-      
+
+      <complexType name="OutlineInit">
+        <all>
+        </all>
+      </complexType>      
