@@ -1,0 +1,2 @@
+; if false, will outline only one shape at a time (default true)
+multipleShapes = false

@@ -61,7 +61,7 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     function getTools() {
         $weightPoint = $this->getConfig()->weightPoint;
         $weightRect  = $this->getConfig()->weightRectangle;
-        $weightPoly  = $this->getConfig()->weightPoly;
+        $weightPoly  = $this->getConfig()->weightPolygon;
         if (!$weightPoint) $weightPoint = 70;
         if (!$weightRect) $weightRect = 71;
         if (!$weightPoly) $weightPoly = 72;
@@ -89,7 +89,8 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         if ($shape) {
-            if (!$this->getConfig()->multipleShapes) {
+            if (!is_null($this->getConfig()->multipleShapes)
+                    && !$this->getConfig()->multipleShapes) {
                 $this->outlineState->shapes = array();
             }
             $this->outlineState->shapes[] = $shape;
