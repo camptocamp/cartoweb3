@@ -8,6 +8,7 @@
  * Abstract test case
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'common/Config.php';
 
 require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 
@@ -20,8 +21,7 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
 
     private function getClientUrl() {
         if (!isset($_SERVER['HTTP_HOST'])) {
-            // FIXME: read url from config            
-            return NULL;
+            return Common_config::getInstance()->cartoclientUrl;
         }
         
         $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
