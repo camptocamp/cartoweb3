@@ -1,0 +1,1 @@
+htdocs dir for dhtml-disabled project
