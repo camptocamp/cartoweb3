@@ -39,7 +39,8 @@
   <sect2 id ="dev.code_convertion.general.config">
    <title>Developpement configuration</title>
    <para>
-    Developers should absolutely set the following variables to true in their config :
+    Developers should absolutely set the following variables to true in their config
+    (on both client and server sides):
     <itemizedlist>
      <listitem><para>showDevelMessages = true</para></listitem>
      <listitem><para>developerIniConfig = true</para></listitem>
