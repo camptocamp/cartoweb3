@@ -75,16 +75,16 @@ function dhtmlBox_changetool(tool) {// the mouse events are managed in this func
 
   xAddEventListener(document,'keydown',this.dokeydown);
 
-  if (this.currentTool == 'measure' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
+  if (this.currentTool == 'distance' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
     this.isActive = false;
-    this.measure = 0;
+    this.distance = 0;
     this.displayCoords.innerHTML = '';
     this.displayMeasure.innerHTML = '';
     xAddEventListener(this.target,'dblclick', this.dodblclick);
   }
 
   // cursor style
-  if (this.currentTool == 'zoom_in' || this.currentTool == 'zoom_out' || this.currentTool == 'measure' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
+  if (this.currentTool == 'zoom_in' || this.currentTool == 'zoom_out' || this.currentTool == 'distance' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
     if (this.target.style) this.target.style.cursor = "crosshair";
   } else if (this.currentTool == 'pan') {
     if (this.target.style) this.target.style.cursor = "move";
@@ -110,7 +110,7 @@ function dhtmlBox_mousedown(evt) {
       jg.clear();  // if page not reloaded automaticaly, previous crosses are deleted
     }
 
-    if (!dhtmlBox.isActive && (dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) { //init
+    if (!dhtmlBox.isActive && (dhtmlBox.currentTool == 'distance' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) { //init
       jg.clear();
       //jg2.clear();
       dhtmlBox.cnv_clicks = 0;
@@ -118,7 +118,7 @@ function dhtmlBox_mousedown(evt) {
       dhtmlBox.draw_y = new Array();
       dhtmlBox.Xpoints = new Array();
       dhtmlBox.Ypoints = new Array();
-      dhtmlBox.measure = 0;
+      dhtmlBox.distance = 0;
       dhtmlBox.isActive = true;
 	  dhtmlBox.dblClick = false;
       dhtmlBox.keyEscape = false;
@@ -147,7 +147,7 @@ function dhtmlBox_mousemove(evt) {
     }
     dhtmlBox.paint();
   }
-  else if ((dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line') && dhtmlBox.isActive == true) {
+  else if ((dhtmlBox.currentTool == 'distance' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line') && dhtmlBox.isActive == true) {
       dhtmlBox.x2 = e.offsetX;
       dhtmlBox.y2 = e.offsetY;
       dhtmlBox.lastLinePaint(); // the last line is drawn while moving
@@ -228,7 +228,7 @@ function dhtmlBox_dblclick(evt) {
 function dhtmlBox_keydown(evt) { // 
   evt = (evt) ? evt : ((event) ? event : null);
   dhtmlBox = dhtmlBox;
-  if (evt.keyCode == '27' && (dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) {
+  if (evt.keyCode == '27' && (dhtmlBox.currentTool == 'distance' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) {
     dhtmlBox.keyEscape = true;
     dhtmlBox.isActive = false;
     jg2.clear();
@@ -274,7 +274,7 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     //xResizeTo(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0);
   }
 
-  else if (this.currentTool == 'measure' || this.currentTool == 'line') {
+  else if (this.currentTool == 'distance' || this.currentTool == 'line') {
     if (!this.keyEscape) { // Escape key is pressed
       ++this.cnv_clicks;
       this.draw_x[this.cnv_clicks] = this.x2;
@@ -289,16 +289,16 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     else {
         jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[this.cnv_clicks - 1],this.draw_y[this.cnv_clicks - 1],this.d2pts);
     }
-	if (this.currentTool == 'measure') { //Calculate the distance and display it
+	if (this.currentTool == 'distance') { //Calculate the distance and display it
 	  if (this.cnv_clicks > 1 && !this.keyEscape) {
         // distance calculation
         this.dist_x = (this.draw_x[this.cnv_clicks] - this.draw_x[this.cnv_clicks - 1]) * this.pixel_size;
         this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * this.pixel_size;
-        this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
+        this.distance += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
       }
-      if (this.dist_unit == ' m.') this.measure = Math.round(this.measure);
-      else if (this.dist_unit == ' km.') this.measure = Math.round(this.measure*100)/100;
-      this.displayMeasure.innerHTML = this.dist_msg + this.measure.toString() + this.dist_unit;
+      if (this.dist_unit == ' m.') this.distance = Math.round(this.distance);
+      else if (this.dist_unit == ' km.') this.distance = Math.round(this.distance*100)/100;
+      this.displayMeasure.innerHTML = this.dist_msg + this.distance.toString() + this.dist_unit;
 	} else if (this.currentTool == 'line' && !this.isActive) { // submit the form
 		var coords = new String();
 		for (i = 0; i < this.Xpoints.length; i++) {
@@ -338,18 +338,18 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
 	  if (this.cnv_clicks > 1  && !this.keyEscape) {
         //surface calculation
         var i = 0;
-        this.measure = 0;
+        this.distance = 0;
         while (i < this.cnv_clicks - 1) {
-          this.measure += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i];
+          this.distance += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i];
           ++i;
         }
-        this.measure += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1];
+        this.distance += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1];
         var pix_surf = this.pixel_size * this.pixel_size;
-        this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
+        this.distance = Math.abs(this.distance.toString()) / 2 * pix_surf;
 	  }
-      if (this.surf_unit == ' m�.') this.measure = Math.round(this.measure);
-      else if (this.surf_unit == ' km�.') this.measure = Math.round(this.measure*10000)/10000;
-      this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
+      if (this.surf_unit == ' m2.') this.distance = Math.round(this.distance);
+      else if (this.surf_unit == ' km2.') this.distance = Math.round(this.distance*10000)/10000;
+      this.displayMeasure.innerHTML = this.surf_msg+ this.distance +this.surf_unit;
     } else if (this.currentTool == 'polygon' && !this.isActive) { // draw the closed polygon and submit form
 		jg.paint();
 		var coords = new String();
