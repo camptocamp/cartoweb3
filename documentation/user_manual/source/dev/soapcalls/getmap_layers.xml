@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <sect2 id="dev.soapcalls.getmap.layers">
@@ -33,7 +33,7 @@
           <para>resolution - MapServer resolution. Set this to null if 
             you want to use default resolution</para>
         </listitem>
-      </itemizedlist>				
+      </itemizedlist>                           
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.layers.result">

@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -38,7 +38,7 @@
    See also <xref linkend="user.i18n" />
   </para>
  </sect1>
-	
+
  <sect1 id="user.template.resource"> 
   <title><indexterm><primary>Resources</primary></indexterm>Resources</title>
   <para>

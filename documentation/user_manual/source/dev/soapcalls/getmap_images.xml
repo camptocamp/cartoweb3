@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <sect2 id="dev.soapcalls.getmap.images">
@@ -52,7 +52,7 @@
         <listitem><para>mainmap - main map image information</para></listitem>
         <listitem><para>keymap - key map image information</para></listitem>
         <listitem><para>scalebar - scale bar image information</para></listitem>
-      </itemizedlist>				
+      </itemizedlist>                           
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.images.result">

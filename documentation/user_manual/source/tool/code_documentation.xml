@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -47,41 +47,41 @@ php ./makedoc.php
        Here is the basic configuration for CartoWeb 3:
        <itemizedlist>
         <listitem>
-	 <para>
-	  Generated Documentation Title: CartoWeb 3 Documentation
-	 </para>
-	</listitem>
+         <para>
+          Generated Documentation Title: CartoWeb 3 Documentation
+         </para>
+        </listitem>
         <listitem>
-	 <para>
-	  Default Package Name: shouldn't be used if 
-	  @package attribute is set (see below) 
-	 </para>
-	</listitem>
+         <para>
+          Default Package Name: shouldn't be used if 
+          @package attribute is set (see below) 
+         </para>
+        </listitem>
         <listitem>
-	 <para>
-	  Target: 
-	  <filename>/home/&lt;user&gt;/public_html/cartoweb3/doc</filename>
-	 </para>
-	</listitem>
+         <para>
+          Target: 
+          <filename>/home/&lt;user&gt;/public_html/cartoweb3/doc</filename>
+         </para>
+        </listitem>
         <listitem>
-	 <para>
-	  Directory to parse: 
-	  <filename>/home/&lt;user&gt;/public_html/cartoweb3</filename>
-	 </para>
-	</listitem>
+         <para>
+          Directory to parse: 
+          <filename>/home/&lt;user&gt;/public_html/cartoweb3</filename>
+         </para>
+        </listitem>
         <listitem>
-	 <para>
-	  Files to ignore: 
-	  <filename>client_conf/</filename>, 
-	  <filename>CVS/</filename>,
-	  <filename>doc/</filename>, 
-	  <filename>include/</filename>,
-	  <filename>server_conf/</filename>, 
-	  <filename>template/</filename>,
-	  <filename>template_c/</filename>, 
-	  <filename>www-data/</filename>.
-	 </para>
-	</listitem>
+         <para>
+          Files to ignore: 
+          <filename>client_conf/</filename>, 
+          <filename>CVS/</filename>,
+          <filename>doc/</filename>, 
+          <filename>include/</filename>,
+          <filename>server_conf/</filename>, 
+          <filename>template/</filename>,
+          <filename>template_c/</filename>, 
+          <filename>www-data/</filename>.
+         </para>
+        </listitem>
        </itemizedlist>
      </para>
     </listitem>
@@ -111,18 +111,18 @@ php ./makedoc.php
        <listitem>
         <para>
          Page-level DocBlocks: one DocBlock for each PHP file.
-	</para>
+        </para>
        </listitem>
        <listitem>
         <para>
          Class, method, class variable and function DocBlocks: 
-	 one DocBlock for each.
-	</para>
+         one DocBlock for each.
+        </para>
        </listitem>
        <listitem>
         <para>
          Require, include, define: if needed, one DocBlock for each or all.
-	</para>
+        </para>
        </listitem>
       </itemizedlist>
      </para>
@@ -134,12 +134,12 @@ php ./makedoc.php
        <listitem>
         <para>
          Short description: if needed, a one line description.
-	</para>
+        </para>
        </listitem>
        <listitem>
         <para>
          Long description: if needed, a longer description.
-	</para>
+        </para>
        </listitem>
       </itemizedlist>
      </para>
@@ -150,56 +150,56 @@ php ./makedoc.php
       <itemizedlist>
        <listitem>
         <para>
-	 @package &lt;package&gt; (file, class, function): we'll use one 
-	 package for each directory which contains PHP files, it means 
-	 there are the following packages: Client, Server, Common, 
-	 Plugins, CorePlugins, Scripts, Tests.
-	</para>
+         @package &lt;package&gt; (file, class, function): we'll use one 
+         package for each directory which contains PHP files, it means 
+         there are the following packages: Client, Server, Common, 
+         Plugins, CorePlugins, Scripts, Tests.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 @author &lt;author&gt; (file, class, function): author with email 
-	 address.
-	</para>
+         @author &lt;author&gt; (file, class, function): author with email 
+         address.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 @version $Id$ (file): always '$Id$', automatically set by CVS.
-	</para>
+         @version $Id$ (file): always '$Id$', automatically set by CVS.
+        </para>
        </listitem>
        <listitem>
         <para>
          @param &lt;type&gt; [&lt;description&gt;] (method): type always, 
-	 description if needed.
-	</para>
+         description if needed.
+        </para>
        </listitem>
        <listitem>
         <para>
          @return &lt;type&gt; [&lt;description&gt;] (method): 
-	 type always, description if needed.
-	</para>
+         type always, description if needed.
+        </para>
        </listitem>
        <listitem>
         <para>
          @var &lt;type&gt; [&lt;description&gt;] (variable): 
-	 type always, description if needed.
-	</para>
+         type always, description if needed.
+        </para>
        </listitem>
        <listitem>
         <para>
          {@link [&lt;class&gt;|&lt;method&gt;]} (anywhere): to add a 
-	 hyperlink to a class or method.
-	</para>
+         hyperlink to a class or method.
+        </para>
        </listitem>
        <listitem>
         <para>
          @see [&lt;class&gt;|&lt;method&gt;] (anywhere): to add a 
-	 reference to a class or method. @see is also used for interface
-	 implementation: Because PhpDocumentor doesn't inherit tags 
-	 @param, @return, etc. and because we don't want to copy/paste 
-	 these tags, we add a simple @see tag to interface method 
-	 definition. See example below.
-	</para>
+         reference to a class or method. @see is also used for interface
+         implementation: Because PhpDocumentor doesn't inherit tags 
+         @param, @return, etc. and because we don't want to copy/paste 
+         these tags, we add a simple @see tag to interface method 
+         definition. See example below.
+        </para>
        </listitem>
       </itemizedlist>
      </para>
@@ -257,76 +257,76 @@ require_once('required_file.php');
  */
 class MyClass extends MySuperClass {
 
-	/**
-	 * @var int
-	 */
-	public $simpleVariable;
+        /**
+         * @var int
+         */
+        public $simpleVariable;
 
-	/** 
-	 * @var MyVarClass
-	 */
-	public $simpleObjectVariable;
+        /** 
+         * @var MyVarClass
+         */
+        public $simpleObjectVariable;
 
-	/**
-	 * This variable needs a description
-	 * @var string
-	 */
-	public $notSoSimpleVariable;
+        /**
+         * This variable needs a description
+         * @var string
+         */
+        public $notSoSimpleVariable;
 
-	/**
-	 * @param int
-	 */
-	function __construct($initialValue) {
-		parent::__construct();
-		$this->simpleVariable = $initialValue;
-		$this->simpleObjectVariable = NULL;
-		$this->notSoSimpleVariable = '';
-	}
+        /**
+         * @param int
+         */
+        function __construct($initialValue) {
+                parent::__construct();
+                $this->simpleVariable = $initialValue;
+                $this->simpleObjectVariable = NULL;
+                $this->notSoSimpleVariable = '';
+        }
 
-	/**
-	 * @param int
-	 */
-	function setSimpleVariable($newValue) {
-		$this->simpleVariable = $newValue;
-	}
+        /**
+         * @param int
+         */
+        function setSimpleVariable($newValue) {
+                $this->simpleVariable = $newValue;
+        }
 
-	/**
-	 * @return int
-	 */
-	function getSimpleVariable() {
-		return $this->simpleVariable;
-	} 
+        /**
+         * @return int
+         */
+        function getSimpleVariable() {
+                return $this->simpleVariable;
+        } 
 
-	/**
-	 * This is a short description for method
-	 *
-	 * This is a longer description. Don't forget to have a 
-	 * look here {@link MyLinkClass::myLinkMethod()}. blah blah.
-	 * @param string description of first parameter
-	 * @param MyParamClass description of second parameter
-	 * @return boolean true if everything's fine
-	 * @see MyInterestingClass
-	 */
-	function myMethod($myFirstParameter, $mySecondParameter) {
-		// blah blah
+        /**
+         * This is a short description for method
+         *
+         * This is a longer description. Don't forget to have a 
+         * look here {@link MyLinkClass::myLinkMethod()}. blah blah.
+         * @param string description of first parameter
+         * @param MyParamClass description of second parameter
+         * @return boolean true if everything's fine
+         * @see MyInterestingClass
+         */
+        function myMethod($myFirstParameter, $mySecondParameter) {
+                // blah blah
 
-		return true;
-	}
+                return true;
+        }
 
-	/**
-	 * @see MyInterface::myImplementingMethod()
-	 */
-	function myImplementingMethod($myParameter) {
-		// blah blah
+        /**
+         * @see MyInterface::myImplementingMethod()
+         */
+        function myImplementingMethod($myParameter) {
+                // blah blah
 
-		return true;
-	} 
+                return true;
+        } 
 
-	function myOverridingMethod($myParameter) {
-		// blah blah
+        function myOverridingMethod($myParameter) {
+                // blah blah
 
-		return true;
-	} 
+                return true;
+        } 
 }
 
 /**

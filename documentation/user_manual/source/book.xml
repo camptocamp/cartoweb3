@@ -97,6 +97,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/newplugin.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/security.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
 
  <part id="cartoweb.tool">

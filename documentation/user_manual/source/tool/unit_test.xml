@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -95,18 +95,18 @@ require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
 
 class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
 
-	public function testBboxFrom2Points() {
+        public function testBboxFrom2Points() {
 
-		$bbox = new Bbox();
-		$point1 = new Point(12, 34);
-		$point2 = new Point(56, 78);
-		$bbox->SetFrom2Points($point1, $point2);
+                $bbox = new Bbox();
+                $point1 = new Point(12, 34);
+                $point2 = new Point(56, 78);
+                $bbox->SetFrom2Points($point1, $point2);
 
-		$this->assertEquals(12, $bbox->minx);
-		$this->assertEquals(34, $bbox->miny);
-		$this->assertEquals(56, $bbox->maxx);
-		$this->assertEquals(78, $bbox->maxy);
-	}
+                $this->assertEquals(12, $bbox->minx);
+                $this->assertEquals(34, $bbox->miny);
+                $this->assertEquals(56, $bbox->maxx);
+                $this->assertEquals(78, $bbox->maxy);
+        }
 }
 ?>]]></programlisting>
    </example>
@@ -134,15 +134,15 @@ require_once 'CartoserverServiceTest.php';
 
 class client_AllTests {
 
-	public static function suite() {
+        public static function suite() {
 
-		$suite = new PHPUnit2_Framework_TestSuite;
+                $suite = new PHPUnit2_Framework_TestSuite;
 
-		$suite->addTestSuite('client_CartoclientTest');
-		$suite->addTestSuite('client_CartoserverServiceTest');
+                $suite->addTestSuite('client_CartoclientTest');
+                $suite->addTestSuite('client_CartoserverServiceTest');
 
-		return $suite;
-	}
+                return $suite;
+        }
 }
 ?>
 ]]></programlisting>
@@ -162,15 +162,15 @@ require_once 'common/AllTests.php';
 
 class AllTests {
 
-	public static function suite() {
+        public static function suite() {
 
-		$suite = new PHPUnit2_Framework_TestSuite;
+                $suite = new PHPUnit2_Framework_TestSuite;
 
-		$suite->addTest(client_AllTests::suite());
-		$suite->addTest(common_AllTests::suite());
+                $suite->addTest(client_AllTests::suite());
+                $suite->addTest(common_AllTests::suite());
 
-		return $suite;
-	}
+                return $suite;
+        }
 }
 ?>]]></programlisting>
    </para>

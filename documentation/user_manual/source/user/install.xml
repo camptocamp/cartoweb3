@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -16,9 +16,9 @@
     Cartoweb 3 installer is "cw3setup.php", located in the root directory of the application:
     Simply run <screen>php -f cw3setup.php</screen> to setup the application.   
   </para>
-	<sect2 id="user.install.unix.commands">
-	 <title>List of available commands:</title>
-	  <para>
+        <sect2 id="user.install.unix.commands">
+         <title>List of available commands:</title>
+          <para>
 <screen><![CDATA[(no command, by default): install cartoweb3
 cvs                     : install cartoweb3 from cvs
 check                   : check configuration
@@ -33,8 +33,8 @@ link_or_copy            : link or copy paths for web browser
 setup[=path]            : setup a new project in existing installation
 remove                  : remove cartoweb3
 ]]></screen>
-	  </para>
-	</sect2>
+          </para>
+        </sect2>
  </sect1>
 
 

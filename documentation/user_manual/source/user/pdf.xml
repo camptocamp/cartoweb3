@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -183,7 +183,7 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       distUnit:	mm
+       distUnit:        mm
       </para>
      </listitem>
      <listitem>

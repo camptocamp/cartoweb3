@@ -2,22 +2,116 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
 
 <chapter id="user.security">
  <title>Security configuration</title>
- <subtitle>Plugin authentification and authorization</subtitle>
-
+ 
  <sect1 id="user.security.intro"> 
   <title>Introduction</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
+    <para> Access to different parts of the &cw; can be allowed or 
+        denied according to who is currently using the application.
+        </para>
+        <para>
+            The following concpets are used in this chapter.
+                <variablelist>
+            <title>Security mechanisms concepts</title>
+            <varlistentry>
+                <term>User</term>
+                <listitem>
+                                <para> Representation of a user accessing &cw;. 
+              If the user is not logged in, she is rerefenced 
+              as the <constant>anonymous</constant> user.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Role</term>
+                <listitem>
+                <para> A user can have zero or more roles associated to her.
+                    These roles are used to allow or deny a permission to a resource.
+                </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Permissions</term>
+                <listitem>
+                <para>Permissions describe parts of the application which can be
+                    allowed or denied access. A permission can have roles for
+                    which access is allowed, and roles for which it is denied.
+                </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        </para>
  </sect1>
 
+ <sect1 id="user.security.auth">
+    <title>Auth plugin</title>
+    <para>
+        The security system in &cw; was developped to be modular and to allow
+        different authentication systems to be easily plugged-in.
+                This section describes one implementation of authentication and user 
+        password and roles management, which is the auth plugin shipped with
+        &cw;.
+
+<!--
+    <screenshot>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="200" fileref="security.login_dialog.png" format="PNG"/>
+            </imageobject>
+                        <caption>Auth plugin login dialog</caption>
+        </mediaobject>
+        </screenshot>
+-->    
+
+        </para>
+        <para>
+        The next section describes the configuration file of the auth plugin. It
+        is basically the management of usernames, passwords and roles.
+        </para>
+    
+ <sect2 id="user.security.auth.users_roles">
+
+  <title>auth.ini (client-side)</title>
+  <para>
+
+  The <filename>auth.ini</filename> configuration is located in the client. 
+  This file contains the list of usernames, their password and the roles they 
+  belong to:
+
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+    authActive<indexterm><primary>authActive</primary></indexterm>: 
+    booleanWhether to show the Authentification login/logout buttons. 
+    (Warning: this is not related to the fact the authentification system 
+    will be active or not)
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     users.USERNAME<indexterm><primary>users.USERNAME</primary></indexterm>
+         List of users and their passwords. Passwords values are md5sums of the password.
+         to get this value, you can type in a shell:
+         <screen> echo -n 'mypassword' | md5sum </screen> 
+         Example:
+         <programlisting>
+            users.alice = e3e4faee0cc7fc55ad402f517cdaf40
+         </programlisting>
+     </para>
+   </listitem>
+   <listitem>
+    <para>
+     roles.USERNAME<indexterm><primary>roles.USERNAME</primary></indexterm>
+      List of roles for each user
+    </para>
+   </listitem>
+  </itemizedlist>
+ </sect2>
+ </sect1>
 </chapter>

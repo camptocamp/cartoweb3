@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <!-- $Id$ -->
@@ -46,47 +46,47 @@
       <itemizedlist>
        <listitem>
         <para>
-	 <filename>images</filename>: Image generation.
-	</para>
+         <filename>images</filename>: Image generation.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>layers</filename>: Layers management, see: 
-	 <xref linkend="user.layer"/>.
-	</para>
+         <filename>layers</filename>: Layers management, see: 
+         <xref linkend="user.layer"/>.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>location</filename>: Navigation.
-	</para>
+         <filename>location</filename>: Navigation.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>mapquery</filename>: Perform queries based on a
-	 set of selected id's.
-	</para>
+         <filename>mapquery</filename>: Perform queries based on a
+         set of selected id's.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>project</filename>: Projects, see <xref 
-	 linkend="user.structure.project"/>.
-	</para>
+         <filename>project</filename>: Projects, see <xref 
+         linkend="user.structure.project"/>.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>query</filename>: Perform queries on layers. 
-	</para>
+         <filename>query</filename>: Perform queries on layers. 
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>statictools</filename>: Distance and surface 
-	 calculation.
-	</para>
+         <filename>statictools</filename>: Distance and surface 
+         calculation.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>tables</filename>: Table rules management.
-	</para>
+         <filename>tables</filename>: Table rules management.
+        </para>
        </listitem>
       </itemizedlist>
      </para>
@@ -97,13 +97,13 @@
       <itemizedlist> 
        <listitem>
         <para>
-	 <filename>apidoc</filename>: PhpDoc documentation.
+         <filename>apidoc</filename>: PhpDoc documentation.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>user_manual/source</filename>: DocBook XML current 
-	 documentation source.
+         <filename>user_manual/source</filename>: DocBook XML current 
+         documentation source.
         </para>
        </listitem>
       </itemizedlist>
@@ -115,18 +115,18 @@
       <itemizedlist>
        <listitem>
         <para>
-	 <filename>css</filename>: css files.
-	</para>
+         <filename>css</filename>: css files.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>gfx</filename>: icons files.
-	</para>
+         <filename>gfx</filename>: icons files.
+        </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>js</filename>: javascript files.
-	</para>
+         <filename>js</filename>: javascript files.
+        </para>
        </listitem>
       </itemizedlist>
      </para>
@@ -155,42 +155,42 @@
       <itemizedlist>
        <listitem>
         <para>
-	 <filename>auth</filename>: authentification plugin, see: <xref
-	 linkend="user.security"/>.
+         <filename>auth</filename>: authentification plugin, see: <xref
+         linkend="user.security"/>.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>exportCsv</filename>: Csv export plugin, see: <xref
-	 linkend="user.output.csv"/>.
+         <filename>exportCsv</filename>: Csv export plugin, see: <xref
+         linkend="user.output.csv"/>.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>exportHtml</filename>: HTML export plugin, see: <xref
-	 linkend="user.output.html"/>.
+         <filename>exportHtml</filename>: HTML export plugin, see: <xref
+         linkend="user.output.html"/>.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>exportPdf</filename>: PDF export plugin, see:
-	 <xref linkend="user.pdf"/>.
+         <filename>exportPdf</filename>: PDF export plugin, see:
+         <xref linkend="user.pdf"/>.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>hello</filename>: test plugin.
+         <filename>hello</filename>: test plugin.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>hilight</filename>: highlight plugin, see: <xref
-	 linkend="user.query"/>
+         <filename>hilight</filename>: highlight plugin, see: <xref
+         linkend="user.query"/>
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>outline</filename>: shapes drawing 
+         <filename>outline</filename>: shapes drawing 
         </para>
        </listitem>
       </itemizedlist>
@@ -248,46 +248,46 @@
       <itemizedlist>
        <listitem>
         <para>
-	 <filename>icons</filename>: Generated icons
+         <filename>icons</filename>: Generated icons
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>images</filename>: Mapserver images
+         <filename>images</filename>: Mapserver images
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>mapinfo_cache</filename>: Client-side server configuration
-	 cache, see <xref linkend="user.config.cache"/>.
+         <filename>mapinfo_cache</filename>: Client-side server configuration
+         cache, see <xref linkend="user.config.cache"/>.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>mapresult_cache</filename>: Client requests and 
-	 associated server results cache.
+         <filename>mapresult_cache</filename>: Client requests and 
+         associated server results cache.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>pdf</filename>: Pdf generated cache files.
+         <filename>pdf</filename>: Pdf generated cache files.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>saved_post</filename>: ???.
+         <filename>saved_post</filename>: ???.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>soapxml_cache</filename>: Client SOAP XML requests
-	 and associated server results cache.
+         <filename>soapxml_cache</filename>: Client SOAP XML requests
+         and associated server results cache.
         </para>
        </listitem>
        <listitem>
         <para>
-	 <filename>wsdl_cache</filename>:  Client-side WSDL cache, 
-	 see <xref linkend="user.config.cache"/>.
+         <filename>wsdl_cache</filename>:  Client-side WSDL cache, 
+         see <xref linkend="user.config.cache"/>.
         </para>
        </listitem>
       </itemizedlist>

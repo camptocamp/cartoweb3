@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
-  %cartoweb;	
+  %cartoweb;
 ]>
 
 <sect2 id="dev.soapcalls.getmap.location">
@@ -98,7 +98,7 @@
           <para>locationConstraint - constraint to be respected when 
             location request is executed</para>
         </listitem>
-      </itemizedlist>				
+      </itemizedlist>                           
     </para>
     <sect4 id="dev.soapcalls.getmap.location.request.bbox">
       <title>BBox Request</title>
@@ -113,7 +113,7 @@
           <listitem><para>bbox - bounding box to be recentered on (see <xref 
             linkend="dev.soapcalls.structures.shapes" /> for a 
             description of type Bbox)</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.pan">
@@ -141,7 +141,7 @@
             <para>HORIZONTAL_PAN_NONE - no horizontal panning</para>
           </listitem>
           <listitem><para>HORIZONTAL_PAN_EAST - panning east</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
         <programlisting><![CDATA[
 <complexType name="PanDirection">
   <all>
@@ -156,7 +156,7 @@
           <listitem>
             <para>horizontalPan - type of horizontal panning</para>
           </listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
         <programlisting><![CDATA[
 <complexType name="PanLocationRequest">
   <all>
@@ -169,7 +169,7 @@
             linkend="dev.soapcalls.structures.shapes" /> for a 
             description of type Bbox)</para></listitem>
           <listitem><para>panDirection - panning directions</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.zoom">
@@ -199,7 +199,7 @@
             <para>ZOOM_FACTOR - zoom using a custom factor</para>
           </listitem>
           <listitem><para>ZOOM_SCALE - zoom to a fixed scale</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
         <programlisting><![CDATA[
 <complexType name="ZoomPointLocationRequest">
   <all>
@@ -225,7 +225,7 @@
             <para>scale - fixed scale (unused when zoom type != 
               ZOOM_SCALE)</para>
           </listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
       </para>
     </sect4>
     <sect4 id="dev.soapcalls.getmap.location.request.recenter">
@@ -249,7 +249,7 @@
             <para>idType - type of ID attribute ("string" or "int")</para>
           </listitem>
           <listitem><para>selectedIds - list of IDs</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
         <programlisting><![CDATA[
 <complexType name="ArrayOfIdSelection">
   <complexContent>
@@ -261,7 +261,7 @@
 </complexType>]]></programlisting>
         <itemizedlist>
           <listitem><para>array - list of ID selections</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
         <programlisting><![CDATA[
 <complexType name="RecenterLocationRequest">
   <all>
@@ -270,7 +270,7 @@
 </complexType>]]></programlisting>
         <itemizedlist>
           <listitem><para>idSelections - list of ID selections</para></listitem>
-        </itemizedlist>				        
+        </itemizedlist>                                 
       </para>
     </sect4>
   </sect3>
