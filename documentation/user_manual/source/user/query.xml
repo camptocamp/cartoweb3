@@ -183,7 +183,7 @@ LAYER
   END
 END]]> </programlisting>
       </para>
-	</sect3>
+  </sect3>
     <sect3 id="user.query.mapfile.hilight.mask">
       <title>Mask Mode</title>
       <para>
