@@ -88,7 +88,7 @@ class CartoserverService {
         if (!is_null($this->config->cartoserverBaseUrl))
             $url = $this->config->cartoserverBaseUrl;
 
-        if ($url == '' )
+        if ($url == '' || $url == '/')
             throw new CartoclientException('No cartoserverBaseUrl set in config file');
         else
             return $url . $script . '?mapId=' . $this->config->mapId;
