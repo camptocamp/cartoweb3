@@ -46,6 +46,7 @@ dirs:
 	-mkdir -p www-data/wsdl_cache
 	-mkdir -p www-data/icons
 	-mkdir -p www-data/pdf
+	-mkdir -p www-data/pdf_cache
 	-mkdir -p templates_c
 
 perms:

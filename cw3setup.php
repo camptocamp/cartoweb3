@@ -38,6 +38,7 @@ $CW3_DIRS_TO_CREATE = array('www-data',
                   'www-data/wsdl_cache',
                   'www-data/icons',
                   'www-data/pdf',
+                  'www-data/pdf_cache',
                   'templates_c'
                   );
 
