@@ -911,7 +911,7 @@ template.orientation = horizontal]]></programlisting>
    <sect3 id="user.pdf.tutorial.block.positioning">
     <title><indexterm><primary>block positioning, PDF</primary></indexterm>Blocks positioning</title>
     <para>
-     CartoWeb3 uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
+     &cartoweb; uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
     </para>
     <para>
      Blocks are positioned one after the other, beginning by the ones with the lowest <parameter>zIndex</parameter> (vertical position: the low-zIndex'ed blocks are placed under the high-zIndexed ones - ie. closer to the background). When blocks have equal zIndexes, those with lowest <parameter>weight</parameter> are processed first. Eventually, if blocks have identical zIndexes and weights, the system will use <parameter>general.activatedBlocks</parameter> order to make its choice.
@@ -1012,7 +1012,7 @@ blocks.logo.verticalMargin = 5]]></programlisting>
      Caption and headers are described using separated blocks. They are specified by filling the table block <parameter>caption</parameter> and <parameter>headers</parameter> fields with the matching blocks ids. Since they are not standalone, there is no need to activate the blocks in the <parameter>general.activatedBlocks</parameter> list. That way it is possible to set the caption and headers layouts separately from the general table one (which is their default layout). Note that these subblocks are optional and will not be displayed if no content can be determined for them. The same headers and caption subblocks can be shared amongst several table blocks.
     </para>
     <para>
-     Cartoweb output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers <parameter>content</parameter>: cells content are represented as comma-separated string lists (only one row available for table data).
+     &cartoweb; output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers <parameter>content</parameter>: cells content are represented as comma-separated string lists (only one row available for table data).
     </para>
     <para>
      For instance: 
@@ -1037,7 +1037,7 @@ blocks.tableHeaders.color = #eeeeff]]></programlisting>
    <sect3 id="user.pdf.tutorial.block.legend">
     <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend block</title>
     <para>
-     There is usually only one instance of legend block in a Cartoweb PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
+     There is usually only one instance of legend block in a &cartoweb; PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
     </para>
     <para>
      You can avoid that a given set of layers be displayed in the legend blocks (no change on the maps) by listing the "forbidden" layers ids in the legend block <parameter>content</parameter> parameter, prefixing each layer id with an exclamation point ("!"). For instance: 
@@ -1068,7 +1068,7 @@ blocks.legend.content = "!nix"]]></programlisting>
   <sect2 id="user.pdf.tutorial.roles">
    <title><indexterm><primary>Roles management, PDF</primary></indexterm>Roles management</title>
    <para>
-    CartoWeb3 enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
+    &cartoweb; enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
    </para>
    <para>
     To do so, simply add to considered objects/blocks an <parameter>allowedRoles</parameter> property set to the comma-separated list of roles you want to restrict them to.

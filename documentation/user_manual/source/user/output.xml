@@ -14,7 +14,7 @@
  <sect1 id="user.output.intro"> 
   <title>Introduction</title>
   <para>
-   It is possible to export maps and data from the viewer (ie. the Cartoweb user interface) in order to print them or to save them on the user's computer. Three formats are available: PDF, CSV, HTML. 
+   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Three formats are available: PDF, CSV, HTML. 
   </para>
   <para>
    The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
@@ -37,7 +37,7 @@ loadPlugins = auth, outline, exportHtml
    To customized the exported page layout, simply edit the plugin template file <filename>exportHtml/templates/export.tpl</filename>. It is recommended not to modify the regular template file but to override it in a project version of the <parameter>exportHtml</parameter> plugin. For more info about projects, see <xref linkend="user.structure.project"/>.
   </para>
   <para>
-   To get advanced printing capabilities, rather use the Cartoweb3 PDF export plugin, <link linkend="user.pdf"><parameter>exportPdf</parameter></link>, described in next chapter.
+   To get advanced printing capabilities, rather use the &cartoweb; PDF export plugin, <link linkend="user.pdf"><parameter>exportPdf</parameter></link>, described in next chapter.
   </para>
  </sect1>
 
@@ -75,7 +75,7 @@ loadPlugins = auth, outline, exportHtml
      </para>
     </listitem>
    </itemizedlist>
-   After initial CartoWeb3 installation, <filename>client_conf/exportCsv.ini</filename> is set as follows:
+   After initial &cartoweb; installation, <filename>client_conf/exportCsv.ini</filename> is set as follows:
    <programlisting><![CDATA[; separator between each value, default is ";"
 separator = ";"
 

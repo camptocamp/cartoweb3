@@ -14,11 +14,11 @@
   <title>Introduction</title>
   <para>
    <indexterm><primary>Smarty Templates</primary></indexterm>Smarty Template Engine is a convenient way to write HTML templates for dynamic pages.
-   It enables to delocalize a great amount of layout processing. Thus it is pretty easy to customize a CartoWeb3 application layout without affecting the application core.
+   It enables to delocalize a great amount of layout processing. Thus it is pretty easy to customize a &cartoweb; application layout without affecting the application core.
   </para>
    
   <para>
-   CartoWeb 3 templates are located in <filename>templates/</filename>
+   &cartoweb; templates are located in <filename>templates/</filename>
    root directory and in plugins <filename>templates/</filename> directories
    (see <xref linkend="user.structure.plugin"/>).
   </para>
@@ -54,8 +54,7 @@
    Generated URLs depend on what <parameter>urlProvider</parameter> has been set in the general client configuration file <filename>client.ini</filename>. See <xref linkend="user.config.client"/> for details about <parameter>urlProvider</parameter>.
   </para>
   <para>
-   Following list
-   shows all CartoWeb 3 resource types.
+   Following list shows all &cartoweb; resource types.
   </para>
   <itemizedlist>
    <listitem>
