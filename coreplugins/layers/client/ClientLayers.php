@@ -16,6 +16,7 @@ class ClientLayers extends ClientCorePlugin {
     private $savedData;
     private $layersState;
     private $hiddenSelectedLayers;
+    private $hiddenUnselectedLayers;
     
     private $layers;
     private $selectedLayers = array();
@@ -40,6 +41,8 @@ class ClientLayers extends ClientCorePlugin {
         $this->layersState =& $this->savedData['layersState'];
         $this->hiddenSelectedLayers 
             =& $this->savedData['hiddenSelectedLayers'];
+        $this->hiddenUnselectedLayers
+            =& $this->savedData['hiddenUnselectedLayers'];
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
@@ -49,12 +52,15 @@ class ClientLayers extends ClientCorePlugin {
         $this->savedData['layersState'] =& $this->layersState;
         $this->savedData['hiddenSelectedLayers']
             =& $this->hiddenSelectedLayers;
+        $this->savedData['hiddenUnselectedLayers']
+            =& $this->hiddenUnselectedLayers;
             
         $this->layersState = array();
         foreach ($initialMapState->layers as $initialLayerState) {
             $this->layersState[$initialLayerState->id] = $initialLayerState;
         }
 
+        $this->hiddenUnselectedLayers = array();
         $this->hiddenSelectedLayers = $this->fetchHiddenSelectedLayers('root');
         $this->selectedLayers = array(); // resets selectedLayers array
 
@@ -228,9 +234,12 @@ class ClientLayers extends ClientCorePlugin {
         // children are hidden too.
         $isHidden = $forceHidden ||
                     in_array($layerId, $this->getHiddenLayers());
-        if ($isHidden && in_array($layerId, $this->getSelectedLayers()))
-            $hiddenSelectedLayers[] = $layerId;
-        
+        if ($isHidden) {
+            if (in_array($layerId, $this->getSelectedLayers()))
+                $hiddenSelectedLayers[] = $layerId;
+            else $this->hiddenUnselectedLayers[] = $layerId;
+        }
+
         foreach ($layer->children as $child) {
             $newList = $this->fetchHiddenSelectedLayers($child, $isHidden);
             if ($newList) {
@@ -242,6 +251,40 @@ class ClientLayers extends ClientCorePlugin {
         return $hiddenSelectedLayers;
     }
 
+    /**
+     * Determines activated layers by recursively browsing LayerGroups.
+     * Only keeps Layer objects that are not detected as hidden AND 
+     * not selected
+     */
+    private function fetchChildrenFromLayerGroup($layersList) {
+        if (!$layersList || !is_array($layersList)) return false;
+
+        $cleanList = array();
+        foreach ($layersList as $key => $layerId) {
+            $layer = $this->getLayerByName($layerId);
+            if (!$layer) continue;
+
+            // removes non Layer objects
+            if ($layer instanceof Layer) {
+                if (in_array($layerId, $this->getSelectedLayers()) ||
+                    !in_array($layerId, $this->hiddenUnselectedLayers))
+                    $cleanList[] = $layerId;
+                continue;
+            }
+
+            // no use to browse more if object is not a LayerGroup
+            if (!$layer instanceof LayerGroup) continue;
+
+            // recursively gets sublayers from current layer children
+            $newList = $this->fetchChildrenFromLayerGroup($layer->children);
+            if ($newList) {
+                $cleanList = array_merge($cleanList, $newList);
+                $cleanList = array_unique($cleanList);
+            }
+        }       
+        return array_unique($cleanList);
+    }
+
     function buildMapRequest($mapRequest) {
         foreach ($this->hiddenSelectedLayers as $layerId) {
             $this->layersState[$layerId]->selected = true;
@@ -249,6 +292,8 @@ class ClientLayers extends ClientCorePlugin {
         
         $layersRequest = new LayersRequest();
         $layersRequest->layerIds = $this->getSelectedLayers(true);
+        $layersRequest->layerIds =& 
+            $this->fetchChildrenFromLayerGroup($layersRequest->layerIds);
         $mapRequest->layersRequest = $layersRequest;
     }
 
