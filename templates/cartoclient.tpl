@@ -28,7 +28,9 @@
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
-
+{if $outline_active|default:''}
+  {$outline2}
+{/if}
   <div id="content">
 
     {include file="toolbar.tpl"}
