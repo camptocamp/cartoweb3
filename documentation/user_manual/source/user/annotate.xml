@@ -28,12 +28,12 @@
   </para>
   <para>
    Shapes colors and styles should be set with specific configuration in the
-   mapfile (See <xref linkend="user.annotate.server.mapfile" />).
+   mapfile (See <xref linkend="user.annotate.mapfile" />).
   </para>
   <para>The total area of the drawn polygons is displayed on the interface.</para>
  </sect1>
  <sect1 id="user.annotate.client">
-  <title>Client-side configuration</title>
+  <title>Client-side Configuration</title>
   <sect2 id="user.annotate.client.ini">
    <title>outline.ini</title>
    <para>Here are the options that can be set on the client:
@@ -85,7 +85,7 @@
   </sect2>
  </sect1>
  <sect1 id="user.annotate.server">
-  <title>Server-side configuration</title>
+  <title>Server-side Configuration</title>
   <sect2 id="user.annotate.server.ini">
    <title>outline.ini</title>
    <para>Here are the options that can be set on the server:
@@ -129,12 +129,13 @@
         </listitem>
    </itemizedlist>
   </sect2>
-  <sect2 id="user.annotate.server.mapfile">
-   <title>mapfile</title>
-    <sect3 id="user.annotate.server.mapfile.layers">
-     <title>layers</title>
-     <para>Specific layers must be set in the mapfile in order to draw the shapes.</para>
-     <para>Examples<programlisting><![CDATA[
+ </sect1>
+ <sect1 id="user.annotate.mapfile">
+  <title>Mapfile</title>
+   <sect2 id="user.annotate.mapfile.layers">
+    <title>layers</title>
+    <para>Specific layers must be set in the mapfile in order to draw the shapes.</para>
+    <para>Examples<programlisting><![CDATA[
 LAYER
   NAME "cartoweb_point_outline"
   TYPE POINT
@@ -152,20 +153,19 @@ LAYER
   TYPE POLYGON
   ...
 END]]></programlisting>
-     
-      The point layer is optional as it can be replaced by polygon layer when missing.
-     </para>
-     <para>
-      Don't forget that layers names must be set in the client-side outline.ini
-      file (See <xref linkend="user.annotate.server.ini" />)
-     </para>
-    </sect3>
-    <sect3 id="user.annotate.server.mapfile.label">
-     <title>labels</title>
-     <para>In case of using labels (i.e. labelMode set to true, see 
-      <xref linkend="user.annotate.client.ini" />), a LABEL object is needed in the layers' class.
-     </para>
-     <para>Example:<programlisting><![CDATA[
+    The point layer is optional as it can be replaced by polygon layer when missing.
+    </para>
+    <para>
+     Don't forget that layers names must be set in the client-side outline.ini
+     file (See <xref linkend="user.annotate.server.ini" />)
+    </para>
+   </sect2>
+   <sect2 id="user.annotate.mapfile.label">
+    <title>labels</title>
+    <para>In case of using labels (i.e. labelMode set to true, see 
+     <xref linkend="user.annotate.client.ini" />), a LABEL object is needed in the layers' class.
+    </para>
+    <para>Example:<programlisting><![CDATA[
 LAYER
   NAME "cartoweb_point_outline"
   TYPE POINT
@@ -182,9 +182,8 @@ LAYER
     END
   END
 END]]></programlisting>
-     You will find more examples looking in the test.map file in server_conf directory.
-    </para>
-   </sect3>
+    You will find more examples looking in the test.map file in server_conf directory.
+   </para>
   </sect2>
  </sect1>
 </chapter>
