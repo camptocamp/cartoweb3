@@ -43,6 +43,8 @@ abstract class Serializable {
             return (strtolower($value) == 'true' || $value == '1');
         case 'int':
             return (int)$value;
+        case 'double':
+            return (double)$value;
         default:
             return $value;
         }        
