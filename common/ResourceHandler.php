@@ -29,6 +29,7 @@ abstract class UrlProvider {
     /**
      * Returns the URL for resources in htdocs directory (may be in projects
      * and plugins)
+     * This is only relevent for client resources.
      * @param string the plugin name
      * @param string the project name
      * @param string the resource to access. It may contain a path, like
@@ -39,6 +40,7 @@ abstract class UrlProvider {
     /**
      * Returns an URL to access icon images inside icons subdirectory where the
      * mapfile is located.
+     * This is only relevent for server resources.
      * @param string the project name
      * @param string the mapId to use
      * @param string the resource to access (icon name, without path)
@@ -48,6 +50,7 @@ abstract class UrlProvider {
     /**
      * Returns an URL to access files inside the directory of generated files
      * (like generated mapserver images, pdf files, ...)
+     * This can be used for server or client resources.
      * 
      * @param string the resource to access (this is the resource name relative
      * to the directory of generated files (www-data usually))
@@ -72,8 +75,12 @@ class SymlinkUrlProvider extends UrlProvider {
         $path = $resource;
         if (!empty($plugin))
             $path = $plugin . '/' . $resource;
-        // FIXME: put getWebPath there
-        return $this->projectHandler->getWebPath($path);
+
+        if ($this->projectHandler->isProjectFile('htdocs/' . $path)) {
+            return $this->projectHandler->getProjectName() . '/' . $path;
+        } else {
+            return $path;
+        }
     }
     
     /**
@@ -168,8 +175,13 @@ class ResourceHandler {
     /**
      * @var boolean true if the client is in direct access mode.
      */
-    private $directAcess;
+    private $directAccess;
     
+    /**
+     * @var string the URL to the cartoclient base
+     */
+    private $cartoclientBaseUrl;
+
     /**
      * @var string the URL to the cartoserver base.
      */
@@ -194,7 +206,8 @@ class ResourceHandler {
         
         if (!class_exists('ClientConfig') || !$config instanceof ClientConfig)
             return;
-        $this->directAcess = $config->cartoserverDirectAccess;
+        $this->directAccess = $config->cartoserverDirectAccess;
+        $this->cartoclientBaseUrl = $config->cartoclientBaseUrl;
         $this->cartoserverBaseUrl = $config->cartoserverBaseUrl;
     }
  
@@ -204,49 +217,45 @@ class ResourceHandler {
     public function getUrlProvider() {
         return $this->urlProvider;   
     }
-    
-    /**
-     * Convert a relative resource URL to an absolute one.
-     * 
-     * @param string The relative URL to the resource
-     * @return string The absolute URL to a resource
-     */
-    public function getAbsoluteUrl($relativeUrl) {
-        if (empty($this->cartoserverBaseUrl))
-            throw new CartocommonException('cartoserverBaseUrl not set');
-        return $this->cartoserverBaseUrl . $relativeUrl;
-    }
 
     /**
-     * Processes a relative URL to a resource, so that when inserted in the html
-     * template, the URL is correct. 
-     * In direct mode, it keeps relative URLs, and returns absolute URL's when
-     * in non direct access mode.
+     * Processes a relative URL to a resource, and convert it so that it is 
+     * accessible on the client templates.
+     * The relative url may be relative to the client or the server base Url.
+     * Whenever possible, the returned URL will be relative to the cartoclient.
+     * The relative URL is possible if the $forceAbsolute parameter is false and 
+     * the resource is on the client or directAccess is enabled.
      * 
      * @param string The relative URL to a resource to convert
-     * @return string The URL to be used in the html template.
+     * @param boolean True for resources on the client, false for server
+     * @param boolean True to obtain an absolute URL in any case
+     * @return A relative URL to the resource if possible, or an absolute one
      */
-    public function convertUrl($relativeUrl) {
+     public function getFinalUrl($relativeUrl, $client, $forceAbsolute=false) {
+    
+        $base = $client ? $this->cartoclientBaseUrl : $this->cartoserverBaseUrl;
 
-        // TODO: handle reverseProxyPrefix (in ClientImages.php cvs history)
+        // TODO: handle reverseProxyPrefix for resources on server (in ClientImages.php cvs history)
 
-        if ($this->directAcess)
+        // if resource is on client, or we are in directAccess, we can use relative URL
+        if (!$forceAbsolute && ($client || $this->directAccess)) {
             return $relativeUrl;
-        else
-            return $this->getAbsoluteUrl($relativeUrl);
+        }
+        return $base . $relativeUrl;
     }
     
     /**
-     * From a relative resource URL, as returned by the server, returns either a
-     * path to the corresponding file on the file system, if accessible (only
-     * for direct access mode). Otherwise, it will return the absolute URL to
-     * the resource.
+     * From a relative resource URL, returns either a  path to the corresponding 
+     * file on the file system, if accessible (only for client resources, or 
+     * server in direct access mode). Otherwise, it will return the absolute 
+     * URL to the resource.
      * 
      * @param string The relative URL to a resource
+     * @param boolean True for resources on the client, false for server
      * @return string The path to the resource file on the filesystem, if
      * accessible, or the absolute URL to the resource
      */
-    public function getPathOrAbsoluteUrl($relativeUrl) {
+    public function getPathOrAbsoluteUrl($relativeUrl, $client=false) {
 
         // FIXME: images on server should return filesystem path, for use in direct 
         //  access mode, so that we can avoid this crude hack !
@@ -255,8 +264,8 @@ class ResourceHandler {
             return CARTOCOMMON_HOME . 'www-data/' .$relativeUrl;
         if (is_readable(CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl))
             return CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl;
-        return $this->getAbsoluteUrl($relativeUrl);
-    }    
+        return $this->getFinalUrl($relativeUrl, $client, true);        
+    } 
 }
 
 ?>

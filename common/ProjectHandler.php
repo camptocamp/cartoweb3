@@ -45,7 +45,7 @@ abstract class ProjectHandler {
      * direcory only)
      * @return boolean true if the file or directory belongs to a project.
      */
-    private function isProjectFile($filePath, $file = '') {
+    public function isProjectFile($filePath, $file = '') {
     
         $projectName = $this->getProjectName();
         if (!$projectName)
@@ -77,27 +77,6 @@ abstract class ProjectHandler {
         
         if (self::isProjectFile($filePath, $file)) {
             return self::PROJECT_DIR . '/' . $this->getProjectName() . '/' . $filePath;
-        } else {
-            return $filePath;
-        }
-    } 
-    
-    
-    // FIXME: obsoleted by new mini-proxy mechanism
-    //  move it to the ResourceHandler.php file
-    /**
-     * Returns relative Web path for a file, depending on projects
-     * 
-     * If file exists in current project, path to project file name is returned.
-     * Otherwise, default file is returned.
-     * @param string path to file (without project specific path)
-     * @param string optional file name
-     * @return string     
-     */
-    public function getWebPath($filePath, $file = '') {
-        
-        if (self::isProjectFile('htdocs/' . $filePath, $file)) {
-            return $this->getProjectName() . '/' . $filePath;
         } else {
             return $filePath;
         }

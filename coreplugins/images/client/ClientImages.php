@@ -229,7 +229,7 @@ class ClientImages extends ClientPlugin
     private function getImageUrl($path) {
 
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        return $resourceHandler->convertUrl($path);
+        return $resourceHandler->getFinalUrl($path, false);
     }
 
     /**

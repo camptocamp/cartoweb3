@@ -1015,7 +1015,7 @@ class ClientLayers extends ClientPlugin
         }
 
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        $iconUrl = $resourceHandler->convertUrl($layer->icon);
+        $iconUrl = $resourceHandler->getFinalUrl($layer->icon, false);
 
         $element = array_merge($element,
                           array('layerLabel'       => $layer->label,
@@ -1084,7 +1084,7 @@ class ClientLayers extends ClientPlugin
             return '';
         
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        return $resourceHandler->getPathOrAbsoluteUrl($icon);
+        return $resourceHandler->getPathOrAbsoluteUrl($icon, false);
     }
 
     /**

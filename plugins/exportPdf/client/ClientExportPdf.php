@@ -706,7 +706,7 @@ class ClientExportPdf extends ExportPlugin {
     private function getGfxPath($gfx) {
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
-        return $resourceHandler->getPathOrAbsoluteUrl($gfx);
+        return $resourceHandler->getPathOrAbsoluteUrl($gfx, false);
     }
 
     /**
@@ -969,7 +969,7 @@ class ClientExportPdf extends ExportPlugin {
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $pdfUrl = $resourceHandler->getUrlProvider()->getGeneratedUrl('pdf/' . 
                                                                     $filename);
-        return $resourceHandler->getAbsoluteUrl($pdfUrl);
+        return $resourceHandler->getFinalUrl($pdfUrl, true, true);
     }
 
     /**
