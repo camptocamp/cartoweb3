@@ -280,7 +280,8 @@ class ServerLocation extends ServerCorePlugin {
             $scale->label = $config->$key;
             
             $key = 'scales.' . $i . '.visible';
-            if ($config->$key) {
+       
+            if ($config->$key || is_null($config->$key)) {
                 $this->visibleScales[] = $scale;
             } 
             $this->scales[] = $scale;
