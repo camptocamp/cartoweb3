@@ -49,6 +49,14 @@ class ServerImages extends ServerCoreplugin {
         return 'images/';
     }
 
+    private function isDrawQuery() {
+
+        $plugins = $this->serverContext->pluginManager;
+        if (empty($plugins->query))
+            return false;
+        return $plugins->query->drawQuery();
+    }
+
     function drawMainmap($requ) {
         $msMapObj = $this->serverContext->msMapObj;
 
@@ -62,8 +70,12 @@ class ServerImages extends ServerCoreplugin {
             $msMapObj->web->set('imageurl', $this->getImageUrl());
         }
 
-        if ($requ->mainmap->isDrawn) 
-            $this->serverContext->msMainmapImage = $msMapObj->draw();
+        if ($requ->mainmap->isDrawn) { 
+            if ($this->isDrawQuery())
+                $this->serverContext->msMainmapImage = $msMapObj->drawQuery();
+            else
+                $this->serverContext->msMainmapImage = $msMapObj->draw();
+        }
         $this->serverContext->checkMsErrors();
 
         $this->log->info("mainmap saved");

@@ -34,6 +34,7 @@ class QueryRequest extends Serializable {
  */
 class ResultElement {
 
+    public $index;
     public $id;
     public $values;
 }

@@ -38,7 +38,7 @@ class coreplugins_query_server_RemoteServerQueryTest
     }
 
     private function assertQueryResult1($queryResult) {
-
+        // FIXME: result should be unserialized
         $this->assertSame(count($queryResult->layerResults), 3);
         $this->assertSame($queryResult->layerResults[0]->layerId,
                             "polygon");
@@ -46,7 +46,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $polygonLayerResults = $queryResult->layerResults[0]->
                                 resultElements; 
         $this->assertSame(count($polygonLayerResults), 1);
-        $this->assertSame($polygonLayerResults[0]->id, "0");
+        $this->assertSame($polygonLayerResults[0]->id, "1");
         $this->assertSame($polygonLayerResults[0]->values, 
                                         array("1", "A Polygon"));
         

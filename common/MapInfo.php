@@ -75,10 +75,12 @@ class LayerGroup extends LayerContainer {
 class Layer extends LayerContainer {
 
     public $msLayer;
+    public $idAttributeString;
 
     function unserialize($struct) {
         parent::unserialize($struct);
         $this->msLayer = self::unserializeValue($struct, 'msLayer'); 
+        $this->idAttributeString = self::unserializeValue($struct, 'idAttributeString'); 
     }
 }
 

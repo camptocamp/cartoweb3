@@ -159,27 +159,61 @@ class ServerContext {
      * Utility methods shared by several plugins
      */
      
-     
+    private function getIdAttributeString($layerId) {
+        $serverLayer = $this->mapInfo->getLayerById($layerId);
+        if (!$serverLayer) 
+            throw new CartoserverException("layerid $layerId not found");
+        
+        // extract from ini config file
+        if (!empty($serverLayer->idAttributeString)) {
+            return $serverLayer->idAttributeString;   
+        }
+        
+        // retrieve from metadata
+        $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
+        $this->checkMsErrors();
+
+        $idAttribute = $msLayer->getMetaData('id_attribute_string');
+        if (!empty($idAttribute)) {
+            return $idAttribute;   
+        }
+        
+        throw new CartoserverException("no idAttributeString declared in ini config " .
+                "or metadata, for layer $msLayer->name");
+        return NULL;
+    } 
+    
     /**
      * Returns the default attribute for matching identifier for a given
      * layer
      *
      * @param $layerId the layer on which to retrieve the default id attribute
      */
-    function getIdAttribute($layerId) {
-        $serverLayer = $this->mapInfo->getLayerById($layerId);
-        if (!$serverLayer) 
-            throw new CartoserverException("layerid $layerId not found");
-        
-        $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
-        $this->checkMsErrors();
-        
-        $idAttribute = $msLayer->classitem; 
-        if (empty($idAttribute))
-             throw new CartoserverException("no idAttribute declared, and no " .
-                    "classitem for layer $msLayer->name");
-        return $idAttribute;
-    } 
+     function getIdAttribute($layerId) {
+        $idAttributeString = $this->getIdAttributeString($layerId);
+        $explodedAttr = explode('|', $idAttributeString);
+        assert(count($explodedAttr) >= 1);
+        return $explodedAttr[0]; 
+     }
+
+    /**
+     * Returns the type of the default attribute.
+     * It may be "string" or "integer"
+     *
+     * @param $layerId the layer on which to retrieve the default id type
+     */
+     function getIdAttributeType($layerId) {
+        $idAttributeString = $this->getIdAttributeString($layerId);
+        $explodedAttr = explode('|', $idAttributeString);
+        // by default, type is string
+        if (count($s) == 1)
+            return 'string';
+        assert(count($explodedAttr) == 1);
+        $type = $explodedAttr[1];
+        if (!in_array($type, array('int', 'string')))
+            throw new CartoserverException("bad id attribute type: $type");
+        return $type; 
+     }
 }
 
 ?>

@@ -54,6 +54,12 @@ MAP
     "init=epsg:4326"
   END
   
+  QUERYMAP
+  	COLOR 0 0 0
+  	STATUS ON
+  	STYLE Hilite
+  END
+  
   LAYER
     NAME "POLYGON"
     TYPE POLYGON
@@ -67,6 +73,8 @@ MAP
       "key2" "value2"
       "key3" "value3"
       "key4" "value4"
+  	  "id_attribute_string" "FID|string"
+	  "query_returned_attributes" "FID FNAME"
     END
     CLASSITEM "FNAME"
     
@@ -140,9 +148,13 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "point"
     CLASSITEM "FNAME"
     LABELITEM "FNAME"
+	TEMPLATE "ttt"
     CLASS
       NAME "0"
       STYLE
@@ -212,12 +224,15 @@ MAP
   END
 
   LAYER
-    NAME "grid_nohilight"
+    NAME "grid_defaulthilight"
     TYPE POLYGON
     PROJECTION
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "grid"
     CLASSITEM "FID"
     TEMPLATE "ttt"
@@ -239,6 +254,9 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "grid"
     CLASSITEM "FID"
     TEMPLATE "ttt"
@@ -269,6 +287,9 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "grid"
     CLASSITEM "FID"
     TEMPLATE "ttt"
@@ -290,6 +311,9 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "grid"
     CLASSITEM "FID"
     TEMPLATE "ttt"

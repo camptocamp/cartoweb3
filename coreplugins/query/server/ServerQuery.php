@@ -9,6 +9,7 @@
  */
 class ServerQuery extends ServerCorePlugin {
     private $log;
+    private $drawQuery = false;
 
     function __construct() {
         parent::__construct();
@@ -16,7 +17,8 @@ class ServerQuery extends ServerCorePlugin {
     }
 
     function getType() {
-        return ServerPlugin::TYPE_POST_DRAWING;
+        // has to be called before drawMainMap(), so that drawQuery() may draw the query
+        return ServerPlugin::TYPE_PRE_DRAWING;
     }
 
     private function getQueryLayerNames($requ) {
@@ -38,6 +40,38 @@ class ServerQuery extends ServerCorePlugin {
             $ret[] = $this->encodingConversion($str);
         }
         return $ret;
+    }
+
+    private function filterReturnedAttributes($msLayer, $values) {
+
+        $returnedAttributesMetadataName = 'query_returned_attributes';
+        
+        $retAttrString = $msLayer->getMetaData($returnedAttributesMetadataName);
+        if (empty($retAttrString)) {
+            // fallback to header property for compatibility
+
+            $retAttrString = $msLayer->header;
+            if (!empty($retAttrString))
+                $this->log->warn("Using compatibility header property for layer instead of " .
+                    "$returnedAttributesMetadataName metadata field, please update your " .
+                    "Mapfile !!");
+        }
+        if (empty($retAttrString)) {
+                $this->log->warn('no filter for returned attributes, returning everything');
+                return $values;
+        }
+
+        $returnedAttributes = explode(' ', $retAttrString);
+        
+        $filteredValues = array();
+        foreach($returnedAttributes as $key) {
+            if (isset($values[$key]))
+                $filteredValues[$key] = $values[$key];
+        }
+
+        if (empty($filteredValues))
+            throw new CartoserverException('no attributes to return from query');
+        return $filteredValues;
     }
 
     function queryLayer($layerId, $shape, $queryArgs) {
@@ -94,6 +128,9 @@ class ServerQuery extends ServerCorePlugin {
 
         $msLayer->open();
 
+        $idAttribute = $this->serverContext->getIdAttribute($layerId);
+        if (is_null($idAttribute))
+            throw new CartoserverException("Can't find idAttribute for layer $layerId");
         for ($i = $queryArgs->startIndex; 
             $i < $msLayer->getNumResults() && 
             $i - $queryArgs->startIndex < $queryArgs->maxResults; $i++) {
@@ -105,16 +142,16 @@ class ServerQuery extends ServerCorePlugin {
             $this->log->debug($shape);
 
             $resultElement = new ResultElement();            
-            $resultElement->id = $i;
+            $resultElement->index = $i;
+            $resultElement->id = $shape->values[$idAttribute];
             
+            $filteredValues = $this->filterReturnedAttributes($msLayer, $shape->values);
             if (empty($layerResult->fields)) {
-                $fields = array_keys($shape->values);
+                $fields = array_keys($filteredValues);
                 $layerResult->fields = $this->arrayEncodingConversion($fields);
             }
-            $values = array_values($shape->values);
+            $values = array_values($filteredValues);
             $resultElement->values = $this->arrayEncodingConversion($values);
-            $resultElement->tileindex = $shape->tileindex;
-            $resultElement->classindex = $shape->classindex;
             $layerResult->resultElements[] = $resultElement;
             $layerResult->numResults++;
         }  
@@ -122,8 +159,54 @@ class ServerQuery extends ServerCorePlugin {
         return $layerResult;
     }
 
-    function getResultFromRequest($requ) {
+    function getIdsFromLayerResult(LayerResult $layerResult) {
+
+        $resultElements = $layerResult->resultElements;
+        
+        $ids = array();
+        foreach($resultElements as $resultElement) {
+            $ids[] = $resultElement->id;
+        }
+        return $ids;
+    }
+
+    private function getLayerHilightRequest(LayerResult $layerResult) {
     
+        $hilightRequest = new HilightRequest();
+
+        $hilightRequest->layerId = $layerResult->layerId;
+        $hilightRequest->selectedIds = $this->getIdsFromLayerResult($layerResult);
+        
+        return $hilightRequest;
+    }
+
+    private function setHilightRequest(QueryResult $queryResult) {
+
+        $plugins = $this->serverContext->pluginManager;
+
+        if (empty($plugins->hilight))
+            throw new CartoserverException("hilight plugin not loaded, and needed " .
+                    "for the query hilight drawing");
+
+        // FIXME: HilightRequest should support multiple layers hilight
+        // This is a temporary solution
+        $multipleHilightRequest = new HilightRequest();
+        
+        foreach ($queryResult->layerResults as $layerResult) {
+            $hilightRequest = $this->getLayerHilightRequest($layerResult);
+            $multipleHilightRequest->multipleRequests[] = 
+                $hilightRequest;
+        }
+        
+        $this->serverContext->mapRequest->hilightRequest = $multipleHilightRequest;
+    }
+
+    function drawQuery() {
+        return $this->drawQuery;
+    }
+
+    function getResultFromRequest($requ) {
+        
         $this->log->debug("Get result from request: ");
         $this->log->debug($requ);
 
@@ -137,6 +220,12 @@ class ServerQuery extends ServerCorePlugin {
             $layerResult = $this->queryLayer($queryLayerName, $requ->bbox, $queryArgs);
             $queryResult->layerResults[] = $layerResult;
         }
+        
+        if ($this->getConfig()->drawQueryUsingHilight)
+            $this->setHilightRequest($queryResult);
+        else
+            $this->drawQuery = true;
+        
         return $queryResult;
     }    
 }

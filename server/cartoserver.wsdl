@@ -324,6 +324,7 @@
       
       <complexType name="ResultElement">
         <all>
+          <element name="index" type="xsd:integer"/>
           <element name="id" type="xsd:string"/>
           <element name="values" type="types:ArrayOfString"/>
         </all>
