@@ -135,6 +135,7 @@ class ServerOutline extends ServerPlugin {
         $msMapObj = $this->serverContext->msMapObj;
         if ($requ->maskMode) {
             $this->serverContext->msMainmapImage = $msMapObj->draw();
+            $msMapObj->labelcache->free();
         }
 
         foreach ($requ->shapes as $shape) {
