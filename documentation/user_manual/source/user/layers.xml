@@ -1,332 +1,261 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <!-- $Id$ -->
-
 <chapter id="user.layers">
- <title>Layers</title>
-  
- <sect1 id="user.layers.intro"> 
-  <title>Introduction</title>
-  <para>
-   Geographical data are most often apprehended as thematic layers : you may
-   have a layer "Rivers", a layer "Aerial view", a layer "Average income", just
-   to cite a few examples. Now the basic purpose of any viewer is to make 
-   these data available to users by allowing navigation within a layer as 
-   well as comparison between layers. A way to organize the layers is thus 
-   mandatory if an user-friendly application is to be developed. In &cartoweb;,
-   the files that contain the configuration instructions for the layers are on
-   the server-side, in the directory <filename>server_conf/&lt;myMap&gt;</filename>.
-   Usually this directory is part of a project.
-  </para>
-  <para>
-   &cartoweb; is based on the geographical engine Mapserver. The Mapserver
-   documentation <ulink url="http://mapserver.gis.umn.edu/doc.html"> 
-   http://mapserver.gis.umn.edu/doc.html</ulink> is an integral part of the
-   &cartoweb; doc. To be concise, you have to know how to write a mapfile if
-   you want to use &cartoweb;. So it doesn't come as a surprise that a mapfile,
-   <filename>myMap.map</filename>, is included in the 
-   <filename>&lt;myMap&gt;</filename> directory, together with its annexes 
-   (typically a symbol file <filename>myMap.sym</filename>, a directory 
-   <filename>etc</filename> for the required fonts, the graphic file used as
-   keymap background, maybe also data files).
-  </para>
-  <para>
-   We'll see that some functionalities of &cartoweb; require small changes of
-   the mapfile content. But most of the configuration is done in the file 
-   <filename>layers.ini</filename>.
-  </para>
-  <para>
-   The file <filename>myMap.ini</filename> sets the required plugins and the
-   initial state of the map. Its content is described in <xref linkend="user.config"/>
-  </para>
- </sect1>
-
- <sect1 id="user.layers.tree"> 
-  <title>Hierarchy of layers and rendering</title>
-  <para>
-   Contrary to Mapserver itself, &cartoweb; supports an arbitrarily complex
-   hierarchy of layers and different rendering options. The notion of 
-   LayerGroup makes it possible.
-  </para>
-  <sect2 id="user.layers.tree.types">
-   <title>Layers and LayerGroups</title>
-   <para>
-    There are two types of "layers-like objects" in <filename>layers.ini</filename>
-    : Layers and LayerGroups. They play fairly different roles and consequently 
-    have different possible attributes. Layers have a 1-to-1 correspondance to
-    Mapserver layers (as defined in the <filename>layers.map</filename>), while
-    LayerGroups, well, group together atomic Layers or other LayerGroups.
-   </para>
-  </sect2>
-
-  <sect2 id="user.layers.tree.layers">
-   <title>Layers options</title>
-   <para>
-    As seen before, the Layer object maps directly to a layer in the mapfile.
-    By default, all layers in the mapfile are made available as a Layer
-    in the layers.ini, with an identifier having the same name as the name of
-    the mapserver layer. Thus, if you have the following option in you mapfile:
-       <programlisting>LAYER
+  <title>Layers</title>
+  <sect1 id="user.layers.intro">
+    <title>Introduction</title>
+    <para> Geographical data are most often apprehended as thematic layers: 
+      you may have a layer "Rivers", a layer "Aerial view", a layer "Average 
+      income", just to cite a few examples. Now the basic purpose of any viewer 
+      is to make these data available to users by allowing navigation within a 
+      layer as well as comparison between layers. A way to organize the layers 
+      is thus mandatory if an user-friendly application is to be developed. In 
+      &cartoweb;, the files that contain the configuration instructions for the 
+      layers are on the server-side, in the directory 
+      <filename>server_conf/&lt;myMap&gt;</filename>. Usually this directory is 
+      part of a project. </para>
+    <para> &cartoweb; is based on the geographical engine Mapserver. The 
+      Mapserver documentation <ulink 
+      url="http://mapserver.gis.umn.edu/doc.html"> 
+      http://mapserver.gis.umn.edu/doc.html</ulink> is an integral part of the 
+      &cartoweb; doc. To be concise, you have to know how to write a mapfile if 
+      you want to use &cartoweb;. So it doesn't come as a surprise that a 
+      mapfile, <filename>myMap.map</filename>, is included in the 
+      <filename>&lt;myMap&gt;</filename> directory, together with its annexes 
+      (typically a symbol file <filename>myMap.sym</filename>, a directory 
+      <filename>etc</filename> for the required fonts, the graphic file used as 
+      keymap background, maybe also data files). </para>
+    <para> We'll see that some functionalities of &cartoweb; require small 
+      changes of the mapfile content. But most of the configuration is done in 
+      the file <filename>layers.ini</filename>. </para>
+    <para> The file <filename>myMap.ini</filename> sets the required plugins 
+      and the initial state of the map. Its content is described in <xref 
+      linkend="user.config"/> </para>
+  </sect1>
+  <sect1 id="user.layers.tree">
+    <title>Hierarchy of Layers and Rendering</title>
+    <para> Contrary to Mapserver itself, &cartoweb; supports an arbitrarily 
+      complex hierarchy of layers and different rendering options. The notion 
+      of LayerGroup makes it possible. </para>
+    <sect2 id="user.layers.tree.types">
+      <title>Layers and LayerGroups</title>
+      <para> There are two types of "layers-like objects" in 
+        <filename>layers.ini</filename> : Layers and LayerGroups. They play 
+        fairly different roles and consequently have different possible 
+        attributes. Layers have a 1-to-1 correspondance to Mapserver layers (as 
+        defined in the <filename>layers.map</filename>), while LayerGroups, 
+        well, group together atomic Layers or other LayerGroups. </para>
+    </sect2>
+    <sect2 id="user.layers.tree.layers">
+      <title>Layers Options</title>
+      <para> As seen before, the Layer object maps directly to a layer in the 
+        mapfile. By default, all layers in the mapfile are made available as a 
+        Layer in the layers.ini, with an identifier having the same name as the 
+        name of the mapserver layer. Thus, if you have the following option in 
+        you mapfile:</para>
+      <programlisting><![CDATA[LAYER
   NAME "my_layer"
-  TYPE line
-END</programlisting>
-   This is equivalent as writing the following configuration in the 
-   <filename>layers.ini</filename>:
-    <programlisting>layers.my_layer.class = Layer
+  TYPE line 
+END]]></programlisting>
+      <para> This is equivalent as writing the following configuration in the 
+        <filename>layers.ini</filename>: </para>
+      <programlisting><![CDATA[layers.my_layer.class = Layer 
 layers.my_layer.label = my_layer
-layers.my_layer.msLayer = my_layer</programlisting>
-    <tip>
-      <para>If you don't need special parameters to your layer, like 
-        <literal>link</literal>, then you can avoid writing it in the 
-        <filename>layers.ini</filename></para>
-    </tip>
-    However, if you want these layers to appear in the layer list, you still have
-    the responsibility to affect them a parent layer, using the 
-      <literal>children</literal> property of the <literal>LayerGroup</literal>
-      layer declarations.
-   </para>
-   <para>
-   <indexterm><primary>layers</primary></indexterm>
-    Here is the syntax for the various configuration parameters of a Layer.
-   <itemizedlist>
-    <listitem>
-     <para>
-       layers.layerId.className = Layer  : defines the object as a 
-       Layer; layerId is a string that uniquely identifies the object. The 
-       general rules of syntax for a .ini file must be respected in the 
-       choice of the layerId (e.g. no '-' are allowed).
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.msLayer = string  : name of the corresponding 
-       Mapserver layer in the mapfile
-     </para>
-    </listitem>   
-    <listitem>
-     <para>
-       layers.layerId.label = string  : caption of the layer in the 
-       layer tree on the client; this is a 'raw' label, before any 
-       internationalization. The i18n scripts automatically include this 
-       label in the strings that can be translated.
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.icon = filename  : filename of the static picto 
-       that illustrates this Layer in the layer tree. The path is relative to
-       <filename>layers.ini</filename>. See also <xref linkend="user.layers.legend"/>
-       for a description of the automatic legending process.
-     </para>
-    </listitem>   
-    <listitem>
-     <para>
-       layers.layerId.link = url  : provides a link for the layer 
-       (e.g. to some metadata); makes the caption in the tree clickable.
-     </para>
-    </listitem>    
-    </itemizedlist>
-   </para>
-  </sect2>
-
-  <sect2 id="user.layers.tree.layergroups">
-   <title>Layergroups options</title>
-   <para>
-   <indexterm><primary>layergroups</primary></indexterm>
-    Here is the syntax for the various configuration parameters of 
-    LayerGroups. Note that a special LayerGroup with layerId=root must be 
-    <indexterm><primary>root layergroup</primary></indexterm>
-    present. Unsurprisingly, it is the root (top level) of the hierarchy. 
-    It doesn't appear in the visible tree.
-   <itemizedlist>
-    <listitem>
-     <para>
-       layers.layerId.className = LayerGroup  : defines the object 
-       as a LayerGroup; layerId is a string that uniquely identifies the 
-       object. The general rules of syntax for a .ini file must be respected 
-       in the choice of the layerId (e.g. no '-' are allowed).
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.children = list of layerIds  : 
-       comma-separated list of layerIds; these children may be Layers or 
-       other LayerGroups.
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.aggregate = true|false : if true, the 
-       children objects are not listed in the tree and not individually 
-       selectable. Default is false.
-     </para>
-    </listitem>  
-    <listitem>
-     <para>
-       layers.layerId.label = string  : caption of the layer in the 
-       layer tree on the client; this is a 'raw' label, before any 
-       internationalization. The i18n scripts automatically include this 
-       label in the strings that can be translated.
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.icon = filename  : filename of the static picto 
-       that illustrates this Layer in the layer tree. The path is relative to
-       <filename>myMap.ini</filename>.See also 
-        <xref linkend="user.layers.legend"/> for a description of the automatic 
-        legending process.
-     </para>
-    </listitem>   
-    <listitem>
-     <para>
-       layers.layerId.link = url  : provides a link for the layer 
-       (e.g. to some metadata); makes the caption in the tree clickable.
-     </para>
-    </listitem> 
-    <listitem>
-     <para>
-       layers.layerId.rendering = tree|block|radio|dropdown  : 
-       indicates how to display the LayerGroup children.
-       <itemizedlist>
+layers.my_layer.msLayer = my_layer]]></programlisting>
+      <tip>
+        <para>If you don't need special parameters to your layer, like 
+          <literal>link</literal>, then you can avoid writing it in the 
+          <filename>layers.ini</filename></para>
+      </tip>
+      <para>However, if you want these layers to appear in the layer list, you 
+        still have the responsibility to affect them a parent layer, using the 
+        <literal>children</literal> property of the 
+        <literal>LayerGroup</literal> layer declarations. </para>
+      <para> <indexterm><primary>layers</primary></indexterm> Here is the 
+        syntax for the various configuration parameters of a Layer.</para>
+      <itemizedlist>
         <listitem>
-         <para>
-          tree (default value): children layers are rendered below the 
-          LayerGroup with an indentation. If children are not declared as 
-          "frozen" or "hidden" they will be preceded by a checkbox input. 
-          A node folding/unfolding link is displayed before the LayerGroup.
-         </para>
+          <para> layers.layerId.className = Layer : defines the object as a 
+            Layer; layerId is a string that uniquely identifies the object. The 
+            general rules of syntax for a .ini file must be respected in the 
+            choice of the layerId (e.g. no '-' are allowed). </para>
         </listitem>
         <listitem>
-         <para>
-          radio: quite similar to the "tree" rendering with "radio" 
-          buttons replacing checkboxes. Only one child layer can be 
-          selected at a time.
-         </para>
+          <para> layers.layerId.msLayer = string : name of the corresponding 
+            Mapserver layer in the mapfile </para>
         </listitem>
         <listitem>
-         <para>
-          block: children layers are separated as blocks (separation medium
-          depends on the template layout). Note that the rendering will be 
-          applied to the children, not to the LayerGroup itself, 
-          which is not displayed at all.
-         </para>
+          <para> layers.layerId.label = string : caption of the layer in the 
+            layer tree on the client; this is a 'raw' label, before any 
+            internationalization. The i18n scripts automatically include this 
+            label in the strings that can be translated. </para>
         </listitem>
         <listitem>
-         <para>
-          dropdown: as for block rendering, the LayerGroup is not 
-          displayed. Its children are simply rendered as an HTML 
-          "simple select" options list. If the selected child layer 
-          cannot be determined using posted or session-saved data, 
-          first child (according to the layers.layerId.children 
-          list order) is selected. If any, only the selected child 
-          layer's own children are displayed under the dropdown list.
-         </para>
+          <para> layers.layerId.icon = filename : filename of the static picto 
+            that illustrates this Layer in the layer tree. The path is relative 
+            to <filename>layers.ini</filename>. See also <xref 
+            linkend="user.layers.legend"/> for a description of the automatic 
+            legending process. </para>
         </listitem>
-       </itemizedlist>
-     </para>
-    </listitem> 
-    </itemizedlist>
-   </para>
-  </sect2>
-
- </sect1>
-
-
- <sect1 id="user.layers.metadata"> 
-  <title>Metadata in mapfile and layers.ini file</title>
-  <para>
-   Metadata are (keyword, value) pairs which can be associated to a MapServer
-   layer in the mapfile, or to a Layer or LayerGroup in the layers.ini configuration
-   file. These metadata are used in several different contextes, such as layer
-   specific configuration, security handling, ... The metadata related to the
-   functionalities of &cartoweb; are described in the documentation of the
-   corresponding plugins.
-  </para>
-  <sect2 id="user.layers.metadata.mapfile"> 
-    <title>Metadata in mapfiles</title>
-    <para>
-    Specifying metadata in mapfiles is based on the standard MapServer syntax.
-    For instance:
-    <programlisting>
-  LAYER 
-    NAME "my_layer"
-    [...]
-    METADATA
+        <listitem>
+          <para> layers.layerId.link = url : provides a link for the layer 
+            (e.g. to some metadata); makes the caption in the tree clickable. 
+            </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="user.layers.tree.layergroups">
+      <title>LayerGroups Options</title>
+      <para> <indexterm><primary>layergroups</primary></indexterm> Here is the 
+        syntax for the various configuration parameters of LayerGroups. Note 
+        that a special LayerGroup with layerId=root must be 
+        <indexterm><primary>root layergroup</primary></indexterm> present. 
+        Unsurprisingly, it is the root (top level) of the hierarchy. It doesn't 
+        appear in the visible tree.</para>
+      <itemizedlist>
+        <listitem>
+          <para> layers.layerId.className = LayerGroup : defines the object as 
+            a LayerGroup; layerId is a string that uniquely identifies the 
+            object. The general rules of syntax for a .ini file must be 
+            respected in the choice of the layerId (e.g. no '-' are allowed). 
+            </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.children = list of layerIds : comma-separated 
+            list of layerIds; these children may be Layers or other 
+            LayerGroups. </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.aggregate = true|false : if true, the children 
+            objects are not listed in the tree and not individually selectable. 
+            Default is false. </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.label = string : caption of the layer in the 
+            layer tree on the client; this is a 'raw' label, before any 
+            internationalization. The i18n scripts automatically include this 
+            label in the strings that can be translated. </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.icon = filename : filename of the static picto 
+            that illustrates this Layer in the layer tree. The path is relative 
+            to <filename>myMap.ini</filename>.See also <xref 
+            linkend="user.layers.legend"/> for a description of the automatic 
+            legending process. </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.link = url : provides a link for the layer 
+            (e.g. to some metadata); makes the caption in the tree clickable. 
+            </para>
+        </listitem>
+        <listitem>
+          <para> layers.layerId.rendering = tree|block|radio|dropdown : 
+            indicates how to display the LayerGroup children.</para>
+          <itemizedlist>
+            <listitem>
+              <para> tree (default value): children layers are rendered below 
+                the LayerGroup with an indentation. If children are not 
+                declared as "frozen" or "hidden" they will be preceded by a 
+                checkbox input. A node folding/unfolding link is displayed 
+                before the LayerGroup. </para>
+            </listitem>
+            <listitem>
+              <para> radio: quite similar to the "tree" rendering with "radio" 
+                buttons replacing checkboxes. Only one child layer can be 
+                selected at a time. </para>
+            </listitem>
+            <listitem>
+              <para> block: children layers are separated as blocks (separation 
+                medium depends on the template layout). Note that the rendering 
+                will be applied to the children, not to the LayerGroup itself, 
+                which is not displayed at all. </para>
+            </listitem>
+            <listitem>
+              <para> dropdown: as for block rendering, the LayerGroup is not 
+                displayed. Its children are simply rendered as an HTML "simple 
+                select" options list. If the selected child layer cannot be 
+                determined using posted or session-saved data, first child 
+                (according to the layers.layerId.children list order) is 
+                selected. If any, only the selected child layer's own children 
+                are displayed under the dropdown list. </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+  <sect1 id="user.layers.metadata">
+    <title>Metadata in Mapfile and <filename>layers.ini</filename></title>
+    <para> Metadata are (keyword, value) pairs which can be associated to a 
+      MapServer layer in the mapfile, or to a Layer or LayerGroup in the 
+      layers.ini configuration file. These metadata are used in several 
+      different contextes, such as layer specific configuration, security 
+      handling, ... The metadata related to the functionalities of &cartoweb; 
+      are described in the documentation of the corresponding plugins. </para>
+    <sect2 id="user.layers.metadata.mapfile">
+      <title>Metadata in Mapfiles</title>
+      <para> Specifying metadata in mapfiles is based on the standard MapServer 
+        syntax. For instance: </para>
+      <programlisting><![CDATA[LAYER
+  NAME "my_layer"
+  [...]
+  METADATA
     "exported_values" "security_view,security_edit"
-    "security_view" "admin"
+    "security_view" "admin" 
     "security_edit" "admin,editors"
     
-      "id_attribute_string" "FID|string"
-      "mask_transparency" "50"
-      "mask_color" "255, 255, 0"
-      "area_fixed_value" "10"
-    END 
-    [...]
-  END    
-    </programlisting>
-    The metadata key <constant>exported_values</constant> is a bit special: It gives
-    the list of metadata keys (coma separated), which will be transmitted to the 
-    client. This is required for the metadata keys describing layer security for 
-    instance, as they are used on the &cartoclient;.
-    </para>
+    "id_attribute_string" "FID|string" 
+    "mask_transparency" "50"
+    "mask_color" "255, 255, 0"
+    "area_fixed_value" "10"
+  END
+  [...]
+END]]></programlisting>
+      <para>The metadata key <constant>exported_values</constant> is a bit 
+        special: It gives the list of metadata keys (coma separated), which 
+        will be transmitted to the client. This is required for the metadata 
+        keys describing layer security for instance, as they are used on the 
+        &cartoclient;. </para>
     </sect2>
-  <sect2 id="user.layers.metadata.inifile"> 
-    <title>Metadata in <filename>layers.ini</filename></title>
+    <sect2 id="user.layers.metadata.inifile">
+      <title>Metadata in <filename>layers.ini</filename></title>
+      <para> The configuration file <filename>layers.ini</filename> may also 
+        contain metadata (key, value) pairs. This is needed for LayerGroup 
+        objects, as these have no counterparts in the mapfile. For simple 
+        layers, the metadata specified in the <filename>layers.ini</filename> 
+        take precedence over the values from the mapfile. </para>
+      <para> For each layer object in the <filename>layers.ini</filename> file, 
+        the following syntax is used to set metadata:</para>
+      <itemizedlist>
+        <listitem>
+          <para> layers.layerId.metadata.METADATA = value </para>
+        </listitem>
+      </itemizedlist>
+      <para>For instance:</para>
+      <programlisting><![CDATA[layers.group_admin.className = LayerGroup 
+layers.group_admin.children = grid_defaulthilight 
+layers.group_admin.metadata.security_view = admin]]></programlisting>
+    </sect2>
+  </sect1>
+  <sect1 id="user.layers.legend">
+    <title>Layers Legends</title>
+    <para> <indexterm><primary>Legend</primary></indexterm> &cartoweb; includes 
+      a mechanism for the automatic generation of legends. If desired, an icon 
+      is drawn for each class of the layers. There are two conditions that must 
+      be fulfilled to make it work : </para>
+    <para> 1. The mechanism must be enabled by setting</para>
+    <programlisting><![CDATA[autoClassLegend = true]]></programlisting>
+    <para><indexterm><primary>autoClassLegend</primary></indexterm> in 
+      <filename>layers.ini</filename>. </para>
+    <para> 2. Each class (or more precisely each class that should appear in 
+      the legend) must have a name. Here an example : </para>
     <para>
-     The configuration file <filename>layers.ini</filename> may also contain
-     metadata (key, value) pairs. This is needed for 
-     LayerGroup objects, as these have no counterparts in the mapfile. For simple layers,
-      the metadata specified in the <filename>layers.ini</filename> take 
-     precedence over the values from the mapfile.
-    </para>
-    <para>
-      For each layer object in the <filename>layers.ini</filename> file, the
-      following syntax is used to set metadata: 
-   <itemizedlist>
-    <listitem>
-     <para>
-    layers.layerId.metadata.METADATA = value
-     </para>
-    </listitem>      
-    </itemizedlist>
-      For instance:
-      <programlisting>
-layers.group_admin.className = LayerGroup
-layers.group_admin.children = grid_defaulthilight
-layers.group_admin.metadata.security_view = admin        
-     </programlisting>
-    </para>
-  </sect2>
- </sect1>
-
-
- <sect1 id="user.layers.legend">
-  <title>Layers legend</title>
-  <para>
-  <indexterm><primary>Legend</primary></indexterm>
-   &cartoweb; includes a mechanism for the automatic generation of legends.
-   If desired, an icon is drawn for each class of the layers. There are two
-   conditions that must be fulfilled to make it work :
-  </para>
-  <para> 
-   1. The mechanism must be enabled by setting 
-   <programlisting>
-autoClassLegend = true <indexterm><primary>autoClassLegend</primary></indexterm>
-   </programlisting>
-   in <filename>layers.ini</filename>.
-  </para>
-  <para>
-   2. Each class (or more precisely each class that should appear in the
-   legend) must have a name. Here an example :
-  </para>
-  <para>
-<screen><![CDATA[LAYER
+      <screen><![CDATA[LAYER
   NAME "spur_spurweite"
   METADATA
   ...
@@ -359,17 +288,12 @@ autoClassLegend = true <indexterm><primary>autoClassLegend</primary></indexterm>
   END
 
 END
-]]></screen>  
-  </para>
-  <para>
-   In this case, the second class would not appear in the legend, because
-   the NAME is commented out.
-  </para>
-  <para>
-   Provided that no static icon is defined for a layer in 
-   <filename>layers.ini</filename>, the icon of the first visible
-   class is used for the layer.
-  </para>
- </sect1>
-
+]]></screen>
+    </para>
+    <para> In this case, the second class would not appear in the legend, 
+      because the NAME is commented out. </para>
+    <para> Provided that no static icon is defined for a layer in 
+      <filename>layers.ini</filename>, the icon of the first visible class is 
+      used for the layer. </para>
+  </sect1>
 </chapter>

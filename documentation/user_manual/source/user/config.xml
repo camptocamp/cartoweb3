@@ -1,452 +1,319 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <!-- $Id$ -->
-
 <chapter id="user.config">
- <title>Configuration files</title>
-
- <sect1 id="user.config.intro"> 
-  <title>Introduction</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
- </sect1>
-
- <sect1 id="user.config.common"> 
-  <title>Common Client.ini and Server.ini options</title>
-  <para>
-   Common options for both client and server. These parameters are available in 
-    <filename>client_conf/client.ini</filename> for client and 
-    <filename>server_conf/server.ini</filename> for server.
-   <itemizedlist>
-    <listitem>
-     <para>
-      urlProvider = Miniproxy|Symlink: The kind of URL generated
-      for resources. See ResourceHandling [FIXME: link there]
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      useWsdl = true|false : if true, WSDL will be used for sending SOAP requests.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  
-  <para>
-   Cache options. See <xref linkend="user.config.cache"/>.
-  </para>
-  
-  <para>
-   Developer options. See <xref linkend="user.config.developer"/>.
-  </para>
-
- </sect1>
-
- <sect1 id="user.config.client"> 
-  <title>Client.ini</title>
-  <para>
-   CartoServer access configuration:
-   <itemizedlist>
-    <listitem>
-     <para>
-      cartoserverDirectAccess = true|false : toggles between SOAP 
-      and direct modes. Direct access gives enhanced performances, 
-      but is only available if CartoServer runs on the same server 
-      as CartoClient.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      cartoserverUrl = "url" : complete url of the SOAP wsdl file 
-      of the CartoServer. Only in SOAP mode.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Mapfile configuration:
-   <itemizedlist>
-    <listitem>
-     <para>
-      mapId = string
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      initialMapStateId = string
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Tools configuration:
-   <itemizedlist>
-    <listitem>
-     <para>
-      initialTool: indicates which tool is activated when in initial state.
-      If not specified, the first tool in the toolbar is activated. 
-      Possible values are : zoom_in, zoom_out, pan, query, 
-      distance, surface.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Project handling configuration:
-   <itemizedlist>
-    <listitem>
-     <para>
-      showProjectChooser = true|false : Shows a drop-down list for 
-      selecting the active project.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      availableProjects = string : List of the project to show in 
-      the drop down list. If not set, all projects found will be used.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Plugins configuration:
-   <itemizedlist>
-    <listitem>
-     <para>
-      loadPlugins = list : list of client plugins to load in addition
-      to the core plugins. Note that most client plugins also have a 
-      corresponding server plugin that must be loaded on the server 
-      side. See ServerDoc.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Internationalization:
-   <itemizedlist>
-    <listitem>
-     <para>
-      I18nClass = I18nDummy|I18nGettext. See <xref linkend="user.i18n"/> for a 
-      description of the internationalization options and the corresponding 
-      configurations.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      defaultLang = string : possible values are the usual locale codes 
-      (en, fr, de ...)
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
- <sect1 id="user.config.server"> 
- <title>Server configuration files</title>
-
- <sect2 id="user.config.server.intro">
- <title>Introduction</title>
-
- <para>
-  This page describes the configuration options of the CartoServer. There is a 
-  global conf file (<filename>server.ini</filename>) directly in the 
-  <filename>server_conf</filename> folder. Then all specific configurations 
-  are stored in individual folders. Each configuration contains :
-   <itemizedlist>
-    <listitem>
-     <para>
-      a Mapserver mapfile (<filename>myMap.map</filename>),
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      its annexes (symbols, fonts, images, data...),
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      a main configuration file (<filename>myMap.ini</filename>) that must 
-      have the same name as the <filename>.map</filename>
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      smaller configuration files for the plugins.
-     </para>
-    </listitem>
-   </itemizedlist>
-   By default, CartoWeb3 comes with a fully functional <filename>test</filename>
-   folder, that includes the necessary geometrical datas and allows one to run an 
-   out of the box demo. 
- </para>
-
-<!--
+  <title>Configuration Files</title>
+  <para>TODO: short intro</para>
+  <sect1 id="user.config.common">
+    <title>Common <filename>client.ini</filename> and 
+      <filename>server.ini</filename> Options</title>
+    <para> Common options for both client and server. These parameters are 
+      available in <filename>client_conf/client.ini</filename> for client and 
+      <filename>server_conf/server.ini</filename> for server.</para>
+    <itemizedlist>
+      <listitem>
+        <para> urlProvider = Miniproxy|Symlink: The kind of URL generated for 
+          resources, see <xref linkend="user.template.resource" /> </para>
+      </listitem>
+      <listitem>
+        <para> useWsdl = true|false: if true, WSDL will be used for sending 
+          SOAP requests. </para>
+      </listitem>
+    </itemizedlist>
+    <para> Cache options. See <xref linkend="user.config.cache"/>. </para>
+    <para> Developer options. See <xref linkend="user.config.developer"/>. 
+      </para>
+  </sect1>
+  <sect1 id="user.config.client">
+    <title><filename>client.ini</filename></title>
+    <para> CartoServer access configuration:</para>
+    <itemizedlist>
+      <listitem>
+        <para> cartoserverDirectAccess = true|false: toggles between SOAP and 
+          direct modes. Direct access gives enhanced performances, but is only 
+          available if CartoServer runs on the same server as CartoClient. 
+          </para>
+      </listitem>
+      <listitem>
+        <para> cartoserverUrl = "url": complete url of the SOAP wsdl file of 
+          the CartoServer. Only in SOAP mode. </para>
+      </listitem>
+    </itemizedlist>
+    <para> Mapfile configuration:</para>
+    <itemizedlist>
+      <listitem>
+        <para> mapId = string </para>
+      </listitem>
+      <listitem>
+        <para> initialMapStateId = string </para>
+      </listitem>
+    </itemizedlist>
+    <para> Tools configuration:</para>
+    <itemizedlist>
+      <listitem>
+        <para> initialTool: indicates which tool is activated when in initial 
+          state. If not specified, the first tool in the toolbar is activated. 
+          Possible values are: zoom_in, zoom_out, pan, query, distance, 
+          surface. </para>
+      </listitem>
+    </itemizedlist>
+    <para> Project handling configuration:</para>
+    <itemizedlist>
+      <listitem>
+        <para> showProjectChooser = true|false: Shows a drop-down list for 
+          selecting the active project. </para>
+      </listitem>
+      <listitem>
+        <para> availableProjects = list: List of the project to show in the 
+          drop down list. If not set, all projects found will be used. </para>
+      </listitem>
+    </itemizedlist>
+    <para> Plugins configuration:</para>
+    <itemizedlist>
+      <listitem>
+        <para> loadPlugins = list: list of client plugins to load in addition 
+          to the core plugins. Note that most client plugins also have a 
+          corresponding server plugin that must be loaded on the server side. 
+          See <xref linkend="user.config.server.maps_config.mymap_ini" />. 
+          </para>
+      </listitem>
+    </itemizedlist>
+    <para> Internationalization:</para>
+    <itemizedlist>
+      <listitem>
+        <para> I18nClass = I18nDummy|I18nGettext. See <xref 
+          linkend="user.i18n"/> for a description of the internationalization 
+          options and the corresponding configurations. </para>
+      </listitem>
+      <listitem>
+        <para> defaultLang = string: default language, possible values are the 
+          usual ISO locale codes (en, fr, de ...) </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  <sect1 id="user.config.server">
+    <title>Server Configuration Files</title>
+    <sect2 id="user.config.server.intro">
+      <title>Introduction</title>
+      <para> This page describes the configuration options of the CartoServer. 
+        There is a global configuration file (<filename>server.ini</filename>) 
+        directly in the <filename>server_conf</filename> folder. Then all 
+        specific configurations are stored in individual folders. Each 
+        configuration contains:</para>
+      <itemizedlist>
+        <listitem>
+          <para> a Mapserver mapfile (<filename>myMap.map</filename>), </para>
+        </listitem>
+        <listitem>
+          <para> its annexes (symbols, fonts, images, data...), </para>
+        </listitem>
+        <listitem>
+          <para> a main configuration file (<filename>myMap.ini</filename>) 
+            that must have the same name as the <filename>.map</filename> 
+            </para>
+        </listitem>
+        <listitem>
+          <para> smaller configuration files for the plugins. </para>
+        </listitem>
+      </itemizedlist>
+      <para> By default, &cartoweb; comes with a fully functional 
+        <filename>test</filename> folder, that includes the necessary 
+        geometrical datas and allows one to run an out of the box demo. </para>
+      <!--
  <para> 
   On the &cartoserver; configuration, there are the global server configuration
   <filename>server.ini</filename> and configuration for each maps. These two
   types of configuration are described in the following sections.
  </para>
 -->
- </sect2>
-
- <sect2 id="user.config.server.main_config">
-  <title>Main server configuration file (Server.ini)</title>
-  <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      imageUrl = string : Path where cartoserver generated images can be 
-        accessed. Using this will bypass Miniproxy !
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      reverseProxyUrl = string : The url of the reverse proxy, if used.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect2>
-
- <sect2 id="user.config.server.maps_config">
-  <title>Map configuaration files</title>
-  
-  <sect3 id="user.config.server.maps_config.intro">
-   <title>Introduction</title>  
-   <para>
-    The &cartoserver; has the ability to contains several different maps.
-    These maps are represented by the mapserver mapfile, the &cartoweb; 
-    configuration file for the map and each plugins configuration.
-   </para>
-   
-   <para>
-    The file that contain the configuration information related to a map, 
-    is located in the same directory as the mapfile, but has a 
-    <filename>.ini</filename> extension. These files are in the directory 
-    <filename>server_conf/&lt;myMap&gt;</filename>.
-   </para>
-   
-  </sect3>
-
-  <sect3 id="user.config.server.maps_config.mymap_ini">
-   <title><filename>&lt;myMap&gt;.ini</filename></title>  
-   <para>
-    <itemizedlist>
-      <listitem>
-       <para>
-       mapInfo.loadPlugins = list : list of server plugins to load in addition 
-       to the core plugins. Note that most server plugins also have a 
-       corresponding client plugin that must be loaded on the client side.
-        See [FIXME: link ClientDoc].
-       </para>
-      </listitem>
-      <listitem>
-       <para>
-       mapInfo.initialMapStates.[...] : See 
-        <xref linkend="user.config.server.maps_config.initial"/>.
-       </para>
-      </listitem>
-     </itemizedlist>    
-   </para>
-  </sect3>
-
-  <sect3 id="user.config.server.maps_config.initial">
-   <title>Initial Mapstates</title>
-   <para>
-   <indexterm><primary>initial mapstate</primary></indexterm>
-    Initial map states set the initial aspects of the layers selection 
-    interface when starting using CartoClient : (un)folded nodes, selected 
-    layers... Some of these properties are not modifiable in the layers 
-    selection interface (hidden layers for instance) and thus stay 
-    unchanged throughout the session.
-   </para>
-   <para>
-    Several initial map states can be created in <filename>myMap.ini
-    </filename>, but at least one must be present. Each one is identified by a 
-    unique initialMapStateId. The choice to activate one or another is done 
-    client-side in <filename>client_conf/client.ini</filename>.
-   </para>
-  <para>
-   Available properties and syntax for 
-   layers in "initial map states" are:
-   <itemizedlist>
-    <listitem>
-     <para>
-      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
-      selected = true|false : if true, layer is initially selected.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
-       unfolded = true|false : if true, the layerGroup is represented as 
-       an unfolded node (children layers are visible).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
-      hidden = true|false : if true, this layer and its children are not 
-      shown in the layers list (but are still displayed on the map if 
-      they're activated).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
-       frozen = true|false: if true, this layer (and its children as well)
-       is listed in tree but without checkbox. Its selection status (defined by 
-      "selected" property) thus cannot be changed.
-     </para>
-    </listitem>
-   </itemizedlist>
-   </para>
-   <para>
-    Example of Initial MapState : 
-      <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
+    </sect2>
+    <sect2 id="user.config.server.main_config">
+      <title>Main Server Configuration File 
+        (<filename>server.ini</filename>)</title>
+      <itemizedlist>
+        <listitem>
+          <para> imageUrl = string: Path where cartoserver generated images can 
+            be accessed. Using this will bypass Miniproxy ! </para>
+        </listitem>
+        <listitem>
+          <para> reverseProxyUrl = string: The url of the reverse proxy, if 
+            used. </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="user.config.server.maps_config">
+      <title>Map Configuration Files</title>
+      <sect3 id="user.config.server.maps_config.intro">
+        <title>Introduction</title>
+        <para> The &cartoserver; has the ability to contains several different 
+          maps. These maps are represented by the mapserver mapfile, the 
+          &cartoweb; configuration file for the map and each plugins 
+          configuration. </para>
+        <para> The file that contain the configuration information related to a 
+          map, is located in the same directory as the mapfile, but has a 
+          <filename>.ini</filename> extension. These files are in the directory 
+          <filename>server_conf/&lt;myMap&gt;</filename>. </para>
+      </sect3>
+      <sect3 id="user.config.server.maps_config.mymap_ini">
+        <title>
+          <filename>&lt;myMap&gt;.ini</filename>
+        </title>
+        <itemizedlist>
+          <listitem>
+            <para> mapInfo.loadPlugins = list: list of server plugins to load 
+              in addition to the core plugins. Note that most server plugins 
+              also have a corresponding client plugin that must be loaded on 
+              the client side. See <xref linkend="user.config.client" />. 
+              </para>
+          </listitem>
+          <listitem>
+            <para> mapInfo.initialMapStates.[...]: See <xref 
+              linkend="user.config.server.maps_config.initial"/>. </para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+      <sect3 id="user.config.server.maps_config.initial">
+        <title>Initial Mapstates</title>
+        <para> <indexterm><primary>initial mapstate</primary></indexterm> 
+          Initial map states set the initial aspects of the layers selection 
+          interface when starting using CartoClient: (un)folded nodes, selected 
+          layers... Some of these properties are not modifiable in the layers 
+          selection interface (hidden layers for instance) and thus stay 
+          unchanged throughout the session. </para>
+        <para> Several initial map states can be created in <filename>myMap.ini 
+          </filename>, but at least one must be present. Each one is identified 
+          by a unique initialMapStateId. The choice to activate one or another 
+          is done client-side in <filename>client_conf/client.ini</filename>. 
+          </para>
+        <para> Available properties and syntax for layers in "initial map 
+          states" are:</para>
+        <itemizedlist>
+          <listitem>
+            <para> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              selected = true|false: if true, layer is initially selected. 
+              </para>
+          </listitem>
+          <listitem>
+            <para> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              unfolded = true|false: if true, the layerGroup is represented as 
+              an unfolded node (children layers are visible). </para>
+          </listitem>
+          <listitem>
+            <para> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              hidden = true|false: if true, this layer and its children are not 
+              shown in the layers list (but are still displayed on the map if 
+              they're activated). </para>
+          </listitem>
+          <listitem>
+            <para> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              frozen = true|false: if true, this layer (and its children as 
+              well) is listed in tree but without checkbox. Its selection 
+              status (defined by "selected" property) thus cannot be changed. 
+              </para>
+          </listitem>
+        </itemizedlist>
+        <para> Example of Initial MapState: </para>
+        <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
 mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
 mapInfo.initialMapStates.default.layers.polygon.hidden = true
 ...
 
 mapInfo.initialMapStates.map25.layers.polygon.selected = true
 mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting>
-   </para>
-  </sect3>
-  </sect2>
+      </sect3>
+    </sect2>
   </sect1>
-
- <sect1 id="user.config.plugins"> 
-  <title>Ini for plugins</title>
-  <para>
-   Each plugin may have a configuration file associated with it. It is located
-   in the same directory as the <filename>maMap.map</filename> and 
-    <filename>maMap.ini</filename>. They have the same name as the plugin and
-    ends with <filename>.ini</filename> extension. For instance, the 
-    <literal>layers</literal> plugin has a configuration file named
-    <filename>layers.ini</filename>
-  </para>
-  <para>
-    All plugins configuration files are described in the next sections of this
-    chapter.
-  </para>
- </sect1>
-
- <sect1 id="user.config.cache"> 
-  <title>Caches configuration</title>
-  <para>
-   To maximize performances, &cartoweb; makes use of several different caches. This
-   section describes the different caches, and how to enable or disable them.
-  </para>
-  
-  <para>
-    TODO: describe the caches in more details.
-  </para>
-  
-  <sect2 id="user.config.cache.common"> 
-    <title>Client and server cache options</title>
-    <para>These parameters are available in 
-    <filename>client_conf/client.ini</filename> for client and 
-    <filename>server_conf/server.ini</filename> for server.
-    </para>
-    
+  <sect1 id="user.config.plugins">
+    <title>Ini Files for Plugins</title>
+    <para> Each plugin may have a configuration file associated with it. It is 
+      located in the same directory as the <filename>myMap.map</filename> and 
+      <filename>myMap.ini</filename>. They have the same name as the plugin and 
+      ends with <filename>.ini</filename> extension. For instance, the 
+      <literal>layers</literal> plugin has a configuration file named 
+      <filename>layers.ini</filename>.</para>
+    <para> All plugins configuration files are described in the next sections 
+      of this chapter. </para>
+  </sect1>
+  <sect1 id="user.config.cache">
+    <title>Caches Configuration</title>
+    <para> To maximize performances, &cartoweb; makes use of several different 
+      caches. This section describes the different caches, and how to enable or 
+      disable them. </para>
+    <para> TODO: describe the caches in more details. </para>
+    <sect2 id="user.config.cache.common">
+      <title>Client and Server Cache Options</title>
+      <para>These parameters are available in 
+        <filename>client_conf/client.ini</filename> for client and 
+        <filename>server_conf/server.ini</filename> for server. </para>
+      <itemizedlist>
+        <listitem>
+          <para> noWsdlCache = true|false: disables the caching of wsdl 
+            (ignored if useWsdl is false) </para>
+        </listitem>
+        <listitem>
+          <para> noMapInfoCache = true|false: disables the caching of MapInfo 
+            requests </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="user.config.cache.server">
+      <title>Server Cache Options</title>
+      <para>These parameters are available in 
+        <filename>server_conf/server.ini</filename>. </para>
+      <itemizedlist>
+        <listitem>
+          <para> noMapResultCache = true|false: disables the caching of getMap 
+            requests </para>
+        </listitem>
+        <listitem>
+          <para> noSoapXMLCache = true|false: disables the caching of SOAP XML 
+            requests </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+  <sect1 id="user.config.developer">
+    <title>Developer Specific Configuration</title>
+    <para> These parameters are useful during development. Also note that 
+      disabling the caches is also useful during development, to avoid bad 
+      surprises. See <xref linkend="user.config.cache"/>. These parameters are 
+      available in <filename>client_conf/client.ini</filename> for client and 
+      <filename>server_conf/server.ini</filename> for server.</para>
+    <important>
+      <para> Developers are highly recommanded to set the following variables 
+        to true in their config. </para>
+    </important>
+    <para>[FIXME: is this right place?] People may want advanced granularity 
+      during development. For instance, while editing a mapfile, the soap cache 
+      should be enabled for more performance, but the mapResult cache should be 
+      disabled. There are thus more than one parameter that sets 
+      development/debug options. </para>
+    <para>[FIXME: is this right place?] It is important to keep sane defaults 
+      for these options. The rationale is: the default behaviour for a 
+      production environment is to have each of these options unset or set to 
+      false . </para>
+    <para>[FIXME: is this right place?] This means for instance that the option 
+      to display information to developers on the page is named 
+      "showDevelMessages" and not "hideDevelMessages", because if this option 
+      is not set, we want the application to behave like in production 
+      environment, that is not to display messages intended for developers. 
+      This enhances the safety. </para>
     <itemizedlist>
-    <listitem>
-     <para>
-      noWsdlCache = true|false : disables the caching of wsdl (ignored if useWsdl is false)
-     </para>
-    </listitem>   
-    <listitem>
-     <para>
-      noMapInfoCache = true|false : disables the caching of MapInfo requests
-     </para>
-    </listitem> 
-   </itemizedlist>       
-  </sect2>  
-
-  <sect2 id="user.config.cache.server"> 
-    <title>Server cache options</title>
-    <para>These parameters are available in 
-    <filename>server_conf/server.ini</filename>.
-    </para>
-
-    <itemizedlist>
-    <listitem>
-     <para>
-      noMapResultCache = true|false : disables the caching of getMap requests
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      noSoapXMLCache = true|false : disables the caching of SOAP XML requests
-     </para>
-    </listitem>   
-   </itemizedlist>   
-  </sect2>  
- </sect1>
-
- <sect1 id="user.config.developer"> 
-  <title>Developer specific configuration configuration</title>
-  <para>
-   These parameters are usefule during development. Also note that disabling the
-   caches is also useful during development, to avoid bad surprises. See 
-    <xref linkend="user.config.cache"/>. These parameters are available in 
-    <filename>client_conf/client.ini</filename> for client and 
-    <filename>server_conf/server.ini</filename> for server.
-   <important>
-    <para>
-    Developers are highly recommanded to set the following variables to 
-     true in their config.
-    </para>
-   </important>
-   </para>
-   
-   <para>[FIXME: is this right place?]
-     People may want advanced granularity during development. For instance, 
-     while editing a mapfile, the soap cache should be enabled for more 
-     performance, but the mapResult cache should be disabled. There are thus 
-     more than one parameter that sets development/debug options.
-   </para>
-
-   <para>[FIXME: is this right place?]
-     It is important to keep sane defaults for these options. The rationale is: 
-     the default behaviour for a production environment is to have each of 
-     these options unset or set to false .
-   </para>
-
-   <para>[FIXME: is this right place?]
-     This means for instance that the option to display information to 
-     developers on the page is named "showDevelMessages" and not 
-     "hideDevelMessages", because if this option is not set, we want the 
-     application to behave like in production environment, that is not 
-     to display messages intended for developers. This enhances the safety.    
-   </para>
-   <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      showDevelMessages = true|false : Shows developer messages
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      developerIniConfig = true|false : Sets ini parameters useful during development
-     </para>
-    </listitem>   
-    <listitem>
-     <para>
-      allowTests = true|false : allows tests running through Web interface
-     </para>
-    </listitem>     
-   </itemizedlist>   
-  </para>
- </sect1>
-
+      <listitem>
+        <para> showDevelMessages = true|false: Shows developer messages </para>
+      </listitem>
+      <listitem>
+        <para> developerIniConfig = true|false: Sets ini parameters useful 
+          during development </para>
+      </listitem>
+      <listitem>
+        <para> allowTests = true|false: allows tests running through Web 
+          interface </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
 </chapter>
