@@ -51,7 +51,6 @@ function dhtmlBox_initialize() {
   else this.dispPos = 0;
   xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPos);
 
-
   xClip(this.target,0,this.width,this.height,0);
 }
 
@@ -134,11 +133,9 @@ function dhtmlBox_mousedown(evt) {
 
 function dhtmlBox_mousemove(evt) {
   var e = new xEvent(evt);
-  var name = e.target.id;
 
   //show the coords display
   xShow(dhtmlBox.displayContainer);
-
 
   if(dhtmlBox.drag) { //the mouse is down
     dhtmlBox.x2 = e.offsetX;
@@ -161,7 +158,6 @@ function dhtmlBox_mousemove(evt) {
 
 function dhtmlBox_mouseup(evt) {
   var e = new xEvent(evt);
-  var name = e.target.id;
 
   if (dhtmlBox.rightclic == true) {
     jg2.clear();
@@ -181,23 +177,25 @@ function dhtmlBox_mouseup(evt) {
     // submit the form with the values
     if (dhtmlBox.currentTool == 'zoom_in' || dhtmlBox.currentTool == 'zoom_out' || dhtmlBox.currentTool == 'query') {
       dhtmlBox.removeEventsWait();
-      myform.INPUT_TYPE.value = "auto_rect";
-      myform.INPUT_COORD.value = dhtmlBox.x1+","+dhtmlBox.y1+","+dhtmlBox.x2+","+dhtmlBox.y2
+      myform.selection_type.value = "rectangle";
+      myform.selection_coords.value = dhtmlBox.x1+","+dhtmlBox.y1+";"+dhtmlBox.x2+","+dhtmlBox.y2
+	  xShow(dhtmlBox.anchor);
       myform.submit();
     }
     else if (dhtmlBox.currentTool == 'pan') {
-      myform.INPUT_TYPE.value = "auto_point";
+      myform.selection_type.value = "point"
       // pan or simple pan click
       if (dhtmlBox.x2 == dhtmlBox.x1 && dhtmlBox.y2 == dhtmlBox.y1) { //simple click
-        var x = dhtmlBox.x2;
+        var x = dhtmlBox.x2
         var y = dhtmlBox.y2
-        myform.INPUT_COORD.value = x+","+y+";"+x+","+y;
+        myform.selection_coords.value = x+","+y
       } else {// pan
         //new center coordinates
-        var x = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1);
-        var y = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1);
-        myform.INPUT_COORD.value = x+","+y+";"+x+","+y;
+        var x = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1)
+        var y = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1)
+        myform.selection_coords.value = x+","+y
       }
+	  xShow(dhtmlBox.anchor);
       myform.submit();
     } else if (dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon') {
 		// polygon closed by click on the first point
@@ -227,7 +225,7 @@ function dhtmlBox_dblclick(evt) {
   dhtmlBox.paint();
 }
 
-function dhtmlBox_keydown(evt) { // ne peut etre utilisé que pour la dhtmlBox "main"
+function dhtmlBox_keydown(evt) { // 
   evt = (evt) ? evt : ((event) ? event : null);
   dhtmlBox = dhtmlBox;
   if (evt.keyCode == '27' && (dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) {
@@ -304,10 +302,11 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
 	} else if (this.currentTool == 'line' && !this.isActive) { // submit the form
 		var coords = new String();
 		for (i = 0; i < this.Xpoints.length; i++) {
-			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ",";
+			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ";";
 		}
 		myform.selection_type.value = 'line';
 		myform.selection_coords.value = coords.substring(0,coords.length - 1);
+		xShow(this.anchor);
 		myform.submit();
 	}
     jg.paint();
@@ -348,17 +347,18 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
         var pix_surf = this.pixel_size * this.pixel_size;
         this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
 	  }
-      if (this.surf_unit == ' m².') this.measure = Math.round(this.measure);
-      else if (this.surf_unit == ' km².') this.measure = Math.round(this.measure*10000)/10000;
+      if (this.surf_unit == ' mï¿½.') this.measure = Math.round(this.measure);
+      else if (this.surf_unit == ' kmï¿½.') this.measure = Math.round(this.measure*10000)/10000;
       this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
     } else if (this.currentTool == 'polygon' && !this.isActive) { // draw the closed polygon and submit form
 		jg.paint();
 		var coords = new String();
 		for (i = 0; i < this.Xpoints.length; i++) {
-			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ",";
+			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ";";
 		}
 		myform.selection_type.value = 'polygon';
 		myform.selection_coords.value = coords.substring(0,coords.length - 1);
+		xShow(this.anchor);
 		myform.submit();
 	}
 	jg.paint();

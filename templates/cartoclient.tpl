@@ -98,8 +98,6 @@
 
 <form method="POST" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true" />
-  <input type="hidden" name="selection_type" />
-  <input type="hidden" name="selection_coords" />
 
   <div id="leftbar">    
 
@@ -147,8 +145,8 @@
       <tr>
         <td><input type="image" src="{$project_gif_west}" name="pan_w" alt="W" /></td>
         <td>
-          <input type="hidden" name="INPUT_TYPE" value="" />
-          <input type="hidden" name="INPUT_COORD" value="" />
+          <input type="hidden" name="selection_type" />
+          <input type="hidden" name="selection_coords" />
           <div id="mapAnchorDiv" style="position:relative;width:{$mainmap_width};height:{$mainmap_height};"> 
             <table width="{$mainmap_width}" height="{$mainmap_height}">
               <tr>

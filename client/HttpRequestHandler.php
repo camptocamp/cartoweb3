@@ -48,76 +48,84 @@ class PixelCoordsConverter {
 }
 
 /**
+ * Parses dhtml HTTP Requests, and returns a shape for the drawn selection. 
+ *
  * @package Client
  */
-class CompatibilityDhtml {
+class DhtmlSelectionParser {
     
-    const PIXEL_COORD_VAR = 'INPUT_COORD';
-    const PIXEL_TYPE_VAR = 'INPUT_TYPE';
+    const SELECTION_TYPE = 'selection_type';
+    const SELECTION_COORDS = 'selection_coords';
     
     static function isMainmapClicked() {
     
         if (HttpRequestHandler::isButtonPushed('mainmap'))
             return true;
-        if (!empty($_REQUEST[self::PIXEL_COORD_VAR]))
+        if (!empty($_REQUEST[self::SELECTION_COORDS]))
             return true;
         return ;
     }
     
+    private function pixelToPoint($pixel_coord, 
+            Dimension $imageSize, Bbox $bbox) {
+        
+        list($x, $y) = explode(',', $pixel_coord);        
+        $pixelPoint = new Point($x, $y);
+        return PixelCoordsConverter::point2Coords($pixelPoint, $imageSize, $bbox);
+    }
+    
+    private function coordsToPoints($selection_coords, 
+            Dimension $imageSize, Bbox $bbox) {
+     
+        $coords = explode(';', $selection_coords);
+        $points = array();
+        foreach($coords as $coord) {
+            $point = self::pixelToPoint($coord, $imageSize, $bbox);     
+            $points[] = $point;
+        }        
+        return $points; 
+    }
+    
     private function getRectangleShape(Dimension $imageSize, Bbox $bbox) {
-        $pixelCoords = $_REQUEST[self::PIXEL_COORD_VAR];
-        $coords = explode(',', $pixelCoords);
-        $coords = array_map('intval', $coords);
-        if (count($coords) != 4)
-            throw new CartoclientException("can't parse dhtml coords");
         
-        $pixelPoint0 = $pixelPoint = new Point($coords[0], $coords[1]);
-        $pixelPoint1 = $pixelPoint = new Point($coords[2], $coords[3]);
+        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
+                                       $imageSize, $bbox);
+        if (count($points) != 2)
+            throw new CartoclientException("can't parse rectangle dhtml coords");
         
-        $point0 = PixelCoordsConverter::point2Coords($pixelPoint0, $imageSize, $bbox);
-        
-        if ($coords[0] == $coords[2] && $coords[1] == $coords[3]) {
-            return $point0; 
+        // if the two coordinates are the same, then return a point
+        if ($points[0] == $points[1]) {
+            return $points[0];
         }
         
-        $point1 = PixelCoordsConverter::point2Coords($pixelPoint1, $imageSize, $bbox);
         $rect = new Rectangle();
-        $rect->setFrom2Points($point0, $point1);        
+        $rect->setFrom2Points($points[0], $points[1]);        
         return $rect;        
     }
     
     private function getPointShape(Dimension $imageSize, Bbox $bbox) {
 
-        $pixelCoords = $_REQUEST[self::PIXEL_COORD_VAR];
-        $pixelCoords = explode(';', $pixelCoords);
-        $pixelCoords = $pixelCoords[0];
-
-        $coords = explode(',', $pixelCoords);
-        $coords = array_map('intval', $coords);
-        if (count($coords) != 2)
-            throw new CartoclientException("can't parse dhtml coords");
+        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
+                                       $imageSize, $bbox);
+        if (count($points) != 1)
+            throw new CartoclientException("can't parse point dhtml coords");
         
-        $pixelPoint0 = $pixelPoint = new Point($coords[0], $coords[1]);
-        
-        $point0 = PixelCoordsConverter::point2Coords($pixelPoint0, $imageSize, $bbox);
-        
-        return $point0;        
+        return $points[0];
     }
     
     function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
-        //x($_REQUEST);
+
         if (HttpRequestHandler::isButtonPushed('mainmap'))
             x('todo_non_dhml_mainmap');
-            
-        $type = $_REQUEST[self::PIXEL_TYPE_VAR];
-        //x($type);
-        if ($type == 'auto_point') 
+        $type = $_REQUEST[self::SELECTION_TYPE];
+        if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
-        else if ($type == 'auto_rect') 
+        else if ($type == 'rectangle') 
             return self::getRectangleShape($imageSize, $bbox); 
         else
-            throw new CartoclientException("unknown INPUT_TYPE $type");
+            throw new CartoclientException("unknown selection_type: $type");
     }
+    
 }
 
 /**
@@ -137,7 +145,7 @@ class HttpRequestHandler {
 
     private function checkMainmapButton($cartoForm) {
 
-        if (!CompatibilityDhtml::isMainmapClicked())
+        if (!DhtmlSelectionParser::isMainmapClicked())
             return false;
     
         $plugins = $this->cartoclient->getPluginManager();
@@ -145,7 +153,7 @@ class HttpRequestHandler {
         $mainmapSize = $plugins->images->getMainmapDimensions();
         $mainmapBbox = $plugins->location->getLocation();
 
-        $mainmapShape = CompatibilityDhtml::getMainmapShape(
+        $mainmapShape = DhtmlSelectionParser::getMainmapShape(
                         $cartoForm, $mainmapSize, $mainmapBbox);
         
         if ($mainmapShape) {
