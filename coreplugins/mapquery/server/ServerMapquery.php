@@ -42,7 +42,9 @@ class ServerMapquery extends ServerPlugin {
     }
 
     /**
-     * Returns Ids for generic query
+     * Returns an array of query strings (for use in queryByAttributes), from
+     * a set of id's and an attribute name. This query string can be used
+     * in most case for layers.
      * @param string
      * @param string
      * @param array
@@ -63,7 +65,9 @@ class ServerMapquery extends ServerPlugin {
     }
     
     /**
-     * Returns Ids for database query
+     * Returns an array of query strings (for use in queryByAttributes), from
+     * a set of id's and an attribute name. This query string is to be used
+     * on database kind of layers.
      * @param string
      * @param string
      * @param array
@@ -127,14 +131,17 @@ class ServerMapquery extends ServerPlugin {
 
     /**
      * Performs a query on a layer using attributes
-     * @param ServerContext
-     * @param msLayer
-     * @param string
-     * @param string
+     * @param ServerContext Server context
+     * @param msLayer Layer to query
+     * @param string The attribute name used by the query
+     * @param string The query string to perform
+     * @param boolean If true, a failure in the query is not fatal (empy array 
+     *                returned)
      * @return array an array of shapes
      */
     private function queryLayerByAttributes(ServerContext $serverContext, 
-                                            $msLayer, $idAttribute, $query) { 
+                                            $msLayer, $idAttribute, $query, 
+                                            $mayFail=false) { 
         $log =& LoggerManager::getLogger(__METHOD__);
         
         // save extent, and set it to max extent
@@ -154,6 +161,10 @@ class ServerMapquery extends ServerPlugin {
                           ": queryByAttributes($idAttribute, $query)");
                 
         if ($ret == MS_FAILURE) {
+            if ($mayFail) {
+                $serverContext->resetMsErrors();
+                return array();
+            }
             throw new CartoserverException('Attribute query returned no ' .
                           "results. Layer: $msLayer->name, idAttribute: " .
                           "$idAttribute, query: $query"); 
@@ -186,9 +197,11 @@ class ServerMapquery extends ServerPlugin {
      * Performs a query based on a set of selected id's on a given layer
      * @param IdSelection The selection to use for the query. It contains a
      *                    layer name and a set of id's
+     * @param boolean If true, a failure in the query is not fatal (empy array 
+     *                returned)
      * @return array an array of shapes
      */
-    public function queryByIdSelection(IdSelection $idSelection) {
+    public function queryByIdSelection(IdSelection $idSelection, $mayFail=false) {
 
         $serverContext = $this->getServerContext();
         $layersInit = $serverContext->getMapInfo()->layersInit;
@@ -223,7 +236,7 @@ class ServerMapquery extends ServerPlugin {
         foreach($queryString as $query) {
             $new_results = self::queryLayerByAttributes($serverContext,
                                                         $msLayer, $idAttribute,
-                                                        $query);
+                                                        $query, $mayFail);
             $results = array_merge($results, $new_results);
         }
         return $results;
