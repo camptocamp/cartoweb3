@@ -1,8 +1,8 @@
 {literal}
 <style>
-#layersroot { text-align:left;margin-left:10px;}
+#layersroot { text-align:left;margin-left:10px; font-size:0.8em;}
 .v, .nov { text-align:left;margin-left:10px;}
-.lk { text-decoration:none;color:black;font-family:courier;font-size:8px;}
+.lk { text-decoration:none;color:black;font-family:courier;font-size:1em;}
 .nov { display:none;}
 </style>
 <script type="text/javascript">
