@@ -222,6 +222,7 @@ class Cartoserver {
 
         $pluginManager->callPluginsImplementing('ClientResponder', 'handlePreDrawing');
 
+        // FIXME: Yves: isn't this done twice in the image plugin too ??
         $msMapObj = $serverContext->getMapObj();  
         $imageType = $pluginManager->layers->getImageType();
         if (!empty($imageType)) {      
