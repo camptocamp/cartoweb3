@@ -21,8 +21,11 @@ class ServerPluginHelper {
      * @var Logger
      */
     protected $log;
-    
-    function __construct() {
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(get_class($this));
     }
     
@@ -35,7 +38,7 @@ class ServerPluginHelper {
      */
     protected function callHandleFunction($plugin, $functionName) {
         
-        $this->log->debug(sprintf("Calling callHandleFunction for plugin %s", 
+        $this->log->debug(sprintf('Calling callHandleFunction for plugin %s', 
                                   $plugin->getName()));
         
         $serverContext = $plugin->getServerContext();
@@ -46,25 +49,27 @@ class ServerPluginHelper {
         $resultName = $plugin->getName() . 'Result';
 
         if (is_null($request)) {
-            $this->log->warn("request variable $requestName not present: skipping plugin " .
-                       get_class($plugin));
+            $this->log->warn("request variable $requestName not present: " .
+                             'skipping plugin ' . get_class($plugin));
             return;
         }
 
         $this->log->warn("calling function $functionName");
         $result = $plugin->$functionName($request);
 
-        $this->log->debug("plugin result: $resultName = " . $result);
+        $this->log->debug("plugin result: $resultName = $result");
         $request = $serverContext->mapRequest->$requestName;
 
         if ($resultName) {
             if (!$result) {
-                $this->log->warn(sprintf("plugin %s getResult returned false, " .
-                        "not storing the information", $plugin->getName()));
+                $this->log->warn(sprintf('plugin %s getResult returned false, '
+                                         . 'not storing the information',
+                                         $plugin->getName()));
             } else {
                 if (isset($serverContext->mapResult->$resultName))
-                    throw new CartoserverException(sprintf('result for plugin %s " .
-                            "already stored, data collision', $plugin->getName())); 
+                    throw new CartoserverException(sprintf(
+                          'result for plugin %s already stored, data collision',
+                          $plugin->getName())); 
                 $serverContext->mapResult->$resultName = $result;
             }
         }
@@ -80,28 +85,28 @@ class ClientResponderHelper extends ServerPluginHelper {
     /**
      * @param ServerPlugin
      */
-    final function initializeRequestHelper($plugin) {
+    final public function initializeRequestHelper($plugin) {
         $this->callHandleFunction($plugin, 'initializeRequest');
     }
 
     /**
      * @param ServerPlugin
      */
-    final function handlePreDrawingHelper($plugin) {
+    final public function handlePreDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handlePreDrawing');
     }
 
     /**
      * @param ServerPlugin
      */
-    final function handleDrawingHelper($plugin) {
+    final public function handleDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handleDrawing');
     }
 
     /**
      * @param ServerPlugin
      */
-    final function handlePostDrawingHelper($plugin) {
+    final public function handlePostDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handlePostDrawing');
     }
 }
@@ -117,8 +122,9 @@ class InitProviderHelper extends ServerPluginHelper {
      * in MapInfo
      * @param ServerPlugin
      */
-    final function getInitHelper($plugin) {
-        $this->log->debug(sprintf("Calling getInit for plugin %s", get_class($plugin)));
+    final public function getInitHelper($plugin) {
+        $this->log->debug(sprintf('Calling getInit for plugin %s', 
+                                  get_class($plugin)));
         
         $initName = $plugin->getName() . 'Init';
         
@@ -137,7 +143,7 @@ class CoreProviderHelper extends ServerPluginHelper {
     /**
      * @param ServerPlugin
      */
-    final function handleCorePluginHelper($plugin) {
+    final public function handleCorePluginHelper($plugin) {
         $this->callHandleFunction($plugin, 'handleCorePlugin');
     }
 }

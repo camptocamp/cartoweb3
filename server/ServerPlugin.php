@@ -15,28 +15,28 @@ interface ClientResponder {
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function initializeRequest($requ);
+    public function initializeRequest($requ);
 
     /**
      * Handles the request just before plugins should draw in the map
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function handlePreDrawing($requ);
+    public function handlePreDrawing($requ);
 
     /**
      * Handles the request when the plugin should draw on the map
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function handleDrawing($requ);
+    public function handleDrawing($requ);
 
     /**
      * Handles the request after the plugins have drawn the image
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function handlePostDrawing($requ);
+    public function handlePostDrawing($requ);
 }
 
 /**
@@ -48,7 +48,7 @@ interface InitProvider {
      * Creates plugin init object that will be stored in MapInfo 
      * @return mixed plugin init object
      */
-    function getInit();
+    public function getInit();
 }
 
 /**
@@ -61,7 +61,7 @@ interface CoreProvider {
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function handleCorePlugin($requ);
+    public function handleCorePlugin($requ);
 }
  
 /**
@@ -85,7 +85,10 @@ abstract class ServerPlugin extends PluginBase {
      */
     protected $serverContext;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
@@ -100,7 +103,7 @@ abstract class ServerPlugin extends PluginBase {
      * Initializes plugin configuration
      * @param ServerContext
      */
-    function initializeConfig($initArgs) {
+    public function initializeConfig($initArgs) {
         $this->serverContext = $initArgs;
         
         $this->config = new ServerPluginConfig($this->getName(),
@@ -110,28 +113,28 @@ abstract class ServerPlugin extends PluginBase {
     /**
      * @return ServerConfig
      */
-    final function getConfig() {
+    final public function getConfig() {
         return $this->config;
     }
     
     /**
      * @return boolean
      */
-    function useExtendedRequest() {
+    public function useExtendedRequest() {
         return false;
     }
     
     /**
      * @return boolean
      */
-    function useExtendedResult() {
+    public function useExtendedResult() {
         return false;
     }
 
     /**
      * @return boolean
      */
-    function useExtendedInit() {
+    public function useExtendedInit() {
         return false;
     }
 }
@@ -149,22 +152,22 @@ abstract class ClientResponderAdapter extends ServerPlugin
     /**
      * @see ClientResponder::initializeRequest()
      */
-    function initializeRequest($requ) {}
+    public function initializeRequest($requ) {}
 
     /**
      * @see ClientResponder::handlePreDrawing()
      */
-    function handlePreDrawing($requ) {}
+    public function handlePreDrawing($requ) {}
 
     /**
      * @see ClientResponder::handleDrawing()
      */
-    function handleDrawing($requ) {}
+    public function handleDrawing($requ) {}
 
     /**
      * @see ClientResponder::handlePostDrawing()
      */
-    function handlePostDrawing($requ) {}
+    public function handlePostDrawing($requ) {}
 } 
 
 ?>

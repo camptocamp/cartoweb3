@@ -17,26 +17,45 @@ require_once(CARTOSERVER_HOME . 'common/ProjectHandler.php');
  */
 class ServerProjectHandler extends ProjectHandler {
 
+    /**
+     * @var string
+     */
     public $projectName;
+    
+    /**
+     * @var string
+     */
     public $mapId;
 
-    function __construct ($mapId) {
+    /**
+     * Constructor
+     * @param string map id
+     */
+    public function __construct ($mapId) {
         $this->setByMapId($mapId);
         $this->mapId = $mapId;
     }
     
     /**
      * @see ProjectHandler::getRootPath()
+     * @return string
      */
-    function getRootPath() {
+    public function getRootPath() {
         return CARTOSERVER_HOME;
     }
     
-    function getProjectName () {
+    /**
+     * @return string
+     */
+    public function getProjectName() {
         return $this->projectName;
     }
-    
-    function setByMapId ($mapId) {
+   
+    /**
+     * Sets projectName and mapName, extracted from mapId value.
+     * @param string
+     */
+    private function setByMapId ($mapId) {
         if (strpos($mapId, '.')) {
             list($this->projectName, $this->mapName) = explode('.', $mapId);
         } else {

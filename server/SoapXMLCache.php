@@ -34,7 +34,10 @@ class SoapXMLCache {
      */
     private $cartoserver;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         if (array_key_exists('mapId', $_REQUEST))
@@ -79,9 +82,11 @@ class SoapXMLCache {
     private function getSoapXMLFile($soapRequest) {
         
         if (!$this->soapXMLFile) {
-       
-            $this->soapXMLFile = $this->cartoserver->getServerContext($this->mapId)->config->writablePath . 
-                            'soapxml_cache/soapXML.' . $this->getDigest($soapRequest);
+            $this->soapXMLFile = $this->cartoserver->
+                                     getServerContext($this->mapId)->config->
+                                     writablePath 
+                                 . 'soapxml_cache/soapXML.' 
+                                 . $this->getDigest($soapRequest);
         }
         return $this->soapXMLFile;    
     }
@@ -93,7 +98,8 @@ class SoapXMLCache {
     private function cacheSoapXML($soapRequest) {
          
         $soapXML = $this->printSoapXMLFromServer($soapRequest);
-        $amount = file_put_contents($this->getSoapXMLFile($soapRequest), $soapXML);
+        $amount = file_put_contents($this->getSoapXMLFile($soapRequest), 
+                                    $soapXML);
         if ($amount != strlen($soapXML)) {
             throw new CartoserverException('could not write soapXML cache');
         }
@@ -119,7 +125,8 @@ class SoapXMLCache {
      * @return boolean
      */
     private function skipCache($soapRequest) {
-        return $this->cartoserver->getServerContext($this->mapId)->config->noSoapXMLCache;
+        return $this->cartoserver->getServerContext($this->mapId)->config->
+                   noSoapXMLCache;
     }
 
     /**
