@@ -17,6 +17,7 @@ dirs:
 	-mkdir -p www-data/mapinfo_cache
 	-mkdir -p www-data/images
 	-mkdir -p www-data/saved_posts
+	-mkdir -p www-data/wsdl_cache
 	-mkdir -p templates_c
 
 links:
