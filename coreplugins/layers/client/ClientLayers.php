@@ -10,6 +10,8 @@
 class ClientLayers extends ClientCorePlugin {
     private $log;
     private $smarty;
+    private $smartyPool = array();
+    private $smartyNb = 0;
 
     private $layersState;
     private $layers;
@@ -90,21 +92,31 @@ class ClientLayers extends ClientCorePlugin {
         else throw new CartoclientException("unknown layer name: $layername");
     }
 
+    private function getSmartyObj() {
+        if(count($this->smartyPool)) return array_shift($this->smartyPool);
+        
+        $this->smartyNb++;
+        return new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+    }
+
+    private function freeSmartyObj($template) {
+        array_push($this->smartyPool, $template);
+    }
+
     private function drawLayer($layer) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
-        // FIXME: instancing Smarty object for each layer: performance issue?
-        $template = new Smarty_CorePlugin($this->cartoclient->getConfig(),
-                    $this);
+        $template =& $this->getSmartyObj();
 
         $layerChecked = in_array($layer->id, $this->selectedLayers)
                         ? 'checked="checked"' : false;
 
-        $template->assign('layerType', $layer->className);
-        $template->assign('layerLabel', $layer->label);
-        $template->assign('layerId', $layer->id);
-        $template->assign('layerChecked', $layerChecked);
-        $template->assign('nodeId', 'id' . $this->nodeId++);
+        $template->assign(array('layerType' => $layer->className,
+                                'layerLabel' => $layer->label,
+                                'layerId' => $layer->id,
+                                'layerChecked' => $layerChecked,
+                                'nodeId' => $this->nodeId++,
+                                ));
 
         $childrenLayers = array();
         if (!empty($layer->children) && is_array($layer->children))
@@ -115,7 +127,9 @@ class ClientLayers extends ClientCorePlugin {
 
         $template->assign('childrenLayers', $childrenLayers);
 
-        return $template->fetch('node.tpl');
+        $output_node = $template->fetch('node.tpl');
+        $this->freeSmartyObj($template);
+        return $output_node;
     }
 
     private function drawLayersList() {
@@ -128,8 +142,16 @@ class ClientLayers extends ClientCorePlugin {
 
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
+        $this->log->debug('Building of layers items: ' .
+            $this->smartyNb + 1 . ' Smarty objects used.');
 
-        $this->smarty->assign('layerlist', $rootNode);
+        $this->smarty->assign(array('layerlist' => $rootNode,
+                                    'expand' => 'expand tree', #i18n
+                                    'close' => 'close tree', #i18n
+                                    'check' => 'check all', #i18n
+                                    'uncheck' => 'uncheck all', #i18n
+                                    ));
+
         return $this->smarty->fetch('layers.tpl');
     }
 
