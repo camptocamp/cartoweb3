@@ -29,6 +29,7 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * Returns relative Web path to external export script
      * @return string
+     * @see ExportPlugin::getExportScriptPath()
      */
     public function getExportScriptPath() {
         $scriptPath = parent::getExportScriptPath();
@@ -133,36 +134,41 @@ class ClientExportCsv extends ExportPlugin {
 
         $mapResult = $this->getExportResult($this->getConfiguration());
 
-        if (!is_null($this->getConfig()->separator)) {
-            $sep = $this->getConfig()->separator;
-        } else {
-            $sep = ';';
-        }
-        if (!is_null($this->getConfig()->textDelimiter)) {            
-            $tD = $this->getConfig()->textDelimiter;
-            
-            // special characters
-            switch ($tD) {
-            case 'double-quote':
-                $tD = '"';
-                break;
-            }
-        } else {
-            $tD = '"';
-        }
-        $utf8 = (!is_null($this->getConfig()->charsetUtf8) && $this->getConfig()->charsetUtf8);
-        
         $contents = '';
+        
         if (isset($mapResult->queryResult)) {
+            if (!is_null($this->getConfig()->separator)) {
+                $sep = $this->getConfig()->separator;
+            } else {
+                $sep = ';';
+            }
+            
+            if (!is_null($this->getConfig()->textDelimiter)) {            
+                $tD = $this->getConfig()->textDelimiter;
+                
+                // special characters
+                switch ($tD) {
+                case 'double-quote':
+                    $tD = '"';
+                    break;
+                }
+            } else {
+                $tD = '"';
+            }
+            
+            $utf8 = (!is_null($this->getConfig()->charsetUtf8) &&
+                     $this->getConfig()->charsetUtf8);
+            
             foreach ($mapResult->queryResult->tableGroup->tables as $table) {
                 if ($table->tableId == $this->tableId
                     && $table->numRows > 0) {
                     
-                    $contents .= $this->exportLine($table->columnTitles, $sep, $tD, $utf8);
+                    $contents .= $this->exportLine($table->columnTitles, $sep,
+                                                   $tD, $utf8);
 
                     foreach ($table->rows as $row) {
-                    
-                        $contents .= $this->exportLine($row->cells, $sep, $tD, $utf8);
+                        $contents .= $this->exportLine($row->cells, $sep, $tD,
+                                                       $utf8);
                     }
                 }
             }
