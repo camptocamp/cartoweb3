@@ -712,7 +712,7 @@ class CellFilterBatch extends CellFilter {
         }
         $result = call_user_func($this->callback, $inputValues);
         foreach ($result as $key => $resultValue) {
-            $table->row[$key]->cells[$indexes[$columnId]] = $resultValue;
+            $table->rows[$key]->cells[$indexes[$columnId]] = $resultValue;
         }
     }
 }
@@ -825,7 +825,6 @@ class ColumnAdder extends TableFilter {
         
         $oldIndexes = $this->getIndexes($table);
         $this->addNewColumns($table, $params);           
-        $indexes = $this->getIndexes($table);
  
         if ($table->numRows == 0) {
             return;
@@ -936,26 +935,34 @@ class ColumnAdderBatch extends ColumnAdder {
      */
     function applyRule($table, $params) {
 
+        $oldIndexes = $this->getIndexes($table);
         $this->addNewColumns($table, $params);
-
+        
         if ($table->numRows == 0) {
             return;
         }
         $inputValues = array();
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
-            foreach ($row->cells as $cellColumnId => $value) {
-                if (in_array($cellColumnId, $this->inputColumnIds)) {
-                    $inputValuesRow[$cellColumnId] = $value;
+            foreach ($table->columnIds as $columnId) {
+                if (in_array($columnId, $this->inputColumnIds)) {
+                    $inputValuesRow[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
             $inputValues[] = $inputValuesRow;
         }
         $result = call_user_func($this->callback, $inputValues);
         foreach ($result as $key => $resultValue) {
-            foreach ($resultValue as $newColumnId => $newValue) {
-                $table->row[$key]->cells[$newColumnId] = $newValue;
+            $newCells = array();
+            foreach ($table->columnIds as $index => $columnId) {
+                if (array_key_exists($columnId, $resultValue)) {
+                    $newCells[$index] = $resultValue[$columnId];
+                } else {
+                    $newCells[$index] =
+                        $table->rows[$key]->cells[$oldIndexes[$columnId]];
+                }
             }
+            $table->rows[$key]->cells = $newCells;
         }
     }
 }

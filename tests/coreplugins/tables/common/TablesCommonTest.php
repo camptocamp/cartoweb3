@@ -114,8 +114,10 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->groupTitle, '*** Group 1 ***');
-        $this->assertEquals($tableGroups[1]->groupTitle, '*** Group 2 ***');
+        $this->assertEquals($filteredTableGroups[0]->groupTitle,
+                            '*** Group 1 ***');
+        $this->assertEquals($filteredTableGroups[1]->groupTitle,
+                            '*** Group 2 ***');
     }
     
     function testGroupFilter2() {
@@ -132,8 +134,10 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->groupTitle, '*** Group 1 ***');
-        $this->assertEquals($tableGroups[1]->groupTitle, '!!! Group 2 !!!');
+        $this->assertEquals($filteredTableGroups[0]->groupTitle,
+                            '*** Group 1 ***');
+        $this->assertEquals($filteredTableGroups[1]->groupTitle,
+                            '!!! Group 2 !!!');
     }
 
     function testTableFilter() {
@@ -153,11 +157,11 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->tables[0]->tableTitle,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->tableTitle,
                                                             '%%% Table 1 %%%');
-        $this->assertEquals($tableGroups[0]->tables[1]->tableTitle,
+        $this->assertEquals($filteredTableGroups[0]->tables[1]->tableTitle,
                                                             '*** Table 2 ***');
-        $this->assertEquals($tableGroups[1]->tables[0]->tableTitle,
+        $this->assertEquals($filteredTableGroups[1]->tables[0]->tableTitle,
                                                             '!!! Table 3 !!!');
     }
     
@@ -178,9 +182,9 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->tables[0]->columnTitles[0],
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnTitles[0],
                                                             '!!! Column 1 !!!');
-        $this->assertEquals($tableGroups[1]->tables[0]->columnTitles[0],
+        $this->assertEquals($filteredTableGroups[1]->tables[0]->columnTitles[0],
                                                             '*** Column X ***');
     }
     
@@ -195,13 +199,13 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->tables[0]->columnIds,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnIds,
                                         array('column_1', 'column_3'));        
-        $this->assertEquals($tableGroups[0]->tables[0]->columnTitles,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
                                         array('Column 1', 'Column 3'));        
-        $this->assertEquals($tableGroups[0]->tables[0]->rows[0]->cells,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells,
                                         array('value_1', 'value_3'));        
-        $this->assertEquals($tableGroups[0]->tables[1]->columnIds,
+        $this->assertEquals($filteredTableGroups[0]->tables[1]->columnIds,
                                         array());        
     }
     
@@ -215,14 +219,201 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->assertEquals($tableGroups[0]->tables[0]->columnIds,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnIds,
                                         array('column_1', 'column_3'));        
-        $this->assertEquals($tableGroups[0]->tables[0]->columnTitles,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
                                         array('Column 1', 'Column 3'));        
-        $this->assertEquals($tableGroups[0]->tables[0]->rows[0]->cells,
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells,
                                         array('value_1', 'value_3'));        
-        $this->assertEquals($tableGroups[0]->tables[1]->columnIds,
+        $this->assertEquals($filteredTableGroups[0]->tables[1]->columnIds,
                                         array('column_A', 'column_B'));        
+    }
+    
+    static function callbackCellFilter($inputValues) {
+        return $inputValues['column_1'] . '-' . $inputValues['column_3'];
+    }
+
+    function testCellFilter() {
+    
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $registry->addCellFilter('*', 'table_1', 'column_2', 
+                                 array('column_1', 'column_3'),
+                                 array('coreplugins_tables_common_TablesCommonTest',
+                                       'callbackCellFilter'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
+                                        'value_1-value_3');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
+                                        'value_4-value_6');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
+                                        'value_7-value_9');        
+    }
+    
+    static function callbackCellFilterBatch($inputValues) {
+        $result = array();
+        $oldValue = '|';
+        foreach($inputValues as $inputValue) {
+            $oldValue .= $inputValue['column_1'] . '-'
+                       . $inputValue['column_3'] . '|';
+            $result[] = $oldValue;
+        }
+        return $result;
+    }
+
+    function testCellFilterBatch() {
+    
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $registry->addCellFilterBatch('*', 'table_1', 'column_2', 
+                                      array('column_1', 'column_3'),
+                                      array('coreplugins_tables_common_TablesCommonTest',
+                                            'callbackCellFilterBatch'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
+                            '|value_1-value_3|');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
+                            '|value_1-value_3|value_4-value_6|');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
+                            '|value_1-value_3|value_4-value_6|value_7-value_9|');
+        
+    }
+
+    static function callbackColumnAdder($inputValues) {
+        return array('column_4' =>
+                     $inputValues['column_1'] . '-' . $inputValues['column_3']);
+    }
+    
+    function testColumnAdderAbsolute() {
+        
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1);
+        $registry->addColumnAdder('*', 'table_1', $position, array('column_4'), 
+                                  array('column_1', 'column_3'),
+                                  array('coreplugins_tables_common_TablesCommonTest',
+                                        'callbackColumnAdder'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnIds[1],
+                                        'column_4');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnTitles[1],
+                                        'column_4');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
+                                        'value_1-value_3');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
+                                        'value_4-value_6');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
+                                        'value_7-value_9');        
+    }
+    
+    function testColumnAdderRelative() {
+    
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE, -2,
+                                       'column_3');
+        $registry->addColumnAdder('*', 'table_1', $position, array('column_4'), 
+                                  array('column_1', 'column_3'),
+                                  array('coreplugins_tables_common_TablesCommonTest',
+                                        'callbackColumnAdder'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnIds,
+                            array('column_4', 'column_1', 'column_2', 'column_3'));        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
+                            array('column_4', 'Column 1', 'Column 2', 'Column 3'));        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[0],
+                                        'value_1-value_3');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[0],
+                                        'value_4-value_6');        
+        $this->assertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[0],
+                                        'value_7-value_9');        
+    }
+    
+    private function assertColumnAdderMultipleColumn($tableGroups) {
+        $this->assertEquals($tableGroups[0]->tables[0]->columnIds,
+                            array('column_1', 'column_2', 'column_4',
+                                  'column_5', 'column_3'));        
+        $this->assertEquals($tableGroups[0]->tables[0]->columnTitles,
+                            array('Column 1', 'Column 2', 'column_4',
+                                  'column_5', 'Column 3'));        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[0]->cells[2],
+                                        'value_1-value_3');        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[1]->cells[2],
+                                        'value_4-value_6');        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[2]->cells[2],
+                                        'value_7-value_9');        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[0]->cells[3],
+                                        'value_1*value_3');        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[1]->cells[3],
+                                        'value_4*value_6');        
+        $this->assertEquals($tableGroups[0]->tables[0]->rows[2]->cells[3],
+                                        'value_7*value_9');        
+    }
+
+    static function callbackColumnAdderMultipleColumn($inputValues) {
+        return array('column_4' =>
+                     $inputValues['column_1'] . '-' . $inputValues['column_3'],
+                     'column_5' =>
+                     $inputValues['column_1'] . '*' . $inputValues['column_3']);
+    }
+    
+    function testColumnAdderMultipleColumn() {
+    
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE, 0,
+                                       'column_3');
+        $registry->addColumnAdder('*', 'table_1', $position,
+                                  array('column_4', 'column_5'), 
+                                  array('column_1', 'column_3'),
+                                  array('coreplugins_tables_common_TablesCommonTest',
+                                        'callbackColumnAdderMultipleColumn'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertColumnAdderMultipleColumn($filteredTableGroups);
+    }
+    
+    static function callbackColumnAdderBatch($inputValues) {
+        $result = array();
+        foreach ($inputValues as $inputValue) {
+            $result[] = array('column_4' =>
+                     $inputValue['column_1'] . '-' . $inputValue['column_3'],
+                     'column_5' =>
+                     $inputValue['column_1'] . '*' . $inputValue['column_3']);
+        }
+        return $result;
+    }
+
+    function testColumnAdderBatch() {
+
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+        
+        $position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE, 0,
+                                       'column_3');
+        $registry->addColumnAdderBatch('*', 'table_1', $position,
+                                  array('column_4', 'column_5'), 
+                                  array('column_1', 'column_3'),
+                                  array('coreplugins_tables_common_TablesCommonTest',
+                                        'callbackColumnAdderBatch'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertColumnAdderMultipleColumn($filteredTableGroups);
     }
 }
 
