@@ -113,6 +113,11 @@ class MapInfoHandler {
             if (!$msLayer)
                 throw new CartoserverException('Could not find msLayer ' 
                                                . $layer->msLayer);
+
+            if ($msLayer->minscale > 0) $layer->minScale = $msLayer->minscale;
+            else $layer->minScale = 0;
+            if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
+            else $layer->maxScale = 0;
             
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msClass = $msLayer->GetClass($i);
@@ -129,6 +134,16 @@ class MapInfoHandler {
                                                                 $msMapObj,
                                                                 $msClass);
                     }
+
+                    if ($msClass->minscale >= $layer->minScale)
+                        $layerClass->minScale = $msClass->minscale;
+                    else $layerClass->minScale = $layer->minScale;
+
+                    if ($msClass->maxscale > 0 && 
+                        (!$layer->maxScale ||
+                         $msClass->maxscale <= $layer->maxScale))
+                        $layerClass->maxScale = $msClass->maxscale;
+                    else $layerClass->maxScale = $layer->maxScale;
                
                     $mapInfo->addChildLayerBase($layer, $layerClass);
                 }
@@ -165,7 +180,8 @@ class MapInfoHandler {
         
         if (!file_exists($classIcon) ||
             filemtime($this->mapPath) > filemtime($classIcon) ||
-            filemtime($this->getSymPath()) > filemtime($classIcon)) {
+            (file_exists($this->getSymPath()) && 
+             filemtime($this->getSymPath()) > filemtime($classIcon))) {
             $lgdIcon = $msClassObj->createLegendIcon($msMapObj->keysizex, 
                                                      $msMapObj->keysizey);
             if ($lgdIcon->saveImage($classIcon) < 0)
