@@ -49,8 +49,17 @@ function shift(id) {
   var obj = document.getElementById(id);
   var key = document.getElementById('x' + id);
   var iid = id.substr(2);
+  var visible;
+
+  if (obj.style.display != '') {
+    if (obj.style.display != 'none') visible = true;
+    else visible = false;
+  } else {
+    if (obj.getAttribute('class') == 'v') visible = true;
+    else visible = false;
+  }
   
-  if (obj.style.display != '' && obj.style.display != 'none') { 
+  if (visible) { 
     replacePic(key, 'minus', 'plus');
     obj.style.display = 'none';
     updateOpenNodes(iid);
