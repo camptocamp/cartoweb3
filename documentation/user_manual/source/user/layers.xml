@@ -252,16 +252,16 @@
     </para>
     </sect2>
   <sect2 id="user.layers.metadata.inifile"> 
-    <title>Metadata in <filename>&lt;layers&gt;.ini</filename></title>
+    <title>Metadata in <filename>layers.ini</filename></title>
     <para>
-     The configuration file <filename>&lt;layers&gt;.ini</filename> may also contain
+     The configuration file <filename>layers.ini</filename> may also contain
      metadata (key, value) pairs. This is needed for 
      LayerGroup objects, as these have no counterparts in the mapfile. For simple layers,
-      the metadata specified in the <filename>&lt;layers&gt;.ini</filename> take 
+      the metadata specified in the <filename>layers.ini</filename> take 
      precedence over the values from the mapfile.
     </para>
     <para>
-      For each layer object in the <filename>&lt;layers&gt;.ini</filename> file, the
+      For each layer object in the <filename>layers.ini</filename> file, the
       following syntax is used to set metadata: 
    <itemizedlist>
     <listitem>
@@ -294,7 +294,7 @@ layers.group_admin.metadata.security_view = admin
    <programlisting>
 autoClassLegend = true <indexterm><primary>autoClassLegend</primary></indexterm>
    </programlisting>
-   in <filename>&lt;layers&gt;.ini</filename>.
+   in <filename>layers.ini</filename>.
   </para>
   <para>
    2. Each class (or more precisely each class that should appear in the
@@ -342,7 +342,7 @@ END
   </para>
   <para>
    Provided that no static icon is defined for a layer in 
-   <filename>&lt;layers&gt;.ini</filename>, the icon of the first visible
+   <filename>layers.ini</filename>, the icon of the first visible
    class is used for the layer.
   </para>
  </sect1>
