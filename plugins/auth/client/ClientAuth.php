@@ -163,7 +163,6 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         // FIXME: this is an ugly hack to prevent the unit tests to shout.
         //  A better solution is to be found.
         if (isset($GLOBALS['headless'])) {
-            print "Warning: auth disabled for unit tests\n";
             return;
         }
         
