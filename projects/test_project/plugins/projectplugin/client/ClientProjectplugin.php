@@ -56,10 +56,7 @@ class ClientProjectplugin extends ClientPlugin
 
     function handleResult($result) {}
     
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
         
         $template->assign('projectplugin_active', true);
         $template->assign('projectplugin_message', "message: " . $this->message . 

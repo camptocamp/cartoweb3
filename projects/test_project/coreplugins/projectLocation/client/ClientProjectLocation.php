@@ -30,7 +30,7 @@ class ClientProjectLocation extends ClientLocation {
         $this->projectResult = $locationResult->projectResult;
     }
 
-    function renderForm($template) {
+    function renderForm(Smarty $template) {
     
         $template->assign('projectmessage', $this->projectResult);
         parent::renderForm($template);
