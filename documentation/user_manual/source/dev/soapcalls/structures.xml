@@ -42,7 +42,8 @@
 <complexType name="ArrayOfTableRow">
   <complexContent>
     <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="types:TableRow[]"/>
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:TableRow[]"/>
     </restriction>
   </complexContent>
 </complexType>]]></programlisting>
@@ -102,7 +103,8 @@
 <complexType name="ArrayOfTableGroup">
   <complexContent>
     <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="types:TableGroup[]"/>
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:TableGroup[]"/>
     </restriction>
   </complexContent>
 </complexType>]]></programlisting>

@@ -41,11 +41,16 @@
   <all>
     <element name="className" type="xsd:string"/>
     <element name="locationType"  type="types:LocationType"/>
-    <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
-    <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
-    <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
-    <element name="recenterLocationRequest" type="types:RecenterLocationRequest" minOccurs="0"/>
-    <element name="locationConstraint" type="types:LocationConstraint" minOccurs="0"/>
+    <element name="bboxLocationRequest"
+             type="types:BboxLocationRequest" minOccurs="0"/>
+    <element name="panLocationRequest"
+             type="types:PanLocationRequest" minOccurs="0"/>
+    <element name="zoomPointLocationRequest"
+             type="types:ZoomPointLocationRequest" minOccurs="0"/>
+    <element name="recenterLocationRequest"
+             type="types:RecenterLocationRequest" minOccurs="0"/>
+    <element name="locationConstraint"
+             type="types:LocationConstraint" minOccurs="0"/>
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
@@ -179,7 +184,8 @@
 <complexType name="ArrayOfIdSelection">
   <complexContent>
     <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="types:IdSelection[]"/>
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:IdSelection[]"/>
     </restriction>
   </complexContent>
 </complexType>]]></programlisting>

@@ -72,7 +72,8 @@
 <complexType name="ArrayOfQuerySelection">
   <complexContent>
     <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="types:QuerySelection[]"/>
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:QuerySelection[]"/>
     </restriction>
   </complexContent>
 </complexType>]]></programlisting>

@@ -31,7 +31,8 @@
 <complexType name="MapResult">
   <all>
     <element name="timeStamp" type="xsd:integer"/>
-    <element name="serverMessages" type="types:ArrayOfMessage" minOccurs="0"/>
+    <element name="serverMessages"
+             type="types:ArrayOfMessage" minOccurs="0"/>
     ...elements specific to plugins...
   </all>
 </complexType>]]></programlisting>
