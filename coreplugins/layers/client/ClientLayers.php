@@ -13,8 +13,8 @@ class ClientLayers extends ClientCorePlugin {
     private $smartyPool = array();
     private $smartyNb = 0;
 
-    private $savedData;
     private $layersState;
+    private $layersData;
     private $hiddenSelectedLayers;
     private $hiddenUnselectedLayers;
     
@@ -36,28 +36,28 @@ class ClientLayers extends ClientCorePlugin {
     function loadSession($sessionObject) {
         $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
-        $this->savedData = $sessionObject;
+        $this->layersState = $sessionObject;
         
-        $this->layersState =& $this->savedData['layersState'];
+        $this->layersData =& $this->layersState['layersData'];
         $this->hiddenSelectedLayers 
-            =& $this->savedData['hiddenSelectedLayers'];
+            =& $this->layersState['hiddenSelectedLayers'];
         $this->hiddenUnselectedLayers
-            =& $this->savedData['hiddenUnselectedLayers'];
+            =& $this->layersState['hiddenUnselectedLayers'];
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
-        $this->savedData = array();
-        $this->savedData['layersState'] =& $this->layersState;
-        $this->savedData['hiddenSelectedLayers']
+        $this->layersState = array();
+        $this->layersState['layersData'] =& $this->layersData;
+        $this->layersState['hiddenSelectedLayers']
             =& $this->hiddenSelectedLayers;
-        $this->savedData['hiddenUnselectedLayers']
+        $this->layersState['hiddenUnselectedLayers']
             =& $this->hiddenUnselectedLayers;
             
-        $this->layersState = array();
+        $this->layersData = array();
         foreach ($initialMapState->layers as $initialLayerState) {
-            $this->layersState[$initialLayerState->id] = $initialLayerState;
+            $this->layersData[$initialLayerState->id] = $initialLayerState;
         }
 
         $this->hiddenUnselectedLayers = array();
@@ -65,9 +65,9 @@ class ClientLayers extends ClientCorePlugin {
         $this->selectedLayers = array(); // resets selectedLayers array
 
         foreach ($this->getLayers() as $layer) {
-            if (!isset($this->layersState[$layer->id])) {
-                $this->layersState[$layer->id] = new LayerState;
-                $this->layersState[$layer->id]->id = $layer->id;
+            if (!isset($this->layersData[$layer->id])) {
+                $this->layersData[$layer->id] = new LayerState;
+                $this->layersData[$layer->id]->id = $layer->id;
             }
         }
     }
@@ -143,12 +143,12 @@ class ClientLayers extends ClientCorePlugin {
 
     function handleHttpRequest($request) {
         $this->log->debug('update form:');
-        $this->log->debug($this->layersState);
+        $this->log->debug($this->layersData);
 
         // disables all layers before selecting correct ones
         foreach ($this->getLayers() as $layer) {
-            $this->layersState[$layer->id]->selected = false;
-            $this->layersState[$layer->id]->unfolded = false;
+            $this->layersData[$layer->id]->selected = false;
+            $this->layersData[$layer->id]->unfolded = false;
         }
 
         // selected layers:
@@ -157,7 +157,7 @@ class ClientLayers extends ClientCorePlugin {
         $this->log->debug($request['layers']);
         
         foreach ($request['layers'] as $layerId) {
-            $this->layersState[$layerId]->selected = true;
+            $this->layersData[$layerId]->selected = true;
         }
 
         // unfolded layergroups:
@@ -169,7 +169,7 @@ class ClientLayers extends ClientCorePlugin {
 
         foreach ($openNodes as $nodeId) {
             if (isset($this->nodesIds[$nodeId]))
-                $this->layersState[$this->nodesIds[$nodeId]]->unfolded = true;
+                $this->layersData[$this->nodesIds[$nodeId]]->unfolded = true;
         }
     }
 
@@ -181,7 +181,7 @@ class ClientLayers extends ClientCorePlugin {
         if($refresh || !$this->$storageName || 
            !is_array($this->$storageName)) {
             foreach ($this->getLayers() as $layer) {
-                if (@$this->layersState[$layer->id]->$stateProperty)
+                if (@$this->layersData[$layer->id]->$stateProperty)
                     $this->{$storageName}[] = $layer->id;
             }
         }
@@ -287,7 +287,7 @@ class ClientLayers extends ClientCorePlugin {
 
     function buildMapRequest($mapRequest) {
         foreach ($this->hiddenSelectedLayers as $layerId) {
-            $this->layersState[$layerId]->selected = true;
+            $this->layersData[$layerId]->selected = true;
         }
         
         $layersRequest = new LayersRequest();
@@ -347,6 +347,10 @@ class ClientLayers extends ClientCorePlugin {
                                        $forceUnselectable = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
+        // if level is root and root is hidden (no layers menu displayed):
+        if ($layer->id == 'root' && $this->layersData['root']->hidden)
+            return false;
+
         // if parent is selected, children are selected too!
         $layerChecked = $forceSelection ||
                         in_array($layer->id, $this->getSelectedLayers());
@@ -395,6 +399,8 @@ class ClientLayers extends ClientCorePlugin {
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
         
+        if (!$rootNode) return false;
+
         $this->log->debug('Building of layers items: ' .
             $this->smartyNb + 1 . ' Smarty objects used.');
         
@@ -418,9 +424,9 @@ class ClientLayers extends ClientCorePlugin {
 
     function saveSession() {
         $this->log->debug('saving session:');
-        $this->log->debug($this->savedData);
+        $this->log->debug($this->layersState);
 
-        return $this->savedData;
+        return $this->layersState;
     }
 }
 ?>
