@@ -83,11 +83,11 @@
       dhtmlBox.boxx = {$bboxMinX};
       dhtmlBox.boxy = {$bboxMinY};
       dhtmlBox.pixel_size = {$smarty.capture.pixelSize};
-      dhtmlBox.dist_msg = {t}'Approx. distance: '{/t};
+      dhtmlBox.dist_msg = '{t}Approx. distance: {/t}';
       dhtmlBox.dist_unit = {if $factor == 1000}'km.'{else}'m.'{/if};
-      dhtmlBox.surf_msg = {t}'Approx. surface: '{/t};
+      dhtmlBox.surf_msg = '{t}Approx. surface: {/t}';
       dhtmlBox.surf_unit = {if $factor == 1000}'km².'{else}'m².'{/if};
-      dhtmlBox.coord_msg = {t}'Coords (m): '{/t};
+      dhtmlBox.coord_msg = '{t}Coords (m): {/t}';
   {literal}
           
       dhtmlBox.initialize();
@@ -114,13 +114,13 @@
 
   <p>
     {counter start=-1 print=false name=tindex}
-    {foreach from=$tools key=toolid item=tool}
-    <label for="{$toolid}">
-      <input type="radio" name="tool" value="{$toolid}" 
-                {if $selected_tool == $toolid}checked="checked"{/if} 
-                id="{$toolid}" onclick="dhtmlBox.changeTool('{$tool->jsId}')" />
+    {foreach from=$tools item=tool}
+    <label for="{$tool->id}">
+      <input type="radio" name="tool" value="{$tool->id}" 
+                {if $selected_tool == $tool->id}checked="checked"{/if} 
+                id="{$tool->id}" onclick="dhtmlBox.changeTool('{$tool->jsId}')" />
            {if $tool->icon}
-            <img src="{r type=gfx/layout}{$toolid}.gif{/r}" alt="{$tool->label}" 
+            <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" alt="{$tool->label}" title="{t}{$tool->label}{/t}"
         onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$tool->jsId}')" />
            {else}
             <span onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$tool->jsId}');">
