@@ -53,19 +53,8 @@ class ServerLayers extends ServerCoreplugin {
         foreach ($this->getRequestedLayerNames() as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
             
-            $serverLayer = $this->getMapInfo()->getLayerById($requLayerId);
-
-            if (!$serverLayer) {
-                $this->log->warn("can't find serverLayer $requLayerId");
-                continue;
-            }
-
-            $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
-            if ($msLayer) {
-                $msLayer->set('status', MS_ON);
-            } else {
-                $this->log->warn("can't find msLayer " . $serverLayer->msLayer);
-            }
+            $msLayer = $this->getMapInfo()->getMsLayerById($msMapObj, $requLayerId);
+            $msLayer->set('status', MS_ON);
         }
     }
 }
