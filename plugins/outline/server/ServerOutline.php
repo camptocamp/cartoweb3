@@ -231,7 +231,7 @@ class ServerOutline extends ClientResponderAdapter {
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
             // TODO verify LABEL object is set in mapfile for the layer
             if ($labelMode) {
-                $p->set('text',$point->label);
+                $p->set('text',$polygon->label);
             }
                        
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
