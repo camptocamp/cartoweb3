@@ -63,6 +63,26 @@ class ClientExportCsv extends ExportPlugin {
         return $config;
     }
     
+    private function exportLine($array, $sep, $tD, $utf8) {
+    
+        $contents = '';
+        $first = true;
+        foreach($array as $value) {
+            if ($first) {
+                $first = false;
+            } else {
+                $contents .= $sep;
+            }
+            if ($utf8) {
+                $contents .= $tD . $value . $tD;
+            } else {
+                $contents .= $tD . utf8_decode($value) . $tD;
+            }    
+        }
+        $contents .= "\n";
+        return $contents;
+    }
+    
     function export($mapResult) {
 
         if (!is_null($this->getConfig()->separator)) {
@@ -82,15 +102,19 @@ class ClientExportCsv extends ExportPlugin {
         } else {
             $tD = '"';
         }
+        $utf8 = (!is_null($this->getConfig()->charsetUtf8) && $this->getConfig()->charsetUtf8);
         
         $contents = '';
         if (isset($mapResult->queryResult)) {
             foreach ($mapResult->queryResult->layerResults as $layer) {
                 if ($layer->layerId == $this->layerId
                     && $layer->numResults > 0) {
-                    $contents .= $tD . implode("$tD$sep$tD", $layer->fields) . "$tD\n";
+                    
+                    $contents .= $this->exportLine($layer->fields, $sep, $tD, $utf8);
+
                     foreach ($layer->resultElements as $element) {
-                        $contents .= $tD . implode("$tD$sep$tD", $element->values) . "$tD\n";
+                    
+                        $contents .= $this->exportLine($element->values, $sep, $tD, $utf8);
                     }
                 }
             }
