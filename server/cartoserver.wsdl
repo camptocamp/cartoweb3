@@ -180,8 +180,10 @@
 
       <complexType name="Message">
         <all>
-          <element name="channel" type="xsd:integer"/>
+          <element name="plugin" type="xsd:string"/>
+          <element name="messageId" type="xsd:string"/>
           <element name="message" type="xsd:string"/>
+          <element name="channel" type="xsd:integer"/>
         </all>
       </complexType>
       
