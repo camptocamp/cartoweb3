@@ -5,7 +5,11 @@
  */
 
 /**
+ * Service side plugin for handling selection. It may use the HilightPlugin
+ * to render the selection on the map.
+ * 
  * @package Plugins
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 class ServerSelection extends ServerPlugin {
 
@@ -21,30 +25,20 @@ class ServerSelection extends ServerPlugin {
         return ServerPlugin::TYPE_INIT;
     }
 
-    private function getClassItem($layerId) {
-
-        //TODO: error check     
-        $mapInfo = $this->serverContext->mapInfo;
-        $serverLayer = $mapInfo->getLayerById($layerId);
-        $msMapObj = $this->serverContext->msMapObj;
-        $msLayer = $msMapObj->getLayerByName($serverLayer->msLayer);
-        $classitem = $msLayer->classitem;
-        if (empty($classitem))
-            throw new CartoserverException("no classitem for layer $layerId");
-        return $classitem;
-    }
-
-    private function getIdsFromResult($layerId, LayerResult $layerResult) {
+    private function getIdsFromResult(HilightRequest $hilightRequ, 
+                                      LayerResult $layerResult) {
      
-        $classitem = $this->getClassItem($layerId);     
+        $idAttribute = $hilightRequ->idAttribute;
+        if (empty($idAttribute))
+            $idAttribute = $this->serverContext->getIdAttribute($hilightRequ->layerId);
      
         $resultElements = $layerResult->resultElements;
         
         $ids = array();
         foreach($resultElements as $resultElement) {
-            $idIndex = array_search($classitem, $layerResult->fields);
-            if ($idIndex == false)
-                throw new CartoserverException("an item has no $classitem field");
+            $idIndex = array_search($idAttribute, $layerResult->fields);
+            if ($idIndex === false)
+                throw new CartoserverException("an item has no $idAttribute field");
             $ids[] = $resultElement->values[$idIndex];
         }
         return $ids;
@@ -95,32 +89,29 @@ class ServerSelection extends ServerPlugin {
   
     function getResultFromRequest($requ) {
 
-        // FIXME: will go away, once unserialize is done on requests
-        $bbox = new Bbox();
-        $bbox->unserialize($requ->bbox);
-        $requ->bbox = $bbox;
-        
         // TODO: mechanism to fetch request from other plugins
-        $hilightRequest = @$this->serverContext->mapRequest->hilightRequest;
-        
-        //array_push($hilightRequest->selectedIds, "45");
+
+        $hilightRequest = @Serializable::unserializeObject($this->serverContext->
+                mapRequest, 'hilightRequest', 'HilightRequest');
         
         if (empty($hilightRequest))
-            throw new CartoserverException("serverRequest needs a hilightRequest");
+            throw new CartoserverException("selectionRequest needs a hilightRequest");
         
         $layerId = $hilightRequest->layerId;
         
         $layerResult = $this->queryLayer($layerId, $requ->bbox);
-        $newIds = $this->getIdsFromResult($layerId, $layerResult);
+        $newIds = $this->getIdsFromResult($hilightRequest, $layerResult);
         
-        $mergedIds = $hilightRequest->selectedIds = $this->mergeIds($hilightRequest->selectedIds,
+        $mergedIds = $this->mergeIds($hilightRequest->selectedIds,
                                         $newIds, $requ->policy);
+        
+        $this->serverContext->mapRequest->hilightRequest->selectedIds = $mergedIds;
+                                        
         $this->log->debug("merged ids are: " . var_export($mergedIds, true));
         $hilightRequest->selectedIds = $mergedIds; 
         
         $selectionResult = new SelectionResult();
         
-        $selectionResult->layerId = $hilightRequest->layerId;
         $selectionResult->selectedIds = $mergedIds; 
 
         return $selectionResult;

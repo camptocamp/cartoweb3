@@ -143,6 +143,32 @@ class ServerContext {
     function getPluginManager() {
         return $this->pluginManager;
     }
+    
+    /*
+     * Utility methods shared by several plugins
+     */
+     
+     
+    /**
+     * Returns the default attribute for matching identifier for a given
+     * layer
+     *
+     * @param $layerId the layer on which to retrieve the default id attribute
+     */
+    function getIdAttribute($layerId) {
+        $serverLayer = $this->mapInfo->getLayerById($layerId);
+        if (!$serverLayer) 
+            throw new CartoserverException("layerid $layerId not found");
+        
+        $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
+        $this->checkMsErrors();
+        
+        $idAttribute = $msLayer->classitem; 
+        if (empty($idAttribute))
+             throw new CartoserverException("no idAttribute declared, and no " .
+                    "classitem for layer $msLayer->name");
+        return $idAttribute;
+    } 
 }
 
 ?>

@@ -24,7 +24,7 @@ class ServerHilight extends ServerPlugin {
      * Build a mapserver expression string.
      * 
      */
-    private function buildExpression($ids, $idField, $select) {
+    private function buildExpression($requ, $select) {
 
         if ($select) {
             $comp_op = '='; 
@@ -34,75 +34,123 @@ class ServerHilight extends ServerPlugin {
             $bool_op = ' AND ';
         }
 
-        // FIXME: in config
-        $id_is_string = true;
-        
-        if ($id_is_string) {
+        if ($requ->idType == 'string') {
             $expr_pattern = '"[%s]"%s"%s"';
         } else {
             $expr_pattern = '[%s]%s%s';
         }
 
         $id_exprs = array();
+
+        $ids = $requ->selectedIds;
+        
+        $idAttribute = $requ->idAttribute;
+        if (empty($idAttribute))
+            $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
+        
         foreach ($ids as $id)
-            $id_exprs[] = sprintf($expr_pattern, $idField, $comp_op, $id);
+            $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
         return sprintf('(%s)', implode($bool_op, $id_exprs));  
     }    
-    
-    // TODO: make this function for all plugins, and read config from configuration file
-    private function getConfig() {
-        
-        return array('outline_color' => array(255, 0, 0));
-        
+
+    /**
+     * Sets a color given in an array to a mapserver color object
+     */
+    private function setHilightColor($colorObj, $color) {
+         $colorObj->setRGB($color[0], $color[1], $color[2]);
     }
     
-    private function setHilightColor($colorObj) {
-         $config = $this->getConfig();
-         $clr = $config['outline_color'];
-         $colorObj->setRGB($clr[0], $clr[1], $clr[2]);
-    }
-    
-    private function makeClassHilighted($class) {
+    /**
+     * Change the color and styles of this class to be hilighted.
+     *
+     * @param $class the class to hilight.
+     */
+    private function setupHilightClass($layer, $class) {
+        
+        if ($layer->getMetaData('hilight_color'))
+            $hilightColor = explode(',', $layer->getMetaData('hilight_color'));
+        else
+            $hilightColor = array(0, 255, 0);
+            
         $style = $class->getStyle(0);
         if (!empty($style)) {
-            $color = $style->outlinecolor; 
-            $this->setHilightColor($color);
+            $this->setHilightColor($style->color, $hilightColor);
+            $this->setHilightColor($style->outlinecolor, $hilightColor);
         }
         $label = $class->label;
         if (!empty($label)) {
             $color = $label->color; 
-            $this->setHilightColor($color);
+            $this->setHilightColor($label->color, $hilightColor);
         }
         return $class;
     }
     
-    private function hilightClass($msLayer, $classIndex, $selectedIds, $select) {
-        
-        // activate the layer to be shown
-        $msLayer->set('status', MS_ON);
+    /**
+     * Sets the expression of a mapserver class, so that it filters a given set
+     * of elements. These elements are specified in the hilightRequest $requ.
+     */
+    private function setClassExpression($msLayer, $classIndex, $requ, $select=true) {
         
         $class = $msLayer->getClass($classIndex);
         if (empty($class)) 
             throw new CartoserverException("no class at index $classIndex for layer $msLayer");    
 
-        $classItem = $msLayer->classitem; 
-        if (empty($classItem))
-            throw new CartoserverException("no classitem for layer $msLayer->name");
+        if (empty($requ->idAttribute)) {
+            // fallback: takes the classItem
+            $idAttribute = $msLayer->classitem; 
+            if (empty($idAttribute))
+                throw new CartoserverException("no idAttribute declared, and no " .
+                        "classitem for layer $msLayer->name");
+            $requ->idAttribute = $idAttribute;
+        }
         
-        $class->setexpression($this->buildExpression($selectedIds, 
-            $classItem, $select));
+        $expression = $this->buildExpression($requ, $select);
+        $this->log->debug("setting expression $expression");
+        $class->setexpression($expression);
     }
     
+    /**
+     * Create a new layer which is a copy of $msLayer, and change some of 
+     * its attributes, to be hilighted. These attributes are read from metadata.
+     */
+    private function createHilightLayer($msMapObj, $msLayer) {
+
+        $msMapObj = $this->serverContext->msMapObj;
+
+        $hilightTransparency = 20;
+        if ($msLayer->getMetaData('hilight_transparency'))
+            $hilightTransparency = $msLayer->getMetaData('hilight_transparency');
+        
+        $hilightColor = '255, 255, 0';
+
+        if ($msLayer->getMetaData('hilight_color'))
+            $hilightColor = $msLayer->getMetaData('hilight_color');
+
+        $msHilightLayer = ms_newLayerObj($msMapObj, $msLayer);
+
+        $msHilightLayer->set('transparency', $hilightTransparency);
+
+        $class = $msHilightLayer->getClass(0);
+
+        $hlColor = explode(',', $hilightColor);
+        $style = $class->getStyle(0);
+        $style->color->setRGB($hlColor[0], $hlColor[1], $hlColor[2]);
+
+        return $msHilightLayer;
+    }
+
+    /**
+     * Hilight a whole layer, by setting its classes to be hilighted.
+     */ 
+    private function hilightWholeLayer($layer, $requ) {
+        
+        $layer->set('status', MS_ON);
+        
+        for ($i = 0; $i < $layer->numclasses; $i++)
+              $this->setClassExpression($layer, $i, $requ);
+    }
     
     function getResultFromRequest($requ) {
-        //return;
-        
-        define('HILIGHT_SUFFIX', '_hl');
-        define('CREATE_HILIGHT_LAYER', true);
-
-        define('HILIGHT_TRANSPARENCY', 20);
-        define('HILIGHT_COLOR', '255, 255, 0');
-
         
         $mapInfo = $this->serverContext->mapInfo;
         $serverLayer = $mapInfo->getLayerById($requ->layerId);
@@ -114,38 +162,60 @@ class ServerHilight extends ServerPlugin {
         $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
         if (empty($msLayer))
             throw new CartoserverException("can't find mslayer $serverLayer->msLayer");
+        
+        // activate this layer to be visible
+        $msLayer->set('status', MS_ON);
+        
+        // if a layer with HILIGHT_SUFFIX exists, use it as hilight
+        
+        define('HILIGHT_SUFFIX', '_hilight');
+
         $msHilightLayer = @$msMapObj->getLayerByName($serverLayer->msLayer . HILIGHT_SUFFIX);
-        
-        if (CREATE_HILIGHT_LAYER) {
-            $msHilightLayer = ms_newLayerObj($msMapObj, $msLayer);
-
-            $msHilightLayer->set('transparency', HILIGHT_TRANSPARENCY);
-
-            $class = $msHilightLayer->getClass(0);
-            //$class->setExpression('("[lknr]" EQ "245")');
-            $hlColor = explode(',', HILIGHT_COLOR);
-            $style = $class->getStyle(0);
-            $style->color->setRGB($hlColor[0], $hlColor[1], $hlColor[2]);
-            
-        }
-        
         if (!empty($msHilightLayer)) {
-            $this->hilightClass($msLayer, 0, $requ->selectedIds, false);
-            $this->hilightClass($msHilightLayer, 0, $requ->selectedIds, true);
-
-        } else {
-            if ($msLayer->numclasses == 1) { 
-                // creates a new class dynamically
-                
-                $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
-                // FIXME: should we set inverse expression ?
-                $hilightClass->setExpression(NULL);
-                $hilightClass = $this->makeClassHilighted($hilightClass);
-            }
+            $this->log->debug("activating special hilight layer");
+            $msHilightLayer->set('status', MS_ON);
+            $this->hilightWholeLayer($msHilightLayer, $requ);
             
-            $this->hilightClass($msLayer, 0, $requ->selectedIds, false);
-            //$this->hilightClass($msLayer, 1, $requ->selectedIds, true);
+            return;
         }
+        
+        // check if a class named HILIGHT_CLASS exists at position 0
+        
+        define('HILIGHT_CLASS', 'hilight');
+
+        if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
+            $this->log->debug("activating special hilight class");
+            $this->setClassExpression($msLayer, $hilightIndex, $requ);
+            return;            
+        }
+
+        // if "hilight_createlayer" is set in metadata, create a new layer
+
+        if ($msLayer->getMetaData('hilight_createlayer')) {
+            $this->log->debug("creating hilight layer");
+
+            $newLayer = $this->createHilightLayer($msLayer);
+            $this->hilightWholeLayer($newLayer, $requ);
+            return;
+        }
+
+        // Fallback 1: create a new class with QUERYMAP color
+
+        $this->log->debug("fallback: creating new class");
+
+        $hilightClass = ms_newClassObj($msLayer, $msLayer->getClass(0));
+        $hilightClass->set('name', 'dynamic_class');
+
+        // move the new class to the top
+        for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {
+            $msLayer->moveclassup($i);
+        }
+
+        // The new class has to be fetched again. Mapscript bug ?
+        $cl = $msLayer->getClass(0);
+        $hilightClass = $this->setupHilightClass($msLayer, $cl);
+
+        $this->setClassExpression($msLayer, 0, $requ);
     }
 }
 ?>
