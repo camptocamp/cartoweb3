@@ -4,11 +4,13 @@
 
 <sect2 id="dev.soapcalls.getmap.query">
   <title>Query</title>
-  <para>The Query plugin [...] </para>
-  <para>TODO: Say it's not mandatory
-  </para>
+  <para>The Query plugin allows to search objects, hilight them on map and 
+    return text results. Search can be executed from a rectangle 
+    selection and/or using a list of object IDs.</para>
+  <para>Query request object is not mandatory. For more information about 
+    Query plugin, see <xref linkend="user.query" />. </para>
   <sect3 id="dev.soapcalls.getmap.query.request">
-    <title>Request</title>
+    <title>Query Request</title>
     <para>
       <programlisting><![CDATA[
 <simpleType name="QuerySelectionPolicy">
@@ -140,7 +142,7 @@
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.query.result">
-    <title>Result</title>
+    <title>Query Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="QueryResult">

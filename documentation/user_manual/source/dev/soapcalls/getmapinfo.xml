@@ -7,9 +7,10 @@
   <para>This method returns server configuration, which includes layers, 
     initial states and other plugin-specific configuration. Variables 
     returned by this method are set in server configuration files 
-    described in <xref linkend="user" />.</para>
+    described in <xref linkend="cartoweb.user" />.</para>
   <sect2 id="dev.soapcalls.getmapinfo.global">
     <title>Global Server Configuration</title>
+    <para>This includes layers configuration and initial states.</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="LayerState">
@@ -149,16 +150,17 @@
           <para>link - if set, layer name is clickable</para>
         </listitem>
         <listitem>
-          <para>aggregate - if true, children are not displayed and 
-            cannot be selected individually</para>
+          <para>aggregate - if true, children are not displayed and cannot be 
+            selected individually</para>
         </listitem>
         <listitem>
           <para>rendering - how layer will be displayed: "tree", "block", 
-            "radio" or "dropdown". See <xref linkend="user.layers" /> for more 
+            "radio" or "dropdown". See <xref linkend="user.layer" /> for more 
             details on this option </para>
         </listitem>
         <listitem>
-          <para>metadata - TODO</para>
+          <para>metadata - list of meta data defined in server configuration 
+            file. Format of each string in list is "variable_name=value"</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -197,10 +199,11 @@
             linkend="dev.soapcalls.getmap.global.request" />) </para>
         </listitem>
         <listitem>
-          <para>mapLabel - TODO</para>
+          <para>mapLabel - name of map as defined in mapfile</para>
         </listitem>
         <listitem>
-          <para>keymapGeoDimension - TODO</para>
+          <para>keymapGeoDimension - pixel and geographical dimension 
+            information for key map</para>
         </listitem>
         <listitem>
           <para>notAvailableIcon - filename of icon for not available layer 
@@ -208,8 +211,8 @@
             scale)</para>
         </listitem>
         <listitem>
-          <para>notAvailablePlusIcon - filename of icon for not available 
-            layer (current scale is above this layer maximum scale)</para>
+          <para>notAvailablePlusIcon - filename of icon for not available layer 
+            (current scale is above this layer maximum scale)</para>
         </listitem>
         <listitem>
           <para>notAvailableMinusIcon - filename of icon for not available 
@@ -227,6 +230,8 @@
 
   <sect2 id="dev.soapcalls.getmapinfo.location">
     <title>Location</title>
+    <para>This includes configuration specific to Location plugin, ie. 
+      fixed scales, scales limits and shortcuts.</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="LocationScale">
@@ -299,8 +304,8 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - "LocationInit" or extended class name if 
-            project implements an extension</para>
+          <para>className - "LocationInit" or extended class name if project 
+            implements an extension</para>
         </listitem>
         <listitem>
           <para>scales - list of fixed scales</para>

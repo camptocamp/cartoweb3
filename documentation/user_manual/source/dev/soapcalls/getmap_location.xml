@@ -4,11 +4,12 @@
 
 <sect2 id="dev.soapcalls.getmap.location">
   <title>Location</title>
-  <para>
-    The Location plugin handles [...]
-  </para>
+  <para> The Location plugin handles position and moves on the map. Its request 
+    process includes different position methods, such as recentering on a 
+    specific object or moves relative to previous position. It returns 
+    the new bounding box and scale.</para>
   <sect3 id="dev.soapcalls.getmap.location.request">
-    <title>Request</title>
+    <title>Location Request</title>
     <para>
       <programlisting><![CDATA[
 <simpleType name="LocationType">
@@ -271,7 +272,7 @@
     </sect4>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.location.result">
-    <title>Result</title>
+    <title>Location Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="LocationResult">

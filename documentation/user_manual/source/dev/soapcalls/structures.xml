@@ -3,9 +3,10 @@
 	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
 <sect1 id="dev.soapcalls.structures">
-  <title>Standard Structures</title>  
+  <title>Standard Structures</title>
   <sect2 id="dev.soapcalls.structures.simpletypes">
     <title>Simple Types</title>
+    <para>These types are used in different other structures.</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="ArrayOfString">
@@ -16,7 +17,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array - list of character strings</para></listitem>
+        <listitem>
+          <para>array - list of character strings</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfLayerId">
@@ -27,7 +30,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array - list of layer IDs</para></listitem>
+        <listitem>
+          <para>array - list of layer IDs</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="Dimension">
@@ -37,8 +42,12 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>width - width in pixels</para></listitem>
-        <listitem><para>height - height in pixels</para></listitem>
+        <listitem>
+          <para>width - width in pixels</para>
+        </listitem>
+        <listitem>
+          <para>height - height in pixels</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="GeoDimension">
@@ -48,13 +57,22 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>dimension - dimensions in pixels</para></listitem>
-        <listitem><para>bbox - bounding box</para></listitem>
+        <listitem>
+          <para>dimension - dimensions in pixels</para>
+        </listitem>
+        <listitem>
+          <para>bbox - bounding box (see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Bbox)</para>
+        </listitem>
       </itemizedlist>
     </para>
   </sect2>
   <sect2 id="dev.soapcalls.structures.shapes">
     <title>Shapes</title>
+    <para>These types define a hierarchy of shapes. As heritage and 
+      polymorphism cannot be used, type Shape includes all attibutes of its 
+      children types.</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="Bbox">
@@ -66,10 +84,18 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>minx - minimum x coordinate</para></listitem>
-        <listitem><para>miny - minimum y coordinate</para></listitem>
-        <listitem><para>maxx - maximum x coordinate</para></listitem>
-        <listitem><para>maxy - maximum y coordinate</para></listitem>
+        <listitem>
+          <para>minx - minimum x coordinate</para>
+        </listitem>
+        <listitem>
+          <para>miny - minimum y coordinate</para>
+        </listitem>
+        <listitem>
+          <para>maxx - maximum x coordinate</para>
+        </listitem>
+        <listitem>
+          <para>maxy - maximum y coordinate</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="Point">
@@ -79,8 +105,12 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>x - x coordinate</para></listitem>
-        <listitem><para>y - y coordinate</para></listitem>
+        <listitem>
+          <para>x - x coordinate</para>
+        </listitem>
+        <listitem>
+          <para>y - y coordinate</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfPoint">
@@ -91,7 +121,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array - list of points</para></listitem>
+        <listitem>
+          <para>array - list of points</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="Shape">
@@ -111,8 +143,12 @@
           <para>className - shape class name: "Point", "Bbox", "Rectangle", 
             "Line" or "Polygon"</para>
         </listitem>
-        <listitem><para>x - x coordinate (Point)</para></listitem>
-        <listitem><para>y - y coordinate (Point)</para></listitem>
+        <listitem>
+          <para>x - x coordinate (Point)</para>
+        </listitem>
+        <listitem>
+          <para>y - y coordinate (Point)</para>
+        </listitem>
         <listitem>
           <para>minx - minimum x coordinate (Bbox or Rectangle)</para>
         </listitem>
@@ -138,12 +174,16 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array - list of shapes</para></listitem>
+        <listitem>
+          <para>array - list of shapes</para>
+        </listitem>
       </itemizedlist>
     </para>
   </sect2>
   <sect2 id="dev.soapcalls.structures.tables">
     <title>Tables</title>
+    <para>These types define a table structure, used in particular in  
+      Query plugin (see <xref linkend="dev.soapcalls.getmap.query" />).</para>
     <para>
       <programlisting><![CDATA[
 <complexType name="TableRow">
@@ -284,8 +324,9 @@
             in addition to row IDs</para>
         </listitem>
         <listitem>
-          <para>returnTable - if false, won't return any table 
-            information</para>
+          <para>returnTable - if false, won't return any table information. 
+            This can be useful for instance when hilighting an object on 
+            which no information is needed</para>
         </listitem>
       </itemizedlist>
     </para>

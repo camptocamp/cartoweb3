@@ -4,11 +4,12 @@
 
 <sect2 id="dev.soapcalls.getmap.images">
   <title>Images</title>
-  <para>
-    The Images plugin generates MapServer images. [...]
-  </para>
+  <para> The Images plugin generates MapServer images. The three types of 
+    images are main map, key map and scale bar. Basic parameters, such as image 
+    size, are defined in this request/result. More specific parameters, such as 
+    map location or content, are defined in other plugins. </para>
   <sect3 id="dev.soapcalls.getmap.images.request">
-    <title>Request</title>
+    <title>Images Request</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="Image">
@@ -52,7 +53,7 @@
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.images.result">
-    <title>Result</title>
+    <title>Images Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="ImagesResult">

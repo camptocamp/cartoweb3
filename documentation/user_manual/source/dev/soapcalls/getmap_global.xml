@@ -7,7 +7,7 @@
   <para>Below is a description of general 
     requests and results which include plugin-specific ones.</para>
   <sect3 id="dev.soapcalls.getmap.global.request">
-    <title>Request</title>
+    <title>Global Request</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="MapRequest">
@@ -25,7 +25,7 @@
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.global.result">
-    <title>Result</title>
+    <title>Global Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="Message">

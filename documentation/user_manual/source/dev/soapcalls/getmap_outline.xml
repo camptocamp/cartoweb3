@@ -4,11 +4,14 @@
 
 <sect2 id="dev.soapcalls.getmap.outline">
   <title>Outline</title>
-  <para>The Outline plugin [...] </para>
-  <para>TODO: Say it's not mandatory and it's not a coreplugin
-  </para>
+  <para>The Outline plugin allows to draw shapes on the main map. Shapes can 
+    also be drawn as a mask, ie. as holes in a rectangle covering map. It 
+    returns total area covered by shapes.</para>
+  <para>Outline request is not mandatory. As Outline plugin is not a core 
+    plugin, it must be activated in order to use the following request/result 
+    objects. </para>
   <sect3 id="dev.soapcalls.getmap.outline.request">
-    <title>Request</title>
+    <title>Outline Request</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="OutlineRequest">
@@ -37,7 +40,7 @@
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.outline.result">
-    <title>Result</title>
+    <title>Outline Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="OutlineResult">

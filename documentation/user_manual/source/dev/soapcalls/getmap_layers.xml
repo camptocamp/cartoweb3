@@ -4,11 +4,11 @@
 
 <sect2 id="dev.soapcalls.getmap.layers">
   <title>Layers</title>
-  <para>
-    The Layers plugin handles layers selection. [...]
-  </para>
+  <para> The Layers plugin handles layers selection. Its request object 
+    includes list of layers to be displayed on main map. This plugin has 
+    no specific result object.</para>
   <sect3 id="dev.soapcalls.getmap.layers.request">
-    <title>Request</title>
+    <title>Layers Request</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="LayersRequest">
@@ -34,7 +34,7 @@
     </para>
   </sect3>
   <sect3 id="dev.soapcalls.getmap.layers.result">
-    <title>Result</title>
+    <title>Layers Result</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="LayersResult">
