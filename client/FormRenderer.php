@@ -66,6 +66,10 @@ class Smarty_Cartoclient extends Smarty {
     {
         $oldPath = $this->template_dir;
         $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
+        if (substr($oldPath, 0, 9) == 'projects/') {
+            $oldPath = substr($oldPath,
+                strlen($this->projectHandler->getProjectName()) + 10 - strlen($oldPath));
+        }
         $this->template_dir = CARTOCLIENT_HOME 
                               . $this->projectHandler->getPath(CARTOCLIENT_HOME,
                                             $oldPath, $resource_name);

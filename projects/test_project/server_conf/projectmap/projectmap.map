@@ -1,6 +1,6 @@
 MAP
   NAME "Testing"
-  EXTENT -0.5 50.977222 0.5 51.977222
+  EXTENT -3 48 3 54
   IMAGETYPE PNG
   IMAGECOLOR 255 255 255
   STATUS ON
@@ -8,13 +8,15 @@ MAP
   FONTSET "fonts.txt"
   SYMBOLSET "symbols.txt"
 
+  SHAPEPATH "shapes"
+
   REFERENCE
     IMAGE images/keymap.png
     EXTENT -0.5 50.977222 0.5 51.977222
     STATUS ON
     COLOR -1 -1 -1
     OUTLINECOLOR 255 0 0
-    SIZE 150 103      
+    SIZE 100 100
   END
 
   SCALEBAR
@@ -54,6 +56,12 @@ MAP
     "init=epsg:4326"
   END
   
+  QUERYMAP
+  	COLOR 0 0 0
+  	STATUS ON
+  	STYLE Hilite
+  END
+  
   LAYER
     NAME "POLYGON"
     TYPE POLYGON
@@ -67,6 +75,8 @@ MAP
       "key2" "value2"
       "key3" "value3"
       "key4" "value4"
+  	  "id_attribute_string" "FID|string"
+	  "query_returned_attributes" "FID FNAME"
     END
     CLASSITEM "FNAME"
     
@@ -74,7 +84,7 @@ MAP
     TEMPLATE "ttt"
     
     CLASS
-      NAME "0"
+      NAME "Polygon class 1"
       METADATA
         "key1" "value1"
         "key2" "value2"
@@ -89,13 +99,37 @@ MAP
       END
     END
     CLASS
-      NAME "1"
+      #NAME "1"
       EXPRESSION "foo"
       STYLE
         COLOR 255 153 102
         OUTLINECOLOR 0 0 204
         SYMBOL 1
         SIZE 2
+      END
+    END
+  END
+
+  LAYER
+    NAME "some_rectangles"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "A_NAME|string"
+    END
+    DATA "some_rectangles"
+    CLASSITEM "A_NAME"
+    
+    # for queries
+    TEMPLATE "ttt"
+    
+    CLASS
+      NAME "0"
+      STYLE
+        COLOR 50 50 100
       END
     END
   END
@@ -114,21 +148,23 @@ MAP
     TEMPLATE "ttt"
 
     CLASS
-      NAME "0"
+      NAME "Line class 1"
       STYLE
-        COLOR 0 153 0
+        COLOR 153 153 0
         SYMBOL 1
-        SIZE 3
+        SIZE 2
       END
+      MAXSCALE 7
     END
     CLASS
-      NAME "1"
+      NAME "Line class 2"
       EXPRESSION "foo"
       STYLE
         COLOR 0 153 0
         SYMBOL 1
-        SIZE 3
+        SIZE 4
       END
+      MAXSCALE 12
     END
   END
 
@@ -140,11 +176,15 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
     DATA "point"
     CLASSITEM "FNAME"
     LABELITEM "FNAME"
+	TEMPLATE "ttt"
     CLASS
-      NAME "0"
+      NAME "Point class 1"
       STYLE
         COLOR 0 0 0
         SYMBOL 1
@@ -163,7 +203,7 @@ MAP
       END
     END
     CLASS
-      NAME "1"
+      #NAME "1"
       EXPRESSION "foo"
       STYLE
         COLOR 0 0 0
@@ -171,6 +211,8 @@ MAP
         SIZE 13
       END
     END
+    MINSCALE 7
+    MAXSCALE 11
   END
  
   LAYER
@@ -194,19 +236,216 @@ MAP
   END
 
   LAYER
-    NAME "cartoweb_selection"
+    NAME "cartoweb_point_outline"
+
+    TYPE POINT
+    PROJECTION
+      "init=epsg:4326"
+    END
+
+	TRANSPARENCY 50
+    CLASS
+      STYLE
+        OUTLINECOLOR 0 0 204
+        SYMBOL 1
+        SIZE 15
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_polygon_outline"
 
     TYPE POLYGON
     PROJECTION
       "init=epsg:4326"
     END
 
+	TRANSPARENCY 50
     CLASS
       STYLE
         COLOR 155 153 102
-        #OUTLINECOLOR 0 0 204
+        OUTLINECOLOR 0 0 204
         SYMBOL 1
         SIZE 1
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_defaulthilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+  	  "mask_transparency" "50"
+  	  "mask_color" "255, 255, 0"
+  	  "area_fixed_value" "10"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_classhilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+  	  "mask_transparency" "50"
+  	  "mask_color" "255, 255, 0"
+  	  "area_field_name" "FID"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      EXPRESSION /_always_false_/
+      NAME "hilight"
+      STYLE
+        COLOR 255 255 0 
+        OUTLINECOLOR 255 255 0
+      END
+    END
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+  	  "outside_mask" "my_outside_mask"
+  	  "area_field_name" "FID"
+  	  "area_factor" "10.0"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 30
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 153 102
+        OUTLINECOLOR 0 0 204
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight_hilight"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 0 0 0
+        OUTLINECOLOR 0 0 0
+      END
+    END
+  END
+
+  LAYER
+    NAME "grid_layerhilight_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    METADATA
+  	  "id_attribute_string" "FID|string"
+    END
+    DATA "grid"
+    CLASSITEM "FID"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 255 255 255
+      END
+    END
+  END
+
+  LAYER
+    NAME "my_outside_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "gridmask"
+    TEMPLATE "ttt"
+    TRANSPARENCY 90
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 255 255 255
+      END
+    END
+  END
+
+  LAYER
+    NAME "default_outside_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "gridmask"
+    TEMPLATE "ttt"
+    TRANSPARENCY 50
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 0
+        OUTLINECOLOR 255 255 0
       END
     END
   END
