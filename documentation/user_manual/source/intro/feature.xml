@@ -103,6 +103,9 @@
         <imageobject>
           <imagedata fileref="screen_tree.png" format="PNG"/>
         </imageobject>
+        <textobject>
+          <phrase>Layers tree</phrase>
+        </textobject> 
       </mediaobject>
     </screenshot>   
     <para>
@@ -121,6 +124,9 @@
         <imageobject>
           <imagedata fileref="screen_measuringtools.png" format="PNG"/>
         </imageobject>
+        <textobject>
+          <phrase>Measuring tools</phrase>
+        </textobject>        
       </mediaobject>
     </screenshot>     
  </sect1>
@@ -160,6 +166,9 @@
         <imageobject>
           <imagedata fileref="screen_outline.png" format="PNG"/>
         </imageobject>
+        <textobject>
+          <phrase>Redlining example</phrase>
+        </textobject> 
       </mediaobject>
     </screenshot>   
  </sect1>
