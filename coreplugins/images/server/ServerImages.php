@@ -4,15 +4,21 @@
  * @version $Id$
  */
 
-// the number of generated images before issuing a warning
+/**
+ * The number of generated images before issuing a warning
+ */
 define('MAX_IMAGES_WARNING', 500);
 
 /**
+ * Server part of Images plugin
  * @package CorePlugins
  */
 class ServerImages extends ServerPlugin 
                    implements CoreProvider {
-
+    
+    /**
+     * @var Logger
+     */
     private $log;
 
     function __construct() {
@@ -20,6 +26,10 @@ class ServerImages extends ServerPlugin
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * Sets main map dimensions into MapObj
+     * @param ImagesRequest
+     */
     function setupSizes($requ) {
         $this->checkMapDimensions($requ);
         
@@ -30,8 +40,11 @@ class ServerImages extends ServerPlugin
     }
 
     /**
+     * Checks main map dimensions
+     *
      * If limit mainmap dimensions are available, checks if asked map dims
      * fit, else sets them to max authorized sizes.
+     * @param ImagesRequest
      */
     private function checkMapDimensions($requ) {
         $maxWidth = $this->getConfig()->maxMapWidth;
@@ -43,6 +56,11 @@ class ServerImages extends ServerPlugin
             $requ->mainmap->height = $maxHeight;
     }
 
+    /**
+     * Draws an image and returns an {@link Image} object
+     * @param ms_Image MapServer image
+     * @return Image
+     */
     private function getImage($ms_image) {
         $image = new Image();
         
@@ -55,6 +73,10 @@ class ServerImages extends ServerPlugin
         return $image;
     }
 
+    /**
+     * Returns path to images location
+     * @return string
+     */
     private function getImageUrl() {
         $mapInfo = $this->serverContext->getMapInfo();
         $config = $this->serverContext->config;
@@ -67,6 +89,13 @@ class ServerImages extends ServerPlugin
         return 'images/';
     }
 
+    /**
+     * Returns true if query must be drawn using MapServer
+     *
+     * Gets the information from Query plugin.
+     * @return boolean
+     * @see ServerQuery::drawQuery()
+     */
     private function isDrawQuery() {
 
         $plugins = $this->serverContext->getPluginManager();
@@ -75,6 +104,13 @@ class ServerImages extends ServerPlugin
         return $plugins->query->drawQuery();
     }
 
+    /**
+     * Returns the image type for main map
+     *
+     * Gets the information from Layers plugin.
+     * @return string
+     * @see ServerLayers::getImageType()
+     */
     private function getImageType() {
 
         $plugins = $this->serverContext->getPluginManager();
@@ -83,6 +119,12 @@ class ServerImages extends ServerPlugin
         return $plugins->layers->getImageType();
     }
 
+    /**
+     * Draws mainmap
+     *
+     * Uses MapServer draw() or drawQuery().
+     * @param ImagesRequest
+     */
     function drawMainmap($requ) {
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -110,6 +152,12 @@ class ServerImages extends ServerPlugin
         }
     }
 
+    /**
+     * Checks number of images in directory
+     *
+     * Adds a developper message if too many images.
+     * @param ServerContext     
+     */
     private function checkMaxImages($serverContext) {
         
         $imgPath = $this->serverContext->getMapObj()->web->imagepath;
@@ -124,6 +172,9 @@ class ServerImages extends ServerPlugin
         }
     }
 
+    /**
+     * @see CoreProvider::handleCorePlugin()
+     */
     function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
@@ -176,4 +227,5 @@ class ServerImages extends ServerPlugin
         return $imagesResult;
     }
 }
+
 ?>

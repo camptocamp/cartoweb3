@@ -85,6 +85,11 @@ class ClientImages extends ClientPlugin
             new Dimension($mapWidth, $mapHeight);
     }
 
+    /**
+     * Handles map sizes dropdown box
+     * @param array HTTP request
+     * @param boolean checks?
+     */
     private function handleMapSize($request, $check = false) {
     
         $mapSize = $this->getHttpValue($request, 'mapsize');
