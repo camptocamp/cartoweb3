@@ -96,8 +96,8 @@
      <para>
        layers.layerId.icon = filename  : filename of the static picto 
        that illustrates this Layer in the layer tree. The path is relative to
-       <filename>layers.ini</filename>.See also ??? for a
-       description of the automatic legending process.
+       <filename>layers.ini</filename>. See also <xref linkend="user.layers.legend"/>
+       for a description of the automatic legending process.
      </para>
     </listitem>   
     <listitem>
