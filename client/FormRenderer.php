@@ -134,7 +134,7 @@ class FormRenderer {
             } else {
                 $toolsIds = array_keys($tools);
                 if (!empty($toolsIds))
-                    $clientSession->selectedTool = $toolsIds[0];
+                    $clientSession->selectedTool = $tools[$toolsIds[0]]->id;
             }
         }       
         $smarty->assign('selected_tool', $clientSession->selectedTool);
