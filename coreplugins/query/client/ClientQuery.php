@@ -71,9 +71,12 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
     }
 
     function getTools() {
+        $weight = $this->getConfig()->weightQuery;
+        if (!$weight) $weight = 40;
         
-        return array(new ToolDescription(self::TOOL_QUERY, self::TOOL_QUERY, 'Query', 
-            ToolDescription::MAINMAP));
+        return array(new ToolDescription(self::TOOL_QUERY, self::TOOL_QUERY,
+                                         'Query', ToolDescription::MAINMAP,
+                                         $weight, 'query'));
     }
 
     function handleHttpRequest($request) {

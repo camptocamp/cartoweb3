@@ -17,13 +17,18 @@ class ToolDescription {
     public $icon;
     public $label;
     public $appliesTo;
+    public $weight;
+    public $plugin;
     public $jsId;
     
-    function __construct($id, $icon, $label, $appliesTo, $jsId=NULL) {
+    function __construct($id, $icon, $label, $appliesTo, $weight, $plugin = false, 
+                         $jsId = NULL) {
         $this->id = $id;
         $this->icon = $icon;
         $this->label = $label;
         $this->appliesTo = $appliesTo;
+        $this->weight = $weight;
+        $this->plugin = $plugin ? $plugin : $id;
         $this->jsId = $jsId;
     }
 }

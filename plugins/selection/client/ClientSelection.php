@@ -49,11 +49,15 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
     }
     
     function getTools() {
+        $weight = $this->getConfig()->weightSelection;
+        if (!$weight) $weight = 60;
         
         return array(new ToolDescription(self::TOOL_SELECTION, 
                                          self::TOOL_SELECTION, 
                                          'Selection', 
-                                         ToolDescription::MAINMAP, 
+                                         ToolDescription::MAINMAP,
+                                         $weight,
+                                         'selection',
                                          'query'));
     }
     
