@@ -40,7 +40,7 @@ function xStr() {
   return true;
 }
 function xNum() {
-  for(var i=0; i<arguments.length; ++i){if(typeof(arguments[i])!='number') return false;}
+  for(var i=0; i<arguments.length; ++i){if(isNaN(arguments[i]) || typeof(arguments[i])!='number') return false;}
   return true;
 }
 function xShow(e) { return xVisibility(e, 1); }
