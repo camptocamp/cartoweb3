@@ -247,13 +247,15 @@ class RecenterLocationCalculator extends LocationCalculator {
     function __construct($locationPlugin, RecenterLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
-        require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
     }
 
     private function getIdSelectionBbox(IdSelection $idSelection) {
     
-        $results = MapQuery::queryByIdSelection($this->locationPlugin->getServerContext(),
-                                              $idSelection);
+        $pluginManager = $this->locationPlugin->
+                                        getServerContext()->getPluginManager();
+        if (!empty($pluginManager->mapquery)) {
+            $results = $pluginManager->mapquery->queryByIdSelection($idSelection);
+        }
         if (is_null($results) || count($results) == 0)
             throw new CartoserverException("Could not fetch recentering bbox");        
 

@@ -138,8 +138,10 @@ class ServerSelection extends ClientResponderAdapter {
 
         $results = array();
         if (count($requ->selectedIds) > 0) {
-            require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
-            $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
+            $pluginManager = $this->serverContext->pluginManager;
+            if (!empty($pluginManager->mapquery)) {
+                $results = $pluginManager->mapquery->queryByIdSelection($requ);            
+            }            
         }
         
         $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);

@@ -1,11 +1,25 @@
 <?php
-
 /**
- * A class to perform queries based on a set of selected id's.
- * @package Server
+ * @package Coreplugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
-class MapQuery {
+
+/**
+ * A service plugin to perform queries based on a set of selected id's.
+ * @package Coreplugins
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
+ */
+class ServerMapquery extends ServerPlugin {
+
+    /**
+     * @var Logger
+     */
+    private $log;
+
+    function __construct() {
+        parent::__construct();
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
 
     private function genericQueryString($idAttribute, $idType, $selectedIds) {
         // FIXME: does queryByAttributes support multiple id's for dbf ?
@@ -91,9 +105,9 @@ class MapQuery {
      * @param IdSelection The selection to use for the query. It contains a
      *                    layer  name and a set of id's
      */
-    public function queryByIdSelection(ServerContext $serverContext, 
-                                        IdSelection $idSelection) {
+    public function queryByIdSelection(IdSelection $idSelection) {
 
+        $serverContext = $this->getServerContext();
         $mapInfo = $serverContext->getMapInfo();
         $msLayer = $mapInfo->getMsLayerById($serverContext->getMapObj(), 
                                             $idSelection->layerId);
