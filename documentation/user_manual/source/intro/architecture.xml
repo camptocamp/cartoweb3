@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="intro.archi">
+ <title>Architecture</title>
+
+ <sect1 id="intro.archi.intro">
+  <title>Introduction</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+
+ <sect1 id="intro.archi.mapserver">
+  <title>Mapserver/MapScript</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+
+ <sect1 id="intro.archi.cs">
+  <title>Web-service architecture - Soap</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+
+ <sect1 id="intro.archi.modular">
+  <title>Modularity : projects and plugins</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+ 
+ <sect1 id="intro.archi.template">
+  <title>Templates</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+ 
+ <sect1 id="intro.archi.user">
+  <title>Users and roles</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+ 
+ <sect1 id="intro.archi.performance">
+  <title>Performance enhancement</title>
+  <para>
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+  </para>
+ </sect1>
+ 
+</chapter>

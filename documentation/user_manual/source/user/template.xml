@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="user.template">
+ <title>Templating</title>
+
+ <sect1 id="user.template.intro"> 
+  <title>Introduction</title>
+  <para>
+   Smarty template is a convenient way to write HTML templates
+   for dynamic pages. CartoWeb 3 templates are located in templates
+   root directory and in plugins templates directory 
+   (see <xref linkend="user.structure.plugin"/>).
+  </para>
+  <para>
+   More info about Smarty templates can be found here:
+   <ulink url="http://smarty.php.net">http://smarty.php.net</ulink>.
+  </para>
+ </sect1>
+
+ <sect1 id="user.template.smarty"> 
+  <title>Smarty syntax</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="user.template.i18n"> 
+  <title>Internationalization</title>
+  <para>
+   Texts to be translated are identified using the {t} tag:
+   <programlisting><![CDATA[{t}Default text, please translate me{/t}]]></programlisting>
+   See also <xref linkend="user.i18n" />
+  </para>
+ </sect1>
+	
+ <sect1 id="user.template.resource"> 
+  <title>Resources</title>
+  <para>
+   Resources are identified using the {r} tag. Following list
+   shows all CartoWeb 3 resource types.
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+     Htdocs root directory
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Coreplugins
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /coreplugins/layers/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=layers}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /layers/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Plugins
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /plugins/hello/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=hello}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /hello/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Projects 
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /coreplugins/layers/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=layers}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /layers/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Projects Coreplugins (override)
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /projects/myproject/coreplugins/layers/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=layers}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /myproject/layers/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Projects Plugins (override)
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /projects/myproject/plugins/hello/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=hello}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /myproject/hello/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+   <listitem>
+    <para>
+     Projects specific plugins
+    </para>
+     <itemizedlist>
+      <listitem>
+       <para>
+        path: /projects/myproject/plugins/myplugin/htdocs
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        smarty: {r type=css plugin=myplugin}toto.css{/r}
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        generated URL: /myproject/myplugin/css/toto.css
+       </para>
+      </listitem>
+     </itemizedlist>
+   </listitem>
+  </itemizedlist>
+
+  <para>
+   Type of resource in Smarty 'r' tag may contain slashes, 
+   for instance: {r type=gfx/layout}...{/r}.
+  </para>
+ </sect1>
+
+</chapter>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="dev.code_documentation">
+ <title>Code Documentation</title>
+
+ <sect1 id="dev.code_documentation.intro"> 
+  <title>Introduction</title>
+  <para>
+   CartoWeb 3 code documentation is generated using 
+   <ulink url="http://www.phpdoc.org/">PhpDocumentor</ulink>,
+   a JavaDoc-style doc generator.
+  </para>
+  <para>
+   CartoWeb 3 already include 1.3.0rc3 version from PhpDocumentor. 
+   So no more install step was needed. 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.code_documentation.phpdocumentator"> 
+  <title>PhpDocumentator</title>
+  <para>
+   To generate code documentation, two ways are available :
+   <itemizedlist>
+    <listitem>
+     <para>
+      Using the script (preferred way)
+      <screen>
+<![CDATA[
+cd scripts
+php ./makedoc.php
+]]>
+      </screen>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+       The alternative is to use its Web interface located in 
+       <filename>PhpDocumentor/phpdoc.php</filename>
+       (it needs a Web server !).
+       Here is the basic configuration for CartoWeb 3:
+       <itemizedlist>
+        <listitem>
+	 <para>
+	  Generated Documentation Title: CartoWeb 3 Documentation
+	 </para>
+	</listitem>
+        <listitem>
+	 <para>
+	  Default Package Name: shouldn't be used if 
+	  @package attribute is set (see below) 
+	 </para>
+	</listitem>
+        <listitem>
+	 <para>
+	  Target: 
+	  <filename>/home/&lt;user&gt;/public_html/cartoweb3/doc</filename>
+	 </para>
+	</listitem>
+        <listitem>
+	 <para>
+	  Directory to parse: 
+	  <filename>/home/&lt;user&gt;/public_html/cartoweb3</filename>
+	 </para>
+	</listitem>
+        <listitem>
+	 <para>
+	  Files to ignore: 
+	  <filename>client_conf/</filename>, 
+	  <filename>CVS/</filename>,
+	  <filename>doc/</filename>, 
+	  <filename>include/</filename>,
+	  <filename>server_conf/</filename>, 
+	  <filename>template/</filename>,
+	  <filename>template_c/</filename>, 
+	  <filename>www-data/</filename>.
+	 </para>
+	</listitem>
+       </itemizedlist>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="dev.code_documentation.tag"> 
+  <title>DocBloks Tags</title>
+  <para>
+   DocBlocks are comments located at the beginning of a file, or just 
+   before a class, a method, a function outside a class or a variable
+   declaration. These comments will be parsed by PhpDocumentor to 
+   generate documentation.
+  </para>
+  <para>
+   For a full description of DocBlocks, see: <ulink 
+   url="http://phpdoc.org/docs/HTMLSmartyConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock">http://phpdoc.org/docs/HTMLSmartyConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock</ulink>.
+  </para>
+  <para>
+   In CartoWeb 3, we'll use:
+   <itemizedlist>
+    <listitem>
+     <para>
+      Docblocks
+      <itemizedlist>
+       <listitem>
+        <para>
+         Page-level DocBlocks: one DocBlock for each PHP file.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         Class, method, class variable and function DocBlocks: 
+	 one DocBlock for each.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         Require, include, define: if needed, one DocBlock for each or all.
+	</para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Description in Docblocks
+      <itemizedlist>
+       <listitem>
+        <para>
+         Short description: if needed, a one line description.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         Long description: if needed, a longer description.
+	</para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Docblocks tags
+      <itemizedlist>
+       <listitem>
+        <para>
+	 @package &lt;package&gt; (file, class, function): we'll use one 
+	 package for each directory which contains PHP files, it means 
+	 there are the following packages: Client, Server, Common, 
+	 Plugins, CorePlugins, Scripts, Tests.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 @author &lt;author&gt; (file, class, function): author with email 
+	 address.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 @version $Id$ (file): always '$Id$', automatically set by CVS.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         @param &lt;type&gt; [&lt;description&gt;] (method): type always, 
+	 description if needed.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         @return &lt;type&gt; [&lt;description&gt;] (method): 
+	 type always, description if needed.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         @var &lt;type&gt; [&lt;description&gt;] (variable): 
+	 type always, description if needed.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         {@link [&lt;class&gt;|&lt;method&gt;]} (anywhere): to add a 
+	 hyperlink to a class or method.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+         @see [&lt;class&gt;|&lt;method&gt;] (anywhere): to add a 
+	 reference to a class or method. @see is also used for interface
+	 implementation: Because PhpDocumentor doesn't inherit tags 
+	 @param, @return, etc. and because we don't want to copy/paste 
+	 these tags, we add a simple @see tag to interface method 
+	 definition. See example below.
+	</para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Here is an example:
+   <itemizedlist>
+    <listitem>
+     <para>
+      $simpleVariable doesn't need a description, but @var tag is mandatory.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      here the constructor doesn't need a description.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      getters and setters are too simple to have a description, but don't forget the @param and @return !
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      use (but not abuse) of {@link} and @see. This can be really useful to navigate through documentation.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   <programlisting><![CDATA[<?php
+/**
+ * Test file 
+ *
+ * The purpose of this file is to show an example of how to use
+ * PhpDocumentor DocBlocks in CartoWeb 3.
+ * @package MyPackage
+ * @author Gustave Dupond <gustave.dupond@camptocamp.com>
+ * @version $Id$
+ */
+
+/**
+ * This is a require description
+ */
+require_once('required_file.php');
+
+/**
+ * This is a short description of MyClass
+ * 
+ * MyClass long descrition.
+ * @package MyPackage
+ * @author Gustave Dupond <gustave.dupond@camptocamp.com>
+ */
+class MyClass extends MySuperClass {
+
+	/**
+	 * @var int
+	 */
+	public $simpleVariable;
+
+	/** 
+	 * @var MyVarClass
+	 */
+	public $simpleObjectVariable;
+
+	/**
+	 * This variable needs a description
+	 * @var string
+	 */
+	public $notSoSimpleVariable;
+
+	/**
+	 * @param int
+	 */
+	function __construct($initialValue) {
+		parent::__construct();
+		$this->simpleVariable = $initialValue;
+		$this->simpleObjectVariable = NULL;
+		$this->notSoSimpleVariable = '';
+	}
+
+	/**
+	 * @param int
+	 */
+	function setSimpleVariable($newValue) {
+		$this->simpleVariable = $newValue;
+	}
+
+	/**
+	 * @return int
+	 */
+	function getSimpleVariable() {
+		return $this->simpleVariable;
+	} 
+
+	/**
+	 * This is a short description for method
+	 *
+	 * This is a longer description. Don't forget to have a 
+	 * look here {@link MyLinkClass::myLinkMethod()}. blah blah.
+	 * @param string description of first parameter
+	 * @param MyParamClass description of second parameter
+	 * @return boolean true if everything's fine
+	 * @see MyInterestingClass
+	 */
+	function myMethod($myFirstParameter, $mySecondParameter) {
+		// blah blah
+
+		return true;
+	}
+
+	/**
+	 * @see MyInterface::myImplementingMethod()
+	 */
+	function myImplementingMethod($myParameter) {
+		// blah blah
+
+		return true;
+	} 
+
+	function myOverridingMethod($myParameter) {
+		// blah blah
+
+		return true;
+	} 
+}
+
+/**
+ * @package MyPackage
+ * @author Gustave Dupond <gustave.dupond@camptocamp.com>
+ */
+function externalFunction() {
+}
+
+?>]]></programlisting>
+  </para>
+ </sect1>
+
+</chapter>

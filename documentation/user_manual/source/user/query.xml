@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="user.query">
+ <title>Query configuration</title>
+ <subtitle>Plugins query, hilight and table</subtitle>
+
+ <sect1 id="user.query.intro"> 
+  <title>Introduction</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+</chapter>

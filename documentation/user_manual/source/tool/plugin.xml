@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="dev.plugin">
+ <title>Plugin</title>
+
+ <sect1 id="dev.plugin.intro"> 
+  <title>Introduction</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.plugin.list"> 
+  <title>Available plugins</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.plugin.architecture"> 
+  <title>Plugin Architecture</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.plugin.special"> 
+  <title>Specials Plugins</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.plugin.write"> 
+  <title>Write a plugin</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ 
+ <sect1 id="dev.plugin.debug"> 
+  <title>Debug tools and tips</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+</chapter>

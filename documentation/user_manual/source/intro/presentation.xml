@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="intro.presentation">
+ <title>Project Presentation</title>
+
+ <sect1 id="intro.presentation.about">
+  <title>About Cartoweb</title>
+  <para>
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+  </para>
+ </sect1>
+
+ <sect1 id="intro.presentation.use">
+  <title>Intended users ?</title>
+  <para>
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+  </para>
+ </sect1>
+
+ <sect1 id="intro.presentation.credit">
+  <title>Credits</title>
+  <para>
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+  </para>
+ </sect1>
+
+ <sect1 id="intro.presentation.test">
+  <title>Test</title>
+  <subtitle>Subtitle Test</subtitle>
+  <para>
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+  </para>
+  <sect2>
+   <title>Sous test</title>
+   <subtitle>Subtitle sous Test</subtitle>
+   <para>
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   </para>
+  </sect2>
+ </sect1>
+</chapter>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="dev.unit_test">
+ <title>Unit tests</title>
+
+ <sect1 id="dev.unit_test.intro"> 
+  <title>Introduction</title>
+  <para>
+   Unit tests in CartoWeb 3 are implemented using 
+   <ulink url="http://www.sebastian-bergmann.de/en/phpunit.php">PHPUnit2</ulink>,
+   a <acronym>PEAR</acronym> unit tests framework.
+   See also, PHPUnit2 documentation: <ulink 
+   url="http://pear.php.net/reference/PHPUnit2-2.0.3/">http://pear.php.net/reference/PHPUnit2-2.0.3/</ulink>
+  </para>
+  <para>
+   Unit tests are a powerful way to implement automated tests. 
+   Please consider writing tests directly while coding.
+  </para>
+ </sect1>
+
+ <sect1 id="dev.unit_test.install"> 
+  <title>Installing PHPUnit2</title>
+  <para>
+   PHPUnit2 requires the installation of several PEAR packages:
+   <itemizedlist>
+    <listitem>
+     <para>
+      PEAR: <ulink 
+      url="http://pear.php.net/package/PEAR">http://pear.php.net/package/PEAR</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      PHPUnit2: <ulink 
+      url="http://pear.php.net/package/PHPUnit2">http://pear.php.net/package/PHPUnit2</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Benchmark: <ulink 
+      url="http://pear.php.net/package/Benchmark">http://pear.php.net/package/Benchmark</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Console_Getopt: <ulink 
+      url="http://pear.php.net/package/Console_Getopt">http://pear.php.net/package/Console_Getopt</ulink>
+     </para>
+    </listitem>
+   </itemizedlist>
+   These packages are contained in the include tar.gz archive.
+  </para>
+ </sect1>
+
+ <sect1 id="dev.unit_test.writing"> 
+  <title>Writing Tests</title>
+  <para>
+   Test cases are located in directory tests, in a similar 
+   structure as the root directory:
+   <screen><![CDATA[client
+CartoclientTest.php
+CartoserverServiceTest.php
+AllTests.php
+common
+BasicTypesTest.php
+AllTests.php
+...
+AllTests.php]]></screen>
+  </para>
+  <para>
+   Each directory including tests root directory has a file named 
+   <filename>AllTests.php</filename>.  This is called a test suite. 
+   It's useful to run all tests of a specific directory (ie "package").
+  </para>
+  <para>
+   Warning: All test case and test suite classes must have the name 
+   of their file's relative path without extension, with '/'
+   replaced by '_'. For instance, class 
+   client_CartoclientTest's file name must be 
+   <filename>&gt;cartoweb3_root&lt;/tests/client/CartoclientTest.php</filename>.
+  </para>
+  <para>
+   <example>
+    <title>Simple test case</title>
+    <programlisting><![CDATA[<?php
+require_once 'PHPUnit2/Framework/TestCase.php';
+require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
+
+class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
+
+	public function testBboxFrom2Points() {
+
+		$bbox = new Bbox();
+		$point1 = new Point(12, 34);
+		$point2 = new Point(56, 78);
+		$bbox->SetFrom2Points($point1, $point2);
+
+		$this->assertEquals(12, $bbox->minx);
+		$this->assertEquals(34, $bbox->miny);
+		$this->assertEquals(56, $bbox->maxx);
+		$this->assertEquals(78, $bbox->maxy);
+	}
+}
+?>]]></programlisting>
+   </example>
+  </para>
+  <para>
+   Each function with name starting with 'test' will be considered as
+   a test case by the automated test runner. You may also want to use 
+   functions <function>setUp()</function> and <function>tearDown()</function>
+   to initialize and clean a test environment.
+  </para>
+  <para>
+   Method <function>assertEquals</function> tests if two values have 
+   the same values. If not, the test will be added to the final report as failure.
+  </para>
+
+  <example>
+   <title>
+    test suite (<filename>AllTests.php</filename>) 
+   </title>
+   <programlisting><![CDATA[<?php
+
+require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'CartoclientTest.php';
+require_once 'CartoserverServiceTest.php';
+
+class client_AllTests {
+
+	public static function suite() {
+
+		$suite = new PHPUnit2_Framework_TestSuite;
+
+		$suite->addTestSuite('client_CartoclientTest');
+		$suite->addTestSuite('client_CartoserverServiceTest');
+
+		return $suite;
+	}
+}
+?>
+]]></programlisting>
+
+  </example>
+
+  <example>
+   <title>
+    Root directory's AllTests.php:
+   </title>
+   <para>
+    <programlisting><![CDATA[<?php
+
+require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'client/AllTests.php';
+require_once 'common/AllTests.php';
+
+class AllTests {
+
+	public static function suite() {
+
+		$suite = new PHPUnit2_Framework_TestSuite;
+
+		$suite->addTest(client_AllTests::suite());
+		$suite->addTest(common_AllTests::suite());
+
+		return $suite;
+	}
+}
+?>]]></programlisting>
+   </para>
+  </example>
+ </sect1>
+
+ <sect1 id="unit_test.running"> 
+  <title>Running tests</title>
+  <para>
+   To run a test case or a test suite, type the following
+   command in directory <filename>&lt;cartoweb3_root&gt;/tests</filename>:
+   <command><![CDATA[<php-bin> phpunit.php <test-class>]]></command>
+   Where &lt;php-bin&gt; is the PHP binary and &lt;test-class&gt;
+   is the name of the test class 
+   (AllTests, client_AllTests, client_CartoclientTest, etc.).
+  </para>
+  <para>
+  Result should look like this:
+   <screen><![CDATA[PHPUnit 2.0.3 by Sebastian Bergmann.
+
+.......F.....
+
+Time: 0.0410950183868
+There was 1 failure:
+1) testpointtobbox
+expected same: <113> was not: <123>
+/home/yves/cartoweb3-proto2/tests/common/BasicTypesTest.php:59
+/home/yves/cartoweb3-proto2/tests/phpunit.php:24
+
+FAILURES!!!
+Tests run: 12, Failures: 1, Errors: 0, Incomplete Tests: 0.
+Content-type: text/html
+X-Powered-By: PHP/5.0.1]]></screen>
+   In this case, 12 tests were run with one failure.
+  </para>
+ </sect1>
+
+ <sect1 id="dev.unit_test.http"> 
+  <title>HTTP unit tests</title>
+  <para>
+   To test features of the cartoclient, the HttpUnit software is used. 
+   It is written in Java, and there is no Php port. The http unit 
+   tests are run if you hava a Jvm in you path.
+  </para>
+ </sect1>
+
+</chapter>

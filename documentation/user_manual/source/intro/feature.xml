@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="intro.feature">
+ <title>Cartographic functionalities</title>
+
+
+ <sect1 id="intro.feature.intro">
+  <title>Introduction</title>
+  <para>
+   summary of MapServer features
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.navigation">
+  <title>Navigation interface</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.query">
+  <title>Map queries</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.layer">
+  <title>Arbitrary complex hierarchy of layers</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.measuring">
+  <title>Measuring tools</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.i18n">
+  <title>Internationalization</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.annotation">
+  <title>Annotation and red lining</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.print">
+  <title>Printing</title>
+  <subtitle>XHTML and PDF</subtitle>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="intro.feature.access">
+  <title>Access Rights</title>
+  <para>
+   <itemizedlist>
+    <listitem>
+     <para>
+      Feature 1
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 2
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Feature 3 and so on...
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+</chapter>

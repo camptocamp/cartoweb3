@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="user.config">
+ <title>Configuration files</title>
+
+ <sect1 id="user.config.intro"> 
+  <title>Introduction</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="user.config.client"> 
+  <title>Client.ini</title>
+  <para>
+   CartoServer access configuration:
+   <itemizedlist>
+    <listitem>
+     <para>
+      urlProvider = Miniproxy|Symlink: The kind of URL generated
+      for resources. See ResourceHandling
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      cartoserverDirectAccess = true|false : toggles between SOAP 
+      and direct modes. Direct access gives enhanced performances, 
+      but is only available if CartoServer runs on the same server 
+      as CartoClient.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      cartoserverUrl = "url" : complete url of the SOAP wsdl file 
+      of the CartoServer. Only in SOAP mode.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Mapfile configuration:
+   <itemizedlist>
+    <listitem>
+     <para>
+      mapId = string
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      initialMapStateId = string
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Tools configuration:
+   <itemizedlist>
+    <listitem>
+     <para>
+      initialTool: indicates which tool is activated when in initial state.
+      If not specified, the first tool in the toolbar is activated. 
+      Possible values are : zoom_in, zoom_out, pan, query, selection, 
+      distance, surface.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Project handling configuration:
+   <itemizedlist>
+    <listitem>
+     <para>
+      showProjectChooser = true|false : Shows a drop-down list for 
+      selecting the active project.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      availableProjects = string : List of the project to show in 
+      the drop down list. If not set, all projects found will be used.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Plugins configuration:
+   <itemizedlist>
+    <listitem>
+     <para>
+      loadPlugins = list : list of client plugins to load in addition
+      to the core plugins. Note that most client plugins also have a 
+      corresponding server plugin that must be loaded on the server 
+      side. See ServerDoc.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Internationalization:
+   <itemizedlist>
+    <listitem>
+     <para>
+      I18nClass = I18nDummy|I18nGettext. See Cw3I18n for a description
+      of the internationalization options and the corresponding 
+      configurations.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      defaultLang = string : possible values are the usual locale codes 
+      (en, fr, de ...)
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="user.config.server"> 
+  <title>Server.ini</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="user.config.plugins"> 
+  <title>Ini for plugins</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="user.config.cache"> 
+  <title>Caches configuration</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+</chapter>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="dev.code_convention">
+ <title>Code convention</title>
+
+ <sect1 id="dev.code_convention.intro"> 
+  <title>Introduction</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.code_convention.indent"> 
+  <title>Indent</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.code_convention.naming"> 
+  <title>Naming</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+ <sect1 id="dev.code_convention.xhtml"> 
+  <title>XHTML DTD</title>
+  <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  </para>
+ </sect1>
+
+</chapter>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="user.layer">
+ <title>Layers</title>
+
+ <sect1 id="user.layer.intro"> 
+  <title>Introduction</title>
+  <para>
+   This document describes the layer configuration and rendering
+   on the cartoserver.
+  </para>
+ </sect1>
+
+ <sect1 id="user.layer.mapfile">
+  <title>MapFile layers configuration</title>
+  <para>
+  </para>
+ </sect1>
+
+ <sect1 id="user.layer.tree"> 
+  <title>Layer hierachical tree</title>
+  <para>
+   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
+   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
+   Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
+  </para>
+ </sect1>
+
+ <sect1 id="user.layer.initial">
+  <title>Initial map states</title>
+  <para>
+   Initial Map States are defined in the same file than layers 
+   (<filename>&lt;mapfile&gt;.ini</filename>). They set the initial aspects
+   of layers selection interface when starting using CartoClient : (un)folded 
+   nodes, selected layers... Some of these properties are not modifiable in 
+   the layers selection interface (hidden layers for instance) and thus stay
+   unchanged throughout the browsing.
+  </para>
+  <para>
+   In the same configuration file, several initial map states can be created.
+   The choice to activate one or another is done client-side in 
+   <filename>client_conf/client.ini</filename> :
+  </para>
+  <para>
+   in &lt;mapfile&gt;.ini
+   <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
+;mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
+;this line is commented
+mapInfo.initialMapStates.default.layers.polygon.hidden = true
+...
+
+mapInfo.initialMapStates.map25.layers.polygon.selected = true
+mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting>
+  </para>
+  <para>
+   in client.ini
+   <programlisting><![CDATA[initialMapStateId = default
+#initialMapStateId = map25]]></programlisting>
+   => "default" initial map state is activated
+  </para>
+  <para>
+   Available properties (mainly booleans that default to false) for 
+   layers in "initial map states" are:
+   <itemizedlist>
+    <listitem>
+     <para>
+      hidden: if true, this layer and its children are not shown in the 
+      layers list but are still displayed on the map if their are activated
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      selected: if true, layer is initially selected.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      unfolded: if true, layerGroup is represented as an unfolded 
+      node (children layers appear).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      frozen: if true, this layer (and its children as well) is displayed
+      in tree but with no checkbox. Its selection status (defined by 
+      "selected" property) thus cannot be changed.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="user.layer.legend">
+  <title>Layers legend</title>
+  <para>
+   Bla bla bla bla bla bla bla bla bla bla
+   Bla bla bla bla bla bla bla bla bla bla
+   Bla bla bla bla bla bla bla bla bla bla
+   Bla bla bla bla bla bla bla bla bla bla
+   Bla bla bla bla bla bla bla bla bla bla
+  </para>
+ </sect1>
+
+</chapter>

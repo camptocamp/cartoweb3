@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3.0//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3.0/docbookx.dtd">
+
+<chapter id="user.i18n">
+ <title>Internationalization</title>
+
+ <sect1 id="user.i18n.intro"> 
+  <title>Introduction</title>
+  <para>
+   Internationalization in CartoWeb 3 uses gettext's PO files.
+   It was designed to be used with gettext but as PO files are
+   text files they can be read by any i18n system.
+  </para>
+  <para>
+    About gettext: <ulink 
+    url="http://www.gnu.org/software/gettext/manual">http://www.gnu.org/software/gettext/manual</ulink>.
+  </para>
+ </sect1>
+
+ <sect1 id="user.i18n.config"> 
+  <title>Configuration</title>
+  <para>
+   For now only gettext translation system is implemented.
+   If gettext is not installed, you can use a dummy translation
+   system which translates nothing. 
+  </para>
+  <para>
+   This is done in <filename>client_conf/client.ini</filename> :
+   <programlisting><![CDATA[### Internationalization ###
+
+# I18n class
+# use I18nDummy for no translation management
+# use I18nGettext for gettext (will need PHP gettext module)
+I18nClass = I18nDummy
+]]></programlisting>
+  </para>
+  <para>
+   Have a look on your system locale setting to 
+   cleanly add a new locale.
+  </para>
+ </sect1>
+
+ <sect1 id="user.i18n.template"> 
+  <title>PO Templates</title>
+  <para>
+   Texts to be translated can be found in:
+   <itemizedlist>
+    <listitem>
+     <para>
+      Mapfile's .ini and .map (layers labels)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Client plugins .ini files (for instance map sizes)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Server plugins .ini files (for instance scales labels)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Smarty templates
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+
+  <para>
+   To generate PO template for layers, scales and shortcuts, use the 
+   following commands on the server side:
+   <screen><![CDATA[cd <cartoweb_home>/scripts
+./server2pot.php]]></screen>
+   This will generate templates in directory 
+   <filename>&lt;cartoweb_home&gt;/po</filename> for all projects
+   and map files. If templates were already translated, a merge
+   is done using gettext's <command>msgmerge</command> command.
+  </para>
+  <para>
+   In Smarty templates, blocks {t}...{/t} identify which texts should be
+   translated. It uses format defined in smarty-gettext module (Cf : <ulink
+   url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>).
+  </para>
+  <para>
+   To generate PO template for Smarty templates, use the following
+   commands on the client side:
+   <screen><![CDATA[cd <cartoweb_home>/scripts
+./client2pot.php]]></screen>
+   This will generate templates in directory 
+   <filename>&lt;cartoweb_home&gt;/po</filename> for all projects.
+   If templates were already translated, a merge is done using 
+   gettext's <command>msgmerge</command> command.
+  </para>
+ </sect1>
+
+ <sect1 id="user.i18n.translating"> 
+  <title>Translating</title>
+  <para>
+   As for any gettext system, translating PO files can be done in Emacs,
+   in <ulink url="http://poedit.sourceforge.net/">Poedit</ulink>
+   or in any text editor.
+  </para>
+  <para>
+   Translated PO files must be saved under name 
+   <filename>&lt;template_name&gt;.&lt;lang&gt;.po</filename> ; 
+   where &lt;lang&gt; is the 2-letters ISO language: en, fr, de, etc..
+  </para>
+  <para>
+   As PO compilation is done on client side, server's PO files must
+   be available to the client. A symbolic link (added during installation
+   by script <filename>cw3_admin.py</filename>) makes directory po available
+   in htdocs.  So client can access server's PO files by HTTP.
+  </para>
+
+ </sect1>
+
+ <sect1 id="user.i18n.compiling"> 
+  <title>Compiling PO to MO</title>
+  <para>
+   To compile all PO files to MO files (gettext's binary format), 
+   use the following commands on client side. This should be done every 
+   time the MapInfo is updated. All languages are compiled at
+   the same time.
+   <screen><![CDATA[cd <cartoweb_home>/scripts
+./po2mo.php]]></screen>
+   Warning: To retrieve PO files from server to client, the script uses 
+   PHP curl functions. PHP curl must be installed.
+  </para>
+  <para>
+   To translate texts in french for project testproject and map file
+   projectmap, follow these steps:
+   <itemizedlist>
+    <listitem>
+     <para> 
+      On server : 
+      <screen><![CDATA[cd <cartoweb_home>/scripts
+./server2pot.php]]></screen>
+      Copy <filename>po/server-testproject.projectmap.po</filename> to 
+      <filename>po/server-testproject.projectmap.fr.po</filename>.
+      Edit french file with Poedit (or any editor).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      On client :
+      <screen><![CDATA[cd <cartoweb_home>/scripts
+./client2pot.php]]></screen>
+      Copy <filename>po/client-testproject.po</filename> to 
+      <filename>po/client-testproject.fr.po</filename>. 
+      Edit french file with Poedit (or any editor).
+     </para>
+     <para>
+      Merge and compile files with the following commands:
+      <screen><![CDATA[cd <cartoweb_home>/scripts
+./po2mo.php]]></screen>
+      Now you should have the file <filename>testproject.projectmap.mo</filename>
+      in <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>.
+      The directory <filename>fr/LC_MESSAGES</filename> will be created if it 
+      does not exist. 
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+</chapter>
