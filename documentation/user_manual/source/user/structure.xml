@@ -10,39 +10,475 @@
  <sect1 id="user.structure.intro"> 
   <title>Introduction</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   This chapter, could be seen as a tour on the CartoWeb3 directory
+   structure, with a brief explanation about their roles. When available 
+   links on specific documentation are also provided.
   </para>
  </sect1>
 
  <sect1 id="user.structure.global"> 
   <title>Global directory structure</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   After installation, CartoWeb 3 has the following directory structure:
+   <itemizedlist>
+    <listitem>
+     <para>
+      <filename>client</filename>: Client specific code
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>client_conf</filename>: Client configuration, 
+      see: <xref linkend="user.config"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>common</filename>: Client and server code. 
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>coreplugins</filename>: Basic mandatory plugins
+      <itemizedlist>
+       <listitem>
+        <para>
+	 <filename>images</filename>: Image generation.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>layers</filename>: Layers management, see: 
+	 <xref linkend="user.layer"/>.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>location</filename>: Navigation.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>mapquery</filename>: Perform queries based on a
+	 set of selected id's.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>project</filename>: Projects, see <xref 
+	 linkend="user.structure.project"/>.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>query</filename>: Perform queries on layers. 
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>statictools</filename>: Distance and surface 
+	 calculation.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>tables</filename>: Table rules management.
+	</para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>documentation</filename>: documentation 
+      <itemizedlist> 
+       <listitem>
+        <para>
+	 <filename>apidoc</filename>: PhpDoc documentation.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>user_manual/source</filename>: DocBook XML current 
+	 documentation source.
+        </para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs</filename>: Web accessible directory.
+      <itemizedlist>
+       <listitem>
+        <para>
+	 <filename>css</filename>: css files.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>gfx</filename>: icons files.
+	</para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>js</filename>: javascript files.
+	</para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>include</filename>: libraries used by CartoWeb 3
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>locale</filename>: locale files for internationalization 
+      purpose, see: <xref linkend="user.i18n"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>log</filename>: logs, used mainly for developpement
+      and debug purpose. 
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>plugins</filename>: Standard plugins, see: <xref 
+      linkend="user.structure.plugin"/>.
+      <itemizedlist>
+       <listitem>
+        <para>
+	 <filename>auth</filename>: authentification plugin, see: <xref
+	 linkend="user.security"/>.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>exportCsv</filename>: Csv export plugin, see: <xref
+	 linkend="user.output.csv"/>.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>exportHtml</filename>: HTML export plugin, see: <xref
+	 linkend="user.output.html"/>.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>exportPdf</filename>: PDF export plugin, see:
+	 <xref linkend="user.pdf"/>.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>hello</filename>: test plugin.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>hilight</filename>: highlight plugin, see: <xref
+	 linkend="user.query"/>
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>outline</filename>: shapes drawing 
+        </para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>po</filename>: PO templates files, used for gettext 
+      translation system, see: <xref linkend="user.i18n.template"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>project</filename>: CartoWeb user projects dir, see: <xref 
+      linkend="user.structure.project"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>script</filename>: maintenance and administration's scripts.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server</filename>: CartoWeb server code files.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server_conf</filename>: Cartoweb server-side configuration 
+      files, see <xref linkend="user.config.server"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>templates</filename>: common CartoWeb Smarty templates files,
+      see: <xref linkend="user.template"/>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>templates_c</filename>: smarty template's cache files.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>tests</filename>: CartoWeb units tests suite, 
+      used mainly for developpement and debug purpose.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>www-data</filename>: Web accessible directory for 
+      generated files.
+      <itemizedlist>
+       <listitem>
+        <para>
+	 <filename>icons</filename>: Generated icons
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>images</filename>: Mapserver images
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>mapinfo_cache</filename>: Client-side server configuration
+	 cache, see <xref linkend="user.config.cache"/>.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>mapresult_cache</filename>: Client requests and 
+	 associated server results cache.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>pdf</filename>: Pdf generated cache files.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>saved_post</filename>: ???.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>soapxml_cache</filename>: Client SOAP XML requests
+	 and associated server results cache.
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+	 <filename>wsdl_cache</filename>:  Client-side WSDL cache, 
+	 see <xref linkend="user.config.cache"/>.
+        </para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
  <sect1 id="user.structure.plugin"> 
   <title>Plugins</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Each plugin directory should contain at least one, and even more
+   subdirectories. Below, the whole available list :
+   <itemizedlist>
+    <listitem>
+     <para>
+      <filename>client</filename>: Client-side plugin code.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>common</filename>: Client and server code. 
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs</filename>: Web accessible directory.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server</filename>: Server-side plugin code.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>templates</filename>: Smarty templates.
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
  <sect1 id="user.structure.project"> 
   <title>Projects</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   The goal of projects in CartoWeb 3 is to have the core files on one side
+   and the project-specific files on the other, with a clear separation. No
+   files should be modified/added outside directory 
+   <filename>/projects</filename>.
   </para>
+  <para>
+   Directory <filename>/projects/my_project</filename> has exactly the same 
+   structure as the root directory shown above: <xref 
+   linkend="user.structure.global"/>
+  </para>
+  <para>
+   Files added in directory <filename>/projects</filename> override files 
+   of the root directory. For instance, if you want to change the layers 
+   template, simply copy the default 
+   <filename>/coreplugins/layers/templates/layer.tpl</filename> to 
+   <filename>projects/my_project/coreplugins/layers/templates/layer.tpl</filename>
+   and make your changes.
+  </para>
+  <para>
+   Following files can be overridden:
+   <itemizedlist>
+    <listitem>
+     <para>
+      <filename>client_conf/*.ini</filename> (client.ini and plugins 
+      configuration files)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/client/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/common/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/server/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/htdocs/*.php</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>[core]plugins/*/templates/*.tpl</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/css/*.css</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/js/*.js</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>htdocs/gfx/layout/*.gif</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server_conf/server.ini</filename>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>server_conf/test/*.ini</filename> (test.ini and plugins
+      configuration files)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <filename>templates/*.tpl</filename>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <indexterm><primary>mapId</primary></indexterm>
+  <para>
+   You can add project-specific mapfiles in directory
+   <filename>/projects/my_project/server_conf/my_mapfile</filename>. To point
+   to the new mapfile, change the mapId value in 
+   <filename>/projects/my_project/client_conf/client.ini</filename>.
+  </para>
+  <para>
+   You can add project-specific plugins in directory 
+   <filename>/projects/my_project/plugins</filename>. To load the new plugin,
+   add its name to <filename>client.ini</filename> and/or 
+   <filename>my_mapfile.ini</filename> (loadPlugins variable).
+  </para>
+  <sect2>
+   <title>Using the project</title>
+   <para>
+    There are several ways to tell Cartoclient for which project it is running:
+   </para>
+   <sect3>
+    <title>Apache environment variable</title>
+    <para>
+     Set environment variable CW3_PROJECT in Apache configuration.
+     <programlisting><![CDATA[
+<Directory /home/user/public_html/>
+  Options FollowSymLinks
+  Action php-script /cgi-bin/php5
+  AddHandler php-script .php
+  SetEnv CW3_PROJECT my_project
+</Directory>]]></programlisting>
+     Warning: You will need Apache's Env module to use SetEnv command. To 
+     load this module, add the following line to your Apache configuration:
+     <programlisting><![CDATA[LoadModule env_module /usr/lib/apache/1.3/mod_env.so]]></programlisting>
+     Then simply type http://your.server/_&lt;your_project&gt;/client.php in
+     the browser location bar (note the "_") to access &lt;your_project&gt;. 
+     If no "_&lt;your_project&gt;" is found in URL, no project is loaded.
+    </para>
+   </sect3>
+   <sect3>
+    <title>Using current_project.txt</title>
+    <para>
+     Add a file named <filename>current_project.txt</filename> in Cartoweb 
+     root directory. This file must contain a single line with project name.
+    </para>
+   </sect3>
+   <sect3>
+    <title>Using a GET parameter</title>
+    <para>
+     You can pass a GET parameter <parameter>project=YOUR_PROJECT</parameter>
+     to the <filename>client.php</filename> script.
+    </para>
+   </sect3>
+   <sect3>
+    <title>Using the drop-down list of projects</title>
+    <para>
+     Have a look at the configuration of <link 
+     linkend="user.config.client"><filename>client.ini</filename></link>, in
+     particular directives <parameter>showProjectChooser</parameter> and 
+     <parameter>availableProjects</parameter>, to display the project 
+     selection drop-down menu.
+    </para>
+   </sect3>
+  </sect2>
  </sect1>
 
 </chapter>
