@@ -400,8 +400,14 @@ class ColumnSelector extends TableRule {
                 
         if ($exclude) {
             $ids = array_diff($table->columnIds, $this->columnIds);
+            if (in_array("row_id", $this->columnIds)) {
+                $table->noRowId = true;
+            }
         } else {
             $ids = array_intersect($table->columnIds, $this->columnIds);
+            if (!in_array("row_id", $this->columnIds)) {
+                $table->noRowId = true;
+            }
         }
         $newIds = array();
         $newTitles = array();
@@ -663,6 +669,9 @@ class CellFilter extends CellRule {
                     $inputValues[$table->columnIds[$index]] = $value;
                 }
             } 
+            if (in_array("row_id", $this->inputColumnIds)) {
+                $inputValues["row_id"] = $row->rowId;
+            }
             $row->cells[$indexes[$columnId]] = call_user_func($this->callback,
                                                               $inputValues);
         }
@@ -708,6 +717,9 @@ class CellFilterBatch extends CellFilter {
                     $inputValuesRow[$table->columnIds[$index]] = $value;
                 }
             } 
+            if (in_array("row_id", $this->inputColumnIds)) {
+                $inputValuesRow["row_id"] = $row->rowId;
+            }
             $inputValues[] = $inputValuesRow;
         }
         $result = call_user_func($this->callback, $inputValues);
@@ -836,6 +848,9 @@ class ColumnAdder extends TableFilter {
                     $inputValues[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
+            if (in_array("row_id", $this->inputColumnIds)) {
+                $inputValues["row_id"] = $row->rowId;
+            }
             $result = call_user_func($this->callback, $inputValues);
             $newCells = array();
             foreach ($table->columnIds as $index => $columnId) {
@@ -949,6 +964,9 @@ class ColumnAdderBatch extends ColumnAdder {
                     $inputValuesRow[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
+            if (in_array("row_id", $this->inputColumnIds)) {
+                $inputValuesRow["row_id"] = $row->rowId;
+            }
             $inputValues[] = $inputValuesRow;
         }
         $result = call_user_func($this->callback, $inputValues);

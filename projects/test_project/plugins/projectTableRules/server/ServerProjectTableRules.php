@@ -36,7 +36,7 @@ class ServerProjectTableRules extends ServerPlugin {
     }
 
     static function computeColumn2($inputValues) {
-        return array('column_5' => 'value2',
+        return array('column_5' => $inputValues['row_id'] . '-value2',
                      'column_6' => $inputValues['column_2']
                                    . '-' . $inputValues['column_3']               
                                    . '-' . $inputValues['column_4']); 
@@ -51,30 +51,32 @@ class ServerProjectTableRules extends ServerPlugin {
         $tablesPlugin = $this->serverContext->getPluginManager()->tables;        
         $registry = $tablesPlugin->getTableRulesRegistry();
         
-        $registry->addTableFilter('*', '*', array('ServerProjectTable',
+        $registry->addTableFilter('*', '*', array($this,
                                                   'prefixTableId1'));
-        $registry->addTableFilter('*', 'table_*', array('ServerProjectTable',
+        $registry->addTableFilter('*', 'table_*', array($this,
                                                         'prefixTableId2'));
         
-        $registry->addColumnSelector('*', 'table_1', array('column_1',
+        $registry->addColumnSelector('*', 'table_1', array('row_id',
+                                                           'column_1',
                                                            'toto',
                                                            'column_3',
                                                            'column_2'));
+        $registry->addColumnUnselector('*', 'table_2', array('row_id'));
                 
         $registry->addColumnAdder('*', 'table_1',
             new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1),
             array('column_4', 'column_5'), array('column_1', 'column_3'),
-            array('ServerProjectTable', 'computeColumn1'));
+            array($this, 'computeColumn1'));
         $registry->addColumnAdder('*', 'table_1',
             new ColumnPosition(ColumnPosition::TYPE_RELATIVE, -1, 'column_3'),
-            array('column_5', 'column_6'), array('column_2', 'column_3', 'column_4'),
-            array('ServerProjectTable', 'computeColumn2'));
+            array('column_5', 'column_6'), array('row_id', 'column_2', 'column_3', 'column_4'),
+            array($this, 'computeColumn2'));
 
-        $registry->addColumnFilter('*', 'table_1', 'column_3', array('ServerProjectTable',
+        $registry->addColumnFilter('*', 'table_1', 'column_3', array($this,
                                                              'prefixColumn'));
-        $registry->addColumnFilter('*', 'table_1', 'column_4', array('ServerProjectTable',
+        $registry->addColumnFilter('*', 'table_1', 'column_4', array($this,
                                                                 'renameColumn'));
-        $registry->addColumnFilter('*', 'table_1', 'column_5', array('ServerProjectTable',
+        $registry->addColumnFilter('*', 'table_1', 'column_5', array($this,
                                                                 'renameColumn'));
         
     }    
