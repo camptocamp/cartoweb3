@@ -821,6 +821,8 @@ class ClientLayers extends ClientPlugin
         }
 
         $template->assign('layers', $this->drawLayersList());
+        
+        $template->assign('locales', I18n::getLocales());
     }
 
     /**

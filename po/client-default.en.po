@@ -1,75 +1,75 @@
-# CartoWeb 3 Smarty templates 
+# CartoWeb 3 translation template 
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
 "POT-Creation-Date: 2004-12-22 10:30+0100\n"
-"PO-Revision-Date: 2004-12-22 10:43+0100\n"
-"Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
-"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2004-12-22 10:43+0100\n"
+"Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
+"Language-Team: \n"
 
-# images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "small"
-msgstr "petite"
+msgstr "small"
 
-# images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "normal"
-msgstr "normale"
+msgstr "normal"
 
-# images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "big"
-msgstr "grande"
+msgstr "big"
 
-# images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "giant"
-msgstr "géante"
+msgstr "giant"
 
-# exportPdf.ini:formats.a4.label
+#: exportPdf.ini:formats.a4.label
 msgid "A4"
 msgstr "A4"
 
-# exportPdf.ini:formats.a3.label
+#: exportPdf.ini:formats.a3.label
 msgid "A3"
 msgstr "A3"
 
 #: coreplugins/images/templates/mapsizes.tpl/
 msgid "Mapsize:"
-msgstr "Taille carte :"
+msgstr "Mapsize"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "expand tree"
-msgstr "déplier"
+msgstr "expand tree"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "close tree"
-msgstr "fermer"
+msgstr "close tree"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "check all"
-msgstr "tout sélectionner"
+msgstr "check all"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "uncheck all"
-msgstr "tout déselectionner"
+msgstr "uncheck all"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "more info on"
-msgstr "plus d'infos sur"
+msgstr "more info on"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "Click to go to next visible scale:"
-msgstr "Prochaine échelle visible :"
+msgstr "Click to go to next visible scale:"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "Zoom in to see layer"
-msgstr "Zoomer pour voir la couche"
+msgstr "Zoom in to see layer"
 
 #: coreplugins/layers/templates/layers.tpl/
 msgid "Zoom out to see layer"
-msgstr "Dézoomer pour voir la couche"
+msgstr "Zoom out to see layer"
 
 #: coreplugins/location/templates/recenter.tpl/
 msgid "X"
@@ -81,23 +81,23 @@ msgstr "Y"
 
 #: coreplugins/location/templates/recenter.tpl/
 msgid "Scale"
-msgstr "Echelle"
+msgstr "Scale"
 
 #: coreplugins/location/templates/shortcuts.tpl/
 msgid "Shortcuts"
-msgstr "Raccourcis"
+msgstr "Shortcuts"
 
 #: coreplugins/location/templates/id_recenter.tpl/
 msgid "Layer to center on"
-msgstr "Couche pour le centrage"
+msgstr "Layer to center on"
 
 #: coreplugins/location/templates/id_recenter.tpl/
 msgid "Coma separated id's"
-msgstr "Id séparés par des virgules"
+msgstr "Coma separated id's"
 
 #: coreplugins/query/templates/query.tpl/
 msgid "Results:"
-msgstr "Résultats :"
+msgstr "Results:"
 
 #: coreplugins/query/templates/query.tpl/
 #: plugins/selection/templates/selection.tpl/
@@ -106,55 +106,55 @@ msgstr "Id"
 
 #: coreplugins/query/templates/query.tpl/
 msgid "Download CSV"
-msgstr "Télécharger CSV"
+msgstr "Download CSV"
 
 #: plugins/outline/templates/outline.tpl/
 msgid "Draw"
-msgstr "Dessin"
+msgstr "Draw"
 
 #: plugins/outline/templates/outline.tpl/
 msgid "Mask"
-msgstr "Masque"
+msgstr "Mask"
 
 #: plugins/outline/templates/outline.tpl/
 msgid "Total area"
-msgstr "Surface totale"
+msgstr "Total area"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "Selection information:"
-msgstr "Information de sélection :"
+msgstr "Selection information:"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "Select a hilight layer"
-msgstr "Sélectionner une couche de surbrillance"
+msgstr "Select a hilight layer"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "Mask mode"
-msgstr "Mode masque"
+msgstr "Mask mode"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "Show attributes"
-msgstr "Voir attributs"
+msgstr "Show attributes"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "Selected elements:"
-msgstr "Eléments sélectionnés :"
+msgstr "Selected elements:"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "unselect id"
-msgstr "désélectionner Id"
+msgstr "unselect id"
 
 #: plugins/selection/templates/selection.tpl/
 msgid "clear selection"
-msgstr "effacer sélection"
+msgstr "clear selection"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Format:"
-msgstr "Format :"
+msgstr "Format:"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Resolution:"
-msgstr "Résolution :"
+msgstr "Resolution:"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Portrait"
@@ -162,64 +162,65 @@ msgstr "Portrait"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Landscape"
-msgstr "Paysage"
+msgstr "Landscape"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Title:"
-msgstr "Titre :"
+msgstr "Title:"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Note:"
-msgstr "Note :"
+msgstr "Note:"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Scalebar"
-msgstr "Echelle"
+msgstr "Scalebar"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Overview"
-msgstr "Aperçu"
+msgstr "Overview"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "QueryResult"
-msgstr "Résultat de la requête"
+msgstr "QueryResult"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Legend"
-msgstr "Légende"
+msgstr "Legend"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "On map"
-msgstr "Carte principale"
+msgstr "On map"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "In new page"
-msgstr "Nouvelle page"
+msgstr "In new page"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "None"
-msgstr "Aucun"
+msgstr "None"
 
 #: plugins/exportPdf/templates/form.tpl/
-#: plugins/exportHtml/templates/export.tpl/ templates/cartoclient.tpl/
+#: plugins/exportHtml/templates/export.tpl/
+#: templates/cartoclient.tpl/
 msgid "Print"
-msgstr "Imprimer"
+msgstr "Print"
 
 #: templates/cartoclient.tpl/
 msgid "Cartoclient Title"
-msgstr "Cartoclient (FR)"
+msgstr "Cartoclient (EN)"
 
 #: templates/cartoclient.tpl/
 msgid "scalebar_alt"
-msgstr "alt_barechelle"
+msgstr "scalebar_alt"
 
 #: templates/cartoclient.tpl/
 msgid " User messages "
-msgstr "Messages utilisateurs"
+msgstr " User messages "
 
 #: templates/cartoclient.tpl/
 msgid " Developer messages "
-msgstr "Messages développeurs"
+msgstr " Developer messages "
 
 #: templates/cartoclient.tpl/
 msgid "Navigation"
@@ -227,7 +228,7 @@ msgstr "Navigation"
 
 #: templates/cartoclient.tpl/
 msgid "Themes"
-msgstr "Thèmes"
+msgstr "Themes"
 
 #: templates/cartoclient.tpl/
 msgid "PDF"
@@ -235,25 +236,25 @@ msgstr "PDF"
 
 #: templates/cartoclient.tpl/
 msgid "keymap_alt"
-msgstr "alt_carteclef"
+msgstr "keymap_alt"
 
 #: templates/dhtmlcode.tpl/
 msgid "Main map"
-msgstr "Carte principale"
+msgstr "Main map"
 
 #: templates/dhtmlcode.tpl/
 msgid "Approx. distance: "
-msgstr "Distance approx. :"
+msgstr "Approx. distance: "
 
 #: templates/dhtmlcode.tpl/
 msgid "Approx. surface: "
-msgstr "Surface approx. :"
+msgstr "Approx. surface: "
 
 #: templates/dhtmlcode.tpl/
 msgid "Coords (m): "
-msgstr "Coord. (m) :"
+msgstr "Coords (m): "
 
 #: templates/mainmap.tpl/
 msgid "Loading message"
-msgstr "Veuillez patienter..."
+msgstr "Loading..."
 

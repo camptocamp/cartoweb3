@@ -95,11 +95,19 @@ ClientContext:
   </div>
 
   <div id="leftbar">    
+  	{if $locales|default:''}
+    <p>
+      :&nbsp;{foreach from=$locales item=locale}
+        <a href="?lang={$locale}">{$locale}</a>&nbsp;:
+      {/foreach}   	  
+    </p>
+    {/if}
+    
     <p>
       <input type="submit" name="refresh" value="refresh" class="form_button" />
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
     </p>
-    
+        
     <p>
       <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
       id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span><span

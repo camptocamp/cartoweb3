@@ -79,7 +79,14 @@ class I18n {
         // look if LANG has been passed (by url and mod_rewrite)
         // will work with following mod_rewrite rule:
         // RewriteRule   ^(.*)/(fr|de|it|en)/(.*)          $1/$3 [E=LANG:$2]
-        if (isset($_SERVER['LANG']) && in_array($_SERVER['LANG'], $locales)) {
+        
+        // looks if the language was set in GET parameter
+        if (isset($_REQUEST['lang']) && in_array($_REQUEST['lang'], $locales)) {
+            define('LANG', $_REQUEST['lang']);
+            $log->debug('LANG: $_REQUEST[lang] = ' . LANG);
+        }
+        // if not, looks if the language was set in env variable (mod_rewrite)
+        elseif (isset($_SERVER['LANG']) && in_array($_SERVER['LANG'], $locales)) {
             define('LANG', $_SERVER['LANG']);
             $log->debug('LANG: $_SERVER[LANG] = ' . LANG);
         }
