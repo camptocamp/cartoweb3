@@ -42,6 +42,11 @@ class ServerTables extends ServerPlugin {
         return $this->tableRulesRegistry;
     }
     
+    /**
+     * Applies rules on tables
+     * @param array
+     * @return array array of {@link TableGroup}
+     */
     function applyRules($tables) {
         return $this->getTableRulesRegistry()->applyRules($tables);
     }    

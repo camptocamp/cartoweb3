@@ -227,13 +227,39 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
  */
 class SerializableTestClass1 extends Serializable {
     
+    /**
+     * @var string
+     */ 
     public $str;
+    
+    /**
+     * @var array
+     */
     public $strArray;
+    
+    /**
+     * @var array
+     */
     public $intArray;
+    
+    /** 
+     * @var array
+     */
     public $boolArray;
+    
+    /**
+     * @var Object
+     */ 
     public $obj;
+    
+    /**
+     * @var array
+     */
     public $objMap;
     
+    /**
+     * @param string
+     */
     function __construct($my_str = '') {
         parent::__construct();
         $str = $my_str;
@@ -256,6 +282,9 @@ class SerializableTestClass1 extends Serializable {
  */
 class SerializableTestClass2 extends Serializable {
     
+    /**
+     * @var int
+     */
     public $integer;
      
     function unserialize($struct) {

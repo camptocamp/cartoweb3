@@ -69,12 +69,16 @@ class ClientExportCsv extends ExportPlugin {
     }
 
     /**
-     * Handles HTTP request received by script export.php
-     * @param array HTTP request
+     * @see GuiProvider::handleHttpPostRequest()
      */
     function handleHttpPostRequest($request) {
     }
 
+    /**
+     * Handles HTTP request received by script export.php
+     * @param array HTTP request
+     * @see GuiProvider::handleHttpGetRequest()
+     */
     function handleHttpGetRequest($request) {
         
         if (array_key_exists('exportcsv_tableid', $request)) {
@@ -83,8 +87,10 @@ class ClientExportCsv extends ExportPlugin {
         }
     }
     
+    /**
+     * @see GuiProvider::renderForm()
+     */
     function renderForm(Smarty $template) {
-
     }
 
     function getConfiguration() {
@@ -195,4 +201,5 @@ class ClientExportCsv extends ExportPlugin {
         return $output;
     }
 }
+
 ?>

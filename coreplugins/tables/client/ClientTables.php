@@ -16,6 +16,7 @@ require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/TableRulesRegistry.ph
  */
 class ClientTables extends ClientPlugin
                    implements GuiProvider {
+                   
     /**
      * @var Logger
      */
@@ -61,12 +62,22 @@ class ClientTables extends ClientPlugin
         }
     }
     
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     function handleHttpPostRequest($request) {
     }
 
+    /**
+     * @see GuiProvider::handleHttpGetRequest()
+     */
     function handleHttpGetRequest($request) {
     }
 
+    /**
+     * Sets URL to CSV export
+     * @param Smarty
+     */
     private function assignExportCsv($template) {
     
         $pluginManager = $this->cartoclient->getPluginManager();
@@ -77,6 +88,11 @@ class ClientTables extends ClientPlugin
         }
     }
 
+    /**
+     * Translates all tables strings
+     * @param array
+     * @return array array of translated table groups
+     */
     private function translate($tableGroups) {
         
         foreach ($tableGroups as $key1 => $tableGroup) {
@@ -100,6 +116,9 @@ class ClientTables extends ClientPlugin
         return $tableGroups;
     }
     
+    /**
+     * @see GuiProvider::renderForm()
+     */
     function renderForm(Smarty $template) {
     
         $filteredTables = $this->getTableRulesRegistry()

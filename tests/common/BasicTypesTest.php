@@ -18,6 +18,9 @@ require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
  */
 class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
 
+    /**
+     * Tests Dimension constructor
+     */
     public function testDimensionConstruct() {
     
         $dimension = new Dimension(123, 456);
@@ -26,6 +29,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $dimension->height);
     }
 
+    /**
+     * Tests Dimension unserialization
+     */
     public function testDimensionUnserialize() {
         
         $struct = new stdclass();
@@ -39,6 +45,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $dimension->height);
     }
 
+    /**
+     * Tests Point constructor
+     */
     public function testPointConstruct() {
     
         $point = new Point(123, 456);
@@ -47,6 +56,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $point->y);
     }
     
+    /**
+     * Tests Point unserialization
+     */
     public function testPointUnserialize() {
         
         $struct = new stdclass();
@@ -60,6 +72,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $point->y);
     }
 
+    /**
+     * Tests Point setting and getting attributes
+     */
     public function testPointSetGet() {
     
         $point = new Point(0, 1);
@@ -69,6 +84,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $point->getY());
     }
     
+    /**
+     * Tests Point center calculation
+     */
     public function testPointCenter() {
      
         $point = new Point(123, 456);
@@ -79,6 +97,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(456, $center->getY());
     }
 
+    /**
+     * Tests Point to Bbox conversion
+     */
     public function testPointToBbox() {
      
         $point = new Point(123, 456);
@@ -97,6 +118,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(466, $bbox->maxy);
     }
     
+    /**
+     * Tests Bbox constructor
+     */
     public function testBboxConstruct() {
     
         $bbox = new Bbox();
@@ -108,6 +132,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(78, $bbox->maxy);
     }
     
+    /**
+     * Tests Bbox unserialization
+     */
     public function testBboxUnserialize() {
         
         $struct = new stdclass();
@@ -125,6 +152,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(78, $bbox->maxy);
     }
     
+    /**
+     * Tests MsExtent to Bbox conversion
+     */
     public function testBboxFromMsExtent() {
     
         $bbox = new Bbox();
@@ -140,6 +170,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(78, $bbox->maxy);
     }
     
+    /**
+     * Tests conversion from two points to Bbox
+     */
     public function testBboxFrom2Points() {
     
         $bbox = new Bbox();
@@ -153,6 +186,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(78, $bbox->maxy);
     }
     
+    /**
+     * Tests Bbox width and height calculation
+     */
     public function testBboxWidthHeight() {
     
         $bbox = new Bbox();
@@ -162,6 +198,9 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(36, $bbox->getHeight());
     }
     
+    /**
+     * Tests Bbox center calculation
+     */
     public function testBboxCenter() {
     
         $bbox = new Bbox();
@@ -172,6 +211,69 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(52.0, $point->y);
     }
     
+    /**
+     * Tests Bbox area calculation
+     */
+    public function testBboxArea() {
+    
+        $bbox = new Bbox();
+        $bbox->setFromBbox(12, 34, 60, 70);
+        $area = $bbox->getArea();
+        
+        $this->assertEquals(1728, $area);
+    }
+    
+    /**
+     * Tests Polygon unserialization
+     */
+    public function testPolygonUnserialize() {
+        
+        $structPoint1 = new stdclass();
+        $structPoint1->x = 12;
+        $structPoint1->y = 34;
+        $structPoint2 = new stdclass();
+        $structPoint2->x = 15;
+        $structPoint2->y = 45;
+        $structPoint3 = new stdclass();
+        $structPoint3->x = 22;
+        $structPoint3->y = 41;
+        $pointArray = array($structPoint1, $structPoint2, $structPoint3);
+        $struct = new stdclass();
+        $struct->points = $pointArray;
+
+        $polygon = new Polygon();
+        $polygon->unserialize($struct);
+        
+        $this->assertEquals(12, $polygon->points[0]->x);
+        $this->assertEquals(34, $polygon->points[0]->y);
+        $this->assertEquals(15, $polygon->points[1]->x);
+        $this->assertEquals(45, $polygon->points[1]->y);
+        $this->assertEquals(22, $polygon->points[2]->x);
+        $this->assertEquals(41, $polygon->points[2]->y);
+    }
+
+    /**
+     * Tests Polygon area calculation
+     */
+    public function testPolygonArea() {
+        
+        $point1 = new Point();
+        $point1->x = 12;
+        $point1->y = 34;
+        $point2 = new Point();
+        $point2->x = 15;
+        $point2->y = 45;
+        $point3 = new Point();
+        $point3->x = 18;
+        $point3->y = 34;
+        $pointArray = array($point1, $point2, $point3);
+        $polygon = new Polygon();
+        $polygon->points = $pointArray;
+
+        $area = $polygon->getArea();
+        
+        $this->assertEquals(33.0, $area);
+    }
 }
 
 ?>
