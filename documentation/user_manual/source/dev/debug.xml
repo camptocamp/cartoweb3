@@ -153,7 +153,8 @@ class MyClass {
       <screen><![CDATA[Failure
 
 class:   SoapFault
-message:   Error [8, Undefined property:  ServerMapquery::$currentQeury, /home/sypasche/public_html/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php, 222]
+message:   Error [8, Undefined property:  ServerMapquery::$currentQeury, 
+         /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php, 222]
 Backtrace:
 
 file: 182 - /var/www/cartoweb3/common/Common.php
@@ -166,7 +167,9 @@ file: 222 - /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php
 call: ServerMapquery::queryByBbox()
 
 file: 248 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
-call: ServerMapquery->queryByBbox(8, "Undefined property:  ServerMapquery::$currentQeury", "/var/www/cartoweb3/coreplugins/mapquery/server...", 222, Array(2))
+call: ServerMapquery->queryByBbox(8, "Undefined property:  
+     ServerMapquery::$currentQeury", 
+     "/var/www/cartoweb3/coreplugins/mapquery/server...", 222, Array(2))
 
 file: 369 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
 call: ServerQuery->queryLayer("polygon", Object(Bbox))
@@ -175,7 +178,8 @@ file: 58 - /var/www/cartoweb3/server/ServerPluginHelper.php
 call: ServerQuery->handlePreDrawing(Object(Bbox), Object(QuerySelection))
 
 file: 96 - /var/www/cartoweb3/server/ServerPluginHelper.php
-call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]></screen>
+call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]>
+    </screen>
       </para>
   </sect2>
   <sect2 id="dev.debug.debug.directmode">
