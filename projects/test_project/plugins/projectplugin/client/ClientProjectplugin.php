@@ -8,13 +8,15 @@
  * @package Tests
  */
 class ClientProjectplugin extends ClientPlugin
-                          implements Sessionable, GuiProvider, ServerCaller {
+                          implements Sessionable, GuiProvider,
+                                     ServerCaller, InitUser {
 
     const PROJECTPLUGIN_INPUT = 'projectplugin_input';
     
     private $log;
     private $message;
     private $count;
+    private $initMessage;
 
     /** 
      * Constructor
@@ -53,7 +55,8 @@ class ClientProjectplugin extends ClientPlugin
     }
 
     public function initializeResult($result) {
-        $result = Serializable::unserializeObject($result, NULL, 'ProjectpluginResult');
+        $result = Serializable::unserializeObject($result, NULL,
+                                                  'ProjectpluginResult');            
         $this->message = $result->shuffledMessage;
     }
 
@@ -62,8 +65,15 @@ class ClientProjectplugin extends ClientPlugin
     public function renderForm(Smarty $template) {
         
         $template->assign('projectplugin_active', true);
-        $template->assign('projectplugin_message', "message: " . $this->message . 
-                          " count: " . $this->count);
+        $template->assign('projectplugin_message',
+                          "message: " . $this->message . 
+                          " count: " . $this->count . 
+                          " init: " . $this->initMessage);
+    }
+    
+    public function handleInit($init) {
+        
+        $this->initMessage = $init->initMessage;
     }
 }
 

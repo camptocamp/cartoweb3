@@ -7,7 +7,8 @@
 /**
  * @package Tests
  */
-class ServerProjectplugin extends ClientResponderAdapter {
+class ServerProjectplugin extends ClientResponderAdapter
+                          implements InitProvider {
     private $log;
 
     /** 
@@ -23,5 +24,11 @@ class ServerProjectplugin extends ClientResponderAdapter {
         $result->shuffledMessage = str_rot13($requ->message); 
         return $result;
     }    
+    
+    public function getInit() {
+        $init = new ProjectpluginInit();
+        $init->initMessage = 'foobar';
+        return $init;
+    }
 }
 ?>

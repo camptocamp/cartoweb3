@@ -26,4 +26,15 @@ class ProjectpluginResult extends Serializable {
     }
 }
 
+/**
+ * @package Tests
+ */
+class ProjectpluginInit extends Serializable {
+    public $initMessage;
+
+    public function unserialize($struct) {
+        $this->initMessage = self::unserializeValue($struct, 'initMessage');
+    }
+}
+
 ?>
