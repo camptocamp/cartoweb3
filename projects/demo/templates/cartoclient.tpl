@@ -54,7 +54,7 @@
 <!-- header ends here -->
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
-  <input type="image" name="dummy" alt="" width="0" height="0" />
+  <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
