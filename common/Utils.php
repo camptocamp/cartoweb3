@@ -5,6 +5,8 @@
  * @version $Id$
  */
 
+require_once ('log4php/LoggerManager.php');
+
 /**
  * For debugging purpose only
  * @param mixed
