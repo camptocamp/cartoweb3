@@ -233,7 +233,7 @@ class cFPDF extends FPDF {
         }
 
         if (!isset($block->height)) {
-            // FIXME: dynamically set this value. Possible?
+            // TODO: dynamically set this value. Possible?
             $block->height = PrintTools::switchDistUnit(20, 'mm',
                                                       $this->general->distUnit); 
             $block->height += 2 * $block->padding;
@@ -263,6 +263,8 @@ class cFPDF extends FPDF {
             $this->p->textWithDirection($x0 + $block->width - $block->padding, 
                                         $y0 + $block->height - $block->padding, 
                                         $block->content, 'U');
+            list($block->width, $block->height) =
+                array($block->height, $block->width);
         } else {
             $this->p->SetXY($x0, $y0);
             $this->p->Cell($block->width, $block->height, $block->content,
@@ -271,7 +273,7 @@ class cFPDF extends FPDF {
 
         // TODO: handle transparent background
         // TODO: if block height can only be determined precisely after drawing
-        // it (see FIXME above), update allocated space in space manager. 
+        // it (see height TODO above), update allocated space in space manager. 
                        
     }
 
