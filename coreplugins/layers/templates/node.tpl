@@ -9,14 +9,12 @@ value="{$layerId}" id="in{$nodeId}"
 {/capture}
 
 {capture name=caption}
-<table class="caption"><tr><td>
 {if $layerLink}<a href="{$layerLink}" target="_blank" 
 title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
 {else}
   {if $layerOutRange}<span class="out">{$layerLabel}</span>
   {else}{$layerLabel}{/if}
 {/if}
-</td></tr></table>
 {/capture}
 
 {capture name=icon}
