@@ -129,8 +129,11 @@ class ServerQuery extends ClientResponderAdapter {
                 && $tableFlags->returnAttributes) {
                 $columnTitles = array();
                 foreach ($attributes as $columnId) {
-                    $columnTitles[$columnId] = $columnId;
+                    $columnIds[] = $columnId;
+                    $columnTitles[] = $columnId;
                 }
+                $table->columnIds =
+                    $this->arrayEncodingConversion($columnIds);
                 $table->columnTitles =
                     $this->arrayEncodingConversion($columnTitles);
             }
@@ -143,7 +146,7 @@ class ServerQuery extends ClientResponderAdapter {
             $cells = array();
             if (!is_null($tableFlags) && $tableFlags->returnAttributes) {
                 foreach ($attributes as $columnId) {
-                    $cells[$columnId] = $shape->values[$columnId];
+                    $cells[] = $shape->values[$columnId];
                 }
             }
             $tableRow->cells = $this->arrayEncodingConversion($cells);
