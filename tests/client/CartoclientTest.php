@@ -118,7 +118,7 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         return $ini_array['cartoserverBaseUrl'];
     }
                     
-    public function _testWsdl() {
+    public function testWsdl() {
 
         $java_path = $this->getJavaPath();
         $axis_tests_path = realpath(dirname(__FILE__) . '/axis');
