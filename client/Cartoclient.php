@@ -517,31 +517,6 @@ class Cartoclient {
     }
 
     /**
-     * Creates new client session object
-     * @return ClientSession object saved in session
-     */
-    private function createClientSession() {
-        $clientSession = new ClientSession();
-
-        // TODO: init default arguments
-
-        return $clientSession;
-    }
-
-    /**
-     * Creates new client map clicks information
-     * @return CartoForm new object
-     */
-    private function createCartoForm() {
-
-        $cartoForm = new CartoForm();
-
-        // TODO: sets default cartoform arguments
-
-        return $cartoForm;
-    }
-
-    /**
      * Initializes session
      *
      * If the mapId's session is not created yet, it is created and initialized.
@@ -560,7 +535,7 @@ class Cartoclient {
         } else {
             $this->log->debug('creating new  session');
 
-            $this->clientSession = $this->createClientSession();
+            $this->clientSession = new ClientSession();
 
             $mapStates = $this->getMapInfo()->initialMapStates;
         
@@ -583,7 +558,7 @@ class Cartoclient {
                                            $this->getMapInfo(), $initialMapState);
         }
 
-        $this->cartoForm = $this->createCartoForm();
+        $this->cartoForm = new CartoForm();
     }
 
     /**
