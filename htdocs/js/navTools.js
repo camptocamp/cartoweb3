@@ -1,36 +1,35 @@
 // Global variables
 
-// dBox constructor
-function dBox(anchor_layer, target_layer, image_layer, canvas, canvas2, displayContainer_layer, display_position, displayCoords_layer, displayMeasure_layer, color, thickness, cursorsize, jitter,pointSize, d2pts,nbPts) {
-  this.anchor = xGetElementById(anchor_layer);
-  this.target = xGetElementById(target_layer);
-  this.image = xGetElementById(image_layer);
-  this.canvas = xGetElementById(canvas);
-  this.canvas2 = xGetElementById(canvas2);
-  this.displayContainer = xGetElementById(displayContainer_layer);
-  this.displayCoords = xGetElementById(displayCoords_layer);
-  this.displayMeasure = xGetElementById(displayMeasure_layer);
-
-  this.dispPos = display_position;
-  this.color = color;
-  this.thickness = thickness;
-  this.cursorsize = cursorsize;
-  this.jitter = jitter; //minimum size of a box dimension
-  this.d2pts = d2pts; // the distance between to points (measure tools);
-  this.nbPts = nbPts; // number of points for the last vertex
-
-  this.pixelSize = 1; // will be used to convert the pixel coordinates in geo
+// dhtmlBox constructor
+function dhtmlBox() {
+  this.anchor = xGetElementById("mapAnchorDiv");
+  this.target = xGetElementById("mainDHTMLDiv");
+  this.image = xGetElementById("mapImageDiv");
+  this.canvas = xGetElementById("myCanvasDiv");
+  this.canvas2 = xGetElementById("myCanvas2Div");
+  this.displayContainer = xGetElementById("diplayContainerDiv");
+  this.displayCoords = xGetElementById("displayCoordsDiv");
+  this.displayMeasure = xGetElementById("displayMeasureDiv");
 
   this.x1 = this.y1 = this.x2 = this.y2 = -1;
   this.drag = false;
   this.isActive = false;
+  this.dblClick = false;
   this.keyEscape = false;
 }
 
 // method prototypes
-function dBox_initialize() {
+function dhtmlBox_initialize() {
   jg = new jsGraphics(this.canvas.id); // a drawing canvas for the lines and points
   jg2 = new jsGraphics(this.canvas2.id); // a drawing canvas for the last moving vertex
+
+  // make the previous tool selected the current one
+  for (var i =0; i < myform.TOOLBAR_CMD.length; i++) {
+    if (myform.TOOLBAR_CMD[i].checked) {
+      dhtmlBox.changeTool(myform.TOOLBAR_CMD[i].value);
+    }
+  }	
+  this.target.style.zIndex = 1000;
 
   this.width = xWidth(this.anchor);
   this.height = xHeight(this.anchor);
@@ -57,13 +56,19 @@ function dBox_initialize() {
 }
 
 
-function dBox_changetool(tool) {// the mouse events are managed in this function according to the mapping tool selected
+function dhtmlBox_changetool(tool) {// the mouse events are managed in this function according to the mapping tool selected
   myform.TOOLBAR_CMD.value = tool;
   this.currentTool = tool.toLowerCase();
 
   // clear the drawing canvas
   jg.clear();
 
+  xRemoveEventListener(this.target,'mousedown',this.domousedown);
+  xRemoveEventListener(this.target,'mouseup',this.domouseup);
+  xRemoveEventListener(this.target,'mousemove',this.domousemove);
+  xRemoveEventListener(this.target,'mouseout',this.domouseout);
+  xRemoveEventListener(this.target, 'dblclick', this.dodblclick);
+  
   xAddEventListener(this.target,'mousedown',this.domousedown);
   xAddEventListener(this.target,'mouseup',this.domouseup);
   xAddEventListener(this.target,'mousemove',this.domousemove);
@@ -71,19 +76,16 @@ function dBox_changetool(tool) {// the mouse events are managed in this function
 
   xAddEventListener(document,'keydown',this.dokeydown);
 
-  if (this.currentTool == 'measure' || this.currentTool == 'surface') {
-    jg.clear();
+  if (this.currentTool == 'measure' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
     this.isActive = false;
     this.measure = 0;
     this.displayCoords.innerHTML = '';
     this.displayMeasure.innerHTML = '';
     xAddEventListener(this.target,'dblclick', this.dodblclick);
-  } else {
-    xRemoveEventListener(this.target, 'dblclick', this.dodblclick);
   }
 
   // cursor style
-  if (this.currentTool == 'zoom_in' || this.currentTool == 'zoom_out' || this.currentTool == 'measure' || this.currentTool == 'surface') {
+  if (this.currentTool == 'zoom_in' || this.currentTool == 'zoom_out' || this.currentTool == 'measure' || this.currentTool == 'surface' || this.currentTool == 'polygon' || this.currentTool == 'line') {
     if (this.target.style) this.target.style.cursor = "crosshair";
   } else if (this.currentTool == 'pan') {
     if (this.target.style) this.target.style.cursor = "move";
@@ -93,163 +95,150 @@ function dBox_changetool(tool) {// the mouse events are managed in this function
   jg.paint();
 }
 
-function dBox_mousedown(evt) {
+function dhtmlBox_mousedown(evt) {
   var e = new xEvent(evt);
-  var name = e.target.id;
-  var dBox = name.substring(0,name.length - 3); // the name of the layer without the 'DIV'
-  dBox = eval(dBox);
-
-  if (evt.button == 2) { //right clic
-    dBox.rightclic = true;
+  
+  if (!(xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) && evt.button == 2) { //right clic
+    dhtmlBox.rightclic = true;
   } else {
-    dBox.rightclic = false;
-    dBox.drag = true; //the mouse is down
+    dhtmlBox.rightclic = false;
 
-    dBox.x1 = dBox.x2 = e.offsetX;
-    dBox.y1 = dBox.y2 = e.offsetY;
+    dhtmlBox.x1 = dhtmlBox.x2 = e.offsetX;
+    dhtmlBox.y1 = dhtmlBox.y2 = e.offsetY;
+	
 
-    if (dBox.currentTool == "zoom_out") {
+    if (dhtmlBox.currentTool == "zoom_out") {
       jg.clear();  // if page not reloaded automaticaly, previous crosses are deleted
     }
 
-    if (!dBox.isActive && (dBox.currentTool == 'measure' || dBox.currentTool == 'surface')) { //init
+    if (!dhtmlBox.isActive && (dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) { //init
       jg.clear();
       //jg2.clear();
-      dBox.cnv_clicks = 0;
-      dBox.draw_x = new Array();
-      dBox.draw_y = new Array();
-      dBox.Xpoints = new Array();
-      dBox.Ypoints = new Array();
-      dBox.measure = 0;
-      dBox.isActive = true;
-      dBox.keyEscape = false;
+      dhtmlBox.cnv_clicks = 0;
+      dhtmlBox.draw_x = new Array();
+      dhtmlBox.draw_y = new Array();
+      dhtmlBox.Xpoints = new Array();
+      dhtmlBox.Ypoints = new Array();
+      dhtmlBox.measure = 0;
+      dhtmlBox.isActive = true;
+	  dhtmlBox.dblClick = false;
+      dhtmlBox.keyEscape = false;
     }
+  }
+  if (dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line') {
+    dhtmlBox.drag = false; // to provide the curves draw
+  } else {
+	dhtmlBox.drag = true; // the mouse is down
   }
 }
 
-function dBox_mousemove(evt) {
+function dhtmlBox_mousemove(evt) {
   var e = new xEvent(evt);
   var name = e.target.id;
-  var dBox = name.substring(0,name.length - 3); // the name of the layer without the 'DIV'
-  dBox = eval(dBox);
 
   //show the coords display
-  xShow(dBox.displayContainer);
+  xShow(dhtmlBox.displayContainer);
 
 
-  if(dBox.drag) { //the mouse is down
-    dBox.x2 = e.offsetX;
-    dBox.y2 = e.offsetY;
-    if(dBox.currentTool == 'zoom_out') { // only one click events
+  if(dhtmlBox.drag) { //the mouse is down
+    dhtmlBox.x2 = e.offsetX;
+    dhtmlBox.y2 = e.offsetY;
+    if(dhtmlBox.currentTool == 'zoom_out') { // only one click events
       jg.clear();
-      dBox.x1 = dBox.x2;
-      dBox.y1 = dBox.y2;
+      dhtmlBox.x1 = dhtmlBox.x2;
+      dhtmlBox.y1 = dhtmlBox.y2;
     }
-    dBox.paint();
+    dhtmlBox.paint();
   }
-  else if ((dBox.currentTool == 'measure' || dBox.currentTool == 'surface') && dBox.isActive == true) {
-      dBox.x2 = e.offsetX;
-      dBox.y2 = e.offsetY;
-      dBox.lastLinePaint(); // the last line is drawn while moving
+  else if ((dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line') && dhtmlBox.isActive == true) {
+      dhtmlBox.x2 = e.offsetX;
+      dhtmlBox.y2 = e.offsetY;
+      dhtmlBox.lastLinePaint(); // the last line is drawn while moving
   }
     // display the coordinates
-    dBox.displayCoords.innerHTML = Dhtml_coord_msg + Math.round((e.offsetX * pixelx) + boxx)  +" / "+ Math.round(((mapy - e.offsetY) * pixely) + boxy);
-
-  /*
-  if (myform.pancoords_x && myform.pancoords_y) {
-       myform.pancoords_x.value = Math.round((e.offsetX * pixelx) + boxx);
-       myform.pancoords_y.value = Math.round(((mapy - e.offsetY) * pixely) + boxy);
-  } else {
-       window.status = Math.round((e.offsetX * pixelx) + boxx)  +"/"+ Math.round(((mapy - e.offsetY) * pixely) + boxy);
-  }
-  */
+    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size) + dhtmlBox.boxy);
 }
 
-function dBox_mouseup(evt) {
+function dhtmlBox_mouseup(evt) {
   var e = new xEvent(evt);
   var name = e.target.id;
-  var dBox = name.substring(0,name.length - 3); // the name of the layer without the 'DIV'
-  dBox = eval(dBox);
 
-  if (dBox.rightclic == true) {
+  if (dhtmlBox.rightclic == true) {
     jg2.clear();
   } else {
 
-    dBox.drag = false; //the mouse is now up
+    dhtmlBox.drag = false; //the mouse is now up
 
-    dBox.x2 = e.offsetX;
-    dBox.y2 = e.offsetY;
+    dhtmlBox.x2 = e.offsetX;
+    dhtmlBox.y2 = e.offsetY;
 
     //the box is too small
-    if(((Math.abs(dBox.x1-dBox.x2) <= dBox.jitter) || (Math.abs(dBox.y1-dBox.y2) <= dBox.jitter)) && dBox.currentTool == 'zoom_in') {
-      dBox.x2 = dBox.x1 = Math.abs(dBox.x1-dBox.x2) /2 + Math.min(dBox.x1, dBox.x2); //zoom to center of the box
-      dBox.y2 = dBox.y1 = Math.abs(dBox.y1-dBox.y2) /2 + Math.min(dBox.y1, dBox.y2);;
+    if(((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter)) && dhtmlBox.currentTool == 'zoom_in') {
+      dhtmlBox.x2 = dhtmlBox.x1 = Math.abs(dhtmlBox.x1-dhtmlBox.x2) /2 + Math.min(dhtmlBox.x1, dhtmlBox.x2); //zoom to center of the box
+      dhtmlBox.y2 = dhtmlBox.y1 = Math.abs(dhtmlBox.y1-dhtmlBox.y2) /2 + Math.min(dhtmlBox.y1, dhtmlBox.y2);;
     }
-
 
     // submit the form with the values
-
-    if (dBox.currentTool == 'zoom_in' || dBox.currentTool == 'zoom_out' || dBox.currentTool == 'query') {
-      dBox.removeEventsWait();
+    if (dhtmlBox.currentTool == 'zoom_in' || dhtmlBox.currentTool == 'zoom_out' || dhtmlBox.currentTool == 'query') {
+      dhtmlBox.removeEventsWait();
       myform.INPUT_TYPE.value = "auto_rect";
-      myform.INPUT_COORD.value = dBox.x1+","+dBox.y1+","+dBox.x2+","+dBox.y2
+      myform.INPUT_COORD.value = dhtmlBox.x1+","+dhtmlBox.y1+","+dhtmlBox.x2+","+dhtmlBox.y2
       myform.submit();
     }
-    else if (dBox.currentTool == 'pan') {
+    else if (dhtmlBox.currentTool == 'pan') {
       myform.INPUT_TYPE.value = "auto_point";
       // pan or simple pan click
-      if (dBox.x2 == dBox.x1 && dBox.y2 == dBox.y1) { //simple click
-        var x = dBox.x2;
-        var y = dBox.y2
+      if (dhtmlBox.x2 == dhtmlBox.x1 && dhtmlBox.y2 == dhtmlBox.y1) { //simple click
+        var x = dhtmlBox.x2;
+        var y = dhtmlBox.y2
         myform.INPUT_COORD.value = x+","+y+";"+x+","+y;
       } else {// pan
         //new center coordinates
-        var x = dBox.width/2 - (dBox.x2 - dBox.x1);
-        var y = dBox.height/2 - (dBox.y2 - dBox.y1);
+        var x = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1);
+        var y = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1);
         myform.INPUT_COORD.value = x+","+y+";"+x+","+y;
       }
       myform.submit();
-    }
-    dBox.paint();
+    } else if (dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon') {
+		// polygon closed by click on the first point
+		if (Math.abs(dhtmlBox.x2 - dhtmlBox.draw_x[1]) <= dhtmlBox.jitter && Math.abs(dhtmlBox.y2 - dhtmlBox.draw_y[1]) <= dhtmlBox.jitter && dhtmlBox.draw_x.length > 2) {
+			dhtmlBox.keyEscape = true;
+			dhtmlBox.isActive = false;
+			jg2.clear();
+		}
+	}
+    dhtmlBox.paint();
   }
 }
 
-function dBox_mouseout(evt) {
+function dhtmlBox_mouseout(evt) {
   var e = new xEvent(evt);
-var name = e.target.id;
-  var dBox = name.substring(0,name.length - 3); // the name of the layer without the 'DIV'
-  dBox = eval(dBox);
 
-  xHide(dBox.displayContainer);
+  xHide(dhtmlBox.displayContainer);
   jg2.clear();
 }
 
-function dBox_dblclick(evt) {
+function dhtmlBox_dblclick(evt) {
   var e = new xEvent(evt);
-  var name = e.target.id;
-  var dBox = name.substring(0,name.length - 3); // the name of the layer without the 'DIV'
-  dBox = eval(dBox);
-
-  dBox.isActive = false;
+  dhtmlBox.dblClick = true;
+  dhtmlBox.isActive = false;
 
   jg2.clear();
-  if (dBox.currentTool == 'surface') {
-    dBox.paint(); // close the polygon
-  }
+  dhtmlBox.paint();
 }
 
-function dBox_keydown(evt) { // ne peut etre utilisé que pour la dBox "main"
+function dhtmlBox_keydown(evt) { // ne peut etre utilisé que pour la dhtmlBox "main"
   evt = (evt) ? evt : ((event) ? event : null);
-  dBox = mainDHTML;
-  if (evt.keyCode == '27' && (dBox.currentTool == 'measure' || dBox.currentTool == 'surface')) {
-    dBox.keyEscape = true;
-    dBox.isActive = false;
+  dhtmlBox = dhtmlBox;
+  if (evt.keyCode == '27' && (dhtmlBox.currentTool == 'measure' || dhtmlBox.currentTool == 'surface' || dhtmlBox.currentTool == 'polygon'  || dhtmlBox.currentTool == 'line')) {
+    dhtmlBox.keyEscape = true;
+    dhtmlBox.isActive = false;
     jg2.clear();
-    dBox.paint();
+    dhtmlBox.paint();
   }
 }
 
-function dBox_paint() { // draws alternatively boxes, lines, polylines, crosses, or pan the map
+function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, crosses, or pan the map
   var x, y, w, h;
 
   x = Math.min(this.x1, this.x2);
@@ -287,51 +276,54 @@ function dBox_paint() { // draws alternatively boxes, lines, polylines, crosses,
     //xResizeTo(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0);
   }
 
-  else if (this.currentTool == 'measure') {
+  else if (this.currentTool == 'measure' || this.currentTool == 'line') {
     if (!this.keyEscape) { // Escape key is pressed
       ++this.cnv_clicks;
       this.draw_x[this.cnv_clicks] = this.x2;
       this.draw_y[this.cnv_clicks] = this.y2;
     }
-
+    this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
+    this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
     if (xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) { // IE/Mac specificity
-      this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
-      this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
       jg.clear();
       jg.drawPolylinePts(this.Xpoints,this.Ypoints, this.d2pts);
     }
     else {
         jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[this.cnv_clicks - 1],this.draw_y[this.cnv_clicks - 1],this.d2pts);
     }
-    if (this.cnv_clicks > 1 && !this.keyEscape) {
-      // distance calculation
-      this.dist_x = (this.draw_x[this.cnv_clicks] - this.draw_x[this.cnv_clicks - 1]) * Dhtml_pixel_size;
-      this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * Dhtml_pixel_size;
-      this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
-      jg.paint();
-    }
-
-    if (Dhtml_dist_unit == ' m.') this.measure = Math.round(this.measure);
-    else if (Dhtml_dist_unit == ' km.') this.measure = Math.round(this.measure*100)/100;
-    this.displayMeasure.innerHTML = Dhtml_dist_msg + this.measure.toString() + Dhtml_dist_unit;
-//    myform.Measure.value = Dhtml_dist_msg + this.measure.toString() + Dhtml_dist_unit;
-
-    //window.status = Dhtml_dist_msg+ this.measure.toString()+ Dhtml_dist_unit;
-    //myform.Measure.value = this.measure.toString();
+	if (this.currentTool == 'measure') { //Calculate the distance and display it
+	  if (this.cnv_clicks > 1 && !this.keyEscape) {
+        // distance calculation
+        this.dist_x = (this.draw_x[this.cnv_clicks] - this.draw_x[this.cnv_clicks - 1]) * this.pixel_size;
+        this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * this.pixel_size;
+        this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
+      }
+      if (this.dist_unit == ' m.') this.measure = Math.round(this.measure);
+      else if (this.dist_unit == ' km.') this.measure = Math.round(this.measure*100)/100;
+      this.displayMeasure.innerHTML = this.dist_msg + this.measure.toString() + this.dist_unit;
+	} else if (this.currentTool == 'line' && !this.isActive) { // submit the form
+		var coords = new String();
+		for (i = 0; i < this.Xpoints.length; i++) {
+			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ",";
+		}
+		myform.selection_type.value = 'line';
+		myform.selection_coords.value = coords.substring(0,coords.length - 1);
+		myform.submit();
+	}
+    jg.paint();
   }
-  else if (this.currentTool == 'surface') {
+  else if (this.currentTool == 'surface' || this.currentTool == 'polygon') {
     if (!this.keyEscape) { // Escape key is pressed
       ++this.cnv_clicks;
       this.draw_x[this.cnv_clicks] = this.x2;
       this.draw_y[this.cnv_clicks] = this.y2;
     }
-
+    this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
+    this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
     if (xUA.indexOf('mac_')!=-1 && xUA.indexOf('msie')!=-1) { // IE/Mac specificity
-      this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
-      this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
       if (!this.isActive) { // close the polygon
         this.Xpoints[this.cnv_clicks] = this.draw_x[1];
-            this.Ypoints[this.cnv_clicks] = this.draw_y[1];
+        this.Ypoints[this.cnv_clicks] = this.draw_y[1];
       }
       jg.clear();
       jg.drawPolylinePts(this.Xpoints,this.Ypoints, this.d2pts);
@@ -339,35 +331,42 @@ function dBox_paint() { // draws alternatively boxes, lines, polylines, crosses,
     else {
       jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[this.cnv_clicks - 1],this.draw_y[this.cnv_clicks - 1],this.d2pts);
       if (!this.isActive) { // close the polygon
-        jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[1],this.draw_y[1],this.d2pts);
+        jg.drawLinePts(this.draw_x[this.cnv_clicks],this.draw_y[this.cnv_clicks],this.draw_x[1],this.draw_y[1],this.d2pts);		
       }
     }
-    this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks];
-    this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks];
 
-    if (this.cnv_clicks > 1  && !this.keyEscape) {
-      //surface calculation
-      var i = 0;
-      this.measure = 0;
-      while (i < this.cnv_clicks - 1) {
-        this.measure += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i];
-        ++i;
-      }
-
-      this.measure += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1];
-      var pix_surf = Dhtml_pixel_size * Dhtml_pixel_size;
-      this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
-
-    }
-    if (Dhtml_surf_unit == ' m².') this.measure = Math.round(this.measure);
-    else if (Dhtml_surf_unit == ' km².') this.measure = Math.round(this.measure*10000)/10000;
-    this.displayMeasure.innerHTML = Dhtml_surf_msg+ this.measure +Dhtml_surf_unit;
-    jg.paint();
+	if (this.currentTool == 'surface') { // calculate the surface and display it
+	  if (this.cnv_clicks > 1  && !this.keyEscape) {
+        //surface calculation
+        var i = 0;
+        this.measure = 0;
+        while (i < this.cnv_clicks - 1) {
+          this.measure += this.Xpoints[i] * this.Ypoints[i+1] - this.Xpoints[i+1] * this.Ypoints[i];
+          ++i;
+        }
+        this.measure += this.Xpoints[this.cnv_clicks -1] * this.Ypoints[0] - this.Xpoints[0] * this.Ypoints[this.cnv_clicks -1];
+        var pix_surf = this.pixel_size * this.pixel_size;
+        this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
+	  }
+      if (this.surf_unit == ' m².') this.measure = Math.round(this.measure);
+      else if (this.surf_unit == ' km².') this.measure = Math.round(this.measure*10000)/10000;
+      this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
+    } else if (this.currentTool == 'polygon' && !this.isActive) { // draw the closed polygon and submit form
+		jg.paint();
+		var coords = new String();
+		for (i = 0; i < this.Xpoints.length; i++) {
+			coords += this.Xpoints[i] +"," + this.Ypoints[i] + ",";
+		}
+		myform.selection_type.value = 'polygon';
+		myform.selection_coords.value = coords.substring(0,coords.length - 1);
+		myform.submit();
+	}
+	jg.paint();
   }
 }
 
 
-function dBox_lastLinePaint() {
+function dhtmlBox_lastLinePaint() {
 
   var x2 = this.x2;
   var y2 = this.y2;
@@ -379,7 +378,7 @@ function dBox_lastLinePaint() {
   if (xIE || xUA.indexOf('mac')!=-1) { //use the drawing API
     jg2.clear();
     jg2.drawLinePts(x2,y2,x,y,this.d2pts); //draw the last vertex
-    if (this.currentTool == "surface") {
+    if (this.currentTool == "surface" || this.currentTool == "polygon") {
       jg2.drawLinePts(x2,y2,x0,y0,this.d2pts); // also draw the line to close the polygon
     }
     jg2.paint();
@@ -401,13 +400,13 @@ function dBox_lastLinePaint() {
       xMoveTo(a,x + dx *i/ this.nbPts,y + dy *i/ this.nbPts);
       xShow(a);
     }
-    if (this.currentTool == "surface") {
+    if (this.currentTool == "surface" || this.currentTool == "polygon") {
       var dx0 = x2 - x0;
       var dy0 = y2 - y0;
       for (var i=this.nbPts;i<this.nbPts * 2;i++) {
         var a = this["vertexPt"+i];
         xMoveTo(a,x0 + dx0 * (i-this.nbPts)/this.nbPts,y0 + dy0 * (i-this.nbPts) / this.nbPts);
-            xShow(a);
+        xShow(a);
       }
     }
   }
@@ -415,25 +414,27 @@ function dBox_lastLinePaint() {
 
 
 
-new dBox(0);
+new dhtmlBox(0);
 
-dBox.prototype.initialize = dBox_initialize; // create instance method
-dBox.prototype.domousedown = dBox_mousedown;
-dBox.prototype.domousemove = dBox_mousemove;
-dBox.prototype.domouseup = dBox_mouseup;
-dBox.prototype.domouseout = dBox_mouseout;
-dBox.prototype.dodblclick = dBox_dblclick;
-dBox.prototype.dokeydown = dBox_keydown;
-dBox.prototype.paint = dBox_paint;
-dBox.prototype.lastLinePaint = dBox_lastLinePaint; // draw the last straight vertex for the measure tool
-dBox.prototype.changetool = dBox_changetool;
-dBox.prototype.removeEventsWait = dBox_removeEventsWait;
+dhtmlBox.prototype.initialize = dhtmlBox_initialize; // create instance method
+dhtmlBox.prototype.domousedown = dhtmlBox_mousedown;
+dhtmlBox.prototype.domousemove = dhtmlBox_mousemove;
+dhtmlBox.prototype.domouseup = dhtmlBox_mouseup;
+dhtmlBox.prototype.domouseout = dhtmlBox_mouseout;
+dhtmlBox.prototype.dodblclick = dhtmlBox_dblclick;
+dhtmlBox.prototype.dokeydown = dhtmlBox_keydown;
+dhtmlBox.prototype.paint = dhtmlBox_paint;
+dhtmlBox.prototype.lastLinePaint = dhtmlBox_lastLinePaint; // draw the last straight vertex for the measure tool
+dhtmlBox.prototype.changeTool = dhtmlBox_changetool;
+dhtmlBox.prototype.removeEventsWait = dhtmlBox_removeEventsWait;
 
-function changeTool(dBox,tool) {
-  eval(dBox+'.changetool(tool)');
+/*
+function changeTool(dhtmlBox,tool) {
+  dhtmlBox.changetool(tool);
 }
+*/
 
-function dBox_removeEventsWait() {
+function dhtmlBox_removeEventsWait() {
    xRemoveEventListener(this.target, 'mousemove', this.domousemove);
    if (this.target.style) this.target.style.cursor = "wait";
 }
