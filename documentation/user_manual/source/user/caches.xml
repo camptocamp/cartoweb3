@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="user.caches">
+  <title>Caches configuration</title>
+  <para>Several different caching mechanisms are available in
+    &cartoweb; for maximum capabilities. The different types of caches
+    are described in the next chapters.</para>
+  
+<!--
+    <para>These parameters are useful during development. Also note that 
+      disabling the caches is also useful during development, to avoid bad 
+      surprises. See <xref linkend="user.config.cache"/>. These parameters are 
+      available in <filename>client_conf/client.ini</filename> for client and 
+      <filename>server_conf/server.ini</filename> for server.</para>
+    <important>
+      <para> Developers are highly recommanded to set the following variables 
+        to true in their config. </para>
+    </important>
+    <para>[FIXME: is this right place?] People may want advanced granularity 
+      during development. For instance, while editing a mapfile, the soap cache 
+      should be enabled for more performance, but the mapResult cache should be 
+      disabled. There are thus more than one parameter that sets 
+      development/debug options. </para>
+    <para>[FIXME: is this right place?] It is important to keep sane defaults 
+      for these options. The rationale is: the default behaviour for a 
+      production environment is to have each of these options unset or set to 
+      false . </para>
+    <para>[FIXME: is this right place?] This means for instance that the option 
+      to display information to developers on the page is named 
+      "showDevelMessages" and not "hideDevelMessages", because if this option 
+      is not set, we want the application to behave like in production 
+      environment, that is not to display messages intended for developers. 
+      This enhances the safety. </para>
+      -->
+      
+  <sect1 id="user.caches.smarty">
+	  <title>The templating system used in &cartoweb; is Smarty<footnote>
+      <para><ulink url="http://smarty.php.net/"></ulink></para></footnote></title>
+    <para></para>
+  </sect1>
+
+  <sect1 id="user.caches.wsdl">
+	  <title>Wsdl cache</title>
+    <para></para>
+  </sect1>
+      
+  <sect1 id="user.caches.mapinfo">
+	  <title>MapInfo cache</title>
+    <para></para>
+  </sect1>
+      
+  <sect1 id="user.caches.mapresult">
+	  <title>MapResult cache</title>
+    <para></para>
+  </sect1>
+
+  <sect1 id="user.caches.soapxml">
+	  <title>XML SOAP cache</title>
+    <para></para>
+  </sect1>
+  
+  <sect1 id="user.config.cache">
+    <title>Caches Configuration</title>
+
+    <sect2 id="user.config.cache.common_">
+      <title>Rationale</title>
+      <para>All cache configuration name are in the form 
+        <literal>noXXXName</literal>, where <literal>XXX</literal> is the
+        name of the cache. This is so, so that if the parameter is not available, 
+        its default value will be false, meaning that all caches are active
+        by default, for maximum performance.</para>
+		</sect2>
+
+    <sect2 id="user.config.cache.common">
+      <title>Client and Server Cache Options</title>
+      <para>These parameters are available in 
+        <filename>client_conf/client.ini</filename> for client and 
+        <filename>server_conf/server.ini</filename> for server. </para>
+      <itemizedlist>
+        <listitem>
+          <para> noWsdlCache = true|false: disables the caching of wsdl 
+            (ignored if useWsdl is false) </para>
+        </listitem>
+        <listitem>
+          <para> noMapInfoCache = true|false: disables the caching of MapInfo 
+            requests </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="user.config.cache.server">
+      <title>Server Cache Options</title>
+      <para>These parameters are available in 
+        <filename>server_conf/server.ini</filename>. </para>
+      <itemizedlist>
+        <listitem>
+          <para> noMapResultCache = true|false: disables the caching of getMap 
+            requests </para>
+        </listitem>
+        <listitem>
+          <para> noSoapXMLCache = true|false: disables the caching of SOAP XML 
+            requests </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+ 
+</chapter>
