@@ -148,7 +148,6 @@
   <p> LocationInfo: {$location_info} </p>
 
   {if $selection_result|default:''}
-  <h1>Selection result: </h1>
   {$selection_result}
   {/if}
 
