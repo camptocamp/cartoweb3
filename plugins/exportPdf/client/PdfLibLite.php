@@ -357,11 +357,13 @@
         */
     }
 
-    function addTableCell() {}
+    private function addTableCell() {}
 
-    function addTableRow() {}
+    private function addTableRow() {}
 
-    function addTable() {}
+    function addTable(PdfBlock $block) {}
+
+    function addLegend(PdfBlock $block) {}
 
     function finalizeDocument() {
         try {
