@@ -9,10 +9,12 @@ fetch_libs:
 
 clean:
 	find -name "*~" -type f -exec  rm {} \;
-	rm -f  www-data/images/*
-	rm -f  www-data/saved_posts/*
+	find www-data -type f|xargs -r rm
 	rm -f templates_c/*
+	find -type l -exec rm {} \;
+
 dirs:
+	-mkdir -p www-data/mapinfo_cache
 	-mkdir -p www-data/images
 	-mkdir -p www-data/saved_posts
 	-mkdir -p templates_c
@@ -23,15 +25,11 @@ links:
 perms:
 	chmod +x scripts/*sh scripts/*py
 	chmod 777 log
-	chmod 777 www-data/images
-	chmod 777 www-data/saved_posts
-	chmod 777 www-data templates_c
+	chmod -R 777 www-data
 
 perms_sudo:
 	sudo chown www-data log
-	sudo chown www-data www-data/images
-	sudo chown www-data www-data/saved_posts
-	sudo chown www-data templates_c
+	sudo chown -R www-data www-data
 
 create_config:
 	for i in `find -name "*.dist"`; do \
