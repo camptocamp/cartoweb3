@@ -1,20 +1,39 @@
-<h2>{t}Login dialog{/t}</h2>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-<div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
+  <style type="text/css">
+  {literal}
+  body {margin:10px;}
+  form div {width:250px;height:20px;}
+  input {float:right;}
+  {/literal}
+  </style>
+  <title>{t}Cartoclient Title{/t} - {t}Login dialog{/t}</title>
+</head>
+
+<body>
+
+<h3>{t}Cartoclient Title{/t} - {t}Login dialog{/t}</h3>
+
 {if $reason eq "logout"}
-<div style="color:blue;">{t}You've been logged out{/t}</div>
+<p style="color:blue;">{t}You've been logged out{/t}</p>
+{elseif $reason eq "loginFailed"}
+<p style="color:red;">Login failure</p>
 {/if}
 
-<div>{t}Please enter your login and password{/t}</div>
+<p>{t}Please enter your login and password{/t}</p>
 
-{if $reason eq "loginFailed"}
-<div style="color:red;">Login failure</div>
-{/if}
-
-<div>
 <form method="post" action="{$smarty.server.PHP_SELF}">
-<div>{t}Username{/t}: <input type="text" name="username" /></div>
-<div>{t}Password{/t}: <input type="password" name="password" /></div>
-<input type="submit" value="{t}Submit{/t}">
+<div><input type="text" name="username" value="" />{t}Username{/t}: </div>
+<div><input type="password" name="password" value="" />{t}Password{/t}:</div>
+<div><input type="submit" value="{t}Submit{/t}" /></div>
 </form>
-<div>
+
+<p><a href="{$smarty.server.PHP_SELF}">{t}Click here to go back to the map{/t}</a></p>
+
+</body>
+</html>
