@@ -128,6 +128,15 @@ class MapInfoHandler {
 
         $this->mapInfo = new MapInfo();
         $this->mapInfo->unserialize($configStruct->mapInfo);
+
+        // if no initialMapState defined, create a default one.
+        if (empty($this->mapInfo->initialMapStates)) {
+            $initialMapState = new InitialMapState();
+            $initialMapState->id = 'default';
+            $initialMapState->layers = array();
+            
+            $this->mapInfo->initialMapStates[] = $initialMapState;
+        }
         
         // sets default location of initial map states if not set.
         if (isset($this->mapInfo->initialMapStates)) {
