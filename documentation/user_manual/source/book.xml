@@ -17,12 +17,7 @@
   <part id="cartoweb.intro">
     <title>Presentation and Architecture</title>
     <partintro>
-      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli </para>
+      <para>TODO: introduction</para>
     </partintro>
     <xi:include href="intro/presentation.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -34,12 +29,8 @@
   <part id="cartoweb.user">
     <title>User Manual</title>
     <partintro>
-      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli </para>
+      <para>TODO: introduction including differences between user and 
+        developer manuals, and who should use this manual</para>
     </partintro>
     <xi:include href="user/install.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
@@ -73,12 +64,7 @@
   <part id="cartoweb.dev">
     <title>Developer Manual</title>
     <partintro>
-      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
-        Bli Bli </para>
+      <para>TODO: introduction</para>
     </partintro>
     <xi:include href="dev/soapcalls.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />

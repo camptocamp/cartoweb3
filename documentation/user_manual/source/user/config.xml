@@ -218,8 +218,7 @@
         </itemizedlist>
         <para> Example of Initial MapState: </para>
         <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
-mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
-mapInfo.initialMapStates.default.layers.polygon.hidden = true
+mapInfo.initialMapStates.default.layers.point.hidden = true
 ...
 
 mapInfo.initialMapStates.map25.layers.polygon.selected = true
