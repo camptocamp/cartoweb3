@@ -5,7 +5,7 @@
  */
 
 /**
- * A service plugin to perform queries based on a set of selected id's.
+ * A service plugin to perform queries based on a set of selected id's
  * @package CorePlugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
@@ -21,7 +21,15 @@ class ServerMapquery extends ServerPlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * Returns Ids for generic query
+     * @param string
+     * @param string
+     * @param array
+     * @return array
+     */
     private function genericQueryString($idAttribute, $idType, $selectedIds) {
+    
         // FIXME: does queryByAttributes support multiple id's for dbf ?
         $queryString = array();
         foreach($selectedIds as $id) {
@@ -34,6 +42,13 @@ class ServerMapquery extends ServerPlugin {
         return $queryString;
     }
     
+    /**
+     * Returns Ids for database query
+     * @param string
+     * @param string
+     * @param array
+     * @return array
+     */
     private function databaseQueryString($idAttribute, $idType, $selectedIds) {
         if (count($selectedIds) == 0)
             return array('false');
@@ -43,12 +58,25 @@ class ServerMapquery extends ServerPlugin {
         return array("$idAttribute in ('$queryString')");
     }
 
+    /**
+     * Returns true if layer is linked to a database
+     * @param msLayer
+     * @return boolean
+     */ 
     private function isDatabaseLayer($msLayer) {
         return $msLayer->connectiontype == MS_POSTGIS;
     }
 
+    /**
+     * Performs a query on a layer using attributes
+     * @param ServerContext
+     * @param msLayer
+     * @param string
+     * @param string
+     * @return array an array of shapes
+     */
     private function queryLayerByAttributes(ServerContext $serverContext, 
-                     $msLayer, $idAttribute, $query) { 
+                                            $msLayer, $idAttribute, $query) { 
         $log =& LoggerManager::getLogger(__METHOD__);
         
         // save extent, and set it to max extent
@@ -84,6 +112,10 @@ class ServerMapquery extends ServerPlugin {
         return $results;
     }
 
+    /**
+     * Checks if layer's connection type is implemented
+     * @param msLayer
+     */
     private function checkImplementedConnectionTypes($msLayer) {
     
         $implementedConnectionTypes = array(MS_SHAPEFILE, MS_POSTGIS);
@@ -95,15 +127,20 @@ class ServerMapquery extends ServerPlugin {
                 "connection type: $msLayer->connectiontype");
     }
 
+    /**
+     * Decodes Ids
+     * @param array
+     * @return array
+     */
     private function decodeIds($ids) {
         return array_map('utf8_decode', $ids);
     }
     
     /**
-     * Perform a query based on a set of selected id's on a given layer.
-     * @param ServerContext Current server context
+     * Performs a query based on a set of selected id's on a given layer
      * @param IdSelection The selection to use for the query. It contains a
-     *                    layer  name and a set of id's
+     *                    layer name and a set of id's
+     * @return array an array of shapes
      */
     public function queryByIdSelection(IdSelection $idSelection) {
 
