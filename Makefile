@@ -48,8 +48,8 @@ dirs:
 links:
 	ln -snf ../www-data/images htdocs/images
 	-(cd server_conf/test_continuous; for i in ../test/*; do ln -s $$i; done)
-	ln -s test.map server_conf/test_continuous/test_continuous.map
-	ln -s test.ini server_conf/test_continuous/test_continuous.ini
+	ln -snf test.map server_conf/test_continuous/test_continuous.map
+	ln -snf test.ini server_conf/test_continuous/test_continuous.ini
 
 perms:
 	chmod +x scripts/*sh scripts/*py
