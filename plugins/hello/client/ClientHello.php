@@ -7,7 +7,8 @@
 /**
  * @package Plugins
  */
-class ClientHello extends ClientPlugin {
+class ClientHello extends ClientPlugin
+                  implements Sessionable, GuiProvider {
 
     const HELLO_INPUT = 'hello_input';
     
@@ -32,10 +33,12 @@ class ClientHello extends ClientPlugin {
         return $this->count;
     }
     
-    function handleHttpRequest($request) {
+    function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
         $this->message = @$_REQUEST[self::HELLO_INPUT];
     }
+
+    function handleHttpGetRequest($request) {}
 
     function buildMapRequest($mapRequest) {
         //$mapRequest->helloRequest = @$_REQUEST[self::HELLO_INPUT];
