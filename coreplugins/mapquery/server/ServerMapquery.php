@@ -180,7 +180,7 @@ class ServerMapquery extends ServerPlugin {
 
     /**
      * Performs a query based on a bbox on a given layer
-     * @param strinf layerId
+     * @param string layerId
      * @param Bbox
      * @return array an array of shapes
      */
