@@ -14,12 +14,17 @@
 class I18n {
     const DEFAULT_PROJECT_DOMAIN = 'default';
     
+    /**
+     * Translator
+     * @var I18nInterface
+     */
     static private $i18n;
     
     /**
      * Initializes locales
      *
      * Default language is set in configuration file (variable defaultLang).
+     * @param ClientConfig
      */
     static function init($config) {
         self::$i18n = new $config->I18nClass;
@@ -35,6 +40,7 @@ class I18n {
      * Returns available locales
      *
      * Looks for two-characters directories in locale directory.
+     * @return array array of locales (two-characters strings)
      */
     static function getLocales() {
     
@@ -60,6 +66,7 @@ class I18n {
      * - $_SERVER['HTTP_ACCEPT_LANGUAGE']
      *
      * If no language is found, default language is set.
+     * @param string default language
      */
     static function setLocale($defaultLang) {
         $log =& LoggerManager::getLogger(__METHOD__); 
@@ -123,6 +130,9 @@ class I18n {
     
     /**
      * Calls translator's bindtextdomain
+     * @param string domain
+     * @param string path to tranlsations
+     * @return string full path
      */
     static function bindtextdomain($domain, $path) {
         return self::$i18n->bindtextdomain($domain, $path);
@@ -130,6 +140,8 @@ class I18n {
 
     /**
      * Calls translator's textdomain
+     * @param string domain
+     * @return string domain
      */
     static function textdomain($domain) {
         return self::$i18n->textdomain($domain);
@@ -137,6 +149,8 @@ class I18n {
     
     /**
      * Calls translator's gettext
+     * @param string text to translate
+     * @return string tranlated text
      */
     static function gt($text) {
         return self::$i18n->gettext($text);
@@ -144,6 +158,10 @@ class I18n {
     
     /**
      * Calls translator's ngettext
+     * @param string text to translate
+     * @param string text to translate (plural)
+     * @param int count
+     * @return string translated text
      */
     static function ngt($text, $plural, $count) {
         return self::$i18n->ngettext($text, $plural, $count);
@@ -158,21 +176,30 @@ interface I18nInterface {
 
     /**
      * Wrapper for function bindtextdomain
+     * @param string domain
+     * @param string path to tranlsations
      */ 
     function bindtextdomain($domain, $path);
     
     /**
      * Wrapper for function textdomain
+     * @param string domain
      */ 
     function textdomain($domain);
     
     /**
      * Wrapper for function gettext
+     * @param string text to translate
+     * @return string tranlated text
      */
     static function gettext($text);
 
     /** 
      * Wrapper for function ngettext
+     * @param string text to translate
+     * @param string text to translate (plural)
+     * @param int count
+     * @return string translated text
      */  
     static function ngettext($text, $plural, $count);
 }
@@ -183,16 +210,28 @@ interface I18nInterface {
  */
 class I18nDummy implements I18nInterface {
 
+    /**
+     * @see I18nInterface::bindtextdomain()
+     */
     function bindtextdomain($domain, $path) {
     }
     
+    /**
+     * @see I18nInterface::textdomain()
+     */
     function textdomain($domain) {
     }
     
+    /**
+     * @see I18nInterface::gettext()
+     */
     static function gettext($text) {
         return $text;
     }
     
+    /**
+     * @see I18nInterface::ngettext()
+     */
     static function ngettext($text, $plural, $count) {
         return $text;
     }
@@ -206,33 +245,44 @@ class I18nDummy implements I18nInterface {
  */
 class I18nGettext implements I18nInterface {
 
+    /**
+     * @see I18nInterface::bindtextdomain()
+     */
     function bindtextdomain($domain, $path) {
         bindtextdomain($domain, $path);
         $log =& LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: binddomain ' . $domain . ' ' . $path);
     }
     
+    /**
+     * @see I18nInterface::textdomain()
+     */
     function textdomain($domain) {
         textdomain($domain);
         $log =& LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: textdomain ' . $domain);
     }
     
+    /**
+     * @see I18nInterface::gettext()
+     */
     static function gettext($text) {
         return gettext($text);
     }
     
+    /**
+     * @see I18nInterface::ngettext()
+     */
     static function ngettext($text, $plural, $count) {
         return ngettext($text, $plural, $count);
     }
 }
 
 /**
- * Replace arguments in a string with their values.
+ * Replace arguments in a string with their values
  * 
  * Arguments are represented by % followed by their number.
  * Original code was written by Sagi Bashari <sagi@boom.org.il>
- *
  * @param   string  Source string
  * @param   mixed   Arguments, can be passed in an array or through single variables.
  * @return  string  Modified string
@@ -258,12 +308,11 @@ function strarg($str)
 }
 
 /**
- * Smarty block function, provides gettext support for smarty.
+ * Smarty block function, provides gettext support for Smarty
  *
  * Original code was written by Sagi Bashari <sagi@boom.org.il>
  *
  * The block content is the text that should be translated.
- *
  * Any parameter that is sent to the function will be represented as %n in the translation text, 
  * where n is 1 for the first parameter. The following parameters are reserved:
  *   - escape - sets escape mode:
@@ -272,6 +321,10 @@ function strarg($str)
  *       - 'no'/'off'/0 - turns off escaping
  *   - plural - The plural version of the text (2nd parameter of ngettext())
  *   - count - The item count for plural mode (3rd parameter of ngettext())
+ * @param array parameters
+ * @param string text to translate
+ * @param Smarty Smarty engine
+ * @return string translated text
  */
 function smartyTranslate($params, $text, &$smarty)
 {

@@ -13,6 +13,12 @@ class PixelCoordsConverter {
 
     /**
      * Computes pixel to geographical coordinates transformation
+     * @param double pixel coordinate
+     * @param double maximum pixel coordinate
+     * @param double minimum geographical coordinate
+     * @param double maximum geographical coordinate
+     * @param boolean true if pixel coordinates are reversed
+     * @return double geographical coordinate
      */
     private static function pixel2Coord($pixelPos, $pixelMax, $geoMin, $geoMax, 
                                         $inversePix) {
@@ -34,11 +40,10 @@ class PixelCoordsConverter {
      * 
      * Pixel coordinates have their origin on image top left. x grows positively
      * from left to right, and y grows from top to bottom.
-     *
-     * @param $pixelPoint the point in pixel coordinates
-     * @param $imageSize the size of the image containing the pixel point 
-     * @param $bbox the geographical bbox extent of the image.
-     * @return a point in geographical coordinates
+     * @param Point the point in pixel coordinates
+     * @param Dimension the size of the image containing the pixel point 
+     * @param Bbox the geographical bbox extent of the image.
+     * @return Point point in geographical coordinates
      */
     static function point2Coords(Point $pixelPoint, Dimension $imageSize, Bbox $bbox) {
 
@@ -62,6 +67,7 @@ class DhtmlSelectionParser {
     
     /**
      * Returns true if main map was clicked
+     * @return boolean
      */
     static function isMainmapClicked() {
     
@@ -74,6 +80,10 @@ class DhtmlSelectionParser {
     
     /**
      * Parses pixel data and converts it to Point
+     * @param string serialized pixel coordinates
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Point point in geographical coordinates
      */
     private function pixelToPoint($pixel_coord, 
             Dimension $imageSize, Bbox $bbox) {
@@ -85,6 +95,10 @@ class DhtmlSelectionParser {
     
     /**
      * Parses coords array data and converts it to an array of Point
+     * @param string serialized pixel coordinates
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return array array of {@link Point} in geographical coordinates
      */
     private function coordsToPoints($selection_coords, 
             Dimension $imageSize, Bbox $bbox) {
@@ -99,7 +113,10 @@ class DhtmlSelectionParser {
     }
     
     /**
-     * Parses coords array data and converts it to a Rectangle
+     * Parses coords array data stored in $_REQUEST and converts it to a Rectangle
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Rectangle rectangle in geographical coordinates
      */
     private function getRectangleShape(Dimension $imageSize, Bbox $bbox) {
         
@@ -119,7 +136,10 @@ class DhtmlSelectionParser {
     }
        
     /**
-     * Parses coords array data and converts it to a Polygon
+     * Parses coords array data stored in $_REQUEST and converts it to a Polygon
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Polygon polygon in geographical coordinates
      */
     private function getPolygonShape(Dimension $imageSize, Bbox $bbox) {
         
@@ -139,7 +159,10 @@ class DhtmlSelectionParser {
     }
 
     /**
-     * Parses coords array data and converts it to Point
+     * Parses coords array data stored in $_REQUEST and converts it to Point
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Point point in geographical coordinates
      */
     private function getPointShape(Dimension $imageSize, Bbox $bbox) {
 
@@ -153,6 +176,10 @@ class DhtmlSelectionParser {
     
     /**
      * Converts coords array data to a Shape
+     * @param CartoForm 
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Shape shape in geographical coordinates
      */
     function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
 
@@ -181,15 +208,24 @@ class DhtmlSelectionParser {
  * @package Client
  */
 class HttpRequestHandler {
+
+    /** 
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @param Cartoclient
+     */
     function __construct($cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
     }
 
     /**
-     * Returns true is button was clicked
+     * Returns true if button was clicked
+     * @param string button name
+     * @return boolean
      */
     static function isButtonPushed($name) {
         return @$_REQUEST[$name . '_x'] or @$_REQUEST[$name . '_y'];
@@ -197,6 +233,8 @@ class HttpRequestHandler {
 
     /**
      * Returns point where button was clicked
+     * @param string button name
+     * @return Point position of click
      */
     static function getButtonPixelPoint($buttonName) {
         $x = $_REQUEST[$buttonName . '_x'];
@@ -209,6 +247,8 @@ class HttpRequestHandler {
      * Returns true if main map was clicked
      *
      * Stores the shape selected on main map.
+     * @param CartoForm
+     * @return boolean
      */
     private function checkMainmapButton($cartoForm) {
 
@@ -236,6 +276,8 @@ class HttpRequestHandler {
      * Returns true if key map was clicked
      *
      * Stores the point selected on key map.
+     * @param CartoForm
+     * @return boolean
      */
     private function checkKeymapButton($cartoForm) {
         
@@ -259,6 +301,7 @@ class HttpRequestHandler {
 
     /**
      * Checks if one map was clicked
+     * @param CartoForm
      */
     private function checkClickedButtons($cartoForm) {
 
@@ -272,7 +315,10 @@ class HttpRequestHandler {
     }
     
     /**
-     * Handles HTTP request for one tool
+     * Handles HTTP request for one tool of one plugin
+     * @param ClientPlugin plugin
+     * @param ToolDescription tool
+     * @return mixed request
      */
     private function handleTool(ClientPlugin $plugin, ToolDescription $tool) {
     
@@ -294,9 +340,11 @@ class HttpRequestHandler {
     }
 
     /**
-     * Handles HTTP request for plugin's tools
+     * Handles HTTP request for selected plugin tool
      *
-     * Assumes that $plugin is an instance of ToolProvider.
+     * Assumes that $plugin is an instance of {@link ToolProvider}.
+     * @param ClientPlugin plugin
+     * @return mixed request
      */
     function handleTools(ClientPlugin $plugin) {
     
@@ -324,9 +372,10 @@ class HttpRequestHandler {
     }
 
     /** 
-     * Main method
-     *
      * Handles buttons and tools.
+     * @param ClientSession session
+     * @param CartoForm current status
+     * @return CartoForm modified status
      */
     function handleHttpRequest($clientSession, $cartoForm) {
 
@@ -344,4 +393,5 @@ class HttpRequestHandler {
         return $cartoForm;
     }
 }
+
 ?>

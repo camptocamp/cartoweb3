@@ -11,11 +11,25 @@
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
 class MapInfoCache {
+
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @var Cartoclient
+     */
     private $cartoclient;
+    
+    /**
+     * @var int
+     */
     private $timeStamp;
 
+    /**
+     * @param Cartoclient
+     */
     function __construct(CartoClient $cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
@@ -24,6 +38,8 @@ class MapInfoCache {
 
     /**
      * Gets MapInfo from the server
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     private function getMapInfoWithService($mapId) {
 
@@ -32,6 +48,8 @@ class MapInfoCache {
 
     /**
      * Gets MapInfo cache file name
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     private function getMapInfoFile($mapId) {
         
@@ -41,6 +59,8 @@ class MapInfoCache {
 
     /**
      * Writes MapInfo cache file and returns MapInfo
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     private function cacheMapInfo($mapId) {
          
@@ -56,6 +76,8 @@ class MapInfoCache {
 
     /**
      * Reads MapInfo from file and unserializes it
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     private function readMapInfo($mapId) {
 
@@ -69,6 +91,7 @@ class MapInfoCache {
 
     /**
      * Returns true if cache is disabled
+     * @return boolean
      */
     private function skipCache() {
         // TODO: check if the mapInfo cache is useful in direct mode
@@ -78,6 +101,8 @@ class MapInfoCache {
 
     /**
      * Checks if MapInfo is up-to-date, reload it from server if it's not
+     * @param int timestamp
+     * @param string mapId
      */
     function checkMapInfoTimestamp($timeStamp, $mapId) {
 
@@ -96,6 +121,8 @@ class MapInfoCache {
 
     /**
      * Returns MapInfo using cache
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     private function doGetMapInfo($mapId) {
         
@@ -117,6 +144,8 @@ class MapInfoCache {
     
     /**
      * Returns MapInfo and update time stamp for next check
+     * @param string mapId
+     * @return MapInfo MapInfo
      */
     function getMapInfo($mapId) {
      
