@@ -48,10 +48,6 @@ initialTool = zoom_in
 
 ; the list of plugins to load, separated by comma
 loadPlugins = hello
-; unused
-localPluginsPath = toto
-; unused
-localPlugins = myLocal
 
 ;## Template engine configuration ##
 
