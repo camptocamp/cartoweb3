@@ -33,14 +33,16 @@ abstract class LocationCalculator {
         
         // Horizontal 
         if ($newBbox->minx < $this->maxExtent->minx) {
-            $newBbox->maxx = $newBbox->maxx + $this->maxExtent->minx - $newBbox->minx;
+            $newBbox->maxx = $newBbox->maxx + $this->maxExtent->minx 
+                             - $newBbox->minx;
             $newBbox->minx = $this->maxExtent->minx;            
             if ($newBbox->maxx > $this->maxExtent->maxx) {
                 // Bbox was too large to fit
                 $newBbox->maxx = $this->maxExtent->maxx;
             }
         } else if ($newBbox->maxx > $this->maxExtent->maxx) {
-            $newBbox->minx = $newBbox->minx + $this->maxExtent->maxx - $newBbox->maxx;
+            $newBbox->minx = $newBbox->minx + $this->maxExtent->maxx 
+                             - $newBbox->maxx;
             $newBbox->maxx = $this->maxExtent->maxx;
             if ($newBbox->minx < $this->maxExtent->minx) {
                 // Bbox was too large to fit
@@ -50,14 +52,16 @@ abstract class LocationCalculator {
 
         // Vertical
         if ($newBbox->miny < $this->maxExtent->miny) {
-            $newBbox->maxy = $newBbox->maxy + $this->maxExtent->miny - $newBbox->miny;
+            $newBbox->maxy = $newBbox->maxy + $this->maxExtent->miny 
+                             - $newBbox->miny;
             $newBbox->miny = $this->maxExtent->miny;
             if ($newBbox->maxy > $this->maxExtent->maxy) {
                 // Bbox was too high to fit
                 $newBbox->maxy = $this->maxExtent->maxy;
             }
         } else if ($newBbox->maxy > $this->maxExtent->maxy) {
-            $newBbox->miny = $newBbox->miny + $this->maxExtent->maxy - $newBbox->maxy;
+            $newBbox->miny = $newBbox->miny + $this->maxExtent->maxy 
+                             - $newBbox->maxy;
             $newBbox->maxy = $this->maxExtent->maxy;
             if ($newBbox->miny < $this->maxExtent->miny) {
                 // Bbox was too high to fit
@@ -69,12 +73,14 @@ abstract class LocationCalculator {
         $newRatio = $newBbox->getWidth() / $newBbox->getHeight();
         if ($oldRatio > $newRatio) {
             // Too high
-            $newHeightDiff = ($newBbox->getHeight() - ($newBbox->getWidth() / $oldRatio)) / 2.0;
+            $newHeightDiff = ($newBbox->getHeight() - 
+                              ($newBbox->getWidth() / $oldRatio)) / 2.0;
             $newBbox->miny += $newHeightDiff;
             $newBbox->maxy -= $newHeightDiff;
         } else if ($oldRatio < $newRatio) {
             // Too large
-            $newWidthDiff = ($newBbox->getWidth() - ($newBbox->getHeight() * $oldRatio)) / 2.0;
+            $newWidthDiff = ($newBbox->getWidth() - 
+                             ($newBbox->getHeight() * $oldRatio)) / 2.0;
             $newBbox->minx += $newWidthDiff;
             $newBbox->maxx -= $newWidthDiff;
         }
@@ -278,7 +284,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
             $scale = $this->requ->scale;
             break;
         default:
-            throw new CartoserverException("unknown zoom type " .
+            throw new CartoserverException('unknown zoom type ' .
                                            $this->requ->zoomType);
         }
         return $scale;
@@ -326,7 +332,7 @@ class ServerLocation extends ServerCorePlugin {
     }
     
     function getResultFromRequest($requ) {
-        $this->log->debug("Get result from request: ");
+        $this->log->debug('Get result from request: ');
         $this->log->debug($requ);
 
         $this->initScales();
@@ -361,7 +367,8 @@ class ServerLocation extends ServerCorePlugin {
                                         $this->scales);
             break;
         default:
-            throw new CartoserverException('unknown location request type: ' . $requ->locationType);
+            throw new CartoserverException('unknown location request type: ' . 
+                                           $requ->locationType);
         }
 
         // Scaling
