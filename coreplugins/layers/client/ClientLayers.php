@@ -20,6 +20,7 @@ class ClientLayers extends ClientCorePlugin {
     private $unfoldedIds = array();
     private $nodeId = 0;
     private $nodesIds = array();
+    private $childrenCache = array();
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -63,13 +64,33 @@ class ClientLayers extends ClientCorePlugin {
         else throw new CartoclientException("unknown layer name: $layername");
     }
 
-    private function getNodesIds($layer) {
-        if ((!isset($layer->aggregate) || !$layer->aggregate) && 
+    /**
+     * Returns a list of current layer children, taking into account some
+     * criteria such as aggregation, LayerClass name validity.
+     */
+    private function getLayerChildren($layer) {
+        if(isset($this->childrenCache[$layer->id]))
+            return $this->childrenCache[$layer->id];
+
+        if ((!$layer instanceof LayerGroup || 
+             !isset($layer->aggregate) || !$layer->aggregate) &&
             !empty($layer->children) && is_array($layer->children)) {
-            foreach ($layer->children as $child) {
-                $childLayer = $this->getLayerByName($child);
-                $this->getNodesIds($childLayer);
-            }
+            $children = $this->filterAnonymLayerClasses($layer->children);
+        } elseif (isset($layer->aggregate) && $layer->aggregate) {
+            $children = $this->getClassChildren($layer);
+        } else $children = array();
+
+        $this->childrenCache[$layer->id] = $children;
+        return $children;
+    }
+
+    /**
+     * Recursively populates the array ('HTML id' => 'Layer id').
+     */
+    private function getNodesIds($layer) {
+        foreach ($this->getLayerChildren($layer) as $child) {
+            $childLayer = $this->getLayerByName($child);
+            $this->getNodesIds($childLayer);
         }
 
         $this->nodesIds[] = $layer->id;
@@ -99,7 +120,7 @@ class ClientLayers extends ClientCorePlugin {
         // unfolded layergroups:
         $rootLayer = $this->getLayerByName('root');
         $this->getNodesIds($rootLayer);
-        
+       
         if (!@$request['openNodes']) $request['openNodes'] = false;
         $openNodes = array_unique(explode(',', $request['openNodes']));
 
@@ -216,16 +237,8 @@ class ClientLayers extends ClientCorePlugin {
         $layerChecked = $forceSelection ||
                         in_array($layer->id, $this->selectedLayers);
 
-        if ((!$layer instanceof LayerGroup || 
-             !isset($layer->aggregate) || !$layer->aggregate) &&
-            !empty($layer->children) && is_array($layer->children)) {
-            $children = $this->filterAnonymLayerClasses($layer->children);
-        } elseif (isset($layer->aggregate) && $layer->aggregate) {
-            $children = $this->getClassChildren($layer);
-        } else $children = array();
-
         $childrenLayers = array();
-        foreach ($children as $child) {
+        foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
             $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked);
         }
@@ -266,6 +279,7 @@ class ClientLayers extends ClientCorePlugin {
 
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
+        
         $this->log->debug('Building of layers items: ' .
             $this->smartyNb + 1 . ' Smarty objects used.');
         
