@@ -79,7 +79,7 @@
                 factor=$factor}
         {/capture}
       {/strip}
-     {$pixSizeX} 
+ 
       // map units values
       dhtmlBox.mapHeight = {$mainmap_height};
       dhtmlBox.boxx = {$bboxMinX};
@@ -88,7 +88,7 @@
       dhtmlBox.dist_msg = '{t}Approx. distance: {/t}';
       dhtmlBox.dist_unit = {if $factor == 1000}' km'{else}' m'{/if};
       dhtmlBox.surf_msg = '{t}Approx. surface: {/t}';
-      dhtmlBox.surf_unit = {if $factor == 1000}' km�'{else}' m�'{/if};
+      dhtmlBox.surf_unit = {if $factor == 1000}' km2'{else}' m2'{/if};
       dhtmlBox.coord_msg = '{t}Coords (m): {/t}';
   {literal}
           
