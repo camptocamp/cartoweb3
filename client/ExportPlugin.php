@@ -64,6 +64,11 @@ class ExportConfiguration {
      * @var string
      */
     private $locationType;
+
+    /**
+     * @var Rectangle
+     */
+    private $printOutline;
        
     /**
      * @param boolean
@@ -199,10 +204,24 @@ class ExportConfiguration {
     }
 
     /**
-     * @return $string
+     * @return string
      */
     function getLocationType() {
         return $this->locationType;
+    }
+
+    /**
+     * @param Rectangle
+     */
+    function setPrintOutline($bbox) {
+        $this->printOutline = $bbox;
+    }
+
+    /**
+     * @return Rectangle
+     */
+    function getPrintOutline() {
+        return $this->printOutline;
     }
 
     // TODO: Add all configuration variables
