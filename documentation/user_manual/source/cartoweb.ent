@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- $Id$ -->
-<!ENTITY cw "CartoWeb">
+<!ENTITY cartoweb "CartoWeb">
+<!ENTITY cartoclient "CartoClient">
+<!ENTITY cartoserver "CartoServer">
 <!ENTITY cw_version "3.0">
