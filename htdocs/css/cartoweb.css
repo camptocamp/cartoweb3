@@ -35,10 +35,16 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {
-  z-index: 0;
-  margin-left: 205px;
+#content {z-index: 0;margin-left: 205px;}
+
+#loadbar {
+  width:170px;
+  padding:10px;
+  background-color:white;
+  border:1px solid #eee;
+  font-weight:bold;
 }
+#loadbar img {border:0;margin-top:10px;}
 
 pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
