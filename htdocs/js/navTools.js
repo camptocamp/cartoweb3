@@ -93,11 +93,13 @@ function dhtmlBox_changetool() {
   xRemoveEventListener(this.target,'mouseup',this.domouseup)
   xRemoveEventListener(this.target,'mousemove',this.domousemove)
   xRemoveEventListener(this.target,'mouseout',this.domouseout)
+  xRemoveEventListener(this.target,'dblclick',this.dodblclick)
   
   xAddEventListener(this.target,'mousedown',this.domousedown)
   xAddEventListener(this.target,'mouseup',this.domouseup)
   xAddEventListener(this.target,'mousemove',this.domousemove)
   xAddEventListener(this.target,'mouseout',this.domouseout)
+  xAddEventListener(this.target,'DBLCLICK',this.dodblclick)
 
   xAddEventListener(document,'keydown',this.dokeydown)
  
@@ -136,7 +138,6 @@ function dhtmlBox_mousedown(evt) {
 	
     if (!dhtmlBox.isActive) {
       dhtmlBox.isActive = true
-      dhtmlBox.dblClick = false
       dhtmlBox.Xpoints = new Array()
       dhtmlBox.Ypoints = new Array()
       if (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') { //init
@@ -145,7 +146,6 @@ function dhtmlBox_mousedown(evt) {
         dhtmlBox.draw_x = new Array()
         dhtmlBox.draw_y = new Array()
         dhtmlBox.measure = 0
-        dhtmlBox.dblClick = false
       }
     }
   
@@ -155,16 +155,16 @@ function dhtmlBox_mousedown(evt) {
     } else {
 	  dhtmlBox.drag = true // the mouse is down
     }
-  
-    if (dhtmlBox.dblClick && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') &&
-      Math.sqrt((dhtmlBox.x2 - dhtmlBox.oldx) * (dhtmlBox.x2 - dhtmlBox.oldx) +
-      (dhtmlBox.y2 - dhtmlBox.oldy) * (dhtmlBox.y2 - dhtmlBox.oldy)) < 10) {
-      dhtmlBox_dblclick(e)
+    if (xUA.indexOf('safari') != -1) { // mouse dblclick emulation for safari mac
+      if ((dhtmlBox.dblClick) && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
+        if (Math.sqrt((dhtmlBox.x2 - dhtmlBox.oldx) * (dhtmlBox.x2 - dhtmlBox.oldx) + (dhtmlBox.y2 - dhtmlBox.oldy) * (dhtmlBox.y2 - dhtmlBox.oldy)) < 10)
+          dhtmlBox_dblclick(e)
+      }
+      dhtmlBox.dblClick = true
+      window.setTimeout('dhtmlBox.dblClick = false',400)
+      dhtmlBox.oldx = dhtmlBox.x2
+      dhtmlBox.oldy = dhtmlBox.y2
     }
-    window.setTimeout('dhtmlBox.dblClick = false',400)
-    dhtmlBox.oldx = dhtmlBox.x2
-    dhtmlBox.oldy = dhtmlBox.y2
-    dhtmlBox.dblClick = true
   }
 }
 
