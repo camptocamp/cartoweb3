@@ -92,10 +92,7 @@ class ClientConfig extends Config {
     function __construct($projectHandler) {
         parent::__construct($projectHandler);
         
-        if (is_null($this->cartoserverBaseUrl)) {
-            throw new CartoclientException('You need to set cartoserverBaseUrl ' .
-                                           'in client.ini');
-        } elseif (substr($this->cartoserverBaseUrl, -1) != '/') {
+        if (substr($this->cartoserverBaseUrl, -1) != '/') {
             $this->cartoserverBaseUrl .= '/';
         }
     }
