@@ -131,16 +131,6 @@ class PdfGeneral {
     public $verticalMargin      = 10;
     
     /**
-     * @var float
-     */
-    public $width;
-    
-    /**
-     * @var float
-     */
-    public $height;
-    
-    /**
      * @var array
      */
     public $formats;
