@@ -42,7 +42,7 @@ abstract class Config {
 
         // Set MapId to projectName.mapId
         $projectName = $this->projectHandler->getProjectName();
-        if ($projectName) {
+        if ($projectName && array_key_exists('mapId', $this->ini_array)) {
             $this->ini_array['mapId'] = $projectName . '.' . $this->ini_array['mapId'];
         }
         
