@@ -1,5 +1,6 @@
 <?php
 /**
+ * FPDF-based toolbox for PDF map printing.
  * @package Plugins
  * @author Alexandre Saunier
  * @version $Id$
@@ -18,6 +19,10 @@ class cFPDF extends FPDF {
      * Builds text labels with 90°-increment orientation.
      * See http://fpdf.org/fr/script/script31.php
      * "TextWithRotation" is available at the same location as well.
+     * @param float reference point x-coord
+     * @param float reference point y-coord
+     * @param string text to print
+     * @param enum('R', 'L', 'U', 'D') direction
      */
     public function textWithDirection($x, $y, $txt, $direction = 'R') {       
         $txt = str_replace(')', '\\)', 
@@ -64,12 +69,37 @@ class cFPDF extends FPDF {
  */
  class CwFpdf implements PdfWriter {
 
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * PDF engine object (FPDF)
+     * @var cFPDF
+     */
     protected $p;
+    
+    /**
+     * @var PdfGeneral
+     */
     protected $general;
+    
+    /**
+     * @var PdfFormat
+     */
     protected $format;
+    
+    /**
+     * @var SpaceManager
+     */
     protected $space;
     
+    /**
+     * Constructor.
+     * @param PdfGeneral
+     * @param PdfFormat
+     */
     function __construct(PdfGeneral $general, PdfFormat $format) {
        $this->log =& LoggerManager::getLogger(__CLASS__);
        $this->general = $general;
@@ -88,6 +118,25 @@ class cFPDF extends FPDF {
        $this->space = new SpaceManager($params);
     }
 
+    /**
+     * @return float
+     * @see PdfWriter::getPageWidth()
+     */
+    function getPageWidth() {
+        return $this->p->w;
+    }
+
+    /**
+     * @return float
+     * @see PdfWriter::getPageHeight()
+     */
+    function getPageHeight() {
+        return $this->p->h;
+    }
+
+    /**
+     * @see PdfWriter::initializeDocument()
+     */
     function initializeDocument() {
         $this->p->SetMargins($this->format->horizontalMargin,
                              $this->format->verticalMargin);
@@ -95,12 +144,17 @@ class cFPDF extends FPDF {
         $this->p->SetAutoPageBreak(false);
     }
 
+    /**
+     * @see PdfWriter::addPage()
+     */
     function addPage() {
         $this->p->AddPage();
     }
 
     /**
      * Translates config text-alignement keyword into FPDF one.
+     * @param string horizontal alignment keyword
+     * @return enum('C', 'R', 'L')
      */
     private function getTextAlign($align) {
         switch (strtolower($align)) {
@@ -110,17 +164,29 @@ class cFPDF extends FPDF {
         }
     }
 
+    /**
+     * Sets lines color.
+     * @param mixed color info (keyword, hex code, RGB array)
+     */
     private function setDrawColor($color) {
         $borderColor = PrintTools::switchColorToRgb($color);
         $this->p->SetDrawColor($borderColor[0], $borderColor[1],
                                $borderColor[2]);
     }
 
+    /**
+     * Sets filling color (background).
+     * @param mixed color info (keyword, hex code, RGB array)
+     */
     private function setFillColor($color) {
         $bgColor = PrintTools::switchColorToRgb($color);
         $this->p->SetFillColor($bgColor[0], $bgColor[1], $bgColor[2]);
     }
 
+    /**
+     * Sets line width in PdfGeneral dist_unit.
+     * @param float
+     */
     private function setLineWidth($width) {
         $borderWidth = PrintTools::switchDistUnit($width,
                                                   $this->general->distUnit,
@@ -128,6 +194,10 @@ class cFPDF extends FPDF {
         $this->p->SetLineWidth($borderWidth);
     }
 
+    /**
+     * @param PdfBlock text block object
+     * @see PdfWriter::addTextBlock()
+     */
     function addTextBlock(PdfBlock $block) {
         // text properties
         $fontStyle = false;
@@ -188,6 +258,10 @@ class cFPDF extends FPDF {
                        
     }
 
+    /**
+     * @param PdfBlock graphical (image, PDF) block object
+     * @see PdfWriter::addGfxBlock()
+     */
     function addGfxBlock(PdfBlock $block) {
         $this->setLineWidth($block->borderWidth);        
         $this->setDrawColor($block->borderColor);
@@ -219,6 +293,9 @@ class cFPDF extends FPDF {
     
     function addTable() {}
 
+    /**
+     * @see PdfWriter::finalizeDocument()
+     */
     function finalizeDocument() {
         return $this->p->Output($this->general->filename, 'S');
     }
