@@ -41,7 +41,7 @@ abstract class PluginBase {
      * initialization in custom plugins.
      * @param mixed
      */
-    abstract function initializeConfig($initArgs);
+    abstract public function initializeConfig($initArgs);
     
     /**
      * @return string

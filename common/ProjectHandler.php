@@ -23,13 +23,13 @@ abstract class ProjectHandler {
      * Returns cartoserver or cartoclient root path.
      * @return string
      */
-    abstract function getRootPath();
+    abstract public function getRootPath();
     
     /**
      * Returns the project name
      * @return string
      */
-    abstract function getProjectName();
+    abstract public function getProjectName();
  
     /**
      * @return string
