@@ -6,7 +6,7 @@ function writeOpenNodes(shortcut) {
   
   var nodesList = new Array();
   for (var i = 0; i < openNodes.length; i++) {
-    if(!isNaN(openNodes[i])) nodesList.push(openNodes[i]);
+    nodesList.push(openNodes[i]);
   }
   document.carto_form.elements.openNodes.value = nodesList;
 }

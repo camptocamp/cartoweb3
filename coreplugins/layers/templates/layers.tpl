@@ -17,9 +17,9 @@
 {if !$element.layerFrozen}
 <input 
 {if $element.layerRendering == 'radio'}type="radio" name="layers_{$element.parentId}"
-{else}type="checkbox" name="layers[]"{/if}
+{else}type="checkbox" name="layers[]" {/if}
 value="{$element.layerId}" id="in{$element.nodeId}"
-  onclick="javascript:updateChecked({$element.nodeId});" {if $element.layerChecked}checked="checked"{/if} />
+  onclick="javascript:updateChecked('{$element.nodeId}');" {if $element.layerChecked}checked="checked"{/if} />
 {/if}
 {/capture}
 

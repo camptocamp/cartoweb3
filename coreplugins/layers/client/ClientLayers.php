@@ -36,7 +36,7 @@ class LayersState {
      * @var array
      */
     public $frozenUnselectedLayers;
-    
+
     /**
      * @var array
      */
@@ -126,10 +126,9 @@ class ClientLayers extends ClientPlugin
     private $unfoldedIds = array();
     
     /**
-     * Incrementor for node (layer) id in displayed interface. 
-     * @var int
+     * @var array
      */
-    private $nodeId = 0;
+    private $nodeId = array();
 
     /**
      * @var array
@@ -546,7 +545,7 @@ class ClientLayers extends ClientPlugin
         
         $layersRequest = new LayersRequest();
         $layersRequest->layerIds = $this->getSelectedLayers(true);
-        $layersRequest->layerIds =& 
+        $layersRequest->layerIds = 
             $this->fetchChildrenFromLayerGroup($layersRequest->layerIds);
         $mapRequest->layersRequest = $layersRequest;
     }
@@ -714,6 +713,13 @@ class ClientLayers extends ClientPlugin
                                  $layer->rendering == 'radio');
         }
         
+        $firstChild = true;
+        $level = count($this->nodeId);
+        if ($layer->id == 'root')
+            $nodeId = 0;
+        else
+            $nodeId = implode('.', $this->nodeId);
+        
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
             
@@ -727,15 +733,25 @@ class ClientLayers extends ClientPlugin
                 } elseif ($i++) continue;
             }
            
+            if ($firstChild) {
+                $firstChild = false;
+                $this->nodeId[] = 1;
+            } else {
+                $this->nodeId[$level]++;
+            }
+            
             $childrenLayers[] = $this->fetchLayer($childLayer, $layerChecked,
                                                   $layerFrozen, 
                                                   $childrenRendering, 
                                                   $layer->id);
         }
 
+        if ($childrenLayers)
+            array_pop($this->nodeId);
+
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
-        $this->layersState->nodesIds[$this->nodeId] = $layer->id;
+        $this->layersState->nodesIds[$nodeId] = $layer->id;
         $layerOutRange = 0;
 
         if ($isDropDown) {
@@ -774,11 +790,11 @@ class ClientLayers extends ClientPlugin
                                 'isRadioContainer' => $isRadioContainer,
                                 'groupFolded'      => $groupFolded,
                                 'parentId'         => $parentId,
-                                'nodeId'           => $this->nodeId++,
+                                'nodeId'           => $nodeId,
                                 ));
         
-        if (!$groupFolded && $this->nodeId != 1) 
-            $this->unfoldedIds[] = $this->nodeId - 1;
+        if (!$groupFolded) 
+            $this->unfoldedIds[] = $nodeId;
         
         return $element;
     }
