@@ -127,7 +127,7 @@ abstract class ExportPlugin extends ClientPlugin {
             $mapResult = $this->cartoclient->cartoserverService->getMap($mapRequest);
 
             // Returns export url or contents
-            return $this->export($mapResult);
+            return $this->export($mapRequest, $mapResult);
 
         } catch (Exception $exception) {
             
@@ -138,7 +138,7 @@ abstract class ExportPlugin extends ClientPlugin {
 
     abstract function getConfiguration();
 
-    abstract function export($mapResult);
+    abstract function export($mapRequest, $mapResult);
 }
 
 ?>

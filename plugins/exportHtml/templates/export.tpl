@@ -12,7 +12,14 @@
 <table>
 <tr>
 <td><img src="{$exporthtml_keymap}" /></td>
-<td><img src="{$exporthtml_mainmap}" /></td>
+<td rowspan="2"><img src="{$exporthtml_mainmap}" /></td>
+</tr>
+<tr>
+<td><table>
+{foreach from=$exporthtml_legends item=legend}
+<tr><td>{$legend.label}</td></tr>
+{/foreach}
+</table></td>
 </tr>
 </table>
 
