@@ -44,6 +44,7 @@ else
 			cd ../projects/$1
 		
 			addlinks "plugins"
+			addlinks "coreplugins"
 		fi
 	else	
 		usage
