@@ -66,6 +66,7 @@ def setup_htdocs(htdocs_directory):
         
     # TODO: if no symlinks, show alias
     link_or_copy('../www-data/images', join(htdocs_directory, 'images'))
+    link_or_copy('../www-data/pdf', join(htdocs_directory, 'pdf'))
     
 
 def setup_icons(directory):
