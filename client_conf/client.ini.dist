@@ -47,7 +47,7 @@ initialTool = zoom_in
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = hello
+loadPlugins = hello, selection, query, outline
 
 ;## Template engine configuration ##
 
