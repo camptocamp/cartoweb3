@@ -122,6 +122,11 @@ class MapInfoHandler {
         if ($mapInfo->autoClassLegend) $this->getMapPath($serverContext);
 
         foreach ($layers as $layer) {
+            
+            if (!empty($layer->icon))
+                $layer->icon = $this->getIconUrl($layer->icon, false);
+            
+            // Skip layer groups for the rest of this loop
             if (!$layer instanceof Layer)
                 continue;
 
@@ -134,10 +139,7 @@ class MapInfoHandler {
             else $layer->minScale = 0;
             if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
             else $layer->maxScale = 0;
-            
-            if ($layer instanceof Layer && !empty($layer->icon))
-                $layer->icon = $this->getIconUrl($layer->icon, false);
-            
+
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msClass = $msLayer->GetClass($i);
                 if (isset($msClass->name) && 
