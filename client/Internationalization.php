@@ -1,5 +1,6 @@
 <?php
 /**
+ * Internationalization (I18n) classes
  * @package Client
  * @version $Id$
  */
@@ -7,8 +8,7 @@
 /**
  * Translator selection
  *
- * The translator is selected using client.ini's I18nClass 
- * 
+ * The translator is selected using client.ini's I18nClass.
  * @package Client
  */
 class I18n {
@@ -18,6 +18,8 @@ class I18n {
     
     /**
      * Initializes locales
+     *
+     * Default language is set in configuration file (variable defaultLang).
      */
     static function init($config) {
         self::$i18n = new $config->I18nClass;
@@ -31,6 +33,8 @@ class I18n {
     
     /**
      * Returns available locales
+     *
+     * Looks for two-characters directories in locale directory.
      */
     static function getLocales() {
     
@@ -47,8 +51,15 @@ class I18n {
         return $locales;    
     }
     
-   /**
+    /**
      * Sets the locale depending on URL, browser or config
+     *
+     * Looks for language in:
+     * - $_SERVER['LANG']
+     * - Cookie
+     * - $_SERVER['HTTP_ACCEPT_LANGUAGE']
+     *
+     * If no language is found, default language is set.
      */
     static function setLocale($defaultLang) {
         $log =& LoggerManager::getLogger(__METHOD__); 
@@ -90,7 +101,7 @@ class I18n {
             }
         }
         
-       unset ($accepted_lang, $key, $name, $code, $lang_ext, $already_tested);
+        unset ($accepted_lang, $key, $name, $code, $lang_ext, $already_tested);
 
         // if language not yet set, set to default language)
         if (!defined('LANG')) {
@@ -110,18 +121,30 @@ class I18n {
         }       
     }
     
+    /**
+     * Calls translator's bindtextdomain
+     */
     static function bindtextdomain($domain, $path) {
         return self::$i18n->bindtextdomain($domain, $path);
     }
 
+    /**
+     * Calls translator's textdomain
+     */
     static function textdomain($domain) {
         return self::$i18n->textdomain($domain);
     }
     
+    /**
+     * Calls translator's gettext
+     */
     static function gt($text) {
         return self::$i18n->gettext($text);
     }
     
+    /**
+     * Calls translator's ngettext
+     */
     static function ngt($text, $plural, $count) {
         return self::$i18n->ngettext($text, $plural, $count);
     }
@@ -129,7 +152,6 @@ class I18n {
 
 /**
  * Translator interface
- *
  * @package Client
  */
 interface I18nInterface {
@@ -157,7 +179,6 @@ interface I18nInterface {
 
 /**
  * Dummy translator (does nothing)
- *
  * @package Client
  */
 class I18nDummy implements I18nInterface {
@@ -180,8 +201,7 @@ class I18nDummy implements I18nInterface {
 /**
  * Gettext translator
  *
- * Needs gettext installed in PHP
- *
+ * Needs gettext installed in PHP.
  * @package Client
  */
 class I18nGettext implements I18nInterface {
@@ -208,14 +228,14 @@ class I18nGettext implements I18nInterface {
 }
 
 /**
- * Replace arguments in a string with their values. Arguments are represented
- * by % followed by their number.
- *
+ * Replace arguments in a string with their values.
+ * 
+ * Arguments are represented by % followed by their number.
  * Original code was written by Sagi Bashari <sagi@boom.org.il>
  *
  * @param   string  Source string
  * @param   mixed   Arguments, can be passed in an array or through single variables.
- * @returns string  Modified string
+ * @return  string  Modified string
  */
 function strarg($str)
 {

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Smarty and rendering classes
  * @package Client
  * @version $Id$
  */
@@ -15,12 +16,19 @@ require_once('smarty/Smarty.class.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
 
 /**
+ * Specific Smarty engine for Cartoclient
  * @package Client
  */
 class Smarty_Cartoclient extends Smarty {
 
     private $projectHandler;
 
+    /** 
+     * Constructor
+     * 
+     * Initializes dirs and cache, ans registers block functions (resources
+     * and i18n).
+     */
     function __construct($config) {
         parent::__construct();
 
@@ -64,6 +72,7 @@ class Smarty_Cartoclient extends Smarty {
 }
 
 /**
+ * Specific Smarty engine for core plugins
  * @package Client
  */
 class Smarty_CorePlugin extends Smarty_Cartoclient {
@@ -80,6 +89,7 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
 // which extends the abstract class FormRenderer
 
 /**
+ * Class responsible for GUI display
  * @package Client
  */
 class FormRenderer {
@@ -99,6 +109,11 @@ class FormRenderer {
         return $smarty;
     }
 
+    /**
+     * Draws tool bar
+     *
+     * Tools are ordered thanks to weight system.
+     */
     private function drawTools($cartoclient) {
         
         $cartoForm = $cartoclient->getCartoForm();
@@ -141,6 +156,9 @@ class FormRenderer {
         $smarty->assign('tools', $tools);        
     }
 
+    /**
+     * Draws user and developer messages
+     */
     private function drawMessages($serverMessages) {
         
         if (empty($serverMessages))
@@ -164,6 +182,9 @@ class FormRenderer {
             $smarty->assign('developer_messages', $developerMessages);
     }
     
+    /**
+     * Displays GUI using cartoclient.tpl Smarty template
+     */
     function showForm($cartoclient) {
 
         $cartoForm = $cartoclient->getCartoForm();
@@ -194,6 +215,9 @@ class FormRenderer {
         $smarty->display('cartoclient.tpl');
     }
 
+    /**
+     * Displays failure using failure.tpl Smarty templates
+     */
     function showFailure($exception) {
 
         if ($exception instanceof SoapFault) {

@@ -1,13 +1,19 @@
 <?php
 /**
+ * Classes useful to manage HTTP request posted by GUI form
  * @package Client
  * @version $Id$
  */
 
 /**
+ * Converter from pixel to geographical coordinates
  * @package Client
  */
 class PixelCoordsConverter {
+
+    /**
+     * Computes pixel to geographical coordinates transformation
+     */
     private static function pixel2Coord($pixelPos, $pixelMax, $geoMin, $geoMax, 
                                         $inversePix) {
 
@@ -24,7 +30,7 @@ class PixelCoordsConverter {
     }
 
     /**
-     * Converts a point coordinates from pixel to ue to geographical.
+     * Converts a point coordinates from pixel to geographical.
      * 
      * Pixel coordinates have their origin on image top left. x grows positively
      * from left to right, and y grows from top to bottom.
@@ -32,10 +38,8 @@ class PixelCoordsConverter {
      * @param $pixelPoint the point in pixel coordinates
      * @param $imageSize the size of the image containing the pixel point 
      * @param $bbox the geographical bbox extent of the image.
-     *
      * @return a point in geographical coordinates
      */
-
     static function point2Coords(Point $pixelPoint, Dimension $imageSize, Bbox $bbox) {
 
         $xCoord = self::pixel2Coord($pixelPoint->x, $imageSize->width, 
@@ -49,7 +53,6 @@ class PixelCoordsConverter {
 
 /**
  * Parses dhtml HTTP Requests, and returns a shape for the drawn selection. 
- *
  * @package Client
  */
 class DhtmlSelectionParser {
@@ -57,6 +60,9 @@ class DhtmlSelectionParser {
     const SELECTION_TYPE = 'selection_type';
     const SELECTION_COORDS = 'selection_coords';
     
+    /**
+     * Returns true if main map was clicked
+     */
     static function isMainmapClicked() {
     
         if (HttpRequestHandler::isButtonPushed('mainmap'))
@@ -66,6 +72,9 @@ class DhtmlSelectionParser {
         return ;
     }
     
+    /**
+     * Parses pixel data and converts it to Point
+     */
     private function pixelToPoint($pixel_coord, 
             Dimension $imageSize, Bbox $bbox) {
         
@@ -74,6 +83,9 @@ class DhtmlSelectionParser {
         return PixelCoordsConverter::point2Coords($pixelPoint, $imageSize, $bbox);
     }
     
+    /**
+     * Parses coords array data and converts it to an array of Point
+     */
     private function coordsToPoints($selection_coords, 
             Dimension $imageSize, Bbox $bbox) {
      
@@ -86,6 +98,9 @@ class DhtmlSelectionParser {
         return $points; 
     }
     
+    /**
+     * Parses coords array data and converts it to a Rectangle
+     */
     private function getRectangleShape(Dimension $imageSize, Bbox $bbox) {
         
         $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
@@ -103,6 +118,9 @@ class DhtmlSelectionParser {
         return $rect;        
     }
        
+    /**
+     * Parses coords array data and converts it to a Polygon
+     */
     private function getPolygonShape(Dimension $imageSize, Bbox $bbox) {
         
         $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
@@ -120,6 +138,9 @@ class DhtmlSelectionParser {
         return $poly;        
     }
 
+    /**
+     * Parses coords array data and converts it to Point
+     */
     private function getPointShape(Dimension $imageSize, Bbox $bbox) {
 
         $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
@@ -130,6 +151,9 @@ class DhtmlSelectionParser {
         return $points[0];
     }
     
+    /**
+     * Converts coords array data to a Shape
+     */
     function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
 
         if (HttpRequestHandler::isButtonPushed('mainmap')) {
@@ -153,6 +177,7 @@ class DhtmlSelectionParser {
 }
 
 /**
+ * Does common actions on HTTP request
  * @package Client
  */
 class HttpRequestHandler {
@@ -163,10 +188,16 @@ class HttpRequestHandler {
         $this->cartoclient = $cartoclient;
     }
 
+    /**
+     * Returns true is button was clicked
+     */
     static function isButtonPushed($name) {
         return @$_REQUEST[$name . '_x'] or @$_REQUEST[$name . '_y'];
     }
 
+    /**
+     * Returns point where button was clicked
+     */
     static function getButtonPixelPoint($buttonName) {
         $x = $_REQUEST[$buttonName . '_x'];
         $y = $_REQUEST[$buttonName . '_y'];
@@ -174,6 +205,11 @@ class HttpRequestHandler {
         return new Point($x, $y);
     }
 
+    /**
+     * Returns true if main map was clicked
+     *
+     * Stores the shape selected on main map.
+     */
     private function checkMainmapButton($cartoForm) {
 
         if (!DhtmlSelectionParser::isMainmapClicked())
@@ -196,6 +232,11 @@ class HttpRequestHandler {
         return false;
     }
 
+    /**
+     * Returns true if key map was clicked
+     *
+     * Stores the point selected on key map.
+     */
     private function checkKeymapButton($cartoForm) {
         
         if (!self::isButtonPushed('keymap'))
@@ -216,6 +257,9 @@ class HttpRequestHandler {
         return true;
     }
 
+    /**
+     * Checks if one map was clicked
+     */
     private function checkClickedButtons($cartoForm) {
 
         if ($this->checkMainmapButton($cartoForm)) {
@@ -226,7 +270,10 @@ class HttpRequestHandler {
             return;
         }
     }
-
+    
+    /**
+     * Handles HTTP request for one tool
+     */
     private function handleTool(ClientPlugin $plugin, ToolDescription $tool) {
     
         $cartoForm = $this->cartoclient->getCartoForm();
@@ -246,6 +293,11 @@ class HttpRequestHandler {
         }
     }
 
+    /**
+     * Handles HTTP request for plugin's tools
+     *
+     * Assumes that $plugin is an instance of ToolProvider.
+     */
     function handleTools(ClientPlugin $plugin) {
     
         if (!$plugin instanceof ToolProvider) {
@@ -271,6 +323,11 @@ class HttpRequestHandler {
         return;
     }
 
+    /** 
+     * Main method
+     *
+     * Handles buttons and tools.
+     */
     function handleHttpRequest($clientSession, $cartoForm) {
 
         // buttons

@@ -1,10 +1,16 @@
 <?php
 /**
+ * Classes used for export
  * @package Client
  * @version $Id$
  */
 
 /**
+ * Export configuration
+ *
+ * Export configuration objects are passed to plugins so they know what is 
+ * needed for export. For instance, plugin Images should know which maps must
+ * be rendered. 
  * @package Client
  */
 class ExportConfiguration {
@@ -60,6 +66,9 @@ class ExportConfiguration {
 
 
 /**
+ * Output of an export
+ * 
+ * Output can be either a file or a string which contains output content.
  * @package Client
  */
 class ExportOutput {
@@ -74,15 +83,28 @@ class ExportOutput {
         $this->contents = null;
     }
     
+    /**
+     * Sets file name and path
+     *
+     * File and contents shouldn't be set together.
+     */
     function setFile($filePath, $fileName) {
         $this->filePath = $filePath;
         $this->fileName = $fileName;
     }
     
+    /**
+     * Sets contents
+     *
+     * File and contents shouldn't be set together.
+     */
     function setContents($contents) {
         $this->contents = $contents;
     }
-    
+
+    /**
+     * Returns file name if the file exists, null otherwise   
+     */
     function getFileName() {
     
         if (is_null($this->fileName) || !file_exists($this->filePath . $this->fileName)) {
@@ -92,6 +114,9 @@ class ExportOutput {
         }
     }
     
+    /**
+     * Returns contents if it is not null, contents of file otherwise
+     */
     function getContents() {
         if (is_null($this->contents)) {
             if (!is_null($this->fileName)) {
@@ -107,10 +132,19 @@ class ExportOutput {
 }
 
 /**
+ * Export plugin
  * @package Client
  */
 abstract class ExportPlugin extends ClientPlugin {
 
+    /**
+     * Retrieves MapResult and exports
+     *
+     * - Gets last request
+     * - Calls plugins to adjust request
+     * - Calls server's getMap
+     * - Renders export output by calling child object's export() 
+     */
     function getExport() {
 
         try {
@@ -136,8 +170,14 @@ abstract class ExportPlugin extends ClientPlugin {
         }
     }
 
+    /** 
+     * Returns export configuration
+     */
     abstract function getConfiguration();
 
+    /**
+     * Renders export
+     */
     abstract function export($mapRequest, $mapResult);
 }
 

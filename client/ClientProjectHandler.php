@@ -12,8 +12,6 @@ require_once(CARTOCLIENT_HOME . 'common/ProjectHandler.php');
 
 /**
  * Project handler for the client
- *
- * Project name is know by environment variable CW3_PROJECT.
  * @package Client
  */
 class ClientProjectHandler extends ProjectHandler {
