@@ -13,6 +13,7 @@ if (!defined('CARTOCOMMON_HOME'))
 require_once(CARTOCOMMON_HOME . 'common/log4phpInit.php');
 initializeLog4php(true);
 
+require_once(CARTOCLIENT_HOME . 'client/MapInfoCache.php');
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
@@ -110,6 +111,7 @@ class Cartoclient {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
+        $this->mapInfoCache = new MapInfoCache($this);
     }
 
     function getClientSession() {
@@ -162,16 +164,11 @@ class Cartoclient {
     }
 
     function getMapInfo() {
-        if ($this->mapInfo) {
-            return $this->mapInfo;
+        if (!$this->mapInfo) {
+            $this->mapInfo = $this->mapInfoCache->getMapInfo($this->config->mapId);
         }
-
-        // TODO: have a mechanism to store mapinfo on hard storage
-        $mapInfo = $this->cartoserverService->getMapInfo(
-            $this->config->mapId);
         
-        $this->mapInfo = $mapInfo; 
-        return $mapInfo;
+        return $this->mapInfo;
     }
 
     private function saveSession($clientSession) {
@@ -255,6 +252,14 @@ class Cartoclient {
         return $mapRequest;
     }
     
+    private function getMapResult($mapRequest) {
+
+        $mapResult = $this->cartoserverService->getMap($mapRequest);
+        $this->mapInfoCache->checkMapInfoTimestamp($mapResult->timeStamp, 
+                                                    $mapRequest->mapId);
+        return $mapResult;        
+    }
+    
     private function doMain() {
 
         $this->mapInfo = $this->getMapInfo();
@@ -273,7 +278,7 @@ class Cartoclient {
         $this->log->debug("maprequest:");
         $this->log->debug($mapRequest);
 
-        $mapResult = $this->cartoserverService->getMap($mapRequest);
+        $mapResult = $this->getMapResult($mapRequest);
 
         $this->log->debug("mapresult:");
         $this->log->debug($mapResult);

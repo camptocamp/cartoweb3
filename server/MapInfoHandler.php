@@ -39,16 +39,19 @@ class MapInfoHandler {
         return $mapInfo;
     }
 
+    function getIniPath() {
+
+        $mapName = $this->projectHandler->getMapName();
+        $path = $this->projectHandler->getPath(CARTOSERVER_HOME,
+                                'server_conf/' . $mapName . '/', $mapName . '.ini');
+        return CARTOSERVER_HOME . $path . $mapName . '.ini';
+    }
+
     private function loadMapInfo($mapId) {
 
-        // Now server.ini can be in a different directory than mapfile !
-        // $this->configMapPath = $this->serverContext->config->configPath . 
-        //    $mapId . '/';
         $mapName = $this->projectHandler->getMapName();
-        $iniPath = $this->projectHandler->getPath(CARTOSERVER_HOME,
-                                'server_conf/' . $mapName . '/', $mapName . '.ini');
-        $configStruct = StructHandler::loadFromIni(CARTOSERVER_HOME .
-                                $iniPath . $mapName . '.ini');
+        $iniPath = $this->getIniPath();
+        $configStruct = StructHandler::loadFromIni($iniPath);
         $this->mapInfo = new MapInfo();
         $this->mapInfo->unserialize($configStruct->mapInfo);
         $this->mapInfo = $this->fixupMapInfo($this->mapInfo);
@@ -108,6 +111,7 @@ class MapInfoHandler {
     }
 
     function fillDynamic($serverContext) {
+        $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
         $this->fillDynamicLayers($serverContext);
         $this->fillDynamicKeymap($serverContext);
     }

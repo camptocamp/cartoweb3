@@ -71,6 +71,7 @@
 
       <complexType name="MapInfo">
         <all>
+          <element name="timeStamp" type="xsd:integer"/>
           <element name="mapId" type="xsd:string"/>
           <element name="mapLabel" type="xsd:string"/>
           <element name="keymapGeoDimension" type="types:GeoDimension"/>
@@ -156,6 +157,7 @@
       
       <complexType name="MapResult">
         <all>
+          <element name="timeStamp" type="xsd:integer"/>
           <element name="locationResult" type="types:LocationResult" minOccurs="0"/>
           <element name="imagesResult" type="types:ImagesResult"/>
           <element name="queryResult" type="types:QueryResult" minOccurs="0"/>

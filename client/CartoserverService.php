@@ -67,8 +67,9 @@ class CartoserverService {
             $mapResult = $this->callDirect($function, $argument);
         } else {
 
-            // FIXME: put in config
-            ini_set("soap.wsdl_cache_enabled", "0");
+            if ($this->config->developerMode) {
+                ini_set("soap.wsdl_cache_enabled", "0");
+            }
 
             $options = $replayTrace === true ? array('trace' => 1) : array();
             $client = new SoapClient($this->getCartoserverUrl(),

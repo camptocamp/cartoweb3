@@ -1,5 +1,8 @@
 ; cartoserver configuration file
 
+; developer mode disables caches and allows debugging mechanisms
+developerMode = false
+
 ; path where cartoserver generated images can be accessed
 ;imageUrl = "/path/to/images/"
 

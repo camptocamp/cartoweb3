@@ -150,6 +150,7 @@ class InitialMapState extends Serializable {
  * @package Common
  */
 class MapInfo extends Serializable {
+    public $timeStamp;
     public $mapId;
     public $mapLabel;
     public $layers;
@@ -159,6 +160,7 @@ class MapInfo extends Serializable {
     public $keymapGeoDimension; 
 
     function unserialize($struct) {
+        $this->timeStamp        = self::unserializeValue($struct, 'timeStamp');
         $this->mapId            = self::unserializeValue($struct, 'mapId');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
   

@@ -119,6 +119,7 @@ class Cartoserver {
 
         $mapResult = $serverContext->getMapResult();
 
+        $mapResult->timeStamp = $serverContext->getTimeStamp();
 
         $serverContext->loadPlugins();
         $pluginManager = $serverContext->getPluginManager();
@@ -202,10 +203,6 @@ function setupSoapService($cartoserver) {
         return $serverGlobal->getMap($mapRequest);
     }
 
-    // disables WSDL cache:
-    // TODO: option should be in config
-    ini_set("soap.wsdl_cache_enabled", "0");
-
     if (array_key_exists('mapId', $_REQUEST))
         $mapId = $_REQUEST['mapId'];
 
@@ -215,6 +212,10 @@ function setupSoapService($cartoserver) {
         $config = new ServerConfig($projectHandler);
         if ($config->soapBrokenPortInfo) {
             $port = ':' . $config->soapBrokenPortInfo;
+        }
+        if ($config->developerMode) {
+            // disables WSDL cache
+            ini_set("soap.wsdl_cache_enabled", "0");
         }
     }
 
