@@ -5,8 +5,8 @@
  */
 
 /**
- * Server side plugin for handling selection. It may use the HilightPlugin
- * service plugin to render the selection on the map.
+ * Server side plugin for handling selection. It may use the Hilight service
+ * plugin to render the selection on the map.
  * 
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
@@ -138,7 +138,7 @@ class ServerSelection extends ClientResponderAdapter {
 
         $results = array();
         if (count($requ->selectedIds) > 0) {
-            $pluginManager = $this->serverContext->pluginManager;
+            $pluginManager = $this->serverContext->getPluginManager();
             if (!empty($pluginManager->mapquery)) {
                 $results = $pluginManager->mapquery->queryByIdSelection($requ);            
             }            
