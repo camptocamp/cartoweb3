@@ -86,9 +86,9 @@
       dhtmlBox.boxy = {$bboxMinY};
       dhtmlBox.pixel_size = {$smarty.capture.pixelSize};
       dhtmlBox.dist_msg = '{t}Approx. distance: {/t}';
-      dhtmlBox.dist_unit = {if $factor == 1000}' km.'{else}' m.'{/if};
+      dhtmlBox.dist_unit = {if $factor == 1000}' km'{else}' m'{/if};
       dhtmlBox.surf_msg = '{t}Approx. surface: {/t}';
-      dhtmlBox.surf_unit = {if $factor == 1000}' km².'{else}' m².'{/if};
+      dhtmlBox.surf_unit = {if $factor == 1000}' km²'{else}' m²'{/if};
       dhtmlBox.coord_msg = '{t}Coords (m): {/t}';
   {literal}
           

@@ -302,8 +302,8 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
         this.dist_y = (this.draw_y[this.cnv_clicks] - this.draw_y[this.cnv_clicks - 1]) * this.pixel_size;
         this.distance += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
       }
-      if (this.dist_unit == ' m.') this.distance = Math.round(this.distance);
-      else if (this.dist_unit == ' km.') this.distance = Math.round(this.distance*100)/100;
+      if (this.dist_unit == ' m') this.distance = Math.round(this.distance);
+      else if (this.dist_unit == ' km') this.distance = Math.round(this.distance*100)/100;
       this.displayMeasure.innerHTML = this.dist_msg + this.distance.toString() + this.dist_unit;
 	} else if (this.currentTool == 'line' && !this.isActive) { // submit the form
 		var coords = new String();
@@ -353,8 +353,8 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
         var pix_surf = this.pixel_size * this.pixel_size;
         this.distance = Math.abs(this.distance.toString()) / 2 * pix_surf;
 	  }
-      if (this.surf_unit == ' m2.') this.distance = Math.round(this.distance);
-      else if (this.surf_unit == ' km2.') this.distance = Math.round(this.distance*10000)/10000;
+      if (this.surf_unit == ' m²') this.distance = Math.round(this.distance);
+      else if (this.surf_unit == ' km²') this.distance = Math.round(this.distance*10000)/10000;
       this.displayMeasure.innerHTML = this.surf_msg+ this.distance +this.surf_unit;
     } else if (this.currentTool == 'polygon' && !this.isActive) { // draw the closed polygon and submit form
 		jg.paint();
