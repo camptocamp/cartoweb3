@@ -224,7 +224,7 @@ class Cartoclient {
         $this->log->debug("saving session:");
         $this->log->debug($clientSession);
 
-        $_SESSION[CLIENT_SESSION_KEY] = $this->clientSession;
+        $_SESSION[CLIENT_SESSION_KEY . $this->config->mapId] = $this->clientSession;
         session_write_close();
     }
 
@@ -251,7 +251,7 @@ class Cartoclient {
     //                               loadClientSession, ...
     private function initializeSession() {
 
-        $clientSession = @$_SESSION[CLIENT_SESSION_KEY];
+        $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
         $this->clientSession = $clientSession;
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
