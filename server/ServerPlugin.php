@@ -11,7 +11,7 @@ require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 abstract class ServerPlugin extends PluginBase {
     private $log;
 
-    protected $config;
+    private $config;
     
     const TYPE_CORE = 1;
 
@@ -40,6 +40,10 @@ abstract class ServerPlugin extends PluginBase {
     abstract function getType();
 
     abstract function getResultFromRequest($requ);
+
+    final function getConfig() {
+        return $this->config;
+    }
 
     /**
      * if type==null, is always done
