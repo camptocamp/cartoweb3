@@ -372,8 +372,11 @@ class ServerHilight extends ServerPlugin {
         $layerResult->fields = array('label', 'area');
         $layerResult->resultElements = array();
 
-        require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
-        $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
+        $results = array();
+        if (count($requ->selectedIds) > 0) {
+            require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
+            $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
+        }
         
         $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
         foreach ($results as $result) {
