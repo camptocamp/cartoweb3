@@ -1,5 +1,11 @@
+LIBS_URL="http://www.camptocamp.com/~sypasche/cartoweb3/cartoweb3_includes.tgz"
+
 all:
 	:
+
+fetch_libs:
+	-rm -r include
+	wget -O- $(LIBS_URL) | tar xzf -
 
 clean:
 	find -name "*~" -type f -exec  rm {} \;
