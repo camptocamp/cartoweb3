@@ -92,10 +92,11 @@
   <div id="content">
 
   <p>
+    {counter start=-1 print=false name=tindex}
     {foreach from=$tools key=toolcode item=toolname}
     <label for="{$toolcode}"><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
     id="{$toolcode}" onclick="dhtmlBox.changeTool('{$toolcode}')" /><img src="gfx/layout/{$toolcode}.gif" alt="{$toolname}" 
-    onclick="CheckRadio('{$toolcode}');dhtmlBox.changeTool('{$toolcode}')" /></label>
+    onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool('{$toolcode}')" /></label>&nbsp;
     {/foreach}   
   </p>
 
