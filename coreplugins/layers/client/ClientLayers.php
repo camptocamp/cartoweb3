@@ -945,8 +945,8 @@ class ClientLayers extends ClientPlugin
             $childLayer = $this->getLayerByName($child);
             
             if ($isDropDown) {
-                $dropDownChildren[$childLayer->id] = 
-                                                  I18n::gt($childLayer->label);
+                $dropDownChildren[$childLayer->id] =
+                                I18n::gt($childLayer->label);
                 
                 if (isset($dropDownSelected)) {
                     if ($dropDownSelected != $childLayer->id)
@@ -973,7 +973,7 @@ class ClientLayers extends ClientPlugin
             array_pop($this->nodeId);
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
-        $layer->label = Encoder::decode($layer->label);
+        $layer->label = I18n::gt($layer->label);
         $this->nodesIds[$nodeId] = $layer->id;
         $layerOutRange = 0;
 
@@ -1006,7 +1006,7 @@ class ClientLayers extends ClientPlugin
         $iconUrl = $resourceHandler->convertUrl($layer->icon);
 
         $element = array_merge($element,
-                          array('layerLabel'       => I18n::gt($layer->label),
+                          array('layerLabel'       => $layer->label,
                                 'layerId'          => $layer->id,
                                 'layerClassName'   => $layer->className,
                                 'layerLink'        => $layer->link,

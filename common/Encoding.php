@@ -61,6 +61,7 @@ class Encoder {
      * @return string
      */
     static function encode($text, $context = 'output') {
+        // self::$log->debug("ENCODE($text,$context)");
         return self::getEncoder($context)->encode($text);
     }
 
@@ -70,6 +71,7 @@ class Encoder {
      * @return string
      */
     static function decode($text, $context = 'output') {
+        // self::$log->debug("DECODE($text,$context)");
         return self::getEncoder($context)->decode($text);
     }
     

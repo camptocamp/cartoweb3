@@ -161,7 +161,11 @@ class I18n {
      * @return string tranlated text
      */
     static function gt($text) {
-        return Encoder::encode(self::$i18n->gettext($text), 'config');
+        $result = self::$i18n->gettext($text);
+        if (Encoder::getCharset() == Encoder::getCharset('config')) {
+            return $result;
+        }
+        return Encoder::decode(Encoder::encode($result, 'config'));
     }
     
     /**
@@ -172,7 +176,11 @@ class I18n {
      * @return string translated text
      */
     static function ngt($text, $plural, $count) {
-        return Encoder::encode(self::$i18n->ngettext($text, $plural, $count), 'config');
+        $result = self::$i18n->ngettext($text, $plural, $count);
+        if (Encoder::getCharset() == Encoder::getCharset('config')) {
+            return $result;
+        }
+        return Encoder::decode(Encoder::encode($result, 'config'));
     }
 }
 
