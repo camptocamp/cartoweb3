@@ -7,10 +7,46 @@
 require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
 
 /**
+ * Provides static conversion tools.
+ * @package Plugins
+ */
+class PrintConvertor {
+
+    /**
+     * Converts the distance $dist from $from unit to $to unit.
+     * 1 in = 72 pt = 2.54 cm = 25.4 mm
+     */
+    static function switchDistUnit($dist, $from, $to) {
+        if ($from == $to) return $dist;
+        
+        $ratio = 1;
+        
+        if ($from == 'cm')
+            $ratio = self::switchDistUnit(10, 'mm', $to);
+        elseif ($to == 'cm')
+            $ratio = self::switchDistUnit(0.1, $from, 'mm');
+
+        if ($from == 'in')
+            $ratio = self::switchDistUnit(25.4, 'mm', $to);
+        elseif ($to == 'in')
+            $ratio = self::switchDistUnit(1 / 25.4, $from, 'mm');
+
+        if ($from == 'mm' && $to == 'pt')
+            $ratio *= 72 / 25.4;
+        elseif ($from == 'pt' && $to == 'mm')
+            $ratio *= 25.4 / 72;
+        else
+            throw new CartoclientException("unknown dist unit: $from or $to");
+        
+        return $dist * $ratio;
+    }
+}
+
+/**
  * @package Plugins
  */
 class PdfGeneral {
-    public $pdfEngine          = 'pdflib_lite';
+    public $pdfEngine          = 'PdfLibLite';
     public $pdfVersion         = '1.3';
     public $distUnit           = 'mm';
     public $horizontalMargin   = 10;
@@ -27,6 +63,7 @@ class PdfGeneral {
     public $selectedOrientation;
     public $activatedBlocks;
     public $allowPdfInput      = false;
+    public $filename           = 'map.pdf';
 }
 
 /**
@@ -69,26 +106,24 @@ class PdfBlock {
     public $weight           = 50;
     public $inNewPage        = false;
     public $inLastPages      = false;
+    public $width;
+    public $height;
 }
 
 /**
+ * Interface for PDF generators tools.
  * @package Plugins
  */
-//FIXME: use interface ?
-abstract class PdfWriter {
-    protected $currentPage;
-    protected $isPageOpen;
+interface PdfWriter {
 
-    function __construct() {}
-
-    abstract function initializeDocument() {}
-    abstract function addPage() {}
-    abstract function addTextBlock() {}
-    abstract function addImageBlock() {}
-    abstract function addTableCell() {}
-    abstract function addTableRow() {}
-    abstract function addTable() {}
-    abstract function finalizeDocument() {}
+    function initializeDocument();
+    function addPage();
+    function addTextBlock();
+    function addGfxBlock();
+    function addTableCell();
+    function addTableRow();
+    function addTable();
+    function finalizeDocument();
 }
 
 /**
@@ -111,12 +146,18 @@ class ClientExportPdf extends ExportPlugin {
         parent::__construct();
     }
 
+    /**
+     * Returns export script path.
+     */
     public function getExportScriptPath() {
         return 'exportPdf/export.php';
     }
-    
-    public function getBaseUrl() {
-        return '../';
+
+    /**
+     * Returns PDF file name.
+     */
+    public function getFilename() {
+        return $this->general->filename;
     }
 
     /**
@@ -152,16 +193,23 @@ class ClientExportPdf extends ExportPlugin {
         }
     }
 
+    /**
+     * Returns value from $_REQUEST or else from default configuration.
+     */
     private function getSelectedValue($name, $choices, $request) {
         $name = strtolower($name);
-        $req = strtolower($request['pdf' . ucfirst($name)]);
+        $reqname = 'pdf' . ucfirst($name);
 
-        if (isset($req) && in_array($req, $choices))
-            return $req;
+        if (isset($request[$reqname]) && 
+            in_array(strtolower($request[$reqname]), $choices))
+            return strtolower($request[$reqname]);
 
         return strtolower($this->general->{'default' . ucfirst($name)});
     }
 
+    /**
+     * Sets PDF settings objects based on $_REQUEST and configuration data.
+     */
     function handleHttpRequest($request) {
         $this->log->debug('processing exportPdf request');
 
@@ -314,16 +362,22 @@ class ClientExportPdf extends ExportPlugin {
         return $this->smarty->fetch('form.tpl');
     }
 
-    function getConfiguration() {
+    function getConfiguration($isOverview = false) {
         
         $config = new ExportConfiguration();
 
-        $renderMainmap = isset($this->blocks['mainmap']);
-        $renderOverview = isset($this->blocks['overview']);
-        $renderScalebar = isset($this->blocks['scalebar']);
+        //TODO: if mainmap is not asked but overview and scalebar are,
+        //use the same call to get them.
+        if ($isOverview) {
+            $renderMap = true;
+            $renderScalebar = false;
+        } else {
+            $renderMap = isset($this->blocks['mainmap']);
+            $renderScalebar = isset($this->blocks['scalebar']);
+        }
         
-        $config->setRenderMap($renderMainmap);
-        $config->setRenderKeymap($renderOverview); // FIXME: overview = keymap?
+        $config->setRenderMap($renderMap);
+        $config->setRenderKeymap(false);
         $config->setRenderScalebar($renderScalebar);
 
         //TODO: set maps dimensions + resolutions
@@ -331,26 +385,22 @@ class ClientExportPdf extends ExportPlugin {
         return $config;
     }
     
-    function export($mapRequest, $mapResult) {
-       $pdfClass = $this->general->pdfEngine;
+    function getExport() {
+    
+       $pdfClass =& $this->general->pdfEngine;
        
-       //TODO: fix path
-       $pdfClassFile = CARTOCLIENT_HOME . 'plugins/exportPdf/client/' . 
-                       $pdfClass . '.php';
-       
-       if (!is_file($pdfClassFile)) {
-           throw new CartoclientException("invalid PDF engine: $pdfClas");
-       }
-           
+       $pdfClassFile = dirname(__FILE__) . '/' . $pdfClass . '.php';
+       if (!is_file($pdfClassFile))
+           throw new CartoclientException("invalid PDF engine: $pdfClassFile");
        require_once $pdfClassFile;
 
-       $pdf = new $pdfClass;
+       $pdf = new $pdfClass($this->general, $this->format);
 
        $pdf->initializeDocument();
 
-       // PDF processing comes here
+       $pdf->addPage();
 
-       $contents = $pdf->finalizeDoucment();
+       $contents = $pdf->finalizeDocument();
 
        $output = new ExportOutput();
        $output->setContents($contents);
