@@ -29,12 +29,13 @@ class MapInfoHandler {
      * Does some basic consistency checks, fills some information.
      */
     private function fixupMapInfo(MapInfo $mapInfo) {
-    
         foreach ($mapInfo->layers as $layer) {
             if (empty($layer->label))
                 $layer->label = $layer->id; 
             if ($layer instanceof Layer && empty($layer->msLayer))
                 $layer->msLayer = $layer->id; 
+            if ($layer instanceof LayerGroup && empty($layer->aggregate))
+                $layer->aggregate = false; 
         }
         
         return $mapInfo;
@@ -57,7 +58,7 @@ class MapInfoHandler {
     }
 
     function getMapInfo() {
-         return $this->mapInfo;
+        return $this->mapInfo;
     }
 
     function fillDynamic($serverContext) {
