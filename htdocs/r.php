@@ -43,7 +43,7 @@ class ResourceProjectHandler extends ProjectHandler {
     public function getProjectName() {
         if (isset($_REQUEST['pr']))
             return $_REQUEST['pr'];
-        return 'default';
+        return ProjectHandler::DEFAULT_PROJECT;
     }
 }
 
@@ -126,7 +126,7 @@ class MiniproxyFileProvider {
      */
     public function getIconFile($resource, $requ) {
         $projectPath = '';
-        if (isset($requ['pr']) && $requ['pr'] != 'default') {
+        if (isset($requ['pr']) && $requ['pr'] != ProjectHandler::DEFAULT_PROJECT) {
             $projectPath = ProjectHandler::PROJECT_DIR . '/' . $requ['pr'] . '/';
         }   
         if (!isset($requ['m']))
