@@ -73,7 +73,7 @@ class MapResultCache {
         
         if (!$this->mapResultFile) {
             $this->mapResultFile = $this->cartoserver->
-                getServerContext($mapRequest->mapId)->config->writablePath . 
+                getServerContext($mapRequest->mapId)->getConfig()->writablePath . 
                 'mapresult_cache/mapResult.' . $this->getDigest($mapRequest);
         }
         return $this->mapResultFile;    
@@ -133,7 +133,7 @@ class MapResultCache {
     private function skipCache($mapRequest) {
 
         if ($this->cartoserver->getServerContext($mapRequest->mapId)->
-               config->noMapResultCache)
+               getConfig()->noMapResultCache)
             return true;
 
         // If we are not in direct mode (coreplugin classes not loaded will 

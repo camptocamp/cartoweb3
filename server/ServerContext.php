@@ -64,17 +64,17 @@ class ServerContext {
     /**
      * @var MapRequest
      */
-    public $mapRequest;
+    private $mapRequest;
 
     /**
      * @var MapResult
      */
-    public $mapResult;
+    private $mapResult;
 
     /**
      * @var ServerConfig
      */
-    public $config;
+    private $config;
     
     /**
      * @var array
@@ -314,6 +314,13 @@ class ServerContext {
     }
 
     /**
+     * @return MapRequest
+     */
+    public function getMapRequest() {
+        return $this->mapRequest;
+    }
+
+    /**
      * @param MapRequest
      */
     public function setMapRequest($mapRequest) {
@@ -327,6 +334,13 @@ class ServerContext {
         return $this->mapResult;
     }
     
+    /**
+     * @return ServerConfig
+     */
+    public function getConfig() {
+        return $this->config;
+    }    
+
     /**
      * Returns list of coreplugins names.
      * @return array

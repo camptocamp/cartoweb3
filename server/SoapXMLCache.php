@@ -83,7 +83,7 @@ class SoapXMLCache {
         
         if (!$this->soapXMLFile) {
             $this->soapXMLFile = $this->cartoserver->
-                                     getServerContext($this->mapId)->config->
+                                     getServerContext($this->mapId)->getConfig()->
                                      writablePath 
                                  . 'soapxml_cache/soapXML.' 
                                  . $this->getDigest($soapRequest);
@@ -125,7 +125,7 @@ class SoapXMLCache {
      * @return boolean
      */
     private function skipCache($soapRequest) {
-        return $this->cartoserver->getServerContext($this->mapId)->config->
+        return $this->cartoserver->getServerContext($this->mapId)->getConfig()->
                    noSoapXMLCache;
     }
 

@@ -59,7 +59,7 @@ class ServerImages extends ServerPlugin
      * @return The base URL where the generated images can be found.
      */
     private function getImageBaseUrl() {
-        $config = $this->serverContext->config;
+        $config = $this->serverContext->getConfig();
         if ($config->imageUrl)
             return $config->imageUrl;
         return '';
@@ -138,7 +138,7 @@ class ServerImages extends ServerPlugin
         $msMapObj = $this->serverContext->getMapObj();
 
         if (!$msMapObj->web->imagepath) {
-            $imagePath = $this->serverContext->config->writablePath .
+            $imagePath = $this->serverContext->getConfig()->writablePath .
                 self::IMAGES_WRITE_PATH;
             $msMapObj->web->set('imagepath', $imagePath);
         }

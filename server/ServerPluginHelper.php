@@ -42,7 +42,7 @@ class ServerPluginHelper {
                                   $plugin->getName()));
         
         $serverContext = $plugin->getServerContext();
-        $mapRequest = $serverContext->mapRequest;
+        $mapRequest = $serverContext->getMapRequest();
         $request = $plugin->getRequest(true, $mapRequest);
 
         $requestName = $plugin->getName() . 'Request';
@@ -58,7 +58,7 @@ class ServerPluginHelper {
         $result = $plugin->$functionName($request);
 
         $this->log->debug("plugin result: $resultName = $result");
-        $request = $serverContext->mapRequest->$requestName;
+        $request = $serverContext->getMapRequest()->$requestName;
 
         if ($resultName) {
             if (!$result) {
@@ -66,11 +66,11 @@ class ServerPluginHelper {
                                          . 'not storing the information',
                                          $plugin->getName()));
             } else {
-                if (isset($serverContext->mapResult->$resultName))
+                if (isset($serverContext->getMapResult()->$resultName))
                     throw new CartoserverException(sprintf(
                           'result for plugin %s already stored, data collision',
                           $plugin->getName())); 
-                $serverContext->mapResult->$resultName = $result;
+                $serverContext->getMapResult()->$resultName = $result;
             }
         }
     }

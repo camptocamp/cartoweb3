@@ -325,7 +325,7 @@ class MapInfoHandler {
     private function getClassIcon($classId, $msMapObj, $msClassObj) {
         
         $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
-        $iconAbsolutePath = $this->serverContext->config->writablePath .
+        $iconAbsolutePath = $this->serverContext->getConfig()->writablePath .
                                                          $iconRelativePath;
         if (!is_dir(dirname($iconAbsolutePath)))
             mkdir(dirname($iconAbsolutePath), 0755, true);

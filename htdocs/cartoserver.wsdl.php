@@ -83,8 +83,8 @@ $cartoserver = new Cartoserver();
 $serverContext = $cartoserver->getServerContext($mapId);
 $serverContext->loadPlugins();
 
-$soapAddress = getSoapAddress($serverContext->config);
-$queryString = getQueryString($serverContext->config);
+$soapAddress = getSoapAddress($serverContext->getConfig());
+$queryString = getQueryString($serverContext->getConfig());
 $queryString['mapId'] = $mapId;                
 
 $soapAddress .= '/server.php';
