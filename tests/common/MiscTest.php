@@ -30,7 +30,7 @@ class common_MiscTest extends PHPUnit2_Framework_TestCase {
 
     public function testTabs() {
 
-        $ret = shell_exec('cd ../scripts/; ./checktabs.sh 2>&1');
+        $ret = shell_exec('cd ../scripts/; /bin/sh ./checktabs.sh 2>&1');
         $this->assertTrue(strlen($ret) == 0, "Some files contain tabs:\n$ret");
     }
 
