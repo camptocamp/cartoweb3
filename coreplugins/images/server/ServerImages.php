@@ -115,8 +115,9 @@ class ServerImages extends ServerPlugin
         $imgPath = $this->serverContext->getMapObj()->web->imagepath;
         $imgCount = count(scandir($imgPath));
         if ($imgCount > MAX_IMAGES_WARNING) {
-            $msg = sprintf('Warning: you have a high number of generated images' .
-                    ' (%u [warning threshold %u]]). You should run the cleaning script. ' .
+            $msg = sprintf('Warning: you have a high number of generated ' .
+                           'images (%u [warning threshold %u]]). You should ' .
+                           'run the cleaning script. ' .
                     'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
                     $imgCount, MAX_IMAGES_WARNING);
             $serverContext->addMessage($msg, Message::CHANNEL_DEVELOPER);
@@ -136,7 +137,8 @@ class ServerImages extends ServerPlugin
         if ($requ->mainmap->isDrawn) {
             $ms_mainmap = $this->serverContext->getMsMainmapImage();
             if (!$ms_mainmap) 
-                throw new CartoserverException('drawMainmap was not called before getResult');
+                throw new CartoserverException('drawMainmap was not called ' .
+                                               'before getResult');
             $this->serverContext->setMsMainmapImage($ms_mainmap);
             $msMapObj->drawLabelCache($ms_mainmap);
                         
