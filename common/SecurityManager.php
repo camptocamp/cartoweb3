@@ -130,6 +130,7 @@ class SecurityManager {
     /**
      * Sets the username and its associated roles for the current authenticated
      * user.
+     * Warning: Please see the #setUser() note about client plugins.
      * 
      * @param string the authenticated username
      * @param array the list of associated roles of the user
@@ -143,6 +144,9 @@ class SecurityManager {
     /**
      * Sets the current authenticated user. Its roles will be fetched from the
      * current SecurityContainer
+     * Warning: for client plugins managing authentication, the setUser() or
+     * setUserAndRoles() MUST be called before or in the initialize() Plugin
+     * method. Otherwise, security constraints could be bypassed.
      * 
      * @param string the authenticated username
      */        
