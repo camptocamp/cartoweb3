@@ -1,7 +1,7 @@
 diff -dur include_orig/pear/PHPUnit2/Framework/TestCase.php include/pear/PHPUnit2/Framework/TestCase.php
---- include_orig/pear/PHPUnit2/Framework/TestCase.php	2004-12-29 16:22:13 +0100
-+++ include/pear/PHPUnit2/Framework/TestCase.php	2004-12-29 16:24:10 +0100
-@@ -249,7 +249,7 @@
+--- include_orig/pear/PHPUnit2/Framework/TestCase.php	2005-02-21 11:10:20.711849840 +0100
++++ include/pear/PHPUnit2/Framework/TestCase.php	2005-02-21 11:10:50.366341672 +0100
+@@ -250,7 +250,7 @@
              $this->fail($e->getMessage());
          }
  
@@ -10,50 +10,18 @@ diff -dur include_orig/pear/PHPUnit2/Framework/TestCase.php include/pear/PHPUnit
  
          if (extension_loaded('xdebug')) {
              xdebug_start_code_coverage(XDEBUG_CC_UNUSED);
-
---- include_orig/pear/PHPUnit2/Framework/TestResult.php 2004-12-29 15:11:29 +0100
-+++ include/pear/PHPUnit2/Framework/TestResult.php      2004-12-29 15:12:02 +0100
-@@ -459,6 +459,9 @@
+Seulement dans include/pear/PHPUnit2/Framework: TestCase.php.orig
+diff -dur include_orig/pear/PHPUnit2/Framework/TestResult.php include/pear/PHPUnit2/Framework/TestResult.php
+--- include_orig/pear/PHPUnit2/Framework/TestResult.php	2005-02-21 11:10:20.711849840 +0100
++++ include/pear/PHPUnit2/Framework/TestResult.php	2005-02-21 11:10:50.366341672 +0100
+@@ -460,6 +460,9 @@
              $trace = debug_backtrace();
              array_shift($trace);
-
+ 
 +            if (($errno & E_STRICT) > 0)
 +                return;
 +
              throw new PHPUnit2_Framework_Error(
                $errstr,
                $errno,
---- include_orig/pear/PHPUnit2/Framework/Assert.php     2004-12-29 16:59:20 +0100
-+++ include/pear/PHPUnit2/Framework/Assert.php  2004-12-29 17:00:46 +0100
-@@ -199,11 +199,11 @@
-     * @static
-     */
-     public static function assertNotNull($object, $message = '') {
--        if (is_object($object) || is_null($object)) {
-+        //if (is_object($object) || is_null($object)) {
-             self::assertTrue($object !== NULL, $message);
--        } else {
--            throw new Exception('Unsupported parameter passed to assertNotNull().');
--        }
-+        //} else {
-+        //    throw new Exception('Unsupported parameter passed to assertNotNull().');
-+        //}
-     }
- 
-     // }}}
-@@ -218,11 +218,11 @@
-     * @static
-     */
-     public static function assertNull($object, $message = '') {
--        if (is_object($object) || is_null($object)) {
-+        //if (is_object($object) || is_null($object)) {
-             self::assertTrue($object === NULL, $message);
--        } else {
--            throw new Exception('Unsupported parameter passed to assertNull().');
--        }
-+        //} else {
-+        //    throw new Exception('Unsupported parameter passed to assertNull().');
-+        //}
-     }
- 
-     // }}}
+Seulement dans include/pear/PHPUnit2/Framework: TestResult.php.orig

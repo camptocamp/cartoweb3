@@ -5,11 +5,11 @@
 # 
 # You need to adjust the url the libraries if you need a newer version
 
-PEAR_PACKAGES="PHPUnit2 Benchmark PhpDocumentor PEAR Archive_Tar XML_RPC Console_Getopt Auth"
+PEAR_PACKAGES="Benchmark PHPUnit2 PhpDocumentor PEAR DB Archive_Tar XML_RPC Console_Getopt Auth"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
-SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
-FPDF="http://www.fpdf.org/fr/dl.php?v=152&f=tgz"
+SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.7.tar.gz"
+FPDF="http://www.fpdf.org/fr/dl.php?v=153&f=tgz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
