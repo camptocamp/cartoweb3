@@ -405,8 +405,12 @@ class ServerContext {
 
             $this->pluginManager->loadPlugins($corePluginNames, $this);
 
-            // FIXME: maybe not in mapinfo
-            $pluginNames = $this->getMapInfo()->loadPlugins;
+            $iniPath = $this->getMapIniPath();
+            $iniArray = parse_ini_file($iniPath);
+            $pluginNames = explode(',', $iniArray['mapInfo.loadPlugins']);
+            foreach ($pluginNames as $key => $pluginName) {
+                $pluginNames[$key] = trim($pluginName);
+            }
         
             $this->pluginManager->loadPlugins($pluginNames, $this);
         }
