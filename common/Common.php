@@ -78,65 +78,6 @@ class CartocommonException extends CartowebException {
 }
 
 /**
- * Sets ini directives useful during development
- */
-function setDeveloperIniConfig() {
-    ini_set('assert.bail', '1');
-    ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', '1');
-}
-
-
-// TODO: use object instead of function, for using client/server polymorhpism:
-//       set_error_handler(array($this, 'errorHandler'));
-function cartowebErrorHandler($errno, $errstr, $errfile, $errline)
-{
-    $log =& LoggerManager::getLogger(__METHOD__);
-
-    // ignore mapserver errors
-    if (strpos($errstr, '[MapServer Error]') === 0 ||
-        strpos($errstr, 'getLayerByName') === 0 ||
-        // mapfile open error are not fatal, so that we stop on 
-        //  the more descriptive mapserver message
-        strpos($errstr, 'Failed to open map file') === 0)
-        return;
-    // ignore log4php notices
-    if (strpos($errfile, 'include/log4php/' ) !== false  && $errno | E_NOTICE)
-        return;
-    // ignore smarty notices
-    if (strpos($errfile, '/templates_c/') !== false && $errno | E_NOTICE)
-        return;
-    
-    $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n errfile: %s (line %i)", 
-                       $errno, $errstr, $errfile, $errline));
-    throw new CartocommonException("Error [$errno, $errstr, $errfile, $errline]");
-}
-
-/**
- * Perform various cartoweb initializations.
- * @param Config
- */
-function initializeCartoweb($config) {
-    
-    if ($config->developerIniConfig) {  
-        setDeveloperIniConfig();
-    }
-    set_error_handler('cartowebErrorHandler', E_ALL);
-}
-
-/**
- * Restores the php context to what it was before calling initializeCartoweb()
- */
-function shutdownCartoweb($config) {
-
-    if ($config->developerIniConfig) {  
-        // TODO
-        //unsetDeveloperIniConfig();
-    }
-    restore_error_handler();
-}
-
-/**
  * Class containing general common code shared by client and server.
  * For example, it handles common initialization.
  * 
@@ -179,6 +120,77 @@ class Common {
         self::setIncludePath($client);
         if (isset($args['apd']))
             self::initializeApd($client);
+    }
+    
+    /**
+     * Sets ini directives useful during development
+     */
+    private static function setDeveloperIniConfig() {
+        ini_set('assert.bail', '1');
+        ini_set('error_reporting', E_ALL);
+        ini_set('display_errors', '1');
+    }
+    
+    /**
+     * Ananlyzes errors, and eventually ignores some.
+     * 
+     * @return boolean true if the given error is to be ignored
+     */
+    private static function isErrorIgnored($errno, $errstr, $errfile, $errline) {
+        // ignore mapserver errors
+        if (strpos($errstr, '[MapServer Error]') === 0 ||
+            strpos($errstr, 'getLayerByName') === 0 ||
+            // mapfile open error are not fatal, so that we stop on 
+            //  the more descriptive mapserver message
+            strpos($errstr, 'Failed to open map file') === 0)
+            return true;
+        // ignore log4php notices
+        if (strpos($errfile, 'include/log4php/' ) !== false  && $errno | E_NOTICE)
+            return true;
+        // ignore smarty notices
+        if (strpos($errfile, '/templates_c/') !== false && $errno | E_NOTICE)
+            return true;
+        return false;
+    }
+    
+    /**
+     * Error handler for cartoweb.
+     */
+    public static function cartowebErrorHandler($errno, $errstr, $errfile, $errline) {
+        $log =& LoggerManager::getLogger(__METHOD__);
+
+        if (self::isErrorIgnored($errno, $errstr, $errfile, $errline))
+            return;
+    
+        $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n errfile: %s (line %i)", 
+                           $errno, $errstr, $errfile, $errline));
+        throw new CartocommonException("Error [$errno, $errstr, $errfile, $errline]");
+    }
+
+    /**
+     * Perform various cartoweb initializations.
+     * @param Config
+     */
+    public static function initializeCartoweb($config) {
+    
+        if ($config->developerIniConfig) {  
+            self::setDeveloperIniConfig();
+        }
+
+        set_error_handler(array('Common', 'cartowebErrorHandler'), E_ALL);
+    }
+
+    /**
+     * Restores the php context to what it was before calling
+     * InitializeCartoweb()
+     */
+    public function shutdownCartoweb($config) {
+
+        if ($config->developerIniConfig) {  
+            // TODO
+            //unsetDeveloperIniConfig();
+        }
+        restore_error_handler();
     }
 }
 

@@ -613,7 +613,7 @@ class Cartoclient {
         $this->log->debug("request is : ");
         $this->log->debug($_REQUEST);
 
-        initializeCartoweb($this->config);
+        Common::initializeCartoweb($this->config);
         
         try {
             $this->doMain();

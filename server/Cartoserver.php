@@ -352,7 +352,7 @@ function setupSoapService($cartoserver) {
     $projectHandler = new ServerProjectHandler($mapId);
     $config = new ServerConfig($projectHandler);
 
-    initializeCartoweb($config);
+    Common::initializeCartoweb($config);
 
     $url = getWsdlUrl($mapId, $config);
     $options = array();

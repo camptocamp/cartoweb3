@@ -15,6 +15,7 @@ require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
+require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 
 /**
  * Wrapper against CartoserverService, to use it inside tests.
@@ -127,11 +128,11 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
             if ($direct) {
                 $config = new stdClass();
                 $config->developerIniConfig = true;
-                initializeCartoweb($config);
+                Common::initializeCartoweb($config);
             }
             $ret = $this->getCartoserverService($direct)->$function($argument);
             if ($direct) {
-                shutdownCartoweb($config);
+                Common::shutdownCartoweb($config);
             }            
             return $ret;
         } catch (CartowebException $e) {
