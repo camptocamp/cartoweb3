@@ -67,7 +67,13 @@ showProjectChooser = true
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = hello, selection, outline, exportPdf, exportHtml, exportCsv
+loadPlugins = auth, hello, selection, outline, exportPdf, exportHtml, exportCsv
+
+;## Security configuration ##
+
+; List of roles which are allowed to access the cartoweb. Set to 'all' if no
+;  restriction is given.
+SecurityAllowedRoles = all
 
 ;## Template engine configuration ##
 

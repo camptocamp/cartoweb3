@@ -1,0 +1,19 @@
+
+; Whether to show the Authentification login/logout buttons.
+; (Warning: this is not related to the fact the authentification system will be
+; active or not)
+authActive = true
+
+; passwords values are md5sums of the password.
+;  to get this value, you can type in a shell:
+; $ echo -n 'mypassword'|md5sum
+
+users.toto = c910474431df50cff186d68b4f65956c ; $123pgz
+users.alice = e3e4faee0cc7fc55ad402f517cdaf40c ; /%12pw
+users.x = 9dd4e461268c8034f5c8564e155c67a6 ; x
+
+; List of roles for each user
+
+roles.toto = admin, editor
+roles.alice = editor
+roles.x = admin, editor

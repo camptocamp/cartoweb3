@@ -14,6 +14,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
  */
 require_once 'plugins/outline/server/RemoteServerOutlineTest.php';
 require_once 'plugins/selection/server/RemoteServerSelectionTest.php';
+require_once 'plugins/auth/client/AuthClientTest.php';
 
 /**
  * @package Tests
@@ -27,6 +28,7 @@ class plugins_AllTests {
 
         $suite->addTestSuite('plugins_outline_server_RemoteServerOutlineTest');
         $suite->addTestSuite('plugins_selection_server_RemoteServerSelectionTest');
+        $suite->addTestSuite('plugins_auth_client_AuthClientTest');
 
         return $suite;
     }
