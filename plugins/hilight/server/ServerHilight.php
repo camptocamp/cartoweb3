@@ -207,6 +207,7 @@ class ServerHilight extends ServerPlugin {
         // activate this layer to be visible
         $msLayer->set('status', MS_ON);
         
+        // TODO(sp): create two functions: hilightLayerMask hilightLayerNormal
         if ($requ->maskMode) {
             
             // Activate outside mask layer
