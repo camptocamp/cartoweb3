@@ -8,6 +8,7 @@
           <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
           <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
           <element name="recenterLocationRequest" type="types:RecenterLocationRequest" minOccurs="0"/>
+          <element name="locationConstraint" type="types:LocationConstraint" minOccurs="0"/>
         </all>
       </complexType>     
 
@@ -58,7 +59,14 @@
           <element name="shortcuts" type="types:ArrayOfLocationShortcut"/>
         </all>
       </complexType>
-            
+
+      <complexType name="LocationConstraint">
+        <all>
+          <element name="className" type="xsd:string"/>
+          <element name="maxBbox" type="types:Bbox"/>
+        </all>
+      </complexType>
+                  
       <simpleType name="LocationType">
         <restriction base="xsd:string">
           <enumeration value="bboxLocationRequest"/>

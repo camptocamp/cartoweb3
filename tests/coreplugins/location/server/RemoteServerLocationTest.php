@@ -43,6 +43,10 @@ class coreplugins_location_server_RemoteServerLocationTest
         $requ = new LocationRequest();
         $requ->locationType = $locationType;
         $requ->$locationRequestName = $locationRequest;
+        
+        // FIXME: there should be an additional parameter for this
+        if (isset($locationRequest->constraint))
+            $requ->locationConstraint = $locationRequest->constraint;
 
         $mapRequest = $this->createRequest();
         $mapRequest->mapId = $this->popMapId();
@@ -361,5 +365,24 @@ class coreplugins_location_server_RemoteServerLocationTest
                                    NULL, $direct);        
         $this->redoDirect($direct, __METHOD__);
     }
+    
+    public function testLocationRequestConstraint($direct = false) {
+
+        $bbox =  new Bbox(-1, 50, 1, 52);
+        $maxBbox = new Bbox(-1, 51, 1, 52);
+    
+        $bboxLocationRequest = new BboxLocationRequest();
+        $bboxLocationRequest->bbox = $bbox;
+
+        $bboxLocationRequest->constraint = new LocationConstraint();
+        $bboxLocationRequest->constraint->maxBbox = $maxBbox;
+        
+        $mapResult = $this->doTestLocationRequest(LocationRequest::LOC_REQ_BBOX,
+                    'bboxLocationRequest', $bboxLocationRequest,
+                    NULL, NULL, $direct);
+                    
+        $this->assertInsideBbox($maxBbox, $mapResult->locationResult->bbox);
+        $this->redoDirect($direct, __METHOD__);
+    }    
 }
 ?>

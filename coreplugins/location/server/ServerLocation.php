@@ -417,14 +417,15 @@ class ServerLocation extends ServerPlugin
         return $newScale;
     }
 
-    private function adjustBbox($oldBbox) {
+    private function adjustBbox($oldBbox, $maxExtent = NULL) {
      
         $newBbox = $oldBbox;
         
         // Old ratio so we can check ratios
         $oldRatio = $oldBbox->getWidth() / $oldBbox->getHeight();
         
-        $maxExtent = $this->serverContext->getMaxExtent();
+        if (is_null($maxExtent))
+            $maxExtent = $this->serverContext->getMaxExtent();
         
         // Horizontal 
         if ($newBbox->minx < $maxExtent->minx) {
@@ -496,7 +497,7 @@ class ServerLocation extends ServerPlugin
         }
     }
 
-    private function doBboxAdjusting() {
+    private function doBboxAdjusting($maxExtent = NULL) {
         $msMapObj = $this->serverContext->getMapObj();
 
         $bbox = new Bbox();
@@ -505,12 +506,12 @@ class ServerLocation extends ServerPlugin
         $this->log->debug("bbox before adjusting is");
         $this->log->debug($bbox);
 
-        $newBbox = $this->adjustBbox($bbox);
+        $newBbox = $this->adjustBbox($bbox, $maxExtent);
 
         $this->log->debug("bbox after adjusting is");
         $this->log->debug($newBbox);
 
-        // TODO: do not setExtent of the bbox is the same
+        // TODO: do not setExtent if the bbox is the same
         $msMapObj->setExtent($newBbox->minx, $newBbox->miny, 
                              $newBbox->maxx, $newBbox->maxy);
     }
@@ -563,7 +564,10 @@ class ServerLocation extends ServerPlugin
 
         $this->doLocation($bbox, $scale);
 
-        $this->doBboxAdjusting();
+        $maxBbox = NULL;
+        if (isset($requ->locationConstraint->maxBbox))
+            $maxBbox = $requ->locationConstraint->maxBbox;
+        $this->doBboxAdjusting($maxBbox);
 
         return $this->getLocationResult();
     }

@@ -26,6 +26,8 @@ class LocationRequest extends Serializable {
     public $zoomRectangleLocationRequest;
     public $recenterLocationRequest;
 
+    public $locationConstraint;
+
     function unserialize($struct) {
         $this->locationType = self::unserializeValue($struct, 'locationType');
 
@@ -37,6 +39,20 @@ class LocationRequest extends Serializable {
                     'zoomPointLocationRequest', 'ZoomPointLocationRequest');
         $this->recenterLocationRequest = self::unserializeObject($struct, 
                     'recenterLocationRequest', 'recenterLocationRequest');
+        $this->locationConstraint = self::unserializeObject($struct, 
+                    'locationConstraint', 'LocationConstraint');
+    }
+}
+
+/**
+ * @package CorePlugins
+ */
+class LocationConstraint extends Serializable {
+    public $maxBbox;
+    // TODO: add contraints for minScale, maxScale and others
+
+    public function unserialize($struct) {
+        $this->maxBbox = self::unserializeObject($struct, 'maxBbox', 'Bbox');
     }
 }
 
@@ -101,13 +117,11 @@ class LocationInit extends Serializable {
 /**
  * @package CorePlugins
  */
-// FIXME: this should not extend LocationRequest
 abstract class RelativeLocationRequest extends Serializable {
     public $bbox;
 
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
-        //parent::unserialize($struct);        
     }
 }
 
