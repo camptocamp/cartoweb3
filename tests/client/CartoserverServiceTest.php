@@ -34,6 +34,15 @@ class client_CartoserverServiceTest extends client_CartoserverServiceWrapper {
      
         $this->redoDirect($direct, __METHOD__);
     }
+    
+    public function testGetMap($direct = false) {
+    
+        $mapRequest = $this->createRequest();
+        $mapResult = $this->getMap($mapRequest, $direct);
+        $this->assertNotNull($mapResult->imagesResult->mainmap->path);
+        // TODO: more assertions
+        $this->redoDirect($direct, __METHOD__);
+    }
 }
 
 ?>
