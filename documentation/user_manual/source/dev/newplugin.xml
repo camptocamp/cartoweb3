@@ -11,7 +11,7 @@
  <title>New Plugins</title>
 
  <sect1 id="dev.new-plugin.intro"> 
-  <title>What are Plugins</title>
+  <title><indexterm><primary>Plugins</primary></indexterm><indexterm><primary>Coreplugins</primary></indexterm>What are Plugins</title>
   <sect2 id="dev.new-plugin.intro.definition">
    <title>Definition</title>
    <para>
@@ -32,7 +32,7 @@
       <para>
        <parameter>plugins</parameter>: "normal" plugins perform more specific actions and are not always activated. Normal plugins activation is done by setting the <parameter>loadPlugins</parameter> parameter in <filename>client_conf/client.ini</filename> for &cartoclient; plugins and in <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> for &cartoserver; ones. For instance:
        <programlisting><![CDATA[loadPlugins = auth, outline, exportHtml]]></programlisting>
-       Since they are not always available, simple plugins usually do not rely on each other. On the other hand, it is not a problem for them to call some coreplugins functionalities if the latter are publicly accessible.
+       Since they are not always available, simple plugins usually do not rely on each other. On the other hand, it is not a problem for them to call some coreplugins functionalities if the latter are publicly accessible. Simple plugins files are grouped in the <filename>plugins/</filename> directory.
       </para>
      </listitem>
     </itemizedlist>
@@ -42,7 +42,7 @@
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.intro.structure">
-   <title>Plugins Structure</title>
+   <title><indexterm><primary>Plugins structure</primary></indexterm>Plugins Structure</title>
    <para>
     Plugins and coreplugins have the following general structure:
     <programlisting><![CDATA[<pluginName>/
@@ -92,7 +92,7 @@
  </sect1>
 
  <sect1 id="dev.new-plugin.write"> 
-  <title>Writing a Plugin</title>
+  <title><indexterm><primary>Plugin creation</primary></indexterm>Writing a Plugin</title>
   <sect2 id="dev.new-plugin.write.intro">
    <title>Introduction</title>
    <para>
@@ -110,7 +110,7 @@
   <sect2 id="dev.new-plugin.write.choice">
    <title>Plugin or Coreplugin?</title>
    <para>
-    First of all you have to determine if you are about to design a simple plugin or a coreplugin. To be a coreplugin, your plugin must be really generic and present a great interest to the &cartoweb; users community since it might be included in the upstream distribution. Contact &cartoweb; development team for more info. In most cases it is better to create a simple plugin.
+    First of all you have to determine if you are about to design a simple plugin or a coreplugin. To be a coreplugin, your plugin must be really generic and present a great interest to the &cartoweb; users community since it might be included in the upstream distribution. Contact &cartoweb; development team for more info. In most cases it is better and sufficient to create a simple plugin.
    </para>
    <para>
     To activate a coreplugin, update the <parameter>Cartoclient::getCorePluginNames()</parameter> method in <filename>/client/Cartoclient.php</filename> and/or the <parameter>ServerContext::getCorePluginNames()</parameter> one in <filename>/server/ServerContext.php</filename>. For instance:
@@ -123,7 +123,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.write.calls">
-   <title>How Plugins are Called</title>
+   <title><indexterm><primary>Plugins calling</primary></indexterm><indexterm><primary>Plugins interfaces implementations</primary></indexterm>How Plugins are Called</title>
    <para>
     As explained in <xref linkend="dev.new-plugin.intro"/>, plugins are independent aggregations of PHP code that are called by the &cartoweb; core classes to perform dedicated actions. Plugins are called several times during the program execution (entry points). Thus they can interact at various level of the application.
    </para>
@@ -191,10 +191,74 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
     For a comprehensive list of available client and server interfaces, see <filename>/client/ClientPlugin.php</filename> and <filename>/server/ServerPlugin.php</filename> files or take a look at the &cartoweb; PHP API documentation.
    </para>
   </sect2>
+  <sect2 id="dev.new-plugin.writing.checklist">
+   <title>Plugin Creation Check-List</title>
+   <para>
+    <orderedlist>
+     <listitem>
+      <para>
+       Determine if you will write a plugin or a coreplugin.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Create a <filename>&lt;yourPlugin&gt;/</filename> directory in <filename>/projects/&lt;yourProject&gt;/plugins/</filename> if you need a simple plugin. Directory name will be the plugin name. You can use whatever name you want except of course names of already existing plugins or coreplugins. Yet it is recommended to use lowercase letters, capitalizing only the first letter of each word that composes the name (eg. "yourPluginName").
+       </para>
+       <para>
+        In case of a coreplugin, there is no way to create a coreplugin in a project context. Coreplugins can only be integrated in the upstream application. It is not recommended to do so without &cartoweb; developers agreement because of compatibility troubles that may occur when upgrading, etc. 
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Create subdirectories to store all plugin-related resources files and templates. 
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Create <filename>client/</filename>, <filename>server/</filename>, <filename>common/</filename> if your plugin as &cartoclient;, &cartoserver; and respectively common parts.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Create your main PHP classes files. Those files must be named using the first-letter-capitalized name of your plugin, prefixing it with "Client" or "Server" for client or server components (eg. <filename>ClientYourPlugin.php</filename>, <filename>ServerYourPlugin.php</filename>, <filename>YourPlugin.php</filename>).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Extend <parameter>ClientPlugin</parameter> and/or <parameter>ServerPlugin</parameter> &cartoweb; classes in the matching above files and name the result classes using their files names (with no ".php"). For instance:
+       <programlisting><![CDATA[<?php
+/**
+ * @version $Id : ServerYourPlugin.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ */
+
+class ServerYourPlugin extends ServerPlugin {
+
+]]></programlisting>
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Make your classes implement needed interfaces and redefine corresponding methods. Note that the <filename>common/</filename> part class "YourPlugin" does not have to extend or implement any &cartoweb; class or interface. It is used as a container for common data and treatment used by client and server classes.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Activate your plugin by adding its name to the <parameter>loadPlugins</parameter> of the matching project configuration files.
+      </para>
+     </listitem>
+    </orderedlist>
+   </para>
+  </sect2>
+  <sect2 id="dev.new-plugin.writing.inclusion">
+   <title>Automatic Files Inclusion</title>
+   <para>
+    Main plugin PHP files (eg. <filename>ClientYourPlugin.php</filename>, <filename>ServerYourPlugin.php</filename>, <filename>YourPlugin.php</filename>) are automatically included and their contained classes and objects are directly accessible. Other files in <filename>client/</filename>, <filename>server/</filename> or <filename>common/</filename> are not and must be included explicitely in the main plugin PHP files.
+   </para>
+  </sect2>
  </sect1>
 
  <sect1 id="dev.new-plugin.adapting"> 
-  <title>Adapting a Plugin</title>
+  <title><indexterm><primary>Plugin adaptation</primary></indexterm>Adapting a Plugin</title>
   <sect2 id="dev.new-plugin.adapting.intro">
    <title>Approaches</title>
    <para>
@@ -218,7 +282,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.adapting.overriding">
-   <title>Overriding a Plugin</title>
+   <title><indexterm><primary>Plugin overriding</primary></indexterm>Overriding a Plugin</title>
    <para>
     Overriding a plugin is the simplest way to adapt it to your needs. It is done by duplicating the plugin files (at least the ones you want to adapt) in your project frame. For more information about projects handling, see <xref linkend="user.structure.project"/>.
    </para>
@@ -243,7 +307,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.adapting.extending">
-   <title>Extending a Plugin</title>
+   <title><indexterm><primary>Plugin extension</primary></indexterm>Extending a Plugin</title>
    <para>
     Extending a plugin is required when your adaptations involve deep changes such as additions or overloadings of methods in the plugin PHP classes.
    </para>
@@ -258,7 +322,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
     <programlisting><![CDATA[<?php
 /**
  * @package CorePlugins
- * @version $Id$
+ * @version $Id : ClientMyProjectLayers.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
  */
 
 class ClientMyProjectLayers extends ClientLayers {
@@ -343,7 +407,7 @@ function checkMapsize() {
 <input type="text" name="testField" value="{$imagesTest}" />]]></programlisting>
     <programlisting><![CDATA[<?php
 /**
- * @version $Id$
+ * @version $Id : ClientYourProjectImages.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
  */
 
 class ClientYourProjectImages extends ClientImages {
@@ -375,21 +439,21 @@ class ClientYourProjectImages extends ClientImages {
   </sect2>
  </sect1>
  <sect1 id="dev.new-plugin.special">
-  <title>Special Plugins</title>
+  <title><indexterm><primary>Special plugins</primary></indexterm>Special Plugins</title>
   <sect2 id="dev.new-plugin.special.export">
-   <title>Export Plugins</title>
+   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
    <para>
 
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.special.filters">
-   <title>Filters</title>
+   <title><indexterm><primary>Filters</primary></indexterm>Filters</title>
    <para>
 
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.special.tables">
-   <title>Tables</title>
+   <title><indexterm><primary>Tables</primary></indexterm>Tables</title>
    <para>
 
    </para>
