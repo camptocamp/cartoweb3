@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Initializes the log4php library, uses a LoggerConfiguration which changes
  * the file path, to that logs are written to CARTOCLIENT_HOME/log

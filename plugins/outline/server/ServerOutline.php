@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Outline plugin
  * @package Plugins

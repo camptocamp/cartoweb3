@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package CorePlugins
  * @version $Id$

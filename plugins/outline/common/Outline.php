@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Outline plugin Serializable objects
  * @package Plugins
