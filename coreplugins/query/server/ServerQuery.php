@@ -84,8 +84,11 @@ class ServerQuery extends ServerCorePlugin {
 
         if (!isset($queryArgs->startIndex))
             $queryArgs->startIndex = 0;
+
         // eventually put it in config
-        define('MAX_RESULTS', 10000);
+        if (!defined('MAX_RESULTS'))
+            define('MAX_RESULTS', 10000);
+        
         if (!isset($queryArgs->maxResults))
             $queryArgs->maxResults = MAX_RESULTS;
 
