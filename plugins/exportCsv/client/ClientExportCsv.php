@@ -47,15 +47,33 @@ class ClientExportCsv extends ExportPlugin {
     }
     
     function export($mapResult) {
+
+        if (!is_null($this->getConfig()->separator)) {
+            $sep = $this->getConfig()->separator;
+        } else {
+            $sep = ';';
+        }
+        if (!is_null($this->getConfig()->textDelimiter)) {            
+            $tD = $this->getConfig()->textDelimiter;
+            
+            // special characters
+            switch ($tD) {
+            case 'double-quote':
+                $tD = '"';
+                break;
+            }
+        } else {
+            $tD = '"';
+        }
         
         $contents = '';
         if (isset($mapResult->queryResult)) {
             foreach ($mapResult->queryResult->layerResults as $layer) {
                 if ($layer->layerId == $this->layerId
                     && $layer->numResults > 0) {
-                    $contents .= implode($layer->fields, ',') . "\n";
+                    $contents .= $tD . implode("$tD$sep$tD", $layer->fields) . "$tD\n";
                     foreach ($layer->resultElements as $element) {
-                        $contents .= implode($element->values, ',') . "\n";
+                        $contents .= $tD . implode("$tD$sep$tD", $element->values) . "$tD\n";
                     }
                 }
             }

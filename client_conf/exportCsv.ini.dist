@@ -1,0 +1,7 @@
+; separator between each value
+separator = ";"
+
+; delimiter before and after each value
+; special characters:
+;     double-quote = "
+textDelimiter = double-quote
