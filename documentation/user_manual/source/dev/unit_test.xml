@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="dev.unit_test">
- <title>Unit tests</title>
+ <title>Unit Tests</title>
 
  <sect1 id="dev.unit_test.intro"> 
   <title>Introduction</title>
@@ -71,9 +71,12 @@
 
  <sect1 id="dev.unit_test.writing"> 
   <title>Writing Tests</title>
-  <para>bouh</para>
+  <para>Information about writing tests for &cartoweb; can be separated into
+    two parts. First part about writing Unit tests in general, useful for
+    people new to PhpUnit. Then a part more specific about the infrastructure 
+    which is available in &cartoweb; for writing tests.</para>
   <sect2 id="dev.unit_test.writing.base"> 
-  <title>General information about writing tests</title>
+  <title>General Information About Writing Tests</title>
   <para>
    Test cases are located in directory tests, in a similar 
    structure as the root directory:
@@ -84,6 +87,15 @@
 common
     BasicTypesTest.php
     AllTests.php
+coreplugins
+    AllTests.php
+    ...
+plugins
+    AllTests.php
+    ...
+projects
+    < all test for projects >
+    ...
 ...
 AllTests.php]]></screen>
   </para>
@@ -108,7 +120,7 @@ AllTests.php]]></screen>
   The following example shows a test in <filename>common/BasicTypeTest.php</filename> 
   file:
    <example>
-    <title>Simple test case</title>
+    <title>Simple test case (<filename>BasicTypesTests.php</filename>)</title>
     <programlisting><![CDATA[<?php
 require_once 'PHPUnit2/Framework/TestCase.php';
 require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
@@ -148,7 +160,7 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
     together in the <methodname>suite()</methodname> method.
   <example>
    <title>
-    test suite (<filename>AllTests.php</filename>) 
+    Test suite (<filename>AllTests.php</filename>) 
    </title>
    <programlisting><![CDATA[<?php
 
@@ -205,19 +217,104 @@ class AllTests {
   </para>
   </sect2>
   <sect2 id="dev.unit_test.writing.framework"> 
-    <title>Specific information for tests</title>
+    <title>Specific Information for Tests</title>
     <para>This section describes specific features developped in &cartoweb;
       for running tests, and infrastructure classes for more simple test 
       case writing.</para>
+      <sect3 id="dev.unit_test.writing.framework.httpunit">
+        <title>HttpUnit Based Tests</title>
+        <para>
+          To test features of the cartoclient, the 
+            <ulink url="http://httpunit.sourceforge.net/">HttpUnit</ulink>
+          software is used.
+        It is written in Java, and there is no Php port. The http unit tests 
+        are run if you hava a Jvm in you path.
+        </para>
+        <para>
+        For more information about running HttpUnit tests, see the
+         <filename>tests/client/httpunit/README</filename> file in 
+         the &cartoweb; distribution.
+        </para>
+      </sect3>
+
+      <sect3 id="dev.unit_test.writing.framework.plugins">
+        <title>Testing &cartoweb; Plugins</title>
+        <para>
+          Plugins are a main component in &cartoweb; architecture. That's why
+          there is support to maintain common code used for testing plugins.
+          As described in <xref linkend="dev.unit_test.writing.base"/> the tests
+          for plugins have to mirror the file hierarchy of the base application.
+          That's why there are <filename>coreplugins</filename> and 
+          <filename>plugins</filename> directories where test for core plugins 
+          and plugins are stored respectively.
+          <note><para>Tests are also available for projects. So, to test
+            a plugin in a project, the path of the test will be 
+              <filename>&lt;projectname&gt;/plugin/&lt;pluginname&gt;
+                </filename></para>
+          </note>
+        </para>
+        <para>
+        Testing plugins is separated into two tasks:
+        <orderedlist>
+          <listitem>
+            <para>Locally testing client, common or server classes. For 
+              plugin client classes, it requires a &cartoclient; environment
+              available, and identically a &cartoserver; environment 
+              for testing server classes.</para>
+          </listitem>
+          <listitem>
+            <para>
+              Remote plugin tests, throught the webservice API. This kind of tests
+              are related to the server plugins, that's why we chose to put them
+              in the <filename>server</filename> folder of plugins.
+            </para>
+          </listitem>
+        </orderedlist>
+        </para>
+        <para>
+          For the first point mentionned above, general Unit tests rules apply, as
+          described in <xref linkend="dev.unit_test.writing.base"/>.
+        </para>
+        <para>
+          For the second point stated, a help class named 
+            <classname>client_CartoserverServiceTest</classname> can be extended
+            by the testing classes. In turn, <classname>client_CartoserverServiceTest</classname>
+            extends other classes which offer additional helpful methods. For
+            the complete list of available methods, please have a look at the 
+            generate API docs (as more may be added in future). The main useful
+            methods are <methodname>createRequest()</methodname> for initializing
+            a new request, <methodname>getMap()</methodname> for lanching the 
+            request.
+        </para>
+        <tip>
+        <para>Having a look at an existing plugin test case is the best starting
+          point for writing new tests.</para></tip>
+      </sect3>      
+      
   </sect2>
  </sect1>
 
  <sect1 id="unit_test.running"> 
-  <title>Running tests</title>
+  <title>Running Tests</title>
+  <para>
+    Running tests is possible in two different ways:
+        <orderedlist>
+          <listitem>
+            <para>With command line.</para>
+          </listitem>
+          <listitem>
+            <para>Through the web interface.</para>
+          </listitem>
+        </orderedlist>
+  </para>
+  
+  <sect2 id="unit_test.running.cli">
+    <title>Command Line Interface</title>
+  
   <para>
    To run a test case or a test suite, type the following
    command in directory <filename>&lt;cartoweb3_root&gt;/tests</filename>:
-   <command><![CDATA[<php-bin> phpunit.php <test-class>]]></command>
+   <screen><![CDATA[<php-bin> phpunit.php <test-class>]]></screen>
    Where &lt;php-bin&gt; is the PHP binary and &lt;test-class&gt;
    is the name of the test class 
    (AllTests, client_AllTests, client_CartoclientTest, etc.).
@@ -241,15 +338,24 @@ Content-type: text/html
 X-Powered-By: PHP/5.0.1]]></screen>
    In this case, 12 tests were run with one failure.
   </para>
- </sect1>
-
- <sect1 id="dev.unit_test.http"> 
-  <title>HTTP unit tests</title>
-  <para>
-   To test features of the cartoclient, the HttpUnit software is used. 
-   It is written in Java, and there is no Php port. The http unit 
-   tests are run if you hava a Jvm in you path.
-  </para>
+  </sect2>
+  <sect2 id="unit_test.running.web">
+    <title>Web Interface</title>
+    <para>
+      The web interface for running test is available at the address
+      <uri>/runtests.php</uri> from the &cartoweb; base path. It is possible
+      to give a GET parameter named <varname>testsuite</varname>, which accepts
+      the same parameter as the command line argument described in
+      <xref linkend="unit_test.running.cli"/>.
+    </para>
+    <important>
+      <para>
+        To allow the web interface to be used, the configuration parameter
+        <varname>allowTests</varname> has to be set to <constant>true</constant>.
+        See FIXME_ADD_LINK about the confuguration of these parameters.
+      </para>
+    </important>
+  </sect2>
  </sect1>
 
 </chapter>
