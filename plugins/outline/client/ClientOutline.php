@@ -55,7 +55,6 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
 
     function getTools() {
         $weight = $this->getConfig()->weightOutline;
-        // TODO: see if default '70' is right
         if (!$weight) $weight = 70; 
         
         return array(new ToolDescription(self::TOOL_OUTLINE, self::TOOL_OUTLINE,
