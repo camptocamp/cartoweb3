@@ -37,18 +37,26 @@ function updateOpenNodes(id, open) {
   if(isModified) writeOpenNodes();
 }
 
+function replacePic(obj, from, to) {
+  var imgs = obj.getElementsByTagName('img');
+  var pic = imgs[0].getAttribute('src');
+  var re = new RegExp(from);
+  pic = pic.replace(re, to);
+  imgs[0].setAttribute('src', pic);
+}
+
 function shift(id) {
   var obj = document.getElementById(id);
   var key = document.getElementById('x' + id);
   var iid = id.substr(2);
   
-  if (key.innerHTML == '-') { 
-    key.innerHTML = '+';
+  if (obj.style.display != '' && obj.style.display != 'none') { 
+    replacePic(key, 'minus', 'plus');
     obj.style.display = 'none';
     updateOpenNodes(iid);
   }
   else {
-    key.innerHTML = '-';
+    replacePic(key, 'plus', 'minus');
     obj.style.display = 'block';
     updateOpenNodes(iid,true);
   }
@@ -66,7 +74,7 @@ function shift(id) {
     var nid = divs[i].id;
     openNodes.push(nid.substr(2));
     key = document.getElementById('x' + nid);
-    if (key) key.innerHTML = '-';
+    if (key) replacePic(key, 'plus', 'minus');
   }
 
   writeOpenNodes(true);
@@ -79,7 +87,7 @@ function closeAll(id) {
   
   for (var i = 0; i < divs.length; i++) {    
     key = document.getElementById('x' + divs[i].id);
-    if (key) key.innerHTML = '+';
+    if (key) replacePic(key, 'minus', 'plus');
       
     if (divs[i].getAttribute('id')) {
         divs[i].style.display = 'none';    

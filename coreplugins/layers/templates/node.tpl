@@ -11,8 +11,9 @@
 
 {if $childrenLayers}
   {if $layerId != 'root'}
-  <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" 
-  class="lk">{if $groupFolded}+{else}-{/if}</a> 
+  <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" class="lk"><img 
+  src="{r type=gfx plugin=layers}{if $groupFolded}plus{else}minus{/if}.gif{/r}" 
+  alt="{if $groupFolded}+{else}-{/if}" title="" /></a> 
   {if !$layerFrozen}{$smarty.capture.inputElt}{/if}
   {$smarty.capture.caption}<br />
   <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
@@ -22,7 +23,6 @@
   </div>
   {/if}
 {else}
-<span class="lk">-</span>
   {if $layerClassName != 'LayerClass'}{$smarty.capture.inputElt}{/if}
   {$smarty.capture.caption}<br />
 {/if}
