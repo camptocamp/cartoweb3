@@ -90,6 +90,9 @@
       window.onresize = function() {
         dhtmlBox.initialize();
       }
+      myform.onsubmit = function() {
+      	xShow(xGetElementById('mapAnchorDiv'));
+      }
     }
     /*]]>*/
   </script>
