@@ -210,7 +210,7 @@ class ServerHilight extends ServerPlugin {
         if ($requ->maskMode) {
             
             // Activate outside mask layer
-            $ousideMask = false;
+            $outsideMask = false;
             if ($msLayer->getMetaData('outside_mask')) {
                 $msMaskLayer = @$msMapObj->getLayerByName($msLayer->getMetaData('outside_mask'));
                 if (!empty($msMaskLayer)) {
