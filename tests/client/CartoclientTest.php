@@ -125,7 +125,6 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         $classpath = $axis_tests_path . '/axis.jar';
         
         $clientUrl = 'http://c2cpc4.camptocamp.com/gdp/1.0m7/cartoserver/cartoserver.wsdl.php?mapId=toposhop1'; 
-        //$clientUrl = $this->getCartoserverBaseUrl() . 'cartoserver.wsdl.php?mapId=test';
 
         if (is_null($clientUrl)) {
             $this->fail("Warning: client Url not found: skipping test\n");
