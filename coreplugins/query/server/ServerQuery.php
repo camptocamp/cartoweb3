@@ -435,7 +435,7 @@ class ServerQuery extends ClientResponderAdapter {
                 
         $queryResult->tableGroup = new TableGroup();
         $queryResult->tableGroup->groupId = 'query';
-        $queryResult->tableGroup->groupTitle = 'Query';
+        $queryResult->tableGroup->groupTitle = I18nNoop::gt('Query');
         $queryResult->tableGroup->tables = $tables;
 
         // Applies the registred table rules
