@@ -84,7 +84,7 @@ MAP
     TEMPLATE "ttt"
     
     CLASS
-      NAME "0"
+      NAME "Polygon class 1"
       METADATA
         "key1" "value1"
         "key2" "value2"
@@ -99,7 +99,7 @@ MAP
       END
     END
     CLASS
-      NAME "1"
+      #NAME "1"
       EXPRESSION "foo"
       STYLE
         COLOR 255 153 102
@@ -148,21 +148,23 @@ MAP
     TEMPLATE "ttt"
 
     CLASS
-      NAME "0"
+      NAME "Line class 1"
       STYLE
-        COLOR 0 153 0
+        COLOR 153 153 0
         SYMBOL 1
-        SIZE 3
+        SIZE 2
       END
+      MAXSCALE 7
     END
     CLASS
-      NAME "1"
+      NAME "Line class 2"
       EXPRESSION "foo"
       STYLE
         COLOR 0 153 0
         SYMBOL 1
-        SIZE 3
+        SIZE 4
       END
+      MAXSCALE 12
     END
   END
 
@@ -182,7 +184,7 @@ MAP
     LABELITEM "FNAME"
 	TEMPLATE "ttt"
     CLASS
-      NAME "0"
+      NAME "Point class 1"
       STYLE
         COLOR 0 0 0
         SYMBOL 1
@@ -201,7 +203,7 @@ MAP
       END
     END
     CLASS
-      NAME "1"
+      #NAME "1"
       EXPRESSION "foo"
       STYLE
         COLOR 0 0 0
@@ -209,6 +211,8 @@ MAP
         SIZE 13
       END
     END
+    MINSCALE 7
+    MAXSCALE 11
   END
  
   LAYER
