@@ -115,7 +115,7 @@ class CartoserverService {
             $options = $replayTrace === true ? array('trace' => 1) : array();
             
             if (@$this->config->useWsdl) {
-                if (!$this->config->noWsdlCache) {
+                if ($this->config->noWsdlCache) {
                     ini_set('soap.wsdl_cache_enabled', '0');
                 }
                 $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';

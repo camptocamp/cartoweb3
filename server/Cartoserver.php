@@ -293,7 +293,7 @@ function getWsdlUrl($mapId, ServerConfig $config) {
     if (!$config->useWsdl)
         return null;
 
-    if (!$config->noWsdlCache) {
+    if ($config->noWsdlCache) {
         // disables WSDL cache
         ini_set('soap.wsdl_cache_enabled', '0');
     }
