@@ -15,6 +15,9 @@ showDevelMessages = false
 ; sets ini parameters useful during development
 developerIniConfig = false
 
+; allows tests running through Web interface
+allowTests = false
+
 ; path where cartoserver generated images can be accessed
 ;imageUrl = "/path/to/images/"
 
