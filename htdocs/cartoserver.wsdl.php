@@ -26,7 +26,7 @@ function getSoapAddress($serverConfig) {
     
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
     
-        if (isset($serverConfig['reverseProxyUrl']))
+        if (!isset($serverConfig['reverseProxyUrl']))
             die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
                 'parameter set in configuration');
     
