@@ -66,8 +66,6 @@ abstract class Serializable {
     static function unserializeValue($struct, $property = NULL, $type = 'string') {
         
         $value = self::getValue($struct, $property);
-        if (is_null($value))
-            return $value;
         
         switch($type) {
         case 'boolean':
