@@ -93,27 +93,76 @@
 
  <sect1 id="dev.new-plugin.write"> 
   <title>Writing a Plugin</title>
-  <para>
-   If no existing plugin or coreplugin fulfils your requirements and if none offers close enough functionnalities to justify an extension, you can write a new plugin.
-  </para>
-  <para>
-   First of all you have to determine if you are about to design a simple plugin or a coreplugin. To be a coreplugin, your plugin must be really generic and present a great interest to the &cartoweb; users community since it might be included in the upstream distribution. Contact &cartoweb; development team for more info. In most cases it is better to create a simple plugin.
-  </para>
-  <para>
-   To activate a coreplugin, update the <parameter>Cartoclient::getCorePluginNames()</parameter> method in <filename>/client/Cartoclient.php</filename> and/or the <parameter>ServerContext::getCorePluginNames()</parameter> one in <filename>/server/ServerContext.php</filename>. For instance:
-   <programlisting><![CDATA[private function getCorePluginNames() {
+  <sect2 id="dev.new-plugin.write.choice">
+   <title>Plugin or Coreplugin?</title>
+   <para>
+    If no existing plugin or coreplugin fulfils your requirements and if none offers close enough functionalities to justify an adaptation, you can write a new plugin.
+   </para>
+   <para>
+    First of all you have to determine if you are about to design a simple plugin or a coreplugin. To be a coreplugin, your plugin must be really generic and present a great interest to the &cartoweb; users community since it might be included in the upstream distribution. Contact &cartoweb; development team for more info. In most cases it is better to create a simple plugin.
+   </para>
+   <para>
+    To activate a coreplugin, update the <parameter>Cartoclient::getCorePluginNames()</parameter> method in <filename>/client/Cartoclient.php</filename> and/or the <parameter>ServerContext::getCorePluginNames()</parameter> one in <filename>/server/ServerContext.php</filename>. For instance:
+    <programlisting><![CDATA[private function getCorePluginNames() {
 return array('images', 'location', 'layers', 'query', 'mapquery',
              'tables', 'yourPluginName');
 }]]></programlisting>
-   To load a regular plugin, update the <parameter>loadPlugins</parameter> parameter from <filename>client_conf/client.ini</filename> and/or <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> as in following example:
-      <programlisting><![CDATA[loadPlugins = auth, outline, exportHtml]]></programlisting>
-  </para>
-  <para>
-   &cartoweb; offers a wide range of tools to easily creates plugins.
-  </para>
-  <para>
-   [to be continued]
-  </para>
+    To load a regular plugin, update the <parameter>loadPlugins</parameter> parameter from <filename>client_conf/client.ini</filename> and/or <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> as in following example:
+    <programlisting><![CDATA[loadPlugins = auth, outline, exportHtml]]></programlisting>
+   </para>
+  </sect2>
+  <sect2 id="dev.new-plugin.write.calls">
+   <title>Calling Plugins</title>
+   <para>
+    As explained in <xref linkend="dev.new-plugin.intro"/>, plugins are independent aggregations of PHP code that are called by the &cartoweb; core classes to perform dedicated actions. Plugins are called several times during the program execution (entry points). Thus they can interact at various level of the application.
+   </para>
+   <para>
+    To determine what plugins must be called at what moment and to perform what action, plugins must implement one or more of the &cartoweb; plugin interfaces (according to the object-oriented programing meaning). The interfaces define methods that will be triggered by the main program during its execution. For example, you can take a look at the following simplified <parameter>Cartoclient::doMain()</parameter> method ("main program") defined in <filename>/client/Cartoclient.php</filename>:
+    <programlisting><![CDATA[private function doMain() {
+    $this->callPluginsImplementing('InitUser', 'handleInit',
+                                   $this->getMapInfo());
+
+    if ($this->isRequestPost()) {
+        $this->cartoForm =
+            $this->httpRequestHandler->handleHttpRequest(
+                                                $this->clientSession,
+                                                $this->cartoForm);
+
+        $request = new FilterRequestModifier($_REQUEST);
+        $this->callPluginsImplementing('FilterProvider',
+                                       'filterPostRequest', $request);
+        $this->callPluginsImplementing('GuiProvider',
+                                       'handleHttpPostRequest',
+                                       $request->getRequest());
+    } else {
+        $request = new FilterRequestModifier($_REQUEST);
+        $this->callPluginsImplementing('FilterProvider',
+                                       'filterGetRequest', $request);
+        $this->callPluginsImplementing('GuiProvider',
+                                       'handleHttpGetRequest',
+                                       $request->getRequest());
+    }
+
+    $mapRequest = $this->getMapRequest();
+    $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
+                                   $mapRequest);
+
+    $this->mapResult = $this->getMapResultFromRequest($mapRequest);
+
+    $this->callPluginsImplementing('ServerCaller', 'initializeResult',
+                                   $this->mapResult);
+
+    $this->callPluginsImplementing('ServerCaller', 'handleResult',
+                                   $this->mapResult);
+
+    $this->formRenderer->showForm($this);
+
+    $this->callPluginsImplementing('Sessionable', 'saveSession');
+    $this->saveSession($this->clientSession);
+}]]></programlisting>
+    <parameter>callPluginsImplementing($interfaceName, $methodName, $argument)</parameter> is run at various points of the program and make plugins implementing given &lt;interfaceName&gt; interface execute given &lt;methodName&gt; with given &lt;argument&gt; argument.
+   </para>
+  </sect2>
  </sect1>
 
  <sect1 id="dev.new-plugin.adapting"> 
