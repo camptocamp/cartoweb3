@@ -37,8 +37,11 @@ create_config:
 	 cp $$i $${i%%.dist} ;  \
 	done
 
-init: fetch_libs dirs perms links create_config
+htlinks:
+	scripts/htlinks.sh
+
+init: fetch_libs dirs perms links create_config htlinks
 	:
 
-init_sudo: fetch_libs dirs perms_sudo links create_config
+init_sudo: fetch_libs dirs perms_sudo links create_config htlinks
 	:
