@@ -48,3 +48,6 @@ smartyDebugging = false
 # use I18nDummy for no translation management
 # use I18nGettext for gettext (will need PHP gettext module)
 I18nClass = I18nDummy
+
+# default language
+defaultLang = en
