@@ -156,6 +156,26 @@ class coreplugins_location_server_RemoteServerLocationTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    public function testZoomPointLocationRequest_zoomIn_maxextent_check($direct = false) {
+
+        $zoomPointLocationRequest = new ZoomPointLocationRequest();
+        $zoomPointLocationRequest->zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
+        $bbox = new Bbox(-2, 50, 2, 53);
+        $zoomPointLocationRequest->bbox = $bbox;
+        $point = new Point(-1.8, 51.5);
+        $zoomPointLocationRequest->point = $point;
+
+        $zoomPointLocationRequest->zoomFactor = 8; 
+
+        $this->doTestZoomPointLocationRequest($zoomPointLocationRequest,
+                                              new Bbox(-1.97638879364,
+                                                       51.3236112064,
+                                                       -1.62361120636,
+                                                       51.6763887936),
+                                              NULL, $direct);
+        $this->redoDirect($direct, __METHOD__);
+    }
+
     private function doTestScaleDiscreteZoomPointLocationRequest($zoomType, 
                                              $bbox, $expectedScale, $direct) {
         $zoomPointLocationRequest = new ZoomPointLocationRequest();
