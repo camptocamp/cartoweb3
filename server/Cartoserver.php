@@ -95,6 +95,7 @@ class Cartoserver {
     
     private $serverContext;
     private $mapResultCache;
+    private $timer;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -147,10 +148,16 @@ class Cartoserver {
         if (isset($GLOBALS['saved_post_id']))
             $messages[] = 'saved post id is ' . $GLOBALS['saved_post_id'];
         
+        if (!is_null($this->timer)) {
+            $this->timer->stop();
+            $messages[] = sprintf('getMap request time: %f (wrong if ' .
+                    'mapResult cache hit)', $this->timer->timeElapsed());    
+        }
+        
         $serverMessages = array();
         foreach ($messages as $msg) {
-            $serverMessages[] = new ServerMessage(ServerMessage::CHANNEL_DEVELOPER,
-                                $msg);
+            $serverMessages[] = new ServerMessage($msg,
+                                        ServerMessage::CHANNEL_DEVELOPER);
         }
         return $serverMessages;
     }
@@ -160,6 +167,11 @@ class Cartoserver {
 
         // serverContext init
         $serverContext = $this->getServerContext($mapRequest->mapId);
+        if ($serverContext->isDevelMessagesEnabled()) {
+            require_once('pear/Benchmark/Timer.php');
+            $this->timer = new Benchmark_Timer();
+            $this->timer->start();
+        }
         $serverContext->loadPlugins();
         $pluginManager = $serverContext->getPluginManager();
 
@@ -201,7 +213,7 @@ class Cartoserver {
         $log->debug("result is:");
         $log->debug($mapResult);
         
-        if ($serverContext->config->developerMode)
+        if ($serverContext->isDevelMessagesEnabled())
             $developerMessages = $this->getDeveloperMessages();
         else
             $developerMessages = array();
@@ -274,10 +286,10 @@ function setupSoapService($cartoserver) {
     if ($config->soapBrokenPortInfo) {
         $port = ':' . $config->soapBrokenPortInfo;
     }
-    if ($config->developerMode) {
+    if (!$config->noWsdlCache) {
         // disables WSDL cache
-        ini_set("soap.wsdl_cache_enabled", "0");
-    }
+        ini_set('soap.wsdl_cache_enabled', '0');
+    } else x('no_cache');
     $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
     if (is_writable($wsdlCacheDir))
         ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
@@ -287,7 +299,7 @@ function setupSoapService($cartoserver) {
     // This is useful for command line launching of the cartserver.
     //  just put a WSDL_URL environment variable containing the url of the wsdl
     //  file to use before launching the script.
-    // TODO: there should be a way to product the wsdl without a webserver
+    // TODO: there should be a way to produce the wsdl without a webserver
     if (array_key_exists('WSDL_URL', $_ENV)) {
         $url = $_ENV['WSDL_URL'];
     }

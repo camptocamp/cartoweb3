@@ -68,9 +68,15 @@ class ServerContext {
         return $this->msMainmapImage;
     }
     
+    function isDevelMessagesEnabled() {
+        if (is_null($this->config))
+            return false;
+        return $this->config->showDevelMessages;   
+    }
+    
     function addMessage($message, $channel = ServerMessage::CHANNEL_USER) {
 
-        $this->messages[] = new ServerMessage($channel, $message);
+        $this->messages[] = new ServerMessage($message, $channel);
     }
     
     function getMessages() {

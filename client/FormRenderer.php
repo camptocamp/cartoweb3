@@ -161,8 +161,7 @@ class FormRenderer {
         if (!empty($userMessages))
             $smarty->assign('user_messages', $userMessages);
         if (!empty($developerMessages) &&
-            $this->cartoclient->getConfig()->developerMode &&
-            $this->cartoclient->getConfig()->showDeveloperMessages)
+            $this->cartoclient->getConfig()->showDevelMessages)
             $smarty->assign('developer_messages', $developerMessages);
     }
     

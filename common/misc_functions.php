@@ -53,7 +53,7 @@ function l($arg=false) {
 /**
  * Sets ini directives useful during development
  */
-function iniSetDeveloperMode() {
+function setDeveloperIniConfig() {
     ini_set('assert.bail', '1');
     ini_set('error_reporting', E_ALL);
     ini_set('display_errors', '1');
@@ -64,8 +64,8 @@ function iniSetDeveloperMode() {
  */
 function initializeCartoweb($config) {
     
-    if ($config->developerMode) {  
-        iniSetDeveloperMode();
+    if ($config->developerIniConfig) {  
+        setDeveloperIniConfig();
     }
 }
 

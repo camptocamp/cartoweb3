@@ -74,8 +74,8 @@ class CartoserverService {
             $mapResult = $this->callDirect($function, $argument);
         } else {
 
-            if ($this->config->developerMode) {
-                ini_set("soap.wsdl_cache_enabled", "0");
+            if (!$this->config->noWsdlCache) {
+                ini_set('soap.wsdl_cache_enabled', '0');
             }
             $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
             if (is_writable($wsdlCacheDir))

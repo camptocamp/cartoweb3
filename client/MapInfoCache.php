@@ -56,10 +56,9 @@ class MapInfoCache {
     }
 
     private function skipCache() {
-
+        // TODO: check if the mapInfo cache is useful in direct mode
         $cartoclient = $this->cartoclient;
-        return $cartoclient->getConfig()->developerMode ||
-            $cartoclient->getConfig()->cartoserverDirectAccess;
+        return $cartoclient->getConfig()->noMapInfoCache;
     }
 
     function checkMapInfoTimestamp($timeStamp, $mapId) {
@@ -82,8 +81,7 @@ class MapInfoCache {
         $cartoclient = $this->cartoclient;
         $mapInfoFile = $this->getMapInfoFile($mapId);    
 
-        if ($cartoclient->getConfig()->developerMode ||
-            $cartoclient->getConfig()->cartoserverDirectAccess) {
+        if ($this->skipCache()) {
             $this->log->debug('not caching mapInfo, calling service');
             return $this->getMapInfoWithService($mapId);
         }

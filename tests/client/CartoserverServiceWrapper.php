@@ -32,7 +32,8 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
         $config = new stdClass();
         $config->mapId = 'test';
-        $config->developerMode = false;
+        // FIXME: disable soap cache ?
+        $config->noWsdlCache = false;
         $config->cartoserverUrl = $this->getCartoserverUrl();        
         $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
         $this->assertNotNull($config->cartoserverUrl, 'You need to set cartoserverUrl in client.ini');

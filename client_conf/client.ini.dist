@@ -3,8 +3,17 @@
 # if true, SOAP will be bypassed
 cartoserverDirectAccess = false
 
-# developer mode disables caches and allows debugging mechanisms
-developerMode = false
+# disables the caching of wsdl
+noWsdlCache = false
+
+# disables the caching of MapInfo requests
+noMapInfoCache = false
+
+# shows developer messages
+showDevelMessages = false
+
+# sets ini parameters useful during development
+developerIniConfig = false
 
 # Secifies the path for mapserver generated image when in direct access mode
 #directAccessImagesUrl = "/path/to/direct/access/images/"

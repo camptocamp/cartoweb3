@@ -36,17 +36,17 @@ class ServerMessage extends Serializable {
     const CHANNEL_USER = 1;
     const CHANNEL_DEVELOPER = 2;
     
-    public $channel;
     public $message;   
+    public $channel;
 
-    function __construct($channel = 0, $message = NULL) {
-        $this->channel = $channel;
+    function __construct($message = NULL, $channel = self::CHANNEL_USER) {
         $this->message = $message;
+        $this->channel = $channel;
     }
 
     function unserialize($struct) {
-        $this->channel = Serializable::unserializeValue($struct, 'channel', 'int');
         $this->message = Serializable::unserializeValue($struct, 'message');
+        $this->channel = Serializable::unserializeValue($struct, 'channel', 'int');
     }
 }
 

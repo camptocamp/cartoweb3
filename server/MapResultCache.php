@@ -61,7 +61,7 @@ class MapResultCache {
     }
 
     private function skipCache($mapRequest) {
-        return $this->cartoserver->getServerContext($mapRequest->mapId)->config->developerMode;
+        return $this->cartoserver->getServerContext($mapRequest->mapId)->config->noMapResultCache;
     }
 
     public function getMap($mapRequest) {
@@ -83,7 +83,15 @@ class MapResultCache {
             return $this->cacheMapResult($mapRequest);   
         }
         
-        return $this->readMapResult($mapRequest);   
+        $this->log->debug('Returning cached mapResult');
+        $mapResult = $this->readMapResult($mapRequest);   
+        // FIXME: there is no config loaded there, messages are always sent.
+        // PERFORMANCE: remove this if too much impact (time + network size)
+        if (is_array($mapResult->serverMessages)) {
+            $mapResult->serverMessages[] = new ServerMessage('mapResult returned from cache', 
+                                            ServerMessage::CHANNEL_DEVELOPER);
+        }
+        return $mapResult;
     }   
 }
 

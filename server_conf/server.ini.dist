@@ -1,7 +1,16 @@
 ; cartoserver configuration file
 
-; developer mode disables caches and allows debugging mechanisms
-developerMode = false
+# disables the caching of wsdl
+noWsdlCache = false
+
+# disables the caching of getMap requests
+noMapResultCache = false
+
+# shows developer messages
+showDevelMessages = false
+
+# sets ini parameters useful during development
+developerIniConfig = false
 
 ; path where cartoserver generated images can be accessed
 ;imageUrl = "/path/to/images/"
