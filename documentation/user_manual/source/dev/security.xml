@@ -7,28 +7,81 @@
 
 <!-- $Id$ -->
 
-<chapter id="dev.security">
- <title>Using the security infrastructure</title>
+  <chapter id="dev.security">
+    <title>Using the security infrastructure</title>
 
- <sect1 id="dev.security.intro"> 
-  <title>Introduction</title>
-        <para>
-        The security mechanism can be split into the
-        following parts:
+    <sect1 id="dev.security.intro"> 
+      <title>Introduction</title>
+      <para>This chapter describes the security infrastructure from the developer
+          point of view. For generatil details about security and its configuration
+          see <xref linkend="user.security"/>.
+        </para>
+      <para>
+          The security management in cartoweb is separated in the following 
+          parts:
         <itemizedlist>
-        <listitem>
-           <para>
-            Management of the list of users, passwords and the roles they belong to.
+          <listitem>
+            <para>
+              Management of the user/password/roles database. 
+              (<classname>SecurityContainer</classname> class in 
+                <filename>common/SecurityManager.php</filename>).
            </para>
-        </listitem>
-        <listitem>
-           <para>
-            Management of the way user log in and log out. For instance using a 
-            cookie and a login/logout page. It is also possible to develop a plugin
-            which depends on a container application to perform user authentication.
+          </listitem>
+          <listitem>
+            <para>
+            Management of user authentication (calling <function>checkUser</function> 
+            and <function>setUser</function>/<function>setUserAndRoles</function> 
+            in <classname>SecurityManager</classname>).
            </para>
-        </listitem>
-</itemizedlist>
-</para>
-</sect1>
-</chapter>
+          </listitem>
+          <listitem>
+            <para>
+            Granting access to objects based on the current roles.
+          </para>
+          </listitem>
+        </itemizedlist>
+   </para>
+    </sect1>
+
+    <sect1 id="dev.security.auth_plugins">
+      <title>Plugins managing security database and authentication</title>
+      <para>Point 1. and 2. in the previous section are the responsibility of 
+      specific plugins. For an example, see the <literal>auth</literal> plugin.</para>
+    </sect1>
+
+    <sect1 id="dev.security.granting_access">
+      <title>Plugins granting or denying access to objects/features in &cartoweb;</title>
+
+      <para>
+        This point is the most important for plugin developers wanting to use 
+        the &cartoweb; security mechanisms to allow or deny an access to a feature/object.
+      </para>
+      <para>
+       The plugin can call the method <methodname>hasRole($roles)</methodname> on 
+       the current security manager.
+      </para>
+      <para>
+       For an example, let's take the pdf plugin which has to restrict printing some formats only to allowed users.
+      </para>
+      <para>
+       in the .ini file, we could have:
+        <screen>
+formats.A4.allowedRoles = printers, admin</screen>
+        In the plugin, we can then check the permissions with:
+       <screen>in the routine building the available format list:
+foreach($formats as $format) {
+
+ ... add the format to the list ...
+ $roles = $this->getRolesForFormat($format); //this should get it from the .ini
+ if (!SecurityManager::getInstance()->hasRole($roles))
+     continue; // skips unauthorized resolution for this user
+
+  .. do the work with the format ...
+}
+
+in the routine handling the user passed parameters:
+
+.. to the same check as above ..</screen>
+      </para>
+    </sect1>
+  </chapter>
