@@ -30,6 +30,7 @@ require_once('client/CartoserverServiceWrapper.php');
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
+require_once(CARTOCOMMON_HOME . 'plugins/exportPdf/common/ExportPdf.php');
 
 /**
  * Unit tests for CartoserverService 
