@@ -1,11 +1,11 @@
-  <link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
+  <script type="text/javascript" src="{r type=js}x_core_nn4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_dom_nn4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_event_nn4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}navTools.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}graphTools.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
   {literal}  
-  <script type="text/javascript" src="js/x_core_nn4.js"></script>
-  <script type="text/javascript" src="js/x_dom_nn4.js"></script>
-  <script type="text/javascript" src="js/x_event_nn4.js"></script>
-  <script type="text/javascript" src="js/navTools.js"></script>
-  <script type="text/javascript" src="js/graphTools.js"></script>
-  <script type="text/javascript" src="js/folders.js"></script>
   <script type="text/javascript">
     /*<![CDATA[*/ 
     var dhtmlDivs = new String();
