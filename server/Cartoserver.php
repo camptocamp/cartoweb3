@@ -291,11 +291,6 @@ function getWsdlUrl($mapId, ServerConfig $config) {
     if (!$config->useWsdl)
         return null;
 
-    // FIXME: remove when all php version updated
-    $port = '';
-    if ($config->soapBrokenPortInfo) {
-        $port = ':' . $config->soapBrokenPortInfo;
-    }
     if (!$config->noWsdlCache) {
         // disables WSDL cache
         ini_set('soap.wsdl_cache_enabled', '0');
@@ -314,7 +309,7 @@ function getWsdlUrl($mapId, ServerConfig $config) {
     
     if (!isset($url))
         $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-               $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
+               $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
                '/cartoserver.wsdl.php';
 
     if (isset($mapId))

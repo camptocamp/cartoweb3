@@ -26,6 +26,3 @@ allowTests = false
 
 ; The url of the reverse proxy, if used
 ;reverseProxyUrl = http://host/proxy/address
-
-; Port number (workaround for Soap bug, should be OK in PHP 5.0.3)
-;soapBrokenPortInfo = PORT_NUMBER
