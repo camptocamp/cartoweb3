@@ -11,15 +11,148 @@
   <sect2 id="dev.newplugin.special.export">
     <title><indexterm><primary>Export plugins</primary></indexterm>Export 
       Plugins</title>
-    <para>
-    </para>
-    <sect3 id="dev.newplugin.special.export.interface">
-      <title>Classes</title>
-      <para> TODO </para>
+    <para>Export plugins allow to export maps and data. Concepts described 
+      below provide tools to help writing such plugins.</para>
+    <para>In brief, export plugins follow these steps in order to generate an 
+      output:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Retrieve last request that was sent to server</para>
+      </listitem>
+      <listitem>
+        <para>Call all plugins to ask for request modification (eg. map 
+          resolution changes, keymap generation enabled/disabled, etc.)</para>
+      </listitem>
+      <listitem>
+        <para>Call server to get a new modified result</para>
+      </listitem>
+      <listitem>
+        <para>Use the result to generate output</para>
+      </listitem>
+      <listitem>
+        <para>Return output in a standardized form</para>
+      </listitem>
+    </itemizedlist>
+    <sect3 id="dev.newplugin.special.export.exportplugin">
+      <title>
+        <classname>ExportPlugin</classname>
+      </title>
+      <para>Class <classname>ExportPlugin</classname> implements a special type 
+        of client plugin, with some specific functionnalities for export. It 
+        implements interface <classname>GuiProvider</classname> so child 
+        classes must implement corresponding methods. Class methods are:</para>
+      <itemizedlist>
+        <listitem>
+          <para><function>getLastMapRequest</function>: returns last used 
+            request object. This is useful to prepare a new call to server in 
+            order to obtain data specific to export. This call is done in 
+            method <function>getExportResult</function></para>
+        </listitem>
+        <listitem>
+          <para><function>getLastMapResult</function>: This can also be useful 
+            in some cases to have the last returned result obect</para>
+        </listitem>
+        <listitem>
+          <para><function>getExportResult</function>: executes call to server 
+            in order to obtain a modified result suitable for export 
+            generation. Calls all exportable plugins in order to modify request 
+            (see <xref linkend="dev.newplugin.special.export.exportable" 
+            />)</para>
+        </listitem>
+        <listitem>
+          <para><function>getExportScriptPath</function>: returns path to PHP 
+            export script (see <xref 
+            linkend="dev.newplugin.special.export.exportphp" />). Default is 
+            <filename>export.php</filename>, located in plugin's 
+            <filename>htdocs</filename> directory</para>
+        </listitem>
+        <listitem>
+          <para><function>getExport</function> (abstract): contains export 
+            generation itself. Should prepare export configuration, call 
+            <function>getExportResult</function> and generate export in an 
+            <classname>ExportOutput</classname> object </para>
+        </listitem>
+      </itemizedlist>
+    </sect3>
+    <sect3 id="dev.newplugin.special.export.exportconfiguration">
+      <title>
+        <classname>ExportConfiguration</classname>
+      </title>
+      <para>Export configuration objects contain information on what is needed 
+        by export plugin to generate output. For instance, for a CSV export, no 
+        images are needed and it would be a waste of time to generate 
+        them.</para>
+      <para>Configuration is set in method <function>getExport</function>, then 
+        passed to method <function>getExportResult</function> in order to get 
+        modified result. Configuration is used by plugin to know how to modify 
+        request to retrieve useful data.</para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.export.exportable">
+      <title><classname>Exportable</classname> Interface</title>
+      <para>Exportable interface declares a method 
+        <function>adjustExportMapRequest</function> which modifies a standard 
+        map request to a special export request. For instance, plugin Image 
+        uses <classname>ExportConfiguration</classname> object to know if maps 
+        are needed by export plugin. If not, image request is modified. </para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.export.exportphp">
+      <title>PHP Export Script</title>
+      <para>In most cases, export plugins generate outputs to be downloaded 
+        through the browser. This needs an external script that is not standard 
+        <filename>client.php</filename>. Default export script is named 
+        <filename>export.php</filename> and is located in plugin's 
+        <filename>htdocs</filename> directory.</para>
+        <para>When a plugin needs to know where this script is located (for 
+          instance to display a 'Print' link), it can use plugin's method 
+          <function>getExportScriptPath</function>.</para>
     </sect3>
     <sect3 id="dev.newplugin.special.export.example">
       <title>Example</title>
-      <para> TODO </para>
+      <para>Plugin <literal>exportCsv</literal> is a good, simple example of 
+        export plugin.</para>
+        <para>Configuration is filled in method 
+          <function>getConfiguration</function>. No images are required 
+          to output a CSV file:</para>
+          <programlisting><![CDATA[ 
+private function getConfiguration() {
+    $config = new ExportConfiguration();
+    $config->setRenderMap(false);
+    $config->setRenderKeymap(false);
+    $config->setRenderScalebar(false);
+}]]></programlisting>
+<para>Output rendering is done in method <function>getExport</function>. Note 
+  that no calls to methods <function>getLastMapRequest</function> or 
+  <function>adjustExportMapRequest</function> are needed, as those calls 
+  are handled by method <function>getExportResult</function>:</para>
+          <programlisting><![CDATA[ 
+public function getExport() {
+    $this->getExportResult($this->getConfiguration());
+    
+    // ...
+    
+    $output = new ExportOutput();
+    $output->setContents($contents);
+    return $output;
+}]]></programlisting>
+<para>File <filename>export.php</filename> is also quite simple:</para>
+          <programlisting><![CDATA[ 
+// CartoWeb Initialization
+// ...
+
+// HTTP request is handled in export plugin
+$plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
+$plugin->handleHttpGetRequest($_REQUEST);
+
+// Generated output will be in CSV format
+header('Content-Type: application/csv-tab-delimited-table; charset='
+                                . Encoder::getCharset());
+                                
+// File name is generated in export plugin                                 
+header('Content-disposition: filename=' . $plugin->fileName);
+
+// Exports CSV content
+print $plugin->getExport()->getContents();
+]]></programlisting>
     </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.filters">
@@ -435,31 +568,34 @@ static function myCallbackMethod('table_id',
         <parameter>$tableId</parameter> or <parameter>$columnId</parameter>) 
         can point to one object or to a group of object, using wildcard 
         '*':</para>
-        <itemizedlist>
-          <listitem>
-            <para>'column_1': rule will be executed on columns called 
-              'column_1' only</para>
-          </listitem>
-          <listitem>
-            <para>'col*': rule will be executed on columns with name starting 
-              with 'col'</para>
-          </listitem>
-          <listitem>
-            <para>'*': rule will be executed on any columns</para>
-          </listitem>
-        </itemizedlist>
-        <para>For instance, following rule may be executed on groups with name 
-          starting with 'myGr', tables called 'myTable' and all columns:<programlisting><![CDATA[
+      <itemizedlist>
+        <listitem>
+          <para>'column_1': rule will be executed on columns called 'column_1' 
+            only</para>
+        </listitem>
+        <listitem>
+          <para>'col*': rule will be executed on columns with name starting 
+            with 'col'</para>
+        </listitem>
+        <listitem>
+          <para>'*': rule will be executed on any columns</para>
+        </listitem>
+      </itemizedlist>
+      <para>For instance, following rule may be executed on groups with name 
+        starting with 'myGr', tables called 'myTable' and all 
+        columns:<programlisting><![CDATA[
 $registry->addColumnFilter('myGr*', 'myTable', '*',
-                                     array($this, 'myCallbackMethod));]]></programlisting></para>
-        <para>Only one rule of each type may be executed on one item. If two or 
-          more rules apply, most specific rule will be choosen. In the 
-          following rule definition, only the third rule will be executed on a 
-          table 'myTable' in a group 'myGroup': <programlisting><![CDATA[ 
+                                     array($this, 'myCallbackMethod));]]> 
+        </programlisting></para>
+      <para>Only one rule of each type may be executed on one item. If two or 
+        more rules apply, most specific rule will be choosen. In the following 
+        rule definition, only the third rule will be executed on a table 
+        'myTable' in a group 'myGroup': <programlisting><![CDATA[ 
 $registry->addColumnSelector('*', '*', array('column_1', 'column_2'));
 $registry->addColumnSelector('myGr*', '*', array('column_1'));
 $registry->addColumnSelector('myGr*', 'myTable', array('column_2'));
-$registry->addColumnSelector('myGroup', 'toto', array('column_3'));]]></programlisting> </para>
+$registry->addColumnSelector('myGroup', 'toto', array('column_3'));]]> 
+        </programlisting> </para>
     </sect3>
     <sect3 id="dev.newplugin.special.tables.execrules">
       <title>Executing Rules</title>
