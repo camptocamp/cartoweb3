@@ -55,7 +55,7 @@ function shift(id) {
     if (obj.style.display != 'none') visible = true;
     else visible = false;
   } else {
-    if (obj.getAttribute('class') == 'v') visible = true;
+    if (obj.className == 'v') visible = true;
     else visible = false;
   }
   
