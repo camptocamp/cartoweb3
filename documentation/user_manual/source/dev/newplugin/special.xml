@@ -16,11 +16,13 @@
     <sect3 id="dev.newplugin.special.export.interface">
       <title>Classes</title>
       <para>
+        TODO
       </para>
     </sect3>
     <sect3 id="dev.newplugin.special.export.example">
       <title>Example</title>
       <para>
+        TODO
       </para>
     </sect3>
   </sect2>
@@ -93,12 +95,12 @@
               <para><parameter>recenter_scale</parameter> - new scale</para>
             </listitem>
             <listitem>
-              <para><parameter>id_recenter_layer</parameter> - 
-                re-centering on objects: layer to look for IDs</para>
+              <para><parameter>id_recenter_layer</parameter> - re-centering on 
+                objects: layer to look for IDs</para>
             </listitem>
             <listitem>
-              <para><parameter>id_recenter_ids</parameter> - re-centering 
-                on objects: list of IDs, comma-separated</para>
+              <para><parameter>id_recenter_ids</parameter> - re-centering on 
+                objects: list of IDs, comma-separated</para>
             </listitem>
             <listitem>
               <para><parameter>shortcut_id</parameter> - ID of the selected map 
@@ -114,32 +116,34 @@
                 IDs</para>
             </listitem>
             <listitem>
-              <para><parameter>query_select</parameter> - IDs of objects 
-                to add to selection</para>
+              <para><parameter>query_select</parameter> - IDs of objects to add 
+                to selection</para>
             </listitem>
             <listitem>
-              <para><parameter>query_unselect</parameter> - IDs of objects 
-                to remove from selection</para>
+              <para><parameter>query_unselect</parameter> - IDs of objects to 
+                remove from selection</para>
             </listitem>
             <listitem>
               <para><parameter>query_policy</parameter> - selection policy: 
-                'POLICY_XOR', 'POLICY_UNION' or 'POLICY_INTERSECTION'</para>
+                'POLICY_XOR', 'POLICY_UNION' or 'POLICY_INTERSECTION', default 
+                is 'POLICY_XOR'</para>
             </listitem>
             <listitem>
-              <para><parameter>query_maskmode</parameter> - '0' or '1'. 
-                If '1', will show selection as a mask</para>
+              <para><parameter>query_maskmode</parameter> - '0' or '1', default 
+                is '0'. If '1', will show selection as a mask</para>
             </listitem>
             <listitem>
-              <para><parameter>query_hilight</parameter> - '0' or '1'. If '0', 
-                won't shows selection hilighted</para>
+              <para><parameter>query_hilight</parameter> - '0' or '1', default 
+                is '1'. If '0', won't shows selection hilighted</para>
             </listitem>
             <listitem>
-              <para><parameter>query_return_attributes</parameter> - '0' 
-                or '1'. If '0', won't return attributes other than IDs</para>
+              <para><parameter>query_return_attributes</parameter> - '0' or 
+                '1', default is '1'. If '0', won't return attributes other than 
+                IDs</para>
             </listitem>
             <listitem>
-              <para><parameter>query_return_table</parameter> - '0' or 
-                '1'. If '0', won't return any table results</para>
+              <para><parameter>query_return_table</parameter> - '0' or '1', 
+                default is '1'. If '0', won't return any table results</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -174,9 +178,221 @@ class ClientFilterIdrecenter extends ClientPlugin
     </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.tables">
-    <title><indexterm><primary>Table rules</primary></indexterm>Table 
-      Rules</title>
-    <para>
-    </para>
+    <title><indexterm><primary>Tables</primary></indexterm>Tables</title>
+    <para> Tables plugin is responsible for table formatting and display. 
+      </para>
+    <sect3 id="dev.newplugin.special.tables.structures">
+      <title>Tables Structures</title>
+      <para>Tables plugin declares several structures to help plugin developer 
+        manage tables. These structures are:</para>
+      <itemizedlist>
+        <listitem>
+          <para>Class <classname>Table</classname> which includes in particular 
+            a list of rows (class <classname>TableRow</classname>)</para>
+        </listitem>
+        <listitem>
+          <para>Class <classname>TableGroup</classname> which includes in 
+            particular a list of tables. Table groups are used for instance to 
+            separate table results coming from several plugins</para>
+        </listitem>
+        <listitem>
+          <para>Class <classname>TableFlags</classname> which defines 
+            parameters that will be useful for a plugin using tables</para>
+        </listitem>
+      </itemizedlist>
+      <para>Typically, a plugin using table will include a 
+        <classname>TableFlags</classname> in its request and a 
+        <classname>TableGroup</classname> in its result. This is the case for 
+        Query plugin, which is the only core plugin which uses tables.</para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.tables.setrules">
+      <title>Setting Rules</title>
+      <para>Tables plugin maintains an object called the registry (one on 
+        client and one on server). This object allows to add table rules, which 
+        will describes how tables must be displayed.</para>
+      <para>It is recommended to add rules in plugin's 
+        <function>initialize()</function> method, so they are ready at the 
+        earliest stage. To obtain the registry object, first you have to get 
+        the Tables plugin object.</para>
+      <para>On client:</para>
+      <programlisting><![CDATA[
+public function initialize() {
+
+    $tablesPlugin = $this->cartoclient->getPluginManager()->tables; 
+    $registry = $tablesPlugin->getTableRulesRegistry();
+    
+    // Add rules here
+}
+]]></programlisting>
+      <para>On server, plugin manager is stored in 
+        <classname>ServerContext</classname> object:</para>
+      <programlisting><![CDATA[
+    // ...
+    $tablesPlugin = $this->serverContext->getPluginManager()->tables;        
+    // ...
+]]></programlisting>
+      <para></para>
+      <para>Now you are ready to add rules. Next sections describe the 
+        different types of rules. Registry's method signature is explained for 
+        each type.</para>
+      <para>Once rules have been added in registry, they must be executed on 
+        tables. See <xref linkend="dev.newplugin.special.tables.execrules" /> 
+        for a description of table rules execution.</para>
+      <sect4 id="dev.newplugin.special.tables.setrules.columnselector">
+        <title>Column Selector</title>
+        <programlisting><![CDATA[
+public function addColumnSelector($groupId, $tableId, $columnIds)]]>
+          </programlisting>
+        <para>Column selector rules allow to keep only a subset of columns from 
+          the source table. Parameter <parameter>$columnIds</parameter> 
+          should contain an array of column IDs determining which columns to 
+          keep.</para>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.columnunselector">
+        <title>Column Unselector</title>
+        <programlisting><![CDATA[
+public function addColumnUnselector($groupId, $tableId, $columnIds)]]>
+          </programlisting>
+        <para>Column unselector rules allow to keep only a subset of columns 
+          from the source table, by removing a list of columns. Parameter 
+          <parameter>$columnIds</parameter> should contain an array of column 
+          IDs determining which columns to remove.</para>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.groupfilter">
+        <title>Group Filter</title>
+        <programlisting><![CDATA[
+public function addGroupFilter($groupId, $callback)]]></programlisting>
+        <para>Group filter rules allow to modify group title. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('group_id', 'group_title')
+    return 'group_new_title' ]]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.tablefilter">
+        <title>Table Filter</title>
+        <programlisting><![CDATA[
+public function addTableFilter($groupId, $tableId, $callback)]]> 
+          </programlisting>
+        <para>Table filter rules allow to modify table title. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id', 'table_title')
+    return 'table_new_title' ]]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.columnfilter">
+        <title>Column Filter</title>
+        <programlisting><![CDATA[
+public function addColumnFilter($groupId, $tableId,
+                                $columnId, $callback)]]></programlisting>
+        <para>TODO</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id', 'column_id', 'column_title')
+    return 'column_new_title']]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.cellfilter">
+        <title>Cell Filter</title>
+        <programlisting><![CDATA[
+public function addCellFilter($groupId, $tableId, $columnId,
+                              $inputColumnIds, $callback)]]></programlisting>
+        <para>TODO</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id', 'column_id',
+                                 array ('column_1' => 'value_1',
+                                        'column_2' => 'value_2'))
+    return 'cell_value']]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.cellfilterbatch">
+        <title>Cell Filter (Batch)</title>
+        <programlisting><![CDATA[
+public function addCellFilterBatch($groupId, $tableId, $columnId,
+                                   $inputColumnIds, $callback)]]> 
+          </programlisting>
+        <para>TODO</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id', 'column_id',
+                                 array (
+                                 '0' => array (
+                                        'column_1' => 'value_1_row_1',
+                                        'column_2' => 'value_2_row_1'),
+                                 '1' => array (
+                                        'column_1' => 'value_1_row_2',
+                                        'column_2' => 'value_2_row_2')))
+    return array ('0' => 'cell_value_row_1', '1' => 'cell_value_row_2')]]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.rowunselector">
+        <title>Row Unselector</title>
+        <programlisting><![CDATA[
+public function addRowUnselector($groupId, $tableId,
+                                 $columnId, $rowIds)]]></programlisting>
+        <para>TODO</para>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.columnadder">
+        <title>ColumnAdder</title>
+        <programlisting><![CDATA[
+public function addColumnAdder($groupId, $tableId,
+                               $columnPosition, $newColumnIds,
+                               $inputColumnIds, $callback)]]></programlisting>
+        <para>TODO</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id',
+                                 array ('column_1' => 'value_1',
+                                        'column_2' => 'value_2'))
+    return array ('new_column_1' => 'cell_value_1',
+                  'new_column_2' => 'cell_value_2')]]></programlisting>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.columnadderbatch">
+        <title>Column Adder (Batch)</title>
+        <programlisting><![CDATA[
+public function addColumnAdderBatch($groupId, $tableId,
+                                    $columnPosition, $newColumnIds,
+                                    $inputColumnIds, $callback)]]> 
+          </programlisting>
+        <para>TODO</para>
+        <programlisting><![CDATA[
+static function myCallbackMethod('table_id',
+                                 array (
+                                 '0' => array (
+                                        'column_1' => 'value_1_row_1',
+                                        'column_2' => 'value_2_row_1'),
+                                 '1' => array (
+                                        'column_1' => 'value_1_row_2',
+                                        'column_2' => 'value_2_row_2')))
+    return array (
+           '0' => array (
+                  'new_column_1' => 'cell_value_1_row_1',
+                  'new_column_2' => 'cell_value_2_row_1'),
+           '1' => array ( 
+                  'new_column_1' => 'cell_value_1_row_2',
+                  'new_column_2' => 'cell_value_2_row_2')))]]></programlisting>
+      </sect4>
+    </sect3>
+    <sect3 id="dev.newplugin.special.tables.precrules">
+      <title>Precedence of Rules</title>
+      <para>TODO</para>
+    </sect3>
+    <sect3 id="dev.newplugin.special.tables.execrules">
+      <title>Executing Rules</title>
+      <sect4 id="dev.newplugin.special.tables.execrules.client">
+        <title>On Client</title>
+        <para>Each time a table group is created, it must be stored in Tables 
+          plugin in order to display it:</para>
+        <programlisting><![CDATA[
+$tablesPlugin = $this->cartoclient->getPluginManager()->tables;
+$tablesPlugin->addTableGroups($newTableGroup);]]></programlisting>
+        <para>Tables rules are executed automatically at the same time.</para>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.execrules.server">
+        <title>On Server</title>
+        <para>Rules execution must be done explicitly on server. A call to 
+          Tables plugin <function>applyRules</function> method is needed for 
+          each new table group before returning it to client:</para>
+        <programlisting><![CDATA[
+$tablesPlugin = $this->serverContext->getPluginManager()->tables;
+readyForClientTableGroups = $tablesPlugin->applyRules($newTableGroup);]]> 
+          </programlisting>
+      </sect4>
+    </sect3>
   </sect2>
 </sect1>
