@@ -18,23 +18,21 @@ require_once(CARTOCLIENT_HOME . 'client/MapInfoCache.php');
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
+require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
 require_once(CARTOCOMMON_HOME . 'common/Common.php');
 require_once(CARTOCOMMON_HOME . 'common/Utils.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
+require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
-
-require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
-require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
-
-require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
-
-require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
 /**
  * Cartoclient exception 
@@ -207,6 +205,11 @@ class Cartoclient {
     private $httpRequestHandler;
     
     /**
+     * @var FormRenderer
+     */
+    private $formRenderer;    
+
+    /**
      * @var PluginManager
      */
     private $pluginManager; 
@@ -232,6 +235,11 @@ class Cartoclient {
      */
     private $messages = array();
 
+    /**
+     * @var boolean When true, the cartoweb flow of operation will be
+     * interrupted and the html will be displayed.
+     */
+    private $interruptFlow = false;
 
     /**
      * Constructor
@@ -324,6 +332,13 @@ class Cartoclient {
      */
     function getPluginManager() {
         return $this->pluginManager;
+    }
+
+    /**
+     * @return FormRenderer the current form renderer 
+     */
+    public function getFormRenderer() {
+        return $this->formRenderer;
     }
 
     /**
@@ -529,6 +544,37 @@ class Cartoclient {
     }
     
     /**
+     * Tells the Cartoclient that the normal control flow has to be interrupted.
+     * When true, the server will not be called, and the final template drawing
+     * step is invoked.
+     * 
+     * @param boolean true if the control flow has to be interrupted.
+     */    
+    public function setInterruptFlow($interruptFlow) {
+        $this->interruptFlow = $interruptFlow;
+    }
+
+    /**
+     * Returns true if the flow of operation has to be interrupted, and the
+     * template displayed without calling server. 
+     * @see #setInterruptFlow()
+     */
+    public function isInterruptFlow() {
+        return $this->interruptFlow;
+    }
+    
+    /**
+     * Returns whether the current user has privileges to access cartoweb. It
+     * reads the SecurityAllowedRoles variable in client.ini
+     */
+    public function clientAllowed() {
+        // If lots of client security checks are to done there, make a new
+        /// ClientSecurityChecker object 
+        $allowedRoles = ConfigParser::parseArray($this->config->SecurityAllowedRoles);
+        return SecurityManager::getInstance()->hasRole($allowedRoles);
+    }
+    
+    /**
      * Main method
      *
      * - Plugins initialization
@@ -569,6 +615,18 @@ class Cartoclient {
                                            'handleHttpGetRequest',
                                            $request->getRequest());
         }
+        
+        // If flow is interrupted and client not allowed, display unauthorized
+        //  page.
+        if (!$this->isInterruptFlow() && !$this->clientAllowed()) {
+            $this->setInterruptFlow(true);
+            $this->formRenderer->setCustomForm('unauthorized.tpl');
+        }
+        
+        // If the flow has to be interrupted (no cartoserver call), 
+        //  then this method stops here
+        if ($this->isInterruptFlow())
+            return $this->formRenderer->showForm($this);
         
         $mapRequest = $this->getMapRequest();
         $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',

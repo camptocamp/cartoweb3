@@ -150,6 +150,9 @@ class Common {
         // ignore smarty notices
         if (strpos($errfile, '/templates_c/') !== false && $errno | E_NOTICE)
             return true;
+        // ignores the session started error in Pear Auth
+        if (strpos($errfile, 'Auth.php') !== false && $errline == 247)
+            return true;
         return false;
     }
     

@@ -55,6 +55,7 @@
       {/if}
     </table>
 
+  Current user: {$username} roles: {$roles}
   <p> LocationInfo: {$location_info} </p>
 
   {if $user_messages|default:''}
@@ -184,6 +185,10 @@ ClientContext:
     
     </div>
     <!-- end of folder2 -->
+
+   {if $auth_active|default:''}
+   {$auth}
+   {/if}
 
 </form>
 

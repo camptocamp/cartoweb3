@@ -16,6 +16,7 @@ require_once 'common/MiscTest.php';
 require_once 'common/BasicTypesTest.php';
 require_once 'common/MapInfoTest.php';
 require_once 'common/SerializableTest.php';
+require_once 'common/SecurityManagerTest.php';
 
 /**
  * @package Tests
@@ -31,7 +32,7 @@ class common_AllTests {
         $suite->addTestSuite('common_BasicTypesTest');
         $suite->addTestSuite('common_MapInfoTest');
         $suite->addTestSuite('common_SerializableTest');
-
+        $suite->addTestSuite('common_SecurityManagerTest');
         return $suite;
     }
 }

@@ -28,6 +28,17 @@ class FormRenderer {
     private $cartoclient;
 
     /**
+     * @var Smarty the smarty instance used to template rendering
+     */
+    private $smarty;
+    
+    /**
+     * @var string the name of a Smarty template resource (in templates
+     * directory). To be used instead of the default one.
+     */
+    private $customForm;
+    
+    /**
      * @param Cartoclient
      */
     function __construct($cartoclient) {
@@ -38,12 +49,16 @@ class FormRenderer {
     }
 
     /**
+     * Returns the Smarty template object used for template rendering. It may be
+     * used by plugins if they want to override the template display.
+     * 
      * @return Smarty_Cartoclient
      */
-    private function getSmarty() {
-        $smarty = new Smarty_Cartoclient($this->cartoclient);
+    public function getSmarty() {
+        if (is_null($this->smarty))
+            $this->smarty = new Smarty_Cartoclient($this->cartoclient);
         
-        return $smarty;
+        return $this->smarty;
     }
 
     /**
@@ -54,7 +69,6 @@ class FormRenderer {
      */
     private function drawTools($cartoclient) {
         
-        $cartoForm = $cartoclient->getCartoForm();
         $clientSession = $cartoclient->getClientSession();
         $smarty = $this->smarty;
         $plugins = $cartoclient->getPluginManager()->getPlugins();
@@ -166,42 +180,71 @@ class FormRenderer {
     }
     
     /**
+     * Sets some variables in the template about the current user
+     *  and its roles.
+     */
+    private function drawUserAndRoles() {
+        
+        $sm = SecurityManager::getInstance();
+        $user = $sm->getUser();
+        if (empty($user))
+            $user = 'anonymous';
+        $this->smarty->assign('username', $user);
+        $this->smarty->assign('roles', implode(',', $sm->getRoles()));
+    }
+
+    /**
+     * Sets a different template resource to be used for display. If false, the
+     * Smarty display will be skipped. This is needed if a plugin does the html
+     * output on its own.
+     * 
+     * @param string the string name of a Smarty template resource file to use
+     * instead of the default cartoclient.tpl.
+     */
+    public function setCustomForm($customForm) {
+        $this->customForm = $customForm;
+    }
+    
+    /**
      * Displays GUI using cartoclient.tpl Smarty template
      * @param Cartoclient Cartoclient
      */
-    function showForm($cartoclient) {
+    public function showForm(Cartoclient $cartoclient) {
 
-        $cartoForm = $cartoclient->getCartoForm();
         $smarty = $this->smarty;
 
-        $this->drawTools($cartoclient);
+        if (!$this->cartoclient->isInterruptFlow()) {
 
-        $messages = array_merge($cartoclient->getMapResult()->serverMessages,
-                                $cartoclient->getMessages());
-        $this->drawMessages($messages);
-
-        $this->drawJavascriptFolders();
-
-        $this->drawProjectsChooser();
-
-        // debug printing
-
-        $smarty->assign('debug_request', var_export($_REQUEST, true));
-
-        // handle plugins
-
-        $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm', $smarty);
-
-        // TODO: plugins should be able to change the flow
-
-        $smarty->display('cartoclient.tpl');
+            $this->drawTools($cartoclient);
+    
+            $messages = array_merge($cartoclient->getMapResult()->serverMessages,
+                                    $cartoclient->getMessages());
+            $this->drawMessages($messages);
+            $this->drawJavascriptFolders();
+            $this->drawProjectsChooser();
+            $this->drawUserAndRoles();
+    
+            // debug printing
+            $smarty->assign('debug_request', var_export($_REQUEST, true));
+    
+            // handle plugins
+            $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm', $smarty);
+        }
+        
+        $form = 'cartoclient.tpl';
+        // if set to false, smarty display is skipped
+        if ($this->customForm === false)
+            return;
+        if (!is_null($this->customForm))
+            $form = $this->customForm;
+        $smarty->display($form);
     }
 
     /**
      * Displays failure using failure.tpl Smarty templates
      * @param Exception exception to display
      */
-    function showFailure($exception) {
+    public function showFailure($exception) {
 
         if ($exception instanceof SoapFault) {
             $message = $exception->faultstring;
