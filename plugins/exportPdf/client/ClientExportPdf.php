@@ -223,6 +223,12 @@ class ClientExportPdf extends ExportPlugin {
                 $this->createBlock($request, $iniObjects, $caption);
                 
                 $this->blocks[$caption]->standalone = false;
+                
+                if (!isset($this->blocks[$caption]->height) && 
+                    isset($this->blocks[$id]->height)) {
+                    $this->blocks[$caption]->height =
+                        $this->blocks[$id]->height;
+                }
             }
     
             if ($this->blocks[$id]->headers &&
@@ -235,6 +241,12 @@ class ClientExportPdf extends ExportPlugin {
                 $this->blocks[$headers]->content = 
                    $this->getArrayFromList($this->blocks[$headers]->content,
                                            true);
+            
+                if (!isset($this->blocks[$headers]->height) &&
+                    isset($this->blocks[$id]->height)) {
+                    $this->blocks[$headers]->height =
+                        $this->blocks[$id]->height;
+                }
             }
     
             // TODO: handle multi-row tables when getting content from INI 
