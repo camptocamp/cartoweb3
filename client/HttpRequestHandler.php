@@ -23,6 +23,19 @@ class PixelCoordsConverter {
         return $geoPos;
     }
 
+    /**
+     * Converts a point coordinates from pixel to ue to geographical.
+     * 
+     * Pixel coordinates have their origin on image top left. x grows positively
+     * from left to right, and y grows from top to bottom.
+     *
+     * @param $pixelPoint the point in pixel coordinates
+     * @param $imageSize the size of the image containing the pixel point 
+     * @param $bbox the geographical bbox extent of the image.
+     *
+     * @return a point in geographical coordinates
+     */
+
     static function point2Coords(Point $pixelPoint, Dimension $imageSize, Bbox $bbox) {
 
         $xCoord = self::pixel2Coord($pixelPoint->x, $imageSize->width, 
