@@ -127,6 +127,7 @@ class ServerQuery extends ClientResponderAdapter {
             if (empty($table->columnTitles)
                 && !is_null($tableFlags)
                 && $tableFlags->returnAttributes) {
+                $columnIds = array();
                 $columnTitles = array();
                 foreach ($attributes as $columnId) {
                     $columnIds[] = $columnId;
