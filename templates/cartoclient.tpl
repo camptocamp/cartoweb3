@@ -220,9 +220,8 @@ ClientContext:
   {$mapsizes}
   {/if}
 
-  {if $outliner_active|default:''}
-  <p>Outliner plugin:</p>
-  <p>{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}</p>
+  {if $outline_active|default:''}
+  {$outline}
   {/if}
 
   </div>

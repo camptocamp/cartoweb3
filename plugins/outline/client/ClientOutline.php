@@ -10,6 +10,7 @@
 class OutlineState {
  
     public $shapes;
+    public $maskMode;
 }
 
 /**
@@ -36,6 +37,7 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
+        $this->outlineState->maskMode = false;
         
         return;
     }
@@ -80,8 +82,15 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
             $this->outlineState->shapes = array();
         }
 
+        if (!empty($request['outline_mask'])) {
+            $this->outlineState->maskMode = $request['outline_mask'] == 'yes' ? true : false;
+        }
+
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         if ($shape) {
+            if (!$this->getConfig()->multipleShapes) {
+                $this->outlineState->shapes = array();
+            }
             $this->outlineState->shapes[] = $shape;
         } 
     }
@@ -89,7 +98,8 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     function buildMapRequest($mapRequest) {
     
         $outlineRequest = new OutlineRequest();
-        $outlineRequest->shapes = $this->outlineState->shapes;
+        $outlineRequest->shapes   = $this->outlineState->shapes;
+        $outlineRequest->maskMode = $this->outlineState->maskMode;
       
         $mapRequest->outlineRequest = $outlineRequest;
     }
@@ -98,12 +108,23 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
         /* No results */
     }
 
+    private function drawOutline() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+        $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
+        $this->smarty->assign(array('outline_mask_selected' => $maskSelected));
+        return $this->smarty->fetch('outline.tpl');
+    }
+
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
         }
 
-        /* TODO: display clear if at least one shape */
+        $outline_active = $this->getConfig()->outlineActive;
+       
+        $template->assign(array('outline_active' => true,
+                                'outline' => $this->drawOutline()));
     }
 }
 ?>
