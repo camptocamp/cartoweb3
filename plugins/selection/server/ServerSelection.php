@@ -44,10 +44,19 @@ class ServerSelection extends ClientResponderAdapter {
         return array_diff($this->array_union($a, $b), array_intersect($a, $b));   
     }  
   
+    private function filterNewIds($newIds) {
+        $ignoreIds = $this->getConfig()->ignoreIds;
+        if (!$ignoreIds)
+            return $newIds;
+        $ids = ConfigParser::parseArray($ignoreIds);
+        return array_diff($newIds, $ids);
+    }
+  
     private function mergeIds($previousIds, $newIds, $policy) {
 
         $this->log->debug("previous Ids: " . var_export($previousIds, true));
         $this->log->debug("new Ids: " . var_export($newIds, true));
+        $newIds = $this->filterNewIds($newIds);
 
         switch($policy) {
         case SelectionRequest::POLICY_XOR:
