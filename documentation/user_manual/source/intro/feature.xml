@@ -14,7 +14,12 @@
  <sect1 id="intro.feature.intro">
   <title>Introduction</title>
   <para>
-   &cartoweb; is quite a complex piece of software.
+   &cartoweb; is quite a complex piece of software. This chapter
+   is only a quick and consequently incomplete overview of the 
+   standard functionalities that are somehow visible for an end-user. The
+   internal architecture and all the hidden features that make &cartoweb;
+   customizable and extensible are briefly presented in the next 
+   chapter.
   </para>
  </sect1>
 
@@ -290,7 +295,6 @@
    while the &cartoweb; admin defines which elements (maps, legends, 
    tables, additional logos or watermarks...) are to be printed and
    sets their positions within the page.
-   and
   </para>
     <screenshot>
       <mediaobject>
