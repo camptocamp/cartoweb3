@@ -21,6 +21,8 @@ class MapQuery {
     }
     
     private function databaseQueryString($idAttribute, $idType, $selectedIds) {
+        if (count($selectedIds) == 0)
+            return array('true');
         if ($idType != 'string')
             x('todo_database_int_query_string');
         $queryString = implode("','", $selectedIds);
@@ -35,6 +37,13 @@ class MapQuery {
                      $msLayer, $idAttribute, $query) { 
         $log =& LoggerManager::getLogger(__METHOD__);
         
+        // save extent, and set it to max extent
+        $msMapObj = $serverContext->getMapObj();
+        $savedExtent = clone($msMapObj->extent); 
+        $maxExtent = $serverContext->getMaxExtent();
+        $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
+                             $maxExtent->maxx, $maxExtent->maxy);
+        
         $log->debug("queryLayerByAttributes layer: $msLayer->name " .
                 "idAttribute: $idAttribute query: $query");
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
@@ -45,6 +54,10 @@ class MapQuery {
         }
 
         $serverContext->checkMsErrors();
+        // restore extent
+        $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
+                             $savedExtent->maxx, $savedExtent->maxy);
+        
         $msLayer->open();
         $results = array();
         for ($i = 0; $i < $msLayer->getNumResults(); $i++) {
