@@ -134,7 +134,7 @@ class TableGroup extends Serializable {
                                                         'groupId');
         $this->groupTitle = Serializable::unserializeValue($struct,        
                                                         'groupTitle');
-        $this->rows       = Serializable::unserializeObjectMap($struct,
+        $this->tables     = Serializable::unserializeObjectMap($struct,
                                                                'tables',
                                                                'Table');
     }

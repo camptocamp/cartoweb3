@@ -5,6 +5,22 @@
         </all>
       </complexType>
 
+      <complexType name="ArrayOfTableGroup">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:TableGroup[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <complexType name="TableGroup">
+        <all>
+          <element name="groupId" type="xsd:string"/>
+          <element name="groupTitle" type="xsd:string"/>
+          <element name="tables" type="types:ArrayOfTable"/>
+        </all>
+      </complexType>
+
       <complexType name="ArrayOfTable">
         <complexContent>
           <restriction base="enc11:Array">
