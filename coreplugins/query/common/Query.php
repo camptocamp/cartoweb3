@@ -32,31 +32,49 @@ class QueryRequest extends Serializable {
 /**
  * @package CorePlugins
  */
-class ResultElement {
+class ResultElement extends Serializable {
 
     public $id;
     public $values;
+
+    function unserialize($struct) {
+        $this->id = Serializable::unserializeValue($struct, 'id');
+        $this->values = Serializable::unserializeArray($struct, 'values');
+    }
 }
 
 /**
  * @package CorePlugins
  */
-class LayerResult {
+class LayerResult extends Serializable {
     
     public $layerId;
     public $numResults;
     public $fields;
     public $resultElements;
+
+    function unserialize($struct) {
+        $this->layerId = Serializable::unserializeValue($struct, 'layerId');
+        $this->numResults = Serializable::unserializeValue($struct, 
+                                                        'numResults', 'int');
+        $this->fields = Serializable::unserializeArray($struct, 
+                                                        'fields');
+        $this->resultElements = Serializable::unserializeObjectMap($struct, 
+                                        'resultElements', 'ResultElement');
+    }
 }
 
 /**
  * @package CorePlugins
  */
-class QueryResult {
+class QueryResult extends Serializable {
 
     public $layerResults;
     
-    /* TODO: unserialisation */
+    function unserialize($struct) {
+        $this->layerResults = Serializable::unserializeObjectMap($struct, 
+                                        'layerResults', 'LayerResult');
+    }
 }
 
 ?>
