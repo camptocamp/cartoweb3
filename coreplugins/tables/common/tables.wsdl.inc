@@ -51,6 +51,7 @@
       
       <complexType name="TableRow">
         <all>
+          <element name="rowId" type="xsd:string"/>
           <element name="cells" type="types:ArrayOfString"/>
         </all>
       </complexType>

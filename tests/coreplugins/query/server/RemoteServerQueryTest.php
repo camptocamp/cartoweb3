@@ -45,9 +45,9 @@ class coreplugins_query_server_RemoteServerQueryTest
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
         $this->assertEquals(count($polygonRows), 1);
+        $this->assertEquals($polygonRows[0]->rowId, "1"); 
         $this->assertEquals($polygonRows[0]->cells, 
-                                        array("id" => "1",
-                                              "FID" => "1",
+                                        array("FID" => "1",
                                               "FNAME" => 'Cé bô le françès'));
         
     }

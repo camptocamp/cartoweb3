@@ -204,27 +204,21 @@ class ServerQuery extends ClientResponderAdapter {
             $this->log->debug($shape);
 
             $row = new TableRow();            
-            if (is_null($idAttribute)) {
-                $row->cells = array();
-            } else {
-                $row->cells['id'] = $this->encodingConversion(
-                                                $shape->values[$idAttribute]);
+            if (!is_null($idAttribute)) {
+                $row->rowId = $this->encodingConversion(
+                                              $shape->values[$idAttribute]);
             }
             
             $filteredValues = $this->filterReturnedAttributes($msLayer, 
                                                               $shape->values);
             if (empty($table->columnTitles)) {
-                if (!is_null($idAttribute)) {
-                    $columnTitles['id'] = 'Id';
-                }
                 foreach (array_keys($filteredValues) as $columnId) {
                     $columnTitles[$columnId] = $columnId;
                 }
                 $table->columnTitles = $this->arrayEncodingConversion($columnTitles);
             }
 
-            $row->cells = array_merge($row->cells,
-                                      $this->arrayEncodingConversion($filteredValues));
+            $row->cells = $this->arrayEncodingConversion($filteredValues);
             $table->rows[] = $row;
             $table->numRows++;
         }  
@@ -252,7 +246,7 @@ class ServerQuery extends ClientResponderAdapter {
         
         $ids = array();
         foreach($rows as $row) {
-            $ids[] = $row->cells['id'];
+            $ids[] = $row->rowId;
         }
         return $ids;
     }

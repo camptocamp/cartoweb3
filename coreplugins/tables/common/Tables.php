@@ -34,11 +34,18 @@ class TableFlags extends Serializable {
 class TableRow extends Serializable {
 
     /**
+     * @var string
+     */
+     public $rowId;
+
+    /**
      * @var array array of string (columnId => value)
      */
     public $cells;
 
     function unserialize($struct) {
+    
+        $this->rowId = Serializable::unserializeValue($struct, 'rowId');
         $this->cells = Serializable::unserializeArray($struct, 'cells');
     }
 }

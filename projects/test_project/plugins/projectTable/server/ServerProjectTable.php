@@ -62,14 +62,17 @@ class ServerProjectTable extends ClientResponderAdapter {
                                        "column_2" => "Column 2",
                                        "column_3" => "Column 3");
         $row1 = new TableRow();
+        $row1->rowId = "Id1";
         $row1->cells = array("column_1" => "value_1",
                              "column_2" => "value_2",
                              "column_3" => "value_3");
         $row2 = new TableRow();
+        $row2->rowId = "Id2";
         $row2->cells = array("column_1" => "value_4",
                              "column_2" => "value_5",
                              "column_3" => "value_6");
         $row3 = new TableRow();
+        $row3->rowId = "Id3";
         $row3->cells = array("column_1" => "value_7",
                              "column_2" => "value_8",
                              "column_3" => "value_9");
@@ -85,9 +88,11 @@ class ServerProjectTable extends ClientResponderAdapter {
         $myTable->columnTitles = array("column_A" => "Column A",
                                        "column_B" => "Column B");
         $row1 = new TableRow();
+        $row1->rowId = "Id1";
         $row1->cells = array("column_A" => "value_a",
                              "column_B" => "value_b");
         $row2 = new TableRow();
+        $row2->rowId = "Id2";
         $row2->cells = array("column_A" => "value_c",
                              "column_B" => "value_d");
         $myTable->rows = array($row1, $row2);
