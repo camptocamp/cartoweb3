@@ -217,7 +217,8 @@ class ClientLocation extends ClientPlugin
             if ((is_null($recenterX) && !is_null($recenterY)) ||
                 (!is_null($recenterX) && is_null($recenterY))) {
                 $this->cartoclient->
-                    addMessage('Parameters recenter_x and recenter_y cannot be used alone');
+                    addMessage('Parameters recenter_x and recenter_y ' .
+                               'cannot be used alone');
                 return NULL;
             }
         }
@@ -425,7 +426,8 @@ class ClientLocation extends ClientPlugin
             $values = explode(',', $recenterBbox);
             if (count($values) != 4) {
                 $this->cartoclient->
-                    addMessage('Parameter recenter_bbox should be 4 values separated by commas');
+                    addMessage('Parameter recenter_bbox should be 4 values ' .
+                               'separated by commas');
                 return NULL;
             }
             list($minx, $miny, $maxx, $maxy) = $values;
@@ -474,7 +476,8 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, 
+                                  InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
         $this->locationState = new LocationState();
@@ -568,7 +571,8 @@ class ClientLocation extends ClientPlugin
      * @param double
      * @return LocationRequest
      */
-    private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0, $scale=0) {
+    private function buildZoomPointRequest($zoomType, Point $point, 
+                                           $zoomFactor = 0, $scale = 0) {
 
         $zoomRequest = new ZoomPointLocationRequest();
         $zoomRequest->locationType = LocationRequest::LOC_REQ_ZOOM_POINT;
@@ -602,12 +606,14 @@ class ClientLocation extends ClientPlugin
 
         $zoomType = @$toolToZoomType[$tool->id];
         if (empty($zoomType))
-            throw new CartoclientException('unknown mainmap tool ' . $tool->id);
+            throw new CartoclientException('unknown mainmap tool ' . 
+                                           $tool->id);
 
         $point = $mainmapShape->getCenter();
 
         $zoomFactor = 0;
-        if ($tool->id == self::TOOL_ZOOMIN && $mainmapShape instanceof Rectangle) {
+        if ($tool->id == self::TOOL_ZOOMIN && 
+            $mainmapShape instanceof Rectangle) {
             $zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
             $zoomFactor = $this->getZoomInFactor($mainmapShape);
         }
@@ -629,7 +635,8 @@ class ClientLocation extends ClientPlugin
     public function getTools() {
         
         return array(new ToolDescription(self::TOOL_ZOOMIN, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE_OR_POINT),
+                        new JsToolAttributes(
+                            JsToolAttributes::SHAPE_RECTANGLE_OR_POINT),
                                          10),
                      new ToolDescription(self::TOOL_ZOOMOUT, true,
                         new JsToolAttributes(JsToolAttributes::SHAPE_POINT),

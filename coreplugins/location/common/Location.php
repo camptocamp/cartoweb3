@@ -200,11 +200,13 @@ class LocationInit extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->scales = self::unserializeObjectMap($struct, 'scales', 'LocationScale');
+        $this->scales = self::unserializeObjectMap($struct, 'scales', 
+                                                   'LocationScale');
         $this->minScale = self::unserializeValue($struct, 'minScale', 'float');
         $this->maxScale = self::unserializeValue($struct, 'maxScale', 'float');
 
-        $this->shortcuts = self::unserializeObjectMap($struct, 'shortcuts', 'LocationShortcut');
+        $this->shortcuts = self::unserializeObjectMap($struct, 'shortcuts',
+                                                      'LocationShortcut');
     }
 }
 

@@ -199,11 +199,13 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param ZoomPointLocationRequest
      */
-    public function __construct($locationPlugin, ZoomPointLocationRequest $requ) {
+    public function __construct($locationPlugin, 
+                                ZoomPointLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
         
-        $this->scaleModeDiscrete = $this->locationPlugin->getConfig()->scaleModeDiscrete;
+        $this->scaleModeDiscrete = $this->locationPlugin->getConfig()->
+                                       scaleModeDiscrete;
         $this->zoomFactor = $this->locationPlugin->getConfig()->zoomFactor;
         if (!$this->zoomFactor)
             $this->zoomFactor = 2.0;
@@ -393,7 +395,7 @@ class RecenterLocationCalculator extends LocationCalculator {
             $results = $pluginManager->mapquery->queryByIdSelection($idSelection);
         }
         if (is_null($results) || count($results) == 0)
-            throw new CartoserverException("Could not fetch recentering bbox");        
+            throw new CartoserverException('Could not fetch recentering bbox');        
 
         $bboxes = array();
         foreach ($results as $result) {
@@ -411,7 +413,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      */
     public function mergeBboxes($bboxes) {
         if (empty($bboxes))
-            throw new CartoserverException("trying to merge empty bboxes");
+            throw new CartoserverException('trying to merge empty bboxes');
         if (count($bboxes) == 1)
             return $bboxes[0]; 
         $mergedBbox = $bboxes[0];
@@ -469,7 +471,7 @@ class RecenterLocationCalculator extends LocationCalculator {
                 $bboxes[] = $bbox; 
         }
         if (empty($bboxes))
-            throw new CartoserverException("no bbox found where to center");
+            throw new CartoserverException('no bbox found where to center');
 
         $bbox = $this->mergeBboxes($bboxes);
 
@@ -496,13 +498,15 @@ class RecenterLocationCalculator extends LocationCalculator {
         if (!$this->useDefaultScale)
             return NULL;
         
-        $defaultScale = $this->locationPlugin->getConfig()->recenterDefaultScale;
+        $defaultScale = $this->locationPlugin->getConfig()->
+                            recenterDefaultScale;
         
         /* TODO: override the default scale from layers metadata */
 
         if (is_null($defaultScale) || $defaultScale < 0)
-            throw new CartoserverException('you need to set a recenterDefaultScale ' .
-                    'parameter in the server location.ini');
+            throw new CartoserverException('you need to set a ' .
+                                           'recenterDefaultScale parameter in' .
+                                           ' the server location.ini');
         
         return $defaultScale;
     }
@@ -566,7 +570,7 @@ class ServerLocation extends ServerPlugin
     public function getScales() {
         
         if (is_null($this->scales))
-            throw new CartoserverException("scales not initialized");
+            throw new CartoserverException('scales not initialized');
         return $this->scales;
     }
 
@@ -591,9 +595,9 @@ class ServerLocation extends ServerPlugin
      */
     private function adjustScale($scale) {
         if (is_null($scale))
-            throw new CartoserverException("scale to adjust is null");
+            throw new CartoserverException('scale to adjust is null');
         if ($scale < 0)
-            throw new CartoserverException("scale to adjust is negative");
+            throw new CartoserverException('scale to adjust is negative');
         $newScale = $scale;
         $minScale = $this->getConfig()->minScale;
         $maxScale = $this->getConfig()->maxScale;
@@ -706,12 +710,12 @@ class ServerLocation extends ServerPlugin
         $bbox = new Bbox();
         $bbox->setFromMsExtent($msMapObj->extent);
 
-        $this->log->debug("bbox before adjusting is");
+        $this->log->debug('bbox before adjusting is');
         $this->log->debug($bbox);
 
         $newBbox = $this->adjustBbox($bbox, $maxExtent);
 
-        $this->log->debug("bbox after adjusting is");
+        $this->log->debug('bbox after adjusting is');
         $this->log->debug($newBbox);
 
         // TODO: do not setExtent if the bbox is the same
@@ -751,25 +755,28 @@ class ServerLocation extends ServerPlugin
         $classPrefix = ucfirst($classPrefix);
         $locationCalculatorClass = $classPrefix . 'LocationCalculator';
         if (!class_exists($locationCalculatorClass))
-            throw new CartoserverException("Unknown location request: $requ->locationType");
+            throw new CartoserverException('Unknown location request: ' .
+                                           $requ->locationType);
         
-        $calculator = new $locationCalculatorClass($this, $requ->$locationType);
+        $calculator = new $locationCalculatorClass($this,
+                                                   $requ->$locationType);
         
         $bbox = $calculator->getBbox();
         if (is_null($bbox))
-            throw new CartoserverException("null bbox returned from location calculator");
-        $this->log->debug("bbox is");
+            throw new CartoserverException('null bbox returned from location' .
+                                           ' calculator');
+        $this->log->debug('bbox is');
         $this->log->debug($bbox);
 
         $scale = $calculator->getScale();
         if (is_null($scale)) {
             $scale = $this->getScaleFromBbox($bbox);
         }
-        $this->log->debug("scale before adjust is");
+        $this->log->debug('scale before adjust is');
         $this->log->debug($scale);
         $scale = $this->adjustScale($scale);
         
-        $this->log->debug("scale after adjust is");
+        $this->log->debug('scale after adjust is');
         $this->log->debug($scale);
 
         $this->doLocation($bbox, $scale);
