@@ -35,7 +35,7 @@ perms_sudo:
 
 create_config:
 	for i in `find -name "*.dist"`; do \
-	 cp $$i $${i%%.dist} ;  \
+	 cp -i $$i $${i%%.dist} ;  \
 	done
 
 htlinks:
