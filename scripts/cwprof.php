@@ -3,322 +3,426 @@
 
 error_reporting(0);
 
-$opt['O'] = 1000000;
-$opt['R'] = '';
-
-if ($_SERVER['argc'] > 1) {
-    $dataFile = $_SERVER['argv'][1];
-} else {
-    usage();
-}
-
-if(($DATA = fopen($dataFile, "r")) == FALSE) {
-    print "Failed to open $dataFile for reading\n";
-    exit(1);
-}
-
-$cfg = array();
-parse_info('HEADER', $DATA, $cfg);
-
-$callstack = array();
-$calls = array();
-$indent_cur = 0;
-$file_hash = array();
-$mem = array();
-$t_rtime = 0;
-$t_stime = 0;
-$t_utime = 0;
-$c_rtimes = array();
-$c_stimes = array();
-$c_utimes = array();
-$rtimes = array();
-$stimes = array();
-$utimes = array();
-$rtotal = 0;
-$stotal = 0;
-$utotal = 0;
-$last_memory = 0;
-
-$symbol_hash = array();
-$symbol_type = array();
-
-while($line = fgets($DATA)) {
-    $line = rtrim($line);
-    if(preg_match("/^END_TRACE/", $line)){
-        break;
+function parseFile($fileName) {
+    $opt['O'] = 1000000;
+    $opt['R'] = '';
+    
+    if (!file_exists($fileName)) {
+        usage("File $fileName not found");
     }
-    list($token, $data) = preg_split("/ /",$line, 2);
-    if($token == '!') {
-    list ($index, $file) = preg_split("/ /", $data, 2);
-    $file_hash[$index] = $file;
-    continue;
+      
+    if(($DATA = fopen($fileName, "r")) == FALSE) {
+        usage("Cannot open $fileName");
     }
-    if( $token == '&') {
-        list ($index, $name, $type) = preg_split("/ /", $data, 3);
-        $symbol_hash[$index] = $name;
-    $symbol_type[$index] = $type;
+    
+    $cfg = array();
+    parse_info('HEADER', $DATA, $cfg);
+    
+    $callstack = array();
+    $calls = array();
+    $indent_cur = 0;
+    $file_hash = array();
+    $mem = array();
+    $t_rtime = 0;
+    $t_stime = 0;
+    $t_utime = 0;
+    $c_rtimes = array();
+    $c_stimes = array();
+    $c_utimes = array();
+    $rtimes = array();
+    $stimes = array();
+    $utimes = array();
+    $rtotal = 0;
+    $stotal = 0;
+    $utotal = 0;
+    $last_memory = 0;
+    
+    $symbol_hash = array();
+    $symbol_type = array();
+    
+    while($line = fgets($DATA)) {
+        $line = rtrim($line);
+        if(preg_match("/^END_TRACE/", $line)){
+            break;
+        }
+        list($token, $data) = preg_split("/ /",$line, 2);
+        if($token == '!') {
+        list ($index, $file) = preg_split("/ /", $data, 2);
+        $file_hash[$index] = $file;
         continue;
-    }
-    if( $token == '+') {
-        list($index, $file, $line) = preg_split("/ /",$data, 3);
-        if(array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
+        }
+        if( $token == '&') {
+            list ($index, $name, $type) = preg_split("/ /", $data, 3);
+            $symbol_hash[$index] = $name;
+        $symbol_type[$index] = $type;
             continue;
         }
-        $index_cur = $index;
-        $calls[$index_cur]++;
-        array_push($callstack, $index_cur);
-        if(array_key_exists('T', $opt)) {
-            if(array_key_exists('c', $opt)) {
-                printf("%2.02f ", $rtotal/1000000);
+        if( $token == '+') {
+            list($index, $file, $line) = preg_split("/ /",$data, 3);
+            if(array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
+                continue;
             }
-            print str_repeat("  ", $indent_cur).$symbol_hash[$index_cur]."\n";
-        if(array_key_exists('m', $opt)) {
-        print str_repeat("  ", $indent_cur)."C: $file_hash[$file]:$line M: $memory\n";
-        }
-    }
-        elseif(array_key_exists('t', $opt)) {
-            if ( $indent_last == $indent_cur && $index_last == $index_cur ) {
-                $repcnt++;
-            }
-            else {
-                if ( $repcnt ) {
-                    $repstr = ' ('.++$repcnt.'x)';
-                }
+            $index_cur = $index;
+            $calls[$index_cur]++;
+            array_push($callstack, $index_cur);
+            if(array_key_exists('T', $opt)) {
                 if(array_key_exists('c', $opt)) {
                     printf("%2.02f ", $rtotal/1000000);
                 }
-                print str_repeat("  ", $indent_last).$symbol_hash[$index_last].$repstr."\n";
-        if(array_key_exists('m', $opt)) {
-            print str_repeat("  ", $indent_cur)."C: $file_hash[$file_last]:$line_last M: $memory\n";
-        }
-                $repstr = '';
-                $repcnt = 0;
-                $index_last = $index_cur;
-                $indent_last = $indent_cur;
-        $file_last = $file;
-        $line_last = $line;
+                print str_repeat("  ", $indent_cur).$symbol_hash[$index_cur]."\n";
+            if(array_key_exists('m', $opt)) {
+            print str_repeat("  ", $indent_cur)."C: $file_hash[$file]:$line M: $memory\n";
             }
         }
-    $indent_cur++;
-        continue;
-    }
-    if( $token == '@') {
-        list($file_no, $line_no, $ut, $st, $rt) = preg_split("/ /", $data);
-        $top = array_pop($callstack);
-        $utimes[$top] += $ut;
-        $utotal += $ut;
-        $stimes[$top] += $st;
-        $stotal += $st;
-        $rtimes[$top] += $rt;
-        $rtotal += $rt;
-        array_push($callstack, $top);
-    foreach ($callstack as $stack_element) {
-            $c_utimes[$stack_element] += $ut;
-            $c_stimes[$stack_element] += $st;
-            $c_rtimes[$stack_element] += $rt;
-        }
-        continue;
-    }
-    if ($token == '-') {
-        list  ($index, $memory) = preg_split("/ /", $data, 2);
-        if(array_key_exists('i',$opt) && $symbol_type[$index] == 1)
-        {
+            elseif(array_key_exists('t', $opt)) {
+                if ( $indent_last == $indent_cur && $index_last == $index_cur ) {
+                    $repcnt++;
+                }
+                else {
+                    if ( $repcnt ) {
+                        $repstr = ' ('.++$repcnt.'x)';
+                    }
+                    if(array_key_exists('c', $opt)) {
+                        printf("%2.02f ", $rtotal/1000000);
+                    }
+                    print str_repeat("  ", $indent_last).$symbol_hash[$index_last].$repstr."\n";
+            if(array_key_exists('m', $opt)) {
+                print str_repeat("  ", $indent_cur)."C: $file_hash[$file_last]:$line_last M: $memory\n";
+            }
+                    $repstr = '';
+                    $repcnt = 0;
+                    $index_last = $index_cur;
+                    $indent_last = $indent_cur;
+            $file_last = $file;
+            $line_last = $line;
+                }
+            }
+        $indent_cur++;
             continue;
         }
-        $mem[$index] += ($memory - $last_memory);
-        $last_memory = $memory;
-        $indent_cur--;
-        $tmp = array_pop($callstack);
-        continue;
-    }
-}
-parse_info('FOOTER', $DATA, $cfg);
-$sort = 'by_time';
-if(array_key_exists('l', $opt)) { $sort = 'by_calls'; }
-if(array_key_exists('m', $opt)) { $sort = 'by_mem'; }
-if(array_key_exists('a', $opt)) { $sort = 'by_name'; }
-if(array_key_exists('v', $opt)) { $sort = 'by_avgcpu'; }
-if(array_key_exists('r', $opt)) { $sort = 'by_rtime'; }
-if(array_key_exists('R', $opt)) { $sort = 'by_c_rtime'; }
-if(array_key_exists('s', $opt)) { $sort = 'by_stime'; }
-if(array_key_exists('S', $opt)) { $sort = 'by_c_stime'; }
-if(array_key_exists('u', $opt)) { $sort = 'by_utime'; }
-if(array_key_exists('U', $opt)) { $sort = 'by_c_utime'; }
-if(array_key_exists('Z', $opt)) { $sort = 'by_c_time'; }
-if( !count($symbol_hash)) {
-    continue;
-}
-
-// is caller server ?
-$server = strpos($cfg['caller'], 'server.php');
-
-/*
-printf("
-Trace for %s
-Total Elapsed Time = %4.2f
-Total System Time  = %4.2f
-Total User Time    = %4.2f
-", $cfg['caller'], $rtotal/1000000, $stotal/1000000, $utotal/1000000);
-print "\n
-         Real         User        System             secs/    cumm
-%Time (excl/cumm)  (excl/cumm)  (excl/cumm) Calls    call    s/call  Memory Usage Name
---------------------------------------------------------------------------------------\n";
-*/
-$l = 0;
-$itotal = 0;
-$percall = 0;
-$cpercall = 0;
-
-// time elapsed in Mapserver
-$ms_time = 0;
-$ms_new = 0;
-$getMap = 0;
-
-uksort($symbol_hash, $sort);
-foreach (array_keys($symbol_hash) as $j) {
-    if(array_key_exists('i', $opt) && $symbol_type[$j] == 1) {
-        continue;
-    }
-    if ($l++ <  $opt['O']) {
-        $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal + $itotal);
-        $c_pcnt = 100* ($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal + $itotal);
-        $rsecs = $rtimes[$j]/1000000;
-        $ssecs = $stimes[$j]/1000000;
-        $usecs = $utimes[$j]/1000000;
-        $c_rsecs = $c_rtimes[$j]/1000000;
-        $c_ssecs = $c_stimes[$j]/1000000;
-        $c_usecs = $c_utimes[$j]/1000000;
-        $ncalls = $calls[$j];
-    if(array_key_exists('z', $opt)) {
-            $percall = ($usecs + $ssecs)/$ncalls;
-            $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-                if($utotal + $stotal) {
-            $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal);
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('Z', $opt)) {
-            $percall = ($usecs + $ssecs)/$ncalls;
-            $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-                if($utotal + $stotal) {
-            $pcnt = 100*($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal);
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('r', $opt)) {
-            $percall = ($rsecs)/$ncalls;
-            $cpercall = ($c_rsecs)/$ncalls;
-                if($rtotal) {
-            $pcnt = 100*$rtimes[$j]/$rtotal;
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('R', $opt)) {
-            $percall = ($rsecs)/$ncalls;
-            $cpercall = ($c_rsecs)/$ncalls;
-                if($rtotal) {
-            $pcnt = 100*$c_rtimes[$j]/$rtotal;
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('u', $opt)) {
-            $percall = ($usecs)/$ncalls;
-            $cpercall = ($c_usecs)/$ncalls;
-                if($utotal) {
-            $pcnt = 100*$utimes[$j]/$utotal;
-                } 
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('U', $opt)) {
-            $percall = ($usecs)/$ncalls;
-            $cpercall = ($c_usecs)/$ncalls;
-                if($utotal) {
-            $pcnt = 100*$c_utimes[$j]/$utotal;
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('s', $opt)) {
-            $percall = ($ssecs)/$ncalls;
-            $cpercall = ($c_ssecs)/$ncalls;
-                if($stotal) {
-            $pcnt = 100*$stimes[$j]/$stotal;
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-    if(array_key_exists('S', $opt)) {
-            $percall = ($ssecs)/$ncalls;
-            $cpercall = ($c_ssecs)/$ncalls;
-                if($stotal) {
-            $pcnt = 100*$c_stimes[$j]/$stotal;
-                }
-                else {
-                    $pcnt = 100;
-                }
-    }
-//        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-        $mem_usage = $mem[$j];
-        $name = $symbol_hash[$j];
-        
-        if ($name == 'ms_newmapobj') {
-            $ms_new += $rsecs;
-        } else if (substr($name, 0, 3) == 'ms_') {
-            $ms_time += $rsecs;
-        } else if ($name == 'SoapClient->getMap') {
-            $getMap += $rsecs;
+        if( $token == '@') {
+            list($file_no, $line_no, $ut, $st, $rt) = preg_split("/ /", $data);
+            $top = array_pop($callstack);
+            $utimes[$top] += $ut;
+            $utotal += $ut;
+            $stimes[$top] += $st;
+            $stotal += $st;
+            $rtimes[$top] += $rt;
+            $rtotal += $rt;
+            array_push($callstack, $top);
+        foreach ($callstack as $stack_element) {
+                $c_utimes[$stack_element] += $ut;
+                $c_stimes[$stack_element] += $st;
+                $c_rtimes[$stack_element] += $rt;
+            }
+            continue;
         }
-//        printf("%3.01f %2.02f %2.02f  %2.02f %2.02f  %2.02f %2.02f  %4d  %2.04f   %2.04f %12d %s\n", $pcnt, $rsecs, $c_rsecs, $usecs, $c_usecs, $ssecs, $c_ssecs, $ncalls, $percall, $cpercall, $mem_usage, $name);
+        if ($token == '-') {
+            list  ($index, $memory) = preg_split("/ /", $data, 2);
+            if(array_key_exists('i',$opt) && $symbol_type[$index] == 1)
+            {
+                continue;
+            }
+            $mem[$index] += ($memory - $last_memory);
+            $last_memory = $memory;
+            $indent_cur--;
+            $tmp = array_pop($callstack);
+            continue;
+        }
     }
-}
-
-if ($server) {
-    $title   = 'SOAP server trace file';
-    $client  = '(run profiler on client trace file)';
-    $server  = round($rtotal / 1000);
-    $msobj   = round($ms_new * 1000);
-    $msother = round($ms_time * 1000);
-    $total   = '(run profiler on client trace file)';
-} else {
-    if ($ms_time > 0.0) {
-        $title   = 'Direct client trace file';
-        $client  = round(($rtotal / 1000) - (($ms_new + $ms_time) * 1000));
-        $server  = 'n/a';
-        $msobj   = round($ms_new * 1000);
-        $msother = round($ms_time * 1000);
-        $total   = round($rtotal / 1000);
+    parse_info('FOOTER', $DATA, $cfg);
+    $sort = 'by_time';
+    if(array_key_exists('l', $opt)) { $sort = 'by_calls'; }
+    if(array_key_exists('m', $opt)) { $sort = 'by_mem'; }
+    if(array_key_exists('a', $opt)) { $sort = 'by_name'; }
+    if(array_key_exists('v', $opt)) { $sort = 'by_avgcpu'; }
+    if(array_key_exists('r', $opt)) { $sort = 'by_rtime'; }
+    if(array_key_exists('R', $opt)) { $sort = 'by_c_rtime'; }
+    if(array_key_exists('s', $opt)) { $sort = 'by_stime'; }
+    if(array_key_exists('S', $opt)) { $sort = 'by_c_stime'; }
+    if(array_key_exists('u', $opt)) { $sort = 'by_utime'; }
+    if(array_key_exists('U', $opt)) { $sort = 'by_c_utime'; }
+    if(array_key_exists('Z', $opt)) { $sort = 'by_c_time'; }
+    if( !count($symbol_hash)) {
+        continue;
+    }
+    
+    // is caller server ?
+    $server = strpos($cfg['caller'], 'server.php');
+    
+    /*
+    printf("
+    Trace for %s
+    Total Elapsed Time = %4.2f
+    Total System Time  = %4.2f
+    Total User Time    = %4.2f
+    ", $cfg['caller'], $rtotal/1000000, $stotal/1000000, $utotal/1000000);
+    print "\n
+             Real         User        System             secs/    cumm
+    %Time (excl/cumm)  (excl/cumm)  (excl/cumm) Calls    call    s/call  Memory Usage Name
+    --------------------------------------------------------------------------------------\n";
+    */
+    $l = 0;
+    $itotal = 0;
+    $percall = 0;
+    $cpercall = 0;
+    
+    // time elapsed in Mapserver
+    $ms_time = 0;
+    $ms_new = 0;
+    $getMap = 0;
+    
+    uksort($symbol_hash, $sort);
+    foreach (array_keys($symbol_hash) as $j) {
+        if(array_key_exists('i', $opt) && $symbol_type[$j] == 1) {
+            continue;
+        }
+        if ($l++ <  $opt['O']) {
+            $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal + $itotal);
+            $c_pcnt = 100* ($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal + $itotal);
+            $rsecs = $rtimes[$j]/1000000;
+            $ssecs = $stimes[$j]/1000000;
+            $usecs = $utimes[$j]/1000000;
+            $c_rsecs = $c_rtimes[$j]/1000000;
+            $c_ssecs = $c_stimes[$j]/1000000;
+            $c_usecs = $c_utimes[$j]/1000000;
+            $ncalls = $calls[$j];
+        if(array_key_exists('z', $opt)) {
+                $percall = ($usecs + $ssecs)/$ncalls;
+                $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+                    if($utotal + $stotal) {
+                $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal);
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('Z', $opt)) {
+                $percall = ($usecs + $ssecs)/$ncalls;
+                $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+                    if($utotal + $stotal) {
+                $pcnt = 100*($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal);
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('r', $opt)) {
+                $percall = ($rsecs)/$ncalls;
+                $cpercall = ($c_rsecs)/$ncalls;
+                    if($rtotal) {
+                $pcnt = 100*$rtimes[$j]/$rtotal;
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('R', $opt)) {
+                $percall = ($rsecs)/$ncalls;
+                $cpercall = ($c_rsecs)/$ncalls;
+                    if($rtotal) {
+                $pcnt = 100*$c_rtimes[$j]/$rtotal;
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('u', $opt)) {
+                $percall = ($usecs)/$ncalls;
+                $cpercall = ($c_usecs)/$ncalls;
+                    if($utotal) {
+                $pcnt = 100*$utimes[$j]/$utotal;
+                    } 
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('U', $opt)) {
+                $percall = ($usecs)/$ncalls;
+                $cpercall = ($c_usecs)/$ncalls;
+                    if($utotal) {
+                $pcnt = 100*$c_utimes[$j]/$utotal;
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('s', $opt)) {
+                $percall = ($ssecs)/$ncalls;
+                $cpercall = ($c_ssecs)/$ncalls;
+                    if($stotal) {
+                $pcnt = 100*$stimes[$j]/$stotal;
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+        if(array_key_exists('S', $opt)) {
+                $percall = ($ssecs)/$ncalls;
+                $cpercall = ($c_ssecs)/$ncalls;
+                    if($stotal) {
+                $pcnt = 100*$c_stimes[$j]/$stotal;
+                    }
+                    else {
+                        $pcnt = 100;
+                    }
+        }
+    //        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+            $mem_usage = $mem[$j];
+            $name = $symbol_hash[$j];
+            
+            if ($name == 'ms_newmapobj') {
+                $ms_new += $rsecs;
+            } else if (substr($name, 0, 3) == 'ms_') {
+                $ms_time += $rsecs;
+            } else if ($name == 'SoapClient->getMap') {
+                $getMap += $rsecs;
+            }
+    //        printf("%3.01f %2.02f %2.02f  %2.02f %2.02f  %2.02f %2.02f  %4d  %2.04f   %2.04f %12d %s\n", $pcnt, $rsecs, $c_rsecs, $usecs, $c_usecs, $ssecs, $c_ssecs, $ncalls, $percall, $cpercall, $mem_usage, $name);
+        }
+    }
+    
+    $result = array();
+    if ($server) {
+        $result['type']    = 'server';
+        $result['client']  = NULL;
+        $result['server']  = round($rtotal / 1000);
+        $result['msobj']   = round($ms_new * 1000);
+        $result['msother'] = round($ms_time * 1000);
+        $result['total']   = NULL;
     } else {
-        $title   = 'SOAP client trace file';
-        $client  = round(($rtotal / 1000) - ($getMap * 1000));
-        $server  = '(run profiler on server trace file)';
-        $msobj   = '(run profiler on server trace file)';
-        $msother = '(run profiler on server trace file)';
-        $total   = round($rtotal / 1000);
+        if ($ms_time > 0.0) {
+            $result['type']    = 'direct';
+            $result['client']  = round(($rtotal / 1000) - (($ms_new + $ms_time) * 1000));
+            $result['server']  = 'n/a (direct mode)';
+            $result['msobj']   = round($ms_new * 1000);
+            $result['msother'] = round($ms_time * 1000);
+            $result['total']   = round($rtotal / 1000);
+        } else {
+            $result['type']    = 'client';
+            $result['client']  = round(($rtotal / 1000) - ($getMap * 1000));
+            $result['server']  = NULL;
+            $result['msobj']   = NULL;
+            $result['msother'] = NULL;
+            $result['total']   = round($rtotal / 1000);
+        }
+    }
+    
+    return $result;
+}
+
+function getFile($dir, $pos) {
+    $filedirs = scandir($dir);
+    $files = array();
+    foreach ($filedirs as $filedir) {
+        if (!is_dir($dir . $filedir)) {
+        
+            // Adding filename at the end because filemtime returns only seconds
+            $files[$filedir] = filemtime($dir . $filedir) . $filedir;
+        }
+    }
+   
+    arsort($files);
+    
+    $i = 0;
+    foreach ($files as $file => $index) {
+        if ($pos == $i) {
+            break;
+        }
+        $i++;
+    }
+    if ($i < count($files)) {
+        return $file;
+    } else {
+        return NULL;
     }
 }
-print "--------------------------------------\n";
-print "$title\n";
-print "--------------------------------------\n";
-print "Exec client       = $client\n";
-print "Exec server total = $server\n";
-print "Exec MS obj       = $msobj\n";
-print "Exec MS other     = $msother\n";
-print "Exec total        = $total\n";
 
-function usage() {
-    print "Usage: ./cwprof.php <trace_file>\n";    
+if ($_SERVER['argc'] == 2) {
+
+    $filedir = $_SERVER['argv'][1];
+    if (is_dir($filedir)) {
+        
+        if (substr($filedir, -1) != '/') {
+            $filedir .= '/';
+        }
+        // Argument was a directory, get the last file
+        $file = getFile($filedir, 0);
+
+        if ($file) {
+            $result = parseFile($filedir . $file);
+        } else {
+            usage("No files found in $filedir");
+        }
+    } else {
+    
+        // Argument was a file
+        $result = parseFile($filedir);   
+    }
+    if ($result['type'] != 'direct') {
+        print "Warning: Results are incomplete (" . $result['type'] . " side only)\n";
+    }
+} else if ($_SERVER['argc'] == 3 && $_SERVER['argv'][1] == '-local') {
+    
+    $dir = $_SERVER['argv'][2];
+    if (is_dir($dir)) {
+
+        if (substr($dir, -1) != '/') {
+            $dir .= '/';
+        }
+
+        // Get server file
+        $file2 = getFile($dir, 0);
+        if ($file2) {
+            $result2 = parseFile($dir . $file2);
+            if ($result2['type'] == 'client') {
+                usage("Second file was not a server trace file");
+            }
+        } else {
+            usage("Not enough files found in $dir");            
+        }
+        
+        if ($result2['type'] == 'direct') {
+        
+            // Trace file was in direct mode, no need for a second trace file
+            $result = $result2;
+        } else {
+        
+            // Get client file
+            $file1 = getFile($dir, 1);
+            if ($file1) {
+                $result1 = parseFile($dir . $file1);
+                if ($result1['type'] != 'client') {
+                    usage("First file was not a client trace file");
+                }
+            } else {
+                usage("Not enough files found in $dir");            
+            }
+                
+            $result = $result1;
+            $result['server'] = $result2['server'];
+            $result['msobj'] = $result2['msobj'];
+            $result['msother'] = $result2['msother'];
+        }
+        
+    } else {
+        usage("Directory $dir not found");
+    }
+} else {
+    usage();
+}
+print "Exec client       = " . $result['client'] . "\n";
+print "Exec server total = " . $result['server'] . "\n";
+print "Exec MS obj       = " . $result['msobj'] . "\n";
+print "Exec MS other     = " . $result['msother'] . "\n";
+print "Exec total        = " . $result['total'] . "\n";
+
+function usage($message = NULL) {
+    if ($message) {
+        print "ERROR: $message\n";
+    }
+    print "Usage: ./cwprof.php <trace_file>\n";
+    print "    or ./cwprof.php [-local] <trace_dir>\n";    
     exit(1);
 }
 
