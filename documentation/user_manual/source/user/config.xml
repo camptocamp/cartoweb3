@@ -21,7 +21,8 @@
       </listitem>
       <listitem>
         <para> useWsdl = true|false: if true, WSDL will be used for sending 
-          SOAP requests. </para>
+          SOAP requests. This will add some processing time but ensures 
+          that SOAP requests are well-structured.</para>
       </listitem>
     </itemizedlist>
     <para> Cache options. See <xref linkend="user.config.cache"/>. </para>
@@ -29,7 +30,9 @@
       </para>
   </sect1>
   <sect1 id="user.config.client">
-    <title><filename>client.ini</filename></title>
+    <title>
+      <filename>client.ini</filename>
+    </title>
     <para> CartoServer access configuration:</para>
     <itemizedlist>
       <listitem>
@@ -39,16 +42,12 @@
           </para>
       </listitem>
       <listitem>
-       <para>
-        cartoclientUrl = "url" : base URL of the cartoclient-
-       </para>
+        <para> cartoclientUrl = "url" : base URL of the cartoclient- </para>
       </listitem>
       <listitem>
-       <para>
-        cartoserverUrl = "url" : base URL of the cartoserver (i.e. path containing
-        the <filename>cartoserver.wsdl.php</filename> file.
-       </para>
-      </listitem> 
+        <para> cartoserverUrl = "url" : base URL of the cartoserver (i.e. path 
+          containing the <filename>cartoserver.wsdl.php</filename> file. </para>
+      </listitem>
     </itemizedlist>
     <para> Mapfile configuration:</para>
     <itemizedlist>

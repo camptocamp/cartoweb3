@@ -153,8 +153,9 @@
         propagated from page to page. Note that if the selected project has 
         <parameter>showProjectChooser</parameter> set to false, the project 
         selection dropdown will no more appear, keeping you from activating 
-        another project. To go back to the initial project, simply hit the "Go" 
-        button of your browser address bar. [FIXME: What "Go" button?]</para>
+        another project. To go back to the initial project, call the initial 
+        <filename>client.php</filename> page without posting the HTML 
+        formular.</para>
     </sect2>
     <sect2 id="user.project.use.client">
       <title>Using a Modified <filename>client.php</filename></title>
