@@ -15,15 +15,11 @@
     </para>
     <sect3 id="dev.newplugin.special.export.interface">
       <title>Classes</title>
-      <para>
-        TODO
-      </para>
+      <para> TODO </para>
     </sect3>
     <sect3 id="dev.newplugin.special.export.example">
       <title>Example</title>
-      <para>
-        TODO
-      </para>
+      <para> TODO </para>
     </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.filters">
@@ -241,17 +237,17 @@ public function initialize() {
       <sect4 id="dev.newplugin.special.tables.setrules.columnselector">
         <title>Column Selector</title>
         <programlisting><![CDATA[
-public function addColumnSelector($groupId, $tableId, $columnIds)]]>
+public function addColumnSelector($groupId, $tableId, $columnIds)]]> 
           </programlisting>
         <para>Column selector rules allow to keep only a subset of columns from 
-          the source table. Parameter <parameter>$columnIds</parameter> 
-          should contain an array of column IDs determining which columns to 
+          the source table. Parameter <parameter>$columnIds</parameter> should 
+          contain an array of column IDs determining which columns to 
           keep.</para>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.columnunselector">
         <title>Column Unselector</title>
         <programlisting><![CDATA[
-public function addColumnUnselector($groupId, $tableId, $columnIds)]]>
+public function addColumnUnselector($groupId, $tableId, $columnIds)]]> 
           </programlisting>
         <para>Column unselector rules allow to keep only a subset of columns 
           from the source table, by removing a list of columns. Parameter 
@@ -286,7 +282,9 @@ static function myCallbackMethod('table_id', 'table_title')
         <programlisting><![CDATA[
 public function addColumnFilter($groupId, $tableId,
                                 $columnId, $callback)]]></programlisting>
-        <para>TODO</para>
+        <para>Column filter rules allow to modify column title. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
         <programlisting><![CDATA[
 static function myCallbackMethod('table_id', 'column_id', 'column_title')
     return 'column_new_title']]></programlisting>
@@ -296,7 +294,12 @@ static function myCallbackMethod('table_id', 'column_id', 'column_title')
         <programlisting><![CDATA[
 public function addCellFilter($groupId, $tableId, $columnId,
                               $inputColumnIds, $callback)]]></programlisting>
-        <para>TODO</para>
+        <para>Cell filter rules allow to modify content of a cell. Values of 
+          columns given in parameter <parameter>$inputColumnIds</parameter> 
+          will be transfered to the callback method for cell content 
+          calculation. Parameter <parameter>$callback</parameter> should 
+          contain a pointer to a callback method with the following 
+          signature:</para>
         <programlisting><![CDATA[
 static function myCallbackMethod('table_id', 'column_id',
                                  array ('column_1' => 'value_1',
@@ -309,7 +312,13 @@ static function myCallbackMethod('table_id', 'column_id',
 public function addCellFilterBatch($groupId, $tableId, $columnId,
                                    $inputColumnIds, $callback)]]> 
           </programlisting>
-        <para>TODO</para>
+        <para>Cell filter rules used in batch mode allow to modify content of 
+          all cells of a given column. Values of columns given in parameter 
+          <parameter>$inputColumnIds</parameter> will be transfered to the 
+          callback method for cells content calculation. Values for all rows 
+          are transfered at the same time. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
         <programlisting><![CDATA[
 static function myCallbackMethod('table_id', 'column_id',
                                  array (
@@ -319,14 +328,17 @@ static function myCallbackMethod('table_id', 'column_id',
                                  '1' => array (
                                         'column_1' => 'value_1_row_2',
                                         'column_2' => 'value_2_row_2')))
-    return array ('0' => 'cell_value_row_1', '1' => 'cell_value_row_2')]]></programlisting>
+    return array ('0' => 'cell_value_row_1', '1' => 'cell_value_row_2')]]> 
+          </programlisting>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.rowunselector">
         <title>Row Unselector</title>
         <programlisting><![CDATA[
 public function addRowUnselector($groupId, $tableId,
                                  $columnId, $rowIds)]]></programlisting>
-        <para>TODO</para>
+        <para>Row unselector rules allow to remove some rows from a table. 
+          Parameter <parameter>rowIds</parameter> contain IDs of row that must 
+          be removed.</para>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.columnadder">
         <title>ColumnAdder</title>
@@ -334,13 +346,49 @@ public function addRowUnselector($groupId, $tableId,
 public function addColumnAdder($groupId, $tableId,
                                $columnPosition, $newColumnIds,
                                $inputColumnIds, $callback)]]></programlisting>
-        <para>TODO</para>
+        <para>Column adder rules allow to add one or more columns to the table. 
+          Parameter <parameter>$newColumnIds</parameter> should contain the 
+          list of new column IDs. Values of columns given in parameter 
+          <parameter>$inputColumnIds</parameter> will be transfered to the 
+          callback method for cell content calculation. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
         <programlisting><![CDATA[
 static function myCallbackMethod('table_id',
                                  array ('column_1' => 'value_1',
                                         'column_2' => 'value_2'))
     return array ('new_column_1' => 'cell_value_1',
                   'new_column_2' => 'cell_value_2')]]></programlisting>
+        <para>Parameter <parameter>$columnPosition</parameter> indicates where 
+          the new columns must be inserted. It should be an instance of class 
+          <classname>ColumnPosition</classname>. Positions can be absolute or 
+          relative, with a positive or negative offset:</para>
+        <itemizedlist>
+          <listitem>
+            <para><programlisting><![CDATA[
+$position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1);]]> 
+              </programlisting>The new columns will be added after the first 
+              column</para>
+          </listitem>
+          <listitem>
+            <para><programlisting><![CDATA[
+$position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, -2);]]> 
+              </programlisting>The new columns will be added just before the 
+              last column</para>
+          </listitem>
+          <listitem>
+            <para><programlisting><![CDATA[
+$position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE,
+                               0, 'column_1');]]> </programlisting>The new 
+              columns will be added just before column 'column_1'</para>
+          </listitem>
+          <listitem>
+            <para><programlisting><![CDATA[
+$position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE,
+                               1, 'column_1');]]> </programlisting>The new 
+              columns will be added just after column 'column_1'</para>
+          </listitem>
+        </itemizedlist>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.columnadderbatch">
         <title>Column Adder (Batch)</title>
@@ -349,7 +397,15 @@ public function addColumnAdderBatch($groupId, $tableId,
                                     $columnPosition, $newColumnIds,
                                     $inputColumnIds, $callback)]]> 
           </programlisting>
-        <para>TODO</para>
+        <para>Column adder rules used in batch mode allow to add one or more 
+          columns to the table, while calculating values for all newly added 
+          cells. Parameter <parameter>$newColumnIds</parameter> should contain 
+          the list of new column IDs. Values of columns given in parameter 
+          <parameter>$inputColumnIds</parameter> will be transfered to the 
+          callback method for cells content calculation. Values for all rows 
+          are transfered at the same time. Parameter 
+          <parameter>$callback</parameter> should contain a pointer to a 
+          callback method with the following signature:</para>
         <programlisting><![CDATA[
 static function myCallbackMethod('table_id',
                                  array (
@@ -366,11 +422,44 @@ static function myCallbackMethod('table_id',
            '1' => array ( 
                   'new_column_1' => 'cell_value_1_row_2',
                   'new_column_2' => 'cell_value_2_row_2')))]]></programlisting>
+        <para>See <xref 
+          linkend="dev.newplugin.special.tables.setrules.columnadder" /> to 
+          know more about parameter 
+          <parameter>$columnPosition</parameter>.</para>
       </sect4>
     </sect3>
     <sect3 id="dev.newplugin.special.tables.precrules">
       <title>Precedence of Rules</title>
-      <para>TODO</para>
+      <para>Depending on rule type, rules are set for a group, a table or a 
+        column. Parameters (<parameter>$groupId</parameter>, 
+        <parameter>$tableId</parameter> or <parameter>$columnId</parameter>) 
+        can point to one object or to a group of object, using wildcard 
+        '*':</para>
+        <itemizedlist>
+          <listitem>
+            <para>'column_1': rule will be executed on columns called 
+              'column_1' only</para>
+          </listitem>
+          <listitem>
+            <para>'col*': rule will be executed on columns with name starting 
+              with 'col'</para>
+          </listitem>
+          <listitem>
+            <para>'*': rule will be executed on any columns</para>
+          </listitem>
+        </itemizedlist>
+        <para>For instance, following rule may be executed on groups with name 
+          starting with 'myGr', tables called 'myTable' and all columns:<programlisting><![CDATA[
+$registry->addColumnFilter('myGr*', 'myTable', '*',
+                                     array($this, 'myCallbackMethod));]]></programlisting></para>
+        <para>Only one rule of each type may be executed on one item. If two or 
+          more rules apply, most specific rule will be choosen. In the 
+          following rule definition, only the third rule will be executed on a 
+          table 'myTable' in a group 'myGroup': <programlisting><![CDATA[ 
+$registry->addColumnSelector('*', '*', array('column_1', 'column_2'));
+$registry->addColumnSelector('myGr*', '*', array('column_1'));
+$registry->addColumnSelector('myGr*', 'myTable', array('column_2'));
+$registry->addColumnSelector('myGroup', 'toto', array('column_3'));]]></programlisting> </para>
     </sect3>
     <sect3 id="dev.newplugin.special.tables.execrules">
       <title>Executing Rules</title>
