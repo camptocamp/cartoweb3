@@ -4,7 +4,7 @@
 
 <!-- $Id$ -->
 
-<chapter id="user.image">
+<chapter id="user.images">
  <title>Image format options</title>
  <subtitle>Plugin images</subtitle>
 
@@ -13,7 +13,7 @@
   It handles the size of the image and its filetype.
   </para>
 
- <sect1 id="user.image.client"> 
+ <sect1 id="user.images.client"> 
   <title>images.ini (client-side)</title>
   <para>
   Here are the options that can be set :
@@ -65,7 +65,7 @@
   </para>
  </sect1>
 
- <sect1 id="user.image.server"> 
+ <sect1 id="user.images.server"> 
   <title>images.ini (server-side)</title>
   <para>
   Here are the options that can be set :
@@ -86,9 +86,9 @@
   </itemizedlist>
  </sect1>
 
- <sect1 id="user.image.mapfile"> 
+ <sect1 id="user.images.mapfile"> 
   <title>Related elements in mapfile</title>
-  <sect2 id="user.image.mapfile.general">
+  <sect2 id="user.images.mapfile.general">
   <title>General image type</title>
   <para>
   The general output fileformat is handled by Mapserver. The basic command in the mapfile is
@@ -120,7 +120,7 @@ END]]></screen></para>
   FORMATOPTION "INTERLACE=OFF"
 END]]></screen></para>
  </sect2>
-  <sect2 id="user.image.mapfile.switch">
+  <sect2 id="user.images.mapfile.switch">
    <title>Automatic imagetype switch</title>
    <para>
     It is often desirable to adapt the imagetype of the map to the represented data. Typically, vector data is well 
