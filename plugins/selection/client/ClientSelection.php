@@ -133,9 +133,13 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
         $this->log->debug("selection result::");        
         $this->log->debug($selectionResult);        
 
-        // FIXME: use the plugin configuration mechanism to store the info
-        //  when it will be done
-        $selectionLayers = array('grid_nohilight', 'grid_classhilight', 'grid_layerhilight');
+        $selectionLayersStr = $this->getConfig()->selectionLayers;
+        if (empty($selectionLayersStr))
+            throw new CartoclientException('you need to set the selectionLayers ' .
+                    'parameter in selection client plugin');
+
+        $selectionLayers = explode(',', $selectionLayersStr);
+        $selectionLayers = array_map('trim', $selectionLayers);
         
         $selectionLayers = array_merge(array('no_layer'), $selectionLayers);
         $smarty->assign('selection_selectionlayers', $selectionLayers); 
