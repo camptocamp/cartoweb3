@@ -120,8 +120,17 @@ function compile($fileName) {
     foreach ($locales as $locale) {
         $file = $dir . $locale . '/LC_MESSAGES/' . $fileName . '.po';
         if (file_exists($file)) {
-            exec ('msgfmt -o ' . $dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo ' . $file);
-            unlink ($file);       
+            exec('msgfmt -o ' . $dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo ' . $file);
+            unlink($file);
+
+            // Rename file if default project
+            if (substr($fileName, 0, strlen(I18n::DEFAULT_PROJECT_DOMAIN)) ==
+                                            I18n::DEFAULT_PROJECT_DOMAIN) {
+                rename($dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo',
+                       $dir . $locale . '/LC_MESSAGES/' .
+                            substr($fileName,
+                                strlen(I18n::DEFAULT_PROJECT_DOMAIN) + 1) . '.mo');
+            }        
         }
     }
 }
