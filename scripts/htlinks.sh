@@ -9,15 +9,15 @@ usage () {
 addlinks () {
 	if [ -d $@ ]
 	then
-		for i in `ls $@`; do
-			if [ -d $@/$i/htdocs ]
+		cd htdocs
+		for i in `ls ../$@`; do
+			if [ -d ../$@/$i/htdocs ]
 			then
-				cd htdocs
 				find -name $i -type l -exec rm {} \;
-				cd ..
-				ln -s ../$@/$i/htdocs htdocs/$i
+				ln -s ../$@/$i/htdocs $i
 			fi
 		done
+		cd ..
 	fi
 }
 
@@ -41,8 +41,7 @@ else
 		if [ -d ../projects/$1/htdocs ]
 		then
 			ln -s ../projects/$1/htdocs $1
-			cd $1
-			cd ../../projects/$1
+			cd ../projects/$1
 		
 			addlinks "plugins"
 		fi
