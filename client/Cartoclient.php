@@ -210,6 +210,11 @@ class Cartoclient {
     private $formRenderer;    
 
     /**
+     * @var CartoserverService
+     */
+    private $cartoserverService;
+
+    /**
      * @var PluginManager
      */
     private $pluginManager; 
@@ -250,7 +255,7 @@ class Cartoclient {
      * - Client objects
      * - Session
      */
-    function __construct() {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
@@ -283,14 +288,14 @@ class Cartoclient {
     /**
      * @return ClientConfig
      */
-    function getConfig() {
+    public function getConfig() {
         return $this->config;
     }
 
     /**
      * @return ProjectHandler the current cartoclient project handler
      */
-    function getProjectHandler() {
+    public function getProjectHandler() {
         return $this->projectHandler;
     }
     
@@ -308,35 +313,35 @@ class Cartoclient {
     /**
      * @return CartoForm
      */
-    function getCartoForm() {
+    public function getCartoForm() {
         return $this->cartoForm;
     }
 
     /**
      * @return MapResult
      */
-    function getMapResult() {
+    public function getMapResult() {
         return $this->mapResult;
     }
 
     /**
      * @return ClientSession
      */
-    function getClientSession() {
+    public function getClientSession() {
         return $this->clientSession;
     }
 
     /**
      * @return HttpRequestHandler
      */
-    function getHttpRequestHandler() {
+    public function getHttpRequestHandler() {
         return $this->httpRequestHandler;
     }
     
     /**
      * @return PluginManager
      */
-    function getPluginManager() {
+    public function getPluginManager() {
         return $this->pluginManager;
     }
 
@@ -348,9 +353,16 @@ class Cartoclient {
     }
 
     /**
+     * @return CartoserverService
+     */
+    public function getCartoserverService() {
+        return $this->cartoserverService;
+    }
+
+    /**
      * @param ClientSession
      */
-    function setClientSession($clientSession) {
+    public function setClientSession($clientSession) {
         $this->clientSession = $clientSession;
     }
 
@@ -369,7 +381,7 @@ class Cartoclient {
      * @param string
      * @param int
      */
-    function addMessage($message, $channel = Message::CHANNEL_USER) {
+    public function addMessage($message, $channel = Message::CHANNEL_USER) {
 
         $this->messages[] = new Message($message, $channel);
     }
@@ -377,7 +389,7 @@ class Cartoclient {
     /**
      * @return array
      */
-    function getMessages() {
+    public function getMessages() {
         return $this->messages;
     }
 
@@ -405,12 +417,13 @@ class Cartoclient {
      * @param string interface name
      * @param string function name
      */
-    function callPluginsImplementing($interface, $functionName) {
+    public function callPluginsImplementing($interface, $functionName) {
 
         $args = func_get_args();
         array_shift($args);
         array_shift($args);
-        $this->pluginManager->callPluginsImplementing($interface, $functionName, $args);
+        $this->pluginManager->callPluginsImplementing($interface, 
+                                                      $functionName, $args);
     }
 
     /**
@@ -418,7 +431,7 @@ class Cartoclient {
      * @see MapInfoCache
      * @return MapInfo MapInfo
      */
-    function getMapInfo() {
+    public function getMapInfo() {
         if (!$this->mapInfo) {
             $this->mapInfo = $this->mapInfoCache->getMapInfo($this->config->mapId);
         }
@@ -702,7 +715,7 @@ class Cartoclient {
      *
      * Calls {@link Cartoclient::doMain()} with exception handling.
      */
-    function main() {
+    public function main() {
         
         //echo "<pre>";
         
