@@ -1071,10 +1071,7 @@ class ClientLayers extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     function renderForm(Smarty $template) {
-
         $template->assign('layers', $this->drawLayersList());
-        
-        $template->assign('locales', I18n::getLocales());
     }
 
     /**
