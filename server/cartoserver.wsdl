@@ -80,7 +80,6 @@
           <element name="minScale" type="xsd:integer"/>
           <element name="maxScale" type="xsd:integer"/>
           <element name="icon" type="xsd:string"/>
-          <element name="aggregate" type="xsd:boolean"/>
         </all>
       </complexType>
       
