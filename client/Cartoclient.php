@@ -18,7 +18,6 @@ require_once(CARTOCLIENT_HOME . 'client/MapInfoCache.php');
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
-require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
 
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
