@@ -129,7 +129,7 @@ function getMapPo($project, $mapId) {
             
             if (strpos($contents, 'DOCTYPE HTML')) {
                 print "\nWarning: Couldn't retrieve server file.\n";
-                return false;
+                continue;
             } else {
                 $file = CARTOCLIENT_PODIR . $fileName . '.' . $locale;
                 $fh = fopen($file . '.po', 'w');
@@ -169,12 +169,12 @@ function merge($project, $file1, $file2, $output) {
         if (!file_exists($file1path)) {
             print "Warning: Project " . getProjectName($project) . 
                   " merge - file $file1path not found.\n";
-            return false;
+            continue;
         }
         if (!file_exists($file2path)) {
             print "Warning: Project " . getProjectName($project) . 
                   " merge - file $file2path not found.\n";
-            return false;
+            continue;
         }
         
         print "Merging $file1Name + $file2Name = $fileOutputName ";
@@ -242,7 +242,7 @@ function compile($project, $fileName) {
         } else {
             print "Warning: Project " . getProjectName($project) . 
                   " compile - file $file not found.\n";
-            return false;
+            continue;
         }
     }
     return true;
