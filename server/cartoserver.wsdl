@@ -117,6 +117,7 @@
           <element name="link" type="xsd:string"/>
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
           <element name="rendering" type="xsd:string" minOccurs="0"/>
+          <element name="metadata" type="types:ArrayOfString" minOccurs="0"/>
         </all>
       </complexType>
       

@@ -55,6 +55,37 @@ class LayerBase extends Serializable {
      */
     public $link;
     
+    /**
+     * A map of metadata values, in the form "key=value"
+     * @var array
+     */
+    public $metadata = array();
+    
+    /**
+     * A map for metadata, it is lazyly constructed from $metadata when
+     * requested.
+     * @var array
+     */
+    private $metaHash;
+    
+    /**
+     * Returns a metadata valued from its key, or null if it does not exists.
+     * @param string metadata key
+     * @return string the value, or null if not there.
+     */
+    public function getMetadata($key) {
+        if (is_null($this->metaHash)) {
+            $this->metaHash = array();
+            foreach ($this->metadata as $meta) {
+                list($k, $val) = explode('=', $meta);
+                $this->metaHash[$k] = $val;
+            }
+        }
+        if (!isset($this->metaHash[$key]))
+            return null;
+        return $this->metaHash[$key];
+    }
+
     function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
@@ -64,6 +95,7 @@ class LayerBase extends Serializable {
         $this->maxScale = self::unserializeValue($struct, 'maxScale',
                                                  'double');
         $this->icon  = self::unserializeValue($struct, 'icon');
+        $this->metadata = self::unserializeArray($struct, 'metadata');
     }
 }
 

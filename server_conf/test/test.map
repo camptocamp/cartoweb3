@@ -284,6 +284,10 @@ MAP
     END
     STATUS DEFAULT
     METADATA
+	  "exported_values" "security_view,security_edit"
+	  "security_view" "admin"
+	  "security_edit" "admin,editors"
+	  
   	  "id_attribute_string" "FID|string"
   	  "mask_transparency" "50"
   	  "mask_color" "255, 255, 0"

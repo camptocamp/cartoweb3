@@ -113,87 +113,101 @@ class MapInfoHandler {
             $mapInfo->$field = $this->getIconUrl($mapInfo->$field, false);
         }
     }
+
+    /**
+     * Fill properties of the given LayerBase object.
+     */    
+    private function fillDynamicLayerBase(ServerContext $serverContext, LayerBase $layerBase) {
+
+        if (!empty($layerBase->icon))
+            $layerBase->icon = $this->getIconUrl($layerBase->icon, false);
+
+        $meta = array();
+        if (!empty($layerBase->metadata)) {
+            foreach($layerBase->metadata as $key => $val) {
+                $meta[] = sprintf('%s=%s', $key, $val);
+            }
+        }
+        $layerBase->metadata = $meta;
+    }
     
+    /**
+     * Fill properties of the given Layer object. It opens the underlying
+     * corresponding mapserver layer object.
+     */
+    private function fillDynamicLayer(ServerContext $serverContext, Layer $layer) {
+
+        $mapInfo = $this->mapInfo;
+        $msMapObj = $serverContext->getMapObj();
+        
+        $msLayer = $msMapObj->getLayerByName($layer->msLayer);
+        if (!$msLayer)
+            throw new CartoserverException('Could not find msLayer ' 
+                                           . $layer->msLayer);
+
+        $exportedValues = $msLayer->getMetadata('exported_values');
+        if (!empty($exportedValues)) {
+            foreach(explode(',', $exportedValues) as $metaKey) {
+                $metaVal = $msLayer->getMetadata($metaKey);
+                $layer->metadata[] = sprintf('%s=%s', $metaKey, $metaVal);
+            }
+        }
+
+        if ($msLayer->minscale > 0) $layer->minScale = $msLayer->minscale;
+        else $layer->minScale = 0;
+        if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
+        else $layer->maxScale = 0;
+
+        for ($i = 0; $i < $msLayer->numclasses; $i++) {
+            $msClass = $msLayer->GetClass($i);
+            if (isset($msClass->name) && 
+                strlen(trim($msClass->name)) != 0) { 
+                $layerClass = new LayerClass();
+
+                copy_vars($msClass, $layerClass);
+                $layerClass->id = $layer->id . '_class_' . $i;
+                $layerClass->label = utf8_encode($msClass->name);
+           
+                if ($mapInfo->autoClassLegend) {
+                    $layerClass->icon = $this->getClassIcon($layerClass->id, 
+                                                            $msMapObj,
+                                                            $msClass);
+                }
+
+                if ($msClass->minscale >= $layer->minScale)
+                    $layerClass->minScale = $msClass->minscale;
+                else $layerClass->minScale = $layer->minScale;
+
+                if ($msClass->maxscale > 0 && 
+                    (!$layer->maxScale ||
+                     $msClass->maxscale <= $layer->maxScale))
+                    $layerClass->maxScale = $msClass->maxscale;
+                else $layerClass->maxScale = $layer->maxScale;
+           
+                $mapInfo->addChildLayerBase($layer, $layerClass);
+            }
+        }
+    }
+
+    /**
+     * Fill dynamic properties of all layer objects. It calls specific methods
+     * for each kind of LayerBase and Layer objects.
+     */
     private function fillDynamicLayers($serverContext) {
         $mapInfo = $this->mapInfo;
         $layers = $mapInfo->getLayers();
-        $msMapObj = $serverContext->getMapObj();
         
         if ($mapInfo->autoClassLegend) $this->getMapPath($serverContext);
 
         foreach ($layers as $layer) {
-            
-            if (!empty($layer->icon))
-                $layer->icon = $this->getIconUrl($layer->icon, false);
+            $this->fillDynamicLayerBase($serverContext, $layer);
             
             // Skip layer groups for the rest of this loop
             if (!$layer instanceof Layer)
                 continue;
 
-            $msLayer = $msMapObj->getLayerByName($layer->msLayer);
-            if (!$msLayer)
-                throw new CartoserverException('Could not find msLayer ' 
-                                               . $layer->msLayer);
-
-            if ($msLayer->minscale > 0) $layer->minScale = $msLayer->minscale;
-            else $layer->minScale = 0;
-            if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
-            else $layer->maxScale = 0;
-
-            for ($i = 0; $i < $msLayer->numclasses; $i++) {
-                $msClass = $msLayer->GetClass($i);
-                if (isset($msClass->name) && 
-                    strlen(trim($msClass->name)) != 0) { 
-                    $layerClass = new LayerClass();
-
-                    copy_vars($msClass, $layerClass);
-                    $layerClass->id = $layer->id . '_class_' . $i;
-                    $layerClass->label = utf8_encode($msClass->name);
-               
-                    if ($mapInfo->autoClassLegend) {
-                        $layerClass->icon = $this->getClassIcon($layerClass->id, 
-                                                                $msMapObj,
-                                                                $msClass);
-                    }
-
-                    if ($msClass->minscale >= $layer->minScale)
-                        $layerClass->minScale = $msClass->minscale;
-                    else $layerClass->minScale = $layer->minScale;
-
-                    if ($msClass->maxscale > 0 && 
-                        (!$layer->maxScale ||
-                         $msClass->maxscale <= $layer->maxScale))
-                        $layerClass->maxScale = $msClass->maxscale;
-                    else $layerClass->maxScale = $layer->maxScale;
-               
-                    $mapInfo->addChildLayerBase($layer, $layerClass);
-                }
-            }
+            $this->fillDynamicLayer($serverContext, $layer);
         }
-    }
-
-    private function fillDynamicKeymap($serverContext) {
-        
-        $msMapObj = $serverContext->getMapObj();
-        $referenceMapObj = $msMapObj->reference;
-
-        $serverContext->checkMsErrors();
-
-        $dim = new Dimension($referenceMapObj->width, $referenceMapObj->height);
-        $bbox = new Bbox();
-        $bbox->setFromMsExtent($referenceMapObj->extent);
-        
-        $mapInfo = $this->mapInfo;
-        $mapInfo->keymapGeoDimension = new GeoDimension();
-        $mapInfo->keymapGeoDimension->dimension = $dim;
-        $mapInfo->keymapGeoDimension->bbox = $bbox;
-    }
-
-    function fillDynamic($serverContext) {
-        $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
-        $this->fillDynamicMap($serverContext);
-        $this->fillDynamicLayers($serverContext);
-        $this->fillDynamicKeymap($serverContext);
     }
 
     /**
@@ -245,6 +259,30 @@ class MapInfoHandler {
                 throw new CartoserverException("Failed writing $iconAbsolutePath");
         }
         return $this->getIconUrl($iconRelativePath, true);
+    }
+    
+    private function fillDynamicKeymap($serverContext) {
+        
+        $msMapObj = $serverContext->getMapObj();
+        $referenceMapObj = $msMapObj->reference;
+
+        $serverContext->checkMsErrors();
+
+        $dim = new Dimension($referenceMapObj->width, $referenceMapObj->height);
+        $bbox = new Bbox();
+        $bbox->setFromMsExtent($referenceMapObj->extent);
+        
+        $mapInfo = $this->mapInfo;
+        $mapInfo->keymapGeoDimension = new GeoDimension();
+        $mapInfo->keymapGeoDimension->dimension = $dim;
+        $mapInfo->keymapGeoDimension->bbox = $bbox;
+    }
+
+    function fillDynamic($serverContext) {
+        $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
+        $this->fillDynamicMap($serverContext);
+        $this->fillDynamicLayers($serverContext);
+        $this->fillDynamicKeymap($serverContext);
     }
 }
 ?>
