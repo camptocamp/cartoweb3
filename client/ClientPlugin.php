@@ -7,8 +7,8 @@
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 
 /**
- * Class used by ToolDescription, to specify javascript related attributes
- * for tools.
+ * Class used by {@link ToolDescription}, to specify javascript related
+ * attributes for tools.
  * @package Client
  */
 class JsToolAttributes {
@@ -128,8 +128,8 @@ interface ToolProvider {
      * Returns the provided tools
      * 
      * Warning: this method should not be called directly to obtain the tools !!
-     * Callers should use "doGetTools", which uses caching, and does some more
-     * treatment on the tools.
+     * Callers should use {@link ClientPlugin::doGetTools()}, which uses caching,
+     * and does some more treatment on the tools.
      */
     function getTools();
 }
@@ -180,7 +180,7 @@ interface ServerCaller {
 interface InitProvider {
 
     /**
-     * Handles initialization object taken from MapInfo
+     * Handles initialization object taken from {@link MapInfo}
      */
     function handleInit($initObject); 
 }
@@ -238,9 +238,10 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     /**
-     * Loads client session and calls child object's loadSession
+     * Loads client session and calls child object's
+     * {@link Sessionable::loadSession()}
      *
-     * Assumes that plugin implements Sessionable.
+     * Assumes that plugin implements {@link Sessionable}.
      */
     final function doLoadSession() {
     
@@ -265,7 +266,7 @@ abstract class ClientPlugin extends PluginBase {
     /**
      * Gets child object's session data and save it
      *
-     * Assumes that plugin implements Sessionable
+     * Assumes that plugin implements {@link Sessionable}.
      */
     final function doSaveSession() {
 
@@ -307,9 +308,9 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     /**
-     * Gets init object and calls child object's handleInit
+     * Gets init object and calls child object's {@link InitProvider::handleInit()}
      *
-     * Assumes that plugin implements InitProvider
+     * Assumes that plugin implements {@link InitProvider}.
      */
     final function dohandleInit($mapInfo) {
 
@@ -350,7 +351,10 @@ abstract class ClientPlugin extends PluginBase {
     }
 
     /** 
-     * Calls child object's getTools, updates tools and returns them
+     * Calls child object's {@link ToolProvider::getTools()}, updates tools
+     * and returns them
+     * 
+     * Assumes that plugin implements {@link ToolProvider}.
      */
     final function doGetTools() {
 
@@ -379,10 +383,10 @@ abstract class ClientPlugin extends PluginBase {
     abstract function handleHttpRequest($request);
 
     /**
-     * Gets plugin specific result out of MapResult and calls child object's
-     * handleResult
+     * Gets plugin specific result out of {@link MapResult} and calls child
+     * object's {@link ServerCaller::handleResult()}
      *
-     * Assumes that plugin implements ServerCaller.
+     * Assumes that plugin implements {@link ServerCaller}.
      */
     final function internalHandleResult($mapResult) {
 

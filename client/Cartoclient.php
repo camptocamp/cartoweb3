@@ -134,7 +134,8 @@ class ClientSession {
     public $selectedTool;
     
     /**
-     * Last request sent to server (useful for export)
+     * Last request sent to server (useful for export, see
+     * {@see ExportPlugin::getExport()})
      */
     public $lastMapRequest;
 }
@@ -242,6 +243,8 @@ class Cartoclient {
 
     /**
      * Calls plugins implementing an interface
+     *
+     * Interfaces are declared in {@link ClientPlugin}.
      */
     function callPluginsImplementing($interface, $functionName) {
 
@@ -263,6 +266,7 @@ class Cartoclient {
 
     /**
      * Returns Map Info, get it from cache if not yet set
+     * @see MapInfoCache
      */
     function getMapInfo() {
         if (!$this->mapInfo) {
@@ -311,7 +315,8 @@ class Cartoclient {
      * Initializes session
      *
      * If the mapId's session is not created yet, it is created and initialized.
-     * For creation and reload, plugins are called to magane their session data.
+     * For creation and reload, plugins are called to manage their session data.
+     * @see Sessionable
      */
     private function initializeSession() {
         $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
@@ -370,6 +375,7 @@ class Cartoclient {
      * Calls Cartoserver service to get results
      *
      * Also checks that MapInfo is up-to-date. If not, MapInfo cache reloads it.
+     * @see MapInfoCache
      */
     private function getMapResultFromRequest($mapRequest) {
 
@@ -459,7 +465,7 @@ class Cartoclient {
     /**
      * Main entry point.
      *
-     * Calls doMain() with exception handling.
+     * Calls {@link Cartoclient::doMain()} with exception handling.
      */
     function main() {
         

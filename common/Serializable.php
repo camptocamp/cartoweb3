@@ -7,17 +7,35 @@ require_once(CARTOCOMMON_HOME . 'common/misc_functions.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php'); // for CartocommonException
 
 /**
+ * Abstract class for all classes that can be serialized
+ *
+ * Serializable classes are typically used to transfer objects through SOAP.
  * @package Common
  */
 abstract class Serializable {
     public $className;
     
+    /**
+     * Constructor
+     *
+     * Stores class name to use it during object unserialization in
+     * {@link Serializable::unserializeObject()} or
+     * {@link Serializable::unserializeObjectMap()}.
+     */
     function __construct() {
         $this->className = get_class($this);
     } 
         
-    abstract function unserialize ($struct);
+    /**
+     * Unserializes from a stdClass structure 
+     *
+     * Each subclass knows how to unserialize.
+     */
+    abstract function unserialize($struct);
 
+    /**
+     * Returns structure's property value if property exists
+     */
     private static function getValue($struct, $property) {
         if (!$struct)
             return NULL;
@@ -32,7 +50,10 @@ abstract class Serializable {
         return NULL;        
     }
 
-    static function unserializeValue ($struct, $property = NULL, $type = 'string') {
+    /**
+     * Returns a typed value from a structure property
+     */
+    static function unserializeValue($struct, $property = NULL, $type = 'string') {
         
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -50,7 +71,13 @@ abstract class Serializable {
         }        
     }
 
-    static function unserializeArray ($struct, $property = NULL, $type = 'string') {
+    /**
+     * Returns an array of typed values
+     *
+     * If structure property is a string, considers that it is an array
+     * serialized in a string (see {@link Serializable::unserializeStringArray()}). 
+     */
+    static function unserializeArray($struct, $property = NULL, $type = 'string') {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -67,7 +94,12 @@ abstract class Serializable {
         return $array;
     }
 
-    static function unserializeStringArray ($struct, $property, $type = 'string') {
+    /**
+     * Returns an array of typed values from a string
+     *
+     * Uses {@link ConfigParser::parseArray()}.
+     */
+    static function unserializeStringArray($struct, $property, $type = 'string') {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -82,7 +114,14 @@ abstract class Serializable {
         return $array;
     }
     
-    static function unserializeObject ($struct, $property = NULL, $className = NULL) {
+    /**
+     * Returns an unserialized object from a stdClass structure
+     *
+     * If object is an instance of {@link Serializable}, calls 
+     * {@link Serializable::unserialize()}. If not, all structure's properties
+     * are copied into object.
+     */
+    static function unserializeObject($struct, $property = NULL, $className = NULL) {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
@@ -107,7 +146,10 @@ abstract class Serializable {
         return $obj;
     }
     
-    static function unserializeObjectMap ($struct, $property = NULL, $className = NULL) {
+    /**
+     * Returns an array of unserialized objects from a stdClass structure
+     */
+    static function unserializeObjectMap($struct, $property = NULL, $className = NULL) {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
