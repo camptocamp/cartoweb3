@@ -13,6 +13,7 @@
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
+  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
 </head>
