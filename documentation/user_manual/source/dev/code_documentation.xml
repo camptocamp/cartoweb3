@@ -68,7 +68,7 @@ php ./makedoc.php]]>
           </listitem>
         </itemizedlist>
       </para>
-			<para>
+      <para>
         <itemizedlist>
           <listitem> 
             <para> @package &lt;package&gt; (file, class): we use one package
