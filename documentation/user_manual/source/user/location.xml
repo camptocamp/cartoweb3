@@ -5,7 +5,6 @@
 <chapter id="user.location">
  <title>Spatial options</title>
  <subtitle>Plugin location</subtitle>
- <partintro>
   <para>
   The plugin location is the core plugin that deals with geographic navigation
   on the map. It handles bboxes (visible areas) and scales; it drives the tools
@@ -16,7 +15,7 @@
   The corresponding configuration files are <filename>location.ini</filename> (client-side) 
   and <filename>location.ini</filename> (server-side).
   </para>
- </partintro>
+
  <sect1 id="user.location.client"> 
   <title>location.ini (client-side)</title>
   <para>
