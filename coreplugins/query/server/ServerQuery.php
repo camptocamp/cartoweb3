@@ -87,24 +87,13 @@ class ServerQuery extends ServerCorePlugin {
         $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
         
         $mapInfo = $this->serverContext->mapInfo;
-        $serverLayer = $mapInfo->getLayerById($layerId);
-
-        if (!$serverLayer) 
-            throw new CartoserverException("layerid $layerId not found");
+        $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
 
         $layerResult = new LayerResult();
         $layerResult->layerId = $layerId;
         $layerResult->numResults = 0;
         
         $layerResult->resultElements = array();
-
-        $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
-        $this->serverContext->checkMsErrors();
-        
-        if (empty($msLayer)) {
-            $this->log->warn("Can't retrieve layer " . $serverLayer->msLayer);
-            return $layerResult;
-        }
         
         // layer has to be activated for query
         $msLayer->set('status', MS_ON);
