@@ -215,34 +215,35 @@ class ClientExportPdf extends ExportPlugin {
                 stripslashes(trim($request[$pdfItem]));
         }
 
-        if ($this->blocks[$id]->caption && 
-            !in_array($this->blocks[$id]->caption, $this->blocks)) {
-            
-            $caption = $this->blocks[$id]->caption;
-            $this->createBlock($request, $iniObjects, $caption);
-            
-            $this->blocks[$caption]->standalone = false;
-        }
-
-        if ($this->blocks[$id]->headers &&
-            !in_array($this->blocks[$id]->headers, $this->blocks)) {
-            
-            $headers = $this->blocks[$id]->headers;
-            $this->createBlock($request, $iniObjects, $headers);
-            
-            $this->blocks[$headers]->standalone = false;
-            $this->blocks[$headers]->content = 
-               $this->getArrayFromList($this->blocks[$headers]->content, true);
-        }
-
-        if ($this->blocks[$id]->type == 'table') {
+        elseif($this->blocks[$id]->type == 'table') {
+            if ($this->blocks[$id]->caption && 
+                !in_array($this->blocks[$id]->caption, $this->blocks)) {
+                
+                $caption = $this->blocks[$id]->caption;
+                $this->createBlock($request, $iniObjects, $caption);
+                
+                $this->blocks[$caption]->standalone = false;
+            }
+    
+            if ($this->blocks[$id]->headers &&
+                !in_array($this->blocks[$id]->headers, $this->blocks)) {
+                
+                $headers = $this->blocks[$id]->headers;
+                $this->createBlock($request, $iniObjects, $headers);
+                
+                $this->blocks[$headers]->standalone = false;
+                $this->blocks[$headers]->content = 
+                   $this->getArrayFromList($this->blocks[$headers]->content,
+                                           true);
+            }
+    
             // TODO: handle multi-row tables when getting content from INI 
             // For now we are limited to one single row.
             $this->blocks[$id]->content = $this->getArrayFromList(
                                             $this->blocks[$id]->content, true);
         }
 
-        if ($this->blocks[$id]->type == 'legend') {
+        elseif ($this->blocks[$id]->type == 'legend') {
             // TODO: get legend content
             // TODO: set block width according to legend content 
             // TODO: create a new block whose parent is this one
@@ -414,11 +415,86 @@ class ClientExportPdf extends ExportPlugin {
      * @param float distance in PdfGeneral dist_unit
      * @return int distance in pixels
      */
-    private function getDistWithRes($dist) {
+    private function getNewMapDim($dist) {
         $dist = PrintTools::switchDistUnit($dist,
-                                           $this->general->distUnit, 
+                                           $this->general->distUnit,
                                            'in');
-        return round($dist * $this->general->selectedResolution);
+        $dist *= $this->general->selectedResolution;
+        return round($dist);
+    }
+
+    //deprecated?
+    private function getPrintMapDim($dist) {
+        $dist = PrintTools::switchDistUnit($dist,
+                                           $this->general->distUnit,
+                                           'in');
+        return round($dist * $this->general->paperResolution);
+    }
+    
+    //deprecated?
+    private function getNewExtent($min0, $max0, $span0, $span2) {
+
+        /*
+        // TODO: update formula (1) which is incorrect
+        max1 and min1 are computed by resolving folowing system:
+        (1)  (max1 - min1) / span1 = (max0 - min0) / span0
+        (2)  (max1 + min1) / 2 = (max0 + min0) / 2 (image center is unchanged)
+
+        max1 is obtained by adding (1) and 2x (2).
+        min1 is obtained by replacing max1 in (2) by its computed value. 
+        */
+        
+        //$r0 = $this->general->screenResolution;
+        //$r2 = $this->general->selectedResolution;
+    
+        if (!$span0)
+            throw new CartoclientException('span0 cannot be zero');
+        
+        /*$max1 = $max0 * ($r2 * $span0 + $r0 * $span2);
+        $max1 += $min0 * ($r2 * $span0 - $r0 * $span2);
+        $max1 /= (2 * $r2 * $span0);*/
+
+        $max1 = $max0 * ($span0 + $span2) + $min0 * ($span0 - $span2);
+        $max1 /= 2 * $span0;
+
+        $min1 = $max0 + $min0 - $max1;
+
+        return array($min1, $max1);
+    }
+
+    /**
+     * @return Bbox bbox from last session-saved MapResult.
+     */
+    private function getLastBbox() {
+        $mapResult = $this->getLastMapResult();
+        
+        if (is_null($mapResult))
+            return new Bbox;
+
+        return $mapResult->locationResult->bbox;
+    }
+
+    /**
+     * @param string name of Image object to retrieve from last MapRequest
+     * @return Image 
+     */
+     //deprecated?
+    private function getLastImage($image = 'mainmap') {
+        $mapRequest = $this->getLastMapRequest();
+
+        if (is_null($mapRequest))
+            return new Image;
+
+        return $mapRequest->imagesRequest->$image;
+    }
+
+    private function getLastScale() {
+        $mapResult = $this->getLastMapResult();
+
+        if (is_null($mapResult))
+            return 0;
+
+         return $mapResult->locationResult->scale;
     }
 
     /**
@@ -439,13 +515,36 @@ class ClientExportPdf extends ExportPlugin {
 
             if ($renderMap) {
                 $mainmap = $this->blocks['mainmap'];
-                
-                $mapWidth = $this->getDistWithRes($mainmap->width);
-                
+
+                // new map dimensions:
+                $mapWidth = $this->getNewMapDim($mainmap->width);
                 $config->setMapWidth($mapWidth);
                 
-                $mapHeight = $this->getDistWithRes($mainmap->height);
+                $mapHeight = $this->getNewMapDim($mainmap->height);
                 $config->setMapHeight($mapHeight);
+
+                // empty bbox:
+                //$bbox = new Bbox;
+                //$config->setBbox($bbox);
+
+                // intermediate scale:
+                $scale = $this->getLastScale();
+                $scale *= $this->general->mapServerResolution;
+                $scale /= $this->general->selectedResolution;
+                $config->setScale($scale);
+
+                // map center coordinates:
+                $savedBbox = $this->getLastBbox();
+                $xCenter = ($savedBbox->minx + $savedBbox->maxx) / 2;
+                $yCenter = ($savedBbox->miny + $savedBbox->maxy) / 2;
+                $point = new Point($xCenter, $yCenter);
+                $config->setPoint($point);
+
+                // FIXME: config Bbox should be NULL?
+                $config->setBbox($savedBbox);      
+                
+                $config->setZoomType('ZOOM_SCALE');
+                $config->setLocationType('zoomPointLocationRequest');
             }
         }
         
@@ -462,6 +561,58 @@ class ClientExportPdf extends ExportPlugin {
         
         return $config;
     }
+    /*function getConfiguration($isOverview = false) {
+        
+        $config = new ExportConfiguration();
+
+        if ($isOverview) {
+            $renderMap = true;
+            $renderScalebar = false;
+        } else {
+            $renderMap = isset($this->blocks['mainmap']);
+            $renderScalebar = isset($this->blocks['scalebar']);
+
+            if ($renderMap) {
+                $mainmap = $this->blocks['mainmap'];
+
+                // new map dimensions:
+                $mapWidth = $this->getNewMapDim($mainmap->width);
+                $config->setMapWidth($mapWidth);
+                
+                $mapHeight = $this->getNewMapDim($mainmap->height);
+                $config->setMapHeight($mapHeight);
+
+                // new bbox:
+                $bbox = clone $this->getLastBbox();
+                $image = $this->getLastImage('mainmap');
+                $printMapWidth = $this->getPrintMapDim($mainmap->width);
+                $printMapHeight = $this->getPrintMapDim($mainmap->height);
+                
+                list($bbox->minx, $bbox->maxx) = 
+                    $this->getNewExtent($bbox->minx, $bbox->maxx,
+                                        $image->width, $printMapWidth);
+
+                list($bbox->miny, $bbox->maxy) =
+                    $this->getNewExtent($bbox->miny, $bbox->maxy,
+                                        $image->height, $printMapHeight);
+
+                $config->setBbox($bbox);
+            }
+        }
+        
+        $config->setRenderMap($renderMap);
+        $config->setRenderKeymap(false);
+        $config->setRenderScalebar($renderScalebar);
+
+        $this->log->debug('Selected resolution: ' .
+                          $this->general->selectedResolution);
+        $this->log->debug('Print config:');
+        $this->log->debug($config);
+
+        //TODO: set maps dimensions + resolutions for scalebar and overview
+        
+        return $config;
+    }*/
 
     /**
      * Returns the absolute URL of $gfx by prepending CartoServer base URL.
@@ -571,7 +722,7 @@ class ClientExportPdf extends ExportPlugin {
  
         // Retrieving of data from CartoServer:
         $mapResult = $this->getExportResult($this->getConfiguration());
-        
+//print_r($mapResult);die(); 
         if (isset($this->blocks['overview'])) {
             $overviewResult = $this->getExportResult(
                                   $this->getConfiguration(true));
@@ -628,7 +779,7 @@ class ClientExportPdf extends ExportPlugin {
             $pdf->addPage();
             $pdf->addTable($this->blocks['table']);
         }
-        $pdf->addPage();$pdf->addPage();$pdf->addPage();
+        //$pdf->addPage();$pdf->addPage();$pdf->addPage();
  
         $contents = $pdf->finalizeDocument();
  
