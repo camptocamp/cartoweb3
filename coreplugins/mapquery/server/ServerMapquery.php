@@ -72,15 +72,27 @@ class ServerMapquery extends ServerPlugin {
      * @param msLayer the layer from which to retrieve shapes
      * @return array the array of result shapes in the given layer
      */
-    private function extractResults($msLayer) {
+    private function extractResults($msLayer, $mayIgnore) {
         
         $msLayer->open();
         $results = array();
 
         $numResults = $msLayer->getNumResults();
+
+        $ignoreQueryThreshold = $this->getConfig()->ignoreQueryThreshold;
+        if ($mayIgnore && is_numeric($ignoreQueryThreshold) && 
+                                    $numResults > $ignoreQueryThreshold) {
+            $this->getServerContext()->addMessage($this, 'queryIgnored', 
+                    'Query spanned too many objects, it was ignored');
+            return array();
+        }
+
         $maxResults = $this->getConfig()->maxResults;
-        if (is_numeric($maxResults)) {
-            $numResults = min($maxResults, $numResults);
+        if (is_numeric($maxResults) && $numResults > $maxResults) {
+            $this->getServerContext()->addMessage($this, 'maxResultsHit', 
+                'This query hit the maximum number of results,' .
+                ' truncating results');
+            $numResults = $maxResults;
         }
         
         for ($i = 0; $i < $numResults; $i++) {
@@ -131,7 +143,7 @@ class ServerMapquery extends ServerPlugin {
         $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
                              $savedExtent->maxx, $savedExtent->maxy);
         
-        return $this->extractResults($msLayer);
+        return $this->extractResults($msLayer, false);
     }
 
     /**
@@ -223,7 +235,7 @@ class ServerMapquery extends ServerPlugin {
             $msLayer->getNumResults() == 0) 
             return array();
 
-        return $this->extractResults($msLayer);
+        return $this->extractResults($msLayer, true);
     }
 }
 
