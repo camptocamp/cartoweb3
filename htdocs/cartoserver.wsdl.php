@@ -13,21 +13,13 @@ define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
     
-    // FIXME: duplicated from server.php
+    $ini_array = parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');
 
-    set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOSERVER_HOME . 'include/');
-                 
-    require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
-    
-    $serverConfig = new ServerConfig();
-    
-    if (!@$serverConfig->reverseProxyUrl)
+    if (in_array('reverseProxyUrl', $ini_array))
         die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
             'parameter set in configuration');
     
-    $soapAddress = $serverConfig->reverseProxyUrl;
-    
+    $soapAddress = $ini_array['reverseProxyUrl'];
 } else {
     $soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
                 $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
