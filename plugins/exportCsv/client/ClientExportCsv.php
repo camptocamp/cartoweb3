@@ -31,7 +31,12 @@ class ClientExportCsv extends ExportPlugin {
      * @return string
      */
     public function getExportScriptPath() {
-        return 'exportCsv/export.php';
+        $scriptPath = parent::getExportScriptPath();
+        if (strstr($scriptPath, '?'))
+            $scriptPath .= '&amp;';
+        else
+            $scriptPath .= '?';
+        return $scriptPath;
     }
 
     function __construct() {
