@@ -29,7 +29,8 @@ a:hover {text-decoration: underline;color:#D0670A;}
 }
 
 #leftbar p {text-align:center;padding:10px;}
-#keymap {border:1px solid #eee;margin:10px;}
+#keymap {text-align:center;margin:10px;}
+#keymap img {border:1px solid #eee;}
 #mapImageDiv {border:1px solid #eee;}
 
 #layerscmd {text-align:center;padding:5px;}
