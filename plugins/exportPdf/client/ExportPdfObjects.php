@@ -26,30 +26,31 @@ class PrintTools {
         $ratio = 1;
         
         if ($from == 'cm') {
-            $ratio = self::switchDistUnit(10, 'mm', $to);
+            $ratio *= 10;
             $from = 'mm';
         }
         elseif ($to == 'cm') {
-            $ratio = self::switchDistUnit(0.1, $from, 'mm');
+            $ratio /= 10;
             $to = 'mm';
         }
 
         if ($from == 'in') {
-            $ratio = self::switchDistUnit(72, 'pt', $to);
+            $ratio *= 72;
             $from = 'pt';
         }
         elseif ($to == 'in') {
-            $ratio = self::switchDistUnit(1 / 72, $from, 'pt');
+            $ratio /= 72;
             $to = 'pt';
         }
 
-        if ($from == 'mm' && $to == 'pt')
+        if ($from == 'mm' && $to == 'pt') {
             $ratio *= 72 / 25.4;
-        elseif ($from == 'pt' && $to == 'mm')
+        } elseif ($from == 'pt' && $to == 'mm') {
             $ratio *= 25.4 / 72;
-        else
+        } else {
             throw new CartoclientException("unknown dist unit: $from or $to");
-        
+        }
+
         return $dist * $ratio;
     }
 
@@ -107,7 +108,7 @@ class PdfGeneral {
      * Name of PDF Engine class
      * @var string
      */
-    public $pdfEngine          = 'PdfLibLite';
+    public $pdfEngine          = 'CwFpdf';
     
     /**
      * @var string
@@ -158,14 +159,19 @@ class PdfGeneral {
      * @var array
      */
     public $resolutions        = array(96);
-    
+
     /**
-     * @var string
+     * @var int
+     */
+    public $mapServerResolution= 96;
+
+    /**
+     * @var int
      */
     public $defaultResolution  = 96;
     
     /**
-     * @var string
+     * @var int
      */
     public $selectedResolution;
     
@@ -417,13 +423,45 @@ class PdfBlock {
  */
 class TableElement {
 
+    /**
+     * @var mixed initially string than PdfBlock
+     */
     public $caption = '';
+    
+    /**
+     * @var mixed initially array than PdfBlock
+     */
     public $headers = array();
+    
+    /**
+     * @var array
+     */
     public $rows    = array();
+    
+    /**
+     * @var float
+     */
     public $totalWidth = 0;
+    
+    /**
+     * @var array
+     */
     public $colsWidth = array();
+    
+    /**
+     * @var float
+     */
     public $x0;
+    
+    /**
+     * @var float
+     */
     public $y0;
+    
+    /**
+     * @var float
+     */
+    public $rowBaseHeight;
 }
 
 // TODO: use an abstract class instead of an interface in order to factorize
