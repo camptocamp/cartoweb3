@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Plugins
+ * @version $Id$
+ */
 
+/**
+ * Dir path to Cartoclient home
+ */
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/../../..') . '/');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . 

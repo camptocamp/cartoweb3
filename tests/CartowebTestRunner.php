@@ -1,4 +1,8 @@
 <?php 
+/**
+ * @package Tests
+ * @version $Id$
+ */
 
 if (!defined('CARTOCLIENT_HOME'))
     define('CARTOCLIENT_HOME', realpath(dirname(__FILE__).'/..').'/');
@@ -18,6 +22,9 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
 define('PHPUnit2_MAIN_METHOD', false);
 require_once 'PHPUnit2/TextUI/TestRunner.php';
 
+/**
+ * @package Tests
+ */
 class PHPUnit2_TextUI_TestRunner_Web extends PHPUnit2_TextUI_TestRunner {
 
     public $testResult;
@@ -30,6 +37,9 @@ class PHPUnit2_TextUI_TestRunner_Web extends PHPUnit2_TextUI_TestRunner {
 
 $errors = array ();
 
+/**
+ * @package Tests
+ */
 function test_error_handler($errno, $errmsg, $file, $line, $vars) {
     global $errors;
 
@@ -51,6 +61,9 @@ function test_error_handler($errno, $errmsg, $file, $line, $vars) {
     array_push($errors, $msg);
 }
 
+/**
+ * @package Tests
+ */
 class CartowebTestRunner {
 
     public $test_runner;
