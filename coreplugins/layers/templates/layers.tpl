@@ -23,25 +23,24 @@
 
   function isInOpenNodes(id) {
     for (var i = 0; i < openNodes.length; i++) {
-      if (openNodes[i] == id) return i;
+      if (openNodes[i] == id) return i + 1;
     }
     return false;
   }
   
   function updateOpenNodes(id, open) {
     var isModified = false;
-    if (open) {
-      var i = isInOpenNodes(id); 
-      if (!isNaN(i)) {
+    if (open) { 
+      if (!isInOpenNodes(id)) {
         // adds node to list
         openNodes.push(id);
         isModified = true;
       }
     } else {
       var i = isInOpenNodes(id);
-      if (!isNaN(i)) {
+      if (i > 0) {
         // removes node from list
-        delete(openNodes[i]);
+        delete(openNodes[i - 1]);
         isModified = true;
       }
     }
@@ -152,7 +151,7 @@
 {/literal}
 <script type="text/javascript">
   <!--
-  var openNodes = new Array({$startOpenNodes});
+  var openNodes = new Array('{$startOpenNodes}');
   writeOpenNodes(true);
   //-->
 </script>
