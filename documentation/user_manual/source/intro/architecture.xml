@@ -13,11 +13,12 @@
  <sect1 id="intro.archi.intro">
   <title>Introduction</title>
   <para>
+   &cartoweb; uses an innovative design and state-of-the-art technologies. The following sections briefly review the main employed approaches.
   </para>
  </sect1>
 
  <sect1 id="intro.archi.mapserver">
-  <title>Mapserver/MapScript</title>
+  <title>MapServer / MapScript</title>
   <para>
    &cartoweb; is based on the <ulink url="http://mapserver.gis.umn.edu/">UMN MapServer</ulink> engine. Interactions between &cartoweb; and MapServer are achieved using the MapServer <ulink url="http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html">PHP/Mapscript</ulink> module.
   </para>
@@ -169,6 +170,7 @@
  <sect1 id="intro.archi.performance">
   <title>Performance Enhancement</title>
   <para>
+   &cartoweb; takes benefits of several caching systems to speed up its execution. All the possibilities are detailed in <xref linkend="user.caches"/>.
   </para>
  </sect1>
  
