@@ -21,6 +21,19 @@ class ServerQuery extends ServerCorePlugin {
         return $plugins->layers->getRequestedLayerNames();
     } 
 
+    function encodingConversion($str) {
+        // FIXME: $str is asserted to be iso8851-1 
+        return utf8_encode($str);
+    }
+
+    function arrayEncodingConversion($array) {
+        $ret = array();
+        foreach($array as $str) {
+            $ret[] = $this->encodingConversion($str);
+        }
+        return $ret;
+    }
+
     function queryLayer($layerId, $shape, $queryArgs) {
     
         $msMapObj = $this->serverContext->msMapObj;
@@ -85,10 +98,12 @@ class ServerQuery extends ServerCorePlugin {
             $resultElement = new ResultElement();            
             $resultElement->id = $i;
             
-            if (empty($layerResult->fields))
-                $layerResult->fields = array_keys($shape->values);
-            $resultElement->values = array_values($shape->values);
-            
+            if (empty($layerResult->fields)) {
+                $fields = array_keys($shape->values);
+                $layerResult->fields = $this->arrayEncodingConversion($fields);
+            }
+            $values = array_values($shape->values);
+            $resultElement->values = $this->arrayEncodingConversion($values);
             $resultElement->tileindex = $shape->tileindex;
             $resultElement->classindex = $shape->classindex;
             $layerResult->resultElements[] = $resultElement;

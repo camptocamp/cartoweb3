@@ -322,9 +322,11 @@
       </complexType>
 
       <complexType name="SelectionResult">
-   		<all>
-		</all>
-      </complexType>
+		<all>
+          <element name="layerId" type="xsd:string"/>
+          <element name="selectedIds" type="types:ArrayOfLayerId"/>
+		</all>      
+	  </complexType>
 
       <simpleType name="SelectionPolicy">
         <restriction base="xsd:string">

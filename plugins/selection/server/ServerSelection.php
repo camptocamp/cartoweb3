@@ -32,12 +32,13 @@ class ServerSelection extends ServerPlugin {
         $classitem = $this->getClassItem($layerId);     
      
         $resultElements = $layerResult->resultElements;
-
+        
         $ids = array();
         foreach($resultElements as $resultElement) {
-            if (!array_key_exists($classitem, $resultElement->fields))
+            $idIndex = array_search($classitem, $layerResult->fields);
+            if ($idIndex == false)
                 throw new CartoserverException("an item has no $classitem field");
-            $ids[] = $resultElement->fields[$classitem];
+            $ids[] = $resultElement->values[$idIndex];
         }
         return $ids;
     }
@@ -45,6 +46,10 @@ class ServerSelection extends ServerPlugin {
     private function queryLayer($layerId, $shape) {
         
         $plugins = $this->serverContext->pluginManager;
+
+        if (empty($plugins->query))
+            throw new CartoserverException("query plugin not loaded, and needed " .
+                    "for the selection request");
         
         // FIXME: PERFORMANCE add a queryArgs which does not fetch metadata 
         // (but needs an id, retrieved from classItem !!)

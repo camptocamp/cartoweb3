@@ -97,7 +97,7 @@ class ServerContext {
 
     // maybe refactorize with cartoclient
     private function getCorePluginNames() {
-        return array('images', 'location', 'layers', /* 'query' */);
+        return array('images', 'location', 'layers', 'query');
     }
 
     function loadPlugins() {
