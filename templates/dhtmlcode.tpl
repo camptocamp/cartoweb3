@@ -5,6 +5,7 @@
   <script type="text/javascript" src="js/x_event_nn4.js"></script>
   <script type="text/javascript" src="js/navTools.js"></script>
   <script type="text/javascript" src="js/graphTools.js"></script>
+  <script type="text/javascript" src="js/folders.js"></script>
   <script type="text/javascript">
     /*<![CDATA[*/ 
     var dhtmlDivs = new String();
@@ -78,9 +79,13 @@
           
       dhtmlBox.initialize();
     }
-      
+    
+    // dhtml folders settings
+    var myfolders = new Array(1, 2);
+    
     window.onload = function() {
       dboxInit();
+      setupFolders();
       xHide(xGetElementById('mapAnchorDiv')); 
     }
     /*]]>*/
