@@ -48,7 +48,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertSame(count($polygonLayerResults), 1);
         $this->assertSame($polygonLayerResults[0]->id, "1");
         $this->assertSame($polygonLayerResults[0]->values, 
-                                        array("1", "A Polygon"));
+                                        array("1", 'Cé bô le françès'));
         
     }
 

@@ -112,8 +112,36 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         return $smarty->fetch('query.tpl');
     }
 
-    private function encodingDecode(QueryResult $queryResult) {
-        
+    private function encodingConversion($str) {
+        return utf8_decode($str);
+    }
+
+    private function arrayEncodingConversion($array) {
+        if (empty($array))
+            return $array;
+        $ret = array();
+        foreach($array as $str) {
+            $ret[] = $this->encodingConversion($str);
+        }
+        return $ret;
+    }
+    
+    /**
+     * Process a query result, decoding and translating the fields and result
+     * values
+     */
+    private function processResult(QueryResult $queryResult) {
+        foreach ($queryResult->layerResults as $layerResult) {
+            $layerResult->fields = $this->arrayEncodingConversion(
+                                        $layerResult->fields);
+            foreach ($layerResult->resultElements as $resultElement) {
+                $resultElement->id     = $this->encodingConversion(
+                                        $resultElement->id);
+                $resultElement->values = $this->arrayEncodingConversion(
+                                        $resultElement->values);
+            }
+        }
+        return $queryResult;
     }
 
     function renderForm($template) {
@@ -124,8 +152,8 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         if (!$this->queryResult)
             return;
         
-        //$queryResut = $this->encodingDecode(/* TODO */);
-        $queryOutput = $this->drawQueryResult($this->queryResult);
+        $queryResult = $this->processResult($this->queryResult);
+        $queryOutput = $this->drawQueryResult($queryResult);
 
         $template->assign('query_result', $queryOutput);
     }

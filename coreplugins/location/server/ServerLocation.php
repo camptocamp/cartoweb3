@@ -318,6 +318,10 @@ class RecenterLocationCalculator extends LocationCalculator {
                 "connection type: $msLayer->connectiontype");
     }
 
+    private function decodeIds($ids) {
+        return array_map('utf8_decode', $ids);
+    }
+
     private function getIdSelectionBbox(IdSelection $idSelection) {
 
         $serverContext = $this->locationPlugin->getServerContext();
@@ -343,11 +347,12 @@ class RecenterLocationCalculator extends LocationCalculator {
         $queryStringFunction = ($this->isDatabaseLayer($msLayer)) ?
             'databaseQueryString' : 'genericQueryString';
 
+        $ids = $this->decodeIds($idSelection->selectedIds);
+
         // FIXME: can shapefiles support queryString for multiple id's ?
         //  if yes, then improve this handling. 
 
-        $queryString = $this->$queryStringFunction($idAttribute, $idType, 
-                                                $idSelection->selectedIds);
+        $queryString = $this->$queryStringFunction($idAttribute, $idType, $ids); 
         $bboxes = array();
         foreach($queryString as $query) {
             $bbox = $this->queryLayerByAttributes($msLayer, $idAttribute, $query);

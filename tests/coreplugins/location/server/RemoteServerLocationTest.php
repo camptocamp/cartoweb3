@@ -319,7 +319,7 @@ class coreplugins_location_server_RemoteServerLocationTest
         
         $idSelection = new IdSelection();
         $idSelection->layerId = 'some_rectangles'; 
-        $idSelection->selectedIds = array('one', 'two');
+        $idSelection->selectedIds = array('onë', 'twò');
         $idSelections[] = $idSelection;
         $this->doTestRecenterLocationRequest($idSelections, 
                                       new Bbox(0.300031536463, 51.5847270619,

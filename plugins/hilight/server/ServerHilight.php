@@ -23,6 +23,10 @@ class ServerHilight extends ServerPlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    private function decodeId($id) {
+        return utf8_decode($id);   
+    }
+
     /**
      * Build a mapserver expression string.
      * 
@@ -59,9 +63,11 @@ class ServerHilight extends ServerPlugin {
             throw new CartoserverException("no idAttributeString declared in ini config " .
                 "or metadata, for layer $requ->layerId");
         
-        foreach ($ids as $id)
+        foreach ($ids as $id) {
+            $id = $this->decodeId($id);
             $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
-            
+        }
+        
         $result = sprintf('(%s)', implode($bool_op, $id_exprs));
         if (count($id_exprs) == 0 && !$select) {
             // mask mode, nothing selected, so everything must be masked
