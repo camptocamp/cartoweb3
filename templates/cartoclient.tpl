@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
-  {if $query_result || $selection_result|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=query}query.css{/r}" />{/if}
+  <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   <meta name="author" content="Sylvain Pasche" />
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
   <title>{t}Cartoclient Title{/t}</title>

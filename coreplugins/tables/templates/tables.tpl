@@ -3,7 +3,7 @@
 {foreach from=$group->tables item=table}
 {if $table->numRows > 0}
 <p>
-<table class="queryres">
+<table class="cw3table">
     <caption>{t}{$table->tableTitle}{/t}</caption>
     <tr>
       {if !$table->noRowId}<th>{t}Id{/t}</th>{/if}

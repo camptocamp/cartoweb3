@@ -1,0 +1,4 @@
+.cw3table {border-collapse: collapse;}
+.cw3table caption {background-color:#ccc;padding:3px;color:white;font-weight:bold;}
+.cw3table td, .queryres th {padding:5px;border:1px solid #ccc;text-align:center;}
+.exportlink {margin-bottom:10px;}
