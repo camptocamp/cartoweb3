@@ -6,7 +6,7 @@ general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, test, test2, queryResult, page
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
@@ -91,25 +91,6 @@ blocks.note.verticalBasis = bottom
 blocks.note.borderWidth = 0;
 blocks.note.multiPage = true
 
-blocks.test.zIndex = 1
-blocks.test.weight = 20
-blocks.test.content = "text for testing"
-blocks.test.backgroundColor = white
-blocks.test.color = black
-blocks.test.fontItalic = true
-blocks.test.fontFamily = arial
-blocks.test.fontUnderline = true
-blocks.test.borderWidth = 0.5
-blocks.test.borderColor = #ff0000
-blocks.test.height = 7
-blocks.test.parent = mainmap
-
-blocks.test2.zIndex = 1
-blocks.test2.weight = 30
-blocks.test2.content = "Another text for testing"
-blocks.test2.backgroundColor = #ffdddd
-blocks.test2.color = #00ff00
-
 blocks.copyright.content = "Cartoweb by Camptocamp SA"
 blocks.copyright.height = 8
 blocks.copyright.verticalBasis = bottom
@@ -125,13 +106,11 @@ blocks.queryResult.inNewPage = true
 blocks.queryResult.caption = tableCaption
 blocks.queryResult.headers = tableHeaders
 blocks.queryResult.height = 15
-blocks.queryResult.verticalMargin = 40
-blocks.queryResult.horizontalMargin = 100
+blocks.queryResult.verticalMargin = 10
+blocks.queryResult.hCentered = true
 
 blocks.tableCaption.backgroundColor = #ff0000
 blocks.tableCaption.color = white
-blocks.tableCaption.content = "Test de tableau"
-;blocks.tableCaption.textAlign = right
 blocks.tableCaption.height = 20
 
 blocks.tableHeaders.backgroundColor = #ffaaaa
