@@ -44,18 +44,20 @@ abstract class SecurityContainer {
 class SecurityManager {
 
     /**
-     * @var SecurityContainer current security container
+     * Current security container
+     * @var SecurityContainer
      */
     private $securityContainer;
     
     /**
-     * @var string the current authenticated username, or empty of none.
+     * The current authenticated username, or empty of none.
+     * @var string
      */
     private $username = '';
 
     /**
-     * @var array the list of roles associated to the current authenticated
-     * user.
+     * The list of roles associated to the current authenticated user.
+     * @var array
      */
     private $roles;
 
@@ -67,7 +69,8 @@ class SecurityManager {
     const LOGGED_IN_ROLE = 'loggedIn';
 
     /**
-     * @var SecurityManager singleton
+     * Singleton
+     * @var SecurityManager
      */
     private static $instance;
 

@@ -18,12 +18,14 @@ require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
 class IniSecurityContainer extends SecurityContainer {
 
     /**
-     * @var array the map of usernames => passwords
+     * The map of usernames => passwords
+     * @var array
      */
     private $passwordsMap = array();
     
     /**
-     * @var array the map of usernames => roles
+     * The map of usernames => roles
+     * @var array
      */
     private $roleMap;
 
@@ -74,8 +76,9 @@ class IniSecurityContainer extends SecurityContainer {
 class ProxyAuthContainer extends Auth_Container {
     
     /**
-     * @var SecurityManager current security manager where username/password
-     * authentification request are proxied.
+     * Current security manager where username/password authentification 
+     * request are proxied.
+     * @var SecurityManager
      */
     private $securityManager;
     
@@ -102,12 +105,14 @@ class ProxyAuthContainer extends Auth_Container {
 class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     
     /**
-     * @var Auth Pear::Auth object for managing the authentication
+     * Pear::Auth object for managing the authentication
+     * @var Auth
      */
     private $auth;
  
     /**
-     * @var boolean true to store the fact that the user authentication failed.
+     * True to store the fact that the user authentication failed.
+     * @var boolean
      */
     private $loginFailed;
  

@@ -30,7 +30,8 @@ class MapResultCache {
     private $mapResultFile;
 
     /**
-     * @var boolean True if the the last mapResult should not be cached.
+     * True if the the last mapResult should not be cached.
+     * @var boolean
      */
     private $skipCaching = false;
 

@@ -331,20 +331,23 @@ class MapInfo extends Serializable {
     public $autoClassLegend;
     
     /**
-     * @var string icon to show when layer not available (current scale is above
-     * or below this layer max scale)
+     * Icon to show when layer not available (current scale is above or below 
+     * this layer max scale)
+     * @var string
      */
     public $notAvailableIcon;
     
     /**
-     * @var string icon to show when layer not available (current scale is above
-     * this layer max scale)
+     * Icon to show when layer not available (current scale is above this 
+     * layer max scale)
+     * @var string
      */
     public $notAvailablePlusIcon;
 
     /**
-     * @var string icon to show when layer not available (current scale is below
-     * this layer max scale)
+     * Icon to show when layer not available (current scale is below this 
+     * layer max scale)
+     * @var string
      */
     public $notAvailableMinusIcon;
 

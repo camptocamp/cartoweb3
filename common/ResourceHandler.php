@@ -13,8 +13,8 @@
  */
 abstract class UrlProvider {
     /**
-     * @var ProjectHandler the project handler to use for getting current
-     * project name
+     * The project handler to use for getting current project name
+     * @var ProjectHandler
      */
     protected $projectHandler;
 
@@ -168,22 +168,26 @@ class MiniproxyUrlProvider extends UrlProvider {
  */
 class ResourceHandler {
     /**
-     * @var UrlProvider the current URL provider to use for generating URL's
+     * The current URL provider to use for generating URL's
+     * @var UrlProvider
      */
     private $urlProvider;
     
     /**
-     * @var boolean true if the client is in direct access mode.
+     * True if the client is in direct access mode.
+     * @var boolean
      */
     private $directAccess;
     
     /**
-     * @var string the URL to the cartoclient base
+     * The URL to the cartoclient base
+     * @var string
      */
     private $cartoclientBaseUrl;
 
     /**
-     * @var string the URL to the cartoserver base.
+     * The URL to the cartoserver base.
+     * @var string
      */
     private $cartoserverBaseUrl;
 

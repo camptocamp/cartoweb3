@@ -21,26 +21,30 @@ class Message extends Serializable {
     const CHANNEL_DEVELOPER = 2;
     
     /**
-     * @var string The name of the plugin generation this message, or null if
-     * not created from a plugin
+     * The name of the plugin generation this message, or null if not created 
+     * from a plugin
+     * @var string 
      */
     public $plugin;
     
     /**
-     * @var string Optional message identifier for machine parsing of messages.
-     * For instance, a message labeled "Too many results found", can have a 
+     * Optional message identifier for machine parsing of messages. For 
+     * instance, a message labeled "Too many results found", can have a 
      * message identifier name "tooManyResults"
+     * @var string
      */
     public $messageId;
 
     /**
-     * @var string The text of the message to show to the user.
+     * The text of the message to show to the user.
+     * @var string
      */
     public $message;
     
     /**
-     * @var int The channel identifier of this message. See the constants named
+     * The channel identifier of this message. See the constants named
      * CHANNEL_... .
+     * @var int
      */
     public $channel;
 

@@ -18,11 +18,13 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 class Dimension extends Serializable {
 
     /**
+     * Width of the image
      * @var int
      */
     public $width;
 
     /**
+     * Height of the image
      * @var int
      */
     public $height;

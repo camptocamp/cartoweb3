@@ -264,8 +264,9 @@ class Cartoclient {
     private $messages = array();
 
     /**
-     * @var boolean When true, the cartoweb flow of operation will be
-     * interrupted and the html will be displayed.
+     * When true, the cartoweb flow of operation will be interrupted and the 
+     * html will be displayed.
+     * @var boolean
      */
     private $interruptFlow = false;
 
