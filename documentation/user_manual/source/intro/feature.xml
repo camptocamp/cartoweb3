@@ -87,7 +87,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_all.jpg" format="JPEG"/>
+          <imagedata fileref="images/screen_all.jpg" format="JPEG"/>
         </imageobject>
         <textobject>
           <phrase>Overall</phrase>
@@ -173,7 +173,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_tree.png" format="PNG"/>
+          <imagedata fileref="images/screen_tree.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Layers tree</phrase>
@@ -201,7 +201,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_query.png" format="PNG"/>
+          <imagedata fileref="images/screen_query.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Query example</phrase>
@@ -220,7 +220,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_outline.png" format="PNG"/>
+          <imagedata fileref="images/screen_outline.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Redlining example</phrase>
@@ -237,7 +237,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_measuringtools.png" format="PNG"/>
+          <imagedata fileref="images/screen_measuringtools.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Measuring tools</phrase>
@@ -256,7 +256,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_i18n.png" format="PNG"/>
+          <imagedata fileref="images/screen_i18n.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Internationalization</phrase>
@@ -299,7 +299,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_printdialog.png" format="PNG"/>
+          <imagedata fileref="images/screen_printdialog.png" format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>Print dialog</phrase>
