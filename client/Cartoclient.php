@@ -199,7 +199,7 @@ class ClientSession {
      * Last result received from server (useful for export, see
      * {@see ExportPlugin::getExport()})
      */
-     public $lastMapResult;
+    public $lastMapResult;
 }
 
 /**
@@ -611,15 +611,7 @@ class Cartoclient {
         $this->getMapInfoCache()->checkMapInfoTimestamp($mapResult->timestamp);
         return $mapResult;        
     }
-    
-    /**
-     * Returns true if the request being handled should be treated as a POST
-     * request, or false if as GET request.
-     */
-    private function isRequestPost() {
-        return isset($_REQUEST['posted']) && $_REQUEST['posted'] != '0';
-    }
-    
+        
     /**
      * Tells the Cartoclient that the normal control flow has to be interrupted.
      * When true, the server will not be called, and the final template drawing
@@ -666,20 +658,22 @@ class Cartoclient {
      */
     private function doMain() {
 
-        if ($this->isRequestPost()) {
+        if (isset($_REQUEST['posted'])) {        
+            if ($_REQUEST['posted'] != '0') {
         
-            // Maps clicks cannot be modified by filters
-            $this->cartoForm = 
-                $this->httpRequestHandler->handleHttpRequest(
-                                                    $this->clientSession,
-                                                    $this->cartoForm);
+                // Maps clicks cannot be modified by filters
+                $this->cartoForm = 
+                    $this->httpRequestHandler->handleHttpRequest(
+                                                        $this->clientSession,
+                                                        $this->cartoForm);
 
-            $request = new FilterRequestModifier($_REQUEST);
-            $this->callPluginsImplementing('FilterProvider',
-                                           'filterPostRequest', $request);
-            $this->callPluginsImplementing('GuiProvider', 
-                                           'handleHttpPostRequest',
-                                           $request->getRequest());
+                $request = new FilterRequestModifier($_REQUEST);
+                $this->callPluginsImplementing('FilterProvider',
+                                               'filterPostRequest', $request);
+                $this->callPluginsImplementing('GuiProvider', 
+                                               'handleHttpPostRequest',
+                                               $request->getRequest());
+            }
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
