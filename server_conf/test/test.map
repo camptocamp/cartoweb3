@@ -239,6 +239,8 @@ MAP
     END
     MINSCALE 1
     MAXSCALE 20
+    TOLERANCE 5
+    TOLERANCEUNITS pixels
   END
 
   LAYER
@@ -276,6 +278,14 @@ MAP
         SYMBOL 1
         SIZE 15
       END
+      LABEL
+        ANTIALIAS true
+        FONT Vera
+        TYPE truetype
+        COLOR 51 51 51
+        SIZE 10
+        POSITION ur
+      END
     END
   END
 
@@ -293,6 +303,14 @@ MAP
         OUTLINECOLOR 0 0 204
         SYMBOL 1
         SIZE 1
+      END
+      LABEL
+        ANGLE auto
+        ANTIALIAS true
+        FONT Vera
+        TYPE truetype
+        COLOR 255 51 51
+        SIZE 10
       END
     END
   END
@@ -312,6 +330,13 @@ MAP
         OUTLINECOLOR 0 0 204
         SYMBOL 1
         SIZE 1
+      END
+      LABEL
+        ANTIALIAS true
+        FONT Vera
+        TYPE truetype
+        COLOR 51 51 51
+        SIZE 10
       END
     END
   END
