@@ -101,33 +101,6 @@
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true" />
 
-  <div id="leftbar">    
-
-  {if $keymap_path|default:''}
-  <div id="keymap"><img src="{$keymap_path}" 
-  alt="{$keymap_alt}" width="{$keymap_width}" height="{$keymap_height}" title="" /></div>
-  {/if}
-
-  {$layers}
-
-  <p>
-    <input type="submit" name="refresh" value="refresh" class="form_button" /><br />
-    <input type="submit" name="reset_session" value="reset_session" class="form_button" />
-  </p>
-
-  {if $hello_active|default:''}
-  <p>Hello plugin test: <br />
-  {$hello_message} <br/ >
-  <input type="text" name="hello_input" /></p>
-  {/if}
-
-  {if $outliner_active|default:''}
-  <p>Outliner plugin:</p>
-  <p>{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}</p>
-  {/if}
-
-  </div>
-
   <div id="content">
 
   <p>
@@ -189,6 +162,33 @@ ClientContext:
   <p>&copy; <a href="http://camptocamp.com/" target="_blank">Camptocamp SA</a> -
   <a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
   
+  </div>
+
+  <div id="leftbar">    
+
+  {if $keymap_path|default:''}
+  <div id="keymap"><img src="{$keymap_path}" 
+  alt="{$keymap_alt}" width="{$keymap_width}" height="{$keymap_height}" title="" /></div>
+  {/if}
+
+  {$layers}
+
+  <p>
+    <input type="submit" name="refresh" value="refresh" class="form_button" /><br />
+    <input type="submit" name="reset_session" value="reset_session" class="form_button" />
+  </p>
+
+  {if $hello_active|default:''}
+  <p>Hello plugin test: <br />
+  {$hello_message} <br/ >
+  <input type="text" name="hello_input" /></p>
+  {/if}
+
+  {if $outliner_active|default:''}
+  <p>Outliner plugin:</p>
+  <p>{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}</p>
+  {/if}
+
   </div>
 
 </form>
