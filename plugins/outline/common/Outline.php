@@ -40,11 +40,19 @@ class OutlineRequest extends Serializable {
     public $maskMode;
     
     /**
+     * If true, will ask for a label text
+     * @var boolean
+     */
+    public $labelMode;
+    
+    /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->shapes   = self::unserializeObjectMap($struct, 'shapes');
         $this->maskMode = self::unserializeValue($struct, 'maskMode', 
+                                                 'boolean');
+        $this->labelMode = self::unserializeValue($struct, 'labelMode', 
                                                  'boolean');
     }    
 }

@@ -69,7 +69,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsMapObj Mapserver Map object
      * @param Point
      */
-    private function drawPoint($msMapObj, $point) {
+    private function drawPoint($msMapObj, $point, $labelMode) {
         $layerName = $this->getConfig()->pointLayer;
         if (!$layerName) {
             $layerName = $this->getConfig()->polygonLayer;
@@ -85,7 +85,9 @@ class ServerOutline extends ClientResponderAdapter {
         $p = ms_newShapeObj(MS_SHAPE_POLYGON);
         $p->add($line);
         // TODO verify LABEL object is set in mapfile for the layer
-        $p->set('text',$point->label);
+        if ($labelMode) {
+            $p->set('text',$point->label);
+        }
 
         $outlineLayer->set('status', MS_ON);
         $class->set('status', MS_ON);
@@ -100,7 +102,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsMapObj Mapserver Map object
      * @param line
      */
-    private function drawLine($msMapObj, $line) {
+        private function drawLine($msMapObj, $line, $labelMode) {
           
         $points = array();       
 
@@ -120,7 +122,9 @@ class ServerOutline extends ClientResponderAdapter {
         $p = ms_newShapeObj(MS_SHAPE_LINE);
         $p->add($dLine);
         // TODO verify LABEL object is set in mapfile for the layer
-        $p->set('text',$line->label);
+        if ($labelMode) {
+            $p->set('text',$line->label);
+        }
         
         $outlineLayer->addFeature($p);
                 
@@ -134,7 +138,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param Rectangle
      * @param boolean mask mode on/off
      */
-    private function drawRectangle($msMapObj, $rectangle, $maskMode) {
+    private function drawRectangle($msMapObj, $rectangle, $labelMode, $maskMode) {
         $points = array();       
         $points[] = new Point($rectangle->minx, $rectangle->miny);
         $points[] = new Point($rectangle->minx, $rectangle->maxy);
@@ -145,7 +149,7 @@ class ServerOutline extends ClientResponderAdapter {
         $polygon->points = $points;
         $polygon->label = $rectangle->label;
         
-        $this->drawPolygon($msMapObj, $polygon, $maskMode);
+        $this->drawPolygon($msMapObj, $polygon, $labelMode, $maskMode);
     }
 
     /**
@@ -181,7 +185,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param Polygon
      * @param boolean mask mode on/off
      */
-    private function drawPolygon($msMapObj, $polygon, $maskMode) {
+    private function drawPolygon($msMapObj, $polygon, $labelMode, $maskMode) {
 
         if (!$maskMode) { 
             $outlineLayer = $this->getLayer($msMapObj, 
@@ -193,7 +197,9 @@ class ServerOutline extends ClientResponderAdapter {
 
             $p = $this->convertPolygon($polygon);
             // TODO verify LABEL object is set in mapfile for the layer
-            $p->set('text',$polygon->label);
+            if ($labelMode) {
+                $p->set('text',$polygon->label);
+            }
             $outlineLayer->addFeature($p);            
         } else {
         
@@ -224,7 +230,9 @@ class ServerOutline extends ClientResponderAdapter {
             $p = $this->convertPolygon($polygon);
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
             // TODO verify LABEL object is set in mapfile for the layer
-            $p->set('text',$polygon->label);
+            if ($labelMode) {
+                $p->set('text',$point->label);
+            }
                        
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
                                                                   0xff0000);
@@ -252,7 +260,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param boolean mask mode
      * @return double area
      */
-    public function draw($shapes, $maskMode = false) {
+    public function draw($shapes, $maskMode = false, $labelMode = false) {
     
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -265,16 +273,16 @@ class ServerOutline extends ClientResponderAdapter {
         foreach ($shapes as $shape) {
             switch (get_class($shape)) {
             case 'Point':
-                $this->drawPoint($msMapObj, $shape, $maskMode);
+                $this->drawPoint($msMapObj, $shape, $labelMode, $maskMode);
                 break;
             case 'Line':
-                $this->drawLine($msMapObj, $shape, $maskMode);
+                $this->drawLine($msMapObj, $shape, $labelMode, $maskMode);
                 break;
             case 'Rectangle':
-                $this->drawRectangle($msMapObj, $shape, $maskMode);
+                $this->drawRectangle($msMapObj, $shape, $labelMode, $maskMode);
                 break;
             case 'Polygon':
-                $this->drawPolygon($msMapObj, $shape, $maskMode);
+                $this->drawPolygon($msMapObj, $shape, $labelMode, $maskMode);
                 break;
             default:
                 throw new CartoserverException('unknown shape type ' . 
@@ -304,7 +312,8 @@ class ServerOutline extends ClientResponderAdapter {
      * @return OutlineResult
      */
     public function handleDrawing($requ) {
-        $area = $this->draw($requ->shapes, $requ->maskMode);
+        
+        $area = $this->draw($requ->shapes, $requ->maskMode, $requ->labelMode);
         
         $result = new OutlineResult();
         $result->area = $area;
