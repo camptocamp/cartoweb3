@@ -356,8 +356,16 @@ class ClientLocation extends ClientPlugin
         $layersInit = $this->cartoclient->getMapInfo()->layersInit;
         $layersId = array();
         $layersLabel = array();
+        $idRecenterLayersStr = $this->getConfig()->idRecenterLayers;
+        if (!empty($idRecenterLayersStr)) {
+            $idRecenterLayers = explode(',', $idRecenterLayersStr);
+            $idRecenterLayers = array_map('trim', $idRecenterLayers);
+        }
         foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)
+                continue;
+            if (!empty($idRecenterLayers) && 
+                !in_array($layer->id, $idRecenterLayers))
                 continue;
             $layersId[] = $layer->id; 
             $layersLabel[] = I18n::gt($layer->label); 
