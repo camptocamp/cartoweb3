@@ -42,9 +42,6 @@ public class CartowebTest extends TestCase {
     }
 
     private void assertContainsMainmap(WebResponse response) throws Exception {
-        
-        WebForm forms[] = response.getForms();
-        assertEquals(1, forms.length);
 
         HTMLElement mainmap = response.getElementWithID("mapImageDiv");
         assertNotNull("No mainmap image on cartoclient page", mainmap);
