@@ -1,5 +1,7 @@
 <!-- TODO: css and cosmetics -->
 
+<h1>Results: </h1>
+
 <table>
 
 {foreach from=$layer_results item=layer_result}
