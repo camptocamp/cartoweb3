@@ -32,7 +32,7 @@ soft_clean:
 	-find www-data -type f|xargs -r rm
 	-rm -f templates_c/*
 
-clean: wwwdata_clean
+clean: soft_clean
 	find -name "*~" -type f -exec  rm {} \;
 	rm -f templates_c/*
 	find -type l -exec rm {} \;
