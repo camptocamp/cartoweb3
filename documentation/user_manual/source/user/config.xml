@@ -7,7 +7,14 @@
 <!-- $Id$ -->
 <chapter id="user.config">
   <title>Configuration Files</title>
-  <para>TODO: short intro</para>
+  <para>When installing Cartoweb, the administrator of the application
+   may want to adapt it to the environnement use. This can be easily done
+   using configuration parameters.</para>
+  <para>Some are required and Cartoweb won't correctly work if they're
+   not set. Others are optional but could hardly change the application
+   behavior.</para>
+  <para>You'll also find specific config parameters in the plugins
+   related chapters of this documentation.</para>
   <sect1 id="user.config.common">
     <title>Common <filename>client.ini</filename> and 
       <filename>server.ini</filename> Options</title>
