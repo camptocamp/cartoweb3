@@ -12,6 +12,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All coreplugins tests
  */
+require_once 'coreplugins/location/server/ServerLocationTest.php';
 require_once 'coreplugins/location/server/RemoteServerLocationTest.php';
 require_once 'coreplugins/query/server/RemoteServerQueryTest.php';
 
@@ -25,6 +26,7 @@ class coreplugins_AllTests {
     
         $suite = new PHPUnit2_Framework_TestSuite;
 
+        $suite->addTestSuite('coreplugins_location_server_ServerLocationTest');
         $suite->addTestSuite('coreplugins_location_server_RemoteServerLocationTest');
         $suite->addTestSuite('coreplugins_query_server_RemoteServerQueryTest');
 

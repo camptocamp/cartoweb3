@@ -7,7 +7,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'common/GeographicalAssert.php';
 
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
@@ -20,7 +20,7 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
  * @package Tests
  * @author      Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
+class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
     private function getCartoserverUrl() {
      
@@ -32,7 +32,7 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
 
         $config = new stdClass();
         $config->mapId = 'test';
-        $config->developerMode = true;
+        $config->developerMode = false;
         $config->cartoserverUrl = $this->getCartoserverUrl();        
         $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
         $this->assertNotNull($config->cartoserverUrl, 'You need to set cartoserverUrl in client.ini');
