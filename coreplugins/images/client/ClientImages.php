@@ -72,13 +72,20 @@ class ClientImages extends ClientCorePlugin {
     }
 
     private function setMapDimensions(&$mapWidth, &$mapHeight) {
-        $mapSizes = $this->getMapSizes();
-        if (isset($mapSizes[$this->imagesState->selectedSize])) {
-            $mapSize =& $mapSizes[$this->imagesState->selectedSize];
-            $mapWidth = $mapSize['width'];
-            $mapHeight = $mapSize['height'];
+        if ($this->getConfig()->mapSizesActive) {
+            $mapSizes = $this->getMapSizes();
+            if (isset($mapSizes[$this->imagesState->selectedSize])) {
+                $mapSize =& $mapSizes[$this->imagesState->selectedSize];
+                $mapWidth = $mapSize['width'];
+                $mapHeight = $mapSize['height'];
+            }
+        } else {
+            $mapWidth = $this->getConfig()->mapWidth;
+            $mapHeight = $this->getConfig()->mapHeight;
         }
-        if (!isset($mapWidth) || !$mapWidth) $mapWidth = self::DEF_MAP_WIDTH;
+        
+        if (!isset($mapWidth) || !$mapWidth)
+            $mapWidth = self::DEF_MAP_WIDTH;
         if (!isset($mapHeight) || !$mapHeight) 
             $mapHeight = self::DEF_MAP_HEIGHT;
     }
