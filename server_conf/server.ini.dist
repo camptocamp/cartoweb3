@@ -1,3 +1,10 @@
 ; cartoserver configuration file
 
+; path where cartoserver generated images can be accessed
+;imageUrl = "/path/to/images/"
 
+; The url of the reverse proxy, if used
+;reverseProxyUrl = http://host/proxy/address
+
+; if set to false, www-data is not accessible by the webserver
+;wwwDataAccessible = false
