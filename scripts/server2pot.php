@@ -13,10 +13,43 @@
  */
 
 /**
- * Cartoclient home dir
+ * Home dir
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
+
+require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
+
+function getCharset($project) {
+    
+    $class = null;
+    $iniFile = CARTOSERVER_HOME;
+    $projectIniFile = CARTOSERVER_HOME;
+    if ($project != '') {
+        $projectIniFile .= 'projects/' . $project. '/';
+    }
+    $iniFile .= 'server_conf/server.ini';
+    $projectIniFile .= 'server_conf/server.ini';
+    if (file_exists($projectIniFile)) {
+        $iniArray = parse_ini_file($projectIniFile);
+        if (array_key_exists('EncoderClass.config', $iniArray)) {
+            $class = $iniArray['EncoderClass.config'];
+        }
+    }
+    if (is_null($class) && $iniFile != $projectIniFile
+                          && file_exists($iniFile)) {
+        $iniArray = parse_ini_file($iniFile);
+        if (array_key_exists('EncoderClass.config', $iniArray)) {
+            $class = $iniArray['EncoderClass.config'];
+        }
+    }
+    if (is_null($class)) {
+        $class = 'EncoderUTF';
+    }
+    $obj = new $class;
+    return $obj->getCharset();
+}
 
 function parseIni($project, $mapId, &$texts) {
 
@@ -190,7 +223,8 @@ foreach ($projects as $project) {
         fwrite($fh, 'msgstr ""' . "\n");
         fwrite($fh, '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"' . "\n");
         fwrite($fh, '"MIME-Version: 1.0\n"' . "\n");
-        fwrite($fh, '"Content-Type: text/plain; charset=ISO-8859-1\n"' . "\n");
+        fwrite($fh, '"Content-Type: text/plain; charset=' . 
+                                        getCharset($project) . '\n"' . "\n");
         fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
 
         foreach ($texts as $text => $files) {
