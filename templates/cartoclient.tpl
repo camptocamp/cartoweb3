@@ -197,13 +197,11 @@ ClientContext:
    {$auth}
    {/if}
 
-</form>
-
 {if $exportPdf|default:''}
 <div id="folder3" class="folder">
 {$exportPdf}
 </div>
 {/if}
-
+</form>
 </body>
 </html>
