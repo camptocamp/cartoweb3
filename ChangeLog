@@ -1,6 +1,13 @@
+2004-10-01  Yves Bolognini <yves.bolognini@camptocamp.com>
+
+        * added unit tests framework (PHPUnit2)
+        * new unserialization
+        * added doc generator (PhpDocumentor)
+
 2004-09-28  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
-		* added hilight and selection plugins
-		* query plugin for SOAP mode
+
+        * added hilight and selection plugins
+        * query plugin for SOAP mode
 
 2004-09-16  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
 
