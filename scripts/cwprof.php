@@ -174,10 +174,7 @@ function parseFile($fileName) {
     if( !count($symbol_hash)) {
         continue;
     }
-    
-    // is caller server ?
-    $server = strpos($cfg['caller'], 'server.php');
-    
+   
     /*
     printf("
     Trace for %s
@@ -199,6 +196,8 @@ function parseFile($fileName) {
     $ms_time = 0;
     $ms_new = 0;
     $getMap = 0;
+    //time elapsed in Cartoclient
+    $client = 0;
     
     uksort($symbol_hash, $sort);
     foreach (array_keys($symbol_hash) as $j) {
@@ -301,13 +300,15 @@ function parseFile($fileName) {
             $ms_time += $rsecs;
         } elseif ($name == 'SoapClient->getMap') {
             $getMap += $rsecs;
+        } elseif (substr($name, 0, 11) == 'Cartoclient') {
+            $client += $rsecs;
         }
         //printf("%3.01f %2.02f %2.02f  %2.02f %2.02f  %2.02f %2.02f  %4d  %2.04f   %2.04f %12d %s\n", $pcnt, $rsecs, $c_rsecs, $usecs, $c_usecs, $ssecs, $c_ssecs, $ncalls, $percall, $cpercall, $mem_usage, $name);
-        }
+        }       
     }
     
     $result = array();
-    if ($server) {
+    if ($client == 0.0) {
         $result['type']    = 'server';
         $result['client']  = NULL;
         $result['server']  = round($rtotal / 1000);
