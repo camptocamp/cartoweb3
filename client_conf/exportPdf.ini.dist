@@ -116,27 +116,19 @@ blocks.table.type = table
 blocks.table.inNewPage = true
 blocks.table.caption = tableCaption
 blocks.table.headers = tableHeaders2
-blocks.table.hCentered = true;
+blocks.table.hCentered = true
 blocks.table.verticalMargin = 220
 blocks.table.height = 10
 
 blocks.tableCaption.backgroundColor = #ff0000
 blocks.tableCaption.color = white
-blocks.tableCaption.content = "Table test"
 blocks.tableCaption.height = 15
 
 blocks.tableHeaders.backgroundColor = #ffaaaa
 blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff
 
-blocks.tableHeaders2.backgroundColor = #ffaaaa
-blocks.tableHeaders2.fontBold = true
-blocks.tableHeaders2.color = #eeffee
-blocks.tableHeaders2.content = column 1, column B, column III
-blocks.tableHeaders2.height = 15
-
 blocks.legend.type = legend
-;blocks.legend.parent = mainmap
 blocks.legend.zIndex = 1
 blocks.legend.weight = 40
 blocks.legend.fontSize = 8
@@ -145,7 +137,7 @@ blocks.legend.width = 50
 blocks.legend.padding = 1.5
 blocks.legend.verticalMargin = 10
 blocks.legend.horizontalMargin = 10
-blocks.legend.content = "!nix"
+;blocks.legend.content = "!nix"
 
 blocks.page.multiPage = true
 blocks.page.borderWidth = 0
