@@ -12,14 +12,18 @@ base policy
   launch a script, edit few options, and be ready to use the application with
   the built-in data set (see test mapfile).
   
- * test infrastructure: TBD
+ * Developers should absolutely set the following variables to true in their config :
+
+   showDevelMessages = true
+   developerIniConfig = true
+
+ * You should add unit tests for every new features you add
  
- * develop with notices enabled !!. Put this in your php.ini:
-   
-   display_errors = On
-   error_reporting  =  E_ALL
-  
+ * all features should be available on the test mapfile, and visible by default 
+
  * Code should produce no notices before going to cvs. Code should pass all tests
+
+ launch htdocs/runtests.php
  
  * Avoid nesting blocks too deep:
  
