@@ -117,7 +117,7 @@ if ($projectName != '') {
 }
 if (is_dir($dir)) {
     
-    $fileName = 'default.pot';
+    $fileName = 'default.po';
     if ($projectName != '') {
         $fileName = $projectName . '.po';
     }
