@@ -47,11 +47,11 @@ class ServerLayers extends ServerPlugin
         
         if (!is_array($layerIds)) {
             throw new CartoclientException('Invalid layer request: ' .
-            'layerIds not array');
+                                           'layerIds not array');
             return;
         }
 
-        $this->log->debug("layers to draw: ");
+        $this->log->debug('layers to draw: ');
         $this->log->debug($layerIds);
       
         // disable all layers
