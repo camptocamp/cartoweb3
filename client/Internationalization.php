@@ -4,19 +4,30 @@
  * @version $Id$
  */
 
+/**
+ * Translator selection
+ *
+ * The translator is selected using client.ini's I18nClass 
+ * 
+ * @package Client
+ */
 class I18n {
     
     const DEFAULT_PROJECT_DOMAIN = 'default';
+    
+    static private $i18n;
     
     /**
      * Initializes locales
      */
     static function init($config) {
+    
+        self::$i18n = new $config->I18nClass;
+        
         self::setLocale();
         
-        bindtextdomain(I18n::DEFAULT_PROJECT_DOMAIN, CARTOCLIENT_HOME . 'locale/');
-
-        bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
+        self::$i18n->bindtextdomain(I18n::DEFAULT_PROJECT_DOMAIN, CARTOCLIENT_HOME . 'locale/');
+        self::$i18n->bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
     }
 
     /**
@@ -27,17 +38,95 @@ class I18n {
         setlocale(LC_MESSAGES, 'fr_CH');
     }
     
+    static function bindtextdomain($domain, $path) {
+        return self::$i18n->bindtextdomain($domain, $path);
+    }
+
+    static function textdomain($domain) {
+        return self::$i18n->textdomain($domain);
+    }
+    
+    static function gt($text) {
+        return self::$i18n->gettext($text);
+    }
+    
+    static function ngt($text, $plural, $count) {
+        return self::$i18n->ngettext($text, $plural, $count);
+    }
+}
+
+/**
+ * Translator interface
+ *
+ * @package Client
+ */
+interface I18nInterface {
+
+    /**
+     * Wrapper for function bindtextdomain
+     */ 
+    function bindtextdomain($domain, $path);
+    
+    /**
+     * Wrapper for function textdomain
+     */ 
+    function textdomain($domain);
+    
     /**
      * Wrapper for function gettext
      */
-    static function gt($text) {
-        return gettext($text);
-    }
-    
+    static function gettext($text);
+
     /** 
      * Wrapper for function ngettext
      */  
-    static function ngt($text, $plural, $count) {
+    static function ngettext($text, $plural, $count);
+}
+
+/**
+ * Dummy translator (does nothing)
+ *
+ * @package Client
+ */
+class I18nDummy implements I18nInterface {
+
+    function bindtextdomain($domain, $path) {
+    }
+    
+    function textdomain($domain) {
+    }
+    
+    static function gettext($text) {
+        return $text;
+    }
+    
+    static function ngettext($text, $plural, $count) {
+        return $text;
+    }
+}
+
+/**
+ * Gettext translator
+ *
+ * Needs gettext installed in PHP
+ *
+ * @package Client
+ */
+class I18nGettext implements I18nInterface {
+
+    function bindtextdomain($domain, $path) {
+        bindtextdomain($domain, $path);
+    }
+    
+    function textdomain($domain) {
+        textdomain($domain);
+    }
+    
+    static function gettext($text) {
+        return gettext($text);
+    }
+    
+    static function ngettext($text, $plural, $count) {
         return ngettext($text, $plural, $count);
     }
 }

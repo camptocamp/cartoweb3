@@ -243,7 +243,7 @@ class ClientLayers extends ClientCorePlugin {
 
         // Change gettext domain
         $cartoclient = $this->getCartoclient();
-        textdomain($cartoclient->getConfig()->mapId);
+        I18n::textdomain($cartoclient->getConfig()->mapId);
 
         $layersOutput = $this->drawLayersList();
         $template->assign('layers', $layersOutput);

@@ -41,3 +41,8 @@ localPlugins = myLocal
 smartyCaching = false
 smartyCompileCheck = true
 smartyDebugging = false
+
+### Internationalization ###
+
+# I18n class, use I18nGettext for gettext
+I18nClass = I18nDummy
