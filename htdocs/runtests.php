@@ -1,11 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
+<title>CartoWeb3 Unit Tests Results</title>
 <style type="text/css">
 
 #failure {
      background-color:red; 
      color: white; 
      font-size: xx-large; 
-     height: 300; 
+     height: 300px; 
      text-align: center;
 }
 
@@ -13,7 +18,7 @@
      background-color:green; 
      color: white; 
      font-size: xx-large; 
-     height: 300; 
+     height: 300px; 
      text-align: center;
 }
 
@@ -21,12 +26,14 @@
      background-color:yellow; 
      color: black; 
      font-size: xx-large; 
-     height: 100; 
+     height: 100px; 
      text-align: center;
 }
 
 </style>
 </head>
+
+<body>
 <pre>
 <?php 
 /**
@@ -81,16 +88,20 @@ $testRunner->runTests($testSuite);
 
 $success = $testRunner->wasSuccessful();
 
+echo "</pre>\n";
+
 if ($success)
-    echo "<div id='success'>SUCCESS</div>";
+    echo '<div id="success">SUCCESS</div>';
 else
-    echo "<div id='failure'>FAILURE</div>";
+    echo '<div id="failure">FAILURE</div>';
 
 $errors = $testRunner->getErrors();
 if (!empty($errors)) {
-    echo "<div id='warning'>Warning: There were notices:</div>";
+    echo '<div id="warning">Warning: There were notices:</div>';
     foreach ($errors as $error) {
         echo "$error\n";
     }
 }
 ?>
+</body>
+</html>
