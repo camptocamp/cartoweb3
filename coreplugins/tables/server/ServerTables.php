@@ -1,0 +1,46 @@
+<?php
+/**
+ * @package CorePlugins
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @version $Id$
+ */
+
+require_once(CARTOSERVER_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
+
+/**
+ * Server side of Tables plugin
+ *
+ * Provides table rules registry to server plugins.
+ * @package CorePlugins
+ */
+class ServerTables extends ServerPlugin {
+
+    /**
+     * @var Logger
+     */
+    private $log;
+
+    /**
+     * Registry which contains all client side rules
+     * @var TableRulesRegistry
+     */ 
+    private $tableRulesRegistry = null;
+
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+        parent::__construct();
+    }
+    
+    /**
+     * Returns current table rules registry
+     * @return TableRulesRegistry
+     */
+    function getTableRulesRegistry() {
+        if (is_null($this->tableRulesRegistry)) {
+            $this->tableRulesRegistry =  new TableRulesRegistry();
+        }
+        return $this->tableRulesRegistry;
+    }
+}
+
+?>

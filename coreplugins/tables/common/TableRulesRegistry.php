@@ -1,0 +1,923 @@
+<?php
+/**
+ * @package CorePlugins
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @version $Id$
+ */
+
+/**
+ * Defines a position in list of columns
+ * @package CorePlugins
+ */
+class ColumnPosition {
+
+    const TYPE_ABSOLUTE = 0;   
+    const TYPE_RELATIVE = 1; 
+    
+    /**
+     * Type of position (absolute or relative)
+     * @var int
+     */
+    public $type;
+    
+    /**
+     * Absolute index or offset (if type is relative)
+     * @var int
+     */
+    public $index;
+    
+    /**
+     * If type is relative, column Id to count the offset from
+     * @var string
+     */
+    public $columnId;    
+    
+    /**
+     * @param int
+     * @param int
+     * @param string
+     */
+    function __construct($type, $index, $columnId = '') {
+        $this->type = $type;
+        $this->index = $index;
+        $this->columnId = $columnId;
+    }
+}
+
+/**
+ * Base rule class
+ * @package CorePlugins
+ */
+abstract class BaseRule {
+
+    const WEIGHT_NO_MATCH = 0;
+    
+    /**
+     * @var Logger
+     */
+    protected $log;
+
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(get_class($this));
+    }
+}
+
+/**
+ * Base rule for rules that will be applied on tables
+ * @package CorePlugins
+ */
+abstract class TableRule extends BaseRule {
+   
+    const WEIGHT_TABLE_SINGLE = 32;
+    const WEIGHT_TABLE_GROUP  = 16;
+    const WEIGHT_TABLE_GLOBAL = 8;
+        
+    /**
+     * @var string
+     */
+    public $tableId;
+
+    /**
+     * Computes weight
+     *
+     * Weight is used to decide which rule will be executed. Table rules can
+     * be defined with following parameters:
+     * <ul>
+     * <li>'*': rule applies on all tables</li>
+     * <li>'foo*': rule applies on tables with id starting with 'foo'</li>
+     * <li>'bar': rule applies on table with id = 'bar'</li>
+     * </ul>
+     * @param string
+     * @return int
+     */
+    protected function getWeight($tableId) {
+    
+        if ($this->tableId == '*') {
+            return self::WEIGHT_TABLE_GLOBAL;
+        } else if ($this->tableId == $tableId) {
+            return self::WEIGHT_TABLE_SINGLE;
+        } else if (substr($this->tableId, -1) == '*' &&
+                   substr($this->tableId, 0, strlen($this->tableId) -1) ==
+                   substr($tableId, 0, strlen($this->tableId) -1)) {
+            return self::WEIGHT_TABLE_GROUP;
+        }
+        return self::WEIGHT_NO_MATCH;
+    }
+
+    /**
+     * Stores computed weights
+     *
+     * The array which contains weights has the following structure:
+     * <pre>
+     * Array ([0] => Array (['rule'] => Object (),
+     *                      ['weights'] => Array (['param1'] => weight1,
+     *                                            ['param2'] => weight2) ),
+     *        [1] => Array (['rule'] => Object (),
+     *                      ['weights'] => Array (['param3'] => weight3,
+     *                                            ['param4'] => weight4) ) )
+     * </pre>
+     * For most rules, there is only one element in the array and only one
+     * rule and weight defined. See {@link ColumnAdder} for an example of a
+     * more complicated rule. 
+     * @param int
+     * @param array
+     */
+    protected function addWeight($weight, &$weights) {
+
+        $oldWeight = self::WEIGHT_NO_MATCH;
+        if (count($weights) == 1) {
+            $oldWeight = $weights[0]['weights']['dummy'];
+        }
+        if ($weight > self::WEIGHT_NO_MATCH && $weight >= $oldWeight) {
+            $weights[0] = array('rule' => $this, 
+                                'weights' => array('dummy' => $weight));
+        }
+    }
+
+    /**
+     * Checks a rule
+     * @param string
+     * @param array
+     */
+    function checkRule($tableId, &$weights) {
+    
+        $this->log->debug("Checking rule " . get_class($this) 
+                          . " (table " . $this->tableId . ")");
+                                  
+        $weight = $this->getWeight($tableId);
+        
+        $this->addWeight($weight, $weights);        
+    }
+
+    /**
+     * Executes a rule on a table
+     *
+     * Parameters are taken from the weights structure. 
+     * @param Table
+     * @param array
+     * @see TableRule::addWeight()
+     */
+    function applyRule($table, $params) {}
+    
+    /**
+     * Applies a set of rules on a table
+     * @param array array of TableRule
+     * @param Table
+     */
+    static function applyRules($rules, $table) {
+        $weights = array();
+        foreach ($rules as $rule) {
+            $rule->checkRule($table->tableId, $weights);
+        }
+        foreach ($weights as $weight) {
+            $weight['rule']->applyRule($table, array_keys($weight['weights']));
+        }
+    }
+}
+
+/**
+ * Base rule for rules that will be applied on columns
+ * @package CorePlugins
+ */
+abstract class ColumnRule extends TableRule {
+
+    const WEIGHT_COLUMN_SINGLE = 4;
+    const WEIGHT_COLUMN_GROUP  = 2;
+    const WEIGHT_COLUMN_GLOBAL = 1;
+
+    /**
+     * @var string
+     */
+    public $columnId;
+
+    /**
+     * Computes weight
+     * @param string
+     * @param string
+     * @see TableRule::getWeight()
+     */
+    protected function getWeight($tableId, $columnId) {
+
+        $weight = 0;
+        if ($this->tableId == '*') {
+            $weight += self::WEIGHT_TABLE_GLOBAL;
+        } else if ($this->tableId == $tableId) {
+            $weight += self::WEIGHT_TABLE_SINGLE;
+        } else if (substr($this->tableId, -1) == '*' &&
+                   substr($this->tableId, 0, strlen($this->tableId) -1) ==
+                   substr($tableId, 0, strlen($this->tableId) -1)) {
+            $weight += self::WEIGHT_TABLE_GROUP;
+        } else {
+            return self::WEIGHT_NO_MATCH;
+        }
+        if ($this->columnId == '*') {
+            return $weight + self::WEIGHT_COLUMN_GLOBAL;
+        } else if ($this->columnId == $columnId) {
+            return $weight + self::WEIGHT_COLUMN_SINGLE;
+        } else if (substr($this->columnId, -1) == '*' &&
+                   substr($this->columnId, 0, strlen($this->columnId) -1) ==
+                   substr($columnId, 0, strlen($this->columnId) -1)) {
+            return $weight + self::WEIGHT_COLUMN_GROUP;
+        }
+        return self::WEIGHT_NO_MATCH;
+    }
+
+    /**
+     * Checks a rule
+     * @param string
+     * @param string
+     * @param array
+     */
+    function checkRule($tableId, $columnId, &$weights) {
+    
+        $this->log->debug("Checking rule " . get_class($this) 
+                          . " (table " . $this->tableId . ", column "
+                          . $this->columnId . ")");
+
+        $weight = $this->getWeight($tableId, $columnId);
+
+        $this->addWeight($weight, $weights);        
+    }
+
+    /**
+     * Executes a rule on a column
+     *
+     * Parameters are taken from the weights structure. 
+     * @param Table
+     * @param string
+     * @param array
+     * @see TableRule::addWeight()
+     */
+    function applyRule($table, $columnId, $params) {}
+
+    /**
+     * Applies a set of rules on a column
+     * @param array array of ColumnRule
+     * @param string
+     * @param Table
+     */
+    static function applyRules($rules, $columnId, $table) {
+        $weights = array();
+        foreach ($rules as $rule) {
+            $rule->checkRule($table->tableId, $columnId, $weights);
+        }
+        foreach ($weights as $weight) {
+            $weight['rule']->applyRule($table, $columnId,
+                                       array_keys($weight['weights']));
+        }
+    }
+}
+
+/**
+ * Base rule for rules that will be applied on cells
+ * @package CorePlugins
+ */
+abstract class CellRule extends ColumnRule {    
+}
+
+/**
+ * Rule to keep only a set of columns
+ * @package CorePlugins
+ */
+class ColumnSelector extends TableRule {
+    
+    /**
+     * @var array
+     */
+    public $columnIds;
+
+    /**
+     * @param string
+     * @param array
+     */
+    function __construct($tableId, $columnIds) {
+        parent::__construct();
+        $this->tableId   = $tableId;
+        $this->columnIds = $columnIds;        
+    }
+    
+    /**
+     * Executes a rule on a table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+        $newTitles = array();
+        foreach($this->columnIds as $columnId) {
+            if (array_key_exists($columnId, $table->columnTitles)) {
+                $newTitles[$columnId] = $table->columnTitles[$columnId];
+            }
+        }        
+        $table->columnTitles = $newTitles;        
+        foreach($table->rows as $key => $row) {
+            $newCells = array();
+            foreach($row->cells as $columnId => $value) {
+                if (in_array($columnId, $this->columnIds)) {
+                    $newCells[$columnId] = $value;
+                }
+            }
+            $row->cells = $newCells;
+        }
+    }
+}
+
+/**
+ * Rule to modify table title
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod('table_id', 'table_title')
+ *   return 'table_new_title' 
+ * </pre>
+ * @package CorePlugins
+ */
+class TableFilter extends TableRule {
+
+    /**
+     * Callback method
+     *
+     * Syntax is:
+     * <pre>
+     * array('PluginClass', 'myCallbackMethod')
+     * </pre>
+     * @var array
+     */
+    public $callback;
+    
+    /**
+     * @param string
+     * @param array
+     */
+    function __construct($tableId, $callback) {
+        parent::__construct();
+        $this->tableId  = $tableId;
+        $this->callback = $callback;        
+    }    
+
+    /**
+     * Execute a rule on a table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+        $table->tableTitle = call_user_func($this->callback,
+                                            $table->tableId,
+                                            $table->tableTitle);
+    }
+}
+
+/**
+ * Rule to modify columns title
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod('column_id', 'column_title')
+ *   return 'column_new_title'
+ * </pre>
+ * @package CorePlugins
+ */
+class ColumnFilter extends ColumnRule {
+    
+    /**
+     * Callback method
+     *
+     * Syntax is:
+     * <pre>
+     * array('PluginClass', 'myCallbackMethod')
+     * </pre>
+     * @var array
+     */
+    public $callback;
+
+    /**
+     * @param string
+     * @param string
+     * @param array
+     */
+    function __construct($tableId, $columnId, $callback) {
+        parent::__construct();
+        $this->tableId  = $tableId;
+        $this->columnId = $columnId;
+        $this->callback = $callback;        
+    }    
+
+    /**
+     * Execute a rule on a column
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $columnId, $params) {
+
+        $table->columnTitles[$columnId] =
+            call_user_func($this->callback, $columnId,
+                           $table->columnTitles[$columnId]);
+    }
+} 
+
+/**
+ * Rule to modify content of cells one by one
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod(array ('column_1' => 'value_1',
+ *                                         'column_2' => 'value_2'))
+ *   return 'cell_value'
+ * </pre>
+ * @package CorePlugins
+ */
+class CellFilter extends CellRule {
+    
+    /**
+     * Ids of columns used by callback method to compute new value
+     * @var array
+     */
+    public $inputColumnIds;
+
+    /**
+     * Callback method
+     *
+     * Syntax is:
+     * <pre>
+     * array('PluginClass', 'myCallbackMethod')
+     * </pre>
+     * @var array
+     */
+    public $callback;
+
+    /**
+     * @param string
+     * @param string
+     * @param array
+     * @param array
+     */
+    function __construct($tableId, $columnId, $inputColumnIds, $callback) {
+        parent::__construct();
+        $this->tableId        = $tableId;
+        $this->columnId       = $columnId;
+        $this->inputColumnIds = $inputColumnIds;
+        $this->callback       = $callback;        
+    }    
+
+    /**
+     * Execute a rule on cells of a column
+     * @param Table
+     * @param string
+     * @param array
+     */
+    function applyRule($table, $columnId, $params) {
+        
+        foreach ($table->rows as $row) {           
+            $inputValues = array(); 
+            foreach ($row->cells as $cellColumnId => $value) {
+                if (in_array($cellColumnId, $this->inputColumnIds)) {
+                    $inputValues[$cellColumnId] = $value;
+                }
+            } 
+            $row->cells[$columnId] = call_user_func($this->callback,
+                                                    $inputValues);
+        }
+    }
+}
+
+/**
+ * Rule to modify content of all cells
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod(array (
+ *                                  '0' => array (
+ *                                         'column_1' => 'value_1_row_1',
+ *                                         'column_2' => 'value_2_row_1'),
+ *                                  '1' => array (
+ *                                         'column_1' => 'value_1_row_2',
+ *                                         'column_2' => 'value_2_row_2') ) )
+ *   return array ('0' => 'cell_value_row_1', '1' => 'cell_value_row_2') 
+ * </pre>
+ * @package CorePlugins
+ * @see CellFilter
+ */
+class CellFilterBatch extends CellFilter {
+    
+    /**
+     * Execute a rule on cells of a column
+     * @param Table
+     * @param string
+     * @param array
+     */
+    function applyRule($table, $columnId, $params) {
+    
+        $inputValues = array();
+        foreach ($table->rows as $row) {
+            $inputValuesRow = array();
+            foreach ($row->cells as $cellColumnId => $value) {
+                if (in_array($cellColumnId, $this->inputColumnIds)) {
+                    $inputValuesRow[$cellColumnId] = $value;
+                }
+            } 
+            $inputValues[] = $inputValuesRow;
+        }
+        $result = call_user_func($this->callback, $inputValues);
+        foreach ($result as $key => $resultValue) {
+            $table->row[$key]->cells[$columnId] = $resultValue;
+        }
+    }
+}
+
+/**
+ * Rule to add one or more columns and compute content of cells one by one
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod(array ('column_1' => 'value_1',
+ *                                         'column_2' => 'value_2'))
+ *   return array ('new_column_1' => 'cell_value_1',
+ *                 'new_column_2' => 'cell_value_2') 
+ * </pre>
+ * @package CorePlugins
+ * @see CellFilter
+ */
+class ColumnAdder extends TableFilter {
+    
+    /**
+     * @var ColumnPosition
+     */
+    public $columnPosition;
+    
+    /**
+     * @var array
+     */
+    public $newColumnIds;
+    
+    /**
+     * @var array
+     */
+    public $inputColumnIds;
+
+    /**
+     * @param string
+     * @param ColumnPosition
+     * @param array
+     * @param array
+     * @param array
+     */
+    function __construct($tableId, $columnPosition, $newColumnIds,
+                         $inputColumnIds, $callback) {
+        parent::__construct($tableId, $callback);
+        $this->columnPosition = $columnPosition;        
+        $this->newColumnIds   = $newColumnIds;        
+        $this->inputColumnIds = $inputColumnIds;        
+    }    
+
+    /**
+     * Adds new columns into table definition of columns
+     * @param Table
+     * @param array
+     */
+    protected function addNewColumns($table, $newColumnIds) {
+    
+        $newColumnTitles = array();
+        $index = null;
+        if ($this->columnPosition->type == ColumnPosition::TYPE_ABSOLUTE) {
+            $index = $this->columnPosition->index;            
+            if ($index < 0) {
+                $index += count($table->columnTitles);
+            }
+        } else {
+            $i = 0;
+            foreach ($table->columnTitles as $columnId => $columnTitle) {
+                if ($columnId == $this->columnPosition->columnId) {
+                    $index = $i;
+                }
+                $i++;
+            }
+            $index += $this->columnPosition->index;
+        }
+        if ($index < 0) {
+            $index = 0;
+        }
+        if ($index < count($table->columnTitles)) {
+            $i = 0;
+            foreach ($table->columnTitles as $columnId => $columnTitle) {
+                if ($i == $index) {
+                    foreach ($newColumnIds as $newColumnId) {
+                        $newColumnTitles[$newColumnId] = $newColumnId;
+                    }
+                }
+                $i++;
+                $newColumnTitles[$columnId] = $columnTitle;
+            }
+        } else {
+            foreach ($newColumnIds as $newColumnId) {
+                $newColumnTitles += array($newColumnId => $newColumnId);
+            }
+        }
+        $table->columnTitles = $newColumnTitles;
+    }
+
+    /**
+     * Execute a rule on table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+                
+        $this->addNewColumns($table, $params);
+           
+        foreach ($table->rows as $row) {           
+            $inputValues = array(); 
+            foreach ($row->cells as $cellColumnId => $value) {
+                if (in_array($cellColumnId, $this->inputColumnIds)) {
+                    $inputValues[$cellColumnId] = $value;
+                }
+            } 
+            $result = call_user_func($this->callback, $inputValues);
+            foreach ($result as $newColumnId => $newValue) { 
+                $row->cells[$newColumnId] = $newValue;
+            }  
+        }
+    }
+
+    /**
+     * Stores computed weights
+     *
+     * Weights are stored in an array which has the structure described in
+     * {@link TableRule::addWeight()}.
+     *
+     * When a rule with a greater weight is found, column Id is removed from
+     * old rule and added to current rule. With standard rules, only one rule
+     * is executed for each type of rule. ColumnAdder rule can be executed
+     * several times, but only once with the same column Id.
+     * @param int
+     * @param array 
+     */
+    protected function addWeight($weight, &$weights) {
+
+        foreach ($this->newColumnIds as $newColumnId) {
+            $oldWeight = self::WEIGHT_NO_MATCH;
+            $oldArrayKey = -1;
+            $currentArrayKey = -1;
+            foreach ($weights as $key => $ruleweight) {
+                if (array_key_exists($newColumnId, $ruleweight['weights'])) {
+                    $oldWeight = $ruleweight['weights'][$newColumnId];
+                    $oldArrayKey = $key;
+                }
+                if ($ruleweight['rule'] == $this) {
+                    $currentArrayKey = $key;
+                }
+            }
+            if ($weight > self::WEIGHT_NO_MATCH && $weight >= $oldWeight) {
+                
+                if ($oldArrayKey >= 0) {
+                    // remove column from old rule
+                    $array = $weights[$oldArrayKey]['weights'];
+                    unset($array[$newColumnId]);
+                    if (count($array) > 0) {
+                        $weights[$oldArrayKey]['weights'] = $array;
+                    } else {
+                        // Removed column was last column for this rule
+                        unset($weights[$oldArrayKey]);
+                    }
+                }
+                
+                // Add column to current rule
+                if ($currentArrayKey >= 0) {
+                    $weights[$currentArrayKey]['weights'][$newColumnId] = $weight;
+                } else {
+                    $weights[] = array('rule' => $this, 
+                                       'weights' => array($newColumnId => $weight));
+                }
+            }            
+        }
+    }
+}
+
+/**
+ * Rule to add one or more columns and compute content of all cells
+ *
+ * Callback method should have the following signature:
+ * <pre>
+ * static function myCallbackMethod(array (
+ *                                  '0' => array (
+ *                                         'column_1' => 'value_1_row_1',
+ *                                         'column_2' => 'value_2_row_1'),
+ *                                  '1' => array (
+ *                                         'column_1' => 'value_1_row_2',
+ *                                         'column_2' => 'value_2_row_2') ) )
+ *   return array (
+ *          '0' => array (
+ *                 'new_column_1' => 'cell_value_1_row_1',
+ *                 'new_column_2' => 'cell_value_2_row_1'),
+ *          '1' => array ( 
+ *                 'new_column_1' => 'cell_value_1_row_2',
+ *                 'new_column_2' => 'cell_value_2_row_2') ) )
+ * </pre>
+ * @package CorePlugins
+ * @see CellFilter
+ */
+class ColumnAdderBatch extends ColumnAdder {
+
+    /**
+     * Execute a rule on table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+
+        $this->addNewColumns($table, $params);
+
+        $inputValues = array();
+        foreach ($table->rows as $row) {
+            $inputValuesRow = array();
+            foreach ($row->cells as $cellColumnId => $value) {
+                if (in_array($cellColumnId, $this->inputColumnIds)) {
+                    $inputValuesRow[$cellColumnId] = $value;
+                }
+            } 
+            $inputValues[] = $inputValuesRow;
+        }
+        $result = call_user_func($this->callback, $inputValues);
+        foreach ($result as $key => $resultValue) {
+            foreach ($resultValue as $newColumnId => $newValue) {
+                $table->row[$key]->cells[$newColumnId] = $newValue;
+            }
+        }
+    }
+}
+
+/**
+ * Table rules registry
+ *
+ * Stores and executes table rules. The table rules allow to modify a Table
+ * object. This is the list of existing types of rules:
+ * <ul>
+ * <li>ColumnSelector: keeps only a set of columns</li>
+ * <li>TableFilter: modifies table title</li>
+ * <li>ColumnFilter: modifies columns title</li>
+ * <li>CellFilter: modifies content of cells one by one</li>
+ * <li>CellFilterBatch: modifies content of all cells</li>
+ * <li>ColumnAdder: adds one or more columns and computes content
+ *     of cells one by one</li>
+ * <li>ColumnAdderBatch: adds one or more columns column and computes content
+ *     of all cells</li>
+ * </ul>
+ * @package CorePlugins
+ */
+class TableRulesRegistry {
+    
+    /**
+     * All rules
+     * <pre>
+     * array ('Class_1' => array ('0' => Rule1, '1' => Rule2),
+              'Class_2' => array ('0' => Rule3, '1' => Rule4) )
+     * </pre>
+     * @var array
+     */
+    private $rules = array();
+    
+    /**
+     * @var Logger
+     */
+    private $log;
+
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(get_class($this));
+    }
+
+    /**
+     * Adds a rule in list
+     * @param BaseRule
+     */
+    private function addRule($rule) {
+        $ruleClass = get_class($rule);
+        if (!array_key_exists($ruleClass, $this->rules)) {
+            $this->rules[$ruleClass] = array();
+        }
+        $this->rules[$ruleClass][] = $rule;
+    }
+    
+    /**
+     * Adds a ColumnSelector rule
+     * @param string
+     * @param array
+     */
+    public function addColumnSelector($tableId, $columnIds) {
+       $rule = new ColumnSelector($tableId, $columnIds);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a TableFilter rule
+     * @param string
+     * @param array
+     */
+    public function addTableFilter($tableId, $callback) {
+       $rule = new TableFilter($tableId, $callback);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a ColumnFilter rule
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function addColumnFilter($tableId, $columnId, $callback) {
+       $rule = new ColumnFilter($tableId, $columnId, $callback);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a CellFilter rule
+     * @param string
+     * @param string
+     * @param array
+     * @param array
+     */
+    public function addCellFilter($tableId, $columnId,
+                                  $inputColumnIds, $callback) {
+       $rule = new CellFilter($tableId, $columnId, $inputColumnIds, $callback);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a CellFilterBatch rule
+     * @param string
+     * @param string
+     * @param array
+     * @param array
+     */
+    public function addCellFilterBatch($tableId, $columnId,
+                                       $inputColumnIds, $callback) {
+       $rule = new CellFilterBatch($tableId, $columnId,
+                                   $inputColumnIds, $callback);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a ColumnAdder rule
+     * @param string
+     * @param ColumnPosition
+     * @param array
+     * @param array
+     * @param array
+     */
+    public function addColumnAdder($tableId, $columnPosition, 
+                                   $newColumnIds, $inputColumnIds, $callback) {
+       $rule = new ColumnAdder($tableId, $columnPosition, 
+                               $newColumnIds, $inputColumnIds, $callback);
+       $this->addRule($rule); 
+    }
+
+    /**
+     * Adds a ColumnAdderBatch rule
+     * @param string
+     * @param ColumnPosition
+     * @param array
+     * @param array
+     * @param array
+     */
+    public function addColumnAdderBatch($tableId, $columnPosition, 
+                                        $newColumnIds, $inputColumnIds,
+                                        $callback) {
+       $rule = new ColumnAdderBatch($tableId, $columnPosition, 
+                                    $newColumnIds, $inputColumnIds, $callback);
+       $this->addRule($rule); 
+    }
+
+    /**
+     * Main method to apply rules on a table
+     *
+     * Applies all table rules on tables and all column rules on columns.
+     * @param array
+     */
+    public function applyRules($tables) {
+    
+        if (!is_array($tables)) {
+            if (!($tables instanceof Table)) {
+                throw new CartocommonException("Argument type was wrong (should be a Table)");
+            }        
+            $tables = array($tables);
+        }
+
+        // All tables
+        foreach ($tables as $key => $table) {
+        
+            // All types of class            
+            foreach ($this->rules as $class => $rules) {
+                      
+                if ($rules[0] instanceof ColumnRule) {
+                
+                    foreach ($table->columnTitles as $columnId => $columnTitle) {
+                        call_user_func(array($class, 'applyRules'), $rules,
+                                       $columnId, $table);
+                    }         
+                } else if ($rules[0] instanceof TableRule) {
+                    call_user_func(array($class, 'applyRules'), $rules, $table);
+                }   
+            }
+        }
+        return $tables;
+    } 
+}
+
+?>

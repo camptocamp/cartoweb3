@@ -81,6 +81,10 @@
   {$query_result}
   {/if}
 
+  {if $tables_result|default:''}
+  {$tables_result}
+  {/if}
+
 <pre>
 Request:
 {$debug_request}
