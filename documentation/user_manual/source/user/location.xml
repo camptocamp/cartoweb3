@@ -24,51 +24,51 @@
   <itemizedlist>
    <listitem>
     <para>
-    <indexterm><primary>scalesActive</primary></indexterm>: boolean, if true, the scales dropdown list is displayed (default: false). 
+    scalesActive<indexterm><primary>scalesActive</primary></indexterm>: boolean, if true, the scales dropdown list is displayed (default: false). 
     If no visible scales are defined on the server, a simple input text will be displayed.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>recenterActive</primary></indexterm>: boolean, if true, the coords recentering form is displayed (default: false)
+     recenterActive<indexterm><primary>recenterActive</primary></indexterm>: boolean, if true, the coords recentering form is displayed (default: false)
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>idRecenterActive</primary></indexterm>: boolean, if true, the id recentering fields will be displayed (default: false)
+     idRecenterActive<indexterm><primary>idRecenterActive</primary></indexterm>: boolean, if true, the id recentering fields will be displayed (default: false)
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>shortcutsActive</primary></indexterm>: boolean, if true, the shortcuts (direct access dropdown list) are displayed (default: false)
+     shortcutsActive<indexterm><primary>shortcutsActive</primary></indexterm>: boolean, if true, the shortcuts (direct access dropdown list) are displayed (default: false)
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>scaleUnitLimit</primary></indexterm>: scale above which DHTML measures use km ; below, they use m.
+     scaleUnitLimit<indexterm><primary>scaleUnitLimit</primary></indexterm>: scale above which DHTML measures use km ; below, they use m.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>panRatio</primary></indexterm>: ratio for panning by clicking directional arrows. 
+     panRatio<indexterm><primary>panRatio</primary></indexterm>: ratio for panning by clicking directional arrows. 
      Default is 1 (no overlap, no gap). Values below 1 result in an overlap of the old and the new maps; 
      values above 1 in a gap between these two maps.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightZoomIn</primary></indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
+     weightZoomIn<indexterm><primary>weightZoomIn</primary></indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
      (if not specified, default to 10). A negative weight disables the tool.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightZoomOut</primary></indexterm>: see weightZoomIn (default to 11)
+     weightZoomOut<indexterm><primary>weightZoomOut</primary></indexterm>: see weightZoomIn (default to 11)
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightPan</primary></indexterm>: see weightZoomIn (default to 12)
+     weightPan<indexterm><primary>weightPan</primary></indexterm>: see weightZoomIn (default to 12)
     </para>
    </listitem>
   </itemizedlist>
@@ -82,65 +82,65 @@
   <itemizedlist>
    <listitem>
     <para>
-    <indexterm><primary>minScale</primary></indexterm>: if set, minimal scale allowed.
+    minScale<indexterm><primary>minScale</primary></indexterm>: if set, minimal scale allowed.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>maxScale</primary></indexterm>: if set, maximal scale allowed
+    maxScale<indexterm><primary>maxScale</primary></indexterm>: if set, maximal scale allowed
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>scaleModeDiscrete</primary></indexterm>: boolean, if true, only specified scales (see below) can be set.
+    scaleModeDiscrete<indexterm><primary>scaleModeDiscrete</primary></indexterm>: boolean, if true, only specified scales (see below) can be set.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>zoomFactor</primary></indexterm>: the zoom factor to use whan scaleModeDiscrete is set to false.
+    zoomFactor<indexterm><primary>zoomFactor</primary></indexterm>: the zoom factor to use whan scaleModeDiscrete is set to false.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>scales.#.value</primary></indexterm> (# = 0, 1, 2, ...) : available value of the scale in discrete mode.
+    scales.#.value<indexterm><primary>scales.#.value</primary></indexterm> (# = 0, 1, 2, ...) : available value of the scale in discrete mode.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>scales.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the scale, to be displayed in the dropdown list on the client.
+    scales.#.label<indexterm><primary>scales.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the scale, to be displayed in the dropdown list on the client.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>scales.#.visible</primary></indexterm> (# = 0, 1, 2, ...) : boolean, if true, the scale is displayed in the dropdown list. If false, this scale can only be selected by zoom-in/zoom-out. Default is true.
+    scales.#.visible<indexterm><primary>scales.#.visible</primary></indexterm> (# = 0, 1, 2, ...) : boolean, if true, the scale is displayed in the dropdown list. If false, this scale can only be selected by zoom-in/zoom-out. Default is true.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>shortcuts.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the shortcut; appears in the direct access dropdown list on the client.
+    shortcuts.#.label<indexterm><primary>shortcuts.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the shortcut; appears in the direct access dropdown list on the client.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>shortcuts.#.bbox</primary></indexterm> (# = 0, 1, 2, ...) : geographic bbox of the shortcut.
+    shortcuts.#.bbox<indexterm><primary>shortcuts.#.bbox</primary></indexterm> (# = 0, 1, 2, ...) : geographic bbox of the shortcut.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>recenterMargin</primary></indexterm>: margin to add around the centered-on object (valid for lines and polygons). 
+    recenterMargin<indexterm><primary>recenterMargin</primary></indexterm>: margin to add around the centered-on object (valid for lines and polygons). 
     Expressed in percent of the width/height of the object.
     </para>
    </listitem>
    <listitem>
     <para>
-    <indexterm><primary>recenterDefaultScale</primary></indexterm>: scale to use when the centered-on object is a point.
+    recenterDefaultScale<indexterm><primary>recenterDefaultScale</primary></indexterm>: scale to use when the centered-on object is a point.
     </para>
    </listitem>
   </itemizedlist>
  </sect1>
 
  <sect1 id="user.location.mapfile"> 
-  <title>related elements in mapfile</title>
+  <title>Related elements in mapfile</title>
   <para>
    Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
   </para> 
