@@ -14,9 +14,14 @@ class ServerLayers extends ServerPlugin
     private $requestedLayerNames;
     private $mapInfo;
     
+    private $imageType;
+    
     function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        
+        // If image type is null, will use mapfile image type
+        $this->imageType = null;
     }
 
     private function getMapInfo() {
@@ -27,6 +32,10 @@ class ServerLayers extends ServerPlugin
     function getRequestedLayerNames() {
         if(!$this->requestedLayerNames) return array();
         return $this->requestedLayerNames;
+    }
+
+    function getImageType() {
+        return $this->imageType;
     }
 
     function handleCorePlugin($requ) {
@@ -56,6 +65,11 @@ class ServerLayers extends ServerPlugin
             
             $msLayer = $this->getMapInfo()->getMsLayerById($msMapObj, $requLayerId);
             $msLayer->set('status', MS_ON);
+            
+            $forceImageType = $msLayer->getMetaData('force_imagetype');
+            if (!empty($forceImageType)) {
+                $this->imageType = $forceImageType;
+            }
         }
     }
 }

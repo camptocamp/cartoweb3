@@ -222,6 +222,12 @@ class Cartoserver {
 
         $pluginManager->callPluginsImplementing('ClientResponder', 'handlePreDrawing');
 
+        $msMapObj = $serverContext->getMapObj();  
+        $imageType = $pluginManager->layers->getImageType();
+        if (!empty($imageType)) {      
+            $msMapObj->selectOutputFormat($imageType);
+        }
+
         // prepare output image
         $pluginManager->images->drawMainmap($mapRequest->imagesRequest);
         

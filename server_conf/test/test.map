@@ -119,6 +119,7 @@ MAP
     STATUS DEFAULT
     METADATA
   	  "id_attribute_string" "A_NAME|string"
+  	  "force_imagetype" "jpeg"
     END
     DATA "some_rectangles"
     CLASSITEM "A_NAME"

@@ -24,6 +24,7 @@ class ServerContext {
     
     private $msMapObj;
     private $maxExtent;
+    private $imageType;
     private $msMainmapImage;
 
     private $mapInfo;
@@ -114,8 +115,9 @@ class ServerContext {
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
 
-            $this->maxExtent = clone($this->getMapObj()->extent);
-
+            $this->maxExtent = clone($this->msMapObj->extent);
+            $this->imageType = $this->msMapObj->imagetype;
+            
             if (!$this->msMapObj) { // could this happen ??
                 throw new CartoserverException("cannot open mapfile $mapId for map $mapId");
             }
@@ -126,6 +128,11 @@ class ServerContext {
     public function getMaxExtent() {
             
         return $this->maxExtent;
+    }
+
+    public function getImageType() {
+            
+        return $this->imageType;
     }
 
     function getMapInfoHandler() {

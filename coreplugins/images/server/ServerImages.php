@@ -47,13 +47,11 @@ class ServerImages extends ServerPlugin
         $image = new Image();
         
         $image->isDrawn = true;
-
-        $msMapObj = $this->serverContext->getMapObj();
-
+        
         $image->path = $ms_image->saveWebImage();
         $image->width = $ms_image->width;
         $image->height = $ms_image->height;
-        
+                
         return $image;
     }
 
@@ -75,6 +73,14 @@ class ServerImages extends ServerPlugin
         if (empty($plugins->query))
             return false;
         return $plugins->query->drawQuery();
+    }
+
+    private function getImageType() {
+
+        $plugins = $this->serverContext->getPluginManager();
+        if (empty($plugins->layers))
+            return null;
+        return $plugins->layers->getImageType();
     }
 
     function drawMainmap($requ) {
@@ -133,10 +139,13 @@ class ServerImages extends ServerPlugin
                 throw new CartoserverException("drawMainmap was not called before getResult");
             $this->serverContext->setMsMainmapImage($ms_mainmap);
             $msMapObj->drawLabelCache($ms_mainmap);
+                        
             $imagesResult->mainmap = $this->getImage($ms_mainmap);
         } else {
             $imagesResult->mainmap = $notdrawnImage;
         }
+
+        $msMapObj->selectOutputFormat($this->serverContext->getImageType());            
 
         if ($requ->keymap->isDrawn) {
             $ms_keymap = $msMapObj->drawreferencemap();
@@ -152,6 +161,11 @@ class ServerImages extends ServerPlugin
             $imagesResult->scalebar = $notdrawnImage;
         }
         
+        $imageType = $this->getImageType();        
+        if (!empty($imageType)) {
+            $msMapObj->selectOutputFormat($imageType);            
+        }
+
         $serverContext = $this->getServerContext();        
         if ($serverContext->isDevelMessagesEnabled()) {
             $this->checkMaxImages($serverContext);
