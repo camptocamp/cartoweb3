@@ -108,6 +108,8 @@ class MapInfo extends Serializable {
         $this->mapId            = self::unserializeValue($struct, 'mapId');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
   
+        $this->loadPlugins = self::unserializeArray($struct, 'loadPlugins');
+  
         // Layers class names are specicified in className attribute
         $this->layers           = self::unserializeObjectMap($struct, 'layers');
         $this->initialMapStates = self::unserializeObjectMap($struct, 'initialMapStates', 'InitialMapState');

@@ -109,8 +109,8 @@ class ServerContext {
                                           $this);
 
         // FIXME: maybe not in mapinfo
-        $pluginNames = ConfigParser::parseArray($this->mapInfo->loadPlugins);
-
+        $pluginNames = $this->mapInfo->loadPlugins;
+        
         $this->pluginManager->loadPlugins($this->config->basePath . 'plugins/',
                                           PluginManager::SERVER_PLUGINS, $pluginNames,
                                           $this);

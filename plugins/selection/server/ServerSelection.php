@@ -88,8 +88,10 @@ class ServerSelection extends ServerPlugin {
   
     function getResultFromRequest($requ) {
 
-        // FIXME: will go away
-        $requ->bbox = StructHandler::unserialize($requ->bbox, 'Bbox');
+        // FIXME: will go away, once unserialize is done on requests
+        $bbox = new Bbox();
+        $bbox->unserialize($requ->bbox);
+        $requ->bbox = $bbox;
         
         // TODO: mechanism to fetch request from other plugins
         $hilightRequest = @$this->serverContext->mapRequest->hilightRequest;
