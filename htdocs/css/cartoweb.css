@@ -12,14 +12,14 @@ a {text-decoration: none;color:#5C74BB;}
 a:hover {text-decoration: underline;color:#D0670A;}
 
 #banner {
-  border: thin #ccc dashed;
+  border: 1px #ccc dashed;
   margin:10px;
 }
 
 #banner h1 {text-align:center;margin:5px;padding:0;font-size:1.1em;}
 
 #leftbar {
-  border: thin #ccc dashed;
+  border: 1px #ccc dashed;
   position: absolute;
   left: 10px;
   top: 50px;
@@ -37,7 +37,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
   margin-left: 205px;
 }
 
-pre {border: thin #ccc dashed;padding:20px;margin-right:10px;}
+pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 .separator {
   background-color:#eee;
@@ -50,7 +50,7 @@ pre {border: thin #ccc dashed;padding:20px;margin-right:10px;}
 .form_button {
   width:100px;
   height:20px;
-  border:thin solid #fff;
+  border:1px solid #fff;
   border-bottom-color: #aaa;
   border-right-color: #aaa;
   background-color:#eee;
