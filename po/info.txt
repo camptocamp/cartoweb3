@@ -1,0 +1,1 @@
+this folder contains i18n files

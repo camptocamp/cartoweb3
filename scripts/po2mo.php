@@ -10,146 +10,245 @@
  */
 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
+define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');
 
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
-function getProjectPo ($project = I18n::DEFAULT_PROJECT_DOMAIN) {
-    return $project;
+function getLocales($project) {
+    $d = dir(CARTOCLIENT_PODIR);
+    $locales = array();
+    $locale = '';
+       
+    while (false !== ($entry = $d->read())) {
+        if (!is_dir($entry)) {
+            $pattern = getProjectPo($project) . '\.(.*)\.po';
+            if (ereg($pattern, $entry, $locale)) {
+                $locales[] = $locale[1];
+            }
+        }
+    }
+    return $locales;
 }
 
-function getMapPo ($project, $mapId) {
+function getProjectName($project) {
+    return ($project == '') ? 'default' : $project;
+}
+
+function getProjectPo($project = '') {
+    return 'smarty-' . getProjectName($project);
+}
+
+function getMapPo($project, $mapId) {
 
     $direct = false;
-    $iniFile = CARTOCLIENT_HOME;
-    if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
-        $iniFile .= 'projects/' . $project . '/';
+    $iniFile = '';
+    if ($project != '') {
+        $iniFile = CARTOCLIENT_HOME . 'projects/' . $project . '/client_conf/client.ini';
+    }        
+    if (!file_exists($iniFile)) {
+        $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
     }
-    $iniFile .= 'client_conf/client.ini';
     $iniArray = parse_ini_file($iniFile);
     if (array_key_exists('cartoserverDirectAccess', $iniArray)) {
         $direct = $iniArray['cartoserverDirectAccess'];
     }
 
-    $locales = I18n::getLocales();
-
-    $input = $project . '.' . $mapId;
+    $fileName = 'map-';
+    if ($project != '') {
+        $fileName .= $project . '.';
+    }
+    $fileName .= $mapId;    
+    
     if ($direct) {
  
-        foreach ($locales as $locale) {
-            $file = CARTOCLIENT_HOME . 'locale/' . $locale .
-                                            '/LC_MESSAGES/' . $input . '.po';
-            $serverFile = CARTOCLIENT_HOME;
-            if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
-                $serverFile .= 'projects/' . $project . '/';
-            }
-            $serverFile .= 'htdocs/locale/' . $locale .
-                                     '/LC_MESSAGES/' . $mapId . '.po' ;
-            copy ($serverFile, $file);
-        }
+        // nothing to do !
+        
     } else {
         // Looks for server URL
         if (array_key_exists('cartoserverBaseUrl', $iniArray)) {
             $url = $iniArray['cartoserverBaseUrl'];
+        } else {
+            print "Warning: Project $project base URL not set in client.ini\n";
+            return false;
         }
- 
-        // Adds project if needed
-        if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
-            $url .= $project . '/';
-        }
-        $url .= 'locale/';
-   
-        foreach ($locales as $locale) {
-            $urlLocale = $url . $locale . '/LC_MESSAGES/' . $mapId . '.po';
+        $url .= 'po/';
 
+        $locales = getLocales($project);
+
+        foreach ($locales as $locale) {
+            $urlLocale = $url . $fileName . '.' . $locale . '.po';
+
+            print "Retrieving server PO file $urlLocale ";
+            
             // CURL init
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $urlLocale);
             curl_setopt($ch, CURLOPT_HEADER, 0);
-            
-            // Gets server PO file
-            $file = CARTOCLIENT_HOME . 'locale/' . $locale .
-                                        '/LC_MESSAGES/' . $input . '.po';
-            $fh = fopen($file, 'w');
-            curl_setopt($ch, CURLOPT_FILE, $fh);
+                        
+            ob_start();
             curl_exec($ch);
             curl_close($ch);  
-            fclose($fh);
+            $contents = ob_get_contents();
+            ob_end_clean();
+            
+            if (strpos($contents, 'DOCTYPE HTML')) {
+                print "\nWarning: Couldn't retrieve server file.\n";
+                return false;
+            } else {
+                $file = CARTOCLIENT_PODIR . $fileName . '.' . $locale;
+                $fh = fopen($file . '.po', 'w');
+                fwrite($fh, $contents);
+                fclose($fh);                                
+            }
+            print " .. done.\n";
         }
     }
     
-    return $input;
+    return $fileName;
 }
 
-function merge($source, $dest) {
+function merge($project, $file1, $file2, $output) {
 
-    $dir = CARTOCLIENT_HOME . 'locale/';
-    
-    $locales = I18n::getLocales();
+    $locales = getLocales($project);
 
     foreach ($locales as $locale) {
-        $fileSource = $dir . $locale . '/LC_MESSAGES/' . $source . '.po';
-        $fileDest = $dir . $locale . '/LC_MESSAGES/' . $dest . '.po';
+        $file1Name = $file1 . '.' . $locale . '.po';
+        $file2Name = $file2 . '.' . $locale . '.po';
+        $fileOutputName = $output . '.' . $locale . '.po';
+        $file1 = CARTOCLIENT_PODIR . $file1Name;
+        $file2 = CARTOCLIENT_PODIR . $file2Name;
+        $fileOutput = CARTOCLIENT_PODIR . $fileOutputName;
         
-        $sourceLines = file($fileSource);
+        if (!file_exists($file1)) {
+            print "Warning: Project " . getProjectName($project) . " merge - file $file1 not found.\n";
+            return false;
+        }
+        if (!file_exists($file2)) {
+            print "Warning: Project " . getProjectName($project) . " merge - file $file2 not found.\n";
+            return false;
+        }
+        
+        print "Combining $file1Name + $file2Name = $fileOutputName ";
+        // exec("msgmerge -v -o $fileOutput $fileDest $fileSource");
+        
+        $file1Lines = file($file1);
+        $file2Lines = file($file2);
 
-        $fhDest = fopen($fileDest, 'a');
+        $fhOut = fopen($fileOutput, 'w');
+        
+        foreach ($file1Lines as $line) {
+            fwrite($fhOut, $line);
+        }
         
         $skip = false;
-        foreach ($sourceLines as $line) {
+        foreach ($file2Lines as $line) {
             if (trim($line) == 'msgid ""') {
                 $skip = true;
             }
             if (!$skip) {
-                fwrite($fhDest, $line);
+                fwrite($fhOut, $line);
             } else if (trim($line) == '') {
                 $skip = false;
             }
         }
         
-        fclose($fhDest);
+        fclose($fhOut);    
+        print " .. done.\n";    
     }
+    return true;
 }
 
-function compile($fileName) {
+function compile($project, $fileName) {
     
-    $dir = CARTOCLIENT_HOME . 'locale/';
-    
-    $locales = I18n::getLocales();
+    $locales = getLocales($project);
     
     foreach ($locales as $locale) {
-        $file = $dir . $locale . '/LC_MESSAGES/' . $fileName . '.po';
+        $file = CARTOCLIENT_PODIR . $fileName . '.' . $locale . '.po';
+        
         if (file_exists($file)) {
-            exec('msgfmt -o ' . $dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo ' . $file);
-            unlink($file);
-
-            // Rename file if default project
-            if (substr($fileName, 0, strlen(I18n::DEFAULT_PROJECT_DOMAIN)) ==
-                                            I18n::DEFAULT_PROJECT_DOMAIN) {
-                rename($dir . $locale . '/LC_MESSAGES/' . $fileName . '.mo',
-                       $dir . $locale . '/LC_MESSAGES/' .
-                            substr($fileName,
-                                strlen(I18n::DEFAULT_PROJECT_DOMAIN) + 1) . '.mo');
-            }        
+            if (!is_dir(CARTOCLIENT_LOCALEDIR . $locale)) {
+                mkdir(CARTOCLIENT_LOCALEDIR . $locale);
+            }
+            if (!is_dir(CARTOCLIENT_LOCALEDIR . $locale . '/LC_MESSAGES')) {
+                mkdir(CARTOCLIENT_LOCALEDIR . $locale . '/LC_MESSAGES');
+            }
+            $outputFile = $locale . '/LC_MESSAGES/' . $fileName . '.mo'; 
+            print "Compiling $fileName.$locale.po into /locale/$outputFile ";
+            exec("msgfmt -o " . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
+            print ".. done.\n";
+        } else {
+            print "Warning: Project " . getProjectName($project) . " compile - file $file not found.\n";
+            return false;
         }
     }
+    return true;
 }
 
-if ($_SERVER['argc'] > 1) {
-    
-    $projectName = I18n::DEFAULT_PROJECT_DOMAIN;
-    if ($_SERVER['argc'] == 2) {
-        $mapId = $_SERVER['argv'][1];
-    } else {
-        $projectName = $_SERVER['argv'][1];
-        $mapId = $_SERVER['argv'][2];
-    }
-    
-    $file = getMapPo($projectName, $mapId);
-    merge(getProjectPo($projectName), $file);
-    compile($file);
+function getProjects() {
 
-} else {
-    print "Usage: ./po2mo.php [<project_name>] <map_id>\n";    
+    $projects = array();
+    $dir = CARTOCLIENT_HOME . 'projects/';
+    $d = dir($dir);
+    while (false !== ($entry = $d->read())) {
+        if (is_dir($dir . $entry) && $entry != '.'
+            && $entry != '..' && $entry != 'CVS') {
+            $projects[] = $entry;
+        }
+    }    
+    return $projects;
+}
+
+function getMapIds($project) {
+    
+    $mapIds = array();
+    $dir = CARTOCLIENT_HOME;
+    if ($project != '') {
+        $dir .= 'projects/' . $project . '/';
+    }
+    $dir .= 'server_conf/';
+    if (is_dir($dir)) {
+        $d = dir($dir);
+        while (false !== ($entry = $d->read())) {
+            if (is_dir($dir . $entry) && $entry != '.'
+                && $entry != '..' && $entry != 'CVS') {
+                $mapIds[] = $entry;
+            }
+        }
+    }    
+    return $mapIds;    
+}
+
+$projects = getProjects();
+// Adds default project
+$projects[] = '';
+
+foreach ($projects as $project) {
+    
+    $mapIds = getMapIds($project);
+    foreach ($mapIds as $mapId) {
+    
+        $file = getMapPo($project, $mapId);
+        if (!$file) {
+            continue;
+        }
+        $finalFile = '';
+        if ($project != '') {
+            $finalFile .= $project . '.';
+        }
+        $finalFile .= $mapId;
+        if (!merge($project, getProjectPo($project), $file, $finalFile)) {
+            continue;
+        }
+        if ($project != '') {
+            if (!merge($project, getProjectPo(''), $finalFile, $finalFile)) {
+                continue;
+            }
+        }
+        if (!compile($project, $finalFile)) {
+            continue;
+        }
+    }
 }
 
 ?>
