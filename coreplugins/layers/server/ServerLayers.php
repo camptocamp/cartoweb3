@@ -3,22 +3,24 @@
 class ServerLayers extends ServerCoreplugin {
     private $log;
 
+	private $requestedLayerNames;
+
     function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
-    
-    function getRequestName() {
-        return 'layerSelectionRequest';
-    }
 
-    function getResultName() {
-        return false;
-    }
+	function getRequestedLayerNames() {
+		if (!$this->requestedLayerNames)
+			return array();
+		return $this->requestedLayerNames;
+	}
 
     function getResultFromRequest($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
+
+		$this->requestedLayerNames = $requ;
 
         if (!count($requ)) {
             $this->log->info("no layers request: doing nothing");
@@ -34,11 +36,11 @@ class ServerLayers extends ServerCoreplugin {
             $msLayer->set('status', MS_OFF);
         }
 
-        foreach ($requ as $requLayerId) {
+        foreach ($this->getRequestedLayerNames() as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
  
-            $initialMapInfo = $this->serverContext->mapInfo;
-            $serverLayer = $initialMapInfo->getLayerById($requLayerId);
+            $mapInfo = $this->serverContext->mapInfo;
+            $serverLayer = $mapInfo->getLayerById($requLayerId);
 
             if (!$serverLayer) {
                 $this->log->warn("can't find serverLayer $requLayerId");
@@ -49,7 +51,7 @@ class ServerLayers extends ServerCoreplugin {
             if ($msLayer) {
                 $msLayer->set('status', MS_ON);
             } else {
-                $this->log->warn("can't find msLayer $msLayerId");
+                $this->log->warn("can't find msLayer " . $serverLayer->msLayer);
             }
         }
     }

@@ -116,25 +116,22 @@ class Cartoserver {
 
         // images size
         // PRE_DRAW: 1) images
-        $pluginManager->images->setupSizes($mapRequest->images);
+        $pluginManager->images->setupSizes($mapRequest->imagesRequest);
 
         // location
-        // PRE_DRAW: 2) Location
         $pluginManager->location->getResult();
 
         // layer selection
-        // PRE_DRAW: 3) layers
         $pluginManager->layers->getResult();
 
         $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_PRE_DRAWING);
 
         // prepare output image
-        $pluginManager->images->drawMainmap($mapRequest->images);
+        $pluginManager->images->drawMainmap($mapRequest->imagesRequest);
         
         $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_DRAWING);
 
         // images result
-        // POST_DRAW: 1) images
         $pluginManager->images->getResult();
 
         $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_POST_DRAWING);
@@ -168,7 +165,6 @@ class Cartoserver {
     function getMapInfo($mapId) {
         return $this->callWithExceptionCheck('doGetMapInfo', $mapId);
     }
-
 }
 
 function setupSoapService($cartoserver) {
@@ -196,8 +192,7 @@ function setupSoapService($cartoserver) {
     // TODO: option should be in config
     ini_set("soap.wsdl_cache_enabled", "0");
 
-    // FIXME: get path from config
-    $server = new SoapServer('../htdocs/cartoserver.wsdl');
+    $server = new SoapServer(CARTOSERVER_HOME . '/server/cartoserver.wsdl');
 
     $server->addFunction('getMapInfo');
     $server->addFunction('getMap');

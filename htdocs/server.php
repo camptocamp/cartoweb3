@@ -7,17 +7,6 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
-/* 
-if (array_key_exists('wsdl', $_GET)) {
-    $filename = 'cartoserver.wsdl';
-    $handle = fopen($filename, 'r');
-    $contents = fread($handle, filesize($filename));
-    fclose($handle);
-    print($contents);
-    return;
-}
-*/
-
 function getSavedPostDir() {
     return CARTOSERVER_HOME . 'www-data/saved_posts/';
 }
@@ -49,7 +38,7 @@ function getPostData($postId) {
 
 if (array_key_exists('save', $_GET)) {
 
-    if (!@$HTTP_RAW_POST_DATA)
+    if (empty($HTTP_RAW_POST_DATA))
         return;
 
     savePostData($HTTP_RAW_POST_DATA);

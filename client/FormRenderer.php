@@ -18,6 +18,15 @@ class Smarty_Cartoclient extends Smarty {
     }
 }
 
+class Smarty_CorePlugin extends Smarty_Cartoclient {
+
+    function __construct(ClientConfig $config, ClientPlugin $plugin) {
+        parent::__construct($config);
+        
+        $this->template_dir = $plugin->getBasePath() . 'templates/';
+    }
+}
+
 // TODO: eventually create a class SmartyFormRender, and add a plugin mechanism in configuration
 // file to choose the templating sytem to use, as a class which extends the abstract class
 //  FormRenderer
@@ -73,7 +82,6 @@ class FormRenderer {
 
 		if (!@$config->cartoserverUrl)
 			return $path;
-	
 		
 		$parsedUrl = parse_url($config->cartoserverUrl);
 		
@@ -97,23 +105,35 @@ class FormRenderer {
 
         $cartoForm = $cartoclient->getCartoForm();
 		$clientSession = $cartoclient->getClientSession();
-		$imagesRes = $cartoclient->pluginManager->images->imagesResult;
+		$imagesRes = $cartoclient->getPluginManager()->images->imagesResult;
 
         $smarty = $this->smarty;
 
         $smarty->assign("mainmap_path", 
         			$this->getImagePath($imagesRes->mainmap->path));
 
+		$plugins = $cartoclient->getPluginManager()->getPlugins();
+
+		$tools = array();
+		foreach ($plugins as $plugin) {
+			if ($plugin instanceof ToolProvider) {
+				$toolsDescription = $plugin->getTools();
+				foreach($toolsDescription as $toolDescription) {
+					$tools[$toolDescription->id] = $toolDescription->label;
+				}
+			}
+		}
+		
+		// FIXME: initial selected tool might be set in configuration
+		
+		if (empty($clientSession->selectedTool)) {
+			$toolsIds = array_keys($tools);
+			if (!empty($toolsIds))
+				$clientSession->selectedTool = $toolsIds[0];
+		}		
 		$smarty->assign('selected_tool', $clientSession->selectedTool);
-
-        $smarty->assign('tools', array(
-                            CartoForm::TOOL_ZOOMIN => 'Zoom in',
-                            CartoForm::TOOL_ZOOMOUT => 'Zoom out',
-                            CartoForm::TOOL_RECENTER => 'Recenter',
-                            CartoForm::TOOL_QUERY => 'Query'
-                            ));
-
-        $smarty->assign('layers2', 'TOTO');
+				
+        $smarty->assign('tools', $tools);
 
         // ------------- string translations
 

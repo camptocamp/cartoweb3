@@ -1,0 +1,313 @@
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:enc="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="http://camptocamp.com/wsdl/cartoserver/" xmlns:types="http://camptocamp.com/cartoserver/xsd" xmlns:test="http://camptocamp.com/cartoserver" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:enc11="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://camptocamp.com/wsdl/cartoserver/" name="CartoserverWsdl">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://camptocamp.com/cartoserver/xsd">
+      <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+	<!-- Basic types -->
+
+      <complexType name="Bbox">
+        <all>
+          <element name="minx" type="xsd:double"/>
+          <element name="miny" type="xsd:double"/>
+          <element name="maxx" type="xsd:double"/>
+          <element name="maxy" type="xsd:double"/>
+        </all>
+      </complexType>
+
+      <complexType name="Point">
+        <all>
+          <element name="x" type="xsd:int"/>
+          <element name="y" type="xsd:int"/>
+        </all>
+      </complexType>
+
+	<!-- Mapinfo structure -->
+
+      <complexType name="MapInfo">
+        <all>
+          <element name="mapId" type="xsd:string"/>
+          <element name="mapLabel" type="xsd:string"/>
+          <element name="layers" type="types:ArrayOfLayer"/>
+          <element name="initialMapStates" type="types:ArrayOfInitialMapState"/>
+        </all>
+      </complexType>
+      
+      <complexType name="ArrayOfLayer">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:Layer[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>     
+
+      <complexType name="Layer">
+        <all>
+          <element name="id" type="xsd:string"/>
+          <element name="label" type="xsd:string"/>
+          <element name="minScale" type="xsd:integer"/>
+          <element name="maxScale" type="xsd:integer"/>
+          <element name="icon" type="xsd:string"/>
+        </all>
+      </complexType>
+      
+      <complexType name="ArrayOfInitialMapState">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:InitialMapState[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <complexType name="InitialMapState">
+        <all>
+          <element name="id" type="xsd:string"/>
+          <element name="location" type="types:InitialLocation"/>
+          <element name="layers" type="types:ArrayOfLayerState"/>
+        </all>
+      </complexType>
+      
+      <complexType name="InitialLocation">
+        <all>
+          <element name="bbox" type="types:Bbox"/>
+        </all>
+      </complexType>
+
+      <complexType name="ArrayOfLayerState">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:LayerState[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+      
+      <complexType name="LayerState">
+        <all>
+          <element name="id" type="xsd:string"/>
+          <element name="hidden" type="xsd:boolean"/>
+          <element name="selected" type="xsd:boolean"/>
+          <element name="folded" type="xsd:boolean"/>
+        </all>
+      </complexType>
+      
+      <!-- mapRequest|Result -->
+
+      <complexType name="MapRequest">
+        <all>
+          <element name="mapId" type="xsd:string"/>
+          <element name="locationRequest" type="types:LocationRequest"/>
+          <element name="layersRequest" type="types:LayersRequest" minOccurs="0"/>
+          <element name="imagesRequest" type="types:ImagesRequest"/>
+          <element name="queryRequest" type="types:QueryRequest" minOccurs="0"/>
+          <element name="selectionRequest" type="types:SelectionRequest" minOccurs="0"/>
+          <element name="hilightRequest" type="types:HilightRequest" minOccurs="0"/>
+        </all>
+      </complexType>
+      
+      <complexType name="MapResult">
+        <all>
+          <element name="locationResult" type="types:LocationResult" minOccurs="0"/>
+          <element name="imagesResult" type="types:ImagesResult"/>
+          <element name="queryResult" type="types:QueryRequest" minOccurs="0"/>
+          <element name="selectionResult" type="types:SelectionResult" minOccurs="0"/>
+          <element name="hilightResult" type="types:HilightResult" minOccurs="0"/>
+        </all>
+      </complexType>
+      
+      <!-- location -->
+ 
+      <complexType name="LocationRequest">
+        <all>
+          <element name="locationType"  type="types:LocationType"/>
+            <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
+            <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
+            <element name="zoomPointLocationRequest" type="types:ZoomPointLocationRequest" minOccurs="0"/>
+        </all>
+      </complexType>     
+
+      <complexType name="LocationResult">
+        <all>
+           <element name="bbox" type="types:Bbox"/>
+           <element name="scale" type="xsd:double"/>
+        </all>
+      </complexType>
+            
+      <simpleType name="LocationType">
+        <restriction base="xsd:string">
+          <enumeration value="bboxLocationRequest"/>
+          <enumeration value="panLocationRequest"/>
+          <enumeration value="zoomPointLocationRequest"/>
+          <enumeration value="zoomRectangleLocationRequest"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="BboxLocationRequest">
+        <all>
+          <element name="bbox" type="types:Bbox"/>
+        </all>
+      </complexType>
+
+      <simpleType name="PanDirectionType">
+        <restriction base="xsd:string">
+          <enumeration value="VERTICAL_PAN_NORTH"/>
+          <enumeration value="VERTICAL_PAN_NONE"/>
+          <enumeration value="VERTICAL_PAN_SOUTH"/>
+          <enumeration value="HORIZONTAL_PAN_WEST"/>
+          <enumeration value="HORIZONTAL_PAN_NONE"/>
+          <enumeration value="HORIZONTAL_PAN_EAST"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="PanDirection">
+        <all>
+          <element name="verticalPan" type="types:PanDirectionType"/>
+          <element name="horizontalPan" type="types:PanDirectionType"/>
+        </all>
+      </complexType>
+
+      <complexType name="PanLocationRequest">
+        <all>
+          <element name="bbox" type="types:Bbox"/>
+          <element name="panDirection" type="types:PanDirection"/>
+        </all>
+      </complexType>
+
+      <simpleType name="ZoomType">
+        <restriction base="xsd:string">
+          <enumeration value="ZOOM_DIRECTION_IN"/>
+          <enumeration value="ZOOM_DIRECTION_NONE"/>
+          <enumeration value="ZOOM_DIRECTION_OUT"/>
+          <enumeration value="ZOOM_FACTOR"/>
+          <enumeration value="ZOOM_SCALE"/>
+        </restriction>
+      </simpleType>
+
+      <complexType name="ZoomPointLocationRequest">
+        <all>
+          <element name="bbox" type="types:Bbox"/>
+          <element name="point" type="types:Point"/>
+          <element name="zoomType" type="types:ZoomType"/>
+          <element name="zoomFactor" type="xsd:float" minOccurs="0"/>
+          <element name="scale" type="xsd:integer" minOccurs="0"/>
+        </all>
+      </complexType>
+     
+      <!-- layers -->
+
+      <complexType name="LayersRequest">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <!-- no LayersResult -->
+      
+      <!-- images -->
+
+      <complexType name="ImagesRequest">
+        <all>
+          <element name="mainmap" type="types:Image"/>
+          <element name="keymap" type="types:Image"/>
+          <element name="scalebar" type="types:Image"/>
+        </all>
+      </complexType>
+
+      <complexType name="ImagesResult">
+        <all>
+          <element name="mainmap" type="types:Image"/>
+          <element name="keymap" type="types:Image"/>
+          <element name="scalebar" type="types:Image"/>
+        </all>
+      </complexType>
+
+      <complexType name="Image">
+        <all>
+          <element name="isDrawn" type="xsd:boolean"/>
+          <element name="path" type="xsd:string"/>
+          <element name="width" type="xsd:int"/>
+          <element name="height" type="xsd:int"/>
+          <element name="format" type="xsd:string"/>
+        </all>
+      </complexType>
+
+      <!-- query -->
+
+      <complexType name="QueryRequest">
+      </complexType>
+
+      <complexType name="QueryResult">
+      </complexType>
+
+      <!-- selection -->
+
+      <complexType name="SelectionRequest">
+      </complexType>
+
+      <complexType name="SelectionResult">
+      </complexType>
+
+      <!-- hilight -->
+
+      <complexType name="HilightRequest">
+      </complexType>
+
+      <complexType name="HilightResult">
+      </complexType>
+
+
+    </schema>
+  </wsdl:types>
+
+  <wsdl:message name="getMapInfoRequest">
+    <wsdl:part name="mapId" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="getMapInfoResult">
+    <wsdl:part name="return" type="types:MapInfo"/>
+  </wsdl:message>
+
+  <wsdl:message name="getMapResult">
+    <wsdl:part name="return" type="types:MapResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="getMapRequest">
+    <wsdl:part name="mapRequest" type="types:MapRequest"/>
+  </wsdl:message>
+
+  <portType name="CartoserverPortType">
+    <wsdl:operation name="getMap">
+      <wsdl:input message="tns:getMapRequest"/>
+      <wsdl:output message="tns:getMapResult"/>
+    </wsdl:operation>
+    <wsdl:operation name="getMapInfo">
+      <wsdl:input message="tns:getMapInfoRequest"/>
+      <wsdl:output message="tns:getMapInfoResult"/>
+    </wsdl:operation>
+  </portType>
+
+  <binding name="CartoserverBinding" type="tns:CartoserverPortType">
+    <soap12:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getMap">
+      <input>
+        <soap12:body use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://camptocamp.com/cartoserver"/>
+      </input>
+      <output>
+        <soap12:body use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://camptocamp.com/cartoserver"/>
+      </output>
+    </wsdl:operation>
+    <wsdl:operation name="getMapInfo">
+      <input>
+        <soap12:body use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://camptocamp.com/cartoserver"/>
+      </input>
+      <output>
+        <soap12:body use="encoded" encodingStyle="http://www.w3.org/2003/05/soap-encoding" namespace="http://camptocamp.com/cartoserver"/>
+      </output>
+    </wsdl:operation>
+  </binding>
+  <service name="CartoserverService">
+    <port name="CartoserverRpcPort" binding="tns:CartoserverBinding">
+       <soap12:address location="{SOAP_ADDRESS}"/>
+    </port>
+  </service>
+</wsdl:definitions>

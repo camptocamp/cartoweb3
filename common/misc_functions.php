@@ -1,19 +1,29 @@
 <?php
 
 // only for debug
-function x($a="__died__\n") {
+function x1($a="__died__ \n") {
     $log =& LoggerManager::getLogger('__x__');
     
-    print "type ".gettype($a)."\n";
+    print "<pre> type ".gettype($a)."\n";
     if (is_object($a) or is_array($a)) {
         print "obj\n";
         $log->debug($a);
         var_dump($a);
-        x();
+        x1();
     }
     //debug_print_backtrace();
     $log->debug($a);
+}
+
+// only for debug
+function x($a="__died__\n") {
+	x1($a);
     die($a."\n");
+}
+
+function bt($a="__died__\n") {
+    debug_print_backtrace();
+	x($a);
 }
 
 function l($arg=false) {

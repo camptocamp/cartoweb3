@@ -1,24 +1,9 @@
 <?php
 
-require_once('smarty/Smarty.class.php');
-
-class Smarty_CorePlugin extends Smarty_Cartoclient {
-
-    function __construct($config) {
-        parent::__construct($config);
-    }
-}
-
-class LayerState {
-
-    public $selectedLayers = array();
-    public $foldedLayers = array();
-}
-
 class ClientLayers extends ClientCorePlugin {
     private $log;
 
-    private $layerState;
+    private $layersState;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -28,54 +13,64 @@ class ClientLayers extends ClientCorePlugin {
     function loadSession($sessionObject) {
         $this->log->debug("loading session:");
         $this->log->debug($sessionObject);
-
-        $this->layerState = $sessionObject;
-        
+        $this->layersState = $sessionObject;
     }
 
-    function createSession($mapInfo) {
+    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
 
-        $this->layerState = new LayerState();
-        
-        foreach ($mapInfo->layers as $layer) {
-            if (!$layer instanceof LayerContainer)
-                continue;
-            if (@$layer->selected)
-                $this->layerState->selectedLayers[] = $layer->id;
-            if ($layer instanceof LayerGroup) {
-                if (@$layer->folded)
-                    $this->layerState->foldedLayers[] = $layer->id;
-            }
+		$this->layersState = array();
+		foreach ($initialMapState->layers as $initialLayerState) {
+        	$this->layersState[$initialLayerState->id] = $initialLayerState;
         }
     }
 
     function handleHttpRequest($request) {
         $this->log->debug("update form :");
-        $this->log->debug($this->layerState);
-
+        $this->log->debug($this->layersState);
         
         if (!@$request['layers'])
             $request['layers'] = array();
         $this->log->debug("requ layers");
         $this->log->debug($request['layers']);
-        $this->layerState->selectedLayers = $request['layers'];
-
-        $this->log->debug("selected layers: ");
-        $this->log->debug($this->layerState->selectedLayers);
+        
+        // TODO: hidden layers
+        // TODO: folded layers
+        
+        // disables all layers
+        $mapInfo = $this->cartoclient->getMapInfo();
+        $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        foreach ($layers as $layer) {
+            $this->layersState[$layer->id]->selected = false;
+        }
+        
+        foreach ($request['layers'] as $layerId) {
+            $this->layersState[$layerId]->selected = true;
+        }
     }
+
+	private function getSelectedLayers() {
+		$selectedLayers = array();
+        $mapInfo = $this->cartoclient->getMapInfo();
+        $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        foreach ($layers as $layer) {
+            if (@$this->layersState[$layer->id]->selected)
+            	$selectedLayers[] = $layer->id;
+        }
+		return $selectedLayers;
+	}
 
     function buildMapRequest($mapRequest) {
 
-        $mapRequest->layerSelectionRequest = $this->layerState->selectedLayers;
-
+        $mapRequest->layersRequest = $this->getSelectedLayers();
     }
 
     function handleMapResult($mapResult) {}
 
     private function drawLayers() {
 
-        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig());
+        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+        				$this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
         $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
@@ -84,7 +79,7 @@ class ClientLayers extends ClientCorePlugin {
         }
 
         $smarty->assign('layers', $checkboxLayerMap);
-        $smarty->assign('selected_layers', $this->layerState->selectedLayers);
+        $smarty->assign('selected_layers', $this->getSelectedLayers());
 
         return $smarty->fetch('layers.tpl');
     }
@@ -95,16 +90,14 @@ class ClientLayers extends ClientCorePlugin {
         }
 
         $layersOutput = $this->drawLayers();
-
-        $template->assign('layers3', $layersOutput);
-        $template->assign('layers4', 'LLL4');
+        $template->assign('layers', $layersOutput);
     }
 
     function saveSession() {
         $this->log->debug("saving session:");
-        $this->log->debug($this->layerState);
+        $this->log->debug($this->layersState);
 
-        return $this->layerState;
+        return $this->layersState;
     }
 }
 ?>

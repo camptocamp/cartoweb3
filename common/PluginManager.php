@@ -8,13 +8,15 @@ class PluginManager {
 
     private $plugins = array();
     
+    function getPlugins() {
+    	return $this->plugins;
+    }
+    
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        //$this->pluginsPath = $pluginsPath;
     }
 
     private function getBasePluginPath($path, $name) {
-
         return $path . $name . '/';
     }
 
@@ -39,33 +41,24 @@ class PluginManager {
         
         return $prefix . ucfirst($name);
     }
-
-//     private function initBasePlugin($plugin, $path, $name) {
-//         $plugin->setBasePath($path . $name . '/');
-        
-//         return $plugin;
-//     }
     
     public function loadPlugins($path, $type, $names, $initArgs=NULL) {
 
         // TODO: load per plugin configuration file
         //  manage plugin dependency, ...
 
-        //x('lp' . $this->pluginsPath);
-        $this->log->debug("foo");
-        
         foreach ($names as $name) {
             $className = $this->getClassName($type, $name);
-            //$fileName = $className . '.php';
 
             $includePath = $this->getPath($path, $type, $name) . $className . '.php';
             $this->log->debug("trying to load class $includePath");
 
-            // load common file
-            @include_once($this->getCommonPath($path, $name));
+			// FIXME: this won't work in case of non absolute paths
+            if (is_readable($this->getCommonPath($path, $name)))
+            	include_once($this->getCommonPath($path, $name));
 
-            // FIXME: prepend @ in production
-            include_once($includePath);
+            if (is_readable($includePath))
+            	include_once($includePath);
 
             if (!class_exists($className)) {
                 $this->log->warn("Couldn't load plugin $className");
@@ -73,7 +66,6 @@ class PluginManager {
             }
 
             $plugin = new $className();
-            //$plugin = $this->initBasePlugin($plugin, $path, $name);
             $plugin->setBasePath($this->getBasePluginPath($path, $name));
             $plugin->setName($name);
 
@@ -87,12 +79,6 @@ class PluginManager {
     }
 
     function callPlugins($functionName, $args) {
-
-        /*
-        $numargs = func_num_args();
-        $args = func_get_args();
-        array_shift($args);
-        */
 
         foreach ($this->plugins as $plugin) {
             call_user_func_array(array($plugin, $functionName), $args);

@@ -14,6 +14,23 @@ class MapInfoHandler {
         $this->loadMapInfo($mapId);
     }
 
+	/**
+	 * Process mapInfo after being loaded from the configuration.
+	 * Does some basic consistency checks, fills some information.
+	 */
+	private function fixupMapInfo(MapInfo $mapInfo) {
+	
+		foreach ($mapInfo->layers as $layer) {
+			if (empty($layer->label))
+				$layer->label = $layer->id; 
+			if (empty($layer->msLayer))
+				$layer->msLayer = $layer->id; 
+
+		}
+		
+		return $mapInfo;
+	}
+
     private function loadMapInfo($mapId) {
 
         $this->configMapPath = $this->serverContext->config->configPath . 
@@ -21,14 +38,12 @@ class MapInfoHandler {
 
         $configStruct = StructHandler::loadFromIni($this->configMapPath .
                                             $mapId . '.ini');
-        
         $this->mapInfo = StructHandler::unserialize($configStruct->mapInfo, 'MapInfo');
-        
+        $this->mapInfo = $this->fixupMapInfo($this->mapInfo);
         return $this->mapInfo;
     }
 
     function getMapInfo() {
-
         return $this->mapInfo;
     }
 
@@ -53,7 +68,6 @@ class MapInfoHandler {
                 
                 $initialMapInfo->addChildLayerBase($layer, $layerClass);
             }
-
         }
     }
 }

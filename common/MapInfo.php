@@ -9,19 +9,24 @@ class LayerBase {
     const TYPE_LAYER = 'layer';
     const TYPE_LAYERCLASS = 'layerClass';
     
+    // Should not be there, but we've no polymorphism
+    
+    public $minScale = 0;
+    public $maxScale = 0;
+	public $icon = "none";
+    
     function getVarInfo() {
         return array(
             'children' => 'array',
-
-            //'msLayers' => 'array',
+            /* 'msLayers' => 'array', */
             'test' => 'array,int',
             'maptest' => 'obj,stdclass',
-            'selected' => 'boolean',
         );
     }
 
     function endSerialize() {
-        if (!@$this->type) {
+
+        if (empty($this->type)) {
             
             // TEMP HACK
             $this->type = LayerBase::TYPE_LAYER;
@@ -41,15 +46,11 @@ class LayerBase {
             throw new CartocommonException('unknown layer type: ' .
                                            $layerStruct->type);
         }
-        
     }
 }
 
 class LayerContainer extends LayerBase {
     public $children = array();
-    public $selected;
-
-
 }
 
 class LayerGroup extends LayerContainer {
@@ -57,44 +58,76 @@ class LayerGroup extends LayerContainer {
 }
 class Layer extends LayerContainer {
 
-
     function loadFromStruct($layerStruct) {
         $this->layerStruct = $layerStruct;
     }
-
 }
 
 class LayerClass extends LayerBase {
     public $name;
 }
 
-class Location2 {
+class Location {
     function getVarInfo($context) {
         
         if ($context == StructHandler::CONTEXT_INI)
-            return array(
-                'bbox' => 'bbox',
-                );
+            return array('bbox' => 'bbox');
         else 
-            return array(
-                'bbox' => 'obj,Bbox',
-                );
+            return array('bbox' => 'obj,Bbox');
+    }
+}
+
+class InitialLocation {
+	public $bbox;
+	
+	function getVarInfo($context) {
+        if ($context == StructHandler::CONTEXT_INI)
+            return array('bbox' => 'bbox');
+        else 
+            return array('bbox' => 'obj,Bbox');
+    }
+}
+
+class LayerState {
+	public $id;
+	public $hidden;
+	public $selected;
+	public $folded;
+
+    function getVarInfo() {
+        return array(
+        'hidden' => 'boolean',
+        'selected' => 'boolean',
+        'folded' => 'boolean',
+        );
+    }
+}
+
+class InitialMapState {
+
+	public $id;
+	public $location;
+	public $layers;
+
+    function getVarInfo() {
+        return array(
+        'location' => 'obj,InitialLocation',
+        'layers' => 'map,obj,LayerState',
+        );
     }
 }
 
 class MapInfo {
-
-    //private $initialMapInfoStruct;
-    //private $layerList;
     
     public $layers;
+	public $initialMapStates;
 
     function getVarInfo() {
         return array(
-        
         'layers' => 'map,obj,LayerBase',
+        'initialMapStates' => 'map,obj,InitialMapState',
         'extent' => 'bbox',
-        'location' => 'obj,Location2',
+        'location' => 'obj,Location',
         );
     }
 
@@ -107,6 +140,15 @@ class MapInfo {
         foreach ($this->layers as $layer) {
             if ($layer->id == $layerId)
                 return $layer;
+        }
+        return NULL;
+    }
+
+    function getInitialMapStateById($mapStateId) {
+
+        foreach ($this->initialMapStates as $mapState) {
+            if ($mapState->id == $mapStateId)
+                return $mapState;
         }
         return NULL;
     }
@@ -135,7 +177,6 @@ class MapInfo {
             $parentLayer->children[] = $childLayerId;
 
         $this->layers[$childLayerId] = $childLayer;
-
     }
 }
 

@@ -1,40 +1,20 @@
 <?php
 
-////////////////////////////////////
-// Request objects
-
-class LayerSelectionRequest {
-
-    public $layersId;
-}
-
-class LayerSelection {
-
-    public $layersId;
-}
-
-class MapRequest /* extends MapState */ {
+class MapRequest {
 
     public $locationRequest;
-    public $outlineRequest;
-    public $layerSelectionRequest;
+    public $imagesRequest;
+    public $layersRequest;
 
-    public $images;
+	// more from plugins
 }
 
-// FIXME: does not extend to prevent axis problems
-class MapResult /* extends MapState */ {
+class MapResult {
 
-    //public $locationResult; DEPR
-    public $location;
-    public $images;
+    public $locationResult;
+    public $imagesResult;
 
-    //public $layerSelection;
-
+    // more from plugins
 }
-
-////////////////////////////////////
-// Result
-
 
 ?>

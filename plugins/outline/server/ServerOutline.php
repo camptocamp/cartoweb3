@@ -12,14 +12,6 @@ class ServerOutline extends ServerPlugin {
         return ServerPlugin::TYPE_DRAWING;
     }
 
-    function getRequestName() {
-        return 'outlineRequest';
-    }
-
-    function getResultName() {
-        return false;
-    }
-
     private function draw_rect($msMapObj, $msImage, $rectangle) {
 
         $outline_layer = @$msMapObj->getLayerByName($this->serverContext->mapInfo->outlineLayer);

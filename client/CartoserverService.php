@@ -64,16 +64,6 @@ class CartoserverService {
 
             $client = new SoapClient($this->getCartoserverUrl());
 
-            /*
-            $client = new SoapClient(NULL, 
-                                     array( 
-                                         "location" => $config->cartoserverUrl,
-                                         'soap_version' => SOAP_1_2,
-                                         "uri"      => "urn:fill-me",
-                                         "style"    => SOAP_RPC, 
-                                         "use"      => SOAP_ENCODED 
-                                         )); 
-            */
             $mapResult = $client->$function($argument);
         }
         return $mapResult;

@@ -25,8 +25,6 @@ abstract class ServerPlugin extends PluginBase {
     }
 
     abstract function getType();
-    abstract function getRequestName();
-    abstract function getResultName();
 
     abstract function getResultFromRequest($requ);
 
@@ -42,13 +40,12 @@ abstract class ServerPlugin extends PluginBase {
             return;
 
         if (!$this->log) {
-            debug_print_backtrace();
-            x('parent_not_initialized');
+			throw new CartoserverException('parent plugin not initialized');
         }
 
-        $requestName = $this->getRequestName();
+        $requestName = $this->getName() . 'Request';
         $this->log->debug("request name is $requestName");
-        $request = $this->serverContext->mapRequest->$requestName;
+        $request = @$this->serverContext->mapRequest->$requestName;
         if (!$request) {
             $this->log->warn("request variable $requestName not present: skipping plugin " .
                        get_class($this));
@@ -57,7 +54,7 @@ abstract class ServerPlugin extends PluginBase {
         
         $result = $this->getResultFromRequest($request);
 
-        $resultName = $this->getResultName();
+        $resultName = $this->getName() . 'Result';
 
         $this->log->debug("plugin result: $resultName = " . $result);
         $request = $this->serverContext->mapRequest->$requestName;

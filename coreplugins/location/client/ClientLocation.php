@@ -1,30 +1,88 @@
 <?php
 
-class ClickInfo {
-    const CLICK_POINT = 1;
-    const CLICK_RECTANGLE = 2;
-
-    public $type;
-    public $pointClick;
-    public $rectangleClick;
-
-}
-
 class LocationState {
-    // FIXME: maybe use location object
-
     public $bbox;
-    //public $scale;
 }
 
-class ClientLocation extends ClientCorePlugin {
+class ClientLocation extends ClientCorePlugin implements ToolProvider {
     private $log;
-
     private $locationState;
+
+	private $locationRequest;
+	private $locationResult;
+
+	const TOOL_ZOOMIN = 'zoom_in';
+	const TOOL_ZOOMOUT = 'zoom_out';
+	const TOOL_PAN = 'pan';
+	const TOOL_RECENTER = 'recenter';
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
+    }
+
+    private function panDirectionToFactor($panDirection) {
+        switch ($panDirection) {
+        case PanDirection::VERTICAL_PAN_NORTH:
+        case PanDirection::HORIZONTAL_PAN_EAST:
+            return 1; break;
+        case PanDirection::VERTICAL_PAN_NONE:
+        case PanDirection::HORIZONTAL_PAN_NONE:
+            return 0; break;
+        case PanDirection::VERTICAL_PAN_SOUTH:
+        case PanDirection::HORIZONTAL_PAN_WEST:
+            return -1; break;
+        default:
+            throw new CartoserverException("unknown pan direction $panDirection");
+        }
+    }
+
+    private function handlePanButtons() {
+
+        $panButtonToDirection = array(
+            'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH, 
+                              PanDirection::HORIZONTAL_PAN_WEST),
+            'pan_n' => array(PanDirection::VERTICAL_PAN_NORTH, 
+                             PanDirection::HORIZONTAL_PAN_NONE),
+            'pan_ne' => array(PanDirection::VERTICAL_PAN_NORTH, 
+                              PanDirection::HORIZONTAL_PAN_EAST),
+
+            'pan_w' => array(PanDirection::VERTICAL_PAN_NONE, 
+                             PanDirection::HORIZONTAL_PAN_WEST),
+            'pan_e' => array(PanDirection::VERTICAL_PAN_NONE,
+                             PanDirection::HORIZONTAL_PAN_EAST),
+
+            'pan_sw' => array(PanDirection::VERTICAL_PAN_SOUTH,
+                              PanDirection::HORIZONTAL_PAN_WEST),
+            'pan_s' => array(PanDirection::VERTICAL_PAN_SOUTH,
+                             PanDirection::HORIZONTAL_PAN_NONE),
+            'pan_se' => array(PanDirection::VERTICAL_PAN_SOUTH,
+                              PanDirection::HORIZONTAL_PAN_EAST),
+            );
+                            
+        foreach ($panButtonToDirection as $buttonName => $directions) {
+            if (!HttpRequestHandler::isButtonPushed($buttonName))
+            	continue;
+
+            $verticalPan = $directions[0];                
+            $horizontalPan = $directions[1];                
+
+            //FIXME: read this from config / mapInfo
+            $panRatio = 1.0;
+               
+            $bbox = $this->locationState->bbox;
+            $xOffset = $bbox->getWidth() * $panRatio * 
+            	$this->panDirectionToFactor($horizontalPan);
+        	$yOffset = $bbox->getHeight() * $panRatio *
+            	$this->panDirectionToFactor($verticalPan);
+
+        	$center = $bbox->getCenter();
+        	$point = new Point($center->x + $xOffset,
+                         $center->y + $yOffset);
+        		
+        	$this->locationRequest = $this->buildZoomPointRequest(
+        			ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
+        }
     }
 
     function loadSession($sessionObject) {
@@ -32,14 +90,13 @@ class ClientLocation extends ClientCorePlugin {
         $this->log->debug($sessionObject);
 
         $this->locationState = $sessionObject;
-        
     }
 
-    function createSession($mapInfo) {
+    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
 
         $this->locationState = new LocationState();
-        $this->locationState->bbox = $mapInfo->location->bbox;
+        $this->locationState->bbox = $initialMapState->location->bbox;
     }
 
     function getLocation() {
@@ -50,133 +107,121 @@ class ClientLocation extends ClientCorePlugin {
     }
 
     function handleHttpRequest($request) {
-
-//         $this->log->debug("update form :");
-//         $this->log->debug($this->locationState);
-
-        
-//         if (!@$request['locations'])
-//             $request['locations'] = array();
-//         $this->log->debug("requ locations");
-//         $this->log->debug($request['locations']);
-//         $this->locationState->selectedLocations = $request['locations'];
-
-//         $this->log->debug("selected locations: ");
-//         $this->log->debug($this->locationState->selectedLocations);
-    }
-
-
-    private function getMainmapClickedLocationRequest($selectedTool, 
-                                                      $currentLocation,
-                                                      $mainmapClickInfo) {
     
-        $locationRequest = new ZoomPointLocationRequest();
+    	$this->handlePanButtons();
+    }
+	
+	private function getZoomInFactor(Rectangle $rectangle) {
 
-        switch($mainmapClickInfo->type) {
+		$bbox = $this->locationState->bbox;
+		
+		$widthRatio = $bbox->getWidth() / $rectangle->getWidth();
+		$heightRatio = $bbox->getHeight() / $rectangle->getHeight();
+		
+		return min($widthRatio, $heightRatio);
+	}
 
-        case ClickInfo::CLICK_POINT:
+	private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0) {
 
-            $toolToZoomDirection = array(
-                CartoForm::TOOL_ZOOMIN => 
+	    $zoomRequest = new ZoomPointLocationRequest();
+        $zoomRequest->locationType = LocationRequest::
+        										LOC_REQ_ZOOM_POINT;
+        $zoomRequest->point = $point; 
+        $zoomRequest->zoomType = $zoomType;
+        $zoomRequest->zoomFactor = $zoomFactor;
+        $zoomRequest->bbox = $this->locationState->bbox;
+
+		$locationRequest = new LocationRequest();                
+        $locationType = $zoomRequest->locationType;
+        $locationRequest->locationType = $locationType;
+    	$locationRequest->$locationType = $zoomRequest;
+    	
+    	return $locationRequest;
+	}
+
+	function handleMainmapTool(ToolDescription $tool, 
+							Shape $mainmapShape) {
+
+        $toolToZoomType = array(
+                self::TOOL_ZOOMIN  => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_IN,
-                CartoForm::TOOL_RECENTER => 
+                self::TOOL_RECENTER => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
-                CartoForm::TOOL_ZOOMOUT=> 
+                self::TOOL_ZOOMOUT=> 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_OUT);
 
-            $direction = NULL;
-            foreach ($toolToZoomDirection as $tool => $dir) {
-                if ($selectedTool == $tool) {
-                    $direction = $dir;
-                    break;
-                }
-            }
+        $zoomType = @$toolToZoomType[$tool->id];
+        if (empty($zoomType))
+        	throw new CartoclientException("unknown mainmap tool " . $tool->id);
 
-            if ($direction) {
-                $locationRequest->locationType = LocationRequest::LOC_REQ_ZOOM_POINT;
-            
-                //$locationRequest->bbox = $currentLocation->bbox;
-                $locationRequest->imagePoint = 
-                    $mainmapClickInfo->pointClick;
-                $locationRequest->zoomDirection = $direction;
-                return $locationRequest;
-            }
+		$point = $mainmapShape->getCenter();
 
-            x("todo_tool");
+		$zoomFactor = 0;
+		if ($tool->id == self::TOOL_ZOOMIN && $mainmapShape instanceof Rectangle) {
+			$zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
+			$zoomFactor = $this->getZoomInFactor($mainmapShape);
+		}
+		
+		return $this->buildZoomPointRequest($zoomType, $point, $zoomFactor);
+	}
+	
+	function handleKeymapTool(ToolDescription $tool, 
+							Shape $keymapShape) {
+		/* nothing to do */							
+	}
 
-            break;
-        case ClickInfo::CLICK_RECTANGLE:
-            x("todo_rect");
-            break;
-        default:
-            throw new CartoclientException("unknown mainmap clickinfo type");
-            break;
-        }
-    
-        return $locationRequest;
-    }
-
-    private function getLocationRequest() {
-
-        $cartoclient = $this->cartoclient;
-
-        $locationRequest = new LocationRequest();
-
-        $cartoForm = $cartoclient->getCartoForm();
-        $clientSession = $cartoclient->getClientSession();
-
-        if (!$cartoForm)
-            x('_no_cartoform_');
-
-        if ($cartoForm->pushedButton == CartoForm::BUTTON_PAN) {
-            $locationRequest = new PanLocationRequest();
-            $locationRequest->locationType = LocationRequest::LOC_REQ_PAN;
-
-            $locationRequest->panDirection = 
-                $cartoForm->panDirection;
-
-
-        } else if ($cartoForm->pushedButton == CartoForm::BUTTON_MAINMAP) {
-            $type = 'panLocationRequest';
-        
-            $locationRequest = 
-                $this->getMainmapClickedLocationRequest($clientSession->selectedTool, 
-                                                        $this->locationState->bbox,
-                                                        $cartoForm->mainmapClickInfo);
-        } else {
-
-            $locationRequest = new BboxLocationRequest();
-            $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
-        }
-
-        // the previous bbox
-        $locationRequest->bbox = $this->locationState->bbox;
-
-        $outerLocationRequest = new LocationRequest();
-        $locationType = $locationRequest->locationType;
-        $outerLocationRequest->locationType = $locationType;
-        $outerLocationRequest->$locationType = $locationRequest;
-
-        return $outerLocationRequest;
-    }
+	function getTools() {
+		
+		return array(new ToolDescription(self::TOOL_ZOOMIN, NULL, 'Zoom in', 
+			ToolDescription::MAINMAP),
+			new ToolDescription(self::TOOL_ZOOMOUT, NULL, 'Zoom out', 
+				ToolDescription::MAINMAP),
+			new ToolDescription(self::TOOL_PAN, NULL, 'Pan', 
+				ToolDescription::MAINMAP),
+			new ToolDescription(self::TOOL_RECENTER, NULL, 'Recenter', 
+				ToolDescription::MAINMAP));
+	}
 
     function buildMapRequest($mapRequest) {
 
-        $mapRequest->locationRequest = $this->getLocationRequest();
+		$locationRequest = NULL;
+		if (!is_null($this->locationRequest)) 
+			$locationRequest = $this->locationRequest;
+		
+		if (is_null($locationRequest)) {
+		
+		    $cartoclient = $this->cartoclient;
+			$locationRequest = $cartoclient->getHttpRequestHandler()
+									->handleTools($this);
+		}
+		
+		if (is_null($locationRequest)) // stay at the same location
+			$locationRequest = $this->buildZoomPointRequest(
+        				ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
+        				$this->locationState->bbox->getCenter());
+        $mapRequest->locationRequest = $locationRequest;
     }
 
     function handleMapResult($mapResult) {
-
         // TODO: have a generic way of request/result serialisation which
         // sits above the plugin mechanism 
 
-        $mapResult->location = StructHandler::unserialize($mapResult->location, 'LocationResult', 
+        $mapResult->location = StructHandler::unserialize($mapResult->locationResult,
+        											 	  'LocationResult', 
                                                           StructHandler::CONTEXT_OBJ);
 
         $this->locationState->bbox = $mapResult->location->bbox;
+        
+        $this->locationResult = $mapResult->location;
     }
 
     function renderForm($template) {
+	 	
+	 	$locationInfo = sprintf("Bbox: %s scale %s", 
+	 				$this->locationState->bbox->__toString(),
+	 				$this->locationResult->scale);
+	 	
+	 	$template->assign('location_info', $locationInfo);
     }
 
     function saveSession() {

@@ -1,3 +1,14 @@
+2004-09-16  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
+
+        * simplification of plugin interfaces
+		* new query plugin
+		* per plugin template mechanism
+		* refactoring of selectionRequest: uses only geographical coordinates
+		* better handling of wsdl file, support for reverse proxy
+		* new tools can be provided by plugins implementind a ToolProvider
+		* Dhtml integration (with legacy Rosa parameter interface, which needs to be changed)
+		* More uniform mechanism for mainmap interaction (using shapes)
+
 2004-09-09  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
 
 		* first commit

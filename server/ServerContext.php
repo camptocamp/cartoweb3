@@ -4,7 +4,6 @@ class ServerContext {
     private $log;
 
     public $msMapObj;
-    //private $mapState;
 
     public $mapInfo;
     public $mapInfoHandler;
@@ -54,11 +53,22 @@ class ServerContext {
         }
     }
 
+	function resetMsErrors() {
+	    $error = ms_GetErrorObj();
+        while($error && $error->code != MS_NOERR) {
+            $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n", $error->routine, $error->message);
+            $this->log->debug($errorMsg);
+            $error = $error->next();
+        } 
+	   	ms_ResetErrorList();
+	}
+
     function checkMsErrors() {
         $error = ms_GetErrorObj();
         if (!$error || $error->code == MS_NOERR)
             return;
         
+		$errorMessages = '';
         while($error && $error->code != MS_NOERR) {
             $errorMsg = sprintf("Error in %s: %s<br>\n", $error->routine, $error->message);
             $this->log->fatal($errorMsg);
@@ -72,7 +82,7 @@ class ServerContext {
     }
 
     function getMsMainmapImage() {
-        if (@!$this->msMainmapImage)
+        if (empty($this->msMainmapImage))
             throw new CartoserverException("mainmap image not generated yet");
         return $this->msMainmapImage;
     }
@@ -85,10 +95,9 @@ class ServerContext {
         return $this->mapResult;
     }
 
-    // maybe refoactorize with cartoclient
+    // maybe refactorize with cartoclient
     private function getCorePluginNames() {
-        //return array('images', 'location', 'layers', 'query');
-        return array('images', 'location', 'layers');
+        return array('images', 'location', 'layers', /* 'query' */);
     }
 
     function loadPlugins() {

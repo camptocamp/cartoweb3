@@ -7,12 +7,11 @@ class LocationRequest {
     const LOC_REQ_PAN = 'panLocationRequest';
     const LOC_REQ_ZOOM_POINT = 'zoomPointLocationRequest';
     const LOC_REQ_ZOOM_RECTANGLE = 'zoomRectangleLocationRequest';
-/*    
+
     public $bboxLocationRequest;
     public $panLocationRequest;
     public $zoomPointLocationRequest;
     public $zoomRectangleLocationRequest;
-*/
 }
 
 class LocationResult {
@@ -31,9 +30,7 @@ abstract class RelativeLocationRequest extends LocationRequest {
 }
 
 class BboxLocationRequest extends RelativeLocationRequest {
-    
     public $type = LocationRequest::LOC_REQ_BBOX;
-    //public $bbox;
 }
 
 class PanDirection {
@@ -52,7 +49,6 @@ class PanDirection {
     function __toString() {
         return "$this->verticalPan - $this->horizontalPan";
     }
-
 }
 
 class PanLocationRequest extends RelativeLocationRequest {
@@ -68,24 +64,23 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     public $type = LocationRequest::LOC_REQ_ZOOM_POINT;
 
     const ZOOM_DIRECTION_IN = 'ZOOM_DIRECTION_IN';
-    const ZOOM_DIRECTION_NONE = 'ZOOM_DIRECTION_NONE';
     const ZOOM_DIRECTION_OUT = 'ZOOM_DIRECTION_OUT';
+    const ZOOM_DIRECTION_NONE = 'ZOOM_DIRECTION_NONE';
+    const ZOOM_FACTOR = 'ZOOM_FACTOR';
+    const ZOOM_SCALE = 'ZOOM_SCALE';
+    
+    public $zoomType;
+    
+    public $point;
 
-    public $imagePoint;
-    public $zoomDirection;
+    public $zoomFactor;
+    public $scale;
 }
 
+/* This may go away. Can be replaced by ZoomPointLocationRequest */
 class ZoomRectangleLocationRequest extends ZoomLocationRequest {
     public $type = LocationRequest::LOC_REQ_ZOOM_RECTANGLE;
-    public $imageRectangle;
+	public $rectangle;
 }
-
-/*
-class ZoomInLocationRequest extends ZoomLocationRequest {
-}
-
-class ZoomOutLocationRequest extends ZoomLocationRequest {
-}
-*/
 
 ?>

@@ -11,13 +11,16 @@ cartoserverDirectAccess = false
 # If it is not set, a default location will be guessed
 ##cartoserverUrl = "http://youhost/path/to/cartoserver.wsdl.php"
 
+#useReverseProxy = true
+#reverseProxy = "/blah"
+
 ### Mapfile configuration ###
 
 # The mapId of the mapfile to use
 mapId = test
 
-# COMMENT ME
-#initialMapInfoId = test
+# The id of the initial map state to be loaded on startup
+initialMapStateId = default
 
 ### Plugins ###
 

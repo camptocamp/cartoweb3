@@ -1,5 +1,35 @@
 <?php
 
+class ToolDescription {
+
+	const MAINMAP = 2;
+	const KEYMAP = 4;
+
+	public $id;
+	public $icon;
+	public $label;
+	public $appliesTo;
+	
+	function __construct($id, $icon, $label, $appliesTo) {
+		$this->id = $id;
+		$this->icon = $icon;
+		$this->label = $label;
+		$this->appliesTo = $appliesTo;
+	}
+}
+
+
+interface ToolProvider {
+	function handleMainmapTool(ToolDescription $tool, 
+							Shape $mainmapShape);
+	
+	function handleKeymapTool(ToolDescription $tool, 
+							Shape $keymapShape);
+
+	function getTools();
+}
+
+
 abstract class ClientPlugin extends PluginBase {
     private $log;
     protected $cartoclient;
@@ -24,7 +54,7 @@ abstract class ClientPlugin extends PluginBase {
         $className = get_class($this);
 
         $this->log->debug(isset($clientSession->pluginStorage->$className));
-        if (!@$clientSession->pluginStorage->$className) {
+        if (empty($clientSession->pluginStorage->$className)) {
             $this->log->warn("no session to load for plugin $className");
             return;
         }
@@ -53,7 +83,7 @@ abstract class ClientPlugin extends PluginBase {
         
 
     abstract function loadSession($sessionObject);
-    abstract function createSession($mapInfo);
+    abstract function createSession(MapInfo $mapInfo, InitialMapState $initialState);
     abstract function saveSession();
 
     abstract function handleHttpRequest($request);
@@ -73,8 +103,5 @@ abstract class ClientPlugin extends PluginBase {
 
 class ClientCorePlugin extends ClientPlugin {
 
-    protected function getBasePath() {
-        return CARTOCLIENT_HOME;
-    }
 }
 ?>

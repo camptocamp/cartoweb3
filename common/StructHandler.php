@@ -28,7 +28,7 @@ class StructHandler {
          	
          	if (in_array($property, 
          	    array_keys(get_object_vars($object)))) {
-        	   	l();
+        	   	
         		print "Warning: overriding property $property\n";
         	}
         	if (in_array($property, 
@@ -63,19 +63,21 @@ class StructHandler {
         case 'map':
             $ret = array();
             foreach ($value as $key => $val) {
-                $ret[$key] = self::getValue($newTypeDescription, $val, $context);
+                $v = self::getValue($newTypeDescription, $val, $context);
+                if (empty($v->id))
+                	$v->id = $key;
+				/*
+                if ($context == self::CONTEXT_OBJ)
+                	$key = $v->id;
+                	*/
+                $ret[$key] = $v;
             }
-            //x($ret);
             return $ret;
         case 'bbox':
-            //$bbox = new Bbox();
 
             return ConfigParser::parseBbox($value);
-            
         case 'array':
-            //$value = explode(',', $value);
-            //return array_map('trim', $value);
-            
+
             $values = ConfigParser::parseArray($value);
             if ($newTypeDescription == '') 
                 return $values;
@@ -106,7 +108,7 @@ class StructHandler {
         if (in_array('getVarInfo', get_class_methods($object)))
             $varInfo = $object->getVarInfo($context);
 
-        if (!@$varInfo)
+        if (empty($varInfo))
             $varInfo = array();
 
         foreach ($struct as $prop => $value) {
@@ -123,7 +125,7 @@ class StructHandler {
     }
 
     static function serialize($object) {
-        // todo: cast from server to non server, to hide server specific properties
+        // TODO: maybe hide server specific properties (for direct access only)
         
         return $object;
     }

@@ -7,15 +7,17 @@ abstract class Config {
 
     abstract function getKind();
 
-
     function __get($nm) {
         if (isset($this->ini_array[$nm])) {
             $r = $this->ini_array[$nm];
             return $r;
         } else {
-            return false;
+            return NULL;
         }
     }
+
+	// !! WARNING: do not use empty() to test agains properties returned
+	//  by __get(). It will be always empty !!
 
     function __construct() {
 
@@ -33,7 +35,6 @@ abstract class Config {
 
         if (!@$this->pluginsPath)
             $this->pluginsPath = $this->basePath . 'plugins/';
-
     }
 }
 ?>

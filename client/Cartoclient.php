@@ -28,22 +28,15 @@ class CartoclientException extends Exception {
 }
 
 class CartoForm {
-    const TOOL_ZOOMIN = 1;
-    const TOOL_ZOOMOUT = 2;
-    const TOOL_RECENTER = 3;
-    const TOOL_QUERY = 4;
-
-    public $selectedTool = CartoForm::TOOL_ZOOMIN;
-
     const BUTTON_NONE = 1;
-    const BUTTON_PAN = 2;
-    const BUTTON_MAINMAP = 3;
-    const BUTTON_KEYMAP = 4;
+    const BUTTON_MAINMAP = 2;
+    const BUTTON_KEYMAP = 3;
 
+	// FIXME: is this needed ?, or rather test **shape if not null
     public $pushedButton;
-    public $panDirection;
-    public $mainmapClickInfo;
-    public $keymapClickInfo;
+
+	public $mainmapShape;
+	public $keymapShape;
 
     public $plugins;
 }
@@ -64,7 +57,7 @@ class ClientSession {
     public $pluginStorage;
     
     // ui specific
-    public $selectedTool = CartoForm::TOOL_ZOOMIN;
+    public $selectedTool;
 }
 
 define('CLIENT_SESSION_KEY', 'client_session_key');
@@ -75,6 +68,9 @@ class Cartoclient {
     private $mapInfo;
     private $clientSession;
     private $cartoForm;
+       
+    private $httpRequestHandler;
+    private $pluginManager; 
        
     private $config;
 
@@ -94,14 +90,21 @@ class Cartoclient {
         return $this->clientSession;
     }
 
+	function getHttpRequestHandler() {
+		return $this->httpRequestHandler;
+	}
+	
+	function getPluginManager() {
+		return $this->pluginManager;
+	}
+
     function setClientSession($clientSession) {
         $this->clientSession = $clientSession;
     }
 
     private function getCorePluginNames() {
 
-        //return array('location', 'layers', 'images', 'query');
-        return array('location', 'layers', 'images');
+        return array('location', 'layers', 'images', /* 'query' */);
     }
 
     private function initPlugins() {
@@ -119,7 +122,6 @@ class Cartoclient {
                                           $this);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
-
 
         $this->pluginManager->loadPlugins($this->config->basePath . 'plugins/',
                                           PluginManager::CLIENT_PLUGINS, $pluginNames,
@@ -146,7 +148,9 @@ class Cartoclient {
             $initiMapInfoId = 'default';
 
         if (!$this->config->cartoserverDirectAccess) 
-            $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', StructHandler::CONTEXT_OBJ);
+            $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', 
+            							StructHandler::CONTEXT_OBJ);
+        
         $this->mapInfo = $mapInfo; 
         return $mapInfo;
     }
@@ -161,8 +165,9 @@ class Cartoclient {
     }
 
     private function createClientSession() {
-        // TODO: init default arguments
         $clientSession = new ClientSession();
+
+        // TODO: init default arguments
 
         return $clientSession;
     }
@@ -172,7 +177,6 @@ class Cartoclient {
         $cartoForm = new CartoForm();
 
         // TODO: sets default cartoform arguments
-        // $this->clientSession
 
         return $cartoForm;
     }
@@ -195,12 +199,31 @@ class Cartoclient {
             $this->log->debug("creating new  session");
 
             $_SESSION = array();
+            $_REQUEST = array();
             session_destroy();
             session_start();
             
             $this->clientSession = $this->createClientSession();
 
-            $this->callPlugins('createSession', $this->mapInfo);
+			$mapInfo = $this->mapInfo;
+			$mapStates = $this->mapInfo->initialMapStates;
+		
+			if (empty($mapStates))
+				throw new CartoclientException('No initial map states defined' 
+								. ' in server configuration');
+		
+			
+			$states = array_values($mapStates);
+			$initialMapState = $states[0];
+
+			if (@$this->config->initialMapStateId)
+				$initialMapState = $mapInfo->getInitialMapStateById( 
+								$this->config->initialMapStateId);
+			if ($initialMapState == NULL)
+				throw new CartoclientException("cant find initial map state " .
+						$this->config->initialMapStateId);
+			
+            $this->callPlugins('createSession', $this->mapInfo, $initialMapState);
         }
 
         $this->cartoForm = $this->createCartoForm();
@@ -218,7 +241,7 @@ class Cartoclient {
         $this->mapInfo = $this->getMapInfo();
         $this->initializeSession();
         
-        if (@$_REQUEST['tool']) {
+        if (@$_REQUEST['posted']) {
             $this->cartoForm = 
                 $this->httpRequestHandler->handleHttpRequest($this->clientSession,
                                                     $this->cartoForm);

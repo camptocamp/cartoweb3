@@ -9,15 +9,6 @@ class ServerImages extends ServerCoreplugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function getRequestName() {
-        // FIXME: imagesrequest ?
-        return 'images';
-    }
-
-    function getResultName() {
-        return 'images';
-    }
-
     function setupSizes($requ) {
         $msMapObj = $this->serverContext->msMapObj;
 
@@ -41,14 +32,17 @@ class ServerImages extends ServerCoreplugin {
 
     private function getImageUrl() {
         $mapInfo = $this->serverContext->mapInfo;
+        $config = $this->serverContext->config;
             
         $imageUrl = NULL;
 
-        if (@$mapInfo->imageUrl) 
-            return $mapInfo->imageUrl;
+		if (@$config->imageUrl)
+			return $config->imageUrl;
 
-        // FIXME: in config ?
-        $wwwDataAccessible = true;
+		$wwwDataAccessible = true;
+		if ($config->wwwDataAccessible !== NULL)
+			$wwwDataAccessible = $config->wwwDataAccessible;
+	
         if ($wwwDataAccessible)
             return dirname($_SERVER['PHP_SELF']) . '/../www-data/images/';
         

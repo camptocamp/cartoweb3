@@ -1,82 +1,8 @@
 <?php
 
-class ClickedLocation {
-    const CLICK_POINT = 1;
-    const CLICK_RECTANGLE = 2;
-
-    public $type;
-
-    public $center;
-    public $bbox;
-}
-
-class HttpRequestHandler {
-    private $log;
-
-    function __construct($cartoclient) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
-        $this->cartoclient = $cartoclient;
-    }
-
-    private function isButtonPushed($name) {
-        return @$_REQUEST[$name . '_x'] or @$_REQUEST[$name . '_y'];
-    }
-
-    private function checkPanButton($cartoForm) {
-
-        $panButtonToDirection = array(
-            'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH, 
-                              PanDirection::HORIZONTAL_PAN_WEST),
-            'pan_n' => array(PanDirection::VERTICAL_PAN_NORTH, 
-                             PanDirection::HORIZONTAL_PAN_NONE),
-            'pan_ne' => array(PanDirection::VERTICAL_PAN_NORTH, 
-                              PanDirection::HORIZONTAL_PAN_EAST),
-
-            'pan_w' => array(PanDirection::VERTICAL_PAN_NONE, 
-                             PanDirection::HORIZONTAL_PAN_WEST),
-            'pan_e' => array(PanDirection::VERTICAL_PAN_NONE,
-                             PanDirection::HORIZONTAL_PAN_EAST),
-
-            'pan_sw' => array(PanDirection::VERTICAL_PAN_SOUTH,
-                              PanDirection::HORIZONTAL_PAN_WEST),
-            'pan_s' => array(PanDirection::VERTICAL_PAN_SOUTH,
-                             PanDirection::HORIZONTAL_PAN_NONE),
-            'pan_se' => array(PanDirection::VERTICAL_PAN_SOUTH,
-                              PanDirection::HORIZONTAL_PAN_EAST),
-            );
-                            
-        foreach ($panButtonToDirection as $buttonName => $directions) {
-            if ($this->isButtonPushed($buttonName)) {
-                $cartoForm->pushedButton = CartoForm::BUTTON_PAN;
-                $panDirection = new PanDirection();
-                $panDirection->verticalPan = $directions[0];
-                $panDirection->horizontalPan = $directions[1];
-                $cartoForm->panDirection = $panDirection;
-                $this->log->debug("pan direction is " . $panDirection->__toString());
-                break;
-            }
-        }
-    }
-    
-    // TO BE REMOVED
-    private function XXcheckClickedLocation($cartoForm, $buttonName) {
-
-        if ($this->isButtonPushed($buttonName)) {
-        
-            $clickInfo = new ClickInfo();
-            $clickInfo->type = ClickInfo::CLICK_POINT;
-
-            $clickX = (int)$_REQUEST[$buttonName . '_x'];
-            $clickY = (int)$_REQUEST[$buttonName . '_y'];
-
-            $clickInfo->pointClick = new Point($clickX, $clickY);
-      
-            return $clickInfo;
-        }
-        return false;
-    }
-
-    private function pixel2Coord($pixelPos, $pixelMax, $geoMin, $geoMax, $inversePix) {
+class PixelCoordsConverter {
+    private static function pixel2Coord($pixelPos, $pixelMax, $geoMin, $geoMax, 
+    									$inversePix) {
 
         $geoWidth = $geoMax - $geoMin;
 
@@ -90,98 +16,157 @@ class HttpRequestHandler {
         return $geoPos;
     }
 
-    private function point2Coords(Point $pixelPoint, Dimension $imageSize, Bbox $bbox) {
+    static function point2Coords(Point $pixelPoint, Dimension $imageSize, Bbox $bbox) {
 
-        $this->log->debug("pixel point");
-        $this->log->debug($pixelPoint);
-        $this->log->debug("image size");
-        $this->log->debug($imageSize);
-        $this->log->debug("bbox");
-        $this->log->debug($bbox);
-
-        $xCoord = $this->pixel2Coord($pixelPoint->x, $imageSize->width, 
+        $xCoord = self::pixel2Coord($pixelPoint->x, $imageSize->width, 
                                      $bbox->minx, $bbox->maxx, false);
-        $yCoord = $this->pixel2Coord($pixelPoint->y, $imageSize->height, 
+        $yCoord = self::pixel2Coord($pixelPoint->y, $imageSize->height, 
                                      $bbox->miny, $bbox->maxy, true);
         
         return new Point($xCoord, $yCoord);
     }
+}
 
-    private function checkClickedLocation($cartoForm, $buttonName, 
-                                          Dimension $imageSize, Bbox $bbox) {
+class CompatibilityDhtml {
+	
+	const PIXEL_COORD_VAR = 'INPUT_COORD';
+	
+	static function isMainmapClicked() {
+	
+		if (HttpRequestHandler::isButtonPushed('mainmap'))
+			return true;
+		if (!empty($_REQUEST[self::PIXEL_COORD_VAR]))
+			return true;
+		return ;
+	}
+	
+	function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
+		if (HttpRequestHandler::isButtonPushed('mainmap'))
+			x('todo_non_dhml_mainmap');
+			
+		$pixelCoords = $_REQUEST[self::PIXEL_COORD_VAR];
+		$coords = explode(',', $pixelCoords);
+		$coords = array_map('intval', $coords);
+		if (count($coords) != 4)
+			throw new CartoclientException("can't parse dhtml coords");
+		
+		$pixelPoint0 = $pixelPoint = new Point($coords[0], $coords[1]);
+		$pixelPoint1 = $pixelPoint = new Point($coords[2], $coords[3]);
+		
+		$point0 = PixelCoordsConverter::point2Coords($pixelPoint0, $imageSize, $bbox);
+		
+		if ($coords[0] == $coords[2] && $coords[1] == $coords[3]) {
+			return $point0; 
+		}
+		
+		$point1 = PixelCoordsConverter::point2Coords($pixelPoint1, $imageSize, $bbox);
+		$rect = new Rectangle();
+		$rect->setFrom2Points($point0, $point1);		
+		return $rect;
+	}
+}
 
-        if ($this->isButtonPushed($buttonName)) {
-        
-            // TODO: be able to retrieve rectangles
+class HttpRequestHandler {
+    private $log;
 
-            $clickedLocation = new ClickInfo();
-            $clickedLocation->type = ClickInfo::CLICK_POINT;
-
-            $clickX = (int)$_REQUEST[$buttonName . '_x'];
-            $clickY = (int)$_REQUEST[$buttonName . '_y'];
-
-            //$clickedLocation->pointClick = new Point($clickX, $clickY);
-            $pixelPoint = new Point($clickX, $clickY);
-
-            $clickedLocation->center = $this->point2Coords($pixelPoint, $imageSize, $bbox);
-
-            return $clickedLocation;
-        }
-        return false;
+    function __construct($cartoclient) {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->cartoclient = $cartoclient;
     }
 
-    private function checkClickedButton($cartoForm) {
+    static function isButtonPushed($name) {
+        return @$_REQUEST[$name . '_x'] or @$_REQUEST[$name . '_y'];
+    }
 
-        if ($this->checkPanButton($cartoForm))
-            return;
+	private function checkMainmapButton($cartoForm) {
 
-        // disabled for now
-        if (false) {
+    	if (!CompatibilityDhtml::isMainmapClicked())
+    		return false;
+	
+		$plugins = $this->cartoclient->getPluginManager();
+		
+        $mainmapSize = $plugins->images->getMainmapDimensions();
+        $mainmapBbox = $plugins->location->getLocation();
 
-            $mainmapSize = $this->cartoclient->pluginManager->images->getMainmapDimensions();
-            $mainmapBbox = $this->cartoclient->pluginManager->location->getLocation();
-    
-            $mainmapClickInfo = $this->checkClickedLocation($cartoForm, 'mainmap', $mainmapSize, $mainmapBbox);
+		$mainmapShape = CompatibilityDhtml::getMainmapShape(
+						$cartoForm, $mainmapSize, $mainmapBbox);
+		
+		if ($mainmapShape) {
+			$cartoForm->pushedButton = CartoForm::BUTTON_MAINMAP;
+			$cartoForm->mainmapShape = $mainmapShape;
+			return true;
+		}
+		
+		return false;
+	}
 
-            if ($mainmapClickInfo) {
-                $cartoForm->pushedButton = CartoForm::BUTTON_MAINMAP;
-                $cartoForm->mainmapClickInfo = $mainmapClickInfo;
-                return;
-            }
+	private function checkKeymapButton($cartoForm) {
+		
+		// TODO: key map button check
+		
+		return false;
+	}
+
+    private function checkClickedButtons($cartoForm) {
+
+		if ($this->checkMainmapButton($cartoForm)) {
+			return;
+		}
             
-            // TODO: wrap in cartoclient
-            $keymapBbox = $this->cartoclient->mapInfo->keymap->extent;
-
-            $keymapClickInfo = $this->checkClickedLocation($cartoForm, 'keymap', $keymapBbox);
-            if ($keymapClickInfo) {
-                $cartoForm->pushedButton = CartoForm::BUTTON_KEYMAP;
-                $cartoForm->keymapClickInfo = $keymapClickInfo;
-                return;
-            }
-        }
-
-        // to be removed
-        $mainmapClickInfo = $this->XXcheckClickedLocation($cartoForm, 'mainmap');
-
-        if ($mainmapClickInfo) {
-            $cartoForm->pushedButton = CartoForm::BUTTON_MAINMAP;
-            $cartoForm->mainmapClickInfo = $mainmapClickInfo;
-            return;
-        }
-
-        $keymapClickInfo = $this->XXcheckClickedLocation($cartoForm, 'keymap');
-        if ($keymapClickInfo) {
-            $cartoForm->pushedButton = CartoForm::BUTTON_KEYMAP;
-            $cartoForm->keymapClickInfo = $keymapClickInfo;
-            return;
+        if ($this->checkKeymapButton($cartoForm)) {
+        	return;
         }
     }
+
+	private function handleTool(ClientPlugin $plugin, ToolDescription $tool) {
+	
+		$cartoForm = $this->cartoclient->getCartoForm();
+		
+		if ($cartoForm->pushedButton == CartoForm::BUTTON_MAINMAP) {
+			if (!($tool->appliesTo & ToolDescription::MAINMAP)) {
+				return NULL;
+			}
+			return $plugin->handleMainmapTool($tool, 
+							$cartoForm->mainmapShape);
+		} else if ($cartoForm->pushedButton == CartoForm::BUTTON_KEYMAP) {
+			if (!($tool->appliesTo & ToolDescription::KEYMAP)) {
+				return NULL;
+			}
+			return $plugin->handleKeymapTool($tool, 
+							$cartoForm->keymapShape);
+		}
+	}
+
+	function handleTools(ClientPlugin $plugin) {
+	
+		if (!$plugin instanceof ToolProvider) {
+			throw new CartoclientException("tool $plugin is not a tool provider");
+			return;
+		}
+		
+		if (!@$_REQUEST['tool']) {
+			$this->log->debug('no tool selected, skipping');
+			return;
+		}
+		$toolRequest = $_REQUEST['tool'];
+		
+		$tools = $plugin->getTools();
+		foreach ($tools as $tool) {
+			$this->log->debug("tool is " . $tool->label);
+			$this->log->debug("request " . $toolRequest);
+			$this->log->debug("id " . $tool->id);
+			if ($toolRequest == $tool->id) {
+				return $this->handleTool($plugin, $tool);
+			}
+		}
+		return;
+	}
 
     function handleHttpRequest($clientSession, $cartoForm) {
 
         // buttons
         $cartoForm->pushedButton = CartoForm::BUTTON_NONE;
-        $this->checkClickedButton($cartoForm);
+        $this->checkClickedButtons($cartoForm);
 
         // tools
         if (@$_REQUEST['tool'])

@@ -14,7 +14,7 @@ class Hello extends ClientPlugin {
         $this->count = $sessionObject;
     }
 
-    function createSession($mapInfo) {
+    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->count = 0;
     }
     function saveSession() {
