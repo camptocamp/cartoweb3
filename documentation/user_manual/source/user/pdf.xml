@@ -14,691 +14,867 @@
   </para>
  </sect1>
 
- <sect1 id="user.pdf.general"> 
-  <title>General Configuration</title>
-  <para>
-   Parameters are named using a &lt;object&gt;.&lt;property&gt; convention.
-   These parameters are grouped within dedicated objects 
-   that deal with separated aspects of the export. For instance:
-   <programlisting><![CDATA[[...]
-general.horizontalMargin = 10
-general.verticalMargin = 10
-
-formats.A4.label = A4
-formats.A4.bigDimension = 297
-[...]]]></programlisting>
-  </para>
-  <para>
-   Some objects handle the general description of the PDF document
-   as well as user form generation: "general" and "formats".
-  </para>
-  <para>
-   Other objects are "blocks"-typed. They deal with block presentation
-   (color, size, content, etc.) and positioning. Blocks are basic
-   entities of the PDF document: text, images. For instance overview,
-   mainmap, scalebar, title are described with block objects.
-  </para>
-  <para>
-   To factorize blocks description, it is possible to describe a 
-   "template" block object that defines the default configuration
-   of blocks. Those default settings are then overriden by each
-   block specifical description.
-  </para>
-  <para>
-   <itemizedlist>
-    <listitem>
-     <para>
-      general.formats (comma-separated list of strings): ids of available 
-      sheet sizes. Must match format objects names 
-      (see Formats configuration below).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.defaultFormat (string): default selected/used format. 
-      Must be one of the above list items.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.resolutions (comma-separated list of integers): 
-      list of available resolution in dot-per-inch (dpi).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.mapServerResolution (integer): resolution set in mapfile.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.defaultResolution (integer): default selected/used
-      resolution. Must be one of the above list items.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.defaultOrientation (portrait|landscape): sheet 
-      orientation. The same orientation is used for every pages 
-      of the PDF document.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.activatedBlocks (comma-separated list of strings): names
-      of blocks that will be used in the document. Names must match
-      block objects names. See Blocks configuration section.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.overviewScaleFactor (float): sets the extension of the 
-      overview map. The bigger this parameter, the wider the extension. 
-      Default: 10.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.pdfEngine (CwFpdf|PdfLibLite): name of the PDF engine to
-      use. For now only FPDF is available and must be called using 
-      "CwFpdf" pdfEngine value. A PDFLib Lite version is (very) 
-      partially implemented and as a result should not be used 
-      (pdfEngine value: "PdfLibLite").
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.pdfVersion (string): PDF version that must be 
-      used (only available with "PdfLibLite" pdfEngine).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.output (inline|attachment|link|redirection): 
-      indicates how generated PDF file must be output (default: 
-      redirection). "inline": file is generated and displayed on the 
-      fly (might not work with buggy IE). "attachment": generated on 
-      the fly but a dialog box asks the user weither the file must 
-      be opened or saved. "link": PDF file is actually written on the 
-      server and a link pointing towards it is displayed. "redirection": 
-      PDF file is written on the server and than user's browser is 
-      automatically redirected towards it.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.filename (string): indicates how generated PDF files 
-      must be named. It is possible to specify a date-formatting 
-      using PHP date format (see <ulink 
-      url="http://php.net/date">http://php.net/date</ulink>). Default is 
-      <filename>map-[date,dMY-His].pdf</filename> which gives for instance 
-      <filename>map-03Jan2005-193256.pdf</filename>.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.distUnit (mm|cm|pt|in): unit used to measure blocks 
-      distance properties. Only one unit can be used in the 
-      whole configuration.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.horizontalMargin (float): horizontal distance between
-      the sheet border and the useful area (in distUnit).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      general.verticalMargin (float): vertical distance between the
-      sheet border and the useful area (in distUnit).
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   PHP built-in default values:
-   <itemizedlist>
-    <listitem>
-     <para>
-      pdfEngine: CwFpdf
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      pdfVersion: 1.3
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      distUnit:	mm
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      horizontalMargin: 10
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalMargin: 10
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      defaultFormat: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      resolutions: 96      
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      mapServerResolution: 96
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      defaultResolution: 96
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      activatedBlocks: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      filename: map-[date,dMY-His].pdf
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      overviewScaleFactor: 10
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      output: redirection
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
+ <sect1 id="user.pdf.reference">
+  <title>Configuration Reference</title>
+  <sect2 id="user.pdf.reference.general"> 
+   <title>General Configuration</title>
+   <para>
+    Parameters are named using a &lt;object&gt;.&lt;property&gt; convention.
+    These parameters are grouped within dedicated objects 
+    that deal with separated aspects of the export. For instance:
+    <programlisting><![CDATA[[...]
+ general.horizontalMargin = 10
+ general.verticalMargin = 10
+ 
+ formats.A4.label = A4
+ formats.A4.bigDimension = 297
+ [...]]]></programlisting>
+   </para>
+   <para>
+    Some objects handle the general description of the PDF document
+    as well as user form generation: "general" and "formats".
+   </para>
+   <para>
+    Other objects are "blocks"-typed. They deal with block presentation
+    (color, size, content, etc.) and positioning. Blocks are basic
+    entities of the PDF document: text, images. For instance overview,
+    mainmap, scalebar, title are described with block objects.
+   </para>
+   <para>
+    To factorize blocks description, it is possible to describe a 
+    "template" block object that defines the default configuration
+    of blocks. Those default settings are then overriden by each
+    block specifical description.
+   </para>
+   <para>
+    <itemizedlist>
+     <listitem>
+      <para>
+       general.formats (comma-separated list of strings): ids of available 
+       sheet sizes. Must match format objects names 
+       (see Formats configuration below).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.defaultFormat (string): default selected/used format. 
+       Must be one of the above list items.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.resolutions (comma-separated list of integers): 
+       list of available resolution in dot-per-inch (dpi).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.mapServerResolution (integer): resolution set in mapfile.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.defaultResolution (integer): default selected/used
+       resolution. Must be one of the above list items.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.defaultOrientation (portrait|landscape): sheet 
+       orientation. The same orientation is used for every pages 
+       of the PDF document.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.activatedBlocks (comma-separated list of strings): names
+       of blocks that will be used in the document. Names must match
+       block objects names. See Blocks configuration section.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.overviewScaleFactor (float): sets the extension of the 
+       overview map. The bigger this parameter, the wider the extension. 
+       Default: 10.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.pdfEngine (CwFpdf|PdfLibLite): name of the PDF engine to
+       use. For now only FPDF is available and must be called using 
+       "CwFpdf" pdfEngine value. A PDFLib Lite version is (very) 
+       partially implemented and as a result should not be used 
+       (pdfEngine value: "PdfLibLite").
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.pdfVersion (string): PDF version that must be 
+       used (only available with "PdfLibLite" pdfEngine).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.output (inline|attachment|link|redirection): 
+       indicates how generated PDF file must be output (default: 
+       redirection). "inline": file is generated and displayed on the 
+       fly (might not work with buggy IE). "attachment": generated on 
+       the fly but a dialog box asks the user weither the file must 
+       be opened or saved. "link": PDF file is actually written on the 
+       server and a link pointing towards it is displayed. "redirection": 
+       PDF file is written on the server and than user's browser is 
+       automatically redirected towards it.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.filename (string): indicates how generated PDF files 
+       must be named. It is possible to specify a date-formatting 
+       using PHP date format (see <ulink 
+       url="http://php.net/date">http://php.net/date</ulink>). Default is 
+       <filename>map-[date,dMY-His].pdf</filename> which gives for instance 
+       <filename>map-03Jan2005-193256.pdf</filename>.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.distUnit (mm|cm|pt|in): unit used to measure blocks 
+       distance properties. Only one unit can be used in the 
+       whole configuration.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.horizontalMargin (float): horizontal distance between
+       the sheet border and the useful area (in distUnit).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       general.verticalMargin (float): vertical distance between the
+       sheet border and the useful area (in distUnit).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+        general.allowedRoles (comma-separated list of strings): list of roles allowed to print PDF documents.
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    PHP built-in default values:
+    <itemizedlist>
+     <listitem>
+      <para>
+       pdfEngine: CwFpdf
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       pdfVersion: 1.3
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       distUnit:	mm
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       horizontalMargin: 10
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalMargin: 10
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       defaultFormat: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       resolutions: 96      
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       mapServerResolution: 96
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       defaultResolution: 96
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       activatedBlocks: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       filename: map-[date,dMY-His].pdf
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       overviewScaleFactor: 10
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       output: redirection
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       allowedRoles: (empty ie. nobody)
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+  </sect2>
+ 
+  <sect2 id="user.pdf.reference.format"> 
+   <title>Formats Configuration</title>
+   <para>
+    Formats are described as a set of "formats" sub-objects. For instance:
+    <programlisting><![CDATA[[...]
+ formats.A4.bigDimension = 297
+ formats.A4.smallDimension = 210
+ 
+ formats.A3.label = A3
+ formats.A3.bigDimension = 420
+ [...]]]></programlisting>
+   </para>
+   <para>
+    Format ids (A3, A4, etc.) must match those listed in general.formats.
+    <itemizedlist>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.label (string): user-friendly name. Is 
+       translated using Cw3I18n device <xref linkend="user.i18n"/>.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.bigDimension (float): 
+       largest sheet side (in distUnit).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.smallDimension (float): 
+       smallest sheet side (in distUnit).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.horizontalMargin (float):
+       optional, if set, overrides general.horizontalMargin for 
+       the given format.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.verticalMargin (float): 
+       optional, if set, overrides general.verticalMargin 
+       for the given format.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.maxResolution (integer): 
+       optional, maximum allowed resolution for the given format.
+       If selected resolution is above maxResolution, it will 
+       be set to maxResolution value.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       formats.&lt;format_name&gt;.allowedRoles (comma-separated list of strings): list of roles allowed to use the format.
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    PHP built-in default values: all format parameters have 
+    NULL default values except allowedRoles ("all").
+   </para>
+  </sect2>
+ 
+  <sect2 id="user.pdf.reference.block"> 
+   <title>Blocks Configuration</title>
+   <para>
+    All blocks parameters are optional since default values are 
+    hard-coded in the PDF export plugin PHP code (see code 
+    documentation for PdfBlock class). Those default properties 
+    can be partially or totally overriden using a template object 
+    whose syntax is similar to this:
+    <programlisting><![CDATA[[...]
+ template.type = text
+ template.fontFamily = times
+ template.fontSize = 12
+ template.fontItalic = false
+ [...]]]></programlisting>
+    whereas real blocks are described this way:
+    <programlisting><![CDATA[[...]
+ blocks.title.weight = 10
+ blocks.title.verticalBasis = top
+ blocks.title.verticalMargin = 15
+ [...]]]></programlisting>
+   </para>
+   <para>
+    "Template"-described properties have a global scope whereas "blocks"
+    ones are specifical to the given block. Properties names are identical 
+    for both "template" and "blocks" objects. Properties not related with
+    the given block type are generally ignored (for instance "fontSize" 
+    is not taken into account if block is an image). A lots of properties 
+    use CSS-like denominations and effects. All following parameters names
+    must be precede by either "template." or 
+    "blocks.&lt;block_name&gt;." prefixes.
+    <itemizedlist>
+     <listitem>
+      <para>
+       type (text|image|table|legend): block type, indicates what kind 
+       of processing must be applied.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       content (string): optional, for "text" blocks: the textual content 
+       ; for "image" blocks, the image filename ; for "table" blocks, 
+       a comma-separated list of textual content (limited to one row, 
+       commas delimit cells).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontFamily (string): name of font family to use. Naming
+       depends on used pdfEngine.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontSize (float) : font size in points (pt)
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontItalic (boolean): if true, text will be emphacized.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontBold (boolean): if true, text will be bold-weighted.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontUnderline (boolean): if true, text will be underlined.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       color (string): color of text in hexadecimal code #rrggbb.
+       A few color aliases ("white", "black") are available as well.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       backgroundColor (string): background color in hexadecimal
+       code or color aliases.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderWidth (float): border line width in distUnit.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderColor (string): border line color in hexadecimal
+       code or color aliases.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderStyle (solid|dashed|dotted): border line style. 
+       Only available with "PdfLibLite" pdfEngine. "solid" value
+       is used for other pdfEngines.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       padding (float): vertical and horizontal distance between
+       block content and its borders in distUnit.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       horizontalMargin (float): horizontal margin in distUnit
+       around the block (outside borders).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalMargin (float): vertical margin in distUnit around 
+       the block (outside borders).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       horizontalBasis (left|right): indicates what document side 
+       must be used for horizontal positioning.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalBasis (top|bottom): indicates what document side must
+       be used for vertical positioning.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       hCentered (boolean): if true, block is horizontally centered
+       (overloads horizontalBasis property).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       vCentered (boolean): if true, block is vertically centered
+       (overloads verticalBasis property).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       textAlign (center|left|right): indicates how content must be 
+       horizontally aligned within the block extent.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalAlign (center|top|bottom): indicates how content must
+       be vertically aligned within the block extent.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       orientation (horizontal|vertical): indicates if content will be 
+       displayed form left to right or from bottom to top (only for 
+       text blocks).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       zIndex (integer): indicates how overlapping blocks must be stacked.
+       The higher the zIndex, the higher the block in the stack (foreground).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       weight (integer): indicates in what order, blocks with the same
+       zIndex must be processed. Low-weighted blocks are handle first.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inNewPage (boolean): indicates if a new page must be added before
+       printing the block.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inLastPages (boolean): indicates if block must be added in a new
+       page at the end of the document.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       width (float): block width in distUnit.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       height (float): block height in distUnit.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       multiPage (boolean): if true, given block will be displayed on 
+       every document page.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       parent (string): if specified, given block will be printed inside 
+       given parent block.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inFlow (boolean): if true, block will be printed right after previous
+       block, preserving the vertical alignment.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       caption (string): for "table" blocks only: name of separated block 
+       used to describe table caption formatting.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       headers (string): for "table" blocks only: name of separated block
+       used to describe table headers (colums titles) formatting.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       allowedRoles (comma-separated list of strings): list of roles allowed to draw the current block.
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    Some additional block-properties are available but are automatically set 
+    depending on other parameter values and thus are not listed 
+    above ("private" access).
+   </para>
+   <para>
+    PHP built-in default values:
+    <itemizedlist>
+     <listitem>
+      <para>
+       type: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       content: (empty string)
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontFamily: times
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontSize: 12
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontItalic: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontBold: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       fontUnderline: false 
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       color: black
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       backgroundColor: white
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderWidth: 1
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderColor: black
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       borderStyle: solid
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       padding: 0
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       horizontalMargin: 0
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalMargin: 0
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       horizontalBasis: left
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalBasis: top
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       hCentered: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       vCentered: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       textAlign: center
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       verticalAlign: center
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       orientation: horizontal
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       zIndex: 1
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       weight: 50
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inNewPage: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inLastPages: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       width: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       height: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       multiPage: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       parent: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       inFlow: true
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       caption: (empty string)
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       headers: (empty string)
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       allowedRoles: all
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+  </sect2>
  </sect1>
 
- <sect1 id="user.pdf.format"> 
-  <title>Formats Configuration</title>
-  <para>
-   Formats are described as a set of "formats" sub-objects. For instance:
-   <programlisting><![CDATA[[...]
-formats.A4.bigDimension = 297
-formats.A4.smallDimension = 210
+ <sect1 id="user.pdf.tutorial">
+  <title>Tutorial</title>
+  
+  <sect2 id="user.pdf.tutorial.principle">
+   <title>General principle</title>
+   <para>
+    The PDF document to generate is described using elementary objects blocks:
+   </para>
+   <para>
+    <itemizedlist>
+     <listitem>
+      <para>
+       texts: titles, copyrights, dates...
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       images: maps, logos...
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       tables: queries results,...
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       legend: list of icons+labels for each printed layers
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    Those blocks are drawn and positioned on the document pages according to properties detailed in each block.
+   </para>
+   <para>
+    In addition, some data must be specified to describe the general document characteristics such as formats (pages size), orientation, available resolutions, PDF engine and more.
+   </para>
+   <para>
+    Note 1: a lot of parameters are not mandatory since they a have default values. See Pdf Export Doc for details about default parameters values.
+   </para>
+   <para>
+    Note 2: parameters containing several values are represented using comma-separated lists of strings/integers. If some values contain special characters such as accentuated letters, quotes or other exclamation marks, it may be wiser to encapsulate the whole parameter value between double quotes ("). 
+   </para>
+  </sect2>
 
-formats.A3.label = A3
-formats.A3.bigDimension = 420
-[...]]]></programlisting>
-  </para>
-  <para>
-   Format ids (A3, A4, etc.) must match those listed in general.formats.
-   <itemizedlist>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.label (string): user-friendly name. Is 
-      translated using Cw3I18n device <xref linkend="user.i18n"/>.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.bigDimension (float): 
-      largest sheet side (in distUnit).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.smallDimension (float): 
-      smallest sheet side (in distUnit).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.horizontalMargin (float):
-      optional, if set, overrides general.horizontalMargin for 
-      the given format.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.verticalMargin (float): 
-      optional, if set, overrides general.verticalMargin 
-      for the given format.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      formats.&lt;format_name&gt;.maxResolution (integer): 
-      optional, maximum allowed resolution for the given format.
-      If selected resolution is above maxResolution, it will 
-      be set to maxResolution value.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   PHP built-in default values: all format parameters have 
-   NULL default values.
-  </para>
- </sect1>
+  <sect2 id="user.pdf.tutorial.general">
+   <title>General configuration</title>
+   <para>Two objects are available for general configuration:</para>
+   <sect3 id="user.pdf.tutorial.general.general">
+    <title>general</title>
+    <para>
+     This is where you can set the list of available resolutions and formats (made available to the user through dropdown menus). Use commas to separate the available values. defaultResolution and defaultFormat are used to preselect options in the matching dropdowns. If for some reason the system failed to determine what resolution and format the user desires, it will use those default values.
+    </para>
+    <para>
+     Specify the default orientation to select in user interface as well. You don't need to set a list of available orientations since it is already fixed to "portrait, landscape".
+    </para>
+    <para>
+     The mapServerResolution must be set according to the mapfile "resolution" property.
+    </para>
+    <para>
+     The activatedBlocks parameter lists the blocks that may be drawn in the document. It does not mean that they will. For instance the title block will not appear if no title input has been submitted by the user.
+    </para>
+    <para>
+     Choose the PDF generator you want to use. For now only FPDF is fully available. PDFLib is only partially implemented and should not be used.
+    </para>
+    <para>
+     Set the output parameter in order to choose how the generated file will be served: download box, link, inline...
+    </para>
+    <para>
+     The distUnit parameter is very important since it sets the unit used to measure the length specified in every blocks. However it does not affect font sizes, that are always indicated in points (pt).
+    </para>
+    <para>
+     horizontalMargin and verticalMargin indicate how much space will be kept blank around each page. No block will be printed below these distances from the sheets borders. Note that these values can be overriden in the formats description. 
+    </para>
+    <para>For instance:</para>
+    <programlisting><![CDATA[
+    general settings
+    general.formats = A4, A3
+    general.defaultFormat = A4
+    general.resolutions = 96, 150, 300
+    general.mapServerResolution = 96
+    general.defaultResolution = 96
+    general.overviewScaleFactor = 10
+    general.defaultOrientation = portrait
+    general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
+                              page, legend, logo, scaleval, tlcoords, brcoords
 
- <sect1 id="user.pdf.block"> 
-  <title>Blocks Configuration</title>
-  <para>
-   All blocks parameters are optional since default values are 
-   hard-coded in the PDF export plugin PHP code (see code 
-   documentation for PdfBlock class). Those default properties 
-   can be partially or totally overriden using a template object 
-   whose syntax is similar to this:
-   <programlisting><![CDATA[[...]
-template.type = text
-template.fontFamily = times
-template.fontSize = 12
-template.fontItalic = false
-[...]]]></programlisting>
-   whereas real blocks are described this way:
-   <programlisting><![CDATA[[...]
-blocks.title.weight = 10
-blocks.title.verticalBasis = top
-blocks.title.verticalMargin = 15
-[...]]]></programlisting>
-  </para>
-  <para>
-   "Template"-described properties have a global scope whereas "blocks"
-   ones are specifical to the given block. Properties names are identical 
-   for both "template" and "blocks" objects. Properties not related with
-   the given block type are generally ignored (for instance "fontSize" 
-   is not taken into account if block is an image). A lots of properties 
-   use CSS-like denominations and effects. All following parameters names
-   must be precede by either "template." or 
-   "blocks.&lt;block_name&gt;." prefixes.
-   <itemizedlist>
-    <listitem>
-     <para>
-      type (text|image|table|legend): block type, indicates what kind 
-      of processing must be applied.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      content (string): optional, for "text" blocks: the textual content 
-      ; for "image" blocks, the image filename ; for "table" blocks, 
-      a comma-separated list of textual content (limited to one row, 
-      commas delimit cells).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontFamily (string): name of font family to use. Naming
-      depends on used pdfEngine.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontSize (float) : font size in points (pt)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontItalic (boolean): if true, text will be emphacized.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontBold (boolean): if true, text will be bold-weighted.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontUnderline (boolean): if true, text will be underlined.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      color (string): color of text in hexadecimal code #rrggbb.
-      A few color aliases ("white", "black") are available as well.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      backgroundColor (string): background color in hexadecimal
-      code or color aliases.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderWidth (float): border line width in distUnit.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderColor (string): border line color in hexadecimal
-      code or color aliases.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderStyle (solid|dashed|dotted): border line style. 
-      Only available with "PdfLibLite" pdfEngine. "solid" value
-      is used for other pdfEngines.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      padding (float): vertical and horizontal distance between
-      block content and its borders in distUnit.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      horizontalMargin (float): horizontal margin in distUnit
-      around the block (outside borders).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalMargin (float): vertical margin in distUnit around 
-      the block (outside borders).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      horizontalBasis (left|right): indicates what document side 
-      must be used for horizontal positioning.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalBasis (top|bottom): indicates what document side must
-      be used for vertical positioning.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      hCentered (boolean): if true, block is horizontally centered
-      (overloads horizontalBasis property).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      vCentered (boolean): if true, block is vertically centered
-      (overloads verticalBasis property).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      textAlign (center|left|right): indicates how content must be 
-      horizontally aligned within the block extent.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalAlign (center|top|bottom): indicates how content must
-      be vertically aligned within the block extent.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      orientation (horizontal|vertical): indicates if content will be 
-      displayed form left to right or from bottom to top (only for 
-      text blocks).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      zIndex (integer): indicates how overlapping blocks must be stacked.
-      The higher the zIndex, the higher the block in the stack (foreground).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      weight (integer): indicates in what order, blocks with the same
-      zIndex must be processed. Low-weighted blocks are handle first.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inNewPage (boolean): indicates if a new page must be added before
-      printing the block.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inLastPages (boolean): indicates if block must be added in a new
-      page at the end of the document.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      width (float): block width in distUnit.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      height (float): block height in distUnit.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      multiPage (boolean): if true, given block will be displayed on 
-      every document page.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      parent (string): if specified, given block will be printed inside 
-      given parent block.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inFlow (boolean): if true, block will be printed right after previous
-      block, preserving the vertical alignment.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      caption (string): for "table" blocks only: name of separated block 
-      used to describe table caption formatting.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      headers (string): for "table" blocks only: name of separated block
-      used to describe table headers (colums titles) formatting.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
-  <para>
-   Some additional block-properties are available but are automatically set 
-   depending on other parameter values and thus are not listed 
-   above ("private" access).
-  </para>
-  <para>
-   PHP built-in default values:
-   <itemizedlist>
-    <listitem>
-     <para>
-      type: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      content: (empty string)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontFamily: times
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontSize: 12
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontItalic: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontBold: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      fontUnderline: false 
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      color: black
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      backgroundColor: white
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderWidth: 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderColor: black
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      borderStyle: solid
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      padding: 0
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      horizontalMargin: 0
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalMargin: 0
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      horizontalBasis: left
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalBasis: top
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      hCentered: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      vCentered: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      textAlign: center
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      verticalAlign: center
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      orientation: horizontal
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      zIndex: 1
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      weight: 50
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inNewPage: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inLastPages: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      width: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      height: NULL
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      multiPage: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      parent: false
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      inFlow: true
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      caption: (empty string)
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      headers: (empty string)
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
+    general.pdfEngine = CwFpdf
+    general.pdfVersion = 1.3
+    general.output = inline
+    general.filename = "map-[date,dMY-Hi].pdf"
+    general.distUnit = mm
+    general.horizontalMargin = 10
+    general.verticalMargin = 10
+    ]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.general.formats">
+    <title>formats</title>
+    <para>
+     Formats objects describe the PDF pages sizes (bigDimension, smallDimension). One can describe as many formats as desired. Moreover there is no theoritical page size limit except that the bigger the maps, the longer the document generation.
+    </para>
+    <para>
+     A format is determined by its biggest dimension (bigDimension) and its smallest dimension (smallDimension).
+    </para>
+    <para>
+     The label parameter will be translated using Cw3 I18n internationalization system. It is not required to be identical to the format object id. On the other hand, the latter id must be textually listed in general.formats parameter or else it will not be taken into account.
+    </para>
+    <para>
+     In addition, a couple of format parameters can be specified : horizontalMargin and verticalMargin override the corresponding general parameters if different margins must be applied for the given format. maxResolution indicates the highest allowed resolution for the given format: it enables to limit the applied resolution when, for instance, printing big-dimensioned maps.
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[
+    ; formats settings
+    formats.A4.label = A4
+    formats.A4.bigDimension = 297
+    formats.A4.smallDimension = 210
+
+    formats.A3.label = A3
+    formats.A3.bigDimension = 420
+    formats.A3.smallDimension = 297
+    formats.A3.horizontalMargin = 30
+    formats.A3.verticalMargin = 30
+    formats.A3.maxResolution = 150
+    ]]></programlisting>
+   </sect3>
+  </sect2>
+
+  <sect2 id="user.pdf.tutorial.block">
+   <title>Blocks configuration</title>
+   <para>
+    Whatever their types (image, text, table, legend), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
+   </para>
+   <para>
+    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, 'queryResult', legend, page, scaleval, tlcoords, brcoords. System blocks should not be renamed.
+   </para>
+   <para>
+    Note that blocks that are not mentioned in general.activatedBlocks won't be displayed in any case.
+   </para>
+   <programlisting><![CDATA[
+   general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
+                             page, legend, logo, scaleval, tlcoords, brcoords
+  ]]></programlisting>
+  </sect2>
  </sect1>
 
 </chapter>
