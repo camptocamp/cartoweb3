@@ -317,13 +317,11 @@ function getFile($dir, $pos) {
     foreach ($filedirs as $filedir) {
         if (!is_dir($dir . $filedir)) {
         
-            // Adding filename at the end because filemtime returns only seconds
-            $files[$filedir] = filemtime($dir . $filedir) . $filedir;
+            $files[$filedir] = $filedir;
         }
     }
    
     arsort($files);
-    
     $i = 0;
     foreach ($files as $file => $index) {
         if ($pos == $i) {
