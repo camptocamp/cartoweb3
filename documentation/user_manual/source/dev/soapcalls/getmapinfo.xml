@@ -4,7 +4,10 @@
 
 <sect1 id="dev.soapcalls.getmapinfo">
   <title>Call to getMapInfo</title>
-
+  <para>This method returns server configuration, which includes layers, 
+    initial states and other plugin-specific configuration. Variables 
+    returned by this method are set in server configuration files 
+    described in <xref linkend="user" />.</para>
   <sect2 id="dev.soapcalls.getmapinfo.global">
     <title>Global Server Configuration</title>
     <para>
@@ -20,19 +23,23 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>id -</para>
+          <para>id - layer state ID</para>
         </listitem>
         <listitem>
-          <para>hidden -</para>
+          <para>hidden - if true, layer isn't displayed in tree and attribute 
+            selected cannot be modified</para>
         </listitem>
         <listitem>
-          <para>frozen -</para>
+          <para>frozen - if true, layer is displayed in tree but attribute 
+            selected cannot be modified </para>
         </listitem>
         <listitem>
-          <para>selected -</para>
+          <para>selected - if true, layer is displayed as selected in 
+            tree</para>
         </listitem>
         <listitem>
-          <para>unfolded -</para>
+          <para>unfolded - if true, layer tree is displayed unfolded (layer 
+            groups)</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -46,7 +53,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of layer states</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -57,7 +64,9 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>bbox -</para>
+          <para>bbox - initial bounding box (see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Bbox)</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -70,13 +79,13 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>id -</para>
+          <para>id - initial state ID</para>
         </listitem>
         <listitem>
-          <para>location -</para>
+          <para>location - initial location</para>
         </listitem>
         <listitem>
-          <para>layers -</para>
+          <para>layers - list of layer states</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -90,7 +99,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of initial states</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -111,37 +120,45 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - layer class name: "LayerGroup", "Layer" or 
+            "LayerClass"</para>
         </listitem>
         <listitem>
-          <para>id -</para>
+          <para>id - layer ID</para>
         </listitem>
         <listitem>
-          <para>label -</para>
+          <para>label - label to be displayed. This label is not yet translated 
+            using internationalization</para>
         </listitem>
         <listitem>
-          <para>children -</para>
+          <para>children - list of children (layer IDs) separated by 
+            commas</para>
         </listitem>
         <listitem>
-          <para>minScale -</para>
+          <para>minScale - minimum scale at which layer will be displayed</para>
         </listitem>
         <listitem>
-          <para>maxScale -</para>
+          <para>maxScale - maximum scale at which layer will be displayed</para>
         </listitem>
         <listitem>
-          <para>icon -</para>
+          <para>icon - filename of the static icon for the layer. Dynamic 
+            legends are described in <xref linkend="user.layer.legend" /> 
+            </para>
         </listitem>
         <listitem>
-          <para>link -</para>
+          <para>link - if set, layer name is clickable</para>
         </listitem>
         <listitem>
-          <para>aggregate -</para>
+          <para>aggregate - if true, children are not displayed and 
+            cannot be selected individually</para>
         </listitem>
         <listitem>
-          <para>rendering -</para>
+          <para>rendering - how layer will be displayed: "tree", "block", 
+            "radio" or "dropdown". See <xref linkend="user.layers" /> for more 
+            details on this option </para>
         </listitem>
         <listitem>
-          <para>metadata -</para>
+          <para>metadata - TODO</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -154,7 +171,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of layers</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -174,28 +191,35 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>timestamp -</para>
+          <para>timestamp - timestamp of last update. This timestamp is 
+            transferred each time method getMap is called, so client knows when 
+            configuration was modified (see also <xref 
+            linkend="dev.soapcalls.getmap.global.request" />) </para>
         </listitem>
         <listitem>
-          <para>mapLabel -</para>
+          <para>mapLabel - TODO</para>
         </listitem>
         <listitem>
-          <para>keymapGeoDimension -</para>
+          <para>keymapGeoDimension - TODO</para>
         </listitem>
         <listitem>
-          <para>notAvailableIcon -</para>
+          <para>notAvailableIcon - filename of icon for not available layer 
+            (current scale is above or below this layer maximum/minimum 
+            scale)</para>
         </listitem>
         <listitem>
-          <para>notAvailablePlusIcon -</para>
+          <para>notAvailablePlusIcon - filename of icon for not available 
+            layer (current scale is above this layer maximum scale)</para>
         </listitem>
         <listitem>
-          <para>notAvailableMinusIcon -</para>
+          <para>notAvailableMinusIcon - filename of icon for not available 
+            layer (current scale is below this layer minimum scale)</para>
         </listitem>
         <listitem>
-          <para>layers -</para>
+          <para>layers - list of layers</para>
         </listitem>
         <listitem>
-          <para>initialMapStates -</para>
+          <para>initialMapStates - list of initial states</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -213,10 +237,10 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>label -</para>
+          <para>label - scale caption</para>
         </listitem>
         <listitem>
-          <para>value -</para>
+          <para>value - scale value to be set when scale is selected</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -230,7 +254,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of scales</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -242,10 +266,11 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>label -</para>
+          <para>label - shortcut caption</para>
         </listitem>
         <listitem>
-          <para>bbox -</para>
+          <para>bbox - bounding box to recenter on when shortcut is 
+            selected</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -259,7 +284,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of shortcuts</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -274,21 +299,22 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - "LocationInit" or extended class name if 
+            project implements an extension</para>
         </listitem>
         <listitem>
-          <para>scales -</para>
+          <para>scales - list of fixed scales</para>
         </listitem>
         <listitem>
-          <para>minScale -</para>
+          <para>minScale - global minimum scale</para>
         </listitem>
         <listitem>
-          <para>maxScale -</para>
+          <para>maxScale - global maximum scale</para>
         </listitem>
         <listitem>
-          <para>shortcuts -</para>
+          <para>shortcuts - list of bounding box shortcuts</para>
         </listitem>
-      </itemizedlist>      
+      </itemizedlist>
     </para>
   </sect2>
 </sect1>

@@ -109,19 +109,32 @@
             project implements an extension</para>
         </listitem>
         <listitem>
-          <para>bbox - TODO</para>
+          <para>bbox - bounding box when querying with a rectangle (see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a 
+            description of type Bbox)</para>
         </listitem>
         <listitem>
-          <para>queryAllLayers - TODO</para>
+          <para>queryAllLayers - if true, will execute query on all selected 
+            layers, ie. layers sent through Layers request (see <xref 
+            linkend="dev.soapcalls.getmap.layers.request" />). Unused when 
+            bounding box is not specified </para>
         </listitem>
         <listitem>
-          <para>defaultMaskMode - TODO</para>
+          <para>defaultMaskMode - mask mode for new layers (returned by query 
+            and but not yet in array querySelections). Unused when 
+            queryAllLayers = false</para>
         </listitem>
         <listitem>
-          <para>defaultTableFlags - TODO</para>
+          <para>defaultTableFlags - table flags for new layers (returned by 
+            query and but not yet in array querySelections, see <xref 
+            linkend="dev.soapcalls.structures.tables" /> for a 
+            description of type TableFlags). Unused when 
+            queryAllLayers = false</para>
         </listitem>
         <listitem>
-          <para>querySelections - TODO</para>
+          <para>querySelections - list if query selections. It contains all 
+            objects that must be hilighted and can be used to maintain 
+            persistence of a selection</para>
         </listitem>
       </itemizedlist>
     </para>

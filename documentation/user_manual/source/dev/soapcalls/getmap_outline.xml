@@ -20,13 +20,18 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - "OutlineRequest" or extended class name if 
+            project implements an extension</para>
         </listitem>
         <listitem>
-          <para>shapes -</para>
+          <para>shapes - list of shapes (can include points, 
+            rectangles, lines or polygons, see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a 
+            description of type Shape)</para>
         </listitem>
         <listitem>
-          <para>maskMode -</para>
+          <para>maskMode - if true, will draw the complement of all 
+            shapes merged together</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -43,10 +48,11 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - "OutlineResult" or extended class name if 
+            project implements an extension</para>
         </listitem>
         <listitem>
-          <para>area -</para>
+          <para>area - total area for all shapes</para>
         </listitem>
       </itemizedlist>
     </para>

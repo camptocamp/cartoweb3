@@ -108,8 +108,8 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className - class name of shape: "Point", "Bbox", 
-            "Rectangle" or "Polygon"</para>
+          <para>className - shape class name: "Point", "Bbox", "Rectangle", 
+            "Line" or "Polygon"</para>
         </listitem>
         <listitem><para>x - x coordinate (Point)</para></listitem>
         <listitem><para>y - y coordinate (Point)</para></listitem>
@@ -125,7 +125,9 @@
         <listitem>
           <para>maxy - maximum y coordinate (Bbox or Rectangle)</para>
         </listitem>
-        <listitem><para>points - list of points (Polygon)</para></listitem>
+        <listitem>
+          <para>points - list of points (Line or Polygon)</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfShape">
