@@ -29,9 +29,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
-        $this->assertEquals($testObj->strArray[0], 'toto');
-        $this->assertEquals($testObj->strArray[1], 'titi');
-        $this->assertEquals($testObj->strArray[2], 'tutu');
+        $this->assertEquals('toto', $testObj->strArray[0]);
+        $this->assertEquals('titi', $testObj->strArray[1]);
+        $this->assertEquals('tutu', $testObj->strArray[2]);
     } 
 
     /**
@@ -45,9 +45,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
-        $this->assertEquals($testObj->strArray[0], 'toto');
-        $this->assertEquals($testObj->strArray[1], 'titi');
-        $this->assertEquals($testObj->strArray[2], 'tutu');
+        $this->assertEquals('toto', $testObj->strArray[0]);
+        $this->assertEquals('titi', $testObj->strArray[1]);
+        $this->assertEquals('tutu', $testObj->strArray[2]);
     } 
 
     /**
@@ -61,9 +61,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
-        $this->assertEquals($testObj->intArray[0], 1);
-        $this->assertEquals($testObj->intArray[1], 2);
-        $this->assertEquals($testObj->intArray[2], 3);
+        $this->assertEquals(1, $testObj->intArray[0]);
+        $this->assertEquals(2, $testObj->intArray[1]);
+        $this->assertEquals(3, $testObj->intArray[2]);
     } 
 
     /**
@@ -77,9 +77,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
-        $this->assertEquals($testObj->intArray[0], 1);
-        $this->assertEquals($testObj->intArray[1], 2);
-        $this->assertEquals($testObj->intArray[2], 3);
+        $this->assertEquals(1, $testObj->intArray[0]);
+        $this->assertEquals(2, $testObj->intArray[1]);
+        $this->assertEquals(3, $testObj->intArray[2]);
     } 
 
     /**
@@ -128,8 +128,8 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass2');
-        $this->assertEquals($testObj->obj->integer, 123);
+        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj));
+        $this->assertEquals(123, $testObj->obj->integer);
     } 
 
     /**
@@ -149,9 +149,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass1');
-        $this->assertEquals(get_class($testObj->obj->obj), 'SerializableTestClass2');
-        $this->assertEquals($testObj->obj->obj->integer, 123);
+        $this->assertEquals('SerializableTestClass1', get_class($testObj->obj));
+        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj->obj));
+        $this->assertEquals(123, $testObj->obj->obj->integer);
     } 
     
     /**
@@ -170,9 +170,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $testObj = new SerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals(get_class($testObj->objMap['obj1']), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj2']), 'SerializableTestClass1');
-        $this->assertEquals($testObj->objMap['obj1']->integer, 123);        
+        $this->assertEquals('SerializableTestClass2', get_class($testObj->objMap['obj1']));
+        $this->assertEquals('SerializableTestClass1', get_class($testObj->objMap['obj2']));
+        $this->assertEquals(123, $testObj->objMap['obj1']->integer);        
     }
     
     /**
@@ -212,11 +212,14 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         // Property testClass exists, so unserializeObject knows the class
         $testObj = Serializable::unserializeObject($structRoot);
 
-        $this->assertEquals(get_class($testObj), 'SerializableTestClass1');
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj2']), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj3']), 'SerializableTestClass1');       
-        $this->assertEquals(get_class($testObj->objMap['obj3']->obj), 'SerializableTestClass2');       
+        $this->assertEquals('SerializableTestClass1', get_class($testObj));
+        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj));
+        $this->assertEquals('SerializableTestClass2',
+                            get_class($testObj->objMap['obj2']));
+        $this->assertEquals('SerializableTestClass1',
+                            get_class($testObj->objMap['obj3']));       
+        $this->assertEquals('SerializableTestClass2',
+                            get_class($testObj->objMap['obj3']->obj));       
     }
 }
 

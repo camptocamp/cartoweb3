@@ -123,15 +123,15 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     private function assertQueryResultWithAttributes($queryResult) {
 
-        $this->assertEquals(count($queryResult->tableGroup->tables), 3);
-        $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
-                            "polygon");
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("polygon", 
+                            $queryResult->tableGroup->tables[0]->tableId);
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
-        $this->assertEquals(count($polygonRows), 1);
-        $this->assertEquals($polygonRows[0]->rowId, '1'); 
-        $this->assertEquals($polygonRows[0]->cells, 
-                                        array('1', 'Cé bô le françès'));        
+        $this->assertEquals(1, count($polygonRows));
+        $this->assertEquals('1', $polygonRows[0]->rowId); 
+        $this->assertEquals(array('1', 'Cé bô le françès'), 
+                            $polygonRows[0]->cells);        
     }
 
     /**
@@ -140,14 +140,14 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     private function assertQueryResultNoAttributes($queryResult) {
 
-        $this->assertEquals(count($queryResult->tableGroup->tables), 3);
-        $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
-                            "polygon");
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("polygon", 
+                            $queryResult->tableGroup->tables[0]->tableId);
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
-        $this->assertEquals(count($polygonRows), 1);
-        $this->assertEquals($polygonRows[0]->rowId, '1'); 
-        $this->assertEquals($polygonRows[0]->cells, array());        
+        $this->assertEquals(1, count($polygonRows));
+        $this->assertEquals('1', $polygonRows[0]->rowId); 
+        $this->assertEquals(array(), $polygonRows[0]->cells);        
     }
 
     /**
@@ -157,15 +157,15 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     private function assertQueryResultIds($queryResult, $ids) {
 
-        $this->assertEquals(count($queryResult->tableGroup->tables), 1);
-        $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
-                            "grid_defaulthilight");
+        $this->assertEquals(1, count($queryResult->tableGroup->tables));
+        $this->assertEquals("grid_defaulthilight", 
+                            $queryResult->tableGroup->tables[0]->tableId);
 
         $gridRows = $queryResult->tableGroup->tables[0]->rows; 
 
-        $this->assertEquals(count($gridRows), count($ids));
+        $this->assertEquals(count($ids), count($gridRows));
         foreach ($ids as $key => $id) {
-            $this->assertEquals($gridRows[$key]->rowId, $id); 
+            $this->assertEquals($id, $gridRows[$key]->rowId); 
         }
     }
 

@@ -66,7 +66,7 @@ class plugins_outline_server_RemoteServerOutlineTest
         
         $mapResult = $this->getMap($mapRequest, $direct);
 
-        $this->assertEquals($mapResult->outlineResult->area, $area);
+        $this->assertEquals($area, $mapResult->outlineResult->area);
     }
     
     function doOutlineRequestPoint($maskMode, $direct = false) {
@@ -131,7 +131,7 @@ class plugins_outline_server_RemoteServerOutlineTest
         
         $mapResult = $this->getMap($mapRequest, $direct);
 
-        $this->assertEquals($mapResult->outlineResult->area, $area);
+        $this->assertEquals($area, $mapResult->outlineResult->area);
     }
 
     function testOutlineRequestNoMaskComplex($direct = false) {

@@ -38,8 +38,8 @@ class projects_testproject_server_RemoteServerProjectTest
         $mapRequest->imagesRequest->mainmap->height = 900;
         $mapResult = $this->getMap($mapRequest, $direct);
 
-        $this->assertEquals($mapResult->imagesResult->mainmap->width, 500);
-        $this->assertEquals($mapResult->imagesResult->mainmap->height, 900);
+        $this->assertEquals(500, $mapResult->imagesResult->mainmap->width);
+        $this->assertEquals(900, $mapResult->imagesResult->mainmap->height);
         
         $this->redoDirect($direct, __METHOD__);
     }
@@ -52,8 +52,8 @@ class projects_testproject_server_RemoteServerProjectTest
         $mapRequest->projectpluginRequest = $projectRequest;
         $mapResult = $this->getMap($mapRequest, $direct);
 
-        $this->assertEquals($mapResult->projectpluginResult->shuffledMessage,
-                            'nopqrstuvwxyzabcdefghijklm');
+        $this->assertEquals('nopqrstuvwxyzabcdefghijklm', 
+                            $mapResult->projectpluginResult->shuffledMessage);
         
         $this->redoDirect($direct, __METHOD__);
     }
@@ -81,8 +81,8 @@ class projects_testproject_server_RemoteServerProjectTest
 
         $this->assertTrue($mapResult->locationResult
                           instanceof ProjectLocationResult);
-        $this->assertEquals($mapResult->locationResult->projectResult,
-                            'nopqrstuvwxyzabcdefghijklm');
+        $this->assertEquals('nopqrstuvwxyzabcdefghijklm', 
+                            $mapResult->locationResult->projectResult);
         $this->assertSameBbox(new Bbox(-1, 50, 1, 52),
                               $mapResult->locationResult->locationResult->bbox);
         

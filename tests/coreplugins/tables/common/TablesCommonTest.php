@@ -22,13 +22,6 @@ class coreplugins_tables_common_TablesCommonTest
                                     extends PHPUnit2_Framework_TestCase {
     
     /**
-     * Temporary function before the argument order is fixed.
-     */
-    private function BROKENassertEquals($result, $expected) {
-        return $this->assertEquals($expected, $result);
-    }
-    
-    /**
      * Returns an array of interesting {@link TableGroup}s
      * @return array
      */
@@ -141,10 +134,10 @@ class coreplugins_tables_common_TablesCommonTest
             array($this, 'callbackTitleFilter1'));
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
-        $this->BROKENassertEquals($filteredTableGroups[0]->groupTitle,
-                            '*** Group 1 ***');
-        $this->BROKENassertEquals($filteredTableGroups[1]->groupTitle,
-                            '*** Group 2 ***');
+        $this->assertEquals('*** Group 1 ***',
+                            $filteredTableGroups[0]->groupTitle);
+        $this->assertEquals('*** Group 2 ***',
+                            $filteredTableGroups[1]->groupTitle);
     }
     
     /**
@@ -162,10 +155,10 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->groupTitle,
-                            '*** Group 1 ***');
-        $this->BROKENassertEquals($filteredTableGroups[1]->groupTitle,
-                            '!!! Group 2 !!!');
+        $this->assertEquals('*** Group 1 ***',
+                            $filteredTableGroups[0]->groupTitle);
+        $this->assertEquals('!!! Group 2 !!!',
+                            $filteredTableGroups[1]->groupTitle);
     }
 
     /**
@@ -185,12 +178,12 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->tableTitle,
-                                                            '%%% Table 1 %%%');
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[1]->tableTitle,
-                                                            '*** Table 2 ***');
-        $this->BROKENassertEquals($filteredTableGroups[1]->tables[0]->tableTitle,
-                                                            '!!! Table 3 !!!');
+        $this->assertEquals('%%% Table 1 %%%',
+                            $filteredTableGroups[0]->tables[0]->tableTitle);
+        $this->assertEquals('*** Table 2 ***', 
+                            $filteredTableGroups[0]->tables[1]->tableTitle);
+        $this->assertEquals('!!! Table 3 !!!', 
+                            $filteredTableGroups[1]->tables[0]->tableTitle);
     }
     
     /**
@@ -240,10 +233,10 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnTitles[0],
-                                                            '!!! Column 1 !!!');
-        $this->BROKENassertEquals($filteredTableGroups[1]->tables[0]->columnTitles[0],
-                                                            '*** Column X ***');
+        $this->assertEquals('!!! Column 1 !!!',
+                            $filteredTableGroups[0]->tables[0]->columnTitles[0]);
+        $this->assertEquals('*** Column X ***',
+                            $filteredTableGroups[1]->tables[0]->columnTitles[0]);
     }
     
     /**
@@ -260,14 +253,14 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnIds,
-                                        array('column_1', 'column_3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
-                                        array('Column 1', 'Column 3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells,
-                                        array('value_1', 'value_3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[1]->columnIds,
-                                        array());        
+        $this->assertEquals(array('column_1', 'column_3'), 
+                            $filteredTableGroups[0]->tables[0]->columnIds);        
+        $this->assertEquals(array('Column 1', 'Column 3'),
+                            $filteredTableGroups[0]->tables[0]->columnTitles);        
+        $this->assertEquals(array('value_1', 'value_3'),
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells);        
+        $this->assertEquals(array(), 
+                            $filteredTableGroups[0]->tables[1]->columnIds);        
     }
     
     /**
@@ -283,14 +276,14 @@ class coreplugins_tables_common_TablesCommonTest
         
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnIds,
-                                        array('column_1', 'column_3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
-                                        array('Column 1', 'Column 3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells,
-                                        array('value_1', 'value_3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[1]->columnIds,
-                                        array('column_A', 'column_B'));        
+        $this->assertEquals(array('column_1', 'column_3'),
+                            $filteredTableGroups[0]->tables[0]->columnIds);        
+        $this->assertEquals(array('Column 1', 'Column 3'),
+                            $filteredTableGroups[0]->tables[0]->columnTitles);        
+        $this->assertEquals(array('value_1', 'value_3'),
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells);        
+        $this->assertEquals(array('column_A', 'column_B'),
+                            $filteredTableGroups[0]->tables[1]->columnIds);        
     }
     
     /**
@@ -317,12 +310,12 @@ class coreplugins_tables_common_TablesCommonTest
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
-                                        'value_1-value_3');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
-                                        'value_4-value_6');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
-                                        'value_7-value_9');        
+        $this->assertEquals('value_1-value_3', 
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells[1]);        
+        $this->assertEquals('value_4-value_6',
+                            $filteredTableGroups[0]->tables[0]->rows[1]->cells[1]);        
+        $this->assertEquals('value_7-value_9',
+                            $filteredTableGroups[0]->tables[0]->rows[2]->cells[1]);        
     }
     
     /**
@@ -356,12 +349,12 @@ class coreplugins_tables_common_TablesCommonTest
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
-                            '|value_1-value_3|');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
-                            '|value_1-value_3|value_4-value_6|');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
-                            '|value_1-value_3|value_4-value_6|value_7-value_9|');
+        $this->assertEquals('|value_1-value_3|',
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells[1]);        
+        $this->assertEquals('|value_1-value_3|value_4-value_6|',
+                            $filteredTableGroups[0]->tables[0]->rows[1]->cells[1]);        
+        $this->assertEquals('|value_1-value_3|value_4-value_6|value_7-value_9|',
+                            $filteredTableGroups[0]->tables[0]->rows[2]->cells[1]);
         
     }
 
@@ -413,16 +406,16 @@ class coreplugins_tables_common_TablesCommonTest
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnIds[1],
-                                        'column_4');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnTitles[1],
-                                        'column_4');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[1],
-                                        'value_1-value_3');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[1],
-                                        'value_4-value_6');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[1],
-                                        'value_7-value_9');        
+        $this->assertEquals('column_4',
+                            $filteredTableGroups[0]->tables[0]->columnIds[1]);        
+        $this->assertEquals('column_4',
+                            $filteredTableGroups[0]->tables[0]->columnTitles[1]);        
+        $this->assertEquals('value_1-value_3',
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells[1]);        
+        $this->assertEquals('value_4-value_6',
+                            $filteredTableGroups[0]->tables[0]->rows[1]->cells[1]);        
+        $this->assertEquals('value_7-value_9',
+                            $filteredTableGroups[0]->tables[0]->rows[2]->cells[1]);        
     }
     
     /**
@@ -441,16 +434,16 @@ class coreplugins_tables_common_TablesCommonTest
 
         $filteredTableGroups = $registry->applyRules($tableGroups);
 
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnIds,
-                            array('column_4', 'column_1', 'column_2', 'column_3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->columnTitles,
-                            array('column_4', 'Column 1', 'Column 2', 'Column 3'));        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[0]->cells[0],
-                                        'value_1-value_3');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[1]->cells[0],
-                                        'value_4-value_6');        
-        $this->BROKENassertEquals($filteredTableGroups[0]->tables[0]->rows[2]->cells[0],
-                                        'value_7-value_9');        
+        $this->assertEquals(array('column_4', 'column_1', 'column_2', 'column_3'),
+                            $filteredTableGroups[0]->tables[0]->columnIds);        
+        $this->assertEquals(array('column_4', 'Column 1', 'Column 2', 'Column 3'),
+                            $filteredTableGroups[0]->tables[0]->columnTitles);        
+        $this->assertEquals('value_1-value_3',
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells[0]);        
+        $this->assertEquals('value_4-value_6',
+                            $filteredTableGroups[0]->tables[0]->rows[1]->cells[0]);        
+        $this->assertEquals('value_7-value_9',
+                            $filteredTableGroups[0]->tables[0]->rows[2]->cells[0]);        
     }
     
     /**
@@ -458,24 +451,24 @@ class coreplugins_tables_common_TablesCommonTest
      * @param array
      */ 
     private function assertColumnAdderMultipleColumn($tableGroups) {
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->columnIds,
-                            array('column_1', 'column_2', 'column_4',
-                                  'column_5', 'column_3'));        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->columnTitles,
-                            array('Column 1', 'Column 2', 'column_4',
-                                  'column_5', 'Column 3'));        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[0]->cells[2],
-                                        'value_1-value_3');        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[1]->cells[2],
-                                        'value_4-value_6');        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[2]->cells[2],
-                                        'value_7-value_9');        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[0]->cells[3],
-                                        'value_1*value_3');        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[1]->cells[3],
-                                        'value_4*value_6');        
-        $this->BROKENassertEquals($tableGroups[0]->tables[0]->rows[2]->cells[3],
-                                        'value_7*value_9');        
+        $this->assertEquals(array('column_1', 'column_2', 'column_4',
+                                  'column_5', 'column_3'),
+                            $tableGroups[0]->tables[0]->columnIds);        
+        $this->assertEquals(array('Column 1', 'Column 2', 'column_4',
+                                  'column_5', 'Column 3'),
+                            $tableGroups[0]->tables[0]->columnTitles);        
+        $this->assertEquals('value_1-value_3',
+                            $tableGroups[0]->tables[0]->rows[0]->cells[2]);        
+        $this->assertEquals('value_4-value_6',
+                            $tableGroups[0]->tables[0]->rows[1]->cells[2]);        
+        $this->assertEquals('value_7-value_9',
+                            $tableGroups[0]->tables[0]->rows[2]->cells[2]);        
+        $this->assertEquals('value_1*value_3',
+                            $tableGroups[0]->tables[0]->rows[0]->cells[3]);        
+        $this->assertEquals('value_4*value_6',
+                            $tableGroups[0]->tables[0]->rows[1]->cells[3]);        
+        $this->assertEquals('value_7*value_9',
+                            $tableGroups[0]->tables[0]->rows[2]->cells[3]);        
     }
 
     /**

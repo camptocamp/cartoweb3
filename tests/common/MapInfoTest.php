@@ -27,8 +27,8 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layerBase = new LayerBase();
         $layerBase->unserialize($struct);
         
-        $this->assertEquals($layerBase->id, 'toto');
-        $this->assertEquals($layerBase->label, 'titi');
+        $this->assertEquals('toto', $layerBase->id);
+        $this->assertEquals('titi', $layerBase->label);
     }
 
     public function testLayerContainerUnserialize() {
@@ -41,11 +41,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layerContainer = new LayerContainer();
         $layerContainer->unserialize($struct);
         
-        $this->assertEquals($layerContainer->id, 'toto');
-        $this->assertEquals($layerContainer->label, 'titi');
-        $this->assertEquals($layerContainer->children[0], 'tata');                
-        $this->assertEquals($layerContainer->children[1], 'tutu');                
-        $this->assertEquals($layerContainer->children[2], 'tete');                
+        $this->assertEquals('toto', $layerContainer->id);
+        $this->assertEquals('titi', $layerContainer->label);
+        $this->assertEquals('tata', $layerContainer->children[0]);                
+        $this->assertEquals('tutu', $layerContainer->children[1]);                
+        $this->assertEquals('tete', $layerContainer->children[2]);                
     }        
 
     public function testLayerGroupUnserialize() {
@@ -58,11 +58,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layerGroup = new LayerGroup();
         $layerGroup->unserialize($struct);
         
-        $this->assertEquals($layerGroup->id, 'toto');
-        $this->assertEquals($layerGroup->label, 'titi');
-        $this->assertEquals($layerGroup->children[0], 'tata');                
-        $this->assertEquals($layerGroup->children[1], 'tutu');                
-        $this->assertEquals($layerGroup->children[2], 'tete');                
+        $this->assertEquals('toto', $layerGroup->id);
+        $this->assertEquals('titi', $layerGroup->label);
+        $this->assertEquals('tata', $layerGroup->children[0]);                
+        $this->assertEquals('tutu', $layerGroup->children[1]);                
+        $this->assertEquals('tete', $layerGroup->children[2]);                
     }        
 
     public function testLayerUnserialize() {
@@ -76,12 +76,12 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layer = new Layer();
         $layer->unserialize($struct);
         
-        $this->assertEquals($layer->id, 'toto');
-        $this->assertEquals($layer->label, 'titi');
-        $this->assertEquals($layer->children[0], 'tata');                
-        $this->assertEquals($layer->children[1], 'tutu');                
-        $this->assertEquals($layer->children[2], 'tete');                
-        $this->assertEquals($layer->msLayer, 'tyty');
+        $this->assertEquals('toto', $layer->id);
+        $this->assertEquals('titi', $layer->label);
+        $this->assertEquals('tata', $layer->children[0]);                
+        $this->assertEquals('tutu', $layer->children[1]);                
+        $this->assertEquals('tete', $layer->children[2]);                
+        $this->assertEquals('tyty', $layer->msLayer);
     }        
 
     public function testLayerClassUnserialize() {
@@ -93,8 +93,8 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layerClass = new LayerClass();
         $layerClass->unserialize($struct);
         
-        $this->assertEquals($layerClass->id, 'toto');
-        $this->assertEquals($layerClass->label, 'titi');
+        $this->assertEquals('toto', $layerClass->id);
+        $this->assertEquals('titi', $layerClass->label);
     }
 
     public function testLocationUnserialize() {
@@ -105,11 +105,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $location = new Location();
         $location->unserialize($struct);
         
-        $this->assertEquals(get_class($location->bbox), 'Bbox');
-        $this->assertEquals($location->bbox->minx, 12.0);
-        $this->assertEquals($location->bbox->miny, 34.0);
-        $this->assertEquals($location->bbox->maxx, 56.0);
-        $this->assertEquals($location->bbox->maxy, 78.0);
+        $this->assertEquals('Bbox', get_class($location->bbox));
+        $this->assertEquals(12.0, $location->bbox->minx);
+        $this->assertEquals(34.0, $location->bbox->miny);
+        $this->assertEquals(56.0, $location->bbox->maxx);
+        $this->assertEquals(78.0, $location->bbox->maxy);
     }
 
     public function testInitialLocationUnserialize() {
@@ -120,11 +120,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $initialLocation = new InitialLocation();
         $initialLocation->unserialize($struct);
         
-        $this->assertEquals(get_class($initialLocation->bbox), 'Bbox');
-        $this->assertEquals($initialLocation->bbox->minx, 12.0);
-        $this->assertEquals($initialLocation->bbox->miny, 34.0);
-        $this->assertEquals($initialLocation->bbox->maxx, 56.0);
-        $this->assertEquals($initialLocation->bbox->maxy, 78.0);
+        $this->assertEquals('Bbox', get_class($initialLocation->bbox));
+        $this->assertEquals(12.0, $initialLocation->bbox->minx);
+        $this->assertEquals(34.0, $initialLocation->bbox->miny);
+        $this->assertEquals(56.0, $initialLocation->bbox->maxx);
+        $this->assertEquals(78.0, $initialLocation->bbox->maxy);
     }
 
     public function testLayerStateUnserialize() {
@@ -138,10 +138,10 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layerState = new LayerState();
         $layerState->unserialize($struct);
         
-        $this->assertEquals($layerState->id, 'toto');
-        $this->assertEquals($layerState->hidden, true);
-        $this->assertEquals($layerState->selected, false);
-        $this->assertEquals($layerState->unfolded, true);
+        $this->assertEquals('toto', $layerState->id);
+        $this->assertEquals(true, $layerState->hidden);
+        $this->assertEquals(false, $layerState->selected);
+        $this->assertEquals(true, $layerState->unfolded);
     }
 
     public function testInitialMapStateUnserialize() {
@@ -169,23 +169,23 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $initMapState = new InitialMapState();
         $initMapState->unserialize($struct);
         
-        $this->assertEquals($initMapState->id, 'toto');
-        $this->assertEquals(get_class($initMapState->location), 'InitialLocation');
-        $this->assertEquals(get_class($initMapState->layers['titi']), 'LayerState');
-        $this->assertEquals(get_class($initMapState->layers['tutu']), 'LayerState');
-        $this->assertEquals(get_class($initMapState->location->bbox), 'Bbox');
-        $this->assertEquals($initMapState->location->bbox->minx, 12.0);
-        $this->assertEquals($initMapState->location->bbox->miny, 34.0);
-        $this->assertEquals($initMapState->location->bbox->maxx, 56.0);
-        $this->assertEquals($initMapState->location->bbox->maxy, 78.0);
-        $this->assertEquals($initMapState->layers['titi']->id, 'titi');
-        $this->assertEquals($initMapState->layers['titi']->hidden, false);
-        $this->assertEquals($initMapState->layers['titi']->selected, true);
-        $this->assertEquals($initMapState->layers['titi']->unfolded, true);
-        $this->assertEquals($initMapState->layers['tutu']->id, 'tutu');
-        $this->assertEquals($initMapState->layers['tutu']->hidden, true);
-        $this->assertEquals($initMapState->layers['tutu']->selected, false);
-        $this->assertEquals($initMapState->layers['tutu']->unfolded, false);
+        $this->assertEquals('toto', $initMapState->id);
+        $this->assertEquals('InitialLocation', get_class($initMapState->location));
+        $this->assertEquals('LayerState', get_class($initMapState->layers['titi']));
+        $this->assertEquals('LayerState', get_class($initMapState->layers['tutu']));
+        $this->assertEquals('Bbox', get_class($initMapState->location->bbox));
+        $this->assertEquals(12.0, $initMapState->location->bbox->minx);
+        $this->assertEquals(34.0, $initMapState->location->bbox->miny);
+        $this->assertEquals(56.0, $initMapState->location->bbox->maxx);
+        $this->assertEquals(78.0, $initMapState->location->bbox->maxy);
+        $this->assertEquals('titi', $initMapState->layers['titi']->id);
+        $this->assertEquals(false, $initMapState->layers['titi']->hidden);
+        $this->assertEquals(true, $initMapState->layers['titi']->selected);
+        $this->assertEquals(true, $initMapState->layers['titi']->unfolded);
+        $this->assertEquals('tutu', $initMapState->layers['tutu']->id);
+        $this->assertEquals(true, $initMapState->layers['tutu']->hidden);
+        $this->assertEquals(false, $initMapState->layers['tutu']->selected);
+        $this->assertEquals(false, $initMapState->layers['tutu']->unfolded);
     }
     
     public function testMapInfoUnserialize() {
@@ -266,31 +266,31 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $mapInfo = new MapInfo();
         $mapInfo->unserialize($struct);
 
-        $this->assertEquals($mapInfo->mapLabel, 'titi');
-        $this->assertEquals(get_class($mapInfo->layers['layer1']), 'LayerGroup');                                  
-        $this->assertEquals(get_class($mapInfo->layers['layer2']), 'Layer');                                  
-        $this->assertEquals(get_class($mapInfo->layers['layer3']), 'Layer');                                  
-        $this->assertEquals(get_class($mapInfo->layers['layer4']), 'LayerClass');                                  
-        $this->assertEquals(get_class($mapInfo->layers['layer5']), 'LayerClass');                                  
-        $this->assertEquals(get_class($mapInfo->initialMapStates['toto']),
-                            'InitialMapState');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['tata']),
-                            'InitialMapState');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['toto']->location),
-                            'InitialLocation');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['tata']->location),
-                            'InitialLocation');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['toto']->location->bbox),
-                            'Bbox');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['tata']->location->bbox),
-                            'Bbox');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['toto']->layers['titi']),
-                            'LayerState');                                 
-        $this->assertEquals(get_class($mapInfo->initialMapStates['toto']->layers['tutu']),
-                            'LayerState');                                 
-        $this->assertEquals(get_class($mapInfo->extent), 'Bbox');                                  
-        $this->assertEquals(get_class($mapInfo->location), 'Location');                                  
-        $this->assertEquals(get_class($mapInfo->location->bbox), 'Bbox'); 
+        $this->assertEquals('titi', $mapInfo->mapLabel);
+        $this->assertEquals('LayerGroup', get_class($mapInfo->layers['layer1']));                                  
+        $this->assertEquals('Layer', get_class($mapInfo->layers['layer2']));                                  
+        $this->assertEquals('Layer', get_class($mapInfo->layers['layer3']));                                  
+        $this->assertEquals('LayerClass', get_class($mapInfo->layers['layer4']));                                  
+        $this->assertEquals('LayerClass', get_class($mapInfo->layers['layer5']));                                  
+        $this->assertEquals('InitialMapState', 
+                            get_class($mapInfo->initialMapStates['toto']));                                 
+        $this->assertEquals('InitialMapState', 
+                            get_class($mapInfo->initialMapStates['tata']));                                 
+        $this->assertEquals('InitialLocation', 
+                            get_class($mapInfo->initialMapStates['toto']->location));                                 
+        $this->assertEquals('InitialLocation', 
+                            get_class($mapInfo->initialMapStates['tata']->location));                                 
+        $this->assertEquals('Bbox', 
+                            get_class($mapInfo->initialMapStates['toto']->location->bbox));                                 
+        $this->assertEquals('Bbox', 
+                            get_class($mapInfo->initialMapStates['tata']->location->bbox));                                 
+        $this->assertEquals('LayerState', 
+                            get_class($mapInfo->initialMapStates['toto']->layers['titi']));                                 
+        $this->assertEquals('LayerState', 
+                            get_class($mapInfo->initialMapStates['toto']->layers['tutu']));                                 
+        $this->assertEquals('Bbox', get_class($mapInfo->extent));                                  
+        $this->assertEquals('Location', get_class($mapInfo->location));                                  
+        $this->assertEquals('Bbox', get_class($mapInfo->location->bbox)); 
     }
     
     public function testMapInfoLayerById() {
@@ -325,9 +325,9 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $layer2 = $mapInfo->getLayerById('layer2');
         $layer3 = $mapInfo->getLayerById('layer3');
         
-        $this->assertEquals($layer1->label, 'layer1_label'); 
-        $this->assertEquals($layer2->label, 'layer2_label'); 
-        $this->assertEquals($layer3->label, 'layer3_label'); 
+        $this->assertEquals('layer1_label', $layer1->label); 
+        $this->assertEquals('layer2_label', $layer2->label); 
+        $this->assertEquals('layer3_label', $layer3->label); 
     }
 }
 
