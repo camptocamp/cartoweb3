@@ -89,14 +89,12 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->id = 'toto';
         $struct->label = 'titi';
-        $struct->name = 'tutu';
         
         $layerClass = new LayerClass();
         $layerClass->unserialize($struct);
         
         $this->assertEquals($layerClass->id, 'toto');
         $this->assertEquals($layerClass->label, 'titi');
-        $this->assertEquals($layerClass->name, 'tutu');
     }
 
     public function testLocationUnserialize() {
@@ -219,13 +217,11 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $structLayer4->className = 'LayerClass';
         $structLayer4->id = 'layer4';
         $structLayer4->label = 'layer4_label';
-        $structLayer4->name = 'layer4_name';
         
         $structLayer5 = new stdclass();
         $structLayer5->className = 'LayerClass';
         $structLayer5->id = 'layer5';
         $structLayer5->label = 'layer5_label';
-        $structLayer5->name = 'layer5_name';
         
         $struct->layers = array ('layer1' => $structLayer1,
                                  'layer2' => $structLayer2,
