@@ -39,9 +39,16 @@
           </para>
       </listitem>
       <listitem>
-        <para> cartoserverUrl = "url": complete url of the SOAP wsdl file of 
-          the CartoServer. Only in SOAP mode. </para>
+       <para>
+        cartoclientUrl = "url" : base URL of the cartoclient-
+       </para>
       </listitem>
+      <listitem>
+       <para>
+        cartoserverUrl = "url" : base URL of the cartoserver (i.e. path containing
+        the <filename>cartoserver.wsdl.php</filename> file.
+       </para>
+      </listitem> 
     </itemizedlist>
     <para> Mapfile configuration:</para>
     <itemizedlist>
