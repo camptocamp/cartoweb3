@@ -62,7 +62,7 @@
   <xi:include href="user/config.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/layer.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/location.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="user/image.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="user/images.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/query.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/annotate.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/pdf.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
