@@ -108,27 +108,27 @@ class PdfGeneral {
      * Name of PDF Engine class
      * @var string
      */
-    public $pdfEngine          = 'CwFpdf';
+    public $pdfEngine           = 'CwFpdf';
     
     /**
      * @var string
      */
-    public $pdfVersion         = '1.3';
+    public $pdfVersion          = '1.3';
     
     /**
      * @var string
      */
-    public $distUnit           = 'mm';
+    public $distUnit            = 'mm';
     
     /**
      * @var float
      */
-    public $horizontalMargin   = 10;
+    public $horizontalMargin    = 10;
     
     /**
      * @var float
      */
-    public $verticalMargin     = 10;
+    public $verticalMargin      = 10;
     
     /**
      * @var float
@@ -158,17 +158,17 @@ class PdfGeneral {
     /**
      * @var array
      */
-    public $resolutions        = array(96);
+    public $resolutions         = array(96);
 
     /**
      * @var int
      */
-    public $mapServerResolution= 96;
+    public $mapServerResolution = 96;
 
     /**
      * @var int
      */
-    public $defaultResolution  = 96;
+    public $defaultResolution   = 96;
     
     /**
      * @var int
@@ -178,7 +178,7 @@ class PdfGeneral {
     /**
      * @var string
      */
-    public $defaultOrientation = 'portrait';
+    public $defaultOrientation  = 'portrait';
     
     /**
      * @var string
@@ -193,12 +193,17 @@ class PdfGeneral {
     /**
      * @var string
      */
-    public $filename           = 'map.pdf';
+    public $filename            = 'map-[date,dMY-His].pdf';
 
     /**
      * @var float
      */
-    public $overviewScaleFactor      = 10;
+    public $overviewScaleFactor = 10;
+
+    /**
+     * @var string
+     */
+    public $output              = 'redirection';
 }
 
 /**
@@ -513,7 +518,7 @@ interface PdfWriter {
     
     function addTableCell($text, $width, $height);
     
-    function addTableRow(TableElement $table, $row);
+    function addTableRow(PdfBlock $block, TableElement $table, $row);
     
     function addTable(PdfBlock $block);
     
