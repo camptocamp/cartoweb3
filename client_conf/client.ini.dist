@@ -1,71 +1,71 @@
-### Cartoserver location configuration#
+;## Cartoserver location configuration ##
 
-# if true, SOAP will be bypassed
+; if true, SOAP will be bypassed
 cartoserverDirectAccess = false
 
-# disables the caching of wsdl
+; disables the caching of wsdl
 noWsdlCache = false
 
-# disables the caching of MapInfo requests
+; disables the caching of MapInfo requests
 noMapInfoCache = false
 
-# shows developer messages
+; shows developer messages
 showDevelMessages = false
 
-# sets ini parameters useful during development
+; sets ini parameters useful during development
 developerIniConfig = false
 
-# Secifies the path for mapserver generated image when in direct access mode
-#directAccessImagesUrl = "/path/to/direct/access/images/"
+; Secifies the path for mapserver generated image when in direct access mode
+;directAccessImagesUrl = "/path/to/direct/access/images/"
 
-# The location of the cartoserver, used when cartoserverDirectAccess is true
-# If it is not set, the default location will be used
-#cartoserverHome = "/path/to/cartoserver/"
+; The location of the cartoserver, used when cartoserverDirectAccess is true
+; If it is not set, the default location will be used
+;cartoserverHome = "/path/to/cartoserver/"
 
-# if true, WSDL will be used for sending SOAP requests
+; if true, WSDL will be used for sending SOAP requests
 cartoserverUseWsdl = false
 
-# The base url of the cartoserver
-# If it is not set, a default location will be guessed
-#cartoserverBaseUrl = "http://your/path/to/cartoserver/"
+; The base url of the cartoserver
+; If it is not set, a default location will be guessed
+;cartoserverBaseUrl = "http://your/path/to/cartoserver/"
 
-# Prefix where a reverse proxy has to be used to access images.
-# The reverse proxy has to be on the same server than the client.
-#reverseProxyPrefix = "/reverse"
+; Prefix where a reverse proxy has to be used to access images.
+; The reverse proxy has to be on the same server than the client.
+;reverseProxyPrefix = "/reverse"
 
-### Mapfile configuration ###
+;## Mapfile configuration ##
 
-# The mapId of the mapfile to use
+; The mapId of the mapfile to use
 mapId = test
 
-# The id of the initial map state to be loaded on startup
+; The id of the initial map state to be loaded on startup
 initialMapStateId = default
 
-# Tools configuration ###
+; Tools configuration ##
 initialTool = zoom_in
 
-### Plugins ###
+;## Plugins ##
 
-# the list of plugins to load, separated by comma
+; the list of plugins to load, separated by comma
 loadPlugins = hello
-# unused
+; unused
 localPluginsPath = toto
-# unused
+; unused
 localPlugins = myLocal
 
-### Template engine configuration ###
+;## Template engine configuration ##
 
-# Template configuration
+; Template configuration
 smartyCaching = false
 smartyCompileCheck = true
 smartyDebugging = false
 
-### Internationalization ###
+;## Internationalization ##
 
-# I18n class
-# use I18nDummy for no translation management
-# use I18nGettext for gettext - will need PHP gettext module
+; I18n class
+; use I18nDummy for no translation management
+; use I18nGettext for gettext - will need PHP gettext module
 I18nClass = I18nDummy
 
-# default language
+; default language
 defaultLang = en

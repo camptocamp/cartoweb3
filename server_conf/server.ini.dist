@@ -1,18 +1,18 @@
 ; cartoserver configuration file
 
-# disables the caching of wsdl
+; disables the caching of wsdl
 noWsdlCache = false
 
-# disables the caching of getMap requests
+; disables the caching of getMap requests
 noMapResultCache = false
 
-# disables the caching of SOAP XML requests
+; disables the caching of SOAP XML requests
 noSoapXMLCache = false
 
-# shows developer messages
+; shows developer messages
 showDevelMessages = false
 
-# sets ini parameters useful during development
+; sets ini parameters useful during development
 developerIniConfig = false
 
 ; path where cartoserver generated images can be accessed
