@@ -8,9 +8,13 @@
  * Usage:
  * ./map2pot.php
  *
+ * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 
+/**
+ * Cartoclient home dir
+ */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 

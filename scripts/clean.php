@@ -12,10 +12,18 @@
  * Usage:
  * ./clean.php <cache_image_max_age> [<simple_image_max_age>]
  *
+ * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 
+/**
+ * Common home dir
+ */
 define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+/**
+ * Server home dir
+ */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
@@ -93,7 +101,9 @@ foreach ($imageFiles as $filename) {
     }
 }
 
-
+/**
+ * Gets all links between images and MapResults
+ */
 function loadMapResults($resultCachedir) {
 
     $resultFiles = scandir($resultCachedir);
@@ -130,6 +140,9 @@ function loadMapResults($resultCachedir) {
     return $results;
 }
 
+/**
+ * Gets all links between images and SOAP XMLs
+ */
 function loadSoapXMLs($soapCachedir) {
 
     $soapFiles = scandir($soapCachedir);

@@ -1,14 +1,18 @@
 #!/usr/local/bin/php
 <?php
 /**
- * po2mo.php - compile all PO files for a mapId
+ * po2mo.php - compile all PO files
  *
  * Usage:
- * ./po2mo.php [<project_name>] <map_id>
+ * ./po2mo.php
  *
+ * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 
+/**
+ * Cartoclient home dir
+ */
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
 define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');

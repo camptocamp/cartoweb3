@@ -3,17 +3,21 @@
 /**
  * smarty2pot.php - rips gettext strings from smarty template
  *
- * This command line script rips gettext strings from smarty file, and prints them to stdout in pot format, 
- * that can later be used with the standard gettext tools.
+ * This command line script rips gettext strings from smarty file, and
+ * save one file per project. If file already exists, calls msgmerge.
  *
  * Usage:
- * ./smarty2pot.php [<project_name>]
+ * ./smarty2pot.php
  *
  * Original code was tsmarty2c.php written by Sagi Bashari <sagi@boom.org.il>
  *
+ * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 
+/**
+ * Cartoclient home dir
+ */ 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
 
