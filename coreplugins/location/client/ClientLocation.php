@@ -81,8 +81,10 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             $verticalPan = $directions[0];                
             $horizontalPan = $directions[1];                
 
-            //FIXME: read this from config / mapInfo
-            $panRatio = 1.0;
+            $panRatio = $this->getConfig()->panRatio;
+            if (!$panRatio) {                
+                $panRatio = 1.0;
+            }
                
             $bbox = $this->locationState->bbox;
             $xOffset = $bbox->getWidth() * $panRatio * 

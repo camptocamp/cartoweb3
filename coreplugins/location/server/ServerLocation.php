@@ -27,19 +27,56 @@ abstract class LocationCalculator {
 
     function limitBbox($oldBbox) {
         $newBbox = $oldBbox;
+        
+        // Old ratio so we can check ratios
+        $oldRatio = $oldBbox->getWidth() / $oldBbox->getHeight();
+        
+        // Horizontal 
         if ($newBbox->minx < $this->maxExtent->minx) {
             $newBbox->maxx = $newBbox->maxx + $this->maxExtent->minx - $newBbox->minx;
-            $newBbox->minx = $this->maxExtent->minx;
+            $newBbox->minx = $this->maxExtent->minx;            
+            if ($newBbox->maxx > $this->maxExtent->maxx) {
+                // Bbox was too large to fit
+                $newBbox->maxx = $this->maxExtent->maxx;
+            }
         } else if ($newBbox->maxx > $this->maxExtent->maxx) {
             $newBbox->minx = $newBbox->minx + $this->maxExtent->maxx - $newBbox->maxx;
             $newBbox->maxx = $this->maxExtent->maxx;
+            if ($newBbox->minx < $this->maxExtent->minx) {
+                // Bbox was too large to fit
+                $newBbox->minx = $this->maxExtent->minx;
+            }
         }
+
+        // Vertical
         if ($newBbox->miny < $this->maxExtent->miny) {
             $newBbox->maxy = $newBbox->maxy + $this->maxExtent->miny - $newBbox->miny;
             $newBbox->miny = $this->maxExtent->miny;
+            if ($newBbox->maxy > $this->maxExtent->maxy) {
+                // Bbox was too high to fit
+                $newBbox->maxy = $this->maxExtent->maxy;
+            }
         } else if ($newBbox->maxy > $this->maxExtent->maxy) {
             $newBbox->miny = $newBbox->miny + $this->maxExtent->maxy - $newBbox->maxy;
             $newBbox->maxy = $this->maxExtent->maxy;
+            if ($newBbox->miny < $this->maxExtent->miny) {
+                // Bbox was too high to fit
+                $newBbox->miny = $this->maxExtent->miny;
+            }
+        }
+        
+        // Checking ratios
+        $newRatio = $newBbox->getWidth() / $newBbox->getHeight();
+        if ($oldRatio > $newRatio) {
+            // Too high
+            $newHeightDiff = ($newBbox->getHeight() - ($newBbox->getWidth() / $oldRatio)) / 2.0;
+            $newBbox->miny += $newHeightDiff;
+            $newBbox->maxy -= $newHeightDiff;
+        } else if ($oldRatio < $newRatio) {
+            // Too large
+            $newWidthDiff = ($newBbox->getWidth() - ($newBbox->getHeight() * $oldRatio)) / 2.0;
+            $newBbox->minx += $newWidthDiff;
+            $newBbox->maxx -= $newWidthDiff;
         }
         return $newBbox;
     }
@@ -98,8 +135,8 @@ abstract class LocationCalculator {
         return $newScale;
     }
     
-    abstract function getBbox();
-    abstract function getScale();
+    abstract function getBbox($oldBbox);
+    abstract function getScale($oldScale);
 }
 
 /**
@@ -107,20 +144,18 @@ abstract class LocationCalculator {
  */
 class NoopLocationCalculator extends LocationCalculator {
     private $log;
-    private $oldBbox;
 
-    function __construct($oldBbox) {
+    function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
-        $this->oldBbox = $oldBbox;
     }
 
-    function getBbox() {
-        return $this->oldBbox;
+    function getBbox($oldBbox) {
+        return $oldBbox;
     }
     
-    function getScale() {
-        return NULL;
+    function getScale($oldScale) {
+        return $oldScale;
     }
 }
 
@@ -130,11 +165,13 @@ class NoopLocationCalculator extends LocationCalculator {
 class PanLocationCalculator extends LocationCalculator {
     private $log;
     private $requ;
+    private $panRatio;
 
-    function __construct($requ, $maxExtent) {
+    function __construct($requ, $panRatio, $maxExtent) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($maxExtent);
         $this->requ = $requ;
+        $this->panRatio = $panRatio;
     }
 
     private function panDirectionToFactor($panDirection) {
@@ -153,23 +190,25 @@ class PanLocationCalculator extends LocationCalculator {
         }
     }
     
-    function getBbox() {
-        // TODO: read from config
-        $panRatio = 0.75;
+    function getBbox($oldBbox) {
+        $panRatio = $this->panRatio;
+        if (!$panRatio) {                
+            $panRatio = 1.0;
+        }
 
-        $xOffset = $this->requ->bbox->getWidth() * $panRatio * 
+        $xOffset = $oldBbox->getWidth() * $panRatio * 
             $this->panDirectionToFactor($this->requ->panDirection->horizontalPan);
-        $yOffset = $this->requ->bbox->getHeight() * $panRatio *
+        $yOffset = $oldBbox->getHeight() * $panRatio *
             $this->panDirectionToFactor($this->requ->panDirection->verticalPan);
         $bbox = new Bbox();
-        $bbox->setFromBbox($this->requ->bbox->minx + $xOffset, 
-                           $this->requ->bbox->miny + $yOffset,
-                           $this->requ->bbox->maxx + $xOffset,
-                           $this->requ->bbox->maxy + $yOffset);
-        return $this->limitBbox($bbox);
+        $bbox->setFromBbox($oldBbox->minx + $xOffset, 
+                           $oldBbox->miny + $yOffset,
+                           $oldBbox->maxx + $xOffset,
+                           $oldBbox->maxy + $yOffset);
+        return $bbox;
     }
 
-    function getScale() {
+    function getScale($oldScale) {
         return NULL;
     }
 }
@@ -180,48 +219,46 @@ class PanLocationCalculator extends LocationCalculator {
 class ZoomPointLocationCalculator extends LocationCalculator {
     private $log;
     private $requ;
-    private $oldScale;
     private $scaleModeDiscrete;
 
-    function __construct($requ, $oldScale, $scaleModeDiscrete, $maxExtent,
+    function __construct($requ, $scaleModeDiscrete, $maxExtent,
                          $minScale, $maxScale, $scales) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($maxExtent, $minScale, $maxScale, $scales);
         $this->requ = $requ;
-        $this->oldScale = round($oldScale, 2);  // round
         $this->scaleModeDiscrete = $scaleModeDiscrete;
     }
 
-    function getBbox() {
-        $xHalf = $this->requ->bbox->getWidth() / 2;
-        $yHalf = $this->requ->bbox->getHeight() / 2;
+    function getBbox($oldBbox) {
+        $xHalf = $oldBbox->getWidth() / 2;
+        $yHalf = $oldBbox->getHeight() / 2;
         
         $bbox = new Bbox();
         $bbox->setFromBbox($this->requ->point->x - $xHalf,
                            $this->requ->point->y - $yHalf,
                            $this->requ->point->x + $xHalf,
                            $this->requ->point->y + $yHalf);
-        return $this->limitBbox($bbox);
+        return $bbox;
     }
 
-    function getScale() {
+    function getScale($oldScale) {
     
         $scale = 0;
         switch ($this->requ->zoomType) {
         case ZoomPointLocationRequest::ZOOM_DIRECTION_IN:
             if ($this->scaleModeDiscrete) {
-                $scale = $this->getPreviousScale($this->oldScale);
+                $scale = $this->getPreviousScale($oldScale);
             } else {
-                $scale = $this->oldScale / 2.0;//TODO: read config
+                $scale = $oldScale / 2.0;//TODO: read config
             }
             break;
         case ZoomPointLocationRequest::ZOOM_DIRECTION_NONE:
             return NULL;
         case ZoomPointLocationRequest::ZOOM_DIRECTION_OUT:
             if ($this->scaleModeDiscrete) {
-                $scale = $this->getNextScale($this->oldScale);
+                $scale = $this->getNextScale($oldScale);
             } else {
-                $scale = $this->oldScale * 2.0;//TODO: read config
+                $scale = $oldScale * 2.0;//TODO: read config
             }
             break;
         case ZoomPointLocationRequest::ZOOM_FACTOR:
@@ -230,7 +267,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
                 $zoom = (1.0 / $zoom);
             else if ($zoom < 0)
                 $zoom = abs($zoom);
-            $contScale = $this->oldScale * $zoom;           
+            $contScale = $oldScale * $zoom;           
             if ($this->scaleModeDiscrete) {
                 $scale = $this->getNearestScale($contScale);
             } else {
@@ -244,7 +281,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
             throw new CartoserverException("unknown zoom type " .
                                            $this->requ->zoomType);
         }
-        return $this->limitScale($scale);
+        return $scale;
     }
 }
 
@@ -299,23 +336,24 @@ class ServerLocation extends ServerCorePlugin {
         $imageDimension = new Dimension($msMapObj->width, 
                                         $msMapObj->height); 
 
+        $oldScale = 0;
         switch($requ->locationType) {
         case LocationRequest::LOC_REQ_BBOX:
-            $locCalculator = new NoopLocationCalculator(
-                                        $requ->bboxLocationRequest->bbox);
+            $locCalculator = new NoopLocationCalculator();
             break;
         case LocationRequest::LOC_REQ_PAN:
             $locCalculator = new PanLocationCalculator(
                                         $requ->panLocationRequest,
+                                        $this->getConfig()->panRation,
                                         $this->serverContext->maxExtent);
             break;
         case LocationRequest::LOC_REQ_ZOOM_POINT:
             $oldBbox = $requ->zoomPointLocationRequest->bbox;
             $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny, 
                                  $oldBbox->maxx, $oldBbox->maxy);
+            $oldScale = round($msMapObj->scale, 2);
             $locCalculator = new ZoomPointLocationCalculator(
                                         $requ->zoomPointLocationRequest,
-                                        $msMapObj->scale,
                                         $this->getConfig()->scaleModeDiscrete,
                                         $this->serverContext->maxExtent,
                                         $this->getConfig()->minScale,
@@ -326,31 +364,35 @@ class ServerLocation extends ServerCorePlugin {
             throw new CartoserverException('unknown location request type: ' . $requ->locationType);
         }
 
-        // Centering
-        $bbox = $locCalculator->getBbox();
-        if (!$bbox)
-            throw new CartoserverException("Location plugin could not calculate bbox");
-
-        $msMapObj->setExtent($bbox->minx, $bbox->miny, 
-                             $bbox->maxx, $bbox->maxy);
-
         // Scaling
-        $scale = $locCalculator->getScale();
-        
+        $scale = $locCalculator->getScale($oldScale);
+
         if ($scale) {
+            $scale = $locCalculator->limitScale($scale);
+            
             $center = ms_newPointObj();
             $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
             $msMapObj->zoomscale($scale, $center,
                         $msMapObj->width, $msMapObj->height, $msMapObj->extent);
-            $location->scale = $scale;
         }
+    
+        $bbox = new Bbox();
+        $bbox->setFromMsExtent($msMapObj->extent);
+
+        $bbox = $locCalculator->getBbox($bbox);       
+$this->log->debug('--------------------------------');
+$this->log->debug($bbox);
+        $bbox = $locCalculator->limitBbox($bbox);
+$this->log->debug('--------------------------------');
+$this->log->debug($bbox);
+        
+        $msMapObj->setExtent($bbox->minx, $bbox->miny, 
+                             $bbox->maxx, $bbox->maxy);
 
         $location->bbox = new Bbox();
         $location->bbox->setFromMsExtent($msMapObj->extent);
         
-        if (!$scale) {
-            $location->scale = $msMapObj->scale;            
-        }
+        $location->scale = $msMapObj->scale;            
         return $location;
     }    
     

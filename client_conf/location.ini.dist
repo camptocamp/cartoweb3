@@ -3,3 +3,6 @@ recenterActive = true
 
 ; if current scale is above this limit, measure unit is km else m
 ;scaleUnitLimit = 100000
+
+; ratio for panning, default is 1.0
+;panRatio = 0.25
