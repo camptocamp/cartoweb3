@@ -127,7 +127,8 @@ class I18n {
         // Set locale to LANG, for strftime()
         setlocale(LC_ALL, '');
         setlocale(LC_NUMERIC, 'C');
-        header('Content-Language: ' . LANG);
+        if (!isset($GLOBALS['headless']))
+            header('Content-Language: ' . LANG);
         
         // if cookie doesn't exist, set a cookie expiring in one year for current language
         if (!isset($_COOKIE['LangCookie']) || $_COOKIE['LangCookie'] != LANG) {

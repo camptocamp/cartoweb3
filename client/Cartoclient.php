@@ -258,7 +258,8 @@ class Cartoclient {
         
         try {
             $this->initializeObjects();
-            session_start();
+            if (!isset($GLOBALS['headless']))
+                session_start();
             $this->initializeSession();        
         } catch (Exception $exception) {
             if (isset($this->formRenderer)) {

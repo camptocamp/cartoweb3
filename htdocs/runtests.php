@@ -66,6 +66,10 @@ if (!array_key_exists('allowTests', $iniArray) || !$iniArray['allowTests']) {
 
 require_once (CARTOCOMMON_HOME . 'tests/CartowebTestRunner.php');
 
+// This global tell the cartoclient not to output header or start sesssion. 
+//  Otherwise it would cause problems because of already sent output.
+$GLOBALS['headless']=true;
+ 
 $testRunner = new CartowebTestRunner();
 
 if (!empty($_REQUEST['testsuite']))

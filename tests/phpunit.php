@@ -20,6 +20,10 @@ ini_set('include_path', '');
 require_once(CARTOCOMMON_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array());
 
+// This global tell the cartoclient not to output header or start sesssion. 
+//  Otherwise it would cause problems because of already sent output.
+$GLOBALS['headless']=true;
+ 
 set_include_path(get_include_path() . PATH_SEPARATOR . 
                  CARTOCLIENT_HOME . 'tests/');
 
