@@ -81,7 +81,7 @@ class Point extends Shape {
     public $x;
     public $y;
 
-    function __construct($x, $y) {
+    function __construct($x=0, $y=0) {
         parent::__construct();
         $this->x = $x;
         $this->y = $y;
