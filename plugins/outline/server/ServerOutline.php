@@ -224,32 +224,33 @@ class ServerOutline extends ClientResponderAdapter {
     
     /**
      * Handles shapes drawing and area computation
-     * @param OutlineRequest
-     * @return OutlineResult
+     * @param array array of shapes
+     * @param boolean mask mode
+     * @return double area
      */
-    public function handleDrawing($requ) {
-
+    public function draw($shapes, $maskMode = false) {
+    
         $msMapObj = $this->serverContext->getMapObj();
 
-        if ($requ->maskMode) {
+        if ($maskMode) {
             $this->drawMap($msMapObj);
             $msMapObj->labelcache->free();
         }
 
         $area = 0;
-        foreach ($requ->shapes as $shape) {
+        foreach ($shapes as $shape) {
             switch (get_class($shape)) {
             case 'Point':
-                $this->drawPoint($msMapObj, $shape, $requ->maskMode);
+                $this->drawPoint($msMapObj, $shape, $maskMode);
                 break;
             case 'Line':
-                $this->drawLine($msMapObj, $shape, $requ->maskMode);
+                $this->drawLine($msMapObj, $shape, $maskMode);
                 break;
             case 'Rectangle':
-                $this->drawRectangle($msMapObj, $shape, $requ->maskMode);
+                $this->drawRectangle($msMapObj, $shape, $maskMode);
                 break;
             case 'Polygon':
-                $this->drawPolygon($msMapObj, $shape, $requ->maskMode);
+                $this->drawPolygon($msMapObj, $shape, $maskMode);
                 break;
             default:
                 throw new CartoserverException('unknown shape type ' . 
@@ -259,12 +260,10 @@ class ServerOutline extends ClientResponderAdapter {
             $area += $shape->getArea();
         }
         
-        if (!$requ->maskMode) {
+        if (!$maskMode) {
             $this->drawMap($msMapObj);
         }
         
-        $result = new OutlineResult();
-
         $areaFactor = $this->getConfig()->areaFactor;
         if (is_null($areaFactor)) {
             $areaFactor = 1.0;
@@ -272,7 +271,20 @@ class ServerOutline extends ClientResponderAdapter {
             $areaFactor = (double)$areaFactor;
         }
 
-        $result->area = $area * $areaFactor;
+        return $area * $areaFactor;
+    }
+    
+    /**
+     * Handles shapes drawing and area computation
+     * @param OutlineRequest
+     * @return OutlineResult
+     */
+    public function handleDrawing($requ) {
+
+        $area = $this->draw($requ->shapes, $requ->maskMode);
+        
+        $result = new OutlineResult();
+        $result->area = $area;
         return $result;
     }
 }
