@@ -29,7 +29,8 @@ class OutlineState {
  * @package Plugins
  */
 class ClientOutline extends ClientPlugin
-                    implements Sessionable, GuiProvider, ServerCaller, ToolProvider {
+                    implements Sessionable, GuiProvider, ServerCaller,
+                    ToolProvider, Exportable {
                     
     /**                    
      * @var Logger
@@ -187,6 +188,21 @@ class ClientOutline extends ClientPlugin
        
         $template->assign(array('outline_active' => true,
                                 'outline' => $this->drawOutline()));
+    }
+
+    /**
+     * @see Exportable::adjustExportMapRequest
+     */
+    function adjustExportMapRequest(ExportConfiguration $configuration,
+                                    MapRequest $mapRequest) {
+
+        $printOutline = $configuration->getPrintOutline();
+        if (!is_null($printOutline)) {
+            $outlineRequest = new OutlineRequest();
+            array_push($this->outlineState->shapes, $printOutline);
+            $outlineRequest->shapes   = $this->outlineState->shapes;
+            $mapRequest->outlineRequest = $outlineRequest;
+        }
     }
 }
 
