@@ -1,0 +1,2 @@
+;integer defining appearance order of the query tool icon in toolbar (if not specified, default to 40). 
+;weightQuery = 40
