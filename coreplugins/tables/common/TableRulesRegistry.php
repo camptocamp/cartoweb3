@@ -369,7 +369,7 @@ abstract class CellRule extends ColumnRule {
 }
 
 /**
- * Rule to keep only a set of columns
+ * Rule to keep only a set of columns (include)
  * @package CorePlugins
  */
 class ColumnSelector extends TableRule {
@@ -391,24 +391,25 @@ class ColumnSelector extends TableRule {
         $this->columnIds = $columnIds;        
     }
     
-    /**
-     * Executes a rule on a table
-     * @param Table
-     * @param array
+    /** 
+     * Keeps or exclude columns
      */
-    function applyRule($table, $params) {
-    
+    protected function selectColumns($table, $exclude = false) {
+
         $indexes = $this->getIndexes($table);
-        
+                
+        if ($exclude) {
+            $ids = array_diff($table->columnIds, $this->columnIds);
+        } else {
+            $ids = array_intersect($table->columnIds, $this->columnIds);
+        }
         $newIds = array();
         $newTitles = array();
         $oldIndexes = array();
-        foreach ($this->columnIds as $columnId) {
-            if (in_array($columnId, $table->columnIds)) {
-                $newIds[] = $columnId;
-                $newTitles[] = $table->columnTitles[$indexes[$columnId]];
-                $oldIndexes[] = $indexes[$columnId];
-            }
+        foreach ($ids as $columnId) {
+            $newIds[] = $columnId;
+            $newTitles[] = $table->columnTitles[$indexes[$columnId]];
+            $oldIndexes[] = $indexes[$columnId];
         }
 
         $table->columnIds = $newIds;
@@ -421,6 +422,33 @@ class ColumnSelector extends TableRule {
             }
             $row->cells = $newCells;
         }
+    }
+    
+    /**
+     * Executes a rule on a table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+        
+        $this->selectColumns($table);
+    }
+}
+
+/**
+ * Rule to keep only a set of columns (exclude)
+ * @package CorePlugins
+ */
+class ColumnUnselector extends ColumnSelector {
+
+    /**
+     * Executes a rule on a table
+     * @param Table
+     * @param array
+     */
+    function applyRule($table, $params) {
+        
+        $this->selectColumns($table, true);
     }
 }
 
@@ -991,6 +1019,17 @@ class TableRulesRegistry {
      */
     public function addColumnSelector($groupId, $tableId, $columnIds) {
        $rule = new ColumnSelector($groupId, $tableId, $columnIds);
+       $this->addRule($rule); 
+    }
+    
+    /**
+     * Adds a ColumnUnselector rule
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function addColumnUnselector($groupId, $tableId, $columnIds) {
+       $rule = new ColumnUnselector($groupId, $tableId, $columnIds);
        $this->addRule($rule); 
     }
     
