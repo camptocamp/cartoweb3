@@ -32,14 +32,11 @@ class MapRequest extends Serializable {
     public $layersRequest;
 
     function unserialize($struct) {
-        $this->mapId           = Serializable::unserializeValue($struct, 'mapId');
-        $this->locationRequest = Serializable::unserializeObject($struct, 'locationRequest', 'LocationRequest');
-        $this->imagesRequest   = Serializable::unserializeObject($struct, 'imagesRequest', 'ImagesRequest');
-        $this->layersRequest   = Serializable::unserializeObject($struct, 'layersRequest', 'LayersRequest');
+        $this->mapId = Serializable::unserializeValue($struct, 'mapId');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -7) == 'Request') {
-                $this->$attr = self::unserializeObject($struct, $attr, ucfirst($attr));
+                $this->$attr = self::unserializeObject($struct, $attr);
             }
         }
     }
@@ -57,16 +54,6 @@ class MapResult extends Serializable {
     public $timeStamp;
     
     /**
-     * @var LocationResult
-     */
-    public $locationResult;
-    
-    /**
-     * @var ImagesResult
-     */
-    public $imagesResult;
-    
-    /**
      * Array of Message
      * @var array
      */
@@ -74,13 +61,11 @@ class MapResult extends Serializable {
 
     function unserialize($struct) {
         $this->timeStamp      = Serializable::unserializeValue($struct, 'timeStamp', 'int');
-        $this->locationResult = Serializable::unserializeObject($struct, 'locationResult', 'LocationResult');
-        $this->imagesResult   = Serializable::unserializeObject($struct, 'imagesResult', 'ImagesResult');
         $this->serverMessages = Serializable::unserializeObjectMap($struct, 'serverMessages', 'Message');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -6) == 'Result') {
-                $this->$attr = self::unserializeObject($struct, $attr, ucfirst($attr));
+                $this->$attr = self::unserializeObject($struct, $attr);
             }
         }
     }

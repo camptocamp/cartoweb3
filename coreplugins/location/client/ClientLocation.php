@@ -517,6 +517,14 @@ class ClientLocation extends ClientPlugin
 
     function handleResult($locationResult) {}
 
+    /**
+     * Returns current scale.
+     * @return float
+     */
+    function getCurrentScale() {
+        return $this->locationResult->scale;
+    }
+
     function handleInit($locationInit) {
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;

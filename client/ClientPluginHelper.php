@@ -155,12 +155,11 @@ class InitUserHelper extends ClientPluginHelper {
         
         $name = $plugin->getName();
         $field = $name . 'Init';
-        $class = ucfirst($field);
         
         if (empty($mapInfo->$field))
             return NULL;
             
-        $result = Serializable::unserializeObject($mapInfo, $field, $class);
+        $result = Serializable::unserializeObject($mapInfo, $field);
         
         if (!is_null($result))                
             $mapInfo->$field = $result;

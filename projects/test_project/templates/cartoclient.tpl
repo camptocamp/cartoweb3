@@ -154,6 +154,8 @@ ClientContext:
       <input type="text" name="projectplugin_input" /></p>
       {/if}
 
+      {t}Message from plugin ProjectLocation:{/t} {$projectmessage}
+
     </div>
     <!-- end of folder1 -->
   

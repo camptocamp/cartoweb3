@@ -32,12 +32,7 @@ class PluginManager {
      */
     private $projectHandler;
     
-    /**
-     * @return array
-     */
-    function getPlugins() {
-        return $this->plugins;
-    }
+    static private $replacePlugin = NULL;
     
     /**
      * @param ProjectHandler
@@ -48,6 +43,17 @@ class PluginManager {
         $this->projectHandler = $projectHandler;
     }
 
+    static function replacePlugin($name) {
+        self::$replacePlugin = $name;
+    }
+
+    /**
+     * @return array
+     */
+    function getPlugins() {
+        return $this->plugins;
+    }
+    
     /**
      * Returns full plugin base path
      * @param string path to CartoWeb root
@@ -107,16 +113,35 @@ class PluginManager {
     }
     
     /**
+     * Tries to include plugin PHP scripts
+     * @param string path to CartoWeb root
+     * @param string path to plugin root
+     * @param int type (client or server)
+     * @param string plugin name
+     */
+    private function includeClassFiles($basePath, $relativePath, $type, $name) {
+        $includePath = $this->getPath($basePath, $relativePath, $type, $name);
+        $this->log->debug("trying to load class $includePath");
+        $this->log->debug($this->getCommonPath($basePath, $relativePath, $name));
+
+        // FIXME: this won't work in case of non absolute paths
+        if (is_readable($this->getCommonPath($basePath, $relativePath, $name)))
+            include_once($this->getCommonPath($basePath, $relativePath, $name));
+
+        if (is_readable($includePath))
+            include_once($includePath);
+    }
+    
+    /**
      * Loads plugins
      * 
      * Includes all plugin files and creates plugin object.
      * @param string path to CartoWeb root
-     * @param string path to plugins root
      * @param int type (client or server)
      * @param array array of plugin names
      * @param mixed optional initialization arguments
      */
-    public function loadPlugins($basePath, $relativePath, $type, $names, $initArgs=NULL) {
+    public function loadPlugins($basePath, $type, $names, $initArgs=NULL) {
 
         // TODO: load per plugin configuration file
         //  manage plugin dependency, ...
@@ -126,47 +151,60 @@ class PluginManager {
             return;
         }        
 
-        $path = $basePath . $relativePath; 
         foreach ($names as $name) {
         
             $className = $this->getClassName($type, $name);
 
             if (isset($this->$name)) {   
                 $msg = "Plugin $className already loaded";
-                if ($type == self::CLIENT_PLUGINS)
-                    throw new CartoclientException($msg);
-                else
-                    throw new CartoserverException($msg);
+                throw new CartocommonException($msg);
             }
 
-            $includePath = $this->getPath($basePath, $relativePath, $type, $name);
-            $this->log->debug("trying to load class $includePath");
-            $this->log->debug($this->getCommonPath($basePath, $relativePath, $name));
-
-            // FIXME: this won't work in case of non absolute paths
-            if (is_readable($this->getCommonPath($basePath, $relativePath, $name)))
-                include_once($this->getCommonPath($basePath, $relativePath, $name));
-
-            if (is_readable($includePath))
-                include_once($includePath);
+            // Tries in coreplugins 
+            $relativePath = 'coreplugins/';
+            $this->includeClassFiles($basePath, $relativePath, $type, $name);
 
             if (!class_exists($className)) {
+                // Plugin not found, tries in plugins
+                $relativePath = 'plugins/';
+                $this->includeClassFiles($basePath, $relativePath, $type, $name);
+            }
+            
+            if (!class_exists($className)) {
                 $msg = "Couldn't load plugin $className";
-                if ($type == self::CLIENT_PLUGINS)
-                    throw new CartoclientException($msg);
-                else
-                    throw new CartoserverException($msg);
+                throw new CartocommonException($msg);
             }
 
             $plugin = new $className();
+
+            $extendedName = $name;
+            if (!is_null(self::$replacePlugin)) {
+                $name = self::$replacePlugin;
+            }
+
             $plugin->setBasePath($this->getBasePluginPath($basePath, $relativePath, $name));
             $plugin->setName($name);
-
+            $plugin->setExtendedName($extendedName);
+            
             if ($initArgs !== NULL) {
                 $plugin->initialize($initArgs);
             }
 
-            $this->plugins[] = $plugin;
+            $found = NULL;
+            if (!is_null(self::$replacePlugin)) {
+                foreach ($this->plugins as $key => $oldPlugin) {
+                    if ($oldPlugin->getName() == self::$replacePlugin) {
+                        $found = $key;
+                    }
+                }
+                if (!is_null($found)) {
+                    $this->plugins[$found] = $plugin;
+                }
+                self::$replacePlugin = NULL;
+            }
+            if (is_null($found)) {
+                $this->plugins[] = $plugin;
+            }
             $this->$name = $plugin;
         }
     }

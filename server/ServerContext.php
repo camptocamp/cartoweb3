@@ -183,14 +183,16 @@ class ServerContext {
 
         $this->pluginManager = new PluginManager($this->projectHandler);
         $corePluginNames = $this->getCorePluginNames();
-        $this->pluginManager->loadPlugins($this->config->basePath, 'coreplugins/',
-                                          PluginManager::SERVER_PLUGINS, $corePluginNames, $this);
+        $this->pluginManager->loadPlugins($this->config->basePath, 
+                                          PluginManager::SERVER_PLUGINS,
+                                          $corePluginNames, $this);
 
         // FIXME: maybe not in mapinfo
         $pluginNames = $this->getMapInfo()->loadPlugins;
         
-        $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
-                                          PluginManager::SERVER_PLUGINS, $pluginNames, $this);
+        $this->pluginManager->loadPlugins($this->config->basePath, 
+                                          PluginManager::SERVER_PLUGINS,
+                                          $pluginNames, $this);
     }
     
     function getPluginManager() {

@@ -41,7 +41,7 @@ abstract class PluginBase {
      */
     function getBasePath() {
         if (!$this->basePath)
-            throw new CartoclientException("Base path not defined");
+            throw new CartocommonException("Base path not defined");
         return $this->basePath;
     }
 
@@ -64,6 +64,20 @@ abstract class PluginBase {
      */
     function getName() {
         return $this->name;
+    }
+    
+    /**
+     * @param string
+     */
+    function setExtendedName($extendedName) {
+        $this->extendedName = $extendedName;
+    }
+
+    /**
+     * @return string
+     */
+    function getExtendedName() {
+        return $this->extendedName;
     }
     
     /**

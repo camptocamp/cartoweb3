@@ -113,6 +113,27 @@ abstract class ServerPlugin extends PluginBase {
     final function getConfig() {
         return $this->config;
     }
+    
+    /**
+     * @return boolean
+     */
+    function useExtendedRequest() {
+        return false;
+    }
+    
+    /**
+     * @return boolean
+     */
+    function useExtendedResult() {
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    function useExtendedInit() {
+        return false;
+    }
 }
 
 /**

@@ -585,13 +585,13 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Retrieves current scale from MapResult object.
+     * Retrieves current scale from location plugin
      * @return float
      */
     private function getCurrentScale() {
-        if (!isset($this->currentScale)) {
-            $this->currentScale = 
-                $this->getCartoclient()->getMapResult()->locationResult->scale;
+        $pluginManager = $this->getCartoclient()->getPluginManager();
+        if (!isset($this->currentScale) && !empty($pluginManager->location)) {
+            $this->currentScale = $pluginManager->location->getCurrentScale();
         }
         return $this->currentScale;
     }

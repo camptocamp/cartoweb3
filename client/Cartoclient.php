@@ -329,13 +329,13 @@ class Cartoclient {
 
         $corePluginNames = $this->getCorePluginNames();
 
-        $this->pluginManager->loadPlugins($this->config->basePath, 'coreplugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath,
                                           PluginManager::CLIENT_PLUGINS,
                                           $corePluginNames, $this);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
 
-        $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath, 
                                           PluginManager::CLIENT_PLUGINS,
                                           $pluginNames, $this);
     }

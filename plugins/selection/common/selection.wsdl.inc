@@ -2,6 +2,7 @@
 
       <complexType name="SelectionRequest">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="policy" type="types:SelectionPolicy"/>
           <element name="bbox" type="types:Bbox"/>
           <element name="layerId" type="xsd:string"/>
@@ -18,6 +19,7 @@
 
       <complexType name="SelectionResult">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="selectedIds" type="types:ArrayOfLayerId"/>
           <element name="layerResults" type="types:ArrayOfLayerResult"/>
         </all>      
