@@ -61,11 +61,13 @@ class LayerContainer extends LayerBase {
  */
 class LayerGroup extends LayerContainer {
     public $aggregate = false;
+    public $rendering = 'tree';
 
     function unserialize($struct) {
         parent::unserialize($struct);
         $this->aggregate = self::unserializeValue($struct, 'aggregate',
                                                   'boolean');
+        $this->rendering = self::unserializeValue($struct, 'rendering');
     }
 }
 
