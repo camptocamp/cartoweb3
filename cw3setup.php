@@ -14,7 +14,8 @@ error_reporting(E_ALL);
 
 // If you had renamed your php mapscript library,
 // you need to change it here too:
-define('CW3_PHP_MAPSCRIPT', 'php_mapscript');
+define('CW3_PHP_MAPSCRIPT', 'php_mapscript'); // linux
+//define('CW3_PHP_MAPSCRIPT', 'php_mapscript_45'); //win
 
 // Required mapserver version:
 define('CW3_PHP_MS_VERSION', '4.4.0');
@@ -38,7 +39,6 @@ $CW3_DIRS_TO_CREATE = array('www-data',
                   'www-data/wsdl_cache',
                   'www-data/icons',
                   'www-data/pdf',
-                  'www-data/pdf_cache',
                   'templates_c'
                   );
 
@@ -74,13 +74,14 @@ $CW3_TO_REMOVE = array(
                   'www-data'
                   );
 
+$commands = array('check', 'get', 'getLibs', 'mkDirs', 'rmDirs', 'perms', 'createConfig', 'setupLinks', 'removeLinks', 'setup', 'remove', 'cw3setup.php');
 
 /**************************************************************/
 /*           DO NOT CHANGE ANYTHING AFTER THAT                */
 /**********************************************************dF**/
 
 // Check operating system (Unix-like or windaube)
-$isWin = (PHP_SUFFIX_LIB == 'dll');
+$isWin = (PHP_OS == 'Window');
 
 // Clear the screen:
 if ($isWin)
@@ -102,45 +103,47 @@ echo "Sample: php -f cw3setup.php check get=anonymous\n\n";
 echo "(no command, by default): install cartoweb3\n";
 echo "cvs                     : install cartoweb3 from cvs\n";
 echo "check                   : check configuration\n";
-echo "get[=user]              : CVS checkout with user name [anonymous]\n";
-echo "get_libs                : get required libraries\n";
-echo "perms[=www-data]        : set writing perms for web-user [www-data]\n";
+echo "get                     : CVS checkout with user name [anonymous]\n";
+echo "getLibs                 : get required libraries\n";
+echo "perms [www-data]        : set writing perms for web-user [www-data]\n";
 echo "                          - set ownership if ran as superuser,\n";
 echo "                          - give write permission instead.\n";
 echo "createConfig            : create the new configuration (install .dist files)\n";
 echo "setupLinks              : link or copy paths for web browser\n";
 echo "removeLinks             : remove all links created by setupLinks.\n";
 echo "                          - super user rights required to remove dynamic content\n";
-echo "setup[=path]            : setup a new project in existing installation\n";
+echo "setup [path]            : setup a new project in existing installation\n";
 echo "mkDirs                  : create all cache directories\n";
 echo "rmDirs                  : remove all temporary files AND directories\n";
 echo "remove                  : remove cartoweb3\n";
 echo "\n";
 
 // Retrieve command:
-$cmd_array = @$_REQUEST;
-if (count($cmd_array) == 0) {
+$cmd_array = $_SERVER['argv'];
+if (count($cmd_array) <= 1) {
     $cmd = "FULL INSTALL";
-    $cmd_array = array('check' => '',
-                       'get_libs' => '',
-                       'mkDirs' => '',
-                       'perms' => '',
-                       'createConfig' => '',
-                       'setupLinks' => ''
+    $cmd_array = array('check',
+                       'getLibs',
+                       'mkDirs',
+                       'perms',
+                       'createConfig',
+                       'setupLinks'
                       );
 }
-else
-    $cmd = implode(array_keys($cmd_array), ', ');
+else {
+    array_shift($cmd_array);
+    $cmd = implode($cmd_array, ', ');
+}
 
-if (in_array('cvs', array_keys($cmd_array))) {
+if (in_array('cvs', $cmd_array)) {
     $cmd = "FULL INSTALL from CVS";
-    $cmd_array = array('check' => '',
-                       'get' => '',
-                       'get_libs' => '',
-                       'mkDirs' => '',
-                       'perms' => '',
-                       'createConfig' => '',
-                       'setupLinks' => ''
+    $cmd_array = array('check',
+                       'get',
+                       'getLibs',
+                       'mkDirs',
+                       'perms',
+                       'createConfig',
+                       'setupLinks'
                       );
 }
 
@@ -149,15 +152,15 @@ echo "Command(s): $cmd. Continue ? y/n [y]";
 $r = getInput();
 if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Aborted\n");
 
-foreach($cmd_array as $cmd=>$params) {
+foreach($cmd_array as $keycmd=>$cmd) {
     switch($cmd) {
         case 'check':
             $cnf = checkConfig();
             if ($cnf) {
                 echo $cnf;
-                echo "Bad configuration detected.";
+                echo "Right configuration NOT detected.";
                 echo " Continue ? y/n [n]";
-                $r = getInput('n');
+                $r = getInput();
                 if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Aborted\n");
             }
             else {
@@ -167,11 +170,10 @@ foreach($cmd_array as $cmd=>$params) {
             break;
 
         case 'get':
-            if ($params) get($params);
-            else get(CW3_CVS_LOGIN);
+            get(CW3_CVS_LOGIN);
             break;
 
-        case 'get_libs':
+        case 'getLibs':
             getLibs(CW3_LIBS_URL);
             break;
 
@@ -184,7 +186,11 @@ foreach($cmd_array as $cmd=>$params) {
             break;
 
         case 'perms':
-            if ($params) setPerms($params);
+           if (($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
+                $params = $cmd_array[$keycmd + 1];
+                setPerms($params);
+                $not_a_command_flag = true;
+            }
             else setPerms('www-data');
             break;
 
@@ -207,9 +213,13 @@ foreach($cmd_array as $cmd=>$params) {
             break;
 
         case 'setup':
-            $dest = ltrim(substr($params, strrpos($params, '/')), '/');
-            link_or_copy($params, 'projects/'.$dest);
-            setupLinks();
+            if (($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
+                $params = $cmd_array[$keycmd + 1];
+                $dest = ltrim(substr($params, strrpos($params, '/')), '/');
+                link_or_copy($params, 'projects/'.$dest);
+                setupLinks();
+                $not_a_command_flag = true;
+            }
             break;
 
         case 'remove':
@@ -217,6 +227,10 @@ foreach($cmd_array as $cmd=>$params) {
             break;
 
         default:
+            if (@$not_a_command_flag) {
+                $not_a_command_flag = false;
+                break;
+            }
             echo "Unknown command: $cmd \n";
     }
 }
@@ -242,7 +256,7 @@ function checkConfig() {
 
 // Check if soap is enabled:
     if (!extension_loaded('soap')) {
-        $r .= "Soap not enabled: please re-install php with soap extension.\n";
+        $r .= "Soap extension not detected, but installer is not able to detect if there's a problem or not: please re-install php with soap extension if not done.\n";
         $badConfig = true;
     }
     else
@@ -254,9 +268,9 @@ function checkConfig() {
             $badConfig = true;
             $r .= "Unable to load library ".CW3_PHP_MAPSCRIPT.'.'.PHP_SHLIB_SUFFIX.".\n";
         }
-    $ms_ver = trim(substr(ms_GetVersion(), 18, 6));
+    $ms_ver = trim(substr(@ms_GetVersion(), 18, 6));
     if(version_compare($ms_ver, CW3_PHP_MS_VERSION) < 0) {
-        $r .= "Mapscript too old: please upgrade MapServer. Version must be >= ".CW3_PHP_MS_VERSION.".\n";
+        $r .= "Mapscript too old: please upgrade MapServer. Version must be equal or greater than ".CW3_PHP_MS_VERSION.".\n";
         $badConfig = true;
     }
     else
@@ -484,7 +498,14 @@ function link_or_copy($src, $dest) {
 
 // Get libraries
 function getLibs($url) {
-    $inc = 'cartoweb3_includes.tgz';
+        global $isWin;
+
+        echo "Loading libraries. Please wait. It may take a while.\n";
+
+        if ($isWin)
+                $inc = 'cartoweb3_includes.zip';
+        else
+                $inc = 'cartoweb3_includes.tgz';
     if (extension_loaded('curl')) {
         $ch = curl_init($url);
         $fp = fopen($inc, "wb");
@@ -501,12 +522,12 @@ function getLibs($url) {
         fclose($fd);
     }
     if (file_exists($inc)) {
+
         $r = passthru("tar xzf $inc");
         if ($r) {
             echo $r."\n";
             echo "WARNING: Libraries not uncompressed.\n";
-            echo "         Please install tar and redo, or untar $inc manually.\n";
-            echo "         For window, you can get tar at http://gnuwin32.sourceforge.net/packages/tar.htm\n";
+            echo "         Please install tar (or zip for win) and redo, or uncompress file $inc manually.\n";
         }
     }
     else
@@ -515,13 +536,13 @@ function getLibs($url) {
 }
 
 // Read user input in php shell mode
-function getInput($default = null, $length = 255) {
+function getInput() {
+        $input = false;
     $fr = fopen("php://stdin", "r");
-    $input = fgets($fr, $length);
+    $input = fgets($fr, 255);
     $input = rtrim($input);
     fclose($fr);
     if ($input) return $input;
-    else return $default;
 }
 
 // Recursively remove:
@@ -557,7 +578,8 @@ function copyr($source, $dest) {
     }
 
     // Loop through the folder
-    $dir = dir($source);
+    $dir = @dir($source);
+    if (!$dir) return false;
     while (false !== $entry = $dir->read()) {
         // Skip pointers
         if ($entry == '.' || $entry == '..') {
