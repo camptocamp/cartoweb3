@@ -24,7 +24,7 @@ class ServerProjectLocation extends ServerLocation {
             $projectResult->locationResult = 
                 parent::handleCorePlugin($requ->locationRequest);
         }
-        $projectResult->projectResult = str_shuffle($requ->projectRequest);
+        $projectResult->projectResult = str_rot13($requ->projectRequest);
         
         return $projectResult;
     }

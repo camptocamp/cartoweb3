@@ -17,7 +17,7 @@ class ServerProjectplugin extends ClientResponderAdapter {
 
     function handlePreDrawing($requ) {
         $result = new ProjectpluginResult();
-        $result->shuffledMessage = str_shuffle($requ->message); 
+        $result->shuffledMessage = str_rot13($requ->message); 
         return $result;
     }    
 }
