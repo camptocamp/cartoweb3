@@ -145,7 +145,7 @@
         </listitem>
         <listitem>
           <para>icon - filename of the static icon for the layer. Dynamic 
-            legends are described in <xref linkend="user.layer.legend" /> 
+            legends are described in <xref linkend="user.layers.legend" /> 
             </para>
         </listitem>
         <listitem>
@@ -157,7 +157,7 @@
         </listitem>
         <listitem>
           <para>rendering - how layer will be displayed: "tree", "block", 
-            "radio" or "dropdown". See <xref linkend="user.layer" /> for more 
+            "radio" or "dropdown". See <xref linkend="user.layers" /> for more 
             details on this option </para>
         </listitem>
         <listitem>

@@ -52,7 +52,7 @@
        <listitem>
         <para>
          <filename>layers</filename>: Layers management, see: 
-         <xref linkend="user.layer"/>.
+         <xref linkend="user.layers"/>.
         </para>
        </listitem>
        <listitem>

@@ -7,10 +7,10 @@
 
 <!-- $Id$ -->
 
-<chapter id="user.layer">
+<chapter id="user.layers">
  <title>Layers</title>
   
- <sect1 id="user.layer.intro"> 
+ <sect1 id="user.layers.intro"> 
   <title>Introduction</title>
   <para>
    Geographical data are most often apprehended as thematic layers : you may
@@ -42,14 +42,14 @@
   </para>
  </sect1>
 
- <sect1 id="user.layer.tree"> 
+ <sect1 id="user.layers.tree"> 
   <title>Hierarchy of layers and rendering</title>
   <para>
    Contrary to Mapserver itself, &cartoweb; supports an arbitrarily complex
    hierarchy of layers and different rendering options. The notion of 
    LayerGroup makes it possible.
   </para>
-  <sect2 id="user.layer.tree.types">
+  <sect2 id="user.layers.tree.types">
    <title>Layers and LayerGroups</title>
    <para>
     There are two types of "layers-like objects" in <filename>myMap.ini</filename>
@@ -60,7 +60,7 @@
    </para>
   </sect2>
 
-  <sect2 id="user.layer.tree.layers">
+  <sect2 id="user.layers.tree.layers">
    <title>Layers options</title>
    <para>
    <indexterm><primary>layers</primary></indexterm>
@@ -106,7 +106,7 @@
    </para>
   </sect2>
 
-  <sect2 id="user.layer.tree.layergroups">
+  <sect2 id="user.layers.tree.layergroups">
    <title>Layergroups options</title>
    <para>
    <indexterm><primary>layergroups</primary></indexterm>
@@ -206,7 +206,7 @@
    </para>
   </sect2>
 
-  <sect2 id="user.layer.tree.initial">
+  <sect2 id="user.layers.tree.initial">
    <title>Initial Mapstates</title>
    <para>
    <indexterm><primary>initial mapstate</primary></indexterm>
@@ -271,13 +271,13 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
 
  </sect1>
 
- <sect1 id="user.layer.mapfile">
+ <sect1 id="user.layers.mapfile">
   <title>MapFile layers configuration</title>
   <para>
   </para>
  </sect1>
 
- <sect1 id="user.layer.metadata"> 
+ <sect1 id="user.layers.metadata"> 
   <title>Metadata in mapfiles and .ini file</title>
   <para>FIXME: is is the right place ?
   </para>
@@ -287,7 +287,7 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
    file. These metadata are used in several different contextes, such as layer
    specific configuration, security handling, ...
   </para>
-  <sect2 id="user.layer.metadata.mapfile"> 
+  <sect2 id="user.layers.metadata.mapfile"> 
     <title>Metadata in mapfiles</title>
     <para>
     Specifying metadata in mapfiles is based on the standard MapServer syntax.
@@ -315,7 +315,7 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
     instance, as they are used on the &cartoclient;.
     </para>
     </sect2>
-  <sect2 id="user.layer.metadata.inifile"> 
+  <sect2 id="user.layers.metadata.inifile"> 
     <title>Metadata in <filename>&lt;mapfile&gt;.ini</filename></title>
     <para>
      The .ini configuration file <filename>&lt;mapfile&gt;.ini</filename> may contains
@@ -346,7 +346,7 @@ mapInfo.layers.group_admin.metadata.security_view = admin
  </sect1>
 
 
- <sect1 id="user.layer.legend">
+ <sect1 id="user.layers.legend">
   <title>Layers legend</title>
   <para>
    Bla bla bla bla bla bla bla bla bla bla

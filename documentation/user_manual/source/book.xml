@@ -49,7 +49,7 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/config.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <xi:include href="user/layer.xml" 
+    <xi:include href="user/layers.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/location.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
