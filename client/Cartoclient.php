@@ -252,8 +252,13 @@ class Cartoclient {
             session_start();
             $this->initializeSession();        
         } catch (Exception $exception) {
-            $this->formRenderer->showFailure($exception);
-            
+            if (isset($this->formRenderer)) {
+                $this->formRenderer->showFailure($exception);
+            } else {
+                // form renderer not yet initialized: show a raw error message
+                print 'An exception in early stage occured: <pre>';
+                var_dump($exception);
+            }
             // Cartoclient was not initialized, exit
             exit;
         }
