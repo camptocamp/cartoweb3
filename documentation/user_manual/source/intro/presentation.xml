@@ -29,8 +29,63 @@
  <sect1 id="intro.presentation.credit">
   <title>Credits</title>
   <para>
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
+   <itemizedlist>
+    <listitem>
+     <para>
+     Alexandre Fellay <ulink url="mailto:alexandre.fellay@camptocamp.com">alexandre.fellay@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Alexandre Saunier <ulink url="mailto:alexandre.saunier@camptocamp.com">alexandre.saunier@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Arnaud Saint Léger <ulink url="mailto:arnaud.saintleger@camptocamp.com">arnaud.saintleger@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Claude Philipona <ulink url="mailto:claude.philipona@camptocamp.com">claude.philipona@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Daniel Faivre <ulink url="mailto:daniel.faivre@camptocamp.com">daniel.faivre@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     David Jonglez <ulink url="mailto:david.jonglez@camptocamp.com">david.jonglez@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Marc Fournier <ulink url="mailto:marc.fournier@camptocamp.com">marc.fournier@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Olivier Courtin <ulink url="mailto:olivier.courtin@camptocamp.com">olivier.courtin@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Pierre Giraud <ulink url="mailto:pierre.giraud@camptocamp.com">pierre.giraud@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Sylvain Pasche <ulink url="mailto:sylvain.pasche@camptocamp.com">sylvain.pasche@camptocamp.com</ulink>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Yves Bolognini <ulink url="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</ulink>
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
