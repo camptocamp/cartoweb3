@@ -331,10 +331,16 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         
         $mapInfo = $this->cartoclient->getMapInfo();
         
-        $percent = (($this->locationResult->scale - $this->minScale) * 100) /
-                    ($this->maxScale - $this->minScale);
-        $percent = round($percent, 1);
-        $locationInfo = sprintf('Bbox_: %s  <br/> scale: min:%s current: %s ' .
+        $delta = $this->maxScale - $this->minScale;
+        if ($delta > 0) {
+            $percent = (($this->locationResult->scale - $this->minScale) * 100) /
+                        ($this->maxScale - $this->minScale);
+            $percent = round($percent, 1);
+        } else {
+            $percent = '#ERR';
+        }
+        
+        $locationInfo = sprintf('Bbox: %s  <br/> scale: min:%s current: %s ' .
                                 'max: %s (percent: %s)', 
                     $this->locationState->bbox->__toString(),
                     $this->minScale, $this->locationResult->scale, 
