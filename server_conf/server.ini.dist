@@ -6,6 +6,9 @@ useWsdl = false
 ; disables the caching of wsdl (ignored if useWsdl is false)
 noWsdlCache = false
 
+; disables the caching of MapInfo requests
+noMapInfoCache = false
+
 ; disables the caching of getMap requests
 noMapResultCache = false
 
