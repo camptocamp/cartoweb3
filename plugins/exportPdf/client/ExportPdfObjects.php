@@ -415,16 +415,16 @@ class PdfBlock {
      */
      public $caption         = '';
 
-     /**
-      * Id of headers block (mainly for tables)
-      * @var string
-      */
-     public $headers        = '';
+    /**
+     * Id of headers block (mainly for tables)
+     * @var string
+     */
+    public $headers          = '';
 
-      /**
-       * @var boolean
-       */
-      public $standalone    = true;
+    /**
+     * @var boolean
+     */
+    public $standalone       = true;
 }
 
 /**
@@ -690,8 +690,8 @@ class SpaceManager {
      * @param string block name
      * @return array
      */
-    private function getBlockExtent($name) {
-        if (!isset($this->levels[$name]))
+    private function getBlockExtent($name = '') {
+        if (!$name || !isset($this->levels[$name]))
             return array('minX' => $this->minX, 'minY' => $this->minY,
                          'maxX' => $this->maxX, 'maxY' => $this->maxY);
 
@@ -700,15 +700,27 @@ class SpaceManager {
     }
 
     /**
+     * Return x-coord of the block rightest point and 
+      * y-coord of the block lowest allowed point.
+     * @param PdfBlock
+     * @return array (x-rightest, y-lowest)
+     */
+    function getMaxExtent(PdfBlock $block) {
+        $parent = isset($block->parent) ? $block->parent : '';
+        $pExtent = $this->getBlockExtent($parent);
+        return array($pExtent['maxX'], $pExtent['maxY']);
+    }
+
+    /**
      * Returns the nearest available reference point (min X, min Y)
      * according to the block positioning properties.
      * @param PdfBlock
+     * @param boolean
      * @return array (X,Y) of reference point
      */
-    public function checkIn(PdfBlock $block, $isTable = false) {
-        // TODO: handle block with no initially known dimensions (legend...)
+    public function checkIn(PdfBlock $block, $dontAllocate = false) {
         // TODO: handle blocks too high to fit below previous block and
-        // that must be displayed with a X shift etc.
+        // that must be displayed with a X shift etc.?
         // TODO: handle more evoluted inter-block positioning than "inFlow"?
         // TODO: take into account parent-block border-width in block 
         // positioning: must be shifted of a border-width value in X and Y.
@@ -758,7 +770,7 @@ class SpaceManager {
             $y0 = $this->getY($block, $minY, $maxY);
         }
         
-        if ($isTable)
+        if ($dontAllocate)
             return array($x0, $y0);
 
         return $this->allocateArea($block, $x0, $y0);
