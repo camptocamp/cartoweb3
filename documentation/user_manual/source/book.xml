@@ -74,7 +74,6 @@
   <xi:include href="user/security.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/i18n.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="user/template.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <index/>
  </part>
 
   <part id="cartoweb.dev">
@@ -127,5 +126,7 @@
   <xi:include href="tool/debug.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="tool/performance.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
  </part>
+
+  <index/>
 
 </book>
