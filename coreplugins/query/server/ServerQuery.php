@@ -102,7 +102,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @return Table
      */
     private function resultToTable($result, $layerId, $idAttribute, 
-                                   $attributes, TableFlags $tableFlags) {
+                                   $attributes, $tableFlags) {
         
         $table = new Table();
         $table->tableId = $layerId;
@@ -124,7 +124,9 @@ class ServerQuery extends ClientResponderAdapter {
         
         foreach ($result as $shape) {
 
-            if (empty($table->columnTitles) && $tableFlags->returnAttributes) {
+            if (empty($table->columnTitles)
+                && !is_null($tableFlags)
+                && $tableFlags->returnAttributes) {
                 $columnTitles = array();
                 foreach ($attributes as $columnId) {
                     $columnTitles[$columnId] = $columnId;
@@ -139,7 +141,7 @@ class ServerQuery extends ClientResponderAdapter {
                     ->encodingConversion($shape->values[$idAttribute]);
             }
             $cells = array();
-            if ($tableFlags->returnAttributes) {
+            if (!is_null($tableFlags) && $tableFlags->returnAttributes) {
                 foreach ($attributes as $columnId) {
                     $cells[$columnId] = $shape->values[$columnId];
                 }
@@ -209,7 +211,8 @@ class ServerQuery extends ClientResponderAdapter {
     
         // Attributes to be returned
         $attributes = array();
-        if ($querySelection->tableFlags->returnAttributes) {
+        if (!is_null($querySelection->tableFlags)
+            && $querySelection->tableFlags->returnAttributes) {
             $attributes = $this->getAttributes($querySelection->layerId);
         }
     
@@ -236,7 +239,7 @@ class ServerQuery extends ClientResponderAdapter {
                                                  $querySelection->tableFlags);           
             }                        
         }
-            
+
         $tableBbox = null;        
         if (!is_null($bbox) && $querySelection->useInQuery) {
             if (!empty($pluginManager->mapquery)) {
@@ -348,8 +351,8 @@ class ServerQuery extends ClientResponderAdapter {
             $defaultQuerySelection->selectedIds = array();
             $defaultQuerySelection->useInQuery  = true;
             $defaultQuerySelection->policy      = QuerySelection::POLICY_UNION;
-            $defaultQuerySelection->maskMode    = $requ->defaultMaskMode;
-            $defaultQuerySelection->tableFlags  = $requ->defaultTableFlags;
+            $defaultQuerySelection->maskMode = $requ->defaultMaskMode;
+            $defaultQuerySelection->tableFlags = $requ->defaultTableFlags;
             foreach ($layerNames as $layerName) {
             
                 $querySelection = clone($defaultQuerySelection);
@@ -367,7 +370,6 @@ class ServerQuery extends ClientResponderAdapter {
                 $hilightQuerySelections[$layerName] = $querySelection;
             }            
         }
- 
         foreach ($querySelections as $querySelection) {
             
             if (!in_array($querySelection->layerId, $layersOk)) {

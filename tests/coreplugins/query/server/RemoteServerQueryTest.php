@@ -27,19 +27,62 @@ class coreplugins_query_server_RemoteServerQueryTest
         return true;   
     }
     
-    private function getQueryRequest1() {
+    private function getMapRequestAllLayers() {
+    
         $queryRequest = new QueryRequest();
-
         $bbox = new Bbox();
         $bbox->setFromBbox(0, 51.5, 0, 51.5);
         $queryRequest->bbox = $bbox;
+        $queryRequest->defaultTableFlags = new TableFlags();
+        $queryRequest->defaultTableFlags->returnAttributes = true;
         $queryRequest->queryAllLayers = true;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = 
+                    array('polygon', 'line', 'point');
         
-        return $queryRequest;
+        return $mapRequest;
     }
 
-    private function assertQueryResult1($queryResult) {
-        // FIXME: result should be unserialized
+    private function getMapRequestNoAttributes() {
+    
+        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest->queryRequest->defaultTableFlags->returnAttributes = false;        
+        return $mapRequest;
+    }
+
+    private function getMapRequestUseInQuery() {
+    
+        $queryRequest = new QueryRequest();
+        $bbox = new Bbox();
+        $bbox->setFromBbox(0, 51.5, 0, 51.5);
+        $queryRequest->bbox = $bbox;
+        $queryRequest->queryAllLayers = false;
+        $querySelections = array();
+        $querySelection = new QuerySelection();
+        $querySelection->layerId = 'polygon';
+        $querySelection->useInQuery = true;
+        $querySelections[] = $querySelection;
+        $querySelection = new QuerySelection();
+        $querySelection->layerId = 'line';
+        $querySelection->useInQuery = true;
+        $querySelections[] = $querySelection;
+        $querySelection = new QuerySelection();
+        $querySelection->layerId = 'point';
+        $querySelection->useInQuery = true;
+        $querySelections[] = $querySelection;
+        $queryRequest->querySelections = $querySelections;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        
+        return $mapRequest;
+    }
+
+    private function assertQueryResultWithAttributes($queryResult) {
+
         $this->assertEquals(count($queryResult->tableGroup->tables), 3);
         $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
                             "polygon");
@@ -48,64 +91,75 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals(count($polygonRows), 1);
         $this->assertEquals($polygonRows[0]->rowId, '1'); 
         $this->assertEquals($polygonRows[0]->cells, 
-                                        array('1', 'Cé bô le françès'));
-        
+                                        array('1', 'Cé bô le françès'));        
     }
 
-    function testQueryRequest1($direct = false) {
+    private function assertQueryResultNoAttributes($queryResult) {
 
-        $queryRequest = $this->getQueryRequest1(); 
+        $this->assertEquals(count($queryResult->tableGroup->tables), 3);
+        $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
+                            "polygon");
 
-        $queryRequest->layerIds = array('polygon', 'line', 'point');
+        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
+        $this->assertEquals(count($polygonRows), 1);
+        $this->assertEquals($polygonRows[0]->rowId, '1'); 
+        $this->assertEquals($polygonRows[0]->cells, array());        
+    }
 
-        $mapRequest = $this->createRequest();
-        $mapRequest->queryRequest = $queryRequest;
-        
+    function testQueryAllLayers($direct = false) {
+
+        $mapRequest = $this->getMapRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
 
-        $this->assertQueryResult1($mapResult->queryResult);
+        $this->assertQueryResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testQueryRequest1_using_hilight($direct = false) {
+    function testQueryUsingHilight($direct = false) {
 
         $this->setMapId('test_query_hilight.test');
-        
-        $queryRequest = $this->getQueryRequest1(); 
-
-        $queryRequest->layerIds = array('polygon', 'line', 'point');
-
-        $mapRequest = $this->createRequest();
-        $mapRequest->queryRequest = $queryRequest;
-        
+                
+        $mapRequest = $this->getMapRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
 
-        $this->assertQueryResult1($mapResult->queryResult);
+        $this->assertQueryResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testQueryRequestWithLayersRequest($direct = false) {
+    function testQueryWithMask($direct = false) {
 
-        $queryRequest = $this->getQueryRequest1(); 
-        
-        $queryRequest->layerIds = NULL;
-
-        $mapRequest = $this->createRequest();
-
-        $mapRequest->queryRequest = $queryRequest;
-        
-        $mapRequest->layersRequest = new LayersRequest();
-        $mapRequest->layersRequest->layerIds = 
-                    array('polygon', 'line', 'point');
+        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest->queryRequest->defaultMaskMode = true;
         
         $mapResult = $this->getMap($mapRequest);
 
-        $this->assertQueryResult1($mapResult->queryResult);
-        
+        $this->assertQueryResultWithAttributes($mapResult->queryResult);
+
         $this->redoDirect($direct, __METHOD__);
     }
 
+    function testQueryNoAttributes($direct = false) {
+
+        $mapRequest = $this->getMapRequestNoAttributes();
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultNoAttributes($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    function testQueryUseInQuery($direct = true) {
+
+        $mapRequest = $this->getMapRequestUseInQuery();
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultNoAttributes($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    
 }
 ?>

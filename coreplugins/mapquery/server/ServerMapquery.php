@@ -88,6 +88,8 @@ class ServerMapquery extends ServerPlugin {
         
         $log->debug("queryLayerByAttributes layer: $msLayer->name " .
                 "idAttribute: $idAttribute query: $query");
+        // layer has to be activated for query
+        $msLayer->set('status', MS_ON);
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
 
         $this->log->debug("Query on layer " . $msLayer->name . ": queryByAttributes($idAttribute, $query)");
