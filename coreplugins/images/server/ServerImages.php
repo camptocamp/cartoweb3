@@ -92,14 +92,14 @@ class ServerImages extends ServerCoreplugin {
         }
 
         if ($requ->keymap->isDrawn) {
-            $ms_keymap = $Map->drawreferencemap();
+            $ms_keymap = $msMapObj->drawreferencemap();
             $imagesResult->keymap = $this->getImage($ms_keymap);
         } else {
-            $imagesResult->scalebar = $notdrawnImage;
+            $imagesResult->keymap = $notdrawnImage;
         }
 
         if ($requ->scalebar->isDrawn) {
-            $ms_scalebar = $Map->drawScalebar();
+            $ms_scalebar = $msMapObj->drawScalebar();
             $imagesResult->scalebar = $this->getImage($ms_scalebar);
         } else {
             $imagesResult->scalebar = $notdrawnImage;

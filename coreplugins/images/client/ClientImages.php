@@ -43,18 +43,23 @@ class ClientImages extends ClientCorePlugin {
 
     function buildMapRequest($mapRequest) {
 
-        // TODO: keymap, scalebar, ...
-
         $images = new Images();
+
+        // TODO: read from config if drawn        
+        $scalebar_image = new Image();
+        $scalebar_image->isDrawn = true;
+        $images->scalebar = $scalebar_image;
+
+        // TODO: read from config if drawn        
+        $keymap_image = new Image();
+        $keymap_image->isDrawn = true;
+        $images->keymap = $keymap_image;
+
         $mainmap_image = new Image();
         $mainmap_image->isDrawn = true;
         $mainmap_image->width = 400;
         $mainmap_image->height = 200;
         $images->mainmap = $mainmap_image;
-        $no_image = new Image();
-        $no_image->isDrawn = false;
-        $images->keymap = $no_image;
-        $images->scalebar = $no_image;
 
         $mapRequest->imagesRequest = $images;
     }
@@ -145,8 +150,20 @@ class ClientImages extends ClientCorePlugin {
     }
 
     function renderForm($template) {
+        
+        /* TODO: also set images dimensions (width, height) */
+        
         $template->assign("mainmap_path", 
                           $this->getImagePath($this->imagesResult->mainmap->path));
+    
+        if ($this->imagesResult->keymap->isDrawn) {
+            $template->assign("keymap_path", 
+                          $this->getImagePath($this->imagesResult->keymap->path));
+        }
+        if ($this->imagesResult->scalebar->isDrawn) {
+            $template->assign("scalebar_path", 
+                          $this->getImagePath($this->imagesResult->scalebar->path));
+        }
     }
 
     function saveSession() {

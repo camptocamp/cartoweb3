@@ -105,9 +105,12 @@ function CheckRadio(theIndex) {
 
 
 <div class="leftbar">    
+
+{if $keymap_path|default:''}
     <div align="center">
-       keymap
+         <img src='{$keymap_path}'>
     </div>
+{/if}
 
 <p>
 {$layers}
@@ -175,9 +178,11 @@ Outliner plugin:
                 <input type="image" src="gfx/layout/south_east.gif" name="pan_se"/>
 <tr>
         <td/>
+      {if $scalebar_path|default:''}
         <td align="center">
-            Scalebar.
+	         <img src='{$scalebar_path}'>
         <td/>
+      {/if}
 </table>
 </p>
 
@@ -185,7 +190,7 @@ Outliner plugin:
 
 </div>
 
-
+<div style="visibility:hidden">
   <table border="0" cellspacing="2" cellpadding="0">
     <tr>
 
@@ -240,6 +245,7 @@ Outliner plugin:
       </td>
     </tr>
   </table>
+</div>
 
 </form>
 
