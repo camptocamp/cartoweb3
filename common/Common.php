@@ -17,7 +17,7 @@ class CartowebException extends Exception {
      * Adapted from diz at ysagoon dot com
      * @return string
      */
-    public function backtrace() {
+    private function backtrace() {
         $output = "Backtrace:\n";
         $backtrace = $this->getTrace();
 

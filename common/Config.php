@@ -26,13 +26,13 @@ abstract class Config {
      * Returns type of config ('client' or 'server')
      * @return string
      */
-    abstract function getKind();
+    abstract public function getKind();
 
     /**
      * Returns the client or server root path
      * @return string
      */
-    abstract function getBasePath();
+    abstract public function getBasePath();
 
     /**
      * Property access method
@@ -127,7 +127,7 @@ abstract class PluginConfig extends Config {
      * Directory returned is relative to client_conf/server_conf.
      * @return string path
      */
-    abstract function getPath(); 
+    abstract public function getPath(); 
 
     /**
      * Constructor
