@@ -67,7 +67,7 @@ class ClientTables extends ClientPlugin
         $newTableGroups = $this->getTableRulesRegistry()
                                ->applyRules($newTableGroups);    
         $newTableGroups = $this->translate($newTableGroups);
-        $this->tableGroups = $this->tableGroups + $newTableGroups;
+        $this->tableGroups = array_merge($this->tableGroups, $newTableGroups);
     }
     
     /**
