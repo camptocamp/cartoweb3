@@ -1,6 +1,7 @@
 <?php
 /**
  * @package Plugins
+ * @author Alexandre Saunier
  * @version $Id$
  */
 
@@ -15,6 +16,10 @@ class PrintTools {
     /**
      * Converts the distance $dist from $from unit to $to unit.
      * 1 in = 72 pt = 2.54 cm = 25.4 mm
+     * @param float distance to convert
+     * @param string initial unit: in, pt, cm, mm
+     * @param string final unit
+     * @return float converted distance
      */
     static function switchDistUnit($dist, $from, $to) {
         if ($from == $to) return $dist;
@@ -43,6 +48,8 @@ class PrintTools {
 
     /**
      * Converts #xxyyzz hexadecimal color codes into RGB.
+     * @param string hexadecimal color code
+     * @return array array of RGB codes
      */
     static function switchHexColorToRgb($color) {
         return array(hexdec(substr($color, 1, 2)), 
@@ -51,6 +58,11 @@ class PrintTools {
                      );
     }
 
+    /**
+     * Converts passed color in RGB codes.
+     * @param mixed
+     * @return array array of RGB codes
+     */
     static function switchColorToRgb($color) {
         if ($color{0} == '#')
             return self::switchHexColorToRgb($color);
@@ -64,6 +76,10 @@ class PrintTools {
         }
     }
 
+    /**
+     * Returns the PDF writeable directory path (creates it if none).
+     * @return string
+     */
     static function getPdfDir() {
         $dir = CARTOCLIENT_HOME . 'www-data/pdf';
         if (!is_dir($dir)) {
@@ -75,76 +91,304 @@ class PrintTools {
 }
 
 /**
+ * General configuration data for PDF generation.
  * @package Plugins
  */
 class PdfGeneral {
+    
+    /**
+     * Name of PDF Engine class
+     * @var string
+     */
     public $pdfEngine          = 'PdfLibLite';
+    
+    /**
+     * @var string
+     */
     public $pdfVersion         = '1.3';
+    
+    /**
+     * @var string
+     */
     public $distUnit           = 'mm';
+    
+    /**
+     * @var float
+     */
     public $horizontalMargin   = 10;
+    
+    /**
+     * @var float
+     */
     public $verticalMargin     = 10;
+    
+    /**
+     * @var float
+     */
     public $width;
+    
+    /**
+     * @var float
+     */
     public $height;
+    
+    /**
+     * @var array
+     */
     public $formats;
+    
+    /**
+     * @var string
+     */
     public $defaultFormat;
+    
+    /**
+     * @var string
+     */
     public $selectedFormat;
+    
+    /**
+     * @var array
+     */
     public $resolutions        = array(96);
+    
+    /**
+     * @var string
+     */
     public $defaultResolution  = 96;
+    
+    /**
+     * @var string
+     */
     public $selectedResolution;
+    
+    /**
+     * @var string
+     */
     public $defaultOrientation = 'portrait';
+    
+    /**
+     * @var string
+     */
     public $selectedOrientation;
+    
+    /**
+     * @var array
+     */
     public $activatedBlocks;
+    
+    /**
+     * @var boolean
+     */
     public $allowPdfInput      = false;
+    
+    /**
+     * @var string
+     */
     public $filename           = 'map.pdf';
 }
 
 /**
+ * Format description for PDF generation.
  * @package Plugins
  */
 class PdfFormat {
+
+    /**
+     * @var string
+     */
     public $label;
+    
+    /**
+     * @var float
+     */
     public $bigDimension;
+    
+    /**
+     * @var float
+     */
     public $smallDimension;
+    
+    /**
+     * @var float
+     */
     public $horizontalMargin;
+    
+    /**
+     * @var float
+     */
     public $verticalMargin;
+    
+    /**
+     * @var float
+     */
     public $maxResolution;
 }
 
 /**
+ * Block (basic element) description for PDF generation.
  * @package Plugins
  */
 class PdfBlock {
+
+    /**
+     * @var string
+     */
     public $id;
+    
+    /**
+     * @var text
+     */
     public $type;
-    public $content          = false;
+    
+    /**
+     * @var string
+     */
+    public $content          = '';
+
+    /**
+     * @var string
+     */
     public $fontFamily       = 'times';
+    
+    /**
+     * @var float
+     */
     public $fontSize         = 12; // pt
+    
+    /**
+     * @var boolean
+     */
     public $fontItalic       = false;
+    
+    /**
+     * @var boolean
+     */
     public $fontBold         = false;
+    
+    /**
+     * @var boolean
+     */
     public $fontUnderline    = false;
+    
+    /**
+     * @var string
+     */
     public $color            = 'black';
+    
+    /**
+     * @var string
+     */
     public $backgroundColor  = 'white';
+    
+    /**
+     * @var float
+     */
     public $borderWidth      = 1;
+    
+    /**
+     * @var string
+     */
     public $borderColor      = 'black';
+    
+    /**
+     * @var string
+     */
     public $borderStyle      = 'solid';
+    
+    /**
+     * @var float
+     */
     public $padding          = 0;
+    
+    /**
+     * @var float
+     */
     public $horizontalMargin = 0;
+    
+    /**
+     * @var float
+     */
     public $verticalMargin   = 0;
+    
+    /**
+     * @var string
+     */
     public $horizontalBasis  = 'left';
+    
+    /**
+     * @var string
+     */
     public $verticalBasis    = 'top';
+    
+    /**
+     * @var boolean
+     */
     public $hCentered        = false;
+    
+    /**
+     * @var boolean
+     */
     public $vCentered        = false;
+    
+    /**
+     * @var string
+     */
     public $textAlign        = 'center';
+    
+    /**
+     * @var string
+     */
     public $verticalAlign    = 'center';
+    
+    /**
+     * @var string
+     */
     public $orientation      = 'horizontal';
+    
+    /**
+     * @var int
+     */
     public $zIndex           = 1;
+    
+    /**
+     * @var int
+     */
     public $weight           = 50;
+    
+    /**
+     * @var boolean
+     */
     public $inNewPage        = false;
+    
+    /**
+     * @var boolean
+     */
     public $inLastPages      = false;
+    
+    /**
+     * @var float
+     */
     public $width;
+    
+    /**
+     * @var float
+     */
     public $height;
+    
+    /**
+     * @var boolean
+     */
     public $singleUsage      = true;
+    
+    /**
+     * @var string
+     */
     public $parent;
+    
+    /**
+     * @var boolean
+     */
     public $inFlow           = true;
 }
 
@@ -154,30 +398,91 @@ class PdfBlock {
  */
 interface PdfWriter {
 
+    /**
+     * Sets general data and opens PDF document.
+     */
     function initializeDocument();
+    
+    /**
+     * Adds a new page to PDF document.
+     */
     function addPage();
+    
+    /**
+     * Adds a block with textual content.
+     * @param PdfBlock
+     */
     function addTextBlock(PdfBlock $block);
+    
+    /**
+     * Adds a block with graphical (image, PDF...) content.
+     * @param PdfBlock
+     */
     function addGfxBlock(PdfBlock $block);
+    
     function addTableCell();
+    
     function addTableRow();
+    
     function addTable();
+    
+    /**
+     * Performs final PDF operations and outputs document.
+     */
     function finalizeDocument();
 }
 
 /**
+ * Handles positioning of blocks in the PDF document.
  * @package Plugins
  */
 class SpaceManager {
     
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var float
+     */
     private $minX;
+    
+    /**
+     * @var float
+     */
     private $maxX;
+    
+    /**
+     * @var float
+     */
     private $minY;
+    
+    /**
+     * @var float
+     */
     private $maxY;
+    
+    /**
+     * Indicates if the Y-origin is at top of page.
+     * @var boolean
+     */
     private $YoAtTop = true;
+
+    /**
+     * @var array
+     */
     private $allocated = array();
+    
+    /**
+     * @var array
+     */
     private $levels = array();
 
+    /**
+     * Constructor.
+     * @param array contains page max extent + Y-origin location.
+     */
     function __construct($params) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
@@ -193,6 +498,10 @@ class SpaceManager {
 
     /**
      * Records newly added areas in allocated space list.
+     * @param PdfBlock
+     * @param float X-coord of block reference point
+     * @param float Y-coord of block reference point
+     * @return array (X,Y)
      */
     private function allocateArea(PdfBlock $block, $x, $y) {
         if (!isset($this->allocated[$block->zIndex]))
@@ -278,6 +587,8 @@ class SpaceManager {
     /**
      * Returns the nearest available reference point (min X, min Y)
      * according to the block positioning properties.
+     * @param PdfBlock
+     * @return array (X,Y) of reference point
      */
     public function checkIn(PdfBlock $block) {
         // TODO: handle block with no initially known dimensions (legend...)
@@ -337,20 +648,49 @@ class SpaceManager {
 }
 
 /**
+ * Overall class for PDF generation management.
  * @package Plugins
  */
 class ClientExportPdf extends ExportPlugin {
 
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var Smarty_CorePlugin
+     */
     private $smarty;
 
+    /**
+     * @var PdfGeneral
+     */
     private $general;
+
+    /**
+     * @var PdfFormat
+     */
     private $format;
+    
+    /**
+     * @var PdfBlock
+     */
     private $blockTemplate;
+    
+    /**
+     * @var array
+     */
     private $blocks = array();
 
+    /**
+     * @var array
+     */
     private $optionalInputs = array('title', 'note', 'scalebar', 'overview');
 
+    /**
+     * Constructor
+     */
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
@@ -358,6 +698,7 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns export script path.
+     * @return string
      */
     public function getExportScriptPath() {
         return 'exportPdf/export.php';
@@ -365,6 +706,7 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns PDF file name.
+     * @return string
      */
     public function getFilename() {
         return $this->general->filename;
@@ -372,6 +714,9 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns an array from a comma-separated list string.
+     * @param array
+     * @param boolean (default: false) true: returns a simplified array
+     * @return array
      */
     private function getArrayFromList($list, $simple = false) {
         $list = explode(',', $list);
@@ -386,6 +731,9 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns an array from a comma-separated list of a ini parameter.
+     * @param string name of ini parameter
+     * @param boolean (default: false) true: returns a simplified array
+     * @return array
      */
     private function getArrayFromIni($name, $simple = false) {
         $data = $this->getConfig()->$name;
@@ -396,6 +744,8 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Updates $target properties with values from $from ones.
+     * @param object object to override
+     * @param object object to copy
      */
     private function overrideProperties($target, $from) {
         foreach (get_object_vars($from) as $key => $val) {
@@ -405,6 +755,10 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns value from $_REQUEST or else from default configuration.
+     * @param string name of parameter
+     * @param array available values
+     * @param array $_REQUEST
+     * @return string
      */
     private function getSelectedValue($name, $choices, $request) {
         $name = strtolower($name);
@@ -419,6 +773,7 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Sorts blocks using $property criterium (in ASC order).
+     * @param string name of property used to sort blocks
      */
     private function sortBlocksBy($property) {
         $blocksVars = array_keys(get_object_vars($this->blockTemplate));
@@ -447,6 +802,8 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Sets PDF settings objects based on $_REQUEST and configuration data.
+     * @param array $_REQUEST
+     * @see GuiProvider::handleHttpPostRequest()
      */
     function handleHttpPostRequest($request) {
         $this->log->debug('processing exportPdf request');
@@ -561,9 +918,16 @@ class ClientExportPdf extends ExportPlugin {
         $this->log->debug($this->blocks);
     }
 
-    function handleHttpGetRequest($request) {
-    }
+    /**
+     * Not used/implemented yet.
+     * @see GuiProvider::handleHttpGetRequest()
+     */
+    function handleHttpGetRequest($request) {}
 
+    /**
+     * @see GuiProvider::renderForm()
+     * @param Smarty
+     */
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
@@ -574,6 +938,7 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Builds PDF settings user interface.
+     * @return string Smarty fetch result
      */
     private function drawUserForm() {
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient()
@@ -610,6 +975,10 @@ class ClientExportPdf extends ExportPlugin {
         return $this->smarty->fetch('form.tpl');
     }
 
+    /**
+     * Builds export configuration.
+     * @return ExportConfiguration
+     */
     function getConfiguration($isOverview = false) {
         
         $config = new ExportConfiguration();
@@ -633,6 +1002,8 @@ class ClientExportPdf extends ExportPlugin {
 
     /**
      * Returns the absolute URL of $gfx by prepending CartoServer base URL.
+     * @param string
+     * @return string
      */
     private function getGfxPath($gfx) {
         //TODO: use local path if direct-access mode is used?
@@ -642,8 +1013,11 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Updates Mapserver-generated maps PdfBlocks with data returned by 
      * CartoServer.
+     * @param MapResult
+     * @param string name of PDF block to update
+     * @param string name of MapResult property
      */
-    private function updateMapBlock($mapObj, $name, $msName = false) {
+    private function updateMapBlock($mapObj, $name, $msName = '') {
         if (!$msName) $msName = $name;
 
         if (!$mapObj instanceof MapResult ||
@@ -661,6 +1035,10 @@ class ClientExportPdf extends ExportPlugin {
         $block->type = 'image';
     }
     
+    /**
+     * @see ExportPlugin::getExport()
+     * @return ExportOutput export result
+     */
     function getExport() {
 
        // Retrieving of data from CartoServer:

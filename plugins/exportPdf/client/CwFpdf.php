@@ -1,6 +1,7 @@
 <?php
 /**
  * @package Plugins
+ * @author Alexandre Saunier
  * @version $Id$
  */
 
