@@ -45,10 +45,12 @@ dirs:
 	-mkdir -p www-data/saved_posts
 	-mkdir -p www-data/wsdl_cache
 	-mkdir -p www-data/icons
+	-mkdir -p www-data/pdf
 	-mkdir -p templates_c
 
 links:
 	ln -snf ../www-data/images htdocs/images
+	ln -snf ../www-data/pdf htdocs/pdf
 
 perms:
 	chmod +x scripts/*sh scripts/*py
