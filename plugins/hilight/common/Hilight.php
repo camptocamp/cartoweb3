@@ -8,8 +8,7 @@
  * @package Plugins
  */
 class HilightRequest {
-    // maybe have a IdSelection Object used also by the selection module
-    //  and have the hilightRequest be capable of ShapeSelection and others. 
+    // maybe use a the IdSelection Object (which should also be used by the selection module)
     
     public $layerId;
     public $idAttribute;
