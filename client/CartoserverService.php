@@ -61,7 +61,7 @@ class CartoserverService {
             return $url . '?mapId=' . $this->config->mapId;
     }
 
-    private function callFunction($function, $argument) {
+    private function callFunction($function, $argument, $replayTrace=false) {
 
         if ($this->config->cartoserverDirectAccess) {
             $mapResult = $this->callDirect($function, $argument);
@@ -70,9 +70,28 @@ class CartoserverService {
             // FIXME: put in config
             ini_set("soap.wsdl_cache_enabled", "0");
 
-            $client = new SoapClient($this->getCartoserverUrl());
+            $options = $replayTrace === true ? array('trace' => 1) : array();
+            $client = new SoapClient($this->getCartoserverUrl(),
+                                                $options);
 
-            $mapResult = $client->$function($argument);
+            try {
+                $mapResult = $client->$function($argument);
+            } catch (SoapFault $fault) {
+                if ($fault->faultstring != "looks like we got no XML document")
+                    throw $fault;
+
+                // the rest of this handler launches the SOAP request again, 
+                //  and concatenats the bad xml received to the error message.
+            
+                if ($replayTrace == true) {
+                    return $client->__getLastResponse();
+                }
+
+                $xmlOutput = $this->callFunction($function, $argument, true);
+                $xmlOutput = htmlentities($xmlOutput);
+                $fault->faultstring = "looks like we got no XML document : $xmlOutput";
+                throw $fault;
+            }
             
             $unserializeMap = array('getMapInfo' => 'MapInfo',
                                     'getMap' => 'MapResult');

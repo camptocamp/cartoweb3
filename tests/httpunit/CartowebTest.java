@@ -2,7 +2,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import com.meterware.httpunit.Button;
 import com.meterware.httpunit.GetMethodWebRequest;
+import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebImage;
@@ -39,15 +41,34 @@ public class CartowebTest extends TestCase {
         return new TestSuite(CartowebTest.class);
     }
 
+    private void assertContainsMainmap(WebResponse response) throws Exception {
+        
+        WebForm forms[] = response.getForms();
+        assertEquals(1, forms.length);
+
+        WebImage mainmap = response.getImageWithAltText("Main map");
+        assertNotNull("No mainmap image on cartoclient page", mainmap);
+    }
+    
     public void testMainmapPresent() throws Exception {
         
         WebConversation     conversation = new WebConversation();
         WebRequest request = new GetMethodWebRequest(URL);
         WebResponse response = conversation.getResponse(request);
-        WebForm forms[] = response.getForms();
-        assertEquals(1, forms.length);
-        String[] p = forms[0].getParameterNames();
-        WebImage mainmap = response.getImageWithAltText("Main map");
-        assertNotNull("No mainmap image on cartoclient page", mainmap);
+        
+        assertContainsMainmap(response);
+    }
+    
+    public void testKeymap() throws Exception {
+                
+        WebConversation     conversation = new WebConversation();
+        WebResponse response = conversation.getResponse(URL);
+
+        assertContainsMainmap(response);
+
+        // click on the center of the keymap
+        SubmitButton keymapButton = response.getFormWithName("carto_form").getSubmitButton("keymap");
+        keymapButton.click(50, 50);
+        assertContainsMainmap(conversation.getCurrentPage());
     }
 }

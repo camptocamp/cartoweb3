@@ -5,42 +5,45 @@
  */
 require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
+class ImagesState {
+ 
+    public $mainmapDimension;
+}
+
 /**
  * @package CorePlugins
  */
 class ClientImages extends ClientCorePlugin {
     private $log;
+    private $imagesState;
 
     private $imagesResult;
-    private $mainmapDimensions;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
-
-        // FIXME: put this in config
-        $this->mainmapDimensions = new Dimension(400, 200);
     }
 
     function loadSession($sessionObject) {
         $this->log->debug("loading session:");
+        $this->imagesState = $sessionObject;
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->log->debug("creating session:");
+        
+        $this->imagesState = new ImagesState();
+        
+        // FIXME: put this in config
+        $this->imagesState->mainmapDimension = new Dimension(400, 200);
     }
 
     function handleHttpRequest($request) {
     }
 
     function getMainmapDimensions() {
-        return $this->mainmapDimensions;
+        return $this->imagesState->mainmapDimension;
     }    
-
-    function getKeymapDimensions() {
-        // TODO
-        return new Dimension(-1, -1);
-    }
 
     function buildMapRequest($mapRequest) {
 
@@ -58,8 +61,8 @@ class ClientImages extends ClientCorePlugin {
 
         $mainmap_image = new Image();
         $mainmap_image->isDrawn = true;
-        $mainmap_image->width = 400;
-        $mainmap_image->height = 200;
+        $mainmap_image->width = $this->imagesState->mainmapDimension->width;
+        $mainmap_image->height = $this->imagesState->mainmapDimension->height;
         $images->mainmap = $mainmap_image;
 
         $mapRequest->imagesRequest = $images;
@@ -67,6 +70,10 @@ class ClientImages extends ClientCorePlugin {
 
     function handleMapResult($mapResult) {
         $this->imagesResult = $mapResult->imagesResult;
+        $imgRes = $mapResult->imagesResult;
+
+        $this->imagesState->mainmapDimension->width = $imgRes->mainmap->width; 
+        $this->imagesState->mainmapDimension->height = $imgRes->mainmap->height; 
     }
 
     /**
@@ -121,7 +128,6 @@ class ClientImages extends ClientCorePlugin {
         $config = $this->cartoclient->getConfig();
 
         assert(!is_null($config->cartoserverUrl));
-
 
         return dirname($cartoserverParsedUrl['path']) . '/';
     }
@@ -184,6 +190,7 @@ class ClientImages extends ClientCorePlugin {
 
     function saveSession() {
         $this->log->debug("saving session:");
+        return $this->imagesState;
     }
 }
 ?>

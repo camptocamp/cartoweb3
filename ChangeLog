@@ -1,8 +1,12 @@
-2004-11-28  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
+2004-10-12  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
+
+		* support for keymap recentering
+
+2004-10-11  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
 
 		* added HttpUnit tests
 
-2004-09-28  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
+2004-10-09  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
 
 		* fixed Query plugin
 		* modifed LayersRequest API

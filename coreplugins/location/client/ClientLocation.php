@@ -90,9 +90,30 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             $point = new Point($center->x + $xOffset,
                          $center->y + $yOffset);
                 
-            $this->locationRequest = $this->buildZoomPointRequest(
+            return $this->buildZoomPointRequest(
                     ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
         }
+        return NULL;
+    }
+
+    private function handleKeymapButton() {
+
+        $cartoForm = $this->cartoclient->getCartoForm();
+        
+        $keymapShape = $cartoForm->keymapShape; 
+
+        if (is_null($keymapShape))
+            return;
+        if (!$keymapShape instanceof Point) {
+            throw new CartoclientException('shapes other than point ' .
+                    'unsupported for keymap');
+            return;   
+        } 
+
+        $point = $keymapShape;
+
+        return $this->buildZoomPointRequest(
+                  ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
     }
 
     function loadSession($sessionObject) {
@@ -118,7 +139,19 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
     function handleHttpRequest($request) {
     
-        $this->handlePanButtons();
+        $this->locationRequest = $this->handlePanButtons();
+
+        if (!is_null($this->locationRequest))
+            return;
+
+        $this->locationRequest = $this->handleKeymapButton();
+
+        if (!is_null($this->locationRequest))
+            return;
+
+        $cartoclient = $this->cartoclient;
+        $this->locationRequest = $cartoclient->getHttpRequestHandler()
+                                    ->handleTools($this);
     }
     
     private function getZoomInFactor(Rectangle $rectangle) {
@@ -203,13 +236,6 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $locationRequest = NULL;
         if (!is_null($this->locationRequest)) 
             $locationRequest = $this->locationRequest;
-        
-        if (is_null($locationRequest)) {
-        
-            $cartoclient = $this->cartoclient;
-            $locationRequest = $cartoclient->getHttpRequestHandler()
-                                    ->handleTools($this);
-        }
         
         if (is_null($locationRequest)) // stay at the same location
             $locationRequest = $this->buildZoomPointRequest(

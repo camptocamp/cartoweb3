@@ -32,6 +32,10 @@ class client_CartoserverServiceTest extends client_CartoserverServiceWrapper {
         $initialMapState = $mapInfo->getInitialMapStateById('default');
         $this->assertType('Bbox', $initialMapState->location->bbox);
      
+        $this->assertType('GeoDimension', $mapInfo->keymapGeoDimension);
+        $this->assertEquals(100, $mapInfo->keymapGeoDimension->dimension->width);
+        $this->assertEquals(-0.5, $mapInfo->keymapGeoDimension->bbox->minx);
+     
         $this->redoDirect($direct, __METHOD__);
     }
     

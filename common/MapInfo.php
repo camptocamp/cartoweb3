@@ -48,6 +48,9 @@ class LayerContainer extends LayerBase {
     function unserialize($struct) {
         parent::unserialize($struct);   
         $this->children = self::unserializeArray($struct, 'children');
+        // FIXME: do it in unserializeArray ?
+        if (is_null($this->children))
+            $this->children = array();
     }    
 }
 
@@ -152,6 +155,7 @@ class MapInfo extends Serializable {
     public $initialMapStates;
     public $extent;
     public $location;
+    public $keymapGeoDimension; 
 
     function unserialize($struct) {
         $this->mapId            = self::unserializeValue($struct, 'mapId');
@@ -164,6 +168,7 @@ class MapInfo extends Serializable {
         $this->initialMapStates = self::unserializeObjectMap($struct, 'initialMapStates', 'InitialMapState');
         $this->extent           = self::unserializeObject($struct, 'extent', 'Bbox');
         $this->location         = self::unserializeObject($struct, 'location', 'Location');
+        $this->keymapGeoDimension = self::unserializeObject($struct, 'keymapGeoDimension', 'GeoDimension');
     }
     
     function getLayerById($layerId) {

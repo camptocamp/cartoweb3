@@ -20,7 +20,7 @@ class Dimension extends Serializable {
     public $width;
     public $height;
 
-    function __construct($width, $height) {
+    function __construct($width=0, $height=0) {
         parent::__construct();
         $this->width = $width;
         $this->height = $height;
@@ -32,6 +32,29 @@ class Dimension extends Serializable {
     function unserialize ($struct) {
         $this->width = $struct->width;
         $this->height = $struct->height;
+    }
+}
+
+/**
+ * Represents an image's dimension and bbox
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
+class GeoDimension extends Serializable {
+
+    public $dimension;
+    public $bbox;
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    /**
+     * @param stdclass structure to deserialize
+     */
+    function unserialize ($struct) {
+        $this->dimension = self::unserializeObject($struct, 'dimension', 'Dimension');
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
     }
 }
 

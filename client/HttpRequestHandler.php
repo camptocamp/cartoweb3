@@ -143,6 +143,13 @@ class HttpRequestHandler {
         return @$_REQUEST[$name . '_x'] or @$_REQUEST[$name . '_y'];
     }
 
+    static function getButtonPixelPoint($buttonName) {
+        $x = $_REQUEST[$buttonName . '_x'];
+        $y = $_REQUEST[$buttonName . '_y'];
+        
+        return new Point($x, $y);
+    }
+
     private function checkMainmapButton($cartoForm) {
 
         if (!DhtmlSelectionParser::isMainmapClicked())
@@ -167,9 +174,22 @@ class HttpRequestHandler {
 
     private function checkKeymapButton($cartoForm) {
         
-        // TODO: key map button check
-        
-        return false;
+        if (!self::isButtonPushed('keymap'))
+            return false;  
+
+        $pixelPoint = $this->getButtonPixelPoint('keymap');
+
+        $mapInfo = $this->cartoclient->getMapInfo();
+        $keymapGeoDimension = $mapInfo->keymapGeoDimension;
+
+        $point = PixelCoordsConverter::point2Coords($pixelPoint, 
+                    $keymapGeoDimension->dimension,
+                    $keymapGeoDimension->bbox);
+
+        $cartoForm->pushedButton = CartoForm::BUTTON_KEYMAP;
+        $cartoForm->keymapShape = $point;
+
+        return true;
     }
 
     private function checkClickedButtons($cartoForm) {

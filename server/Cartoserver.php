@@ -91,8 +91,7 @@ class Cartoserver {
 
         $serverContext = $this->initializeServerContext($mapId);
 
-        // Disabled for now
-        // $serverContext->mapInfoHandler->fillDynamic($serverContext);
+        $serverContext->mapInfoHandler->fillDynamic($serverContext);
 
         return $serverContext->mapInfoHandler->getMapInfo();
     }

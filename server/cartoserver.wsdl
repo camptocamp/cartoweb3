@@ -44,7 +44,7 @@
         </complexContent>
       </complexType>
 
-          <complexType name="ArrayOfString">
+      <complexType name="ArrayOfString">
         <complexContent>
           <restriction base="enc11:Array">
             <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
@@ -52,12 +52,28 @@
         </complexContent>
       </complexType>
 
+      <complexType name="Dimension">
+        <all>
+          <element name="width" type="xsd:int"/>
+          <element name="height" type="xsd:int"/>
+        </all>
+      </complexType>
+
+      <complexType name="GeoDimension">
+        <all>
+          <element name="dimension" type="types:Dimension"/>
+          <element name="bbox" type="types:Bbox"/>
+        </all>
+      </complexType>
+
+
     <!-- Mapinfo structure -->
 
       <complexType name="MapInfo">
         <all>
           <element name="mapId" type="xsd:string"/>
           <element name="mapLabel" type="xsd:string"/>
+          <element name="keymapGeoDimension" type="types:GeoDimension"/>
           <element name="layers" type="types:ArrayOfLayer"/>
           <element name="initialMapStates" type="types:ArrayOfInitialMapState"/>
         </all>
@@ -76,7 +92,7 @@
           <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
-          <element name="children" type="types:ArrayOfLayerId"/>
+          <element name="children" type="types:ArrayOfLayerId" minOccurs="0"/>
           <element name="minScale" type="xsd:integer"/>
           <element name="maxScale" type="xsd:integer"/>
           <element name="icon" type="xsd:string"/>

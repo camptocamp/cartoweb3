@@ -61,13 +61,14 @@ class MapInfoHandler {
         return $this->mapInfo;
     }
 
-    function fillDynamic($serverContext) {
-
-        $initialMapInfo = $this->mapInfo;
-        $layers = $initialMapInfo->getLayers();
+    private function fillDynamicLayers($serverContext) {
+        $mapInfo = $this->mapInfo;
+        $layers = $mapInfo->getLayers();
         $msMapObj = $serverContext->msMapObj;
 
         foreach ($layers as $layer) {
+            if (!$layer instanceof Layer)
+                continue;
 
             $msLayer = $msMapObj->getLayerByName($layer->msLayer);
             if (!$msLayer)
@@ -80,9 +81,32 @@ class MapInfoHandler {
                 copy_vars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
                 
-                $initialMapInfo->addChildLayerBase($layer, $layerClass);
+                $mapInfo->addChildLayerBase($layer, $layerClass);
             }
         }
+        
+    }
+
+    private function fillDynamicKeymap($serverContext) {
+        
+        $msMapObj = $serverContext->msMapObj;
+        $referenceMapObj = $msMapObj->reference;
+
+        $serverContext->checkMsErrors();
+
+        $dim = new Dimension($referenceMapObj->width, $referenceMapObj->height);
+        $bbox = new Bbox();
+        $bbox->setFromMsExtent($referenceMapObj->extent);
+        
+        $mapInfo = $this->mapInfo;
+        $mapInfo->keymapGeoDimension = new GeoDimension();
+        $mapInfo->keymapGeoDimension->dimension = $dim;
+        $mapInfo->keymapGeoDimension->bbox = $bbox;
+    }
+
+    function fillDynamic($serverContext) {
+        $this->fillDynamicLayers($serverContext);
+        $this->fillDynamicKeymap($serverContext);
     }
 }
 ?>

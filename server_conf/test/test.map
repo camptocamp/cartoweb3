@@ -14,7 +14,7 @@ MAP
     STATUS ON
     COLOR -1 -1 -1
     OUTLINECOLOR 255 0 0
-    SIZE 150 103      
+    SIZE 100 100
   END
 
   SCALEBAR

@@ -156,8 +156,9 @@ ClientContext:
   <div id="leftbar">    
 
   {if $keymap_path|default:''}
-  <div id="keymap"><img src="{$keymap_path}" 
-  alt="{$keymap_alt}" width="{$keymap_width}" height="{$keymap_height}" title="" /></div>
+  <div id="keymap">
+  <input id="keymap" type="image" name="keymap" src="{$keymap_path}" />
+  </div>
   {/if}
 
   {$layers}
