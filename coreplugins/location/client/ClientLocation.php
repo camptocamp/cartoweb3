@@ -29,7 +29,6 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     const TOOL_ZOOMIN   = 'zoom_in';
     const TOOL_ZOOMOUT  = 'zoom_out';
     const TOOL_PAN      = 'pan';
-    const TOOL_RECENTER = 'recenter';
 
     private $smarty;
 
@@ -344,8 +343,6 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                   ZoomPointLocationRequest::ZOOM_DIRECTION_IN,
                 self::TOOL_PAN => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
-                self::TOOL_RECENTER => 
-                  ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
                 self::TOOL_ZOOMOUT=> 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_OUT);
 
@@ -381,15 +378,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                         new JsToolAttributes(JsToolAttributes::SHAPE_PAN,
                                              JsToolAttributes::CURSOR_MOVE),
                                          12),
-                     // recenter tool is disabled for now.
-                     // there should be a way to know if we are in html or 
-                     // dhtml mode, and to return the appropriate tools 
-                     // accordingly
-                     /*
-                     new ToolDescription(self::TOOL_RECENTER, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
-                                          13), */ 
-                    );
+                   );
     }
 
     function buildMapRequest($mapRequest) {
