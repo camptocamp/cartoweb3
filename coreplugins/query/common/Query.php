@@ -8,7 +8,7 @@
  * Abstract serializable
  */
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
-
+require_once(CARTOCOMMON_HOME . 'coreplugins/tables/common/Tables.php');
 
 /**
  * @package CorePlugins
