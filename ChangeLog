@@ -1,3 +1,8 @@
+2004-09-28  Sylvain Pasche  <sylvain.pasche@camptocamp.com>
+
+		* fixed Query plugin
+		* modifed LayersRequest API
+
 2004-10-08  Yves Bolognini <yves.bolognini@camptocamp.com>
 
         * added projects management
