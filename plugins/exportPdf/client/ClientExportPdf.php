@@ -292,6 +292,17 @@ class ClientExportPdf extends ExportPlugin {
                             $key = array_search($layerId, $selectedLayers);
                             if (is_numeric($key))
                                 unset($selectedLayers[$key]);
+                            else {
+                                // case of LayerGroup
+                                foreach ($layersCorePlugin->
+                                             fetchChildrenFromLayerGroup(
+                                                array($layerId)) as $childId) {
+                                    $key = array_search($childId, 
+                                                        $selectedLayers);
+                                    if (is_numeric($key))
+                                        unset($selectedLayers[$key]);
+                                }
+                            }
                         }
                     }
                     $this->blocks[$id]->content = '';
