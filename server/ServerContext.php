@@ -213,7 +213,7 @@ class ServerContext {
         $idAttributeString = $this->getIdAttributeString($layerId);
         $explodedAttr = explode('|', $idAttributeString);
         // by default, type is string
-        if (count($s) == 1)
+        if (count($explodedAttr) == 1)
             return 'string';
         assert(count($explodedAttr) == 1);
         $type = $explodedAttr[1];
