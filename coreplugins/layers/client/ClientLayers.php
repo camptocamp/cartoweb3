@@ -122,7 +122,7 @@ class ClientLayers extends ClientCorePlugin {
              !$layer->aggregate) && !empty($layer->children) && 
             is_array($layer->children)) {
             
-            // layer has children which are aggregated OR has children
+            // layer has children which are not aggregated OR has children
             // but is not a layerGroup (ie is a Layer):
             
             $children = array();
@@ -138,6 +138,9 @@ class ClientLayers extends ClientCorePlugin {
             $children = $this->getClassChildren($layer);
         
         } else $children = array();
+       
+        // may impact children displaying, see method definition
+        $this->fetchLayerIcon($layer, $children);
 
         $this->childrenCache[$layer->id] = $children;
         return $children;
@@ -394,13 +397,37 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     /**
+     * Returns layer icon filename if any.
+     */
+    private function fetchLayerIcon($layer, &$children = array()) {
+        if (!$layer->icon || $layer->icon == 'none')
+            $layer->icon = false;
+        
+        if (!$layer->icon && ($layer instanceof Layer ||
+            ($layer instanceof LayerGroup && $layer->aggregate))) {
+
+            $nbChildren = count($children);
+            if (!$nbChildren) return false;
+
+            // if layer has no icon, tries using first class icon
+            $childLayer = $this->getLayerByName($children[0]);
+            $layer->icon = $this->fetchLayerIcon($childLayer);
+
+            // in addition, if layer has only one class, does not display it
+            if ($nbChildren == 1) $children = array();
+        }
+        
+        return $layer->icon;
+    }
+
+    /**
      * Deals with every single layer and recursively calls itself 
      * to build sublayers. 
      */
     private function drawLayer($layer, $forceSelection = false,
                                        $forceFrozen = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
-
+//print_r($layer);
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
             return false;
@@ -426,6 +453,7 @@ class ClientLayers extends ClientCorePlugin {
                                 'layerId'        => $layer->id,
                                 'layerClassName' => $layer->className,
                                 'layerLink'      => $layer->link,
+                                'layerIcon'      => $layer->icon,
                                 'layerChecked'   => $layerChecked,
                                 'layerFrozen'    => $layerFrozen,
                                 'groupFolded'    => $groupFolded,
