@@ -51,13 +51,14 @@ abstract class Config {
 
         if (array_key_exists('mapId', $this->ini_array)) {
             
+            $mapId = $this->ini_array['mapId'];
             // Set MapName in projectHandler
-            $this->projectHandler->mapName = $this->ini_array['mapId'];
+            $this->projectHandler->mapName = $mapId;
                 
-            // Set MapId to projectName.mapId
+            // Set MapId to projectName.mapId if mapId does not contain a project already
             $projectName = $this->projectHandler->getProjectName();
-            if ($projectName) {
-                $this->ini_array['mapId'] = $projectName . '.' . $this->ini_array['mapId'];
+            if ($projectName && strpos($mapId, '.') === false) {
+                $this->ini_array['mapId'] = $projectName . '.' . $mapId;
             }
         }
         
