@@ -98,6 +98,9 @@ def setup_icons(directory):
 
         link_or_copy(icon_path, www_data_icon)
 
+    if not os.path.isdir(join(directory, 'htdocs/gfx')):
+        os.makedirs(join(directory, 'htdocs/gfx'))
+    
     # make links from htdocs
     # TODO: copy mode
     link_or_copy('../../www-data/icons', join(directory, 'htdocs/gfx/servicons'))
