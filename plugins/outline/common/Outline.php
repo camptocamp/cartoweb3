@@ -17,4 +17,15 @@ class OutlineRequest extends Serializable {
     }    
 }
 
+/**
+ * @package Plugins
+ */
+class OutlineResult extends Serializable {
+    public $area;
+    
+    function unserialize($struct) {
+        $this->area = self::unserializeValue($struct, 'area', 'double');
+    }
+}
+
 ?>

@@ -138,6 +138,7 @@ class ServerOutline extends ServerPlugin {
             $msMapObj->labelcache->free();
         }
 
+        $area = 0;
         foreach ($requ->shapes as $shape) {
             switch (get_class($shape)) {
             case 'Point':
@@ -152,11 +153,17 @@ class ServerOutline extends ServerPlugin {
             default:
                 throw new CartoserverException("unknown shape type " . get_class($shape));
             }
+            
+            $area += $shape->getArea();
         }
         
         if (!$requ->maskMode) {
             $this->serverContext->msMainmapImage = $msMapObj->draw();
         }
+        
+        $result = new OutlineResult();
+        $result->area = $area;
+        return $result;
     }
 }
 ?>

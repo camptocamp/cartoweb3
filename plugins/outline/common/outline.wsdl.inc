@@ -6,3 +6,10 @@
           <element name="maskMode" type="xsd:boolean"/>
         </all>
       </complexType>
+
+      <complexType name="OutlineResult">
+        <all>
+          <element name="area" type="xsd:double"/>
+        </all>
+      </complexType>
+      

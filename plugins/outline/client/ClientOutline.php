@@ -20,6 +20,7 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     private $log;
 
     private $outlineState;
+    private $area;
     
     const TOOL_POINT     = 'outline_point';
     const TOOL_RECTANGLE = 'outline_rectangle';
@@ -105,14 +106,15 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     }
 
     function handleResult($outlineResult) {
-        /* No results */
+        $this->area = $outlineResult->area;
     }
 
     private function drawOutline() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
         $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
-        $this->smarty->assign(array('outline_mask_selected' => $maskSelected));
+        $this->smarty->assign(array('outline_mask_selected' => $maskSelected,
+                                    'outline_area'          => $this->area));
         return $this->smarty->fetch('outline.tpl');
     }
 

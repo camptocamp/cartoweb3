@@ -70,6 +70,12 @@ abstract class Shape extends Serializable {
      * @return Point center
      */
     abstract function getCenter();
+
+    /**
+     * Computes the shape's area
+     * @return double surface
+     */
+    abstract function getArea();
 }
 
 /**
@@ -112,6 +118,10 @@ class Point extends Shape {
     
         // A point's center is the point itself
         return clone $this;
+    }
+    
+    function getArea() {
+        return 0.0;
     }
     
     /**
@@ -211,6 +221,10 @@ class Bbox extends Shape {
                          $this->miny + ($height / 2.0));
     }
     
+    function getArea() {
+        return $this->getWidth() * $this->getHeight();
+    }
+    
     function __toString() {
         $args = array($this->minx, $this->miny, $this->maxx, $this->maxy,
                       $this->getWidth(), $this->getHeight());
@@ -242,6 +256,21 @@ class Polygon extends Shape {
 
     function getCenter() {
         /* todo */
+    }
+    
+    function getArea() {
+        if (count($this->points) < 3) {
+            return 0.0;
+        } else {
+            $area = 0.0;
+            $lastPoint = $this->points[count($this->points) - 1];
+            foreach ($this->points as $point) {
+                $area += ($lastPoint->x * $point->y
+                          - $lastPoint->y * $point->x);
+                $lastPoint = $point;
+            }
+            return abs($area / 2.0);
+        }        
     }
 }
 
