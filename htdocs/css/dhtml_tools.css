@@ -1,6 +1,6 @@
-body {margin: 0; padding: 0;}
-.lineH {position: absolute; background-color: #0C0; overflow: hidden; width: 2;}
-.lineW {position: absolute; background-color: #0C0; overflow: hidden; height: 2}
-.point {position: absolute; background-color: #0C0; overflow: hidden; width: 2; height: 2}
+.lineH, .lineW, .point {position: absolute; background-color: #F00; overflow: hidden;}
+.lineH {width: 2;}
+.lineW {height: 2;}
+.point {width: 2; height: 2;}
 .dhtmldiv {position:absolute; left: 0; top: 0;width: 0;height: 0;}
 .dhtmlDisplay {left: 0; top: 0; padding: 2px 4px; font-size: 10px;}
