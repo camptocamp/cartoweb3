@@ -370,6 +370,7 @@ class ClientLayers extends ClientPlugin
            !is_array($this->$storageName)) {
             foreach ($this->getLayers() as $layer) {
                 if (isset($this->layersData[$layer->id]) &&
+                    isset($this->layersData[$layer->id]->$stateProperty) &&
                     $this->layersData[$layer->id]->$stateProperty)
                     $this->{$storageName}[] = $layer->id;
             }
@@ -510,7 +511,8 @@ class ClientLayers extends ClientPlugin
      * @return array list of children, grand-children... of given layers
      */
     private function fetchChildrenFromLayerGroup($layersList) {
-        if (!$layersList || !is_array($layersList)) return false;
+        if (!$layersList || !is_array($layersList))
+            return array();
 
         $cleanList = array();
         foreach ($layersList as $key => $layerId) {
@@ -627,11 +629,18 @@ class ClientLayers extends ClientPlugin
      * @return float
      */
     private function getCurrentScale() {
-        $pluginManager = $this->getCartoclient()->getPluginManager();
-        if (!isset($this->currentScale) && !empty($pluginManager->location)) {
-            $this->currentScale = $pluginManager->location->getCurrentScale();
+        if (isset($this->currentScale)) {
+            return $this->currentScale;
+        } else {
+            $pluginManager = $this->getCartoclient()->getPluginManager();
+            
+            if (!empty($pluginManager->location))
+                $this->currentScale = $pluginManager->location->getCurrentScale();
+            else
+                $this->currentScale = 0;
+
+            return $this->currentScale;
         }
-        return $this->currentScale;
     }
     
     /**
@@ -854,7 +863,7 @@ class ClientLayers extends ClientPlugin
         
         $rootLayer = $this->getLayerByName('root');
         $element = $this->fetchLayer($rootLayer);
- 
+
         if (!$element) return false;
 
         $startOpenNodes = implode('\',\'', $this->unfoldedIds);
@@ -876,6 +885,127 @@ class ClientLayers extends ClientPlugin
         $template->assign('layers', $this->drawLayersList());
         
         $template->assign('locales', I18n::getLocales());
+    }
+
+    /**
+     * Returns icon full path.
+     * @param string icon filename
+     * @return string full path
+     */
+    private function getPrintedIconPath($icon) {
+        if (!$icon)
+            return '';
+
+        $custom = explode('.', $this->getCartoclient()->getProjectHandler()
+                               ->getMapName());
+        if (isset($custom[1])) {
+            $project = $custom[0] . '/';
+            $mapId = $custom[1] . '/';
+        } else {
+            $project = '';
+            $mapId = $custom[0] . '/';
+        }
+        
+        if ($this->cartoclient->getConfig()->cartoserverDirectAccess)
+            $root = CARTOCLIENT_HOME . 'htdocs/';
+        else {
+            $root = sprintf('http%s://%s%s/',
+                            isset($_SERVER['HTTPS']) ? 's' : '',
+                            $_SERVER['HTTP_HOST'],
+                            dirname($_SERVER['PHP_SELF']));
+            if (preg_match("/^(.*)exportPdf\/(.*)$/", $root, $regs))
+                $root = $regs[1];
+        }
+        
+        return sprintf('%s%sgfx/icons/%s%s', $root, $project, $mapId, $icon);
+    }
+
+    /**
+     * Returns given layer printing data (icon, label, children...).
+     * @param string layer id
+     * @return array
+     */
+    private function getPrintedLayerData($layerId) {
+        $layer = $this->getLayerByName($layerId);
+        $scale = $this->getCurrentScale();
+        
+        if (($layer->maxScale && $scale > $layer->maxScale) ||
+            ($layer->minScale && $scale < $layer->minScale))
+            return array();
+        
+        $data = array('label' => utf8_decode($layer->label),
+                      'icon' => $this->getPrintedIconPath($layer->icon),
+                      'children' => array());
+        
+        if (!$layer instanceof LayerClass && $layer->children) {    
+            $children =& $data['children'];
+            foreach ($layer->children as $childId)
+                $children[] = $this->getPrintedLayerData($childId);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Recursively detects selected layers parent nodes and substitutes them 
+     * if parents are aggregated.
+     * @param string current layer id
+     * @param array selected layers list
+     * @param array structure containing data of layers to print
+     */
+    private function getPrintedParents($layerId, &$selectedLayers, 
+                                       &$printedNodes) {
+        $layer = $this->getLayerByName($layerId);
+        
+        if (!$layer instanceof LayerGroup || !$layer->children)
+            return;
+        
+        foreach ($layer->children as $childId) {
+            $key = array_search($childId, $selectedLayers);
+            if (is_numeric($key)) {
+                // if parent is aggregated, only display parent
+                if ($layer->aggregate) {
+                    if (!isset($printedNodes[$layerId])) {
+                        $printedNodes[$layerId] = array(
+                            'label' => utf8_decode($layer->label),
+                            'icon' => $this->getPrintedIconPath($layer->icon),
+                            'children' => array());
+                    }
+                    // retrieves layer classes:
+                    $printedNodes[$layerId]['children'] = 
+                        array_merge($printedNodes[$layerId]['children'],
+                                    $printedNodes[$childId]['children']);
+                    unset($printedNodes[$childId]);
+                }
+                unset($selectedLayers[$key]);
+            } else {
+                $this->getPrintedParents($childId, $selectedLayers,
+                                         $printedNodes);
+            }
+        }
+    }
+
+    /**
+     * Returns the list of layers actually printed on mainmap as well as their
+     * classes and parent LayerGroups if any (mainly used for PDF printing).
+     * @param array list of layers explicitely asked to CartoServer
+     * @param float scale value
+     * @return array complete list of printed layers, layergroups, layerclasses
+     */
+    function getPrintedLayers($selectedLayers, $scale) {
+        $printedNodes = array();
+        $this->currentScale = $scale;
+       
+        foreach ($selectedLayers as $key => $layerId) {
+            $layerData = $this->getPrintedLayerData($layerId);
+            if ($layerData)
+                $printedNodes[$layerId] = $layerData;
+            else
+                unset($selectedLayers[$key]);
+        }
+        
+        $this->getPrintedParents('root', $selectedLayers, $printedNodes);
+        return $printedNodes;
     }
 
     /**
