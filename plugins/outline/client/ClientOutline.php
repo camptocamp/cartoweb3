@@ -192,7 +192,7 @@ class ClientOutline extends ClientPlugin
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         if ($shape) {
             if (!empty($request['outline_label_text'])) {
-                $shape->label = $request['outline_label_text'];
+                $shape->label = stripslashes($request['outline_label_text']);
             }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
