@@ -10,12 +10,14 @@ header("Content-Type: text/xml");
  * Root directory for server scripts
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
 /**
  * Project handler
  */
 require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
+require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
 require_once(CARTOSERVER_HOME . 'common/misc_functions.php');
 
 function getServerConfig() {
@@ -80,6 +82,9 @@ if (isset($mapId)) {
         $plugins = ConfigParser::parseArray($iniArray['mapInfo.loadPlugins']);
 
         foreach ($plugins as $plugin) {
+            if (!$plugin instanceof ClientResponder)
+                continue;
+                
             $pluginsRequest .= 
                 '          <element name="' . $plugin . 'Request" type="types:' .
                 ucfirst($plugin) . 'Request" minOccurs="0"/>
