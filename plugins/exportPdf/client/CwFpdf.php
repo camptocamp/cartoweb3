@@ -553,7 +553,12 @@ class cFPDF extends FPDF {
         $iWidth = 0;
         $icon =& $layer['icon'];
         if ($icon) {
-            list($iWidth, $iHeight, $iType) = getimagesize($icon);
+            
+            $imageData = @getimagesize($icon);
+            if (!$imageData)
+                throw new CartoclientException('invalid icon path: ' . $icon);
+                
+            list($iWidth, $iHeight, $iType) = $imageData;
             
             switch($iType) {
                 case 2: $iType = 'JPEG'; break;
