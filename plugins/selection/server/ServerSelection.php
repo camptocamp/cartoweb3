@@ -11,7 +11,7 @@
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class ServerSelection extends ServerPluginAdapter {
+class ServerSelection extends ClientResponderAdapter {
 
     private $log;
 

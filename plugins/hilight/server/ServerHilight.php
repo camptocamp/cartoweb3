@@ -14,7 +14,7 @@ define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
 /**
  * @package Plugins
  */
-class ServerHilight extends ServerPluginAdapter {
+class ServerHilight extends ClientResponderAdapter {
 
     private $log;
 

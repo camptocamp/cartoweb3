@@ -80,8 +80,8 @@ abstract class ServerPlugin extends PluginBase {
     }
 }
 
-abstract class ServerPluginAdapter extends ServerPlugin
-                                   implements ClientResponder {
+abstract class ClientResponderAdapter extends ServerPlugin
+                                      implements ClientResponder {
 
     function handleInit($requ) {}
 

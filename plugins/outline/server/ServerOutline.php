@@ -9,7 +9,7 @@
  * Server Outline class
  * @package Plugins
  */
-class ServerOutline extends ServerPluginAdapter {
+class ServerOutline extends ClientResponderAdapter {
     
     /**
      * @var Logger

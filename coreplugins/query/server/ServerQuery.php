@@ -7,7 +7,7 @@
 /**
  * @package CorePlugins
  */
-class ServerQuery extends ServerPluginAdapter {
+class ServerQuery extends ClientResponderAdapter {
     private $log;
     private $drawQuery = false;
 
