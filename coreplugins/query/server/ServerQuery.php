@@ -376,6 +376,11 @@ class ServerQuery extends ClientResponderAdapter {
         $queryResult->tableGroup->groupTitle = "Query";
         $queryResult->tableGroup->tables = $tables;
 
+        // Applies the registred table rules
+        $tablesPlugin = $this->getServerContext()->getPluginManager()->tables;        
+        $groups = $tablesPlugin->applyRules($queryResult->tableGroup);
+        $queryResult->tableGroup = $groups[0];
+
         $this->hilight($tables, $hilightQuerySelections);
         
         return $queryResult;
