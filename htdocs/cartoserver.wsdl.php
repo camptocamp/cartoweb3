@@ -2,6 +2,33 @@
 header("Content-Type: text/xml");
 echo '<?xml version="1.0"?>';
 echo "\n";
+
+if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+	
+	// FIXME: duplicated from server.php
+	
+	define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+	set_include_path(get_include_path() . PATH_SEPARATOR . 
+                 CARTOSERVER_HOME . 'include/');
+                 
+	require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
+	
+	$serverConfig = new ServerConfig();
+	
+	if (!@$serverConfig->reverseProxyUrl)
+		die('Reverse proxy seems to be used, but no "reverseProxyUrl" ' .
+			'parameter set in configuration');
+	
+	$soapAddress = $serverConfig->reverseProxyUrl;
+	
+} else {
+	$soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
+				$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
+}			
+				
+$soapAddress .= '/server.php';
+
 ?>
 <wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:enc="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="http://camptocamp.com/wsdl/cartoserver/" xmlns:types="http://camptocamp.com/cartoserver/xsd" xmlns:test="http://camptocamp.com/cartoserver" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:enc11="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://camptocamp.com/wsdl/cartoserver/" name="CartoserverWsdl">
   <wsdl:types>
@@ -365,8 +392,7 @@ XXXXXXXXXXXXXXXXXXXX polymorphism does not work XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   </binding>
   <service name="CartoserverService">
     <port name="CartoserverRpcPort" binding="tns:CartoserverBinding">
-       <soap12:address location="<?php echo ((isset($_SERVER['HTTPS'])?"https://":"http://").$_SERVER['HTTP_HOST'].
-           dirname($_SERVER['PHP_SELF']));?>/server.php"/>
+       <soap12:address location="<?=$soapAddress?>"/>
 
     </port>
   </service>
