@@ -63,8 +63,8 @@ class ServerPluginHelper {
                         "not storing the information", $plugin->getName()));
             } else {
                 if (isset($serverContext->mapResult->$resultName))
-                    throw new CartoserverException('result for plugin %s " .
-                            "already stored, data collision', $plugin->getName()); 
+                    throw new CartoserverException(sprintf('result for plugin %s " .
+                            "already stored, data collision', $plugin->getName())); 
                 $serverContext->mapResult->$resultName = $result;
             }
         }
