@@ -128,7 +128,8 @@ ClientContext:
       {/if}
          
       <input type="submit" name="refresh" value="refresh" class="form_button" />
-      <input type="submit" name="reset_session" value="reset_session" class="form_button" />
+      <input type="submit" name="reset_session" value="reset_session" class="form_button" 
+        onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
         
     <p>
