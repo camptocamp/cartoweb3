@@ -96,6 +96,7 @@
           <element name="minScale" type="xsd:integer"/>
           <element name="maxScale" type="xsd:integer"/>
           <element name="icon" type="xsd:string"/>
+          <element name="link" type="xsd:string" minOccurs="0"/>
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
         </all>
       </complexType>
