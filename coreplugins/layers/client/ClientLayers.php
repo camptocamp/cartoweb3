@@ -224,7 +224,8 @@ class ClientLayers extends ClientCorePlugin {
      * are retrieved as well.
      */
     private function fetchHiddenSelectedLayers($layerId, 
-                                               $forceHidden = false) {
+                                               $forceHidden = false,
+                                               $forceSelected = false) {
         $layer = $this->getLayerByName($layerId);
         if (!$layer || $layer instanceof LayerClass) return array();
 
@@ -232,16 +233,23 @@ class ClientLayers extends ClientCorePlugin {
         
         // $forceHidden: is true if parent was hidden. As a result all its
         // children are hidden too.
+        // $forceSelected: is true if parent was selected...
         $isHidden = $forceHidden ||
                     in_array($layerId, $this->getHiddenLayers());
         if ($isHidden) {
-            if (in_array($layerId, $this->getSelectedLayers()))
+            if ($forceSelected || 
+                in_array($layerId, $this->getSelectedLayers())) {
+                $isSelected = true;
                 $hiddenSelectedLayers[] = $layerId;
-            else $this->hiddenUnselectedLayers[] = $layerId;
+            } else {
+                $isSelected = false;
+                $this->hiddenUnselectedLayers[] = $layerId;
+            }
         }
 
         foreach ($layer->children as $child) {
-            $newList = $this->fetchHiddenSelectedLayers($child, $isHidden);
+            $newList = $this->fetchHiddenSelectedLayers($child, $isHidden,
+                                                     $isHidden && $isSelected);
             if ($newList) {
                 $hiddenSelectedLayers = array_merge($hiddenSelectedLayers,
                                                     $newList);
