@@ -105,7 +105,7 @@ ClientContext:
     {if $locales|default:''}
     <p>
       {foreach from=$locales item=locale name=lang}
-      <a href="{$smarty.server.PHP_SELF}?lang={$locale}">{$locale}</a>
+      {if $locale != $currentLang}<a href="{$smarty.server.PHP_SELF}?lang={$locale}">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
       {if !$smarty.foreach.lang.last}|{/if}
       {/foreach}
     </p>

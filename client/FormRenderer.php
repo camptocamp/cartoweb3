@@ -225,7 +225,9 @@ class FormRenderer {
             $this->drawUserAndRoles();
     
             // lang links
-            $this->smarty->assign('locales', I18n::getLocales());
+            $this->smarty->assign(array('locales'     => I18n::getLocales(),
+                                        'currentLang' => LANG,
+                                        ));
             
             // debug printing
             $this->smarty->assign('debug_request', var_export($_REQUEST, 
