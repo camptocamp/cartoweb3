@@ -138,15 +138,28 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
         $this->log->debug($selectionResult);        
 
         $selectionLayersStr = $this->getConfig()->selectionLayers;
-        if (empty($selectionLayersStr))
-            throw new CartoclientException('you need to set the selectionLayers ' .
-                    'parameter in selection client plugin');
-
-        $selectionLayers = explode(',', $selectionLayersStr);
-        $selectionLayers = array_map('trim', $selectionLayers);
+        if (!empty($selectionLayersStr)) {
+            $selectionLayers = explode(',', $selectionLayersStr);
+            $selectionLayers = array_map('trim', $selectionLayers);
+            $selectionLayersLabel = array();
+            foreach ($selectionLayers as $layer)
+                $selectionLayersLabel[] = I18n::gt($layer);
+        } else {
+            // takes all layers 
+            $mapInfo = $this->cartoclient->getMapInfo();
+            $selectionLayers = array();
+            $selectionLayersLabel = array();
+            foreach($mapInfo->getLayers() as $layer) {
+                if (! $layer instanceof Layer)
+                    continue;
+                $selectionLayers[] = $layer->id; 
+                $selectionLayersLabel[] = I18n::gt($layer->label); 
+            }
+        }
         
         $selectionLayers = array_merge(array('no_layer'), $selectionLayers);
         $smarty->assign('selection_selectionlayers', $selectionLayers); 
+        $smarty->assign('selection_selectionlayers_label', $selectionLayersLabel); 
 
         $smarty->assign('selection_layerid', $this->selectionState->layerId); 
         $smarty->assign('selection_idattribute', $this->selectionState->idAttribute); 
