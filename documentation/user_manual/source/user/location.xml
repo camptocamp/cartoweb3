@@ -125,7 +125,6 @@
     <indexterm><primary>shortcuts.#.bbox</primary></indexterm> (# = 0, 1, 2, ...) : geographic bbox of the shortcut.
     </para>
    </listitem>
-  </itemizedlist>
    <listitem>
     <para>
     <indexterm><primary>recenterMargin</primary></indexterm>: margin to add around the centered-on object (valid for lines and polygons). 
@@ -137,6 +136,7 @@
     <indexterm><primary>recenterDefaultScale</primary></indexterm>: scale to use when the centered-on object is a point.
     </para>
    </listitem>
+  </itemizedlist>
  </sect1>
 
  <sect1 id="user.location.mapfile"> 
