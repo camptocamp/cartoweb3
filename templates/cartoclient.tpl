@@ -30,6 +30,7 @@
   <script type="text/javascript" src="js/navTools.js"></script>
   <script type="text/javascript" src="js/graphTools.js"></script>
   <script type="text/javascript">
+    /*<![CDATA[*/ 
     var dhtmlDivs = new String();
     document.image = new Image;
     {/literal}document.image.src = '{$mainmap_path}';{literal}
@@ -87,6 +88,7 @@
       dboxInit();
       xHide(xGetElementById('mapAnchorDiv')); 
     }
+    /*]]>*/
   </script>
   <!-- END dhtmlHeader -->
   {/literal}
