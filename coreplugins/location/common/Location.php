@@ -10,21 +10,44 @@
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
+ * Request information for plugin Location
  * @package CorePlugins
  */
 class LocationRequest extends Serializable {
+
     const LOC_REQ_BBOX = 'bboxLocationRequest';
     const LOC_REQ_PAN = 'panLocationRequest';
     const LOC_REQ_ZOOM_POINT = 'zoomPointLocationRequest';
     const LOC_REQ_RECENTER = 'recenterLocationRequest';
 
+    /**
+     * @var string
+     */
     public $locationType;
 
+    /**
+     * @var BboxLocationRequest
+     */
     public $bboxLocationRequest;
+    
+    /**
+     * @var PanLocationRequest
+     */
     public $panLocationRequest;
+    
+    /**
+     * @var ZoomPointLocationRequest
+     */
     public $zoomPointLocationRequest;
+        
+    /**
+     * @var RecenterLocationRequest
+     */
     public $recenterLocationRequest;
 
+    /**
+     * @var LocationConstraint
+     */
     public $locationConstraint;
 
     function unserialize($struct) {
@@ -44,11 +67,17 @@ class LocationRequest extends Serializable {
 }
 
 /**
+ * Constraints for a location
+ *
+ * TODO: add contraints for minScale, maxScale and others
  * @package CorePlugins
  */
 class LocationConstraint extends Serializable {
+    
+    /**
+     * @var Bbox
+     */
     public $maxBbox;
-    // TODO: add contraints for minScale, maxScale and others
 
     public function unserialize($struct) {
         $this->maxBbox = self::unserializeObject($struct, 'maxBbox', 'Bbox');
@@ -56,10 +85,19 @@ class LocationConstraint extends Serializable {
 }
 
 /**
+ * Result information for plugin Location
  * @package CorePlugins
  */
 class LocationResult extends Serializable {
+    
+    /**
+     * @var Bbox
+     */
     public $bbox;
+    
+    /**
+     * @var double
+     */
     public $scale;
 
     public function unserialize($struct) {
@@ -69,10 +107,19 @@ class LocationResult extends Serializable {
 }
 
 /**
+ * Predefined scale for display in scales dropdown box
  * @package CorePlugins
  */
 class LocationScale extends Serializable {
+
+    /**
+     * @var string
+     */
     public $label;
+    
+    /**
+     * @var double
+     */ 
     public $value;
 
     public function unserialize($struct) {
@@ -82,10 +129,19 @@ class LocationScale extends Serializable {
 }
 
 /**
+ * Predefined shortcut for display in shortcuts dropdown box
  * @package CorePlugins
  */
 class LocationShortcut extends Serializable {
+
+    /**
+     * @var string
+     */
     public $label;
+    
+    /**
+     * @var Bbox
+     */
     public $bbox;
 
     public function unserialize($struct) {
@@ -95,13 +151,29 @@ class LocationShortcut extends Serializable {
 }
 
 /**
+ * Location initialization information
  * @package CorePlugins
  */
 class LocationInit extends Serializable {
+
+    /**
+     * @var array
+     */
     public $scales;
+    
+    /**
+     * @var double
+     */
     public $minScale;
+    
+    /** 
+     *  @var double
+     */
     public $maxScale;
 
+    /**
+     * @var array
+     */
     public $shortcuts;
     
     public function unserialize($struct) {
@@ -114,9 +186,14 @@ class LocationInit extends Serializable {
 }
 
 /**
+ * Basic location request
  * @package CorePlugins
  */
 abstract class RelativeLocationRequest extends Serializable {
+    
+    /**
+     * @var Bbox
+     */
     public $bbox;
 
     public function unserialize($struct) {
@@ -125,9 +202,14 @@ abstract class RelativeLocationRequest extends Serializable {
 }
 
 /**
+ * Location request to recenter on a Bbox
  * @package CorePlugins
  */
 class BboxLocationRequest extends RelativeLocationRequest {
+
+    /**
+     * @var string
+     */
     public $type = LocationRequest::LOC_REQ_BBOX;
 
     public function unserialize($struct) {
@@ -137,21 +219,32 @@ class BboxLocationRequest extends RelativeLocationRequest {
 }
 
 /**
+ * Contains directions information for panning
  * @package CorePlugins
  */
 class PanDirection {
 
     const VERTICAL_PAN_NORTH = 'VERTICAL_PAN_NORTH';
-    const VERTICAL_PAN_NONE = 'VERTICAL_PAN_NONE';
+    const VERTICAL_PAN_NONE  = 'VERTICAL_PAN_NONE';
     const VERTICAL_PAN_SOUTH = 'VERTICAL_PAN_SOUTH';
 
     const HORIZONTAL_PAN_WEST = 'HORIZONTAL_PAN_WEST';
     const HORIZONTAL_PAN_NONE = 'HORIZONTAL_PAN_NONE';
     const HORIZONTAL_PAN_EAST = 'HORIZONTAL_PAN_EAST';
 
+    /**
+     * @var string
+     */
     public $verticalPan;
+    
+    /**
+     * @var string
+     */
     public $horizontalPan;
 
+    /**
+     * @return string
+     */
     function __toString() {
         return "$this->verticalPan - $this->horizontalPan";
     }
@@ -164,10 +257,19 @@ class PanDirection {
 }
 
 /**
+ * Location request for panning
  * @package CorePlugins
  */
 class PanLocationRequest extends RelativeLocationRequest {
+
+    /**
+     * @var string
+     */
     public $type = LocationRequest::LOC_REQ_PAN;
+    
+    /**
+     * @var PanDirection
+     */
     public $panDirection;
 
     public function unserialize($struct) {
@@ -179,6 +281,7 @@ class PanLocationRequest extends RelativeLocationRequest {
 }
 
 /**
+ * Location request for zooming
  * @package CorePlugins
  */
 abstract class ZoomLocationRequest extends RelativeLocationRequest {
@@ -186,22 +289,40 @@ abstract class ZoomLocationRequest extends RelativeLocationRequest {
 }
 
 /**
+ * Location request for recentering, zooming and rescaling
  * @package CorePlugins
  */
 class ZoomPointLocationRequest extends ZoomLocationRequest {
+
+    /**
+     * @var string
+     */
     public $type = LocationRequest::LOC_REQ_ZOOM_POINT;
 
-    const ZOOM_DIRECTION_IN = 'ZOOM_DIRECTION_IN';
-    const ZOOM_DIRECTION_OUT = 'ZOOM_DIRECTION_OUT';
+    const ZOOM_DIRECTION_IN   = 'ZOOM_DIRECTION_IN';
+    const ZOOM_DIRECTION_OUT  = 'ZOOM_DIRECTION_OUT';
     const ZOOM_DIRECTION_NONE = 'ZOOM_DIRECTION_NONE';
-    const ZOOM_FACTOR = 'ZOOM_FACTOR';
-    const ZOOM_SCALE = 'ZOOM_SCALE';
+    const ZOOM_FACTOR         = 'ZOOM_FACTOR';
+    const ZOOM_SCALE          = 'ZOOM_SCALE';
     
+    /**
+     * @var string
+     */
     public $zoomType;
     
+    /**
+     * @var Point
+     */
     public $point;
 
+    /** 
+     * @var float
+     */
     public $zoomFactor;
+    
+    /**
+     * @var float
+     */
     public $scale;
 
     public function unserialize($struct) {
@@ -215,13 +336,31 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
 }
 
 /**
- * Describes a selection of a set of objects identified by their id's.
+ * Describes a selection of a set of objects identified by their id's
+ * 
  * This object is used by other plugins, like the Selection plugin.
+ * @package CorePlugins
  */
 class IdSelection extends Serializable {
+    
+    /**
+     * @var string
+     */
     public $layerId;
+    
+    /**
+     * @var string
+     */
     public $idAttribute;
-    public $idType; // (string|integer) 
+    
+    /**
+     * @var mixed
+     */
+    public $idType;
+    
+    /** 
+     * @var array
+     */
     public $selectedIds;
 
     public function unserialize($struct) {
@@ -232,9 +371,20 @@ class IdSelection extends Serializable {
     }
 }
 
+/**
+ * Location request for recentering on Ids
+ * @package CorePlugins
+ */
 class RecenterLocationRequest extends Serializable {
+
+    /**
+     * @var string
+     */
     public $type = LocationRequest::LOC_REQ_RECENTER;
  
+    /** 
+     * @var array
+     */
     public $idSelections;
  
     public function unserialize($struct) {

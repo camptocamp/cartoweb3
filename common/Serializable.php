@@ -15,6 +15,10 @@ require_once(CARTOCOMMON_HOME . 'common/Common.php'); // for CartocommonExceptio
  * @package Common
  */
 abstract class Serializable {
+    
+    /**
+     * @var string
+     */
     public $className;
     
     /**

@@ -3,54 +3,106 @@
  * @package CorePlugins
  * @version $Id$
  */
+
 require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 require_once('log4php/LoggerManager.php');
 
 /**
- * Base abstract class for classes used to calculate bboxe's and scales.
+ * Base abstract class for classes used to calculate bbox's and scales
+ *
  * There is a one to one mapping between LocationRequests and these
- * LocationCalculator's.
- * 
+ * LocationCalculator's. 
  * @package CorePlugins
  */
 abstract class LocationCalculator {
+
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var ServerLocation
+     */
     public $locationPlugin;
+    
+    /**
+     * @var LocationRequest
+     */
     public $requ;
+    
+    /**
+     * @param ServerLocation
+     * @param LocationRequest
+     */
     function __construct($locationPlugin, $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->locationPlugin = $locationPlugin;
         $this->requ = $requ;
     }
+    
+    /**
+     * Computes new Bbox
+     * @return Bbox
+     */
     abstract function getBbox();
+    
+    /**
+     * Computes new scale
+     * @return double
+     */
     abstract function getScale();
 }
 
 /**
+ * Location calculator for {@link BboxLocationRequest}
  * @package CorePlugins
  */
 class BboxLocationCalculator extends LocationCalculator {
+    
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @param ServerLocation
+     * @param BboxLocationRequest
+     */
     function __construct($locationPlugin, BboxLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
+    
     function getBbox() {
         return $this->requ->bbox;
     }
+
     function getScale() {
         return NULL;
     }
 }
 
 /**
+ * Location calculator for {@link PanLocationRequest}
  * @package CorePlugins
  */
 class PanLocationCalculator extends LocationCalculator {
+
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var double
+     */
     private $panRatio;
 
+    /**
+     * @param ServerLocation
+     * @param PanLocationRequest
+     */
     function __construct($locationPlugin, PanLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
@@ -58,6 +110,11 @@ class PanLocationCalculator extends LocationCalculator {
         $this->panRatio = $this->locationPlugin->getConfig()->panRatio;
     }
 
+    /**
+     * Transforms {@link PanDirection} orientation to increments
+     * @param string
+     * @return int
+     */
     private function panDirectionToFactor($panDirection) {
         switch ($panDirection) {
         case PanDirection::VERTICAL_PAN_NORTH:
@@ -100,12 +157,25 @@ class PanLocationCalculator extends LocationCalculator {
 }
 
 /**
+ * Location calculator for {@link ZoomPointLocationRequest}
  * @package CorePlugins
  */
 class ZoomPointLocationCalculator extends LocationCalculator {
+    
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var boolean
+     */
     private $scaleModeDiscrete;
 
+    /**
+     * @param ServerLocation
+     * @param ZoomPointLocationRequest
+     */
     function __construct($locationPlugin, ZoomPointLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
@@ -131,6 +201,11 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $bbox;
     }
 
+    /**
+     * Finds the previous scale in the scales list
+     * @param double
+     * @return double
+     */
     private function getPreviousScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
@@ -146,6 +221,11 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale; 
     }
     
+    /**
+     * Finds the next scale in the scales list
+     * @param double
+     * @return double
+     */
     private function getNextScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
@@ -161,6 +241,11 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale;
     }
 
+    /** 
+     * Finds the nearest scale in the scales list
+     * @param double
+     * @return double
+     */
     private function getNearestScale($oldScale) {
         $newScale = 0;
         $min = -1;
@@ -177,6 +262,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale;
     }
 
+    /**
+     * Computes scale from current MapServer extent
+     * @return double
+     */
     private function calculateOldScale() {
         $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
         
@@ -236,19 +325,36 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     }
 }
 
-
 /**
+ * Location calculator for {@link RecenterLocationRequest}
  * @package CorePlugins
  */
 class RecenterLocationCalculator extends LocationCalculator {
+    
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var boolean
+     */
     private $useDefaultScale;
 
+    /**
+     * @param ServerLocation
+     * @param RecenterLocationRequest
+     */
     function __construct($locationPlugin, RecenterLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
 
+    /**
+     * Performs queries in MapServer ans returns resulting Bbox
+     * @param IdSelection
+     * @return Bbox
+     */
     private function getIdSelectionBbox(IdSelection $idSelection) {
     
         $pluginManager = $this->locationPlugin->
@@ -268,6 +374,11 @@ class RecenterLocationCalculator extends LocationCalculator {
         return $this->mergeBboxes($bboxes);
     }
 
+    /**
+     * Merges Bbox in one large Bbox
+     * @param array
+     * @return Bbox
+     */
     function mergeBboxes($bboxes) {
         if (empty($bboxes))
             throw new CartoserverException("trying to merge empty bboxes");
@@ -283,6 +394,12 @@ class RecenterLocationCalculator extends LocationCalculator {
         return $mergedBbox;        
     }
 
+    /**
+     * Adds a margin to a Bbox
+     * @param Bbox
+     * @param double
+     * @return Bbox
+     */
     function addMargin(Bbox $bbox, $margin) {
         
         $width = $bbox->getWidth();
@@ -294,9 +411,12 @@ class RecenterLocationCalculator extends LocationCalculator {
     }
 
     /**
-     * Adds a border to a bbox. 
+     * Adds a border to a bbox
+     * 
      * Used to transform zero sized (width or height is zero) bboxes 
-     *  to non zero sized ones.
+     * to non zero sized ones.
+     * @param Bbox
+     * @return Bbox
      */
     private function addBboxBorders($bbox) {
      
@@ -353,13 +473,27 @@ class RecenterLocationCalculator extends LocationCalculator {
 }
 
 /**
+ * Server part of Location plugin
  * @package CorePlugins
  */
 class ServerLocation extends ServerPlugin 
                      implements CoreProvider, InitProvider {
+    
+    /**
+     * @var Logger
+     */
     private $log;
     
+    /**
+     * Possible scales in discrete mode (some may be hidden)
+     * @var array
+     */
     private $scales;
+    
+    /**
+     * Scales to be displayed in dropdown box
+     * @var array 
+     */
     private $visibleScales;
 
     function __construct() {
@@ -367,6 +501,9 @@ class ServerLocation extends ServerPlugin
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * Initializes scales from location.ini
+     */
     private function initScales() {
         $this->scales = array();
         $this->visibleScales = array();
@@ -384,6 +521,9 @@ class ServerLocation extends ServerPlugin
         }                                        
     }
     
+    /**
+     * @return array
+     */
     public function getScales() {
         
         if (is_null($this->scales))
@@ -391,7 +531,11 @@ class ServerLocation extends ServerPlugin
         return $this->scales;
     }
 
-    
+    /**
+     * Computes scale from a Bbox using MapServer
+     * @param Bbox
+     * @return double
+     */
     private function getScaleFromBbox($bbox) {
         $msMapObj = $this->getServerContext()->getMapObj();
         
@@ -401,6 +545,11 @@ class ServerLocation extends ServerPlugin
         return $scale;
     }
     
+    /**
+     * Adjusts scale using min/max set in configuration
+     * @param double
+     * @return double
+     */
     private function adjustScale($scale) {
         if (is_null($scale))
             throw new CartoserverException("scale to adjust is null");
@@ -417,6 +566,12 @@ class ServerLocation extends ServerPlugin
         return $newScale;
     }
 
+    /**
+     * Adjusts Bbox using a maximum extent
+     * @param Bbox
+     * @param msExtent
+     * @return Bbox
+     */
     private function adjustBbox($oldBbox, $maxExtent = NULL) {
      
         $newBbox = $oldBbox;
@@ -483,6 +638,11 @@ class ServerLocation extends ServerPlugin
         return $newBbox;
     }
 
+    /** 
+     * Applies location changes to MapServer
+     * @param Bbox
+     * @param double
+     */
     private function doLocation($bbox, $scale) {
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -497,6 +657,10 @@ class ServerLocation extends ServerPlugin
         }
     }
 
+    /**
+     * Adjusts Bbox
+     * @param msExtent
+     */
     private function doBboxAdjusting($maxExtent = NULL) {
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -516,6 +680,10 @@ class ServerLocation extends ServerPlugin
                              $newBbox->maxx, $newBbox->maxy);
     }
 
+    /**
+     * Prepares result that will be sent to client
+     * @return LocationResult
+     */
     private function getLocationResult() {
         $msMapObj = $this->serverContext->getMapObj();
         
@@ -527,6 +695,9 @@ class ServerLocation extends ServerPlugin
         return $locationResult;
     }
 
+    /**
+     * @see CoreProvider::handleCorePlugin()
+     */
     function handleCorePlugin($requ) {
 
         $this->log->debug('handleCorePlugin: ');
@@ -572,6 +743,9 @@ class ServerLocation extends ServerPlugin
         return $this->getLocationResult();
     }
        
+    /**
+     * @see InitProvider::getInit()
+     */
     function getInit() {
 
         $this->initScales();
@@ -596,4 +770,5 @@ class ServerLocation extends ServerPlugin
         return $init;
     }
 }
+
 ?>
