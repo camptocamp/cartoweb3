@@ -15,7 +15,7 @@ require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler
  */
 class ClientProject extends ClientPlugin {
 
-    public $projectHandler;
+    private $projectHandler;
    
     const TEMPL_VARS_INI_FILE = 'client_conf/project_templ_vars.ini';
     const RESOURCE_NAME_PREFIX = 'project_';

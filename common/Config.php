@@ -5,11 +5,6 @@
  */
 
 /**
- * Project handler
- */
-require_once(CARTOCOMMON_HOME . 'coreplugins/project/common/ProjectHandler.php');
-
-/**
  * @package Common
  */
 abstract class Config {

@@ -44,8 +44,6 @@ require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
 require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
 
-require_once(CARTOSERVER_HOME . 'coreplugins/project/server/ServerProjectHandler.php');
-
 /**
  * @package Server
  */
@@ -67,9 +65,9 @@ class ServerConfig extends Config {
         return 'server';
     }
 
-    function __construct($mapId) {
+    function __construct($projectHandler) {
         $this->basePath = CARTOSERVER_HOME;
-        $this->projectHandler = new ServerProjectHandler($mapId);
+        $this->projectHandler = $projectHandler;
         parent::__construct();
     }
 }

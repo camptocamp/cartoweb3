@@ -65,9 +65,9 @@ class ClientConfig extends Config {
         return 'client';
     }
 
-    function __construct() {
+    function __construct($projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
-        $this->projectHandler = new ClientProjectHandler();
+        $this->projectHandler = $projectHandler;
         parent::__construct();
     }
 }
@@ -98,6 +98,8 @@ class Cartoclient {
     private $pluginManager; 
        
     private $config;
+    
+    private $projectHandler;
 
     function getConfig() {
         return $this->config;
@@ -109,6 +111,8 @@ class Cartoclient {
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        
+        $this->projectHandler = new ClientProjectHandler();
     }
 
     function getClientSession() {
@@ -138,19 +142,19 @@ class Cartoclient {
         // in INCLUDE/cartoclient/plugins
         // in $LOCAL_PLUGINS
 
-        $this->pluginManager = new PluginManager();
+        $this->pluginManager = new PluginManager($this->projectHandler);
 
         $corePluginNames = $this->getCorePluginNames();
 
-        $this->pluginManager->loadPlugins($this->config->basePath . 'coreplugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath, 'coreplugins/',
                                           PluginManager::CLIENT_PLUGINS, $corePluginNames,         
-                                          $this);
+                                          $this, false);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
 
-        $this->pluginManager->loadPlugins($this->config->basePath . 'plugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
                                           PluginManager::CLIENT_PLUGINS, $pluginNames,
-                                          $this);
+                                          $this, true);
     }
 
     function callPlugins($functionName) {
@@ -296,7 +300,7 @@ class Cartoclient {
 
     private function initializeObjects() {
 
-        $this->config = new ClientConfig();
+        $this->config = new ClientConfig($this->projectHandler);
 
         $this->log->debug("client context loaded (from session, or new)");
 

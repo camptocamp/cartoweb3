@@ -19,7 +19,7 @@ require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler
  */
 class Smarty_Cartoclient extends Smarty {
 
-    public $projectHandler;
+    private $projectHandler;
 
     function __construct($config) {
         parent::__construct();

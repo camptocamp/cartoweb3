@@ -5,6 +5,11 @@
  */
 
 /**
+ * Project handler
+ */
+require_once(CARTOSERVER_HOME . 'coreplugins/project/server/ServerProjectHandler.php');
+
+/**
  * @package Server
  */
 class ServerContext {
@@ -20,16 +25,16 @@ class ServerContext {
 
     public $config;
 
-    public $projectHandler;
+    private $projectHandler;
 
     function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
         $this->mapResult = new MapResult();
 
-        $this->config = new ServerConfig();
-
         $this->projectHandler = new ServerProjectHandler($mapId);
+
+        $this->config = new ServerConfig($this->projectHandler);
 
         $this->mapInfoHandler = new MapInfoHandler($this, $mapId, $this->projectHandler);
         //$this->mapInfoHandler->loadMapInfo($mapId);
@@ -117,18 +122,18 @@ class ServerContext {
 
     function loadPlugins() {
 
-        $this->pluginManager = new PluginManager();
+        $this->pluginManager = new PluginManager($this->projectHandler);
         $corePluginNames = $this->getCorePluginNames();
-        $this->pluginManager->loadPlugins($this->config->basePath . 'coreplugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath, 'coreplugins/',
                                           PluginManager::SERVER_PLUGINS, $corePluginNames, 
-                                          $this);
+                                          $this, false);
 
         // FIXME: maybe not in mapinfo
         $pluginNames = $this->mapInfo->loadPlugins;
         
-        $this->pluginManager->loadPlugins($this->config->basePath . 'plugins/',
+        $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
                                           PluginManager::SERVER_PLUGINS, $pluginNames,
-                                          $this);
+                                          $this, true);
     }
     
     function getPluginManager() {

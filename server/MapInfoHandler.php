@@ -15,7 +15,7 @@ class MapInfoHandler {
 
     public $mapInfo;
     
-    public $projectHandler;
+    private $projectHandler;
 
     function __construct($serverContext, $mapId, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
