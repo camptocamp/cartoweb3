@@ -9,6 +9,7 @@
  */
 class LocationState {
     public $bbox;
+    public $idRecenterSelected;
 }
 
 /**
@@ -154,25 +155,6 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         }
     }
 
-    private function handleShortcuts() {
-        if (array_key_exists('shortcut_id', $_REQUEST) &&
-            array_key_exists('shortcut_doit', $_REQUEST) &&
-            $_REQUEST['shortcut_id'] != '' &&
-            $_REQUEST['shortcut_doit'] == '1') {
-            
-            $bboxRequest = new BboxLocationRequest();
-            $bboxRequest->bbox = $this->shortcuts[$_REQUEST['shortcut_id']]->bbox;
-
-            $locationRequest = new LocationRequest();                
-            $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
-            $locationRequest->bboxLocationRequest = $bboxRequest;
-        
-            return $locationRequest;        
-        } else {
-            return NULL;
-        }
-    }
-
     private function drawRecenter() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
@@ -203,6 +185,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         
         $idSelection = new IdSelection();
         $idSelection->layerId = $_REQUEST['id_recenter_layer'];
+        $this->locationState->idRecenterSelected = $idSelection->layerId;
         $idSelection->selectedIds = explode(',', $_REQUEST['id_recenter_ids']);
         
         $recenterRequest->idSelections = array($idSelection);
@@ -229,9 +212,34 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             $layersLabel[] = I18n::gt($layer->label); 
         }
 
+        if (!empty($this->locationState->idRecenterSelected))
+            $idRecenterSelected = $this->locationState->idRecenterSelected;
+        else
+            $idRecenterSelected = $layersId[0];
+
         $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
-                                    'id_recenter_layers_label' => $layersLabel));
+                                    'id_recenter_layers_label' => $layersLabel,
+                                    'id_recenter_selected' => $idRecenterSelected));
         return $this->smarty->fetch('id_recenter.tpl');
+    }
+
+    private function handleShortcuts() {
+        if (array_key_exists('shortcut_id', $_REQUEST) &&
+            array_key_exists('shortcut_doit', $_REQUEST) &&
+            $_REQUEST['shortcut_id'] != '' &&
+            $_REQUEST['shortcut_doit'] == '1') {
+            
+            $bboxRequest = new BboxLocationRequest();
+            $bboxRequest->bbox = $this->shortcuts[$_REQUEST['shortcut_id']]->bbox;
+
+            $locationRequest = new LocationRequest();                
+            $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
+            $locationRequest->bboxLocationRequest = $bboxRequest;
+        
+            return $locationRequest;        
+        } else {
+            return NULL;
+        }
     }
 
     private function drawShortcuts() {
