@@ -70,7 +70,8 @@ class ClientOutline extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, 
+                                  InitialMapState $initialMapState) {
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
@@ -129,7 +130,7 @@ class ClientOutline extends ClientPlugin
         }
 
         if (!empty($request['outline_mask'])) {
-            $this->outlineState->maskMode = $request['outline_mask'] == 'yes' ? true : false;
+            $this->outlineState->maskMode = ($request['outline_mask'] == 'yes');
         }
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);

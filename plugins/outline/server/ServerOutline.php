@@ -38,7 +38,8 @@ class ServerOutline extends ClientResponderAdapter {
                 throw new CartoserverException('Outline layer ' . $layerName . 
                                                ' is not defined in mapfile');
             } else {
-                throw new CartoserverException('No outline layer defined in config file');
+                throw new CartoserverException('No outline layer defined in ' .
+                                               'config file');
             }
         }
         return $outlineLayer;
@@ -134,7 +135,8 @@ class ServerOutline extends ClientResponderAdapter {
     private function drawPolygon($msMapObj, $polygon, $maskMode) {
 
         if (!$maskMode) { 
-            $outlineLayer = $this->getLayer($msMapObj, $this->getConfig()->polygonLayer);
+            $outlineLayer = $this->getLayer($msMapObj, 
+                                            $this->getConfig()->polygonLayer);
             $class = $outlineLayer->getClass(0);
 
             $outlineLayer->set('status', MS_ON);
@@ -170,7 +172,8 @@ class ServerOutline extends ClientResponderAdapter {
             $p = $this->convertPolygon($polygon);
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
                        
-            $this->serverContext->getMsMainmapImage()->pasteImage($image2, 0xff0000);
+            $this->serverContext->getMsMainmapImage()->pasteImage($image2,
+                                                                  0xff0000);
             
         }
 
@@ -216,7 +219,8 @@ class ServerOutline extends ClientResponderAdapter {
                 $this->drawPolygon($msMapObj, $shape, $requ->maskMode);
                 break;
             default:
-                throw new CartoserverException("unknown shape type " . get_class($shape));
+                throw new CartoserverException('unknown shape type ' . 
+                                               get_class($shape));
             }
             
             $area += $shape->getArea();
