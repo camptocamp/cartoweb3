@@ -13,9 +13,9 @@
  <sect1 id="user.structure.intro"> 
   <title>Introduction</title>
   <para>
-   This chapter, could be seen as a tour on the CartoWeb3 directory
-   structure, with a brief explanation about their roles. When available 
-   links on specific documentation are also provided.
+   This chapter is an overall tour of the CartoWeb3 code structure. For each 
+   directory, it briefly explains its role. When available, 
+   links to relevant chapters of this documentation are also provided.
   </para>
  </sect1>
 
@@ -139,13 +139,13 @@
     <listitem>
      <para>
       <filename>locale</filename>: locale files for internationalization 
-      purpose, see: <xref linkend="user.i18n"/>.
+      purposes, see: <xref linkend="user.i18n"/>.
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>log</filename>: logs, used mainly for developpement
-      and debug purpose. 
+      <filename>log</filename>: logs, mainly used for development
+      and debug purposes. 
      </para>
     </listitem>
     <listitem>
@@ -210,7 +210,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>script</filename>: maintenance and administration's scripts.
+      <filename>script</filename>: maintenance and administration scripts.
      </para>
     </listitem>
     <listitem>
@@ -232,19 +232,19 @@
     </listitem>
     <listitem>
      <para>
-      <filename>templates_c</filename>: smarty template's cache files.
+      <filename>templates_c</filename>: smarty templates cached files.
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>tests</filename>: CartoWeb units tests suite, 
-      used mainly for developpement and debug purpose.
+      <filename>tests</filename>: CartoWeb unit tests suite, 
+      mainly used for development and debug purposes.
      </para>
     </listitem>
     <listitem>
      <para>
-      <filename>www-data</filename>: Web accessible directory for 
-      generated files.
+      <filename>www-data</filename>: writable and web accessible directories
+      for generated files.
       <itemizedlist>
        <listitem>
         <para>
@@ -300,8 +300,8 @@
  <sect1 id="user.structure.plugin"> 
   <title>Plugins</title>
   <para>
-   Each plugin directory should contain at least one, and even more
-   subdirectories. Below, the whole available list :
+   Each plugin directory contains one or more subdirectories. 
+   Here are all the possible subdirectories:
    <itemizedlist>
     <listitem>
      <para>
@@ -335,9 +335,10 @@
  <sect1 id="user.structure.project"> 
   <title>Projects</title>
   <para>
-   The goal of projects in CartoWeb 3 is to have the core files on one side
-   and the project-specific files on the other, with a clear separation. No
-   files should be modified/added outside directory 
+   The aim of projects in CartoWeb 3 is to clearly separate mainstream
+   files from project-specific files. Developers should thus work only
+   in projects, and not modify/add/delete files in the root directory. This
+   will ensure smooth updates.
    <filename>/projects</filename>.
   </para>
   <para>
@@ -346,12 +347,13 @@
    linkend="user.structure.global"/>
   </para>
   <para>
-   Files added in directory <filename>/projects</filename> override files 
-   of the root directory. For instance, if you want to change the layers 
-   template, simply copy the default 
+   Files added in directory <filename>/projects</filename> override 
+   corresponding files of the root directory. For instance, if you want to change 
+   the layers template (i.e. basically the representation of the layers hierarchy),
+   simply copy the default 
    <filename>/coreplugins/layers/templates/layer.tpl</filename> to 
    <filename>projects/my_project/coreplugins/layers/templates/layer.tpl</filename>
-   and make your changes.
+   and make your changes there.
   </para>
   <para>
    Following files can be overridden:
@@ -430,13 +432,13 @@
   <para>
    You can add project-specific plugins in directory 
    <filename>/projects/my_project/plugins</filename>. To load the new plugin,
-   add its name to <filename>client.ini</filename> and/or 
+   add its name in <filename>client.ini</filename> and/or 
    <filename>my_mapfile.ini</filename> (loadPlugins variable).
   </para>
   <sect2>
-   <title>Using the project</title>
+   <title>Using projects</title>
    <para>
-    There are several ways to tell Cartoclient for which project it is running:
+    There are several ways to tell Cartoclient which project it has to run:
    </para>
    <sect3>
     <title>Apache environment variable</title>
@@ -479,6 +481,24 @@
      particular directives <parameter>showProjectChooser</parameter> and 
      <parameter>availableProjects</parameter>, to display the project 
      selection drop-down menu.
+    </para>
+   </sect3>
+   <sect3>
+    <title>Using a modified client.php</title>
+    <para>
+      This should be avoided in production, but may be useful in development
+      if you have to frequently switch the working project : add a new file 
+      <filename>client_myproject.php</filename> in the root htdocs directory.
+      This file only sets the environment variable and then calls the
+      normal <filename>client.php</filename>. Each project has so its own URL.
+    </para> 
+    <para>
+<programlisting><![CDATA[
+<?php
+$_ENV['CW3_PROJECT'] = 'myproject';
+require_once('client.php');
+?>
+]]></programlisting>
     </para>
    </sect3>
   </sect2>
