@@ -159,7 +159,10 @@ class ClientExportPdf extends ExportPlugin {
             in_array($request[$reqname], $choices))
             return $request[$reqname];
 
-        return $this->general->{'default' . ucfirst($name)};
+        if (isset($this->general->{'default' . ucfirst($name)}))
+            return $this->general->{'default' . ucfirst($name)};
+
+        return false;
     }
 
     /**
@@ -198,6 +201,7 @@ class ClientExportPdf extends ExportPlugin {
      * @param string object id
      */
     private function createBlock($request, $iniObjects, $id) {
+        // removes blocks with no user input if required:
         $pdfItem = 'pdf' . ucfirst($id);
         if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
             in_array($id, $this->optionalInputs))
@@ -260,10 +264,43 @@ class ClientExportPdf extends ExportPlugin {
         }
 
         elseif ($this->blocks[$id]->type == 'legend') {
-            // TODO: get legend content
-            // TODO: set block width according to legend content 
-            // TODO: create a new block whose parent is this one
-            // ...
+            do {
+                $lastMapRequest = $this->getLastMapRequest();
+                $layersCorePlugin = $this->cartoclient->getPluginManager()->
+                                    getPlugin('layers');
+                
+                if (is_null($lastMapRequest) || is_null($layersCorePlugin)) {
+                    unset($this->blocks[$id], $lastMapRequest,
+                          $layersCorePlugin);
+                    break;
+                }
+                
+                $selectedLayers = $lastMapRequest->layersRequest->layerIds;
+                if ($this->blocks[$id]->content) {
+                    $content =
+                        $this->getArrayFromList($this->blocks[$id]->content,
+                                                true);
+                    // layers whose ids begin with "!" are not displayed
+                    // in legend: 
+                    foreach ($content as $layerId) {
+                        if ($layerId{0} == '!') {
+                            $layerId = substr($layerId, 1);
+                            $key = array_search($layerId, $selectedLayers);
+                            if (is_numeric($key))
+                                unset($selectedLayers[$key]);
+                        }
+                    }
+                    $this->blocks[$id]->content = '';
+                }
+                
+                $this->blocks[$id]->content =
+                    $layersCorePlugin->getPrintedLayers($selectedLayers,
+                                                        $this->getLastScale());
+                
+                if ($request['pdfLegend'] == 'out')
+                    $this->blocks[$id]->inNewPage = true;
+            }
+            while (false);
         }
     }
 
@@ -345,9 +382,6 @@ class ClientExportPdf extends ExportPlugin {
         $this->blockTemplate = new PdfBlock;
         $this->overrideProperties($this->blockTemplate, $iniObjects->template);
 
-        // legend content retrieving
-        // TODO
-
         foreach ($this->general->activatedBlocks as $id) {
             $this->createBlock($request, $iniObjects, $id);
         }
@@ -357,7 +391,6 @@ class ClientExportPdf extends ExportPlugin {
         // sorting blocks (order of processing)
         $this->sortBlocksBy('weight');
         $this->sortBlocksBy('zIndex');
-        // TODO: handle inNewPage + inLastPages parameters
 
         $this->log->debug('REQUEST:');
         $this->log->debug($request);
@@ -713,13 +746,22 @@ class ClientExportPdf extends ExportPlugin {
                 case 'text':
                     $pdf->addTextBlock($block);
                     break;
+                case 'legend':
+                    $pdf->addLegend($this->blocks['legend']);
+                    break;
                 default:
                     // ignores block
                 // TODO: handle type = pdf
             }
             
         }
- 
+
+        if (isset($this->blocks['legend']) && 
+            $this->blocks['legend']->inNewPage) {
+            $pdf->addPage();
+            $pdf->addLegend($this->blocks['legend']);
+        }
+
         // query results displaying
         if (isset($this->blocks['queryResult'])) {
             $queryResult = $this->getQueryResult($mapResult);        
@@ -741,6 +783,8 @@ class ClientExportPdf extends ExportPlugin {
             $pdf->addPage();
             $pdf->addTable($this->blocks['table']);
         }*/
+        
+        // TODO: handle inLastPages blocks
  
         $contents = $pdf->finalizeDocument();
  
