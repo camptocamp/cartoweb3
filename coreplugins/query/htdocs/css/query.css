@@ -1,0 +1,3 @@
+.queryres {margin-bottom:10px;min-width:300px;border-collapse: collapse;}
+.queryres caption {background-color:#ccc;padding:3px;color:white;font-weight:bold;}
+.queryres td, .queryres th {padding:5px;border:1px solid #ccc;text-align:center;}
