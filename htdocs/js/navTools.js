@@ -250,8 +250,14 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     xMoveTo(this.image,dx + xPageX(this.anchor),dy + xPageY(this.anchor))
     xClip(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0)
 	
-	this.Xpoints[0] = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1)
-    this.Ypoints[0] = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1)
+    if (dx == 0 && dy == 0) {
+        // special case of click recentering
+        this.Xpoints[0] = dhtmlBox.x2;
+        this.Ypoints[0] = dhtmlBox.y2;
+    } else {
+        this.Xpoints[0] = dhtmlBox.width/2 - (dhtmlBox.x2 - dhtmlBox.x1);
+        this.Ypoints[0] = dhtmlBox.height/2 - (dhtmlBox.y2 - dhtmlBox.y1);
+    }
     //xResizeTo(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0);
   }
   else if (this.shapeType == 'point' ||
