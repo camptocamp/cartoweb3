@@ -86,7 +86,10 @@
     window.onload = function() {
       dboxInit();
       setupFolders();
-      xHide(xGetElementById('mapAnchorDiv')); 
+      xHide(xGetElementById('mapAnchorDiv'));
+      window.onresize = function() {
+        dhtmlBox.initialize();
+      }
     }
     /*]]>*/
   </script>
