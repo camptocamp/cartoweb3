@@ -136,16 +136,16 @@ class Cartoclient {
     }
 
     function getMapInfo() {
-        if ($this->mapInfo)
+        if ($this->mapInfo) {
             return $this->mapInfo;
+        }
 
         // TODO: have a mechanism to store mapinfo on hard storage
         $mapInfo = $this->cartoserverService->getMapInfo(
             $this->config->mapId);
 
         if (!$this->config->cartoserverDirectAccess) 
-            $mapInfo = StructHandler::unserialize($mapInfo, 'MapInfo', 
-                                        StructHandler::CONTEXT_OBJ);
+            $mapInfo = Serializable::unserializeObject($mapInfo, 'MapInfo');
         
         $this->mapInfo = $mapInfo; 
         return $mapInfo;

@@ -44,6 +44,14 @@
         </complexContent>
       </complexType>
 
+	  <complexType name="ArrayOfString">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
     <!-- Mapinfo structure -->
 
       <complexType name="MapInfo">
@@ -65,8 +73,10 @@
 
       <complexType name="Layer">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
+          <element name="children" type="types:ArrayOfLayerId"/>
           <element name="minScale" type="xsd:integer"/>
           <element name="maxScale" type="xsd:integer"/>
           <element name="icon" type="xsd:string"/>
@@ -269,7 +279,7 @@
 		</all>
       </complexType>
 
-	  <complexType name="ArrayOfLayerResult">
+      <complexType name="ArrayOfLayerResult">
         <complexContent>
           <restriction base="enc11:Array">
             <attribute ref="enc11:arrayType" wsdl:arrayType="types:LayerResult[]"/>
@@ -284,14 +294,6 @@
           <element name="fields" type="types:ArrayOfString"/>
           <element name="resultElements" type="types:ArrayOfResultElement"/>
 		</all>
-      </complexType>
-
-	  <complexType name="ArrayOfString">
-        <complexContent>
-          <restriction base="enc11:Array">
-            <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
-          </restriction>
-        </complexContent>
       </complexType>
 
 	  <complexType name="ArrayOfResultElement">

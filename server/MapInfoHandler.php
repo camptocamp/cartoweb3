@@ -38,19 +38,20 @@ class MapInfoHandler {
 
         $configStruct = StructHandler::loadFromIni($this->configMapPath .
                                             $mapId . '.ini');
-        $this->mapInfo = StructHandler::unserialize($configStruct->mapInfo, 'MapInfo');
+        $this->mapInfo = new MapInfo();
+        $this->mapInfo->unserialize($configStruct->mapInfo);
         $this->mapInfo = $this->fixupMapInfo($this->mapInfo);
         return $this->mapInfo;
     }
 
     function getMapInfo() {
-        return $this->mapInfo;
+         return $this->mapInfo;
     }
 
     function fillDynamic($serverContext) {
 
         $initialMapInfo = $this->mapInfo;
-        $layers = $initialMapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        $layers = $initialMapInfo->getLayers();
         $msMapObj = $serverContext->msMapObj;
 
         foreach ($layers as $layer) {

@@ -1,136 +1,130 @@
 <?php
 
+require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+
 class CartocommonException extends Exception {
 
 }
 
-class LayerBase {
-    const TYPE_LAYERGROUP = 'layerGroup';
-    const TYPE_LAYER = 'layer';
-    const TYPE_LAYERCLASS = 'layerClass';
+class LayerBase extends Serializable {
     
-    // Should not be there, but we've no polymorphism
-    
+    public $id;
+    public $label;
     public $minScale = 0;
     public $maxScale = 0;
     public $icon = "none";
     
-    function getVarInfo() {
-        return array(
-            'children' => 'array',
-            /* 'msLayers' => 'array', */
-            'test' => 'array,int',
-            'maptest' => 'obj,stdclass',
-        );
-    }
+    function unserialize($struct) {
+        $this->id    = $struct->id; 
+        $this->label = $struct->label;
 
-    function endSerialize() {
-
-        if (empty($this->type)) {
-            
-            // TEMP HACK
-            $this->type = LayerBase::TYPE_LAYER;
-
-            // FIXME: fix code and uncomment this
-            // throw new CartocommonException(sprintf("Config error: layer %s has no type property", $this->id));
-        }
-        switch ($this->type) {
-        case LayerBase::TYPE_LAYERGROUP:
-            return copy_all_vars($this, new LayerGroup());
-        case LayerBase::TYPE_LAYER:
-            return copy_all_vars($this, new Layer());
-        case LayerBase::TYPE_LAYERCLASS:
-            /* should not happend */
-            return copy_all_vars($this, new LayerClass());
-        default:
-            throw new CartocommonException('unknown layer type: ' .
-                                           $layerStruct->type);
-        }
+        // Not implemented
+        //$this->minScale = $struct->minscale;
+        //$this->maxScale = $struct->maxscale;
+        //$this->icon     = $struct->icon;
     }
 }
 
 class LayerContainer extends LayerBase {
     public $children = array();
+    
+    function unserialize($struct) {
+        parent::unserialize($struct);
+        
+        // Arrays are stored as strings in .ini files
+        if (is_string($struct->children)) {
+            $this->children = self::unserializeArray($struct->children);
+        } else {
+            if (empty($struct->children)) {
+                $this->children = array();
+            } else {
+                $this->children = $struct->children;
+            }
+        }
+    }    
 }
 
 class LayerGroup extends LayerContainer {
 
 }
+
 class Layer extends LayerContainer {
 
-    function loadFromStruct($layerStruct) {
-        $this->layerStruct = $layerStruct;
+    public $msLayer;
+
+    function unserialize($struct) {
+        parent::unserialize($struct);
+        $this->msLayer = $struct->msLayer; 
     }
 }
 
 class LayerClass extends LayerBase {
     public $name;
-}
-
-class Location {
-    function getVarInfo($context) {
-        
-        if ($context == StructHandler::CONTEXT_INI)
-            return array('bbox' => 'bbox');
-        else 
-            return array('bbox' => 'obj,Bbox');
+    
+    function unserialize($struct) {
+        parent::unserialize($struct);
+        $this->name = $struct->name;
     }
 }
 
-class InitialLocation {
+class Location extends Serializable {
     public $bbox;
     
-    function getVarInfo($context) {
-        if ($context == StructHandler::CONTEXT_INI)
-            return array('bbox' => 'bbox');
-        else 
-            return array('bbox' => 'obj,Bbox');
+    function unserialize($struct) {
+        $this->bbox = self::unserializeObject($struct->bbox, 'Bbox');
     }
 }
 
-class LayerState {
+class InitialLocation extends Location {
+
+}
+
+class LayerState extends Serializable {
     public $id;
     public $hidden;
     public $selected;
     public $folded;
 
-    function getVarInfo() {
-        return array(
-        'hidden' => 'boolean',
-        'selected' => 'boolean',
-        'folded' => 'boolean',
-        );
+    function unserialize($struct) {
+        $this->id       = $struct->id;
+        $this->hidden   = (boolean)$struct->hidden;
+        $this->selected = (boolean)$struct->selected;
+        $this->folded   = (boolean)$struct->folded;        
     }
 }
 
-class InitialMapState {
+class InitialMapState extends Serializable {
 
     public $id;
     public $location;
     public $layers;
 
-    function getVarInfo() {
-        return array(
-        'location' => 'obj,InitialLocation',
-        'layers' => 'map,obj,LayerState',
-        );
+    function unserialize($struct) {
+        $this->id       = $struct->id;
+        $this->location = self::unserializeObject($struct->location, 'InitialLocation');
+        $this->layers   = self::unserializeObjectMap($struct->layers, 'LayerState'); 
     }
 }
 
-class MapInfo {
-    
+class MapInfo extends Serializable {
+    public $mapId;
+    public $mapLabel;
     public $layers;
     public $initialMapStates;
+    public $extent;
+    public $location;
 
-    function getVarInfo() {
-        return array(
-        'layers' => 'map,obj,LayerBase',
-        'initialMapStates' => 'map,obj,InitialMapState',
-        'extent' => 'bbox',
-        'location' => 'obj,Location',
-        );
+    function unserialize($struct) {
+        $this->mapId            = $struct->mapId;
+        $this->mapLabel         = $struct->mapLabel;
+  
+        // Layers class names are specicified in className attribute
+        $this->layers           = self::unserializeObjectMap($struct->layers);
+        $this->initialMapStates = self::unserializeObjectMap($struct->initialMapStates, 'InitialMapState');
+        $this->extent           = self::unserializeObject($struct->extent, 'Bbox');
+        $this->location         = self::unserializeObject($struct->location, 'Location');
     }
-
+    
     function getLayerList() {
         return $this->layerList;
     }
@@ -153,17 +147,9 @@ class MapInfo {
         return NULL;
     }
 
-    function getLayersByType($type) {
+    function getLayers() {
 
-        $layers = array();
-        if (!class_exists($type))
-            return $layers;
-
-        foreach ($this->layers as $layer) {
-            if ($layer instanceof $type)
-                $layers[] = $layer;
-        }
-        return $layers;
+        return $this->layers;
     }
 
     function addChildLayerBase($parentLayer, $childLayer) {

@@ -110,14 +110,5 @@ class ConfigParser {
         $value = explode(',', $value);
         return array_map('trim', $value);
     }
-
-    static function parseBbox($value) {
-        $bbox = new Bbox();
-        list($minx, $miny, $maxx, $maxy) = explode(',', $value);
-
-        $bbox->setFromBbox((double)$minx, (double)$miny, 
-                           (double)$maxx, (double)$maxy);
-        return $bbox;
-    }
 }
 ?>

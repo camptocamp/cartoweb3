@@ -39,7 +39,7 @@ class ClientLayers extends ClientCorePlugin {
         
         // disables all layers
         $mapInfo = $this->cartoclient->getMapInfo();
-        $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        $layers = $mapInfo->getLayers();
         foreach ($layers as $layer) {
             $this->layersState[$layer->id]->selected = false;
         }
@@ -52,7 +52,7 @@ class ClientLayers extends ClientCorePlugin {
     private function getSelectedLayers() {
         $selectedLayers = array();
         $mapInfo = $this->cartoclient->getMapInfo();
-        $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        $layers = $mapInfo->getLayers();
         foreach ($layers as $layer) {
             if (@$this->layersState[$layer->id]->selected)
                 $selectedLayers[] = $layer->id;
@@ -73,11 +73,10 @@ class ClientLayers extends ClientCorePlugin {
                         $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
-        $layers = $mapInfo->getLayersByType(LayerBase::TYPE_LAYER);
+        $layers = $mapInfo->getLayers();
         foreach ($layers as $layer) {
             $checkboxLayerMap[$layer->id] = $layer->label;
         }
-
         $smarty->assign('layers', $checkboxLayerMap);
         $smarty->assign('selected_layers', $this->getSelectedLayers());
 

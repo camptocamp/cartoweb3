@@ -1,5 +1,7 @@
 <?
 
+require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+
 class LocationRequest {
     public $locationType;
 
@@ -14,14 +16,13 @@ class LocationRequest {
     public $zoomRectangleLocationRequest;
 }
 
-class LocationResult {
+class LocationResult extends Serializable {
     public $bbox;
     public $scale;
 
-    function getVarInfo() {
-        return array(
-            'bbox' => 'obj,Bbox',
-            );
+    public function unserialize($struct) {
+        $this->bbox = self::unserializeObject($struct->bbox, 'Bbox');
+        $this->scale = (double)$struct->scale;
     }
 }
 
