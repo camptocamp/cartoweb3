@@ -20,10 +20,6 @@ class ServerHilight extends ServerPlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function getType() {
-        return ServerPlugin::TYPE_PRE_DRAWING;
-    }
-
     /**
      * Build a mapserver expression string.
      * 
@@ -185,7 +181,7 @@ class ServerHilight extends ServerPlugin {
         
         if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
             $this->log->debug("activating special hilight class");
-            $this->setClassExpression($msLayer, $hilightIndex, $requ);
+            $this->setClassExpression($msLayer, 0, $requ);
             return;            
         }
 
@@ -220,7 +216,7 @@ class ServerHilight extends ServerPlugin {
         $this->setClassExpression($msLayer, 0, $requ);
     }
     
-    function getResultFromRequest($requ) {
+    function handlePreDrawing($requ) {
         
         // FIXME: HilightRequest should support multiple layers hilight
         // This is a temporary solution

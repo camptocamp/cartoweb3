@@ -16,11 +16,6 @@ class ServerQuery extends ServerCorePlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function getType() {
-        // has to be called before drawMainMap(), so that drawQuery() may draw the query
-        return ServerPlugin::TYPE_PRE_DRAWING;
-    }
-
     private function getQueryLayerNames($requ) {
         if (!is_null($requ->layerIds) && count($requ->layerIds) > 0) {
             return $requ->layerIds;
@@ -193,9 +188,10 @@ class ServerQuery extends ServerCorePlugin {
         return $this->drawQuery;
     }
 
-    function getResultFromRequest($requ) {
+    // dependency: has to be called before drawMainMap(), so that drawQuery() may draw the query
+    function handlePreDrawing($requ) {
         
-        $this->log->debug("Get result from request: ");
+        $this->log->debug("handle core plugin: ");
         $this->log->debug($requ);
 
         $queryArgs = new stdclass();
@@ -216,6 +212,9 @@ class ServerQuery extends ServerCorePlugin {
         
         return $queryResult;
     }    
+
+    function handleCorePlugin($requ) { /* nothing to do */ }
+
 }
 
 ?>

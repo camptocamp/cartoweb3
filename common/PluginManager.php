@@ -94,7 +94,7 @@ class PluginManager {
         }
     }
 
-    function callPlugins($functionName, $args) {
+    function callPlugins($functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
             call_user_func_array(array($plugin, $functionName), $args);

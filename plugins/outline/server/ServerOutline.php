@@ -15,10 +15,6 @@ class ServerOutline extends ServerPlugin {
         parent::__construct();
     }
 
-    function getType() {
-        return ServerPlugin::TYPE_DRAWING;
-    }
-
     private function getLayer($msMapObj, $layerName) {
         
         $outlineLayer = @$msMapObj->getLayerByName($layerName);
@@ -130,7 +126,7 @@ class ServerOutline extends ServerPlugin {
 
     }
 
-    function getResultFromRequest($requ) {
+    function handleDrawing($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
         if ($requ->maskMode) {

@@ -151,29 +151,29 @@ class Cartoserver {
         // test new image generation
         //$mapResult->new_gen = $this->generateImage($serverContext);
 
-        $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_INIT);
+        $pluginManager->callPlugins('internalHandleInit');
 
         // images size
         // PRE_DRAW: 1) images
         $pluginManager->images->setupSizes($mapRequest->imagesRequest);
 
         // location
-        $pluginManager->location->getResult();
+        $pluginManager->location->internalHandleCorePlugin();
 
         // layer selection
-        $pluginManager->layers->getResult();
+        $pluginManager->layers->internalHandleCorePlugin();
 
-        $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_PRE_DRAWING);
+        $pluginManager->callPlugins('internalHandlePreDrawing');
 
         // prepare output image
         $pluginManager->images->drawMainmap($mapRequest->imagesRequest);
         
-        $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_DRAWING);
+        $pluginManager->callPlugins('internalHandleDrawing');
 
         // images result
-        $pluginManager->images->getResult();
+        $pluginManager->images->internalHandleCorePlugin();
 
-        $pluginManager->callPlugins('getResult', ServerPlugin::TYPE_POST_DRAWING);
+        $pluginManager->callPlugins('internalHandlePostDrawing');
 
         $log->debug("result is:");
         $log->debug($mapResult);

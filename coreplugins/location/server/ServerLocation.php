@@ -584,9 +584,9 @@ class ServerLocation extends ServerCorePlugin {
         return $locationResult;
     }
 
-    function getResultFromRequest($requ) {
+    function handleCorePlugin($requ) {
 
-        $this->log->debug('Get result from request: ');
+        $this->log->debug('handleCorePlugin: ');
         $this->log->debug($requ);
 
         $this->initScales();

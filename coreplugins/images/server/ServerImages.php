@@ -98,7 +98,7 @@ class ServerImages extends ServerCoreplugin {
         $this->log->info($this->serverContext->msMainmapImage);
     }
 
-    function getResultFromRequest($requ) {
+    function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
 

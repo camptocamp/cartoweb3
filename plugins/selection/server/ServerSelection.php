@@ -19,11 +19,6 @@ class ServerSelection extends ServerPlugin {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
-
-    function getType() {
-        // has to be called before hilight plugin
-        return ServerPlugin::TYPE_INIT;
-    }
   
     private function queryLayer($layerId, $shape) {
         
@@ -70,7 +65,8 @@ class ServerSelection extends ServerPlugin {
         }
     }
   
-    function getResultFromRequest($requ) {
+    // dependency: has to be called before hilight plugin
+    function handleInit($requ) {
 
         // TODO: mechanism to fetch request from other plugins
 

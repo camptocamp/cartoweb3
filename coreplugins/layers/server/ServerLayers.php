@@ -28,7 +28,7 @@ class ServerLayers extends ServerCoreplugin {
         return $this->requestedLayerNames;
     }
 
-    function getResultFromRequest($requ) {
+    function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
 

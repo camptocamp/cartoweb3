@@ -12,14 +12,6 @@ abstract class ServerPlugin extends PluginBase {
     private $log;
 
     private $config;
-    
-    const TYPE_CORE = 1;
-
-    const TYPE_INIT = 2;
-    const TYPE_PRE_DRAWING = 3;
-    const TYPE_DRAWING = 4;
-    const TYPE_POST_DRAWING = 5;
-
 
     protected $serverContext;
 
@@ -41,29 +33,15 @@ abstract class ServerPlugin extends PluginBase {
                                                $this->serverContext->projectHandler);
     }
 
-    abstract function getType();
-
-    abstract function getResultFromRequest($requ);
-
-    function getInitValues() {
-        return NULL;
-    }
-
     final function getConfig() {
         return $this->config;
     }
 
-    /**
-     * if type==null, is always done
-     */
-    final function getResult($type=NULL) {
+    private function callHandleFunction($functionName) {
         
-        $this->log->debug(sprintf("Calling getResult for plugin %s, type %s", 
-                                  get_class($this), var_export($type, true)));
-
-        if ($type != NULL && $type != $this->getType())
-            return;
-
+        $this->log->debug(sprintf("Calling callHandleFunction for plugin %s", 
+                                  $this->getName()));
+        
         if (!$this->log) {
             throw new CartoserverException('parent plugin not initialized');
         }
@@ -80,16 +58,64 @@ abstract class ServerPlugin extends PluginBase {
             return;
         }
 
-        $result = $this->getResultFromRequest($request);
+        $this->log->warn("calling function $functionName");
+        $result = $this->$functionName($request);
 
         $this->log->debug("plugin result: $resultName = " . $result);
         $request = $this->serverContext->mapRequest->$requestName;
 
         if ($resultName) {
-            if (!$result)
-                $this->log->warn(sprintf("plugin %s getResult returned false", get_class($this)));
-            $this->serverContext->mapResult->$resultName = $result;
+            if (!$result) {
+                $this->log->warn(sprintf("plugin %s getResult returned false, " .
+                        "not storing the information", $this->getName()));
+            } else {
+                if (isset($this->serverContext->mapResult->$resultName))
+                    throw new CartoserverException('result for plugin %s " .
+                            "already stored, data collision', $this->getName()); 
+                $this->serverContext->mapResult->$resultName = $result;
+            }
         }
+    }
+
+    /**
+     * Handles the request at the plugin initialisation phase.
+     * Should be overriden by server plugins to handle the request at this stage.
+     */
+    function handleInit($requ){}
+    /**
+     * Handles the request just before plugins should draw in the map
+     * Should be overriden by server plugins to handle the request at this stage.
+     */
+    function handlePreDrawing($requ){}
+    /**
+     * Handles the request when the plugin shoud draw on the map
+     * Should be overriden by server plugins to handle the request at this stage.
+     */
+    function handleDrawing($requ){}
+    /**
+     * Handles the request after the plugins have drawn the image
+     * Should be overriden by server plugins to handle the request at this stage.
+     */
+    function handlePostDrawing($requ){}
+
+    final function internalHandleInit() {
+        $this->callHandleFunction('handleInit');
+    }
+    final function internalHandlePreDrawing() {
+        $this->callHandleFunction('handlePreDrawing');
+    }
+    final function internalHandleDrawing() {
+        $this->callHandleFunction('handleDrawing');
+    }
+    final function internalHandlePostDrawing() {
+        $this->callHandleFunction('handlePostDrawing');
+    }
+    final function internalHandleCorePlugin() {
+        $this->callHandleFunction('handleCorePlugin');
+    }
+    
+    function getInitValues() {
+        return NULL;
     }
     
     final function getInit() {
@@ -113,10 +139,8 @@ abstract class ServerCorePlugin extends ServerPlugin {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
-
-    function getType() {
-        return ServerPlugin::TYPE_CORE;
-    }
+    
+    abstract function handleCorePlugin($requ);
 }
 
 ?>
