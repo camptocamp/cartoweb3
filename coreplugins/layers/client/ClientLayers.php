@@ -49,6 +49,103 @@ class LayersState {
 }
 
 /**
+ * Model object for layer nodes. Each node contain a reference to a BaseLayer,
+ * as defined in the MapInfo structure.
+ * This object has knowledge of its children and is capable of recursively
+ * traversing the tree.
+ */
+class LayerNode {
+ 
+    public $layer;
+    public $children;
+    
+    /**
+     * Assign a layer to this node, and recursively set this node's children.
+     * The argument passed to this method is a flat associative array of
+     * (layerId => Layer) elements.
+     * This method is used to initialize the node tree from a flat list, as
+     * given by the MapInfo object.
+     * 
+     * @param array flat map of layerId's to layer objects. This object will be
+     * given to this node children recursively, to let them build the sub nodes
+     * of the tree
+     */
+    public function setChildren($layersMap) {
+    
+        $this->children = array();
+        if (!isset($this->layer->children))
+            return;
+        foreach($this->layer->children as $child) {
+            $childNode = new LayerNode();
+            $childNode->layer = $layersMap[$child];
+            $childNode->setChildren($layersMap);
+            $this->children[$childNode->layer->id] = $childNode;
+        }
+    }
+    
+    /**
+     * Clones a tree of nodes. The layers referenced by the nodes are shallow
+     * copied.
+     */
+    public function __clone() {
+        // Warning: $layer property is not cloned !
+        $layerNode = new LayerNode();
+        $layerNode->layer = $this->layer;
+        $layerNode->children = array();
+        foreach($this->children as $childId => $child) {
+            $layerNode->children[$childId] = clone $child;
+        }
+        return $layerNode;
+    }
+    
+    /**
+     * Removes a child from this node.
+     * 
+     * @param string the id of the child to remove.
+     */
+    public function dropChild($id) {
+        unset($this->children[$id]);
+    }
+
+    /**
+     * Recursive method to remove unwanted nodes from this tree. 
+     * The callback function will be called with a node as argument. If it
+     * returns true, the node will be removed from the tree.
+     * 
+     * @param callback the callback function to call to filter the unwated
+     * nodes. It may be a function string, or layer of object, method.
+     */
+    public function filterNodes($filterCallback) {
+        if (call_user_func($filterCallback, $this)) {
+            $this->children = array();
+            return true;
+        }
+        foreach ($this->children as $childId => $child) {
+            if ($child->filterNodes($filterCallback))
+                unset($this->children[$childId]);
+        }
+        return false;
+    }
+    
+    /**
+     * Flattens this tree of nodes to a map of (layerId => Layer object)
+     * 
+     * @return the flattened map of layer objects, indexed by their id.
+     */
+    public function getLayersMap($layersMap) {
+        // The $layer->children property will be changed desctructively to 
+        //  match the children of this node.   
+           
+        foreach ($this->children as $child) {
+            $layersMap = $child->getLayersMap($layersMap);
+        }
+        $this->layer->children = array_keys($this->children);
+        $layersMap[$this->layer->id] = $this->layer;
+        return $layersMap;
+    }  
+}
+
+/**
  * Handles layers selection interface
  * @package CorePlugins
  */
@@ -247,15 +344,65 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * Callback used to remove nodes which are not visible by the current user.
+     * If it returns true, the node will be ignored in the tree.
+     */
+    public function nodesFilterSecurity(LayerNode $node) {
+        
+        // TODO: add constants for security_view
+        
+        $roles = ConfigParser::parseArray($node->layer->
+                                                getMetadata('security_view'));
+        if (empty($roles))
+            return false;
+        return !SecurityManager::getInstance()->hasRole($roles);
+    }
+
+    /**
+     * Construct a new tree of layerNodes by getting the layers from the
+     * mapInfo.
+     */
+    private function getLayerNode() {
+        
+        $layers = $this->getCartoclient()->getMapInfo()->layers;
+        
+        $layersMap = array();
+        foreach ($layers as $layer) {
+            $layersMap[$layer->id] = $layer;
+        }
+        $layerNode = new LayerNode();
+        $layerNode->layer = $layersMap['root'];
+        $layerNode->setChildren($layersMap);
+
+        return $layerNode;
+    } 
+
+    /**
+     * Filters the layers which are not allowed to be viewed by the current
+     * user. It returns a flat map of (layerId => Layer object).
+     */
+    private function getLayersSecurityFiltered() {
+    
+        if (!$this->getConfig()->applySecurity)
+            return $this->getCartoclient()->getMapInfo()->layers;
+
+        // TODO: Analyse the performances of the layerNode tree creation and 
+        //  filtering
+        
+        $layerNode = $this->getLayerNode();
+        $layerNode->filterNodes(array($this, 'nodesFilterSecurity'));
+        return $layerNode->getLayersMap(array());
+    }
+
+    /**
      * Returns the list of Layer|LayerGroup|LayerClass objects available 
      * in MapInfo.
      * @return array
      */
     private function getLayers() {
         if(!is_array($this->layers)) {
-            $mapInfo = $this->getCartoclient()->getMapInfo();
             $this->layers = array();
-            foreach ($mapInfo->getLayers() as $layer)
+            foreach ($this->getLayersSecurityFiltered() as $layer)
                 $this->layers[$layer->id] = $layer;
         }
         return $this->layers;
