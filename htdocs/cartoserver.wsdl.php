@@ -10,14 +10,12 @@ header("Content-Type: text/xml");
  * Root directory for server scripts
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
 /**
  * Project handler
  */
 require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 
-require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
 require_once(CARTOSERVER_HOME . 'common/misc_functions.php');
 
 function getServerConfig() {
@@ -82,7 +80,11 @@ if (isset($mapId)) {
         $plugins = ConfigParser::parseArray($iniArray['mapInfo.loadPlugins']);
 
         foreach ($plugins as $plugin) {
-            if (!$plugin instanceof ClientResponder)
+
+            $pluginFile = 'plugins/' . $plugin . '/common/' . $plugin . '.wsdl.inc';
+            $pluginFile = CARTOSERVER_HOME . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);
+            
+            if (!file_exists($pluginFile))
                 continue;
                 
             $pluginsRequest .= 
@@ -100,12 +102,7 @@ if (isset($mapId)) {
                 ucfirst($plugin) . 'Init" minOccurs="0"/>
                 ';
 
-            $pluginFile = 'plugins/' . $plugin . '/common/' . $plugin . '.wsdl.inc';
-            $pluginFile = CARTOSERVER_HOME . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);
-            
-            if (file_exists($pluginFile)) {
-                $pluginsSpecificWsdl .= file_get_contents($pluginFile);
-            }
+            $pluginsSpecificWsdl .= file_get_contents($pluginFile);
         }
     }
 }
