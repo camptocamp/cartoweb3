@@ -132,7 +132,7 @@
    </itemizedlist>
   </para>
   <para>
-   The menu "Mapsize" is self-describing.
+   The menu "Mapsize" is self-explanatory.
   </para>
  </sect1> 
  
@@ -217,6 +217,10 @@
    on the map, ant to attach labels to them. These features are persistent:
    they survive panning or zooming.
   </para>
+  <para>
+   A mask mode, in which everything but the outlined polygon is masked, is
+   provided too.
+  </para>
     <screenshot>
       <mediaobject>
         <imageobject>
@@ -288,7 +292,7 @@
  </sect1>
  
  <sect1 id="intro.feature.print">
-  <title>PDF output and other export formats</title>
+  <title>PDF Output and Other Export Formats</title>
   <para>
    &cartoweb; is able to output a fully configurable PDF document. Some
    options can be chosen by the end user in the following dialog, 
