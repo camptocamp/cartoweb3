@@ -8,75 +8,103 @@
 <chapter id="user.caches">
   <title>Caches Configuration</title>
   <para>Several different caching mechanisms are available in
-    &cartoweb; for maximum capabilities. The different types of caches
+    &cartoweb; for maximum performances. The different types of caches
     are described in the next chapters.</para>
   
-<!--
-    <para>These parameters are useful during development. Also note that 
-      disabling the caches is also useful during development, to avoid bad 
-      surprises. See <xref linkend="user.config.cache"/>. These parameters are 
-      available in <filename>client_conf/client.ini</filename> for client and 
-      <filename>server_conf/server.ini</filename> for server.</para>
-    <important>
-      <para> Developers are highly recommanded to set the following variables 
-        to true in their config. </para>
-    </important>
-    <para>[FIXME: is this right place?] People may want advanced granularity 
-      during development. For instance, while editing a mapfile, the soap cache 
-      should be enabled for more performance, but the mapResult cache should be 
-      disabled. There are thus more than one parameter that sets 
-      development/debug options. </para>
-    <para>[FIXME: is this right place?] It is important to keep sane defaults 
-      for these options. The rationale is: the default behaviour for a 
-      production environment is to have each of these options unset or set to 
-      false . </para>
-    <para>[FIXME: is this right place?] This means for instance that the option 
-      to display information to developers on the page is named 
-      "showDevelMessages" and not "hideDevelMessages", because if this option 
-      is not set, we want the application to behave like in production 
-      environment, that is not to display messages intended for developers. 
-      This enhances the safety. </para>
-      -->
-      
   <sect1 id="user.caches.smarty">
-    <title>The Templating System Used in &cartoweb; Is Smarty<footnote>
-      <para><ulink url="http://smarty.php.net/"></ulink></para></footnote></title>
-    <para></para>
+    <title>Smarty Cache</title>
+    <para>The templating system used in &cartoweb; is Smarty<footnote>
+      <para><ulink url="http://smarty.php.net/"></ulink></para></footnote>,
+      which offers two level of caching for templates. One is compilation
+      of templates into the <filename>templates_c</filename> directory, 
+      and the other is static caching of templates. In &cartoweb;, because
+      pages are very dynamic, only the first level of caching is used.</para>
+      <para>
+        The caching feature of Smarty is totally transparent to the user. 
+        However, an option can be set in the 
+        <filename>client_conf/client.ini</filename> configuration file to 
+        enhance performances.
+        <itemizedlist>
+        <listitem>
+          <para> smartyCompileCheck = true|false: Set this to false in production
+            to improve performance. </para>
+        </listitem>
+        </itemizedlist>        
+        <warning>
+          <para>Setting this option to <literal>false</literal> means that
+            your template won't be updated any more. Pay attention to this
+            if you need to change them on the server.</para>
+        </warning>
+      </para>
   </sect1>
 
   <sect1 id="user.caches.wsdl">
     <title>WSDL Cache</title>
-    <para></para>
+    <para>
+      When using SOAP, and the <literal>useWsdl</literal> option is set to 
+      <literal>true</literal>
+      in the <filename>client_conf/client.ini</filename> or 
+      <filename>server_conf/server.ini</filename>, the WSDL generated document can
+      be cached for more performance. This is the purpose of this cache option.
+      So it should be activated in production environment, and turned off 
+      during development, if your changes have an impact on the WSDL.
+    </para>
   </sect1>
       
   <sect1 id="user.caches.mapinfo">
     <title>MapInfo Cache</title>
-    <para></para>
+    <para>
+     MapInfo is a structure generated on the server and used by the cartoclient
+     to access static server information. This cache keeps a copy of the MapInfo
+     structure on the client or the server, so that the client does not need
+     ask it everytime, and the server can avoid regenerating it from scratch.
+    </para>
   </sect1>
       
   <sect1 id="user.caches.mapresult">
     <title>MapResult Cache</title>
-    <para></para>
+    <para>
+      This is a server side only cache, which caches the requests made to the
+      server. This cache works at the Php level, meaning that it can be used
+      when &cartoweb; is used in direct or SOAP mode. For the distinction 
+      between these two modes, see <xref linkend="user.config.client"/>.
+      However, the XML SOAP cache is more appropriate when using SOAP mode, 
+      see details in the next chapter.
+    </para>
   </sect1>
 
   <sect1 id="user.caches.soapxml">
     <title>XML SOAP Cache</title>
-    <para></para>
+    <para>
+      This one is also a server side only cache, caching requests at the 
+      lowlevel XML SOAP exchange. This means this cache is only effective when
+      direct mode is not used, and can be used for any webservice for which
+      the output only depends on the input arguments.
+    </para>
   </sect1>
   
-  <sect1 id="user.config.cache">
+  <sect1 id="user.caches.config">
     <title>Caches Configuration</title>
 
-    <sect2 id="user.config.cache.common_">
+    <sect2 id="user.caches.config.rationale">
       <title>Rationale</title>
       <para>All cache configuration name are in the form 
         <literal>noXXXName</literal>, where <literal>XXX</literal> is the
         name of the cache. This is so, so that if the parameter is not available, 
         its default value will be false, meaning that all caches are active
-        by default, for maximum performance.</para>
+        by default, for maximum performance.
+        <tip>
+          <para>
+          During development, it is recommended that you turn the caches off
+          (set their parameter to <literal>true</literal>), so that your
+          modifications will not be hidden by cached values.
+          </para>
+        </tip>
+      </para>
+      
     </sect2>
 
-    <sect2 id="user.config.cache.common">
+    <sect2 id="user.caches.config.common">
       <title>Client and Server Cache Options</title>
       <para>These parameters are available in 
         <filename>client_conf/client.ini</filename> for client and 
@@ -92,7 +120,7 @@
         </listitem>
       </itemizedlist>
     </sect2>
-    <sect2 id="user.config.cache.server">
+    <sect2 id="user.caches.config.server">
       <title>Server Cache Options</title>
       <para>These parameters are available in 
         <filename>server_conf/server.ini</filename>. </para>
