@@ -129,8 +129,7 @@ function merge($project, $file1, $file2, $output) {
             return false;
         }
         
-        print "Combining $file1Name + $file2Name = $fileOutputName ";
-        // exec("msgmerge -v -o $fileOutput $fileDest $fileSource");
+        print "Merging $file1Name + $file2Name = $fileOutputName ";
         
         $file1Lines = file($file1);
         $file2Lines = file($file2);
