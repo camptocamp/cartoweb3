@@ -1,3 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id$ -->
 <!ENTITY cw "CartoWeb">
-<!ENTITY cw_version "1.0">
+<!ENTITY cw_version "3.0">
