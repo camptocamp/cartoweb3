@@ -347,6 +347,13 @@ class FilterRequestModifier {
 interface FilterProvider {
 
     /**
+     * Modifies POST requests
+     * @param ExportConfiguration configuration
+     * @param MapRequest map request (will be modified)
+     */
+    function filterPostRequest(FilterRequestModifier $request);
+
+    /**
      * Modifies GET requests
      * @param ExportConfiguration configuration
      * @param MapRequest map request (will be modified)

@@ -492,15 +492,19 @@ class Cartoclient {
         $this->callPluginsImplementing('InitUser', 'handleInit', $this->getMapInfo());
                         
         if (@$_REQUEST['posted']) {
+        
+            // Maps clicks cannot be modified by filters
             $this->cartoForm = 
                 $this->httpRequestHandler->handleHttpRequest($this->clientSession,
                                                     $this->cartoForm);
-            $this->callPluginsImplementing('GuiProvider', 'handleHttpPostRequest', $_REQUEST);
+
+            $request = new FilterRequestModifier($_REQUEST);
+            $this->callPluginsImplementing('FilterProvider', 'filterPostRequest', $request);
+            $this->callPluginsImplementing('GuiProvider', 'handleHttpPostRequest', $request->getRequest());
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
             $this->callPluginsImplementing('FilterProvider', 'filterGetRequest', $request);
-
             $this->callPluginsImplementing('GuiProvider', 'handleHttpGetRequest', $request->getRequest());
         }
         

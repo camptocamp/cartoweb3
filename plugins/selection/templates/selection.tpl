@@ -1,9 +1,9 @@
 <h3>{t}Selection information:{/t}</h3>
 
 <p>{t}Select a hilight layer{/t}&nbsp;
-<select name="selection_layerid" id="selection_layerid"
+<select name="selection_layer" id="selection_layer"
 onchange="javascript:FormItemSelected();">
-{html_options values=$selection_selectionlayers selected=$selection_layerid 
+{html_options values=$selection_selectionlayers selected=$selection_layer 
 output=$selection_selectionlayers}
 </select></p>
 

@@ -84,35 +84,73 @@ class ClientSelection extends ClientPlugin
         /* nothing to do */
     }
 
-    function handleHttpPostRequest($request) {
+    function handleSelection($request, $check = false) {
 
-        if (!empty($request['selection_layerid'])) {
-            if ($this->selectionState->layerId != $request['selection_layerid']) { 
-                $this->selectionState->layerId = $request['selection_layerid'];
+        $selectionLayer    = $this->getHttpValue($request, 'selection_layer');
+        $selectionSelect   = $this->getHttpValue($request, 'selection_select');    
+        $selectionUnSelect = $this->getHttpValue($request, 'selection_unselect');    
+        $selectionClear    = $this->getHttpValue($request, 'selection_clear');    
+        $selectionMaskMode = $this->getHttpValue($request, 'selection_maskmode');    
+        $selectionRetrAttr = $this->getHttpValue($request, 'selection_retrieve_attributes');    
+
+        if ($check) {
+    
+            $selectionLayers = array();
+            $selectionLayersLabel = array();
+            $this->getLayers($selectionLayers, $selectionLayersLabel);
+            if (!is_null($selectionLayer)
+                && !in_array($selectionLayer, $selectionLayers)) {
+                $this->cartoclient->addMessage('Selection layer not found');
+                return NULL;
+            }
+        }
+
+        if (!is_null($selectionLayer)) {
+        
+            if ($this->selectionState->layerId != $selectionLayer) { 
+                $this->selectionState->layerId = $selectionLayer;
                 $this->clearSession();
             }
         }
 
-        if (!empty($request['selection_unselect'])) {
-            $unselectId = urldecode($request['selection_unselect']);
+        if (!is_null($selectionSelect)) {
+            
+            $selectIds = urldecode($selectionSelect);
+            $selectIds = explode(',', $selectIds);
+            
+            if ($this->getConfig()->replaceSelection) {
+                $this->selectionState->selectedIds = $selectIds;
+            } else {
+                $this->selectionState->selectedIds = array_merge(
+                    $this->selectionState->selectedIds, $selectIds);
+            }
+        }
+        
+        if (!is_null($selectionUnSelect)) {
+            $unselectIds = urldecode($selectionUnSelect);
+            $unselectIds = explode(',', $unselectIds);
             $this->selectionState->selectedIds = array_diff(
-                    $this->selectionState->selectedIds, array($unselectId));
+                    $this->selectionState->selectedIds, $unselectIds);
         }
 
-        if (!empty($request['selection_clear'])) {
+        if (!is_null($selectionClear)) {
             $this->clearSession();
         }
+        $this->selectionState->maskMode = !is_null($selectionMaskMode);
+        $this->selectionState->retrieveAttributes = !is_null($selectionMaskMode);                    
+    }
 
-        $this->selectionState->maskMode = !empty($request['selection_maskmode']);
+    function handleHttpPostRequest($request) {
 
+        $this->handleSelection($request);
+        
         $this->selectedShape = $this->cartoclient->getHttpRequestHandler()
                     ->handleTools($this);
-
-        $this->selectionState->retrieveAttributes = 
-                            !empty($request['selection_retrieve_attributes']);                    
     }
 
     function handleHttpGetRequest($request) {
+
+        $this->handleSelection($request, true);
     }
 
     function buildMapRequest($mapRequest) {
@@ -153,9 +191,8 @@ class ClientSelection extends ClientPlugin
 
     function handleResult($selectionResult) {}
 
-    private function drawSelectionResult() {
-        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
-
+    private function getLayers(&$selectionLayers, &$selectionLayersLabel) {
+    
         $selectionLayersStr = $this->getConfig()->selectionLayers;
         if (!empty($selectionLayersStr)) {
             $selectionLayers = explode(',', $selectionLayersStr);
@@ -175,6 +212,14 @@ class ClientSelection extends ClientPlugin
                 $selectionLayersLabel[] = I18n::gt($layer->label); 
             }
         }
+    }
+
+    private function drawSelectionResult() {
+        $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+
+        $selectionLayers = array();
+        $selectionLayersLabel = array();
+        $this->getLayers($selectionLayers, $selectionLayersLabel);
         
         if (!$this->selectionState->retrieveAttributes) {
         }
@@ -183,7 +228,7 @@ class ClientSelection extends ClientPlugin
         $smarty->assign('selection_selectionlayers', $selectionLayers); 
         $smarty->assign('selection_selectionlayers_label', $selectionLayersLabel); 
 
-        $smarty->assign('selection_layerid', $this->selectionState->layerId); 
+        $smarty->assign('selection_layer', $this->selectionState->layerId); 
         $smarty->assign('selection_idattribute', $this->selectionState->idAttribute); 
         $smarty->assign('selection_idtype', $this->selectionState->idType); 
         
