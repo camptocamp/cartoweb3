@@ -217,6 +217,16 @@ class ServerImages extends ServerPlugin
         }
 
         if ($requ->scalebar->isDrawn) {
+            $layersPlugin = $this->serverContext->getPluginManager()->
+                            getPlugin('layers');
+            $resRatio = $layersPlugin->getResRatio();
+            if ($resRatio && $resRatio != 1) {
+                $msMapObj->scalebar->set('width', $msMapObj->scalebar->width
+                                                  * $resRatio);
+                $msMapObj->scalebar->set('height', $msMapObj->scalebar->height
+                                                   * $resRatio);
+            }
+            
             $ms_scalebar = $msMapObj->drawScalebar();
             $imagesResult->scalebar = $this->getImage($ms_scalebar);
         } else {
