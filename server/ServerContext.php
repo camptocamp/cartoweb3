@@ -112,10 +112,9 @@ class ServerContext {
         
             $mapPath = $this->getMapPath();
             $this->msMapObj = ms_newMapObj($mapPath);
+            $this->checkMsErrors();
 
             $this->maxExtent = clone($this->getMapObj()->extent);
-
-            $this->checkMsErrors();
 
             if (!$this->msMapObj) { // could this happen ??
                 throw new CartoserverException("cannot open mapfile $mapId for map $mapId");
