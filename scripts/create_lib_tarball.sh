@@ -9,6 +9,7 @@ PEAR_PACKAGES="PHPUnit2 Benchmark PhpDocumentor PEAR Archive_Tar XML_RPC Console
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
 SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.6.tar.gz"
+FPDF="http://www.fpdf.org/fr/dl.php?v=152&f=tgz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
@@ -18,7 +19,6 @@ prepare()
 {
     [ -d include ] && rm -rf include
     mkdir -p include
-    cd include
 }
 
 fetch_pear()
@@ -39,20 +39,24 @@ fetch_contrib()
 {
     ## log4php
 
-    wget -O- $LOG4PHP|tar zxf -
+    wget -O- "$LOG4PHP"|tar zxf -
     mv log4php*/src/log4php .
     rm -r log4php?*
 
     ## smarty
 
-    wget -O- $SMARTY|tar zxf -
+    wget -O- "$SMARTY"|tar zxf -
     mv Smarty-*/libs smarty
     rm -r Smarty-*
+
+    ## fpdf
+
+    wget -O- "$FPDF"|tar zxf -
+    mv fpdf* fpdf
 }
 
 create_tarball()
 {
-    cd ..
 
     [ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
 
@@ -74,7 +78,7 @@ upload()
 
 # main
 prepare
-fetch_pear
-fetch_contrib
+(cd include && fetch_pear)
+(cd include && fetch_contrib)
 create_tarball
 upload
