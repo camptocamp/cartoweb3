@@ -172,7 +172,8 @@ foreach($cmd_array as $cmd=>$params) {
             break;
 
         case 'setup':
-            link_or_copy($params, 'projects/cete');
+            $dest = ltrim(substr($params, strrpos($params, '/')), '/');
+            link_or_copy($params, 'projects/'.$dest);
             setupProjects();
             break;
 
@@ -251,7 +252,7 @@ function setPerms($user) {
 
 function setPermsRecursive($dir, $user) {
    if (@chown($dir, $user)) echo "\"$dir\" is now owned by $user\n";
-   elseif (@chmod($dir, 777)) echo "\"$dir\" is now writable by everybody, including $user\n";
+   elseif (@chmod($dir, 0777)) echo "\"$dir\" is now writable by everybody, including $user\n";
    else echo "WARNING: unable to set permissions on \"$dir\"\n";
    $dh = @opendir($dir);
    if (!$dh) return false;
@@ -342,7 +343,7 @@ function link_or_copy($src, $dest) {
             $result = "\"$src\" copied to \"$dest\"\n";
     }
     else {
-        if (symlink($src, $dest))
+        if (@symlink($src, $dest))
             $result =  "\"$src\" linked from \"$dest\"\n";
     }
     if (isset($result)) echo $result;
