@@ -60,6 +60,10 @@ MAP
       "key4" "value4"
     END
     CLASSITEM "FNAME"
+    
+    # for queries
+    TEMPLATE "ttt"
+    
     CLASS
       NAME "0"
       METADATA
