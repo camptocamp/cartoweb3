@@ -1,0 +1,60 @@
+body, html {
+  color: black;
+  font-size:0.9em;
+  font-family:verdana, arial, sans-serif;
+  background: #fff;
+  padding:0;
+  margin:0; 
+}
+
+a {text-decoration: none;color:#5C74BB;}
+
+a:hover {text-decoration: underline;color:#D0670A;}
+
+#banner {
+  border: thin #ccc dashed;
+  margin:10px;
+}
+
+#banner h1 {text-align:center;margin:5px;padding:0;font-size:1.1em;}
+
+#leftbar {
+  border: thin #ccc dashed;
+  position: absolute;
+  left: 10px;
+  top: 50px;
+  width: 180px;
+  padding:0;
+  z-index: 2;
+}
+
+#leftbar p, #keymap {text-align:center;padding:10px;}
+
+#layerscmd {text-align:center;padding:5px;}
+
+#content {
+  z-index: 0;
+  margin-left: 205px;
+}
+
+pre {border: thin #ccc dashed;padding:20px;margin-right:10px;}
+
+.separator {
+  background-color:#eee;
+  height:1px;
+  width:100%;
+  text-align:center;
+  margin-top:10px;
+}
+
+.form_button {
+  width:100px;
+  height:20px;
+  border:thin solid #fff;
+  border-bottom-color: #aaa;
+  border-right-color: #aaa;
+  background-color:#eee;
+  color:black;
+  font-size:0.8em;
+  margin:2px;
+}
