@@ -10,13 +10,94 @@ require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
  */
 abstract class LocationCalculator {
     private $log;
-    protected $requ;
-
-    function __construct($requ) {
+    private $maxExtent;
+    private $scaleModeDiscrete;
+    private $minScale;
+    private $maxScale;
+    private $scales;
+    
+    function __construct($maxExtent = NULL,
+                         $minScale = -1, $maxScale = -1, $scales = NULL) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        $this->requ = $requ;
+        $this->maxExtent = $maxExtent;
+        $this->minScale = $minScale;
+        $this->maxScale = $maxScale;
+        $this->scales = $scales;
     }
 
+    function limitBbox($oldBbox) {
+        $newBbox = $oldBbox;
+        if ($newBbox->minx < $this->maxExtent->minx) {
+            $newBbox->maxx = $newBbox->maxx + $this->maxExtent->minx - $newBbox->minx;
+            $newBbox->minx = $this->maxExtent->minx;
+        } else if ($newBbox->maxx > $this->maxExtent->maxx) {
+            $newBbox->minx = $newBbox->minx + $this->maxExtent->maxx - $newBbox->maxx;
+            $newBbox->maxx = $this->maxExtent->maxx;
+        }
+        if ($newBbox->miny < $this->maxExtent->miny) {
+            $newBbox->maxy = $newBbox->maxy + $this->maxExtent->miny - $newBbox->miny;
+            $newBbox->miny = $this->maxExtent->miny;
+        } else if ($newBbox->maxy > $this->maxExtent->maxy) {
+            $newBbox->miny = $newBbox->miny + $this->maxExtent->maxy - $newBbox->maxy;
+            $newBbox->maxy = $this->maxExtent->maxy;
+        }
+        return $newBbox;
+    }
+    
+    function limitScale($oldScale) {
+        $newScale = $oldScale;
+        if ($this->minScale && $newScale < $this->minScale) {
+            $newScale = $this->minScale;
+        } else if ($this->maxScale && $newScale > $this->maxScale) {
+            $newScale = $this->maxScale;
+        }
+        return $newScale;
+    }
+    
+    function getPreviousScale($oldScale) {
+        $newScale = 0;
+        foreach ($this->scales as $scale) {
+            if ($scale->value >= $oldScale) {
+                break;
+            }
+            $newScale = $scale->value;
+        }
+        if ($newScale == 0) {
+            $newScale = $oldScale;
+        }
+        return $newScale; 
+    }
+    
+    function getNextScale($oldScale) {
+        $newScale = 0;
+        foreach ($this->scales as $scale) {
+            $newScale = $scale->value;
+            if ($newScale > $oldScale) {
+                break;
+            }
+        }
+        if ($newScale == 0) {
+            $newScale = $oldScale;
+        }
+        return $newScale;
+    }
+    
+    function getNearestScale($oldScale) {
+        $newScale = 0;
+        $min = -1;
+        foreach ($this->scales as $scale) {
+            $diff = abs($oldScale - $scale->value);
+            if ($diff < $min || $min == -1) {
+                $min = $diff;
+                $newScale = $scale->value;
+            }
+        }         
+        if ($newScale == 0) {
+            $newScale = $oldScale;
+        }
+        return $newScale;
+    }
+    
     abstract function getBbox();
     abstract function getScale();
 }
@@ -26,14 +107,16 @@ abstract class LocationCalculator {
  */
 class NoopLocationCalculator extends LocationCalculator {
     private $log;
+    private $oldBbox;
 
-    function __construct($requ) {
+    function __construct($oldBbox) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        parent::__construct($requ);
+        parent::__construct();
+        $this->oldBbox = $oldBbox;
     }
 
     function getBbox() {
-        return $this->requ->bbox;
+        return $this->oldBbox;
     }
     
     function getScale() {
@@ -46,12 +129,12 @@ class NoopLocationCalculator extends LocationCalculator {
  */
 class PanLocationCalculator extends LocationCalculator {
     private $log;
-    private $oldBbox;
+    private $requ;
 
-    function __construct($requ, $oldBbox) {
+    function __construct($requ, $maxExtent) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        parent::__construct($requ);
-        $this->oldBbox = $oldBbox;
+        parent::__construct($maxExtent);
+        $this->requ = $requ;
     }
 
     private function panDirectionToFactor($panDirection) {
@@ -71,20 +154,19 @@ class PanLocationCalculator extends LocationCalculator {
     }
     
     function getBbox() {
-
         // TODO: read from config
         $panRatio = 0.75;
 
-        $xOffset = $this->oldBbox->getWidth() * $panRatio * 
+        $xOffset = $this->requ->bbox->getWidth() * $panRatio * 
             $this->panDirectionToFactor($this->requ->panDirection->horizontalPan);
-        $yOffset = $this->oldBbox->getHeight() * $panRatio *
+        $yOffset = $this->requ->bbox->getHeight() * $panRatio *
             $this->panDirectionToFactor($this->requ->panDirection->verticalPan);
         $bbox = new Bbox();
-        $bbox->setFromBbox($this->oldBbox->minx + $xOffset, 
-                           $this->oldBbox->miny + $yOffset,
-                           $this->oldBbox->maxx + $xOffset,
-                           $this->oldBbox->maxy + $yOffset);
-        return $bbox;
+        $bbox->setFromBbox($this->requ->bbox->minx + $xOffset, 
+                           $this->requ->bbox->miny + $yOffset,
+                           $this->requ->bbox->maxx + $xOffset,
+                           $this->requ->bbox->maxy + $yOffset);
+        return $this->limitBbox($bbox);
     }
 
     function getScale() {
@@ -97,102 +179,72 @@ class PanLocationCalculator extends LocationCalculator {
  */
 class ZoomPointLocationCalculator extends LocationCalculator {
     private $log;
-    private $oldBbox;
+    private $requ;
     private $oldScale;
     private $scaleModeDiscrete;
-    private $scales;
 
-    function __construct($requ, $oldBbox, $oldScale,
-                         $scaleModeDiscrete, $scales) {
+    function __construct($requ, $oldScale, $scaleModeDiscrete, $maxExtent,
+                         $minScale, $maxScale, $scales) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        parent::__construct($requ);
-        $this->oldBbox = $oldBbox;
+        parent::__construct($maxExtent, $minScale, $maxScale, $scales);
+        $this->requ = $requ;
         $this->oldScale = round($oldScale, 2);  // round
         $this->scaleModeDiscrete = $scaleModeDiscrete;
-        $this->scales = $scales;
     }
 
     function getBbox() {
-        $xHalf = $this->oldBbox->getWidth() / 2;
-        $yHalf = $this->oldBbox->getHeight() / 2;
+        $xHalf = $this->requ->bbox->getWidth() / 2;
+        $yHalf = $this->requ->bbox->getHeight() / 2;
         
         $bbox = new Bbox();
         $bbox->setFromBbox($this->requ->point->x - $xHalf,
                            $this->requ->point->y - $yHalf,
                            $this->requ->point->x + $xHalf,
                            $this->requ->point->y + $yHalf);
-        return $bbox;
+        return $this->limitBbox($bbox);
     }
 
     function getScale() {
     
-        $contScale = 0;
+        $scale = 0;
         switch ($this->requ->zoomType) {
         case ZoomPointLocationRequest::ZOOM_DIRECTION_IN:
             if ($this->scaleModeDiscrete) {
-                $newScale = 0;
-                foreach ($this->scales as $scale) {
-                    if ($scale->value >= $this->oldScale) {
-                        break;
-                    }
-                    $newScale = $scale->value;
-                }
-                if ($newScale == 0) {
-                    $newScale = $this->oldScale;
-                }
-                return $newScale;
+                $scale = $this->getPreviousScale($this->oldScale);
             } else {
-                return $this->oldScale / 2.0;//TODO: read config
+                $scale = $this->oldScale / 2.0;//TODO: read config
             }
+            break;
         case ZoomPointLocationRequest::ZOOM_DIRECTION_NONE:
             return NULL;
         case ZoomPointLocationRequest::ZOOM_DIRECTION_OUT:
             if ($this->scaleModeDiscrete) {
-                $newScale = 0;
-                foreach ($this->scales as $scale) {
-                    $newScale = $scale->value;
-                    if ($newScale > $this->oldScale) {
-                        break;
-                    }
-                }
-                if ($newScale == 0) {
-                    $newScale = $this->oldScale;
-                }
-                return $newScale;
+                $scale = $this->getNextScale($this->oldScale);
             } else {
-                return $this->oldScale * 2.0;//TODO: read config
+                $scale = $this->oldScale * 2.0;//TODO: read config
             }
+            break;
         case ZoomPointLocationRequest::ZOOM_FACTOR:
             $zoom = $this->requ->zoomFactor;
             if ($zoom > 1)
                 $zoom = (1.0 / $zoom);
             else if ($zoom < 0)
                 $zoom = abs($zoom);
-            $contScale = $this->oldScale * $zoom;
+            $contScale = $this->oldScale * $zoom;           
+            if ($this->scaleModeDiscrete) {
+                $scale = $this->getNearestScale($contScale);
+            } else {
+                $scale = $contScale;
+            }
             break;
         case ZoomPointLocationRequest::ZOOM_SCALE:
-            $contScale = $this->requ->scale;
+            $scale = $this->requ->scale;
             break;
         default:
             throw new CartoserverException("unknown zoom type " .
                                            $this->requ->zoomType);
         }
-        $newScale = 0;
-        if ($this->scaleModeDiscrete) {
-            $min = -1;
-            foreach ($this->scales as $scale) {
-                $diff = abs($contScale - $scale->value);
-                if ($diff < $min || $min == -1) {
-                    $min = $diff;
-                    $newScale = $scale->value;
-                }
-            }         
-        }
-        if ($newScale == 0) {
-            $newScale = $contScale;
-        }
-        return $newScale;
-
+        return $this->limitScale($scale);
     }
 }
 
@@ -249,23 +301,24 @@ class ServerLocation extends ServerCorePlugin {
         switch($requ->locationType) {
         case LocationRequest::LOC_REQ_BBOX:
             $locCalculator = new NoopLocationCalculator(
-                                        $requ->bboxLocationRequest);
+                                        $requ->bboxLocationRequest->bbox);
             break;
         case LocationRequest::LOC_REQ_PAN:
-            $oldBbox = $requ->panLocationRequest->bbox;
             $locCalculator = new PanLocationCalculator(
-                                        $requ->panLocationRequest, $oldBbox);
+                                        $requ->panLocationRequest,
+                                        $this->serverContext->maxExtent);
             break;
         case LocationRequest::LOC_REQ_ZOOM_POINT:
             $oldBbox = $requ->zoomPointLocationRequest->bbox;
             $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny, 
                                  $oldBbox->maxx, $oldBbox->maxy);
-            $oldScale = $msMapObj->scale;
-            
             $locCalculator = new ZoomPointLocationCalculator(
                                         $requ->zoomPointLocationRequest,
-                                        $oldBbox, $oldScale, 
+                                        $msMapObj->scale,
                                         $this->getConfig()->scaleModeDiscrete,
+                                        $this->serverContext->maxExtent,
+                                        $this->getConfig()->minScale,
+                                        $this->getConfig()->maxScale,
                                         $this->scales);
             break;
         default:
