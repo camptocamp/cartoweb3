@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.pdf">
- <title><indexterm><primary>PDF</primary></indexterm>PDF export</title>
+ <title><indexterm><primary>PDF</primary></indexterm>PDF Export</title>
  <subtitle>Plugin exportPdf</subtitle>
 
  <sect1 id="user.pdf.intro"> 
@@ -537,7 +537,7 @@ blocks.title.verticalMargin = 15]]></programlisting>
      <listitem>
       <para>
        <parameter>headers</parameter> (string): for "table" blocks only: name of separated block
-       used to describe table headers (colums titles) formatting.
+       used to describe table headers (colunms titles) formatting.
       </para>
      </listitem>
      <listitem>
@@ -734,7 +734,7 @@ blocks.title.verticalMargin = 15]]></programlisting>
   <title>Tutorial</title>
   
   <sect2 id="user.pdf.tutorial.principle">
-   <title>General principle</title>
+   <title>General Principle</title>
    <para>
     The PDF document to generate is described using elementary objects blocks:
    </para>
@@ -777,7 +777,7 @@ blocks.title.verticalMargin = 15]]></programlisting>
   </sect2>
 
   <sect2 id="user.pdf.tutorial.overall">
-   <title><indexterm><primary>Overall configuration, PDF</primary></indexterm>Overall configuration</title>
+   <title><indexterm><primary>Overall configuration, PDF</primary></indexterm>Overall Configuration</title>
    <para>Two objects are available for overall configuration:</para>
    <sect3 id="user.pdf.tutorial.overall.general">
     <title><indexterm><primary>general object, PDF</primary></indexterm>general</title>
@@ -858,7 +858,7 @@ formats.A3.maxResolution = 150]]></programlisting>
   </sect2>
 
   <sect2 id="user.pdf.tutorial.block">
-   <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks configuration</title>
+   <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks Configuration</title>
    <para>
     Whatever their types (image, text, table, legend), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
    </para>
@@ -873,7 +873,7 @@ formats.A3.maxResolution = 150]]></programlisting>
                           logo, scaleval, tlcoords, brcoords]]></programlisting>
 
    <sect3 id="user.pdf.tutorial.block.template">
-    <title><indexterm><primary>template object, PDF</primary></indexterm>Block template and overriding</title>
+    <title><indexterm><primary>template object, PDF</primary></indexterm>Block Template and Overriding</title>
     <para>
      Since all blocks descriptions are based on the same PdfBlock object, a template block has been defined to factorize blocks common configuration (for instance font-family, background color, borders, padding, etc.). It is also a way to specify default blocks parameters values. It is then possible to personalize blocks by overriding those properties within the block own description. Blocks configuration overriding can be schemed as follows:
     </para>
@@ -909,7 +909,7 @@ template.verticalAlign = center
 template.orientation = horizontal]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.positioning">
-    <title><indexterm><primary>block positioning, PDF</primary></indexterm>Blocks positioning</title>
+    <title><indexterm><primary>block positioning, PDF</primary></indexterm>Blocks Positioning</title>
     <para>
      &cartoweb; uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
     </para>
@@ -953,7 +953,7 @@ blocks.myBlock.horizontalMargin = 10]]></programlisting>
     </para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.text">
-    <title><indexterm><primary>Text blocks, PDF</primary></indexterm>Text blocks</title>
+    <title><indexterm><primary>Text blocks, PDF</primary></indexterm>Text Blocks</title>
     <para>
      Text blocks are boxes with a textual content. The text is set in the <parameter>content</parameter> parameter in case of a static block. <parameter>content</parameter> has to be left blank for visitor-set blocks such as title or note. Text formatting is achieved using usual CSS-like parameter : <parameter>fontFamily</parameter>, <parameter>fontSize</parameter> (expressed in points!!), <parameter>color</parameter>. Small exception: <parameter>fontItalic</parameter>, <parameter>fontBold</parameter>, <parameter>fontUnderline</parameter> are booleans.
     </para>
@@ -979,7 +979,7 @@ blocks.title.backgroundColor = #eeeeee
 blocks.title.height = 15]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.image">
-    <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image blocks</title>
+    <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image Blocks</title>
     <para>
      Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or a path within the server file system.
     </para>
@@ -1001,7 +1001,7 @@ blocks.logo.horizontalMargin = 5
 blocks.logo.verticalMargin = 5]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.table">
-    <title><indexterm><primary>Table blocks, PDF</primary></indexterm>Table blocks</title>
+    <title><indexterm><primary>Table blocks, PDF</primary></indexterm>Table Blocks</title>
     <para>
      Tables blocks are used to represent tabular data such as query results. A table is composed of a caption row (title), a headers row (columns/fields titles) and one or more data rows. All cells can only contain textual content.
     </para>
@@ -1035,7 +1035,7 @@ blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.legend">
-    <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend block</title>
+    <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend Block</title>
     <para>
      There is usually only one instance of legend block in a &cartoweb; PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
     </para>
@@ -1066,7 +1066,7 @@ blocks.legend.content = "!nix"]]></programlisting>
   </sect2>
   
   <sect2 id="user.pdf.tutorial.roles">
-   <title><indexterm><primary>Roles management, PDF</primary></indexterm>Roles management</title>
+   <title><indexterm><primary>Roles management, PDF</primary></indexterm>Roles Management</title>
    <para>
     &cartoweb; enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
     For a more detailed discussion of the concept of security restriction and roles, see <xref linkend="user.security"/>.
