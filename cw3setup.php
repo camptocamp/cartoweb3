@@ -343,18 +343,19 @@ function setupProjects() {
                 while ($file=readdir($d)) {
                     if($file!="." && $file!=".." && $file != 'CVS') {
                         // link_or_copy htdocs elements from projects to core
-                        link_or_copy('../'.$dir.'/'.$project.'/htdocs/'.$file, 'htdocs/'.$project.'/'.$file);
+                        link_or_copy('../../'.$dir.'/'.$project.'/htdocs/'.$file, 'htdocs/'.$project.'/'.$file);
                     }
                 }
             }
-
-            $d = @opendir($dir.'/'.$project.'/server_conf');
-            if ($d)  {
-                while ($file=readdir($d)) {
-                    if($file!="." && $file!=".." && $file != 'CVS') {
-                        if (!is_dir('htdocs/gfx/icons/'.$project)) mkdir('htdocs/gfx/icons/'.$project);
-                        // link_or_copy icons from projects to core
-                        link_or_copy('../'.$dir.'/'.$project.'/server_conf/'.$file.'/icons', 'htdocs/gfx/icons/'.$project.'/'.$file);
+            $plugdirs = array('plugins', 'coreplugins');
+            foreach($plugdirs as $pdir) {
+                $pd = @opendir($dir.'/'.$project.'/'.$pdir);
+                if ($pd)  {
+                    while ($pfile=readdir($pd)) {
+                        if($pfile!="." && $pfile!=".." && $pfile != 'CVS') {
+                            // link_or_copy plugins and coreplugins htdocs elements from projects
+                            link_or_copy('../../'.$dir.'/'.$project.'/'.$pdir.'/'.$pfile.'/htdocs/', 'htdocs/'.$project.'/'.$pfile);
+                        }
                     }
                 }
             }
