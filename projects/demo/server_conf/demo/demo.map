@@ -79,7 +79,7 @@ MAP
       "exported_values" "security_view,security_edit"
       "security_view" "demo"
     END
-    MAXSCALE 600000
+    MAXSCALE 601000
 
     CLASS
       NAME "contour"
@@ -181,7 +181,7 @@ MAP
     TYPE LINE
     DATA "railrdl"
 
-    MAXSCALE 1000000
+    MAXSCALE 1001000
 
     METADATA
       "exported_values" "security_view,security_edit"
@@ -217,7 +217,7 @@ MAP
 
     LABELITEM "NAM"
 
-    MAXSCALE 2000000
+    MAXSCALE 2001000
 
     CLASS
       NAME "agglo"
@@ -268,7 +268,7 @@ MAP
     TYPE LINE
     DATA "roadl"
 
-    MAXSCALE 2000000
+    MAXSCALE 2001000
     CLASS
       NAME "road"
       STYLE 
@@ -342,7 +342,7 @@ MAP
     END
     LABELITEM "NAM"
 
-    MAXSCALE 750000
+    MAXSCALE 751000
     TEMPLATE "ttt"
 
     CLASS
@@ -381,9 +381,9 @@ MAP
 	"query_returned_attributes" "TXT" 
     END
 
-    MAXSCALE 2000000
+    MAXSCALE 2001000
     LABELITEM "TXT"
-    LABELMAXSCALE 1000000
+    LABELMAXSCALE 1001000
 
     CLASS
       EXPRESSION ("[TXT]" ne "UNK" )
