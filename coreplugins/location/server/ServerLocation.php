@@ -151,17 +151,17 @@ abstract class LocationCalculator {
 class NoopLocationCalculator extends LocationCalculator {
     private $log;
 
-    function __construct() {
+    function __construct($maxExtent) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        parent::__construct();
+        parent::__construct($maxExtent);
     }
 
     function getBbox($oldBbox) {
-        return $oldBbox;
+        return $this->limitBbox($oldBbox);
     }
     
     function getScale($oldScale) {
-        return $oldScale;
+        return NULL;
     }
 }
 
@@ -211,7 +211,7 @@ class PanLocationCalculator extends LocationCalculator {
                            $oldBbox->miny + $yOffset,
                            $oldBbox->maxx + $xOffset,
                            $oldBbox->maxy + $yOffset);
-        return $bbox;
+        return $this->limitBbox($bbox);
     }
 
     function getScale($oldScale) {
@@ -244,7 +244,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
                            $this->requ->point->y - $yHalf,
                            $this->requ->point->x + $xHalf,
                            $this->requ->point->y + $yHalf);
-        return $bbox;
+        return $this->limitBbox($bbox);
     }
 
     function getScale($oldScale) {
@@ -287,7 +287,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
             throw new CartoserverException('unknown zoom type ' .
                                            $this->requ->zoomType);
         }
-        return $scale;
+        return $this->limitScale($scale);
     }
 }
 
@@ -345,12 +345,15 @@ class ServerLocation extends ServerCorePlugin {
         $oldScale = 0;
         switch($requ->locationType) {
         case LocationRequest::LOC_REQ_BBOX:
-            $locCalculator = new NoopLocationCalculator();
+            $oldBbox = $requ->bboxLocationRequest->bbox;
+            $locCalculator = new NoopLocationCalculator(
+                                        $this->serverContext->maxExtent);
             break;
         case LocationRequest::LOC_REQ_PAN:
+            $oldBbox = $requ->panLocationRequest->bbox;
             $locCalculator = new PanLocationCalculator(
                                         $requ->panLocationRequest,
-                                        $this->getConfig()->panRation,
+                                        $this->getConfig()->panRatio,
                                         $this->serverContext->maxExtent);
             break;
         case LocationRequest::LOC_REQ_ZOOM_POINT:
@@ -374,21 +377,20 @@ class ServerLocation extends ServerCorePlugin {
         // Scaling
         $scale = $locCalculator->getScale($oldScale);
 
-        if ($scale) {
-            $scale = $locCalculator->limitScale($scale);
-            
+        if ($scale) {            
             $center = ms_newPointObj();
             $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
             $msMapObj->zoomscale($scale, $center,
                         $msMapObj->width, $msMapObj->height, $msMapObj->extent);
-        }
-    
-        $bbox = new Bbox();
-        $bbox->setFromMsExtent($msMapObj->extent);
+            
+            $bbox = new Bbox();
+            $bbox->setFromMsExtent($msMapObj->extent);
 
-        $bbox = $locCalculator->getBbox($bbox);       
-        $bbox = $locCalculator->limitBbox($bbox);
-        
+            $bbox = $locCalculator->getBbox($bbox);       
+        } else {
+            $bbox = $locCalculator->getBbox($oldBbox);            
+        }
+                
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
 
