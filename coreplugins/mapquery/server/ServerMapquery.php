@@ -68,6 +68,32 @@ class ServerMapquery extends ServerPlugin {
     }
 
     /**
+     * Extracts all shapes in the given msLayer, and returns them in an array
+     * @param msLayer the layer from which to retrieve shapes
+     * @return array the array of result shapes in the given layer
+     */
+    private function extractResults($msLayer) {
+        
+        $msLayer->open();
+        $results = array();
+
+        $numResults = $msLayer->getNumResults();
+        $maxResults = $this->getConfig()->maxResults;
+        if (is_numeric($maxResults)) {
+            $numResults = min($maxResults, $numResults);
+        }
+        
+        for ($i = 0; $i < $numResults; $i++) {
+            $result = $msLayer->getResult($i);
+            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
+
+            $results[] = $shape;
+        }
+        $msLayer->close();
+        return $results;        
+    }
+
+    /**
      * Performs a query on a layer using attributes
      * @param ServerContext
      * @param msLayer
@@ -105,16 +131,7 @@ class ServerMapquery extends ServerPlugin {
         $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
                              $savedExtent->maxx, $savedExtent->maxy);
         
-        $msLayer->open();
-        $results = array();
-        for ($i = 0; $i < $msLayer->getNumResults(); $i++) {
-            $result = $msLayer->getResult($i);
-            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
-
-            $results[] = $shape;
-        }
-        $msLayer->close();
-        return $results;
+        return $this->extractResults($msLayer);
     }
 
     /**
@@ -202,20 +219,11 @@ class ServerMapquery extends ServerPlugin {
         
         $this->serverContext->resetMsErrors();
 
-        $results = array();
         if ($ret != MS_SUCCESS || 
             $msLayer->getNumResults() == 0) 
-            return $results;
+            return array();
 
-        $msLayer->open();        
-        for ($i = 0; $i < $msLayer->getNumResults(); $i++) {
-            $result = $msLayer->getResult($i);
-            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
-
-            $results[] = $shape;
-        }
-        $msLayer->close();
-        return $results;
+        return $this->extractResults($msLayer);
     }
 }
 
