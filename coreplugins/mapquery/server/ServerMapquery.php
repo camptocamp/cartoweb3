@@ -238,18 +238,31 @@ class ServerMapquery extends ServerPlugin {
     public function queryByBbox($layerId, Bbox $bbox) {
 
         $msMapObj = $this->serverContext->getMapObj();
-
-        $rect = ms_newRectObj();
-        $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
-        
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
         
         // layer has to be activated for query
         $msLayer->set('status', MS_ON);
-        $ret = @$msLayer->queryByRect($rect);
         
-        $this->log->debug("Query on layer $layerId: queryByRect($rect)");        
+        if ($bbox->minx == $bbox->maxx && $bbox->miny == $bbox->maxy) {
+            $point = ms_newPointObj();
+            $point->setXY($bbox->minx, $bbox->miny);
+            
+            // no tolerance set by default, must be set in mapfile
+            $ret = @$msLayer->queryByPoint($point, MS_MULTIPLE, -1);
+            
+            $this->log->debug("Query on layer $layerId: " .
+                    "queryByPoint($point, MS_MULTIPLE, -1)");
+        } else {
+            $rect = ms_newRectObj();
+            $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
+        
+            $ret = @$msLayer->queryByRect($rect);
+        
+            $this->log->debug("Query on layer $layerId: queryByRect($rect)");        
+        
+            
+        }
         
         $this->serverContext->resetMsErrors();
 
