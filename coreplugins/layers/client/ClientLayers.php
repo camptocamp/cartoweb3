@@ -194,7 +194,7 @@ class ClientLayers extends ClientCorePlugin {
         $this->log->debug('Building of layers items: ' .
             $this->smartyNb + 1 . ' Smarty objects used.');
         
-        $startOpenNodes = implode(',', $this->unfoldedIds);
+        $startOpenNodes = implode('\',\'', $this->unfoldedIds);
 
         $this->smarty->assign(array('layerlist' => $rootNode,
                                     'startOpenNodes' => $startOpenNodes,
