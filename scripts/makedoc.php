@@ -38,9 +38,12 @@
 //
 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
 
-set_include_path(get_include_path() . PATH_SEPARATOR .
-                 CARTOCLIENT_HOME . 'include/pear/' . PATH_SEPARATOR . 
+require_once(CARTOCOMMON_HOME . 'common/Common.php');
+Common::preInitializeCartoweb(array());
+
+set_include_path(get_include_path() . PATH_SEPARATOR . 
                  CARTOCLIENT_HOME . 'include/pear/PhpDocumentor/');
 
 // creates a symlink from pear_base --> ../include/pear_base

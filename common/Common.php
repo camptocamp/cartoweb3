@@ -86,6 +86,9 @@ function setDeveloperIniConfig() {
     ini_set('display_errors', '1');
 }
 
+
+// TODO: use object instead of function, for using client/server polymorhpism:
+//       set_error_handler(array($this, 'errorHandler'));
 function cartowebErrorHandler($errno, $errstr, $errfile, $errline)
 {
     $log =& LoggerManager::getLogger(__METHOD__);
@@ -131,6 +134,52 @@ function shutdownCartoweb($config) {
         //unsetDeveloperIniConfig();
     }
     restore_error_handler();
+}
+
+/**
+ * Class containing general common code shared by client and server.
+ * For example, it handles common initialization.
+ * 
+ * @package Common
+ */
+class Common {
+ 
+    /**
+     * Sets the include path, to contain include directory.
+     */
+    private static function setIncludePath() {
+        set_include_path(get_include_path() . PATH_SEPARATOR . 
+                 CARTOCOMMON_HOME . 'include/'. PATH_SEPARATOR .
+                 CARTOCOMMON_HOME . 'include/pear');
+    }
+
+    /**
+     * Initialization of the "advanced php debugger" stuff.
+     * 
+     * @param boolean true if called from client context.
+     */
+    private static function initializeApd($client) {
+        $kind = $client ? 'client' : 'server';
+        
+        if (file_exists(CARTOCOMMON_HOME . "$kind/trace.apd")) {
+            apd_set_pprof_trace();
+        }
+    }
+ 
+    /**
+     * This function initializes cartoweb in the very beginning. It sets the
+     * include path, for instance.
+     * 
+     * @param array array of argument values: 'client' true if client, 'apd' set
+     * if apd has to be initialized.
+     */
+    public static function preInitializeCartoweb($args) {
+    
+        $client = isset($args['client']) && $args['client']; 
+        self::setIncludePath($client);
+        if (isset($args['apd']))
+            self::initializeApd($client);
+    }
 }
 
 ?>

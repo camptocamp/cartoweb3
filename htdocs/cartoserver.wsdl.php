@@ -10,9 +10,10 @@ header("Content-Type: text/xml");
  * Root directory for server scripts
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
-set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOSERVER_HOME . 'include/');
+require_once(CARTOSERVER_HOME . 'common/Common.php');
+Common::preInitializeCartoweb(array('client' => false));
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 

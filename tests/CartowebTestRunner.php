@@ -14,10 +14,11 @@ if (!defined('CARTOSERVER_HOME'))
 // clears include_path, to prevent side effects
 ini_set('include_path', '');
 
+require_once(CARTOSERVER_HOME . 'common/Common.php');
+Common::preInitializeCartoweb(array());
+
 set_include_path(get_include_path() . PATH_SEPARATOR . 
-                CARTOCLIENT_HOME . 'tests/' . PATH_SEPARATOR . 
-                CARTOCLIENT_HOME . 'include/' . PATH_SEPARATOR . 
-                CARTOCLIENT_HOME . 'include/pear/');
+                 CARTOCLIENT_HOME . 'tests/');
 
 define('PHPUnit2_MAIN_METHOD', false);
 require_once 'PHPUnit2/TextUI/TestRunner.php';

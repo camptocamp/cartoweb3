@@ -8,17 +8,13 @@
  * Root directory for server scripts
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
-set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOSERVER_HOME . 'include/');
+require_once(CARTOSERVER_HOME . 'common/Common.php');
+Common::preInitializeCartoweb(array('client' => false, 'apd' => true));
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOSERVER_HOME . 'server/SoapXMLCache.php');
-
-// APD trace
-if (file_exists(CARTOSERVER_HOME . 'server/trace.apd')) {
-    apd_set_pprof_trace();
-}
 
 function getSavedPostDir() {
     return CARTOSERVER_HOME . 'www-data/saved_posts/';
