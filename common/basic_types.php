@@ -140,6 +140,14 @@ class Point extends Shape {
 class Bbox extends Shape {
     public $minx, $miny, $maxx, $maxy;
 
+    function __construct($minx=0, $miny=0, $maxx=0, $maxy=0) {
+        parent::__construct();
+        $this->minx = $minx;
+        $this->miny = $miny;
+        $this->maxx = $maxx;
+        $this->maxy = $maxy;
+    }
+
     /**
      * Unserializes a Bbox.
      *
@@ -209,7 +217,7 @@ class Bbox extends Shape {
         $round = 2;
         $roundArray = array_fill(0, count($args), $round);
         $args = array_map('round', $args, $roundArray);
-        $args = array_merge(array('("BBOX(%s %s;%s %s [%s %s])'), $args);
+        $args = array_merge(array('BBOX(%s %s;%s %s [%s %s])'), $args);
         return call_user_func_array('sprintf', $args);
     }
 }
