@@ -10,6 +10,10 @@ shortcutsActive = true
 ; if true, shows recenter on id form
 idRecenterActive = true
 
+; the list of layers which will be shown on the recenter selection list
+; if this list is not set, all layers are proposed in the list
+;idRecenterLayers = 
+
 ; if current scale is above this limit, measure unit is km else m
 ;scaleUnitLimit = 100000
 
