@@ -31,7 +31,7 @@ function dhtmlBox_initialize() {
   }
   
   // HACK FOR selection tool: find a better solution !!
-  if (myform.tool[4].checked) {
+  if (myform.tool.length >= 5 && myform.tool[4].checked) {
      dhtmlBox.changeTool('query');
   }
   
