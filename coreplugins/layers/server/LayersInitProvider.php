@@ -52,11 +52,6 @@ class LayersInitProvider implements InitProvider {
      * @var string
      */
     private $symPath;
-    
-    /**
-     * @var string
-     */
-    private $mapPath;
 
     /**
      * @var string
@@ -172,7 +167,8 @@ class LayersInitProvider implements InitProvider {
             mkdir(dirname($iconAbsolutePath), 0755, true);
             
         if (!file_exists($iconAbsolutePath) ||
-            filemtime($this->mapPath) > filemtime($iconAbsolutePath) ||
+            filemtime($this->serverContext->getMapPath()) > 
+                                        filemtime($iconAbsolutePath) ||
             (file_exists($this->getSymPath()) && 
              filemtime($this->getSymPath()) > filemtime($iconAbsolutePath))) {
             $lgdIcon = $msClassObj->createLegendIcon($msMapObj->keysizex, 
@@ -241,28 +237,43 @@ class LayersInitProvider implements InitProvider {
             }
         }
     }
-
-    /**
-     * Returns mainmap path.
-     */
-    private function getMapPath() {
-        if (!isset($this->mapPath))
-            $this->mapPath = $this->serverContext->getMapPath();
-        return $this->mapPath;
-    }
     
     /**
      * Fills dynamic properties of all layer objects. It calls specific methods
      * for each kind of LayerBase and Layer objects.
      */
     private function fillDynamicLayers() {
-        $layersInit = $this->layersInit;
-        $layers = $layersInit->getLayers();
-                
-        if ($layersInit->autoClassLegend) 
-            $this->getMapPath($this->serverContext);
 
-        foreach ($layers as $layer) {
+        // Create layers for all layers in mapfile
+        $msLayerIds = array();
+        foreach ($this->layersInit->layers as $layer) {
+            if (!$layer instanceof Layer)
+                continue;
+            if (!empty($layer->msLayer))
+                $msLayerIds[] = $layer->msLayer;
+            else
+                $msLayerIds[] = $layer->id;
+        }
+        
+        $msMapObj = $this->serverContext->getMapObj();
+        for ($i = 0; $i < $msMapObj->numlayers; $i++) {
+        
+            $msLayer = $msMapObj->getLayer($i);
+            if (in_array($msLayer->name, $msLayerIds))
+                continue;
+            
+            $newLayer = new Layer();
+            $newLayer->id = $msLayer->name;
+            $this->layersInit->addChildLayerBase(null, $newLayer);
+        }
+
+        foreach ($this->layersInit->layers as $layer) {
+            if (empty($layer->label))
+                $layer->label = $layer->id; 
+            if ($layer instanceof Layer && empty($layer->msLayer))
+                $layer->msLayer = $layer->id; 
+            $layer->label = Encoder::encode($layer->label, 'config');
+            
             $this->fillDynamicLayerBase($layer);
             
             // Skip layer groups for the rest of this loop
@@ -270,6 +281,22 @@ class LayersInitProvider implements InitProvider {
                 continue;
 
             $this->fillDynamicLayer($layer);
+        }
+        
+        // builds a root layer containing all layers, if none is present.
+
+        // TODO: add constant for root layer.
+        $rootLayer = $this->layersInit->getLayerById('root');
+        if (is_null($rootLayer)) {
+            $rootLayer = new LayerGroup();
+            $rootLayer->id = 'root';
+            $layerIds = array();
+            foreach ($this->layersInit->layers as $layer) {
+                if ($layer instanceof Layer && !($layer instanceof LayerClass))
+                    $layerIds[] = $layer->id;                
+            }
+            $rootLayer->children = $layerIds;
+            $this->layersInit->addChildLayerBase(null, $rootLayer);
         }
     }
 
@@ -294,19 +321,8 @@ class LayersInitProvider implements InitProvider {
         $configStruct = StructHandler::loadFromArray($iniArray);
         $this->layersInit->unserialize($configStruct);
 
-        // TODO: take action if the user did not provide layer configuration
-        if (!$this->layersInit->layers) {
-            throw new CartoserverException('Missing layer definition ' .
-                    '(no root layer in layers.ini)');
-        }
-        
-        foreach ($this->layersInit->layers as $layer) {
-            if (empty($layer->label))
-                $layer->label = $layer->id; 
-            if ($layer instanceof Layer && empty($layer->msLayer))
-                $layer->msLayer = $layer->id; 
-            $layer->label = Encoder::encode($layer->label, 'config');
-        }
+        if (!$this->layersInit->layers)
+            $this->layersInit->layers = array();
          
         $this->fillDynamicMap();
         $this->fillDynamicLayers();
