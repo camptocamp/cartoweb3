@@ -107,10 +107,10 @@ AllTests.php]]></screen>
   <warning>
    <para>
    All test case and test suite classes must have the name 
-   of their file's relative path without extension, with '/'
+   of their file relative path without extension, with '/'
    replaced by '_'. For instance, class 
-   <constant>client_CartoclientTest</constant>'s file name must be 
-   <filename>&gt;cartoweb3_root&lt;/tests/client/CartoclientTest.php</filename>.
+   <constant>client_CartoclientTest</constant> file name must be 
+   <filename>&lt;cartoweb3_root&gt;/tests/client/CartoclientTest.php</filename>.
    </para>
   </warning>
   <para>
@@ -228,7 +228,7 @@ class AllTests {
             <ulink url="http://httpunit.sourceforge.net/">HttpUnit</ulink>
           software is used.
         It is written in Java, and there is no Php port. The http unit tests 
-        are run if you hava a Jvm in you path.
+        are run if you have a JVM in you path.
         </para>
         <para>
         For more information about running HttpUnit tests, see the
@@ -352,7 +352,7 @@ X-Powered-By: PHP/5.0.1]]></screen>
       <para>
         To allow the web interface to be used, the configuration parameter
         <varname>allowTests</varname> has to be set to <constant>true</constant>.
-        See FIXME_ADD_LINK about the confuguration of these parameters.
+        See FIXME_ADD_LINK about the configuration of these parameters.
       </para>
     </important>
   </sect2>
