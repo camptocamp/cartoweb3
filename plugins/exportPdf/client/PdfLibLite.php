@@ -1,5 +1,13 @@
 <?php
 /**
+ ******************************************************************************
+ * WARNING: uncomplete class, lots of functionnalities are not yet implemented.
+ * A lot of work has still to be done and some factorization should occur with
+ * alternate class CwFpdf
+ ******************************************************************************
+ */
+
+/**
  * @package Plugins
  * @author Alexandre Saunier
  * @version $Id$
@@ -16,16 +24,18 @@
     protected $general;
     protected $format;
     protected $space;
+    protected $blocks;
 
     protected $pageWidth;
     protected $pageHeight;
     protected $isPageOpen = false;
     protected $images = array();
 
-    function __construct(PdfGeneral $general, PdfFormat $format) {
+    function __construct(ClientExportPdf $export) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        $this->general = $general;
-        $this->format = $format;
+        $this->general =& $export->getGeneral();
+        $this->format =& $export->getFormat();
+        $this->blocks =& $export->getBlocks();
 
         if ($this->general->selectedOrientation == 'portrait') {
             $this->pageWidth = $this->getInPt($this->format->smallDimension);
