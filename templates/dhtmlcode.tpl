@@ -91,7 +91,7 @@
         dhtmlBox.initialize();
       }
       myform.onsubmit = function() {
-      	xShow(xGetElementById('mapAnchorDiv'));
+        xShow(xGetElementById('mapAnchorDiv'));
       }
     }
     /*]]>*/
