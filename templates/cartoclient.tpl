@@ -1,272 +1,179 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="{$project_css_style}" title="stylesheet">
-        <meta name="author" content="Sylvain Pasche">
-        <meta name="email" content="sylvain dot pasche at camptocamp dot com">
-        <title>{$cartoclient_title}</title>
-    </head>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="{$project_css_style}" title="stylesheet" />
+  <meta name="author" content="Sylvain Pasche" />
+  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
+  <title>{$cartoclient_title}</title>
 
-{literal}
-<!-- BEGIN js_coords -->
-<script language="Javascript" type="text/javascript">
-var mapx = 400;
-var mapy = 200;
-var boxx = -180;
-var boxy = -90;
-var pixelx = 0.9;
-var pixely = 0.9;
-</script>
-<!-- END js_coords -->
-
-
-<script language="Javascript" type="text/javascript">
-
-function FormItemSelected() {
-    document.carto_form.submit();
-}
-
-function CheckRadio(theIndex) {
-        document.carto_form.TOOLBAR_CMD[theIndex].checked=true;
-}
-
-</script>
-
-<script type='text/javascript' src='js/x_core_nn4.js'></script>
-
-<!-- BEGIN dhtmlHeader -->
-<!-- pgiraud -->
-<style type='text/css'><!--
-.lineH { position: absolute; background-color: #DF0000; overflow :hidden; width : 2}
-.lineW { position: absolute; background-color: #DF0000; overflow :hidden; height : 2}
-.point { position: absolute; background-color: #DF0000; overflow: hidden; width: 2; height: 2}
-.dhtmldiv {position:absolute; left:0; top:0;width:0;height:0; }
-.dhtmlDisplay {position:absolute; left:0; top:0; width:0; height:0; background-color: #EFEFEF;layer-background-color: #EFEFEF padding: 2px 4px;}
---></style>
-<script type='text/javascript' src='js/x_dom_nn4.js'></script>
-<script type='text/javascript' src='js/x_event_nn4.js'></script>
-<script type='text/javascript' src='js/navTools.js'></script>
-<script type='text/javascript' src='js/graphTools.js'></script>
-<script type='text/javascript'>
-
- function dboxInit()
-  {
-    // form used
-    myform = document.forms['carto_form'];
-
-    Dhtml_pixel_size = 0.9;
-    Dhtml_dist_msg = '{DIST_MSG}';
-    Dhtml_dist_unit = ' {DIST_UNIT}';
-    Dhtml_surf_msg = '{SURF_MSG}';
-    Dhtml_surf_unit = ' {SURF_UNIT}';
-    Dhtml_coord_msg = 'Coords: ';
-
-    // the DHTML mapping layers (image + box layers)
-    // note that the mapLayer id must be the name of the dBox + 'Div'
-    // ie : mainDHTML <-> mainDHTMLDIV
-// mainDHTML = new dBox("mapAnchorDiv","mainDHTMLDiv","mapImageDiv","myCanvasDiv","myCanvas2Div","diplayContainerDiv", "bottom", "displayCoordsDiv","displayMeasureDiv", "{COLOR}",{THICKNESS}, {CURSOR}, {JITTER}, {POINTSIZE}, {D2POINTS}, {NBPOINTS});
-
-
- mainDHTML = new dBox("mapAnchorDiv","mainDHTMLDiv","mapImageDiv","myCanvasDiv","myCanvas2Div","diplayContainerDiv", "bottom", "displayCoordsDiv","displayMeasureDiv", "#DF0000",2, 4, 10, 2, 3, 5);
-
-
-    mainDHTML.verbose = true;
-    mainDHTML.initialize();
-
-    // make the previous tool selected the current one
-    for (var i =0; i < myform.TOOLBAR_CMD.length; i++) {
-      if (myform.TOOLBAR_CMD[i].checked) {
-        changeTool('mainDHTML',myform.TOOLBAR_CMD[i].value);
-      }
+  {literal}
+  <script language="Javascript" type="text/javascript">
+  <!--
+    function FormItemSelected() {
+      document.carto_form.submit();
     }
-  }
-   window.onload = function() {
-       dboxInit();
-       }
-
-
-</script>
-<!-- END dhtmlHeader -->
-
-{/literal}
+  
+    function CheckRadio(theIndex) {
+      document.carto_form.tool[theIndex].checked = true;
+    }
+  //-->
+  </script>
+  
+  <!-- BEGIN dhtmlHeader -->
+  {/literal}
+  <link rel="stylesheet" type="text/css" href="{$project_css_dhtml_tools}" title="stylesheet" />
+  {literal}  
+  <script type="text/javascript" src="js/x_core_nn4.js"></script>
+  <script type="text/javascript" src="js/x_dom_nn4.js"></script>
+  <script type="text/javascript" src="js/x_event_nn4.js"></script>
+  <script type="text/javascript" src="js/navTools.js"></script>
+  <script type="text/javascript" src="js/graphTools.js"></script>
+  <script type="text/javascript">
+    var dhtmlDivs = new String();
+    document.image = new Image;
+    {/literal}document.image.src = '{$mainmap_path}';{literal}
+    
+    if (xIE) {
+      dhtmlDivs = '<div id="mapImageDiv" class="dhtmldiv" style="background-image:url('; 
+      dhtmlDivs += document.image.src;
+      dhtmlDivs += ');visibility:hidden;background-repeat:no-repeat;"></div>';
+    } else {
+      dhtmlDivs = '<div id="mapImageDiv" class="dhtmldiv" style="visibility:hidden"><img ';
+      {/literal}
+      dhtmlDivs += 'src="' + document.image.src + '" alt="{$mainmap_alt}" title="" ';
+      dhtmlDivs += 'width="{$mainmap_width}" height="{$mainmap_height}" /></div>';
+      {literal}
+    }
+    dhtmlDivs += '<div id="myCanvasDiv" class="dhtmldiv"></div>';
+    dhtmlDivs += '<div id="myCanvas2Div" class="dhtmldiv"></div>';
+    dhtmlDivs += '<div id="mainDHTMLDiv" class="dhtmldiv"></div>';
+    dhtmlDivs += '<div id="diplayContainerDiv" class="dhtmldiv">';
+    dhtmlDivs += '<table border="0" width="100%" cellspacing="0" cellpadding="0"><tr>';
+    dhtmlDivs += '<td width="50%"><div id="displayCoordsDiv" class="dhtmlDisplay"></div></td>';
+    dhtmlDivs += '<td align="right" width="50%"><div id="displayMeasureDiv" class="dhtmlDisplay"></div></td>';
+    dhtmlDivs += '</tr></table></div>';
+    document.write(dhtmlDivs);
+                  
+    function dboxInit()
+    {
+      myform = document.forms['carto_form'];
+      // DHTML drawing and navigating tools
+      dhtmlBox = new dhtmlBox();
+          
+      //DHTML parameters
+      dhtmlBox.dispPos = 'bottom';
+      dhtmlBox.thickness = 2;
+      dhtmlBox.cursorsize = 4;
+      dhtmlBox.jitter = 10; // minimum size of a box dimension
+      dhtmlBox.d2pts = 3;   // the distance between two points (measure tools);
+      dhtmlBox.nbPts = 5;   // number of points for the last vertex
+          
+      // map units values
+      {/literal}dhtmlBox.mapHeight = {$mainmap_height};{literal}
+      dhtmlBox.boxx = -180;
+      dhtmlBox.boxy = -90;
+      dhtmlBox.pixel_size = 0.9;
+      dhtmlBox.dist_msg = '{DIST_MSG}';
+      dhtmlBox.dist_unit = ' {DIST_UNIT}';
+      dhtmlBox.surf_msg = '{SURF_MSG}';
+      dhtmlBox.surf_unit = ' {SURF_UNIT}';
+      dhtmlBox.coord_msg = 'Coords: ';
+          
+      dhtmlBox.initialize();
+    }
+      
+    window.onload = function() {
+      dboxInit();
+      xHide(xGetElementById('mapAnchorDiv')); 
+    }
+  </script>
+  <!-- END dhtmlHeader -->
+  {/literal}
+</head>
 
 <body>
 
-<div class="banner">
-        <h1>
-            {$cartoclient_title}
-        </h1>
-</div>
+<div class="banner"><h1>{$cartoclient_title}</h1></div>
 
 <form method="POST" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true">
 
+  <div class="leftbar">    
 
-<div class="leftbar">    
+  {if $keymap_path|default:''}
+  <div align="center"><img src="{$keymap_path}" 
+  alt="{$keymap_alt}" width="{$keymap_width}" height="{$keymap_height}" title="" /></div>
+  {/if}
 
-{if $keymap_path|default:''}
-    <div align="center">
-         <img src='{$keymap_path}'>
-    </div>
-{/if}
+  <p>{$layers}</p>
 
-<p>
-{$layers}
-</p>
+  <p>
+    <input type="submit" name="refresh" value="refresh" />
+    <input type="submit" name="reset_session" value="reset_session" />
+  </p>
 
-<p>
-<input type="submit" name="refresh" value="refresh"/>
-<input type="submit" name="reset_session" value="reset_session"/>
-</p>
+  {if $hello_active|default:''}
+  <p>Hello plugin test:</p>
+  <p><input type="text" name="hello_input" /></p>
+  {/if}
 
-{if $hello_active|default:''}
-<p>
-Hello plugin test:
-</p>
-<p>
-<input type="text" name="hello_input"/>
-</p>
-{/if}
+  {if $outliner_active|default:''}
+  <p>Outliner plugin:</p>
+  <p>{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}</p>
+  {/if}
 
-{if $outliner_active|default:''}
-<p>
-Outliner plugin:
-</p>
-<p>
-{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}
-</p>
-{/if}
+  </div>
 
-</div>
+  <div class="content">
 
+  <p>
+    {foreach from=$tools key=toolcode item=toolname}
+    <label><input type="radio" name="tool" value="{$toolcode}" {if $selected_tool == $toolcode}checked="checked"{/if} 
+    onclick="dhtmlBox.changeTool('{$toolcode}')" />{$toolname}</label>
+    {/foreach}   
+  </p>
 
-<div class="content">
-
-<p>
-{html_radios name="tool" options=$tools selected=$selected_tool }
-</p>
-
-<p>
-<table>
-<tr>
+  <p>
+    <table>
+      <tr>
+        <td><input type="image" src="{$project_gif_north_west}" name="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{$project_gif_north}" name="pan_n" alt="N" /></td>
+        <td><input type="image" src="{$project_gif_north_east}" name="pan_ne" alt="NE" /></td>
+      </tr>
+      <tr>
+        <td><input type="image" src="{$project_gif_west}" name="pan_w" alt="W" /></td>
         <td>
-                <input type="image" src="{$project_gif_north_west}" name="pan_nw"/>
-        <td align="center">
-                <input type="image" src="{$project_gif_north}" name="pan_n"/>
-        <td>
-                <input type="image" src="{$project_gif_north_east}" name="pan_ne"/>
-<tr>
-        <td>
-                <input type="image" src="{$project_gif_west}" name="pan_w"/>
-        <td>
-        
-            <input type="hidden" name="INPUT_TYPE" value="">
-            <input type="hidden" name="INPUT_COORD" value="">
-            <div id="mapAnchorDiv" style="position:relative;width:400;height:200;clip:rect(0,400,200,0)">
-            </div>
-
-        <td>
-                <input type="image" src="{$project_gif_east}" name="pan_e"/>
-<tr>
-        <td>
-                <input type="image" src="{$project_gif_south_west}" name="pan_sw"/>
-        <td align="center">
-                <input type="image" src="{$project_gif_south}" name="pan_s"/>
-        <td>
-                <input type="image" src="{$project_gif_south_east}" name="pan_se"/>
-<tr>
-        <td/>
+          <input type="hidden" name="INPUT_TYPE" value="" />
+          <input type="hidden" name="INPUT_COORD" value="" />
+          <div id="mapAnchorDiv" style="position:relative;width:{$mainmap_width};height:{$mainmap_height};"> 
+            <table width="{$mainmap_width}" height="{$mainmap_height}">
+              <tr>
+                <td align="center" valign="middle">LOADING MESSAGE<br /><img 
+                src="gfx/layout/loadingbar.gif" width="140" height="10" alt="" /></td>
+              </tr>
+            </table>
+          </div>
+        </td>
+        <td><input type="image" src="{$project_gif_east}" name="pan_e" alt="E" /></td>
+      </tr> 
+      <tr>
+        <td><input type="image" src="{$project_gif_south_west}" name="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{$project_gif_south}" name="pan_s" alt="S" /></td>
+        <td><input type="image" src="{$project_gif_south_east}" name="pan_se" alt="SE" /></td>
+      </tr>
       {if $scalebar_path|default:''}
-        <td align="center">
-                 <img src='{$scalebar_path}'>
-        <td/>
+      <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
+      alt="{$scalebar_alt}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /><td/></tr>
       {/if}
-</table>
-</p>
+    </table>
+  </p>
 
-<p> LocationInfo: {$location_info} </p>
+  <p> LocationInfo: {$location_info} </p>
 
-</div>
-
-<div style="visibility:hidden">
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr>
-
-      <td valign="top" align="left">
-      
- {literal}        
-        <table border="1" cellspacing="0" cellpadding="0">
-
-          <tr>
-            <td>
-              <input type="radio" name="TOOLBAR_CMD" value="ZOOM_IN" onclick="changeTool('mainDHTML','ZOOM_IN')"  CHECKED />
-              <img onclick="javascript:CheckRadio(0);changeTool('mainDHTML','ZOOM_IN')" Xsrc="gfx/cartoclient/icon_zoomin.gif" alt="ZoomIn" title="{ZI_ALT}" />
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <input name="TOOLBAR_CMD" type="radio" onclick="changeTool('mainDHTML','ZOOM_OUT')" value="ZOOM_OUT"  {ZOOM_OUT_CHECKED} />
-              <img onclick="javascript:CheckRadio(1);changeTool('mainDHTML','ZOOM_OUT')" Xsrc="gfx/cartoclient/icon_zoomout.gif" alt="ZoomOut" title="{ZO_ALT}" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input name="TOOLBAR_CMD" type="radio" onclick="changeTool('mainDHTML','PAN')" value="PAN" {PAN_CHECKED} />
-
-              <img onclick="javascript:CheckRadio(2);changeTool('mainDHTML','PAN')" Xsrc="gfx/cartoclient/icon_pan.gif" alt="Pan"  title="{RC_ALT}" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input name="TOOLBAR_CMD" type="radio" onclick="changeTool('mainDHTML','QUERY')" value="QUERY" {QUERY_CHECKED} />
-              <img onclick="javascript:CheckRadio(3);changeTool('mainDHTML','QUERY')" Xsrc="gfx/cartoclient/icon_infoarea.gif" alt="Info" title="{IN_ALT}" />
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <input name="TOOLBAR_CMD" type="radio" onclick="changeTool('mainDHTML','MEASURE')" value="MEASURE" {MEASURE_CHECKED}>
-              <img onclick="javascript:CheckRadio(4);changeTool('mainDHTML','MEASURE')" Xsrc="gfx/cartoclient/icon_ruler.gif" alt="Distance" title="{DT_ALT}" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input name="TOOLBAR_CMD" type="radio" onclick="changeTool('mainDHTML','SURFACE')" value="SURFACE" {SURFACE_CHECKED} />
-
-              <img onclick="javascript:CheckRadio(5);changeTool('mainDHTML','SURFACE')" Xsrc="gfx/cartoclient/icon_area.gif" alt="Surface" title="{SF_ALT}" />
-            </td>
-          </tr>
-        </table>
-     {/literal}
-        
-      </td>
-    </tr>
-  </table>
-</div>
+  </div>
 
 </form>
-
-<div id='mapImageDiv' class="dhtmldiv" style='visibility:hidden'>
-  <img src='{$mainmap_path}'>
-</div>
-
-<div id='myCanvasDiv' class="dhtmldiv"></div>
-<div id='myCanvas2Div' class="dhtmldiv"></div>
-
-<div id='mainDHTMLDiv' class="dhtmldiv"></div>
-<div id="diplayContainerDiv" class="dhtmldiv">
-  <table border="0" width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-      <td width="50%"><div id="displayCoordsDiv" style="font-size:10px;"></div></td>
-
-      <td align="right" width="50%"><div id="displayMeasureDiv" style="font-size:10px;"></div></td>
-    </tr>
-  </table>
-</div>
-
 
 {if $query_result|default:''}
 <h1>Results: </h1>
@@ -285,6 +192,6 @@ ClientContext:
 <hr/>
 </pre>
 
-
+<p><a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
 </body>
 </html>
