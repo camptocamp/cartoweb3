@@ -14,6 +14,7 @@ require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
 /**
  * Security container which reads the usernames, passwords and roles out of a
  * plugin .ini file.
+ * @package Plugins
  */
 class IniSecurityContainer extends SecurityContainer {
 
@@ -72,6 +73,7 @@ class IniSecurityContainer extends SecurityContainer {
 /**
  * Extends the PEAR::Auth container to proxy is authentification requests to the
  * SecurityManager.
+ * @package Plugins
  */
 class ProxyAuthContainer extends Auth_Container {
     
@@ -119,6 +121,8 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * Common code called by all Pear::Auth callbacks. It handles the login page
      * display.
+     * @param string reason the page is called for
+     * @return string Smarty result
      */
     private function authCallback($reason) {
         

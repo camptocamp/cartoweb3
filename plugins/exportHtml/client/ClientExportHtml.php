@@ -34,19 +34,33 @@ class ClientExportHtml extends ExportPlugin {
         return '../';
     }
 
+    /**
+     * Not used.
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     public function handleHttpPostRequest($request) {
     }
 
+    /**
+     * Not used.
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     public function handleHttpGetRequest($request) {
     }
 
+    /**
+     * Draws "print" link or button used to launch HTML export.
+     * @see GuiProvider::renderForm()
+     */
     public function renderForm(Smarty $template) {
-
         $template->assign(array('exporthtml_active' => true,
                                 'exporthtml_url' => $this->getExportScriptPath()));
-
     }
 
+    /**
+     * Builds export configuration.
+     * @return ExportConfiguration
+     */
     public function getConfiguration() {
         
         $config = new ExportConfiguration();

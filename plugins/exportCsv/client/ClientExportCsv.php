@@ -102,6 +102,10 @@ class ClientExportCsv extends ExportPlugin {
     public function renderForm(Smarty $template) {
     }
 
+    /**
+     * Builds export configuration.
+     * @return ExportConfiguration
+     */
     public function getConfiguration() {
         
         $config = new ExportConfiguration();
