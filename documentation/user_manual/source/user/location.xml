@@ -5,14 +5,75 @@
 <chapter id="user.location">
  <title>Spatial options</title>
  <subtitle>Plugin location</subtitle>
-
- <sect1 id="user.location.intro"> 
-  <title>Introduction</title>
+ <partintro>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+  The plugin location is the core plugin that deals with geographic navigation
+  on the map. It handles bboxes (visible areas) and scales; it drives the tools
+  zoom-in, zoom-out and panning, the directional arrows around the main map and
+  the overview map.
   </para>
+  <para>
+  The corresponding configuration files are <filename>location.ini</filename> (client-side) 
+  and <filename>location.ini</filename> (server-side).
+  </para>
+ </partintro>
+ <sect1 id="user.location.client"> 
+  <title>location.ini (client-side)</title>
+  <para>
+  Here are the options that can be set :
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+    <indexterm>scalesActive</indexterm>: boolean, if true, the scales dropdown list is displayed (default: false). 
+    If no visible scales are defined on the server, a simple input text will be displayed.
+    </para>
+   </listitem>
+      <listitem>
+    <para>
+     <indexterm>recenterActive</indexterm>: boolean, if true, the coords recentering form is displayed (default: false)
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>idRecenterActive</indexterm>: boolean, if true, the id recentering fields will be displayed (default: false)
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>shortcutsActive</indexterm>: boolean, if true, the shortcuts (direct access dropdown list) are displayed (default: false)
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>scaleUnitLimit</indexterm>: scale above which DHTML measures use km ; below, they use m.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>panRatio</indexterm>ratio for panning by clicking directional arrows. 
+     Default is 1 (no overlap, no gap). Values below 1 result in an overlap of the old and the new maps; 
+     values above 1 in a gap between these two maps.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>weightZoomIn:</indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
+     (if not specified, default to 10). A negative weight disables the tool.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>weightZoomOut:</indexterm>: see weightZoomIn (default to 11)
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <indexterm>weightPan:</indexterm>: see weightZoomIn (default to 12)
+    </para>
+   </listitem>
+  </itemizedlist>
  </sect1>
 
 </chapter>
+
