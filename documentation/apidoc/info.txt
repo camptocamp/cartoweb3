@@ -1,1 +1,1 @@
-this folder phpDocumentor generated documentation
+this folder contains phpDocumentor generated documentation
