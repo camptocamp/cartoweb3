@@ -90,7 +90,22 @@ class ExportConfiguration {
      * @var int
      */
     private $resolution;
+
+    /**
+     * @var array
+     */
+    private $layerIds;
+
+    /**
+     * @var array
+     */
+    private $querySelections;
        
+    /**
+     * @var Bbox
+     */
+    private $queryBbox;
+    
     /**
      * @param boolean
      */
@@ -259,6 +274,48 @@ class ExportConfiguration {
         return $this->resolution;
     }
 
+    /**
+     * @param array
+     */
+    public function setLayerIds($layerIds) {
+        $this->layerIds = $layerIds;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLayerIds() {
+        return $this->layerIds;
+    }
+
+    /**
+     * @param array
+     */
+    public function setQuerySelections($querySelections) {
+        $this->querySelections = $querySelections;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuerySelections() {
+        return $this->querySelections;
+    }
+
+    /**
+     * @param Bbox
+     */
+    public function setQueryBbox($queryBbox) {
+        $this->queryBbox = $queryBbox;
+    }
+
+    /**
+     * @return Bbox
+     */
+    public function getQueryBbox() {
+        return $this->queryBbox;
+    }
+    
     // TODO: Add all configuration variables
 }
 
@@ -425,7 +482,7 @@ abstract class ExportPlugin extends ClientPlugin
             // Initializes plugins  
             $this->cartoclient->callPluginsImplementing('ServerCaller', 
                                                         'initializeResult',
-                                                        $mapResult);                                                 
+                                                        $mapResult); 
             return $mapResult;
             
         } catch (Exception $exception) {
