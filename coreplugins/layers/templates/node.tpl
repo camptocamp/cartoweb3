@@ -2,7 +2,7 @@
   {if $layerId != 'root'}
   <a href="#" onclick="shift('{$nodeId}')" id="x{$nodeId}" class="lk">-</a> <input
   type="checkbox" name="layers[]" value="{$layerId}" 
-  onclick="updateChecked('{$nodeId}', true)" {$layerChecked} />{$layerLabel}
+  onclick="updateChecked('{$nodeId}', true)" {$layerChecked} />{$layerLabel}<br />
   <div class="v" id="{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}
