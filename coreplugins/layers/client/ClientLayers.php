@@ -815,10 +815,7 @@ class ClientLayers extends ClientPlugin
      * Assigns the layers interface output in the general CartoClient template.
      * @see GuiProvider::renderForm()
      */
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $template->assign('layers', $this->drawLayersList());
         

@@ -233,9 +233,9 @@ interface GuiProvider {
 
     /**
      * Manages form output rendering
-     * @param string template name
+     * @param string Smarty template object
      */
-    function renderForm($template);
+    function renderForm(Smarty $template);
 }
 
 /** 

@@ -98,10 +98,6 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
     }
 }
 
-// TODO: eventually create a class SmartyFormRender, and add a plugin mechanism
-// in configuration file to choose the templating sytem to use, as a class 
-// which extends the abstract class FormRenderer
-
 /**
  * Class responsible for GUI display
  * @package Client

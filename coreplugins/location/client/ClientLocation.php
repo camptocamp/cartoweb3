@@ -552,7 +552,7 @@ class ClientLocation extends ClientPlugin
         return $locationInfo;
     }
     
-    function renderForm($template) {
+    function renderForm(Smarty $template) {
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)

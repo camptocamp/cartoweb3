@@ -43,10 +43,7 @@ class ClientHello extends ClientPlugin {
 
     function handleResult($result) {}
 
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $template->assign('hello_active', true);
         $template->assign('hello_message', "message: " . $this->message . 

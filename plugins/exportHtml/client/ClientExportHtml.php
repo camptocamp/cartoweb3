@@ -45,10 +45,7 @@ class ClientExportHtml extends ExportPlugin {
     function handleHttpGetRequest($request) {
     }
 
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $template->assign(array('exporthtml_active' => true,
                                 'exporthtml_url' => $this->getExportScriptPath()));

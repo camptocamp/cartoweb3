@@ -77,10 +77,7 @@ class ClientExportCsv extends ExportPlugin {
         }
     }
     
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
     }
 

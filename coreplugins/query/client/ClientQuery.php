@@ -162,10 +162,7 @@ class ClientQuery extends ClientPlugin
         }
     }
 
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
         
         if (!$this->queryResult)
             return;

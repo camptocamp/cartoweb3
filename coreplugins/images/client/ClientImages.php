@@ -358,7 +358,7 @@ class ClientImages extends ClientPlugin
         return $this->smarty->fetch('mapsizes.tpl');
     }
 
-    function renderForm($template) {
+    function renderForm(Smarty $template) {
        
         $template->assign(array(
             'mainmap_path' => 

@@ -179,10 +179,7 @@ class ClientOutline extends ClientPlugin
         return $this->smarty->fetch('outline.tpl');
     }
 
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $outline_active = $this->getConfig()->outlineActive;
        

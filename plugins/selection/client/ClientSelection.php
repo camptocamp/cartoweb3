@@ -277,11 +277,7 @@ class ClientSelection extends ClientPlugin
         return $layerResult;
     }
 
-    function renderForm($template) {
-    
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $selectionOutput = $this->drawSelectionResult();
         $template->assign('selection_result', $selectionOutput);

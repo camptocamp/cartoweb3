@@ -375,10 +375,7 @@ class ClientExportPdf extends ExportPlugin {
      * @see GuiProvider::renderForm()
      * @param Smarty
      */
-    function renderForm($template) {
-        if (!$template instanceof Smarty) {
-            throw new CartoclientException('unknown template type');
-        }
+    function renderForm(Smarty $template) {
 
         $template->assign('exportPdf', $this->drawUserForm());
     }
