@@ -162,6 +162,26 @@ class Cartoserver {
         return $serverMessages;
     }
 
+    private function checkRequest($mapRequest) {
+        foreach (get_object_vars($mapRequest) as $attr => $value) {
+            if (substr($attr, -7) != 'Request') {
+                continue;
+            }
+            $class = null;
+            if (!is_null($value)) {
+                $class = $value->className;
+            }
+            if (is_null($class) || $class == '') {
+                $class = ucfirst($attr);
+            }
+            // Is plugin loaded ?
+            if (class_exists($class)) {
+                continue;
+            }
+            throw new CartoserverException("Plugin server class $class was not loaded");                
+        }
+    }
+
     private function doGetMap($mapRequest) {
         $log =& LoggerManager::getLogger(__METHOD__);
 
@@ -177,6 +197,9 @@ class Cartoserver {
         }
         $serverContext->loadPlugins();
         $pluginManager = $serverContext->getPluginManager();
+
+        // Checks request-plugin match
+        $this->checkRequest($mapRequest);
 
         // Unserialize MapRequest
         $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
