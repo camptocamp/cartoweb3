@@ -1,5 +1,8 @@
 <?php
 /**
+ * Unit tests launcher
+ *
+ * This was originally a PHPUnit2 file called PHPUnit2/pear-phpunit
  * @package Tests
  * @version $Id$
  */

@@ -18,6 +18,9 @@ require_once(CARTOCLIENT_HOME . 'common/Serializable.php');
  */
 class common_SerializableTest extends PHPUnit2_Framework_TestCase {
 
+    /**
+     * Tests string array unserialization (from array)
+     */
     public function testStringArray1() {
         
         $struct = new stdclass();
@@ -31,6 +34,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->strArray[2], 'tutu');
     } 
 
+    /**
+     * Tests string array unserialization (from comma-separated string)
+     */
     public function testStringArray2() {
         
         $struct = new stdclass();
@@ -44,6 +50,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->strArray[2], 'tutu');
     } 
 
+    /**
+     * Tests int array unserialization (from array)
+     */
     public function testIntArray1() {
         
         $struct = new stdclass();
@@ -57,6 +66,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->intArray[2], 3);
     } 
 
+    /**
+     * Tests int array unserialization (from comma-separated string)
+     */
     public function testIntArray2() {
         
         $struct = new stdclass();
@@ -70,6 +82,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->intArray[2], 3);
     } 
 
+    /**
+     * Tests boolean array unserialization (from array)
+     */
     public function testBooleanArray1() {
         
         $struct = new stdclass();
@@ -82,6 +97,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertFalse($testObj->boolArray[1]);
     } 
 
+    /**
+     * Tests boolean array unserialization (from comma-separated string)
+     */
     public function testBooleanArray2() {
         
         $struct = new stdclass();
@@ -96,6 +114,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertFalse($testObj->boolArray[3]);
     } 
 
+    /**
+     * Tests object unserialization
+     */
     public function testObjectSimple() {
         
         $struct1 = new stdclass();
@@ -111,6 +132,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->obj->integer, 123);
     } 
 
+    /**
+     * Tests object hierarchy unserialization
+     */
     public function testObjectRecurse() {
         
         $struct1 = new stdclass();
@@ -130,6 +154,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->obj->obj->integer, 123);
     } 
     
+    /**
+     * Tests object map unserialization
+     */
     public function testObjectMap() {
         
         $struct1 = new stdclass();
@@ -148,6 +175,9 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($testObj->objMap['obj1']->integer, 123);        
     }
     
+    /**
+     * Tests complex object hierarchy unserialization
+     */
     public function testComplete() {
     
         $structRoot = new stdclass();
@@ -191,7 +221,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
 }
 
 /**
- * Test class used to test abstract class Serializable
+ * Test class used to test abstract class Serializable (all types of attribute)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
@@ -220,7 +250,7 @@ class SerializableTestClass1 extends Serializable {
 }
 
 /**
- * Test class used to test abstract class Serializable
+ * Test class used to test abstract class Serializable (simple)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */

@@ -5,6 +5,11 @@
  */
 
 /**
+ * Project handler
+ */
+require_once(CARTOCOMMON_HOME . 'coreplugins/project/common/ProjectHandler.php');
+
+/**
  * @package Common
  */
 abstract class Config {
@@ -30,12 +35,14 @@ abstract class Config {
 
         $kind = $this->getKind();
 
-        if (!@$this->configPath)
-            $this->configPath = $this->basePath . 
-                $kind . '_conf/';
+        $file = $kind . '.ini';
+        if (!@$this->configPath) {
+            $path = $kind . '_conf/'; 
+            $this->configPath = $this->basePath
+                . ProjectHandler::getPath($this->basePath, $path, $file);
+        }
 
-        $this->ini_array = parse_ini_file($this->configPath . 
-                                          $kind . '.ini');
+        $this->ini_array = parse_ini_file($this->configPath . $file);
 
         if (!@$this->writablePath)
             $this->writablePath = $this->basePath . 'www-data/';

@@ -18,7 +18,7 @@ require_once 'SerializableTest.php';
 
 /**
  * @package Tests
- * @author      Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class common_AllTests {
 

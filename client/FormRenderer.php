@@ -26,6 +26,18 @@ class Smarty_Cartoclient extends Smarty {
         $this->compile_check = $config->smartyCompileCheck;
         $this->debugging = $config->smartyDebugging;
     }
+
+    /**
+     * Overrides Smarty's resource fetching to choose the right project
+     */    
+    function _fetch_resource_info(&$params) {
+        $oldPath = $this->template_dir;
+        $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
+        $this->template_dir = CARTOCLIENT_HOME 
+                                . ProjectHandler::getPath(CARTOCLIENT_HOME,
+                                            $oldPath, $params['resource_name']);
+        return parent::_fetch_resource_info(&$params);
+    }
 }
 
 /**

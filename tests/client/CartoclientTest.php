@@ -13,7 +13,7 @@ require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 
 /**
  * @package Tests
- * @author      Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
 
