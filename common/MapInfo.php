@@ -45,12 +45,10 @@ class LayerBase extends Serializable {
  * @package Common
  */
 class LayerContainer extends LayerBase {
-    public $hidden = false;
     public $children = array();
     
     function unserialize($struct) {
         parent::unserialize($struct);   
-        $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
         $this->children = self::unserializeArray($struct, 'children');
         // FIXME: do it in unserializeArray ?
         if (is_null($this->children))
@@ -87,7 +85,9 @@ class Layer extends LayerContainer {
 /**
  * @package Common
  */
-class LayerClass extends LayerBase {}
+class LayerClass extends LayerBase {
+
+}
 
 /**
  * @package Common
@@ -113,16 +113,20 @@ class InitialLocation extends Location {
 class LayerState extends Serializable {
     public $id;
     public $hidden;
+    public $unselectable;
     public $selected;
     public $unfolded;
 
     function unserialize($struct) {
-        $this->id       = self::unserializeValue($struct, 'id');
-        $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
-        $this->selected = self::unserializeValue($struct, 'selected', 
-                                                 'boolean');
-        $this->unfolded   = self::unserializeValue($struct, 'unfolded', 
-                                                   'boolean');        
+        $this->id           = self::unserializeValue($struct, 'id');
+        $this->hidden       = self::unserializeValue($struct, 'hidden',
+                                                     'boolean');
+        $this->unselectable = self::unserializeValue($struct, 'unselectable',
+                                                     'boolean');
+        $this->selected     = self::unserializeValue($struct, 'selected', 
+                                                     'boolean');
+        $this->unfolded     = self::unserializeValue($struct, 'unfolded', 
+                                                     'boolean');        
     }
 }
 
@@ -196,7 +200,7 @@ class MapInfo extends Serializable {
         $childLayerId = $childLayer->id;
 
         if (in_array($childLayerId, array_keys($this->layers)))
-            throw new CartocommonException("Trying to replace layer " . $childLayerId);
+            throw new CartocommonException("Trying to replace layer $childLayerId");
 
         if (!in_array($childLayerId, $parentLayer->children))
             $parentLayer->children[] = $childLayerId;
