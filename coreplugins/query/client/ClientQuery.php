@@ -112,6 +112,10 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         return $smarty->fetch('query.tpl');
     }
 
+    private function encodingDecode(QueryResult $queryResult) {
+        
+    }
+
     function renderForm($template) {
         if (!$template instanceof Smarty) {
             throw new CartoclientException('unknown template type');
@@ -120,6 +124,7 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         if (!$this->queryResult)
             return;
         
+        //$queryResut = $this->encodingDecode(/* TODO */);
         $queryOutput = $this->drawQueryResult($this->queryResult);
 
         $template->assign('query_result', $queryOutput);
