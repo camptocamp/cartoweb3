@@ -17,9 +17,20 @@ require_once(CARTOCLIENT_HOME . 'common/ProjectHandler.php');
 class ClientProjectHandler extends ProjectHandler {
 
     /**
+     * Used for caching the project name.
+     * @var string
+     */
+    private $projectName = false;
+
+    /**
      * Environment variable which contains project name
      */
     const PROJECT_ENV_VAR = 'CW3_PROJECT';
+
+    /**
+     * Request name which contains the project name
+     */
+    const PROJECT_REQUEST = 'project';
 
     /**
      * @see ProjectHandler::getRootPath()
@@ -38,21 +49,28 @@ class ClientProjectHandler extends ProjectHandler {
      * - $_SERVER, variable REDIRECT_CW3_PROJECT (CGI redirect)
      * @return string project name
      */
-    function getProjectName () {
-        $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
-        if (is_readable($projectFileName))
-            return rtrim(file_get_contents($projectFileName));
-        
-        if (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
-            return $_ENV[self::PROJECT_ENV_VAR];
+    function getProjectName() {
+        if ($this->projectName === false) {
+            $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
+            
+            if (array_key_exists(self::PROJECT_REQUEST, $_REQUEST))
+                $this->projectName = $_REQUEST[self::PROJECT_REQUEST];
 
-        if (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
-            return $_SERVER[self::PROJECT_ENV_VAR];
-                
-        if (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_SERVER))
-            return $_SERVER['REDIRECT_' . self::PROJECT_ENV_VAR];
-        
-        return NULL;
+            else if (is_readable($projectFileName))
+                $this->projectName = rtrim(file_get_contents($projectFileName));
+
+            else if (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
+                $this->projectName = $_ENV[self::PROJECT_ENV_VAR];
+
+            else if (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
+                $this->projectName = $_SERVER[self::PROJECT_ENV_VAR];
+
+            else if (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_SERVER))
+                $this->projectName = $_SERVER['REDIRECT_' . self::PROJECT_ENV_VAR];
+
+            else $this->projectName = NULL;
+        }
+        return $this->projectName;
     }
 
 }
@@ -68,7 +86,7 @@ class ClientProjectHandler extends ProjectHandler {
  * @param Smarty Smarty engine
  * @return string resource path
  */
-function smartyResource ($params, $text, &$smarty) {
+function smartyResource($params, $text, &$smarty) {
     
     $text = stripslashes($text);
     
