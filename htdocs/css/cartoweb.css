@@ -19,16 +19,33 @@ a:hover {text-decoration: underline;color:#D0670A;}
 #banner h1 {text-align:center;margin:5px;padding:0;font-size:1.1em;}
 
 #leftbar {
-  border: 1px #ccc dashed;
   position: absolute;
   left: 10px;
-  top: 50px;
+  top: 40px;
   width: 180px;
   padding:0;
-  z-index: 2;
+  z-index: 3;
+  background:white;
 }
 
-#leftbar p {text-align:center;padding:10px;}
+#leftbar p {text-align:center;margin:10px;}
+
+#label1, #label2 {padding: 2px 5px 2px 5px;}
+
+#folder1, #folder2 {
+  position:absolute;
+  left:10px;
+  top:80px;
+  width:170px;
+  z-index:2;
+  visibility: hidden;
+  text-align:center;
+  padding:5px;
+  /*border:1px #ccc dashed;*/
+}
+
+#folder1 select, #folder2 select {max-width:160px;}
+
 #keymap {text-align:center;margin:10px;}
 #keymap input {border:1px solid #eee;}
 #mapImageDiv {border:1px solid #eee;}
@@ -57,7 +74,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 }
 
 .form_button {
-  width:100px;
   height:20px;
   border:1px solid #fff;
   border-bottom-color: #aaa;
