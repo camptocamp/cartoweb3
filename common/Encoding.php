@@ -14,7 +14,12 @@
 class Encoder {
     
     const DEFAULT_CONTEXT = 'output';
-    
+  
+    /**
+     * @var Logger
+     */
+    static private $log;
+      
     /**
      * List of Encoder
      * @var array array of EncoderInterface
@@ -26,6 +31,8 @@ class Encoder {
      * @param Config
      */
     static function init($config) {
+        self::$log =& LoggerManager::getLogger(__CLASS__);
+
         self::$encoders = array();
         $iniArray = $config->getIniArray();
         foreach ($iniArray as $key => $value) {

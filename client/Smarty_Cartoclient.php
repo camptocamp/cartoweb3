@@ -205,7 +205,7 @@ class Smarty_Cartoclient extends Smarty {
             $text = str_replace('\'','\\\'',stripslashes($text));
         }
     
-        return $text;
+        return Encoder::decode($text);
     }
 }
 
