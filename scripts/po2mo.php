@@ -120,23 +120,23 @@ function merge($project, $file1, $file2, $output) {
         $file1Name = $file1 . '.' . $locale . '.po';
         $file2Name = $file2 . '.' . $locale . '.po';
         $fileOutputName = $output . '.' . $locale . '.po';
-        $file1 = CARTOCLIENT_PODIR . $file1Name;
-        $file2 = CARTOCLIENT_PODIR . $file2Name;
+        $file1path = CARTOCLIENT_PODIR . $file1Name;
+        $file2path = CARTOCLIENT_PODIR . $file2Name;
         $fileOutput = CARTOCLIENT_PODIR . $fileOutputName;
         
-        if (!file_exists($file1)) {
-            print "Warning: Project " . getProjectName($project) . " merge - file $file1 not found.\n";
+        if (!file_exists($file1path)) {
+            print "Warning: Project " . getProjectName($project) . " merge - file $file1path not found.\n";
             return false;
         }
-        if (!file_exists($file2)) {
-            print "Warning: Project " . getProjectName($project) . " merge - file $file2 not found.\n";
+        if (!file_exists($file2path)) {
+            print "Warning: Project " . getProjectName($project) . " merge - file $file2path not found.\n";
             return false;
         }
         
         print "Merging $file1Name + $file2Name = $fileOutputName ";
         
-        $file1Lines = file($file1);
-        $file2Lines = file($file2);
+        $file1Lines = file($file1path);
+        $file2Lines = file($file2path);
 
         $fhOut = fopen($fileOutput, 'w');
         
