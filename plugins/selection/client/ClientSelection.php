@@ -19,7 +19,6 @@ class SelectionState {
 
 /**
  * Client plugin for managing selection and hilight of a set of objects.
- *
  * @package Plugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */

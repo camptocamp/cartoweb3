@@ -1,10 +1,11 @@
 <?php
 /**
+ * Vector objects hilighting
  * @package Plugins
  * @version $Id$
  */
 
-// Misc constants apprearing in config files  (mapfiles, ini, ...) 
+// Misc constants apprearing in config files (mapfiles, ini, ...) 
 define('HILIGHT_SUFFIX', '_hilight');
 define('HILIGHT_CLASS', 'hilight');
 
@@ -12,10 +13,18 @@ define('MASK_SUFFIX', '_mask');
 define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
 
 /**
+ * Hilighting server plugin
+ * 
+ * This plugin is a service server plugin, it doesn't implement any interfaces
+ * and doesn't have a client side. Vector hilighting is used by 
+ * {@link ServerSelection} and may be used by {@link ServerQuery}.
  * @package Plugins
  */
-class ServerHilight extends ClientResponderAdapter {
+class ServerHilight extends ServerPlugin {
 
+    /**
+     * @var Logger
+     */
     private $log;
 
     function __construct() {
@@ -23,13 +32,19 @@ class ServerHilight extends ClientResponderAdapter {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * UTF-8 decodes an Id
+     * @param string
+     * @return string
+     */
     private function decodeId($id) {
         return utf8_decode($id);   
     }
 
     /**
-     * Build a mapserver expression string.
-     * 
+     * Builds a mapserver expression string.
+     * @param SelectionRequest request
+     * @return string expression string
      */
     private function buildExpression($requ) {
 
@@ -83,6 +98,8 @@ class ServerHilight extends ClientResponderAdapter {
 
     /**
      * Sets a color given in an array to a mapserver color object
+     * @param MsColor MapServer color
+     * @param array initial color (array(int red, int green, int blue))     
      */
     private function setHilightColor($colorObj, $color) {
          $colorObj->setRGB($color[0], $color[1], $color[2]);
@@ -90,8 +107,9 @@ class ServerHilight extends ClientResponderAdapter {
     
     /**
      * Change the color and styles of this class to be hilighted.
-     *
-     * @param $class the class to hilight.
+     * @param MsLayer layer
+     * @param MsClass class to hilight
+     * @return MsClass resulting class
      */
     private function setupHilightClass($layer, $class) {
         
@@ -115,7 +133,10 @@ class ServerHilight extends ClientResponderAdapter {
     
     /**
      * Sets the expression of a mapserver class, so that it filters a given set
-     * of elements. These elements are specified in the hilightRequest $requ.
+     * of elements. These elements are specified in the {@link SelectionRequest}.
+     * @param MsLayer MapServer layer
+     * @param int index of layer's class
+     * @param SelectionRequest request
      */
     private function setClassExpression($msLayer, $classIndex, $requ) {
         
@@ -201,6 +222,13 @@ class ServerHilight extends ClientResponderAdapter {
         }
     }
         
+    /**
+     * Main function, does hilight given a {@link SelectionRequest}
+     *
+     * @param SelectionRequest
+     * @see ServerSelection::handlePreDrawing()
+     * @see ServerQuery::hilightSelectionRequest()
+     */
     function hilightLayer($requ) {
         
         $mapInfo = $this->serverContext->getMapInfo();
