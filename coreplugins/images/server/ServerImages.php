@@ -17,10 +17,26 @@ class ServerImages extends ServerCoreplugin {
     }
 
     function setupSizes($requ) {
+        $this->checkMapDimensions($requ);
+        
         $msMapObj = $this->serverContext->msMapObj;
 
         $msMapObj->set('height', $requ->mainmap->height);
         $msMapObj->set('width', $requ->mainmap->width);
+    }
+
+    /**
+     * If limit mainmap dimensions are available, checks if asked map dims
+     * fit, else sets them to max authorized sizes.
+     */
+    private function checkMapDimensions($requ) {
+        $maxWidth = $this->getConfig()->maxMapWidth;
+        $maxHeight = $this->getConfig()->maxMapHeight;
+
+        if ($maxWidth && $requ->mainmap->width > $maxWidth)
+            $requ->mainmap->width = $maxWidth;
+        if ($maxHeight && $requ->mainmap->height > $maxHeight)
+            $requ->mainmap->height = $maxHeight;
     }
 
     private function getImage($ms_image) {
@@ -116,7 +132,7 @@ class ServerImages extends ServerCoreplugin {
         } else {
             $imagesResult->scalebar = $notdrawnImage;
         }
-
+        
         return $imagesResult;
     }
 }

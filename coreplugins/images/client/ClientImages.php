@@ -8,6 +8,7 @@ require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 class ImagesState {
  
     public $mainmapDimension;
+    public $selectedSize;
 }
 
 /**
@@ -18,6 +19,10 @@ class ClientImages extends ClientCorePlugin {
     private $imagesState;
 
     private $imagesResult;
+    private $mapSizes;
+
+    const DEF_MAP_WIDTH  = 400;
+    const DEF_MAP_HEIGHT = 200;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -33,22 +38,50 @@ class ClientImages extends ClientCorePlugin {
         $this->log->debug('creating session:');
         
         $this->imagesState = new ImagesState();
+
+        $this->imagesState->selectedSize = $this->getConfig()->mapSizesDefault;
         
-        $mapHeight = $this->getConfig()->mapHeight;
-        $mapWidth  = $this->getConfig()->mapWidth;
-        if (!$mapHeight) $mapHeight = 200;
-        if (!$mapWidth) $mapWidth = 400;
-        
+        $mapWidth = $mapHeight = 0;
+        $this->setMapDimensions($mapWidth, $mapHeight);
         $this->imagesState->mainmapDimension = 
             new Dimension($mapWidth, $mapHeight);
     }
 
     function handleHttpRequest($request) {
+        $this->log->debug('update form:');
+        $this->log->debug($this->imagesState);
+        
+        if (isset($request['mapsize']) && strlen($request['mapsize'])) {
+            $this->imagesState->selectedSize = $request['mapsize'];
+
+            $mapWidth = $mapHeight = 0;
+            $this->setMapDimensions($mapWidth, $mapHeight);
+            $this->imagesState->mainmapDimension->width  = $mapWidth;
+            $this->imagesState->mainmapDimension->height = $mapHeight;
+        }
     }
 
     function getMainmapDimensions() {
         return $this->imagesState->mainmapDimension;
     }    
+
+    private function getMapSizes() {
+        if (is_array($this->mapSizes)) return $this->mapSizes;
+
+        return $this->initMapSizes();
+    }
+
+    private function setMapDimensions(&$mapWidth, &$mapHeight) {
+        $mapSizes = $this->getMapSizes();
+        if (isset($mapSizes[$this->imagesState->selectedSize])) {
+            $mapSize =& $mapSizes[$this->imagesState->selectedSize];
+            $mapWidth = $mapSize['width'];
+            $mapHeight = $mapSize['height'];
+        }
+        if (!isset($mapWidth) || !$mapWidth) $mapWidth = self::DEF_MAP_WIDTH;
+        if (!isset($mapHeight) || !$mapHeight) 
+            $mapHeight = self::DEF_MAP_HEIGHT;
+    }
 
     function buildMapRequest($mapRequest) {
 
@@ -161,6 +194,43 @@ class ClientImages extends ClientCorePlugin {
         return $this->glue_url($imageParsedUrl);
     }
 
+    private function initMapSizes() {
+        $this->mapSizes = array();
+        $config = $this->getConfig();
+
+        for ($i = 0; ; $i++) {
+            $prefix = 'mapSizes.' . $i;
+            $width = $prefix . '.width';
+            $width = $config->$width;
+            if (!$width) break;
+
+            $height = $prefix . '.height';
+            $height = $config->$height;
+            $label = $prefix . '.label';
+            $label = $config->$label;
+            if (!$label) $label = $width . 'x' . $height;
+
+            $this->mapSizes[$i] = array('label'  => $label,
+                                        'width'  => $width,
+                                        'height' => $height);
+        }
+        return $this->mapSizes;
+    }
+
+    private function drawMapSizes() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+        $mapsizesOptions = array();
+        foreach ($this->getMapSizes() as $id => $mapSize)
+            $mapsizesOptions[$id] = I18n::gt($mapSize['label']);
+
+        $mapsizeSelected = $this->imagesState->selectedSize;
+        $this->smarty->assign(array('mapsizes_options' => $mapsizesOptions,
+                                    'mapsize_selected' => $mapsizeSelected,
+                                    ));
+        return $this->smarty->fetch('mapsizes.tpl');
+    }
+
     function renderForm($template) {
        
         $template->assign(array(
@@ -187,6 +257,11 @@ class ClientImages extends ClientCorePlugin {
                 'scalebar_height' => $this->imagesResult->scalebar->height,
                                     ));
         }
+
+        $mapSizesActive = $this->getConfig()->mapSizesActive;
+        $template->assign(array('mapsizes_active' => $mapSizesActive,
+                                'mapsizes' => $this->drawMapSizes(),
+                                ));
     }
 
     function saveSession() {
