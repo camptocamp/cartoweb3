@@ -248,7 +248,6 @@ Outliner plugin:
 </div>
 
 <div id='myCanvasDiv' class="dhtmldiv"></div>
-<div id='myCanvasDiv' class="dhtmldiv"></div>
 <div id='myCanvas2Div' class="dhtmldiv"></div>
 
 <div id='mainDHTMLDiv' class="dhtmldiv"></div>
