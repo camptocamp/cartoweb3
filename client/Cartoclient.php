@@ -109,6 +109,7 @@ class Cartoclient {
     private $mapInfo;
     private $clientSession;
     private $cartoForm;
+    private $mapResult;
        
     private $httpRequestHandler;
     private $pluginManager; 
@@ -123,6 +124,10 @@ class Cartoclient {
 
     function getCartoForm() {
         return $this->cartoForm;
+    }
+
+    function getMapResult() {
+        return $this->mapResult;
     }
 
     function __construct() {
@@ -268,7 +273,7 @@ class Cartoclient {
         return $mapRequest;
     }
     
-    private function getMapResult($mapRequest) {
+    private function getMapResultFromRequest($mapRequest) {
 
         $mapResult = $this->cartoserverService->getMap($mapRequest);
         $this->mapInfoCache->checkMapInfoTimestamp($mapResult->timeStamp, 
@@ -296,12 +301,12 @@ class Cartoclient {
         $this->log->debug("maprequest:");
         $this->log->debug($mapRequest);
 
-        $mapResult = $this->getMapResult($mapRequest);
+        $this->mapResult = $this->getMapResultFromRequest($mapRequest);
 
         $this->log->debug("mapresult:");
-        $this->log->debug($mapResult);
+        $this->log->debug($this->mapResult);
 
-        $this->callPlugins('internalHandleResult', $mapResult);
+        $this->callPlugins('internalHandleResult', $this->mapResult);
 
         $this->log->debug("client context to display");
 
