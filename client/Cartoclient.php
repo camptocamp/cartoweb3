@@ -570,6 +570,8 @@ class Cartoclient {
     public function clientAllowed() {
         // If lots of client security checks are to done there, make a new
         /// ClientSecurityChecker object 
+        if (!$this->config->SecurityAllowedRoles)
+            return true;
         $allowedRoles = ConfigParser::parseArray($this->config->SecurityAllowedRoles);
         return SecurityManager::getInstance()->hasRole($allowedRoles);
     }
