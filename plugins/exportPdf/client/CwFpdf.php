@@ -332,7 +332,7 @@ class cFPDF extends FPDF {
      * @param float height
      * @see PdfWriter::addTableCell()
      */
-    private function addTableCell($text, $width, $height) {
+    function addTableCell($text, $width, $height) {
         // TODO: handle text alignment
         $x = $this->p->GetX();
         $y = $this->p->GetY();
@@ -368,7 +368,7 @@ class cFPDF extends FPDF {
      * @param array row data
      * @see PdfWriter::addTableRow()
      */
-    private function addTableRow(PdfBlock $block, TableElement $table, $row) {
+    function addTableRow(PdfBlock $block, TableElement $table, $row) {
         if (!is_array($row) && !is_object($row))
             $row = array($row);
 
@@ -744,7 +744,10 @@ class cFPDF extends FPDF {
             if ($this->addLegendItem($block, $layer) < 0)
                 break;
         }
-        
+       
+        // FIXME: add additional background color at the end of last column
+        // if it is smaller than previous ones.
+       
         // adds frame
         $this->p->Rect($x0, $y0, $this->maxExtent['topX'] - $x0,
                        $this->maxExtent['topY'] - $y0, 'D');

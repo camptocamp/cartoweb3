@@ -357,9 +357,9 @@
         */
     }
 
-    private function addTableCell() {}
+    function addTableCell() {}
 
-    private function addTableRow() {}
+    function addTableRow() {}
 
     function addTable(PdfBlock $block) {}
 
