@@ -519,6 +519,10 @@ class ClientLocation extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
     
+        $this->locationRequest = $this->handleBboxRecenter($request);
+        if (!is_null($this->locationRequest))
+            return;
+
         $this->locationRequest = $this->handlePanButtons();
         if (!is_null($this->locationRequest))
             return;
