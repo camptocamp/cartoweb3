@@ -29,7 +29,7 @@ class ServerContext {
 
     public $config;
 
-    private $projectHandler;
+    public $projectHandler;
 
     function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);

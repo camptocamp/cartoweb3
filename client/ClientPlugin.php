@@ -48,6 +48,8 @@ abstract class ClientPlugin extends PluginBase {
     private $log;
     protected $cartoclient;
 
+    protected $config;
+
     function __construct() {
         parent::__construct();
 
@@ -56,6 +58,9 @@ abstract class ClientPlugin extends PluginBase {
 
     function initialize($initArgs) {
         $this->cartoclient = $initArgs;
+
+        $this->config = new ClientPluginConfig($this->getName(),
+                                               $this->cartoclient->projectHandler);        
     }
 
     function getCartoclient() {

@@ -11,7 +11,7 @@ abstract class Config {
     public $basePath;
     public $projectHandler;
 
-    private $ini_array;
+    protected $ini_array;
 
     abstract function getKind();
 
@@ -27,7 +27,9 @@ abstract class Config {
     // !! WARNING: do not use empty() to test agains properties returned
     //  by __get(). It will be always empty !!
 
-    function __construct() {
+    function __construct($projectHandler) {
+
+        $this->projectHandler = $projectHandler;
 
         $kind = $this->getKind();
 
@@ -57,6 +59,39 @@ abstract class Config {
 
         if (!@$this->pluginsPath)
             $this->pluginsPath = $this->basePath . 'plugins/';
+    }
+}
+
+/**
+ * @package Common
+ */
+abstract class PluginConfig extends Config {
+
+    protected $plugin;
+
+    abstract function getPath(); 
+
+    function __construct($plugin, $projectHandler) {
+
+        $this->projectHandler = $projectHandler;
+
+        $this->plugin = $plugin;
+        
+        $kind = $this->getKind();
+        $path = $this->getPath();
+
+        $file = $plugin . '.ini';
+        if (!@$this->configPath) {
+            $path = $kind . '_conf/' . $path; 
+            $this->configPath = $this->basePath
+                . $this->projectHandler->getPath($this->basePath, $path, $file);
+        }
+
+        if (file_exists($this->configPath . $file)) {
+            $this->ini_array = parse_ini_file($this->configPath . $file);
+        } else {
+            $this->ini_array = array();
+        }
     }
 }
 ?>

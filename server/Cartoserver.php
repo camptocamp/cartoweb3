@@ -63,11 +63,28 @@ class ServerConfig extends Config {
 
     function __construct($projectHandler) {
         $this->basePath = CARTOSERVER_HOME;
-        $this->projectHandler = $projectHandler;
-        parent::__construct();
+        parent::__construct($projectHandler);
     }
 }
 
+/**
+ * @package Server
+ */
+class ServerPluginConfig extends PluginConfig {
+
+    function getKind() {
+        return 'server';
+    }
+
+    function getPath() {
+        return $this->projectHandler->getMapName() . '/';
+    }
+
+    function __construct($plugin, $projectHandler) {
+        $this->basePath = CARTOSERVER_HOME;
+        parent::__construct($plugin, $projectHandler);
+    }
+}
 
 /**
  * @package Server

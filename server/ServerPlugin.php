@@ -11,6 +11,8 @@ require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 abstract class ServerPlugin extends PluginBase {
     private $log;
 
+    protected $config;
+    
     const TYPE_CORE = 1;
 
     const TYPE_INIT = 2;
@@ -30,6 +32,9 @@ abstract class ServerPlugin extends PluginBase {
      */
     function initialize($initArgs) {
         $this->serverContext = $initArgs;
+        
+        $this->config = new ServerPluginConfig($this->getName(),
+                                               $this->serverContext->projectHandler);
     }
 
     abstract function getType();

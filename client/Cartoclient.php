@@ -65,8 +65,26 @@ class ClientConfig extends Config {
 
     function __construct($projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
-        $this->projectHandler = $projectHandler;
-        parent::__construct();
+        parent::__construct($projectHandler);
+    }
+}
+
+/**
+ * @package Client
+ */
+class ClientPluginConfig extends PluginConfig {
+
+    function getKind() {
+        return 'client';
+    }
+
+    function getPath() {
+        return '';
+    }
+
+    function __construct($plugin, $projectHandler) {
+        $this->basePath = CARTOCLIENT_HOME;
+        parent::__construct($plugin, $projectHandler);
     }
 }
 
@@ -97,7 +115,7 @@ class Cartoclient {
        
     private $config;
     
-    private $projectHandler;
+    public $projectHandler;
 
     function getConfig() {
         return $this->config;
