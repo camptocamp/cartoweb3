@@ -19,6 +19,11 @@ define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');
 
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
+/**
+ * Finds locales by looking for my_project.lang.po files
+ * @param string
+ * @return array
+ */
 function getLocales($project) {
     $d = dir(CARTOCLIENT_PODIR);
     $locales = array();
@@ -35,14 +40,33 @@ function getLocales($project) {
     return $locales;
 }
 
+/**
+ * Returns project name for PO file name
+ * @param string
+ * @return string
+ */
 function getProjectName($project) {
     return ($project == '') ? 'default' : $project;
 }
 
+/**
+ * Returns PO file name without extension
+ * @param string
+ * @param string
+ */
 function getProjectPo($project = '') {
     return 'client-' . getProjectName($project);
 }
 
+/**
+ * Retrieves PO from server
+ *
+ * If not in direct mode, will retrieve file using CURL. This needs CURL 
+ * to be installed in PHP environment.
+ * @param string
+ * @param string
+ * @return string retrieved file name
+ */
 function getMapPo($project, $mapId) {
 
     $direct = false;
@@ -118,6 +142,17 @@ function getMapPo($project, $mapId) {
     return $fileName;
 }
 
+/**
+ * Merges two PO files
+ * 
+ * Writes out all messages of first file, then writes out messages from 
+ * second file if not present in first one.
+ * @param string
+ * @param string
+ * @param string
+ * @param string
+ * @return boolean true if OK
+ */
 function merge($project, $file1, $file2, $output) {
 
     $locales = getLocales($project);
@@ -177,6 +212,12 @@ function merge($project, $file1, $file2, $output) {
     return true;
 }
 
+/**
+ * Compiles PO files into MO
+ * @param string
+ * @param string
+ * @return boolean true if OK
+ */
 function compile($project, $fileName) {
     
     $locales = getLocales($project);
@@ -203,6 +244,10 @@ function compile($project, $fileName) {
     return true;
 }
 
+/**
+ * Gets list of projects by reading projects directory
+ * @return array
+ */
 function getProjects() {
 
     $projects = array();
@@ -217,6 +262,11 @@ function getProjects() {
     return $projects;
 }
 
+/**
+ * Gets list of map Ids by reading project directory
+ * @param string
+ * @return array
+ */
 function getMapIds($project) {
     
     $mapIds = array();

@@ -27,6 +27,8 @@ error_reporting(0);
 
 /**
  * Main parsing function
+ * @param string
+ * @return array
  */
 function parseFile($fileName) {
     $opt['O'] = 1000000;
@@ -338,6 +340,9 @@ function parseFile($fileName) {
 
 /**
  * Returns the pos-th last file in a directory
+ * @param string
+ * @param int
+ * @param string
  */
 function getFile($dir, $pos) {
     $filedirs = scandir($dir);
@@ -445,6 +450,7 @@ print "Exec total        = " . $result['total'] . "\n";
 
 /**
  * Prints usage with an error message
+ * @param string
  */
 function usage($message = NULL) {
     if ($message) {

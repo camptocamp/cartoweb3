@@ -5,7 +5,9 @@
  * @version $Id$
  */
 
-// Misc constants apprearing in config files (mapfiles, ini, ...) 
+/** 
+ * Misc constants apprearing in config files (mapfiles, ini, ...) 
+ */
 define('HILIGHT_SUFFIX', '_hilight');
 define('HILIGHT_CLASS', 'hilight');
 
@@ -17,7 +19,7 @@ define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
  * 
  * This plugin is a service server plugin, it doesn't implement any interfaces
  * and doesn't have a client side. Vector hilighting is used by 
- * {@link ServerSelection} and may be used by {@link ServerQuery}.
+ * {@link ServerQuery}.
  * @package Plugins
  */
 class ServerHilight extends ServerPlugin {
@@ -33,7 +35,7 @@ class ServerHilight extends ServerPlugin {
     }
 
     /**
-     * Builds a mapserver expression string.
+     * Builds a mapserver expression string
      * @param QuerySelection
      * @return string expression string
      */
@@ -97,7 +99,7 @@ class ServerHilight extends ServerPlugin {
     }
     
     /**
-     * Change the color and styles of this class to be hilighted.
+     * Change the color and styles of this class to be hilighted
      * @param MsLayer layer
      * @param MsClass class to hilight
      * @return MsClass resulting class
@@ -125,7 +127,9 @@ class ServerHilight extends ServerPlugin {
     
     /**
      * Sets the expression of a mapserver class, so that it filters a given set
-     * of elements. These elements are specified in the {@link QuerySelection}.
+     * of elements
+     * 
+     * These elements are specified in the {@link QuerySelection}.
      * @param MsLayer MapServer layer
      * @param int index of layer's class
      * @param QuerySelection
@@ -141,6 +145,15 @@ class ServerHilight extends ServerPlugin {
         $class->setexpression($expression);
     }
     
+    /**
+     * Copies a layer and sets some attributes
+     * @param MsLayer layer to be copied
+     * @param string transparency if not specified in source layer
+     * @param string color if not specified in source layer
+     * @param string meta data name for transparency
+     * @param string meta data name for color
+     * @return MsLayer new layer
+     */
     private function createLayer($msLayer, $defaultTrans, $defaultColor,
                                  $metaTrans, $metaColor) {
 
@@ -171,7 +184,11 @@ class ServerHilight extends ServerPlugin {
     
     /**
      * Create a new layer which is a copy of $msLayer, and change some of 
-     * its attributes, to be hilighted. These attributes are read from metadata.
+     * its attributes, to be hilighted
+     * 
+     * These attributes are read from metadata.
+     * @param MsLayer
+     * @return MsLayer
      */
     private function createHilightLayer($msLayer) {
 
@@ -180,7 +197,9 @@ class ServerHilight extends ServerPlugin {
     }
 
     /**
-     * Hilight a whole layer, by setting its classes to be hilighted.
+     * Hilight a whole layer, by setting its classes to be hilighted
+     * @param MsLayer
+     * @param QuerySelection
      */ 
     private function hilightWholeLayer($layer, $querySelection) {
         
@@ -192,7 +211,11 @@ class ServerHilight extends ServerPlugin {
     
     /**
      * Create a new layer which is a copy of $msLayer, and change some of 
-     * its attributes, to be masked. These attributes are read from metadata.
+     * its attributes, to be masked
+     * 
+     * These attributes are read from metadata.
+     * @param MsLayer
+     * @return MsLayer
      */
     private function createMaskLayer($msLayer) {
 
@@ -201,7 +224,9 @@ class ServerHilight extends ServerPlugin {
     }
 
     /**
-     * Mask a whole layer, by setting its classes to be masked.
+     * Mask a whole layer, by setting its classes to be masked
+     * @param MsLayer
+     * @param QuerySelection
      */ 
     private function maskWholeLayer($layer, $querySelection) {
         
@@ -216,7 +241,6 @@ class ServerHilight extends ServerPlugin {
         
     /**
      * Main function, does hilight given a {@link QuerySelection}
-     *
      * @param QuerySelection
      * @see ServerQuery::handlePreDrawing()
      */

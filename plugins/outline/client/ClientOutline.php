@@ -116,6 +116,9 @@ class ClientOutline extends ClientPlugin
                     );
     }
 
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     function handleHttpPostRequest($request) {
 
         if (!empty($request['outline_clear'])) {
@@ -136,6 +139,9 @@ class ClientOutline extends ClientPlugin
         } 
     }
 
+    /**
+     * @see GuiProvider::handleHttpGetRequest()
+     */
     function handleHttpGetRequest($request) {
     }
     
@@ -178,6 +184,9 @@ class ClientOutline extends ClientPlugin
         return $this->smarty->fetch('outline.tpl');
     }
 
+    /**
+     * @see GuiProvider::renderForm()
+     */
     function renderForm(Smarty $template) {
 
         $outline_active = $this->getConfig()->outlineActive;

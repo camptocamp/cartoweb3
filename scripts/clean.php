@@ -106,6 +106,8 @@ foreach ($imageFiles as $filename) {
 
 /**
  * Gets all links between images and MapResults
+ * @param string
+ * @return array
  */
 function loadMapResults($resultCachedir) {
 
@@ -145,6 +147,8 @@ function loadMapResults($resultCachedir) {
 
 /**
  * Gets all links between images and SOAP XMLs
+ * @param string
+ * @return array
  */
 function loadSoapXMLs($soapCachedir) {
 
@@ -172,6 +176,9 @@ function loadSoapXMLs($soapCachedir) {
     return $soapXMLs;
 }
 
+/**
+ * Prints usage
+ */
 function usage() {
     print "Usage: ./clean.php <cache_image_max_age> [<simple_image_max_age>]\n";
     print "       (ages in minutes)\n";

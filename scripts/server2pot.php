@@ -180,7 +180,6 @@ function getProjects() {
     return $projects;
 }
 
-
 /**
  * Gets list of map Ids by reading project directory
  * @param string
