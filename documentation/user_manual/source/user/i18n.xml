@@ -94,22 +94,31 @@ fr    fr_CH.ISO-8859-1
       the following commands on client side. This should be done each time 
       configuration (client or server) is updated, and after each system 
       update. All languages are compiled at the same time. <screen><![CDATA[cd <cartoweb_home>/scripts
-./po2mo.php]]></screen> Warning: To retrieve PO files from server to client, 
-      the script uses PHP curl functions. PHP curl must be installed. </para>
+./po2mo.php]]></screen> Warning: When &cartoweb; is installed in SOAP mode, the 
+      script uses PHP curl functions to retrieve PO files from server to 
+      client. PHP curl module must be installed. </para>
+	</sect1>
+  <sect1 id="user.i18n.example">
+    <title>Example</title>
     <para> To translate texts in french for project testproject and map file 
       projectmap, follow these steps: <itemizedlist> <listitem> <para> On 
-      server : <screen><![CDATA[cd <cartoweb_home>/scripts
+      server: <screen><![CDATA[cd <cartoweb_home>/scripts
 ./server2pot.php]]></screen> Copy 
-      <filename>po/server-testproject.projectmap.po</filename> to 
-      <filename>po/server-testproject.projectmap.fr.po</filename>. Edit french 
-      file with Poedit (or any editor). </para> </listitem> <listitem> <para> 
-      On client : <screen><![CDATA[cd <cartoweb_home>/scripts
-./client2pot.php]]></screen> Copy <filename>po/client-testproject.po</filename> 
-      to <filename>po/client-testproject.fr.po</filename>. Edit french file 
-      with Poedit (or any editor). </para> <para> Merge and compile files with 
-      the following commands: <screen><![CDATA[cd <cartoweb_home>/scripts
+      <filename>&lt;cartoweb_home&gt;/po/server-testproject.po</filename> to 
+      <filename>&lt;cartoweb_home&gt;/po/server-testproject.fr.po</filename> 
+      and 
+      <filename>&lt;cartoweb_home&gt;/po/server-testproject.projectmap.po</filename> 
+      to 
+      <filename>&lt;cartoweb_home&gt;/po/server-testproject.projectmap.fr.po</filename>. 
+      Edit french files with Poedit (or any editor). </para> </listitem> 
+      <listitem> <para> On client: <screen><![CDATA[cd <cartoweb_home>/scripts
+./client2pot.php]]></screen> Copy 
+      <filename>&lt;cartoweb_home&gt;/po/client-testproject.po</filename> to 
+      <filename>&lt;cartoweb_home&gt;/po/client-testproject.fr.po</filename>. 
+      Edit french file with Poedit (or any editor). </para> <para> Merge and 
+      compile files with the following commands: <screen><![CDATA[cd <cartoweb_home>/scripts
 ./po2mo.php]]></screen> Now you should have the file 
-      <filename>testproject.projectmap.mo</filename> in 
+      <filename>testproject.projectmap.mo</filename> in directory 
       <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>. The 
       directory <filename>fr/LC_MESSAGES</filename> will be created if it does 
       not exist. </para> </listitem> </itemizedlist> </para>
