@@ -104,7 +104,7 @@ abstract class ServerPlugin extends PluginBase {
         $this->serverContext = $initArgs;
         
         $this->config = new ServerPluginConfig($this->getName(),
-                                               $this->serverContext->projectHandler);
+                                     $this->serverContext->getProjectHandler());
     }
 
     /**

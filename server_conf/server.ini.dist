@@ -21,6 +21,9 @@ developerIniConfig = false
 ; allows tests running through Web interface
 allowTests = false
 
+; The kind of URL generated for resources. May be one of 'Miniproxy|Symlink'
+urlProvider = Miniproxy
+
 ; path where cartoserver generated images can be accessed
 ;imageUrl = "/path/to/images/"
 

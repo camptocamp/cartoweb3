@@ -40,7 +40,7 @@ class ServerProjectHandler extends ProjectHandler {
         if (strpos($mapId, '.')) {
             list($this->projectName, $this->mapName) = explode('.', $mapId);
         } else {
-            $this->projectName = NULL;
+            $this->projectName = 'default';
             $this->mapName = $mapId;
         }      
     }

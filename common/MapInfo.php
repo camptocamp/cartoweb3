@@ -271,6 +271,24 @@ class MapInfo extends Serializable {
     public $autoClassLegend;
     
     /**
+     * @var string icon to show when layer not available (current scale is above
+     * or below this layer max scale)
+     */
+    public $notAvailableIcon;
+    
+    /**
+     * @var string icon to show when layer not available (current scale is above
+     * this layer max scale)
+     */
+    public $notAvailablePlusIcon;
+
+    /**
+     * @var string icon to show when layer not available (current scale is below
+     * this layer max scale)
+     */
+    public $notAvailableMinusIcon;
+
+    /**
      * @var array
      */
     public $layers;
@@ -303,6 +321,13 @@ class MapInfo extends Serializable {
         $this->autoClassLegend  = self::unserializeValue($struct, 
                                       'autoClassLegend', 'boolean');
   
+        $this->notAvailableIcon = self::unserializeValue($struct, 
+                                                    'notAvailableIcon');
+        $this->notAvailablePlusIcon = self::unserializeValue($struct, 
+                                                    'notAvailablePlusIcon');
+        $this->notAvailableMinusIcon = self::unserializeValue($struct, 
+                                                    'notAvailableMinusIcon');
+        
         // Layers class names are specicified in className attribute
         $this->layers           = self::unserializeObjectMap($struct, 'layers');
         $this->initialMapStates = self::unserializeObjectMap($struct, 

@@ -150,8 +150,12 @@ class ClientLayers extends ClientPlugin
      */
     private $mapId;
 
-    const BELOW_RANGE_ICON = 'nam.png';
-    const ABOVE_RANGE_ICON = 'nap.png';
+    /**
+     * Availability information icons
+     */
+    private $notAvailableIcon;
+    private $notAvailablePlusIcon;
+    private $notAvailableMinusIcon;
 
     /**
      * Constructor
@@ -159,6 +163,16 @@ class ClientLayers extends ClientPlugin
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
+    }
+
+    /**
+     * @see PluginBase::initialize()
+     */
+    function initialize() {
+        $mapInfo = $this->getCartoclient()->getMapInfo();
+        $this->notAvailableIcon = $mapInfo->notAvailableIcon;
+        $this->notAvailablePlusIcon = $mapInfo->notAvailablePlusIcon;
+        $this->notAvailableMinusIcon = $mapInfo->notAvailableMinusIcon;
     }
 
     /**
@@ -644,6 +658,15 @@ class ClientLayers extends ClientPlugin
     }
     
     /**
+     * @return boolean True if this icon is an out of range icon (below or above scale).
+     */
+    private function isOutOfRangeIcon($icon) {
+        return $icon == $this->notAvailableIcon ||
+                $icon == $this->notAvailablePlusIcon ||
+                $icon == $this->notAvailableMinusIcon;
+    }
+    
+    /**
      * Returns layer icon filename if any.
      * @param LayerBase
      * @param array list of layer children names (default: empty array)
@@ -671,15 +694,12 @@ class ClientLayers extends ClientPlugin
                     $childLayer = $this->getLayerByName($children[$i++]);
                     $layer->icon = $this->fetchLayerIcon($childLayer);
                 }
-                while (($layer->icon == self::BELOW_RANGE_ICON ||
-                        $layer->icon == self::ABOVE_RANGE_ICON) &&
+                while ($this->isOutOfRangeIcon($layer->icon) &&
                        isset($children[$i]));
 
                 // in addition, if layer has only one class, 
                 // does not display it
-                if ($nbChildren == 1 ||
-                    $layer->icon == self::BELOW_RANGE_ICON ||
-                    $layer->icon == self::ABOVE_RANGE_ICON) 
+                if ($nbChildren == 1 || $this->isOutOfRangeIcon($layer->icon)) 
                     $children = array();
             }
         } elseif ($this->setOutofScaleIcon($layer))
@@ -697,17 +717,32 @@ class ClientLayers extends ClientPlugin
     private function setOutofScaleIcon($layer) {
         if ($layer->minScale && 
             $this->getCurrentScale() < $layer->minScale) {
-            $layer->icon = self::BELOW_RANGE_ICON;
+            $layer->icon = $this->notAvailableMinusIcon;
             return true;
         }
         
         if ($layer->maxScale &&
             $this->getCurrentScale() > $layer->maxScale) {
-            $layer->icon = self::ABOVE_RANGE_ICON;
+            $layer->icon = $this->notAvailablePlusIcon;
             return true;
         }
         
+        // TODO: handle notAvailableIcon
+        
         return false;
+    }
+
+    /**
+     * @return string The url to the legend icons. In direct access 
+     *  this url is relative. In non-direct, it uses the cartoserverBaseUrl
+     *  in the prefix.
+     */
+    private function getIconUrl($relativeUrl) {
+        $config =$this->getCartoclient()->getConfig();
+        if ($config->cartoserverDirectAccess)
+            return $relativeUrl;
+        else
+            return $config->cartoserverBaseUrl . $relativeUrl;
     }
 
     /**
@@ -814,12 +849,13 @@ class ClientLayers extends ClientPlugin
         } else {
             $nextscale = false;
             switch($layer->icon) {
-                case self::ABOVE_RANGE_ICON:
+                // TODO: handle notAvailableIcon
+                case $this->notAvailablePlusIcon;
                     $layerOutRange = 1;
                     if ($layer->maxScale) $nextscale = $layer->maxScale;
                     break;
 
-                case self::BELOW_RANGE_ICON:
+                case $this->notAvailableMinusIcon;
                     $layerOutRange = -1;
                     if ($layer->minScale) $nextscale = $layer->minScale;
                     break;
@@ -827,12 +863,14 @@ class ClientLayers extends ClientPlugin
             $element['nextscale'] = $nextscale;
         }
 
+        $iconUrl = $this->getIconUrl($layer->icon);
+
         $element = array_merge($element,
                           array('layerLabel'       => I18n::gt($layer->label),
                                 'layerId'          => $layer->id,
                                 'layerClassName'   => $layer->className,
                                 'layerLink'        => $layer->link,
-                                'layerIcon'        => $layer->icon,
+                                'layerIcon'        => $iconUrl,
                                 'layerOutRange'    => $layerOutRange,
                                 'layerChecked'     => $layerChecked,
                                 'layerFrozen'      => $layerFrozen,
@@ -896,28 +934,15 @@ class ClientLayers extends ClientPlugin
         if (!$icon)
             return '';
 
-        $custom = explode('.', $this->getCartoclient()->getProjectHandler()
-                               ->getMapName());
-        if (isset($custom[1])) {
-            $project = $custom[0] . '/';
-            $mapId = $custom[1] . '/';
-        } else {
-            $project = '';
-            $mapId = $custom[0] . '/';
-        }
-        
-        if ($this->cartoclient->getConfig()->cartoserverDirectAccess)
-            $root = CARTOCLIENT_HOME . 'htdocs/';
-        else {
-            $root = sprintf('http%s://%s%s/',
-                            isset($_SERVER['HTTPS']) ? 's' : '',
-                            $_SERVER['HTTP_HOST'],
-                            dirname($_SERVER['PHP_SELF']));
-            if (preg_match("/^(.*)exportPdf\/(.*)$/", $root, $regs))
-                $root = $regs[1];
-        }
-        
-        return sprintf('%s%sgfx/icons/%s%s', $root, $project, $mapId, $icon);
+        $iconUrl = $this->getIconUrl($icon);
+        if (strpos('http', $iconUrl) === 0)
+            return $iconUrl;
+
+        // FIXME: make this mandatory, and don't test there
+        if (!$this->cartoclient->getConfig()->cartoserverBaseUrl)
+            throw new CartoclientException('You need to set cartoserverBaseUrl'); 
+        // converts relative path to absolute
+        return  $this->cartoclient->getConfig()->cartoserverBaseUrl . $iconUrl;
     }
 
     /**

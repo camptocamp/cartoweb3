@@ -20,7 +20,6 @@ class MapInfoHandler {
     private $iniPath;
     private $symPath;
     private $mapPath;
-    private $iconsPath;
 
     function __construct($serverContext, $mapId, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -75,10 +74,6 @@ class MapInfoHandler {
         return $this->getPath('symPath', 'server_conf/', 'sym');
     }
 
-    function getIconsPath() {
-        return $this->getPath('iconsPath', 'www-data/icons/');
-    }
-
     function getMapPath($serverContext) {
         if (!isset($this->mapPath))
             $this->mapPath = $serverContext->getMapPath();
@@ -108,6 +103,15 @@ class MapInfoHandler {
         $msMapObj = $serverContext->getMapObj();
         
         $mapInfo->mapLabel = $msMapObj->name;
+        
+        $availabilityIcons = array('notAvailableIcon' => 'na.png',
+                                   'notAvailablePlusIcon' => 'nap.png',
+                                   'notAvailableMinusIcon' => 'nam.png');
+        foreach($availabilityIcons as $field => $icon) {
+            if (!isset($mapInfo->$field))
+                $mapInfo->$field = $icon;
+            $mapInfo->$field = $this->getIconUrl($mapInfo->$field, false);
+        }
     }
     
     private function fillDynamicLayers($serverContext) {
@@ -130,6 +134,9 @@ class MapInfoHandler {
             else $layer->minScale = 0;
             if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
             else $layer->maxScale = 0;
+            
+            if ($layer instanceof Layer && !empty($layer->icon))
+                $layer->icon = $this->getIconUrl($layer->icon, false);
             
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msClass = $msLayer->GetClass($i);
@@ -187,19 +194,55 @@ class MapInfoHandler {
         $this->fillDynamicKeymap($serverContext);
     }
 
+    /**
+     * Returns the relative path to the icons. It is relative to the directory
+     * for storing generated images.
+     */
+    private function getIconsRelativePath() {
+        $project = $this->projectHandler->getProjectName();
+        $mapId = $this->projectHandler->getMapName();
+        return implode('/', array('icons', $project, $mapId)) . '/';
+    }
+
+    /**
+     * Returns the URL to the given icon. The URL is calculated using the 
+     * Resource handler.
+     */
+    private function getIconUrl($icon, $generated = false) {
+
+        $urlProvider = $this->serverContext->getResourceHandler()
+                                    ->getUrlProvider();
+        if ($generated) {
+            return $urlProvider->getGeneratedUrl($icon);
+        } else {
+            $project = $this->projectHandler->getProjectName();
+            $mapId = $this->projectHandler->getMapName();
+            
+            return $urlProvider->getIconUrl($project, $mapId, $icon);
+        }
+    }
+
+    /**
+     * Generates an icon image for classes, and returns its URL.
+     */
     private function getClassIcon($classId, $msMapObj, $msClassObj) {
-        $classIcon = $this->getIconsPath() . $classId . '.png';
         
-        if (!file_exists($classIcon) ||
-            filemtime($this->mapPath) > filemtime($classIcon) ||
+        $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
+        $iconAbsolutePath = $this->serverContext->config->writablePath .
+                                                         $iconRelativePath;
+        if (!is_dir(dirname($iconAbsolutePath)))
+            mkdir(dirname($iconAbsolutePath), 0755, true);
+            
+        if (!file_exists($iconAbsolutePath) ||
+            filemtime($this->mapPath) > filemtime($iconAbsolutePath) ||
             (file_exists($this->getSymPath()) && 
-             filemtime($this->getSymPath()) > filemtime($classIcon))) {
+             filemtime($this->getSymPath()) > filemtime($iconAbsolutePath))) {
             $lgdIcon = $msClassObj->createLegendIcon($msMapObj->keysizex, 
                                                      $msMapObj->keysizey);
-            if ($lgdIcon->saveImage($classIcon) < 0)
-                throw new CartoserverException("Failed writing $classIcon");
+            if ($lgdIcon->saveImage($iconAbsolutePath) < 0)
+                throw new CartoserverException("Failed writing $iconAbsolutePath");
         }
-        return basename($classIcon);
+        return $this->getIconUrl($iconRelativePath, true);
     }
 }
 ?>

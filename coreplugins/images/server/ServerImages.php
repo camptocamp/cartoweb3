@@ -5,16 +5,15 @@
  */
 
 /**
- * The number of generated images before issuing a warning
- */
-define('MAX_IMAGES_WARNING', 500);
-
-/**
  * Server part of Images plugin
  * @package CorePlugins
  */
 class ServerImages extends ServerPlugin 
                    implements CoreProvider {
+
+    // the number of generated images before issuing a warning
+    const MAX_IMAGES_WARNING = 500;
+    const IMAGES_WRITE_PATH = 'images/';
     
     /**
      * @var Logger
@@ -57,6 +56,32 @@ class ServerImages extends ServerPlugin
     }
 
     /**
+     * @return The base URL where the generated images can be found.
+     */
+    private function getImageBaseUrl() {
+        $config = $this->serverContext->config;
+        if ($config->imageUrl)
+            return $config->imageUrl;
+        return '';
+    }
+
+    /**
+     * Returns the complete URL to the imge which is sent to the client. It 
+     * uses the ResourceHandler to build this URL.
+     *
+     * @param string the original path to the image
+     * @return string The complete URL of the generated image.
+     */
+    private function getImageUrl($imagePath) {
+        if (strpos($imagePath, '/') !== false)
+            return $imagePath;
+        
+        $resourceHandler = $this->serverContext->getResourceHandler();
+        $imagePath = self::IMAGES_WRITE_PATH . $imagePath;
+        return $resourceHandler->getUrlProvider()->getGeneratedUrl($imagePath);
+    }
+
+    /**
      * Draws an image and returns an {@link Image} object
      * @param ms_Image MapServer image
      * @return Image
@@ -66,27 +91,11 @@ class ServerImages extends ServerPlugin
         
         $image->isDrawn = true;
         
-        $image->path = $ms_image->saveWebImage();
+        $image->path = $this->getImageUrl($ms_image->saveWebImage());
         $image->width = $ms_image->width;
         $image->height = $ms_image->height;
                 
         return $image;
-    }
-
-    /**
-     * Returns path to images location
-     * @return string
-     */
-    private function getImageUrl() {
-        $mapInfo = $this->serverContext->getMapInfo();
-        $config = $this->serverContext->config;
-            
-        $imageUrl = NULL;
-
-        if (@$config->imageUrl)
-            return $config->imageUrl;
-        
-        return 'images/';
     }
 
     /**
@@ -130,12 +139,12 @@ class ServerImages extends ServerPlugin
 
         if (!$msMapObj->web->imagepath) {
             $imagePath = $this->serverContext->config->writablePath .
-                'images/';
+                self::IMAGES_WRITE_PATH;
             $msMapObj->web->set('imagepath', $imagePath);
         }
 
         if (!$msMapObj->web->imageurl) {
-            $msMapObj->web->set('imageurl', $this->getImageUrl());
+            $msMapObj->web->set('imageurl', $this->getImageBaseUrl());
         }
 
         if ($requ->mainmap->isDrawn) { 
@@ -162,12 +171,12 @@ class ServerImages extends ServerPlugin
         
         $imgPath = $this->serverContext->getMapObj()->web->imagepath;
         $imgCount = count(scandir($imgPath));
-        if ($imgCount > MAX_IMAGES_WARNING) {
+        if ($imgCount > self::MAX_IMAGES_WARNING) {
             $msg = sprintf('Warning: you have a high number of generated ' .
                            'images (%u [warning threshold %u]]). You should ' .
                            'run the cleaning script. ' .
                     'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
-                    $imgCount, MAX_IMAGES_WARNING);
+                    $imgCount, self::MAX_IMAGES_WARNING);
             $serverContext->addMessage($msg, Message::CHANNEL_DEVELOPER);
         }
     }

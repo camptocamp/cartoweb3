@@ -82,14 +82,6 @@ class ClientExportPdf extends ExportPlugin {
     public function getBlocks() {
         return $this->blocks;
     }
-    
-    /**
-     * Returns export script path.
-     * @return string
-     */
-    public function getExportScriptPath() {
-        return 'exportPdf/export.php';
-    }
 
     /**
      * Returns PDF file name.
@@ -593,11 +585,14 @@ class ClientExportPdf extends ExportPlugin {
      * @return string
      */
     private function getGfxPath($gfx) {
+        /* // FIXME: Miniproxy breaks this simplification in direct access mode
+           // maybe investigate further
         if ($this->cartoclient->getConfig()->cartoserverDirectAccess) {
             $path =  $this->cartoclient->getConfig()->getBasePath();
             $path .= 'www-data/' . $gfx;
             return $path;
         }
+        */
         
         $cartoserverBaseUrl = $this->cartoclient->getConfig()
                               ->cartoserverBaseUrl;
@@ -813,7 +808,9 @@ class ClientExportPdf extends ExportPlugin {
      * @return string URL
      */
     private function getPdfFileUrl($filename) {
-        return $this->guessBaseUrl() . 'pdf/' . $filename;
+        $urlProvider = $this->cartoclient->getResourceHandler()->getUrlProvider();
+        $pdfUrl = $urlProvider->getGeneratedUrl('pdf/' . $filename);
+        return $this->guessBaseUrl() . $pdfUrl;
     }
 
     /**

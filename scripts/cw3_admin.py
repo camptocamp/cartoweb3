@@ -66,49 +66,8 @@ def setup_htdocs(htdocs_directory):
         
     # TODO: if no symlinks, show alias
     link_or_copy('../www-data/images', join(htdocs_directory, 'images'))
+    link_or_copy('../www-data/icons', join(htdocs_directory, 'icons'))
     link_or_copy('../www-data/pdf', join(htdocs_directory, 'pdf'))
-    
-
-def setup_icons(directory):
-
-    # creates www-data icons for each mapid
-    icon_dirs = glob.glob(join(directory, '../../server_conf/*'))
-    icon_dirs.extend(glob.glob(join(directory, 'server_conf/*')))
-
-    for icon_dir in icon_dirs:
-        dirs = icon_dir.split(os.sep)
-        map_id = dirs[-1]
-        www_data_dir = join(directory, 'www-data/icons', map_id)
-
-        if not os.path.isdir(www_data_dir):
-            os.makedirs(www_data_dir)
-
-        give_httpd_write_access(www_data_dir)
-
-    # links all static images
-    # TODO: copy mode
-
-    icon_paths = glob.glob(join(directory, '../../server_conf/*/icons/*'))
-    icon_paths.extend(glob.glob(join(directory, 'server_conf/*/icons/*')))
-    
-    for icon_path in icon_paths:
-        if not path_ok(icon_path):
-            continue
-
-        last_dirs = icon_path.split(os.sep)
-        map_id = last_dirs[-3]
-        img_name = last_dirs[-1]
-        www_data_icon = join(directory, 'www-data/icons', map_id, img_name)
-
-        link_or_copy(icon_path, www_data_icon)
-
-    if not os.path.isdir(join(directory, 'htdocs/gfx')):
-        os.makedirs(join(directory, 'htdocs/gfx'))
-    
-    # make links from htdocs
-    # TODO: copy mode
-    link_or_copy('../../www-data/icons', join(directory, 'htdocs/gfx/servicons'))
-    link_or_copy('servicons', join(directory, 'htdocs/gfx/icons'))
     
 
 def path_ok(path):
@@ -119,6 +78,26 @@ def path_ok(path):
 def get_projects(rootpath):
     dirs = os.listdir(join(rootpath, 'projects'))
     return [d for d in dirs if path_ok(d)]
+
+def setup_icons(rootpath, directory, project=None):
+
+    if project == None:
+        project = directory.split(os.sep)[-1]
+
+    icon_paths = glob.glob(join(directory, 'server_conf/*'))
+    icon_paths = [p for p in icon_paths if os.path.isdir(p) and path_ok(p)]
+    #print directory
+    for p in icon_paths:
+        #print p
+        mapid = p.split(os.sep)[-1]
+        dest_static = join(rootpath, 'htdocs/gfx/icons/',project)
+        if not os.path.isdir(dest_static):
+            os.makedirs(dest_static)
+        source_static = join(p, "icons")
+        link_or_copy(source_static, join(rootpath, join(dest_static, mapid)))
+
+    #print icon_paths
+    
     
 def setup_files():
 
@@ -135,9 +114,10 @@ def setup_files():
     for d in projects_path:
         setup_htdocs(join(d, 'htdocs'))
 
-    for d in projects_path:
-        setup_icons(d)
-     
+    setup_icons(rootpath, projects_path[-1], "default")
+    for d in projects_path[:-1]:
+        setup_icons(rootpath, d)
+
     link_or_copy('../po', join(rootpath, 'htdocs/po'))
     
     sys.exit(0)

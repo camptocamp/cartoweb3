@@ -38,22 +38,12 @@ class ClientProjectHandler extends ProjectHandler {
     const PROJECT_REQUEST = 'project';
     
     /**
-     * @var ClientProjectHandler singleton
-     */
-    static private $instance;
-    
-    /**
      * Constructor
      */
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
-        self::$instance = $this;
     }
-    
-    static function getInstance() {
-        return self::$instance;
-    }
-    
+
     /**
      * @see ProjectHandler::getRootPath()
      */
@@ -98,46 +88,6 @@ class ClientProjectHandler extends ProjectHandler {
         return $this->projectName;
     }
 
-}
-
-/**
- * Smarty block function for resources
- *
- * Transforms {r type=css plugin=myplugin}toto.css{/r} to 
- * myplugin/css/toto.css or currentproject/myplugin/css/toto.css .
- * @package Client
- * @param array block parameters
- * @param string block text
- * @param Smarty Smarty engine
- * @return string resource path
- */
-function smartyResource($params, $text, &$smarty) {
-    
-    $text = stripslashes($text);
-    
-    if (isset($params['type'])) {
-        $type = $params['type'];
-        unset($params['type']);       
-    }
-    
-    if (isset($params['plugin'])) {
-        $plugin = $params['plugin'];
-        unset($params['plugin']);        
-    }
-
-    if (isset($type)) {
-        $text = $type . '/' . $text;
-    }   
-    if (isset($plugin)) {
-        $text = $plugin . '/' . $text;
-    }
-
-    $projectHandler = ClientProjectHandler::getInstance();
-    if (is_null($projectHandler))
-        throw new CartoclientException('Project handler not yet initialized');
-    $text = $projectHandler->getWebPath($text);
-
-    return $text;
 }
 
 ?>

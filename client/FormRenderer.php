@@ -1,118 +1,15 @@
 <?php
 /**
- * Smarty and rendering classes
+ * Rendering classes
  * @package Client
  * @version $Id$
  */
 
 /**
- * Smarty templates
- */
-require_once('smarty/Smarty.class.php');
-
-/**
  * Project handler
  */
 require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
-
-/**
- * Specific Smarty engine for Cartoclient
- * @package Client
- */
-class Smarty_Cartoclient extends Smarty {
-
-    /**
-     * @var ClientProjectHandler
-     */
-    private $projectHandler;
-
-    /** 
-     * Constructor
-     * 
-     * Initializes dirs and cache, ans registers block functions (resources
-     * and i18n).
-     * @param Cartoclient the current cartoclient
-     */
-    function __construct(Cartoclient $cartoclient) {
-        parent::__construct();
-
-        $config = $cartoclient->getConfig();
-        $this->template_dir = $config->getBasePath() . 'templates/';
-        $this->compile_dir = $config->getBasePath() . 'templates_c/';
-        $this->config_dir = $config->getBasePath() . 'configs/';
-        $this->cache_dir = $config->getBasePath() . 'cache/';
-        
-        $this->caching = $config->smartyCaching;
-        $this->compile_check = $config->smartyCompileCheck;
-        $this->debugging = $config->smartyDebugging;
-        
-        $this->projectHandler = $cartoclient->getProjectHandler();
-        
-        // Block function for resources
-        $this->register_block('r', 'smartyResource');
-        
-        // Block function for translation
-        $this->register_block('t', 'smartyTranslate');        
-    }
-
-    /**
-     * Overrides Smarty's resource compile path
-     *
-     * Updates template dir to point to the right project and insert a compile
-     * id to have one cache file per project and per template.
-     * @param string resource name
-     * @return string path to resource  
-     */    
-    function _get_compile_path($resource_name)
-    {
-        $oldPath = $this->template_dir;
-        $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
-        // FIXME: should not hardcode projects constant !
-        if (substr($oldPath, 0, 9) == 'projects/') {
-            $oldPath = substr($oldPath,
-                strlen($this->projectHandler->getProjectName()) + 10 - strlen($oldPath));
-        }
-        $this->template_dir = CARTOCLIENT_HOME 
-                              . $this->projectHandler->getPath($oldPath, 
-                                                               $resource_name);
-        $this->_compile_id = md5($this->template_dir);
-        
-        return $this->_get_auto_filename($this->compile_dir, $resource_name,
-                                         $this->_compile_id) . '.php';
-    }
-    
-}
-
-/**
- * Specific Smarty engine for core plugins
- * @package Client
- */
-class Smarty_CorePlugin extends Smarty_Cartoclient {
-
-    /**
-     * @param ClientConfig
-     * @param ClientPlugin
-     */
-    function __construct(Cartoclient $cartoclient, ClientPlugin $plugin) {
-        parent::__construct($cartoclient);
-        
-        $this->template_dir = $plugin->getBasePath() . 'templates/';
-
-        $this->assignCommonVariables($cartoclient);
-    }
-
-    /**
-     * Fills some smarty variables common to all core plugins.
-     * 
-     * @param Cartoclient cartoclient object used to fill common smarty variables.
-     */
-    private function assignCommonVariables(Cartoclient $cartoclient) {
-        // sets the project name, as it is propagated through hidden variables.
-        $this->assign('project', $cartoclient->getProjectHandler()->
-                      getProjectName());
-
-    }
-}
+require_once(CARTOCLIENT_HOME . 'client/Smarty_Cartoclient.php');
 
 /**
  * Class responsible for GUI display

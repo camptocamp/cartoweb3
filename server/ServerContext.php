@@ -8,6 +8,7 @@ require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
+require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
 
 /**
  * Project handler
@@ -35,8 +36,8 @@ class ServerContext {
 
     public $config;
     private $messages = array();
-
-    public $projectHandler;
+    private $projectHandler;
+    private $resourceHandler;
     
     private $plugins;
     private $pluginManager;
@@ -48,9 +49,8 @@ class ServerContext {
         $this->mapId = $mapId;
 
         $this->projectHandler = new ServerProjectHandler($mapId);
-
         $this->config = new ServerConfig($this->projectHandler);
-
+        
         $this->pluginManager = null;
         $this->plugins = array();
         
@@ -189,7 +189,10 @@ class ServerContext {
         return array('images', 'location', 'layers', 'query', 'mapquery');
     }
 
-    function loadPlugins() {
+    /**
+     * Loads the server plugins.
+     */
+    public function loadPlugins() {
 
         if (is_null($this->pluginManager)) {
             $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
@@ -204,8 +207,29 @@ class ServerContext {
         }
     }
     
-    function getPluginManager() {
+    /**
+     * Returns the plugin manager
+     */
+    public function getPluginManager() {
         return $this->pluginManager;
+    }
+
+    /**
+     * Returns the project handler
+     */
+    public function getProjectHandler() {
+        return $this->projectHandler;
+    }
+        
+    /**
+     * Returns the resource handler
+     */
+    public function getResourceHandler() {
+        if (!$this->resourceHandler) {
+            $this->resourceHandler = new ResourceHandler($this->config, 
+                                                $this->getProjectHandler());
+        }
+        return $this->resourceHandler;
     }
     
     /*

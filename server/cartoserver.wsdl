@@ -88,6 +88,9 @@
           <element name="timeStamp" type="xsd:integer"/>
           <element name="mapLabel" type="xsd:string"/>
           <element name="keymapGeoDimension" type="types:GeoDimension"/>
+          <element name="notAvailableIcon" type="xsd:string"/>
+          <element name="notAvailablePlusIcon" type="xsd:string"/>
+          <element name="notAvailableMinusIcon" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfLayer"/>
           <element name="initialMapStates" type="types:ArrayOfInitialMapState"/>
           {PLUGINS_INIT}

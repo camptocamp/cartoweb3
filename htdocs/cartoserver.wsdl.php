@@ -82,7 +82,7 @@ $pluginsSpecificWsdl = '';
     
 if (isset($mapId)) {
 
-    $projectHandler = $serverContext->projectHandler;    
+    $projectHandler = $serverContext->getProjectHandler();    
     $plugins = $serverContext->getPluginManager()->getPlugins();
     
     foreach ($plugins as $plugin) {    

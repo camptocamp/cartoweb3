@@ -318,6 +318,19 @@ abstract class ExportPlugin extends ClientPlugin
                             implements GuiProvider {
 
     /**
+     * Returns export script path. This assumes the script is called export.php
+     * in the htdocs directory of the plugin. Clients should override this if
+     * this is not the case.
+     *
+     * @return string The export script path
+     */
+    public function getExportScriptPath() {
+        $urlProvider = $this->cartoclient->getResourceHandler()->getUrlProvider();
+        $project = $this->getCartoclient()->getProjectHandler()->getProjectName();
+        return $urlProvider->getHtdocsUrl($this->getName(), $project, 'export.php');
+    }
+    
+    /**
      * Returns session-saved last MapRequest.
      * @return MapRequest
      */

@@ -23,6 +23,7 @@ require_once(CARTOCOMMON_HOME . 'common/Common.php');
 require_once(CARTOCOMMON_HOME . 'common/Utils.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
+require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
@@ -218,6 +219,11 @@ class Cartoclient {
     private $projectHandler;
 
     /**
+     * @var ResourceHandler
+     */
+    private $resourceHandler;
+
+    /**
      * Array of user/developer messages
      * @var array
      */
@@ -270,6 +276,17 @@ class Cartoclient {
         return $this->projectHandler;
     }
     
+    /**
+     * @return ResourceHandler the cartoclient resource handler
+     */
+    public function getResourceHandler() {
+        if (!$this->resourceHandler) {
+            $this->resourceHandler = new ResourceHandler($this->config, 
+                                                $this->getProjectHandler());
+        }
+        return $this->resourceHandler;
+    }
+        
     /**
      * @return CartoForm
      */

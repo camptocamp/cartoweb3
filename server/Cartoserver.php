@@ -103,7 +103,7 @@ class Cartoserver {
             throw new CartoserverException("Invalid map id: $mapId");
 
         if (!$this->serverContext ||
-            $this->serverContext->projectHandler->mapId != $mapId) {
+            $this->serverContext->getProjectHandler()->mapId != $mapId) {
             $this->serverContext = new ServerContext($mapId);
         }
         return $this->serverContext;

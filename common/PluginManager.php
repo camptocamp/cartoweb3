@@ -73,24 +73,24 @@ class PluginManager {
      * @return string
      */
     private function getBasePluginPath($relativePath, $name) {
-            return $this->rootPath . $relativePath . $name . '/';
+        return $this->rootPath . $relativePath . $name . '/';
     }
 
     /**
-     * Returns plugin's main class file path
+     * Returns plugin's main class file name
      *
      * Also depends on the project.
      * @param string path to plugins root
      * @param string plugin name
      * @return string
      */
-    private function getPath($relativePath, $name) {
+    private function getPluginFilename($relativePath, $name) {
         
         $lastPath = $this->kind == self::CLIENT ? 
             'client/' : 'server/';
         return $this->rootPath .
             $this->projectHandler->getPath($relativePath .
-                $name . '/' . $lastPath . $this->getClassName($name) . '.php', '');
+                $name . '/' . $lastPath . $this->getClassName($name) . '.php');
     }
 
     /**
@@ -105,7 +105,7 @@ class PluginManager {
         
         return $this->rootPath .
             $this->projectHandler->getPath($relativePath .
-                $name . '/' . 'common/' . ucfirst($name) . '.php', '');
+                $name . '/' . 'common/' . ucfirst($name) . '.php');
     }
 
     /**
@@ -116,20 +116,34 @@ class PluginManager {
      * @return string
      */
     private function getClassName($name) {
-        
         $prefix = $this->kind == self::CLIENT ? 
             'Client' : 'Server';       
         return $prefix . ucfirst($name);
     }
+
+    /**
+     * Returns the relative path to the plugin parent directory. The directory
+     * layout is as follow:
+     * 
+     * CARTOCOMMON_HOME / relativePath / pluginName / {client,common,server,...}
+     * 
+     */    
+    public function getRelativePath($name) {
+        
+        $pluginPath = $this->projectHandler->getPath('coreplugins/' . $name);
+        $isCorePlugin = is_dir(CARTOCOMMON_HOME . $pluginPath);
+        return $isCorePlugin ? 'coreplugins/' : 'plugins/';
+    }
     
     /**
      * Tries to include plugin PHP scripts
-     * @param string path to plugin root
      * @param string plugin name
      */
-    private function includeClassFiles($relativePath, $name) {
+    private function includeClassFiles($name) {
         
-        $includePath = $this->getPath($relativePath, $name);
+        $relativePath = $this->getRelativePath($name);
+        
+        $includePath = $this->getPluginFilename($relativePath, $name);
         $this->log->debug("trying to load class $includePath");
         $this->log->debug($this->getCommonPath($relativePath, $name));
 
@@ -166,16 +180,8 @@ class PluginManager {
                 throw new CartocommonException($msg);
             }
 
-            // Tries in coreplugins 
-            $relativePath = 'coreplugins/';
-            $this->includeClassFiles($relativePath, $name);
+            $this->includeClassFiles($name);
 
-            if (!class_exists($className)) {
-                // Plugin not found, tries in plugins
-                $relativePath = 'plugins/';
-                $this->includeClassFiles($relativePath, $name);
-            }
-            
             if (!class_exists($className)) {
                 $msg = "Couldn't load plugin $className";
                 throw new CartocommonException($msg);
@@ -188,7 +194,8 @@ class PluginManager {
                 $name = $plugin->replacePlugin();
             }
 
-            $plugin->setBasePath($this->getBasePluginPath($relativePath, $name));
+            $plugin->setBasePath($this->getBasePluginPath(
+                                    $this->getRelativePath($name), $name));
             $plugin->setName($name);
             $plugin->setExtendedName($extendedName);
             
@@ -283,7 +290,13 @@ class PluginManager {
     function getCurrentPlugin() {
         
         ereg('(\/.*)*\/(.*)\/(.*).php', $_SERVER['PHP_SELF'], $match);
-        return $this->getPlugin($match[2]);
+        if ($match[3] == 'r') {
+            // match for the miniproxy
+            $plugin = $_GET['pl'];
+        } else {
+            $plugin = $match[2];
+        }
+        return $this->getPlugin($plugin);
     }
 }
 
