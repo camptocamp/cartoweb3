@@ -327,6 +327,9 @@ class ClientLocation extends ClientPlugin
         }
         
         $recenterRequest = new RecenterLocationRequest();
+
+        $recenterRequest->fallbackBbox = $this->cartoclient->getClientSession()
+            ->lastMapResult->locationResult->bbox;
         
         $idSelection = new IdSelection();
         $idSelection->layerId = $idRecenterLayer;

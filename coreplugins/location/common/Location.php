@@ -455,6 +455,12 @@ class RecenterLocationRequest extends Serializable {
      * @var array
      */
     public $idSelections;
+
+    /**
+     * Usefull to 'not' recenter if Ids unavailable
+     * @var Bbox
+     */
+    public $fallbackBbox;
  
     /**
      * @see Serializable::unserialize()
@@ -462,6 +468,8 @@ class RecenterLocationRequest extends Serializable {
     public function unserialize($struct) {
         $this->idSelections = self::unserializeObjectMap($struct, 'idSelections', 
                                                          'IdSelection'); 
+
+        $this->fallbackBbox = self::unserializeObject($struct, 'fallbackBbox', 'Bbox');
     }
 }
 

@@ -402,17 +402,25 @@ class RecenterLocationCalculator extends LocationCalculator {
     /**
      * Performs queries in MapServer ans returns resulting Bbox
      * @param IdSelection
-     * @return Bbox
+     * @return Bbox or NULL on error
      */
     private function getIdSelectionBbox(IdSelection $idSelection) {
     
         $pluginManager = $this->locationPlugin->
                                         getServerContext()->getPluginManager();
-        if (!empty($pluginManager->mapquery)) {
-            $results = $pluginManager->mapquery->queryByIdSelection($idSelection);
+        if (empty($pluginManager->mapquery))
+            return NULL;
+
+        $results = $pluginManager->mapquery->queryByIdSelection($idSelection, 
+            $mayFail=true);
+
+        if (empty($results)) {
+             $this->locationPlugin->getServerContext()->addMessage(
+                 $this->locationPlugin, 'NoneUnavailableId', 
+                 'Recenter Id canceled, unable to find selected Id.'
+                  );
+             return NULL;
         }
-        if (is_null($results) || count($results) == 0)
-            throw new CartoserverException('Could not fetch recentering bbox');        
 
         $bboxes = array();
         foreach ($results as $result) {
@@ -488,7 +496,7 @@ class RecenterLocationCalculator extends LocationCalculator {
                 $bboxes[] = $bbox; 
         }
         if (empty($bboxes))
-            throw new CartoserverException('no bbox found where to center');
+            return $this->requ->fallbackBbox;
 
         $bbox = $this->mergeBboxes($bboxes);
 
