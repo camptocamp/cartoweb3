@@ -35,7 +35,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {capture name=icon}
 {if $element.layerIcon}
   {if $element.nextscale}<a href="javascript:goToScale({$element.nextscale});">{/if}
-  <img src="{r type=gfx/icons}{$mapId}/{$element.layerIcon}{/r}" alt="" class="pic"
+  <img src="{$element.layerIcon}" alt="" class="pic"
   {if $element.nextscale}title="{t}Click to go to next visible scale:{/t} 1:{$element.nextscale}"
   {elseif $element.layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
   {elseif $element.layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} />
