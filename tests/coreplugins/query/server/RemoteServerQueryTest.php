@@ -55,6 +55,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $queryRequest->bbox = $bbox;
         $queryRequest->defaultTableFlags = new TableFlags();
         $queryRequest->defaultTableFlags->returnAttributes = true;
+        $queryRequest->defaultTableFlags->returnTable = true;
         $queryRequest->queryAllLayers = true;
 
         $mapRequest = $this->createRequest();
@@ -78,6 +79,17 @@ class coreplugins_query_server_RemoteServerQueryTest
     }
 
     /**
+     * Returns a {@link MapRequest} for a query with no table
+     * @return MapRequest
+     */
+    private function getMapRequestNoTable() {
+    
+        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest->queryRequest->defaultTableFlags->returnTable = false;        
+        return $mapRequest;
+    }
+
+    /**
      * Returns a {@link MapRequest} for a query on some layers
      * @return MapRequest
      */
@@ -92,14 +104,20 @@ class coreplugins_query_server_RemoteServerQueryTest
         $querySelection = new QuerySelection();
         $querySelection->layerId = 'polygon';
         $querySelection->useInQuery = true;
+        $querySelection->tableFlags = new TableFlags();
+        $querySelection->tableFlags->returnTable = true;
         $querySelections[] = $querySelection;
         $querySelection = new QuerySelection();
         $querySelection->layerId = 'line';
         $querySelection->useInQuery = true;
+        $querySelection->tableFlags = new TableFlags();
+        $querySelection->tableFlags->returnTable = true;
         $querySelections[] = $querySelection;
         $querySelection = new QuerySelection();
         $querySelection->layerId = 'point';
         $querySelection->useInQuery = true;
+        $querySelection->tableFlags = new TableFlags();
+        $querySelection->tableFlags->returnTable = true;
         $querySelections[] = $querySelection;
         $queryRequest->querySelections = $querySelections;
 
@@ -125,6 +143,8 @@ class coreplugins_query_server_RemoteServerQueryTest
         $querySelection->layerId = 'grid_defaulthilight';
         $querySelection->useInQuery = true;
         $querySelection->selectedIds = array('10');
+        $querySelection->tableFlags = new TableFlags();
+        $querySelection->tableFlags->returnTable = true;
         $querySelections[] = $querySelection;
         $queryRequest->querySelections = $querySelections;
 
@@ -165,6 +185,20 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals(1, count($polygonRows));
         $this->assertEquals('1', $polygonRows[0]->rowId); 
         $this->assertEquals(array(), $polygonRows[0]->cells);        
+    }
+
+    /**
+     * Checks for query with no table
+     * @param QueryResult
+     */
+    private function assertQueryResultNoTable($queryResult) {
+
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("polygon", 
+                            $queryResult->tableGroup->tables[0]->tableId);
+
+        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
+        $this->assertEquals(0, count($polygonRows));
     }
 
     /**
@@ -242,6 +276,20 @@ class coreplugins_query_server_RemoteServerQueryTest
         $mapResult = $this->getMap($mapRequest);
 
         $this->assertQueryResultNoAttributes($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    /**
+     * Tests a query with no table
+     * @param boolean
+     */
+    function testQueryNoTable($direct = false) {
+
+        $mapRequest = $this->getMapRequestNoTable();
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultNoTable($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
