@@ -101,7 +101,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_tree.png" alt="screen_tree" format="PNG"/>
+          <imagedata fileref="screen_tree.png" format="PNG"/>
         </imageobject>
       </mediaobject>
     </screenshot>   
@@ -119,7 +119,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_measuringtools.png" alt="screen_measuringtools" format="PNG"/>
+          <imagedata fileref="screen_measuringtools.png" format="PNG"/>
         </imageobject>
       </mediaobject>
     </screenshot>     
@@ -158,7 +158,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="screen_outline.png" alt="screen_outline" format="PNG"/>
+          <imagedata fileref="screen_outline.png" format="PNG"/>
         </imageobject>
       </mediaobject>
     </screenshot>   
