@@ -19,6 +19,8 @@ require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
 /**
  * Returns base URL of Cartoserver SOAP service. 
+ * FIXME: unduplicate code with getWsdlUrl in Cartoserver.php
+ *
  * @param ServerConfig
  * @return string
  */
