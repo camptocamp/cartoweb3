@@ -108,6 +108,7 @@ echo "                          - set ownership if ran as superuser,\n";
 echo "                          - give write permission instead.\n";
 echo "create_conf             : create the new configuration\n";
 echo "link_or_copy            : link or copy paths for web browser\n";
+echo "setup[=path]            : setup a new project in existing installation\n";
 echo "remove                  : remove cartoweb3\n";
 echo "\n";
 
@@ -164,9 +165,14 @@ foreach($cmd_array as $cmd=>$params) {
 
         case 'link_or_copy':
             echo "\nIf you're using the Miniproxy, cartoweb3 is now installed.\n";
-            echo "If not, you MUST say yes here: [y]";
+            echo "If not, or don't know, you MUST say yes here: [y]";
             $r = getInput();
             if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Finished\n");
+            setupProjects();
+            break;
+
+        case 'setup':
+            link_or_copy($params, 'projects/cete');
             setupProjects();
             break;
 
@@ -332,14 +338,14 @@ function link_or_copy($src, $dest) {
     global $isWin;
 
     if ($isWin) {
-        passthru("copy $src $dest", &$r);
-        $result = "\"$src\" copied to \"$dest\"\n";
+        if (copyr($src, $dest))
+            $result = "\"$src\" copied to \"$dest\"\n";
     }
     else {
-        passthru("ln -s $src $dest", &$r);
-        $result =  "\"$src\" linked from \"$dest\"\n";
+        if (symlink($src, $dest))
+            $result =  "\"$src\" linked from \"$dest\"\n";
     }
-    if (!$r) echo $result;
+    if (isset($result)) echo $result;
 }
 
 // Get libraries
@@ -401,6 +407,37 @@ function rmdirr($dir) {
        return true;
    else
        return false;
+}
+
+// Recursive copy
+function copyr($source, $dest) {
+    // Simple copy for a file
+    if (is_file($source)) {
+        return copy($source, $dest);
+    }
+
+    // Make destination directory
+    if (!is_dir($dest)) {
+        mkdir($dest);
+    }
+
+    // Loop through the folder
+    $dir = dir($source);
+    while (false !== $entry = $dir->read()) {
+        // Skip pointers
+        if ($entry == '.' || $entry == '..') {
+            continue;
+        }
+
+        // Deep copy directories
+        if ($dest !== "$source/$entry") {
+            copyr("$source/$entry", "$dest/$entry");
+        }
+    }
+
+    // Clean up
+    $dir->close();
+    return true;
 }
 
 
