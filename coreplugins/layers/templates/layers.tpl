@@ -96,10 +96,10 @@
 //-->
 </script>
 {/literal}
-<div id="layerscmd"><a href="#" onclick="expandAll('layersroot')">{$expand}</a> -
-<a href="#" onclick="closeAll('layersroot')">{$close}</a><br />
-<a href="#" onclick="checkChildren('layersroot')">{$check}</a> -
-<a href="#" onclick="checkChildren('layersroot', false)">{$uncheck}</a></div>
+<div id="layerscmd"><a href="javascript:expandAll('layersroot');">{$expand}</a> -
+<a href="javascript:closeAll('layersroot');">{$close}</a><br />
+<a href="javascript:checkChildren('layersroot');">{$check}</a> -
+<a href="javascript:checkChildren('layersroot', false);">{$uncheck}</a></div>
 <div id="layersroot">
 {$layerlist}
 </div>
