@@ -14,16 +14,16 @@ general.horizontalMargin = 10
 general.verticalMargin = 10
 
 ; formats settings
-formats.a4.label = A4
-formats.a4.bigDimension = 297
-formats.a4.smallDimension = 210
+formats.A4.label = A4
+formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
 
-formats.a3.label = A3
-formats.a3.bigDimension = 420
-formats.a3.smallDimension = 297
-formats.a3.horizontalMargin = 30
-formats.a3.verticalMargin = 30
-formats.a3.maxResolution = 150
+formats.A3.label = A3
+formats.A3.bigDimension = 420
+formats.A3.smallDimension = 297
+formats.A3.horizontalMargin = 30
+formats.A3.verticalMargin = 30
+formats.A3.maxResolution = 150
 
 ; blocks default settings
 template.type = text
