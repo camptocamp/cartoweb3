@@ -215,8 +215,10 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     }
 }
 
-// TODO: maybe make this type common, and reuse it elsewhere, like in HilightRequest
-//  and SelectionRequest
+/**
+ * Describes a selection of a set of objects identified by their id's.
+ * This object is used by other plugins, like the Selection plugin.
+ */
 class IdSelection extends Serializable {
     public $layerId;
     public $idAttribute;
