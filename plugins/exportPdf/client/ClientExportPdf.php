@@ -325,6 +325,9 @@ class ClientExportPdf extends ExportPlugin {
      * @see GuiProvider::handleHttpPostRequest()
      */
     function handleHttpPostRequest($request) {
+        if (!isset($request['pdfExport']))
+            return;
+
         $this->log->debug('processing exportPdf request');
 
         $ini_array = $this->getConfig()->getIniArray();
@@ -504,7 +507,7 @@ class ClientExportPdf extends ExportPlugin {
 
             if (is_null($mapResult))
                 return 0;
-                
+    
             $this->mapScale = $mapResult->locationResult->scale;
         }
         return $this->mapScale;
