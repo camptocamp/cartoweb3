@@ -1,3 +1,5 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -212,6 +214,10 @@ ClientContext:
 
   {if $recenter_active|default:''}
   {$recenter}
+  {/if}
+
+  {if $mapsizes_active|default:''}
+  {$mapsizes}
   {/if}
 
   {if $outliner_active|default:''}
