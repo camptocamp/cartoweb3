@@ -13,7 +13,8 @@
   {if $layerId != 'root'}
   <a href="javascript:shift('id{$nodeId}');" id="xid{$nodeId}" 
   class="lk">{if $groupFolded}+{else}-{/if}</a> 
-  {$smarty.capture.inputElt}{$smarty.capture.caption}<br />
+  {if !$layerUnselectable}{$smarty.capture.inputElt}{/if}
+  {$smarty.capture.caption}<br />
   <div class="{if $groupFolded}nov{else}v{/if}" id="id{$nodeId}">
   {/if}
   {foreach from=$childrenLayers item=layer}{$layer}{/foreach}
