@@ -84,10 +84,7 @@ class ClientImages extends ClientPlugin
             new Dimension($mapWidth, $mapHeight);
     }
 
-    function handleHttpPostRequest($request) {
-        $this->log->debug('update form:');
-        $this->log->debug($this->imagesState);
-        
+    private function handleMapSize($request) {
         if (isset($request['mapsize']) && strlen($request['mapsize'])) {
             $this->imagesState->selectedSize = $request['mapsize'];
 
@@ -98,7 +95,15 @@ class ClientImages extends ClientPlugin
         }
     }
 
+    function handleHttpPostRequest($request) {
+        $this->log->debug('update form:');
+        $this->log->debug($this->imagesState);
+        
+        $this->handleMapSize($request);        
+    }
+
     function handleHttpGetRequest($request) {
+        $this->handleMapSize($request);        
     }
     
     /**

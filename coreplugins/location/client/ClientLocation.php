@@ -231,11 +231,11 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('id_recenter.tpl');
     }
 
-    private function handleShortcuts($request) {
+    private function handleShortcuts($request, $useDoit = true) {
         if (array_key_exists('shortcut_id', $request) &&
-            array_key_exists('shortcut_doit', $request) &&
             $request['shortcut_id'] != '' &&
-            $request['shortcut_doit'] == '1') {
+            ((array_key_exists('shortcut_doit', $request) &&
+            $request['shortcut_doit'] == '1') || !$useDoit)) {
             
             $bboxRequest = new BboxLocationRequest();
             $bboxRequest->bbox = $this->shortcuts[$request['shortcut_id']]->bbox;
@@ -302,7 +302,6 @@ class ClientLocation extends ClientPlugin
             return;
 
         $this->locationRequest = $this->handleIdRecenter($request);
-
         if (!is_null($this->locationRequest))
             return;
         
@@ -318,6 +317,14 @@ class ClientLocation extends ClientPlugin
     function handleHttpGetRequest($request) {
 
         $this->locationRequest = $this->handleRecenter($request, false);
+        if (!is_null($this->locationRequest))
+            return;
+
+        $this->locationRequest = $this->handleIdRecenter($request);
+        if (!is_null($this->locationRequest))
+            return;
+
+        $this->locationRequest = $this->handleShortcuts($request, false);
         if (!is_null($this->locationRequest))
             return;
     }
