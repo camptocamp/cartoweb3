@@ -88,99 +88,6 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $this->assertTrue($testObj->boolArray[2]);
         $this->assertFalse($testObj->boolArray[3]);
     } 
-
-    public function testObjectSimple() {
-        
-        $struct1 = new stdclass();
-        $struct2 = new stdclass();
-        $struct2->className = 'SerializableTestClass2';
-        $struct2->integer   = 123;
-        $struct1->obj = $struct2;
-        
-        $testObj = new SerializableTestClass1('tata');
-        $testObj->unserialize($struct1);
-        
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass2');
-        $this->assertEquals($testObj->obj->integer, 123);
-    } 
-
-    public function testObjectRecurse() {
-        
-        $struct1 = new stdclass();
-        $struct2 = new stdclass();
-        $struct3 = new stdclass();
-        $struct3->className = 'SerializableTestClass2';
-        $struct3->integer   = 123;
-        $struct2->className = 'SerializableTestClass1';
-        $struct2->obj = $struct3;
-        $struct1->obj = $struct2;
-        
-        $testObj = new SerializableTestClass1('tata');
-        $testObj->unserialize($struct1);
-        
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass1');
-        $this->assertEquals(get_class($testObj->obj->obj), 'SerializableTestClass2');
-        $this->assertEquals($testObj->obj->obj->integer, 123);
-    } 
-    
-    public function testObjectMap() {
-        
-        $struct1 = new stdclass();
-        $struct2 = new stdclass();
-        $struct3 = new stdclass();
-        $struct3->className = 'SerializableTestClass2';
-        $struct3->integer   = 123;
-        $struct2->className = 'SerializableTestClass1';
-        $struct1->objMap = array('obj1' => $struct3, 'obj2' => $struct2);
-
-        $testObj = new SerializableTestClass1('tata');
-        $testObj->unserialize($struct1);
-        
-        $this->assertEquals(get_class($testObj->objMap['obj1']), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj2']), 'SerializableTestClass1');
-        $this->assertEquals($testObj->objMap['obj1']->integer, 123);        
-    }
-    
-    public function testComplete() {
-    
-        $structRoot = new stdclass();
-        $structRoot->className = 'SerializableTestClass1';
-        $structRoot->str = 'toto';
-        $structRoot->strArray = 'titi, tutu';
-        $structRoot->intArray = array(123, 456);
-        $structRoot->boolArray = 'true, false, 1, 0';
-        
-        $structObj1 = new stdclass();
-        $structObj1->className = 'SerializableTestClass2';
-        $structObj1->integer = 111;
-        
-        $structObj2 = new stdclass();
-        $structObj2->className = 'SerializableTestClass2';
-        $structObj2->integer = 222;
-        
-        $structObj3 = new stdclass();
-        $structObj3->className = 'SerializableTestClass1';
-        $structObj3->strArray = array('tete', 'tyty');
-        $structObj3->intArray = '333, 444';
-        $structObj3->boolArray = array(true, false);
-        $structObj3->obj = $structObj1;
-        
-        $structObj4 = new stdclass();
-        $structObj4->className = 'SerializableTestClass2';
-        $structObj4->integer = 555;
-        $structRoot->obj = $structObj4;
-        
-        $structRoot->objMap = array ('obj2' => $structObj2, 'obj3' => $structObj3);
-        
-        // Property testClass exists, so unserializeObject knows the class
-        $testObj = Serializable::unserializeObject($structRoot);
-
-        $this->assertEquals(get_class($testObj), 'SerializableTestClass1');
-        $this->assertEquals(get_class($testObj->obj), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj2']), 'SerializableTestClass2');
-        $this->assertEquals(get_class($testObj->objMap['obj3']), 'SerializableTestClass1');       
-        $this->assertEquals(get_class($testObj->objMap['obj3']->obj), 'SerializableTestClass2');       
-    }
 }
 
 /**
@@ -208,7 +115,7 @@ class SerializableTestClass1 extends Serializable {
         $this->intArray  = self::unserializeArray($struct, 'intArray', 'int');
         $this->boolArray = self::unserializeArray($struct, 'boolArray', 'boolean');
         $this->obj       = self::unserializeObject($struct, 'obj');
-        $this->objMap    = self::unserializeObjectMap($struct, 'objMap'); 
+        $this->objMap    = self::unserializeObject($struct, 'objMap'); 
     }
 }
 
