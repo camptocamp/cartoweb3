@@ -390,9 +390,9 @@ function dhtmlBox_measureShape() {
         this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
       }
 	  
-      if (this.dist_unit.indexOf('k') != -1) this.measure = Math.round(this.measure*100)/100
-      else this.measure = Math.round(this.measure)
-      this.displayMeasure.innerHTML = this.dist_msg + this.measure.toString() + this.dist_unit
+      if (this.dist_unit.indexOf('k') != -1) this.measureDisp = Math.round(this.measure*100)/100
+      else this.measureDisp = Math.round(this.measure)
+      this.displayMeasure.innerHTML = this.dist_msg + this.measureDisp.toString() + this.dist_unit
 	}
 	if (this.shapeType == 'polygon') { // calculate the surface and display it
 	  if (this.cnv_clicks > 1  && !this.keyEscape) {
