@@ -70,7 +70,6 @@ class ServerOutline extends ClientResponderAdapter {
      * @param Point
      */
     private function drawPoint($msMapObj, $point) {
-
         $layerName = $this->getConfig()->pointLayer;
         if (!$layerName) {
             $layerName = $this->getConfig()->polygonLayer;
@@ -85,6 +84,8 @@ class ServerOutline extends ClientResponderAdapter {
 
         $p = ms_newShapeObj(MS_SHAPE_POLYGON);
         $p->add($line);
+        // TODO verify LABEL object is set in mapfile for the layer
+        $p->set('text',$point->label);
 
         $outlineLayer->set('status', MS_ON);
         $class->set('status', MS_ON);
@@ -118,6 +119,8 @@ class ServerOutline extends ClientResponderAdapter {
             
         $p = ms_newShapeObj(MS_SHAPE_LINE);
         $p->add($dLine);
+        // TODO verify LABEL object is set in mapfile for the layer
+        $p->set('text',$line->label);
         
         $outlineLayer->addFeature($p);
                 
@@ -132,7 +135,6 @@ class ServerOutline extends ClientResponderAdapter {
      * @param boolean mask mode on/off
      */
     private function drawRectangle($msMapObj, $rectangle, $maskMode) {
-
         $points = array();       
         $points[] = new Point($rectangle->minx, $rectangle->miny);
         $points[] = new Point($rectangle->minx, $rectangle->maxy);
@@ -141,6 +143,7 @@ class ServerOutline extends ClientResponderAdapter {
 
         $polygon = new Polygon();
         $polygon->points = $points;
+        $polygon->label = $rectangle->label;
         
         $this->drawPolygon($msMapObj, $polygon, $maskMode);
     }
@@ -187,8 +190,11 @@ class ServerOutline extends ClientResponderAdapter {
 
             $outlineLayer->set('status', MS_ON);
             $class->set('status', MS_ON);
-        
-            $outlineLayer->addFeature($this->convertPolygon($polygon));            
+
+            $p = $this->convertPolygon($polygon);
+            // TODO verify LABEL object is set in mapfile for the layer
+            $p->set('text',$polygon->label);
+            $outlineLayer->addFeature($p);            
         } else {
         
             $image2 = $msMapObj->prepareimage();
@@ -217,6 +223,8 @@ class ServerOutline extends ClientResponderAdapter {
                                           
             $p = $this->convertPolygon($polygon);
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
+            // TODO verify LABEL object is set in mapfile for the layer
+            $p->set('text',$polygon->label);
                        
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
                                                                   0xff0000);
@@ -296,7 +304,6 @@ class ServerOutline extends ClientResponderAdapter {
      * @return OutlineResult
      */
     public function handleDrawing($requ) {
-
         $area = $this->draw($requ->shapes, $requ->maskMode);
         
         $result = new OutlineResult();
