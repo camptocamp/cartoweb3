@@ -44,7 +44,7 @@
         </complexContent>
       </complexType>
 
-	  <complexType name="ArrayOfString">
+          <complexType name="ArrayOfString">
         <complexContent>
           <restriction base="enc11:Array">
             <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
@@ -267,16 +267,16 @@
       <!-- query -->
 
       <complexType name="QueryRequest">
-		<all>
+        <all>
           <element name="bbox" type="types:Bbox"/>
           <element name="layerIds" type="types:ArrayOfLayerId"/>
-		</all>
+        </all>
       </complexType>
 
       <complexType name="QueryResult">
-		<all>
+        <all>
           <element name="layerResults" type="types:ArrayOfLayerResult"/>
-		</all>
+        </all>
       </complexType>
 
       <complexType name="ArrayOfLayerResult">
@@ -288,15 +288,15 @@
       </complexType>
       
       <complexType name="LayerResult">
-		<all>
+        <all>
           <element name="layerId" type="xsd:string"/>
           <element name="numResults" type="xsd:integer"/>
           <element name="fields" type="types:ArrayOfString"/>
           <element name="resultElements" type="types:ArrayOfResultElement"/>
-		</all>
+        </all>
       </complexType>
 
-	  <complexType name="ArrayOfResultElement">
+      <complexType name="ArrayOfResultElement">
         <complexContent>
           <restriction base="enc11:Array">
             <attribute ref="enc11:arrayType" wsdl:arrayType="types:ResultElement[]"/>
@@ -306,27 +306,27 @@
 
       
       <complexType name="ResultElement">
-		<all>
+        <all>
           <element name="id" type="xsd:string"/>
           <element name="values" type="types:ArrayOfString"/>
-		</all>
+        </all>
       </complexType>
 
       <!-- selection -->
 
       <complexType name="SelectionRequest">
-		<all>
+        <all>
           <element name="policy" type="types:SelectionPolicy"/>
           <element name="bbox" type="types:Bbox"/>
-		</all>
+        </all>
       </complexType>
 
       <complexType name="SelectionResult">
-		<all>
+        <all>
           <element name="layerId" type="xsd:string"/>
           <element name="selectedIds" type="types:ArrayOfLayerId"/>
-		</all>      
-	  </complexType>
+        </all>      
+      </complexType>
 
       <simpleType name="SelectionPolicy">
         <restriction base="xsd:string">
@@ -339,10 +339,10 @@
       <!-- hilight -->
 
       <complexType name="HilightRequest">
-		<all>
+        <all>
           <element name="layerId" type="xsd:string"/>
           <element name="selectedIds" type="types:ArrayOfLayerId"/>
-		</all>
+        </all>
       </complexType>
 
       <complexType name="HilightResult">

@@ -8,8 +8,8 @@
 Layer result: {$layer_result->layerId} <br/>
 
     {foreach from=$layer_result->fields item=field}
-		Fields: {$field} <br/>
-		
+                Fields: {$field} <br/>
+                
     {/foreach}
 
     {foreach from=$layer_result->resultElements item=result_element}

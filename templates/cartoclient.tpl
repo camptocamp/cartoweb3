@@ -180,7 +180,7 @@ Outliner plugin:
         <td/>
       {if $scalebar_path|default:''}
         <td align="center">
-	         <img src='{$scalebar_path}'>
+                 <img src='{$scalebar_path}'>
         <td/>
       {/if}
 </table>

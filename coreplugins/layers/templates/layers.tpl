@@ -14,11 +14,11 @@ function shift(id)
     
     if(key.innerHTML == '-') { 
         key.innerHTML = '+';
-	obj.style.display = 'none';
+        obj.style.display = 'none';
     }
     else {
         key.innerHTML = '-';
-	obj.style.display = 'block';
+        obj.style.display = 'block';
     }
 }
 
@@ -29,8 +29,8 @@ function expandAll(id)
     
     for (i = 0; i < divs.length; i++) {
         divs[i].style.display = 'block';
-	var key = document.getElementById('x' + divs[i].id);
-	if(key) key.innerHTML = '-';
+        var key = document.getElementById('x' + divs[i].id);
+        if(key) key.innerHTML = '-';
     }
 }
 
@@ -42,10 +42,10 @@ function closeAll(id)
     for (i = 0; i < divs.length; i++) {    
         var key = document.getElementById('x' + divs[i].id);
         if(key) key.innerHTML = '+';
-	
-	if(divs[i].getAttribute('id')) {
+        
+        if(divs[i].getAttribute('id')) {
             divs[i].style.display = 'none';    
-	}
+        }
     }
 }
 
