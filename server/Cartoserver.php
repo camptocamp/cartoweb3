@@ -334,6 +334,7 @@ class Cartoserver {
         try {
             return $this->$function($argument);
         } catch (Exception $exception) {
+            $this->mapResultCache->setSkipCaching(true);
             return new SoapFault('Cartoserver exception', $exception->getMessage());
         }
 

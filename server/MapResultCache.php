@@ -30,6 +30,11 @@ class MapResultCache {
     private $mapResultFile;
 
     /**
+     * @var boolean True if the the last mapResult should not be cached.
+     */
+    private $skipCaching = false;
+
+    /**
      * Constructor
      * @param Cartoserver
      */
@@ -74,6 +79,15 @@ class MapResultCache {
     }
 
     /**
+     * Sets the skipCaching variable, which will skip the cache of the mapResult
+     * if skipCaching is true. 
+     * It can be used not to put error messages in cache.
+     */
+    public function setSkipCaching($skipCaching) {
+        $this->skipCaching = $skipCaching;
+    }
+
+    /**
      * Saves map result in cache file.
      * @param MapRequest
      * @return MapResult
@@ -81,6 +95,11 @@ class MapResultCache {
     private function cacheMapResult($mapRequest) {
          
         $mapResult = $this->getMapResultFromServer($mapRequest);
+        if ($this->skipCaching) {
+            $this->log->debug('SkipCaching is true, result will not be put ' .
+                    'into the cache');
+            return $mapResult;
+        }
         $mapResultSerialized = serialize($mapResult);        
         $amount = file_put_contents($this->getMapResultFile($mapRequest),
                                     $mapResultSerialized);
@@ -111,8 +130,22 @@ class MapResultCache {
      * @return boolean true => cache is OFF
      */
     private function skipCache($mapRequest) {
-        return $this->cartoserver->getServerContext($mapRequest->mapId)->
-               config->noMapResultCache;
+
+        if ($this->cartoserver->getServerContext($mapRequest->mapId)->
+               config->noMapResultCache)
+            return true;
+
+        // If we are not in direct mode (coreplugin classes not loaded will 
+        //  tell us), then we skip the caching, as it will fail because the
+        //  plugin manager has not loaded required classes used for 
+        //  deserialisation of the mapResult.
+        //  => SoapXml cache should be used instead    
+        if (!class_exists('ImagesResult')) {
+            $this->log->warn('Non direct mode detected. MapResult cache will not ' .
+                    'be used (core plugin classes not loaded for deserialisation)');
+            return true;
+        }
+        return false;
     }
 
     /**
