@@ -23,9 +23,9 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     
     private $scales;
 
-    const TOOL_ZOOMIN = 'zoom_in';
-    const TOOL_ZOOMOUT = 'zoom_out';
-    const TOOL_PAN = 'pan';
+    const TOOL_ZOOMIN   = 'zoom_in';
+    const TOOL_ZOOMOUT  = 'zoom_out';
+    const TOOL_PAN      = 'pan';
     const TOOL_RECENTER = 'recenter';
 
     private $smarty;
@@ -112,7 +112,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
             return;
         if (!$keymapShape instanceof Point) {
             throw new CartoclientException('shapes other than point ' .
-                    'unsupported for keymap');
+                                           'unsupported for keymap');
             return;   
         } 
 
@@ -187,7 +187,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     function getLocation() {
 
         if (!$this->locationState)
-            throw new CartoclientException("location state not yet initialized");
+            throw new CartoclientException('location state not yet initialized');
         return $this->locationState->bbox;
     }
 
@@ -257,7 +257,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
 
         $zoomType = @$toolToZoomType[$tool->id];
         if (empty($zoomType))
-            throw new CartoclientException("unknown mainmap tool " . $tool->id);
+            throw new CartoclientException('unknown mainmap tool ' . $tool->id);
 
         $point = $mainmapShape->getCenter();
 
@@ -358,9 +358,9 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                                 'bboxMaxX' => $this->locationState->bbox->maxx,
                                 'bboxMaxY' => $this->locationState->bbox->maxy,
                                 'factor' => $factor,
-                                'recenter_active' => $recenter_active, 
+                                'recenter_active' => $recenter_active,
+                                'recenter' => $this->drawRecenter(),
                                 ));
-        $template->assign('recenter', $this->drawRecenter());
     }
 
     function saveSession() {
