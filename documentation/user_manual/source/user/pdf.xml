@@ -811,8 +811,9 @@ general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
-                          page, legend, logo, scaleval, tlcoords, brcoords
+general.activatedBlocks = mainmap, title, note, scalebar, overview, 
+                          copyright, queryResult, page, legend,
+                          logo, scaleval, tlcoords, brcoords
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
@@ -864,8 +865,9 @@ formats.A3.maxResolution = 150]]></programlisting>
    <para>
     Note that blocks that are not mentioned in <parameter>general.activatedBlocks</parameter> won't be displayed in any case.
    </para>
-   <programlisting><![CDATA[general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
-                          page, legend, logo, scaleval, tlcoords, brcoords]]></programlisting>
+   <programlisting><![CDATA[general.activatedBlocks = mainmap, title, note, scalebar, overview,
+                          copyright, queryResult, page, legend,
+                          logo, scaleval, tlcoords, brcoords]]></programlisting>
 
    <sect3 id="user.pdf.tutorial.block.template">
     <title><indexterm><primary>template object, PDF</primary></indexterm>Block template and overriding</title>
