@@ -32,11 +32,19 @@ then
 	addlinks "plugins"
 	addlinks "coreplugins"
 else
-	cd ../htdocs
-	find -name $1 -type l -exec rm {} \;
-	ln -s ../projects/$1/htdocs $1
-	cd $1
-	cd ../../projects/$1
+	for j in `ls ../projects`; do
+		if [ "$j" = "$1" ]
+		then
+			cd ../htdocs
+			find -name $1 -type l -exec rm {} \;
+			ln -s ../projects/$1/htdocs $1
+			cd $1
+			cd ../../projects/$1
 
-	addlinks "plugins"
+			addlinks "plugins"
+			exit 1
+		fi
+	done
+	
+	usage
 fi
