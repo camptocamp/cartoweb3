@@ -429,8 +429,14 @@ class ClientLayers extends ClientCorePlugin {
             if ($layer instanceof Layer ||
                 ($layer instanceof LayerGroup && $layer->aggregate)) {
 
+                if ($this->setOutofScaleIcon($layer)) {
+                    $children = array();
+                    return $layer->icon;
+                }
+                
                 $nbChildren = count($children);
-                if (!$nbChildren) return false;
+                if (!$nbChildren) 
+                    return false;
 
                 // if layer has no icon, tries using first class icon
                 $i = 0;
@@ -449,17 +455,30 @@ class ClientLayers extends ClientCorePlugin {
                     $layer->icon == self::ABOVE_RANGE_ICON) 
                     $children = array();
             }
-        } elseif ($layer->minScale && 
-                  $this->getCurrentScale() < $layer->minScale) {
-            $layer->icon = self::BELOW_RANGE_ICON;
+        } elseif ($this->setOutofScaleIcon($layer))
             $children = array();
-        } elseif ($layer->maxScale &&
-                  $this->getCurrentScale() > $layer->maxScale) {
-            $layer->icon = self::ABOVE_RANGE_ICON;
-            $children = array();
-        }
         
         return $layer->icon;
+    }
+
+    /**
+     * Substitutes out-of-scale icons if current scale is out of the layer
+     * range of scales.
+     */
+    private function setOutofScaleIcon($layer) {
+        if ($layer->minScale && 
+            $this->getCurrentScale() < $layer->minScale) {
+            $layer->icon = self::BELOW_RANGE_ICON;
+            return true;
+        }
+        
+        if ($layer->maxScale &&
+            $this->getCurrentScale() > $layer->maxScale) {
+            $layer->icon = self::ABOVE_RANGE_ICON;
+            return true;
+        }
+        
+        return false;
     }
 
     /**
