@@ -62,7 +62,6 @@
 
       <complexType name="LocationConstraint">
         <all>
-          <element name="className" type="xsd:string"/>
           <element name="maxBbox" type="types:Bbox"/>
         </all>
       </complexType>
