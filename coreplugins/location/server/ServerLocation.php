@@ -543,13 +543,6 @@ class ServerLocation extends ServerPlugin
         if (!class_exists($locationCalculatorClass))
             throw new CartoserverException("Unknown location request: $requ->locationType");
         
-        // If Bbox wasn't initialized, set it to max extent
-        // This is the case when no initial location was set in .ini
-        if ($requ->$locationType->bbox->isEmpty()) {
-            $requ->$locationType->bbox->setFromMsExtent(
-                $this->serverContext->getMaxExtent());
-        }
-        
         $calculator = new $locationCalculatorClass($this, $requ->$locationType);
         
         $bbox = $calculator->getBbox();

@@ -231,15 +231,6 @@ class Bbox extends Shape {
         }
     }
 
-    /** 
-     * Returns true if Bbox wasn't initialized
-     * @return boolean
-     */
-    function isEmpty() {
-        return ($this->minx == 0 && $this->miny == 0 &&
-                $this->maxx == 0 && $this->maxy == 0);
-    }
-
     /**
      * Converts a string to the Bbox (format "11, 22, 33, 44")
      * @param string a string

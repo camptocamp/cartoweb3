@@ -43,6 +43,17 @@ class MapInfoHandler {
                 $layer->label = utf8_encode($layer->label);
             }
         
+        if (isset($mapInfo->initialMapStates)) {
+            foreach ($mapInfo->initialMapStates as $state) {
+                if (!isset($state->location)) {
+                    $this->serverContext->getMapObj();
+                    $state->location = new InitialLocation();
+                    $state->location->bbox = new Bbox();
+                    $state->location->bbox->setFromMsExtent(
+                                    $this->serverContext->getMaxExtent());
+                }
+            }
+        }
         return $mapInfo;
     }
 
