@@ -179,7 +179,7 @@ class coreplugins_location_server_RemoteServerLocationTest
         // scale is 14.173236
         $this->doTestScaleDiscreteZoomPointLocationRequest(
                             ZoomPointLocationRequest::ZOOM_DIRECTION_OUT,
-                            $bbox = new Bbox(-.5, 50.5, .5, 51.5), 15.0, $direct);
+                            $bbox = new Bbox(-.5, 50.5, .5, 51.5), 30.0, $direct);
     }
 
     public function testZoomPointLocationRequest_zoomIn2($direct = false) {
