@@ -1,169 +1,160 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
-]>
-
+  ]>
 <!-- $Id$ -->
-
 <chapter id="user.location">
- <title>Navigation</title>
- <subtitle>Plugin location</subtitle>
-  <para>
-  The plugin location is the core plugin that deals with geographic navigation
-  on the map. It handles bboxes (visible areas) and scales; it drives the tools
-  zoom-in, zoom-out and panning, the directional arrows around the main map and
-  the overview map.
-  </para>
-  <para>
-  The corresponding configuration files are <filename>location.ini</filename> (client-side) 
-  and <filename>location.ini</filename> (server-side).
-  </para>
-
- <sect1 id="user.location.client"> 
-  <title>location.ini (client-side)</title>
-  <para>
-  Here are the options that can be set :
-  </para>
-  <itemizedlist>
-   <listitem>
-    <para>
-    scalesActive<indexterm><primary>scalesActive</primary></indexterm>: boolean, if true, the scales dropdown list is displayed (default: false). 
-    If no visible scales are defined on the server, a simple input text will be displayed.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     recenterActive<indexterm><primary>recenterActive</primary></indexterm>: boolean, if true, the coords recentering form is displayed (default: false)
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     idRecenterActive<indexterm><primary>idRecenterActive</primary></indexterm>: boolean, if true, the id recentering fields will be displayed (default: false)
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     idRecenterLayers<indexterm><primary>idRecenterLayers</primary></indexterm>
-     the comma separated list of layers which will appear in the id recentering
-     selection form. If this list is absent, all msLayers appear in the form.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     shortcutsActive<indexterm><primary>shortcutsActive</primary></indexterm>: boolean, if true, the shortcuts (direct access dropdown list) are displayed (default: false)
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     scaleUnitLimit<indexterm><primary>scaleUnitLimit</primary></indexterm>: scale above which DHTML measures use km ; below, they use m.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     panRatio<indexterm><primary>panRatio</primary></indexterm>: ratio for panning by clicking directional arrows. 
-     Default is 1 (no overlap, no gap). Values below 1 result in an overlap of the old and the new maps; 
-     values above 1 in a gap between these two maps.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     weightZoomIn<indexterm><primary>weightZoomIn</primary></indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
-     (if not specified, default to 10). A negative weight disables the tool.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     weightZoomOut<indexterm><primary>weightZoomOut</primary></indexterm>: see weightZoomIn (default to 11)
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-     weightPan<indexterm><primary>weightPan</primary></indexterm>: see weightZoomIn (default to 12)
-    </para>
-   </listitem>
-  </itemizedlist>
- </sect1>
-
- <sect1 id="user.location.server"> 
-  <title>location.ini (server-side)</title>
-  <para>
-  Here are the options that can be set :
-  </para>
-  <itemizedlist>
-   <listitem>
-    <para>
-    minScale<indexterm><primary>minScale</primary></indexterm>: if set, minimal scale allowed.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    maxScale<indexterm><primary>maxScale</primary></indexterm>: if set, maximal scale allowed
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    scaleModeDiscrete<indexterm><primary>scaleModeDiscrete</primary></indexterm>: boolean, if true, only specified scales (see below) can be set.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    zoomFactor<indexterm><primary>zoomFactor</primary></indexterm>: the zoom factor to use whan scaleModeDiscrete is set to false.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    scales.#.value<indexterm><primary>scales.#.value</primary></indexterm> (# = 0, 1, 2, ...) : available value of the scale in discrete mode.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    scales.#.label<indexterm><primary>scales.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the scale, to be displayed in the dropdown list on the client.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    scales.#.visible<indexterm><primary>scales.#.visible</primary></indexterm> (# = 0, 1, 2, ...) : boolean, if true, the scale is displayed in the dropdown list. If false, this scale can only be selected by zoom-in/zoom-out. Default is true.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    shortcuts.#.label<indexterm><primary>shortcuts.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the shortcut; appears in the direct access dropdown list on the client.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    shortcuts.#.bbox<indexterm><primary>shortcuts.#.bbox</primary></indexterm> (# = 0, 1, 2, ...) : geographic bbox of the shortcut.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    recenterMargin<indexterm><primary>recenterMargin</primary></indexterm>: margin to add around the centered-on object (valid for lines and polygons). 
-    Expressed in percent of the width/height of the object.
-    </para>
-   </listitem>
-   <listitem>
-    <para>
-    recenterDefaultScale<indexterm><primary>recenterDefaultScale</primary></indexterm>: scale to use when the centered-on object is a point.
-    </para>
-   </listitem>
-  </itemizedlist>
- </sect1>
-
- <sect1 id="user.location.mapfile"> 
-  <title>Related elements elsewhere</title>
-  <para>
-   <indexterm><primary>extent</primary></indexterm>The maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
-  </para> 
-  <para>
-   <indexterm><primary>bbox (initial)</primary></indexterm>The initial bbox
-   is set by the active initialMapState. It is to be configured in the 
-   <filename>myMap.ini</filename> file, using the following syntax :   
-  </para> 
-  <para>
-   mapInfo.initialMapStates.initialMapStateId.location.bbox = "xmin,ymin,xmax,ymax"
-  </para>
- </sect1> 
-
+  <title>Navigation</title>
+  <subtitle>Plugin location</subtitle>
+  <para> The plugin location is the core plugin that deals with geographic 
+    navigation on the map. It handles bboxes (visible areas) and scales; it 
+    drives the tools zoom-in, zoom-out and panning, the directional arrows 
+    around the main map and the overview map. </para>
+  <para> The corresponding configuration files are 
+    <filename>location.ini</filename> (client-side) and 
+    <filename>location.ini</filename> (server-side). </para>
+  <sect1 id="user.location.client">
+    <title>location.ini (client-side)</title>
+    <para> Here are the options that can be set: </para>
+    <itemizedlist>
+      <listitem>
+        <para> 
+          scalesActive<indexterm><primary>scalesActive</primary></indexterm>: 
+          boolean, if true, the scales dropdown list is displayed (default: 
+          false). If no visible scales are defined on the server, a simple 
+          input text will be displayed. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          recenterActive<indexterm><primary>recenterActive</primary></indexterm>: 
+          boolean, if true, the coords recentering form is displayed (default: 
+          false) </para>
+      </listitem>
+      <listitem>
+        <para> 
+          idRecenterActive<indexterm><primary>idRecenterActive</primary></indexterm>: 
+          boolean, if true, the id recentering fields will be displayed 
+          (default: false) </para>
+      </listitem>
+      <listitem>
+        <para> 
+          idRecenterLayers<indexterm><primary>idRecenterLayers</primary></indexterm> 
+          the comma separated list of layers which will appear in the id 
+          recentering selection form. If this list is absent, all msLayers 
+          appear in the form. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          shortcutsActive<indexterm><primary>shortcutsActive</primary></indexterm>: 
+          boolean, if true, the shortcuts (direct access dropdown list) are 
+          displayed (default: false) </para>
+      </listitem>
+      <listitem>
+        <para> 
+          scaleUnitLimit<indexterm><primary>scaleUnitLimit</primary></indexterm>: 
+          scale above which DHTML measures use km ; below, they use m. </para>
+      </listitem>
+      <listitem>
+        <para> panRatio<indexterm><primary>panRatio</primary></indexterm>: 
+          ratio for panning by clicking directional arrows. Default is 1 (no 
+          overlap, no gap). Values below 1 result in an overlap of the old and 
+          the new maps; values above 1 in a gap between these two maps. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          weightZoomIn<indexterm><primary>weightZoomIn</primary></indexterm>: 
+          integer defining display order of the zoom_in tool icon in toolbar 
+          (if not specified, default to 10). A negative weight disables the 
+          tool. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          weightZoomOut<indexterm><primary>weightZoomOut</primary></indexterm>: 
+          see weightZoomIn (default to 11) </para>
+      </listitem>
+      <listitem>
+        <para> weightPan<indexterm><primary>weightPan</primary></indexterm>: 
+          see weightZoomIn (default to 12) </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  <sect1 id="user.location.server">
+    <title>location.ini (server-side)</title>
+    <para> Here are the options that can be set: </para>
+    <itemizedlist>
+      <listitem>
+        <para> minScale<indexterm><primary>minScale</primary></indexterm>: if 
+          set, minimal scale allowed. </para>
+      </listitem>
+      <listitem>
+        <para> maxScale<indexterm><primary>maxScale</primary></indexterm>: if 
+          set, maximal scale allowed </para>
+      </listitem>
+      <listitem>
+        <para> 
+          scaleModeDiscrete<indexterm><primary>scaleModeDiscrete</primary></indexterm>: 
+          boolean, if true, only specified scales (see below) can be set. 
+          </para>
+      </listitem>
+      <listitem>
+        <para> zoomFactor<indexterm><primary>zoomFactor</primary></indexterm>: 
+          the zoom factor to use whan scaleModeDiscrete is set to false. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          scales.#.value<indexterm><primary>scales.#.value</primary></indexterm> 
+          (# = 0, 1, 2, ...): available value of the scale in discrete mode. 
+          </para>
+      </listitem>
+      <listitem>
+        <para> 
+          scales.#.label<indexterm><primary>scales.#.label</primary></indexterm> 
+          (# = 0, 1, 2, ...): label of the scale, to be displayed in the 
+          dropdown list on the client. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          scales.#.visible<indexterm><primary>scales.#.visible</primary></indexterm> 
+          (# = 0, 1, 2, ...): boolean, if true, the scale is displayed in the 
+          dropdown list. If false, this scale can only be selected by 
+          zoom-in/zoom-out. Default is true. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          shortcuts.#.label<indexterm><primary>shortcuts.#.label</primary></indexterm> 
+          (# = 0, 1, 2, ...): label of the shortcut; appears in the direct 
+          access dropdown list on the client. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          shortcuts.#.bbox<indexterm><primary>shortcuts.#.bbox</primary></indexterm> 
+          (# = 0, 1, 2, ...): geographic bbox of the shortcut. </para>
+      </listitem>
+      <listitem>
+        <para> 
+          recenterMargin<indexterm><primary>recenterMargin</primary></indexterm>: 
+          margin to add around the centered-on object (valid for lines and 
+          polygons). Expressed in percent of the width/height of the object. 
+          </para>
+      </listitem>
+      <listitem>
+        <para> 
+          recenterDefaultScale<indexterm><primary>recenterDefaultScale</primary></indexterm>: 
+          scale to use when the centered-on object is a point. </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  <sect1 id="user.location.mapfile">
+    <title>Related elements elsewhere</title>
+    <para> <indexterm><primary>extent</primary></indexterm>The maximal extent 
+      of the geographical zone is set by the EXTENT command in the mapfile. 
+      </para>
+    <para> <indexterm><primary>bbox (initial)</primary></indexterm>The initial 
+      bbox is set by the active initialMapState. It is to be configured in the 
+      <filename>myMap.ini</filename> file, using the following syntax: </para>
+    <para> mapInfo.initialMapStates.initialMapStateId.location.bbox = 
+      "xmin,ymin,xmax,ymax" </para>
+  </sect1>
 </chapter>
