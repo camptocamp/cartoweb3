@@ -134,11 +134,17 @@ class Point extends Shape {
      * @var double
      */
     public $y;
+    
+    /**
+     * @var string
+     */
+    public $label;
 
     /**
      * Constructor
      * @param double
      * @param double
+     * @param string
      */
     public function __construct($x = 0, $y = 0) {
         parent::__construct();
@@ -152,6 +158,7 @@ class Point extends Shape {
     public function unserialize($struct) {
         $this->x = $struct->x;
         $this->y = $struct->y;
+        $this->label = (isset($struct->label))? $struct->label : '';
     }
     
     /**
@@ -223,6 +230,11 @@ class Line extends Shape {
      * @var array
      */
     public $points;
+    
+    /**
+     * @var string
+     */
+    public $label;
 
      
     /**
@@ -230,6 +242,7 @@ class Line extends Shape {
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
+        $this->label = (isset($struct->label))? $struct->label : '';
     }
 
     /**
@@ -409,6 +422,18 @@ class Bbox extends Shape {
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
 class Rectangle extends Bbox {
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        if (is_string($struct)) {
+            $struct = $this->setFromString($struct);
+        } else {
+            $this->setFromBbox ($struct->minx, $struct->miny,
+                                $struct->maxx, $struct->maxy);
+        }
+        $this->label = (isset($struct->label))? $struct->label : '';
+    }
 }
 
 /**
@@ -431,6 +456,7 @@ class Polygon extends Shape {
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
+        $this->label = (isset($struct->label))? $struct->label : '';
     }
 
     /**
