@@ -94,8 +94,11 @@ class ServerMapquery extends ServerPlugin {
      * @param msLayer the layer from which to retrieve shapes
      * @return array the array of result shapes in the given layer
      */
-    private function extractResults($msLayer, $mayIgnore) {
+    private function extractResults($layerId, $mayIgnore) {
         
+        $msMapObj = $this->serverContext->getMapObj();
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
         $msLayer->open();
         $results = array();
 
@@ -105,15 +108,20 @@ class ServerMapquery extends ServerPlugin {
         if ($mayIgnore && is_numeric($ignoreQueryThreshold) && 
                                     $numResults > $ignoreQueryThreshold) {
             $this->getServerContext()->addMessage($this, 'queryIgnored', 
-                    'Query spanned too many objects, it was ignored');
+                sprintf("%s '%s'%s",
+                    i18n::gt('Query spanned too many objects on layer'),
+                    i18n::gt($layersInit->getLayerById($layerId)->label),
+                    i18n::gt(', it was ignored.')));
             return array();
         }
 
         $maxResults = $this->getConfig()->maxResults;
         if (is_numeric($maxResults) && $numResults > $maxResults) {
             $this->getServerContext()->addMessage($this, 'maxResultsHit', 
-                'This query hit the maximum number of results,' .
-                ' truncating results');
+                sprintf("%s '%s'%s",
+                i18n::gt('This query hit the maximum number of results on'),
+                i18n::gt($layersInit->getLayerById($layerId)->label),
+                i18n::gt(', truncating results.')));
             $numResults = $maxResults;
         }
         
@@ -137,13 +145,16 @@ class ServerMapquery extends ServerPlugin {
      *                returned)
      * @return array an array of shapes
      */
-    private function queryLayerByAttributes(ServerContext $serverContext, 
-                                            $msLayer, $idAttribute, $query, 
+    private function queryLayerByAttributes(ServerContext $serverContext,
+                                            $layerId, $idAttribute, $query,
                                             $mayFail=false) { 
         $log =& LoggerManager::getLogger(__METHOD__);
         
+        $msMapObj = $this->serverContext->getMapObj();
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
+
         // save extent, and set it to max extent
-        $msMapObj = $serverContext->getMapObj();
         $savedExtent = clone($msMapObj->extent); 
         $maxExtent = $serverContext->getMaxExtent();
         $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
@@ -173,7 +184,7 @@ class ServerMapquery extends ServerPlugin {
         $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
                              $savedExtent->maxx, $savedExtent->maxy);
         
-        return $this->extractResults($msLayer, false);
+        return $this->extractResults($layerId, false);
     }
 
     /**
@@ -234,7 +245,8 @@ class ServerMapquery extends ServerPlugin {
         $results = array();
         foreach($queryString as $query) {
             $new_results = self::queryLayerByAttributes($serverContext,
-                                                        $msLayer, $idAttribute,
+                                                        $idSelection->layerId,
+                                                        $idAttribute,
                                                         $query, $mayFail);
             $results = array_merge($results, $new_results);
         }
@@ -281,7 +293,7 @@ class ServerMapquery extends ServerPlugin {
             $msLayer->getNumResults() == 0) 
             return array();
 
-        return $this->extractResults($msLayer, true);
+        return $this->extractResults($layerId, true);
     }
 }
 
