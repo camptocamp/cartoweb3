@@ -16,4 +16,6 @@
     href="getmap_location.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
   <xi:include 
     href="getmap_query.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
+  <xi:include 
+    href="getmap_outline.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />    
 </sect1>

@@ -20,13 +20,19 @@
 </simpleType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>POLICY_XOR -</para>
+          <para>POLICY_XOR - XOR selection: when selecting a group of objects, 
+            already selected ones are unselected and not yet selected 
+            ones are selected (default type)</para>
         </listitem>
         <listitem>
-          <para>POLICY_UNION -</para>
+          <para>POLICY_UNION - union selection: when selecting a group 
+            of objects, already selected ones are kept selected and not yet 
+            selected ones are selected</para>
         </listitem>
         <listitem>
-          <para>POLICY_INTERSECTION -</para>
+          <para>POLICY_INTERSECTION - intersection selection: when selecting a 
+            group of objects, only already selected ones are kept 
+            selected</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -44,28 +50,32 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>layerId -</para>
+          <para>layerId - layer ID on which query will be executed</para>
         </listitem>
         <listitem>
-          <para>idAttribute -</para>
+          <para>idAttribute - name of ID attribute</para>
         </listitem>
         <listitem>
-          <para>idType -</para>
+          <para>idType - type of ID attribute ("string" or "int")</para>
         </listitem>
         <listitem>
-          <para>selectedIds -</para>
+          <para>selectedIds - list of IDs</para>
         </listitem>
         <listitem>
-          <para>useInQuery -</para>
+          <para>useInQuery - if true, will force query to use this layer</para>
         </listitem>
         <listitem>
-          <para>policy -</para>
+          <para>policy - type of selection</para>
         </listitem>
         <listitem>
-          <para>maskMode -</para>
+          <para>maskMode - if true, will apply a mask instead of a simple 
+            selection. This won't work when using MapServer's hilighting 
+            feature (see <xref linkend="user.query" />) </para>
         </listitem>
         <listitem>
-          <para>tableFlags -</para>
+          <para>tableFlags - table flags (see <xref 
+            linkend="dev.soapcalls.structures.tables" /> for a description of 
+            type TableFlags)</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -79,7 +89,7 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>array -</para>
+          <para>array - list of query selections</para>
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
@@ -95,22 +105,23 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - "QueryRequest" or extended class name if 
+            project implements an extension</para>
         </listitem>
         <listitem>
-          <para>bbox -</para>
+          <para>bbox - TODO</para>
         </listitem>
         <listitem>
-          <para>queryAllLayers -</para>
+          <para>queryAllLayers - TODO</para>
         </listitem>
         <listitem>
-          <para>defaultMaskMode -</para>
+          <para>defaultMaskMode - TODO</para>
         </listitem>
         <listitem>
-          <para>defaultTableFlags -</para>
+          <para>defaultTableFlags - TODO</para>
         </listitem>
         <listitem>
-          <para>querySelections -</para>
+          <para>querySelections - TODO</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -127,10 +138,12 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>className -</para>
+          <para>className - "QueryResult" or extended class name if 
+            project implements an extension</para>
         </listitem>
         <listitem>
-          <para>tableGroup -</para>
+          <para>tableGroup - group of tables which contains query results (one 
+            table per layer)</para>
         </listitem>
       </itemizedlist>
     </para>

@@ -4,8 +4,57 @@
 
 <sect1 id="dev.soapcalls.structures">
   <title>Standard Structures</title>  
-  <sect2 id="dev.soapcalls.structures.basictypes">
-    <title>Basic Types</title>
+  <sect2 id="dev.soapcalls.structures.simpletypes">
+    <title>Simple Types</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfString">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array - list of character strings</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLayerId">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array - list of layer IDs</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="Dimension">
+  <all>
+    <element name="width" type="xsd:int"/>
+    <element name="height" type="xsd:int"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>width - width in pixels</para></listitem>
+        <listitem><para>height - height in pixels</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="GeoDimension">
+  <all>
+    <element name="dimension" type="types:Dimension"/>
+    <element name="bbox" type="types:Bbox"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>dimension - dimensions in pixels</para></listitem>
+        <listitem><para>bbox - bounding box</para></listitem>
+      </itemizedlist>
+    </para>
+  </sect2>
+  <sect2 id="dev.soapcalls.structures.shapes">
+    <title>Shapes</title>
     <para>
       <programlisting><![CDATA[
 <complexType name="Bbox">
@@ -17,10 +66,77 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>minx -</para></listitem>
-        <listitem><para>miny -</para></listitem>
-        <listitem><para>maxx -</para></listitem>
-        <listitem><para>maxy -</para></listitem>
+        <listitem><para>minx - minimum x coordinate</para></listitem>
+        <listitem><para>miny - minimum y coordinate</para></listitem>
+        <listitem><para>maxx - maximum x coordinate</para></listitem>
+        <listitem><para>maxy - maximum y coordinate</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="Point">
+  <all>
+    <element name="x" type="xsd:double"/>
+    <element name="y" type="xsd:double"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>x - x coordinate</para></listitem>
+        <listitem><para>y - y coordinate</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfPoint">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:Point[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array - list of points</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="Shape">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="x" type="xsd:double" minOccurs="0"/>
+    <element name="y" type="xsd:double" minOccurs="0"/>
+    <element name="minx" type="xsd:double" minOccurs="0"/>
+    <element name="miny" type="xsd:double" minOccurs="0"/>
+    <element name="maxx" type="xsd:double" minOccurs="0"/>
+    <element name="maxy" type="xsd:double" minOccurs="0"/>
+    <element name="points" type="types:ArrayOfPoint" minOccurs="0"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className - class name of shape: "Point", "Bbox", 
+            "Rectangle" or "Polygon"</para>
+        </listitem>
+        <listitem><para>x - x coordinate (Point)</para></listitem>
+        <listitem><para>y - y coordinate (Point)</para></listitem>
+        <listitem>
+          <para>minx - minimum x coordinate (Bbox or Rectangle)</para>
+        </listitem>
+        <listitem>
+          <para>miny - minimum y coordinate (Bbox or Rectangle)</para>
+        </listitem>
+        <listitem>
+          <para>maxx - maximum x coordinate (Bbox or Rectangle)</para>
+        </listitem>
+        <listitem>
+          <para>maxy - maximum y coordinate (Bbox or Rectangle)</para>
+        </listitem>
+        <listitem><para>points - list of points (Polygon)</para></listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfShape">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:Shape[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem><para>array - list of shapes</para></listitem>
       </itemizedlist>
     </para>
   </sect2>
@@ -35,8 +151,14 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>rowId -</para></listitem>
-        <listitem><para>cells -</para></listitem>
+        <listitem>
+          <para>rowId - row ID</para>
+        </listitem>
+        <listitem>
+          <para>cells - cell contents (see <xref 
+            linkend="dev.soapcalls.structures.simpletypes" /> for a description 
+            of type ArrayOfString)</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfTableRow">
@@ -48,7 +170,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array -</para></listitem>
+        <listitem>
+          <para>array - list of rows</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="Table">
@@ -65,15 +189,39 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>tableId -</para></listitem>
-        <listitem><para>tableTitle -</para></listitem>
-        <listitem><para>numRows -</para></listitem>
-        <listitem><para>totalRows -</para></listitem>
-        <listitem><para>offset -</para></listitem>
-        <listitem><para>columnIds -</para></listitem>
-        <listitem><para>columnTitles -</para></listitem>
-        <listitem><para>noRowId -</para></listitem>
-        <listitem><para>rows -</para></listitem>
+        <listitem>
+          <para>tableId - table ID</para>
+        </listitem>
+        <listitem>
+          <para>tableTitle - table title</para>
+        </listitem>
+        <listitem>
+          <para>numRows - number of rows in table</para>
+        </listitem>
+        <listitem>
+          <para>totalRows - total number of rows in context (for future 
+            use)</para>
+        </listitem>
+        <listitem>
+          <para>offset - current position in context rows (for future 
+            use)</para>
+        </listitem>
+        <listitem>
+          <para>columnIds - column IDs (see <xref 
+            linkend="dev.soapcalls.structures.simpletypes" /> for a description 
+            of type ArrayOfString)</para>
+        </listitem>
+        <listitem>
+          <para>columnTitles - column titles (see <xref 
+            linkend="dev.soapcalls.structures.simpletypes" /> for a description 
+            of type ArrayOfString)</para>
+        </listitem>
+        <listitem>
+          <para>noRowId - if true, table rows contain no row IDs</para>
+        </listitem>
+        <listitem>
+          <para>rows - list of rows</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfTable">
@@ -84,7 +232,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array -</para></listitem>
+        <listitem>
+          <para>array - list of tables</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="TableGroup">
@@ -95,9 +245,15 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>groupId -</para></listitem>
-        <listitem><para>groupTitle -</para></listitem>
-        <listitem><para>tables -</para></listitem>
+        <listitem>
+          <para>groupId - ID of table group</para>
+        </listitem>
+        <listitem>
+          <para>groupTitle - title of table group</para>
+        </listitem>
+        <listitem>
+          <para>tables - list of tables</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ArrayOfTableGroup">
@@ -109,7 +265,9 @@
   </complexContent>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>array -</para></listitem>
+        <listitem>
+          <para>array - list of table groups</para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="TableFlags">
@@ -119,9 +277,15 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>returnAttributes -</para></listitem>
-        <listitem><para>returnTable -</para></listitem>
+        <listitem>
+          <para>returnAttributes - if true, will return attributes (row cells) 
+            in addition to row IDs</para>
+        </listitem>
+        <listitem>
+          <para>returnTable - if false, won't return any table 
+            information</para>
+        </listitem>
       </itemizedlist>
-  	</para>
+    </para>
   </sect2>
 </sect1>

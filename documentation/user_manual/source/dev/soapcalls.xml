@@ -11,11 +11,17 @@
     code specific to plugins are located in 
     <programlisting>PLUGIN_HOME/common/plugin_name.wsdl.inc</programlisting> 
     Interesting parts from these files are copied in the following sections. 
-    Complete WSDL code dynamically generated for a mapId is accessible at the 
+    Complete WSDL code dynamically generated for a map ID is accessible at the 
     URL 
-    <programlisting>CARTOWEB_URL/cartoserver.wsdl.php?mapId=project_name.mapfile_name</programlisting>
-    TODO: Explain when getMapInfo/getMap is called</para>
-  
+    <programlisting>CARTOWEB_URL/cartoserver.wsdl.php?mapId=project_name.mapfile_name</programlisting> 
+    </para>
+  <para>SOAP method getMapInfo is used to retrieve server configuration 
+    information, such as available layers, initial state, etc.. It shouldn't 
+    be called each time a map is requested. A mechanism based on a timestamp 
+    is available to be sure configuration is up-to-date (see <xref 
+    linkend="dev.soapcalls.getmapinfo" />).</para>
+    <para>SOAP method getMap is used each time a new map or related 
+      information are needed.</para>
   <xi:include href="soapcalls/structures.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="soapcalls/getmapinfo.xml" 

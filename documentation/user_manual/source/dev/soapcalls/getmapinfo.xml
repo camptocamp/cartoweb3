@@ -5,8 +5,291 @@
 <sect1 id="dev.soapcalls.getmapinfo">
   <title>Call to getMapInfo</title>
 
-  <sect2 id="dev.soapcalls.getmapinfo.intro">
-    <title>Introduction</title>
-    <para></para>
+  <sect2 id="dev.soapcalls.getmapinfo.global">
+    <title>Global Server Configuration</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="LayerState">
+  <all>
+    <element name="id" type="xsd:string"/>
+    <element name="hidden" type="xsd:boolean"/>
+    <element name="frozen" type="xsd:boolean"/>
+    <element name="selected" type="xsd:boolean"/>
+    <element name="unfolded" type="xsd:boolean"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>id -</para>
+        </listitem>
+        <listitem>
+          <para>hidden -</para>
+        </listitem>
+        <listitem>
+          <para>frozen -</para>
+        </listitem>
+        <listitem>
+          <para>selected -</para>
+        </listitem>
+        <listitem>
+          <para>unfolded -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLayerState">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LayerState[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="InitialLocation">
+  <all>
+    <element name="bbox" type="types:Bbox"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>bbox -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="InitialMapState">
+  <all>
+    <element name="id" type="xsd:string"/>
+    <element name="location" type="types:InitialLocation"/>
+    <element name="layers" type="types:ArrayOfLayerState"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>id -</para>
+        </listitem>
+        <listitem>
+          <para>location -</para>
+        </listitem>
+        <listitem>
+          <para>layers -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfInitialMapState">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:InitialMapState[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="Layer">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="id" type="xsd:string"/>
+    <element name="label" type="xsd:string"/>
+    <element name="children" type="types:ArrayOfLayerId" minOccurs="0"/>
+    <element name="minScale" type="xsd:double"/>
+    <element name="maxScale" type="xsd:double"/>
+    <element name="icon" type="xsd:string"/>
+    <element name="link" type="xsd:string"/>
+    <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
+    <element name="rendering" type="xsd:string" minOccurs="0"/>
+    <element name="metadata" type="types:ArrayOfString" minOccurs="0"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>id -</para>
+        </listitem>
+        <listitem>
+          <para>label -</para>
+        </listitem>
+        <listitem>
+          <para>children -</para>
+        </listitem>
+        <listitem>
+          <para>minScale -</para>
+        </listitem>
+        <listitem>
+          <para>maxScale -</para>
+        </listitem>
+        <listitem>
+          <para>icon -</para>
+        </listitem>
+        <listitem>
+          <para>link -</para>
+        </listitem>
+        <listitem>
+          <para>aggregate -</para>
+        </listitem>
+        <listitem>
+          <para>rendering -</para>
+        </listitem>
+        <listitem>
+          <para>metadata -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLayer">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:Layer[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="MapInfo">
+  <all>
+    <element name="timestamp" type="xsd:integer"/>
+    <element name="mapLabel" type="xsd:string"/>
+    <element name="keymapGeoDimension" type="types:GeoDimension"/>
+    <element name="notAvailableIcon" type="xsd:string"/>
+    <element name="notAvailablePlusIcon" type="xsd:string"/>
+    <element name="notAvailableMinusIcon" type="xsd:string"/>
+    <element name="layers" type="types:ArrayOfLayer"/>
+    <element name="initialMapStates"
+             type="types:ArrayOfInitialMapState"/>
+    ...elements specific to plugins...
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>timestamp -</para>
+        </listitem>
+        <listitem>
+          <para>mapLabel -</para>
+        </listitem>
+        <listitem>
+          <para>keymapGeoDimension -</para>
+        </listitem>
+        <listitem>
+          <para>notAvailableIcon -</para>
+        </listitem>
+        <listitem>
+          <para>notAvailablePlusIcon -</para>
+        </listitem>
+        <listitem>
+          <para>notAvailableMinusIcon -</para>
+        </listitem>
+        <listitem>
+          <para>layers -</para>
+        </listitem>
+        <listitem>
+          <para>initialMapStates -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect2>
+
+  <sect2 id="dev.soapcalls.getmapinfo.location">
+    <title>Location</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="LocationScale">
+  <all>
+    <element name="label" type="xsd:string"/>
+    <element name="value" type="xsd:double"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>label -</para>
+        </listitem>
+        <listitem>
+          <para>value -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLocationScale">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LocationScale[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="LocationShortcut">
+  <all>
+    <element name="label" type="xsd:string"/>
+    <element name="bbox" type="types:Bbox"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>label -</para>
+        </listitem>
+        <listitem>
+          <para>bbox -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfLocationShortcut">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LocationShortcut[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array -</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="LocationInit">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="scales" type="types:ArrayOfLocationScale"/>
+    <element name="minScale" type="xsd:double"/>
+    <element name="maxScale" type="xsd:double"/>
+    <element name="shortcuts" type="types:ArrayOfLocationShortcut"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>scales -</para>
+        </listitem>
+        <listitem>
+          <para>minScale -</para>
+        </listitem>
+        <listitem>
+          <para>maxScale -</para>
+        </listitem>
+        <listitem>
+          <para>shortcuts -</para>
+        </listitem>
+      </itemizedlist>      
+    </para>
   </sect2>
 </sect1>
+

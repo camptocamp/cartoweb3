@@ -17,15 +17,19 @@
     <element name="path" type="xsd:string"/>
     <element name="width" type="xsd:int"/>
     <element name="height" type="xsd:int"/>
-    <element name="format" type="xsd:string"/>
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>isDrawn -</para></listitem>
-        <listitem><para>path -</para></listitem>
-        <listitem><para>width -</para></listitem>
-        <listitem><para>height -</para></listitem>
-        <listitem><para>format -</para></listitem>
+        <listitem>
+          <para>isDrawn - true if the image should be generated (when used in a 
+            request) or if it was generated (when returned in a result)</para>
+        </listitem>
+        <listitem>
+          <para>path - relative path of generated image. Not used in 
+            request</para>
+        </listitem>
+        <listitem><para>width - image width</para></listitem>
+        <listitem><para>height - image height</para></listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="ImagesRequest">
@@ -37,10 +41,13 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className -</para></listitem>
-        <listitem><para>mainmap -</para></listitem>
-        <listitem><para>keymap -</para></listitem>
-        <listitem><para>scalebar -</para></listitem>
+        <listitem>
+          <para>className - "ImagesRequest" or extended class name if 
+            project implements an extension</para>
+        </listitem>
+        <listitem><para>mainmap - main map image information</para></listitem>
+        <listitem><para>keymap - key map image information</para></listitem>
+        <listitem><para>scalebar - scale bar image information</para></listitem>
       </itemizedlist>				
     </para>
   </sect3>
@@ -57,13 +64,15 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className -</para></listitem>
+        <listitem><para>className - "ImagesResult" or extended class name if 
+            project implements an extension</para></listitem>
         <listitem>
-          <para>mainmap - [...] see <xref 
-            linkend="dev.soapcalls.getmap.images.request" /> </para>
+          <para>mainmap - main map image information (see <xref 
+            linkend="dev.soapcalls.getmap.images.request" /> for a 
+            description of type Image)</para>
         </listitem>
-        <listitem><para>keymap -</para></listitem>
-        <listitem><para>scalebar -</para></listitem>
+        <listitem><para>keymap - key map image information</para></listitem>
+        <listitem><para>scalebar - scale bar image information</para></listitem>
       </itemizedlist>
     </para>
   </sect3>

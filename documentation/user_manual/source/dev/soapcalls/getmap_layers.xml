@@ -11,17 +11,6 @@
     <title>Request</title>
     <para>
       <programlisting><![CDATA[
-<complexType name="ArrayOfLayerId">
-  <complexContent>
-    <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
-    </restriction>
-  </complexContent>
-</complexType>]]></programlisting>
-      <itemizedlist>
-        <listitem><para>array -</para></listitem>
-      </itemizedlist>
-      <programlisting><![CDATA[
 <complexType name="LayersRequest">
   <all>
     <element name="className" type="xsd:string"/>
@@ -30,9 +19,17 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className -</para></listitem>
-        <listitem><para>layerIds -</para></listitem>
-        <listitem><para>resolution -</para></listitem>
+        <listitem><para>className - "LayersRequest" or extended class name if 
+            project implements an extension</para></listitem>
+        <listitem>
+          <para>layerIds - list of layers to include in map generation (see <xref 
+            linkend="dev.soapcalls.structures.simpletypes" /> for a 
+            description of type ArrayOfLayerId)</para>
+        </listitem>
+        <listitem>
+          <para>resolution - MapServer resolution. Set this to null if 
+            you want to use default resolution</para>
+        </listitem>
       </itemizedlist>				
     </para>
   </sect3>
@@ -46,7 +43,8 @@
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
-        <listitem><para>className -</para></listitem>
+        <listitem><para>className - "LayersResult" or extended class name if 
+            project implements an extension</para></listitem>
       </itemizedlist>
     </para>
   </sect3>

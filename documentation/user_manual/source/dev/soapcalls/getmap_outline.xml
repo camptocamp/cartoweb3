@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE sect2 PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<sect2 id="dev.soapcalls.getmap.outline">
+  <title>Outline</title>
+  <para>The Outline plugin [...] </para>
+  <para>TODO: Say it's not mandatory and it's not a coreplugin
+  </para>
+  <sect3 id="dev.soapcalls.getmap.outline.request">
+    <title>Request</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="OutlineRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="shapes" type="types:ArrayOfShape"/>
+    <element name="maskMode" type="xsd:boolean"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>shapes -</para>
+        </listitem>
+        <listitem>
+          <para>maskMode -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+  <sect3 id="dev.soapcalls.getmap.outline.result">
+    <title>Result</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="OutlineResult">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="area" type="xsd:double"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>className -</para>
+        </listitem>
+        <listitem>
+          <para>area -</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>

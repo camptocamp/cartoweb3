@@ -18,8 +18,8 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>mapId - project name and mapfile name separated by a 
-            point</para>
+          <para>mapId - map ID, ie. project name and mapfile name separated by 
+            a point</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -28,9 +28,37 @@
     <title>Result</title>
     <para>
       <programlisting><![CDATA[
+<complexType name="Message">
+  <all>
+    <element name="channel" type="xsd:integer"/>
+    <element name="message" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>channel - type of message: 1 = end user, 2 = developer</para>
+        </listitem>
+        <listitem>
+          <para>message - text of the message</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfMessage">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:Message[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array - list of messages</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
 <complexType name="MapResult">
   <all>
-    <element name="timeStamp" type="xsd:integer"/>
+    <element name="timestamp" type="xsd:integer"/>
     <element name="serverMessages"
              type="types:ArrayOfMessage" minOccurs="0"/>
     ...elements specific to plugins...
@@ -38,10 +66,14 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-          <para>timeStamp -</para>
+          <para>timestamp - timestamp which identifies the server 
+            configuration. If this timestamp changes, it means server 
+            configuration changed and a call to method getMapInfo is required 
+            to get latest version (see <xref 
+            linkend="dev.soapcalls.getmapinfo" />).</para>
         </listitem>
         <listitem>
-          <para>serverMessages -</para>
+          <para>serverMessages - list of messages returned by server</para>
         </listitem>
       </itemizedlist>
     </para>
