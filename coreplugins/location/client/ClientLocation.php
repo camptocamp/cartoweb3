@@ -543,8 +543,6 @@ class ClientLocation extends ClientPlugin
             return;
 
         $this->locationRequest = $this->handleRecenter($request, true);
-        if (!is_null($this->locationRequest))
-            return;
 
         $this->locationRequest = $this->handleScales($request, false, true);
         if (!is_null($this->locationRequest))
