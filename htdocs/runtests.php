@@ -29,8 +29,40 @@
 </head>
 <pre>
 <?php 
+/**
+ * Web unit tests runner 
+ * 
+ * To run tests, you will need to set variable allowTests to true in client.ini
+ * or server.ini (when tests are run on a server-only environement).
+ * @package Htdocs
+ * @version $Id$
+ */
 
+/**
+ * Dir path to common home
+ */
 define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+/**
+ * Dir path to Cartoclient home
+ */
+define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+/**
+ * Dir path to Cartoserver home
+ */
+define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+$iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
+if (!file_exists($iniFile)) {
+    $iniFile = CARTOSERVER_HOME . 'server_conf/server.ini';
+}
+$iniArray = parse_ini_file($iniFile);
+if (!array_key_exists('allowTests', $iniArray) || !$iniArray['allowTests']) {
+    
+    echo "<div id='failure'>PERMISSION DENIED</div>";
+    exit;
+}
 
 require_once (CARTOCOMMON_HOME . 'tests/CartowebTestRunner.php');
 
@@ -46,9 +78,9 @@ $testRunner->runTests($testSuite);
 $success = $testRunner->wasSuccessful();
 
 if ($success)
-    echo "<div id='success'>SUCCESS:</div>";
+    echo "<div id='success'>SUCCESS</div>";
 else
-    echo "<div id='failure'>FAILURE:</div>";
+    echo "<div id='failure'>FAILURE</div>";
 
 $errors = $testRunner->getErrors();
 if (!empty($errors)) {
