@@ -16,53 +16,9 @@
  * Home dirs
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 
-/**
- * Encoding class for charset
- */
-require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
-
-/**
- * Project handler class for constants
- */
-require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
-
-/**
- * Finds charset in client.ini
- * @param string
- * @return string
- */
-function getCharset($project) {
-    
-    $class = null;
-    $iniFile = CARTOSERVER_HOME;
-    $projectIniFile = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
-    }
-    $iniFile .= 'server_conf/server.ini';
-    $projectIniFile .= 'server_conf/server.ini';
-    if (file_exists($projectIniFile)) {
-        $iniArray = parse_ini_file($projectIniFile);
-        if (array_key_exists('EncoderClass.config', $iniArray)) {
-            $class = $iniArray['EncoderClass.config'];
-        }
-    }
-    if (is_null($class) && $iniFile != $projectIniFile
-                          && file_exists($iniFile)) {
-        $iniArray = parse_ini_file($iniFile);
-        if (array_key_exists('EncoderClass.config', $iniArray)) {
-            $class = $iniArray['EncoderClass.config'];
-        }
-    }
-    if (is_null($class)) {
-        $class = 'EncoderUTF';
-    }
-    $obj = new $class;
-    return $obj->getCharset();
-}
+require_once('./pot_tools.php');
 
 /**
  * Parses an INI file looking for variable ending with '.label'
@@ -117,6 +73,8 @@ function addMapText($text, $mapId, &$texts) {
     }
 }
 
+function dummyErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {}
+
 /**
  * Parses a MAP file looking for class names and 'query_returned_attributes'
  * metadata
@@ -144,7 +102,13 @@ function parseMap($project, $mapId, &$texts) {
         print "\nWarning: Map file $mapFile not found.\n";
         return false;
     }
+    $old_error_handler = set_error_handler("dummyErrorHandler");
     $map = ms_newMapObj($mapFile);
+    restore_error_handler();
+    if (empty($map)) {
+        print "\nWarning: Error while loading mapfile $mapFile.\n";
+        return false;
+    }
     for ($i = 0; $i < $map->numlayers; $i++) {
         $layer = $map->getLayer($i);
         
@@ -165,24 +129,6 @@ function parseMap($project, $mapId, &$texts) {
         }
     }
     return true;
-}
-
-/**
- * Gets list of projects by reading projects directory
- * @return array
- */
-function getProjects() {
-
-    $projects = array();
-    $dir = CARTOSERVER_HOME . ProjectHandler::PROJECT_DIR . '/';
-    $d = dir($dir);
-    while (false !== ($entry = $d->read())) {
-        if (is_dir($dir . $entry) && $entry != '.'
-            && $entry != '..' && $entry != 'CVS') {
-            $projects[] = $entry;
-        }
-    }    
-    return $projects;
 }
 
 /**
@@ -211,11 +157,11 @@ function getMapIds($project) {
 }
 
 /**
- * Finds list of already translated PO files for a project
+ * Finds list of already translated PO files for a project and a map ID
  * @param string
  * @return array
  */
-function getTranslatedPo($project, $mapId) {
+function getTranslatedMapIdPo($project, $mapId) {
     
     $files = array();
     $d = dir(CARTOSERVER_PODIR);
@@ -225,7 +171,6 @@ function getTranslatedPo($project, $mapId) {
     while (false !== ($entry = $d->read())) {
         if (!is_dir(CARTOSERVER_PODIR . $entry)) {
             if (ereg($pattern, $entry)) {
-            
                 $files[] = $entry;
             };
         }
@@ -239,6 +184,43 @@ $projects = getProjects();
 $projects[] = ProjectHandler::DEFAULT_PROJECT;
 
 foreach ($projects as $project) {
+
+    $fileName = 'server-' . $project . '.po';
+    $file = CARTOSERVER_PODIR . $fileName;
+
+    print "Creating new template $fileName ";
+        
+    $fh = fopen($file, 'w');
+    
+    // POT header
+    fwrite($fh, '# CartoWeb 3 translation template ' . "\n");
+    fwrite($fh, '#' . "\n");
+    fwrite($fh, '#, fuzzy' . "\n");
+    fwrite($fh, 'msgid ""' . "\n");
+    fwrite($fh, 'msgstr ""' . "\n");
+    fwrite($fh, '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"' . "\n");
+    fwrite($fh, '"MIME-Version: 1.0\n"' . "\n");
+    fwrite($fh, '"Content-Type: text/plain; charset=' . 
+                                   getCharset('server', $project) . '\n"' . "\n");
+    fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
+
+    fclose($fh);    
+        
+    print ".. done.\n";
+
+    print "Adding strings from PHP code for project $project ";
+    addPhpStrings('server', CARTOSERVER_HOME,
+                  CARTOSERVER_PODIR . $fileName, $project);
+    print ".. done.\n";        
+
+    $poFiles = getTranslatedPo('server', $project);
+
+    foreach ($poFiles as $poFile) {
+        
+        print "Merging new template into $poFile ";
+        exec("msgmerge -o " . CARTOSERVER_PODIR . "$poFile "
+             . CARTOSERVER_PODIR . "$poFile " . CARTOSERVER_PODIR . "$fileName");
+    }
 
     $mapIds = getMapIds($project);
     
@@ -264,7 +246,7 @@ foreach ($projects as $project) {
         fwrite($fh, '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"' . "\n");
         fwrite($fh, '"MIME-Version: 1.0\n"' . "\n");
         fwrite($fh, '"Content-Type: text/plain; charset=' . 
-                                        getCharset($project) . '\n"' . "\n");
+                                        getCharset('server', $project) . '\n"' . "\n");
         fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
 
         foreach ($texts as $text => $files) {
@@ -280,7 +262,7 @@ foreach ($projects as $project) {
         
         print ".. done.\n";
         
-        $poFiles = getTranslatedPo($project, $mapId);
+        $poFiles = getTranslatedMapIdPo($project, $mapId);
 
         foreach ($poFiles as $poFile) {
         

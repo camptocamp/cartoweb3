@@ -226,4 +226,31 @@ class Common {
     }
 }
 
+/**
+ * Internationalization methods for automatic strings retrieving
+ *
+ * Using these methods only tells to gettext's strings retriever (xgettext)
+ * that the string must be added to PO template. It does nothing in runtime.
+ * @package Common
+ */
+class I18nNoop {
+    
+    /**
+     * @param string
+     * @return string
+     */
+    static public function gt($text) {
+        return $text;
+    }
+    
+    /**
+     * @param string
+     * @param string
+     * @param int
+     * @return string
+     */
+    static public function ngt($text, $plural, $count) {
+        return $text;
+    }
+}
 ?>

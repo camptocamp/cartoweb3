@@ -19,18 +19,9 @@
  * Home dirs
  */ 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
 
-/**
- * Encoding class for charset
- */
-require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
-
-/**
- * Project handler class for constants
- */
-require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+require_once('./pot_tools.php');
 
 // smarty open tag
 $ldq = preg_quote('{');
@@ -134,84 +125,6 @@ function do_dir($dir, $project, &$texts, &$plurals) {
 }
 
 /**
- * Finds charset in client.ini
- * @param string
- * @return string
- */
-function getCharset($project) {
-    
-    $class = null;
-    $iniFile = CARTOCLIENT_HOME;
-    $projectIniFile = CARTOCLIENT_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
-    }
-    $iniFile .= 'client_conf/client.ini';
-    $projectIniFile .= 'client_conf/client.ini';
-    if (file_exists($projectIniFile)) {
-        $iniArray = parse_ini_file($projectIniFile);
-        if (array_key_exists('EncoderClass.config', $iniArray)) {
-            $class = $iniArray['EncoderClass.config'];
-        }
-    }
-    if (is_null($class) && $iniFile != $projectIniFile
-                          && file_exists($iniFile)) {
-        $iniArray = parse_ini_file($iniFile);
-        if (array_key_exists('EncoderClass.config', $iniArray)) {
-            $class = $iniArray['EncoderClass.config'];
-        }
-    }
-    if (is_null($class)) {
-        $class = 'EncoderUTF';
-    }
-    $obj = new $class;
-    return $obj->getCharset();
-}
-
-/**
- * Gets list of projects by reading projects directory
- * @return array
- */
-function getProjects() {
-
-    $projects = array();
-    $dir = CARTOCLIENT_HOME . ProjectHandler::PROJECT_DIR . '/';
-    $d = dir($dir);
-    while (false !== ($entry = $d->read())) {
-        if (is_dir($dir . $entry) && $entry != '.'
-            && $entry != '..' && $entry != 'CVS') {
-            $projects[] = $entry;
-        }
-    }    
-    return $projects;
-}
-
-/**
- * Finds list of already translated PO files for a project
- * @param string
- * @return array
- */
-function getTranslatedPo($project) {
-    
-    $files = array();
-    $dir = CARTOCLIENT_HOME . 'po/';
-    $d = dir($dir);
-
-    $pattern = "client\\-$project\\.(.*)\\.po";
- 
-    while (false !== ($entry = $d->read())) {
-        if (!is_dir($dir . $entry)) {
-            if (ereg($pattern, $entry)) {
-            
-                $files[] = $entry;
-            };
-        }
-    }    
- 
-    return $files;   
-}
-
-/**
  * Parses an INI file looking for variable ending with '.label'
  * @param string
  * @param array map text_to_translate => references
@@ -279,7 +192,7 @@ foreach ($projects as $project) {
         fwrite($fh, '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"' . "\n");
         fwrite($fh, '"MIME-Version: 1.0\n"' . "\n");
         fwrite($fh, '"Content-Type: text/plain; charset=' . 
-                                        getCharset($project) . '\n"' . "\n");
+                                 getCharset('client', $project) . '\n"' . "\n");
         fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
 
         parseIni($project, $texts);
@@ -303,8 +216,13 @@ foreach ($projects as $project) {
         fclose($fh);
         
         print ".. done.\n";
+
+        print "Adding strings from PHP code for project $project ";
+        addPhpStrings('client', CARTOCLIENT_HOME,
+                      CARTOCLIENT_PODIR . $fileName, $project);
+        print ".. done.\n";
              
-        $poFiles = getTranslatedPo($project);
+        $poFiles = getTranslatedPo('client', $project);
 
         foreach ($poFiles as $poFile) {
         

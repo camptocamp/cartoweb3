@@ -14,9 +14,10 @@
  * Cartoclient home dir
  */
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
 define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');
+
+require_once('./pot_tools.php');
 
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
@@ -37,22 +38,13 @@ function getLocales($project) {
        
     while (false !== ($entry = $d->read())) {
         if (!is_dir($entry)) {
-            $pattern = getProjectPo($project) . '\.(.*)\.po';
+            $pattern = 'client-' . $project . '\.(.*)\.po';
             if (ereg($pattern, $entry, $locale)) {
                 $locales[] = $locale[1];
             }
         }
     }
     return $locales;
-}
-
-/**
- * Returns PO file name without extension
- * @param string
- * @param string
- */
-function getProjectPo($project = ProjectHandler::DEFAULT_PROJECT) {
-    return 'client-' . $project;
 }
 
 /**
@@ -64,7 +56,7 @@ function getProjectPo($project = ProjectHandler::DEFAULT_PROJECT) {
  * @param string
  * @return string retrieved file name
  */
-function getMapPo($project, $mapId) {
+function getMapPo($project, $mapId = null) {
 
     $direct = false;
     $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
@@ -85,7 +77,11 @@ function getMapPo($project, $mapId) {
         $direct = $iniArray['cartoserverDirectAccess'];
     }
 
-    $fileName = 'server-' . $project . '.' . $mapId;
+    if (is_null($mapId)) {
+        $fileName = 'server-' . $project;
+    } else {
+        $fileName = 'server-' . $project . '.' . $mapId;
+    }
     
     if ($direct) {
  
@@ -173,6 +169,10 @@ function merge($project, $file1, $file2, $output) {
         
         print "Merging $file1Name + $file2Name = $fileOutputName ";
         
+        exec("msgcat --to-code=" . getCharset('client', $project)
+             . " --use-first --output=$fileOutput $file1path $file2path");
+        
+        /*
         $file1Lines = file($file1path);
         $file2Lines = file($file2path);
 
@@ -203,7 +203,8 @@ function merge($project, $file1, $file2, $output) {
             }
         }
         
-        fclose($fhOut);    
+        fclose($fhOut);
+        */    
         print " .. done.\n";    
     }
     return true;
@@ -243,24 +244,6 @@ function compile($project, $fileName) {
 }
 
 /**
- * Gets list of projects by reading projects directory
- * @return array
- */
-function getProjects() {
-
-    $projects = array();
-    $dir = CARTOCLIENT_HOME . ProjectHandler::PROJECT_DIR . '/';
-    $d = dir($dir);
-    while (false !== ($entry = $d->read())) {
-        if (is_dir($dir . $entry) && $entry != '.'
-            && $entry != '..' && $entry != 'CVS') {
-            $projects[] = $entry;
-        }
-    }    
-    return $projects;
-}
-
-/**
  * Gets list of map Ids by reading project directory
  * @param string
  * @return array
@@ -291,21 +274,34 @@ $projects[] = ProjectHandler::DEFAULT_PROJECT;
 
 foreach ($projects as $project) {
     
+    // Gets server project-level file
+    $projectFile = getMapPo($project);
+    if (!$projectFile) {
+        continue;
+    }   
+    
     $mapIds = getMapIds($project);
     foreach ($mapIds as $mapId) {
     
+        // Gets server mapfile-level file
         $file = getMapPo($project, $mapId);
         if (!$file) {
             continue;
         }
         $finalFile = $project . '.' . $mapId;
-        if (!merge($project, $file, getProjectPo($project), $finalFile)) {
+        if (!merge($project, $file, 'server-' . $project, $finalFile)) {
+            continue;
+        }
+        if (!merge($project, $finalFile, 'client-' . $project, $finalFile)) {
             continue;
         }
         if ($project != ProjectHandler::DEFAULT_PROJECT) {
             if (!merge($project, $finalFile,
-                       getProjectPo(ProjectHandler::DEFAULT_PROJECT),
-                       $finalFile)) {
+                       'server-' . ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
+                continue;
+            }
+            if (!merge($project, $finalFile,
+                       'client-' . ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
                 continue;
             }
         }
