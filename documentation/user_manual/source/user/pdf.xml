@@ -1069,6 +1069,7 @@ blocks.legend.content = "!nix"]]></programlisting>
    <title><indexterm><primary>Roles management, PDF</primary></indexterm>Roles management</title>
    <para>
     &cartoweb; enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
+    For a more detailed discussion of the concept of security restriction and roles, see <xref linkend="user.security"/>.
    </para>
    <para>
     To do so, simply add to considered objects/blocks an <parameter>allowedRoles</parameter> property set to the comma-separated list of roles you want to restrict them to.
