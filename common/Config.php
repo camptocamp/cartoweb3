@@ -86,6 +86,13 @@ abstract class Config {
         if (!@$this->pluginsPath)
             $this->pluginsPath = $this->basePath . 'plugins/';
     }
+
+    /**
+     * Returns protected var $ini_array.
+     */
+    function getIniArray() {
+        return $this->ini_array;
+    }
 }
 
 /**
