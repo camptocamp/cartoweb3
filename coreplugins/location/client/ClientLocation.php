@@ -190,20 +190,42 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('recenter.tpl');
     }
 
-    private function handleIdRecenter($request) {
+    private function handleIdRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center);       
-        if (!array_key_exists('id_recenter_ids', $request) ||
-            $request['id_recenter_ids'] == '')
+        $point = clone($center);
+        
+        $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
+        $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');    
+               
+        if (is_null($idRecenterLayer) || is_null($idRecenterIds)) {
             return NULL;
-
+        }
+        
+        $ids = explode(',', $idRecenterIds);
+        
+        if ($check) {
+            $found = false;
+            foreach($this->cartoclient->getMapInfo()->getLayers() as $layer) {
+                if (! $layer instanceof Layer) {
+                    continue;
+                }
+                if ($idRecenterLayer == $layer->id) {
+                    $found = true;
+                }
+            }
+            if (!$found) {
+                $this->cartoclient->addMessage('ID recenter layer not found');
+                return NULL;
+            }
+        }
+        
         $recenterRequest = new RecenterLocationRequest();
         
         $idSelection = new IdSelection();
-        $idSelection->layerId = $request['id_recenter_layer'];
+        $idSelection->layerId = $idRecenterLayer;
         $this->locationState->idRecenterSelected = $idSelection->layerId;
-        $idSelection->selectedIds = explode(',', $request['id_recenter_ids']);
+        $idSelection->selectedIds = $ids;
         
         $recenterRequest->idSelections = array($idSelection);
         
@@ -240,23 +262,33 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('id_recenter.tpl');
     }
 
-    private function handleShortcuts($request, $useDoit = true) {
-        if (array_key_exists('shortcut_id', $request) &&
-            $request['shortcut_id'] != '' &&
-            ((array_key_exists('shortcut_doit', $request) &&
-            $request['shortcut_doit'] == '1') || !$useDoit)) {
-            
-            $bboxRequest = new BboxLocationRequest();
-            $bboxRequest->bbox = $this->shortcuts[$request['shortcut_id']]->bbox;
-
-            $locationRequest = new LocationRequest();                
-            $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
-            $locationRequest->bboxLocationRequest = $bboxRequest;
+    private function handleShortcuts($request, $useDoit = true, $check = false) {
         
-            return $locationRequest;        
-        } else {
+        $shortcut_id  = $this->getHttpValue($request, 'shortcut_id');
+        $shortcutDoit = $this->getHttpValue($request, 'shortcut_doit');                            
+
+        if (is_null($shortcut_id) || ($shortcutDoit != '1' && $useDoit)) {
             return NULL;
         }
+        
+        if ($check) {
+            if (!$this->checkInt($shortcut_id, 'shortcut_id'))
+                return NULL;
+                
+            if (!array_key_exists($shortcut_id, $this->shortcuts)) {
+                $this->cartoclient->addMessage('Shortcut ID not found');
+                return NULL;
+            }
+        }
+                   
+        $bboxRequest = new BboxLocationRequest();
+        $bboxRequest->bbox = $this->shortcuts[$request['shortcut_id']]->bbox;
+
+        $locationRequest = new LocationRequest();                
+        $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
+        $locationRequest->bboxLocationRequest = $bboxRequest;
+        
+        return $locationRequest;        
     }
 
     private function drawShortcuts() {
@@ -275,15 +307,42 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('shortcuts.tpl');
     }
 
-    private function handleBboxRecenter($request) {
-
-        $center = $this->locationState->bbox->getCenter();
-        if (array_key_exists('recenter_bbox', $request) &&
-            $request['recenter_bbox'] != '') {
-            $bbox = new Bbox();
-            $bbox->setFromString($request['recenter_bbox']);
-        } else {
+    private function handleBboxRecenter($request, $check = false) {
+        
+        $recenterBbox = $this->getHttpValue($request, 'recenter_bbox');
+        if (is_null($recenterBbox)) {
             return NULL;
+        }
+       
+        if ($check) {
+        
+            $values = explode(',', $recenterBbox);
+            if (count($values) != 4) {
+                $this->cartoclient->
+                    addMessage('Parameter recenter_bbox should be 4 values separated by commas');
+                return NULL;
+            }
+            list($minx, $miny, $maxx, $maxy) = $values;
+            if (!$this->checkNumeric($minx, 'recenter_bbox (minx)'))
+                return NULL;
+            if (!$this->checkNumeric($miny, 'recenter_bbox (miny)'))
+                return NULL;
+            if (!$this->checkNumeric($maxx, 'recenter_bbox (maxx)'))
+                return NULL;
+            if (!$this->checkNumeric($maxy, 'recenter_bbox (maxy)'))
+                return NULL;
+            
+            if ($minx >= $maxx) {
+                $this->cartoclient->
+                    addMessage('Parameter recenter_bbox minx must be < maxx');
+                return NULL;
+            }
+            if ($miny >= $maxy) {
+                $this->cartoclient->
+                    addMessage('Parameter recenter_bbox miny must be < maxy');
+                return NULL;
+            }
+            $bbox = new Bbox($minx, $miny, $maxx, $maxy);
         }
 
         $bboxRequest = new BboxLocationRequest();
@@ -346,7 +405,7 @@ class ClientLocation extends ClientPlugin
 
     function handleHttpGetRequest($request) {
 
-        $this->locationRequest = $this->handleBboxRecenter($request);
+        $this->locationRequest = $this->handleBboxRecenter($request, true);
         if (!is_null($this->locationRequest))
             return;
 
@@ -354,11 +413,11 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleIdRecenter($request);
+        $this->locationRequest = $this->handleIdRecenter($request, true);
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleShortcuts($request, false);
+        $this->locationRequest = $this->handleShortcuts($request, false, true);
         if (!is_null($this->locationRequest))
             return;
     }

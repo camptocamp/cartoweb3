@@ -409,10 +409,10 @@ abstract class ClientPlugin extends PluginBase {
     
     function checkInt($value, $variable) {
         if (is_null($value) ||
-            (is_numeric($value) && intval($value) == $value)) {
+            (is_numeric($value) && intval($value) == $value && intval($value) >= 0)) {
             return true; 
         }
-        $this->cartoclient->addMessage("Parameter $variable should be an int");
+        $this->cartoclient->addMessage("Parameter $variable should be an int >= 0");
         return false;
     }
 
