@@ -442,16 +442,16 @@ class ClientLocation extends ClientPlugin
             return NULL;
         }
        
-        if ($check) {
-        
-            $values = explode(',', $recenterBbox);
-            if (count($values) != 4) {
-                $this->cartoclient->
-                    addMessage('Parameter recenter_bbox should be 4 values ' .
-                               'separated by commas');
-                return NULL;
+        $values = explode(',', $recenterBbox);
+        if (count($values) != 4) {
+            $this->cartoclient->
+                addMessage('Parameter recenter_bbox should be 4 values ' .
+                           'separated by commas');
+            return NULL;
             }
-            list($minx, $miny, $maxx, $maxy) = $values;
+        list($minx, $miny, $maxx, $maxy) = $values;
+
+        if ($check) {
             if (!$this->checkNumeric($minx, 'recenter_bbox (minx)'))
                 return NULL;
             if (!$this->checkNumeric($miny, 'recenter_bbox (miny)'))
@@ -471,8 +471,8 @@ class ClientLocation extends ClientPlugin
                     addMessage('Parameter recenter_bbox miny must be < maxy');
                 return NULL;
             }
-            $bbox = new Bbox($minx, $miny, $maxx, $maxy);
         }
+        $bbox = new Bbox($minx, $miny, $maxx, $maxy);
 
         $bboxRequest = new BboxLocationRequest();
         $bboxRequest->bbox = $bbox;
