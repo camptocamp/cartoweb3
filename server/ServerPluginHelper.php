@@ -26,6 +26,13 @@ class ServerPluginHelper {
         $this->log =& LoggerManager::getLogger(get_class($this));
     }
     
+    /**
+     * Common function caller
+     *
+     * Retrieves plugin request and saves result in MapResult.
+     * @param ServerPlugin plugin
+     * @param string function name
+     */
     protected function callHandleFunction($plugin, $functionName) {
         
         $this->log->debug(sprintf("Calling callHandleFunction for plugin %s", 
@@ -64,27 +71,52 @@ class ServerPluginHelper {
     }
 }
 
+/**
+ * Helper for {@link ClientResponder}
+ * @package Server
+ */
 class ClientResponderHelper extends ServerPluginHelper {
 
+    /**
+     * @param ServerPlugin
+     */
     final function handleInitializingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handleInitializing');
     }
 
+    /**
+     * @param ServerPlugin
+     */
     final function handlePreDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handlePreDrawing');
     }
 
+    /**
+     * @param ServerPlugin
+     */
     final function handleDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handleDrawing');
     }
 
+    /**
+     * @param ServerPlugin
+     */
     final function handlePostDrawingHelper($plugin) {
         $this->callHandleFunction($plugin, 'handlePostDrawing');
     }
 }
 
+/**
+ * Helper for {@link InitProvider}
+ * @package Server
+ */
 class InitProviderHelper extends ServerPluginHelper {
 
+    /**
+     * Calls plugin's {@link InitProvider::getInit} and stores the result
+     * in MapInfo
+     * @param ServerPlugin
+     */
     final function getInitHelper($plugin) {
         $this->log->debug(sprintf("Calling getInit for plugin %s", get_class($plugin)));
         
@@ -96,8 +128,15 @@ class InitProviderHelper extends ServerPluginHelper {
     }    
 }
 
+/**
+ * Helper for {@link CoreProvider}
+ * @package Server
+ */
 class CoreProviderHelper extends ServerPluginHelper {
 
+    /**
+     * @param ServerPlugin
+     */
     final function handleCorePluginHelper($plugin) {
         $this->callHandleFunction($plugin, 'handleCorePlugin');
     }

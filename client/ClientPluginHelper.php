@@ -27,6 +27,10 @@ class ClientPluginHelper {
     }
 }
 
+/**
+ * Helper for {@link ToolProvider}
+ * @package Client
+ */
 class ToolProviderHelper extends ClientPluginHelper {
     
     /**
@@ -45,6 +49,7 @@ class ToolProviderHelper extends ClientPluginHelper {
      *
      * Weight is read in plugin configuration file.
      * Example: id = my_tool, variable in configuration file = weightMyTool.
+     * @param ClientPlugin plugin
      * @param ToolDescription tool to update
      * @return ToolDescription updated tool
      */
@@ -63,14 +68,10 @@ class ToolProviderHelper extends ClientPluginHelper {
     /** 
      * Calls plugin's {@link ToolProvider::getTools()}, updates tools
      * and returns them
-     * 
-     * Assumes that plugin implements {@link ToolProvider}.
      * @param ClientPlugin plugin
      * @return array array of {@link ToolDescription}
      */
     final function getToolsHelper($plugin) {
-        
-        assert($plugin instanceof ToolProvider); 
 
         $tools = $plugin->getTools();
         $result = array();
@@ -86,17 +87,18 @@ class ToolProviderHelper extends ClientPluginHelper {
     }
 }
 
+/**
+ * Helper for {@link Sessionable}
+ * @package Client
+ */
 class SessionableHelper extends ClientPluginHelper {
 
     /**
      * Loads client session and calls plugin's
      * {@link Sessionable::loadSession()}
-     *
-     * Assumes that plugin implements {@link Sessionable}.
+     * @param ClientPlugin plugin
      */
     final function loadSessionHelper($plugin) {
-    
-        assert($plugin instanceof Sessionable);
         
         $cartoclient = $plugin->getCartoclient();        
         $clientSession = $cartoclient->getClientSession();
@@ -117,13 +119,10 @@ class SessionableHelper extends ClientPluginHelper {
 
     /**
      * Gets plugin's session data and save it
-     *
-     * Assumes that plugin implements {@link Sessionable}.
+     * @param ClientPlugin plugin
      */
     final function saveSessionHelper($plugin) {
 
-        assert($plugin instanceof Sessionable);
-        
         $cartoclient = $plugin->getCartoclient();
         $className = get_class($plugin);
 
@@ -141,12 +140,16 @@ class SessionableHelper extends ClientPluginHelper {
     }
 }
 
+/**
+ * Helper for {@link InitUser}
+ * @package Client
+ */
 class InitUserHelper extends ClientPluginHelper {
   
     /**
      * Unserializes init object specific to plugin
+     * @param ClientPlugin plugin
      * @param MapInfo MapInfo
-     * @param ClientPlugin
      */
     private function unserializeInit($plugin, $mapInfo) {
         
@@ -167,13 +170,10 @@ class InitUserHelper extends ClientPluginHelper {
 
     /**
      * Gets init object and calls plugin's {@link InitProvider::handleInit()}
-     *
-     * Assumes that plugin implements {@link InitProvider}.
+     * @param ClientPlugin plugin
      * @param MapInfo MapInfo
      */
     final function handleInitHelper($plugin, $mapInfo) {
-
-        assert($plugin instanceof InitUser);
 
         $pluginInit = $this->unserializeInit($plugin, $mapInfo);
         
@@ -183,19 +183,19 @@ class InitUserHelper extends ClientPluginHelper {
     }
 }
 
+/**
+ * Helper for {@link ServerCaller}
+ * @package Client
+ */
 class ServerCallerHelper extends ClientPluginHelper {
 
     /**
      * Gets plugin specific result out of {@link MapResult} and calls 
      * plugin's {@link ServerCaller::handleResult()}
-     *
-     * Assumes that plugin implements {@link ServerCaller}.
-     * @param ClientPlugin
+     * @param ClientPlugin plugin
      * @param MapResult complete MapResult
      */
     final function handleResultHelper($plugin, $mapResult) {
-
-        assert($plugin instanceof ServerCaller);
         
         $pluginResult = $plugin->getRequest(false, $mapResult);
         

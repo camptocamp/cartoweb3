@@ -12,21 +12,29 @@ interface ClientResponder {
  
     /**
      * Handles the request at the plugin initialisation phase.
+     * @param mixed plugin request
+     * @see Cartoserver::doGetMap()
      */
     function handleInitializing($requ);
 
     /**
      * Handles the request just before plugins should draw in the map
+     * @param mixed plugin request
+     * @see Cartoserver::doGetMap()
      */
     function handlePreDrawing($requ);
 
     /**
-     * Handles the request when the plugin shoud draw on the map
+     * Handles the request when the plugin should draw on the map
+     * @param mixed plugin request
+     * @see Cartoserver::doGetMap()
      */
     function handleDrawing($requ);
 
     /**
      * Handles the request after the plugins have drawn the image
+     * @param mixed plugin request
+     * @see Cartoserver::doGetMap()
      */
     function handlePostDrawing($requ);
 }
@@ -36,6 +44,10 @@ interface ClientResponder {
  */
 interface InitProvider {
 
+    /**
+     * Creates plugin init object that will be stored in MapInfo 
+     * @return mixed plugin init object
+     */
     function getInit();
 }
 
@@ -43,30 +55,50 @@ interface InitProvider {
  * @package Server
  */
 interface CoreProvider {
-
+    
+    /**
+     * Handles request at special places for core plugins
+     * @param mixed plugin request
+     * @see Cartoserver::doGetMap()
+     */
     function handleCorePlugin($requ);
 }
  
 /**
+ * Server plugin
  * @package Server
  */
 abstract class ServerPlugin extends PluginBase {
+
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @var ServerConfig
+     */
     private $config;
 
+    /**
+     * @var ServerContext
+     */
     protected $serverContext;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * @return ServerContext
+     */
     public function getServerContext() {
         return $this->serverContext;   
     }
 
     /**
-     * @param initArgs serverContext
+     * Initializes plugin configuration
+     * @param ServerContext
      */
     function initialize($initArgs) {
         $this->serverContext = $initArgs;
@@ -75,20 +107,42 @@ abstract class ServerPlugin extends PluginBase {
                                                $this->serverContext->projectHandler);
     }
 
+    /**
+     * @return ServerConfig
+     */
     final function getConfig() {
         return $this->config;
     }
 }
 
+/**
+ * Adapter for interface {@link ClientResponder}
+ *
+ * This class implements all interface methods so child classes won't need
+ * to add an empty method when they're not implemented.
+ * @package Server
+ */
 abstract class ClientResponderAdapter extends ServerPlugin
                                       implements ClientResponder {
 
+    /**
+     * @see ClientResponder::handleInitializing()
+     */
     function handleInitializing($requ) {}
 
+    /**
+     * @see ClientResponder::handlePreDrawing()
+     */
     function handlePreDrawing($requ) {}
 
+    /**
+     * @see ClientResponder::handleDrawing()
+     */
     function handleDrawing($requ) {}
 
+    /**
+     * @see ClientResponder::handlePostDrawing()
+     */
     function handlePostDrawing($requ) {}
 } 
 
