@@ -125,14 +125,102 @@
  </sect1>
 
  <sect1 id="user.config.server"> 
-  <title>Server.ini</title>
+ <title>Server configuration files</title>
+
+ <sect2 id="user.config.server.intro">
+ <title>Introduction</title>
+ <para> 
+  The &cartoserver; has the ability to contains several different maps.
+  These maps are represented by the mapserver mapfile, the &cartoweb; 
+  configuration file for the map and each plugins configuration.
+ </para>
+ </sect2>
+
+ <sect2 id="user.config.server.main_config">
+  <title>Main server configuration file (Server.ini)</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+    TBD
   </para>
- </sect1>
+ </sect2>
+
+ <sect2 id="user.config.server.maps_config">
+  <title>Map configuaration files</title>
+  <para>TBD</para>
+  
+  <sect3 id="user.config.server.maps_config.intro">
+   <title>Initial Mapstates</title>  
+   <para>
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   </para>
+  </sect3>
+
+  <sect3 id="user.config.server.maps_config.initial">
+   <title>Initial Mapstates</title>
+   <para>
+   <indexterm><primary>initial mapstate</primary></indexterm>
+    Initial map states set the initial aspects of the layers selection 
+    interface when starting using CartoClient : (un)folded nodes, selected 
+    layers... Some of these properties are not modifiable in the layers 
+    selection interface (hidden layers for instance) and thus stay 
+    unchanged throughout the session
+   </para>
+   <para>
+    Several initial map states can be created in <filename>myMap.ini
+    </filename>, but at least one must be present. Each one is identified by a 
+    unique initialMapStateId. The choice to activate one or another is done 
+    client-side in <filename>client_conf/client.ini</filename>.
+   </para>
+  <para>
+   Available properties and syntax for 
+   layers in "initial map states" are:
+   <itemizedlist>
+    <listitem>
+     <para>
+      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+      selected = true|false : if true, layer is initially selected.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+       unfolded = true|false : if true, the layerGroup is represented as 
+       an unfolded node (children layers are visible).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+      hidden = true|false : if true, this layer and its children are not 
+      shown in the layers list (but are still displayed on the map if 
+      they're activated).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+       mapInfo.initialMapStates.initialMapStateId.layers.layerId.
+       frozen = true|false: if true, this layer (and its children as well)
+       is listed in tree but without checkbox. Its selection status (defined by 
+      "selected" property) thus cannot be changed.
+     </para>
+    </listitem>
+   </itemizedlist>
+   </para>
+   <para>
+    Example of Initial MapState : 
+      <programlisting><![CDATA[mapInfo.initialMapStates.default.layers.polygon.selected = true
+;mapInfo.initialMapStates.default.layers.polygon.unfolded = true 
+mapInfo.initialMapStates.default.layers.polygon.hidden = true
+...
+
+mapInfo.initialMapStates.map25.layers.polygon.selected = true
+mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting>
+   </para>
+  </sect3>
+  </sect2>
+  </sect1>
 
  <sect1 id="user.config.plugins"> 
   <title>Ini for plugins</title>

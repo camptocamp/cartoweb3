@@ -253,9 +253,9 @@ END
         <para>Now let's look the case where the metadata key is set on a layer
           group in the <filename>&lt;mapfile&gt;.ini</filename> configuration file:
       <programlisting>
-mapInfo.layers.group_admin.className = LayerGroup
-mapInfo.layers.group_admin.children = grid_defaulthilight
-mapInfo.layers.group_admin.metadata.security_view = admin        
+layers.group_admin.className = LayerGroup
+layers.group_admin.children = grid_defaulthilight
+layers.group_admin.metadata.security_view = admin        
      </programlisting>        
         In this example, the <constant>admin</constant> role is set for the layerGroup 
   called <constant>group_admin</constant>. You can notice the very similar syntax
