@@ -27,10 +27,26 @@ class JsToolAttributes {
     const ACTION_SUBMIT = 1;
     const ACTION_MEASURE = 2;
     
+    /**
+     * @var int
+     */
     public $shapeType;
+    
+    /** 
+     * @var int
+     */
     public $cursorStyle;
+    
+    /** 
+     * @var int
+     */
     public $action;
     
+    /**
+     * @param int
+     * @param int
+     @ @param int
+     */
     function __construct($shapeType,  $cursorStyle = self::CURSOR_CROSSHAIR, 
                          $action = self::ACTION_SUBMIT) { 
         $this->shapeType = $shapeType;
@@ -40,6 +56,7 @@ class JsToolAttributes {
 
     /**
      * Returns shape string identification
+     * @return string shape id
      */
     public function getShapeTypeString() {
         switch($this->shapeType) {
@@ -54,6 +71,7 @@ class JsToolAttributes {
 
     /**
      * Returns cursor string identification
+     * @return string cursor id
      */
     public function getCursorStyleString() {
         switch($this->cursorStyle) {
@@ -68,6 +86,7 @@ class JsToolAttributes {
 
     /**
      * Returns action string identification
+     * @return string action id
      */
     public function getActionString() {
         switch($this->action) {
@@ -88,13 +107,44 @@ class ToolDescription {
     const MAINMAP = 2;
     const KEYMAP = 4;
 
+    /** 
+     * @var string
+     */
     public $id;
+    
+    /**
+     * @var boolean
+     */
     public $hasIcon;
+    
+    /**
+     * @var JsToolAttributes
+     */
     public $jsAttributes;
+    
+    /**
+     * @var int
+     */
     public $weight;
+    
+    /**
+     * @var boolean
+     */
     public $plugin;
+    
+    /**
+     * @var int
+     */
     public $appliesTo;
     
+    /**
+     * @param string
+     * @param boolean
+     * @param JsToolAttributes
+     * @param int
+     * @param boolean
+     * @param int
+     */
     function __construct($id, $hasIcon, $jsAttributes, 
                          $weight, $plugin = false, $appliesTo = self::MAINMAP) {
         $this->id = $id;
@@ -114,12 +164,16 @@ interface ToolProvider {
 
     /**
      * Handles tool when main map was clicked
+     * @param ToolDescription description of tool
+     * @param Shape selection on map
      */
     function handleMainmapTool(ToolDescription $tool, 
                             Shape $mainmapShape);
     
     /**
      * Handles tool when key map was clicked
+     * @param ToolDescription description of tool
+     * @param Shape selection on map
      */
     function handleKeymapTool(ToolDescription $tool, 
                             Shape $keymapShape);
@@ -130,6 +184,7 @@ interface ToolProvider {
      * Warning: this method should not be called directly to obtain the tools !!
      * Callers should use {@link ClientPlugin::doGetTools()}, which uses caching,
      * and does some more treatment on the tools.
+     * @return array array of {@link ToolDescription}
      */
     function getTools();
 }
@@ -142,11 +197,14 @@ interface Sessionable {
 
     /**
      * Reloads data from session object
+     * @param mixed plugin's section of session object
      */
     function loadSession($sessionObject);
 
     /**
      * Initializes session data
+     * @param MapInfo MapInfo
+     * @param InitialMapState current state
      */
     function createSession(MapInfo $mapInfo, InitialMapState $initialState);
 
@@ -164,11 +222,13 @@ interface ServerCaller {
 
     /**
      * Adds specific plugin information to map request
+     * @param MapRequest map request (will be modified)
      */
     function buildMapRequest($mapRequest);
 
     /**
      * Handles server result
+     * @param mixed plugin's section of map request 
      */
     function handleResult($result);
 }
@@ -181,6 +241,7 @@ interface InitProvider {
 
     /**
      * Handles initialization object taken from {@link MapInfo}
+     * @param mixed plugin's section of MapInfo
      */
     function handleInit($initObject); 
 }
@@ -193,6 +254,8 @@ interface Exportable {
 
     /**
      * Adjust map request to get a ready for export result
+     * @param ExportConfiguration configuration
+     * @param MapRequest map request (will be modified)
      */
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest);
@@ -205,10 +268,24 @@ interface Exportable {
  */
 abstract class ClientPlugin extends PluginBase {
 
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var Cartoclient
+     */
     protected $cartoclient;
 
+    /** 
+     * @var ClientConfig
+     */
     private $config;
+    
+    /**
+     * @var array
+     */
     private $tools;
 
     function __construct() {
@@ -221,6 +298,7 @@ abstract class ClientPlugin extends PluginBase {
 
     /**
      * Initializes plugin configuration
+     * @param Cartoclient Cartoclient
      */
     function initialize($initArgs) {
         $this->cartoclient = $initArgs;
@@ -229,10 +307,16 @@ abstract class ClientPlugin extends PluginBase {
                                                $this->cartoclient->projectHandler);        
     }
     
+    /**
+     * @return ClientConfig
+     */
     final function getConfig() {
         return $this->config;
     }
 
+    /**
+     * @return Cartoclient
+     */
     function getCartoclient() {
         return $this->cartoclient;
     }
@@ -289,6 +373,7 @@ abstract class ClientPlugin extends PluginBase {
        
     /**
      * Unserializes init object specific to plugin
+     * @param MapInfo MapInfo
      */
     private function unserializeInit($mapInfo) {
         
@@ -311,6 +396,7 @@ abstract class ClientPlugin extends PluginBase {
      * Gets init object and calls child object's {@link InitProvider::handleInit()}
      *
      * Assumes that plugin implements {@link InitProvider}.
+     * @param MapInfo MapInfo
      */
     final function dohandleInit($mapInfo) {
 
@@ -325,6 +411,8 @@ abstract class ClientPlugin extends PluginBase {
 
     /**
      * Converts a name one_toto_two ==> OneTotoTwo
+     * @param string input name
+     * @return string converted name
      */
     private function convertName($name) {
         $n = explode('_', $name);
@@ -337,6 +425,8 @@ abstract class ClientPlugin extends PluginBase {
      *
      * Weight is read in plugin configuration file.
      * Example: id = my_tool, variable in configuration file = weightMyTool.
+     * @param ToolDescription tool to update
+     * @return ToolDescription updated tool
      */
     private function updateTool(ToolDescription $tool) {
 
@@ -355,6 +445,7 @@ abstract class ClientPlugin extends PluginBase {
      * and returns them
      * 
      * Assumes that plugin implements {@link ToolProvider}.
+     * @return array array of {@link ToolDescription}
      */
     final function doGetTools() {
 
@@ -379,6 +470,7 @@ abstract class ClientPlugin extends PluginBase {
 
     /**
      * Handles data coming from a post request 
+     * @param array HTTP request
      */
     abstract function handleHttpRequest($request);
 
@@ -387,6 +479,7 @@ abstract class ClientPlugin extends PluginBase {
      * object's {@link ServerCaller::handleResult()}
      *
      * Assumes that plugin implements {@link ServerCaller}.
+     * @param MapResult complete MapResult
      */
     final function internalHandleResult($mapResult) {
 
@@ -399,6 +492,7 @@ abstract class ClientPlugin extends PluginBase {
     
     /**
      * Manages form output rendering
+     * @param string template name
      */
     abstract function renderForm($template);
 }

@@ -15,48 +15,97 @@
  */
 class ExportConfiguration {
     
+    /**
+     * @var boolean
+     */
     private $renderMap;
+    
+    /**
+     * @var boolean
+     */
     private $renderKeymap;
+    
+    /**
+     * @var boolean
+     */
     private $renderScalebar;
+    
+    /**
+     * @var int
+     */
     private $mapHeight;
+    
+    /**
+     * @var int
+     */
     private $mapWidth;
        
+    /**
+     * @param boolean
+     */
     function setRenderMap($renderMap) {
         $this->renderMap = $renderMap;
     }
     
+    /**
+     * @return boolean
+     */
     function isRenderMap() {
         return $this->renderMap;
     }
 
+    /**
+     * @param boolean
+     */
     function setRenderKeymap($renderKeymap) {
         $this->renderKeymap = $renderKeymap;
     }
     
+    /**
+     * @return boolean
+     */
     function isRenderKeymap() {
         return $this->renderKeymap;
     }
 
+    /**
+     * @param boolean
+     */
     function setRenderScalebar($renderScalebar) {
         $this->renderScalebar = $renderScalebar;
     }
     
+    /**
+     * @return boolean
+     */
     function isRenderScalebar() {
         return $this->renderScalebar;
     }
 
+    /**
+     * @param int
+     */
     function setMapHeight($mapHeight) {
         $this->mapHeight = $mapHeight;
     }
     
+    /**
+     * @return int
+     */
     function getMapHeight() {
         return $this->mapHeight;
     }
 
+    /**
+     * @param int
+     */
     function setMapWidth($mapWidth) {
         $this->mapWidth = $mapWidth;
     }
     
+    /**
+     * @return int
+     */
     function getMapWidth() {
         return $this->mapWidth;
     }
@@ -73,8 +122,19 @@ class ExportConfiguration {
  */
 class ExportOutput {
     
+    /**
+     * @var string
+     */
     private $filePath;
+    
+    /**
+     * @var string
+     */
     private $fileName;
+    
+    /**
+     * @var string
+     */
     private $contents;
     
     function __construct() {
@@ -87,6 +147,8 @@ class ExportOutput {
      * Sets file name and path
      *
      * File and contents shouldn't be set together.
+     * @param string file path
+     * @param string file name
      */
     function setFile($filePath, $fileName) {
         $this->filePath = $filePath;
@@ -97,13 +159,15 @@ class ExportOutput {
      * Sets contents
      *
      * File and contents shouldn't be set together.
+     * @param string output contents
      */
     function setContents($contents) {
         $this->contents = $contents;
     }
 
     /**
-     * Returns file name if the file exists, null otherwise   
+     * Returns file name if the file exists, null otherwise
+     * @return string file name   
      */
     function getFileName() {
     
@@ -116,6 +180,7 @@ class ExportOutput {
     
     /**
      * Returns contents if it is not null, contents of file otherwise
+     * @return string output contents
      */
     function getContents() {
         if (is_null($this->contents)) {
@@ -143,7 +208,8 @@ abstract class ExportPlugin extends ClientPlugin {
      * - Gets last request
      * - Calls plugins to adjust request
      * - Calls server's getMap
-     * - Renders export output by calling child object's export() 
+     * - Renders export output by calling child object's export()
+     * @return ExportOutput export result 
      */
     function getExport() {
 
@@ -172,11 +238,15 @@ abstract class ExportPlugin extends ClientPlugin {
 
     /** 
      * Returns export configuration
+     * @return ExportConfiguration configuration
      */
     abstract function getConfiguration();
 
     /**
      * Renders export
+     * @param MapRequest current map request
+     * @param MapResult MapResult returned by server
+     * @return ExportOutput export result
      */
     abstract function export($mapRequest, $mapResult);
 }

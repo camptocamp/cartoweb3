@@ -21,6 +21,9 @@ require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
  */
 class Smarty_Cartoclient extends Smarty {
 
+    /**
+     * @var ClientProjectHandler
+     */
     private $projectHandler;
 
     /** 
@@ -28,6 +31,7 @@ class Smarty_Cartoclient extends Smarty {
      * 
      * Initializes dirs and cache, ans registers block functions (resources
      * and i18n).
+     * @param ClientConfig configuration
      */
     function __construct($config) {
         parent::__construct();
@@ -54,7 +58,9 @@ class Smarty_Cartoclient extends Smarty {
      * Overrides Smarty's resource compile path
      *
      * Updates template dir to point to the right project and insert a compile
-     * id to have one cache file per project and per template. 
+     * id to have one cache file per project and per template.
+     * @param string resource name
+     * @return string path to resource  
      */    
     function _get_compile_path($resource_name)
     {
@@ -77,6 +83,10 @@ class Smarty_Cartoclient extends Smarty {
  */
 class Smarty_CorePlugin extends Smarty_Cartoclient {
 
+    /**
+     * @param ClientConfig
+     * @param ClientPlugin
+     */
     function __construct(ClientConfig $config, ClientPlugin $plugin) {
         parent::__construct($config);
         
@@ -93,9 +103,20 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
  * @package Client
  */
 class FormRenderer {
+
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var Cartoclient
+     */
     private $cartoclient;
 
+    /**
+     * @param Cartoclient
+     */
     function __construct($cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
@@ -103,6 +124,9 @@ class FormRenderer {
         $this->smarty = $this->getSmarty();
     }
 
+    /**
+     * @return Smarty_Cartoclient
+     */
     private function getSmarty() {
         $smarty = new Smarty_Cartoclient($this->cartoclient->getConfig());
         
@@ -113,6 +137,7 @@ class FormRenderer {
      * Draws tool bar
      *
      * Tools are ordered thanks to weight system.
+     * @param Cartoclient Cartoclient
      */
     private function drawTools($cartoclient) {
         
@@ -158,6 +183,7 @@ class FormRenderer {
 
     /**
      * Draws user and developer messages
+     * @param array array of messages
      */
     private function drawMessages($serverMessages) {
         
@@ -184,6 +210,7 @@ class FormRenderer {
     
     /**
      * Displays GUI using cartoclient.tpl Smarty template
+     * @param Cartoclient Cartoclient
      */
     function showForm($cartoclient) {
 
@@ -217,6 +244,7 @@ class FormRenderer {
 
     /**
      * Displays failure using failure.tpl Smarty templates
+     * @param Exception exception to display
      */
     function showFailure($exception) {
 
@@ -232,4 +260,5 @@ class FormRenderer {
         $smarty->display('failure.tpl');
     }
 }
+
 ?>

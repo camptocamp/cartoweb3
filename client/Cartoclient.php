@@ -49,12 +49,20 @@ class CartoForm {
     const BUTTON_KEYMAP = 3;
 
     // FIXME: is this needed ?, or rather test **shape if not null
+    /**
+     * @var int
+     */
     public $pushedButton;
 
+    /**
+     * @var Shape
+     */
     public $mainmapShape;
+    
+    /**
+     * @var Shape
+     */
     public $keymapShape;
-
-    public $plugins;
 }
 
 /**
@@ -71,6 +79,7 @@ class ClientConfig extends Config {
      * Constructor
      *
      * If cartoserverBaseUrl is not set, tries to guess it using PHP_SELF.
+     * @param ClientProjectHandler Cartoclient's project handler
      */
     function __construct($projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
@@ -103,6 +112,7 @@ class ClientPluginConfig extends PluginConfig {
      * Returns directory where .ini are located
      *
      * Client's .ini are located directly in client_conf directory.
+     * @return string path
      */
     function getPath() {
         return '';
@@ -110,6 +120,8 @@ class ClientPluginConfig extends PluginConfig {
 
     /**
      * Constructor
+     * @param string plugin name
+     * @param ClientProjectHandler Cartoclient's project handler
      */
     function __construct($plugin, $projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
@@ -150,28 +162,69 @@ define('CLIENT_SESSION_KEY', 'client_session_key');
  * @package Client
  */
 class Cartoclient {
+
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @var MapInfo
+     */
     private $mapInfo;
+    
+    /**
+     * @var ClientSession
+     */
     private $clientSession;
+    
+    /**
+     * @var CartoForm
+     */
     private $cartoForm;
+    
+    /** 
+     * @var MapResult
+     */
     private $mapResult;
        
+    /**
+     * @var HttpRequestHandler
+     */
     private $httpRequestHandler;
+    
+    /**
+     * @var PluginManager
+     */
     private $pluginManager; 
        
+    /**
+     * @var ClientConfig
+     */
     private $config;
     
+    /**
+     * @var ClientProjectHandler
+     */
     public $projectHandler;
 
+    /**
+     * @return ClientConfig
+     */
     function getConfig() {
         return $this->config;
     }
 
+    /**
+     * @return CartoForm
+     */
     function getCartoForm() {
         return $this->cartoForm;
     }
 
+    /**
+     * @return MapResult
+     */
     function getMapResult() {
         return $this->mapResult;
     }
@@ -197,24 +250,37 @@ class Cartoclient {
         $this->initializeSession();        
     }
 
+    /**
+     * @return ClientSession
+     */
     function getClientSession() {
         return $this->clientSession;
     }
 
+    /**
+     * @return HttpRequestHandler
+     */
     function getHttpRequestHandler() {
         return $this->httpRequestHandler;
     }
     
+    /**
+     * @return PluginManager
+     */
     function getPluginManager() {
         return $this->pluginManager;
     }
 
+    /**
+     * @param ClientSession
+     */
     function setClientSession($clientSession) {
         $this->clientSession = $clientSession;
     }
 
     /**
      * Returns the names of core plugins
+     * @return array names
      */
     private function getCorePluginNames() {
 
@@ -245,6 +311,8 @@ class Cartoclient {
      * Calls plugins implementing an interface
      *
      * Interfaces are declared in {@link ClientPlugin}.
+     * @param string interface name
+     * @param string function name
      */
     function callPluginsImplementing($interface, $functionName) {
 
@@ -256,6 +324,7 @@ class Cartoclient {
 
     /**
      * Calls all plugins
+     * @param string function name
      */
     function callPlugins($functionName) {
 
@@ -267,6 +336,7 @@ class Cartoclient {
     /**
      * Returns Map Info, get it from cache if not yet set
      * @see MapInfoCache
+     * @return MapInfo MapInfo
      */
     function getMapInfo() {
         if (!$this->mapInfo) {
@@ -277,7 +347,8 @@ class Cartoclient {
     }
 
     /**
-     * Save session in a variable different for each mapId 
+     * Save session in a variable different for each mapId
+     * @param ClientSession object to save in session 
      */
     private function saveSession($clientSession) {
     
@@ -290,6 +361,7 @@ class Cartoclient {
 
     /**
      * Creates new client session object
+     * @return ClientSession object saved in session
      */
     private function createClientSession() {
         $clientSession = new ClientSession();
@@ -301,6 +373,7 @@ class Cartoclient {
 
     /**
      * Creates new client map clicks information
+     * @return CartoForm new object
      */
     private function createCartoForm() {
 
@@ -363,6 +436,7 @@ class Cartoclient {
 
     /**
      * Initializes map request with current mapId
+     * @return MapRequest new map request
      */
     private function getMapRequest() {
 
@@ -376,6 +450,8 @@ class Cartoclient {
      *
      * Also checks that MapInfo is up-to-date. If not, MapInfo cache reloads it.
      * @see MapInfoCache
+     * @param MapRequest the map request
+     * @return MapResult result returned by server
      */
     private function getMapResultFromRequest($mapRequest) {
 

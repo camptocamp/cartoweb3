@@ -16,11 +16,24 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
  */
 class CartoserverService {
 
+    /**
+     * @var Logger
+     */
     private $log;
+    
+    /**
+     * @var ClientConfig
+     */
     private $config;
 
+    /**
+     * @var Cartoserver
+     */
     private $cartoserver;
 
+    /**
+     * @param ClientConfig
+     */
     function __construct($config) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->config = $config;
@@ -28,6 +41,9 @@ class CartoserverService {
 
     /**
      * Calls function using direct mode
+     * @param string function name
+     * @param mixed argument
+     * @return mixed function result
      */
     private function callDirect($function, $argument) {
 
@@ -51,6 +67,7 @@ class CartoserverService {
 
     /**
      * Returns Cartoserver object, creates it if needed
+     * @return Cartoserver Cartoserver object
      */
     private function getCartoserver() {
         if (!$this->cartoserver) {
@@ -61,6 +78,9 @@ class CartoserverService {
     
     /**
      * Constructs Cartoserver URL depending on configuration base URL
+     * @param string the script to call (typically server.php or
+     * cartoserver.wsdl.php)
+     * @return string url
      */
     private function getCartoserverUrl($script) {
 
@@ -81,6 +101,10 @@ class CartoserverService {
      * - Calls using WSDL or not depending on configuration
      * - Unserializes result
      * - Generates a understandable message in case of error
+     * @param string function name
+     * @param mixed argument
+     * @param boolean if true, retrieves trace in case of error
+     * @return mixed function result
      */
     private function callFunction($function, $argument, $replayTrace=false) {
 
@@ -137,6 +161,8 @@ class CartoserverService {
 
     /**
      * Retrieve MapInfo from server
+     * @param string mapId
+     * @return MapInfo MapInfo returned by server
      */
     function getMapInfo($mapId) {
         return $this->callFunction('getMapInfo', $mapId);
@@ -144,6 +170,8 @@ class CartoserverService {
 
     /**
      * Retrieve MapResult from server
+     * @param MapRequest map request
+     * @return MapResult MapResult returned by server
      */
     function getMap($mapRequest) {
         return $this->callFunction('getMap', $mapRequest);
