@@ -260,6 +260,28 @@ class coreplugins_location_server_RemoteServerLocationTest
         $this->redoDirect($direct, __METHOD__);
     }   
 
+   public function testPanLocationRequest2($direct = false) {
+
+        $bbox = new Bbox(-2, 50, 0, 52);
+        $this->doTestPanLocationRequest($bbox, 
+                                        PanDirection::VERTICAL_PAN_SOUTH,
+                                        PanDirection::HORIZONTAL_PAN_WEST,
+                                        new Bbox(-3, 48.5, -1, 50.5),
+                                        NULL, $direct);
+        $this->redoDirect($direct, __METHOD__);
+    }   
+
+   public function testPanLocationRequest3($direct = false) {
+
+        $bbox = new Bbox(-3, 52, -1, 54);
+        $this->doTestPanLocationRequest($bbox, 
+                                        PanDirection::VERTICAL_PAN_NORTH,
+                                        PanDirection::HORIZONTAL_PAN_WEST,
+                                        $bbox,
+                                        NULL, $direct);
+        $this->redoDirect($direct, __METHOD__);
+    }   
+
     /* TODO: add more tests for pan */
 
 
