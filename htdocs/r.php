@@ -46,7 +46,7 @@ class ResourceProjectHandler extends ProjectHandler {
 }
 
 // set to true if you want debug
-$debug = true;
+$debug = false;
 $n=0;
 
 /**
