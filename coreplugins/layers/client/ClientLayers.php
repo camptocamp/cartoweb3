@@ -107,7 +107,7 @@ class ClientLayers extends ClientCorePlugin {
         // TODO: build switch among various layout (tree, radio, etc.)
 
         $childrenLayers = array();
-        if (!$layer->aggregate && 
+        if (@!$layer->aggregate && 
             !empty($layer->children) &&is_array($layer->children)) {
             foreach ($layer->children as $child) {
                 $childLayer = $this->getLayerByName($child);
