@@ -73,14 +73,6 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
-.separator {
-  background-color:#eee;
-  height:1px;
-  width:100%;
-  text-align:center;
-  margin-top:10px;
-}
-
 .form_button {
   height:20px;
   border:1px solid #fff;
