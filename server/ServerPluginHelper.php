@@ -66,8 +66,8 @@ class ServerPluginHelper {
 
 class ClientResponderHelper extends ServerPluginHelper {
 
-    final function handleInitHelper($plugin) {
-        $this->callHandleFunction($plugin, 'handleInit');
+    final function handleInitializingHelper($plugin) {
+        $this->callHandleFunction($plugin, 'handleInitializing');
     }
 
     final function handlePreDrawingHelper($plugin) {

@@ -66,9 +66,8 @@ class ServerSelection extends ClientResponderAdapter {
     }
   
     // dependency: has to be called before hilight plugin
-    function handleInit($requ) {
+    function handleInitializing($requ) {
 
-$this->log->debug($this->serverContext->mapRequest);
         // TODO: mechanism to fetch request from other plugins
         $hilightRequest = @Serializable::unserializeObject($this->serverContext->
                 mapRequest, 'hilightRequest', 'HilightRequest');

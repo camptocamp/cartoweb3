@@ -163,9 +163,6 @@ class PluginManager {
 
         if ($plugin instanceof $interface) {
             $helperClass = $interface . 'Helper';
-   if ($functionName == 'handleInit') {
-       $this->log->debug($plugin->getName() . '-' . $helperClass);
-   }
             if (class_exists($helperClass)) {
                 $helperMethod = $functionName . 'Helper';
                 if (is_callable(array($helperClass, $helperMethod))) {

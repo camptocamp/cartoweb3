@@ -13,7 +13,7 @@ interface ClientResponder {
     /**
      * Handles the request at the plugin initialisation phase.
      */
-    function handleInit($requ);
+    function handleInitializing($requ);
 
     /**
      * Handles the request just before plugins should draw in the map
@@ -83,7 +83,7 @@ abstract class ServerPlugin extends PluginBase {
 abstract class ClientResponderAdapter extends ServerPlugin
                                       implements ClientResponder {
 
-    function handleInit($requ) {}
+    function handleInitializing($requ) {}
 
     function handlePreDrawing($requ) {}
 
