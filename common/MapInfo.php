@@ -151,7 +151,6 @@ class InitialMapState extends Serializable {
  */
 class MapInfo extends Serializable {
     public $timeStamp;
-    public $mapId;
     public $mapLabel;
     public $outlineLayer;
     public $loadPlugins;
@@ -163,7 +162,6 @@ class MapInfo extends Serializable {
 
     function unserialize($struct) {
         $this->timeStamp        = self::unserializeValue($struct, 'timeStamp');
-        $this->mapId            = self::unserializeValue($struct, 'mapId');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
         $this->outlineLayer     = self::unserializeValue($struct, 'outlineLayer');
   

@@ -86,7 +86,6 @@
       <complexType name="MapInfo">
         <all>
           <element name="timeStamp" type="xsd:integer"/>
-          <element name="mapId" type="xsd:string"/>
           <element name="mapLabel" type="xsd:string"/>
           <element name="keymapGeoDimension" type="types:GeoDimension"/>
           <element name="layers" type="types:ArrayOfLayer"/>
@@ -217,6 +216,8 @@
       <complexType name="LocationInit">
         <all>
           <element name="scales" type="types:ArrayOfLocationScale"/>
+          <element name="minScale" type="xsd:double"/>
+          <element name="maxScale" type="xsd:double"/>
         </all>
       </complexType>
             

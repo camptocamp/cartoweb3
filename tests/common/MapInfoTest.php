@@ -191,7 +191,6 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
     public function testMapInfoUnserialize() {
     
         $struct = new stdclass();
-        $struct->mapId = 'toto';
         $struct->mapLabel = 'titi';
         
         $structLayer1 = new stdclass();
@@ -267,7 +266,6 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $mapInfo = new MapInfo();
         $mapInfo->unserialize($struct);
 
-        $this->assertEquals($mapInfo->mapId, 'toto');                                  
         $this->assertEquals($mapInfo->mapLabel, 'titi');
         $this->assertEquals(get_class($mapInfo->layers['layer1']), 'LayerGroup');                                  
         $this->assertEquals(get_class($mapInfo->layers['layer2']), 'Layer');                                  

@@ -62,6 +62,16 @@ class MapInfoHandler {
         return $this->mapInfo;
     }
 
+    /**
+     * Fills dynamic general map information, like map name.
+     */
+    private function fillDynamicMap($serverContext) {
+        $mapInfo = $this->mapInfo;
+        $msMapObj = $serverContext->msMapObj;
+        
+        $mapInfo->mapLabel = $msMapObj->name;
+    }
+    
     private function fillDynamicLayers($serverContext) {
         $mapInfo = $this->mapInfo;
         $layers = $mapInfo->getLayers();
@@ -90,7 +100,6 @@ class MapInfoHandler {
                 }
             }
         }
-        
     }
 
     private function fillDynamicKeymap($serverContext) {
@@ -112,6 +121,7 @@ class MapInfoHandler {
 
     function fillDynamic($serverContext) {
         $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
+        $this->fillDynamicMap($serverContext);
         $this->fillDynamicLayers($serverContext);
         $this->fillDynamicKeymap($serverContext);
     }
