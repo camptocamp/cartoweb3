@@ -81,7 +81,8 @@ securityAllowedRoles = all
 ;## Template engine configuration ##
 
 ; Template configuration
-smartyCaching = false
+; You should set this to false in production environment (when templates don't
+;  change any more)
 smartyCompileCheck = true
 smartyDebugging = false
 

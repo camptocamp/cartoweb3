@@ -71,7 +71,8 @@ class Smarty_Cartoclient extends Smarty {
         $this->config_dir = $config->getBasePath() . 'configs/';
         $this->cache_dir = $config->getBasePath() . 'cache/';
         
-        $this->caching = $config->smartyCaching;
+        // Smarty caching is not compatible with Cartoweb
+        $this->caching = false;
         $this->compile_check = $config->smartyCompileCheck;
         $this->debugging = $config->smartyDebugging;
         
