@@ -53,10 +53,7 @@ function smartyResource ($params, $text, &$smarty) {
     }
 
     $projectHandler = new ClientProjectHandler();
-    $projectName = $projectHandler->getProjectName(); 
-    if ($projectName) {
-        $text = $projectName . '/' . $text;
-    }
+    $text = $projectHandler->getWebPath(CARTOCLIENT_HOME, $text);
 
     return $text;
 }
