@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2005-02-16 17:38+0100\n"
-"PO-Revision-Date: 2004-12-22 10:43+0100\n"
-"Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
+"PO-Revision-Date: 2005-02-16 18:47+0100\n"
+"Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -187,7 +187,7 @@ msgstr "Format :"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Resolution:"
-msgstr "Résolution :"
+msgstr "Auflösung"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Portrait"
@@ -199,7 +199,7 @@ msgstr "Paysage"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Title:"
-msgstr "Titre :"
+msgstr "Titel"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Note:"
@@ -207,11 +207,11 @@ msgstr "Note :"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Scalebar"
-msgstr "Echelle"
+msgstr "Massstab"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Overview"
-msgstr "Aperçu"
+msgstr "Übersicht"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "QueryResult"
@@ -219,7 +219,7 @@ msgstr "Résultat de la requête"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "Legend"
-msgstr "Légende"
+msgstr "Legende"
 
 #: plugins/exportPdf/templates/form.tpl/
 msgid "On map"
@@ -295,27 +295,9 @@ msgstr "Coord. (m) :"
 
 #: templates/mainmap.tpl/
 msgid "Loading message"
-msgstr "Veuillez patienter..."
+msgstr "Bitte warten..."
 
 #: templates/unauthorized.tpl/
 msgid "Unauthorized"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Clear selection"
-#~ msgstr "effacer sélection"
-
-#~ msgid "Results:"
-#~ msgstr "Résultats :"
-
-#~ msgid "Select a hilight layer"
-#~ msgstr "Sélectionner une couche de surbrillance"
-
-#~ msgid "Show attributes"
-#~ msgstr "Voir attributs"
-
-#~ msgid "Selected elements:"
-#~ msgstr "Eléments sélectionnés :"
-
-#~ msgid "unselect id"
-#~ msgstr "désélectionner Id"

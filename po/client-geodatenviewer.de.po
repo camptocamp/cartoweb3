@@ -1,0 +1,231 @@
+# CartoWeb 3 translation template 
+#
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-02-16 17:38+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: 2005-02-16 18:43+0100\n"
+"Last-Translator: AF <af@c2c.com>\n"
+"Language-Team: \n"
+
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3admin.label
+msgid "A3"
+msgstr ""
+
+#: images.ini:mapSizes.0.label
+msgid "350x250"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "500x350"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "700x500"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "1000x700"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "expand tree"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "close tree"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "uncheck all"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "more info on"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "Click to go to next visible scale:"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "Zoom in to see layer"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/layers.tpl/
+msgid "Zoom out to see layer"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/order.tpl/
+msgid "Bestellbare Produkte im Fenster "
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/order.tpl/
+msgid "Order"
+msgstr "Bestellen"
+
+#: projects/geodatenviewer/coreplugins/layers/templates/order.tpl/
+msgid "Die Produkte müssen einzeln bestellt werden."
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/order.tpl/
+msgid "Keine bestellbare Produkte im Fenster."
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/layers/templates/order.tpl/
+msgid "Weitere nicht bestellbare Produkte"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/location/templates/recenter.tpl/
+msgid "Point recentering"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/location/templates/recenter.tpl/
+msgid "X"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/location/templates/recenter.tpl/
+msgid "Y"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/location/templates/scales.tpl/
+msgid "Scale"
+msgstr ""
+
+#: projects/geodatenviewer/coreplugins/images/templates/mapsizes.tpl/
+msgid "Mapsize:"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Geodatenviewer"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Collapse keymap"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Show keymap"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "welcome"
+msgstr "Willkommen"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "scalebar_alt"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid " User messages "
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid " Developer messages "
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "keymap_alt"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Imprimer"
+msgstr "Drucken"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Commander"
+msgstr "Bestellen"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Themes"
+msgstr "Themen"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Legende"
+msgstr "Legende"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Rechercher"
+msgstr "Suchen"
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Still to come"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "Search service"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Swissnames"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Your browser does not support search services"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Print"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "Plugin not available"
+msgstr ""
+
+#: projects/geodatenviewer/templates/cartoclient.tpl/
+msgid "You are not allowed to print maps"
+msgstr ""
+
+#: projects/geodatenviewer/templates/dhtmlcode.tpl/
+msgid "Main map"
+msgstr ""
+
+#: projects/geodatenviewer/templates/dhtmlcode.tpl/
+msgid "Approx. distance: "
+msgstr ""
+
+#: projects/geodatenviewer/templates/dhtmlcode.tpl/
+msgid "Approx. surface: "
+msgstr ""
+
+#: projects/geodatenviewer/templates/dhtmlcode.tpl/
+msgid "Coords (m): "
+msgstr ""
+
+#: projects/geodatenviewer/plugins/auth/templates/auth.tpl/
+msgid "login"
+msgstr ""
+
+#: projects/geodatenviewer/plugins/auth/templates/auth.tpl/
+msgid "logout"
+msgstr ""
+
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "Swissnames search"
+msgstr ""
+
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "Go"
+msgstr ""
+
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "swissname"
+msgstr "Swissname"
+
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "gemname"
+msgstr "Gemeinde"
+
+#: projects/geodatenviewer/plugins/search/templates/search.tpl/
+msgid "kanton"
+msgstr "Kanton"
+
