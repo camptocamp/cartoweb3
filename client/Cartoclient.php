@@ -503,7 +503,7 @@ class Cartoclient {
      * request, or false if as GET request.
      */
     private function isRequestPost() {
-        return isset($_REQUEST['posted']) && $_REQUEST['posted'] == '1';
+        return isset($_REQUEST['posted']) && $_REQUEST['posted'] != '0';
     }
     
     /**
