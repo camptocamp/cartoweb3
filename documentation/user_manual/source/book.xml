@@ -74,29 +74,29 @@
   <index/>
  </part>
 
- <part id="cartoweb.dev">
-  <title>Developer's doc</title>
-  <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-  </partintro>
-  <xi:include href="dev/plugin.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="dev/new_plugin.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
- </part>
+  <part id="cartoweb.dev">
+    <title>Developer's doc</title>
+    <partintro>
+      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli </para>
+      <para> Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli 
+        Bli Bli </para>
+    </partintro>
+    <xi:include href="dev/getmapinfo.xml"
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/getmap.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/new_plugin.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </part>
 
  <part id="cartoweb.tool">
   <title>Development tools and conventions</title>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="dev.getmap">
+  <title>Call to getMap</title>
+
+  <sect1 id="dev.getmap.intro">
+    <title>Introduction</title>
+    <para>This chapter describes the structure of a SOAP call to CartoWeb 
+      server's getMap method in order to obtain dynamic cartographic data (see 
+      <xref linkend="dev.getmapinfo"/> for informations about how to get 
+      configuration data). There is one sub-chapter per plugin. For each 
+      plugin, SOAP XML format are described for both server calls (i.e. 
+      requests) and server results.</para>
+    <para>Global WSDL code can be found in file 
+      <programlisting>CARTOWEB_HOME/server/cartoserver.wsdl</programlisting> 
+      WSDL code specific to plugins are located in 
+      <programlisting>PLUGIN_HOME/common/plugin_name.wsdl.inc</programlisting> 
+      Interesting parts from these files are copied in the following 
+      paragraphs. Complete WSDL code dynamically generated for a mapId is 
+      accessible at the URL 
+      <programlisting>CARTOWEB_URL/cartoserver.wsdl.php?mapId=project_name.mapfile_name</programlisting></para>
+    <para>Below is a description of general requests and results which include 
+      plugin-specific ones.</para>
+    <sect2 id="dev.getmap.intro.request">
+      <title>General Request</title>
+      <para>
+        <programlisting><![CDATA[
+<complexType name="MapRequest">
+  <all>
+    <element name="mapId" type="xsd:string"/>
+    ...elements specific to plugins...
+  </all>
+</complexType>]]></programlisting>
+        <itemizedlist>
+          <listitem>
+            <para>mapId - project name and mapfile name separated by a 
+              point</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </sect2>
+    <sect2 id="dev.getmap.intro.result">
+      <title>General Result</title>
+      <para>
+        <programlisting><![CDATA[
+<complexType name="MapResult">
+  <all>
+    <element name="timeStamp" type="xsd:integer"/>
+    <element name="serverMessages" type="types:ArrayOfMessage" minOccurs="0"/>
+    ...elements specific to plugins...
+  </all>
+</complexType>]]></programlisting>        
+        <itemizedlist>
+          <listitem><para>timeStamp -</para></listitem>
+          <listitem><para>serverMessages -</para></listitem>
+        </itemizedlist>
+      </para>
+    </sect2>
+  </sect1>
+ 
+  <sect1 id="dev.getmap.images">
+    <title>Images</title>
+    <para>
+      The Images plugin generates MapServer images.
+    </para>
+    <sect2 id="dev.getmap.images.request">
+      <title>Request</title>
+      <para>
+        <programlisting><![CDATA[
+<complexType name="ImagesRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="mainmap" type="types:Image"/>
+    <element name="keymap" type="types:Image"/>
+    <element name="scalebar" type="types:Image"/>
+  </all>
+</complexType>]]></programlisting>
+        <itemizedlist>
+          <listitem><para>className -</para></listitem>
+          <listitem><para>mainmap -</para></listitem>
+          <listitem><para>keymap -</para></listitem>
+          <listitem><para>scalebar -</para></listitem>
+        </itemizedlist>				
+        <programlisting><![CDATA[
+<complexType name="Image">
+  <all>
+    <element name="isDrawn" type="xsd:boolean"/>
+    <element name="path" type="xsd:string"/>
+    <element name="width" type="xsd:int"/>
+    <element name="height" type="xsd:int"/>
+    <element name="format" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+        <itemizedlist>
+          <listitem><para>isDrawn -</para></listitem>
+          <listitem><para>path -</para></listitem>
+          <listitem><para>width -</para></listitem>
+          <listitem><para>height -</para></listitem>
+          <listitem><para>format -</para></listitem>
+        </itemizedlist>
+      </para>
+    </sect2>
+    <sect2 id="dev.getmap.images.result">
+      <title>Result</title>
+      <para> <programlisting><![CDATA[<complexType name="ImagesResult">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="mainmap" type="types:Image"/>
+    <element name="keymap" type="types:Image"/>
+    <element name="scalebar" type="types:Image"/>
+  </all>
+</complexType>]]></programlisting> <itemizedlist> <listitem><para>className 
+        -</para></listitem> <listitem><para>mainmap -</para></listitem> 
+        <listitem><para>keymap -</para></listitem> <listitem><para>scalebar 
+        -</para></listitem> </itemizedlist> See <xref 
+        linkend="dev.getmap.images.request" /> for a description of type 
+        Image.</para>
+    </sect2>
+  </sect1>
+  
+</chapter>
