@@ -68,38 +68,38 @@
    <itemizedlist>
     <listitem>
      <para>
-	mapInfo.layers.layerId.className = Layer  : defines the object as a 
-	Layer; layerId is a string that uniquely identifies the object. The 
-	general rules of syntax for a .ini file must be respected in the 
-	choice of the layerId (e.g. no '-' are allowed).
+       mapInfo.layers.layerId.className = Layer  : defines the object as a 
+       Layer; layerId is a string that uniquely identifies the object. The 
+       general rules of syntax for a .ini file must be respected in the 
+       choice of the layerId (e.g. no '-' are allowed).
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.msLayer = string  : name of the corresponding 
-	Mapserver layer in the mapfile
+       mapInfo.layers.layerId.msLayer = string  : name of the corresponding 
+       Mapserver layer in the mapfile
      </para>
     </listitem>   
     <listitem>
      <para>
-	mapInfo.layers.layerId.label = string  : caption of the layer in the 
-	layer tree on the client; this is a 'raw' label, before any 
-	internationalization. The i18n scripts automatically include this 
-	label in the strings that can be translated.
+       mapInfo.layers.layerId.label = string  : caption of the layer in the 
+       layer tree on the client; this is a 'raw' label, before any 
+       internationalization. The i18n scripts automatically include this 
+       label in the strings that can be translated.
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.icon = filename  : filename of the static picto 
-	that illustrates this Layer in the layer tree. The path is relative to
-	<filename>myMap.ini</filename>.See also ??? for a
-	description of the automatic legending process.
+       mapInfo.layers.layerId.icon = filename  : filename of the static picto 
+       that illustrates this Layer in the layer tree. The path is relative to
+       <filename>myMap.ini</filename>.See also ??? for a
+       description of the automatic legending process.
      </para>
     </listitem>   
     <listitem>
      <para>
-	mapInfo.layers.layerId.link = url  : provides a link for the layer 
-	(e.g. to some metadata); makes the caption in the tree clickable.
+       mapInfo.layers.layerId.link = url  : provides a link for the layer 
+       (e.g. to some metadata); makes the caption in the tree clickable.
      </para>
     </listitem>    
     </itemizedlist>
@@ -118,88 +118,88 @@
    <itemizedlist>
     <listitem>
      <para>
-	mapInfo.layers.layerId.className = LayerGroup  : defines the object 
-	as a LayerGroup; layerId is a string that uniquely identifies the 
-	object. The general rules of syntax for a .ini file must be respected 
-	in the choice of the layerId (e.g. no '-' are allowed).
+       mapInfo.layers.layerId.className = LayerGroup  : defines the object 
+       as a LayerGroup; layerId is a string that uniquely identifies the 
+       object. The general rules of syntax for a .ini file must be respected 
+       in the choice of the layerId (e.g. no '-' are allowed).
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.children = list of layerIds  : 
-	comma-separated list of layerIds; these children may be Layers or 
-	other LayerGroups.
+       mapInfo.layers.layerId.children = list of layerIds  : 
+       comma-separated list of layerIds; these children may be Layers or 
+       other LayerGroups.
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.aggregate = true|false : if true, the 
-	children objects are not listed in the tree and not individually 
-	selectable. Default is false.
+       mapInfo.layers.layerId.aggregate = true|false : if true, the 
+       children objects are not listed in the tree and not individually 
+       selectable. Default is false.
      </para>
     </listitem>  
     <listitem>
      <para>
-	mapInfo.layers.layerId.label = string  : caption of the layer in the 
-	layer tree on the client; this is a 'raw' label, before any 
-	internationalization. The i18n scripts automatically include this 
-	label in the strings that can be translated.
+       mapInfo.layers.layerId.label = string  : caption of the layer in the 
+       layer tree on the client; this is a 'raw' label, before any 
+       internationalization. The i18n scripts automatically include this 
+       label in the strings that can be translated.
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.icon = filename  : filename of the static picto 
-	that illustrates this Layer in the layer tree. The path is relative to
-	<filename>myMap.ini</filename>.See also ??? for a
-	description of the automatic legending process.
+       mapInfo.layers.layerId.icon = filename  : filename of the static picto 
+       that illustrates this Layer in the layer tree. The path is relative to
+       <filename>myMap.ini</filename>.See also ??? for a
+       description of the automatic legending process.
      </para>
     </listitem>   
     <listitem>
      <para>
-	mapInfo.layers.layerId.link = url  : provides a link for the layer 
-	(e.g. to some metadata); makes the caption in the tree clickable.
+       mapInfo.layers.layerId.link = url  : provides a link for the layer 
+       (e.g. to some metadata); makes the caption in the tree clickable.
      </para>
     </listitem> 
     <listitem>
      <para>
-	mapInfo.layers.layerId.rendering = tree|block|radio|dropdown  : 
-	indicates how to display the LayerGroup children.
-	<itemizedlist>
-	 <listitem>
-	  <para>
-	   tree (default value): children layers are rendered below the 
-	   LayerGroup with an indentation. If children are not declared as 
-	   "frozen" or "hidden" they will be preceded by a checkbox input. 
-	   A node folding/unfolding link is displayed before the LayerGroup.
-	  </para>
-	 </listitem>
-	 <listitem>
-	  <para>
-	   radio: quite similar to the "tree" rendering with "radio" 
-	   buttons replacing checkboxes. Only one child layer can be 
-	   selected at a time.
-	  </para>
-	 </listitem>
-	 <listitem>
-	  <para>
-	   block: children layers are separated as blocks (separation medium
-	   depends on the template layout). Note that the rendering will be 
-	   applied to the children, not to the LayerGroup itself, 
-	   which is not displayed at all.
-	  </para>
-	 </listitem>
-	 <listitem>
-	  <para>
-	   dropdown: as for block rendering, the LayerGroup is not 
-	   displayed. Its children are simply rendered as an HTML 
-	   "simple select" options list. If the selected child layer 
-	   cannot be determined using posted or session-saved data, 
-	   first child (according to the mapInfo.layers.layerId.children 
-	   list order) is selected. If any, only the selected child 
-	   layer's own children are displayed under the dropdown list.
-	  </para>
-	 </listitem>
-	</itemizedlist>
+       mapInfo.layers.layerId.rendering = tree|block|radio|dropdown  : 
+       indicates how to display the LayerGroup children.
+       <itemizedlist>
+        <listitem>
+         <para>
+          tree (default value): children layers are rendered below the 
+          LayerGroup with an indentation. If children are not declared as 
+          "frozen" or "hidden" they will be preceded by a checkbox input. 
+          A node folding/unfolding link is displayed before the LayerGroup.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          radio: quite similar to the "tree" rendering with "radio" 
+          buttons replacing checkboxes. Only one child layer can be 
+          selected at a time.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          block: children layers are separated as blocks (separation medium
+          depends on the template layout). Note that the rendering will be 
+          applied to the children, not to the LayerGroup itself, 
+          which is not displayed at all.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          dropdown: as for block rendering, the LayerGroup is not 
+          displayed. Its children are simply rendered as an HTML 
+          "simple select" options list. If the selected child layer 
+          cannot be determined using posted or session-saved data, 
+          first child (according to the mapInfo.layers.layerId.children 
+          list order) is selected. If any, only the selected child 
+          layer's own children are displayed under the dropdown list.
+         </para>
+        </listitem>
+       </itemizedlist>
      </para>
     </listitem> 
     </itemizedlist>
