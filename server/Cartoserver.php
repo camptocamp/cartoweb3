@@ -210,9 +210,17 @@ function setupSoapService($cartoserver) {
     if (array_key_exists('mapId', $_REQUEST))
         $mapId = $_REQUEST['mapId'];
 
+    $port = '';
+    if (isset($mapId)) {
+        $projectHandler = new ServerProjectHandler($mapId);
+        $config = new ServerConfig($projectHandler);
+        if ($config->soapBrokenPortInfo) {
+            $port = ':' . $config->soapBrokenPortInfo;
+        }
+    }
 
     $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-           $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+           $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
            '/cartoserver.wsdl.php';
 
     if (isset($mapId))
