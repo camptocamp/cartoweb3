@@ -1,6 +1,8 @@
 #!/usr/local/bin/php -dvariables_order="GPS" -dauto_prepend_file= -dauto_append_file=
 <?php
 
+# [[ !!! Please add description here !!! ]]
+
 error_reporting(0);
 
 function parseFile($fileName) {
