@@ -17,8 +17,7 @@ class CartowebException extends Exception {
      * Adapted from diz at ysagoon dot com
      */
     function backtrace() {
-        $output = "<div style='text-align: left; font-family:monospace;'>\n";
-        $output .= "<b>Backtrace:</b><br />";
+        $output = "Backtrace:\n";
         $backtrace = $this->getTrace();
 
         foreach ($backtrace as $bt) {
@@ -34,7 +33,7 @@ class CartowebException extends Exception {
                     $args .= $a;
                     break;
                 case 'string':
-                    $a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
+                    $a = substr($a, 0, 64).((strlen($a) > 64) ? '...' : '');
                     $args .= "\"$a\"";
                     break;
                 case 'array':
@@ -56,18 +55,17 @@ class CartowebException extends Exception {
                     $args .= 'Unknown';
                 }
             }
-            $output .= "<br />";
-            $output .= "<b>file:</b> {$bt['line']} - {$bt['file']}<br/>";
+            $output .= "\nfile: {$bt['line']} - {$bt['file']}\n";
             $bt['class'] = isset($bt['class']) ?  $bt['class'] : '';
             $bt['type'] = isset($bt['type']) ?  $bt['type'] : '';
-            $output .= "<b>call:</b>{$bt['class']}{$bt['type']}{$bt['function']}($args)<br />";
+            $output .= "call: {$bt['class']}{$bt['type']}{$bt['function']}($args)\n";
         }
-        $output .= "</div>\n";
+        $output .= "\n";
         return $output;
     }
 
     function __construct($message) {
-        $message .= $this->backtrace();
+        $message .= "\n" . $this->backtrace();
         parent::__construct($message);
     }
 }
@@ -121,6 +119,18 @@ function initializeCartoweb($config) {
         setDeveloperIniConfig();
     }
     set_error_handler('cartowebErrorHandler', E_ALL);
+}
+
+/**
+ * Restores the php context to what it was before calling initializeCartoweb()
+ */
+function shutdownCartoweb($config) {
+
+    if ($config->developerIniConfig) {  
+        // TODO
+        //unsetDeveloperIniConfig();
+    }
+    restore_error_handler();
 }
 
 ?>
