@@ -1,0 +1,18 @@
+About CartoWeb
+==============
+
+CartoWeb3 is a comprehensive and ready-to-use Web-GIS 
+(Geographical Information System) as well as a convenient 
+framework for building advanced and customized applications.
+
+Developed by Camptocamp SA, it is based on the UMN MapServer 
+engine and is released under the GNU GPL license.
+
+Documentation
+=============
+
+Documentation is available in Docbook format.
+Html and Pdf generated documentation is available on the CartoWeb 
+homepage, in the Documentation section:
+
+http://www.cartoweb.org
