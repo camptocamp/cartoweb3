@@ -1,3 +1,3 @@
-# Url of the cartoclient to test
-# cartoclientUrl = "http://yourhost/path/to/client.php"
+; Url of the cartoclient to test
+; cartoclientUrl = "http://yourhost/path/to/client.php"
 
