@@ -155,9 +155,6 @@ class FormRenderer {
 
         // TODO: plugins should be able to change the flow
 
-        // Change gettext domain
-        I18n::textdomain(I18n::DEFAULT_PROJECT_DOMAIN);
-
         $smarty->display('cartoclient.tpl');
     }
 
