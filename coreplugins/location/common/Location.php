@@ -23,7 +23,6 @@ class LocationRequest extends Serializable {
     public $bboxLocationRequest;
     public $panLocationRequest;
     public $zoomPointLocationRequest;
-    public $zoomRectangleLocationRequest;
     public $recenterLocationRequest;
 
     public $locationConstraint;
