@@ -286,6 +286,26 @@ class coreplugins_tables_common_TablesCommonTest
         
     }
 
+    function testRowUnselector() {
+
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+
+        $registry->addRowUnselector('*', 'table_1', 'column_2', array('value_5'));
+        $registry->addRowUnselector('*', 'table_2', 'column_a', array());
+        $registry->addRowUnselector('*', 'table_3', 'row_id', array('Id1'));
+
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals(2, $filteredTableGroups[0]->tables[0]->numRows);        
+        $this->assertEquals('Id1', $filteredTableGroups[0]->tables[0]->rows[0]->rowId);
+        $this->assertEquals('Id3', $filteredTableGroups[0]->tables[0]->rows[1]->rowId);
+
+        $this->assertEquals(2, $filteredTableGroups[0]->tables[1]->numRows);
+
+        $this->assertEquals(0, $filteredTableGroups[1]->tables[0]->numRows);
+    }
+
     static function callbackColumnAdder($tableId, $inputValues) {
         return array('column_4' =>
                      $inputValues['column_1'] . '-' . $inputValues['column_3']);

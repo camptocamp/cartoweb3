@@ -664,7 +664,7 @@ class CellFilter extends CellRule {
         }
         $indexes = $this->getIndexes($table);
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = $table->columnIds;
+            $this->inputColumnIds = array_merge($table->columnIds, array('row_id'));
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($row->cells as $index => $value) {
@@ -717,7 +717,7 @@ class CellFilterBatch extends CellFilter {
         $indexes = $this->getIndexes($table);
         $inputValues = array();
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = $table->columnIds;
+            $this->inputColumnIds = array_merge($table->columnIds, array('row_id'));
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($row->cells as $index => $value) {
@@ -735,6 +735,60 @@ class CellFilterBatch extends CellFilter {
         foreach ($result as $key => $resultValue) {
             $table->rows[$key]->cells[$indexes[$columnId]] = $resultValue;
         }
+    }
+}
+
+/**
+ * Rule to remove a set of rows in a table
+ */
+class RowUnselector extends TableRule {
+
+    /**
+     * @var array list of values for which the rows will be removed if it matched 
+     *  in column columnId.
+     */
+    private $rowIds;
+
+    /**
+     * @param string
+     * @param string
+     * @param string
+     * @param array
+     */
+    function __construct($groupId, $tableId, $columnId, $rowIds) {
+        parent::__construct();
+        $this->groupId   = $groupId;
+        $this->tableId   = $tableId;
+        $this->columnId  = $columnId;        
+        $this->rowIds    = $rowIds;        
+    }    
+    
+    /**
+     * Execute a rule on each rows of a table
+     * @param Table
+     * @param string
+     * @param array
+     */
+    function applyRule($table, $columnId) {
+        if ($table->numRows == 0) {
+            return;
+        }
+
+        $indexes = $this->getIndexes($table);
+        $isRowId = $this->columnId == 'row_id';
+        if (!$isRowId)
+            $columnIndex = $indexes[$this->columnId];
+
+        $rows = array();
+        foreach ($table->rows as $index => $row) {
+            $value = $isRowId ? $row->rowId : $row->cells[$columnIndex];
+            if (in_array($value, $this->rowIds)) {            
+                $table->numRows--;
+            } else {
+                $rows[] = $row;
+            }
+        }
+        $table->rows = $rows;
     }
 }
 
@@ -853,7 +907,7 @@ class ColumnAdder extends TableFilter {
             return;
         }
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = $oldColumnIds;
+            $this->inputColumnIds = array_merge($oldColumnIds, array('row_id'));
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($oldColumnIds as $columnId) {
@@ -973,7 +1027,7 @@ class ColumnAdderBatch extends ColumnAdder {
         }
         $inputValues = array();
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = $oldColumnIds;
+            $this->inputColumnIds = array_merge($oldColumnIds, array('row_id'));
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($oldColumnIds as $columnId) {
@@ -1138,6 +1192,18 @@ class TableRulesRegistry {
        $this->addRule($rule); 
     }
     
+    /**
+     * Adds a RowUnselector rule
+     * @param string
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function addRowUnselector($groupId, $tableId, $columnId, $rowIds) {
+       $rule = new RowUnselector($groupId, $tableId, $columnId, $rowIds);
+       $this->addRule($rule); 
+    }
+        
     /**
      * Adds a ColumnAdder rule
      * @param string
