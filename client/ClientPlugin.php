@@ -109,7 +109,7 @@ abstract class ClientPlugin extends PluginBase {
         $this->cartoclient->setClientSession($clientSession);
     }
         
-    final function unserializeInit($mapInfo) {
+    private function unserializeInit($mapInfo) {
         
         $name = $this->getName();
         $field = $name . 'Init';
