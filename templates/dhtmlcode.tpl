@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="{r type=css}dhtml_tools.css{/r}" title="stylesheet" />
   <script type="text/javascript" src="{r type=js}x_core.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}x_core_n4.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}x_dom.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}x_dom_n4.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}x_event_n4.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}navTools.js{/r}"></script>
@@ -80,9 +81,6 @@
           
       dhtmlBox.initialize();
     }
-    
-    // dhtml folders settings
-    var myfolders = new Array(1, 2, 3);
     
     window.onload = function() {
       dboxInit();
