@@ -34,13 +34,14 @@ class MapInfoHandler {
      * Does some basic consistency checks, fills some information.
      */
     private function fixupMapInfo(MapInfo $mapInfo) {
-        foreach ($mapInfo->layers as $layer) {
-            if (empty($layer->label))
-                $layer->label = $layer->id; 
-            if ($layer instanceof Layer && empty($layer->msLayer))
-                $layer->msLayer = $layer->id; 
-            $layer->label = utf8_encode($layer->label);
-        }
+        if (isset($mapInfo->layers))
+            foreach ($mapInfo->layers as $layer) {
+                if (empty($layer->label))
+                    $layer->label = $layer->id; 
+                if ($layer instanceof Layer && empty($layer->msLayer))
+                    $layer->msLayer = $layer->id; 
+                $layer->label = utf8_encode($layer->label);
+            }
         
         return $mapInfo;
     }
