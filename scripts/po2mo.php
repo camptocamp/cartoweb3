@@ -145,10 +145,11 @@ function merge($project, $file1, $file2, $output) {
             if (trim($line) == 'msgid ""') {
                 $skip = true;
             }
+            if (trim($line) == '') {
+                $skip = false;
+            }
             if (!$skip) {
                 fwrite($fhOut, $line);
-            } else if (trim($line) == '') {
-                $skip = false;
             }
         }
         
