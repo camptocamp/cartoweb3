@@ -137,6 +137,7 @@ function updateChecked(id,skipChildren) {
   if (!skipChildren) checkChildren('id' + id, val);
   
   var pid = obj.parentNode.getAttribute('id');
+  if (!pid) return;
   var iid = pid.substr(2);
   var iparent = document.getElementById('in' + iid);
  
