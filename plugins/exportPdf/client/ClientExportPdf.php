@@ -543,14 +543,36 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
+     * Returns current Cartoclient base URL.
+     * @return string URL
+     */
+    private function guessBaseUrl() {
+        $url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ) .
+               $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
+        if (preg_match("/^(.*)exportPdf\/(.*)$/", $url, $regs))
+            $url = $regs[1];
+        return $url;
+    }
+
+    /**
      * Returns the absolute URL of $gfx by prepending CartoServer base URL.
      * @param string
      * @return string
      */
     private function getGfxPath($gfx) {
-        // TODO: use local path if direct-access mode is used?
-        // FIXME: what if cartoserverBaseUrl is not set in client.ini?
-        return $this->cartoclient->getConfig()->cartoserverBaseUrl . $gfx;
+        if ($this->cartoclient->getConfig()->cartoserverDirectAccess) {
+            $path =  $this->cartoclient->getConfig()->getBasePath();
+            $path .= 'www-data/' . $gfx;
+            return $path;
+        }
+        
+        $cartoserverBaseUrl = $this->cartoclient->getConfig()
+                              ->cartoserverBaseUrl;
+        
+        if (is_null($cartoserverBaseUrl) || !$cartoserverBaseUrl)
+            $cartoserverBaseUrl = $this->guessBaseUrl();
+        
+        return $cartoserverBaseUrl . $gfx;
     }
 
     /**
@@ -698,8 +720,6 @@ class ClientExportPdf extends ExportPlugin {
             
         }
  
-        // TODO: handle blocks to display on other pages
-
         // query results displaying
         if (isset($this->blocks['queryResult'])) {
             $queryResult = $this->getQueryResult($mapResult);        
@@ -749,13 +769,7 @@ class ClientExportPdf extends ExportPlugin {
      * @return string URL
      */
     private function getPdfFileUrl($filename) {
-        if (isset($_SERVER['SCRIPT_URI']) &&
-            preg_match("/^(.*)exportPdf\/(.*)$/",
-                       $_SERVER['SCRIPT_URI'], $regs)) {
-            return $regs[1] . 'pdf/' . $filename;
-        }
-
-        return '../pdf/' . $filename;
+        return $this->guessBaseUrl() . 'pdf/' . $filename;
     }
 
     /**
