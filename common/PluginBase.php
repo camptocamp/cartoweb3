@@ -32,9 +32,13 @@ abstract class PluginBase {
     }
 
     /**
-     * @var mixed
+     * Initializes plugin
+     * 
+     * Internal call, use {@link PluginBase::initialize()} to extend
+     * initialization in custom plugins.
+     * @param mixed
      */
-    abstract function initialize($initArgs);
+    abstract function initializeConfig($initArgs);
     
     /**
      * @return string
@@ -114,6 +118,12 @@ abstract class PluginBase {
     public function replacePlugin() {
         return null;
     }
+
+    /**
+     * Plugin initialization (can be extended in custom plugins)
+     */
+    public function initialize() {}
+    
 }
 
 ?>

@@ -9,6 +9,6 @@
       <complexType name="ProjectTableResult">
         <all>
           <element name="className" type="xsd:string"/>
-          <element name="table" type="types:Table"/>
+          <element name="tableGroup" type="types:TableGroup"/>
         </all>
       </complexType>

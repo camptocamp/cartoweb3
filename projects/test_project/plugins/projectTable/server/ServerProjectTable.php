@@ -49,6 +49,11 @@ class ServerProjectTable extends ClientResponderAdapter {
     function handlePreDrawing($requ) {
         $result = new ProjectTableResult();
 
+        $myTableGroup = new TableGroup();
+        $myTableGroup->groupId = "group_1";
+        $myTableGroup->groupTitle = "Group 1";
+        $myTableGroup->tables = array();
+
         $myTable = new Table();
         $myTable->tableId = "table_1";
         $myTable->tableTitle = "Table 1";
@@ -70,40 +75,30 @@ class ServerProjectTable extends ClientResponderAdapter {
                              "column_3" => "value_9");
         $myTable->rows = array($row1, $row2, $row3);
         
-        $tablesPlugin = $this->serverContext->getPluginManager()->tables;
+        $myTableGroup->tables[] = $myTable;
         
-        $registry = $tablesPlugin->getTableRulesRegistry();
+        $myTable = new Table();
+        $myTable->tableId = "table_2";
+        $myTable->tableTitle = "Table 2";
+        $myTable->numRows = 2;
+         
+        $myTable->columnTitles = array("column_A" => "Column A",
+                                       "column_B" => "Column B");
+        $row1 = new TableRow();
+        $row1->cells = array("column_A" => "value_a",
+                             "column_B" => "value_b");
+        $row2 = new TableRow();
+        $row2->cells = array("column_A" => "value_c",
+                             "column_B" => "value_d");
+        $myTable->rows = array($row1, $row2);
         
-        $registry->addTableFilter('*', array('ServerProjectTable',
-                                             'prefixTableId1'));
-        $registry->addTableFilter('table_*', array('ServerProjectTable',
-                                                   'prefixTableId2'));
+        $myTableGroup->tables[] = $myTable;
         
-        $registry->addColumnSelector('table_2', array('column_2', 'toto'));
-        $registry->addColumnSelector('*', array('column_1',
-                                                'toto',
-                                                'column_3',
-                                                'column_2'));
-                
-        $registry->addColumnAdder('*',
-            new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1),
-            array('column_4', 'column_5'), array('column_1', 'column_3'),
-            array('ServerProjectTable', 'computeColumn1'));
-        $registry->addColumnAdder('table_1',
-            new ColumnPosition(ColumnPosition::TYPE_RELATIVE, -1, 'column_3'),
-            array('column_5', 'column_6'), array('column_2', 'column_3', 'column_4'),
-            array('ServerProjectTable', 'computeColumn2'));
+        $tablesPlugin = $this->serverContext->getPluginManager()->tables;        
+        $resultTableGroups = $tablesPlugin->applyRules($myTableGroup);
 
-        $registry->addColumnFilter('tab*', 'column_3', array('ServerProjectTable',
-                                                             'prefixColumn'));
-        $registry->addColumnFilter('table_1', 'column_4', array('ServerProjectTable',
-                                                                'renameColumn'));
-        $registry->addColumnFilter('table_1', 'column_5', array('ServerProjectTable',
-                                                                'renameColumn'));
-        
-        $resultTables = $registry->applyRules($myTable);
+        $result->tableGroup = $resultTableGroups[0];
 
-        $result->table = $resultTables[0];
         return $result;
     }    
 }

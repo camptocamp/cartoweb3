@@ -519,6 +519,8 @@ class Cartoclient {
      */
     private function doMain() {
 
+        $this->pluginManager->callPlugins('initialize');
+
         $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());
                         

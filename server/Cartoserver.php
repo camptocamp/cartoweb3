@@ -203,6 +203,8 @@ class Cartoserver {
         $mapResult = $serverContext->getMapResult();
         $mapResult->timeStamp = $serverContext->getTimeStamp();
 
+        $pluginManager->callPlugins('initialize');
+        
         // test new image generation
         //$mapResult->new_gen = $this->generateImage();
 

@@ -22,10 +22,10 @@ class ProjectTableResult extends Serializable {
     /**
      * @var Table
      */
-    public $table;
+    public $tableGroup;
 
     public function unserialize($struct) {
-        $this->table = self::unserializeObject($struct, 'table', 'Table');
+        $this->tableGroup = self::unserializeObject($struct, 'tableGroup', 'TableGroup');
     }
 }
 

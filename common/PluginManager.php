@@ -193,7 +193,7 @@ class PluginManager {
             $plugin->setExtendedName($extendedName);
             
             if ($initArgs !== NULL) {
-                $plugin->initialize($initArgs);
+                $plugin->initializeConfig($initArgs);
             }
 
             $found = NULL;
@@ -244,6 +244,18 @@ class PluginManager {
 
         foreach ($this->plugins as $plugin) {
             $this->callPluginImplementing($plugin, $interface, $functionName, $args);
+        }
+    }
+
+    /**
+     * Calls a function on plugins
+     * @param string function name
+     * @param array function arguments
+     */
+    function callPlugins($functionName, $args = array()) {
+
+        foreach ($this->plugins as $plugin) {
+            call_user_func_array(array($plugin, $functionName), $args);
         }
     }
     

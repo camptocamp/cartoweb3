@@ -107,4 +107,37 @@ class Table extends Serializable {
     }
 }
 
+
+/**
+ * A group of tables
+ * @package CorePlugins
+ */
+class TableGroup extends Serializable {
+    
+    /**
+     * @var string
+     */
+    public $groupId;
+
+    /**
+     * @var string
+     */
+    public $groupTitle;
+
+    /**
+     * @var array
+     */
+    public $tables;
+
+    function unserialize($struct) {    
+        $this->groupId    = Serializable::unserializeValue($struct,        
+                                                        'groupId');
+        $this->groupTitle = Serializable::unserializeValue($struct,        
+                                                        'groupTitle');
+        $this->rows       = Serializable::unserializeObjectMap($struct,
+                                                               'tables',
+                                                               'Table');
+    }
+}
+
 ?>

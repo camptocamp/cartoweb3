@@ -1,5 +1,8 @@
-{foreach from=$tables item=table}
+{foreach from=$tables item=group}
+<h2>{$group->groupTitle}</h2>
+{foreach from=$group->tables item=table}
 {if $table->columnTitles}
+<p>
 <table class="queryres">
     <caption>{t}{$table->tableTitle}{/t}</caption>
     <tr>
@@ -15,5 +18,7 @@
     </tr>
     {/foreach}
 </table>
+</p>
 {/if}
+{/foreach}
 {/foreach}

@@ -31,7 +31,7 @@ class ClientTables extends ClientPlugin
      * Tables to be displayed
      * @var array array of Table
      */
-    private $tables = array();
+    private $tableGroups = array();
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -48,16 +48,16 @@ class ClientTables extends ClientPlugin
         }
         return $this->tableRulesRegistry;
     }
-
+    
     /**
      * Adds table(s) to the list of tables to be displayed
      * @param mixed Table or array of Table     
      */
-    function addTables($tables) {
+    function addTableGroups($tables) {
         if (!is_array($tables)) {
-            $this->tables[] = $tables;
+            $this->tableGroups[] = $tables;
         } else {
-            $this->tables = $this->tables + $tables;
+            $this->tableGroups = $this->tableGroups + $tables;
         }
     }
     
@@ -69,8 +69,11 @@ class ClientTables extends ClientPlugin
 
     function renderForm(Smarty $template) {
     
+        $filteredTables = $this->getTableRulesRegistry()
+                               ->applyRules($this->tableGroups);
+    
         $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
-        $smarty->assign('tables', $this->tables);
+        $smarty->assign('tables', $filteredTables);
         $output = $smarty->fetch('tables.tpl');
         
         $template->assign('tables_result', $output);

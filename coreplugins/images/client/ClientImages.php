@@ -110,6 +110,9 @@ class ClientImages extends ClientPlugin
         }
     }
 
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->imagesState);
@@ -117,6 +120,9 @@ class ClientImages extends ClientPlugin
         $this->handleMapSize($request);        
     }
 
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
     }
@@ -167,7 +173,7 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::buildMapRequest
+     * @see ServerCaller::buildMapRequest()
      */
     function buildMapRequest($mapRequest) {
 
@@ -193,7 +199,7 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::initializeResult
+     * @see ServerCaller::initializeResult()
      */
     function initializeResult($imagesResult) {
         assert($imagesResult instanceof ImagesResult);
@@ -204,7 +210,7 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::handleResult
+     * @see ServerCaller::handleResult()
      */
     function handleResult($imagesResult) {}
 
@@ -232,9 +238,9 @@ class ClientImages extends ClientPlugin
             $uri .= "$parsed[user]@";
         }
  
-        if (isset($parsed['host']))    $uri .= $parsed['host'];
-        if (isset($parsed['port']))    $uri .= ":$parsed[port]";
-        if (isset($parsed['path']))    $uri .= $parsed['path'];
+        if (isset($parsed['host']))     $uri .= $parsed['host'];
+        if (isset($parsed['port']))     $uri .= ":$parsed[port]";
+        if (isset($parsed['path']))     $uri .= $parsed['path'];
         if (isset($parsed['query']))    $uri .= "?$parsed[query]";
         if (isset($parsed['fragment'])) $uri .= "#$parsed[fragment]";
  
@@ -357,6 +363,9 @@ class ClientImages extends ClientPlugin
         return $this->smarty->fetch('mapsizes.tpl');
     }
 
+    /**
+     * @see GuiProvider::renderForm()
+     */
     function renderForm(Smarty $template) {
        
         $template->assign(array(
@@ -391,7 +400,7 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see Sessionable::saveSession
+     * @see Sessionable::saveSession()
      */
     function saveSession() {
         $this->log->debug('saving session:');
@@ -399,7 +408,7 @@ class ClientImages extends ClientPlugin
     }
     
     /**
-     * @see Exportable::adjustExportMapRequest
+     * @see Exportable::adjustExportMapRequest()
      */
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest) {

@@ -41,6 +41,10 @@ class ServerTables extends ServerPlugin {
         }
         return $this->tableRulesRegistry;
     }
+    
+    function applyRules($tables) {
+        return $this->getTableRulesRegistry()->applyRules($tables);
+    }    
 }
 
 ?>

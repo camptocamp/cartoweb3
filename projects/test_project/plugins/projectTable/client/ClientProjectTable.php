@@ -22,7 +22,7 @@ class ClientProjectTable extends ClientPlugin
             return;
         
         $tablesPlugin = $this->cartoclient->getPluginManager()->tables;
-        $tablesPlugin->addTables($queryResult->table);
+        $tablesPlugin->addTableGroups($queryResult->tableGroup);
     }
 
     function handleResult($queryResult) {}                       

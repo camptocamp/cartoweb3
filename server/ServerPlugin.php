@@ -100,7 +100,7 @@ abstract class ServerPlugin extends PluginBase {
      * Initializes plugin configuration
      * @param ServerContext
      */
-    function initialize($initArgs) {
+    function initializeConfig($initArgs) {
         $this->serverContext = $initArgs;
         
         $this->config = new ServerPluginConfig($this->getName(),

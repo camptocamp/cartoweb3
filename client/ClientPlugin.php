@@ -392,7 +392,7 @@ abstract class ClientPlugin extends PluginBase {
      * Initializes plugin configuration
      * @param Cartoclient Cartoclient
      */
-    function initialize($initArgs) {
+    function initializeConfig($initArgs) {
         $this->cartoclient = $initArgs;
 
         $this->config = new ClientPluginConfig($this->getName(),
