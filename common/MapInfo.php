@@ -125,18 +125,10 @@ class Layer extends LayerContainer {
      * @var string
      */
     public $msLayer;
-    
-    /**
-     * Name of attribute for identification
-     * @var string
-     */
-    public $idAttributeString;
 
     function unserialize($struct) {
         parent::unserialize($struct);
         $this->msLayer           = self::unserializeValue($struct, 'msLayer'); 
-        $this->idAttributeString = self::unserializeValue($struct, 
-                                       'idAttributeString'); 
     }
 }
 

@@ -143,6 +143,9 @@ MAP
     END
     STATUS DEFAULT
     DATA "line"
+    METADATA
+	  "id_attribute_string" "FID|string"
+    END
     CLASSITEM "FNAME"
 
     # for queries

@@ -216,12 +216,7 @@ class ServerContext {
         $serverLayer = $this->getMapInfo()->getLayerById($layerId);
         if (!$serverLayer) 
             throw new CartoserverException("layerid $layerId not found");
-        
-        // extract from ini config file
-        if (!empty($serverLayer->idAttributeString)) {
-            return $serverLayer->idAttributeString;   
-        }
-        
+
         // retrieve from metadata
         $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
         $this->checkMsErrors();
