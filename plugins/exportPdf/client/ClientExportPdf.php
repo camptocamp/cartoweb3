@@ -457,6 +457,10 @@ class ClientExportPdf extends ExportPlugin {
         if (!isset($request['pdfExport']))
             return;
 
+        $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
+        if (!SecurityManager::getInstance()->hasRole($pdfRoles))
+            return;
+
         $this->log->debug('processing exportPdf request');
 
         $ini_array = $this->getConfig()->getIniArray();
