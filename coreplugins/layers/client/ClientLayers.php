@@ -102,6 +102,8 @@ class LayerNode {
             return;
         foreach($this->layer->children as $child) {
             $childNode = new LayerNode();
+            if (!isset($layersMap[$child]))
+                throw new CartoclientException("Child layer $child not found");
             $childNode->layer = $layersMap[$child];
             $childNode->setChildren($layersMap);
             $this->children[$childNode->layer->id] = $childNode;
