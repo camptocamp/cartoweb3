@@ -6,8 +6,8 @@ separator = ";"
 ;     double-quote = "
 textDelimiter = double-quote
 
-; file name format for exported CSV file, default is "[layer]-[date,dMY].csv"
-fileName = "[date,Ymd-Hi]_[layer].csv"
+; file name format for exported CSV file, default is "[table]-[date,dMY].csv"
+fileName = "[date,Ymd-Hi]_[table].csv"
 
 ; if true, exported CSV file will be UTF-8 encoded
 ; if false, it will be ISO-8859-1 encoded, default

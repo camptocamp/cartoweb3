@@ -186,7 +186,7 @@ class ServerContext {
     
     // maybe refactorize with cartoclient
     private function getCorePluginNames() {
-        return array('images', 'location', 'layers', 'query', 'mapquery');
+        return array('images', 'location', 'layers', 'query', 'mapquery', 'tables');
     }
 
     /**
@@ -198,6 +198,7 @@ class ServerContext {
             $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
                                  PluginManager::SERVER, $this->projectHandler);
             $corePluginNames = $this->getCorePluginNames();
+
             $this->pluginManager->loadPlugins($corePluginNames, $this);
 
             // FIXME: maybe not in mapinfo

@@ -11,7 +11,7 @@
       <complexType name="QueryResult">
         <all>
           <element name="className" type="xsd:string"/>
-          <element name="layerResults" type="types:ArrayOfLayerResult"/>
+          <element name="tableGroup" type="types:TableGroup"/>
         </all>
       </complexType>
 

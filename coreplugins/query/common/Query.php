@@ -30,6 +30,7 @@ class QueryRequest extends Serializable {
 }
 
 /**
+ * To be deleted when selection will use Tables!!
  * @package CorePlugins
  */
 class ResultElement extends Serializable {
@@ -44,6 +45,7 @@ class ResultElement extends Serializable {
 }
 
 /**
+ * To be deleted when selection will use Tables!!
  * @package CorePlugins
  */
 class LayerResult extends Serializable {
@@ -69,11 +71,11 @@ class LayerResult extends Serializable {
  */
 class QueryResult extends Serializable {
 
-    public $layerResults;
+    public $tableGroup;
     
     function unserialize($struct) {
-        $this->layerResults = Serializable::unserializeObjectMap($struct, 
-                                        'layerResults', 'LayerResult');
+        $this->tableGroup = Serializable::unserializeObject($struct, 
+                                        'tableGroup', 'TableGroup');
     }
 }
 

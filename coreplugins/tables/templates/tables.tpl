@@ -1,7 +1,7 @@
 {foreach from=$tables item=group}
 <h2>{$group->groupTitle}</h2>
 {foreach from=$group->tables item=table}
-{if $table->columnTitles}
+{if $table->numRows > 0}
 <p>
 <table class="queryres">
     <caption>{t}{$table->tableTitle}{/t}</caption>
@@ -18,6 +18,9 @@
     </tr>
     {/foreach}
 </table>
+{if $exportcsv_active|default:''}
+<div class="exportlink"><a href="{$exportcsv_url}?exportcsv_tableid={$table->tableId}">{t}Download CSV{/t}</a></div>
+{/if}
 </p>
 {/if}
 {/foreach}

@@ -19,7 +19,7 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @var string
      */
-    public $layerId;
+    public $tableId;
     
     /**
      * @var string
@@ -47,15 +47,15 @@ class ClientExportCsv extends ExportPlugin {
      */
     private function generateFileName() {
         
-        $layerName = I18n::gt($this->layerId);
+        $tableName = I18n::gt($this->tableId);
         
         if (!is_null($this->getConfig()->fileName)) {
             $format = $this->getConfig()->fileName;
         } else {
-            $format = '[layer]-[date,dMY].csv';
+            $format = '[table]-[date,dMY].csv';
         }
         $fileName = $format;
-        $fileName = str_replace('[layer]', $layerName, $fileName);
+        $fileName = str_replace('[table]', $tableName, $fileName);
         ereg('(.*)\[date,(.*)\](.*)', $fileName, $match);
         $fileName = $match[1] . date($match[2]) . $match[3];
         
@@ -71,8 +71,8 @@ class ClientExportCsv extends ExportPlugin {
 
     function handleHttpGetRequest($request) {
         
-        if (array_key_exists('exportcsv_layerid', $request)) {
-            $this->layerId = $request['exportcsv_layerid'];
+        if (array_key_exists('exportcsv_tableid', $request)) {
+            $this->tableId = $request['exportcsv_tableid'];
             $this->fileName = $this->generateFileName();
         }
     }
@@ -149,15 +149,15 @@ class ClientExportCsv extends ExportPlugin {
         
         $contents = '';
         if (isset($mapResult->queryResult)) {
-            foreach ($mapResult->queryResult->layerResults as $layer) {
-                if ($layer->layerId == $this->layerId
-                    && $layer->numResults > 0) {
+            foreach ($mapResult->queryResult->tableGroup->tables as $table) {
+                if ($table->tableId == $this->tableId
+                    && $table->numRows > 0) {
                     
-                    $contents .= $this->exportLine($layer->fields, $sep, $tD, $utf8);
+                    $contents .= $this->exportLine($table->columnTitles, $sep, $tD, $utf8);
 
-                    foreach ($layer->resultElements as $element) {
+                    foreach ($table->rows as $row) {
                     
-                        $contents .= $this->exportLine($element->values, $sep, $tD, $utf8);
+                        $contents .= $this->exportLine($row->cells, $sep, $tD, $utf8);
                     }
                 }
             }

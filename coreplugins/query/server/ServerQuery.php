@@ -31,8 +31,8 @@ class ServerQuery extends ClientResponderAdapter {
 
     private function arrayEncodingConversion($array) {
         $ret = array();
-        foreach($array as $str) {
-            $ret[] = $this->encodingConversion($str);
+        foreach($array as $key => $str) {
+            $ret[$this->encodingConversion($key)] = $this->encodingConversion($str);
         }
         return $ret;
     }
@@ -69,6 +69,9 @@ class ServerQuery extends ClientResponderAdapter {
         return $filteredValues;
     }
 
+    /**
+     * TO BE DELETED
+     */
     function queryLayer($layerId, $shape, $queryArgs) {
     
         $msMapObj = $this->serverContext->getMapObj();
@@ -144,23 +147,108 @@ class ServerQuery extends ClientResponderAdapter {
         return $layerResult;
     }
 
-    function getIdsFromLayerResult(LayerResult $layerResult) {
+    function getQueryTable($layerId, $shape, $queryArgs) {
+    
+        $msMapObj = $this->serverContext->getMapObj();
 
-        $resultElements = $layerResult->resultElements;
+        if (!($shape instanceof Bbox)) {
+            throw new CartoserverException("shapes other than bbox unsupported");
+        }
+        $rect = ms_newRectObj();
+
+        $bbox = $shape;
+        $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
+        
+        $mapInfo = $this->serverContext->getMapInfo();
+        $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
+
+        $table = new Table();
+        $table->tableId = $layerId;
+        $table->tableTitle = $layerId;
+        $table->numRows = 0;
+        
+        $table->rows = array();
+        
+        // layer has to be activated for query
+        $msLayer->set('status', MS_ON);
+        $ret = @$msLayer->queryByRect($rect);
+
+        $this->serverContext->resetMsErrors();
+
+        if ($ret != MS_SUCCESS || 
+            $msLayer->getNumResults() == 0) 
+            return $table;
+
+        if (!isset($queryArgs->startIndex))
+            $queryArgs->startIndex = 0;
+
+        // eventually put it in config
+        if (!defined('MAX_RESULTS'))
+            define('MAX_RESULTS', 10000);
+        
+        if (!isset($queryArgs->maxResults))
+            $queryArgs->maxResults = MAX_RESULTS;
+
+        $msLayer->open();
+
+        $idAttribute = $this->serverContext->getIdAttribute($layerId);
+
+        for ($i = $queryArgs->startIndex; 
+            $i < $msLayer->getNumResults() && 
+            $i - $queryArgs->startIndex < $queryArgs->maxResults; $i++) {
+
+            $result = $msLayer->getResult($i);
+            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
+
+            $this->log->debug("shape : " .  $i);
+            $this->log->debug($shape);
+
+            $row = new TableRow();            
+            if (is_null($idAttribute)) {
+                $row->cells = array();
+            } else {
+                $row->cells['id'] = $this->encodingConversion(
+                                                $shape->values[$idAttribute]);
+            }
+            
+            $filteredValues = $this->filterReturnedAttributes($msLayer, 
+                                                              $shape->values);
+            if (empty($table->columnTitles)) {
+                if (!is_null($idAttribute)) {
+                    $columnTitles['id'] = 'Id';
+                }
+                foreach (array_keys($filteredValues) as $columnId) {
+                    $columnTitles[$columnId] = $columnId;
+                }
+                $table->columnTitles = $this->arrayEncodingConversion($columnTitles);
+            }
+
+            $row->cells = array_merge($row->cells,
+                                      $this->arrayEncodingConversion($filteredValues));
+            $table->rows[] = $row;
+            $table->numRows++;
+        }  
+        $msLayer->close();
+        return $table;
+    }
+
+    function getIdsFromTable(Table $table) {
+
+        $rows = $table->rows;
         
         $ids = array();
-        foreach($resultElements as $resultElement) {
-            $ids[] = $resultElement->id;
+        foreach($rows as $row) {
+            $ids[] = $row->cells['id'];
         }
         return $ids;
     }
 
-    private function getLayerSelectionRequest(LayerResult $layerResult) {
+    private function getLayerSelectionRequest(Table $table) {
     
         $selectionRequest = new SelectionRequest();
 
-        $selectionRequest->layerId = $layerResult->layerId;
-        $selectionRequest->selectedIds = $this->getIdsFromLayerResult($layerResult);
+        $selectionRequest->layerId = $table->tableId;
+        $selectionRequest->selectedIds = $this->getIdsFromTable($table);
         
         return $selectionRequest;
     }
@@ -172,9 +260,9 @@ class ServerQuery extends ClientResponderAdapter {
         if (empty($plugins->hilight))
             throw new CartoserverException("hilight plugin not loaded, and needed " .
                     "for the query hilight drawing");
-
-        foreach ($queryResult->layerResults as $layerResult) {
-            $selectionRequest = $this->getLayerSelectionRequest($layerResult);
+print_r($queryResult);
+        foreach ($queryResult->tableGroup->tables as $table) {
+            $selectionRequest = $this->getLayerSelectionRequest($table);
             $plugins->hilight->hilightLayer($selectionRequest);
         }
     }
@@ -194,10 +282,13 @@ class ServerQuery extends ClientResponderAdapter {
         $queryArgs->maxResults = 10;  
         
         $queryResult = new QueryResult();
-        $queryResult->layerResults = array();
+                
+        $queryResult->tableGroup = new TableGroup();
+        $queryResult->tableGroup->groupId = "query";
+        $queryResult->tableGroup->groupTitle = "Query";
         foreach ($this->getQueryLayerNames($requ) as $queryLayerName) {
-            $layerResult = $this->queryLayer($queryLayerName, $requ->bbox, $queryArgs);
-            $queryResult->layerResults[] = $layerResult;
+            $table = $this->getQueryTable($queryLayerName, $requ->bbox, $queryArgs);
+            $queryResult->tableGroup->tables[] = $table;
         }
         
         if ($this->getConfig()->drawQueryUsingHilight)

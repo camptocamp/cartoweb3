@@ -67,6 +67,16 @@ class ClientTables extends ClientPlugin
     function handleHttpGetRequest($request) {
     }
 
+    private function assignExportCsv($template) {
+    
+        $pluginManager = $this->cartoclient->getPluginManager();
+        if (!empty($pluginManager->exportCsv)) {
+            $template->assign(array('exportcsv_active' => true,
+                                    'exportcsv_url' =>
+                                    $pluginManager->exportCsv->getExportScriptPath()));
+        }
+    }
+
     function renderForm(Smarty $template) {
     
         $filteredTables = $this->getTableRulesRegistry()
@@ -74,6 +84,9 @@ class ClientTables extends ClientPlugin
     
         $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $filteredTables);
+        
+        $this->assignExportCsv($smarty);
+        
         $output = $smarty->fetch('tables.tpl');
         
         $template->assign('tables_result', $output);

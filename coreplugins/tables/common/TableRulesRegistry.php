@@ -714,7 +714,7 @@ class ColumnAdder extends TableFilter {
         if ($this->columnPosition->type == ColumnPosition::TYPE_ABSOLUTE) {
             $index = $this->columnPosition->index;            
             if ($index < 0) {
-                $index += count($table->columnTitles);
+                $index += count($table->columnTitles) + 1;
             }
         } else {
             $i = 0;
@@ -741,8 +741,9 @@ class ColumnAdder extends TableFilter {
                 $newColumnTitles[$columnId] = $columnTitle;
             }
         } else {
+            $newColumnTitles = $table->columnTitles;
             foreach ($newColumnIds as $newColumnId) {
-                $newColumnTitles += array($newColumnId => $newColumnId);
+                $newColumnTitles[$newColumnId] = $newColumnId;
             }
         }
         $table->columnTitles = $newColumnTitles;

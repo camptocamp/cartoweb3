@@ -25,7 +25,6 @@ class ClientQuery extends ClientPlugin
 
     private $queryState;
     private $queryRequest;
-    private $queryResult;
     
     const TOOL_QUERY = 'query';
 
@@ -99,25 +98,13 @@ class ClientQuery extends ClientPlugin
         if (empty($queryResult))
             return;
 
-        $this->queryResult = $queryResult;
+        $queryResult = $this->processResult($queryResult);
+        
+        $tablesPlugin = $this->cartoclient->getPluginManager()->tables;
+        $tablesPlugin->addTableGroups($queryResult->tableGroup);        
     }
 
     function handleResult($queryResult) {}
-
-    private function drawQueryResult($queryResult) {
-
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
-
-        $this->log->debug("query result::");        
-        $this->log->debug($queryResult);        
-
-        $this->assignExportCsv($smarty);
-
-        $smarty->assign('layer_results', $queryResult->layerResults);
-
-
-        return $smarty->fetch('query.tpl');
-    }
 
     private function encodingConversion($str) {
         return utf8_decode($str);
@@ -127,8 +114,8 @@ class ClientQuery extends ClientPlugin
         if (empty($array))
             return $array;
         $ret = array();
-        foreach($array as $str) {
-            $ret[] = $this->encodingConversion($str);
+        foreach($array as $key => $str) {
+            $ret[$this->encodingConversion($key)] = $this->encodingConversion($str);
         }
         return $ret;
     }
@@ -138,38 +125,17 @@ class ClientQuery extends ClientPlugin
      * values
      */
     private function processResult(QueryResult $queryResult) {
-        foreach ($queryResult->layerResults as $layerResult) {
-            $layerResult->fields = $this->arrayEncodingConversion(
-                                        $layerResult->fields);
-            foreach ($layerResult->resultElements as $resultElement) {
-                $resultElement->id     = $this->encodingConversion(
-                                        $resultElement->id);
-                $resultElement->values = $this->arrayEncodingConversion(
-                                        $resultElement->values);
+        foreach ($queryResult->tableGroup->tables as $table) {
+            $table->columnTitles = $this->arrayEncodingConversion(
+                                        $table->columnTitles);
+            foreach ($table->rows as $row) {
+                $row->cells = $this->arrayEncodingConversion($row->cells);
             }
         }
         return $queryResult;
     }
 
-    private function assignExportCsv($template) {
-    
-        $pluginManager = $this->cartoclient->getPluginManager();
-        if (!empty($pluginManager->exportCsv)) {
-            $template->assign(array('exportcsv_active' => true,
-                                    'exportcsv_url' =>
-                                    $pluginManager->exportCsv->getExportScriptPath()));
-        }
-    }
-
     function renderForm(Smarty $template) {
-        
-        if (!$this->queryResult)
-            return;
-        
-        $queryResult = $this->processResult($this->queryResult);
-        $queryOutput = $this->drawQueryResult($queryResult);
-    
-        $template->assign('query_result', $queryOutput);
     }
 
     function saveSession() {
