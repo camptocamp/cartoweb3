@@ -314,10 +314,10 @@
   </para>
   <para>
    Modifying existing plugins or writing new ones requires some 
-   acquaintance with PHP5, as it really involves some coding. 
+   acquaintance with PHP5, as it involves some coding. 
    The related documentation is thus reported to the developer's
-   part of this manual (see <xref linkend="dev.newplugin.intro"/>).
-   But
+   part of this manual (see <xref linkend="dev.newplugin.intro"/>), but
+   that shouldn't deter anybody from experimenting with it.
   </para>
   <para>
    Each plugin directory contains one or more subdirectories. 
