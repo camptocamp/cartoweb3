@@ -16,26 +16,36 @@ define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 // arrays with all translations found
 $texts = array();
 
-function parseIni($project, $mapId) {
+function parseIni($project, $mapId, $file) {
     global $texts;
 
     $iniFile = CARTOSERVER_HOME;
     if ($project != '') {
         $iniFile .= 'projects/' . $project. '/';
     }
-    $iniFile .= 'server_conf/' . $mapId . '/' . $mapId . '.ini';
+    $iniFile .= 'server_conf/' . $mapId . '/' . $file . '.ini';
     
-    $iniArray = parse_ini_file($iniFile);
-    foreach($iniArray as $key => $value) {
-        if (substr($key, -6) == '.label') {
-            $info = $mapId . '.ini:' . $key;
-            if (array_key_exists($value, $texts)) {
-                $texts[$value] .= ',' . $info;
-            } else {
-                $texts[$value] = $info;
+    if (file_exists($iniFile)) {
+        $iniArray = parse_ini_file($iniFile);
+        foreach($iniArray as $key => $value) {
+            if (substr($key, -6) == '.label') {
+                $info = $file . '.ini:' . $key;
+                if (array_key_exists($value, $texts)) {
+                    $texts[$value] .= ',' . $info;
+                } else {
+                    $texts[$value] = $info;
+                }
             }
         }
     }
+}
+
+function parseMapIni($project, $mapId) {
+    parseIni($project, $mapId, $mapId);
+}
+
+function parseLocationIni($project, $mapId) {
+    parseIni($project, $mapId, 'location');
 }
 
 function parseMap($project, $mapId) {
@@ -98,7 +108,8 @@ if ($_SERVER['argc'] > 1) {
     fwrite($fh, '"Content-Type: text/plain; charset=ISO-8859-1\n"' . "\n");
     fwrite($fh, '"Content-Transfer-Encoding: 8bit\n"' . "\n");
 
-    parseIni($projectName, $mapId);
+    parseMapIni($projectName, $mapId);
+    parseLocationIni($projectName, $mapId);
     parseMap($projectName, $mapId);
 
     foreach ($texts as $text => $files) {

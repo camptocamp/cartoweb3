@@ -159,7 +159,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $scaleLabels = array('');
         foreach ($this->scales as $scale) {
             $scaleValues[] = $scale->value;
-            $scaleLabels[] = $scale->label;            
+            $scaleLabels[] = I18n::gt($scale->label);            
         }
         $this->smarty->assign(array('recenter_scaleValues' => $scaleValues,
                                     'recenter_scaleLabels' => $scaleLabels,
