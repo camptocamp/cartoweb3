@@ -560,11 +560,6 @@ class Cartoclient {
         } else {
             $this->log->debug('creating new  session');
 
-            //$_SESSION = array();
-            $_REQUEST = array();
-            //session_destroy();
-            //session_start();
-            
             $this->clientSession = $this->createClientSession();
 
             $mapStates = $this->getMapInfo()->initialMapStates;
