@@ -20,7 +20,7 @@ class ServerQuery extends ClientResponderAdapter {
         if (!is_null($requ->layerIds) && count($requ->layerIds) > 0) {
             return $requ->layerIds;
         }
-        $plugins = $this->serverContext->pluginManager;
+        $plugins = $this->serverContext->getPluginManager();
         return $plugins->layers->getRequestedLayerNames();
     } 
 

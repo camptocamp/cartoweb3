@@ -178,8 +178,8 @@ class PluginManager {
             $plugin = new $className();
 
             $extendedName = $name;
-            if (!is_null(self::$replacePlugin)) {
-                $name = self::$replacePlugin;
+            if (!is_null($plugin->replacePlugin())) {
+                $name = $plugin->replacePlugin();
             }
 
             $plugin->setBasePath($this->getBasePluginPath($basePath, $relativePath, $name));
@@ -191,16 +191,16 @@ class PluginManager {
             }
 
             $found = NULL;
-            if (!is_null(self::$replacePlugin)) {
+            if (!is_null($plugin->replacePlugin())) {
                 foreach ($this->plugins as $key => $oldPlugin) {
-                    if ($oldPlugin->getName() == self::$replacePlugin) {
+                    if ($oldPlugin->getName() == $plugin->replacePlugin()) {
                         $found = $key;
+                        break;
                     }
                 }
                 if (!is_null($found)) {
                     $this->plugins[$found] = $plugin;
                 }
-                self::$replacePlugin = NULL;
             }
             if (is_null($found)) {
                 $this->plugins[] = $plugin;

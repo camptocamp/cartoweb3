@@ -22,7 +22,7 @@ class ServerSelection extends ClientResponderAdapter {
   
     private function queryLayer($layerId, $shape) {
         
-        $plugins = $this->serverContext->pluginManager;
+        $plugins = $this->serverContext->getPluginManager();
         if (empty($plugins->query))
             throw new CartoserverException("query plugin not loaded, and needed " .
                     "for the selection request");

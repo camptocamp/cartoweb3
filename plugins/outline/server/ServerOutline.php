@@ -172,7 +172,7 @@ class ServerOutline extends ClientResponderAdapter {
     }
 
     private function drawMap($msMapObj) {
-        $plugins = $this->serverContext->pluginManager;
+        $plugins = $this->serverContext->getPluginManager();
         if (!empty($plugins->query) && $plugins->query->drawQuery()) {
             $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
         } else {

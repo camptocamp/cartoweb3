@@ -10,7 +10,7 @@
  * @package Common
  */
 abstract class PluginBase {
-
+    
     /** 
      * @var Logger
      */
@@ -103,6 +103,16 @@ abstract class PluginBase {
             return NULL;
 
         return $mapRequest->$field;
+    }
+
+    /** 
+     * Returns name of parent plugin in case of plugin extension
+     *
+     * Must be overridden in child plugin class
+     * @return string
+     */
+    public function replacePlugin() {
+        return null;
     }
 }
 

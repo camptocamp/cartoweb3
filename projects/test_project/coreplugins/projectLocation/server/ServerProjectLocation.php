@@ -28,8 +28,10 @@ class ServerProjectLocation extends ServerLocation {
         
         return $projectResult;
     }
-}
 
-PluginManager::replacePlugin('location');
+    public function replacePlugin() {
+        return 'location';
+    }
+}
 
 ?>

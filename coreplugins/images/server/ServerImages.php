@@ -71,7 +71,7 @@ class ServerImages extends ServerPlugin
 
     private function isDrawQuery() {
 
-        $plugins = $this->serverContext->pluginManager;
+        $plugins = $this->serverContext->getPluginManager();
         if (empty($plugins->query))
             return false;
         return $plugins->query->drawQuery();

@@ -36,6 +36,9 @@ class ServerContext {
     private $messages = array();
 
     public $projectHandler;
+    
+    private $plugins;
+    private $pluginManager;
 
     function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -47,6 +50,7 @@ class ServerContext {
 
         $this->config = new ServerConfig($this->projectHandler);
 
+        $this->pluginManager = null;
         $this->plugins = array();
         
         $this->reset();          
@@ -181,18 +185,20 @@ class ServerContext {
 
     function loadPlugins() {
 
-        $this->pluginManager = new PluginManager($this->projectHandler);
-        $corePluginNames = $this->getCorePluginNames();
-        $this->pluginManager->loadPlugins($this->config->basePath, 
-                                          PluginManager::SERVER_PLUGINS,
-                                          $corePluginNames, $this);
+        if (is_null($this->pluginManager)) {
+            $this->pluginManager = new PluginManager($this->projectHandler);
+            $corePluginNames = $this->getCorePluginNames();
+            $this->pluginManager->loadPlugins($this->config->basePath, 
+                                              PluginManager::SERVER_PLUGINS,
+                                              $corePluginNames, $this);
 
-        // FIXME: maybe not in mapinfo
-        $pluginNames = $this->getMapInfo()->loadPlugins;
+            // FIXME: maybe not in mapinfo
+            $pluginNames = $this->getMapInfo()->loadPlugins;
         
-        $this->pluginManager->loadPlugins($this->config->basePath, 
-                                          PluginManager::SERVER_PLUGINS,
-                                          $pluginNames, $this);
+            $this->pluginManager->loadPlugins($this->config->basePath, 
+                                              PluginManager::SERVER_PLUGINS,
+                                              $pluginNames, $this);
+        }
     }
     
     function getPluginManager() {

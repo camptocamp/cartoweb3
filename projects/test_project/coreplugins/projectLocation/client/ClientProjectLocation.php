@@ -9,6 +9,7 @@
  * @package CorePlugins
  */
 class ClientProjectLocation extends ClientLocation {
+
     private $projectResult;
 
     function buildMapRequest($mapRequest) {
@@ -34,8 +35,10 @@ class ClientProjectLocation extends ClientLocation {
         $template->assign('projectmessage', $this->projectResult);
         parent::renderForm($template);
     }
-}
 
-PluginManager::replacePlugin('location');
+    public function replacePlugin() {
+        return 'location';
+    }
+}
 
 ?>

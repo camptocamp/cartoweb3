@@ -23,28 +23,31 @@ require_once(CARTOCOMMON_HOME . 'common/Message.php');
  */
 class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
+    private $currentMapId = null;
+
+    protected function getMapId() {
+        return 'test';
+    }
+
+    protected function setMapId($mapId) {
+        $this->currentMapId = $mapId;
+    }
+    
+    private function doGetMapId() {
+        if (is_null($this->currentMapId)) {
+            return $this->getMapId();
+        }
+        return $this->currentMapId;
+    }
+    
+    protected function tearDown() {
+        $this->currentMapId = null;
+    }
+
     private function getCartoserverBaseUrl() {
      
         $ini_array = parse_ini_file(CARTOCLIENT_HOME . 'client_conf/client.ini');
         return $ini_array['cartoserverBaseUrl'];
-    }
-
-    public function setUp() {
-
-        $config = new stdClass();
-        $config->mapId = 'test';
-        // FIXME: disable soap cache ?
-        $config->noWsdlCache = false;
-        $config->cartoserverUseWsdl = true;
-        $config->cartoserverBaseUrl = $this->getCartoserverBaseUrl();        
-        $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
-        $this->assertNotNull($config->cartoserverBaseUrl, 'You need to set cartoserverBaseUrl in client.ini');
-        $config->cartoserverDirectAccess = true;
-        
-        $this->cartoserverServiceDirect = new CartoserverService($config);        
-        $config = clone $config;
-        $config->cartoserverDirectAccess = false;
-        $this->cartoserverService = new CartoserverService($config);
     }
 
     function isTestDirect() {
@@ -81,20 +84,32 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
     protected function createRequest() {
      
-        $mapRequest = new MapRequest();
-           
-        $mapRequest->mapId = 'test';
+        $mapRequest = new MapRequest();           
+        $mapRequest->mapId = $this->doGetMapId();
 
-        // images request are necessary to have the server do something
-        
+        // images request is necessary to have the server do something        
         $mapRequest->imagesRequest = $this->getDefaultImagesRequest();
            
         return $mapRequest;
     }    
 
     private function getCartoserverService($direct) {
-        return $direct ? $this->cartoserverServiceDirect : 
-            $this->cartoserverService;
+
+        $config = new stdClass();
+        $config->mapId = $this->doGetMapId();
+        // FIXME: disable soap cache ?
+        $config->noWsdlCache = false;
+        $config->cartoserverUseWsdl = true;
+        $config->cartoserverBaseUrl = $this->getCartoserverBaseUrl();        
+        $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
+        $this->assertNotNull($config->cartoserverBaseUrl, 'You need to set cartoserverBaseUrl in client.ini');
+        
+        if ($direct) {
+            $config->cartoserverDirectAccess = true;
+        } else {        
+            $config->cartoserverDirectAccess = false;
+        }
+        return new CartoserverService($config);
     }
 
     protected function getMap(MapRequest $request, $direct = false) {
