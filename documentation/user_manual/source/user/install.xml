@@ -10,8 +10,8 @@
  <sect1 id="user.install.unix"> 
   <title>UNIX like install</title>
   <para>
-    Cartoweb 3 installer is "cw3setup.php":
-    Just launch <screen>php -f cw3setup.php</screen> to setup the application.   
+    Cartoweb 3 installer is "cw3setup.php", located in the root directory of the application:
+    Simply run <screen>php -f cw3setup.php</screen> to setup the application.   
   </para>
 	<sect2 id="user.install.unix.commands">
 	 <title>List of available commands:</title>
@@ -23,7 +23,7 @@ get[=user]              : CVS checkout with user name [anonymous]
 get_libs                : get required libraries
 dirs                    : create user directories
 perms[=www-data]        : set writing perms for web-user [www-data]
-                          - set ownership if ran as superuser,
+                          - set ownership if run as superuser,
                           - give write permission instead.
 create_conf             : create the new configuration
 link_or_copy            : link or copy paths for web browser
@@ -38,7 +38,7 @@ remove                  : remove cartoweb3
  <sect1 id="user.install.win32"> 
   <title>Windows install</title>
   <para>
-   Procedure is the same, but the windows installer is not coded yet.
+   The process is as simple as for UNIX, but the windows installer is not available yet.
   </para>
  </sect1>
 
