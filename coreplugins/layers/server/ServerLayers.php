@@ -22,8 +22,8 @@ class ServerLayers extends ServerCoreplugin {
 
         $this->requestedLayerNames = $requ;
 
-        if (!count($requ)) {
-            $this->log->info("no layers request: doing nothing");
+        if (!is_array($requ)) {
+            $this->log->info("invalid layers request: doing nothing");
             return;
         }
 
