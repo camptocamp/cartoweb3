@@ -28,7 +28,13 @@ function dhtmlBox_initialize() {
     if (myform.tool[i].checked) {
       dhtmlBox.changeTool(myform.tool[i].value);
     }
-  }	
+  }
+  
+  // HACK FOR selection tool: find a better solution !!
+  if (myform.tool[4].checked) {
+     dhtmlBox.changeTool('query');
+  }
+  
   this.target.style.zIndex = 1000;
 
   this.width = xWidth(this.anchor);
