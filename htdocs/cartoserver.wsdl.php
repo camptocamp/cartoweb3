@@ -17,7 +17,12 @@ Common::preInitializeCartoweb(array('client' => false));
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
-function getSoapAddress($serverConfig) {
+/**
+ * Returns base URL of Cartoserver SOAP service. 
+ * @param ServerConfig
+ * @return string
+ */
+function getSoapAddress(ServerConfig $serverConfig) {
     
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
     
@@ -27,12 +32,17 @@ function getSoapAddress($serverConfig) {
     
         $soapAddress = $serverConfig->reverseProxyUrl;
     } else {
-        $soapAddress = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
+        $soapAddress = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . 
                     $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
     }
     return $soapAddress;
 }           
 
+/**
+ * Returns querystring parameters.
+ * @param ServerConfig
+ * @return array
+ */
 function getQueryString($serverConfig) {
     $queryString = array();
     
@@ -42,6 +52,12 @@ function getQueryString($serverConfig) {
     return $queryString;
 }
 
+/**
+ * Returns content of given plugin WSDL file.
+ * @param string coreplugin/plugin name
+ * @param ProjectHandler
+ * @return string
+ */
 function getWsdlFileContents($name, $projectHandler) {
 
     $pluginFile = 'coreplugins/' . $name . '/common/' . $name . '.wsdl.inc';
@@ -111,12 +127,14 @@ if (isset($mapId)) {
             }
 
             $pluginsRequest .= 
-                '          <element name="' . $plugin->getName() . 'Request" type="types:' .
+                '          <element name="' . 
+                $plugin->getName() . 'Request" type="types:' .
                 ucfirst($requName) . 'Request" minOccurs="0"/>
                 ';
 
             $pluginsResult .= 
-                '          <element name="' . $plugin->getName() . 'Result" type="types:' .
+                '          <element name="' . 
+                $plugin->getName() . 'Result" type="types:' .
                 ucfirst($resuName) . 'Result" minOccurs="0"/>
                 ';
         }
@@ -130,7 +148,8 @@ if (isset($mapId)) {
             }
 
             $pluginsInit .= 
-                '          <element name="' . $plugin->getName() . 'Init" type="types:' .
+                '          <element name="' . 
+                $plugin->getName() . 'Init" type="types:' .
                 ucfirst($initName) . 'Init" minOccurs="0"/>
                 ';
         }

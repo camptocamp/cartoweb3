@@ -16,10 +16,19 @@ Common::preInitializeCartoweb(array('client' => false, 'apd' => true));
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOSERVER_HOME . 'server/SoapXMLCache.php');
 
+/**
+ * Returns path of saved POST data directory.
+ * @return string
+ */
 function getSavedPostDir() {
     return CARTOSERVER_HOME . 'www-data/saved_posts/';
 }
 
+/**
+ * Writes POST data in a file.
+ * @param string POST data
+ * @return string name of written file
+ */
 function savePostData($postData) {
     $log =& LoggerManager::getLogger(__METHOD__);
 
@@ -33,14 +42,19 @@ function savePostData($postData) {
         fclose($fp);
     } 
 
-    $log->info("post Data id saved is " . $post_id);
+    $log->info("post Data id saved is $post_id");
     return $post_id;
 }
 
+/**
+ * Retrieves some saved POST data.
+ * @param string name of storage file
+ * @return string
+ */
 function getPostData($postId) {
     $post_file = getSavedPostDir() . $postId;
 
-    $fd = fopen($post_file, "r");
+    $fd = fopen($post_file, 'r');
     if ($fd) 
         return fread($fd, filesize($post_file));
     return NULL;

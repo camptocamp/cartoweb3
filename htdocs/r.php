@@ -25,20 +25,22 @@ class ResourceProjectHandler extends ProjectHandler {
     /**
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
     }
  
     /**
      * @see ProjectHandler::getRootPath()
+     * @return string
      */
-    function getRootPath() {
+    public function getRootPath() {
         return CARTOCLIENT_HOME;
     }
     
     /**
      * @see ProjectHandler::getProjectName()
+     * @return string
      */
-    function getProjectName() {
+    public function getProjectName() {
         if (isset($_REQUEST['pr']))
             return $_REQUEST['pr'];
         return 'default';
@@ -47,24 +49,26 @@ class ResourceProjectHandler extends ProjectHandler {
 
 // set to true if you want debug
 $debug = false;
-$n=0;
+$n = 0;
 
 /**
- * Debug function putting it's output in headers.
+ * Debug function putting its output in headers.
+ * @param string message to output in headers
  */
 function dbg($msg) {
-        global $n, $debug;
-        if (!$debug)
-            return;
-        $str = var_export($msg, true);
-        header("X-debug$n: $msg");
-        $n++;
+    global $n, $debug;
+    if (!$debug)
+        return;
+    $str = var_export($msg, true);
+    header("X-debug$n: $msg");
+    $n++;
 }
 
 /**
  * Shows an arror and aborts the script.
  * If debug is off, the error message is generic, to prevent malicious users
  * to try to interpret the messages to find holes.
+ * @param string
  */
 function fatal($msg) {
     global $debug;
@@ -81,6 +85,8 @@ function fatal($msg) {
 class MiniproxyFileProvider {
  
     /**
+     * @param string resource name
+     * @param array request data
      * @return string Path to a file in a plugin's htdocs directory
      */
     public function getHdocsFile($resource, $requ) {
@@ -113,6 +119,8 @@ class MiniproxyFileProvider {
     }
     
     /**
+     * @param string resource name
+     * @param array request data
      * @return string Path to a icon file. It looks in the 'icon' subdirectory
      *  of  the directory containing the mapfile.
      */
@@ -132,6 +140,8 @@ class MiniproxyFileProvider {
     }
     
     /**
+     * @param string resource name
+     * @param array $_REQUEST
      * @return string Path to a file in the directory of generated images.
      */
     public function getGeneratedFile($resource, $requ) {
@@ -141,6 +151,7 @@ class MiniproxyFileProvider {
 
 /**
  * Returns the full path to the resource being accessed.
+ * @return string
  */
 function getResourcePath() {
     
