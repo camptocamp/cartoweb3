@@ -64,10 +64,11 @@ abstract class PluginBase {
                          $field, $requestClass);
         
         if (!is_null($result))                
-            $mapRequest->field = $result;
-        
+            $mapRequest->$field = $result;
+
         return $result;
     }
+    
 }
 
 ?>

@@ -48,6 +48,7 @@ $wsdlContent = str_replace('{SOAP_ADDRESS}', $soapAddress, $wsdlContent);
 
 $pluginsRequest = '';
 $pluginsResult = '';
+$pluginsInit = '';
 $pluginsSpecificWsdl = '';
     
 if (isset($mapId)) {
@@ -60,7 +61,7 @@ if (isset($mapId)) {
     $iniArray = parse_ini_file($iniFile);    
     if (array_key_exists('mapInfo.loadPlugins', $iniArray)) {
         $plugins = ConfigParser::parseArray($iniArray['mapInfo.loadPlugins']);
-        
+
         foreach ($plugins as $plugin) {
             $pluginsRequest .= 
                 '          <element name="' . $plugin . 'Request" type="types:' .
@@ -70,6 +71,11 @@ if (isset($mapId)) {
             $pluginsResult .= 
                 '          <element name="' . $plugin . 'Result" type="types:' .
                 ucfirst($plugin) . 'Result" minOccurs="0"/>
+                ';
+
+            $pluginsInit .= 
+                '          <element name="' . $plugin . 'Init" type="types:' .
+                ucfirst($plugin) . 'Init" minOccurs="0"/>
                 ';
 
             $pluginFile = 'plugins/' . $plugin . '/common/' . $plugin . '.wsdl.inc';
@@ -82,6 +88,7 @@ if (isset($mapId)) {
 
 $wsdlContent = str_replace('{PLUGINS_REQUEST}', $pluginsRequest, $wsdlContent);
 $wsdlContent = str_replace('{PLUGINS_RESULT}', $pluginsResult, $wsdlContent);
+$wsdlContent = str_replace('{PLUGINS_INIT}', $pluginsInit, $wsdlContent);
 $wsdlContent = str_replace('{PLUGINS_SPECIFIC_WSDL}', $pluginsSpecificWsdl, $wsdlContent);
 
 print $wsdlContent;

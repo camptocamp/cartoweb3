@@ -174,6 +174,12 @@ class MapInfo extends Serializable {
         $this->extent           = self::unserializeObject($struct, 'extent', 'Bbox');
         $this->location         = self::unserializeObject($struct, 'location', 'Location');
         $this->keymapGeoDimension = self::unserializeObject($struct, 'keymapGeoDimension', 'GeoDimension');
+        
+        foreach (get_object_vars($struct) as $attr => $value) {
+            if (substr($attr, -4) == 'Init') {
+                $this->$attr = self::unserializeObject($struct, $attr, ucfirst($attr));
+            }
+        }
     }
     
     function getLayerById($layerId) {

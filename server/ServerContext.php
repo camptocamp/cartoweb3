@@ -132,6 +132,10 @@ class ServerContext {
         return $this->mapResult;
     }
 
+    function getMapInfo() {
+        return $this->mapInfo;
+    }
+
     // maybe refactorize with cartoclient
     private function getCorePluginNames() {
         return array('images', 'location', 'layers', 'query');

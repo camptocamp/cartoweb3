@@ -105,12 +105,18 @@ class Cartoserver {
     }
 
     private function doGetMapInfo($mapId) {
-
         $serverContext = $this->initializeServerContext($mapId);
 
         $serverContext->mapInfoHandler->fillDynamic($serverContext);
 
-        return $serverContext->mapInfoHandler->getMapInfo();
+        $serverContext->loadPlugins();
+        $pluginManager = $serverContext->getPluginManager();
+
+        $mapInfo = $serverContext->mapInfoHandler->getMapInfo();
+
+        $pluginManager->callPlugins('getInit', '');
+        
+        return $mapInfo;
     }
 
     private function generateImage($serverContext) {

@@ -77,6 +77,8 @@
           <element name="keymapGeoDimension" type="types:GeoDimension"/>
           <element name="layers" type="types:ArrayOfLayer"/>
           <element name="initialMapStates" type="types:ArrayOfInitialMapState"/>
+          <element name="locationInit" type="types:LocationInit"/>
+          {PLUGINS_INIT}
         </all>
       </complexType>
       
@@ -180,6 +182,12 @@
         <all>
           <element name="bbox" type="types:Bbox"/>
           <element name="scale" type="xsd:double"/>
+        </all>
+      </complexType>
+            
+      <complexType name="LocationInit">
+        <all>
+          <element name="test" type="xsd:string"/>
         </all>
       </complexType>
             

@@ -104,6 +104,31 @@ abstract class ClientPlugin extends PluginBase {
         $this->cartoclient->setClientSession($clientSession);
     }
         
+    final function unserializeInit($mapInfo) {
+        
+        $name = $this->getName();
+        $field = $name . 'Init';
+        $class = ucfirst($field);
+        
+        if (empty($mapInfo->$field))
+            return NULL;
+            
+        $result = Serializable::unserializeObject($mapInfo, $field, $class);
+        
+        if (!is_null($result))                
+            $mapInfo->$field = $result;
+        
+        return $result;
+    }
+
+    final function dohandleInit($mapInfo) {
+
+        $pluginInit = $this->unserializeInit($mapInfo);
+        
+        if (!empty($pluginInit)) {        
+            $this->handleInit($pluginInit);
+        }
+    }
 
     abstract function loadSession($sessionObject);
     abstract function createSession(MapInfo $mapInfo, InitialMapState $initialState);

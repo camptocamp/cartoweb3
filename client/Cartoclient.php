@@ -279,6 +279,8 @@ class Cartoclient {
     private function doMain() {
 
         $this->mapInfo = $this->getMapInfo();
+        $this->callPlugins('dohandleInit', $this->mapInfo);
+                
         $this->initializeSession();
         
         if (@$_REQUEST['posted']) {

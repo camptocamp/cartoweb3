@@ -41,6 +41,10 @@ abstract class ServerPlugin extends PluginBase {
 
     abstract function getResultFromRequest($requ);
 
+    function getInitValues() {
+        return NULL;
+    }
+
     final function getConfig() {
         return $this->config;
     }
@@ -82,6 +86,16 @@ abstract class ServerPlugin extends PluginBase {
                 $this->log->warn(sprintf("plugin %s getResult returned false", get_class($this)));
             $this->serverContext->mapResult->$resultName = $result;
         }
+    }
+    
+    final function getInit() {
+        $this->log->debug(sprintf("Calling getInit for plugin %s", get_class($this)));
+        
+        $initName = $this->getName() . 'Init';
+        
+        $init = $this->getInitValues();
+        
+        $this->serverContext->mapInfo->$initName = $init;
     }
 }
 

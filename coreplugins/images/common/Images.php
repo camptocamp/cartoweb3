@@ -24,8 +24,8 @@ class Image extends Serializable {
         $this->isDrawn = self::unserializeValue($struct, 'isDrawn', 'boolean'); 
         $this->path = self::unserializeValue($struct, 'path');
         
-        $this->weight = self::unserializeValue($struct, 'weight', 'int');
         $this->height = self::unserializeValue($struct, 'height', 'int');
+        $this->width  = self::unserializeValue($struct, 'width', 'int');
         $this->format = self::unserializeValue($struct, 'format');
     }
 }
