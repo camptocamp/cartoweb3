@@ -11,7 +11,9 @@ require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
  */
 class ClientExportCsv extends ExportPlugin {
 
-    const EXPORT_SCRIPT_PATH = 'exportCsv/export.php';
+    public function getExportScriptPath() {
+        return 'exportCsv/export.php';
+    }
 
     public $layerId;
     public $fileName;

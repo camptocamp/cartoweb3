@@ -143,6 +143,10 @@ ClientContext:
       {$outline}
       {/if}
     
+      {if $exporthtml_active|default:''}
+      <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
+      {/if}
+
     </div>
     <!-- end of folder1 -->
   

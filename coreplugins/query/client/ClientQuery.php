@@ -152,7 +152,7 @@ class ClientQuery extends ClientCorePlugin
         $exportCsvPlugin = $this->cartoclient->getPluginManager()->getPlugin('exportCsv');
         if (!is_null($exportCsvPlugin)) {
             $template->assign(array('exportcsv_active' => true,
-                                    'exportcsv_url' => ClientExportCsv::EXPORT_SCRIPT_PATH));
+                                    'exportcsv_url' => $exportCsvPlugin->getExportScriptPath()));
         }
     }
 
