@@ -173,9 +173,10 @@ class FormRenderer {
 
         $this->drawMessages($cartoclient->getMapResult()->serverMessages);
 
-        // ------------- string translations
-
-        $smarty->assign('cartoclient_title', 'Cartoclient');
+        $jsFolderIdx = (isset($_REQUEST['js_folder_idx']) &&
+                        is_numeric($_REQUEST['js_folder_idx']))
+                        ? $_REQUEST['js_folder_idx'] : '0';
+        $smarty->assign('jsFolderIdx', $jsFolderIdx);
 
         // ------------- debug
 
