@@ -1,7 +1,7 @@
-; separator between each value
+; separator between each value, default is ";"
 separator = ";"
 
-; delimiter before and after each value
+; delimiter before and after each value, default is double-quote
 ; special characters:
 ;     double-quote = "
 textDelimiter = double-quote

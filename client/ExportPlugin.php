@@ -64,42 +64,41 @@ class ExportConfiguration {
  */
 class ExportOutput {
     
-    private $url;
+    private $filePath;
+    private $fileName;
     private $contents;
     
     function __construct() {
-        $this->url = null;
+        $this->filePath = null;
+        $this->fileName = null;
         $this->contents = null;
     }
     
-    function setUrl($url) {
-        $this->url = $url;
+    function setFile($filePath, $fileName) {
+        $this->filePath = $filePath;
+        $this->fileName = $fileName;
     }
     
     function setContents($contents) {
         $this->contents = $contents;
     }
     
-    function getUrl() {
-        if (is_null($this->url)) {
-            if (!is_null($this->contents)) {
-            
-                // TODO: Write contents in a file and return url                
-            } else {
-                throw new CartoclientException('ExportOutput is empty');
-            }
+    function getFileName() {
+    
+        if (is_null($this->fileName) || !file_exists($this->filePath . $this->fileName)) {
+            return NULL;
         } else {
-            return $this->url;
+            return $this->fileName;
         }
     }
     
     function getContents() {
         if (is_null($this->contents)) {
-            if (!is_null($this->url)) {
+            if (!is_null($this->fileName)) {
             
-                // TODO: Read file and return contents
+                return file_get_contents($this->filePath . $this->fileName);
             } else {
-                throw new CartoclientException('ExportOutput is empty');
+                return NULL;
             }
         } else {
             return $this->contents;
@@ -114,20 +113,27 @@ abstract class ExportPlugin extends ClientPlugin {
 
     function getExport() {
 
-        // Calls all plugins to modify request
-        $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
-        if (!$mapRequest) {
-            return NULL;
-        }
-        $configuration = $this->getConfiguration();
-        $this->cartoclient->callPluginsImplementing('Exportable', 'adjustExportMapRequest',
+        try {
+            // Calls all plugins to modify request
+            $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+            if (!$mapRequest) {
+                return NULL;
+            }
+            $configuration = $this->getConfiguration();
+            $this->cartoclient->callPluginsImplementing('Exportable', 'adjustExportMapRequest',
                                                     $configuration, $mapRequest);
 
-        // Calls getMap
-        $mapResult = $this->cartoclient->cartoserverService->getMap($mapRequest);
+            // Calls getMap
+            $mapResult = $this->cartoclient->cartoserverService->getMap($mapRequest);
 
-        // Returns export url or contents
-        return $this->export($mapResult);
+            // Returns export url or contents
+            return $this->export($mapResult);
+
+        } catch (Exception $exception) {
+            
+            $this->cartoclient->formRenderer->showFailure($exception);
+            return new ExportOutput();
+        }
     }
 
     abstract function getConfiguration();
