@@ -194,6 +194,11 @@ class PdfGeneral {
      * @var string
      */
     public $filename           = 'map.pdf';
+
+    /**
+     * @var float
+     */
+    public $overviewScaleFactor      = 10;
 }
 
 /**
