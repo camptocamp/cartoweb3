@@ -123,7 +123,10 @@ class I18n {
             $log->debug('LANG: default = ' . LANG);
         }
 
-        setlocale(LC_MESSAGES, LANG);
+        putenv('LANG=' . LANG);
+        // Set locale to LANG, for strftime()
+        setlocale(LC_ALL, '');
+        setlocale(LC_NUMERIC, 'C');
         header('Content-Language: ' . LANG);
         
         // if cookie doesn't exist, set a cookie expiring in one year for current language
