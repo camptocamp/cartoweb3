@@ -1,5 +1,8 @@
-; if true, shows recenter on (x,y) / scale form
+; if true, shows recenter on (x,y) form
 recenterActive = true
+
+; if true, shows scale form
+scalesActive = true
 
 ; if true, shows shortcuts form
 shortcutsActive = true

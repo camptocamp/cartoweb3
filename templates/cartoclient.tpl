@@ -147,6 +147,10 @@ ClientContext:
       {$recenter}
       {/if}
     
+      {if $scales_active|default:''}
+      {$scales}
+      {/if}
+    
       {if $shortcuts_active|default:''}
       {$shortcuts}
       {/if}

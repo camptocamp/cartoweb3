@@ -56,7 +56,6 @@ class ClientLocation extends ClientPlugin
     }
 
     private function handlePanButtons() {
-
         $panButtonToDirection = array(
             'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH, 
                               PanDirection::HORIZONTAL_PAN_WEST),
@@ -81,7 +80,6 @@ class ClientLocation extends ClientPlugin
         foreach ($panButtonToDirection as $buttonName => $directions) {
             if (!HttpRequestHandler::isButtonPushed($buttonName))
                 continue;
-
             $verticalPan = $directions[0];                
             $horizontalPan = $directions[1];                
 
@@ -126,15 +124,13 @@ class ClientLocation extends ClientPlugin
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
     }
 
-    private function handleRecenter($request, $useDoit = true, $check = false) {
+    private function handleRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center); 
         
-        $recenterX    = $this->getHttpValue($request, 'recenter_x');
-        $recenterY    = $this->getHttpValue($request, 'recenter_y');
-        $scale        = $this->getHttpValue($request, 'recenter_scale');
-        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
+        $recenterX = $this->getHttpValue($request, 'recenter_x');
+        $recenterY = $this->getHttpValue($request, 'recenter_y');
                             
         if (!is_null($recenterX) && !is_null($recenterY)) {            
             $point->setXY($request['recenter_x'], $request['recenter_y']);
@@ -145,8 +141,6 @@ class ClientLocation extends ClientPlugin
                 return NULL;
             if (!$this->checkNumeric($recenterY, 'recenter_Y'))
                 return NULL;
-            if (!$this->checkInt($scale, 'recenter_scale'))
-                return NULL;
 
             if ((is_null($recenterX) && !is_null($recenterY)) ||
                 !(is_null($recenterX) && is_null($recenterY))) {
@@ -155,39 +149,63 @@ class ClientLocation extends ClientPlugin
                 return NULL;
             }
         }
+               
+        if ($point == $center) {
+            return NULL;
+        }
+        return $this->buildZoomPointRequest(
+                  ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
+    }
+
+    private function handleScales($request, $useDoit = true, $check = false) {
+
+        $center = $this->locationState->bbox->getCenter();
+        
+        $scale        = $this->getHttpValue($request, 'recenter_scale');
+        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
+                            
+        if ($check) {
+
+            if (!$this->checkInt($scale, 'recenter_scale'))
+                return NULL;
+        }
         
         if (is_null($scale) || ($recenterDoit != '1' && $useDoit)) {
             $scale = 0;
         } 
         
-        if ($point == $center && $scale == 0) {
+        if ($scale == 0) {
             return NULL;
         }
-        if ($scale == 0) {
-            return $this->buildZoomPointRequest(
-                      ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
-        } else {
-            return $this->buildZoomPointRequest(
-                      ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);
-        }
+        return $this->buildZoomPointRequest(
+                  ZoomPointLocationRequest::ZOOM_SCALE, $center, 0, $scale);
     }
 
     private function drawRecenter() {
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
+        return $this->smarty->fetch('recenter.tpl');
+    }
+
+    private function drawScales() {
         $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
                                               $this);
         $scaleValues = array(0);
         $scaleLabels = array('');
         $scales = $this->scales;
         if (!is_array($scales)) $scales = array();
+        
+        $noScales = count($scales) == 0;        
         foreach ($scales as $scale) {
             $scaleValues[] = $scale->value;
             $scaleLabels[] = I18n::gt($scale->label);            
         }
-        $this->smarty->assign(array('recenter_scaleValues' => $scaleValues,
+        $this->smarty->assign(array('recenter_noscales'    => $noScales,
+                                    'recenter_scaleValues' => $scaleValues,
                                     'recenter_scaleLabels' => $scaleLabels,
                                     'recenter_scale'       => 
                                         $this->locationResult->scale));
-        return $this->smarty->fetch('recenter.tpl');
+        return $this->smarty->fetch('scales.tpl');
     }
 
     private function handleIdRecenter($request, $check = false) {
@@ -390,6 +408,10 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
+        $this->locationRequest = $this->handleScales($request);
+        if (!is_null($this->locationRequest))
+            return;
+
         $this->locationRequest = $this->handleIdRecenter($request);
         if (!is_null($this->locationRequest))
             return;
@@ -400,7 +422,7 @@ class ClientLocation extends ClientPlugin
         
         $cartoclient = $this->cartoclient;
         $this->locationRequest = $cartoclient->getHttpRequestHandler()
-                                    ->handleTools($this);                                   
+                                    ->handleTools($this);  
     }
 
     function handleHttpGetRequest($request) {
@@ -409,7 +431,11 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleRecenter($request, false, true);
+        $this->locationRequest = $this->handleRecenter($request, true);
+        if (!is_null($this->locationRequest))
+            return;
+
+        $this->locationRequest = $this->handleScales($request, false, true);
         if (!is_null($this->locationRequest))
             return;
 
@@ -560,6 +586,7 @@ class ClientLocation extends ClientPlugin
         else $factor = 1;
 
         $recenter_active = $this->getConfig()->recenterActive;
+        $scales_active = $this->getConfig()->scalesActive;
         $id_recenter_active = $this->getConfig()->idRecenterActive;
         $shortcuts_active = $this->getConfig()->shortcutsActive;
                
@@ -570,12 +597,15 @@ class ClientLocation extends ClientPlugin
                                 'bboxMaxY' => $this->locationState->bbox->maxy,
                                 'factor' => $factor,
                                 'recenter_active' => $recenter_active,
+                                'scales_active' => $scales_active,
                                 'id_recenter_active' => $id_recenter_active,
                                 'shortcuts_active' => $shortcuts_active,
                                 ));
 
         if ($recenter_active)
             $template->assign('recenter', $this->drawRecenter());
+        if ($scales_active)
+            $template->assign('scales', $this->drawScales());
         if ($id_recenter_active)
             $template->assign('id_recenter', $this->drawIdRecenter());
         if ($shortcuts_active)
