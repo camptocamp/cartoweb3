@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Client part of PDF export plugin.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@ require_once dirname(__FILE__) . '/ExportPdfObjects.php';
  * Overall class for PDF generation management.
  * @package Plugins
  */
-class ClientExportPdf extends ExportPlugin {
+class ClientExportPdf extends ExportPlugin
+                      implements InitUser {
 
     /**
      * @var Logger
@@ -74,6 +75,11 @@ class ClientExportPdf extends ExportPlugin {
     private $mapScale;
 
     /**
+     * @var int
+     */
+    private $mapServerResolution;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -102,6 +108,13 @@ class ClientExportPdf extends ExportPlugin {
      */
     public function getBlocks() {
         return $this->blocks;
+    }
+
+    /**
+     * @see InitUser::handleInit()
+     */
+    public function handleInit($exportPdfInit) {
+        $this->mapServerResolution = $exportPdfInit->mapServerResolution;
     }
 
     /**
@@ -413,6 +426,8 @@ class ClientExportPdf extends ExportPlugin {
     private function setGeneral($iniObjects, $request = array()) {
     
         $this->general = new PdfGeneral;
+        $this->general->mapServerResolution = $this->mapServerResolution;
+        
         $this->overrideProperties($this->general, $iniObjects->general);
         
         $simple = (count($request) != 0);
@@ -723,7 +738,8 @@ class ClientExportPdf extends ExportPlugin {
     private function getGfxPath($gfx) {
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
-        return $resourceHandler->getPathOrAbsoluteUrl($gfx, false);
+        $url = $resourceHandler->getPathOrAbsoluteUrl($gfx, false);
+        return ResourceHandler::convertXhtml($url, true);
     }
 
     /**
@@ -980,13 +996,20 @@ class ClientExportPdf extends ExportPlugin {
     /**
      * Returns generated PDF file URL.
      * @param string filename
+     * @param boolean if true, remove special chars from URL
      * @return string URL
      */
-    private function getPdfFileUrl($filename) {
+    private function getPdfFileUrl($filename, $filter = false) {
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $pdfUrl = $resourceHandler->getUrlProvider()->getGeneratedUrl('pdf/' . 
                                                                     $filename);
-        return $resourceHandler->getFinalUrl($pdfUrl, true, true);
+        $pdfUrl = $resourceHandler->getFinalUrl($pdfUrl, true, true);
+
+        if ($filter) {
+            $pdfUrl = ResourceHandler::convertXhtml($pdfUrl, true);
+        }
+
+        return $pdfUrl;
     }
 
     /**
@@ -1031,7 +1054,7 @@ class ClientExportPdf extends ExportPlugin {
             default:
                 $filename = $this->generatePdfFile($pdfBuffer);
                 $this->setTypeHeader();
-                header('Location: ' . $this->getPdfFileUrl($filename));
+                header('Location: ' . $this->getPdfFileUrl($filename, true));
                 break;
         }
         exit;
