@@ -146,15 +146,20 @@ class ClientLayers extends ClientCorePlugin {
         array_push($this->smartyPool, $template);
     }
 
-    private function drawLayer($layer) {
+    private function drawLayer($layer, $forceSelection = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
+
+        // if parent is selected, children are selected too!
+        $layerChecked = $forceSelection ||
+                        in_array($layer->id, $this->selectedLayers);
 
         $childrenLayers = array();
         if ((!isset($layer->aggregate) || !$layer->aggregate) && 
             !empty($layer->children) && is_array($layer->children)) {
             foreach ($layer->children as $child) {
                 $childLayer = $this->getLayerByName($child);
-                $childrenLayers[] = $this->drawLayer($childLayer);
+                $childrenLayers[] = $this->drawLayer($childLayer, 
+                                                     $layerChecked);
             }
         }
 
@@ -162,7 +167,6 @@ class ClientLayers extends ClientCorePlugin {
         // all its children's classes must however be displayed
 
         $template =& $this->getSmartyObj();
-        $layerChecked = in_array($layer->id, $this->selectedLayers);
         $groupFolded = !in_array($layer->id, $this->unfoldedLayerGroups);
         $template->assign(array('layerLabel' => $layer->label,
                                 'layerId' => $layer->id,
