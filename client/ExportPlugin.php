@@ -69,6 +69,11 @@ class ExportConfiguration {
      * @var Rectangle
      */
     private $printOutline;
+
+    /**
+     * @var int
+     */
+    private $resolution;
        
     /**
      * @param boolean
@@ -224,6 +229,20 @@ class ExportConfiguration {
         return $this->printOutline;
     }
 
+    /**
+     * @param int
+     */
+    function setResolution($resolution) {
+        $this->resolution = $resolution;
+    }
+
+    /**
+     * @return int
+     */
+    function getResolution() {
+        return $this->resolution;
+    }
+
     // TODO: Add all configuration variables
 }
 
@@ -373,7 +392,7 @@ abstract class ExportPlugin extends ClientPlugin
             if (is_null($mapRequest)) {
                 return NULL;
             }
-            
+
             $this->cartoclient->callPluginsImplementing('Exportable', 
                                                       'adjustExportMapRequest',
                                                       $configuration,
