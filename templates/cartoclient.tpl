@@ -168,12 +168,27 @@
 
   <p> LocationInfo: {$location_info} </p>
 
+  {if $user_messages|default:''}
+   <span style="color: blue;">
+   {t} User messages {/t}</span>
+   {foreach from=$user_messages item=message}
+	<p>{$message}</p>
+   {/foreach}   
+  {/if}
+
+  {if $developer_messages|default:''}
+   <span style="color: green; border: 10px; background-color: yellow;">
+   {t} Developer messages {/t}</span>
+   {foreach from=$developer_messages item=message}
+     <p>{$message}</p>
+   {/foreach}   
+  {/if}
+
   {if $selection_result|default:''}
   {$selection_result}
   {/if}
 
   {if $query_result|default:''}
-  <h1>Results: </h1>
   {$query_result}
   {/if}
 

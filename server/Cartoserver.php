@@ -132,6 +132,20 @@ class Cartoserver {
         return $mainMapImagePath;
     }
 
+    private function getDeveloperMessages() {
+
+        $messages = array();
+        if (isset($GLOBALS['saved_post_id']))
+            $messages[] = 'saved post id is ' . $GLOBALS['saved_post_id'];
+        
+        $serverMessages = array();
+        foreach ($messages as $msg) {
+            $serverMessages[] = new ServerMessage(ServerMessage::CHANNEL_DEVELOPER,
+                                $msg);
+        }
+        return $serverMessages;
+    }
+
     private function doGetMap($mapRequest) {
         $log =& LoggerManager::getLogger(__METHOD__);
 
@@ -177,7 +191,13 @@ class Cartoserver {
 
         $log->debug("result is:");
         $log->debug($mapResult);
-
+        
+        if ($serverContext->config->developerMode)
+            $developerMessages = $this->getDeveloperMessages();
+        else
+            $developerMessages = array();
+        $mapResult->serverMessages = array_merge($serverContext->getMessages(),
+                    $developerMessages);
         $log->debug("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return $mapResult;
     }
@@ -249,9 +269,18 @@ function setupSoapService($cartoserver) {
         // should this case happen ?
     }
 
-    $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-           $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
-           '/cartoserver.wsdl.php';
+    // This is useful for command line launching of the cartserver.
+    //  just put a WSDL_URL environment variable containing the url of the wsdl
+    //  file to use before launching the script.
+    // TODO: there should be a way to product the wsdl without a webserver
+    if (array_key_exists('WSDL_URL', $_ENV)) {
+        $url = $_ENV['WSDL_URL'];
+    }
+    
+    if (!isset($url))
+        $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
+               $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
+               '/cartoserver.wsdl.php';
 
     if (isset($mapId))
         $url .= '?mapId=' . $mapId;

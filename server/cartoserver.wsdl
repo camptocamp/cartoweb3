@@ -170,12 +170,29 @@
         </all>
       </complexType>
       
+      <complexType name="ArrayOfServerMessage">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:ServerMessage[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="ServerMessage">
+        <all>
+          <element name="channel" type="xsd:integer"/>
+          <element name="message" type="xsd:string"/>
+        </all>
+      </complexType>
+      
       <complexType name="MapResult">
         <all>
           <element name="timeStamp" type="xsd:integer"/>
           <element name="locationResult" type="types:LocationResult" minOccurs="0"/>
           <element name="imagesResult" type="types:ImagesResult"/>
           <element name="queryResult" type="types:QueryResult" minOccurs="0"/>
+
+          <element name="serverMessages" type="types:ArrayOfServerMessage" minOccurs="0"/>
           {PLUGINS_RESULT}
         </all>
       </complexType>

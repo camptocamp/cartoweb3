@@ -135,12 +135,38 @@ class FormRenderer {
         $smarty->assign('tools', $tools);        
     }
 
+    private function drawMessages($serverMessages) {
+        
+        if (empty($serverMessages))
+            return;
+        
+        $userMessages = array();
+        $developerMessages = array();
+        foreach ($serverMessages as $message) {
+            if ($message->channel == ServerMessage::CHANNEL_USER)
+                $userMessages[] = I18N::gt($message->message);
+            if ($message->channel == ServerMessage::CHANNEL_DEVELOPER)
+                $developerMessages[] = I18N::gt($message->message);
+        }
+
+        $smarty = $this->smarty;
+        
+        if (!empty($userMessages))
+            $smarty->assign('user_messages', $userMessages);
+        if (!empty($developerMessages) &&
+            $this->cartoclient->getConfig()->developerMode &&
+            $this->cartoclient->getConfig()->showDeveloperMessages)
+            $smarty->assign('developer_messages', $developerMessages);
+    }
+    
     function showForm($cartoclient) {
 
         $cartoForm = $cartoclient->getCartoForm();
         $smarty = $this->smarty;
 
         $this->drawTools($cartoclient);
+
+        $this->drawMessages($cartoclient->getMapResult()->serverMessages);
 
         // ------------- string translations
 

@@ -29,6 +29,28 @@ class MapRequest extends Serializable {
 }
 
 /**
+ * A class for messages returned by the server.
+ * Theses messages are intended to be displayed to the client.
+ */
+class ServerMessage extends Serializable {
+    const CHANNEL_USER = 1;
+    const CHANNEL_DEVELOPER = 2;
+    
+    public $channel;
+    public $message;   
+
+    function __construct($channel = 0, $message = NULL) {
+        $this->channel = $channel;
+        $this->message = $message;
+    }
+
+    function unserialize($struct) {
+        $this->channel = Serializable::unserializeValue($struct, 'channel', 'int');
+        $this->message = Serializable::unserializeValue($struct, 'message');
+    }
+}
+
+/**
  * @package Common
  */
 class MapResult extends Serializable {
@@ -36,11 +58,13 @@ class MapResult extends Serializable {
     public $timeStamp;
     public $locationResult;
     public $imagesResult;
+    public $serverMessages;
 
     function unserialize($struct) {
         $this->timeStamp      = Serializable::unserializeValue($struct, 'timeStamp', 'int');
         $this->locationResult = Serializable::unserializeObject($struct, 'locationResult', 'LocationResult');
         $this->imagesResult   = Serializable::unserializeObject($struct, 'imagesResult', 'ImagesResult');
+        $this->serverMessages = Serializable::unserializeObjectMap($struct, 'serverMessages', 'ServerMessage');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -6) == 'Result') {
