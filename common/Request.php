@@ -54,7 +54,7 @@ class MapResult extends Serializable {
     /**
      * @var int
      */
-    public $timeStamp;
+    public $timestamp;
     
     /**
      * Array of Message
@@ -66,7 +66,7 @@ class MapResult extends Serializable {
      * Sets object properties from $struct data.
      */
     public function unserialize($struct) {
-        $this->timeStamp = Serializable::unserializeValue($struct, 'timeStamp',
+        $this->timestamp = Serializable::unserializeValue($struct, 'timestamp',
                                                           'int');
         $this->serverMessages 
                          = Serializable::unserializeObjectMap($struct, 

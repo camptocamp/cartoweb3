@@ -572,7 +572,7 @@ class Cartoclient {
     private function getMapResultFromRequest($mapRequest) {
 
         $mapResult = $this->cartoserverService->getMap($mapRequest);
-        $this->mapInfoCache->checkMapInfoTimestamp($mapResult->timeStamp, 
+        $this->mapInfoCache->checkMapInfoTimestamp($mapResult->timestamp, 
                                                     $mapRequest->mapId);
         return $mapResult;        
     }

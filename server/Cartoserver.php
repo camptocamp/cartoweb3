@@ -269,7 +269,7 @@ class Cartoserver {
         $serverContext->setMapRequest($mapRequest);
 
         $mapResult = $serverContext->getMapResult();
-        $mapResult->timeStamp = $serverContext->getTimeStamp();
+        $mapResult->timestamp = $serverContext->getTimestamp();
 
         $pluginManager->callPlugins('initialize');
         

@@ -25,7 +25,7 @@ class MapInfoCache {
     /**
      * @var int
      */
-    private $timeStamp;
+    private $timestamp;
 
     /**
      * Constructor
@@ -105,13 +105,13 @@ class MapInfoCache {
      * @param int timestamp
      * @param string mapId
      */
-    public function checkMapInfoTimestamp($timeStamp, $mapId) {
+    public function checkMapInfoTimestamp($timestamp, $mapId) {
 
         if ($this->skipCache()) {
             $this->log->debug('not caching mapInfo, skipping test');
             return;
         }
-        if ($timeStamp == $this->timeStamp) {
+        if ($timestamp == $this->timestamp) {
             $this->log->debug("mapInfo in sync with cache, no refetch");
             return;
         }
@@ -151,7 +151,7 @@ class MapInfoCache {
     public function getMapInfo($mapId) {
      
         $mapInfo = $this->doGetMapInfo($mapId);
-        $this->timeStamp = $mapInfo->timeStamp;
+        $this->timestamp = $mapInfo->timestamp;
         return $mapInfo;
     }
 }

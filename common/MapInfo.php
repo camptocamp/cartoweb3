@@ -311,7 +311,7 @@ class MapInfo extends Serializable {
      * Timestamp for cache check
      * @var int
      */
-    public $timeStamp;
+    public $timestamp;
     
     /**
      * @var string
@@ -378,7 +378,7 @@ class MapInfo extends Serializable {
      * properties.
      */
     public function unserialize($struct) {
-        $this->timeStamp        = self::unserializeValue($struct, 'timeStamp');
+        $this->timestamp        = self::unserializeValue($struct, 'timestamp');
         $this->mapLabel         = self::unserializeValue($struct, 'mapLabel');
   
         $this->loadPlugins      = self::unserializeArray($struct, 'loadPlugins');

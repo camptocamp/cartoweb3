@@ -191,12 +191,12 @@ class ServerContext {
      * Returns mean (mapfile & INI file) modification time.
      * @return int
      */
-    public function getTimeStamp() {
+    public function getTimestamp() {
         $mapPath = $this->getMapPath();
         $iniPath = $this->getMapInfoHandler()->getIniPath();
         
-        $timeStamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
-        return (int)$timeStamp;
+        $timestamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
+        return (int)$timestamp;
     }
 
     /**

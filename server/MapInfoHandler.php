@@ -368,7 +368,7 @@ class MapInfoHandler {
      * @param ServerContext
      */
     public function fillDynamic(ServerContext $serverContext) {
-        $this->mapInfo->timeStamp = $serverContext->getTimeStamp();
+        $this->mapInfo->timestamp = $serverContext->getTimestamp();
         $this->fillDynamicMap($serverContext);
         $this->fillDynamicLayers($serverContext);
         $this->fillDynamicKeymap($serverContext);
