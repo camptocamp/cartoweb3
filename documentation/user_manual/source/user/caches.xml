@@ -39,28 +39,28 @@
       -->
       
   <sect1 id="user.caches.smarty">
-	  <title>The templating system used in &cartoweb; is Smarty<footnote>
+    <title>The templating system used in &cartoweb; is Smarty<footnote>
       <para><ulink url="http://smarty.php.net/"></ulink></para></footnote></title>
     <para></para>
   </sect1>
 
   <sect1 id="user.caches.wsdl">
-	  <title>Wsdl cache</title>
+    <title>Wsdl cache</title>
     <para></para>
   </sect1>
       
   <sect1 id="user.caches.mapinfo">
-	  <title>MapInfo cache</title>
+    <title>MapInfo cache</title>
     <para></para>
   </sect1>
       
   <sect1 id="user.caches.mapresult">
-	  <title>MapResult cache</title>
+    <title>MapResult cache</title>
     <para></para>
   </sect1>
 
   <sect1 id="user.caches.soapxml">
-	  <title>XML SOAP cache</title>
+    <title>XML SOAP cache</title>
     <para></para>
   </sect1>
   
@@ -74,7 +74,7 @@
         name of the cache. This is so, so that if the parameter is not available, 
         its default value will be false, meaning that all caches are active
         by default, for maximum performance.</para>
-		</sect2>
+    </sect2>
 
     <sect2 id="user.config.cache.common">
       <title>Client and Server Cache Options</title>

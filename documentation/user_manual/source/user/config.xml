@@ -248,7 +248,7 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
     <para>Some configuration parameters can be activated to retrieve more 
       display information targetted to the developers, like special timing 
       messages, or setting the Php configuration to display notices on the page.
-    	These configuration options are described below.
+      These configuration options are described below.
       <note>
         <para>It is recommended that you set these parameters accordingly
           if you are doing development.</para>
