@@ -39,15 +39,7 @@ class Image extends Serializable {
      * @var int
      */
     public $width;
-    
-    /**
-     * Format of the image
-     * FIXME: this is not used now, nor the the content of this format defined
-     *  (mime type, ... ?)
-     * @var string
-     */
-    public $format;
-    
+        
     /**
      * @see Serializable::unserialize()
      */
@@ -57,7 +49,6 @@ class Image extends Serializable {
         
         $this->height = self::unserializeValue($struct, 'height', 'int');
         $this->width  = self::unserializeValue($struct, 'width', 'int');
-        $this->format = self::unserializeValue($struct, 'format');
     }
 }
 
