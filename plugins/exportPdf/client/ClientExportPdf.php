@@ -635,7 +635,7 @@ class ClientExportPdf extends ExportPlugin {
      * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
-    public function getConfiguration($isOverview = false, $mapBbox = NULL) {
+    private function getConfiguration($isOverview = false, $mapBbox = NULL) {
         
         $config = new ExportConfiguration();
 
