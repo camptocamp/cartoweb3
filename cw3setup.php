@@ -99,7 +99,7 @@ echo "Available commands:\n";
 echo "Syntax: php -f cw3setup.php [command] [command=parameters]\n";
 echo "Sample: php -f cw3setup.php check get=anonymous\n\n";
 echo "(no command, by default): install cartoweb3\n";
-echo "cvs					  : install cartoweb3 from cvs\n";
+echo "cvs                     : install cartoweb3 from cvs\n";
 echo "check                   : check configuration\n";
 echo "get[=user]              : CVS checkout with user name [anonymous]\n";
 echo "get_libs                : get required libraries\n";
@@ -117,7 +117,7 @@ echo "\n";
 $cmd_array = @$_REQUEST;
 if (count($cmd_array) == 0) {
     $cmd = "FULL INSTALL";
-    $cmd_array = array('check' => '',                       
+    $cmd_array = array('check' => '',
                        'get_libs' => '',
                        'dirs' => '',
                        'perms' => '',
@@ -129,15 +129,15 @@ else
     $cmd = implode(array_keys($cmd_array), ', ');
 
 if (in_array('cvs', array_keys($cmd_array))) {
-	$cmd = "FULL INSTALL from CVS";
+    $cmd = "FULL INSTALL from CVS";
     $cmd_array = array('check' => '',
-    				   'get' => '',
+                       'get' => '',
                        'get_libs' => '',
                        'dirs' => '',
                        'perms' => '',
                        'create_conf' => '',
                        'link_or_copy' => ''
-                      );	
+                      );
 }
 
 // Check if we proceed with installation:
