@@ -13,7 +13,9 @@
  <sect1 id="dev.performance.parameter"> 
   <title>Main Parameters</title>
   <para>
-   These are the interesting parameters for the performance tests:
+   This is a non-exhaustive list of interesting parameters for &cartoweb;
+   performance tests. You may want to vary these parameters values when
+   testing performance before and after development of new functionalities.
    <itemizedlist>
     <listitem>
       <para>Cartoweb configuration
@@ -69,16 +71,88 @@
 
  <sect1 id="dev.performance.executing"> 
   <title>Executing Tests</title>
-  <para>
-  </para>  
-   <sect2 id="dev.performance.executing.simple">
-    <title>Simple Execution Times</title>
-    <para></para>
-   </sect2>
-   <sect2 id="dev.performance.executing.cachegrind">
-    <title>Graphical Interface</title>
-    <para></para>
-   </sect2>
+  <para> This section describes performance tests execution using APD, a 
+    debugging/profiling tool available as a Zend PHP module. </para>
+    <sect2 id="dev.performance.executing.apdinstall">
+      <title>APD Module Installation</title>
+      <para> First thing to do is to install APD's PHP Zend module. You can 
+        download archive <ulink 
+        url="http://pecl.php.net/package/apd">here</ulink>. </para>
+      <para>Follow instructions to compile APD. Then load the module by adding 
+        the following two lines in php.ini: <programlisting><![CDATA[
+zend_extension = <php_home>/lib/php/extensions/no-debug-non-zts-20040412/apd.so 
+apd.dumpdir = /tmp/apd]]></programlisting> On a win32 
+        installation:<programlisting><![CDATA[
+zend_extension_debug_ts = <php_lib_home>\apd.dll
+apd.dumpdir = c:\apd\traces]]></programlisting> Path to 
+        <filename>apd.so</filename> may vary. See also 
+        <filename>README</filename> file in APD archive. </para>
+      <para>You may now activate tracing by adding an empty file trace.apd in 
+        directories <filename>&lt;cartoweb_home&gt;/client</filename> and 
+        <filename>&lt;cartoweb_home&gt;/server</filename>: <screen><![CDATA[
+touch trace.apd]]></screen> </para>
+      <para>When using Cartoweb in direct mode, only one trace file will be 
+        generated. When using Cartoweb in SOAP mode, two trace files will be 
+        generated, one for client and one for server. These files can be found 
+        in directory set in <filename>apd.dumpdir</filename> variable 
+        (<filename>php.ini</filename>, see above). </para>
+    </sect2>
+    <sect2 id="dev.performance.executing.simple">
+      <title>Simple Execution Times</title>
+      <para> To get global execution times, use script 
+        <filename>cwprof.php</filename>: <itemizedlist> <listitem> <para>First 
+        usage: execute script on each trace file. This could be useful to 
+        re-parse an old trace file. If you have separated trace files for 
+        client and server, you will need to execute the script 
+        twice.<programlisting><![CDATA[
+cd <cartoweb_home>/scripts
+php cwprof.php <trace_file>]]></programlisting></para> </listitem> <listitem> 
+        <para> Second usage: execute script on a directory. The script will 
+        parse the most recent trace file. The <filename>-local</filename> 
+        option is used when client and server trace files are located in same 
+        directory. In this case, the two most recent trace files are parsed and 
+        results for client and server are merged.<programlisting><![CDATA[
+cd <cartoweb_home>/scripts 
+php cwprof.php [-local] <trace_directory>]]></programlisting> 
+        </para></listitem></itemizedlist> </para>
+      <para>Script output will look like this (times in milliseconds): <screen><![CDATA[
+Exec client       = 451
+Exec server total = 707
+Exec MS obj       = 472
+Exec MS other     = 85
+Exec total        = 1524]]></screen> <itemizedlist><listitem><para>Exec client: 
+        time elapsed on client. Will be empty if script is executed on a 
+        server-only trace file</para></listitem><listitem><para>Exec server 
+        total: time elapsed on server. It includes <filename>Exec MS 
+        obj</filename> and <filename>Exec MS other</filename> times. Will be 
+        empty if script is executed on a client-only trace file, or if direct 
+        mode is on </para></listitem><listitem><para>Exec MS obj: time elapsed 
+        while creating Mapserver main object. It includes reading the mapfile. 
+        Will be empty is script is executed on a client-only trace file 
+        </para></listitem><listitem><para>Exec MS other: time elapsed in other 
+        Mapserver tasks. Will be empty is script is executed on a client-only 
+        trace file </para></listitem><listitem><para>Exec total: time elapsed 
+        in total. If direct mode is off, it also includes time elapsed in SOAP 
+        data transmission </para></listitem></itemizedlist></para>
+    </sect2>
+    <sect2 id="dev.performance.executing.cachegrind">
+      <title>Graphical Interface (Unix-like)</title>
+      <para>To have more information about execution times and calls stack, you 
+        can use a powerfull graphical viewer called KCachegrind. This tool is 
+        available on Unix-like environments only. On Win32, it can be used via 
+        KDE on CygWin.</para>
+      <para>KCachegrind is included in KDE (package kdesdk). To install it on a 
+        Debian distribution, type:<screen>apt-get install kcachegrind</screen> 
+        </para>
+      <para>APD package includes a script called 
+        <filename>pprof2cachegrind</filename> that can translate a trace 
+        generated by APD to a file in KCachegrind format. To translate a pprof 
+        file, type: <screen><![CDATA[
+./pprof2calltree -f <pprof_file> >/dev/null
+]]></screen> Redirecting to <filename>/dev/null</filename> is needed because 
+        script generates a large number of PHP notices. Then you can open the 
+        resulting file in KCachegrind. </para>
+    </sect2>
  </sect1>
 
 </chapter>
