@@ -16,9 +16,8 @@ require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit test for server query plugin via webservice. 
- *
  * @package Tests
- * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class coreplugins_query_server_RemoteServerQueryTest
                     extends client_CartoserverServiceWrapper {
@@ -26,7 +25,11 @@ class coreplugins_query_server_RemoteServerQueryTest
     function isTestDirect() {
         return true;   
     }
-    
+
+    /**    
+     * Returns a {@link MapRequest} for a query on all selected layers
+     * @return MapRequest
+     */
     private function getMapRequestAllLayers() {
     
         $queryRequest = new QueryRequest();
@@ -46,6 +49,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    /**
+     * Returns a {@link MapRequest} for a query with no attributes
+     * @return MapRequest
+     */
     private function getMapRequestNoAttributes() {
     
         $mapRequest = $this->getMapRequestAllLayers();
@@ -53,6 +60,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    /**
+     * Returns a {@link MapRequest} for a query on some layers
+     * @return MapRequest
+     */
     private function getMapRequestUseInQuery() {
     
         $queryRequest = new QueryRequest();
@@ -81,6 +92,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    /**
+     * Returns a {@link MapRequest} for a query on layer 'grid_defaulthilight'
+     * @return MapRequest
+     */
     private function getMapRequestGrid() {
     
         $queryRequest = new QueryRequest();
@@ -102,6 +117,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    /**
+     * Checks for query with attributes
+     * @param QueryResult
+     */
     private function assertQueryResultWithAttributes($queryResult) {
 
         $this->assertEquals(count($queryResult->tableGroup->tables), 3);
@@ -115,6 +134,10 @@ class coreplugins_query_server_RemoteServerQueryTest
                                         array('1', 'Cé bô le françès'));        
     }
 
+    /**
+     * Checks for query with no attributes
+     * @param QueryResult
+     */
     private function assertQueryResultNoAttributes($queryResult) {
 
         $this->assertEquals(count($queryResult->tableGroup->tables), 3);
@@ -127,6 +150,11 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals($polygonRows[0]->cells, array());        
     }
 
+    /**
+     * Checks for query returning Ids
+     * @param QueryResult
+     * @param array Ids to be checked
+     */
     private function assertQueryResultIds($queryResult, $ids) {
 
         $this->assertEquals(count($queryResult->tableGroup->tables), 1);
@@ -141,6 +169,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         }
     }
 
+    /**
+     * Tests a query on all selected layers
+     * @param boolean
+     */
     function testQueryAllLayers($direct = false) {
 
         $mapRequest = $this->getMapRequestAllLayers();
@@ -151,6 +183,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests a query using Hilight service
+     * @param boolean
+     */
     function testQueryUsingHilight($direct = false) {
 
         $this->setMapId('test_query_hilight.test');
@@ -163,6 +199,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests a query in mask mode
+     * @param boolean
+     */
     function testQueryWithMask($direct = false) {
 
         $mapRequest = $this->getMapRequestAllLayers();
@@ -175,6 +215,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests a query with no attributes
+     * @param boolean
+     */
     function testQueryNoAttributes($direct = false) {
 
         $mapRequest = $this->getMapRequestNoAttributes();
@@ -185,6 +229,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests a query on some layers
+     * @param boolean
+     */
     function testQueryUseInQuery($direct = true) {
 
         $mapRequest = $this->getMapRequestUseInQuery();
@@ -195,6 +243,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests 'union' Ids merge policy
+     * @param boolean
+     */
     function testQueryPolicyUnion($direct = true) {
         
         $mapRequest = $this->getMapRequestGrid();
@@ -208,6 +260,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests 'xor' Ids merge policy
+     * @param boolean
+     */
     function testQueryPolicyXor($direct = true) {
         
         $mapRequest = $this->getMapRequestGrid();
@@ -221,6 +277,10 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    /**
+     * Tests 'intersection' Ids merge policy
+     * @param boolean
+     */
     function testQueryPolicyIntersection($direct = true) {
         
         $mapRequest = $this->getMapRequestGrid();
@@ -234,4 +294,5 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 }
+
 ?>

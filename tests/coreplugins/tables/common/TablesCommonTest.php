@@ -21,6 +21,10 @@ require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/TableRulesRegistry.ph
 class coreplugins_tables_common_TablesCommonTest
                                     extends PHPUnit2_Framework_TestCase {
     
+    /**
+     * Returns an array of interesting {@link TableGroup}s
+     * @return array
+     */
     private function getTableGroups() {
         
         $myTableGroups = array();
@@ -91,18 +95,36 @@ class coreplugins_tables_common_TablesCommonTest
         return $myTableGroups;
     }
     
+    /**
+     * Callback function to test title change
+     * @param string
+     * @param string
+     */
     static function callbackTitleFilter1($id, $title) {
         return "*** $title ***";
     }
 
+    /**
+     * Callback function to test title change
+     * @param string
+     * @param string
+     */
     static function callbackTitleFilter2($id, $title) {
         return "!!! $title !!!";
     }
     
+    /**
+     * Callback function to test title change
+     * @param string
+     * @param string
+     */
     static function callbackTitleFilter3($id, $title) {
         return "%%% $title %%%";
     }
     
+    /**
+     * Tests group title change
+     */
     function testGroupFilter1() {
         
         $registry = new TableRulesRegistry();
@@ -119,6 +141,9 @@ class coreplugins_tables_common_TablesCommonTest
                             '*** Group 2 ***');
     }
     
+    /**
+     * Tests group title change (with rule override)
+     */
     function testGroupFilter2() {
         
         $registry = new TableRulesRegistry();
@@ -137,6 +162,9 @@ class coreplugins_tables_common_TablesCommonTest
                             '!!! Group 2 !!!');
     }
 
+    /**
+     * Tests table title change (with rule override)
+     */
     function testTableFilter() {
         
         $registry = new TableRulesRegistry();
@@ -159,18 +187,39 @@ class coreplugins_tables_common_TablesCommonTest
                                                             '!!! Table 3 !!!');
     }
     
+    /**
+     * Callback function to test column title change
+     * @param string
+     * @param string
+     * @param string
+     */
     static function callbackColumnTitleFilter1($tableId, $columnId, $title) {
         return "*** $title ***";
     }
 
+    /**
+     * Callback function to test column title change
+     * @param string
+     * @param string
+     * @param string
+     */
     static function callbackColumnTitleFilter2($tableId, $columnId, $title) {
         return "!!! $title !!!";
     }
     
+    /**
+     * Callback function to test column title change
+     * @param string
+     * @param string
+     * @param string
+     */
     static function callbackColumnTitleFilter3($tableId, $columnId, $title) {
         return "%%% $title %%%";
     }
     
+    /**
+     * Tests column title change (with rule override)
+     */
     function testColumnFilter() {
         
         $registry = new TableRulesRegistry();
@@ -191,6 +240,9 @@ class coreplugins_tables_common_TablesCommonTest
                                                             '*** Column X ***');
     }
     
+    /**
+     * Tests selection of columns
+     */
     function testColumnSelector() {
     
         $registry = new TableRulesRegistry();
@@ -212,6 +264,9 @@ class coreplugins_tables_common_TablesCommonTest
                                         array());        
     }
     
+    /**
+     * Tests un-selection of columns
+     */
     function testColumnUnselector() {
     
         $registry = new TableRulesRegistry();
@@ -232,10 +287,19 @@ class coreplugins_tables_common_TablesCommonTest
                                         array('column_A', 'column_B'));        
     }
     
+    /**
+     * Callback function to test cell content change
+     * @param string
+     * @param string
+     * @param array
+     */
     static function callbackCellFilter($tableId, $columnId, $inputValues) {
         return $inputValues['column_1'] . '-' . $inputValues['column_3'];
     }
 
+    /**
+     * Tests change in cell contents
+     */
     function testCellFilter() {
     
         $registry = new TableRulesRegistry();
@@ -255,6 +319,12 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7-value_9');        
     }
     
+    /**
+     * Callback function to test cell content change (batch mode)
+     * @param string
+     * @param string
+     * @param array
+     */
     static function callbackCellFilterBatch($tableId, $columnId, $inputValues) {
         $result = array();
         $oldValue = '|';
@@ -266,6 +336,9 @@ class coreplugins_tables_common_TablesCommonTest
         return $result;
     }
 
+    /**
+     * Tests change in cell contents (batch mode)
+     */
     function testCellFilterBatch() {
     
         $registry = new TableRulesRegistry();
@@ -286,6 +359,9 @@ class coreplugins_tables_common_TablesCommonTest
         
     }
 
+    /**
+     * Tests row deletion
+     */
     function testRowUnselector() {
 
         $registry = new TableRulesRegistry();
@@ -306,11 +382,19 @@ class coreplugins_tables_common_TablesCommonTest
         $this->assertEquals(0, $filteredTableGroups[1]->tables[0]->numRows);
     }
 
+    /**
+     * Callback function to test column addition
+     * @param string
+     * @param array
+     */
     static function callbackColumnAdder($tableId, $inputValues) {
         return array('column_4' =>
                      $inputValues['column_1'] . '-' . $inputValues['column_3']);
     }
     
+    /**
+     * Tests single column addition (absolute position)
+     */ 
     function testColumnAdderAbsolute() {
         
         $registry = new TableRulesRegistry();
@@ -335,6 +419,9 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7-value_9');        
     }
     
+    /**
+     * Tests single column addition (relative position)
+     */ 
     function testColumnAdderRelative() {
     
         $registry = new TableRulesRegistry();
@@ -360,6 +447,10 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7-value_9');        
     }
     
+    /**
+     * Checks results for a multiple column addition
+     * @param array
+     */ 
     private function assertColumnAdderMultipleColumn($tableGroups) {
         $this->assertEquals($tableGroups[0]->tables[0]->columnIds,
                             array('column_1', 'column_2', 'column_4',
@@ -381,6 +472,11 @@ class coreplugins_tables_common_TablesCommonTest
                                         'value_7*value_9');        
     }
 
+    /**
+     * Callback function to test multiple column addition
+     * @param string
+     * @param array
+     */
     static function callbackColumnAdderMultipleColumn($tableId, $inputValues) {
         return array('column_4' =>
                      $inputValues['column_1'] . '-' . $inputValues['column_3'],
@@ -388,6 +484,9 @@ class coreplugins_tables_common_TablesCommonTest
                      $inputValues['column_1'] . '*' . $inputValues['column_3']);
     }
     
+    /**
+     * Tests multiple column addition
+     */ 
     function testColumnAdderMultipleColumn() {
     
         $registry = new TableRulesRegistry();
@@ -406,6 +505,11 @@ class coreplugins_tables_common_TablesCommonTest
         $this->assertColumnAdderMultipleColumn($filteredTableGroups);
     }
     
+    /**
+     * Callback function to test column addition (batch mode)
+     * @param string
+     * @param array
+     */
     static function callbackColumnAdderBatch($tableId, $inputValues) {
         $result = array();
         foreach ($inputValues as $inputValue) {
@@ -416,7 +520,10 @@ class coreplugins_tables_common_TablesCommonTest
         }
         return $result;
     }
-
+    
+    /**
+     * Tests column addition (batch mode)
+     */ 
     function testColumnAdderBatch() {
 
         $registry = new TableRulesRegistry();
