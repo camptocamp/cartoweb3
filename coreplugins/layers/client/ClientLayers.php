@@ -597,6 +597,7 @@ class ClientLayers extends ClientPlugin
                                        $refresh = false) {
         if($refresh || !$this->$storageName || 
            !is_array($this->$storageName)) {
+            $this->$storageName = array();
             foreach ($this->getLayers() as $layer) {
                 if (isset($this->layersData[$layer->id]) &&
                     isset($this->layersData[$layer->id]->$stateProperty) &&
