@@ -291,6 +291,29 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         
         $this->assertEquals(33.0, $area);
     }
+    
+    /**
+     * Test Line center calculation
+     */
+    public function testLineCenter() {
+        
+        $line = new Line();
+        $point1 = new Point();
+        $point1->x = 12;
+        $point1->y = 34;
+        $point2 = new Point();
+        $point2->x = 15;
+        $point2->y = 45;
+        $point3 = new Point();
+        $point3->x = 18;
+        $point3->y = 34;
+        $pointArray = array($point1, $point2, $point3);
+        $line->points = $pointArray;
+        
+        $center = $line->getCenter();
+        $this->assertEquals(15, $center->x);
+        $this->assertEquals(34, $center->y);
+    }
 }
 
 ?>

@@ -249,7 +249,13 @@ class Line extends Shape {
      * @see Shape::getCenter()
      */
     public function getCenter() {
-        /* TODO */
+        // returns the middle point of the two extremities
+        $points = $this->points;
+        if (count($points) == 0)
+            return new Point();
+        $middleX = ($points[0]->x + $points[count($points) - 1]->x) / 2;
+        $middleY = ($points[0]->y + $points[count($points) - 1]->y) / 2;
+        return new Point($middleX, $middleY);
     }
      
     /**
