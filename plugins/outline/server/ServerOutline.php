@@ -19,43 +19,71 @@ class ServerOutline extends ServerPlugin {
         return ServerPlugin::TYPE_DRAWING;
     }
 
-    private function draw_rect($msMapObj, $msImage, $rectangle) {
-
-        $outline_layer = @$msMapObj->getLayerByName($this->serverContext->mapInfo->outlineLayer);
-        if (!$outline_layer) {
-            if (@$this->serverContext->mapInfo->outlineLayer)
-                throw new CartoserverException('Outline layer ' . 
-                                               $this->serverContext->mapInfo->outlineLayer . 
+    private function getLayer($msMapObj, $layerName) {
+        
+        $outlineLayer = @$msMapObj->getLayerByName($layerName);
+        if (!$outlineLayer) {
+            if ($layerName) {
+                throw new CartoserverException('Outline layer ' . $layerName . 
                                                ' is not defined in mapfile');
-            else
+            } else {
                 throw new CartoserverException('No outline layer defined in config file');
+            }
         }
-        $class = $outline_layer->getClass(0);
+        return $outlineLayer;
+    }
 
-        $r = ms_newRectObj();
+    private function drawPoint($msMapObj, $point) {
 
-        $r->setextent($rectangle->minx, $rectangle->miny, 
-                      $rectangle->maxx, $rectangle->maxy);
+        $layerName = $this->getConfig()->pointLayer;
+        if (!$layerName) {
+            $layerName = $this->getConfig()->polygonLayer;
+        }
+        
+        $outlineLayer = $this->getLayer($msMapObj, $layerName);
+        $class = $outlineLayer->getClass(0);
 
-        $outline_layer->set('status', MS_ON);
+        $line = ms_newLineObj();
+
+        $line->addXY($point->x, $point->y);
+
+        $p = ms_newShapeObj(MS_SHAPE_POLYGON);
+        $p->add($line);
+
+        $outlineLayer->set('status', MS_ON);
         $class->set('status', MS_ON);
         
-        $r->draw($msMapObj, $outline_layer, $msImage, 0, false);
+        $outlineLayer->addFeature($p);
+        
+    }
+
+    private function drawRectangle($msMapObj, $rectangle) {
+
+        $outlineLayer = $this->getLayer($msMapObj, $this->getConfig()->polygonLayer);
+        $class = $outlineLayer->getClass(0);
+
+        $line = ms_newLineObj();
+
+        $line->addXY($rectangle->minx, $rectangle->miny);
+        $line->addXY($rectangle->minx, $rectangle->maxy);
+        $line->addXY($rectangle->maxx, $rectangle->maxy);
+        $line->addXY($rectangle->maxx, $rectangle->miny);
+        $line->addXY($rectangle->minx, $rectangle->miny);
+
+        $p = ms_newShapeObj(MS_SHAPE_POLYGON);
+        $p->add($line);
+
+        $outlineLayer->set('status', MS_ON);
+        $class->set('status', MS_ON);
+        
+        $outlineLayer->addFeature($p);
 
     }
 
-    private function draw_poly($msMapObj, $msImage, $polygon) {
+    private function drawPolygon($msMapObj, $polygon) {
 
-        $outline_layer = @$msMapObj->getLayerByName($this->serverContext->mapInfo->outlineLayer);
-        if (!$outline_layer) {
-            if (@$this->serverContext->mapInfo->outlineLayer)
-                throw new CartoserverException('Outline layer ' . 
-                                               $this->serverContext->mapInfo->outlineLayer . 
-                                               ' is not defined in mapfile');
-            else
-                throw new CartoserverException('No outline layer defined in config file');
-        }
-        $class = $outline_layer->getClass(0);
+        $outlineLayer = $this->getLayer($msMapObj, $this->getConfig()->polygonLayer);
+        $class = $outlineLayer->getClass(0);
 
         $line = ms_newLineObj();
 
@@ -67,10 +95,10 @@ class ServerOutline extends ServerPlugin {
         $p = ms_newShapeObj(MS_SHAPE_POLYGON);
         $p->add($line);
         
-        $outline_layer->set('status', MS_ON);
+        $outlineLayer->set('status', MS_ON);
         $class->set('status', MS_ON);
         
-        $p->draw($msMapObj, $outline_layer, $msImage);
+        $outlineLayer->addFeature($p);
 
     }
 
@@ -78,21 +106,23 @@ class ServerOutline extends ServerPlugin {
 
         $msMapObj = $this->serverContext->msMapObj;
 
-        $msMainmapImage = $this->serverContext->getMsMainmapImage();
-
         foreach ($requ->shapes as $shape) {
-
             switch (get_class($shape)) {
+            case 'Point':
+                $this->drawPoint($msMapObj, $shape);
+                break;
             case 'Rectangle':
-                $this->draw_rect($msMapObj, $msMainmapImage, $shape);
+                $this->drawRectangle($msMapObj, $shape);
                 break;
             case 'Polygon':
-                $this->draw_poly($msMapObj, $msMainmapImage, $shape);
+                $this->drawPolygon($msMapObj, $shape);
                 break;
             default:
                 throw new CartoserverException("unknown shape type " . get_class($shape));
             }
         }
+        
+        $this->serverContext->msMainmapImage = $msMapObj->draw();
     }
 }
 ?>
