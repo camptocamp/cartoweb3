@@ -154,7 +154,7 @@ class ServerOutline extends ServerPlugin {
         }
         
         if (!$requ->maskMode) {
-            $this->serverContext->msMainmapImage = $msMapObj->draw();
+            $this->serverContext->setMsMainmapImage($msMapObj->draw());
         }
         
         $result = new OutlineResult();

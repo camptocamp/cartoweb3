@@ -88,7 +88,7 @@ class ServerImages extends ServerCoreplugin {
 
         if ($requ->mainmap->isDrawn) { 
             if ($this->isDrawQuery())
-                $this->serverContext->msMainmapImage = $msMapObj->drawQuery();
+                $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
             else
                 $this->serverContext->setMsMainmapImage($msMapObj->draw());
         }
