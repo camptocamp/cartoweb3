@@ -69,7 +69,8 @@ class Encoder {
      * @return string
      */
     static public function encode($text, $context = 'output') {
-        // self::$log->debug("ENCODE($text,$context)");
+        //$array = debug_backtrace();
+        //self::$log->debug("ENCODE($text,$context), " . $array[2]['class'] . "." . $array[2]['function']);     
         return self::getEncoder($context)->encode($text);
     }
 
@@ -79,7 +80,8 @@ class Encoder {
      * @return string
      */
     static public function decode($text, $context = 'output') {
-        // self::$log->debug("DECODE($text,$context)");
+        //$array = debug_backtrace();
+        //self::$log->debug("DECODE($text,$context), " . $array[2]['class'] . "." . $array[2]['function']);     
         return self::getEncoder($context)->decode($text);
     }
     

@@ -161,7 +161,7 @@ class I18n {
      * @return string tranlated text
      */
     static public function gt($text) {
-        $result = self::$i18n->gettext($text);
+        $result = self::$i18n->gettext(Encoder::decode($text, 'config'));
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
         }
@@ -176,7 +176,8 @@ class I18n {
      * @return string translated text
      */
     static public function ngt($text, $plural, $count) {
-        $result = self::$i18n->ngettext($text, $plural, $count);
+        $result = self::$i18n->ngettext(Encoder::decode($text, 'config'),
+                                        Encoder::decode($plural, 'config'), $count);
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
         }

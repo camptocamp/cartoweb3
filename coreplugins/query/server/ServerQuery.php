@@ -80,9 +80,16 @@ class ServerQuery extends ClientResponderAdapter {
     private function resultToTable($result, $layerId, $idAttribute, 
                                    $attributes, $tableFlags) {
         
+        $mapInfo = $this->serverContext->getMapInfo();
+        $layer = $mapInfo->getLayerById($layerId);
+
         $table = new Table();
         $table->tableId = $layerId;
-        $table->tableTitle = $layerId;
+        if (empty($layer->label)) {
+            $table->tableTitle = $layerId;
+        } else {
+            $table->tableTitle = $layer->label;
+        }
         $table->rows = array();
         $table->numRows = 0;
         

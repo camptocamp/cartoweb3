@@ -118,7 +118,10 @@ class ServerContext {
         $this->plugins = array();
 
         // Encoding
-        Encoder::init($this->config);          
+        if (count(Encoder::$encoders) == 0) {
+            // Was not initialized --> SOAP mode
+            Encoder::init($this->config);
+        }          
 
         $this->reset();        
     }
