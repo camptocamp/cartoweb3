@@ -95,14 +95,14 @@ ClientContext:
   </div>
 
   <div id="leftbar">    
-  	{if $locales|default:''}
+    {if $locales|default:''}
     <p>
       :&nbsp;{foreach from=$locales item=locale}
-        <a href="?lang={$locale}">{$locale}</a>&nbsp;:
-      {/foreach}   	  
+      <a href="?lang={$locale}">{$locale}</a>&nbsp;:
+      {/foreach}
     </p>
     {/if}
-    
+
     <p>
       <input type="submit" name="refresh" value="refresh" class="form_button" />
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
