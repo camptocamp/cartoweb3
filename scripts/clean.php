@@ -26,6 +26,9 @@ define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
+require_once(CARTOCOMMON_HOME . 'common/Common.php');
+Common::preInitializeCartoweb(array());
+
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOSERVER_HOME . 'coreplugins/images/common/Images.php');
