@@ -50,25 +50,25 @@
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>panRatio</primary></indexterm>ratio for panning by clicking directional arrows. 
+     <indexterm><primary>panRatio</primary></indexterm>:ratio for panning by clicking directional arrows. 
      Default is 1 (no overlap, no gap). Values below 1 result in an overlap of the old and the new maps; 
      values above 1 in a gap between these two maps.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightZoomIn:</primary></indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
+     <indexterm><primary>weightZoomIn</primary></indexterm>: integer defining display order of the zoom_in tool icon in toolbar 
      (if not specified, default to 10). A negative weight disables the tool.
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightZoomOut:</primary></indexterm>: see weightZoomIn (default to 11)
+     <indexterm><primary>weightZoomOut</primary></indexterm>: see weightZoomIn (default to 11)
     </para>
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>weightPan:</primary></indexterm>: see weightZoomIn (default to 12)
+     <indexterm><primary>weightPan</primary></indexterm>: see weightZoomIn (default to 12)
     </para>
    </listitem>
   </itemizedlist>
