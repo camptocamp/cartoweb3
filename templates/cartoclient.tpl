@@ -22,6 +22,9 @@
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="hidden" name="posted" value="true" />
+  <input type="hidden" name="js_folder_idx" value="0" />
+  <input type="hidden" name="selection_type" />
+  <input type="hidden" name="selection_coords" />
 
   <div id="content">
 
@@ -36,8 +39,6 @@
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
         <td>
-          <input type="hidden" name="selection_type" />
-          <input type="hidden" name="selection_coords" />
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
@@ -93,48 +94,63 @@ ClientContext:
   </div>
 
   <div id="leftbar">    
+    <p>
+      <input type="submit" name="refresh" value="refresh" class="form_button" />
+      <input type="submit" name="reset_session" value="reset_session" class="form_button" />
+    </p>
+    
+    <p id="labels">
+      <span id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
+      id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span>
+    </p>
 
-  {if $keymap_path|default:''}
-  <div id="keymap">
-  <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
-  style="width:{$keymap_width}px;height:{$keymap_height}px;" />
-  </div>
-  {/if}
-
-  {$layers}
-
-  <p>
-    <input type="submit" name="refresh" value="refresh" class="form_button" /><br />
-    <input type="submit" name="reset_session" value="reset_session" class="form_button" />
-  </p>
-
-  {if $hello_active|default:''}
-  <p>Hello plugin test: <br />
-  {$hello_message} <br />
-  <input type="text" name="hello_input" /></p>
-  {/if}
-
-  {if $recenter_active|default:''}
-  {$recenter}
-  {/if}
-
-  {if $shortcuts_active|default:''}
-  {$shortcuts}
-  {/if}
-
-  {if $id_recenter_active|default:''}
-  {$id_recenter}
-  {/if}
-
-  {if $mapsizes_active|default:''}
-  {$mapsizes}
-  {/if}
-
-  {if $outline_active|default:''}
-  {$outline}
-  {/if}
-
-  </div>
+    <div id="container"></div>
+  </div> 
+  
+    <div id="folder1">
+    
+      {if $keymap_path|default:''}
+      <div id="keymap">
+      <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
+      style="width:{$keymap_width}px;height:{$keymap_height}px;" />
+      </div>
+      {/if}
+    
+      {if $hello_active|default:''}
+      <p>Hello plugin test: <br />
+      {$hello_message} <br />
+      <input type="text" name="hello_input" /></p>
+      {/if}
+    
+      {if $recenter_active|default:''}
+      {$recenter}
+      {/if}
+    
+      {if $shortcuts_active|default:''}
+      {$shortcuts}
+      {/if}
+    
+      {if $id_recenter_active|default:''}
+      {$id_recenter}
+      {/if}
+    
+      {if $mapsizes_active|default:''}
+      {$mapsizes}
+      {/if}
+    
+      {if $outline_active|default:''}
+      {$outline}
+      {/if}
+    
+    </div>
+    <!-- end of folder1 -->
+  
+    <div id="folder2">
+      
+      {$layers}
+    
+    </div>
+    <!-- end of folder2 -->
 
 </form>
 
