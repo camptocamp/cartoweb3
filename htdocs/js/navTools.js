@@ -32,10 +32,10 @@ function dhtmlBox_initialize() {
 
   this.resizeAndMoveDivs()
 
-  if (this.dispPos == "top") this.dispPos = -13;
-  else if (this.dispPos == "bottom") this.dispPos = this.height;
-  else this.dispPos = 0;
-  xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPos);
+  if (this.dispPos == "top") this.dispPosPx = -13;
+  else if (this.dispPos == "bottom") this.dispPosPx = this.height;
+  else this.dispPosPx = 0;
+  xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPosPx);
 
 }
 
@@ -57,7 +57,7 @@ function dhtmlBox_resizeAndMoveDivs() {
 }
 
 // the mouse events are managed in this function according to the mapping tool selected
-// shape accepted values : point, rectangle, line, polygon
+// shape accepted values : point, rect_or_point, rectangle, line, polygon
 // action : submit, measure
 // cursorStyle : crosshair, help, move
 // toolName : name of the tool (ie query, zoomin, ...)
@@ -138,7 +138,7 @@ function dhtmlBox_mousedown(evt) {
     }
   }
   if (dhtmlBox.action == 'submit' && (dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line')) {
-    dhtmlBox.drag = false; // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
+    dhtmlBox.drag = true; //false; // to provide the curves draw (ie for polygon or line selection submit, TODO test if curves can be used
   } else {
 	dhtmlBox.drag = true; // the mouse is down
   }
