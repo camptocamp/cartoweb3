@@ -138,7 +138,6 @@
     </para>
    </listitem>
  </sect1>
-</chapter>
 
  <sect1 id="user.location.mapfile"> 
   <title>related elements in mapfile</title>
@@ -146,3 +145,6 @@
    Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
   </para> 
  </sect1> 
+
+</chapter>
+
