@@ -1,11 +1,11 @@
 <?
 /**
- * @package CorePlugins
+ * @package Tests
  * @version $Id$
  */
 
 /**
- * @package CorePlugins
+ * @package Tests
  */
 class ProjectLocationRequest extends Serializable {
 
@@ -23,13 +23,16 @@ class ProjectLocationRequest extends Serializable {
 }
 
 /**
- * @package CorePlugins
+ * @package Tests
  */
 class ProjectLocationResult extends Serializable {
 
     public $locationResult;
     public $projectResult;
 
+    /**
+     * @see Serializable::unserialize()
+     */
     public function unserialize($struct) {
         
         $this->locationResult = self::unserializeObject($struct, 'locationResult');        

@@ -15,41 +15,41 @@ class ServerProjectTableRules extends ServerPlugin {
     /** 
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    static function prefixTableId1($tableId, $tableTitle) {
+    public function prefixTableId1($tableId, $tableTitle) {
         return 'toto_' . $tableTitle;
     }
 
-    static function prefixTableId2($tableId, $tableTitle) {
+    public function prefixTableId2($tableId, $tableTitle) {
         return 'titi_' . $tableTitle;
     }
 
-    static function prefixColumn($columnId, $columnTitle) {
+    public function prefixColumn($columnId, $columnTitle) {
         return 'tata_' . $columnTitle;
     }
 
-    static function computeColumn1($tableId, $inputValues) {
+    public function computeColumn1($tableId, $inputValues) {
         return array('column_4' => $inputValues['column_1']
                                    . '/' . $inputValues['column_3'],
                      'column_5' => 'value1'); 
     }
 
-    static function computeColumn2($tableId, $inputValues) {
+    public function computeColumn2($tableId, $inputValues) {
         return array('column_5' => $inputValues['row_id'] . '-value2',
                      'column_6' => $inputValues['column_2']
                                    . '-' . $inputValues['column_3']               
                                    . '-' . $inputValues['column_4']); 
     }
 
-    static function renameColumn($tableId, $columnId, $columnTitle) {
+    public function renameColumn($tableId, $columnId, $columnTitle) {
         return str_replace('_', ' ', ucfirst($columnId));
     }
 
-    function initialize() {
+    public function initialize() {
             
         $tablesPlugin = $this->serverContext->getPluginManager()->tables;        
         $registry = $tablesPlugin->getTableRulesRegistry();

@@ -12,12 +12,12 @@
 class ClientProjectTable extends ClientPlugin 
                          implements ServerCaller {
 
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
            
         $mapRequest->projectTableRequest = new ProjectTableRequest();
     }
 
-    function initializeResult($queryResult) {
+    public function initializeResult($queryResult) {
         if (empty($queryResult))
             return;
         
@@ -25,7 +25,7 @@ class ClientProjectTable extends ClientPlugin
         $tablesPlugin->addTableGroups($queryResult->tableGroup);
     }
 
-    function handleResult($queryResult) {}                       
+    public function handleResult($queryResult) {}                       
 }
 
 ?>

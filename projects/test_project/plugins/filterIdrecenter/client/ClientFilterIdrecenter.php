@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * @package Tests
+ */
 class ClientFilterIdrecenter extends ClientPlugin
                              implements FilterProvider {
                        
-    function filterPostRequest(FilterRequestModifier $request) {}
+    public function filterPostRequest(FilterRequestModifier $request) {}
     
-    function filterGetRequest(FilterRequestModifier $request) {
+    public function filterGetRequest(FilterRequestModifier $request) {
         
         $id = $request->getValue('id');
         if (!is_null($id)) {

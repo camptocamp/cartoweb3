@@ -13,12 +13,12 @@ class ServerProjectplugin extends ClientResponderAdapter {
     /** 
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function handlePreDrawing($requ) {
+    public function handlePreDrawing($requ) {
         $result = new ProjectpluginResult();
         $result->shuffledMessage = str_rot13($requ->message); 
         return $result;

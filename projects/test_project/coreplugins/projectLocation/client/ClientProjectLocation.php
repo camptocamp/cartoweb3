@@ -1,18 +1,18 @@
 <?php
 /**
- * @package CorePlugins
+ * @package Tests
  * @version $Id$
  */
 
 /**
  * Client part of Location plugin, project testproject
- * @package CorePlugins
+ * @package Tests
  */
 class ClientProjectLocation extends ClientLocation {
 
     private $projectResult;
 
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
 
         parent::buildMapRequest($mapRequest);
         
@@ -22,7 +22,7 @@ class ClientProjectLocation extends ClientLocation {
         $mapRequest->locationRequest = $projectRequest;
     }
 
-    function initializeResult($locationResult) {
+    public function initializeResult($locationResult) {
         if (isset($locationResult->locationResult)) {
             parent::initializeResult($locationResult->locationResult);
         }
@@ -30,7 +30,7 @@ class ClientProjectLocation extends ClientLocation {
         $this->projectResult = $locationResult->projectResult;
     }
 
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
     
         $template->assign('projectmessage', $this->projectResult);
         parent::renderForm($template);

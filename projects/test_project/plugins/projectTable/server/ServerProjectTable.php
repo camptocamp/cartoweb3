@@ -15,41 +15,41 @@ class ServerProjectTable extends ClientResponderAdapter {
     /** 
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    static function prefixTableId1($tableId, $tableTitle) {
+    public function prefixTableId1($tableId, $tableTitle) {
         return 'toto_' . $tableTitle;
     }
 
-    static function prefixTableId2($tableId, $tableTitle) {
+    public function prefixTableId2($tableId, $tableTitle) {
         return 'titi_' . $tableTitle;
     }
 
-    static function prefixColumn($columnId, $columnTitle) {
+    public function prefixColumn($columnId, $columnTitle) {
         return 'tata_' . $columnTitle;
     }
 
-    static function computeColumn1($inputValues) {
+    public function computeColumn1($inputValues) {
         return array('column_4' => $inputValues['column_1']
                                    . '/' . $inputValues['column_3'],
                      'column_5' => 'value1'); 
     }
 
-    static function computeColumn2($inputValues) {
+    public function computeColumn2($inputValues) {
         return array('column_5' => 'value2',
                      'column_6' => $inputValues['column_2']
                                    . '-' . $inputValues['column_3']               
                                    . '-' . $inputValues['column_4']); 
     }
 
-    static function renameColumn($columnId, $columnTitle) {
+    public function renameColumn($columnId, $columnTitle) {
         return str_replace('_', ' ', ucfirst($columnId));
     }
 
-    function handlePreDrawing($requ) {
+    public function handlePreDrawing($requ) {
         $result = new ProjectTableResult();
 
         $myTableGroup = new TableGroup();

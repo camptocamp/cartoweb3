@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * @package Tests
+ */
 class ClientFilterSimple extends ClientPlugin
                          implements FilterProvider {
                        
-    function filterPostRequest(FilterRequestModifier $request) {}
+    public function filterPostRequest(FilterRequestModifier $request) {}
     
-    function filterGetRequest(FilterRequestModifier $request) {
+    public function filterGetRequest(FilterRequestModifier $request) {
         $x = $request->getValue('x');
         if (!is_null($x)) {
             $request->setValue('recenter_x', $x);

@@ -15,12 +15,12 @@ class ClientProjectTableRules extends ClientPlugin {
     /** 
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    static function computeQueryUrl($inputValues) {
+    public function computeQueryUrl($inputValues) {
         $fname = 'no_fname';
         if (isset($inputValues['FNAME']))
             $fname =  $inputValues['FNAME'];
@@ -29,7 +29,7 @@ class ClientProjectTableRules extends ClientPlugin {
                               . '">go to url</a>'); 
     }
 
-    function initialize() {
+    public function initialize() {
             
         $tablesPlugin = $this->cartoclient->getPluginManager()->tables;        
         $registry = $tablesPlugin->getTableRulesRegistry();

@@ -19,30 +19,30 @@ class ClientProjectplugin extends ClientPlugin
     /** 
      * Constructor
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    function loadSession($sessionObject) {
+    public function loadSession($sessionObject) {
         $this->count = $sessionObject;
     }
 
-    function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->count = 0;
     }
-    function saveSession() {
+    public function saveSession() {
         return $this->count;
     }
     
-    function handleHttpPostRequest($request) {
+    public function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
     }
 
-    function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {}
 
-    function buildMapRequest($mapRequest) {
+    public function buildMapRequest($mapRequest) {
         $request = new ProjectpluginRequest();
         if (array_key_exists(self::PROJECTPLUGIN_INPUT, $_REQUEST)) { 
             $request->message = $_REQUEST[self::PROJECTPLUGIN_INPUT];
@@ -52,14 +52,14 @@ class ClientProjectplugin extends ClientPlugin
         $mapRequest->projectpluginRequest = $request;
     }
 
-    function initializeResult($result) {
+    public function initializeResult($result) {
         $result = Serializable::unserializeObject($result, NULL, 'ProjectpluginResult');
         $this->message = $result->shuffledMessage;
     }
 
-    function handleResult($result) {}
+    public function handleResult($result) {}
     
-    function renderForm(Smarty $template) {
+    public function renderForm(Smarty $template) {
         
         $template->assign('projectplugin_active', true);
         $template->assign('projectplugin_message', "message: " . $this->message . 

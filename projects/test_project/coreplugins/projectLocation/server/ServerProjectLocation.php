@@ -1,19 +1,19 @@
 <?
 /**
- * @package CorePlugins
+ * @package Tests
  * @version $Id$
  */
 
 /**
- * @package CorePlugins
+ * @package Tests
  */
 class ServerProjectLocation extends ServerLocation {
 
-    function useExtendedResult() {
+    public function useExtendedResult() {
         return true;
     }
 
-    function useExtendedRequest() {
+    public function useExtendedRequest() {
         return true;
     }
 
