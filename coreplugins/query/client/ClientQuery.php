@@ -74,7 +74,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
-        $this->log->debug("loading session:");
+        $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
 
         $this->queryState = $sessionObject;
@@ -83,8 +83,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     /**
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
-        $this->log->debug("creating session:");
+    public function createSession(MapInfo $mapInfo, 
+                                  InitialMapState $initialMapState) {
+        $this->log->debug('creating session:');
       
         $this->queryState = new QueryState();
         $this->clearSession();
@@ -130,7 +131,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         } 
         
         if (!$mainmapShape instanceof Bbox) 
-            throw new CartoclientException('Only bbox shapes are supported for queries');
+            throw new CartoclientException('Only bbox shapes are supported ' .
+                                           'for queries');
             
         return $mainmapShape;    
     }

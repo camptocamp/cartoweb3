@@ -133,12 +133,13 @@ class ServerMapquery extends ServerPlugin {
         $msLayer->set('status', MS_ON);
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
 
-        $this->log->debug("Query on layer " . $msLayer->name . ": queryByAttributes($idAttribute, $query)");
+        $this->log->debug('Query on layer ' . $msLayer->name . 
+                          ": queryByAttributes($idAttribute, $query)");
                 
         if ($ret == MS_FAILURE) {
-            throw new CartoserverException("Attribute query returned no " .
-                    "results. Layer: $msLayer->name, idAttribute: $idAttribute," .
-                    " query: $query"); 
+            throw new CartoserverException('Attribute query returned no ' .
+                          "results. Layer: $msLayer->name, idAttribute: " .
+                          "$idAttribute, query: $query"); 
         }
 
         $serverContext->checkMsErrors();
@@ -160,8 +161,8 @@ class ServerMapquery extends ServerPlugin {
         if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
             return;
             
-        throw new CartoserverException("Layer to center on has an unsupported " .
-                "connection type: $msLayer->connectiontype");
+        throw new CartoserverException('Layer to center on has an unsupported '
+                                . "connection type: $msLayer->connectiontype");
     }
     
     /**
@@ -182,8 +183,8 @@ class ServerMapquery extends ServerPlugin {
             $idAttribute = $serverContext->getIdAttribute($idSelection->layerId);
         }
         if (is_null($idAttribute)) {
-            throw new CartoserverException("can't find idAttribute for layer " .
-                    "$idSelection->layerId");
+            throw new CartoserverException("can't find idAttribute for layer " 
+                                           . $idSelection->layerId);
         }
         $idType = $idSelection->idType;
         if (is_null($idType)) {
@@ -203,8 +204,9 @@ class ServerMapquery extends ServerPlugin {
         $queryString = self::$queryStringFunction($idAttribute, $idType, $ids); 
         $results = array();
         foreach($queryString as $query) {
-            $new_results = self::queryLayerByAttributes($serverContext, $msLayer, 
-                                             $idAttribute, $query);
+            $new_results = self::queryLayerByAttributes($serverContext,
+                                                        $msLayer, $idAttribute,
+                                                        $query);
             $results = array_merge($results, $new_results);
         }
         return $results;

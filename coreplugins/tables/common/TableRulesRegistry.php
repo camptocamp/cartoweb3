@@ -676,7 +676,8 @@ class CellFilter extends CellRule {
         }
         $indexes = $this->getIndexes($table);
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = array_merge($table->columnIds, array('row_id'));
+            $this->inputColumnIds = array_merge($table->columnIds,
+                                                array('row_id'));
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($row->cells as $index => $value) {
@@ -729,11 +730,13 @@ class CellFilterBatch extends CellFilter {
         $indexes = $this->getIndexes($table);
         $inputValues = array();
         if (is_null($this->inputColumnIds))
-            $this->inputColumnIds = array_merge($table->columnIds, array('row_id'));
+            $this->inputColumnIds = array_merge($table->columnIds,
+                                                array('row_id'));
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($row->cells as $index => $value) {
-                if (in_array($table->columnIds[$index], $this->inputColumnIds)) {
+                if (in_array($table->columnIds[$index],
+                             $this->inputColumnIds)) {
                     $inputValuesRow[$table->columnIds[$index]] = $value;
                 }
             } 
@@ -756,8 +759,8 @@ class CellFilterBatch extends CellFilter {
 class RowUnselector extends TableRule {
 
     /**
-     * @var array list of values for which the rows will be removed if it matched 
-     *  in column columnId.
+     * @var array list of values for which the rows will be removed if it 
+     *  matched in column columnId.
      */
     private $rowIds;
 
@@ -845,8 +848,8 @@ class ColumnAdder extends TableFilter {
      * @param array
      * @param array
      */
-    public function __construct($groupId, $tableId, $columnPosition, $newColumnIds,
-                         $inputColumnIds, $callback) {
+    public function __construct($groupId, $tableId, $columnPosition,
+                                $newColumnIds, $inputColumnIds, $callback) {
         parent::__construct($groupId, $tableId, $callback);
         $this->columnPosition = $columnPosition;        
         $this->newColumnIds   = $newColumnIds;        
@@ -932,7 +935,8 @@ class ColumnAdder extends TableFilter {
             if (in_array('row_id', $this->inputColumnIds)) {
                 $inputValues['row_id'] = $row->rowId;
             }
-            $result = call_user_func($this->callback, $table->tableId, $inputValues);
+            $result = call_user_func($this->callback, $table->tableId,
+                                     $inputValues);
             $newCells = array();
             foreach ($table->columnIds as $index => $columnId) {
                 if (array_key_exists($columnId, $result)) {
@@ -989,10 +993,12 @@ class ColumnAdder extends TableFilter {
                 
                 // Add column to current rule
                 if ($currentArrayKey >= 0) {
-                    $weights[$currentArrayKey]['weights'][$newColumnId] = $weight;
+                    $weights[$currentArrayKey]['weights'][$newColumnId] = 
+                        $weight;
                 } else {
                     $weights[] = array('rule' => $this, 
-                                       'weights' => array($newColumnId => $weight));
+                                       'weights' => array($newColumnId 
+                                                                  => $weight));
                 }
             }  
         }
@@ -1046,7 +1052,8 @@ class ColumnAdderBatch extends ColumnAdder {
             $inputValuesRow = array();
             foreach ($oldColumnIds as $columnId) {
                 if (in_array($columnId, $this->inputColumnIds)) {
-                    $inputValuesRow[$columnId] = $row->cells[$oldIndexes[$columnId]];
+                    $inputValuesRow[$columnId] = 
+                        $row->cells[$oldIndexes[$columnId]];
                 }
             } 
             if (in_array('row_id', $this->inputColumnIds)) {
@@ -1054,7 +1061,8 @@ class ColumnAdderBatch extends ColumnAdder {
             }
             $inputValues[] = $inputValuesRow;
         }
-        $result = call_user_func($this->callback, $table->tableId, $inputValues);
+        $result = call_user_func($this->callback, $table->tableId,
+                                 $inputValues);
         foreach ($result as $key => $resultValue) {
             $newCells = array();
             foreach ($table->columnIds as $index => $columnId) {
@@ -1264,7 +1272,8 @@ class TableRulesRegistry {
 
         if (!is_array($groups)) {
             if (!($groups instanceof TableGroup)) {
-                throw new CartocommonException("Argument type was wrong (should be a TableGroup)");
+                throw new CartocommonException('Argument type was wrong ' .
+                                               '(should be a TableGroup)');
             }        
             $groups = array($groups);
         }

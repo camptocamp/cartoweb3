@@ -49,12 +49,14 @@ class ServerQuery extends ClientResponderAdapter {
 
             $retAttrString = $msLayer->header;
             if (!empty($retAttrString))
-                $this->log->warn("Using compatibility header property for layer instead of " .
-                    "$returnedAttributesMetadataName metadata field, please update your " .
-                    "Mapfile !!");
+                $this->log->warn('Using compatibility header property for layer'
+                                 . " instead of $returnedAttributesMetadataName"
+                                 . ' metadata field, please update your '
+                                 . 'Mapfile!!');
         }
         if (empty($retAttrString)) {
-            $this->log->warn('no filter for returned attributes, returning everything');
+            $this->log->warn('no filter for returned attributes, ' .
+                             'returning everything');
             return array();
         }
         return explode(' ', $retAttrString);
@@ -122,7 +124,8 @@ class ServerQuery extends ClientResponderAdapter {
             
             $tableRow = new TableRow();
             if (!empty($idAttribute)) {
-                $tableRow->rowId = Encoder::encode($shape->values[$idAttribute], 'config');
+                $tableRow->rowId = Encoder::encode($shape->values[$idAttribute],
+                                                   'config');
             }
             $cells = array();
             if (!is_null($tableFlags) && $tableFlags->returnAttributes) {
@@ -278,8 +281,8 @@ class ServerQuery extends ClientResponderAdapter {
         if ($this->getConfig()->drawQueryUsingHilight) {
             
             if (empty($pluginManager->hilight))
-                throw new CartoserverException("hilight plugin not loaded, "
-                    . "and needed for the query hilight drawing");
+                throw new CartoserverException('hilight plugin not loaded, '
+                    . 'and needed for the query hilight drawing');
 
             foreach ($tables as $table) {
                 

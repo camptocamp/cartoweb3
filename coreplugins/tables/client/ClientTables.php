@@ -113,8 +113,10 @@ class ClientTables extends ClientPlugin
         $pluginManager = $this->cartoclient->getPluginManager();
         if (!empty($pluginManager->exportCsv)) {
             $template->assign(array('exportcsv_active' => true,
-                                    'exportcsv_url' =>
-                                    $pluginManager->exportCsv->getExportScriptPath()));
+                                    'exportcsv_url' => $pluginManager->
+                                                         exportCsv->
+                                                         getExportScriptPath(),
+                                    ));
         }
     }
 
