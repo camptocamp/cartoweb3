@@ -8,16 +8,129 @@
 <!-- $Id$ -->
 
 <chapter id="user.query">
- <title>Query configuration</title>
- <subtitle>Plugins query, hilight and table</subtitle>
+  <title>Queries</title>
+  <subtitle>Plugins Query, MapQuery, Hilight and Tables</subtitle>
+  <para>Core plugin Query allows to search for geographical objects. Found 
+    objects are hilighted and if requested related data are returned to client. 
+    </para>
+  <para>Depending on configuration and user choices, queries are executed on 
+    one layer, several layers or all layers currently displayed on map.</para>
+  <para>Queries can be executed on a rectangle selection or using a list of 
+    object IDs. This second way to execute a query is used in particular to 
+    maintain selection persistence: object IDs are stored client-side and sent 
+    to server each time the page is reloaded.</para>
+  <para>Hilighting objects can be done using standard Mapserver queries or 
+    using special Hilight plugin. See <xref linkend="user.query.hilight" /> for 
+    more information.</para>
+  <para>Results are returned and displayed using Tables plugin. See <xref 
+    linkend="user.query.tables" /> for more information.</para>
+  <sect1 id="user.query.client">
+    <title>query.ini (client-side)</title>
+    <para>
+      Here are the options that can be set:
+      <itemizedlist>
+        <listitem>
+          <para>
+            persistentQueries<indexterm><primary>persistentQueries</primary></indexterm>: 
+            if true, queries will be persistent. Note that it will work only 
+            with layers with id_attribute_string set (see <xref 
+            linkend="user.query.mapfile" />) </para>
+        </listitem>
+        <listitem>
+          <para>
+            displayExtendedSelection<indexterm><primary>displayExtendedSelection</primary></indexterm>: 
+            if true, shows form for selection extended functions </para>
+        </listitem>
+        <listitem>
+          <para> 
+            queryLayers<indexterm><primary>queryLayers</primary></indexterm>: 
+            the comma separated list of layers which will appear in the hilight 
+            list. If this list is absent, all msLayers appear in the list. Note 
+            that hilighting only makes sense for vector msLayers, and that an 
+            id_attribute_string must be defined in the mapfile if persistence 
+            is needed (metadata of the layer)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            returnAttributesActive<indexterm><primary>returnAttributesActive</primary></indexterm>: 
+            boolean, if true, the layers attributes are can be asked to server 
+            (default: false)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            weightQuery<indexterm><primary>weightQuery</primary></indexterm>: 
+            integer defining display order of the query tool icon in toolbar 
+            (if not specified, default to 40). Negative weighted tools are 
+            disabled</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+  <sect1 id="user.query.server">
+    <title>query.ini (server-side)</title>
+    <para> Here are the options that can be set: <itemizedlist> 
+      <listitem><para> 
+      drawQueryUsingHilight<indexterm><primary>drawQueryUsingHilight</primary></indexterm>: 
+      if true, the hilight uses the same mechanism as the hilight plugin (which 
+      has to be activated !) TODO more</para> </listitem> </itemizedlist> 
+      </para>
+  </sect1>
+  <sect1 id="user.query.mapfile">
+    <title>Related Elements in Mapfile</title>
+    <para>
+      TODO: id_attribute_string, query_returned_attributes
+    </para>
+      
+  </sect1>
+  <sect1 id="user.query.mapquery">
+    <title>MapServer Query Configuration</title>
+    <para> MapQuery plugin can be used by any plugin to retrieve objects 
+      information from MapServer. </para>
+    <para>Following options can be set in file mapquery.ini 
+      (server-side):
+      <itemizedlist>
+<listitem>
+<para> maxResults<indexterm><primary>maxResults</primary></indexterm>: Maximum   number 
+  of results to handle in the query plugin. This limit is to avoid high load on 
+  the server. It should be the client responsibility not to ask too many 
+  objects to avoid reaching this limit. Ignoring big queries can be done with 
+  the ignoreQueryThreshold parameter, which give a better behaviour for the 
+  user. </para>
+          </listitem>
+        <listitem>
+<para>   ignoreQueryThreshold<indexterm><primary>ignoreQueryThreshold</primary></indexterm>: 
+  Do not take into account the elements selected by a shape (rectangle, 
+  polygon) in a query, if this shape intersects more than ignoreQueryThreshold 
+  objects. It should be less than maxResults to have informative messages to 
+  the user. </para>
+        </listitem>
+</itemizedlist>
 
- <sect1 id="user.query.intro"> 
-  <title>Introduction</title>
-  <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-  </para>
- </sect1>
+      </para>
+  </sect1>
+  <sect1 id="user.query.hilight">
+    <title>Hilight Configuration</title>
+    <para> Hilight plugin can be used by any plugin to hilight objects on the 
+      map. In basic &cartoweb; installation, only Query plugin uses this 
+      functionnality. As Hilight plugin is not a core plugin, it must be 
+      loaded in order to use it with queries.</para>
 
+    <sect2 id="user.query.mapfile.metadata">
+      <title>Meta Data</title>
+     <para>TODO</para>
+     </sect2>
+    <sect2 id="user.query.mapfile.layers">
+     <title>Special Layers</title>
+     <para>TODO</para>
+    </sect2>
+  </sect1>
+  <sect1 id="user.query.tables">
+    <title>Tables Configuration</title>
+    <para> Tables plugin can be used by any plugin to manage, transfer and 
+      display tables structure. In basic &cartoweb; installation, only Query 
+      plugin uses this functionnality. </para>
+    <para>To configure table appearance, use tables rules described in 
+      Developer's Documentation (<xref linkend="dev.new-plugin.write" 
+      />).</para>
+  </sect1>
 </chapter>
