@@ -13,63 +13,162 @@
  <sect1 id="intro.archi.intro">
   <title>Introduction</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
   </para>
  </sect1>
 
  <sect1 id="intro.archi.mapserver">
   <title>Mapserver/MapScript</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   &cartoweb; is based on the <ulink url="http://mapserver.gis.umn.edu/">UMN MapServer</ulink> engine. Interactions between &cartoweb; and MapServer are achieved using the MapServer <ulink url="http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html">PHP/Mapscript</ulink> module.
+  </para>
+  <para>
+   MapServer must be installed prior to any &cartoweb; setup.
+  </para>
+  <para>
+   MapServer resources:
+   <itemizedlist>
+    <listitem>
+     <para>MapServer HomePage: <ulink url="http://mapserver.gis.umn.edu/">http://mapserver.gis.umn.edu/</ulink></para>
+    </listitem>
+    <listitem>
+     <para>MapServer Download: <ulink url="http://mapserver.gis.umn.edu/dload.html">http://mapserver.gis.umn.edu/dload.html</ulink></para>
+    </listitem>
+    <listitem>
+     <para>MapServer Documentation: <ulink url="http://mapserver.gis.umn.edu/doc.html">http://mapserver.gis.umn.edu/doc.html</ulink></para>
+    </listitem>
+    <listitem>
+     <para>MapServer PHP/Mapscript Class Reference <ulink url="http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html">http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html</ulink></para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
  <sect1 id="intro.archi.cs">
-  <title>Web-Service Architecture - Soap</title>
+  <title>Web-Service Architecture - SOAP</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   One of the &cartoweb; specificities is its ability to work along a client-server model as well as a stand-alone application. Thus it is possible to host a &cartoweb; client (known as &cartoclient;) on one machine and have it requesting a &cartoweb; server (known as &cartoserver;), located on a separated server. A &cartoserver; can be called by several &cartoclient; simultaneously. On the other hand, a &cartoclient; can query several &cartoserver; for instance in the frame of different "projects" (<xref linkend="intro.archi.modular.projects"/>).  
   </para>
+  <screenshot>
+   <mediaobject>
+    <imageobject>
+     <imagedata  fileref="images/schema_flux.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+     <phrase>&cartoweb; exchanges scheme</phrase>
+    </textobject>
+   </mediaobject>
+  </screenshot>
+  <para>
+   &cartoweb; offers two "access" modes :
+   <itemizedlist>
+    <listitem>
+     <para>
+      as a web-service. &cartoclient; and &cartoserver; then interact using remote procedures based upon <ulink url="http://www.w3.org/TR/soap12/">SOAP</ulink>.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      as a standalone application. Procedures are then performed directly between &cartoweb; components, bypassing the SOAP calls.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <screenshot>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/schema_architecture1.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+     <phrase>&cartoweb; Direct/SOAP modes</phrase>
+    </textobject>
+   </mediaobject>
+  </screenshot>
+  <screenshot>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/schema_architecture2.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+     <phrase>&cartoweb; Multi-client mode</phrase>
+    </textobject>
+   </mediaobject>
+  </screenshot>
+  <para>
+   Of course it is possible to combine the above architectures as shown on the following figure:
+  </para>
+  <screenshot>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="images/schema_architecture3.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+     <phrase>&cartoweb; composition of architectures</phrase>
+    </textobject>
+   </mediaobject>
+  </screenshot>
  </sect1>
 
  <sect1 id="intro.archi.modular">
   <title>Modularity: Projects and Plugins</title>
-  <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-  </para>
+  <sect2 id="intro.archi.modular.plugins">
+   <title>Plugins</title>
+   <para>
+    &cartoweb; buzzword is modularity. The application is built as a set of bricks that interact with each other. Those bricks are called "plugins". Each plugin performs a special group of tasks such as map browsing, layers management, images properties, users permissions, data objects querying, exportations and much more. &cartoweb; is shipped with a set of standard plugins that can be separately activated or not. It is possible to write your own plugins or customize existing ones as well.
+   </para>
+   <screenshot>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="images/schema_modules.png" format="PNG"/>
+     </imageobject>
+     <textobject>
+      <phrase>&cartoweb; modular architecture</phrase>
+     </textobject>
+    </mediaobject>
+   </screenshot>
+   <para>
+    Regular plugins, including how to configure them, are precisely described in <xref linkend="cartoweb.user"/>. For more information about how to write or customize plugins, see <xref linkend="dev.newplugin"/>.
+   </para>
+  </sect2>
+  <sect2 id="intro.archi.modular.projects">
+   <title>Projects</title>
+   <para>
+    Projects are used to separate the upstream application from its customizations. They contains all the modifications and adaptations you could have performed to make &cartoweb; suit your needs: layout templates, pictos, special configurations, personal plugins etc. 
+   </para>
+   <para>
+    By using projects you can:
+    <itemizedlist>
+     <listitem>
+      <para>keep the general application clean from tricky modifications that would compromise the future upgrades</para>
+     </listitem>
+     <listitem>
+      <para>gather your project files to easily save and copy them to another &cartoweb; instance. For example when copying them from your test server to your production one.</para>
+     </listitem>
+     <listitem>
+      <para>run different projects on the same &cartoweb; instance.</para>
+     </listitem>
+    </itemizedlist>
+    For more information about projects, see <xref linkend="user.project"/>.
+   </para>
+  </sect2>
  </sect1>
  
  <sect1 id="intro.archi.template">
   <title>Templates</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   &cartoweb; layout customization is achieved using the well-known and powerful <ulink url="http://smarty.php.net/">Smarty</ulink> template engine. For more information about templating see <xref linkend="user.template"/>.
   </para>
  </sect1>
  
  <sect1 id="intro.archi.user">
   <title>Users and Roles</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
+   &cartoweb; enables to define and manage different levels of permissions. Thus it is possible to restrict some (or all) functionalities to some users or categories of users. For more information about users and roles see <xref linkend="user.security"/>.
   </para>
  </sect1>
  
  <sect1 id="intro.archi.performance">
   <title>Performance Enhancement</title>
   <para>
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
-   BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla BlaBla 
   </para>
  </sect1>
  
