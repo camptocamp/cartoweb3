@@ -8,10 +8,12 @@
 {html_options name="pdfResolution" options=$pdfResolution_options 
 selected=$pdfResolution_selected}</div>
 
-<div><input type="radio" name="pdfOrientation" value="portrait" 
-{if $pdfOrientation == 'portrait'}checked="checked"{/if} />{t}Portrait{/t}
-<input type="radio" name="pdfOrientation" value="landscape"
-{if $pdfOrientation == 'landscape'}checked="checked"{/if} />{t}Landscape{/t}</div>
+<div><input type="radio" name="pdfOrientation" id="ptt" value="portrait" 
+{if $pdfOrientation == 'portrait'}checked="checked"{/if} /><label 
+for="ptt">{t}Portrait{/t}</label>
+<input type="radio" name="pdfOrientation" id="lsp" value="landscape"
+{if $pdfOrientation == 'landscape'}checked="checked"{/if} /><label
+for="lsp">{t}Landscape{/t}</label></div>
 
 {if $pdfTitle}<div>{t}Title:{/t} <input type="text" name="pdfTitle" value="" /></div>{/if}
 {if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="" /></div>{/if}
