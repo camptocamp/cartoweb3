@@ -15,9 +15,9 @@ class PluginManager {
      * @var Logger
      */
     private $log;
-
-    const CLIENT_PLUGINS = 1;
-    const SERVER_PLUGINS = 2;
+    
+    const CLIENT = 1;
+    const SERVER = 2;
 
     /**
      * Plugin objects storage
@@ -26,6 +26,16 @@ class PluginManager {
     private $plugins = array();
     
     private $helpers = array();
+    
+    /**
+     * @var string
+     */
+    private $rootPath;
+
+    /**
+     * @var int
+     */
+    private $kind;
     
     /**
      * @var ProjectHandler
@@ -37,9 +47,11 @@ class PluginManager {
     /**
      * @param ProjectHandler
      */
-    function __construct($projectHandler) {
+    function __construct($rootPath, $kind, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
+        $this->rootPath = $rootPath;
+        $this->kind = $kind;
         $this->projectHandler = $projectHandler;
     }
 
@@ -56,45 +68,43 @@ class PluginManager {
     
     /**
      * Returns full plugin base path
-     * @param string path to CartoWeb root
      * @param string path to plugins root
      * @param string plugin name
      * @return string
      */
-    private function getBasePluginPath($basePath, $relativePath, $name) {
-            return $basePath . $relativePath . $name . '/';
+    private function getBasePluginPath($relativePath, $name) {
+            return $this->rootPath . $relativePath . $name . '/';
     }
 
     /**
      * Returns plugin's main class file path
      *
      * Also depends on the project.
-     * @param string path to CartoWeb root
      * @param string path to plugins root
-     * @param int type (client or server)
      * @param string plugin name
      * @return string
      */
-    private function getPath($basePath, $relativePath, $type, $name) {
-        $lastPath = $type == self::CLIENT_PLUGINS ? 
+    private function getPath($relativePath, $name) {
+        
+        $lastPath = $this->kind == self::CLIENT ? 
             'client/' : 'server/';
-        return $basePath .
-            $this->projectHandler->getPath($basePath, $relativePath .
-                $name . '/' . $lastPath . $this->getClassName($type, $name) . '.php', '');
+        return $this->rootPath .
+            $this->projectHandler->getPath($relativePath .
+                $name . '/' . $lastPath . $this->getClassName($name) . '.php', '');
     }
 
     /**
      * Returns plugin's common file path 
      *
      * Also depends on the project.
-     * @param string path to CartoWeb root
      * @param string path to plugins root
      * @param string plugin name
      * @return string
      */
-    private function getCommonPath($basePath, $relativePath, $name) {
-        return $basePath .
-            $this->projectHandler->getPath($basePath, $relativePath .
+    private function getCommonPath($relativePath, $name) {
+        
+        return $this->rootPath .
+            $this->projectHandler->getPath($relativePath .
                 $name . '/' . 'common/' . ucfirst($name) . '.php', '');
     }
 
@@ -102,31 +112,30 @@ class PluginManager {
      * Constructs a plugin class name
      *
      * Class names are in the form ClientMyPlugin or ServerMyPlugin.
-     * @param int
      * @param string
      * @return string
      */
-    private function getClassName($type, $name) {
-        $prefix = $type == self::CLIENT_PLUGINS ? 
+    private function getClassName($name) {
+        
+        $prefix = $this->kind == self::CLIENT ? 
             'Client' : 'Server';       
         return $prefix . ucfirst($name);
     }
     
     /**
      * Tries to include plugin PHP scripts
-     * @param string path to CartoWeb root
      * @param string path to plugin root
-     * @param int type (client or server)
      * @param string plugin name
      */
-    private function includeClassFiles($basePath, $relativePath, $type, $name) {
-        $includePath = $this->getPath($basePath, $relativePath, $type, $name);
+    private function includeClassFiles($relativePath, $name) {
+        
+        $includePath = $this->getPath($relativePath, $name);
         $this->log->debug("trying to load class $includePath");
-        $this->log->debug($this->getCommonPath($basePath, $relativePath, $name));
+        $this->log->debug($this->getCommonPath($relativePath, $name));
 
         // FIXME: this won't work in case of non absolute paths
-        if (is_readable($this->getCommonPath($basePath, $relativePath, $name)))
-            include_once($this->getCommonPath($basePath, $relativePath, $name));
+        if (is_readable($this->getCommonPath($relativePath, $name)))
+            include_once($this->getCommonPath($relativePath, $name));
 
         if (is_readable($includePath))
             include_once($includePath);
@@ -136,15 +145,12 @@ class PluginManager {
      * Loads plugins
      * 
      * Includes all plugin files and creates plugin object.
-     * @param string path to CartoWeb root
-     * @param int type (client or server)
      * @param array array of plugin names
      * @param mixed optional initialization arguments
      */
-    public function loadPlugins($basePath, $type, $names, $initArgs=NULL) {
+    public function loadPlugins($names, $initArgs=NULL) {
 
-        // TODO: load per plugin configuration file
-        //  manage plugin dependency, ...
+        // TODO: manage plugin dependency, ...
 
         if (empty($names)) {
             $this->log->warn('no plugin to load');
@@ -153,7 +159,7 @@ class PluginManager {
 
         foreach ($names as $name) {
         
-            $className = $this->getClassName($type, $name);
+            $className = $this->getClassName($name);
 
             if (isset($this->$name)) {   
                 $msg = "Plugin $className already loaded";
@@ -162,12 +168,12 @@ class PluginManager {
 
             // Tries in coreplugins 
             $relativePath = 'coreplugins/';
-            $this->includeClassFiles($basePath, $relativePath, $type, $name);
+            $this->includeClassFiles($relativePath, $name);
 
             if (!class_exists($className)) {
                 // Plugin not found, tries in plugins
                 $relativePath = 'plugins/';
-                $this->includeClassFiles($basePath, $relativePath, $type, $name);
+                $this->includeClassFiles($relativePath, $name);
             }
             
             if (!class_exists($className)) {
@@ -182,7 +188,7 @@ class PluginManager {
                 $name = $plugin->replacePlugin();
             }
 
-            $plugin->setBasePath($this->getBasePluginPath($basePath, $relativePath, $name));
+            $plugin->setBasePath($this->getBasePluginPath($relativePath, $name));
             $plugin->setName($name);
             $plugin->setExtendedName($extendedName);
             

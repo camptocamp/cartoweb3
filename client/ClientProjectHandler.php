@@ -22,6 +22,13 @@ class ClientProjectHandler extends ProjectHandler {
     const PROJECT_ENV_VAR = 'CW3_PROJECT';
 
     /**
+     * @see ProjectHandler::getRootPath()
+     */
+    function getRootPath() {
+        return CARTOCLIENT_HOME;
+    }
+    
+    /**
      * Returns project name
      *
      * Tries to find project name in:
@@ -82,8 +89,10 @@ function smartyResource ($params, $text, &$smarty) {
         $text = $plugin . '/' . $text;
     }
 
+    // FIXME: performance hit: a new object is created on every instanciation
+    //  do another way !! 
     $projectHandler = new ClientProjectHandler();
-    $text = $projectHandler->getWebPath(CARTOCLIENT_HOME, $text);
+    $text = $projectHandler->getWebPath($text);
 
     return $text;
 }

@@ -50,8 +50,7 @@ class MapInfoHandler {
         if(!isset($this->$storage)) {
             $mapName = $this->projectHandler->getMapName();
             $file = ($ext) ? ($mapName . '.' . $ext) : false;
-            $path = $this->projectHandler->getPath(CARTOSERVER_HOME,
-                        $dir . $mapName . '/', $file);
+            $path = $this->projectHandler->getPath($dir . $mapName . '/', $file);
             $this->$storage = CARTOSERVER_HOME . $path . $file;
         }
         return $this->$storage;

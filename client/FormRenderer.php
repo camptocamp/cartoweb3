@@ -71,8 +71,8 @@ class Smarty_Cartoclient extends Smarty {
                 strlen($this->projectHandler->getProjectName()) + 10 - strlen($oldPath));
         }
         $this->template_dir = CARTOCLIENT_HOME 
-                              . $this->projectHandler->getPath(CARTOCLIENT_HOME,
-                                            $oldPath, $resource_name);
+                              . $this->projectHandler->getPath($oldPath, 
+                                                               $resource_name);
         $this->_compile_id = md5($this->template_dir);
         
         return $this->_get_auto_filename($this->compile_dir, $resource_name,

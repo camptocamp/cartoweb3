@@ -89,8 +89,8 @@ class ServerContext {
     function getMapPath() {
         assert(!is_null($this->projectHandler));
         $mapName = $this->projectHandler->getMapName();
-        $path = $this->projectHandler->getPath(CARTOSERVER_HOME, 
-                            'server_conf/' . $mapName . '/', $mapName . '.map');
+        $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', 
+                                               $mapName . '.map');
         return CARTOSERVER_HOME . $path . $mapName . '.map';
     } 
 
@@ -192,18 +192,15 @@ class ServerContext {
     function loadPlugins() {
 
         if (is_null($this->pluginManager)) {
-            $this->pluginManager = new PluginManager($this->projectHandler);
+            $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
+                                 PluginManager::SERVER, $this->projectHandler);
             $corePluginNames = $this->getCorePluginNames();
-            $this->pluginManager->loadPlugins($this->config->getBasePath(), 
-                                              PluginManager::SERVER_PLUGINS,
-                                              $corePluginNames, $this);
+            $this->pluginManager->loadPlugins($corePluginNames, $this);
 
             // FIXME: maybe not in mapinfo
             $pluginNames = $this->getMapInfo()->loadPlugins;
         
-            $this->pluginManager->loadPlugins($this->config->getBasePath(), 
-                                              PluginManager::SERVER_PLUGINS,
-                                              $pluginNames, $this);
+            $this->pluginManager->loadPlugins($pluginNames, $this);
         }
     }
     

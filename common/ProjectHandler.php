@@ -20,6 +20,12 @@ abstract class ProjectHandler {
     public $mapName;
 
     /**
+     * Returns cartoserver or cartoclient root path.
+     * @return string
+     */
+    abstract function getRootPath();
+    
+    /**
      * Returns the project name
      * @return string
      */
@@ -34,12 +40,11 @@ abstract class ProjectHandler {
  
     /**
      * Finds out if a file exists in project
-     * @param string path to CartoWeb root
      * @param string path to file (without project specific path)
      * @param string optional file name
      * @return boolean
      */
-    function isProjectFile ($rootPath, $filePath, $file = '') {
+    private function isProjectFile($filePath, $file = '') {
     
         $projectName = $this->getProjectName();
         if (!$projectName)
@@ -47,7 +52,7 @@ abstract class ProjectHandler {
         
         $path = self::PROJECT_DIR . '/' . $projectName . '/' . $filePath;
 
-        if (!file_exists($rootPath . $path . $file))
+        if (!file_exists($this->getRootPath() . $path . $file))
             return false;
             
         return true;
@@ -58,14 +63,13 @@ abstract class ProjectHandler {
      * 
      * If file exists in current project, path to project file name is returned.
      * Otherwise, default file is returned.
-     * @param string path to CartoWeb root
      * @param string path to file (without project specific path)
      * @param string optional file name
      * @return string     
      */
-    function getPath ($rootPath, $filePath, $file = '') {
+    public function getPath($filePath, $file = '') {
         
-        if (self::isProjectFile($rootPath, $filePath, $file)) {
+        if (self::isProjectFile($filePath, $file)) {
             return self::PROJECT_DIR . '/' . $this->getProjectName() . '/' . $filePath;
         } else {
             return $filePath;
@@ -77,14 +81,13 @@ abstract class ProjectHandler {
      * 
      * If file exists in current project, path to project file name is returned.
      * Otherwise, default file is returned.
-     * @param string path to CartoWeb root
      * @param string path to file (without project specific path)
      * @param string optional file name
      * @return string     
      */
-    function getWebPath ($rootPath, $filePath, $file = '') {
+    public function getWebPath($filePath, $file = '') {
         
-        if (self::isProjectFile($rootPath, 'htdocs/' . $filePath, $file)) {
+        if (self::isProjectFile('htdocs/' . $filePath, $file)) {
             return $this->getProjectName() . '/' . $filePath;
         } else {
             return $filePath;

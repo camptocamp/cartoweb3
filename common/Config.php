@@ -69,7 +69,7 @@ abstract class Config {
         $path = $kind . '_conf/'; 
         if (!@$this->configPath) {
             $this->configPath = $this->getBasePath()
-                . $this->projectHandler->getPath($this->getBasePath(), $path, $file);
+                . $this->projectHandler->getPath($path, $file);
         }
 
         $defaultPath = $this->getBasePath() . $path;
@@ -148,7 +148,7 @@ abstract class PluginConfig extends Config {
         $path = $kind . '_conf/' . $path; 
         if (!@$this->configPath) {
             $this->configPath = $this->getBasePath()
-                . $this->projectHandler->getPath($this->getBasePath(), $path, $file);
+                . $this->projectHandler->getPath($path, $file);
         }
 
         $this->ini_array = array();

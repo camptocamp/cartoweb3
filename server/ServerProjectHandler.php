@@ -24,7 +24,14 @@ class ServerProjectHandler extends ProjectHandler {
         $this->setByMapId($mapId);
         $this->mapId = $mapId;
     }
-
+    
+    /**
+     * @see ProjectHandler::getRootPath()
+     */
+    function getRootPath() {
+        return CARTOSERVER_HOME;
+    }
+    
     function getProjectName () {
         return $this->projectName;
     }

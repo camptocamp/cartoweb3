@@ -16,11 +16,6 @@ set_include_path(get_include_path() . PATH_SEPARATOR .
 
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 
-/*
-function getServerConfig() {
-    return parse_ini_file(CARTOSERVER_HOME . 'server_conf/server.ini');
-}
-*/
 function getSoapAddress($serverConfig) {
     
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -50,11 +45,11 @@ function getWsdlFileContents($name, $projectHandler) {
 
     $pluginFile = 'coreplugins/' . $name . '/common/' . $name . '.wsdl.inc';
     $pluginFile = CARTOSERVER_HOME
-                  . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);           
+                  . $projectHandler->getPath($pluginFile);           
     if (!file_exists($pluginFile)) {
         $pluginFile = 'plugins/' . $name . '/common/' . $name . '.wsdl.inc';
         $pluginFile = CARTOSERVER_HOME
-                      . $projectHandler->getPath(CARTOSERVER_HOME, $pluginFile);            
+                      . $projectHandler->getPath($pluginFile);            
         if (!file_exists($pluginFile)) {
             return NULL;        
         }

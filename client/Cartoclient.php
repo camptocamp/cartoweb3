@@ -339,19 +339,16 @@ class Cartoclient {
      */
     private function initPlugins() {
 
-        $this->pluginManager = new PluginManager($this->projectHandler);
+        $this->pluginManager = new PluginManager(CARTOCLIENT_HOME, 
+                                PluginManager::CLIENT, $this->projectHandler);
 
         $corePluginNames = $this->getCorePluginNames();
 
-        $this->pluginManager->loadPlugins($this->config->getBasePath(),
-                                          PluginManager::CLIENT_PLUGINS,
-                                          $corePluginNames, $this);
+        $this->pluginManager->loadPlugins($corePluginNames, $this);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
 
-        $this->pluginManager->loadPlugins($this->config->getBasePath(), 
-                                          PluginManager::CLIENT_PLUGINS,
-                                          $pluginNames, $this);
+        $this->pluginManager->loadPlugins($pluginNames, $this);
     }
 
     /**
