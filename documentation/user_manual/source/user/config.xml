@@ -25,7 +25,7 @@
           that SOAP requests are well-structured.</para>
       </listitem>
     </itemizedlist>
-    <para> Cache options. See <xref linkend="user.config.cache"/>. </para>
+    <para> Cache options. See <xref linkend="user.caches.config"/>. </para>
     <para> Developer options. See <xref linkend="user.config.developer"/>. 
       </para>
   </sect1>

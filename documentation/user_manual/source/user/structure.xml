@@ -180,13 +180,13 @@
           </listitem>
           <listitem>
             <para> <filename>mapinfo_cache</filename>: Client-side server 
-              configuration cache, see <xref linkend="user.config.cache"/> 
+              configuration cache, see <xref linkend="user.caches.config"/> 
               </para>
           </listitem>
           <listitem>
             <para> <filename>mapresult_cache</filename>: Client requests and 
               associated server results cache, see <xref 
-              linkend="user.config.cache"/> </para>
+              linkend="user.caches.config"/> </para>
           </listitem>
           <listitem>
             <para> <filename>pdf</filename>: Pdf generated cache files </para>
@@ -194,11 +194,11 @@
           <listitem>
             <para> <filename>soapxml_cache</filename>: Client SOAP XML requests 
               and associated server results cache, see <xref 
-              linkend="user.config.cache"/> </para>
+              linkend="user.caches.config"/> </para>
           </listitem>
           <listitem>
             <para> <filename>wsdl_cache</filename>: Client-side WSDL cache, see 
-              <xref linkend="user.config.cache"/> </para>
+              <xref linkend="user.caches.config"/> </para>
           </listitem>
         </itemizedlist>
       </listitem>
