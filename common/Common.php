@@ -161,6 +161,8 @@ class Common {
      */
     private static function isErrorIgnored($errno, $errstr, $errfile, 
                                            $errline) {
+        $errfile = Utils::pathToUnix($errfile);
+
         // ignore mapserver errors
         if (strpos($errstr, '[MapServer Error]') === 0 ||
             strpos($errstr, 'getLayerByName') === 0 ||

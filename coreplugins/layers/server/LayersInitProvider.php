@@ -173,6 +173,8 @@ class LayersInitProvider implements InitProvider {
 
         $stat = stat($permsFrom);
         $perms = $stat['mode'] & 0777;
+        // Looks like mkdir() does not like mixed / and \ delimiters
+        $directory = Utils::pathToPlatform($directory);
         mkdir($directory, $perms, true);
 
         umask($oldUmask);  
@@ -203,6 +205,7 @@ class LayersInitProvider implements InitProvider {
                                                      $msMapObj->keysizey);
             if ($lgdIcon->saveImage($iconAbsolutePath) < 0)
                 throw new CartoserverException("Failed writing $iconAbsolutePath");
+            $this->serverContext->checkMsErrors();
         }
         return $this->getIconUrl($iconRelativePath, true);
     }

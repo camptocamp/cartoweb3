@@ -75,6 +75,32 @@ class Utils {
         }
         return $to_object;
     }
+    
+    /**
+     * Converts a path to unix path delmitors.
+     * 
+     * @param string
+     * @return string
+     */
+    public static function pathToUnix($path) {
+        if (PATH_SEPARATOR == '/')
+            return $path;
+        return str_replace('\\', '/', $path);
+    }
+
+    /**
+     * Converts a path with any delimitors to a path with delimitors used by the
+     * current platform.
+     * 
+     * @param string
+     * @return string
+     */
+    public static function pathToPlatform($path) {
+        // by default, all paths are with '/'
+        if (PATH_SEPARATOR == '/')
+            return $path;
+        return str_replace('/', '\\', $path);
+    }
 }
 
 /**
