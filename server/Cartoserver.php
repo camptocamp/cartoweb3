@@ -91,6 +91,8 @@ class ServerPluginConfig extends PluginConfig {
  */
 class Cartoserver {
     private $log;
+    
+    private $serverContext;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -100,34 +102,38 @@ class Cartoserver {
 
         if ($mapId == '')
             throw new CartoserverException("Invalid map id: $mapId");
-        $serverContext = new ServerContext($mapId);
-        return $serverContext;
+
+        if (!$this->serverContext ||
+            $this->serverContext->projectHandler->mapId != $mapId) {
+            $this->serverContext = new ServerContext($mapId);
+        }
     }
 
     private function doGetMapInfo($mapId) {
-        $serverContext = $this->initializeServerContext($mapId);
 
-        $serverContext->mapInfoHandler->fillDynamic($serverContext);
+        $this->initializeServerContext($mapId);
 
-        $serverContext->loadPlugins();
-        $pluginManager = $serverContext->getPluginManager();
+        $this->serverContext->mapInfoHandler->fillDynamic($this->serverContext);
 
-        $mapInfo = $serverContext->mapInfoHandler->getMapInfo();
+        $this->serverContext->loadPlugins();
+        $pluginManager = $this->serverContext->getPluginManager();
+
+        $mapInfo = $this->serverContext->mapInfoHandler->getMapInfo();
 
         $pluginManager->callPlugins('getInit', '');
         
         return $mapInfo;
     }
 
-    private function generateImage($serverContext) {
+    private function generateImage() {
         // TODO: generate keymap
 
-        $serverContext->msMapObj->set('height', '500');
-        $serverContext->msMapObj->set('width',  '500');
+        $this->serverContext->msMapObj->set('height', '500');
+        $this->serverContext->msMapObj->set('width',  '500');
         
         //$corePlugins->imagesPlugin->drawMainmap($mapRequest->images);
 
-        $msMainMapImage = $serverContext->msMapObj->draw();
+        $msMainMapImage = $this->serverContext->msMapObj->draw();
         $mainMapImagePath = $msMainMapImage->saveWebImage();
         return $mainMapImagePath;
     }
@@ -150,20 +156,20 @@ class Cartoserver {
         $log =& LoggerManager::getLogger(__METHOD__);
 
         // serverContext init
-        $serverContext = $this->initializeServerContext($mapRequest->mapId);
-        $serverContext->loadPlugins();
-        $pluginManager = $serverContext->getPluginManager();
+        $this->initializeServerContext($mapRequest->mapId);
+        $this->serverContext->loadPlugins();
+        $pluginManager = $this->serverContext->getPluginManager();
 
         // Unserialize MapRequest
         $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
 
-        $serverContext->setMapRequest($mapRequest);
+        $this->serverContext->setMapRequest($mapRequest);
 
-        $mapResult = $serverContext->getMapResult();
-        $mapResult->timeStamp = $serverContext->getTimeStamp();
+        $mapResult = $this->serverContext->getMapResult();
+        $mapResult->timeStamp = $this->serverContext->getTimeStamp();
 
         // test new image generation
-        //$mapResult->new_gen = $this->generateImage($serverContext);
+        //$mapResult->new_gen = $this->generateImage();
 
         $pluginManager->callPlugins('internalHandleInit');
 
@@ -192,11 +198,11 @@ class Cartoserver {
         $log->debug("result is:");
         $log->debug($mapResult);
         
-        if ($serverContext->config->developerMode)
+        if ($this->serverContext->config->developerMode)
             $developerMessages = $this->getDeveloperMessages();
         else
             $developerMessages = array();
-        $mapResult->serverMessages = array_merge($serverContext->getMessages(),
+        $mapResult->serverMessages = array_merge($this->serverContext->getMessages(),
                     $developerMessages);
         $log->debug("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return $mapResult;

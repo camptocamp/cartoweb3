@@ -18,9 +18,11 @@ require_once(CARTOSERVER_HOME . 'common/ProjectHandler.php');
 class ServerProjectHandler extends ProjectHandler {
 
     public $projectName;
+    public $mapId;
 
     function __construct ($mapId) {
         $this->setByMapId($mapId);
+        $this->mapId = $mapId;
     }
 
     function getProjectName () {
