@@ -52,7 +52,7 @@ class Point extends Shape {
         $bbox = new Bbox();
 
         if ($margin > 0) {
-            x('todo_point_bbox');
+        	// TODO
         }
 
         $bbox->setFromBbox($this->x, $this->y, $this->x, $this->y);
