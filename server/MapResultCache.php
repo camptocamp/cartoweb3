@@ -36,15 +36,18 @@ class MapResultCache {
 
     private function getMapResultFile($mapRequest) {
         
-        return $this->cartoserver->getServerContext($mapRequest->mapId)->config->writablePath . 
-                            'mapresult_cache/mapResult.' . $this->getDigest($mapRequest);    
+        if (!$this->mapResultFile) {
+            $this->mapResultFile = $this->cartoserver->getServerContext($mapRequest->mapId)->config->writablePath . 
+                            'mapresult_cache/mapResult.' . $this->getDigest($mapRequest);
+        }
+        return $this->mapResultFile;    
     }
 
     private function cacheMapResult($mapRequest) {
          
         $mapResult = $this->getMapResultFromServer($mapRequest);
         $mapResultSerialized = serialize($mapResult);        
-        $amount = file_put_contents($this->mapResultFile, $mapResultSerialized);
+        $amount = file_put_contents($this->getMapResultFile($mapRequest), $mapResultSerialized);
         if ($amount != strlen($mapResultSerialized)) {
             throw new CartoserverException('could not write mapResult cache');
         }
@@ -53,7 +56,7 @@ class MapResultCache {
 
     private function readMapResult($mapRequest) {
 
-        $mapResultSerialized = file_get_contents($this->mapResultFile);
+        $mapResultSerialized = file_get_contents($this->getMapResultFile($mapRequest));
         if ($mapResultSerialized === FALSE) {
             throw new CartoserverException('could not read cached mapResult'); 
         }
@@ -65,20 +68,21 @@ class MapResultCache {
     }
 
     public function getMap($mapRequest) {
+    
+        $mapResultFile = $this->getMapResultFile($mapRequest);
+        
         if ($this->skipCache($mapRequest)) {
             $this->log->debug('not caching mapResult, calling server');
             return $this->getMapResultFromServer($mapRequest);
         }
 
-        $this->mapResultFile = $this->getMapResultFile($mapRequest);
-
-        if (!file_exists($this->mapResultFile)) {
+        if (!file_exists($mapResultFile)) {
             $this->log->debug('first call, not caching mapResult, calling server');
-            touch($this->mapResultFile);
+            touch($mapResultFile);
             return $this->getMapResultFromServer($mapRequest);
         }
         
-        if (filesize($this->mapResultFile) == 0) {
+        if (filesize($mapResultFile) == 0) {
             $this->log->debug('second call, caching mapResult');            
             return $this->cacheMapResult($mapRequest);   
         }

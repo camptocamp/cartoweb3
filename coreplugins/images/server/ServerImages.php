@@ -57,7 +57,7 @@ class ServerImages extends ServerCoreplugin {
     }
 
     private function getImageUrl() {
-        $mapInfo = $this->serverContext->mapInfo;
+        $mapInfo = $this->serverContext->getMapInfo();
         $config = $this->serverContext->config;
             
         $imageUrl = NULL;

@@ -198,7 +198,7 @@ class ServerHilight extends ServerPlugin {
     
     private function hilightLayer(HilightRequest $requ) {
 
-        $mapInfo = $this->serverContext->mapInfo;
+        $mapInfo = $this->serverContext->getMapInfo();
 
         $serverLayer = $mapInfo->getLayerById($requ->layerId);
         if (!$serverLayer)

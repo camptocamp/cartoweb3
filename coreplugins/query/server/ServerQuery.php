@@ -81,7 +81,7 @@ class ServerQuery extends ServerCorePlugin {
         $bbox = $shape;
         $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
         
-        $mapInfo = $this->serverContext->mapInfo;
+        $mapInfo = $this->serverContext->getMapInfo();
         $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
 
         $layerResult = new LayerResult();

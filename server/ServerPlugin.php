@@ -125,7 +125,7 @@ abstract class ServerPlugin extends PluginBase {
         
         $init = $this->getInitValues();
         
-        $this->serverContext->mapInfo->$initName = $init;
+        $this->serverContext->getMapInfo()->$initName = $init;
     }
 }
 

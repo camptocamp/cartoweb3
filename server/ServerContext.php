@@ -19,12 +19,14 @@ require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
 class ServerContext {
     private $log;
 
+    private $mapId;
+    
     private $msMapObj;
     private $maxExtent;
     private $msMainmapImage;
 
-    public $mapInfo;
-    public $mapInfoHandler;
+    private $mapInfo;
+    private $mapInfoHandler;
     
     public $mapRequest;
     public $mapResult;
@@ -37,25 +39,18 @@ class ServerContext {
     function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
+        // Remembers mapId for future MapInfo creation
+        $this->mapId = $mapId;
+
         $this->mapResult = new MapResult();
 
         $this->projectHandler = new ServerProjectHandler($mapId);
 
         $this->config = new ServerConfig($this->projectHandler);
 
-        $this->mapInfoHandler = new MapInfoHandler($this, $mapId, $this->projectHandler);
-        //$this->mapInfoHandler->loadMapInfo($mapId);
-
-        // fills mapinfo with dynamic structures
-        // PERF: maybe to not do it always
-
-        //$this->mapInfoHandler->fillDynamic($this);
-
-        $this->mapInfo = $this->mapInfoHandler->getMapInfo();
-
         $this->plugins = array();  
     }
-
+    
     function setMsMainmapImage($msMainmapImage) {
         $this->msMainmapImage = $msMainmapImage;   
     }
@@ -91,7 +86,7 @@ class ServerContext {
 
     function getTimestamp() {
         $mapPath = $this->getMapPath();
-        $iniPath = $this->mapInfoHandler->getIniPath();
+        $iniPath = $this->getMapInfoHandler()->getIniPath();
         
         $timeStamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
         return (int)$timeStamp;
@@ -123,6 +118,20 @@ class ServerContext {
     public function getMaxExtent() {
             
         return $this->maxExtent;
+    }
+
+    function getMapInfoHandler() {
+        if (!$this->mapInfoHandler) {        
+            $this->mapInfoHandler = new MapInfoHandler($this, $this->mapId, $this->projectHandler);
+        }
+        return $this->mapInfoHandler;
+    }
+
+    function getMapInfo() {
+        if (!$this->mapInfo) {
+            $this->mapInfo = $this->getMapInfoHandler()->getMapInfo();
+        }
+        return $this->mapInfo;
     }
 
     function resetMsErrors() {
@@ -160,10 +169,6 @@ class ServerContext {
         return $this->mapResult;
     }
 
-    function getMapInfo() {
-        return $this->mapInfo;
-    }
-
     // maybe refactorize with cartoclient
     private function getCorePluginNames() {
         return array('images', 'location', 'layers', 'query');
@@ -177,7 +182,7 @@ class ServerContext {
                                           PluginManager::SERVER_PLUGINS, $corePluginNames, $this);
 
         // FIXME: maybe not in mapinfo
-        $pluginNames = $this->mapInfo->loadPlugins;
+        $pluginNames = $this->getMapInfo()->loadPlugins;
         
         $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
                                           PluginManager::SERVER_PLUGINS, $pluginNames, $this);
@@ -192,7 +197,7 @@ class ServerContext {
      */
      
     private function getIdAttributeString($layerId) {
-        $serverLayer = $this->mapInfo->getLayerById($layerId);
+        $serverLayer = $this->getMapInfo()->getLayerById($layerId);
         if (!$serverLayer) 
             throw new CartoserverException("layerid $layerId not found");
         

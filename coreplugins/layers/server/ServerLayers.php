@@ -19,7 +19,7 @@ class ServerLayers extends ServerCoreplugin {
     }
 
     private function getMapInfo() {
-        if(!$this->mapInfo) $this->mapInfo =& $this->serverContext->mapInfo;
+        if(!$this->mapInfo) $this->mapInfo =& $this->serverContext->getMapInfo();
         return $this->mapInfo;
     }
    
