@@ -1,10 +1,33 @@
 #!/usr/local/bin/php -dvariables_order="GPS" -dauto_prepend_file= -dauto_append_file=
 <?php
-
-# [[ !!! Please add description here !!! ]]
+/**
+ * cwprof.php - Computes execution times for client, server and Mapserver
+ *
+ * This command line script takes one or two APD trace files and computes
+ * execution times for the client, the server and Mapserver.
+ *
+ * First usage is used with a single trace file (direct, client or server).
+ * Second usage looks for most recent trace file(s) in a directory.
+ *
+ * "-local" option indicates that client and server trace files are located
+ * in the same directory. In this case, the script will parse the two files
+ * and give a merged result.
+ *
+ * Usage:
+ *    ./cwprof.php <trace_file>
+ * or ./cwprof.php [-local] <trace_dir> 
+ *
+ * Original code was pprofp, a script included in the APD distribution.
+ *
+ * @package Scripts
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ */
 
 error_reporting(0);
 
+/**
+ * Main parsing function
+ */
 function parseFile($fileName) {
     $opt['O'] = 1000000;
     $opt['R'] = '';
@@ -313,6 +336,9 @@ function parseFile($fileName) {
     return $result;
 }
 
+/**
+ * Returns the pos-th last file in a directory
+ */
 function getFile($dir, $pos) {
     $filedirs = scandir($dir);
     $files = array();
@@ -417,6 +443,9 @@ print "Exec MS obj       = " . $result['msobj'] . "\n";
 print "Exec MS other     = " . $result['msother'] . "\n";
 print "Exec total        = " . $result['total'] . "\n";
 
+/**
+ * Prints usage with an error message
+ */
 function usage($message = NULL) {
     if ($message) {
         print "ERROR: $message\n";
