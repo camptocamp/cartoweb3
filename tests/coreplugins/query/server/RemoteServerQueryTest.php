@@ -11,6 +11,7 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
 require_once(CARTOCOMMON_HOME . 'coreplugins/query/common/Query.php');
+require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
 require_once(CARTOCOMMON_HOME . 'common/basic_types.php');
 
 /**
@@ -23,14 +24,70 @@ class coreplugins_query_server_RemoteServerQueryTest
                     extends client_CartoserverServiceWrapper {
 
     function isTestDirect() {
-        return false;   
+        return true;   
+    }
+    
+    private function getQueryRequest1() {
+        $queryRequest = new QueryRequest();
+
+        $bbox = new Bbox();
+        $bbox->setFromBbox(0, 51.5, 0, 51.5);
+        $queryRequest->bbox = $bbox;
+        
+        return $queryRequest;
+    }
+
+    private function assertQueryResult1($queryResult) {
+
+        $this->assertSame(count($queryResult->layerResults), 3);
+        $this->assertSame($queryResult->layerResults[0]->layerId,
+                            "polygon");
+
+        $polygonLayerResults = $queryResult->layerResults[0]->
+                                resultElements; 
+        $this->assertSame(count($polygonLayerResults), 1);
+        $this->assertSame($polygonLayerResults[0]->id, "0");
+        $this->assertSame($polygonLayerResults[0]->values, 
+                                        array("1", "A Polygon"));
+        
     }
 
     function testQueryRequest1($direct = false) {
-    
-        // TODO
+
+        $queryRequest = $this->getQueryRequest1(); 
+
+        $queryRequest->layerIds = array('polygon', 'line', 'point');
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;
+        
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResult1($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
+
+    function testQueryRequestWithLayersRequest($direct = false) {
+
+        $queryRequest = $this->getQueryRequest1(); 
+        
+        $queryRequest->layerIds = NULL;
+
+        $mapRequest = $this->createRequest();
+
+        $mapRequest->queryRequest = $queryRequest;
+        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = 
+                    array('polygon', 'line', 'point');
+        
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResult1($mapResult->queryResult);
+        
+        $this->redoDirect($direct, __METHOD__);
+    }
+
 }
 ?>

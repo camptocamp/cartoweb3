@@ -20,20 +20,19 @@ class ServerQuery extends ServerCorePlugin {
     }
 
     private function getQueryLayerNames($requ) {
-    
-        if ($requ->layerIds && count($requ->layerIds) > 0)
+        if (!is_null($requ->layerIds) && count($requ->layerIds) > 0) {
             return $requ->layerIds;
-        
+        }
         $plugins = $this->serverContext->pluginManager;
         return $plugins->layers->getRequestedLayerNames();
     } 
 
-    function encodingConversion($str) {
+    private function encodingConversion($str) {
         // FIXME: $str is asserted to be iso8851-1 
         return utf8_encode($str);
     }
 
-    function arrayEncodingConversion($array) {
+    private function arrayEncodingConversion($array) {
         $ret = array();
         foreach($array as $str) {
             $ret[] = $this->encodingConversion($str);
@@ -124,8 +123,6 @@ class ServerQuery extends ServerCorePlugin {
     
         $this->log->debug("Get result from request: ");
         $this->log->debug($requ);
-        // FIXME: will go away
-        $requ->bbox = StructHandler::unserialize($requ->bbox, 'Bbox');
 
         $queryArgs = new stdclass();
         // TODO: from config or from request
@@ -137,7 +134,6 @@ class ServerQuery extends ServerCorePlugin {
             $layerResult = $this->queryLayer($queryLayerName, $requ->bbox, $queryArgs);
             $queryResult->layerResults[] = $layerResult;
         }
-        
         return $queryResult;
     }    
 }

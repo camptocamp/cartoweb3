@@ -5,9 +5,15 @@
  */
 
 /**
+ * Abstract serializable
+ */
+require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+
+
+/**
  * @package CorePlugins
  */
-class QueryRequest {
+class QueryRequest extends Serializable {
 
     public $bbox;
     
@@ -16,6 +22,11 @@ class QueryRequest {
     
     // retrieveType: fetch attributes ? fetch shapes ?
     // resultProperties: layer * maxResult * startIndex
+    
+    function unserialize($struct) {
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
+        $this->layerIds = self::unserializeArray($struct, 'layerIds');
+    }
 }
 
 /**
