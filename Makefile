@@ -7,6 +7,27 @@ fetch_libs:
 	-rm -r include
 	wget -O- $(LIBS_URL) | tar xzf -
 
+delete_server:
+	rm -r server
+	rm -r server_conf
+	rm -r coreplugins/*/server
+	rm -r plugins/*/server
+	rm htdocs/server.php
+	rm htdocs/cartoserver.wsdl.php
+
+delete_client:
+	rm -r client
+	rm -r client_conf
+	rm -r templates
+	rm -r templates_c
+	rm -r coreplugins/*/client
+	rm -r coreplugins/*/htdocs
+	rm -r coreplugins/*/templates
+	rm -r plugins/*/client
+	rm -r plugins/*/htdocs
+	rm -r plugins/*/templates
+	rm htdocs/client.php
+
 wwwdata_clean:
 	find www-data -type f|xargs -r rm
 
@@ -33,7 +54,7 @@ perms:
 	chmod 777 log
 	chmod -R 777 www-data
 	chmod 777 templates_c
-	
+
 perms_sudo:
 	sudo chown www-data log
 	sudo chown -R www-data www-data
