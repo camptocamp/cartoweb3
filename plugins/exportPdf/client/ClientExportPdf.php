@@ -10,7 +10,7 @@ require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
  * Provides static conversion tools.
  * @package Plugins
  */
-class PrintConvertor {
+class PrintTools {
 
     /**
      * Converts the distance $dist from $from unit to $to unit.
@@ -39,6 +39,38 @@ class PrintConvertor {
             throw new CartoclientException("unknown dist unit: $from or $to");
         
         return $dist * $ratio;
+    }
+
+    /**
+     * Converts #xxyyzz hexadecimal color codes into RGB.
+     */
+    static function switchHexColorToRgb($color) {
+        return array(hexdec(substr($color, 1, 2)), 
+                     hexdec(substr($color, 3, 2)), 
+                     hexdec(substr($color, 5, 2))
+                     );
+    }
+
+    static function switchColorToRgb($color) {
+        if ($color{0} == '#')
+            return self::switchHexColorToRgb($color);
+
+        if (is_array($color))
+            return $color;
+
+        switch($color) {
+            case 'black': return array(0, 0, 0);
+            case 'white': default: return array(255, 255, 255);
+        }
+    }
+
+    static function getPdfDir() {
+        $dir = CARTOCLIENT_HOME . 'www-data/pdf';
+        if (!is_dir($dir)) {
+            //FIXME: security issue?
+            mkdir($dir, 0777);
+        }
+        return $dir;
     }
 }
 
@@ -88,6 +120,7 @@ class PdfBlock {
     public $fontSize         = 12; // pt
     public $fontItalic       = false;
     public $fontBold         = false;
+    public $fontUnderline    = false;
     public $color            = 'black';
     public $backgroundColor  = 'white';
     public $borderWidth      = 1;
@@ -108,6 +141,7 @@ class PdfBlock {
     public $inLastPages      = false;
     public $width;
     public $height;
+    public $singleUsage      = true;
 }
 
 /**
@@ -118,12 +152,33 @@ interface PdfWriter {
 
     function initializeDocument();
     function addPage();
-    function addTextBlock();
-    function addGfxBlock();
+    function addTextBlock(PdfBlock $block);
+    function addGfxBlock(PdfBlock $block);
     function addTableCell();
     function addTableRow();
     function addTable();
     function finalizeDocument();
+}
+
+/**
+ * @package Plugins
+ */
+class SpaceManager {
+    
+    private $log;
+    private $allocatedAreas = array();
+
+    function __construct() {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
+
+    /**
+     * Returns the nearest available reference point according to the block
+     * positioning properties.
+     */
+    private function checkIn(PdfBlock $block) {
+        
+    }
 }
 
 /**
@@ -205,6 +260,34 @@ class ClientExportPdf extends ExportPlugin {
             return strtolower($request[$reqname]);
 
         return strtolower($this->general->{'default' . ucfirst($name)});
+    }
+
+    /**
+     * Sorts blocks using $property criterium (in ASC order).
+     */
+    private function sortBlocksBy($property) {
+        $blocksVars = array_keys(get_object_vars($this->blockTemplate));
+        if (!in_array($property, $blocksVars))
+            return $this->blocks;
+
+        $sorter = array();
+        foreach ($this->blocks as $id => $block) {
+            $val = $block->$property;
+            if (isset($sorter[$val]))
+                array_push($sorter[$val], $id);
+            else
+                $sorter[$val] = array($id);
+        }
+        
+        ksort($sorter);
+
+        $blocks = array();
+        foreach ($sorter as $val) {
+            foreach ($val as $id)
+                $blocks[$id] = $this->blocks[$id];
+        }
+
+        $this->blocks = $blocks;
     }
 
     /**
@@ -305,7 +388,12 @@ class ClientExportPdf extends ExportPlugin {
         }
 
         unset($iniObjects);
-       
+
+        // sorting blocks (order of processing)
+        $this->sortBlocksBy('weight');
+        $this->sortBlocksBy('zIndex');
+        // TODO: handle inNewPage + inLastPages parameters
+
         $this->log->debug('REQUEST:');
         $this->log->debug($request);
         $this->log->debug('general settings:');
@@ -366,8 +454,6 @@ class ClientExportPdf extends ExportPlugin {
         
         $config = new ExportConfiguration();
 
-        //TODO: if mainmap is not asked but overview and scalebar are,
-        //use the same call to get them.
         if ($isOverview) {
             $renderMap = true;
             $renderScalebar = false;
@@ -384,9 +470,53 @@ class ClientExportPdf extends ExportPlugin {
         
         return $config;
     }
+
+    /**
+     * Returns the absolute URL of $gfx by prepending CartoServer base URL.
+     */
+    private function getGfxPath($gfx) {
+        //TODO: use local path if direct-access mode is used?
+        return $this->cartoclient->getConfig()->cartoserverBaseUrl . $gfx;
+    }
+
+    /**
+     * Updates Mapserver-generated maps PdfBlocks with data returned by 
+     * CartoServer.
+     */
+    private function updateMapBlock($mapObj, $name, $msName = false) {
+        if (!$msName) $msName = $name;
+
+        if (!$mapObj instanceof MapResult ||
+            !$mapObj->imagesResult->$msName->isDrawn ||
+            !isset($this->blocks[$name]))
+            return;
+
+        $map = $mapObj->imagesResult->$msName;
+        $block = $this->blocks[$name];
+
+        $block->content = $this->getGfxPath($map->path);
+        // TODO: convert pixel sizes into absolute dist units depending on resolution
+        $block->width = 100;//$map->width;
+        $block->height = 200;//$map->height;
+        $block->type = 'image';
+    }
     
     function getExport() {
-    
+
+       // Retrieving of data from CartoServer:
+       $mapResult = $this->getExportResult($this->getConfiguration());
+       
+       if (isset($this->blocks['overview'])) {
+           $overviewResult = $this->getExportResult(
+                                 $this->getConfiguration(true));
+       } else {
+           $overviewResult = false;
+       }
+
+       $this->updateMapBlock($mapResult, 'mainmap');
+       $this->updateMapBlock($mapResult, 'scalebar');
+       $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+       
        $pdfClass =& $this->general->pdfEngine;
        
        $pdfClassFile = dirname(__FILE__) . '/' . $pdfClass . '.php';
@@ -399,6 +529,23 @@ class ClientExportPdf extends ExportPlugin {
        $pdf->initializeDocument();
 
        $pdf->addPage();
+
+       foreach ($this->blocks as $block) {
+           switch ($block->type) {
+               case 'image':
+                   $pdf->addGfxBlock($block);
+                   break;
+               case 'text':
+                   $pdf->addTextBlock($block);
+                   break;
+               default:
+                   // ignores block
+               // TODO: handle type = pdf
+           }
+           
+       }
+
+       // TODO: handle blocks to display on other pages
 
        $contents = $pdf->finalizeDocument();
 
