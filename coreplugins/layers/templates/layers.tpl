@@ -2,7 +2,7 @@
 {literal}
 <style type="text/css">
 #layersroot { text-align:left;margin-left:10px; font-size:0.8em;}
-.v, .nov { text-align:left;margin-left:10px;}
+.v, .nov { text-align:left;margin-left:15px;}
 .lk { text-decoration:none;color:black;font-family:courier;font-size:1em;}
 .nov { display:none;}
 </style>
