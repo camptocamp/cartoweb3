@@ -133,6 +133,24 @@ abstract class Serializable {
     }
     
     /**
+     * Tries to guess the class to use from the property being unserialised.
+     * It is useful when dealing with non-php client who to not put "className"
+     * fields in requests, containing the object class to use.
+     * If the property finishes with "Request", it is used as the class name.
+     * 
+     * @param string
+     * @return string
+     * @throws CartoserverException if name could not be guessed
+     */
+    static private function guessClassName($property) {
+        if (strpos($property, 'Request') === false) {
+            throw new CartocommonException('Object to unserialize has no ' .
+                                           'className attribute, and no class name was given'.$type);
+        }
+        return $property;
+    }
+
+    /**
      * Returns an unserialized object from a stdClass structure
      *
      * If object is an instance of {@link Serializable}, calls 
@@ -150,12 +168,15 @@ abstract class Serializable {
             return $value;
         
         if (empty($className)) {
-            $type = $value->className;
+            if (empty($value->className)) {
+                $type = self::guessClassName($property);
+            } else
+                $type = $value->className;
         } else {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            throw new CartocommonException("unserializing non existant class $type");
+            throw new CartocommonException("unserializing non existant class \"$type\"");
         }
         
         $obj = new $type;
