@@ -1,20 +1,35 @@
 <?php
 /**
+ * General configuration classes
+ *
  * @package Common
  * @version $Id$
  */
 
 /**
+ * Main configuration 
+ *
  * @package Common
  */
 abstract class Config {
+
     public $basePath;
     public $projectHandler;
 
     protected $ini_array;
 
+    /**
+     * Returns type of config ('client' or 'server')
+     */
     abstract function getKind();
 
+    /**
+     * Property access method
+     *
+     * Will return value set in .ini files or NULL if it doesn't exist
+     * !! WARNING: do not use empty() to test agains properties returned
+     * by __get(). It will be always empty !!
+     */
     function __get($nm) {
         if (isset($this->ini_array[$nm])) {
             $r = $this->ini_array[$nm];
@@ -24,9 +39,12 @@ abstract class Config {
         }
     }
 
-    // !! WARNING: do not use empty() to test agains properties returned
-    //  by __get(). It will be always empty !!
-
+    /**
+     * Constructor
+     *
+     * Reads project's and default .ini file, sets project handler's mapId
+     * and initializes paths.
+     */
     function __construct($projectHandler) {
 
         $this->projectHandler = $projectHandler;
@@ -71,14 +89,26 @@ abstract class Config {
 }
 
 /**
+ * Configuration for plugins
+ * 
  * @package Common
  */
 abstract class PluginConfig extends Config {
 
     protected $plugin;
 
+    /**
+     * Returns directory where .ini are located
+     *
+     * Directory returned is relative to client_conf/server_conf.
+     */
     abstract function getPath(); 
 
+    /**
+     * Constructor
+     *
+     * Reads project's and default plugin .ini file, if they exist.
+     */
     function __construct($plugin, $projectHandler) {
 
         $this->projectHandler = $projectHandler;

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Main classes for Cartoclient
+ * 
  * @package Client
  * @version $Id$
  */
@@ -31,6 +33,8 @@ require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 
 /**
+ * Cartoclient exception 
+ *
  * @package Client
  */
 class CartoclientException extends Exception {
@@ -38,6 +42,8 @@ class CartoclientException extends Exception {
 }
 
 /**
+ * Stores if mainmap or keymap were clicked, and if yes where
+ * 
  * @package Client
  */
 class CartoForm {
@@ -55,6 +61,8 @@ class CartoForm {
 }
 
 /**
+ * Configuration for client side
+ *
  * @package Client
  */
 class ClientConfig extends Config {
@@ -63,6 +71,11 @@ class ClientConfig extends Config {
         return 'client';
     }
 
+    /** 
+     * Constructor
+     *
+     * If cartoserverBaseUrl is not set, tries to guess it using PHP_SELF.
+     */
     function __construct($projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
         parent::__construct($projectHandler);
@@ -81,6 +94,8 @@ class ClientConfig extends Config {
 }
 
 /**
+ * Configuration for client plugins
+ * 
  * @package Client
  */
 class ClientPluginConfig extends PluginConfig {
@@ -89,10 +104,18 @@ class ClientPluginConfig extends PluginConfig {
         return 'client';
     }
 
+    /**
+     * Returns directory where .ini are located
+     *
+     * Client's .ini are located directly in client_conf directory.
+     */
     function getPath() {
         return '';
     }
 
+    /**
+     * Constructor
+     */
     function __construct($plugin, $projectHandler) {
         $this->basePath = CARTOCLIENT_HOME;
         parent::__construct($plugin, $projectHandler);
@@ -100,21 +123,36 @@ class ClientPluginConfig extends PluginConfig {
 }
 
 /**
+ * Data stored in session 
+ *
  * @package Client
  */
 class ClientSession {
+
+    /**
+     * Plugins data
+     */
     public $pluginStorage;
     
-    // ui specific
+    /**
+     * Tool currently selected
+     */
     public $selectedTool;
     
-    // last request
+    /**
+     * Last request sent to server (useful for export)
+     */
     public $lastMapRequest;
 }
 
+/**
+ * Prefix for session key, mapId is appended before use
+ */
 define('CLIENT_SESSION_KEY', 'client_session_key');
 
 /**
+ * Main Cartoclient class
+ *
  * @package Client
  */
 class Cartoclient {
@@ -144,6 +182,15 @@ class Cartoclient {
         return $this->mapResult;
     }
 
+    /**
+     * Constructor
+     *
+     * Initializes:
+     * - Project handler
+     * - MapInfo cache
+     * - Client objects
+     * - Session
+     */
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
@@ -172,38 +219,48 @@ class Cartoclient {
         $this->clientSession = $clientSession;
     }
 
+    /**
+     * Returns the names of core plugins
+     */
     private function getCorePluginNames() {
 
         return array('location', 'layers', 'images', 'query', 'statictools');
     }
 
+    /**
+     * Initializes core and normal client plugins
+     */
     private function initPlugins() {
-
-        // Two sets of plugins : 
-        // in INCLUDE/cartoclient/plugins
-        // in $LOCAL_PLUGINS
 
         $this->pluginManager = new PluginManager($this->projectHandler);
 
         $corePluginNames = $this->getCorePluginNames();
 
         $this->pluginManager->loadPlugins($this->config->basePath, 'coreplugins/',
-                                          PluginManager::CLIENT_PLUGINS, $corePluginNames, $this);
+                                          PluginManager::CLIENT_PLUGINS,
+                                          $corePluginNames, $this);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
 
         $this->pluginManager->loadPlugins($this->config->basePath, 'plugins/',
-                                          PluginManager::CLIENT_PLUGINS, $pluginNames, $this);
+                                          PluginManager::CLIENT_PLUGINS,
+                                          $pluginNames, $this);
     }
 
-    function callPluginsImplementing($interfaces, $functionName) {
+    /**
+     * Calls plugins implementing an interface
+     */
+    function callPluginsImplementing($interface, $functionName) {
 
         $args = func_get_args();
         array_shift($args);
         array_shift($args);
-        $this->pluginManager->callPluginsImplementing($interfaces, $functionName, $args);
+        $this->pluginManager->callPluginsImplementing($interface, $functionName, $args);
     }
 
+    /**
+     * Calls all plugins
+     */
     function callPlugins($functionName) {
 
         $args = func_get_args();
@@ -211,6 +268,9 @@ class Cartoclient {
         $this->pluginManager->callPlugins($functionName, $args);
     }
 
+    /**
+     * Returns Map Info, get it from cache if not yet set
+     */
     function getMapInfo() {
         if (!$this->mapInfo) {
             $this->mapInfo = $this->mapInfoCache->getMapInfo($this->config->mapId);
@@ -219,6 +279,9 @@ class Cartoclient {
         return $this->mapInfo;
     }
 
+    /**
+     * Save session in a variable different for each mapId 
+     */
     private function saveSession($clientSession) {
     
         $this->log->debug("saving session:");
@@ -228,6 +291,9 @@ class Cartoclient {
         session_write_close();
     }
 
+    /**
+     * Creates new client session object
+     */
     private function createClientSession() {
         $clientSession = new ClientSession();
 
@@ -236,6 +302,9 @@ class Cartoclient {
         return $clientSession;
     }
 
+    /**
+     * Creates new client map clicks information
+     */
     private function createCartoForm() {
 
         $cartoForm = new CartoForm();
@@ -245,10 +314,12 @@ class Cartoclient {
         return $cartoForm;
     }
 
-    //  case one : first time -> create Session
-    //                               createClientSession, ...
-    //  case two:  second time -> load Session
-    //                               loadClientSession, ...
+    /**
+     * Initializes session
+     *
+     * If the mapId's session is not created yet, it is created and initialized.
+     * For creation and reload, plugins are called to magane their session data.
+     */
     private function initializeSession() {
         $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
 
@@ -292,6 +363,9 @@ class Cartoclient {
         $this->cartoForm = $this->createCartoForm();
     }
 
+    /**
+     * Initializes map request with current mapId
+     */
     private function getMapRequest() {
 
         $mapRequest = new MapRequest();
@@ -299,6 +373,11 @@ class Cartoclient {
         return $mapRequest;
     }
     
+    /**
+     * Calls Cartoserver service to get results
+     *
+     * Also checks that MapInfo is up-to-date. If not, MapInfo cache reloads it.
+     */
     private function getMapResultFromRequest($mapRequest) {
 
         $mapResult = $this->cartoserverService->getMap($mapRequest);
@@ -307,6 +386,17 @@ class Cartoclient {
         return $mapResult;        
     }
     
+    /**
+     * Main method
+     *
+     * - Plugins initialization
+     * - HTTP request handling
+     * - Map request construction
+     * - Server call
+     * - Result handling
+     * - Display
+     * - Session save
+     */
     private function doMain() {
 
         $this->callPluginsImplementing('InitProvider', 'dohandleInit', $this->getMapInfo());
@@ -344,6 +434,17 @@ class Cartoclient {
         $this->log->debug("session saved\n");
     }
 
+    /**
+     * Initializes client objects
+     *
+     * Initializes:
+     * - Configuration
+     * - I18n
+     * - Plugins
+     * - Cartoserver service
+     * - HTTP request handler
+     * - Form renderer
+     */
     private function initializeObjects() {
 
         $this->config = new ClientConfig($this->projectHandler);
@@ -363,8 +464,9 @@ class Cartoclient {
     }
         
     /**
-     * Main entry point. Session is started there, so that nothing
-     * should be printed before calling this.
+     * Main entry point.
+     *
+     * Calls doMain() with exception handling.
      */
     function main() {
         
