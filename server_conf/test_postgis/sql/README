@@ -11,6 +11,12 @@ see /usr/share/postgis/README.postgis
 
 4) insert the sql into the database
 
+5) create user www-data:
+createuser www-data
+
+6) set its password to "www-data"
+alter user "www-data" password 'www-data';
+
 5) pay attention to the access rights
 
 grant select on geometry_columns, spatial_ref_sys, lines, points, polygons to "www-data";
