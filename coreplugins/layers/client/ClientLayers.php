@@ -530,7 +530,7 @@ class ClientLayers extends ClientCorePlugin {
                             $this);
 
         $this->layersState->nodesIds = array();
-        $this->mapId = $this->getCartoclient()->getConfig()->mapId;
+        $this->mapId = $this->getCartoclient()->projectHandler->getMapName();
         
         $rootLayer = $this->getLayerByName('root');
         $rootNode = $this->drawLayer($rootLayer);
