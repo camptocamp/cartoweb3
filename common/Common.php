@@ -136,7 +136,8 @@ class Common {
      * 
      * @return boolean true if the given error is to be ignored
      */
-    private static function isErrorIgnored($errno, $errstr, $errfile, $errline) {
+    private static function isErrorIgnored($errno, $errstr, $errfile, 
+                                           $errline) {
         // ignore mapserver errors
         if (strpos($errstr, '[MapServer Error]') === 0 ||
             strpos($errstr, 'getLayerByName') === 0 ||
@@ -145,10 +146,12 @@ class Common {
             strpos($errstr, 'Failed to open map file') === 0)
             return true;
         // ignore log4php notices
-        if (strpos($errfile, 'include/log4php/' ) !== false  && $errno | E_NOTICE)
+        if (strpos($errfile, 'include/log4php/' ) !== false  && 
+            $errno | E_NOTICE)
             return true;
         // ignore smarty notices
-        if (strpos($errfile, '/templates_c/') !== false && $errno | E_NOTICE)
+        if (strpos($errfile, '/templates_c/') !== false && 
+            $errno | E_NOTICE)
             return true;
         // ignores the session started error in Pear Auth
         if (strpos($errfile, 'Auth.php') !== false && $errline == 247)
@@ -159,15 +162,18 @@ class Common {
     /**
      * Error handler for cartoweb.
      */
-    public static function cartowebErrorHandler($errno, $errstr, $errfile, $errline) {
+    public static function cartowebErrorHandler($errno, $errstr, $errfile, 
+                                                $errline) {
         $log =& LoggerManager::getLogger(__METHOD__);
 
         if (self::isErrorIgnored($errno, $errstr, $errfile, $errline))
             return;
     
-        $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n errfile: %s (line %i)", 
+        $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n" .
+                           " errfile: %s (line %i)", 
                            $errno, $errstr, $errfile, $errline));
-        throw new CartocommonException("Error [$errno, $errstr, $errfile, $errline]");
+        throw new CartocommonException(
+            "Error [$errno, $errstr, $errfile, $errline]");
     }
 
     /**
