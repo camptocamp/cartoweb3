@@ -18,8 +18,11 @@ class ClientProjectTableRules extends ClientPlugin {
     }
 
     static function computeQueryUrl($inputValues) {
+        $fname = 'no_fname';
+        if (isset($inputValues['FNAME']))
+            $fname =  $inputValues['FNAME'];
         return array('url' => '<a href="'
-                              . $inputValues['FNAME']
+                              . $fname
                               . '">go to url</a>'); 
     }
 
@@ -31,7 +34,7 @@ class ClientProjectTableRules extends ClientPlugin {
         $registry->addColumnAdder('query', '*',
             new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, -1),
             array('url'), array('FNAME'),
-            array('ClientProjectTableRules', 'computeQueryUrl'));                                                                
+            array($this, 'computeQueryUrl'));                                                                
         
     }    
 }
