@@ -3,3 +3,10 @@ multipleShapes = false
 
 ; if true, will ask for a label after shape is drawn
 labelMode = true
+
+;modify tools weights to change icons display order in the toolbar
+; use negative weights to disable some statictools
+;weightOutlinePoint = -1  ;default 70
+;weightOutlineLine = -1  ;default 71
+;weightOutlineRectangle = -1  ;default 72
+;weightOutlinePoly = -1  ;default 73
