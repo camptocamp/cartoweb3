@@ -11,8 +11,8 @@
 
 <table>
 <tr>
-<td><img src="{$exporthtml_keymap}" /></td>
-<td rowspan="2"><img src="{$exporthtml_mainmap}" /></td>
+<td><img src="{$exporthtml_keymap}" alt="" /></td>
+<td rowspan="2"><img src="{$exporthtml_mainmap}" alt="" /></td>
 </tr>
 <tr>
 <td><table>
