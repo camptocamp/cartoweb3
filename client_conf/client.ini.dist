@@ -31,7 +31,6 @@ allowTests = false
 ;cartoserverHome = "/path/to/cartoserver/"
 
 ; The base url of the cartoserver
-; If it is not set, a default location will be guessed
 ;cartoserverBaseUrl = "http://your/path/to/cartoserver/"
 
 ; Prefix where a reverse proxy has to be used to access images.
