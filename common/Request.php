@@ -1,17 +1,34 @@
 <?php
 /**
+ * Classes for SOAP transfers
  * @package Common
  * @version $Id$
  */
 
 /**
+ * Request sent from client to server
  * @package Common
  */
 class MapRequest extends Serializable {
 
+    /** 
+     * @var string
+     */
     public $mapId;
+    
+    /**
+     * @var LocationRequest
+     */
     public $locationRequest;
+    
+    /**
+     * @var ImagesRequest
+     */
     public $imagesRequest;
+    
+    /**
+     * @var LayersRequest
+     */
     public $layersRequest;
 
     function unserialize($struct) {
@@ -30,15 +47,29 @@ class MapRequest extends Serializable {
 
 /**
  * A class for messages returned by the server.
+ *
  * Theses messages are intended to be displayed to the client.
+ * @package Common
  */
 class ServerMessage extends Serializable {
+
     const CHANNEL_USER = 1;
     const CHANNEL_DEVELOPER = 2;
     
-    public $message;   
+    /**
+     * @var string
+     */
+    public $message;
+    
+    /**
+     * @var int  
+     */
     public $channel;
 
+    /**
+     * @param string
+     * @param int
+     */
     function __construct($message = NULL, $channel = self::CHANNEL_USER) {
         $this->message = $message;
         $this->channel = $channel;
@@ -51,13 +82,30 @@ class ServerMessage extends Serializable {
 }
 
 /**
+ * Result sent from server to client
  * @package Common
  */
 class MapResult extends Serializable {
 
+    /**
+     * @var int
+     */
     public $timeStamp;
+    
+    /**
+     * @var LocationResult
+     */
     public $locationResult;
+    
+    /**
+     * @var ImagesResult
+     */
     public $imagesResult;
+    
+    /**
+     * Array of ServerMessage
+     * @var array
+     */
     public $serverMessages;
 
     function unserialize($struct) {

@@ -1,16 +1,26 @@
 <?php
 /**
+ * Structure management tools
  * @package Common
  * @version $Id$
  */
 
 /**
+ * Structure management class
  * @package Common
  */
 class StructHandler {
+
     const CONTEXT_INI = 1;
     const CONTEXT_OBJ = 2;
 
+    /**
+     * Returns a structure from an array loaded from a .ini
+     *
+     * Value of key my.little.key will be stored in structure->my->little->key. 
+     * @param array
+     * @return stdClass
+     */
     static function loadFromArray($array) {
         $struct = new stdclass();
 
@@ -23,14 +33,28 @@ class StructHandler {
         return $struct;
     }
 
+    /**
+     * Returns a structure with content of a .ini file
+     * @see loadFromArray()
+     * @param string file path
+     * @return stdClass
+     */
     static function loadFromIni($iniFile) {
         $ini_array = parse_ini_file($iniFile);
 
         return self::loadFromArray($ini_array);
     }
 
-    // Maybe does not belong to struct handler, as it can be used on
-    // any structure (to be tested).
+    /**
+     * Merges two objects
+     * 
+     * Maybe does not belong to struct handler, as it can be used on
+     * any structure (to be tested).
+     * @param mixed first object
+     * @param mixed second object
+     * @param boolean if true, prints no warnings
+     * @return mixed result of merge
+     */
     static function mergeOverride($object, $override, $mute = false) {
          $new_object = clone $object;
          
@@ -55,4 +79,5 @@ class StructHandler {
          return $new_object;
     }
 }
+
 ?>
