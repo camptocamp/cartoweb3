@@ -323,13 +323,44 @@ function get($user) {
 
 // Setup projects, plugins, coreplugins:
 function setupProjects() {
-   $projdirs =  array('projects', 'plugins', 'coreplugins');
-   foreach($projdirs as $dir) {
-       foreach(getProjects($dir) as $project) {
-           if (is_dir($dir.'/'.$project.'/htdocs'))
-               link_or_copy('../'.$dir.'/'.$project.'/htdocs', 'htdocs/'.$project);
-       }
-   }
+    // Create symlinks to www-data icons, images, and pdf sub-directories
+    if (@symlink('../www-data/icons', './htdocs/icons'))
+        echo "\"../www-data/icons\" linked from \"./htdocs/icons\"\n";
+    if (@symlink('../www-data/images', './htdocs/images'))
+        echo "\"../www-data/images\" linked from \"./htdocs/images\"\n";
+    if (@symlink('../www-data/pdf', './htdocs/pdf'))
+        echo "\"../www-data/pdf\" linked from \"./htdocs/pdf\"\n";
+
+    if (!is_dir('htdocs/gfx/icons')) mkdir('htdocs/gfx/icons');
+
+    $projdirs =  array('projects', 'plugins', 'coreplugins');
+    foreach($projdirs as $dir) {
+        $pList = getProjects($dir);
+        foreach($pList as $project) {
+            if (!is_dir('./htdocs/'.$project)) @mkdir('htdocs/'.$project);
+            $d = @opendir($dir.'/'.$project.'/htdocs');
+            if ($d) {
+                while ($file=readdir($d)) {
+                    if($file!="." && $file!=".." && $file != 'CVS') {
+                        // link_or_copy htdocs elements from projects to core
+                        link_or_copy('../'.$dir.'/'.$project.'/htdocs/'.$file, 'htdocs/'.$project.'/'.$file);
+                    }
+                }
+            }
+
+            $d = @opendir($dir.'/'.$project.'/server_conf');
+            if ($d)  {
+                while ($file=readdir($d)) {
+                    if($file!="." && $file!=".." && $file != 'CVS') {
+                        if (!is_dir('htdocs/gfx/icons/'.$project)) mkdir('htdocs/gfx/icons/'.$project);
+                        // link_or_copy icons from projects to core
+                        link_or_copy('../'.$dir.'/'.$project.'/server_conf/'.$file.'/icons', 'htdocs/gfx/icons/'.$project.'/'.$file);
+                    }
+                }
+            }
+        }
+    }
+    // Link_or_copy projects icons
 }
 
 // Get the list of projects in directory $dir
