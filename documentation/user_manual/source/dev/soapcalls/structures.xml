@@ -24,19 +24,6 @@
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
-<complexType name="ArrayOfLayerId">
-  <complexContent>
-    <restriction base="enc11:Array">
-      <attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/>
-    </restriction>
-  </complexContent>
-</complexType>]]></programlisting>
-      <itemizedlist>
-        <listitem>
-          <para>array - list of layer IDs</para>
-        </listitem>
-      </itemizedlist>
-      <programlisting><![CDATA[
 <complexType name="Dimension">
   <all>
     <element name="width" type="xsd:int"/>

@@ -49,6 +49,44 @@ stdClass Object
           [maxy] => 298000
         )
     )
+  [initialMapStates] => Array
+    (
+      [0] => stdClass Object
+        (
+          [id] => default
+          [location] => stdClass Object
+            (
+              [bbox] => stdClass Object
+                (
+                  [minx] => 470000
+                  [miny] => 50000
+                  [maxx] => 860000
+                  [maxy] => 320000
+                )
+            )
+          [layers] => Array
+            (
+              [0] => stdClass Object
+                (
+                  [id] => swiss_layer_1
+                  [hidden] => 
+                  [frozen] => 
+                  [selected] => 1
+                  [unfolded] => 
+                )
+              [1] => stdClass Object
+                (
+                  [id] => swiss_layer_2
+                  [hidden] => 1
+                  [frozen] => 
+                  [selected] => 1
+                  [unfolded] => 
+                )
+            )
+        )
+    )
+  [layersInit] => stdClass Object
+  (
   [notAvailableIcon] => gfx/icons/swiss_project/swiss/na.png
   [notAvailablePlusIcon] => gfx/icons/swiss_project/swiss/nap.png
   [notAvailableMinusIcon] => gfx/icons/swiss_project/swiss/nam.png
@@ -105,41 +143,6 @@ stdClass Object
           [link] => 
           [metadata] => Array
             (
-            )
-        )
-  [initialMapStates] => Array
-    (
-      [0] => stdClass Object
-        (
-          [id] => default
-          [location] => stdClass Object
-            (
-              [bbox] => stdClass Object
-                (
-                  [minx] => 470000
-                  [miny] => 50000
-                  [maxx] => 860000
-                  [maxy] => 320000
-                )
-            )
-          [layers] => Array
-            (
-              [0] => stdClass Object
-                (
-                  [id] => swiss_layer_1
-                  [hidden] => 
-                  [frozen] => 
-                  [selected] => 1
-                  [unfolded] => 
-                )
-              [1] => stdClass Object
-                (
-                  [id] => swiss_layer_2
-                  [hidden] => 1
-                  [frozen] => 
-                  [selected] => 1
-                  [unfolded] => 
-                )
             )
         )
     )
