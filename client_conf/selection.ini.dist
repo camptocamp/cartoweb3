@@ -2,3 +2,5 @@
 ;  if this list is not set, all layers are proposed in the list
 selectionLayers = grid_defaulthilight, grid_classhilight, grid_layerhilight
 
+; if true, shows the result attributes
+retrieveAttributesActive = true
