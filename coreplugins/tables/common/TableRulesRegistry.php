@@ -258,7 +258,8 @@ abstract class TableRule extends GroupRule {
     }
 
     /**
-     * Return the indexes
+     * Returns a map of index id's to their offset in the columnIds array.
+     * 
      * @param Table
      * @return array
      */
@@ -662,6 +663,8 @@ class CellFilter extends CellRule {
             return;
         }
         $indexes = $this->getIndexes($table);
+        if (is_null($this->inputColumnIds))
+            $this->inputColumnIds = $table->columnIds;
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($row->cells as $index => $value) {
@@ -713,6 +716,8 @@ class CellFilterBatch extends CellFilter {
         }
         $indexes = $this->getIndexes($table);
         $inputValues = array();
+        if (is_null($this->inputColumnIds))
+            $this->inputColumnIds = $table->columnIds;
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($row->cells as $index => $value) {
@@ -840,15 +845,18 @@ class ColumnAdder extends TableFilter {
      */
     function applyRule($table, $params) {
         
+        $oldColumnIds = $table->columnIds;
         $oldIndexes = $this->getIndexes($table);
         $this->addNewColumns($table, $params);           
  
         if ($table->numRows == 0) {
             return;
         }
+        if (is_null($this->inputColumnIds))
+            $this->inputColumnIds = $oldColumnIds;
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
-            foreach ($table->columnIds as $columnId) {
+            foreach ($oldColumnIds as $columnId) {
                 if (in_array($columnId, $this->inputColumnIds)) {
                     $inputValues[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
@@ -956,6 +964,7 @@ class ColumnAdderBatch extends ColumnAdder {
      */
     function applyRule($table, $params) {
 
+        $oldColumnIds = $table->columnIds;
         $oldIndexes = $this->getIndexes($table);
         $this->addNewColumns($table, $params);
         
@@ -963,9 +972,11 @@ class ColumnAdderBatch extends ColumnAdder {
             return;
         }
         $inputValues = array();
+        if (is_null($this->inputColumnIds))
+            $this->inputColumnIds = $oldColumnIds;
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
-            foreach ($table->columnIds as $columnId) {
+            foreach ($oldColumnIds as $columnId) {
                 if (in_array($columnId, $this->inputColumnIds)) {
                     $inputValuesRow[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
