@@ -39,6 +39,7 @@ class MapInfoHandler {
                 $layer->label = $layer->id; 
             if ($layer instanceof Layer && empty($layer->msLayer))
                 $layer->msLayer = $layer->id; 
+            $layer->label = utf8_encode($layer->label);
         }
         
         return $mapInfo;
