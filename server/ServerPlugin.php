@@ -27,6 +27,10 @@ abstract class ServerPlugin extends PluginBase {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    public function getServerContext() {
+        return $this->serverContext;   
+    }
+
     /**
      * @param initArgs serverContext
      */
