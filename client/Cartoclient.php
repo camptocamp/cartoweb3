@@ -19,6 +19,8 @@ require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
 
+require_once(CARTOCOMMON_HOME . 'common/Common.php');
+require_once(CARTOCOMMON_HOME . 'common/Utils.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
@@ -37,7 +39,7 @@ require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
  * Cartoclient exception 
  * @package Client
  */
-class CartoclientException extends Exception {
+class CartoclientException extends CartowebException {
 
 }
 
@@ -77,6 +79,10 @@ class ClientConfig extends Config {
         return 'client';
     }
 
+    function getBasePath() {
+        return CARTOCLIENT_HOME;
+    }
+
     /** 
      * Constructor
      *
@@ -84,7 +90,6 @@ class ClientConfig extends Config {
      * @param ClientProjectHandler Cartoclient's project handler
      */
     function __construct($projectHandler) {
-        $this->basePath = CARTOCLIENT_HOME;
         parent::__construct($projectHandler);
         
         if (is_null($this->cartoserverBaseUrl)) {
@@ -110,6 +115,10 @@ class ClientPluginConfig extends PluginConfig {
         return 'client';
     }
 
+    function getBasePath() {
+        return CARTOCLIENT_HOME;
+    }
+    
     /**
      * Returns directory where .ini are located
      *
@@ -126,7 +135,6 @@ class ClientPluginConfig extends PluginConfig {
      * @param ClientProjectHandler Cartoclient's project handler
      */
     function __construct($plugin, $projectHandler) {
-        $this->basePath = CARTOCLIENT_HOME;
         parent::__construct($plugin, $projectHandler);
     }
 }
@@ -329,13 +337,13 @@ class Cartoclient {
 
         $corePluginNames = $this->getCorePluginNames();
 
-        $this->pluginManager->loadPlugins($this->config->basePath,
+        $this->pluginManager->loadPlugins($this->config->getBasePath(),
                                           PluginManager::CLIENT_PLUGINS,
                                           $corePluginNames, $this);
 
         $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
 
-        $this->pluginManager->loadPlugins($this->config->basePath, 
+        $this->pluginManager->loadPlugins($this->config->getBasePath(), 
                                           PluginManager::CLIENT_PLUGINS,
                                           $pluginNames, $this);
     }
@@ -498,7 +506,7 @@ class Cartoclient {
 
         $this->callPluginsImplementing('InitUser', 'handleInit', $this->getMapInfo());
                         
-        if (@$_REQUEST['posted']) {
+        if (!empty($_REQUEST['posted'])) {
         
             // Maps clicks cannot be modified by filters
             $this->cartoForm = 

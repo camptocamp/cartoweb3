@@ -188,14 +188,14 @@ class ServerContext {
         if (is_null($this->pluginManager)) {
             $this->pluginManager = new PluginManager($this->projectHandler);
             $corePluginNames = $this->getCorePluginNames();
-            $this->pluginManager->loadPlugins($this->config->basePath, 
+            $this->pluginManager->loadPlugins($this->config->getBasePath(), 
                                               PluginManager::SERVER_PLUGINS,
                                               $corePluginNames, $this);
 
             // FIXME: maybe not in mapinfo
             $pluginNames = $this->getMapInfo()->loadPlugins;
         
-            $this->pluginManager->loadPlugins($this->config->basePath, 
+            $this->pluginManager->loadPlugins($this->config->getBasePath(), 
                                               PluginManager::SERVER_PLUGINS,
                                               $pluginNames, $this);
         }

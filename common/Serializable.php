@@ -6,7 +6,7 @@
  */
  
 require_once(CARTOCOMMON_HOME . 'common/Utils.php');
-require_once(CARTOCOMMON_HOME . 'common/MapInfo.php'); // for CartocommonException
+require_once(CARTOCOMMON_HOME . 'common/Common.php'); // for CartocommonException
 
 /**
  * Abstract class for all classes that can be serialized

@@ -16,13 +16,6 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
 /**
- * Exception for common classes
- * @package Common
- */
-class CartocommonException extends Exception {
-}
-
-/**
  * Base class for layers
  * @package Common
  */

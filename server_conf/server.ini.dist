@@ -1,6 +1,9 @@
 ; cartoserver configuration file
 
-; disables the caching of wsdl
+; if true, WSDL will be used for receiving SOAP requests
+useWsdl = false
+
+; disables the caching of wsdl (ignored if useWsdl is false)
 noWsdlCache = false
 
 ; disables the caching of getMap requests

@@ -112,16 +112,16 @@ class CartoserverService {
             $mapResult = $this->callDirect($function, $argument);
         } else {
 
-            if (!$this->config->noWsdlCache) {
-                ini_set('soap.wsdl_cache_enabled', '0');
-            }
-            $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
-            if (is_writable($wsdlCacheDir))
-                ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
-
             $options = $replayTrace === true ? array('trace' => 1) : array();
             
-            if (@$this->config->cartoserverUseWsdl) {
+            if (@$this->config->useWsdl) {
+                if (!$this->config->noWsdlCache) {
+                    ini_set('soap.wsdl_cache_enabled', '0');
+                }
+                $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
+                if (is_writable($wsdlCacheDir))
+                    ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+
                 $client = new SoapClient($this->getCartoserverUrl('cartoserver.wsdl.php'),
                                          $options);
             } else {

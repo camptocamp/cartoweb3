@@ -19,19 +19,11 @@ if (!defined('CARTOCOMMON_HOME'))
 
 require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
 initializeLog4php(false);
-
-function myErrorHandler($errno, $errstr, $errfile, $errline) {
-    $log =& LoggerManager::getLogger(__METHOD__);
-    $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n errfile: %s (line %i)", 
-                       $errno, $errstr, $errfile, $errline));
-}
-
-// uncomment for special error handler
-//set_error_handler("myErrorHandler");
-
+    
 require_once(CARTOSERVER_HOME . 'server/MapInfoHandler.php');
 
-//require_once(CARTOSERVER_HOME . 'common/common.php');
+require_once(CARTOSERVER_HOME . 'common/Common.php');
+require_once(CARTOSERVER_HOME . 'common/Utils.php');
 require_once(CARTOCOMMON_HOME . 'common/Config.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
@@ -43,15 +35,12 @@ require_once(CARTOSERVER_HOME . 'server/ServerPluginHelper.php');
 require_once(CARTOSERVER_HOME . 'server/MapResultCache.php');
 
 /**
+ * Exception to be used by the server.
+ * 
  * @package Server
  */
-class CartoserverException extends Exception {
+class CartoserverException extends CartowebException {
 
-    function __construct($message) {
-        //$message .= var_export(debug_backtrace(), true);
-
-        parent::__construct($message);
-    }
 }
 
 /**
@@ -63,8 +52,11 @@ class ServerConfig extends Config {
         return 'server';
     }
 
+    function getBasePath() {
+        return CARTOSERVER_HOME;
+    }
+
     function __construct($projectHandler) {
-        $this->basePath = CARTOSERVER_HOME;
         parent::__construct($projectHandler);
     }
 }
@@ -78,12 +70,15 @@ class ServerPluginConfig extends PluginConfig {
         return 'server';
     }
 
+    function getBasePath() {
+        return CARTOSERVER_HOME;
+    }
+
     function getPath() {
         return $this->projectHandler->getMapName() . '/';
     }
 
     function __construct($plugin, $projectHandler) {
-        $this->basePath = CARTOSERVER_HOME;
         parent::__construct($plugin, $projectHandler);
     }
 }
@@ -183,7 +178,6 @@ class Cartoserver {
     }
 
     private function doGetMap($mapRequest) {
-        $log =& LoggerManager::getLogger(__METHOD__);
 
         // serverContext init
         $serverContext = $this->getServerContext($mapRequest->mapId);
@@ -239,8 +233,8 @@ class Cartoserver {
                                                
         $pluginManager->callPluginsImplementing('ClientResponder', 'handlePostDrawing');
 
-        $log->debug("result is:");
-        $log->debug($mapResult);
+        $this->log->debug("result is:");
+        $this->log->debug($mapResult);
         
         if ($serverContext->isDevelMessagesEnabled())
             $developerMessages = $this->getDeveloperMessages();
@@ -248,7 +242,7 @@ class Cartoserver {
             $developerMessages = array();
         $mapResult->serverMessages = array_merge($serverContext->getMessages(),
                     $developerMessages);
-        $log->debug("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        $this->log->debug("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         return $mapResult;
     }
 
@@ -256,7 +250,7 @@ class Cartoserver {
 
         try {
             return $this->$function($argument);
-        } catch (CartoserverException $exception) {
+        } catch (Exception $exception) {
             return new SoapFault('Cartoserver exception', $exception->getMessage());
         }
 
@@ -281,6 +275,50 @@ class Cartoserver {
     }
 }
 
+/**
+ * Returns the URL of the wsdl file to be used on the server, or null if
+ * no wsdl is to be used (as set in the configuration).
+ */
+function getWsdlUrl($mapId, ServerConfig $config) {
+    
+    if (!$config->useWsdl)
+        return null;
+
+    // FIXME: remove when all php version updated
+    $port = '';
+    if ($config->soapBrokenPortInfo) {
+        $port = ':' . $config->soapBrokenPortInfo;
+    }
+    if (!$config->noWsdlCache) {
+        // disables WSDL cache
+        ini_set('soap.wsdl_cache_enabled', '0');
+    }
+    $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
+    if (is_writable($wsdlCacheDir))
+        ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+
+    // This is useful for command line launching of the cartserver.
+    //  just put a WSDL_URL environment variable containing the url of the wsdl
+    //  file to use before launching the script.
+    // TODO: there should be a way to produce the wsdl without a webserver
+    if (array_key_exists('WSDL_URL', $_ENV)) {
+        $url = $_ENV['WSDL_URL'];
+    }
+    
+    if (!isset($url))
+        $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
+               $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
+               '/cartoserver.wsdl.php';
+
+    if (isset($mapId))
+        $url .= '?mapId=' . $mapId;    
+    
+    return $url;
+}
+
+/**
+ * Setup the SOAP server, and registers the SOAP methods.
+ */
 function setupSoapService($cartoserver) {
     $log =& LoggerManager::getLogger(__METHOD__);
 
@@ -305,43 +343,20 @@ function setupSoapService($cartoserver) {
     if (array_key_exists('mapId', $_REQUEST))
         $mapId = $_REQUEST['mapId'];
 
-    $port = '';
     if (!isset($mapId)) {
         /* FIXME: Should this be fatal ? or find a right default */
         die('No mapId GET parameter given');
     }
     $projectHandler = new ServerProjectHandler($mapId);
     $config = new ServerConfig($projectHandler);
-    if ($config->soapBrokenPortInfo) {
-        $port = ':' . $config->soapBrokenPortInfo;
-    }
-    if (!$config->noWsdlCache) {
-        // disables WSDL cache
-        ini_set('soap.wsdl_cache_enabled', '0');
-    }
-    $wsdlCacheDir = $config->writablePath . 'wsdl_cache/';
-    if (is_writable($wsdlCacheDir))
-        ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
 
     initializeCartoweb($config);
 
-    // This is useful for command line launching of the cartserver.
-    //  just put a WSDL_URL environment variable containing the url of the wsdl
-    //  file to use before launching the script.
-    // TODO: there should be a way to produce the wsdl without a webserver
-    if (array_key_exists('WSDL_URL', $_ENV)) {
-        $url = $_ENV['WSDL_URL'];
-    }
-    
-    if (!isset($url))
-        $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-               $_SERVER['HTTP_HOST'] . $port . dirname($_SERVER['PHP_SELF']) . 
-               '/cartoserver.wsdl.php';
-
-    if (isset($mapId))
-        $url .= '?mapId=' . $mapId;
-
-    $server = new SoapServer($url);
+    $url = getWsdlUrl($mapId, $config);
+    $options = array();
+    if (is_null($url))
+        $options = array('uri' => 'foo');
+    $server = new SoapServer($url, $options);
 
     $server->addFunction('getMapInfo');
     $server->addFunction('getMap');

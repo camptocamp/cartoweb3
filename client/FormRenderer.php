@@ -36,10 +36,10 @@ class Smarty_Cartoclient extends Smarty {
     function __construct($config) {
         parent::__construct();
 
-        $this->template_dir = $config->basePath . 'templates/';
-        $this->compile_dir = $config->basePath . 'templates_c/';
-        $this->config_dir = $config->basePath . 'configs/';
-        $this->cache_dir = $config->basePath . 'cache/';
+        $this->template_dir = $config->getBasePath() . 'templates/';
+        $this->compile_dir = $config->getBasePath() . 'templates_c/';
+        $this->config_dir = $config->getBasePath() . 'configs/';
+        $this->cache_dir = $config->getBasePath() . 'cache/';
         
         $this->caching = $config->smartyCaching;
         $this->compile_check = $config->smartyCompileCheck;

@@ -12,12 +12,6 @@
 abstract class Config {
 
     /**
-     * Client or server root path 
-     * @var string
-     */
-    public $basePath;
-    
-    /**
      * @var ProjectHandler
      */
     public $projectHandler;
@@ -33,6 +27,12 @@ abstract class Config {
      * @return string
      */
     abstract function getKind();
+
+    /**
+     * Returns the client or server root path
+     * @return string
+     */
+    abstract function getBasePath();
 
     /**
      * Property access method
@@ -68,11 +68,11 @@ abstract class Config {
         $file = $kind . '.ini';
         $path = $kind . '_conf/'; 
         if (!@$this->configPath) {
-            $this->configPath = $this->basePath
-                . $this->projectHandler->getPath($this->basePath, $path, $file);
+            $this->configPath = $this->getBasePath()
+                . $this->projectHandler->getPath($this->getBasePath(), $path, $file);
         }
 
-        $defaultPath = $this->basePath . $path;
+        $defaultPath = $this->getBasePath() . $path;
         if ($defaultPath != $this->configPath) {
             $this->ini_array = parse_ini_file($defaultPath . $file);
         } else {
@@ -95,10 +95,10 @@ abstract class Config {
         }
         
         if (!@$this->writablePath)
-            $this->writablePath = $this->basePath . 'www-data/';
+            $this->writablePath = $this->getBasePath() . 'www-data/';
 
         if (!@$this->pluginsPath)
-            $this->pluginsPath = $this->basePath . 'plugins/';
+            $this->pluginsPath = $this->getBasePath() . 'plugins/';
     }
 
     /**
@@ -147,13 +147,13 @@ abstract class PluginConfig extends Config {
         $file = $plugin . '.ini';
         $path = $kind . '_conf/' . $path; 
         if (!@$this->configPath) {
-            $this->configPath = $this->basePath
-                . $this->projectHandler->getPath($this->basePath, $path, $file);
+            $this->configPath = $this->getBasePath()
+                . $this->projectHandler->getPath($this->getBasePath(), $path, $file);
         }
 
         $this->ini_array = array();
         
-        $defaultPath = $this->basePath . $path;
+        $defaultPath = $this->getBasePath() . $path;
         if ($defaultPath != $this->configPath && file_exists($defaultPath . $file)) {
             $this->ini_array = parse_ini_file($defaultPath . $file);
         }

@@ -55,25 +55,6 @@ function l($arg = false) {
     print "\n";
 }
 
-/**
- * Sets ini directives useful during development
- */
-function setDeveloperIniConfig() {
-    ini_set('assert.bail', '1');
-    ini_set('error_reporting', E_ALL);
-    ini_set('display_errors', '1');
-}
-
-/**
- * Perform various cartoweb initializations.
- * @param Config
- */
-function initializeCartoweb($config) {
-    
-    if ($config->developerIniConfig) {  
-        setDeveloperIniConfig();
-    }
-}
 
 /**
  * Copies values from an objet to another
