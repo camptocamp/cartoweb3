@@ -97,6 +97,20 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
         parent::__construct($cartoclient);
         
         $this->template_dir = $plugin->getBasePath() . 'templates/';
+
+        $this->assignCommonVariables($cartoclient);
+    }
+
+    /**
+     * Fills some smarty variables common to all core plugins.
+     * 
+     * @param Cartoclient cartoclient object used to fill common smarty variables.
+     */
+    private function assignCommonVariables(Cartoclient $cartoclient) {
+        // sets the project name, as it is propagated through hidden variables.
+        $this->assign('project', $cartoclient->getProjectHandler()->
+                      getProjectName());
+
     }
 }
 
