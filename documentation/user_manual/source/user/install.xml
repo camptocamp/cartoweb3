@@ -129,15 +129,16 @@
           just below.</para>
       </listitem>
       <listitem>
-        <para>(Optional) If you did not download &cartoweb; with the demo included, you
-          and want to want to install it afterward, you can get the demo data
+        <para>(Optional) If you did not download &cartoweb; with the demo included,
+          and want to install it afterward, you can get the demo data
           and extract it inside the <filename>projects/demo/server_conf/demo</filename>
           directory (this will give you a <filename>projects/demo/server_conf/demo/data</filename>
           new directory with the data.
         </para>
         <para>On Unix, you can type the following in a shell:
           <screen>cd projects/demo/server_conf/demo
-      tar xvzf cartoweb-demodata-3.0.0.tar.gz</screen>
+wget http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz
+tar xvzf cartoweb-demodata-3.0.0.tar.gz</screen>
         On Windows, you can use a graphical extractor to do the same
         (you can use <ulink url="http://www.7-zip.org/"/>).
         </para>
