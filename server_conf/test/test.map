@@ -8,6 +8,15 @@ MAP
   FONTSET "fonts.txt"
   SYMBOLSET "symbols.txt"
 
+  REFERENCE
+    IMAGE images/keymap.png
+    EXTENT -0.5 50.977222 0.5 51.977222
+    STATUS ON
+    COLOR -1 -1 -1
+    OUTLINECOLOR 255 0 0
+    SIZE 150 103      
+  END
+
   SCALEBAR
     STATUS EMBED
     POSTLABELCACHE TRUE
