@@ -6,12 +6,12 @@ general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, legend
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, table, queryResult, page, legend, logo, scaleval, tlcoords, brcoords
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
-general.output = redirection
-general.filename = "map-[date,dMY-His].pdf"
+general.output = inline
+general.filename = "map-[date,dMY-Hi].pdf"
 general.distUnit = mm
 general.horizontalMargin = 10
 general.verticalMargin = 10
@@ -31,7 +31,7 @@ formats.A3.maxResolution = 150
 ; blocks default settings
 template.type = text
 template.fontFamily = times
-template.fontSize = 9
+template.fontSize = 12
 template.fontItalic = false
 template.fontBold = false
 template.color = black
@@ -92,10 +92,12 @@ blocks.note.borderWidth = 0;
 blocks.note.multiPage = true
 
 blocks.copyright.content = "Cartoweb by Camptocamp SA"
-blocks.copyright.height = 8
+blocks.copyright.height = 5
 blocks.copyright.verticalBasis = bottom
 blocks.copyright.horizontalBasis = right
 blocks.copyright.verticalMargin = 10
+blocks.copyright.horizontalMargin = 4
+blocks.copyright.padding = 0
 blocks.copyright.zIndex = 5
 blocks.copyright.orientation = vertical
 blocks.copyright.borderWidth = 0;
@@ -109,15 +111,31 @@ blocks.queryResult.height = 15
 blocks.queryResult.verticalMargin = 10
 blocks.queryResult.hCentered = true
 
+blocks.table.type = table
+blocks.table.inNewPage = true
+blocks.table.caption = tableCaption
+blocks.table.headers = tableHeaders2
+blocks.table.hCentered = true;
+blocks.table.verticalMargin = 220
+blocks.table.height = 10
+
 blocks.tableCaption.backgroundColor = #ff0000
 blocks.tableCaption.color = white
+blocks.tableCaption.content = "Test de tableau"
 blocks.tableCaption.height = 20
 
 blocks.tableHeaders.backgroundColor = #ffaaaa
 blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff
 
+blocks.tableHeaders2.backgroundColor = #ffaaaa
+blocks.tableHeaders2.fontBold = true
+blocks.tableHeaders2.color = #eeffee
+blocks.tableHeaders2.content = colonne 1, colonne B, colonne III
+blocks.tableHeaders2.height = 15
+
 blocks.legend.type = legend
+;blocks.legend.parent = mainmap
 blocks.legend.zIndex = 1
 blocks.legend.weight = 40
 blocks.legend.fontSize = 8
@@ -126,16 +144,19 @@ blocks.legend.width = 50
 blocks.legend.padding = 1.5
 blocks.legend.verticalMargin = 10
 blocks.legend.horizontalMargin = 10
-;blocks.legend.content = "!<layer_to_hide>"
+blocks.legend.content = "!nix"
 
 blocks.page.multiPage = true
 blocks.page.borderWidth = 0
 blocks.page.verticalBasis = bottom
-blocks.page.height = 8
+blocks.page.horizontalMargin = 10
+blocks.page.verticalMargin = 3
+blocks.page.padding = 0
+blocks.page.height = 6
 blocks.page.zIndex = 6
 
 blocks.logo.type = image
-blocks.logo.content = <your_logo_url>
+blocks.logo.content = http://carto3.grange.c2c:9090/gfx/layout/c2c.png
 blocks.logo.width = 40
 blocks.logo.height = 7
 blocks.logo.padding = 2
@@ -144,3 +165,31 @@ blocks.logo.horizontalBasis = right
 blocks.logo.inFlow = false
 blocks.logo.horizontalMargin = 5
 blocks.logo.verticalMargin = 5
+
+blocks.scaleval.zIndex = 4
+blocks.scaleval.height = 6
+blocks.scaleval.horizontalBasis = right
+blocks.scaleval.borderWidth = 0
+blocks.scaleval.horizontalMargin = 10
+blocks.scaleval.verticalMargin = 3
+blocks.scaleval.padding = 0
+
+blocks.tlcoords.content = xy
+blocks.tlcoords.zIndex = 4
+blocks.tlcoords.height = 6
+blocks.tlcoords.borderWidth = 0
+blocks.tlcoords.padding = 0
+blocks.tlcoords.inFlow = false
+blocks.tlcoords.verticalMargin = 3
+blocks.tlcoords.horizontalMargin = 10
+
+blocks.brcoords.content = xy
+blocks.brcoords.zIndex = 4
+blocks.brcoords.height = 6
+blocks.brcoords.borderWidth = 0
+blocks.brcoords.padding = 0
+blocks.brcoords.inFlow = false
+blocks.brcoords.verticalBasis = bottom
+blocks.brcoords.horizontalBasis = right
+blocks.brcoords.verticalMargin = 3
+blocks.brcoords.horizontalMargin = 10

@@ -55,6 +55,11 @@ class ClientExportPdf extends ExportPlugin {
     //TODO: display queryResult form option only if available in MapResult
 
     /**
+     * @var float
+     */
+    private $mapScale;
+
+    /**
      * Constructor
      */
     function __construct() {
@@ -213,6 +218,13 @@ class ClientExportPdf extends ExportPlugin {
         if ($id == 'title' || $id == 'note') {
             $this->blocks[$id]->content = 
                 stripslashes(trim($request[$pdfItem]));
+        }
+
+        elseif ($id == 'scaleval') {
+            $scale = number_format($this->getLastScale(), 0, ',',"'");
+            $this->blocks[$id]->content = sprintf('%s 1:%s',
+                                                  I18n::gt('Scale'),
+                                                  $scale);
         }
 
         elseif($this->blocks[$id]->type == 'table') {
@@ -476,12 +488,15 @@ class ClientExportPdf extends ExportPlugin {
      * @return float scale from last session-saved MapResult.
      */
     private function getLastScale() {
-        $mapResult = $this->getLastMapResult();
+        if (!isset($this->mapScale)) {
+            $mapResult = $this->getLastMapResult();
 
-        if (is_null($mapResult))
-            return 0;
-
-         return $mapResult->locationResult->scale;
+            if (is_null($mapResult))
+                return 0;
+                
+            $this->mapScale = $mapResult->locationResult->scale;
+        }
+        return $this->mapScale;
     }
 
     /**
@@ -694,6 +709,37 @@ class ClientExportPdf extends ExportPlugin {
     }
     
     /**
+     * Returns (x,y) coords of given map corner using given format.
+     * @param PdfBlock
+     * @return string
+     */
+    private function getCornerCoords(PdfBlock $block, MapResult $mapResult) {
+        switch ($block->id) {
+            case 'tlcoords':
+                $x = $mapResult->locationResult->bbox->minx;
+                $y = $mapResult->locationResult->bbox->maxy;
+                break;
+            
+            case 'brcoords':
+                $x = $mapResult->locationResult->bbox->maxx;
+                $y = $mapResult->locationResult->bbox->miny;
+                break;
+
+            default: return;
+        }
+
+        switch ($block->content) {
+            case 'YX':
+                $block->content = sprintf('Y = %d, X = %d', $x, $y);
+                break;
+
+            case 'xy':
+            default:
+                $block->content = sprintf('x = %d, y = %d', $x, $y);
+        }
+    }
+
+    /**
      * @see ExportPlugin::getExport()
      * @return ExportOutput export result
      */
@@ -725,6 +771,11 @@ class ClientExportPdf extends ExportPlugin {
         $this->updateMapBlock($mapResult, 'mainmap');
         $this->updateMapBlock($mapResult, 'scalebar');
         $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+
+        if (isset($this->blocks['tlcoords']))
+            $this->getCornerCoords($this->blocks['tlcoords'], $mapResult);
+        if (isset($this->blocks['brcoords']))
+            $this->getCornerCoords($this->blocks['brcoords'], $mapResult);
         
         $pdf->initializeDocument();
  
