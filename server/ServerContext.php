@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * ServerContext class
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -398,22 +398,27 @@ class ServerContext {
      */
     public function loadPlugins() {
 
-        if (is_null($this->pluginManager)) {
-            $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
-                                 PluginManager::SERVER, $this->projectHandler);
-            $corePluginNames = $this->getCorePluginNames();
+        if (!is_null($this->pluginManager))
+            return; /* already loaded */
+            
+        $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
+                             PluginManager::SERVER, $this->projectHandler);
+        $corePluginNames = $this->getCorePluginNames();
 
-            $this->pluginManager->loadPlugins($corePluginNames, $this);
+        $this->pluginManager->loadPlugins($corePluginNames, $this);
 
-            $iniPath = $this->getMapIniPath();
-            $iniArray = parse_ini_file($iniPath);
+        $iniPath = $this->getMapIniPath();
+        $iniArray = parse_ini_file($iniPath);
+        if (isset($iniArray['mapInfo.loadPlugins']))
             $pluginNames = explode(',', $iniArray['mapInfo.loadPlugins']);
-            foreach ($pluginNames as $key => $pluginName) {
-                $pluginNames[$key] = trim($pluginName);
-            }
-        
-            $this->pluginManager->loadPlugins($pluginNames, $this);
+        else
+            $pluginNames = array();
+        $pluginNames = array_map('trim', $pluginNames);
+        foreach ($pluginNames as $key => $val) {
+            if (empty($val))
+                unset($pluginNames[$key]);
         }
+        $this->pluginManager->loadPlugins($pluginNames, $this);
     }
     
     /**
