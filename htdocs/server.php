@@ -32,6 +32,7 @@ function savePostData($postData) {
     } 
 
     $log->info("post Data id saved is " . $post_id);
+    return $post_id;
 }
 
 function getPostData($postId) {
@@ -43,12 +44,12 @@ function getPostData($postId) {
     return NULL;
 }
 
-if (array_key_exists('save', $_GET)) {
-
+if (array_key_exists('save_posts', $_GET)) {
     if (empty($HTTP_RAW_POST_DATA))
         return;
 
-    savePostData($HTTP_RAW_POST_DATA);
+    $post_id = savePostData($HTTP_RAW_POST_DATA);
+    $GLOBALS['saved_post_id'] = $post_id;
 }
 
 if (array_key_exists('restore', $_GET)) {
