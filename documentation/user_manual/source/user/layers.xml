@@ -48,8 +48,8 @@
         <filename>layers.ini</filename> : Layers and LayerGroups. They play 
         fairly different roles and consequently have different possible 
         attributes. Layers have a 1-to-1 correspondance to Mapserver layers (as 
-        defined in the <filename>layers.map</filename>), while LayerGroups, 
-        well, group together atomic Layers or other LayerGroups. </para>
+        defined in the <filename>layers.map</filename>), while LayerGroups 
+        group together atomic Layers or other LayerGroups. </para>
     </sect2>
     <sect2 id="user.layers.tree.layers">
       <title>Layers Options</title>
@@ -68,8 +68,8 @@ END]]></programlisting>
 layers.my_layer.label = my_layer
 layers.my_layer.msLayer = my_layer]]></programlisting>
       <tip>
-        <para>If you don't need special parameters to your layer, like 
-          <literal>link</literal>, then you can avoid writing it in the 
+        <para>If you don't need special parameters (see below) for your layer 
+          then you can avoid adding it in the 
           <filename>layers.ini</filename></para>
       </tip>
       <para>However, if you want these layers to appear in the layer list, you 
