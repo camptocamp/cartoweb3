@@ -4,13 +4,19 @@
 {/capture}
 
 {capture name=caption}
-{if $layerLink}<a href="{$layerLink}" target="_blank" title="{t}more info on{/t} {$layerLabel}">{/if}
-{$layerLabel}
-{if $layerLink}</a>{/if}
+{if $layerLink}<a href="{$layerLink}" target="_blank" 
+title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
+{else}
+  {if $layerOutRange}<span class="out">{$layerLabel}</span>
+  {else}{$layerLabel}{/if}
+{/if}
 {/capture}
 
 {capture name=icon}
-{if $layerIcon}<img src="{r type=gfx/icons plugin=layers}{$layerIcon}{/r}" alt="" class="pic" />{/if}
+{if $layerIcon}<img src="{r type=gfx/icons}{$mapId}/{$layerIcon}{/r}" alt="" class="pic" 
+{if $layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
+{elseif $layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} /> 
+{/if}
 {/capture}
 
 {if $childrenLayers}
