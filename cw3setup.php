@@ -109,8 +109,11 @@ echo "                          - set ownership if ran as superuser,\n";
 echo "                          - give write permission instead.\n";
 echo "createConfig            : create the new configuration (install .dist files)\n";
 echo "setupLinks              : link or copy paths for web browser\n";
-echo "removeLinks             : remove all links created by setupLinks. Super user rights required to remove dynamic content\n";
+echo "removeLinks             : remove all links created by setupLinks.\n";
+echo "                          - super user rights required to remove dynamic content\n";
 echo "setup[=path]            : setup a new project in existing installation\n";
+echo "mkDirs                  : create all cache directories\n";
+echo "rmDirs                  : remove all temporary files AND directories\n";
 echo "remove                  : remove cartoweb3\n";
 echo "\n";
 
@@ -149,7 +152,18 @@ if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Aborted\n");
 foreach($cmd_array as $cmd=>$params) {
     switch($cmd) {
         case 'check':
-            checkConfig();
+            $cnf = checkConfig();
+            if ($cnf) {
+                echo $cnf;
+                echo "Bad configuration detected.";
+                echo " Continue ? y/n [n]";
+                $r = getInput('n');
+                if (strlen($r) > 0 && strtolower($r) <> 'y') die ("Aborted\n");
+            }
+            else {
+                // The configuration is ok.
+                echo "Configuration   => ok\n";
+            }
             break;
 
         case 'get':
@@ -161,8 +175,12 @@ foreach($cmd_array as $cmd=>$params) {
             getLibs(CW3_LIBS_URL);
             break;
 
-        case 'dirs':
+        case 'mkDirs':
             mkDirs();
+            break;
+
+        case 'rmDirs':
+            rmDirs();
             break;
 
         case 'perms':
@@ -212,31 +230,40 @@ echo "\n";
 // Check if configuration is ok for cw3:
 function checkConfig() {
     echo "\nChecking configuration:\n";
+    $badConfig = false;
 
 // Check php version:
-    if (version_compare(phpversion(), CW3_PHP_VERSION) < 0)
-        die("Your php is too old: please install php ".CW3_PHP_VERSION." or above.\n");
+    if (version_compare(phpversion(), CW3_PHP_VERSION) < 0) {
+        $r = "Your php is too old: please install php ".CW3_PHP_VERSION." or above.\n";
+        $badConfig = true;
+    }
     else
-        echo "php ", phpversion(), "       => ok\n";
+        $r = "php ".phpversion()."       => ok\n";
 
 // Check if soap is enabled:
-    if (!extension_loaded('soap'))
-        die("Soap not enabled: please re-install php with soap extension.\n");
+    if (!extension_loaded('soap')) {
+        $r .= "Soap not enabled: please re-install php with soap extension.\n";
+        $badConfig = true;
+    }
     else
-        echo "Soap            => ok\n";
+        $r .= "Soap            => ok\n";
 
 // Check php mapscript version:
     if (!extension_loaded(CW3_PHP_MAPSCRIPT))
-        if (!dl(CW3_PHP_MAPSCRIPT.".".PHP_SHLIB_SUFFIX))
-            die ("Unable to load library ".CW3_PHP_MAPSCRIPT.'.'.PHP_SHLIB_SUFFIX.".\n");
+        if (!dl(CW3_PHP_MAPSCRIPT.".".PHP_SHLIB_SUFFIX)) {
+            $badConfig = true;
+            $r .= "Unable to load library ".CW3_PHP_MAPSCRIPT.'.'.PHP_SHLIB_SUFFIX.".\n";
+        }
     $ms_ver = trim(substr(ms_GetVersion(), 18, 6));
-    if(version_compare($ms_ver, CW3_PHP_MS_VERSION) < 0)
-        die ("Mapscript too old: please upgrade MapServer. Version must be >= ".CW3_PHP_MS_VERSION.".\n");
+    if(version_compare($ms_ver, CW3_PHP_MS_VERSION) < 0) {
+        $r .= "Mapscript too old: please upgrade MapServer. Version must be >= ".CW3_PHP_MS_VERSION.".\n";
+        $badConfig = true;
+    }
     else
-        echo "Mapserver ", $ms_ver, " => ok\n";
+        $r .= "Mapserver ".$ms_ver." => ok\n";
 
-// The configuration is ok.
-    echo "Configuration   => ok\n";
+    if ($badConfig) return $r;
+    else return false;
 }
 
 /* Library */
@@ -307,6 +334,19 @@ function mkDirs() {
     foreach($CW3_DIRS_TO_CREATE as $dir) {
         @mkdir($dir);
         echo "Create $dir => ok\n";
+    }
+}
+
+/**
+ * Create directories
+ */
+function rmDirs() {
+    global $CW3_DIRS_TO_CREATE;
+
+    echo "\nRemove directories:\n";
+    foreach($CW3_DIRS_TO_CREATE as $dir) {
+        if (@rmdirr($dir))
+            echo "Remove $dir => ok\n";
     }
 }
 
@@ -475,12 +515,13 @@ function getLibs($url) {
 }
 
 // Read user input in php shell mode
-function getInput($length = 255) {
+function getInput($default = null, $length = 255) {
     $fr = fopen("php://stdin", "r");
     $input = fgets($fr, $length);
     $input = rtrim($input);
     fclose($fr);
-    return $input;
+    if ($input) return $input;
+    else return $default;
 }
 
 // Recursively remove:
