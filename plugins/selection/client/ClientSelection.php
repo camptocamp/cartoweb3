@@ -14,6 +14,7 @@ class SelectionState {
     public $idAttribute;
     public $idType; 
     public $selectedIds;
+    public $maskMode;
 }
 
 /**
@@ -97,6 +98,12 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
             $this->selectionState->selectedIds = array();
         }
 
+        if (!empty($request['selection_maskmode'])) {
+            $this->selectionState->maskMode = true;
+        } else {
+            $this->selectionState->maskMode = false;
+        }
+
         $this->selectedShape = $this->cartoclient->getHttpRequestHandler()
                     ->handleTools($this);
     }
@@ -108,11 +115,12 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
             return;
             
         $hilightRequest = new HilightRequest();
-        $hilightRequest->layerId = $this->selectionState->layerId; 
+        $hilightRequest->layerId     = $this->selectionState->layerId; 
         $hilightRequest->selectedIds = $this->selectionState->selectedIds; 
+        $hilightRequest->maskMode    = $this->selectionState->maskMode;
         // FIXME: this should be customizable
         $hilightRequest->idType = 'string';
-        $mapRequest->hilightRequest = $hilightRequest;
+        $mapRequest->hilightRequest  = $hilightRequest;
 
         if (!empty($this->selectedShape)) {
             $selectionRequest = new SelectionRequest();
@@ -166,6 +174,7 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
         $smarty->assign('selection_idtype', $this->selectionState->idType); 
         
         $smarty->assign('selection_selectedids', $this->selectionState->selectedIds); 
+        $smarty->assign('selection_maskmode', $this->selectionState->maskMode); 
 
         return $smarty->fetch('selection.tpl');          
     }

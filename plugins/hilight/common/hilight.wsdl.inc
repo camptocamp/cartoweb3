@@ -8,6 +8,7 @@
           <element name="idType" type="xsd:string"/>
           <!-- FIXME: integer should be supported also -->
           <element name="selectedIds" type="types:ArrayOfString"/>
+          <element name="maskMode" type="xsd:boolean"/>
         </all>
       </complexType>
 

@@ -8,7 +8,7 @@ output=$selection_selectionlayers}
 </select></p>
 
 <p>{t}Mask mode {/t}&nbsp;
-<input type="checkbox" name="selection_maskmode" checked="checked"/>
+<input type="checkbox" name="selection_maskmode"{if $selection_maskmode} checked="checked"{/if}/>
 </p>
 
 {if $selection_selectedids}
