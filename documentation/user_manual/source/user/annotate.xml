@@ -41,7 +41,7 @@
    <itemizedlist>
     <listitem>
      <para> 
-      multipleShapes<indexterm><primary>multipleShapes</primary></indexterm>: 
+      multipleShapes<indexterm><primary>multipleShapes</primary></indexterm>: boolean,
       if true, the user is allowed to draw multiple shapes. That means that
       drawn features remain until browser session is closed. If false, new
       feature simply erases / overrides currently drawn one.
@@ -51,7 +51,7 @@
     </listitem>
     <listitem>
      <para>
-      labelMode<indexterm><primary>labelMode</primary></indexterm>:
+      labelMode<indexterm><primary>labelMode</primary></indexterm>: boolean,
       if true, user is asked to input a label text that is drawn to annotate
       drawn shape.
      </para>
