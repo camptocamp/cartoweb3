@@ -30,6 +30,7 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
     public function setUp() {
 
         $config = new stdClass();
+        $config->mapId = '';
         $config->cartoserverUrl = $this->getCartoserverUrl();        
         $this->assertNotNull($config->cartoserverUrl, 'You need to set cartoserverUrl in client.ini');
         $config->cartoserverDirectAccess = true;

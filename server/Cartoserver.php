@@ -207,7 +207,18 @@ function setupSoapService($cartoserver) {
     // TODO: option should be in config
     ini_set("soap.wsdl_cache_enabled", "0");
 
-    $server = new SoapServer(CARTOSERVER_HOME . '/server/cartoserver.wsdl');
+    if (array_key_exists('mapId', $_REQUEST))
+        $mapId = $_REQUEST['mapId'];
+
+
+    $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
+           $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+           '/cartoserver.wsdl.php';
+
+    if (isset($mapId))
+        $url .= '?mapId=' . $mapId;
+
+    $server = new SoapServer($url);
 
     $server->addFunction('getMapInfo');
     $server->addFunction('getMap');

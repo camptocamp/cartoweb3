@@ -131,8 +131,7 @@
           <element name="layersRequest" type="types:LayersRequest" minOccurs="0"/>
           <element name="imagesRequest" type="types:ImagesRequest"/>
           <element name="queryRequest" type="types:QueryRequest" minOccurs="0"/>
-          <element name="selectionRequest" type="types:SelectionRequest" minOccurs="0"/>
-          <element name="hilightRequest" type="types:HilightRequest" minOccurs="0"/>
+          {PLUGINS_REQUEST}
         </all>
       </complexType>
       
@@ -141,8 +140,7 @@
           <element name="locationResult" type="types:LocationResult" minOccurs="0"/>
           <element name="imagesResult" type="types:ImagesResult"/>
           <element name="queryResult" type="types:QueryResult" minOccurs="0"/>
-          <element name="selectionResult" type="types:SelectionResult" minOccurs="0"/>
-          <element name="hilightResult" type="types:HilightResult" minOccurs="0"/>
+          {PLUGINS_RESULT}
         </all>
       </complexType>
       
@@ -312,42 +310,7 @@
         </all>
       </complexType>
 
-      <!-- selection -->
-
-      <complexType name="SelectionRequest">
-        <all>
-          <element name="policy" type="types:SelectionPolicy"/>
-          <element name="bbox" type="types:Bbox"/>
-        </all>
-      </complexType>
-
-      <complexType name="SelectionResult">
-        <all>
-          <element name="layerId" type="xsd:string"/>
-          <element name="selectedIds" type="types:ArrayOfLayerId"/>
-        </all>      
-      </complexType>
-
-      <simpleType name="SelectionPolicy">
-        <restriction base="xsd:string">
-          <enumeration value="POLICY_XOR"/>
-          <enumeration value="POLICY_UNION"/>
-          <enumeration value="POLICY_INTERSECTION"/>
-        </restriction>
-      </simpleType>
-
-      <!-- hilight -->
-
-      <complexType name="HilightRequest">
-        <all>
-          <element name="layerId" type="xsd:string"/>
-          <element name="selectedIds" type="types:ArrayOfLayerId"/>
-        </all>
-      </complexType>
-
-      <complexType name="HilightResult">
-      </complexType>
-
+      {PLUGINS_SPECIFIC_WSDL}
     </schema>
   </wsdl:types>
 

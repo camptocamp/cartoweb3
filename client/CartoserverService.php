@@ -42,21 +42,23 @@ class CartoserverService {
 
     private function getCartoserverUrl() {
 
+        $url = '';
         if (@$this->config->cartoserverUrl)
-            return $this->config->cartoserverUrl;
+            $url = $this->config->cartoserverUrl;
 
         // in config ?
         $guessCartoserver = true;
 
-        if ($guessCartoserver && $_SERVER['PHP_SELF'] != '') {
-
+        if ($url == '' && $guessCartoserver && $_SERVER['PHP_SELF'] != '') {
             $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
                 $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
                 '/cartoserver.wsdl.php';
-            return $url;
         }
 
-        throw new CartoclientException("No cartoserver Url set in config file");
+        if ($url == '' )
+            throw new CartoclientException("No cartoserver Url set in config file");
+        else
+            return $url . '?mapId=' . $this->config->mapId;
     }
 
     private function callFunction($function, $argument) {
