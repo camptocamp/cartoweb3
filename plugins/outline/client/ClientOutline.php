@@ -59,22 +59,16 @@ class ClientOutline extends ClientPlugin implements ToolProvider {
     }
 
     function getTools() {
-        $weightPoint = $this->getConfig()->weightPoint;
-        $weightRect  = $this->getConfig()->weightRectangle;
-        $weightPoly  = $this->getConfig()->weightPolygon;
-        if (!$weightPoint) $weightPoint = 70;
-        if (!$weightRect) $weightRect = 71;
-        if (!$weightPoly) $weightPoly = 72;
-        
-        return array(new ToolDescription(self::TOOL_POINT, self::TOOL_POINT,
-                                         'Point', ToolDescription::MAINMAP,
-                                         $weightPoint, 'outline', 'zoom_out'),
-                     new ToolDescription(self::TOOL_RECTANGLE, self::TOOL_RECTANGLE,
-                                         'Rect', ToolDescription::MAINMAP,
-                                         $weightRect, 'outline', 'zoom_in'),
-                     new ToolDescription(self::TOOL_POLYGON, self::TOOL_POLYGON,
-                                         'Poly', ToolDescription::MAINMAP,
-                                         $weightPoly, 'outline', 'polygon'));
+        return array(new ToolDescription(self::TOOL_POINT, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
+                                         70),
+                     new ToolDescription(self::TOOL_RECTANGLE, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
+                                         71),
+                     new ToolDescription(self::TOOL_POLYGON, true, 
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON),
+                                         72),
+                    );
     }
 
     function handleHttpRequest($request) {

@@ -254,9 +254,9 @@ class HttpRequestHandler {
         }
         $toolRequest = $_REQUEST['tool'];
         
-        $tools = $plugin->getTools();
+        $tools = $plugin->doGetTools();
         foreach ($tools as $tool) {
-            $this->log->debug("tool is " . $tool->label);
+            $this->log->debug("tool is " . $tool->id);
             $this->log->debug("request " . $toolRequest);
             $this->log->debug("id " . $tool->id);
             if ($toolRequest == $tool->id) {
@@ -273,8 +273,16 @@ class HttpRequestHandler {
         $this->checkClickedButtons($cartoForm);
 
         // tools
-        if (@$_REQUEST['tool'])
+        if (@$_REQUEST['tool']) {
+            // HACK for javascript bug
+            /* BEGIN HACK */
+            $_REQUEST['old_tool_forjavascriptdebugging'] = @$_REQUEST['tool'];
+
+            $tool = explode(',', $_REQUEST['tool']);
+            $_REQUEST['tool'] = $tool[3]; 
+            /* END HACK */
             $clientSession->selectedTool = $_REQUEST['tool'];
+        }
 
         return $cartoForm;
     }

@@ -110,10 +110,17 @@ class FormRenderer {
         $tools = array();
         foreach ($plugins as $plugin) {
             if ($plugin instanceof ToolProvider) {
-                $toolsDescription = $plugin->getTools();
+                $toolsDescription = $plugin->doGetTools();
                 foreach($toolsDescription as $toolDescription) {
-                    if (is_null($toolDescription->jsId))
-                        $toolDescription->jsId = $toolDescription->id;
+
+                    $jsAttr = $toolDescription->jsAttributes;
+                    assert(is_object($jsAttr));
+
+                    $toolDescription->js = new stdClass();
+                    $toolDescription->js->shapeType = $jsAttr->getShapeTypeString();
+                    $toolDescription->js->cursorStyle = $jsAttr->getCursorStyleString();
+                    $toolDescription->js->action = $jsAttr->getActionString();
+                    
                     $tools[$toolDescription->weight] = $toolDescription;
                 }
             }

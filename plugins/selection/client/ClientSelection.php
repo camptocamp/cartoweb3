@@ -50,16 +50,10 @@ class ClientSelection extends ClientPlugin implements ToolProvider {
     }
     
     function getTools() {
-        $weight = $this->getConfig()->weightSelection;
-        if (!$weight) $weight = 60;
-        
-        return array(new ToolDescription(self::TOOL_SELECTION, 
-                                         self::TOOL_SELECTION, 
-                                         'Selection', 
-                                         ToolDescription::MAINMAP,
-                                         $weight,
-                                         'selection',
-                                         'query'));
+        return array(new ToolDescription(self::TOOL_SELECTION, true,
+                       new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE,
+                                            JsToolAttributes::CURSOR_HELP),
+                                            60));
     }
     
     function handleMainmapTool(ToolDescription $tool, 

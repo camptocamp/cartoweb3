@@ -370,30 +370,25 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     }
 
     function getTools() {
-        $weightZoomIn  = $this->getConfig()->weightZoomIn;
-        $weightZoomOut = $this->getConfig()->weightZoomOut;
-        $weightPan     = $this->getConfig()->weightPan;
-        if (!$weightZoomIn) $weightZoomIn = 10;
-        if (!$weightZoomOut) $weightZoomOut = 11;
-        if (!$weightPan) $weightPan = 12;
         
-        return array(new ToolDescription(self::TOOL_ZOOMIN, self::TOOL_ZOOMIN,
-                                         'Zoom in', ToolDescription::MAINMAP,
-                                         $weightZoomIn, 'location'),
-                     new ToolDescription(self::TOOL_ZOOMOUT, self::TOOL_ZOOMOUT,
-                                         'Zoom out', ToolDescription::MAINMAP,
-                                         $weightZoomOut, 'location'),
-                     new ToolDescription(self::TOOL_PAN, self::TOOL_PAN, 'Pan', 
-                                         ToolDescription::MAINMAP, $weightPan,
-                                         'location'),
+        return array(new ToolDescription(self::TOOL_ZOOMIN, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
+                                         10),
+                     new ToolDescription(self::TOOL_ZOOMOUT, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
+                                         11),
+                     new ToolDescription(self::TOOL_PAN, true, 
+                        new JsToolAttributes(JsToolAttributes::SHAPE_PAN,
+                                             JsToolAttributes::CURSOR_MOVE),
+                                         12),
                      // recenter tool is disabled for now.
                      // there should be a way to know if we are in html or 
                      // dhtml mode, and to return the appropriate tools 
                      // accordingly
-                     /* new ToolDescription(self::TOOL_RECENTER, 
-                                            self::TOOL_RECENTER, 'Recenter', 
-                                            ToolDescription::MAINMAP,
-                                            $weightRecenter, 'location'), */
+                     /*
+                     new ToolDescription(self::TOOL_RECENTER, true,
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
+                                          13), */ 
                     );
     }
 

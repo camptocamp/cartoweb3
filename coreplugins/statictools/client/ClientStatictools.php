@@ -21,9 +21,16 @@ class ClientStatictools extends ClientCorePlugin implements ToolProvider {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
 
-        // 'weight' => 'toolname'
-        $this->availableTools = array('80' => self::TOOL_DISTANCE, 
-                                      '81' => self::TOOL_SURFACE);
+        $this->availableTools = array(
+            new ToolDescription(self::TOOL_DISTANCE, true,
+                     new JsToolAttributes(JsToolAttributes::SHAPE_LINE,
+                                         JsToolAttributes::CURSOR_CROSSHAIR,
+                                         JsToolAttributes::ACTION_MEASURE), 80),
+            new ToolDescription(self::TOOL_SURFACE, true,
+                     new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON,
+                                         JsToolAttributes::CURSOR_CROSSHAIR,
+                                         JsToolAttributes::ACTION_MEASURE), 81),
+        );
     }
 
     function loadSession($sessionObject) {
@@ -54,16 +61,9 @@ class ClientStatictools extends ClientCorePlugin implements ToolProvider {
         $activatedTools = explode(',', $activatedTools);
         $activatedTools = array_map('trim', $activatedTools);
 
-        foreach ($this->availableTools as $w => $tool) {
-            if (in_array($tool, $activatedTools)) {
-                $weightname = 'weight' . ucfirst($tool);
-                $weight = $this->getConfig()->$weightname;
-                if (!$weight) $weight = $w;
-                
-                // FIXME: use a real translated string for 3rd argument
-                $tools[] = new ToolDescription($tool, $tool, $tool,
-                                               ToolDescription::MAINMAP,
-                                               $weight, 'statictools');
+        foreach ($this->availableTools as $tool) {
+            if (in_array($tool->id, $activatedTools)) {
+                $tools[] = $tool; 
             }
         }
         return $tools;
