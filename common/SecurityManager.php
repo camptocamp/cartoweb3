@@ -1,5 +1,6 @@
 <?php
 /**
+ * Security management
  * @package Common
  */
 

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Classes for managing access to resources (URL computation, ...)
  * @package Common
  */
 
