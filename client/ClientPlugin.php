@@ -251,8 +251,14 @@ interface ServerCaller {
     function buildMapRequest($mapRequest);
 
     /**
+     * Initializes plugin state depending on server result
+     * @param mixed plugin's section of map result
+     */
+    function initializeResult($result); 
+     
+    /**
      * Handles server result
-     * @param mixed plugin's section of map request 
+     * @param mixed plugin's section of map result 
      */
     function handleResult($result);
 }
@@ -285,6 +291,67 @@ interface Exportable {
      */
     function adjustExportMapRequest(ExportConfiguration $configuration, 
                                     MapRequest $mapRequest);
+}
+
+/**
+ * This class is used by plugins to modify HTTP Get requests
+ * @package Client
+ * @see FilterProvider
+ */
+class FilterRequestModifier {
+    
+    /**
+     * @var array
+     */
+    private $request;
+    
+    /**
+     * @param array
+     */
+    function __construct($request) {
+        $this->request = $request;
+    }
+    
+    /**
+     * @return array
+     */
+    function getRequest() {
+        return $this->request;
+    }
+    
+    /**
+     * @param string
+     * @param string
+     */
+    function setValue($key, $value) {
+        $this->request[$key] = $value;
+    }
+    
+    /**
+     * @param string
+     * @return string
+     */
+    function getValue($key) {
+        if (array_key_exists($key, $this->request)) {
+            return $this->request[$key];
+        } else {
+            return null; 
+        }
+    }
+}
+
+/** 
+ * Interface for plugins that may modify HTTP GET requests
+ * @package Client
+ */
+interface FilterProvider {
+
+    /**
+     * Modifies GET requests
+     * @param ExportConfiguration configuration
+     * @param MapRequest map request (will be modified)
+     */
+    function filterGetRequest(FilterRequestModifier $request);
 }
 
 /**

@@ -15,7 +15,7 @@ interface ClientResponder {
      * @param mixed plugin request
      * @see Cartoserver::doGetMap()
      */
-    function handleInitializing($requ);
+    function initializeRequest($requ);
 
     /**
      * Handles the request just before plugins should draw in the map
@@ -126,9 +126,9 @@ abstract class ClientResponderAdapter extends ServerPlugin
                                       implements ClientResponder {
 
     /**
-     * @see ClientResponder::handleInitializing()
+     * @see ClientResponder::initializeRequest()
      */
-    function handleInitializing($requ) {}
+    function initializeRequest($requ) {}
 
     /**
      * @see ClientResponder::handlePreDrawing()

@@ -80,8 +80,8 @@ class ClientResponderHelper extends ServerPluginHelper {
     /**
      * @param ServerPlugin
      */
-    final function handleInitializingHelper($plugin) {
-        $this->callHandleFunction($plugin, 'handleInitializing');
+    final function initializeRequestHelper($plugin) {
+        $this->callHandleFunction($plugin, 'initializeRequest');
     }
 
     /**

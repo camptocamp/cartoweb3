@@ -191,6 +191,19 @@ class ServerCallerHelper extends ClientPluginHelper {
 
     /**
      * Gets plugin specific result out of {@link MapResult} and calls 
+     * plugin's {@link ServerCaller::initializeResult()}
+     * @param ClientPlugin plugin
+     * @param MapResult complete MapResult
+     */
+    final function initializeResultHelper($plugin, $mapResult) {
+        
+        $pluginResult = $plugin->getRequest(false, $mapResult);
+        
+        $plugin->initializeResult($pluginResult);
+    }
+
+    /**
+     * Gets plugin specific result out of {@link MapResult} and calls 
      * plugin's {@link ServerCaller::handleResult()}
      * @param ClientPlugin plugin
      * @param MapResult complete MapResult
@@ -201,7 +214,6 @@ class ServerCallerHelper extends ClientPluginHelper {
         
         $plugin->handleResult($pluginResult);
     }
-
 }
 
 ?>

@@ -173,15 +173,20 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::handleResult
+     * @see ServerCaller::initializeResult
      */
-    function handleResult($imagesResult) {
+    function initializeResult($imagesResult) {
         assert($imagesResult instanceof ImagesResult);
         $this->imagesResult = $imagesResult;
 
         $this->imagesState->mainmapDimension->width = $imagesResult->mainmap->width; 
         $this->imagesState->mainmapDimension->height = $imagesResult->mainmap->height; 
     }
+
+    /**
+     * @see ServerCaller::handleResult
+     */
+    function handleResult($imagesResult) {}
 
     /**
      * Returns full URL from parsed URL (results of parse_url function)

@@ -151,15 +151,20 @@ class ClientOutline extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::handleResult()
+     * @see ServerCaller::initializeResult()
      */ 
-    function handleResult($outlineResult) {
+    function initializeResult($outlineResult) {
         if (is_null($outlineResult)) {
             return;
         }
         $this->area = $outlineResult->area;
     }
 
+    /**
+     * @see ServerCaller::handleResult()
+     */ 
+    function handleResult($outlineResult) {}
+    
     /**
      * Draws Outline form and returns Smarty generated HTML
      * @return string

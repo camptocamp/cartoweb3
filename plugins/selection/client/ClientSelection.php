@@ -143,13 +143,15 @@ class ClientSelection extends ClientPlugin
         $mapRequest->selectionRequest  = $selectionRequest;
     }
 
-    function handleResult($selectionResult) {
+    function initializeResult($selectionResult) {
         if (!$selectionResult instanceof SelectionResult)
             return;
 
         $this->selectionState->selectedIds = $selectionResult->selectedIds;
         $this->layerResult = $selectionResult->layerResults[0];
     }
+
+    function handleResult($selectionResult) {}
 
     private function drawSelectionResult() {
         $smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);

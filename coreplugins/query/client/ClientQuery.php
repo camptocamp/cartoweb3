@@ -95,12 +95,14 @@ class ClientQuery extends ClientPlugin
         $mapRequest->queryRequest = $this->queryRequest;
     }
 
-    function handleResult($queryResult) {
+    function initializeResult($queryResult) {
         if (empty($queryResult))
             return;
 
         $this->queryResult = $queryResult;
     }
+
+    function handleResult($queryResult) {}
 
     private function drawQueryResult($queryResult) {
 

@@ -471,7 +471,11 @@ class Cartoclient {
                                                     $this->cartoForm);
             $this->callPluginsImplementing('GuiProvider', 'handleHttpPostRequest', $_REQUEST);
         } else {
-            $this->callPluginsImplementing('GuiProvider', 'handleHttpGetRequest', $_REQUEST);
+            
+            $request = new FilterRequestModifier($_REQUEST);
+            $this->callPluginsImplementing('FilterProvider', 'filterGetRequest', $request);
+
+            $this->callPluginsImplementing('GuiProvider', 'handleHttpGetRequest', $request->getRequest());
         }
         
         $mapRequest = $this->getMapRequest();
@@ -487,6 +491,8 @@ class Cartoclient {
 
         $this->log->debug("mapresult:");
         $this->log->debug($this->mapResult);
+
+        $this->callPluginsImplementing('ServerCaller', 'initializeResult', $this->mapResult);
 
         $this->callPluginsImplementing('ServerCaller', 'handleResult', $this->mapResult);
 

@@ -126,28 +126,28 @@ class ClientLocation extends ClientPlugin
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
     }
 
-    private function handleRecenter($useDoit = true) {
+    private function handleRecenter($request, $useDoit = true) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);       
-        if (array_key_exists('recenter_x', $_REQUEST) &&
-            array_key_exists('recenter_y', $_REQUEST) &&
-            $_REQUEST['recenter_x'] != '' &&
-            $_REQUEST['recenter_y'] != '') {
-            $point->setXY($_REQUEST['recenter_x'], $_REQUEST['recenter_y']);
+        if (array_key_exists('recenter_x', $request) &&
+            array_key_exists('recenter_y', $request) &&
+            $request['recenter_x'] != '' &&
+            $request['recenter_y'] != '') {
+            $point->setXY($request['recenter_x'], $request['recenter_y']);
         }
         $scale = 0;
         if ($useDoit) {
-            if (array_key_exists('recenter_scale', $_REQUEST) &&
-                array_key_exists('recenter_doit', $_REQUEST) &&
-                $_REQUEST['recenter_scale'] != '' &&
-                $_REQUEST['recenter_doit'] == '1') {
-                $scale = $_REQUEST['recenter_scale'];
+            if (array_key_exists('recenter_scale', $request) &&
+                array_key_exists('recenter_doit', $request) &&
+                $request['recenter_scale'] != '' &&
+                $request['recenter_doit'] == '1') {
+                $scale = $request['recenter_scale'];
             } 
         } else {
-            if (array_key_exists('recenter_scale', $_REQUEST)&&
-                $_REQUEST['recenter_scale'] != '') {
-                $scale = $_REQUEST['recenter_scale'];
+            if (array_key_exists('recenter_scale', $request)&&
+                $request['recenter_scale'] != '') {
+                $scale = $request['recenter_scale'];
             } 
         }
         
@@ -181,20 +181,20 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('recenter.tpl');
     }
 
-    private function handleIdRecenter() {
+    private function handleIdRecenter($request) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);       
-        if (!array_key_exists('id_recenter_ids', $_REQUEST) ||
-            $_REQUEST['id_recenter_ids'] == '')
+        if (!array_key_exists('id_recenter_ids', $request) ||
+            $request['id_recenter_ids'] == '')
             return NULL;
 
         $recenterRequest = new RecenterLocationRequest();
         
         $idSelection = new IdSelection();
-        $idSelection->layerId = $_REQUEST['id_recenter_layer'];
+        $idSelection->layerId = $request['id_recenter_layer'];
         $this->locationState->idRecenterSelected = $idSelection->layerId;
-        $idSelection->selectedIds = explode(',', $_REQUEST['id_recenter_ids']);
+        $idSelection->selectedIds = explode(',', $request['id_recenter_ids']);
         
         $recenterRequest->idSelections = array($idSelection);
         
@@ -231,14 +231,14 @@ class ClientLocation extends ClientPlugin
         return $this->smarty->fetch('id_recenter.tpl');
     }
 
-    private function handleShortcuts() {
-        if (array_key_exists('shortcut_id', $_REQUEST) &&
-            array_key_exists('shortcut_doit', $_REQUEST) &&
-            $_REQUEST['shortcut_id'] != '' &&
-            $_REQUEST['shortcut_doit'] == '1') {
+    private function handleShortcuts($request) {
+        if (array_key_exists('shortcut_id', $request) &&
+            array_key_exists('shortcut_doit', $request) &&
+            $request['shortcut_id'] != '' &&
+            $request['shortcut_doit'] == '1') {
             
             $bboxRequest = new BboxLocationRequest();
-            $bboxRequest->bbox = $this->shortcuts[$_REQUEST['shortcut_id']]->bbox;
+            $bboxRequest->bbox = $this->shortcuts[$request['shortcut_id']]->bbox;
 
             $locationRequest = new LocationRequest();                
             $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
@@ -297,16 +297,16 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleRecenter();
+        $this->locationRequest = $this->handleRecenter($request);
         if (!is_null($this->locationRequest))
             return;
 
-        $this->locationRequest = $this->handleIdRecenter();
+        $this->locationRequest = $this->handleIdRecenter($request);
 
         if (!is_null($this->locationRequest))
             return;
         
-        $this->locationRequest = $this->handleShortcuts();
+        $this->locationRequest = $this->handleShortcuts($request);
         if (!is_null($this->locationRequest))
             return;
         
@@ -317,7 +317,7 @@ class ClientLocation extends ClientPlugin
 
     function handleHttpGetRequest($request) {
 
-        $this->locationRequest = $this->handleRecenter(false);
+        $this->locationRequest = $this->handleRecenter($request, false);
         if (!is_null($this->locationRequest))
             return;
     }
@@ -410,10 +410,12 @@ class ClientLocation extends ClientPlugin
         $mapRequest->locationRequest = $locationRequest;
     }
 
-    function handleResult($locationResult) {
+    function initializeResult($locationResult) {
         $this->locationState->bbox = $locationResult->bbox;
         $this->locationResult = $locationResult;
     }
+
+    function handleResult($locationResult) {}
 
     function handleInit($locationInit) {
         $this->scales = $locationInit->scales;

@@ -190,7 +190,7 @@ class Cartoserver {
         // test new image generation
         //$mapResult->new_gen = $this->generateImage();
 
-        $pluginManager->callPluginsImplementing('ClientResponder', 'handleInitializing');
+        $pluginManager->callPluginsImplementing('ClientResponder', 'initializeRequest');
 
         // images size
         // PRE_DRAW: 1) images

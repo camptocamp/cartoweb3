@@ -385,6 +385,8 @@ class ClientLayers extends ClientPlugin
         $mapRequest->layersRequest = $layersRequest;
     }
 
+    function initializeResult($mapResult) {}
+
     function handleResult($mapResult) {}
 
    /**
