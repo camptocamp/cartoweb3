@@ -374,8 +374,8 @@ function dhtmlBox_measureShape() {
         this.measure += Math.sqrt(this.dist_x * this.dist_x + this.dist_y * this.dist_y);
       }
 	  
-      if (this.dist_unit == ' m.') this.measure = Math.round(this.measure)
-      else if (this.dist_unit == ' km.') this.measure = Math.round(this.measure*100)/100
+      if (this.dist_unit == ' m') this.measure = Math.round(this.measure)
+      else if (this.dist_unit == ' km') this.measure = Math.round(this.measure*100)/100
       this.displayMeasure.innerHTML = this.dist_msg + this.measure.toString() + this.dist_unit
 	}
 	if (this.shapeType == 'polygon') { // calculate the surface and display it
@@ -391,8 +391,8 @@ function dhtmlBox_measureShape() {
         var pix_surf = this.pixel_size * this.pixel_size;
         this.measure = Math.abs(this.measure.toString()) / 2 * pix_surf;
 	  }
-      if (this.surf_unit == ' m2.') this.measure = Math.round(this.measure);
-      else if (this.surf_unit == ' km2.') this.measure = Math.round(this.measure*10000)/10000;
+      if (this.surf_unit == ' m2') this.measure = Math.round(this.measure);
+      else if (this.surf_unit == ' km2') this.measure = Math.round(this.measure*10000)/10000;
       this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit;
     }
 	
