@@ -114,17 +114,21 @@ class FormRenderer {
                 foreach($toolsDescription as $toolDescription) {
                     if (is_null($toolDescription->jsId))
                         $toolDescription->jsId = $toolDescription->id;
-                    $tools[$toolDescription->id] = $toolDescription;
+                    $tools[$toolDescription->weight] = $toolDescription;
                 }
             }
         }
-        
-        // FIXME: initial selected tool might be set in configuration
-        
+        ksort($tools);
+
         if (empty($clientSession->selectedTool)) {
-            $toolsIds = array_keys($tools);
-            if (!empty($toolsIds))
-                $clientSession->selectedTool = $toolsIds[0];
+            if ($this->cartoclient->getConfig()->initialTool) {
+                $clientSession->selectedTool =
+                    $this->cartoclient->getConfig()->initialTool;
+            } else {
+                $toolsIds = array_keys($tools);
+                if (!empty($toolsIds))
+                    $clientSession->selectedTool = $toolsIds[0];
+            }
         }       
         $smarty->assign('selected_tool', $clientSession->selectedTool);
                 
