@@ -17,11 +17,13 @@ class ClientLayers extends ClientCorePlugin {
     private $layersData;
     private $hiddenSelectedLayers;
     private $hiddenUnselectedLayers;
+    private $frozenSelectedLayers;
+    private $frozenUnselectedLayers;
     
     private $layers;
     private $selectedLayers = array();
     private $hiddenLayers = array();
-    private $unselectableLayers = array();
+    private $frozenLayers = array();
     private $unfoldedLayerGroups = array();
     private $unfoldedIds = array();
     private $nodeId = 0;
@@ -43,6 +45,10 @@ class ClientLayers extends ClientCorePlugin {
             =& $this->layersState['hiddenSelectedLayers'];
         $this->hiddenUnselectedLayers
             =& $this->layersState['hiddenUnselectedLayers'];
+        $this->frozenSelectedLayers
+            =& $this->layersState['frozenSelectedLayers'];
+        $this->frozenUnselectedLayers
+            =& $this->layersState['frozenUnselectedLayers'];
     }
 
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
@@ -54,6 +60,10 @@ class ClientLayers extends ClientCorePlugin {
             =& $this->hiddenSelectedLayers;
         $this->layersState['hiddenUnselectedLayers']
             =& $this->hiddenUnselectedLayers;
+        $this->layersState['frozenSelectedLayers']
+            =& $this->frozenSelectedLayers;
+        $this->layersState['frozenUnselectedLayers']
+            =& $this->frozenUnselectedLayers;
             
         $this->layersData = array();
         foreach ($initialMapState->layers as $initialLayerState) {
@@ -62,6 +72,10 @@ class ClientLayers extends ClientCorePlugin {
 
         $this->hiddenUnselectedLayers = array();
         $this->hiddenSelectedLayers = $this->fetchHiddenSelectedLayers('root');
+
+        $this->frozenUnselectedLayers = array();
+        $this->frozenSelectedLayers = $this->fetchFrozenSelectedLayers('root');
+        
         $this->selectedLayers = array(); // resets selectedLayers array
 
         foreach ($this->getLayers() as $layer) {
@@ -204,17 +218,17 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     /**
-     * Returns the list of hidden layers.
+     * Returns the list of explicitely hidden layers.
      */
     private function getHiddenLayers() {
         return $this->getMatchingLayers('hidden', 'hiddenLayers');
     }
 
     /**
-     * Returns the list of disabled (frozen) layers.
+     * Returns the list of explicitely frozen layers.
      */
-    private function getUnselectableLayers() {
-        return $this->getMatchingLayers('unselectable', 'unselectableLayers');
+    private function getFrozenLayers() {
+        return $this->getMatchingLayers('frozen', 'frozenLayers');
     }
 
     /**
@@ -229,36 +243,66 @@ class ClientLayers extends ClientCorePlugin {
         $layer = $this->getLayerByName($layerId);
         if (!$layer || $layer instanceof LayerClass) return array();
 
-        $hiddenSelectedLayers = array();
+        return $this->fetchRecursively($layer, 'hidden',
+                                       $forceHidden, $forceSelected);
+    }
+
+    /**
+     * Recursively retrieves selected frozen layers. 
+     * See also fetchHiddenSelectedLayers().
+     */
+    private function fetchFrozenSelectedLayers($layerId,
+                                               $forceFrozen = false,
+                                               $forceSelected = false) {
+        $layer = $this->getLayerByName($layerId);
+        if (!$layer || $layer instanceof LayerClass ||
+            in_array($layerId, $this->hiddenSelectedLayers) ||
+            in_array($layerId, $this->hiddenUnselectedLayers))
+            return array();
+
+        return $this->fetchRecursively($layer, 'frozen',
+                                       $forceFrozen, $forceSelected);
+    }
+
+    /**
+     * Performs common recusrive job for fetchHiddenSelectedLayers() and
+     * fetchFrozenSelectedLayers().
+     */
+    private function fetchRecursively($layer, $type, 
+                                      $forceFixed, $forceSelected) {
+        $getFixedLayers = 'get' . ucfirst($type) . 'Layers';
+        $fixedUnselectedLayers = $type . 'UnselectedLayers';
+        $fetchFixedSelectedLayers = 'fetch' . ucfirst($type) . 'SelectedLayers';
         
-        // $forceHidden: is true if parent was hidden. As a result all its
-        // children are hidden too.
+        $fixedSelectedLayers = array();
+        
+        // $forceFixed: "fixed" status is inheritated by children layers.
         // $forceSelected: is true if parent was selected...
-        $isHidden = $forceHidden ||
-                    in_array($layerId, $this->getHiddenLayers());
-        if ($isHidden) {
-            if ($forceSelected || 
-                in_array($layerId, $this->getSelectedLayers())) {
+        $isFixed = $forceFixed ||
+                    in_array($layer->id, $this->$getFixedLayers());
+        if ($isFixed) {
+            if ($forceSelected ||
+                in_array($layer->id, $this->getSelectedLayers())) {
                 $isSelected = true;
-                $hiddenSelectedLayers[] = $layerId;
+                $fixedSelectedLayers[] = $layer->id;
             } else {
                 $isSelected = false;
-                $this->hiddenUnselectedLayers[] = $layerId;
+                $this->{$fixedUnselectedLayers}[] = $layer->id;
             }
         }
 
         foreach ($layer->children as $child) {
-            $newList = $this->fetchHiddenSelectedLayers($child, $isHidden,
-                                                     $isHidden && $isSelected);
+            $newList = $this->$fetchFixedSelectedLayers($child, $isFixed,
+                                                      $isFixed && $isSelected);
             if ($newList) {
-                $hiddenSelectedLayers = array_merge($hiddenSelectedLayers,
-                                                    $newList);
-                $hiddenSelectedLayers = array_unique($hiddenSelectedLayers);
-            }       
-        }       
-        return $hiddenSelectedLayers;
+                $fixedSelectedLayers = array_merge($fixedSelectedLayers,
+                                                   $newList);
+                $fixedSelectedLayers = array_unique($fixedSelectedLayers);
+            }
+        }
+        return $fixedSelectedLayers;
     }
-
+    
     /**
      * Determines activated layers by recursively browsing LayerGroups.
      * Only keeps Layer objects that are not detected as hidden AND 
@@ -275,7 +319,8 @@ class ClientLayers extends ClientCorePlugin {
             // removes non Layer objects
             if ($layer instanceof Layer) {
                 if (in_array($layerId, $this->getSelectedLayers()) ||
-                    !in_array($layerId, $this->hiddenUnselectedLayers))
+                    (!in_array($layerId, $this->hiddenUnselectedLayers) &&
+                    !in_array($layerId, $this->frozenUnselectedLayers)))
                     $cleanList[] = $layerId;
                 continue;
             }
@@ -294,9 +339,10 @@ class ClientLayers extends ClientCorePlugin {
     }
 
     function buildMapRequest($mapRequest) {
-        foreach ($this->hiddenSelectedLayers as $layerId) {
+        $selectedLayers = array_merge($this->hiddenSelectedLayers,
+                                      $this->frozenSelectedLayers);
+        foreach ($selectedLayers as $layerId)
             $this->layersData[$layerId]->selected = true;
-        }
         
         $layersRequest = new LayersRequest();
         $layersRequest->layerIds = $this->getSelectedLayers(true);
@@ -352,7 +398,7 @@ class ClientLayers extends ClientCorePlugin {
      * to build sublayers. 
      */
     private function drawLayer($layer, $forceSelection = false,
-                                       $forceUnselectable = false) {
+                                       $forceFrozen = false) {
         // TODO: build switch among various layout (tree, radio, etc.)
 
         // if level is root and root is hidden (no layers menu displayed):
@@ -362,30 +408,29 @@ class ClientLayers extends ClientCorePlugin {
         // if parent is selected, children are selected too!
         $layerChecked = $forceSelection ||
                         in_array($layer->id, $this->getSelectedLayers());
-        $layerUnselectable = $forceUnselectable ||
-                             in_array($layer->id, 
-                                      $this->getUnselectableLayers());
+        $layerFrozen = $forceFrozen ||
+                       in_array($layer->id, $this->getFrozenLayers());
 
         $childrenLayers = array();
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
             $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked,
-                                                 $layerUnselectable);
+                                                 $layerFrozen);
         }
 
         $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
 
-        $template->assign(array('layerLabel'        => I18n::gt($layer->label),
-                                'layerId'           => $layer->id,
-                                'layerClassName'    => $layer->className,
-                                'layerLink'         => $layer->link,
-                                'layerChecked'      => $layerChecked,
-                                'layerUnselectable' => $layerUnselectable,
-                                'groupFolded'       => $groupFolded,
-                                'nodeId'            => $this->nodeId++,
-                                'childrenLayers'    => $childrenLayers,
+        $template->assign(array('layerLabel'     => I18n::gt($layer->label),
+                                'layerId'        => $layer->id,
+                                'layerClassName' => $layer->className,
+                                'layerLink'      => $layer->link,
+                                'layerChecked'   => $layerChecked,
+                                'layerFrozen'    => $layerFrozen,
+                                'groupFolded'    => $groupFolded,
+                                'nodeId'         => $this->nodeId++,
+                                'childrenLayers' => $childrenLayers,
                                 ));
         
         if (!$groupFolded && $this->nodeId != 1) 
