@@ -220,6 +220,28 @@ MAP
   END
  
   LAYER
+    NAME "more_points"
+    TYPE POINT
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "more_points"
+    #CLASSITEM "FID"
+	TEMPLATE "ttt"
+    CLASS
+      NAME "Point class 2"
+      STYLE
+        COLOR 0 0 255
+        SYMBOL 1
+        SIZE 5
+      END
+    END
+    MINSCALE 1
+    MAXSCALE 20
+  END
+
+  LAYER
     NAME "INLINE"
     TYPE POINT
     PROJECTION

@@ -4,7 +4,10 @@
         <all>
           <element name="className" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
-          <element name="layerIds" type="types:ArrayOfLayerId"/>
+          <element name="queryAllLayers" type="xsd:boolean"/>
+          <element name="defaultMaskMode" type="xsd:boolean"/>
+          <element name="defaultTableFlags" type="types:TableFlags"/>
+          <element name="querySelections" type="types:ArrayOfQuerySelection"/>
         </all>
       </complexType>
 
@@ -15,35 +18,24 @@
         </all>
       </complexType>
 
-      <complexType name="ArrayOfLayerResult">
-        <complexContent>
-          <restriction base="enc11:Array">
-            <attribute ref="enc11:arrayType" wsdl:arrayType="types:LayerResult[]"/>
-          </restriction>
-        </complexContent>
-      </complexType>
-      
-      <complexType name="LayerResult">
+      <complexType name="QuerySelection">
         <all>
           <element name="layerId" type="xsd:string"/>
-          <element name="numResults" type="xsd:integer"/>
-          <element name="fields" type="types:ArrayOfString"/>
-          <element name="resultElements" type="types:ArrayOfResultElement"/>
+          <element name="idAttribute" type="xsd:string"/>
+          <element name="idType" type="xsd:string"/>
+          <element name="selectedIds" type="types:ArrayOfString"/>
+          <element name="useInQuery" type="xsd:boolean"/>
+          <element name="policy" type="xsd:string"/>
+          <element name="maskMode" type="xsd:boolean"/>
+          <element name="tableFlags" type="types:TableFlags"/>
         </all>
       </complexType>
 
-      <complexType name="ArrayOfResultElement">
+      <complexType name="ArrayOfQuerySelection">
         <complexContent>
           <restriction base="enc11:Array">
-            <attribute ref="enc11:arrayType" wsdl:arrayType="types:ResultElement[]"/>
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:QuerySelection[]"/>
           </restriction>
         </complexContent>
       </complexType>
-
       
-      <complexType name="ResultElement">
-        <all>
-          <element name="id" type="xsd:string"/>
-          <element name="values" type="types:ArrayOfString"/>
-        </all>
-      </complexType>

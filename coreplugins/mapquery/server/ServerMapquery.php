@@ -34,12 +34,12 @@ class ServerMapquery extends ServerPlugin {
         $queryString = array();
         foreach($selectedIds as $id) {
             if ($idType == 'string')
-                $queryString[] = "'$id'";
+                $queryString[] = "'[$idAttribute]' = '$id'";
             else
                 /* TODO */ 
                 x('todo_int_query_string');
         } 
-        return $queryString;
+        return array('(' . implode(' OR ', $queryString) . ')');
     }
     
     /**
@@ -89,6 +89,9 @@ class ServerMapquery extends ServerPlugin {
         $log->debug("queryLayerByAttributes layer: $msLayer->name " .
                 "idAttribute: $idAttribute query: $query");
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
+
+        $this->log->debug("Query on layer " . $msLayer->name . ": queryByAttributes($idAttribute, $query)");
+                
         if ($ret == MS_FAILURE) {
             throw new CartoserverException("Attribute query returned no " .
                     "results. Layer: $msLayer->name, idAttribute: $idAttribute," .
@@ -181,6 +184,46 @@ class ServerMapquery extends ServerPlugin {
         }
         return $results;
     }      
+
+    /**
+     * Performs a query based on a bbox on a given layer
+     * @param strinf layerId
+     * @param Bbox
+     * @return array an array of shapes
+     */
+    public function queryByBbox($layerId, Bbox $bbox) {
+
+        $msMapObj = $this->serverContext->getMapObj();
+
+        $rect = ms_newRectObj();
+        $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
+        
+        $mapInfo = $this->serverContext->getMapInfo();
+        $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
+        
+        // layer has to be activated for query
+        $msLayer->set('status', MS_ON);
+        $ret = @$msLayer->queryByRect($rect);
+        
+        $this->log->debug("Query on layer $layerId: queryByRect($rect)");        
+        
+        $this->serverContext->resetMsErrors();
+
+        $results = array();
+        if ($ret != MS_SUCCESS || 
+            $msLayer->getNumResults() == 0) 
+            return $results;
+
+        $msLayer->open();        
+        for ($i = 0; $i < $msLayer->getNumResults(); $i++) {
+            $result = $msLayer->getResult($i);
+            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
+
+            $results[] = $shape;
+        }
+        $msLayer->close();
+        return $results;
+    }
 }
 
 ?>

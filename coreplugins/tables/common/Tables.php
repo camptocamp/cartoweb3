@@ -23,7 +23,24 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
  */
 class TableFlags extends Serializable {
        
+    /**
+     * If false, returns Ids only
+     * @var boolean
+     */
+    public $returnAttributes;
+    
+    /**
+     * If false, returns nothing
+     * @var boolean
+     */
+    public $returnTable;
+       
     function unserialize($struct) {
+
+        $this->returnAttributes = Serializable::unserializeValue($struct,
+                                        'returnAttributes', 'boolean');
+        $this->returnTable = Serializable::unserializeValue($struct,
+                                        'returnTable', 'boolean');
     }
 }
 
@@ -36,7 +53,7 @@ class TableRow extends Serializable {
     /**
      * @var string
      */
-     public $rowId;
+    public $rowId;
 
     /**
      * @var array array of string
@@ -92,6 +109,11 @@ class Table extends Serializable {
     public $columnTitles;
         
     /**
+     * @var boolean
+     */
+    public $noRowId;
+    
+    /**
      * @var array array of TableRow
      */
     public $rows;
@@ -115,9 +137,24 @@ class Table extends Serializable {
                                                              'columnIds');
         $this->columnTitles  = Serializable::unserializeArray($struct,
                                                              'columnTitles');
+        $this->noRowId       = Serializable::unserializeValue($struct, 
+                                                             'noRowId',
+                                                             'boolean');
         $this->rows          = Serializable::unserializeObjectMap($struct,
                                                                  'rows',
                                                                  'TableRow');
+    }
+    
+    public function getIds() {
+        $ids = array();
+        if (!is_null($this->rows)) {
+            foreach($this->rows as $row) {
+                if (!empty($row->rowId)) {
+                    $ids[] = $row->rowId;
+                }
+            }
+        }
+        return $ids;
     }
 }
 

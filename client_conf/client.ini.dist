@@ -67,7 +67,7 @@ showProjectChooser = true
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = auth, hello, selection, outline, exportPdf, exportHtml, exportCsv
+loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv
 
 ;## Security configuration ##
 

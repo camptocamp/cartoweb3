@@ -2,6 +2,8 @@
 
       <complexType name="TableFlags">
         <all>
+          <element name="returnAttributes" type="xsd:boolean"/>
+          <element name="returnTable" type="xsd:boolean"/>
         </all>
       </complexType>
 
@@ -38,6 +40,7 @@
           <element name="offset" type="xsd:integer"/>
           <element name="columnIds" type="types:ArrayOfString"/>
           <element name="columnTitles" type="types:ArrayOfString"/>
+          <element name="noRowId" type="xsd:boolean"/>
           <element name="rows" type="types:ArrayOfTableRow"/>
         </all>
       </complexType>

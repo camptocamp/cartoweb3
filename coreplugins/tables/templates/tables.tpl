@@ -6,14 +6,14 @@
 <table class="queryres">
     <caption>{t}{$table->tableTitle}{/t}</caption>
     <tr>
-      <th>{t}Id{/t}</th>
+      {if !$table->noRowId}<th>{t}Id{/t}</th>{/if}
       {foreach from=$table->columnTitles item=column}
       <th>{$column}</th>               
       {/foreach}
     </tr>
     {foreach from=$table->rows item=row}
     <tr>
-       <td>{$row->rowId}</td>
+       {if !$table->noRowId}<td>{$row->rowId}</td>{/if}
        {foreach from=$row->cells item=value}
        <td>{$value}</td>
        {/foreach}

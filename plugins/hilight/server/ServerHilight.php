@@ -43,12 +43,12 @@ class ServerHilight extends ServerPlugin {
 
     /**
      * Builds a mapserver expression string.
-     * @param SelectionRequest request
+     * @param QuerySelection
      * @return string expression string
      */
-    private function buildExpression($requ) {
+    private function buildExpression($querySelection) {
 
-        if (!$requ->maskMode) {
+        if (!$querySelection->maskMode) {
             $comp_op = '='; 
             $bool_op = ' OR ';
         } else {
@@ -56,9 +56,9 @@ class ServerHilight extends ServerPlugin {
             $bool_op = ' AND ';
         }
 
-        $idType = $requ->idType;
-        if (empty($requ->idType)) {
-            $idType = $this->serverContext->getIdAttributeType($requ->layerId);
+        $idType = $querySelection->idType;
+        if (empty($querySelection->idType)) {
+            $idType = $this->serverContext->getIdAttributeType($querySelection->layerId);
         }
 
         if ($idType == 'string') {
@@ -69,14 +69,14 @@ class ServerHilight extends ServerPlugin {
 
         $id_exprs = array();
 
-        $ids = $requ->selectedIds;
+        $ids = $querySelection->selectedIds;
         
-        $idAttribute = $requ->idAttribute;
+        $idAttribute = $querySelection->idAttribute;
         if (empty($idAttribute))
-            $idAttribute = $this->serverContext->getIdAttribute($requ->layerId);
+            $idAttribute = $this->serverContext->getIdAttribute($querySelection->layerId);
         if (empty($idAttribute))
             throw new CartoserverException("no id_attribute_string metadata declared" .
-                " for layer $requ->layerId");
+                " for layer $querySelection->layerId");
         
         foreach ($ids as $id) {
             $id = $this->decodeId($id);
@@ -85,7 +85,7 @@ class ServerHilight extends ServerPlugin {
         
         $result = sprintf('(%s)', implode($bool_op, $id_exprs));
         if (count($ids) == 0) {
-            if (!$requ->maskMode) {
+            if (!$querySelection->maskMode) {
                 // normal mode, nothing selected, so nothing must be hilighted
                 $result = '(1=0)';
             } else {
@@ -133,18 +133,18 @@ class ServerHilight extends ServerPlugin {
     
     /**
      * Sets the expression of a mapserver class, so that it filters a given set
-     * of elements. These elements are specified in the {@link SelectionRequest}.
+     * of elements. These elements are specified in the {@link QuerySelection}.
      * @param MsLayer MapServer layer
      * @param int index of layer's class
-     * @param SelectionRequest request
+     * @param QuerySelection
      */
-    private function setClassExpression($msLayer, $classIndex, $requ) {
+    private function setClassExpression($msLayer, $classIndex, $querySelection) {
         
         $class = $msLayer->getClass($classIndex);
         if (empty($class)) 
             throw new CartoserverException("no class at index $classIndex for layer $msLayer");    
 
-        $expression = $this->buildExpression($requ);
+        $expression = $this->buildExpression($querySelection);
         $this->log->debug("setting expression $expression");
         $class->setexpression($expression);
     }
@@ -190,12 +190,12 @@ class ServerHilight extends ServerPlugin {
     /**
      * Hilight a whole layer, by setting its classes to be hilighted.
      */ 
-    private function hilightWholeLayer($layer, $requ) {
+    private function hilightWholeLayer($layer, $querySelection) {
         
         $layer->set('status', MS_ON);
         
         for ($i = 0; $i < $layer->numclasses; $i++)
-              $this->setClassExpression($layer, $i, $requ);
+              $this->setClassExpression($layer, $i, $querySelection);
     }
     
     /**
@@ -211,31 +211,30 @@ class ServerHilight extends ServerPlugin {
     /**
      * Mask a whole layer, by setting its classes to be masked.
      */ 
-    private function maskWholeLayer($layer, $requ) {
+    private function maskWholeLayer($layer, $querySelection) {
         
         $layer->set('status', MS_ON);
         
         for ($i = 0; $i < $layer->numclasses; $i++) {
             $class = $layer->getClass($i);
-            $expression = $this->buildExpression($requ, false);
+            $expression = $this->buildExpression($querySelection, false);
             $class->setexpression($expression);
         }
     }
         
     /**
-     * Main function, does hilight given a {@link SelectionRequest}
+     * Main function, does hilight given a {@link QuerySelection}
      *
-     * @param SelectionRequest
-     * @see ServerSelection::handlePreDrawing()
-     * @see ServerQuery::hilightSelectionRequest()
+     * @param QuerySelection
+     * @see ServerQuery::handlePreDrawing()
      */
-    function hilightLayer($requ) {
+    function hilightLayer($querySelection) {
         
         $mapInfo = $this->serverContext->getMapInfo();
         
-        $serverLayer = $mapInfo->getLayerById($requ->layerId);
+        $serverLayer = $mapInfo->getLayerById($querySelection->layerId);
         if (!$serverLayer)
-            throw new CartoserverException("can't find serverLayer $requ->layerId");
+            throw new CartoserverException("can't find serverLayer $querySelection->layerId");
         
         $msMapObj = $this->serverContext->getMapObj();
         
@@ -247,7 +246,7 @@ class ServerHilight extends ServerPlugin {
         $msLayer->set('status', MS_ON);
         
         // TODO(sp): create two functions: hilightLayerMask hilightLayerNormal
-        if ($requ->maskMode) {
+        if ($querySelection->maskMode) {
             
             // Activate outside mask layer
             $outsideMask = false;
@@ -269,13 +268,13 @@ class ServerHilight extends ServerPlugin {
             if (!empty($msMaskLayer)) {
                 $this->log->debug("activating special mask layer");
                 $msMaskLayer->set('status', MS_ON);
-                $this->maskWholeLayer($msMaskLayer, $requ);
+                $this->maskWholeLayer($msMaskLayer, $querySelection);
                 return;
             }
             
             // fall-back                                  
             $newLayer = $this->createMaskLayer($msLayer);
-            $this->maskWholeLayer($newLayer, $requ);
+            $this->maskWholeLayer($newLayer, $querySelection);
             return;               
                 
         } else {
@@ -285,7 +284,7 @@ class ServerHilight extends ServerPlugin {
             if (!empty($msHilightLayer)) {
                 $this->log->debug("activating special hilight layer");
                 $msHilightLayer->set('status', MS_ON);
-                $this->hilightWholeLayer($msHilightLayer, $requ);
+                $this->hilightWholeLayer($msHilightLayer, $querySelection);
                 
                 return;
             }
@@ -294,7 +293,7 @@ class ServerHilight extends ServerPlugin {
         
             if ($msLayer->getClass(0)->name == HILIGHT_CLASS) {
                 $this->log->debug("activating special hilight class");
-                $this->setClassExpression($msLayer, 0, $requ);
+                $this->setClassExpression($msLayer, 0, $querySelection);
                 return;            
             }
 
@@ -304,7 +303,7 @@ class ServerHilight extends ServerPlugin {
                 $this->log->debug("creating hilight layer");
 
                 $newLayer = $this->createHilightLayer($msLayer);
-                $this->hilightWholeLayer($newLayer, $requ);
+                $this->hilightWholeLayer($newLayer, $querySelection);
                 return;
             }
 
@@ -326,7 +325,7 @@ class ServerHilight extends ServerPlugin {
             $cl = $msLayer->getClass(0);
             $hilightClass = $this->setupHilightClass($msLayer, $cl);
 
-            $this->setClassExpression($msLayer, 0, $requ);
+            $this->setClassExpression($msLayer, 0, $querySelection);
         }
     }
 }

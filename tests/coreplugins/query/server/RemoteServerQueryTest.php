@@ -33,6 +33,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $bbox = new Bbox();
         $bbox->setFromBbox(0, 51.5, 0, 51.5);
         $queryRequest->bbox = $bbox;
+        $queryRequest->queryAllLayers = true;
         
         return $queryRequest;
     }

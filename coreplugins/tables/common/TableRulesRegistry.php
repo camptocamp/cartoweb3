@@ -623,6 +623,9 @@ class CellFilter extends CellRule {
      */
     function applyRule($table, $columnId, $params) {
         
+        if ($table->numRows == 0) {
+            return;
+        }
         $indexes = $this->getIndexes($table);
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
@@ -665,6 +668,9 @@ class CellFilterBatch extends CellFilter {
      */
     function applyRule($table, $columnId, $params) {
     
+        if ($table->numRows == 0) {
+            return;
+        }
         $indexes = $this->getIndexes($table);
         $inputValues = array();
         foreach ($table->rows as $row) {
@@ -793,6 +799,9 @@ class ColumnAdder extends TableFilter {
         $this->addNewColumns($table, $params);           
         $indexes = $this->getIndexes($table);
  
+        if ($table->numRows == 0) {
+            return;
+        }
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($table->columnIds as $columnId) {
@@ -901,6 +910,9 @@ class ColumnAdderBatch extends ColumnAdder {
 
         $this->addNewColumns($table, $params);
 
+        if ($table->numRows == 0) {
+            return;
+        }
         $inputValues = array();
         foreach ($table->rows as $row) {
             $inputValuesRow = array();

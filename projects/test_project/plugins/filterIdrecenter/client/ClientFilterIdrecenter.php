@@ -10,11 +10,11 @@ class ClientFilterIdrecenter extends ClientPlugin
         $id = $request->getValue('id');
         if (!is_null($id)) {
             $layer = 'grid_classhilight';
-            $request->setValue('selection_layer', $layer);
-            $request->setValue('selection_maskmode', '1');
+            $request->setValue('query_layer', $layer);
+            $request->setValue('query_maskmode', '1');
             $request->setValue('id_recenter_layer', $layer);
         
-            $request->setValue('selection_select', $id);
+            $request->setValue('query_select', $id);
             $request->setValue('id_recenter_ids', $id);
         }
     }
