@@ -44,8 +44,7 @@ $extensions = array('tpl');
  * @param string
  * @return string
  */
-function fs($str)
-{
+function fs($str) {
     $str = stripslashes($str);
     $str = str_replace('"', '\"', $str);
     $str = str_replace("\n", '\n', $str);
@@ -58,8 +57,7 @@ function fs($str)
  * @param array map text_to_translate => references
  * @param array map of texts plurals
  */
-function do_file($file, &$texts, &$plurals)
-{
+function do_file($file, &$texts, &$plurals) {
     $content = @file_get_contents($file);
    
     if (empty($content)) {
@@ -68,9 +66,12 @@ function do_file($file, &$texts, &$plurals)
 
     global $ldq, $rdq, $cmd;
 
-    preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/", $content, $matches);
+    $regexp = sprintf("/{%s}\s*({%s})\s*([^{%s}]*){%s}([^{%s}]*){%s}\/\\1{%s}/",
+                      $ldq, $cmd, $rdq, $rdq, $ldq, $ldq, $rdq);
+
+    preg_match_all($regexp, $content, $matches);
     
-    for ($i=0; $i < count($matches[0]); $i++) {
+    for ($i = 0; $i < count($matches[0]); $i++) {
         $text = fs($matches[3][$i]);
         $ref = substr($file, (strlen(CARTOCLIENT_HOME) - strlen($file)));
         if (array_key_exists($text, $texts)) {
@@ -78,7 +79,8 @@ function do_file($file, &$texts, &$plurals)
         } else {
             $texts[$text] = $ref;
         }
-        if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
+        if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', 
+                       $matches[2][$i], $match)) {
             $plurals[$text] = fs($match[1]);
         }
     }
@@ -95,7 +97,8 @@ function do_dir($dir, $project, &$texts, &$plurals) {
     
     // Include directory if:
     // - no projects set and not in projects directory, or
-    // - project set and not in projects directory OR in this specific project directory
+    // - project set and not in projects directory OR in this specific project
+    // directory
     if (($project == '' && !strstr($dir, 'projects/'))
         || ($project != ''
             && (strstr($dir, 'projects/' . $project)))) {
@@ -114,7 +117,8 @@ function do_dir($dir, $project, &$texts, &$plurals) {
             } else { // if file, parse only if extension is matched
                 $pi = pathinfo($entry);
                 
-                if (isset($pi['extension']) && in_array($pi['extension'], $GLOBALS['extensions'])) {
+                if (isset($pi['extension']) && 
+                    in_array($pi['extension'], $GLOBALS['extensions'])) {
                     do_file($entry, $texts, $plurals);
                 }
             }

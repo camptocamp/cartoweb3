@@ -130,10 +130,12 @@ function loadMapResults($resultCachedir) {
                         if ($pos === FALSE) {
                             $name = $image->path;
                         } else {
-                            $name = substr($image->path, $pos + 1, strlen($image->path) - $pos - 1);                              
+                            $name = substr($image->path, $pos + 1, 
+                                           strlen($image->path) - $pos - 1);                           
                         }
                         
-                        // remembers for each image in which result it was found
+                        // Remembers for each image in which result it was 
+                        // found.
                         if ($name) {
                             $results[$name] = $filename;
                         }

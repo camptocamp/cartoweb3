@@ -56,13 +56,15 @@ if (!is_link('pear_base')) {
  * Directories and files to include
  */
 define('INCLUDE_FILES',
-       '../client,../server,../common,../plugins,../coreplugins,../tests,../scripts');
+       '../client,../server,../common,../plugins,../coreplugins,../tests,' .
+       '../scripts');
 
 /**
  * Directories (ending with '/') and files to ignore
  */
 define('IGNORE_FILES',
-       'scripts/pear_base/,include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
+       'scripts/pear_base/,include/,www-data/,doc/,projects/,client_conf/,' .
+       'server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
 
 /**
  * Documentation title

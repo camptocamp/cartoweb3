@@ -73,7 +73,8 @@ function getMapPo($project, $mapId) {
     $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
     $iniFileProject = '';
     if ($project != '') {
-        $iniFileProject = CARTOCLIENT_HOME . 'projects/' . $project . '/client_conf/client.ini';
+        $iniFileProject = CARTOCLIENT_HOME . 'projects/' . $project .
+                          '/client_conf/client.ini';
     }        
     if (!file_exists($iniFileProject)) {
         $iniFileProject = $iniFile;
@@ -166,11 +167,13 @@ function merge($project, $file1, $file2, $output) {
         $fileOutput = CARTOCLIENT_PODIR . $fileOutputName;
         
         if (!file_exists($file1path)) {
-            print "Warning: Project " . getProjectName($project) . " merge - file $file1path not found.\n";
+            print "Warning: Project " . getProjectName($project) . 
+                  " merge - file $file1path not found.\n";
             return false;
         }
         if (!file_exists($file2path)) {
-            print "Warning: Project " . getProjectName($project) . " merge - file $file2path not found.\n";
+            print "Warning: Project " . getProjectName($project) . 
+                  " merge - file $file2path not found.\n";
             return false;
         }
         
@@ -237,7 +240,8 @@ function compile($project, $fileName) {
             exec("msgfmt -o " . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
             print ".. done.\n";
         } else {
-            print "Warning: Project " . getProjectName($project) . " compile - file $file not found.\n";
+            print "Warning: Project " . getProjectName($project) . 
+                  " compile - file $file not found.\n";
             return false;
         }
     }

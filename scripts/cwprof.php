@@ -38,7 +38,7 @@ function parseFile($fileName) {
         usage("File $fileName not found");
     }
       
-    if(($DATA = fopen($fileName, "r")) == FALSE) {
+    if (($DATA = fopen($fileName, "r")) == FALSE) {
         usage("Cannot open $fileName");
     }
     
@@ -67,67 +67,69 @@ function parseFile($fileName) {
     $symbol_hash = array();
     $symbol_type = array();
     
-    while($line = fgets($DATA)) {
+    while ($line = fgets($DATA)) {
         $line = rtrim($line);
-        if(preg_match("/^END_TRACE/", $line)){
+        if (preg_match("/^END_TRACE/", $line)){
             break;
         }
         list($token, $data) = preg_split("/ /",$line, 2);
-        if($token == '!') {
-        list ($index, $file) = preg_split("/ /", $data, 2);
-        $file_hash[$index] = $file;
-        continue;
-        }
-        if( $token == '&') {
-            list ($index, $name, $type) = preg_split("/ /", $data, 3);
-            $symbol_hash[$index] = $name;
-        $symbol_type[$index] = $type;
+        if ($token == '!') {
+            list ($index, $file) = preg_split("/ /", $data, 2);
+            $file_hash[$index] = $file;
             continue;
         }
-        if( $token == '+') {
+        if ($token == '&') {
+            list ($index, $name, $type) = preg_split("/ /", $data, 3);
+            $symbol_hash[$index] = $name;
+            $symbol_type[$index] = $type;
+            continue;
+        }
+        if ($token == '+') {
             list($index, $file, $line) = preg_split("/ /",$data, 3);
-            if(array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
+            if (array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
                 continue;
             }
             $index_cur = $index;
             $calls[$index_cur]++;
             array_push($callstack, $index_cur);
-            if(array_key_exists('T', $opt)) {
-                if(array_key_exists('c', $opt)) {
+            if (array_key_exists('T', $opt)) {
+                if (array_key_exists('c', $opt)) {
                     printf("%2.02f ", $rtotal/1000000);
                 }
-                print str_repeat("  ", $indent_cur).$symbol_hash[$index_cur]."\n";
-            if(array_key_exists('m', $opt)) {
-            print str_repeat("  ", $indent_cur)."C: $file_hash[$file]:$line M: $memory\n";
-            }
-        }
-            elseif(array_key_exists('t', $opt)) {
+                print str_repeat('  ', $indent_cur) . 
+                      $symbol_hash[$index_cur] . "\n";
+                if (array_key_exists('m', $opt)) {
+                    print str_repeat('  ', $indent_cur) . 
+                          "C: $file_hash[$file]:$line M: $memory\n";
+                }
+            } elseif (array_key_exists('t', $opt)) {
                 if ( $indent_last == $indent_cur && $index_last == $index_cur ) {
                     $repcnt++;
-                }
-                else {
+                } else {
                     if ( $repcnt ) {
                         $repstr = ' ('.++$repcnt.'x)';
                     }
                     if(array_key_exists('c', $opt)) {
                         printf("%2.02f ", $rtotal/1000000);
                     }
-                    print str_repeat("  ", $indent_last).$symbol_hash[$index_last].$repstr."\n";
-            if(array_key_exists('m', $opt)) {
-                print str_repeat("  ", $indent_cur)."C: $file_hash[$file_last]:$line_last M: $memory\n";
-            }
+                    print str_repeat('  ', $indent_last) .
+                          $symbol_hash[$index_last] . $repstr . "\n";
+                    if(array_key_exists('m', $opt)) {
+                        print str_repeat('  ', $indent_cur) .
+                           "C: $file_hash[$file_last]:$line_last M: $memory\n";
+                    }
                     $repstr = '';
                     $repcnt = 0;
                     $index_last = $index_cur;
                     $indent_last = $indent_cur;
-            $file_last = $file;
-            $line_last = $line;
+                    $file_last = $file;
+                    $line_last = $line;
                 }
             }
-        $indent_cur++;
+            $indent_cur++;
             continue;
         }
-        if( $token == '@') {
+        if ($token == '@') {
             list($file_no, $line_no, $ut, $st, $rt) = preg_split("/ /", $data);
             $top = array_pop($callstack);
             $utimes[$top] += $ut;
@@ -137,7 +139,7 @@ function parseFile($fileName) {
             $rtimes[$top] += $rt;
             $rtotal += $rt;
             array_push($callstack, $top);
-        foreach ($callstack as $stack_element) {
+            foreach ($callstack as $stack_element) {
                 $c_utimes[$stack_element] += $ut;
                 $c_stimes[$stack_element] += $st;
                 $c_rtimes[$stack_element] += $rt;
@@ -145,9 +147,8 @@ function parseFile($fileName) {
             continue;
         }
         if ($token == '-') {
-            list  ($index, $memory) = preg_split("/ /", $data, 2);
-            if(array_key_exists('i',$opt) && $symbol_type[$index] == 1)
-            {
+            list($index, $memory) = preg_split("/ /", $data, 2);
+            if (array_key_exists('i',$opt) && $symbol_type[$index] == 1) {
                 continue;
             }
             $mem[$index] += ($memory - $last_memory);
@@ -205,8 +206,10 @@ function parseFile($fileName) {
             continue;
         }
         if ($l++ <  $opt['O']) {
-            $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal + $itotal);
-            $c_pcnt = 100* ($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal + $itotal);
+            $pcnt = 100 * ($stimes[$j] + $utimes[$j]) / 
+                    ($utotal + $stotal + $itotal);
+            $c_pcnt = 100 * ($c_stimes[$j] + $c_utimes[$j]) / 
+                      ($utotal + $stotal + $itotal);
             $rsecs = $rtimes[$j]/1000000;
             $ssecs = $stimes[$j]/1000000;
             $usecs = $utimes[$j]/1000000;
@@ -214,98 +217,92 @@ function parseFile($fileName) {
             $c_ssecs = $c_stimes[$j]/1000000;
             $c_usecs = $c_utimes[$j]/1000000;
             $ncalls = $calls[$j];
-        if(array_key_exists('z', $opt)) {
+            if (array_key_exists('z', $opt)) {
+                $percall = ($usecs + $ssecs) / $ncalls;
+                $cpercall = ($c_usecs + $c_ssecs) / $ncalls;
+                if ($utotal + $stotal) {
+                    $pcnt = 100 * ($stimes[$j] + $utimes[$j]) / 
+                            ($utotal + $stotal);
+                } else {
+                    $pcnt = 100;
+                }
+        }
+        if (array_key_exists('Z', $opt)) {
                 $percall = ($usecs + $ssecs)/$ncalls;
                 $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-                    if($utotal + $stotal) {
-                $pcnt = 100*($stimes[$j] + $utimes[$j])/($utotal + $stotal);
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
+                if($utotal + $stotal) {
+                    $pcnt = 100 * ($c_stimes[$j] + $c_utimes[$j]) /
+                            ($utotal + $stotal);
+                } else {
+                    $pcnt = 100;
+                }
         }
-        if(array_key_exists('Z', $opt)) {
-                $percall = ($usecs + $ssecs)/$ncalls;
-                $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-                    if($utotal + $stotal) {
-                $pcnt = 100*($c_stimes[$j] + $c_utimes[$j])/($utotal + $stotal);
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('r', $opt)) {
-                $percall = ($rsecs)/$ncalls;
-                $cpercall = ($c_rsecs)/$ncalls;
-                    if($rtotal) {
-                $pcnt = 100*$rtimes[$j]/$rtotal;
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('R', $opt)) {
-                $percall = ($rsecs)/$ncalls;
-                $cpercall = ($c_rsecs)/$ncalls;
-                    if($rtotal) {
-                $pcnt = 100*$c_rtimes[$j]/$rtotal;
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('u', $opt)) {
-                $percall = ($usecs)/$ncalls;
-                $cpercall = ($c_usecs)/$ncalls;
-                    if($utotal) {
-                $pcnt = 100*$utimes[$j]/$utotal;
-                    } 
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('U', $opt)) {
-                $percall = ($usecs)/$ncalls;
-                $cpercall = ($c_usecs)/$ncalls;
-                    if($utotal) {
-                $pcnt = 100*$c_utimes[$j]/$utotal;
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('s', $opt)) {
-                $percall = ($ssecs)/$ncalls;
-                $cpercall = ($c_ssecs)/$ncalls;
-                    if($stotal) {
-                $pcnt = 100*$stimes[$j]/$stotal;
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-        if(array_key_exists('S', $opt)) {
-                $percall = ($ssecs)/$ncalls;
-                $cpercall = ($c_ssecs)/$ncalls;
-                    if($stotal) {
-                $pcnt = 100*$c_stimes[$j]/$stotal;
-                    }
-                    else {
-                        $pcnt = 100;
-                    }
-        }
-    //        $cpercall = ($c_usecs + $c_ssecs)/$ncalls;
-            $mem_usage = $mem[$j];
-            $name = $symbol_hash[$j];
-            
-            if ($name == 'ms_newmapobj') {
-                $ms_new += $rsecs;
-            } else if (substr($name, 0, 3) == 'ms_') {
-                $ms_time += $rsecs;
-            } else if ($name == 'SoapClient->getMap') {
-                $getMap += $rsecs;
+        if (array_key_exists('r', $opt)) {
+            $percall = ($rsecs)/$ncalls;
+            $cpercall = ($c_rsecs)/$ncalls;
+            if($rtotal) {
+                $pcnt = 100 * $rtimes[$j] / $rtotal;
+            } else {
+                $pcnt = 100;
             }
-    //        printf("%3.01f %2.02f %2.02f  %2.02f %2.02f  %2.02f %2.02f  %4d  %2.04f   %2.04f %12d %s\n", $pcnt, $rsecs, $c_rsecs, $usecs, $c_usecs, $ssecs, $c_ssecs, $ncalls, $percall, $cpercall, $mem_usage, $name);
+        }
+        if (array_key_exists('R', $opt)) {
+                $percall = ($rsecs) / $ncalls;
+                $cpercall = ($c_rsecs) / $ncalls;
+                if($rtotal) {
+                    $pcnt = 100 * $c_rtimes[$j] / $rtotal;
+                } else {
+                    $pcnt = 100;
+                }
+        }
+        if (array_key_exists('u', $opt)) {
+            $percall = ($usecs) / $ncalls;
+            $cpercall = ($c_usecs) / $ncalls;
+            if($utotal) {
+                $pcnt = 100 * $utimes[$j] / $utotal;
+            } else {
+                $pcnt = 100;
+            }
+        }
+        if (array_key_exists('U', $opt)) {
+            $percall = ($usecs) / $ncalls;
+            $cpercall = ($c_usecs) / $ncalls;
+            if($utotal) {
+                $pcnt = 100 * $c_utimes[$j] / $utotal;
+            } else {
+                $pcnt = 100;
+            }
+        }
+        if (array_key_exists('s', $opt)) {
+            $percall = ($ssecs) / $ncalls;
+            $cpercall = ($c_ssecs) / $ncalls;
+            if($stotal) {
+                $pcnt = 100 * $stimes[$j] / $stotal;
+            } else {
+                $pcnt = 100;
+            }
+        }
+        if (array_key_exists('S', $opt)) {
+            $percall = ($ssecs) / $ncalls;
+            $cpercall = ($c_ssecs) / $ncalls;
+            if($stotal) {
+                $pcnt = 100 * $c_stimes[$j] / $stotal;
+            } else {
+                $pcnt = 100;
+            }
+        }
+        //$cpercall = ($c_usecs + $c_ssecs)/$ncalls;
+        $mem_usage = $mem[$j];
+        $name = $symbol_hash[$j];
+        
+        if ($name == 'ms_newmapobj') {
+            $ms_new += $rsecs;
+        } elseif (substr($name, 0, 3) == 'ms_') {
+            $ms_time += $rsecs;
+        } elseif ($name == 'SoapClient->getMap') {
+            $getMap += $rsecs;
+        }
+        //printf("%3.01f %2.02f %2.02f  %2.02f %2.02f  %2.02f %2.02f  %4d  %2.04f   %2.04f %12d %s\n", $pcnt, $rsecs, $c_rsecs, $usecs, $c_usecs, $ssecs, $c_ssecs, $ncalls, $percall, $cpercall, $mem_usage, $name);
         }
     }
     
@@ -320,7 +317,8 @@ function parseFile($fileName) {
     } else {
         if ($ms_time > 0.0) {
             $result['type']    = 'direct';
-            $result['client']  = round(($rtotal / 1000) - (($ms_new + $ms_time) * 1000));
+            $result['client']  = round(($rtotal / 1000) - 
+                                 (($ms_new + $ms_time) * 1000));
             $result['server']  = 'n/a (direct mode)';
             $result['msobj']   = round($ms_new * 1000);
             $result['msother'] = round($ms_time * 1000);
@@ -391,9 +389,10 @@ if ($_SERVER['argc'] == 2) {
         $result = parseFile($filedir);   
     }
     if ($result['type'] != 'direct') {
-        print "Warning: Results are incomplete (" . $result['type'] . " side only)\n";
+        print 'Warning: Results are incomplete (' . $result['type'] . 
+              " side only)\n";
     }
-} else if ($_SERVER['argc'] == 3 && $_SERVER['argv'][1] == '-local') {
+} elseif ($_SERVER['argc'] == 3 && $_SERVER['argv'][1] == '-local') {
     
     $dir = $_SERVER['argv'][2];
     if (is_dir($dir)) {
@@ -407,7 +406,7 @@ if ($_SERVER['argc'] == 2) {
         if ($file2) {
             $result2 = parseFile($dir . $file2);
             if ($result2['type'] == 'client') {
-                usage("Second file was not a server trace file");
+                usage('Second file was not a server trace file');
             }
         } else {
             usage("Not enough files found in $dir");            
@@ -461,6 +460,11 @@ function usage($message = NULL) {
     exit(1);
 }
 
+/**
+ * @param string
+ * @param PHP resource handle
+ * @param array
+ */
 function parse_info($tag, $datasource, &$cfg) {
     while($line = fgets($datasource)) {
         $line = rtrim($line);
@@ -473,41 +477,121 @@ function parse_info($tag, $datasource, &$cfg) {
     }
 }
 
+/**
+ * Compares to numbers.
+ *
+ * Returns 1 if int($a) > int($b),
+ * -1 if int($a) < int($b)
+ * else 0
+ * @param float
+ * @param float
+ * @return int
+ */
 function num_cmp($a, $b) {
-    if (intval($a) > intval($b)) { return 1;}
-    elseif(intval($a) < intval($b)) { return -1;}
-    else {return 0;}
+    if (intval($a) > intval($b)) {
+        return 1;
+    }
+    
+    if(intval($a) < intval($b)) {
+        return -1;
+    }
+    
+    return 0;
 }
 
+/**
+ * @return int
+ */
 function by_time($a,$b) {
     global $stimes;
     global $utimes;
-    return num_cmp(($stimes[$b] + $utimes[$b]),($stimes[$a] + $utimes[$a]));
+    return num_cmp(($stimes[$b] + $utimes[$b]),
+                   ($stimes[$a] + $utimes[$a]));
 }
 
+/**
+ * @return int
+ */
 function by_c_time($a,$b) {
     global $c_stimes;
     global $c_utimes;
-    return num_cmp(($c_stimes[$b] + $c_utimes[$b]),($c_stimes[$a] + $c_utimes[$a]));
+    return num_cmp(($c_stimes[$b] + $c_utimes[$b]),
+                   ($c_stimes[$a] + $c_utimes[$a]));
 }
 
+/**
+ * @return int
+ */
 function by_avgcpu($a,$b) {
     global $stimes;
     global $utimes;
     global $calls;
-    return num_cmp(($stimes[$b] + $utimes[$b])/$calls[$b],($stimes[$a] + $utimes[$a])/$calls[$a]);
+    return num_cmp(($stimes[$b] + $utimes[$b]) / $calls[$b],
+                   ($stimes[$a] + $utimes[$a]) / $calls[$a]);
 }
 
+/**
+ * @return int
+ */
 function by_calls($a, $b) {
     global $calls;
     return num_cmp($calls[$b], $calls[$a]);
 }
-function by_rtime($a,$b) { global $rtimes; return num_cmp($rtimes[$b], $rtimes[$a]);}
-function by_c_rtime($a,$b) { global $c_rtimes; return num_cmp($c_rtimes[$b], $c_rtimes[$a]); }
-function by_stime($a,$b) { global $stimes; return num_cmp($stimes[$b], $stimes[$a]); }
-function by_c_stime($a,$b) { global $c_stimes; return num_cmp($c_stimes[$b], $c_stimes[$a]); }
-function by_utime($a,$b) { global $utimes; return num_cmp($utimes[$b], $utimes[$a]); }
-function by_c_utime($a,$b) { global $c_utimes; return num_cmp($c_utimes[$b], $c_utimes[$a]); }
-function by_mem($a, $b) { global $mem; return num_cmp($mem[$b], $mem[$a]); }
+
+/**
+ * @return int
+ */
+function by_rtime($a,$b) {
+    global $rtimes; 
+    return num_cmp($rtimes[$b], $rtimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_c_rtime($a,$b) {
+    global $c_rtimes;
+    return num_cmp($c_rtimes[$b], $c_rtimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_stime($a,$b) {
+    global $stimes;
+    return num_cmp($stimes[$b], $stimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_c_stime($a,$b) {
+    global $c_stimes;
+    return num_cmp($c_stimes[$b], $c_stimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_utime($a,$b) {
+    global $utimes;
+    return num_cmp($utimes[$b], $utimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_c_utime($a,$b) {
+    global $c_utimes;
+    return num_cmp($c_utimes[$b], $c_utimes[$a]);
+}
+
+/**
+ * @return int
+ */
+function by_mem($a, $b) {
+    global $mem;
+    return num_cmp($mem[$b], $mem[$a]);
+}
     
 ?>
