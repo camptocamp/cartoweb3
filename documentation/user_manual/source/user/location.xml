@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.location">
- <title>Spatial options</title>
+ <title>Navigation</title>
  <subtitle>Plugin location</subtitle>
   <para>
   The plugin location is the core plugin that deals with geographic navigation
