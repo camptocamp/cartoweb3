@@ -16,19 +16,14 @@ require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
  */
 class ClientExportHtml extends ExportPlugin {
 
+    /**
+     * Constructor
+     */
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
-    /**
-     * Returns relative Web path to external export script
-     * @return string
-     */
-    public function getExportScriptPath() {
-        return 'exportHtml/export.php';
-    }
-    
     /** 
      * Returns path to Web base URL
      *
