@@ -24,9 +24,9 @@ function dhtmlBox_initialize() {
   jg2 = new jsGraphics(this.canvas2.id); // a drawing canvas for the last moving vertex
 
   // make the previous tool selected the current one
-  for (var i =0; i < myform.TOOLBAR_CMD.length; i++) {
-    if (myform.TOOLBAR_CMD[i].checked) {
-      dhtmlBox.changeTool(myform.TOOLBAR_CMD[i].value);
+  for (var i =0; i < myform.tool.length; i++) {
+    if (myform.tool[i].checked) {
+      dhtmlBox.changeTool(myform.tool[i].value);
     }
   }	
   this.target.style.zIndex = 1000;
@@ -57,7 +57,7 @@ function dhtmlBox_initialize() {
 
 
 function dhtmlBox_changetool(tool) {// the mouse events are managed in this function according to the mapping tool selected
-  myform.TOOLBAR_CMD.value = tool;
+  myform.tool.value = tool;
   this.currentTool = tool.toLowerCase();
 
   // clear the drawing canvas
