@@ -59,7 +59,8 @@ class LayerGroup extends LayerContainer {
 
     function unserialize($struct) {
         parent::unserialize($struct);
-        $this->aggregate = self::unserializeValue($struct, 'aggregate');
+        $this->aggregate = self::unserializeValue($struct, 'aggregate',
+                                                  'boolean');
     }
 }
 
