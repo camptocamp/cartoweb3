@@ -39,7 +39,7 @@ create_config:
 	done
 
 htlinks:
-	(cd scripts; ./htlinks.sh)
+	(cd scripts; chmod a+x htlinks.sh; ./htlinks.sh)
 
 init: fetch_libs dirs perms links create_config htlinks
 	:
