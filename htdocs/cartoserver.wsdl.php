@@ -84,20 +84,15 @@ if (isset($mapId)) {
 
     $projectHandler = $serverContext->getProjectHandler();    
     $plugins = $serverContext->getPluginManager()->getPlugins();
-    
+   
     foreach ($plugins as $plugin) {    
                 
         $name = $plugin->getName();
         $eName = $plugin->getExtendedName();
 
-        if ($plugin instanceof ClientResponder ||
-            $plugin instanceof CoreProvider ||
-            $plugin instanceof InitProvider) {
-
-            $pluginsSpecificWsdl .= getWsdlFileContents($name, $projectHandler);
-            if ($name != $eName) {
-                $pluginsSpecificWsdl .= getWsdlFileContents($eName, $projectHandler);
-            }
+        $pluginsSpecificWsdl .= getWsdlFileContents($name, $projectHandler);
+        if ($name != $eName) {
+            $pluginsSpecificWsdl .= getWsdlFileContents($eName, $projectHandler);
         }
         if ($plugin instanceof ClientResponder ||
             $plugin instanceof CoreProvider) {
