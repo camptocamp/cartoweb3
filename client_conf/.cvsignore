@@ -1,2 +1,2 @@
-client.ini
-cartoclientLogger.properties
+*.properties
+*.ini
