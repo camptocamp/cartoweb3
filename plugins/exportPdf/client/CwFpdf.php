@@ -233,7 +233,9 @@ class cFPDF extends FPDF {
         }
 
         if (!isset($block->height)) {
-            $block->height = 20; // FIXME: dynamically set this value
+            // FIXME: dynamically set this value. Possible?
+            $block->height = PrintTools::switchDistUnit(20, 'mm',
+                                                      $this->general->distUnit); 
             $block->height += 2 * $block->padding;
         }
 
@@ -317,8 +319,7 @@ class cFPDF extends FPDF {
             $cellWidth = $table->colsWidth[$id]; // FIXME: remove margins!
             $nbLines = max($nbLines, ceil($textWidth / $cellWidth));
         }
-        $height = $nbLines * 20;
-        // TODO: get single line height from config
+        $height = $nbLines * $table->rowBaseHeight;
 
         // FIXME: what if some footer block is placed right above 
         // bottom margin?!
@@ -339,9 +340,8 @@ class cFPDF extends FPDF {
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
         
-        // TODO: get caption height from INI
         if (!isset($block->height))
-            $block->height = 20;
+            $block->height = $table->rowBaseHeight;
 
         $textAlign = $this->getTextAlign($block->textAlign);
 
@@ -457,11 +457,18 @@ class cFPDF extends FPDF {
         if (!is_array($block->content))
             $block->content = array($block->content);
 
+        if (!isset($block->height)) {
+            $block->height = PrintTools::switchDistUnit(10, 'mm',
+                                                      $this->general->distUnit);
+        }
+
         $yRef = 0;
         foreach ($block->content as $table) {
             if (!$table instanceof TableElement || !$table->rows)
                 continue;
 
+            $table->rowBaseHeight = $block->height;
+            
             $table->caption = $this->setTableMeta($block, $table, 'caption');
             $table->headers = $this->setTableMeta($block, $table, 'headers');
 
@@ -476,12 +483,19 @@ class cFPDF extends FPDF {
             $this->p->SetXY($table->x0, $table->y0);
 
             if ($table->caption->content && 
-                is_string($table->caption->content))
+                is_string($table->caption->content)) {
+                if (isset($table->caption->height))
+                    $table->rowBaseHeight = $table->caption->height;
                 $this->addTableCaption($table);
+            }
           
-            if ($table->headers->content)
+            if ($table->headers->content) {
+                if (isset($table->headers->height))
+                    $table->rowBaseHeight = $table->headers->height;
                 $this->addTableHeaders($table);
+            }
 
+            $table->rowBaseHeight = $block->height;
             $this->setTextLayout($block);
             $this->setBoxLayout($block);
             
