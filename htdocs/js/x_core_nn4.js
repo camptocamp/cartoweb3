@@ -55,7 +55,7 @@ function xStr(s) {
   return typeof(s)=='string';
 }
 function xNum(n) {
-  return typeof(n)=='number';
+  return (!isNaN(n) && typeof(n)=='number');
 }
 function xInnerHtml(e, sHtml) {
   if(!(e=xGetElementById(e))) return '';
