@@ -115,19 +115,17 @@ class InitialLocation extends Location {
 class LayerState extends Serializable {
     public $id;
     public $hidden;
-    public $unselectable;
+    public $frozen;
     public $selected;
     public $unfolded;
 
     function unserialize($struct) {
-        $this->id           = self::unserializeValue($struct, 'id');
-        $this->hidden       = self::unserializeValue($struct, 'hidden',
+        $this->id       = self::unserializeValue($struct, 'id');
+        $this->hidden   = self::unserializeValue($struct, 'hidden', 'boolean');
+        $this->frozen   = self::unserializeValue($struct, 'frozen', 'boolean');
+        $this->selected = self::unserializeValue($struct, 'selected', 
                                                      'boolean');
-        $this->unselectable = self::unserializeValue($struct, 'unselectable',
-                                                     'boolean');
-        $this->selected     = self::unserializeValue($struct, 'selected', 
-                                                     'boolean');
-        $this->unfolded     = self::unserializeValue($struct, 'unfolded', 
+        $this->unfolded = self::unserializeValue($struct, 'unfolded', 
                                                      'boolean');        
     }
 }

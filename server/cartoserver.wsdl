@@ -138,7 +138,7 @@
         <all>
           <element name="id" type="xsd:string"/>
           <element name="hidden" type="xsd:boolean"/>
-          <element name="unselectable" type="xsd:boolean"/>
+          <element name="frozen" type="xsd:boolean"/>
           <element name="selected" type="xsd:boolean"/>
           <element name="unfolded" type="xsd:boolean"/>
         </all>
