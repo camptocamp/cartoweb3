@@ -23,8 +23,6 @@ class LayersState {
 class ClientLayers extends ClientCorePlugin {
     private $log;
     private $smarty;
-    private $smartyPool = array();
-    private $smartyNb = 0;
 
     private $layersState;
     private $layersData;
@@ -385,26 +383,7 @@ class ClientLayers extends ClientCorePlugin {
 
     function handleResult($mapResult) {}
 
-    /**
-     * Retrieves a Smarty object either by picking one in the available 
-     * template objects list (smartyPool) or by getting a new instance of CW3 
-     * Smarty class if no object is available.
-     */
-    private function getSmartyObj() {
-        if(count($this->smartyPool)) return array_shift($this->smartyPool);
-        
-        $this->smartyNb++;
-        return new Smarty_CorePlugin($this->getCartoclient()->getConfig(), $this);
-    }
-
-    /**
-     * Add the Smarty object to the list of available ones (smartyPool).
-     */
-    private function freeSmartyObj($template) {
-        array_push($this->smartyPool, $template);
-    }
-
-    /**
+   /**
      * Recursively retrieves the list of Mapserver Classes bound to the layer
      * or its sublayers.
      */
@@ -502,14 +481,16 @@ class ClientLayers extends ClientCorePlugin {
      * Deals with every single layer and recursively calls itself 
      * to build sublayers. 
      */
-    private function drawLayer($layer, $forceSelection = false,
-                                       $forceFrozen = false,
-                                       $layerRendering = 'tree', 
-                                       $parentId = 0) {
+    private function fetchLayer($layer, $forceSelection = false,
+                                        $forceFrozen = false,
+                                        $layerRendering = 'tree', 
+                                        $parentId = 0) {
         
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
             return false;
+
+        $element = array();
 
         // if parent is selected, children are selected too!
         $layerChecked = $forceSelection ||
@@ -518,6 +499,7 @@ class ClientLayers extends ClientCorePlugin {
                        in_array($layer->id, $this->getFrozenLayers());
 
         $childrenLayers = array();
+        $element['elements'] =& $childrenLayers;
         $childrenRendering = ($layer instanceof LayerGroup && 
                               $layer->rendering) ?
                              $layer->rendering : 'tree';
@@ -547,13 +529,12 @@ class ClientLayers extends ClientCorePlugin {
                 } elseif ($i++) continue;
             }
            
-            $childrenLayers[] = $this->drawLayer($childLayer, $layerChecked,
-                                                 $layerFrozen, 
-                                                 $childrenRendering, 
-                                                 $layer->id);
+            $childrenLayers[] = $this->fetchLayer($childLayer, $layerChecked,
+                                                  $layerFrozen, 
+                                                  $childrenRendering, 
+                                                  $layer->id);
         }
 
-        $template =& $this->getSmartyObj();
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
         $this->layersState->nodesIds[$this->nodeId] = $layer->id;
@@ -561,8 +542,9 @@ class ClientLayers extends ClientCorePlugin {
 
         if ($isDropDown) {
             if (!isset($dropDownSelected)) $dropDownSelected = false;
-            $template->assign(array('dropDownChildren' => $dropDownChildren,
-                                    'dropDownSelected' => $dropDownSelected,
+            $element = array_merge($element,
+                                 array('dropDownChildren' => $dropDownChildren,
+                                       'dropDownSelected' => $dropDownSelected,
                                     ));
         } else {
             $nextscale = false;
@@ -577,10 +559,11 @@ class ClientLayers extends ClientCorePlugin {
                     if ($layer->minScale) $nextscale = $layer->minScale;
                     break;
             }
-            $template->assign('nextscale', $nextscale);
+            $element['nextscale'] = $nextscale;
         }
 
-        $template->assign(array('layerLabel'     => I18n::gt($layer->label),
+        $element = array_merge($element,
+                          array('layerLabel'     => I18n::gt($layer->label),
                                 'layerId'        => $layer->id,
                                 'layerClassName' => $layer->className,
                                 'layerLink'      => $layer->link,
@@ -593,16 +576,12 @@ class ClientLayers extends ClientCorePlugin {
                                 'groupFolded'    => $groupFolded,
                                 'parentId'       => $parentId,
                                 'nodeId'         => $this->nodeId++,
-                                'childrenLayers' => $childrenLayers,
-                                'mapId'          => $this->mapId,
                                 ));
         
         if (!$groupFolded && $this->nodeId != 1) 
             $this->unfoldedIds[] = $this->nodeId - 1;
         
-        $output_node = $template->fetch('node.tpl');
-        $this->freeSmartyObj($template);
-        return $output_node;
+        return $element;
     }
 
     /**
@@ -618,19 +597,17 @@ class ClientLayers extends ClientCorePlugin {
         $this->mapId = $this->getCartoclient()->projectHandler->getMapName();
         
         $rootLayer = $this->getLayerByName('root');
-        $rootNode = $this->drawLayer($rootLayer);
-        
-        if (!$rootNode) return false;
+        $element = $this->fetchLayer($rootLayer);
+ 
+        if (!$element) return false;
 
-        $this->log->debug('Building of layers items: ' .
-            $this->smartyNb + 1 . ' Smarty objects used.');
-        
         $startOpenNodes = implode('\',\'', $this->unfoldedIds);
 
-        $this->smarty->assign(array('layerlist' => $rootNode,
+        $this->smarty->assign(array('element'        => $element,
                                     'startOpenNodes' => $startOpenNodes,
+                                    'mapId'          => $this->mapId,
                                     ));
-
+                                    
         return $this->smarty->fetch('layers.tpl');
     }
 
@@ -639,8 +616,7 @@ class ClientLayers extends ClientCorePlugin {
             throw new CartoclientException('unknown template type');
         }
 
-        $layersOutput = $this->drawLayersList();
-        $template->assign('layers', $layersOutput);
+        $template->assign('layers', $this->drawLayersList());
     }
 
     function saveSession() {

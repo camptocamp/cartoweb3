@@ -10,5 +10,80 @@
 <a href="javascript:checkChildren('layersroot');">{t}check all{/t}</a> -
 <a href="javascript:checkChildren('layersroot',false);">{t}uncheck all{/t}</a></div>
 <div id="layersroot">
-{$layerlist}
+
+{defun name="drawChildren" element=$element}
+
+{capture name=inputElt}
+{if !$element.layerFrozen}
+<input 
+{if $element.layerRendering == 'radio'}type="radio" name="layers_{$element.parentId}"
+{else}type="checkbox" name="layers[]"{/if}
+value="{$element.layerId}" id="in{$element.nodeId}"
+  onclick="javascript:updateChecked({$element.nodeId});" {if $element.layerChecked}checked="checked"{/if} />
+{/if}
+{/capture}
+
+{capture name=caption}
+{if $element.layerLink}<a href="{$element.layerLink}" target="_blank" 
+title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
+{else}
+  {if $element.layerOutRange}<span class="out">{$element.layerLabel}</span>
+  {else}{$element.layerLabel}{/if}
+{/if}
+{/capture}
+
+{capture name=icon}
+{if $element.layerIcon}
+  <img src="{r type=gfx/icons}{$mapId}/{$element.layerIcon}{/r}" alt="" class="pic"
+  {if $element.nextscale}title="{t}Next visible scale:{/t} 1:{$element.nextscale}"
+  {elseif $element.layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
+  {elseif $element.layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} />
+{/if}
+{/capture}                                                                              
+
+{if $element.layerRendering == 'block'}
+<fieldset>
+{/if}
+
+{if $element.isDropDown}
+  <select name="layers_dropdown_{$element.parentId}" 
+  onchange="javascript:FormItemSelected();">
+  {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
+  </select>
+{/if}
+
+{if $element.elements}
+  {if $element.isDropDown}
+    <div>
+  {elseif $element.layerId != 'root' && $element.layerRendering == 'tree'}
+    <a href="javascript:shift('id{$element.nodeId}');" id="xid{$element.nodeId}" 
+    class="lk"><img 
+    src="{r type=gfx plugin=layers}{if $element.groupFolded}plus{else}minus{/if}.gif{/r}" 
+    alt="{if $element.groupFolded}+{else}-{/if}" title="" /></a>
+    {$smarty.capture.inputElt}{$smarty.capture.icon}{$smarty.capture.caption}<br />
+    <div class="{if $element.groupFolded}nov{else}v{/if}" id="id{$element.nodeId}">
+  {/if}
+
+  {if $element.layerClassName != 'LayerClass'}
+    {foreach from=$element.elements item=subelement}
+      {fun name="drawChildren" element=$subelement}
+    {/foreach}
+  {/if}
+
+  {if $element.layerId != 'root' && $element.layerRendering == 'tree'}
+    </div>
+  {/if}
+
+{else}
+  {if $element.layerClassName != 'LayerClass'}
+  <span class="leaf"></span>{$smarty.capture.inputElt}{/if}
+  {$smarty.capture.icon}{$smarty.capture.caption}<br />
+{/if}
+
+{if $element.layerRendering == 'block'}
+</fieldset>
+{/if}
+
+{/defun}
+
 </div>
