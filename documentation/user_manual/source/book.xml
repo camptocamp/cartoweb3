@@ -53,6 +53,7 @@
        On the other side, if you want to go beyond the standard, out-of-the-box 
        possibilities of &cartoweb;, you'll definitely have to look at the third
        part of this documentation, intended for developers.
+       </para>
     </partintro>
     <xi:include href="user/install.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />

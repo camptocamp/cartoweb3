@@ -14,7 +14,7 @@
   <title>About Cartoweb</title>
   <para>
    CartoWeb3 is a comprehensive and ready-to-use Web-GIS (Geographical Information 
-   System), including many powerful features that are presented in the next chapter.
+   System), including many powerful features.
    As a modular and extensible solution, it is also a convenient framework for 
    building advanced and customized applications.
   </para>
@@ -26,16 +26,13 @@
   </para>
  </sect1>
 
- <sect1 id="intro.presentation.use">
-  <title>Intended Users?</title>
-  <para>
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
-   Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla Blabla Blala bla
-  </para>
- </sect1>
 
  <sect1 id="intro.presentation.credit">
   <title>Credits</title>
+  <para>
+   To date, the following people have been more or less involved in the
+   development of &cartoweb; :
+  </para>
   <para>
    <itemizedlist>
     <listitem>
@@ -75,7 +72,7 @@
     </listitem>    
     <listitem>
      <para>
-     Arnaud Saint Léger
+     Arnaud Saint Leger
      </para>
     </listitem>
     <listitem>
