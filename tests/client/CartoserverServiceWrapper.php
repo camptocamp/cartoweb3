@@ -54,7 +54,7 @@ class client_CartoserverServiceWrapper extends PHPUnit2_Framework_TestCase {
 
     private function getDefaultImagesRequest() {
      
-        $images = new Images();
+        $images = new ImagesRequest();
 
         $scalebar_image = new Image();
         $scalebar_image->isDrawn = false;

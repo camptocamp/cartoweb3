@@ -51,18 +51,19 @@ abstract class ServerPlugin extends PluginBase {
             throw new CartoserverException('parent plugin not initialized');
         }
 
+        $mapRequest = $this->serverContext->mapRequest;
+        $request = $this->unserializeRequest(true, $mapRequest);
+
         $requestName = $this->getName() . 'Request';
-        $this->log->debug("request name is $requestName");
-        $request = @$this->serverContext->mapRequest->$requestName;
+        $resultName = $this->getName() . 'Result';
+
         if (is_null($request)) {
             $this->log->warn("request variable $requestName not present: skipping plugin " .
                        get_class($this));
             return;
         }
-        
-        $result = $this->getResultFromRequest($request);
 
-        $resultName = $this->getName() . 'Result';
+        $result = $this->getResultFromRequest($request);
 
         $this->log->debug("plugin result: $resultName = " . $result);
         $request = $this->serverContext->mapRequest->$requestName;

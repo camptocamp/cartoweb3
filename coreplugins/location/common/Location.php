@@ -12,18 +12,24 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 /**
  * @package CorePlugins
  */
-class LocationRequest {
-    public $locationType;
-
+class LocationRequest extends Serializable {
     const LOC_REQ_BBOX = 'bboxLocationRequest';
     const LOC_REQ_PAN = 'panLocationRequest';
     const LOC_REQ_ZOOM_POINT = 'zoomPointLocationRequest';
     const LOC_REQ_ZOOM_RECTANGLE = 'zoomRectangleLocationRequest';
 
+    public $locationType;
+
     public $bboxLocationRequest;
     public $panLocationRequest;
     public $zoomPointLocationRequest;
     public $zoomRectangleLocationRequest;
+
+    function unserialize($struct) {
+        $this->locationType = self::unserializeValue($struct, 'locationType');
+        // FIXME: unserialize each fields separately
+        self::lazyUnserialize($struct, $this);
+    }
 }
 
 /**

@@ -102,13 +102,27 @@ abstract class ClientPlugin extends PluginBase {
 
     abstract function buildMapRequest($mapRequest);
 
+
     final function dohandleMapResult($mapResult) {
-        $className = get_class($this);
+
+        $pluginResult = $this->unserializeRequest(false, $mapResult);
         
-        $this->handleMapResult($mapResult);
+        // For compatibility. Uses the old method if the new is not there
+        if (method_exists($this, 'handleResult')) {
+            $this->handleResult($pluginResult);
+        } else {
+            $this->log->warn('handleMapResult is deprecated, please update ' .
+                    'your plugin, and use handleResult($result)');
+            
+            $this->handleMapResult($mapResult);
+        }
     }
 
-    abstract function handleMapResult($mapResult);
+    // TODO: uncomment as soon as all plugins have been converted
+    //abstract function handleResult($result);
+
+    // FIXME: deprecated: use now handleResult($result)
+    //abstract function handleMapResult($mapResult);
 
     abstract function renderForm($template);
 }

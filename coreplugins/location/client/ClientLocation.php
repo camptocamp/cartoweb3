@@ -218,16 +218,9 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $mapRequest->locationRequest = $locationRequest;
     }
 
-    function handleMapResult($mapResult) {
-        // TODO: have a generic way of request/result serialisation which
-        // sits above the plugin mechanism 
-
-        $mapResult->location
-            = Serializable::unserializeObject($mapResult, 'locationResult', 'LocationResult');
-
-        $this->locationState->bbox = $mapResult->location->bbox;
-        
-        $this->locationResult = $mapResult->location;
+    function handleResult($locationResult) {
+        $this->locationState->bbox = $locationResult->bbox;
+        $this->locationResult = $locationResult;
     }
 
     function renderForm($template) {

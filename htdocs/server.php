@@ -52,8 +52,10 @@ if (array_key_exists('save', $_GET)) {
 }
 
 if (array_key_exists('restore', $_GET)) {
-
     $HTTP_RAW_POST_DATA = getPostData($_GET['restore']);
+}
+if (array_key_exists('RESTORE_POST', $_ENV)) {
+    $HTTP_RAW_POST_DATA = getPostData($_ENV['RESTORE_POST']);
 }
 
 $cartoserver = new Cartoserver();

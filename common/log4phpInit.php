@@ -14,9 +14,8 @@
  */
 function initializeLog4php($isClient) {
 
-    if (defined('LOG4PHP_INITIALIZED'))
+    if (defined('LOG4PHP_CONFIGURATION'))
         return;
-    define('LOG4PHP_INITIALIZED', true);
 
     if ($isClient) {
         define('LOG4PHP_CONFIGURATION', CARTOCLIENT_HOME . 

@@ -91,15 +91,11 @@ class ClientQuery extends ClientCorePlugin implements ToolProvider {
         $mapRequest->queryRequest = $queryRequest;
     }
 
-    function handleMapResult($mapResult) {
-    
-        // TODO: have a generic way of request/result serialisation which
-        // sits above the plugin mechanism 
-
-        if (!@$mapResult->queryResult)
+    function handleResult($queryResult) {
+        if (empty($queryResult))
             return;
-        
-        $this->queryResult = $mapResult->queryResult;
+
+        $this->queryResult = $queryResult;
     }
 
     private function drawQueryResult($queryResult) {
