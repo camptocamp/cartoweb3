@@ -1,8 +1,19 @@
 <?php
+/**
+ * Basic data structures
+ * @package Common
+ * @version $Id$
+ */
 
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
+/**
+ * Represents an image's dimension
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 class Dimension extends Serializable {
+
     public $width;
     public $height;
 
@@ -12,25 +23,35 @@ class Dimension extends Serializable {
         $this->height = $height;
     }
 
+    /**
+     * @param stdclass structure to deserialize
+     */
     function unserialize ($struct) {
         $this->width = $struct->width;
         $this->height = $struct->height;
     }
 }
 
+/**
+ * Abstract class for shapes
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 abstract class Shape extends Serializable {
-    /*
-    const TYPE_POINT = 1;
-    const TYPE_RECTANGLE = 2;
-    const TYPE_POLYGON = 3;
-    
-    public $type;
-    */
         
-    abstract  function getCenter();
+    /**
+     * Computes the shape's center
+     * @return Point center
+     */
+    abstract function getCenter();
 }
 
+/**
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 class Point extends Shape {
+
     public $x;
     public $y;
 
@@ -40,6 +61,9 @@ class Point extends Shape {
         $this->y = $y;
     }
     
+    /**
+     * @param stdclass structure to deserialize
+     */
     function unserialize ($struct) {
         $this->x = $struct->x;
         $this->y = $struct->y;
@@ -59,9 +83,18 @@ class Point extends Shape {
     }
     
     function getCenter() {
+    
+        // A point's center is the point itself
         return clone $this;
     }
     
+    /**
+     * Converts the Point to a Bbox.
+     *
+     * Optional margin will create a square around the point.
+     * @param double margin
+     * @return Bbox the Point converted to Bbox
+     */
     function toBbox($margin = 0) {
         $bbox = new Bbox();
         if ($margin > 0) {    
@@ -74,9 +107,20 @@ class Point extends Shape {
     }
 }
 
+/**
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 class Bbox extends Shape {
     public $minx, $miny, $maxx, $maxy;
 
+    /**
+     * Unserializes a Bbox.
+     *
+     * Value passed can be either a string (format "11, 22, 33, 44") or
+     * a structure.
+     * @param ? string or stdclass
+     */
     function unserialize($struct) {
         if (is_string($struct)) {
             $struct = $this->setFromString($struct);
@@ -141,11 +185,19 @@ class Bbox extends Shape {
     }
 }
 
+/**
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 class Rectangle extends Bbox {
     function unserialize ($struct) {
     }
 }
 
+/**
+ * @package Common
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */
 class Polygon extends Shape {
     /* todo: store points */
     function unserialize ($struct) {
