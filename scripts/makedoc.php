@@ -1,5 +1,15 @@
 #!/usr/local/bin/php
 <?php
+/**
+ * Documentation generator using PhpDocumentor
+ *
+ * Usage: ./makedoc.php [>/dev/null]
+ *
+ * @package Scripts
+ * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @version $Id$
+ */
+
 //
 // PhpDoc, a program for creating javadoc style documentation from php code
 // Copyright (C) 2000-2001 Joshua Eichorn
@@ -27,13 +37,43 @@
 // Project  http://sourceforge.net/projects/phpdocu/
 //
 
-// Modified by Yves Bolognini <yves.bolognini@camptocamp.com>
-
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 set_include_path(get_include_path() . PATH_SEPARATOR .
                  CARTOCLIENT_HOME . 'include/pear/' . PATH_SEPARATOR . 
                  CARTOCLIENT_HOME . 'include/pear/PhpDocumentor/');
+
+/**
+ * Directory where parsing must start
+ */
+define('ROOT_DIR', '..');
+
+/**
+ * Directories (ending with '/') and files to ignore
+ */
+define('IGNORE_FILES', 'include/,www-data/,doc/,projects/,client_conf/,server_conf/,locale/,po/,templates/,templates_c/,log/,*.inc');
+
+/**
+ * Documentation title
+ */
+define('DOC_TITLE', 'CartoWeb 3 Documentation');
+
+/**
+ * Target directory
+ */
+define('DOC_DIR', '../doc');
+
+/**
+ * Default package, when @package is not specified 
+ */
+define('DEFAULT_PACKAGE', 'CartoWeb');
+
+
+$_SERVER['argv'] = array('-d',  ROOT_DIR,
+                         '-i',  IGNORE_FILES,
+                         '-ti', DOC_TITLE,
+                         '-t',  DOC_DIR,
+                         '-dn', DEFAULT_PACKAGE);
 
 /** 
  * PHP auto documentor, like javadoc
