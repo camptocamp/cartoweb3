@@ -215,7 +215,7 @@ class ServerContext {
         // by default, type is string
         if (count($explodedAttr) == 1)
             return 'string';
-        assert(count($explodedAttr) == 1);
+        assert(count($explodedAttr) == 2);
         $type = $explodedAttr[1];
         if (!in_array($type, array('int', 'string')))
             throw new CartoserverException("bad id attribute type: $type");
