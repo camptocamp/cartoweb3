@@ -13,31 +13,46 @@
  */
 class Encoder {
     
+    const DEFAULT_CONTEXT = 'output';
+    
     /**
-     * Encoder
-     * @var EncoderInterface
+     * List of Encoder
+     * @var array array of EncoderInterface
      */
-    static public $encoder;
+    static public $encoders;
     
     /**
      * Initializes encoding
-     * @param ClientConfig
+     * @param Config
      */
     static function init($config) {
-        if ($config->EncoderClass) {
-            self::$encoder = new $config->EncoderClass;
-        } else {
-            self::$encoder = new EncoderUTF();
+        self::$encoders = array();
+        $iniArray = $config->getIniArray();
+        foreach ($iniArray as $key => $value) {
+            $keyArray = explode('.', $key);
+            if ($keyArray[0] == 'EncoderClass') {
+                self::$encoders[$keyArray[1]] = new $value;
+            }
+        }
+        if (!array_key_exists(self::DEFAULT_CONTEXT, self::$encoders)) {
+            self::$encoders[self::DEFAULT_CONTEXT] = new EncoderUTF();
         }
     }    
+    
+    static private function getEncoder($context) {
+        if (array_key_exists($context, self::$encoders)) {
+            return self::$encoders[$context];
+        }                
+        return self::$encoders[self::DEFAULT_CONTEXT];
+    }
     
     /**
      * Calls encoder's encode
      * @param string
      * @return string
      */
-    static function encode($text) {
-        return self::$encoder->encode($text);
+    static function encode($text, $context = self::DEFAULT_CONTEXT) {
+        return self::getEncoder($context)->encode($text);
     }
 
     /**
@@ -45,16 +60,16 @@ class Encoder {
      * @param string
      * @return string
      */
-    static function decode($text) {
-        return self::$encoder->decode($text);
+    static function decode($text, $context = self::DEFAULT_CONTEXT) {
+        return self::getEncoder($context)->decode($text);
     }
     
     /**
      * Calls encoder's getCharset
      * @return string
      */
-    static function getCharset() {
-        return self::$encoder->getCharset();
+    static function getCharset($context = self::DEFAULT_CONTEXT) {
+        return self::getEncoder($context)->getCharset();
     }
 }
 

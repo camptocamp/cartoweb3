@@ -70,7 +70,7 @@ class ServerHilight extends ServerPlugin {
                 " for layer $querySelection->layerId");
         
         foreach ($ids as $id) {
-            $id = Encoder::decode($id);
+            $id = Encoder::decode($id, 'config');
             $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
         }
         

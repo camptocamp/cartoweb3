@@ -93,4 +93,5 @@ I18nClass = I18nDummy
 defaultLang = en
 
 ; Charset encoder class
-EncoderClass = EncoderISO
+EncoderClass.config = EncoderISO
+EncoderClass.output = EncoderUTF

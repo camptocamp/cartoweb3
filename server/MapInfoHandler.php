@@ -39,7 +39,7 @@ class MapInfoHandler {
                     $layer->label = $layer->id; 
                 if ($layer instanceof Layer && empty($layer->msLayer))
                     $layer->msLayer = $layer->id; 
-                $layer->label = Encoder::encode($layer->label);
+                $layer->label = Encoder::encode($layer->label, 'config');
             }
         
         if (isset($mapInfo->initialMapStates)) {

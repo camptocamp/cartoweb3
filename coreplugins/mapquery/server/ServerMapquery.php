@@ -163,7 +163,7 @@ class ServerMapquery extends ServerPlugin {
         $queryStringFunction = (self::isDatabaseLayer($msLayer)) ?
             'databaseQueryString' : 'genericQueryString';
 
-        $ids = Encoder::decode($idSelection->selectedIds);
+        $ids = Encoder::decode($idSelection->selectedIds, 'config');
 
         // FIXME: can shapefiles support queryString for multiple id's ?
         //  if yes, then improve this handling. 

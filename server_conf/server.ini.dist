@@ -31,4 +31,4 @@ urlProvider = Miniproxy
 ;reverseProxyUrl = http://host/proxy/address
 
 ; Charset encoder class
-EncoderClass = EncoderISO
+EncoderClass.config = EncoderISO

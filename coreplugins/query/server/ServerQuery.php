@@ -106,13 +106,13 @@ class ServerQuery extends ClientResponderAdapter {
                     $columnIds[] = $columnId;
                     $columnTitles[] = $columnId;
                 }
-                $table->columnIds = Encoder::encode($columnIds);
-                $table->columnTitles = Encoder::encode($columnTitles);
+                $table->columnIds = Encoder::encode($columnIds, 'config');
+                $table->columnTitles = Encoder::encode($columnTitles, 'config');
             }
             
             $tableRow = new TableRow();
             if (!empty($idAttribute)) {
-                $tableRow->rowId = Encoder::encode($shape->values[$idAttribute]);
+                $tableRow->rowId = Encoder::encode($shape->values[$idAttribute], 'config');
             }
             $cells = array();
             if (!is_null($tableFlags) && $tableFlags->returnAttributes) {
@@ -120,7 +120,7 @@ class ServerQuery extends ClientResponderAdapter {
                     $cells[] = $shape->values[$columnId];
                 }
             }
-            $tableRow->cells = Encoder::encode($cells);
+            $tableRow->cells = Encoder::encode($cells, 'config');
             
             $table->rows[] = $tableRow;
             $table->numRows ++;
