@@ -1,6 +1,6 @@
-.lineH, .lineW, .point {position: absolute; background-color: #F00; overflow: hidden;}
-.lineH {width: 2;}
-.lineW {height: 2;}
-.point {width: 2; height: 2;}
-.dhtmldiv {position:absolute; left: 0; top: 0;width: 0;height: 0;}
-.dhtmlDisplay {left: 0; top: 0; padding: 2px 4px; font-size: 10px;}
+.lineH, .lineW, .point {position: absolute; background-color:#F00;overflow:hidden;}
+.lineH {width:2px;}
+.lineW {height:2px;}
+.point {width:2px;height:2px;}
+.dhtmldiv {position:absolute;left:0;top:0;width:0;height:0;}
+.dhtmlDisplay {left:0;top:0;padding:2px 4px;font-size:10px;}
