@@ -24,6 +24,9 @@ class ClientProjectHandler extends ProjectHandler {
         if (is_readable($projectFileName))
             return rtrim(file_get_contents($projectFileName));
         
+        if (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
+            return $_ENV[self::PROJECT_ENV_VAR];
+
         if (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
             return $_SERVER[self::PROJECT_ENV_VAR];
                 
