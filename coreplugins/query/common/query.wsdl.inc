@@ -25,11 +25,19 @@
           <element name="idType" type="xsd:string"/>
           <element name="selectedIds" type="types:ArrayOfString"/>
           <element name="useInQuery" type="xsd:boolean"/>
-          <element name="policy" type="xsd:string"/>
+          <element name="policy" type="types:QuerySelectionPolicy"/>
           <element name="maskMode" type="xsd:boolean"/>
           <element name="tableFlags" type="types:TableFlags"/>
         </all>
       </complexType>
+
+      <simpleType name="QuerySelectionPolicy">
+        <restriction base="xsd:string">
+          <enumeration value="POLICY_XOR"/>
+          <enumeration value="POLICY_UNION"/>
+          <enumeration value="POLICY_INTERSECTION"/>
+        </restriction>
+      </simpleType>
 
       <complexType name="ArrayOfQuerySelection">
         <complexContent>
