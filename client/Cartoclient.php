@@ -250,8 +250,8 @@ class Cartoclient {
     //  case two:  second time -> load Session
     //                               loadClientSession, ...
     private function initializeSession() {
-
         $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
+
         $this->clientSession = $clientSession;
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
@@ -261,10 +261,10 @@ class Cartoclient {
         } else {
             $this->log->debug("creating new  session");
 
-            $_SESSION = array();
+            //$_SESSION = array();
             $_REQUEST = array();
-            session_destroy();
-            session_start();
+            //session_destroy();
+            //session_start();
             
             $this->clientSession = $this->createClientSession();
 
