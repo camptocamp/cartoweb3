@@ -1,5 +1,4 @@
 <p>
-
 Id recentering <br/>
 
 {t}Layer to center on{/t}
@@ -9,8 +8,6 @@ Id recentering <br/>
 </select>
 
 <br/>
-{t}Coma separated id's{/t} 
-<input type="text" id="id_recenter_ids" name="id_recenter_ids"/> 
-
-
+{t}Comma separated id's{/t} 
+<input type="text" id="id_recenter_ids" name="id_recenter_ids" /> 
 </p>
