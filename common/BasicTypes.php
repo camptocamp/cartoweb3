@@ -93,13 +93,13 @@ abstract class Shape extends Serializable {
      * Computes the shape's center
      * @return Point center
      */
-    abstract function getCenter();
+    abstract public function getCenter();
 
     /**
      * Computes the shape's area
      * @return double surface
      */
-    abstract function getArea();
+    abstract public function getArea();
 }
 
 /**
@@ -160,13 +160,19 @@ class Point extends Shape {
         $this->x = $x;
         $this->y = $y;
     }
-    
+   
+    /**
+     * @see Shape::getCenter()
+     */
     public function getCenter() {
     
         // A point's center is the point itself
         return clone $this;
     }
     
+    /**
+     * @see Shape::getArea()
+     */
     public function getArea() {
         return 0.0;
     }
@@ -198,7 +204,6 @@ class Line extends Shape {
 
     /**
      * Array of points
-     *
      * @var array
      */
     public $points;
@@ -207,18 +212,22 @@ class Line extends Shape {
     /**
      * @see Serializable::unserialize()
      */
-    function unserialize($struct) {
+    public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
     }
-     
-    function getCenter() {
+
+    /**
+     * @see Shape::getCenter()
+     */
+    public function getCenter() {
         /* TODO */
     }
      
     /**
+     * @see Shape::getArea()
      * @return double
      */
-    function getArea() {
+    public function getArea() {
         return 0.0;
     }
 }
@@ -344,6 +353,9 @@ class Bbox extends Shape {
         return $this->maxy - $this->miny;
     }
 
+    /**
+     * @see Shape::getCenter()
+     */
     public function getCenter() {
 
         $width = $this->getWidth();
@@ -353,6 +365,9 @@ class Bbox extends Shape {
                          $this->miny + ($height / 2.0));
     }
     
+    /**
+     * @see Shape::getArea()
+     */
     public function getArea() {
         return $this->getWidth() * $this->getHeight();
     }
@@ -403,6 +418,7 @@ class Polygon extends Shape {
     }
 
     /**
+     * @see Shape::getCenter()
      * @return Point center
      */
      // FIXME: need to be check !
@@ -425,6 +441,7 @@ class Polygon extends Shape {
     }
     
     /**
+     * @see Shape::getArea()
      * @return double
      */
     public function getArea() {
