@@ -557,18 +557,27 @@ class ClientLayers extends ClientCorePlugin {
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = utf8_decode($layer->label);
         $this->layersState->nodesIds[$this->nodeId] = $layer->id;
-
-        switch($layer->icon) {
-            case self::ABOVE_RANGE_ICON: $layerOutRange = 1; break;
-            case self::BELOW_RANGE_ICON: $layerOutRange = -1; break;
-            default: $layerOutRange = 0;
-        }
+        $layerOutRange = 0;
 
         if ($isDropDown) {
             if (!isset($dropDownSelected)) $dropDownSelected = false;
             $template->assign(array('dropDownChildren' => $dropDownChildren,
                                     'dropDownSelected' => $dropDownSelected,
                                     ));
+        } else {
+            $nextscale = false;
+            switch($layer->icon) {
+                case self::ABOVE_RANGE_ICON:
+                    $layerOutRange = 1;
+                    if ($layer->maxScale) $nextscale = $layer->maxScale;
+                    break;
+
+                case self::BELOW_RANGE_ICON:
+                    $layerOutRange = -1;
+                    if ($layer->minScale) $nextscale = $layer->minScale;
+                    break;
+            }
+            $template->assign('nextscale', $nextscale);
         }
 
         $template->assign(array('layerLabel'     => I18n::gt($layer->label),

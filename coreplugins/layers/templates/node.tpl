@@ -18,9 +18,11 @@ title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
 {/capture}
 
 {capture name=icon}
-{if $layerIcon}<img src="{r type=gfx/icons}{$mapId}/{$layerIcon}{/r}" alt="" class="pic" 
-{if $layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
-{elseif $layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} /> 
+{if $layerIcon}
+  <img src="{r type=gfx/icons}{$mapId}/{$layerIcon}{/r}" alt="" class="pic" 
+  {if $nextscale}title="{t}Next visible scale:{/t} 1:{$nextscale}"
+  {elseif $layerOutRange > 0}title="{t}Zoom in to see layer{/t}"
+  {elseif $layerOutRange < 0}title="{t}Zoom out to see layer{/t}"{/if} />
 {/if}
 {/capture}
 
