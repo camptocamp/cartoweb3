@@ -153,12 +153,3 @@ function updateChecked(id,skipChildren) {
     updateChecked(iid, true);
   }
 }
-
-function goToScale(scale) {
-  var form = document.carto_form;
-  if (form.recenter_doit && form.recenter_scale) {
-    form.recenter_doit.value = 1;
-    form.recenter_scale.value = scale;
-    form.submit();
-  }
-}
