@@ -842,12 +842,12 @@ class ClientLayers extends ClientPlugin
                 // TODO: handle notAvailableIcon
                 case $this->notAvailablePlusIcon;
                     $layerOutRange = 1;
-                    if ($layer->maxScale) $nextscale = $layer->maxScale;
+                    if ($layer->maxScale) $nextscale = 0.9 * $layer->maxScale;
                     break;
 
                 case $this->notAvailableMinusIcon;
                     $layerOutRange = -1;
-                    if ($layer->minScale) $nextscale = $layer->minScale;
+                    if ($layer->minScale) $nextscale = 1.1 * $layer->minScale;
                     break;
             }
             $element['nextscale'] = $nextscale;
