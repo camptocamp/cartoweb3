@@ -87,12 +87,15 @@ class ClientConfig extends Config {
     /** 
      * Constructor
      *
-     * If cartoserverBaseUrl is not set, tries to guess it using PHP_SELF.
      * @param ClientProjectHandler Cartoclient's project handler
      */
     function __construct($projectHandler) {
         parent::__construct($projectHandler);
         
+        if (!$this->cartoserverBaseUrl)
+            throw new CartoclientException('You need to set cartoserverBaseUrl ' .
+                    'in client.ini');            
+
         if (substr($this->cartoserverBaseUrl, -1) != '/') {
             $this->cartoserverBaseUrl .= '/';
         }
