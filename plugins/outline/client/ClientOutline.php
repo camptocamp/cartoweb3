@@ -126,16 +126,25 @@ class ClientOutline extends ClientPlugin
      */
     public function getTools() {
         return array(new ToolDescription(self::TOOL_POINT, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT,
+                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
+                        "addLabel('point label')"),
                                          70),
                      new ToolDescription(self::TOOL_LINE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE),
+                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE,
+                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
+                        "addLabel('line label')"),
                                          71),
                      new ToolDescription(self::TOOL_RECTANGLE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
+                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE,
+                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
+                        "addLabel('rectangle label')"),
                                          72),
+                                         
                      new ToolDescription(self::TOOL_POLYGON, true, 
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON),
+                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON,
+                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
+                        "addLabel('polygon label')"),
                                          73),
                     );
     }
@@ -155,12 +164,15 @@ class ClientOutline extends ClientPlugin
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         if ($shape) {
+            if (!empty($request['outline_label_text'])) {
+                $shape->label = $request['outline_label_text'];
+            }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
                 $this->outlineState->shapes = array();
             }
             $this->outlineState->shapes[] = $shape;
-        } 
+        }
     }
 
     /**
@@ -175,7 +187,7 @@ class ClientOutline extends ClientPlugin
     public function buildMapRequest($mapRequest) {
     
         $outlineRequest = new OutlineRequest();
-        $outlineRequest->shapes   = $this->outlineState->shapes;
+        $outlineRequest->shapes   = $this->outlineState->shapes;        
         $outlineRequest->maskMode = $this->outlineState->maskMode;
       
         $mapRequest->outlineRequest = $outlineRequest;
@@ -207,6 +219,15 @@ class ClientOutline extends ClientPlugin
                                     'outline_area'          => $this->area));
         return $this->smarty->fetch('outline.tpl');
     }
+    
+    /**
+     * Draws Outline2 form and returns Smarty generated HTML
+     * @return string
+     */    
+    private function drawOutline2() {
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        return $this->smarty->fetch('outline2.tpl');
+    }
 
     /**
      * @see GuiProvider::renderForm()
@@ -216,7 +237,8 @@ class ClientOutline extends ClientPlugin
         $outline_active = $this->getConfig()->outlineActive;
        
         $template->assign(array('outline_active' => true,
-                                'outline' => $this->drawOutline()));
+                                'outline' => $this->drawOutline(),
+                                'outline2' => $this->drawOutline2()));
     }
 
     /**
