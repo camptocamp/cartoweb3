@@ -45,6 +45,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {if $element.layerRendering == 'block'}
 <fieldset>
+<legend>{$element.layerLabel}</legend>
 {/if}
 
 {if $element.isDropDown}
