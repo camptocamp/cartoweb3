@@ -290,12 +290,25 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $locationInfo = sprintf("Bbox: %s scale %s", 
                     $this->locationState->bbox->__toString(),
                     $this->locationResult->scale);
+
+        $recenter_active = $this->getConfig()->recenterActive;
+
+        $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
+        if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
+            $factor = 1000;
+        else $factor = 1;
+       
+        $template->assign(array('location_info' => $locationInfo,
+                                'bboxMinX' => $this->locationState->bbox->minx,
+                                'bboxMinY' => $this->locationState->bbox->miny,
+                                'bboxMaxX' => $this->locationState->bbox->maxx,
+                                'bboxMaxY' => $this->locationState->bbox->maxy,
+                                'factor' => $factor,
+                                'recenter_active' => $recenter_active, 
+                                ));
         
-        $template->assign('location_info', $locationInfo);
-        
-        // FIXME: Should be configurable (recenterActive = true/false)
-        $template->assign('recenter_active', true);
-        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(),
+                                              $this);
         $template->assign('recenter', $this->smarty->fetch('recenter.tpl'));
         
     }
