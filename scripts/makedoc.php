@@ -3,7 +3,7 @@
 /**
  * Documentation generator using PhpDocumentor
  *
- * Usage: ./makedoc.php [>/dev/null]
+ * Usage: ./makedoc.php
  *
  * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
@@ -66,14 +66,26 @@ define('DOC_DIR', '../doc');
 /**
  * Default package, when @package is not specified 
  */
-define('DEFAULT_PACKAGE', 'CartoWeb');
+define('DEFAULT_PACKAGE', 'CartoWeb3');
 
-
+/**
+ * Includes private methods ('on' or 'off')
+ */
+define('PARSE_PRIVATE', 'on');
+ 
+/**
+ * PHP Doc template to use
+ */
+define('TEMPLATE', 'HTML:frames:l0l33t');
+ 
 $_SERVER['argv'] = array('-d',  ROOT_DIR,
                          '-i',  IGNORE_FILES,
                          '-ti', DOC_TITLE,
                          '-t',  DOC_DIR,
-                         '-dn', DEFAULT_PACKAGE);
+                         '-dn', DEFAULT_PACKAGE,
+                         '-pp', PARSE_PRIVATE,
+                         '-q',
+                         '-o',  TEMPLATE);
 
 /** 
  * PHP auto documentor, like javadoc
