@@ -144,8 +144,10 @@ EncoderClass.config = <encoder_class>]]></programlisting>
 EncoderClass.output = <encoder_class>]]></programlisting> 
       </para></listitem></itemizedlist> Where &lt;encoder_class&gt; is the 
       class used for encoding. Currently, following encoder classes are 
-      implemented: <itemizedlist><listitem><para>EncoderISO: handles strings 
-      coded in ISO-8859-1 </para></listitem><listitem><para>EncoderUTF: handles 
-      strings coded in UTF-8</para></listitem></itemizedlist></para>
+      implemented: 
+      <itemizedlist><listitem><para><classname>EncoderISO</classname>: handles 
+      strings coded in ISO-8859-1 
+      </para></listitem><listitem><para><classname>EncoderUTF</classname>: 
+      handles strings coded in UTF-8</para></listitem></itemizedlist></para>
   </sect1>
 </chapter>
