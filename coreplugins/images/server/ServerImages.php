@@ -38,17 +38,8 @@ class ServerImages extends ServerCoreplugin {
 
         if (@$config->imageUrl)
             return $config->imageUrl;
-            
-        // FIXME: take into account the reverse proxy url (see cartoserver.wsdl.php) !!
-
-        $wwwDataAccessible = true;
-        if ($config->wwwDataAccessible !== NULL)
-            $wwwDataAccessible = $config->wwwDataAccessible;
-    
-        if ($wwwDataAccessible)
-            return dirname($_SERVER['PHP_SELF']) . '/../www-data/images/';
         
-        throw new CartoserverException('Image url not set in mapfile or config file ');
+        return 'images/';
     }
 
     function drawMainmap($requ) {

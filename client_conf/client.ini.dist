@@ -3,16 +3,20 @@
 # if true, SOAP will be bypassed
 cartoserverDirectAccess = false
 
+# Secifies the path for mapserver generated image when in direct access mode
+#directAccessImagesUrl = "/path/to/direct/access/images/"
+
 # The location of the cartoserver, used when cartoserverDirectAccess is true
 # If it is not set, the default location will be used
-# cartoserverHome = "/path/to/cartoserver/"
+#cartoserverHome = "/path/to/cartoserver/"
 
 # The url of the cartoserver SOAP wsdl
 # If it is not set, a default location will be guessed
-##cartoserverUrl = "http://your/path/to/cartoserver.wsdl.php"
+#cartoserverUrl = "http://your/path/to/cartoserver.wsdl.php"
 
-#useReverseProxy = true
-#reverseProxy = "/blah"
+# Prefix where a reverse proxy has to be used to access images.
+# The reverse proxy has to be on the same server than the client.
+#reverseProxyPrefix = "/reverse"
 
 ### Mapfile configuration ###
 

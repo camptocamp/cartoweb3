@@ -5,6 +5,3 @@
 
 ; The url of the reverse proxy, if used
 ;reverseProxyUrl = http://host/proxy/address
-
-; if set to false, www-data is not accessible by the webserver
-;wwwDataAccessible = false

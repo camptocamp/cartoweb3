@@ -10,6 +10,10 @@ dirs:
 	-mkdir -p www-data/images
 	-mkdir -p www-data/saved_posts
 	-mkdir -p templates_c
+
+links:
+	ln -s ../www-data/images htdocs/images
+
 perms:
 	chmod 777 www-data/images
 	chmod 777 www-data/saved_posts

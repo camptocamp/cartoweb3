@@ -47,71 +47,11 @@ class FormRenderer {
         return $smarty;
     }
 
-    /**
-     * Taken from php manual. By anonymous.
-     */
-    private function glue_url($parsed) {
-  
-        if (! is_array($parsed)) return false;
-
-        if (isset($parsed['scheme'])) {
-            $sep = (strtolower($parsed['scheme']) == 'mailto' ? ':' : '://');
-            $uri = $parsed['scheme'] . $sep;
-        } else {
-            $uri = '';
-        }
- 
-        if (isset($parsed['pass'])) {
-            $uri .= "$parsed[user]:$parsed[pass]@";
-        } elseif (isset($parsed['user'])) {
-            $uri .= "$parsed[user]@";
-        }
- 
-        if (isset($parsed['host']))    $uri .= $parsed['host'];
-        if (isset($parsed['port']))    $uri .= ":$parsed[port]";
-        if (isset($parsed['path']))    $uri .= $parsed['path'];
-        if (isset($parsed['query']))    $uri .= "?$parsed[query]";
-        if (isset($parsed['fragment'])) $uri .= "#$parsed[fragment]";
- 
-        return $uri;
-    }
-
-    private function getImagePath($path) {
-    
-        $config = $this->cartoclient->getConfig();
-
-        if (!@$config->cartoserverUrl)
-            return $path;
-        
-        $parsedUrl = parse_url($config->cartoserverUrl);
-        
-        $parsedUrl['path'] = $path;
-
-        if ($config->useReverseProxy) {
-            x('todo_reverse_proxy');
-            
-            $proxyParsedUrl = parse_url($config->reverseProxy);
-            // TODO: in some cases, we don't want to prefix images with host
-            //   if the reverse proxy is on the same machine.
-            $parsedUrl['host'] = $proxyParsedUrl['host']; 
-            $parsedUrl['port'] = $proxyParsedUrl['port'];
-            $parsedUrl['path'] = $proxyParsedUrl['path'] . $parsedUrl['path']; 
-        }
-    
-        return $this->glue_url($parsedUrl);
-    }
-
     function showForm($cartoclient) {
 
         $cartoForm = $cartoclient->getCartoForm();
         $clientSession = $cartoclient->getClientSession();
-        $imagesRes = $cartoclient->getPluginManager()->images->imagesResult;
-
         $smarty = $this->smarty;
-
-        $smarty->assign("mainmap_path", 
-                    $this->getImagePath($imagesRes->mainmap->path));
-
         $plugins = $cartoclient->getPluginManager()->getPlugins();
 
         $tools = array();
