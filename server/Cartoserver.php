@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Main cartoserver entry point
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,19 +61,20 @@ class CartoserverException extends CartowebException {
 }
 
 /**
+ * Server configuration class
  * @package Server
  */
 class ServerConfig extends Config {
 
     /**
-     * @return string
+     * @see Config::getKind()
      */
     public function getKind() {
         return 'server';
     }
 
     /**
-     * @return string
+     * @see Config::getBasePath()
      */
     public function getBasePath() {
         return CARTOSERVER_HOME;
@@ -89,6 +90,7 @@ class ServerConfig extends Config {
 }
 
 /**
+ * Server plugin configuration
  * @package Server
  */
 class ServerPluginConfig extends PluginConfig {
@@ -103,21 +105,21 @@ class ServerPluginConfig extends PluginConfig {
     }
     
     /**
-     * @return string
+     * @see Config::getKind()
      */
     public function getKind() {
         return 'server';
     }
 
     /**
-     * @return string
+     * @see Config::getBasePath()
      */
     public function getBasePath() {
         return CARTOSERVER_HOME;
     }
 
     /**
-     * @return string
+     * @see PluginConfig::getPath()
      */
     public function getPath() {
         return $this->projectHandler->getMapName() . '/';
@@ -125,6 +127,7 @@ class ServerPluginConfig extends PluginConfig {
 }
 
 /**
+ * Cartoserver main class. Contains method exported to the webservice.
  * @package Server
  */
 class Cartoserver {
@@ -186,24 +189,6 @@ class Cartoserver {
     }
 
     /**
-     * Draws mainmap image.
-     * @return string mainmap path
-     */
-    private function generateImage() {
-        // TODO: generate keymap
-
-        $serverContext = $this->getServerContext($mapId);
-        $serverContext->getMapObj()->set('height', '500');
-        $serverContext->getMapObj()->set('width',  '500');
-        
-        //$corePlugins->imagesPlugin->drawMainmap($mapRequest->images);
-
-        $msMainMapImage = $serverContext->getMapObj()->draw();
-        $mainMapImagePath = $msMainMapImage->saveWebImage();
-        return $mainMapImagePath;
-    }
-
-    /**
      * Returns developper messages.
      * @return Message
      */
@@ -227,7 +212,9 @@ class Cartoserver {
     }
 
     /**
-     * @param MapRequest
+     * Checks that all plugins needed by this mapRequest are loaded. Throws
+     * a fatal exception otherwise.
+     * @param MapRequest The request to check for loaded needed plugins.
      */
     private function checkRequest($mapRequest) {
         foreach (get_object_vars($mapRequest) as $attr => $value) {
@@ -282,9 +269,6 @@ class Cartoserver {
         $mapResult->timestamp = $serverContext->getTimestamp();
 
         $pluginManager->callPlugins('initialize');
-        
-        // test new image generation
-        //$mapResult->new_gen = $this->generateImage();
 
         $pluginManager->callPluginsImplementing('ClientResponder', 'initializeRequest');
 
@@ -355,6 +339,9 @@ class Cartoserver {
     }
 
     /**
+     * Performs the getMap Webservice. This method is to be used by the 
+     * mapResult cache object, and should not be called directly. Use getMap()
+     * for this purpose.
      * @param MapRequest
      * @return MapResult
      */
@@ -368,6 +355,7 @@ class Cartoserver {
     }
 
     /**
+     * getMap webservice entry point
      * @param MapRequest
      * @return MapResult
      */
@@ -377,6 +365,7 @@ class Cartoserver {
     }
 
     /**
+     * getMapInfo webservice entry point
      * @param string map id
      * @return MapInfo
      */
@@ -388,6 +377,9 @@ class Cartoserver {
 /**
  * Returns the URL of the wsdl file to be used on the server, or null if
  * no wsdl is to be used (as set in the configuration).
+ * @param string The mapId for the generated wsdl
+ * @param ServerConfig Server configuration
+ * @return string The url of the wsdl to be used on the server.
  */
 function getWsdlUrl($mapId, ServerConfig $config) {
     
@@ -423,13 +415,18 @@ function getWsdlUrl($mapId, ServerConfig $config) {
 
 /**
  * Setup the SOAP server, and registers the SOAP methods.
+ * @param Cartoserver the cartoserver object used for calling web services
+ * @return SoapServer
  */
-function setupSoapService($cartoserver) {
+function setupSoapService(Cartoserver $cartoserver) {
     $log =& LoggerManager::getLogger(__METHOD__);
 
     global $serverGlobal;
     $serverGlobal = $cartoserver;
 
+    /**
+     * Nested method for getMapInfo webservice
+     */
     function getMapInfo($mapId) {
         $log =& LoggerManager::getLogger(__METHOD__);
         global $serverGlobal;
@@ -439,6 +436,9 @@ function setupSoapService($cartoserver) {
         return $mapInfo;
     }
 
+    /**
+     * Nested method for getMap webservice
+     */
     function getMap($mapRequest) {
         $log =& LoggerManager::getLogger(__METHOD__);
         global $serverGlobal;
