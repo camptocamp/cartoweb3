@@ -67,7 +67,7 @@ showProjectChooser = true
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = hello, selection, outline
+loadPlugins = hello, selection, outline, exportPdf, exportHtml, exportCsv
 
 ;## Template engine configuration ##
 
