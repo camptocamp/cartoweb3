@@ -137,18 +137,65 @@ class MyClass {
   <title>Debugging</title>
   <para>
     Debugging is a large topic. Everyone has its preference over the tool to
-    be used like using an integraded debugging tool inside an<acronym>IDE</acronym>,
+    be used like using an integraded debugging tool inside an <acronym>IDE</acronym>,
     using print statements, code printing and reading, ...
     Because of this, this section does not tells what tools to use, but rather
     gives some tips when debugging.
   </para>
   <sect2 id="dev.debug.debug.stacktraces">
     <title>Understanding Exceptions and Stack Traces</title>
-    <para>TBD</para>
+    <para>When a failure is encoutered in &cartoweb; the Php5 mechanism for
+      exceptions handling is used to manage exception and display stack
+      traces. People knowing the <trademark>Java</trademark> 
+      language will be familiar with such stack traces. The following example
+      shows such a stack trace display. It is easily understood as the list
+      of functions called, and the line numbers where the call happened.
+      <screen><![CDATA[Failure
+
+class:   SoapFault
+message:   Error [8, Undefined property:  ServerMapquery::$currentQeury, /home/sypasche/public_html/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php, 222]
+Backtrace:
+
+file: 182 - /var/www/cartoweb3/common/Common.php
+call: Common::cartowebErrorHandler()
+
+file: 222 - /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php
+call: Common::cartowebErrorHandler()
+
+file: 222 - /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php
+call: ServerMapquery::queryByBbox()
+
+file: 248 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
+call: ServerMapquery->queryByBbox(8, "Undefined property:  ServerMapquery::$currentQeury", "/var/www/cartoweb3/coreplugins/mapquery/server...", 222, Array(2))
+
+file: 369 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
+call: ServerQuery->queryLayer("polygon", Object(Bbox))
+
+file: 58 - /var/www/cartoweb3/server/ServerPluginHelper.php
+call: ServerQuery->handlePreDrawing(Object(Bbox), Object(QuerySelection))
+
+file: 96 - /var/www/cartoweb3/server/ServerPluginHelper.php
+call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]></screen>
+      </para>
   </sect2>
   <sect2 id="dev.debug.debug.directmode">
-    <title>Using Direct For More Verbosity</title>
-    <para>TBD</para>
+    <title>Using Direct for More Verbosity</title>
+    <para>In some situations, a fatal error on the server will display a 
+      message with not much verbosity:<screen>Failure
+
+class:   SoapFault
+message:   parse error, unexpected T_VARIABLE</screen> 
+        The fact no line number and Php file is displayed is a
+        limitation of the Php SOAP implementation (workarounds are 
+        welcomed ;-) ).</para>
+        <para>
+          In such a situation, a solution for this problem is to enable the
+          &cartoweb; direct access mode of operation. Direct access mode is set 
+          with the <constant>cartoserverDirectAccess</constant> parameter of the 
+            <filename>client_conf/client.ini</filename> configuration file. For 
+            more details about this parameter, see 
+              <xref linkend="user.config.client"/>.
+        </para>
   </sect2>
  </sect1>
 
