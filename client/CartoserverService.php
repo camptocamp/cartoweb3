@@ -47,43 +47,16 @@ class CartoserverService {
         return $this->cartoserver;
     }
     
-    private function getCartoserverUrl() {
+    private function getCartoserverUrl($script) {
 
         $url = '';
-        if (@$this->config->cartoserverUrl)
-            $url = $this->config->cartoserverUrl;
-
-        // in config ?
-        $guessCartoserver = true;
-
-        if ($url == '' && $guessCartoserver && $_SERVER['PHP_SELF'] != '') {
-            $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-                $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-                '/cartoserver.wsdl.php';
-        }
+        if (!is_null($this->config->cartoserverBaseUrl))
+            $url = $this->config->cartoserverBaseUrl;
 
         if ($url == '' )
-            throw new CartoclientException("No cartoserver Url set in config file");
+            throw new CartoclientException("No cartoserverBaseUrl set in config file");
         else
-            return $url . '?mapId=' . $this->config->mapId;
-    }
-
-    private function getCartoserverScriptUrl() {
-
-        $url = '';
-        if (@$this->config->cartoserverScriptUrl)
-            $url = $this->config->cartoserverScriptUrl;
-
-        if ($url == '' && $_SERVER['PHP_SELF'] != '') {
-            $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-                $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-                '/server.php';
-        }
-
-        if ($url == '' )
-            throw new CartoclientException("No cartoserver Script Url set in config file");
-        else
-            return $url . '?mapId=' . $this->config->mapId;
+            return $url . $script . '?mapId=' . $this->config->mapId;
     }
 
     private function callFunction($function, $argument, $replayTrace=false) {
@@ -102,9 +75,10 @@ class CartoserverService {
             $options = $replayTrace === true ? array('trace' => 1) : array();
             
             if (@$this->config->cartoserverUseWsdl) {
-                $client = new SoapClient($this->getCartoserverUrl(), $options);
+                $client = new SoapClient($this->getCartoserverUrl('cartoserver.wsdl.php'),
+                                         $options);
             } else {
-                $options['location'] = $this->getCartoserverScriptUrl();;
+                $options['location'] = $this->getCartoserverUrl('server.php');
                 $options['uri'] = 'foo';
                 $client = new SoapClient(null, $options);
             }            

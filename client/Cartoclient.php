@@ -67,14 +67,15 @@ class ClientConfig extends Config {
         $this->basePath = CARTOCLIENT_HOME;
         parent::__construct($projectHandler);
         
-        if (is_null($this->cartoserverUrl)) {
+        if (is_null($this->cartoserverBaseUrl)) {
             if (empty($_SERVER['PHP_SELF']))
-                throw new CartoclientException('You need to set cartoserverUrl ' .
+                throw new CartoclientException('You need to set cartoserverBaseUrl ' .
                         'in client.ini');
             $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
-                    '/cartoserver.wsdl.php';
-            $this->cartoserverUrl = $url;
+                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/';
+            $this->cartoserverBaseUrl = $url;
+        } else if (substr($this->cartoserverBaseUrl, -1) != '/') {
+            $this->cartoserverBaseUrl .= '/';
         }
     }
 }

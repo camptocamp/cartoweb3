@@ -22,10 +22,10 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
  */
 class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
-    private function getCartoserverUrl() {
+    private function getCartoserverBaseUrl() {
      
         $ini_array = parse_ini_file(CARTOCLIENT_HOME . 'client_conf/client.ini');
-        return $ini_array['cartoserverUrl'];
+        return $ini_array['cartoserverBaseUrl'];
     }
 
     public function setUp() {
@@ -35,9 +35,9 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
         // FIXME: disable soap cache ?
         $config->noWsdlCache = false;
         $config->cartoserverUseWsdl = true;
-        $config->cartoserverUrl = $this->getCartoserverUrl();        
+        $config->cartoserverBaseUrl = $this->getCartoserverBaseUrl();        
         $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
-        $this->assertNotNull($config->cartoserverUrl, 'You need to set cartoserverUrl in client.ini');
+        $this->assertNotNull($config->cartoserverBaseUrl, 'You need to set cartoserverBaseUrl in client.ini');
         $config->cartoserverDirectAccess = true;
         
         $this->cartoserverServiceDirect = new CartoserverService($config);        

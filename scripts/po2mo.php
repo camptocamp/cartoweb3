@@ -48,10 +48,9 @@ function getMapPo ($project, $mapId) {
         }
     } else {
         // Looks for server URL
-        if (array_key_exists('cartoserverUrl', $iniArray)) {
-            $url = $iniArray['cartoserverUrl'];
+        if (array_key_exists('cartoserverBaseUrl', $iniArray)) {
+            $url = $iniArray['cartoserverBaseUrl'];
         }
-        $url = dirname($url) . '/';
  
         // Adds project if needed
         if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {

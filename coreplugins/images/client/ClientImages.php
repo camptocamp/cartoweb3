@@ -170,10 +170,6 @@ class ClientImages extends ClientCorePlugin {
 
     private function getCartoserverDirname($cartoserverParsedUrl) {
         
-        $config = $this->cartoclient->getConfig();
-
-        assert(!is_null($config->cartoserverUrl));
-
         return dirname($cartoserverParsedUrl['path']) . '/';
     }
 
@@ -184,7 +180,7 @@ class ClientImages extends ClientCorePlugin {
         if ($config->cartoserverDirectAccess)
             return $this->getDirectAccessImagePath($path);
 
-        $cartoserverParsedUrl = parse_url($config->cartoserverUrl);
+        $cartoserverParsedUrl = parse_url($config->cartoserverBaseUrl . 'foo');
 
         $absolutePath = $path;
         if (!$this->isPathAbsolute($path))
