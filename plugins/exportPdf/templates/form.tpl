@@ -1,6 +1,6 @@
 <br />
 <form method="post" action="{$exportScriptPath}">
-
+<input type="hidden" name="pdfExport" value="1" />
 <div>{t}Format:{/t} 
 {html_options name="pdfFormat" options=$pdfFormat_options selected=$pdfFormat_selected}</div>
 
@@ -23,6 +23,18 @@ for="lsp">{t}Landscape{/t}</label></div>
 <label for="pdfOverview">{t}Overview{/t}</label></div>{/if}
 {if $pdfQueryResult}<div><input type="checkbox" name="pdfQueryResult" id="pdfQueryResult" />
 <label for="pdfQueryResult">{t}QueryResult{/t}</label></div>{/if}
+
+{if $pdfLegend}
+<fieldset>
+<legend>{t}Legend{/t}</legend>
+<div><input type="radio" name="pdfLegend" value="in" id="legendIn" /><label
+for="legendIn">{t}On map{/t}</label></div>
+<div><input type="radio" name="pdfLegend" value="out" id="legendOut" /><label
+for="legendOut">{t}In new page{/t}</label></div>
+<div><input type="radio" name="pdfLegend" value="0" id="legendNone" /><label
+for="legendNone">{t}None{/t}</label></div>
+</fieldset>
+{/if}
 
 <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" />
 </form>
