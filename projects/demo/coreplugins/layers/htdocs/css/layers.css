@@ -1,0 +1,11 @@
+#layersroot {text-align:left;margin-left:0px; font-size:0.8em;}
+#layersroot img {border:0;margin-bottom:2px;}
+#layersroot .pic {margin-bottom:0;margin-right:4px;}
+#layersroot .v, #layersroot .nov 
+    {text-align:left;margin-left:15px;line-height:1.5}
+#layersroot .nov {display:none;}
+#layersroot .lk {text-decoration:none;}
+#layersroot .out {color:#bbb;}
+#layersroot .leaf {margin-left:12px;}
+#layersroot select {margin-bottom:5px;}
+#layersroot fieldset {margin:8px;margin-left:0;}

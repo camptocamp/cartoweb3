@@ -1,0 +1,62 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-03-01 14:23+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: demo.map
+msgid "name"
+msgstr "Name"
+
+#: demo.map
+msgid "NAME"
+msgstr "Name"
+
+#: demo.map
+msgid "elevation"
+msgstr "Elevation"
+
+#: demo.map
+msgid "ZV2"
+msgstr "Elevation"
+
+#: demo.map
+msgid "nam"
+msgstr "Name"
+
+#: demo.map
+msgid "NAM"
+msgstr "Name"
+
+#: demo.map
+msgid "txt"
+msgstr "Name"
+
+#: demo.map
+msgid "TXT"
+msgstr "Name"
+
+#: demo.map
+msgid "area"
+msgstr "Area"
+
+#: demo.map
+msgid "AREA"
+msgstr "Area"
+
+
+#: demo.ini:mapInfo.layers.none.label
+msgid "none"
+msgstr "None"
+
+#: demo.ini:mapInfo.layers.town.label
+msgid "town"
+msgstr "Town"
+
+#: demo.ini:mapInfo.layers.agglo.label
+msgid "agglo"
+msgstr "Agglomeration"

@@ -1,0 +1,334 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-03-01 14:23+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr "Masque"
+
+#: projects/demo/coreplugins/query/templates/query.tpl
+msgid "Query result"
+msgstr "Résultats de la requête"
+
+#: projects/demo/coreplugins/query/templates/query.tpl
+msgid "Query Clear"
+msgstr "Effacer les résultats"
+
+#: projects/demo/coreplugins/layers/templates/layers.tpl
+msgid "Refresh"
+msgstr "Actualiser"
+
+#: projects/demo/coreplugins/_tables/templates/tables.tpl
+msgid "Download CSV"
+msgstr "Télécharger CSV"
+
+#: projects/demo/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize:"
+msgstr "Taille de la carte :"
+
+#: projects/demo/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr "Raccourcis"
+
+#: projects/demo/coreplugins/location/templates/recenter.tpl
+#: projects/demo/coreplugins/location/templates/recenter.tpl
+#: projects/demo/coreplugins/location/templates/id_recenter.tpl
+msgid "Recenter"
+msgstr "Recentrer"
+
+#: projects/demo/coreplugins/location/templates/recenter.tpl
+msgid "X:"
+msgstr "X :"
+
+#: projects/demo/coreplugins/location/templates/recenter.tpl
+msgid "Y:"
+msgstr "Y :"
+
+#: projects/demo/coreplugins/location/templates/scales.tpl
+msgid "Scale"
+msgstr "Echelle"
+
+#: projects/demo/coreplugins/location/templates/id_recenter.tpl
+msgid "Id Recentering"
+msgstr "Recentrage sur Id"
+
+#: projects/demo/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on:"
+msgstr "Couche sur laquelle se recentrer :"
+
+#: projects/demo/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's:"
+msgstr "Id séparés par des virgules :"
+
+#: projects/demo/plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr "Connexion"
+
+#: projects/demo/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "Déconnexion"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr "Menu d'authentification"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr "Vous avez été déconnecté"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr "Merci de saisir votre nom et mot de passe"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr "Mot de Passe"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr "Validation"
+
+#: projects/demo/plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr "Cliquer ici pour revenir sur la carte"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Format and Resolution (dpi)"
+msgstr "Format et résolution (dpi)"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Orientation"
+msgstr "Orientation"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Portrait"
+msgstr "Portrait"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Landscape"
+msgstr "Paysage"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Title"
+msgstr "Titre"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr "Note"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr "Options"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Barre d'échelle"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Aperçu"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "Résultats de la requête"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Légende"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "Sur la carte"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "Dans une nouvelle page"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "Aucune"
+
+#: projects/demo/plugins/exportPdf/templates/form.tpl
+#: projects/demo/templates/cartoclient.tpl
+#: projects/demo/templates/cartoclient.tpl
+msgid "Print"
+msgstr "Imprimer"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Mode"
+msgstr "Mode"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Change Mode"
+msgstr "Changer de mode"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Dessiner"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Surface totale"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Km"
+msgstr "Km"
+
+#: projects/demo/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr "Effacer les dessins"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "full_extent"
+msgstr "Etendue maximale"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "zoom_in"
+msgstr "Zoom avant"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "zoom_out"
+msgstr "Zoom arrière"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "pan"
+msgstr "Panoramique"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "query"
+msgstr "Requête"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "distance"
+msgstr "Distance"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "surface"
+msgstr "Surface"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "outline_point"
+msgstr "Dessiner un point"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "outline_line"
+msgstr "Dessiner une ligne"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "outline_rectangle"
+msgstr "Dessiner un rectangle"
+
+#: projects/demo/templates/toolbar.tpl
+#: projects/demo/templates/toolbar.tpl
+msgid "outline_poly"
+msgstr "Dessiner un polygone"
+
+#: projects/demo/templates/dhtmlcode.tpl
+msgid "Main map"
+msgstr "Carte principale"
+
+#: projects/demo/templates/dhtmlcode.tpl
+msgid "Approx. distance: "
+msgstr "Distance approx. : "
+
+#: projects/demo/templates/dhtmlcode.tpl
+msgid "Approx. surface: "
+msgstr "Surface approx. : " 
+
+#: projects/demo/templates/dhtmlcode.tpl
+msgid "Coords (m): "
+msgstr "Coord. (m) : "
+
+#: projects/demo/templates/cartoclient.tpl
+#: projects/demo/templates/cartoclient.tpl
+msgid "CartoWeb3 - Demonstration"
+msgstr "CartoWeb3 - Démonstration"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Collapse keymap"
+msgstr "Cacher la keymap"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Afficher la keymap"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "welcome"
+msgstr "Bienvenue"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr "altbar_echelle"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid " User messages "
+msgstr "Messages utilisateurs"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr "Message développeurs"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "keymap_alt"
+msgstr "alt_carteclef"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Thèmes"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Search"
+msgstr "Recherche"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Query"
+msgstr "Requête"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Outline"
+msgstr "Dessin"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "About"
+msgstr "A propos"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Data sources"
+msgstr "Données"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "Projection and datums"
+msgstr "Projection et datums"
+
+#: projects/demo/templates/cartoclient.tpl
+msgid "UTM 32 North"
+msgstr "UTM 32 Nord"
+
+#: projects/demo/templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Veuillez patienter..."
