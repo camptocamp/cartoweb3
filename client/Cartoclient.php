@@ -259,6 +259,7 @@ class Cartoclient {
                 // form renderer not yet initialized: show a raw error message
                 print 'An exception in early stage occured: <pre>';
                 var_dump($exception);
+                print '</pre>';
             }
             // Cartoclient was not initialized, exit
             exit;
@@ -338,7 +339,8 @@ class Cartoclient {
      */
     private function getCorePluginNames() {
 
-        return array('location', 'layers', 'images', 'query', 'statictools', 'tables');
+        return array('location', 'layers', 'images', 'query', 'statictools',
+                     'tables');
     }
 
     /**
@@ -583,7 +585,7 @@ class Cartoclient {
         // Save mapResult for future use
         $this->clientSession->lastMapResult = $this->mapResult;
 
-        $this->log->debug("mapresult:");
+        $this->log->debug('mapresult:');
         $this->log->debug($this->mapResult);
 
         $this->callPluginsImplementing('ServerCaller', 'initializeResult',
@@ -592,7 +594,7 @@ class Cartoclient {
         $this->callPluginsImplementing('ServerCaller', 'handleResult',
                                        $this->mapResult);
 
-        $this->log->debug("client context to display");
+        $this->log->debug('client context to display');
 
         $this->formRenderer->showForm($this);
 

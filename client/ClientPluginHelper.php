@@ -111,10 +111,12 @@ class SessionableHelper extends ClientPluginHelper {
             return;
         }
 
-        $plugin->loadSession(unserialize($clientSession->pluginStorage->$className));
+        $plugin->loadSession(unserialize($clientSession->pluginStorage->
+                                                         $className));
 
         $this->log->debug("plugin $className loads:");
-        $this->log->debug(var_export(unserialize($clientSession->pluginStorage->$className), true));
+        $this->log->debug(var_export(unserialize($clientSession->pluginStorage
+                                                 ->$className), true));
     }
 
     /**
