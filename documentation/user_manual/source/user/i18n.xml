@@ -15,8 +15,35 @@
    text files they can be read by any i18n system.
   </para>
   <para>
-    About gettext: <ulink 
-    url="http://www.gnu.org/software/gettext/manual">http://www.gnu.org/software/gettext/manual</ulink>.
+   About gettext: <ulink 
+   url="http://www.gnu.org/software/gettext/manual">http://www.gnu.org/software/gettext/manual</ulink>
+  </para>
+  <para>
+   About SmartyGettext: <ulink 
+   url="http://smarty.incutio.com/?page=SmartyGettext">http://smarty.incutio.com/?page=SmartyGettext</ulink>
+  </para>
+ </sect1>
+
+ <sect1 id="user.i18n.usage">
+  <title>Usage</title>
+  <para>
+   Translation may be used at two levels of CartoWeb3 files:
+   <itemizedlist>
+    <listitem>
+     <para>
+      in PHP code using I18n gt() method:
+      <programlisting><![CDATA[$translatedString = I18n::gt($stringToTranslate);]]></programlisting>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      in Smarty templates using the "t" block function:
+      <programlisting><![CDATA[<p>{t}My text to translate{/t}</p>
+<p>{t name="John Doe"}Hello my name is %1{/t}</p>
+<p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 
