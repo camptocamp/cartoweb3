@@ -6,7 +6,7 @@ general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, legend
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
@@ -31,7 +31,7 @@ formats.A3.maxResolution = 150
 ; blocks default settings
 template.type = text
 template.fontFamily = times
-template.fontSize = 12
+template.fontSize = 9
 template.fontItalic = false
 template.fontBold = false
 template.color = black
@@ -119,8 +119,14 @@ blocks.tableHeaders.color = #eeeeff
 
 blocks.legend.type = legend
 blocks.legend.zIndex = 1
-blocks.legend.weight = 80
-blocks.legend.fontSize = 15
+blocks.legend.weight = 40
+blocks.legend.fontSize = 8
+blocks.legend.height = 5
+blocks.legend.width = 50
+blocks.legend.padding = 1.5
+blocks.legend.verticalMargin = 10
+blocks.legend.horizontalMargin = 10
+;blocks.legend.content = "!<layer_to_hide>"
 
 blocks.page.multiPage = true
 blocks.page.borderWidth = 0
