@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package Tests
+ * @version $Id$
+ */
+ 
 /**
  * @package Tests
  */
