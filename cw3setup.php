@@ -245,7 +245,7 @@ function setPerms($user) {
 
 function setPermsRecursive($dir, $user) {
    if (@chown($dir, $user)) echo "\"$dir\" is now owned by $user\n";
-   elseif (@chmod($fullpath, 777)) echo "\"$dir\" is now writable by everybody, including $user\n";
+   elseif (@chmod($dir, 777)) echo "\"$dir\" is now writable by everybody, including $user\n";
    else echo "WARNING: unable to set permissions on \"$dir\"\n";
    $dh = @opendir($dir);
    if (!$dh) return false;
