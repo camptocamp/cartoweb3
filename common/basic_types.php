@@ -204,10 +204,13 @@ class Bbox extends Shape {
     }
     
     function __toString() {
-        return sprintf("BBOX(%s %s;%s %s [%s %s])", 
-            $this->minx, $this->miny, 
-            $this->maxx, $this->maxy,
-            $this->getWidth(), $this->getHeight());
+        $args = array($this->minx, $this->miny, $this->maxx, $this->maxy,
+                      $this->getWidth(), $this->getHeight());
+        $round = 2;
+        $roundArray = array_fill(0, count($args), $round);
+        $args = array_map('round', $args, $roundArray);
+        $args = array_merge(array('("BBOX(%s %s;%s %s [%s %s])'), $args);
+        return call_user_func_array('sprintf', $args);
     }
 }
 
