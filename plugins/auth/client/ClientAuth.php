@@ -44,7 +44,7 @@ class IniSecurityContainer extends SecurityContainer {
      * The map of usernames => roles
      * @var array
      */
-    private $roleMap;
+    private $roleMap = array();
 
     /**
      * Constructor, taking a plugin configuration.
