@@ -26,10 +26,12 @@ perms:
 	chmod +x scripts/*sh scripts/*py
 	chmod 777 log
 	chmod -R 777 www-data
-
+	chmod 777 templates_c
+	
 perms_sudo:
 	sudo chown www-data log
 	sudo chown -R www-data www-data
+	sudo chown www-data templates_c
 
 create_config:
 	for i in `find -name "*.dist"`; do \
