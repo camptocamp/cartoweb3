@@ -45,13 +45,14 @@ class coreplugins_query_server_RemoteServerQueryTest
 
     /**    
      * Returns a {@link MapRequest} for a query on all selected layers
+     * with a rubber band (bbox) like query
      * @return MapRequest
      */
-    private function getMapRequestAllLayers() {
+    private function getMapBboxRequestAllLayers() {
     
         $queryRequest = new QueryRequest();
         $bbox = new Bbox();
-        $bbox->setFromBbox(0, 51.5, 0, 51.5);
+        $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
         $queryRequest->bbox = $bbox;
         $queryRequest->defaultTableFlags = new TableFlags();
         $queryRequest->defaultTableFlags->returnAttributes = true;
@@ -66,6 +67,40 @@ class coreplugins_query_server_RemoteServerQueryTest
         
         return $mapRequest;
     }
+    
+    /**    
+     * Returns a {@link MapRequest} for a query on a point type layers
+     * with a point like query
+     * @return MapRequest
+     */
+    private function getMapPointRequestAllLayers() {
+
+    
+        $queryRequest = new QueryRequest();
+        $bbox = new Bbox();
+        $bbox->setFromBbox(-0.5285, 51.7589, -0.5285, 51.7589);
+        $queryRequest->bbox = $bbox;
+        $queryRequest->defaultTableFlags = new TableFlags();
+        $queryRequest->defaultTableFlags->returnAttributes = true;
+        $queryRequest->defaultTableFlags->returnTable = true;
+        $queryRequest->queryAllLayers = true;
+
+        $bboxRequest = new BboxLocationRequest();
+        $bbox = new Bbox();
+        $bbox->setFromBbox(-0.67,51.64,-0.39,51.85);
+        $bboxRequest->bbox = $bbox;
+        $locationRequest = new LocationRequest();
+        $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
+        $locationRequest->bboxLocationRequest = $bboxRequest; 
+        
+        $mapRequest = $this->createRequest();
+        $mapRequest->locationRequest = $locationRequest;
+        $mapRequest->queryRequest = $queryRequest;        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = array('more_points');
+        
+        return $mapRequest;
+    }
 
     /**
      * Returns a {@link MapRequest} for a query with no attributes
@@ -73,7 +108,7 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     private function getMapRequestNoAttributes() {
     
-        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapRequest->queryRequest->defaultTableFlags->returnAttributes = false;        
         return $mapRequest;
     }
@@ -84,7 +119,7 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     private function getMapRequestNoTable() {
     
-        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapRequest->queryRequest->defaultTableFlags->returnTable = false;        
         return $mapRequest;
     }
@@ -93,11 +128,11 @@ class coreplugins_query_server_RemoteServerQueryTest
      * Returns a {@link MapRequest} for a query on some layers
      * @return MapRequest
      */
-    private function getMapRequestUseInQuery() {
+    private function getMapBboxRequestUseInQuery() {
     
         $queryRequest = new QueryRequest();
         $bbox = new Bbox();
-        $bbox->setFromBbox(0, 51.5, 0, 51.5);
+        $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
         $queryRequest->bbox = $bbox;
         $queryRequest->queryAllLayers = false;
         $querySelections = array();
@@ -170,6 +205,25 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals(array('1', 'Cé bô le françès'), 
                             $polygonRows[0]->cells);        
     }
+    
+    /**
+     * Checks for query using point like query
+     * @param QueryResult
+     */
+    private function assertQueryPointResultWithAttributes($queryResult) {
+
+        $this->assertEquals(1, count($queryResult->tableGroup->tables));
+        $this->assertEquals("more_points", 
+                            $queryResult->tableGroup->tables[0]->tableId);
+
+        $rows = $queryResult->tableGroup->tables[0]->rows;
+        
+         
+        $this->assertEquals(1, count($rows));
+        
+        $this->assertEquals(array('N'), 
+                            $rows[0]->cells);        
+    }
 
     /**
      * Checks for query with no attributes
@@ -222,14 +276,30 @@ class coreplugins_query_server_RemoteServerQueryTest
 
     /**
      * Tests a query on all selected layers
+     * using a rubber band (box) like query
      * @param boolean
      */
-    function testQueryAllLayers($direct = false) {
+    function testQueryBboxAllLayers($direct = false) {
 
-        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
 
         $this->assertQueryResultWithAttributes($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    /**
+     * Tests a query on all selected layers
+     * using a point like query
+     * @param boolean
+     */
+    function testQueryPointAllLayers($direct = false) {
+
+        $mapRequest = $this->getMapPointRequestAllLayers();
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryPointResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
@@ -242,7 +312,7 @@ class coreplugins_query_server_RemoteServerQueryTest
 
         $this->setMapId('test_query_hilight.test');
                 
-        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
 
         $this->assertQueryResultWithAttributes($mapResult->queryResult);
@@ -256,7 +326,7 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     function testQueryWithMask($direct = false) {
 
-        $mapRequest = $this->getMapRequestAllLayers();
+        $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapRequest->queryRequest->defaultMaskMode = true;
         
         $mapResult = $this->getMap($mapRequest);
@@ -300,7 +370,7 @@ class coreplugins_query_server_RemoteServerQueryTest
      */
     function testQueryUseInQuery($direct = true) {
 
-        $mapRequest = $this->getMapRequestUseInQuery();
+        $mapRequest = $this->getMapBboxRequestUseInQuery();
         $mapResult = $this->getMap($mapRequest);
 
         $this->assertQueryResultNoAttributes($mapResult->queryResult);
