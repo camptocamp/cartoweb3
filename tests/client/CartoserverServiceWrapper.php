@@ -13,6 +13,7 @@ require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
+require_once(CARTOCOMMON_HOME . 'common/Message.php');
 
 /**
  * Wrapper against CartoserverService, to use it inside tests.
