@@ -400,9 +400,9 @@ class Cartoclient {
     }
 
     /**
-     * Adds a message
-     * @param string
-     * @param int
+     * Adds a message to the list of message to display to the user
+     * @param string the text of the message
+     * @param int the channel identifier of the message
      */
     public function addMessage($message, $channel = Message::CHANNEL_USER) {
 
