@@ -7,7 +7,7 @@ import com.meterware.httpunit.GetMethodWebRequest;
 import com.meterware.httpunit.SubmitButton;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebForm;
-import com.meterware.httpunit.WebImage;
+import com.meterware.httpunit.HTMLElement;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
@@ -46,7 +46,7 @@ public class CartowebTest extends TestCase {
         WebForm forms[] = response.getForms();
         assertEquals(1, forms.length);
 
-        WebImage mainmap = response.getImageWithAltText("Main map");
+        HTMLElement mainmap = response.getElementWithID("mapImageDiv");
         assertNotNull("No mainmap image on cartoclient page", mainmap);
     }
     
