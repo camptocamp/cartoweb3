@@ -27,8 +27,16 @@ class LocationRequest extends Serializable {
 
     function unserialize($struct) {
         $this->locationType = self::unserializeValue($struct, 'locationType');
-        // FIXME: unserialize each fields separately
-        self::lazyUnserialize($struct, $this);
+
+        $this->bboxLocationRequest = self::unserializeObject($struct, 
+                    'bboxLocationRequest', 'BboxLocationRequest');
+        $this->panLocationRequest = self::unserializeObject($struct, 
+                    'panLocationRequest', 'PanLocationRequest');
+        $this->zoomPointLocationRequest = self::unserializeObject($struct, 
+                    'zoomPointLocationRequest', 'ZoomPointLocationRequest');
+        $this->zoomRectangleLocationRequest = self::unserializeObject($struct, 
+                    'zoomRectangleLocationRequest', 'ZoomRectangleLocationRequest');
+                    
     }
 }
 
@@ -50,6 +58,11 @@ class LocationResult extends Serializable {
  */
 abstract class RelativeLocationRequest extends LocationRequest {
     public $bbox;
+
+    public function unserialize($struct) {
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
+        parent::unserialize($struct);        
+    }
 }
 
 /**
@@ -57,6 +70,11 @@ abstract class RelativeLocationRequest extends LocationRequest {
  */
 class BboxLocationRequest extends RelativeLocationRequest {
     public $type = LocationRequest::LOC_REQ_BBOX;
+
+    public function unserialize($struct) {
+        $this->type = self::unserializeValue($struct, 'type');
+        parent::unserialize($struct);        
+    }
 }
 
 /**
@@ -78,6 +96,12 @@ class PanDirection {
     function __toString() {
         return "$this->verticalPan - $this->horizontalPan";
     }
+
+    public function unserialize($struct) {
+        $this->verticalPan = self::unserializeValue($struct, 'verticalPan');
+        $this->horizontalPan = self::unserializeValue($struct, 'horizontalPan');
+        parent::unserialize($struct);        
+    }
 }
 
 /**
@@ -86,6 +110,13 @@ class PanDirection {
 class PanLocationRequest extends RelativeLocationRequest {
     public $type = LocationRequest::LOC_REQ_PAN;
     public $panDirection;
+
+    public function unserialize($struct) {
+        $this->type = self::unserializeValue($struct, 'type');
+        $this->panDirection = self::unserializeObject($struct, 'panDirection',
+                            'PanDirection');
+        parent::unserialize($struct);        
+    }
 }
 
 /**
@@ -113,6 +144,16 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
 
     public $zoomFactor;
     public $scale;
+
+    public function unserialize($struct) {
+        $this->zoomType = self::unserializeValue($struct, 'zoomType');
+        $this->point = self::unserializeObject($struct, 'point',
+                            'Point');
+        $this->zoomFactor = self::unserializeValue($struct, 'zoomFactor', 'float');
+        $this->scale = self::unserializeValue($struct, 'scale', 'float');
+
+        parent::unserialize($struct);        
+    }
 }
 
 /**

@@ -125,7 +125,7 @@ class PanBboxCalculator extends RelativeBboxCalculator {
     function getNewCenter() {
 
         // TODO: read from config
-        $panRatio = 1.0;
+        $panRatio = 0.75;
 
         $center = $this->mapExtent->getCenter();
 
