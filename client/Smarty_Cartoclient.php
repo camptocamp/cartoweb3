@@ -26,6 +26,11 @@ class Smarty_Cartoclient extends Smarty {
      */
     private $projectHandler;
 
+    /**
+     * @var boolean True if the headers were already sent to the client.
+     */
+    private static $headerSent = false;
+
     /** 
      * Constructor
      * 
@@ -35,6 +40,13 @@ class Smarty_Cartoclient extends Smarty {
      */
     function __construct(Cartoclient $cartoclient) {
         parent::__construct();
+
+        if (!self::$headerSent) {
+            if (!isset($GLOBALS['headless']))
+                header('Content-Type: text/html; charset=' . Encoder::getCharset());
+
+            self::$headerSent = true;
+        }
     
         $this->cartoclient = $cartoclient;
         $config = $cartoclient->getConfig();
@@ -54,8 +66,22 @@ class Smarty_Cartoclient extends Smarty {
         
         // Block function for translation
         $this->register_block('t', array($this, 'smartyTranslate'));        
+
+        $this->assignCommonVariables($cartoclient);
     }
 
+    /**
+     * Fills some smarty variables common to all template objects
+     * 
+     * @param Cartoclient cartoclient object used to fill common smarty variables.
+     */
+    private function assignCommonVariables(Cartoclient $cartoclient) {
+        // sets the project name, as it is propagated through hidden variables.
+        $this->assign('project', $cartoclient->getProjectHandler()->
+                      getProjectName());
+        $this->assign('charset', Encoder::getCharset());
+    }
+    
     /**
      * Overrides Smarty's resource compile path
      *
@@ -222,19 +248,6 @@ class Smarty_CorePlugin extends Smarty_Cartoclient {
         parent::__construct($cartoclient);
         
         $this->template_dir = $plugin->getBasePath() . 'templates/';
-
-        $this->assignCommonVariables($cartoclient);
-    }
-
-    /**
-     * Fills some smarty variables common to all core plugins.
-     * 
-     * @param Cartoclient cartoclient object used to fill common smarty variables.
-     */
-    private function assignCommonVariables(Cartoclient $cartoclient) {
-        // sets the project name, as it is propagated through hidden variables.
-        $this->assign('project', $cartoclient->getProjectHandler()->
-                      getProjectName());
     }
 }
 
