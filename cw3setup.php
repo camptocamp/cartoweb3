@@ -46,7 +46,7 @@ $CW3_WRITABLE_DIRS = array('log',
                       'templates_c'
                      );
 
-// Directories and files to remove from cw3 root when removeing:
+// Directories and files to remove from cw3 root when removing:
 $CW3_TO_REMOVE = array(
                   'CVS',
                   'ChangeLog',
