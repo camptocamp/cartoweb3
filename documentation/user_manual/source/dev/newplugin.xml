@@ -111,6 +111,9 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
   <para>
    &cartoweb; offers a wide range of tools to easily creates plugins.
   </para>
+  <para>
+   [to be continued]
+  </para>
  </sect1>
 
  <sect1 id="dev.new-plugin.adapting"> 
@@ -134,23 +137,182 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
       </para>
      </listitem>
     </itemizedlist>
-    Both approaches are not incompatible and may be combined to obtain desired result. See <xref linkend="dev.new-plugin.adapting.example" /> for more explanations.
+    Both approaches are not incompatible and may be combined to obtain desired result. See <xref linkend="dev.new-plugin.adapting.combining" /> for more explanations.
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.adapting.overriding">
    <title>Overriding a Plugin</title>
    <para>
-    Overriding a plugin is the simplest way to adapt it to your needs. It is done by duplicating the 
+    Overriding a plugin is the simplest way to adapt it to your needs. It is done by duplicating the plugin files (at least the ones you want to adapt) in your project frame. For more information about projects handling, see <xref linkend="user.structure.project"/>.
+   </para>
+   <para>
+    This approach is recommended when you want to use your own versions of the plugin templates or resources. Moreover you can add any new resources files that will be called in your customized templates. However you will not be able to replace or add PHP files (except PHP pages in the plugin <filename>htdocs/</filename>. To adapt a plugin server-side behavior (PHP classes), you have to extend the plugin, which is explained in <xref linkend="dev.new-plugin.adapting.extending"/>.
+   </para>
+   <para>
+    Say for instance, you want customize the <parameter>layers</parameter> coreplugin by modifying its template <filename>layers.tpl</filename> and rewriting some of its JS tools (stored in <filename>layers.js</filename>). Than your project-adapted coreplugin will look like:
+    <programlisting><![CDATA[/projects/<yourProjectName>/coreplugins/layers/
+/projects/<yourProjectName>/coreplugins/layers/templates/
+/projects/<yourProjectName>/coreplugins/layers/templates/layers.tpl
+/projects/<yourProjectName>/coreplugins/layers/htdocs/
+/projects/<yourProjectName>/coreplugins/layers/htdocs/js/
+/projects/<yourProjectName>/coreplugins/layers/htdocs/js/layers.js]]></programlisting>
+    If you don't need to override the CSS file, it is no use to create a <filename>css/</filename> directory containing a copy of the upstream <filename>layers.css</filename>.
+   </para>
+   <para>
+    If you want to neutralize a file, you can simply override it with a blank version. For instance to have a void output, create a template file with no content.
+   </para>
+   <para>
+    It is also possible to override the plugin configuration files by adding <filename>&lt;pluginName&gt;.ini</filename> files in the project configuration directories <filename>client_conf/</filename> and/or <filename>server_conf/&lt;mapId&gt;/</filename>. When the plugin is launched, upstream and project configuration files are merged so you don't need to duplicate the configuration parameters that stay unchanged with your adapted plugin.
    </para>
   </sect2>
   <sect2 id="dev.new-plugin.adapting.extending">
    <title>Extending a Plugin</title>
    <para>
+    Extending a plugin is required when your adaptations involve deep changes such as additions or overloadings of methods in the plugin PHP classes.
+   </para>
+   <para>
+    To do so you will have to extend the plugin PHP classes in the object-oriented programing definition. Since plugin main classes are named using a plugin-name based convention (eg. <parameter>ClientLayers</parameter> and <parameter>ServerLayers</parameter> for the &cartoclient; and &cartoserver; main classes of the <parameter>layers</parameter> coreplugin) and since extended classes cannot have the same name than their parent class, you will have to rename your plugin. Any plugin name is OK (as long as it is not already used!) but it is recommended to use a &lt;projectName&gt;&lt;initialPluginName&gt; separating words with caps. 
+   </para>
+   <para>
+    Extended coreplugins directories and files must be saved in <filename>/projects/&lt;projectName&gt;/coreplugins/&lt;extendedPluginName&gt;/</filename> whereas extended simple plugins ones will be located in <filename>/projects/&lt;projectName&gt;/plugins/&lt;extendedPluginName&gt;/</filename>.
+   </para>
+   <para>
+    When writing your extended class, the first thing to do is to specify what plugin is replaced by the new one. This is done by overloading the <parameter>replacePlugin()</parameter> method. It should return the replaced plugin name. For instance, to extend the <parameter>layers</parameter> coreplugin &cartoclient; part in your <parameter>myProject</parameter> project, create a <filename>ClientMyProjectLayers.php</filename> as follows:
+    <programlisting><![CDATA[<?php
+/**
+ * @package CorePlugins
+ * @version $Id$
+ */
+
+class ClientMyProjectLayers extends ClientLayers {
+
+    public function replacePlugin() {
+        return 'layers';
+    }
+
+    /* Add or overload methods here */
+    
+}
+?>]]></programlisting>
+    To be activated, extended plugins AND coreplugins must be explicitely be declared in the <parameter>loadPlugins</parameter> parameter of your project general configuration files:
+    <programlisting><![CDATA[loadPlugins = exportPdf, auth, myProjectLayers]]></programlisting>
+    With no surprise, extended classes can take advantage of the tools provided by the interfaces their parent classes implement. By implementing additional interfaces, they will have access to complementary interactions as well. In that case, don't forget to overload the matching interface-defined methods in your extended class. For instance:
+    <programlisting><![CDATA[ClientMyProjectLayers extends ClientLayers
+                      implements ToolProvider {
+
+/* ... */
+
+}]]></programlisting>
+   </para>
+  </sect2>
+  <sect2 id="dev.new-plugin.adapting.combining">
+   <title>Combining Both Approaches</title>
+   <para>
+    If you need to modify/add templates or resources (overrriding) AND PHP classes (extension), you can combine both approaches by following the instructions of the two last sections.
+   </para>
+   <para>
+    Say you would like to customize the <parameter>images</parameter> coreplugin (mainmap size and formats management) to:
+    <itemizedlist>
+     <listitem>
+      <para>
+       update the layout (new pictos, new texts, new CSS),
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       add some JS processing,
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       add a new form field in a separated area of the &cartoweb; interface.
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    First point is achieved by creating a <filename>images/</filename> directory in <filename>/projects/yourProject/coreplugins/</filename> and filling it with an overriden template <filename>mapsizes.tpl</filename>, a new <filename>images.css</filename> and some pictos:
+    <programlisting><![CDATA[/projects/yourProject/coreplugins/images/
+/projects/yourProject/coreplugins/images/templates/mapsizes.tpl
+/projects/yourProject/coreplugins/images/htdocs/css/images.css
+/projects/yourProject/coreplugins/images/htdocs/gfx/button.png]]></programlisting>
+    <programlisting><![CDATA[<!-- mapsizes.tpl -->
+<p>{t}Mapsize:{/t}
+<select name="mapsize" id="mapsize" onchange="javascript:checkMapsize();">
+{html_options options=$mapsizes_options selected=$mapsize_selected}
+</select>
+<input type="image" src="{r type=gfx plugin=images}button.png{/r}"
+alt="{t}Ok button{/t}" id="imagesButton" /></p>]]></programlisting>
+    For details about template <parameter>{r}</parameter> (resource) and <parameter>{t}</parameter> (translation) tags, see <xref linkend="user.template.i18n" /> and <xref linkend="user.template.resource" />.
+   </para>
+   <para>
+    <parameter>checkMapsize()</parameter> JavaScript function is not defined in the upstream coreplugin. So we have to add a JS file in our overriden plugin:
+    <programlisting><![CDATA[/projects/yourProject/coreplugins/images/htdocs/js/
+/projects/yourProject/coreplugins/images/htdocs/js/images.js]]></programlisting>
+    <programlisting><![CDATA[/* images.js */
+
+function checkMapsize() {
+  alert('foobar');
+}]]></programlisting>
+   </para>
+   <para>
+    To add a new form field in a separated area and consequently in a separated template, there is no other way than to modify the <parameter>ClientImages</parameter> PHP class in order to call the additional template in a special method. The extension approach is thus required. Then create a <filename>yourProjectImages/</filename> directory in <filename>/projects/yourProject/coreplugins/</filename> as follows:
+    <programlisting><![CDATA[/projects/yourProject/coreplugins/yourProjectImages/
+/projects/yourProject/coreplugins/yourProjectImages/client/
+/projects/yourProject/coreplugins/yourProjectImages/client/ClientYourProjectImages.php]]></programlisting>
+    It can seem a little tricky but the new template file (say <filename>yourImages.tpl</filename>) will not be stored in <filename>/projects/yourProject/coreplugins/yourProjectImages/templates/</filename> as one can expect it but in <filename>/projects/yourProject/coreplugins/images/templates/</filename> with the templates of the "overriden part" of the coreplugin. Remember: templates are stored in the overriden part and PHP classes in the extended part.
+    <programlisting><![CDATA[<!-- yourImages.tpl -->
+
+<input type="text" name="testField" value="{$imagesTest}" />]]></programlisting>
+    <programlisting><![CDATA[<?php
+/**
+ * @version $Id$
+ */
+
+class ClientYourProjectImages extends ClientImages {
+
+    // indicates that we want to use current plugin instead of 
+    // regular images plugin
+    public replacePlugin() {
+        return 'images';
+    }
+
+    // overloaded method
+    public function renderForm(Smarty $template) {
+        // a {$image2} Smarty var must have been added in cartoclient.tpl
+        $template->assign('image2', $this->drawNewImagesField());
+        parent::renderForm($template);
+    }
+
+    // additional method
+    private function drawNewImagesField() {
+        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty->assign('imagesTest', 'Foobar');
+        return $smarty->fetch('yourImages.tpl');
+    }
+}
+?>]]></programlisting>
+    Don't forget to activate the extended plugin in <filename>/projects/yourProject/client_conf/client.ini</filename>:
+    <programlisting><![CDATA[loadPlugins = yourProjectImages]]></programlisting>
+   </para>
+  </sect2>
+ </sect1>
+ <sect1 id="dev.new-plugin.special">
+  <title>Special Plugins</title>
+  <sect2 id="dev.new-plugin.special.export">
+   <title>Export Plugins</title>
+   <para>
 
    </para>
   </sect2>
-  <sect2 id="dev.new-plugin.adapting.example">
-   <title>Example</title>
+  <sect2 id="dev.new-plugin.special.filters">
+   <title>Filters</title>
+   <para>
+
+   </para>
+  </sect2>
+  <sect2 id="dev.new-plugin.special.tables">
+   <title>Tables</title>
    <para>
 
    </para>
