@@ -3,6 +3,7 @@
  * @package Server
  * @version $Id$
  */
+
 //require_once('log4php/LoggerManager.php');
 require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
@@ -20,30 +21,92 @@ require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
  * @package Server
  */
 class ServerContext {
+
+    /**
+     * @var Logger
+     */
     private $log;
 
+    /**
+     * @var string
+     */
     private $mapId;
     
+    /**
+     * @var Mapscript MapObj
+     */
     private $msMapObj;
+    
+    /**
+     * @var Mapscript RectObj
+     */
     private $maxExtent;
+
+    /**
+     * @var int
+     */
     private $imageType;
+    
+    /**
+     * @var Mapscript ImageObj 
+     */
     private $msMainmapImage;
 
+    /**
+     * @var MapInfo
+     */
     private $mapInfo;
+
+    /**
+     * @var MapInfoHandler
+     */
     private $mapInfoHandler;
     
+    /**
+     * @var MapRequest
+     */
     public $mapRequest;
+
+    /**
+     * @var MapResult
+     */
     public $mapResult;
 
+    /**
+     * @var ServerConfig
+     */
     public $config;
+    
+    /**
+     * @var array
+     */
     private $messages = array();
+    
+    /**
+     * @var ProjectHandler
+     */
     private $projectHandler;
+    
+    /**
+     * @var ResourceHandler
+     */
     private $resourceHandler;
     
+    /**
+     * @var array
+     */
     private $plugins;
+    
+    /**
+     * @var PluginManager
+     */
     private $pluginManager;
 
-    function __construct($mapId) {
+    /**
+     * Constructor
+     * @param string map id
+     */
+    public function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
         // Remembers mapId for future MapInfo creation
@@ -61,44 +124,74 @@ class ServerContext {
         $this->reset();        
     }
     
-    function reset() {
+    /**
+     * Resets map result object.
+     */
+    public function reset() {
         $this->mapResult = new MapResult();
     }
 
-    function setMsMainmapImage($msMainmapImage) {
+    /**
+     * @param Mapscript ImageObj
+     */
+    public function setMsMainmapImage($msMainmapImage) {
         $this->msMainmapImage = $msMainmapImage;   
     }
     
-    function getMsMainmapImage() {
+    /**
+     * @return Mapscript ImageObj
+     */
+    public function getMsMainmapImage() {
         if (empty($this->msMainmapImage))
-            throw new CartoserverException("mainmap image not generated yet");
+            throw new CartoserverException('mainmap image not generated yet');
         return $this->msMainmapImage;
     }
-    
-    function isDevelMessagesEnabled() {
+   
+    /**
+     * Tells (from INI file) if developpers messages must be shown.
+     * @return boolean
+     */
+    public function isDevelMessagesEnabled() {
         if (is_null($this->config))
             return false;
         return $this->config->showDevelMessages;   
     }
     
-    function addMessage($message, $channel = Message::CHANNEL_USER) {
+    /**
+     * Adds a message in the messages-to-cartoclient list.
+     * @param string message
+     * @param int message type {@see Message}
+     */
+    public function addMessage($message, $channel = Message::CHANNEL_USER) {
 
         $this->messages[] = new Message($message, $channel);
     }
     
-    function getMessages() {
+    /**
+     * Returns messages list.
+     * @return array
+     */
+    public function getMessages() {
         return $this->messages;
     }
 
-    function getMapPath() {
+    /**
+     * Returns mapfile location.
+     * @return string
+     */
+    public function getMapPath() {
         assert(!is_null($this->projectHandler));
         $mapName = $this->projectHandler->getMapName();
-        $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', 
+        $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/',
                                                $mapName . '.map');
         return CARTOSERVER_HOME . $path . $mapName . '.map';
     } 
 
-    function getTimestamp() {
+    /**
+     * Returns mean (mapfile & INI file) modification time.
+     * @return int
+     */
+    public function getTimeStamp() {
         $mapPath = $this->getMapPath();
         $iniPath = $this->getMapInfoHandler()->getIniPath();
         
@@ -106,13 +199,18 @@ class ServerContext {
         return (int)$timeStamp;
     }
 
+    /**
+     * Instanciates a new Mapserver MapObj object.
+     * @return Mapscript MapObj
+     */
     public function getMapObj() {
 
         if (!$this->msMapObj) {
             if (!extension_loaded('mapscript')) {
                 $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
                 if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
-                    throw new CartoserverException("can't load mapscript library");
+                    throw new CartoserverException("can't load mapscript " .
+                                                   'library');
             }
         
             $mapPath = $this->getMapPath();
@@ -123,54 +221,74 @@ class ServerContext {
             $this->imageType = $this->msMapObj->imagetype;
             
             if (!$this->msMapObj) { // could this happen ??
-                throw new CartoserverException("cannot open mapfile $mapId for map $mapId");
+                throw new CartoserverException("cannot open mapfile $mapId " .
+                                               "for map $mapId");
             }
         }
         return $this->msMapObj;
     }
 
+    /**
+     * @return Mapscript RectObj 
+     */
     public function getMaxExtent() {
-            
         return $this->maxExtent;
     }
 
+    /**
+     * @return int
+     */
     public function getImageType() {
-            
         return $this->imageType;
     }
 
-    function getMapInfoHandler() {
+    /**
+     * @return MapInfoHandler
+     */
+    public function getMapInfoHandler() {
         if (!$this->mapInfoHandler) {        
-            $this->mapInfoHandler = new MapInfoHandler($this, $this->mapId, $this->projectHandler);
+            $this->mapInfoHandler = new MapInfoHandler($this, $this->mapId,
+                                                       $this->projectHandler);
         }
         return $this->mapInfoHandler;
     }
 
-    function getMapInfo() {
+    /**
+     * @return MapInfo
+     */
+    public function getMapInfo() {
         if (!$this->mapInfo) {
             $this->mapInfo = $this->getMapInfoHandler()->getMapInfo();
         }
         return $this->mapInfo;
     }
 
-    function resetMsErrors() {
+    /**
+     * Clears lists of Mapserver errors.
+     */
+    public function resetMsErrors() {
         $error = ms_GetErrorObj();
         while($error && $error->code != MS_NOERR) {
-            $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n", $error->routine, $error->message);
+            $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n", 
+                                $error->routine, $error->message);
             $this->log->debug($errorMsg);
             $error = $error->next();
         } 
         ms_ResetErrorList();
     }
 
-    function checkMsErrors() {
+    /**
+     * Throws an exception if Mapserver errors are detected.
+     */
+    public function checkMsErrors() {
         $error = ms_GetErrorObj();
         if (!$error || $error->code == MS_NOERR)
             return;
         
         $errorMessages = '';
         while($error && $error->code != MS_NOERR) {
-            $errorMsg = sprintf("Error in %s: %s<br>\n", $error->routine, $error->message);
+            $errorMsg = sprintf("Error in %s: %s<br>\n", 
+                                $error->routine, $error->message);
             $this->log->fatal($errorMsg);
             
             $errorMessages .= $errorMsg;
@@ -180,17 +298,28 @@ class ServerContext {
         throw new CartoserverException("Mapserver error: " . $errorMessages);
     }
 
-    function setMapRequest($mapRequest) {
+    /**
+     * @param MapRequest
+     */
+    public function setMapRequest($mapRequest) {
         $this->mapRequest = $mapRequest;
     }
 
-    function getMapResult() {
+    /**
+     * @return MapResult
+     */
+    public function getMapResult() {
         return $this->mapResult;
     }
     
-    // maybe refactorize with cartoclient
+    /**
+     * Returns list of coreplugins names.
+     * @return array
+     */
     private function getCorePluginNames() {
-        return array('images', 'location', 'layers', 'query', 'mapquery', 'tables');
+        // TODO : factorize with cartoclient?
+        return array('images', 'location', 'layers', 'query', 'mapquery', 
+                     'tables');
     }
 
     /**
@@ -214,6 +343,7 @@ class ServerContext {
     
     /**
      * Returns the plugin manager
+     * @return PluginManager
      */
     public function getPluginManager() {
         return $this->pluginManager;
@@ -221,6 +351,7 @@ class ServerContext {
 
     /**
      * Returns the project handler
+     * @return ProjectHandler
      */
     public function getProjectHandler() {
         return $this->projectHandler;
@@ -228,6 +359,7 @@ class ServerContext {
         
     /**
      * Returns the resource handler
+     * @return ResourceHandler
      */
     public function getResourceHandler() {
         if (!$this->resourceHandler) {
@@ -240,7 +372,12 @@ class ServerContext {
     /*
      * Utility methods shared by several plugins
      */
-     
+    
+    /**
+     * Returns Mapserver id_attribute_string for given layer.
+     * @param string layer id
+     * @return string
+     */
     private function getIdAttributeString($layerId) {
         $serverLayer = $this->getMapInfo()->getLayerById($layerId);
         if (!$serverLayer) 
@@ -259,10 +396,9 @@ class ServerContext {
     } 
     
     /**
-     * Returns the default attribute for matching identifier for a given
-     * layer
-     *
-     * @param $layerId the layer on which to retrieve the default id attribute
+     * Returns the default id attribute for given layer.
+     * @param string layer id
+     * @return string
      */
      function getIdAttribute($layerId) {
         $idAttributeString = $this->getIdAttributeString($layerId);
@@ -275,9 +411,9 @@ class ServerContext {
 
     /**
      * Returns the type of the default attribute.
-     * It may be "string" or "integer"
-     *
-     * @param $layerId the layer on which to retrieve the default id type
+     * It may be "string" or "integer"     
+     * @param string layer id
+     * @return string
      */
      function getIdAttributeType($layerId) {
         $idAttributeString = $this->getIdAttributeString($layerId);

@@ -131,7 +131,7 @@ class MapInfoHandler {
      * @param ServerContext
      * @return string
      */
-    public function getMapPath(ServerContext $serverContext) {
+    private function getMapPath(ServerContext $serverContext) {
         if (!isset($this->mapPath))
             $this->mapPath = $serverContext->getMapPath();
         return $this->mapPath;
@@ -269,7 +269,8 @@ class MapInfoHandler {
         $mapInfo = $this->mapInfo;
         $layers = $mapInfo->getLayers();
         
-        if ($mapInfo->autoClassLegend) $this->getMapPath($serverContext);
+        if ($mapInfo->autoClassLegend) 
+            $this->getMapPath($serverContext);
 
         foreach ($layers as $layer) {
             $this->fillDynamicLayerBase($serverContext, $layer);
