@@ -216,7 +216,7 @@ class Bbox extends Shape {
     }
 
     /**
-     * Unserializes a Bbox.
+     * Unserializes a Bbox
      *
      * Value passed can be either a string (format "11, 22, 33, 44") or
      * a structure.
@@ -229,6 +229,15 @@ class Bbox extends Shape {
             $this->setFromBbox ($struct->minx, $struct->miny,
                                 $struct->maxx, $struct->maxy);
         }
+    }
+
+    /** 
+     * Returns true if Bbox wasn't initialized
+     * @return boolean
+     */
+    function isEmpty() {
+        return ($this->minx == 0 && $this->miny == 0 &&
+                $this->maxx == 0 && $this->maxy == 0);
     }
 
     /**

@@ -380,7 +380,11 @@ class ClientLocation extends ClientPlugin
         $this->log->debug('creating session:');
 
         $this->locationState = new LocationState();
-        $this->locationState->bbox = $initialMapState->location->bbox;
+        if (isset($initialMapState->location->bbox)) {
+            $this->locationState->bbox = $initialMapState->location->bbox;
+        } else {
+            $this->locationState->bbox = new Bbox();
+        }
     }
 
     function getLocation() {

@@ -535,14 +535,21 @@ class ServerLocation extends ServerPlugin
         $this->initScales();
         
         // get calculator from request:
-
+       
         $locationType = $requ->locationType;
         $classPrefix = substr($locationType, 0, -strlen('LocationRequest'));
         $classPrefix = ucfirst($classPrefix);
         $locationCalculatorClass = $classPrefix . 'LocationCalculator';
         if (!class_exists($locationCalculatorClass))
             throw new CartoserverException("Unknown location request: $requ->locationType");
-
+        
+        // If Bbox wasn't initialized, set it to max extent
+        // This is the case when no initial location was set in .ini
+        if ($requ->$locationType->bbox->isEmpty()) {
+            $requ->$locationType->bbox->setFromMsExtent(
+                $this->serverContext->getMaxExtent());
+        }
+        
         $calculator = new $locationCalculatorClass($this, $requ->$locationType);
         
         $bbox = $calculator->getBbox();
