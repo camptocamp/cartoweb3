@@ -6,7 +6,7 @@ log4php.rootLogger=DEBUG, A1
 ;log4php.rootLogger=DEBUG, A1, A2
 
 log4php.appender.A1=LoggerAppenderFile
-log4php.appender.A1.file="/tmp/cartoclient_log"
+log4php.appender.A1.file="LOG_HOME/cartoclient.log"
 ;log4php.appender.A1.append=false
 
 

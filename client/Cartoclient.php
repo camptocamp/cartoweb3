@@ -10,13 +10,8 @@
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
 
-define('LOG4PHP_CONFIGURATION', CARTOCLIENT_HOME . 
-       'client_conf/cartoclientLogger.properties');
-
-require_once('log4php/LoggerManager.php');
-
-// NOTE: autoload mechanism can not be used there, because of classes needed while
-//  session unserialization
+require_once(CARTOCOMMON_HOME . 'common/log4phpInit.php');
+initializeLog4php(true);
 
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');

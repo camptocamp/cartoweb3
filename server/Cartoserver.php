@@ -17,13 +17,8 @@ if (!defined('CARTOSERVER_HOME')) {
 if (!defined('CARTOCOMMON_HOME'))
     define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
 
-if (empty($direct_access)) {
-    if (!defined('LOG4PHP_CONFIGURATION'))
-        define('LOG4PHP_CONFIGURATION', CARTOSERVER_HOME . 
-               'server_conf/cartoserverLogger.properties');
-
-    require_once('log4php/LoggerManager.php');
-}
+require_once(CARTOCOMMON_HOME . 'common/log4phpInit.php');
+initializeLog4php(false);
 
 function myErrorHandler($errno, $errstr, $errfile, $errline) {
     $log =& LoggerManager::getLogger(__METHOD__);
