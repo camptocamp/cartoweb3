@@ -163,12 +163,28 @@ class ClientExportCsv extends ExportPlugin {
                 if ($table->tableId == $this->tableId
                     && $table->numRows > 0) {
                     
-                    $contents .= $this->exportLine($table->columnTitles, $sep,
-                                                   $tD, $utf8);
+                    $lineContent = $table->columnTitles;
+                    if (is_null($lineContent)) {
+                        $lineContent = array();
+                    }                    
+                    if (!$table->noRowId) {                        
+                        $lineContent = array_merge(array(I18n::gt('Id')),
+                                                   $lineContent);
+                    }
+                    $contents .=
+                        $this->exportLine($lineContent, $sep, $tD, $utf8);
 
                     foreach ($table->rows as $row) {
-                        $contents .= $this->exportLine($row->cells, $sep, $tD,
-                                                       $utf8);
+                        $lineContent = $row->cells;
+                        if (is_null($lineContent)) {
+                            $lineContent = array();
+                        }                    
+                        if (!$table->noRowId) {
+                            $lineContent = array_merge(array($row->rowId),
+                                                       $lineContent);
+                        }
+                        $contents .=
+                            $this->exportLine($lineContent, $sep, $tD, $utf8);
                     }
                 }
             }
