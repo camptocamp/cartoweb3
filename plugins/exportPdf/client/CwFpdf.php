@@ -98,7 +98,22 @@ class cFPDF extends FPDF {
     /**
      * @var array
      */
-     protected $blocks;
+    protected $blocks;
+
+    /**
+     * @var array
+     */
+    protected $maxExtent;
+    
+    /**
+     * @var int
+     */
+    protected $legendLevel;
+
+    /**
+     * @var float
+     */
+    protected $legendShift;
     
     /**
      * Constructor.
@@ -311,7 +326,7 @@ class cFPDF extends FPDF {
         $this->p->SetXY($x + $width, $y);
     }
 
-    function splitMultiPageTable(PdfBlock $block, $height) {
+    private function splitMultiPageTable(PdfBlock $block, $height) {
         // TODO: find a better way to avoid overlapping of potential footer
         // block (what about headers?) than:
         $footerHeight = PrintTools::switchDistUnit(15, 'mm',
@@ -375,7 +390,8 @@ class cFPDF extends FPDF {
         $this->addTableRow($block, $table, $block->content);
     }
 
-    function setTableMeta(PdfBlock $block, TableElement $table, $meta) {
+    private function setTableMeta(PdfBlock $block, TableElement $table,
+                                  $meta) {
         if (isset($this->blocks[$block->$meta])) {
             $subBlock = clone $this->blocks[$block->$meta];
         } else {
@@ -389,7 +405,7 @@ class cFPDF extends FPDF {
         return $subBlock;
     }
 
-    function setTableWidth(PdfBlock $block, TableElement $table) {
+    private function setTableWidth(PdfBlock $block, TableElement $table) {
         if ($table->headers->content) {
             $this->setTextLayout($table->headers);
             foreach ($table->headers->content as $id => $header) {
@@ -477,7 +493,7 @@ class cFPDF extends FPDF {
 
         if (!isset($block->height)) {
             $block->height = PrintTools::switchDistUnit(10, 'mm',
-                                                      $this->general->distUnit);
+                                                     $this->general->distUnit);
         }
 
         $yRef = 0;
@@ -524,6 +540,151 @@ class cFPDF extends FPDF {
             $this->p->Ln();
             $yRef = $this->p->GetY();
         }
+    }
+
+    private function addLegendItem(PdfBlock $block, $layer) {
+        if (!$layer || !is_array($layer))
+            return 0;
+        
+        $xi = $this->p->GetX();
+        $yi = $this->p->GetY();
+        $shift = $this->legendLevel * $this->legendShift;
+       
+        $iWidth = 0;
+        $icon =& $layer['icon'];
+        if ($icon) {
+            list($iWidth, $iHeight, $iType) = getimagesize($icon);
+            
+            switch($iType) {
+                case 2: $iType = 'JPEG'; break;
+                case 3: $iType = 'PNG'; break;
+                default:
+                    throw new CartoclientException(sprintf(
+                        'unsupported format for icon: %s (layer: %s)',
+                        $icon, $layer['label']
+                        ));
+            }
+
+            $iWidth = PrintTools::switchDistUnit($iWidth, 'pt',
+                                                 $this->general->distUnit);
+            $iHeight = PrintTools::switchDistUnit($iHeight, 'pt',
+                                                  $this->general->distUnit);
+            
+            if ($iHeight > $block->height) {
+                $iWidth *= $block->height / $iHeight;
+                $iHeight = $block->height;
+                $yii = $yi;
+            } else {
+                $yii = $yi + ($block->height - $iHeight) / 2;
+            }
+        }
+
+        $cWidth = $block->width - $shift - $iWidth - 3 * $block->padding;
+        // 3*padding: one on each side and one between icon and label
+        
+        if ($cWidth) {
+            $textWidth = $this->p->GetStringWidth($layer['label'])
+                         + 2 * $block->padding; // simplified!
+            $nbLines = ceil($textWidth / $cWidth);
+            $cHeight = $nbLines * $block->height;
+        } else {
+            $cHeight = $block->height;
+        }
+
+        // if arriving at bottom of block allowed space
+        if ($yi + $cHeight > $this->maxExtent['maxY']) {
+            // FIXME: if inNewPage, may overlap footer blocks (page #,...) 
+        
+            // if "on map" or if not enough room to set a new column
+            // stops displaying legend items at bottom of page
+            if (!$block->inNewPage || 
+                $xi + 2 * $block->width > $this->maxExtent['maxX'])
+                return -1;
+
+            // else displays legend items in new column:
+            $xi += $block->width;
+            $yi = $this->maxExtent['minY'];
+            $yii = ($iHeight > $block->height) ? $yi
+                   : ($yi + ($block->height - $iHeight) / 2);
+        }
+
+
+        // filling background
+        $this->p->Rect($xi, $yi, $block->width, $cHeight, 'F');
+
+        // actually drawing objects:
+        if ($icon) {
+            $this->p->Image($icon, $xi + $block->padding + $shift, $yii, 
+                            $iWidth, $iHeight, $iType);
+        }
+
+        if ($cWidth) {
+            $padding = ($icon ? 2 : 1) * $block->padding;
+            $this->p->SetXY($xi + $shift + $iWidth + $padding, $yi);
+            $this->p->MultiCell($cWidth, $block->height,
+                                $layer['label'], 0, 'L', 0);
+        }
+
+        if ($icon || $cWidth)
+            $this->p->SetXY($xi, $yi + $cHeight);
+
+        if ($xi + $block->width > $this->maxExtent['topX'])
+            $this->maxExtent['topX'] = $xi + $block->width;
+        if ($yi + $cHeight > $this->maxExtent['topY'])
+            $this->maxExtent['topY'] = $yi + $cHeight;
+
+        foreach($layer['children'] as $subLayer) {
+            $this->legendLevel++;
+            if ($this->addLegendItem($block, $subLayer) < 0)
+                return -1;
+            $this->legendLevel--;
+        }
+
+        return 1;
+    }
+
+    function addLegend(PdfBlock $block) {
+        if (!$block->content || !is_array($block->content))
+            return;
+        
+        if (!$block->inNewPage) {
+            $block->inFlow = true;
+            
+            if (isset($this->blocks['overview']))
+                $block->width = $this->blocks['overview']->width;
+        }
+        
+        if (!$block->width)
+            $block->width = PrintTools::switchDistUnit(50, 'mm',
+                                                     $this->general->distUnit);
+
+        // height is legend item height, not whole block one!
+        if (!$block->height)
+            $block->height = PrintTools::switchDistUnit(5, 'mm',
+                                                     $this->general->distUnit);
+
+        $this->setTextLayout($block);
+        $this->setBoxLayout($block);
+        $this->legendShift = PrintTools::switchDistUnit(5, 'mm',
+                                                     $this->general->distUnit);
+        
+        list($x0, $y0) = $this->space->checkIn($block, true);
+        $this->maxExtent['minX'] = $this->maxExtent['topX'] = $x0;
+        $this->maxExtent['minY'] = $this->maxExtent['topY'] = $y0;
+        
+        list($this->maxExtent['maxX'], $this->maxExtent['maxY']) = 
+            $this->space->getMaxExtent($block);
+        
+        $this->p->SetXY($x0, $y0);
+        foreach ($block->content as $layer) {
+            $this->legendLevel = 0;
+            if ($this->addLegendItem($block, $layer) < 0)
+                break;
+        }
+        
+        // adds frame
+        $this->p->Rect($x0, $y0, $this->maxExtent['topX'] - $x0,
+                       $this->maxExtent['topY'] - $y0, 'D');
     }
 
     /**
