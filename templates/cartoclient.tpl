@@ -191,6 +191,10 @@ ClientContext:
   <input type="text" name="hello_input" /></p>
   {/if}
 
+  {if $recenter_active|default:''}
+  {$recenter}
+  {/if}
+
   {if $outliner_active|default:''}
   <p>Outliner plugin:</p>
   <p>{html_checkboxes name="outliners" options=$outliners selected=$selected_outliners separator="<br />"}</p>

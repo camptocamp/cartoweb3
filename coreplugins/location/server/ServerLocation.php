@@ -159,6 +159,8 @@ class ZoomPointBboxCalculator extends RelativeBboxCalculator {
             return -2.0;//TODO: read config
         case ZoomPointLocationRequest::ZOOM_FACTOR:
             return $this->requ->zoomFactor;
+        case ZoomPointLocationRequest::ZOOM_SCALE:
+            return 1;
         }
         throw new CartoclientException("unknown zoom type " .
                                        $this->requ->zoomType);
@@ -244,6 +246,16 @@ class ServerLocation extends ServerCorePlugin {
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
 
+        // FIXME: Should be replaced by a more general scales management 
+        if ($requ->locationType == LocationRequest::LOC_REQ_ZOOM_POINT) {
+            if ($requ->zoomPointLocationRequest->zoomType == ZoomPointLocationRequest::ZOOM_SCALE) {
+                $center = ms_newPointObj();
+                $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
+                $msMapObj->zoomscale($requ->zoomPointLocationRequest->scale,
+                            $center, $msMapObj->width, $msMapObj->height, $msMapObj->extent);
+            }
+        }
+        
         $location->bbox = new Bbox();
         $location->bbox->setFromMsExtent($msMapObj->extent);
         $location->scale = $msMapObj->scale;

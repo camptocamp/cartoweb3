@@ -26,6 +26,8 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
     const TOOL_PAN = 'pan';
     const TOOL_RECENTER = 'recenter';
 
+    private $smarty;
+
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
@@ -116,6 +118,34 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
     }
 
+    private function handleRecenter() {
+
+        $center = $this->locationState->bbox->getCenter();
+        $point = clone($center);       
+        if (array_key_exists('recenter_x', $_REQUEST) &&
+            array_key_exists('recenter_y', $_REQUEST) &&
+            $_REQUEST['recenter_x'] != '' &&
+            $_REQUEST['recenter_y'] != '') {
+            $point->setXY($_REQUEST['recenter_x'], $_REQUEST['recenter_y']);
+        }
+        $scale = 0;
+        if (array_key_exists('recenter_scale', $_REQUEST) &&
+            $_REQUEST['recenter_scale'] != '') {
+            $scale = $_REQUEST['recenter_scale']; 
+        }
+
+        if ($point == $center && $scale == 0) {
+            return NULL;
+        }
+        if ($scale == 0) {
+            return $this->buildZoomPointRequest(
+                      ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
+        } else {
+            return $this->buildZoomPointRequest(
+                      ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);
+        }
+    }
+
     function loadSession($sessionObject) {
         $this->log->debug("loading session:");
         $this->log->debug($sessionObject);
@@ -149,9 +179,14 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         if (!is_null($this->locationRequest))
             return;
 
+        $this->locationRequest = $this->handleRecenter();
+
+        if (!is_null($this->locationRequest))
+            return;
+        
         $cartoclient = $this->cartoclient;
         $this->locationRequest = $cartoclient->getHttpRequestHandler()
-                                    ->handleTools($this);
+                                    ->handleTools($this);                                   
     }
     
     private function getZoomInFactor(Rectangle $rectangle) {
@@ -164,7 +199,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         return min($widthRatio, $heightRatio);
     }
 
-    private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0) {
+    private function buildZoomPointRequest($zoomType, Point $point, $zoomFactor=0, $scale=0) {
 
         $zoomRequest = new ZoomPointLocationRequest();
         $zoomRequest->locationType = LocationRequest::
@@ -172,6 +207,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         $zoomRequest->point = $point; 
         $zoomRequest->zoomType = $zoomType;
         $zoomRequest->zoomFactor = $zoomFactor;
+        $zoomRequest->scale = $scale;
         $zoomRequest->bbox = $this->locationState->bbox;
 
         $locationRequest = new LocationRequest();                
@@ -256,6 +292,12 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
                     $this->locationResult->scale);
         
         $template->assign('location_info', $locationInfo);
+        
+        // FIXME: Should be configurable (recenterActive = true/false)
+        $template->assign('recenter_active', true);
+        $this->smarty = new Smarty_CorePlugin($this->cartoclient->getConfig(), $this);
+        $template->assign('recenter', $this->smarty->fetch('recenter.tpl'));
+        
     }
 
     function saveSession() {
