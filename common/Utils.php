@@ -83,7 +83,7 @@ class Utils {
      * @return string
      */
     public static function pathToUnix($path) {
-        if (PATH_SEPARATOR == '/')
+        if (DIRECTORY_SEPARATOR == '/')
             return $path;
         return str_replace('\\', '/', $path);
     }
@@ -97,7 +97,7 @@ class Utils {
      */
     public static function pathToPlatform($path) {
         // by default, all paths are with '/'
-        if (PATH_SEPARATOR == '/')
+        if (DIRECTORY_SEPARATOR == '/')
             return $path;
         return str_replace('/', '\\', $path);
     }
