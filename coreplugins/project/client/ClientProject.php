@@ -7,13 +7,15 @@
 /**
  * Project handler
  */
-require_once(CARTOCLIENT_HOME . 'coreplugins/project/common/ProjectHandler.php');
+require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler.php');
 
 /**
  * @package CorePlugins
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class ClientProject extends ClientPlugin {
+
+    public $projectHandler;
    
     const TEMPL_VARS_INI_FILE = 'client_conf/project_templ_vars.ini';
     const RESOURCE_NAME_PREFIX = 'project_';
@@ -28,6 +30,8 @@ class ClientProject extends ClientPlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectResources = parse_ini_file(CARTOCLIENT_HOME . self::TEMPL_VARS_INI_FILE);
+        
+        $this->projectHandler = new ClientProjectHandler();
     }
 
     function loadSession($sessionObject) {
@@ -51,7 +55,7 @@ class ClientProject extends ClientPlugin {
         }
 
         foreach ($this->projectResources as $resourceName => $resourceFile) {
-            $truePath = ProjectHandler::getWebPath(CARTOCLIENT_HOME, $resourceFile);
+            $truePath = $this->projectHandler->getWebPath(CARTOCLIENT_HOME, $resourceFile);
             
             $template->assign(self::RESOURCE_NAME_PREFIX . $resourceName, $truePath);
         }

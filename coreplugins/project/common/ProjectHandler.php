@@ -8,24 +8,15 @@
  * Handler for specific project files
  * @package Common
  */
-class ProjectHandler {
+abstract class ProjectHandler {
 
-    const PROJECT_ENV_VAR = 'CW3_PROJECT';
     const PROJECT_DIR = 'projects';
 
-    static function getProjectName () {
-        if (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
-            return $_ENV[self::PROJECT_ENV_VAR];
-                
-        if (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_ENV))
-            return $_ENV['REDIRECT_' . self::PROJECT_ENV_VAR];
-        
-        return NULL;
-    }
+    abstract function getProjectName ();
 
-    static function isProjectFile ($rootPath, $filePath, $file = '') {
+    function isProjectFile ($rootPath, $filePath, $file = '') {
     
-        $projectName = self::getProjectName();
+        $projectName = $this->getProjectName();
         if (!$projectName)
             return false;
         
@@ -37,19 +28,19 @@ class ProjectHandler {
         return true;
     }
 
-    static function getPath ($rootPath, $filePath, $file = '') {
+    function getPath ($rootPath, $filePath, $file = '') {
         
         if (self::isProjectFile($rootPath, $filePath, $file)) {
-            return self::PROJECT_DIR . '/' . self::getProjectName() . '/' . $filePath;
+            return self::PROJECT_DIR . '/' . $this->getProjectName() . '/' . $filePath;
         } else {
             return $filePath;
         }
     } 
     
-    static function getWebPath ($rootPath, $filePath, $file = '') {
+    function getWebPath ($rootPath, $filePath, $file = '') {
         
         if (self::isProjectFile($rootPath, 'htdocs/' . $filePath, $file)) {
-            return self::getProjectName() . '/' . $filePath;
+            return $this->getProjectName() . '/' . $filePath;
         } else {
             return $filePath;
         }

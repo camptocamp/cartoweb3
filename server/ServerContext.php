@@ -20,6 +20,8 @@ class ServerContext {
 
     public $config;
 
+    public $projectHandler;
+
     function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
 
@@ -27,7 +29,9 @@ class ServerContext {
 
         $this->config = new ServerConfig();
 
-        $this->mapInfoHandler = new MapInfoHandler($this, $mapId);
+        $this->projectHandler = new ServerProjectHandler($mapId);
+
+        $this->mapInfoHandler = new MapInfoHandler($this, $mapId, $this->projectHandler);
         //$this->mapInfoHandler->loadMapInfo($mapId);
 
         $this->initializeMapObj($mapId);
@@ -39,7 +43,7 @@ class ServerContext {
 
         $this->mapInfo = $this->mapInfoHandler->getMapInfo();
 
-        $this->plugins = array();
+        $this->plugins = array();  
     }
 
     private function initializeMapObj($mapId) {
@@ -49,9 +53,13 @@ class ServerContext {
             if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
                 throw new CartoserverException("can't load mapscript library");
         }
-
-        $this->msMapObj = ms_newMapObj($this->mapInfoHandler->configMapPath . 
-                                       $mapId . '.map');
+        
+        // Now server.ini can be in a different directory than mapfile !
+        $mapName = $this->projectHandler->getMapName();
+        $mapPath = $this->projectHandler->getPath(CARTOSERVER_HOME, 
+                            'server_conf/' . $mapName . '/', $mapName . '.map');
+        $this->msMapObj = ms_newMapObj(CARTOSERVER_HOME .
+                            $mapPath . $mapName . '.map');
 
         $this->checkMsErrors();
 

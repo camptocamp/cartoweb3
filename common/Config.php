@@ -14,6 +14,7 @@ require_once(CARTOCOMMON_HOME . 'coreplugins/project/common/ProjectHandler.php')
  */
 abstract class Config {
     public $basePath;
+    public $projectHandler;
 
     private $ini_array;
 
@@ -39,11 +40,17 @@ abstract class Config {
         if (!@$this->configPath) {
             $path = $kind . '_conf/'; 
             $this->configPath = $this->basePath
-                . ProjectHandler::getPath($this->basePath, $path, $file);
+                . $this->projectHandler->getPath($this->basePath, $path, $file);
         }
 
         $this->ini_array = parse_ini_file($this->configPath . $file);
 
+        // Set MapId to projectName.mapId
+        $projectName = $this->projectHandler->getProjectName();
+        if ($projectName) {
+            $this->ini_array['mapId'] = $projectName . '.' . $this->ini_array['mapId'];
+        }
+        
         if (!@$this->writablePath)
             $this->writablePath = $this->basePath . 'www-data/';
 

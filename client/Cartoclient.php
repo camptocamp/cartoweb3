@@ -30,6 +30,8 @@ require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 
+require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler.php');
+
 /**
  * @package Client
  */
@@ -65,6 +67,7 @@ class ClientConfig extends Config {
 
     function __construct() {
         $this->basePath = CARTOCLIENT_HOME;
+        $this->projectHandler = new ClientProjectHandler();
         parent::__construct();
     }
 }

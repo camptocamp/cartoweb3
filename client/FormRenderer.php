@@ -10,9 +10,16 @@
 require_once('smarty/Smarty.class.php');
 
 /**
+ * Project handler
+ */
+require_once(CARTOCLIENT_HOME . 'coreplugins/project/client/ClientProjectHandler.php');
+
+/**
  * @package Client
  */
 class Smarty_Cartoclient extends Smarty {
+
+    public $projectHandler;
 
     function __construct($config) {
         parent::__construct();
@@ -25,19 +32,30 @@ class Smarty_Cartoclient extends Smarty {
         $this->caching = $config->smartyCaching;
         $this->compile_check = $config->smartyCompileCheck;
         $this->debugging = $config->smartyDebugging;
+        
+        $this->projectHandler = new ClientProjectHandler();
     }
 
     /**
-     * Overrides Smarty's resource fetching to choose the right project
+     * Overrides Smarty's resource compile path
+     *
+     * Updates template dir to point to the right project and insert a compile
+     * id to have one cache file per project and per template. 
      */    
-    function _fetch_resource_info(&$params) {
+    function _get_compile_path($resource_name)
+    {
         $oldPath = $this->template_dir;
         $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
         $this->template_dir = CARTOCLIENT_HOME 
-                                . ProjectHandler::getPath(CARTOCLIENT_HOME,
-                                            $oldPath, $params['resource_name']);
-        return parent::_fetch_resource_info(&$params);
+                                . $this->projectHandler->getPath(CARTOCLIENT_HOME,
+                                            $oldPath, $resource_name);
+        if (!$this->_compile_id) {
+            $this->_compile_id = md5($this->template_dir);
+        }
+        return $this->_get_auto_filename($this->compile_dir, $resource_name,
+                                         $this->_compile_id) . '.php';
     }
+    
 }
 
 /**

@@ -14,10 +14,13 @@ class MapInfoHandler {
     public $configMapPath;
 
     public $mapInfo;
+    
+    public $projectHandler;
 
-    function __construct($serverContext, $mapId) {
+    function __construct($serverContext, $mapId, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->serverContext = $serverContext;
+        $this->projectHandler = $projectHandler;
         $this->loadMapInfo($mapId);
     }
 
@@ -40,11 +43,14 @@ class MapInfoHandler {
 
     private function loadMapInfo($mapId) {
 
-        $this->configMapPath = $this->serverContext->config->configPath . 
-            $mapId . '/';
-
-        $configStruct = StructHandler::loadFromIni($this->configMapPath .
-                                            $mapId . '.ini');
+        // Now server.ini can be in a different directory than mapfile !
+        // $this->configMapPath = $this->serverContext->config->configPath . 
+        //    $mapId . '/';
+        $mapName = $this->projectHandler->getMapName();
+        $iniPath = $this->projectHandler->getPath(CARTOSERVER_HOME,
+                                'server_conf/' . $mapName . '/', $mapName . '.ini');
+        $configStruct = StructHandler::loadFromIni(CARTOSERVER_HOME .
+                                $iniPath . $mapName . '.ini');
         $this->mapInfo = new MapInfo();
         $this->mapInfo->unserialize($configStruct->mapInfo);
         $this->mapInfo = $this->fixupMapInfo($this->mapInfo);
