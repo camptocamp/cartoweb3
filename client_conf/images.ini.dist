@@ -16,3 +16,6 @@ mapSizes.2.height = 600
 mapSizes.3.label = giant
 mapSizes.3.width = 1400
 mapSizes.3.height = 1000
+
+;if true, keymap is shown on map, and possibly hidden
+;collapsibleKeymap = true

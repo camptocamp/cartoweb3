@@ -76,6 +76,12 @@ class ClientImages extends ClientPlugin
     private $mapSizes;
 
     /**
+     * Indicates if keymap must be collapsible
+     * @var boolean
+     */
+    private $collapseKeymap = 0;
+
+    /**
      * Default map width, if not specified in config
      */
     const DEF_MAP_WIDTH  = 400;
@@ -153,7 +159,12 @@ class ClientImages extends ClientPlugin
         $this->log->debug('update form:');
         $this->log->debug($this->imagesState);
         
-        $this->handleMapSize($request);        
+        $this->handleMapSize($request);
+
+        if ($this->getConfig()->collapsibleKeymap) {
+            $this->collapseKeymap = isset($request['collapse_keymap']) ?
+                                    $request['collapse_keymap'] : 0;
+        }
     }
 
     /**
@@ -339,6 +350,12 @@ class ClientImages extends ClientPlugin
         $template->assign(array('mapsizes_active' => $mapSizesActive,
                                 'mapsizes' => $this->drawMapSizes(),
                                 ));
+
+        if ($this->getConfig()->collapsibleKeymap) {
+            $template->assign(array('collapseKeymap' => $this->collapseKeymap,
+                                    'collapsibleKeymap' => true,
+                                    ));
+        }
     }
 
     /**
