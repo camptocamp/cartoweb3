@@ -935,7 +935,7 @@ class ClientLayers extends ClientPlugin
             return '';
 
         $iconUrl = $this->getIconUrl($icon);
-        if (strpos('http', $iconUrl) === 0)
+        if (substr($iconUrl, 0, 4) == 'http')
             return $iconUrl;
 
         // FIXME: make this mandatory, and don't test there
