@@ -313,7 +313,7 @@ class ClientLayers extends ClientPlugin
         $this->layersState->dropDownSelected = array();
 
         // selected layers:
-        if (!@$request['layers']) $request['layers'] = array();
+        if (!isset($request['layers'])) $request['layers'] = array();
         foreach ($request as $k => $v) {
         
             if (strstr($k, 'layers_dropdown_')) {
