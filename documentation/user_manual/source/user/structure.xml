@@ -13,7 +13,7 @@
  <sect1 id="user.structure.intro"> 
   <title>Introduction</title>
   <para>
-   This chapter is an overall tour of the CartoWeb3 code structure. It briefly 
+   This chapter is an overall tour of the &cartoweb; code structure. It briefly 
    explains the role of each directory. When available, 
    links to relevant chapters of this documentation are also provided.
   </para>
@@ -22,7 +22,7 @@
  <sect1 id="user.structure.global"> 
   <title>Global directory structure</title>
   <para>
-   After installation, CartoWeb 3 has the following directory structure:
+   After installation, &cartoweb; has the following directory structure:
    <itemizedlist>
     <listitem>
      <para>
@@ -135,7 +135,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>include</filename>: libraries used by CartoWeb 3
+      <filename>include</filename>: libraries used by &cartoweb;
      </para>
     </listitem>
     <listitem>
@@ -205,7 +205,7 @@
     see: <xref linkend="user.i18n.translations.template"/></para></listitem>
     <listitem>
      <para>
-      <filename>project</filename>: CartoWeb user projects dir, see: <xref 
+      <filename>project</filename>: &cartoweb; user projects dir, see: <xref 
       linkend="user.structure.project"/>
      </para>
     </listitem>
@@ -216,7 +216,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>server</filename>: CartoWeb server code files
+      <filename>server</filename>: &cartoweb; server code files
      </para>
     </listitem>
     <listitem>
@@ -227,7 +227,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>templates</filename>: common CartoWeb Smarty templates files,
+      <filename>templates</filename>: common &cartoweb; Smarty templates files,
       see: <xref linkend="user.template"/>
      </para>
     </listitem>
@@ -238,7 +238,7 @@
     </listitem>
     <listitem>
      <para>
-      <filename>tests</filename>: CartoWeb unit tests suite, 
+      <filename>tests</filename>: &cartoweb; unit tests suite, 
       mainly used for development and debug purposes
      </para>
     </listitem>
@@ -350,7 +350,7 @@
  <sect1 id="user.structure.project"> 
   <title>Projects</title>
   <para>
-   The aim of projects in CartoWeb 3 is to clearly separate mainstream
+   The aim of projects in &cartoweb; is to clearly separate mainstream
    files from project-specific files. Developers should thus only work 
    in projects, and not modify/add/delete files in the root directory. This
    will ensure smooth updates.

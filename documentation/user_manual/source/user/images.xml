@@ -127,7 +127,7 @@ END]]></screen></para>
    <title>Automatic imagetype switch</title>
    <para>
     It is often desirable to adapt the imagetype of the map to the represented data. Typically, vector data is well 
-    rendered in png, while the colors of a raster background require either jpeg or png24 format. CartoWeb includes
+    rendered in png, while the colors of a raster background require either jpeg or png24 format. &cartoweb; includes
     a mechanism that automatically switches the format when specific layers are selected. A special metadata of the
     layers triggers this behavior <indexterm><primary>force_imagetype</primary></indexterm>: 
    </para>

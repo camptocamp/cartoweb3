@@ -6,7 +6,7 @@
   ]>
 <chapter id="dev.soapcalls">
   <title>Calling Plugins</title>
-  <para>This chapter describes the structure of SOAP calls to CartoWeb server 
+  <para>This chapter describes the structure of SOAP calls to &cartoweb; server 
     methods in order to obtain cartographic data.</para>
   <para>Global WSDL code can be found in file 
     <filename>CARTOWEB_HOME/server/cartoserver.wsdl</filename>. WSDL code 

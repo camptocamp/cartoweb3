@@ -13,7 +13,7 @@
  <sect1 id="user.install.unix">
   <title>UNIX like install</title>
   <para>
-    Cartoweb 3 installer is "cw3setup.php", located in the root directory of the application:
+    &cartoweb; installer is "cw3setup.php", located in the root directory of the application:
     Simply run <screen>php -f cw3setup.php</screen> to setup the application.
   </para>
   <sect2 id="user.install.unix.commands.list">

@@ -10,9 +10,9 @@
 <chapter id="dev.code_documentation">
  <title>Code Documentation</title>
 
-  <para> CartoWeb 3 code documentation is generated using <ulink 
+  <para> &cartoweb; code documentation is generated using <ulink 
     url="http://www.phpdoc.org/">PhpDocumentor</ulink>, a JavaDoc-style doc 
-    generator. CartoWeb 3 already includes version 1.3.0rc3 of PhpDocumentor. 
+    generator. &cartoweb; already includes version 1.3.0rc3 of PhpDocumentor. 
     </para>
   
   <sect1 id="dev.code_documentation.generating"> 
@@ -38,7 +38,7 @@ php ./makedoc.php]]>
       PhpDocumentor documentation</ulink>. </para>
     <sect2 id="dev.code_documentation.docblocks.types">
       <title>DocBlocks Types</title>
-      <para> In CartoWeb 3, we use:
+      <para> In &cartoweb; we use:
         <itemizedlist>
           <listitem>
             <para>Page-level DocBlocks: one DocBlock for each PHP file.
@@ -138,7 +138,7 @@ php ./makedoc.php]]>
  * Test file 
  *
  * The purpose of this file is to show an example of how to use
- * PhpDocumentor DocBlocks in CartoWeb 3.
+ * PhpDocumentor DocBlocks in CartoWeb.
  * @package MyPackage
  * @author Gustave Dupond <gustave.dupond@camptocamp.com>
  * @version ]]>&dollar;Id:&dollar;<![CDATA[
