@@ -33,6 +33,7 @@ title="{t}more info on{/t} {$layerLabel}">{$layerLabel}</a>
   </div>
   {/if}
 {else}
-  {if $layerClassName != 'LayerClass'}{$smarty.capture.inputElt}{/if}
+  {if $layerClassName != 'LayerClass'}
+  <span class="leaf"></span>{$smarty.capture.inputElt}{/if}
   {$smarty.capture.icon}{$smarty.capture.caption}<br />
 {/if}
