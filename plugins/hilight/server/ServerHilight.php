@@ -33,15 +33,6 @@ class ServerHilight extends ServerPlugin {
     }
 
     /**
-     * UTF-8 decodes an Id
-     * @param string
-     * @return string
-     */
-    private function decodeId($id) {
-        return utf8_decode($id);   
-    }
-
-    /**
      * Builds a mapserver expression string.
      * @param QuerySelection
      * @return string expression string
@@ -79,7 +70,7 @@ class ServerHilight extends ServerPlugin {
                 " for layer $querySelection->layerId");
         
         foreach ($ids as $id) {
-            $id = $this->decodeId($id);
+            $id = Encoder::decode($id);
             $id_exprs[] = sprintf($expr_pattern, $idAttribute, $comp_op, $id);
         }
         

@@ -27,33 +27,6 @@ class ServerQuery extends ClientResponderAdapter {
     }
 
     /**
-     * Executes character encoding conversion
-     *
-     * FIXME: should be done globally
-     * @param string
-     * @return string
-     */
-    private function encodingConversion($str) {
-        // FIXME: $str is asserted to be iso8851-1 
-        return utf8_encode($str);
-    }
-
-    /**
-     * Executes character encoding conversion on an array
-     *
-     * FIXME: should be done globally
-     * @param array
-     * @return array
-     */
-    private function arrayEncodingConversion($array) {
-        $ret = array();
-        foreach($array as $key => $str) {
-            $ret[$this->encodingConversion($key)] = $this->encodingConversion($str);
-        }
-        return $ret;
-    }
-
-    /**
      * Returns list of attributes to be returned
      * @param string layer id
      * @return array
@@ -133,16 +106,13 @@ class ServerQuery extends ClientResponderAdapter {
                     $columnIds[] = $columnId;
                     $columnTitles[] = $columnId;
                 }
-                $table->columnIds =
-                    $this->arrayEncodingConversion($columnIds);
-                $table->columnTitles =
-                    $this->arrayEncodingConversion($columnTitles);
+                $table->columnIds = Encoder::encode($columnIds);
+                $table->columnTitles = Encoder::encode($columnTitles);
             }
             
             $tableRow = new TableRow();
             if (!empty($idAttribute)) {
-                $tableRow->rowId = $this
-                    ->encodingConversion($shape->values[$idAttribute]);
+                $tableRow->rowId = Encoder::encode($shape->values[$idAttribute]);
             }
             $cells = array();
             if (!is_null($tableFlags) && $tableFlags->returnAttributes) {
@@ -150,7 +120,7 @@ class ServerQuery extends ClientResponderAdapter {
                     $cells[] = $shape->values[$columnId];
                 }
             }
-            $tableRow->cells = $this->arrayEncodingConversion($cells);
+            $tableRow->cells = Encoder::encode($cells);
             
             $table->rows[] = $tableRow;
             $table->numRows ++;

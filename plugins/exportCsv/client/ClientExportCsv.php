@@ -118,7 +118,7 @@ class ClientExportCsv extends ExportPlugin {
             if ($utf8) {
                 $contents .= $tD . $value . $tD;
             } else {
-                $contents .= $tD . utf8_decode($value) . $tD;
+                $contents .= $tD . Encoder::decode($value) . $tD;
             }    
         }
         $contents .= "\n";

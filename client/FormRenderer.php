@@ -213,6 +213,10 @@ class FormRenderer {
 
         $smarty = $this->smarty;
 
+        if (!isset($GLOBALS['headless']))
+            header('Content-Type: text/html; charset=' . Encoder::getCharset());
+        $smarty->assign('charset', Encoder::getCharset());
+
         if (!$this->cartoclient->isInterruptFlow()) {
 
             $this->drawTools($cartoclient);

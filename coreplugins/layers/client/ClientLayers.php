@@ -973,7 +973,7 @@ class ClientLayers extends ClientPlugin
             array_pop($this->nodeId);
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
-        $layer->label = utf8_decode($layer->label);
+        $layer->label = Encoder::decode($layer->label);
         $this->nodesIds[$nodeId] = $layer->id;
         $layerOutRange = 0;
 

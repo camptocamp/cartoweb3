@@ -39,7 +39,7 @@ class MapInfoHandler {
                     $layer->label = $layer->id; 
                 if ($layer instanceof Layer && empty($layer->msLayer))
                     $layer->msLayer = $layer->id; 
-                $layer->label = utf8_encode($layer->label);
+                $layer->label = Encoder::encode($layer->label);
             }
         
         if (isset($mapInfo->initialMapStates)) {
@@ -166,7 +166,7 @@ class MapInfoHandler {
 
                 copy_vars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
-                $layerClass->label = utf8_encode($msClass->name);
+                $layerClass->label = Encoder::encode($msClass->name);
            
                 if ($mapInfo->autoClassLegend) {
                     $layerClass->icon = $this->getClassIcon($layerClass->id, 

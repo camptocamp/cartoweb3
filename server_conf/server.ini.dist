@@ -29,3 +29,6 @@ urlProvider = Miniproxy
 
 ; The url of the reverse proxy, if used
 ;reverseProxyUrl = http://host/proxy/address
+
+; Charset encoder class
+EncoderClass = EncoderISO

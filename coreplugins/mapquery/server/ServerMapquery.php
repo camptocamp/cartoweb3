@@ -131,15 +131,6 @@ class ServerMapquery extends ServerPlugin {
         throw new CartoserverException("Layer to center on has an unsupported " .
                 "connection type: $msLayer->connectiontype");
     }
-
-    /**
-     * Decodes Ids
-     * @param array
-     * @return array
-     */
-    private function decodeIds($ids) {
-        return array_map('utf8_decode', $ids);
-    }
     
     /**
      * Performs a query based on a set of selected id's on a given layer
@@ -172,7 +163,7 @@ class ServerMapquery extends ServerPlugin {
         $queryStringFunction = (self::isDatabaseLayer($msLayer)) ?
             'databaseQueryString' : 'genericQueryString';
 
-        $ids = self::decodeIds($idSelection->selectedIds);
+        $ids = Encoder::decode($idSelection->selectedIds);
 
         // FIXME: can shapefiles support queryString for multiple id's ?
         //  if yes, then improve this handling. 

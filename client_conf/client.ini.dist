@@ -91,3 +91,6 @@ I18nClass = I18nDummy
 
 ; default language
 defaultLang = en
+
+; Charset encoder class
+EncoderClass = EncoderISO

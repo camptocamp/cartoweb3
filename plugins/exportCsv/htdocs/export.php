@@ -28,7 +28,8 @@ if (!$cartoclient->clientAllowed()) {
 $plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
 $plugin->handleHttpGetRequest($_REQUEST);
 
-header('Content-Type: application/csv-tab-delimited-table');
+header('Content-Type: application/csv-tab-delimited-table; charset='
+                                . Encoder::getCharset());
 header('Content-disposition: filename=' . $plugin->fileName);
 
 print $plugin->getExport()->getContents();

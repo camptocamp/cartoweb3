@@ -9,6 +9,7 @@ require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
 require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
+require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
 /**
  * Project handler
@@ -53,8 +54,11 @@ class ServerContext {
         
         $this->pluginManager = null;
         $this->plugins = array();
-        
-        $this->reset();          
+
+        // Encoding
+        Encoder::init($this->config);          
+
+        $this->reset();        
     }
     
     function reset() {

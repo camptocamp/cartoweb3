@@ -397,34 +397,6 @@ class ClientQuery extends ClientPlugin
      * @see ServerCaller::handleResult()
      */ 
     function handleResult($queryResult) {}
-
-    /**
-     * Executes character encoding conversion
-     *
-     * FIXME: should be done globally
-     * @param string
-     * @return string
-     */
-    private function encodingConversion($str) {
-        return utf8_decode($str);
-    }
-
-    /**
-     * Executes character encoding conversion on an array
-     *
-     * FIXME: should be done globally
-     * @param array
-     * @return array
-     */
-    private function arrayEncodingConversion($array) {
-        if (empty($array))
-            return $array;
-        $ret = array();
-        foreach($array as $key => $str) {
-            $ret[$this->encodingConversion($key)] = $this->encodingConversion($str);
-        }
-        return $ret;
-    }
     
     /**
      * Process a query result
@@ -448,11 +420,12 @@ class ClientQuery extends ClientPlugin
                 $querySelection->selectedIds = $ids;
             }
             if ($table->numRows > 0) {
-                $table->columnTitles = $this->arrayEncodingConversion(
-                                            $table->columnTitles);
+                $table->columnIds = Encoder::decode($table->columnIds);
+                $table->columnTitles = Encoder::decode($table->columnTitles);
                                                                                
                 foreach ($table->rows as $row) {            
-                    $row->cells = $this->arrayEncodingConversion($row->cells);
+                    $row->rowId = Encoder::decode($row->rowId);
+                    $row->cells = Encoder::decode($row->cells);
                 }
             }
         }

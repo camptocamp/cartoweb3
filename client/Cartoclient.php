@@ -33,6 +33,7 @@ require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
+require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
 /**
  * Cartoclient exception 
@@ -687,6 +688,7 @@ class Cartoclient {
      * Initializes:
      * - Configuration
      * - I18n
+     * - UTF/ISO Encoding
      * - Plugins
      * - Cartoserver service
      * - HTTP request handler
@@ -700,6 +702,9 @@ class Cartoclient {
 
         // Internationalization
         I18n::init($this->config);
+
+        // Encoding
+        Encoder::init($this->config);
 
         // initialize objects
         $this->cartoserverService = new CartoserverService($this->getConfig());
