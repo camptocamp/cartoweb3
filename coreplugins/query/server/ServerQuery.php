@@ -232,6 +232,20 @@ class ServerQuery extends ClientResponderAdapter {
         return $table;
     }
 
+    /**
+     * TO BE DELETED
+     */
+    function getIdsFromLayerResult(LayerResult $layerResult) {
+
+        $resultElements = $layerResult->resultElements;
+        
+        $ids = array();
+        foreach($resultElements as $resultElement) {
+            $ids[] = $resultElement->id;
+        }
+        return $ids;
+    }
+
     function getIdsFromTable(Table $table) {
 
         $rows = $table->rows;
