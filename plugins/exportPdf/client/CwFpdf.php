@@ -488,7 +488,7 @@ class cFPDF extends FPDF {
             if ($table->caption->width > $table->totalWidth) {
                 $delta = $table->caption->width - $table->totalWidth;
                 $delta /= $nbCols; // $nbCols cannot be 0
-                foreach ($table->colsWidth as $width)
+                foreach ($table->colsWidth as &$width)
                     $width += $delta;
                 $table->totalWidth = $table->caption->width;
             }
@@ -761,9 +761,6 @@ class cFPDF extends FPDF {
         if ($this->p->PageNo() == 0)
             return;
 
-        // TODO: similar code is used in ClientExportPdf::getExport()
-        // => make PdfWriter an abstract class instead of an interface
-        // in order to factorize common code and methods.
         foreach ($this->blocks as $block) {
             if (!$block->multiPage)
                 continue;
