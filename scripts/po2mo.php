@@ -21,55 +21,78 @@ function compileProject ($project = I18n::DEFAULT_PROJECT_DOMAIN) {
 
 function compileMapId($project, $mapId) {
 
-    // Looks for server URL
+    $direct = false;
     $iniFile = CARTOCLIENT_HOME;
     if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
         $iniFile .= 'projects/' . $project . '/';
     }
     $iniFile .= 'client_conf/client.ini';
     $iniArray = parse_ini_file($iniFile);
-    if (array_key_exists('cartoserverUrl', $iniArray)) {
-        $url = $iniArray['cartoserverUrl'];
+    if (array_key_exists('cartoserverDirectAccess', $iniArray)) {
+        $direct = $iniArray['cartoserverDirectAccess'];
     }
-    $url = dirname($url) . '/';
- 
-    // Adds project if needed
-    if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
-        $url .= $project . '/';
-    }
-    $url .= 'locale/';
 
     // Finds which locales should be fetched
     $dir = CARTOCLIENT_HOME . 'locale/';
     $d = dir($dir);
     $locales = array();
     while (false !== ($entry = $d->read())) {
-        if ($entry == '.' || $entry == '..' || !is_dir($entry) || strlen($entry) != 2) {
+        if ($entry == '.' || $entry == '..' || strlen($entry) != 2) {
             continue;
         }
         $locales[] = $entry;
     }
-    
-    foreach ($locales as $locale) {
-        $urlLocale = $url . $locale . '/LC_MESSAGES/' . $mapId . '.po';
+    if ($direct) {
+ 
+        foreach ($locales as $locale) {
+            $input = $project . '.' . $mapId . '.po';
+            $file = CARTOCLIENT_HOME . 'locale/' . $locale .
+                                            '/LC_MESSAGES/' . $input ;
+            $serverFile = CARTOCLIENT_HOME;
+            if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
+                $serverFile .= 'projects/' . $project . '/';
+            }
+            $serverFile .= 'htdocs/locale/' . $locale .
+                                     '/LC_MESSAGES/' . $mapId . '.po' ;
+            copy ($serverFile, $file);
+            
+            $output = $project . '.' . $mapId . '.mo';
+            compile($input, $output);      
+        }
+    } else {
+        // Looks for server URL
+        if (array_key_exists('cartoserverUrl', $iniArray)) {
+            $url = $iniArray['cartoserverUrl'];
+        }
+        $url = dirname($url) . '/';
+ 
+        // Adds project if needed
+        if ($project != I18n::DEFAULT_PROJECT_DOMAIN) {
+            $url .= $project . '/';
+        }
+        $url .= 'locale/';
+   
+        foreach ($locales as $locale) {
+            $urlLocale = $url . $locale . '/LC_MESSAGES/' . $mapId . '.po';
 
-        // CURL init
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $urlLocale);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+            // CURL init
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $urlLocale);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            
+            // Gets server PO file
+            $input = $project . '.' . $mapId . '.po';
+            $file = CARTOCLIENT_HOME . 'locale/' . $locale . '/LC_MESSAGES/' . $input ;
+            $fh = fopen($file, 'w');
+            curl_setopt($ch, CURLOPT_FILE, $fh);
+            curl_exec($ch);
+            curl_close($ch);  
+            fclose($fh);
         
-        // Gets server PO file
-        $input = $project . '.' . $mapId . '.po';
-        $file = CARTOCLIENT_HOME . 'locale/' . $locale . '/LC_MESSAGES/' . $input ;
-        $fh = fopen($file, 'w');
-        curl_setopt($ch, CURLOPT_FILE, $fh);
-        curl_exec($ch);
-        curl_close($ch);  
-        fclose($fh);
-        
-        // Compiles it
-        $output = $project . '.' . $mapId . '.mo';
-        compile($input, $output);      
+            // Compiles it
+            $output = $project . '.' . $mapId . '.mo';
+            compile($input, $output);      
+        }
     }
 }
 
