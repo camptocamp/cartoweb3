@@ -20,9 +20,9 @@
       <function>gt()</function> functions: 
       <itemizedlist><listitem><para><function>I18n::gt()</function>: tries to 
       translate the string given as argument and returns the translation. This 
-      function assumes that string is UTF-8 encoded and returns a string 
-      ready for output (see <xref 
-      linkend="dev.i18n.encoding" />). It can be used on client side only
+      function assumes that string is UTF-8 encoded and returns a string ready 
+      for output (see <xref linkend="dev.i18n.encoding" />). It can be used on 
+      client side only 
       </para></listitem><listitem><para><function>I18nNoop::gt()</function>: 
       does nothing during runtime ("noop" stands for "no operations"). Call to 
       this function is only needed to indicates that the string must be 
@@ -42,13 +42,13 @@ class ClientMyPlugin extends ClientPlugin
         
         // Retrieves message
         $this->message = $myPluginResult->message;
-    }	
+    }
 
     public function renderForm(Smarty $smarty) {
   
         // Translation and display
         $smarty->assign('message', I18n::gt($this->message));
-    }  
+    }
 }
 ]]></programlisting><programlisting><![CDATA[/**
  * Example for use of I18n gt() functions (server side)
@@ -59,13 +59,13 @@ class ServerMyPlugin extends ClientResponderAdapter {
 
     public function handlePreDrawing($request) {
         
-        $myPluginResult = new MyPluginResult();        
+        $myPluginResult = new MyPluginResult();
 
         // Message must be translated, but not now!
-        $myPluginResult>message = I18nNoop::gt('hello, world');        
+        $myPluginResult>message = I18nNoop::gt('hello, world');
         
         return $myPluginResult;
-    }	
+    }
 }
 ]]></programlisting> In this example, message sent by server has to be 
       translated. But as translation process is always done on client, we only 
@@ -74,7 +74,7 @@ class ServerMyPlugin extends ClientResponderAdapter {
   </sect1>
   <sect1 id="dev.i18n.encoding">
     <title>Character Set Encoding</title>
-    <para> As already described in <xref linkend="user.i18n.encoding" />, 
+    <para> As already described in <xref linkend="user.i18n.encoding" />,
       character set encoding is done using <classname>Encoder</classname> set 
       of classes. It uses functions <function>Encoder::encode()</function> 
       and <function>Encoder::decode()</function>: 
