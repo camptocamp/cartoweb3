@@ -574,6 +574,9 @@ class ClientExportPdf extends ExportPlugin {
         $scale /= $this->general->selectedResolution;
         $config->setScale($scale);
         
+        // resolution
+        $config->setResolution($this->general->selectedResolution);
+        
         // map center coordinates:
         $savedBbox = $this->getLastBbox();
         $xCenter = ($savedBbox->minx + $savedBbox->maxx) / 2;
@@ -665,30 +668,31 @@ class ClientExportPdf extends ExportPlugin {
      */
     private function getQueryResult($mapResult) {
         if (!$mapResult instanceof MapResult || 
-            !isset($mapResult->queryResult))
+            !isset($mapResult->queryResult) ||
+            !isset($mapResult->queryResult->tableGroup))
             return array();
 
         $results = array();
-        foreach ($mapResult->queryResult->layerResults as $layer) {
-            if (!$layer->numResults)
+        foreach ($mapResult->queryResult->tableGroup->tables as $table) {
+            if (!$table->numRows)
                 continue;
 
-            $table = new TableElement;
+            $tableElt = new TableElement;
             
-            $table->caption = I18n::gt($layer->layerId);
+            $tableElt->caption = I18n::gt($table->tableTitle);
             
-            $table->headers = array('Id');
-            foreach ($layer->fields as $field)
-                $table->headers[] = I18n::gt($field);
+            $tableElt->headers = array();
+            foreach ($table->columnTitles as $field)
+                $tableElt->headers[] = I18n::gt($field);
 
-            foreach ($layer->resultElements as $res) {
-                $row = array($res->id);
-                foreach ($res->values as $val)
+            foreach ($table->rows as $res) {
+                $row = array();
+                foreach ($res->cells as $val)
                     $row[] = $val;
-                $table->rows[] = $row;
+                $tableElt->rows[] = $row;
             }
 
-            $results[] = $table;
+            $results[] = $tableElt;
         }
     
         return $results;
