@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.output">
- <title><indexterm><primary>Export Plugins</primary></indexterm>Export Plugins</title>
+ <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
  <subtitle>exportCsv, exportHtml Plugins</subtitle>
 
  <sect1 id="user.output.intro"> 
