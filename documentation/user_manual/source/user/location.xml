@@ -28,7 +28,7 @@
     If no visible scales are defined on the server, a simple input text will be displayed.
     </para>
    </listitem>
-      <listitem>
+   <listitem>
     <para>
      <indexterm><primary>recenterActive</primary></indexterm>: boolean, if true, the coords recentering form is displayed (default: false)
     </para>
@@ -50,7 +50,7 @@
    </listitem>
    <listitem>
     <para>
-     <indexterm><primary>panRatio</primary></indexterm>:ratio for panning by clicking directional arrows. 
+     <indexterm><primary>panRatio</primary></indexterm>: ratio for panning by clicking directional arrows. 
      Default is 1 (no overlap, no gap). Values below 1 result in an overlap of the old and the new maps; 
      values above 1 in a gap between these two maps.
     </para>
@@ -74,5 +74,75 @@
   </itemizedlist>
  </sect1>
 
+ <sect1 id="user.location.server"> 
+  <title>location.ini (server-side)</title>
+  <para>
+  Here are the options that can be set :
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+    <indexterm><primary>minScale</primary></indexterm>: if set, minimal scale allowed.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>maxScale</primary></indexterm>: if set, maximal scale allowed
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>scaleModeDiscrete</primary></indexterm>: boolean, if true, only specified scales (see below) can be set.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>zoomFactor</primary></indexterm>: the zoom factor to use whan scaleModeDiscrete is set to false.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>scales.#.value</primary></indexterm> (# = 0, 1, 2, ...) : available value of the scale in discrete mode.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>scales.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the scale, to be displayed in the dropdown list on the client.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>scales.#.visible</primary></indexterm> (# = 0, 1, 2, ...) : boolean, if true, the scale is displayed in the dropdown list. If false, this scale can only be selected by zoom-in/zoom-out. Default is true.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>shortcuts.#.label</primary></indexterm> (# = 0, 1, 2, ...) : label of the shortcut; appears in the direct access dropdown list on the client.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>shortcuts.#.bbox</primary></indexterm> (# = 0, 1, 2, ...) : geographic bbox of the shortcut.
+    </para>
+   </listitem>
+  </itemizedlist>
+   <listitem>
+    <para>
+    <indexterm><primary>recenterMargin</primary></indexterm>: margin to add around the centered-on object (valid for lines and polygons). 
+    Expressed in percent of the width/height of the object.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+    <indexterm><primary>recenterDefaultScale</primary></indexterm>: scale to use when the centered-on object is a point.
+    </para>
+   </listitem>
+ </sect1>
 </chapter>
 
+ <sect1 id="user.location.mapfile"> 
+  <title>related elements in mapfile</title>
+  <para>
+   Note that the maximal extent of the geographical zone is set by the EXTENT command in the mapfile. 
+  </para> 
+ </sect1> 
