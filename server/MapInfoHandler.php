@@ -81,7 +81,7 @@ class MapInfoHandler {
 
                 copy_vars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
-                $layerClass->label = $layerClass->name;
+                $layerClass->label = utf8_encode($layerClass->name);
                 
                 $mapInfo->addChildLayerBase($layer, $layerClass);
             }
