@@ -223,8 +223,8 @@ class ClientExportPdf extends ExportPlugin {
         $this->blocks[$id]->id = $id;
 
         if ($id == 'title' || $id == 'note') {
-            $this->blocks[$id]->content = 
-                stripslashes(trim($request[$pdfItem]));
+            $content = trim($request[$pdfItem]);
+            $this->blocks[$id]->content = stripslashes($content);
         }
 
         elseif ($id == 'scaleval') {
@@ -242,6 +242,11 @@ class ClientExportPdf extends ExportPlugin {
                 $this->createBlock($request, $iniObjects, $caption);
                 
                 $this->blocks[$caption]->standalone = false;
+
+                $content = $this->blocks[$caption]->content;
+                $content = Encoder::encode($content);
+                $content = Encoder::decode($content);
+                $this->blocks[$caption]->content = $content;
                 
                 if (!isset($this->blocks[$caption]->height) && 
                     isset($this->blocks[$id]->height)) {
@@ -257,6 +262,12 @@ class ClientExportPdf extends ExportPlugin {
                 $this->createBlock($request, $iniObjects, $headers);
                 
                 $this->blocks[$headers]->standalone = false;
+
+                $content = $this->blocks[$headers]->content;
+                $content = Encoder::encode($content);
+                $content = Encoder::decode($content);
+                $this->blocks[$headers]->content = $content;
+                
                 $this->blocks[$headers]->content = 
                    $this->getArrayFromList($this->blocks[$headers]->content,
                                            true);
@@ -270,8 +281,13 @@ class ClientExportPdf extends ExportPlugin {
     
             // TODO: handle multi-row tables when getting content from INI 
             // For now we are limited to one single row.
-            $this->blocks[$id]->content = $this->getArrayFromList(
-                                            $this->blocks[$id]->content, true);
+            if ($this->blocks[$id]->content) {
+                $content = $this->blocks[$id]->content;
+                $content = Encoder::encode($content);
+                $content = Encoder::decode($content);
+                $this->blocks[$id]->content = $this->getArrayFromList($content,
+                                                                      true);
+            }
         }
 
         elseif ($this->blocks[$id]->type == 'legend') {
@@ -774,7 +790,7 @@ class ClientExportPdf extends ExportPlugin {
             foreach ($table->rows as $res) {
                 $row = array($res->rowId);
                 foreach ($res->cells as $val)
-                    $row[] = $val;
+                    $row[] = Encoder::decode($val);
                 $tableElt->rows[] = $row;
             }
 
@@ -957,13 +973,21 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
+     * Set type (PDF) and charset header.
+     */
+    private function setTypeHeader() {
+        header('Content-type: application/pdf; charset=' . 
+               Encoder::getCharset());
+    }
+
+    /**
      * Outputs generated PDF file using config "output" medium.
      * @param string PDF content
      */
     public function outputPdf($pdfBuffer) {
         switch ($this->general->output) {
             case 'inline':
-                header('Content-type: application/pdf');
+                $this->setTypeHeader();
                 header('Content-Length: ' . strlen($pdfBuffer));
                 header('Content-Disposition: inline; filename=' . 
                        $this->getFilename());
@@ -971,7 +995,7 @@ class ClientExportPdf extends ExportPlugin {
                 break;
 
             case 'attachment':
-                header('Content-type: application/pdf');
+                $this->setTypeHeader();
                 header('Content-Length: ' . strlen($pdfBuffer));
                 header('Content-Disposition: attachment; filename=' .
                        $this->getFilename());
@@ -989,7 +1013,7 @@ class ClientExportPdf extends ExportPlugin {
             case 'redirection':
             default:
                 $filename = $this->generatePdfFile($pdfBuffer);
-                header('Content-type: application/pdf');
+                $this->setTypeHeader();
                 header('Location: ' . $this->getPdfFileUrl($filename));
                 break;
         }
