@@ -1,5 +1,7 @@
 <?php
 /**
+ * Script called by standard Cartoclient GUI to generate export outside of
+ * current browser
  * @package Plugins
  * @version $Id$
  */

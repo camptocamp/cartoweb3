@@ -1,28 +1,50 @@
 <?php
 /**
+ * CSV Export
  * @package Plugins
  * @version $Id$
  */
 
+/**
+ * Export super class
+ */
 require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
 
 /**
+ * CSV Export
  * @package CorePlugins
  */
 class ClientExportCsv extends ExportPlugin {
 
+    /**
+     * @var string
+     */
+    public $layerId;
+    
+    /**
+     * @var string
+     */
+    public $fileName;
+
+    /**
+     * Returns relative Web path to external export script
+     * @return string
+     */
     public function getExportScriptPath() {
         return 'exportCsv/export.php';
     }
-
-    public $layerId;
-    public $fileName;
 
     function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
+    /**
+     * Returns CSV file name
+     *
+     * Format is set in configuration file, key fileName.
+     * @return string
+     */
     private function generateFileName() {
         
         $layerName = I18n::gt($this->layerId);
@@ -40,6 +62,10 @@ class ClientExportCsv extends ExportPlugin {
         return $fileName;
     }
 
+    /**
+     * Handles HTTP request received by script export.php
+     * @param array HTTP request
+     */
     function handleHttpRequest($request) {
         
         if (array_key_exists('exportcsv_layerid', $request)) {
@@ -64,7 +90,15 @@ class ClientExportCsv extends ExportPlugin {
         
         return $config;
     }
-    
+
+    /**    
+     * Returns an exported CSV single line
+     * @param array values
+     * @param string separator
+     * @param string text delimiter
+     * @param boolean true if UTF8 decoding is required
+     * @return string
+     */
     private function exportLine($array, $sep, $tD, $utf8) {
     
         $contents = '';
@@ -85,6 +119,11 @@ class ClientExportCsv extends ExportPlugin {
         return $contents;
     }
     
+    /**
+     * Computes CSV export
+     * @return ExportOutput
+     * @see ExportPlugin::getExportResult
+     */
     function getExport() {
 
         $mapResult = $this->getExportResult($this->getConfiguration());

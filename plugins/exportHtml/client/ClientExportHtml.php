@@ -1,12 +1,17 @@
 <?php
 /**
+ * HTML Export
  * @package Plugins
  * @version $Id$
  */
 
+/**
+ * Export super class
+ */
 require_once(CARTOCLIENT_HOME . 'client/ExportPlugin.php');
 
 /**
+ * HTML export
  * @package Plugins
  */
 class ClientExportHtml extends ExportPlugin {
@@ -16,10 +21,20 @@ class ClientExportHtml extends ExportPlugin {
         parent::__construct();
     }
 
+    /**
+     * Returns relative Web path to external export script
+     * @return string
+     */
     public function getExportScriptPath() {
         return 'exportHtml/export.php';
     }
     
+    /** 
+     * Returns path to Web base URL
+     *
+     * Being in a plugin, the path to images is not the same.
+     * @return string
+     */ 
     public function getBaseUrl() {
         return '../';
     }
@@ -48,6 +63,13 @@ class ClientExportHtml extends ExportPlugin {
         return $config;
     }
     
+    /**
+     * Computes HTML export
+     *
+     * Looks for displayed layers in latest MapRequest.
+     * @return ExportOutput
+     * @see ExportPlugin::getExportResult
+     */
     function getExport() {
     
         $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
@@ -76,4 +98,5 @@ class ClientExportHtml extends ExportPlugin {
         return $output;
     }
 }
+
 ?>
