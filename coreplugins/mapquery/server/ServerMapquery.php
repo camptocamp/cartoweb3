@@ -107,6 +107,7 @@ class ServerMapquery extends ServerPlugin {
         $ignoreQueryThreshold = $this->getConfig()->ignoreQueryThreshold;
         if ($mayIgnore && is_numeric($ignoreQueryThreshold) && 
                                     $numResults > $ignoreQueryThreshold) {
+            /* FIXME Translation will not work rightly in SOAP mode !!! */
             $this->getServerContext()->addMessage($this, 'queryIgnored', 
                 sprintf("%s '%s'%s",
                     i18n::gt('Query spanned too many objects on layer'),
@@ -117,6 +118,7 @@ class ServerMapquery extends ServerPlugin {
 
         $maxResults = $this->getConfig()->maxResults;
         if (is_numeric($maxResults) && $numResults > $maxResults) {
+            /* FIXME Translation will not work rightly in SOAP mode !!! */
             $this->getServerContext()->addMessage($this, 'maxResultsHit', 
                 sprintf("%s '%s'%s",
                 i18n::gt('This query hit the maximum number of results on'),
