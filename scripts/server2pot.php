@@ -25,6 +25,11 @@ define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
 /**
+ * Project handler class for constants
+ */
+require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+
+/**
  * Finds charset in client.ini
  * @param string
  * @return string
@@ -34,8 +39,8 @@ function getCharset($project) {
     $class = null;
     $iniFile = CARTOSERVER_HOME;
     $projectIniFile = CARTOSERVER_HOME;
-    if ($project != '') {
-        $projectIniFile .= 'projects/' . $project. '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniFile .= 'server_conf/server.ini';
     $projectIniFile .= 'server_conf/server.ini';
@@ -69,8 +74,8 @@ function getCharset($project) {
 function parseIni($project, $mapId, &$texts) {
 
     $iniPath = CARTOSERVER_HOME;
-    if ($project != '') {
-        $iniPath .= 'projects/' . $project. '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniPath .= 'server_conf/' . $mapId . '/';
     
@@ -123,8 +128,8 @@ function addMapText($text, $mapId, &$texts) {
 function parseMap($project, $mapId, &$texts) {
 
     $mapFile = CARTOSERVER_HOME;
-    if ($project != '') {
-        $mapFile .= 'projects/' . $project. '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $mapFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $mapFile .= 'server_conf/' . $mapId . '/' . $mapId . '.map';
     
@@ -169,7 +174,7 @@ function parseMap($project, $mapId, &$texts) {
 function getProjects() {
 
     $projects = array();
-    $dir = CARTOSERVER_HOME . 'projects/';
+    $dir = CARTOSERVER_HOME . ProjectHandler::PROJECT_DIR . '/';
     $d = dir($dir);
     while (false !== ($entry = $d->read())) {
         if (is_dir($dir . $entry) && $entry != '.'
@@ -189,8 +194,8 @@ function getMapIds($project) {
     
     $mapIds = array();
     $dir = CARTOSERVER_HOME;
-    if ($project != '') {
-        $dir .= 'projects/' . $project . '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     $dir .= 'server_conf/';
     if (is_dir($dir)) {
@@ -215,11 +220,7 @@ function getTranslatedPo($project, $mapId) {
     $files = array();
     $d = dir(CARTOSERVER_PODIR);
 
-    $pattern = "server\\-";
-    if ($project != '') {
-        $pattern .= "$project\\.";
-    }
-    $pattern .= "$mapId\\.(.*)\\.po";          
+    $pattern = "server\\-$project\\.$mapId\\.(.*)\\.po";          
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir(CARTOSERVER_PODIR . $entry)) {
@@ -235,7 +236,7 @@ function getTranslatedPo($project, $mapId) {
 
 $projects = getProjects();
 // Adds default project
-$projects[] = '';
+$projects[] = ProjectHandler::DEFAULT_PROJECT;
 
 foreach ($projects as $project) {
 
@@ -244,11 +245,7 @@ foreach ($projects as $project) {
     foreach ($mapIds as $mapId) {
     
         $texts = array();
-        $fileName = 'server-';
-        if ($project != '') {
-            $fileName .= $project . '.';
-        }
-        $fileName .= $mapId . '.po';
+        $fileName = 'server-' . $project . '.' . $mapId . '.po';
         $file = CARTOSERVER_PODIR . $fileName;
 
         print "Creating new template $fileName ";

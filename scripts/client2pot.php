@@ -27,6 +27,11 @@ define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
  */
 require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
 
+/**
+ * Project handler class for constants
+ */
+require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+
 // smarty open tag
 $ldq = preg_quote('{');
 
@@ -66,10 +71,9 @@ function do_file($file, &$texts, &$plurals) {
 
     global $ldq, $rdq, $cmd;
 
-    $regexp = sprintf("/{%s}\s*({%s})\s*([^{%s}]*){%s}([^{%s}]*){%s}\/\\1{%s}/",
-                      $ldq, $cmd, $rdq, $rdq, $ldq, $ldq, $rdq);
-
-    preg_match_all($regexp, $content, $matches);
+    preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*)"
+                   . "{$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/",
+                   $content, $matches);
     
     for ($i = 0; $i < count($matches[0]); $i++) {
         $text = fs($matches[3][$i]);
@@ -89,7 +93,7 @@ function do_file($file, &$texts, &$plurals) {
 /**
  * Goes through a directory
  * @param string
- * @param string project name or ''
+ * @param string project name or 'default'
  * @param array map text_to_translate => references
  * @param array map of texts plurals
  */
@@ -99,9 +103,10 @@ function do_dir($dir, $project, &$texts, &$plurals) {
     // - no projects set and not in projects directory, or
     // - project set and not in projects directory OR in this specific project
     // directory
-    if (($project == '' && !strstr($dir, 'projects/'))
-        || ($project != ''
-            && (strstr($dir, 'projects/' . $project)))) {
+    if (($project == ProjectHandler::DEFAULT_PROJECT
+         && !strstr($dir, ProjectHandler::PROJECT_DIR . '/'))
+        || ($project != ProjectHandler::DEFAULT_PROJECT
+            && (strstr($dir, ProjectHandler::PROJECT_DIR . '/' . $project)))) {
 
         $d = dir($dir);
     
@@ -110,10 +115,10 @@ function do_dir($dir, $project, &$texts, &$plurals) {
                 continue;
             }
     
-            $entry = $dir.$entry.'/';
+            $entry = $dir.$entry;
 
             if (is_dir($entry)) { // if a directory, go through it
-                do_dir($entry, $project, $texts, $plurals);
+                do_dir($entry . '/', $project, $texts, $plurals);
             } else { // if file, parse only if extension is matched
                 $pi = pathinfo($entry);
                 
@@ -138,8 +143,8 @@ function getCharset($project) {
     $class = null;
     $iniFile = CARTOCLIENT_HOME;
     $projectIniFile = CARTOCLIENT_HOME;
-    if ($project != '') {
-        $projectIniFile .= 'projects/' . $project. '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniFile .= 'client_conf/client.ini';
     $projectIniFile .= 'client_conf/client.ini';
@@ -170,7 +175,7 @@ function getCharset($project) {
 function getProjects() {
 
     $projects = array();
-    $dir = CARTOCLIENT_HOME . 'projects/';
+    $dir = CARTOCLIENT_HOME . ProjectHandler::PROJECT_DIR . '/';
     $d = dir($dir);
     while (false !== ($entry = $d->read())) {
         if (is_dir($dir . $entry) && $entry != '.'
@@ -192,12 +197,7 @@ function getTranslatedPo($project) {
     $dir = CARTOCLIENT_HOME . 'po/';
     $d = dir($dir);
 
-    $pattern = "client\\-";
-    if ($project == '') {
-        $pattern .= "default\\.(.*)\\.po";
-    } else {
-        $pattern .= "$project\\.(.*)\\.po";
-    }
+    $pattern = "client\\-$project\\.(.*)\\.po";
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir($dir . $entry)) {
@@ -220,8 +220,8 @@ function getTranslatedPo($project) {
 function parseIni($project, &$texts) {
 
     $iniPath = CARTOCLIENT_HOME;
-    if ($project != '') {
-        $iniPath .= 'projects/' . $project. '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniPath .= 'client_conf/';
     
@@ -250,13 +250,13 @@ function parseIni($project, &$texts) {
 
 $projects = getProjects();
 // Adds default project
-$projects[] = '';
+$projects[] = ProjectHandler::DEFAULT_PROJECT;
 
 foreach ($projects as $project) {
 
     $dir = CARTOCLIENT_HOME;
-    if ($project != '') {
-        $dir .= 'projects/' . $project . '/';
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     if (is_dir($dir)) {
     
@@ -264,10 +264,7 @@ foreach ($projects as $project) {
         $texts = array();
         $plurals = array();
 
-        $fileName = 'client-default.po';
-        if ($project != '') {
-            $fileName = 'client-' . $project . '.po';
-        }
+        $fileName = 'client-' . $project . '.po';
 
         print "Creating new template $fileName ";
 

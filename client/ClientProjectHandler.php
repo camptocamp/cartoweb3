@@ -81,7 +81,7 @@ class ClientProjectHandler extends ProjectHandler {
             else if (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_SERVER))
                 $this->projectName = $_SERVER['REDIRECT_' . self::PROJECT_ENV_VAR];
 
-            else $this->projectName = NULL;
+            else $this->projectName = ProjectHandler::DEFAULT_PROJECT;
             
             $this->log->debug("current project is " . $this->projectName);
         }

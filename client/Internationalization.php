@@ -12,7 +12,6 @@
  * @package Client
  */
 class I18n {
-    const DEFAULT_PROJECT_DOMAIN = 'default';
     
     /**
      * Translator
@@ -30,7 +29,7 @@ class I18n {
         self::$i18n = new $config->I18nClass;
        
         self::setLocale($config->defaultLang);
-        
+
         self::$i18n->bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
         
         self::$i18n->textdomain($config->mapId);
