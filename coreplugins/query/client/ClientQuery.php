@@ -245,25 +245,84 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $querySelection->tableFlags->returnAttributes =
                                           self::DEFAULT_ATTRIBUTES;
         $querySelection->tableFlags->returnTable = true;
+        $querySelection->selectedIds = array();
         $this->queryState->querySelections[] = $querySelection;
         
         return $querySelection;
     }
 
     /**
-     * @see GuiProvider::handleHttpPostRequest()
+     * Handles standard parameters
+     * @param QueryRequest
+     * @param boolean
      */
-    public function handleHttpPostRequest($request) {
+    private function handleStandardParameters($request, $check = false) {
 
-        $this->bbox = $this->cartoclient->getHttpRequestHandler()
-                        ->handleTools($this);
+        // Handles simple layer selection
+        $queryLayer    = $this->getHttpValue($request, 'query_layer');
+        $querySelect   = $this->getHttpValue($request, 'query_select');    
+        $queryUnSelect = $this->getHttpValue($request, 'query_unselect');    
+        $queryPolicy   = $this->getHttpValue($request, 'query_policy');    
+        $queryMaskMode = $this->getHttpValue($request, 'query_maskmode');    
+        $queryRetAttr  = $this->getHttpValue($request, 'query_return_attributes');    
+    
+        $queryLayers = array();
+        $queryLayersLabel = array();
+        $this->getLayers($queryLayers, $queryLayersLabel);
 
-        $this->handleQuery($request);
-
-        if (!$this->getConfig()->displayExtendedSelection) {
-            return;
+        if ($check) {
+            if (!is_null($queryLayer)
+                && !in_array($queryLayer, $queryLayers)) {
+                $this->cartoclient->addMessage('Selection layer not found');
+                return;
+            }
+            if (!$this->checkBool($queryMaskMode, 'query_maskmode'))
+                return;            
+            if (!$this->checkBool($queryRetAttr, 'query_return_attributes'))
+                return;
+        }            
+    
+        if (!is_null($queryLayer)) {
+        
+            // Query on only one layer
+            $this->queryState->queryAllLayers = false; 
+        
+            // Finds out if layer has been already queried            
+            $querySelection = $this->findQuerySelection($queryLayer);
+            if (is_null($querySelection)) {
+                $querySelection = $this->addDefaultQuerySelection($queryLayer);
+            }
+                       
+            if (!is_null($querySelect)) {                
+                $selectIds = urldecode($querySelect);
+                $selectIds = explode(',', $selectIds);            
+                $querySelection->selectedIds = array_merge(
+                    $querySelection->selectedIds, $selectIds);
+                $querySelection->selectedIds = array_unique(
+                    $querySelection->selectedIds);
+            }
+        
+            if (!is_null($queryUnSelect)) {
+                $unselectIds = urldecode($queryUnSelect);
+                $unselectIds = explode(',', $unselectIds);
+                $querySelection->selectedIds = array_diff(
+                    $querySelection->selectedIds, $unselectIds);
+            }
+            
+            $querySelection->policy = $queryPolicy;
+            $querySelection->maskMode = $queryMaskMode;
+            $querySelection->tableFlags = new TableFlags();
+            $querySelection->tableFlags->returnAttributes = $queryRetAttr;
+            $querySelection->tableFlags->returnTable = true;
         }
-
+    }
+    
+    /**
+     * Handles parameters coming from complete form
+     * @param QueryRequest
+     */
+    private function handleCompleteForm($request) {
+    
         // Handles form table
         $queryAllLayers  = $this->getHttpValue($request, 'query_alllayers');
         $queryLayerIds   = $this->getHttpValue($request, 'query_layerid');
@@ -315,66 +374,33 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     }
 
     /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpPostRequest($request) {
+
+        $this->bbox = $this->cartoclient->getHttpRequestHandler()
+                        ->handleTools($this);
+
+        $this->handleQuery($request);
+
+        if (!$this->getConfig()->displayExtendedSelection) {
+        
+            // Complete form is disabled, handles same parameters as Get request
+            $this->handleStandardParameters($request);
+            return;
+        }
+
+        $this->handleCompleteForm($request);
+    }
+
+    /**
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
 
         $this->handleQuery($request, true);
 
-        // Handles simple layer selection
-        $queryLayer    = $this->getHttpValue($request, 'query_layer');
-        $querySelect   = $this->getHttpValue($request, 'query_select');    
-        $queryUnSelect = $this->getHttpValue($request, 'query_unselect');    
-        $queryPolicy   = $this->getHttpValue($request, 'query_policy');    
-        $queryMaskMode = $this->getHttpValue($request, 'query_maskmode');    
-        $queryRetAttr  = $this->getHttpValue($request, 'query_return_attributes');    
-    
-        $queryLayers = array();
-        $queryLayersLabel = array();
-        $this->getLayers($queryLayers, $queryLayersLabel);
-        if (!is_null($queryLayer)
-            && !in_array($queryLayer, $queryLayers)) {
-            $this->cartoclient->addMessage('Selection layer not found');
-            return NULL;
-        }
-        if (!$this->checkBool($queryMaskMode, 'query_maskmode'))
-            return NULL;            
-        if (!$this->checkBool($queryRetAttr, 'query_return_attributes'))
-            return NULL;            
-
-        if (!is_null($queryLayer)) {
-        
-            // Query on only one layer
-            $this->queryState->queryAllLayers = false; 
-        
-            // Finds out if layer has been already queried            
-            $querySelection = $this->findQuerySelection($queryLayer);
-            if (is_null($querySelection)) {
-                $querySelection = $this->addDefaultQuerySelection($queryLayer);
-            }
-                       
-            if (!is_null($querySelect)) {                
-                $selectIds = urldecode($querySelect);
-                $selectIds = explode(',', $selectIds);            
-                $querySelection->selectedIds = array_merge(
-                    $querySelection->selectedIds, $selectIds);
-                $querySelection->selectedIds = array_unique(
-                    $querySelection->selectedIds);
-            }
-        
-            if (!is_null($queryUnSelect)) {
-                $unselectIds = urldecode($queryUnSelect);
-                $unselectIds = explode(',', $unselectIds);
-                $querySelection->selectedIds = array_diff(
-                    $querySelection->selectedIds, $unselectIds);
-            }
-            
-            $querySelection->policy = $queryPolicy;
-            $querySelection->maskMode = $queryMaskMode;
-            $querySelection->tableFlags = new TableFlags();
-            $querySelection->tableFlags->returnAttributes = $queryRetAttr;
-            $querySelection->tableFlags->returnTable = true;
-        }
+        $this->handleStandardParameters($request, true);
     }
 
     /**
