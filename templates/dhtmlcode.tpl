@@ -101,6 +101,8 @@
       myform.onsubmit = function() {
         xShow(xGetElementById('mapAnchorDiv'));
       }
+      
+      if (typeof onLoadString == "string") eval(onLoadString);
     }
     /*]]>*/
   </script>

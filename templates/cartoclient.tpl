@@ -3,17 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+  <title>{t}Cartoclient Title{/t}</title>
+  
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+  <meta name="author" content="Sylvain Pasche" />
+  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
+  
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
-  <meta name="author" content="Sylvain Pasche" />
-  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
-  <title>{t}Cartoclient Title{/t}</title>
+  {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
+  {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    var hideKeymapMsg = "{t}Collapse keymap{/t}";
+    var showKeymapMsg = "{t}Show keymap{/t}";
+    var hideKeymap = {$collapseKeymap};
+    //-->
+  </script>
+  {/if}
   
   {include file="dhtmlcode.tpl"}
 </head>
@@ -28,6 +40,9 @@
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
+  {if $collapsibleKeymap|default:''}
+  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+  {/if}
 {if $outline_active|default:''}
   {$outlinelabel}
 {/if}
@@ -142,7 +157,7 @@ ClientContext:
   
     <div id="folder1" class="folder">
     
-      {if $keymap_path|default:''}
+      {if $keymap_path|default:'' && !$collapsibleKeymap|default:''}
       <div id="keymap">
       <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
       style="width:{$keymap_width}px;height:{$keymap_height}px;" />
@@ -197,11 +212,13 @@ ClientContext:
    {$auth}
    {/if}
 
+</form>
+
 {if $exportPdf|default:''}
 <div id="folder3" class="folder">
 {$exportPdf}
 </div>
 {/if}
-</form>
+
 </body>
 </html>
