@@ -36,7 +36,13 @@
               <listitem>
                 <para>Gettext (optional): You need the Gettext module if you want
                   to enable the Internationalisation in &cartoweb;. See
-                  <xref linkend="user.i18n"/> for configuration</para>
+                  <xref linkend="user.i18n"/> for configuration.
+                  <note>
+                    <para> If you are using the demo, you need to have Gettext
+                      support installed, as it uses Gettext by default.
+                    </para>
+                  </note>
+                </para>
               </listitem>
               <listitem>
                 <para>Curl (optional): Some scripts (like i18n) need Curl 
@@ -97,6 +103,10 @@
           If it is not the case, &cartoweb; will not run correctly. You should
           install and setup PHP and PHP MapScript correctly. See 
             <xref linkend="user.install.prerequisite"/>.
+        </para>
+        <para>
+          If you intend to use the &cartoweb; demo, you need to have a section
+          called Gettext in the previous output.
         </para>
       </listitem>
       <listitem>
