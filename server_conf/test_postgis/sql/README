@@ -1,7 +1,7 @@
 How to upload data
 ==================
 
-1) create a postgis database:
+1) create a postgis database named "test_postgis":
 
 see /usr/share/postgis/README.postgis
 
