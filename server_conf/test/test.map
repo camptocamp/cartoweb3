@@ -281,6 +281,8 @@ MAP
     STATUS DEFAULT
     METADATA
   	  "id_attribute_string" "FID|string"
+  	  "mask_transparency" "50"
+  	  "mask_color" "255, 255, 0"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -305,6 +307,8 @@ MAP
     STATUS DEFAULT
     METADATA
   	  "id_attribute_string" "FID|string"
+  	  "mask_transparency" "50"
+  	  "mask_color" "255, 255, 0"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -409,8 +413,6 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
-    METADATA
-    END
     DATA "gridmask"
     TEMPLATE "ttt"
     TRANSPARENCY 90
@@ -420,6 +422,26 @@ MAP
       STYLE
         COLOR 255 255 255
         OUTLINECOLOR 255 255 255
+      END
+    END
+  END
+
+  LAYER
+    NAME "default_outside_mask"
+    TYPE POLYGON
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "gridmask"
+    TEMPLATE "ttt"
+    TRANSPARENCY 50
+
+    CLASS
+      NAME "grid_class"
+      STYLE
+        COLOR 255 255 0
+        OUTLINECOLOR 255 255 0
       END
     END
   END
