@@ -1,3 +1,18 @@
-; mainmap width and height:
-mapWidth = 400
-mapHeight = 300
+mapSizesActive = true
+mapSizesDefault = 1
+
+mapSizes.0.label = small
+mapSizes.0.width = 300
+mapSizes.0.height = 150
+
+mapSizes.1.label = normal
+mapSizes.1.width = 400
+mapSizes.1.height = 300
+
+mapSizes.2.label = big
+mapSizes.2.width = 800
+mapSizes.2.height = 600
+
+mapSizes.3.label = giant
+mapSizes.3.width = 1400
+mapSizes.3.height = 1000
