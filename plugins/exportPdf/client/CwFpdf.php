@@ -216,6 +216,10 @@ class cFPDF extends FPDF {
         $this->p->SetLineWidth($borderWidth);
     }
 
+    /**
+     * Sets text styles (font, underline, bold, italic, color).
+     * @param PdfBlock
+     */
     private function setTextLayout(PdfBlock $block) {
         $fontStyle = false;
         if ($block->fontBold) $fontStyle .= 'B';
@@ -227,6 +231,10 @@ class cFPDF extends FPDF {
         $this->p->SetTextColor($color[0], $color[1], $color[2]);
     }
 
+    /**
+     * Sets block container styles (border width and color, background color).
+     * @param PdfBlock
+     */
     private function setBoxLayout(PdfBlock $block) {
         $this->setLineWidth($block->borderWidth);        
         $this->setDrawColor($block->borderColor);
@@ -318,7 +326,13 @@ class cFPDF extends FPDF {
             $this->p->Rect($x0, $y0, $block->width, $block->height, 'D');
     }
 
-    function addTableCell($text, $width, $height) {
+    /**
+     * @param string textual content
+     * @param float width
+     * @param float height
+     * @see PdfWriter::addTableCell()
+     */
+    private function addTableCell($text, $width, $height) {
         // TODO: handle text alignment
         $x = $this->p->GetX();
         $y = $this->p->GetY();
@@ -326,6 +340,12 @@ class cFPDF extends FPDF {
         $this->p->SetXY($x + $width, $y);
     }
 
+    /**
+     * If there is not enough space to add a table row, adds a new page.
+     * @param PdfBlock
+     * @param float height of next row
+     * @return boolean true if new page added, else false
+     */
     private function splitMultiPageTable(PdfBlock $block, $height) {
         // TODO: find a better way to avoid overlapping of potential footer
         // block (what about headers?) than:
@@ -342,7 +362,13 @@ class cFPDF extends FPDF {
         return false;
     }
 
-    function addTableRow(PdfBlock $block, TableElement $table, $row) {
+    /**
+     * @param PdfBlock
+     * @param TableElement
+     * @param array row data
+     * @see PdfWriter::addTableRow()
+     */
+    private function addTableRow(PdfBlock $block, TableElement $table, $row) {
         if (!is_array($row) && !is_object($row))
             $row = array($row);
 
@@ -365,7 +391,11 @@ class cFPDF extends FPDF {
         $this->p->Ln();
     }
 
-    function addTableCaption(TableElement $table) {
+    /**
+     * Draws table title row (cf. HTML caption element).
+     * @param TableElement
+     */
+    private function addTableCaption(TableElement $table) {
         $block = $table->caption;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
@@ -383,20 +413,29 @@ class cFPDF extends FPDF {
         $this->p->Ln();
     }
 
-    function addTableHeaders(TableElement $table) {
+    /**
+     * Draws table columns headers (columns titles) row.
+     * @param TableElement
+     */
+    private function addTableHeaders(TableElement $table) {
         $block = $table->headers;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
         $this->addTableRow($block, $table, $block->content);
     }
 
+    /**
+     * Sets table caption or headers blocks.
+     * @param PdfBlock main table block
+     * @param TableElement
+     * @param string type of table block (headers|caption) 
+     */
     private function setTableMeta(PdfBlock $block, TableElement $table,
                                   $meta) {
         if (isset($this->blocks[$block->$meta])) {
             $subBlock = clone $this->blocks[$block->$meta];
         } else {
-            $subBlock = clone $block;
-            $subBlock->content = '';
+            $subBlock = new PdfBlock;
         }
 
         if ($table->$meta)
@@ -405,6 +444,11 @@ class cFPDF extends FPDF {
         return $subBlock;
     }
 
+    /**
+     * Computes table columns widths using cells contents widths.
+     * @param PdfBlock
+     * @param TableElement
+     */
     private function setTableWidth(PdfBlock $block, TableElement $table) {
         if ($table->headers->content) {
             $this->setTextLayout($table->headers);
@@ -420,7 +464,8 @@ class cFPDF extends FPDF {
             foreach ($row as $id => $cell) {
                 $cellWidth = $this->p->GetStringWidth($cell)
                              + 2 * $block->padding;
-                if ($cellWidth > $table->colsWidth[$id])
+                if (!isset($table->colsWidth[$id]) || 
+                    $cellWidth > $table->colsWidth[$id])
                     $table->colsWidth[$id] = $cellWidth;
             }
             $nbCols = max($nbCols, count($row));
@@ -487,6 +532,10 @@ class cFPDF extends FPDF {
         }
     }
     
+    /**
+     * @param PdfBlock
+     * @see PdfWriter::addTable()
+     */
     function addTable(PdfBlock $block) {
         if (!is_array($block->content))
             $block->content = array($block->content);
@@ -542,6 +591,11 @@ class cFPDF extends FPDF {
         }
     }
 
+    /**
+     * Draws a legend element (icon + caption) line.
+     * @param PdfBlock legend block
+     * @param array legend element data
+     */
     private function addLegendItem(PdfBlock $block, $layer) {
         if (!$layer || !is_array($layer))
             return 0;
@@ -648,6 +702,10 @@ class cFPDF extends FPDF {
         return 1;
     }
 
+    /**
+     * @param PdfBlock
+     * @see PdfWriter::addLegend()
+     */
     function addLegend(PdfBlock $block) {
         if (!$block->content || !is_array($block->content))
             return;

@@ -515,12 +515,34 @@ interface PdfWriter {
      * @param PdfBlock
      */
     function addGfxBlock(PdfBlock $block);
-    
+   
+    /**
+     * Draws a tabular element cell.
+     * @param string textual content
+     * @param float width
+     * @param float height
+    */
     function addTableCell($text, $width, $height);
     
+    /**
+     * Draws a table row.
+     * @param PdfBlock
+     * @param TableElement
+     * @param array row data
+     */
     function addTableRow(PdfBlock $block, TableElement $table, $row);
-    
+   
+    /**
+     * Draws a table block.
+     * @param PdfBlock
+     */
     function addTable(PdfBlock $block);
+   
+    /**
+     * Draws the legend block.
+     * @param PdfBlock
+     */
+    function addLegend(PdfBlock $block);
     
     /**
      * Performs final PDF operations and outputs document.
