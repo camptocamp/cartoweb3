@@ -106,7 +106,8 @@ ClientContext:
     
     <p>
       <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
-      id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span>
+      id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span><span
+      id="label3" class="label"><a href="javascript:ontop(3)">{t}PDF{/t}</a></span>
     </p>
 
     <div id="container"></div>
@@ -162,6 +163,12 @@ ClientContext:
     <!-- end of folder2 -->
 
 </form>
+
+{if $exportPdf|default:''}
+<div id="folder3" class="folder">
+{$exportPdf}
+</div>
+{/if}
 
 </body>
 </html>
