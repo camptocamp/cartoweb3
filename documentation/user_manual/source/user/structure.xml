@@ -276,11 +276,6 @@
        </listitem>
        <listitem>
         <para>
-         <filename>saved_post</filename>: ???
-        </para>
-       </listitem>
-       <listitem>
-        <para>
          <filename>soapxml_cache</filename>: Client SOAP XML requests
          and associated server results cache
         </para>
