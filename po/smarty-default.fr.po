@@ -1,0 +1,149 @@
+# CartoWeb 3 Smarty templates 
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2004-11-12 15:05+0100\n"
+"PO-Revision-Date: 2004-11-12 15:17+0100\n"
+"Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: coreplugins/images/templates/mapsizes.tpl/
+msgid "Mapsize:"
+msgstr "Taille carte :"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "expand tree"
+msgstr "déplier"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "close tree"
+msgstr "fermer"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "check all"
+msgstr "tout sélectionner"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "uncheck all"
+msgstr "tout déselectionner"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "more info on"
+msgstr "plus d'infos sur"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "Next visible scale:"
+msgstr "Prochaine échelle visible :"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "Zoom in to see layer"
+msgstr "Zoomer pour voir la couche"
+
+#: coreplugins/layers/templates/layers.tpl/
+msgid "Zoom out to see layer"
+msgstr "Dézoomer pour voir la couche"
+
+#: coreplugins/location/templates/recenter.tpl/
+msgid "X"
+msgstr "X"
+
+#: coreplugins/location/templates/recenter.tpl/
+msgid "Y"
+msgstr "Y"
+
+#: coreplugins/location/templates/recenter.tpl/
+msgid "Scale"
+msgstr "Echelle"
+
+#: coreplugins/location/templates/shortcuts.tpl/
+msgid "Shortcuts"
+msgstr "Raccourcis"
+
+#: coreplugins/location/templates/id_recenter.tpl/
+msgid "Layer to center on"
+msgstr "Couche pour le centrage"
+
+#: coreplugins/location/templates/id_recenter.tpl/
+msgid "Coma separated id's"
+msgstr "Id séparés par des virgules"
+
+#: plugins/outline/templates/outline.tpl/
+msgid "Draw"
+msgstr "Dessin"
+
+#: plugins/outline/templates/outline.tpl/
+msgid "Mask"
+msgstr "Masque"
+
+#: plugins/outline/templates/outline.tpl/
+msgid "Total area"
+msgstr "Surface totale"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "Selection information:"
+msgstr "Information de sélection :"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "Select a hilight layer"
+msgstr "Sélectionner une couche de surbrillance"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "Mask mode "
+msgstr "Mode masque"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "Selected elements:"
+msgstr "Eléments sélectionnés :"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "Selected id:"
+msgstr "Id sélectionné :"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "unselect id"
+msgstr "désélectionner Id"
+
+#: plugins/selection/templates/selection.tpl/
+msgid "clear selection"
+msgstr "effacer sélection"
+
+#: templates/cartoclient.tpl/
+msgid "scalebar_alt"
+msgstr "alt_barechelle"
+
+#: templates/cartoclient.tpl/
+msgid " User messages "
+msgstr "Messages utilisateurs"
+
+#: templates/cartoclient.tpl/
+msgid " Developer messages "
+msgstr "Messages développeurs"
+
+#: templates/cartoclient.tpl/
+msgid "keymap_alt"
+msgstr "alt_carteclef"
+
+#: templates/dhtmlcode.tpl/
+msgid "Main map"
+msgstr "Carte principale"
+
+#: templates/dhtmlcode.tpl/
+msgid "Approx. distance: "
+msgstr "Distance approx. :"
+
+#: templates/dhtmlcode.tpl/
+msgid "Approx. surface: "
+msgstr "Surface approx. :"
+
+#: templates/dhtmlcode.tpl/
+msgid "Coords (m): "
+msgstr "Coord. (m) :"
+
+#: templates/mainmap.tpl/
+msgid "Loading message"
+msgstr "Message d'attente"
+
