@@ -132,8 +132,13 @@ class DhtmlSelectionParser {
     
     function getMainmapShape($cartoForm, Dimension $imageSize, Bbox $bbox) {
 
-        if (HttpRequestHandler::isButtonPushed('mainmap'))
-            x('todo_non_dhml_mainmap');
+        if (HttpRequestHandler::isButtonPushed('mainmap')) {
+            $point = HttpRequestHandler::getButtonPixelPoint('mainmap');
+            $_REQUEST[self::SELECTION_TYPE] = 'point';
+            $_REQUEST[self::SELECTION_COORDS] = sprintf('%d,%d', $point->x, 
+                                                                 $point->y);
+        }
+
         $type = $_REQUEST[self::SELECTION_TYPE];
         if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
