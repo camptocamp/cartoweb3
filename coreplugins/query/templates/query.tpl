@@ -1,3 +1,4 @@
+{if $query_display_selection|default:''}
 <h3>{t}Query information:{/t}</h3>
 
 <table>
@@ -33,6 +34,8 @@
 <p>{t}Query all selected layers{/t}&nbsp;
 <input type="checkbox" value="1" name="query_alllayers"
         {if $query_alllayers} checked="checked"{/if}/>
-<br>{t}Clear selection{/t}&nbsp;
-<input type="checkbox" value="1" name="query_clear"/>
+</p>
+{/if}
+<p>
+<input type="submit" name="query_clear" value="{t}clear_query{/t}" class="form_button" />
 </p>
