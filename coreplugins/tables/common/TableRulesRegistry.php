@@ -401,12 +401,12 @@ class ColumnSelector extends TableRule {
                 
         if ($exclude) {
             $ids = array_diff($table->columnIds, $this->columnIds);
-            if (in_array("row_id", $this->columnIds)) {
+            if (in_array('row_id', $this->columnIds)) {
                 $table->noRowId = true;
             }
         } else {
             $ids = array_intersect($table->columnIds, $this->columnIds);
-            if (!in_array("row_id", $this->columnIds)) {
+            if (!in_array('row_id', $this->columnIds)) {
                 $table->noRowId = true;
             }
         }
@@ -673,8 +673,8 @@ class CellFilter extends CellRule {
                     $inputValues[$table->columnIds[$index]] = $value;
                 }
             } 
-            if (in_array("row_id", $this->inputColumnIds)) {
-                $inputValues["row_id"] = $row->rowId;
+            if (in_array('row_id', $this->inputColumnIds)) {
+                $inputValues['row_id'] = $row->rowId;
             }
             $row->cells[$indexes[$columnId]] =
                 call_user_func($this->callback, $table->tableId,
@@ -725,8 +725,8 @@ class CellFilterBatch extends CellFilter {
                     $inputValuesRow[$table->columnIds[$index]] = $value;
                 }
             } 
-            if (in_array("row_id", $this->inputColumnIds)) {
-                $inputValuesRow["row_id"] = $row->rowId;
+            if (in_array('row_id', $this->inputColumnIds)) {
+                $inputValuesRow['row_id'] = $row->rowId;
             }
             $inputValues[] = $inputValuesRow;
         }
@@ -861,8 +861,8 @@ class ColumnAdder extends TableFilter {
                     $inputValues[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
-            if (in_array("row_id", $this->inputColumnIds)) {
-                $inputValues["row_id"] = $row->rowId;
+            if (in_array('row_id', $this->inputColumnIds)) {
+                $inputValues['row_id'] = $row->rowId;
             }
             $result = call_user_func($this->callback, $table->tableId, $inputValues);
             $newCells = array();
@@ -981,8 +981,8 @@ class ColumnAdderBatch extends ColumnAdder {
                     $inputValuesRow[$columnId] = $row->cells[$oldIndexes[$columnId]];
                 }
             } 
-            if (in_array("row_id", $this->inputColumnIds)) {
-                $inputValuesRow["row_id"] = $row->rowId;
+            if (in_array('row_id', $this->inputColumnIds)) {
+                $inputValuesRow['row_id'] = $row->rowId;
             }
             $inputValues[] = $inputValuesRow;
         }
