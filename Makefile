@@ -39,6 +39,7 @@ clean: wwwdata_clean
 dirs:
 	-mkdir -p www-data/mapinfo_cache
 	-mkdir -p www-data/mapresult_cache
+	-mkdir -p www-data/soapxml_cache
 	-mkdir -p www-data/images
 	-mkdir -p www-data/saved_posts
 	-mkdir -p www-data/wsdl_cache
