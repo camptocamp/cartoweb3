@@ -26,7 +26,7 @@ class OutlineState {
 
 /**
  * Client Outline class
- * @package CorePlugins
+ * @package Plugins
  */
 class ClientOutline extends ClientPlugin
                     implements Sessionable, ServerCaller, ToolProvider {
@@ -56,10 +56,16 @@ class ClientOutline extends ClientPlugin
         parent::__construct();
     }
 
+    /**
+     * @see Sessionable::loadSession()
+     */
     function loadSession($sessionObject) {
         $this->outlineState = $sessionObject;
     }
 
+    /**
+     * @see Sessionable::createSession()
+     */
     function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
@@ -68,16 +74,25 @@ class ClientOutline extends ClientPlugin
         return;
     }
 
+    /**
+     * @see Sessionable::saveSession()
+     */
     function saveSession() {
         return $this->outlineState;
     }
 
+    /**
+     * @see ToolProvider::handleMainmapTool()
+     */
     function handleMainmapTool(ToolDescription $tool, 
                                Shape $mainmapShape) {
         
         return $mainmapShape;
     }
     
+    /**
+     * @see ToolProvider::handleKeymapTool()
+     */
     function handleKeymapTool(ToolDescription $tool, 
                             Shape $keymapShape) {
         /* nothing to do */
@@ -121,7 +136,7 @@ class ClientOutline extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::buildMapRequest
+     * @see ServerCaller::buildMapRequest()
      */
     function buildMapRequest($mapRequest) {
     
@@ -133,7 +148,7 @@ class ClientOutline extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::handleResult
+     * @see ServerCaller::handleResult()
      */ 
     function handleResult($outlineResult) {
         if (is_null($outlineResult)) {
