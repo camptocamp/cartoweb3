@@ -5,7 +5,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.pdf">
- <title>PDF export</title>
+ <title><indexterm><primary>PDF</primary></indexterm>PDF export</title>
  <subtitle>Plugin exportPdf</subtitle>
 
  <sect1 id="user.pdf.intro"> 
@@ -15,14 +15,14 @@
    using <filename>client_conf/exportPdf.ini</filename> parameters.
   </para>
   <para>
-   First part (<xref linkend="user.pdf.reference"/>) is a comprehensive reference of user-available configuration parameters. Second part (<xref linkend="user.pdf.tutorial"/>) is intended to be a small giving explantions and examples about how to configure the PDF exportation tool.
+   First part (<xref linkend="user.pdf.reference"/>) is a comprehensive reference of user-available configuration parameters. Second part (<xref linkend="user.pdf.tutorial"/>) is intended to be a small tutorial giving explanations and examples about how to configure the PDF exportation tool.
   </para>
  </sect1>
 
  <sect1 id="user.pdf.reference">
   <title>Configuration Reference</title>
   <sect2 id="user.pdf.reference.general"> 
-   <title>General Configuration</title>
+   <title><indexterm><primary>General configuration, PDF</primary></indexterm>General Configuration</title>
    <para>
     Parameters are named using a &lt;object&gt;.&lt;property&gt; convention.
     These parameters are grouped within dedicated objects 
@@ -47,79 +47,78 @@ formats.A4.bigDimension = 297]]></programlisting>
     To factorize blocks description, it is possible to describe a 
     "template" block object that defines the default configuration
     of blocks. Those default settings are then overriden by each
-    block specifical description.
+    block specific description.
    </para>
    <para>
     <itemizedlist>
      <listitem>
       <para>
-       general.formats (comma-separated list of strings): ids of available 
+       <parameter>general.formats</parameter> (comma-separated list of strings): ids of available 
        sheet sizes. Must match format objects names 
-       (see Formats configuration below).
+       (see <link linkend="user.pdf.reference.format">Formats configuration</link> below).
       </para>
      </listitem>
      <listitem>
       <para>
-       general.defaultFormat (string): default selected/used format. 
+       <parameter>general.defaultFormat</parameter> (string): default selected/used format. 
        Must be one of the above list items.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.resolutions (comma-separated list of integers): 
-       list of available resolution in dot-per-inch (dpi).
+       <parameter>general.resolutions</parameter> (comma-separated list of integers): 
+       list of available resolutions in dot-per-inch (dpi).
       </para>
      </listitem>
      <listitem>
       <para>
-       general.mapServerResolution (integer): resolution set in mapfile.
+       <parameter>general.mapServerResolution</parameter> (integer): resolution set in mapfile.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.defaultResolution (integer): default selected/used
+       <parameter>general.defaultResolution</parameter> (integer): default selected/used
        resolution. Must be one of the above list items.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.defaultOrientation (portrait|landscape): sheet 
+       <parameter>general.defaultOrientation</parameter> (portrait|landscape): sheet 
        orientation. The same orientation is used for every pages 
        of the PDF document.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.activatedBlocks (comma-separated list of strings): names
+       <parameter>general.activatedBlocks</parameter> (comma-separated list of strings): names
        of blocks that will be used in the document. Names must match
-       block objects names. See Blocks configuration section.
+       block objects names. See <link linkend="user.pdf.reference.block">Blocks configuration</link> section.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.overviewScaleFactor (float): sets the extension of the 
-       overview map. The bigger this parameter, the wider the extension. 
+       <parameter>general.overviewScaleFactor</parameter> (float): sets the extension of the overview map. The bigger this parameter, the wider the extension. 
        Default: 10.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.pdfEngine (CwFpdf|PdfLibLite): name of the PDF engine to
+       <parameter>general.pdfEngine</parameter> (CwFpdf|PdfLibLite): name of the PDF engine to
        use. For now only FPDF is available and must be called using 
        "CwFpdf" pdfEngine value. A PDFLib Lite version is (very) 
-       partially implemented and as a result should not be used 
+       partially implemented and as a result should not be used for now
        (pdfEngine value: "PdfLibLite").
       </para>
      </listitem>
      <listitem>
       <para>
-       general.pdfVersion (string): PDF version that must be 
+       <parameter>general.pdfVersion</parameter> (string): PDF version that must be 
        used (only available with "PdfLibLite" pdfEngine).
       </para>
      </listitem>
      <listitem>
       <para>
-       general.output (inline|attachment|link|redirection): 
+       <parameter>general.output</parameter> (inline|attachment|link|redirection): 
        indicates how generated PDF file must be output (default: 
        redirection). "inline": file is generated and displayed on the 
        fly (might not work with buggy IE). "attachment": generated on 
@@ -132,7 +131,7 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       general.filename (string): indicates how generated PDF files 
+       <parameter>general.filename</parameter> (string): indicates how generated PDF files 
        must be named. It is possible to specify a date-formatting 
        using PHP date format (see <ulink 
        url="http://php.net/date">http://php.net/date</ulink>). Default is 
@@ -142,26 +141,26 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       general.distUnit (mm|cm|pt|in): unit used to measure blocks 
+       <parameter>general.distUnit</parameter> (mm|cm|pt|in): unit used to measure blocks 
        distance properties. Only one unit can be used in the 
        whole configuration.
       </para>
      </listitem>
      <listitem>
       <para>
-       general.horizontalMargin (float): horizontal distance between
+       <parameter>general.horizontalMargin</parameter> (float): horizontal distance between
        the sheet border and the useful area (in distUnit).
       </para>
      </listitem>
      <listitem>
       <para>
-       general.verticalMargin (float): vertical distance between the
+       <parameter>general.verticalMargin</parameter> (float): vertical distance between the
        sheet border and the useful area (in distUnit).
       </para>
      </listitem>
      <listitem>
       <para>
-        general.allowedRoles (comma-separated list of strings): list of roles allowed to print PDF documents.
+        <parameter>general.allowedRoles</parameter> (comma-separated list of strings): list of roles allowed to print PDF documents.
       </para>
      </listitem>
     </itemizedlist>
@@ -249,7 +248,7 @@ formats.A4.bigDimension = 297]]></programlisting>
   </sect2>
  
   <sect2 id="user.pdf.reference.format"> 
-   <title>Formats Configuration</title>
+   <title><indexterm><primary>Formats configuration, PDF</primary></indexterm>Formats Configuration</title>
    <para>
     Formats are described as a set of "formats" sub-objects. For instance:
    </para>
@@ -263,39 +262,39 @@ formats.A3.bigDimension = 420]]></programlisting>
     <itemizedlist>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.label (string): user-friendly name. Is 
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.label</parameter> (string): user-friendly name. Is 
        translated using Cw3I18n device <xref linkend="user.i18n"/>.
       </para>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.bigDimension (float): 
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.bigDimension</parameter> (float): 
        largest sheet side (in distUnit).
       </para>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.smallDimension (float): 
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.smallDimension</parameter> (float): 
        smallest sheet side (in distUnit).
       </para>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.horizontalMargin (float):
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.horizontalMargin</parameter> (float):
        optional, if set, overrides general.horizontalMargin for 
        the given format.
       </para>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.verticalMargin (float): 
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.verticalMargin</parameter> (float): 
        optional, if set, overrides general.verticalMargin 
        for the given format.
       </para>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.maxResolution (integer): 
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.maxResolution</parameter> (integer): 
        optional, maximum allowed resolution for the given format.
        If selected resolution is above maxResolution, it will 
        be set to maxResolution value.
@@ -303,19 +302,19 @@ formats.A3.bigDimension = 420]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       formats.&lt;format_name&gt;.allowedRoles (comma-separated list of strings): list of roles allowed to use the format.
+       <parameter>formats.</parameter>&lt;format_name&gt;<parameter>.allowedRoles</parameter> (comma-separated list of strings): list of roles allowed to use the format.
       </para>
      </listitem>
     </itemizedlist>
    </para>
    <para>
     PHP built-in default values: all format parameters have 
-    NULL default values except allowedRoles ("all").
+    NULL default values except <parameter>allowedRoles</parameter> ("all").
    </para>
   </sect2>
  
   <sect2 id="user.pdf.reference.block"> 
-   <title>Blocks Configuration</title>
+   <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks Configuration</title>
    <para>
     All blocks parameters are optional since default values are 
     hard-coded in the PDF export plugin PHP code (see code 
@@ -335,7 +334,7 @@ blocks.title.verticalBasis = top
 blocks.title.verticalMargin = 15]]></programlisting>
    <para>
     "Template"-described properties have a global scope whereas "blocks"
-    ones are specifical to the given block. Properties names are identical 
+    ones are specific to the given block. Properties names are identical 
     for both "template" and "blocks" objects. Properties not related with
     the given block type are generally ignored (for instance "fontSize" 
     is not taken into account if block is an image). A lots of properties 
@@ -345,13 +344,13 @@ blocks.title.verticalMargin = 15]]></programlisting>
     <itemizedlist>
      <listitem>
       <para>
-       type (text|image|table|legend): block type, indicates what kind 
+       <parameter>type</parameter> (text|image|table|legend): block type, indicates what kind 
        of processing must be applied.
       </para>
      </listitem>
      <listitem>
       <para>
-       content (string): optional, for "text" blocks: the textual content 
+       <parameter>content</parameter> (string): optional, for "text" blocks: the textual content 
        ; for "image" blocks, the image filename ; for "table" blocks, 
        a comma-separated list of textual content (limited to one row, 
        commas delimit cells).
@@ -359,188 +358,188 @@ blocks.title.verticalMargin = 15]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       fontFamily (string): name of font family to use. Naming
+       <parameter>fontFamily</parameter> (string): name of font family to use. Naming
        depends on used pdfEngine.
       </para>
      </listitem>
      <listitem>
       <para>
-       fontSize (float) : font size in points (pt)
+       <parameter>fontSize</parameter> (float) : font size in points (pt)
       </para>
      </listitem>
      <listitem>
       <para>
-       fontItalic (boolean): if true, text will be emphacized.
+       <parameter>fontItalic</parameter> (boolean): if true, text will be emphasized.
       </para>
      </listitem>
      <listitem>
       <para>
-       fontBold (boolean): if true, text will be bold-weighted.
+       <parameter>fontBold</parameter> (boolean): if true, text will be bold-weighted.
       </para>
      </listitem>
      <listitem>
       <para>
-       fontUnderline (boolean): if true, text will be underlined.
+       <parameter>fontUnderline</parameter> (boolean): if true, text will be underlined.
       </para>
      </listitem>
      <listitem>
       <para>
-       color (string): color of text in hexadecimal code #rrggbb.
+       <parameter>color</parameter> (string): color of text in hexadecimal code #rrggbb.
        A few color aliases ("white", "black") are available as well.
       </para>
      </listitem>
      <listitem>
       <para>
-       backgroundColor (string): background color in hexadecimal
+       <parameter>backgroundColor</parameter> (string): background color in hexadecimal
        code or color aliases.
       </para>
      </listitem>
      <listitem>
       <para>
-       borderWidth (float): border line width in distUnit.
+       <parameter>borderWidth</parameter> (float): border line width in distUnit.
       </para>
      </listitem>
      <listitem>
       <para>
-       borderColor (string): border line color in hexadecimal
+       <parameter>borderColor</parameter> (string): border line color in hexadecimal
        code or color aliases.
       </para>
      </listitem>
      <listitem>
       <para>
-       borderStyle (solid|dashed|dotted): border line style. 
+       <parameter>borderStyle</parameter> (solid|dashed|dotted): border line style. 
        Only available with "PdfLibLite" pdfEngine. "solid" value
        is used for other pdfEngines.
       </para>
      </listitem>
      <listitem>
       <para>
-       padding (float): vertical and horizontal distance between
+       <parameter>padding</parameter> (float): vertical and horizontal distance between
        block content and its borders in distUnit.
       </para>
      </listitem>
      <listitem>
       <para>
-       horizontalMargin (float): horizontal margin in distUnit
+       <parameter>horizontalMargin</parameter> (float): horizontal margin in distUnit
        around the block (outside borders).
       </para>
      </listitem>
      <listitem>
       <para>
-       verticalMargin (float): vertical margin in distUnit around 
+       <parameter>verticalMargin</parameter> (float): vertical margin in distUnit around 
        the block (outside borders).
       </para>
      </listitem>
      <listitem>
       <para>
-       horizontalBasis (left|right): indicates what document side 
+       <parameter>horizontalBasis</parameter> (left|right): indicates what document side 
        must be used for horizontal positioning.
       </para>
      </listitem>
      <listitem>
       <para>
-       verticalBasis (top|bottom): indicates what document side must
+       <parameter>verticalBasis</parameter> (top|bottom): indicates what document side must
        be used for vertical positioning.
       </para>
      </listitem>
      <listitem>
       <para>
-       hCentered (boolean): if true, block is horizontally centered
+       <parameter>hCentered</parameter> (boolean): if true, block is horizontally centered
        (overloads horizontalBasis property).
       </para>
      </listitem>
      <listitem>
       <para>
-       vCentered (boolean): if true, block is vertically centered
+       <parameter>vCentered</parameter> (boolean): if true, block is vertically centered
        (overloads verticalBasis property).
       </para>
      </listitem>
      <listitem>
       <para>
-       textAlign (center|left|right): indicates how content must be 
+       <parameter>textAlign</parameter> (center|left|right): indicates how content must be 
        horizontally aligned within the block extent.
       </para>
      </listitem>
      <listitem>
       <para>
-       verticalAlign (center|top|bottom): indicates how content must
+       <parameter>verticalAlign</parameter> (center|top|bottom): indicates how content must
        be vertically aligned within the block extent.
       </para>
      </listitem>
      <listitem>
       <para>
-       orientation (horizontal|vertical): indicates if content will be 
+       <parameter>orientation</parameter> (horizontal|vertical): indicates if content will be 
        displayed form left to right or from bottom to top (only for 
        text blocks).
       </para>
      </listitem>
      <listitem>
       <para>
-       zIndex (integer): indicates how overlapping blocks must be stacked.
+       <parameter>zIndex</parameter> (integer): indicates how overlapping blocks must be stacked.
        The higher the zIndex, the higher the block in the stack (foreground).
       </para>
      </listitem>
      <listitem>
       <para>
-       weight (integer): indicates in what order, blocks with the same
-       zIndex must be processed. Low-weighted blocks are handle first.
+       <parameter>weight</parameter> (integer): indicates in what order, blocks with the same
+       zIndex must be processed. Low-weighted blocks are handled first.
       </para>
      </listitem>
      <listitem>
       <para>
-       inNewPage (boolean): indicates if a new page must be added before
+       <parameter>inNewPage</parameter> (boolean): indicates if a new page must be added before
        printing the block.
       </para>
      </listitem>
      <listitem>
       <para>
-       inLastPages (boolean): indicates if block must be added in a new
+       <parameter>inLastPages</parameter> (boolean): indicates if block must be added in a new
        page at the end of the document.
       </para>
      </listitem>
      <listitem>
       <para>
-       width (float): block width in distUnit.
+       <parameter>width</parameter> (float): block width in distUnit.
       </para>
      </listitem>
      <listitem>
       <para>
-       height (float): block height in distUnit.
+       <parameter>height</parameter> (float): block height in distUnit.
       </para>
      </listitem>
      <listitem>
       <para>
-       multiPage (boolean): if true, given block will be displayed on 
+       <parameter>multiPage</parameter> (boolean): if true, given block will be displayed on 
        every document page.
       </para>
      </listitem>
      <listitem>
       <para>
-       parent (string): if specified, given block will be printed inside 
+       <parameter>parent</parameter> (string): if specified, current block will be printed inside 
        given parent block.
       </para>
      </listitem>
      <listitem>
       <para>
-       inFlow (boolean): if true, block will be printed right after previous
+       <parameter>inFlow</parameter> (boolean): if true, block will be printed right after previous
        block, preserving the vertical alignment.
       </para>
      </listitem>
      <listitem>
       <para>
-       caption (string): for "table" blocks only: name of separated block 
+       <parameter>caption</parameter> (string): for "table" blocks only: name of separated block 
        used to describe table caption formatting.
       </para>
      </listitem>
      <listitem>
       <para>
-       headers (string): for "table" blocks only: name of separated block
+       <parameter>headers</parameter> (string): for "table" blocks only: name of separated block
        used to describe table headers (colums titles) formatting.
       </para>
      </listitem>
      <listitem>
       <para>
-       allowedRoles (comma-separated list of strings): list of roles allowed to draw the current block.
+       <parameter>allowedRoles</parameter> (comma-separated list of strings): list of roles allowed to draw the current block.
       </para>
      </listitem>
     </itemizedlist>
@@ -767,41 +766,41 @@ blocks.title.verticalMargin = 15]]></programlisting>
     In addition, some data must be specified to describe the general document characteristics such as formats (pages size), orientation, available resolutions, PDF engine and more.
    </para>
    <para>
-    Note 1: a lot of parameters are not mandatory since they a have default values. See Pdf Export Doc for details about default parameters values.
+    Note 1: a lot of parameters are not mandatory since they a have default values. See above <link linkend="user.pdf.reference">reference</link> for details about default parameters values.
    </para>
    <para>
     Note 2: parameters containing several values are represented using comma-separated lists of strings/integers. If some values contain special characters such as accentuated letters, quotes or other exclamation marks, it may be wiser to encapsulate the whole parameter value between double quotes ("). 
    </para>
   </sect2>
 
-  <sect2 id="user.pdf.tutorial.general">
-   <title>General configuration</title>
-   <para>Two objects are available for general configuration:</para>
-   <sect3 id="user.pdf.tutorial.general.general">
-    <title>general</title>
+  <sect2 id="user.pdf.tutorial.overall">
+   <title><indexterm><primary>Overall configuration, PDF</primary></indexterm>Overall configuration</title>
+   <para>Two objects are available for overall configuration:</para>
+   <sect3 id="user.pdf.tutorial.overall.general">
+    <title><indexterm><primary>general object, PDF</primary></indexterm>general</title>
     <para>
-     This is where you can set the list of available resolutions and formats (made available to the user through dropdown menus). Use commas to separate the available values. defaultResolution and defaultFormat are used to preselect options in the matching dropdowns. If for some reason the system failed to determine what resolution and format the user desires, it will use those default values.
+     This is where you can set the list of available resolutions and formats (made available to the user through dropdown menus). Use commas to separate the available values. <parameter>defaultResolution</parameter> and <parameter>defaultFormat</parameter> are used to preselect options in the matching dropdowns. If for some reason the system failed to determine what resolution and format the user desires, it will use those default values.
     </para>
     <para>
      Specify the default orientation to select in user interface as well. You don't need to set a list of available orientations since it is already fixed to "portrait, landscape".
     </para>
     <para>
-     The mapServerResolution must be set according to the mapfile "resolution" property.
+     The <parameter>mapServerResolution</parameter> must be set according to the mapfile "resolution" property.
     </para>
     <para>
-     The activatedBlocks parameter lists the blocks that may be drawn in the document. It does not mean that they will. For instance the title block will not appear if no title input has been submitted by the user.
+     The <parameter>activatedBlocks</parameter> parameter lists the blocks that may be drawn in the document. It does not mean that they will. For instance the title block will not appear if no title input has been submitted by the user.
     </para>
     <para>
      Choose the PDF generator you want to use. For now only FPDF is fully available. PDFLib is only partially implemented and should not be used.
     </para>
     <para>
-     Set the output parameter in order to choose how the generated file will be served: download box, link, inline...
+     Set the <parameter>output</parameter> parameter in order to choose how the generated file will be served: download box, link, inline...
     </para>
     <para>
-     The distUnit parameter is very important since it sets the unit used to measure the length specified in every blocks. However it does not affect font sizes, that are always indicated in points (pt).
+     The <parameter>distUnit</parameter> parameter is very important since it sets the unit used to measure the length specified in every blocks. However it does not affect font sizes, that are always indicated in points (pt).
     </para>
     <para>
-     horizontalMargin and verticalMargin indicate how much space will be kept blank around each page. No block will be printed below these distances from the sheets borders. Note that these values can be overriden in the formats description. 
+     <parameter>horizontalMargin</parameter> and <parameter>verticalMargin</parameter> indicate how much space will be kept blank around each page. No block will be printed below these distances from the sheets borders. Note that these values can be overriden in the formats description. 
     </para>
     <para>For instance:</para>
     <programlisting><![CDATA[general settings
@@ -823,19 +822,19 @@ general.distUnit = mm
 general.horizontalMargin = 10
 general.verticalMargin = 10]]></programlisting>
    </sect3>
-   <sect3 id="user.pdf.tutorial.general.formats">
-    <title>formats</title>
+   <sect3 id="user.pdf.tutorial.overall.formats">
+    <title><indexterm><primary>formats object, PDF</primary></indexterm>formats</title>
     <para>
-     Formats objects describe the PDF pages sizes (bigDimension, smallDimension). One can describe as many formats as desired. Moreover there is no theoritical page size limit except that the bigger the maps, the longer the document generation.
+     Formats objects describe the PDF pages sizes (<parameter>bigDimension</parameter>, <parameter>smallDimension</parameter>). One can describe as many formats as desired. Moreover there is no theoritical page size limit except that the bigger the maps, the longer the document generation.
     </para>
     <para>
-     A format is determined by its biggest dimension (bigDimension) and its smallest dimension (smallDimension).
+     A format is determined by its biggest dimension (<parameter>bigDimension</parameter>) and its smallest dimension (<parameter>smallDimension</parameter>).
     </para>
     <para>
-     The label parameter will be translated using Cw3 I18n internationalization system. It is not required to be identical to the format object id. On the other hand, the latter id must be textually listed in general.formats parameter or else it will not be taken into account.
+     The <parameter>label</parameter> parameter will be translated using Cw3 I18n internationalization system (<xref linkend="user.i18n"/>). It is not required to be identical to the format object id. On the other hand, the latter id must be textually listed in <parameter>general.formats</parameter> parameter or else it will not be taken into account.
     </para>
     <para>
-     In addition, a couple of format parameters can be specified : horizontalMargin and verticalMargin override the corresponding general parameters if different margins must be applied for the given format. maxResolution indicates the highest allowed resolution for the given format: it enables to limit the applied resolution when, for instance, printing big-dimensioned maps.
+     In addition, a couple of format parameters can be specified: <parameter>horizontalMargin</parameter> and <parameter>verticalMargin</parameter> override the corresponding general parameters if different margins must be applied for the given format. <parameter>maxResolution</parameter> indicates the highest allowed resolution for the given format: it enables to limit the applied resolution when, for instance, printing big-dimensioned maps.
     </para>
     <para>
      For instance: 
@@ -855,21 +854,21 @@ formats.A3.maxResolution = 150]]></programlisting>
   </sect2>
 
   <sect2 id="user.pdf.tutorial.block">
-   <title>Blocks configuration</title>
+   <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks configuration</title>
    <para>
     Whatever their types (image, text, table, legend), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
    </para>
    <para>
-    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, 'queryResult', legend, page, scaleval, tlcoords, brcoords. System blocks should not be renamed.
+    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords. System blocks should not be renamed.
    </para>
    <para>
-    Note that blocks that are not mentioned in general.activatedBlocks won't be displayed in any case.
+    Note that blocks that are not mentioned in <parameter>general.activatedBlocks</parameter> won't be displayed in any case.
    </para>
    <programlisting><![CDATA[general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
                           page, legend, logo, scaleval, tlcoords, brcoords]]></programlisting>
 
    <sect3 id="user.pdf.tutorial.block.template">
-    <title>Block template and overriding</title>
+    <title><indexterm><primary>template object, PDF</primary></indexterm>Block template and overriding</title>
     <para>
      Since all blocks descriptions are based on the same PdfBlock object, a template block has been defined to factorize blocks common configuration (for instance font-family, background color, borders, padding, etc.). It is also a way to specify default blocks parameters values. It is then possible to personalize blocks by overriding those properties within the block own description. Blocks configuration overriding can be schemed as follows:
     </para>
@@ -905,15 +904,15 @@ template.verticalAlign = center
 template.orientation = horizontal]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.positioning">
-    <title>Blocks positioning</title>
+    <title><indexterm><primary>block positioning, PDF</primary></indexterm>Blocks positioning</title>
     <para>
-     Cartoweb3 uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
+     CartoWeb3 uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
     </para>
     <para>
-     Blocks are positioned one after the other, beginning by the ones with the lowest zIndex (vertical position: the low-zIndex'ed blocks are placed under the high-zIndexed ones - ie. closer to the background). When blocks have equal zIndexes, those with lowest weight are processed first. Eventually, if blocks have identical zIndexes and weights, the system will use general.activatedBlocks order to make its choice.
+     Blocks are positioned one after the other, beginning by the ones with the lowest <parameter>zIndex</parameter> (vertical position: the low-zIndex'ed blocks are placed under the high-zIndexed ones - ie. closer to the background). When blocks have equal zIndexes, those with lowest <parameter>weight</parameter> are processed first. Eventually, if blocks have identical zIndexes and weights, the system will use <parameter>general.activatedBlocks</parameter> order to make its choice.
     </para>
     <para>
-     Blocks with different zIndexes wil not interact except if one is marked has the other's parent: in that situation the child block will be located inside the parent block instead of using the general referential. All following siblings will share the same parent block except if they have a inFlow = false property. Parent blocks must have lower zIndexes than their children.
+     Blocks with different zIndexes wil not interact except if one is marked has the other's <parameter>parent</parameter>: in that situation the child block will be located inside the parent block instead of using the general referencial. All following siblings will share the same parent block except if they have a <parameter>inFlow = false</parameter> property. Parent blocks must have lower zIndexes than their children.
     </para>
     <para>
      For instance: 
@@ -926,7 +925,7 @@ blocks.mainmap.weight = 10
 blocks.overview.parent = mainmap
 blocks.overview.zIndex = 1]]></programlisting>
     <para>
-     Block margins are used to position a given block. Horizontal positioning is achieved by specifying the horizontalBasis (the side of the document - left|right - used as a reference) and the horizontalMargin (the latter value tells how far in distUnit the block will be spaced from the reference line). For instance to position a block at 10mm from the document right side, use the following configuration :
+     Block margins are used to position a given block. Horizontal positioning is achieved by specifying the <parameter>horizontalBasis</parameter> (the side of the document - left|right - used as a reference) and the <parameter>horizontalMargin</parameter> (the latter value tells how far in distUnit the block will be spaced from the reference line). For instance to position a block at 10mm from the document right side, use the following configuration :
     </para>
     <programlisting><![CDATA[general.distUnit = mm
 
@@ -945,19 +944,19 @@ blocks.myBlock.horizontalMargin = 10]]></programlisting>
      Vertical positioning is achieved in the same way (substitute the dedicated keywords).
     </para>
     <para>
-     The inFlow parameter defaults to true (except if set differently in the template block). As a result, blocks with the same zIndex will be positioned right below the first block preserving the left-side alignment. To cancel this behavior, set inFlow to false. In that case, the given block will be positioned related to the previous block using margin or centering ways. 
+     The <parameter>inFlow</parameter> parameter defaults to true (except if set differently in the template block). As a result, blocks with the same <parameter>zIndex</parameter> will be positioned right below the first block preserving the left-side alignment. To cancel this behavior, set <parameter>inFlow</parameter> to false. In that case, the given block will be positioned related to the previous block using margin or centering ways. 
     </para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.text">
-    <title>Text blocks</title>
+    <title><indexterm><primary>Text blocks, PDF</primary></indexterm>Text blocks</title>
     <para>
-     Text blocks are boxes with a textual content. The text is set in the content parameter in case of a static block. content has to be left blank for visitor-set blocks such as title or note. Text formatting is achieved using usual CSS-like parameter : fontFamily, fontSize (expressed in points!!), color. Small exception: fontItalic, fontBold, fontUnderline are booleans.
+     Text blocks are boxes with a textual content. The text is set in the <parameter>content</parameter> parameter in case of a static block. <parameter>content</parameter> has to be left blank for visitor-set blocks such as title or note. Text formatting is achieved using usual CSS-like parameter : <parameter>fontFamily</parameter>, <parameter>fontSize</parameter> (expressed in points!!), <parameter>color</parameter>. Small exception: <parameter>fontItalic</parameter>, <parameter>fontBold</parameter>, <parameter>fontUnderline</parameter> are booleans.
     </para>
     <para>
      Box properties (background color, border size, color and style, padding) are set in the same way whatever the block type is.
     </para>
     <para>
-     Width is generally detected automatically according to the text length. On the other hand, the system has poor means to evaluate its height, so it is recommended to set it by hand. Note that padding (space between border and content) is taken into account only in the horizontal direction for text blocks. To remove a block border, one can simply set its width (borderWidth) to 0. Note that some border styling parameters are not available with all pdfEngines.
+     Width is generally detected automatically according to the text length. On the other hand, the system has poor means to evaluate its height, so it is recommended to set it by hand. Note that padding (space between border and content) is taken into account only in the horizontal direction for text blocks. To remove a block border, one can simply set its width (<parameter>borderWidth</parameter>) to 0. Note that some border styling parameters are not available with all pdfEngines.
     </para>
     <para>
      For instance: 
@@ -975,12 +974,12 @@ blocks.title.backgroundColor = #eeeeee
 blocks.title.height = 15]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.image">
-    <title>Image blocks</title>
+    <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image blocks</title>
     <para>
      Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or a path within the server file system.
     </para>
     <para>
-     width and height have to be set by the user.
+     <parameter>width</parameter> and <parameter>height</parameter> have to be set by the user.
     </para>
     <para>
      For instance: 
@@ -997,18 +996,18 @@ blocks.logo.horizontalMargin = 5
 blocks.logo.verticalMargin = 5]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.table">
-    <title>Table blocks</title>
+    <title><indexterm><primary>Table blocks, PDF</primary></indexterm>Table blocks</title>
     <para>
      Tables blocks are used to represent tabular data such as query results. A table is composed of a caption row (title), a headers row (columns/fields titles) and one or more data rows. All cells can only contain textual content.
     </para>
     <para>
-     The table block describes how data cells will be rendered (font, text color, background color...) using the same parameters than for text blocks. The table width will be computed according to the cells content with a upper limit materialized by the page or the parent block available extent. If the max extent is reached, line feeds will be added automatically to the cells contents. The height parameter gives the height of a single-lined row (and not the total table height!). Note that if a table is too high to fit a page, page breaks will automatically be added.
+     The table block describes how data cells will be rendered (font, text color, background color...) using the same parameters than for text blocks. The table width will be computed according to the cells content with a upper limit materialized by the page or the parent block available extent. If the max extent is reached, line feeds will be added automatically to the cells contents. The <parameter>height</parameter> parameter gives the height of a single-lined row (and not the total table height!). Note that if a table is too high to fit a page, page breaks will automatically be added.
     </para>
     <para>
-     Caption and headers are described using separated blocks. They are specified by filling the table block caption and headers fields with the matching blocks ids. Since they are not standalone, there is no need to activate the blocks in the general.activatedBlocks list. That way it is possible to set the caption and headers layouts separately from the general table one (which is their default layout). Note that these subblocks are optional and will not be displayed if no content can be determined for them. The same headers and caption subblocks can be shared amongst several table blocks.
+     Caption and headers are described using separated blocks. They are specified by filling the table block <parameter>caption</parameter> and <parameter>headers</parameter> fields with the matching blocks ids. Since they are not standalone, there is no need to activate the blocks in the <parameter>general.activatedBlocks</parameter> list. That way it is possible to set the caption and headers layouts separately from the general table one (which is their default layout). Note that these subblocks are optional and will not be displayed if no content can be determined for them. The same headers and caption subblocks can be shared amongst several table blocks.
     </para>
     <para>
-     Cartoweb output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers content: cells content are represented as comma-separated string lists (only one row availble for table data).
+     Cartoweb output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers <parameter>content</parameter>: cells content are represented as comma-separated string lists (only one row available for table data).
     </para>
     <para>
      For instance: 
@@ -1031,19 +1030,19 @@ blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.legend">
-    <title>Legend block</title>
+    <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend block</title>
     <para>
      There is usually only one instance of legend block in a Cartoweb PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
     </para>
     <para>
-     You can avoid that a given set of layers be displayed in the legend blocks (no change on the maps) by listing the "forbidden" layers ids in the legend block content parameter, prefixing each layer id with an exclamation point ("!"). For instance: 
+     You can avoid that a given set of layers be displayed in the legend blocks (no change on the maps) by listing the "forbidden" layers ids in the legend block <parameter>content</parameter> parameter, prefixing each layer id with an exclamation point ("!"). For instance: 
     </para>
     <programlisting><![CDATA[blocks.legend.content = "!background, !layer3"]]></programlisting>
     <para>
       Note the double quotes around the content value that contains special characters such as "!".
      </para>
      <para>
-      Two behavior are offered to the visitor: embedding the legend block in the map or printing it in a separated page. First case is OK when there is little legend items to print (block is limited to one column) whereas the second possibility enables to display lots of legend items, using several columns if needed. In the map-embedded case, if the overview map is printed, the legend block width will be automatically set to the overview width value.
+      Two behavior are offered to the visitor: embedding the legend block in the map or printing it in a separated page. First case is OK when there is little legend items to print (block is limited to one column) whereas the second possibility enables to display lots of legend items, using several columns if needed. In the map-embedded case, if the overview map is printed, the legend block <parameter>width</parameter> will be automatically set to the overview <parameter>width</parameter> value.
      </para>
      <para>
       For instance: 
@@ -1062,19 +1061,19 @@ blocks.legend.content = "!nix"]]></programlisting>
   </sect2>
   
   <sect2 id="user.pdf.tutorial.roles">
-   <title>Roles management</title>
+   <title><indexterm><primary>Roles management, PDF</primary></indexterm>Roles management</title>
    <para>
     CartoWeb3 enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
    </para>
    <para>
-    To do so, simply add to considered objects/blocks an allowedRoles property set to the comma-separated list of roles you want to restrict them to.
+    To do so, simply add to considered objects/blocks an <parameter>allowedRoles</parameter> property set to the comma-separated list of roles you want to restrict them to.
    </para>
    <para>
     For instance: 
    </para>
    <itemizedlist>                                                                       <listitem>
      <para>
-      to enable PDF printing only for loggedIn users, use:
+      to enable PDF printing only for <parameter>loggedIn</parameter> users, use:
      </para>
      <programlisting><![CDATA[general.allowedRoles = loggedIn]]></programlisting>
     </listitem>
@@ -1086,7 +1085,7 @@ blocks.legend.content = "!nix"]]></programlisting>
     </listitem>
     <listitem>
      <para>
-      to set a resolution limit for anonymous users when printing in A3, you can define 2 similar formats with different maxResolution and allowedRoles properties:
+      to set a resolution limit for <parameter>anonymous</parameter> users when printing in A3, you can define 2 similar formats with different <parameter>maxResolution</parameter> and <parameter>allowedRoles</parameter> properties:
      </para>
      <programlisting><![CDATA[general.formats = A4, A3, A3full
 
@@ -1107,7 +1106,7 @@ formats.A3full.bigDimension = 420
 formats.A3full.smallDimension = 297
 formats.A3full.allowedRoles = loggedIn]]></programlisting>
      <para>
-      Note that all formats that may be used must any way be specified in general.formats.
+      Note that all formats that may be used must any way be specified in <parameter>general.formats</parameter>.
      </para>
     </listitem>
     <listitem>
