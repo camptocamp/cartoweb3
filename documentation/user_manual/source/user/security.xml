@@ -50,7 +50,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata width="7cm" fileref="security.login_dialog.png" 
+          <imagedata width="7cm" fileref="images/security.login_dialog.png" 
             format="PNG"/>
         </imageobject>
         <textobject>
