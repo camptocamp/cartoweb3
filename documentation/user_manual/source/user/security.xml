@@ -31,7 +31,8 @@
                 <term>Role</term>
                 <listitem>
                 <para> A user can have zero or more roles associated to her.
-                    These roles are used to allow or deny a permission to a resource.
+                    These roles are used to allow or deny a permission to a resource
+                    of feature.
                 </para>
                 </listitem>
             </varlistentry>
@@ -52,8 +53,8 @@
     <title>Auth plugin</title>
     <para>
         The security system in &cartoweb; was developped to be modular and to allow
-        different authentication systems to be easily plugged-in.
-                This section describes one implementation of authentication and user 
+        different authentications systems to be easily plugged-in.
+                This section describes one implementation of authentication, user
         password and roles management, which is the auth plugin shipped with
         &cartoweb;.
 
@@ -69,6 +70,14 @@
 -->    
 
         </para>
+    <para>
+    The auth plugin is not a core plugin. That's why you need to enable it if you
+    want to enable users to log-in. See <xref linkend="user.config.intro"/> how
+    to enable it in the list of plugins.
+    If it is not activated the login dialog won't be available, so users will
+    remain anonymous.
+    </para>
+
         <para>
         The next section describes the configuration file of the auth plugin. It
         is basically the management of usernames, passwords and roles.
@@ -77,14 +86,6 @@
  <sect2 id="user.security.auth.users_roles">
 
   <title>auth.ini (client-side)</title>
-  <para>
-    The auth plugin is not a core plugin. That's why you need to enable it if you
-    want to enable users to log-in. See <xref linkend="user.config.intro"/> how
-    to enable it in the list of plugins.
-    If it is not activated the login dialog won't be available, so users will
-    remain anonymous.
-  </para>
-
   <para>
 
   The <filename>auth.ini</filename> configuration is located in the client. 
@@ -96,8 +97,8 @@
    <listitem>
     <para>
     authActive<indexterm><primary>authActive</primary></indexterm>: 
-    booleanWhether to show the Authentification login/logout buttons. 
-    (Warning: this is not related to the fact the authentification system 
+    boolean Whether to show the Authentification login/logout buttons. 
+    (note: this is not related to the fact the authentification system 
     will be active or not)
     </para>
    </listitem>
@@ -107,7 +108,7 @@
          List of users and their passwords. <constant>USERNAME</constant> is the 
      name of the user for whom the password is set. 
      Passwords values are md5sums of the password.
-         to get this value, you can type in a shell:
+         To get this value, you can type in a shell:
          <screen>echo -n 'mypassword' | md5sum </screen> 
          Example:
          <programlisting>users.alice = e3e4faee0cc7fc55ad402f517cdaf40</programlisting>
@@ -124,19 +125,115 @@
  </sect2>
  </sect1>
   <sect1 id="user.security.global_permissions"> 
-        <title>Global &cartoweb; permissions</title>
-        <para>
-        
+    <title>Global &cartoweb; permissions</title>
+    <para>
+        The whole application can be denied access to anonymous users: only authenticated
+      (or a set) of users can access the application. Anonymous users arriving
+      on the main page will see a login dialog page if they have no rights 
+      to view the page (if the <constant>auth</constant> plugin is not loaded, 
+      they will simply see a denied page).
+          </para>
+    <para>
+      This feature can be parametrized on the &cartoclient; in the 
+        <filename>client.ini</filename> configuration file:
+      <itemizedlist>
+         <listitem>
+          <para>
+           securityAllowedRoles = list : List of roles which are allowed to access 
+          the cartoweb. Set to 'all' if no if no restriction is given.
+          </para>
+         </listitem>
+     </itemizedlist>
     </para>
   </sect1>
   <sect1 id="user.security.plugin_permissions"> 
-        <title>Plugin specific permissions</title>
-        <para>
-        
+    <title>Plugin specific permissions</title>
+    <para>
+                The main part of permissions is set in the different plugins of &cartoweb;.
+      For instance, permissions related to which layer can be viewed are set in 
+      the layer plugin configuration files, and pdf printing permissions in the 
+      pdf plugin. These sections either describes the plugin permissions which
+      can be used, or make references the the corresponding chapters.
     </para>
     <sect2 id="user.security.plugin_permissions.layers">
-        <title></title>
-        <para></para>
+      <title>Layers related permissions</title>
+      <para>It is possible to restrict which layer can be viewed by a set 
+        of users. For instance, only logged in admin users can be allowed to view
+        security sensitive layers.</para>
+      <para>These layer permissions are inherited by children. It means that if a
+        parent LayerGroup is not allowed to be viewed, then all the children won't
+        be visible.</para>
+      <para>The permissions for layer must be activated in the <filename>layers.ini</filename>
+        &cartoclient; configuration file, and are set in the metadata of 
+        the mapfile or the <filename>&lt;mapfile&gt;.ini</filename> configuration file.
+        The concept of metadata in mapfiles and .ini file
+        is described in <xref linkend="user.layer.metadata"/>. The metadata key
+        name which can be used is called <constant>security_view</constant> and 
+        contains a coma separated list of roles which are allowed to view this layer.
+        If no such metadata key is associated to a layer or layerGroup, anyone can
+        see the layer. 
+        </para>
+
+        <para>
+          Heres the description of the <filename>layers.ini</filename> configuration
+          file:
+ <itemizedlist>
+   <listitem>
+    <para>
+      applySecurity<indexterm><primary>applySecurity</primary></indexterm>: 
+      True if the security check of layer access is activated. 
+      It might have a minor impact on performances, if a large number of 
+      layer is used.
+    </para>
+   </listitem>
+  </itemizedlist>
+      </para>
+        <para>
+        Here's an example of a security metadata key used in layer of the mapfile:
+         <programlisting>
+METADATA
+  "exported_values" "security_view,security_edit"
+  "security_view" "admin"
+          
+  "id_attribute_string" "FID|string"
+  "mask_transparency" "50"
+  "mask_color" "255, 255, 0"
+  "area_fixed_value" "10"
+END
+         </programlisting>  
+        In this example, the layer containing this metadata description will only be
+        visible for users having the <constant>admin</constant> role.
+        <note>
+          <para>Notice the usage of the <constant>exported_values</constant>
+            metadata key which lists the security related metadata key. 
+            It is explained in <xref linkend="user.layer.metadata"/></para>
+        </note>
+
+        </para>
+        <para>Now let's look the case where the metadata key is set on a layer
+          group in the <filename>&lt;mapfile&gt;.ini</filename> configuration file:
+      <programlisting>
+mapInfo.layers.group_admin.className = LayerGroup
+mapInfo.layers.group_admin.children = grid_defaulthilight
+mapInfo.layers.group_admin.metadata.security_view = admin        
+     </programlisting>        
+        In this example, the <constant>admin</constant> role is set for the layerGroup 
+  called <constant>group_admin</constant>. You can notice the very similar syntax
+  as used in the mapfile.
+  
+  <warning>
+    <para>Don't forget to set <constant>applySecurity</constant> to True in the
+      <filename>layers.ini</filename> &cartoclient; configuration file, otherwise
+      security metadata keys won't be taken into account.</para>
+  </warning>
+  
+      </para>
     </sect2>
-  </sect1>  
+    <sect2 id="user.security.plugin_permissions.pdf">
+      <title>Pdf printing permissions</title>
+      <para>The roles management in Pdf printing is explained in detail in <xref linkend="user.pdf"/>.
+        In particular, see <xref linkend="user.pdf.tutorial.roles"/>.
+        </para>
+    </sect2>  
+    </sect1>  
 </chapter>
