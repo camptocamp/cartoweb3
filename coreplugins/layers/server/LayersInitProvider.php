@@ -51,11 +51,6 @@ class LayersInitProvider implements InitProvider {
     /**
      * @var string
      */
-    private $symPath;
-
-    /**
-     * @var string
-     */
     private $mapId;
 
     /**
@@ -137,18 +132,50 @@ class LayersInitProvider implements InitProvider {
     }
 
     /**
+     * Returns the relative path to the icons. It is relative to the directory
+     * where generated images are stored.
+     * @return string
+     */
+    private function getIconsRelativePath() {
+        $project = $this->projectHandler->getProjectName();
+        $mapId = $this->projectHandler->getMapName();
+        return implode('/', array('icons', $project, $mapId)) . '/';
+    }
+
+    /**
      * Returns symbols file path.
      * @return string
      */
     private function getSymPath() {
         
-        if(!isset($this->symPath)) {
-            $mapName = $this->projectHandler->getMapName();
-            $file = $mapName . '.sym';
-            $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', $file);
-            $this->symPath = CARTOSERVER_HOME . $path . $file;
-        }
-        return $this->symPath;
+        $mapName = $this->projectHandler->getMapName();
+        $file = $mapName . '.sym';
+        $path = $this->projectHandler->getPath('server_conf/' . $mapName . 
+                                                                  '/', $file);
+        return $this->symPath = CARTOSERVER_HOME . $path . $file;
+    }
+
+    /**
+     * Creates a directory recursively. The permissions of the newly created
+     * directories are the same as the permission of the given $permsFrom file
+     * or directory.
+     * @param string The directory to create (can create recursively)
+     * @param string Permissions of the newly created directory are the same 
+     * as this file or directory.
+     */
+    private function makeDirectoryWithPerms($directory, $permsFrom) {
+        
+        if (is_dir($directory))
+            return;
+        
+        $oldUmask = umask();
+        umask(0000);
+
+        $stat = stat($permsFrom);
+        $perms = $stat['mode'] & 0777;
+        mkdir($directory, $perms, true);
+
+        umask($oldUmask);  
     }
     
     /**
@@ -160,17 +187,18 @@ class LayersInitProvider implements InitProvider {
      */
     private function getClassIcon($classId, $msMapObj, $msClassObj) {
         
+        $writablePath = $this->serverContext->getConfig()->writablePath;
         $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
-        $iconAbsolutePath = $this->serverContext->getConfig()->writablePath .
-                                                         $iconRelativePath;
-        if (!is_dir(dirname($iconAbsolutePath)))
-            mkdir(dirname($iconAbsolutePath), 0755, true);
-            
+        $iconAbsolutePath =  $writablePath . $iconRelativePath;
+      
+        $this->makeDirectoryWithPerms(dirname($iconAbsolutePath), $writablePath);
+        
         if (!file_exists($iconAbsolutePath) ||
             filemtime($this->serverContext->getMapPath()) > 
                                         filemtime($iconAbsolutePath) ||
             (file_exists($this->getSymPath()) && 
              filemtime($this->getSymPath()) > filemtime($iconAbsolutePath))) {
+
             $lgdIcon = $msClassObj->createLegendIcon($msMapObj->keysizex, 
                                                      $msMapObj->keysizey);
             if ($lgdIcon->saveImage($iconAbsolutePath) < 0)
@@ -298,17 +326,6 @@ class LayersInitProvider implements InitProvider {
             $rootLayer->children = $layerIds;
             $this->layersInit->addChildLayerBase(null, $rootLayer);
         }
-    }
-
-    /**
-     * Returns the relative path to the icons. It is relative to the directory
-     * where generated images are stored.
-     * @return string
-     */
-    private function getIconsRelativePath() {
-        $project = $this->projectHandler->getProjectName();
-        $mapId = $this->projectHandler->getMapName();
-        return implode('/', array('icons', $project, $mapId)) . '/';
     }
 
     /**
