@@ -26,15 +26,23 @@ class PrintTools {
         
         $ratio = 1;
         
-        if ($from == 'cm')
+        if ($from == 'cm') {
             $ratio = self::switchDistUnit(10, 'mm', $to);
-        elseif ($to == 'cm')
+            $from = 'mm';
+        }
+        elseif ($to == 'cm') {
             $ratio = self::switchDistUnit(0.1, $from, 'mm');
+            $to = 'mm';
+        }
 
-        if ($from == 'in')
-            $ratio = self::switchDistUnit(25.4, 'mm', $to);
-        elseif ($to == 'in')
-            $ratio = self::switchDistUnit(1 / 25.4, $from, 'mm');
+        if ($from == 'in') {
+            $ratio = self::switchDistUnit(72, 'pt', $to);
+            $from = 'pt';
+        }
+        elseif ($to == 'in') {
+            $ratio = self::switchDistUnit(1 / 72, $from, 'pt');
+            $to = 'pt';
+        }
 
         if ($from == 'mm' && $to == 'pt')
             $ratio *= 72 / 25.4;
@@ -402,6 +410,18 @@ interface PdfWriter {
      * Sets general data and opens PDF document.
      */
     function initializeDocument();
+   
+    /**
+     * Returns page width in PdfGeneral dist_unit.
+     * @return float
+     */
+    function getPageWidth();
+
+    /**
+     * Returns page height in PdfGeneral dist_unit.
+     * @return float
+     */
+    function getPageHeight();
     
     /**
      * Adds a new page to PDF document.
@@ -976,6 +996,18 @@ class ClientExportPdf extends ExportPlugin {
     }
 
     /**
+     * Returns given distance at selected printing resolution.
+     * @param float distance in PdfGeneral dist_unit
+     * @return float distance in pixels
+     */
+    private function getDistWithRes($dist) {
+        $dist = PrintTools::switchDistUnit($dist,
+                                           $this->general->distUnit, 
+                                           'in');
+        return $dist * $this->general->selectedResolution;
+    }
+
+    /**
      * Builds export configuration.
      * @return ExportConfiguration
      */
@@ -989,13 +1021,23 @@ class ClientExportPdf extends ExportPlugin {
         } else {
             $renderMap = isset($this->blocks['mainmap']);
             $renderScalebar = isset($this->blocks['scalebar']);
+
+            if ($renderMap) {
+                $mainmap = $this->blocks['mainmap'];
+                
+                $mapWidth = $this->getDistWithRes($mainmap->width);
+                $config->setMapWidth($mapWidth);
+                
+                $mapHeight = $this->getDistWithRes($mainmap->height);
+                $config->setMapHeight($mapHeight);
+            }
         }
         
         $config->setRenderMap($renderMap);
         $config->setRenderKeymap(false);
         $config->setRenderScalebar($renderScalebar);
 
-        //TODO: set maps dimensions + resolutions
+        //TODO: set maps dimensions + resolutions for scalebar and overview
         
         return $config;
     }
@@ -1029,10 +1071,27 @@ class ClientExportPdf extends ExportPlugin {
         $block = $this->blocks[$name];
 
         $block->content = $this->getGfxPath($map->path);
-        // TODO: convert pixel sizes into absolute dist units depending on resolution
-        $block->width = 100;//$map->width;
-        $block->height = 200;//$map->height;
         $block->type = 'image';
+    }
+
+    /**
+     * Sets mainmap dimensions according to selected format and orientation.
+     * @param PdfWriter
+     */
+    private function setMainMapDim(PdfWriter $pdf) {
+        $mainmap = $this->blocks['mainmap'];
+        
+        if (!isset($mainmap->width)) {
+            $hmargin = $this->format->horizontalMargin 
+                       + $mainmap->horizontalMargin;
+            $mainmap->width = $pdf->getPageWidth() - 2 * $hmargin; 
+        }
+        
+        if (!isset($mainmap->height)) {
+            $vmargin = $this->format->verticalMargin
+                       + $mainmap->verticalMargin;
+            $mainmap->height = $pdf->getPageHeight() - 2 * $vmargin;
+        }
     }
     
     /**
@@ -1041,55 +1100,58 @@ class ClientExportPdf extends ExportPlugin {
      */
     function getExport() {
 
-       // Retrieving of data from CartoServer:
-       $mapResult = $this->getExportResult($this->getConfiguration());
-       
-       if (isset($this->blocks['overview'])) {
-           $overviewResult = $this->getExportResult(
-                                 $this->getConfiguration(true));
-       } else {
-           $overviewResult = false;
-       }
-
-       $this->updateMapBlock($mapResult, 'mainmap');
-       $this->updateMapBlock($mapResult, 'scalebar');
-       $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
-       
-       $pdfClass =& $this->general->pdfEngine;
-       
-       $pdfClassFile = dirname(__FILE__) . '/' . $pdfClass . '.php';
-       if (!is_file($pdfClassFile))
-           throw new CartoclientException("invalid PDF engine: $pdfClassFile");
-       require_once $pdfClassFile;
-
-       $pdf = new $pdfClass($this->general, $this->format);
-
-       $pdf->initializeDocument();
-
-       $pdf->addPage();
-
-       foreach ($this->blocks as $block) {
-           switch ($block->type) {
-               case 'image':
-                   $pdf->addGfxBlock($block);
-                   break;
-               case 'text':
-                   $pdf->addTextBlock($block);
-                   break;
-               default:
-                   // ignores block
-               // TODO: handle type = pdf
-           }
-           
-       }
-
-       // TODO: handle blocks to display on other pages
-
-       $contents = $pdf->finalizeDocument();
-
-       $output = new ExportOutput();
-       $output->setContents($contents);
-       return $output;
+        $pdfClass =& $this->general->pdfEngine;
+        
+        $pdfClassFile = dirname(__FILE__) . '/' . $pdfClass . '.php';
+        if (!is_file($pdfClassFile))
+            throw new CartoclientException("invalid PDF engine: $pdfClassFile");
+        require_once $pdfClassFile;
+ 
+        $pdf = new $pdfClass($this->general, $this->format);
+ 
+        if (isset($this->blocks['mainmap']))
+            $this->setMainMapDim($pdf);
+ 
+        // Retrieving of data from CartoServer:
+        $mapResult = $this->getExportResult($this->getConfiguration());
+        
+        if (isset($this->blocks['overview'])) {
+            $overviewResult = $this->getExportResult(
+                                  $this->getConfiguration(true));
+        } else {
+            $overviewResult = false;
+        }
+ 
+        $this->updateMapBlock($mapResult, 'mainmap');
+        $this->updateMapBlock($mapResult, 'scalebar');
+        $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+        
+        $pdf->initializeDocument();
+ 
+        $pdf->addPage();
+ 
+        foreach ($this->blocks as $block) {
+            switch ($block->type) {
+                case 'image':
+                    $pdf->addGfxBlock($block);
+                    break;
+                case 'text':
+                    $pdf->addTextBlock($block);
+                    break;
+                default:
+                    // ignores block
+                // TODO: handle type = pdf
+            }
+            
+        }
+ 
+        // TODO: handle blocks to display on other pages
+ 
+        $contents = $pdf->finalizeDocument();
+ 
+        $output = new ExportOutput();
+        $output->setContents($contents);
+        return $output;
     }
 }
 ?>
