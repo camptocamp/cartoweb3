@@ -39,7 +39,9 @@ class ResourceProjectHandler extends ProjectHandler {
      * @see ProjectHandler::getProjectName()
      */
     function getProjectName() {
-        return $_REQUEST['pr'];
+        if (isset($_REQUEST['pr']))
+            return $_REQUEST['pr'];
+        return 'default';
     }
 }
 
@@ -85,7 +87,7 @@ class MiniproxyFileProvider {
         
         $projectHandler = new ResourceProjectHandler();
       
-        $path = 'htdocs/' . $path;
+        $path = 'htdocs/';
         
         // plugin
         if (isset($requ['pl'])) {
