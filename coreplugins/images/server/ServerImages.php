@@ -4,6 +4,9 @@
  * @version $Id$
  */
 
+// the number of generated images before issuing a warning
+define('MAX_IMAGES_WARNING', 500);
+
 /**
  * @package CorePlugins
  */
@@ -98,6 +101,19 @@ class ServerImages extends ServerCoreplugin {
         $this->log->info($this->serverContext->getMsMainmapImage());
     }
 
+    private function checkMaxImages($serverContext) {
+        
+        $imgPath = $this->serverContext->msMapObj->web->imagepath;
+        $imgCount = count(scandir($imgPath));
+        if ($imgCount > MAX_IMAGES_WARNING) {
+            $msg = sprintf('Warning: you have a high number of generated images' .
+                    ' (%u [warning threshold %u]]). You should run the cleaning script. ' .
+                    'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
+                    $imgCount, MAX_IMAGES_WARNING);
+            $serverContext->addMessage($msg, ServerMessage::CHANNEL_DEVELOPER);
+        }
+    }
+
     function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->msMapObj;
@@ -131,6 +147,11 @@ class ServerImages extends ServerCoreplugin {
             $imagesResult->scalebar = $this->getImage($ms_scalebar);
         } else {
             $imagesResult->scalebar = $notdrawnImage;
+        }
+        
+        $serverContext = $this->getServerContext();        
+        if ($serverContext->isDevelMessagesEnabled()) {
+            $this->checkMaxImages($serverContext);
         }
         
         return $imagesResult;
