@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.security">
- <title>Security configuration</title>
+ <title>Security Configuration</title>
  
  <sect1 id="user.security.intro"> 
   <title>Introduction</title>
@@ -50,7 +50,7 @@
  </sect1>
 
  <sect1 id="user.security.auth">
-    <title>Auth plugin</title>
+    <title>Auth Plugin</title>
     <para>
         The security system in &cartoweb; was developped to be modular and to allow
         different authentications systems to be easily plugged-in.
@@ -125,7 +125,7 @@
  </sect2>
  </sect1>
   <sect1 id="user.security.global_permissions"> 
-    <title>Global &cartoweb; permissions</title>
+    <title>Global &cartoweb; Permissions</title>
     <para>
         The whole application can be denied access to anonymous users: only authenticated
       (or a set) of users can access the application. Anonymous users arriving
@@ -147,7 +147,7 @@
     </para>
   </sect1>
   <sect1 id="user.security.plugin_permissions"> 
-    <title>Plugin specific permissions</title>
+    <title>Plugin Specific Permissions</title>
     <para>
                 The main part of permissions is set in the different plugins of &cartoweb;.
       For instance, permissions related to which layer can be viewed are set in 
