@@ -81,6 +81,27 @@ class coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    private function getMapRequestGrid() {
+    
+        $queryRequest = new QueryRequest();
+        $bbox = new Bbox();
+        $bbox->setFromBbox(-0.75, 51, 0.75, 52);
+        $queryRequest->bbox = $bbox;
+        $queryRequest->queryAllLayers = false;
+        $querySelections = array();
+        $querySelection = new QuerySelection();
+        $querySelection->layerId = 'grid_defaulthilight';
+        $querySelection->useInQuery = true;
+        $querySelection->selectedIds = array('10');
+        $querySelections[] = $querySelection;
+        $queryRequest->querySelections = $querySelections;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        
+        return $mapRequest;
+    }
+
     private function assertQueryResultWithAttributes($queryResult) {
 
         $this->assertEquals(count($queryResult->tableGroup->tables), 3);
@@ -104,6 +125,20 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals(count($polygonRows), 1);
         $this->assertEquals($polygonRows[0]->rowId, '1'); 
         $this->assertEquals($polygonRows[0]->cells, array());        
+    }
+
+    private function assertQueryResultIds($queryResult, $ids) {
+
+        $this->assertEquals(count($queryResult->tableGroup->tables), 1);
+        $this->assertEquals($queryResult->tableGroup->tables[0]->tableId,
+                            "grid_defaulthilight");
+
+        $gridRows = $queryResult->tableGroup->tables[0]->rows; 
+
+        $this->assertEquals(count($gridRows), count($ids));
+        foreach ($ids as $key => $id) {
+            $this->assertEquals($gridRows[$key]->rowId, $id); 
+        }
     }
 
     function testQueryAllLayers($direct = false) {
@@ -160,6 +195,43 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
-    
+    function testQueryPolicyUnion($direct = true) {
+        
+        $mapRequest = $this->getMapRequestGrid();
+        $mapRequest->queryRequest->querySelections[0]->policy
+                                        = QuerySelection::POLICY_UNION;
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultIds($mapResult->queryResult,
+                                    array('10', '11', '12', '13'));
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    function testQueryPolicyXor($direct = true) {
+        
+        $mapRequest = $this->getMapRequestGrid();
+        $mapRequest->queryRequest->querySelections[0]->policy
+                                        = QuerySelection::POLICY_XOR;
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultIds($mapResult->queryResult,
+                                    array('11', '12', '13'));
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    function testQueryPolicyIntersection($direct = true) {
+        
+        $mapRequest = $this->getMapRequestGrid();
+        $mapRequest->queryRequest->querySelections[0]->policy
+                                        = QuerySelection::POLICY_INTERSECTION;
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResultIds($mapResult->queryResult,
+                                    array('10'));
+
+        $this->redoDirect($direct, __METHOD__);
+    }
 }
 ?>
