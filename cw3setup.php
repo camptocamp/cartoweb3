@@ -345,20 +345,32 @@ function link_or_copy($src, $dest) {
 // Get libraries
 function getLibs($url) {
     $inc = 'cartoweb3_includes.tgz';
-    $ch = curl_init($url);
-    $fp = fopen($inc, "w");
-    curl_setopt($ch, CURLOPT_FILE, $fp);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_exec($ch);
-    curl_close($ch);
-    fclose($fp);
-    $r = passthru("tar xzf $inc");
-    if ($r) {
-        echo $r."\n";
-        echo "WARNING: Libraries not uncompressed.\n";
-        echo "         Please install tar and redo, or untar $inc manually.\n";
-        echo "         For window, you can get tar at http://gnuwin32.sourceforge.net/packages/tar.htm\n";
+    if (extension_loaded('curl')) {
+        $ch = curl_init($url);
+        $fp = fopen($inc, "wb");
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
     }
+    else {
+        $cnt = file_get_contents($url);
+        $fd = fopen($inc, "wb");
+        fwrite($fd, $cnt);
+        fclose($fd);
+    }
+    if (file_exists($inc)) {
+        $r = passthru("tar xzf $inc");
+        if ($r) {
+            echo $r."\n";
+            echo "WARNING: Libraries not uncompressed.\n";
+            echo "         Please install tar and redo, or untar $inc manually.\n";
+            echo "         For window, you can get tar at http://gnuwin32.sourceforge.net/packages/tar.htm\n";
+        }
+    }
+    else
+        die("WARNING: Libraries not found.\n");
     @unlink($inc);
 }
 
