@@ -13,18 +13,27 @@
  <sect1 id="dev.unit_test.intro"> 
   <title>Introduction</title>
   <para>
-   Unit tests in CartoWeb 3 are implemented using 
-   <ulink url="http://www.sebastian-bergmann.de/en/phpunit.php">PHPUnit2</ulink>,
-   a <acronym>PEAR</acronym> unit tests framework.
-   See also, PHPUnit2 documentation: <ulink 
+    Unit tests are an important componant in the &cartoweb; development 
+    environment. 
+    The framework used for unit testing is based on  
+      <ulink url="http://www.sebastian-bergmann.de/en/phpunit.php">PHPUnit2</ulink>,
+   a <acronym>PEAR</acronym> package.
+   For more informations abouth PHPUnit2, see <ulink 
    url="http://pear.php.net/reference/PHPUnit2-2.0.3/">http://pear.php.net/reference/PHPUnit2-2.0.3/</ulink>
   </para>
+<!--
   <para>
    Unit tests are a powerful way to implement automated tests. 
    Please consider writing tests directly while coding.
   </para>
+  -->
+  <para>
+    PHPUnit2 is included in the libraries shipped with &cartoweb;. Thus, no 
+    installation is needed to run and write new tests.
+  </para>
  </sect1>
 
+<!--
  <sect1 id="dev.unit_test.install"> 
   <title>Installing PHPUnit2</title>
   <para>
@@ -58,35 +67,46 @@
    These packages are contained in the include tar.gz archive.
   </para>
  </sect1>
+-->
 
  <sect1 id="dev.unit_test.writing"> 
   <title>Writing Tests</title>
+  <para>bouh</para>
+  <sect2 id="dev.unit_test.writing.base"> 
+  <title>General information about writing tests</title>
   <para>
    Test cases are located in directory tests, in a similar 
    structure as the root directory:
    <screen><![CDATA[client
-CartoclientTest.php
-CartoserverServiceTest.php
-AllTests.php
+    CartoclientTest.php
+    CartoserverServiceTest.php
+    AllTests.php
 common
-BasicTypesTest.php
-AllTests.php
+    BasicTypesTest.php
+    AllTests.php
 ...
 AllTests.php]]></screen>
   </para>
   <para>
    Each directory including tests root directory has a file named 
    <filename>AllTests.php</filename>.  This is called a test suite. 
-   It's useful to run all tests of a specific directory (ie "package").
+   It is used to run all tests of a specific directory (ie "package").
   </para>
-  <para>
-   Warning: All test case and test suite classes must have the name 
+  <warning>
+   <para>
+   All test case and test suite classes must have the name 
    of their file's relative path without extension, with '/'
    replaced by '_'. For instance, class 
-   client_CartoclientTest's file name must be 
+   <constant>client_CartoclientTest</constant>'s file name must be 
    <filename>&gt;cartoweb3_root&lt;/tests/client/CartoclientTest.php</filename>.
+   </para>
+  </warning>
+  <para>
+
   </para>
   <para>
+  The following example shows a test in <filename>common/BasicTypeTest.php</filename> 
+  file:
    <example>
     <title>Simple test case</title>
     <programlisting><![CDATA[<?php
@@ -122,6 +142,10 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
    the same values. If not, the test will be added to the final report as failure.
   </para>
 
+  <para>
+    As stated previously, all test classes have to belong to a test suite. The
+    next example shows how such a test suite is built, by grouping all tests
+    together in the <methodname>suite()</methodname> method.
   <example>
    <title>
     test suite (<filename>AllTests.php</filename>) 
@@ -148,7 +172,10 @@ class client_AllTests {
 ]]></programlisting>
 
   </example>
-
+  </para>
+  <para>
+    All test suites are then grouped together into the root test suite. It is
+    shown there for information.
   <example>
    <title>
     Root directory's AllTests.php:
@@ -175,6 +202,14 @@ class AllTests {
 ?>]]></programlisting>
    </para>
   </example>
+  </para>
+  </sect2>
+  <sect2 id="dev.unit_test.writing.framework"> 
+    <title>Specific information for tests</title>
+    <para>This section describes specific features developped in &cartoweb;
+      for running tests, and infrastructure classes for more simple test 
+      case writing.</para>
+  </sect2>
  </sect1>
 
  <sect1 id="unit_test.running"> 

@@ -98,34 +98,17 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/security.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/code_convention.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/unit_test.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/code_documentation.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/debug.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/performance.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
-
- <part id="cartoweb.tool">
-  <title>Development tools and conventions</title>
-  <partintro>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-   <para>
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-    Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli Bli
-   </para>
-  </partintro>
-  <xi:include href="tool/code_convention.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="tool/unit_test.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="tool/code_documentation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="tool/debug.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-  <xi:include href="tool/performance.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
- </part>
 
   <index/>
 
