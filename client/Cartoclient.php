@@ -160,6 +160,12 @@ class ClientSession {
      * {@see ExportPlugin::getExport()})
      */
     public $lastMapRequest;
+
+    /**
+     * Last result received from server (useful for export, see
+     * {@see ExportPlugin::getExport()})
+     */
+     public $lastMapResult;
 }
 
 /**
@@ -504,42 +510,56 @@ class Cartoclient {
      */
     private function doMain() {
 
-        $this->callPluginsImplementing('InitUser', 'handleInit', $this->getMapInfo());
+        $this->callPluginsImplementing('InitUser', 'handleInit',
+                                       $this->getMapInfo());
                         
         if (!empty($_REQUEST['posted'])) {
         
             // Maps clicks cannot be modified by filters
             $this->cartoForm = 
-                $this->httpRequestHandler->handleHttpRequest($this->clientSession,
+                $this->httpRequestHandler->handleHttpRequest(
+                                                    $this->clientSession,
                                                     $this->cartoForm);
 
             $request = new FilterRequestModifier($_REQUEST);
-            $this->callPluginsImplementing('FilterProvider', 'filterPostRequest', $request);
-            $this->callPluginsImplementing('GuiProvider', 'handleHttpPostRequest', $request->getRequest());
+            $this->callPluginsImplementing('FilterProvider',
+                                           'filterPostRequest', $request);
+            $this->callPluginsImplementing('GuiProvider', 
+                                           'handleHttpPostRequest',
+                                           $request->getRequest());
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
-            $this->callPluginsImplementing('FilterProvider', 'filterGetRequest', $request);
-            $this->callPluginsImplementing('GuiProvider', 'handleHttpGetRequest', $request->getRequest());
+            $this->callPluginsImplementing('FilterProvider',
+                                           'filterGetRequest', $request);
+            $this->callPluginsImplementing('GuiProvider',
+                                           'handleHttpGetRequest',
+                                           $request->getRequest());
         }
         
         $mapRequest = $this->getMapRequest();
-        $this->callPluginsImplementing('ServerCaller', 'buildMapRequest', $mapRequest);
+        $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
+                                       $mapRequest);
 
         // Save mapRequest for future use
         $this->clientSession->lastMapRequest = $mapRequest;
 
-        $this->log->debug("maprequest:");
+        $this->log->debug('maprequest:');
         $this->log->debug($mapRequest);
 
         $this->mapResult = $this->getMapResultFromRequest($mapRequest);
 
+        // Save mapResult for future use
+        $this->clientSession->lastMapResult = $this->mapResult;
+
         $this->log->debug("mapresult:");
         $this->log->debug($this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'initializeResult', $this->mapResult);
+        $this->callPluginsImplementing('ServerCaller', 'initializeResult',
+                                       $this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'handleResult', $this->mapResult);
+        $this->callPluginsImplementing('ServerCaller', 'handleResult',
+                                       $this->mapResult);
 
         $this->log->debug("client context to display");
 
@@ -566,7 +586,7 @@ class Cartoclient {
 
         $this->config = new ClientConfig($this->projectHandler);
 
-        $this->log->debug("client context loaded (from session, or new)");
+        $this->log->debug('client context loaded (from session, or new)');
 
         // Internationalization
         I18n::init($this->config);
