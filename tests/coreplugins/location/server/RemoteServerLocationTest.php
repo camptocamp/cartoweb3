@@ -22,21 +22,6 @@ require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 class coreplugins_location_server_RemoteServerLocationTest
                     extends client_CartoserverServiceWrapper {
 
-    private $testDirect = true;
-    private $defaultMapId = 'test';
-
-    private function pushMapId($mapId) {
-        $this->mapId = $mapId;
-    }
-    
-    private function popMapId() {
-        if (!isset($this->mapId))
-            $this->mapId = $this->defaultMapId;
-        $mapId = $this->mapId;
-        $this->map =  $this->defaultMapId;
-        return $mapId;
-    }
-
     private function doTestLocationRequest($locationType, $locationRequestName,
                         $locationRequest, $expectedBbox, $expectedScale, $direct) {
                 
@@ -49,7 +34,6 @@ class coreplugins_location_server_RemoteServerLocationTest
             $requ->locationConstraint = $locationRequest->constraint;
 
         $mapRequest = $this->createRequest();
-        $mapRequest->mapId = $this->popMapId();
         $mapRequest->locationRequest = $requ;
         
         // set a square mainmap
@@ -222,7 +206,9 @@ class coreplugins_location_server_RemoteServerLocationTest
     }
 
     public function testZoomPointLocationRequest_zoomIn_continuous($direct = false) {
-        $this->pushMapId('test_continuous');
+
+        $this->setMapId('test_location_continuous.test');
+
         $zoomPointLocationRequest = new ZoomPointLocationRequest();
         $zoomPointLocationRequest->zoomType = ZoomPointLocationRequest::ZOOM_DIRECTION_IN;
         $bbox = new Bbox(-.5, 50.5, .5, 51.5);
@@ -238,7 +224,9 @@ class coreplugins_location_server_RemoteServerLocationTest
     }
 
     public function testZoomPointLocationRequest_zoomOut_continuous($direct = false) {
-        $this->pushMapId('test_continuous');
+
+        $this->setMapId('test_location_continuous.test');
+
         $zoomPointLocationRequest = new ZoomPointLocationRequest();
         $zoomPointLocationRequest->zoomType = ZoomPointLocationRequest::ZOOM_DIRECTION_OUT;
         $bbox = new Bbox(-.5, 50.5, .5, 51.5);

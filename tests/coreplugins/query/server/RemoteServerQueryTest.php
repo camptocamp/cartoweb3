@@ -68,6 +68,24 @@ class coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 
+    function testQueryRequest1_using_hilight($direct = false) {
+
+        $this->setMapId('test_query_hilight.test');
+        
+        $queryRequest = $this->getQueryRequest1(); 
+
+        $queryRequest->layerIds = array('polygon', 'line', 'point');
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;
+        
+        $mapResult = $this->getMap($mapRequest);
+
+        $this->assertQueryResult1($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+
     function testQueryRequestWithLayersRequest($direct = false) {
 
         $queryRequest = $this->getQueryRequest1(); 
