@@ -680,7 +680,7 @@ class ClientLayers extends ClientPlugin
 
         $cleanList = array();
         foreach ($layersList as $key => $layerId) {
-            $layer = $this->getLayerByName($layerId);
+            $layer = $this->getLayerByName($layerId, false);
             if (!$layer) continue;
 
             // removes non Layer objects
