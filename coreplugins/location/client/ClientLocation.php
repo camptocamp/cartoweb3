@@ -196,7 +196,7 @@ class ClientLocation extends ClientPlugin
                 return NULL;
 
             if ((is_null($recenterX) && !is_null($recenterY)) ||
-                !(is_null($recenterX) && is_null($recenterY))) {
+                (!is_null($recenterX) && is_null($recenterY))) {
                 $this->cartoclient->
                     addMessage('Parameters recenter_x and recenter_y cannot be used alone');
                 return NULL;
