@@ -211,28 +211,35 @@ class FormRenderer {
      */
     public function showForm(Cartoclient $cartoclient) {
 
-        $smarty = $this->smarty;
-
-        if (!isset($GLOBALS['headless']))
-            header('Content-Type: text/html; charset=' . Encoder::getCharset());
-        $smarty->assign('charset', Encoder::getCharset());
+        if (!isset($GLOBALS['headless'])) {
+            header('Content-Type: text/html; charset=' . 
+                   Encoder::getCharset());
+        }
+        
+        $this->smarty->assign('charset', Encoder::getCharset());
 
         if (!$this->cartoclient->isInterruptFlow()) {
 
             $this->drawTools($cartoclient);
     
-            $messages = array_merge($cartoclient->getMapResult()->serverMessages,
+            $messages = array_merge($cartoclient->getMapResult()
+                                                ->serverMessages,
                                     $cartoclient->getMessages());
             $this->drawMessages($messages);
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
             $this->drawUserAndRoles();
     
+            // lang links
+            $this->smarty->assign('locales', I18n::getLocales());
+            
             // debug printing
-            $smarty->assign('debug_request', var_export($_REQUEST, true));
+            $this->smarty->assign('debug_request', var_export($_REQUEST, 
+                                                              true));
     
             // handle plugins
-            $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm', $smarty);
+            $cartoclient->callPluginsImplementing('GuiProvider', 'renderForm',
+                                                  $this->smarty);
         }
         
         $form = 'cartoclient.tpl';
@@ -241,7 +248,7 @@ class FormRenderer {
             return;
         if (!is_null($this->customForm))
             $form = $this->customForm;
-        $smarty->display($form);
+        $this->smarty->display($form);
     }
 
     /**
