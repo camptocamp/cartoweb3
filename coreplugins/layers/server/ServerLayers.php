@@ -23,41 +23,8 @@ class ServerLayers extends ServerCoreplugin {
         return $this->mapInfo;
     }
    
-    /**
-     * Determines activated layers by recursively browsing LayerGroups.
-     * Only keeps Layer objects.
-     */
-    private function fetchChildrenFromLayerGroup($layersList) {
-        if (!$layersList || !is_array($layersList)) return false;
-
-        $cleanList = array();
-        foreach ($layersList as $key => $layerId) {
-            $serverLayer = $this->getMapInfo()->getLayerById($layerId);
-            if (!$serverLayer) continue;
-
-            // removes non Layer objects
-            if ($serverLayer instanceof Layer) $cleanList[] = $layerId;
-
-            // no use to browse more if object is not a LayerGroup
-            if (!$serverLayer instanceof LayerGroup) continue;
-            
-            // recursively gets sublayers from current layer children
-            $newList = $this->fetchChildrenFromLayerGroup($serverLayer->children);
-            if ($newList) {
-                $cleanList = array_merge($cleanList, $newList);
-                $cleanList = array_unique($cleanList);
-            }
-        }
-        return $cleanList;
-    }
-
     function getRequestedLayerNames() {
-        $this->requestedLayerNames =& 
-            $this->fetchChildrenFromLayerGroup($this->requestedLayerNames);
-
         if(!$this->requestedLayerNames) return array();
-
-        $this->requestedLayerNames = array_unique($this->requestedLayerNames);
         return $this->requestedLayerNames;
     }
 
