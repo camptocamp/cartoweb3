@@ -7,9 +7,13 @@
 /**
  * @package Plugins
  */
-class Hello extends ClientPlugin {
+class ClientHello extends ClientPlugin {
+
+    const HELLO_INPUT = 'hello_input';
+    
     private $log;
-    private $msg = 'hello world';
+    private $message;
+    private $count;
 
     function __construct() {
         parent::__construct();
@@ -30,9 +34,12 @@ class Hello extends ClientPlugin {
     
     function handleHttpRequest($request) {
         $this->count = $this->count + 1;
+        $this->message = @$_REQUEST[self::HELLO_INPUT];
     }
 
-    function buildMapRequest($mapRequest) {}
+    function buildMapRequest($mapRequest) {
+        //$mapRequest->helloRequest = @$_REQUEST[self::HELLO_INPUT];
+    }
 
     function handleMapResult($mapResult) {}
 
@@ -42,7 +49,7 @@ class Hello extends ClientPlugin {
         }
 
         $template->assign('hello_active', true);
-        $template->assign('hello_message', "message " . $this->msg . 
+        $template->assign('hello_message', "message: " . $this->message . 
                           " count: " . $this->count);
     }
 }

@@ -116,8 +116,9 @@
   </p>
 
   {if $hello_active|default:''}
-  <p>Hello plugin test:</p>
-  <p><input type="text" name="hello_input" /></p>
+  <p>Hello plugin test: <br />
+  {$hello_message} <br/ >
+  <input type="text" name="hello_input" /></p>
   {/if}
 
   {if $outliner_active|default:''}
@@ -152,7 +153,7 @@
             <table width="{$mainmap_width}" height="{$mainmap_height}">
               <tr>
                 <td align="center" valign="middle">LOADING MESSAGE<br /><img 
-                src="gfx/layout/loadingbar.gif" width="140" height="10" alt="" /></td>
+                src="{$project_gif_loadingbar}" width="140" height="10" alt="" /></td>
               </tr>
             </table>
           </div>
