@@ -22,6 +22,7 @@ function x($a="__died__\n") {
 }
 
 function bt($a="__died__\n") {
+    echo "<pre/>";
     debug_print_backtrace();
     x($a);
 }
