@@ -14,6 +14,9 @@
    This chapter describes how to configure PDF export,
    using <filename>client_conf/exportPdf.ini</filename> parameters.
   </para>
+  <para>
+   First part (<xref linkend="user.pdf.reference"/>) is a comprehensive reference of user-available configuration parameters. Second part (<xref linkend="user.pdf.tutorial"/>) is intended to be a small giving explantions and examples about how to configure the PDF exportation tool.
+  </para>
  </sect1>
 
  <sect1 id="user.pdf.reference">
@@ -24,14 +27,12 @@
     Parameters are named using a &lt;object&gt;.&lt;property&gt; convention.
     These parameters are grouped within dedicated objects 
     that deal with separated aspects of the export. For instance:
-    <programlisting><![CDATA[[...]
- general.horizontalMargin = 10
- general.verticalMargin = 10
- 
- formats.A4.label = A4
- formats.A4.bigDimension = 297
- [...]]]></programlisting>
    </para>
+   <programlisting><![CDATA[general.horizontalMargin = 10
+general.verticalMargin = 10
+
+formats.A4.label = A4
+formats.A4.bigDimension = 297]]></programlisting>
    <para>
     Some objects handle the general description of the PDF document
     as well as user form generation: "general" and "formats".
@@ -251,14 +252,12 @@
    <title>Formats Configuration</title>
    <para>
     Formats are described as a set of "formats" sub-objects. For instance:
-    <programlisting><![CDATA[[...]
- formats.A4.bigDimension = 297
- formats.A4.smallDimension = 210
- 
- formats.A3.label = A3
- formats.A3.bigDimension = 420
- [...]]]></programlisting>
    </para>
+   <programlisting><![CDATA[formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
+
+formats.A3.label = A3
+formats.A3.bigDimension = 420]]></programlisting>
    <para>
     Format ids (A3, A4, etc.) must match those listed in general.formats.
     <itemizedlist>
@@ -323,19 +322,17 @@
     documentation for PdfBlock class). Those default properties 
     can be partially or totally overriden using a template object 
     whose syntax is similar to this:
-    <programlisting><![CDATA[[...]
- template.type = text
- template.fontFamily = times
- template.fontSize = 12
- template.fontItalic = false
- [...]]]></programlisting>
+   </para> 
+   <programlisting><![CDATA[template.type = text
+template.fontFamily = times
+template.fontSize = 12
+template.fontItalic = false]]></programlisting>
+   <para>
     whereas real blocks are described this way:
-    <programlisting><![CDATA[[...]
- blocks.title.weight = 10
- blocks.title.verticalBasis = top
- blocks.title.verticalMargin = 15
- [...]]]></programlisting>
    </para>
+   <programlisting><![CDATA[blocks.title.weight = 10
+blocks.title.verticalBasis = top
+blocks.title.verticalMargin = 15]]></programlisting>
    <para>
     "Template"-described properties have a global scope whereas "blocks"
     ones are specifical to the given block. Properties names are identical 
@@ -807,26 +804,24 @@
      horizontalMargin and verticalMargin indicate how much space will be kept blank around each page. No block will be printed below these distances from the sheets borders. Note that these values can be overriden in the formats description. 
     </para>
     <para>For instance:</para>
-    <programlisting><![CDATA[
-    general settings
-    general.formats = A4, A3
-    general.defaultFormat = A4
-    general.resolutions = 96, 150, 300
-    general.mapServerResolution = 96
-    general.defaultResolution = 96
-    general.overviewScaleFactor = 10
-    general.defaultOrientation = portrait
-    general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
-                              page, legend, logo, scaleval, tlcoords, brcoords
+    <programlisting><![CDATA[general settings
+general.formats = A4, A3
+general.defaultFormat = A4
+general.resolutions = 96, 150, 300
+general.mapServerResolution = 96
+general.defaultResolution = 96
+general.overviewScaleFactor = 10
+general.defaultOrientation = portrait
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
+                          page, legend, logo, scaleval, tlcoords, brcoords
 
-    general.pdfEngine = CwFpdf
-    general.pdfVersion = 1.3
-    general.output = inline
-    general.filename = "map-[date,dMY-Hi].pdf"
-    general.distUnit = mm
-    general.horizontalMargin = 10
-    general.verticalMargin = 10
-    ]]></programlisting>
+general.pdfEngine = CwFpdf
+general.pdfVersion = 1.3
+general.output = inline
+general.filename = "map-[date,dMY-Hi].pdf"
+general.distUnit = mm
+general.horizontalMargin = 10
+general.verticalMargin = 10]]></programlisting>
    </sect3>
    <sect3 id="user.pdf.tutorial.general.formats">
     <title>formats</title>
@@ -845,19 +840,17 @@
     <para>
      For instance: 
     </para>
-    <programlisting><![CDATA[
-    ; formats settings
-    formats.A4.label = A4
-    formats.A4.bigDimension = 297
-    formats.A4.smallDimension = 210
+    <programlisting><![CDATA[; formats settings
+formats.A4.label = A4
+formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
 
-    formats.A3.label = A3
-    formats.A3.bigDimension = 420
-    formats.A3.smallDimension = 297
-    formats.A3.horizontalMargin = 30
-    formats.A3.verticalMargin = 30
-    formats.A3.maxResolution = 150
-    ]]></programlisting>
+formats.A3.label = A3
+formats.A3.bigDimension = 420
+formats.A3.smallDimension = 297
+formats.A3.horizontalMargin = 30
+formats.A3.verticalMargin = 30
+formats.A3.maxResolution = 150]]></programlisting>
    </sect3>
   </sect2>
 
@@ -872,10 +865,258 @@
    <para>
     Note that blocks that are not mentioned in general.activatedBlocks won't be displayed in any case.
    </para>
-   <programlisting><![CDATA[
-   general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
-                             page, legend, logo, scaleval, tlcoords, brcoords
-  ]]></programlisting>
+   <programlisting><![CDATA[general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult,
+                          page, legend, logo, scaleval, tlcoords, brcoords]]></programlisting>
+
+   <sect3 id="user.pdf.tutorial.block.template">
+    <title>Block template and overriding</title>
+    <para>
+     Since all blocks descriptions are based on the same PdfBlock object, a template block has been defined to factorize blocks common configuration (for instance font-family, background color, borders, padding, etc.). It is also a way to specify default blocks parameters values. It is then possible to personalize blocks by overriding those properties within the block own description. Blocks configuration overriding can be schemed as follows:
+    </para>
+    <para>
+     PHP PdfBlock (hard coded) >>> block template (user configured) >>> final block (user configured)
+    </para>
+    <para>
+     Note that it is not necessary to redefine properties in blocks or in their template if their current values (defined in "parent" structures) are already OK.
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[; blocks default settings
+template.type = text
+template.fontFamily = times
+template.fontSize = 12
+template.fontItalic = false
+template.fontBold = false
+template.color = black
+template.backgroundColor = white
+template.borderWidth = 0.25
+template.borderColor = black
+template.borderStyle = solid
+template.padding = 3
+template.horizontalMargin = 0
+template.verticalMargin = 0
+template.horizontalBasis = left
+template.verticalBasis = top
+template.hCentered = false
+template.zIndex = 1
+template.textAlign = center
+template.verticalAlign = center
+template.orientation = horizontal]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.positioning">
+    <title>Blocks positioning</title>
+    <para>
+     Cartoweb3 uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
+    </para>
+    <para>
+     Blocks are positioned one after the other, beginning by the ones with the lowest zIndex (vertical position: the low-zIndex'ed blocks are placed under the high-zIndexed ones - ie. closer to the background). When blocks have equal zIndexes, those with lowest weight are processed first. Eventually, if blocks have identical zIndexes and weights, the system will use general.activatedBlocks order to make its choice.
+    </para>
+    <para>
+     Blocks with different zIndexes wil not interact except if one is marked has the other's parent: in that situation the child block will be located inside the parent block instead of using the general referential. All following siblings will share the same parent block except if they have a inFlow = false property. Parent blocks must have lower zIndexes than their children.
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.mainmap.zIndex = 0
+blocks.mainmap.weight = 10
+
+[...]
+
+blocks.overview.parent = mainmap
+blocks.overview.zIndex = 1]]></programlisting>
+    <para>
+     Block margins are used to position a given block. Horizontal positioning is achieved by specifying the horizontalBasis (the side of the document - left|right - used as a reference) and the horizontalMargin (the latter value tells how far in distUnit the block will be spaced from the reference line). For instance to position a block at 10mm from the document right side, use the following configuration :
+    </para>
+    <programlisting><![CDATA[general.distUnit = mm
+
+[...]
+
+blocks.myBlock.horizontalBasis = right
+blocks.myBlock.horizontalMargin = 10]]></programlisting>
+    <para>
+     If you want to horizontally center a block, it is simply done using
+    </para>
+    <programlisting><![CDATA[blocks.myBlock.hCentered = true]]></programlisting>
+    <para>
+     Block centering overloads any other kind of positioning (margin...).
+    </para>
+    <para>
+     Vertical positioning is achieved in the same way (substitute the dedicated keywords).
+    </para>
+    <para>
+     The inFlow parameter defaults to true (except if set differently in the template block). As a result, blocks with the same zIndex will be positioned right below the first block preserving the left-side alignment. To cancel this behavior, set inFlow to false. In that case, the given block will be positioned related to the previous block using margin or centering ways. 
+    </para>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.text">
+    <title>Text blocks</title>
+    <para>
+     Text blocks are boxes with a textual content. The text is set in the content parameter in case of a static block. content has to be left blank for visitor-set blocks such as title or note. Text formatting is achieved using usual CSS-like parameter : fontFamily, fontSize (expressed in points!!), color. Small exception: fontItalic, fontBold, fontUnderline are booleans.
+    </para>
+    <para>
+     Box properties (background color, border size, color and style, padding) are set in the same way whatever the block type is.
+    </para>
+    <para>
+     Width is generally detected automatically according to the text length. On the other hand, the system has poor means to evaluate its height, so it is recommended to set it by hand. Note that padding (space between border and content) is taken into account only in the horizontal direction for text blocks. To remove a block border, one can simply set its width (borderWidth) to 0. Note that some border styling parameters are not available with all pdfEngines.
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.title.zIndex = 2
+blocks.title.weight = 10
+blocks.title.verticalBasis = top
+blocks.title.verticalMargin = 15
+blocks.title.hCentered = true
+blocks.title.fontSize = 20
+blocks.title.fontItalic = true
+blocks.title.fontBold = true
+blocks.title.fontUnderline = true
+blocks.title.backgroundColor = #eeeeee
+blocks.title.height = 15]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.image">
+    <title>Image blocks</title>
+    <para>
+     Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or a path within the server file system.
+    </para>
+    <para>
+     width and height have to be set by the user.
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.logo.type = image
+blocks.logo.content = http://server/gfx/layout/c2c.png
+blocks.logo.width = 40
+blocks.logo.height = 7
+blocks.logo.padding = 2
+blocks.logo.parent = mainmap
+blocks.logo.horizontalBasis = right
+blocks.logo.inFlow = false
+blocks.logo.horizontalMargin = 5
+blocks.logo.verticalMargin = 5]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.table">
+    <title>Table blocks</title>
+    <para>
+     Tables blocks are used to represent tabular data such as query results. A table is composed of a caption row (title), a headers row (columns/fields titles) and one or more data rows. All cells can only contain textual content.
+    </para>
+    <para>
+     The table block describes how data cells will be rendered (font, text color, background color...) using the same parameters than for text blocks. The table width will be computed according to the cells content with a upper limit materialized by the page or the parent block available extent. If the max extent is reached, line feeds will be added automatically to the cells contents. The height parameter gives the height of a single-lined row (and not the total table height!). Note that if a table is too high to fit a page, page breaks will automatically be added.
+    </para>
+    <para>
+     Caption and headers are described using separated blocks. They are specified by filling the table block caption and headers fields with the matching blocks ids. Since they are not standalone, there is no need to activate the blocks in the general.activatedBlocks list. That way it is possible to set the caption and headers layouts separately from the general table one (which is their default layout). Note that these subblocks are optional and will not be displayed if no content can be determined for them. The same headers and caption subblocks can be shared amongst several table blocks.
+    </para>
+    <para>
+     Cartoweb output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers content: cells content are represented as comma-separated string lists (only one row availble for table data).
+    </para>
+    <para>
+     For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.queryResult.type = table
+blocks.queryResult.inNewPage = true
+blocks.queryResult.caption = tableCaption
+blocks.queryResult.headers = tableHeaders
+blocks.queryResult.height = 10
+blocks.queryResult.verticalMargin = 10
+blocks.queryResult.hCentered = true
+
+blocks.tableCaption.backgroundColor = #ff0000
+blocks.tableCaption.color = white
+blocks.tableCaption.content = "Table test"
+blocks.tableCaption.height = 15
+
+blocks.tableHeaders.backgroundColor = #ffaaaa
+blocks.tableHeaders.fontBold = true
+blocks.tableHeaders.color = #eeeeff]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.legend">
+    <title>Legend block</title>
+    <para>
+     There is usually only one instance of legend block in a Cartoweb PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
+    </para>
+    <para>
+     You can avoid that a given set of layers be displayed in the legend blocks (no change on the maps) by listing the "forbidden" layers ids in the legend block content parameter, prefixing each layer id with an exclamation point ("!"). For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.legend.content = "!background, !layer3"]]></programlisting>
+    <para>
+      Note the double quotes around the content value that contains special characters such as "!".
+     </para>
+     <para>
+      Two behavior are offered to the visitor: embedding the legend block in the map or printing it in a separated page. First case is OK when there is little legend items to print (block is limited to one column) whereas the second possibility enables to display lots of legend items, using several columns if needed. In the map-embedded case, if the overview map is printed, the legend block width will be automatically set to the overview width value.
+     </para>
+     <para>
+      For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.legend.type = legendp
+blocks.legend.zIndex = 1
+blocks.legend.weight = 40
+blocks.legend.fontSize = 8
+blocks.legend.height = 5
+blocks.legend.width = 50
+blocks.legend.padding = 1.5
+blocks.legend.verticalMargin = 10
+blocks.legend.horizontalMargin = 10
+blocks.legend.content = "!nix"]]></programlisting>
+   </sect3>
+  </sect2>
+  
+  <sect2 id="user.pdf.tutorial.roles">
+   <title>Roles management</title>
+   <para>
+    CartoWeb3 enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
+   </para>
+   <para>
+    To do so, simply add to considered objects/blocks an allowedRoles property set to the comma-separated list of roles you want to restrict them to.
+   </para>
+   <para>
+    For instance: 
+   </para>
+   <itemizedlist>                                                                       <listitem>
+     <para>
+      to enable PDF printing only for loggedIn users, use:
+     </para>
+     <programlisting><![CDATA[general.allowedRoles = loggedIn]]></programlisting>
+    </listitem>
+    <listitem>
+     <para>
+      to reserve A3 format to editors or admins, use:
+     </para>
+     <programlisting><![CDATA[formats.A4.allowedRoles = editor, admin]]></programlisting>
+    </listitem>
+    <listitem>
+     <para>
+      to set a resolution limit for anonymous users when printing in A3, you can define 2 similar formats with different maxResolution and allowedRoles properties:
+     </para>
+     <programlisting><![CDATA[general.formats = A4, A3, A3full
+
+[...]
+
+formats.A4.label = A4
+formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
+
+formats.A3.label = A3
+formats.A3.bigDimension = 420
+formats.A3.smallDimension = 297
+formats.A3.maxResolution = 150
+formats.A3.allowedRoles = anonymous
+
+formats.A3full.label = A3full 
+formats.A3full.bigDimension = 420
+formats.A3full.smallDimension = 297
+formats.A3full.allowedRoles = loggedIn]]></programlisting>
+     <para>
+      Note that all formats that may be used must any way be specified in general.formats.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      to hide a block for non-admin users, use:
+     </para>
+     <programlisting><![CDATA[blocks.overview.allowedRoles = admin]]></programlisting>
+    </listitem>
+   </itemizedlist>
   </sect2>
  </sect1>
 
