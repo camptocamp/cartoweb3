@@ -5,26 +5,34 @@
  */
 
 /**
+ * Request for hilighting. The IdSelection class which it extends is found 
+ * in the location core plugin.
+ *
  * @package Plugins
  */
-class HilightRequest extends Serializable {
-    // maybe use a the IdSelection Object (which should also be used by the selection module)
-    
-    public $layerId;
-    public $idAttribute;
-    public $idType; // (string|integer) 
-    public $selectedIds;
+class HilightRequest extends IdSelection {
+
     public $maskMode;
-    
+    public $calculateArea;
+
     function unserialize($struct) {
-        $this->layerId     = Serializable::unserializeValue($struct, 'layerId');
-        $this->idAttribute = Serializable::unserializeValue($struct, 'idAttribute');
-        $this->idType      = Serializable::unserializeValue($struct, 'idType');
-        $this->selectedIds = Serializable::unserializeArray($struct, 'selectedIds');
-        $this->maskMode    = Serializable::unserializeValue($struct, 'maskMode', 'boolean');
+        $this->maskMode      = Serializable::unserializeValue($struct, 
+                                                        'maskMode', 'boolean');
+        $this->calculateArea = Serializable::unserializeValue($struct, 
+                                                    'calculateArea', 'boolean');
+        parent::unserialize($struct);        
     }
 }
 
-/* no HilightResult */
+/**
+ * @package Plugins
+ */
+class HilightResult extends Serializable {
+    public $area;
+    
+    function unserialize($struct) {
+        $this->area = self::unserializeValue($struct, 'area', 'double');
+    }
+}
 
 ?>

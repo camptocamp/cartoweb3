@@ -9,10 +9,14 @@
           <!-- FIXME: integer should be supported also -->
           <element name="selectedIds" type="types:ArrayOfString"/>
           <element name="maskMode" type="xsd:boolean"/>
+          <element name="calculateArea" type="xsd:boolean"/>
         </all>
       </complexType>
 
       <complexType name="HilightResult">
+        <all>
+          <element name="area" type="xsd:double"/>
+        </all>
       </complexType>
 
       <complexType name="HilightInit">

@@ -196,13 +196,20 @@ class ServerHilight extends ServerPlugin {
         }
     }
     
-    private function hilightLayer(HilightRequest $requ) {
+    private function getServerLayer(HilightRequest $requ) {
 
         $mapInfo = $this->serverContext->getMapInfo();
 
         $serverLayer = $mapInfo->getLayerById($requ->layerId);
         if (!$serverLayer)
             throw new CartoserverException("can't find serverLayer $requ->layerId");
+        
+        return $serverLayer;    
+    }
+    
+    private function hilightLayer(HilightRequest $requ) {
+        
+        $serverLayer = $this->getServerLayer($requ);
         
         $msMapObj = $this->serverContext->getMapObj();
         
@@ -297,6 +304,50 @@ class ServerHilight extends ServerPlugin {
         }
     }
     
+    private function calculateArea(HilightRequest $requ) {
+
+        if (count($requ->selectedIds) == 0)
+            return 0.0;
+
+        $serverLayer = $this->getServerLayer($requ);
+        $msMapObj = $this->serverContext->getMapObj();
+        
+        $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
+        if (empty($msLayer))
+            throw new CartoserverException("can't find mslayer $serverLayer->msLayer");
+
+        $areaFactor = $msLayer->getMetaData('area_factor');
+        if (empty($areaFactor))
+            $areaFactor = 1.0;
+        else
+            $areaFactor = (double)$areaFactor;
+        
+        $areaFixedValue = $msLayer->getMetaData('area_fixed_value');
+        if (!empty($areaFixedValue)) {
+            $fixedArea = (double)$areaFixedValue; 
+            return count($requ->selectedIds) * $fixedArea * $areaFactor;
+        }
+
+        $areaFieldName = $msLayer->getMetaData('area_field_name');
+        if (empty($areaFieldName))
+            $areaFieldName = 'area';
+
+        $areaFixedValueMetadataName = 'area_fixed_value';
+        $retAttrString = $msLayer->getMetaData($returnedAttributesMetadataName);
+
+        require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
+        $results = MapQuery::queryByIdSelection($this->getServerContext(), $requ);
+
+        $area = 0.0;
+        foreach ($results as $result) {
+            if (!isset($result->values[$areaFieldName]))
+                throw new CartoserverException("No area field named " .
+                        "\"$areaFieldName\" found in layer $requ->layerId");
+            $area += (double)$result->values[$areaFieldName] * $areaFactor;
+        }
+        return $area;
+    }
+    
     function handlePreDrawing($requ) {
         
         // FIXME: HilightRequest should support multiple layers hilight
@@ -304,10 +355,18 @@ class ServerHilight extends ServerPlugin {
         if (isset($requ->multipleRequests)) {
             foreach ($requ->multipleRequests as $hilightRequest) {
                 $this->hilightLayer($hilightRequest);   
-            }               
-        } else {
-            $this->hilightLayer($requ);
+            }
+            return null;
         }
+        
+        $this->hilightLayer($requ);
+        
+        if (!$requ->calculateArea)
+            return null;
+        
+        $hilightResult = new HilightResult();
+        $hilightResult->area = $this->calculateArea($requ);
+        return $hilightResult;
     }
 }
 ?>

@@ -77,6 +77,10 @@
   {$selection_result}
   {/if}
 
+  {if $hilight_result|default:''}
+  {$hilight_result}
+  {/if}
+
   {if $query_result|default:''}
   {$query_result}
   {/if}

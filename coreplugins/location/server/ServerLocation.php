@@ -240,7 +240,6 @@ class ZoomPointLocationCalculator extends LocationCalculator {
 /**
  * @package CorePlugins
  */
-// TODO: maybe put in a file of it's own
 class RecenterLocationCalculator extends LocationCalculator {
     private $log;
     private $useDefaultScale;
@@ -248,119 +247,22 @@ class RecenterLocationCalculator extends LocationCalculator {
     function __construct($locationPlugin, RecenterLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
-    }
-
-    private function genericQueryString($idAttribute, $idType, $selectedIds) {
-        // FIXME: does queryByAttributes support multiple id's for dbf ?
-        $queryString = array();
-        foreach($selectedIds as $id) {
-            if ($idType == 'string')
-                $queryString[] = "'$id'";
-            else
-                /* TODO */ x('todo_int_query_string');
-        } 
-        return $queryString;
-    }
-    
-    private function databaseQueryString($idAttribute, $idType, $selectedIds) {
-        if ($idType != 'string')
-            x('todo_database_int_query_string');
-        $queryString = implode("','", $selectedIds);
-        return array("$idAttribute in ('$queryString')");
-    }
-
-    private function isDatabaseLayer($msLayer) {
-        return $msLayer->connectiontype == MS_POSTGIS;
-    }
-
-    private function queryLayerByAttributes($msLayer, $idAttribute, $query) { 
-        
-        $this->log->debug("queryLayerByAttributes layer: $msLayer->name " .
-                "idAttribute: $idAttribute query: $query");
-        $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
-        if ($ret == MS_FAILURE) {
-            throw new CartoserverException("Recentering query returned no " .
-                    "results. Layer: $msLayer->name, idAttrubute: $idAttribute," .
-                    " query: $query"); 
-        }
-
-        $this->locationPlugin->getServerContext()->checkMsErrors();
-        $msLayer->open();
-        $bboxes = array();
-        for ($i = 0; $i < $msLayer->getNumResults(); $i++) {
-            $result = $msLayer->getResult($i);
-            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
-
-            $bbox = new Bbox();
-            $bbox->setFromMsExtent($shape->bounds);
-            $bboxes[] = $bbox;
-        }
-        if (empty($bboxes)) {
-            $this->log->warn('no bbox found in query results');
-            $msLayer->close();            
-            return NULL;
-        }
-        $this->log->debug('bboxes');
-        $this->log->debug($bboxes);
-        $bbox = $this->mergeBboxes($bboxes);
-        $msLayer->close();
-        return $bbox;       
-    }
-
-    private function checkImplementedConnectionTypes($msLayer) {
-    
-        $implementedConnectionTypes = array(MS_SHAPEFILE, MS_POSTGIS);
-        
-        if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
-            return;
-            
-        throw new CartoserverException("Layer to center on has an unsupported " .
-                "connection type: $msLayer->connectiontype");
-    }
-
-    private function decodeIds($ids) {
-        return array_map('utf8_decode', $ids);
+        require_once(CARTOSERVER_HOME . 'server/MapQuery.php');
     }
 
     private function getIdSelectionBbox(IdSelection $idSelection) {
+    
+        $results = MapQuery::queryByIdSelection($this->locationPlugin->getServerContext(),
+                                              $idSelection);
+        if (is_null($results) || count($results) == 0)
+            throw new CartoserverException("Could not fetch recentering bbox");        
 
-        $serverContext = $this->locationPlugin->getServerContext();
-        $mapInfo = $this->locationPlugin->getServerContext()->getMapInfo();
-        $msLayer = $mapInfo->getMsLayerById($serverContext->getMapObj(), 
-                                            $idSelection->layerId);
-        
-        $idAttribute = $idSelection->idAttribute;
-        if (is_null($idAttribute)) {
-            $idAttribute = $serverContext->getIdAttribute($idSelection->layerId);
-        }
-        if (is_null($idAttribute)) {
-            throw new CartoserverException("can't find idAttribute for layer " .
-                    "$idSelection->layerId");
-        }
-        $idType = $idSelection->idType;
-        if (is_null($idType)) {
-            $idType = $serverContext->getIdAttributeType($idSelection->layerId);
-        }
-
-        $this->checkImplementedConnectionTypes($msLayer);
-
-        $queryStringFunction = ($this->isDatabaseLayer($msLayer)) ?
-            'databaseQueryString' : 'genericQueryString';
-
-        $ids = $this->decodeIds($idSelection->selectedIds);
-
-        // FIXME: can shapefiles support queryString for multiple id's ?
-        //  if yes, then improve this handling. 
-
-        $queryString = $this->$queryStringFunction($idAttribute, $idType, $ids); 
         $bboxes = array();
-        foreach($queryString as $query) {
-            $bbox = $this->queryLayerByAttributes($msLayer, $idAttribute, $query);
-            if (!is_null($bbox))
-                $bboxes[] = $bbox; 
+        foreach ($results as $result) {
+            $bbox = new Bbox();
+            $bbox->setFromMsExtent($result->bounds);
+            $bboxes[] = $bbox;
         }
-        if (empty($bboxes))
-            return NULL;
         return $this->mergeBboxes($bboxes);
     }
 
