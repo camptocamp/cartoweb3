@@ -180,16 +180,9 @@ class Cartoserver {
     private function doGetMapInfo($mapId) {
 
         $serverContext = $this->getServerContext($mapId);
-        $serverContext->getMapInfoHandler()->fillDynamic($serverContext);
-
         $serverContext->loadPlugins();
-        $pluginManager = $serverContext->getPluginManager();
 
-        $mapInfo = $serverContext->getMapInfoHandler()->getMapInfo();
-
-        $pluginManager->callPluginsImplementing('InitProvider', 'getInit');
-        
-        return $mapInfo;
+        return $serverContext->getMapInfo();
     }
 
     /**

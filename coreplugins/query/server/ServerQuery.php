@@ -55,8 +55,8 @@ class ServerQuery extends ClientResponderAdapter {
 
         $msMapObj = $this->serverContext->getMapObj();
 
-        $mapInfo = $this->serverContext->getMapInfo();
-        $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
 
         $returnedAttributesMetadataName = 'query_returned_attributes';
         
@@ -99,8 +99,8 @@ class ServerQuery extends ClientResponderAdapter {
     private function resultToTable($result, $layerId, $idAttribute, 
                                    $attributes, $tableFlags) {
         
-        $mapInfo = $this->serverContext->getMapInfo();
-        $layer = $mapInfo->getLayerById($layerId);
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $layer = $layersInit->getLayerById($layerId);
 
         $table = new Table();
         $table->tableId = $layerId;
@@ -219,8 +219,8 @@ class ServerQuery extends ClientResponderAdapter {
             || $querySelection->useInQuery) {
             
             $msMapObj = $this->serverContext->getMapObj();
-            $mapInfo = $this->serverContext->getMapInfo();
-            $msLayer = $mapInfo->getMsLayerById($msMapObj,
+            $layersInit = $this->serverContext->getMapInfo()->layersInit;
+            $msLayer = $layersInit->getMsLayerById($msMapObj,
                                                 $querySelection->layerId);
             $msLayer->set('status', MS_ON);
         }
@@ -312,13 +312,13 @@ class ServerQuery extends ClientResponderAdapter {
 
         } else {
             
-            $mapInfo = $this->serverContext->getMapInfo();
+            $layersInit = $this->serverContext->getMapInfo()->layersInit;
             $msMapObj = $this->serverContext->getMapObj();
             
             foreach ($tables as $table) {
             
                 // Checks if layer has Ids
-                $serverLayer = $mapInfo->getLayerById($table->tableId);
+                $serverLayer = $layersInit->getLayerById($table->tableId);
                 $msLayer = $msMapObj->getLayerByName($serverLayer->msLayer);
                 $this->serverContext->checkMsErrors();
                 $idAttribute = $msLayer->getMetaData('id_attribute_string');

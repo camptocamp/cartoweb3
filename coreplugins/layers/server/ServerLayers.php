@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Server side layers plugin
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,14 @@
  * @version $Id$
  */
 
+require_once(CARTOSERVER_HOME . 'coreplugins/layers/server/LayersInitProvider.php');
+
 /**
  * Server plugin for managing the set of layers to render.
  * @package CorePlugins
  */
 class ServerLayers extends ClientResponderAdapter
-                   implements CoreProvider {
+                   implements CoreProvider, InitProvider {
     /**
      * @var Logger
      */
@@ -192,7 +194,7 @@ class ServerLayers extends ClientResponderAdapter
         foreach ($this->getRequestedLayerNames() as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
             
-            $msLayer = $this->serverContext->getMapInfo()->
+            $msLayer = $this->serverContext->getMapInfo()->layersInit->
                                     getMsLayerById($msMapObj, $requLayerId);
             $msLayer->set('status', MS_ON);
 
@@ -204,6 +206,16 @@ class ServerLayers extends ClientResponderAdapter
                 $this->imageType = $forceImageType;
             }
         }
+    }
+    
+    /**
+     * @see InitProvider::getInit()
+     */
+    public function getInit() {
+
+        $layersInitProvider = new LayersInitProvider($this->getServerContext(),
+                                                     $this);
+        return $layersInitProvider->getInit();
     }
 }
 ?>

@@ -144,6 +144,14 @@ class ServerContext {
     }
     
     /**
+     * Returns the current mapId.
+     * @return string
+     */
+    public function getMapId() {
+        return $this->mapId;
+    }
+    
+    /**
      * Resets map result object.
      */
     public function reset() {
@@ -211,12 +219,27 @@ class ServerContext {
     } 
 
     /**
+     * Returns the file path of the main .ini file of the current mapfile. It
+     * has the same location and name as the mapfile being used, but its 
+     * extension is .ini instead of .map
+     * @return string the location of the .ini file related to the mapfile
+     */
+    public function getMapIniPath() {
+
+        $mapName = $this->projectHandler->getMapName();
+        $file = $mapName . '.ini';
+        $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', $file);
+        $iniPath = CARTOSERVER_HOME . $path . $file;
+        return $iniPath;        
+    }
+
+    /**
      * Returns mean (mapfile & INI file) modification time.
      * @return int
      */
     public function getTimestamp() {
         $mapPath = $this->getMapPath();
-        $iniPath = $this->getMapInfoHandler()->getIniPath();
+        $iniPath = $this->getMapIniPath();
         
         $timestamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
         return (int)$timestamp;
@@ -282,8 +305,7 @@ class ServerContext {
      */
     public function getMapInfoHandler() {
         if (!$this->mapInfoHandler) {        
-            $this->mapInfoHandler = new MapInfoHandler($this, $this->mapId,
-                                                       $this->projectHandler);
+            $this->mapInfoHandler = new MapInfoHandler($this);
         }
         return $this->mapInfoHandler;
     }
@@ -428,7 +450,7 @@ class ServerContext {
      * @return string
      */
     private function getIdAttributeString($layerId) {
-        $serverLayer = $this->getMapInfo()->getLayerById($layerId);
+        $serverLayer = $this->getMapInfo()->layersInit->getLayerById($layerId);
         if (!$serverLayer) 
             throw new CartoserverException("layerid $layerId not found");
 

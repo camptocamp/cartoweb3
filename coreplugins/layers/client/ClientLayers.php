@@ -176,7 +176,7 @@ class LayerNode {
  */
 class ClientLayers extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable {
+                              Exportable, InitUser {
     /**
      * @var Logger
      */
@@ -186,6 +186,11 @@ class ClientLayers extends ClientPlugin
      * @var Smarty_CorePlugin 
      */
     private $smarty;
+
+    /**
+     * @var LayersInit
+     */
+    private $layersInit;
 
     /**
      * @var LayersState
@@ -294,13 +299,14 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * @see PluginBase::initialize()
+     * @see InitUser::handleInit()
      */
-    public function initialize() {
-        $mapInfo = $this->getCartoclient()->getMapInfo();
-        $this->notAvailableIcon = $mapInfo->notAvailableIcon;
-        $this->notAvailablePlusIcon = $mapInfo->notAvailablePlusIcon;
-        $this->notAvailableMinusIcon = $mapInfo->notAvailableMinusIcon;
+    public function handleInit($layersInit) {
+        $this->layersInit = $layersInit;
+        
+        $this->notAvailableIcon = $layersInit->notAvailableIcon;
+        $this->notAvailablePlusIcon = $layersInit->notAvailablePlusIcon;
+        $this->notAvailableMinusIcon = $layersInit->notAvailableMinusIcon;
     }
 
     /**
@@ -408,8 +414,8 @@ class ClientLayers extends ClientPlugin
      */
     private function getLayerNode() {
         
-        $layers = $this->getCartoclient()->getMapInfo()->layers;
-        
+        $layers = $this->layersInit->layers;
+                
         $layersMap = array();
         foreach ($layers as $layer) {
             $layersMap[$layer->id] = $layer;
@@ -429,7 +435,7 @@ class ClientLayers extends ClientPlugin
     private function getLayersSecurityFiltered() {
     
         if (!$this->getConfig()->applySecurity)
-            return $this->getCartoclient()->getMapInfo()->layers;
+            return $this->layersInit->layers;
 
         // TODO: Analyse the performances of the layerNode tree creation and 
         //  filtering

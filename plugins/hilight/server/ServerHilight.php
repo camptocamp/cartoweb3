@@ -270,9 +270,9 @@ class ServerHilight extends ServerPlugin {
      */
     public function hilightLayer($querySelection) {
         
-        $mapInfo = $this->serverContext->getMapInfo();
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
         
-        $serverLayer = $mapInfo->getLayerById($querySelection->layerId);
+        $serverLayer = $layersInit->getLayerById($querySelection->layerId);
         if (!$serverLayer)
             throw new CartoserverException("can't find serverLayer " .
                                            $querySelection->layerId);

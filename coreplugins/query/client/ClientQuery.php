@@ -189,10 +189,10 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         } else {
         
             // Takes all layers 
-            $mapInfo = $this->cartoclient->getMapInfo();
+            $layersInit = $this->cartoclient->getMapInfo()->layersInit;
             $queryLayers = array();
             $queryLayersLabel = array();
-            foreach($mapInfo->getLayers() as $layer) {
+            foreach($layersInit->getLayers() as $layer) {
                 if (! $layer instanceof Layer)
                     continue;
                 $queryLayers[] = $layer->id; 

@@ -191,8 +191,8 @@ class ServerMapquery extends ServerPlugin {
     public function queryByIdSelection(IdSelection $idSelection) {
 
         $serverContext = $this->getServerContext();
-        $mapInfo = $serverContext->getMapInfo();
-        $msLayer = $mapInfo->getMsLayerById($serverContext->getMapObj(), 
+        $layersInit = $serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($serverContext->getMapObj(), 
                                             $idSelection->layerId);
         
         $idAttribute = $idSelection->idAttribute;
@@ -242,8 +242,8 @@ class ServerMapquery extends ServerPlugin {
         $rect = ms_newRectObj();
         $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
         
-        $mapInfo = $this->serverContext->getMapInfo();
-        $msLayer = $mapInfo->getMsLayerById($msMapObj, $layerId);
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
         
         // layer has to be activated for query
         $msLayer->set('status', MS_ON);

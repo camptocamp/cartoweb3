@@ -311,7 +311,8 @@ class ClientLocation extends ClientPlugin
         
         if ($check) {
             $found = false;
-            foreach($this->cartoclient->getMapInfo()->getLayers() as $layer) {
+            $layersInit = $this->cartoclient->getMapInfo()->layersInit;
+            foreach($layersInit->getLayers() as $layer) {
                 if (! $layer instanceof Layer) {
                     continue;
                 }
@@ -349,10 +350,10 @@ class ClientLocation extends ClientPlugin
     private function drawIdRecenter() {
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
-        $mapInfo = $this->cartoclient->getMapInfo();
+        $layersInit = $this->cartoclient->getMapInfo()->layersInit;
         $layersId = array();
         $layersLabel = array();
-        foreach($mapInfo->getLayers() as $layer) {
+        foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)
                 continue;
             $layersId[] = $layer->id; 
@@ -498,6 +499,7 @@ class ClientLocation extends ClientPlugin
         $this->log->debug('creating session:');
 
         $this->locationState = new LocationState();
+        //x($mapInfo);
         $this->locationState->bbox = $initialMapState->location->bbox;
     }
 
@@ -614,17 +616,16 @@ class ClientLocation extends ClientPlugin
                                Shape $mainmapShape) {
 
         $toolToZoomType = array(
-                self::TOOL_ZOOMIN  => 
+                self::TOOL_ZOOMIN =>
                   ZoomPointLocationRequest::ZOOM_DIRECTION_IN,
                 self::TOOL_PAN => 
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
-                self::TOOL_ZOOMOUT=> 
+                self::TOOL_ZOOMOUT =>
                   ZoomPointLocationRequest::ZOOM_DIRECTION_OUT);
 
         $zoomType = @$toolToZoomType[$tool->id];
         if (empty($zoomType))
-            throw new CartoclientException('unknown mainmap tool ' . 
-                                           $tool->id);
+            throw new CartoclientException('unknown mainmap tool ' . $tool->id);
 
         $point = $mainmapShape->getCenter();
 

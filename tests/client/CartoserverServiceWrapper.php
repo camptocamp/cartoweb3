@@ -31,6 +31,7 @@ require_once(CARTOCOMMON_HOME . 'common/Common.php');
 require_once(CARTOCOMMON_HOME . 'common/Request.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
+require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
 require_once(CARTOCOMMON_HOME . 'common/Message.php');
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
 

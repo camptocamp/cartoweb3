@@ -30,7 +30,7 @@ if (!defined('CARTOCOMMON_HOME'))
 require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
-require_once(CARTOCLIENT_HOME . 'client/MapInfoCache.php');
+require_once(CARTOCLIENT_HOME . 'client/ClientMapInfoCache.php');
 require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
 require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
@@ -222,6 +222,11 @@ class Cartoclient {
      * @var MapInfo
      */
     private $mapInfo;
+
+    /**
+     * @var MapInfoCache
+     */
+    private $mapInfoCache;
     
     /**
      * @var ClientSession
@@ -299,10 +304,14 @@ class Cartoclient {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
-        $this->mapInfoCache = new MapInfoCache($this);
         
         try {
             $this->initializeObjects();
+            $this->initializePlugins();
+
+            $this->callPluginsImplementing('InitUser', 'handleInit',
+                                       $this->getMapInfo());
+            
             if (!isset($GLOBALS['headless']))
                 session_start();
             $this->initializeSession();
@@ -329,6 +338,9 @@ class Cartoclient {
      * @return ClientConfig
      */
     public function getConfig() {
+        if (!$this->config) {
+            $this->config = new ClientConfig($this->projectHandler);
+        }
         return $this->config;
     }
 
@@ -436,7 +448,7 @@ class Cartoclient {
     /**
      * Initializes core and normal client plugins
      */
-    private function initPlugins() {
+    private function initializePlugins() {
 
         $this->pluginManager = new PluginManager(CARTOCLIENT_HOME, 
                                 PluginManager::CLIENT, $this->projectHandler);
@@ -467,13 +479,25 @@ class Cartoclient {
     }
 
     /**
+     * Returns the MapInfoCache
+     * @return MapInfoCache
+     */
+    private function getMapInfoCache() {
+        if (!$this->mapInfoCache) {
+            $this->mapInfoCache = new ClientMapInfoCache($this);
+        }
+        return $this->mapInfoCache;
+    }
+
+    /**
      * Returns Map Info, get it from cache if not yet set
      * @see MapInfoCache
      * @return MapInfo MapInfo
      */
     public function getMapInfo() {
         if (!$this->mapInfo) {
-            $this->mapInfo = $this->mapInfoCache->getMapInfo($this->config->mapId);
+            $this->mapInfo = $this->getMapInfoCache()->
+                                            getMapInfo($this->config->mapId);
         }
         
         return $this->mapInfo;
@@ -589,8 +613,7 @@ class Cartoclient {
     private function getMapResultFromRequest($mapRequest) {
 
         $mapResult = $this->cartoserverService->getMap($mapRequest);
-        $this->mapInfoCache->checkMapInfoTimestamp($mapResult->timestamp, 
-                                                    $mapRequest->mapId);
+        $this->getMapInfoCache()->checkMapInfoTimestamp($mapResult->timestamp);
         return $mapResult;        
     }
     
@@ -648,9 +671,6 @@ class Cartoclient {
      */
     private function doMain() {
 
-        $this->callPluginsImplementing('InitUser', 'handleInit',
-                                       $this->getMapInfo());
-                        
         if ($this->isRequestPost()) {
         
             // Maps clicks cannot be modified by filters
@@ -735,23 +755,18 @@ class Cartoclient {
      */
     private function initializeObjects() {
 
-        $this->config = new ClientConfig($this->projectHandler);
-
         $this->log->debug('client context loaded (from session, or new)');
 
         // Internationalization
-        I18n::init($this->config);
+        I18n::init($this->getConfig());
 
         // Encoding
-        Encoder::init($this->config);
+        Encoder::init($this->getConfig());
 
         // initialize objects
         $this->cartoserverService = new CartoserverService($this->getConfig());
         $this->httpRequestHandler = new HttpRequestHandler($this);
         $this->formRenderer = new FormRenderer($this);
-
-        // plugins
-        $this->initPlugins();
     }
         
     /**

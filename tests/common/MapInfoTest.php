@@ -27,6 +27,7 @@
 require_once 'PHPUnit2/Framework/TestCase.php';
 
 require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
+require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
 
 /**
  * Unit tests for class MapInfo
@@ -284,11 +285,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $mapInfo->unserialize($struct);
 
         $this->assertEquals('titi', $mapInfo->mapLabel);
-        $this->assertEquals('LayerGroup', get_class($mapInfo->layers['layer1']));                                  
-        $this->assertEquals('Layer', get_class($mapInfo->layers['layer2']));                                  
-        $this->assertEquals('Layer', get_class($mapInfo->layers['layer3']));                                  
-        $this->assertEquals('LayerClass', get_class($mapInfo->layers['layer4']));                                  
-        $this->assertEquals('LayerClass', get_class($mapInfo->layers['layer5']));                                  
+                               
         $this->assertEquals('InitialMapState', 
                             get_class($mapInfo->initialMapStates['toto']));                                 
         $this->assertEquals('InitialMapState', 
@@ -310,6 +307,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals('Bbox', get_class($mapInfo->location->bbox)); 
     }
     
+    /* TODO: move this code to a common test for plugin layers.
     public function testMapInfoLayerById() {
 
         $struct = new stdclass();
@@ -346,6 +344,7 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals('layer2_label', $layer2->label); 
         $this->assertEquals('layer3_label', $layer3->label); 
     }
+    */
 }
 
 ?>
