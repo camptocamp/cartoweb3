@@ -326,10 +326,16 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
  <sect1 id="user.config.plugins"> 
   <title>Ini for plugins</title>
   <para>
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
-   Blabla Blabla Blabla Blabla Blabla Blabla Blabla 
+   Each plugin may have a configuration file associated with it. It is located
+   in the same directory as the <filename>maMap.map</filename> and 
+    <filename>maMap.ini</filename>. They have the same name as the plugin and
+    ends with <filename>.ini</filename> extension. For instance, the 
+    <literal>layers</literal> plugin has a configuration file named
+    <filename>layers.ini</filename>
+  </para>
+  <para>
+    All plugins configuration files are described in the next sections of this
+    chapter.
   </para>
  </sect1>
 
