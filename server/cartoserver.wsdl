@@ -214,11 +214,27 @@
         </all>
       </complexType>
             
+      <complexType name="ArrayOfLocationShortcut">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:LocationShortcut[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="LocationShortcut">
+        <all>
+          <element name="label" type="xsd:string"/>
+          <element name="bbox" type="types:Bbox"/>
+        </all>
+      </complexType>
+            
       <complexType name="LocationInit">
         <all>
           <element name="scales" type="types:ArrayOfLocationScale"/>
           <element name="minScale" type="xsd:double"/>
           <element name="maxScale" type="xsd:double"/>
+          <element name="shortcuts" type="types:ArrayOfLocationShortcut"/>
         </all>
       </complexType>
             

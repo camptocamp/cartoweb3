@@ -461,7 +461,7 @@ class ClientLocation extends ClientCorePlugin implements ToolProvider {
         if ($id_recenter_active)
             $template->assign('id_recenter', $this->drawIdRecenter());
         if ($shortcuts_active)
-            $template->assign('shurtcuts', $this->drawShortcuts());
+            $template->assign('shortcuts', $this->drawShortcuts());
     }
 
     function saveSession() {

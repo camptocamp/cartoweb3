@@ -216,6 +216,10 @@ ClientContext:
   {$recenter}
   {/if}
 
+  {if $shortcuts_active|default:''}
+  {$shortcuts}
+  {/if}
+
   {if $id_recenter_active|default:''}
   {$id_recenter}
   {/if}
