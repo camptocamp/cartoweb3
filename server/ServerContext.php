@@ -273,6 +273,7 @@ class ServerContext {
             }
         
             $mapPath = $this->getMapPath();
+            ms_ResetErrorList();
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
 
