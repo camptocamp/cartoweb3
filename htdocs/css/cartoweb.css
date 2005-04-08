@@ -30,37 +30,23 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #leftbar {
   position: absolute;
-  left: 10px;
   top: 40px;
-  width: 180px;
-  padding:0;
+  width: 210px;
+  padding:4px;
   z-index: 3;
   background:white;
 }
 
 #leftbar p {text-align:center;margin:10px;}
 
-.label {padding: 2px 5px 2px 5px;}
 
-.folder {
-  position:absolute;
-  left:10px;
-  top:80px;
-  width:170px;
-  z-index:2;
-  visibility: hidden;
-  text-align:center;
-  padding:5px;
-}
-
-#folder1 select, #folder2 select {max-width:160px;}
 
 #keymap {text-align:center;margin:10px;}
 #keymap input, #mainmapCell {border:1px solid #eee;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;margin-left: 205px;}
+#content {z-index: 0;margin-left: 218px;}
 
 #loadbar {
   width:170px;
