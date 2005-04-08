@@ -88,7 +88,7 @@
 <pre>
 Request:
 {$debug_request}
-<div class="separator"></div>
+
 ClientContext:
 {$debug_clientcontext}
 </pre>
@@ -156,7 +156,7 @@ ClientContext:
 
       {if $projectplugin_active|default:''}
       <p>Project plugin test: <br />
-      {$projectplugin_message} <br/ >
+      {$projectplugin_message} <br />
       <input type="text" name="projectplugin_input" /></p>
       {/if}
 

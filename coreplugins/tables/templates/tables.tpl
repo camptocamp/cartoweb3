@@ -2,7 +2,6 @@
 <h2>{$group->groupTitle}</h2>
 {foreach from=$group->tables item=table}
 {if $table->numRows > 0}
-<p>
 <table class="cw3table">
     <caption>{$table->tableTitle}</caption>
     <tr>
@@ -21,9 +20,8 @@
     {/foreach}
 </table>
 {if $exportcsv_active|default:''}
-<div class="exportlink"><a href="{$exportcsv_url}project={$project}&exportcsv_groupid={$group->groupId}&exportcsv_tableid={$table->tableId}">{t}Download CSV{/t}</a></div>
+<div class="exportlink"><a href="{$exportcsv_url}project={$project}&amp;exportcsv_groupid={$group->groupId}&amp;exportcsv_tableid={$table->tableId}">{t}Download CSV{/t}</a></div>
 {/if}
-</p>
 {/if}
 {/foreach}
 {/foreach}
