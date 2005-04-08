@@ -314,10 +314,13 @@ class AllTests {
   <para>
    To run a test case or a test suite, type the following
    command in directory <filename>&lt;cartoweb3_root&gt;/tests</filename>:
-   <screen><![CDATA[<php-bin> phpunit.php <test-class>]]></screen>
-   Where &lt;php-bin&gt; is the PHP binary and &lt;test-class&gt;
+   <screen><![CDATA[<php-bin> phpunit.php <test-class> <php-file>]]></screen>
+   Where &lt;php-bin&gt; is the PHP binary, &lt;test-class&gt;
    is the name of the test class 
-   (AllTests, client_AllTests, client_CartoclientTest, etc.).
+   (<literal>AllTests</literal>, <literal>client_AllTests</literal>, 
+    <literal>client_CartoclientTest</literal>, etc.) and &lt;php-file&gt;
+   is the name of the PHP file containing the test case 
+   (<filename>client/CartoclientTest.php</filename>).
   </para>
   <para>
   Result should look like this:
