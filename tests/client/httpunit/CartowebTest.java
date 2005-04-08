@@ -65,9 +65,11 @@ public class CartowebTest extends TestCase
 	 */
 	private void saveAs( WebResponse currentPage, String string ) throws Exception
 	{
-		String outputFilename = HTML_SAVE_DIRECTORY + string;
-		File f = new File( outputFilename );
-		OutputStream os = new FileOutputStream( f );
+		File htmlDirectory = new File(HTML_SAVE_DIRECTORY);
+		if (!htmlDirectory.exists())
+			htmlDirectory.mkdirs();
+		File outputFile = new File( HTML_SAVE_DIRECTORY + string );
+		OutputStream os = new FileOutputStream( outputFile );
 		os.write( currentPage.getText().getBytes() );
 		os.close();
 	}
@@ -89,7 +91,8 @@ public class CartowebTest extends TestCase
 		}
 		catch ( IOException ioe )
 		{
-			fail( "Problem which launching validator, please check that it is installed correctly:\n" + ioe );
+			fail( "Problem which launching xmllint validator, please check that it is installed correctly:\n" +
+					"(On a Debian system, you need to have the package libxml2-utils installed)."+ ioe );
 			return;
 		}
 
@@ -109,7 +112,9 @@ public class CartowebTest extends TestCase
 			System.out.println( str );
 			errorInputStream.close();
 		}
-		assertEquals( "Validation failed, please look at the above message", 0, process.exitValue() );
+		String failMsg = "Validation failed, please look at the above message\n" +
+			"(On a Debian system, be sure to have packages w3c-dtd-xhtml installed).";
+		assertEquals( failMsg, 0, process.exitValue() );
 	}
 
 	/**
