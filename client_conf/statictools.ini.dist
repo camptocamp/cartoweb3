@@ -1,1 +1,5 @@
 ; use negative weights to disable some statictools
+
+; nb max of segments for polylines and polygons (dhtml interface)
+; default -1 (unlimited)
+;nbMaxSegments = 25
