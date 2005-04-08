@@ -178,7 +178,7 @@
       <para>The permissions for layer must be activated in the 
         <filename>layers.ini</filename> &cartoclient; configuration file, and 
         are set in the metadata of the mapfile or the 
-        <filename>&lt;mapfile&gt;.ini</filename> configuration file. The 
+        <filename>&lt;layers&gt;.ini</filename> configuration file. The 
         concept of metadata in mapfiles and .ini file is described in <xref 
         linkend="user.layers.metadata"/>. The metadata key name which can be 
         used is called <constant>security_view</constant> and contains a coma 
@@ -216,7 +216,7 @@ END]]></programlisting>
           explained in <xref linkend="user.layers.metadata"/></para>
       </note>
       <para>Now let's look the case where the metadata key is set on a layer 
-        group in the <filename>&lt;mapfile&gt;.ini</filename> configuration 
+        group in the <filename>&lt;layers&gt;.ini</filename> configuration 
         file: </para>
       <programlisting><![CDATA[layers.group_admin.className = LayerGroup
 layers.group_admin.children = grid_defaulthilight 
