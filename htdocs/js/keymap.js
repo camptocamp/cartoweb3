@@ -15,7 +15,7 @@ function collapseKeymap() {
     newStatus = 'off';
     keymap.style.display = 'none';
     switcher.title = showKeymapMsg;
-    myform.collapse_keymap.value = '1';
+    document.forms['carto_form'].collapse_keymap.value = '1';
   }
 
   var re = new RegExp(newStatus);
@@ -28,7 +28,11 @@ function updateKeymapStatus() {
     collapseKeymap();
 }
 
+function keymapInit() {
+  updateKeymapStatus();
+  keymapCont = xGetElementById('keymapContainer');
+  xShow(keymapCont);
+}
+
 if (typeof onLoadString != "string") onLoadString = "";
-onLoadString += "updateKeymapStatus();";
-onLoadString += "keymapCont = xGetElementById('keymapContainer');";
-onLoadString += "xShow(keymapCont);";
+onLoadString += "keymapInit();";
