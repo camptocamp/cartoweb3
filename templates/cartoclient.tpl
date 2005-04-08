@@ -10,6 +10,7 @@
   <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
   
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
@@ -28,6 +29,17 @@
   {/if}
   
   {include file="dhtmlcode.tpl"}
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    {literal}
+    window.onload = function() {
+      if (typeof onLoadString == "string") {
+        eval(onLoadString);
+      }
+    }
+    {/literal}
+    //-->
+  </script>
 </head>
 
 <body>
@@ -145,17 +157,16 @@ ClientContext:
       <input type="submit" name="reset_session" value="reset_session" class="form_button" 
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
-        
-    <p>
-      <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
-      id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span><span
-      id="label3" class="label"><a href="javascript:ontop(3)">{t}PDF{/t}</a></span>
-    </p>
+    <div>
+      <ul id="tabnav1">
+        <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
+        <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
+        <li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>
+      </ul>
+    </div>
+    <div id="container">
+      <div id="folder1" class="folder">
 
-    <div id="container"></div>
-  </div> 
-  
-    <div id="folder1" class="folder">
     
       {if $keymap_path|default:'' && !$collapsibleKeymap|default:''}
       <div id="keymap">
@@ -207,18 +218,19 @@ ClientContext:
     
     </div>
     <!-- end of folder2 -->
-
+    {if $exportPdf|default:''}
+    <div id="folder3" class="folder">
+      {$exportPdf}
+    </div>
+    {/if}
+  </div>
+</div>
    {if $auth_active|default:''}
    {$auth}
    {/if}
 
 </form>
 
-{if $exportPdf|default:''}
-<div id="folder3" class="folder">
-{$exportPdf}
-</div>
-{/if}
 
 </body>
 </html>
