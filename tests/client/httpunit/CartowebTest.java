@@ -142,7 +142,7 @@ public class CartowebTest extends TestCase
 
 	private void assertContainsMainmap( WebResponse response ) throws Exception
 	{
-		return assertContainsMainmap( response, true );
+		assertContainsMainmap( response, true );
 	}
 	
 	private void testProject( WebConversation conversation, String projectId ) throws Exception
