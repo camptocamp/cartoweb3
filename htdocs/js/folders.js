@@ -2,56 +2,45 @@
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 function setupFolders() {
-    var current;
-    var folder_idx = document.carto_form.js_folder_idx.value;
-
-    var container = xGetElementById('container');
-    xShow(container);
-    for (i = 0; i < myfolders.length; i++) {
-                current = myfolders[i];
-		folder = xGetElementById('folder' + current);
-		xMoveTo(folder,xPageX(container),xPageY(container));
-		xShow(folder);
-
-		xWidth(folder,xWidth(container));
-    }
-    ontop(myfolders[folder_idx]);
-    xWidth(xGetElementById("blue"),200);
+  myfolders = xGetElementsByClassName('folder', null, null);
+  var myform = document.forms['carto_form']
+  var folder_idx = myform.js_folder_idx.value;
+  ontop(folder_idx);
 }
 
 function ontop(id) {
-
-    for (i = 0; i < myfolders.length; i++) {
-                current = myfolders[i];
-		currentFolder = xGetElementById('folder'+ current);
-		xHide(currentFolder);
-		
-		currentLabel = xGetElementById('label' + current);
-		
-		if (currentLabel.style) {
-			currentLabel.style.backgroundColor = '#EBEBEB';
-			currentLabel.style.borderColor = 'black';
-			currentLabel.style.borderStyle = 'none';
-			currentLabel.style.borderBottomStyle = 'solid';
-			currentLabel.style.borderWidth = '0px';
-			currentLabel.style.borderBottomWidth = '1px';
-		}
-
-		if (current == id) {
-		    document.carto_form.js_folder_idx.value = i;
-		}
+  for (i = 0; i < myfolders.length; i++) {
+    currentFolder = myfolders[i];
+    current = currentFolder.id.substring(6,7);
+    currentLabel = xGetElementById('label' + current);
+    if (current == id) {
+      currentFolder.style.display = "block";
+      currentLabel.className = 'active';
+    } else {
+      currentFolder.style.display = "none";
+      currentLabel.className = '';
     }
-	folder = xGetElementById('folder'+ id);
-	xShow(folder);
-	
-	label = xGetElementById('label'+ id);
-	if (label.style) {
-		label.style.backgroundColor = 'white';
-		label.style.borderBottomColor = 'white';
-		label.style.borderStyle = 'solid';
-		label.style.borderBottomStyle = 'none';
-		label.style.borderWidth = '1px';
-		label.style.borderBottomWidth = '0px';
-	}
+  }
+  document.carto_form.js_folder_idx.value = id;
+  
+  if (!isTopRowClicked(id))
+    swapRows();
 }
 
+// 
+function isTopRowClicked(id) {
+  var clickedLabel = xGetElementById('label' + id);
+  var row = xParent(clickedLabel,true)
+  return (clickedLabel.parentNode.id == 'tabnav1');
+}
+
+function swapRows() {
+  var topRow = xGetElementById('tabnav1');
+  var lowRow = xGetElementById('tabnav2');
+  var temp = topRow.innerHTML;
+  topRow.innerHTML = lowRow.innerHTML;
+  lowRow.innerHTML = temp;
+}
+
+if (typeof onLoadString != "string") onLoadString = "";
+onLoadString += "setupFolders();";
