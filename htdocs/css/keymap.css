@@ -5,19 +5,26 @@
   top: 5px;
   left: 5px;
   visibility: hidden;
+  z-index:2; /* Safari Mac needed */
 }
 
+/* keymap image */
 #floatkeymap {
   position:relative;
   border:1px solid #ccc;
-  z-index: 1000;
+  padding:0;
+  margin:0;
+}
+
+#floatkeymap input {
+  margin: 0;
+  padding: 0;
 }
 
 /* keymap switching button
    position set relatively to the keymap */
 #keymapswitcher {
   position:absolute;
-  z-index:10001;
   top: 3px;
   left: 3px;
 }
