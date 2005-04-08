@@ -10,6 +10,7 @@ function dhtmlBox() {
   this.image = xGetElementById("mapImageDiv")
   this.canvas = xGetElementById("myCanvasDiv")
   this.canvas2 = xGetElementById("myCanvas2Div")
+  this.load = xGetElementById("loadbarDiv");
   this.displayContainer = xGetElementById("diplayContainerDiv")
   this.displayCoords = xGetElementById("displayCoordsDiv")
   this.displayMeasure = xGetElementById("displayMeasureDiv")
@@ -32,7 +33,6 @@ function dhtmlBox_initialize() {
 
   dhtmlBox.changeTool() //make the previous tool selected the current one
   
-  this.target.style.zIndex = 1000
 
   this.width = xWidth(this.anchor)
   this.height = xHeight(this.anchor)
@@ -42,7 +42,7 @@ function dhtmlBox_initialize() {
   if (this.dispPos == "top") this.dispPosPx = -13
   else if (this.dispPos == "bottom") this.dispPosPx = this.height
   else this.dispPosPx = 0
-  xMoveTo(this.displayContainer,xPageX(this.anchor),xPageY(this.anchor) + this.dispPosPx)
+  xTop(this.displayContainer,this.dispPosPx)
 
 }
 
@@ -53,10 +53,6 @@ function dhtmlBox_resizeAndMoveDivs() {
   xResizeTo(this.canvas2,this.width,this.height)
   xWidth(this.displayContainer,this.width)
 
-  xMoveTo(this.image,xPageX(this.anchor),xPageY(this.anchor))
-  xMoveTo(this.target,xPageX(this.anchor),xPageY(this.anchor))
-  xMoveTo(this.canvas,xPageX(this.anchor),xPageY(this.anchor))
-  xMoveTo(this.canvas2,xPageX(this.anchor),xPageY(this.anchor))
   xShow(this.image)
 
   xClip(this.target,0,this.width,this.height,0)
@@ -99,7 +95,7 @@ function dhtmlBox_changetool() {
   xAddEventListener(this.target,'mouseup',this.domouseup)
   xAddEventListener(this.target,'mousemove',this.domousemove)
   xAddEventListener(this.target,'mouseout',this.domouseout)
-  xAddEventListener(this.target,'DBLCLICK',this.dodblclick)
+  xAddEventListener(this.target,'dblclick',this.dodblclick)
 
   xAddEventListener(document,'keydown',this.dokeydown)
  
@@ -128,8 +124,8 @@ function dhtmlBox_mousedown(evt) {
       dhtmlBox.rightclic = false
     }
   
-    dhtmlBox.x1 = dhtmlBox.x2 = e.offsetX
-    dhtmlBox.y1 = dhtmlBox.y2 = e.offsetY
+    dhtmlBox.x1 = dhtmlBox.x2 = xPageX(e) - xPageX(dhtmlBox.anchor)
+    dhtmlBox.y1 = dhtmlBox.y2 = xPageY(e) - xPageY(dhtmlBox.anchor)
     dhtmlBox.keyEscape = false
 	
     if (dhtmlBox.shapeType == "point") {
@@ -176,10 +172,11 @@ function dhtmlBox_mousemove(evt) {
 
     //show the coords display
     xShow(dhtmlBox.displayContainer)
+    
+    dhtmlBox.x2 = xPageX(e) - xPageX(dhtmlBox.anchor)
+    dhtmlBox.y2 = xPageY(e) - xPageY(dhtmlBox.anchor)
 
     if(dhtmlBox.drag && dhtmlBox.isActive) { //the mouse is down
-      dhtmlBox.x2 = e.offsetX
-      dhtmlBox.y2 = e.offsetY
       if (dhtmlBox.shapeType == 'point') {
         jg.clear()
         dhtmlBox.x1 = dhtmlBox.x2
@@ -190,12 +187,10 @@ function dhtmlBox_mousemove(evt) {
       if (dhtmlBox.shapeType == 'polygon') dhtmlBox.lastLinePaint() // last line is drawn while moving
     }
     else if ((dhtmlBox.shapeType == 'polygon' || dhtmlBox.shapeType == 'line') && dhtmlBox.isActive == true) {
-        dhtmlBox.x2 = e.offsetX
-        dhtmlBox.y2 = e.offsetY
         dhtmlBox.lastLinePaint() // the last line is drawn while moving
     }
     // display the coordinates
-    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((e.offsetX * dhtmlBox.pixel_size_m) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - e.offsetY) * dhtmlBox.pixel_size_m) + dhtmlBox.boxy)
+    dhtmlBox.displayCoords.innerHTML = dhtmlBox.coord_msg + Math.round((dhtmlBox.x2 * dhtmlBox.pixel_size_m) + dhtmlBox.boxx)  +" / "+ Math.round(((dhtmlBox.mapHeight - dhtmlBox.y2) * dhtmlBox.pixel_size_m) + dhtmlBox.boxy)
   } 
 }
 
@@ -211,8 +206,8 @@ function dhtmlBox_mouseup(evt) {
 
       dhtmlBox.drag = false //the mouse is now up
 
-      dhtmlBox.x2 = e.offsetX
-      dhtmlBox.y2 = e.offsetY
+      dhtmlBox.x2 = xPageX(e) - xPageX(dhtmlBox.anchor)
+      dhtmlBox.y2 = xPageY(e) - xPageY(dhtmlBox.anchor)
 
       //the box is too small
      if (dhtmlBox.shapeType == 'rectangle_or_point' && ((Math.abs(dhtmlBox.x1-dhtmlBox.x2) <= dhtmlBox.jitter) || (Math.abs(dhtmlBox.y1-dhtmlBox.y2) <= dhtmlBox.jitter))) {
@@ -257,7 +252,7 @@ function dhtmlBox_keydown(evt) { //
 	if (dhtmlBox.action == 'submit') {
 		dhtmlBox.changeTool() // cancel the use of the current tool
 		dhtmlBox.resizeAndMoveDivs()
-		xHide(dhtmlBox.anchor)
+		xHide(dhtmlBox.load)
 	}
 	else if (dhtmlBox.action == 'measure') {
 		dhtmlBox.paint() //
@@ -278,9 +273,9 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
     var dx = this.x2 - this.x1
     var dy = this.y2 - this.y1
 
-    xMoveTo(this.image,dx + xPageX(this.anchor),dy + xPageY(this.anchor))
+    xMoveTo(this.image,dx,dy)
     xClip(this.image,(dy<0)? Math.abs(dy):0,(dx>0)? this.width - dx : this.width,(dy>0)? this.height-dy:this.height,(dx<0)? Math.abs(dx):0)
-	
+
     if (dx == 0 && dy == 0) {
         // special case of click recentering
         this.Xpoints[0] = dhtmlBox.x2
@@ -322,12 +317,44 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
       this.draw_x[this.cnv_clicks] = this.x2
       this.draw_y[this.cnv_clicks] = this.y2
     }
+    
+    // alert for max number of segments
+    if (this.draw_x.length == this.nbMaxSegments - Math.round(this.nbMaxSegments * 25/100) + 2) {
+      alert (this.maxSegments1_msg + this.nbMaxSegments +
+      "\n" + (this.nbMaxSegments - Math.round(this.nbMaxSegments * 25/100)) + this.maxSegments2_msg );
+    }
+    // max number of segments reached
+    if (this.draw_x.length >= this.nbMaxSegments + 2 && this.nbMaxSegments != -1) this.isActive = false;
+    
     this.Xpoints[this.cnv_clicks - 1] = this.draw_x[this.cnv_clicks]
     this.Ypoints[this.cnv_clicks - 1] = this.draw_y[this.cnv_clicks]
+    
+    if (this.shapeType == 'polygon') {// check for intersection
+      
+	  var tmpLine = new Line( this.draw_x[this.cnv_clicks - 1], this.draw_y[this.cnv_clicks - 1], this.x2, this.y2, false );
+	  var tmpLine2 = new Line( this.draw_x[1], this.draw_y[1], this.x2, this.y2, false );
+	
+      for ( var i=0; i<this.draw_x.length; i++ )
+      {
+	    var tmpLineI = new Line( this.Xpoints[i], this.Ypoints[i], this.Xpoints[i + 1], this.Ypoints[i + 1], false );
+	  
+        if ( tmpLine.intersectsWith( tmpLineI ) || 
+          (tmpLine2.intersectsWith( tmpLineI ) && !this.isActive))
+		{
+		  // give message
+		  alert(this.overlap_msg);
+		  // last click back
+		  --this.cnv_clicks;
+          this.isActive = true;
+        }
+	  }
+	}
+    
+    
     if (xMac && xIE4Up) { // IE/Mac specificity
 	  if (!this.isActive && this.shapeType == 'polygon') {
         this.Xpoints[this.cnv_clicks] = this.draw_x[1]
-        this.Ypoints[this.cnv_clicks] = this.draw_y[1]	  	
+        this.Ypoints[this.cnv_clicks] = this.draw_y[1]
 	  }
       jg.clear()
       jg.drawPolylinePts(this.Xpoints,this.Ypoints, this.d2pts)
@@ -409,18 +436,11 @@ function dhtmlBox_submitForm() {
 		coords += this.Xpoints[i] +"," + this.Ypoints[i] + ";"
 	}
 	if (dhtmlBox.shapeType == 'polygon') coords += this.Xpoints[0] +"," + this.Ypoints[0] + ";"  // last point equal to first
-	myform.selection_coords.value = coords.substring(0,coords.length - 1) // delete the last coma
+    myform.selection_coords.value = coords.substring(0,coords.length - 1) // delete the last coma
 	// change the value of the tool form input
-/*    for (var i =0; i < myform.tool.length ; i++) {
-        if (myform.tool[i].checked) {
-		    myform.tool[i].value = this.toolName
-		}
-	}
-*/
 	myform.selection_type.value = (this.shapeType == "pan") ? "point" : this.shapeType
-//	alert ("type : " + myform.selection_coords.value + "\n coords : " + myform.selection_coords.value)
-	xShow(dhtmlBox.anchor)
-   	myform.submit()
+    xShow(dhtmlBox.load)
+    myform.submit()
 }
 
 function dhtmlBox_measureShape() {
@@ -453,6 +473,81 @@ function dhtmlBox_measureShape() {
 	  else this.measure = Math.round(this.measure)
       this.displayMeasure.innerHTML = this.surf_msg+ this.measure +this.surf_unit
     }
+}
+
+function Line( x1, y1, x2, y2, bIncludeStartNode )
+{
+    // set properties
+    this.x1 = x1;
+    this.x2 = x2;
+    this.y1 = y1;
+    this.y2 = y2;
+    
+    // set methods
+    this.intersectsWith = intersectsWith;
+    
+    
+    function slope( x1,y1,x2,y2 )
+    {
+        // check for vertical line (prevent div by 0 - return big number)
+        if ( x1 == x2 ) return Math.pow(10,100);
+
+        // calculate and return slope
+        return (y2-y1)/(x2-x1);
+    }
+
+    function intercept( x,y,m )
+    {
+        // calculate the intercept
+        return y-m*x;
+    }
+ 
+    function intersectsWith( oLine )
+    {
+	  // init vars
+	  var Line1x1 = this.x1;
+	  var Line1y1 = this.y1;
+	  var Line1x2 = this.x2;
+	  var Line1y2 = this.y2;
+	  var Line2x1 = oLine.x1;
+	  var Line2y1 = oLine.y1;
+      var Line2x2 = oLine.x2;
+      var Line2y2 = oLine.y2; 	
+
+      // calculate slopes
+      var m1 = slope( Line1x1, Line1y1, Line1x2, Line1y2 );
+      var m2 = slope( Line2x1, Line2y1, Line2x2, Line2y2 );
+
+      // check if lines are parallel
+      if ( m1 == m2 ) return false;
+
+      // calculate the intercepts
+      var b1 = intercept( Line1x1, Line1y1, m1 );
+      var b2 = intercept( Line2x1, Line2y1, m2 );
+
+      // calculate common x coordinate
+      var nCommonX = ( b2 - b1 ) / ( m1 - m2 );
+
+      // calculate the y coordinate of the non-vertical line
+      var nCommonY = m2*nCommonX + b2;
+      if ( Line1x1 != Line1x2 )
+        nCommonY = m1*nCommonX + b1;
+
+      // check that the common x & y coordinates are on both lines
+      return ( isBetween( nCommonX, Line1x1, Line1x2 ) &&
+               isBetween( nCommonX, Line2x1, Line2x2 ) &&
+               isBetween( nCommonY, Line1y1, Line1y2 ) &&
+               isBetween( nCommonY, Line2y1, Line2y2 ));
+    }
+
+    function isBetween( nValue, nPoint1, nPoint2 )
+    {
+      // determine if point is between based on which way the range goes
+      if ( nPoint1 < nPoint2 )
+        return ( nValue > nPoint1 && nValue < nPoint2 );
+      else
+        return ( nValue > nPoint2 && nValue < nPoint1 );
+    }    
 }
 
 new dhtmlBox(0)
