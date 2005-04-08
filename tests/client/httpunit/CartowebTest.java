@@ -100,7 +100,6 @@ public class CartowebTest extends TestCase
 
 		outStream.write( response.getText().getBytes() );
 		outStream.close();
-		process.waitFor();
 
 		InputStream errorInputStream = new BufferedInputStream( process.getErrorStream() );
 		byte[] buffer = new byte[ 1024 ];
@@ -112,8 +111,10 @@ public class CartowebTest extends TestCase
 			System.out.println( str );
 			errorInputStream.close();
 		}
+
+		process.waitFor();
 		String failMsg = "Validation failed, please look at the above message\n" +
-			"(On a Debian system, be sure to have packages w3c-dtd-xhtml installed).";
+			"(On a Debian system, be sure to have package w3c-dtd-xhtml installed).";
 		assertEquals( failMsg, 0, process.exitValue() );
 	}
 
