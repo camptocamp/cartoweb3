@@ -87,7 +87,7 @@ public class CartowebTest extends TestCase
 		try
 		{
 			process = Runtime.getRuntime().exec(
-					new String[] { "xmllint", "--valid", "--nonet", "--noout", "--postvalid", "-" } );
+   new String[] { "xmllint", "--encode", "iso-8859-1", "--valid", "--nonet", "--noout", "--postvalid", "-" } );
 		}
 		catch ( IOException ioe )
 		{
