@@ -27,7 +27,7 @@
  * @package CorePlugins
  */
 class ClientStatictools extends ClientPlugin
-                        implements ToolProvider {
+                        implements GuiProvider, ToolProvider {
     /**                 
      * @var Logger
      */
@@ -45,6 +45,27 @@ class ClientStatictools extends ClientPlugin
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
+    }
+
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpPostRequest($request) {}
+
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpGetRequest($request) {}
+    
+    /**
+     * @see GuiProvider::renderForm()
+     */
+    public function renderForm(Smarty $template) {
+       
+       $nbMaxSegments = $this->getConfig()->nbMaxSegments;
+       $template->assign(array(
+            'dhtml_nb_max_segments' => $nbMaxSegments
+                                ));
     }
 
     /**
