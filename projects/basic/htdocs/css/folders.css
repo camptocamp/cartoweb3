@@ -1,0 +1,84 @@
+/* tabs / labels */
+ul#tabnav1 {
+    font: bold 11px verdana, arial, sans-serif;
+    list-style-type: none;
+    border-bottom: 1px solid #000;
+    margin: 0;
+    padding: 0 0 24px 0px;
+    z-index: 2;
+}
+
+ul#tabnav1 li {
+    float: left;
+    height: 21px;
+    background-color: #efefef;
+    margin: 2px 2px 0px 0px;
+    border: 1px solid #999;
+    border-bottom: 1px solid #000;
+}
+
+ul#tabnav1 li.active {
+    border: 1px solid #000;
+    border-bottom: 1px solid #fff;
+    background-color: #fff;
+}
+
+ul#tabnav1 li.active a {
+    color: #000;
+}
+
+#tabnav1 a {
+    float: left;
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 4px;
+}
+
+#tabnav1 li:hover {
+    background: #fff;
+}
+
+/* use following if you need 2 or more lines of labels */
+/*
+ul#tabnav2 {
+    font: bold 11px verdana, arial, sans-serif;
+    list-style-type: none;
+    margin: 0 0 1px 0;
+    padding: 0 0 15px 8px;
+    z-index: 2;
+}
+
+ul#tabnav2 li {
+    float: left;
+    height: 21px;
+    background-color: #efefef;
+    margin: 2px 2px -9px 0px;
+    border: 1px solid #999;
+}
+
+#tabnav2 a {
+    float: left;
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 4px;
+}
+
+#tabnav2 li:hover {
+    background: #fff;
+}
+*/
+
+
+/*  folders container box */
+#container {
+  border: 1px solid #000;
+  border-width: 0 1px 1px 1px;
+}
+
+.folder {
+  position: relative;
+  text-align:center;
+  padding:5px;
+}
