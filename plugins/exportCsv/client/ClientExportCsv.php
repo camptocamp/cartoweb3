@@ -53,6 +53,7 @@ class ClientExportCsv extends ExportPlugin {
      * @see ExportPlugin::getExportScriptPath()
      */
     public function getExportScriptPath() {
+        // FIXME: is this still needed ??
         $scriptPath = parent::getExportScriptPath();
         if (strstr($scriptPath, '?'))
             $scriptPath .= '&amp;';
