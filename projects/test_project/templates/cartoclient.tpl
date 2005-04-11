@@ -126,7 +126,7 @@ ClientContext:
       </ul>
     </div>
     <div id="container">
-      <div id="folder1" class="folder">
+    <div id="folder1" class="folder">
     
       {if $keymap_path|default:''}
       <div id="keymap">
@@ -187,11 +187,8 @@ ClientContext:
     {$exportPdf}
     </div>
     {/if}
-</div>
-
+    </div>
+  </div>
 </form>
-
-
-
 </body>
 </html>
