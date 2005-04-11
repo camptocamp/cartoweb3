@@ -5,6 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   {if $query_result || $selection_result|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=query}query.css{/r}" />{/if}
   <meta name="author" content="Sylvain Pasche" />
@@ -15,6 +16,17 @@
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    {literal}
+    window.onload = function() {
+      if (typeof onLoadString == "string") {
+        eval(onLoadString);
+      }
+    }
+    {/literal}
+    //-->
+  </script>
 </head>
 
 <body>
@@ -106,16 +118,15 @@ ClientContext:
       <input type="submit" name="reset_session" value="reset_session" class="form_button" />
     </p>
     
-    <p>
-      <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></span><span 
-      id="label2" class="label"><a href="javascript:ontop(2)">{t}Themes{/t}</a></span><span
-      id="label3" class="label"><a href="javascript:ontop(3)">{t}PDF{/t}</a></span>
-    </p>
-
-    <div id="container"></div>
-  </div> 
-  
-    <div id="folder1" class="folder">
+    <div>
+      <ul id="tabnav1">
+        <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
+        <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
+        <li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>
+      </ul>
+    </div>
+    <div id="container">
+      <div id="folder1" class="folder">
     
       {if $keymap_path|default:''}
       <div id="keymap">
@@ -171,14 +182,16 @@ ClientContext:
     
     </div>
     <!-- end of folder2 -->
+    {if $exportPdf|default:''}
+    <div id="folder3" class="folder">
+    {$exportPdf}
+    </div>
+    {/if}
+</div>
 
 </form>
 
-{if $exportPdf|default:''}
-<div id="folder3" class="folder">
-{$exportPdf}
-</div>
-{/if}
+
 
 </body>
 </html>
