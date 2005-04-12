@@ -60,7 +60,7 @@
       dhtmlBox.surf_msg = '{t}Approx. surface: {/t}';
       dhtmlBox.surf_unit = {if $factor == 1000}' km&sup2;'{else}' m&sup2;'{/if};
       dhtmlBox.coord_msg = '{t}Coords (m): {/t}';
-      dhtmlBox.overlap_msg = '{t}Overlapping polygons fobidden{/t}';
+      dhtmlBox.overlap_msg = '{t}Overlapping polygons forbidden{/t}';
       dhtmlBox.maxSegments1_msg = '{t}Number of segments limited to {/t}';
       dhtmlBox.maxSegments2_msg = '{t} currently drawn{/t}';
   {literal}
