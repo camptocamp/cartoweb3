@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-03-11 17:26+0100\n"
+"POT-Creation-Date: 2005-04-12 10:10+0200\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -259,6 +259,14 @@ msgstr "Mask"
 msgid "Total area"
 msgstr "Total area"
 
+#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
+msgid "Collapse keymap"
+msgstr "Collapse keymap"
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Show keymap"
+
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "scalebar_alt"
@@ -287,13 +295,9 @@ msgstr "Themes"
 msgid "PDF"
 msgstr "PDF"
 
-#: templates/cartoclient.tpl
+#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
 msgid "keymap_alt"
 msgstr "keymap_alt"
-
-#: templates/dhtmlcode.tpl
-msgid "Main map"
-msgstr "Main map"
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
@@ -307,7 +311,23 @@ msgstr "Approx. surface: "
 msgid "Coords (m): "
 msgstr "Coords (m): "
 
+#: templates/dhtmlcode.tpl
+msgid "Overlapping polygons fobidden"
+msgstr "Overlapping polygons fobidden"
+
+#: templates/dhtmlcode.tpl
+msgid "Number of segments limited to "
+msgstr "Number of segments limited to "
+
+#: templates/dhtmlcode.tpl
+msgid " currently drawn"
+msgstr " currently drawn"
+
 #: templates/mainmap.tpl
+msgid "Main map"
+msgstr "Main map"
+
+#: templates/mainmap.tpl templates/mainmap.old.tpl
 msgid "Loading message"
 msgstr "Loading..."
 
@@ -321,11 +341,11 @@ msgstr ""
 
 #: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1027
 msgid "Click here to display PDF file"
-msgstr ""
+msgstr "Click here to display PDF file"
 
 #: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:792
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 #, fuzzy
 #~ msgid "Clear selection"

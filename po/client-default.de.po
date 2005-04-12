@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-03-11 17:26+0100\n"
+"POT-Creation-Date: 2005-04-12 10:10+0200\n"
 "PO-Revision-Date: 2005-03-14 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -256,6 +256,14 @@ msgstr "Maske"
 msgid "Total area"
 msgstr "Fläche"
 
+#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
+msgid "Collapse keymap"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr ""
+
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "alt_barechelle"
@@ -284,13 +292,9 @@ msgstr "Themen"
 msgid "PDF"
 msgstr "PDF"
 
-#: templates/cartoclient.tpl
+#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
 msgid "keymap_alt"
 msgstr "alt_carteclef"
-
-#: templates/dhtmlcode.tpl
-msgid "Main map"
-msgstr "Carte principale"
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
@@ -304,7 +308,23 @@ msgstr "Surface approx. :"
 msgid "Coords (m): "
 msgstr "Coord. (m) :"
 
+#: templates/dhtmlcode.tpl
+msgid "Overlapping polygons fobidden"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid "Number of segments limited to "
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid " currently drawn"
+msgstr ""
+
 #: templates/mainmap.tpl
+msgid "Main map"
+msgstr ""
+
+#: templates/mainmap.tpl templates/mainmap.old.tpl
 msgid "Loading message"
 msgstr "Bitte warten..."
 
