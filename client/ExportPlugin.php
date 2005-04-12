@@ -82,7 +82,7 @@ class ExportConfiguration {
     private $locationType;
 
     /**
-     * @var Rectangle
+     * @var StyledShape
      */
     private $printOutline;
 

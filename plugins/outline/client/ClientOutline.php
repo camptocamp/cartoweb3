@@ -28,7 +28,7 @@
 class OutlineState {
 
     /** 
-     * Current drawn shapes
+     * Current drawn styled shapes
      * @var array
      */
     public $shapes;
@@ -191,14 +191,35 @@ class ClientOutline extends ClientPlugin
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         if ($shape) {
-            if (!empty($request['outline_label_text'])) {
-                $shape->label = stripslashes($request['outline_label_text']);
+            $styledShape = new StyledShape();
+            
+            // TODO: Add style management on client
+            
+            // Uncomment following code for testing
+            
+            // $shapeStyle = new ShapeStyle();
+            // $shapeStyle->color->setFromRGB(255,255,255);
+            // $shapeStyle->outlineColor->setFromRGB(0,0,0);
+            // $shapeStyle->backgroundColor->setFromRGB(255,0,0);
+            // $shapeStyle->size = 3;
+            // $shapeStyle->transparency = 100;
+            // $labelStyle = new LabelStyle();
+            // $labelStyle->size = 25;
+            // $labelStyle->color->setFromRGB(0,255,0);
+            
+            // $styledShape->shapeStyle = $shapeStyle;
+            // $styledShape->labelStyle = $labelStyle;
+            
+            $styledShape->shape = $shape;
+            if ($this->getConfig()->labelMode
+                    && !empty($request['outline_label_text'])) {
+                $styledShape->label = stripslashes($request['outline_label_text']);
             }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
                 $this->outlineState->shapes = array();
             }
-            $this->outlineState->shapes[] = $shape;
+            $this->outlineState->shapes[] = $styledShape;
         }
     }
 
@@ -216,7 +237,6 @@ class ClientOutline extends ClientPlugin
         $outlineRequest = new OutlineRequest();
         $outlineRequest->shapes   = $this->outlineState->shapes;        
         $outlineRequest->maskMode = $this->outlineState->maskMode;
-        $outlineRequest->labelMode = $this->getConfig()->labelMode;
       
         $mapRequest->outlineRequest = $outlineRequest;
     }

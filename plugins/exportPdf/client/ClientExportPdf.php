@@ -688,7 +688,9 @@ class ClientExportPdf extends ExportPlugin
             if (isset($mapBbox)) {
                 $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
                                          $mapBbox->maxx, $mapBbox->maxy);
-                $config->setPrintOutline($outline);
+                $styledOutline = new StyledShape();
+                $styledOutline->shape = $outline;
+                $config->setPrintOutline($styledOutline);
             }
             
             // scale:

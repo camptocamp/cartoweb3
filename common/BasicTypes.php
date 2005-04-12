@@ -105,11 +105,6 @@ class GeoDimension extends Serializable {
  */
 abstract class Shape extends Serializable {
     /**
-     * @var string
-     */
-    public $label;
-    
-    /**
      * Computes the shape's center
      * @return Point center
      */
@@ -125,7 +120,6 @@ abstract class Shape extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->label = (isset($struct->label))? $struct->label : '';
     }
 }
 

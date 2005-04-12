@@ -47,50 +47,41 @@ class plugins_outline_server_RemoteServerOutlineTest
         $shape = new $shapeClass;
         switch ($shapeClass) {
         case 'Point':
-            $point = new Point();
-            $point->setXY(1, 2);
-            $point->label = $label;
-            $array[] = $point;
+            $shape->setXY(1, 2);
             break;
         case 'Line':
-            $line = new Line();
-            $line->points[] = new Point(1, 2);
-            $line->points[] = new Point(1, 6);
-            $line->points[] = new Point(3, 2);
-            $line->points[] = new Point(3, 6);
-            $line->points[] = new Point(5, 2);
-            $line->label = $label;
-            $array[] = $line;
+            $shape->points[] = new Point(1, 2);
+            $shape->points[] = new Point(1, 6);
+            $shape->points[] = new Point(3, 2);
+            $shape->points[] = new Point(3, 6);
+            $shape->points[] = new Point(5, 2);
             break;
         case 'Rectangle':
-            $rect = new Rectangle();
-            $rect->setFromBbox(1, 2, 3, 5);
-            $rect->label = $label;
-            $array[] = $rect;
+            $shape->setFromBbox(1, 2, 3, 5);
             $area += 6.0;
             break;
         case 'Polygon' :
-            $poly = new Polygon();
-            $poly->points[] = new Point(1, 2);
-            $poly->points[] = new Point(1, 6);
-            $poly->points[] = new Point(3, 2);
-            $poly->points[] = new Point(3, 6);
-            $poly->points[] = new Point(5, 2);
-            $poly->label = $label;
-            $array[] = $poly;
+            $shape->points[] = new Point(1, 2);
+            $shape->points[] = new Point(1, 6);
+            $shape->points[] = new Point(3, 2);
+            $shape->points[] = new Point(3, 6);
+            $shape->points[] = new Point(5, 2);
             $area += 8.0;
             break;
         }
+        $styledShape = new StyledShape();
+        $styledShape->shape = $shape;
+        $styledShape->label = $labelText;
+        $array[] = $styledShape;
     }
     
-    function doOutlineRequestSimpleShape($shapeClass, $maskMode, $labelMode, $labelText = '', $direct = false) {
+    function doOutlineRequestSimpleShape($shapeClass, $maskMode, $labelText = '', $direct = false) {
         $outlineRequest = new OutlineRequest(); 
 
         $outlineRequest->shapes = array();
         $area = 0.0;
         $this->addShape($shapeClass, $outlineRequest->shapes, $area, $labelText);
         $outlineRequest->maskMode = $maskMode;
-        $outlineRequest->labelMode = $labelMode;
 
         $mapRequest = $this->createRequest();
         $mapRequest->outlineRequest = $outlineRequest;
@@ -100,79 +91,79 @@ class plugins_outline_server_RemoteServerOutlineTest
         $this->assertEquals($area, $mapResult->outlineResult->area);
     }
     
-    function doOutlineRequestPoint($maskMode, $labelMode, $direct = false, $labelText = '') {
-        $this->doOutlineRequestSimpleShape('Point', $maskMode, $labelMode, $labelText, $direct);
+    function doOutlineRequestPoint($maskMode, $direct = false, $labelText = '') {
+        $this->doOutlineRequestSimpleShape('Point', $maskMode, $labelText, $direct);
     }
     
     function testOutlineRequestNoMaskPoint($direct = false) {
-        $this->doOutlineRequestPoint(false, false, $direct);
+        $this->doOutlineRequestPoint(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
     function testOutlineRequestMaskPoint($direct = false) {
-        $this->doOutlineRequestPoint(true, false, $direct);
+        $this->doOutlineRequestPoint(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
     function testOutlineRequestLabelPoint($direct = false) {
-        $this->doOutlineRequestPoint(false, true, $direct, 'FooBar');
+        $this->doOutlineRequestPoint(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestLine($maskMode, $direct = false) {
-        $this->doOutlineRequestSimpleShape('Line', $maskMode, $labelMode, '', $direct);
+    function doOutlineRequestLine($maskMode, $direct = false, $labelText = '') {
+        $this->doOutlineRequestSimpleShape('Line', $maskMode, $labelText, $direct);
     }
     
     function testOutlineRequestNoMaskLine($direct = false) {
-        $this->doOutlineRequestLine(false, false, $direct);
+        $this->doOutlineRequestLine(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
     function testOutlineRequestMaskLine($direct = false) {
-        $this->doOutlineRequestLine(true, false, $direct);
+        $this->doOutlineRequestLine(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
     function testOutlineRequestLabelLine($direct = false) {
-        $this->doOutlineRequestLine(false, true, $direct, 'FooBar');
+        $this->doOutlineRequestLine(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestRectangle($maskMode, $direct = false) {
-        $this->doOutlineRequestSimpleShape('Rectangle', $maskMode, $labelMode, '', $direct);
+    function doOutlineRequestRectangle($maskMode, $direct = false, $labelText = '') {
+        $this->doOutlineRequestSimpleShape('Rectangle', $maskMode, $labelText, $direct);
     }
     
     function testOutlineRequestNoMaskRectangle($direct = false) {
-        $this->doOutlineRequestRectangle(false, false, $direct);
+        $this->doOutlineRequestRectangle(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
     function testOutlineRequestMaskRectangle($direct = false) {
-        $this->doOutlineRequestRectangle(true, false, $direct);
+        $this->doOutlineRequestRectangle(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
     function testOutlineRequestLabelRectangle($direct = false) {
-        $this->doOutlineRequestRectangle(false, true, $direct, 'FooBar');
+        $this->doOutlineRequestRectangle(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestPolygon($maskMode, $direct = false) {
-        $this->doOutlineRequestSimpleShape('Polygon', $maskMode, $labelMode, '', $direct);
+    function doOutlineRequestPolygon($maskMode, $direct = false, $labelText = '') {
+        $this->doOutlineRequestSimpleShape('Polygon', $maskMode, $labelText, $direct);
     }
     
     function testOutlineRequestNoMaskPolygon($direct = false) {
-        $this->doOutlineRequestPolygon(false, false, $direct);
+        $this->doOutlineRequestPolygon(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
     function testOutlineRequestMaskPolygon($direct = false) {
-        $this->doOutlineRequestPolygon(true, false, $direct);
+        $this->doOutlineRequestPolygon(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
     function testOutlineRequestLabelPolygon($direct = false) {
-        $this->doOutlineRequestPolygon(false, true, $direct, 'FooBar');
+        $this->doOutlineRequestPolygon(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
     
