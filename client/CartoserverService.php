@@ -25,6 +25,31 @@ require_once('log4php/LoggerManager.php');
 require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
 
 /**
+ * This class extends SoapFault and adds a toString() method.
+ * This is needed by the Unit testing framework, to display 
+ * informative error messages
+ * @package Client
+ */
+class SoapFaultWrapper extends SoapFault {
+
+    /**
+     * Constructor
+     * @param SoapFault The soap fault object to wrap
+     */
+    public function __construct(SoapFault $fault) {
+        parent::__construct($fault->faultcode, $fault->faultstring);
+    }
+    
+    /**
+     * Returns the error message
+     * @return string
+     */
+    public function toString() {
+        return $this->faultstring;
+    }
+}
+
+/**
  * Wrapper for server calls
  *
  * Hides the calling method (direct or SOAP) from the client.
@@ -150,6 +175,8 @@ class CartoserverService {
             try {
                 $mapResult = $client->$function($argument);
             } catch (SoapFault $fault) {
+                $fault = new SoapFaultWrapper($fault);
+                
                 if ($fault->faultstring != "looks like we got no XML document")
                     throw $fault;
 
