@@ -1,0 +1,34 @@
+/* key map holder
+   position set relatively to the main map */
+#keymapContainer {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  visibility: hidden;
+  z-index:2; /* Safari Mac needed */
+}
+
+/* keymap image */
+#floatkeymap {
+  position:relative;
+  border:1px solid black;
+  padding:0;
+  margin:0;
+}
+
+#floatkeymap input {
+  margin: 0;
+  padding: 0;
+}
+
+/* keymap switching button
+   position set relatively to the keymap */
+#keymapswitcher {
+  position:absolute;
+  top: 3px;
+  left: 3px;
+}
+
+#keymapswitcher img {
+  border:0;
+}

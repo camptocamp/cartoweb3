@@ -74,20 +74,8 @@ img {border:0;}
 
 #leftbar p {text-align:center;margin:10px;}
 
-.label {
-  padding: 2px 5px 2px 5px;
-}
 
-.folder {
-  position:absolute;
-  left:10px;
-  top:110px;
-  width:220px;
-  z-index:2;
-  visibility: hidden;
-  text-align:center;
-  padding:5px;
-}
+
 
 .folder select {max-width:210px;}
 
@@ -119,7 +107,7 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   border-right-color: #aaa;
   background-color:#eee;
   color:black;
-  font-size:0.8em;
+  font-size:0.9em;
   margin:5px;
 }
 
@@ -168,30 +156,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   margin-bottom:-5px;
   font-size:small;
 }
-
-
-#floatkeymap {
-  border:1px solid black;
-  position:absolute;
-  z-index:10000;
-  top:134px;
-  left:278px;
-  display:inline;
-  background-color:white;
-}
-
-#keymapswitcher {
-  position:absolute;
-  z-index:10001;
-  top:135px;
-  left:283px;
-}
-
-#keymapswitcher img {
-  width:13px;
-  height:13px;
-}
-
 
 #folder4 ul {
   margin-left: 18px;

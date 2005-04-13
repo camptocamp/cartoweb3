@@ -5,31 +5,37 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
-  {if $order|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=projectLayers}order.css{/r}" />{/if}
+  <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
+  {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   <title>{t}CartoWeb3 - Demonstration{/t}</title>
-
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
-
+  {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
   <script language="JavaScript" type="text/javascript">
     <!--
     var hideKeymapMsg = "{t}Collapse keymap{/t}";
     var showKeymapMsg = "{t}Show keymap{/t}";
     var hideKeymap = {$collapseKeymap};
-
-    {literal}
-    function updateKeymapStatus() {
-      if (hideKeymap)
-        collapseKeymap();
-    }
-    {/literal}                       
     //-->
-  </script>       
+  </script>
+  {/if}
   
   {include file="dhtmlcode.tpl"}
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    {literal}
+    window.onload = function() {
+      if (typeof onLoadString == "string") {
+        eval(onLoadString);
+      }
+    }
+    {/literal}
+    //-->
+  </script>
 </head>
 
 <body>
@@ -40,7 +46,7 @@
     <a href="./"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" /></a>
   </div>
   <span id="title"><br /><br />{t}CartoWeb3 - Demonstration{/t}</span>
-    
+{if $locales|default:''}
   <div id="langlinks">
     {foreach from=$locales item=lang}
       {if $lang == $currentLang}
@@ -50,6 +56,7 @@
       {/if}
     {/foreach}
   </div>
+{/if}
 </div>
 <!-- header ends here -->
 
@@ -60,11 +67,12 @@
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
   <input type="hidden" name="project" value="{$project}" />
+  {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
-
-  {if $outline_active|default:''}
-   {$outlinelabel}
   {/if}
+{if $outline_active|default:''}
+  {$outlinelabel}
+{/if}
 
   {if $auth_active|default:''}
     <div id="loginform">
@@ -185,35 +193,25 @@
     </td>
   </tr>
 </table>
-    
-
-  {if $keymap_path|default:''}
-   <div id="keymapContainer" style="visibility:hidden">
-    <div id="floatkeymap"><input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}"
-    style="width:{$keymap_width}px;height:{$keymap_height}px; border:0;" /></div>
-    <div id="keymapswitcher"><a href="#" onclick="javascript:collapseKeymap();"><img 
-      src="{r type=gfx/layout}keymap_off.gif{/r}" title="{t}Collapse keymap{/t}"
-      alt="" id="switcherimg" style="border:0;"/></a></div>
-   </div>
-  {/if}
 
   </div>
 
-  <div id="leftbar">    
+  <div id="leftbar">
+    <div>
+      <ul id="tabnav2">
+        <li id="label4"><a href="javascript:ontop(4)">{t}About{/t}</a></li>
+        <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
+      </ul>
+      <ul id="tabnav1">
+        <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
+        <li id="label2"><a href="javascript:ontop(2)">{t}Print{/t}</a></li>
+        <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
+      </ul>
 
-    <p id="row2" style="position:relative">
-      <span id="label4" class="label"><a href="javascript:ontop(4)">{t}About{/t}</a></span><span 
-    id="label5" class="label"><a href="javascript:ontop(5)">{t}Outline{/t}</a></span>
-    </p>
-    <p id="row1" style="position:relative">
-      <span id="label1" class="label"><a href="javascript:ontop(1)">{t}Themes{/t}</a></span><span 
-    id="label2" class="label"><a href="javascript:ontop(2)">{t}Print{/t}</a></span><span 
-    id="label3" class="label"><a href="javascript:ontop(3)">{t}Search{/t}</a></span>
-    </p>
+   </div>
 
-    <div id="container"></div>
-  </div> 
-  
+
+    <div id="container">
     <!-- folder 1 starts here -->
     <div id="folder1" class="folder">
       <br />
@@ -280,7 +278,6 @@
 
     </div>
     <!-- end of folder 3 -->
-</form>
   
     <!-- folder 2 starts here -->
     <div id="folder2" class="folder">
@@ -292,6 +289,8 @@
         {/if}
     </div>
     <!-- end of folder 2 -->
+    </div>
+</form>
 
 
   {if $developer_messages|default:''}

@@ -6,11 +6,22 @@ resolutions['{$formatId}'] = new Array({foreach
 from=$formatResolutions name=formatRes key=resId
 item=resLabel}{$resId},'{$resLabel}'{if !$smarty.foreach.formatRes.last},{/if}{/foreach});
 {/foreach}
+{literal}
+function pdfFormSubmit(myForm) {
+{/literal}
+  var prevAction = myForm.action
+  var prevTarget = myForm.target
+  myForm.action = '{$exportScriptPath}'
+  myForm.target = '_blank'
+  myform.submit()
+  myForm.action = prevAction
+  myForm.target = prevTarget
+{literal}
+}
+{/literal}
 //-->
 </script>
 <div id="pdf">
-<form method="post" action="{$exportScriptPath}" name="pdfForm">
-<input type="hidden" name="project" value="{$project}" />
 <input type="hidden" name="pdfExport" value="1" />
 <div id="pdf_format"><fieldset><legend>{t}Format and Resolution (dpi){/t}</legend>
 <select name="pdfFormat"
@@ -62,7 +73,6 @@ checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
 {/if}
 
 <div class="mini">
-  <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" />
+  <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
 </div>
-</form>
 </div>
