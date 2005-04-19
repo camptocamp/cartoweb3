@@ -1,6 +1,6 @@
 <br />
 <script type="text/javascript">
-<!--
+/*<![CDATA[*/ 
 var resolutions = new Array();
 {foreach from=$pdfAllowedResolutions key=formatId item=formatResolutions}
 resolutions['{$formatId}'] = new Array({foreach 
@@ -20,7 +20,7 @@ function pdfFormSubmit(myForm) {
 {literal}
 }
 {/literal}
-//-->
+/*]]>*/
 </script>
 <input type="hidden" name="pdfExport" value="1" />
 <div>{t}Format:{/t} 
@@ -61,4 +61,4 @@ checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
 </fieldset>
 {/if}
 
-<input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
+<input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
