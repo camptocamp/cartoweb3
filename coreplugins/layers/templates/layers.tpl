@@ -58,8 +58,8 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {if $element.elements}
   {if $element.isDropDown || $element.isRadioContainer}
     <div>
-  {elseif $element.layerId != 'root' && 
-   ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
+  {elseif $element.layerId != 'root' && ($element.layerRendering == 'tree' || 
+                                         $element.layerRendering == 'radio')}
     <a href="javascript:shift('id{$element.nodeId}');" id="xid{$element.nodeId}" 
     class="lk"><img 
     src="{r type=gfx plugin=layers}{if $element.groupFolded}plus{else}minus{/if}.gif{/r}" 
@@ -74,8 +74,10 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
     {/foreach}
   {/if}
 
-  {if $element.layerId != 'root' && 
-    ($element.layerRendering == 'tree' || $element.layerRendering == 'radio')}
+  {if $element.isDropDown || $element.isRadioContainer ||
+      ($element.layerId != 'root' && ($element.layerRendering == 'tree' ||
+                                      $element.layerRendering == 'radio')
+      )}
     </div>
   {/if}
 
