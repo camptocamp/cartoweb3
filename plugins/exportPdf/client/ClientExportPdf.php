@@ -597,10 +597,13 @@ class ClientExportPdf extends ExportPlugin
             $pdfResolution_options =
                            $allowedResolutions[$this->general->defaultFormat];
         }
-        
+       
+        $exportScriptPath = ResourceHandler::convertXhtml(
+                                $this->getExportScriptPath(), true);
+
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
         $this->smarty->assign(array(
-                   'exportScriptPath'       => $this->getExportScriptPath(),
+                   'exportScriptPath'       => $exportScriptPath,
                    'pdfFormat_options'      => $this->general->formats,
                    'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
