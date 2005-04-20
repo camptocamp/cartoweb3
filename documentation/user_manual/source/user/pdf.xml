@@ -976,7 +976,8 @@ blocks.myBlock.horizontalMargin = 10]]></programlisting>
     <para>
      For instance: 
     </para>
-    <programlisting><![CDATA[blocks.title.zIndex = 2
+    <programlisting>
+blocks.title.zIndex = 2
 blocks.title.weight = 10
 blocks.title.verticalBasis = top
 blocks.title.verticalMargin = 15
@@ -986,7 +987,50 @@ blocks.title.fontItalic = true
 blocks.title.fontBold = true
 blocks.title.fontUnderline = true
 blocks.title.backgroundColor = #eeeeee
-blocks.title.height = 15]]></programlisting>
+blocks.title.height = 15</programlisting>
+    <para>
+     It is possible to specify a text content in the configuration file by using the <parameter>content</parameter> parameter. Note that <parameter>\n</parameter> strings in the <parameter>content</parameter> value will result in line feeds in the final block.
+     <programlisting>
+blocks.myText.content = "This is myText block content!"
+
+blocks.myText2.content = "myText2 block\nis multilined."</programlisting>
+    </para>
+    <para>
+     Text blocks content may also be retrieved from external data source such as text files or databases using following syntaxes. "Connection" parts are separated by a "~". First part indicates what medium (<parameter>file</parameter>|<parameter>db</parameter>) is used:
+     <itemizedlist>
+      <listitem>
+       <para><parameter>file</parameter>: file source</para>
+       <programlisting>
+blocks.myText.content = "file~my/source/file/path"</programlisting>
+       <para>
+        The source file path can either be a absolute URL or a filesystem path. Relative filesystem paths are allowed and are based on the &cartoweb; root path. For instance:
+       </para>
+       <programlisting>
+blocks.myText.content = "file~http://myserver/mysourcefile.txt"
+blocks.myText.content = "file~C:\mydir\mysourcefile.txt"
+blocks.myText.content = "file~/home/johndoe/mysourcefile.txt"
+blocks.myText.content = "file~www-data/mysourcefile.txt"</programlisting>
+       <para>
+        If your source file contains several lines or <parameter>\n</parameter> strings, the generated block will also be multilined.
+       </para>
+      </listitem>
+      <listitem>
+       <para><parameter>db</parameter>: database source</para>
+       <programlisting>
+blocks.myText.content = "db~DSN~SQL query"</programlisting>
+       <para>
+        The DSN (Data Source Name) gives the database connection parameters. Any DSN format supported by PEAR::DB can be used. See PEAR::DB manual for more info about DSNs at <ulink url="http://pear.php.net/manual/en/package.database.db.intro-dsn.php">http://pear.php.net/manual/en/package.database.db.intro-dsn.php</ulink>. Note that you can call any database server type as long as it is supported by PEAR::DB and that your PHP distribution has the matching extension enabled.
+       </para>
+       <para>
+        For security reasons, only SELECT SQL queries are allowed but there is no other limitation. On the other hand, the query results are basically rendered using a new line for each result line and simply separating result elements with blank spaces. 
+       </para>
+       <para>For instance:</para>
+       <programlisting>
+blocks.myText.content = "db~pgsql://user:password@localhost/dbname~select name,
+                         phone_number from phone_book where area_id = 12"</programlisting>
+      </listitem>
+     </itemizedlist>
+    </para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.image">
     <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image Blocks</title>
