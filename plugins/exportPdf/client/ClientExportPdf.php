@@ -269,12 +269,17 @@ class ClientExportPdf extends ExportPlugin
                                                   $scale);
         }
 
+        elseif ($this->blocks[$id]->type == 'text' &&
+            (stristr($this->blocks[$id]->content, 'file~') ||
+             stristr($this->blocks[$id]->content, 'db~'))) {
+            $this->blocks[$id]->content = 
+                PrintTools::getContent($this->blocks[$id]->content);
+        }
+
         elseif ($this->blocks[$id]->type == 'image' && 
                 !in_array($id, array('mainmap', 'overview', 'scalebar')) &&
                 $this->blocks[$id]->content &&
-                substr($this->blocks[$id]->content, 0, 4) != 'http' &&
-                substr($this->blocks[$id]->content, 0, 1) != '/' &&
-                substr($this->blocks[$id]->content, 1, 1) != ':') {
+                PrintTools::isRelativePath($this->blocks[$id]->content)) {
             // detects if image path is relative and than completes it
             $this->blocks[$id]->content = CARTOCLIENT_HOME . 
                                           $this->blocks[$id]->content;

@@ -269,22 +269,46 @@ class CwFpdf implements PdfWriter {
 
         $block->content = $this->convertCharset($block->content);
 
-        if (!isset($block->width)) {
-            $block->width = $this->p->GetStringWidth($block->content);
-            $block->width += 2 * $block->padding;
+        if (strstr($block->content, '\n')) {
+            $block->content = str_replace('\n', "\n", $block->content);
         }
 
+        if (strstr($block->content, "\n")) {
+            if ($block->orientation == 'vertical') {
+                // multi-line is not supported when using vertical orientation
+                $block->content = str_replace("\n", ' ', $block->content);
+            } else {
+                $block->content = explode("\n", $block->content);
+            }       
+        }       
+
+        $linesNb = is_array($block->content) ? count($block->content) : 1;
+
+        if (!isset($block->width)) {
+            if ($linesNb > 1) {
+                $block->width = 0;
+                foreach ($block->content as $line) {
+                    $block->width = max($block->width,
+                                        $this->p->GetStringWidth($line));
+                }       
+            } else {
+                $block->width = $this->p->GetStringWidth($block->content);
+            }       
+            $block->width += 2 * $block->padding;
+        }       
+
         if (!isset($block->height)) {
-            // TODO: dynamically set this value. Possible?
+            // TODO: dynamically set this value. Possible? Using font height?
             $block->height = PrintTools::switchDistUnit(20, 'mm',
                                                       $this->general->distUnit); 
+            $block->height *= $linesNb;
             $block->height += 2 * $block->padding;
-        }
+        }       
 
         if ($block->orientation == 'vertical') {
             list($block->width, $block->height) = 
                 array($block->height, $block->width);
-        }
+        }       
         
         $textAlign = $this->getTextAlign($block->textAlign);
 
@@ -300,7 +324,7 @@ class CwFpdf implements PdfWriter {
         list($x0, $y0) = $this->space->checkIn($block);
 
         if ($block->orientation == 'vertical') {
-            $rectOpt = $border ? 'DF' : 'F'; 
+            $rectOpt = $border ? 'DF' : 'F';  
             $this->p->Rect($x0, $y0, $block->width, $block->height, $rectOpt);
             $this->p->textWithDirection($x0 + $block->width - $block->padding, 
                                         $y0 + $block->height - $block->padding, 
@@ -309,8 +333,15 @@ class CwFpdf implements PdfWriter {
                 array($block->height, $block->width);
         } else {
             $this->p->SetXY($x0, $y0);
-            $this->p->Cell($block->width, $block->height, $block->content,
-                           $border, 0, $textAlign, 1);
+        
+            if ($linesNb > 1) {
+                $block->content = implode("\n", $block->content);
+                $this->p->MultiCell($block->width, $block->height,
+                                    $block->content, $border, $textAlign, 1);
+            } else {
+                $this->p->Cell($block->width, $block->height, $block->content,
+                               $border, 0, $textAlign, 1);
+            }
         }
 
         // TODO: handle transparent background

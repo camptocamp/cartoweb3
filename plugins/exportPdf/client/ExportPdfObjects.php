@@ -23,7 +23,7 @@
  */
 
 /**
- * Provides static conversion tools.
+ * Provides various static tools.
  * @package Plugins
  */
 class PrintTools {
@@ -98,6 +98,93 @@ class PrintTools {
             case 'black': return array(0, 0, 0);
             case 'white': default: return array(255, 255, 255);
         }
+    }
+
+    /**
+     * Tells if given path is relative.
+     * @param string path
+     * @return boolean true if relative
+     */
+    static public function isRelativePath($path) {
+        return (substr($path, 0, 4) != 'http' && substr($path, 0, 1) != '/' &&
+                substr($path, 1, 1) != ':');
+    }
+   
+    /**
+     * Retrieves text block content from external storage
+     *
+     * Storage info string is formatted as follows:
+     * - file: "file~file/path" (URL, absolute or CartoWeb root-relative 
+     * filesystem path
+     * - DB: "db~DSN~SqlQuery
+     * @param string storage info
+     * @return string content
+     */
+    static public function getContent($storage) {
+        $storageInfo = explode('~', $storage);
+        switch($storageInfo[0]) {
+            case 'file': return self::getFileContent($storageInfo);
+            case 'db': return self::getDbContent($storageInfo);
+            default: return $storage;
+        }
+    }
+
+    /**
+     * Retrieves text block content from file.
+     * @param array storage info array('file', $filepath)
+     * @return string content
+     */
+    static private function getFileContent($info) {
+        $filename = $info[1];
+        if (self::isRelativePath($filename)) {
+            $filename = CARTOCLIENT_HOME . $filename;
+        }
+     
+        if (!is_readable($filename)) {
+            throw new CartoclientException('PDF: Not readable file: ' .
+                                           $filename);
+        }
+        
+        $handle = fopen ($filename, 'r');
+        $content = fread ($handle, filesize($filename));
+        fclose ($handle);
+
+        return $content;
+    }
+
+    /**
+     * Retrieves text block content from DB
+     * @param array storage info array('db', $dsn, $sql)
+     * @return string content
+     */
+    static private function getDbContent($info) {
+
+        // Only SELECT queries are allowed:
+        if (!isset($info[2]) || 
+            strtolower(substr(trim($info[2]), 0, 6)) != 'select') {
+            throw new CartoclientException('PDF: missing or illegal SQL query');
+        }
+        
+        require_once 'DB.php';
+
+        $db =& DB::connect($info[1]);
+        if (DB::isError($db)) {
+            throw new CartoclientException('PDF: failed connecting to DB: ' 
+                                           . $db->getMessage());
+        }
+
+        $db->setFetchMode(DB_FETCHMODE_ORDERED);
+        $results =& $db->getAll($info[2]);
+        if (DB::isError($results)) {
+            throw new CartoclientException('PDF: failed executing query: '
+                                           . $results->getMessage());
+        }
+
+        $content = '';
+        foreach ($results as $res) {
+            $content .= implode(' ', $res) . "\n";
+        }
+        return $content;
     }
 }
 
