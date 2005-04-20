@@ -398,6 +398,15 @@ function setupLinks() {
 
     if (!is_dir('htdocs/gfx/icons')) mkdir('htdocs/gfx/icons');
 
+    $pList = getProjects('projects');
+    foreach($pList as $project) {
+        @mkdir('htdocs/gfx/icons/'.$project);
+        $mList = getProjects('projects/'.$project.'/server_conf');
+        foreach($mList as $mapfolder) {
+             link_or_copy('../../../../projects/'.$project.'/server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/'.$project.'/'.$mapfolder);
+        }
+    }
+        
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
         $pList = getProjects($dir);
