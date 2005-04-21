@@ -693,7 +693,8 @@ class ClientExportPdf extends ExportPlugin
             $mapHeight = $this->getNewMapDim($overview->height);
 
             // mainmap outline:
-            if (isset($mapBbox)) {
+            if (isset($mapBbox) && 
+                !empty($this->cartoclient->getPluginManager()->outline)) {
                 $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
                                          $mapBbox->maxx, $mapBbox->maxy);
                 $styledOutline = new StyledShape();
