@@ -739,10 +739,8 @@ class ClientExportPdf extends ExportPlugin
         
         // map center coordinates:
         $savedBbox = $this->getLastBbox();
-        $xCenter = ($savedBbox->minx + $savedBbox->maxx) / 2;
-        $yCenter = ($savedBbox->miny + $savedBbox->maxy) / 2;
-        $point = new Point($xCenter, $yCenter);
-        $config->setPoint($point);
+        $center = $savedBbox->getCenter();
+        $config->setPoint($center);
 
         $config->setBbox($savedBbox);      
         $config->setZoomType('ZOOM_SCALE');
