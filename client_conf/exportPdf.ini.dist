@@ -4,6 +4,8 @@ general.defaultFormat = A4
 general.resolutions = 96, 150, 300
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
+general.overviewColor = none
+general.overviewOutlineColor = red
 general.defaultOrientation = portrait
 general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, legend, scaleval, tlcoords, brcoords, logo
 
