@@ -262,14 +262,7 @@ class ClientExportPdf extends ExportPlugin
             $this->blocks[$id]->content = stripslashes($content);
         }
 
-        elseif ($id == 'scaleval') {
-            $scale = number_format($this->getLastScale(), 0, ',',"'");
-            $this->blocks[$id]->content = sprintf('%s 1:%s',
-                                                  I18n::gt('Scale'),
-                                                  $scale);
-        }
-
-        elseif ($this->blocks[$id]->type == 'text' &&
+        if ($this->blocks[$id]->type == 'text' &&
             (stristr($this->blocks[$id]->content, 'file~') ||
              stristr($this->blocks[$id]->content, 'db~'))) {
             $this->blocks[$id]->content = 
@@ -694,11 +687,29 @@ class ClientExportPdf extends ExportPlugin
 
             // mainmap outline:
             if (isset($mapBbox) && 
-                !empty($this->cartoclient->getPluginManager()->outline)) {
+                $this->cartoclient->getPluginManager()
+                                  ->getPlugin('outline') != NULL) {
+                
                 $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
                                          $mapBbox->maxx, $mapBbox->maxy);
                 $styledOutline = new StyledShape();
                 $styledOutline->shape = $outline;
+                
+                $shapeStyle = new ShapeStyle();
+                if (isset($this->general->overviewColor) && 
+                    $this->general->overviewColor != 'none') {
+                    list($r, $g, $b) = PrintTools::switchColorToRgb(
+                                                $this->general->overviewColor);
+                    $shapeStyle->color->setFromRGB($r, $g, $b);
+                }
+                if (isset($this->general->overviewOutlineColor) &&
+                    $this->general->overviewOutlineColor != 'none') {
+                    list($r, $g, $b) = PrintTools::switchColorToRgb(
+                                         $this->general->overviewOutlineColor);
+                    $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
+                }
+                $styledOutline->shapeStyle = $shapeStyle;
+                
                 $config->setPrintOutline($styledOutline);
             }
             
@@ -953,6 +964,14 @@ class ClientExportPdf extends ExportPlugin
         if (isset($this->blocks['brcoords']))
             $this->getCornerCoords($this->blocks['brcoords'], $mapResult);
         
+        if (isset($this->blocks['scaleval'])) {
+            $scale = $mapResult->locationResult->scale;
+            $scale = number_format($scale, 0, ',',"'");
+            $this->blocks['scaleval']->content = sprintf('%s 1:%s',
+                                                         I18n::gt('Scale'),
+                                                         $scale);
+        }
+
         $pdf->initializeDocument();
  
         $pdf->addPage();
