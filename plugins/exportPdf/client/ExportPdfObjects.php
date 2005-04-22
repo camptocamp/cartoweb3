@@ -96,6 +96,9 @@ class PrintTools {
 
         switch($color) {
             case 'black': return array(0, 0, 0);
+            case 'red': return array(255, 0, 0);
+            case 'green': return array(0, 255, 0);
+            case 'blue': return array(0, 0, 255);
             case 'white': default: return array(255, 255, 255);
         }
     }
@@ -279,6 +282,16 @@ class PdfGeneral {
      * @var float
      */
     public $overviewScaleFactor = 10;
+
+    /**
+     * @var string
+     */
+    public $overviewColor;
+
+    /**
+     * @var string
+     */
+    public $overviewOutlineColor= 'red';
 
     /**
      * @var string
