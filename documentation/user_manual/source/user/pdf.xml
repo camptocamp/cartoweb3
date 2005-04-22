@@ -106,6 +106,18 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
+       <parameter>general.overviewColor</parameter> (string): sets the inner color of the current map outline in the overview. 
+       Default: 'none'.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>general.overviewOutlineColor</parameter> (string): sets the border color of the current map outline in the overview. 
+       Default: 'red'.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
        <parameter>general.pdfEngine</parameter> (CwFpdf|PdfLibLite): name of the PDF engine to
        use. For now only FPDF is available and must be called using 
        "CwFpdf" pdfEngine value. A PDFLib Lite version is (very) 
@@ -239,6 +251,16 @@ formats.A4.bigDimension = 297]]></programlisting>
      <listitem>
       <para>
        overviewScaleFactor: 10
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       overviewColor: NULL
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       overviewOutlineColor: red
       </para>
      </listitem>
      <listitem>
