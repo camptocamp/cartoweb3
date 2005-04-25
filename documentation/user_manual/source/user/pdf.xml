@@ -760,6 +760,17 @@ blocks.title.verticalMargin = 15]]></programlisting>
     </itemizedlist>
    </para>
   </sect2>
+  <sect2 id="user.pdf.reference.colors">
+   <title><indexterm><primary>Colors, PDF</primary></indexterm>Colors definition</title>
+   <para>
+    Colors definitions in <filename>exportPdf.ini</filename> configuration file are done using hexadecimal color codes or a few textual aliases such as <parameter>white</parameter>, <parameter>black</parameter>, <parameter>red</parameter>, <parameter>green</parameter>, <parameter>blue</parameter>. For instance:
+    <programlisting>
+general.overviewOutlineColor = red
+template.backgroundColor     = white
+template.borderColor         = #000000   ; hexadecimal code for black
+blocks.title.color           = #0000ff   ; hexadecimal code for blue</programlisting>
+   </para>
+  </sect2>
  </sect1>
 
  <sect1 id="user.pdf.tutorial">
