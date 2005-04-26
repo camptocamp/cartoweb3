@@ -165,7 +165,7 @@ function loadSoapXMLs($soapCachedir) {
             // let's find out about referenced images
             $soapXML = file_get_contents($file);
             if ($soapXML) {
-                preg_match_all('|([0-9]*.png)</path>|', $soapXML, $matches);
+                preg_match_all('|images/([0-9]+\.\w+)</path>|', $soapXML, $matches);
                 
                 foreach($matches[1] as $match) {
                     if ($match) {
