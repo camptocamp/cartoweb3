@@ -35,6 +35,10 @@
               </table>
             </div>
 
+          <div id="scaleContainer">
+            <div id="floatScale">{t}Current scale:{/t} 1:{$currentScale}</div>
+          </div>
+          
 {if $collapsibleKeymap|default:''}
             <div id="keymapContainer">
               <div id="floatkeymap">
