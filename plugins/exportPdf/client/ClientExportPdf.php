@@ -696,18 +696,29 @@ class ClientExportPdf extends ExportPlugin
                 $styledOutline->shape = $outline;
                 
                 $shapeStyle = new ShapeStyle();
+                
                 if (isset($this->general->overviewColor) && 
+                    $this->general->overviewColor &&
                     $this->general->overviewColor != 'none') {
+  
                     list($r, $g, $b) = PrintTools::switchColorToRgb(
                                                 $this->general->overviewColor);
                     $shapeStyle->color->setFromRGB($r, $g, $b);
+                } else {
+                    $shapeStyle->color->setFromRGB(-1, -1, -1);
                 }
+                
                 if (isset($this->general->overviewOutlineColor) &&
+                    $this->general->overviewOutlineColor &&
                     $this->general->overviewOutlineColor != 'none') {
+
                     list($r, $g, $b) = PrintTools::switchColorToRgb(
                                          $this->general->overviewOutlineColor);
                     $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
+                } else {
+                    $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
                 }
+                
                 $styledOutline->shapeStyle = $shapeStyle;
                 
                 $config->setPrintOutline($styledOutline);
