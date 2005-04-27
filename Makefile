@@ -17,6 +17,11 @@ fetch_demo:
 	-rm -r projects/demo/server_conf/demo/data
 	(cd projects/demo/server_conf/demo/; wget -O- $(DEMO_URL)|tar zxf -)
 
+prepare_prod:
+	rm htdocs/info.php
+	rm htdocs/runtests.php
+	#rm r.php
+	
 delete_server:
 	rm -r server
 	rm -r server_conf
