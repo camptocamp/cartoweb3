@@ -130,11 +130,11 @@ class ServerOutline extends ClientResponderAdapter {
         $r = $msColorObj->red;
         $g = $msColorObj->green;
         $b = $msColorObj->blue;
-        if (!is_null($color->r) && $color->r >= 0)
+        if (!is_null($color->r))
             $r = $color->r;
-        if (!is_null($color->g) && $color->g >= 0)
+        if (!is_null($color->g))
             $g = $color->g;
-        if (!is_null($color->b) && $color->b >= 0)
+        if (!is_null($color->b))
             $b = $color->b;
         $msColorObj->setRGB($r, $g, $b);
     } 

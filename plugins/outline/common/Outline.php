@@ -42,11 +42,7 @@ class Color extends Serializable {
      */ 
     public $b;
 
-    public function __construct() {
-        $this->r = -1;
-        $this->g = -1;
-        $this->b = -1;
-    }
+    public function __construct() {}
 
     /**
      * Initializes color from red, green, blue values
