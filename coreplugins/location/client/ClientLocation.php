@@ -766,6 +766,7 @@ class ClientLocation extends ClientPlugin
         $scales_active = $this->getConfig()->scalesActive;
         $id_recenter_active = $this->getConfig()->idRecenterActive;
         $shortcuts_active = $this->getConfig()->shortcutsActive;
+        $scale = number_format($this->locationResult->scale, 0, ',',"'");
                
         $template->assign(array('location_info' => $this->getLocationInformation(),
                                 'bboxMinX' => $this->locationState->bbox->minx,
@@ -773,6 +774,7 @@ class ClientLocation extends ClientPlugin
                                 'bboxMaxX' => $this->locationState->bbox->maxx,
                                 'bboxMaxY' => $this->locationState->bbox->maxy,
                                 'factor' => $factor,
+                                'currentScale' => $scale,
                                 'recenter_active' => $recenter_active,
                                 'scales_active' => $scales_active,
                                 'id_recenter_active' => $id_recenter_active,
