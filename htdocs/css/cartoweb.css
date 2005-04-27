@@ -74,3 +74,17 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   width:0;
   height:0;
 }
+
+#scaleContainer {
+  position:absolute;
+  top:-15px;
+  left:5px;
+  z-index:3;
+}
+
+#floatScale {
+  position:relative;
+  padding:0;
+  margin:0;
+  font-size:x-small;
+}
