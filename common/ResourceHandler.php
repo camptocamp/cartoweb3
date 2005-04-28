@@ -252,7 +252,7 @@ class ResourceHandler {
     /**
      * Replaces some URL characters by XHTML-proof ones.
      * @param string URL to filter
-     * @param boolean switch conversion direction
+     * @param boolean if true reverts conversion: from XHTML to plain
      * @return string filtered URL
      */
     public static function convertXhtml($url, $back = false) {
