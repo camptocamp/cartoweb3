@@ -32,6 +32,20 @@ require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 require_once(CARTOCLIENT_HOME . 'plugins/auth/client/ClientAuth.php');
 
+
+class AuthTestClientPluginConfig extends ClientPluginConfig {
+
+    public function getIniArray() {
+        return array(
+            "users.toto" => "c910474431df50cff186d68b4f65956c",
+            "users.alice" => "e3e4faee0cc7fc55ad402f517cdaf40c",
+            "users.x" => "9dd4e461268c8034f5c8564e155c67a6",
+            "roles.toto" => "admin, editor",
+            "roles.alice" => "editor",
+            "roles.x" => "admin, editor");
+    }
+}
+
 /**
  * Unit tests for client Auth plugin
  * @package Tests
@@ -41,9 +55,10 @@ class plugins_auth_client_AuthClientTest extends PHPUnit2_Framework_TestCase {
     
     public function testAuth() {
         $cartoclient = new Cartoclient();
-        $authConfig = $cartoclient->getPluginManager()->auth->getConfig();
-         
-        $iniContainer = new IniSecurityContainer($authConfig);
+        $authTestConfig = new AuthTestClientPluginConfig($cartoclient->
+                                        getPluginManager()->getPlugin('auth'), 
+                                        $cartoclient->getProjectHandler());
+        $iniContainer = new IniSecurityContainer($authTestConfig);
         $this->assertFalse($iniContainer->checkUser('non_existant', ''));
         $this->assertFalse($iniContainer->checkUser('toto', 'badpassword'));
         $this->assertTrue($iniContainer->checkUser('toto', '$123pgz'));
@@ -54,8 +69,10 @@ class plugins_auth_client_AuthClientTest extends PHPUnit2_Framework_TestCase {
     public function testRoles() {
     
         $cartoclient = new Cartoclient();
-        $authConfig = $cartoclient->getPluginManager()->auth->getConfig();
-        $iniContainer = new IniSecurityContainer($authConfig);
+        $authTestConfig = new AuthTestClientPluginConfig($cartoclient->
+                                        getPluginManager()->getPlugin('auth'), 
+                                        $cartoclient->getProjectHandler());
+        $iniContainer = new IniSecurityContainer($authTestConfig);
 
         $securityManager = SecurityManager::getInstance();
         
