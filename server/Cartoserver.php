@@ -81,6 +81,14 @@ class ServerConfig extends Config {
     }
 
     /**
+     * {@see Config::getProfileParameters()})
+     */
+    protected function getProfileParameters() {
+        return array_merge(parent::getProfileParameters(), 
+                        array('noMapResultCache', 'noSoapXMLCache'));   
+    }
+
+    /**
      * Constructor
      * @param ProjectHandler
      */

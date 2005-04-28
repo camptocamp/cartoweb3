@@ -107,6 +107,13 @@ class ClientConfig extends Config {
         return CARTOCLIENT_HOME;
     }
 
+    /**
+     * {@see Config::getProfileParameters()})
+     */
+    protected function getProfileParameters() {
+        return array_merge(parent::getProfileParameters(), array('smartyCompileCheck'));   
+    }
+
     /** 
      * Constructor
      *

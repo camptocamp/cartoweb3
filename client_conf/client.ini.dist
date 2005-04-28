@@ -3,23 +3,29 @@
 ; if true, SOAP will be bypassed
 cartoserverDirectAccess = true
 
-; if true, WSDL will be used for sending SOAP requests
-useWsdl = false
+; Current profile: may be development, production or custom
+;  This will override some parameter values
+profile = production
 
+; -------------------------------------------------------------------
+;  The following parameters are only taken into account when profile=custom
+;
+; if true, WSDL will be used for receiving SOAP requests
+useWsdl = false
 ; disables the caching of wsdl (ignored if useWsdl is false)
 noWsdlCache = false
-
 ; disables the caching of MapInfo requests
 noMapInfoCache = false
-
+; sets ini parameters useful during development
+developerIniConfig = false
+; allows tests running through Web interface
+allowTests = false
 ; shows developer messages
 showDevelMessages = false
 
-; sets ini parameters useful during development
-developerIniConfig = false
-
-; allows tests running through Web interface
-allowTests = false
+; Set this to true if you are editing the templates
+smartyCompileCheck = false
+; -------------------------------------------------------------------
 
 ; The kind of URL generated for resources. May be one of 'Miniproxy|Symlink'
 urlProvider = Miniproxy
@@ -80,10 +86,8 @@ securityAllowedRoles = all
 
 ;## Template engine configuration ##
 
-; Template configuration
-; You should set this to false in production environment (when templates don't
-;  change any more)
-smartyCompileCheck = true
+; Set this to true to show the Smarty debugging console. Very useful while working
+; on templates
 smartyDebugging = false
 
 ;## Internationalization ##

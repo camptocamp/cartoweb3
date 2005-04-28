@@ -1,28 +1,31 @@
 ; cartoserver configuration file
 
+; Current profile: may be development, production or custom
+;  This will override some parameter values
+profile = production
+
+; -------------------------------------------------------------------
+;  The following parameters are only taken into account when profile=custom
+;
 ; if true, WSDL will be used for receiving SOAP requests
 useWsdl = false
-
 ; disables the caching of wsdl (ignored if useWsdl is false)
 noWsdlCache = false
-
 ; disables the caching of MapInfo requests
 noMapInfoCache = false
-
-; disables the caching of getMap requests
-noMapResultCache = false
-
-; disables the caching of SOAP XML requests
-noSoapXMLCache = false
-
+; sets ini parameters useful during development
+developerIniConfig = false
+; allows tests running through Web interface
+allowTests = false
 ; shows developer messages
 showDevelMessages = false
 
-; sets ini parameters useful during development
-developerIniConfig = false
+; disables the caching of getMap requests
+noMapResultCache = false
+; disables the caching of SOAP XML requests
+noSoapXMLCache = false
+; -------------------------------------------------------------------
 
-; allows tests running through Web interface
-allowTests = false
 
 ; The kind of URL generated for resources. May be one of 'Miniproxy|Symlink'
 urlProvider = Miniproxy

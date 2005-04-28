@@ -69,6 +69,49 @@ abstract class Config {
     }
 
     /**
+     * Return the name of the parameters which will be automatically set 
+     * from the current profile (overriding the one from configuration).
+     * This method should be overriden to add more parameters. The overrider
+     * should merge the array with its parent. 
+     * 
+     * @return array Parameters which should be true when profile is development
+     *   or false in production.
+     */
+    protected function getProfileParameters() {
+        return array('useWsdl', 'noWsdlCache', 'noMapInfoCache', 
+                     'developerIniConfig', 'allowTests', 'showDevelMessages');   
+    }
+
+    /**
+     * Set parameters values according to the current profile
+     * @see getProfileParameters()
+     */
+    private function updateProfileParameters() {
+        
+        if (!$this->profile)
+            return;
+        
+        switch ($this->profile) {
+            case 'development':
+                $parametersValues = true;               
+                break;
+            case 'production':
+                $parametersValues = false;               
+                break;
+            case 'custom':
+                return;
+            default:
+                throw new CartocommonException('Invalid profile value: ' . 
+                                                $this->profile);
+                break;
+        }
+        
+        foreach($this->getProfileParameters() as $profileParameter) {
+            $this->ini_array[$profileParameter] = $parametersValues;   
+        }
+    }
+
+    /**
      * Constructor
      *
      * Reads project's and default .ini file, sets project handler's mapId
@@ -115,6 +158,8 @@ abstract class Config {
 
         if (!@$this->pluginsPath)
             $this->pluginsPath = $this->getBasePath() . 'plugins/';
+    
+        $this->updateProfileParameters();
     }
 
     /**
