@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id$ -->
+<!ENTITY profile_overriden "<emphasis>Warning:</emphasis> This parameter will be overrided by the 
+          <constant>profile</constant> parameter (See <xref linkend='user.config.common'/>).">
+<!ENTITY profile_overriden_plural_nowarning " These parameters will be overrided by the 
+          <constant>profile</constant> parameter (See <xref linkend='user.config.common'/>).">

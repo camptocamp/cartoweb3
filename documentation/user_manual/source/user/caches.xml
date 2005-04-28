@@ -3,6 +3,8 @@
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
+  <!ENTITY % user SYSTEM "user.ent" >
+  %user;
   ]>
 <!-- $Id$ -->
 <chapter id="user.caches">
@@ -27,7 +29,7 @@
         <itemizedlist>
         <listitem>
           <para> smartyCompileCheck = true|false: Set this to false in production
-            to improve performance. </para>
+            to improve performance. &profile_overriden;</para>
         </listitem>
         </itemizedlist>        
         <warning>
@@ -93,6 +95,7 @@
         name of the cache. This is so, so that if the parameter is not available, 
         its default value will be false, meaning that all caches are active
         by default, for maximum performance.
+        <!--
         <tip>
           <para>
           During development, it is recommended that you turn the caches off
@@ -100,6 +103,12 @@
           modifications will not be hidden by cached values.
           </para>
         </tip>
+        -->
+        <warning>
+          <para>
+            &profile_overriden_plural_nowarning;
+          </para>
+        </warning>
       </para>
       
     </sect2>

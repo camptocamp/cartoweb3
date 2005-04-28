@@ -3,6 +3,8 @@
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
+  <!ENTITY % user SYSTEM "user.ent" >
+  %user;
   ]>
 <!-- $Id$ -->
 <chapter id="user.config">
@@ -23,8 +25,18 @@
       <filename>server_conf/server.ini</filename> for server.</para>
     <itemizedlist>
       <listitem>
+        <para> profile = development|production|custom: Current profile: 
+          the developer profile has no cache activated, and uses WSDL. 
+          Development profile has all caches activated for best performances.
+          Setting this parameter to development or production will override
+          some parameters in the configuration. The custom profile means
+          the parameters about caching and other are not overrided.</para>
+      </listitem>   
+      <listitem>
         <para> urlProvider = Miniproxy|Symlink: The kind of URL generated for 
-          resources, see <xref linkend="user.template.resource" /> </para>
+          resources, see <xref linkend="user.template.resource" />.
+          &profile_overriden;
+        </para>
       </listitem>
       <listitem>
         <para> useWsdl = true|false: if true, WSDL will be used for sending 
@@ -256,11 +268,17 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       display information targetted to the developers, like special timing 
       messages, or setting the Php configuration to display notices on the page.
       These configuration options are described below.
+      <!--
       <note>
         <para>It is recommended that you set these parameters accordingly
           if you are doing development.</para>
       </note>
-    </para>
+      -->
+      <warning>
+        <para>
+          &profile_overriden_plural_nowarning;
+        </para>
+      </warning>    </para>
     <para>These parameters are available in 
         <filename>client_conf/client.ini</filename> for client and 
         <filename>server_conf/server.ini</filename> for server. </para>
