@@ -234,6 +234,7 @@ interface Sessionable {
 
     /**
      * Saves session data
+     * @return object The object containing the session state to save.
      */
     public function saveSession();
 }
