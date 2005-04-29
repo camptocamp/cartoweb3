@@ -45,6 +45,7 @@ delete_client:
 
 soft_clean:
 	-find www-data -type f|xargs -r rm
+	-rm -rf www-data/icons/*
 	-rm -f templates_c/*
 
 clean: soft_clean
