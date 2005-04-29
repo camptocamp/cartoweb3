@@ -325,10 +325,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @see LocationCalculator::getScale()
      */
     public function getScale() {
-        
+ 
         $oldScale = $this->calculateOldScale();
         $this->log->debug("old scale is $oldScale");
-        
+       
         $scale = 0;
         switch ($this->requ->zoomType) {
         case ZoomPointLocationRequest::ZOOM_DIRECTION_IN:
@@ -675,14 +675,19 @@ class ServerLocation extends ServerPlugin
      * @return Bbox
      */
     private function adjustBbox($oldBbox, $maxExtent = NULL) {
-     
-        $newBbox = $oldBbox;
+ 
+        if (is_null($maxExtent))
+            $maxExtent = $this->serverContext->getMaxExtent();
+        
+        if ($maxExtent->minx == -1 && $maxExtent->miny == -1 &&
+            $maxExtent->maxx == -1 && $maxExtent->maxy == -1) {
+            return $oldBbox;
+        }
+        
+        $newBbox = clone $oldBbox;
         
         // Old ratio so we can check ratios
         $oldRatio = $oldBbox->getWidth() / $oldBbox->getHeight();
-        
-        if (is_null($maxExtent))
-            $maxExtent = $this->serverContext->getMaxExtent();
         
         // Horizontal 
         if ($newBbox->minx < $maxExtent->minx) {
@@ -693,7 +698,7 @@ class ServerLocation extends ServerPlugin
                 // Bbox was too large to fit
                 $newBbox->maxx = $maxExtent->maxx;
             }
-        } else if ($newBbox->maxx > $maxExtent->maxx) {
+        } else if ($maxExtent->maxx > 0 && $newBbox->maxx > $maxExtent->maxx) {
             $newBbox->minx = $newBbox->minx + $maxExtent->maxx 
                              - $newBbox->maxx;
             $newBbox->maxx = $maxExtent->maxx;
@@ -712,7 +717,7 @@ class ServerLocation extends ServerPlugin
                 // Bbox was too high to fit
                 $newBbox->maxy = $maxExtent->maxy;
             }
-        } else if ($newBbox->maxy > $maxExtent->maxy) {
+        } else if ($maxExtent->maxy > 0 && $newBbox->maxy > $maxExtent->maxy) {
             $newBbox->miny = $newBbox->miny + $maxExtent->maxy 
                              - $newBbox->maxy;
             $newBbox->maxy = $maxExtent->maxy;
@@ -720,6 +725,10 @@ class ServerLocation extends ServerPlugin
                 // Bbox was too high to fit
                 $newBbox->miny = $maxExtent->miny;
             }
+        }
+
+        if ($newBbox->getWidth() == 0 || $newBbox->getHeight() == 0) {
+            return $oldBbox;
         }
         
         // Checking ratios
@@ -833,6 +842,7 @@ class ServerLocation extends ServerPlugin
         }
         $this->log->debug('scale before adjust is');
         $this->log->debug($scale);
+
         $scale = $this->adjustScale($scale);
         
         $this->log->debug('scale after adjust is');
