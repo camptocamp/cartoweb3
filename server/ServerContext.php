@@ -251,10 +251,13 @@ class ServerContext {
      * been created.
      */
     public function updateStateFromMapObj() {
-
+        
         if (is_null($this->msMapObj))
             return;
-        $this->maxExtent = clone($this->msMapObj->extent);
+
+        if (is_null($this->maxExtent))
+            $this->maxExtent = clone($this->msMapObj->extent);
+        
         $this->imageType = $this->msMapObj->imagetype;
     }
 
