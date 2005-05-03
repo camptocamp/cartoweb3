@@ -336,9 +336,9 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $mapInfo = new MapInfo();
         $mapInfo->unserialize($struct);
         
-        $layer1 = $mapInfo->getLayerById('layer1');
-        $layer2 = $mapInfo->getLayerById('layer2');
-        $layer3 = $mapInfo->getLayerById('layer3');
+        $layer1 = $mapInfo->layersInit->getLayerById('layer1');
+        $layer2 = $mapInfo->layersInit->getLayerById('layer2');
+        $layer3 = $mapInfo->layersInit->getLayerById('layer3');
         
         $this->assertEquals('layer1_label', $layer1->label); 
         $this->assertEquals('layer2_label', $layer2->label); 

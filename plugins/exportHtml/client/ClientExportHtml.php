@@ -106,7 +106,7 @@ class ClientExportHtml extends ExportPlugin {
         
         $legends = array();
         foreach ($mapRequest->layersRequest->layerIds as $layerId) {
-            $layer = $mapInfo->getLayerById($layerId);
+            $layer = $mapInfo->layersInit->getLayerById($layerId);
             $legends[] = array('label' => I18n::gt($layer->label)); 
         }
         $smarty->assign(array('exporthtml_mainmap'  => $this->getBaseUrl()
