@@ -667,17 +667,18 @@ class ClientExportPdf extends ExportPlugin
      * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
-    private function getConfiguration($isOverview = false, $mapBbox = NULL) {
+    private function getConfiguration($keymap = 'none', $mapBbox = NULL) {
         
         $config = new ExportConfiguration();
 
         $scale = $this->getLastScale();
         $mapWidth = $mapHeight = 0;
 
-        if ($isOverview) {
+        if ($keymap == 'overview') {
             // getting overview map
             $renderMap = true;
             $renderScalebar = false;
+            $renderKeymap = false;
 
             $overview = $this->blocks['overview'];
 
@@ -732,6 +733,7 @@ class ClientExportPdf extends ExportPlugin
        } else {
             $renderMap = isset($this->blocks['mainmap']);
             $renderScalebar = isset($this->blocks['scalebar']);
+            $renderKeymap = ($keymap == 'static');
 
             if ($renderMap) {
                 $mainmap = $this->blocks['mainmap'];
@@ -745,7 +747,7 @@ class ClientExportPdf extends ExportPlugin
         }
        
         $config->setRenderMap($renderMap);
-        $config->setRenderKeymap(false);
+        $config->setRenderKeymap($renderKeymap);
         $config->setRenderScalebar($renderScalebar);
 
         // map dimensions:
@@ -809,15 +811,19 @@ class ClientExportPdf extends ExportPlugin
 
         $block->content = $this->getGfxPath($map->path);
         $block->type = 'image';
+
+        $resolution = ($msName == 'keymap') ?
+                      $this->general->mapServerResolution :
+                      $this->general->selectedResolution;
         
         if (!isset($block->width)) {
-            $width = $map->width / $this->general->selectedResolution;
+            $width = $map->width / $resolution;
             $block->width = PrintTools::switchDistUnit($width,
                                        'in', $this->general->distUnit);
         }
         
         if (!isset($block->height)) {
-            $height = $map->height / $this->general->selectedResolution;
+            $height = $map->height / $resolution;
             $block->height = PrintTools::switchDistUnit($height,
                                        'in', $this->general->distUnit);
         }
@@ -954,21 +960,34 @@ class ClientExportPdf extends ExportPlugin
  
         if (isset($this->blocks['mainmap']))
             $this->setMainMapDim($pdf);
+
+        if (isset($this->blocks['overview'])) {
+            $keymap = ($this->blocks['overview']->content == 'static') ?
+                      'static' : 'overview';
+        } else {
+            $keymap = 'none';
+        }
  
         // Retrieving of data from CartoServer:
-        $mapResult = $this->getExportResult($this->getConfiguration());
+        $mapResult = $this->getExportResult(
+                         $this->getConfiguration($keymap == 'static' ? 
+                                                 'static' : 'none'));
  
-        if (isset($this->blocks['overview'])) {
+        if ($keymap == 'overview') {
             $mapBbox = $mapResult->locationResult->bbox;
             $overviewResult = $this->getExportResult(
-                                  $this->getConfiguration(true, $mapBbox));
+                                  $this->getConfiguration($keymap, $mapBbox));
         } else {
             $overviewResult = false;
         }
 
         $this->updateMapBlock($mapResult, 'mainmap');
         $this->updateMapBlock($mapResult, 'scalebar');
-        $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+        if ($keymap == 'static') {
+            $this->updateMapBlock($mapResult, 'overview', 'keymap');
+        } else {
+            $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+        }
 
         if (isset($this->blocks['tlcoords']))
             $this->getCornerCoords($this->blocks['tlcoords'], $mapResult);
@@ -977,6 +996,8 @@ class ClientExportPdf extends ExportPlugin
         
         if (isset($this->blocks['scaleval'])) {
             $scale = $mapResult->locationResult->scale;
+            $scale *= $this->general->selectedResolution;
+            $scale /= $this->general->mapServerResolution;
             $scale = number_format($scale, 0, ',',"'");
             $this->blocks['scaleval']->content = sprintf('%s 1:%s',
                                                          I18n::gt('Scale'),

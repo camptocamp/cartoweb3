@@ -871,6 +871,15 @@ general.importRemotePng = false]]></programlisting>
     <para>
      Some overview map settings are available as well. The <parameter>overviewScaleFactor</parameter> indicates how wide the overview will be compared to the mainmap actual extent. <parameter>overviewColor</parameter> and <parameter>overviewOutlineColor</parameter> respectively set the inner and border colors of the mainmap outline in the overview map. Note that the <parameter>outline</parameter> plugin must be activated (ie. added in the <filename>client.ini</filename> <parameter>loadPlugins</parameter> parameter) for those settings to be taken into account.
     </para>
+    <tip>
+     <para>
+      To use the classical MapServer keymap in place of the overview, set the overview block <parameter>content</parameter> parameter to <parameter>static</parameter> (see <xref linkend="user.pdf.tutorial.block" />) as follows:
+     </para>
+     <programlisting>blocks.overview.content = static</programlisting>
+     <para>
+      In that case parameters <parameter>overviewScaleFactor</parameter>, <parameter>overviewColor</parameter>, <parameter>overviewOutlineColor</parameter> are ignored.
+     </para>
+    </tip>
    </sect3>
    <sect3 id="user.pdf.tutorial.overall.formats">
     <title><indexterm><primary>formats object, PDF</primary></indexterm>formats</title>
