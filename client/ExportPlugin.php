@@ -429,7 +429,9 @@ abstract class ExportPlugin extends ClientPlugin
      * @return MapRequest
      */
     public function getLastMapRequest() {
-        $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+        $mapRequest = StructHandler::deepClone($this->cartoclient->
+                                               getClientSession()->
+                                               lastMapRequest);
 
         if (!$mapRequest)
             return NULL;
@@ -442,7 +444,9 @@ abstract class ExportPlugin extends ClientPlugin
      * @return MapResult
      */
     public function getLastMapResult() {
-        $mapResult = $this->cartoclient->getClientSession()->lastMapResult;
+        $mapResult = StructHandler::deepClone($this->cartoclient->
+                                              getClientSession()->
+                                              lastMapResult);
 
         if (!$mapResult)
             return NULL;
@@ -467,7 +471,7 @@ abstract class ExportPlugin extends ClientPlugin
             if (is_null($mapRequest)) {
                 return NULL;
             }
-
+            
             $this->cartoclient->callPluginsImplementing('Exportable', 
                                                         'adjustExportMapRequest',
                                                         $configuration,
@@ -476,7 +480,7 @@ abstract class ExportPlugin extends ClientPlugin
             // Calls getMap
             $mapResult = $this->cartoclient->getCartoserverService()->
                                        getMap($mapRequest);
-
+            
             // Initializes plugins  
             $this->cartoclient->callPluginsImplementing('ServerCaller', 
                                                         'initializeResult',

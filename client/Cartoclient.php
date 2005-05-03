@@ -683,7 +683,8 @@ class Cartoclient {
                                        $mapRequest);
 
         // Save mapRequest for future use
-        $this->clientSession->lastMapRequest = $mapRequest;
+        $this->clientSession->lastMapRequest = 
+            StructHandler::deepClone($mapRequest);
 
         $this->log->debug('maprequest:');
         $this->log->debug($mapRequest);
@@ -691,7 +692,8 @@ class Cartoclient {
         $this->mapResult = $this->getMapResultFromRequest($mapRequest);
 
         // Save mapResult for future use
-        $this->clientSession->lastMapResult = $this->mapResult;
+        $this->clientSession->lastMapResult = 
+            StructHandler::deepClone($this->mapResult);
 
         $this->log->debug('mapresult:');
         $this->log->debug($this->mapResult);

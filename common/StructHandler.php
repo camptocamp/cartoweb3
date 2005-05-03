@@ -94,6 +94,23 @@ class StructHandler {
          }
          return $new_object;
     }
+
+    /**
+     * Performs full object cloning.
+     * @param mixed object to clone
+     * @return mixed cloned object
+     */
+    static public function deepClone($obj) {
+        $newObj = clone $obj;
+
+        foreach (get_object_vars($obj) as $propName => $propVal) {
+            if (is_object($propVal)) {
+                $newObj->$propName = self::deepClone($propVal);
+            }       
+        }       
+
+        return $newObj; 
+    }
 }
 
 ?>
