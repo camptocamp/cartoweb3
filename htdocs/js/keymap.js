@@ -5,14 +5,14 @@ function collapseKeymap() {
   var newStatus;
 
   if (keymap.style.display == 'none') {
-    oldStatus = 'off';
-    newStatus = 'on';
+    oldStatus = '_off';
+    newStatus = '_on';
     keymap.style.display = 'block';
     switcher.title = hideKeymapMsg
     myform.collapse_keymap.value = '0';
   } else {
-    oldStatus = 'on';
-    newStatus = 'off';
+    oldStatus = '_on';
+    newStatus = '_off';
     keymap.style.display = 'none';
     switcher.title = showKeymapMsg;
     document.forms['carto_form'].collapse_keymap.value = '1';
