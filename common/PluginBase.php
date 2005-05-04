@@ -64,7 +64,7 @@ abstract class PluginBase {
      */
     public function getBasePath() {
         if (!$this->basePath)
-            throw new CartocommonException("Base path not defined");
+            throw new CartocommonException('Base path not defined');
         return $this->basePath;
     }
 
