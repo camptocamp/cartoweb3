@@ -57,9 +57,9 @@ class ServerImages extends ServerPlugin
      */
     public function setupSizes($requ) {
        
-        $resolution = $this->serverContext->getMapRequest()
-                                          ->layersRequest->resolution;
-        if (empty($resolution)) {
+        $mapRequest = $this->serverContext->getMapRequest();
+        if (empty($mapRequest->layersRequest) || 
+            empty($mapRequest->layersRequest->resolution)) {
             // if resolution is specified (PDF export), image size check is
             // skipped
             $this->log->debug('Checking image dimensions');
