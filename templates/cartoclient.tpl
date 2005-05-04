@@ -60,7 +60,7 @@
 {/if}
   <div id="content">
 
-    {include file="toolbar.tpl"}
+    {include file="toolbar.tpl" group=1}
 
     <table>
       <tr>

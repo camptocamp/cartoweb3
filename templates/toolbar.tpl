@@ -1,6 +1,7 @@
   <p>
     {counter start=-1 print=false name=tindex}
     {foreach from=$tools item=tool}
+    {if !$group || $group == $tool->group}
     <label for="{$tool->id}">
       <input type="radio" name="tool" 
               value="{$tool->js->shapeType},{$tool->js->action},{$tool->js->cursorStyle},{$tool->id}" 
@@ -15,5 +16,6 @@
             </span>
            {/if}
     </label>&nbsp;
+    {/if}
     {/foreach}
   </p>

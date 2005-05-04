@@ -150,6 +150,11 @@ class ToolDescription {
      * @var int
      */
     public $weight;
+
+    /**
+     * @var int
+     */
+    public $group;
     
     /**
      * @var boolean
@@ -171,11 +176,12 @@ class ToolDescription {
      * @param int
      */
     public function __construct($id, $hasIcon, $jsAttributes, 
-                         $weight, $plugin = false, $appliesTo = self::MAINMAP) {
+                         $weight, $group = 1, $plugin = false, $appliesTo = self::MAINMAP) {
         $this->id = $id;
         $this->hasIcon = $hasIcon;
         $this->jsAttributes = $jsAttributes;
         $this->weight = $weight;
+        $this->group = $group;
         $this->plugin = $plugin;
         $this->appliesTo = $appliesTo;
     }

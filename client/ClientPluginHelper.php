@@ -81,6 +81,19 @@ class ToolProviderHelper extends ClientPluginHelper {
         if ($weight)
             $tool->weight = $weight;
 
+
+        $groupConfigName = 'group' . $this->convertName($tool->id);
+        $group = $plugin->getConfig()->$groupConfigName;
+        
+        if (!$group) {
+            // if tool group info is not available, tries to retrieve plugin
+            // global group:
+            $group = $plugin->getConfig()->groupPlugin;
+        }
+        
+        if ($group)
+            $tool->group = $group;
+
         return $tool;
     }    
     
