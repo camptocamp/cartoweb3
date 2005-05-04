@@ -261,6 +261,88 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       <filename>layers.ini</filename>.</para>
     <para> All plugins configuration files are described in the next sections 
       of this chapter. </para>
+    <para>
+     Every plugin that provides tools icons can be configured for:
+    </para>
+    <sect2 id="user.config.plugins.order">
+     <title>Ordering Tools Icons</title>
+     <para>
+      To modify the toolbar icons sequence, update the tools weight values. Icons with the lowest weights are placed first in the toolbar. Parameters naming convention is to concatenate the 'weight' prefix to the capitalized-first-lettered tool name as in <parameter>weightDistance</parameter>. For two-words tool names (eg. 'zoom_in'), each word has its first letter capitalized and the '_' (underscore) is removed. For instance: 
+     </para>
+     <programlisting>weightZoomIn = 10</programlisting>
+     <para>
+      Default weights value are :
+      <itemizedlist>
+       <listitem>
+        <para>
+         weightZoomIn: 10
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightZoomOut: 11
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightPan: 12
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightQuery: 40
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightOutlinePoint: 70
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightOutlineLine: 71
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightOutlineRectangle: 72
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightOutlinePoly: 73
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightDistance: 80
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightSurface: 81
+        </para>
+       </listitem>
+      </itemizedlist>
+     </para>
+    </sect2>
+    <sect2 id="user.config.plugins.group">
+     <title>Grouping Tools Icons</title>
+     <para>
+      &cartoweb; offers the possibility to display tools icons in separated locations of its interface. For instance browsing icons may be displayed in the general toolbar whereas outline pictos may only appear in a dedicated folder. To do so, simply add an integer group index for each tool in matching plugin configuration file. For instance:
+      <programlisting>groupDistance = 2</programlisting>
+      By default, all tools icons are affected to group 1. Note that the parameters naming convention is the same than for weight parameters (see <xref linkend="user.config.plugins.order"/>), only substituting the 'group' prefix to the 'weight' one.
+     </para>
+     <para>
+      It is also possible to specify a global plugin group index that will be applied to all the given plugin tools if no individual group index has been set. To do so, use the <parameter>groupPlugin</parameter> in the matching plugin configuration file as follows:
+      <programlisting>groupPlugin = 3</programlisting>
+     </para>
+     <para>
+      To take benefit of the tools groups, update the main &cartoweb; template file <filename>templates/cartoclient.tpl</filename> by including the <filename>toolbar.tpl</filename> template at the correct places with the correct group indexes as follows:
+      <programlisting>{include file="toolbar.tpl" group=2}</programlisting>
+      For more information about templates writing, see <xref linkend="user.template"/>.
+     </para>
+    </sect2>
   </sect1>
   <sect1 id="user.config.developer">
     <title>Developer Specific Configuration</title>
