@@ -56,7 +56,15 @@ class ServerImages extends ServerPlugin
      * @param ImagesRequest
      */
     public function setupSizes($requ) {
-        $this->checkMapDimensions($requ);
+       
+        $resolution = $this->serverContext->getMapRequest()
+                                          ->layersRequest->resolution;
+        if (empty($resolution)) {
+            // if resolution is specified (PDF export), image size check is
+            // skipped
+            $this->log->debug('Checking image dimensions');
+            $this->checkMapDimensions($requ);
+        }
         
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -82,7 +90,7 @@ class ServerImages extends ServerPlugin
     }
 
     /**
-     * @return The base URL where the generated images can be found.
+     * @return string The base URL where the generated images can be found.
      */
     private function getImageBaseUrl() {
         $config = $this->serverContext->getConfig();
