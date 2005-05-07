@@ -258,8 +258,7 @@ class ClientExportPdf extends ExportPlugin
         $this->blocks[$id]->id = $id;
 
         if ($id == 'title' || $id == 'note') {
-            $content = trim($request[$pdfItem]);
-            $this->blocks[$id]->content = stripslashes($content);
+            $this->blocks[$id]->content = trim($request[$pdfItem]);
         }
 
         if ($this->blocks[$id]->type == 'text' &&

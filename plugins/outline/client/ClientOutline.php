@@ -213,7 +213,7 @@ class ClientOutline extends ClientPlugin
             $styledShape->shape = $shape;
             if ($this->getConfig()->labelMode
                     && !empty($request['outline_label_text'])) {
-                $styledShape->label = stripslashes($request['outline_label_text']);
+                $styledShape->label = $request['outline_label_text'];
             }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
