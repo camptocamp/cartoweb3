@@ -24,7 +24,7 @@
 require_once ('log4php/LoggerManager.php');
 
 /**
- * Utiliy class containing static methods for various common tasks.
+ * Utility class containing static methods for various common tasks.
  * @package Common
  */
 class Utils {
@@ -100,6 +100,31 @@ class Utils {
         if (DIRECTORY_SEPARATOR == '/')
             return $path;
         return str_replace('/', '\\', $path);
+    }
+
+    /**
+     * Escapes special characters taking into account if magic_quotes_gpc
+     * is ON or not. Multidimensional arrays are accepted.
+     * @param mixed
+     * @param boolean (optional) magic_quotes_gpc status. Detected if missing.
+     * @return mixed
+     */
+    public static function addslashes($data, $magic_on = NULL) {
+        if (!isset($magic_on)) {
+            $magic_on = get_magic_quotes_gpc();
+        }
+        
+        if (!$magic_on) {
+            if (is_array($data)) {
+                foreach ($data as $key => &$val) {
+                    $val = self::addslashes($val, false);
+                }
+            } else {
+                $data = addslashes($data);
+            }
+        }
+
+        return $data;
     }
 }
 
