@@ -679,7 +679,9 @@ class Cartoclient {
             return $this->formRenderer->showForm();
         
         $mapRequest = $this->getMapRequest();
-        $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
+        $this->callPluginsImplementing('ServerCaller', 'buildRequest',
+                                       $mapRequest);
+        $this->callPluginsImplementing('ServerCaller', 'overrideRequest',
                                        $mapRequest);
 
         // Save mapRequest for future use

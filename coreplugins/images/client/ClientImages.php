@@ -222,9 +222,9 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
 
         $images = new Images();
 
@@ -244,7 +244,7 @@ class ClientImages extends ClientPlugin
         $mainmap_image->height = $this->imagesState->mainmapDimension->height;
         $images->mainmap = $mainmap_image;
 
-        $mapRequest->imagesRequest = $images;
+        return $images;
     }
 
     /**

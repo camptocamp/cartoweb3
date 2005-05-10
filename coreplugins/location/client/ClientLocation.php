@@ -682,9 +682,9 @@ class ClientLocation extends ClientPlugin
     }
 
     /**
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
 
         $locationRequest = NULL;
         if (!is_null($this->locationRequest)) 
@@ -694,7 +694,7 @@ class ClientLocation extends ClientPlugin
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
                         $this->locationState->bbox->getCenter());
-        $mapRequest->locationRequest = $locationRequest;
+        return $locationRequest;
     }
 
     /**

@@ -87,7 +87,7 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
     }
 
     $mapRequest = $this->getMapRequest();
-    $this->callPluginsImplementing('ServerCaller', 'buildMapRequest',
+    $this->callPluginsImplementing('ServerCaller', 'buildRequest',
                                    $mapRequest);
 
     $this->mapResult = $this->getMapResultFromRequest($mapRequest);

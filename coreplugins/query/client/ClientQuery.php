@@ -428,9 +428,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     }
 
     /**
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */ 
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
     
         if (!is_null($this->bbox) || (!is_null($this->queryState)
             && count($this->queryState->querySelections) > 0)) {
@@ -446,8 +446,9 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             $queryRequest->querySelections = $this->queryState->querySelections;        
             $queryRequest->bbox = $this->bbox;
 
-            $mapRequest->queryRequest = $queryRequest;
+            return $queryRequest;
         }
+        return null;
     }
 
     /**

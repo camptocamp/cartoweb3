@@ -230,15 +230,15 @@ class ClientOutline extends ClientPlugin
     }
     
     /**
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
     
         $outlineRequest = new OutlineRequest();
         $outlineRequest->shapes   = $this->outlineState->shapes;        
         $outlineRequest->maskMode = $this->outlineState->maskMode;
       
-        $mapRequest->outlineRequest = $outlineRequest;
+        return $outlineRequest;
     }
 
     /**

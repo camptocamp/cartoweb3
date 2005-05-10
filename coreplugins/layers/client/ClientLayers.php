@@ -806,10 +806,9 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Sets selected layers list in MapRequest.
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
         $layersMask = $this->getLayersMask();
         
         $this->layerIds = $this->getSelectedLayers(true);
@@ -818,7 +817,7 @@ class ClientLayers extends ClientPlugin
      
         $layersRequest = new LayersRequest();
         $layersRequest->layerIds = $this->layerIds;
-        $mapRequest->layersRequest = $layersRequest;
+        return $layersRequest;
     }
 
     /**

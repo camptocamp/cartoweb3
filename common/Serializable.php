@@ -63,7 +63,7 @@ abstract class Serializable {
      * @return mixed value
      */
     private static function getValue($struct, $property) {
-        if (!$struct)
+        if (is_null($struct))
             return NULL;
         if ($property) {
             $objVars = get_object_vars($struct);
@@ -87,7 +87,9 @@ abstract class Serializable {
                                             $type = 'string') {
         
         $value = self::getValue($struct, $property);
-        
+        if (is_null($value))
+            return NULL;
+  
         switch($type) {
         case 'boolean':
             return (strtolower($value) == 'true' || $value == '1');

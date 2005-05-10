@@ -285,9 +285,9 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     }   
     
     /**
-     * @see ServerCaller::buildMapRequest()
+     * @see ServerCaller::buildRequest()
      */
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
         // TODO
     }
 

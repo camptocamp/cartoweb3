@@ -575,7 +575,7 @@ class RecenterLocationCalculator extends LocationCalculator {
  * Server part of Location plugin
  * @package CorePlugins
  */
-class ServerLocation extends ServerPlugin 
+class ServerLocation extends ClientResponderAdapter 
                      implements CoreProvider, InitProvider {
     
     /**

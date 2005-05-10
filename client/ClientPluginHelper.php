@@ -223,6 +223,41 @@ class InitUserHelper extends ClientPluginHelper {
 class ServerCallerHelper extends ClientPluginHelper {
 
     /**
+     * Adds plugin specific request to {@link MapRequest}
+     * @param ClientPlugin plugin
+     * @param MapRequest
+     */
+    final function buildRequestHelper($plugin, $mapRequest) {
+        
+        $pluginRequest = $plugin->buildRequest();
+        if ($pluginRequest) {
+            $requestName = $plugin->getName() . 'Request';        
+            $mapRequest->$requestName = $pluginRequest;
+        }
+    }
+
+    /**
+     * Sets plugin's request
+     *
+     * Helper method only. This won't call plugin.
+     */
+    final function setRequestHelper($plugin, $request) {
+        $plugin->overriddenRequest = $request;
+    }
+
+    /**
+     * Overrides plugin's request
+     *
+     * Helper method only. This won't call plugin.
+     */
+    final function overrideRequestHelper($plugin, $mapRequest) {
+        if ($plugin->overriddenRequest) {
+            $requestName = $plugin->getName() . 'Request';        
+            $mapRequest->$requestName = $plugin->overriddenRequest;
+        }
+    }
+
+    /**
      * Gets plugin specific result out of {@link MapResult} and calls 
      * plugin's {@link ServerCaller::initializeResult()}
      * @param ClientPlugin plugin

@@ -115,9 +115,9 @@ class ServerOutline extends ClientResponderAdapter {
             $msLabelObj = $msClassObj->label;
             $labelStyle->font = $msLabelObj->font;
             $labelStyle->size = $msLabelObj->size;        
-            $this->setColor($msStyleObj->color, $labelStyle->color);        
-            $this->setColor($msStyleObj->outlinecolor, $labelStyle->outlineColor);        
-            $this->setColor($msStyleObj->backgroundcolor, $labelStyle->backgroundColor);
+            $this->setColor($msLabelObj->color, $labelStyle->color);        
+            $this->setColor($msLabelObj->outlinecolor, $labelStyle->outlineColor);        
+            $this->setColor($msLabelObj->backgroundcolor, $labelStyle->backgroundColor);
         }            
     }
 
@@ -487,6 +487,11 @@ class ServerOutline extends ClientResponderAdapter {
      * @return double area
      */
     public function draw($shapes, $maskMode = false) {
+    
+        if (empty($shapes)) {
+            return 0;
+        }
+        
         $msMapObj = $this->serverContext->getMapObj();
 
         if ($maskMode) {

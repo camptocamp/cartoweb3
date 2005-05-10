@@ -25,7 +25,7 @@
  * Server part of Images plugin
  * @package CorePlugins
  */
-class ServerImages extends ServerPlugin 
+class ServerImages extends ClientResponderAdapter 
                    implements CoreProvider {
 
     /**

@@ -263,6 +263,9 @@ class PluginManager {
                     if (!array_key_exists($interface, $this->helpers)) {
                         $this->helpers[$interface] = new $helperClass;
                     }
+                    if (!is_array($args)) {
+                        $args = array($args);
+                    }
                     $helperArgs = array_merge(array($plugin), $args);
                     return call_user_func_array(array(
                                                     $this->helpers[$interface],

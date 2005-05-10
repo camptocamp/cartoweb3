@@ -44,6 +44,12 @@ abstract class PluginBase {
     private $name;
 
     /**
+     * Request overridden by other plugin
+     * @var mixed
+     */
+    public $overriddenRequest;
+
+    /**
      * Constructor
      */
     public function __construct() {

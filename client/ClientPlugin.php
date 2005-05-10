@@ -277,10 +277,10 @@ interface GuiProvider {
 interface ServerCaller {
 
     /**
-     * Adds specific plugin information to map request
-     * @param MapRequest map request (will be modified)
+     * Returns specific plugin request
+     * @return mixed
      */
-    public function buildMapRequest($mapRequest);
+    public function buildRequest();
 
     /**
      * Initializes plugin state depending on server result
@@ -414,7 +414,7 @@ abstract class ClientPlugin extends PluginBase {
      * @var ClientConfig
      */
     private $config;
-    
+        
     /**
      * Constructor
      */
