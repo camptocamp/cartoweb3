@@ -12,14 +12,14 @@ class ClientProjectLocation extends ClientLocation {
 
     private $projectResult;
 
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
 
-        parent::buildMapRequest($mapRequest);
+        $locationRequest = parent::buildRequest();
         
         $projectRequest = new ProjectLocationRequest();
-        $projectRequest->locationRequest = $mapRequest->locationRequest;
+        $projectRequest->locationRequest = $locationRequest;
         $projectRequest->projectRequest = "my message";
-        $mapRequest->locationRequest = $projectRequest;
+        return $projectRequest;
     }
 
     public function initializeResult($locationResult) {

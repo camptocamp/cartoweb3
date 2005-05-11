@@ -44,14 +44,14 @@ class ClientProjectplugin extends ClientPlugin
 
     public function handleHttpGetRequest($request) {}
 
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
         $request = new ProjectpluginRequest();
         if (array_key_exists(self::PROJECTPLUGIN_INPUT, $_REQUEST)) { 
             $request->message = $_REQUEST[self::PROJECTPLUGIN_INPUT];
         } else {
             $request->message = '';
         }
-        $mapRequest->projectpluginRequest = $request;
+        return $request;
     }
 
     public function initializeResult($result) {

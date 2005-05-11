@@ -12,9 +12,9 @@
 class ClientProjectTable extends ClientPlugin 
                          implements ServerCaller {
 
-    public function buildMapRequest($mapRequest) {
+    public function buildRequest() {
            
-        $mapRequest->projectTableRequest = new ProjectTableRequest();
+        return new ProjectTableRequest();
     }
 
     public function initializeResult($queryResult) {
