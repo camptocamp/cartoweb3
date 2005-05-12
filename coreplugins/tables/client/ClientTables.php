@@ -75,7 +75,7 @@ class ClientTables extends ClientPlugin
     
     /**
      * Adds table(s) to the list of tables to be displayed
-     * @param mixed Table or array of Table     
+     * @param mixed TableGroup or array of TableGroup's     
      */
     public function addTableGroups($tables) {
         $newTableGroups = array();
