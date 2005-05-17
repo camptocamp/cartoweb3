@@ -396,7 +396,7 @@ class HttpRequestHandler {
             return;
         }
         
-        if (!@$_REQUEST['tool']) {
+        if (!array_key_exists('tool', $_REQUEST)) {
             $this->log->debug('no tool selected, skipping');
             return;
         }
@@ -429,7 +429,7 @@ class HttpRequestHandler {
         $this->checkClickedButtons($cartoForm);
 
         // tools
-        if (@$_REQUEST['tool']) {
+        if (array_key_exists('tool', $_REQUEST)) {
             $tool = explode(',', $_REQUEST['tool']);
             $_REQUEST['tool'] = array_pop($tool); 
             $clientSession->selectedTool = $_REQUEST['tool'];
