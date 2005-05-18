@@ -247,14 +247,14 @@ class ExportConfiguration {
     }
 
     /**
-     * @param Rectangle
+     * @param StyledShape
      */
-    public function setPrintOutline($bbox) {
-        $this->printOutline = $bbox;
+    public function setPrintOutline($styledOutline) {
+        $this->printOutline = $styledOutline;
     }
 
     /**
-     * @return Rectangle
+     * @return StyledShape
      */
     public function getPrintOutline() {
         return $this->printOutline;
