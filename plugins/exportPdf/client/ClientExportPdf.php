@@ -662,7 +662,7 @@ class ClientExportPdf extends ExportPlugin
 
     /**
      * Builds export configuration.
-     * @param boolean true if configuring to get overview map
+     * @param string keymap/overview type
      * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
