@@ -797,7 +797,7 @@ class ClientExportPdf extends ExportPlugin
      * @param string name of PdfBlock to update
      * @param string name of MapResult property
      */
-    private function updateMapBlock($mapObj, $name, $msName = '') {
+    protected function updateMapBlock($mapObj, $name, $msName = '') {
         if (!$msName) $msName = $name;
 
         if (!$mapObj instanceof MapResult ||
@@ -832,7 +832,7 @@ class ClientExportPdf extends ExportPlugin
      * Sets mainmap dimensions according to selected format and orientation.
      * @param PdfWriter
      */
-    private function setMainMapDim(PdfWriter $pdf) {
+    protected function setMainMapDim(PdfWriter $pdf) {
         $mapBlock = $this->blocks['mainmap'];
         
         if (!isset($mapBlock->width)) {
@@ -921,7 +921,7 @@ class ClientExportPdf extends ExportPlugin
      * @param PdfWriter
      * @param PdfBlock
      */
-    private function addBlock(PdfWriter $pdf, PdfBlock $block) {
+    protected function addBlock(PdfWriter $pdf, PdfBlock $block) {
         switch ($block->type) {
             case 'image':
                 $pdf->addGfxBlock($block);
