@@ -1069,8 +1069,12 @@ class ClientLayers extends ClientPlugin
             $element['nextscale'] = $nextscale;
         }
 
-        $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        $iconUrl = $resourceHandler->getFinalUrl($layer->icon, false);
+        if (empty($layer->icon)) {
+            $iconUrl = '';
+        } else { 
+            $resourceHandler = $this->getCartoclient()->getResourceHandler();
+            $iconUrl = $resourceHandler->getFinalUrl($layer->icon, false);
+        }
 
         $element = array_merge($element,
                           array('layerLabel'       => $layer->label,
