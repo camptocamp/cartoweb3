@@ -409,6 +409,7 @@ function setupLinks() {
         }
     }
     // special case for default project
+    @mkdir('htdocs/gfx/icons/default');
     $mList = getProjects('server_conf');
     foreach($mList as $mapfolder) {
         link_or_copy('../../../../server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/default/'.$mapfolder);
