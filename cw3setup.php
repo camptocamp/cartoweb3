@@ -402,11 +402,18 @@ function setupLinks() {
     foreach($pList as $project) {
         @mkdir('htdocs/gfx/icons/'.$project);
         $mList = getProjects('projects/'.$project.'/server_conf');
+        if (!$mList)
+            continue;
         foreach($mList as $mapfolder) {
              link_or_copy('../../../../projects/'.$project.'/server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/'.$project.'/'.$mapfolder);
         }
     }
-        
+    // special case for default project
+    $mList = getProjects('server_conf');
+    foreach($mList as $mapfolder) {
+        link_or_copy('../../../../server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/default/'.$mapfolder);
+    }
+
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
         $pList = getProjects($dir);
