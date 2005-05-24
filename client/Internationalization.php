@@ -36,14 +36,28 @@ class I18n {
     static private $i18n;
     
     /**
+     * Guess the I18nInterface class to use
+     * @return I18nInterface The i18n interface to use.
+     */
+    static private function guessI18nClass() {
+    
+        if (function_exists('gettext'))
+            return new I18nGettext();
+        return new I18nDummy();
+    }
+    
+    /**
      * Initializes locales
      *
      * Default language is set in configuration file (variable defaultLang).
      * @param ClientConfig
      */
     static public function init($config) {
-        self::$i18n = new $config->I18nClass;
-       
+        if ($config->I18nClass)
+            self::$i18n = new $config->I18nClass;
+        else
+            self::$i18n = self::guessI18nClass();
+            
         self::setLocale($config->defaultLang);
 
         self::$i18n->bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
