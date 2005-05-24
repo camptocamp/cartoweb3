@@ -198,7 +198,7 @@ class ServerHilight extends ServerPlugin {
 
         $class = $msNewLayer->getClass(0);
 
-        $newColor = explode(',', $color);
+        $newColor = explode(' ', $color);
         $style = $class->getStyle(0);
         $style->color->setRGB($newColor[0], $newColor[1], $newColor[2]);
         $style->outlinecolor->setRGB($newColor[0], $newColor[1], $newColor[2]);
