@@ -237,7 +237,7 @@ class CwFpdf implements PdfWriter {
      * Sets text styles (font, underline, bold, italic, color).
      * @param PdfBlock
      */
-    private function setTextLayout(PdfBlock $block) {
+    protected function setTextLayout(PdfBlock $block) {
         $fontStyle = false;
         if ($block->fontBold) $fontStyle .= 'B';
         if ($block->fontItalic) $fontStyle .= 'I';
@@ -252,7 +252,7 @@ class CwFpdf implements PdfWriter {
      * Sets block container styles (border width and color, background color).
      * @param PdfBlock
      */
-    private function setBoxLayout(PdfBlock $block) {
+    protected function setBoxLayout(PdfBlock $block) {
         $this->setLineWidth($block->borderWidth);        
         $this->setDrawColor($block->borderColor);
         $this->setFillColor($block->backgroundColor);
@@ -649,7 +649,7 @@ class CwFpdf implements PdfWriter {
      * @param PdfBlock legend block
      * @param array legend element data
      */
-    private function addLegendItem(PdfBlock $block, $layer) {
+    protected function addLegendItem(PdfBlock $block, $layer) {
         if (!$layer || !is_array($layer))
             return 0;
         
