@@ -1041,6 +1041,9 @@ class ClientLayers extends ClientPlugin
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = I18n::gt($layer->label);
+        if ($layer->link) {
+            $layer->link = I18n::gt($layer->link);
+        }
         $this->nodesIds[$nodeId] = $layer->id;
         $layerOutRange = 0;
 
