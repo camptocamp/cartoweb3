@@ -3,17 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+  <title>{t}Cartoclient Title{/t} testproject</title>
+  
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
+  <meta name="author" content="Sylvain Pasche" />
+  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
+  
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
   <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
-  {if $query_result || $selection_result|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=query}query.css{/r}" />{/if}
-  <meta name="author" content="Sylvain Pasche" />
-  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
-  <title>{t}Cartoclient Title{/t}</title>
+  <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
+  {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
+  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
+  {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
+  <script language="JavaScript" type="text/javascript">
+    <!--
+    var hideKeymapMsg = "{t}Collapse keymap{/t}";
+    var showKeymapMsg = "{t}Show keymap{/t}";
+    var hideKeymap = {$collapseKeymap};
+    //-->
+  </script>
+  {/if}
   
   {include file="dhtmlcode.tpl"}
   <script language="JavaScript" type="text/javascript">
@@ -31,17 +44,23 @@
 
 <body>
 
-<div id="banner"><h1>{t}Cartoclient Title{/t} testproject</h1></div>
+<div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
-  <input type="hidden" name="posted" value="true" />
+  <input type="image" name="dummy" alt="" id="dummy" />
+  <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
-
+  {if $collapsibleKeymap|default:''}
+  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+  {/if}
+{if $outline_active|default:''}
+  {$outlinelabel}
+{/if}
   <div id="content">
 
-    {include file="toolbar.tpl"}
+    {include file="toolbar.tpl" group=1}
 
     <table>
       <tr>
@@ -51,7 +70,7 @@
       </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
-        <td>
+        <td id="mainmapCell">
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
@@ -67,6 +86,7 @@
       {/if}
     </table>
 
+  Current user: {$username} roles: {$roles}
   <p> LocationInfo: {$location_info} </p>
 
   {if $user_messages|default:''}
@@ -100,7 +120,8 @@
 <pre>
 Request:
 {$debug_request}
-
+</pre>
+<pre>
 ClientContext:
 {$debug_clientcontext}
 </pre>
@@ -111,13 +132,31 @@ ClientContext:
   </div>
 
   <div id="leftbar">    
+    {if $locales|default:''}
     <p>
-      <input type="hidden" name="project" value="{$project}" />
-    
-      <input type="submit" name="refresh" value="refresh" class="form_button" />
-      <input type="submit" name="reset_session" value="reset_session" class="form_button" />
+      {foreach from=$locales item=locale name=lang}
+      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+      {if !$smarty.foreach.lang.last}|{/if}
+      {/foreach}
     </p>
-    
+    {/if}
+
+    <p>
+
+      {if $projects_chooser_active|default:''}
+      {t}Choose project{/t}
+        <select name="project" onchange="javascript:document.carto_form.posted.value=0;FormItemSelected();">
+            {html_options values=$project_values output=$project_output 
+                                        selected=$project}
+        </select><br />
+      {else}
+        <input type="hidden" name="project" value="{$project}" />
+      {/if}
+         
+      <input type="submit" name="refresh" value="refresh" class="form_button" />
+      <input type="submit" name="reset_session" value="reset_session" class="form_button" 
+        onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
+    </p>
     <div>
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
@@ -126,9 +165,10 @@ ClientContext:
       </ul>
     </div>
     <div id="container">
-    <div id="folder1" class="folder">
+      <div id="folder1" class="folder">
+
     
-      {if $keymap_path|default:''}
+      {if $keymap_path|default:'' && !$collapsibleKeymap|default:''}
       <div id="keymap">
       <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
       style="width:{$keymap_width}px;height:{$keymap_height}px;" />
@@ -143,6 +183,10 @@ ClientContext:
     
       {if $recenter_active|default:''}
       {$recenter}
+      {/if}
+    
+      {if $scales_active|default:''}
+      {$scales}
       {/if}
     
       {if $shortcuts_active|default:''}
@@ -161,6 +205,10 @@ ClientContext:
       {$outline}
       {/if}
     
+      {if $routing_active|default:''}
+      {$routing}
+      {/if}
+
       {if $exporthtml_active|default:''}
       <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
       {/if}
@@ -184,11 +232,17 @@ ClientContext:
     <!-- end of folder2 -->
     {if $exportPdf|default:''}
     <div id="folder3" class="folder">
-    {$exportPdf}
+      {$exportPdf}
     </div>
     {/if}
-    </div>
   </div>
+</div>
+   {if $auth_active|default:''}
+   {$auth}
+   {/if}
+
 </form>
+
+
 </body>
 </html>

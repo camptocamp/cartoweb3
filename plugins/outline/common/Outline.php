@@ -70,7 +70,7 @@ class Color extends Serializable {
 class ShapeStyle extends Serializable {
 
     /**
-     * @var int
+     * @var mixed
      */
     public $symbol;
 

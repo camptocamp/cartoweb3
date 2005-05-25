@@ -205,6 +205,10 @@ ClientContext:
       {$outline}
       {/if}
     
+      {if $routing_active|default:''}
+      {$routing}
+      {/if}
+
       {if $exporthtml_active|default:''}
       <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
       {/if}

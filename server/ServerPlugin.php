@@ -93,7 +93,7 @@ abstract class ServerPlugin extends PluginBase {
     private $log;
 
     /**
-     * @var ServerConfig
+     * @var ServerPluginConfig
      */
     private $config;
 

@@ -446,5 +446,81 @@ MAP
     END
   END
 
+ 
+  LAYER
+    NAME "more_lines"
+    TYPE LINE
+    PROJECTION
+      "init=epsg:4326"
+    END
+    STATUS DEFAULT
+    DATA "more_lines"
+    #CLASSITEM "FID"
+    CLASS
+      EXPRESSION ('[TYPE]' = 'highway' OR '[TYPE_REV]' = 'highway')
+      STYLE
+        COLOR 255 255 0
+        SYMBOL 1
+        SIZE 12
+      END
+    END
+    CLASS
+      EXPRESSION ('[TYPE]' = 'noentry' OR '[TYPE_REV]' = 'noentry')
+      STYLE
+        COLOR 255 255 0
+        SYMBOL 1
+        SIZE 1
+      END
+    END
+    CLASS
+      EXPRESSION (1)
+      STYLE
+        COLOR 255 255 0
+        SYMBOL 1
+        SIZE 5
+      END
+    END
+    MINSCALE 1
+    MAXSCALE 20
+    TOLERANCE 5
+    TOLERANCEUNITS pixels
+  END
+
+  LAYER
+    NAME "more_points"
+    TYPE ANNOTATION
+    STATUS DEFAULT
+    DATA "more_points"
+    LABELITEM "NODEID"
+    CLASS
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 10
+        COLOR 0 0 0
+      END
+    END
+    MINSCALE 1
+    MAXSCALE 20
+  END
+
+  LAYER
+    NAME "cartoweb_line_outline"
+
+    TYPE LINE
+    PROJECTION
+      "init=epsg:4326"
+    END
+
+	TRANSPARENCY 50
+    CLASS
+      STYLE
+        OUTLINECOLOR 255 0 0
+        SYMBOL 1
+        SIZE 5
+      END
+    END
+  END
+
 END
 
