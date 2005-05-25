@@ -44,7 +44,7 @@
 
 <body>
 
-<div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
+<div id="banner"><h1>{t}Cartoclient Title{/t} testproject</h1></div>
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
