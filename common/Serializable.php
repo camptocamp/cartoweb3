@@ -219,11 +219,10 @@ abstract class Serializable {
         if (!class_exists($type)) {
             throw new CartocommonException('unserializing non existant class' .
                                            " \"$type\"");
-        }
-        
+        }        
         $obj = new $type;
      
-        if ($obj instanceof Serializable) {
+        if ($obj instanceof Serializable || !is_object($value)) {
             $obj->unserialize($value);
         } else {
             self::copyAllVars($value, $obj);
@@ -243,15 +242,14 @@ abstract class Serializable {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
-            return $value;
-        
+            return $value;        
 
         $array = array();
         foreach ($value as $key => $val) {
         
-            if (empty($val->id))
+            if (is_object($val) && empty($val->id))
                 $val->id = $key;
-            $array[$key] = self::unserializeObject($val, NULL, $className);
+            $array[$key] = self::unserializeObject($val, NULL, $className);          
         }        
         return $array;
     }

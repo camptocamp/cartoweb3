@@ -332,6 +332,19 @@ class LayersInitProvider implements InitProvider {
     }
 
     /**
+     * Fills children switches
+     */
+    private function fillSwitches() {
+        $switches = array();
+        if (isset($this->layersInit->switches)) {
+            foreach($this->layersInit->switches as $switchId => $switchLabel) {
+                $switches[$switchId] = $switchLabel->label;
+            }
+            $this->layersInit->switches = $switches;
+        }
+    }
+
+    /**
      * @see InitProvider::getInit()
      */
     public function getInit() {
@@ -346,6 +359,8 @@ class LayersInitProvider implements InitProvider {
          
         $this->fillDynamicMap();
         $this->fillDynamicLayers();
+        
+        $this->fillSwitches();
         
         return $this->layersInit;
     }

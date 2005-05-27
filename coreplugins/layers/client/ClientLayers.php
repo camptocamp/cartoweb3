@@ -62,6 +62,11 @@ class LayersState {
      * @var array
      */
     public $dropDownSelected;
+    
+    /**
+     * @var string
+     */
+    public $switchId;
 }
 
 /**
@@ -95,17 +100,17 @@ class LayerNode {
      * given to this node children recursively, to let them build the sub nodes
      * of the tree
      */
-    public function setChildren($layersMap) {
+    public function setChildren($layersMap, $switchId) {
     
         $this->children = array();
         if (!isset($this->layer->children))
             return;
-        foreach($this->layer->children as $child) {
+        foreach($this->layer->getChildren($switchId) as $child) {
             $childNode = new LayerNode();
             if (!isset($layersMap[$child]))
                 throw new CartoclientException("Child layer $child not found");
             $childNode->layer = $layersMap[$child];
-            $childNode->setChildren($layersMap);
+            $childNode->setChildren($layersMap, $switchId);
             $this->children[$childNode->layer->id] = $childNode;
         }
     }
@@ -166,7 +171,8 @@ class LayerNode {
         foreach ($this->children as $child) {
             $layersMap = $child->getLayersMap($layersMap);
         }
-        $this->layer->children = array_keys($this->children);
+        if ($this->layer instanceof LayerContainer) 
+            $this->layer->setChildren(array_keys($this->children));
         $layersMap[$this->layer->id] = $this->layer;
         return $layersMap;
     }  
@@ -321,7 +327,7 @@ class ClientLayers extends ClientPlugin
         $this->layersState = $sessionObject;
         
         $this->layersData =& $this->layersState->layersData;
-        
+
         $this->hiddenSelectedLayers 
             =& $this->layersState->hiddenSelectedLayers;
         
@@ -429,7 +435,7 @@ class ClientLayers extends ClientPlugin
         }
         $layerNode = new LayerNode();
         $layerNode->layer = $layersMap['root'];
-        $layerNode->setChildren($layersMap);
+        $layerNode->setChildren($layersMap, $this->layersState->switchId);
 
         return $layerNode;
     } 
@@ -447,7 +453,7 @@ class ClientLayers extends ClientPlugin
         // TODO: Analyse the performances of the layerNode tree creation and 
         //  filtering
         
-        $layerNode = $this->getLayerNode();
+        $layerNode = $this->getLayerNode();     
         $layerNode->filterNodes(array($this, 'nodesFilterSecurity'));
         return $layerNode->getLayersMap(array());
     }
@@ -481,7 +487,6 @@ class ClientLayers extends ClientPlugin
      */
     private function getLayerByName($layername, $strict = true) {
         $layers =& $this->getLayers();
-
         if (isset($layers[$layername])) 
             return $layers[$layername];
         elseif ($strict)
@@ -501,13 +506,13 @@ class ClientLayers extends ClientPlugin
 
         if ((!$layer instanceof LayerGroup || !isset($layer->aggregate) || 
              !$layer->aggregate) && !empty($layer->children) && 
-            is_array($layer->children)) {
+             is_array($layer->children)) {
             
             // layer has children which are not aggregated OR has children
             // but is not a layerGroup (ie is a Layer):
             
             $children = array();
-            foreach ($layer->children as $child) {
+            foreach ($layer->getChildren($this->layersState->switchId) as $child) {
                 if (!in_array($child, $this->getHiddenLayers()))
                     $children[] = $child;
             }
@@ -526,6 +531,15 @@ class ClientLayers extends ClientPlugin
         $this->childrenCache[$layer->id] = $children;
         return $children;
     }
+    
+    /**
+     * Handles switches form
+     * @param array
+     */
+    private function handleSwitches($request) {
+        
+        $this->layersState->switchId = $this->getHttpValue($request, 'switch_id');       
+    }
 
     /**
      * Handles layers-related POST'ed data and updates layers statuses.
@@ -534,6 +548,8 @@ class ClientLayers extends ClientPlugin
     public function handleHttpPostRequest($request) {
         $this->log->debug('update form:');
         $this->log->debug($this->layersState);
+
+        $this->handleSwitches($request);
 
         // input mask
         $mask = array_diff(array_values($this->nodesIds),
@@ -721,7 +737,7 @@ class ClientLayers extends ClientPlugin
             }
         }
 
-        foreach ($layer->children as $child) {
+        foreach ($layer->getChildren($this->layersState->switchId) as $child) {
             $newList = $this->$fetchFixedSelectedLayers($child, $isFixed,
                                                       $isFixed && $isSelected);
             if ($newList) {
@@ -762,7 +778,8 @@ class ClientLayers extends ClientPlugin
             if (!$layer instanceof LayerGroup) continue;
 
             // recursively gets sublayers from current layer children
-            $newList = $this->fetchChildrenFromLayerGroup($layer->children);
+            $newList = $this->fetchChildrenFromLayerGroup(
+                           $layer->getChildren($this->layersState->switchId));
             if ($newList) {
                 $cleanList = array_merge($cleanList, $newList);
                 $cleanList = array_unique($cleanList);
@@ -790,14 +807,16 @@ class ClientLayers extends ClientPlugin
         if ($layer->rendering == 'dropdown') {
             if (isset($this->layersState->dropDownSelected[$layerId]))
                 $childId = $this->layersState->dropDownSelected[$layerId];
-            else
-                $childId = $layer->children[0];
+            else {
+                $children = $layer->getChildren($this->layersState->switchId);
+                $childId = $children[0];
+            }
 
             $children = $this->getLayersMask($childId);
             return array_merge($mask, $children);
         }
         
-        foreach ($layer->children as $childId) {
+        foreach ($layer->getChildren($this->layersState->switchId) as $childId) {
             $children = $this->getLayersMask($childId);
             $mask = array_merge($mask, $children);
         }
@@ -840,11 +859,11 @@ class ClientLayers extends ClientPlugin
         if ($layer instanceof LayerClass) return array($layer->id);
        
         elseif(!isset($layer->children) || !is_array($layer->children) ||
-            !$layer->children)
+               !$layer->children)
             return array();
 
         $classChildren = array();
-        foreach ($layer->children as $child) {
+        foreach ($layer->getChildren($this->layersState->switchId) as $child) {
             $childLayer = $this->getLayerByName($child);
             $sub = $this->getClassChildren($childLayer);
             $classChildren = array_merge($classChildren, $sub);
@@ -1007,10 +1026,10 @@ class ClientLayers extends ClientPlugin
             $nodeId = 0;
         else
             $nodeId = implode('.', $this->nodeId);
-       
+
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
-            
+
             if ($isDropDown) {
                 $dropDownChildren[$childLayer->id] =
                                 I18n::gt($childLayer->label);
@@ -1129,11 +1148,38 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * Draws switches dropdown
+     * @return string result of a smarty fetch
+     */
+    protected function drawSwitches() {
+
+        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $switchValues = array('default');
+        $switchLabels = array(I18n::gt('Default'));
+        $switches = $this->layersInit->switches;
+        if (!is_array($switches)) $switches = array();
+       
+        foreach ($switches as $key => $switch) {
+            $switchValues[] = $key;
+            $switchLabels[] = I18n::gt($switch);            
+        }
+        
+        if (count($switchValues) == 1)
+            return '';
+
+        $this->smarty->assign(array('switch_values' => $switchValues,
+                                    'switch_labels' => $switchLabels,
+                                    'switch_id' => $this->layersState->switchId));
+        return $this->smarty->fetch('switches.tpl');            
+    }
+
+    /**
      * Assigns the layers interface output in the general CartoClient template.
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
         $template->assign('layers', $this->drawLayersList());
+        $template->assign('switches', $this->drawSwitches());
     }
 
     /**
@@ -1168,7 +1214,7 @@ class ClientLayers extends ClientPlugin
         
         if (!$layer instanceof LayerClass && $layer->children) {    
             $children =& $data['children'];
-            foreach ($layer->children as $childId)
+            foreach ($layer->getChildren($this->layersState->switchId) as $childId)
                 $children[] = $this->getPrintedLayerData($childId);
         }
 
@@ -1189,7 +1235,7 @@ class ClientLayers extends ClientPlugin
         if (!$layer instanceof LayerGroup || !$layer->children)
             return;
         
-        foreach ($layer->children as $childId) {
+        foreach ($layer->getChildren($this->layersState->switchId) as $childId) {
             $key = array_search($childId, $selectedLayers);
             if (is_numeric($key)) {
                 // if parent is aggregated, only display parent

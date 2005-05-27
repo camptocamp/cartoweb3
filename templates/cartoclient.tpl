@@ -218,6 +218,7 @@ ClientContext:
   
     <div id="folder2" class="folder">
       
+      {$switches}
       {$layers}
     
     </div>

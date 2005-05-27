@@ -58,12 +58,12 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         
         $layerContainer = new LayerContainer();
         $layerContainer->unserialize($struct);
-        
+
         $this->assertEquals('toto', $layerContainer->id);
         $this->assertEquals('titi', $layerContainer->label);
-        $this->assertEquals('tata', $layerContainer->children[0]);                
-        $this->assertEquals('tutu', $layerContainer->children[1]);                
-        $this->assertEquals('tete', $layerContainer->children[2]);                
+        $this->assertEquals('tata', $layerContainer->children['default']->layers[0]);                
+        $this->assertEquals('tutu', $layerContainer->children['default']->layers[1]);                
+        $this->assertEquals('tete', $layerContainer->children['default']->layers[2]);                
     }        
 
     public function testLayerGroupUnserialize() {
@@ -78,9 +78,9 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         
         $this->assertEquals('toto', $layerGroup->id);
         $this->assertEquals('titi', $layerGroup->label);
-        $this->assertEquals('tata', $layerGroup->children[0]);                
-        $this->assertEquals('tutu', $layerGroup->children[1]);                
-        $this->assertEquals('tete', $layerGroup->children[2]);                
+        $this->assertEquals('tata', $layerGroup->children['default']->layers[0]);                
+        $this->assertEquals('tutu', $layerGroup->children['default']->layers[1]);                
+        $this->assertEquals('tete', $layerGroup->children['default']->layers[2]);                
     }        
 
     public function testLayerUnserialize() {
@@ -88,17 +88,17 @@ class common_MapInfoTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->id = 'toto';
         $struct->label = 'titi';
-        $struct->children = array('tata', 'tutu', 'tete');
+        $struct->children = 'tata, tutu, tete';
         $struct->msLayer = 'tyty';
         
         $layer = new Layer();
         $layer->unserialize($struct);
-        
+
         $this->assertEquals('toto', $layer->id);
         $this->assertEquals('titi', $layer->label);
-        $this->assertEquals('tata', $layer->children[0]);                
-        $this->assertEquals('tutu', $layer->children[1]);                
-        $this->assertEquals('tete', $layer->children[2]);                
+        $this->assertEquals('tata', $layer->children['default']->layers[0]);                
+        $this->assertEquals('tutu', $layer->children['default']->layers[1]);                
+        $this->assertEquals('tete', $layer->children['default']->layers[2]);                
         $this->assertEquals('tyty', $layer->msLayer);
     }        
 

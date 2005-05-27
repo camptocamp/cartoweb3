@@ -114,23 +114,110 @@ class LayerBase extends Serializable {
 }
 
 /**
+ * Class containing children for children switching
+ * @package Common
+ */
+class ChildrenSwitch extends Serializable {
+
+    /**
+     * Array of LayerBase ids
+     * @var array
+     */
+    public $layers = array();
+    
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        if (is_string($struct)) {
+            $this->layers = self::unserializeArray($struct);
+        } else {
+            $this->layers = self::unserializeArray($struct, 'layers');
+        }
+    }
+}
+
+/**
  * Layer with children
  * @package Common
  */
 class LayerContainer extends LayerBase {
     
     /**
-     * Array of LayerBase
+     * Key-values list of ChildrenSwitch
      * @var array
      */
     public $children = array();
+    
+    /**    
+     * Layer Ids cache
+     * @var array
+     */
+    private $layerIds = NULL;
+    
+    /**
+     * Returns children depending on current switch
+     * @param string
+     * @return array
+     */
+    public function getChildren($currentSwitch) {
+
+        if (is_null($this->layerIds)) {
+            if (!is_array($this->children) || count($this->children) == 0) {
+                $this->layerIds = array();
+                return $this->layerIds;
+            }        
+            $switch = NULL;
+            if (count($this->children) == 1) {
+                $children = array_values($this->children);
+                $switch = $children[0]; 
+            } else if (isset($this->children[$currentSwitch])) {
+                $switch = $this->children[$currentSwitch];
+            } else if (isset($this->children['default'])) {
+                $switch = $this->children['default'];
+            } else {
+                $this->layerIds = array();
+                return $this->layerIds;
+            }
+            if (!($switch instanceof ChildrenSwitch)) {
+                $this->layerIds = array();
+                return $this->layerIds;
+            }
+            $this->layerIds = $switch->layers;
+        }
+        return $this->layerIds;        
+    }
+    
+    /**
+     * Sets children given an array of layerIds
+     * @param array
+     */ 
+    public function setChildren($layerIds) {
+         
+        $this->layerIds = $layerIds;
+        $childrenSwitch = new ChildrenSwitch();
+        $childrenSwitch->layers = $layerIds;
+        $this->children = array($childrenSwitch);
+    }
     
     /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);   
-        $this->children = self::unserializeArray($struct, 'children');
+      
+        if (isset($struct->children)) {
+            if (is_string($struct->children)) {
+                // Backward compatibility
+                $childrenSwitch = new ChildrenSwitch();
+                $childrenSwitch->layers = self::unserializeArray($struct,
+                                                                 'children');
+                $this->children = array("default" => $childrenSwitch);
+            } else {
+                $this->children = self::unserializeObjectMap($struct, 'children',
+                                                             'ChildrenSwitch');
+            }
+        }
         // FIXME: do it in unserializeArray ?
         if (is_null($this->children))
             $this->children = array();
@@ -272,6 +359,12 @@ class LayersInit extends Serializable {
     public $layers;
 
     /**
+     * Array of switches
+     * @var array
+     */
+    public $switches;
+
+    /**
      * Returns a layer identified by its ID
      * @param string
      * @return LayerBase
@@ -360,6 +453,8 @@ class LayersInit extends Serializable {
         
         // Layers class names are specicified in className attribute
         $this->layers = self::unserializeObjectMap($struct, 'layers');
+        
+        $this->switches = self::unserializeArray($struct, 'switches');
     }    
 }
 
