@@ -120,6 +120,12 @@ class LayerBase extends Serializable {
 class ChildrenSwitch extends Serializable {
 
     /**
+     * Switch's Id
+     * @var string
+     */
+    public $id = '';
+
+    /**
      * Array of LayerBase ids
      * @var array
      */
@@ -131,7 +137,8 @@ class ChildrenSwitch extends Serializable {
     public function unserialize($struct) {
         if (is_string($struct)) {
             $this->layers = self::unserializeArray($struct);
-        } else {
+        } else if (!empty($struct)) {
+            $this->id = $struct->id;
             $this->layers = self::unserializeArray($struct, 'layers');
         }
     }
@@ -210,12 +217,22 @@ class LayerContainer extends LayerBase {
             if (is_string($struct->children)) {
                 // Backward compatibility
                 $childrenSwitch = new ChildrenSwitch();
+                $childrenSwitch->id = "default";
                 $childrenSwitch->layers = self::unserializeArray($struct,
                                                                  'children');
                 $this->children = array("default" => $childrenSwitch);
             } else {
                 $this->children = self::unserializeObjectMap($struct, 'children',
                                                              'ChildrenSwitch');
+                // Needed because array keys are not kept through SOAP
+                $children = array();
+                foreach($this->children as $childId => $child) {
+                    if (empty($child->id)) {
+                        $child->id = $childId;
+                    }
+                    $children[$child->id] = $child;
+                }                                  
+                $this->children = $children;                           
             }
         }
         // FIXME: do it in unserializeArray ?
@@ -318,6 +335,31 @@ class LayersRequest extends Serializable {
  * @package CorePlugins
  */
 class LayersResult {}
+
+/**
+ * Switch information
+ */
+class SwitchInit extends Serializable {
+    
+    /**
+     * Switch's Id
+     * @var string
+     */
+    public $id;
+    
+    /**
+     * Switch's label
+     */
+    public $label;
+    
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->id    = self::unserializeValue($struct, 'id');
+        $this->label = self::unserializeValue($struct, 'label');
+    }
+}
 
 /**
  * Layers initialization information. It contains all the layer related static 
@@ -454,7 +496,8 @@ class LayersInit extends Serializable {
         // Layers class names are specicified in className attribute
         $this->layers = self::unserializeObjectMap($struct, 'layers');
         
-        $this->switches = self::unserializeArray($struct, 'switches');
+        $this->switches = self::unserializeObjectMap($struct, 'switches',
+                                                     'SwitchInit');
     }    
 }
 

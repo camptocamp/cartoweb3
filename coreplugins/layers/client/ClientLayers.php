@@ -1127,7 +1127,7 @@ class ClientLayers extends ClientPlugin
      * @return string result of a Smarty fetch
      */
     private function drawLayersList() {
-
+    
         $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
 
         $this->nodesIds = array();
@@ -1159,10 +1159,10 @@ class ClientLayers extends ClientPlugin
         $switchLabels = array(I18n::gt('Default'));
         $switches = $this->layersInit->switches;
         if (!is_array($switches)) $switches = array();
-       
-        foreach ($switches as $key => $switch) {
-            $switchValues[] = $key;
-            $switchLabels[] = I18n::gt($switch);            
+     
+        foreach ($switches as $switch) {
+            $switchValues[] = $switch->id;
+            $switchLabels[] = I18n::gt($switch->label);            
         }
         
         if (count($switchValues) == 1)

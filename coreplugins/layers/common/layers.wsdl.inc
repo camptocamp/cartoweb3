@@ -32,6 +32,7 @@
 
       <complexType name="ChildrenSwitch">
         <all>
+          <element name="id" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfLayerId" minOccurs="0"/>
         </all>
       </complexType>
@@ -60,6 +61,21 @@
         </all>
       </complexType>
 
+      <complexType name="ArrayOfSwitchInit">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:SwitchInit[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>     
+
+      <complexType name="SwitchInit">
+        <all>
+          <element name="id" type="xsd:string"/>
+          <element name="label" type="xsd:string"/>
+        </all>
+      </complexType>
+      
       <complexType name="LayersInit">
         <all>
           <element name="className" type="xsd:string"/>
@@ -68,6 +84,7 @@
           <element name="notAvailablePlusIcon" type="xsd:string"/>
           <element name="notAvailableMinusIcon" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfLayer"/>
+          <element name="switches" type="types:ArrayOfSwitchInit" minOccurs="0"/>
 
         </all>
       </complexType>
