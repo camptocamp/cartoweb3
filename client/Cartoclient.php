@@ -332,6 +332,7 @@ class Cartoclient {
                 $this->formRenderer->showFailure($exception);
             } else {
                 // form renderer not yet initialized: show a raw error message
+                header('HTTP/1.1 500 Internal Server Error');
                 print 'An exception in early stage occured: <pre>';
                 var_dump($exception);
                 print '</pre>';

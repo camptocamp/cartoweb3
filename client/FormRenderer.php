@@ -267,6 +267,8 @@ class FormRenderer {
      * @param Exception exception to display
      */
     public function showFailure($exception) {
+        
+        header('HTTP/1.1 500 Internal Server Error');
 
         if ($exception instanceof SoapFault) {
             $message = $exception->faultstring;
