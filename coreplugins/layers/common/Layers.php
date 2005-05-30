@@ -190,7 +190,11 @@ class LayerContainer extends LayerBase {
                 $this->layerIds = array();
                 return $this->layerIds;
             }
-            $this->layerIds = $switch->layers;
+            if (is_null($switch->layers)) {
+                $this->layerIds = array();
+            } else {
+                $this->layerIds = $switch->layers;
+            }            
         }
         return $this->layerIds;        
     }
