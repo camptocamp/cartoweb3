@@ -1048,14 +1048,15 @@ class ClientLayers extends ClientPlugin
                     $this->nodeId[$level]++;
                 }
             }
-            
             $childrenLayers[] = $this->fetchLayer($childLayer, $layerChecked,
                                                   $layerFrozen, 
                                                   $childrenRendering, 
                                                   $layer->id);
         }
 
-        if ($layer instanceof LayerGroup && !$layer->aggregate)
+        if ($layer instanceof LayerGroup
+            && !$layer->aggregate
+            && count($childrenLayers) > 0)
             array_pop($this->nodeId);
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
