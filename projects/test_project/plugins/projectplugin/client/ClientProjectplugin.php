@@ -27,6 +27,11 @@ class ClientProjectplugin extends ClientPlugin
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    public function initialize() {
+
+        $this->cartoclient->getConfig()->setMapId('projectmap');
+    }
+
     public function loadSession($sessionObject) {
         $this->count = $sessionObject;
     }

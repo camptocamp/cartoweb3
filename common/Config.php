@@ -110,6 +110,24 @@ abstract class Config {
             $this->ini_array[$profileParameter] = $parametersValues;   
         }
     }
+    
+    /**
+     * Sets mapId
+     *
+     * Should be called in plugins initialize method.
+     * @param string
+     */
+    public function setMapId($mapId) {
+
+        // Set MapName in projectHandler
+        $this->projectHandler->mapName = $mapId;
+             
+        // Set MapId to projectName.mapId if mapId does not contain a project already
+        $projectName = $this->projectHandler->getProjectName();
+        if ($projectName && strpos($mapId, '.') === false) {
+            $this->ini_array['mapId'] = $projectName . '.' . $mapId;
+        }
+    }
 
     /**
      * Constructor
@@ -142,15 +160,7 @@ abstract class Config {
 
         if (array_key_exists('mapId', $this->ini_array)) {
             
-            $mapId = $this->ini_array['mapId'];
-            // Set MapName in projectHandler
-            $this->projectHandler->mapName = $mapId;
-                
-            // Set MapId to projectName.mapId if mapId does not contain a project already
-            $projectName = $this->projectHandler->getProjectName();
-            if ($projectName && strpos($mapId, '.') === false) {
-                $this->ini_array['mapId'] = $projectName . '.' . $mapId;
-            }
+            $this->setMapId($this->ini_array['mapId']);
         }
         
         if (!@$this->writablePath)

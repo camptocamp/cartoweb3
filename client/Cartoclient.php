@@ -316,16 +316,19 @@ class Cartoclient {
             $this->initializeObjects();
             $this->initializePlugins();
 
+            if (!isset($GLOBALS['headless']))
+                session_start();
+
+            $this->pluginManager->callPlugins('initialize');
+
             $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());
             
-            if (!isset($GLOBALS['headless']))
-                session_start();
             $this->initializeSession();
             
             // Plugin initialization is called before the main() call, 
             //  to ensure security is applied when constructing Cartoclient object.
-            $this->pluginManager->callPlugins('initialize');
+            
                     
         } catch (Exception $exception) {
             if (isset($this->formRenderer)) {
