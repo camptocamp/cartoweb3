@@ -58,7 +58,7 @@ class LayerBase extends Serializable {
      * Icon to display for layer
      * @var string
      */
-    public $icon = 'none';
+    public $icon = '';
     
     /**
      * External link to be added to label
