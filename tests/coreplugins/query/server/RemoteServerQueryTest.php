@@ -63,7 +63,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $mapRequest->queryRequest = $queryRequest;        
         $mapRequest->layersRequest = new LayersRequest();
         $mapRequest->layersRequest->layerIds = 
-                    array('polygon', 'line', 'point');
+                    array('POLYGON1', 'line', 'point');
         
         return $mapRequest;
     }
@@ -137,7 +137,7 @@ class coreplugins_query_server_RemoteServerQueryTest
         $queryRequest->queryAllLayers = false;
         $querySelections = array();
         $querySelection = new QuerySelection();
-        $querySelection->layerId = 'polygon';
+        $querySelection->layerId = 'POLYGON1';
         $querySelection->useInQuery = true;
         $querySelection->tableFlags = new TableFlags();
         $querySelection->tableFlags->returnTable = true;
@@ -196,7 +196,7 @@ class coreplugins_query_server_RemoteServerQueryTest
     private function assertQueryResultWithAttributes($queryResult) {
 
         $this->assertEquals(3, count($queryResult->tableGroup->tables));
-        $this->assertEquals("polygon", 
+        $this->assertEquals("POLYGON1", 
                             $queryResult->tableGroup->tables[0]->tableId);
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
@@ -232,7 +232,7 @@ class coreplugins_query_server_RemoteServerQueryTest
     private function assertQueryResultNoAttributes($queryResult) {
 
         $this->assertEquals(3, count($queryResult->tableGroup->tables));
-        $this->assertEquals("polygon", 
+        $this->assertEquals("POLYGON1", 
                             $queryResult->tableGroup->tables[0]->tableId);
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
@@ -248,7 +248,7 @@ class coreplugins_query_server_RemoteServerQueryTest
     private function assertQueryResultNoTable($queryResult) {
 
         $this->assertEquals(3, count($queryResult->tableGroup->tables));
-        $this->assertEquals("polygon", 
+        $this->assertEquals("POLYGON1", 
                             $queryResult->tableGroup->tables[0]->tableId);
 
         $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
@@ -283,7 +283,6 @@ class coreplugins_query_server_RemoteServerQueryTest
 
         $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
-
         $this->assertQueryResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);

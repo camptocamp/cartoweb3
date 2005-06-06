@@ -117,6 +117,9 @@ class MapInfoHandler {
      * @return MapInfo
      */
     public function loadMapInfo() {
+
+        // For now, complete mapfile should be used
+        $this->serverContext->globalMap = true;
     
         $mapName = $this->projectHandler->getMapName();
         $iniPath = $this->serverContext->getMapIniPath();

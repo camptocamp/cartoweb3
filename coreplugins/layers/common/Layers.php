@@ -119,6 +119,8 @@ class LayerBase extends Serializable {
  */
 class ChildrenSwitch extends Serializable {
 
+    const DEFAULT_SWITCH = 'default';
+
     /**
      * Switch's Id
      * @var string
@@ -324,12 +326,18 @@ class LayersRequest extends Serializable {
     public $resolution;
 
     /**
+     * Current switch
+     */
+    public $switchId;
+
+    /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerIds   = self::unserializeArray($struct, 'layerIds');
         $this->resolution = self::unserializeValue($struct, 'resolution',
                                                    'int');
+        $this->switchId   = self::unserializeValue($struct, 'switchId');
     }
 }
 

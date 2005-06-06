@@ -119,6 +119,12 @@ class ServerContext {
     private $pluginManager;
 
     /**
+     * If true, complete mapfile is used, if false, switch mapfile is used
+     * @var boolean
+     */
+    public $globalMap = false;    
+
+    /**
      * Constructor
      * @param string map id
      */
@@ -156,6 +162,8 @@ class ServerContext {
      */
     public function reset() {
         $this->mapResult = new MapResult();
+        $this->msMapObj = null;
+        $this->globalMap = false;
     }
 
     /**
@@ -208,14 +216,36 @@ class ServerContext {
 
     /**
      * Returns mapfile location.
+     *
+     * If $global is set to false, will use reduced map file depending on
+     * plugin layers switch.
      * @return string
      */
-    public function getMapPath() {
+    public function getMapPath($global = false) {
         assert(!is_null($this->projectHandler));
         $mapName = $this->projectHandler->getMapName();
+        if (file_exists(CARTOSERVER_HOME
+                        . $this->projectHandler->getPath('server_conf/'
+                        . $mapName . '/', $mapName . '.map.php')
+                        . $mapName . '.map.php')) {
+            $mapFile = 'auto.' . $mapName;
+            if (!$global) {
+                $switchId = $this->getPluginManager()->getPlugin('layers')->getSwitchId();
+                if (empty($switchId)) {
+                    $mapFile .= '.all.map';
+                } else {
+                    $mapFile .= '.' . $switchId . '.map';
+                }
+            } else {
+                $mapFile .= '.all.map';
+            }
+        } else {
+            $mapFile = $mapName . '.map';
+        }
+
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/',
-                                               $mapName . '.map');
-        return CARTOSERVER_HOME . $path . $mapName . '.map';
+                                               $mapFile);                                             
+        return CARTOSERVER_HOME . $path . $mapFile;
     } 
 
     /**
@@ -238,7 +268,7 @@ class ServerContext {
      * @return int
      */
     public function getTimestamp() {
-        $mapPath = $this->getMapPath();
+        $mapPath = $this->getMapPath(true);
         $iniPath = $this->getMapIniPath();
         
         $timestamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
@@ -263,19 +293,21 @@ class ServerContext {
 
     /**
      * Instanciates a new Mapserver MapObj object.
+     *
+     * If $global is set to false, will use reduced map file depending on
+     * plugin layers switch.
+     * @param boolean
      * @return Mapscript MapObj
      */
     public function getMapObj() {
-
-        if (!$this->msMapObj) {
+        if (!$this->msMapObj) {        
             if (!extension_loaded('mapscript')) {
                 $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
                 if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
             }
-        
-            $mapPath = $this->getMapPath();
+            $mapPath = $this->getMapPath($this->globalMap);
             ms_ResetErrorList();
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
@@ -470,7 +502,7 @@ class ServerContext {
         // retrieve from metadata
         $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
         $this->checkMsErrors();
-
+  
         $idAttribute = $msLayer->getMetaData('id_attribute_string');
         if (!empty($idAttribute)) {
             return $idAttribute;   

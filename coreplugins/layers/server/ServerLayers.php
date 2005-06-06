@@ -54,6 +54,11 @@ class ServerLayers extends ClientResponderAdapter
     private $resRatio;
     
     /**
+     * Current switch
+     */
+    private $switchId;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -87,11 +92,28 @@ class ServerLayers extends ClientResponderAdapter
     public function getResRatio() {
         return $this->resRatio;
     }
-  
+    
+    /**
+     * Returns current switch
+     * @return string
+     */
+    public function getSwitchId() {
+        return $this->switchId;
+    }
+    
     /**
      * @see ClientResponder::initializeRequest()
      */
     public function initializeRequest($requ) {
+    
+        // Warning : this works only because plugin layers is the first one
+        // which calls ServerContext's getMapObj() 
+        if (empty($requ->switchId)) {
+            $this->switchId = ChildrenSwitch::DEFAULT_SWITCH;
+        } else {
+            $this->switchId = $requ->switchId;
+        }
+        
         if (isset($requ->resolution) && $requ->resolution) {
         
             $msMapObj = $this->serverContext->getMapObj();

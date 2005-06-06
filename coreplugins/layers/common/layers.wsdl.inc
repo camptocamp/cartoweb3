@@ -5,6 +5,7 @@
           <element name="className" type="xsd:string"/>
           <element name="layerIds" type="types:ArrayOfLayerId"/>
           <element name="resolution" type="xsd:int"/>
+          <element name="switchId" type="xsd:string"/>
         </all>
       </complexType>
 

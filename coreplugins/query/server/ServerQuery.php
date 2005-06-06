@@ -57,7 +57,10 @@ class ServerQuery extends ClientResponderAdapter {
 
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
-
+        if (empty($msLayer)) {
+            return array();
+        }
+    
         $returnedAttributesMetadataName = 'query_returned_attributes';
         
         $retAttrString = $msLayer->getMetaData($returnedAttributesMetadataName);
@@ -238,6 +241,11 @@ class ServerQuery extends ClientResponderAdapter {
             $layersInit = $this->serverContext->getMapInfo()->layersInit;
             $msLayer = $layersInit->getMsLayerById($msMapObj,
                                                 $querySelection->layerId);
+            if (empty($msLayer)) {
+                $table = new Table();
+                $table->tableId = $querySelection->layerId;
+                return $table;
+            }                                                
             $msLayer->set('status', MS_ON);
         }
     
@@ -346,6 +354,9 @@ class ServerQuery extends ClientResponderAdapter {
                 $serverLayer = $layersInit->getLayerById($table->tableId);
                 $msLayer = $msMapObj->getLayerByName($serverLayer->msLayer);
                 $this->serverContext->checkMsErrors();
+                if (empty($msLayer)) {
+                    continue;
+                }
                 $idAttribute = $msLayer->getMetaData('id_attribute_string');
                 if (empty($idAttribute)) {
                     continue;

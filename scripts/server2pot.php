@@ -85,11 +85,12 @@ function dummyErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {}
  */
 function parseMap($project, $mapId, &$texts) {
 
-    $mapFile = CARTOSERVER_HOME;
+    $mapFileDir = CARTOSERVER_HOME;
     if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $mapFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
+        $mapFileDir .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
-    $mapFile .= 'server_conf/' . $mapId . '/' . $mapId . '.map';
+    $mapFileDir .= 'server_conf/' . $mapId . '/';
+    $mapFile = $mapFileDir . $mapId . '.map';
     
     if (!extension_loaded('mapscript')) {
         $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
@@ -99,9 +100,14 @@ function parseMap($project, $mapId, &$texts) {
     }
     
     if (!file_exists($mapFile)) {
+        // Trying generated mapfile
+        $mapFile = $mapFileDir . $mapId . '.all.map';
+    }
+    if (!file_exists($mapFile)) {            
         print "\nWarning: Map file $mapFile not found.\n";
         return false;
     }
+    
     $old_error_handler = set_error_handler("dummyErrorHandler");
     $map = ms_newMapObj($mapFile);
     restore_error_handler();
