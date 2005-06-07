@@ -64,8 +64,10 @@ function findSwitchLayers($rootDir) {
     $autoIndexes = array_map('trim', explode(',', $layersIni['autoLayersIndexes']));
 
     $switches = array();
+    $switches[] = 'default';
     $layerGroups = array();
     $switchLayers = array();
+    $switchLayers['default'] = array();
 
     foreach ($layersIni as $key => $value) {
         $elements = explode('.', $key);
