@@ -313,13 +313,14 @@ class Cartoclient {
         $this->projectHandler = new ClientProjectHandler();
         
         try {
-            $this->initializeObjects();
             $this->initializePlugins();
 
             if (!isset($GLOBALS['headless']))
                 session_start();
 
             $this->pluginManager->callPlugins('initialize');
+
+            $this->initializeObjects();
 
             $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());
@@ -468,7 +469,7 @@ class Cartoclient {
 
         $this->pluginManager->loadPlugins($corePluginNames, $this);
 
-        $pluginNames = ConfigParser::parseArray($this->config->loadPlugins);
+        $pluginNames = ConfigParser::parseArray($this->getConfig()->loadPlugins);
 
         $this->pluginManager->loadPlugins($pluginNames, $this);
     }
