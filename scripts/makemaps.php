@@ -63,29 +63,48 @@ function findSwitchLayers($rootDir) {
     }
     $autoIndexes = array_map('trim', explode(',', $layersIni['autoLayersIndexes']));
 
+    $switches = array();
+    $layerGroups = array();
     $switchLayers = array();
+
     foreach ($layersIni as $key => $value) {
         $elements = explode('.', $key);
+        if ($elements[0] == 'switches') {
+            $switches[] = $elements[1];
+            $switchLayers[$elements[1]] = array();
+        }
         if (in_array('children', $elements)) {
-            if ($elements[count($elements) - 1] == 'children') {
-                $switch = 'default';
-            } else {
-                $switch = $elements[count($elements) - 1];
-            }            
-            if (!array_key_exists($switch, $switchLayers)) {
-                $switchLayers[$switch] = array();
+            $layerGroups = array_unique(array_merge($layerGroups, array($elements[1])));
+        }
+    }
+
+    foreach ($layerGroups as $layerId) {
+        $defaultLayers = NULL;
+        if (array_key_exists("layers.$layerId.children", $layersIni)) {
+            $defaultLayers = $layersIni["layers.$layerId.children"];        
+        }
+        foreach ($switches as $switch) {
+            $layerIds = '';
+            if (!is_null($defaultLayers)) {
+                $layerIds = $defaultLayers;
+            } else if (array_key_exists("layers.$layerId.children.$switch", $layersIni)) {
+                $layerIds = $layersIni["layers.$layerId.children.$switch"];
+            } else if (array_key_exists("layers.$layerId.children.default", $layersIni)) {
+                $layerIds = $layersIni["layers.$layerId.children.default"];
             }
-            $layerIds = array_map('trim', explode(',', $value));
-            $layers = array();
-            foreach ($layerIds as $layerId) {
-                if (array_key_exists('layers.' . $layerId . '.msLayer', $layersIni)) {
-                    $layers[] = $layersIni['layers.' . $layerId . '.msLayer'];
-                } else {
-                    $layers[] = $layerId;
+            if (!empty($layerIds)) {
+                $layerIds = array_map('trim', explode(',', $layerIds));
+                $layers = array();
+                foreach ($layerIds as $childId) {
+                    if (array_key_exists('layers.' . $childId . '.msLayer', $layersIni)) {
+                        $layers[] = $layersIni['layers.' . $childId . '.msLayer'];
+                    } else {
+                        $layers[] = $childId;
+                    }
                 }
+                $switchLayers[$switch] = array_unique(array_merge($switchLayers[$switch], $layers));  
+                sort($switchLayers[$switch]);                                                  
             }
-            $switchLayers[$switch] = array_unique(array_merge($switchLayers[$switch], $layers));  
-            sort($switchLayers[$switch]);                                                  
         }
     }
 } 
