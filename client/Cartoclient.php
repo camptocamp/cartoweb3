@@ -306,6 +306,9 @@ class Cartoclient {
      * - MapInfo cache
      * - Client objects
      * - Session
+     *
+     * Plugins cannot call internationalization functions in constructor
+     * and in initialize().
      */
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);

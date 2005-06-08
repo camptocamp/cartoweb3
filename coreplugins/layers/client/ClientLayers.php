@@ -299,6 +299,12 @@ class ClientLayers extends ClientPlugin
     private $notAvailableMinusIcon;
 
     /**
+     * True if switch was overrided by another plugin
+     * @param boolean
+     */
+    private $overrideSwitch = false;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -538,7 +544,19 @@ class ClientLayers extends ClientPlugin
      */
     private function handleSwitches($request) {
         
-        $this->layersState->switchId = $this->getHttpValue($request, 'switch_id');       
+        if (!$this->overrideSwitch) {
+            $this->layersState->switchId = $this->getHttpValue($request, 'switch_id');           
+        }    
+    }
+
+    /**
+     * Changes switch from another plugin
+     * @param string
+     */
+    public function setSwitch($newSwitch) {
+        
+        $this->overrideSwitch = true;
+        $this->layersState->switchId = $newSwitch;
     }
 
     /**
@@ -838,7 +856,7 @@ class ClientLayers extends ClientPlugin
         $layersRequest->layerIds = $this->layerIds;
         
         $layersRequest->switchId = $this->layersState->switchId;
-        
+
         return $layersRequest;
     }
 
