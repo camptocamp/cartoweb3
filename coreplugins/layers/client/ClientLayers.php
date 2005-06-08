@@ -1102,8 +1102,12 @@ class ClientLayers extends ClientPlugin
             $iconUrl = $resourceHandler->getFinalUrl($layer->icon, false);
         }
 
+        $metadata = $layer->getAllMetadata();
+        $metadata['lang'] = LANG;
+
         $element = array_merge($element,
                           array('layerLabel'       => $layer->label,
+                                'layerMeta'        => $metadata,
                                 'layerId'          => $layer->id,
                                 'layerClassName'   => $layer->className,
                                 'layerLink'        => $layer->link,

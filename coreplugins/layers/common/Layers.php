@@ -78,6 +78,17 @@ class LayerBase extends Serializable {
      * @var array
      */
     private $metaHash;
+
+    /**
+     * Fills the $metaHash property from the metadata values in metadata field
+     */    
+    private function generateMetaHash() {
+        $this->metaHash = array();
+        foreach ($this->metadata as $meta) {
+            list($k, $val) = explode('=', $meta);
+            $this->metaHash[$k] = $val;
+        }        
+    }
     
     /**
      * Returns a metadata valued from its key, or null if it does not exists.
@@ -85,16 +96,22 @@ class LayerBase extends Serializable {
      * @return string the value, or null if not there.
      */
     public function getMetadata($key) {
-        if (is_null($this->metaHash)) {
-            $this->metaHash = array();
-            foreach ($this->metadata as $meta) {
-                list($k, $val) = explode('=', $meta);
-                $this->metaHash[$k] = $val;
-            }
-        }
+        if (is_null($this->metaHash))
+            $this->generateMetaHash();
         if (!isset($this->metaHash[$key]))
             return null;
         return $this->metaHash[$key];
+    }
+
+    /**
+     * Returns an associative array of all metadata variables containted in
+     * this layer.
+     * @return array an associative array of all metadata
+     */
+    public function getAllMetadata() {
+        if (is_null($this->metaHash))
+            $this->generateMetaHash();
+        return $this->metaHash;   
     }
 
     /**
