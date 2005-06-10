@@ -222,7 +222,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @param string
      * @return QuerySelection
      */
-    private function findQuerySelection($layerId) {
+    protected function findQuerySelection($layerId) {
         $querySelection = null;
         foreach ($this->queryState->querySelections as $stateQuerySelection) {
             if ($stateQuerySelection->layerId == $layerId) {
@@ -237,7 +237,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * Adds a {@link QuerySelection} with default values
      * @param string
      */
-    private function addDefaultQuerySelection($layerId) {
+    protected function addDefaultQuerySelection($layerId) {
     
         $querySelection = new QuerySelection();
         $querySelection->layerId = $layerId;
@@ -476,7 +476,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @param QueryResult
      * @return QueryResult
      */
-    private function processResult(QueryResult $queryResult) {
+    protected function processResult(QueryResult $queryResult) {
 
         foreach ($queryResult->tableGroup->tables as $table) {
 
