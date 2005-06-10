@@ -674,7 +674,8 @@ class Cartoclient {
                                            $request->getRequest());
         }
         
-        // If flow is interrupted and client not allowed, display unauthorized
+        // If flow is not interrupted and client not allowed, 
+        //   then display unauthorized message
         //  page.
         if (!$this->isInterruptFlow() && !$this->clientAllowed()) {
             $this->setInterruptFlow(true);

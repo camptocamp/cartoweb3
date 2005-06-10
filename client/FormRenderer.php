@@ -216,7 +216,10 @@ class FormRenderer {
      * output on its own.
      * 
      * @param string the string name of a Smarty template resource file to use
-     * instead of the default cartoclient.tpl.
+     * instead of the default cartoclient.tpl. If false, Smarty template 
+     * rendering will be completely skipped (usefull if a plugin manages the
+     * html display itself).
+     * 
      */
     public function setCustomForm($customForm) {
         $this->customForm = $customForm;
