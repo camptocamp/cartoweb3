@@ -246,8 +246,8 @@ class LayersInitProvider implements InitProvider {
 
                 Utils::copyVars($msClass, $layerClass);
                 $layerClass->id = $layer->id . '_class_' . $i;
-                $layerClass->label = Encoder::encode($msClass->name);
-           
+                $layerClass->label = Encoder::encode($msClass->name, 'config');
+
                 if ($layersInit->autoClassLegend) {
                     $layerClass->icon = $this->getClassIcon($layerClass->id, 
                                                             $msMapObj,
@@ -346,7 +346,7 @@ class LayersInitProvider implements InitProvider {
          
         $this->fillDynamicMap();
         $this->fillDynamicLayers();
-        
+
         return $this->layersInit;
     }
 }
