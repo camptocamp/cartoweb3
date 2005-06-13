@@ -308,7 +308,7 @@ class Cartoclient {
      * - Session
      *
      * Plugins cannot call internationalization functions in constructor
-     * and in initialize().
+     * and in preInitialize().
      */
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -321,9 +321,11 @@ class Cartoclient {
             if (!isset($GLOBALS['headless']))
                 session_start();
 
-            $this->pluginManager->callPlugins('initialize');
+            $this->pluginManager->callPlugins('preInitialize');
 
             $this->initializeObjects();
+
+            $this->pluginManager->callPlugins('initialize');
 
             $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());

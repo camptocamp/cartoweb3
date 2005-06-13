@@ -145,6 +145,15 @@ abstract class PluginBase {
     }
 
     /**
+     * Plugin pre initialization. In most cases, plugins should use 
+     * @see PluginBase::initialize(). This method should be overriden when
+     * a plugin has to change properties which will impact the Cartoclient
+     * core objects initialization. The typical example is for plugins changing 
+     * the current mapId using ClientConfig::setMapId(). 
+     */
+    public function preInitialize() {}    
+    
+    /**
      * Plugin initialization (can be extended in custom plugins)
      */
     public function initialize() {}
