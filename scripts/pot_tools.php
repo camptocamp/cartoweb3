@@ -60,7 +60,7 @@ function getCharset($type, $project) {
  * Gets list of projects by reading projects directory
  * @return array
  */
-function getProjects() {
+function getProjects($projectname = false) {
 
     $projects = array();
     $dir = CARTOCOMMON_HOME . ProjectHandler::PROJECT_DIR . '/';
@@ -70,7 +70,16 @@ function getProjects() {
             && $entry != '..' && $entry != 'CVS') {
             $projects[] = $entry;
         }
-    }    
+    }
+	if ($projectname) {
+	    if (in_array($projectname,$projects)) {
+	        $projects = array($projectname);
+	    }else {
+		$projects = array();
+		print "error: $projectname is not in the project list, ignored \n";
+	    }
+	}
+
     return $projects;
 }
 

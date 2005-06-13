@@ -20,6 +20,13 @@ define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
 
 require_once('./pot_tools.php');
 
+// treat parameter
+if (isset($argv[1])) {
+    $projectname = $argv[1];
+} else {
+    $projectname = false;
+}
+
 /**
  * Parses an INI file looking for variable ending with '.label'
  * @param string
@@ -185,7 +192,7 @@ function getTranslatedMapIdPo($project, $mapId) {
     return $files;   
 }
 
-$projects = getProjects();
+$projects = getProjects($projectname);
 // Adds default project
 $projects[] = ProjectHandler::DEFAULT_PROJECT;
 

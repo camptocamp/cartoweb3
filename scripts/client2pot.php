@@ -35,6 +35,13 @@ $cmd = preg_quote('t');
 // extensions of smarty files, used when going through a directory
 $extensions = array('tpl');
 
+// treat parameter
+if (isset($argv[1])) {
+    $projectname = $argv[1];
+} else {
+    $projectname = false;
+}
+
 /**
  * "Fix" string - strip slashes, escape and convert new lines to \n
  * @param string
@@ -161,7 +168,7 @@ function parseIni($project, &$texts) {
     return true;
 }
 
-$projects = getProjects();
+$projects = getProjects($projectname);
 // Adds default project
 $projects[] = ProjectHandler::DEFAULT_PROJECT;
 
