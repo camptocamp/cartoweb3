@@ -145,12 +145,14 @@ class ClientTables extends ClientPlugin
     private function translate($tableGroups) {
         
         foreach ($tableGroups as $tableGroup) {
-            $tableGroup->groupTitle = I18n::gt($tableGroup->groupTitle);            
+            if (!empty($tableGroup->groupTitle))
+                $tableGroup->groupTitle = I18n::gt($tableGroup->groupTitle);            
             if (empty($tableGroup->tables)) {
                 continue;
             }            
             foreach ($tableGroup->tables as $table) {
-                $table->tableTitle = I18n::gt($table->tableTitle);
+                if (!empty($table->tableTitle))
+                    $table->tableTitle = I18n::gt($table->tableTitle);
                 foreach ($table->columnTitles as $key => $columnTitle) {
                     $table->columnTitles[$key] = I18n::gt($columnTitle);                          
                 }
