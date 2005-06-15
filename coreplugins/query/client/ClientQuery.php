@@ -60,7 +60,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     /**
      * @var QueryState
      */
-    private $queryState;
+    protected $queryState;
     
     /**
      * @var Bbox
@@ -544,9 +544,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-    
-        $queryOutput = $this->drawQuery();
-        $template->assign('query_result', $queryOutput);    
+      $queryOutput = $this->drawQuery();
+      $template->assign('query_result', $queryOutput);    
     }
 
     /**    
