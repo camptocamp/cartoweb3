@@ -71,14 +71,14 @@ function getProjects($projectname = false) {
             $projects[] = $entry;
         }
     }
-	if ($projectname) {
-	    if (in_array($projectname,$projects)) {
-	        $projects = array($projectname);
-	    }else {
-		$projects = array();
-		print "error: $projectname is not in the project list, ignored \n";
-	    }
-	}
+    if ($projectname) {
+        if (in_array($projectname,$projects)) {
+            $projects = array($projectname);
+        }else {
+        $projects = array();
+        print "error: $projectname is not in the project list, ignored \n";
+        }
+    }
 
     return $projects;
 }

@@ -57,9 +57,9 @@ MAP
   END
   
   QUERYMAP
-  	COLOR 0 0 0
-  	STATUS ON
-  	STYLE Hilite
+    COLOR 0 0 0
+    STATUS ON
+    STYLE Hilite
   END
   
 <?php
@@ -80,8 +80,8 @@ printLayer('POLYGON',
       "key2" "value2"
       "key3" "value3"
       "key4" "value4"
-  	  "id_attribute_string" "FID|string"
-	  "query_returned_attributes" "FID FNAME"
+      "id_attribute_string" "FID|string"
+      "query_returned_attributes" "FID FNAME"
     END
     CLASSITEM "FNAME"
     
@@ -128,8 +128,8 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "A_NAME|string"
-  	  "force_imagetype" "jpeg"
+      "id_attribute_string" "A_NAME|string"
+      "force_imagetype" "jpeg"
     END
     DATA "some_rectangles"
     CLASSITEM "A_NAME"
@@ -154,7 +154,7 @@ AUTOLAYER
     STATUS DEFAULT
     DATA "line"
     METADATA
-	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     CLASSITEM "FNAME"
 
@@ -191,12 +191,12 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "point"
     CLASSITEM "FNAME"
     LABELITEM "FNAME"
-	TEMPLATE "ttt"
+    TEMPLATE "ttt"
     CLASS
       NAME "Point class 1"
       STYLE
@@ -238,7 +238,7 @@ AUTOLAYER
     STATUS DEFAULT
     DATA "more_points"
     #CLASSITEM "FID"
-	TEMPLATE "ttt"
+    TEMPLATE "ttt"
     CLASS
       NAME "Point class 2"
       STYLE
@@ -281,7 +281,7 @@ AUTOLAYER
       "init=epsg:4326"
     END
 
-	TRANSPARENCY 50
+    TRANSPARENCY 50
     CLASS
       STYLE
         OUTLINECOLOR 0 0 204
@@ -307,7 +307,7 @@ AUTOLAYER
       "init=epsg:4326"
     END
 
-	TRANSPARENCY 50
+    TRANSPARENCY 50
     CLASS
       STYLE
         OUTLINECOLOR 0 0 204
@@ -333,7 +333,7 @@ AUTOLAYER
       "init=epsg:4326"
     END
 
-	TRANSPARENCY 50
+    TRANSPARENCY 50
     CLASS
       STYLE
         COLOR 155 153 102
@@ -359,13 +359,13 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-	  "exported_values" "security_view,security_edit"
-	  "security_view" "admin"
-	  "security_edit" "admin,editors"
-	  
-  	  "id_attribute_string" "FID|string"
-  	  "mask_transparency" "50"
-  	  "mask_color" "255, 255, 0"
+      "exported_values" "security_view,security_edit"
+      "security_view" "admin"
+      "security_edit" "admin,editors"
+    
+      "id_attribute_string" "FID|string"
+      "mask_transparency" "50"
+      "mask_color" "255, 255, 0"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -389,9 +389,9 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
-  	  "mask_transparency" "50"
-  	  "mask_color" "255, 255, 0"
+      "id_attribute_string" "FID|string"
+      "mask_transparency" "50"
+      "mask_color" "255, 255, 0"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -424,8 +424,8 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
-  	  "outside_mask" "my_outside_mask"
+      "id_attribute_string" "FID|string"
+      "outside_mask" "my_outside_mask"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -449,7 +449,7 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -473,7 +473,7 @@ AUTOLAYER
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "grid"
     CLASSITEM "FID"

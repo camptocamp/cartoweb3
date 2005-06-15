@@ -143,9 +143,9 @@ class Smarty_Cartoclient extends Smarty {
         $resource = stripslashes($text);
         
         if (isset($params['type'])) {
-			if ($params['type'] != ''){
-				$resource = $params['type'] . '/' . $resource;
-			}
+            if ($params['type'] != ''){
+                $resource = $params['type'] . '/' . $resource;
+            }
             unset($params['type']);       
         }
         
