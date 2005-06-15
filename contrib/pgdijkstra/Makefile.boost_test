@@ -1,0 +1,2 @@
+boost_wrapper: boost_wrapper.cpp *h
+	g++ -I. -I/usr/local/stow/postgresql8/include/server -I/usr/local/stow/postgresql8/include/internal -D_GNU_SOURCE  -O2 -Wall -Wmissing-prototypes -Wpointer-arith -Wendif-labels -fno-strict-aliasing -fpic -I/usr/include/boost/graph  boost_wrapper.cpp -o boost_wrapper
