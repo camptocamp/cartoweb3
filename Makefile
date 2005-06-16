@@ -21,7 +21,7 @@ prepare_prod:
 	rm htdocs/info.php
 	rm htdocs/runtests.php
 	#rm r.php
-	
+
 delete_server:
 	rm -r server
 	rm -r server_conf
@@ -85,8 +85,18 @@ create_config:
 setup_files:
 	./scripts/cw3_admin.py setup_files
 
-init: fetch_libs dirs perms create_config setup_files
+PHP=/usr/lib/cgi-bin/php5
+
+post_install:
+	if [ -x $(PHP) ]; then \
+		cd scripts; \
+		$(PHP) makemaps.php; \
+		$(PHP) po2mo.php; \
+	fi
+
+
+init: fetch_libs dirs perms create_config setup_files post_install
 	:
 
-init_sudo: fetch_libs dirs perms_sudo create_config setup_files
+init_sudo: fetch_libs dirs perms_sudo create_config setup_files post_install
 	:
