@@ -9,8 +9,8 @@
   <title>Layers</title>
   <sect1 id="user.layers.intro">
     <title>Introduction</title>
-    <para> Geographical data are most often apprehended as thematic layers: 
-      you may have a layer "Rivers", a layer "Aerial view", a layer "Average 
+    <para> Geographical data are most often apprehended as thematic layers: you 
+      may have a layer "Rivers", a layer "Aerial view", a layer "Average 
       income", just to cite a few examples. Now the basic purpose of any viewer 
       is to make these data available to users by allowing navigation within a 
       layer as well as comparison between layers. A way to organize the layers 
@@ -131,6 +131,12 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
             LayerGroups. </para>
         </listitem>
         <listitem>
+          <para> layers.layerId.children.switchId = list of layerIds : 
+            comma-separated list of layerIds, when using switching (see <xref 
+            linkend="user.layers.tree.children"/>). This option cannot be used 
+            together with simple children option.</para>
+        </listitem>
+        <listitem>
           <para> layers.layerId.aggregate = true|false : if true, the children 
             objects are not listed in the tree and not individually selectable. 
             Default is false. </para>
@@ -187,6 +193,35 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
           </itemizedlist>
         </listitem>
       </itemizedlist>
+    </sect2>
+    <sect2 id="user.layers.tree.children">
+      <title>Children Switching</title>
+      <para> Children switching is useful to define several lists of children 
+        for one layer group. The children that will be displayed is choosen by 
+        a special parameter : the switch ID. </para>
+      <para>Switch IDs and labels are listed in file 
+        <filename>layers.ini</filename>. In default test environment, a 
+        dropdown is constructed using this list and displayed in the GUI.</para>
+      <programlisting><![CDATA[switches.switch1.label = Switch 1
+switches.switch2.label = Switch 2
+switches.switch3.label = Switch 3]]></programlisting>
+      <para> Then, each layer group that needs to change its children depending 
+        on the switch ID may add this ID as a suffix to the children option. 
+        </para>
+      <programlisting><![CDATA[layers.layerId.className = LayerGroup
+layers.layerId.children.switch1 = layer1, layer3
+layers.layerId.children.switch2 = layer2, layer3
+layers.layerId.children.switch3 =]]></programlisting>
+      <para>Special suffix <parameter>default</parameter> can be used to define 
+        a default children list : </para>
+      <programlisting><![CDATA[layers.layerId.className = LayerGroup
+layers.layerId.children.switch2 = layer2, layer3
+layers.layerId.children.default =]]></programlisting>
+      <para>The following layer group definitions are equivalent :</para>
+      <programlisting><![CDATA[layers.layerId.className = LayerGroup
+layers.layerId.children.default = layer4]]></programlisting>
+      <programlisting><![CDATA[layers.layerId.className = LayerGroup
+layers.layerId.children = layer4]]></programlisting>
     </sect2>
   </sect1>
   <sect1 id="user.layers.metadata">
