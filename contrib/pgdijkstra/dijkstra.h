@@ -8,8 +8,8 @@ typedef struct edge
     int id;
     int source;
     int target;
-    int cost;
-    int reverse_cost;
+    float8 cost;
+    float8 reverse_cost;
 } edge_t;
 
 typedef struct path_element 
