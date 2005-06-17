@@ -138,9 +138,7 @@ class Smarty_Cartoclient extends Smarty {
      * @param Smarty Smarty engine
      * @return string resource path
      */
-    public function smartyResource($params, $text, &$smarty) {
-        
-        $resource = stripslashes($text);
+    public function smartyResource($params, $resource, &$smarty) {
         
         if (isset($params['type'])) {
             if ($params['type'] != ''){
@@ -209,7 +207,6 @@ class Smarty_Cartoclient extends Smarty {
      * @return string translated text
      */
     public function smartyTranslate($params, $text, &$smarty) {
-        $text = stripslashes($text);
         
         // set escape mode
         if (isset($params['escape'])) {
@@ -245,7 +242,7 @@ class Smarty_Cartoclient extends Smarty {
             $text = nl2br(htmlspecialchars($text));
         } elseif (isset($escape) && ($escape == 'javascript' || 
                                      $escape == 'js')) { // javascript escape
-            $text = str_replace('\'','\\\'',stripslashes($text));
+            $text = str_replace('\'','\\\'', $text);
         }
     
         return $text;
@@ -253,10 +250,10 @@ class Smarty_Cartoclient extends Smarty {
 }
 
 /**
- * Specific Smarty engine for core plugins
+ * Specific Smarty engine for plugins
  * @package Client
  */
-class Smarty_CorePlugin extends Smarty_Cartoclient {
+class Smarty_Plugin extends Smarty_Cartoclient {
 
     /**
      * Constructor
