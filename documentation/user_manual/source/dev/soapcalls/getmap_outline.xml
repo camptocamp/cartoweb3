@@ -16,10 +16,126 @@
     <title>Outline Request</title>
     <para>
       <programlisting><![CDATA[
+<complexType name="Color">
+  <all>
+    <element name="r" type="xsd:int"/>
+    <element name="g" type="xsd:int"/>
+    <element name="b" type="xsd:int"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>r - red</para>
+        </listitem>
+        <listitem>
+          <para>g - green</para>
+        </listitem>
+        <listitem>
+          <para>b - blue</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ShapeStyle">
+  <all>
+    <element name="symbol" type="xsd:int"/>
+    <element name="size" type="xsd:int"/>
+    <element name="color" type="types:Color"/>
+    <element name="outlineColor" type="types:Color"/>
+    <element name="backgroundColor" type="types:Color"/>
+    <element name="transparency" type="xsd:int"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>symbol -index of Mapserver symbol</para>
+        </listitem>
+        <listitem>
+          <para>size - size of shape</para>
+        </listitem>
+        <listitem>
+          <para>color - color</para>
+        </listitem>
+        <listitem>
+          <para>outlineColor - outline color</para>
+        </listitem>
+        <listitem>
+          <para>backgroundColor - background color</para>
+        </listitem>
+        <listitem>
+          <para>transparency - transparency</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="LabelStyle">
+  <all>
+    <element name="font" type="xsd:int"/>
+    <element name="size" type="xsd:int"/>
+    <element name="color" type="types:Color"/>
+    <element name="outlineColor" type="types:Color"/>
+    <element name="backgroundColor" type="types:Color"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>font - index of Mapserver font</para>
+        </listitem>
+        <listitem>
+          <para>size - size of font</para>
+        </listitem>
+        <listitem>
+          <para>color - color</para>
+        </listitem>
+        <listitem>
+          <para>outlineColor - outline color</para>
+        </listitem>
+        <listitem>
+          <para>backgroundColor - background color</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="StyledShape">
+  <all>
+    <element name="shapeStyle" type="types:ShapeStyle"/>
+    <element name="labelStyle" type="types:LabelStyle"/>
+    <element name="shape" type="types:Shape"/>
+    <element name="label" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>shapeStyle - style of shape</para>
+        </listitem>
+        <listitem>
+          <para>labelStyle - style of label</para>
+        </listitem>
+        <listitem>
+          <para>shape - shape (can be a point, 
+            rectangle, line or polygon, see <xref 
+            linkend="dev.soapcalls.structures.shapes" /> for a description of 
+            type Shape)</para>
+        </listitem>
+        <listitem>
+          <para>label - content of label</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfStyledShape">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:StyledShape[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array - list of shapes with style</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
 <complexType name="OutlineRequest">
   <all>
     <element name="className" type="xsd:string"/>
-    <element name="shapes" type="types:ArrayOfShape"/>
+    <element name="shapes" type="types:ArrayOfStyledShape"/>
     <element name="maskMode" type="xsd:boolean"/>
   </all>
 </complexType>]]></programlisting>
@@ -29,9 +145,7 @@
             implements an extension</para>
         </listitem>
         <listitem>
-          <para>shapes - list of shapes (can include points, rectangles, lines 
-            or polygons, see <xref linkend="dev.soapcalls.structures.shapes" /> 
-            for a description of type Shape)</para>
+          <para>shapes - list of styled shapes</para>
         </listitem>
         <listitem>
           <para>maskMode - if true, will draw the complement of all shapes 

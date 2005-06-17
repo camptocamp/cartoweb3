@@ -49,6 +49,7 @@
     <element name="useInQuery" type="xsd:boolean"/>
     <element name="policy" type="types:QuerySelectionPolicy"/>
     <element name="maskMode" type="xsd:boolean"/>
+    <element name="hilight" type="xsd:boolean"/>
     <element name="tableFlags" type="types:TableFlags"/>
   </all>
 </complexType>]]></programlisting>
@@ -77,6 +78,9 @@
             feature (see <xref linkend="user.query" />) </para>
         </listitem>
         <listitem>
+          <para>hilight - if false, selection won't be hilighted on map</para>
+        </listitem>
+        <listitem>
           <para>tableFlags - table flags (see <xref 
             linkend="dev.soapcalls.structures.tables" /> for a description of 
             type TableFlags)</para>
@@ -103,6 +107,7 @@
     <element name="bbox" type="types:Bbox"/>
     <element name="queryAllLayers" type="xsd:boolean"/>
     <element name="defaultMaskMode" type="xsd:boolean"/>
+    <element name="defaultHilight" type="xsd:boolean"/>
     <element name="defaultTableFlags" type="types:TableFlags"/>
     <element name="querySelections" type="types:ArrayOfQuerySelection"/>
   </all>
@@ -125,6 +130,11 @@
         </listitem>
         <listitem>
           <para>defaultMaskMode - mask mode for new layers (returned by query 
+            and but not yet in array querySelections). Unused when 
+            queryAllLayers = false</para>
+        </listitem>
+        <listitem>
+          <para>defaultHilight - highlight for new layers (returned by query 
             and but not yet in array querySelections). Unused when 
             queryAllLayers = false</para>
         </listitem>

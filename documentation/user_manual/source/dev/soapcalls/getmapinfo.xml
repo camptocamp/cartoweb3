@@ -154,13 +154,42 @@
           <para>array - list of layer IDs</para>
         </listitem>
       </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ChildrenSwitch">
+  <all>
+    <element name="id" type="xsd:string"/>
+    <element name="layers" type="types:ArrayOfLayerId" minOccurs="0"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>id - switch ID</para>
+        </listitem>
+        <listitem>
+          <para>layers - list of layers</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfChildrenSwitch">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType=ChildrenSwitch[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array - list of children switches</para>
+        </listitem>
+      </itemizedlist>
         <programlisting><![CDATA[
 <complexType name="Layer">
   <all>
     <element name="className" type="xsd:string"/>
     <element name="id" type="xsd:string"/>
     <element name="label" type="xsd:string"/>
-    <element name="children" type="types:ArrayOfLayerId" minOccurs="0"/>
+    <element name="children"
+             type="types:ArrayOfChildrenSwitch" minOccurs="0"/>
     <element name="minScale" type="xsd:double"/>
     <element name="maxScale" type="xsd:double"/>
     <element name="icon" type="xsd:string"/>
@@ -183,8 +212,7 @@
             using internationalization</para>
         </listitem>
         <listitem>
-          <para>children - list of children (layer IDs) separated by 
-            commas</para>
+          <para>children - list of children</para>
         </listitem>
         <listitem>
           <para>minScale - minimum scale at which layer will be displayed</para>
@@ -228,12 +256,41 @@
         </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
+<complexType name="SwitchInit">
+  <all>
+    <element name="id" type="xsd:string"/>
+    <element name="label" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>id - switch ID</para>
+        </listitem>
+        <listitem>
+          <para>label - switch label</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="ArrayOfSwitchInit">
+  <complexContent>
+    <restriction base="enc11:Array">
+      <attribute ref="enc11:arrayType" wsdl:arrayType="types:SwitchInit[]"/>
+    </restriction>
+  </complexContent>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>array - list of switches</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
 <complexType name="LayersInit">
   <all>
     <element name="notAvailableIcon" type="xsd:string"/>
     <element name="notAvailablePlusIcon" type="xsd:string"/>
     <element name="notAvailableMinusIcon" type="xsd:string"/>
     <element name="layers" type="types:ArrayOfLayer"/>
+    <element name="switches" type="types:ArrayOfSwitchInit" minOccurs="0"/>
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
@@ -252,6 +309,9 @@
         </listitem>
         <listitem>
           <para>layers - list of layers</para>
+        </listitem>
+        <listitem>
+          <para>switches - list of switches</para>
         </listitem>
       </itemizedlist>
     </para>

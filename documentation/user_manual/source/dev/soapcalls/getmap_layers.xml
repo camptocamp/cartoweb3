@@ -18,6 +18,7 @@
     <element name="className" type="xsd:string"/>
     <element name="layerIds" type="types:ArrayOfLayerId"/>
     <element name="resolution" type="xsd:int"/>
+    <element name="switchId" type="xsd:string"/>
   </all>
 </complexType>]]></programlisting>
       <itemizedlist>
@@ -33,6 +34,9 @@
         <listitem>
           <para>resolution - MapServer resolution. Set this to null if you want 
             to use default resolution</para>
+        </listitem>
+        <listitem>
+          <para>switchId - current switch ID</para>
         </listitem>
       </itemizedlist>
     </para>
