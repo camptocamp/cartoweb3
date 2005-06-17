@@ -34,7 +34,13 @@ class I18n {
      * @var I18nInterface
      */
     static private $i18n;
-    
+
+    /**
+     * Restrictive lang list
+     * @var string
+     */
+    static private $authLanglist;
+
     /**
      * Guess the I18nInterface class to use
      * @return I18nInterface The i18n interface to use.
@@ -57,7 +63,9 @@ class I18n {
             self::$i18n = new $config->I18nClass;
         else
             self::$i18n = self::guessI18nClass();
-            
+
+        self::$authLanglist = $config->authLang;
+        
         self::setLocale($config->defaultLang);
 
         self::$i18n->bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
@@ -72,7 +80,12 @@ class I18n {
      * @return array array of locales (two-characters strings)
      */
     static public function getLocales() {
-    
+
+        $authLang = array();
+
+        if (self::$authLanglist != '')
+            $authLang = explode(",", trim(self::$authLanglist));       
+           
         // Looks in directory locale
         $dir = CARTOCLIENT_HOME . 'locale/';
         $d = dir($dir);
@@ -80,6 +93,10 @@ class I18n {
         while (false !== ($entry = $d->read())) {
             if ($entry == '.' || $entry == '..' || strlen($entry) != 2) {
                 continue;
+            }
+            if (sizeof($authLang) >= 1 && $authLang[0] != '') {
+                if(!in_array($entry, $authLang))
+              	    continue;
             }
             $locales[] = $entry;
         }
