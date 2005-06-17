@@ -48,7 +48,6 @@ if (isset($argv[1])) {
  * @return string
  */
 function fs($str) {
-    $str = stripslashes($str);
     $str = str_replace('"', '\"', $str);
     $str = str_replace("\n", '\n', $str);
     return $str;
