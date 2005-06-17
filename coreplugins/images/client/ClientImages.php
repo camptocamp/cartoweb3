@@ -304,7 +304,7 @@ class ClientImages extends ClientPlugin
      * @return string Smarty generated HTML content
      */
     private function drawMapSizes() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $mapsizesOptions = array();
         foreach ($this->getMapSizes() as $id => $mapSize)
             $mapsizesOptions[$id] = I18n::gt($mapSize['label']);

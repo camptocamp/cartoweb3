@@ -38,7 +38,7 @@ class ClientExportPdf extends ExportPlugin
     private $log;
     
     /**
-     * @var Smarty_CorePlugin
+     * @var Smarty_Plugin
      */
     private $smarty;
 
@@ -598,7 +598,7 @@ class ClientExportPdf extends ExportPlugin
         $exportScriptPath = ResourceHandler::convertXhtml(
                                 $this->getExportScriptPath(), true);
 
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $this->smarty->assign(array(
                    'exportScriptPath'       => $exportScriptPath,
                    'pdfFormat_options'      => $this->general->formats,

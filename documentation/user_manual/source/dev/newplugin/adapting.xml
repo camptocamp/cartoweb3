@@ -201,7 +201,7 @@ class ClientYourProjectImages extends ClientImages {
 
     // additional method
     private function drawNewImagesField() {
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign('imagesTest', 'Foobar');
         return $smarty->fetch('yourImages.tpl');
     }

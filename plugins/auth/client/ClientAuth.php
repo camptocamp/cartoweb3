@@ -142,7 +142,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      */
     private function authCallback($reason) {
         
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
         if ($this->loginFailed) {
             $reason = 'loginFailed';
@@ -263,7 +263,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      */
     private function drawAuth() {
 
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $anonymous = SecurityManager::getInstance()->hasRole(
                                             SecurityManager::ANONYMOUS_ROLE);
         $smarty->assign('show_login', $anonymous);

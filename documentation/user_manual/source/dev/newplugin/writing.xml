@@ -207,7 +207,7 @@ class ServerYourPlugin extends ServerPlugin {
       the main plugin PHP files. </para>
     <para> Templates stored in the plugin <filename>templates/</filename> 
       directory are also accessible directly by using PHP code similar to the 
-      followin one: <programlisting><![CDATA[$smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+      followin one: <programlisting><![CDATA[$smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 $smarty->assign('foo', 'bar');
 return $smarty->fetch('yourPlugin.tpl');]]></programlisting> </para>
   </sect2>

@@ -22,11 +22,6 @@
  */
 
 /**
- * Smarty templates
- */
-require_once('smarty/Smarty.class.php');
-
-/**
  * Query data to be stored in session
  * @package CorePlugins
  */
@@ -500,7 +495,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */
     private function drawQuery() {
 
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
     
         if ($this->getConfig()->displayExtendedSelection) {
             

@@ -84,7 +84,8 @@ class ClientHello extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
-        $this->message = @$_REQUEST[self::HELLO_INPUT];
+        $this->message = isset($request[self::HELLO_INPUT])
+                         ? $request[self::HELLO_INPUT] : '';
     }
 
     /**

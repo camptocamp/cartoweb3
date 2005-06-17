@@ -125,7 +125,7 @@ class ClientTables extends ClientPlugin
      * Sets URL to CSV export
      * @param Smarty
      */
-    private function assignExportCsv($template) {
+    private function assignExportCsv(Smarty $template) {
     
         $pluginManager = $this->cartoclient->getPluginManager();
         if (!empty($pluginManager->exportCsv)) {
@@ -173,7 +173,7 @@ class ClientTables extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
         
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $this->tableGroups);
         
         $this->assignExportCsv($smarty);

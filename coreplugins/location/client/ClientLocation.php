@@ -86,7 +86,7 @@ class ClientLocation extends ClientPlugin
     const TOOL_PAN      = 'pan';
 
     /**
-     * @var Smarty_CorePlugin
+     * @var Smarty_Plugin
      */
     private $smarty;
 
@@ -261,7 +261,7 @@ class ClientLocation extends ClientPlugin
      * @return string
      */
     private function drawRecenter() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('recenter.tpl');
     }
 
@@ -270,7 +270,7 @@ class ClientLocation extends ClientPlugin
      * @return string
      */
     private function drawScales() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $scaleValues = array(0);
         $scaleLabels = array('');
         $scales = $this->scales;
@@ -351,7 +351,7 @@ class ClientLocation extends ClientPlugin
      * @return string
      */
     private function drawIdRecenter() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
         $layersInit = $this->cartoclient->getMapInfo()->layersInit;
         $layersId = array();
@@ -423,7 +423,7 @@ class ClientLocation extends ClientPlugin
      * @return string
      */
     private function drawShortcuts() {
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $shortcutValues = array(-1);
         $shortcutLabels = array('');
         $shortcuts = $this->shortcuts;

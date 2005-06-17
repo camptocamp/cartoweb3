@@ -191,7 +191,7 @@ class ClientLayers extends ClientPlugin
     private $log;
     
     /**
-     * @var Smarty_CorePlugin 
+     * @var Smarty_Plugin 
      */
     private $smarty;
 
@@ -604,7 +604,9 @@ class ClientLayers extends ClientPlugin
             $this->layersData[$layer->id]->unfolded = false;
         }
 
-        if (!@$request['openNodes']) $request['openNodes'] = false;
+        if (!isset($request['openNodes'])) {
+            $request['openNodes'] = false;
+        }
         $openNodes = array_unique(explode(',', $request['openNodes']));
 
         foreach ($openNodes as $nodeId) {
@@ -1153,7 +1155,7 @@ class ClientLayers extends ClientPlugin
      */
     private function drawLayersList() {
     
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
         $this->nodesIds = array();
         $this->mapId = $this->getCartoclient()->getProjectHandler()->getMapName();
@@ -1179,7 +1181,7 @@ class ClientLayers extends ClientPlugin
      */
     protected function drawSwitches() {
 
-        $this->smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $switchValues = array(ChildrenSwitch::DEFAULT_SWITCH);
         $switchLabels = array(I18n::gt('Default'));
         $switches = $this->layersInit->switches;
