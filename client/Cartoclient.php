@@ -38,6 +38,7 @@ require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
 require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
+require_once(CARTOCLIENT_HOME . 'client/Views.php');
 
 require_once(CARTOCOMMON_HOME . 'common/Common.php');
 require_once(CARTOCOMMON_HOME . 'common/Utils.php');
@@ -299,6 +300,25 @@ class Cartoclient {
     private $interruptFlow = false;
 
     /**
+     * Indicates if views device is activated
+     * @var boolean
+    
+    /**
+     * @var ViewManager
+     */
+    private $viewManager;
+
+    /**
+     * @var boolean
+     */
+    private $viewOn = false;
+
+    /**
+     * @var boolean
+     */
+    private $viewsEnable;
+
+    /**
      * Constructor
      *
      * Initializes:
@@ -463,6 +483,27 @@ class Cartoclient {
     }
 
     /**
+     * @return ViewManager
+     */
+    public function getViewManager() {
+        if (!isset($this->viewManager)) {
+            $this->viewManager = new ViewManager($this);
+        }
+        return $this->viewManager;
+    }
+
+    /**
+     * Tells if views are enabled in configuration.
+     * @return boolean
+     */
+    public function areViewsEnable() {
+        if (!isset($this->viewsEnable)) {
+            $this->viewsEnable = $this->getConfig()->viewOn;
+        }
+        return $this->viewsEnable;
+    }
+
+    /**
      * Initializes core and normal client plugins
      */
     private function initializePlugins() {
@@ -542,10 +583,16 @@ class Cartoclient {
      */
     private function initializeSession() {
         $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
-
+        
         $this->clientSession = $clientSession;
 
         if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
+            
+            if ($this->viewOn) {
+                $this->log->debug('Handling existing session and views');
+                $this->getViewManager()->handleView($clientSession);
+            }
+            
             $this->log->debug('Loading existing session');
             $this->callPluginsImplementing('Sessionable', 'loadSession');
 
@@ -570,6 +617,11 @@ class Cartoclient {
             if ($initialMapState == NULL)
                 throw new CartoclientException('cant find initial map state ' .
                         $this->config->initialMapStateId);
+
+            if ($this->viewOn) {
+                $this->log->debug('Handling new session and views');
+                $this->getViewManager()->handleView($clientSession);
+            }
             
             $this->callPluginsImplementing('Sessionable', 'createSession',
                                            $this->getMapInfo(), $initialMapState);
@@ -728,6 +780,24 @@ class Cartoclient {
     }
 
     /**
+     * Detects if views controller must be launched.
+     */
+    private function manageViewsSystem() {
+       
+        if (isset($_GET['view'])) {
+            $_REQUEST['handleView'] = 1;
+            $_REQUEST['viewLoad'] = 1;
+            $_REQUEST['viewLoadId'] = $_GET['view'];
+        }
+       
+        $this->viewOn = $this->areViewsEnable() && 
+                        !empty($_REQUEST['handleView']);
+        if ($this->viewOn) {
+            $this->getViewManager();
+        }
+    }
+
+    /**
      * Initializes client objects
      *
      * Initializes:
@@ -753,6 +823,9 @@ class Cartoclient {
         $this->cartoserverService = new CartoserverService($this->getConfig());
         $this->httpRequestHandler = new HttpRequestHandler($this);
         $this->formRenderer = new FormRenderer($this);
+
+        // views
+        $this->manageViewsSystem();
     }
         
     /**
