@@ -6,7 +6,7 @@
 <style type="text/css">
 {literal}
 html {
-  background: grey;
+  background: #ddd;
   font-style: italic;
 }
 .hint {
