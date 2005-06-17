@@ -87,7 +87,7 @@ class StructHandler {
                 is_object($value)) {
                 $new_object->$property = 
                   $this->mergeOverride($object->$property, 
-                                       $value);
+                                       $value, $mute);
             } else {
                 $new_object->$property = $value;
             }
