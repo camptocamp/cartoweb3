@@ -31,7 +31,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
 #leftbar {
   position: absolute;
   top: 40px;
-  width: 210px;
+  width: 250px;
   padding:4px;
   z-index: 3;
   background:white;
@@ -46,7 +46,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;margin-left: 218px;}
+#content {z-index: 0;margin-left: 258px;}
 
 #loadbar {
   width:170px;
