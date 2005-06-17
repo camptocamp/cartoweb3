@@ -19,6 +19,7 @@
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
+
   <script language="JavaScript" type="text/javascript">
     <!--
     var hideKeymapMsg = "{t}Collapse keymap{/t}";
@@ -27,6 +28,7 @@
     //-->
   </script>
   {/if}
+  {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
   <script language="JavaScript" type="text/javascript">
@@ -161,7 +163,8 @@ ClientContext:
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
         <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
-        <li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>
+        {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
+        {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
       </ul>
     </div>
     <div id="container">
@@ -209,8 +212,19 @@ ClientContext:
       {$routing}
       {/if}
 
+      {if $viewsList|default:''}
+      <p>{t}Views:{/t}
+      <select name="viewBrowseId" onchange="javascript:loadView();">
+      {html_options options=$viewsList selected=$selectedView}
+      </select></p>
+      <input type="hidden" name="viewBrowse" value="0" />
+      {if !$views}
+      <input type="hidden" name="handleView" value="0" />
+      {/if}
+      {/if}
+
       {if $exporthtml_active|default:''}
-      <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
+      <p><a href="{$exporthtml_url}" target="print">{t}Print{/t}</a></p>
       {/if}
 
     </div>
@@ -223,10 +237,19 @@ ClientContext:
     
     </div>
     <!-- end of folder2 -->
+    
     {if $exportPdf|default:''}
     <div id="folder3" class="folder">
       {$exportPdf}
     </div>
+    <!-- end of folder3 -->
+    {/if}
+
+    {if $views|default:''}
+    <div id="folder4" class="folder">
+      {$viewsForm}
+    </div>
+    <!-- end of folder4 -->
     {/if}
   </div>
 </div>
