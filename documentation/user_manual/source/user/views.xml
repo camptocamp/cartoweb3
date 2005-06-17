@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<chapter id="user.views">
+ <title><indexterm><primary>Views</primary></indexterm>Views</title>
+ <subtitle>Bookmarking &cartoweb; States</subtitle>
+
+ <sect1 id="user.views.intro"> 
+  <title>Introduction</title>
+  <para>
+   Views are recordings of &cartoweb; maps states at a given moment. One may see them as a kind of bookmarks: while browsing maps in &cartoweb; interface, users can save the current state (map extent, selected layers, queries, annotations, etc.) under a label of their choice. It is then possible to access later those saved states.
+  </para>
+
+  <para>
+   Views are shared among users and are - in the current version - available to every user. Access to views edition functionalities (creation, modification, deletion) can be restricted to some categories of users. The default configuration only allows "admin"-roled users to perform view edition.
+  </para>
+ </sect1>
+
+ <sect1 id="user.views.config">
+  <title><indexterm><primary>Views configuration</primary></indexterm>Views Configuration</title>
+  <para>
+   The views device consists of two parts:
+   <itemizedlist>
+    <listitem>
+     <para>
+      a main controlling system that handles views detection, loading, recording and storage.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      a "views" plugin that provides a graphical interface for performing views loading and edition. This plugin is not mandatory to have views working but greatly enhances the device usability. 
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <sect2 id="user.views.config.plugin">
+   <title>Views Plugin</title>
+   <para>
+    No configuration is required for that plugin. However it still needs to be activated using the <filename>client_conf/client.ini</filename> <parameter>loadPlugins</parameter> parameter. For instance: <programlisting>loadPlugins = auth, exportPdf, views</programlisting>
+   </para>
+  </sect2>
+  <sect2 id="user.views.config.controller">
+   <title>Main Views Controller</title>
+   <para>
+    Main views controller configuration is done in the <filename>client_conf/client.ini</filename> file. The dedicated parameters are:
+    <itemizedlist>
+     <listitem>
+      <para>
+       <parameter>viewOn</parameter> (boolean: 'true'|'false'): activates/deactivates the main view controller. Views plugin will not work if the controller is off.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewStorage</parameter> (string: 'file'|'db'): tells what storage container must be used: file or database.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewablePlugins</parameter> (comma-separated list of strings): list of plugins that must have their data saved in views. Note that "viewable" plugins must implement the Sessionable interface.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewMetas</parameter> (comma-separated list of strings): list of metadata fields that must be saved in addition to the viewable plugins data (for instance author, email, description...). Common metadata fields such as "viewTitle" are anyway saved. Note that metadata fields must have homonym form fields in <filename>plugins/views/templates/views.tpl</filename> to be taken into account.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewDsn</parameter> (string): DSN (Data Source Name), gives the database connection parameters. Only used in database storage mode. Any DSN format supported by PEAR::DB can be used. See PEAR::DB manual for more info about DSNs at <ulink url="http://pear.php.net/manual/en/package.database.db.intro-dsn.php">http://pear.php.net/manual/en/package.database.db.intro-dsn.php</ulink>. Note that you can call any database server type as long as it is supported by PEAR::DB and that your PHP distribution has the matching extension enabled.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewAuth</parameter> (comma-separated list of strings): list of roles allowed to perform views edition actions. Given roles must match <filename>client_conf/auth.ini</filename> defined ones. See also <xref linkend="user.security"/>.
+      </para>
+     </listitem>
+    </itemizedlist>
+    For instance:
+    <programlisting>; Views management
+viewOn = true
+viewStorage = db
+viewablePlugins = location, layers, query, outline
+viewMetas = author
+viewDsn = pgsql://www-data@localhost/cw3
+viewAuth = admin</programlisting>
+   </para>
+   <para>
+    Should you decide to use a database storage, you would need first to create an appropriate table called <parameter>views</parameter>. Here is an example of SQL statements for PostgreSQL:
+    <programlisting>CREATE SEQUENCE "views_views_id_seq" start 1 increment 1 
+maxvalue 9223372036854775807 minvalue 1 cache 1;
+
+CREATE TABLE "views" (
+        "views_id" integer DEFAULT nextval('"views_views_id_seq"'::text) NOT NULL,
+        "viewtitle" character varying(50) NOT NULL,
+        "author" character varying(50),
+        "sessiondata" text,
+        "viewshow" boolean,
+        "viewlocationid" integer,
+        Constraint "views_pkey" Primary Key ("views_id")
+);</programlisting>
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1 id="user.views.usage">
+  <title>Views Usage</title>
+  <sect2 id="user.views.usage.loading">
+   <title><indexterm><primary>View loading</primary></indexterm>Loading Views</title>
+   <para>
+    Any defined view may be loaded by any users. Loading a view may be achieved selecting it among a dropdown views list. Two dropdown lists are available:
+    <itemizedlist>
+     <listitem>
+      <para>
+       a public one that only displays views labels that have been marked as "visible" by their creators.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       a selector within the Views plugin edition interface. This view selector contains all views including the ones that have not been marked as "visible" by their creators. Note that this selector provides a view ID (integer) input as well.
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+   <para>
+    Views may also be loaded using GET parameters in URLs that look like:
+    <programlisting>http://&lt;cartoweb/client/base/url&gt;?handleView=1&amp;viewLoad=1&amp;viewLoadId=&lt;viewId&gt;</programlisting>
+    or simply
+    <programlisting>http://&lt;cartoweb/client/base/url&gt;?view=&lt;viewId&gt;</programlisting>
+   </para>
+   <tip>
+    <para>
+     Views not marked as "visible" may anyway be loaded by anyone. "Visible" only means that their labels appear in the public view dropdown selector whereas "invisible" ones don't.
+    </para>
+   </tip>
+  </sect2>
+  <sect2 id="user.views.usage.editing">
+   <title>Editing Views</title>
+   <para>
+    Views edition is restricted to users whom roles match at least one of those specified in the <filename>client_conf/client.ini</filename> <parameter>viewAuth</parameter> parameter (see <xref linkend="user.views.config.controller"/>).
+   </para>
+   <para>
+    Views editors can create, update or delete views.
+   </para>
+   <sect3 id="user.views.usage.editing.create">
+    <title><indexterm><primary>View recording</primary></indexterm> Saving a View</title>
+    <para>
+     To save the current map state as a view, simply fill in the form fields with matching metadata. To make the view "visible", check the "Show view" option. Finally push the "save" button.
+    </para>
+    <para>
+     You may also save a new view using an existing view. To do so, load the desired view as described in <xref linkend="user.views.usage.loading"/>, modify it as explained in <xref linkend="user.views.usage.editing.update"/> and push the "Save as new view" button.
+    </para>
+   </sect3>
+   <sect3 id="user.views.usage.editing.delete">
+    <title><indexterm><primary>View deletion</primary></indexterm>Deleting a View</title>
+    <para>
+     Load the view you want to delete as shown above and push the "Delete" button. A JavaScript confirmation pops before irreversible deletion.
+    </para>
+   </sect3>
+   <sect3 id="user.views.usage.editing.update">
+    <title><indexterm><primary>View update</primary></indexterm>Updating a View</title>
+    <para>
+     To modify a view map properties (selected layers, annotations, map extent, etc.) as well as its metadata (title, "visibility", etc.), load it as seen above.
+    </para>
+    <para>
+     If your changes only concern metadata, simply update the dedicated form fields and push the "Update" button.
+    </para>
+    <para>
+     To update the view map properties, check the "Memorize form" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the "Update" button.
+    </para>
+   </sect3>
+  </sect2>
+ </sect1>
+
+</chapter>
