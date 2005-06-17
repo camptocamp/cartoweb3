@@ -98,3 +98,11 @@ defaultLang = en
 ; Charset encoder class
 EncoderClass.config = EncoderISO
 EncoderClass.output = EncoderUTF
+
+; Views management
+viewOn = false
+viewStorage = file
+viewablePlugins = location, layers, query, outline
+viewMetas = author
+viewDsn = pgsql://www-data@localhost/cw3_test
+viewAuth = admin
