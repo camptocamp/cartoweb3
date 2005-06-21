@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Miscellaneous tests
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,39 +27,25 @@
 require_once 'PHPUnit2/Framework/TestSuite.php';
 
 /**
- * All tests
+ * All misc tests
  */
-require_once 'client/AllTests.php';
-require_once 'common/AllTests.php';
-require_once 'coreplugins/AllTests.php';
-require_once 'plugins/AllTests.php';
-require_once 'projects/AllTests.php';
-require_once 'server/AllTests.php';
-require_once 'misc/AllTests.php';
+require_once 'misc/DocumentationTest.php';
 
 /**
  * @package Tests
- * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class AllTests {
-
-    /**
-     * @return PHPUnit2_Framework_TestSuite
-     */
+class misc_AllTests {
+    
     public static function suite() {
-
+    
         $suite = new PHPUnit2_Framework_TestSuite;
 
-        $suite->addTest(client_AllTests::suite());
-        $suite->addTest(common_AllTests::suite());
-        $suite->addTest(coreplugins_AllTests::suite());
-        $suite->addTest(plugins_AllTests::suite());
-        $suite->addTest(projects_AllTests::suite());
-        $suite->addTest(server_AllTests::suite());
-        //$suite->addTest(misc_AllTests::suite());
+        $suite->addTestSuite('misc_DocumentationTest');
 
         return $suite;
     }
+
 }
 
 ?>
