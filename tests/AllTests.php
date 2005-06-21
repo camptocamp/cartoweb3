@@ -56,7 +56,7 @@ class AllTests {
         $suite->addTest(plugins_AllTests::suite());
         $suite->addTest(projects_AllTests::suite());
         $suite->addTest(server_AllTests::suite());
-        //$suite->addTest(misc_AllTests::suite());
+        $suite->addTest(misc_AllTests::suite());
 
         return $suite;
     }
