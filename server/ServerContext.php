@@ -502,7 +502,11 @@ class ServerContext {
         // retrieve from metadata
         $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
         $this->checkMsErrors();
-  
+	
+        //echo '<pre>';
+        //print_r($msLayer);
+        //echo '</pre>';
+
         $idAttribute = $msLayer->getMetaData('id_attribute_string');
         if (!empty($idAttribute)) {
             return $idAttribute;   
