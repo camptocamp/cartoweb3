@@ -120,7 +120,7 @@
       </listitem>
       <listitem>
         <para> authLang = list: restricted list of language usable. In the case you have many languages 
-          in directory <cartoweb_home>/locale/ and you do not want to use them all in your project.</para>
+          in directory &lt;cartoweb_home&gt;/locale/ and you do not want to use them all in your project.</para>
       </listitem>
     </itemizedlist>
   </sect1>
