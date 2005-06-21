@@ -96,7 +96,7 @@ class I18n {
             }
             if (sizeof($authLang) >= 1 && $authLang[0] != '') {
                 if(!in_array($entry, $authLang))
-              	    continue;
+                    continue;
             }
             $locales[] = $entry;
         }
