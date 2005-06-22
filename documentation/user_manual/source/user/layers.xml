@@ -485,4 +485,54 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
       </itemizedlist>
     </sect2>
   </sect1>
+
+  <sect1 id="user.layers.layer_reorder">
+    <title>Layer reorder plugin</title>
+    <para>
+      Ability to reorder displayed layers could be appreciated by end user.
+      And so, even if your map is well designed
+      with largest features layers on bottom and smallest on top, and/or
+      even with well used transparent properties.
+      The plugin layerReorder <indexterm><primary>layerReorder</primary>
+      </indexterm>, is designed to do so. Layers could be
+      reorder on the displayed stack to improve visibility of one layer.
+    </para>
+    <para>
+      Each layer defined in the mapfile and currently selected in legend menu
+      (and only them) will be displayed in the reorder menu list.
+    </para>
+    <para>
+      To activate the plugin, add it to 
+      <parameter>loadPlugins</parameter> from Both &cartoclient; and 
+      &cartoserver; configuration files: 
+      <filename>client_conf/client.ini</filename> and
+      <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.
+      For instance: <programlisting>loadPlugins = layerReorder</programlisting>
+    </para>
+    <para>
+      If you want to exclude some layers and then not allow them to be
+      reordered, have a look on 
+      <filename>client_conf/layerReorder.ini</filename>. You will be able to
+      exclude some layers and to choose to keep them on bottom (or on top). 
+      To do so, use the following configuration parameters:
+      <itemizedlist>
+        <listitem>
+	  <para>
+	    <indexterm><primary>topLayers</primary></indexterm>
+            topLayers: list of all layerIds to keep on top of the genererated
+	    map (LayerIds must be comma separated).
+	  </para>
+        </listitem>
+        <listitem>
+	  <para>
+	    <indexterm><primary>bottomLayers</primary></indexterm>
+            bottomLayers: same as previous one, but obviously keep these 
+	    layerIds on bottom. Useful for example with a raster background
+	    layer.
+  	  </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+  
 </chapter>
