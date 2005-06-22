@@ -40,7 +40,6 @@ ul#tabnav1 li.active a {
 }
 
 /* use following if you need 2 or more lines of labels */
-/*
 ul#tabnav2 {
     font: bold 11px verdana, arial, sans-serif;
     list-style-type: none;
@@ -68,7 +67,6 @@ ul#tabnav2 li {
 #tabnav2 li:hover {
     background: #fff;
 }
-*/
 
 
 /*  folders container box */
