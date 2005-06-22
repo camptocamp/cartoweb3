@@ -1,5 +1,13 @@
 stateSelected = -1;
 
+/* BEGIN IE Workaround on selection */
+window.document.attachEvent('onselectstart', selectStart);
+function selectStart()
+{
+    return false;
+}
+/* END IE Workaround on selection */
+
 
 function reorderSelect(elt) 
 {
