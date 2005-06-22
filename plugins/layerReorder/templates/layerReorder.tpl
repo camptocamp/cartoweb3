@@ -3,13 +3,13 @@
     <div id="layerReorder_{$key}" class="layerReorder">
       <div id="layerReorderInter_{$key}"
            class="layerReorderInter"
-	   onselectstart="return false"
+           onselectstart="return false"
            onmouseup="javascript:reorderUnselect(this);"
            onmouseover="javascript:reorderInterOver(this);">&nbsp;</div>
 
       <div id="layerReorderLayer_{$key}"
            class="layerReorderLayer"
-	   onselectstart="return false"
+           onselectstart="return false"
            onmouseup="javascript:reorderUnselect(this);"
            onmousedown="javascript:reorderSelect(this);">{$layer}</div> 
     </div>
@@ -17,7 +17,7 @@
   <div id="layerReorder_last" class="layerReorder">
     <div id="layerReorderInter_last"
          class="layerReorderInter"
-	 onselectstart="return false"
+         onselectstart="return false"
          onmouseup="javascript:reorderUnselect(this);"
          onmouseover="javascript:reorderInterOver(this);">&nbsp;</div>
   </div>
