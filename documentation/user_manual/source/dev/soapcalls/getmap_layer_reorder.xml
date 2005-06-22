@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<sect2 id="dev.soapcalls.getmap.layer_reorder">
+  <title>Layer Reorder</title>
+  <para> 
+    The LayerReorder plugin handles layers reorder selection. 
+    Its request object includes list of layerIds rightly ordered 
+    to be displayed on main map. This plugin has no specific result
+    object.
+  </para>
+  <sect3 id="dev.soapcalls.getmap.layer_reorder.request">
+    <title>Layer Reorder Request</title>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="LayersRequest">
+  <all>
+    <element name="className" type="xsd:string"/>
+    <element name="layerIds" type="types:ArrayOfLayerId"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>
+	    className - "LayerReorderRequest" or extended class name if 
+	    project implements an extension
+	  </para>
+        </listitem>
+        <listitem>
+          <para>
+	    layerIds - list of layers to include in map generation 
+	    rightly ordered from top to bottom (see 
+            <xref linkend="dev.soapcalls.structures.simpletypes" /> for a 
+            description of type ArrayOfLayerId).
+	  </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect3>
+</sect2>
