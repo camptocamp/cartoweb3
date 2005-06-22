@@ -61,6 +61,14 @@ class ClientMapInfoCache extends MapInfoCache {
     }
     
     /**
+     * @see MapInfoCache::getMapInfoFile()
+     */
+    protected function getMapInfoFile() {
+        
+        return parent::getMapInfoFile() . '.client';    
+    }
+    
+    /**
      * Checks if MapInfo is up-to-date, reload it from server if it's not
      * @param int timestamp
      * @param string mapId

@@ -81,7 +81,7 @@ abstract class MapInfoCache {
      * @param string mapId
      * @return MapInfo MapInfo
      */
-    private function getMapInfoFile() {
+    protected function getMapInfoFile() {
         
         return $this->config->writablePath . 
                             'mapinfo_cache/mapInfo.' . $this->mapId;    

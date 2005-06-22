@@ -50,6 +50,14 @@ class ServerMapInfoCache extends MapInfoCache {
     }
  
     /**
+     * @see MapInfoCache::getMapInfoFile()
+     */
+    protected function getMapInfoFile() {
+        
+        return parent::getMapInfoFile() . '.server';    
+    }
+ 
+    /**
      * @see MapInfoCache::computeMapInfo()
      */
     protected function isCacheValid() {

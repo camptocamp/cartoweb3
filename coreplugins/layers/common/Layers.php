@@ -500,10 +500,18 @@ class LayersInit extends Serializable {
             throw new CartocommonException('Trying to replace existing layer ' .
             $childLayerId);
 
-        if (!is_null($parentLayer) && !in_array($childLayerId, 
-                                                $parentLayer->children))
-            $parentLayer->children[] = $childLayerId;
-
+        if (!is_null($parentLayer)) {
+            // Adding a class
+            
+            if (count($parentLayer->children) == 0) {
+                $parentLayer->children[0] = new ChildrenSwitch();
+                $parentLayer->children[0]->id = '0';  
+            }
+            if (!in_array($childLayerId, $parentLayer->children[0]->layers)) {
+                $parentLayer->children['0']->layers[] = $childLayerId;
+            }
+        }
+        
         $this->layers[$childLayerId] = $childLayer;
     }
     
