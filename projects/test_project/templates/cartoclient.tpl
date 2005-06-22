@@ -14,10 +14,12 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
+  {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
 
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
+  {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
   <script language="JavaScript" type="text/javascript">
     <!--
@@ -158,6 +160,11 @@ ClientContext:
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
     <div>
+      {if $layerReorder|default:''}
+      <ul id="tabnav2">
+        <li id="label4"><a href="javascript:ontop(4)">{t}Layer Reorder{/t}</a></li>
+      </ul>
+      {/if}
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
         <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
@@ -234,7 +241,16 @@ ClientContext:
     <div id="folder3" class="folder">
       {$exportPdf}
     </div>
+    <!-- end of folder3 -->
     {/if}
+
+    {if $layerReorder|default:''}
+    <div id="folder4" class="folder">
+       {$layerReorder}
+    </div>
+    <!-- end of folder4 -->
+    {/if}
+    
   </div>
 </div>
    {if $auth_active|default:''}
