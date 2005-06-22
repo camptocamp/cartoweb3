@@ -2,6 +2,22 @@
 -- pgdijkstra postgis related functions
 --
 --
+-- Copyright (c) 2005 Sylvain Pasche
+--
+-- This program is free software; you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation; either version 2 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program; if not, write to the Free Software
+-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 
 -- TODO: use spatial index when possible
 -- TODO: make variable names more consistent
@@ -137,12 +153,45 @@ $$
 LANGUAGE 'plpgsql' VOLATILE STRICT; 
 
 
--- TODO: create type geoms !!
 CREATE TYPE geoms AS
 (
   gid int4,
   the_geom geometry
 );
+
+-----------------------------------------------------------------------
+-- Compute the shortest path using edges and vertices table, and return
+--  the result as a set of (gid integer, the_geom gemoetry) records.
+-- This function uses the internal vertices identifiers.
+-----------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION shortest_path_as_geometry_internal_id(geom_table varchar, 
+						     source int4, target int4) 
+						     RETURNS SETOF GEOMS AS
+$$
+DECLARE 
+	r record;
+	path_result record;
+	v_id integer;
+	e_id integer;
+	geom geoms;
+BEGIN
+	
+	FOR path_result IN EXECUTE 'SELECT vertex_id, edge_id FROM shortest_path(''SELECT id, source, target, cost FROM ' || 
+		quote_ident(geom_table) || '_edges '', ' || quote_literal(source) || ' , ' || quote_literal(target) || ' , false, false) ' LOOP
+
+		v_id = path_result.vertex_id;
+		e_id = path_result.edge_id;
+
+		FOR r IN EXECUTE 'SELECT gid, the_geom FROM ' || quote_ident(geom_table) || '  WHERE edge_id = ' || quote_literal(e_id) LOOP
+			geom.gid := r.gid;
+			geom.the_geom := r.the_geom;
+			RETURN NEXT geom;
+		END LOOP;
+	END LOOP;
+	RETURN;
+END;
+$$
+LANGUAGE 'plpgsql' VOLATILE STRICT; 
 
 -----------------------------------------------------------------------
 -- Compute the shortest path using edges and vertices table, and return
@@ -174,18 +223,9 @@ BEGIN
 		RAISE EXCEPTION 'Can''t find target edge';
 	END IF;
 	
-	FOR path_result IN EXECUTE 'SELECT vertex_id, edge_id FROM shortest_path(''SELECT id, source, target, cost FROM ' || 
-		quote_ident(geom_table) || '_edges '', ' || quote_literal(source) || ' , ' || quote_literal(target) || ' , false, false) ' LOOP
-
-		v_id = path_result.vertex_id;
-		e_id = path_result.edge_id;
-
-		FOR r IN EXECUTE 'SELECT gid, the_geom FROM ' || quote_ident(geom_table) || '  WHERE edge_id = ' || quote_literal(e_id) LOOP
-			geom.gid := r.gid;
-			geom.the_geom := r.the_geom;
-			RETURN NEXT geom;
+	FOR geom IN SELECT * FROM shortest_path_as_geometry_internal_id(geom_table, source, target) LOOP
+		RETURN NEXT geom;
 		END LOOP;
-	END LOOP;
 	RETURN;
 END;
 $$
