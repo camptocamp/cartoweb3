@@ -83,7 +83,7 @@ function retrieveOrder()
     var layers = xGetElementsByClassName('layerReorder', container, 'div');
    
     var OrderedIds = new Array();
-    for(i=0 ; i < layers.length ; i++)
+    for(i=0 ; i < layers.length - 1 ; i++)
     	OrderedIds.push(layers[i].id.substr(13));
 
     document.carto_form.layersReorder.value = OrderedIds.join(",");
