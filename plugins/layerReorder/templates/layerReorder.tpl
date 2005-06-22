@@ -1,8 +1,4 @@
 <div id="reorderContainer">
-<!-- 
-     put onselectstart="return false" to fix IE inverse video on each div
-     (it will broke XHTML validation either... 
--->
   {foreach from=$layerReorder key=key item=layer}
     <div id="layerReorder_{$key}" class="layerReorder">
       <div id="layerReorderInter_{$key}"
