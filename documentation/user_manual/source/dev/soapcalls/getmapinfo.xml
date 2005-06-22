@@ -410,4 +410,42 @@
       </itemizedlist>
     </para>
   </sect2>
+  <sect2 id="dev.soapcalls.getmapinfo.layer_reorder">
+    <title>Layer Reorder</title>
+    <para>This includes configuration specific to LayerReorder plugin.</para>
+    <para>
+      <programlisting><![CDATA[
+<complexType name="LayerReorderInit">
+  <all>
+    <element name="layers" type="types:ArrayOfLayerInit"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+	  <para>
+            array - layers are ordered from top to bottom of
+	    the displayed stack, see below to LayerInit structure overview.
+	  </para>
+	</listitem>
+      </itemizedlist>
+      <programlisting><![CDATA[
+<complexType name="LayerInit">
+  <all>
+    <element name="layerId" type="xsd:string"/>
+    <element name="layerLabel" type="xsd:string"/>
+  </all>
+</complexType>]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para>layerId - Layer Id</para>
+        </listitem>
+        <listitem>
+          <para>
+	    layerLabel - label to be displayed. This label is not yet 
+	    translated using internationalization
+	  </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect2>
 </sect1>
