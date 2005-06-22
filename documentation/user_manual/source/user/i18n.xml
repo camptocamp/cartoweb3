@@ -91,6 +91,11 @@ fr    fr_CH.ISO-8859-1
             <filename>client-&lt;project_name&gt;.po</filename></para>
         </listitem>
       </itemizedlist>
+      <para>It is possible to specify for which project you want to generate the .po file. 
+      Simply add the project name as a parameter when launching the scripts client2pot and server2pot:
+        <screen><![CDATA[server2pot.php myprojectname]]></screen>
+        If you do not specify a project name, the .po files will be generated for all projects.
+      </para>
     </sect2>
     <sect2 id="user.i18n.translations.translating">
       <title>Translating</title>
