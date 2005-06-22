@@ -1,0 +1,4 @@
+#reorderContainer { -moz-user-select: none; cursor: move;}
+.layerReorderInterSelect { background-color: #ccc; }
+.layerReorderInter { background-color: #fff; width:100%; }
+.layerReorder { width: 100%; }
