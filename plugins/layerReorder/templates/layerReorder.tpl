@@ -20,7 +20,6 @@
 	 onselectstart="return false"
          onmouseup="javascript:reorderUnselect(this);"
          onmouseover="javascript:reorderInterOver(this);">&nbsp;</div>
-     </div>	   
   </div>
 </div>
 
