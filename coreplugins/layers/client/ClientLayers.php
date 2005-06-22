@@ -1326,6 +1326,13 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * @return array layersInit
+     */
+    public function getLayersInit() {
+        return $this->layersInit;
+    }
+
+    /**
      * @see Exportable::adjustExportMapRequest()
      */
     public function adjustExportMapRequest(ExportConfiguration $configuration,
