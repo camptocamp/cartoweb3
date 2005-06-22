@@ -14,6 +14,8 @@
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="getmap_layers.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="getmap_layer_reorder.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="getmap_location.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="getmap_query.xml" 
