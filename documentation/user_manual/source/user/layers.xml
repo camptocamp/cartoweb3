@@ -517,19 +517,19 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
       To do so, use the following configuration parameters:
       <itemizedlist>
         <listitem>
-	  <para>
-	    <indexterm><primary>topLayers</primary></indexterm>
+          <para>
+            <indexterm><primary>topLayers</primary></indexterm>
             topLayers: list of all layerIds to keep on top of the genererated
-	    map (LayerIds must be comma separated).
-	  </para>
+            map (LayerIds must be comma separated).
+          </para>
         </listitem>
         <listitem>
-	  <para>
-	    <indexterm><primary>bottomLayers</primary></indexterm>
+          <para>
+            <indexterm><primary>bottomLayers</primary></indexterm>
             bottomLayers: same as previous one, but obviously keep these 
-	    layerIds on bottom. Useful for example with a raster background
-	    layer.
-  	  </para>
+            layerIds on bottom. Useful for example with a raster background
+            layer.
+          </para>
         </listitem>
       </itemizedlist>
     </para>

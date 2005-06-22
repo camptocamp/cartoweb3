@@ -25,17 +25,17 @@
       <itemizedlist>
         <listitem>
           <para>
-	    className - "LayerReorderRequest" or extended class name if 
-	    project implements an extension
-	  </para>
+            className - "LayerReorderRequest" or extended class name if 
+            project implements an extension
+          </para>
         </listitem>
         <listitem>
           <para>
-	    layerIds - list of layers to include in map generation 
-	    rightly ordered from top to bottom (see 
+            layerIds - list of layers to include in map generation 
+            rightly ordered from top to bottom (see 
             <xref linkend="dev.soapcalls.structures.simpletypes" /> for a 
             description of type ArrayOfLayerId).
-	  </para>
+          </para>
         </listitem>
       </itemizedlist>
     </para>

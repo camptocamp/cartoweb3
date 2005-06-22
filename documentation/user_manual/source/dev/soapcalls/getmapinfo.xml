@@ -422,11 +422,11 @@
 </complexType>]]></programlisting>
       <itemizedlist>
         <listitem>
-	  <para>
+          <para>
             array - layers are ordered from top to bottom of
-	    the displayed stack, see below to LayerInit structure overview.
-	  </para>
-	</listitem>
+            the displayed stack, see below to LayerInit structure overview.
+          </para>
+        </listitem>
       </itemizedlist>
       <programlisting><![CDATA[
 <complexType name="LayerInit">
@@ -441,9 +441,9 @@
         </listitem>
         <listitem>
           <para>
-	    layerLabel - label to be displayed. This label is not yet 
-	    translated using internationalization
-	  </para>
+            layerLabel - label to be displayed. This label is not yet 
+            translated using internationalization
+          </para>
         </listitem>
       </itemizedlist>
     </para>
