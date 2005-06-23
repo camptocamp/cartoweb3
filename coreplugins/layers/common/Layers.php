@@ -199,8 +199,8 @@ class LayerContainer extends LayerBase {
                 $switch = $children[0]; 
             } else if (isset($this->children[$currentSwitch])) {
                 $switch = $this->children[$currentSwitch];
-            } else if (isset($this->children['default'])) {
-                $switch = $this->children['default'];
+            } else if (isset($this->children[ChildrenSwitch::DEFAULT_SWITCH])) {
+                $switch = $this->children[ChildrenSwitch::DEFAULT_SWITCH];
             } else {
                 $this->layerIds = array();
                 return $this->layerIds;
