@@ -1,7 +1,7 @@
 stateSelected = -1;
 
-/* BEGIN IE Workaround on selection */
-window.document.attachEvent('onselectstart', selectStart);
+/* BEGIN IE Workaround on selection (uncomment line below to do so) */
+//window.document.attachEvent('onselectstart', selectStart);
 function selectStart()
 {
     return false;
