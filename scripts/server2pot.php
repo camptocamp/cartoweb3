@@ -16,7 +16,7 @@
  * Home dirs
  */
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOSERVER_PODIR', CARTOSERVER_HOME . 'po/');
+define('CARTOSERVER_PODIR', 'po/');
 
 require_once('./pot_tools.php');
 
@@ -108,7 +108,7 @@ function parseMap($project, $mapId, &$texts) {
     
     if (!file_exists($mapFile)) {
         // Trying generated mapfile
-        $mapFile = $mapFileDir . $mapId . '.all.map';
+        $mapFile = $mapFileDir . 'auto.' . $mapId . '.all.map';
     }
     if (!file_exists($mapFile)) {            
         print "\nWarning: Map file $mapFile not found.\n";
@@ -177,12 +177,16 @@ function getMapIds($project) {
 function getTranslatedMapIdPo($project, $mapId) {
     
     $files = array();
-    $d = dir(CARTOSERVER_PODIR);
+    $dir = CARTOSERVER_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+    $d = dir($dir . CARTOSERVER_PODIR);
 
     $pattern = "server\\-$project\\.$mapId\\.(.*)\\.po";          
  
     while (false !== ($entry = $d->read())) {
-        if (!is_dir(CARTOSERVER_PODIR . $entry)) {
+        if (!is_dir($dir . CARTOSERVER_PODIR . $entry)) {
             if (ereg($pattern, $entry)) {
                 $files[] = $entry;
             };
@@ -199,7 +203,15 @@ $projects[] = ProjectHandler::DEFAULT_PROJECT;
 foreach ($projects as $project) {
 
     $fileName = 'server-' . $project . '.po';
-    $file = CARTOSERVER_PODIR . $fileName;
+    $dir = CARTOSERVER_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+    if (!is_dir($dir . CARTOCLIENT_PODIR)) {
+        mkdir($dir . CARTOCLIENT_PODIR);
+    }
+
+    $file = $dir . CARTOSERVER_PODIR . $fileName;
 
     print "Creating new template $fileName ";
         
@@ -223,7 +235,7 @@ foreach ($projects as $project) {
 
     print "Adding strings from PHP code for project $project ";
     addPhpStrings('server', CARTOSERVER_HOME,
-                  CARTOSERVER_PODIR . $fileName, $project);
+                  $dir . CARTOSERVER_PODIR . $fileName, $project);
     print ".. done.\n";        
 
     $poFiles = getTranslatedPo('server', $project);
@@ -231,8 +243,8 @@ foreach ($projects as $project) {
     foreach ($poFiles as $poFile) {
         
         print "Merging new template into $poFile ";
-        exec("msgmerge -o " . CARTOSERVER_PODIR . "$poFile "
-             . CARTOSERVER_PODIR . "$poFile " . CARTOSERVER_PODIR . "$fileName");
+        exec("msgmerge -o $dir" . CARTOSERVER_PODIR . "$poFile $dir"
+             . CARTOSERVER_PODIR . "$poFile $dir" . CARTOSERVER_PODIR . "$fileName");
     }
 
     $mapIds = getMapIds($project);
@@ -241,7 +253,7 @@ foreach ($projects as $project) {
     
         $texts = array();
         $fileName = 'server-' . $project . '.' . $mapId . '.po';
-        $file = CARTOSERVER_PODIR . $fileName;
+        $file = $dir . CARTOSERVER_PODIR . $fileName;
 
         print "Creating new template $fileName ";
         
@@ -280,8 +292,8 @@ foreach ($projects as $project) {
         foreach ($poFiles as $poFile) {
         
             print "Merging new template into $poFile ";
-            exec("msgmerge -o " . CARTOSERVER_PODIR . "$poFile "
-                 . CARTOSERVER_PODIR . "$poFile " . CARTOSERVER_PODIR . "$fileName");
+            exec("msgmerge -o $dir" . CARTOSERVER_PODIR . "$poFile $dir"
+                 . CARTOSERVER_PODIR . "$poFile $dir" . CARTOSERVER_PODIR . "$fileName");
         }
     }
 }

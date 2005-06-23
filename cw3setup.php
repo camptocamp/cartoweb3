@@ -416,6 +416,16 @@ function setupLinks() {
         link_or_copy('../../../../server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/default/'.$mapfolder);
     }
 
+    // Create symlinks to po directories
+    if (!is_dir('htdocs/po')) mkdir('htdocs/po');
+    
+    $pList = getProjects('projects');
+    foreach($pList as $project) {
+        link_or_copy('../../projects/'.$project.'/po/', 'htdocs/po/'.$project);
+    }
+    // special case for default project
+    link_or_copy('../../po/', 'htdocs/po/default');    
+
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
         $pList = getProjects($dir);

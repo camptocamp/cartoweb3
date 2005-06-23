@@ -3,36 +3,43 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-06-09 10:51+0200\n"
+"POT-Creation-Date: 2005-06-21 09:09+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr ""
 
 # exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr ""
 
 # exportPdf.ini:formats.A3full.label
+#: exportPdf.ini:formats.A3full.label
 msgid "A3full"
 msgstr ""
 
 # images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "430x300"
 msgstr ""
 
 # images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "620x420"
 msgstr ""
 
 # images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "860x600"
 msgstr ""
 
 # images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "1240x840"
 msgstr ""
 
@@ -149,6 +156,14 @@ msgstr ""
 msgid "Download CSV"
 msgstr "Télécharger CSV"
 
+#: projects/demo/plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr "Connexion"
+
+#: projects/demo/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "Déconnexion"
+
 #: projects/demo/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
 msgstr "Menu d'authentification"
@@ -180,14 +195,6 @@ msgstr "Validation"
 #: projects/demo/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
 msgstr "Cliquer ici pour revenir sur la carte"
-
-#: projects/demo/plugins/auth/templates/auth.tpl
-msgid "login"
-msgstr "Connexion"
-
-#: projects/demo/plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr "Déconnexion"
 
 #: projects/demo/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"

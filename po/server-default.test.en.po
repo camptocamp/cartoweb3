@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-02-16 17:30+0100\n"
+"POT-Creation-Date: 2005-06-23 11:48+0200\n"
 "PO-Revision-Date: 2005-02-04 14:14+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -11,57 +11,79 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# location.ini:scales.0.label
-msgid "1/2"
-msgstr "1/2"
+#: layers.ini:switches.switch1.label
+msgid "Switch 1"
+msgstr ""
 
-# location.ini:scales.1.label
-msgid "1/5"
-msgstr "1/5"
-
-# location.ini:scales.2.label
-msgid "1/10"
-msgstr "1/10"
-
-# location.ini:scales.3.label
-msgid "1/12"
-msgstr "1/12"
-
-# location.ini:scales.4.label
-msgid "1/15"
-msgstr "1/15"
-
-# location.ini:scales.5.label
-msgid "1/30"
-msgstr "1/30"
-
-# location.ini:shortcuts.0.label
-msgid "Line"
-msgstr "Line"
-
-# location.ini:shortcuts.1.label
-msgid "Point"
-msgstr "Point"
+#: layers.ini:switches.switch2.label
+msgid "Switch 2"
+msgstr ""
 
 # test.ini:mapInfo.layers.polygon.label
-msgid "polygon"
+#: layers.ini:layers.polygon.label
+#, fuzzy
+msgid "pol�gon"
 msgstr "polygon"
 
 # test.ini:mapInfo.layers.linepoint.label
+#: layers.ini:layers.linepoint.label
 msgid "linePoint"
 msgstr "linePoint"
 
 # test.ini:mapInfo.layers.line.label
+#: layers.ini:layers.line.label
 msgid "line"
 msgstr "line"
 
 # test.ini:mapInfo.layers.point.label
+#: layers.ini:layers.point.label
 msgid "point"
 msgstr "point"
 
 # test.ini:mapInfo.layers.grids.label
+#: layers.ini:layers.grids.label
 msgid "grids"
 msgstr "grids"
+
+# location.ini:scales.0.label
+#: location.ini:scales.0.label
+msgid "1/2"
+msgstr "1/2"
+
+# location.ini:scales.1.label
+#: location.ini:scales.1.label
+msgid "1/5"
+msgstr "1/5"
+
+# location.ini:scales.2.label
+#: location.ini:scales.2.label
+msgid "1/10"
+msgstr "1/10"
+
+# location.ini:scales.3.label
+#: location.ini:scales.3.label
+msgid "1/12"
+msgstr "1/12"
+
+# location.ini:scales.4.label
+#: location.ini:scales.4.label
+msgid "1/15"
+msgstr "1/15"
+
+# location.ini:scales.5.label
+#: location.ini:scales.5.label
+msgid "1/30"
+msgstr "1/30"
+
+# location.ini:shortcuts.0.label
+#: location.ini:shortcuts.0.label
+msgid "Line"
+msgstr "Line"
+
+# location.ini:shortcuts.1.label
+#: location.ini:shortcuts.1.label
+msgid "Point"
+msgstr "Point"
 
 #: test.map
 msgid "Polygon class 1"
@@ -103,3 +125,12 @@ msgstr "grid_class"
 #: test.map
 msgid "hilight"
 msgstr "hilight"
+
+# test.ini:mapInfo.layers.point.label
+#, fuzzy
+#~ msgid "more_points"
+#~ msgstr "point"
+
+#, fuzzy
+#~ msgid "grid_classhilight"
+#~ msgstr "grid_class"

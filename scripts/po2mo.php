@@ -14,7 +14,7 @@
  * Cartoclient home dir
  */
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
+define('CARTOCLIENT_PODIR', 'po/');
 define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');
 
 require_once('./pot_tools.php');
@@ -32,7 +32,12 @@ require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
  * @return array
  */
 function getLocales($project) {
-    $d = dir(CARTOCLIENT_PODIR);
+
+    $dir = CARTOCLIENT_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+    $d = dir($dir . CARTOCLIENT_PODIR);
     $locales = array();
     $locale = '';
        
@@ -97,7 +102,7 @@ function getMapPo($project, $mapId = null) {
             print "Warning: Project $project base URL not set in client.ini\n";
             return false;
         }
-        $url .= 'po/';
+        $url .= 'po/' . $project . '/';
 
         $locales = getLocales($project);
 
@@ -121,7 +126,12 @@ function getMapPo($project, $mapId = null) {
                 print "\nWarning: Couldn't retrieve server file.\n";
                 continue;
             } else {
-                $file = CARTOCLIENT_PODIR . $fileName . '.' . $locale;
+                $dir = CARTOCLIENT_HOME;
+                if ($project != ProjectHandler::DEFAULT_PROJECT) {
+                    $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+                }
+            
+                $file = $dir . CARTOCLIENT_PODIR . $fileName . '.' . $locale;
                 $fh = fopen($file . '.po', 'w');
                 fwrite($fh, $contents);
                 fclose($fh);                                
@@ -144,17 +154,25 @@ function getMapPo($project, $mapId = null) {
  * @param string
  * @return boolean true if OK
  */
-function merge($project, $file1, $file2, $output) {
+function merge($project, $file1, $file2, $file2Project, $output) {
+    $dir = CARTOCLIENT_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
 
     $locales = getLocales($project);
 
     foreach ($locales as $locale) {
         $file1Name = $file1 . '.' . $locale . '.po';
-        $file2Name = $file2 . '.' . $locale . '.po';
+        $file2Name = $file2 . '-' . $file2Project . '.' . $locale . '.po';
         $fileOutputName = $output . '.' . $locale . '.po';
-        $file1path = CARTOCLIENT_PODIR . $file1Name;
-        $file2path = CARTOCLIENT_PODIR . $file2Name;
-        $fileOutput = CARTOCLIENT_PODIR . $fileOutputName;
+        $file1path = $dir . CARTOCLIENT_PODIR . $file1Name;
+        if ($file2Project == ProjectHandler::DEFAULT_PROJECT) {
+            $file2path = CARTOCLIENT_HOME . CARTOCLIENT_PODIR . $file2Name;
+        } else {
+            $file2path = $dir . CARTOCLIENT_PODIR . $file2Name;
+        }
+        $fileOutput = $dir . CARTOCLIENT_PODIR . $fileOutputName;
         
         if (!file_exists($file1path)) {
             print "Warning: Project " . $project . 
@@ -172,39 +190,6 @@ function merge($project, $file1, $file2, $output) {
         exec("msgcat --to-code=" . getCharset('client', $project)
              . " --use-first --output=$fileOutput $file1path $file2path");
         
-        /*
-        $file1Lines = file($file1path);
-        $file2Lines = file($file2path);
-
-        $fhOut = fopen($fileOutput, 'w');
-        
-        $msgIds = array();
-        foreach ($file1Lines as $line) {
-            fwrite($fhOut, $line);
-            if (ereg('msgid \"(.*)\"', $line, $regs)) {
-                $msgIds[] = $regs[1];
-            }
-        }
-        
-        $skip = false;
-        foreach ($file2Lines as $line) {
-            if (trim($line) == 'msgid ""') {
-                $skip = true;
-            } else if (ereg('msgid \"(.*)\"', $line, $regs)) {
-                if (in_array($regs[1], $msgIds)) {
-                    $skip = true;
-                }
-            }
-            if (trim($line) == '') {
-                $skip = false;
-            }
-            if (!$skip) {
-                fwrite($fhOut, $line);
-            }
-        }
-        
-        fclose($fhOut);
-        */    
         print " .. done.\n";    
     }
     return true;
@@ -218,10 +203,15 @@ function merge($project, $file1, $file2, $output) {
  */
 function compile($project, $fileName) {
     
+    $dir = CARTOCLIENT_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+
     $locales = getLocales($project);
     
     foreach ($locales as $locale) {
-        $file = CARTOCLIENT_PODIR . $fileName . '.' . $locale . '.po';
+        $file = $dir . CARTOCLIENT_PODIR . $fileName . '.' . $locale . '.po';
         
         if (file_exists($file)) {
             if (!is_dir(CARTOCLIENT_LOCALEDIR . $locale)) {
@@ -289,19 +279,19 @@ foreach ($projects as $project) {
             continue;
         }
         $finalFile = $project . '.' . $mapId;
-        if (!merge($project, $file, 'server-' . $project, $finalFile)) {
+        if (!merge($project, $file, 'server', $project, $finalFile)) {
             continue;
         }
-        if (!merge($project, $finalFile, 'client-' . $project, $finalFile)) {
+        if (!merge($project, $finalFile, 'client', $project, $finalFile)) {
             continue;
         }
         if ($project != ProjectHandler::DEFAULT_PROJECT) {
             if (!merge($project, $finalFile,
-                       'server-' . ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
+                       'server', ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
                 continue;
             }
             if (!merge($project, $finalFile,
-                       'client-' . ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
+                       'client', ProjectHandler::DEFAULT_PROJECT, $finalFile)) {
                 continue;
             }
         }

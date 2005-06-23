@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-04-12 10:10+0200\n"
+"POT-Creation-Date: 2005-06-21 09:09+0200\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -12,26 +12,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # exportPdf.ini:formats.a4.label
+#: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
 
 # exportPdf.ini:formats.a3.label
+#: exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr "A3"
 
 # images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "small"
 msgstr "small"
 
 # images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "normal"
 msgstr "normal"
 
 # images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "big"
 msgstr "big"
 
 # images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "giant"
 msgstr "giant"
 
@@ -70,6 +76,10 @@ msgstr "Zoom in to see layer"
 #: coreplugins/layers/templates/layers.tpl
 msgid "Zoom out to see layer"
 msgstr "Zoom out to see layer"
+
+#: coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr ""
 
 #: coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on"
@@ -140,7 +150,7 @@ msgstr ""
 msgid "query_clear"
 msgstr ""
 
-#: coreplugins/tables/templates/tables.tpl
+#: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
 msgid "Id"
 msgstr "Id"
 
@@ -259,7 +269,107 @@ msgstr "Mask"
 msgid "Total area"
 msgstr "Total area"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
+#: plugins/routing/templates/routing.tpl
+msgid "Find path"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "from"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "to"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "options"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "routing_compute"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Title"
+msgstr "Title:"
+
+#: plugins/views/templates/views.tpl
+msgid "or"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Edit view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "View #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "new view"
+msgstr "Overview"
+
+#: plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Show view"
+msgstr "Show keymap"
+
+#: plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save view"
+msgstr "Overview"
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr ""
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "Collapse keymap"
 msgstr "Collapse keymap"
 
@@ -295,9 +405,17 @@ msgstr "Themes"
 msgid "PDF"
 msgstr "PDF"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl templates/mainmap.old.tpl
+#: templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "keymap_alt"
 msgstr "keymap_alt"
+
+#: templates/cartoclient.tpl
+msgid "Views:"
+msgstr ""
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
@@ -312,7 +430,8 @@ msgid "Coords (m): "
 msgstr "Coords (m): "
 
 #: templates/dhtmlcode.tpl
-msgid "Overlapping polygons fobidden"
+#, fuzzy
+msgid "Overlapping polygons forbidden"
 msgstr "Overlapping polygons fobidden"
 
 #: templates/dhtmlcode.tpl
@@ -327,7 +446,11 @@ msgstr " currently drawn"
 msgid "Main map"
 msgstr "Main map"
 
-#: templates/mainmap.tpl templates/mainmap.old.tpl
+#: templates/mainmap.tpl
+msgid "Current scale:"
+msgstr ""
+
+#: templates/mainmap.tpl
 msgid "Loading message"
 msgstr "Loading..."
 
@@ -335,17 +458,145 @@ msgstr "Loading..."
 msgid "Unauthorized"
 msgstr ""
 
-#: /home/camptocamp/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:299
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:149
+msgid "Action halted: invalid view Id"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:173
+msgid "You are not allowed to perform"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:174
+msgid " this action"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:521
+#, php-format
+msgid "Loaded view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:527
+#, php-format
+msgid "New view recorded with id %d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:532
+#, php-format
+msgid "View #%d updated"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:537
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:917
+#, php-format
+msgid "View #%d deleted"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:805
+#, php-format
+msgid "Failed to open view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:830
+#, php-format
+msgid "Unable to read view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:842
+#, php-format
+msgid "Unable to write view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:920
+#, php-format
+msgid "Failed deleting view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:997
+msgid "Unable to open ViewDbContainer: "
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:999
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1067
+msgid "Service failed."
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1065
+msgid "Unable to process view."
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1076
+#, php-format
+msgid "No result for view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1100
+#, php-format
+msgid "More than one view affected while editing view #%d"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1197
+msgid "Unable to build views catalog"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/images/client/ClientImages.php:310
 msgid "label"
 msgstr ""
 
-#: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1027
+#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
+msgid "Default"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:395
+msgid "registration"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:405
+#, php-format
+msgid "new user mail %s %s %s %s %s %s %s %s\n"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:418
+#, php-format
+msgid "new user mail html %s %s %s %s %s %s %s %s %s %s\n"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:454
+msgid "personal info"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:458
+#, php-format
+msgid "user info uniqid mail %s %s %s %s %s\n"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:468
+#, php-format
+msgid "user info mail %s %s %s %s\n"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
 msgid "Click here to display PDF file"
 msgstr "Click here to display PDF file"
 
-#: /home/camptocamp/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:792
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
 msgstr "Page"
+
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/routing/client/ClientRouting.php:171
+msgid "fastest"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/routing/client/ClientRouting.php:172
+msgid "shortest"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/views/client/ClientViews.php:272
+msgid "Views main controller is OFF!!"
+msgstr ""
+
+#: /home/yves/eclipse/workspace/cartoweb3/plugins/views/client/ClientViews.php:276
+msgid "Memorizing view to update"
+msgstr ""
 
 #, fuzzy
 #~ msgid "Clear selection"

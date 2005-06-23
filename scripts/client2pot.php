@@ -19,7 +19,7 @@
  * Home dirs
  */ 
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCLIENT_PODIR', CARTOCLIENT_HOME . 'po/');
+define('CARTOCLIENT_PODIR', 'po/');
 
 require_once('./pot_tools.php');
 
@@ -179,6 +179,10 @@ foreach ($projects as $project) {
     }
     if (is_dir($dir)) {
     
+        if (!is_dir($dir . CARTOCLIENT_PODIR)) {
+            mkdir($dir . CARTOCLIENT_PODIR);
+        }
+    
         // arrays with all translations found
         $texts = array();
         $plurals = array();
@@ -187,7 +191,7 @@ foreach ($projects as $project) {
 
         print "Creating new template $fileName ";
 
-        $fh = fopen(CARTOCLIENT_PODIR . $fileName, 'w');
+        $fh = fopen($dir . CARTOCLIENT_PODIR . $fileName, 'w');
     
         // POT header
         fwrite($fh, '# CartoWeb 3 translation template ' . "\n");
@@ -225,7 +229,7 @@ foreach ($projects as $project) {
 
         print "Adding strings from PHP code for project $project ";
         addPhpStrings('client', CARTOCLIENT_HOME,
-                      CARTOCLIENT_PODIR . $fileName, $project);
+                      $dir . CARTOCLIENT_PODIR . $fileName, $project);
         print ".. done.\n";
              
         $poFiles = getTranslatedPo('client', $project);
@@ -233,7 +237,7 @@ foreach ($projects as $project) {
         foreach ($poFiles as $poFile) {
         
             print "Merging new template into $poFile ";
-            exec("msgmerge -o " . CARTOCLIENT_PODIR . "$poFile  "
+            exec("msgmerge -o $dir" . CARTOCLIENT_PODIR . "$poFile $dir"
                  . CARTOCLIENT_PODIR . "$poFile " . CARTOCLIENT_PODIR . "$fileName");
         }                
     }

@@ -9,7 +9,7 @@
  * Home dirs
  */ 
 define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_PODIR', CARTOCOMMON_HOME . 'po/');
+define('CARTOCOMMON_PODIR', 'po/');
 
 /**
  * Encoding class for charset
@@ -101,27 +101,31 @@ $exclude_dirs = array('pear_base', 'include', 'www-data',
 function addPhpStrings($type, $path, $poTemplate, $project) {
     global $exclude_dirs;
     
+    $dir = CARTOCOMMON_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
     if (is_dir($path)) {
         $d = dir($path);
         while (false !== ($entry = $d->read())) {
             if (!is_dir($path . $entry) &&
                 substr($entry, -4) == '.php') {
                 exec("xgettext --from-code=" . getCharset($type, $project)
-                     . "--language=PHP --keyword=gt --output="
+                     . "--language=PHP --keyword=gt --output=$dir"
                      . CARTOCOMMON_PODIR . "_tmp_xgettext.po "
                      . $path . $entry);
-                if (file_exists(CARTOCOMMON_PODIR . "_tmp_xgettext.po")) {
-                    $filecontents = file_get_contents(CARTOCOMMON_PODIR
+                if (file_exists($dir . CARTOCOMMON_PODIR . "_tmp_xgettext.po")) {
+                    $filecontents = file_get_contents($dir . CARTOCOMMON_PODIR
                                                       . "_tmp_xgettext.po");
                     $filecontents = str_replace('CHARSET', getCharset($type, $project),
                                                 $filecontents);
-                    file_put_contents(CARTOCOMMON_PODIR
+                    file_put_contents($dir . CARTOCOMMON_PODIR
                                       . "_tmp_xgettext.po", $filecontents);
                     exec("msgcat --to-code=" . getCharset($type, $project)
-                         . " --use-first --output=$poTemplate $poTemplate "
+                         . " --use-first --output=$poTemplate $poTemplate $dir"
                          . CARTOCOMMON_PODIR . "_tmp_xgettext.po");
                     
-                    unlink(CARTOCOMMON_PODIR . "_tmp_xgettext.po");
+                    unlink($dir . CARTOCOMMON_PODIR . "_tmp_xgettext.po");
                 }
             } else if (is_dir($path . $entry)
                        && !in_array($entry, $exclude_dirs)
@@ -153,8 +157,11 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
 function getTranslatedPo($type, $project) {
     
     $files = array();
-    $dir = CARTOCOMMON_HOME . 'po/';
-    $d = dir($dir);
+    $dir = CARTOCOMMON_HOME;
+    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+    $d = dir($dir . CARTOCOMMON_PODIR);
 
     $pattern = "$type\\-$project\\.(.*)\\.po";
  
