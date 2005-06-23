@@ -37,6 +37,9 @@ function getLocales($project) {
     if ($project != ProjectHandler::DEFAULT_PROJECT) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
+    if (!is_dir($dir . CARTOCLIENT_PODIR)) {
+        return array();
+    }
     $d = dir($dir . CARTOCLIENT_PODIR);
     $locales = array();
     $locale = '';
