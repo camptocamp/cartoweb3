@@ -240,10 +240,11 @@ class LayerContainer extends LayerBase {
             if (is_string($struct->children)) {
                 // Backward compatibility
                 $childrenSwitch = new ChildrenSwitch();
-                $childrenSwitch->id = "default";
+                $childrenSwitch->id = ChildrenSwitch::DEFAULT_SWITCH;
                 $childrenSwitch->layers = self::unserializeArray($struct,
                                                                  'children');
-                $this->children = array("default" => $childrenSwitch);
+                $this->children = array(ChildrenSwitch::DEFAULT_SWITCH
+                                        => $childrenSwitch);
             } else {
                 $this->children = self::unserializeObjectMap($struct, 'children',
                                                              'ChildrenSwitch');
