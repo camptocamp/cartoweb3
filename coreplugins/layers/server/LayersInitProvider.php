@@ -326,7 +326,9 @@ class LayersInitProvider implements InitProvider {
                 if ($layer instanceof Layer && !($layer instanceof LayerClass))
                     $layerIds[] = $layer->id;                
             }
-            $rootLayer->children = $layerIds;
+            $childSwitch = new ChildrenSwitch();
+            $childSwitch->layers = $layerIds;
+            $rootLayer->children = array($childSwitch);
             $this->layersInit->addChildLayerBase(null, $rootLayer);
         }
     }
