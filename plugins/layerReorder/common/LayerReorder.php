@@ -41,7 +41,7 @@ class LayerReorderInit extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->layers = self::unserializeArray($struct, 'layers');
+        $this->layers = self::unserializeObjectMap($struct, 'layers', 'LayerInit');
     }
 }
 
@@ -63,5 +63,28 @@ class LayerReorderRequest extends Serializable {
     }
 }
 
+/**
+ * @package Plugins
+ */
+class LayerInit extends Serializable {
+    
+    /**
+     * @var string Layer Id
+     */
+    public $id;
+
+    /**
+     * @var string Layer label
+     */
+    public $label;
+
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->id = self::unserializeValue($struct, 'id'); 
+        $this->label = self::unserializeValue($struct, 'label');
+    }
+}
 
 ?>

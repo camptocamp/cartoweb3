@@ -64,8 +64,11 @@ class ServerLayerReorder extends ClientResponderAdapter
         $layers = array();
         foreach ($layersOrder as $layer) {
             $id = $msMapObj->getLayer($layer)->name;
-            $layers[$layer]['id'] = $id;
-            $layers[$layer]['label'] = $labels[$id];
+
+            $layerInit = new LayerInit();
+            $layerInit->id = $id;
+            $layerInit->label = $labels[$id];
+            $layers[] = $layerInit;
         }
 
         $layerReorderInit = new LayerReorderInit();

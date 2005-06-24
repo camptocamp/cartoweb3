@@ -21,4 +21,5 @@
 </div>
 
 <input type="hidden" name="layersReorder" value="" />
-<input type="submit" onclick="javascript:retrieveOrder();" value="valider" />
+<input type="submit" onclick="javascript:retrieveOrder();" 
+       value="{t}Submit{/t}" class="form_button" />

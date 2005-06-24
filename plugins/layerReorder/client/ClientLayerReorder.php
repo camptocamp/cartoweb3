@@ -27,11 +27,17 @@
  */
 class LayerReorderState {
 
-    /**                    
-     * Array of CW label and MapServer id for each layer available on Map File
+    /**
+     * Initial Ms Layers Ids array
      * @var array
      */
-    public $layers;
+    public $layerIds;
+
+    /**
+     * Initial Layers Labels array sorted
+     * @var array
+     */
+    public $layerLabels;
 
     /**
      * Array of all MapServer layers id ordered
@@ -67,11 +73,16 @@ class ClientLayerReorder extends ClientPlugin
     private $orderedMsLayerIds;
 
     /**
-     * Initial Ms Layers array, provided by Cartoserver, with sorted MapServer
-     * ids and Cw labels
+     * Initial Ms Layers Ids array
      * @var array
      */
-    private $layers;
+    private $layerIds;
+
+    /**
+     * Initial Layers Labels array sorted
+     * @var array
+     */
+    private $layerLabels;
 
     /**
      * Array of MapServer layers id selected (currently displayed)
@@ -121,7 +132,8 @@ class ClientLayerReorder extends ClientPlugin
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
-        $this->layers = $sessionObject->layers;
+        $this->layerIds = $sessionObject->layerIds;
+        $this->layerLabels = $sessionObject->layerLabels;
         $this->orderedMsLayerIds = $sessionObject->orderedMsLayerIds;
         $this->selectedMsLayerIds = $sessionObject->selectedMsLayerIds;
     }
@@ -133,7 +145,8 @@ class ClientLayerReorder extends ClientPlugin
     public function saveSession() {
         $this->selectedMsLayerIds = $this->getSelectedMsIds();
 
-        $this->layerReorderState->layers = $this->layers;
+        $this->layerReorderState->layerIds = $this->layerIds;
+        $this->layerReorderState->layerLabels = $this->layerLabels;
         $this->layerReorderState->orderedMsLayerIds = $this->orderedMsLayerIds;
         $this->layerReorderState->selectedMsLayerIds = 
             $this->selectedMsLayerIds;
@@ -145,12 +158,14 @@ class ClientLayerReorder extends ClientPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($initObject) {
-        $this->layers = $initObject->layers;
+        $layers = $initObject->layers;
+        foreach ($layers as $layer) {
+            $this->layerIds[] = $layer->id;
+            $this->layerLabels[] = $layer->label;
+        }
 
         if (empty($this->orderedMsLayerIds)) {
-            foreach ($this->layers as $layer) {
-                $this->orderedMsLayerIds[] = $layer['id'];
-            }
+            $this->orderedMsLayerIds = $this->layerIds;
         }
         
         // retrieve config setting
@@ -230,9 +245,9 @@ class ClientLayerReorder extends ClientPlugin
         $cwLayerIds = array();
         $plugin = $this->cartoclient->getPluginManager()->getPlugin('layers');
         
-        foreach ($plugin->getLayersInit()->layers as $id => $layer) {
+        foreach ($plugin->getLayersInit()->layers as $layer) {
             if ($layer instanceof Layer) {
-                 $cwLayerIds[$id] = $layer->msLayer;
+                 $cwLayerIds[$layer->id] = $layer->msLayer;
             }
         }
 
@@ -248,8 +263,8 @@ class ClientLayerReorder extends ClientPlugin
 
         // retrieve label for each msLayer
         $labels = array();
-        foreach ($this->layers as $layer) {
-            $labels[$layer['id']] = I18n::gt($layer['label']);
+        foreach ($this->layerLabels as $key => $layer) {
+            $labels[$this->layerIds[$key]] = I18n::gt($layer);
         }
 
         // retrieve selected msLayer labels
@@ -311,10 +326,10 @@ class ClientLayerReorder extends ClientPlugin
         }
         
         // add to the stack all other msLayer (undisplayed ones)
-        foreach ($this->layers as $layer) {
-            if (!in_array($layer['id'], $this->orderedMsLayerIds) && 
-                !in_array($layer['id'], $this->bottomLayers)) {
-                    $this->orderedMsLayerIds[] = $layer['id'];
+        foreach ($this->layerIds as $layer) {
+            if (!in_array($layer, $this->orderedMsLayerIds) && 
+                !in_array($layer, $this->bottomLayers)) {
+                    $this->orderedMsLayerIds[] = $layer;
             }
         }
 

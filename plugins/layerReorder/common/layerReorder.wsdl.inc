@@ -16,8 +16,8 @@
 
       <complexType name="LayerInit">
         <all>
-          <element name="layerId" type="xsd:string"/>
-          <element name="layerLabel" type="xsd:string"/>
+          <element name="id" type="xsd:string"/>
+          <element name="label" type="xsd:string"/>
         </all>
       </complexType>
 
