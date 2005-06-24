@@ -338,14 +338,21 @@ function dhtmlBox_paint() { // draws alternatively boxes, lines, polylines, cros
       {
 	    var tmpLineI = new Line( this.Xpoints[i], this.Ypoints[i], this.Xpoints[i + 1], this.Ypoints[i + 1], false );
 	  
-        if ( tmpLine.intersectsWith( tmpLineI ) || 
+        if (tmpLine.intersectsWith( tmpLineI ) || 
           (tmpLine2.intersectsWith( tmpLineI ) && !this.isActive))
 		{
 		  // give message
-		  alert(this.overlap_msg);
-		  // last click back
-		  --this.cnv_clicks;
-          this.isActive = true;
+		  if (confirm(this.overlap_msg)) {
+  		  	jg.clear();
+		  	jg2.clear();
+		  	this.isActive = false;
+		  	dhtmlBox_changetool();
+		  }
+		  else {
+		    // last click back
+		    --this.cnv_clicks;
+            this.isActive = true;
+          }
         }
 	  }
 	}
