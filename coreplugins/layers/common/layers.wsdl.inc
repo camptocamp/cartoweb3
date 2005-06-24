@@ -56,6 +56,7 @@
           <element name="maxScale" type="xsd:double"/>
           <element name="icon" type="xsd:string"/>
           <element name="link" type="xsd:string"/>
+          <element name="msLayer" type="xsd:string" minOccurs="0"/>
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
           <element name="rendering" type="xsd:string" minOccurs="0"/>
           <element name="metadata" type="types:ArrayOfString" minOccurs="0"/>
