@@ -229,6 +229,9 @@
           <para>link - if set, layer name is clickable</para>
         </listitem>
         <listitem>
+          <para>msLayer - MapServer layer id</para>
+        </listitem>
+        <listitem>
           <para>aggregate - if true, children are not displayed and cannot be 
             selected individually</para>
         </listitem>
