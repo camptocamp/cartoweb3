@@ -22,15 +22,27 @@ function ontop(id) {
     }
   }
   document.carto_form.js_folder_idx.value = id;
-  
-  if (!isTopRowClicked(id))
+  // temporary check to prevent safari from screwing the template
+  // to remove once safari is patched
+  // see http://bugzilla.opendarwin.org/show_bug.cgi?id=3677 for bug description
+  // see http://developer.apple.com/internet/safari/uamatrix.html for safari version detection
+  safari = false;
+  xUA = navigator.userAgent.toLowerCase();
+  i = xUA.indexOf('safari');
+  if (i>0) {
+      v = xUA.slice(i+7,xUA.length);
+      if (v <= 312 || v == 412) {
+          safari = true;
+      }
+  }
+
+  if (!isTopRowClicked(id) && !safari)
     swapRows();
 }
 
 // 
 function isTopRowClicked(id) {
   var clickedLabel = xGetElementById('label' + id);
-  var row = xParent(clickedLabel,true)
   return (clickedLabel.parentNode.id == 'tabnav1');
 }
 
