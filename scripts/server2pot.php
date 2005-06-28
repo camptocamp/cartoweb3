@@ -207,8 +207,8 @@ foreach ($projects as $project) {
     if ($project != ProjectHandler::DEFAULT_PROJECT) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
-    if (!is_dir($dir . CARTOCLIENT_PODIR)) {
-        mkdir($dir . CARTOCLIENT_PODIR);
+    if (!is_dir($dir . CARTOSERVER_PODIR)) {
+        mkdir($dir . CARTOSERVER_PODIR);
     }
 
     $file = $dir . CARTOSERVER_PODIR . $fileName;
