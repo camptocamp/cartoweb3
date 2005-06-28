@@ -364,7 +364,7 @@ class ClientLayers extends ClientPlugin
      * @see Sessionable::CreateSession()
      */
     public function createSession(MapInfo $mapInfo, 
-                                            InitialMapState $initialMapState) {
+                                  InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
         $this->layersState = $this->getNewSessionObject();
