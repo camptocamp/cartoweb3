@@ -184,7 +184,9 @@ class ViewManager {
      * @param ClientSession
      */
     public function handleView($sessionData) {
- 
+
+        $savedMetasList = $this->getMetasList();
+        
         do {
             // loading view?
             if (!empty($_REQUEST['viewBrowse']) || 
@@ -218,6 +220,7 @@ class ViewManager {
                             unset($this->data->$plugin);
                         }
                     }
+ 
                     $sessionData->pluginStorage = StructHandler::mergeOverride(
                                                    $sessionData->pluginStorage,
                                                    $this->data, true);
@@ -236,6 +239,10 @@ class ViewManager {
                     }
                     $_REQUEST = $_COOKIE + $savedRequest;
                     
+                    // restore some metas for views plugin displaying
+                    $this->getMetas();
+                    unset($this->metas['weight']);
+                    $this->metas['viewLocationId'] = $this->wc->getLocationId();
                 }
             }
             
@@ -290,6 +297,8 @@ class ViewManager {
             $this->message = $this->wc->getMessage();
         
         } while(false);
+
+        $this->metasList = $savedMetasList;
     }
 
     /**
@@ -451,6 +460,18 @@ abstract class ViewContainer {
     protected $isActionSuccess;
     
     /**
+     * @var int
+     */
+    protected $weight;
+
+    /**
+     * @var int
+     */
+    protected $locationId = 0;
+
+    const BASE_WEIGHT = 100000;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -483,6 +504,26 @@ abstract class ViewContainer {
     abstract protected function unlockResource();
 
     /**
+     * Updates metadata with weight info and removes viewLocationId info.
+     */
+    protected function setWeightMeta() {
+        $this->computeWeight();
+
+        // removes viewLocationId meta
+        unset($this->metas['viewLocationId']);
+
+        // adds weight meta
+        $this->metas['weight'] = $this->weight;
+    }
+
+    /**
+     * Sets various data while loading a view.
+     */
+    protected function setSelectData() {
+        $this->locationId = $this->computeLocationId();
+    }
+
+    /**
      * Performs view processing.
      * @param string action type
      * @return boolean if true, action succeeded
@@ -495,10 +536,12 @@ abstract class ViewContainer {
             
             if ($this->action != 'select') {
                 $this->getCatalog();
-            }
-            
-            if ($this->action != 'select') {
                 $this->lockResource();
+                if ($this->action != 'delete') {
+                    $this->setWeightMeta();
+                }
+            } else {
+                $this->setSelectData();   
             }
             
             $this->isActionSuccess = $this->processResource();
@@ -638,10 +681,94 @@ abstract class ViewContainer {
         $viewTitle = !empty($this->metas['viewTitle']) ?
                      $this->metas['viewTitle'] : 'view ' . $this->viewId;
         $viewShow = (bool)$this->metas['viewShow'];
+        $weight = $this->metas['weight'];
+
         $this->catalog[$this->viewId] = array('viewTitle' => $viewTitle,
-                                              'viewShow'  => $viewShow);
-        // TODO: find a way to order views catalog (eg. view "foo" must be 
-        // displayed after view "bar", etc.
+                                              'viewShow'  => $viewShow,
+                                              'weight'    => $weight);
+    }
+
+    /**
+     * Returns natural-orderedviews weights list.
+     * @return array
+     */
+    private function getWeights() {
+        $weights = array();
+        foreach ($this->getCatalog() as $id => $data) {
+            $weights[$id] = $data['weight'];
+        }
+        natsort($weights);
+        return $weights;
+    }
+
+    /**
+     * Computes weight of current view to determine its location 
+     * in the views list.
+     */
+    private function computeWeight() {
+
+        if (!isset($_REQUEST['viewSave']) && 
+            empty($_REQUEST['viewLocationUpdate'])) {
+            // weight is updated only when creating a view or when
+            // the view location has changed.
+            $this->weight = $this->catalog[$this->viewId]['weight'];
+            return;
+        }
+       
+        if (isset($_REQUEST['viewSave']) && 
+            empty($this->metas['viewLocationId'])) {
+           
+            // default: weight is a multiple of self::BASE_WEIGHT
+            if (empty($this->viewId)) {
+                $this->setViewId();
+            }
+            $this->weight = self::BASE_WEIGHT * $this->viewId; 
+        
+        } elseif (isset($this->metas['viewLocationId'])) {
+        
+            $viewLocId =& $this->metas['viewLocationId'];
+           
+            $weights = $this->getWeights();
+            $ids = array_keys($weights);
+            
+            if ($viewLocId == 0) {
+                // place view at the end of the list
+                $maxViewId = max($ids);
+                $this->weight = $weights[$maxViewId] +
+                                self::BASE_WEIGHT * ($maxViewId + 1);
+            } else {
+                $k = array_search($viewLocId, $ids);
+            
+                if ($k === 0) {
+                    // place view at the beginning of the list
+                    $this->weight = $weights[$viewLocId];
+                } else {
+                    $prevViewLocId = $ids[$k - 1];
+                    $this->weight = $weights[$viewLocId] +
+                                    $weights[$prevViewLocId];
+                }
+            }
+            // weight is the mean of the weights of the views
+            // right near the view wished location
+            $this->weight = floor($this->weight / 2);
+        }
+    }
+
+    /**
+     * Returns ID of view located right after current view.
+     * @return int
+     */
+    private function computeLocationId() {
+        $weights = $this->getWeights();
+        $ids = array_keys($weights);
+        $kmax = max(array_keys($ids));
+        $k = array_search($this->viewId, $ids);
+        
+        if ($k === false || $k == $kmax) {
+            return 0;
+        }
+        
+        return $ids[$k + 1];
     }
 
     /**
@@ -684,6 +811,13 @@ abstract class ViewContainer {
      */
     public function getActionSuccess() {
         return $this->isActionSuccess;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLocationId() {
+        return $this->locationId;
     }
 }
 
@@ -828,7 +962,6 @@ class ViewFileContainer extends ViewContainer {
      * @return boolean true if success
      */
     protected function processResource() {
-
         switch ($this->action) {
             
             case 'select':
@@ -893,7 +1026,6 @@ class ViewFileContainer extends ViewContainer {
      * @return string XML
      */
     private function writeXmlContent() {
-        
         $data = $this->serialize($this->data);
         $this->metas = array_map('htmlspecialchars', $this->metas);
     
@@ -1126,13 +1258,36 @@ class ViewDbContainer extends ViewContainer {
         if (isset($this->metas['viewShow']) && $this->metas['viewShow'] == '') {
             $this->metas['viewShow'] = 0;
         }
-        if (empty($this->metas['viewLocationId'])) {
-            $this->metas['viewLocationId'] = 0;
-        }
 
         foreach ($this->metas as &$meta) {
             $meta = Utils::addslashes($meta);
         }
+    }
+
+    /**
+     * Removes/adds some metas titles.
+     */
+    private function updateMetasList() {
+        $k = array_search('viewLocationId', $this->metasList);
+        unset($this->metasList[$k]);
+
+        array_push($this->metasList, 'weight');
+    }
+
+    /**
+     * @see ViewContainer::setWeightMeta()
+     */
+    protected function setWeightMeta() {
+        parent::setWeightMeta();
+        $this->updateMetasList();
+    }
+
+    /**
+     * @see ViewContainer::setSelectData()
+     */
+    protected function setSelectData() {
+        parent::setSelectData();
+        $this->updateMetasList();
     }
 
     /**
@@ -1195,9 +1350,8 @@ class ViewDbContainer extends ViewContainer {
         }
   
         // TODO: lock
-        // TODO: retrieve ordering info
          
-        $sql = 'SELECT views_id, viewtitle, viewshow FROM views';
+        $sql = 'SELECT views_id, viewtitle, viewshow, weight FROM views';
         $res =& $this->db->query($sql);
         if (DB::isError($res)) {
             $this->message = I18n::gt('Unable to build views catalog');
@@ -1209,7 +1363,9 @@ class ViewDbContainer extends ViewContainer {
             // TODO: ordering
             $viewShow = $this->getBool($row->viewshow);
             $catalog[$row->views_id] = array('viewTitle' => $row->viewtitle,
-                                             'viewShow'  => $viewShow);
+                                             'viewShow'  => $viewShow,
+                                             'weight'    => $row->weight,
+                                             );
         }
 
         return $catalog;

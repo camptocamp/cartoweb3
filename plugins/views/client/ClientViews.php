@@ -232,14 +232,21 @@ class ClientViews extends ClientPlugin
         $viewsList = $this->getViewManager()->getCatalog();
         $this->viewsList = array();
         if ($viewsList) {
+            $weights = array();
             foreach ($viewsList as $viewId => $viewInfo) {
                 if ($showAll || !empty($viewInfo['viewShow'])) {
+                    $weights[$viewId] = $viewInfo['weight'];
                     $this->viewsList[$viewId] = 
                                       stripslashes($viewInfo['viewTitle']);
                 }
             }
             if ($this->viewsList) {
-                $this->viewsList = array('0' => '') + $this->viewsList;
+                natsort($weights);
+                $viewsList = array('0' => '');
+                foreach ($weights as $viewId => $weight) {
+                    $viewsList[$viewId] = $this->viewsList[$viewId];
+                }
+                $this->viewsList = $viewsList;
             }
         }
         return $this->viewsList;
@@ -251,13 +258,11 @@ class ClientViews extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
         
-        // TODO: enable views ordering in labels dropdowns
-
-        $template->assign(array('viewsForm' => $this->drawUserForm(),
-                                'viewsList' => $this->getViewsList(), 
+        $template->assign(array('viewsForm'    => $this->drawUserForm(),
+                                'viewsList'    => $this->getViewsList(), 
                                 'selectedView' => $this->viewsState->viewId,
-                                'views'     => $this->getViewManager()
-                                                    ->hasRole(true),
+                                'views'        => $this->getViewManager()
+                                                       ->hasRole(true),
                                 ));
     }
 
@@ -292,13 +297,32 @@ class ClientViews extends ClientPlugin
             $this->viewsState = new ViewsState;
         }
 
+        $viewId = $this->viewsState->viewId;
+
+        $viewOptions = $this->getViewsList(true);
+        
+        $viewLocationOptions = $viewOptions;
+        if ($viewLocationOptions) {
+            unset($viewLocationOptions[0]);
+            unset($viewLocationOptions[$viewId]);
+            if (count($viewLocationOptions) > 0) {
+                $viewLocationOptions += 
+                    array('0' => I18n::gt('(placed at the end)'));
+            }
+        }
+
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-        $this->smarty->assign(array('viewLocationOptions'  => 
-                                                     $this->getViewsList(true),
-                                    'viewId' => $this->viewsState->viewId,
-                                    'viewMsg' => $viewMsg,
-                                    'viewActive' => $this->viewActive,
+        $this->smarty->assign(array('viewOptions' => $viewOptions,
+                                    'viewLocationOptions' => $viewLocationOptions,
+                                    'viewId'      => $viewId,
+                                    'viewMsg'     => $viewMsg,
+                                    'viewActive'  => $this->viewActive,
                                     ));
+        
+        if (!isset($this->viewsState->metas['viewLocationId'])) {
+            $this->viewsState->metas['viewLocationId'] = 0;
+        }
+        
         foreach ($this->getMetasList() as $metaName) {
             $metaValue = isset($this->viewsState->metas[$metaName]) ?
                          $this->viewsState->metas[$metaName] : '';

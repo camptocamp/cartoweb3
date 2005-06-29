@@ -10,10 +10,10 @@ var qMark = '{t}?{/t}';
 
 <fieldset>
 <legend>{t}Go to view{/t}</legend>
-{if $viewLocationOptions}
+{if $viewOptions}
 <div>{t}Title{/t} 
 <select name="viewLoadTitleId" onchange="javascript:resetViewLoadId();">
-{html_options options=$viewLocationOptions selected=$viewId}
+{html_options options=$viewOptions selected=$viewId}
 </select> {t}or{/t} {t}Id{/t} <input type="text" name="viewLoadId" 
 id="viewLoadId" value="{strip}{if $viewId}{$viewId}{/if}{/strip}" size="4" onfocus="javascript:resetViewLoadTitleId();" /></div>
 <input type="submit" name="viewLoad" value="{t}Load view{/t}"
@@ -34,10 +34,14 @@ type="checkbox" name="viewActive" id="viewActive" {if $viewActive}checked="check
 <div>{t}Author{/t} <input type="text" name="author" id="author" value="{$author}" /></div>
 <div><label for="viewShow" onfocus="javascript:showLocationSelector();">{t}Show view{/t} </label><input type="checkbox" name="viewShow" id="viewShow" 
 onclick="javascript:showLocationSelector();" {if $viewShow}checked="checked"{/if} /></div>
-{if false && $viewLocationOptions}
-<!-- TODO -->
-<div id="locationSelector" style="display:none;">{t}Place view label before{/t}
-{html_options name="viewLocationId" options=$viewLocationOptions selected=$viewLocationId}</div>
+{if $viewLocationOptions}
+<div id="locationSelector" {if !$viewShow}style="display:none;"{/if}>{t}Place view label before{/t}
+<input type="hidden" name="viewLocationUpdate" value="0" />
+<select name="viewLocationId" 
+onchange="javascript:document.carto_form.viewLocationUpdate.value=1;">
+{html_options options=$viewLocationOptions selected=$viewLocationId}</div>
+</select>
+</div>
 {/if}
 <input type="hidden" name="handleView" value="0" />
 {if $viewId}
