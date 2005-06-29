@@ -50,7 +50,7 @@
 
 <div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
-<form method="post" action="" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
@@ -139,7 +139,7 @@ ClientContext:
     {if $locales|default:''}
     <p>
       {foreach from=$locales item=locale name=lang}
-      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
       {if !$smarty.foreach.lang.last}|{/if}
       {/foreach}
     </p>
