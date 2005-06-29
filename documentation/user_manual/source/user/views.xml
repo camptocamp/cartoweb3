@@ -101,7 +101,7 @@ CREATE TABLE "views" (
         "author" character varying(50),
         "sessiondata" text,
         "viewshow" boolean,
-        "viewlocationid" integer,
+        "weight" integer,
         Constraint "views_pkey" Primary Key ("views_id")
 );</programlisting>
    </para>
