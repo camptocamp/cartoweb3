@@ -1,14 +1,14 @@
 #!/bin/sh
 
 #
-# This scripts creates the tarball with librairies for cartoweb3
+# This script creates the tarball with librairies for cartoweb3
 # 
-# You need to adjust the url the libraries if you need a newer version
+# You need to adjust the URLs of the libraries if you need a newer version
 
-PEAR_PACKAGES="Benchmark PHPUnit2 PhpDocumentor PEAR DB Archive_Tar XML_RPC Console_Getopt Auth"
+PEAR_PACKAGES="Benchmark PHPUnit2 PhpDocumentor PEAR DB Archive_Tar XML_RPC Console_Getopt Auth HTML_Crypt"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
-SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.7.tar.gz"
+SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.9.tar.gz"
 FPDF="http://www.fpdf.org/fr/dl.php?v=153&f=tgz"
 
 # uncomment to upload with scp to this address
