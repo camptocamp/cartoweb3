@@ -94,9 +94,11 @@ class Smarty_Cartoclient extends Smarty {
      */
     private function assignCommonVariables(Cartoclient $cartoclient) {
         // sets the project name, as it is propagated through hidden variables.
-        $this->assign('project', $cartoclient->getProjectHandler()->
-                      getProjectName());
-        $this->assign('charset', Encoder::getCharset());
+        $this->assign(array('project' => $cartoclient->getProjectHandler()->
+                                         getProjectName(),
+                            'charset' => Encoder::getCharset(),
+                            'selfUrl' => './' . basename($_SERVER['PHP_SELF']),
+                            ));
     }
     
     /**
