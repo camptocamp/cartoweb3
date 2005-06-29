@@ -27,13 +27,13 @@
 
 <p>{t}Please enter your login and password{/t}</p>
 
-<form method="post" action="">
+<form method="post" action="{$selfUrl}">
 <div><input type="text" name="username" value="" />{t}Username{/t}: </div>
 <div><input type="password" name="password" value="" />{t}Password{/t}:</div>
 <div><input type="submit" value="{t}Submit{/t}" /></div>
 </form>
 
-<p><a href="?">{t}Click here to go back to the map{/t}</a></p>
+<p><a href="{$selfUrl}">{t}Click here to go back to the map{/t}</a></p>
 
 </body>
 </html>
