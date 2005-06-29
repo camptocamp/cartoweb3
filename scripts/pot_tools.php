@@ -163,7 +163,7 @@ function getTranslatedPo($type, $project) {
     }
     $d = dir($dir . CARTOCOMMON_PODIR);
 
-    $pattern = "$type\\-$project\\.(.*)\\.po";
+    $pattern = "$type\\.(.*)\\.po";
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir($dir . $entry)) {

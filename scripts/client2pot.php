@@ -187,9 +187,9 @@ foreach ($projects as $project) {
         $texts = array();
         $plurals = array();
 
-        $fileName = 'client-' . $project . '.po';
+        $fileName = 'client.po';
 
-        print "Creating new template $fileName ";
+        print "Creating new template $fileName for project $project ";
 
         $fh = fopen($dir . CARTOCLIENT_PODIR . $fileName, 'w');
     
@@ -238,7 +238,7 @@ foreach ($projects as $project) {
         
             print "Merging new template into $poFile ";
             exec("msgmerge -o $dir" . CARTOCLIENT_PODIR . "$poFile $dir"
-                 . CARTOCLIENT_PODIR . "$poFile " . CARTOCLIENT_PODIR . "$fileName");
+                 . CARTOCLIENT_PODIR . "$poFile $dir" . CARTOCLIENT_PODIR . "$fileName");
         }                
     }
 }

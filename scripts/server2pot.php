@@ -183,7 +183,7 @@ function getTranslatedMapIdPo($project, $mapId) {
     }
     $d = dir($dir . CARTOSERVER_PODIR);
 
-    $pattern = "server\\-$project\\.$mapId\\.(.*)\\.po";          
+    $pattern = "server\\.$mapId\\.(.*)\\.po";          
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir($dir . CARTOSERVER_PODIR . $entry)) {
@@ -202,7 +202,7 @@ $projects[] = ProjectHandler::DEFAULT_PROJECT;
 
 foreach ($projects as $project) {
 
-    $fileName = 'server-' . $project . '.po';
+    $fileName = 'server.po';
     $dir = CARTOSERVER_HOME;
     if ($project != ProjectHandler::DEFAULT_PROJECT) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
@@ -213,7 +213,7 @@ foreach ($projects as $project) {
 
     $file = $dir . CARTOSERVER_PODIR . $fileName;
 
-    print "Creating new template $fileName ";
+    print "Creating new template $fileName for project $project ";
         
     $fh = fopen($file, 'w');
     
@@ -252,10 +252,10 @@ foreach ($projects as $project) {
     foreach ($mapIds as $mapId) {
     
         $texts = array();
-        $fileName = 'server-' . $project . '.' . $mapId . '.po';
+        $fileName = 'server.' . $mapId . '.po';
         $file = $dir . CARTOSERVER_PODIR . $fileName;
 
-        print "Creating new template $fileName ";
+        print "Creating new template $fileName for project $project ";
         
         parseIni($project, $mapId, $texts);
         if (!parseMap($project, $mapId, $texts)) continue;

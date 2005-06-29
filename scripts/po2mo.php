@@ -46,7 +46,7 @@ function getLocales($project) {
        
     while (false !== ($entry = $d->read())) {
         if (!is_dir($entry)) {
-            $pattern = 'client-' . $project . '\.(.*)\.po';
+            $pattern = 'client\.(.*)\.po';
             if (ereg($pattern, $entry, $locale)) {
                 $locales[] = $locale[1];
             }
@@ -86,9 +86,9 @@ function getMapPo($project, $mapId = null) {
     }
 
     if (is_null($mapId)) {
-        $fileName = 'server-' . $project;
+        $fileName = 'server';
     } else {
-        $fileName = 'server-' . $project . '.' . $mapId;
+        $fileName = 'server.' . $mapId;
     }
     
     if ($direct) {
@@ -167,7 +167,7 @@ function merge($project, $file1, $file2, $file2Project, $output) {
 
     foreach ($locales as $locale) {
         $file1Name = $file1 . '.' . $locale . '.po';
-        $file2Name = $file2 . '-' . $file2Project . '.' . $locale . '.po';
+        $file2Name = $file2 . '.' . $locale . '.po';
         $fileOutputName = $output . '.' . $locale . '.po';
         $file1path = $dir . CARTOCLIENT_PODIR . $file1Name;
         if ($file2Project == ProjectHandler::DEFAULT_PROJECT) {
@@ -223,7 +223,7 @@ function compile($project, $fileName) {
             if (!is_dir(CARTOCLIENT_LOCALEDIR . $locale . '/LC_MESSAGES')) {
                 mkdir(CARTOCLIENT_LOCALEDIR . $locale . '/LC_MESSAGES');
             }
-            $outputFile = $locale . '/LC_MESSAGES/' . $fileName . '.mo'; 
+            $outputFile = $locale . '/LC_MESSAGES/' . $project . '.' . $fileName . '.mo'; 
             print "Compiling $fileName.$locale.po into /locale/$outputFile ";
             exec("msgfmt -o " . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
             print ".. done.\n";
@@ -281,7 +281,7 @@ foreach ($projects as $project) {
         if (!$file) {
             continue;
         }
-        $finalFile = $project . '.' . $mapId;
+        $finalFile = $mapId;
         if (!merge($project, $file, 'server', $project, $finalFile)) {
             continue;
         }
