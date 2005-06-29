@@ -1,11 +1,11 @@
 function updateResolutions(defaultRes) {
-  var format = document.pdfForm.pdfFormat.value;
+  var format = document.carto_form.pdfFormat.value;
   if (!resolutions[format])
     return;
   
   var res = resolutions[format];
-  var pdfRes = document.pdfForm.pdfResolution;
-  var selRes = document.pdfForm.pdfResolution.value;
+  var pdfRes = document.carto_form.pdfResolution;
+  var selRes = document.carto_form.pdfResolution.value;
   
   // remove existing options
   pdfRes.options.length = 0;
