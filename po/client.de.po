@@ -236,7 +236,7 @@ msgstr "Übersicht"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
-msgstr "Résultat de la requête"
+msgstr "Sachdatentabelle"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Legend"
