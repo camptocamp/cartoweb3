@@ -1,3 +1,16 @@
+function layersInit() {
+  var layersroot = xGetElementById('layersroot');
+  var layers = xGetElementsByTagName('input', layersroot);
+  
+  for (i=0; i<layers.length;i++) {
+    if (layers[i].checked == false) {
+      var pid = xGetElementById('id' + layers[i].id.substr(2));
+      if (!pid) continue;
+      layers[i].indeterminate = !isChildrenUnchecked(pid.id);
+    }
+  } 
+}
+
 function writeOpenNodes(shortcut) {
   if (shortcut) {
     document.carto_form.elements.openNodes.value = openNodes;
@@ -129,6 +142,15 @@ function isChildrenChecked(id) {
   return true;
 }
 
+function isChildrenUnchecked(id) {
+  var dparent = document.getElementById(id);
+  var celts = dparent.getElementsByTagName('input');
+  for (var i = 0; i < celts.length; i++) {
+    if (celts[i].checked) return false;
+  }
+  return true;
+}
+
 function updateChecked(id,skipChildren) {
   var obj = document.getElementById('in' + id);
   if (!obj) return;
@@ -146,13 +168,16 @@ function updateChecked(id,skipChildren) {
   // if node has been unchecked, makes sure parents are unchecked too
   if (val == false) {
     iparent.checked = false;
+    iparent.indeterminate = !isChildrenUnchecked(pid);
     updateChecked(iid, true);
   }
   // if all siblings are checked, makes sure parents are checked too
   else if (isChildrenChecked(pid)) {
     iparent.checked = true;
+    iparent.indeterminate = false;
     updateChecked(iid, true);
   }
+  else iparent.indeterminate = true;
 }
 
 function goToScale(scale) {
@@ -163,3 +188,6 @@ function goToScale(scale) {
   document.carto_form.recenter_scale.options.add(newOpt);
   FormItemSelected();
 }
+
+if (typeof onLoadString != "string") onLoadString = "";
+    onLoadString += "layersInit();";
