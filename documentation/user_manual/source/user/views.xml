@@ -92,19 +92,23 @@ viewAuth = admin</programlisting>
    </para>
    <para>
     Should you decide to use a database storage, you would need first to create an appropriate table called <parameter>views</parameter>. Here is an example of SQL statements for PostgreSQL:
-    <programlisting>CREATE SEQUENCE "views_views_id_seq" start 1 increment 1 
-maxvalue 9223372036854775807 minvalue 1 cache 1;
-
-CREATE TABLE "views" (
-        "views_id" integer DEFAULT nextval('"views_views_id_seq"'::text) NOT NULL,
-        "viewtitle" character varying(50) NOT NULL,
-        "author" character varying(50),
-        "sessiondata" text,
-        "viewshow" boolean,
-        "weight" integer,
-        Constraint "views_pkey" Primary Key ("views_id")
+    <programlisting>
+CREATE TABLE views (
+        views_id serial NOT NULL PRIMARY KEY,
+        views_ts timestamp without time zone
+        viewtitle character varying(50),
+        author character varying(50),
+        sessiondata text,
+        viewshow boolean,
+        weight integer,
 );</programlisting>
    </para>
+   <tip>
+     <para>
+       Field "views_ts" is just present in table "views" but not visible in the graphical interface of the "views" plugin. This value 
+       is usefull to know the time of the creation/modification of a view (only disponible with option "viewStorage = db"). 
+     </para>
+   </tip>
   </sect2>
  </sect1>
 
