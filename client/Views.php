@@ -405,7 +405,7 @@ class ViewManager {
  * @return string client-side plugin classname
  */
 function filterViewable($pluginName) {
-    return 'Client' . ucfirst(strtolower(trim($pluginName)));
+    return 'Client' . ucfirst(trim($pluginName));
 }
 
 /**
