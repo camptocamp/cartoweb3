@@ -58,6 +58,7 @@ The function returns a set of rows. There is one row for each crossed
 edge, and an additional one containing the terminal vertex.
 The columns of each row are:
 
+- step: current step number, going from 0 to the number of edges minus one
 - vertex_id: the identifier of source vertex of each edge. There is one
 more row after the last edge, which contains the vertex identifier of
 the target path.

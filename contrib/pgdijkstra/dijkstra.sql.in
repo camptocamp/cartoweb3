@@ -19,7 +19,7 @@
 --
 
 
-CREATE TYPE path_result AS (vertex_id integer, edge_id integer, cost float8);
+CREATE TYPE path_result AS (step integer, vertex_id integer, edge_id integer, cost float8);
 
 -----------------------------------------------------------------------
 -- Core function for shortest_path computation

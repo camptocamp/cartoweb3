@@ -1,3 +1,7 @@
+HEAD
+ 
+ * Added step column to path_result
+
 0.2           June 14, 2005
 
  * New API
