@@ -1,4 +1,4 @@
-general settings
+;general settings
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
