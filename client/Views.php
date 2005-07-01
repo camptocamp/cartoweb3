@@ -1172,8 +1172,8 @@ class ViewDbContainer extends ViewContainer {
 
             case 'insert':
                 $this->filterMetas();
-                $sql = sprintf("INSERT INTO views (views_id, sessiondata, 
-                               %s) VALUES (%d, '%s', '%s')",
+                $sql = sprintf("INSERT INTO views (views_id, views_ts, sessiondata,
+                               %s) VALUES (%d, 'now()', '%s', '%s')",
                                implode(', ', $this->metasList),
                                $this->viewId,
                                $this->serialize($this->data),
@@ -1183,7 +1183,8 @@ class ViewDbContainer extends ViewContainer {
                 
             case 'update':
                 $this->filterMetas();
-                $sql = sprintf("UPDATE views SET sessiondata = '%s', 
+                $sql = sprintf("UPDATE views 
+                               SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
                                $this->serialize($this->data),
                                $this->makeMetasSql(),
