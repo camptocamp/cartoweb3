@@ -27,9 +27,6 @@ formats.A4.smallDimension = 210
 formats.A3.label = A3
 formats.A3.bigDimension = 420
 formats.A3.smallDimension = 297
-formats.A3.horizontalMargin = 30
-formats.A3.verticalMargin = 30
-formats.A3.maxResolution = 150
 
 ; blocks default settings
 template.type = text
@@ -59,11 +56,7 @@ blocks.title.weight = 10
 blocks.title.verticalBasis = top
 blocks.title.verticalMargin = 15
 blocks.title.hCentered = true
-blocks.title.fontSize = 20
-blocks.title.fontItalic = true
-blocks.title.fontBold = true
-blocks.title.fontUnderline = true
-blocks.title.backgroundColor = #eeeeee
+blocks.title.fontSize = 15
 blocks.title.height = 15
 
 blocks.mainmap.zIndex = 0
@@ -77,7 +70,6 @@ blocks.overview.parent = mainmap
 blocks.overview.width = 50
 blocks.overview.height = 40
 blocks.overview.weight = 10
-;blocks.overview.content = static
 
 blocks.scalebar.padding = 2
 blocks.scalebar.inFlow = false
@@ -92,7 +84,7 @@ blocks.note.weight = 30
 blocks.note.height = 8
 blocks.note.hCentered = true
 blocks.note.verticalBasis = bottom
-blocks.note.borderWidth = 0;
+blocks.note.borderWidth = 0
 blocks.note.multiPage = true
 
 blocks.copyright.content = "Cartoweb by Camptocamp SA"
@@ -104,7 +96,7 @@ blocks.copyright.horizontalMargin = 4
 blocks.copyright.padding = 0
 blocks.copyright.zIndex = 5
 blocks.copyright.orientation = vertical
-blocks.copyright.borderWidth = 0;
+blocks.copyright.borderWidth = 0
 blocks.copyright.multiPage = true
 
 blocks.queryResult.type = table
@@ -115,21 +107,11 @@ blocks.queryResult.height = 10
 blocks.queryResult.verticalMargin = 10
 blocks.queryResult.hCentered = true
 
-blocks.table.type = table
-blocks.table.inNewPage = true
-blocks.table.caption = tableCaption
-blocks.table.headers = tableHeaders2
-blocks.table.hCentered = true
-blocks.table.verticalMargin = 220
-blocks.table.height = 10
+blocks.tableCaption.backgroundColor = white
+blocks.tableCaption.color = black
 
-blocks.tableCaption.backgroundColor = #ff0000
-blocks.tableCaption.color = white
-blocks.tableCaption.height = 15
-
-blocks.tableHeaders.backgroundColor = #ffaaaa
-blocks.tableHeaders.fontBold = true
-blocks.tableHeaders.color = #eeeeff
+blocks.tableHeaders.backgroundColor = white
+blocks.tableHeaders.color = black
 
 blocks.legend.type = legend
 blocks.legend.zIndex = 1
@@ -140,7 +122,6 @@ blocks.legend.width = 50
 blocks.legend.padding = 1.5
 blocks.legend.verticalMargin = 10
 blocks.legend.horizontalMargin = 10
-;blocks.legend.content = "!nix"
 
 blocks.page.multiPage = true
 blocks.page.borderWidth = 0
