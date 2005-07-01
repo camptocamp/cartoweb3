@@ -32,9 +32,12 @@
   <title><indexterm><primary>Internationalization, I18n</primary></indexterm>Internationalization</title>
   <para>
    It is possible - and recommended! - to use the <ulink url="http://smarty.incutio.com/?page=SmartyGettext">SmartyGettext</ulink> tool in order to translate template-embedded textual strings. Texts to be translated are identified using the <parameter>{t}</parameter> tag:
-   <programlisting><![CDATA[<p>{t}Default text, please translate me{/t}</p>
+  <programlisting><![CDATA[<p>{t}Default text, please translate me{/t}</p>
 <p>{t name="John Doe"}Hello my name is %1{/t}</p>
 <p>{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}</p>]]></programlisting>
+    It is also possible to use the "|tr" smarty modifier if you want to apply some Smarty transformations on a translated string:
+  <programlisting><![CDATA[{assign var="label" value="Themes"}
+<div {if $label|tr|count_characters:true < 10}style="width:72px;"{/if}>{$label|tr}</div>]]></programlisting>
    See also <xref linkend="user.i18n" />
   </para>
  </sect1>
