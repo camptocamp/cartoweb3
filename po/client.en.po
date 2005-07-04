@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-06-21 09:09+0200\n"
+"POT-Creation-Date: 2005-07-01 10:49+0200\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -12,32 +12,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # exportPdf.ini:formats.a4.label
-#: exportPdf.ini:formats.A4.label
+# exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
 
 # exportPdf.ini:formats.a3.label
-#: exportPdf.ini:formats.A3.label
+# exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr "A3"
 
 # images.ini:mapSizes.0.label
-#: images.ini:mapSizes.0.label
+# images.ini:mapSizes.0.label
 msgid "small"
 msgstr "small"
 
 # images.ini:mapSizes.1.label
-#: images.ini:mapSizes.1.label
+# images.ini:mapSizes.1.label
 msgid "normal"
 msgstr "normal"
 
 # images.ini:mapSizes.2.label
-#: images.ini:mapSizes.2.label
+# images.ini:mapSizes.2.label
 msgid "big"
 msgstr "big"
 
 # images.ini:mapSizes.3.label
-#: images.ini:mapSizes.3.label
+# images.ini:mapSizes.3.label
 msgid "giant"
 msgstr "giant"
 
@@ -158,16 +158,6 @@ msgstr "Id"
 msgid "Download CSV"
 msgstr "Download CSV"
 
-# images.ini:mapSizes.3.label
-#: plugins/auth/templates/auth.tpl
-#, fuzzy
-msgid "login"
-msgstr "giant"
-
-#: plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr ""
-
 #: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (EN)"
@@ -198,6 +188,16 @@ msgstr ""
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
+msgstr ""
+
+# images.ini:mapSizes.3.label
+#: plugins/auth/templates/auth.tpl
+#, fuzzy
+msgid "login"
+msgstr "giant"
+
+#: plugins/auth/templates/auth.tpl
+msgid "logout"
 msgstr ""
 
 #: plugins/exportHtml/templates/export.tpl
@@ -409,6 +409,10 @@ msgstr "PDF"
 msgid "Views"
 msgstr ""
 
+#: templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr ""
+
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "keymap_alt"
 msgstr "keymap_alt"
@@ -458,143 +462,139 @@ msgstr "Loading..."
 msgid "Unauthorized"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:149
+#: /home/afellay/public_html/cartoweb3/client/Views.php:149
 msgid "Action halted: invalid view Id"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:173
+#: /home/afellay/public_html/cartoweb3/client/Views.php:173
 msgid "You are not allowed to perform"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:174
+#: /home/afellay/public_html/cartoweb3/client/Views.php:174
 msgid " this action"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:521
+#: /home/afellay/public_html/cartoweb3/client/Views.php:564
 #, php-format
 msgid "Loaded view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:527
+#: /home/afellay/public_html/cartoweb3/client/Views.php:570
 #, php-format
 msgid "New view recorded with id %d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:532
+#: /home/afellay/public_html/cartoweb3/client/Views.php:575
 #, php-format
 msgid "View #%d updated"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:537
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:917
+#: /home/afellay/public_html/cartoweb3/client/Views.php:580
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1055
 #, php-format
 msgid "View #%d deleted"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:805
+#: /home/afellay/public_html/cartoweb3/client/Views.php:945
 #, php-format
 msgid "Failed to open view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:830
+#: /home/afellay/public_html/cartoweb3/client/Views.php:969
 #, php-format
 msgid "Unable to read view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:842
+#: /home/afellay/public_html/cartoweb3/client/Views.php:981
 #, php-format
 msgid "Unable to write view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:920
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1058
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:997
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1135
 msgid "Unable to open ViewDbContainer: "
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:999
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1067
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1137
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1205
 msgid "Service failed."
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1065
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1203
 msgid "Unable to process view."
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1076
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1214
 #, php-format
 msgid "No result for view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1100
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1238
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/client/Views.php:1197
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1357
 msgid "Unable to build views catalog"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/images/client/ClientImages.php:310
+#: /home/afellay/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:310
 msgid "label"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
+#: /home/afellay/public_html/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
 msgid "Default"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:395
-msgid "registration"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
+msgid "about file [about_"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:405
-#, php-format
-msgid "new user mail %s %s %s %s %s %s %s %s\n"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
+msgid ".html] not found"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:418
-#, php-format
-msgid "new user mail html %s %s %s %s %s %s %s %s %s %s\n"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/contact.php:26
+msgid "contact file [contact_"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:454
-msgid "personal info"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/copyright.php:26
+msgid "copyright file [copyright_"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:458
-#, php-format
-msgid "user info uniqid mail %s %s %s %s %s\n"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/disclaimer.php:26
+msgid "disclaimer file [disclaimer_"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:468
-#, php-format
-msgid "user info mail %s %s %s %s\n"
+#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/help.php:26
+msgid "help file [help_"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
+#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
 msgid "Click here to display PDF file"
 msgstr "Click here to display PDF file"
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
+#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
 msgstr "Page"
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/routing/client/ClientRouting.php:171
+#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:171
 msgid "fastest"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/routing/client/ClientRouting.php:172
+#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:172
 msgid "shortest"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/views/client/ClientViews.php:272
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:272
 msgid "Views main controller is OFF!!"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/plugins/views/client/ClientViews.php:276
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:276
 msgid "Memorizing view to update"
 msgstr ""
 
