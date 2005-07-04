@@ -515,7 +515,7 @@ MAP
     CONNECTION "user=postgres host=parinacota.c2c port=5434 dbname=geo2"
     DATA "the_geom from (SELECT the_geom, gid, type, type_rev from more_lines) as foo using unique gid using srid=-1"
     TEMPLATE "ttt"
-    STATUS DEFAULT
+    STATUS OFF
 
     CLASS
       EXPRESSION ('[TYPE]' = 'highway' OR '[TYPE_REV]' = 'highway')
@@ -552,8 +552,9 @@ MAP
     CONNECTIONTYPE postgis
     CONNECTION "user=postgres host=parinacota.c2c port=5434 dbname=geo2"
     DATA "the_geom from (SELECT the_geom, id, geom_id || '_' || id as nodeid from more_lines_vertices) as foo using unique id using srid=-1"
-
+    STATUS OFF
     LABELITEM "NODEID"
+
     CLASS
       LABEL
         TYPE TRUETYPE
@@ -574,9 +575,8 @@ MAP
     CONNECTIONTYPE postgis
     CONNECTION "user=postgres host=parinacota.c2c port=5434 dbname=geo2"
     DATA "the_geom from (SELECT gid, the_geom from routing_results) as foo using unique gid using srid=-1"
-
     TEMPLATE "ttt"
-    STATUS DEFAULT
+    STATUS OFF
 
     CLASS
       EXPRESSION (1)
