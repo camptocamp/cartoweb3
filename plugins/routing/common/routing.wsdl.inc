@@ -18,16 +18,16 @@
       <complexType name="RoutingRequest">
         <all>
           <element name="className" type="xsd:string"/>
+          <element name="graph" type="xsd:string"/>
           <element name="stops" type="types:ArrayOfString"/>
           <element name="parameters" type="types:ArrayOfString"/>
-          <element name="path" type="types:ArrayOfStyledShape"/>
         </all>
       </complexType>
 
       <complexType name="RoutingResult">
         <all>
           <element name="className" type="xsd:string"/>
-          <element name="path" type="types:ArrayOfStyledShape"/>
+          <element name="graph" type="xsd:string"/>
           <element name="steps" type="types:ArrayOfStep"/>
           <element name="attributes" type="types:ArrayOfString"/>
         </all>

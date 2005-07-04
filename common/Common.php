@@ -171,9 +171,14 @@ class Common {
             strpos($errstr, 'Failed to open map file') === 0)
             return true;
         // ignore log4php notices
-        if (strpos($errfile, 'include/log4php/' ) !== false  && 
+        if (strpos($errfile, 'include/log4php/' ) !== false && 
             $errno | E_NOTICE)
             return true;
+        // ignore Pear::DB warnings
+        if (strpos($errfile, 'include/pear/DB/' ) !== false && 
+            $errno | E_WARNING) {
+            return true;        
+            }
         // ignore smarty notices
         if (strpos($errfile, '/templates_c/') !== false && 
             $errno | E_NOTICE)

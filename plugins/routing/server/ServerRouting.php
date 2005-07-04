@@ -21,9 +21,10 @@
  * @version $Id$
  */
 
-require_once(CARTOSERVER_HOME . 'plugins/routing/server/RoutingModule.php');
-
 /**
+ * Server routing plugin. This class must be subclassed by plugins wishing to 
+ * perform routing
+ * 
  * @package Plugins
  */
 class ServerRouting extends ClientResponderAdapter {
@@ -34,9 +35,10 @@ class ServerRouting extends ClientResponderAdapter {
     private $log;
 
     /**
-     * @var array
-     */
-    private $shapes;
+     * The current graph object to be rendered
+     * @var Object
+     */    
+    private $graph;
 
     /** 
      * Constructor
@@ -48,79 +50,168 @@ class ServerRouting extends ClientResponderAdapter {
     }
 
     /**
-     * May convert stops identifiers sent by client to nodes identifiers
-     * useable by external routing module
-     * @param array
-     * @return array
+     * Plugins may extent this method to convert stop identifiers sent by 
+     * client to nodes identifiers usable by the computePath method
+     * @param string Client node identifier
+     * @return object Internal node identifier (used by computePath()) or null
+     *         if the nodeId can't be converted (path will not be computated)
      */
-    protected function convertNodeIds($stops) {
-        return $stops;
+    protected function convertNodeId($nodeId) {
+        return $nodeId;
     }
-
-    /**
-     * May add parameters to those sent by client
-     * @param array
-     * @return array
-     */
-    protected function addParameters($parameters) {
-        return $parameters;
-    }
-
-    /**
-     * May generate a list of shapes to draw path on map using plugin Outline
-     * @param array array of Step
-     * @param array array of StyledShape 
-     */
-    protected function drawRoutingResult($steps) {
-        return array();
-    } 
     
     /**
-     * May add attributes to the routing result
-     * @param array array of Step
+     * Plugins should override this method to serialize the graph model object
+     * into a string, sent back to the client. The default implementation returns
+     * the object directly.
+     * @param object graph model object
+     * @return string The string representation of the object
      */
-    protected function addStepsAttributes($steps) {
-        return $steps;
+    protected function serializeGraph($graph) {
+        return $graph;   
+    }
+    
+    /**
+     * Plugins should override this method to unserialize the graph as a string 
+     * sent by the client to the graph model object.
+     * @param string the graph in string representation
+     * @return object The unserialized graph
+     */
+    protected function unserializeGraph($serializedGraph) {
+        return $serializedGraph;   
     }
 
+    
+    /**
+     * Computes the shortest path between to nodes
+     * @param string The source node identifier
+     * @param string The target node identifier
+     * @param array array of key-value parameters
+     * @return RoutingResult a partial routing result object, containing the 
+     *  unserialized graph model object, and the list of steps. 
+     */
+    protected function computePath($node1, $node2, $parameters) {
+
+        throw new CartoserverException('computePath method needs to be implemented');
+    }
+    
+    /**
+     * Implementors may override this method to add routing attributes to the
+     * routing result once computated by {@link ServerRouting::computePath()}
+     * @param RoutingResult
+     * @return RoutingResult
+     */
+    protected function addRoutingResultAttributes(RoutingResult $routingResult) {
+    
+        return $routingResult;   
+    }
+    
+    /**
+     * When computing a path made of several stops, one graph is generated for
+     * each (startNode, endNode) pairs of the path. This method should merge
+     * two graphs into another one.
+     * @param object The first graph to merge
+     * @param object The second graph to merge
+     * @return object The merged graph object
+     */
+    protected function mergeGraph($oldGraph, $newGraph) {
+
+        return $newGraph;
+    }
+    
+    /**
+     * Internal merging of the routing results
+     */
+    private function mergeRoutingResultGraph(RoutingResult $routingResult, 
+                                               RoutingResult $newRoutingResult) {
+
+        $routingResult->steps = array_merge($routingResult->steps, $newRoutingResult->steps);
+        $routingResult->graph = $this->mergeGraph($routingResult->graph, $newRoutingResult->graph);
+        return $routingResult;
+    }
+    
+    /**
+     * Compute a RoutingResult for a path described as an array of stops. This
+     * will call {@link ServerRouting::computePath()} repeatedly for each
+     * (source node, target node) pairs of the path, and merge the resulting
+     * RoutingResults togeter. 
+     */
+    protected function computeRoutingResult($stops, $parameters) {
+
+            $convertedStsop = array();
+            foreach ($stops as $stop) {
+                $newStop = $this->convertNodeId($stop);
+                $this->log->debug("Converted stop $stop = $newStop");
+                if (is_null($newStop)) {
+                    $this->getServerContext()->addMessage($this, 'nodeIdNotFound',
+                             I18nNoop::gt("Node identifier $stop not found"));        
+                    return null;
+                }
+                $convertedStops[] = $newStop;
+            }
+            $this->log->debug("Converted stops:");
+            $this->log->debug($convertedStops);
+            $routingResult = null;
+
+            for ($i = 0; $i < count($convertedStops) - 1; $i++) {
+                $newRoutingResult = $this->computePath($convertedStops[$i],
+                                                    $convertedStops[$i+1],
+                                                    $parameters);
+
+                if (!is_null($routingResult))
+                    $routingResult = $this->mergeRoutingResult($routingResult, $newRoutingResult);
+                else
+                    $routingResult = $newRoutingResult;
+            }
+            return $routingResult;        
+    }
+    
     /**
      * @see ClientResponder::initializeRequest()
      */
     public function initializeRequest($requ) {
-     
-        $resultShapes = array();
-        $resultSteps = array();
-        $result = new RoutingResult();        
 
-        if (count($requ->stops) > 0) {
-            RoutingModule::init($this->getConfig());
+        $routingResult = new RoutingResult();
         
-            $convertedStops = $this->convertNodeIds($requ->stops);
-      
-            for ($i = 0; $i < count($convertedStops) - 1; $i++) {
-                $parameters = $this->addParameters($requ->parameters);
-         
-                $steps = RoutingModule::computePath($this->getConfig(),
-                                                    $convertedStops[$i],
-                                                    $convertedStops[$i+1],
-                                                    $parameters);
-                $steps2 = $this->addStepsAttributes($steps);
-                if ($steps2) {
-                    $resultSteps = array_merge($resultSteps, $steps2);
-                }
-                $shapes = $this->drawRoutingResult($steps);
-                if ($shapes) {
-                    $resultShapes = array_merge($resultShapes, $shapes);
-                }                                       
+        if (count($requ->stops) > 0) {
+
+            $routingResult = $this->computeRoutingResult($requ->stops, $requ->parameters);
+
+            if (!is_null($routingResult)) {
+                $this->graph = $routingResult->graph;
+                $this->initializeGraph($routingResult->graph);
+
+                $routingResult = $this->addRoutingResultAttributes($routingResult);
+
+                $routingResult->graph = $this->serializeGraph($routingResult->graph);
             }
-            $result->path = $resultShapes;
-            $result->steps = $resultSteps;
+            
         } else {
-            $resultShapes = $requ->path;
+            if (!is_null($requ->graph)) {
+                $this->graph = $this->unserializeGraph($requ->graph);
+            }
         }
 
-        $this->shapes = $resultShapes;
-        return $result;
+        return $routingResult;
+    }
+
+    /**
+     * Plugins may override this method to do special treatment the very first
+     * time a routing computation is done. This will only called the first 
+     * time the graph is drawn.
+     * @param object graph model object
+     */
+    protected function initializeGraph($graph) {
+
+    }
+
+    /**
+     * Plugins should override this method to draw the computated graph object
+     * on the map.
+     * @param graph model object
+     */
+    protected function drawGraph($graph) {
+
     }
 
     /**
@@ -130,11 +221,445 @@ class ServerRouting extends ClientResponderAdapter {
      */    
     public function handlePreDrawing($requ) {
         
+        if (!is_null($this->graph)) {
+            $this->drawGraph($this->graph);
+        }
+    }
+}
+
+/**
+ * ServerRouting implementation, which uses the GeoTools module for shortest
+ * path computation
+ */
+class ServerGeotoolsRouting extends ServerRouting {
+
+    /**
+     * Converts Java array of steps into PHP
+     * @param Java array
+     * @return array
+     */
+    private function convertSteps($javaSteps) {
+        
+        $steps = array();
+        if (is_null($javaSteps) || $javaSteps->size() == 0) {
+            return $steps;
+        }
+        $javaIterator1 = $javaSteps->iterator();
+        while ($javaIterator1->hasNext()) {
+            
+            $javaStep = $javaIterator1->next();
+            $step = null;
+            $attributes = array();
+            if ($javaStep->getClass()->getName()
+                == 'org.cartoweb.routing.RoutingNode') {
+                $step = new Node();
+                $attributes['id'] = $javaStep->getId();                
+            } else if ($javaStep->getClass()->getName()
+                       == 'org.cartoweb.routing.RoutingEdge') {
+                $step = new Edge();
+                $attributes['id1'] = $javaStep->getNodeAId();
+                $attributes['id2'] = $javaStep->getNodeBId();
+            }
+            
+            $javaIterator2 = $javaStep->getAttributes()->entrySet()->iterator();
+            while ($javaIterator2->hasNext()) {
+                $javaEntry = $javaIterator2->next();
+                $attributes[$javaEntry->getKey()] = $javaEntry->getValue();
+            } 
+            $step->attributes = $attributes;
+            $steps[] = $step;
+        }
+        return $steps;
+    }
+
+    /**
+     * @see RoutingModuleInterface::computePath()
+     */
+    protected function computePath($node1, $node2, $parameters) {
+
+        $config = $this->getConfig();
+        $projectHandler = $config->projectHandler;
+        $projectRouting = "";
+        if ($projectHandler->isProjectFile("plugins/routing/server/routing.jar")) {
+            $projectRouting = CARTOSERVER_HOME
+                              . $projectHandler->getPath("plugins/routing/server/routing.jar")
+                              . ";";
+        }
+
+        java_set_library_path($projectRouting . CARTOSERVER_HOME . "plugins/routing/server/routing.jar;" .
+                              CARTOSERVER_HOME . "include/geotools/module/gt2-main.jar;" .
+                              CARTOSERVER_HOME . "include/geotools/plugin/shapefile/gt2-shapefile.jar;" .
+                              CARTOSERVER_HOME . "include/geotools/shared/JTS-1.4.jar;" .
+                              CARTOSERVER_HOME . "include/geotools/shared/geoapi-20050118.jar;" .
+                              CARTOSERVER_HOME . "include/geotools/extension/graph/gt2-graph.jar");
+
+        try { 
+            $javaParameters = new Java("java.util.HashMap");
+            foreach ($parameters as $key => $value) {
+                $javaParameters->put($key, $value);
+            }
+            $external = new Java('org.cartoweb.routing.ExternalRoutingModule');         
+            $javaPath = $external->computePath($node1,
+                                               $node2,
+                                               $javaParameters,
+                                               $config->routingDataType,
+                                               "file://" . CARTOSERVER_HOME . $config->routingNodesSource,
+                                               "file://" . CARTOSERVER_HOME . $config->routingEdgesSource);
+
+            $steps = $this->convertSteps($javaPath);
+            $routingResult = new RoutingResult();
+            $routingResult->steps = $steps;
+            $routingResult->graph = $steps;
+            return $routingResult;                                             
+        } catch (Exception $e) {
+            throw new CartoclientException($e->getMessage());
+        }    
+    }    
+}
+
+/**
+ * Graph model object used in the Postgres Implementation of ServerRouting
+ */
+class PostgresGraph {
+    /**
+     * Array of strings of node identifier of the path
+     * @var array
+     */
+    public $stops;
+
+    /**
+     * Key-value array of parameters
+     * @var array
+     */
+    public $parameters;
+
+    /**
+     * Identifier of the results, for database retrieval of the path
+     * @var int
+     */
+    public $resultsIds;     
+}
+
+/**
+ * ServerRouting implementation, which uses Postgres dijsktra module for shortest
+ * path computation
+ */
+class ServerPostgresRouting extends ServerRouting {
+
+    /**
+     * @var Logger
+     */
+    private $log;
+
+    /**
+     * Database object
+     * @var DB
+     */
+    private $db;
+
+    /** 
+     * Constructor
+     */
+    public function __construct() {
+
+        parent::__construct();
+        require_once('DB.php');                
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
+
+    /**
+     * Wrapper for PEAR::isError, which throws an exception in case of failure
+     * @param object 
+     */
+    protected function checkDbError($db) {
+        if (PEAR::isError($db)) {
+            $msg = sprintf('Message: %s  Userinfo: %s', $db->getMessage(), $db->userinfo);
+            throw new CartoserverException($msg);
+        }
+    }
+
+    /**
+     * Returns the Pear::DB database connection.
+     * @return DB
+     */    
+    protected function getDb() {
+        if ($this->db)
+            return $this->db;
+        
+        if (!$this->getConfig()->routingDsn)
+            throw new CartoserverException('Missing routingDsn parameter');
+        $dsn = $this->getConfig()->routingDsn;
+        
+        $this->db = DB::connect($dsn);
+        $this->checkDbError($this->db);
+        return $this->db;        
+    }
+
+    /**
+     * The default implementation will use the table format of the Pgdijkstra
+     *  package, for converting node identifiers to internal ones. Plugins
+     *  should override this method if not using the default Pgdijkstra format 
+     * @see ServerRouting::convertNodeId()
+     */
+    protected function convertNodeId($nodeId) {
+    
+        $db = $this->getDb();
+        
+        $table = $this->getConfig()->postgresRoutingTable;
+        $id = $db->getOne("SELECT id FROM {$table}_vertices WHERE geom_id ILIKE '$nodeId'");
+        $this->checkDbError($db);
+        
+        return $id;
+    }
+
+    /**
+     * @see RoutingModule::mergeGraph()
+     */
+    protected function mergeGraph($oldGraph, $newGraph) {
+        // FIXME: not tested
+        array_pop($oldGraph->stops);
+        $oldGraph->stops[] = $newGraph->stops[1]; 
+        array_push($oldGraph->resultsIds, $newGraph->resultIds[0]); 
+        return $oldGraph;
+    }
+
+    /**
+     * @return string The name of the table containing the path geometries
+     */
+    protected final function getRoutingResultsTable() {
+
+        if ($this->getConfig()->postgresRoutingResultsTable)
+            return $this->getConfig()->postgresRoutingResultsTable;
+        return 'routing_results';
+    }
+
+    /**
+     * Deletes the geometries on the results table which are too old 
+     */
+    private function deleteOldResults() {
+
+        $routingResultsTable = $this->getRoutingResultsTable();
+
+        $maxLifetime = $this->getConfig()->postgresRoutingResultsMaxLifetime;
+        if (!$maxLifetime) {
+            $maxLifetime = 60 * 60 * 24; // by default, one day    
+        }
+        
+        $tod = gettimeofday();
+        $stampLimit = $tod['sec'] - $maxLifetime;
+
+        $r = $this->getDb()->query("DELETE FROM $routingResultsTable WHERE timestamp < $stampLimit");
+        $this->checkDbError($r);        
+    }
+
+    /**
+     * This methods performs a database query which will return the shortest
+     * path (see Pgdijkstra documentation for the API).
+     * Plugins may override this method to perform specific queries.
+     * @param string The table containing the graph
+     * @param string The source node identifier
+     * @param string The target node identifier
+     * @param array array of key-value parameters
+     * @return DB_result A Pear::DB result object, which is the result of the 
+     *  shortest_path function. It may contain additional columns, which will
+     *  be used in the {@link getNodes()} function.
+     */
+    protected function shortestPathQuery($table, $node1, $node2, $parameters) {
+
+        $db = $this->getDb();
+        $prepared = $db->prepare("SELECT edge_id, x(the_geom), y(the_geom) FROM shortest_path('SELECT id, source, target, cost FROM {$table}_edges', ?, ?, false, false) left join {$table}_vertices on vertex_id = id;");
+        $this->checkDbError($prepared);        
+        return $db->execute($prepared, array($node1, $node2));        
+    }
+
+    /**
+     * This method iterates over the results returned by 
+     * {@link ServerPostgresRouting::shortestPathQuery()} and fills the table
+     * containing the path geometries.
+     * @param string the table containing the geomeetries
+     * @param DB_result the database results returned by shortestPathQuery()
+     * @param int The identifier to use when storing the path geometries in the 
+     * results table
+     * @param int The timestamp to store in the table
+     * @return array An array of Nodes
+     */
+    protected function getNodes($table, DB_result $result, $resultsId, 
+                                $timestamp) {
+    
+        $nodes = array();
+        $routingResultsTable = $this->getRoutingResultsTable();
+        $db = $this->getDb();
+
+        while ($result->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+            $node = new Node();
+            $node->attributes['edge_id'] = $row['edge_id'];
+            $node->attributes['x'] = $row['x'];
+            $node->attributes['y'] = $row['y'];
+
+            // Warning: make sure index on edge_id is present
+            
+            $routingResultsTable = $this->getRoutingResultsTable();
+
+            $edgeId = $node->attributes['edge_id'];
+            $r = $db->query("INSERT INTO $routingResultsTable SELECT $resultsId, " .
+                    "$timestamp, gid, the_geom FROM $table WHERE edge_id = $edgeId");
+            $this->checkDbError($r);
+            
+            $nodes[] = $node;
+        }
+        
+        return $nodes;    
+    }
+
+    /**
+     * @see RoutingModuleInterface::computePath()
+     */
+    protected function computePath($node1, $node2, $parameters) {
+
+        $db = $this->getDb();
+        $this->checkDbError($db);
+        
+        $table = $this->getConfig()->postgresRoutingTable;
+        if (!$table)
+            throw new CartoserverException("postgresRoutingTable parameter missing");
+        
+        $result = $this->shortestPathQuery($table, $node1, $node2, $parameters);
+        $this->checkDbError($result);
+
+        $routingResult = new RoutingResult();
+
+        $tod = gettimeofday();
+        $resultsId = $db->nextId($this->getRoutingResultsTable());
+        $timestamp = $tod['sec'];        
+        $routingResult->steps = $this->getNodes($table, $result, $resultsId, $timestamp);
+
+        $this->deleteOldResults();
+        
+        $routingResult->graph = new PostgresGraph();
+        $routingResult->graph->stops = array($node1, $node2);
+        $routingResult->graph->resultsIds = array($resultsId);
+         
+        return $routingResult;
+    }
+
+    /**
+     * @see ServerRouting::serializeGraph()
+     */
+    protected function serializeGraph($graph) {
+        return serialize($graph);   
+    }
+
+    /**
+     * @see ServerRouting::unserializeGraph()
+     */
+    protected function unserializeGraph($serializedGraph) {
+
+        $graph = unserialize($serializedGraph);
+        $db = $this->getDb();
+        
+        for ($i = 0; $i < count($graph->stops) - 1; $i++) {
+            $resultsId = $graph->resultsIds[$i];
+
+            $routingResultsTable = $this->getRoutingResultsTable();            
+            $count = $db->getOne("SELECT count(results_id) FROM $routingResultsTable WHERE results_id = $resultsId");
+            $this->checkDbError($count);
+            if ($count == 0) {
+                // compute path again
+                $routingResult = $this->computePath($graph->stops[$i], $graph->stops[$i + 1], $graph->parameters);                                
+                $graph->resultsIds[$i] = $routingResult->graph->resultsIds[0];
+            }
+        }
+        return $graph;
+    }
+
+    /**
+     * Recenter the map on the path identified by the given results id. This
+     * method can be called by plugins for recentering.
+     * WARNING: It must be used from the {@link ServerRouting::initializeGraph()} 
+     * if wanted, otherwise the recentering will not be done. 
+     * @param array An array of integer identifiers of the results to be used 
+     * for recentering
+     */
+    protected function recenter($resultsIds) {
+
+        $locationRequest = new LocationRequest();
+        $locationRequest->bboxLocationRequest = new BboxLocationRequest();
+        $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
+
+        $db = $this->getDb();    
+        
+        $routingResultsTable = $this->getRoutingResultsTable();
+
+        $ids = '(' . implode(',', $resultsIds) . ')';
+
+        $sql = "SELECT xmin(extent), ymin(extent), xmax(extent), ymax(extent) " .
+        "FROM (SELECT extent( the_geom) FROM $routingResultsTable " .
+        "WHERE results_id IN $ids) AS extent";
+
+        $result = $this->getDb()->getAll($sql);
+        $this->checkDbError($result);
+
+        if (count($result) != 1) {
+            throw new CartoserverException("Can't find bbox of results_id $resultsId");   
+        }
+
+        $extent = $result[0];
+        $bbox = new Bbox($extent[0], $extent[1], $extent[2], $extent[3]);
+            
+        // Margin
+        $percent = 5;
+        $width = $bbox->getWidth();
+        if ($width == 0) $width = 100;
+        $height = $bbox->getHeight();
+        if ($height == 0) $height = 100;
+
+        $bbox->setFromBbox($bbox->minx - $width * $percent / 100,
+                           $bbox->miny - $height * $percent / 100,
+                           $bbox->maxx + $width * $percent / 100,
+                           $bbox->maxy + $height * $percent / 100);
+        $locationRequest->bboxLocationRequest->bbox = $bbox;
+
         $pluginManager = $this->serverContext->getPluginManager();
-        if (empty($pluginManager->outline))
-            throw new CartoserverException("outline plugin not loaded, "
-                    . "and needed for the path drawing");
-        $pluginManager->outline->draw($this->shapes);        
+        $locationPlugin = $pluginManager->getPlugin('location');
+        $pluginManager->callPluginImplementing($locationPlugin,
+                                               'ClientResponder',
+                                               'setRequest',
+                                               $locationRequest);    
+    }
+
+    /**
+     * @see ServerRouting::initializeGraph()
+     */
+    protected function initializeGraph($graph) {
+        
+        $this->recenter($graph->resultsIds);
+    }
+
+    /**
+     * @see ServerRouting::drawGraph()
+     */        
+    protected function drawGraph($graph) {
+
+        $routingResultsLayer = $this->getConfig()->postgresRoutingResultsLayer;
+        if (!$routingResultsLayer)
+            $routingResultsLayer = 'routing_results';
+
+        $msMapObj = $this->getServerContext()->getMapObj();
+        $msLayer = $msMapObj->getLayerByName($routingResultsLayer);
+        if (!$msLayer)
+            throw new CartoserverException("Routing results layer " .
+                    "$routingResultsLayer not found");
+        $msLayer->set('status', MS_ON);
+
+        $routingResultsTable = $this->getRoutingResultsTable();
+
+        $ids = '(' . implode(',', $graph->resultsIds) . ')';
+        $routingResultsAttributes = $this->getConfig()->postgresRoutingResultsAttributes;
+        if (strlen($routingResultsAttributes) > 0)
+            $routingResultsAttributes = ", $routingResultsAttributes"; 
+             
+        $layerData = "the_geom from (SELECT the_geom, gid $routingResultsAttributes from $routingResultsTable where results_id IN $ids) as foo using unique gid using srid=-1";
+        $msLayer->set('data', $layerData);
     }
 }
 

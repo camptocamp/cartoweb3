@@ -28,9 +28,9 @@
 class RoutingState {
 
     /** 
-     * @var array
+     * @var string
      */
-    public $path = null;
+    public $graph = null;
     
     /** 
      * @var array
@@ -137,7 +137,7 @@ class ClientRouting extends ClientPlugin
     public function buildRequest() {
         
         $request = new RoutingRequest();
-        $request->path = $this->routingState->path;
+        $request->graph = $this->routingState->graph;
         if ($this->doRouting) {
             $request->stops = array($this->routingState->from,
                                     $this->routingState->to);
@@ -151,8 +151,8 @@ class ClientRouting extends ClientPlugin
      */ 
     public function initializeResult($result) {
     
-        if (!is_null($result->path)) {
-            $this->routingState->path = $result->path;
+        if (isset($result->graph) && !is_null($result->graph)) {
+            $this->routingState->graph = $result->graph;
         }
     }
 
@@ -166,7 +166,7 @@ class ClientRouting extends ClientPlugin
      * @return string
      */ 
     protected function drawRouting() {
-        $smarty = new Smarty_CorePlugin($this->getCartoclient(), $this);
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign(array('routing_options_values' => array(0,1),
                               'routing_options_labels' => array(I18n::gt('fastest'),
                                                                 I18n::gt('shortest'))));        

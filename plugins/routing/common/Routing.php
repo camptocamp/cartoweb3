@@ -28,6 +28,13 @@
 class RoutingRequest extends Serializable {
     
     /**
+     * Opaque string representation of the graph model object used for the 
+     *  server display. The client should not try to interpret its content.
+     * @var string
+     */
+    public $graph;
+    
+    /**
      * Where to stop, including start and end
      *
      * Array of string, each one identifying a point. If null, server will only
@@ -41,21 +48,14 @@ class RoutingRequest extends Serializable {
      * @var array
      */
     public $parameters;
-
-    /**
-     * Array of StyledShape needed by Outline server plugin
-     * @var array
-     */
-    public $path;
     
     /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
+        $this->graph      = self::unserializeValue($struct, 'graph');
         $this->stops      = self::unserializeArray($struct, 'stops');
         $this->parameters = self::unserializeArray($struct, 'parameters');
-        $this->path       = self::unserializeObjectMap($struct, 'path',
-                                                       'StyledShape');
     }    
 }
 
@@ -100,14 +100,12 @@ class Edge extends Step {
 class RoutingResult extends Serializable {
 
     /**
-     * Geometric path
-     *
-     * Array of StyledShape needed by Outline server plugin, to be stored
-     * in client session.
-     * @var array
+     * Opaque string representation of the graph model object used for the 
+     *  server display. The client should not try to interpret its content.
+     * @var string
      */
-    public $path;
-
+    public $graph;
+    
     /**
      * Logical path
      * 
@@ -127,8 +125,7 @@ class RoutingResult extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->path  = self::unserializeObjectMap($struct, 'path',
-                                                  'StyledShape');
+        $this->graph = self::unserializeValue($struct, 'graph');
         $this->steps = self::unserializeObjectMap($struct, 'steps');
         $this->attributes = self::unserializeArray($struct, 'attributes');
     }
