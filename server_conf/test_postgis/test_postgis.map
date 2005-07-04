@@ -57,9 +57,9 @@ MAP
   END
   
   QUERYMAP
-  	COLOR 0 0 0
-  	STATUS ON
-  	STYLE Hilite
+    COLOR 0 0 0
+    STATUS ON
+    STYLE Hilite
   END
   
   LAYER
@@ -75,8 +75,8 @@ MAP
       "key2" "value2"
       "key3" "value3"
       "key4" "value4"
-  	  "id_attribute_string" "FID|string"
-	  "query_returned_attributes" "FID FNAME"
+      "id_attribute_string" "FID|string"
+      "query_returned_attributes" "FID FNAME"
     END
     CLASSITEM "FNAME"
     
@@ -118,7 +118,7 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "A_NAME|string"
+      "id_attribute_string" "A_NAME|string"
     END
     DATA "some_rectangles"
     CLASSITEM "A_NAME"
@@ -143,7 +143,7 @@ MAP
     STATUS DEFAULT
     DATA "line"
     METADATA
-	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     CLASSITEM "FNAME"
 
@@ -180,12 +180,12 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "point"
     CLASSITEM "FNAME"
     LABELITEM "FNAME"
-	TEMPLATE "ttt"
+      TEMPLATE "ttt"
     CLASS
       NAME "Point class 1"
       STYLE
@@ -246,7 +246,7 @@ MAP
       "init=epsg:4326"
     END
 
-	TRANSPARENCY 50
+    TRANSPARENCY 50
     CLASS
       STYLE
         OUTLINECOLOR 0 0 204
@@ -264,7 +264,7 @@ MAP
       "init=epsg:4326"
     END
 
-	TRANSPARENCY 50
+    TRANSPARENCY 50
     CLASS
       STYLE
         COLOR 155 153 102
@@ -283,9 +283,9 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
-  	  "mask_transparency" "50"
-  	  "mask_color" "255, 255, 0"
+      "id_attribute_string" "FID|string"
+      "mask_transparency" "50"
+      "mask_color" "255, 255, 0"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -309,9 +309,9 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
-  	  "mask_transparency" "50"
-  	  "mask_color" "255, 255, 0"
+      "id_attribute_string" "FID|string"
+      "mask_transparency" "50"
+      "mask_color" "255, 255, 0"
     END
     DATA "grid"
     #CLASSITEM "FID"
@@ -344,8 +344,8 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
-  	  "outside_mask" "my_outside_mask"
+      "id_attribute_string" "FID|string"
+      "outside_mask" "my_outside_mask"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -369,7 +369,7 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -393,7 +393,7 @@ MAP
     END
     STATUS DEFAULT
     METADATA
-  	  "id_attribute_string" "FID|string"
+      "id_attribute_string" "FID|string"
     END
     DATA "grid"
     CLASSITEM "FID"
@@ -456,9 +456,9 @@ MAP
       "init=epsg:4326"
     END
     STATUS DEFAULT
-	CONNECTIONTYPE postgis
-	CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
-	DATA "the_geom from (SELECT the_geom, gid from lines) as foo using unique gid using srid=-1"
+      CONNECTIONTYPE postgis
+      CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
+      DATA "the_geom from (SELECT the_geom, gid from lines) as foo using unique gid using srid=-1"
     #DATA "postgis_lines"
     TEMPLATE "ttt"
     CLASS
@@ -477,8 +477,8 @@ MAP
     END
     STATUS DEFAULT
     CONNECTIONTYPE postgis
-	CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
-	DATA "the_geom from (SELECT the_geom, gid from points) as foo using unique gid using srid=-1"
+      CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
+      DATA "the_geom from (SELECT the_geom, gid from points) as foo using unique gid using srid=-1"
     #DATA "postgis_points"
     TEMPLATE "ttt"
     CLASS
@@ -497,8 +497,8 @@ MAP
     END
     STATUS DEFAULT
     CONNECTIONTYPE postgis
-	CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
-	DATA "the_geom from (SELECT the_geom, gid from polygons) as foo using unique gid using srid=-1"
+    CONNECTION "user=www-data password=www-data host=localhost dbname=test_postgis"
+    DATA "the_geom from (SELECT the_geom, gid from polygons) as foo using unique gid using srid=-1"
     #DATA "postgis_polygons"
     TEMPLATE "ttt"
     CLASS

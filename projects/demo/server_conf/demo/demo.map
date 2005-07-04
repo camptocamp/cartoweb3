@@ -98,8 +98,8 @@ MAP
 
     TEMPLATE "ttt"
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "AREA" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "AREA" 
     END
 
     CLASS
@@ -145,8 +145,8 @@ MAP
     TRANSPARENCY 70
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "AREA" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "AREA" 
     END
     
     TEMPLATE "ttt"
@@ -168,7 +168,7 @@ MAP
     CLASS
       NAME "river"
       STYLE
-	SYMBOL "circle"
+        SYMBOL "circle"
         SIZE 1
         COLOR 120 120 180
       END
@@ -195,7 +195,7 @@ MAP
         SYMBOL 'line' 
         SIZE 3 
         COLOR 0 0 0
-      END	
+      END
       STYLE
         SYMBOL 'line-dashed'
         COLOR 255 255 255
@@ -211,8 +211,8 @@ MAP
     DATA "builtupa"
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "NAM" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "NAM" 
     END
 
     LABELITEM "NAM"
@@ -225,7 +225,7 @@ MAP
       STYLE
         SIZE 5
         SYMBOL "fill45"
-	COLOR 136 33 33
+        COLOR 136 33 33
         OUTLINECOLOR 64 12 12
       END
       LABEL
@@ -234,10 +234,10 @@ MAP
         FONT "Vera"
         SIZE 11
         COLOR 0 0 0
-	POSITION lc
-	BACKGROUNDCOLOR 245 235 235
-	BACKGROUNDSHADOWCOLOR 55 55 55
-	BACKGROUNDSHADOWSIZE 1 1
+        POSITION lc
+        BACKGROUNDCOLOR 245 235 235
+        BACKGROUNDSHADOWCOLOR 55 55 55
+        BACKGROUNDSHADOWSIZE 1 1
       END
     END
   END
@@ -249,15 +249,15 @@ MAP
     DATA "polbnda"
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "NAM" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "NAM" 
     END
 
     CLASS
       STYLE
         OUTLINECOLOR 133 155 133
         SYMBOL 'circle' 
-	SIZE 1 
+        SIZE 1 
       END
     END
   END
@@ -286,8 +286,8 @@ MAP
     DATA "elevp"
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "ZV2" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "ZV2" 
     END
 
     TRANSPARENCY 90
@@ -337,8 +337,8 @@ MAP
     DATA "aerofacp"
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "NAM"
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "NAM"
     END
     LABELITEM "NAM"
 
@@ -362,10 +362,10 @@ MAP
         FONT "Vera"
         SIZE 7
         COLOR 0 0 120
-	POSITION lc
-	BACKGROUNDCOLOR 210 210 255
-	BACKGROUNDSHADOWCOLOR 55 55 55
-	BACKGROUNDSHADOWSIZE 1 1
+        POSITION lc
+        BACKGROUNDCOLOR 210 210 255
+        BACKGROUNDSHADOWCOLOR 55 55 55
+        BACKGROUNDSHADOWSIZE 1 1
       END
     END
   END
@@ -377,8 +377,8 @@ MAP
     DATA "mispopp"
 
     METADATA
-	"id_attribute_string" "OGC_FID|string"
-	"query_returned_attributes" "TXT" 
+        "id_attribute_string" "OGC_FID|string"
+        "query_returned_attributes" "TXT" 
     END
 
     MAXSCALE 2001000
@@ -404,10 +404,10 @@ MAP
         FONT "Vera"
         SIZE 9
         COLOR 0 0 0
-	POSITION lc
-	BACKGROUNDCOLOR 245 235 235
-	BACKGROUNDSHADOWCOLOR 55 55 55
-	BACKGROUNDSHADOWSIZE 1 1
+        POSITION lc
+        BACKGROUNDCOLOR 245 235 235
+        BACKGROUNDSHADOWCOLOR 55 55 55
+        BACKGROUNDSHADOWSIZE 1 1
       END
     END
   END
@@ -452,7 +452,7 @@ MAP
         FONT "Vera"
         SIZE 11
         COLOR 120 20 20 
-	ANGLE auto
+        ANGLE auto
         POSITION uc
       END
     END
