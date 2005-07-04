@@ -416,15 +416,15 @@ msgstr ""
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
-msgstr "Distance approx. :"
+msgstr "Ungefähre Distanz : "
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. surface: "
-msgstr "Surface approx. :"
+msgstr "Ungefähre Fläche : "
 
 #: templates/dhtmlcode.tpl
 msgid "Coords (m): "
-msgstr "Coord. (m) :"
+msgstr "Koord. (m) : "
 
 #: templates/dhtmlcode.tpl
 msgid "Overlapping polygons forbidden"
