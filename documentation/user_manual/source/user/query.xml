@@ -82,7 +82,7 @@
         <listitem>
           <para> 
             drawQueryUsingHilight<indexterm><primary>drawQueryUsingHilight</primary></indexterm>: 
-            if true, query hilighting will use Hilight plugin. In thios cas, 
+            if true, query hilighting will use Hilight plugin. In this case, 
             Hilight plugin must be loaded on server. If false, objects will be 
             hilighed using MapServer query functionality. See also <xref 
             linkend="user.query.mapfile.hilight" /> (default: false)</para>
