@@ -35,7 +35,7 @@ Common::preInitializeCartoweb(array('client' => true));
 
 require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 
-$cartoclient = new Cartoclient();
+$cartoclient = new Cartoclient(Cartoclient::OUTPUT_PDF_EXPORT);
 if (!$cartoclient->clientAllowed()) {
     return;
 }
