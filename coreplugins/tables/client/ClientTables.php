@@ -160,8 +160,8 @@ class ClientTables extends ClientPlugin
                     continue;
                 }    
                 foreach ($table->rows as $row) {            
-                    $row->rowId = $row->rowId;
-                    $row->cells = $row->cells;
+                    $row->rowId = Encoder::decode($row->rowId);
+                    $row->cells = Encoder::decode($row->cells);
                 }
             }
         }
