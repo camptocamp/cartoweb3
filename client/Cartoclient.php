@@ -300,23 +300,34 @@ class Cartoclient {
     private $interruptFlow = false;
 
     /**
-     * Indicates if views device is activated
-     * @var boolean
-    
-    /**
      * @var ViewManager
      */
     private $viewManager;
 
     /**
+     * Indicates if a view is to be processed.
      * @var boolean
      */
     private $viewOn = false;
 
     /**
+     * Indicates if views device is activated.
      * @var boolean
      */
     private $viewsEnable;
+
+    /**
+     * @var string
+     */
+    private $outputType;
+
+    /**
+     * Output formats constants.
+     */
+    const OUTPUT_HTML_VIEWER = 'html_viewer';
+    const OUTPUT_HTML_EXPORT = 'html_export';
+    const OUTPUT_PDF_EXPORT  = 'pdf_export';
+    const OUTPUT_CSV_EXPORT  = 'csv_export';
 
     /**
      * Constructor
@@ -330,10 +341,11 @@ class Cartoclient {
      * Plugins cannot call internationalization functions in constructor
      * and in preInitialize().
      */
-    public function __construct() {
+    public function __construct($outputType = self::OUTPUT_HTML_VIEWER) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
+        $this->outputType = $outputType;
         
         try {
             $this->initializePlugins();
@@ -503,6 +515,14 @@ class Cartoclient {
         return $this->viewsEnable;
     }
 
+    /**
+     * Returns the current output type (pdf, csv, html, etc.).
+     * @return string
+     */
+    public function getOutputType() {
+        return $this->outputType;
+    }
+    
     /**
      * Initializes core and normal client plugins
      */
