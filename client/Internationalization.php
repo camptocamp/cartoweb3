@@ -207,7 +207,7 @@ class I18n {
      * @return string tranlated text
      */
     static public function gt($text) {
-        $result = self::$i18n->gettext(Encoder::decode($text, 'config'));
+        $result = self::$i18n->gettext($text, 'config');
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
         }
