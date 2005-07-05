@@ -86,10 +86,12 @@ class ClientExportCsv extends ExportPlugin {
             $format = '[table]-[date,dMY].csv';
         }
         $fileName = $format;
+	$tableName = str_replace(' ', '_', $tableName);
+
         $fileName = str_replace('[table]', $tableName, $fileName);
         ereg('(.*)\[date,(.*)\](.*)', $fileName, $match);
         $fileName = $match[1] . date($match[2]) . $match[3];
-        
+
         return $fileName;
     }
 
