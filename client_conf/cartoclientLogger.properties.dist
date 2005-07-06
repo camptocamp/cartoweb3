@@ -1,5 +1,3 @@
-log4php.debug = "false"
-
 ; Uncomment to enable logging
 ;log4php.rootLogger=DEBUG, A1
 
