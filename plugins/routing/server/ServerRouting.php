@@ -434,6 +434,17 @@ class ServerPostgresRouting extends ServerRouting {
     }
 
     /**
+     * @return string The name of the main table for pgdijkstra module
+     */
+    protected final function getRoutingTable() {
+
+        if ($this->getConfig()->postgresRoutingTable)
+            return $this->getConfig()->postgresRoutingTable;
+        throw new CartoserverException("postgresRoutingTable parameter missing");            
+        return '';
+    }
+
+    /**
      * Deletes the geometries on the results table which are too old 
      */
     private function deleteOldResults() {
@@ -464,9 +475,10 @@ class ServerPostgresRouting extends ServerRouting {
      *  shortest_path function. It may contain additional columns, which will
      *  be used in the {@link getNodes()} function.
      */
-    protected function shortestPathQuery($table, $node1, $node2, $parameters) {
+    protected function shortestPathQuery($node1, $node2, $parameters) {
 
         $db = $this->getDb();
+        $table = $this->getRoutingTable();
         $prepared = $db->prepare("SELECT edge_id, x(the_geom), y(the_geom) FROM shortest_path('SELECT id, source, target, cost FROM {$table}_edges', ?, ?, false, false) left join {$table}_vertices on vertex_id = id;");
         $this->checkDbError($prepared);        
         return $db->execute($prepared, array($node1, $node2));        
@@ -483,10 +495,10 @@ class ServerPostgresRouting extends ServerRouting {
      * @param int The timestamp to store in the table
      * @return array An array of Nodes
      */
-    protected function getNodes($table, DB_result $result, $resultsId, 
-                                $timestamp) {
+    protected function getNodes(DB_result $result, $resultsId, $timestamp) {
     
         $nodes = array();
+        $table = $this->getRoutingTable();
         $routingResultsTable = $this->getRoutingResultsTable();
         $db = $this->getDb();
 
@@ -518,12 +530,8 @@ class ServerPostgresRouting extends ServerRouting {
 
         $db = $this->getDb();
         $this->checkDbError($db);
-        
-        $table = $this->getConfig()->postgresRoutingTable;
-        if (!$table)
-            throw new CartoserverException("postgresRoutingTable parameter missing");
-        
-        $result = $this->shortestPathQuery($table, $node1, $node2, $parameters);
+                
+        $result = $this->shortestPathQuery($node1, $node2, $parameters);
         $this->checkDbError($result);
 
         $routingResult = new RoutingResult();
@@ -531,7 +539,7 @@ class ServerPostgresRouting extends ServerRouting {
         $tod = gettimeofday();
         $resultsId = $db->nextId($this->getRoutingResultsTable());
         $timestamp = $tod['sec'];        
-        $routingResult->steps = $this->getNodes($table, $result, $resultsId, $timestamp);
+        $routingResult->steps = $this->getNodes($result, $resultsId, $timestamp);
 
         $this->deleteOldResults();
         
