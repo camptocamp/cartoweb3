@@ -61,4 +61,4 @@ checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
 </fieldset>
 {/if}
 
-<input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
+<input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)" />
