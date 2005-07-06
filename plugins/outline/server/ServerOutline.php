@@ -253,6 +253,14 @@ class ServerOutline extends ClientResponderAdapter {
             $this->serverContext->setMsMainmapImage($msMapObj->draw());
         }
     } 
+
+	/**
+	 * Returns the area of a shape. May be overrided to have a more precise area
+	 * computation.
+	 */
+    protected function getShapeArea($shape) {
+        return $shape->getArea();
+    }
     
     /**
      * Handles shapes drawing and area computation
@@ -289,7 +297,9 @@ class ServerOutline extends ClientResponderAdapter {
                                                get_class($shape));
             }
             
-            $area += $shape->getArea();
+            //$area += $shape->getArea();
+            $area += $this->getShapeArea($shape);
+            
         }
         
         if (!$maskMode) {
