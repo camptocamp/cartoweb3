@@ -122,6 +122,10 @@
         <para> authLang = list: restricted list of language usable. In the case you have many languages 
           in directory &lt;cartoweb_home&gt;/locale/ and you do not want to use them all in your project.</para>
       </listitem>
+      <listitem>
+        <para> orderLang = list: reordered list of language. By default the languages appear in 
+          alphabetical order. Use this parameter to reorder them as you want.</para>
+      </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.config.server">
