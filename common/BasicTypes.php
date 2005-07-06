@@ -385,6 +385,7 @@ class Bbox extends Shape {
 
     /**
      * @see Shape::getCenter()
+     * @return Point
      */
     public function getCenter() {
 
