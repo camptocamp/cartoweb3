@@ -42,6 +42,12 @@ class I18n {
     static private $authLanglist;
 
     /**
+     * Order lang list
+     * @var string
+     */
+     static private $orderLanglist;
+
+    /**
      * Guess the I18nInterface class to use
      * @return I18nInterface The i18n interface to use.
      */
@@ -65,6 +71,7 @@ class I18n {
             self::$i18n = self::guessI18nClass();
 
         self::$authLanglist = $config->authLang;
+        self::$orderLanglist = $config->orderLang;
         
         self::setLocale($config->defaultLang);
 
@@ -84,7 +91,7 @@ class I18n {
         $authLang = array();
 
         if (self::$authLanglist != '')
-            $authLang = explode(",", trim(self::$authLanglist));       
+            $authLang = explode(',', trim(self::$authLanglist));
            
         // Looks in directory locale
         $dir = CARTOCLIENT_HOME . 'locale/';
@@ -100,7 +107,12 @@ class I18n {
             }
             $locales[] = $entry;
         }
-        return $locales;    
+
+        if (self::$orderLanglist != '') {
+            $locales = self::localesSort($locales);
+        }
+
+        return $locales;
     }
     
     /**
@@ -207,7 +219,7 @@ class I18n {
      * @return string tranlated text
      */
     static public function gt($text) {
-        $result = self::$i18n->gettext($text, 'config');
+        $result = self::$i18n->gettext(Encoder::decode($text, 'config'));
         if (Encoder::getCharset() == Encoder::getCharset('config')) {
             return $result;
         }
@@ -229,6 +241,32 @@ class I18n {
         }
         return Encoder::decode(Encoder::encode($result, 'config'));
     }
+
+    /**
+     * Sort locales array accordingly to reference array
+     * @param array list of locales language
+     * @return array sorted locales language
+     */
+     static private function localesSort($locales) {
+        $o = explode (',', trim (self::$orderLanglist));
+        $n = array();
+        $r = array();     
+        foreach ($locales as $lang) {
+            $f = 0;
+            if (in_array ($lang, $o)) {
+                for ($i = 0; $i < sizeof($o); $i++) {
+                    if ($f == 0 && $lang == $o[$i]) {
+                        $n[$i] = $lang;
+                        $f = 1;
+                    }
+                }
+            } else {
+                $r[] = $lang;
+            }          
+        }
+        ksort ($n);
+        return array_merge ($n, $r);
+     }
 }
 
 /**
