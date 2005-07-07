@@ -152,9 +152,9 @@ class ClientTables extends ClientPlugin
             }            
             foreach ($tableGroup->tables as $table) {
                 if (!empty($table->tableTitle))
-                    $table->tableTitle = I18n::gt($table->tableTitle);
+                    $table->tableTitle = Encoder::encode(I18n::gt($table->tableTitle));
                 foreach ($table->columnTitles as $key => $columnTitle) {
-                    $table->columnTitles[$key] = I18n::gt($columnTitle);                          
+                    $table->columnTitles[$key] =  Encoder::encode(I18n::gt($columnTitle));                          
                 }
                 if ($table->numRows == 0) {
                     continue;
