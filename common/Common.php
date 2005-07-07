@@ -26,7 +26,26 @@
  * @package Common
  */
 class CartowebException extends Exception {
-    
+
+    /**
+     * The current exception message
+     * 
+     * @var string 
+     */
+    private $msg;
+
+    /**
+     * Constructor
+     *
+     * Adds backtrace data to current exception message.
+     * @param string exception message
+     */
+    public function __construct($message) {
+        $this->msg = $message;
+        $message .= "\n" . $this->backtrace();
+        parent::__construct($message);
+    }
+
     /**
      * Transforms a backtrace structure into a readable html string
      * 
@@ -82,15 +101,14 @@ class CartowebException extends Exception {
     }
 
     /**
-     * Constructor
+     * Gets the current message
      *
-     * Adds backtrace data to current exception message.
-     * @param string exception message
+     * @return string
      */
-    public function __construct($message) {
-        $message .= "\n" . $this->backtrace();
-        parent::__construct($message);
+    public function getCartowebMessage() {
+        return $this->msg;
     }
+
 }
 
 /**
