@@ -57,6 +57,22 @@ struct Vertex
 };
 
 
+template <class G, class E>
+static void
+graph_add_edge(G &graph, int id, int source, int target, float8 cost)
+{
+    E e;
+    bool inserted;
+    
+    if (cost < 0) // edges are not inserted in the graph if cost is negative
+	return;
+
+    tie(e, inserted) = add_edge(source, target, graph);
+
+    graph[e].cost = cost;
+    graph[e].id = id;
+}
+
 int 
 boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vertex,
 	       bool directed, bool has_reverse_cost,
@@ -79,25 +95,24 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
     for (std::size_t j = 0; j < count; ++j)
     {
-	edge_descriptor e; bool inserted;
-	tie(e, inserted) = add_edge(edges[j].source, edges[j].target, graph);
+	graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].source, 
+						 edges[j].target, edges[j].cost);
 
-	graph[e].cost = edges[j].cost;
-	graph[e].id = edges[j].id;
-				
 	if (!directed || (directed && has_reverse_cost))
 	{
-	    tie(e, inserted) = add_edge(edges[j].target, edges[j].source, graph);
-	    graph[e].id = edges[j].id;
+	    float8 cost;
 
 	    if (has_reverse_cost)
 	    {
-		graph[e].cost = edges[j].reverse_cost;
+		cost = edges[j].reverse_cost;
 	    }
 	    else 
 	    {
-		graph[e].cost = edges[j].cost;
+		cost = edges[j].cost;
 	    }
+
+	    graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].target, 
+						     edges[j].source, cost);
 	}
     }
 

@@ -1,6 +1,7 @@
 HEAD
  
  * Added step column to path_result
+ * If cost is negative edge is not inserted in the graph
 
 0.2           June 14, 2005
 
