@@ -866,16 +866,16 @@ class ClientExportPdf extends ExportPlugin
 
             $tableElt = new TableElement;
             
-            $tableElt->caption = I18n::gt($table->tableTitle);
+            $tableElt->caption = $table->tableTitle;
             
             $tableElt->headers = array(I18n::gt('Id'));
             foreach ($table->columnTitles as $field)
-                $tableElt->headers[] = I18n::gt($field);
+                $tableElt->headers[] = $field;
 
             foreach ($table->rows as $res) {
                 $row = array($res->rowId);
                 foreach ($res->cells as $val)
-                    $row[] = Encoder::decode($val);
+                    $row[] = $val;
                 $tableElt->rows[] = $row;
             }
 
