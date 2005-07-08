@@ -46,6 +46,11 @@ class OutlineRequest extends Serializable {
     public $labelMode;
     
     /**
+     * Swisstopo specific
+     */
+    public $wholeDataLayer;
+    
+    /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
@@ -54,6 +59,7 @@ class OutlineRequest extends Serializable {
                                                  'boolean');
         $this->labelMode = self::unserializeValue($struct, 'labelMode', 
                                                  'boolean');
+        $this->wholeDataLayer = self::unserializeValue($struct, 'wholeDataLayer', 'string');
     }    
 }
 
@@ -70,10 +76,16 @@ class OutlineResult extends Serializable {
     public $area;
     
     /**
+     * Swisstopo specific
+     */
+    public $isOutside;    
+    
+    /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
         $this->area = self::unserializeValue($struct, 'area', 'double');
+        $this->isOutside = self::unserializeValue($struct, 'isOutside', 'boolean');
     }
 }
 
