@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-01 10:49+0200\n"
+"POT-Creation-Date: 2005-07-07 15:06+0200\n"
 "PO-Revision-Date: 2005-03-14 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -103,7 +103,7 @@ msgstr "Masstab"
 
 #: coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
-msgstr "Raccourcis"
+msgstr "Direkter Zugang"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Query information:"
@@ -151,7 +151,16 @@ msgstr "Id"
 
 #: coreplugins/tables/templates/tables.tpl
 msgid "Download CSV"
-msgstr "Télécharger CSV"
+msgstr "CSV Datei exportieren"
+
+# images.ini:mapSizes.3.label
+#: plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr "login"
+
+#: plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr ""
 
 #: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
@@ -178,21 +187,13 @@ msgid "Password"
 msgstr "Passwort"
 
 #: plugins/auth/templates/login_page.tpl
+#: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Submit"
 msgstr ""
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
 msgstr "Zurück zur Karte"
-
-# images.ini:mapSizes.3.label
-#: plugins/auth/templates/auth.tpl
-msgid "login"
-msgstr "login"
-
-#: plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr ""
 
 #: plugins/exportHtml/templates/export.tpl
 #: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
@@ -512,25 +513,25 @@ msgid "Unable to open ViewDbContainer: "
 msgstr ""
 
 #: /home/afellay/public_html/cartoweb3/client/Views.php:1137
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1205
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1206
 msgid "Service failed."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1203
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1204
 msgid "Unable to process view."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1214
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1215
 #, php-format
 msgid "No result for view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1238
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1239
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1357
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1358
 msgid "Unable to build views catalog"
 msgstr ""
 
@@ -582,10 +583,14 @@ msgstr ""
 msgid "shortest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:272
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:277
 msgid "Views main controller is OFF!!"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:276
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:281
 msgid "Memorizing view to update"
+msgstr ""
+
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:310
+msgid "(placed at the end)"
 msgstr ""
