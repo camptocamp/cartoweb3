@@ -1367,7 +1367,6 @@ class ViewDbContainer extends ViewContainer {
 
         
         while ($row =& $res->fetchRow(DB_FETCHMODE_OBJECT)) {
-            // TODO: ordering
             $viewShow = $this->getBool($row->viewshow);
             $catalog[$row->views_id] = array('viewTitle' => $row->viewtitle,
                                              'viewShow'  => $viewShow,
