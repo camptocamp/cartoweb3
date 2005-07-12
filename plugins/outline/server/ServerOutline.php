@@ -295,9 +295,10 @@ class ServerOutline extends ClientResponderAdapter {
      * If point layer is not defined in configuration file, tries with
      * polygon layer.
      * @param MsMapObj Mapserver Map object
-     * @param Point
+     * @param StyledShape point
      */
     private function drawPoint($msMapObj, $point) {
+
         $layerName = $this->getConfig()->pointLayer;
         if (!$layerName) {
             $layerName = $this->getConfig()->polygonLayer;
@@ -325,7 +326,7 @@ class ServerOutline extends ClientResponderAdapter {
      * Adds a line to Mapserver layer
      *
      * @param MsMapObj Mapserver Map object
-     * @param line
+     * @param StyledShape line
      */
      private function drawLine($msMapObj, $line) {
           
@@ -357,7 +358,7 @@ class ServerOutline extends ClientResponderAdapter {
      *
      * @see drawPolygon()
      * @param MsMapObj Mapserver Map object
-     * @param Rectangle
+     * @param StyledShape rectangle
      * @param boolean mask mode on/off
      */
     private function drawRectangle($msMapObj, $rectangle, $maskMode) {
@@ -408,7 +409,7 @@ class ServerOutline extends ClientResponderAdapter {
      * This function doesn't include transparency handling. Mask color is set
      * in configuration file, key maskColor.
      * @param MsMapObj Mapserver Map object
-     * @param Polygon
+     * @param StyledShape polygon
      * @param boolean mask mode on/off
      */
     private function drawPolygon($msMapObj, $polygon, $maskMode) {
@@ -482,14 +483,14 @@ class ServerOutline extends ClientResponderAdapter {
     
     /**
      * Handles shapes drawing and area computation
-     * @param array array of shapes
+     * @param array array of StyledShape
      * @param boolean mask mode
      * @return double area
      */
     public function draw($shapes, $maskMode = false) {
-    
+
         if (empty($shapes)) {
-            return 0;
+            return 0.0;
         }
         
         $msMapObj = $this->serverContext->getMapObj();
@@ -499,7 +500,7 @@ class ServerOutline extends ClientResponderAdapter {
             $msMapObj->labelcache->free();
         }
 
-        $area = 0;
+        $area = 0.0;
         foreach ($shapes as $shape) {
             switch (get_class($shape->shape)) {
             case 'Point':
