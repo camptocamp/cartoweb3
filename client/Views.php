@@ -1301,7 +1301,7 @@ class ViewDbContainer extends ViewContainer {
      * @see ViewContainer::serialize()
      */
     protected function serialize($data) {
-        return Utils::addslashes(parent::serialize($data));
+        return Utils::addslashes(parent::serialize($data), false);
     }
 
     /**
