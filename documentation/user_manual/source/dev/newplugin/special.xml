@@ -221,6 +221,11 @@ print $plugin->getExport()->getContents();
                 y-coordinate</para>
             </listitem>
             <listitem>
+              <para><parameter>show_crosshair</parameter> - '0' or '1', 
+               default '0'. If '1' display a crosshair on (recenter_x, 
+               recenter_y).</para>
+            </listitem>
+            <listitem>
               <para><parameter>recenter_scale</parameter> - new scale</para>
             </listitem>
             <listitem>
