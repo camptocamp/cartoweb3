@@ -190,11 +190,9 @@ msgstr ""
 msgid "Click here to go back to the map"
 msgstr "Retour à la carte"
 
-# images.ini:mapSizes.3.label
 #: plugins/auth/templates/auth.tpl
-#, fuzzy
 msgid "login"
-msgstr "géante"
+msgstr ""
 
 #: plugins/auth/templates/auth.tpl
 msgid "logout"
@@ -291,83 +289,79 @@ msgstr ""
 
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
-msgstr ""
+msgstr "Supprimer la vue n°"
 
 #: plugins/views/templates/views.tpl
 msgid "?"
-msgstr ""
+msgstr " ?"
 
 #: plugins/views/templates/views.tpl
 msgid "Go to view"
-msgstr ""
+msgstr "Chargement"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Title"
-msgstr "Titre :"
+msgstr "Titre"
 
 #: plugins/views/templates/views.tpl
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #: plugins/views/templates/views.tpl
 msgid "Load view"
-msgstr ""
+msgstr "Charger la vue"
 
 #: plugins/views/templates/views.tpl
 msgid "No view available"
-msgstr ""
+msgstr "Aucune vue disponible."
 
 #: plugins/views/templates/views.tpl
 msgid "Edit view"
-msgstr ""
+msgstr "Edition"
 
 #: plugins/views/templates/views.tpl
 msgid "View #"
-msgstr ""
+msgstr "Vue n°"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "new view"
-msgstr "Aperçu"
+msgstr "nouvelle vue"
 
 #: plugins/views/templates/views.tpl
 msgid "Memorize form"
-msgstr ""
+msgstr "Mémoriser la vue"
 
 #: plugins/views/templates/views.tpl
 msgid "Author"
-msgstr ""
+msgstr "Auteur"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Show view"
-msgstr "Afficher la carte de référence"
+msgstr "Afficher la vue"
 
 #: plugins/views/templates/views.tpl
 msgid "Place view label before"
-msgstr ""
+msgstr "Placer la vue avant"
 
 #: plugins/views/templates/views.tpl
 msgid "Update view"
-msgstr ""
+msgstr "Modifier la vue"
 
 #: plugins/views/templates/views.tpl
 msgid "Save as new view"
-msgstr ""
+msgstr "Sauver comme nouvelle"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Save view"
-msgstr "Aperçu"
+msgstr "Sauver la vue"
 
 #: plugins/views/templates/views.tpl
 msgid "Delete view"
-msgstr ""
+msgstr "Suppression"
 
 #: plugins/views/templates/views.tpl
 msgid "Delete view #"
-msgstr ""
+msgstr "Supprimer la vue n°"
 
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "Collapse keymap"
@@ -407,7 +401,7 @@ msgstr "PDF"
 
 #: templates/cartoclient.tpl
 msgid "Views"
-msgstr ""
+msgstr "Vues"
 
 #: templates/cartoclient.tpl
 msgid "Layers reorder"
@@ -419,7 +413,7 @@ msgstr "alt_carteclef"
 
 #: templates/cartoclient.tpl
 msgid "Views:"
-msgstr ""
+msgstr "Vues:"
 
 #: templates/dhtmlcode.tpl
 msgid "Approx. distance: "
