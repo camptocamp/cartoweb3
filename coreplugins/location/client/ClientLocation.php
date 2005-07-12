@@ -38,6 +38,12 @@ class LocationState {
      * @var string
      */
     public $idRecenterSelected;
+    
+    /**
+     * Current crosshair beeing displayed.
+     * @var StyledShape
+     */
+    public $crosshair;
 }
 
 /**
@@ -247,6 +253,31 @@ class ClientLocation extends ClientPlugin
             return NULL;
         }
         
+        $showCrosshair = $this->getHttpValue($request, 'show_crosshair');
+        if (!is_null($showCrosshair) && ($showCrosshair == 1 || $showCrosshair == 'on')) {
+            $this->locationState->crosshair = new StyledShape();
+            $this->locationState->crosshair->shapeStyle = new ShapeStyle();
+
+            $symbol = $this->getConfig()->crosshairSymbol;
+            if (!empty($symbol)) {
+                $this->locationState->crosshair->shapeStyle->symbol = $symbol;
+            }
+
+            $size = $this->getConfig()->crosshairSymbolSize;
+            if (!empty($size)) {
+                $this->locationState->crosshair->shapeStyle->size = $size;
+            }
+            
+            $color = $this->getConfig()->crosshairSymbolColor;
+            if (!empty($color)) {
+                list($r, $g, $b) = explode(',', $color);
+                $this->locationState->crosshair->shapeStyle->color->setFromRGB($r, $g, $b);
+            }
+            
+            $this->locationState->crosshair->shape = new Point($recenterX,
+                                                               $recenterY);
+        }
+
         if ($scale == 0) {
             return $this->buildZoomPointRequest(
                       ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
@@ -615,6 +646,7 @@ class ClientLocation extends ClientPlugin
         $zoomRequest->zoomFactor = $zoomFactor;
         $zoomRequest->scale = $scale;
         $zoomRequest->bbox = $this->locationState->bbox;
+        $zoomRequest->crosshair = $this->locationState->crosshair;
 
         $locationRequest = new LocationRequest();                
         $locationType = $zoomRequest->locationType;

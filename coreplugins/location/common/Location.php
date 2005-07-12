@@ -389,6 +389,11 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     public $scale;
 
     /**
+     * @var StyledShape
+     */
+    public $crosshair;
+
+    /**
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
@@ -396,6 +401,7 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
         $this->point = self::unserializeObject($struct, 'point', 'Point');
         $this->zoomFactor = self::unserializeValue($struct, 'zoomFactor', 'float');
         $this->scale = self::unserializeValue($struct, 'scale', 'float');
+        $this->crosshair = self::unserializeValue($struct, 'crosshair', 'StyledShape');
 
         parent::unserialize($struct);        
     }

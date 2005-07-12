@@ -582,7 +582,12 @@ class ServerLocation extends ClientResponderAdapter
      * @var Logger
      */
     private $log;
-    
+
+    /**
+     * @var StyledShape
+     */
+    private $crosshair;
+
     /**
      * Possible scales in discrete mode (some may be hidden)
      * @var array
@@ -807,6 +812,22 @@ class ServerLocation extends ClientResponderAdapter
     }
 
     /**
+     * Draw the crosshair.
+     * @see ClientResponderAdapter::handleDrawing()
+     */
+    public function handleDrawing($requ) {
+
+        if (!is_null($this->crosshair)) {
+            $pluginManager = $this->serverContext->getPluginManager();
+            if (empty($pluginManager->outline)) {
+                throw new CartoserverException('outline plugin not loaded, ' . 
+                                               'and needed for the crosshair drawing');
+            }
+            $pluginManager->outline->draw(array($this->crosshair));
+        }
+    }
+
+    /**
      * @see CoreProvider::handleCorePlugin()
      */
     public function handleCorePlugin($requ) {
@@ -849,6 +870,11 @@ class ServerLocation extends ClientResponderAdapter
         $this->log->debug($scale);
 
         $this->doLocation($bbox, $scale);
+
+        // Save the crosshair StyledShape. The shape will be draw later in $this->handleDrawing()
+        if (isset($calculator->requ->crosshair) && !is_null($calculator->requ->crosshair)) {
+            $this->crosshair = $calculator->requ->crosshair;
+        }
 
         $maxBbox = NULL;
         if (isset($requ->locationConstraint->maxBbox))
