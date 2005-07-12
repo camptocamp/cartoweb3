@@ -76,7 +76,7 @@ showProjectChooser = true
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv
+loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, views
 
 ;## Security configuration ##
 
@@ -100,7 +100,7 @@ EncoderClass.config = EncoderISO
 EncoderClass.output = EncoderUTF
 
 ; Views management
-viewOn = false
+viewOn = true
 viewStorage = file
 viewablePlugins = location, layers, query, outline
 viewMetas = author
