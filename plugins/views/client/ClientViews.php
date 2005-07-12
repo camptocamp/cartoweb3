@@ -226,6 +226,7 @@ class ClientViews extends ClientPlugin
 
     /**
      * Populates and returns views list.
+     * @param boolean if true all view are listed else only the "visible" ones
      * @return array
      */
     private function getViewsList($showAll = false) {
