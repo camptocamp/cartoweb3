@@ -234,11 +234,13 @@ class ClientOutline extends ClientPlugin
      */
     public function buildRequest() {
     
-        $outlineRequest = new OutlineRequest();
-        $outlineRequest->shapes   = $this->outlineState->shapes;        
-        $outlineRequest->maskMode = $this->outlineState->maskMode;
-      
-        return $outlineRequest;
+        if (!empty($this->outlineState->shapes)) {
+            $outlineRequest = new OutlineRequest();
+            $outlineRequest->shapes   = $this->outlineState->shapes;        
+            $outlineRequest->maskMode = $this->outlineState->maskMode;
+
+            return $outlineRequest;
+        }
     }
 
     /**
