@@ -80,6 +80,11 @@
        <parameter>viewAuth</parameter> (comma-separated list of strings): list of roles allowed to perform views edition actions. Given roles must match <filename>client_conf/auth.ini</filename> defined ones. See also <xref linkend="user.security"/>.
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>viewSavedRequest</parameter> (comma-separated list of strings): list of REQUEST variables (GET, POST, COOKIE) that must be preserved when loading a view. Some are already built-in listed such as <parameter>tool</parameter>, <parameter>js_folder_idx</parameter>, <parameter>project</parameter>, <parameter>collapse_keymap</parameter> and views related parameters. Adding other &cartoweb; reserved REQUEST variables names to the list may prevent the view system from working correctly.
+      </para>
+     </listitem>
     </itemizedlist>
     For instance:
     <programlisting>; Views management
@@ -88,7 +93,8 @@ viewStorage = db
 viewablePlugins = location, layers, query, outline
 viewMetas = author
 viewDsn = pgsql://www-data@localhost/cw3
-viewAuth = admin</programlisting>
+viewAuth = admin,
+viewSavedRequest = personalVar1, personalVar2</programlisting>
    </para>
    <para>
     Should you decide to use a database storage, you would need first to create an appropriate table called <parameter>views</parameter>. Here is an example of SQL statements for PostgreSQL:

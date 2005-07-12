@@ -227,9 +227,15 @@ class ViewManager {
                    
                     // Transmits some REQUESTed data to keep user interface
                     // consistent + views plugin data.
-                    $savedVars = array('tool', 'js_folder_idx', 'project', 
-                                       'collapse_keymap', 'handleView');
+                    $savedVars = sprintf('%s,%s,%s',
+                                         'tool, js_folder_idx, project',
+                                         'collapse_keymap, handleView',
+                                         $this->cartoclient
+                                              ->getConfig()->viewSavedRequest);
                     // FIXME: collapsible keymap status is not correcty passed
+                    $savedVars = explode(',', $savedVars);
+                    $savedVars = array_unique($savedVars);
+                    $savedVars = array_map('trim', $savedVars);
                     $savedRequest = array();
                     foreach ($_REQUEST as $var => $val) {
                         if (substr($var, 0, 4) == 'view' || 

@@ -106,3 +106,4 @@ viewablePlugins = location, layers, query, outline
 viewMetas = author
 viewDsn = pgsql://www-data@localhost/cw3_test
 viewAuth = admin
+;viewSavedRequest = someRequestVarname
