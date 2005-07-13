@@ -48,12 +48,12 @@ class ClientViews extends ClientPlugin
     /**
      * @var Logger
      */
-    private $log;
+    protected $log;
 
     /**
      * @var ViewsState
      */
-    private $viewsState;
+    protected $viewsState;
 
     /**
      * @var array
@@ -63,22 +63,22 @@ class ClientViews extends ClientPlugin
     /**
      * @var boolean
      */
-    private $viewActive = false;
+    protected $viewActive = false;
 
     /**
      * @var string
      */
-    private $action;
+    protected $action;
     
     /**
      * @var ViewManager
      */
-    private $viewManager;
+    protected $viewManager;
 
     /**
      * @var array
      */
-    private $viewsList;
+    protected $viewsList;
 
     /** 
      * Constructor
@@ -92,7 +92,7 @@ class ClientViews extends ClientPlugin
     /**
      * @return ViewManager
      */
-    private function getViewManager() {
+    protected function getViewManager() {
         if (!isset($this->viewManager)) {
             $this->viewManager = $this->getCartoclient()->getViewManager();
         }
@@ -103,7 +103,7 @@ class ClientViews extends ClientPlugin
      * Returns ClientViews::metasList, list of metadata fields.
      * @return array
      */
-    private function getMetasList() {
+    protected function getMetasList() {
         if (!isset($this->metasList)) {
             $this->metasList = $this->getViewManager()->getMetasList();
         }
@@ -122,7 +122,7 @@ class ClientViews extends ClientPlugin
      */
     public function createSession(MapInfo $mapInfo, 
                                   InitialMapState $initialMapState) {
-        $this->viewsState = new ViewsState;
+        $this->resetSession();
     }
 
     /**
@@ -133,10 +133,17 @@ class ClientViews extends ClientPlugin
     }
 
     /**
+     * Empties session values
+     */
+    protected function resetSession() {
+        $this->viewsState = new ViewsState;
+    }
+
+    /**
      * Sets metadata using GET/POST values.
      * @param array HTTP request
      */
-    private function setFromForm($request) {
+    protected function setFromForm($request) {
         foreach ($this->getMetasList() as $metaName) {
             $this->viewsState->metas[$metaName] = 
                 strip_tags($this->getHttpValue($request, $metaName));
@@ -176,6 +183,7 @@ class ClientViews extends ClientPlugin
             // loading a view
             // priority order: general views dropdown > edition form views
             // dropdown > views id input
+           
                 if (!empty($request['viewBrowse']) && 
                     !empty($request['viewBrowseId'])) {
                     $this->viewsState->viewId = $request['viewBrowseId'];  
@@ -196,12 +204,12 @@ class ClientViews extends ClientPlugin
                 }
                 
                 if (!$this->viewActive) {
-                    $this->viewsState = new ViewsState;
+                    $this->resetSession();
                 } else {
                     $this->setFromForm($request);
                 }
         }
-        
+    
         if (!$this->getViewManager()->checkViewId($this->viewsState->viewId,
                                                   true)) {
             $this->viewsState->viewId = '';
@@ -229,7 +237,7 @@ class ClientViews extends ClientPlugin
      * @param boolean if true all view are listed else only the "visible" ones
      * @return array
      */
-    private function getViewsList($showAll = false) {
+    protected function getViewsList($showAll = false) {
         $viewsList = $this->getViewManager()->getCatalog();
         $this->viewsList = array();
         if ($viewsList) {
@@ -271,7 +279,7 @@ class ClientViews extends ClientPlugin
      * Builds views edition interface
      * @return string Smarty fetch result
      */
-    private function drawUserForm() {
+    protected function drawUserForm() {
        
         $viewMsg = $this->cartoclient->areViewsEnable()
                    ? $this->getViewManager()->getMessage()
@@ -294,8 +302,8 @@ class ClientViews extends ClientPlugin
                                                      ->getViewId();
                     break;
             }
-        } else {
-            $this->viewsState = new ViewsState;
+        } else {        
+            $this->resetSession();
         }
 
         $viewId = $this->viewsState->viewId;
@@ -336,4 +344,5 @@ class ClientViews extends ClientPlugin
         return $this->smarty->fetch('views.tpl');
     }
 }
+
 ?>
