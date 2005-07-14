@@ -22,6 +22,39 @@
  */
 
 /**
+ * A parameter
+ */
+class Parameter extends Serializable {
+    
+    /**
+     * @var string
+     */ 
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $value; 
+
+    /**
+     * @param string
+     * @param string
+     */
+    public function set($id, $value) {
+        $this->id    = $id;
+        $this->value = $value;
+    }
+
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->id    = self::unserializeValue($struct, 'id');
+        $this->value = self::unserializeValue($struct, 'value');
+    }    
+}
+
+/**
  * Request
  * @package Plugins
  */
@@ -55,7 +88,42 @@ class RoutingRequest extends Serializable {
     public function unserialize($struct) {
         $this->graph      = self::unserializeValue($struct, 'graph');
         $this->stops      = self::unserializeArray($struct, 'stops');
-        $this->parameters = self::unserializeArray($struct, 'parameters');
+        $this->parameters = self::unserializeObjectMap($struct,
+                                                       'parameters',
+                                                       'Parameter');
+    }    
+}
+
+/**
+ * An attribute
+ */
+class Attribute extends Serializable {
+    
+    /**
+     * @var string
+     */ 
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $value; 
+
+    /**
+     * @param string
+     * @param string
+     */
+    public function set($id, $value) {
+        $this->id    = $id;
+        $this->value = $value;
+    }
+
+    /**
+     * @see Serializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->id    = self::unserializeValue($struct, 'id');
+        $this->value = self::unserializeValue($struct, 'value');
     }    
 }
 
@@ -75,7 +143,9 @@ abstract class Step extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->attributes = self::unserializeArray($struct, 'attributes');
+        $this->attributes = self::unserializeObjectMap($struct,
+                                                       'attributes',
+                                                       'Attribute');
     }
 }
 
@@ -125,9 +195,11 @@ class RoutingResult extends Serializable {
      * @see Serializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->graph = self::unserializeValue($struct, 'graph');
-        $this->steps = self::unserializeObjectMap($struct, 'steps');
-        $this->attributes = self::unserializeArray($struct, 'attributes');
+        $this->graph      = self::unserializeValue($struct, 'graph');
+        $this->steps      = self::unserializeObjectMap($struct, 'steps');
+        $this->attributes = self::unserializeObjectMap($struct,
+                                                       'attributes',
+                                                       'Attribute');
     }
 }
 

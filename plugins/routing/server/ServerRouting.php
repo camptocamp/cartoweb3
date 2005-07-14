@@ -253,18 +253,26 @@ class ServerGeotoolsRouting extends ServerRouting {
             if ($javaStep->getClass()->getName()
                 == 'org.cartoweb.routing.RoutingNode') {
                 $step = new Node();
-                $attributes['id'] = $javaStep->getId();                
+                $attribute = new Attribute();
+                $attribute->set('id', $javaStep->getId());
+                $attributes = array($attribute);                
             } else if ($javaStep->getClass()->getName()
                        == 'org.cartoweb.routing.RoutingEdge') {
                 $step = new Edge();
-                $attributes['id1'] = $javaStep->getNodeAId();
-                $attributes['id2'] = $javaStep->getNodeBId();
+                $attribute = new Attribute();
+                $attribute->set('id1', $javaStep->getNodeAId());
+                $attributes[] = $attribute;                
+                $attribute = new Attribute();
+                $attribute->set('id2', $javaStep->getNodeBId());
+                $attributes[] = $attribute;                
             }
             
             $javaIterator2 = $javaStep->getAttributes()->entrySet()->iterator();
             while ($javaIterator2->hasNext()) {
                 $javaEntry = $javaIterator2->next();
-                $attributes[$javaEntry->getKey()] = $javaEntry->getValue();
+                $attribute = new Attribute();
+                $attribute->set($javaEntry->getKey(), $javaEntry->getValue());
+                $attributes[] = $attribute;
             } 
             $step->attributes = $attributes;
             $steps[] = $step;
@@ -295,8 +303,8 @@ class ServerGeotoolsRouting extends ServerRouting {
 
         try { 
             $javaParameters = new Java("java.util.HashMap");
-            foreach ($parameters as $key => $value) {
-                $javaParameters->put($key, $value);
+            foreach ($parameters as $parameter) {
+                $javaParameters->put($parameter->id, $parameter->value);
             }
             $external = new Java('org.cartoweb.routing.ExternalRoutingModule');         
             $javaPath = $external->computePath($node1,
@@ -504,15 +512,23 @@ class ServerPostgresRouting extends ServerRouting {
 
         while ($result->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $node = new Node();
-            $node->attributes['edge_id'] = $row['edge_id'];
-            $node->attributes['x'] = $row['x'];
-            $node->attributes['y'] = $row['y'];
+            
+            $node->attributes = array();
+            $attribute = new Attribute();
+            $attribute->set('edge_id', $row['edge_id']);
+            $node->attributes[] = $attribute;                
+            $attribute = new Attribute();
+            $attribute->set('x', $row['x']);
+            $node->attributes[] = $attribute;                
+            $attribute = new Attribute();
+            $attribute->set('y', $row['y']);
+            $node->attributes[] = $attribute;                
 
             // Warning: make sure index on edge_id is present
             
             $routingResultsTable = $this->getRoutingResultsTable();
 
-            $edgeId = $node->attributes['edge_id'];
+            $edgeId = $row['edge_id'];
             $r = $db->query("INSERT INTO $routingResultsTable SELECT $resultsId, " .
                     "$timestamp, gid, the_geom FROM $table WHERE edge_id = $edgeId");
             $this->checkDbError($r);

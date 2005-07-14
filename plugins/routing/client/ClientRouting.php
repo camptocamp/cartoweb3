@@ -142,7 +142,9 @@ class ClientRouting extends ClientPlugin
             $request->stops = array($this->routingState->from,
                                     $this->routingState->to);
         }
-        $request->parameters = array('options' => $this->routingState->options);        
+        $parameter = new Parameter();
+        $parameter->set('options', $this->routingState->options);
+        $request->parameters = array($parameter);        
         return $request;
     }
 
