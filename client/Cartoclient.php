@@ -127,8 +127,7 @@ class ClientConfig extends Config {
             throw new CartoclientException('You need to set cartoclientBaseUrl ' .
                     'in client.ini');            
         if (!$this->cartoserverBaseUrl)
-            throw new CartoclientException('You need to set cartoserverBaseUrl ' .
-                    'in client.ini');            
+            $this->cartoserverBaseUrl = $this->cartoclientBaseUrl;            
 
         if (substr($this->cartoclientBaseUrl, -1) != '/') {
             $this->cartoclientBaseUrl .= '/';
@@ -373,7 +372,8 @@ class Cartoclient {
                 $this->formRenderer->showFailure($exception);
             } else {
                 // form renderer not yet initialized: show a raw error message
-                header('HTTP/1.1 500 Internal Server Error');
+                if (!isset($GLOBALS['headless']))
+                    header('HTTP/1.1 500 Internal Server Error');
                 print 'An exception in early stage occured: <pre>';
                 var_dump($exception);
                 print '</pre>';
