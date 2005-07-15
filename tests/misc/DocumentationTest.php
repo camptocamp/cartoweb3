@@ -25,7 +25,6 @@
  * Abstract test case
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
-require_once 'common/Config.php';
 
 require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
 require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
