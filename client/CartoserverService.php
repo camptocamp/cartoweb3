@@ -102,6 +102,8 @@ class CartoserverService {
         $result = $this->getCartoserver()->$function($argument);
     
         if ($result instanceof SoapFault) {
+            $result = new SoapFaultWrapper($result);
+            
             throw $result;
         }
         return $result;
@@ -156,23 +158,24 @@ class CartoserverService {
 
             $options = $replayTrace === true ? array('trace' => 1) : array();
             
-            if (@$this->config->useWsdl) {
-                if ($this->config->noWsdlCache) {
-                    ini_set('soap.wsdl_cache_enabled', '0');
-                }
-                $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
-                if (is_writable($wsdlCacheDir))
-                    ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
-
-                $client = new SoapClient($this->getCartoserverUrl('cartoserver.wsdl.php'),
-                                         $options);
-            } else {
-                $options['location'] = $this->getCartoserverUrl('server.php');
-                $options['uri'] = 'foo';
-                $client = new SoapClient(null, $options);
-            }            
-
             try {
+
+                if (@$this->config->useWsdl) {
+                    if ($this->config->noWsdlCache) {
+                        ini_set('soap.wsdl_cache_enabled', '0');
+                    }
+                    $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
+                    if (is_writable($wsdlCacheDir))
+                        ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+    
+                    $client = new SoapClient($this->getCartoserverUrl('cartoserver.wsdl.php'),
+                                             $options);
+                } else {
+                    $options['location'] = $this->getCartoserverUrl('server.php');
+                    $options['uri'] = 'foo';
+                    $client = new SoapClient(null, $options);
+                }            
+
                 $mapResult = $client->$function($argument);
             } catch (SoapFault $fault) {
                 $fault = new SoapFaultWrapper($fault);
