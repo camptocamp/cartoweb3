@@ -292,6 +292,11 @@ class ClientLayers extends ClientPlugin
     private $mapId;
 
     /**
+     * @var string
+     */
+    private $switchId;
+    
+    /**
      * Availability information icons
      */
     private $notAvailableIcon;
@@ -368,6 +373,11 @@ class ClientLayers extends ClientPlugin
         $this->log->debug('creating session:');
 
         $this->layersState = $this->getNewSessionObject();
+
+        // FIXME
+        if (isset($this->switchId)) {
+            $this->layersState->switchId = $this->switchId;
+        }
         
         $this->layersState->layersData =& $this->layersData;
         
@@ -556,6 +566,16 @@ class ClientLayers extends ClientPlugin
     public function setSwitch($newSwitch) {
         
         $this->overrideSwitch = true;
+
+        /* 
+         * <FIXME> little hack 
+         * Small hack which makes it possible to call setSwitch 
+         * from initialize().  In reality the bug seems to come from a difference 
+         * in behavior between createSession and loaSession !!!
+         */
+        $this->switchId = $newSwitch;
+        /* </FIXME> */  
+        
         $this->layersState->switchId = $newSwitch;
     }
 
