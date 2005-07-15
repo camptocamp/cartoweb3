@@ -189,7 +189,8 @@ class I18n {
             header('Content-Language: ' . LANG);
         
         // if cookie doesn't exist, set a cookie expiring in one year for current language
-        if (!isset($_COOKIE['LangCookie']) || $_COOKIE['LangCookie'] != LANG) {
+        if ((!isset($_COOKIE['LangCookie']) || $_COOKIE['LangCookie'] != LANG)
+            && !isset($GLOBALS['headless'])) {
             setcookie('LangCookie', LANG, time() + 31536000);
         }       
     }
