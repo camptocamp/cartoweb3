@@ -31,7 +31,7 @@ function getCharset($type, $project) {
     $class = null;
     $iniFile = CARTOCOMMON_HOME;
     $projectIniFile = CARTOCOMMON_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniFile .= $type . "_conf/$type.ini";
@@ -72,15 +72,40 @@ function getProjects($projectname = false) {
         }
     }
     if ($projectname) {
-        if (in_array($projectname,$projects)) {
+        if (in_array($projectname, $projects)) {
             $projects = array($projectname);
-        }else {
-        $projects = array();
-        print "error: $projectname is not in the project list, ignored \n";
+        } else {
+            $projects = array();
+            print "error: $projectname is not in the project list, ignored \n";
         }
     }
 
     return $projects;
+}
+
+/**
+ * Gets list of map Ids by reading project directory
+ * @param string
+ * @return array
+ */
+function getMapIds($project) {
+    
+    $mapIds = array();
+    $dir = CARTOCOMMON_HOME;
+    if (!is_null($project)) {
+        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
+    }
+    $dir .= 'server_conf/';
+    if (is_dir($dir)) {
+        $d = dir($dir);
+        while (false !== ($entry = $d->read())) {
+            if (is_dir($dir . $entry) && $entry != '.'
+                && $entry != '..' && $entry != 'CVS') {
+                $mapIds[] = $entry;
+            }
+        }
+    }    
+    return $mapIds;    
 }
 
 /**
@@ -102,7 +127,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
     global $exclude_dirs;
     
     $dir = CARTOCOMMON_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     if (is_dir($path)) {
@@ -131,10 +156,10 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
                        && !in_array($entry, $exclude_dirs)
                        &&
                        (
-                        ($project == ProjectHandler::DEFAULT_PROJECT
+                        (is_null($project)
                          && !strstr($path . $entry, ProjectHandler::PROJECT_DIR . '/'))
                        ||
-                        ($project != ProjectHandler::DEFAULT_PROJECT
+                        (is_null($project)
                          && (strstr($path . $entry, ProjectHandler::PROJECT_DIR . '/' . $project)
                              || $entry == ProjectHandler::PROJECT_DIR))
                        )
@@ -158,7 +183,7 @@ function getTranslatedPo($type, $project) {
     
     $files = array();
     $dir = CARTOCOMMON_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     $d = dir($dir . CARTOCOMMON_PODIR);

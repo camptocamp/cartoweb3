@@ -22,26 +22,20 @@
  */
 
 /**
- * Abstract test suite
- */
-require_once 'PHPUnit2/Framework/TestSuite.php';
-
-/**
- * All server tests
- */
-
-/**
  * @package Tests
- * @author      Sylvain Pasche <sylvain.pasche@camptocamp.com>
- */
-class server_AllTests {
-
-    public static function suite() {
-
-        $suite = new PHPUnit2_Framework_TestSuite;
-
-        return $suite;
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ */ 
+ class projects_demo_client_CartoclientTest extends client_CartoclientTest {
+    
+    protected function getProjectName() {
+    
+        return 'demo';
     }
+    
+    protected function getMapId() {
+
+        return 'demo';    
+    }    
 }
 
 ?>

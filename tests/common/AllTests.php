@@ -29,7 +29,6 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All common tests
  */
-require_once 'common/MiscTest.php';
 require_once 'common/BasicTypesTest.php';
 require_once 'common/MapInfoTest.php';
 require_once 'common/SerializableTest.php';

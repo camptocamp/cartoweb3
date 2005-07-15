@@ -37,7 +37,7 @@ if (isset($argv[1])) {
 function parseIni($project, $mapId, &$texts) {
 
     $iniPath = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniPath .= 'server_conf/' . $mapId . '/';
@@ -93,7 +93,7 @@ function dummyErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {}
 function parseMap($project, $mapId, &$texts) {
 
     $mapFileDir = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $mapFileDir .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $mapFileDir .= 'server_conf/' . $mapId . '/';
@@ -149,31 +149,6 @@ function parseMap($project, $mapId, &$texts) {
 }
 
 /**
- * Gets list of map Ids by reading project directory
- * @param string
- * @return array
- */
-function getMapIds($project) {
-    
-    $mapIds = array();
-    $dir = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
-    }
-    $dir .= 'server_conf/';
-    if (is_dir($dir)) {
-        $d = dir($dir);
-        while (false !== ($entry = $d->read())) {
-            if (is_dir($dir . $entry) && $entry != '.'
-                && $entry != '..' && $entry != 'CVS') {
-                $mapIds[] = $entry;
-            }
-        }
-    }    
-    return $mapIds;    
-}
-
-/**
  * Finds list of already translated PO files for a project and a map ID
  * @param string
  * @return array
@@ -182,7 +157,7 @@ function getTranslatedMapIdPo($project, $mapId) {
     
     $files = array();
     $dir = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     $d = dir($dir . CARTOSERVER_PODIR);
@@ -201,14 +176,14 @@ function getTranslatedMapIdPo($project, $mapId) {
 }
 
 $projects = getProjects($projectname);
-// Adds default project
-$projects[] = ProjectHandler::DEFAULT_PROJECT;
+// Adds a null value for extracting the po file from upstream
+$projects[] = null;
 
 foreach ($projects as $project) {
 
     $fileName = 'server.po';
     $dir = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     if (!is_dir($dir . CARTOSERVER_PODIR)) {

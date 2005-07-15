@@ -30,7 +30,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
  * All misc tests
  */
 require_once 'misc/DocumentationTest.php';
-
+require_once 'misc/MiscTest.php';
 /**
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
@@ -42,6 +42,7 @@ class misc_AllTests {
         $suite = new PHPUnit2_Framework_TestSuite;
 
         $suite->addTestSuite('misc_DocumentationTest');
+        $suite->addTestSuite('misc_MiscTest');
 
         return $suite;
     }

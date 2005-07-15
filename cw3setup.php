@@ -76,7 +76,9 @@ $CW3_TO_REMOVE = array(
                   'www-data'
                   );
 
-$commands = array('check', 'get', 'getLibs', 'mkDirs', 'rmDirs', 'perms', 'createConfig', 'setupLinks', 'removeLinks', 'setup', 'remove', 'cw3setup.php');
+$commands = array('check', 'get', 'getLibs', 'mkDirs', 'rmDirs', 'perms', 
+                  'createConfig', 'setupLinks', 'removeLinks', 'setup', 
+                  'init', 'remove', 'cw3setup.php');
 
 /**************************************************************/
 /*           DO NOT CHANGE ANYTHING AFTER THAT                */
@@ -117,6 +119,7 @@ echo "                          - super user rights required to remove dynamic c
 echo "setup [path]            : setup a new project in existing installation\n";
 echo "mkDirs                  : create all cache directories\n";
 echo "rmDirs                  : remove all temporary files AND directories\n";
+echo "init                    : performs CartoWeb intialization (locale compiling, makemaps, ...)\n";
 echo "remove                  : remove cartoweb3\n";
 echo "\n";
 
@@ -145,7 +148,8 @@ if (in_array('cvs', $cmd_array)) {
                        'mkDirs',
                        'perms',
                        'createConfig',
-                       'setupLinks'
+                       'setupLinks',
+                       'init'
                       );
 }
 
@@ -188,7 +192,7 @@ foreach($cmd_array as $keycmd=>$cmd) {
             break;
 
         case 'perms':
-           if (($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
+           if (isset($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
                 $params = $cmd_array[$keycmd + 1];
                 setPerms($params);
                 $not_a_command_flag = true;
@@ -198,7 +202,8 @@ foreach($cmd_array as $keycmd=>$cmd) {
 
         case 'createConfig':
             echo "\nCreating configuration:\n";
-            createConfig(getcwd());
+            
+            createConfig(dirname(__FILE__));
             echo " ... installed from dist.\n";
             break;
 
@@ -215,13 +220,20 @@ foreach($cmd_array as $keycmd=>$cmd) {
             break;
 
         case 'setup':
-            if (($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
+            if (isset($cmd_array[$keycmd + 1]) && (!in_array($commands[$keycmd + 1], $cmd_array))) {
                 $params = $cmd_array[$keycmd + 1];
                 $dest = ltrim(substr($params, strrpos($params, '/')), '/');
                 link_or_copy($params, 'projects/'.$dest);
                 setupLinks();
                 $not_a_command_flag = true;
             }
+            break;
+
+        case 'init':
+
+            include('scripts/makemaps.php');
+            include('scripts/po2mo.php');
+
             break;
 
         case 'remove':
@@ -329,12 +341,17 @@ function createConfig($dir) {
     $dh = @opendir($dir);
     if (!$dh) return false;
     while ($file = readdir($dh)) {
-        if (is_dir($file) && $file != '.' && $file != '..') createConfig($file);
+        $fullpath = "$dir/$file";
+        if (is_dir($fullpath) && $file != '.' && $file != '..')
+            createConfig($fullpath);
         if(substr($file, strlen($file) - 5) == ".dist") {
-            $fullpath = $dir."/".$file;
-            $name = substr($fullpath, 0, strlen($fullpath) - 5);
-            copy($fullpath, $name);
-            echo $name, ",\n";
+            $target = substr($fullpath, 0, strlen($fullpath) - 5);
+            if (file_exists($target)) {
+                print "Target config file $target already exists, skipping\n";
+                continue; 
+            }
+            copy($fullpath, $target);
+            echo $target, ",\n";
         }
     }
     closedir($dh);
@@ -400,10 +417,10 @@ function setupLinks() {
 
     if (!is_dir('htdocs/gfx/icons')) mkdir('htdocs/gfx/icons');
 
-    $pList = getProjects('projects');
+    $pList = cw3setupGetProjects('projects');
     foreach($pList as $project) {
         @mkdir('htdocs/gfx/icons/'.$project);
-        $mList = getProjects('projects/'.$project.'/server_conf');
+        $mList = cw3setupGetProjects('projects/'.$project.'/server_conf');
         if (!$mList)
             continue;
         foreach($mList as $mapfolder) {
@@ -412,7 +429,7 @@ function setupLinks() {
     }
     // special case for default project
     @mkdir('htdocs/gfx/icons/default');
-    $mList = getProjects('server_conf');
+    $mList = cw3setupGetProjects('server_conf');
     foreach($mList as $mapfolder) {
         link_or_copy('../../../../server_conf/'.$mapfolder.'/icons/', 'htdocs/gfx/icons/default/'.$mapfolder);
     }
@@ -420,7 +437,7 @@ function setupLinks() {
     // Create symlinks to po directories
     if (!is_dir('htdocs/po')) mkdir('htdocs/po');
     
-    $pList = getProjects('projects');
+    $pList = cw3setupGetProjects('projects');
     foreach($pList as $project) {
         link_or_copy('../../projects/'.$project.'/po/', 'htdocs/po/'.$project);
     }
@@ -429,7 +446,7 @@ function setupLinks() {
 
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
-        $pList = getProjects($dir);
+        $pList = cw3setupGetProjects($dir);
         foreach($pList as $project) {
             if (!is_dir('./htdocs/'.$project)) @mkdir('htdocs/'.$project);
             $d = @opendir($dir.'/'.$project.'/htdocs');
@@ -467,7 +484,7 @@ function removeLinks() {
     @unlink('./htdocs/gfx/icons');
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
-        $pList = getProjects($dir);
+        $pList = cw3setupGetProjects($dir);
         foreach($pList as $project) {
             $d = @opendir($dir.'/'.$project.'/htdocs');
             if ($d) {
@@ -497,7 +514,8 @@ function removeLinks() {
 }
 
 // Get the list of projects in directory $dir
-function getProjects($dir) {
+// FIXME: should use a common utility method
+function cw3setupGetProjects($dir) {
    $dh = @opendir($dir);
    if (!$dh) return false;
    while ($file=readdir($dh)) {
@@ -507,7 +525,6 @@ function getProjects($dir) {
    }
    closedir($dh);
    return $projects;
-
 }
 
 // Link or copy a file or directory
@@ -527,14 +544,14 @@ function link_or_copy($src, $dest) {
 
 // Get libraries
 function getLibs($url) {
-        global $isWin;
+    global $isWin;
 
-        echo "Loading libraries. Please wait. It may take a while.\n";
+    echo "Loading libraries. Please wait. It may take a while.\n";
 
-        if ($isWin)
-                $inc = 'cartoweb3_includes.zip';
-        else
-                $inc = 'cartoweb3_includes.tgz';
+    if ($isWin)
+            $inc = 'cartoweb3_includes.zip';
+    else
+            $inc = 'cartoweb3_includes.tgz';
     if (extension_loaded('curl')) {
         $ch = curl_init($url);
         $fp = fopen($inc, "wb");
@@ -566,32 +583,33 @@ function getLibs($url) {
 
 // Read user input in php shell mode
 function getInput() {
-        $input = false;
+    $input = false;
     $fr = fopen("php://stdin", "r");
     $input = fgets($fr, 255);
     $input = rtrim($input);
     fclose($fr);
-    if ($input) return $input;
+    if ($input)
+        return $input;
 }
 
 // Recursively remove:
 function rmdirr($dir) {
-   $dh=@opendir($dir);
-   if (!$dh) return false;
-   while ($file=readdir($dh)) {
-       if($file!="." && $file!="..") {
-           $fullpath=$dir."/".$file;
-           if(!is_dir($fullpath))
-               unlink($fullpath);
-           else
-               rmdirr($fullpath);
-       }
-   }
-   closedir($dh);
-   if(@rmdir($dir))
-       return true;
-   else
-       return false;
+    $dh=@opendir($dir);
+    if (!$dh) return false;
+    while ($file=readdir($dh)) {
+        if($file!="." && $file!="..") {
+            $fullpath=$dir."/".$file;
+            if(!is_dir($fullpath))
+                unlink($fullpath);
+            else
+                rmdirr($fullpath);
+        }
+    }
+    closedir($dh);
+    if(@rmdir($dir))
+        return true;
+    else
+        return false;
 }
 
 // Recursive copy
@@ -625,6 +643,5 @@ function copyr($source, $dest) {
     $dir->close();
     return true;
 }
-
 
 ?>

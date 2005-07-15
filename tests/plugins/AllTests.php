@@ -29,9 +29,6 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All plugins tests
  */
-require_once 'plugins/outline/server/RemoteServerOutlineTest.php';
-// Please convert the RemoteServerSelectionTest test to use the new query plugin
-// require_once 'plugins/selection/server/RemoteServerSelectionTest.php';
 require_once 'plugins/auth/client/AuthClientTest.php';
 
 /**
@@ -44,9 +41,6 @@ class plugins_AllTests {
     
         $suite = new PHPUnit2_Framework_TestSuite;
 
-        $suite->addTestSuite('plugins_outline_server_RemoteServerOutlineTest');
-        // Please convert the RemoteServerSelectionTest test to use the new query plugin
-        // $suite->addTestSuite('plugins_selection_server_RemoteServerSelectionTest');
         $suite->addTestSuite('plugins_auth_client_AuthClientTest');
 
         return $suite;

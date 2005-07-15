@@ -21,7 +21,7 @@
 define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', 'po/');
 
-require_once('./pot_tools.php');
+require_once(CARTOCLIENT_HOME . 'scripts/pot_tools.php');
 
 // smarty open tag
 $ldq = preg_quote('{');
@@ -90,7 +90,7 @@ function do_file($file, &$texts, &$plurals) {
 /**
  * Goes through a directory
  * @param string
- * @param string project name or 'default'
+ * @param string project name or null for crawling upstream
  * @param array map text_to_translate => references
  * @param array map of texts plurals
  */
@@ -100,10 +100,9 @@ function do_dir($dir, $project, &$texts, &$plurals) {
     // - no projects set and not in projects directory, or
     // - project set and not in projects directory OR in this specific project
     // directory
-    if (($project == ProjectHandler::DEFAULT_PROJECT
-         && !strstr($dir, ProjectHandler::PROJECT_DIR . '/'))
-        || ($project != ProjectHandler::DEFAULT_PROJECT
-            && (strstr($dir, ProjectHandler::PROJECT_DIR . '/' . $project)))) {
+    if ((is_null($project) && !strstr($dir, ProjectHandler::PROJECT_DIR . '/'))
+        || (!is_null($project) && (strstr($dir, ProjectHandler::PROJECT_DIR . 
+                                                '/' . $project)))) {
 
         $d = dir($dir);
     
@@ -139,7 +138,7 @@ function do_dir($dir, $project, &$texts, &$plurals) {
 function parseIni($project, &$texts) {
 
     $iniPath = CARTOCLIENT_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
     $iniPath .= 'client_conf/';
@@ -168,13 +167,13 @@ function parseIni($project, &$texts) {
 }
 
 $projects = getProjects($projectname);
-// Adds default project
-$projects[] = ProjectHandler::DEFAULT_PROJECT;
+// Adds a null value for extracting the po file from upstream
+$projects[] = null;
 
 foreach ($projects as $project) {
 
     $dir = CARTOCLIENT_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
+    if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
     if (is_dir($dir)) {

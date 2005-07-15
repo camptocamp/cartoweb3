@@ -154,8 +154,7 @@ class MiniproxyUrlProvider extends UrlProvider {
         $queryParams['k'] = 'h'; 
         if (!empty($plugin))
             $queryParams['pl'] = $plugin;
-        if (!empty($project) && $project != ProjectHandler::DEFAULT_PROJECT)
-            $queryParams['pr'] = $project;
+        $queryParams['pr'] = $project;
         
         $url = $this->buildQuery($queryParams, $resource);
         return ResourceHandler::convertXhtml($url);
@@ -168,8 +167,7 @@ class MiniproxyUrlProvider extends UrlProvider {
 
         $queryParams = array();
         $queryParams['k'] = 'i';
-        if (!empty($project) && $project != ProjectHandler::DEFAULT_PROJECT)
-            $queryParams['pr'] = $project;
+        $queryParams['pr'] = $project;
         $queryParams['m'] = $mapId;
 
         return $this->buildQuery($queryParams, $resource);

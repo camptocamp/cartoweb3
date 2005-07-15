@@ -11,7 +11,8 @@
  */
 
 define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+
+require_once(CARTOSERVER_HOME . 'scripts/pot_tools.php');
 
 /**
  * Project handler class for constants
@@ -27,7 +28,7 @@ $globalSwitch = '';
 $rootDir = '';
 
 $projects = getProjects();
-$projects[] = ProjectHandler::DEFAULT_PROJECT;
+
 foreach ($projects as $project) {
     makeProjectMaps($project);
 }
@@ -120,11 +121,8 @@ function makeMapIdMaps($project, $mapId) {
 
     global $globalSwitch, $switchLayers, $allLayers, $autoIndexes, $rootDir;
 
-    $rootDir = 'server_conf/' . $mapId . '/';
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $rootDir = ProjectHandler::PROJECT_DIR . '/' . $project . '/' . $rootDir;
-    }
-    $rootDir = CARTOSERVER_HOME . $rootDir;
+    $rootDir = CARTOSERVER_HOME . ProjectHandler::PROJECT_DIR . '/' . 
+                    $project . '/' . 'server_conf/' . $mapId . '/';
     
     if (!file_exists($rootDir . $mapId . '.map.php')) {
         // Map file is not a PHP file
@@ -162,50 +160,6 @@ function makeMapIdMaps($project, $mapId) {
     ob_end_clean();
         
 }
-
-/**
- * Gets list of projects by reading projects directory
- * @return array
- */
-function getProjects() {
-
-    $projects = array();
-    $dir = CARTOCOMMON_HOME . ProjectHandler::PROJECT_DIR . '/';
-    $d = dir($dir);
-    while (false !== ($entry = $d->read())) {
-        if (is_dir($dir . $entry) && $entry != '.'
-            && $entry != '..' && $entry != 'CVS') {
-            $projects[] = $entry;
-        }
-    }    
-    return $projects;
-}
-
-/**
- * Gets list of map Ids by reading project directory
- * @param string
- * @return array
- */
-function getMapIds($project) {
-    
-    $mapIds = array();
-    $dir = CARTOSERVER_HOME;
-    if ($project != ProjectHandler::DEFAULT_PROJECT) {
-        $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
-    }
-    $dir .= 'server_conf/';
-    if (is_dir($dir)) {
-        $d = dir($dir);
-        while (false !== ($entry = $d->read())) {
-            if (is_dir($dir . $entry) && $entry != '.'
-                && $entry != '..' && $entry != 'CVS') {
-                $mapIds[] = $entry;
-            }
-        }
-    }    
-    return $mapIds;    
-}
-
 
 // Functions that can be used in PHP map files
 

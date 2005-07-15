@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Abstract unit tests for the Cartoclient
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,30 +30,34 @@ require_once 'common/Config.php';
 require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
 
 /**
- * Unit tests for Cartoclient.
+ * Abstract unit tests for Cartoclient.
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
+abstract class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
 
-    private function getClientUrl() {
-        if (!isset($_SERVER['HTTP_HOST'])) {
-            return Common_config::getInstance()->cartoclientUrl;
+    protected abstract function getProjectName();
+
+    // TODO: add a way to return multiple mapId's
+    protected abstract function getMapId();
+
+    private  $cartoclient;
+
+    private function getCartoclient() {
+        if (!$this->cartoclient) {
+            $GLOBALS['headless'] = true;
+            $_ENV['CW3_PROJECT'] = $this->getProjectName();
+            $this->cartoclient = new Cartoclient();
         }
-        
-        $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . 
-                $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
-        $url .= '/client.php';
-        
-        return $url;
+        return $this->cartoclient;
     }
-    
+
     private function getJavaPath() {
-        
+
         // A list of path where to look for Java binary
         //  add your path here according to your system
-        $check_paths = array('/home/sypasche/myfiles/java/jdk/bin',
+        $check_paths = array('/usr/lib/j2sdk1.5-sun/bin/',
                              '/usr/local/jdk/bin');
         $java_path = NULL;
         foreach ($check_paths as $path) {
@@ -74,25 +78,26 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
 
         $java_path = $this->getJavaPath();
         
-        $ret = shell_exec("$java_path -version 2>&1");
-        $this->assertContains("java version", $ret, 'You need a java virtual maching in your path');
+        $httpunitBaseTestsPath = realpath(dirname(__FILE__) . '/httpunit');
+        $project = $this->getProjectName();
+        $httpunitProjectTestsPath = realpath(dirname(__FILE__)) . 
+                    "/../../projects/$project/tests/client/httpunit/bin/";
 
-        $httpunit_tests_path = realpath(dirname(__FILE__) . '/httpunit');
-        
-        $httpunit_jar = $httpunit_tests_path . '/httpunit_all.jar';
-        $classpath = "$httpunit_jar:$httpunit_tests_path/bin";
+        $httpunitJar = $httpunitBaseTestsPath . '/httpunit_all.jar';
+        $classpath = "$httpunitJar:$httpunitBaseTestsPath/bin:$httpunitProjectTestsPath";
 
-        $clientUrl = $this->getClientUrl();
-        if (is_null($clientUrl)) {
-            $this->fail("Warning: client Url not found: skipping test\n");
-            return;   
-        }
+        $clientUrl = $this->getCartoclient()->getConfig()->cartoclientBaseUrl;
+        $clientUrl .= 'client.php?project=' . $this->getProjectName();
 
-        $java_output = shell_exec("$java_path -classpath $classpath CartowebTest $clientUrl 2>&1");
+        $projectConvertedName = projects_AllTests::convertName($this->getProjectName());
+        $class = "Cartoweb{$projectConvertedName}Test";
+        $javaCmd = "$java_path -classpath $classpath $class $clientUrl 2>&1";
+        //print "HttpUnit command: $javaCmd\n";
+        $java_output = shell_exec($javaCmd);
 
         $this->assertContains("\nOK ", $java_output, "HttpUnit failure:\n $java_output");
     }
-
+    
     /**
      * Delete a file, or a folder and its contents
      *
@@ -101,7 +106,7 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
      * @param       string   $dirname    Directory to delete
      * @return      bool     Returns TRUE on success, FALSE on failure
      */
-    function rmdirr($dirname)
+    private function rmdirr($dirname)
     {
         // Sanity check
         if (!file_exists($dirname)) {
@@ -129,31 +134,30 @@ class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         $dir->close();
         return rmdir($dirname);
     }
-
-    private function getCartoserverBaseUrl() {
-        $ini_array = parse_ini_file(CARTOCLIENT_HOME . 'client_conf/client.ini');
-        return $ini_array['cartoserverBaseUrl'];
-    }
-                    
+        
     public function testWsdl() {
 
         $java_path = $this->getJavaPath();
         $axis_tests_path = realpath(dirname(__FILE__) . '/axis');
         $classpath = $axis_tests_path . '/axis.jar';
         
-        $clientUrl = $this->getCartoserverBaseUrl() . 'cartoserver.wsdl.php?mapId=test';
+        $serverUrl = $this->getCartoclient()->getConfig()->cartoserverBaseUrl;
+        $serverUrl .=  'cartoserver.wsdl.php?mapId=' . $this->getProjectName() . 
+                                                    '.' . $this->getMapId();
 
-        if (is_null($clientUrl)) {
-            $this->fail("Warning: client Url not found: skipping test\n");
+        if (is_null($serverUrl)) {
+            $this->fail("Warning: server Url not found: skipping test\n");
             return;   
         }
         $temp_dir = '/tmp/axis_tmp';
         if (is_dir($temp_dir))
             $this->rmdirr($temp_dir);
         mkdir($temp_dir);
-        exec("$java_path -classpath $classpath " .
+        $javaCmd = "$java_path -classpath $classpath " .
                 "org.apache.axis.wsdl.WSDL2Java " .
-                "-o $temp_dir -a $clientUrl 2>&1", $output, $ret);
+                "-o $temp_dir -a $serverUrl 2>&1"; 
+        //print "CheckWsdl command: $javaCmd\n";
+        exec($javaCmd, $output, $ret);
         $output = implode("\n", $output);
         $this->rmdirr($temp_dir);
         $output = "The wsdl file is invalid !!\n\n $output";

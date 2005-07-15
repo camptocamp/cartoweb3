@@ -41,33 +41,31 @@ require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
  * @package Tests
  * @author      Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class client_CartoserverServiceWrapper extends common_GeographicalAssert {
+abstract class client_CartoserverServiceWrapper extends common_GeographicalAssert {
 
-    private $currentMapId = null;
-
-    protected function getMapId() {
-        return 'test';
-    }
-
-    protected function setMapId($mapId) {
-        $this->currentMapId = $mapId;
-    }
+    private  $cartoclient;
     
-    private function doGetMapId() {
-        if (is_null($this->currentMapId)) {
-            return $this->getMapId();
+    abstract protected function getMapId();
+
+    public function dummyErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {
+    }
+
+    private function getCartoclient($project) {
+        if (!$this->cartoclient) {
+            $GLOBALS['headless'] = true;
+            $_ENV['CW3_PROJECT'] = $project;
+
+            set_error_handler(array($this, 'dummyErrorHandler'));
+            $this->cartoclient = new Cartoclient();
+            restore_error_handler();
         }
-        return $this->currentMapId;
+        return $this->cartoclient;
     }
     
-    protected function tearDown() {
-        $this->currentMapId = null;
-    }
-
     private function getCartoserverBaseUrl() {
-     
-        $ini_array = parse_ini_file(CARTOCLIENT_HOME . 'client_conf/client.ini');
-        return $ini_array['cartoserverBaseUrl'];
+
+        list($project, $mapId) = explode('.', $this->getMapId());
+        return $this->getCartoclient($project)->getConfig()->cartoserverBaseUrl;
     }
 
     function isTestDirect() {
@@ -105,7 +103,7 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
     protected function createRequest() {
      
         $mapRequest = new MapRequest();           
-        $mapRequest->mapId = $this->doGetMapId();
+        $mapRequest->mapId = $this->getMapId();
 
         // images request is necessary to have the server do something        
         $mapRequest->imagesRequest = $this->getDefaultImagesRequest();
@@ -116,7 +114,7 @@ class client_CartoserverServiceWrapper extends common_GeographicalAssert {
     private function getCartoserverService($direct) {
 
         $config = new stdClass();
-        $config->mapId = $this->doGetMapId();
+        $config->mapId = $this->getMapId();
         // FIXME: disable soap cache ?
         $config->noWsdlCache = false;
         $config->useWsdl = true;

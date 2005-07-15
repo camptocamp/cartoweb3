@@ -29,8 +29,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All client tests
  */
-require_once 'client/CartoclientTest.php';
-require_once 'client/CartoserverServiceTest.php';
+require_once 'client/InternationalizationTest.php';
 
 /**
  * @package Tests
@@ -42,12 +41,11 @@ class client_AllTests {
     
         $suite = new PHPUnit2_Framework_TestSuite;
 
-        $suite->addTestSuite('client_CartoclientTest');
-        $suite->addTestSuite('client_CartoserverServiceTest');
+        // uncomment once ok
+        //$suite->addTestSuite('client_InternationalizationTest');
 
         return $suite;
     }
-
 }
 
 ?>

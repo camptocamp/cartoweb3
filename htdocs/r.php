@@ -41,9 +41,7 @@ class ResourceProjectHandler extends ProjectHandler {
      * @return string
      */
     public function getProjectName() {
-        if (isset($_REQUEST['pr']))
-            return $_REQUEST['pr'];
-        return ProjectHandler::DEFAULT_PROJECT;
+        return $_REQUEST['pr'];
     }
 }
 
@@ -125,15 +123,11 @@ class MiniproxyFileProvider {
      *  of  the directory containing the mapfile.
      */
     public function getIconFile($resource, $requ) {
-        $projectPath = '';
-        if (isset($requ['pr']) && $requ['pr'] != ProjectHandler::DEFAULT_PROJECT) {
-            $projectPath = ProjectHandler::PROJECT_DIR . '/' . $requ['pr'] . '/';
-        }   
         if (!isset($requ['m']))
             fatal('no map id');
         $mapId = $requ['m'];
-        dbg($projectPath);
-        $filePath = implode('/', array(CARTOCLIENT_HOME . $projectPath, 
+        $filePath = implode('/', array(CARTOCLIENT_HOME . 
+                        ProjectHandler::PROJECT_DIR . '/' . $requ['pr'] . '/', 
                         'server_conf', $mapId, 'icons', $resource));
         dbg($filePath);
         return $filePath;

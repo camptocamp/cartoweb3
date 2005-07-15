@@ -27,18 +27,21 @@
 require_once 'PHPUnit2/Framework/TestSuite.php';
 
 /**
- * All server tests
+ * All client tests
  */
+require_once(CARTOCLIENT_HOME . 'projects/demo/tests/client/CartoclientTest.php');
 
 /**
  * @package Tests
- * @author      Sylvain Pasche <sylvain.pasche@camptocamp.com>
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class server_AllTests {
-
+class projects_demo_client_AllTests {
+    
     public static function suite() {
-
+    
         $suite = new PHPUnit2_Framework_TestSuite;
+
+        $suite->addTestSuite('projects_demo_client_CartoclientTest');
 
         return $suite;
     }

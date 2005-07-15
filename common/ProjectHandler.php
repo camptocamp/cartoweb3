@@ -28,7 +28,7 @@
 abstract class ProjectHandler {
 
     const PROJECT_DIR = 'projects';
-    const DEFAULT_PROJECT = 'default';
+    const DEFAULT_PROJECT = 'test_main';
 
     /**
      * Map name without the project prefix
@@ -108,7 +108,7 @@ abstract class ProjectHandler {
 
         // It simply looks for directory name. 
         // Maybe a smarter approach could be used
-        $projects = array(self::DEFAULT_PROJECT);
+        $projects = array();
         $directory = $this->getRootPath() . self::PROJECT_DIR . '/';
         $d = dir($directory);
         while (false !== ($entry = $d->read())) {
