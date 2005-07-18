@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>{t}Cartoclient Title{/t} testproject</title>
+  <title>{t}Cartoclient Title{/t} test_project</title>
   
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
   <meta name="author" content="Sylvain Pasche" />
@@ -46,7 +46,7 @@
 
 <body>
 
-<div id="banner"><h1>{t}Cartoclient Title{/t} testproject</h1></div>
+<div id="banner"><h1>{t}Cartoclient Title{/t} test_project</h1></div>
 
 <form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />

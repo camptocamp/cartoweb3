@@ -5,7 +5,7 @@
  */
 
 /**
- * Client part of Location plugin, project testproject
+ * Client part of Location plugin, project test_project
  * @package Tests
  */
 class ClientProjectLocation extends ClientLocation {

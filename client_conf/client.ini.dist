@@ -71,7 +71,7 @@ showProjectChooser = true
 
 ; List of the project to show in the drop down list. If not set, all projects
 ;  found will be used. 
-;availableProjects = default, testproject
+;availableProjects = test_main, test_project
 
 ;## Plugins ##
 

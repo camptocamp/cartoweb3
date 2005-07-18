@@ -137,31 +137,31 @@ fr    fr_CH.ISO-8859-1
     </sect2>
     <sect2 id="user.i18n.translations.example">
       <title>Example</title>
-      <para> To translate texts in french for project testproject and map file 
+      <para> To translate texts in french for project test_project and map file 
         projectmap, follow these steps: </para>
       <itemizedlist>
         <listitem>
           <para> On server: <screen><![CDATA[cd <cartoweb_home>/scripts
 ./server2pot.php]]></screen> Copy 
-            <filename>&lt;cartoweb_home&gt;/po/server-testproject.po</filename> 
+            <filename>&lt;cartoweb_home&gt;/po/server-test_project.po</filename> 
             to 
-            <filename>&lt;cartoweb_home&gt;/po/server-testproject.fr.po</filename> 
+            <filename>&lt;cartoweb_home&gt;/po/server-test_project.fr.po</filename> 
             and 
-            <filename>&lt;cartoweb_home&gt;/po/server-testproject.projectmap.po</filename> 
+            <filename>&lt;cartoweb_home&gt;/po/server-test_project.projectmap.po</filename> 
             to 
-            <filename>&lt;cartoweb_home&gt;/po/server-testproject.projectmap.fr.po</filename>. 
+            <filename>&lt;cartoweb_home&gt;/po/server-test_project.projectmap.fr.po</filename>. 
             Edit french files with Poedit (or any editor). </para>
         </listitem>
         <listitem>
           <para> On client: <screen><![CDATA[cd <cartoweb_home>/scripts
 ./client2pot.php]]></screen> Copy 
-            <filename>&lt;cartoweb_home&gt;/po/client-testproject.po</filename> 
+            <filename>&lt;cartoweb_home&gt;/po/client-test_project.po</filename> 
             to 
-            <filename>&lt;cartoweb_home&gt;/po/client-testproject.fr.po</filename>. 
+            <filename>&lt;cartoweb_home&gt;/po/client-test_project.fr.po</filename>. 
             Edit french file with Poedit (or any editor). </para>
           <para> Merge and compile files with the following commands: <screen><![CDATA[cd <cartoweb_home>/scripts
 ./po2mo.php]]></screen> Now you should have the file 
-            <filename>testproject.projectmap.mo</filename> in directory 
+            <filename>test_project.projectmap.mo</filename> in directory 
             <filename>&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</filename>. 
             The directory <filename>fr/LC_MESSAGES</filename> will be created 
             if it does not exist. </para>

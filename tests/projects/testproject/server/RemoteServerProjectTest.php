@@ -28,24 +28,26 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
 require_once(CARTOSERVER_HOME
-    . 'projects/testproject/coreplugins/projectLocation/common/ProjectLocation.php');
+    . 'projects/test_project/coreplugins/projectLocation/common/ProjectLocation.php');
 require_once(CARTOSERVER_HOME
-    . 'projects/testproject/plugins/projectplugin/common/Projectplugin.php');
+    . 'projects/test_project/plugins/projectplugin/common/Projectplugin.php');
 require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
 
+// FIXME: move this inside test_project
+
 /**
- * Unit test for server testproject project via webservice. 
+ * Unit test for server test_project project via webservice. 
  *
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class projects_testproject_server_RemoteServerProjectTest
+class projects_testProject_server_RemoteServerProjectTest
                     extends client_CartoserverServiceWrapper {
 
     private $testDirect = true;
 
     protected function getMapId() {
-        return 'testproject.projectmap';
+        return 'test_project.projectmap';
     }
     
     public function testProjectIniFile($direct = false) {
