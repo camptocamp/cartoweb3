@@ -84,7 +84,7 @@ $commands = array('check', 'get', 'getLibs', 'mkDirs', 'rmDirs', 'perms',
 /*           DO NOT CHANGE ANYTHING AFTER THAT                */
 /**********************************************************dF**/
 
-// Check operating system (Unix-like or windaube)
+// Check operating system (Unix-like or win32)
 $isWin = (PHP_OS == 'Window');
 
 // Clear the screen:
@@ -316,7 +316,7 @@ function setPerms($user) {
     global $CW3_WRITABLE_DIRS;
 
     echo "\nSetting permissions:\n";
-// todo, for windaube, using cacls, BUT ONLY FOR NTFS
+    // todo, for win32, using cacls, BUT ONLY FOR NTFS
     foreach($CW3_WRITABLE_DIRS as $dir) {
         setPermsRecursive($dir, $user);
     }
