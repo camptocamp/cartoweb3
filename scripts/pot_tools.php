@@ -135,10 +135,12 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
         while (false !== ($entry = $d->read())) {
             if (!is_dir($path . $entry) &&
                 substr($entry, -4) == '.php') {
+
                 exec("xgettext --from-code=" . getCharset($type, $project)
-                     . "--language=PHP --keyword=gt --output=$dir"
+                     . "--language=PHP --keyword=gt --keyword=ngt --output=$dir"
                      . CARTOCOMMON_PODIR . "_tmp_xgettext.po "
                      . $path . $entry);
+
                 if (file_exists($dir . CARTOCOMMON_PODIR . "_tmp_xgettext.po")) {
                     $filecontents = file_get_contents($dir . CARTOCOMMON_PODIR
                                                       . "_tmp_xgettext.po");
