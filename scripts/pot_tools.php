@@ -159,7 +159,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
                         (is_null($project)
                          && !strstr($path . $entry, ProjectHandler::PROJECT_DIR . '/'))
                        ||
-                        (is_null($project)
+                        (!is_null($project)
                          && (strstr($path . $entry, ProjectHandler::PROJECT_DIR . '/' . $project)
                              || $entry == ProjectHandler::PROJECT_DIR))
                        )
