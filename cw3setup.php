@@ -132,7 +132,8 @@ if (count($cmd_array) <= 1) {
                        'mkDirs',
                        'perms',
                        'createConfig',
-                       'setupLinks'
+                       'setupLinks',
+                       'init'
                       );
 }
 else {
