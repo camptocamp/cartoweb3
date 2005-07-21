@@ -137,7 +137,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
                 substr($entry, -4) == '.php') {
 
                 exec("xgettext --from-code=" . getCharset($type, $project)
-                     . "--language=PHP --keyword=gt --keyword=ngt --output=$dir"
+                     . "--language=PHP --keyword=gt --keyword=ngt:1,2 --output=$dir"
                      . CARTOCOMMON_PODIR . "_tmp_xgettext.po "
                      . $path . $entry);
 
