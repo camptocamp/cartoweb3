@@ -133,7 +133,7 @@ LAYER
 END]]></programlisting>
       <para> The point layer is optional as it can be replaced by polygon layer 
         when missing. </para>
-      <para> Don't forget that layers names must be set in the client-side 
+      <para> Don't forget that layers names must be set in the server-side 
         outline.ini file (See <xref linkend="user.annotate.server.ini" />) 
         </para>
     </sect2>
