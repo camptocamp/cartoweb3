@@ -125,6 +125,12 @@ echo "\n";
 
 // Retrieve command:
 $cmd_array = $_SERVER['argv'];
+
+$batchMode = in_array('-batch', $cmd_array);
+if ($batchMode) {
+    unset($cmd_array[array_search('-batch', $cmd_array)]);
+}
+
 if (count($cmd_array) <= 1) {
     $cmd = "FULL INSTALL";
     $cmd_array = array('check',
@@ -246,7 +252,7 @@ foreach($cmd_array as $keycmd=>$cmd) {
                 $not_a_command_flag = false;
                 break;
             }
-            echo "Unknown command: $cmd \n";
+            die("Unknown command: $cmd \n");
     }
 }
 echo "\n";
@@ -584,6 +590,9 @@ function getLibs($url) {
 
 // Read user input in php shell mode
 function getInput() {
+    global $batchMode;
+    if ($batchMode)
+        return 'y';
     $input = false;
     $fr = fopen("php://stdin", "r");
     $input = fgets($fr, 255);
