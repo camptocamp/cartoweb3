@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-07 15:06+0200\n"
+"POT-Creation-Date: 2005-07-13 18:01+0200\n"
 "PO-Revision-Date: 2005-03-14 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -67,7 +67,7 @@ msgstr "Mehr Infos"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
-msgstr "Nächster sichtbarer Masstab"
+msgstr "Nächster sichtbarer Massstab"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
@@ -99,7 +99,7 @@ msgstr "Y"
 
 #: coreplugins/location/templates/scales.tpl
 msgid "Scale"
-msgstr "Masstab"
+msgstr "Massstab"
 
 #: coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
@@ -445,7 +445,7 @@ msgstr ""
 
 #: templates/mainmap.tpl
 msgid "Current scale:"
-msgstr "Masstab"
+msgstr "Massstab"
 
 #: templates/mainmap.tpl
 msgid "Loading message"
@@ -467,71 +467,71 @@ msgstr ""
 msgid " this action"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:564
+#: /home/afellay/public_html/cartoweb3/client/Views.php:570
 #, php-format
 msgid "Loaded view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:570
+#: /home/afellay/public_html/cartoweb3/client/Views.php:576
 #, php-format
 msgid "New view recorded with id %d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:575
+#: /home/afellay/public_html/cartoweb3/client/Views.php:581
 #, php-format
 msgid "View #%d updated"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:580
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1055
+#: /home/afellay/public_html/cartoweb3/client/Views.php:586
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1061
 #, php-format
 msgid "View #%d deleted"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:945
+#: /home/afellay/public_html/cartoweb3/client/Views.php:951
 #, php-format
 msgid "Failed to open view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:969
+#: /home/afellay/public_html/cartoweb3/client/Views.php:975
 #, php-format
 msgid "Unable to read view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:981
+#: /home/afellay/public_html/cartoweb3/client/Views.php:987
 #, php-format
 msgid "Unable to write view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1058
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1064
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1135
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1141
 msgid "Unable to open ViewDbContainer: "
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1137
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1206
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1143
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1212
 msgid "Service failed."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1204
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1210
 msgid "Unable to process view."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1215
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1221
 #, php-format
 msgid "No result for view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1239
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1245
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1358
+#: /home/afellay/public_html/cartoweb3/client/Views.php:1364
 msgid "Unable to build views catalog"
 msgstr ""
 
@@ -583,14 +583,14 @@ msgstr ""
 msgid "shortest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:277
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:278
 msgid "Views main controller is OFF!!"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:281
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:282
 msgid "Memorizing view to update"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:310
+#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:311
 msgid "(placed at the end)"
 msgstr ""
