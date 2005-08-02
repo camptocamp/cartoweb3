@@ -17,7 +17,7 @@
 <tr>
 <td><table>
 {foreach from=$exporthtml_legends item=legend}
-<tr><td>{$legend.label}</td></tr>
+<tr><td>{if $legend.icon}<img src="{$legend.icon}" alt="" /> {/if}{$legend.label}</td></tr>
 {/foreach}
 </table></td>
 </tr>

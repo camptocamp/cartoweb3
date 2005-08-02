@@ -102,13 +102,26 @@ class ClientExportHtml extends ExportPlugin {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
         $mapInfo = $this->cartoclient->getMapInfo();
-        // TODO: Add icons
         
         $legends = array();
         foreach ($mapRequest->layersRequest->layerIds as $layerId) {
             $layer = $mapInfo->layersInit->getLayerById($layerId);
-            $legends[] = array('label' => I18n::gt($layer->label)); 
+        
+            // TODO: Improve icons retrieving (currently very simplified)
+            
+            if (empty($layer->icon)) {
+                $iconUrl = '';
+            } else {
+                $resourceHandler = $this->getCartoclient()->getResourceHandler();
+                $iconUrl = $this->getBaseUrl();
+                $iconUrl .= $resourceHandler->getFinalUrl($layer->icon, false);
+            }
+            
+            $legends[] = array('label' => I18n::gt($layer->label),
+                               'icon'  => $iconUrl,
+                               ); 
         }
+        
         $smarty->assign(array('exporthtml_mainmap'  => $this->getBaseUrl()
                                     . $mapResult->imagesResult->mainmap->path,
                               'exporthtml_keymap'   => $this->getBaseUrl()
