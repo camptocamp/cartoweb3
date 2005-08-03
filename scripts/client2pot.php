@@ -1,10 +1,11 @@
 #!/usr/local/bin/php
 <?php
 /**
- * client2pot.php - rips gettext strings from smarty template and client .ini
+ * client2pot.php - rips gettext strings from templates, client .ini and .php
  *
- * This command line script rips gettext strings from smarty file and .ini, and
- * save one file per project. If file already exists, calls msgmerge.
+ * This command line script rips gettext strings from smarty files as well as
+ * .ini and .php files, and saves one file per project. 
+ * If file already exists, calls msgmerge.
  *
  * Usage:
  * ./client2pot.php
