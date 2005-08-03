@@ -170,8 +170,8 @@ class ViewManager {
         $requiredPerm = $this->cartoclient->getConfig()->viewAuth;
         if (!SecurityManager::getInstance()->hasRole($requiredPerm)) {
             if (!$mute) {
-                $this->message = I18n::gt('You are not allowed to perform'
-                                          . ' this action');
+                $this->message = I18n::gt(
+                                 'You are not allowed to perform this action');
             }
             return false;
         }
