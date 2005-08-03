@@ -150,7 +150,7 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
         <listitem>
           <para> layers.layerId.icon = filename : filename of the static picto 
             that illustrates this Layer in the layer tree. The path is relative 
-            to <filename>myMap.ini</filename>.See also <xref 
+            to <filename>myMap.ini</filename>. See also <xref 
             linkend="user.layers.legend"/> for a description of the automatic 
             legending process. </para>
         </listitem>
@@ -191,6 +191,9 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
                 are displayed under the dropdown list. </para>
             </listitem>
           </itemizedlist>
+        </listitem>
+        <listitem>
+         <para>layers.layerId.metadata.minScale (resp. maxScale): one may specify a numerical minimal (resp. maximal) scale for the given LayerGroup. This parameter has absolutely no effect on Mapserver behavior and is only used to display out-of-scale icons and links in the layers tree. For more info about <filename>layers.ini</filename> metadata parameters, see <xref linkend="user.layers.metadata.inifile"/>.</para>
         </listitem>
       </itemizedlist>
     </sect2>

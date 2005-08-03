@@ -309,6 +309,10 @@ class ClientLayers extends ClientPlugin
      */
     private $overrideSwitch = false;
 
+    const RENDERING_TREE = 'tree';
+    const RENDERING_RADIO = 'radio';
+    const RENDERING_DROPDOWN = 'dropdown';
+
     /**
      * Constructor
      */
@@ -555,7 +559,8 @@ class ClientLayers extends ClientPlugin
     private function handleSwitches($request) {
         
         if (!$this->overrideSwitch) {
-            $this->layersState->switchId = $this->getHttpValue($request, 'switch_id');           
+            $this->layersState->switchId = 
+                $this->getHttpValue($request, 'switch_id');           
         }    
     }
 
@@ -954,8 +959,11 @@ class ClientLayers extends ClientPlugin
     private function fetchLayerIcon($layer, &$children = array()) {
         if (!$layer->icon || $layer->icon == 'none') {
             $layer->icon = false;
-        
-            if ($layer instanceof Layer ||
+            
+            if ($layer instanceof LayerGroup && !$layer->aggregate) {
+                $this->setOutofScaleIcon($layer);
+
+            } elseif ($layer instanceof Layer ||
                 ($layer instanceof LayerGroup && $layer->aggregate)) {
 
                 if ($this->setOutofScaleIcon($layer)) {
@@ -981,8 +989,9 @@ class ClientLayers extends ClientPlugin
                 if ($nbChildren == 1 || $this->isOutOfRangeIcon($layer->icon)) 
                     $children = array();
             }
-        } elseif ($this->setOutofScaleIcon($layer))
+        } elseif ($this->setOutofScaleIcon($layer)) {
             $children = array();
+        }
         
         return $layer->icon;
     }
@@ -1025,7 +1034,7 @@ class ClientLayers extends ClientPlugin
      */
     private function fetchLayer($layer, $forceSelection = false,
                                         $forceFrozen = false,
-                                        $layerRendering = 'tree', 
+                                        $layerRendering = self::RENDERING_TREE, 
                                         $parentId = 0) {
         
         // if level is root and root is hidden (no layers menu displayed):
@@ -1044,10 +1053,10 @@ class ClientLayers extends ClientPlugin
         $element['elements'] =& $childrenLayers;
         $childrenRendering = ($layer instanceof LayerGroup && 
                               $layer->rendering) ?
-                             $layer->rendering : 'tree';
+                             $layer->rendering : self::RENDERING_TREE;
 
         $isDropDown = ($layer instanceof LayerGroup && 
-                       $layer->rendering == 'dropdown');
+                       $layer->rendering == self::RENDERING_DROPDOWN);
         
         if ($isDropDown) {
             $parentId = $layer->id;
@@ -1060,7 +1069,7 @@ class ClientLayers extends ClientPlugin
                 $i = 0;
         } else {
             $isRadioContainer = ($layer instanceof LayerGroup &&
-                                 $layer->rendering == 'radio');
+                                 $layer->rendering == self::RENDERING_RADIO);
         }
         
         $firstChild = true;
@@ -1070,6 +1079,19 @@ class ClientLayers extends ClientPlugin
         else
             $nodeId = implode('.', $this->nodeId);
 
+        $metadata = $layer->getAllMetadata();
+        $metadata['lang'] = LANG;
+     
+        // LayerGroups minScale|maxScale may be set from layer metadata.
+        if ($layer instanceof LayerGroup) {
+            if (!empty($metadata['minScale'])) {
+                $layer->minScale = $metadata['minScale'];
+            }
+            if (!empty($metadata['maxScale'])) {
+                $layer->maxScale = $metadata['maxScale'];
+            }
+        }
+        
         foreach ($this->getLayerChildren($layer) as $child) {
             $childLayer = $this->getLayerByName($child);
 
@@ -1097,10 +1119,10 @@ class ClientLayers extends ClientPlugin
                                                   $layer->id);
         }
 
-        if ($layer instanceof LayerGroup
-            && !$layer->aggregate
-            && count($childrenLayers) > 0)
+        if ($layer instanceof LayerGroup && !$layer->aggregate
+            && count($childrenLayers) > 0) {
             array_pop($this->nodeId);
+        }
 
         $groupFolded = !in_array($layer->id, $this->getUnfoldedLayerGroups());
         $layer->label = I18n::gt($layer->label);
@@ -1142,9 +1164,6 @@ class ClientLayers extends ClientPlugin
             $iconUrl = $resourceHandler->getFinalUrl($layer->icon, false);
         }
 
-        $metadata = $layer->getAllMetadata();
-        $metadata['lang'] = LANG;
-
         $element = array_merge($element,
                           array('layerLabel'       => $layer->label,
                                 'layerMeta'        => $metadata,
@@ -1163,9 +1182,10 @@ class ClientLayers extends ClientPlugin
                                 'nodeId'           => $nodeId,
                                 ));
         
-        if (!$groupFolded) 
+        if (!$groupFolded) { 
             $this->unfoldedIds[] = $nodeId;
-        
+        }
+
         return $element;
     }
 
