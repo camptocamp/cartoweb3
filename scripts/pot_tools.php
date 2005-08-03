@@ -144,7 +144,8 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
                 if (file_exists($dir . CARTOCOMMON_PODIR . "_tmp_xgettext.po")) {
                     $filecontents = file_get_contents($dir . CARTOCOMMON_PODIR
                                                       . "_tmp_xgettext.po");
-                    $filecontents = str_replace('CHARSET', getCharset($type, $project),
+                    $filecontents = str_replace(array('CHARSET', "#: $dir"),
+                                                array(getCharset($type, $project), '#: '),
                                                 $filecontents);
                     file_put_contents($dir . CARTOCOMMON_PODIR
                                       . "_tmp_xgettext.po", $filecontents);
