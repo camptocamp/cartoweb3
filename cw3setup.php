@@ -785,7 +785,7 @@ function replace_dot_in($filename, $context) {
 function check_cw3setup_version() {
 
     $content = file_get_contents('cartoweb3/cw3setup.php');
-    $revision_pattern = '/\$Revision$/';
+    $revision_pattern = '/\$Rev.sion: ([\.\d]+) \$/';
     preg_match($revision_pattern, $content, $matches);
     if (!isset($matches[1]))
         die("Unable to find Revision in cartoweb3/cw3setup.php\n");
