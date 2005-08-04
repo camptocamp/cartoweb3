@@ -89,48 +89,51 @@ $commands = array('check', 'get', 'getLibs', 'mkDirs', 'rmDirs', 'perms',
 // Check operating system (Unix-like or win32)
 $isWin = (PHP_OS == 'Window');
 
-// Clear the screen:
-if ($isWin)
-    echo `cls`;
-else
-    echo `clear`;
-
-
-echo "\n";
-echo "/**************************************************************/\n";
-echo "/*                   Cartoweb 3 Installer                     */\n";
-echo "/*                                                            */\n";
-echo "/* This program will setup cartoweb3 in the current directory */\n";
-echo "/**************************************************************/\n\n";
-echo "To setup cartoweb3, just type: php -f cw3setup.php\n\n";
-echo "Available commands:\n";
-echo "Syntax: php -f cw3setup.php [command] [command=parameters]\n";
-echo "Sample: php -f cw3setup.php check get=anonymous\n\n";
-echo "(no command, by default): install cartoweb3\n";
-echo "cvs                     : install cartoweb3 from cvs\n";
-echo "check                   : check configuration\n";
-echo "get                     : CVS checkout with user name [anonymous]\n";
-echo "getLibs                 : get required libraries\n";
-echo "perms [www-data]        : set writing perms for web-user [www-data]\n";
-echo "                          - set ownership if ran as superuser,\n";
-echo "                          - give write permission instead.\n";
-echo "createConfig            : create the new configuration (install .dist files)\n";
-echo "setupLinks              : link or copy paths for web browser\n";
-echo "removeLinks             : remove all links created by setupLinks.\n";
-echo "                          - super user rights required to remove dynamic content\n";
-echo "setup [path]            : setup a new project in existing installation\n";
-echo "mkDirs                  : create all cache directories\n";
-echo "rmDirs                  : remove all temporary files AND directories\n";
-echo "init                    : performs CartoWeb intialization (locale compiling, makemaps, ...)\n";
-echo "remove                  : remove cartoweb3\n";
-echo "\n";
-
 // Retrieve command:
 $cmd_array = $_SERVER['argv'];
 
 $batchMode = in_array('-batch', $cmd_array);
 if ($batchMode) {
     unset($cmd_array[array_search('-batch', $cmd_array)]);
+}
+
+if (!$batchMode) {
+
+    // Clear the screen:
+    if ($isWin)
+        echo `cls`;
+    else
+        echo `clear`;
+
+    echo "\n";
+    echo "/**************************************************************/\n";
+    echo "/*                   Cartoweb 3 Installer                     */\n";
+    echo "/*                                                            */\n";
+    echo "/* This program will setup cartoweb3 in the current directory */\n";
+    echo "/**************************************************************/\n\n";
+    echo "To setup cartoweb3, just type: php -f cw3setup.php\n\n";
+    echo "Available commands:\n";
+    echo "Syntax: php -f cw3setup.php [command] [command=parameters]\n";
+    echo "Sample: php -f cw3setup.php check get=anonymous\n\n";
+    echo "(no command, by default): install cartoweb3\n";
+    echo "cvs                     : install cartoweb3 from cvs\n";
+    echo "check                   : check configuration\n";
+    echo "get                     : CVS checkout with user name [anonymous]\n";
+    echo "getLibs                 : get required libraries\n";
+    echo "perms [www-data]        : set writing perms for web-user [www-data]\n";
+    echo "                          - set ownership if ran as superuser,\n";
+    echo "                          - give write permission instead.\n";
+    echo "createConfig            : create the new configuration (install .dist files)\n";
+    echo "setupLinks              : link or copy paths for web browser\n";
+    echo "removeLinks             : remove all links created by setupLinks.\n";
+    echo "                          - super user rights required to remove dynamic content\n";
+    echo "setup [path]            : setup a new project in existing installation\n";
+    echo "mkDirs                  : create all cache directories\n";
+    echo "rmDirs                  : remove all temporary files AND directories\n";
+    echo "init                    : performs CartoWeb intialization (locale compiling, makemaps, ...)\n";
+    echo "deployProject project   : install a cartoweb3 from scratch including the specified project (MUST BE USED ALONE)\n";
+    echo "remove                  : remove cartoweb3\n";
+    echo "\n";
 }
 
 if (count($cmd_array) <= 1) {
@@ -352,7 +355,7 @@ function createConfig($dir) {
     if (!$dh) return false;
     while ($file = readdir($dh)) {
         $fullpath = "$dir/$file";
-        if (is_dir($fullpath) && $file != '.' && $file != '..')
+        if (is_dir($fullpath) && $file != '.' && $file != '..' && !is_link($fullpath))
             createConfig($fullpath);
         if(substr($file, strlen($file) - 5) == ".dist") {
             $target = substr($fullpath, 0, strlen($fullpath) - 5);
