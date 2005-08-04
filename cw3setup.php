@@ -12,6 +12,8 @@ error_reporting(E_ALL);
 /*                      Parameters                            */
 /**********************************************************dF**/
 
+define('CW3_SETUP_REVISION', '$Revision$');
+
 // If you had renamed your php mapscript library,
 // you need to change it here too:
 define('CW3_PHP_MAPSCRIPT', 'php_mapscript'); // linux
