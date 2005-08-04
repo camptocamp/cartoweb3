@@ -820,7 +820,8 @@ function fetch_project($project, $target_directory) {
 
     $cvs_user = get_cvs_user();
     $cvs_host = get_cvs_host();
-    passthru("cd $temp_deploy_directory && cvs -d :pserver:{$cvs_user}@{$cvs_host}/var/lib/cvs/projects/cw3 co $project");
+    print "cvs repository: :pserver:{$cvs_user}@{$cvs_host}/var/lib/cvs/projects/cw3 \n";
+    passthru("cd $target_directory && cvs -d :pserver:{$cvs_user}@{$cvs_host}/var/lib/cvs/projects/cw3 co $project");
     //passthru("cp -rl $project $target_directory");
 }
 
