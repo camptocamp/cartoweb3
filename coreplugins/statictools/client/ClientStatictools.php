@@ -85,14 +85,8 @@ class ClientStatictools extends ClientPlugin
      */
     public function getTools() {
         return array(
-            new ToolDescription(self::TOOL_DISTANCE, true,
-                     new JsToolAttributes(JsToolAttributes::SHAPE_LINE,
-                                         JsToolAttributes::CURSOR_CROSSHAIR,
-                                         JsToolAttributes::ACTION_MEASURE), 80),
-            new ToolDescription(self::TOOL_SURFACE, true,
-                     new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON,
-                                         JsToolAttributes::CURSOR_CROSSHAIR,
-                                         JsToolAttributes::ACTION_MEASURE), 81),
+            new ToolDescription(self::TOOL_DISTANCE, true, 80),
+            new ToolDescription(self::TOOL_SURFACE, true, 81),
         );
     }
 }

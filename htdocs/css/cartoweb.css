@@ -42,7 +42,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 
 #keymap {text-align:center;margin:10px;}
-#keymap input, #mainmapCell {border:1px solid #eee;}
+#keymap input {border:1px solid #eee;}
 
 #layerscmd {text-align:center;padding:5px;}
 
@@ -77,14 +77,29 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 #scaleContainer {
   position:absolute;
-  top:-15px;
-  left:5px;
   z-index:3;
 }
 
 #floatScale {
   position:relative;
+/*  top: -15px;*/
   padding:0;
   margin:0;
-  font-size:x-small;
+}
+
+#floatGeo {
+  padding:0;
+  margin:0;
+}
+
+#floatDistance {
+  padding:0;
+  margin: 0;
+  display: none;
+}
+
+#floatSurface {
+  padding:0;
+  margin: 0;
+  display: none;
 }

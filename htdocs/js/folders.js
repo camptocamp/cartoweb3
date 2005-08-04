@@ -53,6 +53,4 @@ function swapRows() {
   topRow.innerHTML = lowRow.innerHTML;
   lowRow.innerHTML = temp;
 }
-
-if (typeof onLoadString != "string") onLoadString = "";
-onLoadString += "setupFolders();";
+EventManager.Add(window, 'load', setupFolders, false);

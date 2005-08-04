@@ -2,8 +2,6 @@
    position set relatively to the main map */
 #keymapContainer {
   position: absolute;
-  top: 5px;
-  left: 5px;
   visibility: hidden;
   z-index:2; /* Safari Mac needed */
 }
@@ -13,7 +11,7 @@
   position:relative;
   border:1px solid #ccc;
   padding:0;
-  margin:0;
+  margin:5px;
 }
 
 #floatkeymap input {
@@ -25,8 +23,8 @@
    position set relatively to the keymap */
 #keymapswitcher {
   position:absolute;
-  top: 3px;
-  left: 3px;
+  top: 8px;
+  left: 8px;
 }
 
 #keymapswitcher img {

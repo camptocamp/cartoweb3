@@ -34,5 +34,4 @@ function keymapInit() {
   xShow(keymapCont);
 }
 
-if (typeof onLoadString != "string") onLoadString = "";
-onLoadString += "keymapInit();";
+EventManager.Add(window, 'load', keymapInit, false); 

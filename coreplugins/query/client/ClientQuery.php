@@ -163,10 +163,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see ToolProvider::getTools()
      */
     public function getTools() {
-        return array(new ToolDescription(self::TOOL_QUERY, true,
-                       new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE,
-                                            JsToolAttributes::CURSOR_HELP),
-                                            40));
+        return array(new ToolDescription(self::TOOL_QUERY, true, 40));
     }
 
     /**

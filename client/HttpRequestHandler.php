@@ -101,12 +101,10 @@ class DhtmlSelectionParser {
      * @param Bbox current bbox in geographical coordinates
      * @return Point point in geographical coordinates
      */
-    private function pixelToPoint($pixel_coord, 
-            Dimension $imageSize, Bbox $bbox) {
+    private function pixelToPoint($pixel_coord) {
         
         list($x, $y) = explode(',', $pixel_coord);        
-        $pixelPoint = new Point($x, $y);
-        return PixelCoordsConverter::point2Coords($pixelPoint, $imageSize, $bbox);
+        return new Point($x, $y);
     }
     
     /**
@@ -122,7 +120,7 @@ class DhtmlSelectionParser {
         $coords = explode(';', $selection_coords);
         $points = array();
         foreach($coords as $coord) {
-            $point = self::pixelToPoint($coord, $imageSize, $bbox);     
+            $point = self::pixelToPoint($coord);     
             $points[] = $point;
         }        
         return $points; 
@@ -170,7 +168,8 @@ class DhtmlSelectionParser {
         }
         
         $rect = new Rectangle();
-        $rect->setFrom2Points($points[0], $points[1]);        
+        $rect->setFrom2Points($points[0], $points[1]);
+        
         return $rect;        
     }
        

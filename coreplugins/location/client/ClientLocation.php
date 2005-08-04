@@ -87,8 +87,8 @@ class ClientLocation extends ClientPlugin
     /**
      * Tool constants.
      */
-    const TOOL_ZOOMIN   = 'zoom_in';
-    const TOOL_ZOOMOUT  = 'zoom_out';
+    const TOOL_ZOOMIN   = 'zoomin';
+    const TOOL_ZOOMOUT  = 'zoomout';
     const TOOL_PAN      = 'pan';
 
     /**
@@ -700,16 +700,11 @@ class ClientLocation extends ClientPlugin
     public function getTools() {
         
         return array(new ToolDescription(self::TOOL_ZOOMIN, true,
-                        new JsToolAttributes(
-                            JsToolAttributes::SHAPE_RECTANGLE_OR_POINT),
-                                         10),
+                        10),
                      new ToolDescription(self::TOOL_ZOOMOUT, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
-                                         11),
-                     new ToolDescription(self::TOOL_PAN, true, 
-                        new JsToolAttributes(JsToolAttributes::SHAPE_PAN,
-                                             JsToolAttributes::CURSOR_MOVE),
-                                         12),
+                        11),
+                     new ToolDescription(self::TOOL_PAN, true,
+                        12),
                    );
     }
 

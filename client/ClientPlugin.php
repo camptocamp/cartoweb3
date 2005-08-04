@@ -23,103 +23,6 @@
 require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
 
 /**
- * Class used by {@link ToolDescription}, to specify javascript related
- * attributes for tools.
- * @package Client
- */
-class JsToolAttributes {
-    const SHAPE_RECTANGLE = 1;
-    const SHAPE_POINT = 2;
-    const SHAPE_LINE = 3;
-    const SHAPE_PAN = 4;
-    const SHAPE_POLYGON = 5;
-    const SHAPE_RECTANGLE_OR_POINT = 6;
-
-    const CURSOR_CROSSHAIR = 1;
-    const CURSOR_HELP = 2;
-    const CURSOR_MOVE = 3;
-    const CURSOR_WAIT = 4;
-    const CURSOR_NRESIZE = 5;
-    
-    const ACTION_SUBMIT = 1;
-    const ACTION_MEASURE = 2;
-    const ACTION_JAVASCRIPT = 3;
-    
-    /**
-     * @var int
-     */
-    public $shapeType;
-    
-    /** 
-     * @var int
-     */
-    public $cursorStyle;
-    
-    /** 
-     * @var int
-     */
-    public $action;
-    
-    /**
-     * Constructor
-     * @param int
-     * @param int
-     * @param int
-     */
-    public function __construct($shapeType,  $cursorStyle = self::CURSOR_CROSSHAIR, 
-                         $action = self::ACTION_SUBMIT, $jsFunction = '') { 
-        $this->shapeType = $shapeType;
-        $this->cursorStyle = $cursorStyle;
-        $this->action = $action;
-        $this->jsFunction = $jsFunction;
-    }    
-
-    /**
-     * Returns shape string identification
-     * @return string shape id
-     */
-    public function getShapeTypeString() {
-        switch($this->shapeType) {
-            case self::SHAPE_RECTANGLE: return 'rectangle';
-            case self::SHAPE_POINT:     return 'point';
-            case self::SHAPE_LINE:      return 'line';
-            case self::SHAPE_PAN:       return 'pan';
-            case self::SHAPE_POLYGON:   return 'polygon';
-            case self::SHAPE_RECTANGLE_OR_POINT: return 'rectangle_or_point';
-        }
-        throw new CartoclientException("unknown shape type $this->shapeType");            
-    }
-
-    /**
-     * Returns cursor string identification
-     * @return string cursor id
-     */
-    public function getCursorStyleString() {
-        switch($this->cursorStyle) {
-            case self::CURSOR_CROSSHAIR: return 'crossHair';
-            case self::CURSOR_HELP:      return 'help';
-            case self::CURSOR_MOVE:      return 'move';
-            case self::CURSOR_WAIT:      return 'wait';
-            case self::CURSOR_NRESIZE:   return 'n-resize';
-        }
-        throw new CartoclientException("unknown cursor style $this->cursorStyle");            
-    }
-
-    /**
-     * Returns action string identification
-     * @return string action id
-     */
-    public function getActionString() {
-        switch($this->action) {
-            case self::ACTION_SUBMIT: return 'submit';
-            case self::ACTION_MEASURE: return 'measure';
-            case self::ACTION_JAVASCRIPT: return 'javascript:'.$this->jsFunction;
-        }
-        throw new CartoclientException("unknown action $this->action");            
-    }
-}
-
-/**
  * Description of a tool
  * @package Client
  */
@@ -137,14 +40,14 @@ class ToolDescription {
     public $id;
     
     /**
+     * @var string
+     */
+    public $action;
+    
+    /**
      * @var boolean
      */
     public $hasIcon;
-    
-    /**
-     * @var JsToolAttributes
-     */
-    public $jsAttributes;
     
     /**
      * @var int
@@ -170,16 +73,14 @@ class ToolDescription {
      * Constructor
      * @param string
      * @param boolean
-     * @param JsToolAttributes
      * @param int
      * @param boolean
      * @param int
      */
-    public function __construct($id, $hasIcon, $jsAttributes, 
+    public function __construct($id, $hasIcon, 
                          $weight, $group = 1, $plugin = false, $appliesTo = self::MAINMAP) {
         $this->id = $id;
         $this->hasIcon = $hasIcon;
-        $this->jsAttributes = $jsAttributes;
         $this->weight = $weight;
         $this->group = $group;
         $this->plugin = $plugin;

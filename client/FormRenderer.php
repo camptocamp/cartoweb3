@@ -98,15 +98,6 @@ class FormRenderer {
                         callPluginImplementing($plugin, 'ToolProvider', 'getTools');
 
                 foreach($toolsDescription as $toolDescription) {
-
-                    $jsAttr = $toolDescription->jsAttributes;
-                    assert(is_object($jsAttr));
-
-                    $toolDescription->js = new stdClass();
-                    $toolDescription->js->shapeType = $jsAttr->getShapeTypeString();
-                    $toolDescription->js->cursorStyle = $jsAttr->getCursorStyleString();
-                    $toolDescription->js->action = $jsAttr->getActionString();
-                    
                     $tools[$toolDescription->weight] = $toolDescription;
                 }
             }

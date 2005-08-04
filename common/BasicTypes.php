@@ -506,4 +506,25 @@ class Polygon extends Shape {
     }
 }
 
+/**
+ * A feature
+ * @package Common
+ * @author Pierre GIRAUD <pierre.giraud@camptocamp.com>
+ */
+class Feature {
+
+    /**
+     * WKT string of the feature
+     * @var string
+     */
+    public $WKTString;
+    
+    /**
+     * feature id
+     * @var string
+     */
+    public $id;
+
+}
+
 ?>
