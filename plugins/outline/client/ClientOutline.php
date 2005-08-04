@@ -132,48 +132,11 @@ class ClientOutline extends ClientPlugin
      * @return array array of ToolDescription
      */
     public function getTools() {
-        switch ($this->getConfig()->labelMode) {
-            case true:
-                return array(new ToolDescription(self::TOOL_POINT, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT,
-                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
-                        "addLabel('point label')"),
-                                         70),
-                     new ToolDescription(self::TOOL_LINE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE,
-                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
-                        "addLabel('line label')"),
-                                         71),
-                     new ToolDescription(self::TOOL_RECTANGLE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE,
-                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
-                        "addLabel('rectangle label')"),
-                                         72),
-                                         
-                     new ToolDescription(self::TOOL_POLYGON, true, 
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON,
-                        JsToolAttributes::CURSOR_CROSSHAIR,JsToolAttributes::ACTION_JAVASCRIPT,
-                        "addLabel('polygon label')"),
-                                         73),
+        return array(new ToolDescription(self::TOOL_POINT, true, 70),
+                     new ToolDescription(self::TOOL_LINE, true, 71),
+                     new ToolDescription(self::TOOL_RECTANGLE, true, 72),
+                     new ToolDescription(self::TOOL_POLYGON, true, 73),
                     );
-                break;
-
-            case false:
-                return array(new ToolDescription(self::TOOL_POINT, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POINT),
-                                         70),
-                     new ToolDescription(self::TOOL_LINE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_LINE),
-                                         71),
-                     new ToolDescription(self::TOOL_RECTANGLE, true,
-                        new JsToolAttributes(JsToolAttributes::SHAPE_RECTANGLE),
-                                         72),
-                     new ToolDescription(self::TOOL_POLYGON, true, 
-                        new JsToolAttributes(JsToolAttributes::SHAPE_POLYGON),
-                                         73),
-                    );
-             break;
-        } 
     }
 
     /**

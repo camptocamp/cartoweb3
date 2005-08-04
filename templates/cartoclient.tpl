@@ -16,6 +16,7 @@
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
 
+  <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
@@ -33,29 +34,19 @@
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
-  <script language="JavaScript" type="text/javascript">
-    <!--
-    {literal}
-    window.onload = function() {
-      if (typeof onLoadString == "string") {
-        eval(onLoadString);
-      }
-    }
-    {/literal}
-    //-->
-  </script>
 </head>
 
 <body>
 
 <div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
-<form method="post" action="{$selfUrl}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
+  <input type="hidden" name="features" />
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
@@ -67,6 +58,7 @@
     {include file="toolbar.tpl" group=1}
 
     <table>
+      <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} 1:{$currentScale}</div></td></tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
         <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
@@ -74,7 +66,7 @@
       </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
-        <td id="mainmapCell">
+        <td valign="top">
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
@@ -83,6 +75,15 @@
         <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
         <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
         <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <table width="100%"><tr>
+            <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coords (m):{/t} %s / %s</div></td>
+            <td width="50%"><div id="floatDistance" class="locationInfo">{t}Dist approx.:{/t}%s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+          </tr></table>
+        </td>
       </tr>
       {if $scalebar_path|default:''}
       <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 

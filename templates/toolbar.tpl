@@ -4,14 +4,14 @@
     {if !$group || $group == $tool->group}
     <label for="{$tool->id}">
       <input type="radio" name="tool" 
-              value="{$tool->js->shapeType},{$tool->js->action},{$tool->js->cursorStyle},{$tool->id}" 
+              value="{$tool->id}" 
                 {if $selected_tool == $tool->id}checked="checked"{/if}
-                id="{$tool->id}" onclick="dhtmlBox.changeTool()" />
+                id="{$tool->id}" onclick="mainmap.{$tool->id}('map');" />
            {if $tool->hasIcon}
             <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" alt="{$tool->id}" title="{t}{$tool->id}{/t}"
-        onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool()" />
+        onclick="CheckRadio('{counter name=tindex}');mainmap.{$tool->id}('map');" />
            {else}
-            <span onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool();">
+            <span onclick="CheckRadio('{counter name=tindex}');mainmap.{$tool->id}('map');">
                {t}{$tool->id}{/t}
             </span>
            {/if}

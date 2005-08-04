@@ -110,7 +110,7 @@ abstract public class AbstractCartowebTest extends TestCase
 
   private void assertContainsMainmap( WebResponse response, boolean checkHtml ) throws Exception
   {
-    HTMLElement mainmap = response.getElementWithID( "mapImageDiv" );
+    HTMLElement mainmap = response.getElementWithID( "map" );
     saveAs( response, "last_checked_page.html" );
     assertNotNull( "No mainmap image on cartoclient page", mainmap );
     if (checkHtml)

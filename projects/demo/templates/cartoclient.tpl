@@ -11,9 +11,11 @@
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   <title>{t}CartoWeb3 - Demonstration{/t}</title>
 
+  <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
+  {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
   <script language="JavaScript" type="text/javascript">
     <!--
@@ -96,7 +98,7 @@
       </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
-        <td id="mainmapCell">
+        <td valign="top">
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
@@ -106,7 +108,15 @@
         <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
         <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
       </tr>
-
+      <tr>
+        <td colspan="3">
+          <table width="100%"><tr>
+            <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coords (m):{/t} %s / %s</div></td>
+            <td width="50%"><div id="floatDistance" class="locationInfo">{t}Dist approx.:{/t}%s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+          </tr></table>
+        </td>
+      </tr>
       <tr>
        <td colspan="3" align="center">
          <table border="0" cellpadding="0" cellspacing="0" width="90%">

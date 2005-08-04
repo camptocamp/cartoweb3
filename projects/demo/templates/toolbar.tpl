@@ -2,7 +2,7 @@
 <span id="toolbar">
   {counter start=-1 print=false name=tindex}
   {foreach from=$tools item=tool}
-  <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" class="toolbar_off" alt="{$tool->id}" title="{t}{$tool->id}{/t}" onclick="CheckRadio('{counter name=tindex}');dhtmlBox.changeTool();setActiveButton('{$tool->id}', true);" id="{$tool->id}_icon" 
+  <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" class="toolbar_off" alt="{$tool->id}" title="{t}{$tool->id}{/t}" onclick="CheckRadio('{counter name=tindex}');mainmap.{$tool->id}('map');setActiveButton('{$tool->id}', true);" id="{$tool->id}_icon" 
   
   {if $selected_tool == $tool->id} onload="setActiveButton('{$tool->id}', false);"{/if}
   />&nbsp;
@@ -19,7 +19,8 @@
   {counter start=-1 print=false name=tindex}
   {foreach from=$tools item=tool}
   <input type="radio" name="tool" 
-  value="{$tool->js->shapeType},{$tool->js->action},{$tool->js->cursorStyle},{$tool->id}" 
+  value="{$tool->id}" 
+  onclick="mainmap.{$tool->id}('map');"
   {if $selected_tool == $tool->id}checked="checked"{/if} id="{$tool->id}" />
   {/foreach}
 </div>
