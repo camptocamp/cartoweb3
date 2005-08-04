@@ -239,6 +239,7 @@ foreach($cmd_array as $keycmd=>$cmd) {
         case 'init':
 
             include('scripts/makemaps.php');
+            // FIXME: makemaps needs a soft_clean afterwards (do it, or fix makemaps).
             include('scripts/po2mo.php');
 
             break;
