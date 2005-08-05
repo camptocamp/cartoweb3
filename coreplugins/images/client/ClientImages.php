@@ -322,8 +322,7 @@ class ClientImages extends ClientPlugin
     public function renderForm(Smarty $template) {
        
         $template->assign(array(
-            'mainmap_path' => 
-                $this->getImageUrl($this->imagesResult->mainmap->path),
+            'mainmap_path' => $this->imagesResult->mainmap->path,
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
                                 ));
