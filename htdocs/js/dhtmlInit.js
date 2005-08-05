@@ -214,7 +214,7 @@ Map.prototype.distance = function(aDisplay) {
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
     var distance = aFeature.getLength();
-    distance = (factor == 1000) ? Math.round(distance * 100) / 100 : Math.round(distance);
+    distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
   }
@@ -237,7 +237,7 @@ Map.prototype.surface = function(aDisplay) {
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
     var surface = aFeature.getArea();
-    surface = (factor == 1000) ? Math.round(surface * 10000) / 10000 : Math.round(surface);
+    surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
   }
