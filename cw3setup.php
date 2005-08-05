@@ -712,7 +712,7 @@ function get_host_config($base_path) {
  
     foreach($try_suffixes as $suffix) {
         $host_config_file = "$base_path/config{$suffix}.properties";
-        //debug($host_config_file);
+        print "Trying host config file: $host_config_file\n";
         if (file_exists($host_config_file)) {
             $ini = parse_ini_file($host_config_file);
 
