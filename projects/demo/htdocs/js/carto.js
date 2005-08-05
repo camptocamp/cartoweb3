@@ -9,7 +9,7 @@ function CheckRadio(theIndex) {
 
 function setActiveButton(toolname, outline) {
 
-  var tools = new Array('zoom_in', 'zoom_out', 'pan', 'query',
+  var tools = new Array('zoomin', 'zoomout', 'pan', 'query',
 	'outline_point', 'outline_line', 'outline_rectangle', 'outline_poly',
 	 'distance', 'surface');
 
