@@ -26,11 +26,11 @@ body {
 #map .vertex_off {
   position: absolute;
   overflow: hidden;
-  width: 10px; /* must be set in pixels */
-  height: 10px; /* must be set in pixels */
+  width: 8px; /* must be set in pixels */
+  height: 8px; /* must be set in pixels */
   padding: 0;
   margin: 0;
-  background-color: #FF00FF;
+  background-color: #FF5500;
   cursor: pointer;
 
 }
@@ -50,7 +50,7 @@ body {
   overflow: hidden;
   padding: 0;
   margin: 0;
-  background-color: blue;
+  background-color: orange;
   cursor: pointer;
 }
 #map .linepoint_selected {
