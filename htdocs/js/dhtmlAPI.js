@@ -307,6 +307,9 @@ DrawPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   aDisplay.feature.vertices.push(vertex);
 };
 DrawPointTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
+  if (aDisplay._map.onFeatureInput) {
+    aDisplay._map.onFeatureInput(aDisplay.feature);
+  }
   aDisplay.dShape = undefined;  // free the drawing point
   aDisplay.feature = undefined;
 };
