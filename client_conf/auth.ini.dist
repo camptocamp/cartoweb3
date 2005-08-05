@@ -4,6 +4,18 @@
 ; active or not)
 authActive = true
 
+; The type of security container. Now ini or db can be used
+securityContainer = ini
+
+; db security container configuration
+
+;dbSecurityDsn = pgsql://user:password@localhost/test
+
+;dbSecurityQueryUser = "SELECT * FROM users WHERE username='%s' AND password='%s'"
+;dbSecurityQueryRoles = "SELECT roles FROM users WHERE username='%s'"
+
+; Ini security container configuration
+
 ; passwords values are md5sums of the password.
 ;  to get this value, you can type in a shell:
 ; $ echo -n 'mypassword'|md5sum

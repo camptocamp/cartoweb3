@@ -87,6 +87,83 @@ class IniSecurityContainer extends SecurityContainer {
 }
 
 /**
+ * Security container which reads the usernames, passwords and roles 
+ * from database.
+ * @package Plugins
+ */
+class DbSecurityContainer extends SecurityContainer {
+
+    /**
+     * Database object
+     * @var DB
+     */
+    private $db;
+
+    /**
+     * @var ClientPluginConfig
+     */
+    private $config;
+
+    /**
+     * Constructor
+     */
+    public function __construct(ClientPluginConfig $config) {
+        require_once('DB.php');
+        $this->config = $config;                
+    }
+
+    /**
+     * Returns the Pear::DB database connection.
+     * @return DB
+     */    
+    private function getDb() {
+        if ($this->db)
+            return $this->db;
+        
+        if (!$this->config->dbSecurityDsn)
+            throw new CartoclientException('Missing dbSecurityDsn parameter');
+        $dsn = $this->config->dbSecurityDsn;
+        
+        $this->db = DB::connect($dsn);
+        Utils::checkDbError($this->db);
+        return $this->db;        
+    }
+
+    /**
+     * @see SecurityContainer::checkUser()
+     */
+    public function checkUser($username, $password) {
+
+        $db = $this->getDb();
+        $exists = $db->query(sprintf($this->config->dbSecurityQueryUser,
+                                addslashes($username), addslashes($password)));
+        Utils::checkDbError($exists);        
+
+        return $exists->numRows() > 0;
+    }
+
+    /**
+     * @see SecurityContainer::getRoles()
+     */     
+    public function getRoles($username) {
+
+        $db = $this->getDb();
+        
+        // FIXME: roles are in coma separated string value. We should 
+        //  support queries returning multiple rows, one per role.
+        
+        $roles = $db->getOne(sprintf($this->config->dbSecurityQueryRoles,
+                                addslashes($username)));
+        Utils::checkDbError($roles);        
+
+        if (is_null($roles))
+            return array();
+
+        return ConfigParser::parseArray($roles);
+    }
+}
+
+/**
  * Extends the PEAR::Auth container to proxy is authentification requests to the
  * SecurityManager.
  * @package Plugins
@@ -175,13 +252,33 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     }
 
     /**
+     * Returns the security container. The security container class to use is chosen 
+     *  from the securityContainer config parameter.
+     *
+     * @return SecurityContainer
+     */
+    private function getSecurityContainer() {
+    
+        $securityContainer = $this->getConfig()->securityContainer;
+        if (!$securityContainer)
+            $securityContainer = 'ini';
+        
+        $securityContainerClass = ucfirst($securityContainer) . 'SecurityContainer';
+        
+        if (!class_exists($securityContainerClass)) 
+            throw new CartoclientException("Invalid security container: $securityContainer");
+        
+        $iniContainer = new $securityContainerClass($this->getConfig());
+        return $iniContainer;       
+    }
+
+    /**
      * @see PluginBase::initialize()
      */
     public function initialize() {
 
-        $iniContainer = new IniSecurityContainer($this->getConfig());
         $securityManager = SecurityManager::getInstance();
-        $securityManager->setSecurityContainer($iniContainer);
+        $securityManager->setSecurityContainer($this->getSecurityContainer());
         
         $proxyAuthContainer = new ProxyAuthContainer($securityManager);
         
