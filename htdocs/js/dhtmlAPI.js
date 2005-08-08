@@ -1,3 +1,6 @@
+/* Copyright 2005 Camptocamp SA. 
+   Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
+
 /* Tested browsers
 Macintosh
  SAFARI
@@ -151,6 +154,8 @@ function Display(docObj) {
   
   docObj._display = this;
   
+  docObj.innerHTML = "";
+  
   this.docObj = docObj;
   
   this.features = new Array();
@@ -179,7 +184,7 @@ function Display(docObj) {
   EventManager.Add(this.rootDisplayLayer, 'mousemove', display_onmousemove, false);
   EventManager.Add(this.rootDisplayLayer, 'mouseup', display_onmouseup, false);
   EventManager.Add(this.rootDisplayLayer, 'mouseout', display_onmouseout, false);
-  EventManager.Add(this.rootDisplayLayer, 'keydown', display_onkeydown, false);
+  EventManager.Add(document, 'keydown', display_onkeydown, false);
   
   return this;
 };
@@ -310,8 +315,14 @@ DrawPointTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   if (aDisplay._map.onFeatureInput) {
     aDisplay._map.onFeatureInput(aDisplay.feature);
   }
-  aDisplay.dShape = undefined;  // free the drawing point
   aDisplay.feature = undefined;
+};
+DrawPointTool.prototype.onKeyEscape = function(aDisplay) {
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  aDisplay.feature = undefined;
+  if (aDisplay._map.onCancel) {
+    aDisplay._map.onCancel();
+  }
 };
 
 /**
@@ -440,6 +451,17 @@ DrawLineTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   }
   aDisplay.feature = undefined;
 };
+DrawLineTool.prototype.onKeyEnter = function(aDisplay) {
+  this.onDblClick(aDisplay);
+};
+DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
+  aDisplay.dml.innerHTML = "";
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  aDisplay.feature = undefined;
+  if (aDisplay._map.onCancel) {
+    aDisplay._map.onCancel();
+  }
+};
 
 /**
  * Creates a draw box tool (see Display.mouseAction)
@@ -498,7 +520,13 @@ DrawBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
     aDisplay._map.onFeatureInput(aDisplay.feature);
   }
   aDisplay.feature = undefined;
-  aDisplay.dShape = undefined;
+};
+DrawBoxTool.prototype.onKeyEscape = function(aDisplay) {
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  aDisplay.feature = undefined;
+  if (aDisplay._map.onCancel) {
+    aDisplay._map.onCancel();
+  }
 };
 
 /**
@@ -540,9 +568,14 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     aDisplay.feature = feature;
     aDisplay.dShape = dShape; // assign the object to the map display
     
+    aDisplay._map.updateFeaturesCount();
     if (aDisplay._map.onNewFeature) {
       aDisplay._map.onNewFeature(feature);
     }
+  } else if (aDisplay.feature.closing) {
+    // close the polygon
+    this.onDblClick(aDisplay, aDisplay.dShape.X[0], aDisplay.dShape.Y[0]);
+    return;
   } else {
     var vl = aDisplay.feature.vertices.length; // number of vertex;
     if (vl > 0) {
@@ -566,7 +599,6 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
       var dln = aDisplay.drawLine(aDisplay.dShape, ex, ey, aDisplay.dShape.X[vl - 1], aDisplay.dShape.Y[vl - 1], _OFF);
     }
   }
-  aDisplay._map.updateFeaturesCount();
   // store the new point coordinates
   if (typeof aDisplay.snapToVertex != "undefined") {
     var index = xParent(aDisplay.snapToVertex,true).index;
@@ -591,6 +623,21 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
     aDisplay.drawLinePts(aDisplay.dml2, ex, ey,
          aDisplay.dShape.X[0], aDisplay.dShape.Y[0],
          _OFF);
+    if (typeof aDisplay.snapToVertex != "undefined") {
+      aDisplay.snapToVertex.className = vertexCN + _OFF;
+      aDisplay.snapToVertex = undefined;
+      aDisplay.snapToX = undefined;
+      aDisplay.snapToY = undefined;
+      aDisplay.feature.closing = false;
+    }
+    if (distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
+      var vertices = xGetElementsByClassName(vertexCN + _OFF, aDisplay.dShape, 'div');
+      aDisplay.snapToVertex = vertices[0];
+      aDisplay.snapToVertex.className = vertexCN + _SEL;
+      aDisplay.snapToX = aDisplay.dShape.X[0];
+      aDisplay.snapToY = aDisplay.dShape.Y[0];
+      aDisplay.feature.closing = true;
+    }
   }
   if (typeof this.lineDraw == 'undefined') {
     this.lineDraw = new DrawLineTool(aDisplay);
@@ -614,7 +661,26 @@ DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   }
   aDisplay.fillPolygon(aDisplay.dShape, _OFF);
   
+  if (typeof aDisplay.snapToVertex != "undefined") {
+    aDisplay.snapToVertex.className = vertexCN + _OFF;
+    aDisplay.snapToVertex = undefined;
+    aDisplay.snapToX = undefined;
+    aDisplay.snapToY = undefined;
+    aDisplay.feature.closing = false;
+  }
   aDisplay.feature = undefined;
+};
+DrawPolygonTool.prototype.onKeyEnter = function(aDisplay) {
+  this.onDblClick(aDisplay);
+};
+DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
+  aDisplay.dml.innerHTML = "";
+  aDisplay.dml2.innerHTML = "";
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  aDisplay.feature = undefined;
+  if (aDisplay._map.onCancel) {
+    aDisplay._map.onCancel();
+  }
 };
 
 /**
@@ -1119,7 +1185,7 @@ Display.prototype.addLayer = function(obj, name) {
     layer = this.rootDisplayLayer;
       
   aLayer.className = layerCN;
-  aLayer.id = aLayer.title = this.id + "_" + name;
+  aLayer.id = this.id + "_" + name;
   aLayer.X = new Array();
   aLayer.Y = new Array();
 
@@ -1495,6 +1561,9 @@ function display_onmousemove(evt) {
   
   var _display = e.target._display;// reference to the display
   
+  
+  currentDisplay = _display; // global variable for key events
+  
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
 
@@ -1595,7 +1664,7 @@ function display_onmouseout(evt) {
 function display_onkeydown(evt) {
   e = new xEvent(evt);
   
-  var _display = e.target._display;// reference to the display
+  var _display = currentDisplay;// reference to the display currently in use
   
 /*
 13: enter
@@ -1603,10 +1672,14 @@ function display_onkeydown(evt) {
 */
   // key enter is pressed
   if (e.keyCode == 13) {
-    switch(_display.mouseAction) {
-      case "draw.poly":
-        // close the polygon
-         break;
+    if (_display.mouseAction && _display.mouseAction.onKeyEnter) {
+      _display.mouseAction.onKeyEnter(_display);
+    }
+  } else if (e.keyCode == 27) {
+    if (_display._map.onCancel)
+      _display._map.onCancel();
+    if (_display.mouseAction && _display.mouseAction.onKeyEscape) {
+      _display.mouseAction.onKeyEscape(_display);
     }
   }
 };
