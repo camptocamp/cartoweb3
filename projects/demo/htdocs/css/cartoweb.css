@@ -80,7 +80,7 @@ img {border:0;}
 .folder select {max-width:210px;}
 
 #keymap {text-align:center;margin:10px;}
-#keymap input, #mainmapCell {border:1px solid black;}
+#keymap input {border:1px solid black;}
 
 #layerscmd {text-align:center;padding:5px;}
 
@@ -257,4 +257,33 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 #dummy {
   width:0;
   height:0;
+}
+
+#scaleContainer {
+  position:absolute;
+  z-index:3;
+}
+
+#floatScale {
+  position:relative;
+/*  top: -15px;*/
+  padding:0;
+  margin:0;
+}
+
+#floatGeo {
+  padding:0;
+  margin:0;
+}
+
+#floatDistance {
+  padding:0;
+  margin: 0;
+  display: none;
+}
+
+#floatSurface {
+  padding:0;
+  margin: 0;
+  display: none;
 }

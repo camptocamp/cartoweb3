@@ -68,6 +68,7 @@
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
+  <input type="hidden" name="features" />
   <input type="hidden" name="project" value="{$project}" />
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
