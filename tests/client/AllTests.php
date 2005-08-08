@@ -30,6 +30,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
  * All client tests
  */
 require_once 'client/InternationalizationTest.php';
+require_once 'client/ViewsTest.php';
 
 /**
  * @package Tests
@@ -43,6 +44,7 @@ class client_AllTests {
 
         // uncomment once ok
         //$suite->addTestSuite('client_InternationalizationTest');
+        $suite->addTestSuite('client_ViewsTest');
 
         return $suite;
     }
