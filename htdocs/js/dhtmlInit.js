@@ -1,3 +1,6 @@
+/* Copyright 2005 Camptocamp SA. 
+   Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
+
 /**
  * Double clic parameters
  * (DblClick emulation is required for some browsers)
@@ -53,6 +56,8 @@ createMap = function() {
   mainmap.geoTag = xGetElementById(div_geo_id);
   if (mainmap.geoTag != null) {
     mainmap.geoUnits = mainmap.geoTag.innerHTML;
+    mainmap.geoTag.innerHTML = sprintf(mainmap.geoUnits, "_", "_");
+    xShow(mainmap.geoTag);
   }
   mainmap.distanceTag = xGetElementById(div_distance_id);
   if (mainmap.distanceTag != null) {
@@ -85,7 +90,7 @@ createMap = function() {
  * Used for the navigation tools (zoomin, zoomout, etc ...)
  * @param aFeature
  */
-formFill = function(aFeature) {
+fillForm = function(aFeature) {
   // TODO let the possibility to send more than one feature
   var coords = new String();
   for (var i=0;i<aFeature.vertices.length;i++) {
@@ -105,6 +110,14 @@ formFill = function(aFeature) {
       break;
   }
   myform.selection_type.value = shapeType;
+};
+
+/**
+ * Empty the inputs (coords and type) in the form
+ */
+emptyForm = function() {
+  myform.selection_coords.value = "";
+  myform.selection_type.value = "";
 };
 
 /**
@@ -142,6 +155,9 @@ Map.prototype.resetMapEventHandlers = function() {
   this.onSelPoint = undefined;
   this.onFeatureChange = undefined;
   this.onNewFeature = undefined;
+  this.onCancel = function() {
+    createMap();
+  }
   this.onMove = function(geoX, geoY) {
     // display geo coordinates
     if (this.geoTag)
@@ -259,8 +275,12 @@ Map.prototype.outline_poly = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.onFeatureInput = function(aFeature) {
     addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
-    formFill(aFeature);
-  }
+    fillForm(aFeature);
+  };
+  this.onCancel = function() {
+    hideLabel();
+    emptyForm();
+  };
 };
 
 Map.prototype.outline_line = function(aDisplay) {
@@ -268,8 +288,12 @@ Map.prototype.outline_line = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.line');
   this.onFeatureInput = function(aFeature) {
     addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
-    formFill(aFeature);
-  }
+    fillForm(aFeature);
+  };
+  this.onCancel = function() {
+    hideLabel();
+    emptyForm();
+  };
 };
 
 Map.prototype.outline_rectangle = function(aDisplay) {
@@ -277,8 +301,12 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.box');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
-    formFill(aFeature);
-  }
+    fillForm(aFeature);
+  };
+  this.onCancel = function() {
+    hideLabel();
+    emptyForm();
+  };
 };
   
 Map.prototype.outline_point = function(aDisplay) {
@@ -286,8 +314,12 @@ Map.prototype.outline_point = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.point');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
-    formFill(aFeature);
-  }
+    fillForm(aFeature);
+  };
+  this.onCancel = function() {
+    hideLabel();
+    emptyForm();
+  };
 };
 
 /***** EDIT ****/
