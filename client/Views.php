@@ -1048,6 +1048,7 @@ class ViewFileContainer extends ViewContainer {
     /**
      * Deletes given view.
      * @see ViewContainer::delete()
+     * @return boolean true if deletion succeeded
      */
     public function delete($viewId) {
         $this->viewId = $viewId;
