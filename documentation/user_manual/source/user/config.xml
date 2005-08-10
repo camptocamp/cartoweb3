@@ -119,12 +119,11 @@
           usual ISO locale codes (en, fr, de ...) </para>
       </listitem>
       <listitem>
-        <para> authLang = list: restricted list of language usable. In the case you have many languages 
-          in directory &lt;cartoweb_home&gt;/locale/ and you do not want to use them all in your project.</para>
+        <para> authLang = list: restricted list of usable languages. In the case you have many languages 
+          in directory &lt;cartoweb_home&gt;/locale/ and do not want to use them all in your project.</para>
       </listitem>
       <listitem>
-        <para> orderLang = list: reordered list of language. By default the languages appear in 
-          alphabetical order. Use this parameter to reorder them as you want.</para>
+        <para> orderLang = list: reordered list of languages. By default the languages order depends on your server locales settings. Use this parameter to easily reorder them as you want.</para>
       </listitem>
     </itemizedlist>
   </sect1>
