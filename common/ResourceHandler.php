@@ -273,21 +273,27 @@ class ResourceHandler {
      * @param string The relative URL to a resource to convert
      * @param boolean True for resources on the client, false for server
      * @param boolean True to obtain an absolute URL in any case
+     * @param boolean True to make URL XHTML-compliant
      * @return A relative URL to the resource if possible, or an absolute one
      */
-     public function getFinalUrl($relativeUrl, $client, $forceAbsolute = false) {
+     public function getFinalUrl($relativeUrl, $client, $forceAbsolute = false,
+                                 $useXhtml = true) {
     
         $base = $client ? $this->cartoclientBaseUrl : $this->cartoserverBaseUrl;
 
         // TODO: handle reverseProxyPrefix for resources on server
         // (in ClientImages.php cvs history)
+            
+        if ($useXhtml) {
+            $relativeUrl = self::convertXhtml($relativeUrl);
+        }
 
         // If resource is on client, or we are in directAccess, 
         // we can use relative URL.
         if (!$forceAbsolute && ($client || $this->directAccess)) {
-            return self::convertXhtml($relativeUrl);
+            return $relativeUrl;
         }
-        return self::convertXhtml($base . $relativeUrl);
+        return $base . $relativeUrl;
     }
     
     /**

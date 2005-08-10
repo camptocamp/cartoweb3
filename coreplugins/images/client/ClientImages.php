@@ -264,12 +264,14 @@ class ClientImages extends ClientPlugin
     public function handleResult($imagesResult) {}
 
     /**
+     * @param string minimal image path
+     * @param boolean True to make URL XHTML-compliant
      * @return string The URL to the image, as put inside the html template
      */
-    private function getImageUrl($path) {
+    private function getImageUrl($path, $useXhtml = true) {
 
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        return $resourceHandler->getFinalUrl($path, false);
+        return $resourceHandler->getFinalUrl($path, false, false, $useXhtml);
     }
 
     /**
@@ -322,7 +324,8 @@ class ClientImages extends ClientPlugin
     public function renderForm(Smarty $template) {
        
         $template->assign(array(
-            'mainmap_path' => $this->imagesResult->mainmap->path,
+            'mainmap_path' => 
+                 $this->getImageUrl($this->imagesResult->mainmap->path, false),
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
                                 ));
