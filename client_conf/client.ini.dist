@@ -95,6 +95,12 @@ smartyDebugging = false
 ; default language
 defaultLang = en
 
+; languages to make available in the viewer
+;authLang = de, en, fr
+
+; order of languages links in the viewer
+;orderLang = en, fr, de
+
 ; Charset encoder class
 EncoderClass.config = EncoderISO
 EncoderClass.output = EncoderUTF
