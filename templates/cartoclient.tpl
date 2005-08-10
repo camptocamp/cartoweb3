@@ -140,8 +140,10 @@ ClientContext:
     {if $locales|default:''}
     <p>
       {foreach from=$locales item=locale name=lang}
-      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
-      {if !$smarty.foreach.lang.last}|{/if}
+      {if !$smarty.foreach.lang.first || !$smarty.foreach.lang.last}
+        {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+        {if !$smarty.foreach.lang.last}|{/if}
+      {/if}
       {/foreach}
     </p>
     {/if}
