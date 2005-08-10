@@ -91,7 +91,8 @@ class I18n {
         $authLang = array();
 
         if (self::$authLanglist != '')
-            $authLang = explode(',', trim(self::$authLanglist));
+            $authLang = explode(',', self::$authLanglist);
+            $authLang = array_map('trim', $authLang);
            
         // Looks in directory locale
         $dir = CARTOCLIENT_HOME . 'locale/';
@@ -249,7 +250,8 @@ class I18n {
      * @return array sorted locales language
      */
      static private function localesSort($locales) {
-        $o = explode (',', trim (self::$orderLanglist));
+        $o = explode (',', self::$orderLanglist);
+        $o = array_map('trim', $o);
         $n = array();
         $r = array();     
         foreach ($locales as $lang) {
