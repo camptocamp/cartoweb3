@@ -162,7 +162,6 @@ function Display(docObj) {
   
   // draw a root layer (container)
   this.rootDisplayLayer = this.addLayer(docObj, "rootLayer", layerCN);
-  this.rootDisplayLayer.style.backgroundColor = "pink";
   xMoveTo(this.rootDisplayLayer, this._posx, this._posy);
   
   // draw a specific event pad layer needed for some tools
