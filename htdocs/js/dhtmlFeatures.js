@@ -152,7 +152,7 @@ Feature.prototype.parseWKT = function(wktString) {
     for (var i = 0; i < ret.length; i++) {
       r = new RegExp("[^ ]+", "g");
       ret2 = ret[i].match(r);
-      var vertex = new Vertex(ret2[0], ret2[1]);
+      var vertex = new Vertex(parseFloat(ret2[0]), parseFloat(ret2[1]));
       vertex.index = i;
       this.vertices.push(vertex);
     }
