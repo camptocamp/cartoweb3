@@ -26,6 +26,7 @@ layerCN = "layer";
 vertexCN = "vertex";
 linepointCN = "linepoint";
 boxCN = "box";
+boxfillCN = "boxfill";
 polygonfillCN = "polygonfill";
 
 // user defined status for the drawing elements
