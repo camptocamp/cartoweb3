@@ -165,7 +165,7 @@ ClientContext:
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
     <div>
-      <ul id="tabnav1">
+      <ul class="tabnav" id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
         <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
         {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
