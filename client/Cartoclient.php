@@ -347,6 +347,11 @@ class Cartoclient {
         $this->outputType = $outputType;
         
         try {
+            if (array_key_exists('reset_session', $_POST)) {
+                // POST reset is made consistent with GET behavior.
+                $_REQUEST = array('reset_session' => '') + $_COOKIE;
+            }
+            
             $this->initializePlugins();
 
             if (!isset($GLOBALS['headless']))
