@@ -121,6 +121,9 @@ class ClientMyProjectLayers extends ClientLayers {
 /* ... */
 
 }]]></programlisting> </para>
+   <tip>
+    <para>To use new config parameters in your extended plugin, add them in the .ini file of your project original plugin (eg. <filename>/projects/&lt;your_project&gt;/client_conf/&lt;original_plugin&gt;.ini</filename>).</para>
+   </tip>
   </sect2>
   <sect2 id="dev.newplugin.adapting.combining">
     <title>Combining Both Approaches</title>
