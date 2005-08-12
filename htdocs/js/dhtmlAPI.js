@@ -480,6 +480,7 @@ DrawBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     feature.operation = 'insert';
     aDisplay._map.currentLayer.features.push(feature);
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, ex, ey, null, null, boxCN + _OFF);
+    aDisplay.addDiv(dShape, 0, 0, null, null, boxfillCN + _OFF);
     aDisplay.feature = feature;
     aDisplay.dShape = dShape;
   }
@@ -937,6 +938,7 @@ function SelBoxTool(aDisplay) {
 SelBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!aDisplay.dShape) {
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, ex, ey, null, null, boxCN + _OFF);
+    aDisplay.addDiv(dShape, 0, 0, null, null, boxfillCN + _OFF);
     aDisplay.dShape = dShape;
   }
   aDisplay.downx = ex;
