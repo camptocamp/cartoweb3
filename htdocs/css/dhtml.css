@@ -4,7 +4,7 @@ body {
 
 #mapBorder {
   border: 1px solid #555555;
-  padding: 5px;
+  padding: 0px;
 }
 
 #map {
