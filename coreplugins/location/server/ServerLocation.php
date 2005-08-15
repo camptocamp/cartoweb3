@@ -581,24 +581,24 @@ class ServerLocation extends ClientResponderAdapter
     /**
      * @var Logger
      */
-    private $log;
+    protected $log;
 
     /**
      * @var StyledShape
      */
-    private $crosshair;
+    protected $crosshair;
 
     /**
      * Possible scales in discrete mode (some may be hidden)
      * @var array
      */
-    private $scales;
+    protected $scales;
     
     /**
      * Scales to be displayed in dropdown box
      * @var array 
      */
-    private $visibleScales;
+    protected $visibleScales;
 
     /** 
      * Constructor
@@ -611,7 +611,7 @@ class ServerLocation extends ClientResponderAdapter
     /**
      * Initializes scales from location.ini
      */
-    private function initScales() {
+    protected function initScales() {
         $this->scales = array();
         $this->visibleScales = array();
 
@@ -643,7 +643,7 @@ class ServerLocation extends ClientResponderAdapter
      * @param Bbox
      * @return double
      */
-    private function getScaleFromBbox($bbox) {
+    protected function getScaleFromBbox($bbox) {
         $msMapObj = $this->getServerContext()->getMapObj();
         
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
@@ -657,7 +657,7 @@ class ServerLocation extends ClientResponderAdapter
      * @param double
      * @return double
      */
-    private function adjustScale($scale) {
+    protected function adjustScale($scale) {
         if (is_null($scale))
             throw new CartoserverException('scale to adjust is null');
         if ($scale < 0)
@@ -679,7 +679,7 @@ class ServerLocation extends ClientResponderAdapter
      * @param msExtent
      * @return Bbox
      */
-    private function adjustBbox($oldBbox, $maxExtent = NULL) {
+    protected function adjustBbox($oldBbox, $maxExtent = NULL) {
  
         if (is_null($maxExtent))
             $maxExtent = $this->serverContext->getMaxExtent();
@@ -759,7 +759,7 @@ class ServerLocation extends ClientResponderAdapter
      * @param Bbox
      * @param double
      */
-    private function doLocation($bbox, $scale) {
+    protected function doLocation($bbox, $scale) {
         $msMapObj = $this->serverContext->getMapObj();
 
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
@@ -777,7 +777,7 @@ class ServerLocation extends ClientResponderAdapter
      * Adjusts Bbox
      * @param msExtent
      */
-    private function doBboxAdjusting($maxExtent = NULL) {
+    protected function doBboxAdjusting($maxExtent = NULL) {
         $msMapObj = $this->serverContext->getMapObj();
 
         $bbox = new Bbox();
@@ -800,7 +800,7 @@ class ServerLocation extends ClientResponderAdapter
      * Prepares result that will be sent to client
      * @return LocationResult
      */
-    private function getLocationResult() {
+    protected function getLocationResult() {
         $msMapObj = $this->serverContext->getMapObj();
         
         $locationResult = new LocationResult();

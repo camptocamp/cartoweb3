@@ -30,7 +30,7 @@ class ServerQuery extends ClientResponderAdapter {
     /**
      * @var Logger
      */
-    private $log;
+    protected $log;
     
     /**
      * Tells if query must be drawn by Mapserver

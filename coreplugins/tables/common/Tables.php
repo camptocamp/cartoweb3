@@ -179,7 +179,7 @@ class Table extends Serializable {
         $ids = array();
         if (!is_null($this->rows)) {
             foreach($this->rows as $row) {
-                if (!empty($row->rowId)) {
+                if (!is_null($row->rowId)) {
                     $ids[] = $row->rowId;
                 }
             }
