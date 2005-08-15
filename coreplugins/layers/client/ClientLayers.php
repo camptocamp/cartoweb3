@@ -290,11 +290,6 @@ class ClientLayers extends ClientPlugin
      * @var string
      */
     private $mapId;
-
-    /**
-     * @var string
-     */
-    private $switchId;
     
     /**
      * Availability information icons
@@ -337,6 +332,12 @@ class ClientLayers extends ClientPlugin
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
+    
+        // If switch was set before loadSession, remember it
+        if ($this->overrideSwitch) {
+            $overridedSwitchId = $this->layersState->switchId;
+        }
+    
         $this->log->debug('loading session:');
         $this->log->debug($sessionObject);
         $this->layersState = $sessionObject;
@@ -356,6 +357,11 @@ class ClientLayers extends ClientPlugin
             =& $this->layersState->frozenUnselectedLayers;
 
         $this->nodesIds =& $this->layersState->nodesIds;
+        
+        // Set switch if set before loadSession
+        if ($this->overrideSwitch) {
+            $this->layersState->switchId = $overridedSwitchId;
+        }
     }
 
     /**
@@ -376,13 +382,10 @@ class ClientLayers extends ClientPlugin
                                   InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
-        $this->layersState = $this->getNewSessionObject();
-
-        // FIXME
-        if (isset($this->switchId)) {
-            $this->layersState->switchId = $this->switchId;
+        if (!isset($this->layersState)) {
+            $this->layersState = $this->getNewSessionObject();
         }
-        
+
         $this->layersState->layersData =& $this->layersData;
         
         $this->layersState->hiddenSelectedLayers =& $this->hiddenSelectedLayers;
@@ -569,7 +572,6 @@ class ClientLayers extends ClientPlugin
      * @param string
      */
     public function setSwitch($newSwitch) {
-        
         $this->overrideSwitch = true;
 
         /* 
@@ -578,8 +580,9 @@ class ClientLayers extends ClientPlugin
          * from initialize().  In reality the bug seems to come from a difference 
          * in behavior between createSession and loaSession !!!
          */
-        $this->switchId = $newSwitch;
-        /* </FIXME> */  
+        if (!isset($this->layersState)) {
+            $this->layersState = $this->getNewSessionObject();
+        }
         
         $this->layersState->switchId = $newSwitch;
     }
