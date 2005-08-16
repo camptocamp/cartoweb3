@@ -22,7 +22,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
   position: absolute;
   left: 10px;
   top: 40px;
-  width: 180px;
+  width: 220px;
   padding:0;
   z-index: 3;
   background:white;
@@ -36,7 +36,7 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;margin-left: 205px;}
+#content {z-index: 0;margin-left: 245px;}
 
 #loadbar {
   width:170px;
@@ -66,4 +66,38 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   color:black;
   font-size:0.8em;
   margin:2px;
+}
+
+#dummy {
+  width:0;
+  height:0;
+}
+
+#scaleContainer {
+  position:absolute;
+  z-index:3;
+}
+
+#floatScale {
+  position:relative;
+/*  top: -15px;*/
+  padding:0;
+  margin:0;
+}
+
+#floatGeo {
+  padding:0;
+  margin:0;
+}
+
+#floatDistance {
+  padding:0;
+  margin: 0;
+  display: none;
+}
+
+#floatSurface {
+  padding:0;
+  margin: 0;
+  display: none;
 }
