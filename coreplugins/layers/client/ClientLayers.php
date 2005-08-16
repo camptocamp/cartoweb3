@@ -648,7 +648,9 @@ class ClientLayers extends ClientPlugin
      * Handles data from GET request. Not used/implemented yet.
      * @see GuiProvider::handleHttpGetRequest()
      */
-    public function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {
+        $this->handleSwitches($request);
+    }
     
     /**
      * Returns a list of layers that match passed condition.
