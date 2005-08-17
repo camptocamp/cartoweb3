@@ -189,7 +189,7 @@ tar xvzf cartoweb-demodata-3.0.0.tar.gz</screen>
 cvs                     : install cartoweb3 from cvs
 check                   : check configuration
 get[=user]              : CVS checkout with user name [anonymous]
-get_libs                : get required libraries
+getLibs                 : get required libraries
 dirs                    : create user directories
 perms[=www-data]        : set writing perms for web-user [www-data]
                           - set ownership if ran as superuser,
