@@ -560,7 +560,8 @@ class ClientLayers extends ClientPlugin
      * @param array
      */
     private function handleSwitches($request) {
-        if (!$this->overrideSwitch && $this->getHttpValue($request, 'switch_id') != NULL) {
+        if (!$this->overrideSwitch && 
+            $this->getHttpValue($request, 'switch_id') != NULL) {
             $this->layersState->switchId = 
                 $this->getHttpValue($request, 'switch_id');           
         }    
