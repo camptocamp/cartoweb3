@@ -8,7 +8,7 @@
 PEAR_PACKAGES="Benchmark PHPUnit2 PhpDocumentor PEAR DB Archive_Tar XML_RPC Console_Getopt Auth HTML_Crypt"
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
-SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.9.tar.gz"
+SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.10.tar.gz"
 FPDF="http://www.fpdf.org/fr/dl.php?v=153&f=tgz"
 
 # uncomment to upload with scp to this address
