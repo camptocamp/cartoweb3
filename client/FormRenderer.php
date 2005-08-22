@@ -243,16 +243,17 @@ class FormRenderer {
                                                               true));
     
             // handle plugins
-            $this->cartoclient->callPluginsImplementing('GuiProvider', 'renderForm',
-                                                  $this->smarty);
+            $this->cartoclient->callPluginsImplementing('GuiProvider', 
+                                                        'renderForm',
+                                                        $this->smarty);
         }
         
-        $form = 'cartoclient.tpl';
         // if set to false, smarty display is skipped
         if ($this->customForm === false)
             return;
-        if (!is_null($this->customForm))
-            $form = $this->customForm;
+        
+        $form = !is_null($this->customForm) ? $this->customForm 
+                : 'cartoclient.tpl';
         $this->smarty->display($form);
     }
 

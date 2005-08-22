@@ -228,14 +228,17 @@ class ClientImages extends ClientPlugin
 
         $images = new Images();
 
+        $drawAll = ($this->getCartoclient()->getOutputType()
+                    != Cartoclient::OUTPUT_IMAGE);
+
         // TODO: read from config if drawn        
         $scalebar_image = new Image();
-        $scalebar_image->isDrawn = true;
+        $scalebar_image->isDrawn = $drawAll;
         $images->scalebar = $scalebar_image;
 
         // TODO: read from config if drawn        
         $keymap_image = new Image();
-        $keymap_image->isDrawn = true;
+        $keymap_image->isDrawn = $drawAll;
         $images->keymap = $keymap_image;
 
         $mainmap_image = new Image();
@@ -394,6 +397,26 @@ class ClientImages extends ClientPlugin
         if (!is_null($mapWidth))
             $mapRequest->imagesRequest->mainmap->width = $mapWidth;
     }    
+
+    /**
+     * Outputs raw mainmap image.
+     * @return boolean true if success.
+     */
+    public function outputMainmap() {
+        if (empty($this->imagesResult)) {
+            return false;
+        }
+        
+        $mapPath = $this->getImageUrl($this->imagesResult->mainmap->path,
+                                        false);
+        $infos = getimagesize($mapPath);
+        $type = !empty($infos[2]) ? $infos[2] : IMAGETYPE_JPEG;
+        $mime = image_type_to_mime_type($type);
+        
+        header('Content-type: ' . $mime);
+        return (bool)readfile($mapPath);
+        //echo file_get_contents($mapPath);
+    }
 }
 
 ?>
