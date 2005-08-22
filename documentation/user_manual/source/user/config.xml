@@ -74,7 +74,18 @@
         <para> mapId = string </para>
       </listitem>
       <listitem>
-        <para> initialMapStateId = string </para>
+        <para> initialMapStateId = string. Tells what <parameter>initialMapState</parameter> to use when creating a new &cartoweb; session (see also <xref linkend="user.config.server.maps_config.initial"/>).</para>
+        <tip>
+         <para>
+          <parameter>initialMapStateId</parameter> may be determined using several means. By order of priority: 
+          <orderedlist>
+           <listitem><para>URLs (using GET parameter <parameter>initialState</parameter>)</para></listitem>
+           <listitem><para>PHP environment variables. Place <programlisting>$_ENV['CW3_INITIAL_MAP_STATE_ID'] = 'foobar';</programlisting> in your PHP code before calling &cartoweb;.</para></listitem>
+           <listitem><para>client.ini</para></listitem>
+           <listitem><para>If no <parameter>initialMapStateId</parameter> can be determined, &cartoweb; use first <parameter>initialMapState</parameter> available.</para></listitem>
+          </orderedlist>
+         </para>
+        </tip>
       </listitem>
     </itemizedlist>
     <para> Tools configuration:</para>
