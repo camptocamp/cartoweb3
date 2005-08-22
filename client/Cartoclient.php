@@ -327,6 +327,7 @@ class Cartoclient {
     const OUTPUT_HTML_EXPORT = 'html_export';
     const OUTPUT_PDF_EXPORT  = 'pdf_export';
     const OUTPUT_CSV_EXPORT  = 'csv_export';
+    const OUTPUT_IMAGE       = 'image';
 
     /**
      * Constructor
@@ -339,17 +340,25 @@ class Cartoclient {
      *
      * Plugins cannot call internationalization functions in constructor
      * and in preInitialize().
+     *
+     * @param string output type
      */
     public function __construct($outputType = self::OUTPUT_HTML_VIEWER) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
-        $this->outputType = $outputType;
         
         try {
             if (array_key_exists('reset_session', $_POST)) {
                 // POST reset is made consistent with GET behavior.
                 $_REQUEST = array('reset_session' => '') + $_COOKIE;
+            }
+
+            if (array_key_exists('mode', $_REQUEST) &&
+                $_REQUEST['mode'] == self::OUTPUT_IMAGE) {
+                $this->outputType = self::OUTPUT_IMAGE;
+            } else {
+                $this->outputType = $outputType;
             }
             
             $this->initializePlugins();
@@ -626,33 +635,75 @@ class Cartoclient {
 
             $this->clientSession = new ClientSession();
 
-            $mapStates = $this->getMapInfo()->initialMapStates;
-        
-            if (empty($mapStates))
-                throw new CartoclientException('No initial map states defined' 
-                                . ' in server configuration');
-        
-            
-            $states = array_values($mapStates);
-            $initialMapState = $states[0];
-
-            if (@$this->config->initialMapStateId)
-                $initialMapState = $this->getMapInfo()->getInitialMapStateById( 
-                                $this->config->initialMapStateId);
-            if ($initialMapState == NULL)
-                throw new CartoclientException('cant find initial map state ' .
-                        $this->config->initialMapStateId);
-
             if ($this->viewOn) {
                 $this->log->debug('Handling new session and views');
                 $this->getViewManager()->handleView($clientSession);
             }
             
             $this->callPluginsImplementing('Sessionable', 'createSession',
-                                           $this->getMapInfo(), $initialMapState);
+                                           $this->getMapInfo(), 
+                                           $this->getInitialMapState());
         }
 
         $this->cartoForm = new CartoForm();
+    }
+
+    /**
+     * Retrieves initialMapState data depending on detected initialMapStateId.
+     *
+     * initialMapStateId is determined using (by order of priority):
+     * $_REQUEST, $_ENV, client.ini, auto (first initialMapState found).
+     * @return InitialMapState
+     */
+    private function getInitialMapState() {
+            $mapStates = $this->getMapInfo()->initialMapStates;
+        
+            if (empty($mapStates))
+                throw new CartoclientException('No initial map states defined' 
+                                . ' in server configuration');
+            
+            // detects initialMapState to use:
+            if (!empty($_REQUEST['initialState'])) {
+                // tries REQUEST (GET => OK, POST => ??)
+                // TODO: what if REQUEST'ed initialMapState does not exist ?
+                // currently it generates a failure...
+                $stateId = $_REQUEST['initialState'];
+                $stateSource = 'REQUEST variable';
+                $initialMapState = $this->getMapInfo()
+                                        ->getInitialMapStateById($stateId);
+            
+            } elseif (!empty($_ENV['CW3_INITIAL_MAP_STATE_ID'])) { 
+                // tries ENV
+                $stateId = $_ENV['CW3_INITIAL_MAP_STATE_ID'];
+                $stateSource = 'ENV variable';
+                $initialMapState = $this->getMapInfo()
+                                        ->getInitialMapStateById($stateId);
+            
+            } elseif (@$this->config->initialMapStateId) {
+                // tries client.ini
+                $stateId = $this->config->initialMapStateId;
+                $stateSource = 'INI file';
+                $initialMapState = $this->getMapInfo()
+                                        ->getInitialMapStateById($stateId);
+            
+            } else {
+                // uses first initialMapState available
+                $statesIds = array_keys($mapStates);
+                $stateId = $statesIds[0];
+                $states = array_values($mapStates);
+                $initialMapState = $states[0];
+                $stateSource = 'auto';
+            }
+            
+            if ($initialMapState == NULL) {
+                throw 
+                   new CartoclientException("cant find initial map state $stateId");
+            }
+
+            $this->log->debug("Using '$stateId' initialMapState,"
+                              . " detected from $stateSource.");
+
+            return $initialMapState;
     }
 
     /**
@@ -796,7 +847,13 @@ class Cartoclient {
 
         $this->log->debug('client context to display');
 
-        $this->formRenderer->showForm($this);
+        if (!$this->isInterruptFlow() && 
+            $this->outputType == self::OUTPUT_IMAGE) {
+            // Returns raw mainmap image
+            $this->getPluginManager()->getPlugin('images')->outputMainmap();
+        } else {
+            $this->formRenderer->showForm($this);
+        }
 
         $this->callPluginsImplementing('Sessionable', 'saveSession');
 
