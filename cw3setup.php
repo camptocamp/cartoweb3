@@ -293,25 +293,10 @@ function checkConfig() {
 
 // Check if soap is enabled:
     if (!extension_loaded('soap')) {
-        $r .= "Soap extension not detected, but installer is not able to detect if there's a problem or not: please re-install php with soap extension if not done.\n";
-        $badConfig = true;
+        $r .= "Soap extension not detected, but installer is not able to detect if there's a problem or not: please re-install php with soap extension if not done AND if you want to set cartoweb in a client/server configuration.\n";
     }
     else
         $r .= "Soap            => ok\n";
-
-// Check php mapscript version:
-    if (!extension_loaded(CW3_PHP_MAPSCRIPT))
-        if (!dl(CW3_PHP_MAPSCRIPT.".".PHP_SHLIB_SUFFIX)) {
-            $badConfig = true;
-            $r .= "Unable to load library ".CW3_PHP_MAPSCRIPT.'.'.PHP_SHLIB_SUFFIX.".\n";
-        }
-    $ms_ver = trim(substr(@ms_GetVersion(), 18, 6));
-    if(version_compare($ms_ver, CW3_PHP_MS_VERSION) < 0) {
-        $r .= "Mapscript too old: please upgrade MapServer. Version must be equal or greater than ".CW3_PHP_MS_VERSION.".\n";
-        $badConfig = true;
-    }
-    else
-        $r .= "Mapserver ".$ms_ver." => ok\n";
 
     if ($badConfig) return $r;
     else return false;
