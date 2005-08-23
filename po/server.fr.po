@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-06-23 11:48+0200\n"
+"POT-Creation-Date: 2005-08-23 08:52+0200\n"
 "PO-Revision-Date: 2005-03-17 16:19+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -11,45 +11,49 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php:112
+#: coreplugins/location/server/ServerLocation.php:420
+msgid "Recenter Id canceled, unable to find selected Id."
+msgstr "L'identifiant n'a pas été trouvé."
+
+#: coreplugins/mapquery/server/ServerMapquery.php:112
 #, php-format
 msgid "Query spanned too many objects on layer '%s', it was ignored."
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php:121
+#: coreplugins/mapquery/server/ServerMapquery.php:121
 #, php-format
 msgid ""
 "This query hit the maximum number of results on '%s', truncating results."
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/coreplugins/query/server/ServerQuery.php:449
+#: coreplugins/query/server/ServerQuery.php:449
 msgid "Query"
 msgstr "Résultats"
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:395
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:395
 msgid "registration"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:405
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:405
 #, php-format
 msgid "new user mail %s %s %s %s %s %s %s %s\n"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:418
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:418
 #, php-format
 msgid "new user mail html %s %s %s %s %s %s %s %s %s %s\n"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:454
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:454
 msgid "personal info"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:458
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:458
 #, php-format
 msgid "user info uniqid mail %s %s %s %s %s\n"
 msgstr ""
 
-#: /home/yves/eclipse/workspace/cartoweb3/htdocs/test-xmlrpc/c2clib/classes/members.php:468
+#: htdocs/test-xmlrpc/c2clib/classes/members.php:468
 #, php-format
 msgid "user info mail %s %s %s %s\n"
 msgstr ""
