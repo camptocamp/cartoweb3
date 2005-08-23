@@ -794,24 +794,11 @@ function check_cw3setup_version() {
 }
 
 // FIXME: refactor this with the cvs functions used elsewhere
-function get_cvs_user() {
-    if (isset($_ENV['CVS_USER']))
-        return $_ENV['CVS_USER'];
-    else
-        return get_current_user();
-}
-
-function get_cvs_host() {
-    if (isset($_ENV['CVS_HOST']))
-        return $_ENV['CVS_HOST'];
-    else
-        return 'source.c2c:';
-}
-
 function get_cvs_repository() {
-        $cvs_user = get_cvs_user();
-        $cvs_host = get_cvs_host();
-        return ":pserver:{$cvs_user}@{$cvs_host}/var/lib/cvs/projects/cw3";
+    $cvs_user = isset($_ENV['CVS_USER']) ? $_ENV['CVS_USER'] : get_current_user();
+    $cvs_host = isset($_ENV['CVS_HOST']) ? $_ENV['CVS_HOST'] : 'source.c2c:';
+    $cvs_path = isset($_ENV['CVS_PATH']) ? $_ENV['CVS_PATH'] : '/var/lib/cvs/projects/cw3';
+    return ":pserver:{$cvs_user}@{$cvs_host}{$cvs_path}";
 }
 
 function fetch_project($project, $target_directory) {
