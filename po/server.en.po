@@ -10,7 +10,7 @@ msgstr ""
 
 #: coreplugins/location/server/ServerLocation.php:420
 msgid "Recenter Id canceled, unable to find selected Id."
-msgstr "ID was not found."
+msgstr "Recentering: ID was not found."
 
 #: coreplugins/mapquery/server/ServerMapquery.php:112
 #, php-format

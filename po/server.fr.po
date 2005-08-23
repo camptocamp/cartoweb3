@@ -13,7 +13,7 @@ msgstr ""
 
 #: coreplugins/location/server/ServerLocation.php:420
 msgid "Recenter Id canceled, unable to find selected Id."
-msgstr "L'identifiant n'a pas été trouvé."
+msgstr "Recentrage : l'identifiant n'a pas été trouvé."
 
 #: coreplugins/mapquery/server/ServerMapquery.php:112
 #, php-format
