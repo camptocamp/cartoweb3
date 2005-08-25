@@ -254,7 +254,10 @@ class ClientLocation extends ClientPlugin
         }
         
         $showCrosshair = $this->getHttpValue($request, 'show_crosshair');
-        if (!is_null($showCrosshair) && ($showCrosshair == 1 || $showCrosshair == 'on')) {
+        if (!is_null($showCrosshair) && 
+            ($showCrosshair == 1 || $showCrosshair == 'on') &&
+            $this->cartoclient->getPluginManager()->getPlugin('outline') != NULL) {
+
             $this->locationState->crosshair = new StyledShape();
             $this->locationState->crosshair->shapeStyle = new ShapeStyle();
 
