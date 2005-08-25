@@ -78,6 +78,19 @@
         <para> weightPan<indexterm><primary>weightPan</primary></indexterm>: 
           see weightZoomIn (default to 12) </para>
       </listitem>
+      <listitem>
+        <para> crosshairSymbol<indexterm><primary>crosshairSymbol</primary></indexterm>:
+               (integer) numerical id of symbol to use to materialize recentering point 
+               (see your <parameter>symbolset</parameter> file)</para>
+      </listitem>
+      <listitem>
+        <para> crosshairSymbolSize<indexterm><primary>crosshairSymbolSize</primary></indexterm>:
+               integer defining the size used to display the recentering crosshair symbol.</para>
+      </listitem>
+      <listitem>
+        <para> crosshairSymbolColor<indexterm><primary>crosshairSymbolColor</primary></indexterm>:
+               RGB code (comma-separated list of integers) of the crosshair color.</para>
+      </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.server">
