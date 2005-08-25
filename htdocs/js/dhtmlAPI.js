@@ -1665,6 +1665,10 @@ function display_onmouseout(evt) {
 function display_onkeydown(evt) {
   e = new xEvent(evt);
   
+  // no display selected (mouse moved on)
+  if (typeof currentDisplay == 'undefined')
+    return;
+  
   var _display = currentDisplay;// reference to the display currently in use
   
 /*
