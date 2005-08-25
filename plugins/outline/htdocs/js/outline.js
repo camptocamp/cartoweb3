@@ -9,7 +9,7 @@ function addLabel(text,x,y) {
   outlineLabelText = xGetElementById('outline_label_text');
   outlineLabelText.value = text;
   xMoveTo(outlineLabelInput,x + 5,y + 5);
-  outlineLabelInput.style.zIndex = 2;
+  outlineLabelInput.style.zIndex = 3;
   xShow(outlineLabelInput);
 }
 
