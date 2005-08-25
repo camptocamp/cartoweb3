@@ -5,12 +5,18 @@
  * @param y y position of the input
  */
 function addLabel(text,x,y) {
-  outlineLabelInput = xGetElementById('outlineLabelInputDiv')
-  xHide(outlineLabelInput)
-  
-    outlineLabelText = xGetElementById('outline_label_text')
-    outlineLabelText.value = text
-    xMoveTo(outlineLabelInput,x + 5,y + 5)
-    outlineLabelInput.style.zIndex = 100;
-    xShow(outlineLabelInput)
+  outlineLabelInput = xGetElementById('outlineLabelInputDiv');
+  outlineLabelText = xGetElementById('outline_label_text');
+  outlineLabelText.value = text;
+  xMoveTo(outlineLabelInput,x + 5,y + 5);
+  outlineLabelInput.style.zIndex = 2;
+  xShow(outlineLabelInput);
+}
+
+/**
+ * Hides the input form to add a label
+ */
+function hideLabel() {
+  outlineLabelInput = xGetElementById('outlineLabelInputDiv');
+  xHide(outlineLabelInput);
 }
