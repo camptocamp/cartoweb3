@@ -275,7 +275,7 @@ Map.prototype.outline_poly = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.onFeatureInput = function(aFeature) {
-    addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
+    addLabel(polyDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
   };
   this.onCancel = function() {
@@ -288,7 +288,7 @@ Map.prototype.outline_line = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.line');
   this.onFeatureInput = function(aFeature) {
-    addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
+    addLabel(lineDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
   };
   this.onCancel = function() {
@@ -301,7 +301,7 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.box');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
+    addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
   };
   this.onCancel = function() {
@@ -314,7 +314,7 @@ Map.prototype.outline_point = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.point');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel("defaultLabel", mainmap.getDisplay('map')._posx, mainmap.getDisplay('map')._posy);
+    addLabel(pointDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
   };
   this.onCancel = function() {
