@@ -14,7 +14,7 @@
  <sect1 id="user.output.intro"> 
   <title>Introduction</title>
   <para>
-   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Three formats are available: PDF, CSV, HTML. 
+   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Four formats are available: PDF, CSV, HTML and raw image. 
   </para>
   <para>
    The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
@@ -90,6 +90,13 @@ fileName = "[date,Ymd-Hi]_[table].csv"
 ; if true, exported CSV file will be UTF-8 encoded 
 ; if false, it will be ISO-8859-1 encoded, default 
 charsetUtf8 = false]]></programlisting>
+  </para>
+ </sect1>
+
+ <sect1 id="user.output.image">
+  <title><indexterm><primary>image mode</primary></indexterm>Image Output</title>
+  <para>
+   &cartoweb; enables to return a raw image map with no HTML. It is not an export plugin and thus has not to be activated anywhere. &cartoweb; simply needs to receive a <parameter>mode=image</parameter> REQUEST parameter (GET or POST). For instance: <programlisting><![CDATA[http://your/cartoweb3/?recenter_x=123456&recenter_y=654321&show_crosshair=1&mode=image]]></programlisting>
   </para>
  </sect1>
 
