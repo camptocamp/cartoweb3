@@ -88,6 +88,28 @@
         </tip>
       </listitem>
     </itemizedlist>
+    <para> Session handling:</para>
+    <itemizedlist>
+      <listitem>
+        <para> sessionNameSuffix = string. Optional suffix used to distinguish &cartoclient; sessions parts for a given user. In most cases it is not necessary but may be needed when using, for instance, "sub-projects". This string is an ulimited comma-separated list of <parameter>type</parameter>:<parameter>value</parameter> couples. Three types are available:
+          <itemizedlist>
+            <listitem>
+              <para><parameter>str</parameter>: a constant string</para>
+            </listitem>
+            <listitem>
+              <para><parameter>conf</parameter>: uses value of one of the current <filename>client.ini</filename> configuration parameters</para>
+            </listitem>
+            <listitem>
+              <para><parameter>env</parameter>: uses value of given PHP environment variable, if set.</para>
+            </listitem>
+          </itemizedlist>
+          For instance: 
+          <programlisting>sessionNameSuffix = "str:toto, conf:profile, env:myEnvVar"
+sessionNameSuffix = "str:foo, str:bar"
+sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
+        </para>
+      </listitem>
+    </itemizedlist>
     <para> Tools configuration:</para>
     <itemizedlist>
       <listitem>
