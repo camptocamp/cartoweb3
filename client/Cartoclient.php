@@ -210,11 +210,6 @@ class ClientSession {
 }
 
 /**
- * Prefix for session key, mapId is appended before use
- */
-define('CLIENT_SESSION_KEY', 'client_session_key');
-
-/**
  * Main Cartoclient class
  * @package Client
  */
@@ -239,6 +234,11 @@ class Cartoclient {
      * @var ClientSession
      */
     private $clientSession;
+
+    /**
+     * @var string
+     */
+    private $sessionName;
     
     /**
      * @var CartoForm
@@ -329,6 +329,11 @@ class Cartoclient {
     const OUTPUT_CSV_EXPORT  = 'csv_export';
     const OUTPUT_IMAGE       = 'image';
 
+    /**
+     * Prefix for session key.
+     */
+    const CLIENT_SESSION_KEY = 'CW3_client_session_key';
+    
     /**
      * Constructor
      *
@@ -596,6 +601,41 @@ class Cartoclient {
     }
 
     /**
+     * Builds and returns session name.
+     * @return string
+     */
+    private function getSessionName() {
+        if (!isset($this->sessionName)) {
+            $this->sessionName = self::CLIENT_SESSION_KEY . $this->config->mapId;
+            
+            if ($this->config->sessionNameSuffix) {
+                $suffixes = ConfigParser::parseArray($this->config
+                                                          ->sessionNameSuffix);
+                foreach ($suffixes as $suffix) {
+                    $data = explode(':', $suffix);
+                    if (count($data) != 2) continue;
+                    switch ($data[0]) {
+                        case 'str':
+                            $this->sessionName .= $data[1];
+                            break;
+
+                        case 'conf':
+                            $this->sessionName .= $this->config->$data[1];
+                            break;
+
+                        case 'env':
+                            if (array_key_exists($data[1], $_ENV)) {
+                                $this->sessionName .= $_ENV[$data[1]];
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        return $this->sessionName;
+    }
+
+    /**
      * Save session in a variable different for each mapId
      * @param ClientSession object to save in session 
      */
@@ -604,7 +644,7 @@ class Cartoclient {
         $this->log->debug('saving session:');
         $this->log->debug($clientSession);
 
-        $_SESSION[CLIENT_SESSION_KEY . $this->config->mapId] = $this->clientSession;
+        $_SESSION[$this->getSessionName()] = $this->clientSession;
         session_write_close();
     }
 
@@ -616,7 +656,7 @@ class Cartoclient {
      * @see Sessionable
      */
     private function initializeSession() {
-        $clientSession = @$_SESSION[CLIENT_SESSION_KEY . $this->config->mapId];
+        $clientSession = @$_SESSION[$this->getSessionName()];
         
         $this->clientSession = $clientSession;
 
