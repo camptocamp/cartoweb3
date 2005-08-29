@@ -181,7 +181,7 @@ fetch_edge(HeapTuple *tuple, TupleDesc *tupdesc, edge_columns_t *edge_columns, e
 }
 
 
-static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bool directed, bool has_reverse_cost, 
+static int compute_shortest_path(char* sql, int source_vertex_id, int target_vertex_id, bool directed, bool has_reverse_cost, 
                                  path_element_t **path, int *path_count) 
 {
 
@@ -266,7 +266,7 @@ static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bo
     profstop("extract", prof_extract);
     profstart(prof_dijkstra);
 
-    ret = boost_dijkstra(edges, total_tuples, start_vertex, end_vertex,
+    ret = boost_dijkstra(edges, total_tuples, source_vertex_id, target_vertex_id,
                          directed, has_reverse_cost,
                          path, path_count, &err_msg);
 

@@ -74,7 +74,7 @@ graph_add_edge(G &graph, int id, int source, int target, float8 cost)
 }
 
 int 
-boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vertex,
+boost_dijkstra(edge_t *edges, unsigned int count, int source_vertex_id, int target_vertex_id,
                bool directed, bool has_reverse_cost,
                path_element_t **path, int *path_count, char **err_msg)
 {
@@ -118,40 +118,40 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
     std::vector<vertex_descriptor> predecessors(num_vertices(graph));
 
-    vertex_descriptor _source = vertex(start_vertex, graph);
+    vertex_descriptor source_vertex = vertex(source_vertex_id, graph);
 
-    if (_source < 0 || _source >= num_nodes) 
+    if (source_vertex < 0 || source_vertex >= num_nodes) 
     {
         *err_msg = "Starting vertex not found";
         return -1;
     }
 
-    vertex_descriptor _target = vertex(end_vertex, graph);
-    if (_target < 0 || _target >= num_nodes)
+    vertex_descriptor target_vertex = vertex(target_vertex_id, graph);
+    if (target_vertex < 0 || target_vertex >= num_nodes)
     {
         *err_msg = "Ending vertex not found";
         return -1;
     }
 
     std::vector<float8> distances(num_vertices(graph));
-    dijkstra_shortest_paths(graph, _source,
+    dijkstra_shortest_paths(graph, source_vertex,
                             predecessor_map(&predecessors[0]).
                             weight_map(get(&Vertex::cost, graph))
                             .distance_map(&distances[0]));
 
     vector<int> path_vect;
     int max = MAX_NODES;
-    path_vect.push_back(_target);
-    while (_target != _source) 
+    path_vect.push_back(target_vertex);
+    while (target_vertex != source_vertex) 
     {
-        if (_target == predecessors[_target]) 
+        if (target_vertex == predecessors[target_vertex]) 
         {
             *err_msg = "No path found";
             return -1;
         }
-        _target = predecessors[_target];
+        target_vertex = predecessors[target_vertex];
 
-        path_vect.push_back(_target);
+        path_vect.push_back(target_vertex);
         if (!max--) 
         {
             *err_msg = "Overflow";
@@ -172,7 +172,7 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
         (*path)[j].vertex_id = path_vect.at(i);
 
         (*path)[j].edge_id = -1;
-        (*path)[j].cost = distances[_target];
+        (*path)[j].cost = distances[target_vertex];
         
         if (i == 0) 
         {
