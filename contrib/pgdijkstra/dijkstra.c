@@ -39,16 +39,16 @@ struct timeval prof_dijkstra, prof_store, prof_extract, prof_total;
 long proftime[5];
 long profipts1, profipts2, profopts;
 #define profstart(x) do { gettimeofday(&x, NULL); } while (0);
-#define profstop(n, x) do { struct timeval _profstop;	\
-	long _proftime;				\
-	gettimeofday(&_profstop, NULL);				\
-	_proftime = ( _profstop.tv_sec*1000000+_profstop.tv_usec) -	\
-		( x.tv_sec*1000000+x.tv_usec); \
-	elog(NOTICE, \
-		"PRF(%s) %lu (%f ms)", \
-		(n), \
-	     _proftime, _proftime / 1000.0);	\
-	} while (0);
+#define profstop(n, x) do { struct timeval _profstop;   \
+        long _proftime;                         \
+        gettimeofday(&_profstop, NULL);                         \
+        _proftime = ( _profstop.tv_sec*1000000+_profstop.tv_usec) -     \
+                ( x.tv_sec*1000000+x.tv_usec); \
+        elog(NOTICE, \
+                "PRF(%s) %lu (%f ms)", \
+                (n), \
+             _proftime, _proftime / 1000.0);    \
+        } while (0);
 
 #else
 
@@ -65,7 +65,7 @@ Datum shortest_path(PG_FUNCTION_ARGS);
 //#define DEBUG 1
 
 #ifdef DEBUG
-#define DBG(format, arg...)			\
+#define DBG(format, arg...)                     \
     elog(NOTICE, format , ## arg)
 #else
 #define DBG(format, arg...) do { ; } while (0)
@@ -119,27 +119,27 @@ fetch_edge_columns(SPITupleTable *tuptable, edge_columns_t *edge_columns, bool h
     }
 
     DBG("columns: id %i source %i target %i cost %i", 
-	edge_columns->id, edge_columns->source, 
-	edge_columns->target, edge_columns->cost);
+        edge_columns->id, edge_columns->source, 
+        edge_columns->target, edge_columns->cost);
 
     if (has_reverse_cost)
     {
-	edge_columns->reverse_cost = SPI_fnumber(SPI_tuptable->tupdesc, "reverse_cost");
+        edge_columns->reverse_cost = SPI_fnumber(SPI_tuptable->tupdesc, "reverse_cost");
 
-	if (edge_columns->reverse_cost == SPI_ERROR_NOATTRIBUTE) 
-	{
-	    elog(ERROR, "Error, reverse_cost is used, but query did't return "
-		 "'reverse_cost' column");
-	    return -1;
-	}
+        if (edge_columns->reverse_cost == SPI_ERROR_NOATTRIBUTE) 
+        {
+            elog(ERROR, "Error, reverse_cost is used, but query did't return "
+                 "'reverse_cost' column");
+            return -1;
+        }
 
-	if (SPI_gettypeid(SPI_tuptable->tupdesc, edge_columns->reverse_cost) != FLOAT8OID) 
-	{
-	    elog(ERROR, "Error, columns 'reverse_cost' must be of type float8");
-	    return -1;
-	}
+        if (SPI_gettypeid(SPI_tuptable->tupdesc, edge_columns->reverse_cost) != FLOAT8OID) 
+        {
+            elog(ERROR, "Error, columns 'reverse_cost' must be of type float8");
+            return -1;
+        }
 
-	DBG("columns: reverse_cost cost %i", edge_columns->reverse_cost);
+        DBG("columns: reverse_cost cost %i", edge_columns->reverse_cost);
     }
     
     return 0;
@@ -153,36 +153,36 @@ fetch_edge(HeapTuple *tuple, TupleDesc *tupdesc, edge_columns_t *edge_columns, e
 
     binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->id, &isnull);
     if (isnull)
-	elog(ERROR, "id contains a null value");
+        elog(ERROR, "id contains a null value");
     target_edge->id = DatumGetInt32(binval);
 
     binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->source, &isnull);
     if (isnull)
-	elog(ERROR, "source contains a null value");
+        elog(ERROR, "source contains a null value");
     target_edge->source = DatumGetInt32(binval);
 
     binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->target, &isnull);
     if (isnull)
-	elog(ERROR, "target contains a null value");
+        elog(ERROR, "target contains a null value");
     target_edge->target = DatumGetInt32(binval);
 
     binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->cost, &isnull);
     if (isnull)
-	elog(ERROR, "cost contains a null value");
+        elog(ERROR, "cost contains a null value");
     target_edge->cost = DatumGetFloat8(binval);
 
     if (edge_columns->reverse_cost != -1) 
     {
-	binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->reverse_cost, &isnull);
-	if (isnull)
-	    elog(ERROR, "reverse_cost contains a null value");
-	target_edge->reverse_cost =  DatumGetFloat8(binval);
+        binval = SPI_getbinval(*tuple, *tupdesc, edge_columns->reverse_cost, &isnull);
+        if (isnull)
+            elog(ERROR, "reverse_cost contains a null value");
+        target_edge->reverse_cost =  DatumGetFloat8(binval);
     }
 }
 
 
 static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bool directed, bool has_reverse_cost, 
-				 path_element_t **path, int *path_count) 
+                                 path_element_t **path, int *path_count) 
 {
 
     int SPIcode;
@@ -203,20 +203,20 @@ static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bo
     if (SPIcode  != SPI_OK_CONNECT)
     {
         elog(ERROR, "shortest_path: couldn't open a connection to SPI");
-	return -1;
+        return -1;
     }
 
     SPIplan = SPI_prepare(sql, 0, NULL);
     if (SPIplan  == NULL)
     {
         elog(ERROR, "shortest_path: couldn't create query plan via SPI");
-	return -1;
+        return -1;
     }
 
     if ((SPIportal = SPI_cursor_open(NULL, SPIplan, NULL, NULL, true)) == NULL) 
     {
         elog(ERROR, "shortest_path: SPI_cursor_open('%s') returns NULL", sql);
-	return -1;
+        return -1;
     }
 
     while (moredata == TRUE)
@@ -251,7 +251,7 @@ static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bo
             for (t = 0; t < ntuples; t++) 
             {
                 HeapTuple tuple = tuptable->vals[t];
-		fetch_edge(&tuple, &tupdesc, &edge_columns, &edges[total_tuples - ntuples + t]);
+                fetch_edge(&tuple, &tupdesc, &edge_columns, &edges[total_tuples - ntuples + t]);
             }
             SPI_freetuptable(tuptable);
         } 
@@ -267,7 +267,7 @@ static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bo
     profstart(prof_dijkstra);
 
     ret = boost_dijkstra(edges, total_tuples, start_vertex, end_vertex,
-			 directed, has_reverse_cost,
+                         directed, has_reverse_cost,
                          path, path_count, &err_msg);
 
     profstop("dijkstra", prof_dijkstra);
@@ -283,7 +283,7 @@ out:
     if (SPIcode  != SPI_OK_FINISH )
     {
         elog(ERROR,"couldn't disconnect from SPI");
-	return -1 ;
+        return -1 ;
     }
   
     return ret;
@@ -304,10 +304,10 @@ shortest_path(PG_FUNCTION_ARGS)
     if (SRF_IS_FIRSTCALL())
     {
         MemoryContext   oldcontext;
-	int path_count;
-	int ret;
+        int path_count;
+        int ret;
 
-	// XXX profiling messages are not thread safe
+        // XXX profiling messages are not thread safe
         profstart(prof_total);
         profstart(prof_extract);
 
@@ -318,31 +318,31 @@ shortest_path(PG_FUNCTION_ARGS)
         oldcontext = MemoryContextSwitchTo(funcctx->multi_call_memory_ctx);
 
 
-	ret = compute_shortest_path(text2char(PG_GETARG_TEXT_P(0)),
-				    PG_GETARG_INT32(1),
-				    PG_GETARG_INT32(2),
-				    PG_GETARG_BOOL(3),
-				    PG_GETARG_BOOL(4), &path, &path_count);
+        ret = compute_shortest_path(text2char(PG_GETARG_TEXT_P(0)),
+                                    PG_GETARG_INT32(1),
+                                    PG_GETARG_INT32(2),
+                                    PG_GETARG_BOOL(3),
+                                    PG_GETARG_BOOL(4), &path, &path_count);
 
 #ifdef DEBUG
-	DBG("Ret is %i", ret);
-	if (ret >= 0) 
-	{
-	    int i;
-	    for (i = 0; i < path_count; i++) 
-	    {
-		DBG("Step %i vertex_id  %i ", i, path[i].vertex_id);
-		DBG("        edge_id    %i ", path[i].edge_id);
-		DBG("        cost       %f ", path[i].cost);
-	    }
-	}
+        DBG("Ret is %i", ret);
+        if (ret >= 0) 
+        {
+            int i;
+            for (i = 0; i < path_count; i++) 
+            {
+                DBG("Step %i vertex_id  %i ", i, path[i].vertex_id);
+                DBG("        edge_id    %i ", path[i].edge_id);
+                DBG("        cost       %f ", path[i].cost);
+            }
+        }
 #endif
 
         /* total number of tuples to be returned */
         funcctx->max_calls = path_count;
-	funcctx->user_fctx = path;
+        funcctx->user_fctx = path;
 
-	funcctx->tuple_desc = BlessTupleDesc(RelationNameGetTupleDesc("path_result"));
+        funcctx->tuple_desc = BlessTupleDesc(RelationNameGetTupleDesc("path_result"));
 
         MemoryContextSwitchTo(oldcontext);
     }
@@ -359,29 +359,29 @@ shortest_path(PG_FUNCTION_ARGS)
     {
         HeapTuple    tuple;
         Datum        result;
-	Datum *values;
-	char* nulls;
+        Datum *values;
+        char* nulls;
 
-	values = palloc(4 * sizeof(Datum));
-	nulls = palloc(4 * sizeof(char));
+        values = palloc(4 * sizeof(Datum));
+        nulls = palloc(4 * sizeof(char));
 
-	values[0] = Int32GetDatum(call_cntr);
-	nulls[0] = ' ';
-	values[1] = Int32GetDatum(path[call_cntr].vertex_id);
-	nulls[1] = ' ';
-	values[2] = Int32GetDatum(path[call_cntr].edge_id);
-	nulls[2] = ' ';
-	values[3] = Float8GetDatum(path[call_cntr].cost);
-	nulls[3] = ' ';
+        values[0] = Int32GetDatum(call_cntr);
+        nulls[0] = ' ';
+        values[1] = Int32GetDatum(path[call_cntr].vertex_id);
+        nulls[1] = ' ';
+        values[2] = Int32GetDatum(path[call_cntr].edge_id);
+        nulls[2] = ' ';
+        values[3] = Float8GetDatum(path[call_cntr].cost);
+        nulls[3] = ' ';
 
-	tuple = heap_formtuple(tuple_desc, values, nulls);
+        tuple = heap_formtuple(tuple_desc, values, nulls);
 
         /* make the tuple into a datum */
         result = HeapTupleGetDatum(tuple);
 
         /* clean up (this is not really necessary) */
-	pfree(values);
-	pfree(nulls);
+        pfree(values);
+        pfree(nulls);
 
         SRF_RETURN_NEXT(funcctx, result);
     }
@@ -390,7 +390,7 @@ shortest_path(PG_FUNCTION_ARGS)
         profstop("store", prof_store);
         profstop("total", prof_total);
 #ifdef PROFILE
-	elog(NOTICE, "_________");
+        elog(NOTICE, "_________");
 #endif
         SRF_RETURN_DONE(funcctx);
     }

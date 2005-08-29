@@ -11,7 +11,7 @@ INSTALLATION
 
 * Edit Makefile, and set the BOOST_PATH with the location of your
  boost library (if you are on Debian, just type 
-	"apt-get install libboost-graph-dev" and you don't need to modify anything)
+        "apt-get install libboost-graph-dev" and you don't need to modify anything)
 * Type "make install" 
 * Execute the sql file dijkstra.sql to install the functions in your database
 * If you have PostGIS installed, you can launch dijkstra_postgis.sql
@@ -30,7 +30,7 @@ and for generating results as geometries.
 The shortest_path function has the following signature:
 
 CREATE OR REPLACE FUNCTION shortest_path(sql text, source_id integer, target_id integer, 
-					 directed boolean, has_reverse_cost boolean)
+                                         directed boolean, has_reverse_cost boolean)
         RETURNS SETOF path_result
 
 Where path_result is:
@@ -87,7 +87,7 @@ The power of SQL can be used for more complex cost computation:
 SELECT shortest_path('SELECT gid as id, node1_id as source, node2_id
 as target, coalesce(CASE WHEN gid IN
  (1956, 123) THEN 12 ELSE weights1.weight END, 99999) as cost
-	FROM lines2 LEFT JOIN weights1 USING (gid)', 12, 78, false, false);
+        FROM lines2 LEFT JOIN weights1 USING (gid)', 12, 78, false, false);
 
 GRAPH IMPORTATION
 
@@ -154,10 +154,10 @@ Notice the function will also update the edge_id column of graph1:
 Then, you can use the shortest_path function, as below:
 
 SELECT * FROM shortest_path('SELECT id, source, target, 1::float8 AS
-						cost FROM graph1_edges', 
-		(SELECT id FROM graph1_vertices WHERE geom_id = 'A'), 
-		(SELECT id FROM graph1_vertices WHERE geom_id = 'C'), 
-				false, false);
+                                                cost FROM graph1_edges', 
+                (SELECT id FROM graph1_vertices WHERE geom_id = 'A'), 
+                (SELECT id FROM graph1_vertices WHERE geom_id = 'C'), 
+                                false, false);
 
 The initial table has to contain the following columns:
 
@@ -261,7 +261,7 @@ Now, all is set up correctly for using the shortest_path() on these
 data:
 
 SELECT * FROM shortest_path('SELECT id, source, target, cost FROM graph2_edges', 
-			     1, 2, false, false);
+                             1, 2, false, false);
 
  vertex_id | edge_id | cost 
 -----------+---------+------

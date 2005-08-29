@@ -33,7 +33,7 @@ using namespace std;
 using namespace boost;
 
 /*
-//	FIXME: use this to avoid heap allocation ?
+//      FIXME: use this to avoid heap allocation ?
 
 void* operator new(size_t size)
 {
@@ -65,7 +65,7 @@ graph_add_edge(G &graph, int id, int source, int target, float8 cost)
     bool inserted;
     
     if (cost < 0) // edges are not inserted in the graph if cost is negative
-	return;
+        return;
 
     tie(e, inserted) = add_edge(source, target, graph);
 
@@ -75,8 +75,8 @@ graph_add_edge(G &graph, int id, int source, int target, float8 cost)
 
 int 
 boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vertex,
-	       bool directed, bool has_reverse_cost,
-	       path_element_t **path, int *path_count, char **err_msg)
+               bool directed, bool has_reverse_cost,
+               path_element_t **path, int *path_count, char **err_msg)
 {
 
     // FIXME: use a template for the directedS parameters
@@ -95,25 +95,25 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
     for (std::size_t j = 0; j < count; ++j)
     {
-	graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].source, 
-						 edges[j].target, edges[j].cost);
+        graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].source, 
+                                                 edges[j].target, edges[j].cost);
 
-	if (!directed || (directed && has_reverse_cost))
-	{
-	    float8 cost;
+        if (!directed || (directed && has_reverse_cost))
+        {
+            float8 cost;
 
-	    if (has_reverse_cost)
-	    {
-		cost = edges[j].reverse_cost;
-	    }
-	    else 
-	    {
-		cost = edges[j].cost;
-	    }
+            if (has_reverse_cost)
+            {
+                cost = edges[j].reverse_cost;
+            }
+            else 
+            {
+                cost = edges[j].cost;
+            }
 
-	    graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].target, 
-						     edges[j].source, cost);
-	}
+            graph_add_edge<graph_t, edge_descriptor>(graph, edges[j].id, edges[j].target, 
+                                                     edges[j].source, cost);
+        }
     }
 
     std::vector<vertex_descriptor> predecessors(num_vertices(graph));
@@ -122,41 +122,41 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
     if (_source < 0 || _source >= num_nodes) 
     {
-	*err_msg = "Starting vertex not found";
-	return -1;
+        *err_msg = "Starting vertex not found";
+        return -1;
     }
 
     vertex_descriptor _target = vertex(end_vertex, graph);
     if (_target < 0 || _target >= num_nodes)
     {
-	*err_msg = "Ending vertex not found";
-	return -1;
+        *err_msg = "Ending vertex not found";
+        return -1;
     }
 
     std::vector<float8> distances(num_vertices(graph));
     dijkstra_shortest_paths(graph, _source,
-			    predecessor_map(&predecessors[0]).
-			    weight_map(get(&Vertex::cost, graph))
-			    .distance_map(&distances[0]));
+                            predecessor_map(&predecessors[0]).
+                            weight_map(get(&Vertex::cost, graph))
+                            .distance_map(&distances[0]));
 
     vector<int> path_vect;
     int max = MAX_NODES;
     path_vect.push_back(_target);
     while (_target != _source) 
     {
-	if (_target == predecessors[_target]) 
-	{
-	    *err_msg = "No path found";
-	    return -1;
-	}
-	_target = predecessors[_target];
+        if (_target == predecessors[_target]) 
+        {
+            *err_msg = "No path found";
+            return -1;
+        }
+        _target = predecessors[_target];
 
-	path_vect.push_back(_target);
-	if (!max--) 
-	{
-	    *err_msg = "Overflow";
-	    return -1;
-	}
+        path_vect.push_back(_target);
+        if (!max--) 
+        {
+            *err_msg = "Overflow";
+            return -1;
+        }
     }
 
     *path = (path_element_t *) malloc(sizeof(path_element_t) * (path_vect.size() + 1));
@@ -164,39 +164,39 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
     for(int i = path_vect.size() - 1, j = 0; i >= 0; i--, j++)
     {
-	graph_traits < graph_t >::vertex_descriptor v_src;
-	graph_traits < graph_t >::vertex_descriptor v_targ;
-	graph_traits < graph_t >::edge_descriptor e;
-	graph_traits < graph_t >::out_edge_iterator out_i, out_end;
+        graph_traits < graph_t >::vertex_descriptor v_src;
+        graph_traits < graph_t >::vertex_descriptor v_targ;
+        graph_traits < graph_t >::edge_descriptor e;
+        graph_traits < graph_t >::out_edge_iterator out_i, out_end;
 
-	(*path)[j].vertex_id = path_vect.at(i);
+        (*path)[j].vertex_id = path_vect.at(i);
 
-	(*path)[j].edge_id = -1;
-	(*path)[j].cost = distances[_target];
-	
-	if (i == 0) 
-	{
-	    continue;
-	}
+        (*path)[j].edge_id = -1;
+        (*path)[j].cost = distances[_target];
+        
+        if (i == 0) 
+        {
+            continue;
+        }
 
-	v_src = path_vect.at(i);
-	v_targ = path_vect.at(i - 1);
+        v_src = path_vect.at(i);
+        v_targ = path_vect.at(i - 1);
 
-	for (tie(out_i, out_end) = out_edges(v_src, graph); 
-	     out_i != out_end; ++out_i)
-	{
-	    graph_traits < graph_t >::vertex_descriptor v, targ;
-	    e = *out_i;
-	    v = source(e, graph);
-	    targ = target(e, graph);
-								
-	    if (targ == v_targ)
-	    {
-		(*path)[j].edge_id = graph[*out_i].id;
-		(*path)[j].cost = graph[*out_i].cost;
-		break;
-	    }
-	}
+        for (tie(out_i, out_end) = out_edges(v_src, graph); 
+             out_i != out_end; ++out_i)
+        {
+            graph_traits < graph_t >::vertex_descriptor v, targ;
+            e = *out_i;
+            v = source(e, graph);
+            targ = target(e, graph);
+                                                                
+            if (targ == v_targ)
+            {
+                (*path)[j].edge_id = graph[*out_i].id;
+                (*path)[j].cost = graph[*out_i].cost;
+                break;
+            }
+        }
     }
 
     return EXIT_SUCCESS;
@@ -208,19 +208,19 @@ boost_dijkstra(edge_t *edges, unsigned int count, int start_vertex, int end_vert
 
 #define NUM_EDGES 100
 int main() {
-		
+                
     edge_t *e;
 
     e = (edge_t *)malloc(NUM_EDGES * sizeof(edge_t));
     if (!e)
-	return -1;
+        return -1;
 
     for (int i = 0; i < NUM_EDGES; i++) 
     {
-	e[i].id = i;
-	e[i].source = i;
-	e[i].target = (i + 1 > NUM_EDGES) ? 0 : i + 1;
-	e[i].cost = 1;
+        e[i].id = i;
+        e[i].source = i;
+        e[i].target = (i + 1 > NUM_EDGES) ? 0 : i + 1;
+        e[i].cost = 1;
     }
 
     char *err_msg = NULL;
@@ -234,17 +234,17 @@ int main() {
 
     if (ret < 0) 
     {
-	printf("Error: %s\n", err_msg);
+        printf("Error: %s\n", err_msg);
 
     } else {
-	printf("Path is :\n");
-	for (int i = 0; i < path_count; i++) 
-	{
-	    printf("Step %i vertex_id  %i \n", i, path[i].vertex_id);
-	    printf("        edge_id    %i \n", path[i].edge_id);
-	    printf("        cost       %f \n", path[i].cost);
-	}
-	free(path);
+        printf("Path is :\n");
+        for (int i = 0; i < path_count; i++) 
+        {
+            printf("Step %i vertex_id  %i \n", i, path[i].vertex_id);
+            printf("        edge_id    %i \n", path[i].edge_id);
+            printf("        cost       %f \n", path[i].cost);
+        }
+        free(path);
     }
     printf("\n");
     free(e);
