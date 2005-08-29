@@ -164,6 +164,7 @@ class ConfigParser {
      * @param Config configuration
      * @param string prefix
      * @param string possible suffixes
+     * @return array of stdClass objects
      */
     static public function parseObjectArray($config, $prefix, $suffixes) {
         $result = array();        
