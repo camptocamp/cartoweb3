@@ -87,7 +87,7 @@ blocks.note.verticalBasis = bottom
 blocks.note.borderWidth = 0
 blocks.note.multiPage = true
 
-blocks.copyright.content = "Cartoweb by Camptocamp SA"
+blocks.copyright.content = "CartoWeb by Camptocamp SA"
 blocks.copyright.height = 5
 blocks.copyright.verticalBasis = bottom
 blocks.copyright.horizontalBasis = right
