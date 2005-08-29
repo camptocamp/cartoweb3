@@ -25,6 +25,40 @@
 
 #include "dijkstra.h"
 
+// --------------------------------------------------------------------------------
+
+/*
+ * Define this to have profiling enabled
+ */
+//#define PROFILE
+
+#ifdef PROFILE
+#include <sys/time.h>
+
+struct timeval prof_dijkstra, prof_store, prof_extract, prof_total;
+long proftime[5];
+long profipts1, profipts2, profopts;
+#define profstart(x) do { gettimeofday(&x, NULL); } while (0);
+#define profstop(n, x) do { struct timeval _profstop;	\
+	long _proftime;				\
+	gettimeofday(&_profstop, NULL);				\
+	_proftime = ( _profstop.tv_sec*1000000+_profstop.tv_usec) -	\
+		( x.tv_sec*1000000+x.tv_usec); \
+	elog(NOTICE, \
+		"PRF(%s) %lu (%f ms)", \
+		(n), \
+	     _proftime, _proftime / 1000.0);	\
+	} while (0);
+
+#else
+
+#define profstart(x) do { } while (0);
+#define profstop(n, x) do { } while (0);
+
+#endif // PROFILE
+
+// --------------------------------------------------------------------------------
+
 Datum shortest_path(PG_FUNCTION_ARGS);
 
 #undef DEBUG
@@ -229,9 +263,16 @@ static int compute_shortest_path(char* sql, int start_vertex, int end_vertex, bo
 
     DBG("Calling boost_dijkstra\n");
         
+    profstop("extract", prof_extract);
+    profstart(prof_dijkstra);
+
     ret = boost_dijkstra(edges, total_tuples, start_vertex, end_vertex,
 			 directed, has_reverse_cost,
                          path, path_count, &err_msg);
+
+    profstop("dijkstra", prof_dijkstra);
+    profstart(prof_store);
+
     if (ret < 0)
     {
         elog(ERROR, "Error computing path: %s", err_msg);
@@ -266,6 +307,10 @@ shortest_path(PG_FUNCTION_ARGS)
 	int path_count;
 	int ret;
 
+	// XXX profiling messages are not thread safe
+        profstart(prof_total);
+        profstart(prof_extract);
+
         /* create a function context for cross-call persistence */
         funcctx = SRF_FIRSTCALL_INIT();
 
@@ -278,6 +323,7 @@ shortest_path(PG_FUNCTION_ARGS)
 				    PG_GETARG_INT32(2),
 				    PG_GETARG_BOOL(3),
 				    PG_GETARG_BOOL(4), &path, &path_count);
+
 #ifdef DEBUG
 	DBG("Ret is %i", ret);
 	if (ret >= 0) 
@@ -341,6 +387,11 @@ shortest_path(PG_FUNCTION_ARGS)
     }
     else    /* do when there is no more left */
     {
+        profstop("store", prof_store);
+        profstop("total", prof_total);
+#ifdef PROFILE
+	elog(NOTICE, "_________");
+#endif
         SRF_RETURN_DONE(funcctx);
     }
 }
