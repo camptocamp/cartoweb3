@@ -127,6 +127,16 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
       see <filename>/client/ClientPlugin.php</filename> and 
       <filename>/server/ServerPlugin.php</filename> files or take a look at the 
       &cartoweb; PHP API documentation. </para>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/plugins_medium.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>Diagram of &cartoweb; plugins interfaces and methods calls</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
   </sect2>
   <sect2 id="dev.newplugin.writing.checklist">
     <title>Plugin Creation Check-List</title>
