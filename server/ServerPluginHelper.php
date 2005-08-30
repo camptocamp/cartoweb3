@@ -103,7 +103,7 @@ class ClientResponderHelper extends ServerPluginHelper {
      *
      * Helper method only. This won't call plugin.
      */
-    final function setRequestHelper($plugin, $request) { 
+    final public function setRequestHelper($plugin, $request) { 
         $plugin->overriddenRequest = $request;
     }
 
@@ -112,7 +112,7 @@ class ClientResponderHelper extends ServerPluginHelper {
      *
      * Helper method only. This won't call plugin.
      */
-    final function overrideRequestHelper($plugin, $mapRequest) {
+    final public function overrideRequestHelper($plugin, $mapRequest) {
         if ($plugin->overriddenRequest) {
             $requestName = $plugin->getName() . 'Request';        
             $mapRequest->$requestName = $plugin->overriddenRequest;          

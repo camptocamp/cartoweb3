@@ -103,7 +103,7 @@ class ToolProviderHelper extends ClientPluginHelper {
      * @param ClientPlugin plugin
      * @return array array of {@link ToolDescription}
      */
-    final function getToolsHelper($plugin) {
+    final public function getToolsHelper($plugin) {
 
         $tools = $plugin->getTools();
         $result = array();
@@ -130,7 +130,7 @@ class SessionableHelper extends ClientPluginHelper {
      * {@link Sessionable::loadSession()}
      * @param ClientPlugin plugin
      */
-    final function loadSessionHelper($plugin) {
+    final public function loadSessionHelper($plugin) {
         
         $cartoclient = $plugin->getCartoclient();        
         $clientSession = $cartoclient->getClientSession();
@@ -155,7 +155,7 @@ class SessionableHelper extends ClientPluginHelper {
      * Gets plugin's session data and save it
      * @param ClientPlugin plugin
      */
-    final function saveSessionHelper($plugin) {
+    final public function saveSessionHelper($plugin) {
 
         $cartoclient = $plugin->getCartoclient();
         $className = get_class($plugin);
@@ -201,7 +201,7 @@ class InitUserHelper extends ClientPluginHelper {
      * @param ClientPlugin plugin
      * @param MapInfo MapInfo
      */
-    final function handleInitHelper($plugin, $mapInfo) {
+    final public function handleInitHelper($plugin, $mapInfo) {
 
         $pluginInit = $this->unserializeInit($plugin, $mapInfo);
         
@@ -222,7 +222,7 @@ class ServerCallerHelper extends ClientPluginHelper {
      * @param ClientPlugin plugin
      * @param MapRequest
      */
-    final function buildRequestHelper($plugin, $mapRequest) {
+    final public function buildRequestHelper($plugin, $mapRequest) {
         
         $pluginRequest = $plugin->buildRequest();
         if ($pluginRequest) {
@@ -236,7 +236,7 @@ class ServerCallerHelper extends ClientPluginHelper {
      *
      * Helper method only. This won't call plugin.
      */
-    final function setRequestHelper($plugin, $request) {
+    final public function setRequestHelper($plugin, $request) {
         $plugin->overriddenRequest = $request;
     }
 
@@ -245,7 +245,7 @@ class ServerCallerHelper extends ClientPluginHelper {
      *
      * Helper method only. This won't call plugin.
      */
-    final function overrideRequestHelper($plugin, $mapRequest) {
+    final public function overrideRequestHelper($plugin, $mapRequest) {
         if ($plugin->overriddenRequest) {
             $requestName = $plugin->getName() . 'Request';        
             $mapRequest->$requestName = $plugin->overriddenRequest;
@@ -258,7 +258,7 @@ class ServerCallerHelper extends ClientPluginHelper {
      * @param ClientPlugin plugin
      * @param MapResult complete MapResult
      */
-    final function initializeResultHelper($plugin, $mapResult) {
+    final public function initializeResultHelper($plugin, $mapResult) {
         
         $pluginResult = $plugin->getRequest(false, $mapResult);
         
@@ -271,7 +271,7 @@ class ServerCallerHelper extends ClientPluginHelper {
      * @param ClientPlugin plugin
      * @param MapResult complete MapResult
      */
-    final function handleResultHelper($plugin, $mapResult) {
+    final public function handleResultHelper($plugin, $mapResult) {
         
         $pluginResult = $plugin->getRequest(false, $mapResult);
         
