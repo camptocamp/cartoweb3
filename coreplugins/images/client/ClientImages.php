@@ -271,10 +271,11 @@ class ClientImages extends ClientPlugin
      * @param boolean True to make URL XHTML-compliant
      * @return string The URL to the image, as put inside the html template
      */
-    private function getImageUrl($path, $useXhtml = true) {
+    private function getImageUrl($path, $useXhtml = true, $forceAbsolute = false) {
 
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
-        return $resourceHandler->getFinalUrl($path, false, false, $useXhtml);
+        return $resourceHandler->getFinalUrl($path, false, $forceAbsolute,
+                                             $useXhtml);
     }
 
     /**
@@ -408,7 +409,7 @@ class ClientImages extends ClientPlugin
         }
         
         $mapPath = $this->getImageUrl($this->imagesResult->mainmap->path,
-                                        false);
+                                        false, true);
         $infos = getimagesize($mapPath);
         $type = !empty($infos[2]) ? $infos[2] : IMAGETYPE_JPEG;
         $mime = image_type_to_mime_type($type);
