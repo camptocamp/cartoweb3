@@ -401,7 +401,6 @@ class ClientImages extends ClientPlugin
 
     /**
      * Outputs raw mainmap image.
-     * @return boolean true if success.
      */
     public function outputMainmap() {
         if (empty($this->imagesResult)) {
@@ -409,14 +408,16 @@ class ClientImages extends ClientPlugin
         }
         
         $mapPath = $this->getImageUrl($this->imagesResult->mainmap->path,
-                                        false, true);
+                                      false, true);
         $infos = getimagesize($mapPath);
-        $type = !empty($infos[2]) ? $infos[2] : IMAGETYPE_JPEG;
-        $mime = image_type_to_mime_type($type);
+        $mime = !empty($infos['mime']) ? $infos['mime'] : '';
+        if (!$mime) {
+            $type = !empty($infos[2]) ? $infos[2] : IMAGETYPE_JPEG;
+            $mime = image_type_to_mime_type($type);
+        }
         
         header('Content-type: ' . $mime);
-        return (bool)readfile($mapPath);
-        //echo file_get_contents($mapPath);
+        echo file_get_contents($mapPath);
     }
 }
 
