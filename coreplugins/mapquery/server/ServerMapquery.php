@@ -86,7 +86,12 @@ class ServerMapquery extends ServerPlugin {
      * @return boolean
      */ 
     private function isDatabaseLayer($msLayer) {
-        return $msLayer->connectiontype == MS_POSTGIS;
+        switch ($msLayer->connectiontype) {
+            case MS_POSTGIS:
+            case MS_ORACLESPATIAL:
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -191,7 +196,7 @@ class ServerMapquery extends ServerPlugin {
      */
     private function checkImplementedConnectionTypes($msLayer) {
     
-        $implementedConnectionTypes = array(MS_SHAPEFILE, MS_POSTGIS);
+        $implementedConnectionTypes = array(MS_SHAPEFILE, MS_POSTGIS, MS_ORACLESPATIAL);
         
         if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
             return;
