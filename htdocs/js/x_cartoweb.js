@@ -578,3 +578,13 @@ function xOffsetTop(e)
   if (xDef(e.offsetTop)) return e.offsetTop;
   else return 0;
 }
+
+function xZIndex(e,uZ)
+{
+  if(!(e=xGetElementById(e))) return 0;
+  if(e.style && xDef(e.style.zIndex)) {
+    if(xNum(uZ)) e.style.zIndex=uZ;
+    uZ=parseInt(e.style.zIndex);
+  }
+  return uZ;
+}
