@@ -61,7 +61,7 @@ initialMapStateId = default
 
 ; Indicates which tool is activated when in initial state. 
 ; If not specified, the first tool in the toolbar is activated. 
-; Possible values are : zoom_in, zoom_out, pan, query, distance, surface
+; Possible values are : zoomin, zoomout, pan, query, distance, surface
 initialTool = zoomin
 
 ;## Project handling configuration ##
