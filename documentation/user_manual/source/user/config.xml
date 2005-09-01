@@ -115,7 +115,7 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
       <listitem>
         <para> initialTool: indicates which tool is activated when in initial 
           state. If not specified, the first tool in the toolbar is activated. 
-          Possible values are: zoom_in, zoom_out, pan, query, distance, 
+          Possible values are: zoomin, zoomout, pan, query, distance, 
           surface. </para>
       </listitem>
     </itemizedlist>
