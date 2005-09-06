@@ -543,6 +543,11 @@ function fetchCartoWeb() {
 
 function fetchProjects() {
 
+    /* The two types of project CVS layout:
+     * type 1) [cvs module]projectname/cartoweb3/projects/projectname/
+     * type 2) [cvs module]projectname/
+     */
+
     global $OPTIONS;
     if (isset($OPTIONS['fetch-project-cvs'])) {
     
@@ -557,9 +562,12 @@ function fetchProjects() {
             $cvsRoot = getCvsRoot();
             execWrapper("cd projects ; cvs -d $cvsRoot co $project 2>&1");
 
-            execWrapper("mv projects/$project projects/{$project}.tmp");
-            execWrapper("mv projects/{$project}.tmp/cartoweb3/projects/$project projects");
-            rmdirr("projects/{$project}.tmp");
+            if (file_exists("projects/$project/cartoweb3")) {
+                // type 1
+                execWrapper("mv projects/$project projects/{$project}.tmp");
+                execWrapper("mv projects/{$project}.tmp/cartoweb3/projects/$project projects");
+                rmdirr("projects/{$project}.tmp");
+            }
         }
     }
 
@@ -576,7 +584,13 @@ function fetchProjects() {
                 throw new InstallException("Source directory $directory not found");
             info("Copying project from $directory to cartoweb3/projects");
 
-            copyr("$directory/cartoweb3/projects/$project", "projects/$project");
+            if (file_exists("$directory/cartoweb3")) 
+                // type 1
+                copyr("$directory/cartoweb3/projects/$project", "projects/$project");
+            else 
+                // type 2
+                copyr("$directory", "projects/$project");
+
         }
     }
     
