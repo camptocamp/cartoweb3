@@ -26,7 +26,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 
 /**
  * Unit tests for class Serializable
@@ -227,7 +227,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $structRoot->objMap = array ('obj2' => $structObj2, 'obj3' => $structObj3);
         
         // Property testClass exists, so unserializeObject knows the class
-        $testObj = Serializable::unserializeObject($structRoot);
+        $testObj = CwSerializable::unserializeObject($structRoot);
 
         $this->assertEquals('SerializableTestClass1', get_class($testObj));
         $this->assertEquals('SerializableTestClass2', get_class($testObj->obj));
@@ -241,11 +241,11 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
 }
 
 /**
- * Test class used to test abstract class Serializable (all types of attribute)
+ * Test class used to test abstract class CwSerializable (all types of attribute)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class SerializableTestClass1 extends Serializable {
+class SerializableTestClass1 extends CwSerializable {
     
     /**
      * @var string
@@ -287,7 +287,7 @@ class SerializableTestClass1 extends Serializable {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->str       = self::unserializeValue($struct, 'str');
@@ -300,11 +300,11 @@ class SerializableTestClass1 extends Serializable {
 }
 
 /**
- * Test class used to test abstract class Serializable (simple)
+ * Test class used to test abstract class CwSerializable (simple)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class SerializableTestClass2 extends Serializable {
+class SerializableTestClass2 extends CwSerializable {
     
     /**
      * @var int
@@ -312,7 +312,7 @@ class SerializableTestClass2 extends Serializable {
     public $integer;
      
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->integer = (int)$struct->integer;

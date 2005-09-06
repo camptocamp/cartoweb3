@@ -180,7 +180,7 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       <parameter>general.importRemotePng</parameter> (boolean): if true, remote PNG files (gathered using a URL) are copied in a local directory before being included in the PDF document. This option is recommended when using <parameter>urlProvider = Miniproxy</parameter> in &cartoserver; settings and/or physically separated &cartoclient; and &cartoserver; (See <xref linkend="user.config"/>).
+       <parameter>general.importRemotePng</parameter> (boolean): if true, remote PNG files (gathered using a URL) are copied in a local directory before being included in the PDF document. This option is recommended when using physically separated &cartoclient; and &cartoserver; (See <xref linkend="user.config"/>).
       </para>
      </listitem>
     </itemizedlist>

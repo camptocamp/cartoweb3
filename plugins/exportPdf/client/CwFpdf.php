@@ -22,7 +22,7 @@
  * @version $Id$
  */
 
-define('FPDF_FONTPATH', CARTOCLIENT_HOME . 'include/fpdf/font/');
+define('FPDF_FONTPATH', CARTOWEB_HOME . 'include/fpdf/font/');
 require_once 'fpdf/fpdf.php';
 
 /**
@@ -840,7 +840,7 @@ class CwFpdf implements PdfWriter {
                 $filename = basename($file);
             }
             
-            $filename = CARTOCOMMON_HOME . 'www-data/pdf_cache/' . $filename;
+            $filename = CARTOWEB_HOME . 'www-data/pdf_cache/' . $filename;
             
             // if not in cache, write it
             if (!is_readable($filename)) {

@@ -9,13 +9,12 @@
  */
 @include_once('client_debug.php');
 
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array('client' => true, 'apd' => true));
 
-require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
+require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
 $cartoclient = new Cartoclient();
 

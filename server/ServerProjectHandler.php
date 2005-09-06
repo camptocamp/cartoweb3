@@ -24,7 +24,7 @@
 /**
  * Project handler
  */
-require_once(CARTOSERVER_HOME . 'common/ProjectHandler.php');
+require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
  * Project handler for the server
@@ -58,7 +58,7 @@ class ServerProjectHandler extends ProjectHandler {
      * @return string
      */
     public function getRootPath() {
-        return CARTOSERVER_HOME;
+        return CARTOWEB_HOME;
     }
     
     /**

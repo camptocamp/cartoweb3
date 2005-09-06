@@ -7,7 +7,7 @@
 /**
  * @package Tests
  */
-class ProjectpluginRequest extends Serializable {
+class ProjectpluginRequest extends CwSerializable {
     public $message;
 
     public function unserialize($struct) {
@@ -18,7 +18,7 @@ class ProjectpluginRequest extends Serializable {
 /**
  * @package Tests
  */
-class ProjectpluginResult extends Serializable {
+class ProjectpluginResult extends CwSerializable {
     public $shuffledMessage;
 
     public function unserialize($struct) {
@@ -29,7 +29,7 @@ class ProjectpluginResult extends Serializable {
 /**
  * @package Tests
  */
-class ProjectpluginInit extends Serializable {
+class ProjectpluginInit extends CwSerializable {
     public $initMessage;
 
     public function unserialize($struct) {

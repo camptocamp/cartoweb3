@@ -27,9 +27,9 @@
 require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
-require_once(CARTOCOMMON_HOME . 'coreplugins/query/common/Query.php');
-require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
-require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+require_once(CARTOWEB_HOME . 'coreplugins/query/common/Query.php');
+require_once(CARTOWEB_HOME . 'coreplugins/layers/common/Layers.php');
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit test for server query plugin via webservice. 

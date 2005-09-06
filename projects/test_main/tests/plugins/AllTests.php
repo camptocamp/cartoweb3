@@ -29,9 +29,9 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All plugins tests
  */
-require_once(CARTOCOMMON_HOME . 'projects/test_main/tests/plugins/outline/server/RemoteServerOutlineTest.php');
+require_once(CARTOWEB_HOME . 'projects/test_main/tests/plugins/outline/server/RemoteServerOutlineTest.php');
 // Please convert the RemoteServerSelectionTest test to use the new query plugin
-// require_once(CARTOCOMMON_HOME . 'projects/test_main/tests/plugins/selection/server/RemoteServerSelectionTest.php');
+// require_once(CARTOWEB_HOME . 'projects/test_main/tests/plugins/selection/server/RemoteServerSelectionTest.php');
 
 /**
  * @package Tests

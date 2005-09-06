@@ -19,19 +19,19 @@
 /**
  * Common home dir
  */
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 /**
  * Server home dir
  */
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array());
 
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
-require_once(CARTOCOMMON_HOME . 'common/Request.php');
-require_once(CARTOSERVER_HOME . 'coreplugins/images/common/Images.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
+require_once(CARTOWEB_HOME . 'common/Request.php');
+require_once(CARTOWEB_HOME . 'coreplugins/images/common/Images.php');
 
 
 if ($_SERVER['argc'] < 2 || $_SERVER['argc'] > 3) {
@@ -45,7 +45,7 @@ if ($_SERVER['argc'] < 2 || $_SERVER['argc'] > 3) {
 }
     
 // Deletes old and empty map results
-$resultCachedir = CARTOSERVER_HOME . 'www-data/mapresult_cache';
+$resultCachedir = CARTOWEB_HOME . 'www-data/mapresult_cache';
 $resultFiles = scandir($resultCachedir);
 
 foreach ($resultFiles as $filename) {
@@ -58,7 +58,7 @@ foreach ($resultFiles as $filename) {
 }
 
 // Deletes old and empty SOAP XMLs
-$soapCachedir = CARTOSERVER_HOME . 'www-data/soapxml_cache';
+$soapCachedir = CARTOWEB_HOME . 'www-data/soapxml_cache';
 $soapFiles = scandir($soapCachedir);
 
 foreach ($soapFiles as $filename) {
@@ -73,7 +73,7 @@ foreach ($soapFiles as $filename) {
 $results = loadMapResults($resultCachedir);
 $soapXMLs = loadSoapXMLs($soapCachedir);
 
-$imageCachedir = CARTOSERVER_HOME . 'www-data/images';
+$imageCachedir = CARTOWEB_HOME . 'htdocs/generated/images';
 $imageFiles = scandir($imageCachedir);
 
 foreach ($imageFiles as $filename) {

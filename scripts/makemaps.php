@@ -1,4 +1,3 @@
-#!/usr/local/bin/php
 <?php
 /**
  * makemaps.php - generates map files when auto layers mode is on
@@ -10,14 +9,16 @@
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOSERVER_HOME . 'scripts/pot_tools.php');
+require_once(CARTOWEB_HOME . 'scripts/pot_tools.php');
+if (!defined('CW3_SETUP_INCLUDED'))
+    require_once(CARTOWEB_HOME . 'cw3setup.php');
 
 /**
  * Project handler class for constants
  */
-require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 $autoIndexes = array();
 $switchLayers = array();
@@ -121,7 +122,7 @@ function makeMapIdMaps($project, $mapId) {
 
     global $globalSwitch, $switchLayers, $allLayers, $autoIndexes, $rootDir;
 
-    $rootDir = CARTOSERVER_HOME . ProjectHandler::PROJECT_DIR . '/' . 
+    $rootDir = CARTOWEB_HOME . ProjectHandler::PROJECT_DIR . '/' . 
                     $project . '/' . 'server_conf/' . $mapId . '/';
     
     if (!file_exists($rootDir . $mapId . '.map.php')) {

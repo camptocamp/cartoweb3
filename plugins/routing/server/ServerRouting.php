@@ -289,17 +289,17 @@ class ServerGeotoolsRouting extends ServerRouting {
         $projectHandler = $config->projectHandler;
         $projectRouting = "";
         if ($projectHandler->isProjectFile("plugins/routing/server/routing.jar")) {
-            $projectRouting = CARTOSERVER_HOME
+            $projectRouting = CARTOWEB_HOME
                               . $projectHandler->getPath("plugins/routing/server/routing.jar")
                               . ";";
         }
 
-        java_set_library_path($projectRouting . CARTOSERVER_HOME . "plugins/routing/server/routing.jar;" .
-                              CARTOSERVER_HOME . "include/geotools/module/gt2-main.jar;" .
-                              CARTOSERVER_HOME . "include/geotools/plugin/shapefile/gt2-shapefile.jar;" .
-                              CARTOSERVER_HOME . "include/geotools/shared/JTS-1.4.jar;" .
-                              CARTOSERVER_HOME . "include/geotools/shared/geoapi-20050118.jar;" .
-                              CARTOSERVER_HOME . "include/geotools/extension/graph/gt2-graph.jar");
+        java_set_library_path($projectRouting . CARTOWEB_HOME . "plugins/routing/server/routing.jar;" .
+                              CARTOWEB_HOME . "include/geotools/module/gt2-main.jar;" .
+                              CARTOWEB_HOME . "include/geotools/plugin/shapefile/gt2-shapefile.jar;" .
+                              CARTOWEB_HOME . "include/geotools/shared/JTS-1.4.jar;" .
+                              CARTOWEB_HOME . "include/geotools/shared/geoapi-20050118.jar;" .
+                              CARTOWEB_HOME . "include/geotools/extension/graph/gt2-graph.jar");
 
         try { 
             $javaParameters = new Java("java.util.HashMap");
@@ -311,8 +311,8 @@ class ServerGeotoolsRouting extends ServerRouting {
                                                $node2,
                                                $javaParameters,
                                                $config->routingDataType,
-                                               "file://" . CARTOSERVER_HOME . $config->routingNodesSource,
-                                               "file://" . CARTOSERVER_HOME . $config->routingEdgesSource);
+                                               "file://" . CARTOWEB_HOME . $config->routingNodesSource,
+                                               "file://" . CARTOWEB_HOME . $config->routingEdgesSource);
 
             $steps = $this->convertSteps($javaPath);
             $routingResult = new RoutingResult();

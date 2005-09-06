@@ -24,7 +24,7 @@
 /**
  * Basic types
  */
-require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
 /**
  * Log4php

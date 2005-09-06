@@ -26,14 +26,12 @@
 /**
  * Root directory for client scripts
  */
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
-define('CARTOSERVER_HOME', CARTOCLIENT_HOME);
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 // clears include_path, to prevent side effects
 ini_set('include_path', '');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array());
 
 // This global tell the cartoclient not to output header or start sesssion. 
@@ -41,7 +39,7 @@ Common::preInitializeCartoweb(array());
 $GLOBALS['headless']=true;
  
 set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOCLIENT_HOME . 'tests/');
+                 CARTOWEB_HOME . 'tests/');
 
 require 'PHPUnit2/TextUI/TestRunner.php';
 ?>

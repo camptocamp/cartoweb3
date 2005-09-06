@@ -26,8 +26,8 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/Utils.php');
-require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
+require_once(CARTOWEB_HOME . 'common/Utils.php');
+require_once(CARTOWEB_HOME . 'common/SecurityManager.php');
 
 /**
  * Security container with hard coded users, passwords and roles, for testing.

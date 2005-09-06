@@ -140,7 +140,7 @@ class PrintTools {
     static private function getFileContent($info) {
         $filename = $info[1];
         if (self::isRelativePath($filename)) {
-            $filename = CARTOCLIENT_HOME . $filename;
+            $filename = CARTOWEB_HOME . $filename;
         }
      
         if (!is_readable($filename)) {

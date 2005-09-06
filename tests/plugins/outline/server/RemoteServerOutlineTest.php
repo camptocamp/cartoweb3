@@ -27,8 +27,8 @@
 require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
-require_once(CARTOCOMMON_HOME . 'plugins/outline/common/Outline.php');
-require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+require_once(CARTOWEB_HOME . 'plugins/outline/common/Outline.php');
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit test for server outline plugin via webservice. 

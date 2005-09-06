@@ -75,7 +75,7 @@ class I18n {
         
         self::setLocale($config->defaultLang);
 
-        self::$i18n->bindtextdomain($config->mapId, CARTOCLIENT_HOME . 'locale/');
+        self::$i18n->bindtextdomain($config->mapId, CARTOWEB_HOME . 'locale/');
         
         self::$i18n->textdomain($config->mapId);
     }
@@ -95,7 +95,7 @@ class I18n {
             $authLang = array_map('trim', $authLang);
            
         // Looks in directory locale
-        $dir = CARTOCLIENT_HOME . 'locale/';
+        $dir = CARTOWEB_HOME . 'locale/';
         $d = dir($dir);
         $locales = array();
         while (false !== ($entry = $d->read())) {

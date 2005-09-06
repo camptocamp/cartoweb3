@@ -8,18 +8,20 @@
 /**
  * Home dirs
  */ 
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_PODIR', 'po/');
+if (!defined('CARTOWEB_HOME'))
+    define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+if (!defined('CARTOCOMMON_PODIR'))
+    define('CARTOCOMMON_PODIR', 'po/');
 
 /**
  * Encoding class for charset
  */
-require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
+require_once(CARTOWEB_HOME . 'common/Encoding.php');
 
 /**
  * Project handler class for constants
  */
-require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
  * Finds charset in client.ini
@@ -29,8 +31,8 @@ require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
 function getCharset($type, $project) {
     
     $class = null;
-    $iniFile = CARTOCOMMON_HOME;
-    $projectIniFile = CARTOCOMMON_HOME;
+    $iniFile = CARTOWEB_HOME;
+    $projectIniFile = CARTOWEB_HOME;
     if (!is_null($project)) {
         $projectIniFile .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
@@ -63,7 +65,7 @@ function getCharset($type, $project) {
 function getProjects($projectname = false) {
 
     $projects = array();
-    $dir = CARTOCOMMON_HOME . ProjectHandler::PROJECT_DIR . '/';
+    $dir = CARTOWEB_HOME . ProjectHandler::PROJECT_DIR . '/';
     $d = dir($dir);
     while (false !== ($entry = $d->read())) {
         if (is_dir($dir . $entry) && $entry != '.'
@@ -91,7 +93,7 @@ function getProjects($projectname = false) {
 function getMapIds($project) {
     
     $mapIds = array();
-    $dir = CARTOCOMMON_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -126,7 +128,7 @@ $exclude_dirs = array('pear_base', 'include', 'www-data',
 function addPhpStrings($type, $path, $poTemplate, $project) {
     global $exclude_dirs;
     
-    $dir = CARTOCOMMON_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -185,7 +187,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
 function getTranslatedPo($type, $project) {
     
     $files = array();
-    $dir = CARTOCOMMON_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }

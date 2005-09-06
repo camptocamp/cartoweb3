@@ -419,9 +419,9 @@ abstract class ExportPlugin extends ClientPlugin
      * @return string The export script path
      */
     public function getExportScriptPath() {
-        $urlProvider = $this->cartoclient->getResourceHandler()->getUrlProvider();
         $project = $this->getCartoclient()->getProjectHandler()->getProjectName();
-        return $urlProvider->getHtdocsUrl($this->getName(), $project, 'export.php');
+        return $this->cartoclient->getResourceHandler()->
+                        getHtdocsUrl($this->getName(), $project, 'export.php');
     }
     
     /**

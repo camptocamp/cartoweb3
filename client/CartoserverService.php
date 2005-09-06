@@ -22,7 +22,7 @@
  */
  
 require_once('log4php/LoggerManager.php');
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 
 /**
  * This class extends SoapFault and adds a toString() method.
@@ -95,7 +95,7 @@ class CartoserverService {
         if (isset($this->config->cartoserverHome))
             $cartoserverHome = $this->config->cartoserverHome;
         else
-            $cartoserverHome = CARTOCLIENT_HOME;
+            $cartoserverHome = CARTOWEB_HOME;
 
         require_once($cartoserverHome . 'server/Cartoserver.php');
 
@@ -199,7 +199,7 @@ class CartoserverService {
                                     'getMap' => 'MapResult');
             if (array_key_exists($function, $unserializeMap)) {
                 $targetType = $unserializeMap[$function];
-                $mapResult = Serializable::unserializeObject($mapResult, 
+                $mapResult = CwSerializable::unserializeObject($mapResult, 
                                                             NULL, $targetType);
             }
         }

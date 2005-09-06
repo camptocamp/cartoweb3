@@ -7,13 +7,13 @@
 /**
  * @package Tests
  */
-class ProjectLocationRequest extends Serializable {
+class ProjectLocationRequest extends CwSerializable {
 
     public $locationRequest;
     public $projectRequest;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
 
@@ -25,13 +25,13 @@ class ProjectLocationRequest extends Serializable {
 /**
  * @package Tests
  */
-class ProjectLocationResult extends Serializable {
+class ProjectLocationResult extends CwSerializable {
 
     public $locationResult;
     public $projectResult;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         

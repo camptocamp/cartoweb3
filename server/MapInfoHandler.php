@@ -21,7 +21,7 @@
  * @version $Id$
  */
 
-require_once(CARTOSERVER_HOME . 'server/ServerMapInfoCache.php');
+require_once(CARTOWEB_HOME . 'server/ServerMapInfoCache.php');
 
 /**
  * This class constructs the MapInfo structure. It will use the MapInfo cache

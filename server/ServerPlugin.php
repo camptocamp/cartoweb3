@@ -20,7 +20,7 @@
  * @package Server
  * @version $Id$
  */
-require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
+require_once(CARTOWEB_HOME . 'common/PluginBase.php');
 
 /**
  * @package Server

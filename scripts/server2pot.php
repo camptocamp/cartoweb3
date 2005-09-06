@@ -15,7 +15,7 @@
 /**
  * Home dirs
  */
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOSERVER_PODIR', 'po/');
 
 require_once('./pot_tools.php');
@@ -36,7 +36,7 @@ if (isset($argv[1])) {
  */
 function parseIni($project, $mapId, &$texts) {
 
-    $iniPath = CARTOSERVER_HOME;
+    $iniPath = CARTOWEB_HOME;
     if (!is_null($project)) {
         $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
@@ -92,7 +92,7 @@ function dummyErrorHandler($errno, $errmsg, $filename, $linenum, $vars) {}
  */
 function parseMap($project, $mapId, &$texts) {
 
-    $mapFileDir = CARTOSERVER_HOME;
+    $mapFileDir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $mapFileDir .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
@@ -156,7 +156,7 @@ function parseMap($project, $mapId, &$texts) {
 function getTranslatedMapIdPo($project, $mapId) {
     
     $files = array();
-    $dir = CARTOSERVER_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -182,7 +182,7 @@ $projects[] = null;
 foreach ($projects as $project) {
 
     $fileName = 'server.po';
-    $dir = CARTOSERVER_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -213,7 +213,7 @@ foreach ($projects as $project) {
     print ".. done.\n";
 
     print "Adding strings from PHP code for project $project ";
-    addPhpStrings('server', CARTOSERVER_HOME,
+    addPhpStrings('server', CARTOWEB_HOME,
                   $dir . CARTOSERVER_PODIR . $fileName, $project);
     print ".. done.\n";        
 

@@ -23,13 +23,13 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 
 /**
  * An Image
  * @package CorePlugins
  */
-class Image extends Serializable {
+class Image extends CwSerializable {
 
     /**
      * True is this image has to be drawn by server (request) or is drawn (results)
@@ -58,7 +58,7 @@ class Image extends Serializable {
     public $width;
         
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->isDrawn = self::unserializeValue($struct, 'isDrawn', 'boolean'); 
@@ -74,7 +74,7 @@ class Image extends Serializable {
  * images used during a map display.
  * @package CorePlugins
  */
-class Images extends Serializable {
+class Images extends CwSerializable {
 
     /**
      * Main map
@@ -95,7 +95,7 @@ class Images extends Serializable {
     public $scalebar;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->mainmap  = self::unserializeObject($struct, 'mainmap', 'Image');

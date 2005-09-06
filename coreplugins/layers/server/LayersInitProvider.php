@@ -119,15 +119,15 @@ class LayersInitProvider implements InitProvider {
      */
     private function getIconUrl($icon, $generated = false) {
 
-        $urlProvider = $this->serverContext->getResourceHandler()
-                                    ->getUrlProvider();
+        $resourceHandler = $this->serverContext->getResourceHandler();
+
         if ($generated) {
-            return $urlProvider->getGeneratedUrl($icon);
+            return $resourceHandler->getGeneratedUrl($icon);
         } else {
             $project = $this->projectHandler->getProjectName();
             $mapId = $this->projectHandler->getMapName();
             
-            return $urlProvider->getIconUrl($project, $mapId, $icon);
+            return $resourceHandler->getIconUrl($project, $mapId, $icon);
         }
     }
 
@@ -152,7 +152,7 @@ class LayersInitProvider implements InitProvider {
         $file = $mapName . '.sym';
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . 
                                                                   '/', $file);
-        return $this->symPath = CARTOSERVER_HOME . $path . $file;
+        return $this->symPath = CARTOWEB_HOME . $path . $file;
     }
 
     /**
@@ -189,7 +189,7 @@ class LayersInitProvider implements InitProvider {
      */
     private function getClassIcon($classId, $msMapObj, $msClassObj) {
         
-        $writablePath = $this->serverContext->getConfig()->writablePath;
+        $writablePath = $this->serverContext->getConfig()->webWritablePath;
         $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
         $iconAbsolutePath =  $writablePath . $iconRelativePath;
       

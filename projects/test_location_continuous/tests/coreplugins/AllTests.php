@@ -29,7 +29,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All coreplugins tests
  */
-require_once(CARTOCOMMON_HOME . 'projects/test_location_continuous/tests/coreplugins/location/server/RemoteServerLocationTest.php');
+require_once(CARTOWEB_HOME . 'projects/test_location_continuous/tests/coreplugins/location/server/RemoteServerLocationTest.php');
 
 /**
  * @package Tests

@@ -26,14 +26,14 @@
  */
 require_once 'common/GeographicalAssert.php';
 
-require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
-require_once(CARTOCOMMON_HOME . 'common/Request.php');
-require_once(CARTOCOMMON_HOME . 'coreplugins/images/common/Images.php');
-require_once(CARTOCOMMON_HOME . 'coreplugins/location/common/Location.php');
-require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
-require_once(CARTOCOMMON_HOME . 'common/Message.php');
-require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
+require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Request.php');
+require_once(CARTOWEB_HOME . 'coreplugins/images/common/Images.php');
+require_once(CARTOWEB_HOME . 'coreplugins/location/common/Location.php');
+require_once(CARTOWEB_HOME . 'coreplugins/layers/common/Layers.php');
+require_once(CARTOWEB_HOME . 'common/Message.php');
+require_once(CARTOWEB_HOME . 'common/MapInfo.php');
 
 /**
  * Wrapper against CartoserverService, to use it inside tests.
@@ -119,7 +119,7 @@ abstract class client_CartoserverServiceWrapper extends common_GeographicalAsser
         $config->noWsdlCache = false;
         $config->useWsdl = true;
         $config->cartoserverBaseUrl = $this->getCartoserverBaseUrl();        
-        $config->writablePath = CARTOCLIENT_HOME . '/www-data/';
+        $config->writablePath = CARTOWEB_HOME . '/www-data/';
         $this->assertNotNull($config->cartoserverBaseUrl, 'You need to set cartoserverBaseUrl in client.ini');
         
         if ($direct) {

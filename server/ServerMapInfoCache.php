@@ -21,7 +21,7 @@
  * @version $Id$
  */
 
-require_once(CARTOCOMMON_HOME . 'common/MapInfoCache.php');
+require_once(CARTOWEB_HOME . 'common/MapInfoCache.php');
 
 /**
  * Server side MapInfo cache implementation

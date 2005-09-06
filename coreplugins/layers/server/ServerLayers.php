@@ -21,7 +21,7 @@
  * @version $Id$
  */
 
-require_once(CARTOSERVER_HOME . 'coreplugins/layers/server/LayersInitProvider.php');
+require_once(CARTOWEB_HOME . 'coreplugins/layers/server/LayersInitProvider.php');
 
 /**
  * Server plugin for managing the set of layers to render.

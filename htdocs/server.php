@@ -7,21 +7,20 @@
 /**
  * Root directory for server scripts
  */
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOSERVER_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array('client' => false, 'apd' => true));
 
-require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
-require_once(CARTOSERVER_HOME . 'server/SoapXMLCache.php');
+require_once(CARTOWEB_HOME . 'server/Cartoserver.php');
+require_once(CARTOWEB_HOME . 'server/SoapXMLCache.php');
 
 /**
  * Returns path of saved POST data directory.
  * @return string
  */
 function getSavedPostDir() {
-    return CARTOSERVER_HOME . 'www-data/saved_posts/';
+    return CARTOWEB_HOME . 'www-data/saved_posts/';
 }
 
 /**

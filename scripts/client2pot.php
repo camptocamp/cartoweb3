@@ -19,10 +19,10 @@
 /**
  * Home dirs
  */ 
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', 'po/');
 
-require_once(CARTOCLIENT_HOME . 'scripts/pot_tools.php');
+require_once(CARTOWEB_HOME . 'scripts/pot_tools.php');
 
 // smarty open tag
 $ldq = preg_quote('{');
@@ -75,7 +75,7 @@ function do_file($file, &$texts, &$plurals) {
     
     for ($i = 0; $i < count($matches[0]); $i++) {
         $text = fs($matches[3][$i]);
-        $ref = substr($file, (strlen(CARTOCLIENT_HOME) - strlen($file)));
+        $ref = substr($file, (strlen(CARTOWEB_HOME) - strlen($file)));
         if (array_key_exists($text, $texts)) {
             $texts[$text] .= ',' . $ref;
         } else {
@@ -138,7 +138,7 @@ function do_dir($dir, $project, &$texts, &$plurals) {
  */
 function parseIni($project, &$texts) {
 
-    $iniPath = CARTOCLIENT_HOME;
+    $iniPath = CARTOWEB_HOME;
     if (!is_null($project)) {
         $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
     }
@@ -173,7 +173,7 @@ $projects[] = null;
 
 foreach ($projects as $project) {
 
-    $dir = CARTOCLIENT_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -228,7 +228,7 @@ foreach ($projects as $project) {
         print ".. done.\n";
 
         print "Adding strings from PHP code for project $project ";
-        addPhpStrings('client', CARTOCLIENT_HOME,
+        addPhpStrings('client', CARTOWEB_HOME,
                       $dir . CARTOCLIENT_PODIR . $fileName, $project);
         print ".. done.\n";
              

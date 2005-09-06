@@ -9,13 +9,12 @@ header("Content-Type: text/xml");
 /**
  * Root directory for server scripts
  */
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOSERVER_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array('client' => false));
 
-require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
+require_once(CARTOWEB_HOME . 'server/Cartoserver.php');
 
 /**
  * Returns base URL of Cartoserver SOAP service. 
@@ -63,11 +62,11 @@ function getQueryString($serverConfig) {
 function getWsdlFileContents($name, $projectHandler) {
 
     $pluginFile = 'coreplugins/' . $name . '/common/' . $name . '.wsdl.inc';
-    $pluginFile = CARTOSERVER_HOME
+    $pluginFile = CARTOWEB_HOME
                   . $projectHandler->getPath($pluginFile);           
     if (!file_exists($pluginFile)) {
         $pluginFile = 'plugins/' . $name . '/common/' . $name . '.wsdl.inc';
-        $pluginFile = CARTOSERVER_HOME
+        $pluginFile = CARTOWEB_HOME
                       . $projectHandler->getPath($pluginFile);            
         if (!file_exists($pluginFile)) {
             return NULL;        
@@ -89,7 +88,7 @@ $queryString['mapId'] = $mapId;
 
 $soapAddress .= '/server.php';
 
-$wsdlContent = file_get_contents(CARTOSERVER_HOME . 'server/cartoserver.wsdl');
+$wsdlContent = file_get_contents(CARTOWEB_HOME . 'server/cartoserver.wsdl');
 $soapAddress .= '?' . htmlentities(http_build_query($queryString));
 $wsdlContent = str_replace('{SOAP_ADDRESS}', $soapAddress, $wsdlContent);
 

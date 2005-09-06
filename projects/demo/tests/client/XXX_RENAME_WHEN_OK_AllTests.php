@@ -29,7 +29,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All client tests
  */
-require_once(CARTOCLIENT_HOME . 'projects/demo/tests/client/CartoclientTest.php');
+require_once(CARTOWEB_HOME . 'projects/demo/tests/client/CartoclientTest.php');
 
 /**
  * @package Tests

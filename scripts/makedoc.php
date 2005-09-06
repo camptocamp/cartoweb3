@@ -37,14 +37,13 @@
 // Project  http://sourceforge.net/projects/phpdocu/
 //
 
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array());
 
 set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOCLIENT_HOME . 'include/pear/PhpDocumentor/');
+                 CARTOWEB_HOME . 'include/pear/PhpDocumentor/');
 
 // creates a symlink from pear_base --> ../include/pear_base
 // FIXME: is there a better way to do it ?

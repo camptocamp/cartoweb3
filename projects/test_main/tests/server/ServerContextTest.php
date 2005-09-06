@@ -26,7 +26,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
+require_once(CARTOWEB_HOME . 'server/ServerContext.php');
 
 /**
  * Unit tests for class ServerContext

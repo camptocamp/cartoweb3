@@ -27,10 +27,10 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/Utils.php');
-require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
-require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
-require_once(CARTOCLIENT_HOME . 'plugins/auth/client/ClientAuth.php');
+require_once(CARTOWEB_HOME . 'common/Utils.php');
+require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
+require_once(CARTOWEB_HOME . 'client/ClientPlugin.php');
+require_once(CARTOWEB_HOME . 'plugins/auth/client/ClientAuth.php');
 
 
 class AuthTestClientPluginConfig extends ClientPluginConfig {

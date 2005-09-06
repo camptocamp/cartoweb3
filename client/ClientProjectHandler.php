@@ -24,7 +24,7 @@
 /**
  * Project handler
  */
-require_once(CARTOCLIENT_HOME . 'common/ProjectHandler.php');
+require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
  * Project handler for the client
@@ -64,7 +64,7 @@ class ClientProjectHandler extends ProjectHandler {
      * @see ProjectHandler::getRootPath()
      */
     public function getRootPath() {
-        return CARTOCLIENT_HOME;
+        return CARTOWEB_HOME;
     }
     
     /**
@@ -80,7 +80,7 @@ class ClientProjectHandler extends ProjectHandler {
      */
     public function getProjectName() {
         if ($this->projectName === false) {
-            $projectFileName = CARTOCLIENT_HOME . 'current_project.txt';
+            $projectFileName = CARTOWEB_HOME . 'current_project.txt';
             
             if (array_key_exists(self::PROJECT_REQUEST, $_REQUEST))
                 $this->projectName = $_REQUEST[self::PROJECT_REQUEST];

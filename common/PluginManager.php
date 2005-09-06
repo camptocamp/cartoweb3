@@ -147,13 +147,13 @@ class PluginManager {
      * Returns the relative path to the plugin parent directory. The directory
      * layout is as follow:
      * 
-     * CARTOCOMMON_HOME / relativePath / pluginName / {client,common,server,...}
+     * CARTOWEB_HOME / relativePath / pluginName / {client,common,server,...}
      * 
      */    
     public function getRelativePath($name) {
         
         $pluginPath = $this->projectHandler->getPath('coreplugins/' . $name);
-        $isCorePlugin = is_dir(CARTOCOMMON_HOME . $pluginPath);
+        $isCorePlugin = is_dir(CARTOWEB_HOME . $pluginPath);
         return $isCorePlugin ? 'coreplugins/' : 'plugins/';
     }
     
@@ -330,12 +330,7 @@ class PluginManager {
         if (preg_match('#^(.*)(\/?)([a-z0-9_-]*)(\/?)([a-z0-9_-]*).php$#iU', 
                        $_SERVER['PHP_SELF'],
                        $match)) {
-            if ($match[5] == 'r') {
-                // match for the miniproxy
-                $plugin = $_GET['pl'];
-            } else {
-                $plugin = $match[3];
-            }
+            $plugin = $match[3];
         } else {
             $plugin = false;
         }

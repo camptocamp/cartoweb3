@@ -1,6 +1,6 @@
 <?php
 /**
- * LayerReorder plugin Serializable objects
+ * LayerReorder plugin CwSerializable objects
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 
 
 /**
  * @package Plugins
  */
-class LayerReorderInit extends Serializable {
+class LayerReorderInit extends CwSerializable {
 
     /**
      * @var array array of Layer
@@ -38,7 +38,7 @@ class LayerReorderInit extends Serializable {
     public $layers;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layers = self::unserializeObjectMap($struct, 'layers', 'LayerInit');
@@ -48,7 +48,7 @@ class LayerReorderInit extends Serializable {
 /**
  * @package Plugins
  */
-class LayerReorderRequest extends Serializable {
+class LayerReorderRequest extends CwSerializable {
 
     /**
      * @var array array of LayerId
@@ -56,7 +56,7 @@ class LayerReorderRequest extends Serializable {
     public $layerIds;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerIds  = self::unserializeArray($struct, 'layerIds');
@@ -66,7 +66,7 @@ class LayerReorderRequest extends Serializable {
 /**
  * @package Plugins
  */
-class LayerInit extends Serializable {
+class LayerInit extends CwSerializable {
     
     /**
      * @var string Layer Id
@@ -79,7 +79,7 @@ class LayerInit extends Serializable {
     public $label;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id = self::unserializeValue($struct, 'id'); 

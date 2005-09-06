@@ -27,11 +27,11 @@
 require_once 'PHPUnit2/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
-require_once(CARTOSERVER_HOME
+require_once(CARTOWEB_HOME
     . 'projects/test_project/coreplugins/projectLocation/common/ProjectLocation.php');
-require_once(CARTOSERVER_HOME
+require_once(CARTOWEB_HOME
     . 'projects/test_project/plugins/projectplugin/common/Projectplugin.php');
-require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
 // FIXME: move this inside test_project
 

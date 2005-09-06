@@ -21,182 +21,18 @@
  */
 
 /**
- * Abstract class for URL provider objects
- * 
- * Extending classes have to provide URL's from a set of parameters in
- * different contexts. For instance, return an URL for accessing files in a
- * plugin htdocs directory.
- * @package Common
- */
-abstract class UrlProvider {
-    /**
-     * The project handler to use for getting current project name
-     * @var ProjectHandler
-     */
-    protected $projectHandler;
-
-    /**
-     * Constructor
-     * @param ProjectHandler
-     */
-    public function __construct(ProjectHandler $projectHandler) {
-        $this->projectHandler = $projectHandler;    
-    }
-
-    /**
-     * Returns the URL for resources in htdocs directory (may be in projects
-     * and plugins)
-     * This is only relevent for client resources.
-     * @param string the plugin name
-     * @param string the project name
-     * @param string the resource to access. It may contain a path, like
-     * css/style.css, or gfx/my_icon.png
-     */
-    public abstract function getHtdocsUrl($plugin, $project, $resource);
-    
-    /**
-     * Returns an URL to access icon images inside icons subdirectory where the
-     * mapfile is located.
-     * This is only relevent for server resources.
-     * @param string the project name
-     * @param string the mapId to use
-     * @param string the resource to access (icon name, without path)
-     */
-    public abstract function getIconUrl($project, $mapId, $resource);
-    
-    /**
-     * Returns an URL to access files inside the directory of generated files
-     * (like generated mapserver images, pdf files, ...)
-     * This can be used for server or client resources.
-     * 
-     * @param string the resource to access (this is the resource name relative
-     * to the directory of generated files (www-data usually))
-     */
-    public abstract function getGeneratedUrl($resource);
-}
-
-/**
- * Url provider for accessing files directly through the web server
- *
- * Such files are thus accessed via the htdocs directory of cartoweb. The files
- * may be put there using symbolic links, or may be copied directly.
- * @package Common
- */
-class SymlinkUrlProvider extends UrlProvider {
-
-    /**
-     * @see UrlProvider::getHtdocsUrl()
-     */
-    public function getHtdocsUrl($plugin, $project, $resource) {
-        
-        $path = $resource;
-        if (!empty($plugin))
-            $path = $plugin . '/' . $resource;
-
-        $pluginPath = '';
-        if (!empty($plugin)) {
-            $pluginPath = $this->projectHandler->getPath('coreplugins/' . $plugin);
-            $isCorePlugin = is_dir(CARTOCOMMON_HOME . $pluginPath);
-            $pluginPath = $isCorePlugin ? 'coreplugins/' . $plugin . '/'
-                                        : 'plugins/' . $plugin . '/';
-        }         
-
-        if ($this->projectHandler->isProjectFile($pluginPath 
-                                                 . 'htdocs/' . $resource)) {
-            return $this->projectHandler->getProjectName() . '/' . $path;
-        } else {
-            return $path;
-        }
-    }
-    
-    /**
-     * @see UrlProvider::getIconUrl()
-     */    
-    public function getIconUrl($project, $mapId, $resource) {
-        
-        return sprintf('gfx/icons/%s/%s/%s', $project, $mapId, $resource);
-    }
-
-    /**
-     * @see UrlProvider::getGeneratedUrl()
-     */
-    public function getGeneratedUrl($resource) {
-
-        return $resource;
-    }
-}
-
-/**
- * Url provider for accessing files through a mini-proxy
- * 
- * This is a php script which reads the requested files directly from
- * filesystem, and returns them to the client.
- * @package Common
- */
-class MiniproxyUrlProvider extends UrlProvider {
-
-    /**
-     * build the final URL to the miniproxy.
-     */
-    private function buildQuery($queryParams, $resource) {
-    
-        $queryParams['r'] = $resource;
-        $query = http_build_query($queryParams);
-        return 'r.php?' . $query;
-    }
-
-    /**
-     * @see UrlProvider::getHtdocsUrl()
-     */
-    public function getHtdocsUrl($plugin, $project, $resource) {
-
-        $queryParams = array();
-        $queryParams['k'] = 'h'; 
-        if (!empty($plugin))
-            $queryParams['pl'] = $plugin;
-        $queryParams['pr'] = $project;
-        
-        $url = $this->buildQuery($queryParams, $resource);
-        return ResourceHandler::convertXhtml($url);
-    }
-
-    /**
-     * @see UrlProvider::getIconUrl()
-     */    
-    public function getIconUrl($project, $mapId, $resource) {
-
-        $queryParams = array();
-        $queryParams['k'] = 'i';
-        $queryParams['pr'] = $project;
-        $queryParams['m'] = $mapId;
-
-        return $this->buildQuery($queryParams, $resource);
-    }
-    
-    /**
-     * @see UrlProvider::getGeneratedUrl()
-     */
-    public function getGeneratedUrl($resource) {
-
-        $queryParams = array();
-        $queryParams['k'] = 'g'; 
-
-        return $this->buildQuery($queryParams, $resource);
-    }  
-}
-
-/**
  * Class to manage resource accesses
  * 
  * It handles the registration of Url provider objects.
  * @package Common
  */
 class ResourceHandler {
+
     /**
-     * The current URL provider to use for generating URL's
-     * @var UrlProvider
+     * The project handler to use for getting current project name
+     * @var ProjectHandler
      */
-    private $urlProvider;
+    protected $projectHandler;
     
     /**
      * True if the client is in direct access mode.
@@ -224,27 +60,13 @@ class ResourceHandler {
      */
     public function __construct(Config $config, ProjectHandler $projectHandler) {
 
-        $provider = 'Miniproxy';
-        if ($config->urlProvider)
-            $provider = $config->urlProvider;
-        $className = $provider . 'UrlProvider';
-        if (!class_exists($className))
-            throw new CartocommonException("Unknown urlProvider named $provider");
+        $this->projectHandler = $projectHandler;    
 
-        $this->urlProvider = new $className($projectHandler);
-        
         if (!class_exists('ClientConfig') || !$config instanceof ClientConfig)
             return;
         $this->directAccess = $config->cartoserverDirectAccess;
         $this->cartoclientBaseUrl = $config->cartoclientBaseUrl;
         $this->cartoserverBaseUrl = $config->cartoserverBaseUrl;
-    }
- 
-    /**
-     * @return UrlProvider the current URL provider to use for getting url's.
-     */
-    public function getUrlProvider() {
-        return $this->urlProvider;   
     }
 
     /**
@@ -312,12 +134,70 @@ class ResourceHandler {
         // FIXME: images on server should return filesystem path, for use in direct 
         //  access mode, so that we can avoid this crude hack !
        
-        if (is_readable(CARTOCOMMON_HOME . 'www-data/' .$relativeUrl))
-            return CARTOCOMMON_HOME . 'www-data/' .$relativeUrl;
-        if (is_readable(CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl))
-            return CARTOCOMMON_HOME . 'htdocs/' .$relativeUrl;
+        if (is_readable(CARTOWEB_HOME . 'www-data/' .$relativeUrl))
+            return CARTOWEB_HOME . 'www-data/' .$relativeUrl;
+        if (is_readable(CARTOWEB_HOME . 'htdocs/' .$relativeUrl))
+            return CARTOWEB_HOME . 'htdocs/' .$relativeUrl;
         return $this->getFinalUrl($relativeUrl, $client, true);        
-    } 
+    }
+
+    /**
+     * Returns the URL for resources in htdocs directory (may be in projects
+     * and plugins)
+     * This is only relevent for client resources.
+     * @param string the plugin name
+     * @param string the project name
+     * @param string the resource to access. It may contain a path, like
+     * css/style.css, or gfx/my_icon.png
+     */
+    public function getHtdocsUrl($plugin, $project, $resource) {
+        
+        $path = $resource;
+        if (!empty($plugin))
+            $path = $plugin . '/' . $resource;
+
+        $pluginPath = '';
+        if (!empty($plugin)) {
+            $pluginPath = $this->projectHandler->getPath('coreplugins/' . $plugin);
+            $isCorePlugin = is_dir(CARTOWEB_HOME . $pluginPath);
+            $pluginPath = $isCorePlugin ? 'coreplugins/' . $plugin . '/'
+                                        : 'plugins/' . $plugin . '/';
+        }         
+
+        if ($this->projectHandler->isProjectFile($pluginPath 
+                                                 . 'htdocs/' . $resource)) {
+            return $this->projectHandler->getProjectName() . '/' . $path;
+        } else {
+            return $path;
+        }
+    }
+      
+    /**
+     * Returns an URL to access icon images inside icons subdirectory where the
+     * mapfile is located.
+     * This is only relevent for server resources.
+     * @param string the project name
+     * @param string the mapId to use
+     * @param string the resource to access (icon name, without path)
+     */
+    public function getIconUrl($project, $mapId, $resource) {
+        
+        return sprintf('gfx/icons/%s/%s/%s', $project, $mapId, $resource);
+    }
+    
+    /**
+     * Returns an URL to access files inside the directory of generated files
+     * (like generated mapserver images, pdf files, ...)
+     * This can be used for server or client resources.
+     * 
+     * @param string the resource to access (this is the resource name relative
+     * to the directory of generated files (www-data usually))
+     */
+    public function getGeneratedUrl($resource) {
+
+        return 'generated/' . $resource;
+    }    
+    
 }
 
 ?>

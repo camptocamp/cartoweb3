@@ -25,7 +25,7 @@
 require_once('Auth/Auth.php');
 require_once('Auth/Container.php');
 
-require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
+require_once(CARTOWEB_HOME . 'common/SecurityManager.php');
 
 /**
  * Security container which reads the usernames, passwords and roles out of a

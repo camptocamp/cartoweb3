@@ -26,8 +26,8 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/Tables.php');
-require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
+require_once(CARTOWEB_HOME . 'coreplugins/tables/common/Tables.php');
+require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
 
 /**
  * Unit tests for Tables plugin

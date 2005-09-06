@@ -24,32 +24,26 @@
 /**
  * Root directory for server scripts
  */
-if (!defined('CARTOSERVER_HOME')) {
-    define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+if (!defined('CARTOWEB_HOME')) {
+    define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 }
 
-/**
- * Root directory for common scripts
- */
-if (!defined('CARTOCOMMON_HOME'))
-    define('CARTOCOMMON_HOME', CARTOSERVER_HOME);
-
-require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
+require_once(CARTOWEB_HOME . 'common/Log4phpInit.php');
 initializeLog4php(false);
     
-require_once(CARTOSERVER_HOME . 'server/MapInfoHandler.php');
+require_once(CARTOWEB_HOME . 'server/MapInfoHandler.php');
 
-require_once(CARTOSERVER_HOME . 'common/Common.php');
-require_once(CARTOSERVER_HOME . 'common/Utils.php');
-require_once(CARTOCOMMON_HOME . 'common/Config.php');
-require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
-require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
-require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Utils.php');
+require_once(CARTOWEB_HOME . 'common/Config.php');
+require_once(CARTOWEB_HOME . 'common/MapInfo.php');
+require_once(CARTOWEB_HOME . 'common/StructHandler.php');
+require_once(CARTOWEB_HOME . 'common/PluginManager.php');
 
-require_once(CARTOSERVER_HOME . 'server/ServerContext.php');
-require_once(CARTOSERVER_HOME . 'server/ServerPlugin.php');
-require_once(CARTOSERVER_HOME . 'server/ServerPluginHelper.php');
-require_once(CARTOSERVER_HOME . 'server/MapResultCache.php');
+require_once(CARTOWEB_HOME . 'server/ServerContext.php');
+require_once(CARTOWEB_HOME . 'server/ServerPlugin.php');
+require_once(CARTOWEB_HOME . 'server/ServerPluginHelper.php');
+require_once(CARTOWEB_HOME . 'server/MapResultCache.php');
 
 /**
  * Exception to be used by the server.
@@ -77,7 +71,7 @@ class ServerConfig extends Config {
      * @see Config::getBasePath()
      */
     public function getBasePath() {
-        return CARTOSERVER_HOME;
+        return CARTOWEB_HOME;
     }
 
     /**
@@ -123,7 +117,7 @@ class ServerPluginConfig extends PluginConfig {
      * @see Config::getBasePath()
      */
     public function getBasePath() {
-        return CARTOSERVER_HOME;
+        return CARTOWEB_HOME;
     }
 
     /**
@@ -269,7 +263,7 @@ class Cartoserver {
         $this->checkRequest($mapRequest);
 
         // Unserialize MapRequest
-        $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
+        $mapRequest = CwSerializable::unserializeObject($mapRequest, NULL, 'MapRequest');
 
         $serverContext->setMapRequest($mapRequest);
 

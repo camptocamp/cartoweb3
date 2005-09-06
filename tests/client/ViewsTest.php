@@ -26,8 +26,8 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCLIENT_HOME . 'client/Views.php');
-require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
+require_once(CARTOWEB_HOME . 'client/Views.php');
+require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
 class TestViewFileContainer extends ViewFileContainer {
     

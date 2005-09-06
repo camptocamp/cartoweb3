@@ -1,6 +1,6 @@
 <?php
 /**
- * Routing plugin Serializable objects
+ * Routing plugin CwSerializable objects
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 /**
  * A parameter
  */
-class Parameter extends Serializable {
+class Parameter extends CwSerializable {
     
     /**
      * @var string
@@ -46,7 +46,7 @@ class Parameter extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id');
@@ -58,7 +58,7 @@ class Parameter extends Serializable {
  * Request
  * @package Plugins
  */
-class RoutingRequest extends Serializable {
+class RoutingRequest extends CwSerializable {
     
     /**
      * Opaque string representation of the graph model object used for the 
@@ -83,7 +83,7 @@ class RoutingRequest extends Serializable {
     public $parameters;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->graph      = self::unserializeValue($struct, 'graph');
@@ -97,7 +97,7 @@ class RoutingRequest extends Serializable {
 /**
  * An attribute
  */
-class Attribute extends Serializable {
+class Attribute extends CwSerializable {
     
     /**
      * @var string
@@ -119,7 +119,7 @@ class Attribute extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id');
@@ -131,7 +131,7 @@ class Attribute extends Serializable {
  * Step for roadmap
  * @package Plugins
  */
-abstract class Step extends Serializable {
+abstract class Step extends CwSerializable {
   
     /**
      * Key-value attributes
@@ -140,7 +140,7 @@ abstract class Step extends Serializable {
     public $attributes;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->attributes = self::unserializeObjectMap($struct,
@@ -167,7 +167,7 @@ class Edge extends Step {
  * Result
  * @package Plugins
  */
-class RoutingResult extends Serializable {
+class RoutingResult extends CwSerializable {
 
     /**
      * Opaque string representation of the graph model object used for the 
@@ -192,7 +192,7 @@ class RoutingResult extends Serializable {
     public $attributes;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->graph      = self::unserializeValue($struct, 'graph');

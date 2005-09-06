@@ -1,0 +1,4 @@
+;@BLURB@
+
+cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+profile = @PROFILE@

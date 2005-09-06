@@ -25,7 +25,7 @@
 /**
  * Table rules management
  */
-require_once(CARTOCLIENT_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
+require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
 
 /**
  * Client part of Tables plugin

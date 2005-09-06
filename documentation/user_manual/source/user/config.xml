@@ -33,12 +33,6 @@
           the parameters about caching and other are not overrided.</para>
       </listitem>   
       <listitem>
-        <para> urlProvider = Miniproxy|Symlink: The kind of URL generated for 
-          resources, see <xref linkend="user.template.resource" />.
-          &profile_overriden;
-        </para>
-      </listitem>
-      <listitem>
         <para> useWsdl = true|false: if true, WSDL will be used for sending 
           SOAP requests. This will add some processing time but ensures 
           that SOAP requests are well-structured.</para>
@@ -202,7 +196,7 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
       <itemizedlist>
         <listitem>
           <para> imageUrl = string: Path where cartoserver generated images can 
-            be accessed. Using this will bypass Miniproxy ! </para>
+            be accessed.</para>
         </listitem>
         <listitem>
           <para> reverseProxyUrl = string: The url of the reverse proxy, if 

@@ -27,7 +27,7 @@
 require_once 'PHPUnit2/Framework/TestSuite.php';
 require_once 'client/CartoclientTest.php';
 
-require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
+require_once(CARTOWEB_HOME . 'client/ClientProjectHandler.php');
 
 /**
  * Unit tests aggregator for projects
@@ -54,10 +54,10 @@ class projects_AllTests {
 
     private function automaticAddSuite($project, $path, $class) {
     
-        $path = CARTOCOMMON_HOME . "tests/client/CartoclientTest.php";
+        $path = CARTOWEB_HOME . "tests/client/CartoclientTest.php";
         $file = 'tests/client/CartoclientTest.php';
         if (self::$clientProjectHandler->isProjectFile($file)) {
-            require_once(CARTOCOMMON_HOME . self::$clientProjectHandler->getPath($file));
+            require_once(CARTOWEB_HOME . self::$clientProjectHandler->getPath($file));
             self::$suite->addTestSuite($class);
         }       
     }
@@ -80,7 +80,7 @@ class projects_AllTests {
                 return;
 
                 $plugins = array();
-                $directory = CARTOCOMMON_HOME . "projects/$project/tests/coreplugins";
+                $directory = CARTOWEB_HOME . "projects/$project/tests/coreplugins";
                 if (!is_dir($directory))
                     break;
                 $d = dir($directory);
@@ -103,7 +103,7 @@ class projects_AllTests {
         
         $projectConvertedName = self::convertName($project);
 
-        $path = CARTOCOMMON_HOME . "projects/$project/tests/$kind/AllTests.php";
+        $path = CARTOWEB_HOME . "projects/$project/tests/$kind/AllTests.php";
         if (file_exists($path)) {
             require_once($path);
 

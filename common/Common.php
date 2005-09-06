@@ -21,6 +21,56 @@
  * @version $Id$
  */
 
+if (!defined('CARTOWEB_HOME'))
+    define('CARTOWEB_HOME', realpath(dirname(__FILE__) . 
+                                        '/..') . '/');
+
+if (defined('CARTOCLIENT_HOME')) {
+    /* Uncomment this for strict plugin compatibility checking.
+    throw new CartocommonException('You need to update your plugin for the ' .
+            'new inclusion mechanism: see ' .
+            'http://dev.camptocamp.com/c2cwiki/IncompatibleUpdates#new-include-scheme ' .
+            'for complete explanation');
+            */    
+}
+
+// For backward compatibility
+if (!defined('CARTOCLIENT_HOME'))
+    define('CARTOCLIENT_HOME', CARTOWEB_HOME); 
+if (!defined('CARTOCOMMON_HOME'))
+    define('CARTOCOMMON_HOME', CARTOWEB_HOME); 
+if (!defined('CARTOSERVER_HOME'))
+    define('CARTOSERVER_HOME', CARTOWEB_HOME); 
+
+
+/* Dummy wrapper if xml extension is not loaded (won't work in non direct mode) */
+if (!class_exists('SoapFault')) {
+
+    class SoapFault {
+        public $faultstring;
+    
+        public function __construct ($faultcode, $faultstring) {
+            $this->faultstring = $faultstring;
+        }
+    
+        public function toString() {
+            return $this->faultstring;
+        }
+    }
+}
+
+/* Dummy wrapper if xml extension is not loaded (won't work in non direct mode) */
+if (!function_exists('utf8_encode')) {
+    
+    function utf8_encode($string) {
+        return $string;
+    }
+    
+    function utf8_decode($string) {
+        return $string;
+    }
+}
+
 /**
  * Base exception for cartoweb
  * @package Common
@@ -131,8 +181,8 @@ class Common {
      */
     private static function setIncludePath() {
         set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOCOMMON_HOME . 'include/'. PATH_SEPARATOR .
-                 CARTOCOMMON_HOME . 'include/pear');
+                 CARTOWEB_HOME . 'include/'. PATH_SEPARATOR .
+                 CARTOWEB_HOME . 'include/pear');
     }
 
     /**
@@ -143,7 +193,7 @@ class Common {
     private static function initializeApd($client) {
         $kind = $client ? 'client' : 'server';
         
-        if (file_exists(CARTOCOMMON_HOME . "$kind/trace.apd")) {
+        if (file_exists(CARTOWEB_HOME . "$kind/trace.apd")) {
             apd_set_pprof_trace();
         }
     }

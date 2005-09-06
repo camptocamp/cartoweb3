@@ -60,7 +60,7 @@ class ClientProjectplugin extends ClientPlugin
     }
 
     public function initializeResult($result) {
-        $result = Serializable::unserializeObject($result, NULL,
+        $result = CwSerializable::unserializeObject($result, NULL,
                                                   'ProjectpluginResult');            
         $this->message = $result->shuffledMessage;
     }

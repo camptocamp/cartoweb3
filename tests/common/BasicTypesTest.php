@@ -26,7 +26,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
 /**
  * Unit tests for basic types

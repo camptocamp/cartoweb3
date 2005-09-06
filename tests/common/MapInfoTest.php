@@ -26,8 +26,8 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
-require_once(CARTOCOMMON_HOME . 'coreplugins/layers/common/Layers.php');
+require_once(CARTOWEB_HOME . 'common/MapInfo.php');
+require_once(CARTOWEB_HOME . 'coreplugins/layers/common/Layers.php');
 
 /**
  * Unit tests for class MapInfo

@@ -94,13 +94,14 @@ class ServerImages extends ClientResponderAdapter
      */
     private function getImageBaseUrl() {
         $config = $this->serverContext->getConfig();
+        // FIXME: is this used ? if not, remove this config option
         if ($config->imageUrl)
             return $config->imageUrl;
         return '';
     }
 
     /**
-     * Returns the complete URL to the imge which is sent to the client. It 
+     * Returns the complete URL to the image which is sent to the client. It 
      * uses the ResourceHandler to build this URL.
      *
      * @param string the original path to the image
@@ -112,7 +113,7 @@ class ServerImages extends ClientResponderAdapter
         
         $resourceHandler = $this->serverContext->getResourceHandler();
         $imagePath = self::IMAGES_WRITE_PATH . $imagePath;
-        return $resourceHandler->getUrlProvider()->getGeneratedUrl($imagePath);
+        return $resourceHandler->getGeneratedUrl($imagePath);
     }
 
     /**
@@ -173,7 +174,7 @@ class ServerImages extends ClientResponderAdapter
         $msMapObj = $this->serverContext->getMapObj();
 
         if (!$msMapObj->web->imagepath) {
-            $imagePath = $this->serverContext->getConfig()->writablePath .
+            $imagePath = $this->serverContext->getConfig()->webWritablePath .
                 self::IMAGES_WRITE_PATH;
             $msMapObj->web->set('imagepath', $imagePath);
         }

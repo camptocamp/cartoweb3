@@ -868,7 +868,7 @@ class ViewFileContainer extends ViewContainer {
 
         $this->cartoclient = $cartoclient;
 
-        $this->viewPath = CARTOCOMMON_HOME . 'www-data/views/';
+        $this->viewPath = CARTOWEB_HOME . 'www-data/views/';
         $this->viewPath .= $cartoclient->getConfig()->mapId . '/';
        
         if (!is_dir($this->viewPath)) {

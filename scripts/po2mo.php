@@ -1,4 +1,3 @@
-#!/usr/local/bin/php
 <?php
 /**
  * po2mo.php - compile all PO files
@@ -13,17 +12,20 @@
 /**
  * Cartoclient home dir
  */
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+if (!defined('CARTOWEB_HOME'))
+    define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 define('CARTOCLIENT_PODIR', 'po/');
-define('CARTOCLIENT_LOCALEDIR', CARTOCLIENT_HOME . 'locale/');
+define('CARTOCLIENT_LOCALEDIR', CARTOWEB_HOME . 'locale/');
 
-require_once(CARTOCLIENT_HOME . 'scripts/pot_tools.php');
-require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
+require_once(CARTOWEB_HOME . 'scripts/pot_tools.php');
+require_once(CARTOWEB_HOME . 'client/Internationalization.php');
+if (!defined('CW3_SETUP_INCLUDED'))
+    require_once(CARTOWEB_HOME . 'cw3setup.php');
 
 /**
  * Project handler class for constants
  */
-require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
+require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
  * Finds locales by looking for my_project.lang.po files
@@ -32,7 +34,7 @@ require_once(CARTOCOMMON_HOME . 'common/ProjectHandler.php');
  */
 function getLocales($project) {
 
-    $dir = CARTOCLIENT_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -66,10 +68,10 @@ function getLocales($project) {
 function getMapPo($project, $mapId = null) {
 
     $direct = false;
-    $iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
+    $iniFile = CARTOWEB_HOME . 'client_conf/client.ini';
     $iniFileProject = '';
     if (!is_null($project)) {
-        $iniFileProject = CARTOCLIENT_HOME . ProjectHandler::PROJECT_DIR . 
+        $iniFileProject = CARTOWEB_HOME . ProjectHandler::PROJECT_DIR . 
                           '/' . $project .
                           '/client_conf/client.ini';
     }        
@@ -101,7 +103,7 @@ function getMapPo($project, $mapId = null) {
         } else if (array_key_exists('cartoserverBaseUrl', $iniArray)) {
             $url = $iniArray['cartoserverBaseUrl'];
         } else {
-            print "Warning: Project $project base URL not set in client.ini\n";
+            warn("Warning: Project $project base URL not set in client.ini");
             return false;
         }
         $url .= 'po/' . $project . '/';
@@ -111,7 +113,7 @@ function getMapPo($project, $mapId = null) {
         foreach ($locales as $locale) {
             $urlLocale = $url . $fileName . '.' . $locale . '.po';
 
-            print "Retrieving server PO file $urlLocale ";
+            debug("Retrieving server PO file $urlLocale ");
             
             // CURL init
             $ch = curl_init();
@@ -125,10 +127,10 @@ function getMapPo($project, $mapId = null) {
             ob_end_clean();
             
             if (strpos($contents, 'DOCTYPE HTML')) {
-                print "\nWarning: Couldn't retrieve server file.\n";
+                warn("Warning: Couldn't retrieve server file.");
                 continue;
             } else {
-                $dir = CARTOCLIENT_HOME;
+                $dir = CARTOWEB_HOME;
                 if (!is_null($project)) {
                     $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
                 }
@@ -138,7 +140,7 @@ function getMapPo($project, $mapId = null) {
                 fwrite($fh, $contents);
                 fclose($fh);                                
             }
-            print " .. done.\n";
+            debug(" .. done.");
         }
     }
     
@@ -157,7 +159,7 @@ function getMapPo($project, $mapId = null) {
  * @return boolean true if OK
  */
 function merge($project, $file1, $file2, $file2Project, $output) {
-    $dir = CARTOCLIENT_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -170,29 +172,34 @@ function merge($project, $file1, $file2, $file2Project, $output) {
         $fileOutputName = $output . '.' . $locale . '.po';
         $file1path = $dir . CARTOCLIENT_PODIR . $file1Name;
         if (is_null($file2Project)) {
-            $file2path = CARTOCLIENT_HOME . CARTOCLIENT_PODIR . $file2Name;
+            $file2path = CARTOWEB_HOME . CARTOCLIENT_PODIR . $file2Name;
         } else {
             $file2path = $dir . CARTOCLIENT_PODIR . $file2Name;
         }
         $fileOutput = $dir . CARTOCLIENT_PODIR . $fileOutputName;
         
         if (!file_exists($file1path)) {
-            print "Warning: Project " . $project . 
-                  " merge - file $file1path not found.\n";
+            warn("Warning: Project " . $project . 
+                  " merge - file $file1path not found.");
             continue;
         }
         if (!file_exists($file2path)) {
-            print "Warning: Project " . $project . 
-                  " merge - file $file2path not found.\n";
+            warn("Warning: Project " . $project . 
+                  " merge - file $file2path not found.");
             continue;
         }
         
-        print "Merging $file1Name + $file2Name = $fileOutputName ";
+        debug("Merging $file1Name + $file2Name = $fileOutputName ");
         
-        exec("msgcat --to-code=" . getCharset('client', $project)
+        if (!hasCommand('msgcat')) {
+            throw new InstallException("Can't find the msgcat command, " .
+                    "be sure to have gettext installed correctly");   
+        }
+        
+        execWrapper("msgcat --to-code=" . getCharset('client', $project)
              . " --use-first --output=$fileOutput $file1path $file2path");
         
-        print " .. done.\n";    
+        debug(" .. done.");    
     }
     return true;
 }
@@ -205,7 +212,7 @@ function merge($project, $file1, $file2, $file2Project, $output) {
  */
 function compile($project, $fileName) {
     
-    $dir = CARTOCLIENT_HOME;
+    $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
         $dir .= ProjectHandler::PROJECT_DIR . '/' . $project . '/';
     }
@@ -223,12 +230,17 @@ function compile($project, $fileName) {
                 mkdir(CARTOCLIENT_LOCALEDIR . $locale . '/LC_MESSAGES');
             }
             $outputFile = $locale . '/LC_MESSAGES/' . $project . '.' . $fileName . '.mo'; 
-            print "Compiling $fileName.$locale.po into /locale/$outputFile ";
-            exec("msgfmt -o " . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
-            print ".. done.\n";
+            debug("Compiling $fileName.$locale.po into /locale/$outputFile ");
+            if (!hasCommand('msgfmt --help')) {
+                throw new InstallException("Can't find the msgfmt command, " .
+                        "be sure to have gettext installed correctly");   
+            }   
+
+            execWrapper("msgfmt -o " . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
+            debug(".. done.");
         } else {
-            print "Warning: Project " . $project . 
-                  " compile - file $file not found.\n";
+            warn("Warning: Project " . $project . 
+                  " compile - file $file not found.");
             continue;
         }
     }

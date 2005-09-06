@@ -1,6 +1,6 @@
 <?php
 /**
- * Outline plugin Serializable objects
+ * Outline plugin CwSerializable objects
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * Color
  * @package Plugins
  */
-class Color extends Serializable {
+class Color extends CwSerializable {
 
     /**
      * @var int
@@ -54,7 +54,7 @@ class Color extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->r = self::unserializeValue($struct, 'r', 'int');
@@ -67,7 +67,7 @@ class Color extends Serializable {
  * Shape's style
  * @package Plugins
  */
-class ShapeStyle extends Serializable {
+class ShapeStyle extends CwSerializable {
 
     /**
      * @var mixed
@@ -145,7 +145,7 @@ class ShapeStyle extends Serializable {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->symbol          = self::unserializeValue($struct, 'symbol', 'int');
@@ -164,7 +164,7 @@ class ShapeStyle extends Serializable {
  * Label's style
  * @package Plugins
  */
-class LabelStyle extends Serializable {
+class LabelStyle extends CwSerializable {
 
     /**
      * @var string
@@ -234,7 +234,7 @@ class LabelStyle extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->font            = self::unserializeValue($struct, 'font');
@@ -252,7 +252,7 @@ class LabelStyle extends Serializable {
  * Shape with a style
  * @package Plugins
  */
-class StyledShape extends Serializable {
+class StyledShape extends CwSerializable {
 
     /**
      * @var ShapeStyle
@@ -275,7 +275,7 @@ class StyledShape extends Serializable {
     public $label;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->shapeStyle = self::unserializeObject($struct, 'shapeStyle',
@@ -291,7 +291,7 @@ class StyledShape extends Serializable {
  * Request
  * @package Plugins
  */
-class OutlineRequest extends Serializable {
+class OutlineRequest extends CwSerializable {
     
     /** 
      * Styled shapes to be drawn
@@ -306,7 +306,7 @@ class OutlineRequest extends Serializable {
     public $maskMode;
         
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->shapes    = self::unserializeObjectMap($struct, 'shapes',
@@ -320,7 +320,7 @@ class OutlineRequest extends Serializable {
  * Result
  * @package Plugins
  */
-class OutlineResult extends Serializable {
+class OutlineResult extends CwSerializable {
     
     /**
      * Total shapes area
@@ -329,7 +329,7 @@ class OutlineResult extends Serializable {
     public $area;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->area = self::unserializeValue($struct, 'area', 'double');

@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @copyright 2005 Camptocamp SA
- * the file path, to that logs are written to CARTOCLIENT_HOME/log
+ * the file path, to that logs are written to CARTOWEB_HOME/log
  * @package Common
  * @version $Id$
  */
@@ -32,10 +32,10 @@ function initializeLog4php($isClient) {
         return;
 
     if ($isClient) {
-        define('LOG4PHP_CONFIGURATION', CARTOCLIENT_HOME . 
+        define('LOG4PHP_CONFIGURATION', CARTOWEB_HOME . 
             'client_conf/cartoclientLogger.properties');
     } else {
-        define('LOG4PHP_CONFIGURATION', CARTOSERVER_HOME . 
+        define('LOG4PHP_CONFIGURATION', CARTOWEB_HOME . 
             'server_conf/cartoserverLogger.properties');
     }
 
@@ -61,7 +61,7 @@ function initializeLog4php($isClient) {
             if (isset ($properties[FILE_APPENDER])) {
                 $logFilename = $properties[FILE_APPENDER];
 
-                $logFilename = str_replace('LOG_HOME', CARTOCOMMON_HOME.'log', $logFilename);
+                $logFilename = str_replace('LOG_HOME', CARTOWEB_HOME.'log', $logFilename);
                 $properties[FILE_APPENDER] = $logFilename;
             }
             parent :: doConfigureProperties($properties, $hierarchy);

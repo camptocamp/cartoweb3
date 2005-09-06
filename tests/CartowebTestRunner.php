@@ -21,21 +21,17 @@
  * @version $Id$
  */
 
-if (!defined('CARTOCLIENT_HOME'))
-    define('CARTOCLIENT_HOME', realpath(dirname(__FILE__).'/..').'/');
-if (!defined('CARTOCOMMON_HOME'))
-    define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
-if (!defined('CARTOSERVER_HOME'))
-    define('CARTOSERVER_HOME', CARTOCLIENT_HOME);
+if (!defined('CARTOWEB_HOME'))
+    define('CARTOWEB_HOME', realpath(dirname(__FILE__).'/..').'/');
 
 // clears include_path, to prevent side effects
 ini_set('include_path', '');
 
-require_once(CARTOSERVER_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array());
 
 set_include_path(get_include_path() . PATH_SEPARATOR . 
-                 CARTOCLIENT_HOME . 'tests/');
+                 CARTOWEB_HOME . 'tests/');
 
 define('PHPUnit2_MAIN_METHOD', false);
 require_once 'PHPUnit2/TextUI/TestRunner.php';

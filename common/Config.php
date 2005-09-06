@@ -166,6 +166,9 @@ abstract class Config {
         if (!@$this->writablePath)
             $this->writablePath = $this->getBasePath() . 'www-data/';
 
+        if (!@$this->webWritablePath)
+            $this->webWritablePath = $this->getBasePath() . 'htdocs/generated/';
+
         if (!@$this->pluginsPath)
             $this->pluginsPath = $this->getBasePath() . 'plugins/';
     

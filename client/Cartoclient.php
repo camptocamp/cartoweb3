@@ -21,36 +21,30 @@
  * @version $Id$
  */
 
-/**
- * Root directory for common scripts
- */
-if (!defined('CARTOCOMMON_HOME'))
-    define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
-
-require_once(CARTOCOMMON_HOME . 'common/Log4phpInit.php');
+require_once(CARTOWEB_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
-require_once(CARTOCLIENT_HOME . 'client/ClientMapInfoCache.php');
-require_once(CARTOCLIENT_HOME . 'client/CartoserverService.php');
-require_once(CARTOCLIENT_HOME . 'client/HttpRequestHandler.php');
-require_once(CARTOCLIENT_HOME . 'client/FormRenderer.php');
-require_once(CARTOCLIENT_HOME . 'client/ClientPlugin.php');
-require_once(CARTOCLIENT_HOME . 'client/ClientPluginHelper.php');
-require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
-require_once(CARTOCLIENT_HOME . 'client/Internationalization.php');
-require_once(CARTOCLIENT_HOME . 'client/Views.php');
+require_once(CARTOWEB_HOME . 'client/ClientMapInfoCache.php');
+require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
+require_once(CARTOWEB_HOME . 'client/HttpRequestHandler.php');
+require_once(CARTOWEB_HOME . 'client/FormRenderer.php');
+require_once(CARTOWEB_HOME . 'client/ClientPlugin.php');
+require_once(CARTOWEB_HOME . 'client/ClientPluginHelper.php');
+require_once(CARTOWEB_HOME . 'client/ClientProjectHandler.php');
+require_once(CARTOWEB_HOME . 'client/Internationalization.php');
+require_once(CARTOWEB_HOME . 'client/Views.php');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
-require_once(CARTOCOMMON_HOME . 'common/Utils.php');
-require_once(CARTOCOMMON_HOME . 'common/Config.php');
-require_once(CARTOCOMMON_HOME . 'common/PluginManager.php');
-require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
-require_once(CARTOCOMMON_HOME . 'common/SecurityManager.php');
-require_once(CARTOCOMMON_HOME . 'common/MapInfo.php');
-require_once(CARTOCOMMON_HOME . 'common/Request.php');
-require_once(CARTOCOMMON_HOME . 'common/StructHandler.php');
-require_once(CARTOCOMMON_HOME . 'common/Message.php');
-require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
+require_once(CARTOWEB_HOME . 'common/Common.php');
+require_once(CARTOWEB_HOME . 'common/Utils.php');
+require_once(CARTOWEB_HOME . 'common/Config.php');
+require_once(CARTOWEB_HOME . 'common/PluginManager.php');
+require_once(CARTOWEB_HOME . 'common/ResourceHandler.php');
+require_once(CARTOWEB_HOME . 'common/SecurityManager.php');
+require_once(CARTOWEB_HOME . 'common/MapInfo.php');
+require_once(CARTOWEB_HOME . 'common/Request.php');
+require_once(CARTOWEB_HOME . 'common/StructHandler.php');
+require_once(CARTOWEB_HOME . 'common/Message.php');
+require_once(CARTOWEB_HOME . 'common/Encoding.php');
 
 /**
  * Cartoclient exception 
@@ -105,7 +99,7 @@ class ClientConfig extends Config {
      * @return string
      */
     public function getBasePath() {
-        return CARTOCLIENT_HOME;
+        return CARTOWEB_HOME;
     }
 
     /**
@@ -157,7 +151,7 @@ class ClientPluginConfig extends PluginConfig {
      * @return string
      */
     public function getBasePath() {
-        return CARTOCLIENT_HOME;
+        return CARTOWEB_HOME;
     }
     
     /**
@@ -547,7 +541,7 @@ class Cartoclient {
      */
     private function initializePlugins() {
 
-        $this->pluginManager = new PluginManager(CARTOCLIENT_HOME, 
+        $this->pluginManager = new PluginManager(CARTOWEB_HOME, 
                                 PluginManager::CLIENT, $this->projectHandler);
 
         $corePluginNames = $this->getCorePluginNames();

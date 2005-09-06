@@ -25,16 +25,16 @@
 /**
  * Dir path to Cartoclient home
  */
-if (!defined('CARTOCLIENT_HOME'))
-    define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) .
-                                        '/../../..') . '/');
-if (!defined('CARTOCOMMON_HOME'))
-    define('CARTOCOMMON_HOME', CARTOCLIENT_HOME);
+if (file_exists('../../common/Common.php'))
+    require_once('../../common/Common.php');
+else 
+    require_once('../../../common/Common.php');
 
-require_once(CARTOCOMMON_HOME . 'common/Common.php');
+
+require_once(CARTOWEB_HOME . 'common/Common.php');
 Common::preInitializeCartoweb(array('client' => true));
 
-require_once(CARTOCLIENT_HOME . 'client/Cartoclient.php');
+require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
 $cartoclient = new Cartoclient(Cartoclient::OUTPUT_CSV_EXPORT);
 if (!$cartoclient->clientAllowed()) {

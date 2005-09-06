@@ -123,7 +123,7 @@ AllTests.php]]></screen>
     <title>Simple test case (<filename>BasicTypesTests.php</filename>)</title>
     <programlisting><![CDATA[<?php
 require_once 'PHPUnit2/Framework/TestCase.php';
-require_once(CARTOCLIENT_HOME . 'common/basic_types.php');
+require_once(CARTOWEB_HOME . 'common/basic_types.php');
 
 class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
 

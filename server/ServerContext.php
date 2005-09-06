@@ -21,17 +21,17 @@
  * @version $Id$
  */
 
-require_once(CARTOSERVER_HOME . 'server/Cartoserver.php');
-require_once(CARTOCOMMON_HOME . 'common/PluginBase.php');
-require_once(CARTOCOMMON_HOME . 'common/Request.php');
-require_once(CARTOCOMMON_HOME . 'common/Message.php');
-require_once(CARTOCOMMON_HOME . 'common/ResourceHandler.php');
-require_once(CARTOCOMMON_HOME . 'common/Encoding.php');
+require_once(CARTOWEB_HOME . 'server/Cartoserver.php');
+require_once(CARTOWEB_HOME . 'common/PluginBase.php');
+require_once(CARTOWEB_HOME . 'common/Request.php');
+require_once(CARTOWEB_HOME . 'common/Message.php');
+require_once(CARTOWEB_HOME . 'common/ResourceHandler.php');
+require_once(CARTOWEB_HOME . 'common/Encoding.php');
 
 /**
  * Project handler
  */
-require_once(CARTOSERVER_HOME . 'server/ServerProjectHandler.php');
+require_once(CARTOWEB_HOME . 'server/ServerProjectHandler.php');
 
 /**
  * @package Server
@@ -224,7 +224,7 @@ class ServerContext {
     public function getMapPath($global = false) {
         assert(!is_null($this->projectHandler));
         $mapName = $this->projectHandler->getMapName();
-        if (file_exists(CARTOSERVER_HOME
+        if (file_exists(CARTOWEB_HOME
                         . $this->projectHandler->getPath('server_conf/'
                         . $mapName . '/', $mapName . '.map.php')
                         . $mapName . '.map.php')) {
@@ -245,7 +245,7 @@ class ServerContext {
 
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/',
                                                $mapFile);                                             
-        return CARTOSERVER_HOME . $path . $mapFile;
+        return CARTOWEB_HOME . $path . $mapFile;
     } 
 
     /**
@@ -259,7 +259,7 @@ class ServerContext {
         $mapName = $this->projectHandler->getMapName();
         $file = $mapName . '.ini';
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', $file);
-        $iniPath = CARTOSERVER_HOME . $path . $file;
+        $iniPath = CARTOWEB_HOME . $path . $file;
         return $iniPath;        
     }
 
@@ -437,7 +437,7 @@ class ServerContext {
         if (!is_null($this->pluginManager))
             return; /* already loaded */
             
-        $this->pluginManager = new PluginManager(CARTOSERVER_HOME, 
+        $this->pluginManager = new PluginManager(CARTOWEB_HOME, 
                              PluginManager::SERVER, $this->projectHandler);
         $corePluginNames = $this->getCorePluginNames();
 

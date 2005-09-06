@@ -1,4 +1,9 @@
+;@BLURB@
+
 ### Mapfile configuration ###
+
+cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+profile = @PROFILE@
 
 # The mapId of the mapfile to use
 mapId = projectmap2
@@ -10,3 +15,5 @@ initialMapStateId = projectstate
 
 # the list of plugins to load, separated by comma
 loadPlugins = hello, projectplugin, filterSimple, filterIdrecenter, projectLocation, projectTable, projectTableRules, exportCsv, outline, layerReorder
+
+

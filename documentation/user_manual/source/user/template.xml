@@ -54,9 +54,6 @@
    <programlisting><![CDATA[<img src="{r type=gfx plugin=location}zoom_in.gif{/r}" alt="" />]]></programlisting>
   </para>
   <para>
-   Generated URLs depend on what <parameter>urlProvider</parameter> has been set in the general client configuration file <filename>client.ini</filename>. See <xref linkend="user.config.client"/> for details about <parameter>urlProvider</parameter>.
-  </para>
-  <para>
    Following list shows all &cartoweb; resource types.
   </para>
   <itemizedlist>
@@ -78,11 +75,6 @@
       <listitem>
        <para>
         generated URL: <filename>css/toto.css</filename>
-       </para>
-      </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -107,11 +99,6 @@
         generated URL: <filename>layers/css/toto.css</filename>
        </para>
       </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=layers&amp;r=toto.css</filename>
-       </para>
-      </listitem>
      </itemizedlist>
    </listitem>
    <listitem>
@@ -132,11 +119,6 @@
       <listitem>
        <para>
         generated URL: <filename>hello/css/toto.css</filename>
-       </para>
-      </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=hello&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -161,11 +143,6 @@
         generated URL: <filename>myproject/css/toto.css</filename>
        </para>
       </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pr=myproject&amp;r=toto.css</filename>
-       </para>
-      </listitem>
      </itemizedlist>
    </listitem>
    <listitem>
@@ -186,11 +163,6 @@
       <listitem>
        <para>
         generated URL: <filename>myproject/layers/css/toto.css</filename>
-       </para>
-      </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=layers&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>
@@ -215,11 +187,6 @@
         generated URL: <filename>myproject/hello/css/toto.css</filename>
        </para>
       </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy mode): <filename>r.php?t=css&amp;pl=hello&amp;pr=myproject&amp;r=toto.css</filename>
-       </para>
-      </listitem>
      </itemizedlist>
    </listitem>
    <listitem>
@@ -240,11 +207,6 @@
       <listitem>
        <para>
         generated URL: <filename>myproject/myplugin/css/toto.css</filename>
-       </para>
-      </listitem>
-      <listitem>
-       <para>
-        generated URL (Miniproxy): <filename>r.php?t=css&amp;pl=myplugin&amp;pr=myproject&amp;r=toto.css</filename>
        </para>
       </listitem>
      </itemizedlist>

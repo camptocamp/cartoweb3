@@ -29,7 +29,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 /**
  * All misc tests
  */
-require_once(CARTOCOMMON_HOME . 'projects/test_main/tests/misc/MiscTest.php');
+require_once(CARTOWEB_HOME . 'projects/test_main/tests/misc/MiscTest.php');
 
 /**
  * @package Tests

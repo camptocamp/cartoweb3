@@ -113,7 +113,7 @@ class Smarty_Cartoclient extends Smarty {
      */    
     public function _get_compile_path($resource_name) {
         $oldPath = $this->template_dir;
-        $oldPath = substr($oldPath, strlen(CARTOCLIENT_HOME) - strlen($oldPath));
+        $oldPath = substr($oldPath, strlen(CARTOWEB_HOME) - strlen($oldPath));
 
         $prjDir = ProjectHandler::PROJECT_DIR . '/';
         $prjStrlen = strlen($prjDir);
@@ -123,7 +123,7 @@ class Smarty_Cartoclient extends Smarty {
                      - strlen($oldPath));
         }
 
-        $this->template_dir = CARTOCLIENT_HOME 
+        $this->template_dir = CARTOWEB_HOME 
                               . $this->projectHandler->getPath($oldPath, 
                                                                $resource_name);
         $this->_compile_id = md5($this->template_dir);
@@ -158,8 +158,8 @@ class Smarty_Cartoclient extends Smarty {
         }
 
         $project = $this->cartoclient->getProjectHandler()->getProjectName();
-        $urlProvider = $this->cartoclient->getResourceHandler()->getUrlProvider();
-        return $urlProvider->getHtdocsUrl($plugin, $project, $resource);
+        return $this->cartoclient->getResourceHandler()->
+                            getHtdocsUrl($plugin, $project, $resource);
     }
 
     /**

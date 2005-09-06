@@ -24,13 +24,13 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 
 /**
  * Base class for layers
  * @package Common
  */
-class LayerBase extends Serializable {
+class LayerBase extends CwSerializable {
     
     /**
      * @var string
@@ -115,7 +115,7 @@ class LayerBase extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id'); 
@@ -134,7 +134,7 @@ class LayerBase extends Serializable {
  * Class containing children for children switching
  * @package Common
  */
-class ChildrenSwitch extends Serializable {
+class ChildrenSwitch extends CwSerializable {
 
     const DEFAULT_SWITCH = 'default';
 
@@ -151,7 +151,7 @@ class ChildrenSwitch extends Serializable {
     public $layers = array();
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         if (is_string($struct)) {
@@ -232,7 +232,7 @@ class LayerContainer extends LayerBase {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);   
@@ -285,7 +285,7 @@ class LayerGroup extends LayerContainer {
     public $rendering = 'tree';
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);
@@ -308,7 +308,7 @@ class Layer extends LayerContainer {
     public $msLayer;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);
@@ -329,7 +329,7 @@ class LayerClass extends LayerBase {
  *
  * @package CorePlugins
  */
-class LayersRequest extends Serializable {
+class LayersRequest extends CwSerializable {
     
     /**
      * The list of layers to draw
@@ -350,7 +350,7 @@ class LayersRequest extends Serializable {
     public $switchId;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerIds   = self::unserializeArray($struct, 'layerIds');
@@ -370,7 +370,7 @@ class LayersResult {}
 /**
  * Switch information
  */
-class SwitchInit extends Serializable {
+class SwitchInit extends CwSerializable {
     
     /**
      * Switch's Id
@@ -384,7 +384,7 @@ class SwitchInit extends Serializable {
     public $label;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id');
@@ -396,7 +396,7 @@ class SwitchInit extends Serializable {
  * Layers initialization information. It contains all the layer related static 
  * information. 
  */
-class LayersInit extends Serializable {
+class LayersInit extends CwSerializable {
 
     /**
      * If true, legend's icons will be generated
@@ -518,7 +518,7 @@ class LayersInit extends Serializable {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
 

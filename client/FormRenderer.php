@@ -24,8 +24,8 @@
 /**
  * Project handler
  */
-require_once(CARTOCLIENT_HOME . 'client/ClientProjectHandler.php');
-require_once(CARTOCLIENT_HOME . 'client/Smarty_Cartoclient.php');
+require_once(CARTOWEB_HOME . 'client/ClientProjectHandler.php');
+require_once(CARTOWEB_HOME . 'client/Smarty_Cartoclient.php');
 
 /**
  * Class responsible for GUI display

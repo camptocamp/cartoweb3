@@ -22,7 +22,7 @@
  * @version $Id$
  */
 
-require_once CARTOCLIENT_HOME . 'client/ExportPlugin.php';
+require_once CARTOWEB_HOME . 'client/ExportPlugin.php';
 require_once dirname(__FILE__) . '/ExportPdfObjects.php';
 
 /**
@@ -273,7 +273,7 @@ class ClientExportPdf extends ExportPlugin
                 $this->blocks[$id]->content &&
                 PrintTools::isRelativePath($this->blocks[$id]->content)) {
             // detects if image path is relative and than completes it
-            $this->blocks[$id]->content = CARTOCLIENT_HOME . 
+            $this->blocks[$id]->content = CARTOWEB_HOME . 
                                           $this->blocks[$id]->content;
         }
 
@@ -1062,7 +1062,10 @@ class ClientExportPdf extends ExportPlugin
      */
     private function generatePdfFile($pdfBuffer) {
         $filename = $this->getFilename();
-        $filepath = CARTOCLIENT_HOME . 'www-data/pdf/' . $filename;
+    
+        $filepath = $this->getCartoclient()->getConfig()->webWritablePath . 
+                        'pdf/' . $filename;
+
         $fp = fopen($filepath, 'w');
         fwrite($fp, $pdfBuffer);
         fclose($fp);
@@ -1077,8 +1080,7 @@ class ClientExportPdf extends ExportPlugin
      */
     private function getPdfFileUrl($filename, $filter = false) {
         $resourceHandler = $this->cartoclient->getResourceHandler();
-        $pdfUrl = $resourceHandler->getUrlProvider()->getGeneratedUrl('pdf/' . 
-                                                                    $filename);
+        $pdfUrl = $resourceHandler->getGeneratedUrl('pdf/' . $filename);
         $pdfUrl = $resourceHandler->getFinalUrl($pdfUrl, true, true);
 
         if ($filter) {

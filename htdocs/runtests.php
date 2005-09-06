@@ -48,21 +48,21 @@
 /**
  * Dir path to common home
  */
-define('CARTOCOMMON_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 /**
  * Dir path to Cartoclient home
  */
-define('CARTOCLIENT_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 /**
  * Dir path to Cartoserver home
  */
-define('CARTOSERVER_HOME', realpath(dirname(__FILE__) . '/..') . '/');
+define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-$iniFile = CARTOCLIENT_HOME . 'client_conf/client.ini';
+$iniFile = CARTOWEB_HOME . 'client_conf/client.ini';
 if (!file_exists($iniFile)) {
-    $iniFile = CARTOSERVER_HOME . 'server_conf/server.ini';
+    $iniFile = CARTOWEB_HOME . 'server_conf/server.ini';
 }
 $iniArray = parse_ini_file($iniFile);
 if (!array_key_exists('allowTests', $iniArray) || !$iniArray['allowTests']) {
@@ -71,7 +71,7 @@ if (!array_key_exists('allowTests', $iniArray) || !$iniArray['allowTests']) {
     exit;
 }
 
-require_once (CARTOCOMMON_HOME . 'tests/CartowebTestRunner.php');
+require_once (CARTOWEB_HOME . 'tests/CartowebTestRunner.php');
 
 // This global tell the cartoclient not to output header or start sesssion. 
 //  Otherwise it would cause problems because of already sent output.
