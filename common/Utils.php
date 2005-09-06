@@ -240,4 +240,13 @@ function l($arg = false) {
     print "\n";
 }
 
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
+function pre($var) {
+    print '<pre>';
+    print_r($var);
+    print "</pre>\n";
+}
 ?>
