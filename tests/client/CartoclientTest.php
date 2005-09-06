@@ -159,8 +159,39 @@ abstract class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         exec($javaCmd, $output, $ret);
         $output = implode("\n", $output);
         $this->rmdirr($temp_dir);
-        $output = "The wsdl file is invalid !!\n\n $output";
+        $output = "The wsdl file is invalid!!\n\n $output";
         $this->assertTrue($ret == 0, $output);
+    }
+
+    public function testImageMode() {
+        $cartoclient = new Cartoclient;
+        $url = $cartoclient->getConfig()->cartoclientBaseUrl;
+        $url .= 'client.php?mode=image';
+
+        if (extension_loaded('curl')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            // Checks content-type header
+            if (preg_match("/Content-Type: ([-a-z\/]+)/im", $result, $match)) {
+                $this->assertEquals('image/', substr($match[1], 0, 6));
+            }
+        
+            // Checks if opened file contains some image format keyword
+            // (JFIF => JPEG) 
+            $this->assertTrue((bool)preg_match("/(GIF|PNG|JFIF)/m", $result),
+                              'Failed detecting valid image format!');
+        } /*else {
+            // TODO: handle case when Curl is not available
+            // following code may fail because of filesize crash
+            $handle = fopen($url, 'rb');
+            $result = fread($handle, filesize($url));
+            fclose($handle);
+        }*/
     }
 }
 
