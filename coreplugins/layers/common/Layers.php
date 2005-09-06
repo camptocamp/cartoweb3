@@ -184,11 +184,12 @@ class LayerContainer extends LayerBase {
     /**
      * Returns children depending on current switch
      * @param string
+     * @param bool if true, children cache is ignored (default: false)
      * @return array
      */
-    public function getChildren($currentSwitch) {
+    public function getChildren($currentSwitch, $resetCache = false) {
 
-        if (is_null($this->layerIds)) {
+        if (is_null($this->layerIds) || $resetCache) {
             if (!is_array($this->children) || count($this->children) == 0) {
                 $this->layerIds = array();
                 return $this->layerIds;

@@ -299,6 +299,11 @@ class ClientLayers extends ClientPlugin
     private $notAvailableMinusIcon;
 
     /**
+     * @var boolean
+     */
+    private $useNewSwitch = false;
+    
+    /**
      * True if switch was overrided by another plugin
      * @param boolean
      */
@@ -385,7 +390,7 @@ class ClientLayers extends ClientPlugin
         if (!isset($this->layersState)) {
             $this->layersState = $this->getNewSessionObject();
         }
-
+        
         $this->layersState->layersData =& $this->layersData;
         
         $this->layersState->hiddenSelectedLayers =& $this->hiddenSelectedLayers;
@@ -564,6 +569,7 @@ class ClientLayers extends ClientPlugin
             $this->getHttpValue($request, 'switch_id') != NULL) {
             $this->layersState->switchId = 
                 $this->getHttpValue($request, 'switch_id');           
+            $this->useNewSwitch = true;
         }    
     }
 
@@ -842,9 +848,10 @@ class ClientLayers extends ClientPlugin
     /**
      * Recursively determines layers that can be selected in layers selector.
      * @param string layer id
+     * @param bool if true, children cache is ignored (default: false)
      * @return array layers list
      */
-    private function getLayersMask($layerId = 'root') {
+    private function getLayersMask($layerId = 'root', $resetCache = false) {
         $layer = $this->getLayerByName($layerId);
         
         if ($layer instanceof LayerClass)
@@ -859,16 +866,18 @@ class ClientLayers extends ClientPlugin
             if (isset($this->layersState->dropDownSelected[$layerId]))
                 $childId = $this->layersState->dropDownSelected[$layerId];
             else {
-                $children = $layer->getChildren($this->layersState->switchId);
+                $children = $layer->getChildren($this->layersState->switchId,
+                                                $resetCache);
                 $childId = $children[0];
             }
 
-            $children = $this->getLayersMask($childId);
+            $children = $this->getLayersMask($childId, $resetCache);
             return array_merge($mask, $children);
         }
         
-        foreach ($layer->getChildren($this->layersState->switchId) as $childId) {
-            $children = $this->getLayersMask($childId);
+        foreach ($layer->getChildren($this->layersState->switchId, $resetCache) 
+                 as $childId) {
+            $children = $this->getLayersMask($childId, $resetCache);
             $mask = array_merge($mask, $children);
         }
 
@@ -879,7 +888,7 @@ class ClientLayers extends ClientPlugin
      * @see ServerCaller::buildRequest()
      */
     public function buildRequest() {
-        $layersMask = $this->getLayersMask();
+        $layersMask = $this->getLayersMask('root', $this->useNewSwitch);
         
         $this->layerIds = $this->getSelectedLayers(true);
         $this->layerIds = $this->fetchChildrenFromLayerGroup($this->layerIds);
