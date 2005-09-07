@@ -807,26 +807,26 @@ function linkOrCopy($src, $dest) {
         return;
     }
 
+    if (is_link($dest)) {
+        debug("Removing previous symlink on $dest");
+        unlink($dest);
+    }
+    if (file_exists($dest)) {
+        debug("target $dest already exists");
+        if (is_link($dest)) {
+            unlink($dest);
+        } else if (is_dir($dest)) {
+            info("Assuming target directory $dest was copied previously, removing !!");
+            rmdirr($dest);
+        } else if (is_file($dest)) {
+            unlink($dest);
+        } else {
+            throw new InstallException("Target $dest already there and is of type " . filetype($dest));
+        }
+    } 
+
     if (useSymlinks()) {
 
-        if (is_link($dest)) {
-            debug("Removing previous symlink on $dest");
-            unlink($dest);
-        }
-        if (file_exists($dest)) {
-            debug("target $dest already exists");
-            if (is_link($dest)) {
-                unlink($dest);
-            } else if (is_dir($dest)) {
-                info("Assuming target directory $dest was copied previously, removing !!");
-                rmdirr($dest);
-            } else if (is_file($dest)) {
-                unlink($dest);
-            } else {
-                throw new InstallException("Target $dest already there and is of type " . filetype($dest));
-            }
-        } 
-        
         debug("linking \"$src\" to \"$dest\"");
 
         if (!symlink($src, $dest))
@@ -836,7 +836,6 @@ function linkOrCopy($src, $dest) {
 
         if (copyr($absSrc, $dest))
             $result = "\"$src\" copied to \"$dest\"\n";
-
     }
 }
 
