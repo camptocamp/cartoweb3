@@ -783,7 +783,7 @@ function createConfigCallback($file, $context) {
 
 function createConfig() {
     
-    info("Copying .ini.dist file into .ini (if not existing)");
+    info("Copying .ini.dist files into .ini (if not existing)");
     crawl('.', 'createConfigCallback');
 }
 
@@ -843,7 +843,7 @@ function linkOrCopy($src, $dest) {
         if (is_link($dest)) {
             unlink($dest);
         } else if (is_dir($dest)) {
-            info("Assuming target directory $dest was copied previously, removing !!");
+            debug("Assuming target directory $dest was copied previously, removing !!");
             rmdirr($dest);
         } else if (is_file($dest)) {
             unlink($dest);
@@ -872,6 +872,7 @@ function linkOrCopy($src, $dest) {
  */
 function setupLinks() {
 
+    info("Copying/linking ressources into htdocs");
     if (!is_dir('htdocs/gfx/icons'))
         mkdir('htdocs/gfx/icons');
 
@@ -981,7 +982,7 @@ function replaceDotInCallback($file, $context) {
  * 2 config_HOST.properties
  * 3 config.properties
  *
- * XXX  Returns an array of (array of keys, array of values)
+ * @return The name of the project config file
  */
 function getProjectConfig($basePath) {
  
@@ -1076,6 +1077,7 @@ function getSearchReplaceContext() {
 
 function replaceDotIn() {
  
+    info("Copying <files>.in into <files> (if not existing)");
     $context = getSearchReplaceContext();
     crawl('.', 'replaceDotInCallback', $context);
 }
