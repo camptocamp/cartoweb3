@@ -3,19 +3,8 @@
 # Please note that tasks there can be done with the Php installation script
 # Thus, this file is not needed for installing and running CartoWeb.
 
-LIBS_URL="http://www.cartoweb.org/downloads/cartoweb-includes-3.0.0.tar.gz"
-DEMO_URL="http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz"
-
 all:
 	:
-
-fetch_libs:
-	-rm -r include
-	wget -O- $(LIBS_URL) | tar xzf -
-
-fetch_demo:
-	-rm -r projects/demo/server_conf/demo/data
-	(cd projects/demo/server_conf/demo/; wget -O- $(DEMO_URL)|tar zxf -)
 
 prepare_prod:
 	rm htdocs/info.php
