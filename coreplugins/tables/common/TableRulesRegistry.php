@@ -663,6 +663,17 @@ class CellFilter extends CellRule {
     public $callback;
 
     /**
+     * Current processed table Id.
+     * @var string
+     */
+    protected $currentTableId;
+
+    /**
+     * @var bool
+     */
+    protected $useAllFields;
+
+    /**
      * Constructor
      * @param string
      * @param string
@@ -677,7 +688,9 @@ class CellFilter extends CellRule {
         $this->tableId        = $tableId;
         $this->columnId       = $columnId;
         $this->inputColumnIds = $inputColumnIds;
-        $this->callback       = $callback;        
+        $this->callback       = $callback;
+        $this->currentTableId = $tableId;
+        $this->useAllFields   = is_null($inputColumnIds);
     }    
 
     /**
@@ -692,9 +705,13 @@ class CellFilter extends CellRule {
             return;
         }
         $indexes = $this->getIndexes($table);
-        if (is_null($this->inputColumnIds))
+        
+        if ($this->useAllFields && $this->currentTableId != $table->tableId) {
             $this->inputColumnIds = array_merge($table->columnIds,
                                                 array('row_id'));
+            $this->currentTableId = $table->tableId;
+        }
+        
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($row->cells as $index => $value) {
@@ -746,9 +763,13 @@ class CellFilterBatch extends CellFilter {
         }
         $indexes = $this->getIndexes($table);
         $inputValues = array();
-        if (is_null($this->inputColumnIds))
+        
+        if ($this->useAllFields && $this->currentTableId != $table->tableId) {
             $this->inputColumnIds = array_merge($table->columnIds,
                                                 array('row_id'));
+            $this->currentTableId = $table->tableId;
+        }
+
         foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($row->cells as $index => $value) {
@@ -857,6 +878,17 @@ class ColumnAdder extends TableFilter {
     public $inputColumnIds;
 
     /**
+     * Current processed table Id.
+     * @var string
+     */
+    protected $currentTableId;
+
+    /**
+     * @var bool
+     */
+    protected $useAllFields;
+
+    /**
      * Constructor
      * @param string
      * @param string
@@ -870,7 +902,9 @@ class ColumnAdder extends TableFilter {
         parent::__construct($groupId, $tableId, $callback);
         $this->columnPosition = $columnPosition;        
         $this->newColumnIds   = $newColumnIds;        
-        $this->inputColumnIds = $inputColumnIds;        
+        $this->inputColumnIds = $inputColumnIds;
+        $this->currentTableId = $tableId;
+        $this->useAllFields   = is_null($inputColumnIds);
     }    
 
     /**
@@ -940,8 +974,12 @@ class ColumnAdder extends TableFilter {
         if ($table->numRows == 0) {
             return;
         }
-        if (is_null($this->inputColumnIds))
+        
+        if ($this->useAllFields && $this->currentTableId != $table->tableId) {
             $this->inputColumnIds = array_merge($oldColumnIds, array('row_id'));
+            $this->currentTableId = $table->tableId;
+        }
+
         foreach ($table->rows as $row) {           
             $inputValues = array(); 
             foreach ($oldColumnIds as $columnId) {
@@ -1063,9 +1101,13 @@ class ColumnAdderBatch extends ColumnAdder {
             return;
         }
         $inputValues = array();
-        if (is_null($this->inputColumnIds))
+        
+        if ($this->useAllFields && $this->currentTableId != $table->tableId) {
             $this->inputColumnIds = array_merge($oldColumnIds, array('row_id'));
-        foreach ($table->rows as $row) {
+            $this->currentTableId = $table->tableId;
+        }
+        
+       foreach ($table->rows as $row) {
             $inputValuesRow = array();
             foreach ($oldColumnIds as $columnId) {
                 if (in_array($columnId, $this->inputColumnIds)) {
