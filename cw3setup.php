@@ -637,13 +637,6 @@ function fetchLibs() {
         $version = $matches[1];
         debug("Libs upstream version: $version");
     }
-
-/*    
-    print $versionFile;
-    
-    print file_exists($versionFile) ? "okok" : "---";
-    die();
-  */
     
     if ($version && file_exists($versionFile)) {
         $actualVersion = file_get_contents($versionFile);
@@ -659,7 +652,7 @@ function fetchLibs() {
     
     $libsUrl = CW3_LIBS_URL;
 
-    if (hasCommand('tar')) {
+    if (hasCommand('tar --help')) {
         $destFile = 'cartoweb3_includes.tar.gz';
         $extractCmd = "tar xzf $destFile";
     } else if (hasCommand('unzip')) {
