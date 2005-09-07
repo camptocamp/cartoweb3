@@ -36,8 +36,11 @@ error_reporting(E_ALL);
 define('CW3_SETUP_REVISION', '$Revision$');
 define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
+
 // URL of required libraries:
 define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb-includes-3.0.0.tar.gz');
+// URL of demo data
+define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
@@ -106,6 +109,8 @@ function usage() {
  
  --clean                    clean generated files and caches
  
+ --fetch-demo               fetch the demo data from cartoweb.org, and extract it in the demo project if
+                             not already there.
 <?
     exit();
 }
@@ -153,6 +158,7 @@ $OPTIONS['writableowner'] = 'www-data';
 define('ACTION_NOP', 0);
 define('ACTION_INSTALL', 1);
 define('ACTION_CLEAN', 2);
+define('ACTION_FETCH_DEMO', 3);
 
 define('LOG_LEVEL_DEBUG', 0);
 define('LOG_LEVEL_INFO', 1);
@@ -222,6 +228,10 @@ function processArgs() {
                 $action = ACTION_CLEAN;
                 break;
     
+            case "--fetch-demo":
+                $action = ACTION_FETCH_DEMO;
+                break;
+    
             case "--install":
                 $action = ACTION_INSTALL;
                 break;
@@ -265,6 +275,11 @@ function processArgs() {
             break;
         case ACTION_CLEAN:
             cleanFiles();
+            break;
+        case ACTION_FETCH_DEMO:
+            info('Fetching demo');
+            fetchDemo();
+            info('Demo data installed');
             break;
         default:
             fail('Should not happen');
@@ -628,37 +643,36 @@ function hasCommand($command) {
     return true;
 }
 
-function fetchLibs() {
+function fetchArchive($archiveUrl, $targetDirectory) {
     
-    $libsVersion = false;
-    $versionFile = 'include/version';
-    $versionRegexp = '/cartoweb-includes-(.*).tar.gz/';
-    if (preg_match($versionRegexp, CW3_LIBS_URL, $matches) == 1) {
+    $versionRegexp = '/-([^-]*).tar.gz$/';
+    if (preg_match($versionRegexp, $archiveUrl, $matches) == 1) {
         $version = $matches[1];
-        debug("Libs upstream version: $version");
+        debug("Archive upstream version: $version");
     }
     
+    $versionFile = "$targetDirectory/version";
     if ($version && file_exists($versionFile)) {
         $actualVersion = file_get_contents($versionFile);
         debug("actual version: $actualVersion");
         if ($actualVersion == $version) {
-            debug("Libs version match, skipping");
+            debug("Archive version match, skipping");
             return;
         } else {
-            // TODO: remove old library files (test the following)
-            // rmdirr('include');   
+            // TODO: remove old archive files
+            // rmdirr(archive_output_directory);   
         }
     }
     
-    $libsUrl = CW3_LIBS_URL;
+    $destFile = dirname($targetDirectory) . "/archive_tmp";
 
     if (hasCommand('tar --help')) {
-        $destFile = 'cartoweb3_includes.tar.gz';
-        $extractCmd = "tar xzf $destFile";
+        $destFile .= '.tar.gz';
+        $extractCmd = "tar xzf " . basename($destFile);
     } else if (hasCommand('unzip')) {
-        $libsUrl = str_replace('.tar.gz', '.zip', $libsUrl);
-        $destFile = 'cartoweb3_includes.zip';
-        $extractCmd = "unzip $destFile";
+        $archiveUrl = str_replace('.tar.gz', '.zip', $archiveUrl);
+        $destFile .= '.zip';
+        $extractCmd = "unzip " . basename($destFile);
     } else {
         throw new InstallException("Can't find a program to extract the include files. " .
                 "Install tar or unzip, and be sure it is on your path");
@@ -666,10 +680,10 @@ function fetchLibs() {
     
     debug("Dest file $destFile");
     
-    info("Fetching libs file from $libsUrl, this may take some times ...");
+    info("Fetching archive file from $archiveUrl, this may take some times ...");
     if (extension_loaded('curl')) {
-        debug('Fetching library using curl extension');
-        $ch = curl_init($libsUrl);
+        debug('Fetching archive using curl extension');
+        $ch = curl_init($archiveUrl);
         $fp = fopen($destFile, "wb");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -677,22 +691,35 @@ function fetchLibs() {
         curl_close($ch);
         fclose($fp);
     } else {
-        debug('Fetching with file_get_contents');
-        $cnt = file_get_contents($libsUrl);
+        debug('Fetching archive with file_get_contents');
+        $cnt = file_get_contents($archiveUrl);
         $fd = fopen($destFile, "wb");
         fwrite($fd, $cnt);
         fclose($fd);
     }
     
     if (!file_exists($destFile))
-        throw new InstallException('Unable to retrieve the required librairies at ' . $libsUrl);
+        throw new InstallException('Unable to retrieve the archive at ' . $archiveUrl);
     
     debug('Extracting archive content');
     
+    $oldPwd = getcwd();
+    chdir(dirname($targetDirectory));
     execWrapper($extractCmd);
+    chdir($oldPwd);
     @unlink($destFile);
     file_put_contents($versionFile, $version);
+    
+}
 
+function fetchLibs() {
+
+    fetchArchive(CW3_LIBS_URL, 'include');
+}
+
+function fetchDemo() {
+
+    fetchArchive(CW3_DEMO_URL, 'projects/demo/server_conf/demo/data');
 }
 
 function makeDirs() {
