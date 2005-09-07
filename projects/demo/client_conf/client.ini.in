@@ -1,5 +1,10 @@
+;@BLURB@
+
 ; overriden client.ini for demo project. 
 ;  See main cartoweb/client_conf/client.ini for inherited default values.
+
+cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+profile = @PROFILE@
 
 ; The mapId of the mapfile to use
 mapId = demo
