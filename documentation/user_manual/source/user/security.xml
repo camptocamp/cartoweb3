@@ -154,10 +154,15 @@
     <itemizedlist>
       <listitem>
         <para> securityAllowedRoles = list : List of roles which are allowed to 
-          access the cartoweb. Set to 'all' if no if no restriction is given. 
+          access the cartoweb. Set to 'all' if no if no restriction is given. (see <xref 
+            linkend="user.security.auth.special_roles"/> for typical predefined roles)
           </para>
       </listitem>
     </itemizedlist>
+      <example>
+        <title>Global Permissions Usage</title>
+        <programlisting><![CDATA[securityAllowedRoles = loggedIn]]></programlisting>
+      </example> 
   </sect1>
   <sect1 id="user.security.plugin_permissions">
     <title>Plugin Specific Permissions</title>
