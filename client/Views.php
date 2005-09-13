@@ -41,14 +41,14 @@ class ViewManager {
      * @var ViewContainer
      */
     private $wc;
-    
-    /**
+
+   /**
      * @var int
      */
     private $viewId;
 
     /**
-     * @var array
+     * @var stdClass
      */
     private $data;
 
@@ -76,6 +76,11 @@ class ViewManager {
      * @var boolean
      */
     private $isActionSuccess;
+
+    /**
+     * @var string
+     */
+    private $sessionCacheLocation;
     
     const BASE_METAS = 'viewTitle, viewShow, viewLocationId';
     
@@ -178,14 +183,64 @@ class ViewManager {
         
         return true;
     }
+
+    /**
+     * Returns path of cached session file.
+     * @return string
+     */
+    public function getSessionCacheLocation() {
+        if (!isset($this->sessionCacheLocation)) {
+            $this->sessionCacheLocation = 
+                sprintf('%swww-data/views/%s/default.txt',
+                        CARTOWEB_HOME, $this->cartoclient->getConfig()->mapId);
+        }
+        return $this->sessionCacheLocation;
+    }
+    
+    /**
+     * Restores default session.
+     * @return ClientSession
+     */
+    private function getDefaultSessionData() {
+        $sessionData = new ClientSession;
+        
+        // gets default session from cached session file
+        $path = $this->getSessionCacheLocation();
+        if (is_readable($path)) {
+            $sessionData->pluginStorage = unserialize(file_get_contents($path));
+        }
+        
+        return $sessionData;
+    }
+
+    /**
+     * Writes cached session file.
+     * @param ClientSession
+     * @return bool true if success
+     */
+    public function makeSessionCache(ClientSession $clientSession) {
+        if (!$clientSession->pluginStorage) {
+            return false;
+        }
+        
+        $path = $this->getSessionCacheLocation();
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path));
+        }
+        
+        return file_put_contents($path,
+                                 serialize($clientSession->pluginStorage));
+    }
     
     /**
      * Main view handler: detects what action to perform.
      * @param ClientSession
+     * @return bool true if some view has been processed
      */
-    public function handleView($sessionData) {
+    public function handleView(&$sessionData) {
 
         $savedMetasList = $this->getMetasList();
+        $processed = false;
         
         do {
             // loading view?
@@ -220,11 +275,16 @@ class ViewManager {
                             unset($this->data->$plugin);
                         }
                     }
- 
+                   
+                    // if no session is available yet, gets cached one:
+                    if (empty($sessionData)) {
+                        $sessionData = $this->getDefaultSessionData();
+                    }
+                    
                     $sessionData->pluginStorage = StructHandler::mergeOverride(
                                                    $sessionData->pluginStorage,
                                                    $this->data, true);
-                   
+                    
                     // Transmits some REQUESTed data to keep user interface
                     // consistent + views plugin data.
                     $savedVars = sprintf('%s,%s,%s',
@@ -249,6 +309,8 @@ class ViewManager {
                     $this->getMetas();
                     unset($this->metas['weight']);
                     $this->metas['viewLocationId'] = $this->wc->getLocationId();
+                
+                    $processed = true;
                 }
             }
             
@@ -263,6 +325,8 @@ class ViewManager {
                 $pluginSession = $this->getPluginSession($sessionData);
                 $this->setMetasFromRequest();
                 $this->wc->insert($pluginSession, $this->metas);
+
+                $processed = true;
             }
     
             // updating view?
@@ -281,6 +345,8 @@ class ViewManager {
                 $pluginSession = $this->getPluginSession($sessionData);
                 $this->setMetasFromRequest();
                 $this->wc->update($this->viewId, $pluginSession, $this->metas);
+            
+                $processed = true;
             } 
             
             // deleting view?
@@ -298,6 +364,8 @@ class ViewManager {
                 }
                 
                 $this->wc->delete($this->viewId);
+
+                $processed = true;
             }
         
             $this->message = $this->wc->getMessage();
@@ -305,6 +373,7 @@ class ViewManager {
         } while(false);
 
         $this->metasList = $savedMetasList;
+        return $processed;
     }
 
     /**

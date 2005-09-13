@@ -315,6 +315,11 @@ class Cartoclient {
     private $outputType;
 
     /**
+     * @var bool
+     */
+    private $isNewSession;
+
+    /**
      * Output formats constants.
      */
     const OUTPUT_HTML_VIEWER = 'html_viewer';
@@ -640,6 +645,13 @@ class Cartoclient {
 
         $_SESSION[$this->getSessionName()] = $this->clientSession;
         session_write_close();
+
+        if ($this->areViewsEnable() && $this->isNewSession &&
+            !file_exists($this->getViewManager()->getSessionCacheLocation())) {
+            // Caches some initial session data for views use.
+            $this->getViewManager()
+                 ->makeSessionCache($_SESSION[$this->getSessionName()]); 
+        }
     }
 
     /**
@@ -654,26 +666,19 @@ class Cartoclient {
         
         $this->clientSession = $clientSession;
 
-        if ($clientSession and !array_key_exists('reset_session', $_REQUEST)) {
-            
-            if ($this->viewOn) {
-                $this->log->debug('Handling existing session and views');
-                $this->getViewManager()->handleView($clientSession);
-            }
-            
+        if ($this->viewOn) {
+            $this->getViewManager()->handleView($this->clientSession);
+        }
+        
+        $this->isNewSession = !$this->clientSession || 
+                              array_key_exists('reset_session', $_REQUEST);
+        if (!$this->isNewSession) {
             $this->log->debug('Loading existing session');
             $this->callPluginsImplementing('Sessionable', 'loadSession');
 
         } else {
-            $this->log->debug('creating new  session');
-
+            $this->log->debug('creating new session');
             $this->clientSession = new ClientSession();
-
-            if ($this->viewOn) {
-                $this->log->debug('Handling new session and views');
-                $this->getViewManager()->handleView($clientSession);
-            }
-            
             $this->callPluginsImplementing('Sessionable', 'createSession',
                                            $this->getMapInfo(), 
                                            $this->getInitialMapState());
