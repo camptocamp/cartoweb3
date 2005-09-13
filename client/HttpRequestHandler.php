@@ -405,9 +405,9 @@ class HttpRequestHandler {
                 callPluginImplementing($plugin, 'ToolProvider', 'getTools');
         
         foreach ($tools as $tool) {
-            $this->log->debug("tool is " . $tool->id);
-            $this->log->debug("request " . $toolRequest);
-            $this->log->debug("id " . $tool->id);
+            $this->log->debug('tool is ' . $tool->id);
+            $this->log->debug('request ' . $toolRequest);
+            $this->log->debug('id ' . $tool->id);
             if ($toolRequest == $tool->id) {
                 return $this->handleTool($plugin, $tool);
             }
@@ -421,7 +421,7 @@ class HttpRequestHandler {
      * @param CartoForm current status
      * @return CartoForm modified status
      */
-    public function handleHttpRequest($clientSession, $cartoForm) {
+    public function handleHttpRequest(ClientSession $clientSession, $cartoForm) {
 
         // buttons
         $cartoForm->pushedButton = CartoForm::BUTTON_NONE;
