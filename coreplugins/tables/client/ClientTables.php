@@ -110,6 +110,14 @@ class ClientTables extends ClientPlugin
     }
     
     /**
+     * Returns all table groups
+     * @return Table
+     */
+    public function getTableGroups () {
+        return $this->tableGroups;
+    }
+
+    /**
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
