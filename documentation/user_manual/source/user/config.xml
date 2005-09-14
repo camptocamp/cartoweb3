@@ -146,11 +146,20 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
           usual ISO locale codes (en, fr, de ...) </para>
       </listitem>
       <listitem>
-        <para> authLang = list: restricted list of usable languages. In the case you have many languages 
-          in directory &lt;cartoweb_home&gt;/locale/ and do not want to use them all in your project.</para>
-      </listitem>
-      <listitem>
-        <para> orderLang = list: reordered list of languages. By default the languages order depends on your server locales settings. Use this parameter to easily reorder them as you want.</para>
+        <para> langList = list: list of usable languages. Used to order 
+and restrict the available languages. In case you have many languages in 
+directory &lt;cartoweb_home&gt;/locale/ and do
+         not want to use them all in your project, you may use this 
+parameter to specify a list of languages to use. The order in which you 
+input the languages codes will be used to display the languages links in 
+the interface.</para>
+         <example>
+         <title>langList usage</title>
+         <programlisting>langList = it,de,fr</programlisting>
+         </example>
+         <para>The exemple above restricts the availablelanguages to it, 
+de and fr. They will be displayed in that order in the interface 
+languages list.</para>
       </listitem>
     </itemizedlist>
   </sect1>
