@@ -36,16 +36,10 @@ class I18n {
     static private $i18n;
 
     /**
-     * Restrictive lang list
+     * Order and restrict lang list
      * @var string
      */
-    static private $authLanglist;
-
-    /**
-     * Order lang list
-     * @var string
-     */
-     static private $orderLanglist;
+     static private $langList;
 
     /**
      * Guess the I18nInterface class to use
@@ -70,8 +64,7 @@ class I18n {
         else
             self::$i18n = self::guessI18nClass();
 
-        self::$authLanglist = $config->authLang;
-        self::$orderLanglist = $config->orderLang;
+        self::$langList = $config->langList;
         
         self::setLocale($config->defaultLang);
 
@@ -90,10 +83,11 @@ class I18n {
 
         $authLang = array();
 
-        if (self::$authLanglist != '')
-            $authLang = explode(',', self::$authLanglist);
+        if (self::$langList != '') {
+            $authLang = explode(',', self::$langList);
             $authLang = array_map('trim', $authLang);
-           
+        }
+
         // Looks in directory locale
         $dir = CARTOWEB_HOME . 'locale/';
         $d = dir($dir);
@@ -109,7 +103,7 @@ class I18n {
             $locales[] = $entry;
         }
 
-        if (self::$orderLanglist != '') {
+        if (self::$langList != '') {
             $locales = self::localesSort($locales);
         }
 
@@ -250,7 +244,7 @@ class I18n {
      * @return array sorted locales language
      */
      static private function localesSort($locales) {
-        $o = explode (',', self::$orderLanglist);
+        $o = explode (',', self::$langList);
         $o = array_map('trim', $o);
         $n = array();
         $r = array();     
