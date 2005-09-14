@@ -667,6 +667,7 @@ class Cartoclient {
         $this->clientSession = $clientSession;
 
         if ($this->viewOn) {
+            $this->log->debug('Handling views');
             $this->getViewManager()->handleView($this->clientSession);
         }
         
