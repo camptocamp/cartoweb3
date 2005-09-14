@@ -54,14 +54,6 @@ class ServerProjectHandler extends ProjectHandler {
     }
     
     /**
-     * @see ProjectHandler::getRootPath()
-     * @return string
-     */
-    public function getRootPath() {
-        return CARTOWEB_HOME;
-    }
-    
-    /**
      * @return string
      */
     public function getProjectName() {

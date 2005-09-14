@@ -61,13 +61,6 @@ class ClientProjectHandler extends ProjectHandler {
     }
 
     /**
-     * @see ProjectHandler::getRootPath()
-     */
-    public function getRootPath() {
-        return CARTOWEB_HOME;
-    }
-    
-    /**
      * Returns project name
      *
      * Tries to find project name in:

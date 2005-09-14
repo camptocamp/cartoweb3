@@ -37,12 +37,6 @@ abstract class ProjectHandler {
     public $mapName;
 
     /**
-     * Returns cartoserver or cartoclient root path.
-     * @return string
-     */
-    abstract public function getRootPath();
-    
-    /**
      * Returns the project name
      * @return string
      */
@@ -70,9 +64,9 @@ abstract class ProjectHandler {
         
         $path = self::PROJECT_DIR . '/' . $projectName . '/' . $filePath;
 
-        if ($file == '' && is_dir($this->getRootPath() . $path))
+        if ($file == '' && is_dir(CARTOWEB_HOME . $path))
             return true;
-        if (file_exists($this->getRootPath() . $path . $file))
+        if (file_exists(CARTOWEB_HOME . $path . $file))
             return true;
             
         return false;
@@ -81,7 +75,7 @@ abstract class ProjectHandler {
     /**
      * Returns path for a file, depending on projects
      * 
-     * FIXME: it should be simplier to pass only a filename or directory, and
+     * FIXME: it should be simpler to pass only a filename or directory, and
      * let the caller do a dirname() or basename() from the result.
      * 
      * If file exists in current project, path to project file name is returned.
@@ -109,7 +103,7 @@ abstract class ProjectHandler {
         // It simply looks for directory name. 
         // Maybe a smarter approach could be used
         $projects = array();
-        $directory = $this->getRootPath() . self::PROJECT_DIR . '/';
+        $directory = CARTOWEB_HOME . self::PROJECT_DIR . '/';
         $d = dir($directory);
         while (false !== ($entry = $d->read())) {
             if (is_dir($directory . $entry) && $entry != '.'
