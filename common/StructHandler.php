@@ -72,22 +72,24 @@ class StructHandler {
      * @return mixed result of merge
      */
     static public function mergeOverride($object, $override, $mute = false) {
-         $new_object = clone $object;
+
+         if (!is_object($object)) {
+             return self::deepClone($override);
+         }
          
+         $new_object = self::deepClone($object);
+         $objectVars = array_keys(get_object_vars($object));
+        
          foreach(get_object_vars($override) as $property => $value) {
             
-            if (!$mute && in_array($property, 
-                array_keys(get_object_vars($object)))) {
-                
+            if (!$mute && in_array($property, $objectVars)) {
+                // FIXME: throw exception?
                 print "Warning: overriding property $property\n";
             }
             
-            if (in_array($property, 
-                array_keys(get_object_vars($object))) &&
-                is_object($value)) {
-                $new_object->$property = 
-                  $this->mergeOverride($object->$property, 
-                                       $value, $mute);
+            if (in_array($property, $objectVars) && is_object($value)) {
+                $new_object->$property = self::mergeOverride($object->$property, 
+                                                              $value, $mute);
             } else {
                 $new_object->$property = $value;
             }
