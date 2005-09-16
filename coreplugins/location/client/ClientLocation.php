@@ -627,6 +627,11 @@ class ClientLocation extends ClientPlugin
      */
     private function getZoomInFactor(Rectangle $rectangle) {
 
+        if ($rectangle->getWidth() == 0 ||
+            $rectangle->getHeight() == 0) {
+            return 0;
+        }
+        
         $bbox = $this->locationState->bbox;
         
         $widthRatio = $bbox->getWidth() / $rectangle->getWidth();
