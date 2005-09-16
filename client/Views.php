@@ -225,7 +225,8 @@ class ViewManager {
         
         $path = $this->getSessionCacheLocation();
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path));
+            Utils::makeDirectoryWithPerms(dirname($path),
+                $this->cartoclient->getConfig()->webWritablePath);
         }
         
         return file_put_contents($path,
@@ -941,7 +942,8 @@ class ViewFileContainer extends ViewContainer {
         $this->viewPath .= $cartoclient->getConfig()->mapId . '/';
        
         if (!is_dir($this->viewPath)) {
-            mkdir($this->viewPath);
+            Utils::makeDirectoryWithPerms($this->viewPath, 
+                $this->cartoclient->getConfig()->webWritablePath);
         }
        
         $this->catalogFile = $this->viewPath . 'catalog.txt';

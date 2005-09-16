@@ -103,6 +103,31 @@ class Utils {
     }
 
     /**
+     * Creates a directory recursively. The permissions of the newly created
+     * directories are the same as the permission of the given $permsFrom file
+     * or directory.
+     * @param string The directory to create (can create recursively)
+     * @param string Permissions of the newly created directory are the same 
+     * as this file or directory.
+     */
+    public static function makeDirectoryWithPerms($directory, $permsFrom) {
+        
+        if (is_dir($directory))
+            return;
+        
+        $oldUmask = umask();
+        umask(0000);
+
+        $stat = stat($permsFrom);
+        $perms = $stat['mode'] & 0777;
+        // Looks like mkdir() does not like mixed / and \ delimiters
+        $directory = Utils::pathToPlatform($directory);
+        mkdir($directory, $perms, true);
+
+        umask($oldUmask);  
+    }
+    
+    /**
      * Escapes special characters taking into account if magic_quotes_gpc
      * is ON or not. Multidimensional arrays are accepted.
      * @param mixed

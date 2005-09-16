@@ -154,31 +154,6 @@ class LayersInitProvider implements InitProvider {
                                                                   '/', $file);
         return $this->symPath = CARTOWEB_HOME . $path . $file;
     }
-
-    /**
-     * Creates a directory recursively. The permissions of the newly created
-     * directories are the same as the permission of the given $permsFrom file
-     * or directory.
-     * @param string The directory to create (can create recursively)
-     * @param string Permissions of the newly created directory are the same 
-     * as this file or directory.
-     */
-    private function makeDirectoryWithPerms($directory, $permsFrom) {
-        
-        if (is_dir($directory))
-            return;
-        
-        $oldUmask = umask();
-        umask(0000);
-
-        $stat = stat($permsFrom);
-        $perms = $stat['mode'] & 0777;
-        // Looks like mkdir() does not like mixed / and \ delimiters
-        $directory = Utils::pathToPlatform($directory);
-        mkdir($directory, $perms, true);
-
-        umask($oldUmask);  
-    }
     
     /**
      * Generates an icon image for classes, and returns its URL.
@@ -193,7 +168,7 @@ class LayersInitProvider implements InitProvider {
         $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
         $iconAbsolutePath =  $writablePath . $iconRelativePath;
       
-        $this->makeDirectoryWithPerms(dirname($iconAbsolutePath), $writablePath);
+        Utils::makeDirectoryWithPerms(dirname($iconAbsolutePath), $writablePath);
         
         if (!file_exists($iconAbsolutePath) ||
             filemtime($this->serverContext->getMapPath()) > 
