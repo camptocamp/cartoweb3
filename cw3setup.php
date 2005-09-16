@@ -108,6 +108,7 @@ function usage() {
  --profile PROFILENAME      The profile to use (development/production)
  
  --clean                    clean generated files and caches
+ --clean-views              clean views (must be used with --clean)
  
  --fetch-demo               fetch the demo data from cartoweb.org, and extract it in the demo project if
                              not already there.
@@ -189,6 +190,7 @@ function processArgs() {
             case "--delete-existing":
             case "--fetch-from-cvs":
             case "--no-symlinks":
+            case "--clean-views":
                 setOption($i);
     
                 break;
@@ -1094,8 +1096,16 @@ function deleteFilesCallback($file, $context) {
 
 function cleanFiles() {
     global $CW3_DIRS_TO_CREATE;
+    global $OPTIONS;
 
     info('Removing generated files');
+
+    if (!isset($OPTIONS['clean-views'])) {
+        @rmdirr('views');
+        if (is_dir('www-data/views'))
+            rename('www-data/views', 'views');
+    }
+
     foreach($CW3_DIRS_TO_CREATE as $dir) {
         debug("checking $dir");
         if (is_dir($dir)) {
@@ -1111,6 +1121,13 @@ function cleanFiles() {
 
     makeDirs();
     setPermissions();
+
+    if (!isset($OPTIONS['clean-views'])) {
+        if (is_dir('views')) {
+            rename('views', 'www-data/views');
+            //rmdirr('views');
+        }
+    }
 }
 
 ?>
