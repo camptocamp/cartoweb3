@@ -858,6 +858,7 @@ class ClientExportPdf extends ExportPlugin
    
         $tables = $this->cartoclient->getPluginManager()->tables;
         $tableGroups = $tables->getTableGroups();
+
         if (empty($tableGroups))
             return array();
 
@@ -868,7 +869,7 @@ class ClientExportPdf extends ExportPlugin
                 continue;
 
             foreach ($group->tables as $table) {
-  
+
                 $tableElt = new TableElement;
                 $tableElt->caption = $table->tableTitle;
                 $tableElt->headers = $table->noRowId ? array() : array(I18n::gt('Id'));
@@ -882,8 +883,8 @@ class ClientExportPdf extends ExportPlugin
                         $row[] = $val;
                     $tableElt->rows[] = $row;
                 }
+		$results[] = $tableElt;
             }
-            $results[] = $tableElt;   
         }
         return $results;
     }
