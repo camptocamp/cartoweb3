@@ -849,39 +849,42 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Transforms query results from MapResult into TableElements
-     * @param MapResult
+     * Transforms results from TableGroups into TableElements
      * @return array array of TableElement
      */
-    private function getQueryResult($mapResult) {
-        if (!$mapResult instanceof MapResult || 
-            !isset($mapResult->queryResult) ||
-            !isset($mapResult->queryResult->tableGroup))
+    private function getQueryResult() {
+        /* gets optional table groups (default = all) */
+        $groups = $this->blocks['queryResult']->content;
+   
+        $tables = $this->cartoclient->getPluginManager()->tables;
+        $tableGroups = $tables->getTableGroups();
+        if (empty($tableGroups))
             return array();
 
         $results = array();
-        foreach ($mapResult->queryResult->tableGroup->tables as $table) {
-            if (!$table->numRows)
+        foreach ($tableGroups as $group) {
+
+            if ($groups && !in_array($group->groupId, $groups))
                 continue;
 
-            $tableElt = new TableElement;
-            
-            $tableElt->caption = $table->tableTitle;
-            
-            $tableElt->headers = array(I18n::gt('Id'));
-            foreach ($table->columnTitles as $field)
-                $tableElt->headers[] = $field;
+            foreach ($group->tables as $table) {
+  
+                $tableElt = new TableElement;
+                $tableElt->caption = $table->tableTitle;
+                $tableElt->headers = $table->noRowId ? array() : array(I18n::gt('Id'));
+                
+                foreach ($table->columnTitles as $field)
+                    $tableElt->headers[] = $field;
 
-            foreach ($table->rows as $res) {
-                $row = array($res->rowId);
-                foreach ($res->cells as $val)
-                    $row[] = $val;
-                $tableElt->rows[] = $row;
+                foreach ($table->rows as $res) {
+                    $row = $table->noRowId ? array() : array($res->rowId);
+                    foreach ($res->cells as $val)
+                        $row[] = $val;
+                    $tableElt->rows[] = $row;
+                }
             }
-
-            $results[] = $tableElt;
+            $results[] = $tableElt;   
         }
-    
         return $results;
     }
     
@@ -1029,7 +1032,7 @@ class ClientExportPdf extends ExportPlugin
 
         // query results displaying
         if (isset($this->blocks['queryResult'])) {
-            $queryResult = $this->getQueryResult($mapResult);        
+            $queryResult = $this->getQueryResult();        
             if ($queryResult) {
                 $this->blocks['queryResult']->content = $queryResult;
                 
