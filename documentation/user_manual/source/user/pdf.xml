@@ -1132,6 +1132,37 @@ blocks.tableCaption.height = 15
 blocks.tableHeaders.backgroundColor = #ffaaaa
 blocks.tableHeaders.fontBold = true
 blocks.tableHeaders.color = #eeeeff]]></programlisting>
+
+     <tip>
+     <para>
+      A special table block exists to specify which TableGroup (see
+      <xref linkend="dev.newplugin.special.tables.structures" />) you want to display in the PDF.
+     </para>
+     <programlisting>blocks.queryResult.content = query</programlisting>
+     <para>
+      In that case only the TableGroup <parameter>query</parameter> is
+      visible but you can specify more than one, separate by comma. If this block is not defined in the configuration file,
+      all TableGroup are visible in the PDF file (backward compatibility). 
+     </para>
+     </tip>
+
+    <para>
+     The query results data come from the plugin Table which offers
+     the mechanism of table rules (see <xref
+     linkend="dev.newplugin.special.tables.setrules" />) 
+     which describes how tables must be displayed. You can also add
+     table rules specificaly for the PDF output like this example : 
+    </para>
+<programlisting>
+$outputType = $this->cartoclient->getOutputType();
+
+if ($outputType == Cartoclient::OUTPUT_HTML_VIEWER) {
+    /* rules for HTML output */
+}
+
+if ($outputType == Cartoclient::OUTPUT_PDF_EXPORT) {
+    /* rules for PDF output */
+}</programlisting>   
    </sect3>
    <sect3 id="user.pdf.tutorial.block.legend">
     <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend Block</title>
