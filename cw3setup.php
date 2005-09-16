@@ -1123,10 +1123,8 @@ function cleanFiles() {
     setPermissions();
 
     if (!isset($OPTIONS['clean-views'])) {
-        if (is_dir('views')) {
+        if (is_dir('views'))
             rename('views', 'www-data/views');
-            //rmdirr('views');
-        }
     }
 }
 
