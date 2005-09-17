@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding="{$charset}" standalone='yes'?>
+<?xml version="1.0" encoding="{$charset}" standalone="yes"?>
 <view>
  <metadata>
  {foreach from=$metas key=metaName item=metaVal}
