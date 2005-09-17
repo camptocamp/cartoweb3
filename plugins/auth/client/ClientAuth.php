@@ -289,7 +289,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         }
         
         $this->auth = new Auth($proxyAuthContainer, array(), 
-                                        array($this, 'loginCallback'), true);
+                               array($this, 'loginCallback'), true);
 
         $this->auth->setLogoutCallback(array($this, 'logoutCallback'));
         $this->auth->setFailedLoginCallback(array($this, 'failedLoginCallback'));
