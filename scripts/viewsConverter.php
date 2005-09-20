@@ -78,7 +78,7 @@ if ($type == 'file') {
         terminate('Failed opening DB connection: ' . $db->getMessage());
     }
 
-    $res = $db->query('SELECT views_id, sessiondata FROM vviews');
+    $res = $db->query('SELECT views_id, sessiondata FROM views');
 
     if (DB::isError($res)) {
         terminate('Error while querying views table: ' . $res->getMessage());
