@@ -115,6 +115,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/performance.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/views_upgrade.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
 
   <!-- The appendixes -->

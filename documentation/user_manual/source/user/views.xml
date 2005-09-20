@@ -85,6 +85,16 @@
        <parameter>viewSavedRequest</parameter> (comma-separated list of strings): list of REQUEST variables (GET, POST, COOKIE) that must be preserved when loading a view. Some are already built-in listed such as <parameter>tool</parameter>, <parameter>js_folder_idx</parameter>, <parameter>project</parameter>, <parameter>collapse_keymap</parameter> and views related parameters. Adding other &cartoweb; reserved REQUEST variables names to the list may prevent the view system from working correctly.
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>viewLogErrors</parameter> (boolean): if true, outdated views loadings will be logged in <filename>log/viewErrors.log</filename>.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>viewUpgradeOutdated</parameter> (boolean): if true, &cartoweb; will try to upgrade outdated views on the fly. Else view outdated parts will be discarded and current plugin session data will be used instead.
+      </para>
+     </listitem>
     </itemizedlist>
     For instance:
     <programlisting>; Views management
@@ -94,7 +104,10 @@ viewablePlugins = location, layers, query, outline
 viewMetas = author
 viewDsn = pgsql://www-data@localhost/cw3
 viewAuth = admin,
-viewSavedRequest = personalVar1, personalVar2</programlisting>
+viewSavedRequest = personalVar1, personalVar2
+viewLogErrors = true
+viewUpgradeOutdated = true
+</programlisting>
    </para>
    <para>
     Should you decide to use a database storage, you would need first to create an appropriate table called <parameter>views</parameter>. Here is an example of SQL statements for PostgreSQL:
