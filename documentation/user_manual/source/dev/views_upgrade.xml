@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+  <chapter id="dev.views_upgrade">
+    <title>Upgrading Views Data</title>
+
+    <sect1 id="dev.views_upgrade.intro"> 
+      <title>Introduction</title>
+      <para>Views saves given &cartoweb; states by recording the plugins session data. Only client-side plugins implementing <filename>Sessionable</filename> interface may be saved in views.</para>
+      
+      <para>Because &cartoweb; and its plugins evolve, views might become outdated after some time. Plugin session containers may change: properties may be added, removed, renamed, etc. and thus shifts between old views and new plugin session formats appear. Those shifts then prevent some views from correctly displaying or even make &cartoweb; crash.</para>
+
+      <para>However &cartoweb; offers upgrade tools to read outdated views.</para>
+    </sect1>
+
+    <sect1 id="dev.views_upgrade.tools">
+     <title>Upgrade Tools</title>
+     <sect2 id="dev.views_upgrade.tools.versions">
+      <title>Views Versions</title>
+      <para>Plugins session data are saved in views in separated XML elements. Each element records the plugin session container version. Plugin session container version must be incremented whenever a change is applied on the container format (new property, name change, etc.). Container version, if not specified, defaults to 1. To explicitely update it, add following constant definition before container declaration:
+      <programlisting>define('PLUGINNAME_SESSION_VERSION', 3);</programlisting>
+     where <parameter>PLUGINNAME</parameter> is the uppercased plugin name. Container versions are always integers.</para>
+     </sect2>
+     
+     <sect2 id="dev.views_upgrade.tools.filters">
+      <title>Upgrade Filters</title>
+      <para>Upgrading a view is done by sequentially applying filters, each one updating it to the following version (from version N to version N+1). If matching sequence cannot be detected (missing filters), upgrade is aborted and outdated data is discarded. Current plugin data is then used instead.</para>
+     
+     <para>Upgrade filters are PHP classes extending <parameter>ViewUpgrader</parameter>, the latter class being defined at the end of <filename>client/Views.php</filename>. They are saved in a <filename>ViewsUpgrade.php</filename> file, located in the same directory than the plugin client-side class file (for instance <filename>coreplugins/location/client/</filename>). Filters naming convention is <parameter>&lt;UppercasedPluginName&gt;V&lt;initialVersion&gt;ToV&lt;initialVersion+1&gt;</parameter>.</para>
+     
+     <para>Some basic methods (rename, remove, add) are available in every filters but you may define your own transformers methods. Details about basic methods are given in <parameter>ViewUpgrader</parameter> class documentation (&cartoweb; API manual). At least an upgrade filter class must redefine the <parameter>callFilters()</parameter> method that indicates the sequence of transformations to apply.</para>
+
+     <para>An example of filters might be:<programlisting><![CDATA[<?php
+/**
+ * coreplugins/location/client/ViewsUpgrade.php
+ */
+
+class test {
+var $game = 'arkanoid';
+var $i = 12;
+}
+
+/**
+ * Upgrades from V1 to V2
+ */
+class LocationV1ToV2 extends ViewUpgrader {
+    protected function callFilters() {
+        $this->add('test', 'toto');
+    }
+}
+
+/**
+ * Upgrades from V2 to V3
+ */
+class LocationV2ToV3 extends ViewUpgrader {
+    protected function callFilters() {
+        $this->rename('test', 'foo');
+        $this->add('bar', new test);
+        $this->add('someProperty', 2);
+        $this->add('caramba', 'ole');
+        $this->remove('someProperty');
+    }
+}
+?>]]></programlisting></para>
+
+      <warning><para>It is the responsibility of each developer to provide adapted filters when he/she updates plugin session containers!</para></warning>
+  
+      <warning><para>Upgrade filters do not support non object-typed plugin session containers.</para></warning>
+
+     </sect2>
+     
+     <sect2 id="dev.views_upgrade.tools.config">
+      <title>Upgrade Configuration</title>
+      <para>See <xref linkend="user.views.config.controller"/>. Only two of these parameters are related to views upgrading. <parameter>viewLogErrors</parameter> enables to log outdated views loadings whereas <parameter>viewUpgradeOutdated</parameter> is useful to activate or not the upgrading device (if deactivated, outdated views parts are discarded).</para>
+     </sect2>
+    </sect1>
+
+  </chapter>
