@@ -1,12 +1,13 @@
 #!/usr/local/bin/php
 <?php
 /**
- * clean.php - cleans old images, old map results and old SOAP XML cache files
+ * clean.php - cleans old files: images, map results, PDF and SOAP XML cache
  *
  * Cleans:
  * - Images not associated with map result
  * - Images associated with map result / SOAP XML, including corresponding
  *   map result / SOAP XML
+ * - Exported PDF files as well as temporary images used to generate them
  * - Empty map results /SOAP XML
  *
  * Usage:
@@ -14,15 +15,11 @@
  *
  * @package Scripts
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
+ * @version $Id$
  */
 
 /**
  * Common home dir
- */
-define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-
-/**
- * Server home dir
  */
 define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
@@ -44,31 +41,21 @@ if ($_SERVER['argc'] < 2 || $_SERVER['argc'] > 3) {
     }
 }
     
+// Deletes old generated PDF files
+$pdfCachedir = CARTOWEB_HOME . 'htdocs/generated/pdf';
+deleteOldFiles($pdfCachedir, true);
+
+// Deletes old cache PDF-related images
+$pdfImagesdir = CARTOWEB_HOME . 'www-data/pdf_cache';
+deleteOldFiles($pdfImagesdir, true);
+
 // Deletes old and empty map results
 $resultCachedir = CARTOWEB_HOME . 'www-data/mapresult_cache';
-$resultFiles = scandir($resultCachedir);
-
-foreach ($resultFiles as $filename) {
-    $file = $resultCachedir . '/' . $filename;
-    if (!is_dir($file)
-        && filesize($file) == 0
-        && (mktime() - fileatime($file)) > ($ageCache * 60)) {
-        unlink($file);
-    }
-}
+deleteOldFiles($resultCachedir);
 
 // Deletes old and empty SOAP XMLs
 $soapCachedir = CARTOWEB_HOME . 'www-data/soapxml_cache';
-$soapFiles = scandir($soapCachedir);
-
-foreach ($soapFiles as $filename) {
-    $file = $soapCachedir . '/' . $filename;
-    if (!is_dir($file)
-        && filesize($file) == 0
-        && (mktime() - fileatime($file)) > ($ageCache * 60)) {
-        unlink($file);
-    }
-}
+deleteOldFiles($soapCachedir);
 
 $results = loadMapResults($resultCachedir);
 $soapXMLs = loadSoapXMLs($soapCachedir);
@@ -179,10 +166,29 @@ function loadSoapXMLs($soapCachedir) {
 }
 
 /**
+ * Deletes files older than cache age from given directory.
+ * @param string path of directory to clean
+ * @param bool if true, all old files are deleted, else (default) only empty ones.
+ */
+function deleteOldFiles($cachedir, $deleteAll = false) {
+    global $ageCache;
+    $files = scandir($cachedir);
+
+    foreach ($files as $filename) {
+        $file = $cachedir . '/' . $filename;
+        $emptyCondition = $deleteAll || (filesize($file) == 0);
+        if (!is_dir($file) && $emptyCondition &&
+            (mktime() - fileatime($file)) > ($ageCache * 60)) {
+            unlink($file);
+        }
+    }
+}
+
+/**
  * Prints usage
  */
 function usage() {
-    print "Usage: ./clean.php <cache_image_max_age> [<simple_image_max_age>]\n";
+    print "Usage: ./clean.php <cache_file_max_age> [<simple_file_max_age>]\n";
     print "       (ages in minutes)\n";
     exit(1);    
 }
