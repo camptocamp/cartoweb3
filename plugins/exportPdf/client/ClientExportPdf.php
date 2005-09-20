@@ -883,7 +883,7 @@ class ClientExportPdf extends ExportPlugin
                         $row[] = $val;
                     $tableElt->rows[] = $row;
                 }
-		$results[] = $tableElt;
+        $results[] = $tableElt;
             }
         }
         return $results;
