@@ -92,11 +92,8 @@ smartyDebugging = false
 ; default language
 defaultLang = en
 
-; languages to make available in the viewer
-;authLang = de, en, fr
-
-; order of languages links in the viewer
-;orderLang = en, fr, de
+; languages to make available in the viewer, list order gives links order
+;langList = de, en, fr
 
 ; Charset encoder class
 EncoderClass.config = EncoderISO
@@ -110,3 +107,5 @@ viewMetas = author
 viewDsn = pgsql://www-data@localhost/cw3_test
 viewAuth = admin
 ;viewSavedRequest = someRequestVarname
+viewLogErrors = false
+viewUpgradeOutdated = false
