@@ -42,7 +42,12 @@ class ViewManager {
      */
     private $wc;
 
-   /**
+    /**
+     * @var ViewFilter
+     */
+    private $wf;
+    
+    /**
      * @var int
      */
     private $viewId;
@@ -110,6 +115,8 @@ class ViewManager {
             default:
                 $this->wc = new ViewFileContainer($cartoclient);
         }
+
+        $this->wf = new ViewFilter($cartoclient);
     }
 
     /**
@@ -198,10 +205,10 @@ class ViewManager {
     }
     
     /**
-     * Restores default session.
+     * Returns default session.
      * @return ClientSession
      */
-    private function getDefaultSessionData() {
+    public function getDefaultSessionData() {
         $sessionData = new ClientSession;
         
         // gets default session from cached session file
@@ -267,7 +274,9 @@ class ViewManager {
                 }
     
                 // gets view from storage
-                $this->data = $this->wc->select($this->viewId);
+                $viewData = $this->wc->select($this->viewId);
+                $this->data = $this->wf->decapsulate($viewData);
+                $this->data = $this->wf->checkVersion($this->data, $this->viewId);
     
                 if ($this->data) {
                     // overrides session with view content
@@ -276,7 +285,7 @@ class ViewManager {
                             unset($this->data->$plugin);
                         }
                     }
-                   
+
                     // if no session is available yet, gets cached one:
                     if (empty($sessionData)) {
                         $sessionData = $this->getDefaultSessionData();
@@ -324,8 +333,9 @@ class ViewManager {
                 }
                 
                 $pluginSession = $this->getPluginSession($sessionData);
+                $data = $this->wf->encapsulate($pluginSession);
                 $this->setMetasFromRequest();
-                $this->wc->insert($pluginSession, $this->metas);
+                $this->wc->insert($data, $this->metas);
 
                 $processed = true;
             }
@@ -344,8 +354,9 @@ class ViewManager {
                 }
     
                 $pluginSession = $this->getPluginSession($sessionData);
+                $data = $this->wf->encapsulate($pluginSession);
                 $this->setMetasFromRequest();
-                $this->wc->update($this->viewId, $pluginSession, $this->metas);
+                $this->wc->update($this->viewId, $data, $this->metas);
             
                 $processed = true;
             } 
@@ -482,6 +493,284 @@ class ViewManager {
  */
 function filterViewable($pluginName) {
     return 'Client' . ucfirst(trim($pluginName));
+}
+
+/**
+ * Views writing/reading filters
+ * @package Client
+ */
+class ViewFilter {
+
+    /**
+     * @var Logger
+     */
+    private $log;
+
+    /**
+     * @var Cartoclient
+     */
+    private $cartoclient;
+
+    /**
+     * @var array
+     */
+    private $pluginsVersions = array();
+
+    /**
+     * @var stdClass
+     */
+    private $defaultSession;
+    
+    /**
+     * Constructor
+     * @param Cartoclient
+     */
+    public function __construct(Cartoclient $cartoclient) {
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->cartoclient = $cartoclient;
+    }
+
+    /**
+     * Returns plugin base name.
+     * @param string
+     * @param bool if true, result is uppercased
+     * @return string
+     */
+    private function getPluginName($pluginName, $uppercase = false) {
+        // 6 = strlen('Client')
+        $baseName = substr($pluginName, 6, strlen($pluginName) - 6);
+        if ($uppercase) {
+            return strtoupper($baseName);
+        }
+            
+        return strtolower($baseName{0}) . substr($baseName, 1);
+    }
+
+    /**
+     * Returns current version of given plugin session container.
+     * @param string client plugin name.
+     * @return int
+     */
+    public function getRecorderVersion($pluginName) {
+        $versionMarker = sprintf('%s_SESSION_VERSION',
+                                 $this->getPluginName($pluginName, true));
+        return defined($versionMarker)
+               ? eval('return ' . $versionMarker . ';') : 1;
+    }
+    
+    /**
+     * Encapsulates view data within an XML document.
+     * @param stdClass
+     * @return string
+     */
+    public function encapsulate($sessionData) {
+        $plugins = array();
+        foreach ($sessionData as $pluginName => $pluginData) {
+            
+            $plugins[$pluginName] = array(
+                'recorderVersion' => $this->getRecorderVersion($pluginName),
+                'data'            => $pluginData, // TODO: filter HTML tags?
+                );
+        }
+
+        $smarty = new Smarty_Cartoclient($this->cartoclient);
+        $smarty->assign(array('charset' => Encoder::getCharset(),
+                              'plugins' => $plugins,
+                              ));
+        return $smarty->fetch('viewdata.xml.tpl');
+    }
+
+    /**
+     * Extracts view data from its XML storage.
+     * @param string view in XML format
+     * @return stdClass
+     */
+    public function decapsulate($viewXml) {
+        $xml = simplexml_load_string($viewXml);
+        $view = new stdClass;
+        foreach ($xml->plugin as $plugin) {
+            $pluginName = (string)$plugin['name'];
+            $view->$pluginName = trim((string)$plugin);
+
+            $this->pluginsVersions[$pluginName] = (int)$plugin['recorderversion']; 
+        }
+        return $view;
+    }
+
+    /**
+     * Checks that view format is not outdated. If yes, tries to "repair".
+     * @param  stdClass
+     * @param int view id
+     * @return stdClass
+     */
+    public function checkVersion($data, $viewId) {
+       
+        foreach ($data as $pluginName => &$pluginVal) {
+            if ($this->pluginsVersions[$pluginName] 
+                < $this->getRecorderVersion($pluginName)) {
+                // view is outdated!
+
+                $viewVersion = $this->pluginsVersions[$pluginName];
+                $recorderVersion = $this->getRecorderVersion($pluginName);
+                $msg = sprintf('view #%d outdated: %s is v%d, v%d expected.',
+                               $viewId, $pluginName,
+                               $viewVersion, $recorderVersion);
+                $this->log->warn($msg);
+              
+                if ($this->cartoclient->getConfig()->viewUpgradeOutdated &&
+                    $this->upgrade($pluginName, $pluginVal,
+                                   $viewVersion, $recorderVersion)) {
+                    // upgrades plugin view data format
+                    $this->log->debug("Upgraded $pluginName view data");
+                    $status = 'upgraded';
+                } else {
+                    // neutralizes the current plugin part
+                    $this->log->debug("Disabled $pluginName view data");
+                    unset($data->$pluginName);
+                    $status = 'disabled';
+                }
+
+                // logs error
+                if ($this->cartoclient->getConfig()->viewLogErrors) {
+                    $msg = sprintf("* %s - mapId: %s - %s => %s\n",
+                                   date('Y-m-d H:i:s'),
+                                   $this->cartoclient->getConfig()->mapId,
+                                   $msg, $status);
+                    $fp = fopen(CARTOWEB_HOME . 'log/viewErrors.log', 'a');
+                    fwrite($fp, $msg);
+                    fclose($fp);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Returns path of plugin view filters file.
+     * @param string plugin name
+     * @return string filter filepath, empty if no file found
+     */
+    private function getFilterFilePath($pluginName) {
+        $path = sprintf('/%s/client/ViewsUpgrade.php', $pluginName);
+        $projectPath = sprintf('%s/%s/',
+                               ProjectHandler::PROJECT_DIR,
+                               $this->cartoclient->getProjectHandler()
+                                                 ->getProjectName());
+        $locations = array($projectPath . 'coreplugins',
+                           $projectPath . 'plugins',
+                           'coreplugins', 'plugins');
+        foreach ($locations as $location) {
+            $testedPath = CARTOWEB_HOME . $location . $path;
+            if (file_exists($testedPath)) {
+                return $testedPath;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Detects sequence of filters needed to upgrade data.
+     * @param string plugin name
+     * @param int initial version
+     * @param int final version
+     * @return array empty if detection failed
+     */
+    private function getFiltersSequence($pluginName, $initialVersion,
+                                                     $finalVersion) {
+        $name = ucfirst($pluginName);
+        $sequence = array();
+        for ($i = $initialVersion; $i < $finalVersion; $i++) {
+            // filtername format is for instance MyPluginV34ToV35
+            $filterName = sprintf('%sV%dToV%d', $name, $i, $i + 1);
+            if (!class_exists($filterName) || 
+                !is_subclass_of($filterName, 'ViewUpgrader')) {
+                $this->log->warn("Filter $filterName not found");
+                return array();
+            }
+            $sequence[] = $filterName;
+        }
+        return $sequence;
+    }
+
+    /**
+     * Returns cached session plugin storage.
+     * @param string plugin name, if empty method will return full storage 
+     * @return mixed
+     */
+    private function getDefaultData($storage = '') {
+        if (!isset($this->defaultSession)) {
+            $this->defaultSession = $this->cartoclient->getViewManager()
+                                         ->getDefaultSessionData()
+                                         ->pluginStorage;
+        }
+        
+        if (!$storage) {
+            return $this->defaultSession;
+        }
+        
+        if (isset($this->defaultSession->$storage)) {
+            return unserialize($this->defaultSession->$storage);
+        }
+        
+        return ''; 
+    }
+    
+    /**
+     * Tries to upgrade view data format.
+     *
+     * WARNING: only works with object formats!
+     * @param string plugin classname
+     * @param string serialized plugin view data
+     * @param int initial version
+     * @param int final version
+     * @return bool true if success
+     */
+    private function upgrade($pluginName, &$pluginVal, 
+                            $initialVersion, $finalVersion) {
+       
+        $shortName = $this->getPluginName($pluginName);
+        
+        // checks if conversion filter is available
+        $filterPath = $this->getFilterFilePath($shortName);
+        if (!$filterPath) {
+            $this->log->warn("Failed finding $pluginName filters file"); 
+            return false;
+        }
+        require_once($filterPath);
+
+        // checks that correct sequence of filters is available
+        $sequence = $this->getFiltersSequence($shortName, $initialVersion, 
+                                                           $finalVersion);
+        if (!$sequence) {
+            return false;
+        }
+        
+        // performs sequentially filters transformations
+        $data = unserialize($pluginVal);
+        
+        foreach ($sequence as $filter) {
+            $f = new $filter;
+            if (!$f->upgrade($data)) {
+                $this->log->warn("$filter upgrade failed");
+                return false;
+            }
+        }
+        
+        // merges with default session to retrieve missing data
+        // FIXME: does not work => merge comes too late, all default session
+        // data are crushed when merging.
+        /*if ($defaultData = $this->getDefaultData($pluginName)) {
+            $data = StructHandler::mergeOverride($defaultData, $data, true); 
+        }*/
+
+        $pluginVal = serialize($data);
+        
+        // TODO: save upgraded view data to avoid re-upgrading next time?
+        
+        return true;
+    }
 }
 
 /**
@@ -1464,5 +1753,83 @@ class ViewDbContainer extends ViewContainer {
     protected function writeCatalog() {
         // Nothing to do (everything is done in processResource())
     }
+}
+
+/**
+ * Basis of views upgrade filters
+ *
+ * This class must be extended to define plugin view data filters.
+ * Extended classes must be stored in &lt;plugin&gt;/client/ViewsUpgrade.php
+ * and named for instance MyPluginV34ToV35. Each filter must be design to
+ * upgrade view data from given version N to version N+1.
+ *
+ * This class provides generic filtering methods
+ * @package client
+ */
+abstract class ViewUpgrader {
+
+    /**
+     * @var stdClass
+     */
+    protected $storage;
+
+    /**
+     * Upgrades given plugin storage. 
+     * @param stdclass plugin storage to upgrade
+     * @return bool true if success
+     */
+    public function upgrade(&$storage) {
+        // currently only supports object containers
+        // TODO: support arrays by converting them to objects?
+        if (!is_object($storage)) {
+            return false;
+        }
+        $this->storage =& $storage;
+        $this->callFilters();
+        return true;
+    }
+
+    /**
+     * Executes upgrade filters. To be redefined in extended filters.
+     */
+    abstract protected function callFilters();
+
+    /**
+     * Removes given property.
+     * @param string property name
+     */
+    protected function remove($from) {
+        unset($this->storage->$from);
+    }
+
+    /**
+     * Adds a new property.
+     * @param string new property name
+     * @param mixed value of new property
+     */
+    protected function add($to, $value) {
+        if (is_object($value)) {
+            $this->storage->$to = StructHandler::deepClone($value);
+        } else {
+            $this->storage->$to = $value;
+        }
+    }
+    
+    /**
+     * Updates name of property.
+     * @param string old name
+     * @param string new name
+     */
+    protected function rename($from, $to) {
+        if (!isset($this->storage->$from)) {
+            return;
+        }
+        $this->add($to, $this->storage->$from);
+        $this->remove($from);
+    }
+
+    // TODO: define a method to retrieve some data in cached default session???
+
+    // Define filter-specific transformers in extended class!
 }
 ?>
