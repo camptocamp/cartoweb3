@@ -421,9 +421,8 @@ class ColumnSelector extends TableRule {
      * Keeps or exclude columns
      */
     protected function selectColumns($table, $exclude = false) {
-
         $indexes = $this->getIndexes($table);
-                
+
         if ($exclude) {
             $ids = array_diff($table->columnIds, $this->columnIds);
             if (in_array('row_id', $this->columnIds)) {
@@ -1138,16 +1137,88 @@ class ColumnAdderBatch extends ColumnAdder {
 }
 
 /**
+ * Rule to reorder the columns and theirs contents.
+ * @package CorePlugins
+ */
+class ColumnReorder extends TableRule {
+
+    /**
+     * @var array
+     */
+    public $columnIds;
+    
+    /**
+     * Constructor
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function __construct($groupId, $tableId, $columnIds) {
+        parent::__construct();
+        $this->groupId   = $groupId;
+        $this->tableId   = $tableId;
+        $this->columnIds = $columnIds;        
+    }
+
+    /**
+     * Helper function.
+     * Return a copy of $array, the cells are swapped using 
+     * $swaps. For every cells in $swaps, the key give the old 
+     * position in $array and the value the new position.  
+     */
+    private function array_swap($array, $swaps) {
+        $result = $array;
+        foreach ($swaps as $from => $to) {
+            $result[$to] = $array[$from];
+        }
+        return $result;
+    }
+
+    /*
+     * Reorder the content of $table.
+     */
+    protected function reorder($table) {
+        $diff = array_diff_assoc($table->columnIds, $this->columnIds);
+        $swaps = array();
+        foreach ($diff as $i) {
+            $swaps[] = array_search($i, $this->columnIds);
+        }
+
+        $table->columnIds = $this->array_swap($table->columnIds, $swaps);
+        $table->columnTitles = $this->array_swap($table->columnTitles, $swaps);
+
+        foreach ($table->rows as &$row) {
+            $row->cells = $this->array_swap($row->cells, $swaps);
+        }
+    }
+
+    /**
+     * Executes a rule on a table
+     * @param Table
+     * @param array
+     */
+    public function applyRule($table, $params) {
+        $this->reorder($table);
+    }
+
+}
+
+
+/**
  * Table rules registry
  *
  * Stores and executes table rules. The table rules allow to modify a Table
  * object. This is the list of existing types of rules:
  * <ul>
  * <li>ColumnSelector: keeps only a set of columns</li>
+ * <li>ColumnUnselector: remove a set of columns</li>
+ * <li>ColumnReorder: reorder the columns</li>
+ * <li>GroupFilter: modifies group title</li>
  * <li>TableFilter: modifies table title</li>
  * <li>ColumnFilter: modifies columns title</li>
  * <li>CellFilter: modifies content of cells one by one</li>
  * <li>CellFilterBatch: modifies content of all cells</li>
+ * <li>RowUnselector: remove a set of rows</li>
  * <li>ColumnAdder: adds one or more columns and computes content
  *     of cells one by one</li>
  * <li>ColumnAdderBatch: adds one or more columns column and computes content
@@ -1213,6 +1284,17 @@ class TableRulesRegistry {
        $this->addRule($rule); 
     }
     
+    /**
+     * Adds a ColumnReorder rule
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function addColumnReorder($groupId, $tableId, $columnIds) {
+       $rule = new ColumnReorder($groupId, $tableId, $columnIds);
+       $this->addRule($rule);
+    }
+
     /**
      * Adds a GroupFilter rule
      * @param string
