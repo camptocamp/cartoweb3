@@ -85,7 +85,16 @@
             if true, query hilighting will use Hilight plugin. In this case, 
             Hilight plugin must be loaded on server. If false, objects will be 
             hilighed using MapServer query functionality. See also <xref 
-            linkend="user.query.mapfile.hilight" /> (default: false)</para>
+            linkend="user.query.mapfile.hilight" /> (default:
+            false)</para>  
+        </listitem>
+        <listitem>
+          <para> 
+            noRowId<indexterm><primary>roRowId</primary></indexterm>: 
+            if true, row id will not be included in the table. In this
+            case the row id will not be displayed in the output table
+            (html, pdf, etc.). (default:
+            false)</para>  
         </listitem>
       </itemizedlist>
     </sect2>
