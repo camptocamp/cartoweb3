@@ -123,7 +123,7 @@ class ServerQuery extends ClientResponderAdapter {
                                      array($idAttribute));
         }
         $table->noRowId = false;
-        if (empty($idAttribute)) {
+        if (empty($idAttribute) || $this->getConfig()->noRowId) {
             $table->noRowId = true;
         }
         
