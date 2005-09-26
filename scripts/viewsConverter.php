@@ -96,7 +96,7 @@ if ($type == 'file') {
 
         $sql = sprintf("UPDATE views set sessiondata = '%s' " .
                        'WHERE views_id = %d',
-                       Utils::addslashes(serialize($newViewData)), $id);
+                       addslashes(serialize($newViewData)), $id);
         $res2 = $db->query($sql);
 
         if (DB::isError($res2)) {

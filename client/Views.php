@@ -1523,7 +1523,7 @@ class ViewDbContainer extends ViewContainer {
     protected function processResource() {
  
         if (isset($this->viewId)) {
-            $this->viewId = Utils::addslashes($this->viewId);
+            $this->viewId = addslashes($this->viewId);
         } else {
             $this->setViewId();
         }
@@ -1543,7 +1543,7 @@ class ViewDbContainer extends ViewContainer {
                                %s) VALUES (%d, 'now()', '%s', '%s')",
                                implode(', ', $this->metasList),
                                $this->viewId,
-                               $this->serialize($this->data),
+                               addslashes($this->serialize($this->data)),
                                implode("', '", $this->metas)
                                );
                 break;
@@ -1553,7 +1553,7 @@ class ViewDbContainer extends ViewContainer {
                 $sql = sprintf("UPDATE views 
                                SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
-                               $this->serialize($this->data),
+                               addslashes($this->serialize($this->data)),
                                $this->makeMetasSql(),
                                $this->viewId);
                 break;
@@ -1628,7 +1628,7 @@ class ViewDbContainer extends ViewContainer {
         }
 
         foreach ($this->metas as &$meta) {
-            $meta = Utils::addslashes($meta);
+            $meta = addslashes($meta);
         }
     }
 
@@ -1656,13 +1656,6 @@ class ViewDbContainer extends ViewContainer {
     protected function setSelectData() {
         parent::setSelectData();
         $this->updateMetasList();
-    }
-
-    /**
-     * @see ViewContainer::serialize()
-     */
-    protected function serialize($data) {
-        return Utils::addslashes(parent::serialize($data), false);
     }
 
     /**
