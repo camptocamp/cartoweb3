@@ -5,6 +5,7 @@ MODULE_big = dijkstra
 
 OBJS = dijkstra.o boost_wrapper.o
 
+DATA = dijkstra_postgis.sql
 DATA_built = dijkstra.sql
 DOCS = README.dijkstra
 
