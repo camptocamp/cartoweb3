@@ -225,7 +225,7 @@ class ServerHilight extends ServerPlugin {
      * @param MsLayer
      * @param QuerySelection
      */ 
-    private function hilightWholeLayer($layer, $querySelection) {
+    protected function hilightWholeLayer($layer, $querySelection) {
         
         $layer->set('status', MS_ON);
         
@@ -268,22 +268,24 @@ class ServerHilight extends ServerPlugin {
      * @param QuerySelection
      * @see ServerQuery::handlePreDrawing()
      */
-    public function hilightLayer($querySelection) {
-        
+    public function hilightLayer(QuerySelection $querySelection) {
+ 
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         
         $serverLayer = $layersInit->getLayerById($querySelection->layerId);
-        if (!$serverLayer)
+        if (!$serverLayer) {
             throw new CartoserverException("can't find serverLayer " .
                                            $querySelection->layerId);
+        }
         
         $msMapObj = $this->serverContext->getMapObj();
         
         $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
-        if (empty($msLayer))
+        if (empty($msLayer)) {
             throw new CartoserverException("can't find mslayer " .
                                            $serverLayer->msLayer);
-        
+        }
+
         // activate this layer to be visible
         $msLayer->set('status', MS_ON);
         
