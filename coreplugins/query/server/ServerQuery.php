@@ -36,7 +36,7 @@ class ServerQuery extends ClientResponderAdapter {
      * Tells if query must be drawn by Mapserver
      * @var boolean
      */
-    private $drawQuery = false;
+    protected $drawQuery = false;
 
     /**
      * Constructor
@@ -215,7 +215,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @param QuerySelection
      * @return Table
      */
-    private function queryLayer($bbox, $querySelection) {
+    protected function queryLayer($bbox, $querySelection) {
 
         if (is_null($querySelection->tableFlags)) {
             $querySelection->tableFlags = new TableFlags;
@@ -316,7 +316,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @param array tables
      * @param array 
      */
-    private function hilight($tables, $hilightQuerySelections) {
+    protected function hilight($tables, $hilightQuerySelections) {
 
         $pluginManager = $this->serverContext->getPluginManager();
         if ($this->getConfig()->drawQueryUsingHilight) {
