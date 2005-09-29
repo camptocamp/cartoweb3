@@ -1,0 +1,14 @@
+Source: pgdijkstra
+Section: misc
+Priority: optional
+Maintainer: Sylvain Pasche <sylvain.pasche@camptocamp.com>
+Standards-Version: 3.6.2
+Build-Depends: debhelper (>= 4.1.46), cdbs, postgresql-server-dev-8.0, libboost-graph-dev
+
+Package: pgdijkstra
+Architecture: any
+Section: misc
+Depends: ${shlibs:Depends}, postgresql-8.0
+Description: Dijkstra shortest path computation algorithm for PostgreSQL
+ Pgdijkstra is a PostgreSQL module for computing the shortest path
+ between two points in a graph.
