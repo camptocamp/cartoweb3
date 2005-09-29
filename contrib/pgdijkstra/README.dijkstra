@@ -14,6 +14,8 @@ INSTALLATION
         "apt-get install libboost-graph-dev" and you don't need to modify anything)
 * Type "make install" 
 * Execute the sql file dijkstra.sql to install the functions in your database
+   (you need the plpgsql language enabled on your database. 
+      Type createlang "plpgsql YOUR_DATABASE" if not)
 * If you have PostGIS installed, you can launch dijkstra_postgis.sql
 which will create PostGIS import and manipulation functions.
 
