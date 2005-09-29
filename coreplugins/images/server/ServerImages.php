@@ -184,10 +184,11 @@ class ServerImages extends ClientResponderAdapter
         }
 
         if ($requ->mainmap->isDrawn) { 
-            if ($this->isDrawQuery())
+            if ($this->isDrawQuery()) {
                 $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
-            else
+            } else {
                 $this->serverContext->setMsMainmapImage($msMapObj->draw());
+            }
         }
         $this->serverContext->checkMsErrors();
         
