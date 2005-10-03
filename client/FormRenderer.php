@@ -53,6 +53,11 @@ class FormRenderer {
      * directory). To be used instead of the default one.
      */
     private $customForm;
+
+    /**
+     * @var string some string to output in addition to regular output
+     */
+    private $specialOutput = '';
     
     /**
      * Constructor
@@ -63,6 +68,20 @@ class FormRenderer {
         $this->cartoclient = $cartoclient;
 
         $this->smarty = $this->getSmarty();
+    }
+
+    /**
+     * Sets special output to display in addition of standard output.
+     * @param string
+     * @param bool if true, resets special output container before adding
+     * given content (default: false)
+     */
+    public function setSpecialOutput($output, $reset = false) {
+        if ($reset) {
+            $this->specialOutput = $output;
+        } else {
+            $this->specialOutput .= $output;
+        }
     }
 
     /**
@@ -218,6 +237,7 @@ class FormRenderer {
     
     /**
      * Displays GUI using cartoclient.tpl Smarty template
+     * @return string
      */
     public function showForm() {
 
@@ -247,19 +267,22 @@ class FormRenderer {
                                                         'renderForm',
                                                         $this->smarty);
         }
-        
+
         // if set to false, smarty display is skipped
-        if ($this->customForm === false)
-            return;
+        if (!is_null($this->customForm) && $this->customForm === false) {
+            return $this->specialOutput;
+        }
         
         $form = !is_null($this->customForm) ? $this->customForm 
                 : 'cartoclient.tpl';
-        $this->smarty->display($form);
+        
+        return $this->specialOutput . $this->smarty->fetch($form);
     }
 
     /**
      * Displays failure using failure.tpl Smarty templates
      * @param Exception exception to display
+     * @return string
      */
     public function showFailure($exception) {
         
@@ -275,7 +298,7 @@ class FormRenderer {
 
         $smarty->assign('exception_class', get_class($exception));
         $smarty->assign('failure_message', $message);
-        $smarty->display('failure.tpl');
+        return $smarty->fetch('failure.tpl');
     }
 }
 

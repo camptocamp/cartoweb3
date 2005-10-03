@@ -18,6 +18,6 @@ require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
 $cartoclient = new Cartoclient();
 
-$cartoclient->main();
+print $cartoclient->main();
 
 ?>

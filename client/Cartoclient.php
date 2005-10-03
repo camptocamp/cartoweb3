@@ -815,6 +815,7 @@ class Cartoclient {
      * - Result handling
      * - Display
      * - Session save
+     * @return string
      */
     private function doMain() {
 
@@ -854,9 +855,10 @@ class Cartoclient {
         
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
-        if ($this->isInterruptFlow())
+        if ($this->isInterruptFlow()) {
             return $this->formRenderer->showForm();
-        
+        }
+
         $mapRequest = $this->getMapRequest();
         $this->callPluginsImplementing('ServerCaller', 'buildRequest',
                                        $mapRequest);
@@ -891,14 +893,17 @@ class Cartoclient {
             $this->outputType == self::OUTPUT_IMAGE) {
             // Returns raw mainmap image
             $this->getPluginManager()->getPlugin('images')->outputMainmap();
+            $output = '';
         } else {
-            $this->formRenderer->showForm($this);
+            $output = $this->formRenderer->showForm();
         }
 
         $this->callPluginsImplementing('Sessionable', 'saveSession');
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
+
+        return $output;
     }
 
     /**
@@ -954,20 +959,19 @@ class Cartoclient {
      * Main entry point.
      *
      * Calls {@link Cartoclient::doMain()} with exception handling.
+     * @return string CartoWeb page string
      */
     public function main() {
         
-        //echo "<pre>";
-        
-        $this->log->debug("request is : ");
+        $this->log->debug('request is: ');
         $this->log->debug($_REQUEST);
 
         Common::initializeCartoweb($this->config);
         
         try {
-            $this->doMain();
+            return $this->doMain();
         } catch (Exception $exception) {
-            $this->formRenderer->showFailure($exception);
+            return $this->formRenderer->showFailure($exception);
         }
     }
 }

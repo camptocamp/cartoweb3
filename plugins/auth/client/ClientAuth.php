@@ -210,7 +210,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      * @var boolean
      */
     private $loginFailed;
- 
+
     /**
      * Common code called by all Pear::Auth callbacks. It handles the login page
      * display.
@@ -227,21 +227,23 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         }
         $smarty->assign('reason', $reason);
         
-        return $smarty->display('login_page.tpl');
+        return $smarty->fetch('login_page.tpl');
     }
     
     /**
      * Callback for Pear::Auth, when the user logs in
      */
     public function loginCallback() {
-        $this->authCallback('login');
+        $output = $this->authCallback('login');
+        $this->cartoclient->getFormRenderer()->setSpecialOutput($output);
     }
     
     /**
      * Callback for Pear::Auth, when the user logs out
      */
     public function logoutCallback() {
-        $this->authCallback('logout');
+        $output = $this->authCallback('logout');
+        $this->cartoclient->getFormRenderer()->setSpecialOutput($output);
     }
     
     /**
