@@ -376,17 +376,6 @@ class ServerPostgresRouting extends ServerRouting {
     }
 
     /**
-     * Wrapper for PEAR::isError, which throws an exception in case of failure
-     * @param object 
-     */
-    protected function checkDbError($db) {
-        if (PEAR::isError($db)) {
-            $msg = sprintf('Message: %s  Userinfo: %s', $db->getMessage(), $db->userinfo);
-            throw new CartoserverException($msg);
-        }
-    }
-
-    /**
      * Returns the Pear::DB database connection.
      * @return DB
      */    
@@ -399,7 +388,7 @@ class ServerPostgresRouting extends ServerRouting {
         $dsn = $this->getConfig()->routingDsn;
         
         $this->db = DB::connect($dsn);
-        $this->checkDbError($this->db);
+        Utils::checkDbError($this->db);
         return $this->db;        
     }
 
@@ -415,7 +404,7 @@ class ServerPostgresRouting extends ServerRouting {
         
         $table = $this->getConfig()->postgresRoutingTable;
         $id = $db->getOne("SELECT id FROM {$table}_vertices WHERE geom_id ILIKE '$nodeId'");
-        $this->checkDbError($db);
+        Utils::checkDbError($db);
         
         return $id;
     }
@@ -468,7 +457,7 @@ class ServerPostgresRouting extends ServerRouting {
         $stampLimit = $tod['sec'] - $maxLifetime;
 
         $r = $this->getDb()->query("DELETE FROM $routingResultsTable WHERE timestamp < $stampLimit");
-        $this->checkDbError($r);        
+        Utils::checkDbError($r);        
     }
 
     /**
@@ -488,7 +477,7 @@ class ServerPostgresRouting extends ServerRouting {
         $db = $this->getDb();
         $table = $this->getRoutingTable();
         $prepared = $db->prepare("SELECT edge_id, x(the_geom), y(the_geom) FROM shortest_path('SELECT id, source, target, cost FROM {$table}_edges', ?, ?, false, false) left join {$table}_vertices on vertex_id = id;");
-        $this->checkDbError($prepared);        
+        Utils::checkDbError($prepared);        
         return $db->execute($prepared, array($node1, $node2));        
     }
 
@@ -531,7 +520,7 @@ class ServerPostgresRouting extends ServerRouting {
             $edgeId = $row['edge_id'];
             $r = $db->query("INSERT INTO $routingResultsTable SELECT $resultsId, " .
                     "$timestamp, gid, the_geom FROM $table WHERE edge_id = $edgeId");
-            $this->checkDbError($r);
+            Utils::checkDbError($r);
             
             $nodes[] = $node;
         }
@@ -545,10 +534,10 @@ class ServerPostgresRouting extends ServerRouting {
     protected function computePath($node1, $node2, $parameters) {
 
         $db = $this->getDb();
-        $this->checkDbError($db);
+        Utils::checkDbError($db);
                 
         $result = $this->shortestPathQuery($node1, $node2, $parameters);
-        $this->checkDbError($result);
+        Utils::checkDbError($result);
 
         $routingResult = new RoutingResult();
 
@@ -586,7 +575,7 @@ class ServerPostgresRouting extends ServerRouting {
 
             $routingResultsTable = $this->getRoutingResultsTable();            
             $count = $db->getOne("SELECT count(results_id) FROM $routingResultsTable WHERE results_id = $resultsId");
-            $this->checkDbError($count);
+            Utils::checkDbError($count);
             if ($count == 0) {
                 // compute path again
                 $routingResult = $this->computePath($graph->stops[$i], $graph->stops[$i + 1], $graph->parameters);                                
@@ -621,7 +610,7 @@ class ServerPostgresRouting extends ServerRouting {
         "WHERE results_id IN $ids) AS extent";
 
         $result = $this->getDb()->getAll($sql);
-        $this->checkDbError($result);
+        Utils::checkDbError($result);
 
         if (count($result) != 1) {
             throw new CartoserverException("Can't find bbox of results_id $resultsId");   
