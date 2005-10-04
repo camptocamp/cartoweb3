@@ -2,3 +2,4 @@
 
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
+viewOn = true
