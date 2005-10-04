@@ -96,7 +96,7 @@ class ClientExportHtml extends ExportPlugin {
      */
     public function getExport() {
     
-        $mapRequest = $this->cartoclient->getClientSession()->lastMapRequest;
+        $mapRequest = $this->getLastMapRequest();
         $mapResult = $this->getExportResult($this->getConfiguration());
 
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
