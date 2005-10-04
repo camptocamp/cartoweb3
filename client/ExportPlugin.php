@@ -433,8 +433,9 @@ abstract class ExportPlugin extends ClientPlugin
                                                getClientSession()->
                                                lastMapRequest);
 
-        if (!$mapRequest)
-            return NULL;
+        if (!$mapRequest) {
+            throw new CartoclientException('Session expired: reload calling page!');
+        }
 
         return $mapRequest;
     }
