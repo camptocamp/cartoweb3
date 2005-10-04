@@ -44,7 +44,7 @@ class ServerTables extends ServerPlugin {
      * Registry which contains all client side rules
      * @var TableRulesRegistry
      */ 
-    private $tableRulesRegistry = null;
+    protected $tableRulesRegistry = null;
 
     /**
      * Constructor

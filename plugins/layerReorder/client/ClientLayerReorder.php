@@ -70,41 +70,41 @@ class ClientLayerReorder extends ClientPlugin
      * Ms Layer Ids ordered
      * @var array
      */
-    private $orderedMsLayerIds;
+    protected $orderedMsLayerIds;
 
     /**
      * Initial Ms Layers Ids array
      * @var array
      */
-    private $layerIds;
+    protected $layerIds;
 
     /**
      * Initial Layers Labels array sorted
      * @var array
      */
-    private $layerLabels;
+    protected $layerLabels;
 
     /**
      * Array of MapServer layers id selected (currently displayed)
      * @var array
      */
-    private $selectedMsLayerIds;
+    protected $selectedMsLayerIds;
 
     /**
      * LayerReorder State object (session object)
      * @var object
      */
-    private $layerReorderState;
+    protected $layerReorderState;
 
     /**
      * Layer order exclusion list to put on top of the stack
      */
-    private $topLayers;
+    protected $topLayers;
 
     /**
      * Layer order exclusion list to put on bottom of the stack
      */
-    private $bottomLayers;
+    protected $bottomLayers;
     
 
     /**
@@ -206,7 +206,7 @@ class ClientLayerReorder extends ClientPlugin
      * Retrieve selected layers MapServer Ids (rightly ordered)
      * @return array
      */
-    private function getSelectedMsIds() {
+    protected function getSelectedMsIds() {
 
         $selected = array();
         $orderedSelected = array();
@@ -259,7 +259,7 @@ class ClientLayerReorder extends ClientPlugin
      * Return selected layer labels array, rightly ordered
      * @return array
      */
-    private function getSelectedCwLayerLabels() {
+    protected function getSelectedCwLayerLabels() {
 
         // retrieve label for each msLayer
         $labels = array();
@@ -309,7 +309,7 @@ class ClientLayerReorder extends ClientPlugin
      * Common method to handle both Get or Post request
      * @param array layers to reorder
      */
-    private function handleRequest($layers) {
+    protected function handleRequest($layers) {
 
         $this->orderedMsLayerIds = array();
         $mapIds = $this->getCwLayerIds();

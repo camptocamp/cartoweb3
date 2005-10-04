@@ -76,7 +76,7 @@ class ClientExportCsv extends ExportPlugin {
      * Format is set in configuration file, key fileName.
      * @return string
      */
-    private function generateFileName() {
+    protected function generateFileName() {
         
         $tableName = I18n::gt($this->tableId);
         
@@ -98,8 +98,7 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    public function handleHttpPostRequest($request) {
-    }
+    public function handleHttpPostRequest($request) {}
 
     /**
      * Handles HTTP request received by script export.php
@@ -118,8 +117,7 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderForm(Smarty $template) {
-    }
+    public function renderForm(Smarty $template) {}
 
     /**
      * Builds export configuration.
@@ -143,7 +141,7 @@ class ClientExportCsv extends ExportPlugin {
      * @param boolean true if UTF8 decoding is required
      * @return string
      */
-    private function exportLine($array, $sep, $tD) {
+    protected function exportLine($array, $sep, $tD) {
     
         $contents = '';
         $first = true;

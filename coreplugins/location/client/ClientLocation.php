@@ -62,27 +62,27 @@ class ClientLocation extends ClientPlugin
     /**
      * @var LocationState
      */
-    private $locationState;
+    protected $locationState;
 
     /**
      * @var LocationRequest
      */
-    private $locationRequest;
+    protected $locationRequest;
     
     /**
      * @var LocationResult
      */
-    private $locationResult;
+    protected $locationResult;
     
     /**
      * @var array
      */
-    private $scales;
+    protected $scales;
     
     /**
      * @var array
      */
-    private $shortcuts;
+    protected $shortcuts;
 
     /**
      * Tool constants.
@@ -94,7 +94,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @var Smarty_Plugin
      */
-    private $smarty;
+    protected $smarty;
 
     /**
      * Constructor
@@ -109,7 +109,7 @@ class ClientLocation extends ClientPlugin
      * @param string
      * @return int
      */
-    private function panDirectionToFactor($panDirection) {
+    protected function panDirectionToFactor($panDirection) {
         switch ($panDirection) {
         case PanDirection::VERTICAL_PAN_NORTH:
         case PanDirection::HORIZONTAL_PAN_EAST:
@@ -129,7 +129,7 @@ class ClientLocation extends ClientPlugin
      * Handles panning buttons
      * @return LocationRequest
      */
-    private function handlePanButtons() {
+    protected function handlePanButtons() {
         $panButtonToDirection = array(
             'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH, 
                               PanDirection::HORIZONTAL_PAN_WEST),
@@ -182,7 +182,7 @@ class ClientLocation extends ClientPlugin
      * Handles clicks on key map
      * @return LocationRequest
      */
-    private function handleKeymapButton() {
+    protected function handleKeymapButton() {
 
         $cartoForm = $this->cartoclient->getCartoForm();
         
@@ -212,7 +212,7 @@ class ClientLocation extends ClientPlugin
      * @param boolean 
      * @return LocationRequest
      */
-    private function handleRecenterScales($request,
+    protected function handleRecenterScales($request,
                                           $useDoit = true, 
                                           $check = false) {
 
@@ -294,7 +294,7 @@ class ClientLocation extends ClientPlugin
      * Draws recenter form
      * @return string
      */
-    private function drawRecenter() {
+    protected function drawRecenter() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('recenter.tpl');
     }
@@ -303,7 +303,7 @@ class ClientLocation extends ClientPlugin
      * Draws scales form
      * @return string
      */
-    private function drawScales() {
+    protected function drawScales() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $scaleValues = array(0);
         $scaleLabels = array('');
@@ -329,7 +329,7 @@ class ClientLocation extends ClientPlugin
      * @param boolean 
      * @return LocationRequest
      */
-    private function handleIdRecenter($request, $check = false) {
+    protected function handleIdRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);
@@ -388,7 +388,7 @@ class ClientLocation extends ClientPlugin
      * Draws recenter on Ids form
      * @return string
      */
-    private function drawIdRecenter() {
+    protected function drawIdRecenter() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
         $layersInit = $this->cartoclient->getMapInfo()->layersInit;
@@ -427,7 +427,8 @@ class ClientLocation extends ClientPlugin
      * @param boolean
      * @return LocationRequest
      */
-    private function handleShortcuts($request, $useDoit = true, $check = false) {
+    protected function handleShortcuts($request, $useDoit = true, 
+                                                 $check = false) {
         
         $shortcut_id  = $this->getHttpValue($request, 'shortcut_id');
         $shortcutDoit = $this->getHttpValue($request, 'shortcut_doit');                            
@@ -460,7 +461,7 @@ class ClientLocation extends ClientPlugin
      * Draws shortcuts form
      * @return string
      */
-    private function drawShortcuts() {
+    protected function drawShortcuts() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $shortcutValues = array(-1);
         $shortcutLabels = array('');
@@ -481,7 +482,7 @@ class ClientLocation extends ClientPlugin
      * @param boolean
      * @return LocationRequest
      */
-    private function handleBboxRecenter($request, $check = false) {
+    protected function handleBboxRecenter($request, $check = false) {
         
         $recenterBbox = $this->getHttpValue($request, 'recenter_bbox');
         if (is_null($recenterBbox)) {
@@ -625,7 +626,7 @@ class ClientLocation extends ClientPlugin
      * @param Rectangle
      * @return double
      */
-    private function getZoomInFactor(Rectangle $rectangle) {
+    protected function getZoomInFactor(Rectangle $rectangle) {
 
         if ($rectangle->getWidth() == 0 ||
             $rectangle->getHeight() == 0) {
@@ -648,7 +649,7 @@ class ClientLocation extends ClientPlugin
      * @param double
      * @return LocationRequest
      */
-    private function buildZoomPointRequest($zoomType, Point $point, 
+    protected function buildZoomPointRequest($zoomType, Point $point, 
                                            $zoomFactor = 0, $scale = 0) {
 
         $zoomRequest = new ZoomPointLocationRequest();
@@ -771,7 +772,7 @@ class ClientLocation extends ClientPlugin
      * Returns a string with some location information (scale, bbox, etc.)
      * @return string
      */
-    private function getLocationInformation() {
+    protected function getLocationInformation() {
         
         $delta = $this->maxScale - $this->minScale;
         if ($delta > 0) {

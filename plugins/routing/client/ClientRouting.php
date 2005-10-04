@@ -62,7 +62,7 @@ class ClientRouting extends ClientPlugin
     /**
      * @var Logger
      */
-    protected $log;
+    private $log;
 
     /**
      * @var RoutingState

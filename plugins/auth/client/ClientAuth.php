@@ -38,13 +38,13 @@ class IniSecurityContainer extends SecurityContainer {
      * The map of usernames => passwords
      * @var array
      */
-    private $passwordsMap = array();
+    protected $passwordsMap = array();
     
     /**
      * The map of usernames => roles
      * @var array
      */
-    private $roleMap = array();
+    protected $roleMap = array();
 
     /**
      * Constructor, taking a plugin configuration.
@@ -97,12 +97,12 @@ class DbSecurityContainer extends SecurityContainer {
      * Database object
      * @var DB
      */
-    private $db;
+    protected $db;
 
     /**
      * @var ClientPluginConfig
      */
-    private $config;
+    protected $config;
 
     /**
      * Constructor
@@ -116,7 +116,7 @@ class DbSecurityContainer extends SecurityContainer {
      * Returns the Pear::DB database connection.
      * @return DB
      */    
-    private function getDb() {
+    protected function getDb() {
         if ($this->db)
             return $this->db;
         
@@ -175,7 +175,7 @@ class ProxyAuthContainer extends Auth_Container {
      * request are proxied.
      * @var SecurityManager
      */
-    private $securityManager;
+    protected $securityManager;
     
     /**
      * Constructor
@@ -203,13 +203,13 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      * Pear::Auth object for managing the authentication
      * @var Auth
      */
-    private $auth;
+    protected $auth;
  
     /**
      * True to store the fact that the user authentication failed.
      * @var boolean
      */
-    private $loginFailed;
+    protected $loginFailed;
 
     /**
      * Common code called by all Pear::Auth callbacks. It handles the login page
@@ -217,7 +217,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      * @param string reason the page is called for
      * @return string Smarty result
      */
-    private function authCallback($reason) {
+    protected function authCallback($reason) {
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
@@ -259,7 +259,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      *
      * @return SecurityContainer
      */
-    private function getSecurityContainer() {
+    protected function getSecurityContainer() {
     
         $securityContainer = $this->getConfig()->securityContainer;
         if (!$securityContainer)
@@ -308,10 +308,10 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     }
     
     /**
-     * Interrupts cartoweb flow of operation. Necessary, when displaying the
+     * Interrupts CartoWeb flow of operation. Necessary, when displaying the
      * login/logout page.
      */
-    private function interruptFlow() {
+    protected function interruptFlow() {
         $formRenderer = $this->getCartoclient()->getFormRenderer();
         $formRenderer->setCustomForm(false);
         $this->getCartoclient()->setInterruptFlow(true);
@@ -320,7 +320,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * Displays the Pear::Auth login page. It interrupts cartoweb flow.
      */
-    private function showLogin() {
+    protected function showLogin() {
         $showLogin = $this->auth->showLogin;
         $this->auth->setShowLogin(true);
         $this->auth->login();
@@ -331,7 +331,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * Handles Get and Post requests
      */
-    private function handleHttpCommonRequest($request){
+    protected function handleHttpCommonRequest($request){
         if (isset($request['logout'])) {
             $this->auth->logout();
             $this->interruptFlow();
@@ -360,7 +360,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      * Draws the login/logout buttons. Their availibility depends on whether the
      * user is logged in or not.
      */
-    private function drawAuth() {
+    protected function drawAuth() {
 
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $anonymous = SecurityManager::getInstance()->hasRole(

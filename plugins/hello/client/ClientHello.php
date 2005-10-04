@@ -38,12 +38,12 @@ class ClientHello extends ClientPlugin
     /**
      * @var string
      */
-    private $message;
+    protected $message;
 
     /**
      * @var int
      */
-    private $count;
+    protected $count;
 
     /** 
      * Constructor

@@ -195,7 +195,7 @@ class CwFpdf implements PdfWriter {
      * @param string horizontal alignment keyword
      * @return string enum('C', 'R', 'L')
      */
-    private function getTextAlign($align) {
+    protected function getTextAlign($align) {
         switch (strtolower($align)) {
             case 'center': return 'C';
             case 'right': return 'R';
@@ -207,7 +207,7 @@ class CwFpdf implements PdfWriter {
      * Sets lines color.
      * @param mixed color info (keyword, hex code, RGB array)
      */
-    private function setDrawColor($color) {
+    protected function setDrawColor($color) {
         $borderColor = PrintTools::switchColorToRgb($color);
         $this->p->SetDrawColor($borderColor[0], $borderColor[1],
                                $borderColor[2]);
@@ -217,7 +217,7 @@ class CwFpdf implements PdfWriter {
      * Sets filling color (background).
      * @param mixed color info (keyword, hex code, RGB array)
      */
-    private function setFillColor($color) {
+    protected function setFillColor($color) {
         $bgColor = PrintTools::switchColorToRgb($color);
         $this->p->SetFillColor($bgColor[0], $bgColor[1], $bgColor[2]);
     }
@@ -226,7 +226,7 @@ class CwFpdf implements PdfWriter {
      * Sets line width in PdfGeneral dist_unit.
      * @param float
      */
-    private function setLineWidth($width) {
+    protected function setLineWidth($width) {
         $borderWidth = PrintTools::switchDistUnit($width,
                                                   $this->general->distUnit,
                                                   'mm');
@@ -397,7 +397,7 @@ class CwFpdf implements PdfWriter {
      * @param float height of next row
      * @return boolean true if new page added, else false
      */
-    private function splitMultiPageTable(PdfBlock $block, $height) {
+    protected function splitMultiPageTable(PdfBlock $block, $height) {
         // TODO: find a better way to avoid overlapping of potential footer
         // block (what about headers?) than:
         $footerHeight = PrintTools::switchDistUnit(15, 'mm',
@@ -446,7 +446,7 @@ class CwFpdf implements PdfWriter {
      * Draws table title row (cf. HTML caption element).
      * @param TableElement
      */
-    private function addTableCaption(TableElement $table) {
+    protected function addTableCaption(TableElement $table) {
         $block = $table->caption;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
@@ -470,7 +470,7 @@ class CwFpdf implements PdfWriter {
      * Draws table columns headers (columns titles) row.
      * @param TableElement
      */
-    private function addTableHeaders(TableElement $table) {
+    protected function addTableHeaders(TableElement $table) {
         $block = $table->headers;
         $this->setTextLayout($block);
         $this->setBoxLayout($block);
@@ -483,7 +483,7 @@ class CwFpdf implements PdfWriter {
      * @param TableElement
      * @param string type of table block (headers|caption) 
      */
-    private function setTableMeta(PdfBlock $block, TableElement $table,
+    protected function setTableMeta(PdfBlock $block, TableElement $table,
                                   $meta) {
         if (isset($this->blocks[$block->$meta])) {
             $subBlock = clone $this->blocks[$block->$meta];
@@ -502,7 +502,7 @@ class CwFpdf implements PdfWriter {
      * @param PdfBlock
      * @param TableElement
      */
-    private function setTableWidth(PdfBlock $block, TableElement $table) {
+    protected function setTableWidth(PdfBlock $block, TableElement $table) {
         if ($table->headers->content) {
             $this->setTextLayout($table->headers);
             foreach ($table->headers->content as $id => $header) {
@@ -826,7 +826,7 @@ class CwFpdf implements PdfWriter {
      * @param string JPG|JPEG|PNG, detected if left blank
      * @param string URL or FPDF resource (see FPDF doc)
      */
-    private function addImage($file, $x, $y, $w, $h, $type = '', $link = '') {
+    protected function addImage($file, $x, $y, $w, $h, $type = '', $link = '') {
 
         // make a local copy of remote PNG files
         if ($this->general->importRemotePng &&
@@ -860,7 +860,7 @@ class CwFpdf implements PdfWriter {
      * Performs recurrent actions (blocks displaying...) before current
      * page is closed.
      */
-    private function closePage() {
+    protected function closePage() {
         if ($this->p->PageNo() == 0)
             return;
 
@@ -896,7 +896,7 @@ class CwFpdf implements PdfWriter {
      * @param string string to convert
      * @return string converted string
      */
-    private function convertCharset($string) {
+    protected function convertCharset($string) {
         if (Encoder::getCharset() == 'utf-8')
             return utf8_decode($string);
 

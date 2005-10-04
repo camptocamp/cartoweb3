@@ -61,25 +61,25 @@ class ClientImages extends ClientPlugin
      * Current session state
      * @var ImagesState
      */
-    private $imagesState;
+    protected $imagesState;
 
     /**
      * Last server result
      * @var ImagesResult
      */
-    private $imagesResult;
+    protected $imagesResult;
     
     /**
      * Possible map sizes
      * @var array
      */
-    private $mapSizes;
+    protected $mapSizes;
 
     /**
      * Indicates if keymap must be collapsible
      * @var boolean
      */
-    private $collapseKeymap = 0;
+    protected $collapseKeymap = 0;
 
     /**
      * Default map width, if not specified in config
@@ -127,7 +127,7 @@ class ClientImages extends ClientPlugin
      * @param array HTTP request
      * @param boolean checks?
      */
-    private function handleMapSize($request, $check = false) {
+    protected function handleMapSize($request, $check = false) {
     
         $mapSize = $this->getHttpValue($request, 'mapsize');
 
@@ -186,7 +186,7 @@ class ClientImages extends ClientPlugin
      * Returns the list of map sizes to display.
      * @return array Array of map sizes (Map with label, with and height keys) 
      */ 
-    private function getMapSizes() {
+    protected function getMapSizes() {
         if (is_array($this->mapSizes)) return $this->mapSizes;
 
         return $this->initMapSizes();
@@ -202,7 +202,7 @@ class ClientImages extends ClientPlugin
      * @param int width to be set
      * @param int height to be set
      */
-    private function setMapDimensions(&$mapWidth, &$mapHeight) {
+    protected function setMapDimensions(&$mapWidth, &$mapHeight) {
         if ($this->getConfig()->mapSizesActive) {
             $mapSizes = $this->getMapSizes();
             if (isset($mapSizes[$this->imagesState->selectedSize])) {
@@ -271,7 +271,7 @@ class ClientImages extends ClientPlugin
      * @param boolean True to make URL XHTML-compliant
      * @return string The URL to the image, as put inside the html template
      */
-    private function getImageUrl($path, $useXhtml = true, $forceAbsolute = false) {
+    protected function getImageUrl($path, $useXhtml = true, $forceAbsolute = false) {
 
         $resourceHandler = $this->getCartoclient()->getResourceHandler();
         return $resourceHandler->getFinalUrl($path, false, $forceAbsolute,
@@ -282,7 +282,7 @@ class ClientImages extends ClientPlugin
      * Reads map sizes from configuration
      * @return array Array of map sizes (Map with label, with and height keys)
      */
-    private function initMapSizes() {
+    protected function initMapSizes() {
         $this->mapSizes = array();
         $config = $this->getConfig();
 
@@ -309,7 +309,7 @@ class ClientImages extends ClientPlugin
      * Draws map sizes choice
      * @return string Smarty generated HTML content
      */
-    private function drawMapSizes() {
+    protected function drawMapSizes() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $mapsizesOptions = array();
         foreach ($this->getMapSizes() as $id => $mapSize)

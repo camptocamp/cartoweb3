@@ -193,121 +193,121 @@ class ClientLayers extends ClientPlugin
     /**
      * @var Smarty_Plugin 
      */
-    private $smarty;
+    protected $smarty;
 
     /**
      * @var LayersInit
      */
-    private $layersInit;
+    protected $layersInit;
 
     /**
      * @var LayersState
      */
-    private $layersState;
+    protected $layersState;
 
     /**
      * List of LayerState objects. See {@link LayerState}.
      * @var array
      */
-    private $layersData;
+    protected $layersData;
     
     /**
      * @var array
      */
-    private $hiddenSelectedLayers;
+    protected $hiddenSelectedLayers;
     
     /**
      * @var array
      */
-    private $hiddenUnselectedLayers;
+    protected $hiddenUnselectedLayers;
 
     /**
      * @var array
      */
-    private $frozenSelectedLayers;
+    protected $frozenSelectedLayers;
     
     /**
      * @var array
      */
-    private $frozenUnselectedLayers;
+    protected $frozenUnselectedLayers;
     
     /**
      * @var array
      */
-    private $layers;
+    protected $layers;
     
     /**
      * @var array
      */
-    private $selectedLayers = array();
+    protected $selectedLayers = array();
     
     /**
      * @var array
      */
-    private $hiddenLayers = array();
+    protected $hiddenLayers = array();
     
     /**
      * @var array
      */
-    private $frozenLayers = array();
+    protected $frozenLayers = array();
     
     /**
      * @var array
      */
-    private $unfoldedLayerGroups = array();
+    protected $unfoldedLayerGroups = array();
     
     /**
      * @var array
      */
-    private $unfoldedIds = array();
+    protected $unfoldedIds = array();
     
     /**
      * @var array
      */
-    private $nodeId = array();
+    protected $nodeId = array();
 
     /**
      * @var array
      */
-    private $nodesIds = array();
+    protected $nodesIds = array();
 
     /**
      * @var array
      */
-    private $layerIds = array();
+    protected $layerIds = array();
     
     /**
      * @var array
      */
-    private $childrenCache = array();
+    protected $childrenCache = array();
 
     /**
      * @var float
      */
-    private $currentScale;
+    protected $currentScale;
     
     /**
      * @var string
      */
-    private $mapId;
+    protected $mapId;
     
     /**
      * Availability information icons
      */
-    private $notAvailableIcon;
-    private $notAvailablePlusIcon;
-    private $notAvailableMinusIcon;
+    protected $notAvailableIcon;
+    protected $notAvailablePlusIcon;
+    protected $notAvailableMinusIcon;
 
     /**
      * @var boolean
      */
-    private $useNewSwitch = false;
+    protected $useNewSwitch = false;
     
     /**
      * True if switch was overrided by another plugin
      * @param boolean
      */
-    private $overrideSwitch = false;
+    protected $overrideSwitch = false;
 
     const RENDERING_TREE = 'tree';
     const RENDERING_RADIO = 'radio';
@@ -375,7 +375,7 @@ class ClientLayers extends ClientPlugin
      * extended session storage class. 
      * @return LayersState
      */
-    private function getNewSessionObject() {
+    protected function getNewSessionObject() {
         return new LayersState;
     }
 
@@ -453,7 +453,7 @@ class ClientLayers extends ClientPlugin
      * mapInfo.
      * @return LayerNode The root node of the hierarchy of layerNodes.
      */
-    private function getLayerNode() {
+    protected function getLayerNode() {
         
         $layers = $this->layersInit->layers;
                 
@@ -473,7 +473,7 @@ class ClientLayers extends ClientPlugin
      * user. It returns a flat map of (layerId => Layer object).
      * @return array An array of LayerBase object.
      */
-    private function getLayersSecurityFiltered() {
+    protected function getLayersSecurityFiltered() {
     
         if (!$this->getConfig()->applySecurity)
             return $this->layersInit->layers;
@@ -498,7 +498,7 @@ class ClientLayers extends ClientPlugin
      * in MapInfo.
      * @return array
      */
-    private function getLayers() {
+    protected function getLayers() {
         if(!is_array($this->layers)) {
             $this->layers = array();
             foreach ($this->getLayersSecurityFiltered() as $layer)
@@ -513,7 +513,7 @@ class ClientLayers extends ClientPlugin
      * @param boolean if true (default), throws exception if invalid layername
      * @return LayerBase layer object of type Layer|LayerGroup|LayerClass
      */
-    private function getLayerByName($layername, $strict = true) {
+    protected function getLayerByName($layername, $strict = true) {
         $layers =& $this->getLayers();
         if (isset($layers[$layername])) 
             return $layers[$layername];
@@ -528,7 +528,7 @@ class ClientLayers extends ClientPlugin
      * @param LayerBase layer object of type Layer|LayerGroup|LayerClass
      * @return array array of layers names
      */
-    private function getLayerChildren($layer) {
+    protected function getLayerChildren($layer) {
         if(isset($this->childrenCache[$layer->id]))
             return $this->childrenCache[$layer->id];
 
@@ -564,7 +564,7 @@ class ClientLayers extends ClientPlugin
      * Handles switches form
      * @param array
      */
-    private function handleSwitches($request) {
+    protected function handleSwitches($request) {
         if (!$this->overrideSwitch && 
             $this->getHttpValue($request, 'switch_id') != NULL) {
             $this->layersState->switchId = 
@@ -666,7 +666,7 @@ class ClientLayers extends ClientPlugin
      * @param boolean if true, refreshes storage content (default to false)
      * @return array
      */
-    private function getMatchingLayers($stateProperty, $storageName,
+    protected function getMatchingLayers($stateProperty, $storageName,
                                        $refresh = false) {
         if($refresh || !$this->$storageName || 
            !is_array($this->$storageName)) {
@@ -686,7 +686,7 @@ class ClientLayers extends ClientPlugin
      * @param boolean optional (default: false), if true, forces result refresh
      * @return array
      */
-    private function getSelectedLayers($refresh = false) {
+    protected function getSelectedLayers($refresh = false) {
         return $this->getMatchingLayers('selected', 'selectedLayers', 
                                         $refresh);
     }
@@ -695,7 +695,7 @@ class ClientLayers extends ClientPlugin
      * Returns the list of LayerGroups that must be rendered unfolded.
      * @return array
      */
-    private function getUnfoldedLayerGroups() {
+    protected function getUnfoldedLayerGroups() {
         return $this->getMatchingLayers('unfolded', 'unfoldedLayerGroups');
     }
 
@@ -703,7 +703,7 @@ class ClientLayers extends ClientPlugin
      * Returns the list of explicitely hidden layers.
      * @return array
      */
-    private function getHiddenLayers() {
+    protected function getHiddenLayers() {
         return $this->getMatchingLayers('hidden', 'hiddenLayers');
     }
 
@@ -711,7 +711,7 @@ class ClientLayers extends ClientPlugin
      * Returns the list of explicitely frozen layers.
      * @return array
      */
-    private function getFrozenLayers() {
+    protected function getFrozenLayers() {
         return $this->getMatchingLayers('frozen', 'frozenLayers');
     }
 
@@ -727,9 +727,9 @@ class ClientLayers extends ClientPlugin
      * children layers
      * @return array
      */
-    private function fetchHiddenSelectedLayers($layerId, 
-                                               $forceHidden = false,
-                                               $forceSelected = false) {
+    protected function fetchHiddenSelectedLayers($layerId, 
+                                                 $forceHidden = false,
+                                                 $forceSelected = false) {
         $layer = $this->getLayerByName($layerId);
         if (!$layer || $layer instanceof LayerClass) return array();
 
@@ -747,7 +747,7 @@ class ClientLayers extends ClientPlugin
      * @return array
      * @see fetchHiddenSelectedLayers()
      */
-    private function fetchFrozenSelectedLayers($layerId,
+    protected function fetchFrozenSelectedLayers($layerId,
                                                $forceFrozen = false,
                                                $forceSelected = false) {
         $layer = $this->getLayerByName($layerId);
@@ -771,8 +771,8 @@ class ClientLayers extends ClientPlugin
      * @see fetchHiddenSelectedLayers()
      * @see fetchFrozenSelectedLayers()
      */
-    private function fetchRecursively($layer, $type, 
-                                      $forceFixed, $forceSelected) {
+    protected function fetchRecursively($layer, $type, 
+                                        $forceFixed, $forceSelected) {
         $getFixedLayers = 'get' . ucfirst($type) . 'Layers';
         $fixedUnselectedLayers = $type . 'UnselectedLayers';
         $fetchFixedSelectedLayers = 'fetch' . ucfirst($type) . 'SelectedLayers';
@@ -851,7 +851,7 @@ class ClientLayers extends ClientPlugin
      * @param bool if true, children cache is ignored (default: false)
      * @return array layers list
      */
-    private function getLayersMask($layerId = 'root', $resetCache = false) {
+    protected function getLayersMask($layerId = 'root', $resetCache = false) {
         $layer = $this->getLayerByName($layerId);
         
         if ($layer instanceof LayerClass)
@@ -918,7 +918,7 @@ class ClientLayers extends ClientPlugin
      * @param LayerBase
      * @return array array of layers names
      */
-    private function getClassChildren($layer) {
+    protected function getClassChildren($layer) {
         if ($layer instanceof LayerClass) return array($layer->id);
        
         elseif(!isset($layer->children) || !is_array($layer->children) ||
@@ -939,7 +939,7 @@ class ClientLayers extends ClientPlugin
      * Retrieves current scale from location plugin
      * @return float
      */
-    private function getCurrentScale() {
+    protected function getCurrentScale() {
         if (isset($this->currentScale)) {
             return $this->currentScale;
         } else {
@@ -959,7 +959,7 @@ class ClientLayers extends ClientPlugin
      * @return boolean True if this icon is an out of range icon 
      * (below or above scale).
      */
-    private function isOutOfRangeIcon($icon) {
+    protected function isOutOfRangeIcon($icon) {
         return $icon == $this->notAvailableIcon ||
                 $icon == $this->notAvailablePlusIcon ||
                 $icon == $this->notAvailableMinusIcon;
@@ -971,7 +971,7 @@ class ClientLayers extends ClientPlugin
      * @param array list of layer children names (default: empty array)
      * @return string
      */
-    private function fetchLayerIcon($layer, &$children = array()) {
+    protected function fetchLayerIcon($layer, &$children = array()) {
         if (!$layer->icon || $layer->icon == 'none') {
             $layer->icon = false;
             
@@ -1017,7 +1017,7 @@ class ClientLayers extends ClientPlugin
      * @param LayerBase
      * @return boolean
      */
-    private function setOutofScaleIcon($layer) {
+    protected function setOutofScaleIcon($layer) {
         if ($layer->minScale && 
             $this->getCurrentScale() < $layer->minScale) {
             $layer->icon = $this->notAvailableMinusIcon;
@@ -1047,10 +1047,10 @@ class ClientLayers extends ClientPlugin
      * @param int (default: 0) id of parent layer in displayed interface
      * @return array array of layer children and grand-children... data 
      */
-    private function fetchLayer($layer, $forceSelection = false,
-                                        $forceFrozen = false,
-                                        $layerRendering = self::RENDERING_TREE, 
-                                        $parentId = 0) {
+    protected function fetchLayer($layer, $forceSelection = false,
+                                          $forceFrozen = false,
+                                          $layerRendering = self::RENDERING_TREE,
+                                          $parentId = 0) {
         
         // if level is root and root is hidden (no layers menu displayed):
         if ($layer->id == 'root' && $this->layersData['root']->hidden)
@@ -1208,7 +1208,7 @@ class ClientLayers extends ClientPlugin
      * Initializes layers selector interface.
      * @return string result of a Smarty fetch
      */
-    private function drawLayersList() {
+    protected function drawLayersList() {
     
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
@@ -1270,7 +1270,7 @@ class ClientLayers extends ClientPlugin
      * @param string icon filename
      * @return string full path
      */
-    private function getPrintedIconPath($icon) {
+    protected function getPrintedIconPath($icon) {
         if (!$icon)
             return '';
         
@@ -1283,7 +1283,7 @@ class ClientLayers extends ClientPlugin
      * @param string layer id
      * @return array
      */
-    private function getPrintedLayerData($layerId) {
+    protected function getPrintedLayerData($layerId) {
         $layer = $this->getLayerByName($layerId, false);
         $scale = $this->getCurrentScale();
         
@@ -1311,7 +1311,7 @@ class ClientLayers extends ClientPlugin
      * @param array selected layers list
      * @param array structure containing data of layers to print
      */
-    private function getPrintedParents($layerId, &$selectedLayers, 
+    protected function getPrintedParents($layerId, &$selectedLayers, 
                                        &$printedNodes) {
         $layer = $this->getLayerByName($layerId, false);
         

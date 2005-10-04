@@ -79,7 +79,7 @@ class ServerImages extends ClientResponderAdapter
      * fit, else sets them to max authorized sizes.
      * @param ImagesRequest
      */
-    private function checkMapDimensions($requ) {
+    protected function checkMapDimensions($requ) {
         $maxWidth = $this->getConfig()->maxMapWidth;
         $maxHeight = $this->getConfig()->maxMapHeight;
 
@@ -92,7 +92,7 @@ class ServerImages extends ClientResponderAdapter
     /**
      * @return string The base URL where the generated images can be found.
      */
-    private function getImageBaseUrl() {
+    protected function getImageBaseUrl() {
         $config = $this->serverContext->getConfig();
         // FIXME: is this used ? if not, remove this config option
         if ($config->imageUrl)
@@ -107,7 +107,7 @@ class ServerImages extends ClientResponderAdapter
      * @param string the original path to the image
      * @return string The complete URL of the generated image.
      */
-    private function getImageUrl($imagePath) {
+    protected function getImageUrl($imagePath) {
         if (strpos($imagePath, '/') !== false)
             return $imagePath;
         
@@ -121,7 +121,7 @@ class ServerImages extends ClientResponderAdapter
      * @param ms_Image MapServer image
      * @return Image
      */
-    private function getImage($ms_image) {
+    protected function getImage($ms_image) {
         $image = new Image();
         
         $image->isDrawn = true;
@@ -140,7 +140,7 @@ class ServerImages extends ClientResponderAdapter
      * @return boolean
      * @see ServerQuery::drawQuery()
      */
-    private function isDrawQuery() {
+    protected function isDrawQuery() {
 
         $plugins = $this->serverContext->getPluginManager();
         if (empty($plugins->query))
@@ -156,7 +156,7 @@ class ServerImages extends ClientResponderAdapter
      * @return string The image type to use for drawing.
      * @see ServerLayers::getImageType()
      */
-    private function getImageType() {
+    protected function getImageType() {
 
         $plugins = $this->serverContext->getPluginManager();
         if (empty($plugins->layers))
@@ -204,7 +204,7 @@ class ServerImages extends ClientResponderAdapter
      * Adds a developper message if too many images.
      * @param ServerContext     
      */
-    private function checkMaxImages($serverContext) {
+    protected function checkMaxImages($serverContext) {
         
         $imgPath = $this->serverContext->getMapObj()->web->imagepath;
         $imgCount = count(scandir($imgPath));

@@ -38,25 +38,25 @@ class ServerLayers extends ClientResponderAdapter
      * The list of layers requested to be drawn by the client.
      * @var array Array of string
      */
-    private $requestedLayerNames;
+    protected $requestedLayerNames;
     
     /**
      * Image type to use for images (outputformat identifier declared in 
      * mapfile). May be null to use default one.
      * @var string 
      */
-    private $imageType;
+    protected $imageType;
 
     /**
      * Ratio client-required resolution / Mapserver resolution.
      * @var float
      */
-    private $resRatio;
+    protected $resRatio;
     
     /**
      * Current switch
      */
-    private $switchId;
+    protected $switchId;
     
     /**
      * Constructor
@@ -132,7 +132,7 @@ class ServerLayers extends ClientResponderAdapter
      * @param array array of numerical properties to update
      * @param float multiplicative coefficient
      */
-    private function updateProperties($obj, $properties, $ratio) {
+    protected function updateProperties($obj, $properties, $ratio) {
         foreach($properties as $p) {
             $value = $obj->$p;
 
@@ -153,7 +153,7 @@ class ServerLayers extends ClientResponderAdapter
      * @param ms_layer_obj Mapserver layer object
      * @param float resolutions ratio
      */
-    private function updateRatioParameters($layer, $resRatio) {
+    protected function updateRatioParameters($layer, $resRatio) {
  
         $invResRatio = 1 / $resRatio;
         

@@ -40,49 +40,49 @@ class ClientExportPdf extends ExportPlugin
     /**
      * @var Smarty_Plugin
      */
-    private $smarty;
+    protected $smarty;
 
     /**
      * @var PdfGeneral
      */
-    private $general;
+    protected $general;
 
     /**
      * @var PdfFormat
      */
-    private $format;
+    protected $format;
     
     /**
      * @var PdfBlock
      */
-    private $blockTemplate;
+    protected $blockTemplate;
     
     /**
      * @var array
      */
-    private $blocks = array();
+    protected $blocks = array();
 
     /**
      * @var array
      */
-    private $optionalInputs = array('title', 'note', 'scalebar', 'overview',
-                                    'queryResult', 'legend');
+    protected $optionalInputs = array('title', 'note', 'scalebar', 'overview',
+                                      'queryResult', 'legend');
     //TODO: display queryResult form option only if available in MapResult
 
     /**
      * @var float
      */
-    private $mapScale;
+    protected $mapScale;
 
     /**
      * @var int
      */
-    private $mapServerResolution;
+    protected $mapServerResolution;
 
     /**
      * @var string
      */
-    private $charset;
+    protected $charset;
 
     /**
      * Constructor
@@ -140,7 +140,7 @@ class ClientExportPdf extends ExportPlugin
      * @param boolean (default: false) true: returns a simplified array
      * @return array
      */
-    private function getArrayFromList($list, $simple = false) {
+    protected function getArrayFromList($list, $simple = false) {
         $list = explode(',', $list);
         $res = array();
         foreach ($list as $d) {
@@ -157,7 +157,7 @@ class ClientExportPdf extends ExportPlugin
      * @param boolean (default: false) true: returns a simplified array
      * @return array
      */
-    private function getArrayFromIni($name, $simple = false) {
+    protected function getArrayFromIni($name, $simple = false) {
         $data = $this->getConfig()->$name;
         if (!$data) return array();
 
@@ -169,7 +169,7 @@ class ClientExportPdf extends ExportPlugin
      * @param object object to override
      * @param object object to copy
      */
-    private function overrideProperties($target, $from) {
+    protected function overrideProperties($target, $from) {
         foreach (get_object_vars($from) as $key => $val) {
             $target->$key = $val;
         }
@@ -182,7 +182,7 @@ class ClientExportPdf extends ExportPlugin
      * @param array $_REQUEST
      * @return string
      */
-    private function getSelectedValue($name, $choices, $request) {
+    protected function getSelectedValue($name, $choices, $request) {
         $name = strtolower($name);
         $reqname = 'pdf' . ucfirst($name);
 
@@ -200,7 +200,7 @@ class ClientExportPdf extends ExportPlugin
      * Sorts blocks using $property criterium (in ASC order).
      * @param string name of property used to sort blocks
      */
-    private function sortBlocksBy($property) {
+    protected function sortBlocksBy($property) {
         $blocksVars = array_keys(get_object_vars($this->blockTemplate));
         if (!in_array($property, $blocksVars))
             return $this->blocks;
@@ -231,7 +231,7 @@ class ClientExportPdf extends ExportPlugin
      * @param stdClass INI object
      * @param string object id
      */
-    private function createBlock($request, $iniObjects, $id) {
+    protected function createBlock($request, $iniObjects, $id) {
         // removes blocks with no user input if required:
         $pdfItem = 'pdf' . ucfirst($id);
         if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
@@ -389,7 +389,7 @@ class ClientExportPdf extends ExportPlugin
      * Updates available formats list considering allowed roles info.
      * @param boolean if false, use general::formats keys as format ids
      */
-    private function setAllowedFormats($simple) {
+    protected function setAllowedFormats($simple) {
         $allowedFormats = array();
         foreach ($this->general->formats as $id => $format) {
             if (!$simple)
@@ -411,7 +411,7 @@ class ClientExportPdf extends ExportPlugin
      * Warning: perform allowed formats filtering first!
      * @return array array(<format> => array(<list of resolutions>))
      */
-    private function getAllowedResolutions() {
+    protected function getAllowedResolutions() {
         $allowedResolutions = array();
         foreach ($this->general->formats as $id => $format) {
             $maxResolution = $this->getConfig()->{"formats.$id.maxResolution"};
@@ -436,7 +436,7 @@ class ClientExportPdf extends ExportPlugin
      * @param stdclass objects from INI file
      * @param array user configs (usually $_REQUEST)
      */
-    private function setGeneral($iniObjects, $request = array()) {
+    protected function setGeneral($iniObjects, $request = array()) {
     
         $this->general = new PdfGeneral;
         $this->general->mapServerResolution = $this->mapServerResolution;
@@ -476,7 +476,7 @@ class ClientExportPdf extends ExportPlugin
      * Populates PdfFormat object with selected format info.
      * @param stdclass objects from INI file
      */
-    private function setFormat($iniObjects) {
+    protected function setFormat($iniObjects) {
  
         $sf = $this->general->selectedFormat;
         
@@ -576,7 +576,7 @@ class ClientExportPdf extends ExportPlugin
      * Builds PDF settings user interface.
      * @return string Smarty fetch result
      */
-    private function drawUserForm() {
+    protected function drawUserForm() {
 
         $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
         if (!SecurityManager::getInstance()->hasRole($pdfRoles))
@@ -625,7 +625,7 @@ class ClientExportPdf extends ExportPlugin
      * @param float distance in PdfGeneral dist_unit
      * @return int distance in pixels
      */
-    private function getNewMapDim($dist) {
+    protected function getNewMapDim($dist) {
         $dist = PrintTools::switchDistUnit($dist,
                                            $this->general->distUnit,
                                            'in');
@@ -636,7 +636,7 @@ class ClientExportPdf extends ExportPlugin
     /**
      * @return Bbox bbox from last session-saved MapResult.
      */
-    private function getLastBbox() {
+    protected function getLastBbox() {
         $mapResult = $this->getLastMapResult();
         
         if (is_null($mapResult))
@@ -648,7 +648,7 @@ class ClientExportPdf extends ExportPlugin
     /**
      * @return float scale from last session-saved MapResult.
      */
-    private function getLastScale() {
+    protected function getLastScale() {
         if (!isset($this->mapScale)) {
             $mapResult = $this->getLastMapResult();
 
@@ -666,7 +666,7 @@ class ClientExportPdf extends ExportPlugin
      * @param Bbox if set, indicates mainmap extent to outline in overview map
      * @return ExportConfiguration
      */
-    private function getConfiguration($keymap = 'none', $mapBbox = NULL) {
+    protected function getConfiguration($keymap = 'none', $mapBbox = NULL) {
         
         $config = new ExportConfiguration();
 
@@ -783,7 +783,7 @@ class ClientExportPdf extends ExportPlugin
      * @param string
      * @return string
      */
-    private function getGfxPath($gfx) {
+    protected function getGfxPath($gfx) {
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $url = $resourceHandler->getPathOrAbsoluteUrl($gfx, false);
@@ -852,7 +852,7 @@ class ClientExportPdf extends ExportPlugin
      * Transforms results from TableGroups into TableElements
      * @return array array of TableElement
      */
-    private function getQueryResult() {
+    protected function getQueryResult() {
         /* gets optional table groups (default = all) */
         $groups = $this->blocks['queryResult']->content;
    
@@ -894,7 +894,7 @@ class ClientExportPdf extends ExportPlugin
      * @param PdfBlock
      * @return string
      */
-    private function getCornerCoords(PdfBlock $block, MapResult $mapResult) {
+    protected function getCornerCoords(PdfBlock $block, MapResult $mapResult) {
         switch ($block->id) {
             case 'tlcoords':
                 $x = $mapResult->locationResult->bbox->minx;
@@ -1064,7 +1064,7 @@ class ClientExportPdf extends ExportPlugin
      * @param string PDF content
      * @return string filename
      */
-    private function generatePdfFile($pdfBuffer) {
+    protected function generatePdfFile($pdfBuffer) {
         $filename = $this->getFilename();
     
         $filepath = $this->getCartoclient()->getConfig()->webWritablePath . 
@@ -1082,7 +1082,7 @@ class ClientExportPdf extends ExportPlugin
      * @param boolean if true, remove special chars from URL
      * @return string URL
      */
-    private function getPdfFileUrl($filename, $filter = false) {
+    protected function getPdfFileUrl($filename, $filter = false) {
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $pdfUrl = $resourceHandler->getGeneratedUrl('pdf/' . $filename);
         $pdfUrl = $resourceHandler->getFinalUrl($pdfUrl, true, true);
@@ -1097,7 +1097,7 @@ class ClientExportPdf extends ExportPlugin
     /**
      * Set type (PDF) and charset header.
      */
-    private function setTypeHeader() {
+    protected function setTypeHeader() {
         header('Content-type: application/pdf; charset=' . $this->charset);
     }
 

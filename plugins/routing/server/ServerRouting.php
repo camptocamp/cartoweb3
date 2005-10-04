@@ -38,7 +38,7 @@ class ServerRouting extends ClientResponderAdapter {
      * The current graph object to be rendered
      * @var Object
      */    
-    private $graph;
+    protected $graph;
 
     /** 
      * Constructor
@@ -122,7 +122,7 @@ class ServerRouting extends ClientResponderAdapter {
     /**
      * Internal merging of the routing results
      */
-    private function mergeRoutingResultGraph(RoutingResult $routingResult, 
+    protected function mergeRoutingResultGraph(RoutingResult $routingResult, 
                                                RoutingResult $newRoutingResult) {
 
         $routingResult->steps = array_merge($routingResult->steps, $newRoutingResult->steps);
@@ -238,7 +238,7 @@ class ServerGeotoolsRouting extends ServerRouting {
      * @param Java array
      * @return array
      */
-    private function convertSteps($javaSteps) {
+    protected function convertSteps($javaSteps) {
         
         $steps = array();
         if (is_null($javaSteps) || $javaSteps->size() == 0) {
@@ -363,7 +363,7 @@ class ServerPostgresRouting extends ServerRouting {
      * Database object
      * @var DB
      */
-    private $db;
+    protected $db;
 
     /** 
      * Constructor
@@ -444,7 +444,7 @@ class ServerPostgresRouting extends ServerRouting {
     /**
      * Deletes the geometries on the results table which are too old 
      */
-    private function deleteOldResults() {
+    protected function deleteOldResults() {
 
         $routingResultsTable = $this->getRoutingResultsTable();
 

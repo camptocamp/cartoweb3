@@ -58,7 +58,7 @@ class ServerHilight extends ServerPlugin {
      * @param QuerySelection
      * @return string expression string
      */
-    private function buildExpression($querySelection) {
+    protected function buildExpression($querySelection) {
 
         if (!$querySelection->maskMode) {
             $comp_op = '='; 
@@ -116,7 +116,7 @@ class ServerHilight extends ServerPlugin {
      * @param MsColor MapServer color
      * @param array initial color (array(int red, int green, int blue))     
      */
-    private function setHilightColor($colorObj, $color) {
+    protected function setHilightColor($colorObj, $color) {
          $colorObj->setRGB($color[0], $color[1], $color[2]);
     }
     
@@ -126,7 +126,7 @@ class ServerHilight extends ServerPlugin {
      * @param MsClass class to hilight
      * @return MsClass resulting class
      */
-    private function setupHilightClass($layer, $class) {
+    protected function setupHilightClass($layer, $class) {
         
         if ($layer->getMetaData('hilight_color'))
             $hilightColor = explode(',', $layer->getMetaData('hilight_color'));
@@ -156,8 +156,8 @@ class ServerHilight extends ServerPlugin {
      * @param int index of layer's class
      * @param QuerySelection
      */
-    private function setClassExpression($msLayer, $classIndex,
-                                        $querySelection) {
+    protected function setClassExpression($msLayer, $classIndex,
+                                          $querySelection) {
         
         $class = $msLayer->getClass($classIndex);
         if (empty($class)) 
@@ -178,7 +178,7 @@ class ServerHilight extends ServerPlugin {
      * @param string meta data name for color
      * @return MsLayer new layer
      */
-    private function createLayer($msLayer, $defaultTrans, $defaultColor,
+    protected function createLayer($msLayer, $defaultTrans, $defaultColor,
                                  $metaTrans, $metaColor) {
 
         $msMapObj = $this->serverContext->getMapObj();
@@ -214,8 +214,8 @@ class ServerHilight extends ServerPlugin {
      * @param MsLayer
      * @return MsLayer
      */
-    private function createHilightLayer($msLayer) {
-
+    protected function createHilightLayer($msLayer) {
+    
         return $this->createLayer($msLayer, 20, '255, 255, 0', 
                                   'hilight_transparency', 'hilight_color');
     }
@@ -241,7 +241,7 @@ class ServerHilight extends ServerPlugin {
      * @param MsLayer
      * @return MsLayer
      */
-    private function createMaskLayer($msLayer) {
+    protected function createMaskLayer($msLayer) {
 
         return $this->createLayer($msLayer, 100, '255, 255, 255', 
                                   'mask_transparency', 'mask_color');
@@ -252,7 +252,7 @@ class ServerHilight extends ServerPlugin {
      * @param MsLayer
      * @param QuerySelection
      */ 
-    private function maskWholeLayer($layer, $querySelection) {
+    protected function maskWholeLayer($layer, $querySelection) {
         
         $layer->set('status', MS_ON);
         

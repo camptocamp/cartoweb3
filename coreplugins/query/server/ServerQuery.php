@@ -30,7 +30,7 @@ class ServerQuery extends ClientResponderAdapter {
     /**
      * @var Logger
      */
-    protected $log;
+    private $log;
     
     /**
      * Tells if query must be drawn by Mapserver
@@ -51,7 +51,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @param string layer id
      * @return array
      */
-    private function getAttributes($layerId) {
+    protected function getAttributes($layerId) {
 
         $msMapObj = $this->serverContext->getMapObj();
 
@@ -99,7 +99,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @param TableFlags
      * @return Table
      */
-    private function resultToTable($result, $layerId, $idAttribute, 
+    protected function resultToTable($result, $layerId, $idAttribute, 
                                    $attributes, $tableFlags) {
         
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
@@ -168,7 +168,7 @@ class ServerQuery extends ClientResponderAdapter {
      * @param string merge policy
      * @return Table
      */
-    private function mergeTables(Table $table1, Table $table2, $policy) {
+    protected function mergeTables(Table $table1, Table $table2, $policy) {
         
         $resultTable = new Table();
         $resultTable->tableId = $table1->tableId;

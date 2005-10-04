@@ -84,25 +84,25 @@
         $this->space = new SpaceManager($params);
     }
 
-    private function getPageDim($dim) {
+    protected function getPageDim($dim) {
         $dist = $this->{'page' . $dim};
         return PrintTools::switchDistUnit($dist,
                                           'pt', 
                                           $this->general->distUnit);       
     }
 
-    private function getPageWidth() {
+    protected function getPageWidth() {
         return getPageDim('Width');
     }
 
-    private function getPageHeight() {
+    protected function getPageHeight() {
         return getPageDim('Height');
     }
 
     /**
      * Shortcut for distance units converter.
      */
-    private function getInPt($dist) {
+    protected function getInPt($dist) {
         return PrintTools::switchDistUnit($dist,
                                           $this->general->distUnit,
                                           'pt');
@@ -111,7 +111,7 @@
     /**
      * Returns caught PDFLib exceptions.
      */
-    private function getException(Exception $e) {
+    protected function getException(Exception $e) {
         if ($e instanceof PDFlibException) {
             throw new CartoclientException(
                 sprintf("PDFLib exception occured:\n[%d] %s: %s",
@@ -124,7 +124,7 @@
         }
     }
 
-    private function initializeDocument() {
+    protected function initializeDocument() {
         try {
             $optlist = 'compatibility ' . $this->general->pdfVersion;
             $this->p->begin_document(false, $optlist);
@@ -137,7 +137,7 @@
     /**
      * Adds a blank page to current PDF document.
      */
-    private function addPage() {
+    protected function addPage() {
         //$optlist = 'topdown true';
         $optlist = false;
         
@@ -156,7 +156,7 @@
     /**
      * Sets line dash pattern.
      */
-    private function setDash($style) {
+    protected function setDash($style) {
         switch ($style) {
             case 'dashed':
                 $b = $w = 5;
@@ -179,7 +179,7 @@
         }
     }
 
-    private function setStrokeColor($color) {
+    protected function setStrokeColor($color) {
         $borderColor = PrintTools::switchColorToRgb($color);
         try {
             $this->p->setcolor('stroke', 'rgb', $borderColor[0] / 255,
@@ -191,7 +191,7 @@
         }
     }
 
-    private function setFillColor($color) {
+    protected function setFillColor($color) {
         $bgColor = PrintTools::switchColorToRgb($color);
         try {
             $this->p->setcolor('fill', 'rgb', $bgColor[0] / 255, 
@@ -205,7 +205,7 @@
     /**
      * Draws a rectangle borders and fills it.
      */
-    private function drawBox(PdfBlock $block) {
+    protected function drawBox(PdfBlock $block) {
         try {
             $this->p->save();
             
@@ -226,7 +226,7 @@
         }
     }
 
-    private function getTextAlign(PdfBlock $block) {
+    protected function getTextAlign(PdfBlock $block) {
         
         switch (strtolower($block->textAlign)) {
             case 'center': $h = 50; break;
@@ -248,7 +248,7 @@
         return sprintf('{%d %d}', $h, $v); 
     }
 
-    private function setFont(PdfBlock $block) {
+    protected function setFont(PdfBlock $block) {
         try {
             /*$fontStyle = false;
             if ($block->fontBold) $fontStyle .= 'bold';
@@ -269,7 +269,7 @@
         }        
     }
 
-    private function addTextBlock(PdfBlock $block) {
+    protected function addTextBlock(PdfBlock $block) {
         // Note: *_textflow() methods are not available with PDFLib Lite 
         // version. Overload this method in an extended class to use them. 
 
@@ -311,7 +311,7 @@
      * Returns an identifier for the asked image. If not already available,
      * computes it and stores it, else gets it from images identifiers storage.
      */
-    private function getImage($path) {
+    protected function getImage($path) {
         if (in_array($path, $this->images))
             return $this->images[$path];
  
@@ -346,7 +346,7 @@
     /**
      * Inserts an image in current PDF document.
      */
-    private function addImage(PdfBlock $block) {
+    protected function addImage(PdfBlock $block) {
         try {
             $img = $this->getImage($block->content);
             $orientation = ($block->orientation == 'vertical')
@@ -367,7 +367,7 @@
         }
     }
     
-    private function addGfxBlock(PdfBlock $block) {
+    protected function addGfxBlock(PdfBlock $block) {
         
         $this->drawBox($block);
         
@@ -380,15 +380,15 @@
         */
     }
 
-    private function addTableCell() {}
+    protected function addTableCell() {}
 
-    private function addTableRow() {}
+    protected function addTableRow() {}
 
-    private function addTable(PdfBlock $block) {}
+    protected function addTable(PdfBlock $block) {}
 
-    private function addLegend(PdfBlock $block) {}
+    protected function addLegend(PdfBlock $block) {}
 
-    private function finalizeDocument() {
+    protected function finalizeDocument() {
         try {
             if ($this->isPageOpen)
                 $this->p->end_page_ext(false);

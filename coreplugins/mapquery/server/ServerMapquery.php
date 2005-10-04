@@ -50,7 +50,7 @@ class ServerMapquery extends ServerPlugin {
      * @param array
      * @return array
      */
-    private function genericQueryString($idAttribute, $idType, $selectedIds) {
+    protected function genericQueryString($idAttribute, $idType, $selectedIds) {
     
         // FIXME: does queryByAttributes support multiple id's for dbf ?
         $queryString = array();
@@ -72,7 +72,7 @@ class ServerMapquery extends ServerPlugin {
      * @param array
      * @return array
      */
-    private function databaseQueryString($idAttribute, $idType, $selectedIds) {
+    protected function databaseQueryString($idAttribute, $idType, $selectedIds) {
         if (count($selectedIds) == 0)
             return array('false');
         $idGlue = $idType == 'string' ? "','" : ',';
@@ -85,7 +85,7 @@ class ServerMapquery extends ServerPlugin {
      * @param msLayer
      * @return boolean
      */ 
-    private function isDatabaseLayer($msLayer) {
+    protected function isDatabaseLayer($msLayer) {
         switch ($msLayer->connectiontype) {
             case MS_POSTGIS:
             case MS_ORACLESPATIAL:
@@ -99,7 +99,7 @@ class ServerMapquery extends ServerPlugin {
      * @param msLayer the layer from which to retrieve shapes
      * @return array the array of result shapes in the given layer
      */
-    private function extractResults($layerId, $mayIgnore) {
+    protected function extractResults($layerId, $mayIgnore) {
         
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
@@ -148,7 +148,7 @@ class ServerMapquery extends ServerPlugin {
      *                returned)
      * @return array an array of shapes
      */
-    private function queryLayerByAttributes(ServerContext $serverContext,
+    protected function queryLayerByAttributes(ServerContext $serverContext,
                                             $layerId, $idAttribute, $query,
                                             $mayFail=false) { 
         $log =& LoggerManager::getLogger(__METHOD__);
@@ -194,7 +194,7 @@ class ServerMapquery extends ServerPlugin {
      * Checks if layer's connection type is implemented
      * @param msLayer
      */
-    private function checkImplementedConnectionTypes($msLayer) {
+    protected function checkImplementedConnectionTypes($msLayer) {
     
         $implementedConnectionTypes = array(MS_SHAPEFILE, MS_TILED_SHAPEFILE,
             MS_POSTGIS, MS_ORACLESPATIAL);

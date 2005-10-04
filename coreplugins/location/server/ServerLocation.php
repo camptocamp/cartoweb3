@@ -129,7 +129,7 @@ class PanLocationCalculator extends LocationCalculator {
     /**
      * @var double
      */
-    private $panRatio;
+    protected $panRatio;
 
     /**
      * Constructor
@@ -148,7 +148,7 @@ class PanLocationCalculator extends LocationCalculator {
      * @param string
      * @return int
      */
-    private function panDirectionToFactor($panDirection) {
+    protected function panDirectionToFactor($panDirection) {
         switch ($panDirection) {
         case PanDirection::VERTICAL_PAN_NORTH:
         case PanDirection::HORIZONTAL_PAN_EAST:
@@ -209,7 +209,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
     /**
      * @var boolean
      */
-    private $scaleModeDiscrete;
+    protected $scaleModeDiscrete;
 
     /**
      * Constructor
@@ -251,7 +251,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param double
      * @return double
      */
-    private function getPreviousScale($oldScale) {
+    protected function getPreviousScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
@@ -271,7 +271,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param double
      * @return double
      */
-    private function getNextScale($oldScale) {
+    protected function getNextScale($oldScale) {
         $newScale = 0;
         $oldScale = $this->getNearestScale($oldScale);
         foreach ($this->scales as $scale) {
@@ -291,7 +291,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param double
      * @return double
      */
-    private function getNearestScale($oldScale) {
+    protected function getNearestScale($oldScale) {
         $newScale = 0;
         $min = -1;
         foreach ($this->scales as $scale) {
@@ -311,7 +311,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * Computes scale from current MapServer extent
      * @return double
      */
-    private function calculateOldScale() {
+    protected function calculateOldScale() {
         $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
         
         $oldBbox = $this->requ->bbox;
@@ -387,7 +387,7 @@ class RecenterLocationCalculator extends LocationCalculator {
     /**
      * @var boolean
      */
-    private $useDefaultScale;
+    protected $useDefaultScale;
 
     /**
      * Constructor
@@ -404,7 +404,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param IdSelection
      * @return Bbox or NULL on error
      */
-    private function getIdSelectionBbox(IdSelection $idSelection) {
+    protected function getIdSelectionBbox(IdSelection $idSelection) {
 
         $pluginManager = $this->locationPlugin->
                                         getServerContext()->getPluginManager();
@@ -466,7 +466,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param double
      * @return Bbox
      */
-    private function addMargin(Bbox $bbox, $margin) {
+    protected function addMargin(Bbox $bbox, $margin) {
         
         $width = $bbox->getWidth();
         $xDelta = $width * ($margin / 100);
@@ -484,7 +484,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param Bbox
      * @return Bbox
      */
-    private function addBboxBorders($bbox) {
+    protected function addBboxBorders($bbox) {
      
         // FIXME: is there a better way than using this constant ? 
         $border = 1.0;
@@ -499,7 +499,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param string : projection string
      * @return Bbox
      */
-    private function convertCoords($bbox, $projection) {
+    protected function convertCoords($bbox, $projection) {
         $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();        
         
         $rectangle = ms_newRectObj();
@@ -581,7 +581,7 @@ class ServerLocation extends ClientResponderAdapter
     /**
      * @var Logger
      */
-    protected $log;
+    private $log;
 
     /**
      * @var StyledShape

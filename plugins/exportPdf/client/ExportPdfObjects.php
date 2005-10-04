@@ -36,7 +36,7 @@ class PrintTools {
      * @param string final unit
      * @return float converted distance
      */
-    static function switchDistUnit($dist, $from, $to) {
+    static public function switchDistUnit($dist, $from, $to) {
         if ($from == $to) return $dist;
         
         $ratio = 1;
@@ -75,7 +75,7 @@ class PrintTools {
      * @param string hexadecimal color code
      * @return array array of RGB codes
      */
-    static function switchHexColorToRgb($color) {
+    static public function switchHexColorToRgb($color) {
         return array(hexdec(substr($color, 1, 2)), 
                      hexdec(substr($color, 3, 2)), 
                      hexdec(substr($color, 5, 2))
@@ -87,7 +87,7 @@ class PrintTools {
      * @param mixed
      * @return array array of RGB codes
      */
-    static function switchColorToRgb($color) {
+    static public function switchColorToRgb($color) {
         if ($color{0} == '#')
             return self::switchHexColorToRgb($color);
 
@@ -137,7 +137,7 @@ class PrintTools {
      * @param array storage info array('file', $filepath)
      * @return string content
      */
-    static private function getFileContent($info) {
+    static protected function getFileContent($info) {
         $filename = $info[1];
         if (self::isRelativePath($filename)) {
             $filename = CARTOWEB_HOME . $filename;
@@ -160,7 +160,7 @@ class PrintTools {
      * @param array storage info array('db', $dsn, $sql)
      * @return string content
      */
-    static private function getDbContent($info) {
+    static protected function getDbContent($info) {
 
         // Only SELECT queries are allowed:
         if (!isset($info[2]) || 
@@ -677,38 +677,38 @@ class SpaceManager {
     /**
      * @var float
      */
-    private $minX;
+    protected $minX;
     
     /**
      * @var float
      */
-    private $maxX;
+    protected $maxX;
     
     /**
      * @var float
      */
-    private $minY;
+    protected $minY;
     
     /**
      * @var float
      */
-    private $maxY;
+    protected $maxY;
     
     /**
      * Indicates if the Y-origin is at top of page.
      * @var boolean
      */
-    private $YoAtTop = true;
+    protected $YoAtTop = true;
 
     /**
      * @var array
      */
-    private $allocated = array();
+    protected $allocated = array();
     
     /**
      * @var array
      */
-    private $levels = array();
+    protected $levels = array();
 
     /**
      * Constructor.
@@ -753,7 +753,7 @@ class SpaceManager {
      * @param float Y-coord of block reference point
      * @return array (X,Y)
      */
-    private function allocateArea(PdfBlock $block, $x, $y) {
+    protected function allocateArea(PdfBlock $block, $x, $y) {
         if (!isset($this->allocated[$block->zIndex]))
             $this->allocated[$block->zIndex] = array();
 
@@ -775,7 +775,7 @@ class SpaceManager {
      * @param float extent maximal Y-coord
      * @return float
      */
-    private function getY(PdfBlock $block, $minY, $maxY) {
+    protected function getY(PdfBlock $block, $minY, $maxY) {
         if ($block->verticalBasis == 'top') {
             // reference is page top border
             
@@ -809,7 +809,7 @@ class SpaceManager {
      * @param float extent maximal X-coord
      * @return float
      */
-    private function getX(PdfBlock $block, $minX, $maxX) {
+    protected function getX(PdfBlock $block, $minX, $maxX) {
         if ($block->horizontalBasis == 'left') {
             $x = $minX + $block->horizontalMargin;
         } else {
@@ -825,7 +825,7 @@ class SpaceManager {
      * @param string block name
      * @return array
      */
-    private function getBlockExtent($name = '') {
+    protected function getBlockExtent($name = '') {
         if (!$name || !isset($this->levels[$name]))
             return array('minX' => $this->minX, 'minY' => $this->minY,
                          'maxX' => $this->maxX, 'maxY' => $this->maxY);

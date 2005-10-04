@@ -62,13 +62,13 @@ class ClientOutline extends ClientPlugin
     /**
      * @var OutlineState
      */
-    private $outlineState;
+    protected $outlineState;
     
     /**
      * Total shapes area
      * @var double
      */
-    private $area;
+    protected $area;
     
     const TOOL_POINT     = 'outline_point';
     const TOOL_LINE      = 'outline_line';
@@ -225,7 +225,7 @@ class ClientOutline extends ClientPlugin
      * Draws Outline form and returns Smarty generated HTML
      * @return string
      */
-    private function drawOutline() {
+    protected function drawOutline() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
         $this->smarty->assign(array('outline_mask_selected' => $maskSelected,
@@ -237,7 +237,7 @@ class ClientOutline extends ClientPlugin
      * Draws Outlinelabel form and returns Smarty generated HTML
      * @return string
      */    
-    private function drawOutlinelabel() {
+    protected function drawOutlinelabel() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('outlinelabel.tpl');
     }

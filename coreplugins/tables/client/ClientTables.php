@@ -46,13 +46,13 @@ class ClientTables extends ClientPlugin
      * Registry which contains all client side rules
      * @var TableRulesRegistry
      */ 
-    private $tableRulesRegistry = null;
+    protected $tableRulesRegistry = null;
     
     /**
      * Tables to be displayed
      * @var array array of Table
      */
-    private $tableGroups = array();
+    protected $tableGroups = array();
 
     /**
      * Constructor
@@ -133,7 +133,7 @@ class ClientTables extends ClientPlugin
      * Sets URL to CSV export
      * @param Smarty
      */
-    private function assignExportCsv(Smarty $template) {
+    protected function assignExportCsv(Smarty $template) {
     
         $pluginManager = $this->cartoclient->getPluginManager();
         if (!empty($pluginManager->exportCsv)) {
@@ -150,7 +150,7 @@ class ClientTables extends ClientPlugin
      * @param array
      * @return array array of translated table groups
      */
-    private function translate($tableGroups) {
+    protected function translate($tableGroups) {
         
         foreach ($tableGroups as $tableGroup) {
             if (!empty($tableGroup->groupTitle))

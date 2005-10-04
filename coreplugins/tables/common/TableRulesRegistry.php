@@ -163,7 +163,7 @@ abstract class GroupRule extends BaseRule {
      * @param string
      * @param array
      */
-    private function checkRule($groupId, &$weights) {
+    protected function checkRule($groupId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId . ")");
@@ -244,7 +244,7 @@ abstract class TableRule extends GroupRule {
      * @param string
      * @param array
      */
-    private function checkRule($groupId, $tableId, &$weights) {
+    protected function checkRule($groupId, $tableId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId 
@@ -344,7 +344,7 @@ abstract class ColumnRule extends TableRule {
      * @param string
      * @param array
      */
-    private function checkRule($groupId, $tableId, $columnId, &$weights) {
+    protected function checkRule($groupId, $tableId, $columnId, &$weights) {
     
         $this->log->debug("Checking rule " . get_class($this) 
                           . " (group " . $this->groupId 
@@ -799,7 +799,7 @@ class RowUnselector extends TableRule {
      * @var array list of values for which the rows will be removed if it 
      *  matched in column columnId.
      */
-    private $rowIds;
+    protected $rowIds;
 
     /**
      * Constructor
@@ -1166,7 +1166,7 @@ class ColumnReorder extends TableRule {
      * $swaps. For every cells in $swaps, the key give the old 
      * position in $array and the value the new position.  
      */
-    private function array_swap($array, $swaps) {
+    protected function array_swap($array, $swaps) {
         $result = $array;
         foreach ($swaps as $from => $to) {
             $result[$to] = $array[$from];
@@ -1236,7 +1236,7 @@ class TableRulesRegistry {
      * </pre>
      * @var array
      */
-    private $rules = array();
+    protected $rules = array();
     
     /**
      * @var Logger
@@ -1254,7 +1254,7 @@ class TableRulesRegistry {
      * Adds a rule in list
      * @param BaseRule
      */
-    private function addRule($rule) {
+    protected function addRule($rule) {
         $ruleClass = get_class($rule);
         if (!array_key_exists($ruleClass, $this->rules)) {
             $this->rules[$ruleClass] = array();

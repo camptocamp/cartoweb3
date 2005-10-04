@@ -77,12 +77,12 @@ class LayerBase extends CwSerializable {
      * requested.
      * @var array
      */
-    private $metaHash;
+    protected $metaHash;
 
     /**
      * Fills the $metaHash property from the metadata values in metadata field
      */    
-    private function generateMetaHash() {
+    protected function generateMetaHash() {
         $this->metaHash = array();
         foreach ($this->metadata as $meta) {
             list($k, $val) = explode('=', $meta);
@@ -179,7 +179,7 @@ class LayerContainer extends LayerBase {
      * Layer Ids cache
      * @var array
      */
-    private $layerIds = NULL;
+    protected $layerIds = NULL;
     
     /**
      * Returns children depending on current switch

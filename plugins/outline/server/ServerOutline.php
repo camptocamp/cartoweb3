@@ -36,13 +36,13 @@ class ServerOutline extends ClientResponderAdapter {
      * Array of current style classes
      * @var array
      */
-    private $styles;
+    protected $styles;
 
     /**
      * Array of default style classes
      * @var array
      */
-    private $defaultStyles;
+    protected $defaultStyles;
 
     /** 
      * Constructor
@@ -60,7 +60,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param string layer name
      * @return MsLayer Mapserver Layer object
      */
-    private function getLayer($msMapObj, $layerName) {
+    protected function getLayer($msMapObj, $layerName) {
         
         $outlineLayer = @$msMapObj->getLayerByName($layerName);
         if (!$outlineLayer) {
@@ -80,7 +80,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsColorObj
      * @param Color
      */
-    private function setColor($msColorObj, &$color) {
+    protected function setColor($msColorObj, &$color) {
         if ($msColorObj->red >= 0)
             $color->r = $msColorObj->red;
         if ($msColorObj->green >= 0)
@@ -95,7 +95,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param ShapeStyle
      * @param LabelStyle
      */
-    private function setStyles($msLayerObj, &$shapeStyle, &$labelStyle) {
+    protected function setStyles($msLayerObj, &$shapeStyle, &$labelStyle) {
         $shapeStyle = new ShapeStyle();                                           
         $labelStyle = new LabelStyle();                                           
 
@@ -126,7 +126,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsColorObj
      * @param Color
      */
-    private function updateColor(&$msColorObj, $color) {
+    protected function updateColor(&$msColorObj, $color) {
         $r = $msColorObj->red;
         $g = $msColorObj->green;
         $b = $msColorObj->blue;
@@ -145,7 +145,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param ShapeStyle
      * @param LabelStyle
      */
-    private function updateClass(&$msClassObj, $shapeStyle, $labelStyle) {
+    protected function updateClass(&$msClassObj, $shapeStyle, $labelStyle) {
         if ($msClassObj->numstyles == 0) {
             $msStyleObj = ms_newStyleObj($msClassObj);
         } else {
@@ -179,7 +179,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param Color
      * @return string
      */
-    private function serializeColor($color) {
+    protected function serializeColor($color) {
         $key = 'color' . $color->r . ',' . $color->g . ',' . $color->b;
         return $key;
     }
@@ -190,7 +190,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param LabelStyle
      * @return string
      */
-    private function computeKey($shapeStyle, $labelStyle) {
+    protected function computeKey($shapeStyle, $labelStyle) {
         $key = 'shapestyle-' . $shapeStyle->symbol;
         $key .= '-' . $shapeStyle->size;
         $key .= '-' . $this->serializeColor($shapeStyle->color);
@@ -211,7 +211,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsMapObj
      * @param string
      */
-    private function initializeStyles($msMapObj, $layerName) {
+    protected function initializeStyles($msMapObj, $layerName) {
         
         if (!array_key_exists($layerName, $this->styles)) {
                         
@@ -240,7 +240,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsLayer
      * @param int
      */
-    private function findClass($msMapObj, $layerName, $styledShape, 
+    protected function findClass($msMapObj, $layerName, $styledShape, 
                                &$layer, &$classIndex) {
         
         $shapeStyle = $this->defaultStyles[$layerName]['shape']->merge($styledShape->shapeStyle);
@@ -297,7 +297,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsMapObj Mapserver Map object
      * @param StyledShape point
      */
-    private function drawPoint($msMapObj, $point) {
+    protected function drawPoint($msMapObj, $point) {
 
         $layerName = $this->getConfig()->pointLayer;
         if (!$layerName) {
@@ -328,7 +328,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param MsMapObj Mapserver Map object
      * @param StyledShape line
      */
-     private function drawLine($msMapObj, $line) {
+     protected function drawLine($msMapObj, $line) {
           
         $layerName = $this->getConfig()->lineLayer;
         
@@ -361,7 +361,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param StyledShape rectangle
      * @param boolean mask mode on/off
      */
-    private function drawRectangle($msMapObj, $rectangle, $maskMode) {
+    protected function drawRectangle($msMapObj, $rectangle, $maskMode) {
         $points = array();       
         $points[] = new Point($rectangle->shape->minx, $rectangle->shape->miny);
         $points[] = new Point($rectangle->shape->minx, $rectangle->shape->maxy);
@@ -384,7 +384,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param Polygon
      * @return MsPolygonObj
      */ 
-    private function convertPolygon($polygon) {
+    protected function convertPolygon($polygon) {
         $line = ms_newLineObj();
 
         if (count($polygon->points) == 0)
@@ -412,7 +412,7 @@ class ServerOutline extends ClientResponderAdapter {
      * @param StyledShape polygon
      * @param boolean mask mode on/off
      */
-    private function drawPolygon($msMapObj, $polygon, $maskMode) {
+    protected function drawPolygon($msMapObj, $polygon, $maskMode) {
 
         if (!$maskMode) { 
 
@@ -472,7 +472,7 @@ class ServerOutline extends ClientResponderAdapter {
      * Draws map using drawQuery() or draw()
      * @param MsMapObj Mapserver Map object
      */
-    private function drawMap($msMapObj) {
+    protected function drawMap($msMapObj) {
         $plugins = $this->serverContext->getPluginManager();
         if (!empty($plugins->query) && $plugins->query->drawQuery()) {
             $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
