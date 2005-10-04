@@ -103,6 +103,10 @@ class StructHandler {
      * @return mixed cloned object
      */
     static public function deepClone($obj) {
+        if (!is_object($obj)) {
+            return $obj;
+        }
+        
         $newObj = clone $obj;
 
         foreach (get_object_vars($obj) as $propName => $propVal) {
