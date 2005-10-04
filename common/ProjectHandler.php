@@ -29,6 +29,7 @@ abstract class ProjectHandler {
 
     const PROJECT_DIR = 'projects';
     const DEFAULT_PROJECT = 'test_main';
+    const HIDDEN_PROJECTS = 'test_location_continuous, test_query_hilight';
 
     /**
      * Map name without the project prefix
@@ -100,6 +101,8 @@ abstract class ProjectHandler {
      */
     public function getAvailableProjects() {
 
+        $hidden = ConfigParser::parseArray(self::HIDDEN_PROJECTS);
+
         // It simply looks for directory name. 
         // Maybe a smarter approach could be used
         $projects = array();
@@ -107,7 +110,8 @@ abstract class ProjectHandler {
         $d = dir($directory);
         while (false !== ($entry = $d->read())) {
             if (is_dir($directory . $entry) && $entry != '.'
-                && $entry != '..' && $entry != 'CVS') {
+                && $entry != '..' && $entry != 'CVS' && 
+                !in_array($entry, $hidden)) {
                 $projects[] = $entry;
             }
         }
