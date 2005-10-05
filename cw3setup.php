@@ -1063,7 +1063,7 @@ function getSearchReplaceContext() {
     if (isset($OPTIONS['profile']))
         $vars['PROFILE'] = $OPTIONS['profile'];
     if (!isset($vars['PROFILE']))
-        $vars['PROFILE'] = 'development';
+        $vars['PROFILE'] = 'production';
 
     $newVars = array();
     foreach($vars as $key => $value) {
