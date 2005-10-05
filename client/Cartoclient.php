@@ -553,7 +553,7 @@ class Cartoclient {
 
         $this->pluginManager->loadPlugins($corePluginNames, $this);
 
-        $pluginNames = ConfigParser::parseArray($this->getConfig()->loadPlugins);
+        $pluginNames = Utils::parseArray($this->getConfig()->loadPlugins);
 
         $this->pluginManager->loadPlugins($pluginNames, $this);
     }
@@ -608,8 +608,7 @@ class Cartoclient {
             $this->sessionName = self::CLIENT_SESSION_KEY . $this->config->mapId;
             
             if ($this->config->sessionNameSuffix) {
-                $suffixes = ConfigParser::parseArray($this->config
-                                                          ->sessionNameSuffix);
+                $suffixes = Utils::parseArray($this->config->sessionNameSuffix);
                 foreach ($suffixes as $suffix) {
                     $data = explode(':', $suffix);
                     if (count($data) != 2) continue;
@@ -801,7 +800,7 @@ class Cartoclient {
         /// ClientSecurityChecker object 
         if (!$this->config->securityAllowedRoles)
             return true;
-        $allowedRoles = ConfigParser::parseArray($this->config->securityAllowedRoles);
+        $allowedRoles = Utils::parseArray($this->config->securityAllowedRoles);
         return SecurityManager::getInstance()->hasRole($allowedRoles);
     }
     

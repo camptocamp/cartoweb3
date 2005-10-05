@@ -196,7 +196,7 @@ class FormRenderer {
             return;
         
         if (!is_null($this->cartoclient->getConfig()->availableProjects))
-            $projects = ConfigParser::parseArray($this->cartoclient->
+            $projects = Utils::parseArray($this->cartoclient->
                                             getConfig()->availableProjects);
         else
             $projects = $this->cartoclient->getProjectHandler()->getAvailableProjects();

@@ -60,7 +60,7 @@ class IniSecurityContainer extends SecurityContainer {
             }
             if (strpos($key, 'roles.') === 0) {
                 $user = substr($key, strlen('roles.'));
-                $roles = ConfigParser::parseArray($val);
+                $roles = Utils::parseArray($val);
                 $this->roleMap[$user] = $roles;
             }
         }
@@ -159,7 +159,7 @@ class DbSecurityContainer extends SecurityContainer {
         if (is_null($roles))
             return array();
 
-        return ConfigParser::parseArray($roles);
+        return Utils::parseArray($roles);
     }
 }
 

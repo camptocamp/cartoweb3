@@ -101,7 +101,7 @@ abstract class ProjectHandler {
      */
     public function getAvailableProjects() {
 
-        $hidden = ConfigParser::parseArray(self::HIDDEN_PROJECTS);
+        $hidden = Utils::parseArray(self::HIDDEN_PROJECTS);
 
         // It simply looks for directory name. 
         // Maybe a smarter approach could be used

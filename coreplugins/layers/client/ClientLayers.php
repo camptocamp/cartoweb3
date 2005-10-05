@@ -441,10 +441,12 @@ class ClientLayers extends ClientPlugin
         
         // TODO: add constants for security_view
         
-        $roles = ConfigParser::parseArray($node->layer->
-                                                getMetadata('security_view'));
-        if (empty($roles))
+        $roles = Utils::parseArray($node->layer->getMetadata('security_view'));
+        
+        if (empty($roles)) {
             return false;
+        }
+        
         return !SecurityManager::getInstance()->hasRole($roles);
     }
 

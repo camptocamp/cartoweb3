@@ -162,13 +162,6 @@ class Utils {
             throw new CartocommonException($msg);
         }
     }
-}
-
-/**
- * Tools for configuration files parsing
- * @package Common
- */
-class ConfigParser {
 
     /**
      * Converts a comma-separated string to an array
@@ -180,6 +173,23 @@ class ConfigParser {
             return array();
         $value = explode(',', $value);
         return array_map('trim', $value);
+    }
+}
+
+/**
+ * Tools for configuration files parsing
+ * @package Common
+ */
+class ConfigParser {
+
+    /**
+     * Deprecated method. Replaced by {@see Utils::parseArray()}
+     * Will be discarded in future version.
+     */
+    static public function parseArray($value) {
+        throw new CartocommonException(
+            'Deprecated method ConfigParser::parseArray().'
+            . ' Please use Utils::parseArray() instead.');
     }
     
     /**

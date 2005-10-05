@@ -133,7 +133,7 @@ abstract class CwSerializable {
     /**
      * Returns an array of typed values from a string
      *
-     * Uses {@link ConfigParser::parseArray()}.
+     * Uses {@link Utils::parseArray()}.
      * @param stdClass
      * @param string
      * @param string
@@ -147,7 +147,7 @@ abstract class CwSerializable {
             return $value;
         
             
-        $values = ConfigParser::parseArray($value);
+        $values = Utils::parseArray($value);
         $array = array();
         foreach ($values as $val) {
             $array[] = self::unserializeValue($val, NULL, $type);
