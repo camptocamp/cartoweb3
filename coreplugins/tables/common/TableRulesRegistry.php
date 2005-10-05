@@ -1181,7 +1181,7 @@ class ColumnReorder extends TableRule {
         $diff = array_diff_assoc($table->columnIds, $this->columnIds);
         $swaps = array();
         foreach ($diff as $i) {
-            $swaps[] = array_search($i, $this->columnIds);
+            $swaps[array_search($i, $table->columnIds)] = array_search($i, $this->columnIds);
         }
 
         $table->columnIds = $this->array_swap($table->columnIds, $swaps);
