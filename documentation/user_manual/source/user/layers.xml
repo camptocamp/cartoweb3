@@ -528,15 +528,15 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
             <para>
               <indexterm><primary>topLayers</primary></indexterm>
               <parameter>topLayers</parameter>: list of all layerIds to keep
-	      on top of the genererated map (LayerIds must be comma separated).
+          on top of the genererated map (LayerIds must be comma separated).
             </para>
           </listitem>
           <listitem>
             <para>
               <indexterm><primary>bottomLayers</primary></indexterm>
               <parameter>bottomLayers</parameter>: same as previous one, but
-	      obviously keep these layerIds on bottom. Useful for example 
-	      with a raster background layer.
+              obviously keep these layerIds on bottom. Useful for example 
+              with a raster background layer.
             </para>
           </listitem>
         </itemizedlist>
@@ -558,10 +558,10 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
         <indexterm><primary>transparencyLevels</primary></indexterm>
         Default transparency selector values are : 10%, 20%, 50%, 75% and 100%.
         You could also customize transparency values available in this 
-	selector, with a comma separated value in 
-	<parameter>transparencyLevels</parameter>. A transparency value is a 
-	integer between 1 to 100 ; with 100 mean an opaque layer as 1 mean a 
-	nearly invisible one.
+        selector, with a comma separated value in 
+        <parameter>transparencyLevels</parameter>. A transparency value is a 
+        integer between 1 to 100 ; with 100 mean an opaque layer as 1 mean a 
+        nearly invisible one.
       </para>
     </sect2>
   </sect1>
