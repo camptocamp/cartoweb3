@@ -24,12 +24,14 @@
          <input type="hidden" id="recenter_none_{$key}" 
                 name="recenter_none_{$key}" value="{$layer.extent}" />
         </td>
+	{if $enableTransparency|default:''}
         <td align="right">
          <select name="layersTransparency_{$key}" class="layersTransparency">
           {html_options options=$layerTransparencyOptions 
                         selected=$layer.transparency}
          </select>
         </td>
+	{/if}
        </tr>
       </table>  
      </div>
