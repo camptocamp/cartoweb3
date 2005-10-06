@@ -1,6 +1,6 @@
 <?php
 /**
- * LayerReorder plugin CwSerializable objects
+ * LayerReorder plugin Serializable objects
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,8 @@ class LayerReorderInit extends CwSerializable {
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->layers = self::unserializeObjectMap($struct, 'layers', 'LayerInit');
+        $this->layers 
+            = self::unserializeObjectMap($struct, 'layers', 'LayerInit');
     }
 }
 
@@ -54,20 +55,53 @@ class LayerReorderRequest extends CwSerializable {
      * @var array array of LayerId
      */
     public $layerIds;
-    
+
+    /**
+     * @var array array of LayerTransparency
+     */
+    public $layerTransparencies;
+
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerIds  = self::unserializeArray($struct, 'layerIds');
+        $this->layerTransparencies = self::unserializeObjectMap($struct,
+            'layerTransparencies', 'LayerTransparency');
     }
 }
 
 /**
  * @package Plugins
  */
+class LayerTransparency extends CwSerializable {
+
+    /**
+     * @var string LayerId
+     */
+    public $id;
+
+    /**
+     * @var int transparency
+     */
+    public $transparency;
+
+    /**
+     * @see CwSerializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->id = self::unserializeValue($struct, 'id', 'string');
+        $this->transparency 
+            = self::unserializeValue($struct, 'transparency', 'int');
+    }
+}
+
+
+/**
+ * @package Plugins
+ */
 class LayerInit extends CwSerializable {
-    
+
     /**
      * @var string Layer Id
      */
@@ -79,11 +113,17 @@ class LayerInit extends CwSerializable {
     public $label;
 
     /**
+     * @var int Layer transparency
+     */
+    public $transparency;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->id = self::unserializeValue($struct, 'id'); 
+        $this->id = self::unserializeValue($struct, 'id');
         $this->label = self::unserializeValue($struct, 'label');
+        $this->transparency = self::unserializeValue($struct, 'transparency');
     }
 }
 

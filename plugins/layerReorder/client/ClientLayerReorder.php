@@ -40,11 +40,17 @@ class LayerReorderState {
     public $layerLabels;
 
     /**
+     * Layers user Transparency array indexed by msLayer name
+     * @var array
+     */
+    public $layerUserTransparencies;
+
+    /**
      * Array of all MapServer layers id ordered
      * @var array
      */
     public $orderedMsLayerIds;
-    
+
     /**
      * Array of MapServer layers id selected (currently displayed)
      * @var array
@@ -60,13 +66,12 @@ class LayerReorderState {
 class ClientLayerReorder extends ClientPlugin
     implements InitUser, ServerCaller, GuiProvider, Sessionable {
 
-        
-    /**                    
+    /**
      * @var Logger
      */
     private $log;
 
-    /** 
+    /**
      * Ms Layer Ids ordered
      * @var array
      */
@@ -83,6 +88,18 @@ class ClientLayerReorder extends ClientPlugin
      * @var array
      */
     protected $layerLabels;
+
+    /**
+     * Initial Layers Transparency array sorted
+     * @var array
+     */
+    protected $layerTransparencies;
+
+    /**
+     * Layers user Transparency array indexed by msLayer name
+     * @var array
+     */
+    protected $layerUserTransparencies;
 
     /**
      * Array of MapServer layers id selected (currently displayed)
@@ -105,26 +122,34 @@ class ClientLayerReorder extends ClientPlugin
      * Layer order exclusion list to put on bottom of the stack
      */
     protected $bottomLayers;
-    
+
+    /**
+     * Transparency level array allowed for each Ms layer
+     */
+    protected $transparencyLevels;
+
 
     /**
      * Constructor
      */
     public function __construct() {
+
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->layerUserTransparencies = array();
         parent::__construct();
     }
-    
+
 
     /**
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, 
-                                  InitialMapState $initialMapState) { 
+    public function createSession(MapInfo $mapInfo,
+                                  InitialMapState $initialMapState) {
 
         $this->layerReorderState = new LayerReorderState;
         $this->layerReorderState->layers = array();
         $this->layerReorderState->orderedMsLayerIds = array();
+        $this->layerReorderState->layerUserTransparencies = array();
     }
 
 
@@ -136,6 +161,8 @@ class ClientLayerReorder extends ClientPlugin
         $this->layerLabels = $sessionObject->layerLabels;
         $this->orderedMsLayerIds = $sessionObject->orderedMsLayerIds;
         $this->selectedMsLayerIds = $sessionObject->selectedMsLayerIds;
+        $this->layerUserTransparencies 
+            = $sessionObject->layerUserTransparencies;
     }
 
 
@@ -148,8 +175,11 @@ class ClientLayerReorder extends ClientPlugin
         $this->layerReorderState->layerIds = $this->layerIds;
         $this->layerReorderState->layerLabels = $this->layerLabels;
         $this->layerReorderState->orderedMsLayerIds = $this->orderedMsLayerIds;
-        $this->layerReorderState->selectedMsLayerIds = 
+        $this->layerReorderState->selectedMsLayerIds =
             $this->selectedMsLayerIds;
+        $this->layerReorderState->layerUserTransparencies 
+            = $this->layerUserTransparencies;
+
         return $this->layerReorderState;
     }
 
@@ -158,29 +188,42 @@ class ClientLayerReorder extends ClientPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($initObject) {
+
+        // retrieve transparency config setting
+        $transparencyLevels = $this->getConfig()->transparencyLevels;
+        if (!empty($transparencyLevels)) {
+            $this->transparencyLevels 
+                = ConfigParser::parseArray($transparencyLevels);
+        } else {
+            $this->transparencyLevels = array('10', '25', '50', '75', '100');
+        }
+
+        // init properties from init result
         $layers = $initObject->layers;
         foreach ($layers as $layer) {
             $this->layerIds[] = $layer->id;
             $this->layerLabels[] = $layer->label;
+            $this->layerTransparencies[] = $layer->transparency;
+            $this->layerUserTransparencies[$layer->id]
+                = $this->getCloserTransparency($layer->transparency);
         }
 
         if (empty($this->orderedMsLayerIds)) {
             $this->orderedMsLayerIds = $this->layerIds;
         }
-        
-        // retrieve config setting
+
+        // handle top and bottom exclusion setting
         $this->topLayers = array();
         $this->bottomLayers = array();
-        
+
         $topLayers = $this->getConfig()->topLayers;
         if (!empty($topLayers)) {
-            $this->topLayers = array_map('trim', explode(',', $topLayers));
+            $this->topLayers = ConfigParser::parseArray($topLayers);
         }
 
         $bottomLayers = $this->getConfig()->bottomLayers;
         if (!empty($bottomLayers)) {
-            $this->bottomLayers = array_map('trim', 
-                explode(',', $bottomLayers));
+            $this->bottomLayers = ConfigParser::parseArray($bottomLayers);
         }
     }
 
@@ -191,6 +234,13 @@ class ClientLayerReorder extends ClientPlugin
     public function buildRequest() {
         $layerReorderRequest = new LayerReorderRequest();
         $layerReorderRequest->layerIds = $this->orderedMsLayerIds;
+
+        foreach($this->layerUserTransparencies as $layer => $transparency) {
+            $layerTransparency = new LayerTransparency();
+            $layerTransparency->id = $layer;
+            $layerTransparency->transparency = $transparency;
+            $layerReorderRequest->layerTransparencies[] = $layerTransparency;
+        }
 
         return $layerReorderRequest;
     }
@@ -218,25 +268,25 @@ class ClientLayerReorder extends ClientPlugin
 
         // keep selected layers
         foreach ($layerIds as $id) {
-            if (!in_array($id, $this->topLayers) && 
+            if (!in_array($id, $this->topLayers) &&
                 !in_array($id, $this->bottomLayers)) {
                     $selected[] = $mapIds[$id];
             }
         }
-       
-        // order them 
+
+        // order them
         foreach ($this->orderedMsLayerIds as $layer) {
             if (in_array($layer, $selected)) {
                 $orderedSelected[] = $layer;
             }
         }
-        
+
         return $orderedSelected;
     }
 
 
     /**
-     * Retrieve CW3 layer ids array, with for each the corresponding MapServer 
+     * Retrieve CW3 layer ids array, with for each the corresponding MapServer
      * layer Id as value.
      * @return array
      */
@@ -244,7 +294,7 @@ class ClientLayerReorder extends ClientPlugin
 
         $cwLayerIds = array();
         $plugin = $this->cartoclient->getPluginManager()->getPlugin('layers');
-        
+
         foreach ($plugin->getLayersInit()->layers as $layer) {
             if ($layer instanceof Layer) {
                  $cwLayerIds[$layer->id] = $layer->msLayer;
@@ -254,12 +304,12 @@ class ClientLayerReorder extends ClientPlugin
         return $cwLayerIds;
     }
 
-    
+
     /**
      * Return selected layer labels array, rightly ordered
      * @return array
      */
-    protected function getSelectedCwLayerLabels() {
+    protected function getRenderSelectedLayers() {
 
         // retrieve label for each msLayer
         $labels = array();
@@ -267,19 +317,49 @@ class ClientLayerReorder extends ClientPlugin
             $labels[$this->layerIds[$key]] = I18n::gt($layer);
         }
 
-        // retrieve selected msLayer labels
+        // retrieve CW3 layer ids
+        $layerIds = array_flip($this->getCwLayerIds());
+
+        // retrieve selected msLayer properties
         $selected = array();
+
         foreach ($this->getSelectedMsIds() as $id) {
-            $selected[] = $labels[$id];
+
+            $selected[] = array(
+                        'id' => $layerIds[$id],
+                        'label' => $labels[$id],
+                        'transparency' => $this->layerUserTransparencies[$id]
+                        );
         }
 
         return $selected;
     }
-    
+
+
+    /**
+     * Return closer transparency value from available levels 
+     * @param int transparency transparency value in map file
+     * @return int
+     */
+    protected function getCloserTransparency($transparency) {
+
+        if (in_array($transparency, $this->transparencyLevels)) {
+            return $transparency;
+        }
+
+        foreach ($this->transparencyLevels as $level) {
+            if ($level > $transparency) {
+                return $level;
+            }
+        }
+
+        return $level;
+    }
+
 
     /**
      * @see ServerCaller::handleResult()
-     */ 
+     */
     public function handleResult($result) {}
 
 
@@ -288,8 +368,9 @@ class ClientLayerReorder extends ClientPlugin
      * @param array HTTP request
      */
     public function handleHttpPostRequest($request) {
+
         if (!empty($request['layersReorder'])) {
-            $this->handleRequest(explode(',', $request['layersReorder']));
+            $this->handleRequest($request);
         }
     }
 
@@ -299,8 +380,9 @@ class ClientLayerReorder extends ClientPlugin
      * @param array HTTP request
      */
     public function handleHttpGetRequest($request) {
+
         if (!empty($request['layersReorder'])) {
-            $this->handleRequest(explode(',', $request['layersReorder']));
+            $this->handleRequest($request);
         }
     }
 
@@ -309,12 +391,14 @@ class ClientLayerReorder extends ClientPlugin
      * Common method to handle both Get or Post request
      * @param array layers to reorder
      */
-    protected function handleRequest($layers) {
+    protected function handleRequest($request) {
+
+        $layers = explode(',', $request['layersReorder']);
 
         $this->orderedMsLayerIds = array();
         $mapIds = $this->getCwLayerIds();
 
-        // put config top layers on top of the stack 
+        // put config top layers on top of the stack
         foreach ($this->topLayers as $layer) {
             $this->orderedMsLayerIds[] = $mapIds[$layer];
         }
@@ -322,12 +406,16 @@ class ClientLayerReorder extends ClientPlugin
         // put new ordered msLayer on the stack (IHM use reverse order...)
         $layers = array_reverse($layers, true);
         foreach ($layers as $id) {
+            if(isset($request['layersTransparency_' . $id])) {
+                $this->layerUserTransparencies[$this->selectedMsLayerIds[$id]]
+                    = $request['layersTransparency_' . $id];
+            }
            $this->orderedMsLayerIds[] = $this->selectedMsLayerIds[$id];
         }
-        
+
         // add to the stack all other msLayer (undisplayed ones)
         foreach ($this->layerIds as $layer) {
-            if (!in_array($layer, $this->orderedMsLayerIds) && 
+            if (!in_array($layer, $this->orderedMsLayerIds) &&
                 !in_array($layer, $this->bottomLayers)) {
                     $this->orderedMsLayerIds[] = $layer;
             }
@@ -337,6 +425,7 @@ class ClientLayerReorder extends ClientPlugin
         foreach ($this->bottomLayers as $layer) {
             $this->orderedMsLayerIds[] = $mapIds[$layer];
         }
+
     }
 
 
@@ -345,15 +434,25 @@ class ClientLayerReorder extends ClientPlugin
      * @param string Smarty template object
      */
     public function renderForm(Smarty $template) {
-        
+
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         // IHM use reverse order...
-        $smarty->assign('layerReorder', 
-            array_reverse($this->getSelectedCwLayerLabels(), true), true);
+        $smarty->assign('layerReorder',
+            array_reverse($this->getRenderSelectedLayers(), true), true);
+
+        if ($this->getConfig()->enableTransparency) {
+            $levels = array();
+            foreach($this->transparencyLevels as $level) {
+                $levels[$level] = sprintf('%s%%', $level);
+            }
+            $smarty->assign('layerTransparencyOptions', $levels);
+            $smarty->assign('enableTransparency', true);
+        }
+
         $output = $smarty->fetch('layerReorder.tpl');
         $template->assign('layerReorder', $output);
     }
-    
+
 }
 
 ?>

@@ -21,6 +21,9 @@
  * @version $Id$
  */
 
+require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
+
+
 /**
  * Server Layer Reorder
  * @package Plugins
@@ -43,7 +46,7 @@ class ServerLayerReorder extends ClientResponderAdapter
 
 
     /**
-     * Send to Cartoclient current ordered layers, labels and 
+     * Send to Cartoclient current ordered layers, labels and
      * exclusion layer list
      */
     public function getInit() {
@@ -54,13 +57,29 @@ class ServerLayerReorder extends ClientResponderAdapter
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
 
         $labels = array();
+        $transparency = array();
+        $extents = array();
+        $mapExtent = $msMapObj->extent;
+
         foreach ($layersInit->getLayers() as $name => $layer) {
-            if ($layer instanceof Layer) {
-                $labels[$layer->msLayer] = 
-                    I18nNoop::gt($layersInit->getLayerById($name)->label);
-            }
+            if (!$layer instanceof Layer) continue;
+
+            // retrieve layer label
+            $labels[$layer->msLayer] =
+                I18nNoop::gt($layersInit->getLayerById($name)->label);
+
+            $msCurrentLayer = $layersInit->getLayerById($name)->msLayer;
+
+            // retrieve layer transparency 
+            $transparency[$layer->msLayer]
+                = $msMapObj->getLayerByName($msCurrentLayer) ->transparency;
+            if (empty($transparency[$layer->msLayer]))
+                $transparency[$layer->msLayer] = '100';
+
         }
-        
+
+
+        // Init Object creation
         $layers = array();
         foreach ($layersOrder as $layer) {
             $id = $msMapObj->getLayer($layer)->name;
@@ -68,6 +87,8 @@ class ServerLayerReorder extends ClientResponderAdapter
             $layerInit = new LayerInit();
             $layerInit->id = $id;
             $layerInit->label = $labels[$id];
+            $layerInit->transparency = $transparency[$id];
+
             $layers[] = $layerInit;
         }
 
@@ -80,14 +101,16 @@ class ServerLayerReorder extends ClientResponderAdapter
 
 
     /**
-     * Reorder MapServer layers lists from CartoClient request
+     * Reorder MapServer layers lists and transparency from CartoClient request
      */
     public function initializeRequest($requ) {
+
         $this->log->debug('layerReorder initializeRequest: ');
         $this->log->debug($requ);
 
+        // Update layer reorder
         $msMapObj = $this->serverContext->getMapObj();
-        $layersOrder = $msMapObj->getlayersdrawingorder();
+        $layersOrder = array_flip($msMapObj->getlayersdrawingorder());
         foreach ($layersOrder as $layer) {
             $layerOrderIds[] = $msMapObj->getLayer($layer)->name;
         }
@@ -97,9 +120,18 @@ class ServerLayerReorder extends ClientResponderAdapter
         foreach ($requ->layerIds as $layerId) {
             $layerReorder[] = $layerOrderIds[$layerId];
         }
-        
+
         $msMapObj->setlayersdrawingorder($layerReorder);
+
+        // Update transparency level
+        if (!empty($requ->layerTransparencies)) {
+            foreach ($requ->layerTransparencies as $layerTransparency) {
+                $msMapObj->getLayerByName($layerTransparency->id)
+                    ->set('transparency', $layerTransparency->transparency);
+            }
+        }
     }
+
 }
 
 ?>

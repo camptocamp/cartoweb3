@@ -1,32 +1,95 @@
-stateSelected = -1;
+var currentLayerReorderSelected = -1;
 
-/* BEGIN IE Workaround on selection (uncomment line below to do so) */
-//window.document.attachEvent('onselectstart', selectStart);
-function selectStart()
+
+function layerReorderCurrent(key) 
 {
-    return false;
-}
-/* END IE Workaround on selection */
-
-
-function reorderSelect(elt) 
-{
-    if (stateSelected == -1) { 
-    	stateSelected = elt.id;
-    } else {
-    	stateSelected = -1;
-    }
+  currentLayerReorderSelected = key;
 }
 
-
-function reorderInterFlush() 
+function reorderUpside()
 {
-    var container = xGetElementById("reorderContainer");
-    var layers = 
-        xGetElementsByClassName('layerReorderInterSelect', container, 'div');
-    for (i=0 ; i < layers.length ; i++) {
-    	layers[i].className="layerReorderInter";
+  if (currentLayerReorderSelected == -1) return;
+
+  var from = currentLayerReorderSelected;
+  var to  = reorderPreviousPosition(from);
+  
+  var container = xGetElementById("layerReorderContainer");
+  var transparency = 
+    xGetElementsByClassName('layersTransparency', container, 'select');
+  var indexTransparency = new Array();
+  
+  for (i=0 ; i < transparency.length ; i++) { 
+    indexTransparency[transparency[i].name.substr(19)] 
+      = transparency[i].selectedIndex;
+  }    
+  
+  reorderLayerMove(from, to);
+  
+  var container = xGetElementById("layerReorderContainer");
+  var transparency
+    = xGetElementsByClassName('layersTransparency', container, 'select');
+  
+  for (i=0 ; i < transparency.length ; i++) { 
+    transparency[i].selectedIndex
+      = indexTransparency[transparency[i].name.substr(19)];
+  }
+}
+
+function reorderDownside()
+{
+  if (currentLayerReorderSelected == -1)
+     return;
+
+  var from = currentLayerReorderSelected;
+  var to  = reorderNextPosition(currentLayerReorderSelected); 
+  
+  var container 
+    = xGetElementById("layerReorderContainer");
+  var transparency 
+    = xGetElementsByClassName('layersTransparency', container, 'select');
+  var indexTransparency = new Array();
+    
+  for (i=0 ; i < transparency.length ; i++) { 
+    indexTransparency[transparency[i].name.substr(19)]
+      = transparency[i].selectedIndex;
+  }    
+  
+  reorderLayerMove(from, to);
+  
+  var container = xGetElementById("layerReorderContainer");
+  var transparency 
+    = xGetElementsByClassName('layersTransparency', container, 'select');
+    
+  for (i=0 ; i < transparency.length ; i++) { 
+    transparency[i].selectedIndex
+      = indexTransparency[transparency[i].name.substr(19)];
+  }
+}
+
+function reorderPreviousPosition(idFrom)
+{
+  var container = xGetElementById("layerReorderContainer");
+  var layers = xGetElementsByClassName('layerReorder', container, 'div');
+  
+  for (i=0 ; i < layers.length ; i++) { 
+    if (layers[i].id.substr(13) == idFrom) {
+      if(i == 0) return layers[0].id.substr(13);
+      return layers[i-1].id.substr(13);
     }
+  }
+}
+
+function reorderNextPosition(idFrom)
+{
+  var container = xGetElementById("layerReorderContainer");
+  var layers = xGetElementsByClassName('layerReorder', container, 'div');
+  
+  for (i=0 ; i < layers.length ; i++) { 
+    if (layers[i].id.substr(13) == idFrom) {
+      if(i + 2 >= layers.length) return 'last';
+      return layers[i+2].id.substr(13);
+    }
+  }
 }
 
 function reorderLayerMove(idFrom, idTo) 
@@ -34,7 +97,7 @@ function reorderLayerMove(idFrom, idTo)
     if (idFrom == idTo) {
    	 return;
     }
-    var container = xGetElementById("reorderContainer");
+    var container = xGetElementById("layerReorderContainer");
     var layers = xGetElementsByClassName('layerReorder', container, 'div');
     var from = '';
     var str ='';
@@ -49,9 +112,7 @@ function reorderLayerMove(idFrom, idTo)
     for (i=0 ; i < layers.length ; i++) {
     	var currentId = layers[i].id.substr(13);
 
- 	if (currentId == idTo) {
-	    str += from;
-	}
+ 	if (currentId == idTo) str += from;
 	
     	if (currentId != idFrom) {
 	    str += '<div id="layerReorder_' + currentId 
@@ -60,38 +121,19 @@ function reorderLayerMove(idFrom, idTo)
 	}
     }
 
-    container.innerHTML = '<div id="reorderContainer">' + str + '</div>';
+    container.innerHTML = '<div id="layerReorderContainer">' + str + '</div>';
+    var currentLayer
+      = xGetElementById("layerReorderRadio_" + currentLayerReorderSelected);
+    currentLayer.checked = true;
 }
-
-
-function reorderUnselect(elt) {
-    reorderInterFlush();
-    if (stateSelected == -1) {
-        return;
-    }
-    if (elt.id.substr(0, 19) == 'layerReorderLayer_') {
-        return stateSelected = -1;
-    }
-    reorderLayerMove(stateSelected.substr(18), elt.id.substr(18));
-    stateSelected = -1;
-}
-
-
-function reorderInterOver(elt) {
-    reorderInterFlush();
-    if (stateSelected != -1) {
-        elt.className="layerReorderInterSelect";
-    }
-}
-
 
 function retrieveOrder()
 {
-    var container = xGetElementById("reorderContainer");
+    var container = xGetElementById("layerReorderContainer");
     var layers = xGetElementsByClassName('layerReorder', container, 'div');
    
     var OrderedIds = new Array();
-    for(i=0 ; i < layers.length - 1 ; i++)
+    for (i=0 ; i < layers.length - 1 ; i++)
     	OrderedIds.push(layers[i].id.substr(13));
 
     document.carto_form.layersReorder.value = OrderedIds.join(",");

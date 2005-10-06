@@ -1,4 +1,15 @@
-#reorderContainer { -moz-user-select: none; cursor: move;}
-.layerReorderInterSelect { background-color: #ccc; }
-.layerReorderInter { background-color: #fff; width:100%; }
-.layerReorder { width: 100%; }
+#layerReorderContainer { 
+  text-align: left;
+  margin-left:0px;
+  padding-left: 0px;
+}
+
+#layerReorderPicto { 
+  text-align: left;
+  margin-left:5px;
+  padding-left: 0px;
+}
+
+#layerReorderDown, #layerReorderUp {
+  cursor: pointer;
+}
