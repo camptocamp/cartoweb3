@@ -193,7 +193,7 @@ class ClientLayerReorder extends ClientPlugin
         $transparencyLevels = $this->getConfig()->transparencyLevels;
         if (!empty($transparencyLevels)) {
             $this->transparencyLevels 
-                = ConfigParser::parseArray($transparencyLevels);
+                = Utils::parseArray($transparencyLevels);
         } else {
             $this->transparencyLevels = array('10', '25', '50', '75', '100');
         }
@@ -218,12 +218,12 @@ class ClientLayerReorder extends ClientPlugin
 
         $topLayers = $this->getConfig()->topLayers;
         if (!empty($topLayers)) {
-            $this->topLayers = ConfigParser::parseArray($topLayers);
+            $this->topLayers = Utils::parseArray($topLayers);
         }
 
         $bottomLayers = $this->getConfig()->bottomLayers;
         if (!empty($bottomLayers)) {
-            $this->bottomLayers = ConfigParser::parseArray($bottomLayers);
+            $this->bottomLayers = Utils::parseArray($bottomLayers);
         }
     }
 
