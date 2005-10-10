@@ -29,7 +29,7 @@
   </para>
 
   <sect1 id="appendix.windows_manual_install.apache">
-    <title>Apache/PHP5 install</title>
+    <title>Apache/PHP5 Install</title>
     <para>Cartoweb requires php5. MS4W only supports php4.3 so we will need WAMP (1.4.4 or greater). 
     You can get the installation package here: <ulink url="http://www.wampserver.com/download.php"/></para>
     <para>Launch the setup by clicking on the executable file you just downloaded (here wamp5_1.4.4.exe). 
@@ -87,7 +87,7 @@ extension=php_gettext.dll</screen>
   </sect1>
   
   <sect1>
-    <title>Mapserver/Mapscript install</title>
+    <title>Mapserver/Mapscript Install</title>
     <para>You need a Mapscript version compiled for PHP5/Win32. You can get one here: 
       <ulink url="http://www.maptools.org/dl/mapserver-4.5-win32-php5.0.3.zip"/>
     </para>

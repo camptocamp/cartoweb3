@@ -9,14 +9,13 @@
 
 <appendix id="appendix.make_doc">
   <title>DocBook Documentation Generation</title>
-  <para>Cartoweb documentation source are in DocBook format. You need to dl the docbook-1-6-15
-    archive. You can download it from the <ulink url="http://www.cartoweb.org">CartoWeb</ulink> website.</para>
+  <para>&cartoweb; documentation source are in DocBook format. You may download the docbook-1-6-15 archive from the <ulink url="http://www.cartoweb.org">&cartoweb;</ulink> website.</para>
   <sect1 id="appendix.make_doc.unix">
     <title>Documentation Generation on UNIX-like system</title> 
     <para>Uncompress the docbook-1-6-15.tar.bz2 archive somewhere.</para>
-    <para>Execute :
+    <para>Execute:
       <screen>./configure --enable-install</screen>
-      then :
+      then:
       <screen>make install</screen>
       to install and configure DocBook
     </para>
