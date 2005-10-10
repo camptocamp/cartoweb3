@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<appendix id="appendix.make_doc">
+  <title>DocBook Documentation Generation</title>
+  <para>Cartoweb documentation source are in DocBook format. You need to dl the docbook-1-6-15
+    archive. You can download it from the <ulink url="http://www.cartoweb.org">CartoWeb</ulink> website.</para>
+  <sect1 id="appendix.make_doc.unix">
+    <title>Documentation Generation on UNIX-like system</title> 
+    <para>Uncompress the docbook-1-6-15.tar.bz2 archive somewhere.</para>
+    <para>Execute :
+      <screen>./configure --enable-install</screen>
+      then :
+      <screen>make install</screen>
+      to install and configure DocBook
+    </para>
+    <para>To generate XHTML documentation, create a symbolic link in the install 
+    directory pointing to the CartoWeb documentation sources 
+    ($wwwroot/cartoweb3/documentation/user_manual/source)</para>
+    <para>Execute:
+      <screen>make xhtml</screen>
+      to generate an xhtml version of the documentation. This will be generated in 
+      <emphasis>$docbookinstalldir/xhtml</emphasis>
+    </para>
+    <para>Execute:
+      <screen>make pdf</screen>
+      to generate an pdf version of the documentation. This will be generated in 
+      <emphasis>$docbookinstalldir/pdf</emphasis>
+      You need to have Java isntalled on your system in order to generate pdf.
+    </para>
+  </sect1>
+  <sect1 id="appendix.make_doc.cygwin">
+    <title>Documentation Generation on Windows using Cygwin</title>
+    <para>The only known way at this time to generate xhml or pdf version of the documentation 
+    on Windows is by using Cygwin</para>
+    <para>You will need to install the following Cygwin packages: <emphasis>libxml2, libxslt, 
+    make</emphasis>.</para>
+    <para>Then follow the same instructions as for UNIX-like system <xref linkend="appendix.make_doc.unix"/>
+      <note><para>In docbook 1.69.0, the xhtml generation process produce a validity error at the end of the files 
+      creation. It should be fixed in 1.69.1</para></note>
+    </para>
+  </sect1>
+</appendix>

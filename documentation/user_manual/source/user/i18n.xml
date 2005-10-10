@@ -19,13 +19,9 @@
         is not installed, you can use a dummy translation system which 
         translates nothing. To use gettext, you will need to have PHP gettext 
         module installed.</para>
-      <para>Choosen translation system is set in client configuration file 
-        <filename>client_conf/client.ini</filename>: <programlisting><![CDATA[### Internationalization ###
-
-# I18n class
-# use I18nDummy for no translation management
-# use I18nGettext for gettext (will need PHP gettext module)
-I18nClass = I18nDummy]]></programlisting> </para>
+      <para>Translation system is now automatically set to gettext if gettext is installed 
+        otherwise it's disabled. Parameter <emphasis>I18nClass</emphasis> is now deprecated.
+      </para>
       <sect3 id="user.i18n.translations.config.linux">
         <title>Unix-like</title>
         <para>In Unix-like environments, file 
@@ -42,10 +38,20 @@ fr    fr_CH.ISO-8859-1
            </screen> If package locales has never been installed, you have to 
           install it before: <screen><![CDATA[apt-get install locales]]> 
           </screen> </para>
+          <sect4 id="user.i18n.translations.config.linux.test">
+            <title>Test to verify if gettext is correctly installed</title>
+            <para>A script has been prepared to check if gettext is correctly installed on 
+            the system. Simply run script... BLABLABLA a complérer</para>
+
+          </sect4>
       </sect3>
       <sect3 id="user.i18n.translations.config.win32">
         <title>Win32</title>
-        <para>TODO </para>
+        <para>In order to have the language translation working correctly in Cartoweb with Gettext, 
+        you need to have the languages you want to use installed in the 
+        <emphasis>Input Locales</emphasis> of Windows (windows 2000: Control Panel > 
+        Regional Options > Input Locales. windows XP: Control Panel > Regional and Language Options > 
+        Details > Settings)</para>
       </sect3>
     </sect2>
     <sect2 id="user.i18n.translations.template">

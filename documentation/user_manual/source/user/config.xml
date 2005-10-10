@@ -137,9 +137,9 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
     <para> Internationalization:</para>
     <itemizedlist>
       <listitem>
-        <para> I18nClass = I18nDummy|I18nGettext. See <xref 
+        <para> I18nClass is now <keycap>deprecated</keycap> See <xref 
           linkend="user.i18n"/> for a description of the internationalization 
-          options and the corresponding configurations. </para>
+          options and the corresponding configurations.</para>
       </listitem>
       <listitem>
         <para> defaultLang = string: default language, possible values are the 

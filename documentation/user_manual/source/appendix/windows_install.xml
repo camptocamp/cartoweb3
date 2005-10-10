@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<appendix id="appendix.windows_manual_install">
+  <title>Apache &amp; Mapserver Windows Manual Installation</title>
+  <para>This page describes the step-by-step procedure to install Cartoweb3 on Windows, using WAMP, 
+  Mapscript and Cartoweb.</para>
+  <para>The following configuration was tested:
+    <itemizedlist>
+      <listitem>
+        <para>Windows 2000</para>
+      </listitem>
+      <listitem>
+        <para>WAMP 1.4.4 (Apache 1.3.33 + PHP 5.0.4)</para>
+      </listitem>
+      <listitem>
+        <para>Mapserver 4.5</para>
+      </listitem>
+      <listitem>
+        <para>Cartoweb 3.0.0 and Cartoweb3 CVS-version</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+  <sect1 id="appendix.windows_manual_install.apache">
+    <title>Apache/PHP5 install</title>
+    <para>Cartoweb requires php5. MS4W only supports php4.3 so we will need WAMP (1.4.4 or greater). 
+    You can get the installation package here: <ulink url="http://www.wampserver.com/download.php"/></para>
+    <para>Launch the setup by clicking on the executable file you just downloaded (here wamp5_1.4.4.exe). 
+    Keep default install options:
+      <itemizedlist>
+        <listitem>
+          <para>Install WAMP in C:\wamp</para>
+        </listitem>
+        <listitem>
+          <para>Set www root folder as C:\wamp\www</para>
+        </listitem>
+      </itemizedlist>  
+    </para>
+    <para>Once installation is completed:
+      <itemizedlist>
+        <listitem>
+          <para>If WAMP didn't loaded automatically (icon in the system tray in the lower right of the 
+          screen), load it (Stat menu, Programs, WampServer, Start Wampserver)</para>
+        </listitem>
+        <listitem>
+          <para>Type http://localhost in a browser</para>
+        </listitem>
+        <listitem>
+          <para>Once the page has loaded, click on Tools > phpinfo() (http://localhost/exemples/phpinfo.php) 
+          to display the complete PHPINFO information.</para>
+        </listitem>
+        <listitem>
+          <para>Take note of the path to the php.ini file (Configuration File (php.ini) Path). It should 
+          look like c:\wamp\apache\php.ini</para>
+        </listitem>
+        <listitem>
+          <para>Open the file php.ini in any text editor and go to the Dynamic Extensions section. 
+          Activate the SOAP, Curl and Gettext extensions. Simply remove the ";" at the beginning of 
+          the lines.</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>If you can not see the extension in the list, you will need to add it manually:</para>
+    <screen>
+extension=php_soap.dll
+extension=php_curl.dll
+extension=php_gettext.dll</screen>
+    <para>The corresponding DLL files must be present in the extensions folder of PHP. It should be 
+    C:\wamp\php\ext by default. If you can not find it, look in the PHPINFO ("local value" for parameter 
+    extension_dir, visible in php.ini as well), you will notice something like C:/wamp/php/ext/.
+      <itemizedlist>
+        <listitem>
+          <para>Restart Apache (left-click on the WAMP icon in the systray > Apache > Restart Service)</para>
+        </listitem>
+        <listitem>
+          <para>Check in the PHPINFO if the new extensions loaded correctly (look for a section with their name).</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+  
+  <sect1>
+    <title>Mapserver/Mapscript install</title>
+    <para>You need a Mapscript version compiled for PHP5/Win32. You can get one here: 
+      <ulink url="http://www.maptools.org/dl/mapserver-4.5-win32-php5.0.3.zip"/>
+    </para>
+    <para>
+      If the link doesn't work, go to 
+      <ulink url="http://dl.maptools.org/dl/"/> and look for mapserver-4.5-win32-php5.0.3.zip or newer.
+      <itemizedlist>
+        <listitem>
+          <para>Once you have downloaded the archive, uncompress it in any directory.</para>
+        </listitem>
+        <listitem>
+          <para>The README.txt included in the archive tells you where you must place the various files:
+            <itemizedlist>
+              <listitem>
+                <para>Unzip gdal-1.2.5.zip, libcurl-7.10.7_dll.zip, xerces_dll.zip, ECW_DLL.zip, 
+                pdfdll.zip, libpq.zip in C:\WINNT\System32 if you are using Windows 2000/NT 
+                (C:\Windows\System32 for XP and C:\Windows\System for 95/98/Me)</para>
+              </listitem>
+              <listitem>
+                <para>Move php_mapscript_45.dll in the extensions folder of PHP (see PHPINFO, 
+                default is C:\wamp\php\ext). The file php_proj.dll is outdated, you can ignore it.</para>
+              </listitem>
+              <listitem>
+                <para>Open php.ini and add a call to this extension:
+                <screen>
+extension=php_mapscript_45.dll</screen>
+                </para>
+              </listitem>
+            </itemizedlist>          
+          </para>
+        </listitem>
+        <listitem>
+          <para>Restart Apache and check that the mapscript module is loaded correctly (look in PHPINFO)</para>
+        </listitem>
+        <listitem>
+          <para>Install Proj4 by following the instructions in URL indicated in the README.txt: 
+          <ulink url="http://mapserver.gis.umn.edu/cgi-bin/wiki.pl?WindowProjHowTo"/> > Using Prebuilt Binaries
+            <itemizedlist>
+              <listitem>
+                <para>Download the archive Proj4 here: 
+                <ulink url="ftp://ftp.remotesensing.org/proj/proj446_win32_bin.zip"/></para>
+              </listitem>
+              <listitem>
+                <para>Uncompress it in C:\. If you want to install it elsewhere, look at point 2 of Using Prebuilt Binaries</para>
+              </listitem>
+              <listitem>
+                <para>Point 3 in the README is irrelevant in our case.</para>
+              </listitem>
+            </itemizedlist>  
+          </para>
+        </listitem>
+      </itemizedlist>     
+    </para>
+    <note><para>The .exe in the Mapserver archive are not needed.</para></note>
+    <note><para>If you are using 
+    Windows XP, it may be necessary to modify the extension_dir value in php.ini by using "\" 
+    instead of "/"</para></note>
+  </sect1>
+</appendix>
