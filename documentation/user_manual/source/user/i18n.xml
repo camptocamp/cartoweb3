@@ -174,6 +174,73 @@ fr    fr_CH.ISO-8859-1
         </listitem>
       </itemizedlist>
     </sect2>
+    <sect2 id="user.i18n.translations.debug">
+      <title>Debuging translation problems</title>
+      <para>There can be several reasons why the translation is not working.</para>
+      <para>First you need to check if gettext is correctly installed and configured. For so 
+        run the following scripts:
+          <itemizedlist>
+              <listitem>
+                  <para><screen>cartoweb3/scripts/testgettext.sh</screen>
+                    This will test if Gettext is correctly installed in your system
+                    <note><para>Unix-like system only, this script is not intended for Windows users</para></note>
+                  </para>
+              </listitem>
+              <listitem>
+                  <para><screen>cartoweb3/scripts/testgettext.php</screen>
+                  This will test if Gettext works correctly with php
+                  </para>
+              </listitem>
+          </itemizedlist>
+          Once you have verified Gettext is installed and run correctly, check if there 
+            are no errors in your <emphasis>po</emphasis> files.
+          <itemizedlist>          
+              <listitem>
+                  <para>Verify you do no have duplicate <emphasis>msgid</emphasis> in your 
+                  po files. Each <emphasis>msgid</emphasis> must be unique in a po file.</para>
+                  <para> A typical error message would be:
+                  <screen>Error message: Failure while launching "msgcat --to-code=iso-8859-1 --use-first --output=/www/cartoweb3/projects/demo/po/demo.en.po 
+/www/cartoweb3/projects/demo/po/demo.en.po /www/cartoweb3/projects/demo/po/client.en.po" 
+(output is /www/cartoweb3/projects/demo/po/client.en.po:392: duplicate message definition
+/www/cartoweb3/projects/demo/po/client.en.po:390: ...this is the location of the first definition
+msgcat: found 1 fatal error)</screen>
+                  <emphasis>duplicate message definition</emphasis> on line 392 in <emphasis>client.en.po</emphasis>
+                  </para>
+              </listitem>
+              <listitem>
+                <para>Check if you have several <emphasis>fuzzy</emphasis> entries in your 
+                <keycap>merged</keycap> po file (the file that is automatically created by gettext, merging 
+                the client and server po files). This happens when you have used the same 
+                <emphasis>msgid</emphasis> in different po files.
+                <note><para>
+                    Each po file contain a single <emphasis>fuzzy</emphasis> entry at the beginning, this should not be removed
+                    <screen>...
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-09-13 09:36+0200\n"
+...</screen>
+                </para></note>
+                </para>
+              </listitem>
+              <listitem>
+                  <para>Gettext automatically comments <emphasis>msgid</emphasis> and 
+                  <emphasis>msgstr</emphasis> that are not found anymore in your templates. 
+                  Commented lines start with <keycap>#</keycap>.
+                  Sometimes this is unwelcome, simply uncomment the lines.</para>
+              </listitem>
+              <listitem>
+                  <para>If your CartoWeb profile is set to <emphasis>production</emphasis> 
+                  (<xref linkend="user.config.common" />), do not 
+                  forget to clean the temporary templates files by typing:
+                  <screen>php cw3setup-php --clean</screen>
+                  See <xref linkend="user.install.main.setup.example.clean" />for more details.
+                  <note><para>It can also be usefull sometimes in <emphasis>development</emphasis> mode.</para></note>
+                  </para>
+              </listitem>
+          </itemizedlist>
+      </para>
+    </sect2>
   </sect1>
   <sect1 id="user.i18n.encoding">
     <title>Character Set Encoding Configuration</title>
