@@ -147,7 +147,8 @@
         Once you have &cartoweb;, point your web browser to the file located in 
         <filename>htdocs/info.php</filename>, and check that the PHP
         information page displays correctly (meaning PHP is correctly setup)
-        and that you have a section called MapScript in this page.
+        and that you have do not have a WARNING message at the top of the page
+        about MapScript failing to load.
         If it is not the case, &cartoweb; will not run correctly. You should
         install and set up PHP and PHP/MapScript correctly. See 
           <xref linkend="user.install.main.prerequisite"/>.
