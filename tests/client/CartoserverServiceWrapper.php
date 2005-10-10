@@ -26,6 +26,7 @@
  */
 require_once 'common/GeographicalAssert.php';
 
+require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
 require_once(CARTOWEB_HOME . 'common/Common.php');
 require_once(CARTOWEB_HOME . 'common/Request.php');
