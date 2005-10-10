@@ -25,15 +25,16 @@
         </para>
 
       <para>Required software
-
         <variablelist>
-          <title>PHP >= 5.0.3
-              <footnote><para>
-                This implies that you have a Web Server configured to execute
-                PHP scripts, such as Apache (<ulink url="http://httpd.apache.org"/>)
-              </para></footnote>                    
-          </title>
-
+            <title>A Web Server</title>
+            <varlistentry><term></term>
+              <listitem>
+                <para>Such as Apache <ulink url="http://httpd.apache.org"/></para>
+              </listitem>
+            </varlistentry>
+        </variablelist>
+        <variablelist>
+          <title>PHP >= 5.0.3</title>
           <varlistentry><term></term>
             <listitem>
               <para> See <ulink url="http://www.php.net"/> for more informations.
@@ -114,7 +115,7 @@
             <para>
               <itemizedlist mark='opencircle'>
                 <listitem>
-                  <para>Download &cartoweb; package from <ulink url="http://www.cartoweb.org/"/>.
+                  <para>Download &cartoweb; package from <ulink url="http://cartoweb.org/download.html"/>.
                     It is recommended that you download the version with demo for a better
                     user experience.</para>
                 </listitem>
@@ -244,6 +245,16 @@ Usage: cw3setup.php [OPTION]...
             /home/foo/my_project --base-url http://www.example.com/cartoweb</screen>
           </para>
         </sect4>
+        <sect4 id="user.install.main.setup.example.update">
+          <title>Updating &cartoweb; after Modifications</title>
+          <para>When you modify or add new content/features to &cartoweb;, you need to update it. 
+          This will set relative links or copy new/modified resources files (templates, images, new plugins, ...)
+            <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
+            http://www.example.com/cartoweb</screen>
+            Same as <xref linkend="user.install.main.setup.example.basic"/>. Existing files 
+            are not overwritten.
+          </para>
+        </sect4>
         <sect4 id="user.install.main.setup.example.clean">
           <title>Cleaning Generated Files (Map, PDF, Temporary Files and Smarty Cache)</title>
           <para>
@@ -280,7 +291,7 @@ Usage: cw3setup.php [OPTION]...
               <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
               :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
               --fetch-from-cvs --delete-existing --base-url http://www.example.com/cartoweb</screen>
-              <warning><para>This command will automatically delete the existing <filename>/cartoweb3/</filename> folder! Be sure to backup 
+              <warning><para>This command will automatically delete the existing <filename>cartoweb3/</filename> folder! Be sure to backup 
               the files and projects you wish to keep.</para></warning>
               <note>
                 <para>See note on <xref linkend="user.install.main.setup.example.reinstall.new"/>. 
@@ -290,6 +301,17 @@ Usage: cw3setup.php [OPTION]...
               </note>
             </para>
           </sect5>
+        </sect4>
+        <sect4 id="user.install.main.setup.example.cwupdate">
+            <title>Update &cartoweb; from cvs</title>
+            <para>To keep your &cartoweb; up-to-date with the developpement version, simply type 
+            the following command in the <filename>&cartoweb;</filename> root folder:
+            <screen><![CDATA[
+  cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update            
+             ]]></screen>
+              <warning><para>This may have some serious effects on your existing developpments, 
+              it is recommended you backup the &cartoweb; root folder and all subforders before execution.</para></warning>
+            </para>
         </sect4>
       </sect3>
     </sect2>
