@@ -40,10 +40,6 @@
                 You will need to have some features available in PHP:
                 <itemizedlist>
                   <listitem>
-                    <para><emphasis>SOAP</emphasis>: This is required by &cartoweb; as it uses SOAP
-                      webservices.</para>
-                  </listitem>
-                  <listitem>
                     <para><emphasis>Gettext</emphasis> (optional): You need the Gettext module if you want
                       to enable the Internationalisation in &cartoweb;. See
                       <xref linkend="user.i18n"/> for configuration.
@@ -59,6 +55,11 @@
                     <para><emphasis>Curl</emphasis> (optional): Some scripts (like i18n) need Curl 
                         to fetch files remotely.</para>
                   </listitem>              
+                  <listitem>
+                    <para><emphasis>SOAP</emphasis> (optional if using direct mode only): You need the SOAP module if you want 
+                    to use &cartoweb; as a Webservice or with separated CartClient and CartoServer. This is related to the <literal>cartoserverDirectAccess</literal> 
+                    parameter described in <xref linkend="user.config.client"/></para>
+                  </listitem>
                 </itemizedlist>
                 <note><para>
                 If you are using Windows, simply use the Windows Installer 
@@ -155,14 +156,6 @@
         If you intend to use the &cartoweb; demo, you need to have a section
         called Gettext in the previous output.
       </para>
-      <para>&cartoweb; needs some file to be writable by the Web Server
-        such as the directory where generated images are stored. To set up
-        these permissions, you need to launch the PHP installer with an argument.
-        This needs to be done on the command line (Start menu > Run > "cmd" on Windows). You also need to find the path to your PHP executable. For 
-        instance <filename>c:\wamp\php\php.exe</filename> on Windows, or 
-        <filename>/var/lib/cgi-bin/php</filename> on Unix (just example, they may
-        differ).
-      </para>
     </sect2>
 
     <sect2 id="user.install.main.setup">
@@ -183,48 +176,49 @@
         <title>List of Available Options</title>
         <para>
           <screen><![CDATA[
-    Usage: cw3setup.php [OPTION]...
+Usage: cw3setup.php [OPTION]...
 
-     --help, or -h              display this help and exit
-     --version or -v            output version information and exit
-     --debug                    turn on output debugging
-     --install                  install CartoWeb
-     
-     --writableowner OWNER      the user who should have write permissions for generated files
-     
-     --cvs-root                 CVS Root directory to use when fetching CartoWeb/project out of CVS
-     --fetch-from-cvs           fetch CartoWeb from cvs and install it in the current directory, or in
-                                 the directory given by the --install-location parameter
-                                NOTE: You must be located where cartoweb3 directory will be created, not inside like other commands
-     --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout command of cartoweb (not projects!).
-                                  For instance, to fetch a specific branch, use '-r MY_BRANCH'. Or for a specific date, use '-D "2005-09-05 11:00"'
-     --fetch-from-dir DIRECTORY  Copy CartoWeb for the specified directory into the current directory, or in
-                                 the directory given by the --install-location parameter
-                                NOTE 1: You must be located where cartoweb3 directory will be created, not inside like other commands
-                                NOTE 2: You need to use a path relative to the target cartoweb3 directory (or you can 
-                                      user an absolute path).
-     --install-location         directory where to install CartoWeb (when using --fetch-from-cvs/dir options)
-     
-     --delete-existing          overwrite existing directories if already there
-     --no-symlinks              do not use symbolic links, even if your operating system supports them
-     
-     --config-from-file FILE    location of a configuration file for automatic variable replacement in .in files
-                                NOTE: You need to use a path relative to the target cartoweb3 directory (or you can 
-                                      user an absolute path).
-     --config-from-project PROJECT read the configuration file containing variables to replace in .in files from
-                                 the specified project. 
-     
-     --fetch-project-cvs PROJECT fetch the given project from CVS (see --cvs-root option)
-     --fetch-project-dir DIRECTORY fetch the given project from a directory
-     
-     --default-project PROJECT  the project to use by default (this is set automatically if using --config-from-project)
-     --base-url BASEURL         URL where you can find client.php
-     --profile PROFILENAME      The profile to use (development/production)
-     
-     --clean                    clean generated files and caches
-     
-     --fetch-demo               fetch the demo data from cartoweb.org, and extract it in the demo project if
-                                 not already there.
+ --help, or -h              display this help and exit
+ --version or -v            output version information and exit
+ --debug                    turn on output debugging
+ --install                  install CartoWeb
+ 
+ --writableowner OWNER      the user who should have write permissions for generated files
+ 
+ --cvs-root                 CVS Root directory to use when fetching CartoWeb/project out of CVS
+ --fetch-from-cvs           fetch CartoWeb from cvs and install it in the current directory, or in
+                             the directory given by the --install-location parameter
+                            NOTE: You must be located where cartoweb3 directory will be created, not inside like other commands
+ --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout command of cartoweb (not projects!).
+                              For instance, to fetch a specific branch, use '-r MY_BRANCH'. Or for a specific date, use '-D "2005-09-05 11:00"'
+ --fetch-from-dir DIRECTORY  Copy CartoWeb for the specified directory into the current directory, or in
+                             the directory given by the --install-location parameter
+                            NOTE 1: You must be located where cartoweb3 directory will be created, not inside like other commands
+                            NOTE 2: You need to use a path relative to the target cartoweb3 directory (or you can 
+                                  user an absolute path).
+ --install-location         directory where to install CartoWeb (when using --fetch-from-cvs/dir options)
+ 
+ --delete-existing          overwrite existing directories if already there
+ --no-symlinks              do not use symbolic links, even if your operating system supports them
+ 
+ --config-from-file FILE    location of a configuration file for automatic variable replacement in .in files
+                            NOTE: You need to use a path relative to the target cartoweb3 directory (or you can 
+                                  user an absolute path).
+ --config-from-project PROJECT read the configuration file containing variables to replace in .in files from
+                             the specified project. 
+ 
+ --fetch-project-cvs PROJECT fetch the given project from CVS (see --cvs-root option)
+ --fetch-project-dir DIRECTORY fetch the given project from a directory
+ 
+ --default-project PROJECT  the project to use by default (this is set automatically if using --config-from-project)
+ --base-url BASEURL         URL where you can find client.php
+ --profile PROFILENAME      The profile to use (development/production)
+ 
+ --clean                    clean generated files and caches
+ --clean-views              clean views (must be used with --clean)
+ 
+ --fetch-demo               fetch the demo data from cartoweb.org, and extract it in the demo project if
+                             not already there.
           ]]></screen>
         </para>
       </sect3>
@@ -270,10 +264,10 @@
               :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
               --fetch-from-cvs --base-url http://www.example.com/cartoweb</screen>
               <note>
-                <para>Do no execute this command from the /cartoweb3 folder! Because this will fetch 
-                the whole cartoweb3 hierarchy from cvs, including the /cartoweb3 folder. If you 
-                executed this from the /cartoweb3 folder you would end up with something like 
-                /cartoweb3/cartoweb3/... . Instead, copy the cw3setup.php in the parent directory, 
+                <para>Do no execute this command from the <filename>cartoweb3</filename> folder! Because this will fetch 
+                the whole cartoweb3 hierarchy from cvs, including the <filename>cartoweb3</filename> folder. If you 
+                executed this from the <filename>cartoweb3</filename> folder you would end up with something like 
+                <filename>cartoweb3/cartoweb3/...</filename>. Instead, copy the <filename>cw3setup.php</filename> in the parent directory, 
                 delete (or backup) the cartoweb3 folder and execute the commande. 
                 </para>
               </note>
