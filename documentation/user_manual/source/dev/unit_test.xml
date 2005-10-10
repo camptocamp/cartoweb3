@@ -78,8 +78,12 @@
   <sect2 id="dev.unit_test.writing.base"> 
   <title>General Information About Writing Tests</title>
   <para>
-   Test cases are located in directory tests, in a similar 
-   structure as the root directory:
+   Test cases are located in directory <filename>tests</filename> for testing
+   the core of &cartoweb; and in the directoies <filename>&lt;project&gt;/tests</filename>
+   for for tests specific to project <filename>&lt;project&gt;</filename>.
+   Inside these <filename>tests</filename> directories, path hierarchy mirrors
+   the existing hierarchy they are testing. For instance, the <filename>tests</filename>
+   hierarchy for the core &cartoweb; testing is the following:
    <screen><![CDATA[client
     CartoclientTest.php
     CartoserverServiceTest.php
@@ -93,11 +97,21 @@ coreplugins
 plugins
     AllTests.php
     ...
-projects
-    < all test for projects >
+]]></screen>
+
+    For the <literal>test_main</literal> project, the hierarchy is the following:
+   <screen><![CDATA[coreplugins
+    AllTests.php
     ...
-...
-AllTests.php]]></screen>
+plugins
+    AllTests.php
+    ...
+misc
+    AllTests.php
+    < misc tests >
+    ...
+...]]></screen>
+
   </para>
   <para>
    Each directory including tests root directory has a file named 
@@ -249,7 +263,7 @@ class AllTests {
           and plugins are stored respectively.
           <note><para>Tests are also available for projects. So, to test
             a plugin in a project, the path of the test will be 
-              <filename>&lt;projectname&gt;/plugin/&lt;pluginname&gt;
+              <filename>&lt;cartoweb3&gt;/&lt;projectname&gt;/tests/plugin/&lt;pluginname&gt;
                 </filename></para>
           </note>
         </para>
@@ -290,6 +304,30 @@ class AllTests {
         <para>Having a look at an existing plugin test case is the best starting
           point for writing new tests.</para></tip>
       </sect3>      
+
+      <sect3 id="dev.unit_test.writing.framework.projects">
+        <title>Tests for projects</title>
+        <para>
+          Each &cartoweb; project can have its set of tests directly inside the project,
+          in a directory <filename>tests</filename>. Inside this directory, you have to
+          use the same hierarchy as in the main <filename>tests</filename> directory.
+        </para>
+        <para>
+        Inside these <filename>tests</filename> directories, the same mechanism is used
+        for testing as the main <filename>tests</filename> directory. The best way
+        to get started is to have a look at the <literal>test_main</literal> project
+        for a starting point.
+        </para>
+        <sect4 id="dev.unit_test.writing.framework.projects.invoking">
+          <title>Invoking tests for a specific project</title>
+          <para>
+          For now, only the command line can be used for invoking tests for a specific project.
+          An environment variable CARTOWEB_TEST_PROJECT can be used to define which test to launch.
+          Under a Unix like shell enviroment, the command line to use is:
+         <screen><![CDATA[CARTOWEB_TEST_PROJECT=<myproject> <php-bin> phpunit.php projects_AllTests projects/AllTests.php]]></screen>
+          </para>
+        </sect4>
+      </sect3>
       
   </sect2>
  </sect1>
@@ -355,7 +393,8 @@ X-Powered-By: PHP/5.0.1]]></screen>
       <para>
         To allow the web interface to be used, the configuration parameter
         <varname>allowTests</varname> has to be set to <constant>true</constant>.
-        See FIXME_ADD_LINK about the configuration of these parameters.
+        See <xref linkend="user.config.developer"/> about the configuration 
+        of these parameters.
       </para>
     </important>
   </sect2>
