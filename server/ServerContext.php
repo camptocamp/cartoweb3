@@ -34,6 +34,12 @@ require_once(CARTOWEB_HOME . 'common/Encoding.php');
 require_once(CARTOWEB_HOME . 'server/ServerProjectHandler.php');
 
 /**
+ * If true, Cartoweb will not run if you are using PHP as a module
+ * with php_mapscript loaded in your php.ini
+ */
+define('PHP_DSO_WARNING', true);
+
+/**
  * @package Server
  */
 class ServerContext {
@@ -117,6 +123,11 @@ class ServerContext {
      * @var PluginManager
      */
     private $pluginManager;
+
+    /**
+     * @var boolean True when mapscript module has beed loaded
+     */
+    private $mapscriptLoaded;
 
     /**
      * If true, complete mapfile is used, if false, switch mapfile is used
@@ -306,6 +317,19 @@ class ServerContext {
                 if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
+                $this->mapscriptLoaded = true;
+            } else {
+                if (PHP_DSO_WARNING && !$this->mapscriptLoaded
+                    && substr(php_sapi_name(), 0, 3) != 'cgi') {
+                    throw new CartoserverException("You are not using PHP as " .
+                        "a cgi and PHP Mapscript extension is loaded in your " .
+                        "php.ini.\n As this will cause stability problems, " .
+                        "CartoWeb stopped.\n You need to remove the " .
+                        "php_mapscript extension loading of your php.ini " .
+                        "file. \n If you want to remove this message, edit " .
+                        "server/ServerContext.php and set the PHP_DSO_WARNING " .
+                        "constant to false at the top of the file.");
+                }
             }
             $mapPath = $this->getMapPath($this->globalMap);
             ms_ResetErrorList();
