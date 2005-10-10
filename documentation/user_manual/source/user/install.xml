@@ -57,7 +57,7 @@
                   </listitem>              
                   <listitem>
                     <para><emphasis>SOAP</emphasis> (optional if using direct mode only): You need the SOAP module if you want 
-                    to use &cartoweb; as a Webservice or with separated CartClient and CartoServer. This is related to the <literal>cartoserverDirectAccess</literal> 
+                    to use &cartoweb; as a Webservice or with separated &cartoclient; and &cartoserver;. This is related to the <literal>cartoserverDirectAccess</literal> 
                     parameter described in <xref linkend="user.config.client"/></para>
                   </listitem>
                 </itemizedlist>
