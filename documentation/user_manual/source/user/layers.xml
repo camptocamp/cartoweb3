@@ -279,6 +279,26 @@ END]]></programlisting>
 layers.group_admin.children = grid_defaulthilight 
 layers.group_admin.metadata.security_view = admin]]></programlisting>
     </sect2>
+    <sect2 id="user.layers.metadata.template">
+      <title>Using the metadata fields in templates (<filename>layers.tpl</filename>)</title>
+      <para>Metadata declared in mapfiles or <filename>layers.ini</filename>
+        can be used in the <filename>layers.tpl</filename> Smarty templates 
+        using the following notation:
+        </para>
+        <programlisting><![CDATA[
+ {capture name=caption}
+{$element.layerLabel} <a
+href="/?lang={$element.layerMeta.lang}&client_id={$element.layerMeta.client_id}">
+{element.layerMeta.complex_label}</a>
+{/capture}       
+        ]]></programlisting>
+        <para>
+        As we can see in the previous example, metadata values can be used through the 
+        <literal>layerMeta</literal> property of the <literal>$element</literal> Smarty 
+        variable. Typical usage of this feature is to render for instance several 
+        HTML links for each layers.
+        </para>
+    </sect2>
   </sect1>
   <sect1 id="user.layers.legend">
     <title>Layers Legends</title>
