@@ -11,12 +11,12 @@
   <title>Installation</title>
 
   <sect1 id="user.install.main">
-    <title>CartoWeb installation</title>
+    <title>&cartoweb; Installation</title>
 
     <sect2 id="user.install.main.prerequisite">
       <title>Prerequisite for Installing &cartoweb;</title>
-      <para>&cartoweb; depends on several sofware components needed for its proper
-        working. Some are required and others optional, depending on what you
+      <para>&cartoweb; depends on several sofware components for its proper
+        working. Some are required and others are optional, depending on what you
         intend to do.
         <note>
           <para> Windows users can ignore this chapter and go directly to 
@@ -72,25 +72,25 @@
         </variablelist>
 
         <variablelist>
-          <title>Mapserver PHP MapScript (from MapServer &gt;= 4.4)</title>
+          <title>MapServer PHP/MapScript (from MapServer &gt;= 4.4)</title>
           <varlistentry><term></term>
             <listitem>  
               <para>See <ulink url="http://www.maptools.org/php_mapscript/"/>
                 for more information and installation instructions.</para>
               <note><para>
-                If you are using Debian, and you need to install Mapserver, you can have a 
+                If you are using Debian, and you need to install MapServer, you can have a 
                 look at <xref linkend="appendix.debian_mapserver"/>
               </para></note>
               <note><para>
                 If you are using Windows, simply use the Windows Installer 
-                <xref linkend="user.install.main.download"/>. If you absolutly want to install 
-                Mapserver manually, see <xref linkend="appendix.windows_manual_install"/>.
+                <xref linkend="user.install.main.download"/>. If you absolutely want to install 
+                MapServer manually, see <xref linkend="appendix.windows_manual_install"/>.
               </para></note>
             </listitem>
           </varlistentry>
         </variablelist>
         <variablelist>
-          <title>PostgreSQL with PostGIS suppport (optional)</title>
+          <title>PostgreSQL with PostGIS Suppport (Optional)</title>
           <varlistentry><term></term>
             <listitem>
               <para>If you want spatial database support in &cartoweb; you
@@ -104,13 +104,13 @@
     </sect2>
     
     <sect2 id="user.install.main.download">
-      <title>CartoWeb download</title>
+      <title>CartoWeb Download</title>
       <para>
-      There are two way to get CartoWeb:
+      There are two ways to get &cartoweb;:
       </para>
       <orderedlist>
         <listitem>
-          <formalpara><title>Complet package from the official website:</title>
+          <formalpara><title>Complete package from the official website:</title>
             <para>
               <itemizedlist mark='opencircle'>
                 <listitem>
@@ -120,7 +120,7 @@
                 </listitem>
                 <listitem>
                   <para>
-                    Uncompress the archive somewhere in your path accessible by your Web 
+                    Uncompress the archive somewhere in your path accessible by your web 
                     server.
                   </para>
                 </listitem>
@@ -129,27 +129,27 @@
           </formalpara>
         </listitem>
         <listitem>
-          <formalpara><title>From cvs:</title>
+          <formalpara><title>From CVS:</title>
             <para>Get the current development version via CVS using the following command:
             <screen><![CDATA[
   cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public checkout cartoweb3            
              ]]></screen>
             </para>
           </formalpara>
-          <formalpara><title>From cvs with cw3setup.php:</title>
-            <para>If you already have the cw3setup.php file, which come along the CartoWeb package 
-            or cvs source, you can fetch CartoWeb from cvs and setup it at once. See 
+          <formalpara><title>From CVS with cw3setup.php:</title>
+            <para>If you already have the <filename>cw3setup.php</filename> file, which comes along the &cartoweb; package 
+            or CVS source, you can fetch &cartoweb; from CVS and set up it at once. See 
             <xref linkend="user.install.main.setup.example.reinstall"/> for more details.</para>
           </formalpara>
         </listitem>
       </orderedlist>
       <para>
-        Once you have CartoWeb, point your Web browser to the file located in 
+        Once you have &cartoweb;, point your web browser to the file located in 
         <filename>htdocs/info.php</filename>, and check that the PHP
         information page displays correctly (meaning PHP is correctly setup)
         and that you have a section called MapScript in this page.
         If it is not the case, &cartoweb; will not run correctly. You should
-        install and setup PHP and PHP MapScript correctly. See 
+        install and set up PHP and PHP/MapScript correctly. See 
           <xref linkend="user.install.main.prerequisite"/>.
       </para>
       <para>
@@ -159,9 +159,9 @@
     </sect2>
 
     <sect2 id="user.install.main.setup">
-      <title>UNIX-like installation</title>
+      <title>UNIX-like Installation</title>
       <para>
-        &cartoweb; installer is "cw3setup.php", located in the root directory of the application.
+        &cartoweb; installer is <filename>cw3setup.php</filename>, located in the root directory of the application.
       </para>
       <para>
         You can run this file with the <literal>--help</literal> parameter to see the 
@@ -224,39 +224,39 @@ Usage: cw3setup.php [OPTION]...
       </sect3>
 
       <sect3 id="user.install.main.setup.example">
-        <title>Examples of use</title>
+        <title>Examples of Use</title>
         <sect4 id="user.install.main.setup.example.basic">
-          <title>Basic setup</title>
+          <title>Basic Setup</title>
           <para>
-            To performe a basic setup of CartoWeb, such as if you want to run the demo project, type:
+            To performe a basic setup of &cartoweb;, such as if you want to run the demo project, type:
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
             http://www.example.com/cartoweb</screen>
-            In this example, http://www.example.com/cartoweb is the addresse which corresponds
+            In this example, http://www.example.com/cartoweb is the address which corresponds
             to the <literal>cartoweb3/htdocs</literal> directory. You should find 
             <literal>client.php</literal> if you type this URL.
           </para>
         </sect4>
         <sect4 id="user.install.main.setup.example.directory">
-          <title>Installing a project from a directory</title>
+          <title>Installing a Project from a Directory</title>
           <para>
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --fetch-project-dir 
             /home/foo/my_project --base-url http://www.example.com/cartoweb</screen>
           </para>
         </sect4>
         <sect4 id="user.install.main.setup.example.clean">
-          <title>Cleaning generated files (map, pdf, temp. files and smarty cache)</title>
+          <title>Cleaning Generated Files (Map, PDF, Temporary Files and Smarty Cache)</title>
           <para>
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --clean</screen>
           </para>
         </sect4>
         <sect4 id="user.install.main.setup.example.demo">
-          <title>Fetching the demo data</title>
+          <title>Fetching the Demo Data</title>
           <para>
           <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --fetch-demo</screen>
           </para>
         </sect4>
         <sect4 id="user.install.main.setup.example.reinstall">
-          <title>Install or Reinstall CartoWeb from cvs and setup it at once</title>
+          <title>Install or Reinstall &cartoweb; from CVS and Set Up It at Once</title>
           <sect5 id="user.install.main.setup.example.reinstall.new">
             <title>Install</title>
             <para>
@@ -279,12 +279,12 @@ Usage: cw3setup.php [OPTION]...
               <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
               :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
               --fetch-from-cvs --delete-existing --base-url http://www.example.com/cartoweb</screen>
-              <warning><para>This commande will automaticaly delete the existing /cartoweb3 folder! Be sure to backup 
-              the files and projects you wish to keep</para></warning>
+              <warning><para>This command will automatically delete the existing <filename>/cartoweb3/</filename> folder! Be sure to backup 
+              the files and projects you wish to keep.</para></warning>
               <note>
                 <para>See note on <xref linkend="user.install.main.setup.example.reinstall.new"/>. 
                 Notice here the <emphasis>--delete-existing</emphasis> parameter. Needed here because 
-                /cartoweb3 already exist. Without it the cw3setup script issue a warning and stop.
+                <filename>cartoweb3/</filename> already exists. Without it the cw3setup script issues a warning and stops.
                 </para>
               </note>
             </para>
@@ -297,25 +297,25 @@ Usage: cw3setup.php [OPTION]...
       <title>Windows Installation</title>
 
       <sect3 id="user.install.win32.installer">
-        <title>Windows Install with win32 installer (recommended)</title>
+        <title>Windows Install with Win32 Installer (Recommended)</title>
         <para>
-          Download the Windows installer (<xref linkend="user.install.main.download"/>), double clic on 
-          the executable to launch it. This will install Apache's WAMP with PHP, Mapserver and Cartoweb.
+          Download the Windows installer (<xref linkend="user.install.main.download"/>), double-click on 
+          the executable to launch it. This will install Apache with PHP (WAMP), MapServer and &cartoweb;.
         </para>
-        <para>Once it is installed, you can setup Cartoweb from either a DOS prompt or Cygwin.</para>
+        <para>Once it is installed, you can set up &cartoweb; from either a DOS prompt or Cygwin.</para>
         <sect4 id="user.install.win32.installer.dos">
-          <title>Cartoweb setup with DOS</title>
-          <para>Open a command prompt (Start menu > Run > "cmd") and go to the Cartoweb root:
+          <title>&cartoweb; Setup with DOS</title>
+          <para>Open a command prompt (Start menu > Run > "cmd") and go to the &cartoweb; root:
             <screen>cd C:\wamp\www\cartoweb3</screen>
             Then see <xref linkend="user.install.main.setup.example.basic"/>
-            <note><para>To enable you to execute php scripts easily (like "php cw3setup.php --someparameters" 
-              instead of "c:\wamp\php.exe cw3setup.php --someparameters"), set the path to the php binary 
+            <note><para>To enable you to execute PHP scripts easily (like <parameter>php cw3setup.php --someparameters</parameter> 
+              instead of <filename>C:\wamp\php.exe cw3setup.php --someparameters</filename>), set the path to the PHP binary 
               in your PATH environment variable (control panel > system > Advanced > Environment Variables. 
               If there is no PATH variable, add a new one. If a PATH variable is already present, you can 
               add the path to php.exe at the end of the existing path values, but add a ";" inbetween: 
               path1;path2;path3):
               <screen><![CDATA[C:\wamp\php;]]></screen>
-              The exemple above is true if the php binary are installed in c:\wamp\php.</para>
+              The exemple above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
             </note>
             <note>
               <para> If you are using the demo, you need to have Gettext
@@ -325,46 +325,46 @@ Usage: cw3setup.php [OPTION]...
                 <ulink url="http://gnuwin32.sourceforge.net/packages/gettext.htm" />.
                 Also set the path to the Gettext binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\GnuWin32\bin;]]></screen>
-                The exemple above is true if the Gettext binaries are installed in C:\Program Files\GnuWin32\bin.
-                This is needed by the po2mo.php script to merge and compile the language translations files.
+                The exemple above is true if the Gettext binaries are installed in <filename>C:\Program Files\GnuWin32\bin</filename>.
+                This is needed by the <filename>po2mo.php</filename> script to merge and compile the languages translation files.
               </para>
             </note>
             <note>
-              <para>If you intend to use cvs in command line, you need to install a cvs client. 
+              <para>If you intend to use CVS in command line, you need to install a CVS client. 
                 Use <ulink url="http://www.wincvs.org/" >WinCVS</ulink> 
                 or <ulink url="http://www.tortoisecvs.org/download.shtml" >TortoiseCVS</ulink>, both 
                 are free Open Source clients. 
-                You must add the path to the cvs binary in your PATH environment variable.
+                You must add the path to the CVS binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\TortoiseCVS;]]></screen>
-                The exemple above is true if you installed TortoiseCVS in C:\Program Files\TortoiseCVS;.
+                The exemple above is true if you installed TortoiseCVS in <filename>C:\Program Files\TortoiseCVS</filename>.
               </para>
             </note>
           </para>
         </sect4>
         <sect4 id="user.install.win32.installer.cygwin">
-          <title>Cartoweb setup with Cygwin</title>
-          <para>Open a Cygwin window  and go to the Cartoweb root:
+          <title>&cartoweb; Setup with Cygwin</title>
+          <para>Open a Cygwin window  and go to the &cartoweb; root:
             <screen>
 cd C:
 cd wamp/www/cartoweb3/</screen>
             Then see <xref linkend="user.install.main.setup.example.basic"/>
           </para>
           <note><para>
-            You can download Cygwin there <ulink url="http://www.cygwin.com/"><citetitle>Cygwin</citetitle>
-            </ulink>. When you install Cygwin, be sure to select the packags <emphasis>tar</emphasis> 
+            You can download Cygwin here <ulink url="http://www.cygwin.com/"><citetitle>Cygwin</citetitle>
+            </ulink>. When you install Cygwin, be sure to select the packages <emphasis>tar</emphasis> 
             (or <emphasis>unzip</emphasis>) and <emphasis>cvs</emphasis>. You can also install the 
             <emphasis>gettext-devel</emphasis> package, so you wont need to get an external gettext installation later.
             If you have already installed Cygwin, type the following command to see what package are currently installed.
-            <screen>cygcheck -c</screen> If the packages mentionned above are not present, run Cygwin setup again 
+            <screen>cygcheck -c</screen> If the packages mentioned above are not present, run Cygwin setup again 
             and add the missing packages.</para>
           </note>
           <note><para>
-          To enable you to execute php scripts easily, set the path to the php binary in your 
-            .bashrc (in C:\cygwin\home\Administrator\ by default) :
+          To enable you to execute PHP scripts easily, set the path to the PHP binary in your 
+            <filename>.bashrc</filename> (in <filename>C:\cygwin\home\Administrator\</filename> by default):
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/wamp/php]]></screen>
-            The exemple above is true if the php binary are installed in c:\wamp\php.</para>
+            The exemple above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
             <para>If you do not want to install the <emphasis>cvs</emphasis> and <emphasis>gettext</emphasis> Cygwin package, 
-            you need to add also the path to the external cvs and gettext binaries. 
+            you need to add also the path to the external CVS and gettext binaries. 
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/program Files/GnuWin32/bin
 export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
             See the note in 
@@ -376,7 +376,7 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
       <sect3 id="user.install.win32.manual">
         <title>Windows Manual Install</title>
         <para>First follow instruction on <xref linkend="appendix.windows_manual_install"/> to install 
-          php and mapserver manually on Windows.</para>
+          PHP and MapServer manually on Windows.</para>
         <para>Then, if you have Cygwin, see <xref linkend="user.install.win32.installer.cygwin"/>. 
         If not, see <xref linkend="user.install.win32.installer.dos"/></para>
       </sect3>
