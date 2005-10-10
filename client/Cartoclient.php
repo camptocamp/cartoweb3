@@ -387,7 +387,7 @@ class Cartoclient {
                     
         } catch (Exception $exception) {
             if (isset($this->formRenderer)) {
-                $this->formRenderer->showFailure($exception);
+                print $this->formRenderer->showFailure($exception);
             } else {
                 // form renderer not yet initialized: show a raw error message
                 if (!isset($GLOBALS['headless']))
