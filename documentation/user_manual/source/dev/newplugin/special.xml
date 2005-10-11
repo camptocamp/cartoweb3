@@ -565,6 +565,22 @@ static function myCallbackMethod('table_id',
           know more about parameter 
           <parameter>$columnPosition</parameter>.</para>
       </sect4>
+
+      <sect4 id="dev.newplugin.special.tables.setrules.columnreorder">
+        <title><indexterm><primary>Column
+        reorder</primary></indexterm>Column reorder</title>
+        <programlisting><![CDATA[
+public function addColumnReorder($groupId, $tableId, $columnIds)]]>
+        </programlisting>
+        <para>
+        Column reorder rule allow you to reorder the columns and their
+        contents. Parameter <parameter>$columnIds</parameter> should
+        contain an array of column IDs given the new column's
+        order. Note that all the IDs must appear in
+        <parameter>$columnIds</parameter> even they don't move. 
+        </para>
+      </sect4>
+   
     </sect3>
     <sect3 id="dev.newplugin.special.tables.precrules">
       <title>Precedence of Rules</title>
