@@ -303,13 +303,13 @@ Usage: cw3setup.php [OPTION]...
           </sect5>
         </sect4>
         <sect4 id="user.install.main.setup.example.cwupdate">
-            <title>Update &cartoweb; from cvs</title>
-            <para>To keep your &cartoweb; up-to-date with the developpement version, simply type 
+            <title>Update &cartoweb; from CVS</title>
+            <para>To keep your &cartoweb; up-to-date with the development version, simply type 
             the following command in the <filename>&cartoweb;</filename> root folder:
             <screen><![CDATA[
   cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update            
              ]]></screen>
-              <warning><para>This may have some serious effects on your existing developpments, 
+              <warning><para>This may have some serious effects on your existing developments, 
               it is recommended you backup the &cartoweb; root folder and all subforders before execution.</para></warning>
             </para>
         </sect4>
