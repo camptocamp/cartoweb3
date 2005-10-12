@@ -212,12 +212,23 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     protected $loginFailed;
 
     /**
+     * Avoids to display the login form twice in some cases.
+     * @var boolean
+     */
+    protected $isFormDisplayed = false;
+
+    /**
      * Common code called by all Pear::Auth callbacks. It handles the login page
      * display.
      * @param string reason the page is called for
      * @return string Smarty result
      */
     protected function authCallback($reason) {
+
+        if ($this->isFormDisplayed) {
+            return '';
+        }
+        $this->isFormDisplayed = true;
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
@@ -225,7 +236,13 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
             $reason = 'loginFailed';
             $this->loginFailed = false;
         }
-        $smarty->assign('reason', $reason);
+        
+        $fullPageRestriction = ($this->getCartoclient()->getConfig()
+                                ->securityAllowedRoles != 'all');
+        
+        $smarty->assign(array('reason'              => $reason,
+                              'fullPageRestriction' => $fullPageRestriction,
+                              ));
         
         return $smarty->fetch('login_page.tpl');
     }
@@ -268,7 +285,8 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         $securityContainerClass = ucfirst($securityContainer) . 'SecurityContainer';
         
         if (!class_exists($securityContainerClass)) 
-            throw new CartoclientException("Invalid security container: $securityContainer");
+            throw new CartoclientException(
+                             "Invalid security container: $securityContainer");
         
         $iniContainer = new $securityContainerClass($this->getConfig());
         return $iniContainer;       
