@@ -33,7 +33,8 @@
 <div><input type="submit" value="{t}Submit{/t}" /></div>
 </form>
 
+{if !$fullPageRestriction}
 <p><a href="{$selfUrl}">{t}Click here to go back to the map{/t}</a></p>
-
+{/if}
 </body>
 </html>
