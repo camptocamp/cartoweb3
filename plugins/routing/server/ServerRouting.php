@@ -464,7 +464,6 @@ class ServerPostgresRouting extends ServerRouting {
      * This methods performs a database query which will return the shortest
      * path (see Pgdijkstra documentation for the API).
      * Plugins may override this method to perform specific queries.
-     * @param string The table containing the graph
      * @param string The source node identifier
      * @param string The target node identifier
      * @param array array of key-value parameters
@@ -476,7 +475,10 @@ class ServerPostgresRouting extends ServerRouting {
 
         $db = $this->getDb();
         $table = $this->getRoutingTable();
-        $prepared = $db->prepare("SELECT edge_id, x(the_geom), y(the_geom) FROM shortest_path('SELECT id, source, target, cost FROM {$table}_edges', ?, ?, false, false) left join {$table}_vertices on vertex_id = id;");
+        $prepared = $db->prepare("SELECT edge_id, x(the_geom), y(the_geom) FROM " .
+                "shortest_path('SELECT id, source, target, cost FROM " .
+                "{$table}_edges', ?, ?, false, false) " .
+                "LEFT JOIN {$table}_vertices ON vertex_id = id;");
         Utils::checkDbError($prepared);        
         return $db->execute($prepared, array($node1, $node2));        
     }
