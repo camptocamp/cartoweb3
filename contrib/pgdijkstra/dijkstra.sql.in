@@ -119,6 +119,9 @@ BEGIN
                      || edge_id || ', '
                      || quote_literal(source_id) || ', '
                      || quote_literal(target_id) || ')';
+                
+                EXECUTE 'UPDATE ' || quote_ident(geom_table) || ' SET edge_id = '
+                                  || edge_id || ' WHERE gid = ' || quote_literal(geom.id);
 
         END LOOP;
         RETURN;
