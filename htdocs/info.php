@@ -4,11 +4,12 @@
  * @version $Id$
  */
 
+// WARNING: this code should be in sync with ServerContext.php::getMapObj()
 if (!extension_loaded('mapscript')) {
     $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
     if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
         print("WARNING: can't load mapscript library");
-} else if (substr(php_sapi_name(), 0, 3) != 'cgi') {
+} else if (!in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
     print("WARNING: You are not using PHP as " .
         "a cgi and PHP Mapscript extension is loaded in your " .
         "php.ini.\n This will cause stability problems.\n" .
