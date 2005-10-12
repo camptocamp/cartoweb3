@@ -50,20 +50,12 @@
  */
 define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
-/**
- * Dir path to Cartoclient home
- */
-define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-
-/**
- * Dir path to Cartoserver home
- */
-define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
-
 $iniFile = CARTOWEB_HOME . 'client_conf/client.ini';
 if (!file_exists($iniFile)) {
     $iniFile = CARTOWEB_HOME . 'server_conf/server.ini';
 }
+
+// FIXME: this is broken: it should look inside projects' client.ini/server.ini
 $iniArray = parse_ini_file($iniFile);
 if (!array_key_exists('allowTests', $iniArray) || !$iniArray['allowTests']) {
     
