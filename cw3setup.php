@@ -69,49 +69,69 @@ $CW3_WRITABLE_DIRS = array('log',
 
 
 function usage() {
-?>Usage: <?php echo $_SERVER['argv'][0]; ?> [OPTION]...
+?>Usage: <?php echo $_SERVER['argv'][0]; ?> ACTION [OPTION]...
 
- --help, or -h              display this help and exit
- --version or -v            output version information and exit
- --debug                    turn on output debugging
- --install                  install CartoWeb
+Possible actions:
+
+ --help, or -h              Display this help and exit.
+ --version or -v            Output version information and exit.
+ --install                  Install CartoWeb.
+ --fetch-demo               Fetch the demo data from cartoweb.org, and extract 
+                            it in the demo project if not already there.
+ --clean                    Clean generated files and caches.
+
+List of options:
+
+ --debug                    Turn on output debugging.
  
- --writableowner OWNER      the user who should have write permissions for generated files
+ --writableowner OWNER      The user who should have write permissions for 
+                            generated files.
  
- --cvs-root                 CVS Root directory to use when fetching CartoWeb/project out of CVS
- --fetch-from-cvs           fetch CartoWeb from cvs and install it in the current directory, or in
-                             the directory given by the --install-location parameter
-                            NOTE: You must be located where cartoweb3 directory will be created, not inside like other commands
- --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout command of cartoweb (not projects!).
-                              For instance, to fetch a specific branch, use '-r MY_BRANCH'. Or for a specific date, use '-D "2005-09-05 11:00"'
- --fetch-from-dir DIRECTORY  Copy CartoWeb for the specified directory into the current directory, or in
-                             the directory given by the --install-location parameter
-                            NOTE 1: You must be located where cartoweb3 directory will be created, not inside like other commands
-                            NOTE 2: You need to use a path relative to the target cartoweb3 directory (or you can 
-                                  user an absolute path).
- --install-location         directory where to install CartoWeb (when using --fetch-from-cvs/dir options)
+ --cvs-root                 CVS Root directory to use when fetching 
+                            CartoWeb/project out of CVS.
+ --fetch-from-cvs           Fetch CartoWeb from CVS and install it in the 
+                            current directory, or in the directory given by 
+                            the --install-location parameter.
+                            NOTE: You must be located where cartoweb3 directory
+                            will be created, not inside like other commands.
+ --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout
+                            command of cartoweb (not projects!).
+                            For instance, to fetch a specific branch, 
+                            use '-r MY_BRANCH'. Or for a specific date, 
+                            use '-D "2005-09-05 11:00"'.
+ --fetch-from-dir DIRECTORY Copy CartoWeb from the specified directory into the
+                            current directory, or in the directory given by the
+                            --install-location parameter.
+                            NOTE 1: You must be located where cartoweb3 
+                            directory will be created, not inside like other 
+                            commands.
+                            NOTE 2: You may either use a path relative to the 
+                            target cartoweb3 directory or an absolute path.
+ --install-location         Directory where to install CartoWeb 
+                            (when using --fetch-from-cvs/dir options).
  
- --delete-existing          overwrite existing directories if already there
- --no-symlinks              do not use symbolic links, even if your operating system supports them
+ --delete-existing          Overwrite existing directories if any.
+ --no-symlinks              Do not use symbolic links, even if your operating 
+                            system supports them.
  
- --config-from-file FILE    location of a configuration file for automatic variable replacement in .in files
-                            NOTE: You need to use a path relative to the target cartoweb3 directory (or you can 
-                                  user an absolute path).
- --config-from-project PROJECT read the configuration file containing variables to replace in .in files from
-                             the specified project. 
+ --config-from-file FILE    Location of a configuration file for automatic 
+                            variable replacement in .in files.
+                            NOTE: You may either use a path relative to the 
+                            target cartoweb3 directory or an absolute path.
+ --config-from-project PROJECT Read the configuration file containing variables
+                            to replace in .in files from the specified project. 
  
- --fetch-project-cvs PROJECT fetch the given project from CVS (see --cvs-root option)
- --fetch-project-dir DIRECTORY fetch the given project from a directory
+ --fetch-project-cvs PROJECT Fetch the given project from CVS 
+                            (see --cvs-root option).
+ --fetch-project-dir DIRECTORY Fetch the given project from a directory.
  
- --default-project PROJECT  the project to use by default (this is set automatically if using --config-from-project)
- --base-url BASEURL         URL where you can find client.php
- --profile PROFILENAME      The profile to use (development/production)
+ --default-project PROJECT  Default project to use (this is set automatically 
+                            if using --config-from-project).
+ --base-url BASEURL         URL where you can find client.php.
+ --profile PROFILENAME      The profile to use (development/production/custom).
  
- --clean                    clean generated files and caches
- --clean-views              clean views (must be used with --clean)
+ --clean-views              Clean views (must be used with --clean).
  
- --fetch-demo               fetch the demo data from cartoweb.org, and extract it in the demo project if
-                             not already there.
 <?
     exit();
 }
@@ -131,7 +151,7 @@ function checkIncludePath() {
 
 checkIncludePath();
 
-function setOption(&$i, $takesArgument=false) {
+function setOption(&$i, $takesArgument = false) {
     global $OPTIONS;
     $option = substr($_SERVER['argv'][$i], 2);
     
@@ -181,73 +201,73 @@ function processArgs() {
     //loop through our arguments and see what the user selected
     for ($i = 1; $i < $_SERVER['argc']; $i++) {
         switch ($_SERVER['argv'][$i]) {
-            case "-v":
-            case "--version":
-               info($_SERVER['argv'][0] . " " . CW3_SETUP_REVISION);
+            case '-v':
+            case '--version':
+               info($_SERVER['argv'][0] . ' ' . CW3_SETUP_REVISION);
                exit;
                break;
     
-            case "--delete-existing":
-            case "--fetch-from-cvs":
-            case "--no-symlinks":
-            case "--clean-views":
+            case '--delete-existing':
+            case '--fetch-from-cvs':
+            case '--no-symlinks':
+            case '--clean-views':
                 setOption($i);
-    
                 break;
     
-            case "--cvs-root":
-            case "--cartoweb-cvs-option":
-            case "--config-from-file":
-            case "--install-location":
-            case "--fetch-from-dir":
-            case "--config-from-project":
-            case "--default-project":
-            case "--base-url":
-            case "--profile":
-    
+            case '--cvs-root':
+            case '--cartoweb-cvs-option':
+            case '--config-from-file':
+            case '--install-location':
+            case '--fetch-from-dir':
+            case '--config-from-project':
+            case '--default-project':
+            case '--base-url':
+            case '--profile':
                 setOption($i, true);
                 break;      
     
-            case "--fetch-project-cvs":
-            case "--fetch-project-dir":
-    
+            case '--fetch-project-cvs':
+            case '--fetch-project-dir':
                 $option = substr($_SERVER['argv'][$i], 2);
                 $oldOptions = array();
-                if (isset($OPTIONS[$option]))
-                    $oldOptions[$option] = $OPTIONS[$option];                                                
-                else
-                    $oldOptions[$option] = array();                                                
+                if (isset($OPTIONS[$option])) {
+                    $oldOptions[$option] = $OPTIONS[$option];
+                } else {
+                    $oldOptions[$option] = array();
+                }
                 setOption($i, true);
                 array_push($oldOptions[$option], $OPTIONS[$option]);
                 $OPTIONS[$option] = $oldOptions[$option];
-    
                 break;
 
-            case "--debug":
+            case '--debug':
                 $logLevel = LOG_LEVEL_DEBUG;
                 break;
-            case "--clean":
+                
+            case '--clean':
                 $action = ACTION_CLEAN;
                 break;
     
-            case "--fetch-demo":
+            case '--fetch-demo':
                 $action = ACTION_FETCH_DEMO;
                 break;
-    
-            case "--install":
+
+            case '--install':
                 $action = ACTION_INSTALL;
                 break;
-           case "-h":
-           case "--help":
-                   usage();
-                   break;
-           default:
-                throw new InstallException("Unknown option " . 
+                
+            case '-h':
+            case '--help':
+                usage();
+                break;
+            
+            default:
+                throw new InstallException('Unknown option ' . 
                     $_SERVER['argv'][$i] . " \nUse --help for usage");
         }
     }
     
-    debug("Installer version " . CW3_SETUP_REVISION . (isWin32() ? ' win32' : ''));
+    debug('Installer version ' . CW3_SETUP_REVISION . (isWin32() ? ' win32' : ''));
     
     switch ($action) {
         case ACTION_NOP:
@@ -261,7 +281,7 @@ function processArgs() {
 
             // sanity check
             if (!file_exists('common'))
-                throw new InstallException("Looks like we are not inside a cartoweb3 directory");
+                throw new InstallException('Looks like we are not inside a cartoweb3 directory');
 
             fetchProjects();
             fetchLibs();
@@ -270,9 +290,10 @@ function processArgs() {
             createConfig();
             setupLinks();
             replaceDotIn();
+            removeDevFilesIfProd();
             init();
 
-            info("Installation finished ..");
+            info('Installation finished...');
         
             break;
         case ACTION_CLEAN:
@@ -325,15 +346,15 @@ function showFailure(InstallException $exception) {
 
     fail("\n Error during installation:");
     fail(" ==========================\n");
-    fail("The installation process encountered an error and was aborted.");
-    fail("See the message below for an explanation of the problem.");
-    fail("If you want more information to find out the problem, try again with the --debug parameter.");
-    fail("If you think you found a bug in the installer or want support,");
-    fail("mail cartoweb-users@lists.maptools.org with the full output");
-    fail("of the installer launched with the --debug parameter.");
+    fail('The installation process encountered an error and was aborted.');
+    fail('See the message below for an explanation of the problem.');
+    fail('If you want more information to find out the problem, try again with the --debug parameter.');
+    fail('If you think you found a bug in the installer or want support,');
+    fail('mail cartoweb-users@lists.maptools.org with the full output');
+    fail('of the installer launched with the --debug parameter.');
     
     fail("\n\nError message: {$exception->getMessage()}\n");   
-    fail("installation aborted");   
+    fail('Installation aborted');   
     exit(-1);
 }
 
@@ -722,6 +743,27 @@ function fetchLibs() {
 function fetchDemo() {
 
     fetchArchive(CW3_DEMO_URL, 'projects/demo/server_conf/demo/data');
+}
+
+function removeDevFilesIfProd() {
+    global $OPTIONS;
+    
+    if (!isset($OPTIONS['profile']) || $OPTIONS['profile'] != 'production') {
+        return;
+    }
+    
+    $filesToRemove = array('htdocs/info.php', 'htdocs/runtests.php');
+    foreach ($filesToRemove as $file) {
+        if (!is_file($file) && !is_link($file)) {
+            continue;
+        }
+        
+        if (unlink($file)) {
+            info("Removing $file");
+        } else {
+            info("Failed to removed $file");
+        }
+    }
 }
 
 function makeDirs() {
