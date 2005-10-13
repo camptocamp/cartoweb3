@@ -33,6 +33,18 @@
         <para>Return output in a standardized form</para>
       </listitem>
     </itemizedlist>
+    <sect3 id="dev.newplugin.special.export.naming">
+     <title>Export Plugin Naming Convention</title>
+     <para>
+     <warning>
+      <para>Export plugins MUST have names that begin with the string 
+      "export", for instance <filename>exportPdf</filename>, 
+      <filename>exportCsv</filename> or <filename>exportHtml</filename>.</para>
+      <para>When extending export plugins, same rule must apply. For instance
+      <filename>exportExtendedPdf</filename>.</para>
+     </warning>
+     </para>
+    </sect3>
     <sect3 id="dev.newplugin.special.export.exportplugin">
       <title>
         <classname>ExportPlugin</classname>
@@ -58,13 +70,6 @@
             generation. Calls all exportable plugins in order to modify request 
             (see <xref linkend="dev.newplugin.special.export.exportable" 
             />)</para>
-        </listitem>
-        <listitem>
-          <para><function>getExportScriptPath</function>: returns path to PHP 
-            export script (see <xref 
-            linkend="dev.newplugin.special.export.exportphp" />). Default is 
-            <filename>export.php</filename>, located in plugin's 
-            <filename>htdocs</filename> directory</para>
         </listitem>
         <listitem>
           <para><function>getExport</function> (abstract): contains export 
@@ -95,17 +100,6 @@
         uses <classname>ExportConfiguration</classname> object to know if maps 
         are needed by export plugin. If not, image request is modified. </para>
     </sect3>
-    <sect3 id="dev.newplugin.special.export.exportphp">
-      <title>PHP Export Script</title>
-      <para>In most cases, export plugins generate outputs to be downloaded 
-        through the browser. This needs an external script that is not standard 
-        <filename>client.php</filename>. Default export script is named 
-        <filename>export.php</filename> and is located in plugin's 
-        <filename>htdocs</filename> directory.</para>
-        <para>When a plugin needs to know where this script is located (for 
-          instance to display a 'Print' link), it can use plugin's method 
-          <function>getExportScriptPath</function>.</para>
-    </sect3>
     <sect3 id="dev.newplugin.special.export.example">
       <title>Example</title>
       <para>Plugin <literal>exportCsv</literal> is a good, simple example of 
@@ -113,19 +107,17 @@
         <para>Configuration is filled in method 
           <function>getConfiguration</function>. No images are required 
           to output a CSV file:</para>
-          <programlisting><![CDATA[ 
-private function getConfiguration() {
+          <programlisting><![CDATA[protected function getConfiguration() {
     $config = new ExportConfiguration();
     $config->setRenderMap(false);
     $config->setRenderKeymap(false);
     $config->setRenderScalebar(false);
 }]]></programlisting>
-<para>Output rendering is done in method <function>getExport</function>. Note 
-  that no calls to methods <function>getLastMapRequest</function> or 
-  <function>adjustExportMapRequest</function> are needed, as those calls 
-  are handled by method <function>getExportResult</function>:</para>
-          <programlisting><![CDATA[ 
-public function getExport() {
+      <para>Result rendering is done in method <function>getExport</function>. 
+      Note that no calls to methods <function>getLastMapRequest</function> or 
+      <function>adjustExportMapRequest</function> are needed, as those calls 
+      are handled by method <function>getExportResult</function>:</para>
+      <programlisting><![CDATA[protected function getExport() {
     $this->getExportResult($this->getConfiguration());
     
     // ...
@@ -134,25 +126,13 @@ public function getExport() {
     $output->setContents($contents);
     return $output;
 }]]></programlisting>
-<para>File <filename>export.php</filename> is also quite simple:</para>
-          <programlisting><![CDATA[ 
-// CartoWeb Initialization
-// ...
-
-// HTTP request is handled in export plugin
-$plugin = $cartoclient->getPluginManager()->getCurrentPlugin();
-$plugin->handleHttpGetRequest($_REQUEST);
-
-// Generated output will be in CSV format
-header('Content-Type: application/csv-tab-delimited-table; charset='
-                                . Encoder::getCharset());
-                                
-// File name is generated in export plugin                                 
-header('Content-disposition: filename=' . $plugin->fileName);
-
-// Exports CSV content
-print $plugin->getExport()->getContents();
-]]></programlisting>
+      <para>Final output (headers + content) is done in method 
+      <function>output</function>. For instance:</para>
+      <programlisting><![CDATA[public function output() {
+    header('Content-Type: text/html');
+    print $this->getExport()->getContents();
+    return '';
+}]]></programlisting>
     </sect3>
   </sect2>
   <sect2 id="dev.newplugin.special.filters">
