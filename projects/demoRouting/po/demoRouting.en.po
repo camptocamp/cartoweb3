@@ -1,0 +1,1102 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-10-13 19:24+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: layers.ini:layers.background.label
+msgid "Background"
+msgstr ""
+
+#: layers.ini:layers.vector.label
+msgid "Vector"
+msgstr ""
+
+#: layers.ini:layers.raster.label
+msgid "Raster"
+msgstr ""
+
+#: layers.ini:layers.human.label
+msgid "Human activities"
+msgstr ""
+
+#: layers.ini:layers.categ.label
+msgid "Category"
+msgstr ""
+
+#: layers.ini:layers.relief.label
+msgid "Relief"
+msgstr ""
+
+#: layers.ini:layers.hydro.label
+msgid "Hydrology"
+msgstr ""
+
+#: layers.ini:layers.towns.label layers.ini:layers.town.label
+msgid "Towns"
+msgstr ""
+
+#: layers.ini:layers.agglo.label
+msgid "Agglomerations"
+msgstr ""
+
+#: layers.ini:layers.transport.label
+msgid "Transports"
+msgstr ""
+
+#: layers.ini:layers.airport.label
+msgid "Airports"
+msgstr ""
+
+#: layers.ini:layers.railway.label
+msgid "Railways"
+msgstr ""
+
+#: layers.ini:layers.road.label
+msgid "Roads"
+msgstr ""
+
+#: layers.ini:layers.road1.label
+msgid "vue generale"
+msgstr ""
+
+#: layers.ini:layers.road2.label
+msgid "vue detaillee"
+msgstr ""
+
+#: layers.ini:layers.contour.label
+msgid "Elevation contour"
+msgstr ""
+
+#: layers.ini:layers.mountain.label
+msgid "Mountains"
+msgstr ""
+
+#: layers.ini:layers.iceland.label
+msgid "Icelands"
+msgstr ""
+
+#: layers.ini:layers.river.label
+msgid "Rivers"
+msgstr ""
+
+#: layers.ini:layers.lake.label
+msgid "Lakes"
+msgstr ""
+
+#: location.ini:shortcuts.0.label
+msgid "Mont Blanc"
+msgstr ""
+
+#: location.ini:shortcuts.1.label
+msgid "Leman Lake"
+msgstr ""
+
+#: location.ini:shortcuts.2.label
+msgid "Alberville"
+msgstr ""
+
+#: location.ini:scales.0.label
+msgid "1/250 000"
+msgstr ""
+
+#: location.ini:scales.1.label
+msgid "1/500 000"
+msgstr ""
+
+#: location.ini:scales.2.label
+msgid "1/750 000"
+msgstr ""
+
+#: location.ini:scales.3.label
+msgid "1/1 500 000"
+msgstr ""
+
+#: location.ini:scales.4.label
+msgid "1/2 500 000"
+msgstr ""
+
+#: location.ini:scales.5.label
+msgid "1/3 500 000"
+msgstr ""
+
+#: location.ini:scales.6.label
+msgid "1/4 750 000"
+msgstr ""
+
+#: demoRouting.map
+msgid "raster"
+msgstr ""
+
+#: demoRouting.map
+msgid "contour"
+msgstr ""
+
+#: demoRouting.map
+msgid "district"
+msgstr ""
+
+#: demoRouting.map
+msgid "NAM"
+msgstr ""
+
+#: demoRouting.map
+msgid "iceland"
+msgstr ""
+
+#: demoRouting.map
+msgid "AREA"
+msgstr ""
+
+#: demoRouting.map
+msgid "iceland_hilight"
+msgstr ""
+
+#: demoRouting.map
+msgid "sea"
+msgstr ""
+
+#: demoRouting.map
+msgid "lake"
+msgstr ""
+
+#: demoRouting.map
+msgid "river"
+msgstr ""
+
+#: demoRouting.map
+msgid "railway"
+msgstr ""
+
+#: demoRouting.map
+msgid "road1"
+msgstr ""
+
+#: demoRouting.map
+msgid "routes"
+msgstr ""
+
+#: demoRouting.map
+msgid "road2"
+msgstr ""
+
+#: demoRouting.map
+msgid "route nationale"
+msgstr ""
+
+#: demoRouting.map
+msgid "autoroute"
+msgstr ""
+
+#: demoRouting.map
+msgid "mountain"
+msgstr ""
+
+#: demoRouting.map
+msgid "> 3500m"
+msgstr ""
+
+#: demoRouting.map
+msgid "> 2500m"
+msgstr ""
+
+#: demoRouting.map
+msgid "ZV2"
+msgstr ""
+
+#: demoRouting.map
+msgid "mountain_hilight"
+msgstr ""
+
+#: demoRouting.map
+msgid "agglo"
+msgstr ""
+
+#: demoRouting.map
+msgid "airport"
+msgstr ""
+
+#: demoRouting.map
+msgid "town"
+msgstr ""
+
+#: demoRouting.map
+msgid "TXT"
+msgstr ""
+
+#: demoRouting.map
+msgid "graph"
+msgstr ""
+
+#: demoRouting.map
+msgid "0"
+msgstr ""
+
+#: demoRouting.map
+msgid "cartoweb_point_outline"
+msgstr ""
+
+#: demoRouting.map
+msgid "cartoweb_line_outline"
+msgstr ""
+
+#: demoRouting.map
+msgid "cartoweb_polygon_outline"
+msgstr ""
+
+#: demoRouting.map
+msgid "none"
+msgstr ""
+
+# exportPdf.ini:formats.a4.label
+# exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr "A4"
+
+# exportPdf.ini:formats.a3.label
+# exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr "A3"
+
+#: exportPdf.ini:formats.A3full.label
+msgid "A3full"
+msgstr ""
+
+#: images.ini:mapSizes.0.label
+msgid "430x300"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "620x420"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "860x600"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "1240x840"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr "expand tree"
+
+#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
+msgid "Expand tree"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr "close tree"
+
+#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
+msgid "Close tree"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr "check all"
+
+#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
+msgid "Check all"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr "uncheck all"
+
+#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
+msgid "Uncheck all"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr "more info on"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr "Click to go to next visible scale:"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr "Zoom in to see layer"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr "Zoom out to see layer"
+
+#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
+msgid "Id Recentering"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on:"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's:"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
+#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
+msgid "X :"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
+msgid "Y:"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr ""
+
+#: coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr "Shortcuts"
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Union"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Xor"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Inter"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr "Mask"
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr ""
+
+#: projects/demoRouting/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr ""
+
+#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr ""
+
+#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+msgid "Format and Resolution (dpi)"
+msgstr ""
+
+#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+msgid "Orientation"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Portrait"
+msgstr "Portrait"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Landscape"
+msgstr "Landscape"
+
+#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+msgid "Title"
+msgstr ""
+
+#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr ""
+
+#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Scalebar"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Overview"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "QueryResult"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Legend"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "On map"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "In new page"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "None"
+
+#: plugins/exportHtml/templates/export.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+msgid "Print"
+msgstr "Print"
+
+#: projects/demoRouting/plugins/outline/templates/outline.tpl
+msgid "Mode"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Draw"
+
+#: projects/demoRouting/plugins/outline/templates/outline.tpl
+msgid "Change Mode"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Total area"
+
+#: projects/demoRouting/plugins/outline/templates/outline.tpl
+msgid "Km"
+msgstr ""
+
+#: projects/demoRouting/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr ""
+
+#: projects/demoRouting/plugins/search/templates/search.tpl
+msgid "Search service"
+msgstr ""
+
+#: projects/demoRouting/plugins/routing/templates/routing.tpl
+msgid "Start"
+msgstr ""
+
+#: projects/demoRouting/plugins/routing/templates/routing.tpl
+msgid "Finish"
+msgstr ""
+
+#: projects/demoRouting/plugins/routing/templates/routing.tpl
+msgid "reset routing"
+msgstr ""
+
+#: projects/demoRouting/plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr ""
+
+#: projects/demoRouting/plugins/routing/templates/routing.tpl
+msgid "OK"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "CartoWeb3 - Demonstration"
+msgstr ""
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
+msgid "Collapse keymap"
+msgstr "Collapse keymap"
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Show keymap"
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "welcome"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "reset session"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Reset session"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Coordonnees (m):"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Distance approx.: "
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Surface approx. : "
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr "scalebar_alt"
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Query result"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Query Clear"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr " Developer messages "
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "User messages"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Themes"
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Search"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Outline"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "A route"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "A geographic object"
+msgstr ""
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "Your browser does not support search services"
+msgstr ""
+
+#: templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Loading..."
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr "keymap_alt"
+
+#: projects/demoRouting/templates/toolbar.tpl
+msgid "full_extent"
+msgstr ""
+
+#: plugins/search/client/ClientSearch.php:268
+#, php-format
+msgid "%s results"
+msgstr ""
+
+#: plugins/demoRouting/client/ClientDemoRouting.php:64
+msgid "fastest"
+msgstr ""
+
+#: plugins/demoRouting/client/ClientDemoRouting.php:65
+msgid "shortest"
+msgstr ""
+
+#: coreplugins/mapquery/server/ServerMapquery.php:117
+#, php-format
+msgid "Query spanned too many objects on layer '%s', it was ignored."
+msgstr ""
+
+#: coreplugins/mapquery/server/ServerMapquery.php:126
+#, php-format
+msgid ""
+"This query hit the maximum number of results on '%s', truncating results."
+msgstr ""
+
+#: coreplugins/query/server/ServerQuery.php:449
+msgid "Query"
+msgstr ""
+
+#: scripts/testgettext.php:55
+msgid "PHP-Gettext is not installed correctly !"
+msgstr ""
+
+# images.ini:mapSizes.0.label
+# images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
+msgid "small"
+msgstr "small"
+
+# images.ini:mapSizes.1.label
+# images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
+msgid "normal"
+msgstr "normal"
+
+# images.ini:mapSizes.2.label
+# images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
+msgid "big"
+msgstr "big"
+
+# images.ini:mapSizes.3.label
+# images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
+msgid "giant"
+msgstr "giant"
+
+#: coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize:"
+msgstr "Mapsize"
+
+#: coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on"
+msgstr "Layer to center on"
+
+#: coreplugins/location/templates/id_recenter.tpl
+#, fuzzy
+msgid "Comma separated id's"
+msgstr "Coma separated id's"
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "X"
+msgstr "X"
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "Y"
+msgstr "Y"
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Scale"
+msgstr "Scale"
+
+#: coreplugins/query/templates/query.tpl
+#, fuzzy
+msgid "Query information:"
+msgstr "Selection information:"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Layer"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Policy"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+#, fuzzy
+msgid "Mask Mode"
+msgstr "Mask mode"
+
+#: coreplugins/query/templates/query.tpl
+#, fuzzy
+msgid "Table"
+msgstr "Scale"
+
+#: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
+msgid "Id"
+msgstr "Id"
+
+#: coreplugins/tables/templates/tables.tpl
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
+msgid "Cartoclient Title"
+msgstr "Cartoclient (EN)"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Format:"
+msgstr "Format:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Resolution:"
+msgstr "Resolution:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Title:"
+msgstr "Title:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Note:"
+msgstr "Note:"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "Find path"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "from"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "to"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "options"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "routing_compute"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "or"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Edit view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "View #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "new view"
+msgstr "Overview"
+
+#: plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Show view"
+msgstr "Show keymap"
+
+#: plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save view"
+msgstr "Overview"
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr ""
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Coords (m):"
+msgstr "Coords (m): "
+
+#: templates/cartoclient.tpl
+msgid "Dist approx.:"
+msgstr ""
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Approx. surface :"
+msgstr "Approx. surface: "
+
+#: templates/cartoclient.tpl
+msgid " User messages "
+msgstr " User messages "
+
+#: templates/cartoclient.tpl
+msgid "Choose project"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Navigation"
+msgstr "Navigation"
+
+#: templates/cartoclient.tpl
+msgid "PDF"
+msgstr "PDF"
+
+#: templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Views:"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+#, fuzzy
+msgid "overlapping polygons are not allowed"
+msgstr "Overlapping polygons fobidden"
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr ""
+
+#: templates/unauthorized.tpl
+msgid "Unauthorized"
+msgstr ""
+
+#: client/Views.php:161
+msgid "Action halted: invalid view Id"
+msgstr ""
+
+#: client/Views.php:186
+msgid "You are not allowed to perform this action"
+msgstr ""
+
+#: client/Views.php:929
+#, php-format
+msgid "Loaded view #%d"
+msgstr ""
+
+#: client/Views.php:935
+#, php-format
+msgid "New view recorded with id %d"
+msgstr ""
+
+#: client/Views.php:940
+#, php-format
+msgid "View #%d updated"
+msgstr ""
+
+#: client/Views.php:945 client/Views.php:1422
+#, php-format
+msgid "View #%d deleted"
+msgstr ""
+
+#: client/Views.php:1311
+#, php-format
+msgid "Failed to open view #%d"
+msgstr ""
+
+#: client/Views.php:1335
+#, php-format
+msgid "Unable to read view #%d"
+msgstr ""
+
+#: client/Views.php:1347
+#, php-format
+msgid "Unable to write view #%d"
+msgstr ""
+
+#: client/Views.php:1425
+#, php-format
+msgid "Failed deleting view #%d"
+msgstr ""
+
+#: client/Views.php:1502
+msgid "Unable to open ViewDbContainer: "
+msgstr ""
+
+#: client/Views.php:1504 client/Views.php:1573
+msgid "Service failed."
+msgstr ""
+
+#: client/Views.php:1571
+msgid "Unable to process view."
+msgstr ""
+
+#: client/Views.php:1582
+#, php-format
+msgid "No result for view #%d"
+msgstr ""
+
+#: client/Views.php:1606
+#, php-format
+msgid "More than one view affected while editing view #%d"
+msgstr ""
+
+#: client/Views.php:1718
+msgid "Unable to build views catalog"
+msgstr ""
+
+#: coreplugins/images/client/ClientImages.php:316
+msgid "label"
+msgstr ""
+
+#: coreplugins/layers/client/ClientLayers.php:1243
+msgid "Default"
+msgstr ""
+
+#: plugins/exportPdf/client/ClientExportPdf.php:1131
+msgid "Click here to display PDF file"
+msgstr "Click here to display PDF file"
+
+#: plugins/exportPdf/client/CwFpdf.php:873
+msgid "Page"
+msgstr "Page"
+
+#: plugins/views/client/ClientViews.php:286
+msgid "Views main controller is OFF!!"
+msgstr ""
+
+#: plugins/views/client/ClientViews.php:290
+msgid "Memorizing view to update"
+msgstr ""
+
+#: plugins/views/client/ClientViews.php:319
+msgid "(placed at the end)"
+msgstr ""
+
+#~ msgid "Recenter Id canceled, unable to find selected Id."
+#~ msgstr "Recentering: ID was not found."
+
+#~ msgid "Approx. distance: "
+#~ msgstr "Approx. distance: "
+
+#~ msgid "Number of segments limited to "
+#~ msgstr "Number of segments limited to "
+
+#~ msgid " currently drawn"
+#~ msgstr " currently drawn"
+
+#~ msgid "Main map"
+#~ msgstr "Main map"
+
+#, fuzzy
+#~ msgid "Clear selection"
+#~ msgstr "clear selection"
+
+#~ msgid "Results:"
+#~ msgstr "Results:"
+
+#~ msgid "Select a hilight layer"
+#~ msgstr "Select a hilight layer"
+
+#~ msgid "Selected elements:"
+#~ msgstr "Selected elements:"
+
+#~ msgid "unselect id"
+#~ msgstr "unselect id"
