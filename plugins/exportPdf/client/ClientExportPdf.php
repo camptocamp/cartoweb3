@@ -595,12 +595,9 @@ class ClientExportPdf extends ExportPlugin
                            $allowedResolutions[$this->general->defaultFormat];
         }
        
-        $exportScriptPath = ResourceHandler::convertXhtml(
-                                $this->getExportScriptPath(), true);
-
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $this->smarty->assign(array(
-                   'exportScriptPath'       => $exportScriptPath,
+                   'exportScriptPath'       => $this->getExportUrl(),
                    'pdfFormat_options'      => $this->general->formats,
                    'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
@@ -950,7 +947,7 @@ class ClientExportPdf extends ExportPlugin
      * @see ExportPlugin::getExport()
      * @return ExportOutput export result
      */
-    public function getExport() {
+    protected function getExport() {
 
         $pdfClass =& $this->general->pdfEngine;
         
@@ -1102,10 +1099,11 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Outputs generated PDF file using config "output" medium.
-     * @param string PDF content
+     * @see ExportPlugin::output()
      */
-    public function outputPdf($pdfBuffer) {
+    public function output() {
+        $pdfBuffer = $this->getExport()->getContents();
+    
         switch ($this->general->output) {
             case 'inline':
                 $this->setTypeHeader();
@@ -1138,7 +1136,8 @@ class ClientExportPdf extends ExportPlugin
                 header('Location: ' . $this->getPdfFileUrl($filename, true));
                 break;
         }
-        exit;
+        
+        return '';
     }
 }
 ?>

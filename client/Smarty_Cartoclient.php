@@ -99,7 +99,7 @@ class Smarty_Cartoclient extends Smarty {
                             'project' => $cartoclient->getProjectHandler()->
                                          getProjectName(),
                             'charset' => Encoder::getCharset(),
-                            'selfUrl' => './' . basename($_SERVER['PHP_SELF']),
+                            'selfUrl' => $cartoclient->getSelfUrl(),
                             ));
     }
     

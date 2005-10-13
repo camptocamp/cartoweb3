@@ -412,19 +412,6 @@ abstract class ExportPlugin extends ClientPlugin
                             implements GuiProvider {
 
     /**
-     * Returns export script path. This assumes the script is called export.php
-     * in the htdocs directory of the plugin. Clients should override this if
-     * this is not the case.
-     *
-     * @return string The export script path
-     */
-    public function getExportScriptPath() {
-        $project = $this->getCartoclient()->getProjectHandler()->getProjectName();
-        return $this->cartoclient->getResourceHandler()->
-                        getHtdocsUrl($this->getName(), $project, 'export.php');
-    }
-    
-    /**
      * Returns session-saved last MapRequest.
      * @return MapRequest
      */
@@ -495,10 +482,28 @@ abstract class ExportPlugin extends ClientPlugin
     }
 
     /**
+     * Returns base export plugin URL.
+     * @return string
+     */
+    protected function getExportUrl() {
+        // Export plugins (even project-extended ones) must have names
+        // that begin with "export"!!
+        $mode = substr($this->getName(), 6); // 6 = strlen('export')
+        $mode = strtolower($mode{0}) . substr($mode, 1);
+        return sprintf('%s?mode=%s', $this->cartoclient->getSelfUrl(), $mode);
+    }
+
+    /**
      * Renders export
      * @return ExportOutput export result
      */
-    abstract function getExport();
+    abstract protected function getExport();
+
+    /**
+     * Outputs exported content.
+     * @return string
+     */
+    abstract public function output();
 }
 
 ?>

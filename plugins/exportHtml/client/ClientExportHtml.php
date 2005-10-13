@@ -54,15 +54,13 @@ class ClientExportHtml extends ExportPlugin {
      * Not used.
      * @see GuiProvider::handleHttpPostRequest()
      */
-    public function handleHttpPostRequest($request) {
-    }
+    public function handleHttpPostRequest($request) {}
 
     /**
      * Not used.
      * @see GuiProvider::handleHttpPostRequest()
      */
-    public function handleHttpGetRequest($request) {
-    }
+    public function handleHttpGetRequest($request) {}
 
     /**
      * Draws "print" link or button used to launch HTML export.
@@ -70,7 +68,8 @@ class ClientExportHtml extends ExportPlugin {
      */
     public function renderForm(Smarty $template) {
         $template->assign(array('exporthtml_active' => true,
-                                'exporthtml_url' => $this->getExportScriptPath()));
+                                'exporthtml_url'    => $this->getExportUrl(),
+                                ));
     }
 
     /**
@@ -94,7 +93,7 @@ class ClientExportHtml extends ExportPlugin {
      * @return ExportOutput
      * @see ExportPlugin::getExportResult
      */
-    public function getExport() {
+    protected function getExport() {
     
         $mapRequest = $this->getLastMapRequest();
         $mapResult = $this->getExportResult($this->getConfiguration());
@@ -133,6 +132,15 @@ class ClientExportHtml extends ExportPlugin {
         $output = new ExportOutput();
         $output->setContents($smarty->fetch('export.tpl'));
         return $output;
+    }
+
+    /**
+     * @see ExportPlugin::output()
+     */
+    public function output() {
+        header('Content-Type: text/html');
+        print $this->getExport()->getContents();
+        return '';
     }
 }
 

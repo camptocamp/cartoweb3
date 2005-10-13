@@ -48,21 +48,6 @@ class ClientExportCsv extends ExportPlugin {
     public $fileName;
 
     /**
-     * Returns relative Web path to external export script
-     * @return string
-     * @see ExportPlugin::getExportScriptPath()
-     */
-    public function getExportScriptPath() {
-        // FIXME: is this still needed ??
-        $scriptPath = parent::getExportScriptPath();
-        if (strstr($scriptPath, '?'))
-            $scriptPath .= '&amp;';
-        else
-            $scriptPath .= '?';
-        return $scriptPath;
-    }
-
-    /**
      * Constructor
      */
     public function __construct() {
@@ -113,7 +98,15 @@ class ClientExportCsv extends ExportPlugin {
             $this->fileName = $this->generateFileName();
         }
     }
-    
+
+    /**
+     * Public alias for {@link ExportPlugin::getExportUrl()}.
+     * @return string
+     */
+    public function getUrl() {
+        return $this->getExportUrl();
+    }
+
     /**
      * @see GuiProvider::renderForm()
      */
@@ -162,7 +155,7 @@ class ClientExportCsv extends ExportPlugin {
      * @return ExportOutput
      * @see ExportPlugin::getExportResult
      */
-    public function getExport() {
+    protected function getExport() {
 
         $this->getExportResult($this->getConfiguration());
 
@@ -213,6 +206,17 @@ class ClientExportCsv extends ExportPlugin {
         $output = new ExportOutput();
         $output->setContents($contents);
         return $output;
+    }
+
+    /**
+     * @see ExportPlugin::output()
+     */
+    public function output() {
+       header('Content-Type: application/csv-tab-delimited-table; charset='
+              . Encoder::getCharset());
+       header('Content-disposition: filename=' . $this->fileName);
+       print $this->getExport()->getContents();
+       return '';
     }
 }
 

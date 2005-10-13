@@ -322,10 +322,7 @@ class Cartoclient {
     /**
      * Output formats constants.
      */
-    const OUTPUT_HTML_VIEWER = 'html_viewer';
-    const OUTPUT_HTML_EXPORT = 'html_export';
-    const OUTPUT_PDF_EXPORT  = 'pdf_export';
-    const OUTPUT_CSV_EXPORT  = 'csv_export';
+    const OUTPUT_HTML_VIEWER = 'viewer';
     const OUTPUT_IMAGE       = 'image';
 
     /**
@@ -344,10 +341,8 @@ class Cartoclient {
      *
      * Plugins cannot call internationalization functions in constructor
      * and in preInitialize().
-     *
-     * @param string output type
      */
-    public function __construct($outputType = self::OUTPUT_HTML_VIEWER) {
+    public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
         $this->projectHandler = new ClientProjectHandler();
@@ -358,11 +353,10 @@ class Cartoclient {
                 $_REQUEST = array('reset_session' => '') + $_COOKIE;
             }
 
-            if (array_key_exists('mode', $_REQUEST) &&
-                $_REQUEST['mode'] == self::OUTPUT_IMAGE) {
-                $this->outputType = self::OUTPUT_IMAGE;
+            if (array_key_exists('mode', $_REQUEST)) {
+                $this->outputType = $_REQUEST['mode'];
             } else {
-                $this->outputType = $outputType;
+                $this->outputType = self::OUTPUT_HTML_VIEWER;
             }
             
             $this->initializePlugins();
@@ -790,6 +784,14 @@ class Cartoclient {
     public function isInterruptFlow() {
         return $this->interruptFlow;
     }
+
+    /**
+     * Returns current base URL.
+     * @return string
+     */
+    public function getSelfUrl() {
+        return './' . basename($_SERVER['PHP_SELF']);
+    }
     
     /**
      * Returns whether the current user has privileges to access cartoweb. It
@@ -906,6 +908,25 @@ class Cartoclient {
     }
 
     /**
+     * Alternative processing of doMain() when exporting data.
+     * @param ExportPlugin
+     * @return string
+     */
+    private function doExport(ExportPlugin $plugin) {
+        if (!$this->clientAllowed()) {
+            throw new CartoclientException(
+                'You do no have permission to perform this export action.');
+        }
+
+        if (!empty($_REQUEST['posted'])) {
+            $plugin->handleHttpPostRequest($_REQUEST);
+        } else {
+            $plugin->handleHttpGetRequest($_REQUEST);
+        }
+        return $plugin->output();
+    }
+
+    /**
      * Detects if views controller must be launched.
      */
     private function manageViewsSystem() {
@@ -953,11 +974,27 @@ class Cartoclient {
         // views
         $this->manageViewsSystem();
     }
+
+    /**
+     * Tells if an export plugin is available for current output and returns it.
+     * @return mixed
+     */
+    private function getValidExportType() {
+        $exportPluginName = 'export' . ucfirst($this->outputType);
+        $exportPlugin = $this->getPluginManager()
+                             ->getPlugin($exportPluginName);
+        if (!is_null($exportPlugin) && $exportPlugin instanceof ExportPlugin) {
+            return $exportPlugin;
+        }
+
+        return false;
+    }
         
     /**
      * Main entry point.
      *
-     * Calls {@link Cartoclient::doMain()} with exception handling.
+     * Calls {@link Cartoclient::doMain()} or {@link Cartoclient::doExport()}
+     * with exception handling.
      * @return string CartoWeb page string
      */
     public function main() {
@@ -968,7 +1005,13 @@ class Cartoclient {
         Common::initializeCartoweb($this->config);
         
         try {
-            return $this->doMain();
+            if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
+                $this->outputType == self::OUTPUT_IMAGE ||
+                !$exportPlugin = $this->getValidExportType()) {
+                return $this->doMain();
+            } else {
+                return $this->doExport($exportPlugin);
+            }
         } catch (Exception $exception) {
             return $this->formRenderer->showFailure($exception);
         }

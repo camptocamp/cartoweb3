@@ -120,27 +120,33 @@ class ClientTables extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
-    public function handleHttpPostRequest($request) {
-    }
+    public function handleHttpPostRequest($request) {}
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    public function handleHttpGetRequest($request) {
+    public function handleHttpGetRequest($request) {}
+
+    /**
+     * Gets CSV export URL from main exportCsv plugin. 
+     * @return string
+     */
+    protected function getUrl() {
+        return $this->cartoclient->getPluginManager()
+                    ->getPlugin('exportCsv')->getUrl()
+               . '&amp;';
     }
 
     /**
-     * Sets URL to CSV export
+     * Sets URL to CSV export.
      * @param Smarty
      */
     protected function assignExportCsv(Smarty $template) {
     
         $pluginManager = $this->cartoclient->getPluginManager();
-        if (!empty($pluginManager->exportCsv)) {
+        if (!is_null($pluginManager->getPlugin('exportCsv'))) {
             $template->assign(array('exportcsv_active' => true,
-                                    'exportcsv_url' => $pluginManager->
-                                                         exportCsv->
-                                                         getExportScriptPath(),
+                                    'exportcsv_url'    => $this->getUrl(),
                                     ));
         }
     }
