@@ -10,13 +10,13 @@ item=resLabel}{$resId},'{$resLabel}'{if !$smarty.foreach.formatRes.last},{/if}{/
 {literal}
 function pdfFormSubmit(myForm) {
 {/literal}
-  var prevAction = myForm.action
-  var prevTarget = myForm.target
-  myForm.action = '{$exportScriptPath}'
-  myForm.target = '_blank'
-  myform.submit()
-  myForm.action = prevAction
-  myForm.target = prevTarget
+  var prevAction = myForm.action;
+  var prevTarget = myForm.target;
+  myForm.action = '{$exportScriptPath}';
+  myForm.target = '_blank';
+  myform.submit();
+  myForm.action = prevAction;
+  myForm.target = prevTarget;
 {literal}
 }
 {/literal}
