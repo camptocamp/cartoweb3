@@ -284,7 +284,7 @@ AUTOLAYER
     TRANSPARENCY 50
     CLASS
       STYLE
-        OUTLINECOLOR 0 0 204
+        COLOR 0 0 204
         SYMBOL 1
         SIZE 15
       END
