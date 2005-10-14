@@ -29,9 +29,7 @@ class ClientDemoRouting extends ClientRouting {
             //TODO set the dsn in the routing.ini
             $dsn = $this->getConfig()->dsn;
             $this->db = DB::connect($dsn);
-            if (PEAR::isError($this->db)) {
-                die($this->db->getMessage());
-            }
+            Utils::checkDbError($this->db);
         }
         return $this->db;
     }
@@ -41,8 +39,7 @@ class ClientDemoRouting extends ClientRouting {
         $this->getDb();
         $res = $this->db->query($sql);
         
-        if (DB::isError($res))
-            die($res->getMessage());
+        Utils::checkDbError($res);
 
         while ($res->fetchInto($row)) {
             $list[$row[1]] = $row[0];
