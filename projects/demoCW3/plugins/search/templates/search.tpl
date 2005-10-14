@@ -17,12 +17,13 @@
 <form method="post" action="{$selfUrl}?project=demoCW3" name="idform">
 <input type="hidden" name="searchpost" value="1" />
 <select name="searchLayer" onChange="this.form.submit()" class="select">
-<option value="0">Recherche par ...</option>
+<option value="0">{t}Search by ...{/t}</option>
 {html_options options=$searchLayer selected=$layerSelected}
 </select>
-<br />
+<br /><br />
+<span style="font-size:0.9em;">{t}Enter a name{/t}</span><br>
 {if $inputActive|default:false}
-  <input type="text" class="input_text" name="input" value="{$input|default:'Saisissez un nom'}" onfocus="this.value=''"><br />
+  <input type="text" class="input_text" name="input" value="{$input|default:''}" onfocus="this.value=''"><br />
 {/if}
 
 {if $searchInputActive|default:false}
@@ -71,7 +72,7 @@
     alert(this.form.recherche.value);
     carto_form.recenter_doit=1;carto_form.submit();'>
       <!---->
-      <option value="0">S&eacute;lectionnez un nom </option>
+      <option value="0">{t}Select an option{/t}</option>
       {html_options options=$inputList}
    </select>
  </div>
