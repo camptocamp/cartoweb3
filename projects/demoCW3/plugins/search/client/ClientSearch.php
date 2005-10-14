@@ -186,38 +186,38 @@ class ClientSearch extends ClientPlugin
      */
     private function listNoms($layerSelected, $input) {
         // TODO get the list from session
-	$nom_colonne='';$id='';
-	switch($layerSelected){
-	case 'agglo':
-	  $nom_colonne ="NAM";
-	  $id = "OGC_FID";
-	  break;
-	case 'district':
-	  $nom_colonne ="NAM";
-	  $id = "OGC_FID";
-	  break;
-	case 'town':
-	  $nom_colonne ="TXT";
-	  $id = "OGC_FID";
-	  break;
-	case 'airport':
-	  $nom_colonne ="NAM";
-	  $id = "OGC_FID";
-	  break;
-	case 'mountain':
-	  $nom_colonne ="ZV2";
-	  $id = "OGC_FID";
-	  break;
-	case 'iceland':
-	  $nom_colonne ="AREA";
-	  $id = "OGC_FID";
-	  break;
-	case 'lake':
-	  $nom_colonne ="AREA";
-	  $id = "OGC_FID";
-	  break;
-	}
-	
+        $nom_colonne='';$id='';
+        switch($layerSelected){
+        case 'agglo':
+          $nom_colonne ="NAM";
+          $id = "OGC_FID";
+          break;
+        case 'district':
+          $nom_colonne ="NAM";
+          $id = "OGC_FID";
+          break;
+        case 'town':
+          $nom_colonne ="TXT";
+          $id = "OGC_FID";
+          break;
+        case 'airport':
+          $nom_colonne ="NAM";
+          $id = "OGC_FID";
+          break;
+        case 'mountain':
+          $nom_colonne ="ZV2";
+          $id = "OGC_FID";
+          break;
+        case 'iceland':
+          $nom_colonne ="AREA";
+          $id = "OGC_FID";
+          break;
+        case 'lake':
+          $nom_colonne ="AREA";
+          $id = "OGC_FID";
+          break;
+        }
+
         $sql = "SELECT $nom_colonne, $id FROM $layerSelected " .
                 "WHERE $nom_colonne LIKE upper('$input%') ORDER BY $nom_colonne;"; 
         //        "GROUP BY $nom_colonne, $id order by $nom_colonne;";
@@ -245,16 +245,16 @@ class ClientSearch extends ClientPlugin
         if ($this->searchLayer) {
           $this->layerSelected = $this->searchLayer;
         }
-	
-	$this->inputActive = true;
-	
-	if (!$this->input || $this->input == 'Saisissez un nom')
+
+        $this->inputActive = true;
+
+        if (!$this->input || $this->input == 'Saisissez un nom')
           return false;
         else {
           $this->inputList = $this->listNoms($this->layerSelected,$this->input);
-	  $this->nbResults = count($this->inputList);
-	  if($this->nbResults == 1){$this->value_alone = array_search(strtoupper($this->input), $this->inputList);}
-	  $this->searchInputActive = true;
+          $this->nbResults = count($this->inputList);
+          if($this->nbResults == 1){$this->value_alone = array_search(strtoupper($this->input), $this->inputList);}
+          $this->searchInputActive = true;
         }      
     }
 
@@ -296,7 +296,7 @@ class ClientSearch extends ClientPlugin
                        getProjectName();
             $iframeSrc = sprintf('%s/search/index.php?project=%s',
                                  $project, 
-				 $project); 
+                                 $project); 
         } else {
             $iframeSrc = '';
         }
@@ -318,15 +318,15 @@ class ClientSearch extends ClientPlugin
             
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign(array('searchLayer' => $this->layerList,
-			      'layerSelected' => $this->layerSelected,
+                              'layerSelected' => $this->layerSelected,
                               'inputActive' => $this->inputActive,
                               'input' => $this->input,
                               'searchInputActive' => $this->searchInputActive,
-			      'inputList' => $this->inputList,
-			      'nbResults' => $this->nbResults,
-			      'value_alone' => $this->value_alone,
+                              'inputList' => $this->inputList,
+                              'nbResults' => $this->nbResults,
+                              'value_alone' => $this->value_alone,
                               'mainPage'      => $mainPage, 
-			      'iframeSrc' => $iframeSrc
+                              'iframeSrc' => $iframeSrc
                               ));
 
         return $smarty->fetch('search.tpl');
