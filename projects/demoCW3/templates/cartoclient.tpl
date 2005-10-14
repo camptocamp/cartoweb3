@@ -169,32 +169,8 @@
        <tr>
          <td  colspan="3"><br /></td>
        </tr>
-         {if $tables_result|default:''}
-  <tr>
-   <td colspan="3">
-    <center>
-     <table id="query_result" width="100%">
-      <tr>
-        <th align="left" id="query_result_title">{t}Query result{/t}</th>
-      </tr>
-      <tr>
-        <td>
-         <center>
-          {$tables_result}
-         </center>
-        </td>
-     </tr>
-     <tr>
-      <td align="center">
-        &nbsp;<br />
-    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
-      </td>
-     </tr>
-     </table>
-    </center>
-   </td>
-  </tr>
-  {/if}
+         
+  
        {if $developer_messages|default:''}
        <tr>
        <td colspan="3" align="center">
@@ -250,7 +226,9 @@
     </td>
   </tr>
 </table>
-
+{if $tables_result|default:''}
+  {$tables_result}
+{/if}
   </div>
 
   <div id="leftbar">
@@ -277,7 +255,7 @@
       {$layers}
       <br />
       <center>
-      <input type="submit" name="refresh" value="refresh" class="form_button" />
+      <input type="submit" name="refresh" value="{t}Refresh{/t}" class="form_button" />
       </center>
       <br />
     </div>
@@ -333,7 +311,7 @@
       {$recenter}
       {/if}
       
-      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="220" height="125px"
+      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="250" height="125px"
       {if $iframeSrc|default:''}src="{$iframeSrc}" {/if} >
       {t}Your browser does not support search services{/t}
       </iframe>

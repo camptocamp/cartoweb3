@@ -1,0 +1,53 @@
+.fenster {
+  position:absolute;
+  visibility:hidden;
+  overflow:hidden;
+  width:500px;
+  height: 390px;
+  margin:0;
+  padding:0;
+  color:#000;
+  background:#fff;
+  cursor:default;
+  border:3px double black;
+}
+.fenBar {
+  overflow:hidden;
+  margin:0;
+  padding:3px;
+  font-weight:bold;
+  color:white;
+  background:#1D387A;
+  cursor:move;
+  z-index: 1;
+}
+.fenClBtn {
+  position:absolute;
+  margin:0;
+  padding:3px;
+  cursor:pointer;
+}
+.fenResBtn {
+  position:absolute;
+  overflow:hidden;
+  font-size:x-small;
+  width:1.2em;
+  height:1.2em;
+  margin:0;
+  padding:0;
+  color:#000;
+  background:#596380;
+  cursor:se-resize;
+}
+.fenIframeKack {
+  position: absolute;
+}
+.fenContent {
+  padding:10px;
+  height: 350px;
+  overflow : auto;
+  /*border-bottom: 1px solid #999;*/
+}
+
+.fenDetail {
+}
