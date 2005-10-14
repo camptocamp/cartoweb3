@@ -150,8 +150,8 @@
                 height="{$scalebar_height}" title="" />
               {/if}
            </td>
-	 </tr><tr>
-	   <td width="10%" align="center">
+         </tr><tr>
+           <td width="10%" align="center">
               {if $scales_active|default:''}
                 {$scales}
               {/if}
@@ -169,7 +169,7 @@
        <tr>
          <td  colspan="3"><br /></td>
        </tr>
-	   {if $tables_result|default:''}
+         {if $tables_result|default:''}
   <tr>
    <td colspan="3">
     <center>
