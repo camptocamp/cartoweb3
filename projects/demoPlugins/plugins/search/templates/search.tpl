@@ -46,12 +46,12 @@
       }  else if(nbResults == 1){
         {/literal}
         string += 'layer : {$layerSelected}';
-	string += '<br />';
-	string += 'id : {$value_alone}';
-	carto_form=parent.document.forms["carto_form"];
+        string += '<br />';
+        string += 'id : {$value_alone}';
+        carto_form=parent.document.forms["carto_form"];
         carto_form.id_recenter_layer.value="{$layerSelected}";
         carto_form.id_recenter_ids.value="{$value_alone}";
-	{literal}
+        {literal}
         carto_form.recenter_doit=1;carto_form.submit();
       }else{
         xGetElementById('list').style.visibility = 'visible';
