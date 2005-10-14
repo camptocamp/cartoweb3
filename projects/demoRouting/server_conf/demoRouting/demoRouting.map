@@ -222,8 +222,8 @@ MAP
       END
       STYLE
         SYMBOL '|'
-	SIZE 10
-	COLOR 0 0 0
+        SIZE 10
+        COLOR 0 0 0
       END
     END
   END
@@ -255,13 +255,13 @@ MAP
       EXPRESSION ([EXS] = 28 and [MED] = 2)
       STYLE  
          SYMBOL 'circle'
-	     COLOR 0 0 0
-	     SIZE 5
+         COLOR 0 0 0
+         SIZE 5
       END
       STYLE
-	     SYMBOL 'circle'
-	     COLOR 255 0 0
-	     SIZE 3
+        SYMBOL 'circle'
+        COLOR 255 0 0
+        SIZE 3
       END 
     END
     
@@ -271,13 +271,13 @@ MAP
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE  
          SYMBOL 'circle'
-	 COLOR 255 0 0
-	 SIZE 7
+         COLOR 255 0 0
+         SIZE 7
       END
       STYLE
-	 SYMBOL 'circle'
-	 COLOR 255 255 0
-	 SIZE 2
+         SYMBOL 'circle'
+         COLOR 255 255 0
+         SIZE 2
       END 
     END
     
@@ -287,13 +287,13 @@ MAP
       EXPRESSION ([EXS] = 55)
       STYLE  
          SYMBOL 'circle'
-	 COLOR 0 0 0
-	 SIZE 5
+         COLOR 0 0 0
+         SIZE 5
       END
       STYLE
-	 SYMBOL 'circle'
-	 COLOR 255 0 0
-	 SIZE 3
+         SYMBOL 'circle'
+         COLOR 255 0 0
+         SIZE 3
       END 
     END
     
@@ -303,13 +303,13 @@ MAP
       EXPRESSION ([EXS] = 5)
       STYLE  
          SYMBOL 'circle'
-	     COLOR 255 0 0
-	     SIZE 7
+         COLOR 255 0 0
+         SIZE 7
       END
       STYLE
-	     SYMBOL 'circle'
-	     COLOR 255 255 0
-	     SIZE 2
+        SYMBOL 'circle'
+        COLOR 255 255 0
+        SIZE 2
       END  
     END
   END
@@ -462,8 +462,8 @@ MAP
       TEMPLATE "ttt"
       STYLE
         COLOR 0 0 0
-	    SYMBOL 'circle'
-	    SIZE 5
+        SYMBOL 'circle'
+        SIZE 5
       END
       STYLE
         COLOR 255 255 255
