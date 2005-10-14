@@ -233,9 +233,9 @@ MAP
     TYPE LINE
     DATA "roadl"
     
-    #vue generale
+    #general view
     CLASS
-      NAME "routes"
+      NAME "roads"
       #MINSCALE 750001
       MINSCALE 2500000
       STYLE 
@@ -256,7 +256,7 @@ MAP
     SYMBOLSCALE 250000
     
     CLASS  
-      NAME "route nationale"
+      NAME "secondary road"
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 28 and [MED] = 2)
       MINSIZE 2
@@ -274,7 +274,7 @@ MAP
     END
     
     CLASS
-      NAME "autoroute"
+      NAME "freeway"
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       MINSIZE 2
@@ -292,7 +292,7 @@ MAP
     END
     
     CLASS
-      # route nationale
+      # secondary road
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 55)
       MINSIZE 2
@@ -310,7 +310,7 @@ MAP
     END
     
     CLASS
-      # autoroute
+      # freeway
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 5)
       MINSIZE 2

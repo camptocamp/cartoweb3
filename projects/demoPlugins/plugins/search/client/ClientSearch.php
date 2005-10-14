@@ -248,7 +248,7 @@ class ClientSearch extends ClientPlugin
 
         $this->inputActive = true;
 
-        if (!$this->input || $this->input == 'Saisissez un nom')
+        if (!$this->input || $this->input == '')
           return false;
         else {
           $this->inputList = $this->listNoms($this->layerSelected,$this->input);

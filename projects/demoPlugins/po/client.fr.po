@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-14 17:25+0200\n"
+"POT-Creation-Date: 2005-10-14 20:02+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -289,6 +289,18 @@ msgstr "Rechercher un service"
 #: projects/demoPlugins/plugins/search/templates/search.tpl
 msgid "Recherche"
 msgstr "Recherche"
+
+#: projects/demoPlugins/plugins/search/templates/search.tpl
+msgid "Search by ..."
+msgstr "Recherche par ..."
+
+#: projects/demoPlugins/plugins/search/templates/search.tpl
+msgid "Enter a name"
+msgstr "Entrer un nom"
+
+#: projects/demoPlugins/plugins/search/templates/search.tpl
+msgid "Select an option"
+msgstr "Choisissez une option"
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
