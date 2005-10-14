@@ -30,8 +30,8 @@ MAP
   END
  
   REFERENCE
-    IMAGE images/keymap.jpg
-    EXTENT 141776 4754216 1088857 5409261
+    IMAGE images/keymap.png
+    EXTENT 142776 4757331 1083562 5409260
     STATUS ON
     COLOR -1 -1 -1
     OUTLINECOLOR 180 60 60
@@ -495,9 +495,14 @@ MAP
     END
   END
   
+  
+  #########
+  # ROUTE #
+  #########
   LAYER
     NAME "graph"
     TYPE LINE
+    TRANSPARENCY 80
     CONNECTIONTYPE postgis
         CONNECTION "user=www-data host=localhost dbname=Itineraire"
         #DATA "the_geom from routing_results"
@@ -507,8 +512,8 @@ MAP
       NAME "0"
       STYLE
         SYMBOL "circle"
-        SIZE 2
-        COLOR 50 50 100
+        SIZE 10
+        COLOR 90 27 191
       END
     END
   END

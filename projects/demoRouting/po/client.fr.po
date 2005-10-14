@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-13 19:24+0200\n"
+"POT-Creation-Date: 2005-10-14 17:25+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "Expand tree"
-msgstr ""
+msgstr "Déplier"
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "close tree"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "Close tree"
-msgstr ""
+msgstr "Fermer"
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "check all"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "Check all"
-msgstr ""
+msgstr "Tout sélectionner"
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "uncheck all"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "Uncheck all"
-msgstr ""
+msgstr "Tout désélectionner"
 
 #: projects/demoRouting/coreplugins/layers/templates/layers.tpl
 msgid "more info on"
@@ -86,20 +86,20 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
 msgid "Id Recentering"
-msgstr ""
+msgstr "Recentrage sur les Id"
 
 #: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on:"
-msgstr ""
+msgstr "Couche sur laquelle se recentrer"
 
 #: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's:"
-msgstr ""
+msgstr "Id, séparés par des virgules"
 
 #: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoRouting/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
-msgstr ""
+msgstr "Recentrer"
 
 #: projects/demoRouting/coreplugins/location/templates/recenter.tpl
 msgid "X :"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
-msgstr ""
+msgstr "Echelle :"
 
 #: projects/demoRouting/coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
@@ -119,11 +119,11 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 msgid "Hilight"
-msgstr ""
+msgstr "Mise en évidnce"
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 msgid "Attributes"
-msgstr ""
+msgstr "Attributes"
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 msgid "Union"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr ""
+msgstr "Dans la requête"
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 #: projects/demoRouting/plugins/outline/templates/outline.tpl
@@ -152,19 +152,19 @@ msgstr ""
 
 #: projects/demoRouting/coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr ""
+msgstr "Effacer"
 
 #: projects/demoRouting/coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize :"
-msgstr ""
+msgstr "Taille carte"
 
 #: projects/demoRouting/plugins/auth/templates/auth.tpl
 msgid "login"
-msgstr ""
+msgstr "se connecter"
 
 #: projects/demoRouting/plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr ""
+msgstr "se déconnecter"
 
 #: projects/demoRouting/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
@@ -180,7 +180,7 @@ msgstr ""
 
 #: projects/demoRouting/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
-msgstr ""
+msgstr "(pour la démo, utilisez : 'demo' 'demo')"
 
 #: projects/demoRouting/plugins/auth/templates/login_page.tpl
 msgid "Username"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: projects/demoRouting/plugins/auth/templates/login_page.tpl
 msgid "Submit"
-msgstr ""
+msgstr "Envoyer"
 
 #: projects/demoRouting/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: projects/demoRouting/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
-msgstr ""
+msgstr "Format et résolution (dpi)"
 
 #: projects/demoRouting/plugins/exportPdf/templates/form.tpl
 msgid "Orientation"
@@ -269,7 +269,7 @@ msgstr ""
 
 #: projects/demoRouting/plugins/outline/templates/outline.tpl
 msgid "Change Mode"
-msgstr ""
+msgstr "Changer de mode"
 
 #: projects/demoRouting/plugins/outline/templates/outline.tpl
 msgid "Total area"
@@ -281,27 +281,27 @@ msgstr ""
 
 #: projects/demoRouting/plugins/outline/templates/outline.tpl
 msgid "Clear outline"
-msgstr ""
+msgstr "Effacer"
 
 #: projects/demoRouting/plugins/search/templates/search.tpl
 msgid "Search service"
-msgstr ""
+msgstr "service de Recherche"
 
 #: projects/demoRouting/plugins/routing/templates/routing.tpl
 msgid "Start"
-msgstr ""
+msgstr "Départ"
 
 #: projects/demoRouting/plugins/routing/templates/routing.tpl
 msgid "Finish"
-msgstr ""
+msgstr "Arrivée"
 
 #: projects/demoRouting/plugins/routing/templates/routing.tpl
 msgid "reset routing"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: projects/demoRouting/plugins/routing/templates/routing.tpl
 msgid "Reset"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: projects/demoRouting/plugins/routing/templates/routing.tpl
 msgid "OK"
@@ -322,15 +322,15 @@ msgstr ""
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "welcome"
-msgstr ""
+msgstr "Bienvenue"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "reset session"
-msgstr ""
+msgstr "réinitialiser"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Reset session"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
@@ -346,15 +346,15 @@ msgstr ""
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "scalebar_alt"
-msgstr ""
+msgstr "barre_d'échelle_alt"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Query result"
-msgstr ""
+msgstr "Résultats de la requête"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Query Clear"
-msgstr ""
+msgstr "Effacer"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid " Developer messages "
@@ -362,7 +362,7 @@ msgstr ""
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "User messages"
-msgstr ""
+msgstr "Messages utilisateur"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Themes"
@@ -370,23 +370,27 @@ msgstr ""
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Search"
-msgstr ""
+msgstr "Recherche"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Outline"
-msgstr ""
+msgstr "Dessin"
+
+#: projects/demoRouting/templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Rafraichir"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "A route"
-msgstr ""
+msgstr "Un itinéraire"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "A geographic object"
-msgstr ""
+msgstr "Un objet géographique"
 
 #: projects/demoRouting/templates/cartoclient.tpl
 msgid "Your browser does not support search services"
-msgstr ""
+msgstr "Votre navigateur ne supporte pas les services de recherche"
 
 #: projects/demoRouting/templates/mainmap.tpl
 msgid "Loading message"
@@ -394,16 +398,16 @@ msgstr ""
 
 #: projects/demoRouting/templates/mainmap.tpl
 msgid "keymap_alt"
-msgstr ""
+msgstr "vue_generale_alt"
 
 #: projects/demoRouting/templates/toolbar.tpl
 msgid "full_extent"
-msgstr ""
+msgstr "vue_générale"
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
-msgstr ""
+msgstr "%s resultats"
 
 #: plugins/demoRouting/client/ClientDemoRouting.php:64
 msgid "fastest"
