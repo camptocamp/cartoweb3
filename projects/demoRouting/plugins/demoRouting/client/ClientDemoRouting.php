@@ -37,8 +37,8 @@ class ClientDemoRouting extends ClientRouting {
     }
     
     public function listeVilles (){
-    	$sql = "SELECT txt, geom_id FROM graph2_vertices WHERE txt != '' ORDER BY txt";
-    	$this->getDb();
+        $sql = "SELECT txt, geom_id FROM graph2_vertices WHERE txt != '' ORDER BY txt";
+        $this->getDb();
         $res = $this->db->query($sql);
         
         if (DB::isError($res))
@@ -52,13 +52,13 @@ class ClientDemoRouting extends ClientRouting {
     }
     
     private function makeSearch() {
-        $this->vertices_options = $this->listeVilles();	
+        $this->vertices_options = $this->listeVilles();
     }
     
-    	
+
     
     protected function drawRouting() {
-    	$this->makeSearch();
+        $this->makeSearch();
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign(array('routing_options_values' => array(0,1),
                               'routing_options_labels' => array(I18n::gt('fastest'),
