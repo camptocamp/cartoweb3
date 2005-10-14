@@ -250,7 +250,7 @@ MAP
     SYMBOLSCALE 250000
     
     CLASS  
-      NAME "route nationale"
+      NAME "secondary road"
       MAXSCALE 750000
       EXPRESSION ([EXS] = 28 and [MED] = 2)
       STYLE  
@@ -266,7 +266,7 @@ MAP
     END
     
     CLASS
-      NAME "autoroute"
+      NAME "freeway"
       MAXSCALE 750000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE  
@@ -282,7 +282,7 @@ MAP
     END
     
     CLASS
-      # route nationale
+      # secondary road
       MAXSCALE 750000
       EXPRESSION ([EXS] = 55)
       STYLE  
@@ -298,7 +298,7 @@ MAP
     END
     
     CLASS
-      # autoroute
+      # freeway
       MAXSCALE 750000
       EXPRESSION ([EXS] = 5)
       STYLE  
