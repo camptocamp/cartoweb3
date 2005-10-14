@@ -46,7 +46,7 @@ img {border:0;}
   position: absolute;
   left: 10px;
   top: 83px;
-  width: 230px;
+  width: 250px;
   padding:0;
   z-index: 3;
   background:white;
@@ -59,7 +59,7 @@ img {border:0;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;margin-left: 246px;}
+#content {z-index: 0;margin-left: 256px;}
 
 #loadbar {
   width:170px;

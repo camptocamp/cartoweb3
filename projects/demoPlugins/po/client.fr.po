@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-13 22:25+0200\n"
+"POT-Creation-Date: 2005-10-14 17:25+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "Expand tree"
-msgstr ""
+msgstr "Déplier"
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "close tree"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "Close tree"
-msgstr ""
+msgstr "Fermer"
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "check all"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "Check all"
-msgstr ""
+msgstr "Tout sélectionner"
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "uncheck all"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "Uncheck all"
-msgstr ""
+msgstr "Tout déselectionner"
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
 msgid "more info on"
@@ -86,20 +86,20 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 msgid "Id Recentering"
-msgstr ""
+msgstr "Recentrage sur un identifiant"
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on:"
-msgstr ""
+msgstr "Couche sur laquelle se recentrer"
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's:"
-msgstr ""
+msgstr "Identifiants, séparés par des virgules"
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
-msgstr ""
+msgstr "Recentrer"
 
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "X :"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
-msgstr ""
+msgstr "Echelle :"
 
 #: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "Attributes"
-msgstr ""
+msgstr "Attributs"
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "Union"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr ""
+msgstr "Requete"
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 #: projects/demoPlugins/plugins/outline/templates/outline.tpl
@@ -152,23 +152,23 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr ""
+msgstr "Effacer la requête"
 
 #: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize :"
-msgstr ""
+msgstr "Taille carte :"
 
 #: projects/demoPlugins/plugins/auth/templates/auth.tpl
 msgid "login"
-msgstr ""
+msgstr "se connecter"
 
 #: projects/demoPlugins/plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr ""
+msgstr "se déconnecter"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
-msgstr ""
+msgstr "Authentification"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
@@ -180,7 +180,7 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
-msgstr ""
+msgstr "(Pour la démonstration, utilisez : 'demo' 'demo'"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Username"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Submit"
-msgstr ""
+msgstr "Envoyer"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
-msgstr ""
+msgstr "Format et résolution (dpi)"
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
 msgid "Orientation"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/outline/templates/outline.tpl
 msgid "Change Mode"
-msgstr ""
+msgstr "Changer de mode"
 
 #: projects/demoPlugins/plugins/outline/templates/outline.tpl
 msgid "Total area"
@@ -280,31 +280,32 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/outline/templates/outline.tpl
 msgid "Clear outline"
-msgstr ""
+msgstr "Effacer le tracé"
 
 #: projects/demoPlugins/plugins/search/templates/search.tpl
 msgid "Search service"
-msgstr ""
+msgstr "Rechercher un service"
 
 #: projects/demoPlugins/plugins/search/templates/search.tpl
 msgid "Recherche"
-msgstr ""
+msgstr "Recherche"
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
-msgstr ""
+msgstr "Vers le haut"
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Downside"
-msgstr ""
+msgstr "Vers le bas"
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Transparency"
-msgstr ""
+msgstr "Transparence"
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Refresh"
-msgstr ""
+msgstr "Rafraichir"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
@@ -321,19 +322,19 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "welcome"
-msgstr ""
+msgstr "Bienvenue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "reset session"
-msgstr ""
+msgstr "réinitialiser"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Reset session"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
-msgstr ""
+msgstr "Coordonnées (m) :"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Distance approx.: "
@@ -349,11 +350,11 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Query result"
-msgstr ""
+msgstr "Résultats"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Query Clear"
-msgstr ""
+msgstr "Effacer la requête"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid " Developer messages "
@@ -361,15 +362,15 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "User messages"
-msgstr ""
+msgstr "Messages utilisateur"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Outline"
-msgstr ""
+msgstr "Dessin"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Help Viewer"
-msgstr ""
+msgstr "Aide"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Themes"
@@ -381,7 +382,7 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder"
-msgstr ""
+msgstr "Ordre des couches"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -389,10 +390,13 @@ msgid ""
 "Cartoweb since the 3.1 version. To get the most out of it, read through this "
 "Help guide before starting to explore."
 msgstr ""
+"Cette démo est un aperçu des nouvelles fonctionnalités, disponibles dans "
+"Cartoweb depuis la version 3.1. Pour pouvoir l'utiliser pleinement, lisez "
+"cette aide avant de commencer."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Views tab"
-msgstr ""
+msgstr "Onglet vues"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -402,24 +406,33 @@ msgid ""
 "layers, queries, annotations, etc.) under a label of your choice. \n"
 "    It is then possible to access later those saved states."
 msgstr ""
+"Les vues sont des enregistrements des cartes de Cartoweb, faits à un moment "
+"donné. \n"
+"Il faut les imaginer comme des marques-pages : pendant que vous construisez "
+"vos cartes dans l'interface de Cartoweb, vous pouvez sauvegarder l'état "
+"courant (l'extension géographique, les couches sélectionnées, les requêtes, "
+"les annotations, etc.) sous un intitulé de votre choix. \n"
+"Vous pourrez y revenir plus tard."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "pet"
-msgstr ""
+msgstr "puce"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Load a view"
-msgstr ""
+msgstr "Charger une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "any defined view may be loaded. Loading a view may be achieved selecting it "
 "among a dropdown views list."
 msgstr ""
+"toutes les vues peuvent être chargées. Pour cela, il suffit de sélectionner "
+"la vue désirée dans la liste déroulante."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Save a view"
-msgstr ""
+msgstr "Sauvegarder une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -431,20 +444,29 @@ msgid ""
 "    You may also save a new view using an existing view. To do so, load the "
 "desired view, modify it and push the \"Save as new view\" button."
 msgstr ""
+" pour sauvegarder une carte sous une vue, remplissez simplement les champs "
+"avec les renseignements que vous voulez lui donner. \n"
+" Pour rendre la carte \"visible\" aux autres utilisateurs, cochez l'option "
+"\"Montrer la vue\"Cliquez enfin sur le bouton \"Enregistrer\".\n"
+"Vous pouvez aussi enregistrer une nouvelle vue en utilisant une vue déjà "
+"existante. Pour cela, charger la vue que vous voulez, modifiez la et cliquez "
+"sur le bouton \"Enregistrer la vue\"."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Delete a view"
-msgstr ""
+msgstr "Supprimer une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "load the view you want to delete and push the \"Delete\" button. A "
 "confirmation message pops before irreversible deletion."
 msgstr ""
+"charger la vue que vous voulez effacer et cliquez sur le bouton \"Effacer\". "
+"Unmessage de confirmation apparaitra avant l'effacement."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Update a view"
-msgstr ""
+msgstr "Mettre à jour une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -457,10 +479,20 @@ msgid ""
 "changes (pans, zooms, annotations, layers selections, etc.). Eventually push "
 "the \"Update\" button."
 msgstr ""
+"pour modifier aussi bien les propriétés de la carte d'une vue (couches "
+"sélectionnées, annotations, extension géographique, etc.) que les "
+"métadonnées de cette vue (titre, \"visibilité\", etc.), charger la.\n"
+"Si vos changements concernent seulement les métadonnées, mettez à jour les "
+"champs voulus et cliquez sur le bouton \"Mettre à jour\".\n"
+"Pour mettre à jour les propriétés de la carte avec l'état courant, "
+"sélectionner l'option \"Mémoriser l'état courant\".Les métadonnées et "
+"l'identifiant de vue sélectionné seront  mémorisés quand vous optimiserez "
+"vos changements(déplacement, zooms, annotations, couches sélectionnées, "
+"etc.). Cliquez éventuellement sur le bouton \"Mettre à jour\"."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder tab"
-msgstr ""
+msgstr "Onglet Ordre des couches"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -468,24 +500,29 @@ msgid ""
 "smallest on top, and/or even with well used transparent properties. \n"
 "    This tab allows you to :"
 msgstr ""
+" Pour améliorer le rendu de votre carte, vous pouvez mettre les objets "
+"volumineux en bas de l'arbre des couches et les plus petits en haut, et/ou "
+"jouer avec les propriétés de transparence. \n"
+"Cet onglet vous permet de :"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 " reorder layers on the displayed stack to improve visibility of one layer, "
 "and/or"
 msgstr ""
+" réagencer les couches pour améliorer la visibilité d'une couche, et/ou"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid " add a transparency value on each layer displayed."
-msgstr ""
+msgstr " ajouter a valeur de transparence pour chaque couche affichée."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "
-msgstr ""
+msgstr "Pour plus d'information, vous pouvez aller voir la"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Cartoweb Documentation"
-msgstr ""
+msgstr "documentation de Cartoweb"
 
 #: projects/demoPlugins/templates/mainmap.tpl
 msgid "Loading message"
@@ -497,17 +534,17 @@ msgstr ""
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "full_extent"
-msgstr ""
+msgstr "carte générale"
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "help"
-msgstr ""
+msgstr "aide"
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
-msgstr ""
+msgstr "%s resultats"

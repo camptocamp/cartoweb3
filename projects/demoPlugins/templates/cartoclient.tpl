@@ -270,7 +270,7 @@
       <br />
       {$layers}
       <center>
-      <input type="submit" name="refresh" value="refresh" class="form_button" />
+      <input type="submit" name="refresh" value="{t}Refresh{/t}" class="form_button" />
       </center>
     </div>
     <!-- end of folder 1 -->
@@ -342,8 +342,8 @@
     </table>
     <p class="help_viewer">
     {t} You can well designed your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
-    This tab allows you to :{/t}
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}
+    This tab allows you to :{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
     </p><br />
     <hr />
