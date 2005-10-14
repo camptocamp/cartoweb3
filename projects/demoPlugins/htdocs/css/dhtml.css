@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+}
+
+#mapBorder {
+  border: 1px solid #555555;
+  padding: 0px;
+}
+
+#map {
+  background-color: #EFEFEF; /* background o the map (color shown when panning) */
+}
+
+#map .dhtml_element_off {
+  position: absolute;
+}
+
+#map .dhtml_element_selected {
+  position: absolute;
+}
+
+#map .layer{
+  position: absolute;
+}
+
+#map .vertex_off {
+  position: absolute;
+  overflow: hidden;
+  width: 8px; /* must be set in pixels */
+  height: 8px; /* must be set in pixels */
+  padding: 0;
+  margin: 0;
+  background-color: #FF5500;
+  cursor: pointer;
+
+}
+#map .vertex_selected {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+  background-color: yellow;
+  cursor: pointer;
+  /* no size given here */
+}
+
+#map .linepoint_off {
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: orange;
+  cursor: pointer;
+}
+#map .linepoint_selected {
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: red;
+}
+#map .polygonfill_off {
+  position: absolute;
+  background-color:yellow;
+  filter:alpha(opacity=60);
+  -moz-opacity:0.6;
+  opacity: 0.6;
+  cursor: pointer;
+}
+#map .polygonfill_selected {
+  position: absolute;
+  background-color:orange;
+  filter:alpha(opacity=60);
+  -moz-opacity:0.6;
+  opacity: 0.6;
+}
+#map .box_off {
+  position: absolute;
+  overflow: hidden;
+  width: 2px;
+  height: 2px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid orange;
+}
+#map .boxfill_off {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color:yellow;
+  filter:alpha(opacity=60);
+  -moz-opacity:0.6;
+  opacity: 0.6;
+  cursor: pointer;
+}

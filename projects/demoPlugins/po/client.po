@@ -1,0 +1,513 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-10-13 22:25+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr ""
+
+#: exportPdf.ini:formats.A3full.label
+msgid "A3full"
+msgstr ""
+
+#: images.ini:mapSizes.0.label
+msgid "430x300"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "620x420"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "860x600"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "1240x840"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Expand tree"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Close tree"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Check all"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Uncheck all"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
+msgid "Id Recentering"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on:"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's:"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "X :"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "Y:"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Union"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Xor"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Inter"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Format and Resolution (dpi)"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Orientation"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Portrait"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Landscape"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Title"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Print"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Mode"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Change Mode"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Km"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr ""
+
+#: projects/demoPlugins/plugins/search/templates/search.tpl
+msgid "Search service"
+msgstr ""
+
+#: projects/demoPlugins/plugins/search/templates/search.tpl
+msgid "Recherche"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Transparency"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "CartoWeb3 - Demonstration"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "Collapse keymap"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "welcome"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "reset session"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Reset session"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Coordonnees (m):"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Distance approx.: "
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Surface approx. : "
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Query result"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Query Clear"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "User messages"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Outline"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Help Viewer"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Themes"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"This demo is an overview of the new functionalities that are available in "
+"Cartoweb since the 3.1 version. To get the most out of it, read through this "
+"Help guide before starting to explore."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views tab"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"Views are recordings of CartoWeb maps states at a given moment. \n"
+"    One may see them as a kind of bookmarks : while browsing maps in "
+"CartoWeb interface, you can save the current state (map extent, selected "
+"layers, queries, annotations, etc.) under a label of your choice. \n"
+"    It is then possible to access later those saved states."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "pet"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Load a view"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"any defined view may be loaded. Loading a view may be achieved selecting it "
+"among a dropdown views list."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Save a view"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+" to save the current map state as a view, simply fill in the form fields "
+"with matching metadata. \n"
+"    To make the view \"visible\" to others users, check the \"Show view\" "
+"option. \n"
+"    Finally push the \"save\" button.\n"
+"    You may also save a new view using an existing view. To do so, load the "
+"desired view, modify it and push the \"Save as new view\" button."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Delete a view"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"load the view you want to delete and push the \"Delete\" button. A "
+"confirmation message pops before irreversible deletion."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Update a view"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"to modify a view map properties (selected layers, annotations, map extent, "
+"etc.) as well as its metadata (title, \"visibility\", etc.), load it.\n"
+"    If your changes only concern metadata, simply update the dedicated form "
+"fields and push the \"Update\" button.\n"
+"    To update the view map properties, check the \"Memorize form\" option. "
+"Metadata and selected view ID are then memorized while you perform your "
+"changes (pans, zooms, annotations, layers selections, etc.). Eventually push "
+"the \"Update\" button."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Layers reorder tab"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+" You can well designed your map with largest features layers on bottom and "
+"smallest on top, and/or even with well used transparent properties. \n"
+"    This tab allows you to :"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+" reorder layers on the displayed stack to improve visibility of one layer, "
+"and/or"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid " add a transparency value on each layer displayed."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "For more information, you can have a look to the "
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Cartoweb Documentation"
+msgstr ""
+
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "Loading message"
+msgstr ""
+
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr ""
+
+#: projects/demoPlugins/templates/toolbar.tpl
+msgid "full_extent"
+msgstr ""
+
+#: projects/demoPlugins/templates/toolbar.tpl
+msgid "Help"
+msgstr ""
+
+#: projects/demoPlugins/templates/toolbar.tpl
+msgid "help"
+msgstr ""
+
+#: plugins/search/client/ClientSearch.php:268
+#, php-format
+msgid "%s results"
+msgstr ""
