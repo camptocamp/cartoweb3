@@ -318,5 +318,29 @@ class PluginManager {
         }
         return NULL;        
     }
+    
+    /**
+     * Returns current plugin objet
+     *
+     * Plugin name is found using URL.
+     * @return PluginBase
+     * @deprecated This method is deprecated and should not be used any more.
+     *   See the corresponding page on how to update your plugin.
+     */
+    public function getCurrentPlugin() {
+        
+        if (preg_match('#^(.*)(\/?)([a-z0-9_-]*)(\/?)([a-z0-9_-]*).php$#iU', 
+                       $_SERVER['PHP_SELF'],
+                       $match)) {
+            $plugin = $match[3];
+        } else {
+            $plugin = false;
+        }
+
+        if (!$plugin)
+            throw new CartocommonException('Failed to get current plugin id');
+
+        return $this->getPlugin($plugin);
+    }
 }
 ?>
