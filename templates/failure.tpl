@@ -14,6 +14,11 @@ html {
   top: 0em;
   right: 2em;
 }
+.back {
+  position: absolute;
+  top:2em;
+  right: 2em;
+}
 {/literal}
 </style>
 </head>
@@ -26,9 +31,13 @@ class:   {$exception_class}
 message:   {$failure_message}
 </pre>
 
-<div class="hint">
-Hint: you should customize this template in your project
-</div>
+<p class="back">
+<a href="{$selfUrl}?reset_session">Back to initial map</a>.
+</p>
+
+<p class="hint">
+Hint: you should customize this template in your project.
+</p>
 
 </body>
 </html>
