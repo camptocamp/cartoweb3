@@ -122,14 +122,14 @@ boost_dijkstra(edge_t *edges, unsigned int count, int source_vertex_id, int targ
 
     if (source_vertex < 0 || source_vertex >= num_nodes) 
     {
-        *err_msg = "Starting vertex not found";
+        *err_msg = "Source vertex not found";
         return -1;
     }
 
     vertex_descriptor target_vertex = vertex(target_vertex_id, graph);
     if (target_vertex < 0 || target_vertex >= num_nodes)
     {
-        *err_msg = "Ending vertex not found";
+        *err_msg = "Target vertex not found";
         return -1;
     }
 
