@@ -95,16 +95,23 @@ class DhtmlSelectionParser {
     }
     
     /**
-     * Parses pixel data and converts it to Point
-     * @param string serialized pixel coordinates
+     * Parses coord data and converts it to Point
+     * @param string serialized coordinates
      * @param Dimension image size
      * @param Bbox current bbox in geographical coordinates
      * @return Point point in geographical coordinates
      */
-    private function pixelToPoint($pixel_coord) {
+    private function coordToPoint($coord, 
+            Dimension $imageSize, Bbox $bbox) {
         
-        list($x, $y) = explode(',', $pixel_coord);        
-        return new Point($x, $y);
+        list($x, $y) = explode(',', $coord);        
+        $point = new Point($x, $y);
+        if ($this->cartoclient->getConfig()->noDhtml) {
+            // if no DHTML, assumed that coords given in pixels
+            return PixelCoordsConverter::point2Coords($point, $imageSize, $bbox);
+        }
+        else
+            return $point;
     }
     
     /**
@@ -120,7 +127,7 @@ class DhtmlSelectionParser {
         $coords = explode(';', $selection_coords);
         $points = array();
         foreach($coords as $coord) {
-            $point = self::pixelToPoint($coord);     
+            $point = self::coordToPoint($coord, $imageSize, $bbox);     
             $points[] = $point;
         }        
         return $points; 
