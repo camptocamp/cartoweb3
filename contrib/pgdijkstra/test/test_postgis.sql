@@ -29,7 +29,6 @@ SELECT * FROM shortest_path('SELECT id, source, target, cost FROM graph2_edges',
 SELECT gid, asText(the_geom) FROM shortest_path_as_geometry('graph2', 1, 10);
 
 SELECT add_vertices_geometry('graph2');
-SELECT add_vertices_geometry('graph2');
 
 SELECT *, asText(the_geom) FROM graph2_vertices;
 
