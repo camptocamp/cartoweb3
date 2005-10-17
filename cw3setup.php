@@ -37,9 +37,9 @@ define('CW3_SETUP_REVISION', '$Revision$');
 define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
 
-// URL of required libraries:
+// URL of required libraries (md5sum: 2bdb50d860bea9d457bca96b6fb18518):
 define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb-includes-3.1.0.tar.gz');
-// URL of demo data
+// URL of demo data (md5sum: 367a141f4dce6c095a089754b25c0314):
 define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz');
 
 // Directories to create from cw3 root:
