@@ -89,6 +89,18 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   margin:5px;
 }
 
+.form_button_hilight {
+  font-family:Arial,Helvetica,sans-serif;
+  height:20px;
+  border:1px solid #fff;
+  border-bottom-color: #aaa;
+  border-right-color: #aaa;
+  background-color:#eee;
+  color:red;
+  font-size:0.9em;
+  margin:5px;
+}
+
 .select {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
