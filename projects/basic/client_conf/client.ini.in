@@ -1,3 +1,7 @@
 ;@BLURB@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
+
+mapId = test_main.test
+
+noDhtml = true;
