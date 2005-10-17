@@ -35,7 +35,8 @@ class ClientDemoRouting extends ClientRouting {
     }
     
     public function listeVilles (){
-        $sql = "SELECT txt, geom_id FROM graph2_vertices WHERE txt != '' ORDER BY txt";
+        // FIXME: table name should be in config
+        $sql = "SELECT txt, geom_id FROM roads_europe_vertices WHERE txt != '' ORDER BY txt";
         $this->getDb();
         $res = $this->db->query($sql);
         
