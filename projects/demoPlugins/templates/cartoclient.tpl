@@ -270,7 +270,7 @@
       <br />
       {$layers}
       <center>
-      <input type="submit" name="refresh" value="{t}Refresh{/t}" class="form_button" />
+      <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
       </center>
     </div>
     <!-- end of folder 1 -->
