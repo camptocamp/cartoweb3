@@ -587,7 +587,7 @@ class ClientLayers extends ClientPlugin
          * <FIXME> little hack 
          * Small hack which makes it possible to call setSwitch 
          * from initialize().  In reality the bug seems to come from a difference 
-         * in behavior between createSession and loaSession !!!
+         * in behavior between createSession and loadSession !!!
          */
         if (!isset($this->layersState)) {
             $this->layersState = $this->getNewSessionObject();
