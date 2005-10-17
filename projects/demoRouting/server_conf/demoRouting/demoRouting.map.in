@@ -504,7 +504,7 @@ MAP
     TYPE LINE
     TRANSPARENCY 80
     CONNECTIONTYPE postgis
-        CONNECTION "user=www-data host=localhost dbname=Itineraire"
+        CONNECTION "user=@DB_USER@ host=@DB_HOST@ dbname=@DB_NAME@"
         #DATA "the_geom from routing_results"
         DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique gid using srid=-1"
     TEMPLATE "t"
