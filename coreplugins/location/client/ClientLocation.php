@@ -549,8 +549,15 @@ class ClientLocation extends ClientPlugin
         $this->log->debug('creating session:');
 
         $this->locationState = new LocationState();
-        //x($mapInfo);
         $this->locationState->bbox = $initialMapState->location->bbox;
+    }
+
+    /**
+     * Returns shortcuts
+     * @return array array of LocationShortcut
+     */
+    public function getShortcuts() {
+        return $this->shortcuts;
     }
 
     /**
