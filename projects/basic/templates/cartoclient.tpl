@@ -114,6 +114,11 @@
         {/if}
             </td>
           </tr>
+          {if $exportPdf|default:''}
+          <tr><td>
+            {$exportPdf}
+          </td></tr>
+          {/if}
           <tr>
             <td>
               <div id="keymap">
