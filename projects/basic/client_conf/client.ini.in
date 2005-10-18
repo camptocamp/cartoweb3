@@ -5,3 +5,5 @@ profile = @PROFILE@
 mapId = test_main.test
 
 noDhtml = true;
+
+loadPlugins = outline;
