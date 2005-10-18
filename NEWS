@@ -1,3 +1,31 @@
+2005-10-19: CartoWeb 3.1.0
+==========================
+
+- Refunded DHTML map interface as a convenient object-oriented API.
+- Added JavaScript constraints for polygons: maximum number of points, no crossing.
+- Added new improved tabs interface.
+- Added support of styles with shapes and labels in outline plugin.
+- Added new profile parameter for quick development/production switch.
+- Added possibility to separate toolbar icons in several groups dispatched wherever in the interface layout.
+- Improved PDF export plugin:
+    o Support for multiline text blocks ;
+    o Support for external data source (files, databases) for text blocks ;
+    o Debugged overview extent ;
+    o Customizable overview outline colors ;
+    o Overview can use viewer keymap.
+- Refunded installation script. Added Windows installation wizard (.exe installer).
+- Added views plugin.
+- Added routing plugin.
+- Added layers reordering plugin.
+- Added raw-image output switch.
+- Renamed class Serializable to CwSerializable (for PHP 5.0.4+ compatibility).
+- Added possibility to create output-format specific tables rules (eg. only for PDF, only for HTML, only for CSV...).
+- Switched most private plugins methods and members to "protected" in order to facilitate plugin extension.
+- Added support for dynamic mapfiles (generation using PHP templates) and multiple mapfiles switching.
+- Added support for dynamic changes on layers tree (aka "layers children switching").
+- Moved I18n PO files to projects directories.
+- Optimized export plugins (HTML, CSV, PDF, etc.) that now uses the main CartoWeb page (separated export.php pages are deprecated).
+
 2005-03-30: CartoWeb 3.0.0
 ==========================
 
