@@ -1,15 +1,10 @@
-# Makefile for CartoWeb maintenance and installation
+# Deprecated Makefile for CartoWeb maintenance and installation
 #
-# Please note that tasks there can be done with the Php installation script
-# Thus, this file is not needed for installing and running CartoWeb.
+# Targets here should be migrated into cw3setup.php, and this file will
+#  disappear once everything is converted.
 
 all:
 	:
-
-prepare_prod:
-	rm htdocs/info.php
-	rm htdocs/runtests.php
-	#rm r.php
 
 delete_server:
 	rm -r server
