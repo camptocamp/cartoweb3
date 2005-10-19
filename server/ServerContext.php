@@ -462,8 +462,8 @@ class ServerContext {
         if (!is_null($this->pluginManager))
             return; /* already loaded */
             
-        $this->pluginManager = new PluginManager(CARTOWEB_HOME, 
-                             PluginManager::SERVER, $this->projectHandler);
+        $this->pluginManager = new PluginManager(PluginManager::SERVER,
+                                                 $this->projectHandler);
         $corePluginNames = $this->getCorePluginNames();
 
         $this->pluginManager->loadPlugins($corePluginNames, $this);

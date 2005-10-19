@@ -540,8 +540,8 @@ class Cartoclient {
      */
     private function initializePlugins() {
 
-        $this->pluginManager = new PluginManager(CARTOWEB_HOME, 
-                                PluginManager::CLIENT, $this->projectHandler);
+        $this->pluginManager = new PluginManager(PluginManager::CLIENT, 
+                                                 $this->projectHandler);
 
         $corePluginNames = $this->getCorePluginNames();
 

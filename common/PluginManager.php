@@ -42,11 +42,6 @@ class PluginManager {
     private $plugins = array();
     
     private $helpers = array();
-    
-    /**
-     * @var string
-     */
-    private $rootPath;
 
     /**
      * @var int
@@ -64,10 +59,9 @@ class PluginManager {
      * Constructor
      * @param ProjectHandler
      */
-    public function __construct($rootPath, $kind, $projectHandler) {
+    public function __construct($kind, $projectHandler) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         
-        $this->rootPath = $rootPath;
         $this->kind = $kind;
         $this->projectHandler = $projectHandler;
     }
@@ -95,7 +89,7 @@ class PluginManager {
      * @return string
      */
     private function getBasePluginPath($relativePath, $name) {
-        return $this->rootPath . $relativePath . $name . '/';
+        return CARTOWEB_HOME . $relativePath . $name . '/';
     }
 
     /**
@@ -110,7 +104,7 @@ class PluginManager {
         
         $lastPath = $this->kind == self::CLIENT ? 
             'client/' : 'server/';
-        return $this->rootPath .
+        return CARTOWEB_HOME .
             $this->projectHandler->getPath($relativePath .
                 $name . '/' . $lastPath . $this->getClassName($name) . '.php');
     }
@@ -125,7 +119,7 @@ class PluginManager {
      */
     private function getCommonPath($relativePath, $name) {
         
-        return $this->rootPath .
+        return CARTOWEB_HOME .
             $this->projectHandler->getPath($relativePath .
                 $name . '/' . 'common/' . ucfirst($name) . '.php');
     }
