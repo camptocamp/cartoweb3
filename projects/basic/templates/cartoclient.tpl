@@ -114,7 +114,7 @@
           {/if}
           <tr>
             <td align="center">
-                <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" width="{$keymap_width}" height="{$keymap_height}" />
+                <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" />
               {if $exporthtml_active|default:''}
                 <p><a href="{$exporthtml_url}" target="print">{t}Print{/t}</a></p>
               {/if}
