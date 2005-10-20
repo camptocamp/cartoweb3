@@ -217,8 +217,9 @@ abstract class CwSerializable {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            throw new CartocommonException('unserializing non existant class' .
-                                           " \"$type\"");
+            // Class does not exist: 
+            // This can be the case when matching client plugin is not active.
+            return null;
         }        
         $obj = new $type;
      
