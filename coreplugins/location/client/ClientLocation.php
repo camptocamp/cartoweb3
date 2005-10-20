@@ -495,7 +495,7 @@ class ClientLocation extends ClientPlugin
                 addMessage('Parameter recenter_bbox should be 4 values ' .
                            'separated by commas');
             return NULL;
-            }
+        }
         list($minx, $miny, $maxx, $maxy) = $values;
 
         if ($check) {
@@ -600,16 +600,15 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
         
-        $cartoclient = $this->cartoclient;
-        $this->locationRequest = $cartoclient->getHttpRequestHandler()
-                                    ->handleTools($this);  
+        $this->locationRequest = $this->cartoclient->getHttpRequestHandler()
+                                                   ->handleTools($this);  
     }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
-
+        
         $this->locationRequest = $this->handleBboxRecenter($request, true);
         if (!is_null($this->locationRequest))
             return;
