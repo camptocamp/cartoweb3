@@ -4,29 +4,22 @@
 
 <head>
   <title>{t}Cartoclient Title{/t}</title>
-  
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
-  <meta name="author" content="Sylvain Pasche" />
-  <meta name="email" content="sylvain dot pasche at camptocamp dot com" />
+  <style type="text/css">
+   {literal}
+   body, html {font-family:verdana, arial, sans-serif; font-size:small;}
+   a {text-decoration: none;color:#5C74BB;}
+   a:hover {text-decoration: underline;color:#D0670A;}
+   .box {border:1px solid #add8e6;}
+   {/literal}
+  </style>
   
-  <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
-  {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
-  <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
-
-  <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
-  {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
-  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
-
-  {include file="dhtmlcode.tpl"}
 </head>
 
-<body>
+<body bgcolor="#ffffff" text="#000000">
 <form method="post" action="{$selfUrl}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
-  <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
   <input type="hidden" name="features" />
@@ -36,16 +29,14 @@
     <tr>
       <td width="200" valign="top">
       <!-- left bar -->
-        <table style="border: 1px solid lightblue;">
+        <table class="box">
           <tr>
-            <td style="text-align:center;background-color:lightblue;"><b>{t}Themes{/t}</b>
-            </td>
+            <td align="center" bgcolor="#add8e6"><b>{t}Themes{/t}</b></td>
           </tr>
           <tr>
             <td>
-              <input type="submit" id="refresh" name="refresh" value="refresh" class="form_button" />
-              <input type="submit" name="reset_session" value="reset_session" class="form_button" 
-                onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
+              <input type="submit" id="refresh" name="refresh" value="refresh" />
+              <input type="submit" name="reset_session" value="reset_session" />
               {$switches}
               {$layers}
             </td>
@@ -56,7 +47,7 @@
       <!-- main content -->
       {include file="toolbar.tpl" group=1}
         <table>
-          <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} 1:{$currentScale}</div></td></tr>
+          <tr><td colspan="3">{t}Current scale:{/t} 1:{$currentScale}</td></tr>
           <tr>
             <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
             <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
@@ -83,17 +74,16 @@
       </td>
       <td valign="top">
       <!-- right column -->
-        <table style="border: 1px solid lightblue;">
+        <table class="box">
           <tr>
-            <td style="text-align:center;background-color:lightblue;"><b>{t}Navigation{/t}</b>
-            </td>
+            <td align="center" bgcolor="#add8e6"><b>{t}Navigation{/t}</b></td>
           </tr>
           <tr>
             <td>
         {if $locales|default:''}
           {foreach from=$locales item=locale name=lang}
           {if !$smarty.foreach.lang.first || !$smarty.foreach.lang.last}
-            {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+            {if $locale != $currentLang}<a href="{$selfUrl}?lang={$locale}">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
             {if !$smarty.foreach.lang.last}|{/if}
           {/if}
           {/foreach}
@@ -101,14 +91,17 @@
         {if $auth_active|default:''}
           {$auth}
         {/if}
-        <br />
+            </td>
+          </tr>
+          <tr>
+            <td>
         {/if}
         {if $projects_chooser_active|default:''}
         {t}Choose project{/t}
-          <select name="project" onchange="javascript:document.carto_form.posted.value=0;FormItemSelected();">
+          <select name="project" >
             {html_options values=$project_values output=$project_output 
                                         selected=$project}
-          </select><br />
+          </select>
         {else}
           <input type="hidden" name="project" value="{$project}" />
         {/if}
@@ -120,11 +113,8 @@
           </td></tr>
           {/if}
           <tr>
-            <td>
-              <div id="keymap">
-                <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
-                style="width:{$keymap_width}px;height:{$keymap_height}px;" />
-              </div>
+            <td align="center">
+                <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" width="{$keymap_width}" height="{$keymap_height}" />
               {if $exporthtml_active|default:''}
                 <p><a href="{$exporthtml_url}" target="print">{t}Print{/t}</a></p>
               {/if}
@@ -136,18 +126,16 @@
   </table>
   
   {if $user_messages|default:''}
-   <span style="color: blue;">
-   {t} User messages {/t}</span>
+   <h4>{t} User messages {/t}</h4>
    {foreach from=$user_messages item=message}
         <p>{$message}</p>
    {/foreach}   
   {/if}
 
   {if $developer_messages|default:''}
-   <span style="color: green; border: 10px; background-color: yellow;">
-   {t} Developer messages {/t}</span>
+   <h4>{t}Developer messages {/t}</h4>
    {foreach from=$developer_messages item=message}
-     <p>{$message}</p>
+   <p>{$message}</p>
    {/foreach}   
   {/if}
 
