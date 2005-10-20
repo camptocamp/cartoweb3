@@ -22,8 +22,6 @@
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="selection_type" />
   <input type="hidden" name="selection_coords" />
-  <input type="hidden" name="features" />
-  
   
   <table>
     <tr>
