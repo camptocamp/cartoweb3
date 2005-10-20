@@ -1,5 +1,4 @@
   <p>
-    {counter start=-1 print=false name=tindex}
     {foreach from=$tools item=tool}
     <label for="{$tool->id}">
       <input type="radio" name="tool" value="{$tool->id}"{if $selected_tool == $tool->id}checked="checked"{/if} id="{$tool->id}" />
