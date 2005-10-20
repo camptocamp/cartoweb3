@@ -23,7 +23,7 @@ base policy
 
  * Code should produce no notices before going to cvs. Code should pass all tests
 
- launch htdocs/runtests.php
+ launch following command line: php tests/phpunit.php AllTests
  
  * Avoid nesting blocks too deep:
  

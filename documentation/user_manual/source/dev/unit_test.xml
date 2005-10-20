@@ -335,21 +335,7 @@ class AllTests {
  <sect1 id="unit_test.running"> 
   <title>Running Tests</title>
   <para>
-    Running tests is possible in two different ways:
-        <orderedlist>
-          <listitem>
-            <para>With command line.</para>
-          </listitem>
-          <listitem>
-            <para>Through the web interface.</para>
-          </listitem>
-        </orderedlist>
-  </para>
-  
-  <sect2 id="unit_test.running.cli">
-    <title>Command Line Interface</title>
-  
-  <para>
+   Unit tests are runned using the command line interface (CLI).
    To run a test case or a test suite, type the following
    command in directory <filename>&lt;cartoweb3_root&gt;/tests</filename>:
    <screen><![CDATA[<php-bin> phpunit.php <test-class> <php-file>]]></screen>
@@ -379,25 +365,6 @@ Content-type: text/html
 X-Powered-By: PHP/5.0.1]]></screen>
    In this case, 12 tests were run with one failure.
   </para>
-  </sect2>
-  <sect2 id="unit_test.running.web">
-    <title>Web Interface</title>
-    <para>
-      The web interface for running test is available at the address
-      <uri>/runtests.php</uri> from the &cartoweb; base path. It is possible
-      to give a GET parameter named <varname>testsuite</varname>, which accepts
-      the same parameter as the command line argument described in
-      <xref linkend="unit_test.running.cli"/>.
-    </para>
-    <important>
-      <para>
-        To allow the web interface to be used, the configuration parameter
-        <varname>allowTests</varname> has to be set to <constant>true</constant>.
-        See <xref linkend="user.config.developer"/> about the configuration 
-        of these parameters.
-      </para>
-    </important>
-  </sect2>
  </sect1>
 
 </chapter>
