@@ -1153,16 +1153,16 @@ blocks.tableHeaders.color = #eeeeff]]></programlisting>
      which describes how tables must be displayed. You can also add
      table rules specificaly for the PDF output like this example : 
     </para>
-<programlisting>
-$outputType = $this->cartoclient->getOutputType();
+    <programlisting>$outputType = $this->cartoclient->getOutputType();
 
 if ($outputType == Cartoclient::OUTPUT_HTML_VIEWER) {
     /* rules for HTML output */
 }
 
-if ($outputType == Cartoclient::OUTPUT_PDF_EXPORT) {
+if ($outputType == 'pdf') {
     /* rules for PDF output */
 }</programlisting>   
+    <para><parameter>outputType</parameter> is generally the export plugin name without the "export" prefix.</para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.legend">
     <title><indexterm><primary>Legend blocks, PDF</primary></indexterm>Legend Block</title>
