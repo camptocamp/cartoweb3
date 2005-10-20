@@ -166,7 +166,7 @@ class CartoserverService {
                     }
                     $wsdlCacheDir = $this->config->writablePath . 'wsdl_cache';
                     if (is_writable($wsdlCacheDir))
-                        ini_set("soap.wsdl_cache_dir", $wsdlCacheDir);
+                        ini_set('soap.wsdl_cache_dir', $wsdlCacheDir);
     
                     $client = new SoapClient($this->getCartoserverUrl('cartoserver.wsdl.php'),
                                              $options);
@@ -180,7 +180,7 @@ class CartoserverService {
             } catch (SoapFault $fault) {
                 $fault = new SoapFaultWrapper($fault);
                 
-                if ($fault->faultstring != "looks like we got no XML document")
+                if ($fault->faultstring != 'looks like we got no XML document')
                     throw $fault;
 
                 // the rest of this handler launches the SOAP request again, 
@@ -196,7 +196,7 @@ class CartoserverService {
             }
             
             $unserializeMap = array('getMapInfo' => 'MapInfo',
-                                    'getMap' => 'MapResult');
+                                    'getMap'     => 'MapResult');
             if (array_key_exists($function, $unserializeMap)) {
                 $targetType = $unserializeMap[$function];
                 $mapResult = CwSerializable::unserializeObject($mapResult, 
