@@ -153,7 +153,7 @@ function isChildrenUnchecked(id) {
 
 function updateChecked(id,skipChildren) {
   var refresh = xGetElementById("refresh");
-  if (typeof refresh != "undefined")
+  if (refresh != null)
     refresh.className = "form_button_hilight";
 
   var obj = document.getElementById('in' + id);
