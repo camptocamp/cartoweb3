@@ -98,7 +98,7 @@ class ClientOutline extends ClientPlugin
         $this->outlineState = new OutlineState();
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
-        $this->outlinestate->labelMode = false;
+        $this->outlineState->labelMode = false;
         
         return;
     }
