@@ -261,6 +261,11 @@ class ClientExportPdf extends ExportPlugin
             $this->blocks[$id]->content = trim($request[$pdfItem]);
         }
 
+        // translation for language dependent block content (text, URL, etc.)
+        if ($this->blocks[$id]->i18n && $this->blocks[$id]->content) {
+            $this->blocks[$id]->content = I18n::gt($this->blocks[$id]->content);
+        }
+
         if ($this->blocks[$id]->type == 'text' &&
             (stristr($this->blocks[$id]->content, 'file~') ||
              stristr($this->blocks[$id]->content, 'db~'))) {
@@ -277,7 +282,7 @@ class ClientExportPdf extends ExportPlugin
                                           $this->blocks[$id]->content;
         }
 
-        elseif($this->blocks[$id]->type == 'table') {
+        elseif ($this->blocks[$id]->type == 'table') {
             if ($this->blocks[$id]->caption && 
                 !in_array($this->blocks[$id]->caption, $this->blocks)) {
                 
@@ -1002,6 +1007,17 @@ class ClientExportPdf extends ExportPlugin
             $this->blocks['scaleval']->content = sprintf('%s 1:%s',
                                                          I18n::gt('Scale'),
                                                          $scale);
+        }
+
+        if (isset($this->blocks['date'])) {
+            if (preg_match('/^(.*)\[(.*)\](.*)$/U', 
+                           $this->blocks['date']->content, $regs)) {
+                $this->blocks['date']->content = 
+                                          $regs[1] . date($regs[2]) . $regs[3];
+            } else {
+                $this->blocks['date']->content = 
+                                          date($this->blocks['date']->content);
+            }
         }
 
         $pdf->initializeDocument();

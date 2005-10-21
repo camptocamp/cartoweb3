@@ -538,6 +538,12 @@ class PdfBlock {
      * @var string
      */
     public $allowedRoles     = SecurityManager::ALL_ROLE;
+
+    /**
+     * Tells if block content must be translated.
+     * @var boolean
+     */
+    public $i18n             = false;
 }
 
 /**

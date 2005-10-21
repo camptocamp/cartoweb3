@@ -577,6 +577,11 @@ blocks.title.verticalMargin = 15]]></programlisting>
        <parameter>allowedRoles</parameter> (comma-separated list of strings): list of roles allowed to draw the current block.
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>i18n</parameter> (boolean): if true, block content is translated using &cartoweb; Gettext system ("i18n" stands for InternationalizatioN). Translated contents may be standard texts or even URLs (useful for instance to display a logo adapted to the used language).
+      </para>
+     </listitem>
     </itemizedlist>
    </para>
    <para>
@@ -755,6 +760,11 @@ blocks.title.verticalMargin = 15]]></programlisting>
      <listitem>
       <para>
        allowedRoles: all
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       i18n: false
       </para>
      </listitem>
     </itemizedlist>
@@ -1076,6 +1086,24 @@ blocks.myText.content = "db~pgsql://user:password@localhost/dbname~select name,
       </listitem>
      </itemizedlist>
     </para>
+    <para>
+     <tip>
+      <para>It is possible to make some text blocks have their contents translated by setting their <parameter>i18n</parameter> parameter to <parameter>true</parameter>. For instance:</para>
+      <programlisting>blocks.myTextBlock.content = "This text will be translated."
+blocks.myTextBlock.i18n = true</programlisting>
+      <para>Translatable blocks are &cartoweb; built-in blocks <parameter>copyright</parameter> and <parameter>date</parameter> as well as your own text blocks. Some other &cartoweb; built-in blocks such as <parameter>legend</parameter>, <parameter>scaleval</parameter>, <parameter>page</parameter> or query results table blocks are translated anyway.</para>
+      <para>Note that you will have to explicitly add those entries to your Gettext PO files since there is no way for script <filename>client2pot.php</filename> to automatically detect them!</para>
+     </tip>
+     <tip>
+      <para>The <parameter>date</parameter> text block is fully customizable. You may specify the date format using PHP date formatting (<ulink url="http://php.net/date">http://php.net/date</ulink>). Both configurations are correct:</para>
+      <programlisting>; use [] to add the date string in complete sentence:
+blocks.date.content = "Generated on [Y/m/d H:i] by CartoWeb3"
+
+; or if the date string is alone:
+blocks.date.content = "Y/m/d H:i"</programlisting>
+      <para>If you want to have the date block translated, set its <parameter>i18n</parameter> parameter to <parameter>true</parameter> and add the translated version (including date format) to your PO files.</para>
+     </tip>
+    </para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.image">
     <title><indexterm><primary>Image blocks, PDF</primary></indexterm>Image Blocks</title>
@@ -1098,6 +1126,11 @@ blocks.logo.horizontalBasis = right
 blocks.logo.inFlow = false
 blocks.logo.horizontalMargin = 5
 blocks.logo.verticalMargin = 5]]></programlisting>
+    <para>
+     <tip>
+      <para>If you want to switch the image file depending on the used language, set the block <parameter>i18n</parameter> parameter to <parameter>true</parameter> and add languages matching URLs/filepathes to your PO files.</para>
+     </tip>
+    </para>
    </sect3>
    <sect3 id="user.pdf.tutorial.block.table">
     <title><indexterm><primary>Table blocks, PDF</primary></indexterm>Table Blocks</title>

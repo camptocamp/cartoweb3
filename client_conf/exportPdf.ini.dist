@@ -7,7 +7,7 @@ general.overviewScaleFactor = 10
 general.overviewColor = none
 general.overviewOutlineColor = red
 general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, legend, scaleval, tlcoords, brcoords, logo
+general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, date, legend, scaleval, tlcoords, brcoords, logo
 
 general.pdfEngine = CwFpdf
 general.pdfVersion = 1.3
@@ -49,6 +49,7 @@ template.zIndex = 1
 template.textAlign = center
 template.verticalAlign = center
 template.orientation = horizontal
+template.i18n = false
 
 ; blocks settings
 blocks.title.zIndex = 2
@@ -81,9 +82,10 @@ blocks.scalebar.verticalMargin = 10
 
 blocks.note.zIndex = 3
 blocks.note.weight = 30
-blocks.note.height = 8
+blocks.note.height = 6
 blocks.note.hCentered = true
-blocks.note.verticalBasis = bottom
+blocks.note.verticalBasis = top
+blocks.note.borderWidth = 0
 blocks.note.borderWidth = 0
 blocks.note.multiPage = true
 
@@ -131,6 +133,18 @@ blocks.page.verticalMargin = 3
 blocks.page.padding = 0
 blocks.page.height = 6
 blocks.page.zIndex = 6
+
+;blocks.date.content = "Generated on [Y/m/d H:i] by CartoWeb3"
+blocks.date.content = "Y/m/d H:i"
+blocks.date.i18n = true
+blocks.date.multiPage = true
+blocks.date.borderWidth = 0
+blocks.date.verticalBasis = bottom
+blocks.date.verticalMargin = 3
+blocks.date.hCentered = true
+blocks.date.padding = 0
+blocks.date.height = 6
+blocks.date.zIndex = 7
 
 blocks.logo.type = image
 blocks.logo.content = "htdocs/gfx/layout/c2c.png"
