@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-21 11:23+0200\n"
+"POT-Creation-Date: 2005-10-23 19:09+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -299,26 +299,6 @@ msgstr ""
 msgid "Clear outline"
 msgstr "Effacer le tracé"
 
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Search service"
-msgstr "Rechercher un service"
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Recherche"
-msgstr "Recherche"
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Search by ..."
-msgstr "Recherche par ..."
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Enter a name"
-msgstr "Entrer un nom"
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Select an option"
-msgstr "Choisissez une option"
-
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
@@ -556,7 +536,20 @@ msgstr "Aide"
 msgid "help"
 msgstr "aide"
 
-#: plugins/search/client/ClientSearch.php:268
-#, php-format
-msgid "%s results"
-msgstr "%s resultats"
+#~ msgid "Search service"
+#~ msgstr "Rechercher un service"
+
+#~ msgid "Recherche"
+#~ msgstr "Recherche"
+
+#~ msgid "Search by ..."
+#~ msgstr "Recherche par ..."
+
+#~ msgid "Enter a name"
+#~ msgstr "Entrer un nom"
+
+#~ msgid "Select an option"
+#~ msgstr "Choisissez une option"
+
+#~ msgid "%s results"
+#~ msgstr "%s resultats"

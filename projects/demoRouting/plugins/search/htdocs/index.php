@@ -3,10 +3,8 @@
  * @version $Id$
  */
 
-echo realpath(dirname(__FILE__));
-echo 'toto';
 if (!defined('CARTOCLIENT_HOME'))
-    define('CARTOCLIENT_HOME', realpath(dirname(__FILE__)) . '/cartoweb3/');
+    define('CARTOCLIENT_HOME', realpath(dirname(__FILE__)) . '/../../../../../..' . '/cartoweb3/');
     
 
 if (!defined('CARTOCOMMON_HOME'))

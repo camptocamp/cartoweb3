@@ -3,9 +3,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-21 11:23+0200\n"
+"POT-Creation-Date: 2005-10-23 19:09+0200\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: exportPdf.ini:formats.A4.label
@@ -102,6 +102,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
 msgstr ""
 
@@ -166,6 +167,7 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
 msgstr ""
@@ -259,9 +261,11 @@ msgid "Print"
 msgstr ""
 
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
 msgstr ""
 
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 #: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
 msgid "Downside"
 msgstr ""
@@ -299,26 +303,7 @@ msgstr ""
 msgid "Clear outline"
 msgstr ""
 
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Search service"
-msgstr ""
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Recherche"
-msgstr ""
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Search by ..."
-msgstr ""
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Enter a name"
-msgstr ""
-
-#: projects/demoPlugins/plugins/search/templates/search.tpl
-msgid "Select an option"
-msgstr ""
-
+#: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
@@ -397,25 +382,23 @@ msgid "Layers reorder"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-"This demo is an overview of the new functionalities that are available in "
-"Cartoweb since the 3.1 version. To get the most out of it, read through this "
-"Help guide before starting to explore."
+msgid "This demo is an overview of the new functionalities that are available in Cartoweb since the 3.1 version. To get the most out of it, read through this Help guide before starting to explore."
 msgstr ""
 
+#: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Views tab"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-"Views are recordings of CartoWeb maps states at a given moment. \n"
-"    One may see them as a kind of bookmarks : while browsing maps in "
-"CartoWeb interface, you can save the current state (map extent, selected "
-"layers, queries, annotations, etc.) under a label of your choice. \n"
-"    It is then possible to access later those saved states."
+msgid "Views are recordings of CartoWeb maps states at a given moment. \n    One may see them as a kind of bookmarks : while browsing maps in CartoWeb interface, you can save the current state (map extent, selected layers, queries, annotations, etc.) under a label of your choice. \n    It is then possible to access later those saved states."
 msgstr ""
 
+#: projects/demoPlugins/templates/cartoclient.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "pet"
 msgstr ""
@@ -425,9 +408,7 @@ msgid "Load a view"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-"any defined view may be loaded. Loading a view may be achieved selecting it "
-"among a dropdown views list."
+msgid "any defined view may be loaded. Loading a view may be achieved selecting it among a dropdown views list."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -435,14 +416,7 @@ msgid "Save a view"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-" to save the current map state as a view, simply fill in the form fields "
-"with matching metadata. \n"
-"    To make the view \"visible\" to others users, check the \"Show view\" "
-"option. \n"
-"    Finally push the \"save\" button.\n"
-"    You may also save a new view using an existing view. To do so, load the "
-"desired view, modify it and push the \"Save as new view\" button."
+msgid " to save the current map state as a view, simply fill in the form fields with matching metadata. \n    To make the view \"visible\" to others users, check the \"Show view\" option. \n    Finally push the \"save\" button.\n    You may also save a new view using an existing view. To do so, load the desired view, modify it and push the \"Save as new view\" button."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -450,9 +424,7 @@ msgid "Delete a view"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-"load the view you want to delete and push the \"Delete\" button. A "
-"confirmation message pops before irreversible deletion."
+msgid "load the view you want to delete and push the \"Delete\" button. A confirmation message pops before irreversible deletion."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -460,32 +432,20 @@ msgid "Update a view"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-"to modify a view map properties (selected layers, annotations, map extent, "
-"etc.) as well as its metadata (title, \"visibility\", etc.), load it.\n"
-"    If your changes only concern metadata, simply update the dedicated form "
-"fields and push the \"Update\" button.\n"
-"    To update the view map properties, check the \"Memorize form\" option. "
-"Metadata and selected view ID are then memorized while you perform your "
-"changes (pans, zooms, annotations, layers selections, etc.). Eventually push "
-"the \"Update\" button."
+msgid "to modify a view map properties (selected layers, annotations, map extent, etc.) as well as its metadata (title, \"visibility\", etc.), load it.\n    If your changes only concern metadata, simply update the dedicated form fields and push the \"Update\" button.\n    To update the view map properties, check the \"Memorize form\" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the \"Update\" button."
 msgstr ""
 
+#: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder tab"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-" You can well designed your map with largest features layers on bottom and "
-"smallest on top, and/or even with well used transparent properties. \n"
-"    This tab allows you to :"
+msgid " You can well designed your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. \n    This tab allows you to :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid ""
-" reorder layers on the displayed stack to improve visibility of one layer, "
-"and/or"
+msgid " reorder layers on the displayed stack to improve visibility of one layer, and/or"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -509,6 +469,7 @@ msgid "keymap_alt"
 msgstr ""
 
 #: projects/demoPlugins/templates/toolbar.tpl
+#: projects/demoPlugins/templates/toolbar.tpl
 msgid "full_extent"
 msgstr ""
 
@@ -518,9 +479,4 @@ msgstr ""
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "help"
-msgstr ""
-
-#: plugins/search/client/ClientSearch.php:268
-#, php-format
-msgid "%s results"
 msgstr ""
