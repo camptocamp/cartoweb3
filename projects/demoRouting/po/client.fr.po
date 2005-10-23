@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-14 20:02+0200\n"
+"POT-Creation-Date: 2005-10-21 11:23+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,396 +36,396 @@ msgstr ""
 msgid "1240x840"
 msgstr ""
 
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "expand tree"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Expand tree"
-msgstr "Déplier"
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "close tree"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Close tree"
-msgstr "Fermer"
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "check all"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Check all"
-msgstr "Tout sélectionner"
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "uncheck all"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Uncheck all"
-msgstr "Tout désélectionner"
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "more info on"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Click to go to next visible scale:"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Zoom in to see layer"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/layers/templates/layers.tpl
-msgid "Zoom out to see layer"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
-msgid "Id Recentering"
-msgstr "Recentrage sur les Id"
-
-#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on:"
-msgstr "Couche sur laquelle se recentrer"
-
-#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's:"
-msgstr "Id, séparés par des virgules"
-
-#: projects/demoRouting/coreplugins/location/templates/id_recenter.tpl
-#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
-msgid "Recenter"
-msgstr "Recentrer"
-
-#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
-msgid "X :"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/location/templates/recenter.tpl
-msgid "Y:"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/location/templates/scales.tpl
-msgid "Scale :"
-msgstr "Echelle :"
-
-#: projects/demoRouting/coreplugins/location/templates/shortcuts.tpl
-msgid "Shortcuts"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Hilight"
-msgstr "Mise en évidnce"
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Attributes"
-msgstr "Attributes"
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Union"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Xor"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Inter"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "In Query"
-msgstr "Dans la requête"
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
-msgid "Mask"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "Query all selected layers"
-msgstr ""
-
-#: projects/demoRouting/coreplugins/query/templates/query.tpl
-msgid "query_clear"
-msgstr "Effacer la requête"
-
-#: projects/demoRouting/coreplugins/images/templates/mapsizes.tpl
+#: projects/demoRouting_cw3/coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize :"
 msgstr "Taille carte"
 
-#: projects/demoRouting/plugins/auth/templates/auth.tpl
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Expand tree"
+msgstr "Déplier"
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Close tree"
+msgstr "Fermer"
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Check all"
+msgstr "Tout sélectionner"
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Uncheck all"
+msgstr "Tout désélectionner"
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/id_recenter.tpl
+msgid "Id Recentering"
+msgstr "Recentrage sur les Id"
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on:"
+msgstr "Couche sur laquelle se recentrer"
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's:"
+msgstr "Id, séparés par des virgules"
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/id_recenter.tpl
+#: projects/demoRouting_cw3/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
+msgstr "Recentrer"
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/recenter.tpl
+msgid "X :"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/recenter.tpl
+msgid "Y:"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr "Echelle :"
+
+#: projects/demoRouting_cw3/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr "Mise en évidnce"
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr "Attributes"
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Union"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Xor"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Inter"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr "Dans la requête"
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr ""
+
+#: projects/demoRouting_cw3/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr "Effacer la requête"
+
+#: projects/demoRouting_cw3/plugins/auth/templates/auth.tpl
 msgid "login"
 msgstr "se connecter"
 
-#: projects/demoRouting/plugins/auth/templates/auth.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/auth.tpl
 msgid "logout"
 msgstr "se déconnecter"
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
 msgstr ""
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
 msgstr ""
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Please enter your login and password"
 msgstr ""
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
 msgstr "(pour la démo, utilisez : 'demo' 'demo')"
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Username"
 msgstr ""
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Password"
 msgstr ""
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Submit"
 msgstr "Envoyer"
 
-#: projects/demoRouting/plugins/auth/templates/login_page.tpl
+#: projects/demoRouting_cw3/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
 msgstr "Format et résolution (dpi)"
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Orientation"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Portrait"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Title"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Note"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Options"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Scalebar"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Overview"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "Legend"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "On map"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "In new page"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
 msgid "None"
 msgstr ""
 
-#: projects/demoRouting/plugins/exportPdf/templates/form.tpl
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/plugins/exportPdf/templates/form.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Print"
 msgstr ""
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Mode"
 msgstr ""
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr ""
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Change Mode"
 msgstr "Changer de mode"
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Total area"
 msgstr ""
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Km"
 msgstr ""
 
-#: projects/demoRouting/plugins/outline/templates/outline.tpl
+#: projects/demoRouting_cw3/plugins/outline/templates/outline.tpl
 msgid "Clear outline"
 msgstr "Effacer"
 
-#: projects/demoRouting/plugins/search/templates/search.tpl
+#: projects/demoRouting_cw3/plugins/routing/templates/routing.tpl
+msgid "Start"
+msgstr "Départ"
+
+#: projects/demoRouting_cw3/plugins/routing/templates/routing.tpl
+msgid "Finish"
+msgstr "Arrivée"
+
+#: projects/demoRouting_cw3/plugins/routing/templates/routing.tpl
+msgid "reset routing"
+msgstr "Réinitialiser"
+
+#: projects/demoRouting_cw3/plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: projects/demoRouting_cw3/plugins/routing/templates/routing.tpl
+msgid "OK"
+msgstr ""
+
+#: projects/demoRouting_cw3/plugins/search/templates/search.tpl
 msgid "Search service"
 msgstr "service de Recherche"
 
-#: projects/demoRouting/plugins/search/templates/search.tpl
+#: projects/demoRouting_cw3/plugins/search/templates/search.tpl
 #, fuzzy
 msgid "Search by ..."
 msgstr "Recherche par ..."
 
-#: projects/demoRouting/plugins/search/templates/search.tpl
+#: projects/demoRouting_cw3/plugins/search/templates/search.tpl
 msgid "Enter a name"
 msgstr "Entrer un nom"
 
-#: projects/demoRouting/plugins/search/templates/search.tpl
+#: projects/demoRouting_cw3/plugins/search/templates/search.tpl
 msgid "Select an option"
 msgstr "Choisissez une option"
 
-#: projects/demoRouting/plugins/routing/templates/routing.tpl
-msgid "Start"
-msgstr "Départ"
-
-#: projects/demoRouting/plugins/routing/templates/routing.tpl
-msgid "Finish"
-msgstr "Arrivée"
-
-#: projects/demoRouting/plugins/routing/templates/routing.tpl
-msgid "reset routing"
-msgstr "Réinitialiser"
-
-#: projects/demoRouting/plugins/routing/templates/routing.tpl
-msgid "Reset"
-msgstr "Réinitialiser"
-
-#: projects/demoRouting/plugins/routing/templates/routing.tpl
-msgid "OK"
-msgstr ""
-
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
-#: projects/demoRouting/templates/mainmap.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/mainmap.tpl
 msgid "Collapse keymap"
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Show keymap"
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "welcome"
 msgstr "Bienvenue"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "reset session"
 msgstr "réinitialiser"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Reset session"
 msgstr "Réinitialiser"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Distance approx.: "
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Surface approx. : "
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "barre_d'échelle_alt"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Query result"
 msgstr "Résultats de la requête"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Query Clear"
 msgstr "Effacer"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid " Developer messages "
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "User messages"
 msgstr "Messages utilisateur"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Themes"
 msgstr ""
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Search"
 msgstr "Recherche"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Outline"
 msgstr "Dessin"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "refresh"
 msgstr "Rafraichir"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "A route"
 msgstr "Un itinéraire"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "A geographic object"
 msgstr "Un objet géographique"
 
-#: projects/demoRouting/templates/cartoclient.tpl
+#: projects/demoRouting_cw3/templates/cartoclient.tpl
 msgid "Your browser does not support search services"
 msgstr "Votre navigateur ne supporte pas les services de recherche"
 
-#: projects/demoRouting/templates/mainmap.tpl
+#: projects/demoRouting_cw3/templates/mainmap.tpl
 msgid "Loading message"
 msgstr ""
 
-#: projects/demoRouting/templates/mainmap.tpl
+#: projects/demoRouting_cw3/templates/mainmap.tpl
 msgid "keymap_alt"
 msgstr "vue_generale_alt"
 
-#: projects/demoRouting/templates/toolbar.tpl
+#: projects/demoRouting_cw3/templates/toolbar.tpl
 msgid "full_extent"
 msgstr "vue_générale"
+
+#: plugins/demoRouting/client/ClientDemoRouting.php:62
+msgid "fastest"
+msgstr ""
+
+#: plugins/demoRouting/client/ClientDemoRouting.php:63
+msgid "shortest"
+msgstr ""
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
 msgstr "%s resultats"
-
-#: plugins/demoRouting/client/ClientDemoRouting.php:64
-msgid "fastest"
-msgstr ""
-
-#: plugins/demoRouting/client/ClientDemoRouting.php:65
-msgid "shortest"
-msgstr ""
