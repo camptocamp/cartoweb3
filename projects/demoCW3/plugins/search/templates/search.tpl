@@ -12,7 +12,7 @@
 
 <body>
 <fieldset style="font-size:0.9em;">
-<legend>{t}Recherche{/t}</legend>
+<legend>{t}Search{/t}</legend>
 <center>
 <form method="post" action="{$selfUrl}?project=demoCW3" name="idform">
 <input type="hidden" name="searchpost" value="1" />
