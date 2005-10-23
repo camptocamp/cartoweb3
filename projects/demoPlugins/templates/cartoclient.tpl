@@ -242,7 +242,7 @@
   </tr>
   <tr>
     <td colspan="3" align="center" class="mini">
-      Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb ***3.1***</a>
+      Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
           &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
     </td>
   </tr>
