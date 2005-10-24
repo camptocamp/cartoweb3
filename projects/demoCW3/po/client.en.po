@@ -518,19 +518,19 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_point"
-msgstr ""
+msgstr "Point"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_line"
-msgstr ""
+msgstr "Line"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_rectangle"
-msgstr ""
+msgstr "Rectangle"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_polygon"
-msgstr ""
+msgstr "Polygon"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "To draw the desired features, you might use outline tools."
@@ -697,7 +697,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomin"
-msgstr ""
+msgstr "Zoom in"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -710,7 +710,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomout"
-msgstr ""
+msgstr "Zoom out"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -722,7 +722,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "pan"
-msgstr ""
+msgstr "Pan"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -733,7 +733,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "fullextent"
-msgstr ""
+msgstr "Full extent"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -749,11 +749,11 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "distance"
-msgstr ""
+msgstr "Distance"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "area"
-msgstr ""
+msgstr "Area"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -800,7 +800,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "full_extent"
-msgstr ""
+msgstr "Full extent"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Help"
@@ -808,16 +808,38 @@ msgstr ""
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "help"
-msgstr ""
+msgstr "Help"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "print"
-msgstr ""
+msgstr "Print"
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
 msgstr ""
+
+#: toolbar
+#msgid "zoomin"
+#msgstr "Zoom in"
+
+#msgid "zoomout"
+#msgstr "Zoom out"
+
+#msgid "pan"
+#msgstr "Pan"
+
+msgid "query"
+msgstr "Query"
+
+#msgid "outline_point"
+#msgstr "Point"
+
+#msgid "outline_rectangle"
+#msgstr "Rectangle"
+
+msgid "outline_poly"
+msgstr "Polygon"
 
 #~ msgid "Recherche"
 #~ msgstr "Search"

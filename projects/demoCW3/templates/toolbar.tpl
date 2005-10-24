@@ -19,6 +19,10 @@
     <img align ="middle"
     src="{r type=gfx/layout/help}fileprint.png{/r}"
     title="{t}Print{/t}" alt="{t}print{/t}" /></a>
+  &nbsp;&nbsp;
+  <a href="javascript:resetSession();">
+    <img align ="middle" src="{r type=gfx/layout}2_recur.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+  </a>
 </div>
 &nbsp;&nbsp;
 <div style="display:none;">
@@ -31,3 +35,6 @@
   {/foreach}
 </div>
 {/strip}
+
+
+          

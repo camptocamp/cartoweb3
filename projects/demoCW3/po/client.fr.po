@@ -269,7 +269,7 @@ msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
-msgstr ""
+msgstr "Résultats de la requête"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Legend"
@@ -541,19 +541,19 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_point"
-msgstr "dessin_point"
+msgstr "Point"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_line"
-msgstr "dessin_ligne"
+msgstr "Ligne"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_rectangle"
-msgstr "dessin_rectangle"
+msgstr "Rectangle"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_polygon"
-msgstr "dessin_polygone"
+msgstr "Polygone"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "To draw the desired features, you might use outline tools."
@@ -755,7 +755,7 @@ msgstr "la liste déroulante des tailles de cartes possibles"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomin"
-msgstr "zoom arrière"
+msgstr "Zoom arrière"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -773,7 +773,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomout"
-msgstr "zoom avant"
+msgstr "Zoom avant"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -789,7 +789,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "pan"
-msgstr "déplacement"
+msgstr "Déplacement"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -900,6 +900,28 @@ msgstr "Imprimer"
 #, php-format
 msgid "%s results"
 msgstr "%s resultats"
+
+#: toolbar
+#msgid "zoomin"
+#msgstr "Zoom avant"
+
+#msgid "zoomout"
+#msgstr "Zoom arrière"
+
+#msgid "pan"
+#msgstr "déplacement"
+
+msgid "query"
+msgstr "Requête"
+
+#msgid "outline_point"
+#msgstr "Point"
+
+#msgid "outline_rectangle"
+#msgstr "Rectangle"
+
+msgid "outline_poly"
+msgstr "Polygone"
 
 #~ msgid "Query result"
 #~ msgstr "Résultats de la requete"
