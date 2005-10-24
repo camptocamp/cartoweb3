@@ -13,6 +13,10 @@
     onclick="javascript:document.carto_form.recenter_none.name='recenter_bbox';"
     src="{r type=gfx/layout}fullextent.gif{/r}"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
+  &nbsp;&nbsp;
+  <a href="javascript:resetSession();">
+    <img align ="middle" src="{r type=gfx/layout}2_recur.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+  </a>
 </span>
 &nbsp;&nbsp;
 <div style="display:none;">

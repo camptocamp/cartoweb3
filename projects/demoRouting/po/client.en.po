@@ -418,17 +418,42 @@ msgstr ""
 
 #: projects/demoRouting/templates/toolbar.tpl
 msgid "full_extent"
-msgstr ""
+msgstr "Full extent"
 
 #: plugins/demoRouting/client/ClientDemoRouting.php:62
 msgid "fastest"
-msgstr ""
+msgstr "Fastest"
 
 #: plugins/demoRouting/client/ClientDemoRouting.php:63
 msgid "shortest"
-msgstr ""
+msgstr "Shortest"
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
 msgstr ""
+
+#: toolbar
+msgid "zoomin"
+msgstr "Zoom in"
+
+msgid "zoomout"
+msgstr "Zoom out"
+
+msgid "pan"
+msgstr "Pan"
+
+msgid "query"
+msgstr "Query"
+
+msgid "outline_point"
+msgstr "Point"
+
+msgid "outline_line"
+msgstr "Line"
+
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+msgid "outline_poly"
+msgstr "Polygon"

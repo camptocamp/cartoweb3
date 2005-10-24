@@ -150,7 +150,7 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 #toolbar_row {
   padding:2px;
-  text-align:center;
+  /*text-align:center;*/
 }
 
 #toolbar {

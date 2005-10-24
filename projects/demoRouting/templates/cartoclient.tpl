@@ -73,13 +73,6 @@
   </tr>
 </table>
 </td></tr>
-<tr>
-  <td colspan="3" align="right">
-    <a href="javascript:document.carto_form.posted.value=0;FormItemSelected();document.carto_form.submit();">
-      <img src="{r type=gfx/layout}2_remove.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
-    </a>
-  </td>
-</tr>
 <tr><td>
 <!-- header ends here -->
 

@@ -36,3 +36,11 @@ function setSearchFrame(project, type) {
   ifr.style.height = '350px';
   ifr.src = project + '/search/index.php?project=' + project + '&searchname=' + type;
 }
+
+function resetSession() {
+    elm = xGetElementById('fake_reset');
+    elm.name = 'reset_session';
+    elm.value = 'reset_session';
+    document.carto_form.posted.value=0;
+    FormItemSelected();
+}

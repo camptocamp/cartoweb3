@@ -420,17 +420,42 @@ msgstr "vue_generale_alt"
 
 #: projects/demoRouting/templates/toolbar.tpl
 msgid "full_extent"
-msgstr "vue_générale"
+msgstr "Vue générale"
 
 #: plugins/demoRouting/client/ClientDemoRouting.php:62
 msgid "fastest"
-msgstr ""
+msgstr "Le plus rapide"
 
 #: plugins/demoRouting/client/ClientDemoRouting.php:63
 msgid "shortest"
-msgstr ""
+msgstr "Le plus court"
 
 #: plugins/search/client/ClientSearch.php:268
 #, php-format
 msgid "%s results"
 msgstr "%s resultats"
+
+#: toolbar
+msgid "zoomin"
+msgstr "Zoom avant"
+
+msgid "zoomout"
+msgstr "Zoom arrière"
+
+msgid "pan"
+msgstr "Déplacement"
+
+msgid "query"
+msgstr "Requête"
+
+msgid "outline_point"
+msgstr "Point"
+
+msgid "outline_line"
+msgstr "Ligne"
+
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+msgid "outline_poly"
+msgstr "Polygone"
