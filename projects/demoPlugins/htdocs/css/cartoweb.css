@@ -44,8 +44,8 @@ img {border:0;}
 
 #leftbar {
   position: absolute;
-  left: 10px;
-  top: 83px;
+  /*left: 10px;
+  top: 83px;*/
   width: 250px;
   padding:0;
   z-index: 3;
@@ -59,7 +59,7 @@ img {border:0;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;margin-left: 256px;}
+#content {z-index: 0;/*margin-left: 256px;*/}
 
 #loadbar {
   width:170px;
@@ -145,7 +145,7 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 /*end of global put in form balises*/
 
 #mapframe {
-  margin-top:10px;
+  /*margin-top:10px;*/
 }
 
 #toolbar_row {

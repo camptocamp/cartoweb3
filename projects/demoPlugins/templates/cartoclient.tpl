@@ -68,13 +68,6 @@
   </tr>
 </table>
 </td></tr>
-<tr>
-        <td colspan="3" align="right">
-          <a href="javascript:document.carto_form.posted.value=0;FormItemSelected();document.carto_form.submit();">
-            <img src="{r type=gfx/layout}2_remove.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
-          </a>
-        </td>
-      </tr>
 <tr><td>
 <!-- header ends here -->
 
@@ -94,17 +87,14 @@
   {$outlinelabel}
 {/if}
 
-
-  
+<table>
+  <tr valin="top">
+  <td id="toolbar_row" valign="top">
+  {include file="toolbar.tpl" group=1}
+  </td>
+  <td>
   <div id="content">
-  
-    <br />
     <table id="mapframe" cellpadding="0" cellspacing="0">
-      <tr>
-        <td colspan="3" id="toolbar_row">
-          {include file="../templates/toolbar.tpl" group=1}
-        </td>
-      </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
         <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
@@ -247,8 +237,10 @@
     </td>
   </tr>
 </table>
-
-  </div>
+</div>
+</td>
+<td width="250" valign="top">
+  
 
   <div id="leftbar">
     <div>
@@ -353,9 +345,12 @@
     
   </div> <!--container-->
   </div> <!--leftbar-->
-</form>
+</td></tr>  
 </table>
+</form>
+
 </td></tr>
+</table>
 
 </body>
 </html>

@@ -526,7 +526,7 @@ msgstr ""
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "full_extent"
-msgstr "carte générale"
+msgstr "Vue générale"
 
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "Help"
@@ -535,6 +535,31 @@ msgstr "Aide"
 #: projects/demoPlugins/templates/toolbar.tpl
 msgid "help"
 msgstr "aide"
+
+#: toolbar
+msgid "zoomin"
+msgstr "Zoom avant"
+
+msgid "zoomout"
+msgstr "Zoom arrière"
+
+msgid "pan"
+msgstr "Déplacement"
+
+msgid "query"
+msgstr "Requête"
+
+msgid "outline_point"
+msgstr "Point"
+
+msgid "outline_line"
+msgstr "Ligne"
+
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+msgid "outline_poly"
+msgstr "Polygone"
 
 #~ msgid "Search service"
 #~ msgstr "Rechercher un service"
