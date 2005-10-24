@@ -226,6 +226,121 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Sets a table block.
+     * @param array $request
+     * @param stdClass INI object
+     * @param string object id
+     */                   
+    protected function setTableBlock($request, $iniObjects, $id) {
+        if ($this->blocks[$id]->caption && 
+            !in_array($this->blocks[$id]->caption, $this->blocks)) {
+            
+            $caption = $this->blocks[$id]->caption;
+            $this->createBlock($request, $iniObjects, $caption);
+            
+            $this->blocks[$caption]->standalone = false;
+ 
+            $content = $this->blocks[$caption]->content;
+            $content = Encoder::encode($content);
+            $content = Encoder::decode($content);
+            $this->blocks[$caption]->content = $content;
+            
+            if (!isset($this->blocks[$caption]->height) && 
+                isset($this->blocks[$id]->height)) {
+                $this->blocks[$caption]->height =
+                    $this->blocks[$id]->height;
+            }
+        }
+     
+        if ($this->blocks[$id]->headers &&
+            !in_array($this->blocks[$id]->headers, $this->blocks)) {
+            
+            $headers = $this->blocks[$id]->headers;
+            $this->createBlock($request, $iniObjects, $headers);
+            
+            $this->blocks[$headers]->standalone = false;
+ 
+            $content = $this->blocks[$headers]->content;
+            $content = Encoder::encode($content);
+            $content = Encoder::decode($content);
+            $this->blocks[$headers]->content = $content;
+            
+            $this->blocks[$headers]->content = 
+               $this->getArrayFromList($this->blocks[$headers]->content,
+                                       true);
+        
+            if (!isset($this->blocks[$headers]->height) &&
+                isset($this->blocks[$id]->height)) {
+                $this->blocks[$headers]->height =
+                    $this->blocks[$id]->height;
+            }
+        }
+     
+        // TODO: handle multi-row tables when getting content from INI 
+        // For now we are limited to one single row.
+        if ($this->blocks[$id]->content) {
+            $content = $this->blocks[$id]->content;
+            $content = Encoder::encode($content);
+            $content = Encoder::decode($content);
+            $this->blocks[$id]->content = $this->getArrayFromList($content,
+                                                                  true);
+        }
+    }
+
+    /**
+     * Sets a legend block.
+     * @param array $request
+     * @param string object id
+     */                   
+    protected function setLegendBlock($request, $id) {
+        $lastMapRequest = $this->getLastMapRequest();
+        $layersCorePlugin = $this->cartoclient->getPluginManager()->
+                            getPlugin('layers');
+        
+        if (is_null($lastMapRequest) || is_null($layersCorePlugin)) {
+            unset($this->blocks[$id], $lastMapRequest,
+                  $layersCorePlugin);
+            return;
+        }
+        
+        $selectedLayers = $lastMapRequest->layersRequest->layerIds;
+        if ($this->blocks[$id]->content) {
+            $content =
+                $this->getArrayFromList($this->blocks[$id]->content,
+                                        true);
+            // layers whose ids begin with "!" are not displayed
+            // in legend: 
+            foreach ($content as $layerId) {
+                if ($layerId{0} == '!') {
+                    $layerId = substr($layerId, 1);
+                    $key = array_search($layerId, $selectedLayers);
+                    if (is_numeric($key))
+                        unset($selectedLayers[$key]);
+                    else {
+                        // case of LayerGroup
+                        foreach ($layersCorePlugin->
+                                     fetchChildrenFromLayerGroup(
+                                        array($layerId)) as $childId) {
+                            $key = array_search($childId, 
+                                                $selectedLayers);
+                            if (is_numeric($key))
+                                unset($selectedLayers[$key]);
+                        }
+                    }
+                }
+            }
+            $this->blocks[$id]->content = '';
+        }
+        
+        $this->blocks[$id]->content =
+            $layersCorePlugin->getPrintedLayers($selectedLayers,
+                                                $this->getLastScale());
+        
+        if ($request['pdfLegend'] == 'out')
+            $this->blocks[$id]->inNewPage = true;
+    }
+
+    /**
      * Instanciates a PdfBlock object.
      * @param array $request
      * @param stdClass INI object
@@ -283,110 +398,11 @@ class ClientExportPdf extends ExportPlugin
         }
 
         elseif ($this->blocks[$id]->type == 'table') {
-            if ($this->blocks[$id]->caption && 
-                !in_array($this->blocks[$id]->caption, $this->blocks)) {
-                
-                $caption = $this->blocks[$id]->caption;
-                $this->createBlock($request, $iniObjects, $caption);
-                
-                $this->blocks[$caption]->standalone = false;
-
-                $content = $this->blocks[$caption]->content;
-                $content = Encoder::encode($content);
-                $content = Encoder::decode($content);
-                $this->blocks[$caption]->content = $content;
-                
-                if (!isset($this->blocks[$caption]->height) && 
-                    isset($this->blocks[$id]->height)) {
-                    $this->blocks[$caption]->height =
-                        $this->blocks[$id]->height;
-                }
-            }
-    
-            if ($this->blocks[$id]->headers &&
-                !in_array($this->blocks[$id]->headers, $this->blocks)) {
-                
-                $headers = $this->blocks[$id]->headers;
-                $this->createBlock($request, $iniObjects, $headers);
-                
-                $this->blocks[$headers]->standalone = false;
-
-                $content = $this->blocks[$headers]->content;
-                $content = Encoder::encode($content);
-                $content = Encoder::decode($content);
-                $this->blocks[$headers]->content = $content;
-                
-                $this->blocks[$headers]->content = 
-                   $this->getArrayFromList($this->blocks[$headers]->content,
-                                           true);
-            
-                if (!isset($this->blocks[$headers]->height) &&
-                    isset($this->blocks[$id]->height)) {
-                    $this->blocks[$headers]->height =
-                        $this->blocks[$id]->height;
-                }
-            }
-    
-            // TODO: handle multi-row tables when getting content from INI 
-            // For now we are limited to one single row.
-            if ($this->blocks[$id]->content) {
-                $content = $this->blocks[$id]->content;
-                $content = Encoder::encode($content);
-                $content = Encoder::decode($content);
-                $this->blocks[$id]->content = $this->getArrayFromList($content,
-                                                                      true);
-            }
+            $this->setTableBlock($request, $iniObjects, $id);
         }
 
         elseif ($this->blocks[$id]->type == 'legend') {
-            do {
-                $lastMapRequest = $this->getLastMapRequest();
-                $layersCorePlugin = $this->cartoclient->getPluginManager()->
-                                    getPlugin('layers');
-                
-                if (is_null($lastMapRequest) || is_null($layersCorePlugin)) {
-                    unset($this->blocks[$id], $lastMapRequest,
-                          $layersCorePlugin);
-                    break;
-                }
-                
-                $selectedLayers = $lastMapRequest->layersRequest->layerIds;
-                if ($this->blocks[$id]->content) {
-                    $content =
-                        $this->getArrayFromList($this->blocks[$id]->content,
-                                                true);
-                    // layers whose ids begin with "!" are not displayed
-                    // in legend: 
-                    foreach ($content as $layerId) {
-                        if ($layerId{0} == '!') {
-                            $layerId = substr($layerId, 1);
-                            $key = array_search($layerId, $selectedLayers);
-                            if (is_numeric($key))
-                                unset($selectedLayers[$key]);
-                            else {
-                                // case of LayerGroup
-                                foreach ($layersCorePlugin->
-                                             fetchChildrenFromLayerGroup(
-                                                array($layerId)) as $childId) {
-                                    $key = array_search($childId, 
-                                                        $selectedLayers);
-                                    if (is_numeric($key))
-                                        unset($selectedLayers[$key]);
-                                }
-                            }
-                        }
-                    }
-                    $this->blocks[$id]->content = '';
-                }
-                
-                $this->blocks[$id]->content =
-                    $layersCorePlugin->getPrintedLayers($selectedLayers,
-                                                        $this->getLastScale());
-                
-                if ($request['pdfLegend'] == 'out')
-                    $this->blocks[$id]->inNewPage = true;
-            }
-            while (false);
+            $this->setLegendBlock($request, $id);
         }
     }
 
