@@ -1,0 +1,6 @@
+This branch contains an Ajax version of Cartoweb.
+
+Ajax Notes:
+===========
+
+Put information here
