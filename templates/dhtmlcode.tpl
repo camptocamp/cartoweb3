@@ -23,7 +23,7 @@ function initMap() {{/literal}
     factor = {$factor};{literal}
 
     var rasterLayer = new Layer("raster");{/literal}
-    var feature = new Raster('{$mainmap_path}');{literal}
+    var feature = new Raster('{$mainmap_path}', 'map_raster_img');{literal}
     rasterLayer.addFeature(feature);
     mainmap.addLayer(mainmap,rasterLayer);
 

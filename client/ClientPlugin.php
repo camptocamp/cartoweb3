@@ -171,6 +171,15 @@ interface GuiProvider {
     public function renderForm(Smarty $template);
 }
 
+/**
+ * Interface for plugins that generate asynchronous responses
+ * @package Client
+ */
+interface AjaxPlugin {
+	public function ajaxHandleAction($actionName, $pluginsDirectives);
+	public function ajaxResponse($ajaxPluginResponse);
+}
+
 /** 
  * Interface for plugins that may call server
  * @package Client
@@ -411,7 +420,30 @@ abstract class ClientPlugin extends PluginBase {
         }
         return NULL;
     }
-    
+
+	/* ajax dev */
+	// TODO: put setDirective() and isDirectiveSet in ClientPlugin class
+	protected $setDirectives = array();
+	
+	protected function isDirectiveSet($directiveName) {
+		if (!$this->directiveExists($directiveName))
+			throw new AjaxException ($directiveName . ' does not exist in plugin ' . get_class($this));
+		return in_array($directiveName, $this->setDirectives);
+	}	
+	
+	public function directiveExists($directiveName) {
+		//var_dump(in_array($directiveName, $this->DIRECTIVES));
+		return isset($this->DIRECTIVES) && in_array($directiveName, $this->DIRECTIVES);
+	}	
+
+	public function setDirective($directiveName) {
+		// Sets the directive 
+		// TODO: If directive exists and is not already set
+		if ($this->directiveExists($directiveName)
+				&& !$this->isDirectiveSet($directiveName)) {
+			$this->setDirectives[$directiveName] = $directiveName;
+		}
+	}
 }
 
 ?>

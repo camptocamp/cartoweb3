@@ -279,6 +279,29 @@ class FormRenderer {
         return $this->specialOutput . $this->smarty->fetch($form);
     }
 
+    public function showAjaxPluginResponse() {
+		// Creates an AjaxPluginResponse object and passes it by reference
+		// to the plugin's renderAjaxResponse(), to populate the AjaxPluginResponse XML
+		$ajaxPluginResponses = array();
+		foreach ($this->cartoclient->getPluginManager()->getPlugins() as $plugin) {
+			$pluginName = $plugin->getName();
+	    	$ajaxPluginResponse = new AjaxPluginResponse();
+		    $this->cartoclient->callPluginImplementing($pluginName,
+												'AjaxPlugin', 'ajaxResponse',
+												&$ajaxPluginResponse);
+		    if (!$ajaxPluginResponse->isEmpty())
+		    	$ajaxPluginResponses[$pluginName] = $ajaxPluginResponse;
+	    }
+
+ 		// Uses the xml tpl containing the plugin's HTMLCode and variables
+		$this->setCustomForm('ajaxPluginResponse.xml.tpl');
+		
+	    // Populates the AjaxPluginResponse.XML template
+	    $this->smarty->assign('pluginResponses', $ajaxPluginResponses);
+		header ('Content-Type: text/xml');
+	    $this->smarty->display($this->customForm);
+    }
+
     /**
      * Displays failure using failure.tpl Smarty templates
      * @param Exception exception to display

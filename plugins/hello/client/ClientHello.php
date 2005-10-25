@@ -26,9 +26,16 @@
  * @package Plugins
  */
 class ClientHello extends ClientPlugin
-                  implements Sessionable, GuiProvider {
+                  implements Sessionable, GuiProvider, AjaxPlugin {
 
     const HELLO_INPUT = 'hello_input';
+    
+	/* Plugin directives, for ajax optimisation */
+	protected $DIRECTIVES = array(
+		'PREVENT_ALL',
+		'PREVENT_MESSAGE',
+		'PREVENT_COUNT',		
+	);
 
     /**
      * @var Logger
@@ -83,7 +90,12 @@ class ClientHello extends ClientPlugin
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
+        if ($this->isDirectiveSet('PREVENT_ALL'))
+        	return;    	
         $this->count = $this->count + 1;
+        $this->message = '';
+        if ($this->isDirectiveSet('PREVENT_MESSAGE'))
+        	return;
         $this->message = isset($request[self::HELLO_INPUT])
                          ? $request[self::HELLO_INPUT] : '';
     }
@@ -104,5 +116,23 @@ class ClientHello extends ClientPlugin
         $template->assign('hello_message', "message: " . $this->message . 
                           " count: " . $this->count);
     }
+
+    public function ajaxResponse($ajaxPluginResponse) {
+		$ajaxPluginResponse->addHtmlCode('hello_message', "message: " .
+						  $this->message . " count: " . $this->count);
+    }
+
+	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Hello.change':
+				$pluginsDirectives->add('location', 'PREVENT_ALL');
+				$pluginsDirectives->add('layers', 'PREVENT_ALL');
+				$pluginsDirectives->add('images', 'PREVENT_ALL');
+			break;
+			case 'Location.mapPanByKeymap':
+				$pluginsDirectives->add('hello', 'PREVENT_MESSAGE');
+			break;
+		}
+	}
 }
 ?>

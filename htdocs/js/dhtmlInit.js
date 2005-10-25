@@ -193,7 +193,8 @@ Map.prototype.zoomout = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    doSubmit();
+    //doSubmit();
+    AjaxHandler.doAction('Location.zoom');
   }
 };
   
@@ -204,7 +205,8 @@ Map.prototype.zoomin = function(aDisplay) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-    doSubmit();
+    //doSubmit();
+    AjaxHandler.doAction('Location.zoom');
   }
 };
 
@@ -220,7 +222,8 @@ Map.prototype.pan = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    doSubmit();
+    //doSubmit();
+    AjaxHandler.doAction('Location.mapPanByDrag');
   }
 };
 

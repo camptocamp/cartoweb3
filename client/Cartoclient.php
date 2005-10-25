@@ -24,6 +24,8 @@
 require_once(CARTOWEB_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
+require_once(CARTOWEB_HOME . 'client/AjaxHelper.php');
+
 require_once(CARTOWEB_HOME . 'client/ClientMapInfoCache.php');
 require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
 require_once(CARTOWEB_HOME . 'client/HttpRequestHandler.php');
@@ -567,7 +569,67 @@ class Cartoclient {
         $this->pluginManager->callPluginsImplementing($interface, 
                                                       $functionName, $args);
     }
+    
+    /**
+     * [ajax-dev]
+     * Calls a plugin implementing an interface
+     *
+     * Interfaces are declared in {@link ClientPlugin}.
+     * @param string plugin name
+     * @param string interface name
+     * @param string function name
+     */
+    public function callPluginImplementing($pluginName, $interface, $functionName) {
 
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        $plugin = $this->pluginManager->getPlugin($pluginName);
+        $this->pluginManager->callPluginImplementing($plugin, $interface,
+        											 $functionName, $args); 
+    }
+    
+    /**
+     * [ajax-dev]
+     * Calls coreplugins implementing an interface
+     *
+     * Interfaces are declared in {@link ClientPlugin}.
+     * @param string interface name
+     * @param string function name
+     */
+    public function callCorepluginsImplementing($interface, $functionName) {
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        $pluginNames = $this->getCorePluginNames();
+        foreach ($pluginNames as $pluginName) {
+        	$plugin = $this->pluginManager->getPlugin($pluginName);
+	        $this->pluginManager->callPluginImplementing($plugin, $interface, 
+	                                                      $functionName, $args);
+        }
+    }
+    
+    /**
+     * [ajax-dev]
+     * Calls given plugins implementing an interface
+     *
+     * Interfaces are declared in {@link ClientPlugin}.
+     * @param string interface name
+     * @param string function name
+     */
+    public function callGivenPluginsImplementing($pluginNameArray, $interface, $functionName) {
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        foreach ($pluginNameArray as $pluginName) {
+        	$plugin = $this->pluginManager->getPlugin($pluginName);
+	        $this->pluginManager->callPluginImplementing($plugin, $interface, 
+	                                                      $functionName, $args);
+        }
+    }
+    
     /**
      * Returns the MapInfoCache
      * @return MapInfoCache
@@ -818,7 +880,7 @@ class Cartoclient {
      * - Session save
      * @return string
      */
-    private function doMain() {
+    private function doMainSync() {
 
         if (isset($_REQUEST['posted'])) {        
             if ($_REQUEST['posted'] != '0') {
@@ -906,6 +968,154 @@ class Cartoclient {
 
         return $output;
     }
+
+    private function doMainAsync() {
+		// Determines what plugin triggered what action 
+		$requestedActionId = $_REQUEST['ajaxActionRequest'];
+		
+		list($requestedPluginName, $requestedActionName) = 
+				explode('.', $requestedActionId, 2);
+		// lowercase the first letter of $requestedPluginName
+		$requestedPluginName = strtolower($requestedPluginName{0}) . substr($requestedPluginName, 1);
+
+		// Check if requested plugin exists
+		if ($this->pluginManager->getPlugin($requestedPluginName) == null)
+			throw new AjaxException('Requested plugin ' . $requestedPluginName . ' is not loaded. Check your AJAX call (currently ajaxActionRequest=' . $_REQUEST['ajaxActionRequest'] . ')');		
+		
+		/* Make the plugin-directives matrix */
+		$directives = array();			
+		$pluginsDirectives = new PluginsDirectives($this->getPluginManager());
+
+		// Add all coreplugins in the PluginsDirectives object
+		foreach ($this->getCorepluginNames() as $corepluginName) {
+			$pluginsDirectives->add($corepluginName);
+		} 					 		
+		// If the requested plugin is not a coreplugin,
+		// add it in the directives with FORCE_ALL directive
+		$isCorepluginRequest = in_array($requestedPluginName, $this->getCorePluginNames());
+		if (!$isCorepluginRequest) {
+			// add the requested plugin in the $pluginsDirectives
+			$pluginsDirectives->add($requestedPluginName);
+		}
+		
+		// Ask plugins to give their plugins directives for the given $actionId
+        $this->callPluginsImplementing('AjaxPlugin', 'ajaxHandleAction',
+									$requestedActionId, &$pluginsDirectives);
+		// Sets plugins directives
+		foreach ($pluginsDirectives->getDirectives() as $pluginName => $directivesArray) {
+			foreach ($directivesArray as $directiveName => $dummy) {
+				$plugin = $this->pluginManager->getPlugin($pluginName);
+				$plugin->setDirective($directiveName);
+			}
+		}
+				
+		// Determine what plugins to execute
+		$pluginsToExecute = array();
+		foreach ($pluginsDirectives->getDirectives() as $key => $value) {
+			$pluginsToExecute[] = $key;
+		} 										
+		
+    	$this->doMainAsyncBack($pluginsToExecute);
+    }
+
+    private function doMainAsyncBack($pluginsToExecute) {
+/*
+		echo "<pre>";
+		var_dump($pluginsDirectives->getDirectives());
+		var_dump($pluginsToExecute);
+		echo "</pre>";
+		die();
+*/
+
+        if (isset($_REQUEST['posted'])) {        
+            if ($_REQUEST['posted'] != '0') {
+        
+                // Maps clicks cannot be modified by filters
+                $this->cartoForm = 
+                    $this->httpRequestHandler->handleHttpRequest(
+                                                        $this->clientSession,
+                                                        $this->cartoForm);
+
+                $request = new FilterRequestModifier($_REQUEST);
+                $this->callGivenPluginsImplementing($pluginsToExecute, 'FilterProvider',
+                                               'filterPostRequest', $request);
+                $this->callGivenPluginsImplementing($pluginsToExecute, 'GuiProvider', 
+                                               'handleHttpPostRequest',
+                                               $request->getRequest());
+            }
+        } else {
+            
+            $request = new FilterRequestModifier($_REQUEST);
+            $this->callGivenPluginsImplementing($pluginsToExecute, 'FilterProvider',
+                                           'filterGetRequest', $request);
+            $this->callGivenPluginsImplementing($pluginsToExecute, 'GuiProvider',
+                                           'handleHttpGetRequest',
+                                           $request->getRequest());
+        }
+        
+        // If flow is not interrupted and client not allowed, 
+        //   then display unauthorized message
+        //  page.
+        if (!$this->isInterruptFlow() && !$this->clientAllowed()) {
+            $this->setInterruptFlow(true);
+            $this->formRenderer->setCustomForm('unauthorized.tpl');
+        }
+        
+        // If the flow has to be interrupted (no cartoserver call), 
+        //  then this method stops here
+        if ($this->isInterruptFlow()) {
+            $this->formRenderer->showAjaxPluginResponse();            
+        }
+        $mapRequest = $this->getMapRequest();
+
+
+        $this->callPluginsImplementing('ServerCaller', 'buildRequest',
+                                       $mapRequest);
+        $this->callPluginsImplementing('ServerCaller', 'overrideRequest',
+                                       $mapRequest);
+ 
+        // Save mapRequest for future use
+        $this->clientSession->lastMapRequest = 
+            StructHandler::deepClone($mapRequest);
+
+        $this->log->debug('maprequest:');
+        $this->log->debug($mapRequest);
+
+        $this->mapResult = $this->getMapResultFromRequest($mapRequest);
+
+        // Save mapResult for future use
+        $this->clientSession->lastMapResult = 
+            StructHandler::deepClone($this->mapResult);
+
+        $this->log->debug('mapresult:');
+        $this->log->debug($this->mapResult);
+
+        $this->callPluginsImplementing('ServerCaller', 'initializeResult',
+                                       $this->mapResult);
+
+        $this->callPluginsImplementing('ServerCaller', 'handleResult',
+                                       $this->mapResult);
+        
+
+        $this->log->debug('client context to display');
+
+        if (!$this->isInterruptFlow() && 
+            $this->outputType == self::OUTPUT_IMAGE) {
+            // Returns raw mainmap image
+            $this->getPluginManager()->getPlugin('images')->outputMainmap();
+            $output = '';
+        } else {
+            $this->formRenderer->showAjaxPluginResponse();            
+        }
+
+        $this->callGivenPluginsImplementing($pluginsToExecute, 'Sessionable', 'saveSession');
+
+        $this->saveSession($this->clientSession);
+        $this->log->debug("session saved\n");
+
+		die();
+        //return $output;
+    }    
 
     /**
      * Alternative processing of doMain() when exporting data.
@@ -998,23 +1208,38 @@ class Cartoclient {
      * @return string CartoWeb page string
      */
     public function main() {
-        
+
         $this->log->debug('request is: ');
         $this->log->debug($_REQUEST);
-
         Common::initializeCartoweb($this->config);
         
-        try {
-            if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
-                $this->outputType == self::OUTPUT_IMAGE ||
-                !$exportPlugin = $this->getValidExportType()) {
-                return $this->doMain();
-            } else {
-                return $this->doExport($exportPlugin);
-            }
-        } catch (Exception $exception) {
-            return $this->formRenderer->showFailure($exception);
-        }
+    	/**
+    	 * [ajaxDev]
+    	 * AJAX Switch for template rendering:
+    	 * If the "ajaxRequest" HTTP parameter is set (POST or GET),
+    	 * switch to the async mecanism.
+    	 * Else, use the traditional sync mecanism.
+    	 */
+    	if (isset($_REQUEST['ajaxActionRequest'])) {
+	        try {
+	            $this->doMainAsync();
+	        } catch (Exception $exception) {
+	            return $this->formRenderer->showFailure($exception);
+	            // TODO: Use or create a suitable error reporting mecanism.
+	        }
+    	} else {
+	        try {
+	            if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
+	                $this->outputType == self::OUTPUT_IMAGE ||
+	                !$exportPlugin = $this->getValidExportType()) {
+	                return $this->doMainSync();
+	            } else {
+	                return $this->doExport($exportPlugin);
+	            }
+	        } catch (Exception $exception) {
+	            return $this->formRenderer->showFailure($exception);
+	        }
+    	}
     }
 }
 ?>

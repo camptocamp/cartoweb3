@@ -184,7 +184,7 @@ class LayerNode {
  */
 class ClientLayers extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable, InitUser {
+                              Exportable, InitUser, AjaxPlugin {
     /**
      * @var Logger
      */
@@ -312,6 +312,13 @@ class ClientLayers extends ClientPlugin
     const RENDERING_TREE = 'tree';
     const RENDERING_RADIO = 'radio';
     const RENDERING_DROPDOWN = 'dropdown';
+    
+	/* Plugin directives, for ajax optimisation */
+	protected $DIRECTIVES = array(
+		'PREVENT_ALL',
+		'PREVENT_LAYERS',
+		'PREVENT_SWITCHES',		
+	);
 
     /**
      * Constructor
@@ -1266,6 +1273,24 @@ class ClientLayers extends ClientPlugin
         $template->assign('layers', $this->drawLayersList());
         $template->assign('switches', $this->drawSwitches());
     }
+
+    public function ajaxResponse($ajaxPluginResponse) {
+    	if ($this->isDirectiveSet('PREVENT_ALL'))
+    		return;
+    	$ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
+    	$ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
+    }
+
+	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Layers.layerShowHide':
+				$pluginsDirectives->add('layers', 'PREVENT_ALL');
+			break;
+			case 'Layers.layerDropDownChange':
+				// Do all
+			break;
+		}
+	}
 
     /**
      * Returns icon full path.

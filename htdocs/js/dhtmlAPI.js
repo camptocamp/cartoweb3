@@ -760,7 +760,7 @@ MoveTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   
     var feature = aDisplay.getMapFeature(dShape);
     if (feature.operation != 'insert') feature.operation = 'update';
-    aDisplay._map.updateFeaturesCount();
+    aDisplay._map.updateFeaturesCount();  
   }
 };
 MoveTool.prototype.onDragStart = function(elt, x, y) {
@@ -785,6 +785,9 @@ MoveTool.prototype.onDrag = function(elt, x, y) {
   }
 };
 MoveTool.prototype.onDragEnd = function(elt, x, y) {
+
+  // [ajax-dev] Test: make the map updated when dragged
+  alert('hihu');  
   var aDisplay = elt._display;
 
   var cn = elt.className;
@@ -1383,6 +1386,8 @@ Display.prototype.drawFeature = function(obj, feature, status) {
       img.style.position = "absolute";
       img.className = layerCN;
       dr.style.position = "absolute";
+      if (feature.id != undefined)
+        img.id = feature.id;
       img.src = feature.img;
       img._width = this._width;
       img._height = this._height;

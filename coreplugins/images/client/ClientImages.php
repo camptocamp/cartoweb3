@@ -51,7 +51,7 @@ class ImagesState {
  */
 class ClientImages extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable {
+                              Exportable, AjaxPlugin {
     /**
      * @var Logger
      */
@@ -90,6 +90,12 @@ class ClientImages extends ClientPlugin
      * Default map height, if not specified in config
      */
     const DEF_MAP_HEIGHT = 200;
+
+	/* Plugin directives, for ajax optimisation */
+	protected $DIRECTIVES = array(
+		'PREVENT_ALL',
+		'PREVENT_MAPSIZES',
+	);
 
     /**
      * Constructor
@@ -325,44 +331,54 @@ class ClientImages extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderForm(Smarty $template) {
-       
-        $template->assign(array(
+    public function renderFormPrepare() {
+        $assignArray['variables'] = array(
             'mainmap_path' => 
                  $this->getImageUrl($this->imagesResult->mainmap->path, false),
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
-                                ));
-    
+        ); 
+
         if ($this->imagesResult->keymap->isDrawn) {
-            $template->assign(array(
-                'keymap_path' => 
-                    $this->getImageUrl($this->imagesResult->keymap->path),
-                'keymap_width' => $this->imagesResult->keymap->width,
-                'keymap_height' => $this->imagesResult->keymap->height,
-                                    ));
+            $assignArray['variables']['keymap_path'] = $this->getImageUrl($this->imagesResult->keymap->path);
+            $assignArray['variables']['keymap_width'] = $this->imagesResult->keymap->width;
+            $assignArray['variables']['keymap_height'] = $this->imagesResult->keymap->height;
         }
         
         if ($this->imagesResult->scalebar->isDrawn) {
-            $template->assign(array(
-                'scalebar_path' => 
-                    $this->getImageUrl($this->imagesResult->scalebar->path),
-                'scalebar_width' => $this->imagesResult->scalebar->width,
-                'scalebar_height' => $this->imagesResult->scalebar->height,
-                                    ));
+            $assignArray['variables']['scalebar_path'] = $this->getImageUrl($this->imagesResult->scalebar->path);
+            $assignArray['variables']['scalebar_width'] = $this->imagesResult->scalebar->width;
+            $assignArray['variables']['scalebar_height'] = $this->imagesResult->scalebar->height;
         }
 
-        $mapSizesActive = $this->getConfig()->mapSizesActive;
-        $template->assign(array('mapsizes_active' => $mapSizesActive,
-                                'mapsizes' => $this->drawMapSizes(),
-                                ));
+        $assignArray['variables']['mapsizes_active'] = $this->getConfig()->mapSizesActive;
+        $assignArray['variables']['mapsizes'] = $this->drawMapSizes();
 
         if ($this->getConfig()->collapsibleKeymap) {
-            $template->assign(array('collapseKeymap' => $this->collapseKeymap,
-                                    'collapsibleKeymap' => true,
-                                    ));
+	        $assignArray['variables']['collapseKeymap'] = $this->collapseKeymap;
+	        $assignArray['variables']['collapsibleKeymap'] = true;
         }
+        
+        return $assignArray;
     }
+
+    public function renderForm(Smarty $template) {
+    	$assignArray = $this->renderFormPrepare();
+    	$template->assign($assignArray['variables']);
+    }
+    
+    public function ajaxResponse($ajaxPluginResponse) {
+    	if ($this->isDirectiveSet('PREVENT_ALL'))
+    		return;
+    	$assignArray = $this->renderFormPrepare();
+    	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
+    	}    	
+    }
+
+	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+		// Images plugin does not provide any action
+	}
 
     /**
      * @see Sessionable::saveSession()

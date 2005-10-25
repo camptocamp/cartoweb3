@@ -173,8 +173,10 @@ function Vertex(x, y) {
  * Create a raster
  * @return Raster object created
  */
-function Raster(imageUrl) {
+function Raster(imageUrl, rasterId) {
   this.img = imageUrl;
+  if (rasterId != undefined)
+    this.id = rasterId;
 };
 
 /**
