@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:10+0200\n"
+"POT-Creation-Date: 2005-10-25 08:18+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,6 +20,10 @@ msgstr ""
 msgid "Raster"
 msgstr ""
 
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr ""
+
 #: layers.ini:layers.human.label
 msgid "Human activities"
 msgstr ""
@@ -34,6 +38,16 @@ msgstr ""
 
 #: layers.ini:layers.hydro.label
 msgid "Hydrology"
+msgstr ""
+
+#: layers.ini:layers.district.label
+#: demoPlugins.map
+msgid "district"
+msgstr ""
+
+#: layers.ini:layers.sea.label
+#: demoPlugins.map
+msgid "sea"
 msgstr ""
 
 #: layers.ini:layers.towns.label
@@ -61,12 +75,12 @@ msgstr ""
 msgid "Roads"
 msgstr ""
 
-#: layers.ini:layers.road1.label
-msgid "vue generale"
+#: layers.ini:layers.freeway_.label
+msgid "Freeway"
 msgstr ""
 
-#: layers.ini:layers.road2.label
-msgid "vue detaillee"
+#: layers.ini:layers.sr.label
+msgid "Secondary road"
 msgstr ""
 
 #: layers.ini:layers.contour.label
@@ -139,10 +153,6 @@ msgid "contour"
 msgstr ""
 
 #: demoPlugins.map
-msgid "district"
-msgstr ""
-
-#: demoPlugins.map
 #: demoPlugins.map
 #: demoPlugins.map
 msgid "NAM"
@@ -163,15 +173,10 @@ msgid "iceland_hilight"
 msgstr ""
 
 #: demoPlugins.map
-msgid "sea"
-msgstr ""
-
-#: demoPlugins.map
 #: demoPlugins.map
 msgid "lake"
 msgstr ""
 
-#: demoPlugins.map
 #: demoPlugins.map
 msgid "river"
 msgstr ""
@@ -182,23 +187,11 @@ msgid "railway"
 msgstr ""
 
 #: demoPlugins.map
-msgid "road1"
-msgstr ""
-
-#: demoPlugins.map
-msgid "roads"
-msgstr ""
-
-#: demoPlugins.map
-msgid "road2"
-msgstr ""
-
-#: demoPlugins.map
-msgid "secondary road"
-msgstr ""
-
-#: demoPlugins.map
 msgid "freeway"
+msgstr ""
+
+#: demoPlugins.map
+msgid "secondary_road"
 msgstr ""
 
 #: demoPlugins.map
@@ -250,8 +243,4 @@ msgstr ""
 
 #: demoPlugins.map
 msgid "cartoweb_polygon_outline"
-msgstr ""
-
-#: demoPlugins.map
-msgid "none"
 msgstr ""

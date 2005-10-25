@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:09+0200\n"
+"POT-Creation-Date: 2005-10-25 08:18+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,11 +94,11 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on:"
-msgstr ""
+msgstr "Layer to center on :"
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's:"
-msgstr ""
+msgstr "Comma separated id's :"
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
@@ -111,7 +111,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "Y:"
-msgstr ""
+msgstr "Y :"
 
 #: projects/demoPlugins/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
@@ -317,14 +317,6 @@ msgid "welcome"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "reset session"
-msgstr ""
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Reset session"
-msgstr ""
-
-#: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
 msgstr "Coordinates (m):"
 
@@ -500,7 +492,14 @@ msgstr ""
 msgid "help"
 msgstr ""
 
-#: toolbar
+#: projects/demoPlugins/templates/toolbar.tpl
+msgid "reset session"
+msgstr ""
+
+#: projects/demoPlugins/templates/toolbar.tpl
+msgid "Reset session"
+msgstr ""
+
 msgid "zoomin"
 msgstr "Zoom in"
 
@@ -525,5 +524,5 @@ msgstr "Rectangle"
 msgid "outline_poly"
 msgstr "Polygon"
 
-#~ msgid "Recherche"
-#~ msgstr "Search"
+msgid "Recherche"
+msgstr "Search"

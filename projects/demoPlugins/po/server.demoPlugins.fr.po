@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:10+0200\n"
+"POT-Creation-Date: 2005-10-25 08:18+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,6 +20,10 @@ msgstr "Vecteur"
 msgid "Raster"
 msgstr "Raster"
 
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr "Aucun"
+
 #: layers.ini:layers.human.label
 msgid "Human activities"
 msgstr "Activités humaines"
@@ -35,6 +39,14 @@ msgstr "Relief"
 #: layers.ini:layers.hydro.label
 msgid "Hydrology"
 msgstr "Hydrologie"
+
+#: layers.ini:layers.district.label demoPlugins.map
+msgid "district"
+msgstr "Régions"
+
+#: layers.ini:layers.sea.label demoPlugins.map
+msgid "sea"
+msgstr "Mer"
 
 #: layers.ini:layers.towns.label layers.ini:layers.town.label
 msgid "Towns"
@@ -60,13 +72,15 @@ msgstr "Voies ferrées"
 msgid "Roads"
 msgstr "Routes"
 
-#: layers.ini:layers.road1.label
-msgid "vue generale"
-msgstr ""
+#: layers.ini:layers.freeway_.label
+#, fuzzy
+msgid "Freeway"
+msgstr "Autoroutes"
 
-#: layers.ini:layers.road2.label
-msgid "vue detaillee"
-msgstr ""
+#: layers.ini:layers.sr.label
+#, fuzzy
+msgid "Secondary road"
+msgstr "Routes nationales"
 
 #: layers.ini:layers.contour.label
 msgid "Elevation contour"
@@ -130,15 +144,11 @@ msgstr ""
 
 #: demoPlugins.map
 msgid "raster"
-msgstr "raster"
+msgstr "Raster"
 
 #: demoPlugins.map
 msgid "contour"
-msgstr ""
-
-#: demoPlugins.map
-msgid "district"
-msgstr "region"
+msgstr "Contour"
 
 #: demoPlugins.map
 msgid "NAM"
@@ -146,56 +156,40 @@ msgstr "NOM"
 
 #: demoPlugins.map
 msgid "iceland"
-msgstr "glacier"
+msgstr "Glaciers"
 
 #: demoPlugins.map
 msgid "AREA"
-msgstr "AIRE"
+msgstr "SURFACE"
 
 #: demoPlugins.map
 msgid "iceland_hilight"
 msgstr ""
 
 #: demoPlugins.map
-msgid "sea"
-msgstr "Mer"
-
-#: demoPlugins.map
 msgid "lake"
-msgstr "lac"
+msgstr "Lacs"
 
 #: demoPlugins.map
 msgid "river"
-msgstr "rivière"
+msgstr "Rivières"
 
 #: demoPlugins.map
 msgid "railway"
-msgstr "voie ferrée"
-
-#: demoPlugins.map
-msgid "road1"
-msgstr "route"
-
-#: demoPlugins.map
-#, fuzzy
-msgid "roads"
-msgstr "routes"
-
-#: demoPlugins.map
-msgid "road2"
-msgstr "route"
-
-#: demoPlugins.map
-msgid "secondary road"
-msgstr ""
+msgstr "Voies ferrées"
 
 #: demoPlugins.map
 msgid "freeway"
-msgstr ""
+msgstr "Autoroutes"
+
+#: demoPlugins.map
+#, fuzzy
+msgid "secondary_road"
+msgstr "Routes nationales"
 
 #: demoPlugins.map
 msgid "mountain"
-msgstr "montagne"
+msgstr "Montagnes"
 
 #: demoPlugins.map
 msgid "> 3500m"
@@ -215,15 +209,15 @@ msgstr ""
 
 #: demoPlugins.map
 msgid "agglo"
-msgstr "agglomération"
+msgstr "Agglomérations"
 
 #: demoPlugins.map
 msgid "airport"
-msgstr "aéroport"
+msgstr "Aéroports"
 
 #: demoPlugins.map
 msgid "town"
-msgstr "ville"
+msgstr "Villes"
 
 #: demoPlugins.map
 msgid "TXT"
@@ -241,6 +235,21 @@ msgstr ""
 msgid "cartoweb_polygon_outline"
 msgstr ""
 
-#: demoPlugins.map
-msgid "none"
-msgstr "aucun"
+#~ msgid "vue generale"
+#~ msgstr "Vue générale"
+
+#~ msgid "vue detaillee"
+#~ msgstr "Vue détaillée"
+
+#~ msgid "road1"
+#~ msgstr "route1"
+
+#, fuzzy
+#~ msgid "roads"
+#~ msgstr "Routes"
+
+#~ msgid "road2"
+#~ msgstr "route2"
+
+#~ msgid "none"
+#~ msgstr "Aucun"

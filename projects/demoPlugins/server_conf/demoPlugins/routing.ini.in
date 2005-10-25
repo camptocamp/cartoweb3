@@ -1,0 +1,12 @@
+; Postgres Routing
+
+routingDsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
+
+postgresRoutingTable = roads_europe
+; optional (default = project_routing)
+postgresRoutingResultsLayer = graph
+
+; optional (default = project_routing)
+postgresRoutingResultsTable = routing_results
+; optional
+;postgresRoutingResultsAttributes = hour, style

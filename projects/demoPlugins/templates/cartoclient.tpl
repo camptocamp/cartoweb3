@@ -38,9 +38,9 @@
 <body>
 
 <!-- header begins here -->
-<table width="100%">
+<table>
 <tr><td>
-<table id="topbanner" border="0"  cellpadding="0" cellspacing="0">
+<table id="topbanner" border="0"  cellpadding="0" cellspacing="0" width="100%">
   <tr>
     <td id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" border="0"/></td>
     <td id="title" nowrap="nowrap">{t}CartoWeb3 - Demonstration{/t}</td>
@@ -89,7 +89,7 @@
 
 <table>
   <tr valin="top">
-  <td id="toolbar_row" valign="top">
+  <td id="toolbar_row" valign="top" nowrap="true">
   {include file="toolbar.tpl" group=1}
   </td>
   <td>
@@ -156,32 +156,35 @@
        <tr>
          <td  colspan="3"><br /></td>
        </tr>
-         {if $tables_result|default:''}
-  <tr>
-   <td colspan="3">
-    <center>
-     <table id="query_result" width="100%">
-      <tr>
-        <th align="left" id="query_result_title">{t}Query result{/t}</th>
-      </tr>
-      <tr>
-        <td>
+       
+       {if $selection_result|default:''}
+       <tr><td colspan ="3">
          <center>
-          {$tables_result}
+           {$selection_result}
          </center>
-        </td>
-     </tr>
-     <tr>
-      <td align="center">
-        &nbsp;<br />
-    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
-      </td>
-     </tr>
-     </table>
-    </center>
-   </td>
-  </tr>
-  {/if}
+       </td></tr>
+       {/if}
+       
+       {if $query_result|default:''}
+       <tr><td colspan ="3">
+         <center>
+           {$query_result}
+         </center>
+       </td></tr>
+       {/if}
+       
+       {if $tables_result|default:''}
+       <tr><td colspan ="3">
+         <center>
+           {$tables_result}
+         </center>
+       </td></tr>
+       {/if}
+                     
+       
+
+       
+       
        {if $developer_messages|default:''}
        <tr>
        <td colspan="3" align="center">
@@ -239,18 +242,17 @@
 </table>
 </div>
 </td>
-<td width="250" valign="top">
-  
+<td width="260px" valign="top" nowrap="true">
 
-  <div id="leftbar">
     <div>
       <ul id="tabnav2">
+        {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
         <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
         <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
       </ul>
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
-        {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
+        <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
         {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
       </ul>
    </div>
@@ -266,6 +268,38 @@
       </center>
     </div>
     <!-- end of folder 1 -->
+    
+    <!-- folder 3 starts here -->
+    <div id="folder3" class="folder">
+      <br />
+      
+      <fieldset>
+      <legend><b>{t}A route{/t}</b></legend>
+      {if $routing_active|default:''}
+        {$routing}
+      {/if}
+      </fieldset>
+      <br />
+      <fieldset>
+      <legend><b>{t}A geographic object{/t}</b></legend>
+      <br />
+      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="190" height="125px"
+      {if $iframeSrc|default:''}src="{$iframeSrc}" {/if} >
+      {t}Your browser does not support search services{/t}
+      </iframe>
+      </fieldset>
+      
+      {if $id_recenter_active|default:''}
+      {$id_recenter}
+      {/if}
+    
+      {if $exporthtml_active|default:''}
+      <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
+      {/if}
+
+    </div>
+    <!-- end of folder 3 -->
+    
     
     <!-- folder 5 starts here -->
     <div id="folder5" class="folder">
@@ -344,7 +378,6 @@
     <!-- end of floder 6 -->
     
   </div> <!--container-->
-  </div> <!--leftbar-->
 </td></tr>  
 </table>
 </form>
