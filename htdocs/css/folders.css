@@ -64,7 +64,6 @@ ul#tabnav2 li {
 }
 
 .folder {
-  position: relative;
   display: none;
   text-align:center;
   padding:5px;
