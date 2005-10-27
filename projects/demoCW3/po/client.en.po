@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:09+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,20 +89,17 @@ msgid "Zoom out to see layer"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Id Recentering"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on:"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's:"
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Aucun resultat ne correspond a votre requete"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
@@ -111,7 +108,7 @@ msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Y:"
-msgstr ""
+msgstr "Y :"
 
 #: projects/demoCW3/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
@@ -317,27 +314,6 @@ msgstr ""
 msgid "Clear outline"
 msgstr ""
 
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Search service"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Search"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Search by ..."
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Enter a name"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Select an option"
-msgstr ""
-
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
@@ -353,14 +329,6 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "welcome"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "reset session"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Reset session"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -417,11 +385,11 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Nima:"
-msgstr ""
+msgstr "Nima"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Gtopo30:"
-msgstr ""
+msgstr "Gtopo30"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Projection and datums"
@@ -437,10 +405,6 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "EPSG 32632"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Your browser does not support search services"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -814,32 +778,38 @@ msgstr "Help"
 msgid "print"
 msgstr "Print"
 
-#: plugins/search/client/ClientSearch.php:268
-#, php-format
-msgid "%s results"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "reset session"
 msgstr ""
 
-#: toolbar
-#msgid "zoomin"
-#msgstr "Zoom in"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "Reset session"
+msgstr ""
 
-#msgid "zoomout"
-#msgstr "Zoom out"
+#~ msgid "Layer to center on:"
+#~ msgstr "Layer to center on :"
 
-#msgid "pan"
-#msgstr "Pan"
+#~ msgid "Comma separated id's:"
+#~ msgstr "Comma separated id's :"
 
-msgid "query"
-msgstr "Query"
+#~ msgid "Searchby"
+#~ msgstr "Search by ..."
 
-#msgid "outline_point"
-#msgstr "Point"
+# msgid "zoomin"
+# msgstr "Zoom in"
+# msgid "zoomout"
+# msgstr "Zoom out"
+# msgid "pan"
+# msgstr "Pan"
+#~ msgid "query"
+#~ msgstr "Query"
 
-#msgid "outline_rectangle"
-#msgstr "Rectangle"
-
-msgid "outline_poly"
-msgstr "Polygon"
+# msgid "outline_point"
+# msgstr "Point"
+# msgid "outline_rectangle"
+# msgstr "Rectangle"
+#~ msgid "outline_poly"
+#~ msgstr "Polygon"
 
 #~ msgid "Recherche"
 #~ msgstr "Search"

@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:10+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,6 +19,10 @@ msgstr ""
 #: layers.ini:layers.raster.label
 msgid "Raster"
 msgstr ""
+
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr "None"
 
 #: layers.ini:layers.human.label
 msgid "Human activities"
@@ -38,11 +42,11 @@ msgstr ""
 
 #: layers.ini:layers.district.label demoCW3.map
 msgid "district"
-msgstr ""
+msgstr "Districts"
 
 #: layers.ini:layers.sea.label demoCW3.map
 msgid "sea"
-msgstr ""
+msgstr "Sea"
 
 #: layers.ini:layers.towns.label layers.ini:layers.town.label
 msgid "Towns"
@@ -50,7 +54,7 @@ msgstr ""
 
 #: layers.ini:layers.agglo.label
 msgid "Agglomerations"
-msgstr ""
+msgstr "Suburbs"
 
 #: layers.ini:layers.transport.label
 msgid "Transports"
@@ -68,13 +72,15 @@ msgstr ""
 msgid "Roads"
 msgstr ""
 
-#: layers.ini:layers.road1.label
-msgid "vue generale"
-msgstr "general view"
+#: layers.ini:layers.freeway_.label
+#, fuzzy
+msgid "Freeway"
+msgstr "Freeways"
 
-#: layers.ini:layers.road2.label
-msgid "vue detaillee"
-msgstr "detailed view"
+#: layers.ini:layers.sr.label
+#, fuzzy
+msgid "Secondary road"
+msgstr "Secondary roads"
 
 #: layers.ini:layers.contour.label
 msgid "Elevation contour"
@@ -138,11 +144,11 @@ msgstr ""
 
 #: demoCW3.map
 msgid "raster"
-msgstr ""
+msgstr "Raster"
 
 #: demoCW3.map
 msgid "contour"
-msgstr ""
+msgstr "Contour"
 
 #: demoCW3.map
 msgid "NAM"
@@ -150,11 +156,11 @@ msgstr "NAME"
 
 #: demoCW3.map
 msgid "iceland"
-msgstr ""
+msgstr "Iceland"
 
 #: demoCW3.map
 msgid "AREA"
-msgstr ""
+msgstr "AREA"
 
 #: demoCW3.map
 msgid "iceland_hilight"
@@ -162,35 +168,27 @@ msgstr ""
 
 #: demoCW3.map
 msgid "lake"
-msgstr ""
+msgstr "Lakes"
 
 #: demoCW3.map
 msgid "river"
-msgstr ""
+msgstr "Rivers"
 
 #: demoCW3.map
 msgid "railway"
-msgstr ""
+msgstr "Railways"
 
 #: demoCW3.map
-msgid "road1"
-msgstr ""
+msgid "freeway"
+msgstr "Freeways"
 
 #: demoCW3.map
-msgid "road2"
-msgstr ""
-
-#: demoCW3.map
-msgid "Freeway"
-msgstr ""
-
-#: demoCW3.map
-msgid "Secondary road"
-msgstr ""
+msgid "secondary_road"
+msgstr "Secondary roads"
 
 #: demoCW3.map
 msgid "mountain"
-msgstr ""
+msgstr "Mountain"
 
 #: demoCW3.map
 msgid "> 3500m"
@@ -210,15 +208,15 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "suburb"
+msgstr "Suburbs"
 
 #: demoCW3.map
 msgid "airport"
-msgstr ""
+msgstr "Airports"
 
 #: demoCW3.map
 msgid "town"
-msgstr ""
+msgstr "Towns"
 
 #: demoCW3.map
 msgid "TXT"
@@ -236,6 +234,11 @@ msgstr ""
 msgid "cartoweb_polygon_outline"
 msgstr ""
 
-#: demoCW3.map
-msgid "none"
-msgstr ""
+#~ msgid "vue generale"
+#~ msgstr "Full extent"
+
+#~ msgid "vue detaillee"
+#~ msgstr "detailed view"
+
+#~ msgid "none"
+#~ msgstr "Aucun"

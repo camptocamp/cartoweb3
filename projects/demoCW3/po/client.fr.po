@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:09+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,21 +89,18 @@ msgid "Zoom out to see layer"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Id Recentering"
-msgstr "Recentrage sur les Id"
-
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on:"
-msgstr "Couche sur laquelle se recentrer"
-
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's:"
-msgstr "Id, séparés par des virgules:"
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
+msgstr "Recherche"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
 msgstr "Recentrer"
+
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Aucun resultat ne correspond a votre requete"
+msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "X :"
@@ -111,7 +108,7 @@ msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Y:"
-msgstr ""
+msgstr "Y :"
 
 #: projects/demoCW3/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
@@ -317,28 +314,6 @@ msgstr ""
 msgid "Clear outline"
 msgstr "Effacer le tracé"
 
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Search service"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Search"
-msgstr "Recherche"
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-#, fuzzy
-msgid "Search by ..."
-msgstr "Recherche par ..."
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Enter a name"
-msgstr "Entrez un nom"
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Select an option"
-msgstr "Choisissez une option"
-
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
@@ -355,14 +330,6 @@ msgstr ""
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "welcome"
 msgstr "Bienvenue"
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "reset session"
-msgstr "réinitialiser"
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Reset session"
-msgstr "Réinitialiser"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
@@ -418,11 +385,11 @@ msgstr "Sources des données"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Nima:"
-msgstr ""
+msgstr "Nima"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Gtopo30:"
-msgstr ""
+msgstr "Gtopo30 :"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Projection and datums"
@@ -439,10 +406,6 @@ msgstr ""
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "EPSG 32632"
 msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Your browser does not support search services"
-msgstr "Votre navigateur ne supporte pas les services de recherche"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "You are not allowed to print maps"
@@ -803,7 +766,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "fullextent"
-msgstr "vue générale"
+msgstr "Vue générale"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -896,32 +859,54 @@ msgstr "aide"
 msgid "print"
 msgstr "Imprimer"
 
-#: plugins/search/client/ClientSearch.php:268
-#, php-format
-msgid "%s results"
-msgstr "%s resultats"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "reset session"
+msgstr "réinitialiser"
 
-#: toolbar
-#msgid "zoomin"
-#msgstr "Zoom avant"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "Reset session"
+msgstr "Réinitialiser"
 
-#msgid "zoomout"
-#msgstr "Zoom arrière"
+#~ msgid "Id Recentering"
+#~ msgstr "Recentrage sur les Id"
 
-#msgid "pan"
-#msgstr "déplacement"
+#~ msgid "Layer to center on:"
+#~ msgstr "Couche sur laquelle se recentrer"
 
-msgid "query"
-msgstr "Requête"
+#~ msgid "Comma separated id's:"
+#~ msgstr "Id, séparés par des virgules :"
 
-#msgid "outline_point"
-#msgstr "Point"
+#, fuzzy
+#~ msgid "Searchby"
+#~ msgstr "Recherche par ..."
 
-#msgid "outline_rectangle"
-#msgstr "Rectangle"
+#~ msgid "Enter a name"
+#~ msgstr "Entrez un nom"
 
-msgid "outline_poly"
-msgstr "Polygone"
+#~ msgid "Select an option"
+#~ msgstr "Choisissez une option"
+
+#~ msgid "Your browser does not support search services"
+#~ msgstr "Votre navigateur ne supporte pas les services de recherche"
+
+#~ msgid "%s results"
+#~ msgstr "%s resultats"
+
+# msgid "zoomin"
+# msgstr "Zoom avant"
+# msgid "zoomout"
+# msgstr "Zoom arrière"
+# msgid "pan"
+# msgstr "déplacement"
+#~ msgid "query"
+#~ msgstr "Requête"
+
+# msgid "outline_point"
+# msgstr "Point"
+# msgid "outline_rectangle"
+# msgstr "Rectangle"
+#~ msgid "outline_poly"
+#~ msgstr "Polygone"
 
 #~ msgid "Query result"
 #~ msgstr "Résultats de la requete"

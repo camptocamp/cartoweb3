@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:10+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,6 +19,10 @@ msgstr "Vecteur"
 #: layers.ini:layers.raster.label
 msgid "Raster"
 msgstr ""
+
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr "Aucun"
 
 #: layers.ini:layers.human.label
 msgid "Human activities"
@@ -38,7 +42,7 @@ msgstr "Hydrologie"
 
 #: layers.ini:layers.district.label demoCW3.map
 msgid "district"
-msgstr "Région"
+msgstr "Régions"
 
 #: layers.ini:layers.sea.label demoCW3.map
 msgid "sea"
@@ -68,13 +72,13 @@ msgstr "Voies ferrées"
 msgid "Roads"
 msgstr "Routes"
 
-#: layers.ini:layers.road1.label
-msgid "vue generale"
-msgstr ""
+#: layers.ini:layers.freeway_.label
+msgid "Freeway"
+msgstr "Autoroutes"
 
-#: layers.ini:layers.road2.label
-msgid "vue detaillee"
-msgstr ""
+#: layers.ini:layers.sr.label
+msgid "Secondary road"
+msgstr "Routes nationales"
 
 #: layers.ini:layers.contour.label
 msgid "Elevation contour"
@@ -138,11 +142,11 @@ msgstr ""
 
 #: demoCW3.map
 msgid "raster"
-msgstr "raster"
+msgstr "Raster"
 
 #: demoCW3.map
 msgid "contour"
-msgstr ""
+msgstr "Contour"
 
 #: demoCW3.map
 msgid "NAM"
@@ -162,35 +166,29 @@ msgstr ""
 
 #: demoCW3.map
 msgid "lake"
-msgstr "lac"
+msgstr "Lacs"
 
 #: demoCW3.map
 msgid "river"
-msgstr "rivière"
+msgstr "Rivières"
 
 #: demoCW3.map
 msgid "railway"
-msgstr "voie ferrée"
+msgstr "Voies ferrées"
 
 #: demoCW3.map
-msgid "road1"
-msgstr "route1"
+#, fuzzy
+msgid "freeway"
+msgstr "Autoroutes"
 
 #: demoCW3.map
-msgid "road2"
-msgstr "route2"
-
-#: demoCW3.map
-msgid "Freeway"
-msgstr "Autoroute"
-
-#: demoCW3.map
-msgid "Secondary road"
-msgstr "Route nationale"
+#, fuzzy
+msgid "secondary_road"
+msgstr "Routes nationales"
 
 #: demoCW3.map
 msgid "mountain"
-msgstr "montagne"
+msgstr "Montagnes"
 
 #: demoCW3.map
 msgid "> 3500m"
@@ -210,15 +208,15 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "agglomération"
+msgstr "Agglomérations"
 
 #: demoCW3.map
 msgid "airport"
-msgstr "aéroport"
+msgstr "Aéroports"
 
 #: demoCW3.map
 msgid "town"
-msgstr "ville"
+msgstr "Villes"
 
 #: demoCW3.map
 msgid "TXT"
@@ -236,6 +234,17 @@ msgstr ""
 msgid "cartoweb_polygon_outline"
 msgstr ""
 
-#: demoCW3.map
-msgid "none"
-msgstr "aucun"
+#~ msgid "vue generale"
+#~ msgstr "Vue générale"
+
+#~ msgid "vue detaillee"
+#~ msgstr "Vue détaillée"
+
+#~ msgid "road1"
+#~ msgstr "route1"
+
+#~ msgid "road2"
+#~ msgstr "route2"
+
+#~ msgid "none"
+#~ msgstr "Aucun"

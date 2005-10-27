@@ -215,10 +215,10 @@ MAP
     TYPE LINE
     DATA "railrdl"
 
-    #METADATA
-     # "exported_values" "security_view,security_edit"
-     # "security_view" "demo"
-    #END
+    METADATA
+      "exported_values" "security_view,security_edit"
+      "security_view" "demo"
+    END
     CLASS
       NAME "railway"
       EXPRESSION ([EXS] = 28)
