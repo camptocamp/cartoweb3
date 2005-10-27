@@ -27,17 +27,6 @@
   {/if}
   
   {include file="dhtmlcode.tpl"}
-  <script language="JavaScript" type="text/javascript">
-    <!--
-    {literal}
-    window.onload = function() {
-      if (typeof onLoadString == "string") {
-        eval(onLoadString);
-      }
-    }
-    {/literal}
-    //-->
-  </script>
 </head>
 
 <body>
@@ -304,11 +293,6 @@
       {if $recenter_active|default:''}
       {$recenter}
       {/if}
-      
-      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="250" height="125px"
-      {if $iframeSrc|default:''}src="{$iframeSrc}" {/if} >
-      {t}Your browser does not support search services{/t}
-      </iframe>
       
       {if $id_recenter_active|default:''}
       {$id_recenter}
