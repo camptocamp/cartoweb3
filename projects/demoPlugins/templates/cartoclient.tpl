@@ -283,16 +283,11 @@
       <fieldset>
       <legend><b>{t}A geographic object{/t}</b></legend>
       <br />
-      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="190" height="125px"
-      {if $iframeSrc|default:''}src="{$iframeSrc}" {/if} >
-      {t}Your browser does not support search services{/t}
-      </iframe>
-      </fieldset>
-      
       {if $id_recenter_active|default:''}
       {$id_recenter}
       {/if}
-    
+      </fieldset>
+          
       {if $exporthtml_active|default:''}
       <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
       {/if}

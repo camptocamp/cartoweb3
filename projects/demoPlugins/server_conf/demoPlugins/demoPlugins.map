@@ -96,19 +96,16 @@ MAP
     DATA "polbnda"
 
     METADATA
+        "exported_values" "recenter_name_string,id_attribute_string"
+        "recenter_name_string" "NAM"
         "id_attribute_string" "OGC_FID|string"
         "query_returned_attributes" "NAM" 
     END
 
     CLASS
-      COLOR 80 160 74
-    END
-    
-    CLASS
       STYLE
-        OUTLINECOLOR 133 155 133
-        SYMBOL 'circle' 
-        SIZE 1 
+        COLOR 80 160 74
+        OUTLINECOLOR 86 86 74
       END
     END
   END
@@ -187,13 +184,21 @@ MAP
     NAME "river"
     TYPE LINE
     DATA "watrcrsl"
-    #MAXSCALE 3500000
+    MAXSCALE 1000000
     
     CLASS
-      NAME "river"
+      MINSCALE 500000
       STYLE
         SYMBOL "circle"
-        #SIZE 1
+        SIZE 1
+        COLOR 0 0 180
+      END
+    END
+    CLASS
+      MAXSCALE 500000
+      STYLE
+        SYMBOL "circle"
+        SIZE 2
         COLOR 0 0 180
       END
     END
@@ -205,126 +210,180 @@ MAP
     TYPE LINE
     DATA "railrdl"
 
-    MAXSCALE 1001000
-
-    METADATA
-      "exported_values" "security_view,security_edit"
-      "security_view" "demo"
-    END
-
+    #METADATA
+     # "exported_values" "security_view,security_edit"
+     # "security_view" "demo"
+    #END
     CLASS
       NAME "railway"
       EXPRESSION ([EXS] = 28)
+      MAXSCALE 500000
       STYLE
-        SYMBOL 'line' 
-        SIZE 2
-       COLOR 0 0 0
+        SYMBOL "circle"
+        COLOR 86 86 86
+        SIZE 3
       END
-      STYLE
-        SYMBOL '|'
-        SIZE 10
-        COLOR 0 0 0
-      END
+      OVERLAYSYMBOL "dashed2"
+      OVERLAYCOLOR 223 223 223
+      OVERLAYSIZE 1
     END
   END
 
   LAYER
-    NAME "road1"
+    NAME "freeway"
     TYPE LINE
     DATA "roadl"
-    
-    #general view
+    #1
     CLASS
-      NAME "roads"
-      #MINSCALE 750001
       MINSCALE 2500000
-      STYLE 
-         SYMBOL "circle" 
-         SIZE 1
-         COLOR 255 0 0
-      END 
-      #STYLE
-       #   COLOR 0 0 0
-      #END
+      EXPRESSION ([EXS] = 28 and [MED] = 1)
+      STYLE
+	    COLOR 255 0 0
+	    #COLOR 153 51 0
+	    SYMBOL "circle"
+	    SIZE 2
+	  END
+    END
+    
+    CLASS
+      MINSCALE 2500000
+      EXPRESSION ([EXS] = 5)
+      STYLE
+	    COLOR 255 0 0
+	    SYMBOL "circle"
+	    SIZE 2
+	  END
+    END
+    
+    #2
+    CLASS
+      MAXSCALE 2500000
+      MINSCALE 500000
+      EXPRESSION ([EXS] = 28 and [MED] = 1)
+      STYLE
+	    COLOR 204 0 0
+	    SYMBOL "circle"
+	    SIZE 3
+	  END
+	  OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 255 0
+      OVERLAYSIZE 1 
+    END
+    
+    CLASS
+      MAXSCALE 2500000
+      MINSCALE 500000
+      EXPRESSION ([EXS] = 5)
+      STYLE
+	    COLOR 204 0 0
+	    SYMBOL "circle"
+	    SIZE 3
+	  END
+	  OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 255 0
+      OVERLAYSIZE 1 
+    END
+    
+    #3
+    CLASS
+      MAXSCALE 500000
+      EXPRESSION ([EXS] = 28 and [MED] = 1)
+      STYLE
+	    COLOR 204 0 0
+	    SYMBOL "circle"
+	    SIZE 6
+	  END
+	  OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 255 0
+      OVERLAYSIZE 2 
+    END
+    
+    CLASS
+      MAXSCALE 500000
+      EXPRESSION ([EXS] = 5)
+      STYLE
+	    COLOR 204 0 0
+	    SYMBOL "circle"
+	    SIZE 6
+	  END
+	  OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 255 0
+      OVERLAYSIZE 2
     END
   END
     
-  LAYER
-    NAME "road2"
+ LAYER
+    NAME "secondary_road"
     TYPE LINE
-    DATA "roadl"
-    SYMBOLSCALE 250000
-    
-    CLASS  
-      NAME "secondary road"
+    DATA "roadl" 
+    #1
+    CLASS
+      MINSCALE 1000000
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 28 and [MED] = 2)
-      MINSIZE 2
-      MAXSIZE 10
-      STYLE  
-         SYMBOL 'circle'
-         COLOR 0 0 0
-         SIZE 5
-      END
       STYLE
-        SYMBOL 'circle'
-        COLOR 255 0 0
-        SIZE 3
+        SYMBOL "circle"
+        COLOR 153 0 0
+        SIZE 1
       END 
     END
-    
     CLASS
-      NAME "freeway"
-      MAXSCALE 2500000
-      EXPRESSION ([EXS] = 28 and [MED] = 1)
-      MINSIZE 2
-      MAXSIZE 10
-      STYLE  
-         SYMBOL 'circle'
-         COLOR 255 0 0
-         SIZE 7
-      END
-      STYLE
-         SYMBOL 'circle'
-         COLOR 255 255 0
-         SIZE 2
-      END 
-    END
-    
-    CLASS
-      # secondary road
+      MINSCALE 1000000
       MAXSCALE 2500000
       EXPRESSION ([EXS] = 55)
-      MINSIZE 2
-      MAXSIZE 10
-      STYLE  
-         SYMBOL 'circle'
-         COLOR 0 0 0
-         SIZE 5
-      END
       STYLE
-         SYMBOL 'circle'
-         COLOR 255 0 0
-         SIZE 3
+        SYMBOL "circle"
+        COLOR 153 0 0
+        SIZE 1
       END 
     END
     
+    #2
     CLASS
-      # freeway
-      MAXSCALE 2500000
-      EXPRESSION ([EXS] = 5)
-      MINSIZE 2
-      MAXSIZE 10
-      STYLE  
-         SYMBOL 'circle'
-         COLOR 255 0 0
-         SIZE 7
-      END
+      MAXSCALE 1000000
+      MINSCALE 500000
+      EXPRESSION ([EXS] = 28 and [MED] = 2)
       STYLE
-         SYMBOL 'circle'
-         COLOR 255 255 0
-         SIZE 2
-      END  
+        COLOR 204 0 0
+        SYMBOL "circle"
+	    SIZE 2
+      END 
+    END
+    CLASS
+      MAXSCALE 1000000
+      MINSCALE 500000
+      EXPRESSION ([EXS] = 55)
+      STYLE
+        COLOR 204 0 0
+        SYMBOL "circle"
+	    SIZE 2
+      END
+    END
+    
+    #3
+    CLASS 
+      MAXSCALE 500000
+      EXPRESSION ([EXS] = 28 and [MED] = 2)
+      STYLE
+        COLOR 0 0 0
+        SYMBOL "circle"
+        SIZE 5
+      END
+      OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 0 0
+      OVERLAYSIZE 3
+    END
+    CLASS 
+      MAXSCALE 500000
+      EXPRESSION ([EXS] = 55)
+      STYLE
+        COLOR 0 0 0
+        SYMBOL "circle"
+        SIZE 5
+      END
+      OVERLAYSYMBOL 'lineov'
+	  OVERLAYCOLOR 255 0 0
+      OVERLAYSIZE 3
     END
   END
 
@@ -385,6 +444,8 @@ MAP
     DATA "builtupa"
 
     METADATA
+        "exported_values" "recenter_name_string,id_attribute_string"
+        "recenter_name_string" "NAM"
         "id_attribute_string" "OGC_FID|string"
         "query_returned_attributes" "NAM" 
     END
@@ -426,6 +487,8 @@ MAP
     DATA "aerofacp"
 
     METADATA
+        "exported_values" "recenter_name_string,id_attribute_string"
+        "recenter_name_string" "NAM"
         "id_attribute_string" "OGC_FID|string"
         "query_returned_attributes" "NAM"
     END
@@ -461,6 +524,8 @@ MAP
     DATA "mispopp"
 
     METADATA
+        "exported_values" "recenter_name_string,id_attribute_string"
+        "recenter_name_string" "TXT"
         "id_attribute_string" "OGC_FID|string"
         "query_returned_attributes" "TXT" 
     END
@@ -483,17 +548,6 @@ MAP
         SYMBOL 'circle'
         SIZE 3
       END
-      
-      #STYLE
-       # COLOR 180 66 66
-        #SYMBOL "circle"
-        #SIZE 11
-      #END
-      #STYLE
-       # COLOR 250 250 250
-       # SYMBOL "circle"
-       # SIZE 7
-      #END
       LABEL
         TYPE TRUETYPE
         FONT "Vera"
@@ -508,6 +562,27 @@ MAP
     END
   END
   
+  
+  #########
+  # ROUTE #
+  #########
+  LAYER
+    NAME "graph"
+    TYPE LINE
+    TRANSPARENCY 80
+    CONNECTIONTYPE postgis
+        CONNECTION "user=www-data password= host=localhost dbname=demo_routing"
+        DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique gid using srid=-1"
+    TEMPLATE "t"
+    CLASS
+      NAME "0"
+      STYLE
+        SYMBOL "circle"
+        SIZE 10
+        COLOR 90 27 191
+      END
+    END
+  END
 
   ###########
   # outline #
@@ -574,13 +649,6 @@ MAP
         POSITION cc
       END
     END
-  END
-
-
-  # Layer none is only there to let layers.ini none option available...
-  LAYER
-    NAME "none"
-    TYPE POLYGON
   END
 
 END

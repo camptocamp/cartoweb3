@@ -11,7 +11,7 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, views, layerReorder, search, routing, demoRouting
+loadPlugins = exportCsv, exportPdf, outline, auth, views, layerReorder, demoLocation, routing, demoRouting
 
 authLang = fr, en
 orderLang = en, fr
@@ -19,8 +19,9 @@ orderLang = en, fr
 ; Views management
 viewOn = true
 viewStorage = db
-viewablePlugins = location, layers, query, outline
+;viewablePlugins = location, layers, query, outline
 viewMetas = author
-viewDsn = pgsql://www-data@localhost/demodb
+viewDsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_VIEWS_NAME@
+;pgsql://www-data@localhost/demodb
 viewAuth = all
 ;viewSavedRequest = personalVar1, personalVar2

@@ -79,21 +79,22 @@ class ServerDemoRouting extends ServerPostgresRouting {
             $attribute->set('edge_id', $row['edge_id']);
 
             // Warning: make sure index on edge_id is present
-            
             $routingResultsTable = $this->getRoutingResultsTable();
 
             $edgeId = $row['edge_id'];
             $r = $db->query("INSERT INTO $routingResultsTable SELECT $resultsId, " .
                     "$timestamp, gid, the_geom FROM $table WHERE edge_id = $edgeId");
-            Utils::checkDbError($r);
-            
+            if (PEAR::isError($r)) {
+                throw new CartoclientException('Error quering routing database');
+                return;
+            }
             $nodes[] = $node;
         }
         
         return $nodes;    
     }
     
-     /**
+    /**
      * @see PluginBase::replacePlugin() 
      */
     public function replacePlugin() {
