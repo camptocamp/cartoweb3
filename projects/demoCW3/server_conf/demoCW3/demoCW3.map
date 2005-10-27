@@ -97,10 +97,10 @@ MAP
     DATA "polbnda"
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "NAM"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM"
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "NAM"
     END
 
     CLASS
@@ -119,10 +119,10 @@ MAP
 
     TEMPLATE "ttt"
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "AREA"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "AREA" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "AREA"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "AREA" 
     END
 
     CLASS
@@ -168,10 +168,10 @@ MAP
     TRANSPARENCY 70
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "AREA"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "AREA" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "AREA"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "AREA" 
     END
     
     TEMPLATE "ttt"
@@ -243,21 +243,21 @@ MAP
       MINSCALE 2500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 255 0 0
-	    #COLOR 153 51 0
-	    SYMBOL "circle"
-	    SIZE 2
-	  END
+        COLOR 255 0 0
+        #COLOR 153 51 0
+        SYMBOL "circle"
+        SIZE 2
+      END
     END
     
     CLASS
       MINSCALE 2500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 255 0 0
-	    SYMBOL "circle"
-	    SIZE 2
-	  END
+        COLOR 255 0 0
+        SYMBOL "circle"
+        SIZE 2
+        END
     END
     
     #2
@@ -266,12 +266,12 @@ MAP
       MINSCALE 500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 3
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 3
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 1 
     END
     
@@ -280,12 +280,12 @@ MAP
       MINSCALE 500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 3
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 3
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 1 
     END
     
@@ -294,12 +294,12 @@ MAP
       MAXSCALE 500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 6
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 6
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 2 
     END
     
@@ -307,12 +307,12 @@ MAP
       MAXSCALE 500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 6
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 6
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 2
     END
   END
@@ -351,7 +351,7 @@ MAP
       STYLE
         COLOR 204 0 0
         SYMBOL "circle"
-	    SIZE 2
+        SIZE 2
       END 
     END
     CLASS
@@ -361,7 +361,7 @@ MAP
       STYLE
         COLOR 204 0 0
         SYMBOL "circle"
-	    SIZE 2
+        SIZE 2
       END
     END
     
@@ -375,7 +375,7 @@ MAP
         SIZE 5
       END
       OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 0 0
+      OVERLAYCOLOR 255 0 0
       OVERLAYSIZE 3
     END
     CLASS 
@@ -387,7 +387,7 @@ MAP
         SIZE 5
       END
       OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 0 0
+      OVERLAYCOLOR 255 0 0
       OVERLAYSIZE 3
     END
   END
@@ -399,10 +399,10 @@ MAP
     DATA "elevp"
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "ZV2"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "ZV2" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "ZV2"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "ZV2" 
     END
 
     TRANSPARENCY 90
@@ -452,10 +452,10 @@ MAP
     DATA "builtupa"
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "NAM"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "NAM" 
     END
 
     LABELITEM "NAM"
@@ -495,10 +495,10 @@ MAP
     DATA "aerofacp"
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "NAM"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM"
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "NAM"
     END
     LABELITEM "NAM"
 
@@ -532,10 +532,10 @@ MAP
     DATA "mispopp"
 
     METADATA
-        "exported_values" "recenter_name_string,id_attribute_string"
-        "recenter_name_string" "TXT"
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "TXT" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "TXT"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "TXT" 
     END
 
     MAXSCALE 1450000
