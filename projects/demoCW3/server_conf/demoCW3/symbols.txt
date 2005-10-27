@@ -63,3 +63,29 @@ SYMBOL
     ANTIALIAS TRUE
     GAP 30
 END
+
+SYMBOL
+   NAME 'lineov'
+   TYPE Ellipse
+   FILLED FALSE
+   POINTS 1 1 END
+END
+
+SYMBOL
+  NAME discontinuous_line
+  TYPE ellipse
+  FILLED TRUE
+  POINTS 1 1 END
+  STYLE 50 20 10 20 END
+END
+
+SYMBOL
+ NAME "dashed2"
+ TYPE ellipse
+ POINTS
+   1 1
+ END
+ STYLE
+   5 1
+ END
+END 

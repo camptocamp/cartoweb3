@@ -11,7 +11,7 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, search
+loadPlugins = exportCsv, exportPdf, outline, auth, demoLocation
 
 authLang = fr, en
 orderLang = en, fr
