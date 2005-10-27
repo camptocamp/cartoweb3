@@ -80,9 +80,9 @@ class ClientDemoRouting extends ClientRouting {
      */
     protected function TownsList (){
         // FIXME: table name and col name should be in config
-        $namestep = $this->getConfig()->namestep;
+        $stepName = $this->getConfig()->stepName;
         $postgresRoutingVerticesTable = $this->getConfig()->postgresRoutingVerticesTable;
-        $sql = "SELECT $namestep, geom_id FROM $postgresRoutingVerticesTable WHERE $namestep != '' ORDER BY $namestep";
+        $sql = "SELECT $stepName, geom_id FROM $postgresRoutingVerticesTable WHERE $stepName != '' ORDER BY $stepName";
         $this->getDb();
         $res = $this->db->query($sql);
         //print_r($sql);
