@@ -299,7 +299,8 @@ class PluginManager {
     }
     
     /**
-     * Returns plugin object for a plugin name
+     * Returns plugin object for a plugin name or NULL if this plugin
+     * is not loaded 
      * @param string name
      * @return PluginBase 
      */
