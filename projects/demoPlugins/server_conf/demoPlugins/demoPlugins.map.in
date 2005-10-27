@@ -96,8 +96,10 @@ MAP
     DATA "polbnda"
 
     METADATA
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "NAM" 
     END
 
     CLASS
@@ -236,21 +238,21 @@ MAP
       MINSCALE 2500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 255 0 0
-	    #COLOR 153 51 0
-	    SYMBOL "circle"
-	    SIZE 2
-	  END
+        COLOR 255 0 0
+        #COLOR 153 51 0
+        SYMBOL "circle"
+        SIZE 2
+      END
     END
     
     CLASS
       MINSCALE 2500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 255 0 0
-	    SYMBOL "circle"
-	    SIZE 2
-	  END
+        COLOR 255 0 0
+        SYMBOL "circle"
+        SIZE 2
+        END
     END
     
     #2
@@ -259,12 +261,12 @@ MAP
       MINSCALE 500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 3
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 3
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 1 
     END
     
@@ -273,12 +275,12 @@ MAP
       MINSCALE 500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 3
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 3
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 1 
     END
     
@@ -287,12 +289,12 @@ MAP
       MAXSCALE 500000
       EXPRESSION ([EXS] = 28 and [MED] = 1)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 6
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 6
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 2 
     END
     
@@ -300,12 +302,12 @@ MAP
       MAXSCALE 500000
       EXPRESSION ([EXS] = 5)
       STYLE
-	    COLOR 204 0 0
-	    SYMBOL "circle"
-	    SIZE 6
-	  END
-	  OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 255 0
+        COLOR 204 0 0
+        SYMBOL "circle"
+        SIZE 6
+      END
+      OVERLAYSYMBOL 'lineov'
+      OVERLAYCOLOR 255 255 0
       OVERLAYSIZE 2
     END
   END
@@ -344,7 +346,7 @@ MAP
       STYLE
         COLOR 204 0 0
         SYMBOL "circle"
-	    SIZE 2
+        SIZE 2
       END 
     END
     CLASS
@@ -354,7 +356,7 @@ MAP
       STYLE
         COLOR 204 0 0
         SYMBOL "circle"
-	    SIZE 2
+        SIZE 2
       END
     END
     
@@ -368,7 +370,7 @@ MAP
         SIZE 5
       END
       OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 0 0
+      OVERLAYCOLOR 255 0 0
       OVERLAYSIZE 3
     END
     CLASS 
@@ -380,7 +382,7 @@ MAP
         SIZE 5
       END
       OVERLAYSYMBOL 'lineov'
-	  OVERLAYCOLOR 255 0 0
+      OVERLAYCOLOR 255 0 0
       OVERLAYSIZE 3
     END
   END
@@ -442,8 +444,10 @@ MAP
     DATA "builtupa"
 
     METADATA
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string
+      "query_returned_attributes" "NAM" 
     END
 
     LABELITEM "NAM"
@@ -483,8 +487,10 @@ MAP
     DATA "aerofacp"
 
     METADATA
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "NAM"
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "NAM"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "NAM"
     END
     LABELITEM "NAM"
 
@@ -518,8 +524,10 @@ MAP
     DATA "mispopp"
 
     METADATA
-        "id_attribute_string" "OGC_FID|string"
-        "query_returned_attributes" "TXT" 
+      "exported_values" "recenter_name_string,id_attribute_string"
+      "recenter_name_string" "TXT"
+      "id_attribute_string" "OGC_FID|string"
+      "query_returned_attributes" "TXT" 
     END
 
     MAXSCALE 1450000
