@@ -9,7 +9,6 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
-  <link rel="stylesheet" type="text/css" href="{r type=css plugin=edit}edit.css{/r}" />
   <link rel="stylesheet" type="text/css" href="{r type=css}toolbar.css{/r}" />
 
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
@@ -30,7 +29,6 @@
     //-->
   </script>
   {/if}
-  <script type="text/javascript" src="{r type=js}toolbar.js{/r}" ></script>
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   {include file="dhtmlcode.tpl"}
 </head>
@@ -252,7 +250,7 @@
       </ul>
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
-        <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
+        <li id="label3"><a href="javascript:ontop(3)">{t}SearchTab{/t}</a></li>
         {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
       </ul>
    </div>

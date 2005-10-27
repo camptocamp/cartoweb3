@@ -2,13 +2,11 @@
 <center>
 <div id="start" style="text-align:left; margin-left:20px;">{t}Start{/t}</div> 
 <select name="routing_from" id="routing_from" class="select" style="width:150px;">
-      <option value="0">{t}Select a town{/t}</option>
       {html_options options=$vertices_options selected=$routing_from}
 </select>
 <br /><br />
 <div id="finish" style="text-align:left; margin-left:20px;">{t}Finish{/t}</div>
 <select name="routing_to" id="routing_to" class="select" style="width:150px;">
-      <option value="0">{t}Select a town{/t}</option>
       {html_options options=$vertices_options selected=$routing_to}
 </select>
 <br /><br />

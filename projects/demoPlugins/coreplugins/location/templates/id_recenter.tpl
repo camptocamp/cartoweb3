@@ -55,7 +55,7 @@
         <div id="result_div_empty" style="display:none">
           <table>
           <tr>
-            <td>{t}Aucun resultat ne correspond a votre requete{/t}</td>
+            <td>{t}No result for your query{/t}</td>
           </tr>
           </table>
         </div>

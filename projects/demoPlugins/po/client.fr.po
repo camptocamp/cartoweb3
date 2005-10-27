@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-25 08:18+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,21 +89,13 @@ msgid "Zoom out to see layer"
 msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-msgid "Id Recentering"
-msgstr "Recentrage sur un identifiant"
-
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on:"
-msgstr "Couche sur laquelle se recentrer"
-
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's:"
-msgstr "Identifiants, séparés par des virgules"
-
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
 msgstr "Recentrer"
+
+#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
+msgid "No result for your query"
+msgstr "Aucun résultat ne corrspond à votre requête"
 
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "X :"
@@ -143,7 +135,7 @@ msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr "Requete"
+msgstr "Requête"
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 #: projects/demoPlugins/plugins/outline/templates/outline.tpl
@@ -255,6 +247,7 @@ msgid "None"
 msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Print"
 msgstr ""
 
@@ -299,9 +292,31 @@ msgstr ""
 msgid "Clear outline"
 msgstr "Effacer le tracé"
 
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Start"
+msgstr "Départ"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Finish"
+msgstr "Arrivée"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+#, fuzzy
+msgid "reset routing"
+msgstr "Réinitialiser"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+#, fuzzy
+msgid "Reset"
+msgstr "Recentrer"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "OK"
+msgstr ""
+
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
-msgstr ""
+msgstr "CartoWeb3 - Démonstration"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/mainmap.tpl
@@ -333,20 +348,16 @@ msgid "scalebar_alt"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Query result"
-msgstr "Résultats"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Query Clear"
-msgstr "Effacer la requête"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
 msgid " Developer messages "
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "User messages"
 msgstr "Messages utilisateur"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Outline"
@@ -361,12 +372,21 @@ msgid "Themes"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Views"
-msgstr ""
+#, fuzzy
+msgid "Search"
+msgstr "Recherche"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder"
-msgstr "Ordre des couches"
+msgstr "Couches"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "A route"
+msgstr "Un itinéraire"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "A geographic object"
+msgstr "Un objet géographique"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -536,6 +556,21 @@ msgstr "réinitialiser"
 msgid "Reset session"
 msgstr "Réinitialiser"
 
+#: plugins/demoRouting/client/ClientDemoRouting.php:110
+msgid "fastest"
+msgstr ""
+
+#: plugins/demoRouting/client/ClientDemoRouting.php:111
+msgid "shortest"
+msgstr ""
+
+#bug on search tab
+msgid "SearchTab"
+msgstr "Recherche"
+
+#, fuzzy
+
+# Elements dynamiques
 msgid "zoomin"
 msgstr "Zoom avant"
 
@@ -561,19 +596,7 @@ msgid "outline_poly"
 msgstr "Polygone"
 
 msgid "Search service"
-msgstr "Rechercher un service"
-
-msgid "Recherche"
 msgstr "Recherche"
-
-msgid "Search by ..."
-msgstr "Recherche par ..."
-
-msgid "Enter a name"
-msgstr "Entrer un nom"
-
-msgid "Select an option"
-msgstr "Choisissez une option"
 
 #~ msgid "%s results"
 #~ msgstr "%s resultats"

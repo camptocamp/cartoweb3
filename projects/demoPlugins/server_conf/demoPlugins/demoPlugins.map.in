@@ -446,7 +446,7 @@ MAP
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "NAM"
-      "id_attribute_string" "OGC_FID|string
+      "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "NAM" 
     END
 
