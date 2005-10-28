@@ -20,5 +20,8 @@ scaleUnitLimit = 10000
 ; ratio for panning, default is 1.0
 panRatio = 0.75
 
+;tools templating
+groupPlugin = 1
+
 ;name search configuration
 dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_SEARCH_NAME@
