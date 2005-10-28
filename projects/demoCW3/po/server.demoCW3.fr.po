@@ -233,18 +233,3 @@ msgstr ""
 #: demoCW3.map
 msgid "cartoweb_polygon_outline"
 msgstr ""
-
-#~ msgid "vue generale"
-#~ msgstr "Vue générale"
-
-#~ msgid "vue detaillee"
-#~ msgstr "Vue détaillée"
-
-#~ msgid "road1"
-#~ msgstr "route1"
-
-#~ msgid "road2"
-#~ msgstr "route2"
-
-#~ msgid "none"
-#~ msgstr "Aucun"

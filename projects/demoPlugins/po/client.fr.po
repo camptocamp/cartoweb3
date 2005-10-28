@@ -597,6 +597,3 @@ msgstr "Polygone"
 
 msgid "Search service"
 msgstr "Recherche"
-
-#~ msgid "%s results"
-#~ msgstr "%s resultats"

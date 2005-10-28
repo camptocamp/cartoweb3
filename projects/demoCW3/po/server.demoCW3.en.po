@@ -233,12 +233,3 @@ msgstr ""
 #: demoCW3.map
 msgid "cartoweb_polygon_outline"
 msgstr ""
-
-#~ msgid "vue generale"
-#~ msgstr "Full extent"
-
-#~ msgid "vue detaillee"
-#~ msgstr "detailed view"
-
-#~ msgid "none"
-#~ msgstr "Aucun"

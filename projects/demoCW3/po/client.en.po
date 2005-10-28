@@ -786,30 +786,9 @@ msgstr ""
 msgid "Reset session"
 msgstr ""
 
-#~ msgid "Layer to center on:"
-#~ msgstr "Layer to center on :"
+#Dynamic elements
+msgid "query"
+msgstr "Query"
 
-#~ msgid "Comma separated id's:"
-#~ msgstr "Comma separated id's :"
-
-#~ msgid "Searchby"
-#~ msgstr "Search by ..."
-
-# msgid "zoomin"
-# msgstr "Zoom in"
-# msgid "zoomout"
-# msgstr "Zoom out"
-# msgid "pan"
-# msgstr "Pan"
-#~ msgid "query"
-#~ msgstr "Query"
-
-# msgid "outline_point"
-# msgstr "Point"
-# msgid "outline_rectangle"
-# msgstr "Rectangle"
-#~ msgid "outline_poly"
-#~ msgstr "Polygon"
-
-#~ msgid "Recherche"
-#~ msgstr "Search"
+msgid "outline_poly"
+msgstr "Polygon"

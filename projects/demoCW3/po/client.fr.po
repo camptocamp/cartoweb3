@@ -845,7 +845,7 @@ msgstr "vue_generale_alt"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "full_extent"
-msgstr "vue generale"
+msgstr "Vue Générale"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Help"
@@ -861,55 +861,15 @@ msgstr "Imprimer"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "reset session"
-msgstr "réinitialiser"
+msgstr "Réinitialiser"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Reset session"
 msgstr "Réinitialiser"
 
-#~ msgid "Id Recentering"
-#~ msgstr "Recentrage sur les Id"
+#Elements dynamiques
+msgid "query"
+msgstr "Requête"
 
-#~ msgid "Layer to center on:"
-#~ msgstr "Couche sur laquelle se recentrer"
-
-#~ msgid "Comma separated id's:"
-#~ msgstr "Id, séparés par des virgules :"
-
-#, fuzzy
-#~ msgid "Searchby"
-#~ msgstr "Recherche par ..."
-
-#~ msgid "Enter a name"
-#~ msgstr "Entrez un nom"
-
-#~ msgid "Select an option"
-#~ msgstr "Choisissez une option"
-
-#~ msgid "Your browser does not support search services"
-#~ msgstr "Votre navigateur ne supporte pas les services de recherche"
-
-#~ msgid "%s results"
-#~ msgstr "%s resultats"
-
-# msgid "zoomin"
-# msgstr "Zoom avant"
-# msgid "zoomout"
-# msgstr "Zoom arrière"
-# msgid "pan"
-# msgstr "déplacement"
-#~ msgid "query"
-#~ msgstr "Requête"
-
-# msgid "outline_point"
-# msgstr "Point"
-# msgid "outline_rectangle"
-# msgstr "Rectangle"
-#~ msgid "outline_poly"
-#~ msgstr "Polygone"
-
-#~ msgid "Query result"
-#~ msgstr "Résultats de la requete"
-
-#~ msgid "Query Clear"
-#~ msgstr "Effacer"
+msgid "outline_poly"
+msgstr "Polygone"

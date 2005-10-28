@@ -30,6 +30,7 @@ We describe the steps followed to install the routing demo. To resume, we used a
 Note : the steps 2.2 to 2.4 can be done by launching the demo_routing.sql file.
 
 2.1. database installation
+--------------------------
     - createdb demo_routing
     - createlang plpgsql demo_routing
     - psql -d demo_routing -f lwpostgis.sql
@@ -39,12 +40,14 @@ Note : the steps 2.2 to 2.4 can be done by launching the demo_routing.sql file.
 
 
 2.2. Import of the Europe road geodata in postGIS
+-------------------------------------------------
     
     - shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
     - psql -d demo_routing -f /tmp/roadl.sql
 
     
 2.3. Graph importation
+----------------------
 
 The first step is to delete uneeded cols of the table roads_europe_tmp. To do so, you can type :
     - CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
