@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 class ImagesState {
  
     /**
-     * Main map height ans width
+     * Main map height and width
      * @var Dimension
      */
     public $mainmapDimension;
