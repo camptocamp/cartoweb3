@@ -21,6 +21,8 @@
  * @version $Id$
  */
 
+require_once('client/CartoclientTest.php');
+
 /**
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
