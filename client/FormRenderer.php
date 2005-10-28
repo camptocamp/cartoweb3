@@ -139,7 +139,7 @@ class FormRenderer {
         else
             $toolbarRendering = 'radio';
             
-        $smarty->assign(array('selected_tool' =>$clientSession->selectedTool,
+        $smarty->assign(array('selected_tool' => $clientSession->selectedTool,
                               'tools' => $tools,
                               'toolbar_rendering' => $toolbarRendering));
                 
