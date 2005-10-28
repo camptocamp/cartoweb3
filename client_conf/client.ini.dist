@@ -61,6 +61,12 @@ initialMapStateId = default
 ; Possible values are : zoomin, zoomout, pan, query, distance, surface
 initialTool = zoomin
 
+; Indicates how to render toolbar
+; available values : radio, class (default is radio)
+; make sure that toolbar_on and toolbar_off css classes are set for class rendering
+;toolbarRendering = radio
+
+
 ;## Project handling configuration ##
 
 ; Shows a drop-down list for selecting the active project

@@ -132,10 +132,17 @@ class FormRenderer {
                 if (!empty($toolsIds))
                     $clientSession->selectedTool = $tools[$toolsIds[0]]->id;
             }
-        }       
-        $smarty->assign('selected_tool', $clientSession->selectedTool);
+        }
+        
+        if ($this->cartoclient->getConfig()->toolbarRendering)
+            $toolbarRendering = $this->cartoclient->getConfig()->toolbarRendering;
+        else
+            $toolbarRendering = 'radio';
+            
+        $smarty->assign(array('selected_tool' =>$clientSession->selectedTool,
+                              'tools' => $tools,
+                              'toolbar_rendering' => $toolbarRendering));
                 
-        $smarty->assign('tools', $tools);        
     }
 
     /**

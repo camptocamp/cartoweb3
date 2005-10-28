@@ -74,15 +74,10 @@ createMap = function() {
   mainmap.displayFeaturesCount();
   mainmap.snap("map");
   
-  // get the checked tool and its values
-  for (var i =0; i < myform.tool.length ; i++) {
-    if (myform.tool[i].checked) {
-      var func = myform.tool[i].onclick;
-      var start = func.toString().indexOf('{');
-      var end = func.toString().indexOf('}');
-      eval (func.toString().substring(start + 1, end));
-    }
-  }
+  // initial selected tool
+  if (typeof cw3_initial_selected_tool != "undefined")
+  	eval (cw3_initial_selected_tool);
+  
   xHide(xGetElementById('loadbarDiv'));
 };
 
