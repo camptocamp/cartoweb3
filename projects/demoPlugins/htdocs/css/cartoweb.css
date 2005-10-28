@@ -18,11 +18,15 @@ a:hover {color:#f00}
 
 img {border:0;}
 
-#topbanner {
+#downbanner {
   width:100%;
   background-color:#8398ac;
   color:white;
 }
+
+#downbanner a:link  {color:white;}
+#downbanner a:visited {color:white;}
+#downbanner a:hover {color:#f00}
 
 #logo {
   background-color:white;
@@ -38,7 +42,7 @@ img {border:0;}
 #title {
   text-align:center;
   font-size: 18px;
-  font-weight: lighter;
+  font-weight: bolder;
   vertical-align:middle;
 }
 

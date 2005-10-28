@@ -77,9 +77,9 @@
   {/if}
 
 <table>
-  <tr valin="top">
+  <tr valin="top">  
     <td id="toolbar_row" valign="top" nowrap="true">
-     {include file="toolbar.tpl" group=1}
+      {include file="toolbar.tpl" group=1}
     </td>
     <td>
     <div id="content">
@@ -131,22 +131,12 @@
         <td colspan="3" align="center">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
           <tr>
-            <td colspan="3" valign="top" align="center" width="80%">
-              {if $scalebar_path|default:''}
-                <img src="{$scalebar_path}" 
-                alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
-                height="{$scalebar_height}" title="" />
-              {/if}
-            </td>
-          </tr>
-          <tr>
-            <td width="10%" align="center">
+            <td width="50%" align="center">
               {if $scales_active|default:''}
                 {$scales}
               {/if}
             </td>
-            <td width="80%"></td> 
-            <td width="10%" align="center">
+            <td width="50%" align="center">
               {if $mapsizes_active|default:''}
                 {$mapsizes}
               {/if}
@@ -158,37 +148,42 @@
       <tr>
         <td  colspan="3"><br /></td>
       </tr>
-       
-      {if $selection_result|default:''}
-      <tr>
-        <td colspan ="3">
-          <center>
-            {$selection_result}
-          </center>
-        </td>
-      </tr>
-      {/if}
-       
-      {if $query_result|default:''}
-      <tr>
-        <td colspan ="3">
-          <center>
-            {$query_result}
-          </center>
-        </td>
-      </tr>
-      {/if}
-       
+      
       {if $tables_result|default:''}
       <tr>
         <td colspan ="3">
-          <center>
-            {$tables_result}
-          </center>
+        <table style="border:1px solid black;" width="100%">
+          <tr>
+            <td>
+              <center>
+                {$tables_result}
+              </center>
+            </td>
+          </tr>
+       
+          {if $query_result|default:''}
+          <tr>
+            <td colspan ="3">
+              <center>
+                {$query_result}
+              </center>
+            </td>
+          </tr>
+          {/if}
+          {if $selection_result|default:''}
+          <tr>
+            <td colspan ="3">
+              <center>
+                {$selection_result}
+              </center>
+            </td>
+          </tr>
+          {/if}
+        </table>
         </td>
       </tr>
       {/if}
-
+      
       {if $developer_messages|default:''}
       <tr>
        <td colspan="3" align="center">
@@ -375,11 +370,11 @@
 <img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
 </td></tr>
 <tr id="downbanner" height="50px">
-    <td colspan="3" align="right" valign="top" class="mini">
-    Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
-    &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
-    </td>
-  </tr>
+  <td colspan="3" align="right" valign="top" class="mini">
+  Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
+  &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+  </td>
+</tr>
 
 </table>
 
