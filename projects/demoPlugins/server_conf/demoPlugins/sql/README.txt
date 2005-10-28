@@ -1,4 +1,4 @@
-This help gives you some informations to integrate the routing fonctionalities in a customized application.
+This help gives you some informations to integrate the routing fonctionalities in a custom application.
 
 1. REQUIREMENT and INSTALLATION
 -------------------------------
@@ -24,7 +24,7 @@ For more informations on these functions, you can have a look to the routing mod
 
 2. Routing integration step by step
 -----------------------------------
-This chapter explain the main step to integrate the routing fonctionnalities in your customized application.
+This chapter explain the main step to integrate the routing fonctionnalities in your custom application.
 We describe the steps followed to install the routing demo. To resume, we used an Europe roads shapefile, imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest path between two european towns.
 
 Note : the steps 2.2 to 2.4 can be done by launching the demo_routing.sql file.
@@ -113,30 +113,21 @@ But to include the routing fonctionnalities in a custom project, we must respect
 ------------------------------------------
 
 The two things to do are to :
--create the routing results table and to specify his owner. In this example the table is routing_results and his owner is postgres.
-    DROP TABLE routing_results;
-    CREATE TABLE routing_results
-    (
-      results_id int4,
-      timestamp int8,
-      gid int4,
-      the_geom geometry,
-      CONSTRAINT enforce_dims_the_geom CHECK (ndims(the_geom) = 2),
-      CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'MULTILINESTRING'::text OR the_geom IS NULL),
-      CONSTRAINT enforce_srid_the_geom CHECK (srid(the_geom) = -1)
-    ) 
-    WITH OIDS;
-    ALTER TABLE routing_results OWNER TO postgres;
-    GRANT ALL ON TABLE routing_results TO postgres;
+-create the routing results table. In this example the table is routing_results.
+    CREATE TABLE routing_results (
+    results_id integer,
+    "timestamp" bigint,
+    gid integer
+    );
+    SELECT AddGeometryColumn('','routing_results','the_geom','-1','MULTILINESTRING',2);
 
-- create the 'routing_results_seq' sequence and define his owner.
+- create the 'routing_results_seq' sequence.
     CREATE SEQUENCE routing_results_seq
       INCREMENT 1
       MINVALUE 1
       MAXVALUE 9223372036854775807
       START 1
       CACHE 1;
-    ALTER TABLE routing_results_seq OWNER TO postgres;
     
     
     
