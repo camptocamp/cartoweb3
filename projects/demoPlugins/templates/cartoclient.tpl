@@ -36,36 +36,25 @@
 <body>
 
 <!-- header begins here -->
+<table border="0"  cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
 <table>
 <tr><td>
 <table id="topbanner" border="0"  cellpadding="0" cellspacing="0" width="100%">
   <tr>
     <td id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" border="0"/></td>
-    <td id="title" nowrap="nowrap">{t}CartoWeb3 - Demonstration{/t}</td>
-    <td align='right' width="1%">
-      <table>
-      <tr>
-        <td align='right'>
-          {foreach from=$locales item=lang}
-            {if $lang == $currentLang}
-              <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
-            {else}
-              <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
-            {/if}
-          {/foreach}
-        </td>
-      </tr>
-      <tr>
-        <td class="mini" align='right' nowrap="nowrap">
-          {if $auth_active|default:''}
-          {if $username|default:''}{t}welcome{/t} {$username} - {/if}
-            {$auth}
-          {/if}
-        </td>
-      </tr>
-      </table>
-    </td>
+    <td id="title" nowrap="nowrap">{t}CartoWeb3 - New Fonctionnalities Demonstration{/t}</td>
   </tr>
+    {if $locales|default:''}
+    <tr><td style="padding:5px;">
+      {foreach from=$locales item=locale name=lang}
+      {if !$smarty.foreach.lang.first || !$smarty.foreach.lang.last}
+        {if $locale != $currentLang}&nbsp;&nbsp;<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected(); " onclick="javascript:doSubmit();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+        {if !$smarty.foreach.lang.last}|{/if}
+      {/if}
+      {/foreach}
+    </td></tr>
+    {/if}
 </table>
 </td></tr>
 <tr><td>
@@ -246,12 +235,6 @@
      <tr>
        <td  colspan="3"><br /></td>
      </tr>
-     <tr>
-       <td colspan="3" align="center" class="mini">
-       Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
-       &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
-       </td>
-     </tr>
    </table>
    </div>
    </td>
@@ -385,6 +368,19 @@
 </form>
 
 </td></tr>
+</table>
+
+</td></tr>
+<tr><td align="right">
+<img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
+</td></tr>
+<tr id="downbanner" height="50px">
+    <td colspan="3" align="right" valign="top" class="mini">
+    Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
+    &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+    </td>
+  </tr>
+
 </table>
 
 </body>
