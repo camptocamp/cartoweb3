@@ -39,8 +39,8 @@ define('CW3_SETUP_INCLUDED', true);
 
 // URL of required libraries (md5sum: 2bdb50d860bea9d457bca96b6fb18518):
 define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb-includes-3.1.0.tar.gz');
-// URL of demo data (md5sum: 367a141f4dce6c095a089754b25c0314):
-define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz');
+// URL of demo data (md5sum: 4333abbed3bfc2b1734f38808cea2172):
+define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cartoweb-demodata-3.1.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
@@ -742,7 +742,9 @@ function fetchLibs() {
 
 function fetchDemo() {
 
-    fetchArchive(CW3_DEMO_URL, 'projects/demo/server_conf/demo/data');
+    // FIXME: we are fetching demo twice and duplicating all the data: this is very bad !!
+    fetchArchive(CW3_DEMO_URL, 'projects/demoCW3/server_conf/demoCW3/data');
+    fetchArchive(CW3_DEMO_URL, 'projects/demoPlugins/server_conf/demoPlugins/data');
 }
 
 function removeDevFilesIfProd() {
