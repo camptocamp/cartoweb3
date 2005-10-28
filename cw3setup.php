@@ -1008,10 +1008,8 @@ function replaceDotInCallback($file, $context) {
     
     $target_filename = substr($file, 0, strlen($file) - strlen('.in'));
     if (file_exists($target_filename)) {
-        // FIXME: introduce a --force option to handle these cases?
-        
-        debug("Warning: target $target_filename already exists, not overwritting");
-        return;
+        debug("Target $target_filename already exists, is is deleted");
+        unlink($target_filename);
     }
     
     $content = file_get_contents($file);
@@ -1123,7 +1121,7 @@ function getSearchReplaceContext() {
 
 function replaceDotIn() {
  
-    info("Copying <files>.in into <files> (if not existing)");
+    info('Copying <files>.in into <files>');
     $context = getSearchReplaceContext();
     crawl('.', 'replaceDotInCallback', $context);
 }
