@@ -313,7 +313,7 @@ msgid "OK"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - Demonstration"
+msgid "CartoWeb3 - New Fonctionnalities Demonstration"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl

@@ -109,6 +109,12 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   font-size:0.9em;
 }
 
+select {
+  font-family:Arial,Helvetica,sans-serif;
+  color:#333333;
+  font-size:0.9em;
+}
+
 .input_text{
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
