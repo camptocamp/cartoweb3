@@ -46,20 +46,22 @@
       <table>
       <tr>
         <td align='right'>
-        {foreach from=$locales item=lang}
-        {if $lang == $currentLang}
-        <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
-        {else}
-        <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
-        {/if}
-        {/foreach}</td>
+          {foreach from=$locales item=lang}
+            {if $lang == $currentLang}
+              <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
+            {else}
+              <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
+            {/if}
+          {/foreach}
+        </td>
       </tr>
       <tr>
         <td class="mini" align='right' nowrap="nowrap">
-        {if $auth_active|default:''}
-        {if $username|default:''}{t}welcome{/t} {$username} - {/if}
-        {$auth}
-        {/if}</td>
+          {if $auth_active|default:''}
+          {if $username|default:''}{t}welcome{/t} {$username} - {/if}
+            {$auth}
+          {/if}
+        </td>
       </tr>
       </table>
     </td>
@@ -79,18 +81,18 @@
   <input type="hidden" name="features" />
   <input type="hidden" name="project" value="{$project}" />
   {if $collapsibleKeymap|default:''}
-  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+    <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-{if $outline_active|default:''}
-  {$outlinelabel}
-{/if}
+  {if $outline_active|default:''}
+    {$outlinelabel}
+  {/if}
 
 <table>
   <tr valin="top">
-  <td id="toolbar_row" valign="top" nowrap="true">
-  {include file="toolbar.tpl" group=1}
-  </td>
-  <td>
+    <td id="toolbar_row" valign="top" nowrap="true">
+     {include file="toolbar.tpl" group=1}
+    </td>
+    <td>
     <div id="content">
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
@@ -108,103 +110,122 @@
       <tr>
         <td></td>
         <td>
-          <table width="100%"><tr>
+        <table width="100%">
+          <tr>
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coordonnees (m):{/t} %s / %s</div></td>
-            <td width="50%" align="right"><div id="floatDistance" class="locationInfo">{t}Distance approx.: {/t}%s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo">{t}Surface approx. : {/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
-          </tr></table>
+            <td width="50%" align="right">
+              <div id="floatDistance" class="locationInfo">{t}Distance approx.: {/t}%s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo">{t}Surface approx. : {/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div>
+            </td>
+          </tr>
+        </table>
         </td>
         <td></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+        <td>
+          <input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" />
+        </td>
+        <td align="center">
+          <input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" />
+        </td>
+        <td>
+          <input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" />
+        </td>
       </tr>
       <tr>
-        <td  colspan="3"><br /></td>
+        <td  colspan="3">
+          <br />
+        </td>
       </tr>
       <tr>
-       <td colspan="3" align="center">
-         <table border="0" cellpadding="0" cellspacing="0" width="100%">
-         <tr>
-           <td colspan="3" valign="top" align="center" width="80%">
+        <td colspan="3" align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td colspan="3" valign="top" align="center" width="80%">
               {if $scalebar_path|default:''}
                 <img src="{$scalebar_path}" 
                 alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
                 height="{$scalebar_height}" title="" />
               {/if}
-           </td>
-         </tr><tr>
-           <td width="10%" align="center">
+            </td>
+          </tr>
+          <tr>
+            <td width="10%" align="center">
               {if $scales_active|default:''}
                 {$scales}
               {/if}
-           </td>
-           <td width="80%"></td> 
-           <td width="10%" align="center">
+            </td>
+            <td width="80%"></td> 
+            <td width="10%" align="center">
               {if $mapsizes_active|default:''}
                 {$mapsizes}
               {/if}
-           </td>
-         </tr>
-         </table>
-       </td>
-       </tr>
-       <tr>
-         <td  colspan="3"><br /></td>
-       </tr>
+            </td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td  colspan="3"><br /></td>
+      </tr>
        
-       {if $selection_result|default:''}
-       <tr><td colspan ="3">
-         <center>
-           {$selection_result}
-         </center>
-       </td></tr>
-       {/if}
+      {if $selection_result|default:''}
+      <tr>
+        <td colspan ="3">
+          <center>
+            {$selection_result}
+          </center>
+        </td>
+      </tr>
+      {/if}
        
-       {if $query_result|default:''}
-       <tr><td colspan ="3">
-         <center>
-           {$query_result}
-         </center>
-       </td></tr>
-       {/if}
+      {if $query_result|default:''}
+      <tr>
+        <td colspan ="3">
+          <center>
+            {$query_result}
+          </center>
+        </td>
+      </tr>
+      {/if}
        
-       {if $tables_result|default:''}
-       <tr><td colspan ="3">
-         <center>
-           {$tables_result}
-         </center>
-       </td></tr>
-       {/if}
+      {if $tables_result|default:''}
+      <tr>
+        <td colspan ="3">
+          <center>
+            {$tables_result}
+          </center>
+        </td>
+      </tr>
+      {/if}
 
-       {if $developer_messages|default:''}
-       <tr>
-         <td colspan="3" align="center">
-         <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
-           <tr>
-             <th align="left" class="messages">
-               <span style="color: green; border: 10px; background-color: yellow;">{t} Developer messages {/t}</span>
-             </th>
-           </tr>
-           <tr>
-             <td>
-               <ul>
-                 {foreach from=$developer_messages item=message}
-                   <li>{$message}</li>
-                     {/foreach}   
-               </ul>
-             </td>
-           </tr> 
-         </table>
-         </td>
-       </tr>
-       {/if}
+      {if $developer_messages|default:''}
+      <tr>
+       <td colspan="3" align="center">
+       <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
+         <tr>
+           <th align="left" class="messages">
+             <span style="color: green; border: 10px; background-color: yellow;">{t} Developer messages {/t}</span>
+           </th>
+         </tr>
+         <tr>
+           <td>
+             <ul>
+               {foreach from=$developer_messages item=message}
+                 <li>{$message}</li>
+               {/foreach}   
+             </ul>
+           </td>
+         </tr> 
+       </table>
+       </td>
+     </tr>
+     {/if}
        
-       {if $user_messages|default:''}
-       <tr>
-         <td colspan="3" align="center">
+     {if $user_messages|default:''}
+     <tr>
+       <td colspan="3" align="center">
          <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
            <tr>
              <th align="left" class="messages">{t}User messages{/t}</th>
@@ -221,21 +242,18 @@
          </table>
          </td>
        </tr>
-       {/if}
-
-  
-  
-       <tr>
-         <td  colspan="3"><br /></td>
-       </tr>
-       <tr>
-         <td colspan="3" align="center" class="mini">
-         Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
-         &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
-         </td>
-       </tr>
-     </table>
-     </div>
+     {/if}
+     <tr>
+       <td  colspan="3"><br /></td>
+     </tr>
+     <tr>
+       <td colspan="3" align="center" class="mini">
+       Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
+       &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+       </td>
+     </tr>
+   </table>
+   </div>
    </td>
    <td width="260px" valign="top" nowrap="true">
      <div>
@@ -258,7 +276,7 @@
        <br />
        {$layers}
        <center>
-       <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
+         <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
        </center>
      </div>
      <!-- end of folder 1 -->
@@ -284,10 +302,8 @@
        {if $exporthtml_active|default:''}
          <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
        {/if}
-
      </div>
      <!-- end of folder 3 -->
-    
     
      <!-- folder 5 starts here -->
      <div id="folder5" class="folder">
