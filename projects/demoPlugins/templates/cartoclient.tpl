@@ -60,7 +60,7 @@
 <tr><td>
 <!-- header ends here -->
 
-<form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
@@ -77,8 +77,8 @@
   {/if}
 
 <table>
-  <tr valin="top">  
-    <td id="toolbar_row" valign="top" nowrap="true">
+  <tr valign="top">  
+    <td id="toolbar_row" valign="top" nowrap="nowrap">
       {include file="toolbar.tpl" group=1}
     </td>
     <td>
@@ -153,6 +153,15 @@
       <tr>
         <td colspan ="3">
         <table style="border:1px solid black;" width="100%">
+          {if $selection_result|default:''}
+          <tr>
+            <td colspan ="3">
+              <center>
+                {$selection_result}
+              </center>
+            </td>
+          </tr>
+          {/if}
           <tr>
             <td>
               <center>
@@ -166,15 +175,6 @@
             <td colspan ="3">
               <center>
                 {$query_result}
-              </center>
-            </td>
-          </tr>
-          {/if}
-          {if $selection_result|default:''}
-          <tr>
-            <td colspan ="3">
-              <center>
-                {$selection_result}
               </center>
             </td>
           </tr>
@@ -233,7 +233,7 @@
    </table>
    </div>
    </td>
-   <td width="260px" valign="top" nowrap="true">
+   <td width="260px" valign="top" nowrap="nowrap">
      <div>
        <ul id="tabnav2">
          {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
@@ -263,14 +263,14 @@
      <div id="folder3" class="folder">
        <br />
        <fieldset>
-       <legend><b>{t}A route{/t}</b></legend>
+       <legend>{t}A route{/t}</legend>
        {if $routing_active|default:''}
          {$routing}
        {/if}
        </fieldset>
        <br />
        <fieldset>
-       <legend><b>{t}A geographic object{/t}</b></legend>
+       <legend>{t}A geographic object{/t}</legend>
        <br />
        {if $id_recenter_active|default:''}
          {$id_recenter}
@@ -369,7 +369,7 @@
 <tr><td align="right">
 <img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
 </td></tr>
-<tr id="downbanner" height="50px">
+<tr id="downbanner" style="height:50px;">
   <td colspan="3" align="right" valign="top" class="mini">
   Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
   &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>

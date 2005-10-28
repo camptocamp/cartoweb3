@@ -8,5 +8,4 @@ postgresRoutingResultsLayer = graph
 
 ; optional (default = project_routing)
 postgresRoutingResultsTable = routing_results
-; optional
-;postgresRoutingResultsAttributes = hour, style
+

@@ -1,4 +1,4 @@
-   <table width=100%>
+   <table width="100%">
    <tr><td>
    <div id="layerReorderPicto">
      <img src="{r type=gfx plugin=layerReorder}reorderUp.gif{/r}" 

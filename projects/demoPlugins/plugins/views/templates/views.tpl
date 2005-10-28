@@ -39,7 +39,7 @@ onclick="javascript:showLocationSelector();" {if $viewShow}checked="checked"{/if
 <input type="hidden" name="viewLocationUpdate" value="0" />
 <select name="viewLocationId" 
 onchange="javascript:document.carto_form.viewLocationUpdate.value=1;">
-{html_options options=$viewLocationOptions selected=$viewLocationId}</div>
+{html_options options=$viewLocationOptions selected=$viewLocationId}
 </select>
 </div>
 {/if}
