@@ -91,7 +91,7 @@
   {include file="toolbar.tpl" group=1}
   </td>
   <td>
-  <div id="content">
+    <div id="content">
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
         <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
@@ -100,7 +100,7 @@
       </tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
-        <td valign="top">
+         <td valign="top">
           {include file="mainmap.tpl"}
         </td>
         <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
@@ -130,7 +130,7 @@
          <tr>
            <td colspan="3" valign="top" align="center" width="80%">
               {if $scalebar_path|default:''}
-               <img src="{$scalebar_path}" 
+                <img src="{$scalebar_path}" 
                 alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
                 height="{$scalebar_height}" title="" />
               {/if}
@@ -178,200 +178,193 @@
          </center>
        </td></tr>
        {/if}
-                     
-       
 
-       
-       
        {if $developer_messages|default:''}
        <tr>
-       <td colspan="3" align="center">
-       <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
-       <tr>
-            <th align="left" class="messages"><span style="color: green; border: 10px; background-color: yellow;">{t} Developer messages {/t}
-            </span></th>
-       </tr>
-       <tr>
-         <td>
-            <ul>
-              {foreach from=$developer_messages item=message}
-              <li>{$message}</li>
-              {/foreach}   
-            </ul>
+         <td colspan="3" align="center">
+         <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
+           <tr>
+             <th align="left" class="messages">
+               <span style="color: green; border: 10px; background-color: yellow;">{t} Developer messages {/t}</span>
+             </th>
+           </tr>
+           <tr>
+             <td>
+               <ul>
+                 {foreach from=$developer_messages item=message}
+                   <li>{$message}</li>
+                     {/foreach}   
+               </ul>
+             </td>
+           </tr> 
+         </table>
          </td>
-       </tr> 
-       </table>
-       </td>
        </tr>
        {/if}
        
        {if $user_messages|default:''}
        <tr>
-       <td colspan="3" align="center">
-        <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
-          <tr>
-            <th align="left" class="messages">{t}User messages{/t}</th>
-          </tr>
-          <tr>
-        <td>
-            <ul>
-                  {foreach from=$user_messages item=message}
-                    <li>{$message}</li>
-                  {/foreach}   
-            </ul>
+         <td colspan="3" align="center">
+         <table id="user_message" width="100%" border="0" cellpadding="0" cellspacing="0">
+           <tr>
+             <th align="left" class="messages">{t}User messages{/t}</th>
+           </tr>
+           <tr>
+             <td>
+               <ul>
+                 {foreach from=$user_messages item=message}
+                   <li>{$message}</li>
+                 {/foreach}   
+               </ul>
+             </td>
+           </tr> 
+         </table>
          </td>
-       </tr> 
-    </table>
-       </td>
-      </tr>
-      {/if}
+       </tr>
+       {/if}
 
   
   
-  <tr>
-    <td  colspan="3"><br /></td>
-  </tr>
-  <tr>
-    <td colspan="3" align="center" class="mini">
-      Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
-          &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
-    </td>
-  </tr>
-</table>
-</div>
-</td>
-<td width="260px" valign="top" nowrap="true">
+       <tr>
+         <td  colspan="3"><br /></td>
+       </tr>
+       <tr>
+         <td colspan="3" align="center" class="mini">
+         Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
+         &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+         </td>
+       </tr>
+     </table>
+     </div>
+   </td>
+   <td width="260px" valign="top" nowrap="true">
+     <div>
+       <ul id="tabnav2">
+         {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
+         <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
+         <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
+       </ul>
+       <ul id="tabnav1">
+         <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
+         <li id="label3"><a href="javascript:ontop(3)">{t}SearchTab{/t}</a></li>
+         {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
+       </ul>
+     </div>
 
-    <div>
-      <ul id="tabnav2">
-        {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
-        <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
-        <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
-      </ul>
-      <ul id="tabnav1">
-        <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
-        <li id="label3"><a href="javascript:ontop(3)">{t}SearchTab{/t}</a></li>
-        {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
-      </ul>
-   </div>
 
-
-    <div id="container">
-    <!-- folder 1 starts here -->
-    <div id="folder1" class="folder">
-      <br />
-      {$layers}
-      <center>
-      <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
-      </center>
-    </div>
-    <!-- end of folder 1 -->
+     <div id="container">
+     <!-- folder 1 starts here -->
+     <div id="folder1" class="folder">
+       <br />
+       {$layers}
+       <center>
+       <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
+       </center>
+     </div>
+     <!-- end of folder 1 -->
     
-    <!-- folder 3 starts here -->
-    <div id="folder3" class="folder">
-      <br />
-      
-      <fieldset>
-      <legend><b>{t}A route{/t}</b></legend>
-      {if $routing_active|default:''}
-        {$routing}
-      {/if}
-      </fieldset>
-      <br />
-      <fieldset>
-      <legend><b>{t}A geographic object{/t}</b></legend>
-      <br />
-      {if $id_recenter_active|default:''}
-      {$id_recenter}
-      {/if}
-      </fieldset>
+     <!-- folder 3 starts here -->
+     <div id="folder3" class="folder">
+       <br />
+       <fieldset>
+       <legend><b>{t}A route{/t}</b></legend>
+       {if $routing_active|default:''}
+         {$routing}
+       {/if}
+       </fieldset>
+       <br />
+       <fieldset>
+       <legend><b>{t}A geographic object{/t}</b></legend>
+       <br />
+       {if $id_recenter_active|default:''}
+         {$id_recenter}
+       {/if}
+       </fieldset>
           
-      {if $exporthtml_active|default:''}
-      <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
-      {/if}
+       {if $exporthtml_active|default:''}
+         <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
+       {/if}
 
-    </div>
-    <!-- end of folder 3 -->
+     </div>
+     <!-- end of folder 3 -->
     
     
-    <!-- folder 5 starts here -->
-    <div id="folder5" class="folder">
-      <br />
-      {if $outline_active|default:''}
-      {$outline}
-      {/if}
-    </div>
-    <!-- end of folder 5 -->
+     <!-- folder 5 starts here -->
+     <div id="folder5" class="folder">
+       <br />
+       {if $outline_active|default:''}
+         {$outline}
+       {/if}
+     </div>
+     <!-- end of folder 5 -->
     
-    <!-- folder 8 starts here -->
-    {if $views|default:''}
-    <div id="folder8" class="folder">
-      <br />
-      {$viewsForm}
-    </div>
-    {/if}
-    <!-- end of folder 8 -->
+     <!-- folder 8 starts here -->
+     {if $views|default:''}
+       <div id="folder8" class="folder">
+         <br />
+         {$viewsForm}
+       </div>
+     {/if}
+     <!-- end of folder 8 -->
     
-    <!-- folder 9 starts here -->
-    {if $layerReorder|default:''}
-    <div id="folder9" class="folder">
-      <br />
-      <center>
-      {$layerReorder}
-      </center>
-    </div>
-    <!-- end of folder 9 -->
-    {/if}
+     <!-- folder 9 starts here -->
+     {if $layerReorder|default:''}
+       <div id="folder9" class="folder">
+         <br />
+         <center>
+           {$layerReorder}
+         </center>
+       </div>
+     <!-- end of folder 9 -->
+     {/if}
     
-    <!-- folder 6 starts here -->
-    <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
-    <p><i>{t}This demo is an overview of the new functionalities that are available in Cartoweb since the 3.1 version. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
-    
-    <br />
-    
-    <table class="table_help" cellpadding="0" cellspacing="0">
-      <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Views tab{/t}" /><strong>&nbsp;{t}Views tab{/t}</strong><br />
-      </td></tr>
-    </table>
-    <p class="help_viewer">    
-    {t}Views are recordings of CartoWeb maps states at a given moment. 
-    One may see them as a kind of bookmarks : while browsing maps in CartoWeb interface, you can save the current state (map extent, selected layers, queries, annotations, etc.) under a label of your choice. 
-    It is then possible to access later those saved states.{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Load a view{/t}</span> :
-    {t}any defined view may be loaded. Loading a view may be achieved selecting it among a dropdown views list.{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Save a view{/t}</span> :
-    {t} to save the current map state as a view, simply fill in the form fields with matching metadata. 
-    To make the view "visible" to others users, check the "Show view" option. 
-    Finally push the "save" button.
-    You may also save a new view using an existing view. To do so, load the desired view, modify it and push the "Save as new view" button.{/t}<br /> 
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Delete a view{/t}</span> :
-    {t}load the view you want to delete and push the "Delete" button. A confirmation message pops before irreversible deletion.{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Update a view{/t}</span> :
-    {t}to modify a view map properties (selected layers, annotations, map extent, etc.) as well as its metadata (title, "visibility", etc.), load it.
-    If your changes only concern metadata, simply update the dedicated form fields and push the "Update" button.
-    To update the view map properties, check the "Memorize form" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the "Update" button.{/t}
-    </p><br />
+     <!-- folder 6 starts here -->
+     <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
+       <p><i>{t}This demo is an overview of the new functionalities that are available in Cartoweb since the 3.1 version. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
+       <br />
+       <table class="table_help" cellpadding="0" cellspacing="0">
+         <tr><td>
+           <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Views tab{/t}" /><strong>&nbsp;{t}Views tab{/t}</strong><br />
+         </td></tr>
+       </table>
+       <p class="help_viewer">    
+         {t}Views are recordings of CartoWeb maps states at a given moment. 
+         One may see them as a kind of bookmarks : while browsing maps in CartoWeb interface, you can save the current state (map extent, selected layers, queries, annotations, etc.) under a label of your choice. 
+         It is then possible to access later those saved states.{/t}<br />
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Load a view{/t}</span> :
+         {t}any defined view may be loaded. Loading a view may be achieved selecting it among a dropdown views list.{/t}<br />
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Save a view{/t}</span> :
+         {t} to save the current map state as a view, simply fill in the form fields with matching metadata. 
+         To make the view "visible" to others users, check the "Show view" option. 
+         Finally push the "save" button.
+         You may also save a new view using an existing view. To do so, load the desired view, modify it and push the "Save as new view" button.{/t}<br /> 
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Delete a view{/t}</span> :
+         {t}load the view you want to delete and push the "Delete" button. A confirmation message pops before irreversible deletion.{/t}<br />
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Update a view{/t}</span> :
+         {t}to modify a view map properties (selected layers, annotations, map extent, etc.) as well as its metadata (title, "visibility", etc.), load it.
+         If your changes only concern metadata, simply update the dedicated form fields and push the "Update" button.
+         To update the view map properties, check the "Memorize form" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the "Update" button.{/t}
+      </p><br />
     
     
-    <table  class="table_help" cellpadding="0" cellspacing="0">
-      <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Layers reorder tab{/t}" /><strong>&nbsp;{t}Layers reorder tab{/t}</strong><br />
-      </td></tr>
-    </table>
-    <p class="help_viewer">
-    {t} You can well designed your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
-    This tab allows you to :{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
-    </p><br />
-    <hr />
-    {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/doc_head/docbook/xhtml/" target="_blank">{t}Cartoweb Documentation{/t}</a>
+      <table  class="table_help" cellpadding="0" cellspacing="0">
+        <tr><td>
+          <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Layers reorder tab{/t}" /><strong>&nbsp;{t}Layers reorder tab{/t}</strong><br />
+        </td></tr>
+      </table>
+      <p class="help_viewer">
+        {t} You can well designed your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
+        This tab allows you to :{/t}<br />
+        <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
+        <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
+      </p><br />
+      <hr />
+      {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/doc_head/docbook/xhtml/" target="_blank">{t}Cartoweb Documentation{/t}</a>
     </div>
     <!-- end of floder 6 -->
     
-  </div> <!--container-->
-</td></tr>  
+    </div> <!--container-->
+  </td></tr>  
 </table>
 </form>
 
