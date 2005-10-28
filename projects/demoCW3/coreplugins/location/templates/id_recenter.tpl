@@ -9,7 +9,7 @@
       </td>
     </tr>
     <tr>
-      <td>&nbsp;<input type="text" id="input_name_recenter" name="input_name_recenter" />
+      <td>&nbsp;<input type="text" id="input_name_recenter" name="input_name_recenter" class="input_text"/>
       <input type="submit" name="OK" value="OK" class="form_button" style="margin:0px"/></td>
     </tr>
     

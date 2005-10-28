@@ -91,6 +91,12 @@ ul#tabnav2 li {
   font-size:small;
 }
 
+.folder legend {font-weight:bolder;}
+
+#folder1 legend {
+  font-weight:normal;
+  font-size:11px;
+}
 
 #folder4 ul {
   margin-left: 18px;

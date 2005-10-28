@@ -9,7 +9,7 @@ html, body {
 legend {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:1.1em;
+  font-size:12px;
 }
 
 a {color:black; text-decoration:none;}
@@ -80,7 +80,7 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 .form_button {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
   height:20px;
   border:1px solid #fff;
   border-bottom-color: #aaa;
@@ -97,20 +97,20 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   border-right-color: #aaa;
   background-color:#eee;
   color:red;
-  font-size:0.9em;
+  font-size:10px;
   margin:5px;
 }
 
-.select {
+select {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
 }
 
 .input_text{
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
 }
 
 .locationInfo{
@@ -151,10 +151,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 #toolbar_row {
   padding:2px;
   text-align:center;
-}
-
-#toolbar {
-  /*line-height:25px;*/
 }
 
 .toolbar_on {
@@ -279,7 +275,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 #floatScale {
   position:relative;
-/*  top: -15px;*/
   padding:0;
   margin:0;
 }

@@ -50,7 +50,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {/if}
 
 {if $element.isDropDown}
-  <select class="select" name="layers_dropdown_{$element.parentId}" 
+  <select name="layers_dropdown_{$element.parentId}" 
   onchange="javascript:FormItemSelected();">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>

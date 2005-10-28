@@ -3,7 +3,7 @@
 {foreach from=$query_selections item=selection key=index}
 <fieldset>
  <legend>{$selection->layerLabel}</legend>
-<input type="hidden" value="{$selection->layerId}" name="query_layerid[]">
+<input type="hidden" value="{$selection->layerId}" name="query_layerid[]" />
 
 <input type="checkbox" value="{$selection->layerId}" name="query_hilight[]"
         {if $selection->hilight} checked="checked"{/if}/><label>{t}Hilight{/t}</label><br />

@@ -46,7 +46,7 @@
         {if $lang == $currentLang}
         <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
         {else}
-        <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
+        <a href="javascript:document.carto_form.action='{$selfUrl}?lang={$lang}';FormItemSelected();" onclick="javascript:doSubmit();"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
         {/if}
         {/foreach}</td>
       </tr>
@@ -80,11 +80,7 @@
 {if $outline_active|default:''}
   {$outlinelabel}
 {/if}
-
-  
-  
   <div id="content">
-  
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
         <td colspan="3" id="toolbar_row">
@@ -156,7 +152,21 @@
          <td  colspan="3"><br /></td>
        </tr>
          
-  
+       {if $tables_result|default:''}
+       <tr>
+         <td colspan ="3">
+         <table style="border:1px solid black;" width="100%">
+           <tr>
+             <td>
+               <center>
+                 {$tables_result}
+               </center>
+             </td>
+           </tr>
+         </table>
+         </td>
+       </tr>  
+       {/if}
        {if $developer_messages|default:''}
        <tr>
        <td colspan="3" align="center">
@@ -199,9 +209,6 @@
        </td>
       </tr>
       {/if}
-
-  
-  
   <tr>
     <td  colspan="3"><br /></td>
   </tr>
@@ -212,10 +219,7 @@
     </td>
   </tr>
 </table>
-{if $tables_result|default:''}
-  {$tables_result}
-{/if}
-  </div>
+</div>
 
   <div id="leftbar">
     <div>
