@@ -17,7 +17,6 @@ cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
 {/if}
 {counter start=-1 print=false name=tindex}
   {foreach from=$tools item=tool}
-  {strip}
   {if !$group || $group == $tool->group}
     {if $toolbar_rendering == 'radio'}
       <label for="{$tool->id}" onclick="checkRadio(this.htmlFor);mainmap.{$tool->id}('map');" >
@@ -25,9 +24,8 @@ cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
       {if $selected_tool == $tool->id}checked="checked"{/if} />
     {/if}
     {if $tool->hasIcon}
-      <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" 
-        id="{$tool->id}_icon" 
-        alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
+      <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
+        src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
         {if $toolbar_rendering != 'radio'}
         class="toolbar" 
         onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
@@ -40,5 +38,4 @@ cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
     </label>&nbsp;
     {/if}
   {/if}
-  {/strip}
   {/foreach}
