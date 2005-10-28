@@ -434,7 +434,7 @@
     </table>
     <p class="help_viewer"><img src="{r type=gfx/layout/help}internationalization.gif{/r}" alt="{t}internationalization{/t}" />
     {t}The internationalization tools allow you to switch langage (Cartoweb uses gettext for the translation).{/t}
-    <br /><br /><img src="{r type=gfx/layout/help}login.jpg{/r}" alt="{t}login{/t}" />&nbsp;{t}Access to different elements of Cartoweb can be allowed or denied according to who is currently using the application. Both functionnalities and data may have access restrictions. For this demo, you can access to more rights on the data by using login 'demo' and password 'demo'.{/t} 
+    <br /><br /><img src="{r type=gfx/layout/help}login.jpg{/r}" alt="{t}login{/t}" />&nbsp;{t}Access to different elements of Cartoweb can be allowed or denied according to who is currently using the application. Both functionnalities and data may have access restrictions. For this demo, you can access to more rights by using login 'demo' and password 'demo'. You can then access to the train data and to the print fonctionnalities.{/t} 
     </p>
     <br />
     <hr />

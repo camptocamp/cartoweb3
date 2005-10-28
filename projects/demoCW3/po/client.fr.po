@@ -819,13 +819,16 @@ msgid ""
 "Access to different elements of Cartoweb can be allowed or denied according "
 "to who is currently using the application. Both functionnalities and data "
 "may have access restrictions. For this demo, you can access to more rights "
-"on the data by using login 'demo' and password 'demo'."
+"by using login 'demo' and password 'demo'. You can then access to the train "
+"data and to the print fonctionnalities."
+
 msgstr ""
 "L'accès aux différents éléments de Cartoweb peut être accordé ou refusé slon "
 "qui utilise actuellement l'application. Soit les fonctionnalités, soit les "
 "données peuvent être concernées par ces restrictions. Pour la démo, vous "
 "pouvez accéder à plus de droits en vous connectant en tant que utilisateur "
-"'demo', avec le mot de passe 'demo'."
+"'demo', avec le mot de passe 'demo'. Vous pourrez accéder aux données sur les "
+"voies ferrées et aux fonctionnalités d'impression."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "

@@ -743,7 +743,9 @@ msgid ""
 "Access to different elements of Cartoweb can be allowed or denied according "
 "to who is currently using the application. Both functionnalities and data "
 "may have access restrictions. For this demo, you can access to more rights "
-"on the data by using login 'demo' and password 'demo'."
+"by using login 'demo' and password 'demo'. You can then access to the train "
+"data and to the print fonctionnalities."
+
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
