@@ -1,0 +1,23 @@
+.failuretitle {
+  background-color:#8398ac;
+  color:white;
+}
+
+.failuretitleborder {
+  border:1px solid #DD6666;
+}
+
+#user_failure {
+  border:1px solid black;
+  padding: 20px;
+  background-color: #fef9f9;
+  text-align:left;
+  width:80%;
+}
+
+#user_failure #title {
+  font-size:1.8em;
+  padding-left: 20px;
+  color:#DD6666;
+  padding-bottom:20px;
+}
