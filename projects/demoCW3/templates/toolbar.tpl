@@ -18,7 +18,7 @@
   {if $group == 4}
   &nbsp;&nbsp;
   <a href="javascript:ontop(6);">
-    <img  align ="middle" src="{r type=gfx/layout/help}help.png{/r}"
+    <img  align ="middle" src="{r type=gfx/layout}help.png{/r}"
     title="{t}Help{/t}" alt="{t}help{/t}" /></a>&nbsp;&nbsp;
   <a href="javascript:ontop(2);">
     <img align ="middle"
@@ -26,7 +26,7 @@
     title="{t}Print{/t}" alt="{t}print{/t}" /></a>
   &nbsp;&nbsp;&nbsp;
   <a href="javascript:resetSession();">
-    <img align ="middle" src="{r type=gfx/layout}2_recur.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+    <img align ="middle" src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
   </a>
   {/if}
 

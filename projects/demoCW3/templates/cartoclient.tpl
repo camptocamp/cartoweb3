@@ -36,7 +36,7 @@
 <tr><td colspan="2">
 <table id="topbanner" border="0"  cellpadding="0" cellspacing="0">
   <tr>
-    <td id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" border="0"/></td>
+    <td id="logo"><img src="{r type=gfx/layout}logoc2c.gif{/r}" alt="camptocamp" border="0"/></td>
     <td id="title" nowrap="nowrap">{t}CartoWeb3 - Demonstration{/t}</td>
     <td align='right' width="1%">
       <table>
@@ -66,7 +66,7 @@
 <tr><td>
 <!-- header ends here -->
 
-<form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
@@ -122,7 +122,8 @@
         <td  colspan="3"><br /></td>
       </tr>
       <tr>
-       <td colspan="3" align="center">
+       <td></td>
+       <td align="center">
          <table border="0" cellpadding="0" cellspacing="0" width="100%">
          <tr>
            <td colspan="3" valign="top" align="center" width="80%">
@@ -147,6 +148,7 @@
          </tr>
          </table>
        </td>
+       <td></td>
        </tr>
        <tr>
          <td  colspan="3"><br /></td>
@@ -267,8 +269,8 @@
       <fieldset>
        <legend>{t}Data sources{/t}</legend>
        <ul>
-        <li>{t}Nima:{/t} <a href="http://geoengine.nima.mil/muse-cgi-bin/rast_roam.cgi">Vmap0</a></li>
-        <li>{t}Gtopo30:{/t} <a href="http://edcdaac.usgs.gov/gtopo30/w020n90.asp">W020N90</a></li>
+        <li>{t}Nima :{/t} <a href="http://geoengine.nima.mil/muse-cgi-bin/rast_roam.cgi">Vmap0</a></li>
+        <li>{t}Gtopo30 :{/t} <a href="http://edcdaac.usgs.gov/gtopo30/w020n90.asp">W020N90</a></li>
        </ul>
       </fieldset>
 
