@@ -42,7 +42,7 @@
 <tr><td>
 <table id="topbanner" border="0"  cellpadding="0" cellspacing="0" width="100%">
   <tr>
-    <td id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" border="0"/></td>
+    <td id="logo"><img src="{r type=gfx/layout}logoc2c.gif{/r}" alt="camptocamp" border="0"/></td>
     <td id="title" nowrap="nowrap">{t}CartoWeb3 - New Fonctionnalities Demonstration{/t}</td>
   </tr>
     {if $locales|default:''}

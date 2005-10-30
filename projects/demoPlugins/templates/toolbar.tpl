@@ -35,12 +35,12 @@
     </tr>
     <tr><td>
     <a href="javascript:ontop(6);">
-    <img  align ="left" style="margin-left:5px;" src="{r type=gfx/layout/help}help.png{/r}"
+    <img  align ="left" style="margin-left:5px;" src="{r type=gfx/layout}help.png{/r}"
     title="{t}Help{/t}" alt="{t}help{/t}" /></a>
     </td></tr>
     <tr><td style="padding-left:7px;padding-top:3px;">
     <a href="javascript:resetSession();">
-      <img align ="left" src="{r type=gfx/layout}2_recur.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+      <img align ="left" src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
     </a>
     </td></tr>
 </table>

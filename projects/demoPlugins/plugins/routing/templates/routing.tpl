@@ -15,7 +15,7 @@
 <tr><td width="50%"></td>
 <td width="20%" align="center">
   <a href="javascript:this.form.routing_from.value=0;this.form.routing_to.value=0;FormItemSelected();">
-    <img src="{r type=gfx/layout}pmrotate.png{/r}" alt="{t}reset routing{/t}" title="{t}Reset{/t}" />
+    <img src="{r type=gfx/layout}reinitialize.png{/r}" alt="{t}reset routing{/t}" title="{t}Reset{/t}" />
   </a></td>
 <td width="30%" align="left">
   <input type="button" name="refresh" value="{t}OK{/t}"
