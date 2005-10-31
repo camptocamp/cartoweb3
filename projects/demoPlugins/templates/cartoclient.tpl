@@ -91,8 +91,8 @@
     <td id="toolbar_row" valign="top" width="30px" align="center">
       <br /><br />
       <table cellpadding="0" cellspacing="1" border="0">
-      {include file="toolbar.tpl" group=1 header="1"}
-      {include file="toolbar.tpl" group=4}
+      {include file="toolbar.tpl" group="1" header="1"}
+      {include file="toolbar.tpl" group="4"}
       </table>
     </td>
     <td>
@@ -284,7 +284,7 @@
        <br />
        <center>
        <table cellpadding="0" cellspacing="1" border="0">
-       {include file="toolbar.tpl" group=3}
+       {include file="toolbar.tpl" group="3"}
        </table>
        <br />
        <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
