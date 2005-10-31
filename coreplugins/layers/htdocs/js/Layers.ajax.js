@@ -2,7 +2,15 @@ AjaxPlugins.Layers = {
   
   handleResponse: function(pluginOutput) {
     /* Plugin general behaviour */
+
+    /* Redraws layers HTML Code */
 	$('folder1').innerHTML = pluginOutput.htmlCode.layers;
+
+	/* Reopen open nodes */
+	startOpenNodes = pluginOutput.variables.startOpenNodes;
+	// Uses layers.tpl + layers.js mecanism
+    eval("var openNodes = new Array("+startOpenNodes+");");
+    writeOpenNodes(true);
   }  
 };
 

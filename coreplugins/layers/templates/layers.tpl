@@ -1,4 +1,4 @@
-<input type="hidden" id="openNodes" name="openNodes" />
+<input type="hidden" id="openNodes" name="openNodes" value="{$startOpenNodes}" />
 <script type="text/javascript">
   <!--
   var openNodes = new Array('{$startOpenNodes}');

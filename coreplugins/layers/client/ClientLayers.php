@@ -1270,17 +1270,19 @@ class ClientLayers extends ClientPlugin
     public function ajaxResponse($ajaxPluginResponse) {
     	$ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
     	$ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
+    	$ajaxPluginResponse->addVariable('startOpenNodes',
+    					$startOpenNodes = "'".implode('\',\'', $this->unfoldedIds)."'");
     }
 
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Layers.layerShowHide':
 				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('layers');
 				$pluginsDirectives->enableCoreplugin('images');
 			break;
 			case 'Layers.layerDropDownChange':
 				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('location');
 				$pluginsDirectives->enableCoreplugin('layers');
 				$pluginsDirectives->enableCoreplugin('images');
 			break;

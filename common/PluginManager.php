@@ -293,11 +293,12 @@ class PluginManager {
      * @param string function name
      * @param array function arguments
      */
-    public function callEnabledPluginImplementing($pluginName, $interface, $functionName, 
-                                     $args = array()) {
+    public function callEnabledPluginImplementing($enableLevel, $pluginName, 
+                                  $interface, $functionName, $args = array()) {
 
         $plugin = $this->getPlugin($pluginName);
-        if ($plugin->isEnabled())
+        if ($plugin->isEnabledAtLevel($enableLevel))
+//echo "Plugin exec: ".$plugin->getName()."->".$functionName."() -- ".$plugin->getEnabledLevel().">=".$enableLevel."<br />";
 	        $this->callPluginImplementing($plugin, $interface, $functionName, 
     	                                  $args);
     }
@@ -309,13 +310,14 @@ class PluginManager {
      * @param string function name
      * @param array function arguments
      */
-    public function callEnabledPluginsImplementing($interface, $functionName, 
-                                     $args = array()) {
+    public function callEnabledPluginsImplementing($enableLevel, $interface,
+    											$functionName, $args = array()) {
 
         foreach ($this->plugins as $plugin) {
-        	if ($plugin->isEnabled())
-            	$this->callPluginImplementing($plugin, $interface, $functionName, 
-                	                          $args);
+        if ($plugin->isEnabledAtLevel($enableLevel))
+//echo "Plugin exec: ".$plugin->getName()."->".$functionName."() -- ".$plugin->getEnabledLevel().">=".$enableLevel."<br />";
+			$this->callPluginImplementing($plugin, $interface, $functionName, 
+											$args);
         }
     }
 

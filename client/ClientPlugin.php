@@ -422,17 +422,35 @@ abstract class ClientPlugin extends PluginBase {
     }
 
 	/* ajax dev */
-	protected $isEnabled = true;
+	protected $enabledLevel = ClientPlugin::ENABLE_LEVEL_FULL;
+	// Load/create plugin session
+	const ENABLE_LEVEL_LOAD = 0;
+	// ENABLE_LEVEL_LOAD + filter and handle http request, build server request
+	// and save session
+	const ENABLE_LEVEL_PROCESS = 1;
+	// Does all: ENABLE_LEVEL_BUILDREQUEST + showAjaxResponse
+	const ENABLE_LEVEL_FULL = 2;
 	
-	public function enable() {
-		$this->isEnabled = true;
+	public function setEnableLevel($enableLevel) {
+		// if (!isset(ClientPlugin::$level))
+		// throw new AjaxException ("ClientPlugin::$level is not defined");
+		$this->enabledLevel = $enableLevel;
 	}	
+	public function getEnabledLevel() {
+		return $this->enabledLevel;
+	}
+
+	public function enable() {
+		$this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_FULL);
+	}
 	public function disable() {
-		$this->isEnabled = false;
+		$this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_PROCESS);
 	}
-	public function isEnabled() {
-		return $this->isEnabled;
+
+	public function isEnabledAtLevel($enableLevel) {
+		return $this->enabledLevel >= $enableLevel;
 	}
+
 /*	
 	protected function directiveExists($directiveName) {
 		return isset($this->DIRECTIVES) && in_array($directiveName, $this->DIRECTIVES);

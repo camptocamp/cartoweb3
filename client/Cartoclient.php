@@ -579,12 +579,13 @@ class Cartoclient {
      * @param string interface name
      * @param string function name
      */
-    public function callEnabledPluginsImplementing($interface, $functionName) {
+    public function callEnabledPluginsImplementing($enableLevel, $interface, $functionName) {
 
         $args = func_get_args();
         array_shift($args);
         array_shift($args);
-        $this->pluginManager->callEnabledPluginsImplementing($interface, 
+        array_shift($args);
+        $this->pluginManager->callEnabledPluginsImplementing($enableLevel, $interface, 
                                                       $functionName, $args);
     }
 
@@ -596,13 +597,14 @@ class Cartoclient {
      * @param string interface name
      * @param string function name
      */
-    public function callEnabledPluginImplementing($pluginName, $interface, $functionName) {
+    public function callEnabledPluginImplementing($enableLevel, $pluginName, $interface, $functionName) {
 
         $args = func_get_args();
         array_shift($args);
         array_shift($args);
         array_shift($args);
-        $this->pluginManager->callEnabledPluginImplementing($pluginName, $interface, 
+        array_shift($args);
+        $this->pluginManager->callEnabledPluginImplementing($enableLevel, $pluginName, $interface, 
                                                       $functionName, $args);
     }
     
@@ -868,20 +870,23 @@ class Cartoclient {
                                                         $this->cartoForm);
 
                 $request = new FilterRequestModifier($_REQUEST);
-                $this->callEnabledPluginsImplementing('FilterProvider',
-                                               'filterPostRequest', $request);
-                $this->callEnabledPluginsImplementing('GuiProvider', 
-                                               'handleHttpPostRequest',
-                                               $request->getRequest());
+                $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'FilterProvider',
+												'filterPostRequest', $request);
+                $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'GuiProvider', 
+												'handleHttpPostRequest',
+												$request->getRequest());
             }
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
-            $this->callEnabledPluginsImplementing('FilterProvider',
-                                           'filterGetRequest', $request);
-            $this->callEnabledPluginsImplementing('GuiProvider',
-                                           'handleHttpGetRequest',
-                                           $request->getRequest());
+            $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'FilterProvider',
+												'filterGetRequest', $request);
+            $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS, 'GuiProvider',
+												'handleHttpGetRequest',
+												$request->getRequest());
         }
         
         // If flow is not interrupted and client not allowed, 
@@ -902,10 +907,12 @@ class Cartoclient {
         }
 
         $mapRequest = $this->getMapRequest();
-        $this->callPluginsImplementing('ServerCaller', 'buildRequest',
-                                       $mapRequest);
-        $this->callPluginsImplementing('ServerCaller', 'overrideRequest',
-                                       $mapRequest);
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'ServerCaller', 'buildRequest',
+												$mapRequest);
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'ServerCaller', 'overrideRequest',
+												$mapRequest);
 
         // Save mapRequest for future use
         $this->clientSession->lastMapRequest = 
@@ -923,11 +930,13 @@ class Cartoclient {
         $this->log->debug('mapresult:');
         $this->log->debug($this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'initializeResult',
-                                       $this->mapResult);
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'ServerCaller', 'initializeResult',
+												$this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'handleResult',
-                                       $this->mapResult);
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'ServerCaller', 'handleResult',
+												$this->mapResult);
 
         $this->log->debug('client context to display');
 
@@ -943,7 +952,8 @@ class Cartoclient {
             	$this->formRenderer->showAjaxPluginResponse();                        
         }
 
-        $this->callEnabledPluginsImplementing('Sessionable', 'saveSession');
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+												'Sessionable', 'saveSession');
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
@@ -966,6 +976,7 @@ class Cartoclient {
 			throw new AjaxException('Requested plugin ' . $requestedPluginName . ' is not loaded. Check your AJAX call (currently ajaxActionRequest=' . $_REQUEST['ajaxActionRequest'] . ')');		
 		
 		$pluginsDirectives = new PluginsDirectives($this);
+		// Plugins are disabled by default in async mode
 		$pluginsDirectives->disablePlugins();
 
 		// Ask plugins to give their plugins directives for the given $actionId

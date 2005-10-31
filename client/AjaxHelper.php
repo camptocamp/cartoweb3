@@ -120,7 +120,7 @@
  	}
 
  	public function disableCorePlugins() {
- 		foreach ($this->getCorepluginS() as $coreplugin) {
+ 		foreach ($this->getCoreplugins() as $coreplugin) {
  			$this->disableCorePlugin($coreplugin->getName());
  		}
  	}
@@ -159,6 +159,13 @@
  		foreach ($this->getPlainPlugins() as $plainplugin) {
  			$this->disablePlugin($plainplugin->getName());
  		}
+ 	}
+ 	
+ 	public function setEnableLevel ($pluginName, $enableLevelValue) {
+ 		if (!$this->isLoaded($pluginName))
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. You can only set enable level on loaded plugins.');
+ 		$plugin = $this->getPlugin($pluginName);
+ 		$plugin->setEnableLevel($enableLevelValue);
  	}
  	 	
 /*

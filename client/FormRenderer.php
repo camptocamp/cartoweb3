@@ -287,7 +287,7 @@ class FormRenderer {
 		$ajaxPluginResponses = array();
 		foreach ($plugins as $plugin) {
 	    	$ajaxPluginResponse = new AjaxPluginResponse();
-		    $this->cartoclient->callEnabledPluginImplementing($plugin->getName(),
+		    $this->cartoclient->callEnabledPluginImplementing(ClientPlugin::ENABLE_LEVEL_FULL, $plugin->getName(),
 												'AjaxPlugin', 'ajaxResponse',
 												&$ajaxPluginResponse);
 		    if (!$ajaxPluginResponse->isEmpty())
