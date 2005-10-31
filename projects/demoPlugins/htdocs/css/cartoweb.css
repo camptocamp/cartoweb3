@@ -155,6 +155,10 @@ select {
   text-align:center;
 }
 
+#toolbar_row img{
+  vertical-align:middle;
+}
+
 #toolbar {
   line-height:25px;
 }

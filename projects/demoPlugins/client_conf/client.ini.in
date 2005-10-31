@@ -16,6 +16,9 @@ loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, routing, de
 authLang = fr, en
 orderLang = en, fr
 
+; Indicates how to render toolbar
+toolbarRendering = class
+
 ; Views management
 viewOn = true
 viewStorage = file ;db

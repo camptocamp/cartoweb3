@@ -1,46 +1,91 @@
-<table cellpadding="0" cellspacing="1" border="0">
-    {counter start=-1 print=false name=tindex}
-    {foreach from=$tools item=tool}
-    {if !$group || $group == $tool->group}
-    <tr align="left">
-    <td>
-    <label for="{$tool->id}">
-      {if $tool->hasIcon}
-      <img src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" 
-      alt="{$tool->id}" title="{t}{$tool->id}{/t}"
-      onclick="CheckRadio('{counter name=tindex}');mainmap.{$tool->id}('map');"  align="middle"/>
-      {else}
-      <span onclick="CheckRadio('{counter name=tindex}');
-      mainmap.{$tool->id}('map');">
-               {t}{$tool->id}{/t}
-            </span>
-           {/if}
-      <input type="radio" name="tool" value="{$tool->id}" 
-                {if $selected_tool == $tool->id}checked="checked"{/if}
-                id="{$tool->id}" onclick="mainmap.{$tool->id}('map');" />
-      
-    </label>
-    </td>
-    </tr>
-    {/if}
-    {/foreach}
-    <tr align="left" valign="middle">
-    <td>
-    <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
-    <input type="image" 
-    onclick="javascript:document.carto_form.recenter_none.name='recenter_bbox';"
-    src="{r type=gfx/layout}fullextent.gif{/r}"
+<script type="text/javascript">
+{strip}
+{foreach from=$tools item=tool name=tool}
+  {if $smarty.foreach.tool.first}cw3_tools = new Array("{$tool->id}",
+  {elseif $smarty.foreach.tool.last}"{$tool->id}");
+  {else}"{$tool->id}",
+  {/if}
+{/foreach}
+{/strip}
+cw3_initial_selected_tool = "mainmap.{$selected_tool}('map');";
+{if $toolbar_rendering != 'radio'}
+cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
+{/if}
+</script>
+{if $toolbar_rendering != 'radio'}
+  <input type="hidden" name="tool" id="tool" value="{$selected_tool}"/>
+{/if}
+
+{if $group == 1}
+<tr align="left" valign="middle">
+  <td style="padding:5px">
+  <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
+  <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';">
+    <img src="{r type=gfx/layout}fullextent.gif{/r}"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
-    </td>
+  </a>
+  </td>
+</tr>
+{/if}
+
+{if $group == 3}
+    <tr align="center">
+{/if}
+
+{counter start=-1 print=false name=tindex}
+  {foreach from=$tools item=tool}
+  {if !$group || $group == $tool->group}
+    {if $toolbar_rendering == 'radio'}
+      <label for="{$tool->id}" onclick="checkRadio(this.htmlFor);mainmap.{$tool->id}('map');" >
+      <input type="radio" id="{$tool->id}" name="tool" value="{$tool->id}" 
+      {if $selected_tool == $tool->id}checked="checked"{/if} />
+    {/if}
+    {if $tool->hasIcon}
+    {if $group != 3}
+    <tr align="center">
+      <td>
+      <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
+        src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
+        {if $toolbar_rendering != 'radio'}
+        class="toolbar" 
+        onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
+        {/if}
+        />
+      </td>
     </tr>
-    <tr><td>
+    {else}
+    <td style="padding:5px">
+      <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
+        src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
+        {if $toolbar_rendering != 'radio'}
+        class="toolbar" 
+        onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
+        {/if}
+        />
+    </td>
+    {/if}
+    {else}
+       <span>{t}{$tool->id}{/t}</span>
+    {/if}
+    {if $toolbar_rendering == 'radio'}
+    </label>&nbsp;
+    {/if}
+  {/if}
+  {/foreach}
+
+  {if $group == 4}
+  <tr>
+    <td style="padding:5px;padding-left:1px;">
     <a href="javascript:ontop(6);">
-    <img  align ="left" style="margin-left:5px;" src="{r type=gfx/layout}help.png{/r}"
-    title="{t}Help{/t}" alt="{t}help{/t}" /></a>
-    </td></tr>
-    <tr><td style="padding-left:7px;padding-top:3px;">
-    <a href="javascript:resetSession();">
-      <img align ="left" src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+      <img  style="margin-left:5px;" src="{r type=gfx/layout}help.png{/r}"
+      title="{t}Help{/t}" alt="{t}help{/t}" />
     </a>
-    </td></tr>
-</table>
+    </td>
+  <tr>
+    <td style="padding:5px;padding-top:1px;">
+    <a href="javascript:resetSession();">
+      <img src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+    </a>
+    </td>
+  </tr>
+  {/if}

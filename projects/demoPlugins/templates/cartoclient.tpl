@@ -45,16 +45,6 @@
     <td id="logo"><img src="{r type=gfx/layout}logoc2c.gif{/r}" alt="camptocamp" border="0"/></td>
     <td id="title" nowrap="nowrap">{t}CartoWeb3 - New Fonctionnalities Demonstration{/t}</td>
   </tr>
-    {if $locales|default:''}
-    <tr><td style="padding:5px;">
-      {foreach from=$locales item=locale name=lang}
-      {if !$smarty.foreach.lang.first || !$smarty.foreach.lang.last}
-        {if $locale != $currentLang}&nbsp;&nbsp;<a href="javascript:document.carto_form.action='{$selfUrl}?lang={$locale}';FormItemSelected(); " onclick="javascript:doSubmit();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
-        {if !$smarty.foreach.lang.last}|{/if}
-      {/if}
-      {/foreach}
-    </td></tr>
-    {/if}
 </table>
 </td></tr>
 <tr><td>
@@ -77,9 +67,33 @@
   {/if}
 
 <table>
+  <tr>
+    <td></td>
+    <td>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td width="50%" align="center">
+          {if $scales_active|default:''}
+            {$scales}
+          {/if}
+        </td>
+        <td width="50%" align="center">
+          {if $mapsizes_active|default:''}
+            {$mapsizes}
+          {/if}
+        </td>
+      </tr>
+    </table>
+    </td>
+    <td></td>
+  </tr>
   <tr valign="top">  
-    <td id="toolbar_row" valign="top" nowrap="nowrap">
+    <td id="toolbar_row" valign="top" width="30px" align="center">
+      <br /><br />
+      <table cellpadding="0" cellspacing="1" border="0">
       {include file="toolbar.tpl" group=1}
+      {include file="toolbar.tpl" group=4}
+      </table>
     </td>
     <td>
     <div id="content">
@@ -125,24 +139,6 @@
       <tr>
         <td  colspan="3">
           <br />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3" align="center">
-        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-          <tr>
-            <td width="50%" align="center">
-              {if $scales_active|default:''}
-                {$scales}
-              {/if}
-            </td>
-            <td width="50%" align="center">
-              {if $mapsizes_active|default:''}
-                {$mapsizes}
-              {/if}
-            </td>
-          </tr>
-        </table>
         </td>
       </tr>
       <tr>
@@ -233,7 +229,7 @@
    </table>
    </div>
    </td>
-   <td width="260px" valign="top" nowrap="nowrap">
+   <td width="260px" valign="top" nowrap="nowrap" rowspan="2">
      <div>
        <ul id="tabnav2">
          {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
@@ -286,9 +282,13 @@
      <!-- folder 5 starts here -->
      <div id="folder5" class="folder">
        <br />
-       {if $outline_active|default:''}
-         {$outline}
-       {/if}
+       <center>
+       <table cellpadding="0" cellspacing="1" border="0">
+       {include file="toolbar.tpl" group=3}
+       </table>
+       <br />
+       <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
+       </center>
      </div>
      <!-- end of folder 5 -->
     
@@ -358,7 +358,8 @@
     <!-- end of floder 6 -->
     
     </div> <!--container-->
-  </td></tr>  
+  </td>
+   </tr>  
 </table>
 </form>
 
@@ -370,9 +371,22 @@
 <img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
 </td></tr>
 <tr id="downbanner" style="height:50px;">
-  <td colspan="3" align="right" valign="top" class="mini">
-  Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
-  &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+  <td valign='top'>
+  <table width='100%' >
+    <tr>
+    <td align='left'>
+      {foreach from=$locales item=lang}
+      {if $lang == $currentLang}
+      <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
+      {else}
+      <a href="javascript:document.carto_form.action='{$selfUrl}?lang={$lang}';FormItemSelected();" onclick="javascript:doSubmit();"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
+      {/if}
+      {/foreach}</td>
+    <td align="right" class="mini" valign='top'>
+    Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
+    &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
+    </td>
+  </table>
   </td>
 </tr>
 
