@@ -125,7 +125,7 @@ CREATE TABLE views (
    <tip>
      <para>
        Field "views_ts" is just present in table "views" but not visible in the graphical interface of the "views" plugin. This value 
-       is usefull to know the time of the creation/modification of a view (only disponible with option "viewStorage = db"). 
+       is usefull to know the time of the creation/modification of a view (only available with option "viewStorage = db"). 
      </para>
    </tip>
   </sect2>
