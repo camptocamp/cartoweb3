@@ -1,24 +1,25 @@
+{if $header}
 <script type="text/javascript">
 {strip}
+var cw3_tools = new Array(
 {foreach from=$tools item=tool name=tool}
-  {if $smarty.foreach.tool.first}cw3_tools = new Array("{$tool->id}",
-  {elseif $smarty.foreach.tool.last}"{$tool->id}");
-  {else}"{$tool->id}",
-  {/if}
+"{$tool->id}"{if !$smarty.foreach.tool.last},{/if}
 {/foreach}
+);
 {/strip}
-cw3_initial_selected_tool = "mainmap.{$selected_tool}('map');";
 {if $toolbar_rendering != 'radio'}
-cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
+cw3_initial_selected_tool = "setActiveToolButton('{$selected_tool}');";
 {/if}
+cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 </script>
 {if $toolbar_rendering != 'radio'}
   <input type="hidden" name="tool" id="tool" value="{$selected_tool}"/>
 {/if}
+{/if}
 
   {if $group == 1}
     <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
-    <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';">
+    <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';document.carto_form.submit();">
      <img src="{r type=gfx/layout}fullextent.gif{/r}"
      title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
     </a>&nbsp;&nbsp;
