@@ -41,8 +41,7 @@ if ($type == 'file') {
         terminate('Source is not valid.');
     }
 
-    //define('VIEWS_HOME', sprintf('%swww-data/views/%s/', CARTOWEB_HOME, $source));
-    define('VIEWS_HOME', sprintf('%sscripts/views/%s/', CARTOWEB_HOME, $source));
+    define('VIEWS_HOME', sprintf('%swww-data/views/%s/', CARTOWEB_HOME, $source));
 
     if (!$files = @scandir(VIEWS_HOME)) {
         terminate(printf('Directory %s does not exist or is not readable.',
@@ -61,7 +60,7 @@ if ($type == 'file') {
         $newViewData = $wf->encapsulate($viewData);
         
         // FIXME: following htmlspecialchars seems not converting " (!?)
-        $newViewData = htmlspecialchars(serialize($newViewData));
+        $newViewData = htmlspecialchars($newViewData);
         $viewContent->sessionData = $newViewData;
         
         file_put_contents(VIEWS_HOME . $file, $viewContent->asXML());
@@ -96,7 +95,7 @@ if ($type == 'file') {
 
         $sql = sprintf("UPDATE views set sessiondata = '%s' " .
                        'WHERE views_id = %d',
-                       addslashes(serialize($newViewData)), $id);
+                       addslashes($newViewData), $id);
         $res2 = $db->query($sql);
 
         if (DB::isError($res2)) {
