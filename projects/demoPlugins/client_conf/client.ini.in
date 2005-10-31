@@ -3,8 +3,7 @@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-
-mapId = demoPlugins;
+mapId = demoPlugins
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = false
