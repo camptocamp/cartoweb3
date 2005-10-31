@@ -114,12 +114,12 @@ viewUpgradeOutdated = true
     <programlisting>
 CREATE TABLE views (
         views_id serial NOT NULL PRIMARY KEY,
-        views_ts timestamp without time zone
+        views_ts timestamp without time zone,
         viewtitle character varying(50),
         author character varying(50),
         sessiondata text,
         viewshow boolean,
-        weight integer,
+        weight integer
 );</programlisting>
    </para>
    <tip>
