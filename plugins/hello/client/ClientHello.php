@@ -30,13 +30,6 @@ class ClientHello extends ClientPlugin
 
     const HELLO_INPUT = 'hello_input';
     
-	/* Plugin directives, for ajax optimisation */
-	protected $DIRECTIVES = array(
-		'PREVENT_ALL',
-		'PREVENT_MESSAGE',
-		'PREVENT_COUNT',		
-	);
-
     /**
      * @var Logger
      */
@@ -90,12 +83,8 @@ class ClientHello extends ClientPlugin
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
-        if ($this->isDirectiveSet('PREVENT_ALL'))
-        	return;    	
         $this->count = $this->count + 1;
         $this->message = '';
-        if ($this->isDirectiveSet('PREVENT_MESSAGE'))
-        	return;
         $this->message = isset($request[self::HELLO_INPUT])
                          ? $request[self::HELLO_INPUT] : '';
     }
@@ -111,7 +100,6 @@ class ClientHello extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-
         $template->assign('hello_active', true);
         $template->assign('hello_message', "message: " . $this->message . 
                           " count: " . $this->count);
@@ -125,12 +113,12 @@ class ClientHello extends ClientPlugin
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Hello.change':
-				$pluginsDirectives->add('location', 'PREVENT_ALL');
-				$pluginsDirectives->add('layers', 'PREVENT_ALL');
-				$pluginsDirectives->add('images', 'PREVENT_ALL');
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enablePlugin('hello');				
 			break;
 			case 'Location.mapPanByKeymap':
-				$pluginsDirectives->add('hello', 'PREVENT_MESSAGE');
+				// Hello plugin will run on Location.mapPanByKeymap action
+				$pluginsDirectives->enablePlugin('hello');								
 			break;
 		}
 	}

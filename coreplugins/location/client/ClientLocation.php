@@ -96,13 +96,6 @@ class ClientLocation extends ClientPlugin
      */
     protected $smarty;
 
-	/* Plugin directives, for ajax optimisation */
-	protected $DIRECTIVES = array(
-		'PREVENT_ALL',
-		'PREVENT_LAYERS',
-		'PREVENT_SWITCHES',		
-	);
-
     /**
      * Constructor
      */
@@ -822,7 +815,6 @@ class ClientLocation extends ClientPlugin
         $scale = number_format($this->locationResult->scale, 0, ',',"'");
 
 		$assignArray['variables'] = array(
-			'location_info' => $this->getLocationInformation(),
             'bboxMinX' => $this->locationState->bbox->minx,
             'bboxMinY' => $this->locationState->bbox->miny,
             'bboxMaxX' => $this->locationState->bbox->maxx,
@@ -835,6 +827,8 @@ class ClientLocation extends ClientPlugin
             'shortcuts_active' => $shortcuts_active,
 		);
 		
+		$assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
+
         if ($recenter_active)
 			$assignArray['htmlCode']['recenter'] = $this->drawRecenter();
         if ($scales_active)
@@ -854,8 +848,6 @@ class ClientLocation extends ClientPlugin
     }
 
     public function ajaxResponse($ajaxPluginResponse) {
-    	if ($this->isDirectiveSet('PREVENT_ALL'))
-    		return;
     	$assignArray = $this->renderFormPrepare(); 
     	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
 	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
@@ -870,17 +862,15 @@ class ClientLocation extends ClientPlugin
 			case 'Location.mapPanByButton':
 			case 'Location.mapPanByKeymap':
 			case 'Location.mapPanByDrag':
-				$pluginsDirectives->add('layers', 'PREVENT_ALL');
-				// The following plugins are not yet AjaxPlugins
-				//$pluginsDirectives->add('query', 'PREVENT_ALL');
-				//$pluginsDirectives->add('statictools', 'PREVENT_ALL');
-				//$pluginsDirectives->add('tables', 'PREVENT_ALL');
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('location');
+				$pluginsDirectives->enableCoreplugin('images');
 			break;			
 			case 'Location.zoom':
-				// The following plugins are not yet AjaxPlugins
-				//$pluginsDirectives->add('query', 'PREVENT_ALL');
-				//$pluginsDirectives->add('statictools', 'PREVENT_ALL');
-				//$pluginsDirectives->add('tables', 'PREVENT_ALL');
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('location');
+				$pluginsDirectives->enableCoreplugin('layers');
+				$pluginsDirectives->enableCoreplugin('images');
 			break;
 		}
 	}

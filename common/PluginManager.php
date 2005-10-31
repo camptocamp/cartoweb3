@@ -287,6 +287,39 @@ class PluginManager {
     }
 
     /**
+     * ajax-dev
+     * Calls a function on enabled plugins implementing an interface
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
+    public function callEnabledPluginImplementing($pluginName, $interface, $functionName, 
+                                     $args = array()) {
+
+        $plugin = $this->getPlugin($pluginName);
+        if ($plugin->isEnabled())
+	        $this->callPluginImplementing($plugin, $interface, $functionName, 
+    	                                  $args);
+    }
+
+    /**
+     * ajax-dev
+     * Calls a function on enabled plugins implementing an interface
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
+    public function callEnabledPluginsImplementing($interface, $functionName, 
+                                     $args = array()) {
+
+        foreach ($this->plugins as $plugin) {
+        	if ($plugin->isEnabled())
+            	$this->callPluginImplementing($plugin, $interface, $functionName, 
+                	                          $args);
+        }
+    }
+
+    /**
      * Calls a function on plugins
      * @param string function name
      * @param array function arguments

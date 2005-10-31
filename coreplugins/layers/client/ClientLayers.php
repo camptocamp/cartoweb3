@@ -313,13 +313,6 @@ class ClientLayers extends ClientPlugin
     const RENDERING_RADIO = 'radio';
     const RENDERING_DROPDOWN = 'dropdown';
     
-	/* Plugin directives, for ajax optimisation */
-	protected $DIRECTIVES = array(
-		'PREVENT_ALL',
-		'PREVENT_LAYERS',
-		'PREVENT_SWITCHES',		
-	);
-
     /**
      * Constructor
      */
@@ -1275,8 +1268,6 @@ class ClientLayers extends ClientPlugin
     }
 
     public function ajaxResponse($ajaxPluginResponse) {
-    	if ($this->isDirectiveSet('PREVENT_ALL'))
-    		return;
     	$ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
     	$ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
     }
@@ -1284,10 +1275,14 @@ class ClientLayers extends ClientPlugin
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Layers.layerShowHide':
-				$pluginsDirectives->add('layers', 'PREVENT_ALL');
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('layers');
+				$pluginsDirectives->enableCoreplugin('images');
 			break;
 			case 'Layers.layerDropDownChange':
-				// Do all
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('layers');
+				$pluginsDirectives->enableCoreplugin('images');
 			break;
 		}
 	}

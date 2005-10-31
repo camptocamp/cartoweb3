@@ -9,3 +9,12 @@
 
 
 AjaxPlugins = {};
+
+AjaxPlugins.Common = {
+	onBeforeAjaxCall: function() {
+		xShow(xGetElementById('loadbarDiv'));
+	},
+	onAfterAjaxCall: function() {
+		xHide(xGetElementById('loadbarDiv'));
+	}
+}

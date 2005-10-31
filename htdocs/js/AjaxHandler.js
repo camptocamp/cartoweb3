@@ -127,6 +127,7 @@ AjaxHandler = {
 						requestedPluginName = actionId.substr(0, actionId.indexOf('.'));
 						requestedActionName = actionId.substr(actionId.indexOf('.')+1);
 						eval('AjaxPlugins.' + requestedPluginName + '.Actions.' + requestedActionName + '.onAfterAjaxCall(argObject)');
+						AjaxPlugins.Common.onAfterAjaxCall(actionId);
 					}
 				}
 			}
@@ -139,6 +140,7 @@ AjaxHandler = {
 		eval('httpPostRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
 		eval('httpGetRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
 		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
+		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
 		this.actionRequest(actionId, argObject, {post: httpPostRequest, get: httpGetRequest});
 	},
 	

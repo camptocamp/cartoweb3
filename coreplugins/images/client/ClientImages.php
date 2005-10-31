@@ -91,12 +91,6 @@ class ClientImages extends ClientPlugin
      */
     const DEF_MAP_HEIGHT = 200;
 
-	/* Plugin directives, for ajax optimisation */
-	protected $DIRECTIVES = array(
-		'PREVENT_ALL',
-		'PREVENT_MAPSIZES',
-	);
-
     /**
      * Constructor
      */
@@ -352,7 +346,7 @@ class ClientImages extends ClientPlugin
         }
 
         $assignArray['variables']['mapsizes_active'] = $this->getConfig()->mapSizesActive;
-        $assignArray['variables']['mapsizes'] = $this->drawMapSizes();
+        $assignArray['htmlCode']['mapsizes'] = $this->drawMapSizes();
 
         if ($this->getConfig()->collapsibleKeymap) {
 	        $assignArray['variables']['collapseKeymap'] = $this->collapseKeymap;
@@ -365,11 +359,10 @@ class ClientImages extends ClientPlugin
     public function renderForm(Smarty $template) {
     	$assignArray = $this->renderFormPrepare();
     	$template->assign($assignArray['variables']);
+    	$template->assign($assignArray['htmlCode']);
     }
     
     public function ajaxResponse($ajaxPluginResponse) {
-    	if ($this->isDirectiveSet('PREVENT_ALL'))
-    		return;
     	$assignArray = $this->renderFormPrepare();
     	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
 	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
@@ -377,7 +370,7 @@ class ClientImages extends ClientPlugin
     }
 
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
-		// Images plugin does not provide any action
+		// Images plugin does not provide any action yet
 	}
 
     /**

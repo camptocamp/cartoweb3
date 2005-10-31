@@ -422,28 +422,33 @@ abstract class ClientPlugin extends PluginBase {
     }
 
 	/* ajax dev */
-	// TODO: put setDirective() and isDirectiveSet in ClientPlugin class
-	protected $setDirectives = array();
+	protected $isEnabled = true;
 	
-	protected function isDirectiveSet($directiveName) {
-		if (!$this->directiveExists($directiveName))
-			throw new AjaxException ($directiveName . ' does not exist in plugin ' . get_class($this));
-		return in_array($directiveName, $this->setDirectives);
+	public function enable() {
+		$this->isEnabled = true;
 	}	
-	
-	public function directiveExists($directiveName) {
-		//var_dump(in_array($directiveName, $this->DIRECTIVES));
+	public function disable() {
+		$this->isEnabled = false;
+	}
+	public function isEnabled() {
+		return $this->isEnabled;
+	}
+/*	
+	protected function directiveExists($directiveName) {
 		return isset($this->DIRECTIVES) && in_array($directiveName, $this->DIRECTIVES);
 	}	
 
 	public function setDirective($directiveName) {
-		// Sets the directive 
-		// TODO: If directive exists and is not already set
 		if ($this->directiveExists($directiveName)
 				&& !$this->isDirectiveSet($directiveName)) {
 			$this->setDirectives[$directiveName] = $directiveName;
 		}
 	}
+
+	protected function isDirectiveSet($directiveName) {
+		return in_array($directiveName, $this->setDirectives);
+	}
+*/	
 }
 
 ?>
