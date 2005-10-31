@@ -2,7 +2,7 @@
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 function FormItemSelected() {
-  document.carto_form.submit();
+  doSubmit();
 }
 
 function setActiveToolButton(toolid) {
