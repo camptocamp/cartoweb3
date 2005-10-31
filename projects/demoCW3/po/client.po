@@ -389,11 +389,11 @@ msgid "Data sources"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Nima:"
+msgid "Nima :"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Gtopo30:"
+msgid "Gtopo30 :"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl

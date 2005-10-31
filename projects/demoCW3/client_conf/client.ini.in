@@ -15,3 +15,6 @@ loadPlugins = exportCsv, exportPdf, outline, auth, demoLocation
 
 authLang = fr, en
 orderLang = en, fr
+
+; Indicates how to render toolbar
+toolbarRendering = class

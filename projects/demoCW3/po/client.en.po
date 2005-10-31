@@ -384,12 +384,12 @@ msgid "Data sources"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Nima:"
-msgstr "Nima"
+msgid "Nima :"
+msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Gtopo30:"
-msgstr "Gtopo30"
+msgid "Gtopo30 :"
+msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Projection and datums"

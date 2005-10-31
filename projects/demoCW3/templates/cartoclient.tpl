@@ -83,7 +83,7 @@
   <div id="content">
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
-        <td colspan="3" id="toolbar_row">
+        <td colspan="3" id="toolbar_row" nowrap="nowrap">
           {include file="toolbar.tpl" group="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="2"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
