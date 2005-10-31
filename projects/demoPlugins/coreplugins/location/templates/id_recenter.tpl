@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td>&nbsp;<input type="text" id="input_name_recenter" name="input_name_recenter" class="input_text"/>
-      <input type="submit" name="OK" value="OK" class="form_button" style="margin:0px"/></td>
+      <input type="submit" name="OK" value="OK" class="form_button" style="margin:0px" onclick='doSubmit();'/></td>
     </tr>
     
     {if $id_recenter_active}
@@ -48,7 +48,7 @@
           </td></tr>
           <tr><td align="center">
             <input type="submit" name="refresh" value="{t}Recenter{/t}" 
-            class="form_button" />
+            class="form_button"  onclick='doSubmit();'/>
           </td></tr>
           </table>
         </div>

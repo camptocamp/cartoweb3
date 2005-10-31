@@ -1,52 +1,152 @@
-This help gives you some informations to integrate the routing fonctionalities in a custom application.
+SUMMARY
 
-1. REQUIREMENT and INSTALLATION
--------------------------------
-
-REQUIREMENT
-*Postgresql >= 8.0
-*The boost graph library (See http://www.boost.org/libs/graph/doc/index.html)
-*C++ Compiler
-
-INSTALLATION
-*Edit Makefile, and set the BOST_PATH with the location of your boost library
-(if you are on debian, just type "apt-get install libboost-graph-dev")
-*Type make install
-*Execute the sql file dijkstra.sql to install the functions in your databASe
-*If you have PostGIS installed, you can launch "dijkstra_postgis.sql"
-
-USAGE
-The core module is a function which compute a shortest path from a set of edges and vertices.
-The function expects data in a specific format in input.
-Some functions are provided for importing data from geometric tables, and for generating results a geometies.
-For more informations on these functions, you can have a look to the routing module README file (http://www.cartoweb.org/pgdijkstra/README).
+INTRODUCTION
+A. DATA INSTALLATION
+B. cw3_setup CONFIGURATION
+C. EXTENSIONS DESCRIPTION
+    1. demoLocation
+    2. demoRouting
 
 
-2. Routing integration step by step
------------------------------------
-This chapter explain the main step to integrate the routing fonctionnalities in your custom application.
-We describe the steps followed to install the routing demo. To resume, we used an Europe roads shapefile, imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest path between two european towns.
+INTRODUCTION
+------------
+------------
+The demoPlugins demo contain plugin which work with databases.
+So, we describe here how to install these databases, how to parametrize his installation
+and how to integrate it in custom projects.
 
-Note : the steps 2.2 to 2.4 can be done by launching the demo_routing.sql file.
+A. DATA INSTALLATION
+--------------------
+--------------------
+The plugins views, routing and the extension of plugin demoLocation use database.
+So, before demoPlugins installation, you must install these databases on your computer.
 
-2.1. database installation
---------------------------
+Like it's explained in CartoWeb documentation, the views plugin can works with or without database.
+But if you use, a database, you must create a views table
+ 
+      CREATE TABLE views (
+        views_id serial NOT NULL PRIMARY KEY,
+        views_ts timestamp without time zone,
+        viewtitle character varying(50),
+        author character varying(50),
+        sessiondata text,
+        viewshow boolean,
+        weight integer,
+      );
+
+
+In this demo and for the following plugins we used a PostgreSQL/PostGIS database.
+Typically, to integrate PostGIS fonctionnalities in a PostgreSQL database you should type :
     - createdb demo_routing
     - createlang plpgsql demo_routing
     - psql -d demo_routing -f lwpostgis.sql
     - psql -d demo_routing -f spatial_ref_sys.sql
-    - psql -d demo_routing -f dijkstra.sql
-    - psql -d demo_routing -f dijkstra_postgis.sql
 
 
-2.2. Import of the Europe road geodata in postGIS
--------------------------------------------------
+DemoLocation extension allows you to select geographic objets of a layer by specifying a name.
+It needs a database containing geographic tables. To create these tables, you can, like it was done in this demo,
+export the free downloadable layers in postgreSQL/PostGIS tables.
+We exported the layers airport, agglo, district and town. We typed, in the airport layer example :
+    - shp2pgsql builtupa.shp airport > /tmp/aiport.sql
+    - psql -d demodb -f /tmp/airport.sql
+
+
+The routing module is a function which compute a shortest path from a set of edges and vertices.
+Some functions are provided for importing data from geometric tables, and for generating results
+a geometies.
+For more informations on these functions, you can have a look to the routing module README file 
+(http://www.cartoweb.org/pgdijkstra/README).
+The requirements are to have :
+  *Postgresql >= 8.0
+  *The boost graph library (See http://www.boost.org/libs/graph/doc/index.html)
+  *C++ Compiler
+To proceed installation you must :
+  *Edit Makefile, and set the BOST_PATH with the location of your boost library
+  (if you are on debian, just type "apt-get install libboost-graph-dev")
+  *Type make install
+  *Execute the sql file dijkstra.sql to install the functions in your database
+      - psql -d demo_routing -f dijkstra.sql
+  *If you have PostGIS installed, you can launch "dijkstra_postgis.sql"
+      - psql -d demo_routing -f dijkstra_postgis.sql
+
+To install demoPlugin demo, you also should import Europe road geodata in postGIS
+  - shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
+  - psql -d demo_routing -f /tmp/roadl.sql
+
+
+
+
+B. cw3_setup CONFIGURATION
+--------------------------
+--------------------------
+
+To finish demoPlugins installation, you must specify optionnal parameters during cw3_setup launching.
+To do so, you must create a file (for example demo.properties).
+In this file we find the server name, the database user name, the data user password, the routing database name,
+the database port, the demoLocation database name and the views database name.
+Here 's an example of this file :
+    DB_HOST = localhost
+    DB_USER = www-data
+    DB_PASSWD =
+    DB_NAME = demo_routing
+    DB_PORT = 5432
+    DB_SEARCH_NAME = demodb
+    DB_VIEWS_NAME = demodb
+
+To use this file during CartoWeb installation, specify the option --config-from-file demo.properties
+when you execute cw3_setup.php.
+
+
+
+C. EXTENSIONS DESCRIPTION
+-------------------------
+-------------------------
+
+    1. demoLocation
+    ---------------
+    ---------------
+
+This extension allows you to select geographic objets of a layer by specifying a name.
+
+According to the name selected, the id corresponding is fetched from the search name 
+database and submit to the recenterid coreplugin. This coreplugin select the geographic
+ object in the shapefile according to this id and the layer selected and recenter on it.
+
+The names of the id and the names on which the search is done must be specified in the 
+metadata of the mapfile for each layer queryable.
+Theses metadata are respectively "id_attribute_string" for the id and "recenter_name_string" 
+for the name.
+You also must use the metadata "exported_values" to transmit these metadata to the client.
+
+For example, you can type :
+"exported_values" "recenter_name_string,id_attribute_string"
+"recenter_name_string" "NAM"
+"id_attribute_string" "OGC_FID|string"
+
+The name of the database must be specified in the location.ini
+
+NB : In the location.ini, you also need to specify the layers on which you want to do a search
+by name (in the idRecenterLayers options) and activate the coreplugin idRecenter (idRecenterActive
+option).
+
+
+
+
+
+
+    2. demoRouting
+    --------------
+    --------------
     
-    - shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
-    - psql -d demo_routing -f /tmp/roadl.sql
+This chapter explain the main step to integrate the routing fonctionnalities in your custom application.
+We describe the steps followed to install the routing demo. To resume, we used an Europe roads shapefile,
+imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest
+path between two european towns.
+
+Note : the steps 2.1 to 2.2 and Europe road geodata import can be done by launching the demo_routing.sql file.
 
     
-2.3. Graph importation
+2.1. Graph importation
 ----------------------
 
 The first step is to delete uneeded cols of the table roads_europe_tmp. To do so, you can type :
@@ -70,16 +170,20 @@ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe li
 
 
         
-But if the data quality is poor, you need to delete the duplicates edges (they have the same pair source-target of vertices).
+But if the data quality is poor, you need to delete the duplicates edges (they have the same pair
+ source-target of vertices).
     - For example, to verify you have duplicates edges, you can type :
-    SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by source_id, target_id order by c) AS foo where foo.c = 2;
+    SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by source_id, target_id order by c)
+     AS foo where foo.c = 2;
 If there is duplicates edges, to delete one of two rows, you can type : 
-    - CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in (SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid FROM roads_europe) AS doublon);
+    - CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in (SELECT gid FROM 
+    (SELECT DISTINCT on (source_id, target_id) source_id, gid FROM roads_europe) AS doublon);
     - DELETE FROM roads_europe;
     - INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
     - ALTER TABLE roads_europe ADD COLUMN edge_id int;
 
-The following step is to create and fill the edges and vertices tables of the resulting graph. To do so, you can use "create_graph_tables" function.
+The following step is to create and fill the edges and vertices tables of the resulting graph. 
+To do so, you can use "create_graph_tables" function.
     - SELECT create_graph_tables('roads_europe', 'int4');
     
 SELECT * FROM roads_europe_edges LIMIT 3;
@@ -109,10 +213,11 @@ SELECT * FROM roads_europe_edges LIMIT 3;
 (3 lignes)
 
 Now, all is set up correctly for using the shortest path function on these data.
-But to include the routing fonctionnalities in a custom project, we must respect certains rules dictated by the routing plugin.
+But to include the routing fonctionnalities in a custom project, we must respect certains rules 
+dictated by the routing plugin.
 
 
-2.4. Routing plugin specific configuration
+2.2. Routing plugin specific configuration
 ------------------------------------------
 
 The two things to do are to :
@@ -134,9 +239,10 @@ The two things to do are to :
     
     
     
-2.5. Mapfile configuration
+2.3. Mapfile configuration
 --------------------------
-In the mapfile, you must specify, in the routing layer the connection to the database, a symbology for the route and a first route using an unique identifier.
+In the mapfile, you must specify, in the routing layer the connection to the database, a symbology
+for the route and a first route using an unique identifier.
 The data paramater will be overwritten by the routing plugin to draw the route choosen by the end-user.
 
 Example :
@@ -159,13 +265,17 @@ Example :
   END
 
   
-2.6 General configuration
+2.4 General configuration
 -------------------------
 For the demo, we propose to select your route by starting from a town until an other town.
-This is possible because for each objet of an europeans towns layer, we have identified the nearest object of the roads_europe_vertices table. That's why in the demoRouting configuration there's a client-side configuration.
-Normaly, in the plugin routing, client-side only allows you to type an id of object, from which to start and an other to finish the route and no configuration is needed.
+This is possible because for each objet of an europeans towns layer, we have identified the nearest 
+object of the roads_europe_vertices table. That's why in the demoRouting configuration there's a 
+client-side configuration.
+Normaly, in the plugin routing, client-side only allows you to type an id of object, from which to start
+and an other to finish the route and no configuration is needed.
 
-So, if you want to extend the routing plugin in a custom application, you need to specify the following options.
+So, if you want to extend the routing plugin in a custom application, you need to specify the following 
+options.
 If you use demoRouting extension, you must specify Client-side, the :
 - postgresRoutingVerticesTable : vertices table
 - stepName : vertices table col containing informations you want to propose a choice on.

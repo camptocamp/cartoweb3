@@ -1,7 +1,5 @@
 function FormItemSelected() {
   doSubmit();
-  //document.carto_form.submit();
-  //xShow(xGetElementById('mapAnchorDiv'));
 }
   
 function checkRadio(id) {
