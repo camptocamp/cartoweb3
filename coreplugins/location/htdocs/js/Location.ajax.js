@@ -12,8 +12,7 @@ AjaxPlugins.Location = {
 
 	// Clear the carto_form's selection_type and selection_coords hidden inputs
 	// hidden input fields' value
-	$('selection_type').value = null;
-	$('selection_coords').value = null;
+	AjaxPlugins.Common.clearDhtmlStoredFeatures();
   }
 };
 
@@ -136,13 +135,7 @@ AjaxPlugins.Location.Actions.zoom = {
   onBeforeAjaxCall: function(argObject) {
   },
   onAfterAjaxCall: function(argObject) {
-  	// remove drawed layers on mainmap object by deleting all childs of mapDrawing
-  	// TODO use the proper dhtmlAPI method...
-  	mapDrawingLayer = $('map_drawing');
-  	var childNodesLength = mapDrawingLayer.childNodes.length;
-	for (i=0; i<childNodesLength; i++) {
-		mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
-	}	
+	AjaxPlugins.Common.clearDhtmlDrawings();
   }
 };
 

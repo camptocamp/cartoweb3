@@ -35,7 +35,7 @@ require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php')
  * @package CorePlugins
  */
 class ClientTables extends ClientPlugin
-                   implements GuiProvider {
+                   implements GuiProvider, AjaxPlugin {
                    
     /**
      * @var Logger
@@ -182,20 +182,36 @@ class ClientTables extends ClientPlugin
         return $tableGroups;
     }
     
-    /**
-     * @see GuiProvider::renderForm()
-     */
-    public function renderForm(Smarty $template) {
+    public function renderFormPrepare() {
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $this->tableGroups);
         
         $this->assignExportCsv($smarty);
         
-        $output = $smarty->fetch('tables.tpl');
-        
+        return $smarty->fetch('tables.tpl');
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     */
+    public function renderForm(Smarty $template) {
+
+        $output = $this->renderFormPrepare();        
         $template->assign('tables_result', $output);
     }
-}
+
+    public function ajaxResponse($ajaxPluginResponse) {
+    	$ajaxPluginResponse->addHtmlCode('tableResult', $this->renderFormPrepare());
+    }
+
+	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Query.perform':
+				
+			break;
+		}
+	}	
+  }
 
 ?>

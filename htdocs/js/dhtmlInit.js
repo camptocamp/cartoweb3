@@ -206,7 +206,11 @@ Map.prototype.zoomin = function(aDisplay) {
     myform.selection_type.value = "rectangle";
     storeFeatures();
     //doSubmit();
-    AjaxHandler.doAction('Location.zoom');
+    if (xGetElementById('querytoolradio').checked) {
+		AjaxHandler.doAction('Query.perform');
+	} else {
+	    AjaxHandler.doAction('Location.zoom');
+	}
   }
 };
 

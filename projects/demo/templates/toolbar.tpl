@@ -21,7 +21,7 @@
   <input type="radio" name="tool" 
   value="{$tool->id}" 
   onclick="mainmap.{$tool->id}('map');"
-  {if $selected_tool == $tool->id}checked="checked"{/if} id="{$tool->id}" />
+  {if $selected_tool == $tool->id}checked="checked"{/if} id="{$tool->id}toolradio" />
   {/foreach}
 </div>
 {/strip}

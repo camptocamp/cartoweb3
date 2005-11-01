@@ -8,9 +8,9 @@
 
 AjaxHandler = {
 	baseUrl: '', // uses current url if empty
+
 	cartoFormId: 'carto_form',
 
-	plugins: null,
 
 	initialize: function(baseUrl, cartoFormId) {
 		if (baseUrl == undefined)
@@ -24,13 +24,16 @@ AjaxHandler = {
 		this.plugins = new Array();
 	},
 
+
 	setBaseUrl: function(baseUrl) {
 		this.baseUrl = baseUrl;
 	},
 
+
 	setCartoFormId: function(cartoFormId) {
 		this.cartoFormId = cartoFormId;
 	},
+
 
 	buildPostRequest: function(formId) {
 		if (formId == undefined)
@@ -38,9 +41,11 @@ AjaxHandler = {
 		return AjaxHelper.buildHttpPostRequest(formId);
 	},
 
+
 	buildRequestFrom: function(htmlElement) {
 		return AjaxHelper.buildHttpRequestFrom(htmlElement);
 	},
+
 
 	/**
 	 * Returns cartoweb's base url (format: http://hostname/dir1/dir12/dir121/script_name.ext)
@@ -49,6 +54,7 @@ AjaxHandler = {
 	getBaseUrl: function() {
 		return this.baseUrl;
 	},
+
 	 
 	handlePluginReponse: function(response) {
 		
@@ -93,6 +99,7 @@ AjaxHandler = {
 		}
 	},
 
+
 	actionRequest: function(actionId, argObject, httpRequestObject) {
 		var url = this.getBaseUrl()
 			+ '?ajaxActionRequest=' + actionId + '&'
@@ -133,8 +140,11 @@ AjaxHandler = {
 			}
 		);
 	},
+	
 	  	
 	doAction: function(actionId, argObject) {
+		if (argObject == undefined)
+			argObject = {};
 		pluginName = actionId.substr(0, actionId.indexOf('.'));
 		actionName = actionId.substr(actionId.indexOf('.')+1);
 		eval('httpPostRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
@@ -142,17 +152,21 @@ AjaxHandler = {
 		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
 		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
 		this.actionRequest(actionId, argObject, {post: httpPostRequest, get: httpGetRequest});
+		return false;
 	},
+	
 	
 	attachAction: function(element, evType, actionName, argObject, useCapture) {
 		if (useCapture == undefined)
 			useCapture = false;		
 		if (argObject == undefined)
 			argObject = {};
+		// Attaches the listener to the evType event on the element
 		AjaxHelper.addEvent(element, evType, function(event) {
 		    // Fixes event and target issues
 			var event = window.event ? window.event : event;
 			var target = event.target ? event.target : event.srcElement;
+			// Defines predefined argObject properties: event & target
 			argObject.event = event;
 			argObject.target = target;
 			AjaxHandler.doAction(actionName, argObject);
@@ -163,5 +177,21 @@ AjaxHandler = {
 				event.preventDefault();
 		}, useCapture);
 	}
-	
 };
+
+AjaxHandler.Debug = {
+
+	log: new Array(),
+	
+	add: function(message) {
+		this.log.push('[time]: ' + 'debug msg');
+	},
+	
+	toString: function() {
+		str = '';
+		for (i=0; i<this.log.length; i++) {
+			str += this.log[i] + "\r\n";
+		}
+		return str;
+	}
+}

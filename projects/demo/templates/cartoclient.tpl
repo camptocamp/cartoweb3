@@ -35,9 +35,13 @@
   <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
 
   <!-- Ajax related js includes - Per plugin logic -->
+  <!-- Coreplugins -->
   {if true}<script type="text/javascript" src="{r type=js plugin=location}Location.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=layers}Layers.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=images}Images.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>{/if}
+  <!-- Plugins -->
   {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
@@ -82,7 +86,7 @@
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" id="selection_type" />
   <input type="hidden" name="selection_coords" id="selection_coords" />
-  <input type="hidden" name="features" />
+  <input type="hidden" name="features" id="features" />
   <input type="hidden" name="project" value="{$project}" />
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
@@ -181,7 +185,7 @@
       </tr>
       {/if}
 
-  {if $tables_result|default:''}
+  {if $tables_result|default:true}
   <tr>
    <td colspan="3">
     <center>
@@ -192,14 +196,16 @@
       <tr>
         <td>
          <center>
-          {$tables_result}
+         	<div id="tables_result">
+          		{$tables_result}
+          	</div>
          </center>
         </td>
      </tr>
      <tr>
       <td align="center">
         &nbsp;<br />
-    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
+    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button" onClick="{literal}AjaxHandler.doAction('Query.clear');return false;{/literal}" />
       </td>
      </tr>
      </table>
