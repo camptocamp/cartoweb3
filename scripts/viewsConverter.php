@@ -99,10 +99,17 @@ if ($type == 'file') {
             continue;
         }
 
-        $row2 =& $res->fetchRow(DB_FETCHMODE_ASSOC);
-        
+        $row2 =& $res2->fetchRow(DB_FETCHMODE_ASSOC);
+
         $viewData = unserialize($row2['sessiondata']);
+
         $res2->free();
+        
+        if (empty($viewData)) {
+            print "Failed retrieving data from view #$id\n";
+            continue;
+        }
+
         $newViewData = $wf->encapsulate($viewData);
 
         $sql = sprintf("UPDATE views set sessiondata = '%s' " .
