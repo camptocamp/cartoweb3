@@ -7,16 +7,30 @@
  * Uses: AjaxPluginHandler.js - for plugin calls.
  */
 
+// Initialises plugins on window load
+AjaxHelper.addEvent(window, 'load', function() {
+	AjaxPlugins.Common.init();
+});
 
 AjaxPlugins = {};
 
 AjaxPlugins.Common = {
+
+	/* Plugins' actions initialisation */
+	init: function() {
+		/* Initialises plugins' actions */
+		AjaxPlugins.Location.Actions.pan.init();
+	},
+
+
+	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function() {
 		xShow(xGetElementById('loadbarDiv'));
 	},
 	onAfterAjaxCall: function() {
 		xHide(xGetElementById('loadbarDiv'));
 	},
+
 	
 	/* Helper methods */
 	clearDhtmlDrawings: function() {

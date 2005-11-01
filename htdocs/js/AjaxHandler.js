@@ -176,6 +176,39 @@ AjaxHandler = {
 			if (event.preventDefault)
 				event.preventDefault();
 		}, useCapture);
+	},
+
+	// Bogous
+	waitFor: function(elementId, functionToExecute, timeout, waitTimeout,  timesChecked) { // timeout in seconds
+		if (elementId == undefined)
+			elementId = '';
+		if (functionToExecute == undefined)
+			functionToExecute = function() {};
+		if (timeout == undefined)
+			timeout = 5; // timeout in seconds
+		if (waitTimeout == undefined)
+			waitTimeout = 5000; // waitTimeout in ms
+		if (timesChecked == undefined) {
+			timesChecked = 0;
+		} else {
+			timesChecked += 1;
+		}
+
+		if (timesChecked > 1)
+			alert('waitTimout('+timesChecked+'): ' + waitTimeout * timesChecked / 1000 + ' < ' + timeout);
+		
+		// Initialise only if elementId element exists, else
+		// wait a little while before trying again
+		if ($(elementId) == undefined) {
+			if (waitTimeout * timesChecked / 1000 < timeout) {
+				setTimeout(AjaxHandler.waitFor(elementId, functionToExecute, timeout, waitTimeout, timesChecked), waitTimeout);
+			} else {
+				alert('AjaxHandler.waitFor(): Timeout reached, element ' + elementId + ' still doesn\'t exists...');
+			}
+		} else {
+			// When the elementId element exists, perform the given function
+			functionToExecute();
+		}	
 	}
 };
 

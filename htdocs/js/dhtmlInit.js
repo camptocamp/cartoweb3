@@ -193,8 +193,11 @@ Map.prototype.zoomout = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    //doSubmit();
-    AjaxHandler.doAction('Location.zoom');
+    if (true) {
+      AjaxHandler.doAction('Location.zoom');
+    } else {
+      doSubmit();
+    }
   }
 };
   
@@ -205,12 +208,16 @@ Map.prototype.zoomin = function(aDisplay) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-    //doSubmit();
-    if (xGetElementById('querytoolradio').checked) {
-		AjaxHandler.doAction('Query.perform');
-	} else {
+    //if (xGetElementById('dthmlAjaxEnabled') && xGetElementById('dthmlAjaxEnabled').value == '1') {
+    if (true) {
+      if (xGetElementById('querytoolradio').checked) {
+	    AjaxHandler.doAction('Query.perform');
+	  } else {
 	    AjaxHandler.doAction('Location.zoom');
-	}
+	  }
+    } else {
+      doSubmit();
+    }
   }
 };
 
@@ -227,7 +234,11 @@ Map.prototype.pan = function(aDisplay) {
     myform.selection_type.value = "point";
     storeFeatures();
     //doSubmit();
-    AjaxHandler.doAction('Location.mapPanByDrag');
+    if (true) {
+      AjaxHandler.doAction('Location.pan', {source: 'map'});
+    } else {
+      doSubmit();
+    }
   }
 };
 

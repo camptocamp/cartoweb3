@@ -49,10 +49,10 @@
     <!--
     {literal}
     window.onload = function() {
-      if (typeof onLoadString == "string") {
+      if (typeof onLoadString == "string") {      
         eval(onLoadString);
       }
-    }
+    }	
     {/literal}
     //-->
   </script>
@@ -82,6 +82,7 @@
 
 <form method="post" action="{$selfUrl}" name="carto_form" id="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
+  <input type="hidden" name="dhtmlAjaxEnabled" id="dhtmlAjaxEnabled" value="1" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" id="selection_type" />

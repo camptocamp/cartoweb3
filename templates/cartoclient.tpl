@@ -23,6 +23,25 @@
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
 
+  <!-- Ajax related js includes - External libraries -->
+  <script type="text/javascript" src="{r type=js}prototype-1.3.1.js{/r}"></script>
+
+  <!-- Ajax related js includes - Global logic -->
+  <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxHandler.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
+
+  <!-- Ajax related js includes - Per plugin logic -->
+  <!-- Coreplugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=location}Location.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=layers}Layers.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=images}Images.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>{/if}
+  <!-- Plugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
+  
+  
   <script language="JavaScript" type="text/javascript">
     <!--
     var hideKeymapMsg = "{t}Collapse keymap{/t}";
@@ -40,8 +59,9 @@
 
 <div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
-<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
+<form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
+  <input type="hidden" name="dhtmlAjaxEnabled" id="dhtmlAjaxEnabled" value="1" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" />
