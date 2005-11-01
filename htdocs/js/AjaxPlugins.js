@@ -22,7 +22,6 @@ AjaxPlugins.Common = {
 		AjaxPlugins.Location.Actions.pan.init();
 	},
 
-
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function() {
 		xShow(xGetElementById('loadbarDiv'));
@@ -43,6 +42,7 @@ AjaxPlugins.Common = {
 			mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
 		}	
 	},
+	
 	clearDhtmlStoredFeatures: function() {
 		// Clear the carto_form's selection_type and selection_coords hidden inputs
 		// hidden input fields' value

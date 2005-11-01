@@ -40,12 +40,12 @@ AjaxHandler = {
 			formId = this.cartoFormId;
 		return AjaxHelper.buildHttpPostRequest(formId);
 	},
-
-
 	buildRequestFrom: function(htmlElement) {
 		return AjaxHelper.buildHttpRequestFrom(htmlElement);
 	},
-
+    getQueryStringFrom: function(ahrefElement) {
+	    AjaxHelper.getQueryStringFrom(ahrefElement);
+    },
 
 	/**
 	 * Returns cartoweb's base url (format: http://hostname/dir1/dir12/dir121/script_name.ext)
@@ -211,6 +211,8 @@ AjaxHandler = {
 		}	
 	}
 };
+
+
 
 AjaxHandler.Debug = {
 

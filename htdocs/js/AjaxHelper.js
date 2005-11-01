@@ -1,6 +1,11 @@
 var AjaxHelper = {
 
+    // General method that builds a request string from an HTML element
+    // Return a formatted string: 'elemeentName=elemeentValue' or 'elemeentName='
     buildHttpRequestFrom: function(htmlElement) {
+    	if (htmlElement == undefined)
+    		return;
+    	
     	inputType = htmlElement.getAttribute('type');
 	    paramName = htmlElement.getAttribute('name');
 	    if (inputType == 'text')
@@ -79,6 +84,8 @@ var AjaxHelper = {
      * @return string HTTP GET string from ahrefElement
      */
     getQueryStringFrom: function(ahrefElement) {
+    	if (ahrefElement == undefined)
+    		return;
         // Retrieves the string after the '?' of the element's href attribute.
         startChar = ahrefElement.indexOf('?');
         endChar = ahrefElement.length;
@@ -89,32 +96,7 @@ var AjaxHelper = {
         }
         return queryString;
     },
-
-	// Creates an associative array containing the corePluginsVariables'
-	// name and value (name as array key, value as array value).
-	getCorepluginsVariables: function(xmlDocument) {
-	    var corePluginsVariables = xmlDocument.getElementsByTagName('variable');
-	    varArray = new Array(corePluginsVariables.length);
-		for (var i=0; i < corePluginsVariables.length; i++) {
-			varName = corePluginsVariables.item(i).getAttribute('name');
-			varValue = corePluginsVariables.item(i).getAttribute('value');
-			varArray[varName] = varValue;
-		}
-		return varArray;
-	}, 						
-
-	// Creates an array containing the plugins name to refresh
-	getPluginsToRefresh: function(xmlDocument) {
-	    var pluginNames = xmlDocument.getElementsByTagName('pluginToRefresh');
-	    varArray = new Array(pluginNames.length);
-		for (var i=0; i < pluginNames.length; i++) {
-			varArray[i] = pluginNames.item(i).getAttribute('name');
-		}
-		return varArray;
-	},
 	
-// Eventlistener handling, for testing purpose only.
-// !!! Use the already implemented EventHandler.js
 	addEvent: function (elm, evType, fn, useCapture) {
 	  // cross-browser event handling for IE5+, NS6+ and Mozilla/Gecko
 	  // By Scott Andrew
@@ -129,11 +111,10 @@ var AjaxHelper = {
 	    elm['on' + evType] = fn;
 	  }
 	},
-	// End of addEvent 
 
 	// Finds clicked position on an element
 	// (simulates the posting of a <input type="image" ...>)
-	// Used by AjaxPlugins.Location.Actions.mapPanByKeymap.buildPostRequest()
+	// Used by AjaxPlugins.Location.Actions.pan.buildPostRequest()
 	getClickedPos: function(ev) {
 	
 		function findPosX(obj)
