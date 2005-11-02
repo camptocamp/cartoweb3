@@ -13,6 +13,7 @@
     onClick="javascript:
     	document.carto_form.recenter_none.name='recenter_bbox';
     	AjaxHandler.doAction('Location.fullExtent');
+    "
     src="{r type=gfx/layout}fullextent.gif{/r}"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
 </span>
