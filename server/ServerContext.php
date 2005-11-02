@@ -313,7 +313,7 @@ class ServerContext {
     public function getMapObj() {
         if (!$this->msMapObj) {
             if (!extension_loaded('mapscript')) {
-                if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
+                if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
                 $this->mapscriptLoaded = true;
