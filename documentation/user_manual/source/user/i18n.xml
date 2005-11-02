@@ -112,7 +112,7 @@ fr    fr_CH.ISO-8859-1
                     <para>generate project and mapfile templates on server:
                         
                         <screen><![CDATA[cd <cartoweb_home>/scripts
-./server2pot.php]]></screen>For
+php server2pot.php]]></screen>For
                         each mapfile, two templates will be generated:
                         <filename>server.po</filename> and
                         <filename>server.&lt;mapfile_name&gt;.po</filename>
@@ -122,7 +122,7 @@ fr    fr_CH.ISO-8859-1
                     <para>generate project template on client:
                         
                         <screen><![CDATA[cd <cartoweb_home>/scripts
-./client2pot.php]]></screen>For
+php client2pot.php]]></screen>For
                         each project, one template will be generated:
                         <filename>client.po</filename>
                         </para>
@@ -131,7 +131,7 @@ fr    fr_CH.ISO-8859-1
             <para>It is possible to specify for which project you want to generate the .po
                 file. Simply add the project name as a parameter when launching the scripts
                 client2pot and server2pot:
-                <screen><![CDATA[server2pot.php myprojectname]]></screen> If you do
+                <screen><![CDATA[php server2pot.php myprojectname]]></screen> If you do
                 not specify a project name, the .po files will be generated for all projects.
                 </para>
         </sect2>
@@ -165,7 +165,7 @@ fr    fr_CH.ISO-8859-1
                 All languages are compiled at the same time.
                 
                 <screen><![CDATA[cd <cartoweb_home>/scripts
-./po2mo.php]]></screen>
+php po2mo.php]]></screen>
                 Warning: When &cartoweb; is installed in SOAP mode, the script uses PHP curl
                 functions to retrieve PO files from server to client. PHP curl module must be
                 installed. </para>
@@ -178,7 +178,7 @@ fr    fr_CH.ISO-8859-1
                 <listitem>
                     <para> On server:</para>                                        
                     <screen><![CDATA[cd <cartoweb_home>/scripts
-./server2pot.php]]></screen>
+php server2pot.php]]></screen>
                     <para>Copy
                         <filename>&lt;cartoweb_home&gt;/projects/test_project/po/server.po</filename>
                         to
@@ -192,7 +192,7 @@ fr    fr_CH.ISO-8859-1
                 <listitem>
                     <para> On client:</para>                                        
                     <screen><![CDATA[cd <cartoweb_home>/scripts
-./client2pot.php]]></screen>
+php client2pot.php]]></screen>
                     <para> Copy
                         <filename>&lt;cartoweb_home&gt;/projects/test_project/po/server.po</filename>
                         to
@@ -200,7 +200,7 @@ fr    fr_CH.ISO-8859-1
                         . Edit french file with Poedit (or any editor). </para>
                     <para> Merge and compile files with the following commands:</para>                                        
                     <screen><![CDATA[cd <cartoweb_home>/scripts
-./po2mo.php]]></screen>
+php po2mo.php]]></screen>
                     <para> Now you should have the file
                         <filename>test_project.projectmap.mo</filename> in
                         directory
@@ -217,14 +217,16 @@ fr    fr_CH.ISO-8859-1
                 For so run the following scripts:</para>
             <itemizedlist>
                 <listitem>
-                    <screen>cartoweb3/scripts/testgettext.sh</screen>
+                    <screen><![CDATA[cd <cartoweb_home>/scripts
+./testgettext.sh]]></screen>
                     <para> This will test if Gettext is correctly installed in your system
                         <note>
                         <para>Unix-like system only, this script is not intended for
                             Windows users</para></note></para>
                 </listitem>
                 <listitem>
-                    <screen>cartoweb3/scripts/testgettext.php</screen>
+                    <screen><![CDATA[cd <cartoweb_home>/scripts
+php testgettext.php]]></screen>
                     <para>This will test if Gettext works correctly with php </para>
                 </listitem>
             </itemizedlist>
