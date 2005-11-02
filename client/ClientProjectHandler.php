@@ -92,7 +92,7 @@ class ClientProjectHandler extends ProjectHandler {
 
             else $this->projectName = ProjectHandler::DEFAULT_PROJECT;
             
-            $this->log->debug("current project is " . $this->projectName);
+            $this->log->debug('current project is ' . $this->projectName);
         }
         return $this->projectName;
     }
