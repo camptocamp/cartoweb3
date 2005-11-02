@@ -275,6 +275,12 @@ class ViewManager {
     
                 // gets view from storage
                 $viewData = $this->wc->select($this->viewId);
+
+                if (!$this->getActionSuccess()) {
+                    $this->message = $this->wc->getMessage();
+                    break;
+                }
+                
                 $this->data = $this->wf->decapsulate($viewData);
                 $this->data = $this->wf->checkVersion($this->data, $this->viewId);
     
