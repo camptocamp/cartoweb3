@@ -79,7 +79,7 @@ msgstr "Autoroutes"
 
 #: layers.ini:layers.sr.label
 #, fuzzy
-msgid "Secondary road"
+msgid "National highway"
 msgstr "Routes nationales"
 
 #: layers.ini:layers.contour.label
@@ -184,7 +184,7 @@ msgstr "Autoroutes"
 
 #: demoPlugins.map
 #, fuzzy
-msgid "secondary_road"
+msgid "national_highway"
 msgstr "Routes nationales"
 
 #: demoPlugins.map

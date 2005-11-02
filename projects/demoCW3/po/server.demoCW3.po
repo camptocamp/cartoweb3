@@ -191,7 +191,7 @@ msgid "freeway"
 msgstr ""
 
 #: demoCW3.map
-msgid "secondary_road"
+msgid "national_highway"
 msgstr ""
 
 #: demoCW3.map

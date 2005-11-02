@@ -318,7 +318,7 @@ MAP
   END
   
   LAYER
-    NAME "secondary_road"
+    NAME "national_highway"
     TYPE LINE
     DATA "roadl" 
     #1

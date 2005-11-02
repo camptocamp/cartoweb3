@@ -80,7 +80,7 @@ msgid "Freeway"
 msgstr ""
 
 #: layers.ini:layers.sr.label
-msgid "Secondary road"
+msgid "National highway"
 msgstr ""
 
 #: layers.ini:layers.contour.label
@@ -191,7 +191,7 @@ msgid "freeway"
 msgstr ""
 
 #: demoPlugins.map
-msgid "secondary_road"
+msgid "national_highway"
 msgstr ""
 
 #: demoPlugins.map

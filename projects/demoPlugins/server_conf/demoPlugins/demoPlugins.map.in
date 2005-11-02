@@ -34,8 +34,8 @@ MAP
     EXTENT 142776 4757331 1083562 5409260
     STATUS ON
     COLOR -1 -1 -1
-    OUTLINECOLOR 180 60 60
-    SIZE 201 140
+    OUTLINECOLOR 0 0 0
+    SIZE 140 97
   END
 
   SCALEBAR
@@ -316,7 +316,7 @@ MAP
   END
     
  LAYER
-    NAME "secondary_road"
+    NAME "national_highway"
     TYPE LINE
     DATA "roadl" 
     #1

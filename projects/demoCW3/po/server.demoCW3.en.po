@@ -79,8 +79,8 @@ msgstr "Freeways"
 
 #: layers.ini:layers.sr.label
 #, fuzzy
-msgid "Secondary road"
-msgstr "Secondary roads"
+msgid "National highway"
+msgstr "National highways"
 
 #: layers.ini:layers.contour.label
 msgid "Elevation contour"
@@ -183,8 +183,8 @@ msgid "freeway"
 msgstr "Freeways"
 
 #: demoCW3.map
-msgid "secondary_road"
-msgstr "Secondary roads"
+msgid "national_highway"
+msgstr "National highways"
 
 #: demoCW3.map
 msgid "mountain"
