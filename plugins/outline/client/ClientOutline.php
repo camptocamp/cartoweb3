@@ -52,7 +52,7 @@ class OutlineState {
  */
 class ClientOutline extends ClientPlugin
                     implements Sessionable, GuiProvider, ServerCaller,
-                    ToolProvider, Exportable {
+                    ToolProvider, Exportable, AjaxPlugin {
                     
     /**                    
      * @var Logger
@@ -242,18 +242,40 @@ class ClientOutline extends ClientPlugin
         return $this->smarty->fetch('outlinelabel.tpl');
     }
 
+    protected function renderFormPrepare() {
+        $outline_active = $this->getConfig()->outlineActive;
+        return array('outline_active' => true,
+                     'outline' => $this->drawOutline(),
+                     'outlinelabel' => $this->drawOutlinelabel());
+    }
+
     /**
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-
-        $outline_active = $this->getConfig()->outlineActive;
-       
-        $template->assign(array('outline_active' => true,
-                                'outline' => $this->drawOutline(),
-                                'outlinelabel' => $this->drawOutlinelabel()));
+        $template->assign($this->renderFormPrepare());
     }
 
+    public function ajaxResponse($ajaxPluginResponse) {
+    	$output = $this->renderFormPrepare();
+    	$ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
+    }
+    
+	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Outline.addFeature':
+			case 'Outline.clear':
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('images');
+				$pluginsDirectives->enablePlugin('outline');
+			break;
+			case 'Outline.changeMode':			
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('images');
+			break;
+		}
+	}
+	
     /**
      * @see Exportable::adjustExportMapRequest
      */

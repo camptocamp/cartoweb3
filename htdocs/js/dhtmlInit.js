@@ -193,7 +193,7 @@ Map.prototype.zoomout = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    if (true) {
+    if (AjaxHandler != undefined) {
       AjaxHandler.doAction('Location.zoom');
     } else {
       doSubmit();
@@ -208,15 +208,14 @@ Map.prototype.zoomin = function(aDisplay) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-    //if (xGetElementById('dthmlAjaxEnabled') && xGetElementById('dthmlAjaxEnabled').value == '1') {
-    if (true) {
+	if (AjaxHandler == undefined) {
+      doSubmit();
+    } else {
       if (xGetElementById('querytoolradio').checked) {
 	    AjaxHandler.doAction('Query.perform');
 	  } else {
 	    AjaxHandler.doAction('Location.zoom');
 	  }
-    } else {
-      doSubmit();
     }
   }
 };

@@ -6,6 +6,6 @@
 <label>{t}Y:{/t}</label>&nbsp;
 <input type="text" id="recenter_y" name="recenter_y" size="7" maxlength="7" />
 <br />
-<input type="submit" name="refresh" value="{t}Recenter{/t}" class="form_button"/>
+<input type="submit" name="refresh" value="{t}Recenter{/t}" class="form_button" onclick="AjaxHandler.doAction('Location.recenter');return false;" />
 </fieldset>
 </div>

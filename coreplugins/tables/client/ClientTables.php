@@ -182,7 +182,7 @@ class ClientTables extends ClientPlugin
         return $tableGroups;
     }
     
-    public function renderFormPrepare() {
+    protected function renderFormPrepare() {
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $this->tableGroups);

@@ -42,6 +42,7 @@
   {if true}<script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>{/if}
   <!-- Plugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
@@ -82,7 +83,6 @@
 
 <form method="post" action="{$selfUrl}" name="carto_form" id="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
-  <input type="hidden" name="dhtmlAjaxEnabled" id="dhtmlAjaxEnabled" value="1" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" id="selection_type" />

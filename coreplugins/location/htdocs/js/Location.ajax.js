@@ -9,18 +9,47 @@ AjaxPlugins.Location = {
 	bboxMaxX = pluginOutput.variables.bboxMaxX;
 	bboxMaxY = pluginOutput.variables.bboxMaxY;
     mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
-
-	// Clear the carto_form's selection_type and selection_coords hidden inputs
-	// hidden input fields' value
-	AjaxPlugins.Common.clearDhtmlStoredFeatures();
+    
+    factor = pluginOutput.variables.factor;
+    
+    // Redraw the scale select
+    $('location_scale').innerHTML = pluginOutput.htmlCode.scales;
   }
 };
 
 /*
- * Locations plugin's Actions
+ * Location plugin's Actions
  */
 
 AjaxPlugins.Location.Actions = {};
+
+AjaxPlugins.Location.Actions.fullExtent = {
+	buildPostRequest: function(argObject) {
+		return AjaxHandler.buildPostRequest();
+	},
+	buildGetRequest: function(argObject) {
+		return '';
+	},
+	onBeforeAjaxCall: function(argObject) {
+	},
+	onAfterAjaxCall: function(argObject) {
+    	document.carto_form.recenter_bbox.name = 'recenter_none';
+	}
+};
+
+AjaxPlugins.Location.Actions.recenter = {
+	buildPostRequest: function(argObject) {
+		return AjaxHandler.buildPostRequest();
+	},
+	buildGetRequest: function(argObject) {
+		return '';
+	},
+	onBeforeAjaxCall: function(argObject) {
+	},
+	onAfterAjaxCall: function(argObject) {
+		$('id_recenter_ids').value = '';
+	}
+};
 
 AjaxPlugins.Location.Actions.zoom = {
 	buildPostRequest: function(argObject) {
@@ -32,7 +61,6 @@ AjaxPlugins.Location.Actions.zoom = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
-		AjaxPlugins.Common.clearDhtmlDrawings();
 	}
 };
 
@@ -49,7 +77,7 @@ AjaxPlugins.Location.Actions.pan = {
 				postRequest += 'keymap.x=' + clickedPos.x + '&' + 
 				'keymap.y=' +clickedPos.y + '&';
 			break;
-			case 'map':
+			default:
 				postRequest += '';
 			break;
 		}
@@ -61,7 +89,6 @@ AjaxPlugins.Location.Actions.pan = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
-		AjaxPlugins.Common.clearDhtmlDrawings();
 	},
 
 	init: function() {
@@ -109,8 +136,8 @@ AjaxPlugins.Location.Actions.pan = {
 		// Reposition the map Raster layer on top left (when dragged).
 		// TODO: Try parseInt(variable) to cast it, instead of *1
 		rootPos = {
-			top: AjaxPlugins.Location.Actions.pan.mapRootLayerTop.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerTop.length-2)*1,
-			left: AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.length-2)*1
+			top: 1*AjaxPlugins.Location.Actions.pan.mapRootLayerTop.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerTop.length-2),
+			left: 1*AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.length-2)
 		};
 		xMoveTo($('map_rootLayer'), rootPos.left, rootPos.top);
 		      

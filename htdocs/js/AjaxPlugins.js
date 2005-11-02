@@ -27,6 +27,9 @@ AjaxPlugins.Common = {
 		xShow(xGetElementById('loadbarDiv'));
 	},
 	onAfterAjaxCall: function() {
+		AjaxPlugins.Common.clearDhtmlDrawings();
+		AjaxPlugins.Common.clearDhtmlStoredFeatures();
+		AjaxPlugins.Common.clearDhtmlOutlineLabel();
 		xHide(xGetElementById('loadbarDiv'));
 	},
 
@@ -47,7 +50,11 @@ AjaxPlugins.Common = {
 		// Clear the carto_form's selection_type and selection_coords hidden inputs
 		// hidden input fields' value
 		$('selection_type').value = null;
-		$('selection_coords').value = null;	
+		$('selection_coords').value = null;
 		$('features').value = null;	
+	},
+	
+	clearDhtmlOutlineLabel: function() {
+		$('outlineLabelInputDiv').style.visibility = 'hidden';
 	}
 }

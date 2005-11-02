@@ -10,7 +10,9 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <input type="hidden" name="recenter_none" value="142776,4757216,1083857,5409261" />
   <input type="image" 
-    onClick="javascript:document.carto_form.recenter_none.name='recenter_bbox';"
+    onClick="javascript:
+    	document.carto_form.recenter_none.name='recenter_bbox';
+    	AjaxHandler.doAction('Location.fullExtent');
     src="{r type=gfx/layout}fullextent.gif{/r}"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
 </span>

@@ -122,7 +122,6 @@ AjaxHandler = {
 							ajaxErrorDivElement.style.backgroundColor = 'silver';
 							ajaxErrorDivElement.style.border = '3px solid red';						
 							ajaxErrorDivElement.innerHTML = response.responseText;
-							ajaxErrorDivElement.innerHTML += '<p><a href="">Back to previous page</a></p>';
 							ajaxErrorDivElement.onclick = function() {
 								// TODO: Remove this error div when clicked
 							};
@@ -152,7 +151,6 @@ AjaxHandler = {
 		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
 		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
 		this.actionRequest(actionId, argObject, {post: httpPostRequest, get: httpGetRequest});
-		return false;
 	},
 	
 	

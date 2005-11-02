@@ -801,7 +801,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderFormPrepare() {
+    protected function renderFormPrepare() {
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
@@ -859,13 +859,13 @@ class ClientLocation extends ClientPlugin
 
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
 		switch ($actionName) {
-			case 'Location.mapPanByButton':
-			case 'Location.mapPanByKeymap':
-			case 'Location.mapPanByDrag':
+			case 'Location.pan':
 				$pluginsDirectives->disableCoreplugins();
 				$pluginsDirectives->enableCoreplugin('location');
 				$pluginsDirectives->enableCoreplugin('images');
 			break;			
+			case 'Location.fullExtent':
+			case 'Location.recenter':
 			case 'Location.zoom':
 				$pluginsDirectives->disableCoreplugins();
 				$pluginsDirectives->enableCoreplugin('location');

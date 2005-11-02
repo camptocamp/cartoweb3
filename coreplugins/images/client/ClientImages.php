@@ -370,7 +370,13 @@ class ClientImages extends ClientPlugin
     }
 
 	public function ajaxHandleAction($actionName, $pluginsDirectives) {
-		// Images plugin does not provide any action yet
+		switch ($actionName) {
+			case 'Images.changeMapSize':
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('location');
+				$pluginsDirectives->enableCoreplugin('images');
+			break;
+		}			
 	}
 
     /**
