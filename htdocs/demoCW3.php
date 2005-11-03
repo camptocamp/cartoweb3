@@ -1,4 +1,4 @@
 <?php
-$_ENV['CW3_PROJECT'] = 'demo';
+$_ENV['CW3_PROJECT'] = 'demoCW3';
 require_once('client.php');
 ?>
