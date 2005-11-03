@@ -247,10 +247,7 @@ class ClientOutline extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
 
-        $outline_active = $this->getConfig()->outlineActive;
-       
-        $template->assign(array('outline_active' => true,
-                                'outline' => $this->drawOutline(),
+        $template->assign(array('outline' => $this->drawOutline(),
                                 'outlinelabel' => $this->drawOutlinelabel()));
     }
 

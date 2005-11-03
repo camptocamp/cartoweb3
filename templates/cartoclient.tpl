@@ -50,7 +50,7 @@
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-{if $outline_active|default:''}
+{if $outlinelabel|default:''}
   {$outlinelabel}
 {/if}
   <div id="content">
