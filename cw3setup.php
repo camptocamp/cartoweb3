@@ -742,8 +742,6 @@ function fetchLibs() {
 
 function fetchDemo() {
 
-    // FIXME: we are fetching demo twice and duplicating all the data: this is very bad !!
-    fetchArchive(CW3_DEMO_URL, 'projects/demoCW3/server_conf/demoCW3/data');
     fetchArchive(CW3_DEMO_URL, 'projects/demoPlugins/server_conf/demoPlugins/data');
 }
 
