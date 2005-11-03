@@ -8,7 +8,7 @@
   <style type="text/css">
   {literal}
   body {margin:10px;}
-  form div {width:250px;height:20px;}
+  form div {width:270px;height:20px;margin:3px;}
   input {float:right;}
   {/literal}
   </style>
