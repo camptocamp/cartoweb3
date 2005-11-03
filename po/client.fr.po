@@ -172,7 +172,7 @@ msgstr "Cartoclient (FR)"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
-msgstr "Authentification"
+msgstr "Identification"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
@@ -193,7 +193,7 @@ msgstr "Mot de passe"
 #: plugins/auth/templates/login_page.tpl
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Submit"
-msgstr ""
+msgstr "Soumettre"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
