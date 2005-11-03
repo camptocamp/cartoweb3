@@ -38,6 +38,10 @@ require_once('client/CartoclientTest.php');
 
         return 'demoCW3';    
     }    
+
+    public function testWsdl() {
+        /* no wsdl in demoCW3 */
+    }
 }
 
 ?>
