@@ -154,12 +154,14 @@ class Utils {
     
     /**
      * Wrapper for PEAR::isError, which throws an exception in case of failure
-     * @param object 
+     * @param object Database object to test for error 
+     * @param string optional error message condition
      */
-    public static function checkDbError($db) {
+    public static function checkDbError($db, $msg='') {
         if (PEAR::isError($db)) {
-            $msg = sprintf('Message: %s  Userinfo: %s', $db->getMessage(), $db->userinfo);
-            throw new CartocommonException($msg);
+            $errorMsg = sprintf('%s Message: %s  Userinfo: %s', $msg, 
+                           $db->getMessage(), $db->userinfo);
+            throw new CartocommonException($errorMsg);
         }
     }
 
