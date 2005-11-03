@@ -62,6 +62,7 @@
   {if $collapsibleKeymap|default:''}
     <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
+  <input type="hidden" id="fake_reset" name="fake_reset" />
   {if $outline_active|default:''}
     {$outlinelabel}
   {/if}
