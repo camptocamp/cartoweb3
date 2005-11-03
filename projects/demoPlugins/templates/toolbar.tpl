@@ -48,7 +48,7 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
       <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
         src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
         {if $toolbar_rendering != 'radio'}
-        class="toolbar" 
+        class="toolbar_off" 
         onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
         {/if}
         />
@@ -59,7 +59,7 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
       <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
         src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
         {if $toolbar_rendering != 'radio'}
-        class="toolbar" 
+        class="toolbar_off" 
         onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
         {/if}
         />
