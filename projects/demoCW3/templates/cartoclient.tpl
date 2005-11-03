@@ -78,9 +78,9 @@
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
   <input type="hidden" id="fake_reset" name="fake_reset" />
-{if $outline_active|default:''}
+  {if $outline_active|default:''}
   {$outlinelabel}
-{/if}
+  {/if}
   <div id="content">
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
