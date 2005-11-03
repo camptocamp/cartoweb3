@@ -7,7 +7,7 @@
   <title>Failure</title>
 </head>
 <body>
-  <div id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" style="border:0"/><br /><br /><br /></div>
+  <div id="logo"><img src="{r type=gfx/layout}logoc2c.gif{/r}" alt="camptocamp" style="border:0"/><br /><br /><br /></div>
   <table id="user_failure" align="center">
     <tr><td id="title" colspan="2">
       Failure
