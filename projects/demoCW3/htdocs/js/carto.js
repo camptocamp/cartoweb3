@@ -20,11 +20,14 @@ function setActiveToolButton(toolid) {
   }
   var elt = xGetElementById("tool");
   elt.value = toolid;
-  if(toolid.indexOf('outline')!=-1){
-    ontop(5);
-  }
-  if(toolid.indexOf('query')!=-1){
-    ontop(7);
+  
+  if (typeof myfolders != "undefined") { // not on page load
+    if(toolid.indexOf('outline')!=-1){
+      ontop(5);
+    }
+    if(toolid.indexOf('query')!=-1){
+      ontop(7);
+    }
   }
 }
 
