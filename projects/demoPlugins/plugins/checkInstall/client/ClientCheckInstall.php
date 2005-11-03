@@ -36,6 +36,10 @@ class ClientCheckInstall extends ClientPlugin {
         $project = $projectHandler->getProjectName();
         $mapId = $projectHandler->getMapName();
 
+        if (strpos($mapId, '.')) {
+            list($project, $mapId) = explode('.', $mapId);
+        }
+        
         if (!file_exists(CARTOWEB_HOME . 
                             "projects/$project/server_conf/$mapId/data")) {
             throw new CartoclientException("You need to install the demo data " .
