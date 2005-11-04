@@ -703,7 +703,7 @@ function fetchArchive($archiveUrl, $targetDirectory) {
     
     debug("Dest file $destFile");
     
-    info("Fetching archive file from $archiveUrl, this may take some times ...");
+    info("Fetching archive file from $archiveUrl, this may take some time...");
     if (extension_loaded('curl')) {
         debug('Fetching archive using curl extension');
         $ch = curl_init($archiveUrl);
