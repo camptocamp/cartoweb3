@@ -716,6 +716,8 @@ function fetchArchive($archiveUrl, $targetDirectory) {
     } else {
         debug('Fetching archive with file_get_contents');
         $cnt = file_get_contents($archiveUrl);
+        if ($cnt === false)
+            throw new InstallException('Unable to retrieve the archive at ' . $archiveUrl);
         $fd = fopen($destFile, "wb");
         fwrite($fd, $cnt);
         fclose($fd);
