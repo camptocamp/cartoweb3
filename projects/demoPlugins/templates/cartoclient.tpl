@@ -138,8 +138,15 @@
         </td>
       </tr>
       <tr>
-        <td  colspan="3">
-          <br />
+        <td  colspan="3"><br /></td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top" align="center">
+          {if $scalebar_path|default:''}
+          <img src="{$scalebar_path}" 
+          alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
+          height="{$scalebar_height}" title="" />
+          {/if}
         </td>
       </tr>
       <tr>

@@ -126,27 +126,28 @@
        <td></td>
        <td align="center">
          <table border="0" cellpadding="0" cellspacing="0" width="100%">
-         <tr>
-           <td colspan="3" valign="top" align="center" width="80%">
-              {if $scalebar_path|default:''}
+           <tr>
+             <td colspan="3" valign="top" align="center" width="80%">
+               {if $scalebar_path|default:''}
                <img src="{$scalebar_path}" 
-                alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
-                height="{$scalebar_height}" title="" />
-              {/if}
-           </td>
-         </tr><tr>
-           <td width="10%" align="center">
-              {if $scales_active|default:''}
-                {$scales}
-              {/if}
-           </td>
-           <td width="80%"></td> 
-           <td width="10%" align="center">
-              {if $mapsizes_active|default:''}
-                {$mapsizes}
-              {/if}
-           </td>
-         </tr>
+               alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
+               height="{$scalebar_height}" title="" />
+               {/if}
+             </td>
+           </tr>
+           <tr>
+             <td width="10%" align="center">
+               {if $scales_active|default:''}
+                 {$scales}
+               {/if}
+             </td>
+             <td width="80%"></td> 
+             <td width="10%" align="center">
+               {if $mapsizes_active|default:''}
+                 {$mapsizes}
+               {/if}
+             </td>
+           </tr>
          </table>
        </td>
        <td></td>
