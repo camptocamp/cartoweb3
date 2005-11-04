@@ -555,6 +555,33 @@ class coreplugins_tables_common_TablesCommonTest
 
         $this->assertColumnAdderMultipleColumn($filteredTableGroups);
     }
+
+    /**
+     * Tests column reorder
+     */ 
+    function testColumnReorder() {
+
+        $registry = new TableRulesRegistry();
+        $tableGroups = $this->getTableGroups();
+
+        // swap the two last columns
+        $registry->addColumnReorder('*', 'table_1', array('column_1', 'column_3', 'column_2'));
+        
+        $filteredTableGroups = $registry->applyRules($tableGroups);
+
+        $this->assertEquals(array('column_1', 'column_3', 'column_2'),
+                            $filteredTableGroups[0]->tables[0]->columnIds);        
+        $this->assertEquals(array('Column 1', 'Column 3', 'Column 2'),
+                            $filteredTableGroups[0]->tables[0]->columnTitles);
+        
+        $this->assertEquals(array('value_1', 'value_3', 'value_2'),
+                            $filteredTableGroups[0]->tables[0]->rows[0]->cells);
+        $this->assertEquals(array('value_4', 'value_6', 'value_5'),
+                            $filteredTableGroups[0]->tables[0]->rows[1]->cells);
+        $this->assertEquals(array('value_7', 'value_9', 'value_8'),
+                            $filteredTableGroups[0]->tables[0]->rows[2]->cells);
+    }
+
 }
 
 ?>
