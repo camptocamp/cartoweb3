@@ -308,7 +308,7 @@ class ViewManager {
                                          'collapse_keymap, handleView',
                                          $this->cartoclient
                                               ->getConfig()->viewSavedRequest);
-                    // FIXME: collapsible keymap status is not correcty passed
+
                     $savedVars = explode(',', $savedVars);
                     $savedVars = array_unique($savedVars);
                     $savedVars = array_map('trim', $savedVars);

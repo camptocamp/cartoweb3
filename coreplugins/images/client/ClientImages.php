@@ -172,6 +172,11 @@ class ClientImages extends ClientPlugin
      */
     public function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
+
+        if ($this->getConfig()->collapsibleKeymap) {
+            $this->collapseKeymap = isset($request['collapse_keymap']) ?
+                                    $request['collapse_keymap'] : 0;
+        }
     }
     
     /**
@@ -357,7 +362,7 @@ class ClientImages extends ClientPlugin
                                 'mapsizes' => $this->drawMapSizes(),
                                 ));
 
-        if ($this->getConfig()->collapsibleKeymap) {
+        if ($this->getConfig()->collapsibleKeymap) {         
             $template->assign(array('collapseKeymap' => $this->collapseKeymap,
                                     'collapsibleKeymap' => true,
                                     ));
