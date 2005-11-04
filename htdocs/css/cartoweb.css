@@ -79,10 +79,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   margin:2px;
 }
 
-.toolbar {
-  border: 1px solid #ffffff;
-}
-
 .toolbar_on {
   border: 1px solid #efbfbf;
   cursor: pointer;
