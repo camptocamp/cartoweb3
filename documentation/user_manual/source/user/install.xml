@@ -422,5 +422,437 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
         If not, see <xref linkend="user.install.win32.installer.dos"/></para>
       </sect3>
     </sect2>
+  </sect1>   
+  <sect1 id="user.install.demo">
+    <title>Demos installation</title>
+    <sect2 id="user.install.demo.intoduction">
+      <title>Introduction</title>
+      <para>
+        Several demos are availables to show you the range of functionalities that &cartoweb;3 offers :
+        <itemizedlist>
+          <listitem>
+            <para><emphasis>demoCW3</emphasis> : this is an overview of the standard functionalities 
+            that are somehow visible for an end-user in &cartoweb;,</para>
+          </listitem>
+          <listitem>
+            <para><emphasis>demoPlugins</emphasis> : it shows you the new functionalities that 
+            are available in &cartoweb; since the 3.1 version,</para>
+          </listitem>
+          <listitem>
+            <para><emphasis>demoCS</emphasis> : it integrates a simplified interface of &cartoweb;.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        The two first demo are configured to allow you to set it up quickly on your computer (datas are freely 
+        downloadable). We explain in the next chapter how to install them. 
+        We expose then how the configuration and programming details to allow programmers to use them.
+      </para>
+    </sect2>
+    <sect2 id="user.install.demo.quickinstall">
+      <title>Demos installation</title>
+      <para>
+        To install demoCW3 demo, you should specify the <emphasis>--fetch-demo</emphasis> option when 
+        you launch <emphasis>cw3setup.php</emphasis>, to install datas on your computer and you don't 
+        need to install anything else.
+      </para>
+      <para>
+        Instead, the demoPlugins demo contain plugins which work with databases and so need an installation effort. 
+        We describe here how to install these databases and how to configure <emphasis>cw3_setup</emphasis>.
+      </para>
+      <para>
+        Step by step guide :
+      </para>
+      <orderedlist>
+        <listitem>
+          <formalpara>
+            <title>Install PostgreSQL with PostGIS support</title>
+            <para>
+              <emphasis>Prerequisite</emphasis> : Postgresql >= 8.0
+              <note><para>
+                If you are on Debian, you can have a look at <xref linkend="appendix.debian_mapserver"/>
+              </para></note>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Create a PostgreSQL database using the following command :</title>
+            <para>
+              <screen><![CDATA[
+$ createdb demo_plugins
+              ]]></screen>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Integrate PostGIS fonctionnalities in this database.</title>
+            <para>
+              Typically, you can type :
+              <screen><![CDATA[
+$ createlang plpgsql demo_plugins
+$ psql -d demo_plugins -f lwpostgis.sql
+$ psql -d demo_plugins -f spatial_ref_sys.sql
+              ]]></screen>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Create tables used by the DemoLocation extension to allow you to do a search by name.</title>
+            <para>  
+              To do so, you should export the free downloadable layers <emphasis>airport,agglo, 
+              district</emphasis> and <emphasis>town</emphasis> in postgreSQL/PostGIS tables by typing 
+              the following command :
+              <screen><![CDATA[
+$ shp2pgsql builtupa.shp airport > /tmp/aiport.sql
+$ psql -d demo_plugins -f /tmp/airport.sql
+              ]]></screen>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Integrate routing fonctionnalities and create database tables.</title>
+            <para>  
+              <itemizedlist>
+                <listitem>
+                  <formalpara>
+                    <title>Install the pgdijkstra debian package</title>
+                    <para>
+                      <note><para>
+                        To do so, you can have a look at <xref linkend="appendix.debian_mapserver"/>
+                      </para></note>
+                    </para>
+                  </formalpara>
+                </listitem>
+                <listitem>
+                  <formalpara>
+                    <title>Install the boost graph library.</title>
+                    <para>
+                      If you are using the Debian distribution, you can easily install it by typing :
+                      <screen><![CDATA[
+$ apt-get install libboost-graph-dev
+                      ]]></screen>
+                      Otherwise, you should follow these instructions :
+                      <screen><![CDATA[
+- Edit Makefile, and set the BOST_PATH with the location of your boost library,
+- Type make install.
+                      ]]></screen>
+                      <note><para>
+                      See <ulink url="http://www.boost.org/libs/graph/doc/index.html/"/> for more information.
+                      </para></note>
+                    </para>
+                  </formalpara>
+                </listitem>
+                <listitem>
+                  <formalpara><title>C++ Compiler</title><para></para></formalpara>
+                </listitem>
+                <listitem>
+                  <formalpara>
+                    <title>Execute the <emphasis>dijkstra.sql</emphasis> file to install the functions in 
+                    your database by typing :</title>
+                    <para>
+                      <screen><![CDATA[
+$ psql -d demo_plugins -f dijkstra.sql
+                      ]]></screen>
+                    </para>
+                  </formalpara>
+                </listitem>
+                <listitem>
+                  <formalpara>
+                    <title>If you have PostGIS installed, you should launch <emphasis>dijkstra_postgis.sql</emphasis> :</title>
+                    <para>
+                      <screen><![CDATA[
+$ psql -d demo_plugins -f dijkstra_postgis.sql
+                      ]]></screen>
+                    </para>
+                  </formalpara>
+                </listitem>
+                <listitem>
+                  <formalpara>
+                    <title>Import Europe road geodata in postGIS, create his graph structure and configure 
+                    plugin routing database.</title>
+                    <para>
+                    To do so, only execute the <emphasis>demo_routing.sql</emphasis> file, located 
+                    in the &lt;CARTOWEB_HOME&gt;<literal>/projects/demoPlugins/server_conf/sql</literal> directory.
+                    <note><para>These steps are detailed in the next section.</para></note>
+                    </para>
+                  </formalpara>
+                </listitem>
+              </itemizedlist>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Create a views table.</title>
+            <para>
+              <screen><![CDATA[
+CREATE TABLE views (
+  views_id serial NOT NULL PRIMARY KEY,
+  views_ts timestamp without time zone,
+  viewtitle character varying(50),
+  author character varying(50),
+  sessiondata text,
+  viewshow boolean,
+  weight integer,
+);
+              ]]></screen>
+              <note><para>
+                For more information on the views plugin, you can have a look at <xref linkend="user.views"/>
+              </para></note>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>cw3_setup configuration</title>
+            <para>
+              To finish demoPlugins installation, you will have to specify optionals parameters during 
+              cw3_setup launching.
+              To do so, you must create a file (for example demo.properties).
+              In this file we find the server name, the database user name, the data user password, 
+              the routing database name, the database port, the demoLocation database name and the views 
+              database name.
+              Here 's an example of this file :
+              <screen><![CDATA[
+DB_HOST = localhost
+DB_USER = www-data
+DB_PASSWD =
+DB_NAME = demo_plugins
+DB_PORT = 5432
+DB_SEARCH_NAME = demo_plugins
+DB_VIEWS_NAME = demo_plugins
+              ]]></screen>
+              To use this file during CartoWeb installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
+              option when you execute cw3_setup.php.
+            </para>
+          </formalpara>
+        </listitem>
+      </orderedlist>
+    </sect2>
+    <sect2 id="user.install.demo.details">
+      <title>Extensions description</title>
+      <sect3 id="user.install.demo.details.demoLocation">
+        <title>demoLocation extension</title>
+        <para>
+          This extension allows you to select geographic objets of a layer by specifying a name.
+
+          According to the name selected, the id corresponding is fetched from the search name 
+          database and submit to the recenterid coreplugin. This coreplugin select the geographic
+          object in the shapefile according to this id and the layer selected and recenter on it.
+
+          The names of the id and the names on which the search is done must be specified in the 
+          metadata of the mapfile for each layer queryable.
+          Theses metadata are respectively "id_attribute_string" for the id and "recenter_name_string" 
+          for the name.
+          You also will have to use the metadata "exported_values" to transmit these metadata to the client.
+          For example, you can type :
+          <screen><![CDATA[
+METADATA
+  "exported_values" "recenter_name_string,id_attribute_string"
+  "recenter_name_string" "NAM"
+  "id_attribute_string" "OGC_FID|string"
+END
+          ]]></screen>
+          The name of the database must be specified in the <emphasis>location.ini</emphasis> file.
+          <note><para>
+          In the location.ini, you also need to specify the layers on which you want to do a search
+          by name (idRecenterLayers options) and activate the coreplugin idRecenter (idRecenterActive
+          option).
+          </para></note>
+        </para>
+      </sect3>
+      <sect3 id="user.install.demo.details.demoRouting">
+        <title>demoRouting extension</title>
+        <para>
+          The routing module is a set of functions which compute a shortest path from a set of edges and vertices.
+          Some functions are provided for importing data from geometric tables, and for generating results
+          a geometies.
+          <note><para>
+            For more informations on these functions, you can have a look to the routing module README file 
+            <ulink url="http://www.cartoweb.org/pgdijkstra/README"/>.
+          </para></note>
+          This chapter explain the main steps to integrate the routing fonctionnalities in a custom application.
+          We describe the steps followed to install the routing demo. To resume, we used an Europe roads shapefile,
+          imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest
+          path between two european towns.
+        </para>
+        <sect4 id="user.install.demo.details.demoRouting.roadimportation">
+          <title>Europe road geodata Importation in postGIS</title>
+          <para>
+            <screen><![CDATA[
+$ shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
+$ psql -d demo_plugins -f /tmp/roadl.sql
+            ]]></screen>
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.graphimportation">
+          <title>Graph importation</title>
+          <para>
+            The first step is to delete uneeded cols of the table roads_europe_tmp. To do so, you can type :
+            <screen><![CDATA[
+$ CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
+$ SELECT AddGeometryColumn('roads_europe', 'the_geom', -1, 'MULTILINESTRING', 2 );
+$ INSERT INTO roads_europe (gid, the_geom) (SELECT gid, the_geom FROM roads_europe);
+            ]]></screen>
+            The resulting table is so <emphasis>roads_europe</emphasis>.
+            You can then fill the cols <emphasis>source_id</emphasis> and <emphasis>target_id</emphasis> with the
+             "assign_vertex_id" function.
+            <screen><![CDATA[
+$ SELECT assign_vertex_id('roads_europe', 1);
+            ]]></screen>
+            Here's the content of the roads_europe table
+            <screen><![CDATA[
+$ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe limit 3;
+ 
+  gid  | source_id | target_id | edge_id |                              AStext
+-------+-----------+-----------+---------+------------------------------------------------------------------
+ 13115 |     11051 |     11099 |      14 | MULTILINESTRING((1062096.06 4861316.234,1061616.495 4860772.073))
+ 12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,248423.861 4779852.646,
+                                                             248311.216 4779866.142,246918.803 4780025.504))
+ 12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,255197.548 4780850.435))
+(3 lignes)
+            ]]></screen>
+            But if the data quality is poor, you need to delete the duplicates edges (they have the same pair
+            source-target of vertices).
+            For example, to verify you have duplicates edges, you can type :
+            <screen><![CDATA[
+$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by source_id, target_id order by c)
+AS foo where foo.c = 2;
+            ]]></screen>
+            If there is duplicates edges, to delete one of two rows, you can type : 
+            <screen><![CDATA[
+$ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in (SELECT gid FROM 
+(SELECT DISTINCT on (source_id, target_id) source_id, gid FROM roads_europe) AS doublon);
+$ DELETE FROM roads_europe;
+$ INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;
+            ]]></screen>
+            The following step is to create and fill the edges and vertices tables of the resulting graph. 
+            To do so, you can use "create_graph_tables" function.
+            <screen><![CDATA[
+$ SELECT create_graph_tables('roads_europe', 'int4');
+            ]]></screen>
+            <screen><![CDATA[
+SELECT * FROM roads_europe_edges LIMIT 3;
+ id | source | target | cost | reverse_cost 
+----+--------+--------+------+--------------
+  1 |      1 |      2 |      |             
+  2 |      3 |      3 |      |             
+  4 |      2 |      2 |      |             
+(3 rows)
+            ]]></screen>
+            We can see that it contains NULL values for the cost column. 
+            The function update_cost_from_distance can update the cost column with
+            the distance of the lines contained in the geometry table, attached to
+            each edge :
+            <screen><![CDATA[
+$ SELECT update_cost_from_distance('roads_europe');
+            ]]></screen>
+            The costs are now :
+            <screen><![CDATA[
+ id | source | target |       cost       | reverse_cost
+----+--------+--------+------------------+--------------
+  1 |      1 |      2 | 6857.46585793103 |
+  2 |      3 |      4 | 37349.9592156392 |
+  3 |      5 |      6 | 14040.5673116933 |
+(3 lignes)
+            ]]></screen>
+            Now, all is set up correctly for using the shortest path function on these data. 
+            But to include the routing fonctionnalities in a custom project, we must respect certains rules 
+            dictated by the routing plugin.
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.databaseconfiguration">
+          <title>Routing plugin database configuration</title>
+          <para>
+            The two things to do are to :
+            <itemizedlist>
+              <listitem>
+                <para>
+                  create the routing results table. In this example the table is routing_results.
+                  <screen><![CDATA[
+$ CREATE TABLE routing_results (
+    results_id integer,
+    "timestamp" bigint,
+    gid integer
+  );
+$ SELECT AddGeometryColumn('','routing_results','the_geom','-1','MULTILINESTRING',2);
+                  ]]></screen>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  create the 'routing_results_seq' sequence.
+                  <screen><![CDATA[
+$ CREATE SEQUENCE routing_results_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+                  ]]></screen>
+                </para>
+              </listitem>
+            </itemizedlist>          
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.mapfileconfiguration">
+          <title>Mapfile configuration</title>
+          <para>
+            In the mapfile, you must include the routing layer, his connection to the database, a symbology
+            for the route and a first route using an unique identifier.
+            The data parameter will be overwritten by the routing plugin to draw the route choosen by the end-user.
+            Example :
+            <screen><![CDATA[
+LAYER
+  NAME "graph"
+  TYPE LINE
+  TRANSPARENCY 80
+  CONNECTIONTYPE postgis
+    CONNECTION "user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@ dbname=@DB_NAME@"
+    DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique gid using srid=-1"
+  TEMPLATE "t"
+  CLASS
+    NAME "0"
+    STYLE
+      SYMBOL "circle"
+      SIZE 10
+      COLOR 90 27 191
+    END
+  END
+END
+            ]]></screen>
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.generalconfiguration">
+          <title>General configuration</title>
+          <para>
+            For the demo, we propose to select your route by starting from a town until an other town.
+            This is possible because for each objet of an europeans towns layer, we have identified the nearest 
+            object of the roads_europe_vertices table. That's why in the demoRouting configuration there's a 
+            client-side configuration.
+            Normaly, in the plugin routing, client-side only allows you to type an id of object, from which to start
+            and an other to finish the route and no configuration is needed.
+            So, if you use demoRouting extension, you must specify Client-side, the :
+            <itemizedlist>
+              <listitem><para>postgresRoutingVerticesTable : vertices table</para></listitem>
+              <listitem><para>stepName : vertices table col containing informations you want to propose a choice on</para></listitem>
+              <listitem><para>dsn : the connexion string to the database</para></listitem>
+            </itemizedlist>
+            Anyway, server-side, you must specify :
+            <itemizedlist>
+              <listitem><para>the routing table (postgresRoutingTable option),</para></listitem>
+              <listitem><para>the routing layer in the mapfile (postgresRoutingResultsLayer option),</para></listitem>
+              <listitem><para>the results routing table (postgresRoutingResultsTable),</para></listitem>
+              <listitem><para>the connexion string to the database (dsn option).</para></listitem>
+            </itemizedlist>
+          </para>
+        </sect4>
+      </sect3>
+    </sect2>
   </sect1>
 </chapter>
