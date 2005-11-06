@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-27 16:12+0200\n"
+"POT-Creation-Date: 2005-11-06 11:56+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,17 +89,19 @@ msgid "Zoom out to see layer"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Search"
+msgid "Id recentering"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on : "
+msgstr ""
+
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's : "
+msgstr ""
+
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Aucun resultat ne correspond a votre requete"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
@@ -107,7 +109,8 @@ msgid "X :"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
-msgid "Y:"
+#, fuzzy
+msgid "Y :"
 msgstr "Y :"
 
 #: projects/demoCW3/coreplugins/location/templates/scales.tpl
@@ -158,34 +161,6 @@ msgstr ""
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "query_clear"
 msgstr "Clear query"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Click to Close"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Drag to Move"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Resultats de la requete"
-msgstr "Query results"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Zonage"
-msgstr "Layer"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Nombre de resultats"
-msgstr "Number of results"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Retour"
-msgstr "Top of the page"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Download CSV"
-msgstr ""
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -365,6 +340,10 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Themes"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -745,7 +724,6 @@ msgid ""
 "may have access restrictions. For this demo, you can access to more rights "
 "by using login 'demo' and password 'demo'. You can then access to the train "
 "data and to the print fonctionnalities."
-
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -788,7 +766,19 @@ msgstr ""
 msgid "Reset session"
 msgstr ""
 
-#Dynamic elements
+#~ msgid "Resultats de la requete"
+#~ msgstr "Query results"
+
+#~ msgid "Zonage"
+#~ msgstr "Layer"
+
+#~ msgid "Nombre de resultats"
+#~ msgstr "Number of results"
+
+#~ msgid "Retour"
+#~ msgstr "Top of the page"
+
+# Dynamic elements
 msgid "query"
 msgstr "Query"
 
