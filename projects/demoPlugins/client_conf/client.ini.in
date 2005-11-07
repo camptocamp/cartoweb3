@@ -13,10 +13,8 @@ showProjectChooser = false
 loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, routing, demoRouting, checkInstall
 
 ;## Internationalization ##
-; default language
 defaultLang = fr
-; languages to make available in the viewer, list order gives links order
-;langList = fr, en
+langList = fr, en
 
 ; Indicates how to render toolbar
 toolbarRendering = class

@@ -12,8 +12,9 @@ showProjectChooser = false
 ; the list of plugins to load, separated by comma
 loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall
 
-authLang = fr, en
-orderLang = en, fr
+;## Internationalization ##
+defaultLang = fr
+langList = fr, en
 
 ; Indicates how to render toolbar
 toolbarRendering = class
