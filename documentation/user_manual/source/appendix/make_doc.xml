@@ -1,48 +1,153 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+ <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+ %cartoweb;
 ]>
-
 <!-- $Id$ -->
-
 <appendix id="appendix.make_doc">
-  <title>DocBook Documentation Generation</title>
-  <para>&cartoweb; documentation source are in DocBook format. You may download the docbook-1-6-15 archive from the <ulink url="http://www.cartoweb.org">&cartoweb;</ulink> website.</para>
-  <sect1 id="appendix.make_doc.unix">
-    <title>Documentation Generation on UNIX-like system</title> 
-    <para>Uncompress the docbook-1-6-15.tar.bz2 archive somewhere.</para>
-    <para>Execute:
-      <screen>./configure --enable-install</screen>
-      then:
-      <screen>make install</screen>
-      to install and configure DocBook
-    </para>
-    <para>To generate XHTML documentation, create a symbolic link in the install 
-    directory pointing to the CartoWeb documentation sources 
-    ($wwwroot/cartoweb3/documentation/user_manual/source)</para>
-    <para>Execute:
-      <screen>make xhtml</screen>
-      to generate an xhtml version of the documentation. This will be generated in 
-      <emphasis>$docbookinstalldir/xhtml</emphasis>
-    </para>
-    <para>Execute:
-      <screen>make pdf</screen>
-      to generate an pdf version of the documentation. This will be generated in 
-      <emphasis>$docbookinstalldir/pdf</emphasis>
-      You need to have Java isntalled on your system in order to generate pdf.
-    </para>
-  </sect1>
-  <sect1 id="appendix.make_doc.cygwin">
-    <title>Documentation Generation on Windows using Cygwin</title>
-    <para>The only known way at this time to generate xhml or pdf version of the documentation 
-    on Windows is by using Cygwin</para>
-    <para>You will need to install the following Cygwin packages: <emphasis>libxml2, libxslt, 
-    make</emphasis>.</para>
-    <para>Then follow the same instructions as for UNIX-like system <xref linkend="appendix.make_doc.unix"/>
-      <note><para>In docbook 1.69.0, the xhtml generation process produce a validity error at the end of the files 
-      creation. It should be fixed in 1.69.1</para></note>
-    </para>
-  </sect1>
+ <title>
+  DocBook Documentation Generation
+ </title>
+ <para>
+  &cartoweb; documentation source are in DocBook XML format and located in
+  <filename>documentation/user_manual/source</filename> in &cartoweb;
+  archive.
+ </para>
+ <para>
+  You may want to generate it by yourself in order to produce <acronym>XHTML
+  </acronym> or <acronym>PDF</acronym> output.
+ </para>
+ <sect1 id="appendix.make_doc.unix">
+  <title>
+   Documentation Generation on UNIX-like System
+  </title>
+  <sect2 id="appendix.make_doc.unix.tiny_docbook">
+   <title>
+    Tiny DocBook Install
+   </title>
+   <para>
+    Uncompress the<ulink url=
+     "http://www.cartoweb.org/downloads/docbook/tiny-docbook-1-6-16.tar.bz2">
+    tiny-docbook-1-6-16.tar.bz2</ulink> archive somewhere in your filesystem.
+   </para>
+   <para>
+    Execute:
+    <screen><![CDATA[
+$ ./configure --enable-install
+$ make install]]></screen>
+    to install and configure Tiny DocBook environment.
+   </para>
+  </sect2>
+  <sect2 id="appendix.make_doc.unix.jai">
+   <title>
+    JAI Install
+   </title>
+   <para>
+    For <acronym>PNG</acronym> support with <acronym>PDF</acronym> generation
+    you will also need to install <acronym>JAI</acronym>. If you don't plan
+    to produce <acronym>PDF</acronym>, you could jump to next step, otherwise
+    process as following:
+    <orderedlist>
+     <listitem>
+      <para>
+       Retrieve <acronym>JAI</acronym> archive from<ulink url=
+        "http://java.sun.com/products/java-media/jai/downloads/download-1_1_2_01.html">
+       Sun site</ulink>, (took the classpath one for your platform).
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Uncompress it in your Tiny DocBook install dir:
+       <screen><![CDATA[
+$ tar xvzf jai-1_1_2_01-lib-linux-i586.tar.gz]]></screen>
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Move <filename>jai-1_1_2_01/lib/jai_codec.jar</filename> and <filename>
+       jai-1_1_2_01/lib/jai_core.jar</filename> to <filename>fop/lib
+       </filename>.
+       <screen><![CDATA[
+$ mv jai-1_1_2_01/lib/jai_codec.jar fop/lib/
+$ mv jai-1_1_2_01/lib/jai_core.jar fop/lib/]]></screen>
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       Remove the becoming useless <acronym>JAI</acronym> archive, like that:
+       <screen><![CDATA[$ rm -rf jai-1_1_2_01*]]></screen>
+      </para>
+     </listitem>
+    </orderedlist>
+   </para>
+  </sect2>
+  <sect2 id="appendix.make_doc.unix.link">
+   <title>
+    Create a Symbolic Link to Documentation Source
+   </title>
+   <para>
+    Create a symbolic link in the Tiny DocBook install directory pointing to
+    the CartoWeb documentation sources <filename>
+    &lt;cartoweb_home&gt;/documentation/user_manual/source</filename> , like
+    that:
+    <screen><![CDATA[$ ln -s CARTOWEB_HOME/documentation/user_manual/source]]></screen>
+   </para>
+  </sect2>
+  <sect2 id="appendix.make_doc.unix.xhtml">
+   <title>
+    XHTML Generation
+   </title>
+   <para>
+    Then, to generate an <acronym>XHTML</acronym> version of the
+    documentation, execute as follow:
+    <screen><![CDATA[
+$ ./configure
+$ make xhtml]]></screen>
+    Output result will be generated in <filename>xhtml/</filename> directory.
+   </para>
+  </sect2>
+  <sect2 id="appendix.make_doc.unix.pdf">
+   <title>
+    PDF Generation
+   </title>
+   <para>
+    To generate a pdf version of the documentation, execute instead:
+    <screen><![CDATA[
+$ ./configure
+$ make pdf]]></screen>
+    Resulting pdf will be generated in <filename>book.pdf</filename> file.
+    <note>
+     <para>
+      You need to have at least a <acronym>JRE</acronym> (or <acronym>JDK
+      </acronym>) installed on your system in order to generate <acronym>PDF
+      </acronym>. The environment variable <literal>JAVA_HOME</literal> must
+      also be rightly set, e.g
+      <screen><![CDATA[
+$ export JAVA_HOME=dir_path_where_jre_is_put_on_your_system]]></screen>
+     </para>
+    </note>
+   </para>
+  </sect2>
+ </sect1>
+ <sect1 id="appendix.make_doc.cygwin">
+  <title>
+   Documentation Generation on Windows using Cygwin
+  </title>
+  <para>
+   The only known way at this time to generate xhml or pdf version of the
+   documentation on Windows is by using Cygwin.
+  </para>
+  <para>
+   You will need to install the following Cygwin packages:
+   <emphasis>
+    libxml2, libxslt, make
+   </emphasis>
+   .
+  </para>
+  <para>
+   Then follow the same instructions as for UNIX-like system<xref linkend=
+   "appendix.make_doc.unix"/>.
+  </para>
+ </sect1>
 </appendix>
