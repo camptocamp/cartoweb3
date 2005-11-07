@@ -56,9 +56,8 @@ class ClientCheckInstall extends ClientPlugin {
         $locationDsn = $this->getCartoclient()->getPluginManager()->getPlugin('location')->getConfig()->dsn;
         $routingDsn = $this->getCartoclient()->getPluginManager()->getPlugin('routing')->getConfig()->dsn;
 
-        // FIXME: could a database/user/table contain the @ character ?
-        if (strpos($locationDsn, '@') !== false || 
-            strpos($routingDsn, '@') !== false)
+        if (strpos($locationDsn, '@DB') !== false || 
+            strpos($routingDsn, '@DB') !== false)
             throw new CartoclientException("You need to install and configure" .
                     " a database to be able to use the demoPlugins project.\n" .
                     "See the cartoweb3/projects/demoPlugins/server_conf/" .
