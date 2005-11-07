@@ -303,6 +303,8 @@ function processArgs() {
             info('Fetching demo');
             fetchDemo();
             info('Demo data installed');
+            // launch init() for running po2mo
+            init();
             break;
         default:
             fail('Should not happen');
@@ -744,7 +746,17 @@ function fetchLibs() {
 
 function fetchDemo() {
 
-    fetchArchive(CW3_DEMO_URL, 'projects/demoPlugins/server_conf/demoPlugins/data');
+    fetchArchive(CW3_DEMO_URL, 'projects/demoCW3/server_conf/demoCW3/data');
+
+    $source = 'projects/demoCW3/server_conf/demoCW3';
+    $target = 'projects/demoPlugins/server_conf/demoPlugins';
+    if (file_exists($target))
+        rmdirr($target);
+    if (!copyr($source, $target))
+        throw InstallException("demo copy $source => $target failed");
+    
+    rename('projects/demoPlugins/server_conf/demoPlugins/demoCW3.map',
+           'projects/demoPlugins/server_conf/demoPlugins/demoPlugins.map');
 }
 
 function removeDevFilesIfProd() {
