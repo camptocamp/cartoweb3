@@ -21,3 +21,8 @@
   color:#DD6666;
   padding-bottom:20px;
 }
+
+#close{
+  position:relative;
+  text-align:center;
+}

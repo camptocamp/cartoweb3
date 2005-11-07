@@ -16,6 +16,6 @@
       <pre style="border:0">Class : {$exception_class}<br />Message : {$failure_message}</pre>
     </td></tr>
   </table>
-  <div style="text-align:right"><br /><br /><a href="{$selfUrl}?reset_session">Back to initial map</a></div>
+  <div id="close"><br /><br /><a href="{$selfUrl}?reset_session"><img src="{r type=gfx/layout}back.png{/r}" alt="back" title="Back to initial map" style="border:0"/></a><br /><br /></div>
 </body>
 </html>
