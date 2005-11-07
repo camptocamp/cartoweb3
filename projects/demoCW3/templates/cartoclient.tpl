@@ -78,6 +78,7 @@
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
   <input type="hidden" id="fake_reset" name="fake_reset" />
+  <input type="hidden" id="fake_query" name="fake_query" />
   {if $outline_active|default:''}
   {$outlinelabel}
   {/if}
@@ -248,10 +249,15 @@
       <br />
       {$layers}
       <br />
-      <center>
-      <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
-      </center>
-      <br />
+      <p style="text-align:right; vertical-align:middle;">
+        {include file="toolbar.tpl" group="5"}
+        &nbsp;&nbsp;
+        <a href="javascript:resetSession();">
+          <img src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding-bottom:3px;"/>
+        </a>&nbsp;&nbsp;
+        <input type="submit" id="refresh" name="refresh" value="{t}OK{/t}" 
+        class="form_button" style="margin-bottom:7px;" />
+      </p>
     </div>
     
     <!-- end of folder 1 -->
@@ -454,7 +460,7 @@
     <!-- end of floder 6 -->
     
     <!-- folder 7 starts here -->
-    <div id="folder7" class="folder" style="height:{$mainmap_height}px;">
+    <div id="folder7" class="folder" style="height:550px;">
       <br />
         {if $selection_result|default:''}
         {$selection_result}
@@ -462,8 +468,7 @@
 
         {if $query_result|default:''}
         {$query_result}
-        {/if}
-        
+        {/if}  
     </div>
     <!-- end of folder 7 -->
     

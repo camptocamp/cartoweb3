@@ -44,3 +44,10 @@ function resetSession() {
     document.carto_form.posted.value=0;
     FormItemSelected();
 }
+
+function clearQuery() {
+    elm = xGetElementById('fake_query');
+    elm.name = 'query_clear';
+    elm.value = 'query_clear';
+    FormItemSelected();
+}
