@@ -495,6 +495,13 @@ $ createlang plpgsql demo_plugins
 $ psql -d demo_plugins -f lwpostgis.sql
 $ psql -d demo_plugins -f spatial_ref_sys.sql
               ]]></screen>
+              <note><para>
+                <emphasis>psql</emphasis> is a terminal-based front-end to PostgreSQL. It enables you to type
+                in queries interactively, issue them to PostgreSQL, and see the query results.
+                Don't forget to specify his location on your system to use it.
+                If the <emphasis>lwpostgis.sql</emphasis> and <emphasis>
+                spatial_ref_sys.sql</emphasis> files aren't in the current directory, you have to specify their path.
+              </para></note> 
             </para>
           </formalpara>
         </listitem>
@@ -502,13 +509,27 @@ $ psql -d demo_plugins -f spatial_ref_sys.sql
           <formalpara>
             <title>Create tables used by the DemoLocation extension to allow you to do a search by name.</title>
             <para>  
-              To do so, you should export the free downloadable layers <emphasis>airport,agglo, 
+              To do so, you should export the free downloadable layers <emphasis>airport, agglo, 
               district</emphasis> and <emphasis>town</emphasis> in postgreSQL/PostGIS tables by typing 
               the following command :
               <screen><![CDATA[
-$ shp2pgsql builtupa.shp airport > /tmp/aiport.sql
+$ shp2pgsql aerofacp.shp airport > /tmp/aiport.sql
 $ psql -d demo_plugins -f /tmp/airport.sql
+
+$ shp2pgsql builtupa.shp agglo > /tmp/agglo.sql
+$ psql -d demo_plugins -f /tmp/agglo.sql
+
+$ shp2pgsql polbnda.shp district > /tmp/district.sql
+$ psql -d demo_plugins -f /tmp/district.sql
+
+$ shp2pgsql mispopp.shp town > /tmp/town.sql
+$ psql -d demo_plugins -f /tmp/town.sql
               ]]></screen>
+              <note><para>
+                <emphasis>shp2pgsql</emphasis> is a command-line programm that exports a shapefile into SQL commands.
+                Don't forget to specify his location on your system to use it.
+                You have to specify the path to the shapefiles if they aren't in the current directory.
+              </para></note>
             </para>
           </formalpara>
         </listitem>
@@ -519,35 +540,26 @@ $ psql -d demo_plugins -f /tmp/airport.sql
               <itemizedlist>
                 <listitem>
                   <formalpara>
-                    <title>Install the pgdijkstra debian package</title>
+                    <title>Install the pgdijkstra plugin</title>
                     <para>
                       <note><para>
-                        To do so, you can have a look at <xref linkend="appendix.debian_mapserver"/>
+                        To do so, 
+                        <itemizedlist>
+                          <listitem>
+                            <para>
+                              if you are on Debian, you can have a look at <xref linkend="appendix.debian_mapserver"/>
+                            </para>
+                          </listitem>
+                          <listitem>
+                            <para>
+                              instead, you can download the Pgdijkstra Routing Module file and follow the instructions
+                               given in the routing module README file at <ulink url="http://www.cartoweb.org/contribs.html"/>.
+                            </para>
+                          </listitem>
+                        </itemizedlist>
                       </para></note>
                     </para>
                   </formalpara>
-                </listitem>
-                <listitem>
-                  <formalpara>
-                    <title>Install the boost graph library.</title>
-                    <para>
-                      If you are using the Debian distribution, you can easily install it by typing :
-                      <screen><![CDATA[
-$ apt-get install libboost-graph-dev
-                      ]]></screen>
-                      Otherwise, you should follow these instructions :
-                      <screen><![CDATA[
-- Edit Makefile, and set the BOST_PATH with the location of your boost library,
-- Type make install.
-                      ]]></screen>
-                      <note><para>
-                      See <ulink url="http://www.boost.org/libs/graph/doc/index.html/"/> for more information.
-                      </para></note>
-                    </para>
-                  </formalpara>
-                </listitem>
-                <listitem>
-                  <formalpara><title>C++ Compiler</title><para></para></formalpara>
                 </listitem>
                 <listitem>
                   <formalpara>
@@ -587,27 +599,6 @@ $ psql -d demo_plugins -f dijkstra_postgis.sql
         </listitem>
         <listitem>
           <formalpara>
-            <title>Create a views table.</title>
-            <para>
-              <screen><![CDATA[
-CREATE TABLE views (
-  views_id serial NOT NULL PRIMARY KEY,
-  views_ts timestamp without time zone,
-  viewtitle character varying(50),
-  author character varying(50),
-  sessiondata text,
-  viewshow boolean,
-  weight integer,
-);
-              ]]></screen>
-              <note><para>
-                For more information on the views plugin, you can have a look at <xref linkend="user.views"/>
-              </para></note>
-            </para>
-          </formalpara>
-        </listitem>
-        <listitem>
-          <formalpara>
             <title>cw3_setup configuration</title>
             <para>
               To finish demoPlugins installation, you will have to specify optionals parameters during 
@@ -624,7 +615,6 @@ DB_PASSWD =
 DB_NAME = demo_plugins
 DB_PORT = 5432
 DB_SEARCH_NAME = demo_plugins
-DB_VIEWS_NAME = demo_plugins
               ]]></screen>
               To use this file during CartoWeb installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
               option when you execute cw3_setup.php.
@@ -673,7 +663,7 @@ END
           a geometies.
           <note><para>
             For more informations on these functions, you can have a look to the routing module README file 
-            <ulink url="http://www.cartoweb.org/pgdijkstra/README"/>.
+            <ulink url="http://www.cartoweb.org/downloads/pgdijkstra/README.txt"/>.
           </para></note>
           This chapter explain the main steps to integrate the routing fonctionnalities in a custom application.
           We describe the steps followed to install the routing demo. To resume, we used an Europe roads shapefile,

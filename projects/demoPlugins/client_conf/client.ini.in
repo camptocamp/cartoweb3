@@ -12,17 +12,19 @@ showProjectChooser = false
 ; the list of plugins to load, separated by comma
 loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, routing, demoRouting, checkInstall
 
-authLang = fr, en
-orderLang = en, fr
+;## Internationalization ##
+; default language
+defaultLang = fr
+; languages to make available in the viewer, list order gives links order
+;langList = fr, en
 
 ; Indicates how to render toolbar
 toolbarRendering = class
 
 ; Views management
 viewOn = true
-viewStorage = file ;db
+viewStorage = file ;possible values are 'file' and 'db'
 ;viewablePlugins = location, layers, query, outline
 viewMetas = author
-;viewDsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_VIEWS_NAME@
 viewAuth = all
 ;viewSavedRequest = personalVar1, personalVar2
