@@ -76,13 +76,11 @@ class ClientDemoLocation extends ClientLocation {
      */
     protected function getDb() {
         if (!isset($this->db)) {
-            //TODO set the dsn in the location.ini
             $dsn = $this->getConfig()->dsn;
             $this->db = DB::connect($dsn);
-            if (PEAR::isError($this->db)) {
-                throw new CartoclientException('Error connecting search on names database');
-                return;
-            }
+
+            Utils::checkDbError($this->db, 
+                'Error connecting search on names database');
         }
         return $this->db;
     }
@@ -123,10 +121,8 @@ class ClientDemoLocation extends ClientLocation {
         $this->getDb();
         $res = $this->db->query($sql);
         
-        if (PEAR::isError($res)) {
-            throw new CartoclientException('Error quering search on names database');
-            return;
-        }
+        Utils::checkDbError($this->db,
+                            'Error quering search on names database');
         
         while ($res->fetchInto($row)) {
             $list[$row[1]] = $row[0];
