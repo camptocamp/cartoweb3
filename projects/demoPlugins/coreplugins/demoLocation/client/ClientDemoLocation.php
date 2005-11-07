@@ -121,8 +121,7 @@ class ClientDemoLocation extends ClientLocation {
         $this->getDb();
         $res = $this->db->query($sql);
         
-        Utils::checkDbError($this->db,
-                            'Error quering search on names database');
+        Utils::checkDbError($res, 'Error quering search on names database');
         
         while ($res->fetchInto($row)) {
             $list[$row[1]] = $row[0];
