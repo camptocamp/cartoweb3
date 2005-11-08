@@ -23,10 +23,8 @@
 
 /**
  * Example client routing plugin which uses Postgres
- * 
  * @package Plugins
  */
- 
 class ClientDemoRouting extends ClientRouting {
 
     /**
@@ -35,7 +33,8 @@ class ClientDemoRouting extends ClientRouting {
     private $log;
     
     /**
-     * @var List of possible towns
+     * List of possible towns
+     * @var array
      */
     protected $vertices_options;
     
@@ -43,7 +42,6 @@ class ClientDemoRouting extends ClientRouting {
      * Constructor
      */
     public function __construct() {
-
         parent::__construct();
         $this->routingState = new RoutingState();
         $this->log =& LoggerManager::getLogger(__CLASS__);
@@ -51,7 +49,7 @@ class ClientDemoRouting extends ClientRouting {
     }
     
     /**
-     * Extension declaration
+     * @see PluginManager::replacePlugin()
      */
     public function replacePlugin() {
         return 'routing';
@@ -63,34 +61,29 @@ class ClientDemoRouting extends ClientRouting {
      */
     protected function getDb() {
         if (!isset($this->db)) {
-            //TODO set the dsn in the routing.ini
             $dsn = $this->getConfig()->dsn;
             $this->db = DB::connect($dsn);
-                if (PEAR::isError($this->db)) {
-                    throw new CartoclientException('Error connecting names database');
-                    return;
-                }
+            Utils::checkDbError($this->db, 'Error connecting names database'); 
         }
         return $this->db;
     }
     
-   /**
-    * Retrieves list of names from database
-    * @return array
+    /**
+     * Retrieves list of names from database
+     * @return array
      */
     protected function TownsList (){
-        // FIXME: table name and col name should be in config
         $stepName = $this->getConfig()->stepName;
-        $postgresRoutingVerticesTable = $this->getConfig()->postgresRoutingVerticesTable;
-        $sql = "SELECT $stepName, geom_id FROM $postgresRoutingVerticesTable WHERE $stepName != '' ORDER BY $stepName";
+        $postgresRoutingVerticesTable = $this->getConfig()
+                                             ->postgresRoutingVerticesTable;
+        $sql = sprintf("SELECT %s, geom_id FROM %s WHERE %s != '' ORDER BY %s",
+                       $stepName,
+                       $postgresRoutingVerticesTable,
+                       $stepName,
+                       $stepName);
         $this->getDb();
         $res = $this->db->query($sql);
-        //print_r($sql);
-        //Utils::checkDbError($res);
-        if (PEAR::isError($res)) {
-            throw new CartoclientException('Error quering routing database');
-            return;
-        }
+        Utils::checkDbError($res, 'Error quering routing database');
         while ($res->fetchInto($row)) {
             $list[$row[1]] = $row[0];
         }
@@ -100,8 +93,7 @@ class ClientDemoRouting extends ClientRouting {
        
 
     /**
-     * Draws routing specific template
-     * @return string
+     * @see ClientRouting::drawRouting()
      */ 
     protected function drawRouting() {
         $this->vertices_options = $this->TownsList();
@@ -109,9 +101,9 @@ class ClientDemoRouting extends ClientRouting {
         $smarty->assign(array('routing_options_values' => array(0,1),
                               'routing_options_labels' => array(I18n::gt('fastest'),
                                                                 I18n::gt('shortest'))));        
-        $smarty->assign('routing_from',    $this->routingState->from);
-        $smarty->assign('routing_to',      $this->routingState->to);
-        $smarty->assign('routing_options', $this->routingState->options);
+        $smarty->assign('routing_from',     $this->routingState->from);
+        $smarty->assign('routing_to',       $this->routingState->to);
+        $smarty->assign('routing_options',  $this->routingState->options);
         $smarty->assign('vertices_options', $this->vertices_options);
         return $smarty->fetch('routing.tpl');
     }

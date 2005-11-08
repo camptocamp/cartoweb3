@@ -23,15 +23,16 @@
 
 /**
  * Plugin which shows a failure message in case the demo data is not installed
+ * @package Plugins
  */
 class ClientCheckInstall extends ClientPlugin {
 
     /**
-     * Check if the demo data are available, and show a failure if not
+     * Checks if the demo data are available, and shows a failure if not.
      * 
      * WARNING: keep in sync with demoCw3 project!
      */
-    private function checkDemoData() {
+    protected function checkDemoData() {
         $projectHandler = $this->getCartoclient()->getProjectHandler();
         $project = $projectHandler->getProjectName();
         $mapId = $projectHandler->getMapName();
@@ -42,33 +43,35 @@ class ClientCheckInstall extends ClientPlugin {
         
         if (!file_exists(CARTOWEB_HOME . 
                             "projects/$project/server_conf/$mapId/data")) {
-            throw new CartoclientException("You need to install the demo data " .
+            throw new CartoclientException('You need to install the demo data ' .
                     "in order to use the demo.\n Use the --fetch-demo parameter " .
                     "of the cw3setup.php installer, \n or have a look at the " .
-                    "CartoWeb documenation on http://www.cartoweb.org"); 
+                    'CartoWeb documentation on http://www.cartoweb.org/'); 
         }
     }
 
     /**
-     * Check if the database configuration is ok, and show a failure if not
+     * Checks if the database configuration is ok, and shows a failure if not.
      */
-    private function checkDatabaseInstalled () {
-        $locationDsn = $this->getCartoclient()->getPluginManager()->getPlugin('location')->getConfig()->dsn;
-        $routingDsn = $this->getCartoclient()->getPluginManager()->getPlugin('routing')->getConfig()->dsn;
+    protected function checkDatabaseInstalled () {
+        $locationDsn = $this->getCartoclient()->getPluginManager()
+                            ->getPlugin('location')->getConfig()->dsn;
+        $routingDsn = $this->getCartoclient()->getPluginManager()
+                           ->getPlugin('routing')->getConfig()->dsn;
 
         if (strpos($locationDsn, '@DB') !== false || 
-            strpos($routingDsn, '@DB') !== false)
-            throw new CartoclientException("You need to install and configure" .
+            strpos($routingDsn, '@DB') !== false) {
+            throw new CartoclientException('You need to install and configure' .
                     " a database to be able to use the demoPlugins project.\n" .
-                    "See the cartoweb3/projects/demoPlugins/server_conf/" .
-                    "demoPlugins/sql/README.txt for instructions"); 
+                    'See cartoweb3/projects/demoPlugins/server_conf/' .
+                    'demoPlugins/sql/README.txt for instructions'); 
+        }
     }
 
     /**
      * @see PluginBase::initialize()
      */
     public function initialize() {
-
         $this->checkDemoData();
         $this->checkDatabaseInstalled();
     }    

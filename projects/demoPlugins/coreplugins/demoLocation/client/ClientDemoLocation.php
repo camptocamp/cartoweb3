@@ -23,19 +23,20 @@
   
 require_once ('DB.php');
 
-
 /**
  * Client part of Entension of Location Coreplugin
+ * @package CorePlugins
  */
 class ClientDemoLocation extends ClientLocation {
           
     /**
      * @ var Logger
      */
-    private $log ='';
+    private $log;
     
     /**
-     * @var Input text
+     * Input text
+     * @var string
      */
     protected $inputNameRecenter = '';
     
@@ -45,7 +46,8 @@ class ClientDemoLocation extends ClientLocation {
     protected $idRecenterActive = false;
     
     /**
-     * @var List of names
+     * List of names
+     * @var array
      */
     protected $idRecenterIdsList;
     
@@ -64,7 +66,7 @@ class ClientDemoLocation extends ClientLocation {
     }
     
     /**
-     * Extension declaration
+     * @see PluginManager::replacePlugin()
      */
     public function replacePlugin(){
         return 'location';
@@ -80,7 +82,7 @@ class ClientDemoLocation extends ClientLocation {
             $this->db = DB::connect($dsn);
 
             Utils::checkDbError($this->db, 
-                'Error connecting search on names database');
+                                'Error connecting search on names database');
         }
         return $this->db;
     }
@@ -91,9 +93,10 @@ class ClientDemoLocation extends ClientLocation {
     * @return array
     */
    protected function getLayerMeta($idRecenterLayer) {
-       //TO DO : set in the map file for each layer which can be request by the recenterid function,
-       //the metadata id_attribute_string, recenter_name_string and exported_values
-       $idAttribute =''; $nameAttribute = '';
+       // TODO: set in the map file for each layer that can be requested by 
+       // the recenterid() function the metadata id_attribute_string, 
+       // recenter_name_string and exported_values.
+       $idAttribute = $nameAttribute = '';
        $layersInit = $this->cartoclient->getMapInfo()->layersInit;
        foreach($layersInit->getLayers() as $msLayer) {
            if ($msLayer->id == $idRecenterLayer) {
@@ -114,10 +117,17 @@ class ClientDemoLocation extends ClientLocation {
      */
     protected function namesList($idRecenterLayer, $inputNameRecenter) {
         $idRecenterLayerAttributes = $this->getLayerMeta($idRecenterLayer);
-        
-        $sql = "SELECT $idRecenterLayerAttributes[1], $idRecenterLayerAttributes[0] FROM $idRecenterLayer " .
-                "WHERE $idRecenterLayerAttributes[1] LIKE upper('$inputNameRecenter%') " .
-                "AND $idRecenterLayerAttributes[1] != 'UNK' ORDER BY $idRecenterLayerAttributes[1];";
+       
+        $sql = sprintf("SELECT %s, %s FROM %s WHERE %s LIKE UPPER('%s%%') AND "
+                       . "%s != 'UNK' ORDER BY %s",
+                       $idRecenterLayerAttributes[1],
+                       $idRecenterLayerAttributes[0],
+                       $idRecenterLayer,
+                       $idRecenterLayerAttributes[1],
+                       $inputNameRecenter,
+                       $idRecenterLayerAttributes[1],
+                       $idRecenterLayerAttributes[1]);
+                       
         $this->getDb();
         $res = $this->db->query($sql);
         
@@ -131,10 +141,7 @@ class ClientDemoLocation extends ClientLocation {
     }
         
     /**
-     * Handles recenter on Ids HTTP request
-     * @param array HTTP request
-     * @param boolean 
-     * @return LocationRequest
+     * @see ClientLocation::handleIdRecenter()
      */
     protected function handleIdRecenter($request, $check = false) {
         $center = $this->locationState->bbox->getCenter();
@@ -142,12 +149,17 @@ class ClientDemoLocation extends ClientLocation {
         
         $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
         $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');
-        $this->inputNameRecenter = $this->getHttpValue($request,'input_name_recenter');
+        $this->inputNameRecenter = 
+            $this->getHttpValue($request, 'input_name_recenter');
         
         if ($this->inputNameRecenter != ''){   
-            $this->idRecenterIdsList = $this->namesList($idRecenterLayer,$this->inputNameRecenter);
+            $this->idRecenterIdsList = $this->namesList($idRecenterLayer,
+                                                        $this->inputNameRecenter);
             $this->nbResults = count($this->idRecenterIdsList);
-            if($this->nbResults == 1){$this->value_alone = array_search(strtoupper($this->input), $this->inputList);}
+            if ($this->nbResults == 1) {
+                $this->value_alone = array_search(strtoupper($this->input),
+                                                  $this->inputList);
+            }
             $this->idRecenterActive = true;
         }
         
@@ -177,7 +189,8 @@ class ClientDemoLocation extends ClientLocation {
                 
             $lastMapResult = $this->cartoclient->getClientSession()->lastMapResult;
             if (!is_null($lastMapResult)) {
-                $recenterRequest->fallbackBbox = $lastMapResult->locationResult->bbox;
+                $recenterRequest->fallbackBbox = $lastMapResult->locationResult
+                                                               ->bbox;
             } else {
                 $recenterRequest->fallbackBbox = $this->locationState->bbox;
             }
@@ -199,8 +212,7 @@ class ClientDemoLocation extends ClientLocation {
     }
     
     /**
-     * Draws recenter on Ids form
-     * @return string
+     * @see ClientLocation::drawIdRecenter()
      */
     protected function drawIdRecenter() {
         
@@ -211,31 +223,34 @@ class ClientDemoLocation extends ClientLocation {
         $layersLabel = array();
         $idRecenterLayersStr = $this->getConfig()->idRecenterLayers;
         if (!empty($idRecenterLayersStr)) {
-            $idRecenterLayers = explode(',', $idRecenterLayersStr);
-            $idRecenterLayers = array_map('trim', $idRecenterLayers);
+            $idRecenterLayers = Utils::parseArray($idRecenterLayersStr);
         }
         foreach($layersInit->getLayers() as $layer) {
-            if (! $layer instanceof Layer)
+            if (!$layer instanceof Layer) {
                 continue;
+            }
             if (!empty($idRecenterLayers) && 
-                !in_array($layer->id, $idRecenterLayers))
+                !in_array($layer->id, $idRecenterLayers)) {
                 continue;
+            }
             $layersId[] = $layer->id; 
             $layersLabel[] = I18n::gt($layer->label); 
         }
 
-        if (!empty($this->locationState->idRecenterSelected))
+        if (!empty($this->locationState->idRecenterSelected)) {
             $idRecenterSelected = $this->locationState->idRecenterSelected;
-        else
+        } else {
             $idRecenterSelected = $layersId[0];
-
-        $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
-                                    'id_recenter_layers_label' => $layersLabel,
-                                    'id_recenter_selected' => $idRecenterSelected,
-                                    'input_name_recenter' => $this->inputNameRecenter,
-                                    'id_recenter_active' => $this->idRecenterActive,
-                                    'id_recenter_ids_list' => $this->idRecenterIdsList,
-                                    'nb_results' => $this->nbResults));
+        }
+        
+        $this->smarty->assign(
+            array('id_recenter_layers_id'    => $layersId,
+                  'id_recenter_layers_label' => $layersLabel,
+                  'id_recenter_selected'     => $idRecenterSelected,
+                  'input_name_recenter'      => $this->inputNameRecenter,
+                  'id_recenter_active'       => $this->idRecenterActive,
+                  'id_recenter_ids_list'     => $this->idRecenterIdsList,
+                  'nb_results'               => $this->nbResults));
         return $this->smarty->fetch('id_recenter.tpl');
     }
 }
