@@ -80,8 +80,8 @@ fr    fr_CH.ISO-8859-1
             <para> Texts to be translated can be found in: </para>
             <itemizedlist>
                 <listitem>
-                    <para> Smarty templates using <ulink
-                            url="http://smarty.incutio.com/?page=SmartyGettext">
+                    <para> Smarty templates using <ulink 
+                            url="http://sourceforge.net/projects/smarty-gettext/">
                         SmartyGettext</ulink> (see <xref
                             linkend="user.template.i18n"/>)</para>
                 </listitem>
