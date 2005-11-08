@@ -455,142 +455,142 @@ msgstr "Bitte warten..."
 msgid "Unauthorized"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:149
+#: client/Views.php:149
 msgid "Action halted: invalid view Id"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:173
+#: client/Views.php:173
 msgid "You are not allowed to perform"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:174
+#: client/Views.php:174
 msgid " this action"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:570
+#: client/Views.php:570
 #, php-format
 msgid "Loaded view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:576
+#: client/Views.php:576
 #, php-format
 msgid "New view recorded with id %d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:581
+#: client/Views.php:581
 #, php-format
 msgid "View #%d updated"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:586
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1061
+#: client/Views.php:586
+#: client/Views.php:1061
 #, php-format
 msgid "View #%d deleted"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:951
+#: client/Views.php:951
 #, php-format
 msgid "Failed to open view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:975
+#: client/Views.php:975
 #, php-format
 msgid "Unable to read view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:987
+#: client/Views.php:987
 #, php-format
 msgid "Unable to write view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1064
+#: client/Views.php:1064
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1141
+#: client/Views.php:1141
 msgid "Unable to open ViewDbContainer: "
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1143
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1212
+#: client/Views.php:1143
+#: client/Views.php:1212
 msgid "Service failed."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1210
+#: client/Views.php:1210
 msgid "Unable to process view."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1221
+#: client/Views.php:1221
 #, php-format
 msgid "No result for view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1245
+#: client/Views.php:1245
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1364
+#: client/Views.php:1364
 msgid "Unable to build views catalog"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:310
+#: coreplugins/images/client/ClientImages.php:310
 msgid "label"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
+#: coreplugins/layers/client/ClientLayers.php:1186
 msgid "Default"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
+#: htdocs/uhperi/about.php:26
 msgid "about file [about_"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
+#: htdocs/uhperi/about.php:26
 msgid ".html] not found"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/contact.php:26
+#: htdocs/uhperi/contact.php:26
 msgid "contact file [contact_"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/copyright.php:26
+#: htdocs/uhperi/copyright.php:26
 msgid "copyright file [copyright_"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/disclaimer.php:26
+#: htdocs/uhperi/disclaimer.php:26
 msgid "disclaimer file [disclaimer_"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/help.php:26
+#: htdocs/uhperi/help.php:26
 msgid "help file [help_"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
+#: plugins/exportPdf/client/ClientExportPdf.php:1125
 msgid "Click here to display PDF file"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
+#: plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:171
+#: plugins/routing/client/ClientRouting.php:171
 msgid "fastest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:172
+#: plugins/routing/client/ClientRouting.php:172
 msgid "shortest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:278
+#: plugins/views/client/ClientViews.php:278
 msgid "Views main controller is OFF!!"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:282
+#: plugins/views/client/ClientViews.php:282
 msgid "Memorizing view to update"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:311
+#: plugins/views/client/ClientViews.php:311
 msgid "(placed at the end)"
 msgstr ""
