@@ -132,9 +132,7 @@
         <listitem>
           <formalpara><title>From CVS:</title>
             <para>Get the current development version via CVS using the following command:
-            <screen><![CDATA[
-  cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public checkout cartoweb3            
-             ]]></screen>
+            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public checkout cartoweb3]]></screen>
             </para>
           </formalpara>
           <formalpara><title>From CVS with cw3setup.php:</title>
@@ -324,9 +322,7 @@ List of options:
             <title>Update &cartoweb; from CVS</title>
             <para>To keep your &cartoweb; up-to-date with the development version, simply type 
             the following command in the <filename>&cartoweb;</filename> root folder:
-            <screen><![CDATA[
-  cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update            
-             ]]></screen>
+            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update]]></screen>
               <warning><para>This may have some serious effects on your existing developments, 
               it is recommended you backup the &cartoweb; root folder and all subforders before execution.</para></warning>
             </para>
@@ -479,9 +475,7 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
           <formalpara>
             <title>Create a PostgreSQL database using the following command :</title>
             <para>
-              <screen><![CDATA[
-$ createdb demo_plugins
-              ]]></screen>
+              <screen><![CDATA[$ createdb demo_plugins]]></screen>
             </para>
           </formalpara>
         </listitem>
@@ -493,8 +487,7 @@ $ createdb demo_plugins
               <screen><![CDATA[
 $ createlang plpgsql demo_plugins
 $ psql -d demo_plugins -f lwpostgis.sql
-$ psql -d demo_plugins -f spatial_ref_sys.sql
-              ]]></screen>
+$ psql -d demo_plugins -f spatial_ref_sys.sql]]></screen>
               <note><para>
                 <emphasis>psql</emphasis> is a terminal-based front-end to PostgreSQL. It enables you to type
                 in queries interactively, issue them to PostgreSQL, and see the query results.
@@ -523,8 +516,7 @@ $ shp2pgsql polbnda.shp district > /tmp/district.sql
 $ psql -d demo_plugins -f /tmp/district.sql
 
 $ shp2pgsql mispopp.shp town > /tmp/town.sql
-$ psql -d demo_plugins -f /tmp/town.sql
-              ]]></screen>
+$ psql -d demo_plugins -f /tmp/town.sql]]></screen>
               <note><para>
                 <emphasis>shp2pgsql</emphasis> is a command-line programm that exports a shapefile into SQL commands.
                 Don't forget to specify his location on your system to use it.
@@ -566,9 +558,7 @@ $ psql -d demo_plugins -f /tmp/town.sql
                     <title>Execute the <emphasis>dijkstra.sql</emphasis> file to install the functions in 
                     your database by typing :</title>
                     <para>
-                      <screen><![CDATA[
-$ psql -d demo_plugins -f dijkstra.sql
-                      ]]></screen>
+                      <screen><![CDATA[$ psql -d demo_plugins -f dijkstra.sql]]></screen>
                     </para>
                   </formalpara>
                 </listitem>
@@ -576,9 +566,7 @@ $ psql -d demo_plugins -f dijkstra.sql
                   <formalpara>
                     <title>If you have PostGIS installed, you should launch <emphasis>dijkstra_postgis.sql</emphasis> :</title>
                     <para>
-                      <screen><![CDATA[
-$ psql -d demo_plugins -f dijkstra_postgis.sql
-                      ]]></screen>
+                      <screen><![CDATA[$ psql -d demo_plugins -f dijkstra_postgis.sql]]></screen>
                     </para>
                   </formalpara>
                 </listitem>
@@ -614,8 +602,7 @@ DB_USER = www-data
 DB_PASSWD =
 DB_NAME = demo_plugins
 DB_PORT = 5432
-DB_SEARCH_NAME = demo_plugins
-              ]]></screen>
+DB_SEARCH_NAME = demo_plugins]]></screen>
               To use this file during CartoWeb installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
               option when you execute cw3_setup.php.
             </para>
@@ -645,8 +632,7 @@ METADATA
   "exported_values" "recenter_name_string,id_attribute_string"
   "recenter_name_string" "NAM"
   "id_attribute_string" "OGC_FID|string"
-END
-          ]]></screen>
+END]]></screen>
           The name of the database must be specified in the <emphasis>location.ini</emphasis> file.
           <note><para>
           In the location.ini, you also need to specify the layers on which you want to do a search
@@ -675,8 +661,7 @@ END
           <para>
             <screen><![CDATA[
 $ shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
-$ psql -d demo_plugins -f /tmp/roadl.sql
-            ]]></screen>
+$ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
           </para>
         </sect4>
         <sect4 id="user.install.demo.details.demoRouting.graphimportation">
@@ -686,14 +671,12 @@ $ psql -d demo_plugins -f /tmp/roadl.sql
             <screen><![CDATA[
 $ CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
 $ SELECT AddGeometryColumn('roads_europe', 'the_geom', -1, 'MULTILINESTRING', 2 );
-$ INSERT INTO roads_europe (gid, the_geom) (SELECT gid, the_geom FROM roads_europe);
-            ]]></screen>
+$ INSERT INTO roads_europe (gid, the_geom) (SELECT gid, the_geom FROM roads_europe);]]></screen>
             The resulting table is so <emphasis>roads_europe</emphasis>.
             You can then fill the cols <emphasis>source_id</emphasis> and <emphasis>target_id</emphasis> with the
              "assign_vertex_id" function.
             <screen><![CDATA[
-$ SELECT assign_vertex_id('roads_europe', 1);
-            ]]></screen>
+$ SELECT assign_vertex_id('roads_europe', 1);]]></screen>
             Here's the content of the roads_europe table
             <screen><![CDATA[
 $ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe limit 3;
@@ -704,28 +687,24 @@ $ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe 
  12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,248423.861 4779852.646,
                                                              248311.216 4779866.142,246918.803 4780025.504))
  12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,255197.548 4780850.435))
-(3 lignes)
-            ]]></screen>
+(3 lignes)]]></screen>
             But if the data quality is poor, you need to delete the duplicates edges (they have the same pair
             source-target of vertices).
             For example, to verify you have duplicates edges, you can type :
             <screen><![CDATA[
 $ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by source_id, target_id order by c)
-AS foo where foo.c = 2;
-            ]]></screen>
+AS foo where foo.c = 2;]]></screen>
             If there is duplicates edges, to delete one of two rows, you can type : 
             <screen><![CDATA[
 $ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in (SELECT gid FROM 
 (SELECT DISTINCT on (source_id, target_id) source_id, gid FROM roads_europe) AS doublon);
 $ DELETE FROM roads_europe;
 $ INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
-$ ALTER TABLE roads_europe ADD COLUMN edge_id int;
-            ]]></screen>
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
             The following step is to create and fill the edges and vertices tables of the resulting graph. 
             To do so, you can use "create_graph_tables" function.
             <screen><![CDATA[
-$ SELECT create_graph_tables('roads_europe', 'int4');
-            ]]></screen>
+$ SELECT create_graph_tables('roads_europe', 'int4');]]></screen>
             <screen><![CDATA[
 SELECT * FROM roads_europe_edges LIMIT 3;
  id | source | target | cost | reverse_cost 
@@ -733,15 +712,13 @@ SELECT * FROM roads_europe_edges LIMIT 3;
   1 |      1 |      2 |      |             
   2 |      3 |      3 |      |             
   4 |      2 |      2 |      |             
-(3 rows)
-            ]]></screen>
+(3 rows)]]></screen>
             We can see that it contains NULL values for the cost column. 
             The function update_cost_from_distance can update the cost column with
             the distance of the lines contained in the geometry table, attached to
             each edge :
             <screen><![CDATA[
-$ SELECT update_cost_from_distance('roads_europe');
-            ]]></screen>
+$ SELECT update_cost_from_distance('roads_europe');]]></screen>
             The costs are now :
             <screen><![CDATA[
  id | source | target |       cost       | reverse_cost
@@ -749,8 +726,7 @@ $ SELECT update_cost_from_distance('roads_europe');
   1 |      1 |      2 | 6857.46585793103 |
   2 |      3 |      4 | 37349.9592156392 |
   3 |      5 |      6 | 14040.5673116933 |
-(3 lignes)
-            ]]></screen>
+(3 lignes)]]></screen>
             Now, all is set up correctly for using the shortest path function on these data. 
             But to include the routing fonctionnalities in a custom project, we must respect certains rules 
             dictated by the routing plugin.
@@ -770,8 +746,7 @@ $ CREATE TABLE routing_results (
     "timestamp" bigint,
     gid integer
   );
-$ SELECT AddGeometryColumn('','routing_results','the_geom','-1','MULTILINESTRING',2);
-                  ]]></screen>
+$ SELECT AddGeometryColumn('','routing_results','the_geom','-1','MULTILINESTRING',2);]]></screen>
                 </para>
               </listitem>
               <listitem>
@@ -783,8 +758,7 @@ $ CREATE SEQUENCE routing_results_seq
     MINVALUE 1
     MAXVALUE 9223372036854775807
     START 1
-    CACHE 1;
-                  ]]></screen>
+    CACHE 1;]]></screen>
                 </para>
               </listitem>
             </itemizedlist>          
@@ -814,8 +788,7 @@ LAYER
       COLOR 90 27 191
     END
   END
-END
-            ]]></screen>
+END]]></screen>
           </para>
         </sect4>
         <sect4 id="user.install.demo.details.demoRouting.generalconfiguration">

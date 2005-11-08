@@ -286,12 +286,11 @@ layers.group_admin.metadata.security_view = admin]]></programlisting>
         using the following notation:
         </para>
         <programlisting><![CDATA[
- {capture name=caption}
+{capture name=caption}
 {$element.layerLabel} <a
 href="/?lang={$element.layerMeta.lang}&client_id={$element.layerMeta.client_id}">
 {element.layerMeta.complex_label}</a>
-{/capture}       
-        ]]></programlisting>
+{/capture}]]></programlisting>
         <para>
         As we can see in the previous example, metadata values can be used through the 
         <literal>layerMeta</literal> property of the <literal>$element</literal> Smarty 
@@ -367,8 +366,7 @@ END
       <title>Auto Layers in <filename>layers.ini</filename></title>
       <para>First, you have to declare the list of auto layers indexes. Indexes 
         will be used as suffixes for generated layers :</para>
-      <programlisting><![CDATA[autoLayersIndexes = index1, index2]]> 
-        </programlisting>
+      <programlisting><![CDATA[autoLayersIndexes = index1, index2]]></programlisting>
       <para>Then you can use auto layers just as other layers. In this exemple, 
         an auto layer <parameter>myAutoLayer_</parameter> was declared in the 
         mapfile template (see <xref linkend="user.layers.autolayer.mapfile" 
