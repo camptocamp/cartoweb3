@@ -157,7 +157,7 @@ class Utils {
      * @param object Database object to test for error 
      * @param string optional error message condition
      */
-    public static function checkDbError($db, $msg='') {
+    public static function checkDbError($db, $msg = '') {
         if (PEAR::isError($db)) {
             $errorMsg = sprintf('%s Message: %s  Userinfo: %s', $msg, 
                            $db->getMessage(), $db->userinfo);
