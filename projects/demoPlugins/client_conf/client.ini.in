@@ -22,7 +22,7 @@ toolbarRendering = class
 ; Views management
 viewOn = true
 viewStorage = file ;possible values are 'file' and 'db'
-;viewablePlugins = location, layers, query, outline
+viewablePlugins = location, layers, query, outline
 viewMetas = author
 viewAuth = all
 ;viewSavedRequest = personalVar1, personalVar2

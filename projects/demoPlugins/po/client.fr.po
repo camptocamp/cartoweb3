@@ -568,6 +568,9 @@ msgstr ""
 msgid "SearchTab"
 msgstr "Recherche"
 
+msgid "New view"
+msgstr "Nouvelle vue"
+
 #, fuzzy
 
 # Elements dynamiques

@@ -6,43 +6,29 @@ var qMark = '{t}?{/t}';
 //-->
 </script>
 
-{if $viewMsg}<div id="viewMsg" style="font-weight:bold;color:red;">{$viewMsg}</div>{/if}
+<div id="viewMsg" style="font-family:Arial,Helvetica,sans-serif;color:#333333;font-size:12px;
+font-weight:bold;position:relative;left:10px;">{if $viewMsg}{$viewMsg}{else}{t}New view{/t}{/if}</div>
 
-<fieldset>
-<legend>{t}Go to view{/t}</legend>
-{if $viewOptions}
-<div>{t}Title{/t} 
-<select name="viewLoadTitleId" onchange="javascript:resetViewLoadId();">
-{html_options options=$viewOptions selected=$viewId}
-</select> {t}or{/t} {t}Id{/t} <input type="text" name="viewLoadId" 
-id="viewLoadId" class="input_text" value="{strip}{if $viewId}{$viewId}{/if}{/strip}" size="4" onfocus="javascript:resetViewLoadTitleId();" /></div>
-<input type="submit" name="viewLoad" class="form_button" value="{t}Load view{/t}"
-onclick="javascript:setHandleView();" />
-{else}
-{t}No view available{/t}
-{/if}
-</fieldset>
-
-<fieldset>
-<legend>{t}Edit view{/t}</legend>
-<div>{t}View #{/t} {if $viewId}{$viewId}{else}- ({t}new view{/t}){/if}</div>
-{if $viewId}
-<div><label for="viewActive">{t}Memorize form{/t} </label><input 
-type="checkbox" name="viewActive" id="viewActive" {if $viewActive}checked="checked"{/if} /></div>
-{/if}
-<div>{t}Title{/t} <input type="text" name="viewTitle" id="viewTitle" class="input_text" value="{$viewTitle}" /></div>
-<div>{t}Author{/t} <input type="text" name="author" id="author" class="input_text" value="{$author}" /></div>
-<div><label for="viewShow" onfocus="javascript:showLocationSelector();">{t}Show view{/t} </label><input type="checkbox" name="viewShow" id="viewShow" 
-onclick="javascript:showLocationSelector();" {if $viewShow}checked="checked"{/if} /></div>
-{if $viewLocationOptions}
-<div id="locationSelector" {if !$viewShow}style="display:none;"{/if}>{t}Place view label before{/t}
-<input type="hidden" name="viewLocationUpdate" value="0" />
-<select name="viewLocationId" 
-onchange="javascript:document.carto_form.viewLocationUpdate.value=1;">
-{html_options options=$viewLocationOptions selected=$viewLocationId}
-</select>
+<br />
+<div style="position:relative;left:20px;">
+  {if $viewId}
+  <div><label for="viewActive">{t}Memorize form{/t}</label><input 
+  type="checkbox" name="viewActive" id="viewActive" {if $viewActive}checked="checked"{/if} /></div>
+  {/if}
+  <div>{t}Title{/t} <input type="text" name="viewTitle" id="viewTitle" class="input_text" value="{$viewTitle}" /></div>
+  <div>{t}Author{/t} <input type="text" name="author" id="author" class="input_text" value="{$author}" /></div>
+  <div><label for="viewShow" onfocus="javascript:showLocationSelector();">{t}Show view{/t} </label><input type="checkbox" name="viewShow" id="viewShow" 
+  onclick="javascript:showLocationSelector();" {if $viewShow}checked="checked"{/if} /></div>
+  {if $viewLocationOptions}
+  <div id="locationSelector" {if !$viewShow}style="display:none;"{/if}>{t}Place view label before{/t}
+  <input type="hidden" name="viewLocationUpdate" value="0" />
+  <select name="viewLocationId" 
+  onchange="javascript:document.carto_form.viewLocationUpdate.value=1;">
+  {html_options options=$viewLocationOptions selected=$viewLocationId}
+  </select>
+  </div>
+  {/if}
 </div>
-{/if}
 <input type="hidden" name="handleView" value="0" />
 {if $viewId}
 <input type="hidden" name="viewUpdateId" value="{$viewId}" />
@@ -51,13 +37,10 @@ onclick="javascript:setHandleView();" />
 {/if}
 <input type="submit" name="viewSave" class="form_button" 
 value="{strip}{if $viewId}{t}Save as new view{/t}{else}{t}Save view{/t}{/if}{/strip}" onclick="javascript:setHandleView();" />
-</fieldset>
 
 {if $viewId}
-<fieldset>
-<legend>{t}Delete view{/t}</legend>
+<br /><br />
 <input type="hidden" name="viewDeleteId" value="{$viewId}" />
 <input type="hidden" name="viewDelete" value="0" />
-<input type="button" name="viewDeleteButton" value="{t}Delete view #{/t} {$viewId}" onclick="javascript:checkBeforeDelete({$viewId});" />
-</fieldset>
+<input type="button" name="viewDeleteButton" value="{t}Delete view #{/t} {$viewId}" onclick="javascript:checkBeforeDelete({$viewId});" class="form_button" />
 {/if}

@@ -73,12 +73,26 @@
     <td>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>
-        <td width="50%" align="center">
+        <td width="30%" align="center">
           {if $scales_active|default:''}
             {$scales}
           {/if}
         </td>
-        <td width="50%" align="center">
+        <td width="40%" align="center">
+          {if $viewsList|default:''}
+          <p>
+            <label>{t}Views:{/t}</label><br />
+            <select name="viewBrowseId" onchange="javascript:loadView();">
+            {html_options options=$viewsList selected=$selectedView}
+            </select></p>
+            <input type="hidden" name="viewBrowse" value="0" />
+            {if !$views}
+            <input type="hidden" name="handleView" value="0" />
+            {/if}
+            {/if}
+          </p> 
+        </td>
+        <td width="30%" align="center">
           {if $mapsizes_active|default:''}
             {$mapsizes}
           {/if}
@@ -304,7 +318,9 @@
      {if $views|default:''}
        <div id="folder8" class="folder">
          <br />
+         <p>
          {$viewsForm}
+         </p>
        </div>
      {/if}
      <!-- end of folder 8 -->
