@@ -1,5 +1,5 @@
 <div id="id_recentering">
-<fieldset><legend>{t}Id recentering{/t}</legend> <br/>
+<fieldset><legend>{t}IdRecentering{/t}</legend> <br/>
 <table width="100%">
 <tr>
 <td>

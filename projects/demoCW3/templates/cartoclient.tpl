@@ -328,7 +328,12 @@
         {if $exportPdf|default:''}
           {$exportPdf}
         {else}
-          <p>{t}You are not allowed to print maps{/t}</p>
+          <p>
+            {t}You are not allowed to print maps{/t},
+            {if $auth_active|default:''}
+             {t}please{/t} {$auth}.
+            {/if}
+          </p>
         {/if}
     </div>
     <!-- end of folder 2 -->

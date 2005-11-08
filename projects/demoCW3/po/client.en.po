@@ -92,9 +92,13 @@ msgstr ""
 msgid "Id recentering"
 msgstr ""
 
+#correction bug
+msgid "IdRecentering"
+msgstr "Identifiers recentering"
+
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on : "
-msgstr ""
+msgstr "Layer :"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's : "
@@ -164,6 +168,9 @@ msgstr "Clear query"
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "please"
+msgstr "please"
+
 msgid "login"
 msgstr ""
 
@@ -765,18 +772,6 @@ msgstr ""
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Reset session"
 msgstr ""
-
-#~ msgid "Resultats de la requete"
-#~ msgstr "Query results"
-
-#~ msgid "Zonage"
-#~ msgstr "Layer"
-
-#~ msgid "Nombre de resultats"
-#~ msgstr "Number of results"
-
-#~ msgid "Retour"
-#~ msgstr "Top of the page"
 
 # Dynamic elements
 msgid "query"

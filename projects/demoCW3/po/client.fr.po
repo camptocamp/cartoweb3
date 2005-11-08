@@ -91,15 +91,19 @@ msgstr ""
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 #, fuzzy
 msgid "Id recentering"
-msgstr "Recentrer sur des Ids"
+msgstr ""
+
+#correction bug
+msgid "IdRecentering"
+msgstr "Recentrage sur des identifiants"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on : "
-msgstr "Couche sur laquelle se recentrer :"
+msgstr "Couche :"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's : "
-msgstr "Ids, séparés par des virgules"
+msgstr "Ids, séparés par des virgules :"
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
@@ -165,12 +169,15 @@ msgstr "Effacer la requête"
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "please"
+msgstr "merci de"
+
 msgid "login"
-msgstr "se connecter"
+msgstr "vous connecter"
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr "se déconnecter"
+msgstr "vous déconnecter"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
@@ -292,7 +299,7 @@ msgstr "Effacer le tracé"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
-msgstr ""
+msgstr "CartoWeb3 - Démonstration"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 #: projects/demoCW3/templates/mainmap.tpl
@@ -698,7 +705,7 @@ msgstr "la liste déroulante des tailles de cartes possibles"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomin"
-msgstr "Zoom arrière"
+msgstr "Zoom avant"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -716,7 +723,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomout"
-msgstr "Zoom avant"
+msgstr "Zoom arrière"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
