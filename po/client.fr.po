@@ -540,30 +540,6 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: htdocs/uhperi/about.php:26
-msgid "about file [about_"
-msgstr ""
-
-#: htdocs/uhperi/about.php:26
-msgid ".html] not found"
-msgstr ""
-
-#: htdocs/uhperi/contact.php:26
-msgid "contact file [contact_"
-msgstr ""
-
-#: htdocs/uhperi/copyright.php:26
-msgid "copyright file [copyright_"
-msgstr ""
-
-#: htdocs/uhperi/disclaimer.php:26
-msgid "disclaimer file [disclaimer_"
-msgstr ""
-
-#: htdocs/uhperi/help.php:26
-msgid "help file [help_"
-msgstr ""
-
 #: plugins/exportPdf/client/ClientExportPdf.php:1125
 msgid "Click here to display PDF file"
 msgstr "Voir le fichier PDF produit"
