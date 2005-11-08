@@ -1,28 +1,19 @@
-body {
-  margin: 0;
-}
-
 #mapBorder {
   border: 1px solid #555555;
   padding: 0px;
 }
-
 #map {
   background-color: #EFEFEF; /* background o the map (color shown when panning) */
 }
-
 #map .dhtml_element_off {
   position: absolute;
 }
-
 #map .dhtml_element_selected {
   position: absolute;
 }
-
-#map .layer{
+#map .layer {
   position: absolute;
 }
-
 #map .vertex_off {
   position: absolute;
   overflow: hidden;
@@ -50,7 +41,7 @@ body {
   overflow: hidden;
   padding: 0;
   margin: 0;
-  background-color: orange;
+  background-color: #FFA500;
   cursor: pointer;
 }
 #map .linepoint_selected {
@@ -62,17 +53,17 @@ body {
 }
 #map .polygonfill_off {
   position: absolute;
-  background-color:yellow;
+  background-color: yellow;
   filter:alpha(opacity=30);
-  -moz-opacity:0.3;
+  -moz-opacity: 0.3;
   opacity: 0.3;
   cursor: pointer;
 }
 #map .polygonfill_selected {
   position: absolute;
-  background-color:orange;
+  background-color: #FFA500;
   filter:alpha(opacity=30);
-  -moz-opacity:0.3;
+  -moz-opacity: 0.3;
   opacity: 0.3;
 }
 #map .box_off {
@@ -82,15 +73,15 @@ body {
   height: 2px;
   padding: 0;
   margin: 0;
-  border: 1px solid orange;
+  border: 1px solid #FFA500;
 }
 #map .boxfill_off {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color:yellow;
+  background-color: yellow;
   filter:alpha(opacity=30);
-  -moz-opacity:0.3;
+  -moz-opacity: 0.3;
   opacity: 0.3;
   cursor: pointer;
 }
