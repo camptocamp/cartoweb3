@@ -314,9 +314,7 @@
      {if $views|default:''}
        <div id="folder8" class="folder">
          <br />
-         <p>
          {$viewsForm}
-         </p>
        </div>
      {/if}
      <!-- end of folder 8 -->
