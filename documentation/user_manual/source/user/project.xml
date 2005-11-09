@@ -22,7 +22,7 @@
       from the original architecture. Files placed in a project are in most 
       cases used preferentially to the original files. There is an exception 
       with plugins PHP classes: the latter must be extended and not simply 
-      overriden. In projects you can also add brand new files (for instance new 
+      overridden. In projects you can also add brand new files (for instance new 
       plugins) that have no original version in the upstream structure. Fore 
       more details about how to write or customize plugins in projects, see 
       <xref linkend="dev.newplugin" /> in <xref linkend="cartoweb.dev"/>. 
@@ -157,7 +157,7 @@
         selection dropdown will no more appear, keeping you from activating 
         another project. To go back to the initial project, call the initial 
         <filename>client.php</filename> page without posting the HTML 
-        formular.</para>
+        form.</para>
     </sect2>
     <sect2 id="user.project.use.client">
       <title>Using a Modified <filename>client.php</filename></title>
