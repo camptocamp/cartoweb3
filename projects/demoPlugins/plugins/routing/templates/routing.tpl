@@ -14,12 +14,12 @@
 <table width="100%">
 <tr><td width="50%"></td>
 <td width="20%" align="center">
-  <a href="javascript:this.form.routing_from.value=0;this.form.routing_to.value=0;FormItemSelected();">
-    <img src="{r type=gfx/layout}reinitialize.png{/r}" alt="{t}reset routing{/t}" title="{t}Reset{/t}" />
-  </a></td>
+  <input type="image" src="{r type=gfx/layout}reinitialize.png{/r}" 
+  name="routing_reset" alt="{t}reset routing{/t}" value="{t}Reset{/t}"/>
+</td>
 <td width="30%" align="left">
-  <input type="button" name="refresh" value="{t}OK{/t}"
-    class="form_button" onclick="javascript:FormItemSelected();" />
+  <input type="submit" name="routing_submit" value="{t}OK{/t}"
+    class="form_button"/>
 </td>
 </tr>
 </table>
