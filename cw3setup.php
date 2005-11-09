@@ -129,7 +129,7 @@ List of options:
                             if using --config-from-project).
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
- 
+                             NOTE: default is production if not given
  --clean-views              Clean views (must be used with --clean).
  
 <?
@@ -762,7 +762,7 @@ function fetchDemo() {
 function removeDevFilesIfProd() {
     global $OPTIONS;
     
-    if (!isset($OPTIONS['profile']) || $OPTIONS['profile'] != 'production') {
+    if (isset($OPTIONS['profile']) && $OPTIONS['profile'] != 'production') {
         return;
     }
     
