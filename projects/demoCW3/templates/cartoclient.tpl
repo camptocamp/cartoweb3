@@ -339,7 +339,7 @@
     <!-- end of folder 2 -->
     
     <!-- folder 6 starts here -->
-    <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
+    <div id="folder6" class="folder" style="height:550px;">
     <p><i>{t}This demo is an overview of the standard functionalities that are somehow visible for an end-user in Cartoweb. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
     
     <br />
