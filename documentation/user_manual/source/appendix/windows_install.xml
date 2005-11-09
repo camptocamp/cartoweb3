@@ -32,14 +32,14 @@
     <title>Apache/PHP5 Install</title>
     <para>Cartoweb requires php5. MS4W only supports php4.3 so we will need WAMP (1.4.4 or greater). 
     You can get the installation package here: <ulink url="http://www.wampserver.com/download.php"/></para>
-    <para>Launch the setup by clicking on the executable file you just downloaded (here wamp5_1.4.4.exe). 
+    <para>Launch the setup by clicking on the executable file you just downloaded (here <filename>wamp5_1.4.4.exe</filename>). 
     Keep default install options:
       <itemizedlist>
         <listitem>
-          <para>Install WAMP in C:\wamp</para>
+          <para>Install WAMP in <filename>C:\wamp</filename></para>
         </listitem>
         <listitem>
-          <para>Set www root folder as C:\wamp\www</para>
+          <para>Set www root folder as <filename>C:\wamp\www</filename></para>
         </listitem>
       </itemizedlist>  
     </para>
@@ -57,11 +57,11 @@
           to display the complete PHPINFO information.</para>
         </listitem>
         <listitem>
-          <para>Take note of the path to the php.ini file (Configuration File (php.ini) Path). It should 
-          look like c:\wamp\apache\php.ini</para>
+          <para>Take note of the path to the <filename>php.ini</filename> file (Configuration File (php.ini) Path). It should 
+          look like <filename>C:\wamp\apache\php.ini</filename></para>
         </listitem>
         <listitem>
-          <para>Open the file php.ini in any text editor and go to the Dynamic Extensions section. 
+          <para>Open the file <filename>php.ini</filename> in any text editor and go to the Dynamic Extensions section. 
           Activate the SOAP, Curl and Gettext extensions. Simply remove the ";" at the beginning of 
           the lines.</para>
         </listitem>
@@ -73,8 +73,8 @@ extension=php_soap.dll
 extension=php_curl.dll
 extension=php_gettext.dll</screen>
     <para>The corresponding DLL files must be present in the extensions folder of PHP. It should be 
-    C:\wamp\php\ext by default. If you can not find it, look in the PHPINFO ("local value" for parameter 
-    extension_dir, visible in php.ini as well), you will notice something like C:/wamp/php/ext/.
+    <filename>C:\wamp\php\ext</filename> by default. If you can not find it, look in the PHPINFO ("local value" for parameter 
+    extension_dir, visible in <filename>php.ini</filename> as well), you will notice something like <filename>C:/wamp/php/ext/</filename>.
       <itemizedlist>
         <listitem>
           <para>Restart Apache (left-click on the WAMP icon in the systray > Apache > Restart Service)</para>
@@ -103,15 +103,15 @@ extension=php_gettext.dll</screen>
             <itemizedlist>
               <listitem>
                 <para>Unzip gdal-1.2.5.zip, libcurl-7.10.7_dll.zip, xerces_dll.zip, ECW_DLL.zip, 
-                pdfdll.zip, libpq.zip in C:\WINNT\System32 if you are using Windows 2000/NT 
-                (C:\Windows\System32 for XP and C:\Windows\System for 95/98/Me)</para>
+                pdfdll.zip, libpq.zip in <filename>C:\WINNT\System32</filename> if you are using Windows 2000/NT 
+                (<filename>C:\Windows\System32</filename> for XP and <filename>C:\Windows\System</filename> for 95/98/Me)</para>
               </listitem>
               <listitem>
-                <para>Move php_mapscript_45.dll in the extensions folder of PHP (see PHPINFO, 
-                default is C:\wamp\php\ext). The file php_proj.dll is outdated, you can ignore it.</para>
+                <para>Move <filename>php_mapscript_45.dll</filename> in the extensions folder of PHP (see PHPINFO, 
+                default is <filename>C:\wamp\php\ext</filename>). The file <filename>php_proj.dll</filename> is outdated, you can ignore it.</para>
               </listitem>
               <listitem>
-                <para>Open php.ini and add a call to this extension:
+                <para>Open <filename>php.ini</filename> and add a call to this extension:
                 <screen>
 extension=php_mapscript_45.dll</screen>
                 </para>
