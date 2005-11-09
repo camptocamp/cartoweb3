@@ -428,11 +428,11 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
         A few demos are embedded in &cartoweb; to demonstrate the range of functionalities that &cartoweb; offers and give users examples on how to implement them:
         <itemizedlist>
           <listitem>
-            <para><emphasis>demoCW3</emphasis>: this is an overview of the standard functionalities 
+            <para><emphasis>demoCW3</emphasis> : this is an overview of the standard functionalities 
             that are somehow visible for an end-user in &cartoweb;,</para>
           </listitem>
           <listitem>
-            <para><emphasis>demoPlugins</emphasis>: it shows the new functionalities that 
+            <para><emphasis>demoPlugins</emphasis> : it shows the new functionalities that 
             are available in &cartoweb; since the latest version,</para>
           </listitem>
         </itemizedlist>
@@ -522,87 +522,127 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
         </listitem>
         <listitem>
           <formalpara>
-            <title>Integrate routing fonctionnalities and create database tables.</title>
-            <para>  
-              <itemizedlist>
-                <listitem>
-                  <formalpara>
-                    <title>Install the pgdijkstra plugin</title>
-                    <para>
-                      <note><para>
-                        To do so, 
-                        <itemizedlist>
-                          <listitem>
-                            <para>
-                              if you are on Debian, you can have a look at <xref linkend="appendix.debian_mapserver"/>
-                            </para>
-                          </listitem>
-                          <listitem>
-                            <para>
-                              instead, you can download the Pgdijkstra Routing Module file and follow the instructions
-                               given in the routing module README file at <ulink url="http://www.cartoweb.org/contribs.html"/>.
-                            </para>
-                          </listitem>
-                        </itemizedlist>
-                      </para></note>
-                    </para>
-                  </formalpara>
-                </listitem>
-                <listitem>
-                  <formalpara>
-                    <title>Execute the <emphasis>dijkstra.sql</emphasis> file to install the functions in 
-                    your database by typing:</title>
-                    <para>
-                      <screen><![CDATA[$ psql -d demo_plugins -f dijkstra.sql]]></screen>
-                    </para>
-                  </formalpara>
-                </listitem>
-                <listitem>
-                  <formalpara>
-                    <title>If you have PostGIS installed, you should launch <emphasis>dijkstra_postgis.sql</emphasis> :</title>
-                    <para>
-                      <screen><![CDATA[$ psql -d demo_plugins -f dijkstra_postgis.sql]]></screen>
-                    </para>
-                  </formalpara>
-                </listitem>
-                <listitem>
-                  <formalpara>
-                    <title>Import Europe road geodata in PostGIS, create its graph structure and configure 
-                    plugin routing database.</title>
-                    <para>
-                    To do so, simply execute the <emphasis>demo_routing.sql</emphasis> file, located 
-                    in the <filename>&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</filename> directory.
-                    <note><para>These steps are detailed in the next section.</para></note>
-                    </para>
-                  </formalpara>
-                </listitem>
-              </itemizedlist>
-            </para>
-          </formalpara>
-        </listitem>
-        <listitem>
-          <formalpara>
             <title>cw3setup.php Options</title>
             <para>
               To finish demoPlugins installation, you will have to specify optional parameters when launching <filename>cw3setup.php</filename>.
               To do so, you must create a file (for example <filename>demo.properties</filename>).
               In this file we find the server name, the database user name, the data user password, 
-              the routing database name, the database port, the demoLocation database name and the views 
+              the database port, the demoLocation database name and the views 
               database name.
               Here is an example of this file:
               <screen><![CDATA[
 DB_HOST = localhost
 DB_USER = www-data
 DB_PASSWD =
-DB_NAME = demo_plugins
 DB_PORT = 5432
 DB_SEARCH_NAME = demo_plugins]]></screen>
-              To use this file during &cartoweb; installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
-              option when you execute <filename>cw3setup.php</filename>.
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Execute <filename>cw3setup.php</filename></title> 
+            <para>
+              file, with the <emphasis>--config-from-file demo.properties</emphasis> option.
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Execute <filename>cw3setup.php</filename></title> 
+            <para>
+              file, with the <emphasis>--fetch-demo</emphasis> option to download geographic datas.
             </para>
           </formalpara>
         </listitem>
       </orderedlist>
+      <para>
+        <note><para>
+        Routing fonctionnalities are also integrated in this demo. But they necessite a configuration more advanced 
+        and the pgdijkstra plugin, so they aren't integrated in the basic installation.
+        The steps to integrate routing fonctionnalities and create database tables are descibed in next section.
+        </para></note>
+      </para>
+    </sect2>
+    <sect2 id="user.install.demo.routing">
+      <title>Routing specific installation</title>
+      <para>
+        <itemizedlist>
+          <listitem>
+            <formalpara>
+              <title>Install the pgdijkstra plugin</title>
+              <para>
+                <note><para>
+                  To do so, 
+                  <itemizedlist>
+                    <listitem>
+                      <para>
+                        if you are on Debian, you can directly install the pgdijkstra pgdijkstra PostgreSQL extension package.
+                        To do so, you can have a look at <xref linkend="appendix.debian_mapserver"/>.
+                      </para>
+                    </listitem>
+                    <listitem>
+                      <para>
+                        instead, you can download the Pgdijkstra Routing Module file and follow the instructions
+                        given in the routing module README file at <ulink url="http://www.cartoweb.org/contribs.html"/>.
+                      </para>
+                    </listitem>
+                  </itemizedlist>
+                </para></note>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Execute the <emphasis>dijkstra.sql</emphasis> file to install the functions in 
+              your database by typing:</title>
+              <para>
+                <screen><![CDATA[$ psql -d demo_plugins -f dijkstra.sql]]></screen>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>If you have PostGIS installed, you should launch <emphasis>dijkstra_postgis.sql</emphasis> :</title>
+              <para>
+                <screen><![CDATA[$ psql -d demo_plugins -f dijkstra_postgis.sql]]></screen>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Import Europe road geodata in PostGIS, create its graph structure and configure 
+              plugin routing database.</title>
+              <para>
+              To do so, simply execute the <emphasis>demo_routing.sql</emphasis> file, located 
+              in the <filename>&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</filename> directory.
+              <note><para>These steps are detailed in the next section.</para></note>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Complete the demo.properties file</title>
+              <para>
+                with the routing database name and the routing plugin activation parameter.
+                <screen><![CDATA[
+DB_NAME = demo_plugins
+ROUTING_PLUGINS= ,routing, demoRouting]]></screen>
+                To use this file during &cartoweb; installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
+                option when you execute <filename>cw3setup.php</filename>.
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Execute <filename>cw3setup.php</filename></title> 
+              <para>
+                file, with the <emphasis>--config-from-file demo.properties</emphasis> option.
+              </para>
+            </formalpara>
+          </listitem>
+        </itemizedlist>
+      </para>      
     </sect2>
     <sect2 id="user.install.demo.details">
       <title>Extensions Description</title>
