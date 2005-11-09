@@ -44,7 +44,7 @@ END
 SYMBOL
     NAME "triangle"
     TYPE VECTOR
-    FILLED TRUE
+    FILLED FALSE
     POINTS 0 1 .5 0 1 1 0 1 END
 END
 
