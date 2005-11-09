@@ -277,8 +277,8 @@
       <fieldset>
        <legend>{t}Data sources{/t}</legend>
        <ul>
-        <li>{t}Nima :{/t} <a href="http://geoengine.nima.mil/muse-cgi-bin/rast_roam.cgi">Vmap0</a></li>
-        <li>{t}Gtopo30 :{/t} <a href="http://edcdaac.usgs.gov/gtopo30/w020n90.asp">W020N90</a></li>
+        <li>{t}Nima :{/t} <a target="_blank" href="http://geoengine.nima.mil/geospatial/SW_TOOLS/NIMAMUSE/webinter/rast_roam.html">Vmap0</a></li>
+        <li>{t}Gtopo30 :{/t} <a  target="_blank" href="http://edc.usgs.gov/products/elevation/gtopo30/gtopo30.html">W020N90</a></li>
        </ul>
       </fieldset>
 
