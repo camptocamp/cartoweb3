@@ -17,7 +17,7 @@ defaultLang = fr
 langList = fr, en
 
 ; Indicates how to render toolbar
-toolbarRendering = class
+toolbarRendering = outline
 
 ; Views management
 viewOn = true
