@@ -20,7 +20,7 @@
     <para> Documentation is generated using script 
       <filename>makedoc.php</filename>: 
         <screen><![CDATA[cd scripts
-php ./makedoc.php]]></screen>
+php makedoc.php]]></screen>
         This will generate documentation in directory 
       <filename>CARTOWEB_HOME/documentation/apidoc</filename>. </para>
  </sect1>

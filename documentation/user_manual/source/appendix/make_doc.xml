@@ -135,7 +135,7 @@ $ export JAVA_HOME=dir_path_where_jre_is_put_on_your_system]]></screen>
    Documentation Generation on Windows using Cygwin
   </title>
   <para>
-   The only known way at this time to generate xhml or pdf version of the
+   At this time, the only known way to generate xhml or pdf version of the
    documentation on Windows is by using Cygwin.
   </para>
   <para>
