@@ -46,7 +46,8 @@ class ClientCheckInstall extends ClientPlugin {
             throw new CartoclientException('You need to install the demo data ' .
                     "in order to use the demo.\n Use the --fetch-demo parameter " .
                     "of the cw3setup.php installer, \n or have a look at the " .
-                    'CartoWeb documentation on http://www.cartoweb.org/'); 
+                    'CartoWeb Installation section of the manual on ' .
+                    'http://www.cartoweb.org/'); 
         }
     }
 
@@ -54,17 +55,22 @@ class ClientCheckInstall extends ClientPlugin {
      * Checks if the database configuration is ok, and shows a failure if not.
      */
     protected function checkDatabaseInstalled () {
-        $locationDsn = $this->getCartoclient()->getPluginManager()
-                            ->getPlugin('location')->getConfig()->dsn;
-        $routingDsn = $this->getCartoclient()->getPluginManager()
-                           ->getPlugin('routing')->getConfig()->dsn;
+        $locationPlugin = $this->getCartoclient()->getPluginManager()
+                            ->getPlugin('location');
+        $locationDsn = !is_null($locationPlugin) ? 
+                            $locationPlugin->getConfig()->dsn : '';
+                                
+        $routingPlugin = $this->getCartoclient()->getPluginManager()
+                           ->getPlugin('routing'); 
+        $routingDsn = !is_null($routingPlugin) ? 
+                            $routingPlugin->getConfig()->dsn : '';
 
         if (strpos($locationDsn, '@DB') !== false || 
             strpos($routingDsn, '@DB') !== false) {
             throw new CartoclientException('You need to install and configure' .
                     " a database to be able to use the demoPlugins project.\n" .
-                    'See cartoweb3/projects/demoPlugins/server_conf/' .
-                    'demoPlugins/sql/README.txt for instructions'); 
+                    'See the CartoWeb Installation section of the manual on ' .
+                    'http://www.cartoweb.org'); 
         }
     }
 
