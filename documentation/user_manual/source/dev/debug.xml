@@ -27,7 +27,7 @@
   </para>
   <para>
     The logging framework used for &cartoweb; is 
-      <ulink url="http://www.vxr.it/log4php/">Log4php</ulink>. Log4php is a portage
+      <ulink url="http://logging.apache.org/log4php/">Log4php</ulink>. Log4php is a portage
     to Php of the famous Log4j Java logging library. Thus, Log4php has lots 
     of similarities with Log4j, and users familiar with it will have no
     problems understanding it.
