@@ -132,7 +132,7 @@
         <listitem>
           <formalpara><title>From CVS:</title>
             <para>Get the current development version via CVS using the following command:
-            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public checkout cartoweb3]]></screen>
+            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public co cartoweb3]]></screen>
             </para>
           </formalpara>
           <formalpara><title>From CVS with cw3setup.php:</title>
@@ -306,7 +306,8 @@ List of options:
             <para>
               <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
               :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
-              --fetch-from-cvs --delete-existing --base-url http://www.example.com/cartoweb</screen>
+              --fetch-from-cvs --delete-existing
+              --base-url http://www.example.com/cartoweb</screen>
               <warning><para>This command will automatically delete the existing <filename>cartoweb3/</filename> folder! Be sure to backup 
               the files and projects you wish to keep.</para></warning>
               <note>
@@ -677,22 +678,23 @@ $ SELECT assign_vertex_id('roads_europe', 1);]]></screen>
 $ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe limit 3;
  
   gid  | source_id | target_id | edge_id |                              AStext
--------+-----------+-----------+---------+------------------------------------------------------------------
- 13115 |     11051 |     11099 |      14 | MULTILINESTRING((1062096.06 4861316.234,1061616.495 4860772.073))
- 12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,248423.861 4779852.646,
-                                                             248311.216 4779866.142,246918.803 4780025.504))
- 12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,255197.548 4780850.435))
+-------+-----------+-----------+---------+----------------------------------------------
+ 13115 |     11051 |     11099 |      14 | MULTILINESTRING((1062096.06 4861316.234,...))
+ 12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,...))
+ 12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,...))
 (3 lignes)]]></screen>
             But if the data quality is poor, you need to delete the duplicates edges (they have the same
             source-target pairs of vertices).
             For example, to check that you have duplicated edges, you can type:
             <screen><![CDATA[
-$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by source_id, target_id order by c)
+$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by 
+source_id, target_id order by c)
 AS foo where foo.c = 2;]]></screen>
             If there is duplicated edges, to delete one of two rows, you can type: 
             <screen><![CDATA[
-$ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in (SELECT gid FROM 
-(SELECT DISTINCT on (source_id, target_id) source_id, gid FROM roads_europe) AS doublon);
+$ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in
+(SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid 
+FROM roads_europe) AS doublon);
 $ DELETE FROM roads_europe;
 $ INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
 $ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
@@ -741,7 +743,8 @@ $ CREATE TABLE routing_results (
     "timestamp" bigint,
     gid integer
   );
-$ SELECT AddGeometryColumn('','routing_results','the_geom','-1','MULTILINESTRING',2);]]></screen>
+$ SELECT AddGeometryColumn('','routing_results','the_geom','-1',
+'MULTILINESTRING',2);]]></screen>
                 </para>
               </listitem>
               <listitem>
@@ -773,7 +776,8 @@ LAYER
   TRANSPARENCY 80
   CONNECTIONTYPE postgis
     CONNECTION "user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@ dbname=@DB_NAME@"
-    DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique gid using srid=-1"
+    DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique
+    gid using srid=-1"
   TEMPLATE "t"
   CLASS
     NAME "0"
