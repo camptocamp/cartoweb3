@@ -18,19 +18,11 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 {/if}
 
 {if $group == 1}
-<tr align="left" valign="middle">
-  <td style="padding:5px">
   <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
   <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';document.carto_form.submit();">
-    <img src="{r type=gfx/layout}fullextent.gif{/r}"
+    <img src="{r type=gfx/layout}fullextent.gif{/r}" style="padding:5px;"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
   </a>
-  </td>
-</tr>
-{/if}
-
-{if $group == 3}
-    <tr align="center">
 {/if}
 
 {counter start=-1 print=false name=tindex}
@@ -43,8 +35,6 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
     {/if}
     {if $tool->hasIcon}
     {if $group != 3}
-    <tr align="center">
-      <td>
       <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
         src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
         {if $toolbar_rendering != 'radio'}
@@ -52,10 +42,7 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
         onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
         {/if}
         />
-      </td>
-    </tr>
     {else}
-    <td style="padding:5px">
       <img id="{$tool->id}_icon" alt="{$tool->id}" title="{t}{$tool->id}{/t}" 
         src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
         {if $toolbar_rendering != 'radio'}
@@ -63,7 +50,6 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
         onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
         {/if}
         />
-    </td>
     {/if}
     {else}
        <span>{t}{$tool->id}{/t}</span>
@@ -74,19 +60,13 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
   {/if}
   {/foreach}
 
-  {if $group == 4}
-  <tr>
-    <td style="padding:5px;padding-left:1px;">
+  {if $group == 4} 
     <a href="javascript:ontop(6);">
-      <img  style="margin-left:5px;" src="{r type=gfx/layout}help.png{/r}"
-      title="{t}Help{/t}" alt="{t}help{/t}" />
+      <img src="{r type=gfx/layout}help.png{/r}"
+      title="{t}Help{/t}" alt="{t}help{/t}"style="padding:4px;" />
     </a>
-    </td>
-  <tr>
-    <td style="padding:5px;padding-top:1px;">
     <a href="javascript:resetSession();">
-      <img src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" />
+      <img src="{r type=gfx/layout}reset_session.png{/r}"
+      alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding:3px;"/>
     </a>
-    </td>
-  </tr>
   {/if}

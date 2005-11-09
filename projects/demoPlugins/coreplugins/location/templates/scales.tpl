@@ -1,4 +1,3 @@
-<p>
 <h1>{t}Scale :{/t}</h1>
 {if $recenter_noscales}
 <input type="hidden" id="recenter_doit" name="recenter_doit" value="1" />
@@ -12,4 +11,3 @@ onchange="javascript:document.carto_form.recenter_doit.value=1;FormItemSelected(
 output=$recenter_scaleLabels}
 {/if}
 </select>
-</p>

@@ -78,7 +78,6 @@
         </td>
         <td width="40%" align="center">
           {if $viewsList|default:''}
-          <p>
             <h1>{t}Views :{/t}</h1>
             <select name="viewBrowseId" onchange="javascript:loadView();">
             {html_options options=$viewsList selected=$selectedView}
@@ -87,7 +86,6 @@
             {if !$views}
             <input type="hidden" name="handleView" value="0" />
             {/if}
-          </p>
           {/if}
         </td>
         <td width="30%" align="center">
@@ -104,8 +102,10 @@
     <td id="toolbar_row" valign="top" width="30px" align="center">
       <br /><br />
       <table cellpadding="0" cellspacing="1" border="0">
-      {include file="toolbar.tpl" group="1" header="1"}
-      {include file="toolbar.tpl" group="4"}
+        <tr><td>  
+          {include file="toolbar.tpl" group="1" header="1"}
+          {include file="toolbar.tpl" group="4"}
+        </td></tr>
       </table>
     </td>
     <td>
@@ -302,7 +302,9 @@
        <br />
        <center>
        <table cellpadding="0" cellspacing="1" border="0">
-       {include file="toolbar.tpl" group="3"}
+         <tr><td>
+           {include file="toolbar.tpl" group="3"}
+         </td></tr>
        </table>
        <br />
        <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
@@ -404,6 +406,7 @@
     Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
     &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
     </td>
+    </tr>
   </table>
   </td>
 </tr>

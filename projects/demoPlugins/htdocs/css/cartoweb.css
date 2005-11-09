@@ -316,3 +316,8 @@ select {
 .help_viewer {
   text-align:left;
 }
+
+.viewTitle {
+  position:relative;
+  left:10px;
+}

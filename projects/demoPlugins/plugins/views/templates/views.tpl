@@ -5,7 +5,7 @@ var deleteMsg = '{t}Are you sure you want to delete view #{/t}';
 var qMark = '{t}?{/t}';
 //-->
 </script>
-<div id="viewMsg" style="position:relative;left:10px;"><h1>{t}Go to view{/t}</h1></div>
+<div class="viewTitle"><h1>{t}Go to view{/t}</h1></div>
 <div style="position:relative;left:20px;">
   {if $viewOptions}
   <select name="viewLoadTitleId">
@@ -19,7 +19,7 @@ var qMark = '{t}?{/t}';
 </div>
 
 <br /><br />
-<div id="viewMsg" style="position:relative;left:10px;">{if $viewMsg}<h1>{$viewMsg}</h1>
+<div class="viewTitle">{if $viewMsg}<h1>{$viewMsg}</h1>
 {else}<h1>{t}New view{/t}</h1>{/if}</div>
 <div style="position:relative;left:20px;">
   {if $viewId}
