@@ -100,9 +100,11 @@ class ClientHello extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
 
-        $template->assign('hello_active', true);
-        $template->assign('hello_message', "message: " . $this->message . 
-                          " count: " . $this->count);
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+        $template->assign(array('hello_active'  => true,
+                                'hello_message' => $message));
     }
 }
 ?>
