@@ -86,7 +86,7 @@ extension=php_gettext.dll</screen>
     </para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.windows_manual_install.mapserver">
     <title>Mapserver/Mapscript Install</title>
     <para>You need a Mapscript version compiled for PHP5/Win32. You can get one here: 
       <ulink url="http://www.maptools.org/dl/mapserver-4.5-win32-php5.0.3.zip"/>
