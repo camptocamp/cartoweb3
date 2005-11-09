@@ -160,8 +160,8 @@ ClientContext:
         <input type="hidden" name="project" value="{$project}" />
       {/if}
          
-      <input type="submit" id="refresh" name="refresh" value="refresh" class="form_button" />
-      <input type="submit" name="reset_session" value="reset_session" class="form_button" 
+      <input type="submit" id="refresh" name="refresh" value="{t}refresh{/t}" class="form_button" />
+      <input type="submit" name="reset_session" value="{t}reset_session{/t}" class="form_button" 
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
     <div>
