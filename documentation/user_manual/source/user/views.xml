@@ -62,7 +62,7 @@
      </listitem>
      <listitem>
       <para>
-       <parameter>viewablePlugins</parameter> (comma-separated list of strings): list of plugins that must have their data saved in views. Note that "viewable" plugins must implement the Sessionable interface.
+       <parameter>viewablePlugins</parameter> (comma-separated list of strings): list of plugins that must have their data saved in views. Note that "viewable" plugins must implement the Sessionable interface. If you wish to save data from extended plugins, you must add the extended plugin to the list, not the standard one (eg. <filename>myLocation</filename> instead of <filename>location</filename>).
       </para>
      </listitem>
      <listitem>
