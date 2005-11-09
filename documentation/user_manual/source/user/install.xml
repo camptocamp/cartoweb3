@@ -445,7 +445,10 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
     <sect2 id="user.install.demo.quickinstall">
       <title>Installation</title>
       <para>
-        To install the demoCW3 project, you only need to gather the data by adding the <emphasis>--fetch-demo</emphasis> option when launching <emphasis>cw3setup.php</emphasis>.
+        Before installing these demos, you need to have a working &cartoweb; installation. You can refer to the previous chapters how to install it.
+      </para>
+      <para>
+        To install the demoCW3 project, you need to gather the data by launching the <emphasis>cw3setup.php</emphasis> with the <emphasis>--fetch-demo</emphasis> option.
       </para>
       <para>
         On the other hand, the demoPlugins project uses plugins that work with databases. Consequently some databases settings and configuration are required. 
@@ -524,26 +527,18 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
           <formalpara>
             <title>cw3setup.php Options</title>
             <para>
-              To finish demoPlugins installation, you will have to specify optional parameters when launching <filename>cw3setup.php</filename>.
-              To do so, you must create a file (for example <filename>demo.properties</filename>).
-              In this file we find the server name, the database user name, the data user password, 
-              the database port, the demoLocation database name and the views 
-              database name.
-              Here is an example of this file:
-              <screen><![CDATA[
-DB_HOST = localhost
-DB_USER = www-data
-DB_PASSWD =
-DB_PORT = 5432
-DB_SEARCH_NAME = demo_plugins]]></screen>
-            </para>
-          </formalpara>
-        </listitem>
-        <listitem>
-          <formalpara>
-            <title>Execute <filename>cw3setup.php</filename></title> 
-            <para>
-              file, with the <emphasis>--config-from-file demo.properties</emphasis> option.
+              To finish demoPlugins installation, you will need to launch the <filename>cw3setup.php</filename>
+              with the <emphasis>--config-from-file</emphasis> parameter pointing to a property file 
+              containing database configuration informations. Such a file is provided in the 
+              <filename>cartoweb3/projects/demoPlugins/demo.properties</filename> file. You need to edit this file
+              and change the parameter to match your environment. In particular the <emphasis>DB_HOST</emphasis>, 
+              <emphasis>DB_USER</emphasis>, <emphasis>DB_PASSWD</emphasis> and <emphasis>DB_PORT</emphasis> options
+              need to match your database access configuration. This file contains comments about the description
+              of each variables.
+              Here's an example how to call the <emphasis>cw3setup.php</emphasis> script with the 
+              <emphasis>--config-from-file</emphasis> option.
+              <screen><![CDATA[php cw3setup.php --install --base-url http://www.example.com/cartoweb 
+                --config-from-file projects/demoPlugins/demo.properties]]></screen>
             </para>
           </formalpara>
         </listitem>
@@ -558,8 +553,8 @@ DB_SEARCH_NAME = demo_plugins]]></screen>
       </orderedlist>
       <para>
         <note><para>
-        Routing fonctionnalities are also integrated in this demo. But they necessite a configuration more advanced 
-        and the pgdijkstra plugin, so they aren't integrated in the basic installation.
+        Routing fonctionnalities are also integrated in this demo. But they necessite a  more advanced configuration
+        and the Pgdijkstra module installed in the database, so they aren't integrated in the basic installation.
         The steps to integrate routing fonctionnalities and create database tables are descibed in next section.
         </para></note>
       </para>
@@ -570,14 +565,14 @@ DB_SEARCH_NAME = demo_plugins]]></screen>
         <itemizedlist>
           <listitem>
             <formalpara>
-              <title>Install the pgdijkstra plugin</title>
+              <title>Install the Pgdijkstra PostgreSQL module</title>
               <para>
                 <note><para>
                   To do so, 
                   <itemizedlist>
                     <listitem>
                       <para>
-                        if you are on Debian, you can directly install the pgdijkstra pgdijkstra PostgreSQL extension package.
+                        if you are on Debian, you can directly install the Pgdijkstra PostgreSQL extension module.
                         To do so, you can have a look at <xref linkend="appendix.debian_mapserver"/>.
                       </para>
                     </listitem>
@@ -622,14 +617,9 @@ DB_SEARCH_NAME = demo_plugins]]></screen>
           </listitem>
           <listitem>
             <formalpara>
-              <title>Complete the demo.properties file</title>
+              <title>Edit the <filename>cartoweb3/projects/demoPlugins/demo.properties</filename> file</title>
               <para>
-                with the routing database name and the routing plugin activation parameter.
-                <screen><![CDATA[
-DB_NAME = demo_plugins
-ROUTING_PLUGINS= ,routing, demoRouting]]></screen>
-                To use this file during &cartoweb; installation, specify the <emphasis>--config-from-file demo.properties</emphasis>
-                option when you execute <filename>cw3setup.php</filename>.
+                and uncomment the line beginning with <emphasis>;ROUTING_PLUGINS</emphasis>
               </para>
             </formalpara>
           </listitem>
@@ -637,7 +627,8 @@ ROUTING_PLUGINS= ,routing, demoRouting]]></screen>
             <formalpara>
               <title>Execute <filename>cw3setup.php</filename></title> 
               <para>
-                file, with the <emphasis>--config-from-file demo.properties</emphasis> option.
+                file, with the <emphasis>--config-from-file</emphasis> option as
+                described in the previous steps.
               </para>
             </formalpara>
           </listitem>
