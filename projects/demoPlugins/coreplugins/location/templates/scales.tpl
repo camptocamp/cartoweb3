@@ -1,5 +1,5 @@
 <p>
-<label>{t}Scale :{/t}</label><br />
+<h1>{t}Scale :{/t}</h1>
 {if $recenter_noscales}
 <input type="hidden" id="recenter_doit" name="recenter_doit" value="1" />
 <input type="text" id="input_text" name="recenter_scale" size="10" 

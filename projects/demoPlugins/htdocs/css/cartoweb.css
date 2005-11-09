@@ -12,6 +12,13 @@ legend {
   font-size:12px;
 }
 
+h1 {
+  font-family:Arial,Helvetica,sans-serif;
+  color:#333333;
+  font-size:12px;
+  font-weight:bold;
+}
+
 a {color:black; text-decoration:none;}
 a:link, a:visited {color:#06c;}
 a:hover {color:#f00}

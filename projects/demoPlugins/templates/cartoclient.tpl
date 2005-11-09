@@ -79,7 +79,7 @@
         <td width="40%" align="center">
           {if $viewsList|default:''}
           <p>
-            <label>{t}Views :{/t}</label><br />
+            <h1>{t}Views :{/t}</h1>
             <select name="viewBrowseId" onchange="javascript:loadView();">
             {html_options options=$viewsList selected=$selectedView}
             </select></p>
@@ -199,7 +199,6 @@
         </td>
       </tr>
       {/if}
-      
       {if $developer_messages|default:''}
       <tr>
        <td colspan="3" align="center">

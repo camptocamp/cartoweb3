@@ -5,11 +5,20 @@ var deleteMsg = '{t}Are you sure you want to delete view #{/t}';
 var qMark = '{t}?{/t}';
 //-->
 </script>
-
-<div id="viewMsg" style="font-family:Arial,Helvetica,sans-serif;color:#333333;font-size:12px;
-font-weight:bold;position:relative;left:10px;">{if $viewMsg}{$viewMsg}{else}{t}New view{/t}{/if}</div>
-
-<br />
+<div id="viewMsg" style="position:relative;left:10px;"><h1>{t}Go to view{/t}</h1></div>
+{if $viewOptions}
+<div style="position:relative;left:20px;">
+<select name="viewLoadTitleId">
+  {html_options options=$viewOptions selected=$viewId}
+</select>
+<input type="submit" name="viewLoad" value="{t}Load view{/t}"
+onclick="javascript:setHandleView();" class="form_button" style="vertical-align:middle;margin-left:10px;" />
+{else}
+{t}No view available{/t}
+{/if}
+</div>
+<br /><br />
+<div id="viewMsg" style="position:relative;left:10px;">{if $viewMsg}<h1>{$viewMsg}</h1>{else}<h1>{t}New view{/t}</h1>{/if}</div>
 <div style="position:relative;left:20px;">
   {if $viewId}
   <div><label for="viewActive">{t}Memorize form{/t}</label><input 
@@ -44,3 +53,4 @@ value="{strip}{if $viewId}{t}Save as new view{/t}{else}{t}Save view{/t}{/if}{/st
 <input type="hidden" name="viewDelete" value="0" />
 <input type="button" name="viewDeleteButton" value="{t}Delete view #{/t} {$viewId}" onclick="javascript:checkBeforeDelete({$viewId});" class="form_button" />
 {/if}
+<br />
