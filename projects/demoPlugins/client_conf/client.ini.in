@@ -10,7 +10,8 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, routing, demoRouting, checkInstall
+loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, checkInstall
+;routing, demoRouting => to uncomment to integrate routing fonctionalities
 
 ;## Internationalization ##
 defaultLang = fr

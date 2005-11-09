@@ -9,8 +9,6 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
-  <link rel="stylesheet" type="text/css" href="{r type=css}toolbar.css{/r}" />
-
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
   
   <title>{t}CartoWeb3 - Demonstration{/t}</title>
@@ -81,7 +79,7 @@
         <td width="40%" align="center">
           {if $viewsList|default:''}
           <p>
-            <label>{t}Views:{/t}</label><br />
+            <label>{t}Views :{/t}</label><br />
             <select name="viewBrowseId" onchange="javascript:loadView();">
             {html_options options=$viewsList selected=$selectedView}
             </select></p>
@@ -89,8 +87,8 @@
             {if !$views}
             <input type="hidden" name="handleView" value="0" />
             {/if}
-            {/if}
-          </p> 
+          </p>
+          {/if}
         </td>
         <td width="30%" align="center">
           {if $mapsizes_active|default:''}
@@ -251,7 +249,7 @@
    </table>
    </div>
    </td>
-   <td width="260px" valign="top" nowrap="nowrap" rowspan="2">
+   <td width="280px" valign="top" nowrap="nowrap" rowspan="2">
      <div>
        <ul id="tabnav2">
          {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
@@ -264,7 +262,6 @@
          {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
        </ul>
      </div>
-
 
      <div id="container">
      <!-- folder 1 starts here -->
@@ -280,21 +277,21 @@
      <!-- folder 3 starts here -->
      <div id="folder3" class="folder">
        <br />
+       {if $routing_active|default:''}
        <fieldset>
        <legend>{t}A route{/t}</legend>
-       {if $routing_active|default:''}
          {$routing}
-       {/if}
        </fieldset>
        <br />
+       {/if}
+       {if $id_recenter_active|default:''}
        <fieldset>
        <legend>{t}A geographic object{/t}</legend>
        <br />
-       {if $id_recenter_active|default:''}
          {$id_recenter}
-       {/if}
        </fieldset>
-          
+       {/if}
+       
        {if $exporthtml_active|default:''}
          <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
        {/if}
