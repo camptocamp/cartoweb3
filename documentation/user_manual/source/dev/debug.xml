@@ -30,11 +30,11 @@
       <ulink url="http://www.vxr.it/log4php/">Log4php</ulink>. Log4php is a portage
     to Php of the famous Log4j Java logging library. Thus, Log4php has lots 
     of similarities with Log4j, and users familiar with it will have no
-    problems understaning it.
+    problems understanding it.
   </para>
   <sect2 id="dev.debug.log.config">
     <title>Log4php Configuration Files</title>
-    <para>Log4php settings are cusomizable in the 
+    <para>Log4php settings are customizable in the 
       <filename>client_conf/cartoclientLogger.properties</filename>
       configuration file on the &cartoclient; and 
       <filename>server_conf/cartoserverLogger.properties</filename>
@@ -53,7 +53,7 @@
       to the <filename>log</filename> directory of the &cartoweb; distribution.
     </para>
     <para>
-      One powerful feature of Log4php, amon others, is the ability to filter 
+      One powerful feature of Log4php, among others, is the ability to filter 
       log message according to their severity. Each log message has a severity
       which may be <literal>ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF</literal>.
       As described in the configuration file comments, the lines like 
@@ -100,13 +100,11 @@ class MyClass {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         [ ... ]
         parent::__construct();
-    }              
-             ]]>  </programlisting>
+    }]]>  </programlisting>
             For non object, a reference to a <classname>Logger</classname>
             object can be obtained this way:
                 <programlisting><![CDATA[
-  $log =& LoggerManager::getLogger(__METHOD__);
-                ]]>  </programlisting>
+  $log =& LoggerManager::getLogger(__METHOD__);]]>  </programlisting>
                 <tip>
                   <para>
                     Using <constant>__METHOD__</constant> allows the same line
@@ -123,8 +121,7 @@ class MyClass {
            message to log. Example:
                      <programlisting><![CDATA[
   $this->log->debug('My Message'); // Inside objects
-  $log->warn('My Message');       // Outside objects
-                ]]>  </programlisting>
+  $log->warn('My Message');        // Outside objects]]>  </programlisting>
            </para>
         </listitem>
       </orderedlist>
@@ -137,14 +134,14 @@ class MyClass {
   <title>Debugging</title>
   <para>
     Debugging is a large topic. Everyone has its preference over the tool to
-    be used like using an integraded debugging tool inside an <acronym>IDE</acronym>,
+    be used like using an integrated debugging tool inside an <acronym>IDE</acronym>,
     using print statements, code printing and reading, ...
     Because of this, this section does not tells what tools to use, but rather
     gives some tips when debugging.
   </para>
   <sect2 id="dev.debug.debug.stacktraces">
     <title>Understanding Exceptions and Stack Traces</title>
-    <para>When a failure is encoutered in &cartoweb; the Php5 mechanism for
+    <para>When a failure is encountered in &cartoweb; the Php5 mechanism for
       exceptions handling is used to manage exception and display stack
       traces. People knowing the <trademark>Java</trademark> 
       language will be familiar with such stack traces. The following example
@@ -178,8 +175,7 @@ file: 58 - /var/www/cartoweb3/server/ServerPluginHelper.php
 call: ServerQuery->handlePreDrawing(Object(Bbox), Object(QuerySelection))
 
 file: 96 - /var/www/cartoweb3/server/ServerPluginHelper.php
-call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]>
-    </screen>
+call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]></screen>
       </para>
   </sect2>
   <sect2 id="dev.debug.debug.directmode">
@@ -187,8 +183,8 @@ call: ClientResponderHelper->callHandleFunction(Object(QueryRequest))]]>
     <para>In some situations, a fatal error on the server will display a 
       message with not much verbosity:<screen>Failure
 
-class:   SoapFault
-message:   parse error, unexpected T_VARIABLE</screen> 
+class: SoapFault
+message: parse error, unexpected T_VARIABLE</screen> 
         The fact no line number and Php file is displayed is a
         limitation of the Php SOAP implementation (workarounds are 
         welcomed ;-) ).</para>
