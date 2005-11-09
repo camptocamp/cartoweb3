@@ -114,7 +114,7 @@
   <sect2 id="intro.archi.modular.plugins">
    <title>Plugins</title>
    <para>
-    &cartoweb; buzzword is modularity. The application is built as a set of bricks that interact with each other. Those bricks are called "plugins". Each plugin performs a special group of tasks such as map browsing, layers management, images properties, users permissions, data objects querying, exportations and much more. &cartoweb; is shipped with a set of standard plugins that can be separately activated or not. It is possible to write your own plugins or customize existing ones as well.
+    &cartoweb; buzzword is modularity. The application is built as a set of bricks that interact with each other. Those bricks are called "plugins". Each plugin performs a special group of tasks such as map browsing, layers management, images properties, users permissions, data objects querying, exportation and much more. &cartoweb; is shipped with a set of standard plugins that can be separately activated or not. It is possible to write your own plugins or customize existing ones as well.
    </para>
    <screenshot>
     <mediaobject>
