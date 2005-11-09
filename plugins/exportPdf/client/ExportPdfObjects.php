@@ -246,7 +246,7 @@ class PdfGeneral {
     /**
      * @var int
      */
-    public $mapServerResolution = 96;
+    public $mapServerResolution;
 
     /**
      * @var int

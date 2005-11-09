@@ -119,6 +119,9 @@ class ClientExportPdf extends ExportPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($exportPdfInit) {
+        if (empty($exportPdfInit->mapServerResolution)) {
+            throw new CartoclientException('MapServer resolution is missing.');
+        }
         $this->mapServerResolution = $exportPdfInit->mapServerResolution;
     }
 
@@ -460,9 +463,13 @@ class ClientExportPdf extends ExportPlugin
     protected function setGeneral($iniObjects, $request = array()) {
     
         $this->general = new PdfGeneral;
-        $this->general->mapServerResolution = $this->mapServerResolution;
-        
         $this->overrideProperties($this->general, $iniObjects->general);
+        
+        if (empty($this->mapServerResolution)) {
+            throw new CartoclientException(
+                'Plugin exportPdf is not activated on your CartoServer.');
+        }
+        $this->general->mapServerResolution = $this->mapServerResolution;
         
         $simple = (count($request) != 0);
         $this->general->formats = $this->getArrayFromList(
