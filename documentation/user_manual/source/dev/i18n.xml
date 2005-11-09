@@ -128,8 +128,8 @@ $textToDisplay = Encoder::decode($encodedText);]]></programlisting> </para>
       <listitem>
         <para>on client or server when calling an external module, eg. 
           Mapserver for a query:<programlisting><![CDATA[
-$textToUseInMapserver = Encoder::decode($encodedText, 'config');]]> 
-          </programlisting> </para>
+$textToUseInMapserver = Encoder::decode($encodedText, 'config');]]></programlisting>
+        </para>
       </listitem>
     </itemizedlist>
     <para> Note that function <function>I18n::gt()</function> takes an encoded 
