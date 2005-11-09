@@ -138,7 +138,7 @@ Exec total        = 1524]]></screen> <itemizedlist><listitem><para>Exec client:
     <sect2 id="dev.performance.executing.cachegrind">
       <title>Graphical Interface (Unix-like)</title>
       <para>To have more information about execution times and calls stack, you 
-        can use a powerfull graphical viewer called KCachegrind. This tool is 
+        can use a powerful graphical viewer called KCachegrind. This tool is 
         available on Unix-like environments only. On Win32, it can be used via 
         KDE on CygWin.</para>
       <para>KCachegrind is included in KDE (package kdesdk). To install it on a 
