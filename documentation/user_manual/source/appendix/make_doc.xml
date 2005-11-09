@@ -146,7 +146,7 @@ $ export JAVA_HOME=dir_path_where_jre_is_put_on_your_system]]></screen>
    .
   </para>
   <para>
-   Then follow the same instructions as for UNIX-like system<xref linkend=
+   Then follow the same instructions as for UNIX-like system <xref linkend=
    "appendix.make_doc.unix"/>.
   </para>
  </sect1>
