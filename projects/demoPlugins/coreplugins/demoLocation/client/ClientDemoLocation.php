@@ -56,7 +56,12 @@ class ClientDemoLocation extends ClientLocation {
      */
     protected $nbResults = 0;
         
-        
+    /**
+     * @var string
+     */    
+    protected $idRecenterLayer = '';
+    
+    
     /**
      * Constructor
      */
@@ -133,6 +138,7 @@ class ClientDemoLocation extends ClientLocation {
         
         Utils::checkDbError($res, 'Error quering search on names database');
         
+        $list = array();
         while ($res->fetchInto($row)) {
             $list[$row[1]] = $row[0];
         }
@@ -147,24 +153,26 @@ class ClientDemoLocation extends ClientLocation {
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);
         
-        $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
+        $this->idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
         $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');
         $this->inputNameRecenter = 
             $this->getHttpValue($request, 'input_name_recenter');
         
+        /*If the number of names possibilities according to the input of the user is
+        one, the search by ids is directly launched. Instead, the list of possibilities
+        is shown to the user*/
         if ($this->inputNameRecenter != ''){   
-            $this->idRecenterIdsList = $this->namesList($idRecenterLayer,
+            $this->idRecenterIdsList = $this->namesList($this->idRecenterLayer,
                                                         $this->inputNameRecenter);
             $this->nbResults = count($this->idRecenterIdsList);
             if ($this->nbResults == 1) {
-                $this->value_alone = array_search(strtoupper($this->input),
-                                                  $this->inputList);
+                $idRecenterIds = array_search(strtoupper($this->inputNameRecenter),
+                                                  $this->idRecenterIdsList);
             }
             $this->idRecenterActive = true;
         }
-        
-        
-        if ($idRecenterLayer && $idRecenterIds) {
+                
+        if ($this->idRecenterLayer && $idRecenterIds) {
             
             $ids = explode(',', $idRecenterIds);
             
@@ -175,7 +183,7 @@ class ClientDemoLocation extends ClientLocation {
                     if (! $layer instanceof Layer) {
                         continue;
                     }
-                    if ($idRecenterLayer == $layer->id) {
+                    if ($this->idRecenterLayer == $layer->id) {
                         $found = true;
                     }
                 }
@@ -196,7 +204,7 @@ class ClientDemoLocation extends ClientLocation {
             }
                 
             $idSelection = new IdSelection();
-            $idSelection->layerId = $idRecenterLayer;
+            $idSelection->layerId = $this->idRecenterLayer;
             $this->locationState->idRecenterSelected = $idSelection->layerId;
             $idSelection->selectedIds = $ids;
                 
@@ -236,11 +244,10 @@ class ClientDemoLocation extends ClientLocation {
             $layersId[] = $layer->id; 
             $layersLabel[] = I18n::gt($layer->label); 
         }
-
-        if (!empty($this->locationState->idRecenterSelected)) {
-            $idRecenterSelected = $this->locationState->idRecenterSelected;
-        } else {
+        if (empty($this->idRecenterLayer)) {
             $idRecenterSelected = $layersId[0];
+        }else{
+            $idRecenterSelected = $this->idRecenterLayer;
         }
         
         $this->smarty->assign(
