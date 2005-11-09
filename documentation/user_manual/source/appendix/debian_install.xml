@@ -11,8 +11,8 @@
   <title>Mapserver Debian Installation</title>
   <para>Some Debian packages are available for Php5 and Mapserver<footnote>
     <para>Some of the packages were inspired from 
-      <ulink url="http://agrogeomatic.educagri.fr/"/></para>
-    </footnote>.
+      <ulink url="http://agrogeomatic.educagri.fr/"/>.</para>
+    </footnote>
   </para>
   
   <sect1>
