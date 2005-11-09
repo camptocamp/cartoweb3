@@ -29,7 +29,6 @@ onchange="javascript:updateResolutions({$pdfResolution_selected});">
 {html_options options=$pdfFormat_options selected=$pdfFormat_selected}
 </select>
 &nbsp;&nbsp;&nbsp;
-<select name="pdfFormat">
 {html_options name="pdfResolution" options=$pdfResolution_options 
 selected=$pdfResolution_selected}</select></fieldset></div>
 
@@ -74,6 +73,6 @@ checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
 {/if}
 
 <center>
-  <input type="submit" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
+  <input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)"/>
 </center>
 </div>
