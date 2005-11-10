@@ -545,6 +545,14 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
         </listitem>
         <listitem>
           <formalpara>
+            <title>Execute <filename>cw3setup.php</filename></title> 
+            <para>
+              file, with the <emphasis>--fetch-demo</emphasis> option to download geographic datas.
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
             <title>cw3setup.php Options</title>
             <para>
               To finish demoPlugins installation, you will need to launch the <filename>cw3setup.php</filename>
@@ -559,14 +567,6 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
               <emphasis>--config-from-file</emphasis> option.
               <screen><![CDATA[php cw3setup.php --install --base-url http://www.example.com/cartoweb 
                 --config-from-file projects/demoPlugins/demo.properties]]></screen>
-            </para>
-          </formalpara>
-        </listitem>
-        <listitem>
-          <formalpara>
-            <title>Execute <filename>cw3setup.php</filename></title> 
-            <para>
-              file, with the <emphasis>--fetch-demo</emphasis> option to download geographic datas.
             </para>
           </formalpara>
         </listitem>
