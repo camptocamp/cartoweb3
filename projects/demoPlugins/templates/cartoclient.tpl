@@ -257,7 +257,7 @@
        </ul>
        <ul id="tabnav1">
          <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
-         <li id="label3"><a href="javascript:ontop(3)">{t}SearchTab{/t}</a></li>
+         <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
          {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
        </ul>
      </div>
@@ -334,8 +334,22 @@
     
      <!-- folder 6 starts here -->
      <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
-       <p><i>{t}This demo is an overview of the new functionalities that are available in Cartoweb since the 3.1 version. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
+       <p><i>{t}This demo is an overview of the new functionalities that are available in Cartoweb since the last version. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
        <br />
+       <table class="table_help" cellpadding="0" cellspacing="0">
+         <tr><td>
+           <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
+         </td></tr>
+       </table>
+       <p class="help_viewer">
+         {t}This tab allows you to do a search on :{/t}<br />
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}a route{/t}</span> :
+         {t} this option allows you to find the shortest route between two european towns. You simply need to select a town from where to start and 
+         an other to finish.{/t}<br />
+         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}a geographic object{/t}</span> :
+         {t}if you want to move to an european district, suburb, town or airport, simply select this geographic layer
+         and type the corresponding name.{/t}
+       </p><br />
        <table class="table_help" cellpadding="0" cellspacing="0">
          <tr><td>
            <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Views tab{/t}" /><strong>&nbsp;{t}Views tab{/t}</strong><br />
@@ -359,8 +373,6 @@
          If your changes only concern metadata, simply update the dedicated form fields and push the "Update" button.
          To update the view map properties, check the "Memorize form" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the "Update" button.{/t}
       </p><br />
-    
-    
       <table  class="table_help" cellpadding="0" cellspacing="0">
         <tr><td>
           <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Layers reorder tab{/t}" /><strong>&nbsp;{t}Layers reorder tab{/t}</strong><br />
@@ -374,6 +386,7 @@
       </p><br />
       <hr />
       {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/doc_head/docbook/xhtml/" target="_blank">{t}Cartoweb Documentation{/t}</a>
+      <br /><br />
     </div>
     <!-- end of floder 6 -->
     

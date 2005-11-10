@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-27 16:12+0200\n"
+"POT-Creation-Date: 2005-11-10 11:39+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,6 @@ msgid "In Query"
 msgstr "Requête"
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
 msgid "Mask"
 msgstr ""
 
@@ -207,6 +206,7 @@ msgid "Landscape"
 msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+#: projects/demoPlugins/plugins/views/templates/views.tpl
 msgid "Title"
 msgstr ""
 
@@ -268,30 +268,6 @@ msgstr "Transparence"
 msgid "Refresh"
 msgstr "Rafraichir"
 
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Mode"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Draw"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Change Mode"
-msgstr "Changer de mode"
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Total area"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Km"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Clear outline"
-msgstr "Effacer le tracé"
-
 #: projects/demoPlugins/plugins/routing/templates/routing.tpl
 msgid "Start"
 msgstr "Départ"
@@ -314,9 +290,73 @@ msgstr "Recentrer"
 msgid "OK"
 msgstr ""
 
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Go to view"
+msgstr "Charger une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Load view"
+msgstr "Charger une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "New view"
+msgstr "Nouvelle vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Show view"
+msgstr "Nouvelle vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Update view"
+msgstr "Mettre à jour une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save as new view"
+msgstr "Sauvegarder une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save view"
+msgstr "Sauvegarder une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Delete view #"
+msgstr "Supprimer une vue"
+
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - New Fonctionnalities Demonstration"
-msgstr "CartoWeb3 - Démonstration des nouvelles fonctionnalités"
+#, fuzzy
+msgid "CartoWeb3 - Demonstration"
+msgstr "documentation de Cartoweb"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/mainmap.tpl
@@ -328,8 +368,13 @@ msgid "Show keymap"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "welcome"
-msgstr "Bienvenue"
+msgid "CartoWeb3 - New Fonctionnalities Demonstration"
+msgstr "CartoWeb3 - Démonstration des nouvelles fonctionnalités"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+#, fuzzy
+msgid "Views :"
+msgstr "Onglet vues"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
@@ -372,7 +417,6 @@ msgid "Themes"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-#, fuzzy
 msgid "Search"
 msgstr "Recherche"
 
@@ -389,14 +433,58 @@ msgid "A geographic object"
 msgstr "Un objet géographique"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Clear outline"
+msgstr "Effacer le tracé"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "This demo is an overview of the new functionalities that are available in "
-"Cartoweb since the 3.1 version. To get the most out of it, read through this "
-"Help guide before starting to explore."
+"Cartoweb since the last version. To get the most out of it, read through "
+"this Help guide before starting to explore."
 msgstr ""
 "Cette démo est un aperçu des nouvelles fonctionnalités, disponibles dans "
-"Cartoweb depuis la version 3.1. Pour pouvoir l'utiliser pleinement, lisez "
+"Cartoweb depuis la dernière version. Pour pouvoir l'utiliser pleinement, lisez "
 "cette aide avant de commencer."
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Search tab"
+msgstr "Onglet Recherche"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "This tab allows you to do a search on :"
+msgstr "Cet onglet vous permet de rechercher :"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "pet"
+msgstr "puce"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "a route"
+msgstr "un itinéraire"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+" this option allows you to find the shortest route between two european "
+"towns. You simply need to select a town from where to start and \n"
+"         an other to finish."
+msgstr ""
+" cette option vous permet de trouver le plus court chemin entre deux villes "
+"européennes. Sélectionnez simplement une ville d'où partir et une ville où "
+"arriver."
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "a geographic object"
+msgstr "un objet géographique"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"if you want to move to an european district, suburb, town or airport, simply "
+"select this geographic layer\n"
+"         and type the corresponding name."
+msgstr ""
+"si vous voulez vous déplacer vers une région, une agglomération, une ville "
+"ou un aéroport européen, sélectionnez cette couche géographique et tappez le "
+"nom correspondant."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Views tab"
@@ -405,22 +493,18 @@ msgstr "Onglet vues"
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "Views are recordings of CartoWeb maps states at a given moment. \n"
-"    One may see them as a kind of bookmarks : while browsing maps in "
+"         One may see them as a kind of bookmarks : while browsing maps in "
 "CartoWeb interface, you can save the current state (map extent, selected "
 "layers, queries, annotations, etc.) under a label of your choice. \n"
-"    It is then possible to access later those saved states."
+"         It is then possible to access later those saved states."
 msgstr ""
-"Les vues sont des enregistrements des cartes de Cartoweb, faits à un moment "
+"Les vues sont des enregistrements de cartes de Cartoweb, faites à un moment "
 "donné. \n"
 "Il faut les imaginer comme des marques-pages : pendant que vous construisez "
 "vos cartes dans l'interface de Cartoweb, vous pouvez sauvegarder l'état "
 "courant (l'extension géographique, les couches sélectionnées, les requêtes, "
 "les annotations, etc.) sous un intitulé de votre choix. \n"
 "Vous pourrez y revenir plus tard."
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "pet"
-msgstr "puce"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Load a view"
@@ -442,18 +526,18 @@ msgstr "Sauvegarder une vue"
 msgid ""
 " to save the current map state as a view, simply fill in the form fields "
 "with matching metadata. \n"
-"    To make the view \"visible\" to others users, check the \"Show view\" "
-"option. \n"
-"    Finally push the \"save\" button.\n"
-"    You may also save a new view using an existing view. To do so, load the "
-"desired view, modify it and push the \"Save as new view\" button."
+"         To make the view \"visible\" to others users, check the \"Show view"
+"\" option. \n"
+"         Finally push the \"save\" button.\n"
+"         You may also save a new view using an existing view. To do so, load "
+"the desired view, modify it and push the \"Save as new view\" button."
 msgstr ""
 " pour sauvegarder une carte sous une vue, remplissez simplement les champs "
 "avec les renseignements que vous voulez lui donner. \n"
 " Pour rendre la carte \"visible\" aux autres utilisateurs, cochez l'option "
-"\"Montrer la vue\"Cliquez enfin sur le bouton \"Enregistrer\".\n"
+"\"Montrer la vue\" et cliquez sur le bouton \"Enregistrer\".\n"
 "Vous pouvez aussi enregistrer une nouvelle vue en utilisant une vue déjà "
-"existante. Pour cela, charger la vue que vous voulez, modifiez la et cliquez "
+"existante. Pour cela, chargez la vue que vous voulez, modifiez la et cliquez "
 "sur le bouton \"Enregistrer la vue\"."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -465,8 +549,8 @@ msgid ""
 "load the view you want to delete and push the \"Delete\" button. A "
 "confirmation message pops before irreversible deletion."
 msgstr ""
-"charger la vue que vous voulez effacer et cliquez sur le bouton \"Effacer\". "
-"Unmessage de confirmation apparaitra avant l'effacement."
+"chargez la vue que vous voulez effacer et cliquez sur le bouton \"Effacer\". "
+"Un message de confirmation apparaitra avant l'effacement."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Update a view"
@@ -476,22 +560,22 @@ msgstr "Mettre à jour une vue"
 msgid ""
 "to modify a view map properties (selected layers, annotations, map extent, "
 "etc.) as well as its metadata (title, \"visibility\", etc.), load it.\n"
-"    If your changes only concern metadata, simply update the dedicated form "
-"fields and push the \"Update\" button.\n"
-"    To update the view map properties, check the \"Memorize form\" option. "
-"Metadata and selected view ID are then memorized while you perform your "
-"changes (pans, zooms, annotations, layers selections, etc.). Eventually push "
-"the \"Update\" button."
+"         If your changes only concern metadata, simply update the dedicated "
+"form fields and push the \"Update\" button.\n"
+"         To update the view map properties, check the \"Memorize form\" "
+"option. Metadata and selected view ID are then memorized while you perform "
+"your changes (pans, zooms, annotations, layers selections, etc.). Eventually "
+"push the \"Update\" button."
 msgstr ""
 "pour modifier aussi bien les propriétés de la carte d'une vue (couches "
 "sélectionnées, annotations, extension géographique, etc.) que les "
-"métadonnées de cette vue (titre, \"visibilité\", etc.), charger la.\n"
+"métadonnées (titre, \"visibilité\", etc.), chargez la.\n"
 "Si vos changements concernent seulement les métadonnées, mettez à jour les "
 "champs voulus et cliquez sur le bouton \"Mettre à jour\".\n"
 "Pour mettre à jour les propriétés de la carte avec l'état courant, "
-"sélectionner l'option \"Mémoriser l'état courant\".Les métadonnées et "
-"l'identifiant de vue sélectionné seront  mémorisés quand vous optimiserez "
-"vos changements(déplacement, zooms, annotations, couches sélectionnées, "
+"sélectionnez l'option \"Mémoriser l'état courant\". Les métadonnées et "
+"l'identifiant de vue sélectionnés seront  mémorisés quand vous optimiserez "
+"vos changements (déplacement, zooms, annotations, couches sélectionnées, "
 "etc.). Cliquez éventuellement sur le bouton \"Mettre à jour\"."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -502,7 +586,7 @@ msgstr "Onglet Couches"
 msgid ""
 " You can well designed your map with largest features layers on bottom and "
 "smallest on top, and/or even with well used transparent properties. \n"
-"    This tab allows you to :"
+"        This tab allows you to :"
 msgstr ""
 " Pour améliorer le rendu de votre carte, vous pouvez mettre les objets "
 "volumineux en bas de l'arbre des couches et les plus petits en haut, et/ou "
@@ -522,7 +606,7 @@ msgstr " ajouter a valeur de transparence pour chaque couche affichée."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "
-msgstr "Pour plus d'information, vous pouvez aller voir la"
+msgstr "Pour plus d'information, vous pouvez aller voir la "
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Cartoweb Documentation"
@@ -556,22 +640,13 @@ msgstr "réinitialiser"
 msgid "Reset session"
 msgstr "Réinitialiser"
 
-#: plugins/demoRouting/client/ClientDemoRouting.php:110
+#: plugins/demoRouting/client/ClientDemoRouting.php:102
 msgid "fastest"
 msgstr ""
 
-#: plugins/demoRouting/client/ClientDemoRouting.php:111
+#: plugins/demoRouting/client/ClientDemoRouting.php:103
 msgid "shortest"
 msgstr ""
-
-#bug on search tab
-msgid "SearchTab"
-msgstr "Recherche"
-
-msgid "New view"
-msgstr "Nouvelle vue"
-
-#, fuzzy
 
 # Elements dynamiques
 msgid "zoomin"
@@ -597,6 +672,3 @@ msgstr "Rectangle"
 
 msgid "outline_poly"
 msgstr "Polygone"
-
-msgid "Search service"
-msgstr "Recherche"

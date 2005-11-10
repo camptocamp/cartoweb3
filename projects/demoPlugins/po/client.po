@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-27 16:12+0200\n"
+"POT-Creation-Date: 2005-11-10 11:39+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,6 @@ msgid "In Query"
 msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
 msgid "Mask"
 msgstr ""
 
@@ -207,6 +206,7 @@ msgid "Landscape"
 msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+#: projects/demoPlugins/plugins/views/templates/views.tpl
 msgid "Title"
 msgstr ""
 
@@ -268,30 +268,6 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Mode"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Draw"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Change Mode"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Total area"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Km"
-msgstr ""
-
-#: projects/demoPlugins/plugins/outline/templates/outline.tpl
-msgid "Clear outline"
-msgstr ""
-
 #: projects/demoPlugins/plugins/routing/templates/routing.tpl
 msgid "Start"
 msgstr ""
@@ -312,8 +288,64 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "New view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Show view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Save view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr ""
+
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - New Fonctionnalities Demonstration"
+msgid "CartoWeb3 - Demonstration"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -326,7 +358,11 @@ msgid "Show keymap"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "welcome"
+msgid "CartoWeb3 - New Fonctionnalities Demonstration"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -386,10 +422,48 @@ msgid "A geographic object"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Clear outline"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "This demo is an overview of the new functionalities that are available in "
-"Cartoweb since the 3.1 version. To get the most out of it, read through this "
-"Help guide before starting to explore."
+"Cartoweb since the last version. To get the most out of it, read through "
+"this Help guide before starting to explore."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Search tab"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "This tab allows you to do a search on :"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "pet"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "a route"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+" this option allows you to find the shortest route between two european "
+"towns. You simply need to select a town from where to start and \n"
+"         an other to finish."
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "a geographic object"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid ""
+"if you want to move to an european district, suburb, town or airport, simply "
+"select this geographic layer\n"
+"         and type the corresponding name."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -399,14 +473,10 @@ msgstr ""
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
 "Views are recordings of CartoWeb maps states at a given moment. \n"
-"    One may see them as a kind of bookmarks : while browsing maps in "
+"         One may see them as a kind of bookmarks : while browsing maps in "
 "CartoWeb interface, you can save the current state (map extent, selected "
 "layers, queries, annotations, etc.) under a label of your choice. \n"
-"    It is then possible to access later those saved states."
-msgstr ""
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "pet"
+"         It is then possible to access later those saved states."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -427,11 +497,11 @@ msgstr ""
 msgid ""
 " to save the current map state as a view, simply fill in the form fields "
 "with matching metadata. \n"
-"    To make the view \"visible\" to others users, check the \"Show view\" "
-"option. \n"
-"    Finally push the \"save\" button.\n"
-"    You may also save a new view using an existing view. To do so, load the "
-"desired view, modify it and push the \"Save as new view\" button."
+"         To make the view \"visible\" to others users, check the \"Show view"
+"\" option. \n"
+"         Finally push the \"save\" button.\n"
+"         You may also save a new view using an existing view. To do so, load "
+"the desired view, modify it and push the \"Save as new view\" button."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -452,12 +522,12 @@ msgstr ""
 msgid ""
 "to modify a view map properties (selected layers, annotations, map extent, "
 "etc.) as well as its metadata (title, \"visibility\", etc.), load it.\n"
-"    If your changes only concern metadata, simply update the dedicated form "
-"fields and push the \"Update\" button.\n"
-"    To update the view map properties, check the \"Memorize form\" option. "
-"Metadata and selected view ID are then memorized while you perform your "
-"changes (pans, zooms, annotations, layers selections, etc.). Eventually push "
-"the \"Update\" button."
+"         If your changes only concern metadata, simply update the dedicated "
+"form fields and push the \"Update\" button.\n"
+"         To update the view map properties, check the \"Memorize form\" "
+"option. Metadata and selected view ID are then memorized while you perform "
+"your changes (pans, zooms, annotations, layers selections, etc.). Eventually "
+"push the \"Update\" button."
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -468,7 +538,7 @@ msgstr ""
 msgid ""
 " You can well designed your map with largest features layers on bottom and "
 "smallest on top, and/or even with well used transparent properties. \n"
-"    This tab allows you to :"
+"        This tab allows you to :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -517,10 +587,10 @@ msgstr ""
 msgid "Reset session"
 msgstr ""
 
-#: plugins/demoRouting/client/ClientDemoRouting.php:110
+#: plugins/demoRouting/client/ClientDemoRouting.php:102
 msgid "fastest"
 msgstr ""
 
-#: plugins/demoRouting/client/ClientDemoRouting.php:111
+#: plugins/demoRouting/client/ClientDemoRouting.php:103
 msgid "shortest"
 msgstr ""
