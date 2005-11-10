@@ -172,7 +172,6 @@ MAP
     TYPE LINE
     DATA "watrcrsl"
     MAXSCALE 1000000
-    
     CLASS
       MINSCALE 500000
       STYLE
@@ -293,7 +292,7 @@ MAP
     END
   END
     
- LAYER
+  LAYER
     NAME "national_highway"
     TYPE LINE
     DATA "roadl" 
@@ -372,12 +371,12 @@ MAP
     NAME "mountain"
     TYPE POINT
     DATA "elevp"
+    TEMPLATE "ttt"
     METADATA
         "id_attribute_string" "OGC_FID|string"
         "query_returned_attributes" "ZV2" 
     END
     CLASS
-      TEMPLATE "ttt"
       NAME "> 3500m"
       EXPRESSION ([ZV2]>3500)
       STYLE
@@ -387,7 +386,6 @@ MAP
       END
     END
     CLASS
-      TEMPLATE "ttt"
       NAME "> 2500m"
       EXPRESSION ([ZV2]>2500 AND [ZV2]<3500)
       STYLE
@@ -404,7 +402,6 @@ MAP
     DATA "elevp"
     TRANSPARENCY 50
     CLASS
-      TEMPLATE "ttt"
       NAME "> 3500m"
       EXPRESSION ([ZV2]>3500)
       STYLE
@@ -414,7 +411,6 @@ MAP
       END
     END
     CLASS
-      TEMPLATE "ttt"
       NAME "> 2500m"
       EXPRESSION ([ZV2]>2500 AND [ZV2]<3500)
       STYLE
@@ -429,6 +425,7 @@ MAP
     NAME "agglo"
     TYPE POLYGON
     DATA "builtupa"
+    TEMPLATE "ttt"
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "NAM"
@@ -439,7 +436,6 @@ MAP
     MAXSCALE 2001000
     CLASS
       NAME "agglo"
-      TEMPLATE "ttt"
       STYLE
         SIZE 5
         SYMBOL "fill45"
@@ -465,18 +461,15 @@ MAP
     NAME "airport"
     TYPE POINT
     DATA "aerofacp"
-
+    TEMPLATE "ttt"
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "NAM"
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "NAM"
     END
-    LABELITEM "NAM"
-
+    LABELITEM "NAM
     MAXSCALE 751000
-    TEMPLATE "ttt"
-
     CLASS
       NAME "airport"
       STYLE
@@ -501,22 +494,19 @@ MAP
     NAME "town"
     TYPE POINT
     DATA "mispopp"
-
+    TEMPLATE "ttt"
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "TXT"
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "TXT" 
     END
-
     MAXSCALE 1450000
     LABELITEM "TXT"
     LABELMAXSCALE 300000
-
     CLASS
       EXPRESSION ("[TXT]" ne "UNK" )
       NAME "town"
-      TEMPLATE "ttt"
       STYLE
         COLOR 0 0 0
         SYMBOL 'circle'
