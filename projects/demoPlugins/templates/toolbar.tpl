@@ -62,11 +62,11 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 
   {if $group == 4} 
     <a href="javascript:ontop(6);">
-      <img src="{r type=gfx/layout}help.png{/r}"
+      <img src="{r type=gfx/layout}help.gif{/r}"
       title="{t}Help{/t}" alt="{t}help{/t}"style="padding:4px;" />
     </a>
     <a href="javascript:resetSession();">
-      <img src="{r type=gfx/layout}reset_session.png{/r}"
+      <img src="{r type=gfx/layout}reset_session.gif{/r}"
       alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding:3px;"/>
     </a>
   {/if}

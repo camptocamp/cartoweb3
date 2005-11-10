@@ -338,51 +338,51 @@
        <br />
        <table class="table_help" cellpadding="0" cellspacing="0">
          <tr><td>
-           <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
+           <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
          </td></tr>
        </table>
        <p class="help_viewer">
          {t}This tab allows you to do a search on :{/t}<br />
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}a route{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}a route{/t}</span> :
          {t} this option allows you to find the shortest route between two european towns. You simply need to select a town from where to start and 
          an other to finish.{/t}<br />
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}a geographic object{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}a geographic object{/t}</span> :
          {t}if you want to move to an european district, suburb, town or airport, simply select this geographic layer
          and type the corresponding name.{/t}
        </p><br />
        <table class="table_help" cellpadding="0" cellspacing="0">
          <tr><td>
-           <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Views tab{/t}" /><strong>&nbsp;{t}Views tab{/t}</strong><br />
+           <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Views tab{/t}" /><strong>&nbsp;{t}Views tab{/t}</strong><br />
          </td></tr>
        </table>
        <p class="help_viewer">    
          {t}Views are recordings of CartoWeb maps states at a given moment. 
          One may see them as a kind of bookmarks : while browsing maps in CartoWeb interface, you can save the current state (map extent, selected layers, queries, annotations, etc.) under a label of your choice. 
          It is then possible to access later those saved states.{/t}<br />
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Load a view{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Load a view{/t}</span> :
          {t}any defined view may be loaded. Loading a view may be achieved selecting it among a dropdown views list.{/t}<br />
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Save a view{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Save a view{/t}</span> :
          {t} to save the current map state as a view, simply fill in the form fields with matching metadata. 
          To make the view "visible" to others users, check the "Show view" option. 
          Finally push the "save" button.
          You may also save a new view using an existing view. To do so, load the desired view, modify it and push the "Save as new view" button.{/t}<br /> 
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Delete a view{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Delete a view{/t}</span> :
          {t}load the view you want to delete and push the "Delete" button. A confirmation message pops before irreversible deletion.{/t}<br />
-         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Update a view{/t}</span> :
+         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Update a view{/t}</span> :
          {t}to modify a view map properties (selected layers, annotations, map extent, etc.) as well as its metadata (title, "visibility", etc.), load it.
          If your changes only concern metadata, simply update the dedicated form fields and push the "Update" button.
          To update the view map properties, check the "Memorize form" option. Metadata and selected view ID are then memorized while you perform your changes (pans, zooms, annotations, layers selections, etc.). Eventually push the "Update" button.{/t}
       </p><br />
       <table  class="table_help" cellpadding="0" cellspacing="0">
         <tr><td>
-          <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Layers reorder tab{/t}" /><strong>&nbsp;{t}Layers reorder tab{/t}</strong><br />
+          <img src="{r type=gfx/layout/help}tab.gif{/r}"   alt="{t}Layers reorder tab{/t}" /><strong>&nbsp;{t}Layers reorder tab{/t}</strong><br />
         </td></tr>
       </table>
       <p class="help_viewer">
         {t} You can well design your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
         This tab allows you to :{/t}<br />
-        <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
-        <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
+        <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
+        <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
       </p><br />
       <hr />
       {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a>
