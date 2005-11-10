@@ -346,7 +346,7 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
-msgstr "CartoWeb3 - New fonctionnalities demonstration"
+msgstr "CartoWeb3 - New fonctionalities demonstration"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/mainmap.tpl
