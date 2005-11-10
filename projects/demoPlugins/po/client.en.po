@@ -358,8 +358,8 @@ msgid "Show keymap"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - New Fonctionnalities Demonstration"
-msgstr "CartoWeb3 - New fonctionnalities demonstration"
+msgid "CartoWeb3 - Demonstration"
+msgstr "CartoWeb3 - New functionnalities demonstration"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Views :"
