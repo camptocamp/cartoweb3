@@ -61,6 +61,10 @@ class ClientDemoLocation extends ClientLocation {
      */    
     protected $idRecenterLayer = '';
     
+    /**
+     * @var Bbox
+     */
+    protected $extent;
     
     /**
      * Constructor
@@ -115,7 +119,16 @@ class ClientDemoLocation extends ClientLocation {
        $Attributes = array($idAttribute, $nameAttribute);
        return $Attributes;
    }
-   
+
+    /**
+     * @see InitUser::handleInit()
+     */
+    public function handleInit($locationInit) {
+        parent::handleInit($locationInit);
+
+        $this->extent = $this->cartoclient->getMapInfo()->extent;
+    }
+       
     /**
      * Retrieves list of names from database
      * @return array
@@ -123,8 +136,12 @@ class ClientDemoLocation extends ClientLocation {
     protected function namesList($idRecenterLayer, $inputNameRecenter) {
         $idRecenterLayerAttributes = $this->getLayerMeta($idRecenterLayer);
        
+       $e = $this->extent;
+       $extentCondition = " AND the_geom && SetSRID('BOX3D({$e->minx} " .
+            "{$e->miny}, {$e->maxx} {$e->maxy})'::box3d,-1) ";
+       
         $sql = sprintf("SELECT %s, %s FROM %s WHERE %s LIKE UPPER('%s%%') AND "
-                       . "%s != 'UNK' ORDER BY %s",
+                       . "%s != 'UNK' $extentCondition ORDER BY %s",
                        $idRecenterLayerAttributes[1],
                        $idRecenterLayerAttributes[0],
                        $idRecenterLayer,
