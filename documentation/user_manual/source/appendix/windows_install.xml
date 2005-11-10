@@ -94,6 +94,9 @@ extension=php_gettext.dll</screen>
     <para>
       If the link doesn't work, go to 
       <ulink url="http://dl.maptools.org/dl/"/> and look for mapserver-4.5-win32-php5.0.3.zip or newer.
+      <note>
+        <para>MapServer for Windows/PHP5 archives are also available on &cartoweb; website at <ulink url="http://cartoweb.org/downloads.html#msw"/>. Additional instructions for installing DLL's are given in the matching README.txt files.</para>
+      </note>
       <itemizedlist>
         <listitem>
           <para>Once you have downloaded the archive, uncompress it in any directory.</para>
@@ -137,6 +140,11 @@ extension=php_mapscript_45.dll</screen>
                 <para>Point 3 in the README is irrelevant in our case.</para>
               </listitem>
             </itemizedlist>  
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            &cartoweb; setup script <filename>cw3setup.php</filename> requires an "unzip" program to uncompress libraries and demo data archives. If you don't have one installed, download one on the Web (type "unzip.exe" in your favorite search engine) and put it for instance in your <filename>C:\Windows</filename> directory.
           </para>
         </listitem>
       </itemizedlist>     
