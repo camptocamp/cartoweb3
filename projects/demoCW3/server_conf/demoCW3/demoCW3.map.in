@@ -89,6 +89,7 @@ MAP
     NAME "district"
     TYPE POLYGON
     DATA "polbnda"
+    TEMPLATE "ttt"
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "NAM"
