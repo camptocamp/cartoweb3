@@ -19,7 +19,7 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 
 {if $group == 1}
   <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
-  <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';document.carto_form.submit();">
+  <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';doSubmit();">
     <img src="{r type=gfx/layout}fullextent.gif{/r}" style="padding:5px;"
     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
   </a>

@@ -42,12 +42,12 @@ function resetSession() {
     elm.name = 'reset_session';
     elm.value = 'reset_session';
     document.carto_form.posted.value=0;
-    FormItemSelected();
+    doSubmit();
 }
 
 function clearQuery() {
     elm = xGetElementById('fake_query');
     elm.name = 'query_clear';
     elm.value = 'query_clear';
-    FormItemSelected();
+    doSubmit();
 }

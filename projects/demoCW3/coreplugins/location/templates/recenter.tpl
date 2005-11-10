@@ -9,7 +9,7 @@
       <label>{t}Y:{/t}</label>&nbsp;<input type="text" class="input_text" name="recenter_y" size="7" maxlength="7" />
     </td>
     <td>
-      <a href="javascript:document.carto_form.submit();"><img src="{r type=gfx/layout}xy.gif{/r}" id="refresh_recenter" alt="{t}Recenter{/t}" title="{t}Recenter{/t}"></img></a>
+      <a href="javascript:doSubmit();"><img src="{r type=gfx/layout}xy.gif{/r}" id="refresh_recenter" alt="{t}Recenter{/t}" title="{t}Recenter{/t}"></img></a>
     </td>
   </tr>
   <tr>

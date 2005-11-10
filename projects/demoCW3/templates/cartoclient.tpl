@@ -66,7 +66,7 @@
 <tr><td>
 <!-- header ends here -->
 
-<form method="post" action="{$selfUrl}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />

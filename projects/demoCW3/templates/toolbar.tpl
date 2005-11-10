@@ -17,13 +17,13 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 {/if}
 {/if}
 
-  {if $group == 1}
-    <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
-    <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';document.carto_form.submit();">
-     <img src="{r type=gfx/layout}fullextent.gif{/r}"
-     title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
-    </a>&nbsp;&nbsp;
-  {/if}
+{if $group == 1}
+  <input type="hidden" name="recenter_none" value="-1582561, -1327290, 1142895, 1540633" />
+  <a href="javascript:document.carto_form.recenter_none.name='recenter_bbox';doSubmit();">
+    <img src="{r type=gfx/layout}fullextent.gif{/r}"
+    title="{t}full_extent{/t}" alt="{t}full_extent{/t}" />
+  </a>&nbsp;&nbsp;
+{/if}
 
 {counter start=-1 print=false name=tindex}
   {foreach from=$tools item=tool}

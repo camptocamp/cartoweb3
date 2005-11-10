@@ -33,5 +33,5 @@ function resetSession() {
     elm.name = 'reset_session';
     elm.value = 'reset_session';
     document.carto_form.posted.value=0;
-    FormItemSelected();
+    doSubmit();
 }
