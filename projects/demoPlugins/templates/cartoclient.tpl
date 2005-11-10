@@ -385,7 +385,7 @@
         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
       </p><br />
       <hr />
-      {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/doc_head/docbook/xhtml/" target="_blank">{t}Cartoweb Documentation{/t}</a>
+      {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a>
       <br /><br />
     </div>
     <!-- end of floder 6 -->
