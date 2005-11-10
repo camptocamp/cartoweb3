@@ -468,7 +468,7 @@ MAP
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "NAM"
     END
-    LABELITEM "NAM
+    LABELITEM "NAM"
     MAXSCALE 751000
     CLASS
       NAME "airport"
