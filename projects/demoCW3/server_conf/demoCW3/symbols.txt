@@ -51,7 +51,7 @@ END
 SYMBOL
     NAME "airport"
     TYPE PIXMAP
-    IMAGE "../../htdocs/gfx/layout/airport.png"
+    IMAGE "../../htdocs/gfx/layout/airport.gif"
     TRANSPARENT 8
 END
 

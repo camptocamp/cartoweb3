@@ -52,11 +52,11 @@ cw3_initial_selected_tool += "mainmap.{$selected_tool}('map');";
 
   {if $group == 4}
     <a href="javascript:ontop(2);">
-    <img src="{r type=gfx/layout/help}fileprint.png{/r}"
+    <img src="{r type=gfx/layout/help}fileprint.gif{/r}"
     title="{t}Print{/t}" alt="{t}print{/t}" /></a>   
   {/if}
   {if $group == 5}
     <a href="javascript:ontop(6);">
-    <img src="{r type=gfx/layout}help.png{/r}"
+    <img src="{r type=gfx/layout}help.gif{/r}"
     title="{t}Help{/t}" alt="{t}help{/t}" style="margin-bottom:3px;"/></a>
   {/if}

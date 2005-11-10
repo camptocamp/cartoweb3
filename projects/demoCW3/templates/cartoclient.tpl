@@ -253,7 +253,7 @@
         {include file="toolbar.tpl" group="5"}
         &nbsp;&nbsp;
         <a href="javascript:resetSession();">
-          <img src="{r type=gfx/layout}reset_session.png{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding-bottom:3px;"/>
+          <img src="{r type=gfx/layout}reset_session.gif{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding-bottom:3px;"/>
         </a>&nbsp;&nbsp;
         <input type="submit" id="refresh" name="refresh" value="{t}OK{/t}" 
         class="form_button" style="margin-bottom:7px;" />
@@ -346,7 +346,7 @@
     
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Themes tab{/t}" /><strong>&nbsp;{t}Themes tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Themes tab{/t}" /><strong>&nbsp;{t}Themes tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -359,19 +359,19 @@
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}"   alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
     {t}This tab allows you to move the center of the viewing area on a desired location. You can choose this location by three differents ways :{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to select a shortcut to a specific location,{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to entering the coordinates in the box X and Y (to start the search type on the touch {/t}<img src="{r type=gfx/layout/help}key_enter.png{/r}"  alt="chargement du logo key_enter" />),<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to do a search on the name. For it, please select the data on which you are interested in, type the word or the begining of the word you think correspond to a feature of the data and follow the instructions.{/t}</p><br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to select a shortcut to a specific location,{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to entering the coordinates in the box X and Y (to start the search type on the touch {/t}<img src="{r type=gfx/layout/help}key_enter.gif{/r}"  alt="chargement du logo key_enter" />),<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to do a search on the name. For it, please select the data on which you are interested in, type the word or the begining of the word you think correspond to a feature of the data and follow the instructions.{/t}</p><br />
     
         
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Outline tab{/t}" /><strong>&nbsp;{t}Outline tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Outline tab{/t}" /><strong>&nbsp;{t}Outline tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -385,7 +385,7 @@
     
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Query tab{/t}" /><strong>&nbsp;{t}Query tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Query tab{/t}" /><strong>&nbsp;{t}Query tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -394,20 +394,20 @@
     {t}The queries are persistent (i.e. you can add new objects to already selected objects).
     Note : {/t}<i>{t}only the layers which are specified questionnable by the administrator of the website are concerned by the query.{/t}</i><br /><br />
     {t}This tab allows you to parametrize your search. For each layers, which can be interrogated, the following options can be set :{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Hilight{/t}</span>{t} : allows to activate/desactivate features hilight;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Attributes{/t}</span>{t} : if it's checked, the layers attributes can be requested. Instead, only object IDs will be returned;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Table{/t}</span>{t} : allows to display the query result;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Union selection{/t}</span>{t} : when selecting a group of objects, already selected ones are kept selected and no yet selected ones are selected;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Xor{/t}</span>{t} : when selecting a group of objects, already selected ones are unselected and no yet selected ones are selected (defaut type);{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Intersection{/t}</span>{t} : when selecting a group of objects, only already selected are kept selected;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}InQuery{/t}</span>{t} : if it's checked, you force query to use this layer;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Mask{/t}</span>{t} : if it's checked, you apply a mask instead of a simple selection. This don't work when using highlight mecanism;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Hilight{/t}</span>{t} : allows to activate/desactivate features hilight;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Attributes{/t}</span>{t} : if it's checked, the layers attributes can be requested. Instead, only object IDs will be returned;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Table{/t}</span>{t} : allows to display the query result;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Union selection{/t}</span>{t} : when selecting a group of objects, already selected ones are kept selected and no yet selected ones are selected;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Xor{/t}</span>{t} : when selecting a group of objects, already selected ones are unselected and no yet selected ones are selected (defaut type);{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Intersection{/t}</span>{t} : when selecting a group of objects, only already selected are kept selected;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}InQuery{/t}</span>{t} : if it's checked, you force query to use this layer;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Mask{/t}</span>{t} : if it's checked, you apply a mask instead of a simple selection. This don't work when using highlight mecanism;{/t}<br />
     <br /><i>{t}If "Query all selected layers" option is checked, the query will handle all the questionnable layers{/t}</i>
     </p><br />
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Print tab{/t}" /><strong>&nbsp;{t}Print tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Print tab{/t}" /><strong>&nbsp;{t}Print tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -416,7 +416,7 @@
     
     <table  class="table_help" border="0" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}About tab{/t}" /><strong>&nbsp;{t}About tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}About tab{/t}" /><strong>&nbsp;{t}About tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -426,17 +426,17 @@
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}globe.png{/r}"  alt="{t}Globe{/t}" /><strong>&nbsp;{t}Mapping tools{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}globe.gif{/r}"  alt="{t}Globe{/t}" /><strong>&nbsp;{t}Mapping tools{/t}</strong><br />
       </td></tr>
     </table>
     
     <p class="help_viewer"><strong>{t}Navigation interface{/t}</strong><br />
     {t}There are many possibilities to navigate on the main map, that is to change the scale and the position{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the arrows surrounding the map;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the dynamic (i.e. clickable) keymap;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the navigation tools (zoom and pan), which are detailled below;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the drop down menu "Scale";{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the various options in the "Search" tab.{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the arrows surrounding the map;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the dynamic (i.e. clickable) keymap;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the navigation tools (zoom and pan), which are detailled below;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the drop down menu "Scale";{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the various options in the "Search" tab.{/t}<br />
     {t}The menu "Mapsize" is self- explanatory.{/t}<br/><br />
     <img src="{r type=gfx/layout/help}zoomin.gif{/r}" alt="{t}zoomin{/t}" />
     {t}The Zoom In tool allows you to focus on a specific, smaller region of the Europe area. Click the Zoom In button and then either click the map near the center of the region you are interested in or click-and-drag a rectangle surrounding the area. The Zoom In tool can be used multiple times to move closer and closer to desired regions.{/t}<br />
