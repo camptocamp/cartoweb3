@@ -115,7 +115,7 @@
             <para>
               <itemizedlist mark='opencircle'>
                 <listitem>
-                  <para>Download &cartoweb; package from <ulink url="http://cartoweb.org/download.html"/>.
+                  <para>Download &cartoweb; package from <ulink url="http://cartoweb.org/downloads.html"/>.
                     It is recommended that you download the version with demo for a better
                     user experience.</para>
                 </listitem>
@@ -153,8 +153,7 @@
           <xref linkend="user.install.main.prerequisite"/>.
       </para>
       <para>
-        If you intend to use the &cartoweb; demo, you need to have a section
-        called Gettext in the previous output.
+        Having Gettext installed is recommended if you wish to use the multilingual features of &cartoweb;.
       </para>
     </sect2>
 
@@ -336,11 +335,40 @@ List of options:
 
       <sect3 id="user.install.win32.installer">
         <title>Windows Install with Win32 Installer (Recommended)</title>
+        <itemizedlist>
+          <listitem>
+            <para>
+              Download the WAMP installer at <ulink url="http://www.wampserver.com/"/>. Double-click on the executable to launch it. This will install Apache with PHP5.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              That's it! Point your browser to <ulink url="http://localhost/cartoweb3/htdocs/client.php"/>.
+            </para>
+          </listitem>
+        </itemizedlist>
         <para>
-          Download the Windows installer (<xref linkend="user.install.main.download"/>), double-click on 
-          the executable to launch it. This will install Apache with PHP (WAMP), MapServer and &cartoweb;.
+          Once it is installed, you can modify &cartoweb; setup with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
         </para>
-        <para>Once it is installed, you can set up &cartoweb; from either a DOS prompt or Cygwin.</para>
+      </sect3>
+      <sect3 id="user.install.win32.manual">
+        <title>Windows Manual Install</title>
+        <para>Instructions for Apache/PHP and MapServer installation are given in <xref linkend="appendix.windows_manual_install"/></para>
+        <para>
+          Then download &cartoweb; as described above (<xref linkend="user.install.main.download"/>). 
+        </para>
+        <para>
+          Eventually set &cartoweb; up with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
+        </para>
+
+      </sect3>
+      <sect3 id="user.install.win32.setup">
+        <title>&cartoweb; Setup</title>
         <sect4 id="user.install.win32.installer.dos">
           <title>&cartoweb; Setup with DOS</title>
           <para>Open a command prompt (Start menu > Run > "cmd") and go to the &cartoweb; root:
@@ -408,15 +436,7 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
             See the note in 
             <xref linkend="user.install.win32.installer.dos"/></para>
           </note>
-
         </sect4>               
-      </sect3>
-      <sect3 id="user.install.win32.manual">
-        <title>Windows Manual Install</title>
-        <para>First follow instruction on <xref linkend="appendix.windows_manual_install"/> to install 
-          PHP and MapServer manually on Windows.</para>
-        <para>Then, if you have Cygwin, see <xref linkend="user.install.win32.installer.cygwin"/>. 
-        If not, see <xref linkend="user.install.win32.installer.dos"/></para>
       </sect3>
     </sect2>
   </sect1>   
