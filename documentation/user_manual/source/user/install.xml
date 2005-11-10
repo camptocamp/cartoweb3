@@ -15,7 +15,7 @@
 
     <sect2 id="user.install.main.prerequisite">
       <title>Prerequisite for Installing &cartoweb;</title>
-      <para>&cartoweb; depends on several sofware components for its proper
+      <para>&cartoweb; depends on several software components for its proper
         working. Some are required and others are optional, depending on what you
         intend to do.
         <note>
@@ -24,7 +24,7 @@
         </note>
         </para>
 
-      <para>Required software
+      <para>The required software are:
         <variablelist>
             <title>A Web Server</title>
             <varlistentry><term></term>
@@ -42,7 +42,7 @@
                 <itemizedlist>
                   <listitem>
                     <para><emphasis>Gettext</emphasis> (optional): You need the Gettext module if you want
-                      to enable the Internationalisation in &cartoweb;. See
+                      to enable the Internationalization in &cartoweb;. See
                       <xref linkend="user.i18n"/> for configuration.
                       <note>
                         <para> If you are using the demo, you need to have Gettext
@@ -64,7 +64,7 @@
                 </itemizedlist>
                 <note><para>
                 If you are using Windows, simply use the Windows Installer 
-                <xref linkend="user.install.main.download"/>. If you absolutly want to install 
+                <xref linkend="user.install.main.download"/>. If you absolutely want to install 
                 PHP manually, see <xref linkend="appendix.windows_manual_install"/>.
               </para></note>
               </para>
@@ -91,7 +91,7 @@
           </varlistentry>
         </variablelist>
         <variablelist>
-          <title>PostgreSQL with PostGIS Suppport (Optional)</title>
+          <title>PostgreSQL with PostGIS Support (Optional)</title>
           <varlistentry><term></term>
             <listitem>
               <para>If you want spatial database support in &cartoweb; you
@@ -246,7 +246,7 @@ List of options:
         <sect4 id="user.install.main.setup.example.basic">
           <title>Basic Setup</title>
           <para>
-            To performe a basic setup of &cartoweb;, such as if you want to run the demo project, type:
+            To perform a basic setup of &cartoweb;, such as if you want to run the demo project, type:
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
             http://www.example.com/cartoweb</screen>
             In this example, http://www.example.com/cartoweb is the address which corresponds
@@ -296,7 +296,7 @@ List of options:
                 the whole cartoweb3 hierarchy from cvs, including the <filename>cartoweb3</filename> folder. If you 
                 executed this from the <filename>cartoweb3</filename> folder you would end up with something like 
                 <filename>cartoweb3/cartoweb3/...</filename>. Instead, copy the <filename>cw3setup.php</filename> in the parent directory, 
-                delete (or backup) the cartoweb3 folder and execute the commande. 
+                delete (or backup) the cartoweb3 folder and execute the command. 
                 </para>
               </note>
             </para>
@@ -353,7 +353,7 @@ List of options:
               add the path to php.exe at the end of the existing path values, but add a ";" inbetween: 
               path1;path2;path3):
               <screen><![CDATA[C:\wamp\php;]]></screen>
-              The exemple above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
+              The example above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
             </note>
             <note>
               <para> If you are using the demo, you need to have Gettext
@@ -363,7 +363,7 @@ List of options:
                 <ulink url="http://gnuwin32.sourceforge.net/packages/gettext.htm" />.
                 Also set the path to the Gettext binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\GnuWin32\bin;]]></screen>
-                The exemple above is true if the Gettext binaries are installed in <filename>C:\Program Files\GnuWin32\bin</filename>.
+                The example above is true if the Gettext binaries are installed in <filename>C:\Program Files\GnuWin32\bin</filename>.
                 This is needed by the <filename>po2mo.php</filename> script to merge and compile the languages translation files.
               </para>
             </note>
@@ -374,7 +374,7 @@ List of options:
                 are free Open Source clients. 
                 You must add the path to the CVS binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\TortoiseCVS;]]></screen>
-                The exemple above is true if you installed TortoiseCVS in <filename>C:\Program Files\TortoiseCVS</filename>.
+                The example above is true if you installed TortoiseCVS in <filename>C:\Program Files\TortoiseCVS</filename>.
               </para>
             </note>
           </para>
@@ -400,7 +400,7 @@ cd wamp/www/cartoweb3/</screen>
           To enable you to execute PHP scripts easily, set the path to the PHP binary in your 
             <filename>.bashrc</filename> (in <filename>C:\cygwin\home\Administrator\</filename> by default):
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/wamp/php]]></screen>
-            The exemple above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
+            The example above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
             <para>If you do not want to install the <emphasis>cvs</emphasis> and <emphasis>gettext</emphasis> Cygwin package, 
             you need to add also the path to the external CVS and gettext binaries. 
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/program Files/GnuWin32/bin
@@ -479,7 +479,7 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
         </listitem>
         <listitem>
           <formalpara>
-            <title>Integrate PostGIS fonctionalities in this database.</title>
+            <title>Integrate PostGIS functionalities in this database.</title>
             <para>
               Typically, you can type:
               <screen><![CDATA[
@@ -553,9 +553,9 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       </orderedlist>
       <para>
         <note><para>
-        Routing fonctionnalities are also integrated in this demo. But they necessite a  more advanced configuration
+        Routing fonctionnalities are also integrated in this demo. But they need a  more advanced configuration
         and the Pgdijkstra module installed in the database, so they aren't integrated in the basic installation.
-        The steps to integrate routing fonctionnalities and create database tables are descibed in next section.
+        The steps to integrate routing fonctionnalities and create database tables are described in next section.
         </para></note>
       </para>
     </sect2>
@@ -640,12 +640,12 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       <sect3 id="user.install.demo.details.demoLocation">
         <title>demoLocation Extension</title>
         <para>
-          This extension allows you to select geographic objets of a layer by specifying a name.
+          This extension allows you to select geographic objects of a layer by specifying a name.
         </para>
         <para>
           According to the name selected, the corresponding id is fetched from the search name 
           database and submitted to the recentering coreplugin. This coreplugin selects the geographic
-          object in the shapefile according to the id, the selected layer and recenters on it.
+          object in the shapefile according to the id, the selected layer and recenter on it.
         </para>
         <para>
           The names of the id and the names on which the search is done must be specified in the 
@@ -678,10 +678,10 @@ END]]></screen>
             For more information on these functions, you can have a look to the routing module README file 
             <ulink url="http://www.cartoweb.org/downloads/pgdijkstra/README.txt"/>.
           </para></note>
-          This section explains the main steps to integrate the routing fonctionalities in a custom application.
+          This section explains the main steps to integrate the routing fonctionnalities in a custom application.
           We describe the steps followed to install the routing demo. To make short, we used an Europe roads shapefile,
           imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest
-          path between two european towns.
+          path between two European towns.
         </para>
         <sect4 id="user.install.demo.details.demoRouting.roadimportation">
           <title>Europe Road Geodata Importation in PostGIS</title>
@@ -694,7 +694,7 @@ $ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
         <sect4 id="user.install.demo.details.demoRouting.graphimportation">
           <title>Graph Importation</title>
           <para>
-            The first step is to delete uneeded columns of the table roads_europe_tmp. To do so, you can type:
+            The first step is to delete unneeded columns of the table roads_europe_tmp. To do so, you can type:
             <screen><![CDATA[
 $ CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
 $ SELECT AddGeometryColumn('roads_europe', 'the_geom', -1, 'MULTILINESTRING', 2 );
@@ -756,7 +756,7 @@ $ SELECT update_cost_from_distance('roads_europe');]]></screen>
   3 |      5 |      6 | 14040.5673116933 |
 (3 lignes)]]></screen>
             Now, all is set up correctly for using the shortest path function on these data. 
-            But to include the routing fonctionalities in a custom project, we must respect some rules 
+            But to include the routing fonctionnalities in a custom project, we must respect some rules 
             dictated by the routing plugin.
           </para>
         </sect4>
@@ -825,10 +825,10 @@ END]]></screen>
           <title>General Configuration</title>
           <para>
             For the demo, we suggest that you select your route by starting from a town until an other town.
-            This is possible because for each objet of a european-towns layer, we have identified the nearest 
+            This is possible because for each object of a european-towns layer, we have identified the nearest 
             object of the roads_europe_vertices table. That is why in the demoRouting configuration there is a 
             client-side configuration.
-            Normaly, in the plugin routing, client-side only allows you to type an id of object, from which to start
+            Normally, in the plugin routing, client-side only allows you to type an id of object, from which to start
             and an other to finish the route. No configuration is needed.
             So, if you use demoRouting extension, you must specify client-side, the:
             <itemizedlist>
