@@ -427,8 +427,8 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
-"This demo is an overview of the new functionalities that are available in "
-"Cartoweb since the last version. To get the most out of it, read through "
+"This demo is an overview of the new functionalities, that are available since"
+" the last version of Cartoweb. To get the most out of it, read through "
 "this Help guide before starting to explore."
 msgstr ""
 
@@ -536,7 +536,7 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
-" You can well designed your map with largest features layers on bottom and "
+" You can well design your map with largest features layers on bottom and "
 "smallest on top, and/or even with well used transparent properties. \n"
 "        This tab allows you to :"
 msgstr ""

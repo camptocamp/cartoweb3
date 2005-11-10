@@ -334,7 +334,7 @@
     
      <!-- folder 6 starts here -->
      <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
-       <p><i>{t}This demo is an overview of the new functionalities that are available in Cartoweb since the last version. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
+       <p><i>{t}This demo is an overview of the new functionalities, that are available since the last version of Cartoweb. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
        <br />
        <table class="table_help" cellpadding="0" cellspacing="0">
          <tr><td>
@@ -379,7 +379,7 @@
         </td></tr>
       </table>
       <p class="help_viewer">
-        {t} You can well designed your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
+        {t} You can well design your map with largest features layers on bottom and smallest on top, and/or even with well used transparent properties. 
         This tab allows you to :{/t}<br />
         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} reorder layers on the displayed stack to improve visibility of one layer, and/or{/t}<br />
         <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
