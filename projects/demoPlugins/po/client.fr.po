@@ -354,7 +354,6 @@ msgid "Delete view #"
 msgstr "Supprimer une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-#, fuzzy
 msgid "CartoWeb3 - Demonstration"
 msgstr "CartoWeb3 - Demonstration des nouvelles fonctionalités"
 
