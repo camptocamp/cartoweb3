@@ -180,6 +180,7 @@ define('ACTION_NOP', 0);
 define('ACTION_INSTALL', 1);
 define('ACTION_CLEAN', 2);
 define('ACTION_FETCH_DEMO', 3);
+define('ACTION_PREPARE_ARCHIVE', 4);
 
 define('LOG_LEVEL_DEBUG', 0);
 define('LOG_LEVEL_INFO', 1);
@@ -211,6 +212,7 @@ function processArgs() {
             case '--fetch-from-cvs':
             case '--no-symlinks':
             case '--clean-views':
+            case '--with-demo':
                 setOption($i);
                 break;
     
@@ -250,6 +252,10 @@ function processArgs() {
     
             case '--fetch-demo':
                 $action = ACTION_FETCH_DEMO;
+                break;
+
+            case '--prepare-archive':
+                $action = ACTION_PREPARE_ARCHIVE;
                 break;
 
             case '--install':
@@ -305,6 +311,11 @@ function processArgs() {
             info('Demo data installed');
             // launch init() for running po2mo
             init();
+            break;
+        case ACTION_PREPARE_ARCHIVE:
+            fetchLibs();
+            if (isset($OPTIONS['with-demo']))
+                fetchDemo();
             break;
         default:
             fail('Should not happen');
@@ -755,8 +766,8 @@ function fetchDemo() {
     if (!copyr($source, $target))
         throw InstallException("demo copy $source => $target failed");
     
-    rename('projects/demoPlugins/server_conf/demoPlugins/demoCW3.map',
-           'projects/demoPlugins/server_conf/demoPlugins/demoPlugins.map');
+    rename('projects/demoPlugins/server_conf/demoPlugins/demoCW3.map.in',
+           'projects/demoPlugins/server_conf/demoPlugins/demoPlugins.map.in');
 }
 
 function removeDevFilesIfProd() {
