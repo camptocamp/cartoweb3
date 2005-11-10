@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-12 18:34+0200\n"
+"POT-Creation-Date: 2005-11-10 13:13+0100\n"
 "PO-Revision-Date: 2005-03-11 19:14+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -13,31 +13,37 @@ msgstr ""
 
 # exportPdf.ini:formats.a4.label
 # exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
 
 # exportPdf.ini:formats.a3.label
 # exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr "A3"
 
 # images.ini:mapSizes.0.label
 # images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "small"
 msgstr "petite"
 
 # images.ini:mapSizes.1.label
 # images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "normal"
 msgstr "normale"
 
 # images.ini:mapSizes.2.label
 # images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "big"
 msgstr "grande"
 
 # images.ini:mapSizes.3.label
 # images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "giant"
 msgstr "géante"
 
@@ -82,6 +88,10 @@ msgid "Switches"
 msgstr ""
 
 #: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
+msgstr "Recentrage sur Id"
+
+#: coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on"
 msgstr "Couche pour le centrage"
 
@@ -113,11 +123,11 @@ msgstr "Information de sélection :"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Layer"
-msgstr ""
+msgstr "Couche"
 
 #: coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr ""
+msgstr "A inclure"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Policy"
@@ -148,7 +158,7 @@ msgstr "Interroger toutes les couches sélectionnées"
 
 #: coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr ""
+msgstr "Réinitialiser la requête"
 
 #: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
 msgid "Id"
@@ -160,11 +170,11 @@ msgstr "Télécharger CSV"
 
 #: plugins/auth/templates/auth.tpl
 msgid "login"
-msgstr ""
+msgstr "Connexion"
 
 #: plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr ""
+msgstr "Déconnexion"
 
 #: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
@@ -191,7 +201,6 @@ msgid "Password"
 msgstr "Mot de passe"
 
 #: plugins/auth/templates/login_page.tpl
-#: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Submit"
 msgstr "Soumettre"
 
@@ -256,6 +265,46 @@ msgstr "Nouvelle page"
 msgid "None"
 msgstr "Aucun"
 
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr "Vers le haut"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr "Vers le bas"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr "Actualiser"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr "titre de la ligne"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr "titre du polygone"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr "titre du rectangle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr "titre du point"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr "votre titre"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr "OK"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Outliner plugin:"
+msgstr "Outil de tracé :"
+
 #: plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr "Dessin"
@@ -268,24 +317,32 @@ msgstr "Masque"
 msgid "Total area"
 msgstr "Surface totale"
 
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr "Effacer les tracés"
+
 #: plugins/routing/templates/routing.tpl
 msgid "Find path"
-msgstr ""
+msgstr "Chercher le chemin"
 
 #: plugins/routing/templates/routing.tpl
 msgid "from"
-msgstr ""
+msgstr "de"
 
 #: plugins/routing/templates/routing.tpl
 msgid "to"
-msgstr ""
+msgstr "à"
 
 #: plugins/routing/templates/routing.tpl
 msgid "options"
-msgstr ""
+msgstr "options"
 
 #: plugins/routing/templates/routing.tpl
 msgid "routing_compute"
+msgstr "Calculer l'itinéraire"
+
+#: plugins/routing/templates/routing.tpl
+msgid "Reset"
 msgstr ""
 
 #: plugins/views/templates/views.tpl
@@ -373,6 +430,24 @@ msgid "Show keymap"
 msgstr "Afficher la carte de référence"
 
 #: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Echelle actuelle : "
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Coords (m):"
+msgstr "Coord. (m) :"
+
+#: templates/cartoclient.tpl
+msgid "Dist approx.:"
+msgstr "Distance approx. :"
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Approx. surface :"
+msgstr "Surface approx. :"
+
+#: templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "alt_barechelle"
 
@@ -387,6 +462,14 @@ msgstr "Messages développeurs"
 #: templates/cartoclient.tpl
 msgid "Choose project"
 msgstr "Choix du projet"
+
+#: templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Actualiser"
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr "Réinitialiser"
 
 #: templates/cartoclient.tpl
 msgid "Navigation"
@@ -406,7 +489,7 @@ msgstr "Vues"
 
 #: templates/cartoclient.tpl
 msgid "Layers reorder"
-msgstr ""
+msgstr "Ordre des couches"
 
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "keymap_alt"
@@ -417,36 +500,17 @@ msgid "Views:"
 msgstr "Vues:"
 
 #: templates/dhtmlcode.tpl
-msgid "Approx. distance: "
-msgstr "Distance approx. :"
-
-#: templates/dhtmlcode.tpl
-msgid "Approx. surface: "
-msgstr "Surface approx. :"
-
-#: templates/dhtmlcode.tpl
-msgid "Coords (m): "
-msgstr "Coord. (m) :"
-
-#: templates/dhtmlcode.tpl
-msgid "Overlapping polygons forbidden"
+#, fuzzy
+msgid "overlapping polygons are not allowed"
 msgstr "Polygones croisés non autorisés"
 
 #: templates/dhtmlcode.tpl
-msgid "Number of segments limited to "
-msgstr "Nombre de segments limité à "
+msgid "Are you sure ?"
+msgstr "Etes-vous sûr ?"
 
 #: templates/dhtmlcode.tpl
-msgid " currently drawn"
-msgstr " actuellement dessinés."
-
-#: templates/mainmap.tpl
-msgid "Main map"
-msgstr "Carte principale"
-
-#: templates/mainmap.tpl
-msgid "Current scale:"
-msgstr "Echelle actuelle : "
+msgid "Not conform object"
+msgstr "Objet non conforme"
 
 #: templates/mainmap.tpl
 msgid "Loading message"
@@ -456,114 +520,138 @@ msgstr "Veuillez patienter..."
 msgid "Unauthorized"
 msgstr "Accès non autorisé"
 
-#: client/Views.php:149
+#: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr "Action interrompue : n° de vue invalide"
 
-#: client/Views.php:173
+#: client/Views.php:186
 msgid "You are not allowed to perform this action"
 msgstr "Vous n'avez pas la permission d'exécuter cette action !"
 
-#: client/Views.php:570
+#: client/Views.php:935
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Vue n°%d chargée"
 
-#: client/Views.php:576
+#: client/Views.php:941
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "Nouvelle vue créée avec le n°%d"
 
-#: client/Views.php:581
+#: client/Views.php:946
 #, php-format
 msgid "View #%d updated"
 msgstr "Vue n°%d mise à jour"
 
-#: client/Views.php:586
-#: client/Views.php:1061
+#: client/Views.php:951 client/Views.php:1412
 #, php-format
 msgid "View #%d deleted"
 msgstr "Vue n°%d supprimée"
 
-#: client/Views.php:951
+#: client/Views.php:1301
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Impossible d'ouvrir la vue n°%d"
 
-#: client/Views.php:975
+#: client/Views.php:1325
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Impossible de charger la vue n°%d"
 
-#: client/Views.php:987
+#: client/Views.php:1337
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Impossible d'enregistrer la vue n°%d"
 
-#: client/Views.php:1064
+#: client/Views.php:1415
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Impossible de supprimer la vue n°%d"
 
-#: client/Views.php:1141
+#: client/Views.php:1474
 msgid "Unable to open ViewDbContainer: "
 msgstr "Impossible d'ouvrir ViewDbContainer : "
 
-#: client/Views.php:1143
-#: client/Views.php:1212
+#: client/Views.php:1476 client/Views.php:1545
 msgid "Service failed."
 msgstr "Service indisponible"
 
-#: client/Views.php:1210
+#: client/Views.php:1543
 msgid "Unable to process view."
 msgstr "Impossible de traiter la vue"
 
-#: client/Views.php:1221
+#: client/Views.php:1554
 #, php-format
 msgid "No result for view #%d"
 msgstr "Pas de résultat pour la vue n°%d"
 
-#: client/Views.php:1245
+#: client/Views.php:1578
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "Plus d'une vue affectées par l'édition de la vue n°%d"
 
-#: client/Views.php:1364
+#: client/Views.php:1690
 msgid "Unable to build views catalog"
 msgstr "Impossible de créer la liste des vues"
 
-#: coreplugins/images/client/ClientImages.php:310
+#: coreplugins/images/client/ClientImages.php:321
+#, fuzzy
 msgid "label"
-msgstr ""
+msgstr "votre titre"
 
-#: coreplugins/layers/client/ClientLayers.php:1186
+#: coreplugins/layers/client/ClientLayers.php:1243
 msgid "Default"
-msgstr ""
+msgstr "Défaut"
 
-#: plugins/exportPdf/client/ClientExportPdf.php:1125
+#: plugins/exportPdf/client/ClientExportPdf.php:1168
 msgid "Click here to display PDF file"
 msgstr "Voir le fichier PDF produit"
 
 #: plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
+msgstr "Page"
+
+#: plugins/hello/client/ClientHello.php:103
+#, php-format
+msgid "message: %s count: %d"
+msgstr "Message : %s compte : %d"
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
 msgstr ""
 
-#: plugins/routing/client/ClientRouting.php:171
+#: plugins/routing/client/ClientRouting.php:191
 msgid "fastest"
-msgstr ""
+msgstr "plus rapide"
 
-#: plugins/routing/client/ClientRouting.php:172
+#: plugins/routing/client/ClientRouting.php:192
 msgid "shortest"
-msgstr ""
+msgstr "plus court"
 
-#: plugins/views/client/ClientViews.php:277
+#: plugins/views/client/ClientViews.php:286
 msgid "Views main controller is OFF!!"
 msgstr "Le gestionnaire de vues n'est pas activé !"
 
-#: plugins/views/client/ClientViews.php:281
+#: plugins/views/client/ClientViews.php:290
 msgid "Memorizing view to update"
 msgstr "Mémorisation de la vue à modifier"
 
-#: plugins/views/client/ClientViews.php:310
+#: plugins/views/client/ClientViews.php:319
 msgid "(placed at the end)"
 msgstr "(placée à la fin)"
+
+#: scripts/testgettext.php:55
+msgid "PHP-Gettext is not installed correctly !"
+msgstr "PHP-Gettext n'est pas installé correctement !"
+
+#~ msgid "Approx. distance: "
+#~ msgstr "Distance approx. :"
+
+#~ msgid "Number of segments limited to "
+#~ msgstr "Nombre de segments limité à "
+
+#~ msgid " currently drawn"
+#~ msgstr " actuellement dessinés."
+
+#~ msgid "Main map"
+#~ msgstr "Carte principale"
