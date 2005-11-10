@@ -15,5 +15,5 @@
   <legend>{t}Total area{/t}</legend>
   <p>&nbsp;&nbsp;&nbsp;{$outline_area} {t}Km{/t}&sup2;</p>
 </fieldset>
-<table width="250px"><tr style="text-align:center;"><td><input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" /></td></tr></table>
+<table width="97%"><tr style="text-align:center;"><td><input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" /></td></tr></table>
 </div>
