@@ -21,7 +21,6 @@ AjaxHandler = {
 
 		this.baseUrl = baseUrl;
 		this.cartoFormId = cartoFormId;
-		this.plugins = new Array();
 	},
 
 
@@ -56,7 +55,7 @@ AjaxHandler = {
 	},
 
 	 
-	handlePluginReponse: function(response) {
+	handlePluginReponse: function(response, argObject) {
 		
 		/*
 		 * Creates an array with all plugin responses: array[pluginName][paramType][paramName][paramValue]
@@ -89,13 +88,13 @@ AjaxHandler = {
 		}
 		
 		/*
-		 * Call all plugins that gave a response (= are present in pluginArray)
+		 * Calls all plugins that gave a response (= are present in pluginArray)
 		 * and passes their respective param array
 		 */
 		for (i=0; i<pluginArray.length; i++) {
 			pluginName = pluginArray[i]['pluginName'];
 			pluginName = pluginName.charAt(0).toUpperCase() + pluginName.substr(1); // ucfisrt()
-			eval('AjaxPlugins.' + pluginName + '.handleResponse(pluginArray[i])');
+			eval('AjaxPlugins.' + pluginName + '.handleResponse(pluginArray[i], argObject)');
 		}
 	},
 
@@ -128,7 +127,7 @@ AjaxHandler = {
 							$('carto_form').appendChild(ajaxErrorDivElement);
 						}
 					} else {
-						AjaxHandler.handlePluginReponse(response);
+						AjaxHandler.handlePluginReponse(response, argObject);
 						// Call onAfterAjaxCall method for the called action
 						requestedPluginName = actionId.substr(0, actionId.indexOf('.'));
 						requestedActionName = actionId.substr(actionId.indexOf('.')+1);
@@ -146,6 +145,8 @@ AjaxHandler = {
 			argObject = {};
 		pluginName = actionId.substr(0, actionId.indexOf('.'));
 		actionName = actionId.substr(actionId.indexOf('.')+1);
+		argObject.actionName = actionName;
+		argObject.pluginName = pluginName;
 		eval('httpPostRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
 		eval('httpGetRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
 		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');

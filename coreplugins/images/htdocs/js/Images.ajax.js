@@ -1,17 +1,26 @@
 AjaxPlugins.Images = {
 
-	rootLayerTop: 0,
-	rootLayerleft: 0,
-	  
 	htmlHeight: 0,
 	htmlWidth: 0,
 	  
 	
-	handleResponse: function(pluginOutput) {
+	handleResponse: function(pluginOutput, argObject) {
 		/* Plugin general behaviour */
 		    
 		// Update src tag of img elements
-		$('map_raster_img').src = pluginOutput.variables.mainmap_path;
+
+		if (argObject.actionName == 'pan') {
+			var newRaster = new Image();
+			AjaxHelper.addEvent(newRaster, 'load', function(e) {
+				xHide('map_raster_img');
+				$('map_raster_img').src = newRaster.src;
+				AjaxPlugins.Location.Actions.pan.placeRaster(e);
+				setTimeout("xShow('map_raster_img')", 1);
+			});
+			newRaster.src = pluginOutput.variables.mainmap_path;
+		} else {
+			$('map_raster_img').src = pluginOutput.variables.mainmap_path;
+		}
 		$('keymap').src = pluginOutput.variables.keymap_path;
 		$('scalebar').src = pluginOutput.variables.scalebar_path;    
 		

@@ -115,14 +115,14 @@ AjaxPlugins.Location.Actions.pan = {
 		if (timesExecuted == undefined)
 			timesExecuted = 0;
 	    // TODO: debug AjaxHandler.waitFor() and use it.
-		if ($('map_rootLayer') == undefined) {
+		if ($('map_raster_img') == undefined) {
 			if (timesExecuted < 20)
 				setTimeout(this.initMap, 500);
 		} else {
 			// Attach an listener on the load event of the raster img tag
 			// This will reposition the raster after on a pan by drag,
 			// but will wait for the image to be loaded before it get repositioned
-			AjaxHelper.addEvent($('map_raster_img'), 'load', AjaxPlugins.Location.Actions.pan.placeRaster);
+			//AjaxHelper.addEvent($('map_raster_img'), 'load', AjaxPlugins.Location.Actions.pan.placeRaster);
 			
 			// Save the map_rootLayer's initial position
 			AjaxPlugins.Location.Actions.pan.mapRootLayerTop = $('map_rootLayer').style.top;
@@ -132,7 +132,7 @@ AjaxPlugins.Location.Actions.pan = {
 
 	mapRootLayerTop: 0,
 	mapRootLayerLeft: 0,	
-	placeRaster: function(e) {
+	placeRaster: function(e) {		
 		// Reposition the map Raster layer on top left (when dragged).
 		// TODO: Try parseInt(variable) to cast it, instead of *1
 		rootPos = {

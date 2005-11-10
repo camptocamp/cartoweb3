@@ -1094,7 +1094,6 @@ class Cartoclient {
 	            $this->doMainAsync();
 	        } catch (Exception $exception) {
 	            return $this->formRenderer->showFailure($exception);
-	            // TODO: Use or create a suitable error reporting mecanism.
 	        }
     	} else {
 	        try {
