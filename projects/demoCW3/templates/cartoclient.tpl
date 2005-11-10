@@ -353,7 +353,7 @@
         {t}Cartoweb supports an arbitrarily complex hierarchy of layers, with indefinite path.
         The layers which are checked and so selected, are displayed.{/t}<br /><br />
         <img src="{r type=gfx/layout/help}refresh.gif{/r}" alt="chargement du logo refresh" />
-        {t}Once you have chosen your data, click on the Refresh button, located beneath the tab, to update your changes{/t}
+        {t}Once you have chosen your data, click on the OK button, located beneath the tab, to update your changes{/t}
     </p><br />
     
     
@@ -460,7 +460,7 @@
     </p>
     <br />
     <hr />
-    {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a>
+    <p>{t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a></p>
     </div>
     <!-- end of floder 6 -->
     

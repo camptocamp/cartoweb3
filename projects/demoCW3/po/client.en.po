@@ -417,7 +417,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
-"Once you have chosen your data, click on the Refresh button, located beneath "
+"Once you have chosen your data, click on the OK button, located beneath "
 "the tab, to update your changes"
 msgstr ""
 
