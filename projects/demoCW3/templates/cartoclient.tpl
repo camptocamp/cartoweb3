@@ -460,7 +460,7 @@
     </p>
     <br />
     <hr />
-    <p>{t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a></p>
+    <p>{t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb documentation{/t}</a></p>
     </div>
     <!-- end of floder 6 -->
     

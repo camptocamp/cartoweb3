@@ -608,7 +608,7 @@ msgid "For more information, you can have a look to the "
 msgstr "Pour plus d'information, vous pouvez aller voir la "
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Cartoweb Documentation"
+msgid "Cartoweb documentation"
 msgstr "documentation de Cartoweb"
 
 #: projects/demoPlugins/templates/mainmap.tpl
