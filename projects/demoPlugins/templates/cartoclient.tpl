@@ -403,7 +403,7 @@
 
 </td></tr>
 <tr><td align="right">
-<img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
+<img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" border="0" style="vertical-align:bottom"/>
 </td></tr>
 <tr id="downbanner" style="height:50px;">
   <td valign='top'>
