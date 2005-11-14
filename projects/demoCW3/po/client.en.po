@@ -738,7 +738,7 @@ msgid "For more information, you can have a look to the "
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Cartoweb Documentation"
+msgid "Cartoweb documentation"
 msgstr ""
 
 #: projects/demoCW3/templates/mainmap.tpl

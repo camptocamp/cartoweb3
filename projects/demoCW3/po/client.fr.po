@@ -818,7 +818,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "
-msgstr "Pour plus d'information, vous pouvez aller voir la"
+msgstr "Pour plus d'information, vous pouvez aller voir la "
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Cartoweb Documentation"
