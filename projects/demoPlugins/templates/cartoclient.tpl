@@ -81,7 +81,7 @@
             <h1>{t}Views :{/t}</h1>
             <select name="viewBrowseId" onchange="javascript:loadView();">
             {html_options options=$viewsList selected=$selectedView}
-            </select></p>
+            </select>
             <input type="hidden" name="viewBrowse" value="0" />
             {if !$views}
             <input type="hidden" name="handleView" value="0" />
@@ -385,7 +385,9 @@
         <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t} add a transparency value on each layer displayed.{/t}
       </p><br />
       <hr />
-      {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb Documentation{/t}</a>
+      <p class="help_viewer">
+        {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb documentation{/t}</a>
+      </p>
       <br /><br />
     </div>
     <!-- end of floder 6 -->
@@ -401,7 +403,7 @@
 
 </td></tr>
 <tr><td align="right">
-<img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" style="border:Opx"/>
+<img src="{r type=gfx/layout}logoc2c2.gif{/r}" alt="logo" border="0" style="vertical-align:bottom"/>
 </td></tr>
 <tr id="downbanner" style="height:50px;">
   <td valign='top'>

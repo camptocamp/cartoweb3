@@ -14,7 +14,7 @@
 <table width="100%">
 <tr><td width="50%"></td>
 <td width="20%" align="center">
-  <input type="image" src="{r type=gfx/layout}reinitialize.png{/r}" 
+  <input type="image" src="{r type=gfx/layout}reinitialize.gif{/r}" 
   name="routing_reset" alt="{t}reset routing{/t}" value="{t}Reset{/t}"/>
 </td>
 <td width="30%" align="left">
