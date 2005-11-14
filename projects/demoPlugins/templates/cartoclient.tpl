@@ -81,7 +81,7 @@
             <h1>{t}Views :{/t}</h1>
             <select name="viewBrowseId" onchange="javascript:loadView();">
             {html_options options=$viewsList selected=$selectedView}
-            </select></p>
+            </select>
             <input type="hidden" name="viewBrowse" value="0" />
             {if !$views}
             <input type="hidden" name="handleView" value="0" />
