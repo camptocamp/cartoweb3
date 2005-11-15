@@ -33,6 +33,10 @@ onchange="javascript:updateResolutions({$pdfResolution_selected});">
 {html_options name="pdfResolution" options=$pdfResolution_options 
 selected=$pdfResolution_selected}</div>
 
+<div>{t}Scale:{/t}
+{html_options name="pdfScale" options=$pdfScale_options 
+selected=$pdfScale_selected}</div>
+
 <div><input type="radio" name="pdfOrientation" id="ptt" value="portrait" 
 {if $pdfOrientation == 'portrait'}checked="checked"{/if} /><label 
 for="ptt">{t}Portrait{/t}</label>
@@ -42,6 +46,8 @@ for="lsp">{t}Landscape{/t}</label></div>
 
 <!-- Temporary: this template will include DHTML code to move and rotate the map to be printed -->
 <div>{t}Rotation:{/t} <input type="text" name="pdfMapAngle" value="" /></div>
+<div>{t}Position:{/t} X <input type="text" name="pdfMapCenterX" value="" size="3" />
+                      Y <input type="text" name="pdfMapCenterY" value="" size="3" /></div>
 
 {if $pdfTitle}<div>{t}Title:{/t} <input type="text" name="pdfTitle" value="" /></div>{/if}
 {if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="" /></div>{/if}

@@ -378,9 +378,6 @@ class ClientExportPdf extends ExportPlugin
         if ($id == 'title' || $id == 'note') {
             $this->blocks[$id]->content = trim($request[$pdfItem]);
         }
-        if ($id == 'mainmap' && isset($request['pdfMapAngle'])) {
-            $this->blocks[$id]->angle = $request['pdfMapAngle'];
-        }
 
         // translation for language dependent block content (text, URL, etc.)
         if ($this->blocks[$id]->i18n && $this->blocks[$id]->content) {
@@ -484,6 +481,10 @@ class ClientExportPdf extends ExportPlugin
                                                    $this->general->resolutions,
                                                    $simple);
         
+        $this->general->scales = $this->getArrayFromList(
+                                                   $this->general->scales,
+                                                   $simple);
+
         $this->general->activatedBlocks = $this->getArrayFromList(
                                                $this->general->activatedBlocks, 
                                                true);
@@ -497,10 +498,26 @@ class ClientExportPdf extends ExportPlugin
                                                    $this->general->resolutions,
                                                    $request);
 
+        $this->general->selectedScale = $this->getSelectedValue(
+                                                   'scale',
+                                                   $this->general->scales,
+                                                   $request);
+
         $this->general->selectedOrientation = $this->getSelectedValue(
                                                 'orientation',
                                                 array('portrait', 'landscape'),
                                                 $request);
+                                                
+        if (isset($request['pdfMapAngle'])) {
+            $this->general->mapAngle = $request['pdfMapAngle'];
+        }
+        if (isset($request['pdfMapCenterX'])) {
+            $this->general->mapCenterX = $request['pdfMapCenterX'];
+        }
+        if (isset($request['pdfMapCenterY'])) {
+            $this->general->mapCenterY = $request['pdfMapCenterY'];
+        }
+                                                
     }
 
     /**
@@ -636,6 +653,8 @@ class ClientExportPdf extends ExportPlugin
                    'pdfResolution_selected' => $this->general->
                                                             selectedResolution,
                    'pdfAllowedResolutions'  => $allowedResolutions,
+                   'pdfScale_options'    => $this->general->scales,
+                   'pdfScale_selected'   => $this->general->selectedScale,
                    'pdfOrientation'         => $this->general->
                                                             defaultOrientation,
                        ));
@@ -698,8 +717,8 @@ class ClientExportPdf extends ExportPlugin
     private function getOverviewShape($mapBbox) {
 
         $angle = 0;
-        if (isset($this->blocks['mainmap'])) {
-            $angle = deg2rad($this->blocks['mainmap']->angle);            
+        if (!empty($this->general->mapAngle)) {
+            $angle = deg2rad($this->general->mapAngle);            
         }
         if (is_null($angle) || $angle == 0) {
             
@@ -784,7 +803,11 @@ class ClientExportPdf extends ExportPlugin
         
         $config = new ExportConfiguration();
 
-        $scale = $this->getLastScale();
+        if (!is_null($this->general->selectedScale)) {
+            $scale = $this->general->selectedScale;
+        } else {
+            $scale = $this->getLastScale();
+        }
         $mapWidth = $mapHeight = 0;
         $mapAngle = NULL;
 
@@ -825,9 +848,7 @@ class ClientExportPdf extends ExportPlugin
                 // new map dimensions:
                 $mapWidth = $this->getNewMapDim($mainmap->width);
                 $mapHeight = $this->getNewMapDim($mainmap->height);
-                $mapAngle = $mainmap->angle;
-
-                // scale: no change ("paper" scale = "screen" scale)
+                $mapAngle = $this->general->mapAngle;
             }
         }
        
@@ -850,9 +871,16 @@ class ClientExportPdf extends ExportPlugin
         
         // map center coordinates:
         $savedBbox = $this->getLastBbox();
-        $center = $savedBbox->getCenter();
+        $center = NULL;
+        if (!is_null($this->general->mapCenterX)
+            && !is_null($this->general->mapCenterY)) {
+            $center = new Point($this->general->mapCenterX,
+                                $this->general->mapCenterY);
+        } else {
+            $center = $savedBbox->getCenter();
+        }
         $config->setPoint($center);
-
+        
         $config->setBbox($savedBbox);      
         $config->setZoomType('ZOOM_SCALE');
         $config->setLocationType('zoomPointLocationRequest');

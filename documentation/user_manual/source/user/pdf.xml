@@ -86,6 +86,18 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
+       <parameter>general.scales</parameter> (comma-separated list of integers): 
+       list of available printing scales (1000 should be read 1:1000). Used only when guiMode is 'rotate'.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>general.defaultScale</parameter> (integer): default printing
+       scale. Must be one of the above list items. Used only when guiMode is 'rotate'.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
        <parameter>general.defaultOrientation</parameter> (portrait|landscape): sheet 
        orientation. The same orientation is used for every pages 
        of the PDF document.

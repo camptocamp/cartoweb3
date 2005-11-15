@@ -263,7 +263,37 @@ class PdfGeneral {
      * @var int
      */
     public $selectedResolution;
+        
+    /**
+     * @var array
+     */
+    public $scales;
     
+    /**
+     * @var double
+     */
+    public $defaultScale;
+    
+    /**
+     * @var double
+     */
+    public $selectedScale;
+
+    /**
+     * @var double 
+     */
+    public $mapAngle;
+     
+    /**
+     * @var double 
+     */
+    public $mapCenterX;
+
+    /**
+     * @var double 
+     */
+    public $mapCenterY;
+
     /**
      * @var string
      */
@@ -508,11 +538,6 @@ class PdfBlock {
      */
     public $height;
     
-    /**
-     * @var double 
-     */
-    public $angle;
-     
     /**
      * @var boolean
      */
