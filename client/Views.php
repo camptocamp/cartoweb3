@@ -1113,6 +1113,9 @@ abstract class ViewContainer {
      */
     private function computeLocationId() {
         $weights = $this->getWeights();
+        if (!$weights) {
+            return 0;
+        }
         $ids = array_keys($weights);
         $kmax = max(array_keys($ids));
         $k = array_search($this->viewId, $ids);
@@ -1688,7 +1691,6 @@ class ViewDbContainer extends ViewContainer {
             $this->message = I18n::gt('Unable to build views catalog');
             return $catalog;
         }
-
         
         while ($row =& $res->fetchRow(DB_FETCHMODE_OBJECT)) {
             $viewShow = $this->getBool($row->viewshow);
