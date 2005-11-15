@@ -88,7 +88,7 @@ class ClientExportPdf extends ExportPlugin
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log =& LoggerManager::getLogger(__CLASS__);        
         parent::__construct();
     }
 
@@ -355,7 +355,7 @@ class ClientExportPdf extends ExportPlugin
         if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
             in_array($id, $this->optionalInputs))
             return;
-        
+       
         if (isset($iniObjects->blocks->$id))
             $block = $iniObjects->blocks->$id;
         else
@@ -377,6 +377,9 @@ class ClientExportPdf extends ExportPlugin
 
         if ($id == 'title' || $id == 'note') {
             $this->blocks[$id]->content = trim($request[$pdfItem]);
+        }
+        if ($id == 'mainmap') {
+            $this->blocks[$id]->angle = $request['pdfMapAngle'];
         }
 
         // translation for language dependent block content (text, URL, etc.)
@@ -597,7 +600,8 @@ class ClientExportPdf extends ExportPlugin
      */
     public function renderForm(Smarty $template) {
 
-        $template->assign('exportPdf', $this->drawUserForm());
+        $template->assign(array('exportPdf' => $this->drawUserForm(),
+                                'exportPdfGuiMode' => $this->general->guiMode));
     }
 
     /**
@@ -642,8 +646,9 @@ class ClientExportPdf extends ExportPlugin
                                            $this->general->activatedBlocks));
         }
         
-        return $this->smarty->fetch('form.tpl');
-    }
+        $tplFile = 'form' . ucfirst($this->general->guiMode) . '.tpl';
+        return $this->smarty->fetch($tplFile);
+    } 
 
     /**
      * Returns given distance at selected printing resolution.
@@ -686,6 +691,90 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Returns shape (a rectangle or a rotated rectangle) that will be
+     * drawn on overview
+     * @return StyledShape
+     */
+    private function getOverviewShape($mapBbox) {
+
+        $angle = 0;
+        if (isset($this->blocks['mainmap'])) {
+            $angle = deg2rad($this->blocks['mainmap']->angle);            
+        }
+        if (is_null($angle) || $angle == 0) {
+            
+            // No rotation, returns a rectangle
+            $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
+                                     $mapBbox->maxx, $mapBbox->maxy);
+        } else {
+            
+            // Rotation, returns a rotated rectangle (polygon)
+            $points = array();
+            
+            // Center
+            $cx = ($mapBbox->maxx + $mapBbox->minx) / 2;
+            $cy = ($mapBbox->maxy + $mapBbox->miny) / 2;
+            
+            // Move to origin
+            $x1 = $mapBbox->maxx - $cx;
+            $y1 = $mapBbox->maxy - $cy;
+            
+            // Rotate
+            $x1p = $x1 * cos($angle) - $y1 * sin($angle);
+            $y1p = $x1 * sin($angle) + $y1 * cos($angle);
+            
+            // Move to origin                        
+            $x2 = $mapBbox->minx - $cx;
+            $y2 = $mapBbox->maxy - $cy;
+            
+            // Rotate
+            $x2p = $x2 * cos($angle) - $y2 * sin($angle);
+            $y2p = $x2 * sin($angle) + $y2 * cos($angle);
+
+            // Create polygon
+            $points[] = new Point($mapBbox->maxx - $x1 + $x1p,
+                                  $mapBbox->maxy - $y1 + $y1p);                                   
+            $points[] = new Point($mapBbox->minx - $x2 + $x2p,
+                                  $mapBbox->maxy - $y2 + $y2p);
+            $points[] = new Point($mapBbox->minx + $x1 - $x1p,
+                                  $mapBbox->miny + $y1 - $y1p);
+            $points[] = new Point($mapBbox->maxx + $x2 - $x2p,
+                                  $mapBbox->miny + $y2 - $y2p);                                                                                  
+            $outline = new Polygon();            
+            $outline->points = $points; 
+        }
+        $styledOutline = new StyledShape();
+        $styledOutline->shape = $outline;
+                
+        $shapeStyle = new ShapeStyle();
+                
+        if (isset($this->general->overviewColor) && 
+            $this->general->overviewColor &&
+            $this->general->overviewColor != 'none') {
+  
+            list($r, $g, $b) = PrintTools::switchColorToRgb(
+                                    $this->general->overviewColor);
+            $shapeStyle->color->setFromRGB($r, $g, $b);
+        } else {
+            $shapeStyle->color->setFromRGB(-1, -1, -1);
+        }
+                
+        if (isset($this->general->overviewOutlineColor) &&
+            $this->general->overviewOutlineColor &&
+            $this->general->overviewOutlineColor != 'none') {
+
+            list($r, $g, $b) = PrintTools::switchColorToRgb(
+                               $this->general->overviewOutlineColor);
+            $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
+        } else {
+            $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
+        }
+                
+        $styledOutline->shapeStyle = $shapeStyle;
+        return $styledOutline;
+    }
+
+    /**
      * Builds export configuration.
      * @param string keymap/overview type
      * @param Bbox if set, indicates mainmap extent to outline in overview map
@@ -697,6 +786,7 @@ class ClientExportPdf extends ExportPlugin
 
         $scale = $this->getLastScale();
         $mapWidth = $mapHeight = 0;
+        $mapAngle = NULL;
 
         if ($keymap == 'overview') {
             // getting overview map
@@ -715,37 +805,7 @@ class ClientExportPdf extends ExportPlugin
                 $this->cartoclient->getPluginManager()
                                   ->getPlugin('outline') != NULL) {
                 
-                $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
-                                         $mapBbox->maxx, $mapBbox->maxy);
-                $styledOutline = new StyledShape();
-                $styledOutline->shape = $outline;
-                
-                $shapeStyle = new ShapeStyle();
-                
-                if (isset($this->general->overviewColor) && 
-                    $this->general->overviewColor &&
-                    $this->general->overviewColor != 'none') {
-  
-                    list($r, $g, $b) = PrintTools::switchColorToRgb(
-                                                $this->general->overviewColor);
-                    $shapeStyle->color->setFromRGB($r, $g, $b);
-                } else {
-                    $shapeStyle->color->setFromRGB(-1, -1, -1);
-                }
-                
-                if (isset($this->general->overviewOutlineColor) &&
-                    $this->general->overviewOutlineColor &&
-                    $this->general->overviewOutlineColor != 'none') {
-
-                    list($r, $g, $b) = PrintTools::switchColorToRgb(
-                                         $this->general->overviewOutlineColor);
-                    $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
-                } else {
-                    $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
-                }
-                
-                $styledOutline->shapeStyle = $shapeStyle;
-                
+                $styledOutline = $this->getOverviewShape($mapBbox);
                 $config->setPrintOutline($styledOutline);
             }
             
@@ -765,6 +825,7 @@ class ClientExportPdf extends ExportPlugin
                 // new map dimensions:
                 $mapWidth = $this->getNewMapDim($mainmap->width);
                 $mapHeight = $this->getNewMapDim($mainmap->height);
+                $mapAngle = $mainmap->angle;
 
                 // scale: no change ("paper" scale = "screen" scale)
             }
@@ -777,6 +838,7 @@ class ClientExportPdf extends ExportPlugin
         // map dimensions:
         $config->setMapWidth($mapWidth);
         $config->setMapHeight($mapHeight);
+        $config->setMapAngle($mapAngle);
       
         // scale:
         $scale *= $this->general->mapServerResolution;

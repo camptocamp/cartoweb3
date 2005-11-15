@@ -224,6 +224,12 @@ class PdfGeneral {
     public $verticalMargin      = 10;
     
     /**
+     * Possible modes are classic/rotate
+     * @var string
+     */
+    public $guiMode             = 'classic';
+    
+    /**
      * @var array
      */
     public $formats;
@@ -502,6 +508,11 @@ class PdfBlock {
      */
     public $height;
     
+    /**
+     * @var double 
+     */
+    public $angle;
+     
     /**
      * @var boolean
      */

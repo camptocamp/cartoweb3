@@ -402,6 +402,10 @@ class ClientImages extends ClientPlugin
         $mapWidth = $configuration->getMapWidth();
         if (!is_null($mapWidth))
             $mapRequest->imagesRequest->mainmap->width = $mapWidth;
+
+        $mapAngle = $configuration->getMapAngle();
+        if (!is_null($mapAngle))
+            $mapRequest->imagesRequest->mainmap->angle = $mapAngle;
     }    
 
     /**

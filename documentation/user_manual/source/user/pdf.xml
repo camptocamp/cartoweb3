@@ -55,6 +55,11 @@ formats.A4.bigDimension = 297]]></programlisting>
    <para>
     <itemizedlist>
      <listitem>
+        <para> <parameter>general.guiMode</parameter> (string): type of GUI used. Must
+            be either 'classic' (default) or 'rotate'. 'rotate' mode adds the possibility to rotate
+            the map to be printed directly on screen. </para>
+     </listitem>
+     <listitem>
       <para>
        <parameter>general.formats</parameter> (comma-separated list of strings): ids of available 
        sheet sizes. Must match format objects names 
@@ -851,6 +856,7 @@ blocks.title.color           = #0000ff   ; hexadecimal code for blue</programlis
     </para>
     <para>For instance:</para>
     <programlisting><![CDATA[general settings
+general.guiMode = classic
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
