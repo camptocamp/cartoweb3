@@ -50,7 +50,7 @@ function Feature(wktString) {
         this.type = "point";
         break;
       case "LINESTRING":
-        this.type = "polyline";
+        this.type = "line";
         break;
       case "POLYGON":
         this.type = "polygon";
@@ -109,6 +109,7 @@ Feature.prototype.isWithinRectangle2D = function(rectangle) {
  * @return WKT string
  */
 Feature.prototype.getWKT = function() {
+
   var coords = new String();
   for (i=0;i<this.vertices.length;i++) {
     coords += this.vertices[i].x + " " + this.vertices[i].y + ",";
@@ -118,11 +119,11 @@ Feature.prototype.getWKT = function() {
     case "point" :
       var WKTString = "POINT(" + coords + ")";
       break;
-    case "polyline" :
+    case "line" :
       var WKTString = "LINESTRING(" + coords + ")";
       break;
     case "polygon" :
-      var WKTString = "POLYGON((" + coords + "))";
+      var WKTString = "MULTIPOLYGON(((" + coords + ")))";
       break;
   }
   return WKTString;
@@ -133,9 +134,15 @@ Feature.prototype.getWKT = function() {
  */
 Feature.prototype.parseWKT = function(wktString) {
   // regular expression to manipulate WKT strings
+  var r = new RegExp("(POINT|LINESTRING|POLYGON)", "i");
+  var ret = wktString.match(r);
+  this.type = ret[1];
+  
   var r = new RegExp("(POINT|LINESTRING|POLYGON)[(](.*)[)]", "i");
   
   var ret = wktString.match(r);
+  
+  if (ret == null) return;
   
   this.type = ret[1];
   var coords = ret[2];
@@ -245,7 +252,8 @@ Feature.prototype.clipLeft = function(rect) {
       if (i == this.vertices.length - 2) {
         outVertex2 = new Vertex(v2.x, v2.y);
       }
-    } else if (this.type == "polygon" && i == this.vertices.length - 2) {
+    } else if (this.type == "polygon" && i == this.vertices.length - 2
+      && typeof outFeature.vertices[0] != "undefined") {
       outVertex1 = new Vertex(outFeature.vertices[0].x,
         outFeature.vertices[0].y);
     }
@@ -299,7 +307,8 @@ Feature.prototype.clipRight = function(rect) {
       if (i == this.vertices.length - 1) {
         outVertex2 = new Vertex(v2.x, v2.y);
       }
-    } else if (this.type == "polygon" && i == this.vertices.length - 2) {
+    } else if (this.type == "polygon" && i == this.vertices.length - 2
+      && typeof outFeature.vertices[0] != "undefined") {
       outVertex1 = new Vertex(outFeature.vertices[0].x,
         outFeature.vertices[0].y);
     }
@@ -364,7 +373,8 @@ Feature.prototype.clipTop = function(rect) {
       if (i == this.vertices.length - 2) {
         outVertex2 = new Vertex(v2.x, v2.y);
       }
-    } else if (this.type == "polygon" && i == this.vertices.length - 2) {
+    } else if (this.type == "polygon" && i == this.vertices.length - 2
+      && typeof outFeature.vertices[0] != "undefined") {
       outVertex1 = new Vertex(outFeature.vertices[0].x,
         outFeature.vertices[0].y);
     }
@@ -429,7 +439,8 @@ Feature.prototype.clipBottom = function(rect) {
       if (i == this.vertices.length - 2) {
         outVertex2 = new Vertex(v2.x, v2.y);
       }
-    } else if (this.type == "polygon" && i == this.vertices.length - 2) {
+    } else if (this.type == "polygon" && i == this.vertices.length - 2
+      && typeof outFeature.vertices[0] != "undefined") {
       outVertex1 = new Vertex(outFeature.vertices[0].x,
         outFeature.vertices[0].y);
     }
@@ -450,8 +461,9 @@ Feature.prototype.clipBottom = function(rect) {
 };
 
 Feature.prototype.clipByRectangle2D = function(rectangle) {
+  // TODO, have this working for points
   var tmpPoly = this.clipLeft(rectangle);
- var clippedPoly = tmpPoly.clipRight(rectangle);
+  var clippedPoly = tmpPoly.clipRight(rectangle);
 
   var tmpPoly = clippedPoly.clipBottom(rectangle);
   var clippedPoly = tmpPoly.clipTop(rectangle);

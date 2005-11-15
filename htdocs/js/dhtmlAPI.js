@@ -36,6 +36,8 @@ function Map(className) {
 
   // displays array
   this.displays = new Array();
+  
+  this.currentEditFeature = null;
 
   // get all elements with className = "map", create display object with each
   this.displays = xGetElementsByClassName(className, null, "div", null);
@@ -232,6 +234,9 @@ Display.prototype.setTool = function(tool) {
   case "delete.feature":
     this.mouseAction = new DeleteFeatureTool(this);
     break;
+  default:
+    this.docObj.style.cursor = "auto";
+    break;
   }
 };
 
@@ -245,6 +250,10 @@ function PanTool(aDisplay) {
   xEnableDrag(aDisplay.rootDisplayLayer, aDisplay.dragStart, aDisplay.drag, aDisplay.dragEnd);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
+};
+PanTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  var layer = xGetElementById(aDisplay.currentLayer.id);
+  layer.style.display = "none";
 };
 PanTool.prototype.onDrag = function(elt,x,y) {
   var aDisplay = elt._display;
@@ -286,9 +295,11 @@ function DrawPointTool(aDisplay) {
 };
 DrawPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   var feature = new Point();
+    
+  if (aDisplay._map.onNewFeature)
+    aDisplay._map.onNewFeature(feature);
 
-  feature.operation = 'insert';
-  aDisplay._map.currentLayer.features.push(feature);
+  // aDisplay._map.currentLayer.features.push(feature);
       
   var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
   dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
@@ -347,23 +358,20 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     ey = aDisplay.snapToY;
   }
 
-  if (!aDisplay.feature) { // new polyline
+  if (!aDisplay.tmpFeature) { // new polyline
     var feature = new Polyline();
-    feature.operation = 'insert';
-    aDisplay._map.currentLayer.features.push(feature);
+    if (aDisplay._map.onNewFeature)
+      aDisplay._map.onNewFeature(feature)
 
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
     dShape.X = new Array();
     dShape.Y = new Array();
-    aDisplay.feature = feature;
+    aDisplay.tmpFeature = feature;
     aDisplay.dShape = dShape; // assign the object to the map display
-    if (aDisplay._map.onNewFeature) {
-      aDisplay._map.onNewFeature(feature);
-    }
   } else {
-    var vl = aDisplay.feature.vertices.length; // number of vertex
+    var vl = aDisplay.tmpFeature.vertices.length; // number of vertex
     if (vl > 0) {
       var dln = aDisplay.drawLine(aDisplay.dShape, ex, ey,
       aDisplay.dShape.X[vl - 1], aDisplay.dShape.Y[vl - 1],
@@ -375,13 +383,13 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   // store the new point coordinates
   var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
-  vertex.index = aDisplay.feature.vertices.length;
+  vertex.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.dShape.X.push(ex);
   aDisplay.dShape.Y.push(ey);
              
   var dp = aDisplay.drawPoint(aDisplay.dShape, ex, ey, null, null, _OFF);
-  dp.index = aDisplay.feature.vertices.length;
-  aDisplay.feature.vertices.push(vertex);
+  dp.index = aDisplay.tmpFeature.vertices.length;
+  aDisplay.tmpFeature.vertices.push(vertex);
 };
 DrawLineTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
   if (aDisplay.isDrawing == "line") {
@@ -395,9 +403,9 @@ DrawLineTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
       aDisplay.dShape.Y.push(ey);
       var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
         pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
-      vertex.index = aDisplay.feature.vertices.length;
-      dp.index = aDisplay.feature.vertices.length;
-      aDisplay.feature.vertices.push(vertex);
+      vertex.index = aDisplay.tmpFeature.vertices.length;
+      dp.index = aDisplay.tmpFeature.vertices.length;
+      aDisplay.tmpFeature.vertices.push(vertex);
       this.oldmovedX = ex;
       this.oldmovedY = ey;
     } else if (!this.oldmovedX) {
@@ -428,7 +436,7 @@ DrawLineTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
         aDisplay.snapToVertex.className = vertexCN + _SEL;
       }
     }
-    if (aDisplay.feature) {
+    if (aDisplay.tmpFeature) {
       // moving line
       var vl = aDisplay.dShape.X.length;
       if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
@@ -446,9 +454,9 @@ DrawLineTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
 DrawLineTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   aDisplay.dml.innerHTML = "";
   if (aDisplay._map.onFeatureInput) {
-    aDisplay._map.onFeatureInput(aDisplay.feature);
+    aDisplay._map.onFeatureInput(aDisplay.tmpFeature);
   }
-  aDisplay.feature = undefined;
+  aDisplay.tmpFeature = undefined;
 };
 DrawLineTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
@@ -456,7 +464,7 @@ DrawLineTool.prototype.onKeyEnter = function(aDisplay) {
 DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
   aDisplay.dml.innerHTML = "";
   aDisplay.currentLayer.removeChild(aDisplay.dShape);
-  aDisplay.feature = undefined;
+  aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
   }
@@ -555,29 +563,31 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     ey = aDisplay.snapToY;
   }
   // new polygon
-  if (!aDisplay.feature) {
+  if (!aDisplay.tmpFeature) {
     var feature = new Polygon();
-    feature.operation = 'insert';
-    aDisplay._map.currentLayer.features.push(feature);
+    
+    if (aDisplay._map.onNewFeature)
+      aDisplay._map.onNewFeature(feature)
+    
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
     dShape.X = new Array();
     dShape.Y = new Array();
         
-    aDisplay.feature = feature;
+    aDisplay.tmpFeature = feature;
     aDisplay.dShape = dShape; // assign the object to the map display
     
     aDisplay._map.updateFeaturesCount();
     if (aDisplay._map.onNewFeature) {
       aDisplay._map.onNewFeature(feature);
     }
-  } else if (aDisplay.feature.closing) {
+  } else if (aDisplay.tmpFeature.closing) {
     // close the polygon
     this.onDblClick(aDisplay, aDisplay.dShape.X[0], aDisplay.dShape.Y[0]);
     return;
   } else {
-    var vl = aDisplay.feature.vertices.length; // number of vertex;
+    var vl = aDisplay.tmpFeature.vertices.length; // number of vertex;
     if (vl > 0) {
       // check for intersection
       for ( var i = 0; i< aDisplay.dShape.X.length - 1; i++ ) {
@@ -608,16 +618,16 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
   }
-  vertex.index = aDisplay.feature.vertices.length;
+  vertex.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.dShape.X.push(ex);
   aDisplay.dShape.Y.push(ey);
              
   var dp = aDisplay.drawPoint(aDisplay.dShape, ex, ey, null, null, _OFF);
-  dp.index = aDisplay.feature.vertices.length;
-  aDisplay.feature.vertices.push(vertex);
+  dp.index = aDisplay.tmpFeature.vertices.length;
+  aDisplay.tmpFeature.vertices.push(vertex);
 };
 DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
-  if (aDisplay.isDrawing != "line" && aDisplay.feature) {
+  if (aDisplay.isDrawing != "line" && aDisplay.tmpFeature) {
     // moving line
     var vl = aDisplay.dShape.X.length;
     aDisplay.drawLinePts(aDisplay.dml2, ex, ey,
@@ -628,7 +638,7 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
       aDisplay.snapToVertex = undefined;
       aDisplay.snapToX = undefined;
       aDisplay.snapToY = undefined;
-      aDisplay.feature.closing = false;
+      aDisplay.tmpFeature.closing = false;
     }
     if (distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
       var vertices = xGetElementsByClassName(vertexCN + _OFF, aDisplay.dShape, 'div');
@@ -636,7 +646,7 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
       aDisplay.snapToVertex.className = vertexCN + _SEL;
       aDisplay.snapToX = aDisplay.dShape.X[0];
       aDisplay.snapToY = aDisplay.dShape.Y[0];
-      aDisplay.feature.closing = true;
+      aDisplay.tmpFeature.closing = true;
     }
   }
   if (typeof this.lineDraw == 'undefined') {
@@ -648,27 +658,27 @@ DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   aDisplay.dml.innerHTML = "";
   aDisplay.dml2.innerHTML = "";
   // close the polygon
-  var vl = aDisplay.feature.vertices.length; // number of vertex
+  var vl = aDisplay.tmpFeature.vertices.length; // number of vertex
   var dln = aDisplay.drawLine(aDisplay.dShape, aDisplay.dShape.X[0], aDisplay.dShape.Y[0], 
       aDisplay.dShape.X[vl-1], aDisplay.dShape.Y[vl-1], _OFF);
   // store the first point coordinates
-  var vertex = new Vertex(aDisplay.feature.vertices[0].x, aDisplay.feature.vertices[0].y);
-  aDisplay.feature.vertices.push(vertex);
+  var vertex = new Vertex(aDisplay.tmpFeature.vertices[0].x, aDisplay.tmpFeature.vertices[0].y);
+  aDisplay.tmpFeature.vertices.push(vertex);
   aDisplay.dShape.X.push(aDisplay.dShape.X[0]);
   aDisplay.dShape.Y.push(aDisplay.dShape.Y[0]);
-  if (aDisplay._map.onFeatureInput) {
-    aDisplay._map.onFeatureInput(aDisplay.feature);
-  }
   aDisplay.fillPolygon(aDisplay.dShape, _OFF);
+  if (aDisplay._map.onFeatureInput) {
+    aDisplay._map.onFeatureInput(aDisplay.tmpFeature);
+  }
   
   if (typeof aDisplay.snapToVertex != "undefined") {
     aDisplay.snapToVertex.className = vertexCN + _OFF;
     aDisplay.snapToVertex = undefined;
     aDisplay.snapToX = undefined;
     aDisplay.snapToY = undefined;
-    aDisplay.feature.closing = false;
+    aDisplay.tmpFeature.closing = false;
   }
-  aDisplay.feature = undefined;
+  aDisplay.tmpFeature = undefined;
 };
 DrawPolygonTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
@@ -677,7 +687,7 @@ DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
   aDisplay.dml.innerHTML = "";
   aDisplay.dml2.innerHTML = "";
   aDisplay.currentLayer.removeChild(aDisplay.dShape);
-  aDisplay.feature = undefined;
+  aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
   }
@@ -751,6 +761,7 @@ MoveTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   // clicked on map
 
   if (umo.className.indexOf(layerCN) != -1) {
+    if (aDisplay._map.onUnselectFeatures) aDisplay._map.onUnselectFeatures();
     changeStatus(aDisplay.currentLayer, _OFF, true, true);
   } else {
     var cn = umo.className;
@@ -761,13 +772,9 @@ MoveTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     var feature = aDisplay.getMapFeature(dShape);
     if (feature.operation != 'insert') feature.operation = 'update';
     aDisplay._map.updateFeaturesCount();
+    if (aDisplay._map.onFeatureSelected)
+      aDisplay._map.onFeatureSelected(feature);
   }
-};
-MoveTool.prototype.onDragStart = function(elt, x, y) {
-  var aDisplay = elt._display;
-  aDisplay.snapToVertex = undefined;
-  aDisplay.snapToX = undefined;
-  aDisplay.snapToY = undefined;
 };
 MoveTool.prototype.onDrag = function(elt, x, y) {
   var aDisplay = elt._display;
@@ -793,7 +800,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
   var xmax = aDisplay._map.extent.xmax;
   var ymin = aDisplay._map.extent.ymin;
   var ymax = aDisplay._map.extent.ymax;
-   
+  
   if (cn.indexOf(vertexCN) != -1) { // clicked on a vertex
     var dShape = xParent(xParent(elt, true), true);
     
@@ -980,6 +987,7 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!umo) return;
   // clicked on map
   if (umo.className.indexOf(layerCN) != -1) {
+    if (aDisplay._map.onUnselectFeatures) aDisplay._map.onUnselectFeatures();
     changeStatus(aDisplay.currentLayer, _OFF, true, true);
   } else {
     var cn = umo.className;
@@ -1049,6 +1057,7 @@ AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     // clicked on map
   
   if (umo.className.indexOf(layerCN) != -1) {
+    if (aDisplay._map.onUnselectFeatures) aDisplay._map.onUnselectFeatures();
     changeStatus(aDisplay.currentLayer, _OFF, true, true);
   } else {
     var cn = umo.className;
@@ -1149,6 +1158,8 @@ Display.prototype.dragStart = function(elt, x, y) {
   elt._display.dragon = true;
   elt.startX = x;
   elt.startY = y;
+  if (elt._display.mouseAction && elt._display.mouseAction.onDragStart)
+    elt._display.mouseAction.onDragStart(elt,x,y);
 };
 
 /**
@@ -1346,7 +1357,7 @@ Display.prototype.fillPolygon = function(aPolygon, status) {
     pfc = true;
     pg.pf.id = 'pf' + pfi++;
     xAppendChild(pg, pg.pf);
-    pg.pf.className = polygonfillCN + status;
+    pg.style.position = "absolute";
   } else {
     pfc = false;
     pg.pf.innerHTML = '';
@@ -1373,7 +1384,6 @@ Display.prototype.drawFeature = function(obj, feature, status) {
   if (typeof status == "undefined")
     status = _OFF;
     
-    
   switch (feature.getObjectClass()) {
     case "Raster":
       // add a div for the raster image
@@ -1393,7 +1403,8 @@ Display.prototype.drawFeature = function(obj, feature, status) {
       // TODO change extent use in mapObj( rectangle2D);
       var buffer = ((xmax - xmin) * 5 / 100 + (ymax - ymin) * 5 / 100 ) / 2;
 	  var clippingExtent = new Rectangle2D(xmin - buffer , ymin - buffer , xmax + buffer , ymax + buffer);
-	  if (!feature.isWithinRectangle2D(clippingExtent)) {
+	  if (feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
+        && feature.type != 'point') {
 	    clippedFeature = feature.clipByRectangle2D(clippingExtent);
 	    clippedFeature.id = feature.id;
 	    feature.clipped = true;
@@ -1402,20 +1413,23 @@ Display.prototype.drawFeature = function(obj, feature, status) {
         feature.clipped = false;
         featureToDraw = feature;
 	  }
-	    
+      
 	  switch (feature.type) {
 	    case "point":
 	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
 	      dShape.id = dShape.title = this.id + "_" + feature.id;
 	      dShape.X = new Array();
 	      dShape.Y = new Array();
-	      dShape.X.push(geo2Pix(feature.vertices[0].x, xmin, xmax, 0, this._width));
-	      dShape.Y.push(geo2Pix(feature.vertices[0].y, ymax, ymin, 0, this._height));
-	      var dp = this.drawPoint(dShape, dShape.X[0], dShape.Y[0], null, null, status);
-	      dp.index = 0;
-          dp.title = this.id + "_" + feature.id;
+          var vl = featureToDraw.vertices.length;
+          for (i=0;i<vl;i++) {
+            dShape.X.push(geo2Pix(feature.vertices[0].x, xmin, xmax, 0, this._width));
+	        dShape.Y.push(geo2Pix(feature.vertices[0].y, ymax, ymin, 0, this._height));
+	        var dp = this.drawPoint(dShape, dShape.X[0], dShape.Y[0], null, null, status);
+	        dp.index = 0;
+            dp.title = this.id + "_" + feature.id;
+          }
 	      break;
-	    case "polyline":
+	    case "line":
 	      // add a div for the polyline
 	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
 	      obj._display.features.push(dShape);
@@ -1604,7 +1618,7 @@ function display_onmouseup(evt) {
   }
   
   if (_display._map.onClic) {
-    _display._map.onClic(_display.feature);
+    _display._map.onClic(_display.tmpFeature);
   }
   // Emulate dblclick for some browsers
   _display.lastX = ex;
@@ -1708,9 +1722,12 @@ function isClosedPolygon(aPolygon) {
  * @param boolean if true, change status even if current status  = "selected"
  */
 function changeStatus(node, status, recursive, force) {
+  if (node == null)
+    return;
   if (recursive)
     xWalkTree(node, function(children) {setNodeStatus(children, status, force);});
-  else this.setNodeStatus(node, status, force);
+  else
+    this.setNodeStatus(node, status, force);
 };
 
 /**

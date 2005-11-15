@@ -121,13 +121,53 @@ emptyForm = function() {
  */
 storeFeatures = function() {
   for (var i=0;i < mainmap.currentLayer.features.length; i++) {
-    var feature = mainmap.currentLayer.features[i];
-    if (feature.operation != 'undefined')
-        myform.features.value += feature.getWKT() + '|' + feature.id + '|' + feature.attributes +  '|' + feature.operation + '||';
+    var aFeature = mainmap.currentLayer.features[i];
+    for (var j=0; j < mainmap.editAttributeNames.length; j++) {
+      if (mainmap.editAttributeTypes[j] == "")
+      	continue;
+      var input = eval("myform['edit_feature_" + aFeature.id + "[" + mainmap.editAttributeNames[j] + "]']");
+      if (!validateFormInput(mainmap.editAttributeTypes[j], input.value)) {
+        return false;
+      }
+    }
+    if (aFeature.operation != 'undefined') {
+      // store geometry
+      createInput(myform, "edit_feature_" + aFeature.id + "[WKTString]", aFeature.getWKT(), 'hidden');
+      // store operation
+      createInput(myform, "edit_feature_" + aFeature.id + "[operation]", aFeature.operation, 'hidden');
+    }
   }
-  if (myform.features)
-      myform.features.value = myform.features.value.substring(0, myform.features.value.length - 2);
+  return true;
 };
+
+/**
+ * Store the feature operation in the form
+ */
+setFeatureOperation = function(aFeature, operation) {
+  aFeature.operation = operation;
+  mainmap.displayFeaturesCount();
+};
+
+/**
+ * Creates an form input
+ * @param form form name
+ * @param name name of the input
+ * @param value value of the input
+ */
+createInput = function(elt, name, value, type) {
+  if (document.all) {
+    var str = '<input type="'+type+'" name="'+name+'" value="'+value+'" />';
+    var input = xCreateElement(str);
+  }
+  else {
+    var input = xCreateElement("input");
+    input.type = type;
+    input.name = name;
+    input.value = value;
+  }
+  xAppendChild(elt, input);
+  return input;
+}
 
 /**
  * Submits the form
@@ -229,6 +269,7 @@ Map.prototype.distance = function(aDisplay) {
     distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
+    xMoveTo(this.distanceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
     for (var i = 0; i < this.currentLayer.features.length; i++) {
@@ -240,6 +281,9 @@ Map.prototype.distance = function(aDisplay) {
   }
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
+  }
+  this.onCancel = function(aFeature) {
+    this.distanceTag.style.display = "none";
   }
 };
  
@@ -252,6 +296,7 @@ Map.prototype.surface = function(aDisplay) {
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
+    xMoveTo(this.surfaceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
     for (var i = 0; i < this.currentLayer.features.length; i++) {
@@ -263,6 +308,9 @@ Map.prototype.surface = function(aDisplay) {
   }
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
+  }
+  this.onCancel = function(aFeature) {
+    this.surfaceTag.style.display = "none";
   }
 };
 /***** OUTLINE ****/
@@ -316,80 +364,4 @@ Map.prototype.outline_point = function(aDisplay) {
     hideLabel();
     emptyForm();
   };
-};
-
-/***** EDIT ****/
-Map.prototype.edit_point = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.point');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_poly = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.poly');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_line = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.line');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_box = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.box');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
- 
-Map.prototype.edit_move = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('move');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_sel = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('sel.point');
-  this.onSelPoint = function(x, y) {
-    myform.selection_coords.value = x + "," + y;
-    myform.selection_type.value = "point";
-    storeFeatures();
-    doSubmit();
-  }
-};
-  
-Map.prototype.edit_del_vertex = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('delete.vertex');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_add_vertex = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('add.vertex');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_del_feature = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('delete.feature');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
 };
