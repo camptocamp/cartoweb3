@@ -378,7 +378,7 @@ class ClientExportPdf extends ExportPlugin
         if ($id == 'title' || $id == 'note') {
             $this->blocks[$id]->content = trim($request[$pdfItem]);
         }
-        if ($id == 'mainmap') {
+        if ($id == 'mainmap' && isset($request['pdfMapAngle'])) {
             $this->blocks[$id]->angle = $request['pdfMapAngle'];
         }
 
