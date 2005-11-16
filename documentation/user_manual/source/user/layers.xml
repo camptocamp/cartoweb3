@@ -369,7 +369,7 @@ END
       <parameter>wms_legend_graphic</parameter>
     </para>
     <para>
-      Here an example :
+      Here is an example:
       <programlisting><![CDATA[
 LAYER
   NAME 'prov_boundary'
