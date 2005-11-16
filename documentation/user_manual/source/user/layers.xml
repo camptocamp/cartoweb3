@@ -353,6 +353,40 @@ END
       <filename>layers.ini</filename>, the icon of the first visible class is 
       used for the layer. </para>
   </sect1>
+  <sect1 id="user.layers.wms_legend">
+    <title>WMS Layers Legends</title>
+    <para>
+      <indexterm><primary>WMS Legend</primary></indexterm> Mapserver could
+      act like a <acronym>WMS</acronym> client and retrieved layer from 
+      distant <acronym>WMS</acronym> server. In this specific case, layers
+      legends could be retrieved directly from a distant server with 
+      <acronym>SLD</acronym> support (<literal>getLegendGraphic</literal>
+      method).
+    </para>
+    <para> 
+      <indexterm><primary>wms_legend_graphic</primary></indexterm> You must 
+      also add a metadata on each WMS layer to retrieve its legend icon:
+      <parameter>wms_legend_graphic</parameter>
+    </para>
+    <para>
+      Here an example :
+      <programlisting><![CDATA[
+LAYER
+  NAME 'prov_boundary'
+  TYPE RASTER 
+
+  CONNECTION 'http://www2.dmsolutions.ca/cgi-bin/mswms_gmap?'
+  CONNECTIONTYPE WMS
+  METADATA
+    'wms_srs'             'EPSG:4326'
+    'wms_name'            'prov_bound'
+    'wms_server_version'  '1.1.1'
+    'wms_format'          'image/png'
+    'wms_legend_graphic'  'true'
+  END
+END]]></programlisting>
+    </para>
+  </sect1>
   <sect1 id="user.layers.autolayer">
     <title>Auto Layers</title>
     <para>In some cases, it may be useful to generate several layers out of a 
