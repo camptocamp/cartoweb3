@@ -155,8 +155,6 @@ class ServerEdit extends ClientResponderAdapter {
             }
         }
         
-        print_r($attributes);
-        
         return $attributes;
     }
     
