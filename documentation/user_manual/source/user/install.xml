@@ -343,7 +343,7 @@ List of options:
           </listitem>
           <listitem>
             <para>
-              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;.
+              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;. Restart your web server.
             </para>
           </listitem>
           <listitem>
@@ -351,7 +351,15 @@ List of options:
               That's it! Point your browser to <ulink url="http://localhost/cartoweb3/htdocs/client.php"/>.
             </para>
           </listitem>
+          <listitem>
+            <para>
+             An installer for the demo data is available as well. Download it at <ulink url="http://cartoweb.org/downloads.html"/> and double-click on the executable to launch it. This will only install the demo data, &cartoweb; must have been previously installed.
+            </para>
+          </listitem>
         </itemizedlist>
+        <warning>
+          <para>Do not forget to restart your web server (WAMP > Services > Restart Apache) after installing &cartoweb;!</para>
+        </warning>
         <para>
           Once it is installed, you can modify &cartoweb; setup with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
         </para>
