@@ -154,6 +154,9 @@ class ServerEdit extends ClientResponderAdapter {
                 $attributes[$val[0]]['editable'] = false;
             }
         }
+        
+        print_r($attributes);
+        
         return $attributes;
     }
     
@@ -494,7 +497,7 @@ class ServerEdit extends ClientResponderAdapter {
             $db->setFetchMode(DB_FETCHMODE_ASSOC);
             $r = $db->getAll($sql);
             
-            $this->checkDbError($r);
+            Utils::checkDbError($r);
             
             if (count($r) == 0) {
                 return array();
