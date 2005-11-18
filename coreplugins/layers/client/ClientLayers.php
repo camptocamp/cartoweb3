@@ -1263,8 +1263,10 @@ class ClientLayers extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-        $template->assign('layers', $this->drawLayersList());
-        $template->assign('switches', $this->drawSwitches());
+        $template->assign(array('layers'    => $this->drawLayersList(),
+                                'switches'  => $this->drawSwitches(),
+                                'switch_id' => $this->layersState->switchId,
+                                ));
     }
 
     /**
