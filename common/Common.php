@@ -46,7 +46,7 @@ if (!defined('CARTOSERVER_HOME'))
 /* Dummy wrapper if xml extension is not loaded (won't work in non direct mode) */
 if (!class_exists('SoapFault')) {
 
-    class SoapFault {
+    class SoapFault extends Exception {
         public $faultstring;
     
         public function __construct ($faultcode, $faultstring) {
