@@ -132,7 +132,7 @@ List of options:
                              NOTE: default is production if not given
  --clean-views              Clean views (must be used with --clean).
  
-<?
+<?php
     exit();
 }
 
