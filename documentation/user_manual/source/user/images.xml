@@ -1,95 +1,167 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
-  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
   %cartoweb;
-  ]>
+]>
 <!-- $Id$ -->
 <chapter id="user.images">
-  <title>Image Format Options</title>
-  <subtitle>Plugin Images</subtitle>
-  <para> The plugin images is the core plugin that deals with the formatting 
-    options for the main map. It handles the size of the image and its 
-    filetype. </para>
+  <title>
+    Image Format Options
+  </title>
+  <subtitle>
+    Plugin Images
+  </subtitle>
+  <para>
+    The plugin images is the core plugin that deals with the formatting
+    options for the main map. It handles the size of the image and its
+    filetype.
+  </para>
   <sect1 id="user.images.client">
-    <title>Client-side Configuration</title>
-    <para> Here are the options that can be set: </para>
-    <itemizedlist>
-      <listitem>
-        <para> 
-          mapSizesActive<indexterm><primary>mapSizesActive</primary></indexterm>: 
-          boolean; if true, displays a drop-down list of available mapsizes ; 
-          if false a fixed size is used (defined by the two following 
-          parameters). </para>
-      </listitem>
-      <listitem>
-        <para> mapWidth<indexterm><primary>mapWidth</primary></indexterm>: 
-          mainmap width in pixels if mapSizesActive = false </para>
-      </listitem>
-      <listitem>
-        <para> mapHeight<indexterm><primary>mapHeight</primary></indexterm>: 
-          mainmap height in pixels if mapSizesActive = false </para>
-      </listitem>
-      <listitem>
-        <para> mapSizes.#.width<indexterm><primary> 
-          mapSizes.#.width</primary></indexterm>: (#=0,1,2...) available 
-          mainmap width in pixels for mapsize # (when mapSizesActive = true) 
+    <title>
+      Client-side Configuration
+    </title>
+    <sect2>
+      <title>
+        Main Map Options
+      </title>
+      <para>
+        Here are the options that can be set:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            mapSizesActive<indexterm><primary>mapSizesActive</primary>
+            </indexterm>: boolean; if true, displays a drop-down list of
+            available mapsizes ; if false a fixed size is used (defined by
+            the two following parameters).
           </para>
-      </listitem>
-      <listitem>
-        <para> mapSizes.#.height<indexterm><primary> 
-          mapSizes.#.height</primary></indexterm>: (#=0,1,2...) available 
-          mainmap height in pixels for mapsize # (when mapSizesActive = true) 
+        </listitem>
+        <listitem>
+          <para>
+            mapWidth<indexterm><primary>mapWidth</primary></indexterm>:
+            mainmap width in pixels if mapSizesActive = false
           </para>
-      </listitem>
-      <listitem>
-        <para> mapSizes.#.label<indexterm><primary> 
-          mapSizes.#.label</primary></indexterm>: (#=0,1,2...) label that 
-          describes mapsize #; appears in drop-down list. If not specified, a 
-          &lt;width&gt;x&lt;height&gt; pattern is used as the label. </para>
-      </listitem>
-      <listitem>
-        <para> mapSizesDefault<indexterm><primary> 
-          mapSizesDefault</primary></indexterm>: integer indicates the default 
-          mapsize to be used (among the above #). Only when mapSizesActive = 
-          true. </para>
-      </listitem>
-    </itemizedlist>
-    <para> If no mapsize settings are found, the default mapsize is 400x200 
-      pixels. </para>
+        </listitem>
+        <listitem>
+          <para>
+            mapHeight<indexterm><primary>mapHeight</primary></indexterm>:
+            mainmap height in pixels if mapSizesActive = false
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            mapSizes.#.width <indexterm><primary>mapSizes.#.width</primary>
+            </indexterm>: (#=0,1,2...) available mainmap width in pixels for
+            mapsize # (when mapSizesActive = true)
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            mapSizes.#.height <indexterm><primary>mapSizes.#.height</primary>
+            </indexterm>: (#=0,1,2...) available mainmap height in pixels for
+            mapsize # (when mapSizesActive = true)
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            mapSizes.#.label <indexterm><primary>mapSizes.#.label</primary>
+            </indexterm>: (#=0,1,2...) label that describes mapsize #;
+            appears in drop-down list. If not specified, a
+            &lt;width&gt;x&lt;height&gt; pattern is used as the label.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            mapSizesDefault <indexterm><primary>mapSizesDefault</primary>
+            </indexterm>: integer indicates the default mapsize to be used
+            (among the above #). Only when mapSizesActive = true.
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>
+        If no mapsize settings are found, the default mapsize is 400x200
+        pixels.
+      </para>
+    </sect2>
+    <sect2 id="user.images.client.keymap">
+      <title>
+        Keymap and Scalebar Options
+      </title>
+      <para>
+        The plugin images can also deal with few keymap and scalebar options:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <indexterm><primary>collapsibleKeymap</primary></indexterm> 
+            collapsibleKeymap: if true, keymap is shown on map, and possibly
+            hidden.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <indexterm><primary>noDrawKeymap</primary></indexterm>
+            noDrawKeymap: if true, keymap will not be drawn at all.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <indexterm><primary>noDrawScalebar</primary></indexterm> 
+            noDrawScalebar: if true, scalebar will not be drawn.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
   </sect1>
   <sect1 id="user.images.server">
-    <title>Server-side Configuration</title>
-    <para> Here are the options that can be set: </para>
+    <title>
+      Server-side Configuration
+    </title>
+    <para>
+      Here are the options that can be set:
+    </para>
     <itemizedlist>
       <listitem>
-        <para> 
-          maxMapWidth<indexterm><primary>maxMapWidth</primary></indexterm>: 
-          maximum allowed width in pixels of the generated mainmap. If the 
-          value requested by the client is greater, maxMapWidth takes 
-          precedence over it. </para>
+        <para>
+          maxMapWidth<indexterm><primary>maxMapWidth</primary></indexterm>:
+          maximum allowed width in pixels of the generated mainmap. If the
+          value requested by the client is greater, maxMapWidth takes
+          precedence over it.
+        </para>
       </listitem>
       <listitem>
-        <para> 
-          maxMapHeight<indexterm><primary>maxMapHeight</primary></indexterm>: 
-          maximum allowed height in pixels of the generated mainmap. If the 
-          value requested by the client is greater, maxMapHeight takes 
-          precedence over it. </para>
+        <para>
+          maxMapHeight<indexterm><primary>maxMapHeight</primary></indexterm>:
+          maximum allowed height in pixels of the generated mainmap. If the
+          value requested by the client is greater, maxMapHeight takes
+          precedence over it.
+        </para>
       </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.images.mapfile">
-    <title>Related Elements in Mapfile</title>
+    <title>
+      Related Elements in Mapfile
+    </title>
     <sect2 id="user.images.mapfile.general">
-      <title>General Image Type</title>
-      <para> The general output fileformat is handled by Mapserver. The basic 
-        command in the mapfile is</para>
-      <screen>IMAGETYPE png|jpeg|gif...</screen>
-      <para><indexterm><primary>imagetype</primary></indexterm> Then the 
-        OUTPUTFORMAT objects may set properties for each possible fileformat. 
-        Example (for jpeg) 
-        <indexterm><primary>outputformat</primary></indexterm>: </para>
-      <screen><![CDATA[OUTPUTFORMAT
+      <title>
+        General Image Type
+      </title>
+      <para>
+        The general output fileformat is handled by Mapserver. The basic
+        command in the mapfile is
+      </para>
+      <screen><![CDATA[
+IMAGETYPE png|jpeg|gif...]]></screen>
+      <para>
+        <indexterm><primary>imagetype</primary></indexterm> Then the
+        OUTPUTFORMAT objects may set properties for each possible fileformat.
+        Example (for jpeg) <indexterm><primary>outputformat</primary>
+        </indexterm>:
+      </para>
+      <screen><![CDATA[
+OUTPUTFORMAT
   NAME jpeg
   DRIVER "GD/JPEG"
   MIMETYPE "image/jpeg"
@@ -97,15 +169,22 @@
   FORMATOPTION QUALITY=85
   EXTENSION "jpg"
 END]]></screen>
-      <para> See the available options for each format in the Mapserver doc. 
-        </para>
-      <para> Important note if you intend to use pdf printing : interlaced png 
-        images are not supported by the fpdf library that is used in this 
-        module. Consequently, you must have the option</para>
-      <screen>FORMATOPTION "INTERLACE=OFF"</screen>
-      <para> in the definition of the png OUTPUTFORMAT. Here is the complete 
-        object : </para>
-      <screen><![CDATA[OUTPUTFORMAT
+      <para>
+        See the available options for each format in the Mapserver doc.
+      </para>
+      <para>
+        Important note if you intend to use pdf printing : interlaced png
+        images are not supported by the fpdf library that is used in this
+        module. Consequently, you must have the option
+      </para>
+      <screen><![CDATA[
+FORMATOPTION "INTERLACE=OFF"]]></screen>
+      <para>
+        in the definition of the png OUTPUTFORMAT. Here is the complete
+        object :
+      </para>
+      <screen><![CDATA[
+OUTPUTFORMAT
   NAME png
   DRIVER "GD/PNG"
   MIMETYPE "image/png"
@@ -115,21 +194,28 @@ END]]></screen>
 END]]></screen>
     </sect2>
     <sect2 id="user.images.mapfile.switch">
-      <title>Automatic Image Type Switch</title>
-      <para> It is often desirable to adapt the imagetype of the map to the 
-        represented data. Typically, vector data is well rendered in png, while 
-        the colors of a raster background require either jpeg or png24 format. 
-        &cartoweb; includes a mechanism that automatically switches the format 
-        when specific layers are selected. A special metadata of the layers 
-        triggers this behavior 
-        <indexterm><primary>force_imagetype</primary></indexterm>: </para>
-      <screen> <![CDATA[METADATA
-     ...
-     "force_imagetype" "jpeg|png..."
-     ...
-   END]]></screen>
-      <para> This metadata overrides the general fileformat of the mainmap (but 
-        not of the legend icons; these stay in the initial fileformat). </para>
+      <title>
+        Automatic Image Type Switch
+      </title>
+      <para>
+        It is often desirable to adapt the imagetype of the map to the
+        represented data. Typically, vector data is well rendered in png,
+        while the colors of a raster background require either jpeg or png24
+        format. &cartoweb; includes a mechanism that automatically switches
+        the format when specific layers are selected. A special metadata of
+        the layers triggers this behavior <indexterm><primary>force_imagetype
+        </primary></indexterm>:
+      </para>
+      <screen><![CDATA[
+METADATA
+  ...
+  "force_imagetype" "jpeg|png..."
+  ...
+END]]></screen>
+      <para>
+        This metadata overrides the general fileformat of the mainmap (but
+        not of the legend icons; these stay in the initial fileformat).
+      </para>
     </sect2>
   </sect1>
 </chapter>

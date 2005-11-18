@@ -236,14 +236,14 @@ class ClientImages extends ClientPlugin
         $drawAll = ($this->getCartoclient()->getOutputType()
                     != Cartoclient::OUTPUT_IMAGE);
 
-        // TODO: read from config if drawn        
         $scalebar_image = new Image();
-        $scalebar_image->isDrawn = $drawAll;
+        $scalebar_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawScalebar);
         $images->scalebar = $scalebar_image;
 
-        // TODO: read from config if drawn        
         $keymap_image = new Image();
-        $keymap_image->isDrawn = $drawAll;
+        $keymap_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawKeymap);
         $images->keymap = $keymap_image;
 
         $mainmap_image = new Image();
