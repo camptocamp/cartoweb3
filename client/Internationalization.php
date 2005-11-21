@@ -81,12 +81,7 @@ class I18n {
      */
     static public function getLocales() {
 
-        $authLang = array();
-
-        if (self::$langList != '') {
-            $authLang = explode(',', self::$langList);
-            $authLang = array_map('trim', $authLang);
-        }
+        $authLang = Utils::parseArray(self::$langList);
 
         // Looks in directory locale
         $dir = CARTOWEB_HOME . 'locale/';
@@ -244,8 +239,9 @@ class I18n {
      * @return array sorted locales language
      */
      static private function localesSort($locales) {
-        $o = explode (',', self::$langList);
-        $o = array_map('trim', $o);
+
+        $o = Utils::parseArray(self::$langList);
+
         $n = array();
         $r = array();     
         foreach ($locales as $lang) {

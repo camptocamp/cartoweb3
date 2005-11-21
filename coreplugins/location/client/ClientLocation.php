@@ -396,8 +396,7 @@ class ClientLocation extends ClientPlugin
         $layersLabel = array();
         $idRecenterLayersStr = $this->getConfig()->idRecenterLayers;
         if (!empty($idRecenterLayersStr)) {
-            $idRecenterLayers = explode(',', $idRecenterLayersStr);
-            $idRecenterLayers = array_map('trim', $idRecenterLayers);
+            $idRecenterLayers = Utils::parseArray($idRecenterLayersStr);
         }
         foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)

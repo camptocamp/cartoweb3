@@ -181,8 +181,6 @@ class ClientEdit extends ClientPlugin
      */
     public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
         $this->editState = new EditState();
-             
-        return;
     }
 
     /**
@@ -305,8 +303,7 @@ class ClientEdit extends ClientPlugin
         $layersLabel = array();
         
         if (!empty($layersList)) {
-            $layersList = explode(',', $layersList);
-            $layersList = array_map('trim', $layersList);
+            $layersList = Utils::parseArray($layersList);
         } else return;
         
         foreach($layersInit->getLayers() as $layer) {
