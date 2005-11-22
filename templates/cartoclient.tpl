@@ -22,8 +22,8 @@
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
-
-  <script language="JavaScript" type="text/javascript">
+    
+  <script type="text/javascript">
     <!--
     var hideKeymapMsg = "{t}Collapse keymap{/t}";
     var showKeymapMsg = "{t}Show keymap{/t}";
