@@ -12,11 +12,11 @@
  
  
  /**
- * Contains the output of a plugin.
- * This object is used by plugins in AjaxPlugin::ajaxResponse() to
- * feed the pluginResponse XML file. 
- * @package Client
- */
+  * Contains the output of a plugin
+  * This object is used by plugins in Ajaxable::getAjaxResponse() to
+  * feed the pluginResponse XML file.
+  * @package Client
+  */
  class AjaxPluginResponse {
  	protected $htmlCode;
  	protected $variables;
@@ -47,16 +47,22 @@
  	}
 }
  
- class PluginsDirectives {
+ /**
+  * Container for plugins' asynchronous responses
+  * This object is used by plugins in Ajaxable::getAjaxResponse() to
+  * feed the pluginResponse XML file
+  * @package Client
+  */
+ class PluginEnabler {
  	
  	/**
- 	 * @var PluginManager
+ 	 * @var Cartoclient
  	 */
  	protected $cartoclient;
 
  	public function __construct(&$cartoclient) {
  		if (!$cartoclient instanceof Cartoclient)
- 			die('PlugingDirectives object: constructor: given $cartoclient is not a Cartoclient instance object.');
+ 			die('The given $cartoclient is not a Cartoclient instance object.');
 		$this->cartoclient = $cartoclient;
  	}
 
@@ -115,7 +121,8 @@
  		if (!$this->isCoreplugin($pluginName))
  			throw new AjaxException('Plugin ' . $pluginName . ' is not a coreplugin.');
  		if (!$this->isLoaded($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . ' is not loaded. You can only disable loaded coreplugins.');
+ 			throw new AjaxException('Plugin ' . $pluginName . ' is not loaded. ' .
+ 					'You can only disable loaded coreplugins.');
  		$this->getPlugin($pluginName)->disable(); 		
  	}
 
@@ -135,9 +142,11 @@
 
  	public function enablePlugin($pluginName) {
  		if (!$this->isPlainPlugin($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . 'is a coreplugin. Use disableCoreplugin() to disable it.');
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is a coreplugin. ' .
+ 					'Use disableCoreplugin() to disable it.');
  		if (!$this->isLoaded($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. You can only disable loaded plugins.');
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. ' .
+ 					'You can only disable loaded plugins.');
  		$this->getPlugin($pluginName)->enable();
  	}
 
@@ -149,9 +158,11 @@
  	 	
  	public function disablePlugin($pluginName) {
  		if (!$this->isPlainPlugin($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . 'is a coreplugin. Use disableCoreplugin() to disable it.');
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is a coreplugin. ' .
+ 					'Use disableCoreplugin() to disable it.');
  		if (!$this->isLoaded($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. You can only disable loaded plugins.');
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. ' .
+ 					'You can only disable loaded plugins.');
  		$this->getPlugin($pluginName)->disable();
  	}
 
@@ -163,32 +174,11 @@
  	
  	public function setEnableLevel ($pluginName, $enableLevelValue) {
  		if (!$this->isLoaded($pluginName))
- 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. You can only set enable level on loaded plugins.');
+ 			throw new AjaxException('Plugin ' . $pluginName . 'is not loaded. ' .
+ 					'You can only set enable level on loaded plugins.');
  		$plugin = $this->getPlugin($pluginName);
  		$plugin->setEnableLevel($enableLevelValue);
  	}
- 	 	
-/*
- 	public function addDirective($pluginName, $directiveName) {
- 		$plugin = $this->pluginManager->getPlugin($pluginName);
- 		
- 		// Checks
- 		if ($plugin == null)
- 			throw new AjaxException('Plugin ' . $pluginName . ' is not loaded. You can only add directives to loaded plugins.');
- 		if ($directiveName != false && !$plugin->directiveExists($directiveName))
- 			throw new AjaxException('Directive ' . $directiveName . ' is not defined in plugin ' . $pluginName);
- 		
- 		// Add directive
- 		$this->getPlugin($pluginName)->setDirective($directiveName);	 	
- 	}
- 	
- 	public function getDirectives() {
- 		return $this->directives;
- 	}
 
- 	public function getPluginDirectives($pluginName) {
- 		return $this->directives[$pluginName];
- 	}
- */
  }
 ?>

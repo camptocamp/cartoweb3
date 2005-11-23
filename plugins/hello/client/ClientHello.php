@@ -26,7 +26,7 @@
  * @package Plugins
  */
 class ClientHello extends ClientPlugin
-                  implements Sessionable, GuiProvider, AjaxPlugin {
+                  implements Sessionable, GuiProvider, Ajaxable {
 
     const HELLO_INPUT = 'hello_input';
     
@@ -105,12 +105,12 @@ class ClientHello extends ClientPlugin
                           " count: " . $this->count);
     }
 
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
 		$ajaxPluginResponse->addHtmlCode('hello_message', "message: " .
 						  $this->message . " count: " . $this->count);
     }
 
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Hello.change':
 				$pluginsDirectives->disableCoreplugins();

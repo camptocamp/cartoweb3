@@ -282,14 +282,15 @@ class FormRenderer {
     public function showAjaxPluginResponse() {
 
 		$plugins = $this->cartoclient->getPluginManager()->getPlugins();
+
 		// Creates an AjaxPluginResponse object and passes it by reference
 		// to all enabled  plugin's renderAjaxResponse() method that will populate it
 		$ajaxPluginResponses = array();
 		foreach ($plugins as $plugin) {
 	    	$ajaxPluginResponse = new AjaxPluginResponse();
-		    $this->cartoclient->callEnabledPluginImplementing(ClientPlugin::ENABLE_LEVEL_FULL, $plugin->getName(),
-												'AjaxPlugin', 'ajaxResponse',
-												&$ajaxPluginResponse);
+		    $this->cartoclient->callEnabledPluginImplementing(
+		    			ClientPlugin::ENABLE_LEVEL_FULL, $plugin->getName(),
+						'Ajaxable', 'ajaxGetPluginResponse', &$ajaxPluginResponse);
 		    if (!$ajaxPluginResponse->isEmpty())
 		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
 	    }

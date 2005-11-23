@@ -35,7 +35,7 @@ require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php')
  * @package CorePlugins
  */
 class ClientTables extends ClientPlugin
-                   implements GuiProvider, AjaxPlugin {
+                   implements GuiProvider, Ajaxable {
                    
     /**
      * @var Logger
@@ -201,11 +201,11 @@ class ClientTables extends ClientPlugin
         $template->assign('tables_result', $output);
     }
 
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$ajaxPluginResponse->addHtmlCode('tableResult', $this->renderFormPrepare());
     }
 
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Query.perform':
 				

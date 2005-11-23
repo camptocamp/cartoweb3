@@ -51,7 +51,7 @@ class ImagesState {
  */
 class ClientImages extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable, AjaxPlugin {
+                              Exportable, Ajaxable {
     /**
      * @var Logger
      */
@@ -362,19 +362,19 @@ class ClientImages extends ClientPlugin
     	$template->assign($assignArray['htmlCode']);
     }
     
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$assignArray = $this->renderFormPrepare();
     	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
 	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
     	}    	
     }
 
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
 			case 'Images.changeMapSize':
-				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('location');
-				$pluginsDirectives->enableCoreplugin('images');
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('location');
+				$pluginEnabler->enableCoreplugin('images');
 			break;
 		}			
 	}

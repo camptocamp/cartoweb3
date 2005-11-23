@@ -52,7 +52,7 @@ class OutlineState {
  */
 class ClientOutline extends ClientPlugin
                     implements Sessionable, GuiProvider, ServerCaller,
-                    ToolProvider, Exportable, AjaxPlugin {
+                    ToolProvider, Exportable, Ajaxable {
                     
     /**                    
      * @var Logger
@@ -256,22 +256,22 @@ class ClientOutline extends ClientPlugin
         $template->assign($this->renderFormPrepare());
     }
 
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$output = $this->renderFormPrepare();
     	$ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
     }
     
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
 			case 'Outline.addFeature':
 			case 'Outline.clear':
-				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('images');
-				$pluginsDirectives->enablePlugin('outline');
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('images');
+				$pluginEnabler->enablePlugin('outline');
 			break;
 			case 'Outline.changeMode':			
-				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('images');
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('images');
 			break;
 		}
 	}

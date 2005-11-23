@@ -52,7 +52,7 @@ class LocationState {
  */
 class ClientLocation extends ClientPlugin
                      implements Sessionable, GuiProvider, ServerCaller,
-                                InitUser, ToolProvider, Exportable, AjaxPlugin {
+                                InitUser, ToolProvider, Exportable, Ajaxable {
                                 
     /**
      * @var Logger
@@ -847,7 +847,7 @@ class ClientLocation extends ClientPlugin
         $template->assign($assignArray['htmlCode']);
     }
 
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$assignArray = $this->renderFormPrepare(); 
     	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
 	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
@@ -857,20 +857,20 @@ class ClientLocation extends ClientPlugin
     	}    	
     }
 
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
 			case 'Location.pan':
-				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('location');
-				$pluginsDirectives->enableCoreplugin('images');
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('location');
+				$pluginEnabler->enableCoreplugin('images');
 			break;			
 			case 'Location.fullExtent':
 			case 'Location.recenter':
 			case 'Location.zoom':
-				$pluginsDirectives->disableCoreplugins();
-				$pluginsDirectives->enableCoreplugin('location');
-				$pluginsDirectives->enableCoreplugin('layers');
-				$pluginsDirectives->enableCoreplugin('images');
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('location');
+				$pluginEnabler->enableCoreplugin('layers');
+				$pluginEnabler->enableCoreplugin('images');
 			break;
 		}
 	}

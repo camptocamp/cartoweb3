@@ -45,7 +45,7 @@ class QueryState {
  * @package CorePlugins
  */
 class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
-                             ServerCaller, ToolProvider, Exportable, AjaxPlugin {
+                             ServerCaller, ToolProvider, Exportable, Ajaxable {
                   
     /**                 
      * @var Logger
@@ -539,11 +539,11 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
 		$template->assign('query_result', $this->drawQuery());    
     }
 
-    public function ajaxResponse($ajaxPluginResponse) {
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$ajaxPluginResponse->addHtmlCode('queryResult', $this->drawQuery());
     }
 
-	public function ajaxHandleAction($actionName, $pluginsDirectives) {
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
 			case 'Query.perform':
 			case 'Query.clear':

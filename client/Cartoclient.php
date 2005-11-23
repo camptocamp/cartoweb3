@@ -574,8 +574,11 @@ class Cartoclient {
     /**
      * ajax-dev
      * Calls enabled plugins implementing an interface
+     * A plugin is enabled is its enable level is equal or higher than
+     * the given $enableLevel
      *
      * Interfaces are declared in {@link ClientPlugin}.
+     * @param int minimum enable level for a plugin to be called
      * @param string interface name
      * @param string function name
      */
@@ -591,9 +594,12 @@ class Cartoclient {
 
     /**
      * ajax-dev
-     * Calls enabled plugins implementing an interface
+     * Calls a given $pluginName implementing an interface if it's enable level
+     * is equal or higher than the given $enableLevel
      *
      * Interfaces are declared in {@link ClientPlugin}.
+     * @param int minimum enable level for the plugin to be called
+     * @param string plugin name
      * @param string interface name
      * @param string function name
      */
@@ -907,10 +913,10 @@ class Cartoclient {
         }
 
         $mapRequest = $this->getMapRequest();
-        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
 												'ServerCaller', 'buildRequest',
 												$mapRequest);
-        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
 												'ServerCaller', 'overrideRequest',
 												$mapRequest);
 
@@ -930,11 +936,11 @@ class Cartoclient {
         $this->log->debug('mapresult:');
         $this->log->debug($this->mapResult);
 
-        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
 												'ServerCaller', 'initializeResult',
 												$this->mapResult);
 
-        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
 												'ServerCaller', 'handleResult',
 												$this->mapResult);
 
@@ -963,25 +969,32 @@ class Cartoclient {
     }
 
     private function doMainAsync() {
-		// Determines what plugin triggered what action 
+
 		$requestedActionId = $_REQUEST['ajaxActionRequest'];
 		
+		// Determines what plugin triggered what action 
 		list($requestedPluginName, $requestedActionName) = 
 				explode('.', $requestedActionId, 2);
-		// lowercase the first letter of $requestedPluginName
-		$requestedPluginName = strtolower($requestedPluginName{0}) . substr($requestedPluginName, 1);
+		
+		// Lowercase the first letter of $requestedPluginName
+		$requestedPluginName = strtolower($requestedPluginName{0}) 
+			. substr($requestedPluginName, 1);
 
 		// Check if requested plugin exists, if not, throw an exception
 		if ($this->pluginManager->getPlugin($requestedPluginName) == null)
-			throw new AjaxException('Requested plugin ' . $requestedPluginName . ' is not loaded. Check your AJAX call (currently ajaxActionRequest=' . $_REQUEST['ajaxActionRequest'] . ')');		
+			throw new AjaxException(
+				'Requested plugin ' . $requestedPluginName . ' is not loaded. ' .
+				'Check your AJAX call parameters (currently ajaxActionRequest=' . 
+				$_REQUEST['ajaxActionRequest'] . ')');		
 		
-		$pluginsDirectives = new PluginsDirectives($this);
+		$pluginEnabler = new PluginEnabler($this);
+		
 		// Plugins are disabled by default in async mode
-		$pluginsDirectives->disablePlugins();
+		$pluginEnabler->disablePlugins();
 
 		// Ask plugins to give their plugins directives for the given $actionId
-        $this->callPluginsImplementing('AjaxPlugin', 'ajaxHandleAction',
-									$requestedActionId, &$pluginsDirectives);
+        $this->callPluginsImplementing('Ajaxable', 'ajaxHandleAction',
+									$requestedActionId, &$pluginEnabler);
 
     	$this->doMain();
     }
@@ -1084,9 +1097,9 @@ class Cartoclient {
         
     	/**
     	 * [ajaxDev]
-    	 * AJAX Switch for template rendering:
+    	 * AJAX Switch:
     	 * If the "ajaxRequest" HTTP parameter is set (POST or GET),
-    	 * switch to the async mecanism.
+    	 * switch to the async mode.
     	 * Else, use the traditional sync mecanism.
     	 */
     	if (isset($_REQUEST['ajaxActionRequest'])) {

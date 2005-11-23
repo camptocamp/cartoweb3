@@ -288,7 +288,9 @@ class PluginManager {
 
     /**
      * ajax-dev
-     * Calls a function on enabled plugins implementing an interface
+     * Calls a function on a plugin implementing an interface IF it is enabled
+     * An enabled plugin is a plugin whose enableLevel property value is
+     * bigger or equal to the given $enableLevel argument
      * @param string interface name
      * @param string function name
      * @param array function arguments
@@ -298,7 +300,6 @@ class PluginManager {
 
         $plugin = $this->getPlugin($pluginName);
         if ($plugin->isEnabledAtLevel($enableLevel))
-//echo "Plugin exec: ".$plugin->getName()."->".$functionName."() -- ".$plugin->getEnabledLevel().">=".$enableLevel."<br />";
 	        $this->callPluginImplementing($plugin, $interface, $functionName, 
     	                                  $args);
     }
@@ -306,6 +307,8 @@ class PluginManager {
     /**
      * ajax-dev
      * Calls a function on enabled plugins implementing an interface
+     * An enabled plugin is a plugin whose enableLevel property value is
+     * bigger or equal to the given $enableLevel argument
      * @param string interface name
      * @param string function name
      * @param array function arguments
@@ -315,7 +318,6 @@ class PluginManager {
 
         foreach ($this->plugins as $plugin) {
         if ($plugin->isEnabledAtLevel($enableLevel))
-//echo "Plugin exec: ".$plugin->getName()."->".$functionName."() -- ".$plugin->getEnabledLevel().">=".$enableLevel."<br />";
 			$this->callPluginImplementing($plugin, $interface, $functionName, 
 											$args);
         }
