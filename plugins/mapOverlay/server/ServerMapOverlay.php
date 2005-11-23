@@ -245,8 +245,7 @@ class ServerMapOverlay extends ServerPlugin {
         case BasicOverlay::ACTION_INSERT:
             // TODO
             break;
-        case BasicOverlay::ACTION_REMOVE:
-            
+        case BasicOverlay::ACTION_REMOVE:    
             // TODO
             return NULL;
         default:
@@ -485,14 +484,12 @@ class ServerMapOverlay extends ServerPlugin {
             if (!is_null($overlay->minScale) &&
                 $msClass->minscale != $overlay->minScale) {
                 
-                $result->minScale = $overlay->minScale;
-                $msClass->minscale = $result->minScale;
+                $msClass->minscale = $result->minScale = $overlay->minScale;
             }
             if (!is_null($overlay->maxScale) &&
                 $msClass->maxscale != $overlay->maxScale) {
                 
-                $result->maxScale = $overlay->maxScale;
-                $msClass->maxscale = $result->maxScale;
+                $msClass->maxscale = $result->maxScale = $overlay->maxScale;
             }
             break;
         case BasicOverlay::ACTION_SEARCH:
