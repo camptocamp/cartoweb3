@@ -731,13 +731,17 @@ class ServerMapOverlay extends ServerPlugin {
             }
             break;
         case BasicOverlay::ACTION_INSERT:
+
+            // no insertLayer function in PHP MapScript. see mapserver bug #762
+
             // TODO
             break;
         case BasicOverlay::ACTION_REMOVE:
 
             $msLayer = $this->getLayer($overlay);
-            $this->mapObj->removeLayer($msLayer->index); 
 
+            // no removeLayer function in PHP MapScript. see mapserver bug #762
+            $msLayer->set('status', MS_DELETE);
             return NULL;
         default:
             throw new CartoserverException('updateLayer: unknown action');
