@@ -348,6 +348,10 @@ Map.prototype.drawEditAttributesTable = function() {
     cell.innerHTML = this.editAttributeNames[i];
     xAppendChild(row, cell);
   }
+  // add column for radio button
+  var cell = xCreateElement('th');
+  xAppendChild(row, cell);
+  // add column for recenter
   var cell = xCreateElement('th');
   xAppendChild(row, cell);
   xAppendChild(tbody, row);
@@ -442,22 +446,6 @@ function uncheckFeaturesRadios() {
     }
 }
 
-/*
-function createInput(type, name, value) {
-  if (document.all) {
-    var str = '<input type="'+type+'" name="'+name+'" value="'+value+'" />';
-    var input = xCreateElement(str);
-  }
-  else {
-    var input = xCreateElement("input");
-    input.type = type;
-    input.name = name;
-    input.value = value;
-  }
-  return input;
-}
-*/
-
 /**
  * Adds a row to the edit features table
  */
@@ -512,6 +500,32 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   input.onclick = function() {
     selectEditFeature(aFeature.id);
     eval ("mainmap.edit_" + aFeature.type + "('map');");
+  }
+  xAppendChild(row, td);
+  
+  var td = xCreateElement("td");
+  
+  // rencenter on feature
+  if (aFeature.operation != 'insert') {
+    var image = createInput(td, 'edit_recenter', '', 'image');
+    image.src = xGetElementById("edit_recenter").src;
+    image.border = "0";
+    image.href = "#";
+    image.onclick = function() {
+      var id_recenter_ids = xGetElementById('id_recenter_ids');
+      if (id_recenter_ids == null)
+        var input = createInput(myform, 'id_recenter_ids', aFeature.id, 'hidden');
+      else
+        id_recenter_ids.value = aFeature.id;
+      
+      var id_recenter_layer = xGetElementById('id_recenter_layer');
+      if (id_recenter_layer == null)
+        var input = createInput(myform, 'id_recenter_layer', myform.edit_layer.value, 'hidden');
+      else
+        id_recenter_layer.value = myform.edit_layer.value;
+      doSubmit();
+    }
+    xAppendChild(td, image);
   }
   
   xAppendChild(row, td);
