@@ -119,7 +119,7 @@ Feature.prototype.getWKT = function() {
     case "point" :
       var WKTString = "POINT(" + coords + ")";
       break;
-    case "line" :
+    case "polyline" :
       var WKTString = "LINESTRING(" + coords + ")";
       break;
     case "polygon" :
