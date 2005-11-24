@@ -54,7 +54,7 @@ Map.prototype.edit_point = function(aDisplay) {
   this.onFeatureInput = function(aFeature) {
     if (this.currentEditFeature != null &&
       this.currentEditFeature.vertices == 0) {
-      // feature with attributes but geometry, update geometry with geometry of newly drawn object
+      // feature with attributes but no geometry, update geometry with geometry of newly drawn object
       for (var i = 0; i < this.currentLayer.features.length; i ++) {
         if (this.currentLayer.features[i].id == this.currentEditFeature.id) {
           this.currentLayer.features[i].vertices = aFeature.vertices;
@@ -138,7 +138,7 @@ Map.prototype.edit_polygon = function(aDisplay) {
   this.onFeatureInput = function(aFeature) {
     if (this.currentEditFeature != null &&
       this.currentEditFeature.vertices == 0) {
-      // feature with attributes but geometry, update geometry with geometry of newly drawn object
+      // feature with attributes but no geometry, update geometry with geometry of newly drawn object
       for (var i = 0; i < this.currentLayer.features.length; i ++) {
         if (this.currentLayer.features[i].id == this.currentEditFeature.id) {
           this.currentLayer.features[i].vertices = aFeature.vertices;
@@ -216,7 +216,7 @@ Map.prototype.edit_line = function(aDisplay) {
   this.onFeatureInput = function(aFeature) {
     if (this.currentEditFeature != null &&
       this.currentEditFeature.vertices == 0) {
-      // feature with attributes but geometry, update geometry with geometry of newly drawn object
+      // feature with attributes but no geometry, update geometry with geometry of newly drawn object
       for (var i = 0; i < this.currentLayer.features.length; i ++) {
         if (this.currentLayer.features[i].id == this.currentEditFeature.id) {
           this.currentLayer.features[i].vertices = aFeature.vertices;
