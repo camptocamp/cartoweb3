@@ -1429,7 +1429,7 @@ Display.prototype.drawFeature = function(obj, feature, status) {
             dp.title = this.id + "_" + feature.id;
           }
 	      break;
-	    case "line":
+	    case "polyline":
 	      // add a div for the polyline
 	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
 	      obj._display.features.push(dShape);

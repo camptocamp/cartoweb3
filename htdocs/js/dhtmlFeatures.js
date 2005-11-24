@@ -50,7 +50,7 @@ function Feature(wktString) {
         this.type = "point";
         break;
       case "LINESTRING":
-        this.type = "line";
+        this.type = "polyline";
         break;
       case "POLYGON":
         this.type = "polygon";

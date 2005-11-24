@@ -99,7 +99,7 @@ fillForm = function(aFeature) {
       var shapeType = "point";
       break;
     case "polyline" :
-      var shapeType = "line";
+      var shapeType = "polyline";
       break;
     case "polygon" :
       var shapeType = "polygon";
