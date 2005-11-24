@@ -537,7 +537,8 @@ class ServerEdit extends ClientResponderAdapter {
             $this->editTable = $this->editTable;
         }
         
-        $this->idField = $this->getMetadataValueString($this->layer,'id_attribute_string');
+        $this->idField = explode("|",$this->getMetadataValueString($this->layer,'id_attribute_string'));
+        $this->idField = $this->idField[0];
         if (!isset($this->idField)) throw new CartoserverException("Id field for edition not set in mapfile");
                 
         return true;
