@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="user.edit">
+  <title>Edition</title>
+  <subtitle>Plugin Edit</subtitle>
+  <para> The Edit plugin allows user to edit geographical data on the browser
+    </para>
+  <sect1 id="user.edit.client">
+    <title>Client-side Configuration</title>
+    <sect2 id="user.edit.client.ini">
+      <title>edit.ini</title>
+      <para>Here are the options that can be set on the client: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            general.allowedRoles: comma seperated list of the roles that are
+             allowed to use the edit plugin
+            </para>
+        </listitem>
+        <listitem>
+          <para> insertedFeaturesMaxNumber<indexterm><primary>insertedFeaturesMaxNumber</primary></indexterm>: 
+            integer, nmuber of new features that user is allowed to draw for
+             insertion in the database</para>
+          <para> Set it to 0 if user is only allowed to update or delete features.</para>
+        </listitem>
+        <listitem>
+          <para> 
+            editLayers<indexterm><primary>editLayers</primary></indexterm>: 
+            comma seperated list of layers that are editable</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+  <sect1 id="user.edit.mapfile">
+    <title>Related Elements in Mapfile</title>
+    <sect2 id="user.edit.mapfile.layers">
+      <title>Metadatas</title>
+      <para>Specific metadatas must be set in the mapfile for the editable layers
+        </para>
+      <programlisting><![CDATA[
+METADATA
+    ...
+    'edit_table' 'edit_poly' # PostGIS table
+    'edit_geometry_column' 'the_geom' # PostGIS geometry column
+    'edit_geometry_type' 'polygon' # PostGIS geometry type
+    'edit_srid' '-1'
+    'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+END]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            edit_table<indexterm><primary>edit_table</primary></indexterm>: 
+            string, name of the postGIS table to edit</para>
+        </listitem>
+        <listitem>
+          <para> 
+            edit_geometry_column<indexterm><primary>edit_geometry_column</primary></indexterm>: 
+            string, name of the geometry field in the table</para>
+        </listitem>
+        <listitem>
+          <para> 
+            edit_geometry_type<indexterm><primary>edit_geometry_type</primary></indexterm>: 
+            string, type of the geometry of the features for the layer</para>
+           <para>possible values are point, line, polygon</para>
+           <para>May differ from the msLayer type (rendering)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            edit_srid<indexterm><primary>edit_srid</primary></indexterm>: 
+            integer (optional), id of the SRID </para>
+        </listitem>
+        <listitem>
+          <para> 
+            edit_attributes<indexterm><primary>edit_attributes</primary></indexterm>: 
+            string, comma separated list of attributes used for edition.</para>
+          <para>Each value represents the attribute name and type separated by a
+            pipe symbol. Only attributes with type set are editable.</para>
+          <para>Attribute types available values are string and integer.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+</chapter>
