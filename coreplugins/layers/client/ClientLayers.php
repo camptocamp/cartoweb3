@@ -1238,6 +1238,10 @@ class ClientLayers extends ClientPlugin
      */
     protected function drawSwitches() {
 
+        if (empty($this->layersState->switchId)) {
+            $this->layersState->switchId = ChildrenSwitch::DEFAULT_SWITCH;
+        }
+
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $switchValues = array(ChildrenSwitch::DEFAULT_SWITCH);
         $switchLabels = array(I18n::gt('Default'));
@@ -1251,7 +1255,7 @@ class ClientLayers extends ClientPlugin
         
         if (count($switchValues) == 1)
             return '';
-
+            
         $this->smarty->assign(array('switch_values' => $switchValues,
                                     'switch_labels' => $switchLabels,
                                     'switch_id' => $this->layersState->switchId));
