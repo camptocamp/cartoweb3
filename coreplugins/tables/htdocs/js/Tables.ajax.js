@@ -8,20 +8,5 @@ AjaxPlugins.Tables = {
 };
 
 /*
- * Tables plugin's Actions
+ * Tables plugin provides no action
  */
- 
-AjaxPlugins.Tables.Actions = {};
-
-AjaxPlugins.Tables.Actions.myAction = {
-  buildPostRequest: function(argObject) {
-  	return AjaxHandler.buildPostRequest();
-  },
-  buildGetRequest: function(argObject) {
-  	return '';
-  },
-  onBeforeAjaxCall: function(argObject) {
-  },
-  onAfterAjaxCall: function(argObject) {
-  }
-};

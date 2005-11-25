@@ -2,7 +2,7 @@
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 /*
- * Uses: Prototype-1.3.1.js - for extension mecanism and Ajax.Request class
+ * Uses: Prototype-1.3.1.js - for $() and $F() functions
  * Uses: AjaxHelper.js - for common features (i.e. getHttpPostRequest)
  * Uses: AjaxPluginHandler.js - for plugin calls.
  */
@@ -23,10 +23,10 @@ AjaxPlugins.Common = {
 	},
 
 	/* General plugins behaviour for before and after ajax calls */
-	onBeforeAjaxCall: function() {
+	onBeforeAjaxCall: function(actionId) {
 		xShow(xGetElementById('loadbarDiv'));
 	},
-	onAfterAjaxCall: function() {
+	onAfterAjaxCall: function(actionId) {
 		AjaxPlugins.Common.clearDhtmlDrawings();
 		AjaxPlugins.Common.clearDhtmlStoredFeatures();
 		AjaxPlugins.Common.clearDhtmlOutlineLabel();

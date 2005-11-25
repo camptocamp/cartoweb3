@@ -2,63 +2,86 @@
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 /*
- * Uses: Prototype-1.3.1.js - for extension mecanism and Ajax.Request class
+ * Uses: Prototype-1.3.1.js - for Ajax.Request class and $() function
  * Uses: AjaxHelper.js - for common features (i.e. getHttpPostRequest)
  */
 
+/**
+ * CartoWeb's AJAX core mecanism.
+ * Provides action binding and action triggering.
+ * Handles async requests, responses, and plugin Javascript logic calls.
+ * 
+ * Entry points: attachAction() and doAction().
+ */
 AjaxHandler = {
-	baseUrl: '', // uses current url if empty
 
+	baseUrl: '', // uses current url if empty
 	cartoFormId: 'carto_form',
 
-
-	initialize: function(baseUrl, cartoFormId) {
-		if (baseUrl == undefined)
-			baseUrl = '';
-		if (cartoFormId == undefined) {
-			cartoFormId = '';
-		}
-
-		this.baseUrl = baseUrl;
-		this.cartoFormId = cartoFormId;
-	},
-
-
+	/**
+	 * Sets cartoweb's base url
+	 * (format: http://hostname/dir1/dir12/dir121/script_name.ext)
+	 * If set to null or '', the browser displayed url will be used
+	 * @param string Cartoweb's base url
+	 */
 	setBaseUrl: function(baseUrl) {
 		this.baseUrl = baseUrl;
 	},
 
-
-	setCartoFormId: function(cartoFormId) {
-		this.cartoFormId = cartoFormId;
-	},
-
-
-	buildPostRequest: function(formId) {
-		if (formId == undefined)
-			formId = this.cartoFormId;
-		return AjaxHelper.buildHttpPostRequest(formId);
-	},
-	buildRequestFrom: function(htmlElement) {
-		return AjaxHelper.buildHttpRequestFrom(htmlElement);
-	},
-    getQueryStringFrom: function(ahrefElement) {
-	    AjaxHelper.getQueryStringFrom(ahrefElement);
-    },
-
 	/**
-	 * Returns cartoweb's base url (format: http://hostname/dir1/dir12/dir121/script_name.ext)
-	 * @return Cartoweb's base url
+	 * Returns cartoweb's base url
+	 * @return string Cartoweb's base url
 	 */
 	getBaseUrl: function() {
 		return this.baseUrl;
 	},
 
+	/**
+	 * Sets Cartoweb's form id
+	 * @param string Cartoweb's form id
+	 */
+	setCartoFormId: function(cartoFormId) {
+		this.cartoFormId = cartoFormId;
+	},
+
+	/**
+	 * Returns Cartoweb's form id
+	 * @return string Cartoweb's form id
+	 */
+	getCartoFormId: function() {
+		this.cartoFormId;
+	},
+
+    /**
+     * Returns the query string from the whole carto_form
+     * or, if specified, the form id given by the formId argument
+     *
+     * @param string Id of the form to parse (optional)
+     * @return string HTTP GET string from formId
+     */
+	buildPostRequest: function(formId) {
+		if (formId == undefined)
+			formId = this.cartoFormId;
+		return AjaxHelper.buildQuery(formId);
+	},
+
+	buildHttpRequestFrom: function(htmlElement) {
+		return AjaxHelper.buildQueryFrom(htmlElement);
+	},
+    getQueryString: function(ahrefElement) {
+	    AjaxHelper.getQueryString(ahrefElement);
+    },
 	 
+	/**
+	 * Handles the Cartoclient AJAX response passing each plugin's output
+	 * to it's Javascript plugin image
+	 * (i.e. AjaxPlugins.[pluginName].handleResponse()
+	 */
 	handlePluginReponse: function(response, argObject) {
 		
 		/*
-		 * Creates an array with all plugin responses: array[pluginName][paramType][paramName][paramValue]
+		 * Creates an array with all plugin responses: array[pluginName][paramType][paramId] = paramValue
+		 * (paramType is either htmlCode or variable)
 		 */
 		pluginElements = response.responseXML.getElementsByTagName('plugin');
 		pluginArray = new Array(pluginElements.length);
@@ -98,7 +121,12 @@ AjaxHandler = {
 		}
 	},
 
-
+    /**
+     * Handles the AJAX request to the Cartoclient.
+     * @param string Id of the triggered action (format: [PluginName].[ActionName]
+     * @param Object Object containing arbitrary data for plugins' JS part's use
+     * @param Object Object containing POST and/or GET queries for the Cartoclient
+     */
 	actionRequest: function(actionId, argObject, httpRequestObject) {
 		var url = this.getBaseUrl()
 			+ '?ajaxActionRequest=' + actionId + '&'
@@ -139,22 +167,45 @@ AjaxHandler = {
 		);
 	},
 	
-	  	
+	/**
+	 * Triggers an action: this will start the CartoWeb's AJAX mecanism
+	 * (use this method when triggering action with HTML onclick="" attribute)
+     * @param string Id of the triggered action (format: [PluginName].[ActionName]
+     * @param Object Object containing arbitrary data for plugins' JS part's use
+	 */
 	doAction: function(actionId, argObject) {
+        /*
+         * Creates the argObject and/or adds actionName and pluginName properties,
+         * used by plugins predefined methods
+         */
 		if (argObject == undefined)
 			argObject = {};
 		pluginName = actionId.substr(0, actionId.indexOf('.'));
 		actionName = actionId.substr(actionId.indexOf('.')+1);
 		argObject.actionName = actionName;
 		argObject.pluginName = pluginName;
+		/*
+		 * Ask the plugin that triggered the action to build GET and POST queries
+		 */
 		eval('httpPostRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
 		eval('httpGetRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
+		/*
+		 * Call the common and plugin's onBeforeAjaxCall logic
+		 */
 		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
 		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
+		/*
+		 * Call actionRequest() to perform the AJAX call
+		 */
 		this.actionRequest(actionId, argObject, {post: httpPostRequest, get: httpGetRequest});
 	},
 	
 	
+	/**
+	 * Attaches an action to the given element (HTML element)
+     * @param string Id of the triggered action (format: [PluginName].[ActionName]
+     * @param Object Object containing arbitrary data for plugins' JS part's use
+	 */
 	attachAction: function(element, evType, actionName, argObject, useCapture) {
 		if (useCapture == undefined)
 			useCapture = false;		

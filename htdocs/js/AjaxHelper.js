@@ -1,8 +1,23 @@
+/* Copyright 2005 Camptocamp SA. 
+   Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
+
+/*
+ * Used by: AjaxHandler.js
+ */
+
+/**
+ * Provides helper methods for AjaxHandler
+ * i.e. form fields collector, query builder, event handler, findpos
+ */
 var AjaxHelper = {
 
-    // General method that builds a request string from an HTML element
-    // Return a formatted string: 'elemeentName=elemeentValue' or 'elemeentName='
-    buildHttpRequestFrom: function(htmlElement) {
+    /**
+     * General method that builds a request string from an HTMLFormElement and
+     * returns a formatted string: 'elemeentName=elemeentValue' or 'elemeentName='
+     * @param HTMLFormElement
+     */
+    buildQueryFrom: function(htmlElement) {
+    	
     	if (htmlElement == undefined)
     		return;
     	
@@ -22,19 +37,23 @@ var AjaxHelper = {
      	}
 	},   
 
+
     /**
-     * Returns the HTTP POST string from the form specified by formId,
-     * by creating a query string from all the given form's select inputs
+     * Returns the HTTP POST/GET string from the form specified by formId,
+     * by creating a query string from all the given form's inputs and selects
      * but the submit and image types inputs.
-     * @param formId string Id of the form to parse.
+     *
+     * @param string Id of the form to parse.
      * @return string HTTP GET string from formId
      */
-    buildHttpPostRequest: function(formId) {
+    buildQuery: function(formId) {
         
         var queryString = ''; // String to be returned
         formElement = document.getElementById(formId);
 
-        // Process <input> elements
+        /*
+         * Process <input> elements
+         */
         inputElements = formElement.getElementsByTagName('input');
         for (var i=0; i < inputElements.length; i++) {
             // Collect the current input only if it's is not 'submit' or 'image'
@@ -43,7 +62,7 @@ var AjaxHelper = {
             
             if (inputType == 'radio' || inputType == 'checkbox') {
                 if (currentElement.checked)
-                    queryString = queryString + this.buildHttpRequestFrom(currentElement) + '&';
+                    queryString = queryString + this.buildQueryFrom(currentElement) + '&';
                     
             } else if (inputType == 'submit' || inputType == 'image') {
                 // Do nothing. Sending the submit inputs in POST Request would make
@@ -51,11 +70,13 @@ var AjaxHelper = {
                 // And we don't want that.
                 
             } else {    
-                queryString = queryString + this.buildHttpRequestFrom(currentElement) + '&';
+                queryString = queryString + this.buildQueryFrom(currentElement) + '&';
             }
         }
 
-        // Process <select> elements
+        /*
+         * Process <select> elements
+         */
         selectElements = formElement.getElementsByTagName('select');
         for (var i=0; i < selectElements.length; i++) {
             // Get the param name (i.e. fetch the name attr)
@@ -76,14 +97,15 @@ var AjaxHelper = {
         }
         return queryString;
     },
+
             
     /**
      * Returns the query string contained in the href attribute
      * of the given HTML <a> element object.
-     * @param ahref HTMLElement HTML <a> element object
+     * @param HTMLLinkElement <a> element object
      * @return string HTTP GET string from ahrefElement
      */
-    getQueryStringFrom: function(ahrefElement) {
+    getQueryString: function(ahrefElement) {
     	if (ahrefElement == undefined)
     		return;
         // Retrieves the string after the '?' of the element's href attribute.
@@ -97,10 +119,19 @@ var AjaxHelper = {
         return queryString;
     },
 	
+	/**
+	 * Cross-browser event handling (IE5/NS6/Moz/Gecko)
+	 * By Scott Andrew
+	 * @example addEvent(window, 'load', addListeners, false);
+	 * 
+	 * @param HTMLElement HTML DOM Element object to attach the listener on
+	 * @param string Type of the triggering event (i.e. click, change, ...)
+	 * @param string Funtion name to be called on event trigger
+	 * @param bool Prevent event from bubbling through the DOM
+	 */
 	addEvent: function (elm, evType, fn, useCapture) {
-	  // cross-browser event handling for IE5+, NS6+ and Mozilla/Gecko
-	  // By Scott Andrew
-	  // Example: addEvent(window, 'load', addListeners, false);
+	  if (useCapture == undefined)
+	  	useCapture = false;
 	  if (elm.addEventListener) {
 	    elm.addEventListener(evType, fn, useCapture);
 	    return true;
@@ -112,9 +143,17 @@ var AjaxHelper = {
 	  }
 	},
 
-	// Finds clicked position on an element
-	// (simulates the posting of a <input type="image" ...>)
-	// Used by AjaxPlugins.Location.Actions.pan.buildPostRequest()
+	/* 
+	 * Finds clicked position on an element
+	 * (simulates the posting of a <input type="image" ...>)
+	 * Used by AjaxPlugins.Location.Actions.pan.buildPostRequest()
+	 *
+	 * This seems bogous on Safari!
+	 *
+	 * @param Event
+	 * @return Object Object with x and y properties, containing the clicked
+	 *                position, relative to the clicked element
+	 */
 	getClickedPos: function(ev) {
 	
 		function findPosX(obj)
