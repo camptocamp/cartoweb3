@@ -1,3 +1,9 @@
+CVS version 
+==========================
+- Added mapOverlay plugin to dynamically search, create, update or delete mapfile elements.
+- Added edit plugin to create, edit or delete geographical data on the browser. 
+
+
 2005-10-19: CartoWeb 3.1.0
 ==========================
 
