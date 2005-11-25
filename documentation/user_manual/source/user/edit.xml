@@ -18,20 +18,20 @@
       <itemizedlist>
         <listitem>
           <para> 
-            general.allowedRoles: comma seperated list of the roles that are
+            general.allowedRoles: comma separated list of the roles that are
              allowed to use the edit plugin
             </para>
         </listitem>
         <listitem>
           <para> insertedFeaturesMaxNumber<indexterm><primary>insertedFeaturesMaxNumber</primary></indexterm>: 
-            integer, nmuber of new features that user is allowed to draw for
+            integer, number of new features that user is allowed to draw for
              insertion in the database</para>
           <para> Set it to 0 if user is only allowed to update or delete features.</para>
         </listitem>
         <listitem>
           <para> 
             editLayers<indexterm><primary>editLayers</primary></indexterm>: 
-            comma seperated list of layers that are editable</para>
+            comma separated list of layers that are editable</para>
         </listitem>
       </itemizedlist>
     </sect2>
