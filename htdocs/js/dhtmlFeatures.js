@@ -84,6 +84,13 @@ Feature.prototype.getLength = function() {
   }
   return measure;
 };
+Feature.prototype.getCentroid = function() {
+  var point = new Point();
+  var bbox = this.getrect();
+  var vertex = new Vertex((bbox.xmax + bbox.xmin) / 2, (bbox.ymax + bbox.ymin) / 2);
+  point.vertices.push(vertex);
+  return point;
+};
 Feature.prototype.getrect = function() {
   var xmin = this.vertices[0].x;
   var xmax = this.vertices[0].x;
