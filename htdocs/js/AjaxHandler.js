@@ -65,7 +65,7 @@ AjaxHandler = {
 		return AjaxHelper.buildQuery(formId);
 	},
 
-	buildHttpRequestFrom: function(htmlElement) {
+	buildRequestFrom: function(htmlElement) {
 		return AjaxHelper.buildQueryFrom(htmlElement);
 	},
     getQueryString: function(ahrefElement) {
@@ -127,13 +127,13 @@ AjaxHandler = {
      * @param Object Object containing arbitrary data for plugins' JS part's use
      * @param Object Object containing POST and/or GET queries for the Cartoclient
      */
-	actionRequest: function(actionId, argObject, httpRequestObject) {
+	actionRequest: function(actionId, argObject, queryObject) {
 		var url = this.getBaseUrl()
 			+ '?ajaxActionRequest=' + actionId + '&'
-			+ httpRequestObject.get;
+			+ queryObject.get;
 		var myAjax = new Ajax.Request (
 			url,
-			{method: 'post', postBody: httpRequestObject.post,
+			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
 					if (response.responseXML == undefined) {
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
@@ -187,8 +187,8 @@ AjaxHandler = {
 		/*
 		 * Ask the plugin that triggered the action to build GET and POST queries
 		 */
-		eval('httpPostRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
-		eval('httpGetRequest = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
+		eval('httpPostQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
+		eval('httpGetQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
 		/*
 		 * Call the common and plugin's onBeforeAjaxCall logic
 		 */
@@ -197,7 +197,7 @@ AjaxHandler = {
 		/*
 		 * Call actionRequest() to perform the AJAX call
 		 */
-		this.actionRequest(actionId, argObject, {post: httpPostRequest, get: httpGetRequest});
+		this.actionRequest(actionId, argObject, {post: httpPostQuery, get: httpGetQuery});
 	},
 	
 	
