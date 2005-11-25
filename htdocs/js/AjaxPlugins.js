@@ -18,8 +18,7 @@ AjaxPlugins.Common = {
 
 	/* Plugins' actions initialisation */
 	init: function() {
-		/* Initialises plugins' actions */
-		AjaxPlugins.Location.Actions.pan.init();
+		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
 	/* General plugins behaviour for before and after ajax calls */

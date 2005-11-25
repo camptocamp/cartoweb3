@@ -859,14 +859,14 @@ class ClientLocation extends ClientPlugin
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
-			case 'Location.pan':
+			case 'Location.Pan':
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('location');
 				$pluginEnabler->enableCoreplugin('images');
 			break;			
-			case 'Location.fullExtent':
-			case 'Location.recenter':
-			case 'Location.zoom':
+			case 'Location.FullExtent':
+			case 'Location.Recenter':
+			case 'Location.Zoom':
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('location');
 				$pluginEnabler->enableCoreplugin('layers');

@@ -203,10 +203,12 @@ AjaxHandler = {
 	
 	/**
 	 * Attaches an action to the given element (HTML element)
+	 * @param HTMLElement HTML DOM Element object to attach the listener on
      * @param string Id of the triggered action (format: [PluginName].[ActionName]
      * @param Object Object containing arbitrary data for plugins' JS part's use
+	 * @param bool Prevent event from bubbling through the DOM
 	 */
-	attachAction: function(element, evType, actionName, argObject, useCapture) {
+	attachAction: function(element, evType, actionId, argObject, useCapture) {
 		if (useCapture == undefined)
 			useCapture = false;		
 		if (argObject == undefined)
@@ -219,7 +221,7 @@ AjaxHandler = {
 			// Defines predefined argObject properties: event & target
 			argObject.event = event;
 			argObject.target = target;
-			AjaxHandler.doAction(actionName, argObject);
+			AjaxHandler.doAction(actionId, argObject);
 			// Prevent default comportment (= onClick="return false;")
 			if (event.returnValue) 
 				event.returnValue = false;

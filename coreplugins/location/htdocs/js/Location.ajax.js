@@ -23,7 +23,7 @@ AjaxPlugins.Location = {
 
 AjaxPlugins.Location.Actions = {};
 
-AjaxPlugins.Location.Actions.fullExtent = {
+AjaxPlugins.Location.Actions.FullExtent = {
 	buildPostRequest: function(argObject) {
 		return AjaxHandler.buildPostRequest();
 	},
@@ -37,7 +37,7 @@ AjaxPlugins.Location.Actions.fullExtent = {
 	}
 };
 
-AjaxPlugins.Location.Actions.recenter = {
+AjaxPlugins.Location.Actions.Recenter = {
 	buildPostRequest: function(argObject) {
 		return AjaxHandler.buildPostRequest();
 	},
@@ -51,7 +51,7 @@ AjaxPlugins.Location.Actions.recenter = {
 	}
 };
 
-AjaxPlugins.Location.Actions.zoom = {
+AjaxPlugins.Location.Actions.Zoom = {
 	buildPostRequest: function(argObject) {
 		return AjaxHandler.buildPostRequest();
 	},
@@ -64,7 +64,7 @@ AjaxPlugins.Location.Actions.zoom = {
 	}
 };
 
-AjaxPlugins.Location.Actions.pan = {
+AjaxPlugins.Location.Actions.Pan = {
 	buildPostRequest: function(argObject) {
 		var postRequest = '';
 		switch (argObject.source) {
@@ -98,18 +98,18 @@ AjaxPlugins.Location.Actions.pan = {
 	},
 	initPanButtons: function() {
 		// Attach an action on the click event of the pan buttons
-		AjaxHandler.attachAction($('pan_n'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_nw'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_w'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_sw'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_s'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_se'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_e'), 'click', 'Location.pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_ne'), 'click', 'Location.pan', {source: 'button'});	
+		AjaxHandler.attachAction($('pan_n'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_nw'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_w'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_sw'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_s'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_se'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_e'), 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction($('pan_ne'), 'click', 'Location.Pan', {source: 'button'});	
 	},
 	initKeymap: function() {
 		// Attach an action on the click event of the keymap div tag
-		AjaxHandler.attachAction($('keymap'), 'click', 'Location.pan', {source: 'keymap'});
+		AjaxHandler.attachAction($('keymap'), 'click', 'Location.Pan', {source: 'keymap'});
 	},
 	initMap: function(timesExecuted) {
 		if (timesExecuted == undefined)
@@ -119,14 +119,15 @@ AjaxPlugins.Location.Actions.pan = {
 			if (timesExecuted < 20)
 				setTimeout(this.initMap, 500);
 		} else {
+			// The code below will execute only when map_raster_img exists
+
 			// Attach an listener on the load event of the raster img tag
 			// This will reposition the raster after on a pan by drag,
-			// but will wait for the image to be loaded before it get repositioned
 			//AjaxHelper.addEvent($('map_raster_img'), 'load', AjaxPlugins.Location.Actions.pan.placeRaster);
 			
 			// Save the map_rootLayer's initial position
-			AjaxPlugins.Location.Actions.pan.mapRootLayerTop = $('map_rootLayer').style.top;
-			AjaxPlugins.Location.Actions.pan.mapRootLayerLeft = $('map_rootLayer').style.left;
+			AjaxPlugins.Location.Actions.Pan.mapRootLayerTop = $('map_rootLayer').style.top;
+			AjaxPlugins.Location.Actions.Pan.mapRootLayerLeft = $('map_rootLayer').style.left;
 		}
 	},
 
@@ -136,8 +137,8 @@ AjaxPlugins.Location.Actions.pan = {
 		// Reposition the map Raster layer on top left (when dragged).
 		// TODO: Try parseInt(variable) to cast it, instead of *1
 		rootPos = {
-			top: 1*AjaxPlugins.Location.Actions.pan.mapRootLayerTop.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerTop.length-2),
-			left: 1*AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.substring(0, AjaxPlugins.Location.Actions.pan.mapRootLayerLeft.length-2)
+			top: parseInt(AjaxPlugins.Location.Actions.Pan.mapRootLayerTop.substring(0, AjaxPlugins.Location.Actions.Pan.mapRootLayerTop.length-2)),
+			left: parseInt(AjaxPlugins.Location.Actions.Pan.mapRootLayerLeft.substring(0, AjaxPlugins.Location.Actions.Pan.mapRootLayerLeft.length-2))
 		};
 		xMoveTo($('map_rootLayer'), rootPos.left, rootPos.top);
 		      

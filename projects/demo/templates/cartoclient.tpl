@@ -206,7 +206,7 @@
      <tr>
       <td align="center">
         &nbsp;<br />
-    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button" onClick="{literal}AjaxHandler.doAction('Query.clear', {clickedElement: this});return false;{/literal}" />
+    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button" onClick="{literal}AjaxHandler.doAction('Query.Clear', {clickedElement: this});return false;{/literal}" />
       </td>
      </tr>
      </table>

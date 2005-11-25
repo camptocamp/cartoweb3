@@ -9,12 +9,12 @@ AjaxPlugins.Images = {
 		    
 		// Update src tag of img elements
 
-		if (argObject.actionName == 'pan') {
+		if (argObject.actionName == 'Pan') {
 			var newRaster = new Image();
 			AjaxHelper.addEvent(newRaster, 'load', function(e) {
 				xHide('map_raster_img');
 				$('map_raster_img').src = newRaster.src;
-				AjaxPlugins.Location.Actions.pan.placeRaster(e);
+				AjaxPlugins.Location.Actions.Pan.placeRaster(e);
 				setTimeout("xShow('map_raster_img')", 1);
 			});
 			newRaster.src = pluginOutput.variables.mainmap_path;
@@ -30,7 +30,7 @@ AjaxPlugins.Images = {
 };
 
 /*
- * Images plugin's Actions
+ * Images plugin provides no action (yet)
  */
 
 AjaxPlugins.Images.Actions = {};

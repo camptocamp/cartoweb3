@@ -545,8 +545,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
-			case 'Query.perform':
-			case 'Query.clear':
+			case 'Query.Perform':
+			case 'Query.Clear':
 				$pluginsDirectives->disableCoreplugins();
 				$pluginsDirectives->enableCoreplugin('images');
 				$pluginsDirectives->enableCoreplugin('query');

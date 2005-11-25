@@ -20,7 +20,7 @@ AjaxPlugins.Layers = {
  
 AjaxPlugins.Layers.Actions = {};
 
-AjaxPlugins.Layers.Actions.layerShowHide = {
+AjaxPlugins.Layers.Actions.LayerShowHide = {
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
   },
@@ -33,7 +33,7 @@ AjaxPlugins.Layers.Actions.layerShowHide = {
   }
 };
 
-AjaxPlugins.Layers.Actions.layerDropDownChange = {
+AjaxPlugins.Layers.Actions.LayerDropDownChange = {
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
   },

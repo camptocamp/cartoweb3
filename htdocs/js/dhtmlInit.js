@@ -194,7 +194,7 @@ Map.prototype.zoomout = function(aDisplay) {
     myform.selection_type.value = "point";
     storeFeatures();
     if (AjaxHandler != undefined) {
-      AjaxHandler.doAction('Location.zoom');
+      AjaxHandler.doAction('Location.Zoom');
     } else {
       doSubmit();
     }
@@ -212,9 +212,9 @@ Map.prototype.zoomin = function(aDisplay) {
       doSubmit();
     } else {
       if (xGetElementById('querytoolradio').checked) {
-	    AjaxHandler.doAction('Query.perform');
+	    AjaxHandler.doAction('Query.Perform');
 	  } else {
-	    AjaxHandler.doAction('Location.zoom');
+	    AjaxHandler.doAction('Location.Zoom');
 	  }
     }
   }
@@ -234,7 +234,7 @@ Map.prototype.pan = function(aDisplay) {
     storeFeatures();
     //doSubmit();
     if (true) {
-      AjaxHandler.doAction('Location.pan', {source: 'map'});
+      AjaxHandler.doAction('Location.Pan', {source: 'map'});
     } else {
       doSubmit();
     }

@@ -263,13 +263,13 @@ class ClientOutline extends ClientPlugin
     
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
-			case 'Outline.addFeature':
-			case 'Outline.clear':
+			case 'Outline.AddFeature':
+			case 'Outline.Clear':
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('images');
 				$pluginEnabler->enablePlugin('outline');
 			break;
-			case 'Outline.changeMode':			
+			case 'Outline.ChangeMode':			
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('images');
 			break;

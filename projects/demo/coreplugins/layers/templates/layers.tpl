@@ -24,7 +24,7 @@
 {else}type="checkbox" name="layers[]" {/if}
 value="{$element.layerId}" id="in{$element.nodeId}"
   onclick="javascript:updateChecked('{$element.nodeId}');
-  	AjaxHandler.doAction('Layers.layerShowHide');"
+  	AjaxHandler.doAction('Layers.LayerShowHide');"
   {if $element.layerChecked}checked="checked"{/if} />
 {/if}
 {/capture}
@@ -56,8 +56,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {if $element.isDropDown}
   <select name="layers_dropdown_{$element.parentId}" 
-  onchange="
-  	AjaxHandler.doAction('Layers.layerDropDownChange');">
+  onchange="AjaxHandler.doAction('Layers.LayerDropDownChange');">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>
 {/if}

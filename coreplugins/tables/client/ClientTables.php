@@ -207,8 +207,8 @@ class ClientTables extends ClientPlugin
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
-			case 'Query.perform':
-				
+			case 'Query.Perform':
+              // Activation done in ClientTables::ajaxHandleAction()				
 			break;
 		}
 	}	

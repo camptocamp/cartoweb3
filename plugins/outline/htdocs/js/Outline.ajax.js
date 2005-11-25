@@ -13,7 +13,7 @@ AjaxPlugins.Outline = {
  
 AjaxPlugins.Outline.Actions = {};
 
-AjaxPlugins.Outline.Actions.addFeature = {
+AjaxPlugins.Outline.Actions.AddFeature = {
 
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
@@ -27,7 +27,7 @@ AjaxPlugins.Outline.Actions.addFeature = {
   }
 };
 
-AjaxPlugins.Outline.Actions.changeMode = {
+AjaxPlugins.Outline.Actions.ChangeMode = {
 
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
@@ -41,7 +41,7 @@ AjaxPlugins.Outline.Actions.changeMode = {
   }
 };
 
-AjaxPlugins.Outline.Actions.clear = {
+AjaxPlugins.Outline.Actions.Clear = {
 
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildRequestFrom(argObject.target) + '&' + AjaxHandler.buildPostRequest();
