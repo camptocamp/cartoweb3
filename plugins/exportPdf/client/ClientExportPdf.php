@@ -616,9 +616,7 @@ class ClientExportPdf extends ExportPlugin
      * @param Smarty
      */
     public function renderForm(Smarty $template) {
-
-        $template->assign(array('exportPdf' => $this->drawUserForm(),
-                                'exportPdfGuiMode' => $this->general->guiMode));
+        $template->assign('exportPdf', $this->drawUserForm());
     }
 
     /**
@@ -650,13 +648,11 @@ class ClientExportPdf extends ExportPlugin
                    'pdfFormat_options'      => $this->general->formats,
                    'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
-                   'pdfResolution_selected' => $this->general->
-                                                            selectedResolution,
+                   'pdfResolution_selected' => $this->general->selectedResolution,
                    'pdfAllowedResolutions'  => $allowedResolutions,
-                   'pdfScale_options'    => $this->general->scales,
-                   'pdfScale_selected'   => $this->general->selectedScale,
-                   'pdfOrientation'         => $this->general->
-                                                            defaultOrientation,
+                   'pdfScale_options'       => $this->general->scales,
+                   'pdfScale_selected'      => $this->general->selectedScale,
+                   'pdfOrientation'         => $this->general->defaultOrientation,
                        ));
 
         foreach ($this->optionalInputs as $input) {
