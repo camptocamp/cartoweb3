@@ -1,7 +1,8 @@
 /* tabs / labels */
 
 ul.tabnav {
-    font: bold 11px verdana, arial, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
     list-style-type: none;
     z-index: 2;
 }
