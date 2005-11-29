@@ -15,8 +15,7 @@ cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
 {if $toolbar_rendering != 'radio'}
   <input type="hidden" name="tool" id="tool" value="{$selected_tool}"/>
 {/if}
-{counter start=-1 print=false name=tindex}
-  {foreach from=$tools item=tool}
+{foreach from=$tools item=tool}
   {if !$group || $group == $tool->group}
     {if $toolbar_rendering == 'radio'}
       <label for="{$tool->id}" onclick="checkRadio(this.htmlFor);mainmap.{$tool->id}('map');" >
@@ -38,4 +37,4 @@ cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
     </label>&nbsp;
     {/if}
   {/if}
-  {/foreach}
+{/foreach}
