@@ -23,13 +23,13 @@ AjaxPlugins.Common = {
 
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function(actionId) {
-		xShow(xGetElementById('loadbarDiv'));
+		xShow($('loadbarDiv'));
 	},
 	onAfterAjaxCall: function(actionId) {
 		AjaxPlugins.Common.clearDhtmlDrawings();
 		AjaxPlugins.Common.clearDhtmlStoredFeatures();
 		AjaxPlugins.Common.clearDhtmlOutlineLabel();
-		xHide(xGetElementById('loadbarDiv'));
+		xHide($('loadbarDiv'));
 	},
 
 	
@@ -54,6 +54,6 @@ AjaxPlugins.Common = {
 	},
 	
 	clearDhtmlOutlineLabel: function() {
-		$('outlineLabelInputDiv').style.visibility = 'hidden';
+		xHide($('outlineLabelInputDiv'));
 	}
 }

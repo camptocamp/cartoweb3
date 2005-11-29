@@ -12,7 +12,7 @@ var pointDefaultLabel = '{t}point label{/t}';
       value="your label" onfocus="this.value = '';
       this.form.onsubmit = function() {doSubmit()};" />
       <input type="button" value="ok" style="margin:1px"
-      onclick="AjaxHandler.doAction('Outline.addFeature');return false;//doSubmit();" />
+      onclick="AjaxHandler.doAction('Outline.AddFeature');return false;//doSubmit();" />
 {/literal}
   </div>
 </div>
