@@ -239,7 +239,7 @@ class DhtmlSelectionParser {
         $type = $_REQUEST[self::SELECTION_TYPE];
         if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
-        else if ($type == 'line') 
+        else if ($type == 'polyline') 
             return self::getLineShape($imageSize, $bbox);
         else if ($type == 'rectangle') 
             return self::getRectangleShape($imageSize, $bbox);
