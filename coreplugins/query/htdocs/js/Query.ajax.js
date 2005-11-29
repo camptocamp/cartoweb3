@@ -13,7 +13,7 @@ AjaxPlugins.Query = {
  
 AjaxPlugins.Query.Actions = {};
 
-AjaxPlugins.Query.Actions.perform = {
+AjaxPlugins.Query.Actions.Perform = {
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
   },
@@ -28,7 +28,7 @@ AjaxPlugins.Query.Actions.perform = {
   }
 };
 
-AjaxPlugins.Query.Actions.clear = {
+AjaxPlugins.Query.Actions.Clear = {
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildRequestFrom(argObject.clickedElement) + '&' + AjaxHandler.buildPostRequest();
   },

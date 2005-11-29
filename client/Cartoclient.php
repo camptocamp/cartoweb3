@@ -971,7 +971,15 @@ class Cartoclient {
     private function doMainAsync() {
 
 		$requestedActionId = $_REQUEST['ajaxActionRequest'];
-		
+        
+        // Check the action format consistancy
+        if (!ereg("^.+\..+$", $requestedActionId)) {
+            throw new AjaxException(
+                'ajaxActionRequest parameter\'s value is not correctly formatted. ' .
+                'It should look like: PluginName.ActionName ' .
+                '(current value: '.$requestedActionId.')');
+        }
+        		
 		// Determines what plugin triggered what action 
 		list($requestedPluginName, $requestedActionName) = 
 				explode('.', $requestedActionId, 2);
@@ -995,6 +1003,11 @@ class Cartoclient {
 		// Ask plugins to give their plugins directives for the given $actionId
         $this->callPluginsImplementing('Ajaxable', 'ajaxHandleAction',
 									$requestedActionId, &$pluginEnabler);
+                                    
+        // Give the $requestedPlugin the last word
+        $this->pluginManager->callPluginImplementing($requestedPluginName,
+                                    'Ajaxable', 'ajaxHandleAction',
+                                    $requestedActionId, &$pluginEnabler);
 
     	$this->doMain();
     }

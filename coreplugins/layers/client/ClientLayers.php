@@ -1276,13 +1276,12 @@ class ClientLayers extends ClientPlugin
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 		switch ($actionName) {
-			case 'Layers.layerShowHide':
+			case 'Layers.LayerShowHide':
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('images');
 			break;
-			case 'Layers.layerDropDownChange':
+			case 'Layers.LayerDropDownChange':
 				$pluginEnabler->disableCoreplugins();
-				$pluginEnabler->enableCoreplugin('location');
 				$pluginEnabler->enableCoreplugin('layers');
 				$pluginEnabler->enableCoreplugin('images');
 			break;

@@ -8,7 +8,7 @@
   <input type="hidden" id="recenter_doit" name="recenter_doit" value="0" />
   <select name="recenter_scale" id="recenter_scale" 
   onchange="javascript:document.carto_form.recenter_doit.value=1;
-	AjaxHandler.doAction('Location.zoom');
+	AjaxHandler.doAction('Location.Zoom');
 	//FormItemSelected();
   ">
   {html_options values=$recenter_scaleValues selected=$recenter_scale 
