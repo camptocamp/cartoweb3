@@ -306,7 +306,7 @@ class ServerContext {
      */
     public function getMapObj() {
 
-        $disablePHPModuleCheck = $this->getConfig()->enablePHPModuleCheck;
+        $disablePHPModuleCheck = $this->getConfig()->disablePHPModuleCheck;
 
         if (!$this->msMapObj) {
             if (!extension_loaded('mapscript')) {
@@ -333,7 +333,7 @@ class ServerContext {
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
 
-            if (!$this->msMapObj) { // could this happen ??
+            if (!$this->msMapObj) { // could this happen?
                 throw new CartoserverException("cannot open mapfile $mapId " .
                                                "for map $mapId");
             }
