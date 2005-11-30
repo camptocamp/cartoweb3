@@ -208,4 +208,59 @@ function getTranslatedPo($type, $project) {
     return $files;   
 }
 
+/**
+ * Parses an INI file looking for variable ending with '.label' and '.labels'
+ * @param string
+ * @param array map text_to_translate => references
+ * @param string (optional)
+ * @return boolean
+ */
+function parseIni($project, &$texts, $mapId = null) {
+
+    $iniPath = CARTOWEB_HOME;
+    if (!is_null($project)) {
+        $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
+    }
+
+    if($mapId != null) {
+        $iniPath .= 'server_conf/' . $mapId . '/';
+    } else {
+        $iniPath .= 'client_conf/';
+    }
+
+    if (!is_dir($iniPath)) {
+        return true;
+    }
+    $d = dir($iniPath);
+    while (false !== ($entry = $d->read())) {
+        if (!is_dir($entry) && substr($entry, -4) == '.ini') {
+            $iniFile = $iniPath . $entry;
+            $iniArray = parse_ini_file($iniFile);
+            foreach($iniArray as $key => $value) {
+                if (substr($key, -6) == '.label') {
+                    $info = $entry . ':' . $key;
+                    if (array_key_exists($value, $texts)) {
+                        $texts[$value] .= ',' . $info;
+                    } else {
+                        $texts[$value] = $info;
+                    }
+                }
+                if (substr($key, -7) == '.labels') {
+                    $info = $entry . ':' . $key;
+                    $values = explode(',',$value);
+                    $values = array_map('trim', $values);
+                    foreach($values as $keys=>$vals) {
+                        if (array_key_exists($vals, $texts)) {
+                            $texts[$vals] .= ',' . $info;
+                        } else {
+                            $texts[$vals] = $info;
+                        }                    	
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
 ?>
