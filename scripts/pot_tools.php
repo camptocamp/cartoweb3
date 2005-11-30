@@ -254,7 +254,7 @@ function parseIni($project, &$texts, $mapId = null) {
                             $texts[$vals] .= ',' . $info;
                         } else {
                             $texts[$vals] = $info;
-                        }                    	
+                        }
                     }
                 }
             }
