@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-15 15:38+0200\n"
+"POT-Creation-Date: 2005-11-30 11:52+0100\n"
 "PO-Revision-Date: 2005-02-04 14:14+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -11,18 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: layers.ini:switches.switch1.label
-msgid "Switch 1"
-msgstr ""
-
-#: layers.ini:switches.switch2.label
-msgid "Switch 2"
-msgstr ""
-
 # test.ini:mapInfo.layers.polygon.label
 #: layers.ini:layers.polygon.label
 #, fuzzy
-msgid "pol�gon"
+msgid "polygon"
 msgstr "polygon"
 
 # test.ini:mapInfo.layers.linepoint.label
@@ -44,6 +36,10 @@ msgstr "point"
 #: layers.ini:layers.grids.label
 msgid "grids"
 msgstr "grids"
+
+#: layers.ini:layers.postgis.label
+msgid "postgis"
+msgstr ""
 
 # location.ini:scales.0.label
 #: location.ini:scales.0.label
@@ -85,118 +81,117 @@ msgstr "Line"
 msgid "Point"
 msgstr "Point"
 
-#: test.map
-msgid "POLYGON1"
+#: test_postgis.map
+msgid "POLYGON"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "Polygon class 1"
 msgstr "Polygon class 1"
 
-#: test.map
+#: test_postgis.map
 msgid "FID"
 msgstr "Polygon ID"
 
-#: test.map
+#: test_postgis.map
 msgid "FNAME"
 msgstr "Polygon Name"
 
-#: test.map
-msgid "POLYGON2"
-msgstr ""
-
-#: test.map
+#: test_postgis.map
 msgid "some_rectangles"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "0"
 msgstr "0"
 
-#: test.map
+#: test_postgis.map
 msgid "LINE"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "Line class 1"
 msgstr "Line class 1"
 
-#: test.map
+#: test_postgis.map
 msgid "Line class 2"
 msgstr "Line class 2"
 
-#: test.map
+#: test_postgis.map
 msgid "POINT"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "Point class 1"
 msgstr "Point class 1"
 
-# test.ini:mapInfo.layers.point.label
-#: test.map
-#, fuzzy
-msgid "more_points"
-msgstr "point"
-
-#: test.map
-#, fuzzy
-msgid "Point class 2"
-msgstr "Point class 1"
-
-#: test.map
+#: test_postgis.map
 msgid "INLINE"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "cartoweb_point_outline"
 msgstr ""
 
-#: test.map
-msgid "cartoweb_line_outline"
-msgstr ""
-
-#: test.map
+#: test_postgis.map
 msgid "cartoweb_polygon_outline"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 #, fuzzy
 msgid "grid_defaulthilight"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 msgid "grid_class"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 #, fuzzy
 msgid "grid_classhilight"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 msgid "hilight"
 msgstr "hilight"
 
-#: test.map
+#: test_postgis.map
 #, fuzzy
 msgid "grid_layerhilight"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 #, fuzzy
 msgid "grid_layerhilight_hilight"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 #, fuzzy
 msgid "grid_layerhilight_mask"
 msgstr "grid_class"
 
-#: test.map
+#: test_postgis.map
 msgid "my_outside_mask"
 msgstr ""
 
-#: test.map
+#: test_postgis.map
 msgid "default_outside_mask"
 msgstr ""
+
+#: test_postgis.map
+msgid "postgis_lines"
+msgstr ""
+
+# test.ini:mapInfo.layers.point.label
+#: test_postgis.map
+#, fuzzy
+msgid "postgis_points"
+msgstr "point"
+
+#: test_postgis.map
+msgid "postgis_polygons"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Point class 2"
+#~ msgstr "Point class 1"

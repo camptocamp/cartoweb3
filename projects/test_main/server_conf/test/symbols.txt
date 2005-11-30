@@ -1,9 +1,43 @@
-
 SYMBOL
-    NAME 'line' 
-    TYPE ellipse 
-    FILLED true 
+    NAME 'point'
+    TYPE ellipse
+    FILLED true
     POINTS
       1 1 
-    END 
+    END
+END
+
+SYMBOL
+   NAME 'triangle'
+   TYPE VECTOR
+   FILLED true
+   POINTS
+     0 1
+     .5 0
+     1 1
+     0 1
+   END
+END
+
+# unreadable name to test the translation system
+SYMBOL
+   NAME 'gz6Ghg0'
+   TYPE PIXMAP
+   IMAGE images/smile.gif
+END
+
+SYMBOL
+    NAME 'border'
+    TYPE VECTOR
+    POINTS
+        0 0
+        1 0
+        1 0.8
+        0 0.8
+        0 0
+    END
+    STYLE
+        10 6 1 6
+    END
+    FILLED TRUE
 END

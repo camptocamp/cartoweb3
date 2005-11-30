@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-15 15:38+0200\n"
+"POT-Creation-Date: 2005-11-30 11:52+0100\n"
 "PO-Revision-Date: 2005-02-04 14:15+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"

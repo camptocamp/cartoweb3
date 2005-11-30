@@ -119,7 +119,6 @@ AUTOLAYER
 );
 
 ?>
-
   LAYER
     NAME "some_rectangles"
     TYPE POLYGON
@@ -130,6 +129,8 @@ AUTOLAYER
     METADATA
       "id_attribute_string" "A_NAME|string"
       "force_imagetype" "jpeg"
+      "hilight_color" "255 255 0"
+      "hilight_transparency" "60"
     END
     DATA "some_rectangles"
     CLASSITEM "A_NAME"
@@ -275,18 +276,19 @@ AUTOLAYER
 
   LAYER
     NAME "cartoweb_point_outline"
+    STATUS DEFAULT
 
     TYPE POINT
     PROJECTION
       "init=epsg:4326"
     END
 
-    TRANSPARENCY 50
+    TRANSPARENCY 100
     CLASS
       STYLE
         COLOR 0 0 204
         SYMBOL 1
-        SIZE 15
+        SIZE 22
       END
       LABEL
         ANTIALIAS true
@@ -307,7 +309,7 @@ AUTOLAYER
       "init=epsg:4326"
     END
 
-    TRANSPARENCY 50
+    TRANSPARENCY 100
     CLASS
       STYLE
         OUTLINECOLOR 0 0 204
@@ -338,8 +340,6 @@ AUTOLAYER
       STYLE
         COLOR 155 153 102
         OUTLINECOLOR 0 0 204
-        SYMBOL 1
-        SIZE 1
       END
       LABEL
         ANTIALIAS true
