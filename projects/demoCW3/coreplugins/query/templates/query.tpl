@@ -40,7 +40,6 @@
 {/if}
 <p style="vertical-align:middle; text-align:right;">
 <br />
-{include file="../../../templates/toolbar.tpl" group="5"}
 <a href="javascript:clearQuery();">
     <img  style="margin-left:5px;" src="{r type=gfx/layout}reinitialize.gif{/r}"
     title="{t}query_clear{/t}" alt="{t}query_clear{/t}" /></a>&nbsp;&nbsp;

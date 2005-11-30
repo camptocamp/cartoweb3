@@ -90,6 +90,9 @@
           {include file="toolbar.tpl" group="2"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="4"}
+          <a href="javascript:ontop(2);">
+            <img src="{r type=gfx/layout/help}fileprint.gif{/r}"
+                 title="{t}Print{/t}" alt="{t}print{/t}" /></a>
         </td>
       </tr>
       <tr>
@@ -250,7 +253,11 @@
       {$layers}
       <br />
       <p style="text-align:right; vertical-align:middle;">
-        {include file="toolbar.tpl" group="5"}
+
+        <a href="javascript:ontop(6);">
+         <img src="{r type=gfx/layout}help.gif{/r}"
+              title="{t}Help{/t}" alt="{t}help{/t}" 
+              style="margin-bottom:3px;"/></a>
         &nbsp;&nbsp;
         <a href="javascript:resetSession();">
           <img src="{r type=gfx/layout}reset_session.gif{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding-bottom:3px;"/>
