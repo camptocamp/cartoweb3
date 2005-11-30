@@ -155,9 +155,13 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {
-        /* nothing to do */
-    }
+                            Shape $keymapShape) {}
+    
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
+
 
     /**
      * @see ToolProvider::getTools()

@@ -243,6 +243,10 @@ Map.prototype.zoomin = function(aDisplay) {
   }
 };
 
+Map.prototype.fullextent = function(aDisplay) {
+  doSubmit();
+}
+
 Map.prototype.query = function(aDisplay) {
   this.zoomin(aDisplay);
   this.getDisplay(aDisplay).docObj.style.cursor = "help";

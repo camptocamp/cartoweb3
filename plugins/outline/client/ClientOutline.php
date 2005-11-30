@@ -123,9 +123,12 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {
-        /* nothing to do */
-    }
+                            Shape $keymapShape) {}
+
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
 
     /**
      * Returns outline tools : Point, Rectangle and Polygon

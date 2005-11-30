@@ -370,21 +370,20 @@ class HttpRequestHandler {
      * @return mixed request
      */
     private function handleTool(ClientPlugin $plugin, ToolDescription $tool) {
-    
+
         $cartoForm = $this->cartoclient->getCartoForm();
-        
+
         if ($cartoForm->pushedButton == CartoForm::BUTTON_MAINMAP) {
             if (!($tool->appliesTo & ToolDescription::MAINMAP)) {
                 return NULL;
             }
-            return $plugin->handleMainmapTool($tool, 
-                            $cartoForm->mainmapShape);
+            return $plugin->handleMainmapTool($tool, $cartoForm->mainmapShape);
+
         } else if ($cartoForm->pushedButton == CartoForm::BUTTON_KEYMAP) {
             if (!($tool->appliesTo & ToolDescription::KEYMAP)) {
                 return NULL;
             }
-            return $plugin->handleKeymapTool($tool, 
-                            $cartoForm->keymapShape);
+            return $plugin->handleKeymapTool($tool, $cartoForm->keymapShape);
         }
     }
 
@@ -411,6 +410,13 @@ class HttpRequestHandler {
         $tools = $this->cartoclient->getPluginManager()->
                 callPluginImplementing($plugin, 'ToolProvider', 'getTools');
         
+        foreach ($tools as $tool) {
+            if ($this->isButtonPushed($tool->id) &&
+                $tool->appliesTo & ToolDescription::APPLICATION) {
+                    return $plugin->handleApplicationTool($tool);
+            }
+        }
+
         foreach ($tools as $tool) {
             $this->log->debug('tool is ' . $tool->id);
             $this->log->debug('request ' . $toolRequest);

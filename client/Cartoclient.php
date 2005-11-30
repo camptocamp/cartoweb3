@@ -62,6 +62,7 @@ class CartoForm {
     const BUTTON_NONE = 1;
     const BUTTON_MAINMAP = 2;
     const BUTTON_KEYMAP = 3;
+    const BUTTON_APPLICATION = 4;
 
     // FIXME: is this needed ?, or rather test **shape if not null
     /**
