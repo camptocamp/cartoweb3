@@ -103,8 +103,15 @@
       <br /><br />
       <table cellpadding="0" cellspacing="1" border="0">
         <tr><td>  
-          {include file="toolbar.tpl" group="1" header="1"}
-          {include file="toolbar.tpl" group="4"}
+          {include file="toolbar.tpl" group="1" header="1"} 
+          <a href="javascript:ontop(6);">
+            <img src="{r type=gfx/layout}help.gif{/r}"
+                 title="{t}Help{/t}" alt="{t}help{/t}"style="padding:4px;" />
+          </a>
+          <a href="javascript:resetSession();">
+            <img src="{r type=gfx/layout}reset_session.gif{/r}"
+                 alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding:3px;"/>
+          </a>
         </td></tr>
       </table>
     </td>
