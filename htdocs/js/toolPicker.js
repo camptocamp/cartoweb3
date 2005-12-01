@@ -356,7 +356,7 @@ function setSymbolArrayListener() {
 */
 function getSymbolFromArray(ev) {
     var e = window.event ? window.event : ev;
-		var t = e.target ? e.target : e.srcElement;
+var t = e.target ? e.target : e.srcElement;
     if (t.id) {
       currentSymbol = t.id;
       updateSymbol();
@@ -775,7 +775,7 @@ function resetBrightness() {
 
 /* COMMON POSITION */
 /** 
- *  get X coordinate of obj	
+ *  get X coordinate of obj
  *  @param object obj
  *  @return integer curLeft : x coordinate of the object from the left of window
 */
@@ -814,14 +814,14 @@ function findPosY(obj) {
 */
 function getPos (ev, relative) {
     var e = window.event ? window.event : ev;
-		var t = e.target ? e.target : e.srcElement;
-		
-		var mX, mY;
-		// calculate x,y coordinate of cursor, it depends of the browser used
-		if (e.pageX && e.pageY) {
+var t = e.target ? e.target : e.srcElement;
+
+var mX, mY;
+// calculate x,y coordinate of cursor, it depends of the browser used
+if (e.pageX && e.pageY) {
         mX = e.pageX;
         mY = e.pageY;
-		} else if (e.clientX && e.clientY) {
+} else if (e.clientX && e.clientY) {
         mX = e.clientX;
         mY = e.clientY;
 
@@ -839,7 +839,7 @@ function getPos (ev, relative) {
                 mY += document.documentElement.scrollTop;
             }
         }
-		}
+}
     // get position of the mouse inside the element target (otherwise the reference is the page)
     if (relative) {
         var xPos = mX - findPosX(t);
@@ -988,7 +988,7 @@ function getcolorUnique(e) {
 */
 function getcolorFromArray(ev) {
     var e = window.event ? window.event : ev;
-		var t = e.target ? e.target : e.srcElement;
+var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
       color = t.style.backgroundColor;
@@ -1001,7 +1001,7 @@ function getcolorFromArray(ev) {
 */
 function getcolorUniqueFromArray(ev) {
     var e = window.event ? window.event : ev;
-		var t = e.target ? e.target : e.srcElement;
+var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
       color = t.style.backgroundColor;
@@ -1046,7 +1046,7 @@ function getColorSpace(elId) {
 */
 function changeColorFromInput(ev) {
   var e = window.event ? window.event : ev;
-	var t = e.target ? e.target : e.srcElement;
+var t = e.target ? e.target : e.srcElement;
   elId = t.id;
   inputColorSpace = getColorSpace(elId);
   // if the input colorspace is different from the current pickedColor colorspace -> conversion
@@ -1131,8 +1131,8 @@ function coordToRGB (ev) {
     } else {
         ct = Math.round(255 * (1.0 - (posXY[1]/100)));
         color[0] = color[1] = color[2] = ct<0?0:ct;
-    }		
-		return color;
+    }
+return color;
 }
 //copied from HTML Color Editor v1.2 (c) 2000 by Sebastian Weber <webersebastian@yahoo.de>
 /** 
@@ -1152,8 +1152,8 @@ function RGBtoHSL(colorset) {
     // s
       if (l<128) s=Math.round(255*(max-min)/(max+min));
       else s=Math.round(255*(max-min)/(510-max-min));
-    // h	
-      if (r==max)	h=(g-b)/(max-min);
+    // h
+      if (r==max)h=(g-b)/(max-min);
       else if (g==max) h=2+(b-r)/(max-min);
       else h=4+(r-g)/(max-min);
       h*=60;
@@ -1168,19 +1168,19 @@ function RGBtoHSL(colorset) {
  *  @param array colorset
  *  @return array
 */
-	function HSLtoRGB (colorset) {
+function HSLtoRGB (colorset) {
     h = colorset[0]; s = colorset[1]; l = colorset[2];
     if (s == 0) s = 1;
-		h=h*360/255;s/=255;l/=255;
-		if (l <= 0.5) rm2 = l + l * s;
-		else rm2 = l + s - l * s;
-		rm1 = 2.0 * l - rm2;
+h=h*360/255;s/=255;l/=255;
+if (l <= 0.5) rm2 = l + l * s;
+else rm2 = l + s - l * s;
+rm1 = 2.0 * l - rm2;
     r = ToRGB1(rm1, rm2, h + 120.0)
     g = ToRGB1(rm1, rm2, h)
     b = ToRGB1(rm1, rm2, h - 120.0)
 
-		return Array(r, g, b);
-	}
+return Array(r, g, b);
+}
 /** 
  *  HSLtoRGB associed function
  *  @param float rm1
@@ -1188,15 +1188,15 @@ function RGBtoHSL(colorset) {
  *  @param float rh
  *  @return integer
 */
-	function ToRGB1(rm1,rm2,rh) {
+function ToRGB1(rm1,rm2,rh) {
     
-		if      (rh > 360.0) rh -= 360.0;
-		else if (rh <   0.0) rh += 360.0;
- 		if      (rh <  60.0) rm1 = rm1 + (rm2 - rm1) * rh / 60.0;
-		else if (rh < 180.0) rm1 = rm2;
-		else if (rh < 240.0) rm1 = rm1 + (rm2 - rm1) * (240.0 - rh) / 60.0;
- 		return Math.round(rm1 * 255);
-	}
+if      (rh > 360.0) rh -= 360.0;
+else if (rh <   0.0) rh += 360.0;
+ if      (rh <  60.0) rm1 = rm1 + (rm2 - rm1) * rh / 60.0;
+else if (rh < 180.0) rm1 = rm2;
+else if (rh < 240.0) rm1 = rm1 + (rm2 - rm1) * (240.0 - rh) / 60.0;
+ return Math.round(rm1 * 255);
+}
 /** 
  *  convert RGB to HEX
  *  @param array colorset
