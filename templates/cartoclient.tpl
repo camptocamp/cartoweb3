@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
+  {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
 
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
@@ -171,6 +172,7 @@ ClientContext:
         {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
         {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
         {if $layerReorder|default:''}<li id="label5"><a href="javascript:ontop(5)">{t}Layers reorder{/t}</a></li>{/if}
+        {if $outline_active|default:''}<li id="label6"><a href="javascript:ontop(6)">{t}Outline{/t}</a></li>{/if}
       </ul>
     </div>
     <div id="container">
@@ -209,11 +211,7 @@ ClientContext:
       {if $mapsizes_active|default:''}
       {$mapsizes}
       {/if}
-    
-      {if $outline_active|default:''}
-      {$outline}
-      {/if}
-    
+        
       {if $routing_active|default:''}
       {$routing}
       {/if}
@@ -264,6 +262,13 @@ ClientContext:
     </div>
     <!-- end of folder5 -->
     {/if}
+
+    {if $outline_active|default:''}
+    <div id="folder6" class="folder">
+    {$outline}
+    </div>
+    <!-- end of folder6 -->
+    {/if}
   </div>
 </div>
    {if $auth_active|default:''}
@@ -271,7 +276,9 @@ ClientContext:
    {/if}
 
 </form>
-
+   {if $toolpicker_active|default:''}
+     {include file="toolPicker.tpl"}
+   {/if}
 
 </body>
 </html>

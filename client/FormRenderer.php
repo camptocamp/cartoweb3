@@ -195,7 +195,7 @@ class FormRenderer {
         $this->smarty->assign('project', $this->cartoclient->getProjectHandler()->
                                         getProjectName());
 
-        $chooserActive =  $this->cartoclient->getConfig()->showProjectChooser;
+        $chooserActive = $this->cartoclient->getConfig()->showProjectChooser;
         $this->smarty->assign('projects_chooser_active', $chooserActive);
 
         // no more drawing if no project chooser
@@ -260,6 +260,10 @@ class FormRenderer {
             $this->drawProjectsChooser();
             $this->drawUserAndRoles();
     
+            // ToolPicker
+            $this->smarty->assign('toolpicker_active', 
+                                  $this->cartoclient->getConfig()->toolPickerOn);
+
             // lang links
             $this->smarty->assign(array('locales'     => I18n::getLocales(),
                                         'currentLang' => LANG,
