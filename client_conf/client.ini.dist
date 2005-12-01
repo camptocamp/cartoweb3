@@ -119,5 +119,5 @@ viewAuth = admin
 viewLogErrors = false
 viewUpgradeOutdated = false
 
-;## Plugins ##
+;## toolPicker ##
 toolPickerOn = false
