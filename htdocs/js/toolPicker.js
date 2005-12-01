@@ -281,6 +281,8 @@ function pencilArrayDisplay() {}; // unused for now
 
 // setup symbolarray
 function symbolArraySetup() {
+  // remove last empty element from symbolNamesArray, this is caused by the passage of variable array to template via smarty
+  tmp = symbolNamesArray.pop();
   // create symbol table
   symbolTable();
   // set event listener to table cases
@@ -288,7 +290,7 @@ function symbolArraySetup() {
 }
 // create symbol table
 function symbolTable() {
-  nbSy = 5; //nb symbol per lines
+  nbSy = 5; //nb sybol per lines
   nbLines = Math.floor(symbolNamesArray.length/nbSy);
   if (symbolNamesArray.length%nbSy > 0)
     nbLines += 1;
@@ -305,7 +307,7 @@ function symbolTable() {
       
       table += '<div style="float:left;"'
             + 'class="ArS" title="'+symbolLabelArray[counter]+'"><img src="'+imgPath
-            + symbolNamesArray[counter]+imgOver+'.'+symbolType+'" id="'+symbolNamesArray[counter]+'" style="height:30px;width:30px;" /></div>';
+            + symbolNamesArray[counter]+imgOver+'.jpg" id="'+symbolNamesArray[counter]+'" style="height:30px;width:30px;" /></div>';
       counter++;
     }
     table += '</div>';
@@ -370,14 +372,14 @@ function updateSymbol(){
 
               toCheck = imgSrc.substring(imgSrc.length-9, imgSrc.length-4);
               if (toCheck == '_over'){
-                sybmElmList[k].childNodes[i].childNodes[j].src = imgSrc.substring(0, imgSrc.length-9)+'.'+symbolType;
+                sybmElmList[k].childNodes[i].childNodes[j].src = imgSrc.substring(0, imgSrc.length-9) + '.jpg';
               }
             }
         }
     }
     // active new symbol
     activeSym = xGetElementById(currentSymbol);
-    activeSym.src = imgPath+'/'+currentSymbol+'_over.'+symbolType;
+    activeSym.src = imgPath+'/'+currentSymbol+'_over.jpg';
     xGetElementById('symbolName').innerHTML = symbolLabelArray[getSymbolNumId(currentSymbol)];
     
 }
@@ -396,7 +398,7 @@ function symbolArrayReturn () {
 }
 // display selected symbol
 function symbolArrayDisplay (targetElm) {
-    targetElm.style.backgroundImage = "url("+imgPath+currentSymbol+"."+symbolType+")";
+    targetElm.style.backgroundImage = 'url('+imgPath+currentSymbol+'.jpg)';
     targetElm.title = symbolLabelArray[getSymbolNumId(currentSymbol)];
 }
 
