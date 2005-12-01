@@ -3,11 +3,11 @@
 
 <div id="toolcontainer">
   <div id="menucontainer">
-    <div name="toolMenu" class="toolmenuOff">Tools &gt;</div>
-    <div name="toolMenu" id="tool1menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('1')">Color 1</a></div>
-    <div name="toolMenu" id="tool2menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('2')">Hash</a></div>
-    <div name="toolMenu" id="tool3menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('3')">Pencil</a></div>
-    <div name="toolMenu" id="tool4menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('4')">Symbol</a></div>
+    <div class="toolmenuOff">{t}Tools{/t} &gt;</div>
+    <div id="tool1menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('1')">{t}Color{/t}</a></div>
+    <div id="tool2menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('2')">{t}Hash{/t}</a></div>
+    <div id="tool3menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('3')">{t}Pencil{/t}</a></div>
+    <div id="tool4menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('4')">{t}Symbol{/t}</a></div>
     <div class="exitLink"><a href="javascript:closeTool();">X</a></div>
     <div class="exitLink"><a href="javascript:toolHelp();">?</a></div>
   </div>  
@@ -21,42 +21,42 @@
         <div id="colorresult3" class="colorBox" ></div>
       </div>
       <div id='slider' class='demoBox'>
-        <div id='thumb' class='dragBox'></div><div class="dragComment"><span class="dragText">Relative Brightness</span></div>
+        <div id='thumb' class='dragBox'></div><div class="dragComment"><span class="dragText">{t}Relative Brightness{/t}</span></div>
       </div>
       <div class="colorslider">
-        <span class="inputContainer">R <input type="text" id="rgbR" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}R{/t} <input type="text" id="rgbR" class="colorInput" maxlength="3" /></span>
         <div id='sliderrgbR' class='demoBoxC'>
-          <div id='thumbrgbR' class='dragBox'></div><div class="dragComment2"><span class="dragText">Red</span></div>
+          <div id='thumbrgbR' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Red{/t}</span></div>
         </div>
       </div>
       <div class="colorslider">
-        <span class="inputContainer">G <input type="text" id="rgbG" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}G{/t} <input type="text" id="rgbG" class="colorInput" maxlength="3" /></span>
         <div id='sliderrgbG' class='demoBoxC'>
-          <div id='thumbrgbG' class='dragBox'></div><div class="dragComment2"><span class="dragText">Green</span></div>
+          <div id='thumbrgbG' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Green{/t}</span></div>
         </div>
       </div>
       <div class="colorslider" >
-        <span class="inputContainer">B <input type="text" id="rgbB" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}B{/t} <input type="text" id="rgbB" class="colorInput" maxlength="3" /></span>
         <div id='sliderrgbB' class='demoBoxC'>
-          <div id='thumbrgbB' class='dragBox'></div><div class="dragComment2"><span class="dragText">Blue</span></div>
+          <div id='thumbrgbB' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Blue{/t}</span></div>
         </div>
       </div>
       <div class="colorslider">
-        <span class="inputContainer">H <input type="text" id="hslH" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}H{/t} <input type="text" id="hslH" class="colorInput" maxlength="3" /></span>
         <div id='sliderhslH' class='demoBoxC'>
-          <div id='thumbhslH' class='dragBox'></div><div class="dragComment2"><span class="dragText">Hue</span></div>
+          <div id='thumbhslH' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Hue{/t}</span></div>
         </div>
       </div>
       <div class="colorslider">
-        <span class="inputContainer">S <input type="text" id="hslS" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}S{/t} <input type="text" id="hslS" class="colorInput" maxlength="3" /></span>
         <div id='sliderhslS' class='demoBoxC'>
-          <div id='thumbhslS' class='dragBox'></div><div class="dragComment2"><span class="dragText">Saturation</span></div>
+          <div id='thumbhslS' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Saturation{/t}</span></div>
         </div>
       </div>
       <div class="colorslider" >
-        <span class="inputContainer">L <input type="text" id="hslL" class="colorInput" maxlength="3" /></span>
+        <span class="inputContainer">{t}L{/t} <input type="text" id="hslL" class="colorInput" maxlength="3" /></span>
         <div id='sliderhslL' class='demoBoxC'>
-          <div id='thumbhslL' class='dragBox'></div><div class="dragComment2"><span class="dragText">Luminance</span></div>
+          <div id='thumbhslL' class='dragBox'></div><div class="dragComment2"><span class="dragText">{t}Luminance{/t}</span></div>
         </div>
       </div>
       <div class="buttonarea" >
@@ -66,13 +66,13 @@
     </div>
 
     <div id="color2" class="colorbox">
-      <div class="switchCbloc"><a href="javascript:switchColorTool('Cgradient')">Switch to color gradient</a></div>
+      <div class="switchCbloc"><a href="javascript:switchColorTool('Cgradient')">{t}Switch to color gradient{/t}</a></div>
       <div id="colortable" style="width=auto;"></div>
       <div id="colorresult">
         <div id="colorresult2a" class="colorBox" ></div>
         <div id="colorresult3a" class="colorBox" ></div>  
       </div>
-      <div id="colSwitch" class="defaultFont" style="position: absolute; top: 5px; right: 5px;" title="more colors">[<a href="javascript:switchColors();">+</a>]</div>
+      <div id="colSwitch" class="defaultFont" style="position: absolute; top: 5px; right: 5px;" title="{t}more colors{/t}">[<a href="javascript:switchColors();">+</a>]</div>
       <div class="buttonarea" >
         <span id="hexStatic" class="defaultFont">#hexvalue</span>
         <input type="button" onclick="javascript:toolPickerReturn();javascript:closeTool();" value="OK" />
