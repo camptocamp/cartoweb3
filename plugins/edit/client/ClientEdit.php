@@ -427,6 +427,12 @@ class ClientEdit extends ClientPlugin
                             Shape $keymapShape) {
         /* nothing to do with the keymap */
     }
+    
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {
+    }
 
     /**
      * Returns the edit tool : Point, Line and Polygon
