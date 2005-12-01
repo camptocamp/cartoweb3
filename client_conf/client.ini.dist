@@ -120,4 +120,4 @@ viewLogErrors = false
 viewUpgradeOutdated = false
 
 ;## toolPicker ##
-toolPickerOn = false
+toolPickerOn = true
