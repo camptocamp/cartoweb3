@@ -1,20 +1,40 @@
 <?php
-/*
- * Created on Sep 30, 2005
+/**
+ * Classes and exception for asynchronous mode
+ * 
+ * These methods and exceptions could be moved to:
+ *  - AjaxException to Cartoclient.php
+ *  - AjaxPluginResponse to FormRenderer.php
+ *  - PluginEnabler to PluginManager.php
  *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * @copyright 2005 Camptocamp SA
+ * @package Client
+ * @version $Id$
  */
  
- class AjaxException extends CartowebException {
+ class AjaxException extends CartoclientException {
 
-}
+ }
  
  
  /**
-  * Contains the output of a plugin
-  * This object is used by plugins in Ajaxable::getAjaxResponse() to
-  * feed the pluginResponse XML file.
+  * Container for plugins' asynchronous responses
+  * This object is used by plugins in Ajaxable::getAjaxResponse() - called by
+  * FormRenderer::showAjaxPluginResponse() to feed the pluginResponse XML docuemt
   * @package Client
   */
  class AjaxPluginResponse {
@@ -48,9 +68,9 @@
 }
  
  /**
-  * Container for plugins' asynchronous responses
-  * This object is used by plugins in Ajaxable::getAjaxResponse() to
-  * feed the pluginResponse XML file
+  * Abstraction class for defining plugins' enable level
+  * This object is used by plugins in Ajaxable::ajaxHandleAction() - called by
+  * Cartoclient::doMainAsync() - to set plugins' enableLevel in async mode
   * @package Client
   */
  class PluginEnabler {
@@ -60,7 +80,7 @@
  	 */
  	protected $cartoclient;
 
- 	public function __construct(&$cartoclient) {
+ 	public function __construct(Cartoclient &$cartoclient) {
  		if (!$cartoclient instanceof Cartoclient)
  			die('The given $cartoclient is not a Cartoclient instance object.');
 		$this->cartoclient = $cartoclient;

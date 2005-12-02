@@ -448,8 +448,7 @@ abstract class ClientPlugin extends PluginBase {
 	const ENABLE_LEVEL_LOAD = 0;
 	// ENABLE_LEVEL_PROCESS: LOAD + filter+handle http request and save session
 	const ENABLE_LEVEL_PROCESS = 1;
-	// ENABLE_LEVEL_SERVER CALL: PROCESS + filter and handle http request, build server request
-	// and save session
+	// ENABLE_LEVEL_SERVER CALL: PROCESS + build server request and handle results
 	const ENABLE_LEVEL_SERVERCALL = 2;
 	// ENABLE_LEVEL_FULL: ENABLE_LEVEL_SERVERCALL + render GUI
 	const ENABLE_LEVEL_FULL = 3;

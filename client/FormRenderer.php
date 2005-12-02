@@ -295,13 +295,19 @@ class FormRenderer {
 		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
 	    }
 
- 		// Uses the xml tpl containing the plugin's HTMLCode and variables
+ 		// Switches to the XML tpl to be sent as async response
 		$this->setCustomForm('ajaxPluginResponse.xml.tpl');
 		
 	    // Populates the AjaxPluginResponse.XML template
 	    $this->smarty->assign('pluginResponses', $ajaxPluginResponses);
 		header ('Content-Type: text/xml');
+        
+        // Shows async response and dies
 	    $this->smarty->display($this->customForm);
+        
+        // Dies in order to prevent any other output
+        // (excepted the bubbling exceptions)
+        die();
     }
 
     /**

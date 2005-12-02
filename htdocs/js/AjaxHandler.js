@@ -73,7 +73,8 @@ AjaxHandler = {
     },
 	 
 	/**
-	 * Handles the Cartoclient AJAX response passing each plugin's output
+	 * Handles the Cartoclient AJAX response, passing to each plugin its output
+	 * and the argObject
 	 * to it's Javascript plugin image
 	 * (i.e. AjaxPlugins.[pluginName].handleResponse()
 	 */

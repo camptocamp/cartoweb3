@@ -5,6 +5,8 @@
  * Uses: Prototype-1.3.1.js - for $() and $F() functions
  * Uses: AjaxHelper.js - for common features (i.e. getHttpPostRequest)
  * Uses: AjaxPluginHandler.js - for plugin calls.
+ *
+ * Used by: AjaxHandler.js
  */
 
 // Initialises plugins on window load
