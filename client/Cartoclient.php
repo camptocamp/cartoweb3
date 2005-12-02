@@ -600,7 +600,11 @@ class Cartoclient {
      */
     private function getSessionName() {
         if (!isset($this->sessionName)) {
-            $this->sessionName = self::CLIENT_SESSION_KEY . $this->config->mapId;
+            
+            $this->sessionName = sprintf('%s.%s.%s',
+                                         self::CLIENT_SESSION_KEY,
+                                         $this->projectHandler->getProjectName(),
+                                         $this->config->mapId);
             
             if ($this->config->sessionNameSuffix) {
                 $suffixes = Utils::parseArray($this->config->sessionNameSuffix);
@@ -962,7 +966,7 @@ class Cartoclient {
         $this->log->debug('client context loaded (from session, or new)');
 
         // Internationalization
-        I18n::init($this->getConfig());
+        I18n::init($this->getConfig(), $this->projectHandler);
 
         // Encoding
         Encoder::init($this->getConfig());
