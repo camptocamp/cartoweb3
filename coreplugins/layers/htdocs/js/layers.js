@@ -192,6 +192,3 @@ function goToScale(scale) {
   document.carto_form.recenter_scale.options.add(newOpt);
   FormItemSelected();
 }
-
-if (typeof onLoadString != "string") onLoadString = "";
-    onLoadString += "layersInit();";
