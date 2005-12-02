@@ -166,6 +166,35 @@ class Utils {
     }
 
     /**
+     * Affects and returns a PEAR::DB object.
+     *
+     * Set connection if not already available.
+     * @param PEAR::DB
+     * @param string DSN (Data Source Name)
+     * @param array connection options
+     * @return PEAR::DB
+     */
+    public static function getDb(&$db, $dsn, $options = array()) {
+        if (!isset($db)) {
+            if (empty($dsn)) {
+                throw new CartocommonException('DSN is missing');
+            }
+            
+            if (!is_array($options)) {
+                throw new CartocommonException(
+                    "'options' parameter is not an array");
+            }
+
+            require_once 'DB.php';
+            
+            $db = DB::connect($dsn, $options);
+            self::checkDbError($db, 'Failed opening DB connection');
+        }
+        return $db;
+    }
+
+
+    /**
      * Converts a comma-separated string to an array
      * @param string
      * @return array
