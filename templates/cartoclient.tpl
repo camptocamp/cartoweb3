@@ -57,6 +57,7 @@
   <div id="content">
 
     {include file="toolbar.tpl" group=1 header=1}
+    {include file="toolbar.tpl" group=2}
 
     <table>
       <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} 1:{$currentScale}</div></td></tr>
