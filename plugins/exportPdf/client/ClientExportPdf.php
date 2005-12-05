@@ -85,6 +85,12 @@ class ClientExportPdf extends ExportPlugin
     protected $charset;
 
     /**
+     * GUI mode constants
+     */
+    const GUIMODE_CLASSIC = 'classic';
+    const GUIMODE_ROTATE  = 'rotate';
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -799,7 +805,9 @@ class ClientExportPdf extends ExportPlugin
         
         $config = new ExportConfiguration();
 
-        if (!is_null($this->general->selectedScale)) {
+        if (isset($this->general->guiMode) &&
+            $this->general->guiMode == self::GUIMODE_ROTATE &&
+            !empty($this->general->selectedScale)) {
             $scale = $this->general->selectedScale;
         } else {
             $scale = $this->getLastScale();
