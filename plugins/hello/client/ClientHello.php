@@ -112,11 +112,11 @@ class ClientHello extends ClientPlugin
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
 		switch ($actionName) {
-			case 'Hello.change':
+			case 'Hello.Change':
 				$pluginsDirectives->disableCoreplugins();
 				$pluginsDirectives->enablePlugin('hello');				
 			break;
-			case 'Location.mapPanByKeymap':
+			case 'Location.Pan':
 				// Hello plugin will run on Location.mapPanByKeymap action
 				$pluginsDirectives->enablePlugin('hello');								
 			break;
