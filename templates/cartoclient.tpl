@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
+  {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
 
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
@@ -22,6 +23,23 @@
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
+    
+  <script type="text/javascript">
+    <!--
+    var hideKeymapMsg = "{t}Collapse keymap{/t}";
+    var showKeymapMsg = "{t}Show keymap{/t}";
+    var hideKeymap = {$collapseKeymap};
+    //-->
+  </script>
+  {/if}
+  {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
+  
+  {include file="dhtmlcode.tpl"}
+  
+  <!-- Ajax related js includes - Debug Tool: jsTrace -->
+  <!-- Remove these two links to get rid of the logger (i.e. in production mode -->
+  <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
 
   <!-- Ajax related js includes - External libraries -->
   <script type="text/javascript" src="{r type=js}prototype-1.3.1.js{/r}"></script>
@@ -39,20 +57,9 @@
   {if true}<script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>{/if}
   <!-- Plugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
   
-  
-  <script language="JavaScript" type="text/javascript">
-    <!--
-    var hideKeymapMsg = "{t}Collapse keymap{/t}";
-    var showKeymapMsg = "{t}Show keymap{/t}";
-    var hideKeymap = {$collapseKeymap};
-    //-->
-  </script>
-  {/if}
-  {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
-  
-  {include file="dhtmlcode.tpl"}
 </head>
 
 <body>
@@ -61,12 +68,11 @@
 
 <form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
-  <input type="hidden" name="dhtmlAjaxEnabled" id="dhtmlAjaxEnabled" value="1" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
-  <input type="hidden" name="selection_type" />
-  <input type="hidden" name="selection_coords" />
-  <input type="hidden" name="features" />
+  <input type="hidden" name="selection_type" id="selection_type" />
+  <input type="hidden" name="selection_coords" id="selection_coords" />
+  <input type="hidden" name="features" id="features" />
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
@@ -75,26 +81,27 @@
 {/if}
   <div id="content">
 
-    {include file="toolbar.tpl" group=1}
+    {include file="toolbar.tpl" group=1 header=1}
+    {include file="toolbar.tpl" group=2}
 
     <table>
       <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} 1:{$currentScale}</div></td></tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
-        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" alt="NE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" id="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" id="pan_n" alt="N" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" id="pan_ne" alt="NE" /></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
+        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" id="pan_w" alt="W" /></td>
         <td valign="top">
           {include file="mainmap.tpl"}
         </td>
-        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
+        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" id="pan_e" alt="E" /></td>
       </tr> 
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" id="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" id="pan_s" alt="S" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" id="pan_se" alt="SE" /></td>
       </tr>
       <tr>
         <td colspan="3">
@@ -106,7 +113,7 @@
         </td>
       </tr>
       {if $scalebar_path|default:''}
-      <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
+      <tr><td align="center" colspan="3"><img src="{$scalebar_path}" id="scalebar" 
       alt="{t}scalebar_alt{/t}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /></td></tr>
       {/if}
     </table>
@@ -180,8 +187,8 @@ ClientContext:
         <input type="hidden" name="project" value="{$project}" />
       {/if}
          
-      <input type="submit" id="refresh" name="refresh" value="refresh" class="form_button" />
-      <input type="submit" name="reset_session" value="reset_session" class="form_button" 
+      <input type="submit" id="refresh" name="refresh" value="{t}refresh{/t}" class="form_button" />
+      <input type="submit" name="reset_session" value="{t}reset_session{/t}" class="form_button" 
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
     <div>
@@ -191,6 +198,7 @@ ClientContext:
         {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
         {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
         {if $layerReorder|default:''}<li id="label5"><a href="javascript:ontop(5)">{t}Layers reorder{/t}</a></li>{/if}
+        {if $outline_active|default:''}<li id="label6"><a href="javascript:ontop(6)">{t}Outline{/t}</a></li>{/if}
       </ul>
     </div>
     <div id="container">
@@ -198,8 +206,8 @@ ClientContext:
 
     
       {if $keymap_path|default:'' && !$collapsibleKeymap|default:''}
-      <div id="keymap">
-      <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
+      <div id="keymapDiv">
+      <input type="image" name="keymap" id="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
       style="width:{$keymap_width}px;height:{$keymap_height}px;" />
       </div>
       {/if}
@@ -215,7 +223,9 @@ ClientContext:
       {/if}
     
       {if $scales_active|default:''}
-      {$scales}
+      <div id="recenter_scale_div">
+        {$scales}
+      </div>
       {/if}
     
       {if $shortcuts_active|default:''}
@@ -229,11 +239,7 @@ ClientContext:
       {if $mapsizes_active|default:''}
       {$mapsizes}
       {/if}
-    
-      {if $outline_active|default:''}
-      {$outline}
-      {/if}
-    
+        
       {if $routing_active|default:''}
       {$routing}
       {/if}
@@ -284,6 +290,13 @@ ClientContext:
     </div>
     <!-- end of folder5 -->
     {/if}
+
+    {if $outline_active|default:''}
+    <div id="folder6" class="folder">
+    {$outline}
+    </div>
+    <!-- end of folder6 -->
+    {/if}
   </div>
 </div>
    {if $auth_active|default:''}
@@ -291,7 +304,9 @@ ClientContext:
    {/if}
 
 </form>
-
+   {if $toolpicker_active|default:''}
+     {include file="toolPicker.tpl"}
+   {/if}
 
 </body>
 </html>

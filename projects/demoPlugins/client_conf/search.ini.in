@@ -1,1 +1,0 @@
-dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_SEARCH_NAME@

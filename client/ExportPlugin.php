@@ -55,6 +55,11 @@ class ExportConfiguration {
      * @var int
      */
     private $mapWidth;
+    
+    /**
+     * @var double
+     */
+    private $mapAngle;
 
     /**
      * @var Bbox
@@ -174,6 +179,20 @@ class ExportConfiguration {
      */
     public function getMapWidth() {
         return $this->mapWidth;
+    }
+
+    /**
+     * @param double
+     */
+    public function setMapAngle($mapAngle) {
+        $this->mapAngle = $mapAngle;
+    }
+    
+    /**
+     * @return double
+     */
+    public function getMapAngle() {
+        return $this->mapAngle;
     }
 
     /**

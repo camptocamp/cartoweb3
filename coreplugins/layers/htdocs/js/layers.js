@@ -196,6 +196,3 @@ function goToScale(scale) {
     AjaxHandler.doAction('Location.zoom');
   }
 }
-
-if (typeof onLoadString != "string") onLoadString = "";
-    onLoadString += "layersInit();";

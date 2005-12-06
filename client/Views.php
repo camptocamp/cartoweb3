@@ -275,6 +275,12 @@ class ViewManager {
     
                 // gets view from storage
                 $viewData = $this->wc->select($this->viewId);
+
+                if (!$this->getActionSuccess()) {
+                    $this->message = $this->wc->getMessage();
+                    break;
+                }
+                
                 $this->data = $this->wf->decapsulate($viewData);
                 $this->data = $this->wf->checkVersion($this->data, $this->viewId);
     
@@ -302,7 +308,7 @@ class ViewManager {
                                          'collapse_keymap, handleView',
                                          $this->cartoclient
                                               ->getConfig()->viewSavedRequest);
-                    // FIXME: collapsible keymap status is not correcty passed
+
                     $savedVars = explode(',', $savedVars);
                     $savedVars = array_unique($savedVars);
                     $savedVars = array_map('trim', $savedVars);
@@ -569,7 +575,7 @@ class ViewFilter {
             
             $plugins[$pluginName] = array(
                 'recorderVersion' => $this->getRecorderVersion($pluginName),
-                'data'            => $pluginData, // TODO: filter HTML tags?
+                'data'            => htmlspecialchars($pluginData),
                 );
         }
 
@@ -590,7 +596,7 @@ class ViewFilter {
         $view = new stdClass;
         foreach ($xml->plugin as $plugin) {
             $pluginName = (string)$plugin['name'];
-            $view->$pluginName = trim((string)$plugin);
+            $view->$pluginName = html_entity_decode(trim((string)$plugin));
 
             $this->pluginsVersions[$pluginName] = (int)$plugin['recorderversion']; 
         }
@@ -996,24 +1002,6 @@ abstract class ViewContainer {
     }
 
     /**
-     * Wrapper for data serializing.
-     * @param mixed data to serialize
-     * @return string serialized data
-     */
-    protected function serialize($data) {
-        return serialize($data);
-    }
-
-    /**
-     * Wrapper for data unserializing.
-     * @param string serialized data
-     * @return mixed unserialized data
-     */
-    protected function unserialize($data) {
-        return unserialize($data);
-    }
-
-    /**
      * Returns views catalog.
      * @return array 
      */
@@ -1125,6 +1113,9 @@ abstract class ViewContainer {
      */
     private function computeLocationId() {
         $weights = $this->getWeights();
+        if (!$weights) {
+            return 0;
+        }
         $ids = array_keys($weights);
         $kmax = max(array_keys($ids));
         $k = array_search($this->viewId, $ids);
@@ -1377,8 +1368,8 @@ class ViewFileContainer extends ViewContainer {
      */
     private function readXmlContent($content) {
         $xml = simplexml_load_string($content);
-        
-        $this->data = $this->unserialize((string)$xml->sessionData);
+    
+        $this->data = html_entity_decode((string)$xml->sessionData);
         
         $metas = get_object_vars($xml->metadata);
         $this->metas = array();
@@ -1392,7 +1383,7 @@ class ViewFileContainer extends ViewContainer {
      * @return string XML
      */
     private function writeXmlContent() {
-        $data = $this->serialize($this->data);
+        $data = htmlspecialchars($this->data);
         $this->metas = array_map('htmlspecialchars', $this->metas);
     
         $smarty = new Smarty_Cartoclient($this->cartoclient);
@@ -1426,24 +1417,6 @@ class ViewFileContainer extends ViewContainer {
                                      $this->viewId);
         }
         return $deleted;
-    }
-
-    /**
-     * @see ViewContainer::serialize()
-     * @param mixed
-     * @return string
-     */
-    protected function serialize($data) {
-        return htmlspecialchars(parent::serialize($data));
-    }
-
-    /**
-     * @see ViewContainer::unserialize()
-     * @param string
-     * @return mixed
-     */
-    protected function unserialize($data) {
-        return parent::unserialize(html_entity_decode($data));
     }
 }
 
@@ -1543,7 +1516,7 @@ class ViewDbContainer extends ViewContainer {
                                %s) VALUES (%d, 'now()', '%s', '%s')",
                                implode(', ', $this->metasList),
                                $this->viewId,
-                               addslashes($this->serialize($this->data)),
+                               addslashes($this->data),
                                implode("', '", $this->metas)
                                );
                 break;
@@ -1553,7 +1526,7 @@ class ViewDbContainer extends ViewContainer {
                 $sql = sprintf("UPDATE views 
                                SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
-                               addslashes($this->serialize($this->data)),
+                               addslashes($this->data),
                                $this->makeMetasSql(),
                                $this->viewId);
                 break;
@@ -1585,7 +1558,7 @@ class ViewDbContainer extends ViewContainer {
                 }
     
                 $row =& $res->fetchRow(DB_FETCHMODE_OBJECT);
-                $this->data = $this->unserialize($row->sessiondata);
+                $this->data = $row->sessiondata;
                 
                 $this->metas = array();
                 foreach ($this->metasList as $meta) {
@@ -1718,7 +1691,6 @@ class ViewDbContainer extends ViewContainer {
             $this->message = I18n::gt('Unable to build views catalog');
             return $catalog;
         }
-
         
         while ($row =& $res->fetchRow(DB_FETCHMODE_OBJECT)) {
             $viewShow = $this->getBool($row->viewshow);

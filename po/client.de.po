@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-13 18:01+0200\n"
+"POT-Creation-Date: 2005-11-10 13:13+0100\n"
 "PO-Revision-Date: 2005-03-14 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -13,31 +13,37 @@ msgstr ""
 
 # exportPdf.ini:formats.a4.label
 # exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
 
 # exportPdf.ini:formats.a3.label
 # exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr "A3"
 
 # images.ini:mapSizes.0.label
 # images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "small"
 msgstr "klein"
 
 # images.ini:mapSizes.1.label
 # images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "normal"
 msgstr "normal"
 
 # images.ini:mapSizes.2.label
 # images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "big"
 msgstr "gross"
 
 # images.ini:mapSizes.3.label
 # images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "giant"
 msgstr "riesengross"
 
@@ -79,6 +85,10 @@ msgstr "Dézoomer pour voir la couche"
 
 #: coreplugins/layers/templates/switches.tpl
 msgid "Switches"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
 msgstr ""
 
 #: coreplugins/location/templates/id_recenter.tpl
@@ -187,7 +197,6 @@ msgid "Password"
 msgstr "Passwort"
 
 #: plugins/auth/templates/login_page.tpl
-#: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Submit"
 msgstr ""
 
@@ -252,6 +261,46 @@ msgstr "Auf einer neuen Seite"
 msgid "None"
 msgstr "Keine"
 
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Outliner plugin:"
+msgstr ""
+
 #: plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr "Zeichnen"
@@ -263,6 +312,10 @@ msgstr "Maske"
 #: plugins/outline/templates/outline.tpl
 msgid "Total area"
 msgstr "Fläche"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr ""
 
 #: plugins/routing/templates/routing.tpl
 msgid "Find path"
@@ -282,6 +335,10 @@ msgstr ""
 
 #: plugins/routing/templates/routing.tpl
 msgid "routing_compute"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "Reset"
 msgstr ""
 
 #: plugins/views/templates/views.tpl
@@ -372,6 +429,24 @@ msgid "Show keymap"
 msgstr ""
 
 #: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Massstab"
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Coords (m):"
+msgstr "Koord. (m) : "
+
+#: templates/cartoclient.tpl
+msgid "Dist approx.:"
+msgstr ""
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Approx. surface :"
+msgstr "Ungefähre Fläche : "
+
+#: templates/cartoclient.tpl
 msgid "scalebar_alt"
 msgstr "alt_barechelle"
 
@@ -386,6 +461,14 @@ msgstr "Messages développeurs"
 #: templates/cartoclient.tpl
 msgid "Choose project"
 msgstr "Projekt wählen"
+
+#: templates/cartoclient.tpl
+msgid "refresh"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr ""
 
 #: templates/cartoclient.tpl
 msgid "Navigation"
@@ -416,36 +499,16 @@ msgid "Views:"
 msgstr ""
 
 #: templates/dhtmlcode.tpl
-msgid "Approx. distance: "
-msgstr "Ungefähre Distanz : "
-
-#: templates/dhtmlcode.tpl
-msgid "Approx. surface: "
-msgstr "Ungefähre Fläche : "
-
-#: templates/dhtmlcode.tpl
-msgid "Coords (m): "
-msgstr "Koord. (m) : "
-
-#: templates/dhtmlcode.tpl
-msgid "Overlapping polygons forbidden"
+msgid "overlapping polygons are not allowed"
 msgstr ""
 
 #: templates/dhtmlcode.tpl
-msgid "Number of segments limited to "
+msgid "Are you sure ?"
 msgstr ""
 
 #: templates/dhtmlcode.tpl
-msgid " currently drawn"
+msgid "Not conform object"
 msgstr ""
-
-#: templates/mainmap.tpl
-msgid "Main map"
-msgstr ""
-
-#: templates/mainmap.tpl
-msgid "Current scale:"
-msgstr "Massstab"
 
 #: templates/mainmap.tpl
 msgid "Loading message"
@@ -455,142 +518,128 @@ msgstr "Bitte warten..."
 msgid "Unauthorized"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:149
+#: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:173
-msgid "You are not allowed to perform"
+#: client/Views.php:186
+msgid "You are not allowed to perform this action"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:174
-msgid " this action"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/client/Views.php:570
+#: client/Views.php:935
 #, php-format
 msgid "Loaded view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:576
+#: client/Views.php:941
 #, php-format
 msgid "New view recorded with id %d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:581
+#: client/Views.php:946
 #, php-format
 msgid "View #%d updated"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:586
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1061
+#: client/Views.php:951 client/Views.php:1412
 #, php-format
 msgid "View #%d deleted"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:951
+#: client/Views.php:1301
 #, php-format
 msgid "Failed to open view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:975
+#: client/Views.php:1325
 #, php-format
 msgid "Unable to read view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:987
+#: client/Views.php:1337
 #, php-format
 msgid "Unable to write view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1064
+#: client/Views.php:1415
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1141
+#: client/Views.php:1474
 msgid "Unable to open ViewDbContainer: "
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1143
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1212
+#: client/Views.php:1476 client/Views.php:1545
 msgid "Service failed."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1210
+#: client/Views.php:1543
 msgid "Unable to process view."
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1221
+#: client/Views.php:1554
 #, php-format
 msgid "No result for view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1245
+#: client/Views.php:1578
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1364
+#: client/Views.php:1690
 msgid "Unable to build views catalog"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:310
+#: coreplugins/images/client/ClientImages.php:321
 msgid "label"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
+#: coreplugins/layers/client/ClientLayers.php:1243
 msgid "Default"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
-msgid "about file [about_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
-msgid ".html] not found"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/contact.php:26
-msgid "contact file [contact_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/copyright.php:26
-msgid "copyright file [copyright_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/disclaimer.php:26
-msgid "disclaimer file [disclaimer_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/help.php:26
-msgid "help file [help_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
+#: plugins/exportPdf/client/ClientExportPdf.php:1168
 msgid "Click here to display PDF file"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
+#: plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:171
+#: plugins/hello/client/ClientHello.php:103
+#, php-format
+msgid "message: %s count: %d"
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:191
 msgid "fastest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:172
+#: plugins/routing/client/ClientRouting.php:192
 msgid "shortest"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:278
+#: plugins/views/client/ClientViews.php:286
 msgid "Views main controller is OFF!!"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:282
+#: plugins/views/client/ClientViews.php:290
 msgid "Memorizing view to update"
 msgstr ""
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:311
+#: plugins/views/client/ClientViews.php:319
 msgid "(placed at the end)"
 msgstr ""
+
+#: scripts/testgettext.php:55
+msgid "PHP-Gettext is not installed correctly !"
+msgstr ""
+
+#~ msgid "Approx. distance: "
+#~ msgstr "Ungefähre Distanz : "

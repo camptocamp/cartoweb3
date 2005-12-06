@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-25 08:18+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -80,7 +80,7 @@ msgid "Freeway"
 msgstr ""
 
 #: layers.ini:layers.sr.label
-msgid "Secondary road"
+msgid "National highway"
 msgstr ""
 
 #: layers.ini:layers.contour.label
@@ -191,7 +191,7 @@ msgid "freeway"
 msgstr ""
 
 #: demoPlugins.map
-msgid "secondary_road"
+msgid "national_highway"
 msgstr ""
 
 #: demoPlugins.map
@@ -231,6 +231,14 @@ msgstr ""
 
 #: demoPlugins.map
 msgid "TXT"
+msgstr ""
+
+#: demoPlugins.map
+msgid "graph"
+msgstr ""
+
+#: demoPlugins.map
+msgid "0"
 msgstr ""
 
 #: demoPlugins.map

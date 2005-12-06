@@ -1,20 +1,26 @@
 AjaxPlugins.Location = {
-  handleResponse: function(pluginOutput) {
 
-    /* Plugin general behaviour */
+	/* HTML element's id definitions */
+	recenterScaleId: 'recenter_scale',
+	recenterScaleDivId: 'recenter_scale_div',
 
-	// Redefine the map extent in mainmap object
-	bboxMinX = pluginOutput.variables.bboxMinX;
-	bboxMinY = pluginOutput.variables.bboxMinY;
-	bboxMaxX = pluginOutput.variables.bboxMaxX;
-	bboxMaxY = pluginOutput.variables.bboxMaxY;
-    mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
-    
-    factor = pluginOutput.variables.factor;
-    
-    // Redraw the scale select
-    $('location_scale').innerHTML = pluginOutput.htmlCode.scales;
-  }
+
+	handleResponse: function(pluginOutput) {
+		/* Plugin general behaviour */
+		// Redefine the map extent in mainmap object
+		bboxMinX = pluginOutput.variables.bboxMinX;
+		bboxMinY = pluginOutput.variables.bboxMinY;
+		bboxMaxX = pluginOutput.variables.bboxMaxX;
+		bboxMaxY = pluginOutput.variables.bboxMaxY;
+		Logger.trace('Updating dhtmlAPI\'s bbox properties...');		
+		mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
+		Logger.confirm('Done (new bbox: '+bboxMinX+', '+bboxMinY+', '+bboxMaxX+', '+bboxMaxY+').');
+		
+		factor = pluginOutput.variables.factor;
+		
+		// Redraw the scale select
+		AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHtml', pluginOutput.htmlCode.scales);
+	}
 };
 
 /*
@@ -61,6 +67,11 @@ AjaxPlugins.Location.Actions.Zoom = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
+	},
+	
+	init: function() {
+		// Attach an action on the change event of the scales dropdown
+		AjaxHandler.attachAction(AjaxPlugins.Location.recenterScaleId, 'change', 'Location.Zoom');
 	}
 };
 
@@ -98,18 +109,18 @@ AjaxPlugins.Location.Actions.Pan = {
 	},
 	initPanButtons: function() {
 		// Attach an action on the click event of the pan buttons
-		AjaxHandler.attachAction($('pan_n'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_nw'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_w'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_sw'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_s'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_se'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_e'), 'click', 'Location.Pan', {source: 'button'});
-		AjaxHandler.attachAction($('pan_ne'), 'click', 'Location.Pan', {source: 'button'});	
+		AjaxHandler.attachAction('pan_n', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_nw', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_w', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_sw', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_s', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_se', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_e', 'click', 'Location.Pan', {source: 'button'});
+		AjaxHandler.attachAction('pan_ne', 'click', 'Location.Pan', {source: 'button'});	
 	},
 	initKeymap: function() {
 		// Attach an action on the click event of the keymap div tag
-		AjaxHandler.attachAction($('keymap'), 'click', 'Location.Pan', {source: 'keymap'});
+		AjaxHandler.attachAction('keymap', 'click', 'Location.Pan', {source: 'keymap'});
 	},
 	initMap: function(timesExecuted) {
 		if (timesExecuted == undefined)

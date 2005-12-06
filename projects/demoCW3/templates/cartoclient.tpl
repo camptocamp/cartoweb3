@@ -27,17 +27,6 @@
   {/if}
   
   {include file="dhtmlcode.tpl"}
-  <script language="JavaScript" type="text/javascript">
-    <!--
-    {literal}
-    window.onload = function() {
-      if (typeof onLoadString == "string") {
-        eval(onLoadString);
-      }
-    }
-    {/literal}
-    //-->
-  </script>
 </head>
 
 <body>
@@ -47,7 +36,7 @@
 <tr><td colspan="2">
 <table id="topbanner" border="0"  cellpadding="0" cellspacing="0">
   <tr>
-    <td id="logo"><img src="{r type=gfx/layout}logo.gif{/r}" alt="camptocamp" border="0"/></td>
+    <td id="logo"><img src="{r type=gfx/layout}logoc2c.gif{/r}" alt="camptocamp" border="0"/></td>
     <td id="title" nowrap="nowrap">{t}CartoWeb3 - Demonstration{/t}</td>
     <td align='right' width="1%">
       <table>
@@ -57,7 +46,7 @@
         {if $lang == $currentLang}
         <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
         {else}
-        <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
+        <a href="javascript:document.carto_form.action='{$selfUrl}?lang={$lang}';FormItemSelected();" onclick="javascript:doSubmit();"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
         {/if}
         {/foreach}</td>
       </tr>
@@ -77,7 +66,7 @@
 <tr><td>
 <!-- header ends here -->
 
-<form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
@@ -88,18 +77,22 @@
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-{if $outline_active|default:''}
+  <input type="hidden" id="fake_reset" name="fake_reset" />
+  <input type="hidden" id="fake_query" name="fake_query" />
+  {if $outline_active|default:''}
   {$outlinelabel}
-{/if}
-
-  
-  
+  {/if}
   <div id="content">
-  
     <table id="mapframe" cellpadding="0" cellspacing="0">
       <tr>
-        <td colspan="3" id="toolbar_row">
-          {include file="toolbar.tpl"}
+        <td colspan="3" id="toolbar_row" nowrap="nowrap">
+          {include file="toolbar.tpl" group="1" header="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {include file="toolbar.tpl" group="2"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {include file="toolbar.tpl" group="4"}
+          <a href="javascript:ontop(2);">
+            <img src="{r type=gfx/layout/help}fileprint.gif{/r}"
+                 title="{t}Print{/t}" alt="{t}print{/t}" /></a>
         </td>
       </tr>
       <tr>
@@ -134,37 +127,54 @@
         <td  colspan="3"><br /></td>
       </tr>
       <tr>
-       <td colspan="3" align="center">
+       <td></td>
+       <td align="center">
          <table border="0" cellpadding="0" cellspacing="0" width="100%">
-         <tr>
-           <td colspan="3" valign="top" align="center" width="80%">
-              {if $scalebar_path|default:''}
+           <tr>
+             <td colspan="3" valign="top" align="center" width="80%">
+               {if $scalebar_path|default:''}
                <img src="{$scalebar_path}" 
-                alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
-                height="{$scalebar_height}" title="" />
-              {/if}
-           </td>
-         </tr><tr>
-           <td width="10%" align="center">
-              {if $scales_active|default:''}
-                {$scales}
-              {/if}
-           </td>
-           <td width="80%"></td> 
-           <td width="10%" align="center">
-              {if $mapsizes_active|default:''}
-                {$mapsizes}
-              {/if}
-           </td>
-         </tr>
+               alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
+               height="{$scalebar_height}" title="" />
+               {/if}
+             </td>
+           </tr>
+           <tr>
+             <td width="10%" align="center">
+               {if $scales_active|default:''}
+                 {$scales}
+               {/if}
+             </td>
+             <td width="80%"></td> 
+             <td width="10%" align="center">
+               {if $mapsizes_active|default:''}
+                 {$mapsizes}
+               {/if}
+             </td>
+           </tr>
          </table>
        </td>
+       <td></td>
        </tr>
        <tr>
          <td  colspan="3"><br /></td>
        </tr>
          
-  
+       {if $tables_result|default:''}
+       <tr>
+         <td colspan ="3">
+         <table style="border:1px solid black;" width="100%">
+           <tr>
+             <td>
+               <center>
+                 {$tables_result}
+               </center>
+             </td>
+           </tr>
+         </table>
+         </td>
+       </tr>  
+       {/if}
        {if $developer_messages|default:''}
        <tr>
        <td colspan="3" align="center">
@@ -207,9 +217,6 @@
        </td>
       </tr>
       {/if}
-
-  
-  
   <tr>
     <td  colspan="3"><br /></td>
   </tr>
@@ -220,10 +227,7 @@
     </td>
   </tr>
 </table>
-{if $tables_result|default:''}
-  {$tables_result}
-{/if}
-  </div>
+</div>
 
   <div id="leftbar">
     <div>
@@ -248,10 +252,19 @@
       <br />
       {$layers}
       <br />
-      <center>
-      <input type="submit" id="refresh" name="refresh" value="{t}Refresh{/t}" class="form_button" />
-      </center>
-      <br />
+      <p style="text-align:right; vertical-align:middle;">
+
+        <a href="javascript:ontop(6);">
+         <img src="{r type=gfx/layout}help.gif{/r}"
+              title="{t}Help{/t}" alt="{t}help{/t}" 
+              style="margin-bottom:3px;"/></a>
+        &nbsp;&nbsp;
+        <a href="javascript:resetSession();">
+          <img src="{r type=gfx/layout}reset_session.gif{/r}" alt="{t}reset session{/t}" title="{t}Reset session{/t}" style="padding-bottom:3px;"/>
+        </a>&nbsp;&nbsp;
+        <input type="submit" id="refresh" name="refresh" value="{t}OK{/t}" 
+        class="form_button" style="margin-bottom:7px;" />
+      </p>
     </div>
     
     <!-- end of folder 1 -->
@@ -271,8 +284,8 @@
       <fieldset>
        <legend>{t}Data sources{/t}</legend>
        <ul>
-        <li>{t}Nima:{/t} <a href="http://geoengine.nima.mil/muse-cgi-bin/rast_roam.cgi">Vmap0</a></li>
-        <li>{t}Gtopo30:{/t} <a href="http://edcdaac.usgs.gov/gtopo30/w020n90.asp">W020N90</a></li>
+        <li>{t}Nima :{/t} <a target="_blank" href="http://geoengine.nima.mil/geospatial/SW_TOOLS/NIMAMUSE/webinter/rast_roam.html">Vmap0</a></li>
+        <li>{t}Gtopo30 :{/t} <a  target="_blank" href="http://edc.usgs.gov/products/elevation/gtopo30/gtopo30.html">W020N90</a></li>
        </ul>
       </fieldset>
 
@@ -305,11 +318,6 @@
       {$recenter}
       {/if}
       
-      <iframe name="search" id="iframe_search" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="250" height="125px"
-      {if $iframeSrc|default:''}src="{$iframeSrc}" {/if} >
-      {t}Your browser does not support search services{/t}
-      </iframe>
-      
       {if $id_recenter_active|default:''}
       {$id_recenter}
       {/if}
@@ -327,45 +335,50 @@
         {if $exportPdf|default:''}
           {$exportPdf}
         {else}
-          <p>{t}You are not allowed to print maps{/t}</p>
+          <p>
+            {t}You are not allowed to print maps{/t},
+            {if $auth_active|default:''}
+             {t}please{/t} {$auth}.
+            {/if}
+          </p>
         {/if}
     </div>
     <!-- end of folder 2 -->
     
     <!-- folder 6 starts here -->
-    <div id="folder6" class="folder" style="height:{$mainmap_height}px;">
+    <div id="folder6" class="folder" style="height:550px;">
     <p><i>{t}This demo is an overview of the standard functionalities that are somehow visible for an end-user in Cartoweb. To get the most out of it, read through this Help guide before starting to explore.{/t}</i></p>
     
     <br />
     
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Themes tab{/t}" /><strong>&nbsp;{t}Themes tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Themes tab{/t}" /><strong>&nbsp;{t}Themes tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
         {t}Cartoweb supports an arbitrarily complex hierarchy of layers, with indefinite path.
         The layers which are checked and so selected, are displayed.{/t}<br /><br />
         <img src="{r type=gfx/layout/help}refresh.gif{/r}" alt="chargement du logo refresh" />
-        {t}Once you have chosen your data, click on the Refresh button, located beneath the tab, to update your changes{/t}
+        {t}Once you have chosen your data, click on the OK button, located beneath the tab, to update your changes{/t}
     </p><br />
     
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}"   alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}"   alt="{t}Search tab{/t}" /><strong>&nbsp;{t}Search tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
     {t}This tab allows you to move the center of the viewing area on a desired location. You can choose this location by three differents ways :{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to select a shortcut to a specific location,{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to entering the coordinates in the box X and Y (to start the search type on the touch {/t}<img src="{r type=gfx/layout/help}key_enter.png{/r}"  alt="chargement du logo key_enter" />),<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}to do a search on the name. For it, please select the data on which you are interested in, type the word or the begining of the word you think correspond to a feature of the data and follow the instructions.{/t}</p><br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to select a shortcut to a specific location,{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to entering the coordinates in the box X and Y (to start the search type on the touch {/t}<img src="{r type=gfx/layout/help}key_enter.gif{/r}"  alt="chargement du logo key_enter" />),<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}to do a search on the name. For it, please select the data on which you are interested in, type the word or the begining of the word you think correspond to a feature of the data and follow the instructions.{/t}</p><br />
     
         
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Outline tab{/t}" /><strong>&nbsp;{t}Outline tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Outline tab{/t}" /><strong>&nbsp;{t}Outline tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -379,7 +392,7 @@
     
     <table class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Query tab{/t}" /><strong>&nbsp;{t}Query tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Query tab{/t}" /><strong>&nbsp;{t}Query tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -388,20 +401,20 @@
     {t}The queries are persistent (i.e. you can add new objects to already selected objects).
     Note : {/t}<i>{t}only the layers which are specified questionnable by the administrator of the website are concerned by the query.{/t}</i><br /><br />
     {t}This tab allows you to parametrize your search. For each layers, which can be interrogated, the following options can be set :{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Hilight{/t}</span>{t} : allows to activate/desactivate features hilight;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Attributes{/t}</span>{t} : if it's checked, the layers attributes can be requested. Instead, only object IDs will be returned;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Table{/t}</span>{t} : allows to display the query result;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Union selection{/t}</span>{t} : when selecting a group of objects, already selected ones are kept selected and no yet selected ones are selected;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Xor{/t}</span>{t} : when selecting a group of objects, already selected ones are unselected and no yet selected ones are selected (defaut type);{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Intersection{/t}</span>{t} : when selecting a group of objects, only already selected are kept selected;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}InQuery{/t}</span>{t} : if it's checked, you force query to use this layer;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" /><span class="s">{t}Mask{/t}</span>{t} : if it's checked, you apply a mask instead of a simple selection. This don't work when using highlight mecanism;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Hilight{/t}</span>{t} : allows to activate/desactivate features hilight;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Attributes{/t}</span>{t} : if it's checked, the layers attributes can be requested. Instead, only object IDs will be returned;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Table{/t}</span>{t} : allows to display the query result;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Union selection{/t}</span>{t} : when selecting a group of objects, already selected ones are kept selected and no yet selected ones are selected;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Xor{/t}</span>{t} : when selecting a group of objects, already selected ones are unselected and no yet selected ones are selected (defaut type);{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Intersection{/t}</span>{t} : when selecting a group of objects, only already selected are kept selected;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}InQuery{/t}</span>{t} : if it's checked, you force query to use this layer;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Mask{/t}</span>{t} : if it's checked, you apply a mask instead of a simple selection. This don't work when using highlight mecanism;{/t}<br />
     <br /><i>{t}If "Query all selected layers" option is checked, the query will handle all the questionnable layers{/t}</i>
     </p><br />
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}Print tab{/t}" /><strong>&nbsp;{t}Print tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}Print tab{/t}" /><strong>&nbsp;{t}Print tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -410,7 +423,7 @@
     
     <table  class="table_help" border="0" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}tab.png{/r}" alt="{t}About tab{/t}" /><strong>&nbsp;{t}About tab{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}tab.gif{/r}" alt="{t}About tab{/t}" /><strong>&nbsp;{t}About tab{/t}</strong><br />
       </td></tr>
     </table>
     <p class="help_viewer">
@@ -420,17 +433,17 @@
     
     <table  class="table_help" cellpadding="0" cellspacing="0">
       <tr><td>
-        <img src="{r type=gfx/layout/help}globe.png{/r}"  alt="{t}Globe{/t}" /><strong>&nbsp;{t}Mapping tools{/t}</strong><br />
+        <img src="{r type=gfx/layout/help}globe.gif{/r}"  alt="{t}Globe{/t}" /><strong>&nbsp;{t}Mapping tools{/t}</strong><br />
       </td></tr>
     </table>
     
     <p class="help_viewer"><strong>{t}Navigation interface{/t}</strong><br />
     {t}There are many possibilities to navigate on the main map, that is to change the scale and the position{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the arrows surrounding the map;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the dynamic (i.e. clickable) keymap;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the navigation tools (zoom and pan), which are detailled below;{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the drop down menu "Scale";{/t}<br />
-    <img src="{r type=gfx/layout/help}endturn.png{/r}" alt="{t}pet{/t}" />{t}the various options in the "Search" tab.{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the arrows surrounding the map;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the dynamic (i.e. clickable) keymap;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the navigation tools (zoom and pan), which are detailled below;{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the drop down menu "Scale";{/t}<br />
+    <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" />{t}the various options in the "Search" tab.{/t}<br />
     {t}The menu "Mapsize" is self- explanatory.{/t}<br/><br />
     <img src="{r type=gfx/layout/help}zoomin.gif{/r}" alt="{t}zoomin{/t}" />
     {t}The Zoom In tool allows you to focus on a specific, smaller region of the Europe area. Click the Zoom In button and then either click the map near the center of the region you are interested in or click-and-drag a rectangle surrounding the area. The Zoom In tool can be used multiple times to move closer and closer to desired regions.{/t}<br />
@@ -450,16 +463,16 @@
     </table>
     <p class="help_viewer"><img src="{r type=gfx/layout/help}internationalization.gif{/r}" alt="{t}internationalization{/t}" />
     {t}The internationalization tools allow you to switch langage (Cartoweb uses gettext for the translation).{/t}
-    <br /><br /><img src="{r type=gfx/layout/help}login.jpg{/r}" alt="{t}login{/t}" />&nbsp;{t}Access to different elements of Cartoweb can be allowed or denied according to who is currently using the application. Both functionnalities and data may have access restrictions. For this demo, you can access to more rights on the data by using login 'demo' and password 'demo'.{/t} 
+    <br /><br /><img src="{r type=gfx/layout/help}login.jpg{/r}" alt="{t}login{/t}" />&nbsp;{t}Access to different elements of Cartoweb can be allowed or denied according to who is currently using the application. Both functionnalities and data may have access restrictions. For this demo, you can access to more rights by using login 'demo' and password 'demo'. You can then access to the train data and to the print fonctionnalities.{/t} 
     </p>
     <br />
     <hr />
-    {t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/doc_head/docbook/xhtml/" target="_blank">{t}Cartoweb Documentation{/t}</a>
+    <p>{t}For more information, you can have a look to the {/t}<a href="http://www.cartoweb.org/documentation.html" target="_blank">{t}Cartoweb documentation{/t}</a></p>
     </div>
     <!-- end of floder 6 -->
     
     <!-- folder 7 starts here -->
-    <div id="folder7" class="folder" style="height:{$mainmap_height}px;">
+    <div id="folder7" class="folder" style="height:550px;">
       <br />
         {if $selection_result|default:''}
         {$selection_result}
@@ -467,8 +480,7 @@
 
         {if $query_result|default:''}
         {$query_result}
-        {/if}
-        
+        {/if}  
     </div>
     <!-- end of folder 7 -->
     

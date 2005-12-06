@@ -79,6 +79,8 @@ AjaxHandler = {
 	 * (i.e. AjaxPlugins.[pluginName].handleResponse()
 	 */
 	handlePluginReponse: function(response, argObject) {
+
+		Logger.act('Updating GUI');
 		
 		/*
 		 * Creates an array with all plugin responses: array[pluginName][paramType][paramId] = paramValue
@@ -129,6 +131,9 @@ AjaxHandler = {
      * @param Object Object containing POST and/or GET queries for the Cartoclient
      */
 	actionRequest: function(actionId, argObject, queryObject) {
+
+		Logger.trace('Initiating async request');
+
 		var url = this.getBaseUrl()
 			+ '?ajaxActionRequest=' + actionId + '&'
 			+ queryObject.get;
@@ -136,6 +141,7 @@ AjaxHandler = {
 			url,
 			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
+				Logger.trace('Receiving response');
 					if (response.responseXML == undefined) {
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 						if (showFaillure) {
@@ -175,6 +181,9 @@ AjaxHandler = {
      * @param Object Object containing arbitrary data for plugins' JS part's use
 	 */
 	doAction: function(actionId, argObject) {
+
+		Logger.act('Action '+ actionId +' triggered');
+
         /*
          * Creates the argObject and/or adds actionName and pluginName properties,
          * used by plugins predefined methods
@@ -203,17 +212,29 @@ AjaxHandler = {
 	
 	
 	/**
-	 * Attaches an action to the given element (HTML element)
+	 * Attaches an action to the given element (HTML element),
+	 * preventing Javascript errors
 	 * @param HTMLElement HTML DOM Element object to attach the listener on
      * @param string Id of the triggered action (format: [PluginName].[ActionName]
      * @param Object Object containing arbitrary data for plugins' JS part's use
 	 * @param bool Prevent event from bubbling through the DOM
 	 */
-	attachAction: function(element, evType, actionId, argObject, useCapture) {
-		if (useCapture == undefined)
+	attachAction: function(elementId, evType, actionId, argObject, useCapture) {
+		Logger.trace('AjaxHandler.attachAction(): Attaching action:'+actionId+' to element id:'+elementId+'...');
+		if (typeof(useCapture) == 'undefined')
 			useCapture = false;		
-		if (argObject == undefined)
+		if (typeof(argObject) == 'undefined')
 			argObject = {};
+		if (typeof(elementId) == 'string') {
+			element = $(elementId);
+		} else {
+			Logger.error('argument elementId must be a string (\''+typeof(elementId)+'\' received)');
+			return false;			
+		}
+		if (typeof(element) == undefined || element == null) {
+			Logger.warn('element '+elementId+' does not exist!');
+			return false;
+		}
 		// Attaches the listener to the evType event on the element
 		AjaxHelper.addEvent(element, evType, function(event) {
 		    // Fixes event and target issues
@@ -229,19 +250,62 @@ AjaxHandler = {
 			if (event.preventDefault)
 				event.preventDefault();
 		}, useCapture);
+		
+		Logger.confirm('Done.');
+		return true;
 	},
 
-	// Bogous
+	
+	/**
+	 * Updates the given property of the given element with the given value
+	 * avoiding Javascript errors, and returns true if success, false otherwise
+	 * @param string DOM element id
+     * @param string DOM element property
+     * @param string value of the 
+	 * @return bool true if update succeeds, false otherwise
+	 */
+	updateDomElement: function(elementId, property, value) {
+
+		// These checks prevent Javascript errors		
+		element = $(elementId);
+		Logger.trace('AjaxHandler.updateDomElement(): Updating <b>'+elementId+'</b> element\'s <b>'+property+'</b>\'s value...');
+
+		if (typeof(elementId) != 'string') {
+			Logger.error('property argument must be a string!');
+			return false;			
+		}
+		
+		if (typeof(property) != 'string') {
+			Logger.error('property argument must be a string!');
+			return false;
+		}
+		if (typeof(element) == 'undefined' || element == null) {
+			Logger.warn('given element was not found in the DOM!');
+			return false;
+		}
+
+		eval('elementAttr = element.'+property);
+		if (typeof(elementAttr) == 'undefined') {
+			Logger.warn('given element\'s property was not found in the DOM!');		
+			return false;
+		}
+		eval('element.'+property+' = value');
+		Logger.confirm('Done.');
+		return true;
+	},
+
+
+	// waitFor() is Bogous, don't use it for now
 	waitFor: function(elementId, functionToExecute, timeout, waitTimeout,  timesChecked) { // timeout in seconds
-		if (elementId == undefined)
+		if (typeof(elementId) == 'undefined')
 			elementId = '';
-		if (functionToExecute == undefined)
+		if (typeof(functionToExecute) == 'undefined')
 			functionToExecute = function() {};
-		if (timeout == undefined)
+		if (typeof(timeout) == 'undefined')
 			timeout = 5; // timeout in seconds
-		if (waitTimeout == undefined)
+		if (typeof(waitTimeout) == 'undefined')
 			waitTimeout = 5000; // waitTimeout in ms
-		if (timesChecked == undefined) {
+		if (typeof(timesChecked) == 'undefined') {
 			timesChecked = 0;
 		} else {
 			timesChecked += 1;
@@ -252,7 +316,7 @@ AjaxHandler = {
 		
 		// Initialise only if elementId element exists, else
 		// wait a little while before trying again
-		if ($(elementId) == undefined) {
+		if ($(elementId) == null) {
 			if (waitTimeout * timesChecked / 1000 < timeout) {
 				setTimeout(AjaxHandler.waitFor(elementId, functionToExecute, timeout, waitTimeout, timesChecked), waitTimeout);
 			} else {
@@ -267,19 +331,43 @@ AjaxHandler = {
 
 
 
-AjaxHandler.Debug = {
-
-	log: new Array(),
+Logger = {	
+	/* Avaiable log levels:
+	 * 0 = none
+	 * 1 = acts
+	 * 2 = traces
+	 * 3 = errors
+	 * 4 = warns
+	 * 5 = confirms
+	 */
+	level: 4,
 	
-	add: function(message) {
-		this.log.push('[time]: ' + 'debug msg');
+	send: function(msg) {
+		if( this.level > 0
+			&& typeof( jsTrace ) != 'undefined' ) {
+			jsTrace.send( msg );
+		}	
 	},
 	
-	toString: function() {
-		str = '';
-		for (i=0; i<this.log.length; i++) {
-			str += this.log[i] + "\r\n";
-		}
-		return str;
-	}
+	act: function(msg) {
+		if (this.level >= 1)
+			this.send('<br /><font size="medium"><strong>' + msg + '</strong></font>');
+	},
+	trace: function(msg) {
+		if (this.level >= 2)
+			this.send('<font color="lightgray">' + msg + '</font>');
+	},
+	error: function(msg) {
+		if (this.level >= 3)
+			this.send('<font color="red">' + 'Error: ' + msg + '</font>');
+	},	
+	warn: function(msg) {
+		if (this.level >= 4)
+			this.send('<font color="orange">' + 'Warning: ' + msg + '</font>');
+	},
+	confirm: function(msg) {
+		if (this.level >= 5)
+			this.send('<font color="lightgreen">' + 'OK: ' + msg + '</font>');
+	},
 }
+Logger.act ('Initializing the AJAX Javascript debugger...');

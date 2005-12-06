@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 class ImagesState {
  
     /**
-     * Main map height ans width
+     * Main map height and width
      * @var Dimension
      */
     public $mainmapDimension;
@@ -172,6 +172,11 @@ class ClientImages extends ClientPlugin
      */
     public function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
+
+        if ($this->getConfig()->collapsibleKeymap) {
+            $this->collapseKeymap = isset($request['collapse_keymap']) ?
+                                    $request['collapse_keymap'] : 0;
+        }
     }
     
     /**
@@ -231,14 +236,14 @@ class ClientImages extends ClientPlugin
         $drawAll = ($this->getCartoclient()->getOutputType()
                     != Cartoclient::OUTPUT_IMAGE);
 
-        // TODO: read from config if drawn        
         $scalebar_image = new Image();
-        $scalebar_image->isDrawn = $drawAll;
+        $scalebar_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawScalebar);
         $images->scalebar = $scalebar_image;
 
-        // TODO: read from config if drawn        
         $keymap_image = new Image();
-        $keymap_image->isDrawn = $drawAll;
+        $keymap_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawKeymap);
         $images->keymap = $keymap_image;
 
         $mainmap_image = new Image();
@@ -412,6 +417,10 @@ class ClientImages extends ClientPlugin
         $mapWidth = $configuration->getMapWidth();
         if (!is_null($mapWidth))
             $mapRequest->imagesRequest->mainmap->width = $mapWidth;
+
+        $mapAngle = $configuration->getMapAngle();
+        if (!is_null($mapAngle))
+            $mapRequest->imagesRequest->mainmap->angle = $mapAngle;
     }    
 
     /**

@@ -1,9 +1,0 @@
-# CartoWeb 3 translation template 
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"POT-Creation-Date: 2005-03-01 14:23+0100\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"

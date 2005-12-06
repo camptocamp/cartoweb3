@@ -184,6 +184,9 @@ class ServerImages extends ClientResponderAdapter
         }
 
         if ($requ->mainmap->isDrawn) { 
+            if ($requ->mainmap->angle > 0) {
+                $msMapObj->setRotation($requ->mainmap->angle);
+            }
             if ($this->isDrawQuery()) {
                 $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
             } else {

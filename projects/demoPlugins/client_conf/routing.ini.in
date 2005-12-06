@@ -1,1 +1,3 @@
 dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
+postgresRoutingVerticesTable = roads_europe_vertices
+stepName = txt

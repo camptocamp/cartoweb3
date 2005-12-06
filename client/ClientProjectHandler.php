@@ -41,7 +41,7 @@ class ClientProjectHandler extends ProjectHandler {
      * Used for caching the project name.
      * @var string
      */
-    private $projectName = false;
+    private $projectName;
 
     /**
      * Environment variable which contains project name
@@ -72,7 +72,7 @@ class ClientProjectHandler extends ProjectHandler {
      * @return string project name
      */
     public function getProjectName() {
-        if ($this->projectName === false) {
+        if (!isset($this->projectName)) {
             $projectFileName = CARTOWEB_HOME . 'current_project.txt';
             
             if (array_key_exists(self::PROJECT_REQUEST, $_REQUEST))
@@ -92,7 +92,7 @@ class ClientProjectHandler extends ProjectHandler {
 
             else $this->projectName = ProjectHandler::DEFAULT_PROJECT;
             
-            $this->log->debug("current project is " . $this->projectName);
+            $this->log->debug('current project is ' . $this->projectName);
         }
         return $this->projectName;
     }

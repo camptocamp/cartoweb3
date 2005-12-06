@@ -73,12 +73,17 @@ class ClientStatictools extends ClientPlugin
      */
     public function handleMainmapTool(ToolDescription $tool,
                                Shape $mainmapShape) {}
-
+    
     /**
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool,
                               Shape $keymapShape) {}
+
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
 
     /**
      * @see ToolProvider::getTools()

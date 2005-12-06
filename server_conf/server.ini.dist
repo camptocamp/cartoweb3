@@ -34,3 +34,7 @@ noSoapXMLCache = false
 
 ; Charset encoder class
 EncoderClass.config = EncoderISO
+
+; If false, CartoWeb will not run if you are using PHP as a 
+; module and return an error. Set it to true to disable the check.
+disablePHPModuleCheck = false

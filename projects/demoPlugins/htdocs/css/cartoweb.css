@@ -9,7 +9,14 @@ html, body {
 legend {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:1.1em;
+  font-size:12px;
+}
+
+h1 {
+  font-family:Arial,Helvetica,sans-serif;
+  color:#333333;
+  font-size:12px;
+  font-weight:bold;
 }
 
 a {color:black; text-decoration:none;}
@@ -18,11 +25,15 @@ a:hover {color:#f00}
 
 img {border:0;}
 
-#topbanner {
+#downbanner {
   width:100%;
   background-color:#8398ac;
   color:white;
 }
+
+#downbanner a:link  {color:white;}
+#downbanner a:visited {color:white;}
+#downbanner a:hover {color:#f00}
 
 #logo {
   background-color:white;
@@ -38,15 +49,14 @@ img {border:0;}
 #title {
   text-align:center;
   font-size: 18px;
-  font-weight: lighter;
+  font-weight: bolder;
   vertical-align:middle;
+  color:#1f5b6d;
 }
 
 #leftbar {
   position: absolute;
-  /*left: 10px;
-  top: 83px;*/
-  width: 250px;
+  width: 260px;
   padding:0;
   z-index: 3;
   background:white;
@@ -59,7 +69,7 @@ img {border:0;}
 
 #layerscmd {text-align:center;padding:5px;}
 
-#content {z-index: 0;/*margin-left: 256px;*/}
+#content {z-index: 0;}
 
 #loadbar {
   width:170px;
@@ -80,7 +90,7 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 .form_button {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
   height:20px;
   border:1px solid #fff;
   border-bottom-color: #aaa;
@@ -97,20 +107,20 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   border-right-color: #aaa;
   background-color:#eee;
   color:red;
-  font-size:0.9em;
+  font-size:10px;
   margin:5px;
 }
 
-.select {
+select {
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
 }
 
 .input_text{
   font-family:Arial,Helvetica,sans-serif;
   color:#333333;
-  font-size:0.9em;
+  font-size:10px;
 }
 
 .locationInfo{
@@ -145,12 +155,15 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 /*end of global put in form balises*/
 
 #mapframe {
-  /*margin-top:10px;*/
 }
 
 #toolbar_row {
   padding:2px;
   text-align:center;
+}
+
+#toolbar_row img{
+  vertical-align:middle;
 }
 
 #toolbar {
@@ -279,7 +292,6 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 #floatScale {
   position:relative;
-/*  top: -15px;*/
   padding:0;
   margin:0;
 }
@@ -303,4 +315,9 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
 .help_viewer {
   text-align:left;
+}
+
+.viewTitle {
+  position:relative;
+  left:10px;
 }

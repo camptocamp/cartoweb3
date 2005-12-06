@@ -12,7 +12,7 @@
     <pubdate>
       <?dbtimestamp format="Y-m-d"?>
     </pubdate>
-   <edition>3.1.0</edition>
+   <edition>&cw_version;</edition>
    <mediaobject>
      <imageobject>
        <imagedata fileref="logo.png" format="PNG" />
@@ -80,6 +80,8 @@
     <xi:include href="user/pdf.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/views.xml"
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/edit.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/security.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />

@@ -1,31 +1,33 @@
 AjaxPlugins.Images = {
 
-	htmlHeight: 0,
-	htmlWidth: 0,
-	  
+	/* HTML element's id definitions */
+	mainmapId: 'map_raster_img',
+	keymapId: 'keymap',
+	scalebarId: 'scalebar',
 	
-	handleResponse: function(pluginOutput, argObject) {
+		
+	handleResponse: function(pluginOutput, argObject) {	
 		/* Plugin general behaviour */
-		    
-		// Update src tag of img elements
-
+		
+		// Updates mainmap image, preventing a shift
 		if (argObject.actionName == 'Pan') {
 			var newRaster = new Image();
+			// When the new image is loaded...
 			AjaxHelper.addEvent(newRaster, 'load', function(e) {
-				xHide('map_raster_img');
-				$('map_raster_img').src = newRaster.src;
+				xHide(AjaxPlugins.Images.mainmapId);
+				$(AjaxPlugins.Images.mainmapId).src = newRaster.src;
 				AjaxPlugins.Location.Actions.Pan.placeRaster(e);
-				setTimeout("xShow('map_raster_img')", 1);
+				setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);
 			});
 			newRaster.src = pluginOutput.variables.mainmap_path;
 		} else {
-			$('map_raster_img').src = pluginOutput.variables.mainmap_path;
+			$(this.mainmapId).src = pluginOutput.variables.mainmap_path;
 		}
-		$('keymap').src = pluginOutput.variables.keymap_path;
-		$('scalebar').src = pluginOutput.variables.scalebar_path;    
 		
-		this.htmlHeight = pluginOutput.variables.mainmap_height + 'px';
-		this.htmlWidth = pluginOutput.variables.mainmap_width + 'px';
+		// Updates keymap and scalebar images
+		AjaxHandler.updateDomElement(this.keymapId, 'src', pluginOutput.variables.keymap_path);
+		AjaxHandler.updateDomElement(this.scalebarId, 'src', pluginOutput.variables.scalebar_path);
+		
 	}
 };
 

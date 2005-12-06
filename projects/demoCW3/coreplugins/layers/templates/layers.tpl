@@ -6,10 +6,10 @@
   //-->
 </script>
 <div id="layerscmd">
-<a href="javascript:expandAll('layersroot');"><img src="{r type=gfx/layout}1_edit_add.png{/r}" id="expand_tree" alt="{t}expand tree{/t}" title="{t}Expand tree{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="javascript:closeAll('layersroot');"><img src="{r type=gfx/layout}1_edit_remove.png{/r}" id="close_tree" alt="{t}close tree{/t}" title="{t}Close tree{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="javascript:checkChildren('layersroot');"><img src="{r type=gfx/layout}1_layer_visible.png{/r}" id="check_all" alt="{t}check all{/t}" title="{t}Check all{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="javascript:checkChildren('layersroot',false);"><img src="{r type=gfx/layout}1_layer_novisible.png{/r}" id="uncheck_all" alt="{t}uncheck all{/t}" title="{t}Uncheck all{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;<br /></div>
+<a href="javascript:expandAll('layersroot');"><img src="{r type=gfx/layout}add.gif{/r}" id="expand_tree" alt="{t}expand tree{/t}" title="{t}Expand tree{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="javascript:closeAll('layersroot');"><img src="{r type=gfx/layout}remove.gif{/r}" id="close_tree" alt="{t}close tree{/t}" title="{t}Close tree{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="javascript:checkChildren('layersroot');"><img src="{r type=gfx/layout}check.gif{/r}" id="check_all" alt="{t}check all{/t}" title="{t}Check all{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="javascript:checkChildren('layersroot',false);"><img src="{r type=gfx/layout}uncheck.gif{/r}" id="uncheck_all" alt="{t}uncheck all{/t}" title="{t}Uncheck all{/t}"></img></a>&nbsp;&nbsp;&nbsp;&nbsp;<br /></div>
 <div id="layersroot">
 
 {defun name="drawChildren" element=$element}
@@ -50,7 +50,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {/if}
 
 {if $element.isDropDown}
-  <select class="select" name="layers_dropdown_{$element.parentId}" 
+  <select name="layers_dropdown_{$element.parentId}" 
   onchange="javascript:FormItemSelected();">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>

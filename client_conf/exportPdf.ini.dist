@@ -1,8 +1,11 @@
 ;general settings
+general.guiMode = classic
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
 general.defaultResolution = 96
+general.scales = 3, 5, 10, 15   ; used only if guiMode = rotate
+general.defaultScale = 10       ; used only if guiMode = rotate
 general.overviewScaleFactor = 10
 general.overviewColor = none
 general.overviewOutlineColor = red

@@ -286,12 +286,11 @@ layers.group_admin.metadata.security_view = admin]]></programlisting>
         using the following notation:
         </para>
         <programlisting><![CDATA[
- {capture name=caption}
+{capture name=caption}
 {$element.layerLabel} <a
 href="/?lang={$element.layerMeta.lang}&client_id={$element.layerMeta.client_id}">
 {element.layerMeta.complex_label}</a>
-{/capture}       
-        ]]></programlisting>
+{/capture}]]></programlisting>
         <para>
         As we can see in the previous example, metadata values can be used through the 
         <literal>layerMeta</literal> property of the <literal>$element</literal> Smarty 
@@ -354,6 +353,40 @@ END
       <filename>layers.ini</filename>, the icon of the first visible class is 
       used for the layer. </para>
   </sect1>
+  <sect1 id="user.layers.wms_legend">
+    <title>WMS Layers Legends</title>
+    <para>
+      <indexterm><primary>WMS Legend</primary></indexterm> Mapserver could
+      act like a <acronym>WMS</acronym> client and retrieved layer from 
+      distant <acronym>WMS</acronym> server. In this specific case, layers
+      legends could be retrieved directly from a distant server with 
+      <acronym>SLD</acronym> support (<literal>getLegendGraphic</literal>
+      method).
+    </para>
+    <para> 
+      <indexterm><primary>wms_legend_graphic</primary></indexterm> You must 
+      also add a metadata on each WMS layer to retrieve its legend icon:
+      <parameter>wms_legend_graphic</parameter>
+    </para>
+    <para>
+      Here is an example:
+      <programlisting><![CDATA[
+LAYER
+  NAME 'prov_boundary'
+  TYPE RASTER 
+
+  CONNECTION 'http://www2.dmsolutions.ca/cgi-bin/mswms_gmap?'
+  CONNECTIONTYPE WMS
+  METADATA
+    'wms_srs'             'EPSG:4326'
+    'wms_name'            'prov_bound'
+    'wms_server_version'  '1.1.1'
+    'wms_format'          'image/png'
+    'wms_legend_graphic'  'true'
+  END
+END]]></programlisting>
+    </para>
+  </sect1>
   <sect1 id="user.layers.autolayer">
     <title>Auto Layers</title>
     <para>In some cases, it may be useful to generate several layers out of a 
@@ -367,8 +400,7 @@ END
       <title>Auto Layers in <filename>layers.ini</filename></title>
       <para>First, you have to declare the list of auto layers indexes. Indexes 
         will be used as suffixes for generated layers :</para>
-      <programlisting><![CDATA[autoLayersIndexes = index1, index2]]> 
-        </programlisting>
+      <programlisting><![CDATA[autoLayersIndexes = index1, index2]]></programlisting>
       <para>Then you can use auto layers just as other layers. In this exemple, 
         an auto layer <parameter>myAutoLayer_</parameter> was declared in the 
         mapfile template (see <xref linkend="user.layers.autolayer.mapfile" 

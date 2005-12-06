@@ -22,7 +22,6 @@ a:hover {text-decoration: underline;color:#D0670A;}
   position: absolute;
   right: 10px;
   top: 10px;
-  width: 70px;
   height: 40px;
   padding:0;
   z-index: 3;
@@ -77,6 +76,16 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   color:red;
   font-size:0.8em;
   margin:2px;
+}
+
+.toolbar_on {
+  border: 1px solid #efbfbf;
+  cursor: pointer;
+}
+
+.toolbar_off {
+  border: 1px solid #ffffff;
+  cursor: pointer;
 }
 
 #dummy {

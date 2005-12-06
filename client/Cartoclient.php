@@ -64,6 +64,7 @@ class CartoForm {
     const BUTTON_NONE = 1;
     const BUTTON_MAINMAP = 2;
     const BUTTON_KEYMAP = 3;
+    const BUTTON_APPLICATION = 4;
 
     // FIXME: is this needed ?, or rather test **shape if not null
     /**
@@ -485,7 +486,7 @@ class Cartoclient {
      * Returns the names of core plugins
      * @return array names
      */
-     /* ajax-dev: swapped private for public, to access this method from PluginsDirectives */
+     /* ajax-dev: swapped private for public, to enable access from PluginEnabler object */
     public function getCorePluginNames() {
 
         return array('location', 'layers', 'images', 'query', 'statictools',
@@ -645,7 +646,11 @@ class Cartoclient {
      */
     private function getSessionName() {
         if (!isset($this->sessionName)) {
-            $this->sessionName = self::CLIENT_SESSION_KEY . $this->config->mapId;
+            
+            $this->sessionName = sprintf('%s.%s.%s',
+                                         self::CLIENT_SESSION_KEY,
+                                         $this->projectHandler->getProjectName(),
+                                         $this->config->mapId);
             
             if ($this->config->sessionNameSuffix) {
                 $suffixes = Utils::parseArray($this->config->sessionNameSuffix);
@@ -1066,7 +1071,7 @@ class Cartoclient {
         $this->log->debug('client context loaded (from session, or new)');
 
         // Internationalization
-        I18n::init($this->getConfig());
+        I18n::init($this->getConfig(), $this->projectHandler);
 
         // Encoding
         Encoder::init($this->getConfig());

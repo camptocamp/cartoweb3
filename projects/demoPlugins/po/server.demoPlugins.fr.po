@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-25 08:18+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +79,7 @@ msgstr "Autoroutes"
 
 #: layers.ini:layers.sr.label
 #, fuzzy
-msgid "Secondary road"
+msgid "National highway"
 msgstr "Routes nationales"
 
 #: layers.ini:layers.contour.label
@@ -184,7 +184,7 @@ msgstr "Autoroutes"
 
 #: demoPlugins.map
 #, fuzzy
-msgid "secondary_road"
+msgid "national_highway"
 msgstr "Routes nationales"
 
 #: demoPlugins.map
@@ -222,6 +222,14 @@ msgstr "Villes"
 #: demoPlugins.map
 msgid "TXT"
 msgstr "NOM"
+
+#: demoPlugins.map
+msgid "graph"
+msgstr ""
+
+#: demoPlugins.map
+msgid "0"
+msgstr ""
 
 #: demoPlugins.map
 msgid "cartoweb_point_outline"

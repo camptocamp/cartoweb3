@@ -207,5 +207,22 @@ var AjaxHelper = {
 			x: mX - findPosX(t),
 			y: mY - findPosY(t)
 		};
-	} 
+	},
+	
+	getCurrentTool: function() {
+		var selectedTool = null;
+        inputElements = document.getElementsByTagName('input');
+        for (var i=0; i < inputElements.length; i++) {
+            currentElement = inputElements.item(i);
+            inputType = currentElement.getAttribute('type');
+            inputName = currentElement.getAttribute('name');
+            if (inputType == 'radio' && inputName == 'tool') {
+                if (currentElement.checked) {
+                    selectedTool = currentElement.value;
+                    break;
+                }
+            }                    
+        }
+        return selectedTool;
+    }
 }

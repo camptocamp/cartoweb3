@@ -186,6 +186,72 @@ class LayersInitProvider implements InitProvider {
     }
         
     /**
+     * Retrieve an icon from a distant WMS/SLD server
+     * @param string layer id
+     * @param MapObj
+     * @param LayerObj
+     * @return string
+     */
+    protected function getWmsIcon($LayerId, $msMapObj, $msLayer) {
+        
+        $writablePath = $this->serverContext->getConfig()->webWritablePath;
+        $iconRelativePath = $this->getIconsRelativePath() . $LayerId . '.png';
+        $iconAbsolutePath =  $writablePath . $iconRelativePath;
+      
+        Utils::makeDirectoryWithPerms(dirname($iconAbsolutePath), $writablePath);
+        
+        if (!file_exists($iconAbsolutePath) ||
+             filemtime($this->serverContext->getMapPath()) >
+             filemtime($iconAbsolutePath) ||
+            (file_exists($this->getSymPath()) && 
+             filemtime($this->getSymPath()) > filemtime($iconAbsolutePath))) {
+
+            $wmsVersion = $msLayer->getMetadata('wms_server_version');
+            $wmsName = $msLayer->getMetadata('wms_name');
+            if (empty($wmsVersion) || empty($wmsName))
+                throw new CartoserverException(
+                    "Unable to retrieve WMS metadata on layer: $LayerId");
+
+            $url = $msLayer->connection;
+            $url .= "&Service=WMS&Request=getLegendGraphic&Format=image/png";
+            $url .= sprintf("&Version=%s", $wmsVersion);
+            $url .= sprintf("&Layer=%s", $wmsName);
+            $url .= sprintf("&Width=%s", $msMapObj->keysizex);
+            $url .= sprintf("&Height=%s", $msMapObj->keysizey);
+
+            if (!extension_loaded('curl'))
+                throw new CartoserverException(
+                    "Curl extension must be installed to use WMS legend graphic");
+                
+            $fp = @fopen($iconAbsolutePath, 'wb');
+            if (!is_resource($fp))
+                throw new CartoserverException(
+                    "Failed writing $iconAbsolutePath");
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5); // It should be enough
+            curl_exec($ch);
+            if (curl_errno($ch))
+                throw new CartoserverException(
+                    "Failed WMS connection: ". curl_error($ch));
+            curl_close($ch);  
+            fclose($fp);
+
+            if (!getimagesize($iconAbsolutePath)) {
+                if (!unlink($iconAbsolutePath))
+                    throw new CartoserverException(
+                        "Failed deleting $iconAbsolutePath");
+                return ''; // WMS server didn't return an usefull image
+            }
+        }
+
+        return $this->getIconUrl($iconRelativePath, true);
+    }
+    
+    /**
      * Fills properties of the given Layer object. It opens the underlying
      * corresponding mapserver layer object.
      * @param Layer
@@ -212,6 +278,10 @@ class LayersInitProvider implements InitProvider {
         else $layer->minScale = 0;
         if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
         else $layer->maxScale = 0;
+
+        if($msLayer->connectiontype == MS_WMS &&
+            $msLayer->getMetadata('wms_legend_graphic'))
+            $layer->icon = $this->getWmsIcon($layer->id, $msMapObj, $msLayer);
 
         for ($i = 0; $i < $msLayer->numclasses; $i++) {
             $msClass = $msLayer->GetClass($i);

@@ -29,7 +29,7 @@ class ClientHello extends ClientPlugin
                   implements Sessionable, GuiProvider, Ajaxable {
 
     const HELLO_INPUT = 'hello_input';
-    
+
     /**
      * @var Logger
      */
@@ -100,14 +100,19 @@ class ClientHello extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-        $template->assign('hello_active', true);
-        $template->assign('hello_message', "message: " . $this->message . 
-                          " count: " . $this->count);
+
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+        $template->assign(array('hello_active'  => true,
+                                'hello_message' => $message));
     }
 
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
-		$ajaxPluginResponse->addHtmlCode('hello_message', "message: " .
-						  $this->message . " count: " . $this->count);
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+		$ajaxPluginResponse->addHtmlCode('hello_message', $message);
     }
 
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {

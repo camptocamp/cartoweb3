@@ -25,6 +25,7 @@
  * Abstract test case
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'projects/AllTests.php';
 
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 

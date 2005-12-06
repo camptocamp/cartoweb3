@@ -89,6 +89,10 @@ class MapInfoHandler {
         $mapInfo = $this->mapInfo;
         $msMapObj = $this->serverContext->getMapObj();
         $mapInfo->mapLabel = $msMapObj->name;
+
+        $bbox = new Bbox();
+        $bbox->setFromMsExtent($msMapObj->extent);
+        $mapInfo->extent = $bbox;
     }
     
     /**

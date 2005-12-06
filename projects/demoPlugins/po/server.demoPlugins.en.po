@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-25 08:18+0200\n"
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: layers.ini:layers.district.label demoPlugins.map
 msgid "district"
-msgstr "District"
+msgstr "Districts"
 
 #: layers.ini:layers.sea.label demoPlugins.map
 msgid "sea"
@@ -79,8 +79,8 @@ msgstr "Freeways"
 
 #: layers.ini:layers.sr.label
 #, fuzzy
-msgid "Secondary road"
-msgstr "Secondary roads"
+msgid "National highway"
+msgstr "National highways"
 
 #: layers.ini:layers.contour.label
 msgid "Elevation contour"
@@ -184,8 +184,8 @@ msgstr "Freeways"
 
 #: demoPlugins.map
 #, fuzzy
-msgid "secondary_road"
-msgstr "Secondary roads"
+msgid "national_highway"
+msgstr "National highways"
 
 #: demoPlugins.map
 msgid "mountain"
@@ -222,6 +222,14 @@ msgstr "Towns"
 #: demoPlugins.map
 msgid "TXT"
 msgstr "NAME"
+
+#: demoPlugins.map
+msgid "graph"
+msgstr ""
+
+#: demoPlugins.map
+msgid "0"
+msgstr ""
 
 #: demoPlugins.map
 msgid "cartoweb_point_outline"

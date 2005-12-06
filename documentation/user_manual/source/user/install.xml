@@ -15,7 +15,7 @@
 
     <sect2 id="user.install.main.prerequisite">
       <title>Prerequisite for Installing &cartoweb;</title>
-      <para>&cartoweb; depends on several sofware components for its proper
+      <para>&cartoweb; depends on several software components for its proper
         working. Some are required and others are optional, depending on what you
         intend to do.
         <note>
@@ -24,7 +24,7 @@
         </note>
         </para>
 
-      <para>Required software
+      <para>The required software are:
         <variablelist>
             <title>A Web Server</title>
             <varlistentry><term></term>
@@ -42,7 +42,7 @@
                 <itemizedlist>
                   <listitem>
                     <para><emphasis>Gettext</emphasis> (optional): You need the Gettext module if you want
-                      to enable the Internationalisation in &cartoweb;. See
+                      to enable the Internationalization in &cartoweb;. See
                       <xref linkend="user.i18n"/> for configuration.
                       <note>
                         <para> If you are using the demo, you need to have Gettext
@@ -64,7 +64,7 @@
                 </itemizedlist>
                 <note><para>
                 If you are using Windows, simply use the Windows Installer 
-                <xref linkend="user.install.main.download"/>. If you absolutly want to install 
+                <xref linkend="user.install.main.download"/>. If you absolutely want to install 
                 PHP manually, see <xref linkend="appendix.windows_manual_install"/>.
               </para></note>
               </para>
@@ -91,7 +91,7 @@
           </varlistentry>
         </variablelist>
         <variablelist>
-          <title>PostgreSQL with PostGIS Suppport (Optional)</title>
+          <title>PostgreSQL with PostGIS Support (Optional)</title>
           <varlistentry><term></term>
             <listitem>
               <para>If you want spatial database support in &cartoweb; you
@@ -115,7 +115,7 @@
             <para>
               <itemizedlist mark='opencircle'>
                 <listitem>
-                  <para>Download &cartoweb; package from <ulink url="http://cartoweb.org/download.html"/>.
+                  <para>Download &cartoweb; package from <ulink url="http://cartoweb.org/downloads.html"/>.
                     It is recommended that you download the version with demo for a better
                     user experience.</para>
                 </listitem>
@@ -132,9 +132,7 @@
         <listitem>
           <formalpara><title>From CVS:</title>
             <para>Get the current development version via CVS using the following command:
-            <screen><![CDATA[
-  cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public checkout cartoweb3            
-             ]]></screen>
+            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public co cartoweb3]]></screen>
             </para>
           </formalpara>
           <formalpara><title>From CVS with cw3setup.php:</title>
@@ -155,8 +153,7 @@
           <xref linkend="user.install.main.prerequisite"/>.
       </para>
       <para>
-        If you intend to use the &cartoweb; demo, you need to have a section
-        called Gettext in the previous output.
+        Having Gettext installed is recommended if you wish to use the multilingual features of &cartoweb;.
       </para>
     </sect2>
 
@@ -248,7 +245,7 @@ List of options:
         <sect4 id="user.install.main.setup.example.basic">
           <title>Basic Setup</title>
           <para>
-            To performe a basic setup of &cartoweb;, such as if you want to run the demo project, type:
+            To perform a basic setup of &cartoweb;, such as if you want to run the demo project, type:
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
             http://www.example.com/cartoweb</screen>
             In this example, http://www.example.com/cartoweb is the address which corresponds
@@ -298,7 +295,7 @@ List of options:
                 the whole cartoweb3 hierarchy from cvs, including the <filename>cartoweb3</filename> folder. If you 
                 executed this from the <filename>cartoweb3</filename> folder you would end up with something like 
                 <filename>cartoweb3/cartoweb3/...</filename>. Instead, copy the <filename>cw3setup.php</filename> in the parent directory, 
-                delete (or backup) the cartoweb3 folder and execute the commande. 
+                delete (or backup) the cartoweb3 folder and execute the command. 
                 </para>
               </note>
             </para>
@@ -308,7 +305,8 @@ List of options:
             <para>
               <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
               :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
-              --fetch-from-cvs --delete-existing --base-url http://www.example.com/cartoweb</screen>
+              --fetch-from-cvs --delete-existing
+              --base-url http://www.example.com/cartoweb</screen>
               <warning><para>This command will automatically delete the existing <filename>cartoweb3/</filename> folder! Be sure to backup 
               the files and projects you wish to keep.</para></warning>
               <note>
@@ -324,9 +322,7 @@ List of options:
             <title>Update &cartoweb; from CVS</title>
             <para>To keep your &cartoweb; up-to-date with the development version, simply type 
             the following command in the <filename>&cartoweb;</filename> root folder:
-            <screen><![CDATA[
-  cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update            
-             ]]></screen>
+            <screen><![CDATA[cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update]]></screen>
               <warning><para>This may have some serious effects on your existing developments, 
               it is recommended you backup the &cartoweb; root folder and all subforders before execution.</para></warning>
             </para>
@@ -339,11 +335,48 @@ List of options:
 
       <sect3 id="user.install.win32.installer">
         <title>Windows Install with Win32 Installer (Recommended)</title>
+        <itemizedlist>
+          <listitem>
+            <para>
+              Download the WAMP installer at <ulink url="http://www.wampserver.com/"/>. Double-click on the executable to launch it. This will install Apache with PHP5.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;. Restart your web server.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              That's it! Point your browser to <ulink url="http://localhost/cartoweb3/htdocs/client.php"/>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+             An installer for the demo data is available as well. Download it at <ulink url="http://cartoweb.org/downloads.html"/> and double-click on the executable to launch it. This will only install the demo data, &cartoweb; must have been previously installed.
+            </para>
+          </listitem>
+        </itemizedlist>
+        <warning>
+          <para>Do not forget to restart your web server (WAMP > Services > Restart Apache) after installing &cartoweb;!</para>
+        </warning>
         <para>
-          Download the Windows installer (<xref linkend="user.install.main.download"/>), double-click on 
-          the executable to launch it. This will install Apache with PHP (WAMP), MapServer and &cartoweb;.
+          Once it is installed, you can modify &cartoweb; setup with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
         </para>
-        <para>Once it is installed, you can set up &cartoweb; from either a DOS prompt or Cygwin.</para>
+      </sect3>
+      <sect3 id="user.install.win32.manual">
+        <title>Windows Manual Install</title>
+        <para>Instructions for Apache/PHP and MapServer installation are given in <xref linkend="appendix.windows_manual_install"/></para>
+        <para>
+          Then download &cartoweb; as described above (<xref linkend="user.install.main.download"/>). 
+        </para>
+        <para>
+          Eventually set &cartoweb; up with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
+        </para>
+
+      </sect3>
+      <sect3 id="user.install.win32.setup">
+        <title>&cartoweb; Setup</title>
         <sect4 id="user.install.win32.installer.dos">
           <title>&cartoweb; Setup with DOS</title>
           <para>Open a command prompt (Start menu > Run > "cmd") and go to the &cartoweb; root:
@@ -356,7 +389,7 @@ List of options:
               add the path to php.exe at the end of the existing path values, but add a ";" inbetween: 
               path1;path2;path3):
               <screen><![CDATA[C:\wamp\php;]]></screen>
-              The exemple above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
+              The example above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
             </note>
             <note>
               <para> If you are using the demo, you need to have Gettext
@@ -366,7 +399,7 @@ List of options:
                 <ulink url="http://gnuwin32.sourceforge.net/packages/gettext.htm" />.
                 Also set the path to the Gettext binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\GnuWin32\bin;]]></screen>
-                The exemple above is true if the Gettext binaries are installed in <filename>C:\Program Files\GnuWin32\bin</filename>.
+                The example above is true if the Gettext binaries are installed in <filename>C:\Program Files\GnuWin32\bin</filename>.
                 This is needed by the <filename>po2mo.php</filename> script to merge and compile the languages translation files.
               </para>
             </note>
@@ -377,7 +410,7 @@ List of options:
                 are free Open Source clients. 
                 You must add the path to the CVS binary in your PATH environment variable.
                 <screen><![CDATA[C:\Program Files\TortoiseCVS;]]></screen>
-                The exemple above is true if you installed TortoiseCVS in <filename>C:\Program Files\TortoiseCVS</filename>.
+                The example above is true if you installed TortoiseCVS in <filename>C:\Program Files\TortoiseCVS</filename>.
               </para>
             </note>
           </para>
@@ -403,7 +436,7 @@ cd wamp/www/cartoweb3/</screen>
           To enable you to execute PHP scripts easily, set the path to the PHP binary in your 
             <filename>.bashrc</filename> (in <filename>C:\cygwin\home\Administrator\</filename> by default):
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/wamp/php]]></screen>
-            The exemple above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
+            The example above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
             <para>If you do not want to install the <emphasis>cvs</emphasis> and <emphasis>gettext</emphasis> Cygwin package, 
             you need to add also the path to the external CVS and gettext binaries. 
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/program Files/GnuWin32/bin
@@ -411,15 +444,435 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
             See the note in 
             <xref linkend="user.install.win32.installer.dos"/></para>
           </note>
-
         </sect4>               
       </sect3>
-      <sect3 id="user.install.win32.manual">
-        <title>Windows Manual Install</title>
-        <para>First follow instruction on <xref linkend="appendix.windows_manual_install"/> to install 
-          PHP and MapServer manually on Windows.</para>
-        <para>Then, if you have Cygwin, see <xref linkend="user.install.win32.installer.cygwin"/>. 
-        If not, see <xref linkend="user.install.win32.installer.dos"/></para>
+    </sect2>
+  </sect1>   
+  <sect1 id="user.install.demo">
+    <title>Demos Installation</title>
+    <sect2 id="user.install.demo.intoduction">
+      <title>Introduction</title>
+      <para>
+        A few demos are embedded in &cartoweb; to demonstrate the range of functionalities that &cartoweb; offers and give users examples on how to implement them:
+        <itemizedlist>
+          <listitem>
+            <para><emphasis>demoCW3</emphasis> : this is an overview of the standard functionalities 
+            that are somehow visible for an end-user in &cartoweb;,</para>
+          </listitem>
+          <listitem>
+            <para><emphasis>demoPlugins</emphasis> : it shows the new functionalities that 
+            are available in &cartoweb; since the latest version,</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        Demo data are freely downloadable. Next section explains how to install them. 
+        Configuration and programming details are then described.
+      </para>
+    </sect2>
+    <sect2 id="user.install.demo.quickinstall">
+      <title>Installation</title>
+      <para>
+        Before installing these demos, you need to have a working &cartoweb; installation. You can refer to the previous chapters how to install it.
+      </para>
+      <para>
+        To install the demoCW3 project, you need to gather the data by launching the <emphasis>cw3setup.php</emphasis> with the <emphasis>--fetch-demo</emphasis> option.
+      </para>
+      <para>
+        On the other hand, the demoPlugins project uses plugins that work with databases. Consequently some databases settings and configuration are required. 
+        We describe here how to install these databases and how to use <emphasis>cw3setup.php</emphasis>.
+      </para>
+      <para>
+        Step by step guide:
+      </para>
+      <orderedlist>
+        <listitem>
+          <formalpara>
+            <title>Install PostgreSQL with PostGIS support</title>
+            <para>
+              <emphasis>Prerequisite</emphasis>: Postgresql >= 8.0
+              <note><para>
+                If you are on Debian, you can have a look at <xref linkend="appendix.debian_mapserver"/>
+              </para></note>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Create a PostgreSQL database using the following command:</title>
+            <para>
+              <screen><![CDATA[$ createdb demo_plugins]]></screen>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Integrate PostGIS functionalities in this database.</title>
+            <para>
+              Typically, you can type:
+              <screen><![CDATA[
+$ createlang plpgsql demo_plugins
+$ psql -d demo_plugins -f lwpostgis.sql
+$ psql -d demo_plugins -f spatial_ref_sys.sql]]></screen>
+              <note><para>
+                <emphasis>psql</emphasis> is a terminal-based front-end for PostgreSQL. It enables you to type
+                in queries interactively, issue them to PostgreSQL, and see the query results.
+                Don't forget to specify its location on your system to use it.
+                If the <emphasis>lwpostgis.sql</emphasis> and <emphasis>
+                spatial_ref_sys.sql</emphasis> files aren't in the current directory, you have to specify their path.
+              </para></note> 
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Create tables used by the DemoLocation extension to allow you to do a search by name.</title>
+            <para>  
+              To do so, you should export the free downloadable layers <emphasis>airport, agglo, 
+              district</emphasis> and <emphasis>town</emphasis> in PostgreSQL/PostGIS tables by typing 
+              the following command:
+              <screen><![CDATA[
+$ shp2pgsql aerofacp.shp airport > /tmp/aiport.sql
+$ psql -d demo_plugins -f /tmp/airport.sql
+
+$ shp2pgsql builtupa.shp agglo > /tmp/agglo.sql
+$ psql -d demo_plugins -f /tmp/agglo.sql
+
+$ shp2pgsql polbnda.shp district > /tmp/district.sql
+$ psql -d demo_plugins -f /tmp/district.sql
+
+$ shp2pgsql mispopp.shp town > /tmp/town.sql
+$ psql -d demo_plugins -f /tmp/town.sql]]></screen>
+              <note><para>
+                <emphasis>shp2pgsql</emphasis> is a command-line program that exports a shapefile into SQL commands.
+                Don't forget to specify its location on your system to use it.
+                You have to specify the path to the shapefiles if they aren't in the current directory.
+              </para></note>
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Execute <filename>cw3setup.php</filename></title> 
+            <para>
+              file, with the <emphasis>--fetch-demo</emphasis> option to download geographic datas.
+            </para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>cw3setup.php Options</title>
+            <para>
+              To finish demoPlugins installation, you will need to launch the <filename>cw3setup.php</filename>
+              with the <emphasis>--config-from-file</emphasis> parameter pointing to a property file 
+              containing database configuration informations. Such a file is provided in the 
+              <filename>cartoweb3/projects/demoPlugins/demo.properties</filename> file. You need to edit this file
+              and change the parameter to match your environment. In particular the <emphasis>DB_HOST</emphasis>, 
+              <emphasis>DB_USER</emphasis>, <emphasis>DB_PASSWD</emphasis> and <emphasis>DB_PORT</emphasis> options
+              need to match your database access configuration. This file contains comments about the description
+              of each variables.
+              Here's an example how to call the <emphasis>cw3setup.php</emphasis> script with the 
+              <emphasis>--config-from-file</emphasis> option.
+              <screen><![CDATA[php cw3setup.php --install --base-url http://www.example.com/cartoweb 
+                --config-from-file projects/demoPlugins/demo.properties]]></screen>
+            </para>
+          </formalpara>
+        </listitem>
+      </orderedlist>
+      <para>
+        <note><para>
+        Routing fonctionnalities are also integrated in this demo. But they need a  more advanced configuration
+        and the Pgdijkstra module installed in the database, so they aren't integrated in the basic installation.
+        The steps to integrate routing fonctionnalities and create database tables are described in next section.
+        </para></note>
+      </para>
+    </sect2>
+    <sect2 id="user.install.demo.routing">
+      <title>Routing specific installation</title>
+      <para>
+        <itemizedlist>
+          <listitem>
+            <formalpara>
+              <title>Install the Pgdijkstra PostgreSQL module</title>
+              <para>
+                <note><para>
+                  To do so, 
+                  <itemizedlist>
+                    <listitem>
+                      <para>
+                        if you are on Debian, you can directly install the Pgdijkstra PostgreSQL extension module.
+                        To do so, you can have a look at <xref linkend="appendix.debian_mapserver"/>.
+                      </para>
+                    </listitem>
+                    <listitem>
+                      <para>
+                        instead, you can download the Pgdijkstra Routing Module file and follow the instructions
+                        given in the routing module README file at <ulink url="http://www.cartoweb.org/contribs.html"/>.
+                      </para>
+                    </listitem>
+                  </itemizedlist>
+                </para></note>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Execute the <emphasis>dijkstra.sql</emphasis> file to install the functions in 
+              your database by typing:</title>
+              <para>
+                <screen><![CDATA[$ psql -d demo_plugins -f dijkstra.sql]]></screen>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>If you have PostGIS installed, you should launch <emphasis>dijkstra_postgis.sql</emphasis> :</title>
+              <para>
+                <screen><![CDATA[$ psql -d demo_plugins -f dijkstra_postgis.sql]]></screen>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Import Europe road geodata in PostGIS, create its graph structure and configure 
+              plugin routing database.</title>
+              <para>
+              To do so, simply execute the <emphasis>demo_routing.sql</emphasis> file, located 
+              in the <filename>&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</filename> directory.
+              <note><para>These steps are detailed in the next section.</para></note>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Edit the <filename>cartoweb3/projects/demoPlugins/demo.properties</filename> file</title>
+              <para>
+                and uncomment the line beginning with <emphasis>;ROUTING_PLUGINS</emphasis>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Execute <filename>cw3setup.php</filename></title> 
+              <para>
+                file, with the <emphasis>--config-from-file</emphasis> option as
+                described in the previous steps.
+              </para>
+            </formalpara>
+          </listitem>
+        </itemizedlist>
+      </para>      
+    </sect2>
+    <sect2 id="user.install.demo.details">
+      <title>Extensions Description</title>
+      <sect3 id="user.install.demo.details.demoLocation">
+        <title>demoLocation Extension</title>
+        <para>
+          This extension allows you to select geographic objects of a layer by specifying a name.
+        </para>
+        <para>
+          According to the name selected, the corresponding id is fetched from the search name 
+          database and submitted to the recentering coreplugin. This coreplugin selects the geographic
+          object in the shapefile according to the id, the selected layer and recenter on it.
+        </para>
+        <para>
+          The names of the id and the names on which the search is done must be specified in the 
+          metadata of the mapfile for each queryable layer.
+          These metadata are respectively "id_attribute_string" for the id and "recenter_name_string" 
+          for the name.
+          You also will have to use the metadata "exported_values" to transmit these metadata to the client.
+          For example, you can type:
+          <screen><![CDATA[
+METADATA
+  "exported_values" "recenter_name_string,id_attribute_string"
+  "recenter_name_string" "NAM"
+  "id_attribute_string" "OGC_FID|string"
+END]]></screen>
+          The name of the database must be specified in the <filename>location.ini</filename> file.
+          <note><para>
+          In the <filename>location.ini</filename>, you also need to specify the layers on which you want to do a search
+          by name (idRecenterLayers options) and activate the coreplugin idRecenter (idRecenterActive
+          option).
+          </para></note>
+        </para>
+      </sect3>
+      <sect3 id="user.install.demo.details.demoRouting">
+        <title>demoRouting Extension</title>
+        <para>
+          The routing module is a set of functions that compute a shortest path from a set of edges and vertices.
+          Some functions are provided for importing data from geometric tables, and for generating results
+          as geometries.
+          <note><para>
+            For more information on these functions, you can have a look to the routing module README file 
+            <ulink url="http://www.cartoweb.org/downloads/pgdijkstra/README.txt"/>.
+          </para></note>
+          This section explains the main steps to integrate the routing fonctionnalities in a custom application.
+          We describe the steps followed to install the routing demo. To make short, we used an Europe roads shapefile,
+          imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest
+          path between two European towns.
+        </para>
+        <sect4 id="user.install.demo.details.demoRouting.roadimportation">
+          <title>Europe Road Geodata Importation in PostGIS</title>
+          <para>
+            <screen><![CDATA[
+$ shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
+$ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.graphimportation">
+          <title>Graph Importation</title>
+          <para>
+            The first step is to delete unneeded columns of the table roads_europe_tmp. To do so, you can type:
+            <screen><![CDATA[
+$ CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
+$ SELECT AddGeometryColumn('roads_europe', 'the_geom', -1, 'MULTILINESTRING', 2 );
+$ INSERT INTO roads_europe (gid, the_geom) (SELECT gid, the_geom FROM roads_europe);]]></screen>
+            The resulting table is so <emphasis>roads_europe</emphasis>.
+            You can then fill the columns <emphasis>source_id</emphasis> and <emphasis>target_id</emphasis> with the
+             "assign_vertex_id" function.
+            <screen><![CDATA[
+$ SELECT assign_vertex_id('roads_europe', 1);]]></screen>
+            Here is the content of the roads_europe table:
+            <screen><![CDATA[
+$ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe limit 3;
+ 
+  gid  | source_id | target_id | edge_id |                              AStext
+-------+-----------+-----------+---------+----------------------------------------------
+ 13115 |     11051 |     11099 |      14 | MULTILINESTRING((1062096.06 4861316.234,...))
+ 12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,...))
+ 12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,...))
+(3 lignes)]]></screen>
+            But if the data quality is poor, you need to delete the duplicates edges (they have the same
+            source-target pairs of vertices).
+            For example, to check that you have duplicated edges, you can type:
+            <screen><![CDATA[
+$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by 
+source_id, target_id order by c)
+AS foo where foo.c = 2;]]></screen>
+            If there is duplicated edges, to delete one of two rows, you can type: 
+            <screen><![CDATA[
+$ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in
+(SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid 
+FROM roads_europe) AS doublon);
+$ DELETE FROM roads_europe;
+$ INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
+            The following step is to create and fill the edges and vertices tables of the resulting graph. 
+            To do so, you can use "create_graph_tables" function.
+            <screen><![CDATA[
+$ SELECT create_graph_tables('roads_europe', 'int4');]]></screen>
+            <screen><![CDATA[
+SELECT * FROM roads_europe_edges LIMIT 3;
+ id | source | target | cost | reverse_cost 
+----+--------+--------+------+--------------
+  1 |      1 |      2 |      |             
+  2 |      3 |      3 |      |             
+  4 |      2 |      2 |      |             
+(3 rows)]]></screen>
+            We can see that it contains NULL values for the cost column. 
+            The function update_cost_from_distance can update the cost column with
+            the distance of the lines contained in the geometry table, attached to
+            each edge:
+            <screen><![CDATA[
+$ SELECT update_cost_from_distance('roads_europe');]]></screen>
+            The costs are now:
+            <screen><![CDATA[
+ id | source | target |       cost       | reverse_cost
+----+--------+--------+------------------+--------------
+  1 |      1 |      2 | 6857.46585793103 |
+  2 |      3 |      4 | 37349.9592156392 |
+  3 |      5 |      6 | 14040.5673116933 |
+(3 lignes)]]></screen>
+            Now, all is set up correctly for using the shortest path function on these data. 
+            But to include the routing fonctionnalities in a custom project, we must respect some rules 
+            dictated by the routing plugin.
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.databaseconfiguration">
+          <title>Routing Plugin Database Configuration</title>
+          <para>
+            The two things to do are to:
+            <itemizedlist>
+              <listitem>
+                <para>
+                  create the routing results table. In this example the table is routing_results.
+                  <screen><![CDATA[
+$ CREATE TABLE routing_results (
+    results_id integer,
+    "timestamp" bigint,
+    gid integer
+  );
+$ SELECT AddGeometryColumn('','routing_results','the_geom','-1',
+'MULTILINESTRING',2);]]></screen>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  create the 'routing_results_seq' sequence.
+                  <screen><![CDATA[
+$ CREATE SEQUENCE routing_results_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;]]></screen>
+                </para>
+              </listitem>
+            </itemizedlist>          
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.mapfileconfiguration">
+          <title>Mapfile Configuration</title>
+          <para>
+            In the mapfile, you must include the routing layer, its connection to the database, a symbology
+            for the route and a first route using a unique identifier.
+            The data parameter will be overwritten by the routing plugin to draw the route chosen by the end-user.
+            Example:
+            <screen><![CDATA[
+LAYER
+  NAME "graph"
+  TYPE LINE
+  TRANSPARENCY 80
+  CONNECTIONTYPE postgis
+    CONNECTION "user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@ dbname=@DB_NAME@"
+    DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique
+    gid using srid=-1"
+  TEMPLATE "t"
+  CLASS
+    NAME "0"
+    STYLE
+      SYMBOL "circle"
+      SIZE 10
+      COLOR 90 27 191
+    END
+  END
+END]]></screen>
+          </para>
+        </sect4>
+        <sect4 id="user.install.demo.details.demoRouting.generalconfiguration">
+          <title>General Configuration</title>
+          <para>
+            For the demo, we suggest that you select your route by starting from a town until an other town.
+            This is possible because for each object of a european-towns layer, we have identified the nearest 
+            object of the roads_europe_vertices table. That is why in the demoRouting configuration there is a 
+            client-side configuration.
+            Normally, in the plugin routing, client-side only allows you to type an id of object, from which to start
+            and an other to finish the route. No configuration is needed.
+            So, if you use demoRouting extension, you must specify client-side, the:
+            <itemizedlist>
+              <listitem><para>postgresRoutingVerticesTable: vertices table</para></listitem>
+              <listitem><para>stepName: vertices table col containing informations you want to propose a choice on</para></listitem>
+              <listitem><para>dsn: the connexion string to the database</para></listitem>
+            </itemizedlist>
+            Anyway, server-side, you must specify :
+            <itemizedlist>
+              <listitem><para>the routing table (postgresRoutingTable option),</para></listitem>
+              <listitem><para>the routing layer in the mapfile (postgresRoutingResultsLayer option),</para></listitem>
+              <listitem><para>the results routing table (postgresRoutingResultsTable),</para></listitem>
+              <listitem><para>the connexion string to the database (dsn option).</para></listitem>
+            </itemizedlist>
+          </para>
+        </sect4>
       </sect3>
     </sect2>
   </sect1>

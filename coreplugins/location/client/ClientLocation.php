@@ -85,11 +85,17 @@ class ClientLocation extends ClientPlugin
     protected $shortcuts;
 
     /**
+     * @var Bbox
+     */
+    protected $fullExtent;
+
+    /**
      * Tool constants.
      */
-    const TOOL_ZOOMIN   = 'zoomin';
-    const TOOL_ZOOMOUT  = 'zoomout';
-    const TOOL_PAN      = 'pan';
+    const TOOL_ZOOMIN     = 'zoomin';
+    const TOOL_ZOOMOUT    = 'zoomout';
+    const TOOL_PAN        = 'pan';
+    const TOOL_FULLEXTENT = 'fullextent';
 
     /**
      * @var Smarty_Plugin
@@ -396,8 +402,7 @@ class ClientLocation extends ClientPlugin
         $layersLabel = array();
         $idRecenterLayersStr = $this->getConfig()->idRecenterLayers;
         if (!empty($idRecenterLayersStr)) {
-            $idRecenterLayers = explode(',', $idRecenterLayersStr);
-            $idRecenterLayers = array_map('trim', $idRecenterLayers);
+            $idRecenterLayers = Utils::parseArray($idRecenterLayersStr);
         }
         foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)
@@ -532,6 +537,22 @@ class ClientLocation extends ClientPlugin
     }
 
     /**
+     * Handles full extent 
+     * @return LocationRequest
+     */
+    protected function handleFullExtent() {
+
+        $bboxRequest = new BboxLocationRequest();
+        $bboxRequest->bbox = $this->fullExtent;
+        $locationRequest = new LocationRequest();                
+        $locationType = $bboxRequest->type;
+        $locationRequest->locationType = $locationType;
+        $locationRequest->$locationType = $bboxRequest;
+
+        return $locationRequest;
+    }
+
+    /**
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
@@ -575,7 +596,7 @@ class ClientLocation extends ClientPlugin
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
-    
+
         $this->locationRequest = $this->handleBboxRecenter($request);
         if (!is_null($this->locationRequest))
             return;
@@ -599,7 +620,7 @@ class ClientLocation extends ClientPlugin
         $this->locationRequest = $this->handleShortcuts($request);
         if (!is_null($this->locationRequest))
             return;
-        
+
         $this->locationRequest = $this->cartoclient->getHttpRequestHandler()
                                                    ->handleTools($this);  
     }
@@ -709,8 +730,15 @@ class ClientLocation extends ClientPlugin
      * @see ToolProvider::handleKeymapTool() 
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                              Shape $keymapShape) {
-        /* nothing to do */                         
+                              Shape $keymapShape) {}
+    
+    /**
+     * @see ToolProvider::handleApplicationTool() 
+     */
+    public function handleApplicationTool(ToolDescription $tool) {
+
+        if ($tool->id == self::TOOL_FULLEXTENT)
+            return $this->handleFullExtent();
     }
 
     /**
@@ -724,6 +752,8 @@ class ClientLocation extends ClientPlugin
                         11),
                      new ToolDescription(self::TOOL_PAN, true,
                         12),
+                     new ToolDescription(self::TOOL_FULLEXTENT, true,
+                        14, ToolDescription::APPLICATION, true),
                    );
     }
 
@@ -735,7 +765,7 @@ class ClientLocation extends ClientPlugin
         $locationRequest = NULL;
         if (!is_null($this->locationRequest)) 
             $locationRequest = $this->locationRequest;
-        
+
         if (is_null($locationRequest)) // stay at the same location
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
@@ -772,6 +802,7 @@ class ClientLocation extends ClientPlugin
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
+        $this->fullExtent = $locationInit->fullExtent;
     }
     
     /**

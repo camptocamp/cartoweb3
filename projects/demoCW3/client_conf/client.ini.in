@@ -3,15 +3,18 @@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-
-mapId = demoCW3;
+mapId = demoCW3
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, search
+loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall
 
-authLang = fr, en
-orderLang = en, fr
+;## Internationalization ##
+defaultLang = fr
+langList = fr, en
+
+; Indicates how to render toolbar
+toolbarRendering = outline

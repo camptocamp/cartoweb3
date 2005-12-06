@@ -224,6 +224,12 @@ class PdfGeneral {
     public $verticalMargin      = 10;
     
     /**
+     * Possible modes are classic/rotate
+     * @var string
+     */
+    public $guiMode             = 'classic';
+    
+    /**
      * @var array
      */
     public $formats;
@@ -246,7 +252,7 @@ class PdfGeneral {
     /**
      * @var int
      */
-    public $mapServerResolution = 96;
+    public $mapServerResolution;
 
     /**
      * @var int
@@ -257,7 +263,37 @@ class PdfGeneral {
      * @var int
      */
     public $selectedResolution;
+        
+    /**
+     * @var array
+     */
+    public $scales;
     
+    /**
+     * @var double
+     */
+    public $defaultScale;
+    
+    /**
+     * @var double
+     */
+    public $selectedScale;
+
+    /**
+     * @var double 
+     */
+    public $mapAngle;
+     
+    /**
+     * @var double 
+     */
+    public $mapCenterX;
+
+    /**
+     * @var double 
+     */
+    public $mapCenterY;
+
     /**
      * @var string
      */

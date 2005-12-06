@@ -55,6 +55,11 @@ formats.A4.bigDimension = 297]]></programlisting>
    <para>
     <itemizedlist>
      <listitem>
+        <para> <parameter>general.guiMode</parameter> (string): type of GUI used. Must
+            be either 'classic' (default) or 'rotate'. 'rotate' mode adds the possibility to rotate
+            the map to be printed directly on screen. </para>
+     </listitem>
+     <listitem>
       <para>
        <parameter>general.formats</parameter> (comma-separated list of strings): ids of available 
        sheet sizes. Must match format objects names 
@@ -75,13 +80,20 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
-       <parameter>general.mapServerResolution</parameter> (integer): resolution set in mapfile. Generally it is no use to set this parameter since its value is retrieved directly from the &cartoserver;. However you can use it to override this value (but this will not change the effective MapServer resolution).
+       <parameter>general.defaultResolution</parameter> (integer): default selected/used
+       resolution. Must be one of the above list items.
       </para>
      </listitem>
      <listitem>
       <para>
-       <parameter>general.defaultResolution</parameter> (integer): default selected/used
-       resolution. Must be one of the above list items.
+       <parameter>general.scales</parameter> (comma-separated list of integers): 
+       list of available printing scales (1000 should be read 1:1000). Used only when guiMode is 'rotate'.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>general.defaultScale</parameter> (integer): default printing
+       scale. Must be one of the above list items. Used only when guiMode is 'rotate'.
       </para>
      </listitem>
      <listitem>
@@ -226,11 +238,6 @@ formats.A4.bigDimension = 297]]></programlisting>
      <listitem>
       <para>
        resolutions: 96      
-      </para>
-     </listitem>
-     <listitem>
-      <para>
-       mapServerResolution: 96
       </para>
      </listitem>
      <listitem>
@@ -805,7 +812,7 @@ blocks.title.color           = #0000ff   ; hexadecimal code for blue</programlis
      </listitem>
      <listitem>
       <para>
-       tables: queries results,...
+       tables: queries results...
       </para>
      </listitem>
      <listitem>
@@ -823,12 +830,14 @@ blocks.title.color           = #0000ff   ; hexadecimal code for blue</programlis
    
    </para>
    <para>
-    Note 2: parameters containing several values are represented using comma-separated lists of strings/integers. If some values contain special characters such as accentuated letters, quotes or other exclamation marks, it may be wiser to encapsulate the whole parameter value between double quotes ("). 
+    Parameters containing several values are represented using comma-separated lists of strings/integers. If some values contain special characters such as accentuated letters, quotes or other exclamation marks, it may be wiser to encapsulate the whole parameter value between double quotes ("). 
    </para>
+   <warning>
    <para>
     Note3: don't forget to activate the plugin by adding it in the <parameter>loadPlugins</parameter> from BOTH &cartoclient; and &cartoserver; configuration files: <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>. For instance:
     <programlisting>loadPlugins = hilight, outline, exportPdf</programlisting>
    </para>
+   </warning>
   </sect2>
 
   <sect2 id="user.pdf.tutorial.overall">
@@ -859,10 +868,10 @@ blocks.title.color           = #0000ff   ; hexadecimal code for blue</programlis
     </para>
     <para>For instance:</para>
     <programlisting><![CDATA[general settings
+general.guiMode = classic
 general.formats = A4, A3
 general.defaultFormat = A4
 general.resolutions = 96, 150, 300
-general.mapServerResolution = 96
 general.defaultResolution = 96
 general.overviewScaleFactor = 10
 general.defaultOrientation = portrait

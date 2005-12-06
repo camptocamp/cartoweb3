@@ -61,6 +61,14 @@ initialMapStateId = default
 ; Possible values are : zoomin, zoomout, pan, query, distance, surface
 initialTool = zoomin
 
+; Indicates how to render tool selectors within toolbar
+; radio buttons,  icons outlining (uses css classes), image swapping
+; available values : radio, outline, swap (default is radio)
+; for outline : make sure that toolbar_on and toolbar_off css classes are set for class rendering
+; swap is not available yet
+;toolbarRendering = radio
+
+
 ;## Project handling configuration ##
 
 ; Shows a drop-down list for selecting the active project
@@ -99,7 +107,8 @@ defaultLang = en
 EncoderClass.config = EncoderISO
 EncoderClass.output = EncoderUTF
 
-; Views management
+;## Views management ##
+
 viewOn = false
 viewStorage = file
 viewablePlugins = location, layers, query, outline
@@ -109,3 +118,6 @@ viewAuth = admin
 ;viewSavedRequest = someRequestVarname
 viewLogErrors = false
 viewUpgradeOutdated = false
+
+;## toolPicker ##
+toolPickerOn = true

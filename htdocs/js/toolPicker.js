@@ -1,6 +1,3 @@
-/* Copyright 2005 Camptocamp SA. 
-   Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
-
 /* colorpicker global vars */
 var activeColorSpace = new Array('rgb', 'hsl');
 

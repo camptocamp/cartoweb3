@@ -1,6 +1,6 @@
 <?php
 /**
- * Cartoweb3 installer
+ * CartoWeb3 Installer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
 
 // URL of required libraries (md5sum: 2bdb50d860bea9d457bca96b6fb18518):
-define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cartoweb-includes-3.1.0.tar.gz');
-// URL of demo data (md5sum: 367a141f4dce6c095a089754b25c0314):
-define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz');
+define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.1/cartoweb-includes-3.1.0.tar.gz');
+// URL of demo data (md5sum: 4333abbed3bfc2b1734f38808cea2172):
+define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.1/cartoweb-demodata-3.1.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
@@ -129,10 +129,10 @@ List of options:
                             if using --config-from-project).
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
- 
+                             NOTE: default is production if not given
  --clean-views              Clean views (must be used with --clean).
  
-<?
+<?php
     exit();
 }
 
@@ -180,6 +180,7 @@ define('ACTION_NOP', 0);
 define('ACTION_INSTALL', 1);
 define('ACTION_CLEAN', 2);
 define('ACTION_FETCH_DEMO', 3);
+define('ACTION_PREPARE_ARCHIVE', 4);
 
 define('LOG_LEVEL_DEBUG', 0);
 define('LOG_LEVEL_INFO', 1);
@@ -211,6 +212,7 @@ function processArgs() {
             case '--fetch-from-cvs':
             case '--no-symlinks':
             case '--clean-views':
+            case '--with-demo':
                 setOption($i);
                 break;
     
@@ -250,6 +252,10 @@ function processArgs() {
     
             case '--fetch-demo':
                 $action = ACTION_FETCH_DEMO;
+                break;
+
+            case '--prepare-archive':
+                $action = ACTION_PREPARE_ARCHIVE;
                 break;
 
             case '--install':
@@ -303,6 +309,13 @@ function processArgs() {
             info('Fetching demo');
             fetchDemo();
             info('Demo data installed');
+            // launch init() for running po2mo
+            init();
+            break;
+        case ACTION_PREPARE_ARCHIVE:
+            fetchLibs();
+            if (isset($OPTIONS['with-demo']))
+                fetchDemo();
             break;
         default:
             fail('Should not happen');
@@ -703,7 +716,7 @@ function fetchArchive($archiveUrl, $targetDirectory) {
     
     debug("Dest file $destFile");
     
-    info("Fetching archive file from $archiveUrl, this may take some times ...");
+    info("Fetching archive file from $archiveUrl, this may take some time...");
     if (extension_loaded('curl')) {
         debug('Fetching archive using curl extension');
         $ch = curl_init($archiveUrl);
@@ -716,6 +729,8 @@ function fetchArchive($archiveUrl, $targetDirectory) {
     } else {
         debug('Fetching archive with file_get_contents');
         $cnt = file_get_contents($archiveUrl);
+        if ($cnt === false)
+            throw new InstallException('Unable to retrieve the archive at ' . $archiveUrl);
         $fd = fopen($destFile, "wb");
         fwrite($fd, $cnt);
         fclose($fd);
@@ -742,13 +757,23 @@ function fetchLibs() {
 
 function fetchDemo() {
 
-    fetchArchive(CW3_DEMO_URL, 'projects/demo/server_conf/demo/data');
+    fetchArchive(CW3_DEMO_URL, 'projects/demoCW3/server_conf/demoCW3/data');
+
+    $source = 'projects/demoCW3/server_conf/demoCW3';
+    $target = 'projects/demoPlugins/server_conf/demoPlugins';
+    if (file_exists($target))
+        rmdirr($target);
+    if (!copyr($source, $target))
+        throw InstallException("demo copy $source => $target failed");
+    
+    rename('projects/demoPlugins/server_conf/demoPlugins/demoCW3.map.in',
+           'projects/demoPlugins/server_conf/demoPlugins/demoPlugins.map.in');
 }
 
 function removeDevFilesIfProd() {
     global $OPTIONS;
     
-    if (!isset($OPTIONS['profile']) || $OPTIONS['profile'] != 'production') {
+    if (isset($OPTIONS['profile']) && $OPTIONS['profile'] != 'production') {
         return;
     }
     
@@ -1006,10 +1031,8 @@ function replaceDotInCallback($file, $context) {
     
     $target_filename = substr($file, 0, strlen($file) - strlen('.in'));
     if (file_exists($target_filename)) {
-        // FIXME: introduce a --force option to handle these cases?
-        
-        debug("Warning: target $target_filename already exists, not overwritting");
-        return;
+        debug("Target $target_filename already exists, is is deleted");
+        unlink($target_filename);
     }
     
     $content = file_get_contents($file);
@@ -1093,6 +1116,9 @@ function getSearchReplaceContext() {
     }
 
     $vars['BLURB'] = '!!! Do not edit this file, it is generated. Edit the .in instead!!!';
+    // special handling for demo config
+    if (!isset($vars['ROUTING_PLUGINS']))
+        $vars['ROUTING_PLUGINS'] = '';
 
     if (!isset($vars['CARTOCLIENT_BASE_URL'])) {
 
@@ -1121,7 +1147,7 @@ function getSearchReplaceContext() {
 
 function replaceDotIn() {
  
-    info("Copying <files>.in into <files> (if not existing)");
+    info('Copying <files>.in into <files>');
     $context = getSearchReplaceContext();
     crawl('.', 'replaceDotInCallback', $context);
 }

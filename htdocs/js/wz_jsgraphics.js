@@ -370,7 +370,7 @@ function mkLinePts(x1,y1,x2,y2,d2pts,cls) { //function added to draw lines with 
 }
 
 
-function mkLinDott(x1, y1, x2, y2)
+function mkLinDott(x1, y1, x2, y2, cls)
 {
 	if (x1 > x2)
 	{
@@ -392,7 +392,7 @@ function mkLinDott(x1, y1, x2, y2)
 		p = pr-dx;
 		while ((dx--) > 0)
 		{
-			if (drw) this.mkDiv(x, y, 1, 1);
+			if (drw) this.mkDiv(x, y, 1, 1, cls);
 			drw = !drw;
 			if (p > 0)
 			{
@@ -402,7 +402,7 @@ function mkLinDott(x1, y1, x2, y2)
 			else p += pr;
 			++x;
 		}
-		if (drw) this.mkDiv(x, y, 1, 1);
+		if (drw) this.mkDiv(x, y, 1, 1, cls);
 	}
 
 	else
@@ -412,7 +412,7 @@ function mkLinDott(x1, y1, x2, y2)
 		p = pr-dy;
 		while ((dy--) > 0)
 		{
-			if (drw) this.mkDiv(x, y, 1, 1);
+			if (drw) this.mkDiv(x, y, 1, 1, cls);
 			drw = !drw;
 			y += yIncr;
 			if (p > 0)
@@ -422,12 +422,12 @@ function mkLinDott(x1, y1, x2, y2)
 			}
 			else p += pr;
 		}
-		if (drw) this.mkDiv(x, y, 1, 1);
+		if (drw) this.mkDiv(x, y, 1, 1, cls);
 	}
 }
 
 
-function mkOv(left, top, width, height)
+function mkOv(left, top, width, height, cls)
 {
 	var a = width>>1, b = height>>1,
 	wod = width&1, hod = (height&1)+1,
@@ -453,10 +453,10 @@ function mkOv(left, top, width, height)
 			h = oy-y;
 			if (w&2 && h&2)
 			{
-				this.mkOvQds(cx, cy, -x+2, ox+wod, -oy, oy-1+hod, 1, 1);
+				this.mkOvQds(cx, cy, -x+2, ox+wod, -oy, oy-1+hod, 1, 1, cls);
 				this.mkOvQds(cx, cy, -x+1, x-1+wod, -y-1, y+hod, 1, 1);
 			}
-			else this.mkOvQds(cx, cy, -x+1, ox+wod, -oy, oy-h+hod, w, h);
+			else this.mkOvQds(cx, cy, -x+1, ox+wod, -oy, oy-h+hod, w, h, cls);
 			ox = x;
 			oy = y;
 		}
@@ -466,12 +466,12 @@ function mkOv(left, top, width, height)
 			st -= (aa<<1)*(--y);
 		}
 	}
-	this.mkDiv(cx-a, cy-oy, a-ox+1, (oy<<1)+hod);
-	this.mkDiv(cx+ox+wod, cy-oy, a-ox+1, (oy<<1)+hod);
+	this.mkDiv(cx-a, cy-oy, a-ox+1, (oy<<1)+hod, cls);
+	this.mkDiv(cx+ox+wod, cy-oy, a-ox+1, (oy<<1)+hod, cls);
 }
 
 
-function mkOv2D(left, top, width, height)
+function mkOv2D(left, top, width, height, cls)
 {
 	var s = this.stroke;
 	width += s-1;
@@ -514,7 +514,7 @@ function mkOv2D(left, top, width, height)
 					h += 1+(s&1);
 				}
 				else pxw = h = s;
-				this.mkOvQds(cx, cy, -x+1, ox-pxw+w+wod, -oy, -h+oy+hod, pxw, h);
+				this.mkOvQds(cx, cy, -x+1, ox-pxw+w+wod, -oy, -h+oy+hod, pxw, h, cls);
 				ox = x;
 				oy = y;
 			}
@@ -524,8 +524,8 @@ function mkOv2D(left, top, width, height)
 				st -= (aa<<1)*(--y);
 			}
 		}
-		this.mkDiv(cx-a, cy-oy, s, (oy<<1)+hod);
-		this.mkDiv(cx+a+wod-s+1, cy-oy, s, (oy<<1)+hod);
+		this.mkDiv(cx-a, cy-oy, s, (oy<<1)+hod, cls);
+		this.mkDiv(cx+a+wod-s+1, cy-oy, s, (oy<<1)+hod, cls);
 	}
 
 	else
@@ -599,7 +599,7 @@ function mkOv2D(left, top, width, height)
 				if (_pxb[i] < _oy || pxt[i] < oy)
 				{
 					x = pxl[i];
-					this.mkOvQds(cx, cy, -x+1, ox+wod, -oy, _oy+hod, x-ox, oy-_oy);
+					this.mkOvQds(cx, cy, -x+1, ox+wod, -oy, _oy+hod, x-ox, oy-_oy, cls);
 					ox = x;
 					oy = pxt[i];
 					_oy = _pxb[i];
@@ -608,19 +608,19 @@ function mkOv2D(left, top, width, height)
 			else
 			{
 				x = pxl[i];
-				this.mkDiv(cx-x+1, cy-oy, 1, (oy<<1)+hod);
-				this.mkDiv(cx+ox+wod, cy-oy, 1, (oy<<1)+hod);
+				this.mkDiv(cx-x+1, cy-oy, 1, (oy<<1)+hod, cls);
+				this.mkDiv(cx+ox+wod, cy-oy, 1, (oy<<1)+hod, cls);
 				ox = x;
 				oy = pxt[i];
 			}
 		}
-		this.mkDiv(cx-a, cy-oy, 1, (oy<<1)+hod);
-		this.mkDiv(cx+ox+wod, cy-oy, 1, (oy<<1)+hod);
+		this.mkDiv(cx-a, cy-oy, 1, (oy<<1)+hod, cls);
+		this.mkDiv(cx+ox+wod, cy-oy, 1, (oy<<1)+hod, cls);
 	}
 }
 
 
-function mkOvDott(left, top, width, height)
+function mkOvDott(left, top, width, height, cls)
 {
 	var a = width>>1, b = height>>1,
 	wod = width&1, hod = height&1,
@@ -647,7 +647,7 @@ function mkOvDott(left, top, width, height)
 			tt -= aa2*((y<<1)-3);
 			st -= aa4*(--y);
 		}
-		if (drw) this.mkOvQds(cx, cy, -x, x+wod, -y, y+hod, 1, 1);
+		if (drw) this.mkOvQds(cx, cy, -x, x+wod, -y, y+hod, 1, 1, cls);
 		drw = !drw;
 	}
 }
@@ -741,10 +741,10 @@ function jsGraphics(id, wnd)
 	};
 
 
-	this.drawPolyline = this.drawPolyLine = function(x, y, s)
+	this.drawPolyline = this.drawPolyLine = function(x, y, cls)
 	{
 		for (var i=0 ; i<x.length-1 ; i++ )
-			this.drawLine(x[i], y[i], x[i+1], y[i+1]);
+			this.drawLine(x[i], y[i], x[i+1], y[i+1], cls);
 	};
 
 
@@ -754,20 +754,20 @@ function jsGraphics(id, wnd)
 	};
 
 
-	this.drawPolygon = function(x, y)
+	this.drawPolygon = function(x, y, cls)
 	{
-		this.drawPolyline(x, y);
-		this.drawLine(x[x.length-1], y[x.length-1], x[0], y[0]);
+		this.drawPolyline(x, y, cls);
+		this.drawLine(x[x.length-1], y[x.length-1], x[0], y[0], cls);
 	};
 
 
-	this.drawEllipse = this.drawOval = function(x, y, w, h)
+	this.drawEllipse = this.drawOval = function(x, y, w, h, cls)
 	{
-		this.mkOv(x, y, w, h);
+		this.mkOv(x, y, w, h, cls);
 	};
 
 
-	this.fillEllipse = this.fillOval = function(left, top, w, h)
+	this.fillEllipse = this.fillOval = function(left, top, w, h, cls)
 	{
 		var a = (w -= 1)>>1, b = (h -= 1)>>1,
 		wod = (w&1)+1, hod = (h&1)+1,
@@ -792,8 +792,8 @@ function jsGraphics(id, wnd)
 				dw = (x<<1)+wod;
 				tt += (bb<<1)*(++x) - aa2*(((y--)<<1)-3);
 				dh = oy-y;
-				this.mkDiv(pxl, cy-oy, dw, dh);
-				this.mkDiv(pxl, cy+oy-dh+hod, dw, dh);
+				this.mkDiv(pxl, cy-oy, dw, dh, cls);
+				this.mkDiv(pxl, cy+oy-dh+hod, dw, dh, cls);
 				ox = x;
 				oy = y;
 			}
@@ -803,7 +803,7 @@ function jsGraphics(id, wnd)
 				st -= aa4*(--y);
 			}
 		}
-		this.mkDiv(cx-a, cy-oy, w+1, (oy<<1)+hod);
+		this.mkDiv(cx-a, cy-oy, w+1, (oy<<1)+hod, cls);
 	};
 
 
@@ -938,12 +938,12 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 	};
 
 
-	this.mkOvQds = function(cx, cy, xl, xr, yt, yb, w, h)
+	this.mkOvQds = function(cx, cy, xl, xr, yt, yb, w, h, cls)
 	{
-		this.mkDiv(xr+cx, yt+cy, w, h);
-		this.mkDiv(xr+cx, yb+cy, w, h);
-		this.mkDiv(xl+cx, yb+cy, w, h);
-		this.mkDiv(xl+cx, yt+cy, w, h);
+		this.mkDiv(xr+cx, yt+cy, w, h, cls);
+		this.mkDiv(xr+cx, yb+cy, w, h, cls);
+		this.mkDiv(xl+cx, yb+cy, w, h, cls);
+		this.mkDiv(xl+cx, yt+cy, w, h, cls);
 	};
 
 	this.setStroke(1);

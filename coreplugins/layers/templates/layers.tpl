@@ -19,7 +19,9 @@
 {if $element.layerRendering == 'radio'}type="radio" name="layers_{$element.parentId}"
 {else}type="checkbox" name="layers[]" {/if}
 value="{$element.layerId}" id="in{$element.nodeId}"
-  onclick="javascript:updateChecked('{$element.nodeId}');" {if $element.layerChecked}checked="checked"{/if} />
+  onclick="javascript:updateChecked('{$element.nodeId}');
+	if (typeof(AjaxHandler) == 'undefined') FormItemSelected(); else AjaxHandler.doAction('Layers.LayerShowHide');"
+  {if $element.layerChecked}checked="checked"{/if} />
 {/if}
 {/capture}
 
@@ -50,7 +52,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {if $element.isDropDown}
   <select name="layers_dropdown_{$element.parentId}" 
-  onchange="javascript:FormItemSelected();">
+  onchange="javascript:if (typeof(AjaxHandler) == 'undefined') FormItemSelected(); else AjaxHandler.doAction('Layers.LayerDropDownChange');">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>
 {/if}

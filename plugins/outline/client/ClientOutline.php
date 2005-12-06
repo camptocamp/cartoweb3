@@ -123,9 +123,12 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {
-        /* nothing to do */
-    }
+                            Shape $keymapShape) {}
+
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
 
     /**
      * Returns outline tools : Point, Rectangle and Polygon
@@ -176,7 +179,7 @@ class ClientOutline extends ClientPlugin
             $styledShape->shape = $shape;
             if ($this->getConfig()->labelMode
                     && !empty($request['outline_label_text'])) {
-                $styledShape->label = $request['outline_label_text'];
+                $styledShape->label = Encoder::encode($request['outline_label_text'], 'output');
             }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
@@ -243,7 +246,6 @@ class ClientOutline extends ClientPlugin
     }
 
     protected function renderFormPrepare() {
-        $outline_active = $this->getConfig()->outlineActive;
         return array('outline_active' => true,
                      'outline' => $this->drawOutline(),
                      'outlinelabel' => $this->drawOutlinelabel());
@@ -259,6 +261,7 @@ class ClientOutline extends ClientPlugin
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
     	$output = $this->renderFormPrepare();
     	$ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
+
     }
     
 	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {

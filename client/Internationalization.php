@@ -55,10 +55,12 @@ class I18n {
     /**
      * Initializes locales
      *
-     * Default language is set in configuration file (variable defaultLang).
+     * Default language is set in configuration file (parameter defaultLang).
      * @param ClientConfig
+     * @param ClientProjectHandler
      */
-    static public function init($config) {
+    static public function init(ClientConfig $config,
+                                ClientProjectHandler $project) {
         if ($config->I18nClass)
             self::$i18n = new $config->I18nClass;
         else
@@ -68,9 +70,9 @@ class I18n {
         
         self::setLocale($config->defaultLang);
 
-        self::$i18n->bindtextdomain($config->mapId, CARTOWEB_HOME . 'locale/');
-        
-        self::$i18n->textdomain($config->mapId);
+        $domain = $project->getProjectName() . '.' . $config->mapId;
+        self::$i18n->bindtextdomain($domain, CARTOWEB_HOME . 'locale/');
+        self::$i18n->textdomain($domain);
     }
     
     /**
@@ -81,12 +83,7 @@ class I18n {
      */
     static public function getLocales() {
 
-        $authLang = array();
-
-        if (self::$langList != '') {
-            $authLang = explode(',', self::$langList);
-            $authLang = array_map('trim', $authLang);
-        }
+        $authLang = Utils::parseArray(self::$langList);
 
         // Looks in directory locale
         $dir = CARTOWEB_HOME . 'locale/';
@@ -244,8 +241,9 @@ class I18n {
      * @return array sorted locales language
      */
      static private function localesSort($locales) {
-        $o = explode (',', self::$langList);
-        $o = array_map('trim', $o);
+
+        $o = Utils::parseArray(self::$langList);
+
         $n = array();
         $r = array();     
         foreach ($locales as $lang) {

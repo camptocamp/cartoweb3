@@ -33,16 +33,12 @@ class ToolDescription {
      */
     const MAINMAP = 2;
     const KEYMAP = 4;
+    const APPLICATION = 8;
 
     /** 
      * @var string
      */
     public $id;
-    
-    /**
-     * @var string
-     */
-    public $action;
     
     /**
      * @var boolean
@@ -70,21 +66,30 @@ class ToolDescription {
     public $appliesTo;
     
     /**
+     * @var boolean
+     */
+    public $stateless;
+    
+    /**
      * Constructor
      * @param string
      * @param boolean
      * @param int
+     * @param int
      * @param boolean
      * @param int
+     * @param boolean
      */
-    public function __construct($id, $hasIcon, 
-                         $weight, $group = 1, $plugin = false, $appliesTo = self::MAINMAP) {
+    public function __construct($id, $hasIcon, $weight, 
+        $appliesTo=self::MAINMAP, $stateless = false, $group=1, $plugin=false) {
+        
         $this->id = $id;
         $this->hasIcon = $hasIcon;
         $this->weight = $weight;
+        $this->appliesTo = $appliesTo;
+        $this->stateless= $stateless;
         $this->group = $group;
         $this->plugin = $plugin;
-        $this->appliesTo = $appliesTo;
     }
 }
 
@@ -103,12 +108,18 @@ interface ToolProvider {
                                Shape $mainmapShape);
     
     /**
-     * Handles tool when key map was clicked
+     * Handles tool when keymap was clicked
      * @param ToolDescription description of tool
      * @param Shape selection on map
      */
     public function handleKeymapTool(ToolDescription $tool, 
                               Shape $keymapShape);
+
+    /**
+     * Handles tool when stateless application was clicked
+     * @param ToolDescription description of tool
+     */
+    public function handleApplicationTool(ToolDescription $tool);
 
     /** 
      * Returns the provided tools

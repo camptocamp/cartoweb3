@@ -24,5 +24,6 @@
           <element name="path" type="xsd:string"/>
           <element name="width" type="xsd:int"/>
           <element name="height" type="xsd:int"/>
+          <element name="angle" type="xsd:double"/>
         </all>
       </complexType>
