@@ -1,0 +1,29 @@
+.trigger {
+  position:relative;
+  cursor:pointer;
+  z-index:2;
+}
+.menu {
+  position:absolute;
+  visibility:hidden;
+  overflow:hidden;
+  z-index:4;
+  margin:0;
+  background:#DFDFDF;
+}
+.menu img {
+  border: 0;
+  background-color:#FFFFFF;
+}
+  
+table.edit th {
+  margin: 0;
+  padding: 2px;
+  background-color: #DFDFDF;
+}
+
+table.edit td
+  margin: 0;
+  padding: 2px;
+  border: 1px solid blue;
+}

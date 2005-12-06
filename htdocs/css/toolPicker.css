@@ -1,0 +1,206 @@
+#toolcontainer {
+  position: absolute;
+  display: none;
+  padding: 10px;
+  width: 255px;
+  background-color: white;
+  padding: 0px;
+  z-index:10;
+}
+#toolcontainer a {
+  text-decoration: none;
+}
+#toolcontainer a:hover {
+  text-decoration: underline;
+}
+
+#toolcontainer input { 
+  font-size: 10px;
+}
+
+#menucontainer {
+  position:relative;
+  
+  height: 18px;
+  z-index: 10;
+  width: 100%;
+}
+* html #menucontainer {top: 1px;}
+
+#toolcontainer a {
+  font-weight: bold;
+  color: #6b6b6b;
+}
+
+.toolmenuOn, .toolmenuOff, .exitLink {
+  display: block;
+  float: left;
+  height: 15px;
+  border: 1px solid black;
+  border-bottom-color: white;
+  padding: 1px 2px;
+  margin-right: 1px;
+  z-index: 10;
+  font-size: 10px;
+  background-color: white;
+}
+.toolmenuOff, .exitLink {
+  border-color: #858585;
+  background-color: #e0e0e0;  
+}
+.toolmenuDisabled {
+  display:none;
+}
+.toolbox {
+  position:relative;
+  border: 1px solid black;
+  width: 243px; /* #toolcontainer - padding (2*5) - border(2*1) */
+  padding: 5px;
+  display: none;
+}
+.colorbox {
+  position:relative;
+  display: none;
+}
+.demoBox, .demoBoxC {
+  position:relative;
+  visibility:hidden;
+  height:15px;
+  margin:0;
+  padding:0px;
+  color:#000;
+  cursor:default;
+  border:1px solid #596380;
+}
+.demoBox {
+  width:210px;
+}
+.demoBoxC {
+  width:150px;
+}
+.dragBox {
+  position:absolute;
+  width:8px; height:13px; clip:rect(0px, 8px, 18px, 0px);
+  color:#000000; margin:1px; padding:0px;
+  border: 1px ridge black;
+  background-color: rgb(204, 204, 204);
+  cursor: pointer;
+  font-size: 2px;
+}
+.colorInput {
+  width: 30px;
+  height: 13px;
+  vertical-align: middle;
+  padding-left: 2px;
+}
+.HexcolorInput {
+  width: 80px;
+}
+.colorresult {
+  position: relative;
+  width: 210px;
+  height: 20px;
+  background-color: black;
+  border:1px solid #596380;
+}
+#colorresult2, #colorresult2a {
+  position: absolute;
+  left: 0px;
+  background-color: white;
+}
+#colorresult3, #colorresult3a {
+  position: absolute;
+  right: 0px;
+  background-color: white;
+  text-align: center;
+}
+.colorBox {
+  width: 104px;
+  height: 20px;
+}
+.dragComment, .dragComment2 {
+  float: left;
+  width: 200px;
+  text-align: center;
+  vertical-align: middle;
+}
+.dragComment2 {
+  width: 75px;
+}
+.dragText {
+  font-size: 10px;
+  vertical-align: middle;
+}
+.colorslider {
+  position: relative;
+  height: 20px;
+  width: 210px;
+}
+.inputContainer {
+  display: block;
+  float: right;
+  width: 50px;
+  text-align: right;
+  font-size: 10px;
+}
+.buttonarea {
+  position: relative;
+  height: 30px;
+}
+.ArTable {
+  font-size: xx-small;
+  border-collapse:collapse;
+}
+.ArC {
+  height: 10px;
+  width: 10px;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  font-size: 1px;
+}
+.defaultFont, .exitLink, .switchCbloc {
+  font-size: 10px;
+}
+.exitLink {
+  float: right;
+  margin-right: 0px;
+}
+#toolHelp {
+  display: none;
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+  position: absolute;
+  top:0px;
+  left:0px;
+  font-size: 10px;
+  z-index: 50;
+  background-color: white;
+  padding: 4px;
+  border: 1px solid black;
+}
+.hts{
+  font-weight:bold;
+  display: block;
+  margin: 4px 0px;
+}
+.htst {
+  font-style:italic;
+  display: block;
+  margin: 2px 0px;
+}
+.switchCbloc {
+  padding: 3px;
+}
+.ArS {
+  height: 30px;
+  width: 30px;
+  border: 1px solid white;
+  font-size: 1px;
+}
+.ArSs {
+  border: 1px solid green;
+  font-size: 1px;
+  height: 30px;
+  width: 30px;
+}
