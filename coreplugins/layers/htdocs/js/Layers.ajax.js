@@ -8,7 +8,7 @@ AjaxPlugins.Layers = {
 		/* Plugin general behaviour */
 		
 		/* Redraws layers HTML Code */		
-		AjaxHandler.updateDomElement(this.layersFolderId, 'innerHtml',
+		AjaxHandler.updateDomElement(this.layersFolderId, 'innerHTML',
 			pluginOutput.htmlCode.layers);
 		
 		/* Reopen open nodes */

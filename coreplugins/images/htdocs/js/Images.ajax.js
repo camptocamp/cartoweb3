@@ -17,7 +17,7 @@ AjaxPlugins.Images = {
 				xHide(AjaxPlugins.Images.mainmapId);
 				$(AjaxPlugins.Images.mainmapId).src = newRaster.src;
 				AjaxPlugins.Location.Actions.Pan.placeRaster(e);
-				setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);
+				setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);				
 			});
 			newRaster.src = pluginOutput.variables.mainmap_path;
 		} else {
@@ -28,6 +28,9 @@ AjaxPlugins.Images = {
 		AjaxHandler.updateDomElement(this.keymapId, 'src', pluginOutput.variables.keymap_path);
 		AjaxHandler.updateDomElement(this.scalebarId, 'src', pluginOutput.variables.scalebar_path);
 		
+		// Make the dhtml drawing pane visible again
+		// (dunno why the hell it's display is set to none after a pan)
+		AjaxHandler.updateDomElement('map_drawing', 'style.display', 'block');
 	}
 };
 

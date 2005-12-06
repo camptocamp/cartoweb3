@@ -19,7 +19,7 @@ AjaxPlugins.Location = {
 		factor = pluginOutput.variables.factor;
 		
 		// Redraw the scale select
-		AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHtml', pluginOutput.htmlCode.scales);
+		AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHTML', pluginOutput.htmlCode.scales);
 	}
 };
 
@@ -68,11 +68,6 @@ AjaxPlugins.Location.Actions.Zoom = {
 	},
 	onAfterAjaxCall: function(argObject) {
 	},
-	
-	init: function() {
-		// Attach an action on the change event of the scales dropdown
-		AjaxHandler.attachAction(AjaxPlugins.Location.recenterScaleId, 'change', 'Location.Zoom');
-	}
 };
 
 AjaxPlugins.Location.Actions.Pan = {

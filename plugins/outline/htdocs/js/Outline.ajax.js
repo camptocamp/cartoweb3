@@ -1,9 +1,13 @@
 AjaxPlugins.Outline = {
   
-  handleResponse: function(pluginOutput) {
-    /* Plugin general behaviour */
-    $('outline_plugin').innerHTML = pluginOutput.htmlCode.outline;
-  }  
+	/* HTML element's id definitions */
+	outlineFolderId: 'folder6',
+
+	handleResponse: function(pluginOutput) {
+		/* Plugin general behaviour */
+		AjaxHandler.updateDomElement(this.outlineFolderId, 'innerHTML',
+			pluginOutput.htmlCode.outline);
+	}  
 };
 
 
@@ -15,42 +19,42 @@ AjaxPlugins.Outline.Actions = {};
 
 AjaxPlugins.Outline.Actions.AddFeature = {
 
-  buildPostRequest: function(argObject) {
-  	return AjaxHandler.buildPostRequest();
-  },
-  buildGetRequest: function(argObject) {
-  	return '';
-  },
-  onBeforeAjaxCall: function(argObject) {
-  },
-  onAfterAjaxCall: function(argObject) {
-  }
+	buildPostRequest: function(argObject) {
+		return AjaxHandler.buildPostRequest();
+	},
+	buildGetRequest: function(argObject) {
+		return '';
+	},
+	onBeforeAjaxCall: function(argObject) {
+	},
+	onAfterAjaxCall: function(argObject) {
+	}
 };
 
 AjaxPlugins.Outline.Actions.ChangeMode = {
 
-  buildPostRequest: function(argObject) {
-  	return AjaxHandler.buildPostRequest();
-  },
-  buildGetRequest: function(argObject) {
-  	return '';
-  },
-  onBeforeAjaxCall: function(argObject) {
-  },
-  onAfterAjaxCall: function(argObject) {
-  }
+	buildPostRequest: function(argObject) {
+		return AjaxHandler.buildPostRequest();
+	},
+	buildGetRequest: function(argObject) {
+		return '';
+	},
+	onBeforeAjaxCall: function(argObject) {
+	},
+	onAfterAjaxCall: function(argObject) {
+	}
 };
 
 AjaxPlugins.Outline.Actions.Clear = {
 
-  buildPostRequest: function(argObject) {
-  	return AjaxHandler.buildRequestFrom(argObject.target) + '&' + AjaxHandler.buildPostRequest();
-  },
-  buildGetRequest: function(argObject) {
-  	return '';
-  },
-  onBeforeAjaxCall: function(argObject) {
-  },
-  onAfterAjaxCall: function(argObject) {
-  }
+	buildPostRequest: function(argObject) {
+		return AjaxHandler.buildRequestFrom(argObject.target) + '&' + AjaxHandler.buildPostRequest();
+	},
+	buildGetRequest: function(argObject) {
+		return '';
+	},
+	onBeforeAjaxCall: function(argObject) {
+	},
+	onAfterAjaxCall: function(argObject) {
+	}
 };

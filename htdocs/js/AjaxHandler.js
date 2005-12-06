@@ -80,8 +80,6 @@ AjaxHandler = {
 	 */
 	handlePluginReponse: function(response, argObject) {
 
-		Logger.act('Updating GUI');
-		
 		/*
 		 * Creates an array with all plugin responses: array[pluginName][paramType][paramId] = paramValue
 		 * (paramType is either htmlCode or variable)
@@ -113,6 +111,11 @@ AjaxHandler = {
 			pluginArray[i]['htmlCode'] = htmlCodeArray;
 		}
 		
+		// Display list of plugins that responded in debugger
+		pluginList = '';
+		for (i=0; i<pluginArray.length; i++) {pluginList += pluginArray[i]['pluginName']+' ';}
+		Logger.trace('Plugins that gave response: <strong>' + pluginList + '</strong>');
+		
 		/*
 		 * Calls all plugins that gave a response (= are present in pluginArray)
 		 * and passes their respective param array
@@ -120,6 +123,7 @@ AjaxHandler = {
 		for (i=0; i<pluginArray.length; i++) {
 			pluginName = pluginArray[i]['pluginName'];
 			pluginName = pluginName.charAt(0).toUpperCase() + pluginName.substr(1); // ucfisrt()
+			Logger.header('Updating GUI for plugin ' + pluginName);
 			eval('AjaxPlugins.' + pluginName + '.handleResponse(pluginArray[i], argObject)');
 		}
 	},
@@ -134,15 +138,25 @@ AjaxHandler = {
 
 		Logger.trace('Initiating async request');
 
-		var url = this.getBaseUrl()
-			+ '?ajaxActionRequest=' + actionId + '&'
-			+ queryObject.get;
+		// Adds triggered actionId to GET parameters
+		queryObject.get += 'ajaxActionRequest=' + actionId + '&';
+		// Adds PHPSEEID cookie to POST parameters
+		queryObject.post += 'PHPSESSID='+AjaxHelper.getCookie('PHPSESSID')+'&';
+		
+		Logger.trace('GET params:<br />'+queryObject.get);
+		Logger.trace('POST params:<br />'+queryObject.post);		
+		
+		// Builds request url
+		var url = this.getBaseUrl() + '?' + queryObject.get;
+		
+		Logger.trace('Waiting for response...');
 		var myAjax = new Ajax.Request (
 			url,
 			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
-				Logger.trace('Receiving response');
+					Logger.trace('Response received');
 					if (response.responseXML == undefined) {
+						Logger.error('AjaxHandler.ationRequest(): received response is malformed!');
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 						if (showFaillure) {
 							ajaxErrorDivElement = document.createElement('div');
@@ -169,6 +183,7 @@ AjaxHandler = {
 						eval('AjaxPlugins.' + requestedPluginName + '.Actions.' + requestedActionName + '.onAfterAjaxCall(argObject)');
 						AjaxPlugins.Common.onAfterAjaxCall(actionId);
 					}
+					Logger.header('--- Action ' + actionId + ' complete ---<br />');
 				}
 			}
 		);
@@ -182,7 +197,7 @@ AjaxHandler = {
 	 */
 	doAction: function(actionId, argObject) {
 
-		Logger.act('Action '+ actionId +' triggered');
+		Logger.header('--- Action '+ actionId +' triggered ---');
 
         /*
          * Creates the argObject and/or adds actionName and pluginName properties,
@@ -207,7 +222,7 @@ AjaxHandler = {
 		/*
 		 * Call actionRequest() to perform the AJAX call
 		 */
-		this.actionRequest(actionId, argObject, {post: httpPostQuery, get: httpGetQuery});
+		this.actionRequest(actionId, argObject, {post: httpPostQuery, get: httpGetQuery});		
 	},
 	
 	
@@ -220,7 +235,7 @@ AjaxHandler = {
 	 * @param bool Prevent event from bubbling through the DOM
 	 */
 	attachAction: function(elementId, evType, actionId, argObject, useCapture) {
-		Logger.trace('AjaxHandler.attachAction(): Attaching action:'+actionId+' to element id:'+elementId+'...');
+		Logger.note('AjaxHandler.attachAction(): Attaching action:'+actionId+' to element id:'+elementId+'...');
 		if (typeof(useCapture) == 'undefined')
 			useCapture = false;		
 		if (typeof(argObject) == 'undefined')
@@ -268,7 +283,7 @@ AjaxHandler = {
 
 		// These checks prevent Javascript errors		
 		element = $(elementId);
-		Logger.trace('AjaxHandler.updateDomElement(): Updating <b>'+elementId+'</b> element\'s <b>'+property+'</b>\'s value...');
+		Logger.note('AjaxHandler.updateDomElement(): Updating <b>'+elementId+'</b> element\'s <b>'+property+'</b>\'s value...');
 
 		if (typeof(elementId) != 'string') {
 			Logger.error('property argument must be a string!');
@@ -280,13 +295,13 @@ AjaxHandler = {
 			return false;
 		}
 		if (typeof(element) == 'undefined' || element == null) {
-			Logger.warn('given element was not found in the DOM!');
+			Logger.warn('given element ('+elementId+') was not found in the DOM!');
 			return false;
 		}
 
 		eval('elementAttr = element.'+property);
 		if (typeof(elementAttr) == 'undefined') {
-			Logger.warn('given element\'s property was not found in the DOM!');		
+			Logger.warn('property '+element.id+'.'+property+' was not found in the DOM!');		
 			return false;
 		}
 		eval('element.'+property+' = value');
@@ -334,13 +349,14 @@ AjaxHandler = {
 Logger = {	
 	/* Avaiable log levels:
 	 * 0 = none
-	 * 1 = acts
-	 * 2 = traces
-	 * 3 = errors
-	 * 4 = warns
-	 * 5 = confirms
+	 * 1 = headers
+	 * 2 = errors
+	 * 3 = warns
+	 * 4 = traces
+	 * 5 = notes
+	 * 6 = confirms
 	 */
-	level: 4,
+	level: 5,
 	
 	send: function(msg) {
 		if( this.level > 0
@@ -349,25 +365,29 @@ Logger = {
 		}	
 	},
 	
-	act: function(msg) {
+	header: function(msg) {
 		if (this.level >= 1)
 			this.send('<br /><font size="medium"><strong>' + msg + '</strong></font>');
 	},
-	trace: function(msg) {
-		if (this.level >= 2)
-			this.send('<font color="lightgray">' + msg + '</font>');
-	},
 	error: function(msg) {
-		if (this.level >= 3)
+		if (this.level >= 2)
 			this.send('<font color="red">' + 'Error: ' + msg + '</font>');
 	},	
 	warn: function(msg) {
-		if (this.level >= 4)
+		if (this.level >= 3)
 			this.send('<font color="orange">' + 'Warning: ' + msg + '</font>');
 	},
-	confirm: function(msg) {
+	trace: function(msg) {
+		if (this.level >= 4)
+			this.send('<font color="lightgray">' + msg + '</font>');
+	},
+	note: function(msg) {
 		if (this.level >= 5)
+			this.send('<font color="gray">' + msg + '</font>');
+	},
+	confirm: function(msg) {
+		if (this.level >= 6)
 			this.send('<font color="lightgreen">' + 'OK: ' + msg + '</font>');
 	},
 }
-Logger.act ('Initializing the AJAX Javascript debugger...');
+Logger.header ('Initializing the AJAX Javascript debugger...');

@@ -190,9 +190,9 @@ function goToScale(scale) {
   newOpt.value = scale;
   newOpt.selected = true;
   document.carto_form.recenter_scale.options.add(newOpt);
-  if (AjaxHandler == undefined) {
+  if (typeof(AjaxHandler) == 'undefined') {
     FormItemSelected();
   } else {
-    AjaxHandler.doAction('Location.zoom');
+    AjaxHandler.doAction('Location.Zoom');
   }
 }

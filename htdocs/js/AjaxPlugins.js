@@ -4,7 +4,6 @@
 /*
  * Uses: Prototype-1.3.1.js - for $() and $F() functions
  * Uses: AjaxHelper.js - for common features (i.e. getHttpPostRequest)
- * Uses: AjaxPluginHandler.js - for plugin calls.
  *
  * Used by: AjaxHandler.js
  */
@@ -20,10 +19,9 @@ AjaxPlugins.Common = {
 
 	/* Plugins' actions initialisation */
 	init: function() {
-		Logger.act('Initiating actions');
+		Logger.header('Initiating actions');
 	
 		AjaxPlugins.Location.Actions.Pan.init();
-		AjaxPlugins.Location.Actions.Zoom.init();
 	},
 
 	/* General plugins behaviour for before and after ajax calls */
