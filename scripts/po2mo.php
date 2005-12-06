@@ -129,12 +129,19 @@ function getMapPo($project, $mapId = null) {
     }
    
     // Looks for server URL
-    if (!array_key_exists('cartoserverBaseUrl', $iniArray)) {
-        warn("Warning: Project $project base URL not set in client.ini");
-        return '';
+    if ($direct) {
+        $url = CARTOWEB_HOME . 'htdocs/';
+    } else {
+        if (empty($iniArray['cartoserverBaseUrl'])) {
+            warn("Warning: Project $project base URL not set in client.ini");
+            return '';
+        }
+        $url = $iniArray['cartoserverBaseUrl'];
+        if (substr($url, -1) != '/' && substr($url, -1) != '\\') {
+            $url .= '/';
+        }
     }
-
-    $url = $iniArray['cartoserverBaseUrl'] . 'po/';
+    $url .= 'po/';
 
     // Checks if we use a server part from another project
     $mapIdInfo = explode('.', $mapId);
