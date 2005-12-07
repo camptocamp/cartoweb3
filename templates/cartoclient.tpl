@@ -68,13 +68,13 @@
 
 <form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
-  <input type="hidden" name="posted" value="1" />
-  <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
+  <input type="hidden" name="posted" id="posted" value="1" />
+  <input type="hidden" name="js_folder_idx" id="js_folder_idx" value="{$jsFolderIdx}" />
   <input type="hidden" name="selection_type" id="selection_type" />
   <input type="hidden" name="selection_coords" id="selection_coords" />
   <input type="hidden" name="features" id="features" />
   {if $collapsibleKeymap|default:''}
-  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+  <input type="hidden" name="collapse_keymap" id="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
 {if $outline_active|default:''}
   {$outlinelabel}
@@ -184,7 +184,7 @@ ClientContext:
                                         selected=$project}
         </select><br />
       {else}
-        <input type="hidden" name="project" value="{$project}" />
+        <input type="hidden" name="project" id="project" value="{$project}" />
       {/if}
          
       <input type="submit" id="refresh" name="refresh" value="{t}refresh{/t}" class="form_button" />
@@ -250,9 +250,9 @@ ClientContext:
       <select name="viewBrowseId" onchange="javascript:loadView();">
       {html_options options=$viewsList selected=$selectedView}
       </select></p>
-      <input type="hidden" name="viewBrowse" value="0" />
+      <input type="hidden" name="viewBrowse" id="viewBrowse" value="0" />
       {if !$views}
-      <input type="hidden" name="handleView" value="0" />
+      <input type="hidden" name="handleView" id="handleView" value="0" />
       {/if}
       {/if}
 
