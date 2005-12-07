@@ -236,6 +236,7 @@ class Utils {
     
         switch ($type) {
         case 'jpeg':
+        case 'jpg':
             $bild = imagecreatefromjpeg($input);
             break;
         case 'png':
