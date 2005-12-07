@@ -235,32 +235,33 @@ Map.prototype.zoomout = function(aDisplay) {
     }
   }
 };
-  
-Map.prototype.zoomin = function(aDisplay) {
+
+Map.prototype.selectionBox = function(aDisplay, action) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('sel.box');
   this.onSelBox = function(x1, y1, x2, y2) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-	if (typeof(AjaxHandler) == 'undefined') {
+    if (typeof(AjaxHandler) == 'undefined') {
       doSubmit();
     } else {
-      if (AjaxHelper.getCurrentTool() == 'zoomin') {
-	    AjaxHandler.doAction('Location.Zoom');
-	  } else {
-        AjaxHandler.doAction('Query.Perform');
-      }
+      AjaxHandler.doAction(action);
     }    
-  };
+  }
+};
+  
+Map.prototype.zoomin = function(aDisplay) {
+  this.selectionBox(aDisplay, 'Location.Zoom');
 };
 
 Map.prototype.fullextent = function(aDisplay) {
   doSubmit();
-}
+};
 
 Map.prototype.query = function(aDisplay) {
-  this.zoomin(aDisplay);
+  this.selectionBox(aDisplay, 'Query.Perform');
+
   this.getDisplay(aDisplay).docObj.style.cursor = "help";
 };
   
