@@ -300,7 +300,7 @@ function symbolTable() {
   table = '';
   counter = counterL = 0;
   for (var i=0;i<=nbLines;i++){
-    table += '<div id="T'+counterL+'" style="float:left;clear:both;">';
+    table += '<div id="T'+counterL+'" style="float:left;clear:both;width:100%;">';
     for (j=0;j<nbSy;j++){
       if (counter == symbolNamesArray.length){
         break;
@@ -316,34 +316,7 @@ function symbolTable() {
     counterL++;
   }
   tableElm = xGetElementById('symboltable');
-  tableElm.innerHTML = table;
-  // correct parent contener height, because floated element dont take space (maybe a bug)
-  // css classname of ref element
-  refElmClass = '.ArS';
-  //qttLine = Math.ceil((counter-1)/(steps*2)); //qtt of lines of color objects
-  refHeight = 0;
-  //get height value from css class of ref element
-  for (i=0;i<document.styleSheets.length;i++) {
-    if (document.styleSheets[i].rules) { // for stupid IE !
-      for (j=0;j<document.styleSheets[i].rules.length;j++) {
-        if (document.styleSheets[i].rules[j].selectorText == refElmClass) {
-          targetStyle = document.styleSheets[i].rules[j].style;
-          break;
-        }
-      }
-    } else {
-      for (j=0;j<document.styleSheets[i].cssRules.length;j++) {
-        if (document.styleSheets[i].cssRules[j].selectorText == refElmClass) {
-          targetStyle = document.styleSheets[i].cssRules[j].style;
-          break;
-        }
-      }    
-    }
-  } 
-  refHeight = targetStyle.height;
-  refHeight = refHeight.substring(0,refHeight.indexOf('px')); //get only numeric part of the value
-  newHeight = (nbLines * refHeight) + 2*nbLines; // nb lines * height of color bloc + nb lines * space between color bloc, here 1px)
-  tableElm.style.height = newHeight + 'px'; 
+  tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';;
 }
 // set event listener on created symbol blocks
 function setSymbolArrayListener() {
@@ -358,7 +331,7 @@ function setSymbolArrayListener() {
 */
 function getSymbolFromArray(ev) {
     var e = window.event ? window.event : ev;
-var t = e.target ? e.target : e.srcElement;
+    var t = e.target ? e.target : e.srcElement;
     if (t.id) {
       currentSymbol = t.id;
       updateSymbol();
@@ -448,7 +421,7 @@ function colorTable(matrice) {
   counter = counterL = 0;
   steps = 10; // increase value to get more variation for one color
   for (i=0;i<matrice.length;i++){
-      table += '<div id="L'+counterL+'" style="float:left;clear:both;">';
+      table += '<div id="L'+counterL+'" style="float:left;clear:both;width:100%;">';
       // from black to full saturation
       for (j=0;j<=steps;j++){
         r = Math.round(matrice[i][0] / steps * j);
@@ -471,40 +444,7 @@ function colorTable(matrice) {
     counterL++;
   }
   tableElm = xGetElementById('colortable');
-  tableElm.innerHTML = table;
-  // correct parent contener height, because floated element dont take space (maybe a bug)
-  // css classname of ref element
-  refElmClass = '.'+xGetElementById('C0').className;
-  qttLine = Math.ceil((counter-1)/(steps*2)); //qtt of lines of color objects
-  refHeight = 0;
-  //get height value from css class of ref element
-  for (i=0;i<document.styleSheets.length;i++) {
-    if (document.styleSheets[i].rules) { // for stupid IE !
-      for (j=0;j<document.styleSheets[i].rules.length;j++) {
-        if (document.styleSheets[i].rules[j].selectorText == refElmClass) {
-          targetStyle = document.styleSheets[i].rules[j].style;
-        }
-      }
-    } else {
-      for (j=0;j<document.styleSheets[i].cssRules.length;j++) {
-        if (document.styleSheets[i].cssRules[j].selectorText == refElmClass) {
-          targetStyle = document.styleSheets[i].cssRules[j].style;    
-        }
-      }    
-    }
-  } 
-  refHeight = targetStyle.height;
-  refHeight = refHeight.substring(0,refHeight.indexOf('px')); //get only numeric part of the value
-  refWidth = targetStyle.width;
-  refWidth = refWidth.substring(0,refWidth.indexOf('px')); //get only numeric part of the value  
-  newHeight = (qttLine * refHeight) + qttLine; // nb lines * height of color bloc + nb lines * space between color bloc, here 1px)
-  tableElm.style.height = newHeight + 'px'; 
-  // set width of line div, to solve problem of display in IE
-  for (i=0;i<counterL;i++) {
-    tableLine = xGetElementById('L'+i);
-    newWidth = (steps * 2 * refWidth) + (steps * 2) + 'px';
-    tableLine.style.width = newWidth;
-  }
+  tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';
 }
 // set event listener on created color blocks
 function setColorArrayListener() {
@@ -816,14 +756,14 @@ function findPosY(obj) {
 */
 function getPos (ev, relative) {
     var e = window.event ? window.event : ev;
-var t = e.target ? e.target : e.srcElement;
+    var t = e.target ? e.target : e.srcElement;
 
-var mX, mY;
-// calculate x,y coordinate of cursor, it depends of the browser used
-if (e.pageX && e.pageY) {
+    var mX, mY;
+    // calculate x,y coordinate of cursor, it depends of the browser used
+    if (e.pageX && e.pageY) {
         mX = e.pageX;
         mY = e.pageY;
-} else if (e.clientX && e.clientY) {
+    } else if (e.clientX && e.clientY) {
         mX = e.clientX;
         mY = e.clientY;
 
@@ -841,7 +781,7 @@ if (e.pageX && e.pageY) {
                 mY += document.documentElement.scrollTop;
             }
         }
-}
+    }
     // get position of the mouse inside the element target (otherwise the reference is the page)
     if (relative) {
         var xPos = mX - findPosX(t);
@@ -990,7 +930,7 @@ function getcolorUnique(e) {
 */
 function getcolorFromArray(ev) {
     var e = window.event ? window.event : ev;
-var t = e.target ? e.target : e.srcElement;
+    var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
       color = t.style.backgroundColor;
@@ -1003,7 +943,7 @@ var t = e.target ? e.target : e.srcElement;
 */
 function getcolorUniqueFromArray(ev) {
     var e = window.event ? window.event : ev;
-var t = e.target ? e.target : e.srcElement;
+    var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
       color = t.style.backgroundColor;
@@ -1048,7 +988,7 @@ function getColorSpace(elId) {
 */
 function changeColorFromInput(ev) {
   var e = window.event ? window.event : ev;
-var t = e.target ? e.target : e.srcElement;
+  var t = e.target ? e.target : e.srcElement;
   elId = t.id;
   inputColorSpace = getColorSpace(elId);
   // if the input colorspace is different from the current pickedColor colorspace -> conversion
@@ -1134,7 +1074,7 @@ function coordToRGB (ev) {
         ct = Math.round(255 * (1.0 - (posXY[1]/100)));
         color[0] = color[1] = color[2] = ct<0?0:ct;
     }
-return color;
+    return color;
 }
 //copied from HTML Color Editor v1.2 (c) 2000 by Sebastian Weber <webersebastian@yahoo.de>
 /** 
@@ -1173,15 +1113,15 @@ function RGBtoHSL(colorset) {
 function HSLtoRGB (colorset) {
     h = colorset[0]; s = colorset[1]; l = colorset[2];
     if (s == 0) s = 1;
-h=h*360/255;s/=255;l/=255;
-if (l <= 0.5) rm2 = l + l * s;
-else rm2 = l + s - l * s;
-rm1 = 2.0 * l - rm2;
+    h=h*360/255;s/=255;l/=255;
+    if (l <= 0.5) rm2 = l + l * s;
+    else rm2 = l + s - l * s;
+    rm1 = 2.0 * l - rm2;
     r = ToRGB1(rm1, rm2, h + 120.0)
     g = ToRGB1(rm1, rm2, h)
     b = ToRGB1(rm1, rm2, h - 120.0)
 
-return Array(r, g, b);
+    return Array(r, g, b);
 }
 /** 
  *  HSLtoRGB associed function
@@ -1192,12 +1132,12 @@ return Array(r, g, b);
 */
 function ToRGB1(rm1,rm2,rh) {
     
-if      (rh > 360.0) rh -= 360.0;
-else if (rh <   0.0) rh += 360.0;
- if      (rh <  60.0) rm1 = rm1 + (rm2 - rm1) * rh / 60.0;
-else if (rh < 180.0) rm1 = rm2;
-else if (rh < 240.0) rm1 = rm1 + (rm2 - rm1) * (240.0 - rh) / 60.0;
- return Math.round(rm1 * 255);
+    if      (rh > 360.0) rh -= 360.0;
+    else if (rh <   0.0) rh += 360.0;
+    if      (rh <  60.0) rm1 = rm1 + (rm2 - rm1) * rh / 60.0;
+    else if (rh < 180.0) rm1 = rm2;
+    else if (rh < 240.0) rm1 = rm1 + (rm2 - rm1) * (240.0 - rh) / 60.0;
+    return Math.round(rm1 * 255);
 }
 /** 
  *  convert RGB to HEX

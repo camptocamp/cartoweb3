@@ -204,3 +204,7 @@
   height: 30px;
   width: 30px;
 }
+.clear {
+  clear: both;
+  font-size: 1px;
+}
