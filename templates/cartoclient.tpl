@@ -167,13 +167,15 @@ ClientContext:
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
     </p>
     <div>
+      <ul class="tabnav" id="tabnav2">
+        {if $outline_active|default:''}<li id="label6"><a href="javascript:ontop(6)">{t}Outline{/t}</a></li>{/if}
+        {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
+      </ul>
       <ul class="tabnav" id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
         <li id="label2"><a href="javascript:ontop(2)">{t}Themes{/t}</a></li>
         {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
-        {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
         {if $layerReorder|default:''}<li id="label5"><a href="javascript:ontop(5)">{t}Layers reorder{/t}</a></li>{/if}
-        {if $outline_active|default:''}<li id="label6"><a href="javascript:ontop(6)">{t}Outline{/t}</a></li>{/if}
       </ul>
     </div>
     <div id="container">
