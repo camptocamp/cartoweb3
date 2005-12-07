@@ -146,6 +146,61 @@ class FormRenderer {
     }
 
     /**
+     * Returns CartoWeb's user and developer messages
+     * @return array array of messages (user and developer)
+     */
+    private function getMessages() {
+        $messages = array_merge($this->cartoclient->getMapResult()
+                                            ->serverMessages,
+                                $this->cartoclient->getMessages());
+    }
+    
+    /**
+     * Returns user messages' HTML code
+     * @param array array of messages
+     * @return string user messages' HTML code if any, null otherwise
+     */
+    private function getUserMessages($messages) {
+        
+        if (empty($messages))
+            return;
+        
+        $userMessages = array();
+        foreach ($messages as $message) {
+            if ($message->channel == Message::CHANNEL_USER)
+                $userMessages[] = I18N::gt($message->message);
+        }
+
+        if (!empty($userMessages))
+            return $userMessages;
+        else
+            return null;
+    }
+
+    /**
+     * Returns developer messages' HTML code
+     * @param array array of messages
+     * @return string developer messages' HTML code if any, null otherwise
+     */
+    private function getDeveloperMessages($messages) {
+        
+        if (empty($messages))
+            return;
+        
+        $developerMessages = array();
+        foreach ($messages as $message) {
+            if ($message->channel == Message::CHANNEL_DEVELOPER)
+                $developerMessages[] = I18N::gt($message->message);
+        }
+
+        if (!empty($developerMessages) &&
+            $this->cartoclient->getConfig()->showDevelMessages)
+            return $developerMessages;
+        else
+            return null;
+    }
+
+    /**
      * Draws user and developer messages
      * @param array array of messages
      */
@@ -153,18 +208,12 @@ class FormRenderer {
         
         if (empty($messages))
             return;
-        
-        $userMessages = array();
-        $developerMessages = array();
-        foreach ($messages as $message) {
-            if ($message->channel == Message::CHANNEL_USER)
-                $userMessages[] = I18N::gt($message->message);
-            if ($message->channel == Message::CHANNEL_DEVELOPER)
-                $developerMessages[] = I18N::gt($message->message);
-        }
+
+        $userMessages = $this->getUserMessages($messages);
+        $developerMessages = $this->getDeveloperMessages($messages);
 
         $smarty = $this->smarty;
-        
+
         if (!empty($userMessages))
             $smarty->assign('user_messages', $userMessages);
         if (!empty($developerMessages) &&
@@ -252,9 +301,7 @@ class FormRenderer {
 
             $this->drawTools($this->cartoclient);
     
-            $messages = array_merge($this->cartoclient->getMapResult()
-                                                ->serverMessages,
-                                    $this->cartoclient->getMessages());
+            $messages = $this->getMessages();
             $this->drawMessages($messages);
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
@@ -305,6 +352,15 @@ class FormRenderer {
 		    if (!$ajaxPluginResponse->isEmpty())
 		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
 	    }
+
+        // Adds user and developer messages to ajaxPluginResponses
+
+        $ajaxPluginResponse = new AjaxPluginResponse();
+        $messages = $this->getMessages();
+        $userMessages = $this->getUserMessages($messages);
+        $ajaxPluginResponse->addHtmlCode('userMessages', $this->getUserMessages($messages));
+        $ajaxPluginResponse->addHtmlCode('developerMessages', $this->getDeveloperMessages($messages));
+        $ajaxPluginResponses['cartoweb'] = $ajaxPluginResponse;        
 
  		// Switches to the XML tpl to be sent as async response
 		$this->setCustomForm('ajaxPluginResponse.xml.tpl');

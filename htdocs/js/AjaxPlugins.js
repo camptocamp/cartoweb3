@@ -60,3 +60,16 @@ AjaxPlugins.Common = {
 		xHide($('outlineLabelInputDiv'));
 	}
 }
+
+/*
+ * This is a pseudo plugin, used to retrieve Cartoweb general informations
+ */
+AjaxPlugins.Cartoweb = {
+	handleResponse: function(pluginOutput) {
+		// Shows developer and user messages in jsTrace debugger window
+		if (pluginOutput.htmlCode.developerMessages != '')
+			Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);		
+		if (pluginOutput.htmlCode.userMessages != '')
+			Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
+	}
+}
