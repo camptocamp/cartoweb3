@@ -145,8 +145,10 @@
   {$query_result}
   {/if}
 
-  {if $tables_result|default:''}
-  {$tables_result}
+  {if $tables_result|default:true}
+  <div id="tables_result">
+    {$tables_result}
+  </div>
   {/if}
 
 <pre>

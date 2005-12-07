@@ -23,8 +23,6 @@ AjaxPlugins.Query.Actions.Perform = {
   onBeforeAjaxCall: function(argObject) {
   },
   onAfterAjaxCall: function(argObject) {
-	AjaxPlugins.Common.clearDhtmlDrawings();
-	AjaxPlugins.Common.clearDhtmlStoredFeatures();
   }
 };
 
@@ -38,5 +36,6 @@ AjaxPlugins.Query.Actions.Clear = {
   onBeforeAjaxCall: function(argObject) {
   },
   onAfterAjaxCall: function(argObject) {
+  	AjaxHandler.updateDomElement(AjaxPlugins.Tables.tablesResultId, 'innerHTML', '');
   }
 };

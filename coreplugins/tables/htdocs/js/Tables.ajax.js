@@ -1,9 +1,11 @@
 AjaxPlugins.Tables = {
+
+  tablesResultId: 'tables_result',
   
   handleResponse: function(pluginOutput) {
     /* Plugin general behaviour */
 	
-	$('tables_result').innerHTML = pluginOutput.htmlCode.tableResult;
+	AjaxHandler.updateDomElement(this.tablesResultId, 'innerHTML', pluginOutput.htmlCode.tableResult);
   }
 };
 
