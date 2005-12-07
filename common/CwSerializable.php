@@ -157,19 +157,21 @@ abstract class CwSerializable {
     
     /**
      * Tries to guess the class to use from the property being unserialised.
-     * It is useful when dealing with non-php client who to not put "className"
+     * It is useful when dealing with non-PHP clients who do not put "className"
      * fields in requests, containing the object class to use.
-     * If the property finishes with "Request", it is used as the class name.
+     * If the property name ends with "Request" or "Result", it is used as the 
+     * class name.
      * 
      * @param string
      * @return string
      * @throws CartoserverException if name could not be guessed
      */
     static private function guessClassName($property) {
-        if (strpos($property, 'Request') === false) {
+        if (strpos($property, 'Request') === false &&
+            strpos($property, 'Result') === false) {
             throw new CartocommonException('Object to unserialize has no ' .
                                            'className attribute, and no class '
-                                           . 'name was given' . $type);
+                                           . "name was given: $property");
         }
         return $property;
     }
