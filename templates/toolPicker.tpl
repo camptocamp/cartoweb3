@@ -14,7 +14,7 @@
   <div id="tool1" class="toolbox">
 
     <div id="color1" class="colorbox">
-      <div class="switchCbloc"><a href="javascript:switchColorTool('Carray')">Switch to color array</a></div>
+      <div class="switchCbloc"><a href="javascript:switchColorTool('Carray')">{t}Switch to color array{/t}</a></div>
       <div style="border:1px solid #596380; width:210px; cursor:crosshair;" ><img src="{r type=gfx/toolpicker}grad.jpg{/r}" width="200" height="100" id="colorgradient" alt="" /><img src="{r type=gfx/toolpicker}gradg.jpg{/r}" width="10" height="100" id="bwgradient" alt="" /></div>
       <div class="colorresult">
         <div id="colorresult2" class="colorBox" ></div>
