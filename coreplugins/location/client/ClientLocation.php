@@ -897,6 +897,7 @@ class ClientLocation extends ClientPlugin
 			break;			
 			case 'Location.FullExtent':
 			case 'Location.Recenter':
+            case 'Location.RecenterIds':
 			case 'Location.Zoom':
 				$pluginEnabler->disableCoreplugins();
 				$pluginEnabler->enableCoreplugin('location');

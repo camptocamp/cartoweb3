@@ -140,9 +140,7 @@ AjaxHandler = {
 
 		// Adds triggered actionId to GET parameters
 		queryObject.get += 'ajaxActionRequest=' + actionId + '&';
-		// Adds PHPSEEID cookie to POST parameters
-		queryObject.post += 'PHPSESSID='+AjaxHelper.getCookie('PHPSESSID')+'&';
-		
+				
 		Logger.trace('GET params:<br />'+queryObject.get);
 		Logger.trace('POST params:<br />'+queryObject.post);		
 		
@@ -154,7 +152,7 @@ AjaxHandler = {
 			url,
 			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
-					Logger.trace('Response received');
+					Logger.trace('Response received!');
 					if (response.responseXML == undefined) {
 						Logger.error('AjaxHandler.ationRequest(): received response is malformed!');
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');

@@ -316,9 +316,6 @@ class FormRenderer {
         // Shows async response and dies
 	    $this->smarty->display($this->customForm);
         
-        // Dies in order to prevent any other output
-        // (excepted the bubbling exceptions)
-        die();
     }
 
     /**

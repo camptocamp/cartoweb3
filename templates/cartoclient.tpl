@@ -190,6 +190,7 @@ ClientContext:
       <input type="submit" id="refresh" name="refresh" value="{t}refresh{/t}" class="form_button" />
       <input type="submit" name="reset_session" value="{t}reset_session{/t}" class="form_button" 
         onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
+
     </p>
     <div>
       <ul class="tabnav" id="tabnav1">

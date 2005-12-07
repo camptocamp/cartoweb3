@@ -41,7 +41,7 @@ var AjaxHelper = {
     /**
      * Returns the HTTP POST/GET string from the form specified by formId,
      * by creating a query string from all the given form's inputs and selects
-     * but the submit and image types inputs.
+     * but the submit, button and image inputs types.
      *
      * @param string Id of the form to parse.
      * @return string HTTP GET string from formId
@@ -56,7 +56,7 @@ var AjaxHelper = {
          */
         inputElements = formElement.getElementsByTagName('input');
         for (var i=0; i < inputElements.length; i++) {
-            // Collect the current input only if it's is not 'submit' or 'image'
+            // Collect the current input only if it's is not 'submit', 'image' or 'button'
             currentElement = inputElements.item(i);
             inputType = currentElement.getAttribute('type');
             
@@ -64,7 +64,9 @@ var AjaxHelper = {
                 if (currentElement.checked)
                     queryString = queryString + this.buildQueryFrom(currentElement) + '&';
                     
-            } else if (inputType == 'submit' || inputType == 'image') {
+            } else if (inputType == 'submit'
+            			|| inputType == 'button' 
+            			|| inputType == 'image') {
                 // Do nothing. Sending the submit inputs in POST Request would make
                 // the serverside act like all buttons on the form were clicked.
                 // And we don't want that.
@@ -89,9 +91,11 @@ var AjaxHelper = {
             for (var j=0; j < optionElements.length; j++) {
                 currentElement = optionElements.item(j);
                 if (currentElement.selected) {
-                        paramValue = currentElement.getAttribute('value');
-                    if (paramValue == null) paramValue = '';
-                    queryString = queryString + paramName + '=' + paramValue + '&';
+					paramValue = currentElement.getAttribute('value');
+                    if (paramValue == null)
+                    	paramValue = '';
+                    queryString = queryString + paramName + '='
+                    	+ paramValue + '&';
                 }
             }
         }
@@ -142,6 +146,23 @@ var AjaxHelper = {
 	    elm['on' + evType] = fn;
 	  }
 	},
+	
+	getCurrentTool: function() {
+		var selectedTool = null;
+        inputElements = document.getElementsByTagName('input');
+        for (var i=0; i < inputElements.length; i++) {
+            currentElement = inputElements.item(i);
+            inputType = currentElement.getAttribute('type');
+            inputName = currentElement.getAttribute('name');
+            if (inputType == 'radio' && inputName == 'tool') {
+                if (currentElement.checked) {
+                    selectedTool = currentElement.value;
+                    break;
+                }
+            }                    
+        }
+        return selectedTool;
+    },
 
 	/* 
 	 * Finds clicked position on an element
@@ -207,37 +228,5 @@ var AjaxHelper = {
 			x: mX - findPosX(t),
 			y: mY - findPosY(t)
 		};
-	},
-	
-	getCurrentTool: function() {
-		var selectedTool = null;
-        inputElements = document.getElementsByTagName('input');
-        for (var i=0; i < inputElements.length; i++) {
-            currentElement = inputElements.item(i);
-            inputType = currentElement.getAttribute('type');
-            inputName = currentElement.getAttribute('name');
-            if (inputType == 'radio' && inputName == 'tool') {
-                if (currentElement.checked) {
-                    selectedTool = currentElement.value;
-                    break;
-                }
-            }                    
-        }
-        return selectedTool;
-    },
-
-	// this function gets the cookie, if it exists
-	getCookie: function(name) {
-		
-		var start = document.cookie.indexOf( name + "=" );
-		var len = start + name.length + 1;
-		if ( ( !start ) && ( name != document.cookie.substring( 0, name.length ) ) )
-		{
-			return null;
-		}
-		if ( start == -1 ) return null;
-			var end = document.cookie.indexOf( ";", len );
-		if ( end == -1 ) end = document.cookie.length;
-			return unescape( document.cookie.substring( len, end ) );
-	}    
+	},	
 };

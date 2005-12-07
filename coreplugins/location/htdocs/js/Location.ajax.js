@@ -3,6 +3,8 @@ AjaxPlugins.Location = {
 	/* HTML element's id definitions */
 	recenterScaleId: 'recenter_scale',
 	recenterScaleDivId: 'recenter_scale_div',
+	recenterIdsId: 'id_recenter_ids',
+	shortcutIdId: 'shortcut_id',
 
 
 	handleResponse: function(pluginOutput) {
@@ -53,8 +55,8 @@ AjaxPlugins.Location.Actions.Recenter = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
-		$('id_recenter_ids').value = '';
-	}
+		$(AjaxPlugins.Location.recenterIdsId).value = '';
+	},
 };
 
 AjaxPlugins.Location.Actions.Zoom = {
