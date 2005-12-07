@@ -15,8 +15,6 @@ noWsdlCache = false
 noMapInfoCache = false
 ; sets ini parameters useful during development
 developerIniConfig = false
-; allows tests running through Web interface
-allowTests = false
 ; shows developer messages
 showDevelMessages = false
 

@@ -79,7 +79,7 @@ abstract class Config {
      */
     protected function getProfileParameters() {
         return array('useWsdl', 'noWsdlCache', 'noMapInfoCache', 
-                     'developerIniConfig', 'allowTests', 'showDevelMessages');   
+                     'developerIniConfig', 'showDevelMessages');   
     }
 
     /**

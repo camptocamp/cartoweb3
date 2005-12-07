@@ -9,13 +9,13 @@
 <!-- $Id$ -->
 <chapter id="user.config">
   <title>Configuration Files</title>
-  <para>When installing Cartoweb, the administrator of the application
+  <para>When installing &cartoweb;, the administrator of the application
    may want to adapt it to the environnement use. This can be easily done
    using configuration parameters.</para>
-  <para>Some are required and Cartoweb won't correctly work if they're
+  <para>Some are required and &cartoweb; won't correctly work if they're
    not set. Others are optional but could hardly change the application
    behavior.</para>
-  <para>You'll also find specific config parameters in the plugins
+  <para>You will also find specific config parameters in the plugins
    related chapters of this documentation.</para>
   <sect1 id="user.config.common">
     <title>Common <filename>client.ini</filename> and 
@@ -25,9 +25,9 @@
       <filename>server_conf/server.ini</filename> for server.</para>
     <itemizedlist>
       <listitem>
-        <para> profile = development|production|custom: Current profile: 
-          the developer profile has no cache activated, and uses WSDL. 
-          Development profile has all caches activated for best performances.
+        <para> profile = development|production|custom: current settings profile. 
+          The <parameter>development</parameter> profile has no cache activated and makes SOAP work in WSDL mode. 
+          The <parameter>production</parameter> profile has all caches activated for best performances.
           Setting this parameter to development or production will override
           some parameters in the configuration. The custom profile means
           the parameters about caching and other are not overrided.</para>
@@ -35,7 +35,7 @@
       <listitem>
         <para> useWsdl = true|false: if true, WSDL will be used for sending 
           SOAP requests. This will add some processing time but ensures 
-          that SOAP requests are well-structured.</para>
+          that SOAP requests are well-structured. In addition, WSDL is necessary when interfacing the Web Service with a strong-typed language built application.</para>
       </listitem>
     </itemizedlist>
     <para> Cache options. See <xref linkend="user.caches.config"/>. </para>
@@ -414,10 +414,6 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       <listitem>
         <para> developerIniConfig = true|false: Sets ini parameters useful 
           during development </para>
-      </listitem>
-      <listitem>
-        <para> allowTests = true|false: allows tests running through Web 
-          interface </para>
       </listitem>
     </itemizedlist>
   </sect1>
