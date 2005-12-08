@@ -208,15 +208,13 @@ class Utils {
 
     /**
      * Invert and save image
-     * @param string
-     * @param string
-     * @param boolean
+     * @param string the input image path
+     * @param string the output image path
+     * @param boolean 
      * @param string jpeg or png
      * @return array
      */
-    static public function invert_image($input, $output, $color=false, $type='jpeg') {
-        // $input = 'path/to/image.jpg';
-        
+    static public function invertImage($input, $output, $color=false, $type='jpeg') {
         // for a color negative image, set the optional flag
         // invert_image($input, '', true);
 
@@ -237,38 +235,38 @@ class Utils {
         switch ($type) {
         case 'jpeg':
         case 'jpg':
-            $bild = imagecreatefromjpeg($input);
+            $img = imagecreatefromjpeg($input);
             break;
         case 'png':
-            $bild = imagecreatefrompng($input);
+            $img = imagecreatefrompng($input);
             break;
         default:
             throw new CartocommonException("$type is not a valid image type");
             break;
         }
 
-        $x = imagesx($bild);
-        $y = imagesy($bild);
+        $x = imagesx($img);
+        $y = imagesy($img);
 
         for($i=0; $i < $y; $i++) {
             for($j=0; $j < $x; $j++) {
-                $pos = imagecolorat($bild, $j, $i);
-                $f = imagecolorsforindex($bild, $pos);
+                $pos = imagecolorat($img, $j, $i);
+                $f = imagecolorsforindex($img, $pos);
                 if($color == true) {
-                    $col = imagecolorresolve($bild, 255-$f['red'], 255-$f['green'], 255-$f['blue']);
+                    $col = imagecolorresolve($img, 255-$f['red'], 255-$f['green'], 255-$f['blue']);
                 } else {
                     $gst = $f['red']*0.15 + $f['green']*0.5 + $f['blue']*0.35;
-                    $col = imagecolorclosesthwb($bild, 255-$gst, 255-$gst, 255-$gst);
+                    $col = imagecolorclosesthwb($img, 255-$gst, 255-$gst, 255-$gst);
                 }
-                imagesetpixel($bild, $j, $i, $col);
+                imagesetpixel($img, $j, $i, $col);
             }
         }
         switch ($type) {
         case 'jpeg':
-            imagejpeg($bild, $output, 90);
+            imagejpeg($img, $output, 90);
             break;
         case 'png':
-            imagepng($bild, $output);
+            imagepng($img, $output);
             break;
         default:
             throw new CartocommonException("$type is not a valid image type");
