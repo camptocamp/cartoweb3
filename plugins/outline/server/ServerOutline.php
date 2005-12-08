@@ -25,7 +25,8 @@
  * Server Outline class
  * @package Plugins
  */
-class ServerOutline extends ClientResponderAdapter {
+class ServerOutline extends ClientResponderAdapter 
+                    implements InitProvider {
     
     /**
      * @var Logger
@@ -33,16 +34,15 @@ class ServerOutline extends ClientResponderAdapter {
     private $log;
 
     /**
-     * Array of current style classes
-     * @var array
+     * @var string
      */
-    protected $styles;
+    private $pathToSymbols;
 
     /**
-     * Array of default style classes
-     * @var array
+     * @var string 
      */
-    protected $defaultStyles;
+    private $symbolType;
+
 
     /** 
      * Constructor
@@ -50,243 +50,94 @@ class ServerOutline extends ClientResponderAdapter {
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
+    }
+
+    /**
+     * @param Shape
+     * @return ms_styleObj
+     */
+    protected function toShapeObj(Shape $shape) {
+        $p = ms_newLineObj();
         
-        $this->styles = array();
-    }
-
-    /**
-     * Returns outline layer if it was defined
-     * @param MsMapObj Mapserver Map object
-     * @param string layer name
-     * @return MsLayer Mapserver Layer object
-     */
-    protected function getLayer($msMapObj, $layerName) {
-        
-        $outlineLayer = @$msMapObj->getLayerByName($layerName);
-        if (!$outlineLayer) {
-            if ($layerName) {
-                throw new CartoserverException('Outline layer ' . $layerName . 
-                                               ' is not defined in mapfile');
-            } else {
-                throw new CartoserverException('No outline layer defined in ' .
-                                               'config file');
-            }
-        }
-        return $outlineLayer;
-    }
-
-    /**
-     * Sets a color object from a Mapserver color
-     * @param MsColorObj
-     * @param Color
-     */
-    protected function setColor($msColorObj, &$color) {
-        if ($msColorObj->red >= 0)
-            $color->r = $msColorObj->red;
-        if ($msColorObj->green >= 0)
-            $color->g = $msColorObj->green;
-        if ($msColorObj->blue >= 0)
-            $color->b = $msColorObj->blue;
-    }
-
-    /**
-     * Sets styles (shape & label) from a Mapserver layer
-     * @param MsLayerObj
-     * @param ShapeStyle
-     * @param LabelStyle
-     */
-    protected function setStyles($msLayerObj, &$shapeStyle, &$labelStyle) {
-        $shapeStyle = new ShapeStyle();                                           
-        $labelStyle = new LabelStyle();                                           
-
-        if ($msLayerObj->numclasses > 0) {
-            $msClassObj = $msLayerObj->getClass(0);
-            if ($msClassObj->numstyles > 0) {
-                $msStyleObj = $msClassObj->getStyle(0);
-                $shapeStyle->symbol = $msStyleObj->symbol;
-                $shapeStyle->size = $msStyleObj->size;        
-                $this->setColor($msStyleObj->color, $shapeStyle->color);        
-                $this->setColor($msStyleObj->outlinecolor, $shapeStyle->outlineColor);        
-                $this->setColor($msStyleObj->backgroundcolor, $shapeStyle->backgroundColor);
-            }
-            $shapeStyle->transparency = $msLayerObj->transparency;        
-
-            $msClassObj = $msLayerObj->getClass(0);
-            $msLabelObj = $msClassObj->label;
-            $labelStyle->font = $msLabelObj->font;
-            $labelStyle->size = $msLabelObj->size;        
-            $this->setColor($msLabelObj->color, $labelStyle->color);        
-            $this->setColor($msLabelObj->outlinecolor, $labelStyle->outlineColor);        
-            $this->setColor($msLabelObj->backgroundcolor, $labelStyle->backgroundColor);
-        }            
-    }
-
-    /**
-     * Updates a Mapserver color from a Color object
-     * @param MsColorObj
-     * @param Color
-     */
-    protected function updateColor(&$msColorObj, $color) {
-        $r = $msColorObj->red;
-        $g = $msColorObj->green;
-        $b = $msColorObj->blue;
-        if (!is_null($color->r))
-            $r = $color->r;
-        if (!is_null($color->g))
-            $g = $color->g;
-        if (!is_null($color->b))
-            $b = $color->b;
-        $msColorObj->setRGB($r, $g, $b);
-    } 
-
-    /**
-     * Updates a Mapserver class from styles (shape & label)
-     * @param MsClassObj
-     * @param ShapeStyle
-     * @param LabelStyle
-     */
-    protected function updateClass(&$msClassObj, $shapeStyle, $labelStyle) {
-        if ($msClassObj->numstyles == 0) {
-            $msStyleObj = ms_newStyleObj($msClassObj);
+        $className = get_class($shape);
+        if ($className == 'Point') {
+            $f = ms_newShapeObj(MS_SHAPE_POINT);
+            $p->addXY($shape->x, $shape->y);
+            
+        } else if ($className == 'Rectangle') {
+            $f = ms_newShapeObj(MS_SHAPE_POLYGON);
+            $p->addXY($shape->minx, $shape->maxy);
+            $p->addXY($shape->maxx, $shape->maxy);
+            $p->addXY($shape->maxx, $shape->miny); 
+            $p->addXY($shape->minx, $shape->miny);
         } else {
-            $msStyleObj = $msClassObj->getStyle(0);
-        }        
-        if (!empty($shapeStyle->symbol))
-            $msStyleObj->set('symbol', $shapeStyle->symbol);
-        if (!empty($shapeStyle->size))
-            $msStyleObj->set('size', $shapeStyle->size);
-        if (!empty($shapeStyle->color))
-            $this->updateColor($msStyleObj->color, $shapeStyle->color);
-        if (!empty($shapeStyle->outlineColor))
-            $this->updateColor($msStyleObj->outlinecolor, $shapeStyle->outlineColor);
-        if (!empty($shapeStyle->backgroundColor))
-            $this->updateColor($msStyleObj->backgroundcolor, $shapeStyle->backgroundColor);
-        
-        if (!empty($labelStyle->font))
-            $msClassObj->label->set('font', $labelStyle->font);
-        if (!empty($labelStyle->size))
-            $msClassObj->label->set('size', $labelStyle->size);
-        if (!empty($labelStyle->color))
-            $this->updateColor($msClassObj->label->color, $labelStyle->color);
-        if (!empty($labelStyle->outlineColor))
-            $this->updateColor($msClassObj->label->outlinecolor, $labelStyle->outlineColor);
-        if (!empty($labelStyle->backgroundColor))
-            $this->updateColor($msClassObj->label->backgroundcolor, $labelStyle->backgroundColor);
-    }
-
-    /** 
-     * Computes a string from a Color object
-     * @param Color
-     * @return string
-     */
-    protected function serializeColor($color) {
-        $key = 'color' . $color->r . ',' . $color->g . ',' . $color->b;
-        return $key;
-    }
-
-    /**
-     * Computes a string key to identify a specific class
-     * @param ShapeStyle
-     * @param LabelStyle
-     * @return string
-     */
-    protected function computeKey($shapeStyle, $labelStyle) {
-        $key = 'shapestyle-' . $shapeStyle->symbol;
-        $key .= '-' . $shapeStyle->size;
-        $key .= '-' . $this->serializeColor($shapeStyle->color);
-        $key .= '-' . $this->serializeColor($shapeStyle->outlineColor);
-        $key .= '-' . $this->serializeColor($shapeStyle->backgroundColor);
-        $key .= '-' . $shapeStyle->transparency;
-
-        $key .= 'labelstyle-' . $labelStyle->font;
-        $key .= '-' . $labelStyle->size;
-        $key .= '-' . $this->serializeColor($labelStyle->color);
-        $key .= '-' . $this->serializeColor($labelStyle->outlineColor);
-        $key .= '-' . $this->serializeColor($labelStyle->backgroundColor);
-        return $key;
-    }
-
-    /**
-     * Initializes styles array with layer information
-     * @param MsMapObj
-     * @param string
-     */
-    protected function initializeStyles($msMapObj, $layerName) {
-        
-        if (!array_key_exists($layerName, $this->styles)) {
-                        
-            $msLayerObj = $this->getLayer($msMapObj, $layerName);
-                                                 
-            if ($msLayerObj->numclasses == 0) {
-                $class = ms_newClassObj($msLayerObj);
+            if ($className == 'Line') {
+                $f = ms_newShapeObj(MS_SHAPE_LINE);
+            } else if ($className == 'Polygon') {
+                $f = ms_newShapeObj(MS_SHAPE_POLYGON);
             }
-            $this->setStyles($msLayerObj, $shapeStyle, $labelStyle);
-            
-            $this->defaultStyles[$layerName] =
-                array('shape' => $shapeStyle, 'label' => $labelStyle);
-            
-            $key = $this->computeKey($shapeStyle, $labelStyle);
-            
-            $this->styles[$layerName] = array($shapeStyle->transparency
-                                              => array($key => 0));
+            foreach ($shape->points as $point) {
+                $p->addXY($point->x, $point->y);
+            }
         }
+        $f->add($p);
+
+        return $f;
     }
-    
+
     /**
-     * Returns layer and class index for a shape
-     * @param MsMapObj
-     * @param string
      * @param StyledShape
-     * @param MsLayer
-     * @param int
+     * @param string
      */
-    protected function findClass($msMapObj, $layerName, $styledShape, 
-                               &$layer, &$classIndex) {
-        
-        $shapeStyle = $this->defaultStyles[$layerName]['shape']->merge($styledShape->shapeStyle);
-        $labelStyle = $this->defaultStyles[$layerName]['label']->merge($styledShape->labelStyle);
-        $transparency = $shapeStyle->transparency;
-
-        $msDefaultLayer = $msMapObj->getLayerByName($layerName);
-                                              
-        $key = $this->computeKey($shapeStyle, $labelStyle);
-
-        $layerStyles = $this->styles[$layerName];        
-        if (!array_key_exists($transparency, $layerStyles)) {
-            
-            // New transparency            
-            $layerStyles[$transparency] = array();
-            
-            $layer = ms_newLayerObj($msMapObj, $msDefaultLayer);
-
-            // FIXME: Mapscript 4.4 allows class removal
-            // for ($i = $layer->numclasses - 1; $i >= 0; $i--) {
-            //     $layer->removeClass($i);
-            // }            
-            $layer->set('transparency', $transparency);
-            $layer->set('name', $layerName . $transparency);           
-        } else if ($transparency == 
-            $this->defaultStyles[$layerName]['shape']->transparency) {
-            
-            // Same transparency as default layer
-            $layer = $msDefaultLayer;
-        } else {
-        
-            // Other transparency
-            $layer = $msMapObj->getLayerByName($layerName . $transparency);           
+    protected function drawFeature(StyledShape $shape, $layerName) {
+        if (is_null($layerName) || $layerName == '') {
+            throw new CartoserverException('Layer name is not set. ' .
+                                           'check your outline.ini');
         }
-        if (!array_key_exists($key, $layerStyles[$transparency])) {
-            $msDefaultClass = $msDefaultLayer->getClass(0);
-            
-            $classIndex = $layer->numclasses;
-            $class = ms_newClassObj($layer, $msDefaultClass);
-            
-            $this->updateClass($class, $shapeStyle, $labelStyle);
-            
-            $layerStyles[$transparency][$key] = $classIndex;     
-            $this->styles[$layerName] = $layerStyles;
+
+        // find or create a mapserver class for this style.
+        $layer = new LayerOverlay();
+        $layer->name = $layerName;
+        $layer->action = BasicOverlay::ACTION_SEARCH;
+        if (!is_null($shape->shapeStyle)) {
+            $layer->transparency = $shape->shapeStyle->transparency;            
         }
-        $classIndex = $layerStyles[$transparency][$key];
+        $layer->classes = array($this->getMsClass($shape->shapeStyle, 
+                                                  $shape->labelStyle));
+        // get the class index
+        try {
+            $mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
+        } catch (Exception $e) {
+            throw new CartoserverException('mapOverlay plugin not loaded, ' . 
+                                           'and needed by outline');
+        }
+        $result = $mapOverlay->updateMap($layer);
+
+        $f = $this->toShapeObj($shape->shape);
+
+        $f->set('text', $shape->label);
+        $f->set('classindex', $result->layers[0]->classes[0]->index);
+
+        $msLayer = $this->serverContext->getMapObj()->getLayer($result->layers[0]->index);
+        $msLayer->addFeature($f);
+        $msLayer->set('status', MS_ON);
+    }
+
+    /**
+     * @param StyleOverlay
+     * @param LabelOverlay
+     *
+     * @return ClassOverlay
+     */
+    protected function getMsClass($shapeStyle, $labelStyle) {
+        // search for a class with this style
+        $class = new ClassOverlay();
+        $class->action = BasicOverlay::ACTION_SEARCH;
+        $class->label = $labelStyle;
+        if (!is_null($shapeStyle)) {
+            $class->styles = array($shapeStyle);
+        }   
+        return $class;
     }
 
     /**
@@ -294,110 +145,27 @@ class ServerOutline extends ClientResponderAdapter {
      *
      * If point layer is not defined in configuration file, tries with
      * polygon layer.
-     * @param MsMapObj Mapserver Map object
      * @param StyledShape point
      */
-    protected function drawPoint($msMapObj, $point) {
+    protected function drawPoint($point) {
 
         $layerName = $this->getConfig()->pointLayer;
         if (!$layerName) {
             $layerName = $this->getConfig()->polygonLayer;
         }
-        
-        $line = ms_newLineObj();
-        $line->addXY($point->shape->x, $point->shape->y);
-
-        $p = ms_newShapeObj(MS_SHAPE_POLYGON);
-        $p->add($line);
-
-        if (!empty($point->label)) {
-            $p->set('text', $point->label);
-        }
-
-        $this->initializeStyles($msMapObj, $layerName);
-        $this->findClass($msMapObj, $layerName, $point, &$layer, &$classIndex);
-
-        $p->set('classindex', $classIndex);        
-        $layer->set('status', MS_ON);
-        $layer->addFeature($p);
+        $this->drawFeature($point, $layerName);
     }
+
 
     /**
      * Adds a line to Mapserver layer
      *
-     * @param MsMapObj Mapserver Map object
      * @param StyledShape line
      */
-     protected function drawLine($msMapObj, $line) {
+    protected function drawLine($line) {
           
-        $layerName = $this->getConfig()->lineLayer;
-        
-        $dLine = ms_newLineObj();
-                
-        foreach ($line->shape->points as $point) {
-            $dLine->addXY($point->x, $point->y);
-        }
-            
-        $p = ms_newShapeObj(MS_SHAPE_LINE);
-        $p->add($dLine);
-
-        if (!empty($line->label)) {
-            $p->set('text', $line->label);
-        }
-        
-        $this->initializeStyles($msMapObj, $layerName);
-        $this->findClass($msMapObj, $layerName, $line, &$layer, &$classIndex);
-
-        $p->set('classindex', $classIndex);        
-        $layer->set('status', MS_ON);
-        $layer->addFeature($p);
-    }
-
-    /**
-     * Adds a rectangle to Mapserver layer
-     *
-     * @see drawPolygon()
-     * @param MsMapObj Mapserver Map object
-     * @param StyledShape rectangle
-     * @param boolean mask mode on/off
-     */
-    protected function drawRectangle($msMapObj, $rectangle, $maskMode) {
-        $points = array();       
-        $points[] = new Point($rectangle->shape->minx, $rectangle->shape->miny);
-        $points[] = new Point($rectangle->shape->minx, $rectangle->shape->maxy);
-        $points[] = new Point($rectangle->shape->maxx, $rectangle->shape->maxy);
-        $points[] = new Point($rectangle->shape->maxx, $rectangle->shape->miny);
-
-        $polygon = new Polygon();
-        $polygon->points = $points;
-        $styledPolygon = new StyledShape();
-        $styledPolygon->shape = $polygon;
-        $styledPolygon->shapeStyle = $rectangle->shapeStyle;
-        $styledPolygon->label = $rectangle->label;
-        $styledPolygon->labelStyle = $rectangle->labelStyle;
-        
-        $this->drawPolygon($msMapObj, $styledPolygon, $maskMode);
-    }
-
-    /**
-     * Converts a Polygon to a Mapserver polygon object
-     * @param Polygon
-     * @return MsPolygonObj
-     */ 
-    protected function convertPolygon($polygon) {
-        $line = ms_newLineObj();
-
-        if (count($polygon->points) == 0)
-            throw new CartoserverException('Invalid polygon: has 0 points');
-        foreach ($polygon->points as $point) {
-            $line->addXY($point->x, $point->y);
-        }
-        $line->addXY($polygon->points[0]->x, $polygon->points[0]->y);
-    
-        $p = ms_newShapeObj(MS_SHAPE_POLYGON);
-        $p->add($line);
-        
-        return $p;
+        $this->drawFeature($line, 
+                           $this->getConfig()->lineLayer);
     }
 
     /**
@@ -412,26 +180,14 @@ class ServerOutline extends ClientResponderAdapter {
      * @param StyledShape polygon
      * @param boolean mask mode on/off
      */
-    protected function drawPolygon($msMapObj, $polygon, $maskMode) {
-
-        if (!$maskMode) { 
-
-            $layerName = $this->getConfig()->polygonLayer;
-
-            $p = $this->convertPolygon($polygon->shape);
-
-            if (!empty($polygon->label)) {
-                $p->set('text', $polygon->label);
-            }
-
-            $this->initializeStyles($msMapObj, $layerName);
-            $this->findClass($msMapObj, $layerName, $polygon, &$layer, &$classIndex);
-
-            $p->set('classindex', $classIndex);        
-            $layer->set('status', MS_ON);
-            $layer->addFeature($p);
+    protected function drawPolygon($polygon, $maskMode) {
+        if (!$maskMode) {
+            $this->drawFeature($polygon, 
+                               $this->getConfig()->polygonLayer);
         } else {
-        
+            // implementation note: this time we don't use MapOverlay because 
+            // the layer is not created in the mapfile.
+            $msMapObj = $this->serverContext->getMapObj();
             $image2 = $msMapObj->prepareimage();
             $rectangle = ms_newRectObj();
             $rectangle->setExtent($this->serverContext->getMaxExtent()->minx,
@@ -441,7 +197,7 @@ class ServerOutline extends ClientResponderAdapter {
 
             $maskLayer = ms_newLayerObj($msMapObj);
             $maskLayer->set("type", MS_LAYER_POLYGON);
-            $maskLayer->set("status", 1);
+            $maskLayer->set("status", MS_ON);
             $maskClass = ms_newClassObj($maskLayer);
             $maskStyle = ms_newStyleObj($maskClass);
             $color = $this->getConfig()->maskColor;
@@ -455,17 +211,14 @@ class ServerOutline extends ClientResponderAdapter {
             
             $maskStyle->color->setRGB(255, 0, 0);
             $maskStyle->outlinecolor->setRGB(255, 0, 0);
-                                          
-            $p = $this->convertPolygon($polygon->shape);
+
+            $p = $this->toShapeObj($polygon->shape);
             $p->draw($msMapObj, $maskLayer, $image2, 0, "");
 
             // No labels, no styles in mask mode
-                       
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
                                                                   0xff0000);
-            
         }
-
     }
 
     /**
@@ -488,39 +241,36 @@ class ServerOutline extends ClientResponderAdapter {
      * @return double area
      */
     public function draw($shapes, $maskMode = false) {
-
+        
         if (empty($shapes)) {
             return 0.0;
         }
-        
+                
         $msMapObj = $this->serverContext->getMapObj();
-
+        
         if ($maskMode) {
             $this->drawMap($msMapObj);
             $msMapObj->labelcache->free();
         }
-
+        
         $area = 0.0;
         foreach ($shapes as $shape) {
             switch (get_class($shape->shape)) {
             case 'Point':
-                $this->drawPoint($msMapObj, $shape, $maskMode);
+                $this->drawPoint($shape);
                 break;
             case 'Line':
-                $this->drawLine($msMapObj, $shape, $maskMode);
+                $this->drawLine($shape);
                 break;
             case 'Rectangle':
-                $this->drawRectangle($msMapObj, $shape, $maskMode);
-                break;
             case 'Polygon':
-                $this->drawPolygon($msMapObj, $shape, $maskMode);
+                $this->drawPolygon($shape, $maskMode);
                 break;
             default:
                 throw new CartoserverException('unknown shape type ' . 
                                                get_class($shape->shape));
             }
-            
-            $area += $shape->shape->getArea();
+            $area += $shape->shape->getArea();    
         }
         
         if (!$maskMode) {
@@ -543,12 +293,97 @@ class ServerOutline extends ClientResponderAdapter {
      * @return OutlineResult
      */
     public function handleDrawing($requ) {
-        
+
         $area = $this->draw($requ->shapes, $requ->maskMode);
         
         $result = new OutlineResult();
         $result->area = $area;
         return $result;
+    }
+
+    /**
+     * @see InitProvider::getInit
+     */
+    public function getInit() {
+        
+        $symbolsLabels = $this->getConfig()->getIniArray();
+
+        if($this->getConfig()->pointSymbols || $this->getConfig()->lineSymbols || 
+           $this->getConfig()->polygonSymbols) {
+            $this->generateSymbolIcon();
+        }
+
+        $outlineInit = new OutlineInit();
+        $outlineInit->point = Utils::parseArray($this->getConfig()->pointSymbols);
+        $outlineInit->pointLabels = Utils::parseArray($symbolsLabels["pointSymbols.labels"]);
+        $outlineInit->line = Utils::parseArray($this->getConfig()->lineSymbols);
+        $outlineInit->polygon = Utils::parseArray($this->getConfig()->polygonSymbols);
+
+        $outlineInit->pathToSymbols = $this->pathToSymbols;
+        $outlineInit->symbolType = $this->symbolType;
+
+        return $outlineInit;
+    }
+
+    /**
+     * Generate symbol icons to be used with symbol picker
+     */
+    protected function generateSymbolIcon() {
+        
+        $msMapObj = $this->serverContext->getMapObj();
+        $this->symbolType = $msMapObj->outputformat->extension;
+
+        $project = $this->serverContext->getProjectHandler()->getProjectName();
+        $writablePath = $this->serverContext->getConfig()->webWritablePath;
+        $mapId = $msMapObj->name;
+        $iconRelativePath = implode('/', array('icons', $project, $mapId)) . '/';
+        $iconAbsolutePath = Utils::pathToPlatform($writablePath . $iconRelativePath);
+        
+        $this->pathToSymbols = substr($iconAbsolutePath, 
+                                      strpos($iconAbsolutePath, 'generated'));
+         
+        // create fake layer to be able to generate icons from class/style
+        $newLayer = ms_newLayerObj($msMapObj);
+        $newLayer->set('type', MS_LAYER_POINT); // important
+        $newClass = ms_newClassObj($newLayer);
+        $newStyle = ms_newStyleObj($newClass);
+        $newStyle->color->setRGB(255, 0, 0); // important
+        $newStyle->set('size', 30); // important
+        
+        $refIndex = $newLayer->index;
+         
+        $symbolRefAr = array_merge(Utils::parseArray($this->getConfig()->pointSymbols), 
+                                   Utils::parseArray($this->getConfig()->lineSymbols),
+                                   Utils::parseArray($this->getConfig()->polygonSymbols));
+         
+        // loop through all symbols
+        for($ii=0; $ii < $msMapObj->getNumSymbols(); $ii++) {
+            $symbolName = $msMapObj->getSymbolObjectById($ii)->name;
+            // create icon only on selected symbols
+            if(in_array($symbolName, $symbolRefAr)) {
+                $newStyle->set('symbolname', $symbolName);
+                $iconPath = $iconAbsolutePath . $symbolName . '.' . $this->symbolType;
+                $invertedIconPath = $iconAbsolutePath . $symbolName . '_over.' . $this->symbolType; 
+                Utils::makeDirectoryWithPerms(dirname($iconPath), $writablePath);
+                 
+                if (!file_exists($iconPath) ||
+                    filemtime($this->serverContext->getMapPath()) > 
+                    filemtime($iconPath)) {
+
+                    $newIcon = $newClass->createLegendIcon(30,30);
+                    $check = $newIcon->saveImage($iconPath);
+                    $newIcon->free(); // free resources
+                    Utils::invertImage($iconPath, $invertedIconPath, true, $this->symbolType);
+
+                    if ($check < 0) {
+                        throw new CartoserverException("Failed writing $iconAbsolutePath");
+                    }
+                    $this->serverContext->checkMsErrors();
+                }
+            }
+        }        
+        // remove the layer
+        $newLayer->set("status", MS_DELETE);
     }
 }
 

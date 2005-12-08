@@ -10,7 +10,7 @@
 
       <complexType name="ShapeStyle">
         <all>
-          <element name="symbol" type="xsd:int"/>
+          <element name="symbol" type="xsd:string"/>
           <element name="size" type="xsd:int"/>
           <element name="color" type="types:Color"/>
           <element name="outlineColor" type="types:Color"/>
@@ -58,5 +58,16 @@
         <all>
           <element name="className" type="xsd:string"/>
           <element name="area" type="xsd:double"/>
+        </all>
+      </complexType>
+
+      <complexType name="OutlineInit">
+        <all>
+          <element name="point" type="types:ArrayOfString"/>
+          <element name="pointLabels" type="types:ArrayOfString"/>
+          <element name="line" type="types:ArrayOfString"/>
+          <element name="polygon" type="types:ArrayOfString"/>
+          <element name="pathToSymbols" type="xsd:string"/>
+          <element name="symbolType" type="xsd:string"/>
         </all>
       </complexType>

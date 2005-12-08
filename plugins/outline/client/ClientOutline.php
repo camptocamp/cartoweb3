@@ -29,10 +29,10 @@ class OutlineState {
 
     /** 
      * Current drawn styled shapes
-     * @var array
+     * @var array array of StyledShape
      */
     public $shapes;
-    
+
     /**
      * If true, will draw a mask instead of a standard shape
      * @var boolean
@@ -44,15 +44,33 @@ class OutlineState {
      * @var boolean
      */
     public $labelMode;
+
+    /**
+     * Current point style
+     * @var StyleOverlay
+     */
+    public $pointStyle;
+
+    /**
+     * Current line style
+     * @var StyleOverlay
+     */
+    public $lineStyle;
+
+    /**
+     * Current rectangle and polygon style
+     * @var StyleOverlay
+     */
+    public $polygonStyle;
 }
 
 /**
  * Client Outline class
  * @package Plugins
  */
-class ClientOutline extends ClientPlugin
-                    implements Sessionable, GuiProvider, ServerCaller,
-                    ToolProvider, Exportable {
+class ClientOutline extends ClientPlugin 
+                    implements Sessionable, GuiProvider, ServerCaller, 
+                               ToolProvider, Exportable, InitUser {
                     
     /**                    
      * @var Logger
@@ -70,10 +88,16 @@ class ClientOutline extends ClientPlugin
      */
     protected $area;
     
+    /**
+     * @var OutlineInit
+     */
+    protected $symbols;
+
     const TOOL_POINT     = 'outline_point';
     const TOOL_LINE      = 'outline_line';
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
+
 
     /**
      * Constructor
@@ -82,11 +106,15 @@ class ClientOutline extends ClientPlugin
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
-
+    
     /**
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
+
+        $this->log->debug('loading session:');
+        $this->log->debug($sessionObject);
+
         $this->outlineState = $sessionObject;
     }
 
@@ -95,18 +123,26 @@ class ClientOutline extends ClientPlugin
      */
     public function createSession(MapInfo $mapInfo, 
                                   InitialMapState $initialMapState) {
+
+        $this->log->debug('creating session.');
+             
         $this->outlineState = new OutlineState();
+
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
         $this->outlineState->labelMode = false;
-        
-        return;
+        $this->outlineState->pointStyle = new StyleOverlay();
+        $this->outlineState->lineStyle = new StyleOverlay();
+        $this->outlineState->polygonStyle = new StyleOverlay();
     }
 
     /**
      * @see Sessionable::saveSession()
      */
     public function saveSession() {
+        $this->log->debug('saving session:');
+        $this->log->debug($this->outlineState);
+
         return $this->outlineState;
     }
 
@@ -114,7 +150,7 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleMainmapTool()
      */
     public function handleMainmapTool(ToolDescription $tool, 
-                               Shape $mainmapShape) {
+                                      Shape $mainmapShape) {
         
         return $mainmapShape;
     }
@@ -123,7 +159,7 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {}
+                                     Shape $keymapShape) {}
 
     /**
      * @see ToolProvider::handleApplicationTool()
@@ -139,7 +175,7 @@ class ClientOutline extends ClientPlugin
                      new ToolDescription(self::TOOL_LINE, true, 71),
                      new ToolDescription(self::TOOL_RECTANGLE, true, 72),
                      new ToolDescription(self::TOOL_POLYGON, true, 73),
-                    );
+                     );
     }
 
     /**
@@ -155,34 +191,65 @@ class ClientOutline extends ClientPlugin
             $this->outlineState->maskMode = ($request['outline_mask'] == 'yes');
         }
 
+        /* update default ShapeStyle */
+        $this->outlineState->pointStyle->symbol = 
+            $this->getHttpValue($request, 'outline_point_symbol');
+        $this->outlineState->pointStyle->size = 
+            $this->getHttpValue($request, 'outline_point_size');
+        $this->outlineState->pointStyle->color->setFromHex(
+            $this->getHttpValue($request, 'outline_point_color'));
+
+        $this->outlineState->lineStyle->symbol = 
+            $this->getHttpValue($request, 'outline_line_symbol');
+        $this->outlineState->lineStyle->size = 
+            $this->getHttpValue($request, 'outline_line_size');
+        $this->outlineState->lineStyle->outlineColor->setFromHex(
+            $this->getHttpValue($request, 'outline_line_color'));
+        $this->outlineState->lineStyle->transparency = 
+            $this->getHttpValue($request, 'outline_line_transparency');
+
+        $this->outlineState->polygonStyle->outlineColor->setFromHex(
+            $this->getHttpValue($request, 'outline_polygon_outline_color'));
+        $this->outlineState->polygonStyle->color->setFromHex(
+            $this->getHttpValue($request, 'outline_polygon_background_color'));
+        $this->outlineState->polygonStyle->transparency = 
+            $this->getHttpValue($request, 'outline_polygon_transparency');
+
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
+
         if ($shape) {
             $styledShape = new StyledShape();
-            
-            // TODO: Add style management on client
-            
-            // Uncomment following code for testing
-            
-            // $shapeStyle = new ShapeStyle();
-            // $shapeStyle->color->setFromRGB(255,255,255);
-            // $shapeStyle->outlineColor->setFromRGB(0,0,0);
-            // $shapeStyle->backgroundColor->setFromRGB(255,0,0);
-            // $shapeStyle->size = 3;
-            // $shapeStyle->transparency = 100;
-            // $labelStyle = new LabelStyle();
-            // $labelStyle->size = 25;
-            // $labelStyle->color->setFromRGB(0,255,0);
-            
-            // $styledShape->shapeStyle = $shapeStyle;
-            // $styledShape->labelStyle = $labelStyle;
-            
+
+            // get options
+            switch ($this->getCartoclient()->getClientSession()->selectedTool) {
+            case self::TOOL_POINT:
+                $styledShape->shapeStyle = clone $this->outlineState->pointStyle;
+                break;
+                
+            case self::TOOL_LINE:
+                $styledShape->shapeStyle = clone $this->outlineState->lineStyle;
+                break;
+
+            case self::TOOL_RECTANGLE:
+            case self::TOOL_POLYGON:
+                $styledShape->shapeStyle = clone $this->outlineState->polygonStyle;
+                break;
+
+            default:
+                // we should never go here ...
+                break;
+            }
+
             $styledShape->shape = $shape;
+
             if ($this->getConfig()->labelMode
-                    && !empty($request['outline_label_text'])) {
-                $styledShape->label = Encoder::encode($request['outline_label_text'], 'output');
+                && !empty($request['outline_label_text'])) {
+                $styledShape->label = 
+                    Encoder::encode(stripslashes($request['outline_label_text']), 
+                                    'output');
             }
             if (!is_null($this->getConfig()->multipleShapes)
-                    && !$this->getConfig()->multipleShapes) {
+                && !$this->getConfig()->multipleShapes) {
                 $this->outlineState->shapes = array();
             }
             $this->outlineState->shapes[] = $styledShape;
@@ -192,8 +259,7 @@ class ClientOutline extends ClientPlugin
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    public function handleHttpGetRequest($request) {
-    }
+    public function handleHttpGetRequest($request) {}
     
     /**
      * @see ServerCaller::buildRequest()
@@ -213,10 +279,10 @@ class ClientOutline extends ClientPlugin
      * @see ServerCaller::initializeResult()
      */ 
     public function initializeResult($outlineResult) {
-        if (is_null($outlineResult)) {
-            return;
+
+        if (!is_null($outlineResult)) {
+            $this->area = $outlineResult->area;
         }
-        $this->area = $outlineResult->area;
     }
 
     /**
@@ -231,8 +297,43 @@ class ClientOutline extends ClientPlugin
     protected function drawOutline() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
-        $this->smarty->assign(array('outline_mask_selected' => $maskSelected,
-                                    'outline_area'          => $this->area));
+        
+        $transSymbols = array();
+
+        foreach($this->symbols->pointLabels as $val) {
+            $transSymbols[] = I18n::gt($val);
+        }
+        $this->smarty->assign(array(
+            'outline_mask_selected' => $maskSelected,
+            'outline_area' => $this->area,
+            
+            'outline_point_available_symbols' => $this->symbols->point,
+            'outline_point_available_symbolsLabels' => $transSymbols,
+            'outline_line_available_symbols' => $this->symbols->line,
+            
+            'outline_point_symbol_selected' => 
+                $this->outlineState->pointStyle->symbol,
+            'outline_point_size_selected' => $this->outlineState->pointStyle->size,
+            'outline_point_color_selected' => 
+                $this->outlineState->pointStyle->color->getHex(),
+            
+            'outline_line_symbol_selected' => $this->outlineState->lineStyle->symbol,
+            'outline_line_size_selected' => $this->outlineState->lineStyle->size,
+            'outline_line_color_selected' => 
+                $this->outlineState->lineStyle->outlineColor->getHex(),
+            'outline_line_transparency_selected' => 
+                $this->outlineState->lineStyle->transparency,
+            
+            'outline_polygon_outline_color_selected' => 
+                $this->outlineState->polygonStyle->outlineColor->getHex(),
+            'outline_polygon_background_color_selected' => 
+                $this->outlineState->polygonStyle->color->getHex(),
+            'outline_polygon_transparency_selected' => 
+                $this->outlineState->polygonStyle->transparency,
+            
+            'pathToSymbols' => $this->symbols->pathToSymbols,
+            'symbolType' => $this->symbols->symbolType,
+            ));
         return $this->smarty->fetch('outline.tpl');
     }
     
@@ -241,6 +342,7 @@ class ClientOutline extends ClientPlugin
      * @return string
      */    
     protected function drawOutlinelabel() {
+
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('outlinelabel.tpl');
     }
@@ -251,23 +353,32 @@ class ClientOutline extends ClientPlugin
     public function renderForm(Smarty $template) {
 
         $template->assign(array('outline_active' => true,
-                                'outline' => $this->drawOutline(),
-                                'outlinelabel' => $this->drawOutlinelabel()));
+                                'outline'        => $this->drawOutline(),
+                                'outlinelabel'   => $this->drawOutlinelabel()));
     }
 
     /**
      * @see Exportable::adjustExportMapRequest
      */
     public function adjustExportMapRequest(ExportConfiguration $configuration,
-                                    MapRequest $mapRequest) {
-
+                                           MapRequest $mapRequest) {
+        
         $printOutline = $configuration->getPrintOutline();
+
         if (!is_null($printOutline)) {
             $outlineRequest = new OutlineRequest();
             array_push($this->outlineState->shapes, $printOutline);
-            $outlineRequest->shapes   = $this->outlineState->shapes;
+            $outlineRequest->shapes = $this->outlineState->shapes;
             $mapRequest->outlineRequest = $outlineRequest;
         }
+    }
+
+    /**
+     * @see InitUser::handleInit
+     */
+    public function handleInit($outlineInit) {
+
+        $this->symbols = $outlineInit;
     }
 }
 

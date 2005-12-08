@@ -125,6 +125,7 @@ class ClientExportPdf extends ExportPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($exportPdfInit) {
+
         if (empty($exportPdfInit->mapServerResolution)) {
             throw new CartoclientException('MapServer resolution is missing.');
         }
@@ -767,8 +768,8 @@ class ClientExportPdf extends ExportPlugin
         $styledOutline = new StyledShape();
         $styledOutline->shape = $outline;
                 
-        $shapeStyle = new ShapeStyle();
-                
+        $shapeStyle = new StyleOverlay();
+      
         if (isset($this->general->overviewColor) && 
             $this->general->overviewColor &&
             $this->general->overviewColor != 'none') {

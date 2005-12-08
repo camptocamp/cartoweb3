@@ -348,6 +348,7 @@ class ServerMapOverlay extends ServerPlugin {
      * @return boolean
      */
     public function checkStyle($msStyle, StyleOverlay $overlay) {
+        
         if (!is_null($overlay->symbol)) {
             if (is_numeric($overlay->symbol)) {
                 if ($overlay->symbol != $msStyle->symbol)
@@ -767,7 +768,6 @@ class ServerMapOverlay extends ServerPlugin {
      * @return BasicOverlay
      */
     public function updateMap(BasicOverlay $overlay) {
-        
         $this->mapObj = $this->serverContext->getMapObj();
         $result = new MapOverlay();
         $result->layers = array();

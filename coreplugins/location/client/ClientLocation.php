@@ -265,7 +265,7 @@ class ClientLocation extends ClientPlugin
             $this->cartoclient->getPluginManager()->getPlugin('outline') != NULL) {
 
             $this->locationState->crosshair = new StyledShape();
-            $this->locationState->crosshair->shapeStyle = new ShapeStyle();
+            $this->locationState->crosshair->shapeStyle = new StyleOverlay();
 
             $symbol = $this->getConfig()->crosshairSymbol;
             if (!empty($symbol)) {
