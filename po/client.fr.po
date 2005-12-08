@@ -696,7 +696,7 @@ msgstr "Ordre des couches"
 
 #: templates/cartoclient.tpl
 msgid "Outline"
-msgstr "Outil de tracé :"
+msgstr "Outil de tracé"
 
 #: templates/cartoclient.tpl
 msgid "Views:"
