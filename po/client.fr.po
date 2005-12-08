@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-11-10 13:13+0100\n"
+"POT-Creation-Date: 2005-12-07 09:53+0100\n"
 "PO-Revision-Date: 2005-03-11 19:14+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
@@ -96,7 +96,6 @@ msgid "Layer to center on"
 msgstr "Couche pour le centrage"
 
 #: coreplugins/location/templates/id_recenter.tpl
-#, fuzzy
 msgid "Comma separated id's"
 msgstr "Id séparés par des virgules"
 
@@ -117,7 +116,6 @@ msgid "Shortcuts"
 msgstr "Raccourcis"
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Query information:"
 msgstr "Information de sélection :"
 
@@ -134,7 +132,6 @@ msgid "Policy"
 msgstr ""
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Mask Mode"
 msgstr "Mode masque"
 
@@ -143,14 +140,12 @@ msgid "Hilight"
 msgstr ""
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Attributes"
 msgstr "Voir attributs"
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Table"
-msgstr "Echelle"
+msgstr "Table"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
@@ -209,61 +204,87 @@ msgid "Click here to go back to the map"
 msgstr "Retour à la carte"
 
 #: plugins/exportHtml/templates/export.tpl
-#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl templates/cartoclient.tpl
 msgid "Print"
 msgstr "Imprimer"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Format:"
 msgstr "Format :"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Resolution:"
 msgstr "Résolution :"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Portrait"
 msgstr "Portrait"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Landscape"
 msgstr "Paysage"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Title:"
 msgstr "Titre :"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Note:"
 msgstr "Note :"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Scalebar"
 msgstr "Echelle"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Overview"
 msgstr "Aperçu"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "QueryResult"
 msgstr "Résultat de la requête"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Legend"
 msgstr "Légende"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "On map"
 msgstr "Carte principale"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "In new page"
 msgstr "Nouvelle page"
 
-#: plugins/exportPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "None"
 msgstr "Aucun"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Scale:"
+msgstr "Echelle"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Rotation:"
+msgstr "Rotation :"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Position:"
+msgstr "Position :"
 
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
@@ -276,6 +297,66 @@ msgstr "Vers le bas"
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Refresh"
 msgstr "Actualiser"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Drawing mode"
+msgstr "Mode"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Dessin"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr "Masque"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr "Point"
+
+#: plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr "symbole"
+
+#: plugins/outline/templates/outline.tpl
+msgid "size"
+msgstr "taille"
+
+#: plugins/outline/templates/outline.tpl
+msgid "color"
+msgstr "couleur"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Line"
+msgstr "Ligne"
+
+#: plugins/outline/templates/outline.tpl
+msgid "border size"
+msgstr "taille bordure"
+
+#: plugins/outline/templates/outline.tpl
+msgid "transparency"
+msgstr "transparence"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Rectangle/polygon"
+msgstr "Rectangle/polygone"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline color"
+msgstr "couleur bordure"
+
+#: plugins/outline/templates/outline.tpl
+msgid "background color"
+msgstr "couleur fond"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Surface totale"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr "Effacer les dessins"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "line label"
@@ -301,26 +382,6 @@ msgstr "votre titre"
 msgid "ok"
 msgstr "OK"
 
-#: plugins/outline/templates/outline.tpl
-msgid "Outliner plugin:"
-msgstr "Outil de tracé :"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Draw"
-msgstr "Dessin"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Mask"
-msgstr "Masque"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Total area"
-msgstr "Surface totale"
-
-#: plugins/outline/templates/outline.tpl
-msgid "outline_clear"
-msgstr "Effacer les tracés"
-
 #: plugins/routing/templates/routing.tpl
 msgid "Find path"
 msgstr "Chercher le chemin"
@@ -343,6 +404,42 @@ msgstr "Calculer l'itinéraire"
 
 #: plugins/routing/templates/routing.tpl
 msgid "Reset"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Choose layer"
+msgstr "Choix de la couche"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Features: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Inserted: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Modified: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Deleted: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Validate"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Cancel"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Edition not allowed"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "please login"
 msgstr ""
 
 #: plugins/views/templates/views.tpl
@@ -421,9 +518,117 @@ msgstr "Suppression"
 msgid "Delete view #"
 msgstr "Supprimer la vue n°"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl
+#: templates/toolPicker.tpl
+msgid "Tools"
+msgstr "Outils"
+
+#: templates/toolPicker.tpl
+msgid "Color"
+msgstr "Couleur"
+
+#: templates/toolPicker.tpl
+msgid "Hash"
+msgstr "Hachure"
+
+#: templates/toolPicker.tpl
+msgid "Pencil"
+msgstr "Pinceau"
+
+#: templates/toolPicker.tpl
+msgid "Symbol"
+msgstr "Symbole"
+
+#: templates/toolPicker.tpl
+msgid "Switch to color array"
+msgstr "Tableau de couleurs"
+
+#: templates/toolPicker.tpl
+msgid "Relative Brightness"
+msgstr "Luminosité relative"
+
+#: templates/toolPicker.tpl
+msgid "R"
+msgstr "R"
+
+#: templates/toolPicker.tpl
+msgid "Red"
+msgstr "Rouge"
+
+#: templates/toolPicker.tpl
+msgid "G"
+msgstr "V"
+
+#: templates/toolPicker.tpl
+msgid "Green"
+msgstr "Vert"
+
+#: templates/toolPicker.tpl
+msgid "B"
+msgstr "B"
+
+#: templates/toolPicker.tpl
+msgid "Blue"
+msgstr "Bleu"
+
+#: templates/toolPicker.tpl
+msgid "H"
+msgstr "T"
+
+#: templates/toolPicker.tpl
+msgid "Hue"
+msgstr "Teinte"
+
+#: templates/toolPicker.tpl
+msgid "S"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Saturation"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "L"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Luminance"
+msgstr "Luminescence"
+
+#: templates/toolPicker.tpl
+msgid "Switch to color gradient"
+msgstr "Mode "
+
+#: templates/toolPicker.tpl
+msgid "more colors"
+msgstr "plus de couleurs"
+
+#: templates/dhtmlcode.tpl
+msgid "overlapping polygons are not allowed"
+msgstr "Polygones croisés non autorisés"
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr "Etes-vous sûr ?"
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr "Objet non conforme"
+
+#: templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Veuillez patienter..."
+
+#: templates/mainmap.tpl templates/cartoclient.tpl
+msgid "keymap_alt"
+msgstr "alt_carteclef"
+
+#: templates/mainmap.tpl templates/cartoclient.tpl
 msgid "Collapse keymap"
 msgstr "Cacher la carte de référence"
+
+#: templates/unauthorized.tpl
+msgid "Unauthorized"
+msgstr "Accès non autorisé"
 
 #: templates/cartoclient.tpl
 msgid "Show keymap"
@@ -434,7 +639,6 @@ msgid "Current scale:"
 msgstr "Echelle actuelle : "
 
 #: templates/cartoclient.tpl
-#, fuzzy
 msgid "Coords (m):"
 msgstr "Coord. (m) :"
 
@@ -443,13 +647,12 @@ msgid "Dist approx.:"
 msgstr "Distance approx. :"
 
 #: templates/cartoclient.tpl
-#, fuzzy
 msgid "Approx. surface :"
 msgstr "Surface approx. :"
 
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
-msgstr "alt_barechelle"
+msgstr ""
 
 #: templates/cartoclient.tpl
 msgid " User messages "
@@ -491,34 +694,13 @@ msgstr "Vues"
 msgid "Layers reorder"
 msgstr "Ordre des couches"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl
-msgid "keymap_alt"
-msgstr "alt_carteclef"
+#: templates/cartoclient.tpl
+msgid "Outline"
+msgstr "Outil de tracé :"
 
 #: templates/cartoclient.tpl
 msgid "Views:"
 msgstr "Vues:"
-
-#: templates/dhtmlcode.tpl
-#, fuzzy
-msgid "overlapping polygons are not allowed"
-msgstr "Polygones croisés non autorisés"
-
-#: templates/dhtmlcode.tpl
-msgid "Are you sure ?"
-msgstr "Etes-vous sûr ?"
-
-#: templates/dhtmlcode.tpl
-msgid "Not conform object"
-msgstr "Objet non conforme"
-
-#: templates/mainmap.tpl
-msgid "Loading message"
-msgstr "Veuillez patienter..."
-
-#: templates/unauthorized.tpl
-msgid "Unauthorized"
-msgstr "Accès non autorisé"
 
 #: client/Views.php:161
 msgid "Action halted: invalid view Id"
@@ -543,67 +725,86 @@ msgstr "Nouvelle vue créée avec le n°%d"
 msgid "View #%d updated"
 msgstr "Vue n°%d mise à jour"
 
-#: client/Views.php:951 client/Views.php:1412
+#: client/Views.php:951 client/Views.php:1413
 #, php-format
 msgid "View #%d deleted"
 msgstr "Vue n°%d supprimée"
 
-#: client/Views.php:1301
+#: client/Views.php:1302
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Impossible d'ouvrir la vue n°%d"
 
-#: client/Views.php:1325
+#: client/Views.php:1326
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Impossible de charger la vue n°%d"
 
-#: client/Views.php:1337
+#: client/Views.php:1338
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Impossible d'enregistrer la vue n°%d"
 
-#: client/Views.php:1415
+#: client/Views.php:1416
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Impossible de supprimer la vue n°%d"
 
-#: client/Views.php:1474
+#: client/Views.php:1475
 msgid "Unable to open ViewDbContainer: "
 msgstr "Impossible d'ouvrir ViewDbContainer : "
 
-#: client/Views.php:1476 client/Views.php:1545
+#: client/Views.php:1477 client/Views.php:1546
 msgid "Service failed."
 msgstr "Service indisponible"
 
-#: client/Views.php:1543
+#: client/Views.php:1544
 msgid "Unable to process view."
 msgstr "Impossible de traiter la vue"
 
-#: client/Views.php:1554
+#: client/Views.php:1555
 #, php-format
 msgid "No result for view #%d"
 msgstr "Pas de résultat pour la vue n°%d"
 
-#: client/Views.php:1578
+#: client/Views.php:1579
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "Plus d'une vue affectées par l'édition de la vue n°%d"
 
-#: client/Views.php:1690
+#: client/Views.php:1691
 msgid "Unable to build views catalog"
 msgstr "Impossible de créer la liste des vues"
 
 #: coreplugins/images/client/ClientImages.php:321
-#, fuzzy
 msgid "label"
-msgstr "votre titre"
+msgstr ""
 
-#: coreplugins/layers/client/ClientLayers.php:1243
+#: coreplugins/layers/client/ClientLayers.php:1247
 msgid "Default"
 msgstr "Défaut"
 
-#: plugins/exportPdf/client/ClientExportPdf.php:1168
+#: htdocs/elk/about.php:26
+msgid "about file [about_"
+msgstr ""
+
+#: htdocs/elk/about.php:26
+msgid ".html] not found"
+msgstr ""
+
+#: htdocs/elk/contact.php:26
+msgid "contact file [contact_"
+msgstr ""
+
+#: htdocs/elk/copyright.php:26
+msgid "copyright file [copyright_"
+msgstr ""
+
+#: htdocs/elk/disclaimer.php:26
+msgid "disclaimer file [disclaimer_"
+msgstr ""
+
+#: plugins/exportPdf/client/ClientExportPdf.php:1263
 msgid "Click here to display PDF file"
 msgstr "Voir le fichier PDF produit"
 
@@ -643,15 +844,3 @@ msgstr "(placée à la fin)"
 #: scripts/testgettext.php:55
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext n'est pas installé correctement !"
-
-#~ msgid "Approx. distance: "
-#~ msgstr "Distance approx. :"
-
-#~ msgid "Number of segments limited to "
-#~ msgstr "Nombre de segments limité à "
-
-#~ msgid " currently drawn"
-#~ msgstr " actuellement dessinés."
-
-#~ msgid "Main map"
-#~ msgstr "Carte principale"
