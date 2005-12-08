@@ -218,6 +218,11 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     protected $isFormDisplayed = false;
 
     /**
+     * Auth session name prefix
+     */
+    const AUTH_SESSION_KEY = 'CW3_auth_session_key';
+
+    /**
      * Common code called by all Pear::Auth callbacks. It handles the login page
      * display.
      * @param string reason the page is called for
@@ -307,8 +312,13 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         if (isset($GLOBALS['headless'])) {
             return;
         }
-        
-        $this->auth = new Auth($proxyAuthContainer, array(), 
+       
+        $authSessionName = str_replace(Cartoclient::CLIENT_SESSION_KEY,
+                                       self::AUTH_SESSION_KEY,
+                                       $this->cartoclient->getSessionName());
+        $options = array('sessionName' => $authSessionName);
+       
+        $this->auth = new Auth($proxyAuthContainer, $options, 
                                array($this, 'loginCallback'), true);
 
         $this->auth->setLogoutCallback(array($this, 'logoutCallback'));
