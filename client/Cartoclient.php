@@ -598,7 +598,7 @@ class Cartoclient {
      * Builds and returns session name.
      * @return string
      */
-    private function getSessionName() {
+    public function getSessionName() {
         if (!isset($this->sessionName)) {
             
             $this->sessionName = sprintf('%s.%s.%s',
