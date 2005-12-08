@@ -39,11 +39,11 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 class plugins_outline_server_RemoteServerOutlineTest
                     extends client_CartoserverServiceWrapper {
 
-    function isTestDirect() {
+    public function isTestDirect() {
         return true;   
     }
     
-    function addShape($shapeClass, &$array, &$area, $labelText = '') {
+    private function addShape($shapeClass, &$array, &$area, $labelText = '') {
         $shape = new $shapeClass;
         switch ($shapeClass) {
         case 'Point':
@@ -75,7 +75,7 @@ class plugins_outline_server_RemoteServerOutlineTest
         $array[] = $styledShape;
     }
     
-    function doOutlineRequestSimpleShape($shapeClass, $maskMode, $labelText = '', $direct = false) {
+    private function doOutlineRequestSimpleShape($shapeClass, $maskMode, $labelText = '', $direct = false) {
         $outlineRequest = new OutlineRequest(); 
 
         $outlineRequest->shapes = array();
@@ -91,83 +91,83 @@ class plugins_outline_server_RemoteServerOutlineTest
         $this->assertEquals($area, $mapResult->outlineResult->area);
     }
     
-    function doOutlineRequestPoint($maskMode, $direct = false, $labelText = '') {
+    private function doOutlineRequestPoint($maskMode, $direct = false, $labelText = '') {
         $this->doOutlineRequestSimpleShape('Point', $maskMode, $labelText, $direct);
     }
     
-    function testOutlineRequestNoMaskPoint($direct = false) {
+    public function testOutlineRequestNoMaskPoint($direct = false) {
         $this->doOutlineRequestPoint(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestMaskPoint($direct = false) {
+    public function testOutlineRequestMaskPoint($direct = false) {
         $this->doOutlineRequestPoint(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestLabelPoint($direct = false) {
+    public function testOutlineRequestLabelPoint($direct = false) {
         $this->doOutlineRequestPoint(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestLine($maskMode, $direct = false, $labelText = '') {
+    private function doOutlineRequestLine($maskMode, $direct = false, $labelText = '') {
         $this->doOutlineRequestSimpleShape('Line', $maskMode, $labelText, $direct);
     }
     
-    function testOutlineRequestNoMaskLine($direct = false) {
+    public function testOutlineRequestNoMaskLine($direct = false) {
         $this->doOutlineRequestLine(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestMaskLine($direct = false) {
+    public function testOutlineRequestMaskLine($direct = false) {
         $this->doOutlineRequestLine(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
-    function testOutlineRequestLabelLine($direct = false) {
+    public function testOutlineRequestLabelLine($direct = false) {
         $this->doOutlineRequestLine(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestRectangle($maskMode, $direct = false, $labelText = '') {
+    private function doOutlineRequestRectangle($maskMode, $direct = false, $labelText = '') {
         $this->doOutlineRequestSimpleShape('Rectangle', $maskMode, $labelText, $direct);
     }
     
-    function testOutlineRequestNoMaskRectangle($direct = false) {
+    public function testOutlineRequestNoMaskRectangle($direct = false) {
         $this->doOutlineRequestRectangle(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestMaskRectangle($direct = false) {
+    public function testOutlineRequestMaskRectangle($direct = false) {
         $this->doOutlineRequestRectangle(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
-    function testOutlineRequestLabelRectangle($direct = false) {
+    public function testOutlineRequestLabelRectangle($direct = false) {
         $this->doOutlineRequestRectangle(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function doOutlineRequestPolygon($maskMode, $direct = false, $labelText = '') {
+    private function doOutlineRequestPolygon($maskMode, $direct = false, $labelText = '') {
         $this->doOutlineRequestSimpleShape('Polygon', $maskMode, $labelText, $direct);
     }
     
-    function testOutlineRequestNoMaskPolygon($direct = false) {
+    public function testOutlineRequestNoMaskPolygon($direct = false) {
         $this->doOutlineRequestPolygon(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestMaskPolygon($direct = false) {
+    public function testOutlineRequestMaskPolygon($direct = false) {
         $this->doOutlineRequestPolygon(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
     
-    function testOutlineRequestLabelPolygon($direct = false) {
+    public function testOutlineRequestLabelPolygon($direct = false) {
         $this->doOutlineRequestPolygon(false, $direct, 'FooBar');
         $this->redoDirect($direct, __METHOD__);
     }
     
-    function doOutlineRequestComplex($maskMode, $direct = false) {
+    private function doOutlineRequestComplex($maskMode, $direct = false) {
         $outlineRequest = new OutlineRequest(); 
 
         $outlineRequest->shapes = array();
@@ -190,12 +190,12 @@ class plugins_outline_server_RemoteServerOutlineTest
         $this->assertEquals($area, $mapResult->outlineResult->area);
     }
 
-    function testOutlineRequestNoMaskComplex($direct = false) {
+    public function testOutlineRequestNoMaskComplex($direct = false) {
         $this->doOutlineRequestComplex(false, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
 
-    function testOutlineRequestMaskComplex($direct = false) {
+    public function testOutlineRequestMaskComplex($direct = false) {
         $this->doOutlineRequestComplex(true, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
