@@ -1,6 +1,17 @@
 /* Copyright 2005 Camptocamp SA. 
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
+/* toolpicker global vars */
+var toolArrayRef =  new Array( 'colorPicker', 
+                                'hashArray',
+                                'pencilArray',
+                                'symbolArray'); /*'yourtool'*/
+var returnElementId;
+//var toolList = new Array();
+var menuList = '';
+var toolPickerReturnIds = new Array();
+var toolPickerInputIds = new Array();
+
 /* colorpicker global vars */
 var activeColorSpace = new Array('rgb', 'hsl');
 
@@ -20,19 +31,7 @@ var Tcmy = new Array('cmyC','cmyM','cmyY');
 var currentSymbol = '';
 // var symbolNamesArray dans template page
 
-/* toolpicker global vars */
-var returnElementId;
-//var toolList = new Array();
-var menuList = '';
-var toolArrayRef =  new Array( 'colorPicker', 
-                                'hashArray',
-                                'pencilArray',
-                                'symbolArray'); /*'yourtool'*/
-var toolPickerReturnIds = new Array();
-var toolPickerInputIds = new Array();
-
 // common functions list for callback (avoid using eval() )
-
 functionList = new Array();
 
 functionList["RGBtoHSL"]=RGBtoHSL;
@@ -178,10 +177,12 @@ function setupTool(toolname) {
     fctName = toolname+'Setup';
     functionList[fctName]();
 }
-
+/** 
+ *  generic function to return values 
+*/
 function toolPickerReturn() {
       
-    // many activated tools, concatenate return values
+    // many activated tools
     // check if there is an existing id at pos of tool index
     for (i=0;i<menuList.length;i++){
       toolname = toolArrayRef[menuList[i]-1];
@@ -200,17 +201,19 @@ function toolPickerReturn() {
       targetElm = xGetElementById(targetElmName);
       
       fctName = toolname+'Return';
-      // concatenate return values, separated by ,
+      // call tool specific return value functions
       returnValues = functionList[fctName]();
       targetElm.value = returnValues;
-      // display result
+      // call tool specific display result functions
       if (!xGetElementById(targetElmName+'_d'))
         return alert ("element "+targetElmName+"_d does not exist");
       targetHiddenElm = xGetElementById(targetElmName+'_d');
       toolPickerDisplay(targetHiddenElm, toolname);
     }
 }
-
+/** 
+ *  generic function to display values 
+*/
 function toolPickerDisplay(targetElm, toolname) {
     fctName = toolname+'Display';
     functionList[fctName](targetElm);
@@ -293,13 +296,13 @@ function symbolArraySetup() {
 // create symbol table
 function symbolTable() {
   nbSy = 5; //nb sybol per lines
-  nbLines = Math.floor(symbolNamesArray.length/nbSy);
+  nbLines = Math.ceil(symbolNamesArray.length/nbSy);
   if (symbolNamesArray.length%nbSy > 0)
     nbLines += 1;
 
   table = '';
   counter = counterL = 0;
-  for (var i=0;i<=nbLines;i++){
+  for (var i=0;i<nbLines;i++){
     table += '<div id="T'+counterL+'" style="float:left;clear:both;width:100%;">';
     for (j=0;j<nbSy;j++){
       if (counter == symbolNamesArray.length){
@@ -316,13 +319,18 @@ function symbolTable() {
     counterL++;
   }
   tableElm = xGetElementById('symboltable');
-  tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';;
+  tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';
 }
 // set event listener on created symbol blocks
 function setSymbolArrayListener() {
     children = xGetElementById('symboltable').childNodes;
     for (i=0;i<children.length;i++) {
-      addEvent(children[i], 'click', getSymbolFromArray, false);
+      if (children[i].id) {
+        child2 = children[i].childNodes;
+        for (j=0;j<child2.length;j++) {
+          addEvent(child2[j], 'click', getSymbolFromArray, false);
+        }
+      }
     }
 }
 /** 
@@ -344,17 +352,18 @@ function updateSymbol(){
         for (var i = 0; i < sybmElmList[k].childNodes.length; i++ ) {
             for (var j = 0; j < sybmElmList[k].childNodes[i].childNodes.length; j++ ) {
               imgSrc = sybmElmList[k].childNodes[i].childNodes[j].src
-
-              toCheck = imgSrc.substring(imgSrc.length-9, imgSrc.length-4);
+              // position of last dot
+              dotPos = imgSrc.lastIndexOf('.');
+              toCheck = imgSrc.substring(dotPos-5, dotPos);
               if (toCheck == '_over'){
-                sybmElmList[k].childNodes[i].childNodes[j].src = imgSrc.substring(0, imgSrc.length-9) + '.' + symbolType;
+                sybmElmList[k].childNodes[i].childNodes[j].src = imgSrc.substring(0, dotPos-5) + '.' + symbolType;
               }
             }
         }
     }
     // active new symbol
     activeSym = xGetElementById(currentSymbol);
-    activeSym.src = imgPath+'/'+currentSymbol+'_over.'+symbolType;
+    activeSym.src = imgPath+currentSymbol+'_over.'+symbolType;
     xGetElementById('symbolName').innerHTML = symbolLabelArray[getSymbolNumId(currentSymbol)];
     
 }
@@ -489,7 +498,6 @@ function colorPickerSetup()
     switchColorTool();
     // initialise brightness slider
     var c1 = xGetElementById('slider'); // slider container
-    //xMoveTo(c1, 0, 0);
     var d1 = xGetElementById('thumb'); // slider cursor
     xMoveTo(d1, 0, 0);
     xEnableDrag(d1, OnDragStart, OnDrag, OnDragEnd);
@@ -516,8 +524,7 @@ function colorPickerSetup()
         newX = Math.round(initialColor[j]*(xWidth(s)-xWidth(d)-2)/(colorSpaceWidth(activeColorSpace[i])));
         xMoveTo(thumb, newX, 0);
 
-        //dX = xWidth(s) - xWidth(d) - 2;
-        //xMoveTo(d, dX, 0);
+
         xEnableDrag(d, OnDragStart, dOnDrag, dOnDragEnd);
         xShow(s);
         xShow(d);
@@ -583,8 +590,6 @@ function dOnDrag(ele, mdx, mdy)
     if (sliderColorSpace != colorSpace) {
         fctName = colorSpace.toUpperCase()+"to"+sliderColorSpace.toUpperCase();
         modifiedColor = functionList[fctName](modifiedColor);
-        //newColor = functionList[fctName](modifiedColor);
-        //modifiedColor = newColor;
         colorSpace = sliderColorSpace;
     }
     // calculate the new color value
