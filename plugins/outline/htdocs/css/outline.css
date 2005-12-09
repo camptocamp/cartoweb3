@@ -1,0 +1,22 @@
+.outl_block_left {
+  width: 50%;
+  text-align: left;
+  margin-top:2px;
+}
+.outl_block_right {
+  width: 50%;
+  text-align: right;
+}
+.outl_symbol_block, .outl_color_block {
+  float:right;
+  width:30px;
+  border-width: 2px;
+  border-style: inset;
+  cursor:pointer;
+}
+.outl_symbol_block {
+  height:30px;
+}
+.outl_color_block {
+  height:15px;
+}
