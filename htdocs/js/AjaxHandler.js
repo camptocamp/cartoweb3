@@ -139,7 +139,7 @@ AjaxHandler = {
 		Logger.trace('Initiating async request');
 
 		// Adds triggered actionId to GET parameters
-		queryObject.get += 'ajaxActionRequest=' + actionId + '&';
+		queryObject.get = 'ajaxActionRequest=' + actionId + '&' + queryObject.get;
 				
 		Logger.trace('GET params:<br />'+queryObject.get);
 		Logger.trace('POST params:<br />'+queryObject.post);		
