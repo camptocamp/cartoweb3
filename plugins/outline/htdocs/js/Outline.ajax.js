@@ -48,7 +48,7 @@ AjaxPlugins.Outline.Actions.ChangeMode = {
 AjaxPlugins.Outline.Actions.Clear = {
 
 	buildPostRequest: function(argObject) {
-		return AjaxHandler.buildRequestFrom(argObject.target) + '&' + AjaxHandler.buildPostRequest();
+		return 'outline_clear=1' + '&' + AjaxHandler.buildPostRequest();
 	},
 	buildGetRequest: function(argObject) {
 		return '';

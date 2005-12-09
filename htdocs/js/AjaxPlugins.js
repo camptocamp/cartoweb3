@@ -53,7 +53,7 @@ AjaxPlugins.Common = {
 	  	var childNodesLength = mapDrawingLayer.childNodes.length;
 		for (i=0; i<childNodesLength; i++) {
 			mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
-		}	
+		}
 	},
 	
 	clearDhtmlStoredFeatures: function() {

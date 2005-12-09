@@ -171,8 +171,8 @@ AjaxHandler = {
 			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
 					Logger.trace('Response received!');
-					if (response.responseXML == undefined) {
-						Logger.error('AjaxHandler.ationRequest(): received response is malformed!');
+					if (typeof(response.responseXML) == 'undefined') {
+						Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 						if (showFaillure) {
 							ajaxErrorDivElement = document.createElement('div');
@@ -192,6 +192,7 @@ AjaxHandler = {
 							$('carto_form').appendChild(ajaxErrorDivElement);
 						}
 					} else {
+					    
 						AjaxHandler.handlePluginReponse(response, argObject);
 						// Call onAfterAjaxCall method for the called action
 						requestedPluginName = actionId.substr(0, actionId.indexOf('.'));
@@ -219,7 +220,7 @@ AjaxHandler = {
          * Creates the argObject and/or adds actionName and pluginName properties,
          * used by plugins predefined methods
          */
-		if (argObject == undefined)
+		if (typeof(argObject) == 'undefined')
 			argObject = {};
 		pluginName = actionId.substr(0, actionId.indexOf('.'));
 		actionName = actionId.substr(actionId.indexOf('.')+1);
