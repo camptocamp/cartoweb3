@@ -51,9 +51,9 @@ AjaxPlugins.Common = {
 	clearDhtmlStoredFeatures: function() {
 		// Clear the carto_form's selection_type and selection_coords hidden inputs
 		// hidden input fields' value
-		$('selection_type').value = null;
-		$('selection_coords').value = null;
-		$('features').value = null;	
+		$('selection_type').value = '';
+		$('selection_coords').value = '';
+		$('features').value = '';
 	},
 	
 	clearDhtmlOutlineLabel: function() {
