@@ -228,5 +228,5 @@ var AjaxHelper = {
 			x: mX - findPosX(t),
 			y: mY - findPosY(t)
 		};
-	},	
+	}	
 };

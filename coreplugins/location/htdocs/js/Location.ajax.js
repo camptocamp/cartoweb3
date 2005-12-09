@@ -56,7 +56,7 @@ AjaxPlugins.Location.Actions.Recenter = {
 	},
 	onAfterAjaxCall: function(argObject) {
 		$(AjaxPlugins.Location.recenterIdsId).value = '';
-	},
+	}
 };
 
 AjaxPlugins.Location.Actions.Zoom = {
@@ -69,7 +69,7 @@ AjaxPlugins.Location.Actions.Zoom = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
-	},
+	}
 };
 
 AjaxPlugins.Location.Actions.Pan = {

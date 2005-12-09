@@ -58,6 +58,7 @@ AjaxHandler = {
      *
      * @param string Id of the form to parse (optional)
      * @return string HTTP GET string from formId
+     * @requires AjaxHelper
      */
 	buildPostRequest: function(formId) {
 		if (formId == undefined)
@@ -65,9 +66,23 @@ AjaxHandler = {
 		return AjaxHelper.buildQuery(formId);
 	},
 
+    /**
+     * Returns the query string from an HTMLElement
+     *
+     * @param HTMLElement Element object to create the query from
+     * @return string HTTP GET string from the given element
+     * @requires AjaxHelper
+     */
 	buildRequestFrom: function(htmlElement) {
 		return AjaxHelper.buildQueryFrom(htmlElement);
 	},
+    /**
+     * Returns the query string from an HTML A element
+     *
+     * @param HTMLLinkElement Element object to create the querystring from
+     * @return string HTTP GET string from the given A element
+     * @requires AjaxHelper
+     */
     getQueryString: function(ahrefElement) {
 	    AjaxHelper.getQueryString(ahrefElement);
     },
@@ -77,6 +92,7 @@ AjaxHandler = {
 	 * and the argObject
 	 * to it's Javascript plugin image
 	 * (i.e. AjaxPlugins.[pluginName].handleResponse()
+     * @private
 	 */
 	handlePluginReponse: function(response, argObject) {
 
@@ -113,7 +129,8 @@ AjaxHandler = {
 		
 		// Display list of plugins that responded in debugger
 		pluginList = '';
-		for (i=0; i<pluginArray.length; i++) {pluginList += pluginArray[i]['pluginName']+' ';}
+		for (i=0; i<pluginArray.length; i++)
+			pluginList += pluginArray[i]['pluginName']+' ';
 		Logger.trace('Plugins that gave response: <strong>' + pluginList + '</strong>');
 		
 		/*
@@ -133,6 +150,7 @@ AjaxHandler = {
      * @param string Id of the triggered action (format: [PluginName].[ActionName]
      * @param Object Object containing arbitrary data for plugins' JS part's use
      * @param Object Object containing POST and/or GET queries for the Cartoclient
+     * @private
      */
 	actionRequest: function(actionId, argObject, queryObject) {
 
@@ -227,10 +245,13 @@ AjaxHandler = {
 	/**
 	 * Attaches an action to the given element (HTML element),
 	 * preventing Javascript errors
-	 * @param HTMLElement HTML DOM Element object to attach the listener on
-     * @param string Id of the triggered action (format: [PluginName].[ActionName]
+	 * @param string Id of the HTML element to attach the listener to
+     * @param string Type of event (click, change, mouseover, ...)
+     * @param string Id of the triggered action (format: [PluginName].[ActionName])
      * @param Object Object containing arbitrary data for plugins' JS part's use
 	 * @param bool Prevent event from bubbling through the DOM
+	 * @return bool True if success, false otherwise
+	 * @requires AjaxHelper
 	 */
 	attachAction: function(elementId, evType, actionId, argObject, useCapture) {
 		Logger.note('AjaxHandler.attachAction(): Attaching action:'+actionId+' to element id:'+elementId+'...');
@@ -275,7 +296,7 @@ AjaxHandler = {
 	 * @param string DOM element id
      * @param string DOM element property
      * @param string value of the 
-	 * @return bool true if update succeeds, false otherwise
+	 * @return bool True if update succeeds, false otherwise
 	 */
 	updateDomElement: function(elementId, property, value) {
 
@@ -386,6 +407,6 @@ Logger = {
 	confirm: function(msg) {
 		if (this.level >= 6)
 			this.send('<font color="lightgreen">' + 'OK: ' + msg + '</font>');
-	},
+	}
 }
 Logger.header ('Initializing the AJAX Javascript debugger...');
