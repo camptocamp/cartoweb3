@@ -207,70 +207,74 @@ class Utils {
     }
 
     /**
-     * Invert and save image
+     * Inverts and saves image.
+     *
+     * For a color negative image, set the optional flag:
+     * invertImage($input, '', true);
+     *
+     * For a black and withe negative image use like this:
+     * invertImage($input, '');
+     *
+     * If you want to save the output instead of just showing it,
+     * set the output to the path where you want to save the inverted image:
+     * invertImage('path/to/original/image.jpg','path/to/save/inverted-image.jpg');
+     *
+     * If you want to use png you have to set the color flag as
+     * true or false and define the imagetype in the function call:
+     * invertImage('path/to/image.png','',false,'png');
+     *
      * @param string the input image path
      * @param string the output image path
      * @param boolean 
      * @param string jpeg or png
      * @return array
      */
-    static public function invertImage($input, $output, $color=false, $type='jpeg') {
-        // for a color negative image, set the optional flag
-        // invert_image($input, '', true);
-
-        // for a black and withe negative image use like this
-        //
-        // invert_image($input, '');
-
-        // if you want to save the output instead of just showing it,
-        // set the output to the path where you want to save the inverted image
-        //
-        // invert_image('path/to/original/image.jpg','path/to/save/inverted-image.jpg');
-
-        // if you want to use png you have to set the color flag as
-        // true or false and define the imagetype in the function call
-        //
-        // invert_image('path/to/image.png','',false,'png');
-    
+    static public function invertImage($input, $output, 
+                                       $color = false, $type = 'jpeg') {
         switch ($type) {
-        case 'jpeg':
-        case 'jpg':
-            $img = imagecreatefromjpeg($input);
-            break;
-        case 'png':
-            $img = imagecreatefrompng($input);
-            break;
-        default:
-            throw new CartocommonException("$type is not a valid image type");
-            break;
+            case 'jpeg':
+            case 'jpg':
+                $img = imagecreatefromjpeg($input);
+                break;
+            case 'png':
+                $img = imagecreatefrompng($input);
+                break;
+            default:
+                throw new CartocommonException("$type is not a valid image type");
         }
 
         $x = imagesx($img);
         $y = imagesy($img);
 
-        for($i=0; $i < $y; $i++) {
-            for($j=0; $j < $x; $j++) {
+        for ($i = 0; $i < $y; $i++) {
+            for ($j = 0; $j < $x; $j++) {
                 $pos = imagecolorat($img, $j, $i);
                 $f = imagecolorsforindex($img, $pos);
-                if($color == true) {
-                    $col = imagecolorresolve($img, 255-$f['red'], 255-$f['green'], 255-$f['blue']);
+                if ($color == true) {
+                    $col = imagecolorresolve($img, 
+                                             255 - $f['red'], 
+                                             255 - $f['green'],
+                                             255 - $f['blue']);
                 } else {
-                    $gst = $f['red']*0.15 + $f['green']*0.5 + $f['blue']*0.35;
-                    $col = imagecolorclosesthwb($img, 255-$gst, 255-$gst, 255-$gst);
+                    $gst =  $f['red']   * 0.15;
+                    $gst += $f['green'] * 0.5;
+                    $gst += $f['blue']  * 0.35;
+                    $agst = 255 - $gst;
+                    $col = imagecolorclosesthwb($img, $agst, $agst, $agst);
                 }
                 imagesetpixel($img, $j, $i, $col);
             }
         }
         switch ($type) {
-        case 'jpeg':
-            imagejpeg($img, $output, 90);
-            break;
-        case 'png':
-            imagepng($img, $output);
-            break;
-        default:
-            throw new CartocommonException("$type is not a valid image type");
-            break;
+            case 'jpeg':
+            case 'jpg':
+                imagejpeg($img, $output, 90);
+                break;
+            case 'png':
+                imagepng($img, $output);
+                break;
+            default:
+                throw new CartocommonException("$type is not a valid image type");
         }
     }
 }
