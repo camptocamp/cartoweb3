@@ -305,17 +305,18 @@ class ServerOutline extends ClientResponderAdapter
      * @see InitProvider::getInit
      */
     public function getInit() {
-        
-        $symbolsLabels = $this->getConfig()->getIniArray();
 
         if($this->getConfig()->pointSymbols || $this->getConfig()->lineSymbols || 
            $this->getConfig()->polygonSymbols) {
             $this->generateSymbolIcon();
         }
-
+        
         $outlineInit = new OutlineInit();
         $outlineInit->point = Utils::parseArray($this->getConfig()->pointSymbols);
-        $outlineInit->pointLabels = Utils::parseArray($symbolsLabels["pointSymbols.labels"]);
+        
+        // special case: "pointSymbols.labels" has a dot, cannot use getConfig() directly
+        $tmp = "pointSymbols.labels";
+        $outlineInit->pointLabels = Utils::parseArray($this->getConfig()->$tmp);
         $outlineInit->line = Utils::parseArray($this->getConfig()->lineSymbols);
         $outlineInit->polygon = Utils::parseArray($this->getConfig()->polygonSymbols);
 
