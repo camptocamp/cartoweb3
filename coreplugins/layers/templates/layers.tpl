@@ -20,7 +20,7 @@
 {else}type="checkbox" name="layers[]" {/if}
 value="{$element.layerId}" id="in{$element.nodeId}"
   onclick="javascript:updateChecked('{$element.nodeId}');
-	if (typeof(AjaxHandler) == 'undefined') FormItemSelected(); else AjaxHandler.doAction('Layers.LayerShowHide');"
+	if (typeof(AjaxHandler) != 'undefined') AjaxHandler.doAction('Layers.LayerShowHide');"
   {if $element.layerChecked}checked="checked"{/if} />
 {/if}
 {/capture}
