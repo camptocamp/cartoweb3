@@ -1,67 +1,27 @@
-;general settings
-general.guiMode = classic
-general.formats = A4, A3
-general.defaultFormat = A4
-general.resolutions = 96, 150, 300
-general.defaultResolution = 96
-general.scales = 3, 5, 10, 15   ; used only if guiMode = rotate
-general.defaultScale = 10       ; used only if guiMode = rotate
-general.overviewScaleFactor = 10
-general.overviewColor = none
-general.overviewOutlineColor = red
-general.defaultOrientation = portrait
-general.activatedBlocks = mainmap, title, note, scalebar, overview, copyright, queryResult, page, date, legend, scaleval, tlcoords, brcoords, logo
+; NOTE: a comprehensive PDF configuration example is available in project test_main
+; (see cartoweb3/projects/test_main/client_conf/exportPdf.ini)
 
-general.pdfEngine = CwFpdf
-general.pdfVersion = 1.3
-general.output = redirection
-general.filename = "map-[date,dMY-Hi].pdf"
+;general settings
+general.formats = A4
+general.defaultFormat = A4
+general.resolutions = 96
+general.defaultResolution = 96
+general.activatedBlocks = mainmap, cw3_warning 
 general.distUnit = mm
 general.horizontalMargin = 10
 general.verticalMargin = 10
 general.allowedRoles = all
-general.importRemotePng = false
 
 ; formats settings
 formats.A4.label = A4
 formats.A4.bigDimension = 297
 formats.A4.smallDimension = 210
 
-formats.A3.label = A3
-formats.A3.bigDimension = 420
-formats.A3.smallDimension = 297
-
-; blocks default settings
+; minimal template
 template.type = text
-template.fontFamily = times
-template.fontSize = 12
-template.fontItalic = false
-template.fontBold = false
-template.color = black
-template.backgroundColor = white
 template.borderWidth = 0.25
-template.borderColor = black
-template.borderStyle = solid
-template.padding = 3
-template.horizontalMargin = 0
-template.verticalMargin = 0
-template.horizontalBasis = left
-template.verticalBasis = top
-template.hCentered = false
-template.zIndex = 1
-template.textAlign = center
-template.verticalAlign = center
-template.orientation = horizontal
-template.i18n = false
 
 ; blocks settings
-blocks.title.zIndex = 2
-blocks.title.weight = 10
-blocks.title.verticalBasis = top
-blocks.title.verticalMargin = 15
-blocks.title.hCentered = true
-blocks.title.fontSize = 15
-blocks.title.height = 15
 
 blocks.mainmap.zIndex = 0
 blocks.mainmap.weight = 10
@@ -69,121 +29,21 @@ blocks.mainmap.padding = 0
 blocks.mainmap.verticalMargin = 10
 blocks.mainmap.horizontalMargin = 10
 
-blocks.overview.padding = 0
-blocks.overview.parent = mainmap
-blocks.overview.width = 50
-blocks.overview.height = 40
-blocks.overview.weight = 10
-
-blocks.scalebar.padding = 2
-blocks.scalebar.inFlow = false
-blocks.scalebar.parent = mainmap
-blocks.scalebar.verticalBasis = bottom
-blocks.scalebar.horizontalBasis = right
-blocks.scalebar.horizontalMargin = 10
-blocks.scalebar.verticalMargin = 10
-
-blocks.note.zIndex = 3
-blocks.note.weight = 30
-blocks.note.height = 6
-blocks.note.hCentered = true
-blocks.note.verticalBasis = top
-blocks.note.borderWidth = 0
-blocks.note.borderWidth = 0
-blocks.note.multiPage = true
-
-blocks.copyright.content = "CartoWeb by Camptocamp SA"
-blocks.copyright.height = 5
-blocks.copyright.verticalBasis = bottom
-blocks.copyright.horizontalBasis = right
-blocks.copyright.verticalMargin = 10
-blocks.copyright.horizontalMargin = 4
-blocks.copyright.padding = 0
-blocks.copyright.zIndex = 5
-blocks.copyright.orientation = vertical
-blocks.copyright.borderWidth = 0
-blocks.copyright.multiPage = true
-
-blocks.queryResult.type = table
-blocks.queryResult.inNewPage = true
-blocks.queryResult.caption = tableCaption
-blocks.queryResult.headers = tableHeaders
-blocks.queryResult.height = 10
-blocks.queryResult.verticalMargin = 10
-blocks.queryResult.hCentered = true
-
-blocks.tableCaption.backgroundColor = white
-blocks.tableCaption.color = black
-
-blocks.tableHeaders.backgroundColor = white
-blocks.tableHeaders.color = black
-
-blocks.legend.type = legend
-blocks.legend.zIndex = 1
-blocks.legend.weight = 40
-blocks.legend.fontSize = 8
-blocks.legend.height = 5
-blocks.legend.width = 50
-blocks.legend.padding = 1.5
-blocks.legend.verticalMargin = 10
-blocks.legend.horizontalMargin = 10
-
-blocks.page.multiPage = true
-blocks.page.borderWidth = 0
-blocks.page.verticalBasis = bottom
-blocks.page.horizontalMargin = 10
-blocks.page.verticalMargin = 3
-blocks.page.padding = 0
-blocks.page.height = 6
-blocks.page.zIndex = 6
-
-;blocks.date.content = "Generated on [Y/m/d H:i] by CartoWeb3"
-blocks.date.content = "Y/m/d H:i"
-blocks.date.i18n = true
-blocks.date.multiPage = true
-blocks.date.borderWidth = 0
-blocks.date.verticalBasis = bottom
-blocks.date.verticalMargin = 3
-blocks.date.hCentered = true
-blocks.date.padding = 0
-blocks.date.height = 6
-blocks.date.zIndex = 7
-
-blocks.logo.type = image
-blocks.logo.content = "htdocs/gfx/layout/c2c.png"
-blocks.logo.width = 40
-blocks.logo.height = 7
-blocks.logo.padding = 2
-blocks.logo.parent = mainmap
-blocks.logo.horizontalBasis = right
-blocks.logo.inFlow = false
-blocks.logo.horizontalMargin = 5
-blocks.logo.verticalMargin = 5
-
-blocks.scaleval.zIndex = 4
-blocks.scaleval.height = 6
-blocks.scaleval.horizontalBasis = right
-blocks.scaleval.borderWidth = 0
-blocks.scaleval.horizontalMargin = 10
-blocks.scaleval.verticalMargin = 3
-blocks.scaleval.padding = 0
-
-blocks.tlcoords.content = xy
-blocks.tlcoords.zIndex = 4
-blocks.tlcoords.height = 6
-blocks.tlcoords.borderWidth = 0
-blocks.tlcoords.padding = 0
-blocks.tlcoords.inFlow = false
-blocks.tlcoords.verticalMargin = 3
-blocks.tlcoords.horizontalMargin = 10
-
-blocks.brcoords.content = xy
-blocks.brcoords.zIndex = 4
-blocks.brcoords.height = 6
-blocks.brcoords.borderWidth = 0
-blocks.brcoords.padding = 0
-blocks.brcoords.inFlow = false
-blocks.brcoords.verticalBasis = bottom
-blocks.brcoords.horizontalBasis = right
-blocks.brcoords.verticalMargin = 3
-blocks.brcoords.horizontalMargin = 10
+blocks.cw3_warning.zIndex = 100
+blocks.cw3_warning.hCentered = true
+blocks.cw3_warning.vCentered = true
+blocks.cw3_warning.fontSize = 20
+blocks.cw3_warning.fontBold = true
+blocks.cw3_warning.fontFamily = arial
+blocks.cw3_warning.height = 50
+blocks.cw3_warning.width = 150
+blocks.cw3_warning.color = red
+blocks.cw3_warning.backgroundColor = white
+blocks.cw3_warning.borderWidth = 1
+blocks.cw3_warning.borderColor = red
+blocks.cw3_warning.borderStyle = solid
+blocks.cw3_warning.padding = 5
+blocks.cw3_warning.textAlign = center
+blocks.cw3_warning.verticalAlign = center
+blocks.cw3_warning.type = text
+blocks.cw3_warning.content = "Please edit your exportPdf.ini config file!"
