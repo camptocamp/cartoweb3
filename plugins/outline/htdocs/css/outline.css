@@ -1,54 +1,29 @@
-.outl_symbol_block, .outl_block_right, .outl_block_left {
+.outl_symbol_block, outl_block_center {
   margin-top:2px;
   margin-bottom:2px;
 }
-.outl_block_left, .outl_block_right, .outl_hline {
-  /*width: 60%;*/
-}
-.outl_block_left {
-  text-align: left;
-}
-.outl_block_right {
-  text-align: right;
+.outl_block_center {
+  text-align: center;
 }
 .outl_symbol_block, .outl_color_block {
-  float:right;
   width:30px;
-  border-width: 2px;
+  border-width: 1px;
   border-style: outset;
   cursor:pointer;
   border-color: rgb(212, 208, 202);
   margin-bottom: 4px;
 }
+
 .outl_symbol_block {
   height:30px;
 }
 .outl_color_block {
   height:16px;
-  margin: inherit;
-}
-.outl_input_block {
-  width:50px;
-  float:left;
-  text-align: left;
-}
-.outl_block_right input {
-  width:30px;
-  margin-top:2px;
-  margin: inherit;
 }
 .outl_block_left input {
-  float: right;
-  /*clear:both;*/
   margin: inherit;
-  /*margin-bottom: 4px;*/
-}
-.outl_hline {
-  height: 1px;
-  background-color: rgb(211,211,211);
-  font-size: 1px;
-  margin-top: 4px;
 }
 .outl{
   padding:10px;
+  position: relative;
 }
