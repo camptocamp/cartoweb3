@@ -17,6 +17,8 @@ AjaxPlugins = {};
 
 AjaxPlugins.Common = {
 
+	mapCursorStyle: '',
+
 	/* Plugins' actions initialisation */
 	init: function() {
 		Logger.header('Initiating actions');
@@ -26,13 +28,19 @@ AjaxPlugins.Common = {
 
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function(actionId) {
-		xShow($('loadbarDiv'));
+		this.mapCursorStyle = $("map").style.cursor;
+		$("map").style.cursor = "wait";
+		document.getElementsByTagName("body")[0].style.cursor = "wait";
+		//xShow($('loadbarDiv'));
 	},
 	onAfterAjaxCall: function(actionId) {
 		AjaxPlugins.Common.clearDhtmlDrawings();
 		AjaxPlugins.Common.clearDhtmlStoredFeatures();
 		AjaxPlugins.Common.clearDhtmlOutlineLabel();
-		xHide($('loadbarDiv'));
+		
+		document.getElementsByTagName("body")[0].style.cursor = "default";
+		$("map").style.cursor = this.mapCursorStyle;
+		//xHide($('loadbarDiv'));
 	},
 
 	
