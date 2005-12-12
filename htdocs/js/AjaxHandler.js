@@ -171,7 +171,8 @@ AjaxHandler = {
 			{method: 'post', postBody: queryObject.post,
 				onComplete: function(response) {
 					Logger.trace('Response received!');
-					if (typeof(response.responseXML) == 'undefined') {
+					responseTag = response.responseText.substring(0, 5);
+					if (responseTag != '<?xml') {
 						Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
 						showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 						if (showFaillure) {
