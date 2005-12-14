@@ -246,7 +246,7 @@ class Utils {
         // check if GD is installed in PHP
         $GDversion = gd_info();
         if(!$GDversion || $GDversion["GD Version"] == '')
-          	throw new CartocommonException("GD library not found! The GD library in PHP is required "
+           throw new CartocommonException("GD library not found! The GD library in PHP is required "
                                             ."for symbol creation in outline plugin");
 
         $x = imagesx($img);
