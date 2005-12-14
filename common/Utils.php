@@ -243,6 +243,10 @@ class Utils {
                 throw new CartocommonException("$type is not a valid image type");
         }
 
+        // check if GD is installed in PHP
+        if(sizeof(gd_info()) < 0)
+          	throw new CartocommonException("You need to install the GD library in PHP!");
+
         $x = imagesx($img);
         $y = imagesy($img);
 
