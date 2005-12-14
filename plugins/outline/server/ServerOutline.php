@@ -22,6 +22,15 @@
  */
 
 /**
+ * Exception to be used by the server.
+ * 
+ * @package Plugins
+ */
+class CartopluginException extends CartowebException {
+
+}
+
+/**
  * Server Outline class
  * @package Plugins
  */
@@ -340,8 +349,8 @@ class ServerOutline extends ClientResponderAdapter
         $iconRelativePath = implode('/', array('icons', $project, $mapId)) . '/';
         $iconAbsolutePath = Utils::pathToPlatform($writablePath . $iconRelativePath);
         
-        $this->pathToSymbols = substr($iconAbsolutePath, 
-                                      strpos($iconAbsolutePath, 'generated'));
+        $resourceHandler = $this->serverContext->getResourceHandler();
+        $this->pathToSymbols = $resourceHandler->getGeneratedUrl($iconRelativePath);
          
         // create fake layer to be able to generate icons from class/style
         $newLayer = ms_newLayerObj($msMapObj);
