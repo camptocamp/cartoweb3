@@ -324,8 +324,9 @@ class ServerEdit extends ClientResponderAdapter {
      */
     protected function deleteFeature($feature) {
         $db = $this->getDb($this->layer);
-        $sql = sprintf("DELETE FROM %s " .
+        $sql = sprintf("DELETE FROM %s.%s " .
                        "WHERE %s = %s",
+                               $this->editSchema,
                                $this->editTable,
                                $this->idField,
                                $feature->id
