@@ -231,6 +231,11 @@ class Utils {
      */
     static public function invertImage($input, $output, 
                                        $color = false, $type = 'jpeg') {
+        // check if GD is installed in PHP
+        if(!function_exists('gd_info'))
+           throw new CartocommonException("GD library not found! The GD library in PHP is required "
+                                            ."for symbol creation in outline plugin");        
+
         switch ($type) {
             case 'jpeg':
             case 'jpg':
@@ -242,12 +247,6 @@ class Utils {
             default:
                 throw new CartocommonException("$type is not a valid image type");
         }
-
-        // check if GD is installed in PHP
-        $GDversion = gd_info();
-        if(!$GDversion || $GDversion["GD Version"] == '')
-           throw new CartocommonException("GD library not found! The GD library in PHP is required "
-                                            ."for symbol creation in outline plugin");
 
         $x = imagesx($img);
         $y = imagesy($img);
