@@ -196,13 +196,12 @@ class ServerLayers extends ClientResponderAdapter
         $msMapObj = $this->serverContext->getMapObj();
 
         $layerIds = $requ->layerIds;
-        $this->requestedLayerNames = $layerIds;
-        
         if (!is_array($layerIds)) {
-            throw new CartoclientException('Invalid layer request: ' .
-                                           'layerIds not array');
+            throw new CartoserverException('Invalid layer request: ' .
+                                           'layerIds is not an array.');
             return;
         }
+        $this->requestedLayerNames = $layerIds;
 
         $this->log->debug('layers to draw: ');
         $this->log->debug($layerIds);
