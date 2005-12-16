@@ -20,7 +20,7 @@ class ClientProjectTableRules extends ClientPlugin {
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
-    public function computeQueryUrl($inputValues) {
+    public function computeQueryUrl($tableId, $inputValues) {
         $fname = 'no_fname';
         if (isset($inputValues['FNAME']))
             $fname =  $inputValues['FNAME'];
