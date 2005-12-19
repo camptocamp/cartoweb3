@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding='{$encoding}'?>
 <pluginResponse>
 {foreach from=$pluginResponses key=pluginName item=pluginResponse}
 	<plugin name="{$pluginName}">
