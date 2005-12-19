@@ -228,7 +228,7 @@ class ClientEdit extends ClientPlugin
 
             if (isset ($value['operation'])) {
                 $id = substr($key, strlen("edit_feature_"));
-                $this->updateFeaturesArray($id, $value);
+                $this->updateFeaturesArray($id, Encoder::encode($value));
             }
         }
     }
@@ -324,7 +324,7 @@ class ClientEdit extends ClientPlugin
             $str = "";
             foreach ($feature->attributes as $key=>$val) {
                 if (in_array($key, $this->editState->attributeNames))
-                    $str .= "\"".$val."\",";
+                    $str .= "\"" . Encoder::decode($val) . "\",";
             }
             $str = substr($str, 0, strlen($str) - 1);
             $feature->attributesAsString = $str;
