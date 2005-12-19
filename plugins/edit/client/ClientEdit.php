@@ -340,7 +340,7 @@ class ClientEdit extends ClientPlugin
         if (isset($this->editState->attributeNames) && $this->editState->attributeNames) {
             $str = "";
             foreach ($this->editState->attributeNames as $val)
-                $str .= "\"".$val."\",";
+                $str .= "\"".I18n::gt($val)."\",";
             $str = substr($str, 0, strlen($str) - 1);
             // TODO internationalisation of field names
             $template->assign('attribute_names', $str);
