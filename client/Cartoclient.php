@@ -862,7 +862,10 @@ class Cartoclient {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
-            return $this->formRenderer->showForm();
+            $output = $this->formRenderer->showForm();
+            $this->callPluginsImplementing('Sessionable', 'saveSession');
+            $this->saveSession($this->clientSession);
+            return $output;
         }
 
         $mapRequest = $this->getMapRequest();
