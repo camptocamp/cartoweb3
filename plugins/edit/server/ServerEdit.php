@@ -241,7 +241,7 @@ class ServerEdit extends ClientResponderAdapter {
             $attributesFieldsSql = "";
             $attributesValuesSql = "";
             foreach ($feature->attributes as $key=>$val) {
-                $val = ($val == "")? "NULL" : "'".$val."'";
+                $val = ($val == "")? "NULL" : "'" . Encoder::decode($val, 'config') . "'";
                 if (in_array($key, $editableAttributes))
                     $attributesFieldsSql .= ", ".$key;
                     $attributesValuesSql .= ", " . $val . "";
@@ -287,7 +287,7 @@ class ServerEdit extends ClientResponderAdapter {
         if ($feature->attributes) {
             $attributesSql = NULL;
             foreach ($feature->attributes as $key=>$val) {
-                $val = ($val == "")? "NULL" : "'".$val."'";
+                $val = ($val == "")? "NULL" : "'" . Encoder::decode($val, 'config') . "'";
                 if (in_array($key, $editableAttributes))
                     $attributesSql .= sprintf(", %s = %s", $key, $val);
             }
@@ -324,8 +324,9 @@ class ServerEdit extends ClientResponderAdapter {
      */
     protected function deleteFeature($feature) {
         $db = $this->getDb($this->layer);
-        $sql = sprintf("DELETE FROM %s " .
+        $sql = sprintf("DELETE FROM %s.%s " .
                        "WHERE %s = %s",
+                               $this->editSchema,
                                $this->editTable,
                                $this->idField,
                                $feature->id
@@ -414,7 +415,7 @@ class ServerEdit extends ClientResponderAdapter {
                         foreach ($row as $attribute=>$value) {
                             // get all but geometry column as attribute
                             if ($attribute != $this->geomColumn) {
-                                $feature->attributes[$attribute] = $value;
+                                $feature->attributes[$attribute] = Encoder::encode($value, 'config');
                             }
                         }
                         
@@ -455,7 +456,7 @@ class ServerEdit extends ClientResponderAdapter {
                         foreach ($row as $attribute=>$value) {
                             // get all but geometry column as attribute
                             if ($attribute != $this->geomColumn) {
-                                $feature->attributes[$attribute] = $value;
+                                $feature->attributes[$attribute] = Encoder::encode($value, 'config');
                             }
                         }
                         
@@ -509,7 +510,7 @@ class ServerEdit extends ClientResponderAdapter {
             foreach ($r[0] as $attribute=>$value) {
                 // get all but geometry column as attribute
                 if ($attribute != $this->geomColumn) {
-                    $feature->attributes[$attribute] = $value;
+                    $feature->attributes[$attribute] = Encoder::encode($value, 'config');
                 }
             }
             
