@@ -352,9 +352,11 @@ class FormRenderer {
 		    if (!$ajaxPluginResponse->isEmpty())
 		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
 	    }
+        
+        // Sets the XML encoding
+        $this->smarty->assign('encoding', Encoder::getCharset());
 
         // Adds user and developer messages to ajaxPluginResponses
-
         $ajaxPluginResponse = new AjaxPluginResponse();
         $messages = $this->getMessages();
         $userMessages = $this->getUserMessages($messages);
