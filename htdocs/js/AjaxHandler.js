@@ -285,6 +285,7 @@ AjaxHandler = {
 				event.returnValue = false;
 			if (event.preventDefault)
 				event.preventDefault();
+			Event.stop(event); // Uses prototype.js Event object
 		}, useCapture);
 		
 		Logger.confirm('Done.');
