@@ -339,11 +339,16 @@ class ClientEdit extends ClientPlugin
         // get the attributes names list
         if (isset($this->editState->attributeNames) && $this->editState->attributeNames) {
             $str = "";
-            foreach ($this->editState->attributeNames as $val)
-                $str .= "\"".I18n::gt($val)."\",";
+            $str_i18n = "";
+            foreach ($this->editState->attributeNames as $val) {
+                $str .= "\"".$val."\",";
+                $str_i18n .= "\"".I18n::gt($val)."\",";
+            }
             $str = substr($str, 0, strlen($str) - 1);
+            $str_i18n = substr($str_i18n, 0, strlen($str_i18n) - 1);
             // TODO internationalisation of field names
             $template->assign('attribute_names', $str);
+            $template->assign('attribute_names_i18n', $str_i18n);
         }
         
         // get the attributes types list
@@ -403,6 +408,7 @@ class ClientEdit extends ClientPlugin
         }
         if (isset($editResult->attributeNames))
             $this->editState->attributeNames = $editResult->attributeNames;
+        
         if (isset($editResult->attributeTypes))
             $this->editState->attributeTypes = $editResult->attributeTypes;
             
