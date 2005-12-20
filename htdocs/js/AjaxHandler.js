@@ -264,7 +264,7 @@ AjaxHandler = {
 		if (typeof(elementId) == 'string') {
 			element = $(elementId);
 		} else {
-			Logger.error('argument elementId must be a string (\''+typeof(elementId)+'\' received)');
+			Logger.error('argument elementId must be a string (argument of type \''+typeof(elementId)+'\' received)');
 			return false;			
 		}
 		if (typeof(element) == undefined || element == null) {
