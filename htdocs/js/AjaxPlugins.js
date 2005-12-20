@@ -30,7 +30,7 @@ AjaxPlugins.Common = {
 	onBeforeAjaxCall: function(actionId) {
 		this.mapCursorStyle = $("map").style.cursor;
 		$("map").style.cursor = "wait";
-		document.getElementsByTagName("body")[0].style.cursor = "wait";
+		document.getElementsByTagName("body")[0].style.cursor = "progress";
 		//xShow($('loadbarDiv'));
 	},
 	onAfterAjaxCall: function(actionId) {
