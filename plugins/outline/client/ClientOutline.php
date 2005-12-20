@@ -21,6 +21,8 @@
  * @version $Id$
  */
 
+define('OUTLINE_SESSION_VERSION', 2);
+
 /**
  * Contains the state of an outline.
  * @package Plugins
@@ -62,6 +64,19 @@ class OutlineState {
      * @var StyleOverlay
      */
     public $polygonStyle;
+}
+
+/**
+ * Upgrades from V1 to V2
+ */
+class OutlineV1ToV2 extends ViewUpgrader {
+    
+    protected function callFilters() {
+
+        $this->add('pointStyle', new StyleOverlay());
+        $this->add('lineStyle', new StyleOverlay());
+        $this->add('polygonStyle', new StyleOverlay());
+    }
 }
 
 /**
@@ -310,7 +325,7 @@ class ClientOutline extends ClientPlugin
             'outline_point_available_symbols' => $this->symbols->point,
             'outline_point_available_symbolsLabels' => $transSymbols,
             'outline_line_available_symbols' => $this->symbols->line,
-            
+           
             'outline_point_symbol_selected' => 
                 $this->outlineState->pointStyle->symbol,
             'outline_point_size_selected' => $this->outlineState->pointStyle->size,
