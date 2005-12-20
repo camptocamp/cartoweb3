@@ -343,9 +343,9 @@ Map.prototype.drawEditAttributesTable = function() {
   
   var row = xCreateElement ('tr');
 
-  for (var i = 0; i < this.editAttributeNames.length; i++) {
+  for (var i = 0; i < this.editAttributeNamesI18n.length; i++) {
     var cell = xCreateElement('th');
-    cell.innerHTML = this.editAttributeNames[i];
+    cell.innerHTML = this.editAttributeNamesI18n[i];
     xAppendChild(row, cell);
   }
   // add column for radio button
