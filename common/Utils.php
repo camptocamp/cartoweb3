@@ -195,14 +195,15 @@ class Utils {
 
 
     /**
-     * Converts a comma-separated string to an array
+     * Converts a character-separated string to an array
      * @param string
+     * @param stringDivider
      * @return array
      */
-    static public function parseArray($value) {
+    static public function parseArray($value, $valueDivider=',') {
         if (!$value)
             return array();
-        $value = explode(',', $value);
+        $value = explode($valueDivider, $value);
         return array_map('trim', $value);
     }
 
