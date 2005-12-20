@@ -197,7 +197,7 @@ class ServerMapquery extends ServerPlugin {
     protected function checkImplementedConnectionTypes($msLayer) {
     
         $implementedConnectionTypes = array(MS_SHAPEFILE, MS_TILED_SHAPEFILE,
-            MS_POSTGIS, MS_ORACLESPATIAL);
+            MS_OGR, MS_POSTGIS, MS_ORACLESPATIAL);
         
         if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
             return;
