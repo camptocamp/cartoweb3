@@ -30,8 +30,8 @@ class PositionOverlay extends CwSerializable {
     /**
      * Type constants
      */
-    const TYPE_ABSOLUTE = 0;   
-    const TYPE_RELATIVE = 1; 
+    const TYPE_ABSOLUTE = 0;
+    const TYPE_RELATIVE = 1;
     
     /**
      * Type of position (absolute or relative)
@@ -389,53 +389,111 @@ class ClassOverlay extends BasicOverlay {
 }
 
 /**
- * LayerOverlay
+ * MetadataOverlay
  * @package Plugins
  */
-class LayerOverlay extends BasicOverlay {
-
+class MetadataOverlay extends BasicOverlay {
     /**
      * @var string
      */
     public $name;
-
+    
     /**
      * @var string 
      */ 
-    public $copyName;
-
+    public $value;
+    
     /**
-     * @var string 
+     * @see CwSerializable::unserialize()
      */
-    public $connection;
-
-    /**
-     * @var string 
-     */
-    public $data;
-
-    /**
-     * @var int
-     */
-    public $transparency;
-
+    public function unserialize($struct) {
+        $this->name  = self::unserializeValue($struct, 'name');
+        $this->value = self::unserializeValue($struct, 'value');
+        
+        parent::unserialize($struct);
+    }
+} 
+ 
+/**
+ * LayerOverlay
+ * @package Plugins
+ */
+class LayerOverlay extends BasicOverlay {
+    
     /**
      * @var array array of ClassOverlay
      */
     public $classes;
     
     /**
+     * @var string 
+     */
+    public $connection;
+    
+    /**
+     * @var string
+     */
+    public $connectionType;
+    
+    /**
+     * @var string 
+     */ 
+    public $copyName;
+    
+    /**
+     * @var string 
+     */
+    public $data;
+    
+    /**
+     * @var string
+     */
+    public $maxScale;
+    
+    /**
+     * @var array array of MetadataOverlay
+     */
+    public $metadatas;
+    
+    /**
+     * @var string
+     */
+    public $minScale;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * @var int
+     */
+    public $transparency;
+    
+    /**
+     * @var string
+     */
+    public $type;
+    
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->name         = self::unserializeValue($struct, 'name');
-        $this->copyName     = self::unserializeValue($struct, 'copyName');
-        $this->connection   = self::unserializeValue($struct, 'connection');
-        $this->data         = self::unserializeValue($struct, 'data');
-        $this->transparency = self::unserializeValue($struct, 'transparency', 
-                                                     'int');
-        $this->classes      = self::unserializeArray($struct, 'classes', 
-                                                     'ClassOverlay');
+        $this->classes        = self::unserializeArray($struct, 'classes', 
+                                                       'ClassOverlay');
+        $this->connection     = self::unserializeValue($struct, 'connection');
+        $this->connectionType = self::unserializeValue($struct, 'connectionType');
+        $this->copyName       = self::unserializeValue($struct, 'copyName');
+        $this->data           = self::unserializeValue($struct, 'data');
+        $this->maxScale       = self::unserializeValue($struct, 'maxScale');
+        $this->metadata       = self::unserializeArray($struct, 'metadatas',
+                                                       'MetadataOverlay');
+        $this->minScale       = self::unserializeValue($struct, 'minScale');
+        $this->name           = self::unserializeValue($struct, 'name');
+        $this->transparency   = self::unserializeValue($struct, 'transparency', 
+                                                       'int');
+        $this->type           = self::unserializeValue($struct, 'type');
+         
         parent::unserialize($struct);
     }    
 }

@@ -622,7 +622,58 @@ class ServerMapOverlay extends ServerPlugin {
         }
         return $result;
     }
+    
+    /**
+     * @param MetadataOverlay
+     * @return MetadataOverlay
+     */
+    public function updateMetadata($msLayer, MetadataOverlay $overlay) {
+        
+        $result = new MetadataOverlay();
+        // Remembers old ID
+        $result->id = $overlay->id;
+        
+        switch ($overlay->action) {
+        case BasicOverlay::ACTION_UPDATE:
+            if (!is_null($overlay->name) && !is_null($overlay->value) &&
+                $overlay->value != $msLayer->getMetadata($overlay->name) &&
+                $msLayer->getMetadata($overlay->name) != "") {
+                $result->name = $overlay->name;
+                $result->value = $overlay->value;
+                $msLayer->setMetadata($result->name, $result->value);
+            }
+            break;
 
+        case BasicOverlay::ACTION_SEARCH:
+            if (!is_null($overlay->name) && !is_null($overlay->value) &&
+                $overlay->value != $msLayer->getMetadata($overlay->name)) {
+                $result->name = $overlay->name;
+                $result->value = $overlay->value;
+                $msLayer->setMetadata($result->name, $result->value);
+            }
+            break;
+
+        case BasicOverlay::ACTION_INSERT:
+            if (!is_null($overlay->name) && !is_null($overlay->value)) {
+                $result->name = $overlay->name;
+                $result->value = $overlay->value;
+                $msLayer->setMetadata($result->name, $result->value);
+            }
+            break;
+
+        case BasicOverlay::ACTION_REMOVE:
+            if (!is_null($overlay->name)) {
+                $msLayer->removeMetadata($result->name);
+            }
+
+        default:
+            throw new CartoserverException('updateMetadata: unknown action');
+            break;
+        }
+        return $result;
+    }
+    
+    
     public function getLayer($overlay, $copy = false) {
 
         if ($copy) {
@@ -650,7 +701,7 @@ class ServerMapOverlay extends ServerPlugin {
         // Remembers old ID
         $result->id = $overlay->id;
         $msLayer = NULL;
-                    
+        
         switch ($overlay->action) {
         case BasicOverlay::ACTION_UPDATE:
             $msLayer = $this->getLayer($overlay);
@@ -662,20 +713,41 @@ class ServerMapOverlay extends ServerPlugin {
             }
            
             // Setting properties
-            if (!is_null($overlay->transparency) &&
-                $msLayer->transparency != $overlay->transparency) {
-                $result->transparency = $overlay->transparency;
-                $msLayer->set('transparency', $result->transparency);
-            }
             if (!is_null($overlay->connection) &&
                 $msLayer->connection != $overlay->connection) {
                 $result->connection = $overlay->connection;
                 $msLayer->set('connection', $result->connection);
             }
+            if (!is_null($overlay->connectionType) &&
+                $msLayer->connectionType != $overlay->connectionType) {
+                $result->connectionType = $overlay->connectionType;
+                $msLayer->set('connectiontype', $result->connectionType);
+            }
             if (!is_null($overlay->data) && 
                 $msLayer->data != $overlay->data) {
                 $result->data = $overlay->data;
                 $msLayer->set('data', $result->data);
+            }
+            if (!is_null($overlay->maxScale) && 
+                $msLayer->maxScale != $overlay->maxScale) {
+                $result->maxScale = $overlay->maxScale;
+                $msLayer->set('maxscale', $result->maxScale);
+            }
+            
+            if (!is_null($overlay->minScale) && 
+                $msLayer->minScale != $overlay->minScale) {
+                $result->minScale = $overlay->minScale;
+                $msLayer->set('minscale', $result->minScale);
+            }
+            if (!is_null($overlay->transparency) && 
+                $msLayer->transparency != $overlay->transparency) {
+                $result->transparency = $overlay->transparency;
+                $msLayer->set('transparency', $result->transparency);
+            }
+            if (!is_null($overlay->type) && 
+                $msLayer->type != $overlay->type) {
+                $result->type = $overlay->type;
+                $msLayer->set('type', $result->type);
             }
             break;
 
@@ -686,15 +758,24 @@ class ServerMapOverlay extends ServerPlugin {
                 if (substr($msSearchLayer->name, 0, strlen($overlay->name) + 2)
                     == $overlay->name . '@@' || $msSearchLayer->name == $overlay->name) {
                     $nFound ++;
+                    
                     // Checking properties
-                    if ((is_null($overlay->transparency) || 
-                         $msSearchLayer->transparency == $overlay->transparency) &&
-                        (is_null($overlay->connection) || 
+                    if ((is_null($overlay->connection) || 
                          $msSearchLayer->connection == $overlay->connection) &&
+                        (is_null($overlay->connectionType) || 
+                         $msSearchLayer->connectionType == $overlay->connectionType) &&
                         (is_null($overlay->data) || 
-                         $msSearchLayer->data == $overlay->data)) {
-                        $result->name = $msSearchLayer->name;
-                        $msLayer = $msSearchLayer;
+                         $msSearchLayer->data == $overlay->data) &&
+                        (is_null($overlay->maxScale) ||
+                         $msSearchLayer->maxScale == $overlay->maxScale) &&
+                        (is_null($overlay->minScale) ||
+                         $msSearchLayer->minScale == $overlay->minScale) &&
+                        (is_null($overlay->transparency) || 
+                         $msSearchLayer->transparency == $overlay->transparency) &&
+                        (is_null($overlay->type) || 
+                         $msSearchLayer->type == $overlay->type)) {
+                         $result->name = $msSearchLayer->name;
+                         $msLayer = $msSearchLayer;
                     }
                 }            
             }
@@ -708,32 +789,89 @@ class ServerMapOverlay extends ServerPlugin {
                 $msLayer = ms_newLayerObj($this->mapObj, $original);
                 
                 $result->name = $overlay->name . '@@' . $nFound;
-                $msLayer->set('name', $result->name);
-
-                // Setting new properties
-                if (!is_null($overlay->transparency) && 
-                    $msLayer->transparency != $overlay->transparency) {
-                    $result->transparency = $overlay->transparency;
-                    $msLayer->set('transparency', $result->transparency);
-                }
-                if (!is_null($overlay->connection) && 
+                $msLayer->set("name", $result->name);
+                
+                //Setting new properties
+                if (!is_null($overlay->connection) &&
                     $msLayer->connection != $overlay->connection) {
                     $result->connection = $overlay->connection;
                     $msLayer->set('connection', $result->connection);
+                }
+                if (!is_null($overlay->connectionType) &&
+                    $msLayer->connectionType != $overlay->connectionType) {
+                    $result->connectionType = $overlay->connectionType;
+                    $msLayer->set('connectiontype', $result->connectionType);
                 }
                 if (!is_null($overlay->data) && 
                     $msLayer->data != $overlay->data) {
                     $result->data = $overlay->data;
                     $msLayer->set('data', $result->data);
                 }
+                if (!is_null($overlay->maxScale) && 
+                    $msLayer->maxScale != $overlay->maxScale) {
+                    $result->maxScale = $overlay->maxScale;
+                    $msLayer->set('maxscale', $result->maxScale);
+                }
+                if (!is_null($overlay->minScale) && 
+                    $msLayer->minScale != $overlay->minScale) {
+                    $result->minScale = $overlay->minScale;
+                    $msLayer->set('minscale', $result->minScale);
+                }
+                if (!is_null($overlay->transparency) && 
+                    $msLayer->transparency != $overlay->transparency) {
+                    $result->transparency = $overlay->transparency;
+                    $msLayer->set('transparency', $result->transparency);
+                }
+                if (!is_null($overlay->type) && 
+                    $msLayer->type != $overlay->type) {
+                    $result->type = $overlay->type;
+                    $msLayer->set('type', $result->type);
+                }     
             }
             break;
+            
         case BasicOverlay::ACTION_INSERT:
 
+            $msLayer = ms_newLayerObj($this->mapObj);
+            
+            //setting properties
+            if (!is_null($overlay->connection)) {
+                $result->connection = $overlay->connection;
+                $msLayer->set('connection', $result->connection);
+            }
+            if (!is_null($overlay->connectionType)) {
+                $result->connectionType = $overlay->connectionType;
+                $msLayer->set('connectiontype', $result->connectionType);
+            }
+            if (!is_null($overlay->data)) {
+                $result->data = $overlay->data;
+                $msLayer->set('data', $result->data);
+            }
+            if (!is_null($overlay->maxScale)) {
+                $result->maxScale = $overlay->maxScale;
+                $msLayer->set('maxscale', $result->maxScale);
+            }
+            if (!is_null($overlay->minScale)) {
+                $result->minScale = $overlay->minScale;
+                $msLayer->set('minscale', $result->minScale);
+            }
+            if (!is_null($overlay->name)) {
+                $result->name = $overlay->name;
+                $msLayer->set('name', $result->name);
+            }
+            if (!is_null($overlay->transparency)) {
+                $result->transparency = $overlay->transparency;
+                $msLayer->set('transparency', $result->transparency);
+            }
+            if (!is_null($overlay->type)) {
+                $result->type = $overlay->type;
+                $msLayer->set('type', $result->type);
+            }
+            
             // no insertLayer function in PHP MapScript. see mapserver bug #762
-
-            // TODO
+            $msLayer->set("status", MS_ON);
             break;
+            
         case BasicOverlay::ACTION_REMOVE:
 
             if ($msLayer = $this->getLayer($overlay)) {
@@ -741,18 +879,29 @@ class ServerMapOverlay extends ServerPlugin {
                 $msLayer->set('status', MS_DELETE);
             }
             return NULL;
+            
         default:
             throw new CartoserverException('updateLayer: unknown action');
             break;
-
         }
+        
+        $result->metadatas = array();
+        if (!empty($overlay->metadatas)) {
+            foreach ($overlay->metadatas as $metadata) {
+                $resultMetadata = $this->updateMetadata($msLayer, $metadata);
+                if (!is_null($resultMetadata)) {
+                    $result->metadatas[] = $resultMetadata;
+                }
+            }
+        }
+        
         $result->classes = array();
         if (!empty($overlay->classes)) {
             foreach ($overlay->classes as $class) {
                 $resultClass = $this->updateClass($msLayer, $class);
                 if (!is_null($resultClass)) {
                     $result->classes[] = $resultClass;
-                } 
+                }
             }
         }
 
