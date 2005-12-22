@@ -653,11 +653,32 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Handles data from GET request. Not used/implemented yet.
+     * Handles data from GET request.
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
         $this->handleSwitches($request);
+       
+        // Unselects layers listed as is in GET request.
+        if (!empty($request['layer_unselect'])) {
+            $layersToRemove = explode(',', $request['layer_unselect']);
+            foreach ($layersToRemove as $layerId) {
+                if (isset($this->layersData[$layerId])) {
+                    $this->layersData[$layerId]->selected = false;
+                }
+            }
+        }
+        
+        // Selects layers listed as is in GET request.
+        if (!empty($request['layer_select'])) {
+            $layersToAdd = explode(',', $request['layer_select']);
+            foreach ($layersToAdd as $layerId) {
+                if (isset($this->layersData[$layerId])) {
+                    $this->layersData[$layerId]->selected = true;
+                }
+            }
+              
+        }
     }
     
     /**
