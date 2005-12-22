@@ -44,16 +44,19 @@ arguments are:
 * sql: a SQL query, which should return a set of rows with the
 following columns:
 
-- id: an int4 identifier of the edge
-- source: an int4 identifier of the source vertex
-- target: an int4 identifier of the target vertex
-- cost: an float8 value, of the edge traversal cost. (a negative cost
-   will prevent the edge from being inserted in the graph).
-- reverse_cost (optional): the cost for the reverse traversal of the
- edge. This is only used when the directed and has_reverse_cost
- parameters are true (see the above remark about negative costs).
-- directed: true if the graph is directed
-- has_reverse_cost: if true, the reverse_cost column of the SQL
+ - id: an int4 identifier of the edge
+ - source: an int4 identifier of the source vertex
+ - target: an int4 identifier of the target vertex
+ - cost: an float8 value, of the edge traversal cost. (a negative cost
+    will prevent the edge from being inserted in the graph).
+ - reverse_cost (optional): the cost for the reverse traversal of the
+  edge. This is only used when the directed and has_reverse_cost
+  parameters are true (see the above remark about negative costs).
+
+* source_id: the identifier if the starting vertex
+* target_id: the identifier of the ending vertex
+* directed: true if the graph is directed
+* has_reverse_cost: if true, the reverse_cost column of the SQL
 generated set of rows will be used for the cost of the traversal of
 the edge in the opposite direction.
 
