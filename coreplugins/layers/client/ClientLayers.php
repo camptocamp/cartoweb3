@@ -1401,13 +1401,21 @@ class ClientLayers extends ClientPlugin
     public function adjustExportMapRequest(ExportConfiguration $configuration,
                                     MapRequest $mapRequest) {
         
+        $switchId = $configuration->getSwitchId();
+        if (!is_null($switchId)) {
+            $this->setSwitch($switchId);
+            $mapRequest->layersRequest = $this->buildRequest();
+        }
+        
         $resolution = $configuration->getResolution();
-        if (!is_null($resolution))
+        if (!is_null($resolution)) {
             $mapRequest->layersRequest->resolution = $resolution;
-
+        }
+        
         $layerIds = $configuration->getLayerIds();
-        if (!is_null($layerIds))
+        if (!is_null($layerIds)) {
             $mapRequest->layersRequest->layerIds = $layerIds;
+        }
     }
 }
 ?>
