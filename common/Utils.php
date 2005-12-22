@@ -200,7 +200,7 @@ class Utils {
      * @param stringDivider
      * @return array
      */
-    static public function parseArray($value, $valueDivider=',') {
+    static public function parseArray($value, $valueDivider = ',') {
         if (!$value)
             return array();
         $value = explode($valueDivider, $value);
