@@ -3,7 +3,7 @@
 
 <div id="toolcontainer">
   <div id="menucontainer">
-    <div class="toolmenuOff">{t}Tools{/t} &gt;</div>
+    <div id="fixedtoolmenu" class="toolmenuOff">{t}Tools{/t} &gt;</div>
     <div id="tool1menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('1')">{t}Color{/t}</a></div>
     <div id="tool2menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('2')">{t}Hash{/t}</a></div>
     <div id="tool3menu" class="toolmenuDisabled"><a href="javascript:switchToolMenu('3')">{t}Pencil{/t}</a></div>
