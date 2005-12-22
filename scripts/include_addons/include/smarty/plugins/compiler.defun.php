@@ -1,7 +1,6 @@
 <?php
-/**
- * Code retrieved from Smarty forum:
- * http://www.phpinsider.com/smarty-forum/viewtopic.php?t=291
+/* 
+ * Code retrieved from http://me.ssju.de/compiler.defun/ 
  */
 
 /* create code for a function call */
@@ -48,10 +47,23 @@ function smarty_compiler_defun_close($tag_args, &$compiler) {
 $this->register_compiler_function('/defun', 'smarty_compiler_defun_close');
 
 
-/* callback: replace all $this with $smarty */
+/* callback to replace all $this with $smarty */
 function smarty_replace_fun($match) {
     $tokens = token_get_all('<?php ' . $match[2]);
-    array_shift($tokens);
+
+    /* remove trailing <?php */
+    $open_tag = '';
+    while ($tokens) {
+        $token = array_shift($tokens);
+        if (is_array($token)) {
+            $open_tag .= $token[1];
+        } else {
+            $open_tag .= $token;
+        }
+        if ($open_tag == '<?php ') break;
+    }
+
+    /* replace */
     for ($i=0, $count=count($tokens); $i<$count; $i++) {
         if (is_array($tokens[$i])) {
             if ($tokens[$i][0] == T_VARIABLE && $tokens[$i][1] == '$this') {
