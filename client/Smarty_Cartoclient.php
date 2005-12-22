@@ -50,7 +50,7 @@ class Smarty_Cartoclient extends Smarty {
     /** 
      * Constructor
      * 
-     * Initializes dirs and cache, ans registers block functions (resources
+     * Initializes dirs and cache, and registers block functions (resources
      * and i18n).
      * @param Cartoclient the current cartoclient
      */
