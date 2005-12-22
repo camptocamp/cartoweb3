@@ -32,6 +32,9 @@
   color: #6b6b6b;
 }
 
+#fixedtoolmenu {
+  cursor:move;
+}
 .toolmenuOn, .toolmenuOff, .exitLink {
   display: block;
   float: left;
