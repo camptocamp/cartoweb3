@@ -56,6 +56,9 @@ class ServerEdit extends ClientResponderAdapter {
      */
     protected $attributes;
 
+    /**
+     * Constructor
+     */
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct();
@@ -73,7 +76,7 @@ class ServerEdit extends ClientResponderAdapter {
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
-        $dsn = $this->getMetadataValueString($layerId,'edit_dsn');
+        $dsn = $this->getMetadataValueString($layerId, 'edit_dsn');
         $dsn = $this->getDsn($layerId);
         
         if (!$dsn)
@@ -113,7 +116,7 @@ class ServerEdit extends ClientResponderAdapter {
     protected function getEditableAttributes($attributes) {
         $editableAttributes = array();
         
-        foreach ($attributes as $key=>$val) {
+        foreach ($attributes as $key => $val) {
             if ($val['editable'])
                 $editableAttributes[] = $key;
         }
@@ -137,12 +140,14 @@ class ServerEdit extends ClientResponderAdapter {
         
         $attributes = array();
         
-        $editableAttributesList = $this->getMetaDataValueString($layerId, 'edit_attributes');
+        $editableAttributesList = $this->getMetaDataValueString($layerId, 
+                                                                'edit_attributes');
         if (empty($editableAttributesList)) {
-            throw new CartoserverException("no edit attributes parameter set in the mapfile for layer :" .$layerId);
+            throw new CartoserverException('No edit attributes parameter set ' .
+                                           "in the mapfile for layer: $layerId");
         }
         $array = explode(',', $editableAttributesList);
-        foreach ($array as $key=>$val) {
+        foreach ($array as $key => $val) {
             $array[$key] = explode('|', $val); 
         }
         
@@ -177,12 +182,14 @@ class ServerEdit extends ClientResponderAdapter {
             $dsn[$key] = $param[1];
         }
         if ($connectionType != MS_POSTGIS)
-            throw new CartoserverException('Wrong database connection type : POSTGIS needed');
-        $dsnString = 'pgsql://';
-        $dsnString .= $dsn['user'].':'.$dsn['password'];
-        $dsnString .= '@'.$dsn['host'];
-        $dsnString .= (isset($dsn['port']) && $dsn['port']) ? ':'.$dsn['port']  : '';
-        $dsnString .= '/'.$dsn['dbname'];
+            throw new CartoserverException('Wrong database connection type:'
+                                           . ' POSTGIS needed');
+        $dsnString  = 'pgsql://';
+        $dsnString .= $dsn['user'] . ':' . $dsn['password'];
+        $dsnString .= '@' . $dsn['host'];
+        $dsnString .= (isset($dsn['port']) && $dsn['port']) ? 
+                      ':' . $dsn['port']  : '';
+        $dsnString .= '/' . $dsn['dbname'];
         
         return $dsnString;
     }
@@ -192,7 +199,7 @@ class ServerEdit extends ClientResponderAdapter {
      * @return integer srid
      */
     protected function getSrid() {
-        $srid = $this->getMetadataValueString($this->layer,'edit_srid');
+        $srid = $this->getMetadataValueString($this->layer, 'edit_srid');
         return ($srid) ? $srid : -1;
     }
     
@@ -201,11 +208,12 @@ class ServerEdit extends ClientResponderAdapter {
      * @return string geometry column
      */
     protected function getGeomColumn() {
-        $geometryColumn = $this->getMetadataValueString($this->layer,'edit_geometry_column');
+        $geometryColumn = $this->getMetadataValueString($this->layer,
+                                                        'edit_geometry_column');
         
         if (!$geometryColumn)
-            throw new CartoserverException("Geometry column not set in mapfile" .
-                    "for layer : " . $this->layer);
+            throw new CartoserverException('Geometry column not set in mapfile'
+                                           . "for layer: $this->layer");
         
         return  $geometryColumn;
     }
@@ -215,16 +223,17 @@ class ServerEdit extends ClientResponderAdapter {
      * @return string geometry column
      */
     protected function getGeometryType() {
-        $geometryType = $this->getMetadataValueString($this->layer,'edit_geometry_type');
+        $geometryType = $this->getMetadataValueString($this->layer,
+                                                      'edit_geometry_type');
         
         if (!$geometryType)
-            throw new CartoserverException("Geometry type not set in mapfile" .
-                    "for layer : " . $this->layer);
+            throw new CartoserverException('Geometry type not set in mapfile'
+                                           . "for layer: $this->layer");
         
-        if (strtoupper($geometryType) == "LINE")
-            return "LINESTRING";
-        else
-            return  strtoupper($geometryType);
+        if (strtoupper($geometryType) == 'LINE')
+            return 'LINESTRING';
+        
+        return  strtoupper($geometryType);
     }
     
     /**
@@ -238,33 +247,33 @@ class ServerEdit extends ClientResponderAdapter {
         $editableAttributes = $this->getEditableAttributes($this->attributes);
         
         if (isset($feature->attributes) && $feature->attributes) {
-            $attributesFieldsSql = "";
-            $attributesValuesSql = "";
-            foreach ($feature->attributes as $key=>$val) {
-                $val = ($val == "")? "NULL" : "'" .
-                       Encoder::decode(addslashes($val), 'config') . "'";
+            $attributesFieldsSql = $attributesValuesSql = '';
+            foreach ($feature->attributes as $key => $val) {
+                $val = ($val == '') ? 'NULL' : 
+                       sprintf("'%s'", Encoder::decode(Utils::addslashes($val), 
+                                                       'config'));
                 if (in_array($key, $editableAttributes))
-                    $attributesFieldsSql .= ", ".$key;
-                    $attributesValuesSql .= ", " . $val . "";
+                    $attributesFieldsSql .= ", $key";
+                    $attributesValuesSql .= ", $val";
             }
-            if ($attributesValuesSql == "")
+            if ($attributesValuesSql == '')
                 $attributesValuesSql = NULL;
         } else {
-            $attributesFieldsSql = "";
+            $attributesFieldsSql = '';
             $attributesValuesSql = NULL;
         }
         
-        //TODO check layer type and feature type
-        $sql = sprintf("INSERT INTO %s.%s (%s %s) " .
+        // TODO check layer type and feature type
+        $sql = sprintf('INSERT INTO %s.%s (%s %s) ' .
                        "VALUES (GeometryFromText('%s', %s) %s) ",
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->geomColumn,
-                               $attributesFieldsSql,
-                               $feature->WKTString,
-                               $this->getSrid(),
-                               $attributesValuesSql
-                    );
+                       $this->editSchema,
+                       $this->editTable,
+                       $this->geomColumn,
+                       $attributesFieldsSql,
+                       $feature->WKTString,
+                       $this->getSrid(),
+                       $attributesValuesSql
+                       );
                 
         $this->log->debug($sql);
         $queryId = $db->query($sql);
@@ -287,29 +296,28 @@ class ServerEdit extends ClientResponderAdapter {
         
         if ($feature->attributes) {
             $attributesSql = NULL;
-            foreach ($feature->attributes as $key=>$val) {
-                $val = ($val == "")? "NULL" : "'" .
-                       Encoder::decode(addslashes($val), 'config') . "'";
+            foreach ($feature->attributes as $key => $val) {
+                $val = ($val == '')? 'NULL' : 
+                       sprintf("'%s'", Encoder::decode(Utils::addslashes($val), 
+                                                       'config'));
                 if (in_array($key, $editableAttributes))
-                    $attributesSql .= sprintf(", %s = %s", $key, $val);
+                    $attributesSql .= sprintf(', %s = %s', $key, $val);
             }
         } else {
-            $attributesSql = "";
+            $attributesSql = '';
         }
 
-        $sql = sprintf("UPDATE %s.%s SET " .
-                       "%s = GeometryFromText('%s', %s) " .
-                       "%s " .
-                       "WHERE %s = %s",
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->geomColumn,
-                               $feature->WKTString,
-                               $this->getSrid(),
-                               $attributesSql,
-                               $this->idField,
-                               $feature->id
-                    );
+        $sql = sprintf("UPDATE %s.%s SET %s = GeometryFromText('%s', %s) " .
+                       '%s WHERE %s = %s',
+                       $this->editSchema,
+                       $this->editTable,
+                       $this->geomColumn,
+                       $feature->WKTString,
+                       $this->getSrid(),
+                       $attributesSql,
+                       $this->idField,
+                       $feature->id
+                       );
                          
         $this->log->debug($sql);
         $queryId = $db->query($sql);
@@ -326,13 +334,12 @@ class ServerEdit extends ClientResponderAdapter {
      */
     protected function deleteFeature($feature) {
         $db = $this->getDb($this->layer);
-        $sql = sprintf("DELETE FROM %s.%s " .
-                       "WHERE %s = %s",
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->idField,
-                               $feature->id
-                    );     
+        $sql = sprintf('DELETE FROM %s.%s WHERE %s = %s',
+                       $this->editSchema,
+                       $this->editTable,
+                       $this->idField,
+                       $feature->id
+                       );     
                          
         $this->log->debug($sql);
         $queryId = $db->query($sql);
@@ -351,15 +358,14 @@ class ServerEdit extends ClientResponderAdapter {
      * @param tolerance tolerance given in pixel
      * @return box3D
      */
-    protected function pointToBox3D($x, $y, $width, $height, Bbox $bbox, $tolerance = 3) {
+    protected function pointToBox3D($x, $y, $width, $height, 
+                                    Bbox $bbox, $tolerance = 3) {
         $deltax = ($bbox->maxx - $bbox->minx) / $width * $tolerance / 2;
         $deltay = ($bbox->maxy - $bbox->miny) / $height * $tolerance / 2;
         
-        $bbox3D = sprintf("BOX3D(%s %s, %s %s)",
-                            $x - $deltax,
-                            $y - $deltay,
-                            $x + $deltax,
-                            $y + $deltay
+        $bbox3D = sprintf('BOX3D(%s %s, %s %s)',
+                          $x - $deltax, $y - $deltay,
+                          $x + $deltax, $y + $deltay
                           );
         
         return $bbox3D;        
@@ -374,39 +380,45 @@ class ServerEdit extends ClientResponderAdapter {
         foreach ($shapes as $shape) {
             switch (get_class($shape)) {
                 case 'Point':
-                    $mainmap = $this->serverContext->getMapRequest()->imagesRequest->mainmap;
+                    $mainmap = $this->serverContext->getMapRequest()
+                                    ->imagesRequest->mainmap;
                     $width = $mainmap->width;
                     $height = $mainmap->height;
                     
-                    $bbox = $this->serverContext->getMapResult()->locationResult->bbox;
+                    $bbox = $this->serverContext->getMapResult()
+                                 ->locationResult->bbox;
                     
                     // TODO get tolerance from mapfile
                     $tolerance = 10;
-                    $bbox3D = $this->pointToBox3D($shape->x,$shape->y,$width, $height, $bbox, $tolerance);
-                    $toleranceGeo = ($bbox->maxx - $bbox->minx) / $width * $tolerance;
+                    $bbox3D = $this->pointToBox3D($shape->x, $shape->y,
+                                                  $width, $height, $bbox, 
+                                                  $tolerance);
+                    $toleranceGeo = ($bbox->maxx - $bbox->minx) / $width 
+                                    * $tolerance;
                     
-                    $sql = sprintf("SELECT *, astext(%s) as %s FROM %s.%s " .
+                    $sql = sprintf('SELECT *, astext(%s) as %s FROM %s.%s ' .
                                    "WHERE %s && '%s'::box3d ".
                                    "AND distance (%s, GeometryFromText( '".
                                    "POINT(%s %s)', -1 ) ) < %s",
-                               $this->geomColumn,
-                               $this->geomColumn,
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->geomColumn,
-                               $bbox3D,
-                               $this->geomColumn,
-                               $shape->x,
-                               $shape->y,
-                               $toleranceGeo
-                    );
+                                   $this->geomColumn,
+                                   $this->geomColumn,
+                                   $this->editSchema,
+                                   $this->editTable,
+                                   $this->geomColumn,
+                                   $bbox3D,
+                                   $this->geomColumn,
+                                   $shape->x,
+                                   $shape->y,
+                                   $toleranceGeo
+                                   );
                     $this->log->debug($sql);
                     $db = $this->getDb($this->layer);
                     
                     $db->setFetchMode(DB_FETCHMODE_ASSOC);
                     $r = $db->getAll($sql);
                     
-                    Utils::checkDbError($r, 'Unable to select feature(s) in database');
+                    Utils::checkDbError($r, 
+                                        'Unable to select feature(s) in database');
                     
                     $features = array();
                     foreach ($r as $row) {
@@ -414,10 +426,11 @@ class ServerEdit extends ClientResponderAdapter {
                     
                         $feature->WKTString = $row[$this->geomColumn];
                         $feature->id = $row[$this->idField];
-                        foreach ($row as $attribute=>$value) {
-                            // get all but geometry column as attribute
+                        foreach ($row as $attribute => $value) {
+                            // gets all but geometry column as attribute
                             if ($attribute != $this->geomColumn) {
-                                $feature->attributes[$attribute] = Encoder::encode($value, 'config');
+                                $feature->attributes[$attribute] = 
+                                    Encoder::encode($value, 'config');
                             }
                         }
                         
@@ -426,20 +439,20 @@ class ServerEdit extends ClientResponderAdapter {
                     
                     return $features;
                     
-                    break;
                 case 'Rectangle':
-                    $sql = sprintf("SELECT *, astext(%s) as %s FROM %s.%s " .
-                                   "WHERE intersects (%s, 'BOX3D(%s %s, %s %s)'::box3d)",
-                               $this->geomColumn,
-                               $this->geomColumn,
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->geomColumn,
-                               $shape->minx,
-                               $shape->miny,
-                               $shape->maxx,
-                               $shape->maxy
-                    );
+                    $sql = sprintf('SELECT *, astext(%s) as %s FROM %s.%s ' .
+                                   'WHERE intersects (%s, ' .
+                                   "'BOX3D(%s %s, %s %s)'::box3d)",
+                                   $this->geomColumn,
+                                   $this->geomColumn,
+                                   $this->editSchema,
+                                   $this->editTable,
+                                   $this->geomColumn,
+                                   $shape->minx,
+                                   $shape->miny,
+                                   $shape->maxx,
+                                   $shape->maxy
+                                   );
                     
                     $this->log->debug($sql);
                     $db = $this->getDb($this->layer);
@@ -447,7 +460,8 @@ class ServerEdit extends ClientResponderAdapter {
                     $db->setFetchMode(DB_FETCHMODE_ASSOC);
                     $r = $db->getAll($sql);
                     
-                    Utils::checkDbError($r, 'Unable to select feature(s) in database');
+                    Utils::checkDbError($r, 
+                                        'Unable to select feature(s) in database');
                     
                     $features = array();
                     foreach ($r as $row) {
@@ -455,21 +469,21 @@ class ServerEdit extends ClientResponderAdapter {
                     
                         $feature->WKTString = $row[$this->geomColumn];
                         $feature->id = $row[$this->idField];
-                        foreach ($row as $attribute=>$value) {
-                            // get all but geometry column as attribute
+                        foreach ($row as $attribute => $value) {
+                            // gets all but geometry column as attribute
                             if ($attribute != $this->geomColumn) {
-                                $feature->attributes[$attribute] = Encoder::encode($value, 'config');
+                                $feature->attributes[$attribute] = 
+                                    Encoder::encode($value, 'config');
                             }
                         }
                         
                         $features[] = $feature;
                     }
-                    
                     return $features;
                     
-                    break;
                 default:
-                    throw new CartoserverException("Selection mode not implemented : " . get_class($shape));
+                    throw new CartoserverException('Selection mode not implemented: '
+                                                   . get_class($shape));
             }
         }
     }
@@ -483,15 +497,15 @@ class ServerEdit extends ClientResponderAdapter {
         $shapes = split(',', $featuresIds);
         $features = array();
         foreach ($shapes as $shape) {
-            $sql = sprintf("SELECT oid, *, astext(%s) as %s FROM %s.%s " .
+            $sql = sprintf('SELECT oid, *, astext(%s) as %s FROM %s.%s ' .
                            "WHERE %s = '%s'",
-                               $this->geomColumn,
-                               $this->geomColumn,
-                               $this->editSchema,
-                               $this->editTable,
-                               $this->idField,
-                               $shape
-                    );
+                           $this->geomColumn,
+                           $this->geomColumn,
+                           $this->editSchema,
+                           $this->editTable,
+                           $this->idField,
+                           $shape
+                           );
             $this->log->debug($sql);
             $db = $this->getDb($this->layer);
             
@@ -506,43 +520,49 @@ class ServerEdit extends ClientResponderAdapter {
             
             $feature = new Feature();
                        
-            $feature->WKTString = (isset ($r[0][$this->geomColumn]))?
-                $r[0][$this->geomColumn] : $this->getGeometryType();
+            $feature->WKTString = (isset ($r[0][$this->geomColumn])) ?
+                                  $r[0][$this->geomColumn] 
+                                  : $this->getGeometryType();
             $feature->id = $r[0][$this->idField];
-            foreach ($r[0] as $attribute=>$value) {
-                // get all but geometry column as attribute
+            foreach ($r[0] as $attribute => $value) {
+                // gets all but geometry column as attribute
                 if ($attribute != $this->geomColumn) {
-                    $feature->attributes[$attribute] = Encoder::encode($value, 'config');
+                    $feature->attributes[$attribute] = 
+                        Encoder::encode($value, 'config');
                 }
             }
             
             $features[] = $feature;
         }
         return $features;
-        
     }
 
     /**
-     * Check if layer's metadata are valid
-     * @return
+     * Checks if layer metadata are valid.
+     * @return boolean
      */
     protected function checkLayerMetadata() {
-        /* retrieve the metadata values */
-        $this->editTable = $this->getMetadataValueString($this->layer,'edit_table');
-        if (!isset($this->editTable)) throw new CartoserverException("edit_table not set in mapfile");
+        // retrieves the metadata values
+        $this->editTable = $this->getMetadataValueString($this->layer, 'edit_table');
+        if (!isset($this->editTable)) 
+            throw new CartoserverException('edit_table not set in mapfile');
         
         $editTableArray = split("\.", $this->editTable);
         if (count($editTableArray) > 1) {
             $this->editSchema = $editTableArray[0];
             $this->editTable = $editTableArray[1];
         } else {
-            $this->editSchema = "public";
+            $this->editSchema = 'public';
             $this->editTable = $this->editTable;
         }
         
-        $this->idField = explode("|",$this->getMetadataValueString($this->layer,'id_attribute_string'));
+        $this->idField = explode('|', $this->getMetadataValueString(
+                                          $this->layer,
+                                          'id_attribute_string'));
         $this->idField = $this->idField[0];
-        if (!isset($this->idField)) throw new CartoserverException("Id field for edition not set in mapfile");
+        if (!isset($this->idField))
+            throw new CartoserverException(
+                'Id field for edition not set in mapfile');
                 
         return true;
     }
@@ -553,14 +573,14 @@ class ServerEdit extends ClientResponderAdapter {
      * @return EditResult
      */
     public function handlePreDrawing($requ) {
-        if (!$requ->layer) return; // shape, or layer, or object id not defined
+        if (!$requ->layer)
+            return; // shape, or layer, or object id not defined
         
         $this->layer = $requ->layer;
         $this->checkLayerMetadata();
         
         // retrieve selected edit layer metadata
-        $this->idAttribute = $this->serverContext
-                                ->getIdAttribute($requ->layer);
+        $this->idAttribute = $this->serverContext->getIdAttribute($requ->layer);
         $this->attributes = $this->getAttributes($requ->layer);
         
         $this->geomColumn = $this->getGeomColumn();
@@ -600,7 +620,8 @@ class ServerEdit extends ClientResponderAdapter {
     public function handleDrawing($requ) {
         $result = new EditResult();
         
-        if (!isset($requ->layer)) return $result;
+        if (!isset($requ->layer))
+            return $result;
         
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
@@ -610,29 +631,35 @@ class ServerEdit extends ClientResponderAdapter {
         // newly selected objects
         if (isset($requ->shapes) && $requ->shapes) {
             $selectedFeatures = $this->selectFeaturesByShape($requ->shapes);
-            if (count($selectedFeatures) != 0)
-                foreach ($selectedFeatures as $feature)
+            if (count($selectedFeatures) != 0) {
+                foreach ($selectedFeatures as $feature) {
                     $result->features[] = $feature;
+                }
+            }
         }
         
         // shapes with ids from given list (get parameter)
         if (isset($requ->featuresIds) && $requ->featuresIds) {
             $selectedFeatures = $this->selectFeaturesById($requ->featuresIds);
-            if (count($selectedFeatures) != 0)
-                foreach ($selectedFeatures as $feature)
+            if (count($selectedFeatures) != 0) {
+                foreach ($selectedFeatures as $feature) {
                     $result->features[] = $feature;
+                }
+            }
         }
         
         if (isset($result->features)) {
-            foreach ($result->features as $feature)
+            foreach ($result->features as $feature) {
                 $requ->features[$feature->id] = $feature;
+            }
         }
 
         $result->attributeNames = array_keys($this->attributes);
         
         $result->attributeTypes = array();
         foreach ($this->attributes as $attribute) {
-            $result->attributeTypes[] = (isset ($attribute['type'])) ? $attribute['type'] : "";
+            $result->attributeTypes[] = (isset ($attribute['type'])) 
+                                        ? $attribute['type'] : '';
         }
         
         return $result;
