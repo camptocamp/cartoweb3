@@ -23,3 +23,10 @@
 {t}Edition not allowed{/t},<a href="?login=y&project={$project}">{t}please login{/t}</a>
 {/if}
 <img id="edit_recenter" src="{r type=gfx plugin=edit}edit_recenter.gif{/r}" style="display:none" />
+
+<script language="JavaScript" type="text/javascript">
+    <!--
+    var editResultNbCol = '{$edit_resultNbCol}';
+    var editDisplayAction = '{$edit_displayAction}';
+    //-->
+</script>

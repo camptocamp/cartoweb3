@@ -287,13 +287,17 @@ class ClientEdit extends ClientPlugin
             $edit_max_insert = $this->getConfig()->insertedFeaturesMaxNumber;
         else
             $edit_max_insert = 0;
-       
+
+        $editResultNbCol = $this->getConfig()->editResultNbCol != '' ? $this->getConfig()->editResultNbCol : 0;
+        $editDisplayAction = $this->getConfig()->editDisplayAction != '' ? $this->getConfig()->editDisplayAction : 'both';       
+
         $template->assign(array('edit_active' => true,
                                'edit_allowed' => $allowed,
                                'edit_snapping' => $this->editState->snapping,
                                'edit_shape_type' => $this->editState->shapeType,
-                               'edit_max_insert' => $edit_max_insert));
-
+                               'edit_max_insert' => $edit_max_insert,
+                               'edit_resultNbCol' => $editResultNbCol,
+                               'edit_displayAction' => $editDisplayAction));
                                
         // editable layers list
         $layersList =  $this->getConfig()->editLayers;
@@ -339,11 +343,16 @@ class ClientEdit extends ClientPlugin
         // get the attributes names list
         if (isset($this->editState->attributeNames) && $this->editState->attributeNames) {
             $str = "";
-            foreach ($this->editState->attributeNames as $val)
+            $str_i18n = "";
+            foreach ($this->editState->attributeNames as $val) {
                 $str .= "\"".$val."\",";
+                $str_i18n .= "\"".I18n::gt($val)."\",";
+            }
             $str = substr($str, 0, strlen($str) - 1);
+            $str_i18n = substr($str_i18n, 0, strlen($str_i18n) - 1);
             // TODO internationalisation of field names
             $template->assign('attribute_names', $str);
+            $template->assign('attribute_names_i18n', $str_i18n);
         }
         
         // get the attributes types list
@@ -403,6 +412,7 @@ class ClientEdit extends ClientPlugin
         }
         if (isset($editResult->attributeNames))
             $this->editState->attributeNames = $editResult->attributeNames;
+        
         if (isset($editResult->attributeTypes))
             $this->editState->attributeTypes = $editResult->attributeTypes;
             
