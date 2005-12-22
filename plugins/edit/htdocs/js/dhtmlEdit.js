@@ -336,38 +336,43 @@ Map.prototype.handleEditTable = function() {
 };
 
 Map.prototype.drawEditAttributesTable = function() {
+  var editDiv = xGetElementById("edit_div");
+  
   var table = xCreateElement('TABLE');
   table.id = "edit_table";
   table.className = "edit";
   var tbody = xCreateElement('TBODY');
   
-  var row = xCreateElement ('tr');
+  if (editResultNbCol == 0) {
+    var row = xCreateElement ('tr');
 
-  for (var i = 0; i < this.editAttributeNamesI18n.length; i++) {
+    for (var i = 0; i < this.editAttributeNamesI18n.length; i++) {
+      var cell = xCreateElement('th');
+      cell.innerHTML = this.editAttributeNamesI18n[i];
+      xAppendChild(row, cell);
+    }
+
+    // add column for radio button
     var cell = xCreateElement('th');
-    cell.innerHTML = this.editAttributeNamesI18n[i];
     xAppendChild(row, cell);
+    // add column for recenter
+    var cell = xCreateElement('th');
+    xAppendChild(row, cell);
+    xAppendChild(tbody, row);
   }
-  // add column for radio button
-  var cell = xCreateElement('th');
-  xAppendChild(row, cell);
-  // add column for recenter
-  var cell = xCreateElement('th');
-  xAppendChild(row, cell);
-  xAppendChild(tbody, row);
   xAppendChild(table, tbody);
-  var editDiv = xGetElementById("edit_div");
-  xAppendChild(editDiv, table);
-  
-  
-  // add validate and cancel buttons
-  var validate_all = myform['validate_all'].cloneNode(true);
-  validate_all.id = "validate2";
-  xAppendChild(editDiv, validate_all);
-  var cancel = myform['edit_cancel'].cloneNode(true);
-  cancel.id = "cancel2";
-  xAppendChild(editDiv, cancel);
-  
+
+  xAppendChild(editDiv, table); 
+
+  if (editDisplayAction != 'folder'){  
+    // add validate and cancel buttons
+    var validate_all = myform['validate_all'].cloneNode(true);
+    validate_all.id = "validate2";
+    xAppendChild(editDiv, validate_all);
+    var cancel = myform['edit_cancel'].cloneNode(true);
+    cancel.id = "cancel2";
+    xAppendChild(editDiv, cancel);
+  }
   
   for (var i = 0; i < this.currentLayer.features.length; i++) {
     editDiv.style.display = "block";
@@ -454,7 +459,7 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   var row = xCreateElement("tr");
   // hilight table row and display feature
   row.onmouseover = function() {
-    this.style.backgroundColor = "red";
+    this.style.backgroundColor = "#F4F5F7";
     hilightFeature(aFeature.id);
   }
   row.onmouseout = function() {
@@ -464,9 +469,25 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   row.onclick = function() {
     selectEditFeature(aFeature.id);
   }
+
+  // editResultNbCol is a global variable, see template
+  if (editResultNbCol > 0) {
+    var outertd = xCreateElement("td");
+    var innertable = xCreateElement("table");
+    var innerbody = xCreateElement("tbody");
+    var innerrow = xCreateElement("tr");
+  }
   // fill the table row with cells and corresponding input forms
   for (var i = 0; i < this.editAttributeNames.length; i++) {
+
     var td = xCreateElement("td");
+    // add cell title if multiline
+    if (editResultNbCol > 0) {
+      var inputTitle = document.createTextNode(this.editAttributeNamesI18n[i]);
+      var inputBr = xCreateElement("br");
+      td.appendChild(inputTitle);
+      td.appendChild(inputBr);
+    }
     // editable field
     if (this.editAttributeTypes[i] == 'string' || this.editAttributeTypes[i] == 'integer') {
       if (typeof aFeature.attributes != "undefined")
@@ -480,8 +501,10 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
             setFeatureOperation(aFeature, "update");
           var validate = xGetElementById('validate_all');
           validate.className = "form_button_hilight";
-          var validate = xGetElementById('validate2');
-          validate.className = "form_button_hilight";
+          if (editDisplayAction != 'folder'){
+            var validate = xGetElementById('validate2');
+            validate.className = "form_button_hilight";
+          }
         }
         this.changed = true;
       }
@@ -493,8 +516,31 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
       else
         td.innerHTML = "";
     }
+
+    if (editResultNbCol > 0) {
+      xAppendChild(innerrow, td);
+    } else {
+      xAppendChild(row, td);
+    }
+
+    if (editResultNbCol > 0) {
+      // if the elements is the xth, happend existing row and create a new row
+      if ((i+1) % editResultNbCol == 0){
+        xAppendChild(innerbody, innerrow);
+        innerrow = xCreateElement("tr");
+      }
+    }
+  }
+
+  if (editResultNbCol > 0) {
+    xAppendChild(innerbody, innerrow);
+    xAppendChild(innertable, innerbody);
+    xAppendChild(outertd, innertable);
+    xAppendChild(row, outertd);
+  } else {
     xAppendChild(row, td);
   }
+
   var td = xCreateElement("td");
   var input = createInput(td, 'edit_selected', aFeature.id, 'radio');
   input.onclick = function() {
