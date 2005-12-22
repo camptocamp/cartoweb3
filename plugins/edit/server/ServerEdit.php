@@ -252,9 +252,10 @@ class ServerEdit extends ClientResponderAdapter {
                 $val = ($val == '') ? 'NULL' : 
                        sprintf("'%s'", Encoder::decode(Utils::addslashes($val), 
                                                        'config'));
-                if (in_array($key, $editableAttributes))
+                if (in_array($key, $editableAttributes)) {
                     $attributesFieldsSql .= ", $key";
                     $attributesValuesSql .= ", $val";
+                }
             }
             if ($attributesValuesSql == '')
                 $attributesValuesSql = NULL;
