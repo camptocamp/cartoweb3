@@ -36,7 +36,7 @@ class ClientExportPdf extends ExportPlugin
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var Smarty_Plugin
      */
@@ -67,7 +67,7 @@ class ClientExportPdf extends ExportPlugin
      */
     protected $optionalInputs = array('title', 'note', 'scalebar', 'overview',
                                       'queryResult', 'legend');
-    //TODO: display queryResult form option only if available in MapResult
+    // TODO: display queryResult form option only if available in MapResult
 
     /**
      * @var float
@@ -242,6 +242,8 @@ class ClientExportPdf extends ExportPlugin
      * @param string object id
      */                   
     protected function setTableBlock($request, $iniObjects, $id) {
+        $this->log->debug(__METHOD__);
+        
         if ($this->blocks[$id]->caption && 
             !in_array($this->blocks[$id]->caption, $this->blocks)) {
             
@@ -303,6 +305,8 @@ class ClientExportPdf extends ExportPlugin
      * @param string object id
      */                   
     protected function setLegendBlock($request, $id) {
+        $this->log->debug(__METHOD__);
+        
         $lastMapRequest = $this->getLastMapRequest();
         $layersCorePlugin = $this->cartoclient->getPluginManager()->
                             getPlugin('layers');
@@ -357,6 +361,8 @@ class ClientExportPdf extends ExportPlugin
      * @param string object id
      */
     protected function createBlock($request, $iniObjects, $id) {
+        $this->log->debug(__METHOD__);
+    
         // removes blocks with no user input if required:
         $pdfItem = 'pdf' . ucfirst($id);
         if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
@@ -468,6 +474,7 @@ class ClientExportPdf extends ExportPlugin
      * @param array user configs (usually $_REQUEST)
      */
     protected function setGeneral($iniObjects, $request = array()) {
+        $this->log->debug(__METHOD__);
     
         $this->general = new PdfGeneral;
         $this->overrideProperties($this->general, $iniObjects->general);
@@ -564,13 +571,26 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Determines what export mode matches current plugin.
+     * @return string
+     */
+    protected function getExportMode() {
+        // WARNING: export plugins names must begin with "export"
+        // (see ExportPlugin::getExportUrl() code comments)
+        $mode = substr(get_class(), 12); // 12 = strlen('ClientExport')
+        return strtolower($mode{0}) . substr($mode, 1);
+    }
+
+    /**
      * Sets PDF settings objects based on $_REQUEST and configuration data.
      * @param array $_REQUEST
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
+        $this->log->debug(__METHOD__);
         
-        if (!isset($request['pdfExport']))
+        if (!isset($request['pdfExport']) || !isset($request['mode']) ||
+            $request['mode'] != $this->getExportMode())
             return;
 
         $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
@@ -623,6 +643,7 @@ class ClientExportPdf extends ExportPlugin
      * @param Smarty
      */
     public function renderForm(Smarty $template) {
+        $this->log->debug(__METHOD__);
         $template->assign('exportPdf', $this->drawUserForm());
     }
 
@@ -803,6 +824,7 @@ class ClientExportPdf extends ExportPlugin
      * @return ExportConfiguration
      */
     protected function getConfiguration($keymap = 'none', $mapBbox = NULL) {
+        $this->log->debug(__METHOD__);
         
         $config = new ExportConfiguration();
 
@@ -973,7 +995,9 @@ class ClientExportPdf extends ExportPlugin
      * @return array array of TableElement
      */
     protected function getQueryResult() {
-        /* gets optional table groups (default = all) */
+        $this->log->debug(__METHOD__);
+        
+        // Gets optional table groups (default = all)
         $groups = $this->blocks['queryResult']->content;
    
         $tables = $this->cartoclient->getPluginManager()->tables;
@@ -985,25 +1009,29 @@ class ClientExportPdf extends ExportPlugin
         $results = array();
         foreach ($tableGroups as $group) {
 
-            if ($groups && !in_array($group->groupId, $groups))
+            if ($groups && !in_array($group->groupId, $groups)) {
                 continue;
+            }
 
             foreach ($group->tables as $table) {
 
                 $tableElt = new TableElement;
                 $tableElt->caption = $table->tableTitle;
-                $tableElt->headers = $table->noRowId ? array() : array(I18n::gt('Id'));
+                $tableElt->headers = $table->noRowId ? array() 
+                                                     : array(I18n::gt('Id'));
                 
-                foreach ($table->columnTitles as $field)
+                foreach ($table->columnTitles as $field) {
                     $tableElt->headers[] = $field;
+                }
 
                 foreach ($table->rows as $res) {
                     $row = $table->noRowId ? array() : array($res->rowId);
-                    foreach ($res->cells as $val)
+                    foreach ($res->cells as $val) {
                         $row[] = $val;
+                    }
                     $tableElt->rows[] = $row;
                 }
-        $results[] = $tableElt;
+                $results[] = $tableElt;
             }
         }
         return $results;
@@ -1071,6 +1099,7 @@ class ClientExportPdf extends ExportPlugin
      * @return ExportOutput export result
      */
     protected function getExport() {
+        $this->log->debug(__METHOD__);
 
         $pdfClass =& $this->general->pdfEngine;
         
@@ -1236,6 +1265,8 @@ class ClientExportPdf extends ExportPlugin
      * @see ExportPlugin::output()
      */
     public function output() {
+        $this->log->debug(__METHOD__);
+        
         $pdfBuffer = $this->getExport()->getContents();
     
         switch ($this->general->output) {
