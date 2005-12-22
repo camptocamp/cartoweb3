@@ -110,6 +110,11 @@ class ExportConfiguration {
      * @var Bbox
      */
     private $queryBbox;
+
+    /**
+     * @var string
+     */
+    private $switchId;
     
     /**
      * @param boolean
@@ -333,6 +338,20 @@ class ExportConfiguration {
      */
     public function getQueryBbox() {
         return $this->queryBbox;
+    }
+
+    /**
+     * @param string
+     */
+    public function setSwitchId($switchId) {
+        $this->switchId = $switchId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSwitchId() {
+        return $this->switchId;
     }
 }
 
