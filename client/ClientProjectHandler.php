@@ -46,12 +46,17 @@ class ClientProjectHandler extends ProjectHandler {
     /**
      * Environment variable which contains project name
      */
-    const PROJECT_ENV_VAR = 'CW3_PROJECT';
+    const PROJECT_ENV_VAR      = 'CW3_PROJECT';
 
     /**
      * Request name which contains the project name
      */
-    const PROJECT_REQUEST = 'project';
+    const PROJECT_REQUEST      = 'project';
+
+    /**
+     * Current project filename
+     */
+    const CURRENT_PROJECT_FILE = 'current_project.txt';
     
     /**
      * Constructor
@@ -73,25 +78,26 @@ class ClientProjectHandler extends ProjectHandler {
      */
     public function getProjectName() {
         if (!isset($this->projectName)) {
-            $projectFileName = CARTOWEB_HOME . 'current_project.txt';
-            
+            $projectFileName = CARTOWEB_HOME . self::CURRENT_PROJECT_FILE;
+           
             if (array_key_exists(self::PROJECT_REQUEST, $_REQUEST))
                 $this->projectName = $_REQUEST[self::PROJECT_REQUEST];
-
-            else if (is_readable($projectFileName))
-                $this->projectName = rtrim(file_get_contents($projectFileName));
-
-            else if (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
+    
+            elseif (array_key_exists(self::PROJECT_ENV_VAR, $_ENV))
                 $this->projectName = $_ENV[self::PROJECT_ENV_VAR];
-
-            else if (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
+    
+            elseif (array_key_exists(self::PROJECT_ENV_VAR, $_SERVER))
                 $this->projectName = $_SERVER[self::PROJECT_ENV_VAR];
-
-            else if (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_SERVER))
+    
+            elseif (array_key_exists('REDIRECT_' . self::PROJECT_ENV_VAR, $_SERVER))
                 $this->projectName = $_SERVER['REDIRECT_' . self::PROJECT_ENV_VAR];
+    
+            elseif (is_readable($projectFileName))
+                $this->projectName = rtrim(file_get_contents($projectFileName));
+    
+            else
+                $this->projectName = ProjectHandler::DEFAULT_PROJECT;
 
-            else $this->projectName = ProjectHandler::DEFAULT_PROJECT;
-            
             $this->log->debug('current project is ' . $this->projectName);
         }
         return $this->projectName;
