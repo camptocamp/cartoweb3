@@ -83,20 +83,3 @@
 
 {t}Total area{/t}: {$outline_area}<br />
 <input type="submit" name="outline_clear" value="{t}outline_clear{/t}" class="form_button" />
-
-<script type="text/javascript">
-  /*<![CDATA[*/
-    var imgPath = '{$pathToSymbols}';
-    var symbolType = '{$symbolType}';
-
-    var symbolNamesArray = new Array({strip}
-    {foreach name=symbolsList item=symbols from=$outline_point_available_symbols}
-        "{$symbols}"{if !$smarty.foreach.symbolsList.last},{/if}
-    {/foreach}{/strip});
-
-    var symbolLabelArray = new Array({strip}
-    {foreach name=symbolsLabelsList item=labels from=$outline_point_available_symbolsLabels}
-        "{$labels}"{if !$smarty.foreach.symbolsLabelsList.last},{/if}
-    {/foreach}{/strip});
-  /*]]>*/
-</script>
