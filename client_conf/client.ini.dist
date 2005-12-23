@@ -119,3 +119,4 @@ viewUpgradeOutdated = false
 
 ;## toolPicker ##
 toolPickerOn = true
+symbolPickerHilight = inversed

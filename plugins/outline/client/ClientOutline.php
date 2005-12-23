@@ -313,19 +313,10 @@ class ClientOutline extends ClientPlugin
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $maskSelected = $this->outlineState->maskMode ? 'yes' : 'no';
         
-        $transSymbols = array();
-
-        foreach($this->symbols->pointLabels as $val) {
-            $transSymbols[] = I18n::gt($val);
-        }
         $this->smarty->assign(array(
             'outline_mask_selected' => $maskSelected,
             'outline_area' => $this->area,
-            
-            'outline_point_available_symbols' => $this->symbols->point,
-            'outline_point_available_symbolsLabels' => $transSymbols,
-            'outline_line_available_symbols' => $this->symbols->line,
-           
+                       
             'outline_point_symbol_selected' => 
                 $this->outlineState->pointStyle->symbol,
             'outline_point_size_selected' => $this->outlineState->pointStyle->size,
@@ -346,8 +337,7 @@ class ClientOutline extends ClientPlugin
             'outline_polygon_transparency_selected' => 
                 $this->outlineState->polygonStyle->transparency,
             
-            'pathToSymbols' => $this->symbols->pathToSymbols,
-            'symbolType' => $this->symbols->symbolType,
+            
             ));
         return $this->smarty->fetch('outline.tpl');
     }
@@ -367,9 +357,19 @@ class ClientOutline extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
 
+        $transSymbols = array();
+
+        foreach($this->symbols->pointLabels as $val) {
+            $transSymbols[] = I18n::gt($val);
+        }
         $template->assign(array('outline_active' => true,
                                 'outline'        => $this->drawOutline(),
-                                'outlinelabel'   => $this->drawOutlinelabel()));
+                                'outlinelabel'   => $this->drawOutlinelabel(),
+                                'pathToSymbols' => $this->symbols->pathToSymbols,
+                                'symbolType' => $this->symbols->symbolType,
+                                'outline_point_available_symbols' => $this->symbols->point,
+                                'outline_point_available_symbolsLabels' => $transSymbols,
+                                'outline_line_available_symbols' => $this->symbols->line));
     }
 
     /**
