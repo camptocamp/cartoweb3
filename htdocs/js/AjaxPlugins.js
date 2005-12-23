@@ -29,8 +29,9 @@ AjaxPlugins.Common = {
 
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function(actionId) {
-		this.mapCursorStyle = $("map").style.cursor;
-		$("map").style.cursor = "wait";
+		if (this.mapCursorStyle == null)
+			this.mapCursorStyle = $("map").style.cursor;
+		$("map").style.cursor = "progress";
 		document.getElementsByTagName("body")[0].style.cursor = "progress";
 		//xShow($('loadbarDiv'));
 	},
@@ -40,7 +41,10 @@ AjaxPlugins.Common = {
 		AjaxPlugins.Common.clearDhtmlOutlineLabel();
 		
 		document.getElementsByTagName("body")[0].style.cursor = "default";
-		$("map").style.cursor = this.mapCursorStyle;
+		if (this.mapCursorStyle != null) {
+			$("map").style.cursor = this.mapCursorStyle;
+			this.mapCursorStyle = null;
+		}
 		//xHide($('loadbarDiv'));
 	},
 
