@@ -202,7 +202,8 @@
   font-size: 1px;
 }
 .ArSs {
-  border: 1px solid green;
+  border: 2px solid;
+  border-color: black;
   font-size: 1px;
   height: 30px;
   width: 30px;
@@ -211,4 +212,3 @@
   clear: both;
   font-size: 1px;
 }
-
