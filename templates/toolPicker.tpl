@@ -1,6 +1,24 @@
 <!-- START TEMPLATE COLOR PICKER -->
   <script type="text/javascript" src="{r type=js}toolPicker.js{/r}"></script>
 
+<script type="text/javascript">
+  /*<![CDATA[*/
+    var imgPath = '{$pathToSymbols}';
+    var symbolType = '{$symbolType}';
+    var symbolPickerHilight = '{$symbolPickerHilight}';
+
+    var symbolNamesArray = new Array({strip}
+    {foreach name=symbolsList item=symbols from=$outline_point_available_symbols}
+        "{$symbols}"{if !$smarty.foreach.symbolsList.last},{/if}
+    {/foreach}{/strip});
+
+    var symbolLabelArray = new Array({strip}
+    {foreach name=symbolsLabelsList item=labels from=$outline_point_available_symbolsLabels}
+        "{$labels}"{if !$smarty.foreach.symbolsLabelsList.last},{/if}
+    {/foreach}{/strip});
+  /*]]>*/
+</script>
+
 <div id="toolcontainer">
   <div id="menucontainer">
     <div id="fixedtoolmenu" class="toolmenuOff">{t}Tools{/t} &gt;</div>
