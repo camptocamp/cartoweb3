@@ -5,7 +5,7 @@ cartoserverDirectAccess = true
 
 ; Current profile: may be development, production or custom
 ;  This will override some parameter values
-profile = production
+profile = development
 
 ; -------------------------------------------------------------------
 ;  The following parameters are only taken into account when profile=custom
