@@ -8,7 +8,9 @@
  * Used by: AjaxHandler.js
  */
 
-// Initialises plugins on window load
+/*
+ * Initialises plugins on window load
+ */
 AjaxHelper.addEvent(window, 'load', function() {
 	AjaxPlugins.Common.init();
 });
@@ -21,8 +23,7 @@ AjaxPlugins.Common = {
 
 	/* Plugins' actions initialisation */
 	init: function() {
-		Logger.header('Initiating actions');
-	
+		Logger.header('Initiating actions');	
 		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
@@ -75,9 +76,11 @@ AjaxPlugins.Common = {
 AjaxPlugins.Cartoweb = {
 	handleResponse: function(pluginOutput) {
 		// Shows developer and user messages in jsTrace debugger window
-		if (pluginOutput.htmlCode.developerMessages != '')
-			Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);		
-		if (pluginOutput.htmlCode.userMessages != '')
-			Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
+		if (pluginOutput.htmlCode.developerMessages != '') {
+            Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);
+        }
+		if (pluginOutput.htmlCode.userMessages != '') {
+            Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
+        }
 	}
 }
