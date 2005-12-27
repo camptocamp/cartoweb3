@@ -14,7 +14,7 @@ AjaxPlugins.Hello = {
 
 AjaxPlugins.Hello.Actions = {};
 
-AjaxPlugins.Hello.Actions.change = {
+AjaxPlugins.Hello.Actions.Change = {
   buildPostRequest: function(argObject) {
   	return AjaxHandler.buildPostRequest();
   },
