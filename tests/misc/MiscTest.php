@@ -51,6 +51,13 @@ class misc_MiscTest extends PHPUnit2_Framework_TestCase {
         $this->assertTrue(strlen($ret) == 0, "Some files contain tabs:\n$ret");
     }
 
+    public function testDosLineEndings() {
+
+        $ret = shell_exec('cd ../scripts/; /bin/sh ./checkdos.sh 2>&1');
+        $this->assertTrue(strlen($ret) == 0, 
+                                 "Some files contain dos file endings:\n$ret");
+    }
+
     public function testFunctionModifiers() {
 
         $ret = shell_exec('cd ../scripts/; /bin/sh ./checkmodifiers.sh 2>&1');
