@@ -189,7 +189,7 @@ data from PostGis tables.
 The table containing the graph has to contain the columns described in
 the previous section, and an additional geometric column called
 "the_geom" of type MULTILINESTRING. Only the first line in the
-multiline geomety will be handled. This restriction is because the
+multiline geometry will be handled. This restriction is because the
 shp2pgsql tool provided with postgis creates MULTILINESTRING geometric
 tables for shapefiles containing a set of lines. The importation
 should however handle more that only the first line in the multi line
