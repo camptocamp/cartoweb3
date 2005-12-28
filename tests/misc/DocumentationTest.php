@@ -41,6 +41,7 @@ class misc_DocumentationTest extends PHPUnit2_Framework_TestCase {
         $ret = exec('xmllint', $dummy, $status);
         if ($status == 127)
             return $this->fail('You need to install xmllint ' . 
+                               ' (package libxml2-utils) ' .
                                'to complete documentation tests');
         $ret = exec('xmllint --xinclude --noout --postvalid ' . 
                     '../documentation/user_manual/source/book.xml 2>&1',
