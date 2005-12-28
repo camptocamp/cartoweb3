@@ -865,6 +865,7 @@ function cw3setupGetProjects($dir) {
     $dh = @opendir($dir);
     if (!$dh)
         return false;
+    $projects = array();
     while ($file = readdir($dh)) {
         if (!fileIgnored($file)) {
             $projects[] = $file;
