@@ -20,4 +20,4 @@
           <element name="initMessage" type="xsd:string"/>
         </all>
       </complexType>
-      
+ 

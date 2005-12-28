@@ -1882,4 +1882,4 @@ function nullifyProperties(object) {
     object = null;
   }
   catch (e) { }
-};
+}; 

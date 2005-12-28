@@ -967,8 +967,6 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 }
 
 
-
 function integer_compare(x,y)
 {
 	return (x < y) ? -1 : ((x > y)*1);
-}

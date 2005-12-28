@@ -16,3 +16,4 @@ log4php.appender.A1.layout=LoggerLayoutTTCC
 ;log4php.logger.LayersPlugin = DEBUG
 ;log4php.logger.Cartoclient = DEBUG
 ;log4php.logger.ClientPlugin = DEBUG
+ 

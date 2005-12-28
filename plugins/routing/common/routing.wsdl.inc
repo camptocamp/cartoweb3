@@ -62,3 +62,4 @@
           <element name="attributes" type="types:ArrayOfAttribute"/>
         </all>
       </complexType>
+ 
