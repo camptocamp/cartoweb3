@@ -837,6 +837,8 @@ class ServerLocation extends ClientResponderAdapter
             }
             $pluginManager->outline->draw(array($this->crosshair));
         }
+
+        return $this->getLocationResult();
     }
 
     /**
@@ -899,9 +901,6 @@ class ServerLocation extends ClientResponderAdapter
         
         if (!$this->getConfig()->noBboxAdjusting)
             $this->doBboxAdjusting($maxBbox);
-            
-
-        return $this->getLocationResult();
     }
        
     /**
