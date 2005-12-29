@@ -116,6 +116,14 @@
           the zoom factor to use whan scaleModeDiscrete is set to false. </para>
       </listitem>
       <listitem>
+        <para> noBboxAdjusting<indexterm><primary>noBboxAdjusting</primary></indexterm>: 
+          If set to true, all data contained in the initial extent (mapfile)
+          is visible on the full extent (first) map. This case is the default 
+          mapserver behavior. If set to false (default), the user won't be 
+          able to see anything outside the initial extent, even on full extent 
+          map.</para>
+      </listitem>
+      <listitem>
         <para> 
           scales.#.value<indexterm><primary>scales.#.value</primary></indexterm> 
           (# = 0, 1, 2, ...): available value of the scale in discrete mode. 
