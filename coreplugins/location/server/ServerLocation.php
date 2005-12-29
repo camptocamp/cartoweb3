@@ -600,6 +600,12 @@ class ServerLocation extends ClientResponderAdapter
      */
     protected $visibleScales;
 
+    /**
+     * Initial Extent of the map (the mapfile one)
+     * @var Bbox
+     */    
+    protected $initialExtent;
+
     /** 
      * Constructor
      */
@@ -767,9 +773,15 @@ class ServerLocation extends ClientResponderAdapter
 
         if ($scale) {            
             $center = ms_newPointObj();
-            $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
+            $center->setXY($msMapObj->width/2, $msMapObj->height/2);
+            
+            $maxGeoRefExtent = ms_newRectObj();
+            $maxGeoRefExtent->setextent($this->initialExtent->minx, $this->initialExtent->miny,
+                $this->initialExtent->maxx, $this->initialExtent->maxy);
+                
             $msMapObj->zoomscale($scale, $center,
-                        $msMapObj->width, $msMapObj->height, $msMapObj->extent);
+                $msMapObj->width, $msMapObj->height, $msMapObj->extent,
+                $maxGeoRefExtent);
         }
     }
 
@@ -834,6 +846,10 @@ class ServerLocation extends ClientResponderAdapter
 
         $this->log->debug('handleCorePlugin: ');
         $this->log->debug($requ);
+        
+        $msMapObj = $this->serverContext->getMapObj();
+        $this->initialExtent = new Bbox();
+        $this->initialExtent->setFromMsExtent($msMapObj->extent);
 
         $this->initScales();
         
@@ -880,7 +896,10 @@ class ServerLocation extends ClientResponderAdapter
         $maxBbox = NULL;
         if (isset($requ->locationConstraint->maxBbox))
             $maxBbox = $requ->locationConstraint->maxBbox;
-        $this->doBboxAdjusting($maxBbox);
+        
+        if (!$this->getConfig()->noBboxAdjusting)
+            $this->doBboxAdjusting($maxBbox);
+            
 
         return $this->getLocationResult();
     }
