@@ -37,6 +37,8 @@ class SoapFaultWrapper extends SoapFault {
      * @param SoapFault The soap fault object to wrap
      */
     public function __construct(SoapFault $fault) {
+        if (!isset($fault->faultcode))
+            $fault->faultcode = -1;
         parent::__construct($fault->faultcode, $fault->faultstring);
     }
     
