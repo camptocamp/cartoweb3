@@ -29,7 +29,7 @@ AjaxPlugins.Hello.Actions.Change = {
     // Initialise only if hello_input element exists, else
     // wait a little while before trying again
     if ($('hello_input') == undefined) {
-      setTimeout(AjaxPlugins.Hello.Actions.change.init, 500);
+      setTimeout(AjaxPlugins.Hello.Actions.Change.init, 500);
     } else {
 	  AjaxHandler.attachAction($('hello_input'), 'keyup', 'Hello.change');
 	}
