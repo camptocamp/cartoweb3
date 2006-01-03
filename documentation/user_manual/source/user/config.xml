@@ -55,11 +55,11 @@
           </para>
       </listitem>
       <listitem>
-        <para> cartoclientUrl = "url" : base URL of the cartoclient- </para>
+        <para> cartoclientBaseUrl: base URL of the &cartoclient;</para>
       </listitem>
       <listitem>
-        <para> cartoserverUrl = "url" : base URL of the cartoserver (i.e. path 
-          containing the <filename>cartoserver.wsdl.php</filename> file. </para>
+        <para> cartoserverBaseUrl: base URL of the &cartoserver; (i.e. path 
+          containing the <filename>cartoserver.wsdl.php</filename> file)</para>
       </listitem>
     </itemizedlist>
     <para> Mapfile configuration:</para>
