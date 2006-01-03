@@ -37,4 +37,4 @@ AjaxPlugins.Hello.Actions.Change = {
 }
 
 /* Initialises js Location plugin */
-AjaxPlugins.Hello.Actions.change.init();
+AjaxPlugins.Hello.Actions.Change.init();
