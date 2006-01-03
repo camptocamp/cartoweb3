@@ -348,7 +348,7 @@ class ServerOutline extends ClientResponderAdapter
           // set type
           $currentDefaultValues->type = $targetLayerType;
 
-        	$currentLayer = $msMapObj->getLayerByName($this->getConfig()->$targetLayerType);
+          $currentLayer = $msMapObj->getLayerByName($this->getConfig()->$targetLayerType);
           
           // get layer transparency
           $currentShapeStyle->transparency = $currentLayer->transparency;
@@ -358,7 +358,7 @@ class ServerOutline extends ClientResponderAdapter
 
           $colorList = array('red', 'green', 'blue');
           foreach($colorList as $color) {
-          	  $currentShapeStyle->color->$color = $currentStyle->color->$color;
+              $currentShapeStyle->color->$color = $currentStyle->color->$color;
               $currentShapeStyle->outlineColor->$color = $currentStyle->outlinecolor->$color;
           }
           $currentShapeStyle->size = $currentStyle->size;
