@@ -121,7 +121,9 @@ class ServerOutline extends ClientResponderAdapter
             $mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
         } catch (Exception $e) {
             throw new CartoserverException('mapOverlay plugin not loaded, ' . 
-                                           'and needed by outline');
+                                           'and needed by outline: ' .
+                                           'add "mapOverlay" to your ' .
+                                           'server-side "loadPlugins" parameter');
         }
         $result = $mapOverlay->updateMap($layer);
 
