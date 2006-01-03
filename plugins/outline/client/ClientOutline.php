@@ -294,8 +294,9 @@ class ClientOutline extends ClientPlugin
      * @see ServerCaller::initializeResult()
      */ 
     public function initializeResult($outlineResult) {
-        // call for default values
-        $this->setDefaultValues($this->symbols->outlineDefaultValues->outlineDefaultValuesList);
+        // calls for default values
+        $this->setDefaultValues($this->symbols->outlineDefaultValues
+                                              ->outlineDefaultValuesList);
 
         if (!is_null($outlineResult)) {
             $this->area = $outlineResult->area;
