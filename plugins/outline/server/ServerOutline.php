@@ -99,6 +99,9 @@ class ServerOutline extends ClientResponderAdapter
      * @param string
      */
     protected function drawFeature(StyledShape $shape, $layerName) {
+
+        //$layerName : name of the layer to get from mapfile
+
         if (is_null($layerName) || $layerName == '') {
             throw new CartoserverException('Layer name is not set. ' .
                                            'check your outline.ini');
@@ -129,7 +132,7 @@ class ServerOutline extends ClientResponderAdapter
 
         $msLayer = $this->serverContext->getMapObj()->getLayer($result->layers[0]->index);
         $msLayer->addFeature($f);
-        $msLayer->set('status', MS_ON);
+        $msLayer->set('status', MS_ON);    
     }
 
     /**
@@ -302,7 +305,7 @@ class ServerOutline extends ClientResponderAdapter
      * @return OutlineResult
      */
     public function handleDrawing($requ) {
-
+        
         $area = $this->draw($requ->shapes, $requ->maskMode);
         
         $result = new OutlineResult();
@@ -331,6 +334,40 @@ class ServerOutline extends ClientResponderAdapter
 
         $outlineInit->pathToSymbols = $this->pathToSymbols;
         $outlineInit->symbolType = $this->symbolType;
+
+        $targetList = array('pointLayer', 'lineLayer', 'polygonLayer');
+
+        $defaultValuesList = new OutlineDefaultValuesList();
+        $msMapObj = $this->serverContext->getMapObj();
+
+        foreach($targetList as $targetLayerType) {
+          
+          $currentDefaultValues = new OutlineDefaultValues();
+          $currentShapeStyle = new StyleOverlay();
+          
+          // set type
+          $currentDefaultValues->type = $targetLayerType;
+
+        	$currentLayer = $msMapObj->getLayerByName($this->getConfig()->$targetLayerType);
+          
+          // get layer transparency
+          $currentShapeStyle->transparency = $currentLayer->transparency;
+          //get first class
+          $currentClass = $currentLayer->getClass(0);
+          $currentStyle = $currentClass->getStyle(0);
+
+          $colorList = array('red', 'green', 'blue');
+          foreach($colorList as $color) {
+          	  $currentShapeStyle->color->$color = $currentStyle->color->$color;
+              $currentShapeStyle->outlineColor->$color = $currentStyle->outlinecolor->$color;
+          }
+          $currentShapeStyle->size = $currentStyle->size;
+          
+          $currentDefaultValues->shapeStyle = $currentShapeStyle;
+          $defaultValuesList->outlineDefaultValuesList[] = $currentDefaultValues;
+        }        
+
+        $outlineInit->outlineDefaultValues = $defaultValuesList;
 
         return $outlineInit;
     }

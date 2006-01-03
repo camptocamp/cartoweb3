@@ -69,5 +69,24 @@
           <element name="polygon" type="types:ArrayOfString"/>
           <element name="pathToSymbols" type="xsd:string"/>
           <element name="symbolType" type="xsd:string"/>
+          <element name="defaultValuesList" type="types:ArrayOfDefaultValues"/>
         </all>
       </complexType>
+
+      <complexType name="ArrayOfDefaultValues">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:DefaultValues[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>
+
+      <complexType name="DefaultValues">
+        <all>
+          <element name="type" type="xsd:string"/>
+          <element name="shapeStyle" type="types:ShapeStyle"/>
+        </all>
+      </complexType>
+
+      
+
