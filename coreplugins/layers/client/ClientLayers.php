@@ -413,6 +413,8 @@ class ClientLayers extends ClientPlugin
         // if switch_id set on new session
         if (isset($_REQUEST['switch_id']))
             $this->setSwitch($_REQUEST['switch_id']);
+        elseif (isset($_ENV['switch_id']))
+            $this->setSwitch($_ENV['switch_id']);
             
         $this->hiddenUnselectedLayers = array();
         $this->hiddenSelectedLayers = $this->fetchHiddenSelectedLayers('root');
