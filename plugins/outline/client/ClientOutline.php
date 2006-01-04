@@ -40,12 +40,6 @@ class OutlineState {
      * @var boolean
      */
     public $maskMode;
-    
-    /**
-     * If true, will ask for a label text
-     * @var boolean
-     */
-    public $labelMode;
 
     /**
      * Current point style
