@@ -145,7 +145,6 @@ class ClientOutline extends ClientPlugin
 
         $this->outlineState->shapes = array();
         $this->outlineState->maskMode = false;
-        $this->outlineState->labelMode = false;
         $this->outlineState->pointStyle = new StyleOverlay();
         $this->outlineState->lineStyle = new StyleOverlay();
         $this->outlineState->polygonStyle = new StyleOverlay();
@@ -352,6 +351,10 @@ class ClientOutline extends ClientPlugin
      */    
     protected function drawOutlinelabel() {
 
+        if (!$this->getConfig()->labelMode) {
+            return '';
+        }
+        
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         return $this->smarty->fetch('outlinelabel.tpl');
     }

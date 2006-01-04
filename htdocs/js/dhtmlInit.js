@@ -321,12 +321,16 @@ Map.prototype.surface = function(aDisplay) {
 Map.prototype.outline_poly = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.poly');
-  this.onFeatureInput = function(aFeature) {
-    addLabel(polyDefaultLabel, mouse_x, mouse_y);
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
@@ -334,12 +338,16 @@ Map.prototype.outline_poly = function(aDisplay) {
 Map.prototype.outline_line = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.line');
-  this.onFeatureInput = function(aFeature) {
-    addLabel(lineDefaultLabel, mouse_x, mouse_y);
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
@@ -348,11 +356,15 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.box');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
@@ -361,11 +373,15 @@ Map.prototype.outline_point = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('draw.point');
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel(pointDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
