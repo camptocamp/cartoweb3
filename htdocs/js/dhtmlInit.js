@@ -326,7 +326,7 @@ Map.prototype.outline_poly = function(aDisplay) {
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
-      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+      addLabel(polyDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
@@ -343,7 +343,7 @@ Map.prototype.outline_line = function(aDisplay) {
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
-      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+      addLabel(lineDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
@@ -377,7 +377,7 @@ Map.prototype.outline_point = function(aDisplay) {
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
-      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+      addLabel(pointDefaultLabel, mouse_x, mouse_y);
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
