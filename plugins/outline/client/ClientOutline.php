@@ -21,7 +21,7 @@
  * @version $Id$
  */
 
-define('OUTLINE_SESSION_VERSION', 2);
+define('OUTLINE_SESSION_VERSION', 3);
 
 /**
  * Contains the state of an outline.
@@ -70,6 +70,16 @@ class OutlineV1ToV2 extends ViewUpgrader {
         $this->add('pointStyle', new StyleOverlay());
         $this->add('lineStyle', new StyleOverlay());
         $this->add('polygonStyle', new StyleOverlay());
+    }
+}
+
+/**
+ * Upgrades from V2 to V3
+ */
+class OutlineV2ToV3 extends ViewUpgrader {
+
+    protected function callFilters() {
+        $this->remove('labelMode');
     }
 }
 
