@@ -27,3 +27,11 @@
   padding:10px;
   position: relative;
 }
+
+#outlineLabelInputDiv {
+  position:absolute;
+  visibility:hidden;
+  padding:10px;
+  background-color:#f5f5f5;
+  border:1px dashed #dfdfdf;
+}
