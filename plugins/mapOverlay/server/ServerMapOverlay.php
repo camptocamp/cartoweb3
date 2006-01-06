@@ -733,7 +733,6 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->maxScale = $overlay->maxScale;
                 $msLayer->set('maxscale', $result->maxScale);
             }
-            
             if (!is_null($overlay->minScale) && 
                 $msLayer->minScale != $overlay->minScale) {
                 $result->minScale = $overlay->minScale;
@@ -870,6 +869,48 @@ class ServerMapOverlay extends ServerPlugin {
             
             // no insertLayer function in PHP MapScript. see mapserver bug #762
             $msLayer->set("status", MS_ON);
+            
+            // layer position 
+            if (!is_null($overlay->position)) {
+                $msMap = $this->serverContext->getMapObj();
+
+                switch ($overlay->position->type) {
+                case PositionOverlay::TYPE_ABSOLUTE:
+                    $pos = $overlay->position->index;
+                    break;
+                case PositionOverlay::TYPE_RELATIVE:
+                    if (is_null($overlay->position->id)) {
+                        throw new CartoserverException (
+                            'id cannot be null when position is relative');
+                    }
+                    $msSearchLayer = $msMap->getLayerByName (
+                        $overlay->position->id);
+                    if ($msSearchLayer == FALSE)
+                        throw new CartoserverException (
+                            'insert Layer: id not found');
+
+                    $pos = $msSearchLayer->index + $overlay->position->index;
+                    if ($pos < 0) {
+                       $pos = 0;
+                    } else if ($pos > $msMap->numlayers) {
+                       $pos = $msMap->numlayers;
+                    }
+                    break;
+                }
+                
+                $order = $msMap->getlayersdrawingorder();
+                $newOrder = array();
+                foreach ($order as $key => $value) {
+                    if ($key == $pos) {
+                        $newOrder[$key] = $msLayer->index;
+                    } else if ($key < $pos) {
+                        $newOrder[$key] = $value;
+                    } else {
+                        $newOrder[$key] = $order[$key - 1];
+                    }
+                }
+                $msMap->setlayersdrawingorder($newOrder);
+            }
             break;
             
         case BasicOverlay::ACTION_REMOVE:
@@ -905,7 +946,11 @@ class ServerMapOverlay extends ServerPlugin {
             }
         }
 
-        $result->index = $msLayer->index;
+        if (!is_null($overlay->position) && isset($pos)) {
+            $result->index = $pos;
+        } else {
+            $result->index = $msLayer->index;
+        }
 
         return $result;
     }
