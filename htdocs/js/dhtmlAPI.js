@@ -1374,15 +1374,19 @@ Display.prototype.fillPolygon = function(aPolygon, status) {
  * Draws a feature
  * @param obj object to add a point to
  * @param feature
+ * @param status
+ * @param clip boolean allow clipping by rectangle
  * @return object created in DOM
  */
-Display.prototype.drawFeature = function(obj, feature, status) {
+Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
   var xmin = this._map.extent.xmin;
   var ymin = this._map.extent.ymin;
   var xmax = this._map.extent.xmax;
   var ymax = this._map.extent.ymax;
   if (typeof status == "undefined")
     status = _OFF;
+  if (typeof allowClipping == "undefined")
+    allowClipping = true;
     
   switch (feature.getObjectClass()) {
     case "Raster":
@@ -1403,7 +1407,7 @@ Display.prototype.drawFeature = function(obj, feature, status) {
       // TODO change extent use in mapObj( rectangle2D);
       var buffer = ((xmax - xmin) * 5 / 100 + (ymax - ymin) * 5 / 100 ) / 2;
 	  var clippingExtent = new Rectangle2D(xmin - buffer , ymin - buffer , xmax + buffer , ymax + buffer);
-	  if (feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
+	  if (allowClipping && feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
         && feature.type != 'point') {
 	    clippedFeature = feature.clipByRectangle2D(clippingExtent);
 	    clippedFeature.id = feature.id;
