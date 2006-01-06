@@ -8,9 +8,10 @@
   {/if}
 {/foreach}
 {/strip}
-cw3_initial_selected_tool = "mainmap.{$selected_tool}('map');";
+var cw3_initial_selected_tool = "mainmap.{$selected_tool}('map');";
 {if $toolbar_rendering != 'radio'}
 cw3_initial_selected_tool += "setActiveToolButton('{$selected_tool}');";
+var toolbar_rendering = '{$toolbar_rendering}';
 {/if}
 </script>
 {if $toolbar_rendering != 'radio'}
