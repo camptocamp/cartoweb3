@@ -696,16 +696,15 @@ function changeBrightness () {
     
     if (colorSpace != 'rgb') {
         fctName = colorSpace.toUpperCase()+"toRGB";
-        pickedColor = functionList[fctName](pickedColor);      
+        pickedColor = functionList[fctName](pickedColor);
+        modifiedColor = functionList[fctName](modifiedColor);
+        colorSpace = 'rgb';
     }
 
     newval[0] = Math.round(level * pickedColor[0]);
     newval[1] = Math.round(level * pickedColor[1]);
     newval[2] = Math.round(level * pickedColor[2]);
-    /*
-    writeColor('colorresult2', newval);
-    correctSlider(newval,Array('rgb','hsl'));
-    */
+
     for (i=0;i<activeColorSpace.length;i++){
         updateSlider(activeColorSpace[i], newval);
         updateInput(activeColorSpace[i], newval);
@@ -713,7 +712,7 @@ function changeBrightness () {
     updateColorBox(newval, 'colorresult2');
 }
 /** 
- *  correct brightness accordingly to the current pos of brigtness cursor, at thne end of drag
+ *  correct brightness accordingly to the current pos of brigtness cursor, at the end of drag
  *  all color are updated
 */
 function setBrightness() {
@@ -734,8 +733,9 @@ function setBrightness() {
         updateSlider(activeColorSpace[i], newval);
         updateInput(activeColorSpace[i], newval);
     }
+    modifiedColor = newval;
     updateColorBox(newval, 'colorresult3');
-    updateHexColorBox (pickedColor, 'Hex');
+    updateHexColorBox (newval, 'Hex');
 }
 /** 
  *  reset brightness cursor to pos 0
@@ -1215,9 +1215,20 @@ function HEXtoRGB(hex) {
  *  @return array
 */
 function colorPickerReturn () {
-    return RGBtoHEX(modifiedColor);
+    
+    fctName = colorSpace.toUpperCase()+"toHEX";
+    newColor = functionList[fctName](modifiedColor);
+
+    return newColor;
 } 
 function colorPickerDisplay(targetElm) {
+
+    if (colorSpace != 'rgb') {
+        fctName = colorSpace.toUpperCase()+"toRGB";
+        modifiedColor = functionList[fctName](modifiedColor);
+        colorSpace = 'rgb';
+    }
+
     targetElm.style.backgroundColor = 'rgb('+modifiedColor[0]+','+modifiedColor[1]+','+modifiedColor[2]+')';
     targetElm.title = RGBtoHEX(modifiedColor);
 }
