@@ -36,7 +36,7 @@ message:   {$failure_message}
 </p>
 
 <p class="hint">
-Hint: you should customize this template in your project.
+Hint: you should customize this template (failure.tpl) in your project.
 </p>
 
 </body>
