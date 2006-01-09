@@ -535,15 +535,16 @@ class RecenterLocationCalculator extends LocationCalculator {
         $bbox = $this->mergeBboxes($bboxes);
 
         $margin = $this->locationPlugin->getConfig()->recenterMargin;
-        if (is_null($margin))
-            $margin = 0;
-        if ($margin != 0)
-            $bbox = $this->addMargin($bbox, $margin);        
-
-        $emptyBbox =  $bbox->getWidth() == 0 && $bbox->getHeight() == 0;
         
-        // in case of an empty bbox, use the scale from configuration
-        $this->useDefaultScale = $emptyBbox;
+        $emptyBbox =  $bbox->getWidth() == 0 && $bbox->getHeight() == 0;
+        if (is_null($margin)) {
+            $this->useDefaultScale = true;
+        } else if ($margin != 0) {
+            $bbox = $this->addMargin($bbox, $margin);
+            // in case of an empty bbox, use the scale from configuration
+            $this->useDefaultScale = $emptyBbox;
+        }        
+        
         if ($emptyBbox) {
             $bbox = $this->addBboxBorders($bbox);        
         }

@@ -157,13 +157,15 @@
         <para> 
           recenterMargin<indexterm><primary>recenterMargin</primary></indexterm>: 
           margin to add around the centered-on object (valid for lines and 
-          polygons). Expressed in percent of the width/height of the object. 
+          polygons). Expressed in percent of the width/height of the object.
+          If not set, recenterDefaultScale is used. 
           </para>
       </listitem>
       <listitem>
         <para> 
           recenterDefaultScale<indexterm><primary>recenterDefaultScale</primary></indexterm>: 
-          scale to use when the centered-on object is a point. </para>
+          fixed scale to use when recentering. Mandatory when centered-on object
+          is a point.</para>
       </listitem>
     </itemizedlist>
   </sect1>
