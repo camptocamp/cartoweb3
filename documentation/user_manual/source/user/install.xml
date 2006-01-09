@@ -175,7 +175,7 @@
         <title>List of Available Options</title>
         <para>
           <screen><![CDATA[
-Usage: cw3setup.php ACTION [OPTION]...
+Usage: cw3setup.php ACTION [OPTION_1] ... [OPTION_N]
 
 Possible actions:
 
@@ -224,18 +224,21 @@ List of options:
                             variable replacement in .in files.
                             NOTE: You may either use a path relative to the
                             target cartoweb3 directory or an absolute path.
- --config-from-project PROJECT Read the configuration file containing variables
+--config-from-project PROJECT Read the configuration file containing variables
                             to replace in .in files from the specified project.
 
- --fetch-project-cvs PROJECT Fetch the given project from CVS
-                            (see --cvs-root option).
- --fetch-project-dir DIRECTORY Fetch the given project from a directory.
+ --fetch-project-cvs PROJECT Fetch the given project from CVS (see --cvs-root
+                            option). To fetch several projects at a time,
+                            specify this option as many times as necessary.
+ --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
+                            fetch several projects at a time, specify this
+                            option as many times as necessary.
 
  --default-project PROJECT  Default project to use (this is set automatically
                             if using --config-from-project).
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
-
+                            NOTE: default is 'development'
  --clean-views              Clean views (must be used with --clean).]]></screen>
         </para>
       </sect3>
