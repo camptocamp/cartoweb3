@@ -28,7 +28,9 @@ $globalName = '';
 $globalSwitch = '';
 $rootDir = '';
 
-$projects = getProjects();
+if (empty($projects)) {
+    $projects = getProjects();
+}
 
 foreach ($projects as $project) {
     makeProjectMaps($project);

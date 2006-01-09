@@ -318,10 +318,12 @@ function getMapIdFromIni($project, $iniArray = NULL) {
  */
 
 // If project info is available, only runs the script for the given project.
-if ($_SERVER['argc'] == 2 && !CALLED_BY_CW3_SETUP) {
-    $projects = getProjects($_SERVER['argv'][1]);
-} else {
-    $projects = getProjects();
+if (empty($projects)) {
+    if ($_SERVER['argc'] == 2 && !CALLED_BY_CW3_SETUP) {
+        $projects = getProjects($_SERVER['argv'][1]);
+    } else {
+        $projects = getProjects();
+    }
 }
 
 foreach ($projects as $project) {
