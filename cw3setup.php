@@ -69,7 +69,7 @@ $CW3_WRITABLE_DIRS = array('log',
 
 
 function usage() {
-?>Usage: <?php echo $_SERVER['argv'][0]; ?> ACTION [OPTION]...
+?>Usage: <?php echo $_SERVER['argv'][0]; ?> ACTION [OPTION_1] ... [OPTION_N]
 
 Possible actions:
 
@@ -121,15 +121,18 @@ List of options:
  --config-from-project PROJECT Read the configuration file containing variables
                             to replace in .in files from the specified project. 
  
- --fetch-project-cvs PROJECT Fetch the given project from CVS 
-                            (see --cvs-root option).
- --fetch-project-dir DIRECTORY Fetch the given project from a directory.
+ --fetch-project-cvs PROJECT Fetch the given project from CVS (see --cvs-root 
+                            option). To fetch several projects at a time, 
+                            specify this option as many times as necessary.
+ --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
+                            fetch several projects at a time, specify this
+                            option as many times as necessary.
  
  --default-project PROJECT  Default project to use (this is set automatically 
                             if using --config-from-project).
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
-                             NOTE: default is production if not given
+                            NOTE: default is 'development'
  --clean-views              Clean views (must be used with --clean).
  
 <?php
@@ -646,7 +649,11 @@ function fetchProjects() {
     }
     
     // launch project deploy script
-    foreach (cw3setupGetProjects('projects') as $project) {
+    $projects = getRequestedProjects();
+    if (empty($projects)) {
+        $projects = cw3setupGetProjects('projects');
+    }
+    foreach ($projects as $project) {
         if (is_file("projects/$project/deployment/install.php")) {
             $_ENV['project'] = $project;
             info("Lanching project $project install script");
@@ -659,7 +666,7 @@ function fetchProjects() {
     }
     
     // Broken compatibity warning
-    foreach (cw3setupGetProjects('projects') as $project) {
+    foreach ($projects as $project) {
         if (is_file("projects/$project/deployment/cw3_cvs_pin.txt")) {
             throw new InstallException("Using the cw3_cvs_pin.txt is deprecated, " .
                     "you now have to use the --cartoweb-cvs-option" .
@@ -773,7 +780,7 @@ function fetchDemo() {
 function removeDevFilesIfProd() {
     global $OPTIONS;
     
-    if (isset($OPTIONS['profile']) && $OPTIONS['profile'] != 'production') {
+    if (!isset($OPTIONS['profile']) || $OPTIONS['profile'] != 'production') {
         return;
     }
     
@@ -853,7 +860,14 @@ function createConfigCallback($file, $context) {
 function createConfig() {
     
     info("Copying .ini.dist files into .ini (if not existing)");
-    crawl('.', 'createConfigCallback');
+    
+    crawl('client_conf', 'createConfigCallback');
+    crawl('server_conf', 'createConfigCallback');
+    
+    // In case script is launched from outside of 
+    // cartoweb3 directory (full install):
+    crawl('cartoweb3/client_conf', 'createConfigCallback');
+    crawl('cartoweb3/server_conf', 'createConfigCallback');
 }
 
 /**
@@ -946,7 +960,10 @@ function setupLinks() {
     if (!is_dir('htdocs/gfx/icons'))
         mkdir('htdocs/gfx/icons');
 
-    $pList = cw3setupGetProjects('projects');
+    $pList = getRequestedProjects();
+    if (empty($pList)) {
+        $pList = cw3setupGetProjects('projects');
+    }
     foreach($pList as $project) {
         @mkdir("htdocs/gfx/icons/$project");
         $mList = cw3setupGetProjects("projects/$project/server_conf");
@@ -962,7 +979,6 @@ function setupLinks() {
     if (!is_dir('htdocs/po'))
         mkdir('htdocs/po');
     
-    $pList = cw3setupGetProjects('projects');
     foreach($pList as $project) {
         linkOrCopy("../../projects/$project/po/", "htdocs/po/$project");
     }
@@ -972,7 +988,16 @@ function setupLinks() {
 
     $projdirs =  array('projects', 'plugins', 'coreplugins');
     foreach($projdirs as $dir) {
-        $pList = cw3setupGetProjects($dir);
+        
+        if ($dir == 'projects') {
+            $pList = getRequestedProjects();
+            if (empty($pList)) {
+                $pList = cw3setupGetProjects('projects');
+            }
+        } else {
+            $pList = cw3setupGetProjects($dir);
+        }
+
         foreach($pList as $project) {
             if (!is_dir("./htdocs/$project"))
                 @mkdir("htdocs/$project");
@@ -1005,17 +1030,20 @@ function setupLinks() {
 
 function init() {
 
-    info('Launching makemaps script');
+    $projects = getRequestedProjects();
+    $pList = !empty($projects) ? implode(', ', $projects) : 'all';
+
+    info("Launching makemaps script for projects: $pList");
     include('scripts/makemaps.php');
 
     // FIXME: makemaps needs a soft_clean afterwards (do it, or fix makemaps).
-    info('Launching po2mo script');
     if (!hasCommand('msgfmt --help') || !hasCommand('msgcat')) {
         warn('Warning: Gettext command msgfmt or msgcat was not found: translations won\'t work');
         warn('If you want to use internationalisation, be sure to have gettext installed');
         warn('See http://www.gnu.org/software/gettext/ (for Windows, ' .
                 'see http://gettext.sourceforge.net/)');
     } else {
+        info("Launching po2mo script for projects: $pList");
         include('scripts/po2mo.php');
     }
 }
@@ -1069,8 +1097,10 @@ function getProjectConfig($basePath) {
     $path = dirname(__FILE__);
     $path = substr($path, 1);
     $path = str_replace('/', '_', $path);
+    $path_bis = str_replace('_cartoweb3', '', $path);
 
     $trySuffixes[] = "_{$hostname}_{$path}";
+    $trySuffixes[] = "_{$hostname}_{$path_bis}";
     $trySuffixes[] = "_{$hostname}";
     $trySuffixes[] = "";
  
@@ -1116,7 +1146,7 @@ function getSearchReplaceContext() {
         $vars = array_merge($vars, $ini);
     }
 
-    $vars['BLURB'] = '!!! Do not edit this file, it is generated. Edit the .in instead!!!';
+    $vars['BLURB'] = '!!!Do not edit this file, it is generated. Edit the .in instead!!!';
     // special handling for demo config
     if (!isset($vars['ROUTING_PLUGINS']))
         $vars['ROUTING_PLUGINS'] = '';
@@ -1132,7 +1162,9 @@ function getSearchReplaceContext() {
     if (isset($OPTIONS['profile']))
         $vars['PROFILE'] = $OPTIONS['profile'];
     if (!isset($vars['PROFILE']))
-        $vars['PROFILE'] = 'production';
+        $vars['PROFILE'] = 'development';
+    if (!isset($OPTIONS['profile']))
+        $OPTIONS['profile'] = $vars['PROFILE'];
 
     $newVars = array();
     foreach($vars as $key => $value) {
@@ -1146,11 +1178,38 @@ function getSearchReplaceContext() {
     return $context;
 }
 
+function getRequestedProjects() {
+    global $OPTIONS;
+
+    if (!empty($OPTIONS['fetch-project-cvs'])) {
+        return $OPTIONS['fetch-project-cvs'];
+    }
+
+    if (!empty($OPTIONS['fetch-project-dir'])) {
+        return $OPTIONS['fetch-project-dir'];
+    }
+
+    if (!empty($OPTIONS['config-from-project'])) {
+        return array($OPTIONS['config-from-project']);
+    }
+
+    return array();
+}
+
 function replaceDotIn() {
  
-    info('Copying <files>.in into <files>');
     $context = getSearchReplaceContext();
-    crawl('.', 'replaceDotInCallback', $context);
+    $projects = getRequestedProjects();
+    if ($projects) {
+        foreach ($projects as $project) {
+            crawl("projects/$project", 'replaceDotInCallback', $context);
+        }
+        $processed = implode(', ', $projects);
+    } else {
+        crawl('projects', 'replaceDotInCallback', $context);
+        $processed = 'all';
+    }
+    info("Copied <files>.in into <files> for projects: $processed");
 }
 
 function deleteFilesCallback($file, $context) {
