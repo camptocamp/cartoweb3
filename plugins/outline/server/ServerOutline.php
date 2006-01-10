@@ -79,6 +79,7 @@ class ServerOutline extends ClientResponderAdapter
             $p->addXY($shape->maxx, $shape->maxy);
             $p->addXY($shape->maxx, $shape->miny); 
             $p->addXY($shape->minx, $shape->miny);
+            $p->addXY($shape->minx, $shape->maxy);
         } else {
             if ($className == 'Line') {
                 $f = ms_newShapeObj(MS_SHAPE_LINE);
