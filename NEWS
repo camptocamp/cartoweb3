@@ -3,11 +3,16 @@ CVS version
 - Added mapOverlay plugin to dynamically search, create, update or delete mapfile elements.
 - Added edit plugin to create, edit or delete geographical data on the browser. 
 - Added "toolPicker", an extensible javascript tool to choose color and symbol.
+- Added support for GIF images in PDF export
+- Added support for additional fonts in PDF export
+- PDF form inputs are now saved while browsing the viewer and their initial states are set in config files
+- Added built-in toolbar rendering switching system: radio buttons, icons borders, icons switching
+- Improved cw3setup.php (installation script) to focus on given projects
 
 2005-10-19: CartoWeb 3.1.0
 ==========================
 
-- Refunded DHTML map interface as a convenient object-oriented API.
+- Redesigned DHTML map interface as a convenient object-oriented API.
 - Added JavaScript constraints for polygons: maximum number of points, no crossing.
 - Added new improved tabs interface.
 - Added support of styles with shapes and labels in outline plugin.
@@ -19,7 +24,7 @@ CVS version
     o Debugged overview extent ;
     o Customizable overview outline colors ;
     o Overview can use viewer keymap.
-- Refunded installation script. Added Windows installation wizard (.exe installer).
+- Redesigned installation script. Added Windows installation wizard (.exe installer).
 - Added views plugin.
 - Added routing plugin.
 - Added layers reordering plugin.
