@@ -35,7 +35,7 @@ AjaxPlugins.Common = {
 	setBaseUrl: function() {
 		specialChars = Array('?', '#'); // Defines what a special char is
 		pageUrl = window.location.href;
-		specialCharFirstIndex = pageUrl.length-1;
+		specialCharFirstIndex = pageUrl.length;
 
 		// This loop assign the index of the first special char occurence
 		// to the specialCharFirstIndex variable
