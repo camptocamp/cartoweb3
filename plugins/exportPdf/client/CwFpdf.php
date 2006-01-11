@@ -77,6 +77,81 @@ class cFPDF extends FPDF {
             $s = 'q ' . $this->TextColor . ' ' . $s . ' Q';
         $this->_out($s);
     }
+
+    /**
+     * Support of GIF images.
+     * Method retrieved from http://fpdf.org/phorum/read.php?f=1&i=9418&t=7568#9418
+     * Based on a function by Jérôme Fenal.
+     * @param string
+     * @return array
+     */
+    public function _parsegif($file) {
+        
+        require_once 'yamasoft/gif.php';
+    
+        $h = $w = 0;
+        $gif = new CGIF();
+    
+        if (!$gif->loadFile($file, 0)) {
+            $this->Error("GIF parser: unable to open file $file");
+        }
+        
+        if ($gif->m_img->m_gih->m_bLocalClr) {
+            $nColors = $gif->m_img->m_gih->m_nTableSize;
+            $pal = $gif->m_img->m_gih->m_colorTable->toString();
+            if (isset($bgColor) && $bgColor != -1) {
+                $bgColor = $gif->m_img->m_gih->m_colorTable->colorIndex($bgColor);
+            }
+            $colspace = 'Indexed';
+        
+        } elseif ($gif->m_gfh->m_bGlobalClr) {
+            $nColors = $gif->m_gfh->m_nTableSize;
+            $pal = $gif->m_gfh->m_colorTable->toString();
+            if (isset($bgColor) && $bgColor != -1) {
+                $bgColor = $gif->m_gfh->m_colorTable->colorIndex($bgColor);
+            }
+            $colspace = 'Indexed';
+        
+        } else {
+            $nColors = 0;
+            $bgColor = -1;
+            $colspace = 'DeviceGray';
+            $pal = '';
+        }
+    
+        $trns = '';
+        if ($gif->m_img->m_bTrans && ($nColors > 0)) {
+            $trns = array($gif->m_img->m_nTrans);
+        }
+    
+        $data = $gif->m_img->m_data;
+        $w = $gif->m_gfh->m_nWidth;
+        $h = $gif->m_gfh->m_nHeight;
+    
+        if ($colspace == 'Indexed' && empty($pal)) {
+            $this->Error("Missing palette in $file");
+        }
+        
+        if ($this->compress) {
+            $data = gzcompress($data);
+            return array('w'    => $w, 
+                         'h'    => $h,
+                         'cs'   => $colspace,
+                         'bpc'  => 8, 
+                         'f'    => 'FlateDecode',
+                         'pal'  => $pal,
+                         'trns' => $trns,
+                         'data' => $data);
+        }
+        
+        return array('w'    => $w,
+                     'h'    => $h,
+                     'cs'   => $colspace,
+                     'bpc'  => 8,
+                     'pal'  => $pal,
+                     'trns' => $trns,
+                     'data' => $data);
+    }
 }
 
 /**
@@ -153,6 +228,30 @@ class CwFpdf implements PdfWriter {
                        'YoAtTop' => true);
                        
        $this->space = new SpaceManager($params);
+
+       // Imports additional fonts if any:
+       if (!empty($this->general->extraFonts)) {
+           foreach (Utils::parseArray($this->general->extraFonts) as $font) {
+               $fontInfo = Utils::parseArray($font, '/');
+               // Standard font info format is "family/style/file"
+               switch (count($fontInfo)) {
+                   case 0:
+                       break;
+                   case 1:
+                       $this->p->AddFont($fontInfo[0]);
+                       break;
+                   case 2:
+                       $this->p->AddFont($fontInfo[0], 
+                                         strtoupper($fontInfo[1]));
+                       break;
+                   case 3:
+                   default:
+                       $this->p->AddFont($fontInfo[0],
+                                         strtoupper($fontInfo[1]),
+                                         $fontInfo[2]);
+               }
+           }
+       }
     }
 
     /**
