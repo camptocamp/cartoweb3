@@ -211,6 +211,11 @@ msgstr "Imprimer"
 
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
+msgid "Reset Form"
+msgstr "Réinitialiser"
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
 msgid "Format:"
 msgstr "Format :"
 
