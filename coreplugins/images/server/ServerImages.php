@@ -186,6 +186,15 @@ class ServerImages extends ClientResponderAdapter
         if ($requ->mainmap->isDrawn) { 
             if ($requ->mainmap->angle > 0) {
                 $msMapObj->setRotation($requ->mainmap->angle);
+                if ($requ->mainmap->angle) {
+                    $projection = $msMapObj->getProjection();
+                    for ($i = 0; $i < $msMapObj->numlayers; $i++) {
+                        $layer = $msMapObj->getLayer($i);
+                        if ($layer->getProjection() == MS_FALSE) {
+                            $layer->setProjection($projection);
+                        }
+                    }
+                }
             }
             if ($this->isDrawQuery()) {
                 $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());

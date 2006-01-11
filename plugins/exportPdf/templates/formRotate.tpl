@@ -22,10 +22,18 @@ function pdfFormSubmit(myForm) {
 {/literal}
 /*]]>*/
 </script>
-<input type="hidden" name="pdfExport" value="1" />
+<input type="hidden" name="pdfMarginX" value="{$pdfMarginX}" />
+<input type="hidden" name="pdfMarginY" value="{$pdfMarginY}" />
+{foreach from=$pdfFormatDimensions item=formatDimension}
+<input type="hidden" name="pdf{$formatDimension->format}x"                     
+                     id="pdf{$formatDimension->format}x" value="{$formatDimension->xsize}" />
+<input type="hidden" name="pdf{$formatDimension->format}y" 
+                     id="pdf{$formatDimension->format}y" value="{$formatDimension->ysize}" />
+{/foreach}
+
 <div>{t}Format:{/t} 
 <select name="pdfFormat"
-onchange="javascript:updateResolutions({$pdfResolution_selected});">
+onchange="javascript:updateResolutions({$pdfResolution_selected}); mainmap.updatePdfFeature('map');">
 {html_options options=$pdfFormat_options selected=$pdfFormat_selected}
 </select></div>
 
@@ -34,40 +42,44 @@ onchange="javascript:updateResolutions({$pdfResolution_selected});">
 selected=$pdfResolution_selected}</div>
 
 <div>{t}Scale:{/t}
-{html_options name="pdfScale" options=$pdfScale_options 
-selected=$pdfScale_selected}</div>
+<select name="pdfScale" 
+onchange="javascript: mainmap.updatePdfFeature('map');">
+{html_options options=$pdfScale_options selected=$pdfScale_selected}
+</select></div>
 
 <div><input type="radio" name="pdfOrientation" id="ptt" value="portrait" 
-{if $pdfOrientation == 'portrait'}checked="checked"{/if} /><label 
+{if $pdfOrientation == 'portrait'}checked="checked"{/if} 
+onchange="javascript: mainmap.updatePdfFeature('map');" /><label 
 for="ptt">{t}Portrait{/t}</label>
 <input type="radio" name="pdfOrientation" id="lsp" value="landscape"
-{if $pdfOrientation == 'landscape'}checked="checked"{/if} /><label
+{if $pdfOrientation == 'landscape'}checked="checked"{/if} 
+onchange="javascript: mainmap.updatePdfFeature('map');" /><label
 for="lsp">{t}Landscape{/t}</label></div>
 
-<!-- Temporary: this template will include DHTML code to move and rotate the map to be printed -->
-<div>{t}Rotation:{/t} <input type="text" name="pdfMapAngle" value="" /></div>
-<div>{t}Position:{/t} X <input type="text" name="pdfMapCenterX" value="" size="3" />
-                      Y <input type="text" name="pdfMapCenterY" value="" size="3" /></div>
+<input type="hidden" name="pdfMapAngle" value="{$pdfMapAngle}" />
+<input type="hidden" name="pdfMapCenterX" value="{$pdfMapCenterX}" />
+<input type="hidden" name="pdfMapCenterY" value="{$pdfMapCenterY}" />
 
-{if $pdfTitle}<div>{t}Title:{/t} <input type="text" name="pdfTitle" value="" /></div>{/if}
-{if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="" /></div>{/if}
-{if $pdfScalebar}<div><input type="checkbox" name="pdfScalebar" id="pdfScalebar" checked="checked" />
+{if $pdfTitle}<div>{t}Title:{/t} <input type="text" name="pdfTitle" value="{$pdfTitle_value}" /></div>{/if}
+{if $pdfNote}<div>{t}Note:{/t} <input type="text" name="pdfNote" value="{$pdfNote_value}" /></div>{/if}
+{if $pdfScalebar}<div><input type="checkbox" name="pdfScalebar" id="pdfScalebar" {if $pdfScalebar_value}checked="checked"{/if} />
 <label for="pdfScalebar">{t}Scalebar{/t}</label></div>{/if}
-{if $pdfOverview}<div><input type="checkbox" name="pdfOverview" id="pdfOverview" />
+{if $pdfOverview}<div><input type="checkbox" name="pdfOverview" id="pdfOverview" {if $pdfOverview_value}checked="checked"{/if} />
 <label for="pdfOverview">{t}Overview{/t}</label></div>{/if}
-{if $pdfQueryResult}<div><input type="checkbox" name="pdfQueryResult" id="pdfQueryResult" />
+{if $pdfQueryResult}<div><input type="checkbox" name="pdfQueryResult" id="pdfQueryResult" {if $pdfQueryResult_value}checked="checked"{/if} />
 <label for="pdfQueryResult">{t}QueryResult{/t}</label></div>{/if}
 
 {if $pdfLegend}
 <fieldset>
 <legend>{t}Legend{/t}</legend>
-<div><input type="radio" name="pdfLegend" value="in" id="legendIn" /><label
+<div><input type="radio" name="pdfLegend" value="in" id="legendIn" {if $pdfLegend_value == 'in'}checked="checked"{/if} /><label
 for="legendIn">{t}On map{/t}</label></div>
-<div><input type="radio" name="pdfLegend" value="out" id="legendOut" /><label
+<div><input type="radio" name="pdfLegend" value="out" id="legendOut" {if $pdfLegend_value == 'out'}checked="checked"{/if} /><label
 for="legendOut">{t}In new page{/t}</label></div>
-<div><input type="radio" name="pdfLegend" value="0" id="legendNone" 
-checked="checked" /><label for="legendNone">{t}None{/t}</label></div>
+<div><input type="radio" name="pdfLegend" value="0" id="legendNone" {if !$pdfLegend_value}checked="checked"{/if} /><label 
+for="legendNone">{t}None{/t}</label></div>
 </fieldset>
 {/if}
 
 <input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)" />
+<input type="submit" name="pdfReset" value="{t}Reset Form{/t}" class="form_button" />

@@ -237,21 +237,6 @@ class PdfGeneral {
     public $selectedScale;
 
     /**
-     * @var double 
-     */
-    public $mapAngle;
-     
-    /**
-     * @var double 
-     */
-    public $mapCenterX;
-
-    /**
-     * @var double 
-     */
-    public $mapCenterY;
-
-    /**
      * @var string
      */
     public $defaultOrientation  = 'portrait';

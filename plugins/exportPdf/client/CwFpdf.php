@@ -205,6 +205,12 @@ class CwFpdf implements PdfWriter {
      * @var float
      */
     protected $legendShift;
+
+    /**
+     * Angle for method rotate()
+     * @var float
+     */
+    protected $angle = 0;
     
     /**
      * Constructor.
@@ -358,6 +364,35 @@ class CwFpdf implements PdfWriter {
         // borderStyle property not available with FPDF
     }
     
+    /**
+     * Sets rotation
+     * @param float
+     * @param float
+     * @param float
+     */
+    protected function rotate($angle, $x = -1, $y = -1) {
+    
+        if ($x == -1) {
+            $x = $this->p->x;
+        }
+        if ($y == -1) {
+            $y = $this->p->y;
+        }
+        if ($this->angle != 0) {
+            $this->p->_out('Q');
+        }
+        $this->angle = $angle;
+        if ($angle != 0) {
+            $angle = deg2rad(-$angle);
+            $c = cos($angle);
+            $s = sin($angle);
+            $cx = $x * $this->p->k;
+            $cy = ($this->p->h - $y) * $this->p->k;
+            $this->p->_out(sprintf('q %.5f %.5f %.5f %.5f %.2f %.2f cm 1 0 0 1 %.2f %.2f cm',
+                                   $c,$s,-$s,$c,$cx,$cy,-$cx,-$cy));
+        }
+    }
+
     /**
      * @param PdfBlock text block object
      * @see PdfWriter::addTextBlock()
@@ -912,6 +947,33 @@ class CwFpdf implements PdfWriter {
     }
 
     /**
+     * @param PdfBlock
+     * @see PdfWriter::addLegend()
+     */
+    public function addNorthArrow(PdfBlock $block, $angle) {
+   
+        $this->setBoxLayout($block);
+
+        $imageWidth = $block->width;
+        $imageHeight = $block->height;
+        $shift = $block->borderWidth + $block->padding;
+
+        $block->width += 2 * $shift;
+        $block->height += 2 * $shift;
+        
+        list($x0, $y0) = $this->space->checkIn($block);
+
+        $this->rotate($angle, $x0 + $block->width / 2,
+                              $y0 + $block->height / 2);
+        if ($block->padding) {
+            $this->p->Rect($x0, $y0, $block->width, $block->height, 'F');
+        }
+        $this->addImage($block->content, $x0 + $shift, $y0 + $shift, 
+                        $imageWidth, $imageHeight);
+        $this->rotate(0);        
+    }
+
+    /**
      * Wraps FPDF Image() method and feeds it whith a local copy of argument
      * image if:
      * - allowed in exportPdf.ini (general.importRemotePng parameter)
@@ -980,6 +1042,11 @@ class CwFpdf implements PdfWriter {
                 default: // do nothing
             }
         }
+        
+        if ($this->angle != 0) {
+            $this->angle=0;
+            $this->p->_out('Q');
+        }        
     }
 
     /**
