@@ -195,6 +195,12 @@ formats.A4.bigDimension = 297]]></programlisting>
        <parameter>general.importRemotePng</parameter> (boolean): if true, remote PNG files (gathered using a URL) are copied in a local directory before being included in the PDF document. This option is recommended when using physically separated &cartoclient; and &cartoserver; (See <xref linkend="user.config"/>).
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>general.extraFonts</parameter> (comma-separated list of strings): list of additional fonts to import in FPDF (not available for other pdfEngines). Each font contains the font family name, the font style (optional) and the font PHP definition file (optional), separated by "/". PHP definition files must be uploaded in FPDF fonts directory. Parameters are described in <ulink url="http://fpdf.org/en/doc/addfont.htm">FPDF AddFont() documentation</ulink>. Definition files generation is explained <ulink url="http://fpdf.org/en/tutorial/tuto7.htm">here</ulink>. Example:
+       <programlisting>general.extraFonts = Comic/I/comici.php, MyFont/BI/myfontbi.php, MyOtherFont</programlisting>
+      </para>
+     </listitem>
     </itemizedlist>
    </para>
    <para>
@@ -283,6 +289,11 @@ formats.A4.bigDimension = 297]]></programlisting>
      <listitem>
       <para>
        importRemotePng: false
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       extraFonts: NULL
       </para>
      </listitem>
     </itemizedlist>
@@ -930,6 +941,27 @@ formats.A3.verticalMargin = 30
 formats.A3.maxResolution = 150]]></programlisting>
    </sect3>
   </sect2>
+  <sect2 id="user.pdf.tutorial.form">
+    <title>Form Settings</title>
+    <para>
+     The HTML interface of the PDF tool is fully customisable by:
+     <itemizedlist>
+      <listitem>
+       <para>
+        editing the <parameter>general</parameter> attributes for formats, resolutions and orientation lists (see <xref linkend="user.pdf.tutorial.overall.general"/> above).
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        adding or editing blocks <parameter>content</parameter> parameters to specify default values for text inputs (such as title or note) and other options (legend, scalebar, overview, query results,...). See <xref linkend="user.pdf.tutorial.block"/>. For instance:
+        <programlisting>blocks.title.content = My default title
+blocs.scalebar.content = 1  ; scalebar is checked by default
+blocs.legend.content = in   ; legend is checked as included in map by default</programlisting>
+       </para>
+      </listitem>
+     </itemizedlist>
+    </para>
+   </sect2>
 
   <sect2 id="user.pdf.tutorial.block">
    <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks Configuration</title>
