@@ -26,11 +26,23 @@ require_once CARTOWEB_HOME . 'client/ExportPlugin.php';
 require_once dirname(__FILE__) . '/ExportPdfObjects.php';
 
 /**
+ * Session container.
+ * @package Plugins
+ */
+class ExportPdfState {
+
+    /**
+     * @var array
+     */
+    public $formFields = array();
+}
+
+/**
  * Overall class for PDF generation management.
  * @package Plugins
  */
 class ClientExportPdf extends ExportPlugin
-                      implements InitUser {
+                      implements Sessionable, InitUser {
 
     /**
      * @var Logger
@@ -83,6 +95,16 @@ class ClientExportPdf extends ExportPlugin
      * @var string
      */
     protected $charset;
+
+    /**
+     * @var boolean
+     */
+    protected $isPrintingPdf;
+
+    /**
+     * @var ExportPdfState
+     */
+    protected $exportPdfState;
 
     /**
      * GUI mode constants
@@ -363,11 +385,13 @@ class ClientExportPdf extends ExportPlugin
     protected function createBlock($request, $iniObjects, $id) {
         $this->log->debug(__METHOD__);
     
-        // removes blocks with no user input if required:
         $pdfItem = 'pdf' . ucfirst($id);
-        if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
-            in_array($id, $this->optionalInputs))
+        if ($this->isPrintingPdf($request) &&
+            !(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
+            in_array($id, $this->optionalInputs)) {
+            // removes user blocks if printing and no input
             return;
+        }
        
         if (isset($iniObjects->blocks->$id))
             $block = $iniObjects->blocks->$id;
@@ -388,7 +412,8 @@ class ClientExportPdf extends ExportPlugin
 
         $this->blocks[$id]->id = $id;
 
-        if ($id == 'title' || $id == 'note') {
+        if ($this->isPrintingPdf($request) && 
+            ($id == 'title' || $id == 'note')) {
             $this->blocks[$id]->content = trim($request[$pdfItem]);
         }
 
@@ -413,11 +438,13 @@ class ClientExportPdf extends ExportPlugin
                                           $this->blocks[$id]->content;
         }
 
-        elseif ($this->blocks[$id]->type == 'table') {
+        elseif ($this->isPrintingPdf($request) && 
+                $this->blocks[$id]->type == 'table') {
             $this->setTableBlock($request, $iniObjects, $id);
         }
 
-        elseif ($this->blocks[$id]->type == 'legend') {
+        elseif ($this->isPrintingPdf($request) && 
+                $this->blocks[$id]->type == 'legend') {
             $this->setLegendBlock($request, $id);
         }
     }
@@ -485,19 +512,15 @@ class ClientExportPdf extends ExportPlugin
         }
         $this->general->mapServerResolution = $this->mapServerResolution;
         
-        $simple = (count($request) != 0);
-        $this->general->formats = $this->getArrayFromList(
-                                                       $this->general->formats,
-                                                       $simple);
-        $this->setAllowedFormats($simple);
+        $this->general->formats = $this->getArrayFromList($this->general->formats);
+        
+        $this->setAllowedFormats(false);
         
         $this->general->resolutions = $this->getArrayFromList(
-                                                   $this->general->resolutions,
-                                                   $simple);
+                                                   $this->general->resolutions);
         
         $this->general->scales = $this->getArrayFromList(
-                                                   $this->general->scales,
-                                                   $simple);
+                                                   $this->general->scales);
 
         $this->general->activatedBlocks = $this->getArrayFromList(
                                                $this->general->activatedBlocks, 
@@ -582,23 +605,24 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Sets PDF settings objects based on $_REQUEST and configuration data.
-     * @param array $_REQUEST
-     * @see GuiProvider::handleHttpPostRequest()
+     * Indicates if PDF printing is currently in progress.
+     * @param array
+     * @return boolean
      */
-    public function handleHttpPostRequest($request) {
-        $this->log->debug(__METHOD__);
-        
-        if (!isset($request['pdfExport']) || !isset($request['mode']) ||
-            $request['mode'] != $this->getExportMode())
-            return;
+    protected function isPrintingPdf($request) {
+        if (!isset($this->isPrintingPdf)) {
+            $this->isPrintingPdf = isset($request['mode']) &&
+                                   $request['mode'] == $this->getExportMode();
+        }
+        return $this->isPrintingPdf;
+    }
 
-        $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
-        if (!SecurityManager::getInstance()->hasRole($pdfRoles))
-            return;
-
-        $this->log->debug('processing exportPdf request');
-
+    /**
+     * Sets PdfGeneral, PdfFormat and PdfBlock objects from config and
+     * from request data if any.
+     * @param array request data
+     */
+    protected function setPdfObjects($request = array()) {
         $ini_array = $this->getConfig()->getIniArray();
         $iniObjects = StructHandler::loadFromArray($ini_array);
 
@@ -618,10 +642,6 @@ class ClientExportPdf extends ExportPlugin
 
         unset($iniObjects);
 
-        // sorting blocks (order of processing)
-        $this->sortBlocksBy('weight');
-        $this->sortBlocksBy('zIndex');
-
         $this->log->debug('REQUEST:');
         $this->log->debug($request);
         $this->log->debug('general settings:');
@@ -630,6 +650,42 @@ class ClientExportPdf extends ExportPlugin
         $this->log->debug($this->format);
         $this->log->debug('blocks settings:');
         $this->log->debug($this->blocks);
+    }
+
+    /**
+     * Sets PDF settings objects based on $_REQUEST and configuration data.
+     * @param array $_REQUEST
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpPostRequest($request) {
+        $this->log->debug(__METHOD__);
+
+        $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
+        if (!SecurityManager::getInstance()->hasRole($pdfRoles)) {
+            return;
+        }
+
+        $this->exportPdfState->formFields = array();
+        if (isset($request['pdfReset'])) {
+            return;
+        }
+        
+        $this->log->debug('processing exportPdf request');
+        
+        // Saves user inputs in session:
+        foreach ($request as $inputName => $inputVal) {
+            if (substr($inputName, 0, 3) == 'pdf') {
+                $this->exportPdfState->formFields[$inputName] = $inputVal;
+            }
+        }
+
+        $this->setPdfObjects($request);
+
+        if ($this->isPrintingPdf($request)) {
+            // sorting blocks (order of processing)
+            $this->sortBlocksBy('weight');
+            $this->sortBlocksBy('zIndex');
+        }
     }
 
     /**
@@ -657,9 +713,9 @@ class ClientExportPdf extends ExportPlugin
         if (!SecurityManager::getInstance()->hasRole($pdfRoles))
             return '';
 
-        $ini_array = $this->getConfig()->getIniArray();
-        $iniObjects = StructHandler::loadFromArray($ini_array);
-        $this->setGeneral($iniObjects);
+        if (!isset($this->general)) {
+            $this->setPdfObjects();
+        }
 
         $allowedResolutions = $this->getAllowedResolutions();
         if (isset($allowedResolutions[$this->general->selectedFormat])) {
@@ -674,24 +730,67 @@ class ClientExportPdf extends ExportPlugin
         $this->smarty->assign(array(
                    'exportScriptPath'       => $this->getExportUrl(),
                    'pdfFormat_options'      => $this->general->formats,
-                   'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
-                   'pdfResolution_selected' => $this->general->selectedResolution,
                    'pdfAllowedResolutions'  => $allowedResolutions,
                    'pdfScale_options'       => $this->general->scales,
-                   'pdfScale_selected'      => $this->general->selectedScale,
-                   'pdfOrientation'         => $this->general->defaultOrientation,
                        ));
-
-        foreach ($this->optionalInputs as $input) {
-            $this->smarty->assign('pdf' . ucfirst($input),
-                                  in_array($input, 
-                                           $this->general->activatedBlocks));
-        }
         
+        $this->smarty->assign(array(
+                   'pdfFormat_selected'     => $this->getFormField('pdfFormat',
+                                                             'selectedFormat'),
+                   'pdfResolution_selected' => $this->getFormField('pdfResolution',
+                                                             'selectedResolution'),
+                   'pdfScale_selected'      => $this->getFormField('pdfScale',
+                                                             'selectedScale'),
+                   'pdfOrientation'         => $this->getFormField('pdfOrientation',
+                                                             'defaultOrientation'),
+                       ));
+        
+        foreach ($this->optionalInputs as $input) {
+            $inputName = 'pdf' . ucfirst($input);
+            $inputValName = $inputName . '_value';
+            if (in_array($input, $this->general->activatedBlocks)) {
+                $this->smarty->assign(
+                    array($inputName    => true,
+                          $inputValName => $this->getFormField($inputName,
+                                                               $input, true),
+                          ));
+            } else {
+                $this->smarty->assign(array($inputName => false,
+                                            $inputValName => '',
+                                            ));
+            }
+        }
+
         $tplFile = 'form' . ucfirst($this->general->guiMode) . '.tpl';
         return $this->smarty->fetch($tplFile);
     } 
+
+    /**
+     * Gets value of given field from session or else from config.
+     * @param string fieldname
+     * @param string name of default container
+     * @param boolean if true, field is a block
+     * @return string
+     */
+    protected function getFormField($fieldName, $default, $isblock = false) {
+        if (isset($this->exportPdfState->formFields[$fieldName])) {
+            return $this->exportPdfState->formFields[$fieldName];
+        }
+
+        if ($isblock) {
+            if (!isset($this->blocks[$default])) {
+                throw new CartoclientException("invalid block id: $default");
+            }
+            return $this->blocks[$default]->content;    
+        }
+        
+        if (isset($this->general->$default)) {
+            return $this->general->$default;
+        }
+
+        return '';
+    }
 
     /**
      * Returns given distance at selected printing resolution.
@@ -1303,6 +1402,27 @@ class ClientExportPdf extends ExportPlugin
         }
         
         return '';
+    }
+
+    /**
+     * @see Sessionable::loadSession()
+     */
+    public function loadSession($sessionObject) {
+        $this->exportPdfState = $sessionObject;
+    }
+
+    /**
+     * @see Sessionable::createSession()
+     */
+    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+        $this->exportPdfState = new ExportPdfState;
+    }
+
+    /**
+     * @see Sessionable::saveSession()
+     */
+    public function saveSession() {
+        return $this->exportPdfState;
     }
 }
 ?>
