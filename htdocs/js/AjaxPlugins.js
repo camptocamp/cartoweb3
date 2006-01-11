@@ -28,14 +28,28 @@ AjaxPlugins.Common = {
 		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
+	/* 
+	 * Gets rid of the substring following the first special char
+	 * present in specialChars array
+	 */
 	setBaseUrl: function() {
+		specialChars = Array('?', '#'); // Defines what a special char is
 		pageUrl = window.location.href;
-		lastChar = pageUrl.substr(pageUrl.length-1);
-		if (lastChar == "#"){
-			baseUrl = pageUrl.substring(0,pageUrl.length-1);
-		} else {
-			baseUrl = pageUrl;
-		}
+		specialCharFirstIndex = pageUrl.length-1;
+
+		// This loop assign the index of the first special char occurence
+		// to the specialCharFirstIndex variable
+		for (i=0 ; i < specialChars.length ; i++) {
+			specialChar = specialChars[i];
+			specialCharIndex = pageUrl.indexOf(specialChar);
+			if (specialCharIndex != -1 && specialCharIndex < specialCharFirstIndex) {
+				specialCharFirstIndex = pageUrl.indexOf(specialChar);
+			}
+		}		
+		// Uses specialCharFirstIndex variable value to trim the
+		// pageUrl string
+		baseUrl = pageUrl.substring(0,specialCharFirstIndex);
+		Logger.note('Setting AjaxHandler.baseUrl to \''+baseUrl+'\'');
 		AjaxHandler.setBaseUrl(baseUrl);
 	},
 	
