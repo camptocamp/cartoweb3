@@ -24,9 +24,21 @@ AjaxPlugins.Common = {
 	/* Plugins' actions initialisation */
 	init: function() {
 		Logger.header('Initiating actions');	
+		AjaxPlugins.Common.setBaseUrl();
 		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
+	setBaseUrl: function() {
+		pageUrl = window.location.href;
+		lastChar = pageUrl.substr(pageUrl.length-1);
+		if (lastChar == "#"){
+			baseUrl = pageUrl.substring(0,pageUrl.length-1);
+		} else {
+			baseUrl = pageUrl;
+		}
+		AjaxHandler.setBaseUrl(baseUrl);
+	},
+	
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function(actionId) {
 		if (this.mapCursorStyle == null)
