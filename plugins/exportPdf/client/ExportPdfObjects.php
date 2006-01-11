@@ -343,6 +343,11 @@ class PdfGeneral {
      * @var boolean
      */
     public $importRemotePng     = false;
+
+    /**
+     * @var string
+     */
+    public $extraFonts;
 }
 
 /**
