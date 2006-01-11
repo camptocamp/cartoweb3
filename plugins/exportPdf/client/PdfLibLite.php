@@ -180,7 +180,7 @@
     }
 
     protected function setStrokeColor($color) {
-        $borderColor = PrintTools::switchColorToRgb($color);
+        $borderColor = Utils::switchColorToRgb($color);
         try {
             $this->p->setcolor('stroke', 'rgb', $borderColor[0] / 255,
                                $borderColor[1] / 255, $borderColor[2] / 255,
@@ -192,7 +192,7 @@
     }
 
     protected function setFillColor($color) {
-        $bgColor = PrintTools::switchColorToRgb($color);
+        $bgColor = Utils::switchColorToRgb($color);
         try {
             $this->p->setcolor('fill', 'rgb', $bgColor[0] / 255, 
                                $bgColor[1] / 255, $bgColor[2] / 255, 0);

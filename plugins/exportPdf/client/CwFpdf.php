@@ -307,7 +307,7 @@ class CwFpdf implements PdfWriter {
      * @param mixed color info (keyword, hex code, RGB array)
      */
     protected function setDrawColor($color) {
-        $borderColor = PrintTools::switchColorToRgb($color);
+        $borderColor = Utils::switchColorToRgb($color);
         $this->p->SetDrawColor($borderColor[0], $borderColor[1],
                                $borderColor[2]);
     }
@@ -317,7 +317,7 @@ class CwFpdf implements PdfWriter {
      * @param mixed color info (keyword, hex code, RGB array)
      */
     protected function setFillColor($color) {
-        $bgColor = PrintTools::switchColorToRgb($color);
+        $bgColor = Utils::switchColorToRgb($color);
         $this->p->SetFillColor($bgColor[0], $bgColor[1], $bgColor[2]);
     }
 
@@ -343,7 +343,7 @@ class CwFpdf implements PdfWriter {
         if ($block->fontUnderline) $fontStyle .= 'U';
         $this->p->SetFont($block->fontFamily, $fontStyle, $block->fontSize);
 
-        $color = PrintTools::switchColorToRgb($block->color);
+        $color = Utils::switchColorToRgb($block->color);
         $this->p->SetTextColor($color[0], $color[1], $color[2]);
     }
 

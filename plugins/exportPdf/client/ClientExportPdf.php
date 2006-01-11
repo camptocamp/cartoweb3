@@ -432,7 +432,7 @@ class ClientExportPdf extends ExportPlugin
         elseif ($this->blocks[$id]->type == 'image' && 
                 !in_array($id, array('mainmap', 'overview', 'scalebar')) &&
                 $this->blocks[$id]->content &&
-                PrintTools::isRelativePath($this->blocks[$id]->content)) {
+                Utils::isRelativePath($this->blocks[$id]->content)) {
             // detects if image path is relative and than completes it
             $this->blocks[$id]->content = CARTOWEB_HOME . 
                                           $this->blocks[$id]->content;
@@ -894,8 +894,8 @@ class ClientExportPdf extends ExportPlugin
             $this->general->overviewColor &&
             $this->general->overviewColor != 'none') {
   
-            list($r, $g, $b) = PrintTools::switchColorToRgb(
-                                    $this->general->overviewColor);
+            list($r, $g, $b) = Utils::switchColorToRgb($this->general
+                                                            ->overviewColor);
             $shapeStyle->color->setFromRGB($r, $g, $b);
         } else {
             $shapeStyle->color->setFromRGB(-1, -1, -1);
@@ -905,8 +905,8 @@ class ClientExportPdf extends ExportPlugin
             $this->general->overviewOutlineColor &&
             $this->general->overviewOutlineColor != 'none') {
 
-            list($r, $g, $b) = PrintTools::switchColorToRgb(
-                               $this->general->overviewOutlineColor);
+            list($r, $g, $b) = Utils::switchColorToRgb($this->general
+                                                            ->overviewOutlineColor);
             $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
         } else {
             $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);

@@ -69,50 +69,7 @@ class PrintTools {
 
         return $dist * $ratio;
     }
-
-    /**
-     * Converts #xxyyzz hexadecimal color codes into RGB.
-     * @param string hexadecimal color code
-     * @return array array of RGB codes
-     */
-    static public function switchHexColorToRgb($color) {
-        return array(hexdec(substr($color, 1, 2)), 
-                     hexdec(substr($color, 3, 2)), 
-                     hexdec(substr($color, 5, 2))
-                     );
-    }
-
-    /**
-     * Converts passed color in RGB codes.
-     * @param mixed
-     * @return array array of RGB codes
-     */
-    static public function switchColorToRgb($color) {
-        if ($color{0} == '#')
-            return self::switchHexColorToRgb($color);
-
-        if (is_array($color))
-            return $color;
-
-        switch($color) {
-            case 'black': return array(0, 0, 0);
-            case 'red': return array(255, 0, 0);
-            case 'green': return array(0, 255, 0);
-            case 'blue': return array(0, 0, 255);
-            case 'white': default: return array(255, 255, 255);
-        }
-    }
-
-    /**
-     * Tells if given path is relative.
-     * @param string path
-     * @return boolean true if relative
-     */
-    static public function isRelativePath($path) {
-        return (substr($path, 0, 4) != 'http' && substr($path, 0, 1) != '/' &&
-                substr($path, 1, 1) != ':');
-    }
-   
+  
     /**
      * Retrieves text block content from external storage
      *
@@ -139,7 +96,7 @@ class PrintTools {
      */
     static protected function getFileContent($info) {
         $filename = $info[1];
-        if (self::isRelativePath($filename)) {
+        if (Utils::isRelativePath($filename)) {
             $filename = CARTOWEB_HOME . $filename;
         }
      
