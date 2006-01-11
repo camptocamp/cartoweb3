@@ -46,11 +46,13 @@ class Utils {
         foreach ($fromProperties as $fromProperty) {
     
             try {
-                $toProperty = $toReflectionClass->getProperty($fromProperty->getName());
+                $toProperty = $toReflectionClass->getProperty(
+                                                     $fromProperty->getName());
             } catch (ReflectionException $e) {
                 continue;
             }
-            $toProperty->setValue($to_object, $fromProperty->getValue($from_object));
+            $toProperty->setValue($to_object, 
+                                  $fromProperty->getValue($from_object));
         }
         return $to_object;
     }
@@ -234,8 +236,9 @@ class Utils {
                                        $color = false, $type = 'jpeg') {
         // check if GD is installed in PHP
         if(!function_exists('gd_info'))
-           throw new CartocommonException("GD library not found! The GD library in PHP is required "
-                                            ."for symbol creation in outline plugin");        
+           throw new CartocommonException(
+                      'GD library not found! The GD library in PHP is required'
+                      . ' for symbol creation in outline plugin');        
 
         switch ($type) {
             case 'jpeg':
@@ -283,6 +286,49 @@ class Utils {
                 throw new CartocommonException("$type is not a valid image type");
         }
     }
+
+    /**
+     * Converts #xxyyzz hexadecimal color codes into RGB.
+     * @param string hexadecimal color code
+     * @return array array of RGB codes
+     */
+    static public function switchHexColorToRgb($color) {
+        return array(hexdec(substr($color, 1, 2)),
+                     hexdec(substr($color, 3, 2)),
+                     hexdec(substr($color, 5, 2))
+                     );
+    }
+
+    /**
+     * Converts passed color in RGB codes.
+     * @param mixed
+     * @return array array of RGB codes
+     */
+    static public function switchColorToRgb($color) {
+        if ($color{0} == '#')
+            return self::switchHexColorToRgb($color);
+
+        if (is_array($color))
+            return $color;
+
+        switch($color) {
+            case 'black': return array(0, 0, 0);
+            case 'red': return array(255, 0, 0);
+            case 'green': return array(0, 255, 0);
+            case 'blue': return array(0, 0, 255);
+            case 'white': default: return array(255, 255, 255);
+        }
+    }
+
+    /**
+     * Tells if given path is relative.
+     * @param string path
+     * @return boolean true if relative
+     */
+    static public function isRelativePath($path) {
+        return (substr($path, 0, 4) != 'http' && substr($path, 0, 1) != '/' &&
+                substr($path, 1, 1) != ':');
+    }
 }
 
 /**
@@ -291,16 +337,6 @@ class Utils {
  */
 class ConfigParser {
 
-    /**
-     * Deprecated method. Replaced by {@see Utils::parseArray()}
-     * Will be discarded in future version.
-     */
-    static public function parseArray($value) {
-        throw new CartocommonException(
-            'Deprecated method ConfigParser::parseArray().'
-            . ' Please use Utils::parseArray() instead.');
-    }
-    
     /**
      * Converts a list of values taken from a configuration file to an array
      * of objects
