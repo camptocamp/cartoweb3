@@ -63,7 +63,6 @@ initialTool = zoomin
 ; radio buttons,  icons outlining (uses css classes), image swapping
 ; available values : radio, outline, swap (default is radio)
 ; for outline : make sure that toolbar_on and toolbar_off css classes are set for class rendering
-; swap is not available yet
 ;toolbarRendering = radio
 
 
