@@ -9,17 +9,17 @@ function setActiveToolButton(toolid) {
   
   for (var i = 0; i < cw3_tools.length; i++) {
   
-    var elt = xGetElementById(cw3_tools[i] + "_icon");
+    var elt = xGetElementById(cw3_tools[i] + '_icon');
     if(elt == null) return;
 
     if (typeof toolbar_rendering != 'undefined' && 
         toolbar_rendering == 'swap') {
       if (cw3_tools[i] == toolid) {
-        var from = cw3_tools[i];
-        var to = cw3_tools[i] + '_over';
+        var from = cw3_tools[i] + '.gif';
+        var to = cw3_tools[i] + '_over.gif';
       } else {
-        var from = cw3_tools[i] + '_over';
-        var to = cw3_tools[i];
+        var from = cw3_tools[i] + '_over.gif';
+        var to = cw3_tools[i] + '.gif';
       }
 
       var pic = elt.getAttribute('src');
