@@ -44,8 +44,6 @@ class ExportPdfState {
 class ClientExportPdf extends ExportPlugin
                       implements Sessionable, InitUser, ToolProvider {
 
-    const TOOL_ROTATE = 'pdfrotate';
-
     /**
      * @var Logger
      */
@@ -113,6 +111,11 @@ class ClientExportPdf extends ExportPlugin
      */
     const GUIMODE_CLASSIC = 'classic';
     const GUIMODE_ROTATE  = 'rotate';
+   
+    /**
+     * Tool constant
+     */
+    const TOOL_ROTATE = 'pdfrotate';
 
     /**
      * Constructor
@@ -160,7 +163,7 @@ class ClientExportPdf extends ExportPlugin
      * @see ToolProvider::handleMainmapTool()
      */
     public function handleMainmapTool(ToolDescription $tool,
-                               Shape $mainmapShape) {
+                                      Shape $mainmapShape) {
         /* nothing to do */
     }
 
@@ -168,7 +171,7 @@ class ClientExportPdf extends ExportPlugin
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool,
-                            Shape $keymapShape) {
+                                     Shape $keymapShape) {
         /* nothing to do */
     }
 
@@ -180,12 +183,12 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Returns outline tools : Point, Rectangle and Polygon
+     * Returns PDF rotate tool.
      * @return array array of ToolDescription
      */
     public function getTools() {
         
-        if ($this->getConfig()->{"general.guiMode"} == self::GUIMODE_ROTATE) {
+        if ($this->getConfig()->{'general.guiMode'} == self::GUIMODE_ROTATE) {
             return array(new ToolDescription(self::TOOL_ROTATE, true, 101, 1));
         } else {
             return array();
@@ -754,18 +757,24 @@ class ClientExportPdf extends ExportPlugin
                            $allowedResolutions[$this->general->defaultFormat];
         }
 
-        // Passes map margins and format dimensions to Javascript
-        $marginX = $this->general->horizontalMargin;
-        $marginX += $this->blocks['mainmap']->horizontalMargin;
-        $marginY = $this->general->verticalMargin;
-        $marginY += $this->blocks['mainmap']->verticalMargin;       
+        $marginX = $marginY = 0;
         $formatDimensions = array();
-        foreach ($this->general->formats as $format) {
-            $dimension = new stdClass();
-            $dimension->format = $format;
-            $dimension->xsize = $this->getConfig()->{"formats.$format.smallDimension"};
-            $dimension->ysize = $this->getConfig()->{"formats.$format.bigDimension"};
-            $formatDimensions[] = $dimension;
+
+        if ($this->general->guiMode == self::GUIMODE_ROTATE) {
+            // Passes map margins and format dimensions to Javascript
+            $marginX += $this->general->horizontalMargin;
+            $marginX += $this->blocks['mainmap']->horizontalMargin;
+            $marginY += $this->general->verticalMargin;
+            $marginY += $this->blocks['mainmap']->verticalMargin;       
+            foreach ($this->general->formats as $format) {
+                $dimension = new stdClass();
+                $dimension->format = $format;
+                $smallDim = "formats.$format.smallDimension";
+                $bigDim   = "formats.$format.bigDimension";
+                $dimension->xsize = $this->getConfig()->$smallDim;
+                $dimension->ysize = $this->getConfig()->$bigDim;
+                $formatDimensions[] = $dimension;
+            }
         }
        
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -805,7 +814,7 @@ class ClientExportPdf extends ExportPlugin
                                                                $input, true),
                           ));
             } else {
-                $this->smarty->assign(array($inputName => false,
+                $this->smarty->assign(array($inputName    => false,
                                             $inputValName => '',
                                             ));
             }
@@ -822,9 +831,14 @@ class ClientExportPdf extends ExportPlugin
      * @param boolean if true, field is a block
      * @return string
      */
-    protected function getFormField($fieldName, $default = false, $isblock = false) {
-        if (isset($this->exportPdfState->formFields[$fieldName])) {
-            return $this->exportPdfState->formFields[$fieldName];
+    protected function getFormField($fieldName, $default = false,
+                                                $isblock = false) {
+        if (count($this->exportPdfState->formFields)) {
+            if (isset($this->exportPdfState->formFields[$fieldName])) {
+                return $this->exportPdfState->formFields[$fieldName];
+            } else {
+                return '';
+            }
         }
 
         if ($isblock) {
@@ -882,28 +896,12 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Converts radians angle to degrees even if value is < 0
-     * @param double
-     * @return double
-     */
-    private function negativeRad2Deg($rad) {        
-        if (is_null($rad) || !is_numeric($rad)) {
-            return 0;
-        }
-        $angle = $rad;
-        while ($angle < 0) {
-            $angle += 2 * pi();
-        }
-        $angle = rad2deg($angle);
-        return $angle;
-    }
-
-    /**
      * Returns shape (a rectangle or a rotated rectangle) that will be
-     * drawn on overview
+     * drawn on overview.
+     * @param Bbox
      * @return StyledShape
      */
-    private function getOverviewShape($mapBbox) {
+    protected function getOverviewShape(Bbox $mapBbox) {
 
         $angle = 0;
         $mapAngle = $this->getFormField('pdfMapAngle');
@@ -920,27 +918,27 @@ class ClientExportPdf extends ExportPlugin
             // Rotation, returns a rotated rectangle (polygon)
             $points = array();
             
-            // Center
+            // Centers
             $cx = ($mapBbox->maxx + $mapBbox->minx) / 2;
             $cy = ($mapBbox->maxy + $mapBbox->miny) / 2;
             
-            // Move to origin
+            // Moves to origin
             $x1 = $mapBbox->maxx - $cx;
             $y1 = $mapBbox->maxy - $cy;
             
-            // Rotate
+            // Rotates
             $x1p = $x1 * cos($angle) - $y1 * sin($angle);
             $y1p = $x1 * sin($angle) + $y1 * cos($angle);
             
-            // Move to origin                        
+            // Moves to origin                        
             $x2 = $mapBbox->minx - $cx;
             $y2 = $mapBbox->maxy - $cy;
             
-            // Rotate
+            // Rotates
             $x2p = $x2 * cos($angle) - $y2 * sin($angle);
             $y2p = $x2 * sin($angle) + $y2 * cos($angle);
 
-            // Create polygon
+            // Creates polygon
             $points[] = new Point($mapBbox->maxx - $x1 + $x1p,
                                   $mapBbox->maxy - $y1 + $y1p);                                   
             $points[] = new Point($mapBbox->minx - $x2 + $x2p,
@@ -996,8 +994,7 @@ class ClientExportPdf extends ExportPlugin
         
         $config = new ExportConfiguration();
 
-        if (isset($this->general->guiMode) &&
-            $this->general->guiMode == self::GUIMODE_ROTATE &&
+        if ($this->general->guiMode == self::GUIMODE_ROTATE &&
             !empty($this->general->selectedScale)) {
             $scale = $this->general->selectedScale;
         } else {
@@ -1043,7 +1040,7 @@ class ClientExportPdf extends ExportPlugin
                 // new map dimensions:
                 $mapWidth = $this->getNewMapDim($mainmap->width);
                 $mapHeight = $this->getNewMapDim($mainmap->height);
-                $mapAngle = $this->negativeRad2Deg($this->getFormField('pdfMapAngle'));
+                $mapAngle = Utils::negativeRad2Deg($this->getFormField('pdfMapAngle'));
             }
         }
        
@@ -1260,7 +1257,7 @@ class ClientExportPdf extends ExportPlugin
                 break;
             case 'north':
                 $pdf->addNorthArrow($block,
-                    $this->negativeRad2Deg($this->getFormField('pdfMapAngle')));
+                    Utils::negativeRad2Deg($this->getFormField('pdfMapAngle')));
                 break;
             default:
                 // ignores block
@@ -1308,12 +1305,14 @@ class ClientExportPdf extends ExportPlugin
             $overviewResult = false;
         }
 
-        $this->updateMapBlock($mapResult, 'mainmap');
-        $this->updateMapBlock($mapResult, 'scalebar');
-        if ($keymap == 'static') {
-            $this->updateMapBlock($mapResult, 'overview', 'keymap');
-        } else {
-            $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+        if (isset($this->blocks['mainmap'])) {
+            $this->updateMapBlock($mapResult, 'mainmap');
+            $this->updateMapBlock($mapResult, 'scalebar');
+            if ($keymap == 'static') {
+                $this->updateMapBlock($mapResult, 'overview', 'keymap');
+            } else {
+                $this->updateMapBlock($overviewResult, 'overview', 'mainmap');
+            }
         }
 
         if (isset($this->blocks['tlcoords']))
@@ -1344,7 +1343,9 @@ class ClientExportPdf extends ExportPlugin
 
         $pdf->initializeDocument();
  
-        $pdf->addPage();
+        if(isset($this->blocks['mainmap'])) {
+            $pdf->addPage();
+        }
  
         $lastPagesBlocks = array();
         foreach ($this->blocks as $block) {
@@ -1356,7 +1357,9 @@ class ClientExportPdf extends ExportPlugin
             if ($block->multiPage || $block->inNewPage || !$block->standalone)
                 continue;
 
-            $this->addBlock($pdf, $block);
+            if (isset($this->blocks['mainmap'])) {
+                $this->addBlock($pdf, $block);
+            }
         }
 
         if (isset($this->blocks['legend']) && 
