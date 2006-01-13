@@ -5,7 +5,7 @@
  * Double clic parameters
  * (DblClick emulation is required for some browsers)
  */
-dbl_click_delay = 300; // ms
+dbl_click_delay = 200; // ms
 dbl_click_tol = 3; // pixels
 /**
  * Min distance betwwen vertex when drawing lines

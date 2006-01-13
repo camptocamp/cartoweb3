@@ -328,11 +328,7 @@ DrawPointTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   aDisplay.feature = undefined;
 };
 DrawPointTool.prototype.onKeyEscape = function(aDisplay) {
-  if (typeof(aDisplay.dShape) != 'undefined'
-      && typeof(aDisplay.dShape.parentNode) != 'undefined'
-      && aDisplay.dShape.parentNode != null) {
-    Element.remove(aDisplay.dShape);
-  }
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
   aDisplay.feature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -469,10 +465,8 @@ DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
   if (typeof(aDisplay.dml) != 'undefined') {
     aDisplay.dml.innerHTML = "";
   }
-  if (typeof(aDisplay.dShape) != 'undefined'
-      && typeof(aDisplay.dShape.parentNode) != 'undefined'
-      && aDisplay.dShape.parentNode != null) {
-    Element.remove(aDisplay.dShape);
+  if (aDisplay.currentLayer.childNodes.length > 0) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
   }
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
@@ -540,11 +534,7 @@ DrawBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   aDisplay.feature = undefined;
 };
 DrawBoxTool.prototype.onKeyEscape = function(aDisplay) {
-  if (typeof(aDisplay.dShape) != 'undefined'
-      && typeof(aDisplay.dShape.parentNode) != 'undefined'
-      && aDisplay.dShape.parentNode != null) {
-    Element.remove(aDisplay.dShape);
-  }
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
   aDisplay.feature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -704,10 +694,8 @@ DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
   if (typeof(aDisplay.dml2) != 'undefined') {
     aDisplay.dml2.innerHTML = "";
   }
-  if (typeof(aDisplay.dShape) != 'undefined'
-      && typeof(aDisplay.dShape.parentNode) != 'undefined'
-      && aDisplay.dShape.parentNode != null) {
-    Element.remove(aDisplay.dShape);
+  if (aDisplay.currentLayer.childNodes.length > 0) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
   }
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
