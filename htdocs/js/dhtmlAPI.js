@@ -462,12 +462,8 @@ DrawLineTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
 };
 DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
-  if (typeof(aDisplay.dml) != 'undefined') {
-    aDisplay.dml.innerHTML = "";
-  }
-  if (aDisplay.currentLayer.childNodes.length > 0) {
-    aDisplay.currentLayer.removeChild(aDisplay.dShape);
-  }
+  aDisplay.dml.innerHTML = "";
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -688,15 +684,9 @@ DrawPolygonTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
 };
 DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
-  if (typeof(aDisplay.dml) != 'undefined') {
-    aDisplay.dml.innerHTML = "";
-  }
-  if (typeof(aDisplay.dml2) != 'undefined') {
-    aDisplay.dml2.innerHTML = "";
-  }
-  if (aDisplay.currentLayer.childNodes.length > 0) {
-    aDisplay.currentLayer.removeChild(aDisplay.dShape);
-  }
+  aDisplay.dml.innerHTML = "";
+  aDisplay.dml2.innerHTML = "";
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -1400,11 +1390,12 @@ Display.prototype.drawFeature = function(obj, feature, status) {
       var dr = this.addDiv(obj, 0, 0, null, null);
        
       img = xCreateElement('img');
+      if (typeof(feature.id != 'undefined')) {
+        img.id = feature.id;
+      }
       img.style.position = "absolute";
       img.className = layerCN;
       dr.style.position = "absolute";
-      if (feature.id != undefined)
-        img.id = feature.id;
       img.src = feature.img;
       img._width = this._width;
       img._height = this._height;
@@ -1894,4 +1885,4 @@ function nullifyProperties(object) {
     object = null;
   }
   catch (e) { }
-};
+}; 
