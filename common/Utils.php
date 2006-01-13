@@ -329,6 +329,23 @@ class Utils {
         return (substr($path, 0, 4) != 'http' && substr($path, 0, 1) != '/' &&
                 substr($path, 1, 1) != ':');
     }
+
+    /**
+     * Converts radians angle to degrees even if value is < 0.
+     * @param double
+     * @return double
+     */
+    static public function negativeRad2Deg($rad) {
+        if (is_null($rad) || !is_numeric($rad)) {
+            return 0;
+        }
+        $angle = $rad;
+        while ($angle < 0) {
+            $angle += 2 * pi();
+        }
+        $angle = rad2deg($angle);
+        return $angle;
+    }
 }
 
 /**
