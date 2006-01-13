@@ -328,7 +328,11 @@ DrawPointTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   aDisplay.feature = undefined;
 };
 DrawPointTool.prototype.onKeyEscape = function(aDisplay) {
-  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  if (typeof(aDisplay.dShape) != 'undefined'
+      && typeof(aDisplay.dShape.parentNode) != 'undefined'
+      && aDisplay.dShape.parentNode != null) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  }
   aDisplay.feature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -465,7 +469,9 @@ DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
   if (typeof(aDisplay.dml) != 'undefined') {
     aDisplay.dml.innerHTML = "";
   }
-  if (aDisplay.currentLayer.childNodes.length > 0) {
+  if (typeof(aDisplay.dShape) != 'undefined'
+      && typeof(aDisplay.dShape.parentNode) != 'undefined'
+      && aDisplay.dShape.parentNode != null) {
     aDisplay.currentLayer.removeChild(aDisplay.dShape);
   }
   aDisplay.tmpFeature = undefined;
@@ -694,7 +700,9 @@ DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
   if (typeof(aDisplay.dml2) != 'undefined') {
     aDisplay.dml2.innerHTML = "";
   }
-  if (aDisplay.currentLayer.childNodes.length > 0) {
+  if (typeof(aDisplay.dShape) != 'undefined'
+      && typeof(aDisplay.dShape.parentNode) != 'undefined'
+      && aDisplay.dShape.parentNode != null) {
     aDisplay.currentLayer.removeChild(aDisplay.dShape);
   }
   aDisplay.tmpFeature = undefined;
