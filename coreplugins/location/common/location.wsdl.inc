@@ -150,7 +150,6 @@
 
       <complexType name="RecenterLocationRequest">
         <all>
-          <element name="showRefMarks" type="xsd:boolean"/>
           <element name="idSelections" type="types:ArrayOfIdSelection"/>
           <element name="fallbackBbox" type="types:Bbox"/>
         </all>
