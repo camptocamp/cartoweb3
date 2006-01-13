@@ -272,6 +272,11 @@ class PdfGeneral {
     public $overviewOutlineColor= 'red';
 
     /**
+     * @var boolean
+     */
+    public $showRefMarks        = false;
+
+    /**
      * @var string
      */
     public $output              = 'redirection';

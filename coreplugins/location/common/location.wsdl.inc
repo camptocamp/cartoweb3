@@ -78,6 +78,7 @@
       <complexType name="BboxLocationRequest">
         <all>
           <element name="bbox" type="types:Bbox"/>
+          <element name="showRefMarks" type="xsd:boolean"/>
         </all>
       </complexType>
 
@@ -102,6 +103,7 @@
       <complexType name="PanLocationRequest">
         <all>
           <element name="bbox" type="types:Bbox"/>
+          <element name="showRefMarks" type="xsd:boolean"/>
           <element name="panDirection" type="types:PanDirection"/>
         </all>
       </complexType>
@@ -119,6 +121,7 @@
       <complexType name="ZoomPointLocationRequest">
         <all>
           <element name="bbox" type="types:Bbox"/>
+          <element name="showRefMarks" type="xsd:boolean"/>
           <element name="point" type="types:Point"/>
           <element name="zoomType" type="types:ZoomType"/>
           <element name="zoomFactor" type="xsd:float" minOccurs="0"/>
@@ -147,6 +150,7 @@
 
       <complexType name="RecenterLocationRequest">
         <all>
+          <element name="showRefMarks" type="xsd:boolean"/>
           <element name="idSelections" type="types:ArrayOfIdSelection"/>
           <element name="fallbackBbox" type="types:Bbox"/>
         </all>

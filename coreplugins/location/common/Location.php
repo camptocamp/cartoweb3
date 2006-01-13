@@ -239,10 +239,18 @@ abstract class RelativeLocationRequest extends CwSerializable {
     public $bbox;
 
     /**
+     * @var boolean
+     */
+    public $showRefMarks;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
+
+        $this->showRefMarks = self::unserializeValue($struct, 'showRefMarks',
+                                                              'boolean');                    
     }
 }
 

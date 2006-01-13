@@ -590,6 +590,11 @@ class ServerLocation extends ClientResponderAdapter
     protected $crosshair;
 
     /**
+     * @var boolean
+     */
+    protected $showRefMarks = false;
+
+    /**
      * Possible scales in discrete mode (some may be hidden)
      * @var array
      */
@@ -825,18 +830,109 @@ class ServerLocation extends ClientResponderAdapter
     }
 
     /**
-     * Draw the crosshair.
+     * Draw the crosshair and reference marks.
      * @see ClientResponderAdapter::handleDrawing()
      */
     public function handleDrawing($requ) {
-
-        if (!is_null($this->crosshair)) {
+        
+        if (!is_null($this->crosshair) || $this->showRefMarks) {
             $pluginManager = $this->serverContext->getPluginManager();
             if (empty($pluginManager->outline)) {
                 throw new CartoserverException('outline plugin not loaded, ' . 
-                                               'and needed for the crosshair drawing');
+                                               'and needed for the crosshair or ' .
+                                               'reference marks drawing');
             }
-            $pluginManager->outline->draw(array($this->crosshair));
+            $outline = $pluginManager->outline;
+
+            if (!is_null($this->crosshair)) {
+                $outline->draw(array($this->crosshair));
+            }
+
+            if ($this->showRefMarks) {
+
+                $origin = $this->getConfig()->refMarksOrigin;
+                if (!is_null($origin)) {
+                    list($originx, $originy) = explode(',', $origin);
+                }
+                $interval = $this->getConfig()->refMarksInterval;
+                if (!is_null($interval)) {
+                    list($intervalx, $intervaly) = explode(',', $interval);
+                }
+                $style = new StyleOverlay();
+                $symbol = $this->getConfig()->refMarksSymbol;
+                if (!is_null($symbol)) {
+                    $style->symbol = $symbol;
+                }
+                $size = $this->getConfig()->refMarksSymbolSize;
+                if (!is_null($size)) {
+                    $style->size = $size;
+                }
+                $color = $this->getConfig()->refMarksColor;
+                if (!is_null($color)) {
+                    list($r, $g, $b) = explode(',', $color);
+                    $style->color->setFromRGB($r, $g, $b);                    
+                }            
+                $transp = $this->getConfig()->refMarksTransparency;
+                if (!is_null($transp)) {
+                    $style->transparency = $transp;                    
+                }            
+                
+                $crossSize = $this->getConfig()->refMarksSize / 2;
+                $msMapObj = $this->serverContext->getMapObj();
+                $crossSize = $crossSize * $msMapObj->scale /
+                             $msMapObj->resolution * 0.0254;
+                $ratio = $pluginManager->layers->getResRatio();                                
+                if (!is_null($ratio)) {
+                    $crossSize *= $ratio;
+                }
+
+                $shapes = array();                
+                $msMapObj = $this->serverContext->getMapObj();
+                $extentcenterx = ($msMapObj->extent->maxx - 
+                                  $msMapObj->extent->minx) / 2
+                                 + $msMapObj->extent->minx;
+                $extentcentery = ($msMapObj->extent->maxy - 
+                                  $msMapObj->extent->miny) / 2
+                                 + $msMapObj->extent->miny;
+                $radius = sqrt(pow($extentcenterx - $msMapObj->extent->minx, 2)
+                               + pow($extentcentery - $msMapObj->extent->miny, 2));                                              
+                $minx = floor(($extentcenterx - $radius - $originx) /
+                              $intervalx) + 1;     
+                $miny = floor(($extentcentery - $radius - $originy) /
+                              $intervaly) + 1;
+                $maxx = floor(($extentcenterx + $radius - $originx) /
+                              $intervalx);      
+                $maxy = floor(($extentcentery + $radius - $originy) /
+                              $intervaly);
+                              
+                for ($i = $minx; $i <= $maxx; $i++) {
+                    for ($j = $miny; $j <= $maxy; $j++) {
+                        $centerx = $i * $intervalx + $originx;
+                        $centery = $j * $intervaly + $originy;
+
+                        $points = array();
+                        $points[] = new Point($centerx - $crossSize, $centery);
+                        $points[] = new Point($centerx + $crossSize, $centery);
+                        $shape = new StyledShape();
+                        $shape->shapeStyle = $style;
+                        $shape->shape = new Line();
+                        $shape->shape->points = $points;
+                        $shapes[] = $shape;
+
+                        $points = array();
+                        $points[] = new Point($centerx, $centery - $crossSize);
+                        $points[] = new Point($centerx, $centery + $crossSize);
+                        $shape = new StyledShape();
+                        $shape->shapeStyle = $style;
+                        $shape->shape = new Line();
+                        $shape->shape->points = $points;
+                        $shapes[] = $shape;
+                    }
+                }
+                if (count($shapes) > 0) {
+                    $outline->draw($shapes);                    
+                }      
+            }
         }
 
         return $this->getLocationResult();
@@ -889,11 +985,15 @@ class ServerLocation extends ClientResponderAdapter
 
         $this->doLocation($bbox, $scale);
 
-        // Save the crosshair StyledShape. 
-        // The shape will be draw later in $this->handleDrawing()
+        // Save the crosshair StyledShape and showRefMarks. 
+        // The shapes will be drawn later in $this->handleDrawing()
         if (isset($calculator->requ->crosshair) 
             && !is_null($calculator->requ->crosshair)) {
             $this->crosshair = $calculator->requ->crosshair;
+        }                    
+        if (isset($calculator->requ->showRefMarks) 
+            && !is_null($calculator->requ->showRefMarks)) {
+            $this->showRefMarks = $calculator->requ->showRefMarks;
         }
 
         $maxBbox = NULL;

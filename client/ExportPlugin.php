@@ -115,6 +115,11 @@ class ExportConfiguration {
      * @var string
      */
     private $switchId;
+
+    /**
+     * @var boolean
+     */
+    private $showRefMarks;
     
     /**
      * @param boolean
@@ -352,6 +357,20 @@ class ExportConfiguration {
      */
     public function getSwitchId() {
         return $this->switchId;
+    }
+
+    /**
+     * @param boolean
+     */
+    public function setShowRefMarks($showRefMarks) {
+        $this->showRefMarks = $showRefMarks;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getShowRefMarks() {
+        return $this->showRefMarks;
     }
 }
 

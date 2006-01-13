@@ -770,6 +770,10 @@ class ClientLocation extends ClientPlugin
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
                         $this->locationState->bbox->getCenter());
+                          
+        $locationType = $locationRequest->locationType;                      
+        $locationRequest->$locationType->showRefMarks
+            = $this->getConfig()->showRefMarks; 
         return $locationRequest;
     }
 
@@ -934,6 +938,13 @@ class ClientLocation extends ClientPlugin
                     break;
             
             }
+        }
+        
+        $showRefMarks = $configuration->getShowRefMarks();
+        if (!is_null($showRefMarks)) {
+
+            $locationType = $locationRequest->locationType;            
+            $locationRequest->$locationType->showRefMarks = $showRefMarks;            
         }
     }
 }

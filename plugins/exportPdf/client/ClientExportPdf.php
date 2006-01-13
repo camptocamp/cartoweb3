@@ -1081,6 +1081,8 @@ class ClientExportPdf extends ExportPlugin
         $config->setZoomType('ZOOM_SCALE');
         $config->setLocationType('zoomPointLocationRequest');
 
+        $config->setShowRefMarks($this->general->showRefMarks);
+
         $this->log->debug('Selected resolution: ' .
                           $this->general->selectedResolution);
         $this->log->debug('Print config:');
