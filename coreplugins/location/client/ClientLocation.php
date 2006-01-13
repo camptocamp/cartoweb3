@@ -798,11 +798,18 @@ class ClientLocation extends ClientPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($locationInit) {
+
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
-        $this->fullExtent = $locationInit->fullExtent;
+        
+        if($this->cartoclient->getInitialMapState()->location->bbox) {
+            $this->fullExtent = $this->cartoclient->getInitialMapState()
+                                ->location->bbox;
+        } else {
+            $this->fullExtent = $locationInit->fullExtent;	
+        }
     }
     
     /**
