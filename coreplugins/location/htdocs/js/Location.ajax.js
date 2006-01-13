@@ -69,6 +69,9 @@ AjaxPlugins.Location.Actions.Zoom = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
+	  	// remove drawed layers on mainmap object by deleting all childs of mapDrawing
+	  	// TODO use the proper dhtmlAPI method, if exists...
+	  	mainmap.getDisplay('map').currentLayer.innerHTML = '';
 	}
 };
 

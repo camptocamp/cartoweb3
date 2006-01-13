@@ -540,7 +540,11 @@ DrawBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   aDisplay.feature = undefined;
 };
 DrawBoxTool.prototype.onKeyEscape = function(aDisplay) {
-  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  if (typeof(aDisplay.dShape) != 'undefined'
+      && typeof(aDisplay.dShape.parentNode) != 'undefined'
+      && aDisplay.dShape.parentNode != null) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  }
   aDisplay.feature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
