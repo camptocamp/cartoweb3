@@ -1369,6 +1369,10 @@ class ClientLayers extends ClientPlugin
                         array_merge($printedNodes[$layerId]['children'],
                                     $printedNodes[$childId]['children']);
                     unset($printedNodes[$childId]);
+                } else {
+                    $childData = $printedNodes[$childId];
+                    unset($printedNodes[$childId]);
+                    $printedNodes[$childId] = $childData;
                 }
                 unset($selectedLayers[$key]);
             } else {
@@ -1399,9 +1403,6 @@ class ClientLayers extends ClientPlugin
         
         $this->getPrintedParents('root', $selectedLayers, $printedNodes);
         return $printedNodes;
-
-        // TODO: instead of printing parents at the end of the list,
-        // draw them where their aggregated children should have been placed.
     }
 
     /**
