@@ -462,8 +462,12 @@ DrawLineTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
 };
 DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
-  aDisplay.dml.innerHTML = "";
-  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  if (typeof(aDisplay.dml) != 'undefined') {
+    aDisplay.dml.innerHTML = "";
+  }
+  if (aDisplay.currentLayer.childNodes.length > 0) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  }
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();
@@ -684,9 +688,15 @@ DrawPolygonTool.prototype.onKeyEnter = function(aDisplay) {
   this.onDblClick(aDisplay);
 };
 DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
-  aDisplay.dml.innerHTML = "";
-  aDisplay.dml2.innerHTML = "";
-  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  if (typeof(aDisplay.dml) != 'undefined') {
+    aDisplay.dml.innerHTML = "";
+  }
+  if (typeof(aDisplay.dml2) != 'undefined') {
+    aDisplay.dml2.innerHTML = "";
+  }
+  if (aDisplay.currentLayer.childNodes.length > 0) {
+    aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  }
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
     aDisplay._map.onCancel();

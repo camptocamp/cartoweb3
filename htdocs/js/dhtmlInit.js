@@ -186,6 +186,10 @@ Map.prototype.snap = function(aDisplay) {
 };
 
 Map.prototype.resetMapEventHandlers = function() {
+  if (this.onToolUnset != undefined) {
+  	this.onToolUnset();
+  }
+  this.onToolUnset = undefined;
   this.onFeatureInput = undefined;
   this.onClic = undefined;
   this.onSelPoint = undefined;
@@ -293,18 +297,27 @@ Map.prototype.distance = function(aDisplay) {
     xMoveTo(this.distanceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
+    if (this.distanceTag.style.display == "block") {
+    	this.onToolUnset();
+    }
+/*
     for (var i = 0; i < this.currentLayer.features.length; i++) {
-      if (this.currentLayer.features[i].operation == "") {
+      if (this.currentLayfeatures[i].operation == "") {
         dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
         dShape.innerHTML = "";
       }
     }
+*/
   }
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
   }
   this.onCancel = function(aFeature) {
     this.distanceTag.style.display = "none";
+  }
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
   }
 };
  
@@ -320,18 +333,28 @@ Map.prototype.surface = function(aDisplay) {
     xMoveTo(this.surfaceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
+    if (this.surfaceTag.style.display == "block") {
+    	this.onToolUnset();
+    }
+/*    
     for (var i = 0; i < this.currentLayer.features.length; i++) {
+      alert('Feature '+i);
       if (this.currentLayer.features[i].operation == "") {
         dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
         dShape.innerHTML = "";
       }
     }
+*/
   }
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
   }
   this.onCancel = function(aFeature) {
     this.surfaceTag.style.display = "none";
+  }
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
   }
 };
 /***** OUTLINE ****/
@@ -341,11 +364,24 @@ Map.prototype.outline_poly = function(aDisplay) {
   this.onFeatureInput = function(aFeature) {
     addLabel(polyDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    this.featureWasAdded = true; // I'm ashamed (Damien)
   };
+  this.onNewFeature = function(aFeature) {
+  	// TODO: erase the last drawn polygon when a new one is being drawn
+  	// ... in a correct manner
+  	if (typeof(this.featureWasAdded) != 'undefined' && this.featureWasAdded) {
+    	this.onToolUnset();
+    }
+  }  
   this.onCancel = function() {
     hideLabel();
     emptyForm();
+    delete this.featureWasAdded; // I'm still ashamed (Damien)
   };
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
+  }
 };
 
 Map.prototype.outline_line = function(aDisplay) {
@@ -354,11 +390,24 @@ Map.prototype.outline_line = function(aDisplay) {
   this.onFeatureInput = function(aFeature) {
     addLabel(lineDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    this.featureWasAdded = true; // I'm ashamed (Damien)
   };
+  this.onNewFeature = function(aFeature) {
+  	// TODO: erase the last drawn line when a new one is being drawn
+  	// ... in a correct manner
+  	if (typeof(this.featureWasAdded) != 'undefined' && this.featureWasAdded) {
+    	this.onToolUnset();
+    }
+  }  
   this.onCancel = function() {
     hideLabel();
     emptyForm();
+    delete this.featureWasAdded; // I'm still ashamed (Damien)
   };
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
+  }
 };
 
 Map.prototype.outline_rectangle = function(aDisplay) {
@@ -367,11 +416,24 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    this.featureWasAdded = true; // I'm ashamed (Damien)
   };
+  this.onNewFeature = function(aFeature) {
+  	// TODO: erase the last drawn rectangle when a new one is being drawn
+  	// ... in a correct manner
+  	if (typeof(this.featureWasAdded) != 'undefined' && this.featureWasAdded) {
+    	this.onToolUnset();
+    }
+  }  
   this.onCancel = function() {
     hideLabel();
     emptyForm();
+    delete this.featureWasAdded; // I'm still ashamed (Damien)
   };
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
+  }
 };
   
 Map.prototype.outline_point = function(aDisplay) {
@@ -380,9 +442,22 @@ Map.prototype.outline_point = function(aDisplay) {
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     addLabel(pointDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    this.featureWasAdded = true; // I'm ashamed (Damien)
   };
+  this.onNewFeature = function(aFeature) {
+  	// TODO: erase the last drawn point when a new one is being drawn
+  	// ... in a correct manner
+  	if (typeof(this.featureWasAdded) != 'undefined' && this.featureWasAdded) {
+    	this.onToolUnset();
+    }
+  }  
   this.onCancel = function() {
     hideLabel();
     emptyForm();
+    delete this.featureWasAdded; // I'm still ashamed (Damien)
   };
+  this.onToolUnset = function() {
+  	aDisplay = this.getDisplay('map');
+  	aDisplay.mouseAction.onKeyEscape(aDisplay);
+  }
 };
