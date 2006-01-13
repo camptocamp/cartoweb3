@@ -112,6 +112,9 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
           Possible values are: zoomin, zoomout, pan, query, distance, 
           surface. </para>
       </listitem>
+      <listitem>
+        <para> toolbarRendering: indicates how to render tools selectors icons within toolbar. Possible values are 'radio' (default), 'outline', 'swap'. If 'radio': an HTML radio button appear nexts to each tool icon. If 'outline': active tool icon is outlined with a colored border. If 'swap': an alternate icon ("over") is displayed to mark the active tool.</para> 
+      </listitem>
     </itemizedlist>
     <para> Project handling configuration:</para>
     <itemizedlist>
