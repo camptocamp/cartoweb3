@@ -808,7 +808,7 @@ class ClientLocation extends ClientPlugin
             $this->fullExtent = $this->cartoclient->getInitialMapState()
                                 ->location->bbox;
         } else {
-            $this->fullExtent = $locationInit->fullExtent;	
+            $this->fullExtent = $locationInit->fullExtent;  
         }
     }
     
