@@ -1004,6 +1004,7 @@ class ClientExportPdf extends ExportPlugin
         $mapWidth = $mapHeight = 0;
         $mapAngle = NULL;
 
+        $showRefMarks = false;
         if ($keymap == 'overview') {
             // getting overview map
             $renderMap = true;
@@ -1034,6 +1035,7 @@ class ClientExportPdf extends ExportPlugin
             $renderMap = isset($this->blocks['mainmap']);
             $renderScalebar = isset($this->blocks['scalebar']);
             $renderKeymap = ($keymap == 'static');
+            $showRefMarks = $this->general->showRefMarks;
 
             if ($renderMap) {
                 $mainmap = $this->blocks['mainmap'];
@@ -1079,7 +1081,7 @@ class ClientExportPdf extends ExportPlugin
         $config->setZoomType('ZOOM_SCALE');
         $config->setLocationType('zoomPointLocationRequest');
 
-        $config->setShowRefMarks($this->general->showRefMarks);
+        $config->setShowRefMarks($showRefMarks);
 
         $this->log->debug('Selected resolution: ' .
                           $this->general->selectedResolution);
