@@ -8,6 +8,8 @@ CVS version
 - PDF form inputs are now saved while browsing the viewer and their initial states are set in config files
 - Added built-in toolbar rendering switching system: radio buttons, icons borders, icons switching
 - Improved cw3setup.php (installation script) to focus on given projects
+- Added 'rotate' mode for PDF export: selection of to-be-exported rectangle, including rotation
+- Added optional reference marks on displayed map and/or PDF export
 
 2005-10-19: CartoWeb 3.1.0
 ==========================
