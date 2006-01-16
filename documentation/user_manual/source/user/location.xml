@@ -91,6 +91,12 @@
         <para> crosshairSymbolColor<indexterm><primary>crosshairSymbolColor</primary></indexterm>:
                RGB code (comma-separated list of integers) of the crosshair color.</para>
       </listitem>
+        <listitem>
+            <para> showRefMarks<indexterm>
+                <primary>showRefMarks</primary></indexterm>: if true, will add
+                reference marks to the main map. Reference marks configuration is set on
+                server. </para>
+        </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.server">
@@ -167,6 +173,42 @@
           fixed scale to use when recentering. Mandatory when centered-on object
           is a point.</para>
       </listitem>
+        <listitem>
+            <para> refMarksSymbol<indexterm>
+                <primary>refMarksSymbol</primary></indexterm>: symbol used to draw
+                lines for reference marks (typically an ellipse). </para>
+        </listitem>
+        <listitem>
+            <para> refMarksSymbolSize<indexterm>
+                <primary>refMarksSymbolSize</primary></indexterm>: size in pixel of
+                symbol used to draw lines for reference marks (typically 1 or 2). </para>
+        </listitem>
+        <listitem>
+            <para> refMarksSize<indexterm>
+                <primary>refMarksSize</primary></indexterm>: size of reference
+                marks. Size is fixed and won't change with scale. </para>
+        </listitem>
+        <listitem>
+            <para> refMarksColor<indexterm>
+                <primary>refMarksColor</primary></indexterm>: color of reference
+                marks (comma-separated R, G and B values). </para>
+        </listitem>
+        <listitem>
+            <para> refMarksTransparency<indexterm>
+                <primary>refMarksTransparency</primary></indexterm>: transparency
+                of reference marks. </para>
+        </listitem>
+        <listitem>
+            <para> refMarksInterval<indexterm>
+                <primary>refMarksInterval</primary></indexterm>: real interval
+                between two reference marks (comma-separated X and Y values). </para>
+        </listitem>
+        <listitem>
+            <para> refMarksOrigin<indexterm>
+                <primary>refMarksOrigin</primary></indexterm>: origin for
+                reference marks (comma-separated X and Y values, typically "0, 0").
+                </para>
+        </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.mapfile">

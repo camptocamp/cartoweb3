@@ -128,6 +128,11 @@ formats.A4.bigDimension = 297]]></programlisting>
        Default: 'red'.
       </para>
      </listitem>
+        <listitem>
+            <para> <parameter>general.showRefMarks</parameter> (boolean): if true,
+                reference marks are added to the exported main map. They are never displayed
+                on the overview.</para>
+        </listitem>
      <listitem>
       <para>
        <parameter>general.pdfEngine</parameter> (CwFpdf|PdfLibLite): name of the PDF engine to
@@ -966,17 +971,17 @@ blocs.legend.content = in   ; legend is checked as included in map by default</p
   <sect2 id="user.pdf.tutorial.block">
    <title><indexterm><primary>Blocks configuration, PDF</primary></indexterm>Blocks Configuration</title>
    <para>
-    Whatever their types (image, text, table, legend), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
+    Whatever their types (image, text, table, legend, north), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
    </para>
    <para>
-    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords. System blocks should not be renamed.
+    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords, north. System blocks should not be renamed.
    </para>
    <para>
     Note that blocks that are not mentioned in <parameter>general.activatedBlocks</parameter> won't be displayed in any case.
    </para>
    <programlisting><![CDATA[general.activatedBlocks = mainmap, title, note, scalebar, overview,
                           copyright, queryResult, page, legend,
-                          logo, scaleval, tlcoords, brcoords]]></programlisting>
+                          logo, scaleval, tlcoords, brcoords, north]]></programlisting>
 
    <sect3 id="user.pdf.tutorial.block.template">
     <title><indexterm><primary>template object, PDF</primary></indexterm>Block Template and Overriding</title>
@@ -1266,6 +1271,27 @@ blocks.legend.padding = 1.5
 blocks.legend.verticalMargin = 10
 blocks.legend.horizontalMargin = 10
 blocks.legend.content = "!nix"]]></programlisting>
+   </sect3>
+   <sect3 id="user.pdf.tutorial.block.north">
+    <title><indexterm><primary>North Arrow blocks, PDF</primary></indexterm>North Arrow Block</title>
+    <para> There is usually only one instance of north arrow block in a &cartoweb; PDF document. It
+        displays an arrow (or any image) that will automatically show the north direction.
+        Path set in arrow block <parameter>content</parameter> parameter is relative to
+        &cartoweb; root directory. </para>
+     <para>
+      For instance: 
+    </para>
+    <programlisting><![CDATA[blocks.north.type = north
+blocks.north.content = "plugins/exportPdf/htdocs/gfx/arrow.png"
+blocks.north.width = 10
+blocks.north.height = 36
+blocks.north.padding = 2
+blocks.north.parent = mainmap
+blocks.north.verticalBasis = bottom
+blocks.north.horizontalBasis = left
+blocks.north.inFlow = false
+blocks.north.horizontalMargin = 15
+blocks.north.verticalMargin = 5]]></programlisting>
    </sect3>
   </sect2>
   
