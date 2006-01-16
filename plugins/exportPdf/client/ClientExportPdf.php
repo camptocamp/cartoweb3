@@ -760,7 +760,8 @@ class ClientExportPdf extends ExportPlugin
         $marginX = $marginY = 0;
         $formatDimensions = array();
 
-        if ($this->general->guiMode == self::GUIMODE_ROTATE) {
+        $isModeRotate = ($this->general->guiMode == self::GUIMODE_ROTATE);
+        if ($isModeRotate) {
             // Passes map margins and format dimensions to Javascript
             $marginX += $this->general->horizontalMargin;
             $marginX += $this->blocks['mainmap']->horizontalMargin;
@@ -780,6 +781,7 @@ class ClientExportPdf extends ExportPlugin
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $this->smarty->assign(array(
                    'exportScriptPath'       => $this->getExportUrl(),
+                   'isModeRotate'           => $isModeRotate,
                    'pdfFormat_options'      => $this->general->formats,
                    'pdfResolution_options'  => $pdfResolution_options,
                    'pdfAllowedResolutions'  => $allowedResolutions,
@@ -820,8 +822,7 @@ class ClientExportPdf extends ExportPlugin
             }
         }
 
-        $tplFile = 'form' . ucfirst($this->general->guiMode) . '.tpl';
-        return $this->smarty->fetch($tplFile);
+        return $this->smarty->fetch('form.tpl');
     } 
 
     /**
