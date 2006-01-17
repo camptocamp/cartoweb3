@@ -396,11 +396,11 @@ class ClientImages extends ClientPlugin
             $mapRequest->imagesRequest->scalebar->isDrawn = $isRenderScalebar;
 
         $mapHeight = $configuration->getMapHeight();
-        if (!is_null($mapHeight))
+        if (!empty($mapHeight))
             $mapRequest->imagesRequest->mainmap->height = $mapHeight;
 
         $mapWidth = $configuration->getMapWidth();
-        if (!is_null($mapWidth))
+        if (!empty($mapWidth))
             $mapRequest->imagesRequest->mainmap->width = $mapWidth;
 
         $mapAngle = $configuration->getMapAngle();
