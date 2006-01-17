@@ -233,9 +233,11 @@ List of options:
  --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
                             fetch several projects at a time, specify this
                             option as many times as necessary.
+ --project PROJECT          Installation is launched only for given project. To
+                            install several projects at a time, specify this
+                            option as many times as necessary.
 
- --default-project PROJECT  Default project to use (this is set automatically
-                            if using --config-from-project).
+ --default-project PROJECT  Default project to use.
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
                             NOTE: default is 'development'
