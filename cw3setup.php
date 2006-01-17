@@ -127,9 +127,11 @@ List of options:
  --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
                             fetch several projects at a time, specify this
                             option as many times as necessary.
+ --project PROJECT          Installation is launched only for given project. To
+                            install several projects at a time, specify this
+                            option as many times as necessary.
  
- --default-project PROJECT  Default project to use (this is set automatically 
-                            if using --config-from-project).
+ --default-project PROJECT  Default project to use.
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
                             NOTE: default is 'development'
@@ -233,6 +235,7 @@ function processArgs() {
     
             case '--fetch-project-cvs':
             case '--fetch-project-dir':
+            case '--project':
                 $option = substr($_SERVER['argv'][$i], 2);
                 $oldOptions = array();
                 if (isset($OPTIONS[$option])) {
@@ -292,6 +295,7 @@ function processArgs() {
             if (!file_exists('common'))
                 throw new InstallException('Looks like we are not inside a cartoweb3 directory');
 
+            removeDevFilesIfProd();
             fetchProjects();
             fetchLibs();
             makeDirs();
@@ -299,7 +303,6 @@ function processArgs() {
             createConfig();
             setupLinks();
             replaceDotIn();
-            removeDevFilesIfProd();
             init();
 
             info('Installation finished...');
@@ -784,7 +787,7 @@ function removeDevFilesIfProd() {
         return;
     }
     
-    $filesToRemove = array('htdocs/info.php');
+    $filesToRemove = array('htdocs/info.php', 'htdocs/index.html');
     foreach ($filesToRemove as $file) {
         if (!is_file($file) && !is_link($file)) {
             continue;
@@ -1137,8 +1140,6 @@ function getSearchReplaceContext() {
         $project = $OPTIONS['config-from-project'];
     
         $configFile = getProjectConfig("projects/$project/deployment");
-    
-        setDefaultProject($project);
     }
     if ($configFile) {
         $ini = parse_ini_file($configFile);
@@ -1191,6 +1192,10 @@ function getRequestedProjects() {
 
     if (!empty($OPTIONS['config-from-project'])) {
         return array($OPTIONS['config-from-project']);
+    }
+
+    if (!empty($OPTIONS['project'])) {
+        return $OPTIONS['project'];
     }
 
     return array();
