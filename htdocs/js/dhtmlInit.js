@@ -273,7 +273,8 @@ Map.prototype.distance = function(aDisplay) {
     distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
-    xMoveTo(this.distanceTag, mouse_x, mouse_y);
+    if (this.distanceTag.style.position == "absolute")
+      xMoveTo(this.distanceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
     for (var i = 0; i < this.currentLayer.features.length; i++) {
@@ -300,7 +301,8 @@ Map.prototype.surface = function(aDisplay) {
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
-    xMoveTo(this.surfaceTag, mouse_x, mouse_y);
+    if (this.surfaceTag.style.position == "absolute")
+      xMoveTo(this.surfaceTag, mouse_x, mouse_y);
   }
   this.onNewFeature = function(aFeature) {
     for (var i = 0; i < this.currentLayer.features.length; i++) {
