@@ -351,8 +351,8 @@ class Cartoserver {
      */
     public function cacheGetMap($mapRequest) {
 
-        $this->log->debug("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-        $this->log->debug("map request: ");
+        $this->log->debug('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+        $this->log->debug('map request: ');
         $this->log->debug($mapRequest);
 
         return $this->callWithExceptionCheck('doGetMap', $mapRequest);
