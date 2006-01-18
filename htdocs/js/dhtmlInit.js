@@ -311,14 +311,9 @@ Map.prototype.surface = function(aDisplay) {
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
-<<<<<<< dhtmlInit.js
-    xMoveTo(this.surfaceTag, mouse_x, mouse_y);
-  };
-=======
     if (this.surfaceTag.style.position == "absolute")
       xMoveTo(this.surfaceTag, mouse_x, mouse_y);
   }
->>>>>>> 1.12
   this.onNewFeature = function(aFeature) {
     this.onToolUnset();
   };
