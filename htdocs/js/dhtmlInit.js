@@ -227,6 +227,8 @@ Map.prototype.displayFeaturesCount = function() {
 /***** LOCATION ****/
 Map.prototype.zoomout = function(aDisplay) {
   this.resetMapEventHandlers();
+  
+  this.setCurrentLayer('drawing');
   this.getDisplay(aDisplay).setTool('sel.point');
   this.onSelPoint = function(x, y) {
     myform.selection_coords.value = x + "," + y;
