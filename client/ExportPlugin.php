@@ -508,7 +508,7 @@ abstract class ExportPlugin extends ClientPlugin
      * @param ExportConfiguration configuration
      * @return MapResult server result 
      */
-    public function getExportResult($configuration) {
+    public function getExportResult(ExportConfiguration $configuration) {
 
         try {
             // Calls all plugins to modify request
@@ -521,10 +521,10 @@ abstract class ExportPlugin extends ClientPlugin
                                                         'adjustExportMapRequest',
                                                         $configuration,
                                                         $mapRequest);
-
+            
             // Calls getMap
-            $mapResult = $this->cartoclient->getCartoserverService()->
-                                       getMap($mapRequest);
+            $mapResult = $this->cartoclient->getCartoserverService()
+                                           ->getMap($mapRequest);
             
             // Initializes plugins  
             $this->cartoclient->callPluginsImplementing('ServerCaller', 
