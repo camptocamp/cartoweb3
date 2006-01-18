@@ -242,6 +242,8 @@ Map.prototype.zoomout = function(aDisplay) {
 
 Map.prototype.selectionBox = function(aDisplay, action) {
   this.resetMapEventHandlers();
+
+  this.setCurrentLayer('drawing');
   this.getDisplay(aDisplay).setTool('sel.box');
   this.onSelBox = function(x1, y1, x2, y2) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
