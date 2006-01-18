@@ -1268,10 +1268,12 @@ Display.prototype.addDiv = function(obj, x, y, w,h, cls) {
 */
 Display.prototype.clearLayer = function(aLayerId) {
   var aLayer = xGetElementById(this.id + "_" + aLayerId);
-  Logger.send('Display.clearLayer : ' + aLayer.id);
-  aLayer.innerHTML = '';
-  this.tmpFeature = undefined;
-  return aLayer;
+  if (aLayer != null) {
+	  Logger.send('Display.clearLayer : ' + aLayer.id);
+	  aLayer.innerHTML = '';
+	  this.tmpFeature = undefined;
+	  return aLayer;
+  }
 }; 
 
 /**
