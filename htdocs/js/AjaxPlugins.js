@@ -77,14 +77,7 @@ AjaxPlugins.Common = {
 	
 	/* Helper methods */
 	clearDhtmlDrawings: function() {
-		var dhtmlDrawingDivId = 'map_drawing';
-	  	// remove drawed layers on mainmap object by deleting all childs of mapDrawing
-	  	// TODO use the proper dhtmlAPI method, if exists...
-	  	mapDrawingLayer = $(dhtmlDrawingDivId);
-	  	var childNodesLength = mapDrawingLayer.childNodes.length;
-		for (i=0; i<childNodesLength; i++) {
-			mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
-		}
+		mainmap.getDisplay('map').clearLayer('drawing');		
 	},
 	
 	clearDhtmlStoredFeatures: function() {
