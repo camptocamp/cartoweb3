@@ -76,6 +76,10 @@ Map.prototype.getDisplay = function(name) {
  * @return the layer object created, including a div element
  */
 Map.prototype.addLayer = function(obj, aLayer) {
+
+  if (typeof obj.layers[aLayer] != 'undefined')
+    return aLayer;
+    
   //var aLayer= new layerObj(name);
   aLayer._map = obj; //reference to the parent
 
@@ -120,6 +124,27 @@ Map.prototype.updateFeaturesCount = function() {
       }
     }
   }
+};
+
+/**
+* Sets the given aLayerId as the current layer, creating it if needed
+* @param aLayerId Id of the layer to be set as the current layer
+* @return Div object modified in DOM
+*/
+Map.prototype.setCurrentLayer = function(aLayerId) {
+  layer = null;
+  for (i=0 ; i < this.layers.length ; i++) {
+    if (this.layers[i].id == aLayerId) {
+      layer = this.layers[i];
+      break;
+    }
+  }
+
+  if (layer == null) {
+    layer = new Layer(aLayerId);
+    this.addLayer(this, layer);
+  }  
+  this.currentLayer = layer;  
 };
 
 /**
@@ -349,9 +374,7 @@ function DrawLineTool(aDisplay) {
 DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   aDisplay.isDrawing = 'line';
   if (typeof(dblclick) != "undefined") return; // double click
-  // moving line
-  if (!aDisplay.dml)
-    aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
+  
 
   if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
     ex = aDisplay.snapToX;
@@ -362,7 +385,10 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     var feature = new Polyline();
     if (aDisplay._map.onNewFeature)
       aDisplay._map.onNewFeature(feature)
-
+      
+  // moving line
+    aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
+      
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
@@ -483,6 +509,10 @@ function DrawBoxTool(aDisplay) {
 };
 DrawBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   aDisplay.isDrawing = 'box';
+
+  if (aDisplay._map.onNewFeature)
+    aDisplay._map.onNewFeature(feature);
+
   if (!aDisplay.feature) {
     var feature = new Polygon();
     feature.operation = 'insert';
@@ -551,12 +581,6 @@ function DrawPolygonTool(aDisplay) {
 DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   aDisplay.isDrawing = 'line';
   if (typeof(dblclick) != 'undefined') return; // double click
-  // moving line
-  if (!aDisplay.dml)
-    aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
-  // moving line
-  if (!aDisplay.dml2)
-    aDisplay.dml2 = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
     
   if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
     ex = aDisplay.snapToX;
@@ -568,6 +592,11 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     
     if (aDisplay._map.onNewFeature)
       aDisplay._map.onNewFeature(feature)
+  
+    // moving line
+    aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
+    // moving line
+    aDisplay.dml2 = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
     
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
@@ -579,9 +608,6 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     aDisplay.dShape = dShape; // assign the object to the map display
     
     aDisplay._map.updateFeaturesCount();
-    if (aDisplay._map.onNewFeature) {
-      aDisplay._map.onNewFeature(feature);
-    }
   } else if (aDisplay.tmpFeature.closing) {
     // close the polygon
     this.onDblClick(aDisplay, aDisplay.dShape.X[0], aDisplay.dShape.Y[0]);
@@ -1236,6 +1262,19 @@ Display.prototype.addDiv = function(obj, x, y, w,h, cls) {
 };
 
 /**
+* Clears a layer, removes all its content
+* @param aLayerId Id of the layer to be cleared
+* @return Div object modified in DOM
+*/
+Display.prototype.clearLayer = function(aLayerId) {
+  var aLayer = xGetElementById(this.id + "_" + aLayerId);
+  Logger.send('Display.clearLayer : ' + aLayer.id);
+  aLayer.innerHTML = '';
+  this.tmpFeature = undefined;
+  return aLayer;
+}; 
+
+/**
  * Draws a point
  * @param obj object to add a line to, or object line that already exists
  * @param x1 start x (pixels)
@@ -1374,15 +1413,19 @@ Display.prototype.fillPolygon = function(aPolygon, status) {
  * Draws a feature
  * @param obj object to add a point to
  * @param feature
+ * @param status
+ * @param clip boolean allow clipping by rectangle
  * @return object created in DOM
  */
-Display.prototype.drawFeature = function(obj, feature, status) {
+Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
   var xmin = this._map.extent.xmin;
   var ymin = this._map.extent.ymin;
   var xmax = this._map.extent.xmax;
   var ymax = this._map.extent.ymax;
   if (typeof status == "undefined")
     status = _OFF;
+  if (typeof allowClipping == "undefined")
+    allowClipping = true;
     
   switch (feature.getObjectClass()) {
     case "Raster":
@@ -1406,7 +1449,7 @@ Display.prototype.drawFeature = function(obj, feature, status) {
       // TODO change extent use in mapObj( rectangle2D);
       var buffer = ((xmax - xmin) * 5 / 100 + (ymax - ymin) * 5 / 100 ) / 2;
 	  var clippingExtent = new Rectangle2D(xmin - buffer , ymin - buffer , xmax + buffer , ymax + buffer);
-	  if (feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
+	  if (allowClipping && feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
         && feature.type != 'point') {
 	    clippedFeature = feature.clipByRectangle2D(clippingExtent);
 	    clippedFeature.id = feature.id;
@@ -1552,20 +1595,42 @@ function display_onmouseover(evt) {
  * Handles Display onmousedown events
  * @param evt event
  */
-function display_onmousedown(evt) {
+function display_onmousedown(evt) {  
+  // If left click
+  if (((evt.which) && (evt.which == 1)) ||
+      ((evt.button) && (evt.button == 1))) {
+    display_onmousedown_left(evt);
+  } else {
+    display_onmousedown_right(evt);
+  }  
+};
+
+/**
+ * Handles Display onmousedown events, when left button is clicked
+ * @param evt event
+ */
+function display_onmousedown_left(evt) {
   var e = new xEvent(evt);
-  
+
   var _display = e.target._display; // reference to the display
   
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
     
-  window.status = e.target.id;
-  
+  window.status = e.target.id  
+
   if (_display.mouseAction && _display.mouseAction.onMouseDown) {
     _display.mouseAction.onMouseDown(_display, ex, ey);
   }
 };
+
+/**
+ * Handles Display onmousedown events, when right button is clicked
+ * @param evt event
+ */
+function display_onmousedown_right(evt) {
+  // TODO: contextual menu?
+}
 
 /**
  * Handles Display onmousemove events
@@ -1607,6 +1672,20 @@ function display_onmousemove(evt) {
  * @param evt event
  */
 function display_onmouseup(evt) {
+  // If left click
+  if (((evt.which) && (evt.which == 1)) ||
+      ((evt.button) && (evt.button == 1))) {
+    display_onmouseup_left(evt);
+  } else {
+    display_onmouseup_right(evt);
+  }  
+}
+
+/**
+ * Handles Display onmousemup events, when left button is cliked
+ * @param evt event
+ */
+function display_onmouseup_left(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display;// reference to the display
@@ -1637,6 +1716,13 @@ function display_onmouseup(evt) {
   dblclick = true;
   window.setTimeout('dblclick=undefined', dbl_click_delay);
 };
+
+/**
+ * Handles Display onmousemup events, when right button is cliked
+ * @param evt event
+ */
+function display_onmouseup_right(evt) {
+}
 
 /**
  * Handles Display ondblclick events
