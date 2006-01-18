@@ -33,9 +33,9 @@
   </script>
   {/if}
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
-  
+
   {include file="dhtmlcode.tpl"}
-  
+    
   <!-- Ajax related js includes - Debug Tool: jsTrace -->
   <!-- Remove these two links to get rid of the logger (i.e. in production mode -->
   <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
@@ -43,6 +43,7 @@
 
   <!-- Ajax related js includes - External libraries -->
   <script type="text/javascript" src="{r type=js}prototype-1.3.1.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
 
   <!-- Ajax related js includes - Global logic -->
   <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>

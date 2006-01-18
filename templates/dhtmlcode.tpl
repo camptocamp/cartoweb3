@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{r type=css}dhtml.css{/r}" />
 <script type="text/javascript" src="{r type=js}x_cartoweb.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}wz_jsgraphics.js{/r}"></script>
+<script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlAPI.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlFeatures.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlInit.js{/r}"></script>
