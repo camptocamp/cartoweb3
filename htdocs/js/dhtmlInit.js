@@ -186,6 +186,10 @@ Map.prototype.snap = function(aDisplay) {
 };
 
 Map.prototype.resetMapEventHandlers = function() {
+  if (this.onToolUnset != undefined) {
+    this.onToolUnset();
+  }
+  this.onToolUnset = undefined;
   this.onFeatureInput = undefined;
   this.onClic = undefined;
   this.onSelPoint = undefined;
@@ -231,8 +235,8 @@ Map.prototype.zoomout = function(aDisplay) {
     doSubmit();
   }
 };
-  
-Map.prototype.zoomin = function(aDisplay) {
+
+Map.prototype.selectionBox = function(aDisplay, action) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('sel.box');
   this.onSelBox = function(x1, y1, x2, y2) {
@@ -242,13 +246,17 @@ Map.prototype.zoomin = function(aDisplay) {
     doSubmit();
   }
 };
+  
+Map.prototype.zoomin = function(aDisplay) {
+  this.selectionBox(aDisplay, 'Location.Zoom');
+};
 
 Map.prototype.fullextent = function(aDisplay) {
   doSubmit();
 }
 
 Map.prototype.query = function(aDisplay) {
-  this.zoomin(aDisplay);
+  this.selectionBox(aDisplay, 'Query.Perform');
   this.getDisplay(aDisplay).docObj.style.cursor = "help";
 };
   
@@ -266,6 +274,7 @@ Map.prototype.pan = function(aDisplay) {
 /***** STATICTOOLS ****/
 Map.prototype.distance = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('distance');
   this.getDisplay(aDisplay).setTool('draw.line');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
@@ -273,27 +282,33 @@ Map.prototype.distance = function(aDisplay) {
     distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
+<<<<<<< dhtmlInit.js
+    xMoveTo(this.distanceTag, mouse_x, mouse_y);
+  };
+=======
     if (this.distanceTag.style.position == "absolute")
       xMoveTo(this.distanceTag, mouse_x, mouse_y);
   }
+>>>>>>> 1.12
   this.onNewFeature = function(aFeature) {
-    for (var i = 0; i < this.currentLayer.features.length; i++) {
-      if (this.currentLayer.features[i].operation == "") {
-        dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
-        dShape.innerHTML = "";
-      }
-    }
-  }
+    this.onToolUnset();
+  };
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
-  }
+  };
+  this.onToolUnset = function() {
+    //clear the distance's display layer
+    this.getDisplay(aDisplay).clearLayer('distance');
+    this.onCancel();
+  };
   this.onCancel = function(aFeature) {
     this.distanceTag.style.display = "none";
-  }
+  };
 };
  
 Map.prototype.surface = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('surface');  
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
@@ -301,34 +316,49 @@ Map.prototype.surface = function(aDisplay) {
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
+<<<<<<< dhtmlInit.js
+    xMoveTo(this.surfaceTag, mouse_x, mouse_y);
+  };
+=======
     if (this.surfaceTag.style.position == "absolute")
       xMoveTo(this.surfaceTag, mouse_x, mouse_y);
   }
+>>>>>>> 1.12
   this.onNewFeature = function(aFeature) {
-    for (var i = 0; i < this.currentLayer.features.length; i++) {
-      if (this.currentLayer.features[i].operation == "") {
-        dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
-        dShape.innerHTML = "";
-      }
-    }
-  }
+    this.onToolUnset();
+  };
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
-  }
+  };
+  this.onToolUnset = function() {
+    //clear the surface's display layer
+    this.getDisplay(aDisplay).clearLayer('surface');
+    this.onCancel();
+  };
   this.onCancel = function(aFeature) {
     this.surfaceTag.style.display = "none";
-  }
+  };
 };
 /***** OUTLINE ****/
 Map.prototype.outline_poly = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_poly');
   this.getDisplay(aDisplay).setTool('draw.poly');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
       addLabel(polyDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_poly');
+    this.onCancel();
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
@@ -339,13 +369,23 @@ Map.prototype.outline_poly = function(aDisplay) {
 
 Map.prototype.outline_line = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_line');
   this.getDisplay(aDisplay).setTool('draw.line');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
       addLabel(lineDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_line');
+    this.onCancel();
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
@@ -356,13 +396,23 @@ Map.prototype.outline_line = function(aDisplay) {
 
 Map.prototype.outline_rectangle = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_rectangle');
   this.getDisplay(aDisplay).setTool('draw.box');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
       addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_rectangle');
+    this.onCancel();
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
@@ -373,13 +423,23 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   
 Map.prototype.outline_point = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_point');
   this.getDisplay(aDisplay).setTool('draw.point');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
     else
       addLabel(pointDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_point');
+    this.onCancel();
   };
   this.onCancel = function() {
     if (typeof hideLabel != 'undefined')
