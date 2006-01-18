@@ -28,6 +28,11 @@ AjaxPlugins.Outline.Actions.AddFeature = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
+		Logger.note('Clearing outline dhtml layers...');
+		mainmap.getDisplay('map').clearLayer('outline_poly');
+		mainmap.getDisplay('map').clearLayer('outline_line');
+		mainmap.getDisplay('map').clearLayer('outline_rectangle');
+		mainmap.getDisplay('map').clearLayer('outline_point');
 	}
 };
 
