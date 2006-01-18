@@ -199,7 +199,7 @@ class ClientExportPdf extends ExportPlugin
      * Returns PDF file name.
      * @return string
      */
-    public function getFilename() {
+    protected function getFilename() {
         if (preg_match("/^(.*)\[date,(.*)\](.*)$/", 
                        $this->general->filename, $regs)) {
             $this->general->filename = $regs[1] . date($regs[2]) . $regs[3];
@@ -1279,10 +1279,11 @@ class ClientExportPdf extends ExportPlugin
         $pdfClass =& $this->general->pdfEngine;
         
         $pdfClassFile = dirname(__FILE__) . '/' . $pdfClass . '.php';
-        if (!is_file($pdfClassFile))
+        if (!is_file($pdfClassFile)) {
             throw new CartoclientException("invalid PDF engine: $pdfClassFile");
+        }
+        
         require_once $pdfClassFile;
- 
         $pdf = new $pdfClass($this);
  
         if (isset($this->blocks['mainmap']))
