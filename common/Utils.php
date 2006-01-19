@@ -197,16 +197,20 @@ class Utils {
 
 
     /**
-     * Converts a character-separated string to an array
+     * Converts a character-separated string to an array.
      * @param string
-     * @param stringDivider
+     * @param string string divider
      * @return array
      */
-    static public function parseArray($value, $valueDivider = ',') {
-        if (!$value)
+    static public function parseArray($string, $divider = ',') {
+        if (empty($string)) {
             return array();
-        $value = explode($valueDivider, $value);
-        return array_map('trim', $value);
+        }
+        
+        $array = explode($divider, $string);
+        $array = array_map('trim', $array); // removes white spaces
+        $array = array_diff($array, array('')); // removes empty values
+        return array_values($array);
     }
 
     /**
