@@ -720,10 +720,24 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
-     * Not used/implemented yet.
      * @see GuiProvider::handleHttpGetRequest()
      */
-    public function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {
+        if ($this->isPrintingPdf($request)) {
+            $this->log->debug(__METHOD__);
+
+            $pdfRoles = $this->getArrayFromIni('general.allowedRoles');
+            if (!SecurityManager::getInstance()->hasRole($pdfRoles)) {
+                return;
+            }
+
+            $this->setPdfObjects();
+
+            // sorting blocks (order of processing)
+            $this->sortBlocksBy('weight');
+            $this->sortBlocksBy('zIndex');
+        }
+    }
 
     /**
      * @see GuiProvider::renderForm()
