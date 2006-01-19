@@ -15,8 +15,24 @@
  */
 AjaxHandler = {
 
+	/*
+	 * Constants
+	 */
+	 MODE_DEVELOPMENT: 'development',
+	 MODE_PRODUCTION: 'production',
+
+	/*
+	 * Properties
+	 */
+
 	baseUrl: '', // uses current url if empty
 	cartoFormId: 'carto_form',
+	mode: this.MODE_DEVELOPMENT,
+
+
+	/*
+	 * Methods
+	 */
 
 	/**
 	 * Sets cartoweb's base url
@@ -177,7 +193,7 @@ AjaxHandler = {
                  if (responseTag != '<?xml') {
                      Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
                      showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
-                     if (showFaillure) {
+                     if (showFaillure && this.mode == this.MODE_DEVELOPMENT) {
                          ajaxErrorDivElement = document.createElement('div');
                          ajaxErrorDivElement.id = 'ajaxError';
                          ajaxErrorDivElement.style.position = 'absolute';
@@ -194,8 +210,7 @@ AjaxHandler = {
                          };
                          $('carto_form').appendChild(ajaxErrorDivElement);
                      }
-                 } else {
-					    
+                 } else {					    
                      AjaxHandler.handlePluginReponse(response, argObject);
                      // Call onAfterAjaxCall method for the called action
                      requestedPluginName = actionId.substr(0, actionId.indexOf('.'));

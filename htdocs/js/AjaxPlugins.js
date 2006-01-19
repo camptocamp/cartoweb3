@@ -8,76 +8,86 @@
  * Used by: AjaxHandler.js
  */
 
-/*
- * Initialises plugins on window load
- */
+// Initialises plugins on window load
 AjaxHelper.addEvent(window, 'load', function() {
+  frameSourceUrl = window.location.href;
+  lastChar = frameSourceUrl.substr(frameSourceUrl.length-1);
+  if (lastChar == "#"){
+    baseUrl = frameSourceUrl.substring(0,frameSourceUrl.length-1);
+  } else {
+    baseUrl = frameSourceUrl;
+  }
+  qmark = frameSourceUrl.indexOf("?");
+  if (qmark >= 0){
+    baseUrl = frameSourceUrl.substring(0,qmark);
+  }
+
+  if (typeof(AjaxHandler) != 'undefined') {
 	AjaxPlugins.Common.init();
+	AjaxHandler.setBaseUrl(baseUrl);
+  }
 });
 
 AjaxPlugins = {};
 
 AjaxPlugins.Common = {
 
-	mapCursorStyle: '',
+	mapCursorStyle: null,
+	doClearWaitingMessage: true,
 
 	/* Plugins' actions initialisation */
 	init: function() {
 		Logger.header('Initiating actions');	
-		AjaxPlugins.Common.setBaseUrl();
 		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
-	/* 
-	 * Gets rid of the substring following the first special char
-	 * present in specialChars array
-	 */
-	setBaseUrl: function() {
-		specialChars = Array('?', '#'); // Defines what a special char is
-		pageUrl = window.location.href;
-		specialCharFirstIndex = pageUrl.length;
-
-		// This loop assign the index of the first special char occurence
-		// to the specialCharFirstIndex variable
-		for (i=0 ; i < specialChars.length ; i++) {
-			specialChar = specialChars[i];
-			specialCharIndex = pageUrl.indexOf(specialChar);
-			if (specialCharIndex != -1 && specialCharIndex < specialCharFirstIndex) {
-				specialCharFirstIndex = pageUrl.indexOf(specialChar);
-			}
-		}		
-		// Uses specialCharFirstIndex variable value to trim the
-		// pageUrl string
-		baseUrl = pageUrl.substring(0,specialCharFirstIndex);
-		Logger.note('Setting AjaxHandler.baseUrl to \''+baseUrl+'\'');
-		AjaxHandler.setBaseUrl(baseUrl);
-	},
-	
 	/* General plugins behaviour for before and after ajax calls */
 	onBeforeAjaxCall: function(actionId) {
+		this.setWaitingMessage()
+		this.setWaitingCursor();
+	},
+	onAfterAjaxCall: function(actionId) {
+		this.clearDhtmlDrawings();
+		this.clearDhtmlStoredFeatures();
+		this.clearDhtmlOutlineLabel();
+		this.clearWaitingCursor();		
+		if (this.doClearWaitingMessage) {
+			this.clearWaitingMessage();
+		}
+	},
+
+	
+	/* Helper methods */
+	setWaitingCursor: function() {
 		if (this.mapCursorStyle == null)
 			this.mapCursorStyle = $("map").style.cursor;
 		$("map").style.cursor = "progress";
 		document.getElementsByTagName("body")[0].style.cursor = "progress";
-		//xShow($('loadbarDiv'));
 	},
-	onAfterAjaxCall: function(actionId) {
-		AjaxPlugins.Common.clearDhtmlDrawings();
-		AjaxPlugins.Common.clearDhtmlStoredFeatures();
-		AjaxPlugins.Common.clearDhtmlOutlineLabel();
-		
+	clearWaitingCursor: function() {
 		document.getElementsByTagName("body")[0].style.cursor = "default";
 		if (this.mapCursorStyle != null) {
 			$("map").style.cursor = this.mapCursorStyle;
 			this.mapCursorStyle = null;
 		}
-		//xHide($('loadbarDiv'));
+	},
+	
+	setWaitingMessage: function() {
+		xShow($('loadbarDiv'));
+	},	
+	clearWaitingMessage: function() {
+		xHide($('loadbarDiv'));
 	},
 
-	
-	/* Helper methods */
 	clearDhtmlDrawings: function() {
-		mainmap.getDisplay('map').clearLayer('drawing');		
+		var dhtmlDrawingDivId = 'map_drawing';
+	  	// remove drawed layers on mainmap object by deleting all childs of mapDrawing
+	  	// TODO use the proper dhtmlAPI method, if exists...
+	  	mapDrawingLayer = $(dhtmlDrawingDivId);
+	  	var childNodesLength = mapDrawingLayer.childNodes.length;
+		for (i=0; i<childNodesLength; i++) {
+			mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
+		}
 	},
 	
 	clearDhtmlStoredFeatures: function() {
@@ -89,8 +99,11 @@ AjaxPlugins.Common = {
 	},
 	
 	clearDhtmlOutlineLabel: function() {
-		xHide($('outlineLabelInputDiv'));
-	}
+		if (typeof(hideLabel != 'undefined')) {
+			hideLabel();
+		}
+	},
+
 }
 
 /*
@@ -99,11 +112,9 @@ AjaxPlugins.Common = {
 AjaxPlugins.Cartoweb = {
 	handleResponse: function(pluginOutput) {
 		// Shows developer and user messages in jsTrace debugger window
-		if (pluginOutput.htmlCode.developerMessages != '') {
-            Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);
-        }
-		if (pluginOutput.htmlCode.userMessages != '') {
-            Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
-        }
+		if (pluginOutput.htmlCode.developerMessages != '')
+			Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);		
+		if (pluginOutput.htmlCode.userMessages != '')
+			Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
 	}
-}
+};
