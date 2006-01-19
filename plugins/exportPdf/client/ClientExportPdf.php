@@ -1333,9 +1333,9 @@ class ClientExportPdf extends ExportPlugin
                                                          I18n::gt('Scale'),
                                                          $scale);
         }
-
+        
         if (isset($this->blocks['date'])) {
-            if (preg_match('/^(.*)\[(.*)\](.*)$/U', 
+            if (preg_match('/^(.*)\[(.*)\](.*)$/Us', 
                            $this->blocks['date']->content, $regs)) {
                 $this->blocks['date']->content = 
                                           $regs[1] . date($regs[2]) . $regs[3];
