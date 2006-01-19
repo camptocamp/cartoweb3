@@ -1432,6 +1432,7 @@ class ClientLayers extends ClientPlugin
         $switchId = $configuration->getSwitchId();
         if (!is_null($switchId)) {
             $this->setSwitch($switchId);
+            $this->useNewSwitch = true;
             $mapRequest->layersRequest = $this->buildRequest();
         }
         
