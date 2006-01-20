@@ -118,6 +118,14 @@ class ClientExportPdf extends ExportPlugin
     const TOOL_ROTATE = 'pdfrotate';
 
     /**
+     * Output constants
+     */
+    const OUTPUT_INLINE      = 'inline';
+    const OUTPUT_ATTACHMENT  = 'attachment';
+    const OUTPUT_LINK        = 'link';
+    const OUTPUT_REDIRECTION = 'redirection';
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -1466,7 +1474,7 @@ class ClientExportPdf extends ExportPlugin
         $pdfBuffer = $this->getExport()->getContents();
     
         switch ($this->general->output) {
-            case 'inline':
+            case self::OUTPUT_INLINE:
                 $this->setTypeHeader();
                 header('Content-Length: ' . strlen($pdfBuffer));
                 header('Content-Disposition: inline; filename=' . 
@@ -1474,7 +1482,7 @@ class ClientExportPdf extends ExportPlugin
                 print $pdfBuffer;
                 break;
 
-            case 'attachment':
+            case self::OUTPUT_ATTACHMENT:
                 $this->setTypeHeader();
                 header('Content-Length: ' . strlen($pdfBuffer));
                 header('Content-Disposition: attachment; filename=' .
@@ -1482,7 +1490,7 @@ class ClientExportPdf extends ExportPlugin
                 print $pdfBuffer;
                 break;
 
-            case 'link':
+            case self::OUTPUT_LINK:
                 $filename = $this->generatePdfFile($pdfBuffer);
                 // TODO: use template
                 printf('<a href="%s">%s</a>',
@@ -1490,7 +1498,7 @@ class ClientExportPdf extends ExportPlugin
                        I18n::gt('Click here to display PDF file'));
                 break;
 
-            case 'redirection':
+            case self::OUTPUT_REDIRECTION:
             default:
                 $filename = $this->generatePdfFile($pdfBuffer);
                 $this->setTypeHeader();
