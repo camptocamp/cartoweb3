@@ -134,7 +134,7 @@ List of options:
  --default-project PROJECT  Default project to use.
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
-                            NOTE: default is 'development'
+                            NOTE: default is 'production'
  --clean-views              Clean views (must be used with --clean).
  
 <?php
@@ -783,7 +783,7 @@ function fetchDemo() {
 function removeDevFilesIfProd() {
     global $OPTIONS;
     
-    if (!isset($OPTIONS['profile']) || $OPTIONS['profile'] != 'production') {
+    if (isset($OPTIONS['profile']) && $OPTIONS['profile'] != 'production') {
         return;
     }
     
@@ -1163,7 +1163,7 @@ function getSearchReplaceContext() {
     if (isset($OPTIONS['profile']))
         $vars['PROFILE'] = $OPTIONS['profile'];
     if (!isset($vars['PROFILE']))
-        $vars['PROFILE'] = 'development';
+        $vars['PROFILE'] = 'production';
     if (!isset($OPTIONS['profile']))
         $OPTIONS['profile'] = $vars['PROFILE'];
 
