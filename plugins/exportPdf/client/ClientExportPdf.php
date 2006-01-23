@@ -1492,10 +1492,9 @@ class ClientExportPdf extends ExportPlugin
 
             case self::OUTPUT_LINK:
                 $filename = $this->generatePdfFile($pdfBuffer);
-                // TODO: use template
-                printf('<a href="%s">%s</a>',
-                       $this->getPdfFileUrl($filename),
-                       I18n::gt('Click here to display PDF file'));
+                $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+                $smarty->assign('pdfFileUrl', $this->getPdfFileUrl($filename));
+                $smarty->display('outputLink.tpl');
                 break;
 
             case self::OUTPUT_REDIRECTION:
