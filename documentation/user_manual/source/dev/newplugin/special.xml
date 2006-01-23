@@ -40,8 +40,7 @@
       <para>Export plugins MUST have names that begin with the string 
       "export", for instance <filename>exportPdf</filename>, 
       <filename>exportCsv</filename> or <filename>exportHtml</filename>.</para>
-      <para>When extending export plugins, same rule must apply. For instance
-      <filename>exportExtendedPdf</filename>.</para>
+      <para>This rule does not apply to extended plugins since only the original plugin name is detected.</para>
      </warning>
      </para>
     </sect3>
