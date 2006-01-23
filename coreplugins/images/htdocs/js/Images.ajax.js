@@ -8,21 +8,21 @@ AjaxPlugins.Images = {
 		
 	handleResponse: function(pluginOutput, argObject) {	
 		/* Plugin general behaviour */
+
+		AjaxPlugins.Common.doClearWaitingMessage = false;
 		
 		// Updates mainmap image, preventing a shift
-		if (argObject.actionName == 'Pan') {
-			var newRaster = new Image();
-			// When the new image is loaded...
-			AjaxHelper.addEvent(newRaster, 'load', function(e) {
-				xHide(AjaxPlugins.Images.mainmapId);
-				$(AjaxPlugins.Images.mainmapId).src = newRaster.src;
-				AjaxPlugins.Location.Actions.Pan.placeRaster(e);
-				setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);				
-			});
-			newRaster.src = pluginOutput.variables.mainmap_path;
-		} else {
-			$(this.mainmapId).src = pluginOutput.variables.mainmap_path;
-		}
+		var newRaster = new Image();
+		// When the new image is loaded...
+		AjaxHelper.addEvent(newRaster, 'load', function(e) {
+			xHide(AjaxPlugins.Images.mainmapId);
+			$(AjaxPlugins.Images.mainmapId).src = newRaster.src;
+			AjaxPlugins.Location.Actions.Pan.placeRaster(e);
+			setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);
+			AjaxPlugins.Common.clearWaitingMessage();
+			AjaxPlugins.Common.doClearWaitingMessage = true;
+		});
+		newRaster.src = pluginOutput.variables.mainmap_path;
 		
 		// Updates keymap and scalebar images
 		AjaxHandler.updateDomElement(this.keymapId, 'src', pluginOutput.variables.keymap_path);

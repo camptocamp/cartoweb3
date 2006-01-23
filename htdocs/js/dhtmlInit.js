@@ -87,6 +87,10 @@ createMap = function() {
  * @param aFeature
  */
 fillForm = function(aFeature) {
+  if (typeof(aFeature) == 'undefined') {
+  	return; // prevents from an error when pressing enter in the label input
+  }
+
   // TODO let the possibility to send more than one feature
   var coords = new String();
   for (var i=0;i<aFeature.vertices.length;i++) {

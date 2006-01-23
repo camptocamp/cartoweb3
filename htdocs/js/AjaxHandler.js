@@ -27,8 +27,8 @@ AjaxHandler = {
 
 	baseUrl: '', // uses current url if empty
 	cartoFormId: 'carto_form',
-	mode: this.MODE_DEVELOPMENT,
-
+	mode: this.MODE_DEVELOPMENT, // Mode: development or production
+	ignoreActions: true, // wether AJAX actions are processed (true) or ignored (false)
 
 	/*
 	 * Methods
@@ -221,7 +221,7 @@ AjaxHandler = {
                  Logger.header('--- Action ' + actionId + ' complete ---<br />');
              }
 			}
-                                      );
+    	);
 	},
 	
 	/**
@@ -233,6 +233,12 @@ AjaxHandler = {
 	doAction: function(actionId, argObject) {
 
 		Logger.header('--- Action '+ actionId +' triggered ---');
+		
+		if (!this.ignoreActions) {
+            Logger.trace('AJAX is disabled, action ignored...');
+			return true;
+			Logger.header('--- Action '+ actionId +' ignored ---');
+		}
 
         /*
          * Creates the argObject and/or adds actionName and pluginName properties,
@@ -300,7 +306,7 @@ AjaxHandler = {
 			argObject.event = event;
 			argObject.target = target;
 			AjaxHandler.doAction(actionId, argObject);
-			// Prevent default comportment (= onClick="return false;")
+			// Prevent default behavior (= onClick="return false;")
 			if (event.returnValue) {
                 event.returnValue = false;
             }

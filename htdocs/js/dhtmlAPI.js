@@ -681,6 +681,10 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
   this.lineDraw.onMouseMove(aDisplay, ex, ey);
 };
 DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
+  if (typeof(aDisplay.tmpFeature) == 'undefined') {
+  	return; // prevents from an error when pressing enter in the label input
+  }
+
   aDisplay.dml.innerHTML = "";
   aDisplay.dml2.innerHTML = "";
   // close the polygon
