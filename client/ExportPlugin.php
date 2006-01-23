@@ -543,8 +543,7 @@ abstract class ExportPlugin extends ClientPlugin
      * @return string
      */
     protected function getExportUrl() {
-        // Export plugins (even project-extended ones) must have names
-        // that begin with "export"!!
+        // Export plugins must have names that begin with "export".
         $mode = substr($this->getName(), 6); // 6 = strlen('export')
         $mode = strtolower($mode{0}) . substr($mode, 1);
         return sprintf('%s?mode=%s', $this->cartoclient->getSelfUrl(), $mode);
