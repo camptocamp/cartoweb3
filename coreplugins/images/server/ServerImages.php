@@ -182,18 +182,18 @@ class ServerImages extends ClientResponderAdapter
         if (!$msMapObj->web->imageurl) {
             $msMapObj->web->set('imageurl', $this->getImageBaseUrl());
         }
-
         if ($requ->mainmap->isDrawn) { 
             if ($requ->mainmap->angle > 0) {
                 $msMapObj->setRotation($requ->mainmap->angle);
                 if ($requ->mainmap->angle) {
                     $projection = $msMapObj->getProjection();
-                    if ($projection == MS_FALSE) {
+                    if (empty($projection)) {
                         throw new CartoserverException('no projection defined');
                     }
                     for ($i = 0; $i < $msMapObj->numlayers; $i++) {
                         $layer = $msMapObj->getLayer($i);
-                        if ($layer->getProjection() == MS_FALSE) {
+                        $layerProjection = $layer->getProjection();                    
+                        if (empty($layerProjection)) {
                             $layer->setProjection($projection);
                         }
                     }
