@@ -28,7 +28,7 @@ AjaxHandler = {
 	baseUrl: '', // uses current url if empty
 	cartoFormId: 'carto_form',
 	mode: this.MODE_DEVELOPMENT, // Mode: development or production
-	ignoreActions: true, // wether AJAX actions are processed (true) or ignored (false)
+	processActions: true, // wether AJAX actions are processed (true) or ignored (false)
 
 	/*
 	 * Methods
@@ -190,10 +190,10 @@ AjaxHandler = {
              onComplete: function(response) {
                  Logger.trace('Response received!');
                  responseTag = response.responseText.substring(0, 5);
-                 if (responseTag != '<?xml') {
+                 if (responseTag != '<?xml'  && this.mode == this.MODE_DEVELOPMENT) {
                      Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
                      showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
-                     if (showFaillure && this.mode == this.MODE_DEVELOPMENT) {
+                     if (showFaillure) {
                          ajaxErrorDivElement = document.createElement('div');
                          ajaxErrorDivElement.id = 'ajaxError';
                          ajaxErrorDivElement.style.position = 'absolute';
@@ -234,8 +234,8 @@ AjaxHandler = {
 
 		Logger.header('--- Action '+ actionId +' triggered ---');
 		
-		if (!this.ignoreActions) {
-            Logger.trace('AJAX is disabled, action ignored...');
+		if (!this.processActions) {
+            Logger.warn('AJAX is disabled, action ignored...');
 			return true;
 			Logger.header('--- Action '+ actionId +' ignored ---');
 		}
