@@ -102,7 +102,7 @@ AjaxPlugins.Common = {
 		if (typeof(hideLabel != 'undefined')) {
 			hideLabel();
 		}
-	},
+	}
 
 }
 
