@@ -190,26 +190,31 @@ AjaxHandler = {
              onComplete: function(response) {
                  Logger.trace('Response received!');
                  responseTag = response.responseText.substring(0, 5);
-                 if (responseTag != '<?xml'  && this.mode == this.MODE_DEVELOPMENT) {
+                 if (responseTag != '<?xml') {
                      Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
-                     showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
-                     if (showFaillure) {
-                         ajaxErrorDivElement = document.createElement('div');
-                         ajaxErrorDivElement.id = 'ajaxError';
-                         ajaxErrorDivElement.style.position = 'absolute';
-                         ajaxErrorDivElement.style.zIndex = 100;
-                         ajaxErrorDivElement.style.top = 0;
-                         ajaxErrorDivElement.style.left = 0;						
-                         ajaxErrorDivElement.style.padding = 5;
-                         ajaxErrorDivElement.style.color = 'black';
-                         ajaxErrorDivElement.style.backgroundColor = 'silver';
-                         ajaxErrorDivElement.style.border = '3px solid red';						
-                         ajaxErrorDivElement.innerHTML = response.responseText;
-                         ajaxErrorDivElement.onclick = function() {
-                             // TODO: Remove this error div when clicked
-                         };
-                         $('carto_form').appendChild(ajaxErrorDivElement);
-                     }
+                     if (this.mode == this.MODE_DEVELOPMENT) {
+	                     showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
+	                     if (showFaillure) {
+	                         ajaxErrorDivElement = document.createElement('div');
+	                         ajaxErrorDivElement.id = 'ajaxError';
+	                         ajaxErrorDivElement.style.position = 'absolute';
+	                         ajaxErrorDivElement.style.zIndex = 100;
+	                         ajaxErrorDivElement.style.top = 0;
+	                         ajaxErrorDivElement.style.left = 0;						
+	                         ajaxErrorDivElement.style.padding = 5;
+	                         ajaxErrorDivElement.style.color = 'black';
+	                         ajaxErrorDivElement.style.backgroundColor = 'silver';
+	                         ajaxErrorDivElement.style.border = '3px solid red';						
+	                         ajaxErrorDivElement.innerHTML = response.responseText;
+	                         ajaxErrorDivElement.onclick = function() {
+	                             Element.remove(this);
+	                             // TODO: Remove this error div when clicked
+	                         };
+	                         $('carto_form').appendChild(ajaxErrorDivElement);
+	                     }
+	                 }
+                     AjaxPlugins.Common.onAfterAjaxCall(actionId);
+                     
                  } else {					    
                      AjaxHandler.handlePluginReponse(response, argObject);
                      // Call onAfterAjaxCall method for the called action
