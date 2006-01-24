@@ -28,7 +28,7 @@ AjaxPlugins.Query.Actions.Perform = {
 
 AjaxPlugins.Query.Actions.Clear = {
   buildPostRequest: function(argObject) {
-  	return AjaxHandler.buildRequestFrom(argObject.clickedElement) + '&' + AjaxHandler.buildPostRequest();
+  	return 'query_clear=query_clear';
   },
   buildGetRequest: function(argObject) {
   	return '';
