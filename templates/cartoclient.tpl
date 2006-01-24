@@ -42,7 +42,7 @@
   <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
 
   <!-- Ajax related js includes - External libraries -->
-  <script type="text/javascript" src="{r type=js}prototype-1.3.1.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
 
   <!-- Ajax related js includes - Global logic -->
@@ -108,8 +108,9 @@
         <td colspan="3">
           <table width="100%"><tr>
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coords (m):{/t} %s / %s</div></td>
-            <td width="50%"><div id="floatDistance" class="locationInfo">{t}Dist approx.:{/t}%s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+            <td width="50%">
+              <div id="floatDistance" class="locationInfo"><span id="distanceValueLabel">{t}Dist approx.:{/t}</span> %s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo"><span id="surfaceValueLabel">{t}Approx. surface :{/t}</span> %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
           </tr></table>
         </td>
       </tr>

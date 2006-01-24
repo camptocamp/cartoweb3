@@ -5,23 +5,37 @@ AjaxPlugins.Location = {
 	recenterScaleDivId: 'recenter_scale_div',
 	recenterIdsId: 'id_recenter_ids',
 	shortcutIdId: 'shortcut_id',
+	measureDistanceUnit: 'measure_distance_unit',
+	measureSurfaceUnit: 'measure_surface_unit',
 
 
 	handleResponse: function(pluginOutput) {
 		/* Plugin general behaviour */
 		// Redefine the map extent in mainmap object
+		Logger.trace('Updating dhtmlAPI\'s bbox and factor properties...');		
 		bboxMinX = pluginOutput.variables.bboxMinX;
 		bboxMinY = pluginOutput.variables.bboxMinY;
 		bboxMaxX = pluginOutput.variables.bboxMaxX;
 		bboxMaxY = pluginOutput.variables.bboxMaxY;
-		Logger.trace('Updating dhtmlAPI\'s bbox properties...');		
-		mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
-		Logger.confirm('Done (new bbox: '+bboxMinX+', '+bboxMinY+', '+bboxMaxX+', '+bboxMaxY+').');
-		
 		factor = pluginOutput.variables.factor;
+		mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
+		Logger.confirm('Done: new bbox ('+bboxMinX+', '+bboxMinY+', '+bboxMaxX+', '+bboxMaxY+') , factor ('+factor+').');
 		
 		// Redraw the scale select
 		AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHTML', pluginOutput.htmlCode.scales);
+
+		// Updates distance/surface measure tools units
+		distanceLabel = $('distanceValueLabel').innerHTML;
+		distanceUnit = factor == 1000 ? 'km' : 'm';
+		surfaceLabel = $('surfaceValueLabel').innerHTML;
+		surfaceUnit = factor == 1000 ? 'km&sup2;' : 'm&sup2;';
+	    mainmap.distanceUnits = '<span id="distanceValueLabel">' + distanceLabel + '</span>' + " %s " + distanceUnit;
+	    mainmap.surfaceUnits = '<span id="surfaceValueLabel">' + surfaceLabel + '</span>' + " %s " + surfaceUnit;
+		// Clears measures
+    	mainmap.getDisplay('map').clearLayer('distance');
+    	mainmap.getDisplay('map').clearLayer('surface');
+	    mainmap.distanceTag.style.display = "none";
+	    mainmap.surfaceTag.style.display = "none";				
 	}
 };
 
