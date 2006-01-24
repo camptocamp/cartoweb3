@@ -55,7 +55,9 @@ AjaxPlugins.Common = {
 			this.clearWaitingMessage();
 		}
 	},
-
+	onCartoclientError: function() {
+		alert('User error message');
+	},
 	
 	/* Helper methods */
 	setWaitingCursor: function() {

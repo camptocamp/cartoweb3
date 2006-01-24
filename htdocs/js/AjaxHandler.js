@@ -18,16 +18,15 @@ AjaxHandler = {
 	/*
 	 * Constants
 	 */
-	 MODE_DEVELOPMENT: 'development',
-	 MODE_PRODUCTION: 'production',
+	MODE_DEVELOPMENT: 'development',
+	MODE_PRODUCTION: 'production',
 
 	/*
 	 * Properties
 	 */
-
 	baseUrl: '', // uses current url if empty
 	cartoFormId: 'carto_form',
-	mode: this.MODE_DEVELOPMENT, // Mode: development or production
+	mode: 'development', // Mode: development or production
 	processActions: true, // wether AJAX actions are processed (true) or ignored (false)
 
 	/*
@@ -190,9 +189,14 @@ AjaxHandler = {
              onComplete: function(response) {
                  Logger.trace('Response received!');
                  responseTag = response.responseText.substring(0, 5);
+
                  if (responseTag != '<?xml') {
                      Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
-                     if (AjaxHandler.mode == AjaxHandler.MODE_DEVELOPMENT) {
+                     if (AjaxHandler.mode == AjaxHandler.MODE_PRODUCTION) {
+                         if (typeof(AjaxPlugins.Common.onCartoclientError) != 'undefined') {
+	                         AjaxPlugins.Common.onCartoclientError();
+                         }
+                     } else {
 	                     showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 	                     if (showFaillure) {
 	                         ajaxErrorDivElement = document.createElement('div');
@@ -207,12 +211,13 @@ AjaxHandler = {
 	                         ajaxErrorDivElement.style.border = '3px solid red';						
 	                         ajaxErrorDivElement.innerHTML = response.responseText;
 	                         ajaxErrorDivElement.onclick = function() {
+	                             // Removes this error div when clicked
 	                             Element.remove(this);
-	                             // TODO: Remove this error div when clicked
 	                         };
 	                         $('carto_form').appendChild(ajaxErrorDivElement);
 	                     }
 	                 }
+	                 // Executes the common onAfterAjaxCall in anyway
                      AjaxPlugins.Common.onAfterAjaxCall(actionId);
                      
                  } else {					    
