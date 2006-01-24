@@ -192,7 +192,7 @@ AjaxHandler = {
                  responseTag = response.responseText.substring(0, 5);
                  if (responseTag != '<?xml') {
                      Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
-                     if (this.mode == this.MODE_DEVELOPMENT) {
+                     if (AjaxHandler.mode == AjaxHandler.MODE_DEVELOPMENT) {
 	                     showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
 	                     if (showFaillure) {
 	                         ajaxErrorDivElement = document.createElement('div');
