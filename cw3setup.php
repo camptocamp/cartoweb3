@@ -1063,7 +1063,7 @@ function replaceDotInCallback($file, $context) {
     
     $target_filename = substr($file, 0, strlen($file) - strlen('.in'));
     if (file_exists($target_filename)) {
-        debug("Target $target_filename already exists, is is deleted");
+        debug("Target $target_filename already exists, it is deleted");
         unlink($target_filename);
     }
     
@@ -1151,6 +1151,17 @@ function getSearchReplaceContext() {
     // special handling for demo config
     if (!isset($vars['ROUTING_PLUGINS']))
         $vars['ROUTING_PLUGINS'] = '';
+
+    // allow options in environment variable "CW3_VARS"
+    if (isset($_ENV['CW3_VARS'])) {
+        $envVars = explode(';', $_ENV['CW3_VARS']);
+        foreach($envVars as $v) {
+            if (strpos($v, '=') === false)
+                continue;
+            list($key, $value) = explode('=', $v);
+            $vars[$key] = $value;
+        }
+    }
 
     if (!isset($vars['CARTOCLIENT_BASE_URL'])) {
 
