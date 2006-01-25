@@ -239,6 +239,17 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         
         $this->assertEquals(1728, $area);
     }
+   
+    /**
+     * Tests Bbox string print
+     */
+    public function testBboxString() {
+        $bbox = new Bbox();
+        $bbox->setFromBbox(12, 34, 60, 70);
+        $string = $bbox->toRemoteString();
+
+        $this->assertEquals('12 34 60 70', $string);
+    }
     
     /**
      * Tests Polygon unserialization

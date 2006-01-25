@@ -402,6 +402,27 @@ class Bbox extends Shape {
     public function getArea() {
         return $this->getWidth() * $this->getHeight();
     }
+   
+    /**
+     * Returns the rounded values of an array of values to specified precision
+     * @param array array of values
+     * @param int precision (number of digits after the decimal point)
+     * @return array of rounded values
+     */
+    private function roundParams($args, $round = 2) {
+        $roundArray = array_fill(0, count($args), $round);
+        return array_map('round', $args, $roundArray);
+    }
+    
+    /**
+     * Converts Bbox to a character-separated string to request remote layer
+     * @param string separating character
+     * @return string character-separated string
+     */
+    public function toRemoteString($divider = ' ') {
+        $args = array($this->minx, $this->miny, $this->maxx, $this->maxy);
+        return implode($divider, $this->roundParams($args));
+    }
     
     /**
      * Converts Bbox to string for display
@@ -410,10 +431,9 @@ class Bbox extends Shape {
     public function __toString() {
         $args = array($this->minx, $this->miny, $this->maxx, $this->maxy,
                       $this->getWidth(), $this->getHeight());
-        $round = 2;
-        $roundArray = array_fill(0, count($args), $round);
-        $args = array_map('round', $args, $roundArray);
-        $args = array_merge(array('BBOX(%s %s;%s %s [%s %s])'), $args);
+        $args = array_merge(array('BBOX(%s %s;%s %s [%s %s])'), 
+                            $this->roundParams($args));
+        
         return call_user_func_array('sprintf', $args);
     }
 }
