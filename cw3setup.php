@@ -522,6 +522,9 @@ function removeDirectory($directory) {
  */
 function checkCw3setupVersion() {
 
+    if (isset($_ENV['CW3_NO_VERSION_CHECK']))
+        return;
+
     $content = file_get_contents('cartoweb3/cw3setup.php');
     $revision_pattern = '/\$Rev.sion: ([\.\d]+) \$/';
     preg_match($revision_pattern, $content, $matches);
