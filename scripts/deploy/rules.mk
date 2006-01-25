@@ -82,8 +82,6 @@ endef
 $(patsubst %,update_config_project/%,$(ALL_PROJECTS)) :: update_config_project/% :
 	echo Project $(cur_project)
 	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --clean)
-	# TODO: per project update config ??
-	##(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install --config-from-project $(call get_proj_var,CW3_NAME) --debug)
 	(cd $(cur_project_target)/cartoweb3; CW3_VARS='$(call get_proj_var,CW3_VARS)' $(PHP) cw3setup.php --install --debug \
 			$(if $(call get_proj_var,HAS_CONFIG),--config-from-project $(cur_project)) --project $(cur_project) )
 
@@ -103,11 +101,11 @@ $(patsubst %,pre_fetch_project/%,$(ALL_PROJECTS)) :: pre_fetch_project/% :
 	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(call get_proj_var,CW3_NAME)  \
 			--base-url __fixme__ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) )
 
-	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(call get_proj_var,CW3_NAME)'; require_once('client.php'); ?>" > $(cur_project_target)/cartoweb3/htdocs/$(call get_proj_var,CW3_NAME).php
+	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(call get_proj_var,CW3_NAME)'; require_once('client.php'); ?>" > \
+		$(cur_project_target)/cartoweb3/htdocs/$(call get_proj_var,CW3_NAME).php
+	$(call makedirs,htdocs)
 	@test -h htdocs/$(call get_proj_var,CW3_NAME) && rm htdocs/$(call get_proj_var,CW3_NAME) || :
 	ln -s ../cartowebs/$(call get_proj_var,INSTANCE)/cartoweb3/htdocs htdocs/$(call get_proj_var,CW3_NAME)
-	# XXX convert this
-	##$(MAKE) update_config_cartoweb PROJECT=$(cur_project)
 
 
 $(patsubst %,post_fetch_project/%,$(ALL_PROJECTS)) :: post_fetch_project/% : update_config_project/%
@@ -189,9 +187,6 @@ ifdef REQUIRED_USER
 	fi
 endif
 
-prepare:
-	echo "PREPARE"
-
 sync_misc:
 	#ssh $(TARGET_HOST) 'test -d $(TOPSRCDIR) || mkdir -p $(TOPSRCDIR)'
 	$(call remote_makedirs,$(TOPSRCDIR))
@@ -199,14 +194,10 @@ sync_misc:
 	rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/deploy $(TARGET_HOST):$(TOPSRCDIR)/
 
 	test -f apache.conf && rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/apache.conf $(TARGET_HOST):$(TOPSRCDIR)/ || :
+	test -f local.mk && rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/local.mk $(TARGET_HOST):$(TOPSRCDIR)/ || :
 	rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/htdocs $(TARGET_HOST):$(TOPSRCDIR)/
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/searchserver $(TARGET_HOST):$(TOPSRCDIR)/
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/mapfiles $(TARGET_HOST):$(TOPSRCDIR)/
-
-
-	# XXX give instance ?
-	##ssh $(TARGET_HOST) $(MAKE) -C $(TOPSRCDIR) prepare PROJECT=$(PROJECT)
-
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/kogis_management $(TARGET_HOST):$(TOPSRCDIR)/
 
 $(patsubst %,deploy_instance/%,$(ALL_INSTANCES)) :: deploy_instance/% : check_user sync_misc sync_instance/%
