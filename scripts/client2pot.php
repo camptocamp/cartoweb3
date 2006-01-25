@@ -8,7 +8,7 @@
  * If file already exists, calls msgmerge.
  *
  * Usage:
- * ./client2pot.php
+ * php client2pot.php [projectname]
  *
  * Original code was tsmarty2c.php written by Sagi Bashari <sagi@boom.org.il>
  *
