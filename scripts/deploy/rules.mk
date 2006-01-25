@@ -149,7 +149,7 @@ endif
 			--delete-existing --base-url _undefined_)
 
 	# Version check
-	@new_version=$$(grep 'REV.*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \
+	@new_version=$$(grep 'RE[V].*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \
 	this_version=$$(echo "$(REV)" | $(SED_CMD)); \
 	echo "Version just fetched: $$new_version; current version: $$this_version"; \
 	dpkg --compare-versions $$new_version gt $$this_version && \
