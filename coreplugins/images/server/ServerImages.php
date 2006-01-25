@@ -187,8 +187,9 @@ class ServerImages extends ClientResponderAdapter
                 $msMapObj->setRotation($requ->mainmap->angle);
                 if ($requ->mainmap->angle) {
                     $projection = $msMapObj->getProjection();
-                    if (empty($projection)) {
-                        throw new CartoserverException('no projection defined');
+                    if ($projection == MS_FALSE) {
+                        // FIXME!!
+                        //throw new CartoserverException('no projection defined');
                     }
                     for ($i = 0; $i < $msMapObj->numlayers; $i++) {
                         $layer = $msMapObj->getLayer($i);
