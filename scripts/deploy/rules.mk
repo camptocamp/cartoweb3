@@ -148,13 +148,14 @@ endif
 	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-cvs $(instance_cvs_option) \
 			--delete-existing --base-url _undefined_)
 
-ifdef _THIS_IS_OFF_FOR_NOW_
-	new_version=$$(grep 'define.*$Rev.sion:' $(cur_target)/cartoweb3/cw3setup.php | $(SED_CMD)); \
+	# Version check
+	@new_version=$$(grep 'REV.*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \
 	this_version=$$(echo "$(REV)" | $(SED_CMD)); \
-	echo "HEY $$new_version $$this_version"; \
+	echo "Version just fetched: $$new_version; current version: $$this_version"; \
 	dpkg --compare-versions $$new_version gt $$this_version && \
-		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update";
-endif
+		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update" \
+		|| :
+
 	$(foreach target,$(call targets_for_instance,fetch_project,$(cur_instance)),\
 		$(MAKE) $(target) || exit -1;\
 	)
