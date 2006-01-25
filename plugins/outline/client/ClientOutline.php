@@ -230,6 +230,9 @@ class ClientOutline extends ClientPlugin
             $this->getHttpValue($request, 'outline_polygon_outline_color'));
         $this->outlineState->polygonStyle->color->setFromHex(
             $this->getHttpValue($request, 'outline_polygon_background_color'));
+
+        $this->cartoclient->addMessage("polygon\nhex=".$this->getHttpValue($request, 'outline_polygon_background_color')." \nred=".$this->outlineState->polygonStyle->color->red." green=".$this->outlineState->polygonStyle->color->green." blue=".$this->outlineState->polygonStyle->color->blue." \n");
+
         $this->outlineState->polygonStyle->transparency = 
             $this->getHttpValue($request, 'outline_polygon_transparency');
 
@@ -297,10 +300,10 @@ class ClientOutline extends ClientPlugin
      * @see ServerCaller::initializeResult()
      */ 
     public function initializeResult($outlineResult) {
+
         // calls for default values
         $this->setDefaultValues($this->symbols->outlineDefaultValues
                                               ->outlineDefaultValuesList);
-
         if (!is_null($outlineResult)) {
             $this->area = $outlineResult->area;
         }
@@ -412,21 +415,27 @@ class ClientOutline extends ClientPlugin
      */
     public function setDefaultValues($valuesList) {
       $colorList = array('red', 'green', 'blue');
+
       foreach($valuesList as $outlineStyle) {
         $outlineType = substr($outlineStyle->type, 0, strpos($outlineStyle->type, 'Layer'));
         $objectType = $outlineType.'Style';
-        if ($this->outlineState->$objectType->size == '')
+
+        if (strval($this->outlineState->$objectType->size) == '') {
           $this->outlineState->$objectType->size = $outlineStyle->shapeStyle->size;
-        if ($this->outlineState->$objectType->symbol == '')
+        }
+        if (strval($this->outlineState->$objectType->symbol) == '') {
           $this->outlineState->$objectType->symbol = $outlineStyle->shapeStyle->symbol;
-        if ($this->outlineState->$objectType->transparency == '')
+        }
+        if (strval($this->outlineState->$objectType->transparency) == ''){
           $this->outlineState->$objectType->transparency = $outlineStyle->shapeStyle->transparency;
-        foreach($colorList as $color) {
-          if ($this->outlineState->$objectType->color->$color == '')
-            $this->outlineState->$objectType->color->$color = $outlineStyle->shapeStyle->color->$color;
         }
         foreach($colorList as $color) {
-          if ($this->outlineState->$objectType->outlineColor->$color == '') {
+          if (strval($this->outlineState->$objectType->color->$color) == '') {
+            $this->outlineState->$objectType->color->$color = $outlineStyle->shapeStyle->color->$color;
+          }
+        }
+        foreach($colorList as $color) {
+          if (strval($this->outlineState->$objectType->outlineColor->$color) == '') {
             $this->outlineState->$objectType->outlineColor->$color = 
               $outlineStyle->shapeStyle->outlineColor->$color;
           }

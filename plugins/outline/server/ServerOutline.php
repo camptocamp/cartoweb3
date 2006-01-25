@@ -365,6 +365,20 @@ class ServerOutline extends ClientResponderAdapter
               $currentShapeStyle->outlineColor->$color = $currentStyle->outlinecolor->$color;
           }
           $currentShapeStyle->size = $currentStyle->size;
+          // check if symbol exist in current Style object, if yes, get its name
+          if(isset($currentStyle->symbol) && $currentStyle->symbol > 0) {
+            if(is_numeric($currentStyle->symbol)) {
+              // refer to a symbol index
+              if($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
+                $currentShapeStyle->symbol = $msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name;
+              } else {
+                throw new CartoserverException("Symbol name not found while accessing outline's default style values. Default symbols used for outline must have a name attribute.");
+              }
+            } else {
+              // refer to an symbol name
+              $currentShapeStyle->symbol = $currentStyle->symbol;
+            }
+          }
           
           $currentDefaultValues->shapeStyle = $currentShapeStyle;
           $defaultValuesList->outlineDefaultValuesList[] = $currentDefaultValues;
