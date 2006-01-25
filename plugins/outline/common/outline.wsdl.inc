@@ -69,7 +69,14 @@
           <element name="polygon" type="types:ArrayOfString"/>
           <element name="pathToSymbols" type="xsd:string"/>
           <element name="symbolType" type="xsd:string"/>
-          <element name="defaultValuesList" type="types:ArrayOfDefaultValues"/>
+          <element name="outlineDefaultValues" type="types:OutlineDefaultValues"/>
+
+        </all>
+      </complexType>
+
+      <complexType name="OutlineDefaultValues">
+        <all>
+            <element name="arrayOfDefaultValues" type="types:ArrayOfDefaultValues"/>  
         </all>
       </complexType>
 
