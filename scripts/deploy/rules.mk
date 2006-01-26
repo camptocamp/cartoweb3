@@ -22,7 +22,8 @@
 
 REV := $Revision$
 
-# Compatibility checking
+# Compatibility checking.
+#  This should be updated when an incompatible change is done
 CURRENT_COMPAT_VERSION := 0
 
 ifneq ($(CURRENT_COMPAT_VERSION), $(COMPAT_VERSION))
@@ -31,6 +32,8 @@ endif
 
 # variable setup
 HOSTNAME := $(shell cat /etc/hostname)
+
+default_CW3_NAME = $(cur_project)
 
 # Variable expansion
 
@@ -50,11 +53,14 @@ define makedirs
 	@test -d $(1) || mkdir -p $(1) && :
 endef
 
+all:
+	:
+
 fetch_cw3setup:
 	test -f cw3setup.php && rm cw3setup.php || :
 	test -d tmp && rm -rf tmp || :
 	mkdir tmp
-	(cd tmp&& cvs -d $(CVSROOT_CW) co $(CW3SETUP_VERSION) cartoweb3/cw3setup.php)
+	(cd tmp&& cvs -d $(CVSROOT_CW) co $(DEPLOY_REVISION) cartoweb3/cw3setup.php)
 	mv tmp/cartoweb3/cw3setup.php .
 	rm -rf tmp
 
@@ -99,7 +105,7 @@ $(patsubst %,pre_fetch_project/%,$(ALL_PROJECTS)) :: pre_fetch_project/% :
 	@echo Pre Fetching project $(cur_project)
 
 	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(call get_proj_var,CW3_NAME)  \
-			--base-url __fixme__ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) )
+			--base-url _undefined_ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) )
 
 	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(call get_proj_var,CW3_NAME)'; require_once('client.php'); ?>" > \
 		$(cur_project_target)/cartoweb3/htdocs/$(call get_proj_var,CW3_NAME).php
@@ -208,37 +214,6 @@ $(patsubst %,deploy_instance/%,$(ALL_INSTANCES)) :: deploy_instance/% : check_us
 
 deploy_all_instances: $(patsubst %,deploy_instance/%,$(ALL_INSTANCES))
 
-
-# ###################################
-# Geographical data synchronisation
-# ###################################
-
-GEODATEN_COMMAND=if [ "$$GEODATEN_SUBDIR" = "all" ] ; then \
-		GEODATEN_SUBDIR=; \
-	fi; \
-	rsync $$opts $(RSYNC_FLAGS) --exclude 'bwg-gla/*' --exclude 'swissimage/*' \
-	--delete -av /var/local/cartoweb/$(PROJECT_DATA)/$$GEODATEN_SUBDIR/ \
-	$(TARGET_HOST_data):/var/local/cartoweb/$(PROJECT_DATA)/$$GEODATEN_SUBDIR/
-
-deploy_geodaten: check_user
-	@if test -z "$$GEODATEN_SUBDIR"; then \
-		echo ""; \
-		echo "Error: you need to give a directory name inside /var/local/cartoweb/egeo that will"; \
-		echo "be synchronized in the GEODATEN_SUBDIR variable, or \"all\" if you want to deploy every"; \
-		echo "subdirectories, example:"; \
-		echo "GEODATEN_SUBDIR=bav make $@"; \
-		exit 1; \
-	fi
-
-	@echo
-	@echo "The following command will show what changes are going to be sent to the production server"
-	@read -p "Press enter to display these changes.."
-	opts=-n; $(GEODATEN_COMMAND)
-	@echo
-	@echo "If you agree with the previous changes, press enter to continue"
-	@echo -en '\E[47;31m'"\033[1mWARNING\033[0m" "These changes will be directly sent to the production server" '\E[47;31m'"\033[1mWARNING\033[0m"
-	@read
-	$(GEODATEN_COMMAND)
 
 # ###################################
 # Database synchronisation
