@@ -82,7 +82,7 @@ endef
 $(patsubst %,update_config_project/%,$(ALL_PROJECTS)) :: update_config_project/% :
 	echo Project $(cur_project)
 	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --clean)
-	(cd $(cur_project_target)/cartoweb3; CW3_VARS='$(call get_proj_var,CW3_VARS)' $(PHP) cw3setup.php --install --debug \
+	(cd $(cur_project_target)/cartoweb3; CW3_VARS='$(call get_proj_var,CW3_VARS)' $(PHP) cw3setup.php --install \
 			$(if $(call get_proj_var,HAS_CONFIG),--config-from-project $(cur_project)) --project $(cur_project) )
 
 	$(if $(call get_proj_var,BASE_URL),\
