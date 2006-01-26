@@ -7,6 +7,7 @@
 <script type="text/javascript" src="{r type=js}dhtmlAPI.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlFeatures.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlInit.js{/r}"></script>
+{if $edit_allowed|default:''}<script type="text/javascript" src="{r type=js plugin=edit}dhtmlEdit.js{/r}"></script>{/if}
 <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
 <script type="text/javascript">
 /*<![CDATA[*/
