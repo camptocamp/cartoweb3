@@ -401,7 +401,9 @@ class CwFpdf implements PdfWriter {
         // text properties
         $this->setTextLayout($block);
 
-        $block->content = $this->convertCharset($block->content);
+        if (!$block->multiPage || $this->p->PageNo() == 1) {
+            $block->content = $this->convertCharset($block->content);
+        }
 
         if (strstr($block->content, '\n')) {
             $block->content = str_replace('\n', "\n", $block->content);
