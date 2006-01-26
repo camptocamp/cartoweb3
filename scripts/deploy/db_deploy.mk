@@ -115,7 +115,7 @@ ifndef NO_CONFIRM
 	@echo "Warning, table $$DEPLOY_TABLE will be deployed directly, be sure the data is correct. "\
 	"Press <ctrl-c> to abort, or enter to continue"
 	@read
-endef
+endif
 
 	echo $(SCHEMA),$(SCHEMAPREFIX),$(TABLE)
 	(echo "delete from $(SCHEMAPREFIX)$(TABLE);"; \
