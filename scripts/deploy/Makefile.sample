@@ -32,7 +32,7 @@ CVSROOT_CW := :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
 TOPSRCDIR := $(shell pwd)
 
 DEPLOY_DIR := $(wildcard $(TOPSRCDIR)/deploy)
-CVSCO := cvs -d $(CVSROOT_CW) $(DEPLOY_REVISION) co
+CVSCO := cvs -d $(CVSROOT_CW) co $(DEPLOY_REVISION)
 run_for_side_effects := \
   $(shell  \
      if ! test -d "$(DEPLOY_DIR)"; then \
@@ -99,7 +99,7 @@ ALL_INSTANCES := myinstance1 myinstance2
 #     is corresponds to options that will be replaced automatically in the .in files (see doc #href here#)
 
 #  Not to use variables
-#   HAS_CONFIG
+#   NO_DEPLOY_CONFIG
 #     For compatibility with projects without deploy configuration
 
 # default values
