@@ -94,6 +94,16 @@ undeploy_db: check_user launch_tunnel
 	$(DB_OPTS) createdb $(DB); \
 	$(DB_OPTS_TARGET) pg_dump $(DB) | $(DB_OPTS) psql $(DB)
 
+TABLE_WORDS := $(subst ., ,$(DEPLOY_TABLE))
+ifeq ($(words $(TABLE_WORDS)),2)
+      SCHEMA := $(word 1,$(TABLE_WORDS))
+      SCHEMAPREFIX := $(SCHEMA).
+      TABLE := $(word 2,$(TABLE_WORDS))
+else
+      SCHEMA :=
+      SCHEMAPREFIX :=
+      TABLE := $(DEPLOY_TABLE)
+endif
 
 deploy_db_table: check_user launch_tunnel
 	@if test -z "$$DEPLOY_TABLE"; then \
@@ -101,10 +111,12 @@ deploy_db_table: check_user launch_tunnel
 		echo "DEPLOY_TABLE=grid_lk100 make deploy_db_table"; \
 		exit 1; \
 	fi
+ifndef NO_CONFIRM
 	@echo "Warning, table $$DEPLOY_TABLE will be deployed directly, be sure the data is correct. "\
 	"Press <ctrl-c> to abort, or enter to continue"
 	@read
+endef
 
-	(echo "delete from $$DEPLOY_TABLE;"; \
-	$(DB_OPTS) pg_dump -t $$DEPLOY_TABLE $(DB) -a ) | $(DB_OPTS_TARGET) psql $(DB)
-
+	echo $(SCHEMA),$(SCHEMAPREFIX),$(TABLE)
+	(echo "delete from $(SCHEMAPREFIX)$(TABLE);"; \
+	$(DB_OPTS) pg_dump -n $(SCHEMA) -t $(TABLE) $(DB) -a ) | $(DB_OPTS_TARGET) psql $(DB)
