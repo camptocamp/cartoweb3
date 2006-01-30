@@ -69,7 +69,7 @@ AjaxPlugins.Location.Actions.Recenter = {
 	onBeforeAjaxCall: function(argObject) {
 	},
 	onAfterAjaxCall: function(argObject) {
-		$(AjaxPlugins.Location.recenterIdsId).value = '';
+		AjaxHandler.updateDomElement(AjaxPlugins.Location.recenterIdsId, 'value', '');
 	}
 };
 
