@@ -12,7 +12,7 @@
 #REQUIRED_USER := geodata
 
 # Update this variable to use newer deploy scripts
-DEPLOY_REVISION := -D 2006-01-27
+DEPLOY_REVISION := -D 2006-01-31
 
 # Current file format version. Used to check compatibility
 COMPAT_VERSION := 0
@@ -48,21 +48,6 @@ run_for_side_effects := \
 include $(TOPSRCDIR)/deploy/defs.mk
 
 # ###################################
-# Hostname definitions
-
-# Syntax is
-# hostname_VARIABLE := value
-# Where:
-#  hostname is the name of the current host (read from /etc/hostname)
-#  VARIABLE can be:
-#   TARGET_HOST 
-#     The value is then the name used by ssh to connect to the next host where to deploy
-
-hostname1_TARGET_HOST := hostname2
-
-hostname2_TARGET_HOST := hostname3
-
-# ###################################
 # Instances definitions
 
 # Syntax is
@@ -80,8 +65,8 @@ myinstance2_REVISION := "-D 2006-01-25"
 # This MUST contain all instance names
 ALL_INSTANCES := myinstance1 myinstance2
 
-# Project definitions
 # ###################################
+# Project definitions
 
 # Syntax is
 # project_name_VARIABLE := value
@@ -122,11 +107,22 @@ myproject2_CW3_VARS := CARTOCLIENT_BASE_URL=http://exmample.com/cartoweb
 ALL_PROJECTS := myproject1 myproject2
 
 # ###################################
-# Database synchronisation
+# Hostname definitions
 
-# TODO
+# Syntax is
+# hostname_VARIABLE := value
+# Where:
+#  hostname is the name of the current host (read from /etc/hostname)
+#  VARIABLE can be:
+#   TARGET_HOST 
+#     The value is then the name used by ssh to connect to the next host where to deploy
+
+hostname1_TARGET_HOST := hostname2
+
+hostname2_TARGET_HOST := hostname3
 
 # ###################################
-# Rules inclusion
+# Do not edit this section
+# And keep it at the end of the document
 
 include $(TOPSRCDIR)/deploy/rules.mk
