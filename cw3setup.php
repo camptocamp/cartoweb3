@@ -1110,15 +1110,18 @@ function getProjectConfig($basePath) {
     $trySuffixes[] = "_{$hostname}";
     $trySuffixes[] = "";
  
+    $triedPaths = '';
     foreach($trySuffixes as $suffix) {
         $configFile = "$basePath/config{$suffix}.properties";
+        $triedPaths .= "$configFile\n";
         debug("Trying project config file: $configFile");
         if (file_exists($configFile)) {
-            //return parse_host_config_file($configFile);
             return $configFile;
         }
     }
-    throw new InstallException("Can't find project config file from directory $basePath");
+    throw new InstallException(sprintf("Can't find project config file. It " .
+                        "should be in one of the path (tried in order):\n\n%s",
+                         $triedPaths));
 }
 
 function setDefaultProject($project) {
