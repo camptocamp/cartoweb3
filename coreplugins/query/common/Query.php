@@ -37,9 +37,10 @@ class QuerySelection extends IdSelection {
     /**
      * Policy constants
      */
-    const POLICY_XOR = 'POLICY_XOR';
-    const POLICY_UNION = 'POLICY_UNION';
+    const POLICY_XOR          = 'POLICY_XOR';
+    const POLICY_UNION        = 'POLICY_UNION';
     const POLICY_INTERSECTION = 'POLICY_INTERSECTION';
+    const POLICY_REPLACE      = 'POLICY_REPLACE';
 
     /**
      * @var boolean
