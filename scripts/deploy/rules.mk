@@ -152,13 +152,20 @@ endif
 	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-cvs $(instance_cvs_option) \
 			--delete-existing --base-url _undefined_)
 
-	# Version check
+	@# Override cw3setup.php with this one.
+	@#  Define NO_CW3SETUP_OVERRIDE to prevent this
+	$(if $(call get_proj_var,NO_CW3SETUP_OVERRIDE),,cp cw3setup.php $(cur_target)/cartoweb3/)
+
+	@# Version check
 	@new_version=$$(grep 'RE[V].*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \
 	this_version=$$(echo "$(REV)" | $(SED_CMD)); \
 	echo "Version just fetched: $$new_version; current version: $$this_version"; \
+	if test -n "$$new_version"; then \
 	dpkg --compare-versions $$new_version gt $$this_version && \
 		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update" \
-		|| :
+		|| : \
+	else true; \
+	fi
 
 $(patsubst %,post_fetch_instance/%,$(ALL_INSTANCES)) :: post_fetch_instance/% :
 	$(foreach target,$(call targets_for_instance,fetch_project,$(cur_instance)),\
