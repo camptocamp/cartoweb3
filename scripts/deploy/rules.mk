@@ -160,11 +160,11 @@ endif
 		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update" \
 		|| :
 
+$(patsubst %,post_fetch_instance/%,$(ALL_INSTANCES)) :: post_fetch_instance/% :
 	$(foreach target,$(call targets_for_instance,fetch_project,$(cur_instance)),\
 		$(MAKE) $(target) || exit -1;\
 	)
 
-$(patsubst %,post_fetch_instance/%,$(ALL_INSTANCES)) :: post_fetch_instance/% :
 
 $(patsubst %,fetch_instance/%,$(ALL_INSTANCES)) :: fetch_instance/% : pre_fetch_instance/% post_fetch_instance/%
 
