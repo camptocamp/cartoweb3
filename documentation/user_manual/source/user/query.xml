@@ -56,6 +56,34 @@
             object IDs will be returned (default: false)</para>
         </listitem>
         <listitem>
+            <para> defaultPolicy<indexterm>
+                <primary>defaultPolicy</primary></indexterm>: can be either
+                POLICY_XOR, POLICY_UNION, POLICY_INTERSECTION or POLICY_REPLACE.
+                Defines how new selected objects are mixed with previous ones (default:
+                POLICY_XOR)</para>
+        </listitem>
+        <listitem>
+            <para> defaultMaskmode<indexterm>
+                <primary>defaultMaskmode</primary></indexterm>: if true, selected
+                objects are highlighted in mask mode (default: false). See also <xref
+                    linkend="user.query.mapfile.hilight.mask"/></para>
+        </listitem>
+        <listitem>
+          <para> 
+            defaultHilight<indexterm><primary>defaultHilight</primary></indexterm>: 
+            if true, objects are highlited (default: true)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            defaultAttributes<indexterm><primary>defaultAttributes</primary></indexterm>: 
+            if true, the layers attributes are returned (default: true)</para>
+        </listitem>
+        <listitem>
+          <para> 
+            defaultTable<indexterm><primary>defaultTable</primary></indexterm>: 
+            if true, the results table is displayed (default: true)</para>
+        </listitem>
+        <listitem>
           <para> 
             weightQuery<indexterm><primary>weightQuery</primary></indexterm>: 
             integer which defines display order of the query tool icon in 
