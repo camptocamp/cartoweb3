@@ -95,13 +95,11 @@ default_CVSROOT := :pserver:user@example.com:/var/lib/cvs/
 
 myproject1_INSTANCE := myinstance1
 myproject1_CVSROOT := :pserver:user@example.com:/var/lib/cvs/
-myproject1_CW3_VARS := CARTOCLIENT_BASE_URL=http://exmample.com/cartoweb
 
 # example project
 
 myproject2_INSTANCE := myinstance2
 myproject2_CVSROOT := :pserver:user@example2.com:/var/lib/cvs/
-myproject2_CW3_VARS := CARTOCLIENT_BASE_URL=http://exmample.com/cartoweb
 
 # This MUST contain all project names
 ALL_PROJECTS := myproject1 myproject2
