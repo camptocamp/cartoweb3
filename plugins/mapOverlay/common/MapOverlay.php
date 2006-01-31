@@ -321,7 +321,7 @@ class LabelOverlay extends BasicOverlay {
         $this->outlineColor = self::unserializeObject($struct, 'outlineColor', 
                                                       'ColorOverlay');
         $this->backgroundColor = self::unserializeObject($struct, 'backgroundColor', 
-                                                      'ColorOverlay');
+                                                         'ColorOverlay');
         parent::unserialize($struct);
     }    
 }
@@ -486,7 +486,7 @@ class LayerOverlay extends BasicOverlay {
         $this->copyName       = self::unserializeValue($struct, 'copyName');
         $this->data           = self::unserializeValue($struct, 'data');
         $this->maxScale       = self::unserializeValue($struct, 'maxScale');
-        $this->metadata       = self::unserializeArray($struct, 'metadatas',
+        $this->metadatas      = self::unserializeArray($struct, 'metadatas',
                                                        'MetadataOverlay');
         $this->minScale       = self::unserializeValue($struct, 'minScale');
         $this->name           = self::unserializeValue($struct, 'name');
