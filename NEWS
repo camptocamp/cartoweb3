@@ -1,15 +1,16 @@
-CVS version 
+2006-02-14: CartoWeb 3.2.0 
 ==========================
+
 - Added mapOverlay plugin to dynamically search, create, update or delete mapfile elements.
 - Added edit plugin to create, edit or delete geographical data on the browser. 
-- Added "toolPicker", an extensible javascript tool to choose color and symbol.
-- Added support for GIF images in PDF export
-- Added support for additional fonts in PDF export
-- PDF form inputs are now saved while browsing the viewer and their initial states are set in config files
-- Added built-in toolbar rendering switching system: radio buttons, icons borders, icons switching
-- Improved cw3setup.php (installation script) to focus on given projects
-- Added 'rotate' mode for PDF export: selection of to-be-exported rectangle, including rotation
-- Added optional reference marks on displayed map and/or PDF export
+- Added "toolPicker", an extensible JavaScript tool to choose colors and symbols.
+- Added support for GIF images in PDF export.
+- Added support for additional fonts in PDF export.
+- PDF form inputs are now saved while browsing the viewer and their initial states are set in config files.
+- Added built-in toolbar rendering switching system: radio buttons, icons borders, icons switching.
+- Improved cw3setup.php (installation script) to focus on given projects.
+- Added "rotate" mode for PDF export: selection of to-be-exported rectangle, including rotation.
+- Added optional reference marks on displayed map and/or PDF export.
 
 2005-10-19: CartoWeb 3.1.0
 ==========================
