@@ -311,7 +311,7 @@
        <center>
        <table cellpadding="0" cellspacing="1" border="0">
          <tr><td>
-           {include file="toolbar.tpl" group="3"}
+           {include file="toolbar.tpl" group="2"}
          </td></tr>
        </table>
        <br />
