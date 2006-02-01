@@ -13,6 +13,10 @@
                 url="http://www.gnu.org/software/gettext/manual">gettext</ulink>
             . However internationalization architecture is ready for other translation
             systems.</para>
+        <note>
+            <para>Scripts detailed below are only available in command line prompts ("DOS", shell).
+            They cannot be launched using a web browser.</para>
+        </note>
         <sect2 id="user.i18n.translations.config">
             <title>Configuration</title>
             <para> For now only gettext translation system is implemented. If gettext is not
@@ -49,13 +53,13 @@ fr    fr_CH.ISO-8859-1
                 
                 <itemizedlist>
                     <listitem>
-                        <para> <filename>script/testgettext.sh</filename>: This
+                        <para> <filename>scripts/testgettext.sh</filename>: This
                             will compile and run a small C program that will test
                             <command>xgettext</command> and
                             <command>msgfmt</command>.</para>
                     </listitem>
                     <listitem>
-                        <para> <filename>script/testgettext.php</filename>: Given
+                        <para> <filename>scripts/testgettext.php</filename>: Given
                             that gettext was correctly installed on the system, this will
                             test that gettext works in PHP.</para>
                     </listitem>
