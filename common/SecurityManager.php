@@ -32,7 +32,7 @@ abstract class SecurityContainer {
      * user is unknown or its password is invalid.
      * 
      * @param string the username to check
-     * @param the user's password
+     * @param string the user's password
      * @return boolean true if the pair is valid.
      */
     abstract function checkUser($username, $password);
