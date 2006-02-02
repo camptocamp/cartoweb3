@@ -703,6 +703,7 @@ function fetchArchive($archiveUrl, $targetDirectory) {
     $versionFile = "$targetDirectory/version";
     if ($version && file_exists($versionFile)) {
         $actualVersion = file_get_contents($versionFile);
+        $actualVersion = trim($actualVersion);
         debug("actual version: $actualVersion");
         if ($actualVersion == $version) {
             debug("Archive version match, skipping");
