@@ -414,10 +414,13 @@ class ClientLocation extends ClientPlugin
             $layersLabel[] = I18n::gt($layer->label); 
         }
 
-        if (!empty($this->locationState->idRecenterSelected))
+        if (!empty($this->locationState->idRecenterSelected)) {
             $idRecenterSelected = $this->locationState->idRecenterSelected;
-        else
+        } elseif (isset($layersId[0])) {
             $idRecenterSelected = $layersId[0];
+        } else {
+            $idRecenterSelected = 0;
+        }
 
         $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
                                     'id_recenter_layers_label' => $layersLabel,
