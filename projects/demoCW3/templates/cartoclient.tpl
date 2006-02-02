@@ -88,9 +88,8 @@
       <tr>
         <td colspan="3" id="toolbar_row" nowrap="nowrap">
           {include file="toolbar.tpl" group="1" header="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          {include file="toolbar.tpl" group="2"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          {include file="toolbar.tpl" group="4"}
+          {include file="toolbar.tpl" group="4"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <a href="javascript:ontop(2);">
             <img src="{r type=gfx/layout/help}fileprint.gif{/r}"
                  title="{t}Print{/t}" alt="{t}print{/t}" /></a>
