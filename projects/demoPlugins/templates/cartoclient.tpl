@@ -103,8 +103,9 @@
     <td id="toolbar_row" valign="top" width="30px" align="center">
       <br /><br />
       <table cellpadding="0" cellspacing="1" border="0">
-        <tr><td>  
-          {include file="toolbar.tpl" group="1" header="1"} 
+        <tr><td>
+          {include file="toolbar.tpl" group="2"}
+          {include file="toolbar.tpl" group="1" header="1"}
           <a href="javascript:ontop(6);">
             <img src="{r type=gfx/layout}help.gif{/r}"
                  title="{t}Help{/t}" alt="{t}help{/t}"style="padding:4px;" />
@@ -311,7 +312,7 @@
        <center>
        <table cellpadding="0" cellspacing="1" border="0">
          <tr><td>
-           {include file="toolbar.tpl" group="2"}
+           {include file="toolbar.tpl" group="3"}
          </td></tr>
        </table>
        <br />
@@ -426,7 +427,7 @@
       {/if}
       {/foreach}</td>
     <td align="right" class="mini" valign='top'>
-    Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.2</a>
+    Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb 3.1</a>
     &copy; <a href="http://www.camptocamp.com/"  target="_blank">Camptocamp SA</a>
     </td>
     </tr>
