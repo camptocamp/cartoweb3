@@ -44,5 +44,5 @@ function loadView() {
   
   setHandleView();
   document.carto_form.viewBrowse.value = 1;
-  document.carto_form.submit();
+  doSubmit();
 }
