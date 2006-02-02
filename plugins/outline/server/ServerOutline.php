@@ -133,7 +133,8 @@ class ServerOutline extends ClientResponderAdapter
         $f->set('text', $shape->label);
         $f->set('classindex', $result->layers[0]->classes[0]->index);
 
-        $msLayer = $this->serverContext->getMapObj()->getLayer($result->layers[0]->index);
+        $msLayer = $this->serverContext->getMapObj()->
+                                          getLayer($result->layers[0]->index);
         $msLayer->addFeature($f);
         $msLayer->set('status', MS_ON);    
     }
@@ -329,11 +330,13 @@ class ServerOutline extends ClientResponderAdapter
         $outlineInit = new OutlineInit();
         $outlineInit->point = Utils::parseArray($this->getConfig()->pointSymbols);
         
-        // special case: "pointSymbols.labels" has a dot, cannot use getConfig() directly
+        // special case: "pointSymbols.labels" has a dot, 
+        //cannot use getConfig() directly
         $tmp = "pointSymbols.labels";
         $outlineInit->pointLabels = Utils::parseArray($this->getConfig()->$tmp);
         $outlineInit->line = Utils::parseArray($this->getConfig()->lineSymbols);
-        $outlineInit->polygon = Utils::parseArray($this->getConfig()->polygonSymbols);
+        $outlineInit->polygon = Utils::parseArray($this->getConfig()->
+                                                                polygonSymbols);
 
         $outlineInit->pathToSymbols = $this->pathToSymbols;
         $outlineInit->symbolType = $this->symbolType;
@@ -351,7 +354,8 @@ class ServerOutline extends ClientResponderAdapter
           // set type
           $currentDefaultValues->type = $targetLayerType;
 
-          $currentLayer = $msMapObj->getLayerByName($this->getConfig()->$targetLayerType);
+          $currentLayer = $msMapObj->getLayerByName($this->getConfig()->
+                                                                $targetLayerType);
           
           // get layer transparency
           $currentShapeStyle->transparency = $currentLayer->transparency;
@@ -362,17 +366,21 @@ class ServerOutline extends ClientResponderAdapter
           $colorList = array('red', 'green', 'blue');
           foreach($colorList as $color) {
               $currentShapeStyle->color->$color = $currentStyle->color->$color;
-              $currentShapeStyle->outlineColor->$color = $currentStyle->outlinecolor->$color;
+              $currentShapeStyle->outlineColor->$color = $currentStyle->
+                                                               outlinecolor->$color;
           }
           $currentShapeStyle->size = $currentStyle->size;
           // check if symbol exist in current Style object, if yes, get its name
-          if(isset($currentStyle->symbol) && $currentStyle->symbol > 0) {
-            if(is_numeric($currentStyle->symbol)) {
+          if (isset ($currentStyle->symbol) && $currentStyle->symbol > 0) {
+            if (is_numeric ($currentStyle->symbol)) {
               // refer to a symbol index
               if($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
-                $currentShapeStyle->symbol = $msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name;
+                $currentShapeStyle->symbol = $msMapObj->
+                                    getsymbolobjectbyid($currentStyle->symbol)->name;
               } else {
-                throw new CartoserverException("Symbol name not found while accessing outline's default style values. Default symbols used for outline must have a name attribute.");
+                throw new CartoserverException("Symbol name not found while ".
+                      "accessing outline's default style values. Default symbols ".
+                      "used for outline must have a name attribute.");
               }
             } else {
               // refer to an symbol name
@@ -421,13 +429,14 @@ class ServerOutline extends ClientResponderAdapter
                                    Utils::parseArray($this->getConfig()->polygonSymbols));
          
         // loop through all symbols
-        for($ii=0; $ii < $msMapObj->getNumSymbols(); $ii++) {
+        for ($ii=0; $ii < $msMapObj->getNumSymbols(); $ii++) {
             $symbolName = $msMapObj->getSymbolObjectById($ii)->name;
             // create icon only on selected symbols
-            if(in_array($symbolName, $symbolRefAr)) {
+            if (in_array($symbolName, $symbolRefAr)) {
                 $newStyle->set('symbolname', $symbolName);
                 $iconPath = $iconAbsolutePath . $symbolName . '.' . $this->symbolType;
-                $invertedIconPath = $iconAbsolutePath . $symbolName . '_over.' . $this->symbolType; 
+                $invertedIconPath = $iconAbsolutePath . $symbolName . '_over.' . 
+                                                                        $this->symbolType; 
                 Utils::makeDirectoryWithPerms(dirname($iconPath), $writablePath);
                  
                 if (!file_exists($iconPath) ||
