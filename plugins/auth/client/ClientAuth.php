@@ -139,7 +139,7 @@ class DbSecurityContainer extends SecurityContainer {
                                 addslashes($username), addslashes($password)));
         Utils::checkDbError($exists);        
 
-        return $exists->numRows() > 0;
+        return !is_null($exists->fetchRow());
     }
 
     /**
