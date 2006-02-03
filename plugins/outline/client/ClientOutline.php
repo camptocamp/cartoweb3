@@ -231,8 +231,6 @@ class ClientOutline extends ClientPlugin
         $this->outlineState->polygonStyle->color->setFromHex(
             $this->getHttpValue($request, 'outline_polygon_background_color'));
 
-        $this->cartoclient->addMessage("polygon\nhex=".$this->getHttpValue($request, 'outline_polygon_background_color')." \nred=".$this->outlineState->polygonStyle->color->red." green=".$this->outlineState->polygonStyle->color->green." blue=".$this->outlineState->polygonStyle->color->blue." \n");
-
         $this->outlineState->polygonStyle->transparency = 
             $this->getHttpValue($request, 'outline_polygon_transparency');
 
