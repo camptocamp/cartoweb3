@@ -269,15 +269,20 @@ END]]></programlisting>
         take precedence over the values from the mapfile. </para>
       <para> For each layer object in the <filename>layers.ini</filename> file, 
         the following syntax is used to set metadata:</para>
-      <itemizedlist>
-        <listitem>
-          <para> layers.layerId.metadata.METADATA = value </para>
-        </listitem>
-      </itemizedlist>
+      <programlisting>layers.layerId.metadata.METADATA = value</programlisting>
       <para>For instance:</para>
       <programlisting><![CDATA[layers.group_admin.className = LayerGroup 
 layers.group_admin.children = grid_defaulthilight 
 layers.group_admin.metadata.security_view = admin]]></programlisting>
+       <note>
+        <para>It is possible to specify <parameter>minScale</parameter> and 
+         <parameter>maxScale</parameter> attributes as <filename>layers.ini</filename> 
+         <parameter>metadata</parameter> for layerGroups items. The equivalent mapfile metadata 
+         is not available for layers. In that case, simply use mapfile MINSCALE and MAXSCALE
+         attributes.
+        </para>
+       </note>
+      
     </sect2>
     <sect2 id="user.layers.metadata.template">
       <title>Using the metadata fields in templates (<filename>layers.tpl</filename>)</title>
