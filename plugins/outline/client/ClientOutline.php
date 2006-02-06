@@ -414,7 +414,7 @@ class ClientOutline extends ClientPlugin
     public function setDefaultValues($valuesList) {
       $colorList = array('red', 'green', 'blue');
 
-      foreach($valuesList as $outlineStyle) {
+      foreach ($valuesList as $outlineStyle) {
         $outlineType = substr($outlineStyle->type, 0, strpos($outlineStyle->type, 'Layer'));
         $objectType = $outlineType.'Style';
 
@@ -427,12 +427,12 @@ class ClientOutline extends ClientPlugin
         if (strval($this->outlineState->$objectType->transparency) == ''){
           $this->outlineState->$objectType->transparency = $outlineStyle->shapeStyle->transparency;
         }
-        foreach($colorList as $color) {
+        foreach ($colorList as $color) {
           if (strval($this->outlineState->$objectType->color->$color) == '') {
             $this->outlineState->$objectType->color->$color = $outlineStyle->shapeStyle->color->$color;
           }
         }
-        foreach($colorList as $color) {
+        foreach ($colorList as $color) {
           if (strval($this->outlineState->$objectType->outlineColor->$color) == '') {
             $this->outlineState->$objectType->outlineColor->$color = 
               $outlineStyle->shapeStyle->outlineColor->$color;

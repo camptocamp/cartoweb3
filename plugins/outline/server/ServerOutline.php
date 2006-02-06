@@ -322,7 +322,7 @@ class ServerOutline extends ClientResponderAdapter
      */
     public function getInit() {
 
-        if($this->getConfig()->pointSymbols || $this->getConfig()->lineSymbols || 
+        if ($this->getConfig()->pointSymbols || $this->getConfig()->lineSymbols || 
            $this->getConfig()->polygonSymbols) {
             $this->generateSymbolIcon();
         }
@@ -341,12 +341,12 @@ class ServerOutline extends ClientResponderAdapter
         $outlineInit->pathToSymbols = $this->pathToSymbols;
         $outlineInit->symbolType = $this->symbolType;
 
-        $targetList = array('pointLayer', 'lineLayer', 'polygonLayer');
+        $targetList = array ('pointLayer', 'lineLayer', 'polygonLayer');
 
         $defaultValuesList = new OutlineDefaultValuesList();
         $msMapObj = $this->serverContext->getMapObj();
 
-        foreach($targetList as $targetLayerType) {
+        foreach ($targetList as $targetLayerType) {
           
           $currentDefaultValues = new OutlineDefaultValues();
           $currentShapeStyle = new StyleOverlay();
@@ -364,7 +364,7 @@ class ServerOutline extends ClientResponderAdapter
           $currentStyle = $currentClass->getStyle(0);
 
           $colorList = array('red', 'green', 'blue');
-          foreach($colorList as $color) {
+          foreach ($colorList as $color) {
               $currentShapeStyle->color->$color = $currentStyle->color->$color;
               $currentShapeStyle->outlineColor->$color = $currentStyle->
                                                                outlinecolor->$color;
@@ -374,7 +374,7 @@ class ServerOutline extends ClientResponderAdapter
           if (isset ($currentStyle->symbol) && $currentStyle->symbol > 0) {
             if (is_numeric ($currentStyle->symbol)) {
               // refer to a symbol index
-              if($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
+              if ($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
                 $currentShapeStyle->symbol = $msMapObj->
                                     getsymbolobjectbyid($currentStyle->symbol)->name;
               } else {
