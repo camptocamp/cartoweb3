@@ -22,6 +22,8 @@ define launch_tunnel
 	ps -ef|grep -v grep|grep '[a]utossh.*$(1)'>/dev/null || { echo "Starting autossh"; autossh -f -M $(2) -N $(1); sleep 3; }
 endef
 
+DB_TMP ?= $(DB)_tmp
+
 SQL_PATH=~/tmp/
 SQL_FILE=$(SQL_PATH)$(DB).sql.gz
 
