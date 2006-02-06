@@ -233,9 +233,13 @@ class ServerMapOverlay extends ServerPlugin {
         case BasicOverlay::ACTION_UPDATE:
         
             $msLabel = $msClass->label;
-            if (!is_null($overlay->font) && $msStyle->font != $overlay->font) {
+            if (!is_null($overlay->font) && $msLabel->font != $overlay->font) {
                 $result->font = $overlay->font;
-                $msLabel->set('label', $result->label);
+                $msLabel->set('font', $result->font);
+            }
+            if (!is_null($overlay->size) && $msLabel->size != $overlay->size) {
+                $result->size = $overlay->size;
+                $msLabel->set('size', $result->size);
             }
             break;
         case BasicOverlay::ACTION_SEARCH:
