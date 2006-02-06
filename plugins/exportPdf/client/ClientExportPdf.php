@@ -988,7 +988,7 @@ class ClientExportPdf extends ExportPlugin
                                                             ->overviewColor);
             $shapeStyle->color->setFromRGB($r, $g, $b);
         } else {
-            $shapeStyle->color->setFromRGB(-1, -1, -1);
+            $shapeStyle->color->action = BasicOverlay::ACTION_REMOVE;
         }
                 
         if (isset($this->general->overviewOutlineColor) &&
@@ -999,7 +999,7 @@ class ClientExportPdf extends ExportPlugin
                                                             ->overviewOutlineColor);
             $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
         } else {
-            $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
+            $shapeStyle->outlineColor->action = BasicOverlay::ACTION_REMOVE;
         }
                 
         $styledOutline->shapeStyle = $shapeStyle;
