@@ -150,14 +150,14 @@ function makeMapIdMaps($project, $mapId) {
         $switchMap = '';
         $globalSwitch = $switch;
         ob_start();
-        eval('?> ' . $phpMap . ' <?');
+        eval('?> ' . $phpMap . ' <?php');
         file_put_contents($rootDir . 'auto.' . $mapId . '.' . $switch . '.map',
                           ob_get_contents());
         ob_end_clean();
     }
     $globalSwitch = 'all';
     ob_start();
-    eval('?> ' . $phpMap . ' <?');
+    eval('?> ' . $phpMap . ' <?php');
     file_put_contents($rootDir . 'auto.' . $mapId . '.all.map',
                       ob_get_contents());
     ob_end_clean();
@@ -191,7 +191,7 @@ function printSwitchLayers($layers, $content) {
             && in_array(substr($layer, strlen($globalName)), $autoIndexes)) {
             // There is a layer to generate
             $globalIndex = substr($layer, strlen($globalName));
-            eval('?>' . $content . '<?'); 
+            eval('?>' . $content . '<?php'); 
         }
     }
 }
@@ -213,7 +213,7 @@ function includeFile($file) {
     
     if (file_exists($rootDir . $file)) {
         $fileMap = file_get_contents($rootDir . $file);
-        eval('?>' . $fileMap . '<?');
+        eval('?>' . $fileMap . '<?php');
     } else {
         print "File $file not found.\n";
     } 
