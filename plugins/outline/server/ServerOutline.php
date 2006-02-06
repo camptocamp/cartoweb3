@@ -348,48 +348,48 @@ class ServerOutline extends ClientResponderAdapter
 
         foreach ($targetList as $targetLayerType) {
           
-          $currentDefaultValues = new OutlineDefaultValues();
-          $currentShapeStyle = new StyleOverlay();
+            $currentDefaultValues = new OutlineDefaultValues();
+            $currentShapeStyle = new StyleOverlay();
           
-          // set type
-          $currentDefaultValues->type = $targetLayerType;
+            // set type
+            $currentDefaultValues->type = $targetLayerType;
 
-          $currentLayer = $msMapObj->getLayerByName($this->getConfig()->
-                                                                $targetLayerType);
-          
-          // get layer transparency
-          $currentShapeStyle->transparency = $currentLayer->transparency;
-          //get first class
-          $currentClass = $currentLayer->getClass(0);
-          $currentStyle = $currentClass->getStyle(0);
+            $currentLayer = $msMapObj->getLayerByName($this->getConfig()->
+                                                                  $targetLayerType);
+            
+            // get layer transparency
+            $currentShapeStyle->transparency = $currentLayer->transparency;
+            //get first class
+            $currentClass = $currentLayer->getClass(0);
+            $currentStyle = $currentClass->getStyle(0);
 
-          $colorList = array('red', 'green', 'blue');
-          foreach ($colorList as $color) {
-              $currentShapeStyle->color->$color = $currentStyle->color->$color;
-              $currentShapeStyle->outlineColor->$color = $currentStyle->
-                                                               outlinecolor->$color;
-          }
-          $currentShapeStyle->size = $currentStyle->size;
-          // check if symbol exist in current Style object, if yes, get its name
-          if (isset ($currentStyle->symbol) && $currentStyle->symbol > 0) {
-            if (is_numeric ($currentStyle->symbol)) {
-              // refer to a symbol index
-              if ($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
-                $currentShapeStyle->symbol = $msMapObj->
-                                    getsymbolobjectbyid($currentStyle->symbol)->name;
-              } else {
-                throw new CartoserverException("Symbol name not found while ".
-                      "accessing outline's default style values. Default symbols ".
-                      "used for outline must have a name attribute.");
-              }
-            } else {
-              // refer to an symbol name
-              $currentShapeStyle->symbol = $currentStyle->symbol;
+            $colorList = array('red', 'green', 'blue');
+            foreach ($colorList as $color) {
+                $currentShapeStyle->color->$color = $currentStyle->color->$color;
+                $currentShapeStyle->outlineColor->$color = $currentStyle->
+                                                                 outlinecolor->$color;
             }
-          }
-          
-          $currentDefaultValues->shapeStyle = $currentShapeStyle;
-          $defaultValuesList->outlineDefaultValuesList[] = $currentDefaultValues;
+            $currentShapeStyle->size = $currentStyle->size;
+            // check if symbol exist in current Style object, if yes, get its name
+            if (isset ($currentStyle->symbol) && $currentStyle->symbol > 0) {
+              if (is_numeric($currentStyle->symbol)) {
+                // refer to a symbol index
+                if ($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
+                  $currentShapeStyle->symbol = $msMapObj->
+                                      getsymbolobjectbyid($currentStyle->symbol)->name;
+                } else {
+                  throw new CartoserverException("Symbol name not found while ".
+                        "accessing outline's default style values. Default symbols ".
+                        "used for outline must have a name attribute.");
+                }
+              } else {
+                // refer to an symbol name
+                $currentShapeStyle->symbol = $currentStyle->symbol;
+              }
+            }
+            
+            $currentDefaultValues->shapeStyle = $currentShapeStyle;
+            $defaultValuesList->outlineDefaultValuesList[] = $currentDefaultValues;
         }        
 
         $outlineInit->outlineDefaultValues = $defaultValuesList;
@@ -424,12 +424,12 @@ class ServerOutline extends ClientResponderAdapter
         
         $refIndex = $newLayer->index;
          
-        $symbolRefAr = array_merge(Utils::parseArray($this->getConfig()->pointSymbols), 
+        $symbolRefAr = array_merge(Utils::parseArray  pointSymbols), 
                                    Utils::parseArray($this->getConfig()->lineSymbols),
                                    Utils::parseArray($this->getConfig()->polygonSymbols));
          
         // loop through all symbols
-        for ($ii=0; $ii < $msMapObj->getNumSymbols(); $ii++) {
+        for ($ii = 0; $ii < $msMapObj->getNumSymbols(); $ii++) {
             $symbolName = $msMapObj->getSymbolObjectById($ii)->name;
             // create icon only on selected symbols
             if (in_array($symbolName, $symbolRefAr)) {
