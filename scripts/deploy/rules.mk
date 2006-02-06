@@ -27,7 +27,9 @@ REV := $Revision$
 CURRENT_COMPAT_VERSION := 0
 
 ifneq ($(CURRENT_COMPAT_VERSION), $(COMPAT_VERSION))
-       $(error Your Makefile version is not compatible, see the update information and update your Makefile)
+       $(error Your Makefile version $(COMPAT_VERSION) is not compatible with \
+	the new deploy version $(CURRENT_COMPAT_VERSION), see the update information \
+	on http://cartoweb.org/cwiki/AutomaticDeployment\#makefile_update and update your Makefile)
 endif
 
 # variable setup
@@ -117,7 +119,7 @@ $(patsubst %,pre_fetch_project/%,$(ALL_PROJECTS)) :: pre_fetch_project/% :
 $(patsubst %,post_fetch_project/%,$(ALL_PROJECTS)) :: post_fetch_project/% : update_config_project/%
 	@echo Post Fetching project $@
 
-$(patsubst %,fetch_project/%,$(ALL_PROJECTS)) :: fetch_project/% : pre_fetch_project/% post_fetch_project/%
+$(patsubst %,fetch_project/%,$(ALL_PROJECTS)) :: fetch_project/% : check_user pre_fetch_project/% post_fetch_project/%
 
 
 # ###################################
@@ -162,7 +164,7 @@ endif
 	echo "Version just fetched: $$new_version; current version: $$this_version"; \
 	if test -n "$$new_version"; then \
 	dpkg --compare-versions $$new_version gt $$this_version && \
-		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update" \
+		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update. See http://cartoweb.org/cwiki/AutomaticDeployment#deploy_update" \
 		|| : \
 	else true; \
 	fi
@@ -173,7 +175,7 @@ $(patsubst %,post_fetch_instance/%,$(ALL_INSTANCES)) :: post_fetch_instance/% :
 	)
 
 
-$(patsubst %,fetch_instance/%,$(ALL_INSTANCES)) :: fetch_instance/% : pre_fetch_instance/% post_fetch_instance/%
+$(patsubst %,fetch_instance/%,$(ALL_INSTANCES)) :: fetch_instance/% : check_user pre_fetch_instance/% post_fetch_instance/%
 
 
 fetch_all_instances: $(patsubst %,fetch_instance/%,$(ALL_INSTANCES))
