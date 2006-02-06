@@ -1,4 +1,6 @@
 ; use negative weights to disable some statictools
+;weightDistance = 80
+;weightSurface = 81
 
 ; nb max of segments for polylines and polygons (dhtml interface)
 ; default -1 (unlimited)
