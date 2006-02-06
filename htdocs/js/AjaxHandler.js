@@ -127,14 +127,14 @@ AjaxHandler = {
             varArray = new Array(variableElements.length);
 			for (j=0; j<variableElements.length; j++) {
 				currentVariableElement = variableElements.item(j);
-				varArray[currentVariableElement.getAttribute('id')] = currentVariableElement.getAttribute('value');
+				varArray[currentVariableElement.getAttribute('id')] = AjaxHelper.decodeForSafari(currentVariableElement.getAttribute('value'));
 			}
 
 			htmlCodeElements = currentPluginElement.getElementsByTagName('htmlCode');
             htmlCodeArray = new Array(htmlCodeElements.length);
 			for (j=0; j<htmlCodeElements.length; j++) {
 				currentHtmlCodeElement = htmlCodeElements.item(j);
-				htmlCodeArray[currentHtmlCodeElement.getAttribute('id')] = currentHtmlCodeElement.getAttribute('value');
+				htmlCodeArray[currentHtmlCodeElement.getAttribute('id')] = AjaxHelper.decodeForSafari(currentHtmlCodeElement.getAttribute('value'));
 			}
 			
 			currentPluginName = currentPluginElement.getAttribute('name');

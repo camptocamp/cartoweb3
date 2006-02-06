@@ -104,7 +104,7 @@ var AjaxHelper = {
     /**
      * Returns the query string contained in the href attribute
      * of the given HTML <a> element object.
-     * @param HTMLLinkElement <a> element object
+     * @param ahrefElement <a> element object
      * @return string HTTP GET string from ahrefElement
      */
     getQueryString: function(ahrefElement) {
@@ -119,6 +119,38 @@ var AjaxHelper = {
         } else {
             return '';
         }
+    },
+
+    /**
+     * Returns true if browserString is contained
+     * in navigator.userAgent (case insensitive)
+     * @param browserString String representing the browser name
+     * @return bool True if browserString is contained in navigator.userAgent
+     */
+    isBrowser: function(browserString) {
+        var detect = navigator.userAgent.toLowerCase();
+        var string = browserString.toLowerCase();
+        place = detect.indexOf(string) + 1;
+        return place > 0;            
+    },
+
+    /**
+     * Unescapes '&' ('&#38;') entity for Safari
+     * @param string Escaped string
+     * @return string Unescaped string
+     */
+    decodeForSafari: function(string) {
+        if (this.isBrowser('safari')) {
+	    	parts = string.split('&#38;');
+	    	string = '';
+	    	for (counter=0; counter<parts.length; counter++) {
+	    		if (counter>0) {
+		    		string += '&';
+	    		}
+	    		string += parts[counter];
+	    	}
+        }
+    	return string;
     },
 	
 	/**
