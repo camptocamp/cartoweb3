@@ -186,10 +186,9 @@ class ColorOverlay extends BasicOverlay {
      * @return boolean
      */
     public function isValid() {
-        return !is_null($this->red) && !is_null($this->green) && !is_null($this->blue) && 
-               ($this->red >= 0 && $this->red <= 255) &&
-               ($this->green >= 0 && $this->green <= 255) &&
-               ($this->blue >= 0 && $this->blue <= 255);
+        return (is_null($this->red)   || ($this->red >= 0 && $this->red <= 255)) &&
+               (is_null($this->green) || ($this->green >= 0 && $this->green <= 255)) &&
+               (is_null($this->blue)  || ($this->blue >= 0 && $this->blue <= 255));
     }
 
     /**
