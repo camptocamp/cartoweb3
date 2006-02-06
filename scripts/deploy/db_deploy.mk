@@ -26,7 +26,7 @@ SQL_PATH=~/tmp/
 SQL_FILE=$(SQL_PATH)$(DB).sql.gz
 
 launch_tunnel:
-	@$(call launch_tunnel,$(target_host),20005)
+	@$(call launch_tunnel,$(TARGET_HOST),20005)
 
 pre_deploy_db: check_user launch_tunnel sync_misc
 	if $(DB_OPTS_TARGET) psql -l|grep -q "\W$(DB_TMP)\W" ; then \
@@ -35,8 +35,8 @@ pre_deploy_db: check_user launch_tunnel sync_misc
 	fi
 	$(DB_OPTS_TARGET) createdb $(DB_TMP)
 	$(DB_OPTS) pg_dump $(DB) |gzip --fast > $(SQL_FILE)
-	scp $(SQL_FILE) $(target_host):$(SQL_PATH)
-	ssh $(target_host) make -C /var/www/$(PROJECT) fill_db_tmp
+	scp $(SQL_FILE) $(TARGET_HOST):$(SQL_PATH)
+	ssh $(TARGET_HOST) make -C /var/www/$(PROJECT) fill_db_tmp
 
 fill_db_tmp:
 	gzip -cd $(SQL_FILE) | $(DB_OPTS) psql $(DB_TMP)
