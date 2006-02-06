@@ -424,7 +424,7 @@ class ServerOutline extends ClientResponderAdapter
         
         $refIndex = $newLayer->index;
          
-        $symbolRefAr = array_merge(Utils::parseArray  pointSymbols), 
+        $symbolRefAr = array_merge(Utils::parseArray($this->getConfig()->pointSymbols), 
                                    Utils::parseArray($this->getConfig()->lineSymbols),
                                    Utils::parseArray($this->getConfig()->polygonSymbols));
          
