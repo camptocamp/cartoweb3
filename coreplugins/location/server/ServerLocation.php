@@ -850,6 +850,9 @@ class ServerLocation extends ClientResponderAdapter
 
             if ($this->showRefMarks) {
 
+                $msMapObj = $this->serverContext->getMapObj();
+                $ratio = $pluginManager->layers->getResRatio();                                
+
                 $origin = $this->getConfig()->refMarksOrigin;
                 if (!is_null($origin)) {
                     list($originx, $originy) = explode(',', $origin);
@@ -864,6 +867,9 @@ class ServerLocation extends ClientResponderAdapter
                     $style->symbol = $symbol;
                 }
                 $size = $this->getConfig()->refMarksSymbolSize;
+                if (!is_null($ratio)) {
+                    $size *= $ratio;
+                }
                 if (!is_null($size)) {
                     $style->size = $size;
                 }
@@ -878,10 +884,8 @@ class ServerLocation extends ClientResponderAdapter
                 }            
                 
                 $crossSize = $this->getConfig()->refMarksSize / 2;
-                $msMapObj = $this->serverContext->getMapObj();
                 $crossSize = $crossSize * $msMapObj->scale /
                              $msMapObj->resolution * 0.0254;
-                $ratio = $pluginManager->layers->getResRatio();                                
                 if (!is_null($ratio)) {
                     $crossSize *= $ratio;
                 }
