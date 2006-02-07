@@ -18,6 +18,8 @@
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
   {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
 
+  <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
+  
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
