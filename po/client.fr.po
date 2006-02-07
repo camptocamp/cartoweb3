@@ -321,15 +321,15 @@ msgstr "Point"
 
 #: plugins/outline/templates/outline.tpl
 msgid "symbol"
-msgstr "symbole"
+msgstr "Symbole"
 
 #: plugins/outline/templates/outline.tpl
 msgid "size"
-msgstr "taille"
+msgstr "Taille"
 
 #: plugins/outline/templates/outline.tpl
 msgid "color"
-msgstr "couleur"
+msgstr "Couleur"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Line"
@@ -337,11 +337,11 @@ msgstr "Ligne"
 
 #: plugins/outline/templates/outline.tpl
 msgid "border size"
-msgstr "taille bordure"
+msgstr "Epaisseur"
 
 #: plugins/outline/templates/outline.tpl
 msgid "transparency"
-msgstr "transparence"
+msgstr "Transparence"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Rectangle/polygon"
@@ -349,11 +349,11 @@ msgstr "Rectangle/polygone"
 
 #: plugins/outline/templates/outline.tpl
 msgid "outline color"
-msgstr "couleur bordure"
+msgstr "Couleur bordure"
 
 #: plugins/outline/templates/outline.tpl
 msgid "background color"
-msgstr "couleur fond"
+msgstr "Couleur surface"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Total area"

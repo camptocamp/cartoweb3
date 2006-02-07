@@ -89,15 +89,15 @@ msgstr ""
 
 #: coreplugins/location/templates/id_recenter.tpl
 msgid "Id recentering"
-msgstr ""
+msgstr "Zentrierung auf IDS"
 
 #: coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on"
-msgstr "Couche pour le centrage"
+msgstr "Zentrierlayer"
 
 #: coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's"
-msgstr "Id séparés par des virgules"
+msgstr "Von Kommas getrennte IDS"
 
 #: coreplugins/location/templates/recenter.tpl
 msgid "X"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr ""
+msgstr "Löschen"
 
 #: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
 msgid "Id"
@@ -276,19 +276,16 @@ msgid "None"
 msgstr "Keine"
 
 #: plugins/exportPdf/templates/formRotate.tpl
-#, fuzzy
 msgid "Scale:"
 msgstr "Massstab"
 
 #: plugins/exportPdf/templates/formRotate.tpl
-#, fuzzy
 msgid "Rotation:"
-msgstr "Auflösung "
+msgstr "Drehung "
 
 #: plugins/exportPdf/templates/formRotate.tpl
-#, fuzzy
 msgid "Position:"
-msgstr "Auflösung "
+msgstr "Standort "
 
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
@@ -304,7 +301,7 @@ msgstr ""
 
 #: plugins/outline/templates/outline.tpl
 msgid "Drawing mode"
-msgstr ""
+msgstr "Mode"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Draw"
@@ -315,46 +312,44 @@ msgid "Mask"
 msgstr "Maske"
 
 #: plugins/outline/templates/outline.tpl
-#, fuzzy
 msgid "Point"
-msgstr "Drucken"
+msgstr "Punkt"
 
 #: plugins/outline/templates/outline.tpl
 msgid "symbol"
-msgstr ""
+msgstr "Symbol"
 
 #: plugins/outline/templates/outline.tpl
-#, fuzzy
 msgid "size"
-msgstr "Kartengrösse "
+msgstr "Grösse "
 
 #: plugins/outline/templates/outline.tpl
 msgid "color"
-msgstr ""
+msgstr "Farbe"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Line"
-msgstr ""
+msgstr "Linie"
 
 #: plugins/outline/templates/outline.tpl
 msgid "border size"
-msgstr ""
+msgstr "Breite"
 
 #: plugins/outline/templates/outline.tpl
 msgid "transparency"
-msgstr ""
+msgstr "Transparenz"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Rectangle/polygon"
-msgstr ""
+msgstr "Rechteck/Polygon"
 
 #: plugins/outline/templates/outline.tpl
 msgid "outline color"
-msgstr ""
+msgstr "Randfarbe"
 
 #: plugins/outline/templates/outline.tpl
 msgid "background color"
-msgstr ""
+msgstr "Farbe"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Total area"
@@ -362,23 +357,23 @@ msgstr "Fläche"
 
 #: plugins/outline/templates/outline.tpl
 msgid "outline_clear"
-msgstr ""
+msgstr "Löschen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "line label"
-msgstr ""
+msgstr "Label eintippen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "polygon label"
-msgstr ""
+msgstr "Label eintippen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "rectangle label"
-msgstr ""
+msgstr "Label eintippen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "point label"
-msgstr ""
+msgstr "Label eintippen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "your label"
@@ -386,7 +381,7 @@ msgstr ""
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "ok"
-msgstr ""
+msgstr "OK"
 
 #: plugins/routing/templates/routing.tpl
 msgid "Find path"
@@ -413,41 +408,40 @@ msgid "Reset"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
-#, fuzzy
 msgid "Choose layer"
-msgstr "Zoomer pour voir la couche"
+msgstr "Layer wählen"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Features: "
-msgstr ""
+msgstr "Objekte :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Inserted: "
-msgstr ""
+msgstr "Eingefügt :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Modified: "
-msgstr ""
+msgstr "Editiert :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Deleted: "
-msgstr ""
+msgstr "Gelöscht :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Validate"
-msgstr ""
+msgstr "Bestätigen"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Edition not allowed"
-msgstr ""
+msgstr "Das Editieren ist dem aktuellen User nicht erlaubt."
 
 #: plugins/edit/templates/edit.tpl
 msgid "please login"
-msgstr ""
+msgstr "Bitte einloggen"
 
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
@@ -516,9 +510,8 @@ msgid "Save as new view"
 msgstr ""
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Save view"
-msgstr "Übersicht"
+msgstr ""
 
 #: plugins/views/templates/views.tpl
 msgid "Delete view"
@@ -530,11 +523,11 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Tools"
-msgstr ""
+msgstr "Kategorien"
 
 #: templates/toolPicker.tpl
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: templates/toolPicker.tpl
 msgid "Hash"
@@ -562,15 +555,15 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Red"
-msgstr ""
+msgstr "Rot"
 
 #: templates/toolPicker.tpl
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: templates/toolPicker.tpl
 msgid "Green"
-msgstr ""
+msgstr "Grün"
 
 #: templates/toolPicker.tpl
 msgid "B"
@@ -578,7 +571,7 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: templates/toolPicker.tpl
 msgid "H"
@@ -586,16 +579,15 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Hue"
-msgstr ""
+msgstr "Farbton"
 
 #: templates/toolPicker.tpl
 msgid "S"
 msgstr ""
 
 #: templates/toolPicker.tpl
-#, fuzzy
 msgid "Saturation"
-msgstr "Navigation"
+msgstr "Sättigung"
 
 #: templates/toolPicker.tpl
 msgid "L"
@@ -603,28 +595,27 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Luminance"
-msgstr ""
+msgstr "Helligkeit"
 
 #: templates/toolPicker.tpl
 msgid "Switch to color gradient"
-msgstr ""
+msgstr "Zur Farbenpalette umschalten"
 
 #: templates/toolPicker.tpl
-#, fuzzy
 msgid "more colors"
-msgstr "Mehr Infos"
+msgstr "Mehr Farben"
 
 #: templates/dhtmlcode.tpl
 msgid "overlapping polygons are not allowed"
-msgstr ""
+msgstr "Sich kreuzende Polygone sind nicht erlaubt"
 
 #: templates/dhtmlcode.tpl
 msgid "Are you sure ?"
-msgstr ""
+msgstr "Sind Sie sicher ?"
 
 #: templates/dhtmlcode.tpl
 msgid "Not conform object"
-msgstr ""
+msgstr "Ungültiges Objekt"
 
 #: templates/mainmap.tpl
 msgid "Loading message"
@@ -632,11 +623,11 @@ msgstr "Bitte warten..."
 
 #: templates/mainmap.tpl templates/cartoclient.tpl
 msgid "keymap_alt"
-msgstr "alt_carteclef"
+msgstr "alt_keymap"
 
 #: templates/mainmap.tpl templates/cartoclient.tpl
 msgid "Collapse keymap"
-msgstr ""
+msgstr "Übersichtskarte schliessen"
 
 #: templates/unauthorized.tpl
 msgid "Unauthorized"
@@ -644,7 +635,7 @@ msgstr ""
 
 #: templates/cartoclient.tpl
 msgid "Show keymap"
-msgstr ""
+msgstr "Übersichtskarte anzeigen"
 
 #: templates/cartoclient.tpl
 msgid "Current scale:"
@@ -660,21 +651,20 @@ msgid "Dist approx.:"
 msgstr "Ungefähre Distanz : "
 
 #: templates/cartoclient.tpl
-#, fuzzy
 msgid "Approx. surface :"
 msgstr "Ungefähre Fläche : "
 
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
-msgstr "alt_barechelle"
+msgstr "alt_scalebar"
 
 #: templates/cartoclient.tpl
 msgid " User messages "
-msgstr "Messages utilisateurs"
+msgstr ""
 
 #: templates/cartoclient.tpl
 msgid " Developer messages "
-msgstr "Messages développeurs"
+msgstr ""
 
 #: templates/cartoclient.tpl
 msgid "Choose project"
