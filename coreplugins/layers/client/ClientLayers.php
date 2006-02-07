@@ -1338,6 +1338,27 @@ class ClientLayers extends ClientPlugin
 
         return $data;
     }
+    
+    /**
+     * Tells if given layer is visible at current scale
+     * Checks for classes scale visibility
+     * @param string layer id
+     * @return boolean
+     */
+    public function isLayerVisibleAtCurrentScale($layerId) {
+        $layer = $this->getLayerByName($layerId, false);
+        $scale = $this->getCurrentScale();
+
+        if (($layer->maxScale && $scale > $layer->maxScale) ||
+            ($layer->minScale && $scale < $layer->minScale))
+            return false;
+        else if (!$layer instanceof LayerClass && $layer->children) {    
+            $children =& $layer->children;
+            foreach ($layer->getChildren($this->layersState->switchId) as $childId)
+                return $this->isLayerVisibleAtCurrentScale($childId);
+        }
+        return true;
+    }
 
     /**
      * Recursively detects selected layers parent nodes and substitutes them 
