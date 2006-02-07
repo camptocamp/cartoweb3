@@ -13,7 +13,7 @@
     <sect1 id="dev.security.intro"> 
       <title>Introduction</title>
       <para>This chapter describes the security infrastructure from the developer
-          point of view. For generatil details about security and its configuration
+          point of view. For general details about security and its configuration
           see <xref linkend="user.security"/>.
         </para>
       <para>
