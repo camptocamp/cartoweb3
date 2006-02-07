@@ -25,3 +25,6 @@ viewStorage = file     ;possible values are 'file' and 'db'
 viewablePlugins = demoLocation, layers, query, outline
 viewMetas = author
 viewAuth = all
+
+; toolPicker
+toolPickerOn = true
