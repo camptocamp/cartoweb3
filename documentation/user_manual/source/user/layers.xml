@@ -609,7 +609,7 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
       </para>
       <para>
         To activate it, set <parameter>enableTransparency</parameter> to 
-        <literal>true</literal> in <filename>client_conf/client.ini</filename>.
+        <literal>true</literal> in <filename>client_conf/layerReorder.ini</filename>.
       </para>
       <para>
         <indexterm><primary>transparencyLevels</primary></indexterm>
