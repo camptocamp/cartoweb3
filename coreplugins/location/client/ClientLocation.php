@@ -798,7 +798,8 @@ class ClientLocation extends ClientPlugin
      * @return float
      */
     public function getCurrentScale() {
-        return $this->locationResult->scale;
+        if (isset($this->locationResult))
+            return $this->locationResult->scale;
     }
 
     /**
