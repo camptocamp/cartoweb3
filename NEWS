@@ -2,7 +2,7 @@
 ==========================
 
 - Added mapOverlay plugin to dynamically search, create, update or delete mapfile elements.
-- Added edit plugin to create, edit or delete geographical data on the browser. 
+- Added edition plugin ("edit") to create, edit or delete geographical data on the browser. 
 - Added "toolPicker", an extensible JavaScript tool to choose colors and symbols.
 - Added support for GIF images in PDF export.
 - Added support for additional fonts in PDF export.
