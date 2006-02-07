@@ -96,4 +96,94 @@ END]]></programlisting>
       </itemizedlist>
     </sect2>
   </sect1>
+  <sect1 id="user.edit.howto">
+    <title>How to</title>
+    <para>In this section are described the steps to get the edit plugin working
+    on a cartoweb project.
+    </para>
+    <itemizedlist>
+      <listitem>
+        <formalpara>
+          <title>First, you need a PostgreSQL database with postGIS enabled.</title>
+          <para>Let's say, it is named "edit_db" for the following explanations.</para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>At that point, you may launch <emphasis>edit_db.sql</emphasis></title>
+          <para>
+          located in the
+          </para>
+        </formalpara>
+        <para>
+          <filename>&lt;CARTOWEB_HOME&gt;/projects/editProject/server_conf/sql</filename> directory.
+        </para>
+        <para>This will create 3 sample geometry tables, one for each type of geometry.
+        </para>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>In &cartoweb;, you'll have to load the edit plugin in your
+           project on both client and server sides.</title>
+          <para>
+            <programlisting><![CDATA[
+loadPlugins = [...], edit
+]]></programlisting>
+          </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>Then, you'll need to configure the plugin by setting the
+           layer_ids in the editLayers parameter in the edit.ini file.</title>
+          <para>
+            <programlisting><![CDATA[
+editLayers = edit_poly, edit_line, edit_point
+]]></programlisting>
+          </para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>In your mapfile, in the corresponding LAYER, you'll have to
+           set the specific metadatas as following :</title>
+          <para>
+            <programlisting><![CDATA[
+LAYER
+  NAME EDITPOLY
+  STATUS ON
+  TYPE POLYGON
+  CONNECTIONTYPE POSTGIS
+  CONNECTION 'dbname=edit_db user=www-data password=www-data host=localhost'
+  DATA 'the_geom from (select the_geom, oid, parc_id, name, culture, surf, parc_type  from edit_poly) as foo'
+  TEMPLATE 'ttt'
+[...]
+  LABELITEM "name"
+  CLASS
+    NAME "class"
+    STYLE
+      COLOR 50 50 255
+      OUTLINECOLOR 255 50 50
+    END
+    LABEL
+[...]
+    END
+  END
+  METADATA
+    'id_attribute_string' 'parc_id' # query
+    'query_returned_attributes' 'parc_id name culture surf parc_type'
+    'edit_table' 'edit_poly' # PostGIS table
+    'edit_geometry_column' 'the_geom' # PostGIS geometry column
+    'edit_geometry_type' 'polygon' # PostGIS geometry type
+    'edit_srid' '-1'
+    'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+    'edit_filter' '' # mapserver filter
+  END
+END
+]]></programlisting>
+          </para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+  </sect1>
 </chapter>
