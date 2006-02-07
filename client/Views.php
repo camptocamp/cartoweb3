@@ -1729,7 +1729,7 @@ class ViewDbContainer extends ViewContainer {
  * upgrade view data from given version N to version N+1.
  *
  * This class provides generic filtering methods
- * @package client
+ * @package Client
  */
 abstract class ViewUpgrader {
 
