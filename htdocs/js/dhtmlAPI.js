@@ -666,19 +666,21 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
       aDisplay.snapToY = undefined;
       aDisplay.tmpFeature.closing = false;
     }
-    if (distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
-      var vertices = xGetElementsByClassName(vertexCN + _OFF, aDisplay.dShape, 'div');
-      aDisplay.snapToVertex = vertices[0];
-      aDisplay.snapToVertex.className = vertexCN + _SEL;
-      aDisplay.snapToX = aDisplay.dShape.X[0];
-      aDisplay.snapToY = aDisplay.dShape.Y[0];
-      aDisplay.tmpFeature.closing = true;
-    }
   }
   if (typeof this.lineDraw == 'undefined') {
     this.lineDraw = new DrawLineTool(aDisplay);
   }
   this.lineDraw.onMouseMove(aDisplay, ex, ey);
+  
+  if (aDisplay.dShape.X.length > 1 &&
+      distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
+    var vertices = xGetElementsByClassName(vertexCN + _OFF, aDisplay.dShape, 'div');
+    aDisplay.snapToVertex = vertices[0];
+    aDisplay.snapToVertex.className = vertexCN + _SEL;
+    aDisplay.snapToX = aDisplay.dShape.X[0];
+    aDisplay.snapToY = aDisplay.dShape.Y[0];
+    aDisplay.tmpFeature.closing = true;
+  }
 };
 DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   aDisplay.dml.innerHTML = "";
