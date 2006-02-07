@@ -30,16 +30,34 @@ function initMap() {{/literal}
     mainmap.addLayer(mainmap,rasterLayer);
 
     var drawLayer = new Layer("drawing");{/literal}
+{if $edit_allowed|default:''}
 {foreach from=$features item=feature}
     var feature = new Feature("{$feature->WKTString}");
     feature.id = "{$feature->id}";
+    feature.attributes = new Array({$feature->attributesAsString});
     feature.operation = "{$feature->operation|default:'undefined'}";
     drawLayer.addFeature(feature);  
-{/foreach}{literal}
+{/foreach}
+{/if} {* end edit allowed *}
     mainmap.addLayer(mainmap,drawLayer);
 
     mainmap.currentLayer = drawLayer;    
     
+{if $edit_allowed|default:''}   
+{if $attribute_names|default:''}
+    mainmap.editAttributeNames = new Array({$attribute_names});
+    mainmap.editAttributeNamesI18n = new Array({$attribute_names_i18n});
+{/if}
+{if $attribute_types|default:''}
+    mainmap.editAttributeTypes = new Array({$attribute_types});    
+{/if}
+{if $attribute_names|default:''}
+    mainmap.drawEditAttributesTable();
+{/if}
+//    mainmap.handleEditTable();
+    insert_feature_max_num = {$edit_max_insert};
+{/if} {* end edit allowed *}
+{literal}
 }{/literal}
 /*]]>*/
 </script>
