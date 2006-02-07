@@ -191,6 +191,7 @@ select {
 #id_recentering fieldset,
 #shortcut fieldset,
 #pdf_format fieldset,
+#pdf_scale fieldset,
 #pdf_orientation fieldset {
   font-size: 0.8em;
   margin: 8px;
