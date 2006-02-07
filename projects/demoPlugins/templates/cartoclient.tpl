@@ -318,9 +318,8 @@
            {include file="toolbar.tpl" group="3"}
          </td></tr>
        </table>
-       <br />
-       {$outline}
        </center>
+       {$outline}
      </div>
      <!-- end of folder 5 -->
     
