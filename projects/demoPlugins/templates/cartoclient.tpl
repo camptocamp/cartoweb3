@@ -9,9 +9,12 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
+  {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
   
+  <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
+
   <title>{t}CartoWeb3 - Demonstration{/t}</title>
 
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
@@ -316,7 +319,7 @@
          </td></tr>
        </table>
        <br />
-       <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
+       {$outline}
        </center>
      </div>
      <!-- end of folder 5 -->
@@ -436,6 +439,10 @@
 </tr>
 
 </table>
+
+{if $toolpicker_active|default:''}
+{include file="toolPicker.tpl"}
+{/if}
 
 </body>
 </html>

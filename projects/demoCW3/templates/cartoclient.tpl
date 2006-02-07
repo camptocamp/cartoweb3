@@ -9,6 +9,9 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
+
+  <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
+  
   <title>{t}CartoWeb3 - Demonstration{/t}</title>
 
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
