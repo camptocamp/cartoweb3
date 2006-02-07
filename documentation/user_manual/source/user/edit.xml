@@ -33,6 +33,17 @@
             editLayers<indexterm><primary>editLayers</primary></indexterm>: 
             comma separated list of layers that are editable</para>
         </listitem>
+        <listitem>
+          <para> 
+            editResultNbCol<indexterm><primary>editResultNbCol</primary></indexterm>: 
+            number of columns to use to display the attributes table</para>
+        </listitem>
+        <listitem>
+          <para> 
+            editDisplayAction<indexterm><primary>editDisplayAction</primary></indexterm>: 
+            this boolean parameter is used to tell if the "validate" and "cancel" buttons
+            have to be displayed also under the attributes table</para>
+        </listitem>
       </itemizedlist>
     </sect2>
   </sect1>
