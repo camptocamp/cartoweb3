@@ -543,11 +543,11 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Switch to color array"
-msgstr ""
+msgstr "Zu Farben array umschalten"
 
 #: templates/toolPicker.tpl
 msgid "Relative Brightness"
-msgstr ""
+msgstr "Relative Helligkeit"
 
 #: templates/toolPicker.tpl
 msgid "R"
@@ -599,7 +599,7 @@ msgstr "Helligkeit"
 
 #: templates/toolPicker.tpl
 msgid "Switch to color gradient"
-msgstr "Zur Farbenpalette umschalten"
+msgstr "Zu Farbenpalette umschalten"
 
 #: templates/toolPicker.tpl
 msgid "more colors"

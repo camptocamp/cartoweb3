@@ -601,11 +601,11 @@ msgstr "Luminescence"
 
 #: templates/toolPicker.tpl
 msgid "Switch to color gradient"
-msgstr "Mode "
+msgstr "Palette de couleurs "
 
 #: templates/toolPicker.tpl
 msgid "more colors"
-msgstr "plus de couleurs"
+msgstr "Plus de couleurs"
 
 #: templates/dhtmlcode.tpl
 msgid "overlapping polygons are not allowed"
