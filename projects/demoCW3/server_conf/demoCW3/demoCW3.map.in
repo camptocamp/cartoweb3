@@ -564,13 +564,8 @@ MAP
     TYPE POINT
     CLASS
       STYLE
-        SYMBOL "triangle"
-        COLOR 0 0 0
-        SIZE 12
-      END
-      STYLE
-        SYMBOL "triangle"
-        COLOR 205 0 0
+        SYMBOL "circle"
+        COLOR 0 0 205
         SIZE 10
       END
       LABEL
@@ -587,11 +582,13 @@ MAP
   LAYER
     NAME "cartoweb_line_outline"
     TYPE LINE
+    TRANSPARENCY 100
     CLASS
       STYLE
-        COLOR 0 0 0
+        OUTLINECOLOR 255 0 0
+        COLOR 255 0 0
         SYMBOL "line-dashed"
-        SIZE 2
+        SIZE 3
       END
       LABEL
         TYPE TRUETYPE
