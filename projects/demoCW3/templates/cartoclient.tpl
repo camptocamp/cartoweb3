@@ -14,7 +14,6 @@
   <script type="text/javascript" src="{r type=js}EventManager.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}carto.js{/r}"></script>
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
-  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
@@ -28,6 +27,11 @@
   {/if}
   
   {include file="dhtmlcode.tpl"}
+  
+  {if $exportPdf|default:''}
+  <script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>
+  {/if}
 </head>
 
 <body>
@@ -90,9 +94,7 @@
           {include file="toolbar.tpl" group="1" header="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="4"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="javascript:ontop(2);">
-            <img src="{r type=gfx/layout/help}fileprint.gif{/r}"
-                 title="{t}Print{/t}" alt="{t}print{/t}" /></a>
+          {include file="toolbar.tpl" group="2"}
         </td>
       </tr>
       <tr>
