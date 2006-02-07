@@ -209,7 +209,7 @@ class ClientOutline extends ClientPlugin
             $this->outlineState->maskMode = ($request['outline_mask'] == 'yes');
         }
 
-        /* update default ShapeStyle */
+        // Updates default ShapeStyle
         $this->outlineState->pointStyle->symbol = 
             $this->getHttpValue($request, 'outline_point_symbol');
         $this->outlineState->pointStyle->size = 
@@ -239,7 +239,7 @@ class ClientOutline extends ClientPlugin
         if ($shape) {
             $styledShape = new StyledShape();
 
-            // get options
+            // Gets options
             switch ($this->getCartoclient()->getClientSession()->selectedTool) {
             case self::TOOL_POINT:
                 $styledShape->shapeStyle = clone $this->outlineState->pointStyle;
@@ -255,20 +255,20 @@ class ClientOutline extends ClientPlugin
                 break;
 
             default:
-                // we should never go here ...
+                // We should never come here...
                 break;
             }
 
             $styledShape->shape = $shape;
 
-            if ($this->getConfig()->labelMode
-                && !empty($request['outline_label_text'])) {
+            if ($this->getConfig()->labelMode &&
+                !empty($request['outline_label_text'])) {
                 $styledShape->label = 
                     Encoder::encode(stripslashes($request['outline_label_text']), 
                                     'output');
             }
-            if (!is_null($this->getConfig()->multipleShapes)
-                && !$this->getConfig()->multipleShapes) {
+            if (!is_null($this->getConfig()->multipleShapes) &&
+                !$this->getConfig()->multipleShapes) {
                 $this->outlineState->shapes = array();
             }
             $this->outlineState->shapes[] = $styledShape;
@@ -299,7 +299,7 @@ class ClientOutline extends ClientPlugin
      */ 
     public function initializeResult($outlineResult) {
 
-        // calls for default values
+        // Calls for default values
         $this->setDefaultValues($this->symbols->outlineDefaultValues
                                               ->outlineDefaultValuesList);
         if (!is_null($outlineResult)) {
@@ -322,31 +322,35 @@ class ClientOutline extends ClientPlugin
 
         $this->smarty->assign(array(
             'outline_mask_selected' => $maskSelected,
-            'outline_area' => $this->area,
+            'outline_area'          => $this->area,
                        
             'outline_point_symbol_selected' => 
                 $this->outlineState->pointStyle->symbol,
-            'outline_point_size_selected' => $this->outlineState->pointStyle->size,
-            'outline_point_color_selected' => 
+            'outline_point_size_selected'   => 
+                $this->outlineState->pointStyle->size,
+            'outline_point_color_selected'  => 
                 $this->outlineState->pointStyle->color->getHex(),
             
-            'outline_line_symbol_selected' => $this->outlineState->lineStyle->symbol,
-            'outline_line_size_selected' => $this->outlineState->lineStyle->size,
-            'outline_line_color_selected' => 
+            'outline_line_symbol_selected'       => 
+                $this->outlineState->lineStyle->symbol,
+            'outline_line_size_selected'         => 
+                $this->outlineState->lineStyle->size,
+            'outline_line_color_selected'        => 
                 $this->outlineState->lineStyle->outlineColor->getHex(),
             'outline_line_transparency_selected' => 
                 $this->outlineState->lineStyle->transparency,
             
-            'outline_polygon_outline_color_selected' => 
+            'outline_polygon_outline_color_selected'    => 
                 $this->outlineState->polygonStyle->outlineColor->getHex(),
             'outline_polygon_background_color_selected' => 
                 $this->outlineState->polygonStyle->color->getHex(),
-            'outline_polygon_transparency_selected' => 
+            'outline_polygon_transparency_selected'     => 
                 $this->outlineState->polygonStyle->transparency,
-            'pathToSymbols' => $this->symbols->pathToSymbols,
-            'symbolType' => $this->symbols->symbolType,            
             
+            'pathToSymbols' => $this->symbols->pathToSymbols,
+            'symbolType'    => $this->symbols->symbolType,            
             ));
+
         return $this->smarty->fetch('outline.tpl');
     }
     
@@ -377,11 +381,15 @@ class ClientOutline extends ClientPlugin
         $template->assign(array('outline_active' => true,
                                 'outline'        => $this->drawOutline(),
                                 'outlinelabel'   => $this->drawOutlinelabel(),
-                                'pathToSymbols' => $this->symbols->pathToSymbols,
-                                'symbolType' => $this->symbols->symbolType,
-                                'outline_point_available_symbols' => $this->symbols->point,
-                                'outline_point_available_symbolsLabels' => $transSymbols,
-                                'outline_line_available_symbols' => $this->symbols->line));
+                                'pathToSymbols'  => $this->symbols->pathToSymbols,
+                                'symbolType'     => $this->symbols->symbolType,
+                                'outline_point_available_symbols' 
+                                                 => $this->symbols->point,
+                                'outline_point_available_symbolsLabels' 
+                                                 => $transSymbols,
+                                'outline_line_available_symbols' 
+                                                 => $this->symbols->line,
+                                ));
     }
 
     /**
@@ -404,41 +412,50 @@ class ClientOutline extends ClientPlugin
      * @see InitUser::handleInit
      */
     public function handleInit($outlineInit) {
-
         $this->symbols = $outlineInit;
     }
 
     /**
-     * set default values for outlines if none exist alsready
+     * Sets default values for outlines if none exist already
      */
     public function setDefaultValues($valuesList) {
-      $colorList = array('red', 'green', 'blue');
+        $colorList = array('red', 'green', 'blue');
 
-      foreach ($valuesList as $outlineStyle) {
-        $outlineType = substr($outlineStyle->type, 0, strpos($outlineStyle->type, 'Layer'));
-        $objectType = $outlineType.'Style';
+        foreach ($valuesList as $outlineStyle) {
+            $outlineType = substr($outlineStyle->type, 0, 
+                                  strpos($outlineStyle->type, 'Layer'));
+            $objectType = $outlineType . 'Style';
 
-        if (strval($this->outlineState->$objectType->size) == '') {
-          $this->outlineState->$objectType->size = $outlineStyle->shapeStyle->size;
+            if (strval($this->outlineState->$objectType->size) == '') {
+                $this->outlineState->$objectType->size = 
+                    $outlineStyle->shapeStyle->size;
+            }
+        
+            if (strval($this->outlineState->$objectType->symbol) == '') {
+                $this->outlineState->$objectType->symbol = 
+                    $outlineStyle->shapeStyle->symbol;
+            }
+        
+            if (strval($this->outlineState->$objectType->transparency) == ''){
+                $this->outlineState->$objectType->transparency = 
+                    $outlineStyle->shapeStyle->transparency;
+            }
+        
+            foreach ($colorList as $color) {
+                if (strval($this->outlineState->$objectType->color->$color) == '') {
+                    $this->outlineState->$objectType->color->$color = 
+                        $outlineStyle->shapeStyle->color->$color;
+                }
+            }
+        
+            foreach ($colorList as $color) {
+                if (strval($this->outlineState->$objectType
+                                ->outlineColor->$color) == '') {
+                    $this->outlineState->$objectType->outlineColor->$color = 
+                        $outlineStyle->shapeStyle->outlineColor->$color;
+                }
+            }
         }
-        if (strval($this->outlineState->$objectType->symbol) == '') {
-          $this->outlineState->$objectType->symbol = $outlineStyle->shapeStyle->symbol;
-        }
-        if (strval($this->outlineState->$objectType->transparency) == ''){
-          $this->outlineState->$objectType->transparency = $outlineStyle->shapeStyle->transparency;
-        }
-        foreach ($colorList as $color) {
-          if (strval($this->outlineState->$objectType->color->$color) == '') {
-            $this->outlineState->$objectType->color->$color = $outlineStyle->shapeStyle->color->$color;
-          }
-        }
-        foreach ($colorList as $color) {
-          if (strval($this->outlineState->$objectType->outlineColor->$color) == '') {
-            $this->outlineState->$objectType->outlineColor->$color = 
-              $outlineStyle->shapeStyle->outlineColor->$color;
-          }
-        }
-      }
     }
 }
 

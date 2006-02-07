@@ -45,12 +45,12 @@ class ServerOutline extends ClientResponderAdapter
     /**
      * @var string
      */
-    private $pathToSymbols;
+    protected $pathToSymbols;
 
     /**
      * @var string 
      */
-    private $symbolType;
+    protected $symbolType;
 
 
     /** 
@@ -101,14 +101,14 @@ class ServerOutline extends ClientResponderAdapter
      */
     protected function drawFeature(StyledShape $shape, $layerName) {
 
-        //$layerName : name of the layer to get from mapfile
+        // $layerName: name of the layer to get from mapfile
 
         if (is_null($layerName) || $layerName == '') {
             throw new CartoserverException('Layer name is not set. ' .
                                            'check your outline.ini');
         }
 
-        // find or create a mapserver class for this style.
+        // Finds or creates a mapserver class for this style.
         $layer = new LayerOverlay();
         $layer->name = $layerName;
         $layer->action = BasicOverlay::ACTION_SEARCH;
@@ -117,7 +117,7 @@ class ServerOutline extends ClientResponderAdapter
         }
         $layer->classes = array($this->getMsClass($shape->shapeStyle, 
                                                   $shape->labelStyle));
-        // get the class index
+        // Gets the class index
         try {
             $mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
         } catch (Exception $e) {
@@ -146,7 +146,7 @@ class ServerOutline extends ClientResponderAdapter
      * @return ClassOverlay
      */
     protected function getMsClass($shapeStyle, $labelStyle) {
-        // search for a class with this style
+        // Searchs for a class with this style
         $class = new ClassOverlay();
         $class->action = BasicOverlay::ACTION_SEARCH;
         $class->label = $labelStyle;
@@ -201,7 +201,7 @@ class ServerOutline extends ClientResponderAdapter
             $this->drawFeature($polygon, 
                                $this->getConfig()->polygonLayer);
         } else {
-            // implementation note: this time we don't use MapOverlay because 
+            // Implementation note: this time we don't use MapOverlay because 
             // the layer is not created in the mapfile.
             $msMapObj = $this->serverContext->getMapObj();
             $image2 = $msMapObj->prepareimage();
@@ -212,8 +212,8 @@ class ServerOutline extends ClientResponderAdapter
                                   $this->serverContext->getMaxExtent()->maxy);
 
             $maskLayer = ms_newLayerObj($msMapObj);
-            $maskLayer->set("type", MS_LAYER_POLYGON);
-            $maskLayer->set("status", MS_ON);
+            $maskLayer->set('type', MS_LAYER_POLYGON);
+            $maskLayer->set('status', MS_ON);
             $maskClass = ms_newClassObj($maskLayer);
             $maskStyle = ms_newStyleObj($maskClass);
             $color = $this->getConfig()->maskColor;
@@ -323,16 +323,14 @@ class ServerOutline extends ClientResponderAdapter
     public function getInit() {
 
         if ($this->getConfig()->pointSymbols || $this->getConfig()->lineSymbols || 
-           $this->getConfig()->polygonSymbols) {
+            $this->getConfig()->polygonSymbols) {
             $this->generateSymbolIcon();
         }
         
         $outlineInit = new OutlineInit();
         $outlineInit->point = Utils::parseArray($this->getConfig()->pointSymbols);
         
-        // special case: "pointSymbols.labels" has a dot, 
-        //cannot use getConfig() directly
-        $tmp = "pointSymbols.labels";
+        $tmp = 'pointSymbols.labels';
         $outlineInit->pointLabels = Utils::parseArray($this->getConfig()->$tmp);
         $outlineInit->line = Utils::parseArray($this->getConfig()->lineSymbols);
         $outlineInit->polygon = Utils::parseArray($this->getConfig()->
@@ -351,41 +349,47 @@ class ServerOutline extends ClientResponderAdapter
             $currentDefaultValues = new OutlineDefaultValues();
             $currentShapeStyle = new StyleOverlay();
           
-            // set type
+            // Sets type
             $currentDefaultValues->type = $targetLayerType;
 
-            $currentLayer = $msMapObj->getLayerByName($this->getConfig()->
-                                                                  $targetLayerType);
+            $currentLayer = $msMapObj->getLayerByName($this->getConfig()
+                                                           ->$targetLayerType);
             
-            // get layer transparency
+            // Gets layer transparency
             $currentShapeStyle->transparency = $currentLayer->transparency;
-            //get first class
+            // Gets first class
             $currentClass = $currentLayer->getClass(0);
             $currentStyle = $currentClass->getStyle(0);
 
             $colorList = array('red', 'green', 'blue');
             foreach ($colorList as $color) {
                 $currentShapeStyle->color->$color = $currentStyle->color->$color;
-                $currentShapeStyle->outlineColor->$color = $currentStyle->
-                                                                 outlinecolor->$color;
+                $currentShapeStyle->outlineColor->$color = 
+                    $currentStyle->outlinecolor->$color;
             }
             $currentShapeStyle->size = $currentStyle->size;
-            // check if symbol exist in current Style object, if yes, get its name
+            
+            // Checks if symbol exists in current Style object. If yes, gets its name
             if (isset ($currentStyle->symbol) && $currentStyle->symbol > 0) {
-              if (is_numeric($currentStyle->symbol)) {
-                // refer to a symbol index
-                if ($msMapObj->getsymbolobjectbyid($currentStyle->symbol)->name != '') {
-                  $currentShapeStyle->symbol = $msMapObj->
-                                      getsymbolobjectbyid($currentStyle->symbol)->name;
+                if (is_numeric($currentStyle->symbol)) {
+                    // Refers to a symbol index
+                    
+                    if ($msMapObj->getsymbolobjectbyid($currentStyle->symbol)
+                                 ->name != '') {
+                        $currentShapeStyle->symbol = $msMapObj
+                            ->getsymbolobjectbyid($currentStyle->symbol)->name;
+                    
+                    } else {
+                        throw new CartoserverException('Symbol name not found while '
+                            . 'accessing outline default style values. '
+                            . 'Default symbols used for outline must have '
+                            . 'a name attribute.');
+                    }
+                
                 } else {
-                  throw new CartoserverException("Symbol name not found while ".
-                        "accessing outline's default style values. Default symbols ".
-                        "used for outline must have a name attribute.");
+                    // Refers to a symbol name
+                    $currentShapeStyle->symbol = $currentStyle->symbol;
                 }
-              } else {
-                // refer to an symbol name
-                $currentShapeStyle->symbol = $currentStyle->symbol;
-              }
             }
             
             $currentDefaultValues->shapeStyle = $currentShapeStyle;
@@ -414,29 +418,32 @@ class ServerOutline extends ClientResponderAdapter
         $resourceHandler = $this->serverContext->getResourceHandler();
         $this->pathToSymbols = $resourceHandler->getGeneratedUrl($iconRelativePath);
          
-        // create fake layer to be able to generate icons from class/style
+        // Creates fake layer to be able to generate icons from class/style
         $newLayer = ms_newLayerObj($msMapObj);
         $newLayer->set('type', MS_LAYER_POINT); // important
         $newClass = ms_newClassObj($newLayer);
         $newStyle = ms_newStyleObj($newClass);
-        $newStyle->color->setRGB(255, 0, 0); // important
-        $newStyle->set('size', 30); // important
+        $newStyle->color->setRGB(255, 0, 0);    // important
+        $newStyle->set('size', 30);             // important
         
         $refIndex = $newLayer->index;
          
-        $symbolRefAr = array_merge(Utils::parseArray($this->getConfig()->pointSymbols), 
-                                   Utils::parseArray($this->getConfig()->lineSymbols),
-                                   Utils::parseArray($this->getConfig()->polygonSymbols));
+        $symbolRefAr = 
+            array_merge(Utils::parseArray($this->getConfig()->pointSymbols), 
+                        Utils::parseArray($this->getConfig()->lineSymbols),
+                        Utils::parseArray($this->getConfig()->polygonSymbols));
          
-        // loop through all symbols
+        // Loops through all symbols
         for ($ii = 0; $ii < $msMapObj->getNumSymbols(); $ii++) {
             $symbolName = $msMapObj->getSymbolObjectById($ii)->name;
-            // create icon only on selected symbols
+            
+            // Creates icon only on selected symbols
             if (in_array($symbolName, $symbolRefAr)) {
                 $newStyle->set('symbolname', $symbolName);
-                $iconPath = $iconAbsolutePath . $symbolName . '.' . $this->symbolType;
-                $invertedIconPath = $iconAbsolutePath . $symbolName . '_over.' . 
-                                                                        $this->symbolType; 
+                $iconPath = $iconAbsolutePath . $symbolName . '.' 
+                            . $this->symbolType;
+                $invertedIconPath = $iconAbsolutePath . $symbolName . '_over.' 
+                                    . $this->symbolType; 
                 Utils::makeDirectoryWithPerms(dirname($iconPath), $writablePath);
                  
                 if (!file_exists($iconPath) ||
@@ -445,18 +452,20 @@ class ServerOutline extends ClientResponderAdapter
 
                     $newIcon = $newClass->createLegendIcon(30,30);
                     $check = $newIcon->saveImage($iconPath);
-                    $newIcon->free(); // free resources
-                    Utils::invertImage($iconPath, $invertedIconPath, true, $this->symbolType);
+                    $newIcon->free(); // Frees resources
+                    Utils::invertImage($iconPath, $invertedIconPath, 
+                                       true, $this->symbolType);
 
                     if ($check < 0) {
-                        throw new CartoserverException("Failed writing $iconAbsolutePath");
+                        throw new CartoserverException(
+                            "Failed writing $iconAbsolutePath");
                     }
                     $this->serverContext->checkMsErrors();
                 }
             }
         }        
-        // remove the layer
-        $newLayer->set("status", MS_DELETE);
+        // Removes the layer
+        $newLayer->set('status', MS_DELETE);
     }
 }
 

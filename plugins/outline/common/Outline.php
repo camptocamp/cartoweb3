@@ -57,8 +57,8 @@ class StyledShape extends CwSerializable {
                                                     'StyleOverlay');
         $this->labelStyle = self::unserializeObject($struct, 'labelStyle', 
                                                     'LabelOverlay');
-        // do not use self::unserializeObject($struct, 'shape', 'Shape'); 
-        // because Shape is abstract
+        // Do not use self::unserializeObject($struct, 'shape', 'Shape'); 
+        // because Shape is abstract.
         $this->shape      = self::unserializeObject($struct, 'shape');
         $this->label      = self::unserializeValue($struct, 'label');
     }        
@@ -98,7 +98,7 @@ class OutlineRequest extends CwSerializable {
         $this->maskMode = self::unserializeValue($struct, 'maskMode', 
                                                  'boolean');
         $this->getDefaultvalue = self::unserializeValue($struct, 'getDefaultvalue', 
-                                                 'boolean');
+                                                        'boolean');
     }    
 }
 
@@ -175,12 +175,16 @@ class OutlineInit extends CwSerializable {
         $this->polygon = self::unserializeValue($struct, 'polygon');
         $this->pathToSymbols = self::unserializeValue($struct, 'pathToSymbols');
         $this->symbolType = self::unserializeValue($struct, 'symbolType');
-        $this->outlineDefaultValues = self::unserializeObject($struct, 'outlineDefaultValues',
-                                                                            'OutlineDefaultValues');
+        $this->outlineDefaultValues = 
+            self::unserializeObject($struct, 'outlineDefaultValues',
+                                    'OutlineDefaultValues');
     }
 
 }
 
+/**
+ * @package Plugins
+ */
 class OutlineDefaultValues extends CwSerializable {
 
     /**
@@ -188,12 +192,19 @@ class OutlineDefaultValues extends CwSerializable {
      */
     public $outlineDefaultValuesList;
 
+    /**
+     * @see CwSerializable::unserialize()
+     */
     public function unserialize($struct) {
         //$this->pointLabels = self::unserializeArray($struct, 'defaultValuesList');
-        $this->outlineDefaultValuesList = self::unserializeArray($struct, 'outlineDefaultValuesList');
+        $this->outlineDefaultValuesList = 
+            self::unserializeArray($struct, 'outlineDefaultValuesList');
     }
 }
 
+/**
+ * @package Plugins
+ */
 class OutlineDefaultValuesList extends CwSerializable {
 
     /**
@@ -201,14 +212,18 @@ class OutlineDefaultValuesList extends CwSerializable {
      */
     public $outlineDefaultValue;
 
+    /**
+     * @see CwSerializable::unserialize()
+     */
     public function unserialize($struct) {
-        $this->outlineDefaultValue = self::unserializeObject($struct, 'outlineDefaultValue', 
-                                                                          'OutlineDefaultValue');
+        $this->outlineDefaultValue = 
+            self::unserializeObject($struct, 'outlineDefaultValue', 
+                                    'OutlineDefaultValue');
     }
 }
 
 /**
- * default values of the outlined shape objects
+ * Default values of the outlined shape objects
  * @package Plugins
  */
 class OutlineDefaultValue extends CwSerializable {
