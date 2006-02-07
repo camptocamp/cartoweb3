@@ -22,11 +22,14 @@ function setActiveToolButton(toolid) {
   elt.value = toolid;
   
   if (typeof myfolders != "undefined") { // not on page load
-    if(toolid.indexOf('outline')!=-1){
+    if (toolid.indexOf('outline') != -1) {
       ontop(5);
     }
-    if(toolid.indexOf('query')!=-1){
+    else if (toolid.indexOf('query') != -1) {
       ontop(7);
+    }
+    else if (toolid.indexOf('pdfrotate') != -1) {
+      ontop(2);
     }
   }
 }
