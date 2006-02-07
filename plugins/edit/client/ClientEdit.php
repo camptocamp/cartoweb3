@@ -275,6 +275,25 @@ class ClientEdit extends ClientPlugin
     }
     
     /**
+     * Retrieves current scale from location plugin
+     * @return float
+     */
+    protected function getCurrentScale() {
+        if (isset($this->currentScale)) {
+            return $this->currentScale;
+        } else {
+            $pluginManager = $this->getCartoclient()->getPluginManager();
+            
+            if (!empty($pluginManager->location))
+                $this->currentScale = $pluginManager->location->getCurrentScale();
+            else
+                $this->currentScale = 0;
+
+            return $this->currentScale;
+        }
+    }
+    
+    /**
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
@@ -303,8 +322,9 @@ class ClientEdit extends ClientPlugin
         $layersList =  $this->getConfig()->editLayers;
         
         $layersInit = $this->cartoclient->getMapInfo()->layersInit;
-        $layersId = array();
-        $layersLabel = array();
+        $layersCorePlugin = $this->cartoclient->getPluginManager()->layers;
+        
+        $layers = array();
         
         if (!empty($layersList)) {
             $layersList = Utils::parseArray($layersList);
@@ -315,12 +335,11 @@ class ClientEdit extends ClientPlugin
                 continue;
             if (!in_array($layer->id, $layersList))
                 continue;
-            $layersId[] = $layer->id;
-            $layersLabel[] = I18n::gt($layer->label); 
+            $layer->disabled = !$layersCorePlugin->isLayerVisibleAtCurrentScale($layer->id);
+            $layers[] = $layer;
         }
 
-        $template->assign(array('edit_layers_id' => $layersId,
-                                'edit_layers_label' => $layersLabel,
+        $template->assign(array('edit_layers' => $layers,
                                 'edit_layer_selected' => $this->editState->layer));
 
         // get attributes of the different features
@@ -350,7 +369,7 @@ class ClientEdit extends ClientPlugin
             }
             $str = substr($str, 0, strlen($str) - 1);
             $str_i18n = substr($str_i18n, 0, strlen($str_i18n) - 1);
-            // TODO internationalisation of field names
+
             $template->assign('attribute_names', $str);
             $template->assign('attribute_names_i18n', $str_i18n);
         }
@@ -363,6 +382,7 @@ class ClientEdit extends ClientPlugin
             $str = substr($str, 0, strlen($str) - 1);
             $template->assign('attribute_types', $str);
         }
+        
     }
     
     /**
@@ -457,6 +477,13 @@ class ClientEdit extends ClientPlugin
         $toolsArray = array();
         
         if (!$allowed) return $toolsArray;
+        
+        $layersInit = $this->cartoclient->getMapInfo()->layersInit;
+        $layersCorePlugin = PluginManager::getPlugin('layers');
+        
+        if (isset($this->editState->layer) &&
+            !$layersCorePlugin->isLayerVisibleAtCurrentScale($this->editState->layer))
+            return $toolsArray;
         
         switch ($this->editState->shapeType) {
             case 'POINT':
