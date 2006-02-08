@@ -39,11 +39,7 @@
   {include file="dhtmlcode.tpl"}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>
                             <script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>{/if}
-                            
-  <!-- DHTML API related js includes - Debug Tool: jsTrace -->
-  <!-- Remove these two links to get rid of the logger (i.e. in production mode -->
-  <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+
 </head>
 
 <body>
