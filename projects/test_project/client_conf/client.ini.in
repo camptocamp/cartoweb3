@@ -14,6 +14,6 @@ initialMapStateId = projectstate
 ### Plugins ###
 
 # the list of plugins to load, separated by comma
-loadPlugins = hello, projectplugin, filterSimple, filterIdrecenter, projectLocation, projectTable, projectTableRules, exportCsv, outline, layerReorder
+loadPlugins = projectplugin, projectLocation, projectTable, projectTableRules
 
 
