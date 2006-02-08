@@ -96,8 +96,10 @@
         <td colspan="3" id="toolbar_row" nowrap="nowrap">
           {include file="toolbar.tpl" group="1" header="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          {include file="toolbar.tpl" group="4"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          {include file="toolbar.tpl" group="2"}
+          {include file="toolbar.tpl" group="4"}
+          {if $exportPdf|default:''}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{include file="toolbar.tpl" group="2"}
+          {/if}
         </td>
       </tr>
       <tr>
