@@ -20,3 +20,62 @@ function hideLabel() {
   outlineLabelInput = xGetElementById('outlineLabelInputDiv');
   xHide(outlineLabelInput);
 }
+
+
+function selectTool(e) {
+    var el;
+    if (window.event && window.event.srcElement)
+        el = window.event.srcElement;
+    if (e && e.target)
+        el = e.target;
+    if (!el) return;
+
+    switch (el.id){
+      case 'outline_point_symbol_d' :
+      case 'outline_point_color_d' :
+      case 'outline_point_size' :
+      case 'outline_point_color' :
+        mainmap.outline_point('map');
+        setActiveToolButton('outline_point');
+      break;
+      case 'outline_line_color_d' :
+      case 'outline_line_size' :
+      case 'outline_line_color' :
+      case 'outline_line_transparency' :
+        mainmap.outline_line('map');
+        setActiveToolButton('outline_line');
+      break;
+      case 'outline_polygon_outline_color_d' :
+      case 'outline_polygon_background_color_d' :
+      case 'outline_polygon_outline_color' :
+      case 'outline_polygon_background_color' :
+      case 'outline_polygon_transparency' :
+        mainmap.outline_rectangle('map');
+        setActiveToolButton('outline_rectangle');
+      break;
+    }
+}
+
+// initialise event listener for the different elements on the page
+function addOutlineToolListeners() {
+
+  var onClicElements = new Array('outline_point_symbol_d','outline_point_color_d',
+                    'outline_line_color_d','outline_polygon_outline_color_d',
+                    'outline_polygon_background_color_d');
+
+  var onFocusElements = new Array('outline_point_size','outline_point_color',
+                    'outline_line_size','outline_line_color','outline_line_transparency',
+                    'outline_polygon_outline_color','outline_polygon_background_color',
+                    'outline_polygon_transparency');
+
+  for (var i = 0; i < onClicElements.length; i++){
+    elm = xGetElementById(onClicElements[i]);
+    EventManager.Add(elm, 'click', selectTool, false);
+  }
+  
+  for (var i = 0; i < onFocusElements.length; i++){
+    elm = xGetElementById(onFocusElements[i]);
+    EventManager.Add(elm, 'focus', selectTool, false);
+  }
+}
+EventManager.Add(window, 'load', addOutlineToolListeners, false);
