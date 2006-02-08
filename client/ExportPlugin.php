@@ -510,32 +510,26 @@ abstract class ExportPlugin extends ClientPlugin
      */
     public function getExportResult(ExportConfiguration $configuration) {
 
-        try {
-            // Calls all plugins to modify request
-            $mapRequest = $this->getLastMapRequest();
-            if (is_null($mapRequest)) {
-                return NULL;
-            }
-            
-            $this->cartoclient->callPluginsImplementing('Exportable', 
-                                                        'adjustExportMapRequest',
-                                                        $configuration,
-                                                        $mapRequest);
-            
-            // Calls getMap
-            $mapResult = $this->cartoclient->getCartoserverService()
-                                           ->getMap($mapRequest);
-            
-            // Initializes plugins  
-            $this->cartoclient->callPluginsImplementing('ServerCaller', 
-                                                        'initializeResult',
-                                                        $mapResult); 
-            return $mapResult;
-            
-        } catch (Exception $exception) {
-            $this->cartoclient->getFormRenderer()->showFailure($exception);
+        // Calls all plugins to modify request
+        $mapRequest = $this->getLastMapRequest();
+        if (is_null($mapRequest)) {
             return NULL;
         }
+        
+        $this->cartoclient->callPluginsImplementing('Exportable', 
+                                                    'adjustExportMapRequest',
+                                                    $configuration,
+                                                    $mapRequest);
+        
+        // Calls getMap
+        $mapResult = $this->cartoclient->getCartoserverService()
+                                       ->getMap($mapRequest);
+        
+        // Initializes plugins  
+        $this->cartoclient->callPluginsImplementing('ServerCaller', 
+                                                    'initializeResult',
+                                                    $mapResult); 
+        return $mapResult;
     }
 
     /**
