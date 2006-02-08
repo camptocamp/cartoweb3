@@ -2,5 +2,15 @@
 
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
+
+loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, views, layerReorder, testMainLocation, filterIdrecenter, testMainTableRules
+
+; views
 viewOn = true
+
+; toolPicker
+toolPickerOn = true
 toolbarRendering = outline
+
+; available languages
+langList = en, fr
