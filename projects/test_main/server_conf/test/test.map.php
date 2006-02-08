@@ -313,7 +313,7 @@ AUTOLAYER
     CLASS
       STYLE
         OUTLINECOLOR 0 0 204
-        SYMBOL 1
+        SYMBOL "point"
         SIZE 1
       END
       LABEL
