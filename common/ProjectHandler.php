@@ -29,7 +29,8 @@ abstract class ProjectHandler {
 
     const PROJECT_DIR = 'projects';
     const DEFAULT_PROJECT = 'test_main';
-    const HIDDEN_PROJECTS = 'test_location_continuous, test_query_hilight';
+    const HIDDEN_PROJECTS = 
+        'test_location_continuous, test_query_hilight, test_project';
 
     /**
      * Map name without the project prefix
