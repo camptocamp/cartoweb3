@@ -39,6 +39,12 @@ class ServerImages extends ClientResponderAdapter
     const IMAGES_WRITE_PATH = 'images/';
     
     /**
+     * Requested angle
+     * @var float
+     */
+    protected $angle = 0;     
+    
+    /**
      * @var Logger
      */
     private $log;
@@ -49,6 +55,13 @@ class ServerImages extends ClientResponderAdapter
     public function __construct() {
         parent::__construct();
         $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
+
+    /**
+     * @see ClientResponder::initializeRequest()
+     */
+    public function initializeRequest($requ) {
+        $this->angle = $requ->mainmap->angle;
     }
 
     /**
@@ -299,6 +312,14 @@ class ServerImages extends ClientResponderAdapter
         
         return $imagesResult;
     }
+    
+    /**
+     * Returns angle that was requested by client
+     * @return float
+     */
+    public function getAngle() {
+        return $this->angle;
+    }    
 }
 
 ?>

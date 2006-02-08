@@ -199,15 +199,35 @@
                 of reference marks. </para>
         </listitem>
         <listitem>
-            <para> refMarksInterval<indexterm>
-                <primary>refMarksInterval</primary></indexterm>: real interval
-                between two reference marks (comma-separated X and Y values). </para>
-        </listitem>
-        <listitem>
             <para> refMarksOrigin<indexterm>
                 <primary>refMarksOrigin</primary></indexterm>: origin for
                 reference marks (comma-separated X and Y values, typically "0, 0").
                 </para>
+        </listitem>
+        <listitem>
+            <para> refMarksInterval.#.maxScale<indexterm>
+                <primary>refMarksInterval.#.maxScale</primary></indexterm>:
+                maximum scale for corresponding interval. </para>
+        </listitem>
+        <listitem>
+            <para> refMarksInterval.#.interval<indexterm>
+                <primary>refMarksInterval.#.interval</primary></indexterm>: real interval
+                between two reference marks (comma-separated X and Y values). </para>
+        </listitem>
+        <listitem>
+            <para> refLinesActive<indexterm>
+                <primary>refLinesActive</primary></indexterm>: if true, will display
+                reference marks on page borders. </para>
+        </listitem>
+        <listitem>
+            <para> refLinesSize<indexterm>
+                <primary>refLinesSize</primary></indexterm>: size in pixel of
+                reference marks on page borders. </para>
+        </listitem>
+        <listitem>
+            <para> refLinesFontSize<indexterm>
+                <primary>refLinesFontSize</primary></indexterm>: size of font for
+                reference marks on page borders.</para>
         </listitem>
     </itemizedlist>
   </sect1>

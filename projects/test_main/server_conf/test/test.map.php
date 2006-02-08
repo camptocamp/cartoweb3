@@ -323,6 +323,8 @@ AUTOLAYER
         TYPE truetype
         COLOR 255 51 51
         SIZE 10
+        POSITION uc
+        OFFSET 0 10        
       END
     END
   END

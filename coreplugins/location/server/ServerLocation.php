@@ -595,6 +595,11 @@ class ServerLocation extends ClientResponderAdapter
     protected $showRefMarks = false;
 
     /**
+     * @var boolean
+     */
+    protected $showRefLines = false;
+
+    /**
      * Possible scales in discrete mode (some may be hidden)
      * @var array
      */
@@ -829,13 +834,244 @@ class ServerLocation extends ClientResponderAdapter
         return $locationResult;
     }
 
+    protected function addRefMarksShape(&$shapes, $points,
+                                        $cx, $cy,
+                                        $r, $style,
+                                        $labelStyle = NULL, $label = '') {
+        $display = false;
+        foreach ($points as $point) {
+            $dist = sqrt(pow($point->x - $cx, 2) + pow($point->y - $cy, 2));
+            if ($dist < $r) {
+                $display = true;
+                break;
+            }
+        }                       
+        if ($display) {                      
+            $shape = new StyledShape();
+            $shape->shapeStyle = $style;
+            $shape->shape = new Line();
+            $shape->shape->points = $points;
+            if ($label != '') {
+                $shape->labelStyle = $labelStyle;
+                $shape->label = $label;
+            }
+            $shapes[] = $shape;
+        }
+    }
+
+    /**
+     * Returns shapes for reference marks
+     * @return array array of shapes
+     */
+    protected function getRefMarksShapes() {
+        
+        $shapes = array();
+        if (!$this->showRefMarks) {
+            return $shapes;
+        }
+
+        $pluginManager = $this->serverContext->getPluginManager();
+        $msMapObj = $this->serverContext->getMapObj();
+        $ratio = $pluginManager->layers->getResRatio();                                
+
+        $origin = $this->getConfig()->refMarksOrigin;
+        if (!is_null($origin)) {
+            list($originx, $originy) = explode(',', $origin);
+        }
+        $intervals = ConfigParser::parseObjectArray($this->getConfig(),
+                                                    'refMarksInterval',
+                                                    array('maxScale', 'interval'));
+        $interval = NULL;
+        foreach ($intervals as $int) {
+            $interval = $int->interval;                
+            if ($int->maxScale >= $msMapObj->scale * $ratio) {
+                break;
+            }
+        }
+        if (!is_null($interval)) {
+            list($intervalx, $intervaly) = explode(',', $interval);
+        }
+        $style = new StyleOverlay();
+        $symbol = $this->getConfig()->refMarksSymbol;
+        if (!is_null($symbol)) {
+            $style->symbol = $symbol;
+        }
+        $size = $this->getConfig()->refMarksSymbolSize;
+        if (!is_null($ratio)) {
+            $size *= $ratio;
+        }
+        if (!is_null($size)) {
+            $style->size = $size;
+        }
+        $color = $this->getConfig()->refMarksColor;
+        if (!is_null($color)) {
+            list($r, $g, $b) = explode(',', $color);
+            $style->color->setFromRGB($r, $g, $b);                    
+        }            
+        $transp = $this->getConfig()->refMarksTransparency;
+        if (!is_null($transp)) {
+            $style->transparency = $transp;                    
+        }            
+
+        $extentwidth = ($msMapObj->extent->maxx - $msMapObj->extent->minx) / 2;         
+        $extentheight = ($msMapObj->extent->maxy - $msMapObj->extent->miny) / 2;         
+        $extentcenterx = $extentwidth + $msMapObj->extent->minx;
+        $extentcentery = $extentheight + $msMapObj->extent->miny;
+        $radius = sqrt(pow($extentwidth, 2) + pow($extentheight, 2));                                              
+        $minx = floor(($extentcenterx - $radius - $originx) / $intervalx);     
+        $miny = floor(($extentcentery - $radius - $originy) / $intervaly);
+        $maxx = floor(($extentcenterx + $radius - $originx) / $intervalx) + 1;      
+        $maxy = floor(($extentcentery + $radius - $originy) / $intervaly) + 1;
+
+        // Crosses
+        $crossSize = $this->getConfig()->refMarksSize / 2;
+        $crossSize = $crossSize * $msMapObj->scale / $msMapObj->resolution * 0.0254;
+        if (!is_null($ratio)) {
+            $crossSize *= $ratio;
+        }
+                      
+        for ($i = $minx; $i <= $maxx; $i++) {
+            for ($j = $miny; $j <= $maxy; $j++) {
+                $centerx = $i * $intervalx + $originx;
+                $centery = $j * $intervaly + $originy;
+
+                $points = array();
+                $points[] = new Point($centerx - $crossSize, $centery);
+                $points[] = new Point($centerx + $crossSize, $centery);
+                $this->addRefMarksShape($shapes, $points,
+                                        $extentcenterx, $extentcentery,
+                                        $radius, $style);
+
+                $points = array();
+                $points[] = new Point($centerx, $centery - $crossSize);
+                $points[] = new Point($centerx, $centery + $crossSize);
+                $this->addRefMarksShape($shapes, $points,
+                                        $extentcenterx, $extentcentery,
+                                        $radius, $style);
+            }
+        }
+
+        // Now lines
+        if (!$this->getConfig()->refLinesActive) {
+            return $shapes;
+        }           
+
+        $lineSize = $this->getConfig()->refLinesSize;
+        $lineSize = $lineSize * $msMapObj->scale /
+                    $msMapObj->resolution * 0.0254;
+        if (!is_null($ratio)) {
+            $lineSize *= $ratio;
+        }   
+        
+        $label = new LabelOverlay();
+        $fontSize = $this->getConfig()->refLinesFontSize;
+        if (!is_null($ratio)) {
+            $fontSize *= $ratio;
+        }
+        if (!is_null($fontSize)) {
+            $label->size = $fontSize;
+        }
+                           
+        $angle = $pluginManager->images->getAngle();        
+        $angle = 360 - $angle;
+        while ($angle < 0) {
+            $angle += 360;
+        } 
+        $switch = false;
+        while ($angle > 45) {
+            $angle -= 90;
+            $switch = !$switch;
+        }
+        $arad = deg2rad($angle);
+        
+        $offset = $intervalx * tan($arad);
+        
+        if ($switch) {
+            $xprime = $extentwidth * sin($arad);
+            $yprime = $extentwidth * cos($arad);
+        } else {
+            $xprime = $extentheight * sin($arad);
+            $yprime = $extentheight * cos($arad);
+        }
+        $rx = $extentcenterx - ($minx * $intervalx + $originx);            
+        $ry = $maxy * $intervaly + $originy - $extentcentery;
+        $length = $yprime + ($rx + $xprime) * tan($arad) - $ry;
+        for ($i = $minx; $i <= $maxx; $i++) {
+            
+            $x = $i * $intervalx + $originx;                
+            $y = $maxy * $intervaly + $originy;              
+            $points = array();
+            $points[] = new Point($x, $y);
+            $points[] = new Point($x, $y + $length - ($i - $minx) * $offset - $lineSize);
+            $this->addRefMarksShape($shapes, $points,
+                                    $extentcenterx, $extentcentery,
+                                    $radius, $style, $label, $x);
+        }
+
+        $ry = $extentcentery - ($miny * $intervaly + $originy);
+        $length = $ry - $yprime + ($rx - $xprime) * tan($arad);
+        for ($i = $minx; $i <= $maxx; $i++) {
+
+            $x = $i * $intervalx + $originx;
+            $y = $miny * $intervaly + $originy;
+            $points = array();
+            $points[] = new Point($x, $y);
+            $points[] = new Point($x, $y + $length - ($i - $minx) * $offset + $lineSize);
+            $this->addRefMarksShape($shapes, $points,
+                                    $extentcenterx, $extentcentery,
+                                    $radius, $style, $label, $x);
+        }
+
+        $offset = $intervaly * tan($arad);
+
+        if ($switch) {
+            $xprime = $extentheight * cos($arad);
+            $yprime = $extentheight * sin($arad);
+        } else {
+            $xprime = $extentwidth * cos($arad);
+            $yprime = $extentwidth * sin($arad);
+        }
+        $ry = $maxy * $intervaly + $originy - $extentcentery;                        
+        $rx = $maxx * $intervalx + $originx - $extentcenterx;
+        $length = $xprime + ($ry + $yprime) * tan($arad) - $rx;
+        for ($i = $maxy; $i >= $miny; $i--) {
+
+            $y = $i * $intervaly + $originy;                
+            $x = $maxx * $intervalx + $originx;              
+            $points = array();
+            $points[] = new Point($x, $y);
+            $points[] = new Point($x + $length - ($maxy - $i) * $offset - $lineSize, $y);
+            $this->addRefMarksShape($shapes, $points,
+                                    $extentcenterx, $extentcentery,
+                                    $radius, $style, $label, $y);
+        }
+        
+        $rx = $extentcenterx - ($minx * $intervalx + $originx);
+        $length = $rx - $xprime + ($ry - $yprime) * tan($arad);
+        for ($i = $maxy; $i >= $miny; $i--) {
+
+            $y = $i * $intervaly + $originy;
+            $x = $minx * $intervalx + $originx;
+            $points = array();
+            $points[] = new Point($x, $y);
+            $points[] = new Point($x + $length - ($maxy - $i) * $offset + $lineSize, $y);
+            $this->addRefMarksShape($shapes, $points,
+                                    $extentcenterx, $extentcentery,
+                                    $radius, $style, $label, $y);
+        }
+
+        return $shapes;
+    }
+
     /**
      * Draw the crosshair and reference marks.
      * @see ClientResponderAdapter::handleDrawing()
      */
     public function handleDrawing($requ) {
         
-        if (!is_null($this->crosshair) || $this->showRefMarks) {
+        if (!is_null($this->crosshair)
+            || $this->showRefMarks
+            || $this->showRefLines) {
             $pluginManager = $this->serverContext->getPluginManager();
             if (empty($pluginManager->outline)) {
                 throw new CartoserverException('outline plugin not loaded, ' . 
@@ -848,94 +1084,9 @@ class ServerLocation extends ClientResponderAdapter
                 $outline->draw(array($this->crosshair));
             }
 
-            if ($this->showRefMarks) {
-
-                $msMapObj = $this->serverContext->getMapObj();
-                $ratio = $pluginManager->layers->getResRatio();                                
-
-                $origin = $this->getConfig()->refMarksOrigin;
-                if (!is_null($origin)) {
-                    list($originx, $originy) = explode(',', $origin);
-                }
-                $interval = $this->getConfig()->refMarksInterval;
-                if (!is_null($interval)) {
-                    list($intervalx, $intervaly) = explode(',', $interval);
-                }
-                $style = new StyleOverlay();
-                $symbol = $this->getConfig()->refMarksSymbol;
-                if (!is_null($symbol)) {
-                    $style->symbol = $symbol;
-                }
-                $size = $this->getConfig()->refMarksSymbolSize;
-                if (!is_null($ratio)) {
-                    $size *= $ratio;
-                }
-                if (!is_null($size)) {
-                    $style->size = $size;
-                }
-                $color = $this->getConfig()->refMarksColor;
-                if (!is_null($color)) {
-                    list($r, $g, $b) = explode(',', $color);
-                    $style->color->setFromRGB($r, $g, $b);                    
-                }            
-                $transp = $this->getConfig()->refMarksTransparency;
-                if (!is_null($transp)) {
-                    $style->transparency = $transp;                    
-                }            
-                
-                $crossSize = $this->getConfig()->refMarksSize / 2;
-                $crossSize = $crossSize * $msMapObj->scale /
-                             $msMapObj->resolution * 0.0254;
-                if (!is_null($ratio)) {
-                    $crossSize *= $ratio;
-                }
-
-                $shapes = array();                
-                $msMapObj = $this->serverContext->getMapObj();
-                $extentcenterx = ($msMapObj->extent->maxx - 
-                                  $msMapObj->extent->minx) / 2
-                                 + $msMapObj->extent->minx;
-                $extentcentery = ($msMapObj->extent->maxy - 
-                                  $msMapObj->extent->miny) / 2
-                                 + $msMapObj->extent->miny;
-                $radius = sqrt(pow($extentcenterx - $msMapObj->extent->minx, 2)
-                               + pow($extentcentery - $msMapObj->extent->miny, 2));                                              
-                $minx = floor(($extentcenterx - $radius - $originx) /
-                              $intervalx) + 1;     
-                $miny = floor(($extentcentery - $radius - $originy) /
-                              $intervaly) + 1;
-                $maxx = floor(($extentcenterx + $radius - $originx) /
-                              $intervalx);      
-                $maxy = floor(($extentcentery + $radius - $originy) /
-                              $intervaly);
-                              
-                for ($i = $minx; $i <= $maxx; $i++) {
-                    for ($j = $miny; $j <= $maxy; $j++) {
-                        $centerx = $i * $intervalx + $originx;
-                        $centery = $j * $intervaly + $originy;
-
-                        $points = array();
-                        $points[] = new Point($centerx - $crossSize, $centery);
-                        $points[] = new Point($centerx + $crossSize, $centery);
-                        $shape = new StyledShape();
-                        $shape->shapeStyle = $style;
-                        $shape->shape = new Line();
-                        $shape->shape->points = $points;
-                        $shapes[] = $shape;
-
-                        $points = array();
-                        $points[] = new Point($centerx, $centery - $crossSize);
-                        $points[] = new Point($centerx, $centery + $crossSize);
-                        $shape = new StyledShape();
-                        $shape->shapeStyle = $style;
-                        $shape->shape = new Line();
-                        $shape->shape->points = $points;
-                        $shapes[] = $shape;
-                    }
-                }
-                if (count($shapes) > 0) {
-                    $outline->draw($shapes);                    
-                }      
+            $shapes = $this->getRefMarksShapes();
+            if (count($shapes) > 0) {
+                $outline->draw($shapes);
             }
         }
 
