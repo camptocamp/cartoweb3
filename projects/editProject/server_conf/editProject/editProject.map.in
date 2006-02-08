@@ -1,0 +1,187 @@
+MAP
+  NAME "demoPlugins"
+  EXTENT 420000 2250000 430000 2260000
+  IMAGETYPE PNG
+  IMAGECOLOR 255 255 255
+  STATUS ON
+  UNITS METERS
+  FONTSET "fonts.txt"
+  SYMBOLSET "symbols.txt"
+  SHAPEPATH "data"
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE PC256
+    EXTENSION "png"
+    FORMATOPTION "INTERLACE=OFF"
+    TRANSPARENT ON
+  END
+ 
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER "GD/JPEG"
+    MIMETYPE "image/jpeg"
+    IMAGEMODE RGB
+    EXTENSION "jpg"
+    FORMATOPTION "INTERLACE=OFF"
+    FORMATOPTION "QUALITY=80"
+  END
+ 
+  REFERENCE
+    IMAGE images/keymap.png
+    EXTENT 417700 2250000 432300 2260000
+    STATUS ON
+    COLOR -1 -1 -1
+    OUTLINECOLOR 200 200 200
+    SIZE 140 97
+  END
+  
+  SCALEBAR
+    POSTLABELCACHE TRUE
+    STYLE 0
+    UNITS kilometers
+    SIZE 350 3
+    TRANSPARENT TRUE
+    COLOR 77 77 88
+    IMAGECOLOR 242 255 195
+    BACKGROUNDCOLOR 222 222 222
+    LABEL
+      TYPE BITMAP
+      SIZE SMALL
+      COLOR 0 0 0
+      POSITION UR
+      BUFFER 10
+    END
+  END
+
+  LEGEND
+    KEYSIZE 20 15
+  END
+
+##############################
+# Start of layer definitions #
+##############################
+
+  LAYER
+    NAME EDITPOLY
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE POSTGIS
+    CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
+    DATA 'the_geom from (select the_geom, oid, parc_id, name, culture, surf, parc_type  from edit_poly) as foo'
+    TEMPLATE 'ttt'
+    TRANSPARENCY 50
+    LABELITEM "name"
+    CLASS
+      NAME "class"
+      STYLE
+        COLOR 50 50 255
+        OUTLINECOLOR 255 50 50
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        POSITION cc
+        BACKGROUNDCOLOR 245 235 235
+        BACKGROUNDSHADOWCOLOR 55 55 55
+        BACKGROUNDSHADOWSIZE 1 1
+      END
+    END
+    LABELMAXSCALE 50000
+    METADATA
+      'id_attribute_string' 'parc_id' # query
+      'query_returned_attributes' 'parc_id name culture surf parc_type'
+      'edit_table' 'edit_poly' # PostGIS table
+      'edit_geometry_column' 'the_geom' # PostGIS geometry column
+      'edit_geometry_type' 'polygon' # PostGIS geometry type
+      'edit_srid' '-1'
+      'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+      'edit_filter' '' # mapserver filter
+    END
+  END
+
+  LAYER
+    NAME EDITLINE
+    STATUS ON
+    TYPE LINE
+    CONNECTIONTYPE POSTGIS
+    CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
+    DATA 'the_geom from (select the_geom, oid, id, name, length from edit_line) as foo'
+    TEMPLATE 'ttt'
+    MAXSCALE 2000000
+    LABELITEM "name"
+    CLASS
+      NAME "class"
+      STYLE
+        COLOR 255 0 0
+        SYMBOL 1
+        SIZE 3
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        ANGLE auto
+        POSITION uc
+        BACKGROUNDCOLOR 245 235 235
+        BACKGROUNDSHADOWCOLOR 55 55 55
+        BACKGROUNDSHADOWSIZE 1 1
+      END
+    END
+    LABELMAXSCALE 50000
+    METADATA
+      'id_attribute_string' 'id' # query
+      'query_returned_attributes' 'name'
+      'edit_table' 'edit_line' # PostGIS table
+      'edit_geometry_column' 'the_geom' # PostGIS geometry column
+      'edit_geometry_type' 'line'
+      'edit_srid' '-1'
+      'edit_attributes' 'id,name|string' # list of the editable fields
+      'edit_filter' '' # mapserver filter
+    END
+  END
+
+  LAYER
+    NAME EDITPOINT
+    STATUS ON
+    TYPE POINT
+    CONNECTIONTYPE POSTGIS
+    CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
+    DATA 'the_geom from (select the_geom, oid, id, name, surname, place, age from edit_point) as foo'
+    TEMPLATE 'ttt'
+    MAXSCALE 2000000
+    CLASS
+      NAME "class"
+      TEXT ([name] [surname])
+      STYLE
+        SYMBOL "line"
+        COLOR 255 125 5
+        SIZE 10
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 255 125 5
+        POSITION auto
+        BACKGROUNDCOLOR 255 255 255
+      END
+    END
+    LABELMAXSCALE 50000
+    METADATA
+      'id_attribute_string' 'id' # query
+      'query_returned_attributes' 'name surname'
+      'edit_table' 'edit_point' # PostGIS table
+      'edit_geometry_column' 'the_geom' # PostGIS geometry column
+      'edit_geometry_type' 'point' # geometry type, may differ from layer type in mapfile
+      'edit_srid' '-1'
+      'edit_attributes' 'id,name|string,surname|string,place|string,age|integer' # list of the editable fields
+    END
+  END
+
+END # Map File

@@ -1,0 +1,86 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-10-25 11:38+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: layers.ini:layers.raster.label
+#: editProject.map
+msgid "raster"
+msgstr ""
+
+#: layers.ini:layers.edit_poly.label
+msgid "edition polygones"
+msgstr ""
+
+#: layers.ini:layers.edit_line.label
+msgid "edition lines"
+msgstr ""
+
+#: layers.ini:layers.edit_point.label
+msgid "edition points"
+msgstr ""
+
+#: editProject.map
+msgid "raster2"
+msgstr ""
+
+#: editProject.map
+msgid "EDITPOLY"
+msgstr ""
+
+#: editProject.map
+#: editProject.map
+#: editProject.map
+msgid "class"
+msgstr ""
+
+#: editProject.map
+msgid "parc_id"
+msgstr ""
+
+#: editProject.map
+#: editProject.map
+#: editProject.map
+msgid "name"
+msgstr ""
+
+#: editProject.map
+msgid "culture"
+msgstr ""
+
+#: editProject.map
+msgid "surf"
+msgstr ""
+
+#: editProject.map
+msgid "parc_type"
+msgstr ""
+
+#: editProject.map
+msgid "EDITLINE"
+msgstr ""
+
+#: editProject.map
+msgid "EDITPOINT"
+msgstr ""
+
+#: editProject.map
+msgid "surname"
+msgstr ""
+
+#: editProject.map
+msgid "cartoweb_point_outline"
+msgstr ""
+
+#: editProject.map
+msgid "cartoweb_line_outline"
+msgstr ""
+
+#: editProject.map
+msgid "cartoweb_polygon_outline"
+msgstr ""
