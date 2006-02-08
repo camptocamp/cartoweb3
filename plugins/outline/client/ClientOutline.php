@@ -300,8 +300,7 @@ class ClientOutline extends ClientPlugin
     public function initializeResult($outlineResult) {
 
         // Calls for default values
-        $this->setDefaultValues($this->symbols->outlineDefaultValues
-                                              ->outlineDefaultValuesList);
+        $this->setDefaultValues($this->symbols->outlineDefaultValues);
         if (!is_null($outlineResult)) {
             $this->area = $outlineResult->area;
         }

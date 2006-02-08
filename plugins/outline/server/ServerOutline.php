@@ -341,16 +341,16 @@ class ServerOutline extends ClientResponderAdapter
 
         $targetList = array ('pointLayer', 'lineLayer', 'polygonLayer');
 
-        $defaultValuesList = new OutlineDefaultValuesList();
+        $defaultValuesList = array();
         $msMapObj = $this->serverContext->getMapObj();
 
         foreach ($targetList as $targetLayerType) {
           
-            $currentDefaultValues = new OutlineDefaultValues();
+            $currentDefaultValue = new OutlineDefaultValue();
             $currentShapeStyle = new StyleOverlay();
           
             // Sets type
-            $currentDefaultValues->type = $targetLayerType;
+            $currentDefaultValue->type = $targetLayerType;
 
             $currentLayer = $msMapObj->getLayerByName($this->getConfig()
                                                            ->$targetLayerType);
@@ -392,8 +392,8 @@ class ServerOutline extends ClientResponderAdapter
                 }
             }
             
-            $currentDefaultValues->shapeStyle = $currentShapeStyle;
-            $defaultValuesList->outlineDefaultValuesList[] = $currentDefaultValues;
+            $currentDefaultValue->shapeStyle = $currentShapeStyle;
+            $defaultValuesList[] = $currentDefaultValue;
         }        
 
         $outlineInit->outlineDefaultValues = $defaultValuesList;

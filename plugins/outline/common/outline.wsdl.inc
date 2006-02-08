@@ -1,38 +1,9 @@
       <!-- outline -->
 
-      <complexType name="Color">
-        <all>
-          <element name="r" type="xsd:int"/>
-          <element name="g" type="xsd:int"/>
-          <element name="b" type="xsd:int"/>
-        </all>
-      </complexType>
-
-      <complexType name="ShapeStyle">
-        <all>
-          <element name="symbol" type="xsd:string"/>
-          <element name="size" type="xsd:int"/>
-          <element name="color" type="types:Color"/>
-          <element name="outlineColor" type="types:Color"/>
-          <element name="backgroundColor" type="types:Color"/>
-          <element name="transparency" type="xsd:int"/>
-        </all>
-      </complexType>
-
-      <complexType name="LabelStyle">
-        <all>
-          <element name="font" type="xsd:int"/>
-          <element name="size" type="xsd:int"/>
-          <element name="color" type="types:Color"/>
-          <element name="outlineColor" type="types:Color"/>
-          <element name="backgroundColor" type="types:Color"/>
-        </all>
-      </complexType>
-
       <complexType name="StyledShape">
         <all>
-          <element name="shapeStyle" type="types:ShapeStyle"/>
-          <element name="labelStyle" type="types:LabelStyle"/>
+          <element name="shapeStyle" type="types:StyleOverlay"/>
+          <element name="labelStyle" type="types:LabelOverlay"/>
           <element name="shape" type="types:Shape"/>
           <element name="label" type="xsd:string"/>
         </all>
@@ -69,14 +40,7 @@
           <element name="polygon" type="types:ArrayOfString"/>
           <element name="pathToSymbols" type="xsd:string"/>
           <element name="symbolType" type="xsd:string"/>
-          <element name="outlineDefaultValues" type="types:OutlineDefaultValues"/>
-
-        </all>
-      </complexType>
-
-      <complexType name="OutlineDefaultValues">
-        <all>
-            <element name="arrayOfDefaultValues" type="types:ArrayOfDefaultValues"/>  
+          <element name="outlineDefaultValues" type="types:ArrayOfDefaultValues"/>
         </all>
       </complexType>
 
@@ -91,9 +55,7 @@
       <complexType name="DefaultValues">
         <all>
           <element name="type" type="xsd:string"/>
-          <element name="shapeStyle" type="types:ShapeStyle"/>
+          <element name="shapeStyle" type="types:StyleOverlay"/>
         </all>
       </complexType>
-
-      
 
