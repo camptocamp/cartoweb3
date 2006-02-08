@@ -72,7 +72,11 @@ class ServerMapOverlay extends ServerPlugin {
             if (!is_null($overlay->blue) && $msColor->blue != $overlay->blue) {
                 $result->blue = $overlay->blue;
             }
-            $msColor->setRGB($overlay->red, $overlay->green, $overlay->blue);
+            if (!is_null($result->red) && !is_null($result->green) && 
+                !is_null($result->blue)) {
+                $msColor->setRGB($overlay->red, $overlay->green, $overlay->blue);
+            }
+
             break;
 
         case BasicOverlay::ACTION_SEARCH:
