@@ -44,3 +44,5 @@
           <element name="layerTransparencies" type="types:ArrayOfLayerTransparency"/>
         </all>
       </complexType>
+
+      <complexType name="LayerReorderResult"/>
