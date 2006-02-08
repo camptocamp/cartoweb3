@@ -672,7 +672,8 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
   }
   this.lineDraw.onMouseMove(aDisplay, ex, ey);
   
-  if (aDisplay.dShape.X.length > 1 &&
+  if (aDisplay.isDrawing != "line" && aDisplay.tmpFeature &&
+      aDisplay.dShape.X.length > 1 &&
       distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
     var vertices = xGetElementsByClassName(vertexCN + _OFF, aDisplay.dShape, 'div');
     aDisplay.snapToVertex = vertices[0];
