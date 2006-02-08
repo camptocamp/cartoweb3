@@ -17,10 +17,10 @@
       <table cellpadding="0" cellspacing="0" width="100%">
        <tr>
         <td>
-         <input id="layerReorderRadio_{$key}" type="radio" 
-                name="currentLayerReorder" 
-                value="{$key}" onclick="javascript:layerReorderCurrent({$key});"
-                /><label>{$layer.label}</label>
+         <label><input id="layerReorderRadio_{$key}" type="radio" 
+           name="currentLayerReorder" 
+           value="{$key}" onclick="javascript:layerReorderCurrent({$key});"
+           />{$layer.label}</label>
          <input type="hidden" id="recenter_none_{$key}" 
                 name="recenter_none_{$key}" value="{$layer.extent}" />
         </td>
