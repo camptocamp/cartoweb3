@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="dev.mapoverlay">
+  <title>Dynamic mapfile modifications</title>
+
+  <sect1 id="dev.mapoverlay.intro"> 
+      <title>Introduction</title>
+
+      <para>
+      <indexterm><primary>mapOverlay</primary></indexterm>
+      This chapter describes the mapOverlay plugin. This plugin allows dynamic modifications 
+      of the mapfile, it can be used for example to: let the user add
+      a WMS layer, restrict data to be exported to the user, change
+      the color of layers, etc ...
+      </para>
+
+      <para>
+      The plugin has only a server part and only a public method:
+      <programlisting><![CDATA[public function updateMap(BasicOverlay $overlay)]]></programlisting> 
+      The <function>$overlay</function> argument is either a <classname>MapOverlay</classname> or a 
+      <classname>LayerOverlay</classname> instance, it represent respectively a mapfile or a layer. 
+      </para>
+      
+      <para>
+      Customizable elements are:
+        <itemizedlist>
+          <listitem>
+            <para><classname>ColorOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>StyleOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>LabelOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>ClassOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>MetadataOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>LayerOverlay</classname></para>
+          </listitem>
+          <listitem>
+            <para><classname>MapOverlay</classname></para>
+          </listitem>
+        </itemizedlist>
+        The organization of these elements are the same as the mapfile
+        structure: a <classname>MapOverlay</classname> contains zero or
+        many <classname>LayerOverlay</classname> who cantains zero or
+        many <classname>MetadataOverlay</classname> etc. None of theses
+        elements or instance variables are mandatory, you just need to
+        provide informations about property you want to search,
+        update, insert or delete.
+      </para>
+      
+      <para>
+        For each of theses mapfile elements the developer have to
+        provide an action by setting the <envar>action</envar>
+        instance variable. The action set the behavior of the element
+        during the mapfile update process. <envar>action</envar> is one of:
+        <itemizedlist>
+          <listitem>
+            <para><envar>BasicOverlay::ACTION_SEARCH</envar>: this action search or create the element. </para>
+          </listitem>
+          <listitem>
+            <para><envar>BasicOverlay::ACTION_INSERT</envar>: insert the element at a given position or at the end if not specified.</para>
+          </listitem>
+          <listitem>
+            <para><envar>BasicOverlay::ACTION_REMOVE</envar>: remove the element.</para>
+          </listitem>
+          <listitem>
+            <para><envar>BasicOverlay::ACTION_UPDATE</envar>: update or create the element.</para>
+          </listitem>
+        </itemizedlist>
+        If no action is specified, the default action is <envar>BasicOverlay::ACTION_UPDATE</envar>.
+        </para>
+        <para>
+        The standards steps to use this mechanism are:
+      <orderedlist>
+          <listitem>
+            <para>
+            Create all the needed elements and combine them together
+            in a <classname>MapOverlay</classname> or a
+            <classname>LayerOverlay</classname> instance.</para>
+          </listitem>
+          <listitem>
+            <para>Call the <function>updateMap()</function> function. The function returns a 
+            <classname>MapOverlay</classname> instance.</para>
+          </listitem>
+          <listitem>
+            <para>If needed, use the result instance to retrieve an
+            index or a element name.</para>
+          </listitem>
+
+      </orderedlist>
+      </para>
+      <para>
+      Note that the modification are not saved in the project's mapfile: the result of the mapfile 
+      modifications are specific to a session.
+      </para>
+    </sect1>
+    
+  <sect1 id="dev.mapoverlay.usage"> 
+          <title>Plugin usage</title>
+          <para>This chapter contains some basic examples of the plugin usage.</para>
+    <sect2>
+          <title>Class creation</title>
+          <para>Consider this code excerpt:</para>
+          <para>
+          <programlisting><![CDATA[
+$color = new ColorOverlay();
+$color->red = 255;
+$color->green = 0;
+$color->blue = 0;
+        
+$style = new StyleOverlay();
+$style->index = 0;
+$style->color = $color;
+
+$label = new LabelOverlay();
+$label->outlineColor = $color;
+
+$class = new ClassOverlay();
+$class->action = BasicOverlay::ACTION_INSERT;
+$class->name = 'foobar';
+$class->styles = array($style);
+$class->label = $label;
+]]></programlisting>
+A <classname>ColorOverlay</classname> and a <classname>StyleOverlay</classname> are created.
+Create a <classname>LabelOverlay</classname> and set the text color.
+Note that those three instances ($color, $style and $label) have only
+a subset of theirs variable who are set.
+<programlisting><![CDATA[
+$layer1 = new LayerOverlay();
+$layer1->name = 'cartoweb_point_outline';
+$layer1->classes = array($class);
+]]></programlisting>
+Put the class in the layer.
+The behavior of <envar>$layer1</envar> can be resumed as:
+Update or create a layer named 'cartoweb_point_outline'. In this
+layer, insert a new class an call it 'foobar', the first style of this
+class render as red.
+<programlisting><![CDATA[
+$layer2 = new LayerOverlay();
+$layer2->action = BasicOverlay::ACTION_SEARCH;
+$layer2->name = 'cartoweb_point_outline';
+$layer2->transparency = 30;
+]]></programlisting>
+Search a layer named 'point_point_outline' with a 30% transparency.
+If this layer don't exist in the mapfile it will be created
+<programlisting><![CDATA[
+$map = new MapOverlay();
+$map->layers = array($layer1, $layer2);
+
+$plugins = $this->serverContext->getPluginManager();
+$result = $plugins->mapOverlay->updateMap($map);
+]]></programlisting>
+The two layers are inserted in a <classname>MapOverlay</classname> and
+the mapfile is updated.
+     </para>
+
+    </sect2>
+    <sect2>
+        <title>Add a feature</title>
+          <para>The goal of this example is to add a
+          feature with a specific style and transparency. 
+          The layer name and transparency are given ('foo' and 40%).
+          </para>
+<para>
+          <programlisting><![CDATA[
+$layer = new LayerOverlay();
+$layer->name = 'foo';
+$layer->action = BasicOverlay::ACTION_SEARCH;
+$layer->transparency = 40;            
+
+$mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
+$result = $mapOverlay->updateMap($layer);]]></programlisting>
+    
+    At this point, the layer and its classes are created or
+          updated. Now we need to insert the feature: 
+          <programlisting><![CDATA[
+$f = ms_newShapeObj(MS_SHAPE_POINT);
+$p->addXY(30000, 20000);
+$f->set('classindex', $result->layers[0]->classes[0]->index);
+]]></programlisting>
+A <classname>ms_newShapeObj</classname> is created and the class index
+is fetched from the <function>updateMap()</function> return instance.
+<programlisting><![CDATA[
+$msLayer = $this->serverContext->getMapObj()->getLayer($result->layers[0]->index);
+$msLayer->addFeature($f);
+$msLayer->set('status', MS_ON);]]></programlisting>
+
+
+This example also show that you can mix standard phpMapscript and
+mapOverlay code.
+</para>
+    </sect2>
+
+    <sect2>
+      <title>Filter data</title>
+        <para>
+          <programlisting><![CDATA[
+$layer = new LayerOverlay();
+$layer->name = "field";
+$layer->data = "geom FROM (SELECT gid, geom, name FROM fields WHERE farm_id = {$farmId}) " .
+               "AS foo USING UNIQUE gid USING SRID=-1";
+        
+$mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
+$mapOverlay->updateMap($layer);]]></programlisting>
+
+The <envar>DATA</envar> field of the <envar>field</envar> layer is
+update to only display some informations.
+<envar>$farmId</envar> is defined elsewhere.
+        </para>
+    </sect2>
+
+    <sect2>
+      <title>Debugging</title>
+        <para>
+        At any time you can see the result of the modifications by calling:
+        <programlisting><![CDATA[
+$this->serverContext->getMapObj()->save('/tmp/debug.map');
+]]></programlisting>
+      This will save the updated mapfile to <filename>/tmp/debug.map</filename>.
+        </para>
+    </sect2>
+  </sect1>    
+</chapter>
+
+<!--  LocalWords:  MetadataOverlay mapfile MapOverlay LayerOverlay updateMap
+ -->
+<!--  LocalWords:  StyleOverlay LabelOverlay outlineColor ClassOverlay foobar
+ -->
