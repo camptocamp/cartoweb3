@@ -122,7 +122,9 @@ class ServerLayerReorder extends ClientResponderAdapter
 
         $layerReorder = array();
         foreach ($requ->layerIds as $layerId) {
-            $layerReorder[] = $layerOrderIds[$layerId];
+            if (isset($layerOrderIds[$layerId])) {
+                $layerReorder[] = $layerOrderIds[$layerId];
+            }
         }
 
         $msMapObj->setlayersdrawingorder($layerReorder);
@@ -130,8 +132,10 @@ class ServerLayerReorder extends ClientResponderAdapter
         // Update transparency level
         if (!empty($requ->layerTransparencies)) {
             foreach ($requ->layerTransparencies as $layerTransparency) {
-                $msMapObj->getLayerByName($layerTransparency->id)
-                    ->set('transparency', $layerTransparency->transparency);
+                $layer = $msMapObj->getLayerByName($layerTransparency->id);
+                if (!empty($layer)) {
+                    $layer->set('transparency', $layerTransparency->transparency);
+                }
             }
         }
     }
