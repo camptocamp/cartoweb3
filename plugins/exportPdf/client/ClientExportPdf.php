@@ -107,6 +107,11 @@ class ClientExportPdf extends ExportPlugin
     protected $exportPdfState;
 
     /**
+     * @var boolean
+     */
+    protected $isModeRotate;
+
+    /**
      * GUI mode constants
      */
     const GUIMODE_CLASSIC = 'classic';
@@ -196,7 +201,7 @@ class ClientExportPdf extends ExportPlugin
      */
     public function getTools() {
         
-        if ($this->getConfig()->{'general.guiMode'} == self::GUIMODE_ROTATE) {
+        if ($this->isModeRotate()) {
             return array(new ToolDescription(self::TOOL_ROTATE, true, 101, 1));
         } else {
             return array();
@@ -748,13 +753,28 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Tells if GUI-mode is rotate.
+     * @return boolean
+     */
+    protected function isModeRotate() {
+        if (!isset($this->isModeRotate)) {
+            $guiMode = isset($this->general) ? $this->general->guiMode
+                       : $this->getConfig()->{'general.guiMode'};
+
+            $this->isModeRotate = ($guiMode == self::GUIMODE_ROTATE);
+        }
+        return $this->isModeRotate;
+    }
+
+    /**
      * @see GuiProvider::renderForm()
      * @param Smarty
      */
     public function renderForm(Smarty $template) {
         $this->log->debug(__METHOD__);
-        $template->assign(array('exportPdf' => $this->drawUserForm(),
-            'exportPdfRotate' => ($this->general->guiMode == self::GUIMODE_ROTATE)));
+        $template->assign(array('exportPdf'       => $this->drawUserForm(),
+                                'exportPdfRotate' => $this->isModeRotate(),
+                                ));
     }
 
     /**
@@ -783,7 +803,7 @@ class ClientExportPdf extends ExportPlugin
         $marginX = $marginY = 0;
         $formatDimensions = array();
 
-        $isModeRotate = ($this->general->guiMode == self::GUIMODE_ROTATE);
+        $isModeRotate = $this->isModeRotate();
         if ($isModeRotate) {
             // Passes map margins and format dimensions to Javascript
             $marginX += $this->general->horizontalMargin;
@@ -1018,8 +1038,7 @@ class ClientExportPdf extends ExportPlugin
         
         $config = new ExportConfiguration();
 
-        if ($this->general->guiMode == self::GUIMODE_ROTATE &&
-            !empty($this->general->selectedScale)) {
+        if ($this->isModeRotate() && !empty($this->general->selectedScale)) {
             $scale = $this->general->selectedScale;
         } else {
             $scale = $this->getLastScale();
