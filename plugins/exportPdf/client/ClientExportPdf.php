@@ -753,7 +753,8 @@ class ClientExportPdf extends ExportPlugin
      */
     public function renderForm(Smarty $template) {
         $this->log->debug(__METHOD__);
-        $template->assign('exportPdf', $this->drawUserForm());
+        $template->assign(array('exportPdf' => $this->drawUserForm(),
+            'exportPdfRotate' => ($this->general->guiMode == self::GUIMODE_ROTATE)));
     }
 
     /**

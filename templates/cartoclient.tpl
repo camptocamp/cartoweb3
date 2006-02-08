@@ -37,8 +37,8 @@
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
-  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>
-                            <script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>{/if}
+  {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
+  {if $exportPdfRotate|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>{/if}
 
 </head>
 
