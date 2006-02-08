@@ -162,4 +162,239 @@ END]]></programlisting> You will find more examples looking in the test.map
         file in server_conf directory. </para>
     </sect2>
   </sect1>
+  <sect1 id="user.annotate.toolpicker">
+    <title>The ToolPicker</title>
+    <sect2 id="user.annotate.toolpicker.what">
+      <title>What is the ToolPicker</title>
+      <para>The ToolPicker is a mini javascript framework to display 
+dynamically on screen several dhtml tools.</para>
+      <para>Some tools come pre-included:</para>
+      <itemizedlist>
+        <listitem>
+          <para>ColorPicker : The ColorPicker allows the user to pick a color. 
+He/she can either pick it from a gradient map, use RGB or HSL slider, input 
+RGB or HSL values , input an hexadecial value or pick it from a preselected 
+list of colors. The color value is then returned to the main page.</para>
+        </listitem>
+        <listitem>
+          <para>SymbolPicker : The SymbolPicker allows the user to pick a 
+symbol in a predefined list of symbols. The symbols are generated off the 
+.sym file on the serverside of CartoWeb. The symbol is then returned to the 
+main page.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="user.annotate.toolpicker.install">
+      <title>Installation</title>
+      <para>To use the ToolPicker in a project, simply enable it in your 
+client.ini configuration file, by setting toolPickerOn = true.</para>
+      <para>The ToolPicker requires the corresponding script, css and template 
+      in the cartoclient.tpl file.</para>
+      <para>In the header :
+        <programlisting><![CDATA[
+<link rel="stylesheet" type="text/css" href="css/toolPicker.css" />  
+        ]]></programlisting>
+      In the body, preferably at the end :
+        <programlisting><![CDATA[
+{include file="toolPicker.tpl"}
+         ]]></programlisting>
+         These inclusions should already be available in the default 
+         template (cvs).
+      </para>
+    </sect2>
+    <sect2 id="user.annotate.toolpicker.usage">
+      <title>ToolPicker usage</title>
+      <para>The main ToolPicker function accepts 3 parameters, 2 are mandatory, 
+      the last is optional.
+        <programlisting><![CDATA[
+toolPicker( string tool_id_list, string tool_input_list [, string tool_output_list])
+        ]]></programlisting>
+       </para>
+       <para><emphasis role="bold">tool_id_list</emphasis></para>
+       <para>You can initialize one or more tools at once. The 
+       <emphasis>tool_id_list</emphasis> parameter is composed of one or more 
+       numerical values, separated by comma and enclosed by quotes 
+       (or simplequotes). Example: '2' or '1,4' or '3,2,1'</para>
+       <para>The order of the id influes on the order of the tool panels when 
+       displayed on screen.</para>
+       <para><emphasis role="bold">tool_input_list</emphasis> and <emphasis role="bold">tool_output_list</emphasis></para>
+       <para>The script needs an input value and will return an output value. 
+       The input value is retrieved from an html input element. In the same 
+       way the output value is returned to an html input element.</para>
+       <para>The script needs as many input element id as initialised tools. 
+       If two tools are initialised (parameter <emphasis>tool_id_list</emphasis>), <emphasis>tool_input_list</emphasis> must also contain two input id. 
+       Ids are separated by comma and enclosed by quotes (or simplequotes). 
+       Example: 'return_id_tool_4,return_id_tool_2'</para>
+       <para>The first input id corresponds to the first tool id in <emphasis>tool_id_list</emphasis>.</para>
+       <para>A different id can be specified if the element storing the output 
+       value must be different from the element storing the input value. The 
+       same rule applies to <emphasis>tool_input_list</emphasis> and <emphasis>tool_output_list</emphasis>.</para>
+       <para>See <xref linkend="user.annotate.toolpicker.exemples" /></para>
+      <para>Each tool also have some particularities:</para>
+      <sect3 id="user.annotate.toolpicker.usage.color">
+        <title>ColorPicker</title>
+        <para>When a color is selected, the script will set the css property <emphasis>background-color</emphasis> of a div in the template 
+        accordingly to the color picked.</para>
+        <para>The id of the div is based on the output element id (if it 
+        specified, if not, the input element id is used), to which a 
+        <emphasis>_d</emphasis> is added.</para>
+        <para>Example, if the input element id is 
+        <emphasis>return_color_12</emphasis>, the id of the div used to display 
+        the color will be <emphasis>return_color_12_d</emphasis>.</para>
+      </sect3>
+      <sect3 id="user.annotate.toolpicker.usage.symbol">
+        <title>SymbolPicker</title>
+        <para>When a symbol is selected, the script will set the css property <emphasis>background-image</emphasis> of a div in the template 
+        accordingly to the symbol picked.</para>
+        <para>The id of the div is based on the output element id (if it 
+        specified, if not, the input element id is used), to which a 
+        <emphasis>_d</emphasis> is added.</para>
+        <para>Example, if the input element id is 
+        <emphasis>return_symbol_12</emphasis>, the id of the div used to display 
+        the symbol will be <emphasis>return_symbol_12_d</emphasis>.</para>
+        <para>The SymbolPicker is used with CartoWeb3 outline plugin usually, 
+        but it also can be used without the plugin.</para>
+        <sect4>
+          <title>With outline plugin</title>
+          <para>In CartoWeb3 <emphasis>server_conf/yourprojectname/outline.ini</emphasis> 
+          file defines a list of symbols to use. For each kind of symbols 
+          you want to use:
+          <programlisting><![CDATA[
+pointSymbols = "circle, square, star [, anyothersymbol, ... ]"
+          ]]></programlisting>
+          </para>
+          <para>All these symbol names <emphasis role="bold">MUST BE</emphasis> 
+          defined in the .sym file in 
+          <emphasis>server_conf/yourprojectname/</emphasis>.</para>
+          <para>If you want to add language support for the symbol name, add 
+          the following parameter in 
+          <emphasis>server_conf/yourprojectname/outline.ini</emphasis>:
+          <programlisting><![CDATA[
+pointSymbols.labels = "symbolname1, symbolname2 [, anyothername, ... ]"
+          ]]></programlisting>
+          </para>
+          <para>These names will be used to translate into the chosen language 
+          using the gettext functionnality. Add the corresponding translations 
+          in the server .po files.</para>
+        </sect4>
+        <sect4>
+          <title>Without outline plugin (standalone use)</title>
+          <para>If you do not use the outline plugin, you will need to set the 
+          following javascript variable somewhere in your page:
+          <programlisting>
+&lt;script type="text/javascript"&gt;
+  /*&lt;![CDATA[*/
+    var imgPath = 'path/to/symbol/images/';
+    var symbolType = 'type/of/image/files/'; //jpeg, gif, png, whatever
+
+    var symbolNamesArray = new Array("symbolfilename1","symbolfilename2" [,"othersymbolfilename", ...] );
+
+    var symbolLabelArray = new Array("symbollabel1","symbollabel2" [,"othersymbollabel", ...] );
+  /*]]&gt;*/
+&lt;/script&gt;
+           </programlisting>
+           </para>
+           <para><emphasis>symbolNamesArray</emphasis> contains the list of 
+           filename to use for your images.</para>
+           <para><emphasis>symbolLabelArray</emphasis> contains the list of 
+           label used on screen for the symbols.</para>
+           <para>Create your symbol images and put them in 
+           <emphasis>path/to/symbol/images/</emphasis>. You also need to 
+           create hilighted versions of your images, give them the same 
+           filename but add the suffix '_over'. Exemple: symbol_1.gif -> 
+           symbol_1_over.gif</para>
+           <para>Put them in the same folder.</para>
+        </sect4>
+        <sect4>
+          <title>Symbol hilight mode</title>
+          <para>There are two modes to hilight the selected symbol in the 
+          <emphasis>SymbolPicker</emphasis> interface. You can select between 
+          <emphasis>border hilight</emphasis> and 
+          <emphasis>inverted image</emphasis>. <emphasis>border hilight</emphasis> 
+          simply use a css property to hilight the border of the selected symbol. 
+          <emphasis>inverted image</emphasis> need the php library GD to create 
+          an inverted version of the symbol, which is then used for the selected 
+          symbol.</para>
+          <para>The hiligh mode is set in the <emphasis>client.ini</emphasis> 
+          file:</para>
+          <itemizedlist>
+            <listitem>
+              <para>symbolPickerHilight = inversed|borderhilight</para>
+            </listitem>
+          </itemizedlist>
+        </sect4>
+      </sect3>
+    </sect2>
+    <sect2 id="user.annotate.toolpicker.default">
+      <title>ToolPicker default values</title>
+      <para>If the toolpicker is used with the Outline plugin, the default 
+      values for Color, OutlineColor, Transparency and Symbol are set in the 
+      mapfile.</para>
+      <para>The default layer name are cartoweb_point_outline, 
+      cartoweb_line_outline and cartoweb_polygon_outline</para>
+      <para>See <xref linkend="user.annotate.server.ini" /></para>
+    </sect2>
+    <sect2 id="user.annotate.toolpicker.exemples">
+      <title>Exemples of usage</title>
+      <programlisting>toolPicker('4','outline_point_symbol')</programlisting>
+      <para>this will call the symbol picker (id 4), the input id is <emphasis>outline_point_symbol</emphasis>, and the output id will be <emphasis>outline_point_symbol</emphasis> too</para>
+      <programlisting>
+toolPicker('1','outline_point_color', 'color_return')
+      </programlisting>
+      <para>this will call the color picker, the input id is 
+      <emphasis>outline_point_color</emphasis>, and the output id will be <emphasis>color_return</emphasis></para>
+      <programlisting>toolPicker('4,1','symbol_input,color_input', 'return_symbol,return_color')</programlisting>
+      <para>this will call the symbol picker and the color picker, the input 
+      id is <emphasis>symbol_input</emphasis> for the first tool (here the 
+      symbol picker) and <emphasis>color_input</emphasis> for the second tool 
+      (color picker), and the output id will be 
+      <emphasis>return_symbol</emphasis> for the first tool and 
+      <emphasis>return_color</emphasis> for the second.</para>
+    </sect2>
+    <sect2 id="user.annotate.toolpicker.new">
+      <title>Create new tools</title>
+      <para>You can add new tools.</para>
+      <para>Add the new tool name in the <emphasis>toolArrayRef</emphasis> 
+      array at the begining of the script.
+      <programlisting>
+var toolArrayRef =  new Array( 'colorPicker', 
+                                'hashArray',
+                                'pencilArray',
+                                'symbolArray',
+                                'yourTool');
+      </programlisting>
+      </para>
+      <para>Create the following four functions, these functions can be empty.
+      <programlisting>
+function yourToolInit(inputValue) { ... };
+function yourToolSetup() { ... };
+function yourToolReturn() {
+    ...
+    return someValue;
+};
+function yourToolDisplay(targetElm) { ... };
+      </programlisting>
+      </para>
+      <para>The Init function is used to set the incoming values. It is always 
+      called when the ToolPicker starts. It receives the input value recovered 
+      from the main page.</para>
+      <para>The Setup function can be used to do all the actions you want.</para>
+      <para>The Return function is used to return a value to the main page.</para>
+      <para>The Display function is used to display something in the main page. 
+      It receives the id of the target element to use 
+      (<emphasis>something_d</emphasis>).</para>
+      <para>Add the following four function definitions:
+      <programlisting>
+functionList["yourToolInit"]=yourToolInit;
+functionList["yourToolSetup"]=yourToolSetup;
+functionList["yourToolReturn"]=yourToolReturn;
+functionList["yourToolDisplay"]=yourToolDisplay;
+      </programlisting>
+      These are needed because of the dynamic function call inside the 
+      framework, which do not use the eval() function to increase performances.
+      </para>
+      <para>The width of the tool area available on screen is 245 pixel. Height 
+      is variable.</para>
+    </sect2>
+  </sect1>
 </chapter>
