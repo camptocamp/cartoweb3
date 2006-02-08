@@ -465,6 +465,7 @@ class ServerOutline extends ClientResponderAdapter
             }
         }        
         // Removes the layer
+        // no removeLayer function in PHP MapScript. see mapserver bug #762
         $newLayer->set('status', MS_DELETE);
     }
 }
