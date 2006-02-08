@@ -78,7 +78,7 @@ showProjectChooser = true
 ;## Plugins ##
 
 ; the list of plugins to load, separated by comma
-loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, views
+loadPlugins = "" ; no plugin is loaded by default (only coreplugins)
 
 ;## Security configuration ##
 
