@@ -586,7 +586,6 @@ MAP
     CLASS
       STYLE
         OUTLINECOLOR 255 0 0
-        COLOR 255 0 0
         SYMBOL "line-dashed"
         SIZE 3
       END
