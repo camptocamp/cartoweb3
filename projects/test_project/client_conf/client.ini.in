@@ -14,6 +14,9 @@ initialMapStateId = projectstate
 ### Plugins ###
 
 # the list of plugins to load, separated by comma
-loadPlugins = projectplugin, projectLocation, projectTable, projectTableRules
+; FIXME: projectLocation is not activated because of
+;  http://bugzilla.maptools.org/show_bug.cgi?id=1286
+;loadPlugins = projectplugin, projectLocation, projectTable, projectTableRules
+loadPlugins = projectplugin, projectTable, projectTableRules
 
 
