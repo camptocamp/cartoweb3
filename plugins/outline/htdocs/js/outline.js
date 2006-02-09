@@ -21,7 +21,9 @@ function hideLabel() {
   xHide(outlineLabelInput);
 }
 
-
+/**
+ * Activates matching tool depending on outline folder actions
+ */
 function selectTool(e) {
     var el;
     if (window.event && window.event.srcElement)
@@ -56,7 +58,9 @@ function selectTool(e) {
     }
 }
 
-// initialise event listener for the different elements on the page
+/**
+ * Initializes event listener for the different elements in the page
+ */
 function addOutlineToolListeners() {
 
   var onClickElements = new Array('outline_point_symbol_d','outline_point_color_d',
@@ -80,4 +84,5 @@ function addOutlineToolListeners() {
     elm.setAttribute('autocomplete','off');
   }
 }
+
 EventManager.Add(window, 'load', addOutlineToolListeners, false);
