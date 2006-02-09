@@ -69,7 +69,7 @@ function addOutlineToolListeners() {
                     'outline_polygon_transparency');
 
   for (var i = 0; i < onClickElements.length; i++){
-    elm = xGetElementById(onClicElements[i]);
+    elm = xGetElementById(onClickElements[i]);
     EventManager.Add(elm, 'click', selectTool, false);
   }
   
