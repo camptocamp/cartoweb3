@@ -99,6 +99,53 @@
             linkend="user.security.auth.special_roles"/> </para>
         </listitem>
       </itemizedlist>
+      <para>
+      It is possible to use two different location where user and password are
+      stored. There are two mechanisms built-in in &cartoweb;:
+      <orderedlist>
+        <listitem>
+          <para>.ini file</para>
+        </listitem>
+        <listitem>
+          <para>database</para>
+        </listitem>
+      </orderedlist>
+      </para>
+      <para>
+      The parameter <constant>securityContainer</constant> controls which backend is
+      used, as described below (with parameters specific to the database backend):
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            securityContainer<indexterm><primary>securityContainer</primary></indexterm>: 
+            can be <constant>file</constant> for the file storage of users/password,
+            or <constant>db</constant> for the dabase storage.</para>
+        </listitem>
+        <listitem>
+          <para> 
+            dbSecurityDsn<indexterm><primary>dbSecurityDsn</primary></indexterm>:
+            The database connection string to be used. For instance 
+            <literal>pgsql://user:password@localhost/test</literal>.
+            </para>
+        </listitem>
+        <listitem>
+          <para> 
+            dbSecurityQueryUser<indexterm><primary>dbSecurityQueryUser</primary></indexterm>:
+            The SQL query to perform to check a username/password pair is valid. It 
+            should return a row if the pair is correct. For instance:
+            <literal>"SELECT * FROM users WHERE username='%s' AND password='%s'"</literal>.
+            </para>
+        </listitem>
+        <listitem>
+          <para> 
+            dbSecurityQueryRoles<indexterm><primary>dbSecurityQueryRoles</primary></indexterm>:
+            The SQL query used to retrieve roles for a given user. It should return one column
+            with all roles for the user each row. For instance:
+            <literal>"SELECT roles FROM users WHERE username='%s'"</literal>
+            </para>
+        </listitem>
+      </itemizedlist>      
     </sect2>
     <sect2 id="user.security.auth.special_roles">
       <title>Special Role Names</title>
