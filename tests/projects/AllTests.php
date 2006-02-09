@@ -141,7 +141,7 @@ class projects_AllTests {
         if (isset($_ENV['CARTOWEB_TEST_PROJECT'])) {
             $testProjects = array($_ENV['CARTOWEB_TEST_PROJECT']);
         } else {
-            $testProjects = self::$clientProjectHandler->getAvailableProjects(); 
+            $testProjects = self::$clientProjectHandler->getAvailableProjects(true); 
         }
 
         foreach($testProjects as $project) {

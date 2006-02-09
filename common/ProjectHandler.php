@@ -98,9 +98,10 @@ abstract class ProjectHandler {
     /**
      * Returns a list of available projects.
      * 
+     * @param boolean true to return hidden projects too
      * @return array a string array of project names (identifiers)
      */
-    public function getAvailableProjects() {
+    public function getAvailableProjects($returnHidden = false) {
 
         $hidden = Utils::parseArray(self::HIDDEN_PROJECTS);
 
@@ -112,7 +113,7 @@ abstract class ProjectHandler {
         while (false !== ($entry = $d->read())) {
             if (is_dir($directory . $entry) && $entry != '.'
                 && $entry != '..' && $entry != 'CVS' && 
-                !in_array($entry, $hidden)) {
+                ($returnHidden || !in_array($entry, $hidden))) {
                 $projects[] = $entry;
             }
         }
