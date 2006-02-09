@@ -214,8 +214,10 @@ class ClientEdit extends ClientPlugin
         $tool = $this->getHttpValue($request, 'tool');
         $this->editSelection = ($tool == 'edit_sel' && $shape);
         
-        // clicked on validate button, if not, navigation tool used so don't update or insert features
-        $this->editValidateAll = $this->getHttpValue($request, 'edit_validate_all');
+        // clicked on validate button, if not,
+        // navigation tool used so don't update or insert features
+        $this->editValidateAll = 
+            $this->getHttpValue($request, 'edit_validate_all') ? true : false;
         
         // clear the editState features on cancel
         if (!empty($request['edit_cancel'])) {
@@ -307,8 +309,10 @@ class ClientEdit extends ClientPlugin
         else
             $edit_max_insert = 0;
 
-        $editResultNbCol = $this->getConfig()->editResultNbCol != '' ? $this->getConfig()->editResultNbCol : 0;
-        $editDisplayAction = $this->getConfig()->editDisplayAction != '' ? $this->getConfig()->editDisplayAction : 'both';       
+        $editResultNbCol = $this->getConfig()->editResultNbCol != '' ?
+            $this->getConfig()->editResultNbCol : 0;
+        $editDisplayAction = $this->getConfig()->editDisplayAction != '' ?
+            $this->getConfig()->editDisplayAction : 'both';       
 
         $template->assign(array('edit_active' => true,
                                'edit_allowed' => $allowed,
@@ -360,7 +364,8 @@ class ClientEdit extends ClientPlugin
         }
         
         // get the attributes names list
-        if (isset($this->editState->attributeNames) && $this->editState->attributeNames) {
+        if (isset($this->editState->attributeNames)
+            && $this->editState->attributeNames) {
             $str = "";
             $str_i18n = "";
             foreach ($this->editState->attributeNames as $val) {
@@ -375,7 +380,8 @@ class ClientEdit extends ClientPlugin
         }
         
         // get the attributes types list
-        if (isset($this->editState->attributeTypes) && $this->editState->attributeTypes) {
+        if (isset($this->editState->attributeTypes)
+            && $this->editState->attributeTypes) {
             $str = "";
             foreach ($this->editState->attributeTypes as $val)
                 $str .= "\"".$val."\",";
@@ -479,7 +485,7 @@ class ClientEdit extends ClientPlugin
         if (!$allowed) return $toolsArray;
         
         $layersInit = $this->cartoclient->getMapInfo()->layersInit;
-        $layersCorePlugin = PluginManager::getPlugin('layers');
+        $layersCorePlugin = $this->cartoclient->getPluginManager()->getPlugin('layers');
         
         if (isset($this->editState->layer) &&
             !$layersCorePlugin->isLayerVisibleAtCurrentScale($this->editState->layer))
