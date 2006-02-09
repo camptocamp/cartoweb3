@@ -108,7 +108,7 @@
         {include file="toolbar.tpl" group=1 header=1}
         {include file="toolbar.tpl" group=2}
         <br />
-        {if $edit_allowed|default:''}
+        {if $edit_allowed|default:'' && $edit_layer_selected}
           {include file="toolbar.tpl" group=3}
           <input type="checkbox" id="snapping" name="edit_snapping" onclick='mainmap.snap("map")' {if $edit_snapping|default:''}checked=checked{/if}/>
           <img src="{r type=gfx plugin=edit}edit_snap.gif{/r}" title="{t}Allow vertex snapping{/t}" alt="{t}Allow vertex snapping{/t}"><br />
