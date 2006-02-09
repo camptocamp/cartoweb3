@@ -64,11 +64,14 @@ class ClientTestMainTableRules extends ClientPlugin {
             
         $tablesPlugin = $this->cartoclient->getPluginManager()->tables;        
         $registry = $tablesPlugin->getTableRulesRegistry();
-                                                                        
-        $registry->addColumnAdder('query', 'POLYGON*',
-            new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, -1),
-            array('url'), array('FID'),
-            array($this, 'computeQueryUrl')); 
+
+        if ($this->cartoclient->getOutputType() == 
+            Cartoclient::OUTPUT_HTML_VIEWER) {
+            $registry->addColumnAdder('query', 'POLYGON*',
+                new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, -1),
+                                   array('url'), array('FID'),
+                                   array($this, 'computeQueryUrl'));
+        }
     }    
 }
 
