@@ -1,0 +1,4 @@
+Vera    ./vera/Vera.ttf
+VeraBd  ./vera/VeraBd.ttf
+Wingdng3 ./vera/Wingdng3.ttf
+Wingdng2 ./vera/WINGDNG2.TTF
