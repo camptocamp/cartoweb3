@@ -498,10 +498,10 @@ class Polygon extends Shape {
                   ($lastPoint->x * $point->y - $point->x * $lastPoint->y);
             $y += ($lastPoint->y + $point->y) * 
                   ($lastPoint->x * $point->y - $point->x * $lastPoint->y);
-            }
+        }
 
-        $x /= count($this->point);
-        $y /= count($this->point);
+        $x /= count($this->points);
+        $y /= count($this->points);
             
         return new Point($x, $y);
     }
