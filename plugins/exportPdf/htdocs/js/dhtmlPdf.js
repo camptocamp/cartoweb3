@@ -1,23 +1,6 @@
 /* Copyright 2005 Camptocamp SA. 
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
-function hidePdfFeature(event) {
-  el = event.target ? event.target : event.srcElement;  
-  if (el.id != 'pdfrotate' && el.id != 'pdfrotate_icon') {
-    mainmap.removePdfFeature('map');
-  }
-}
-function addToolPdfListeners() { 
-  for (var i = 0; i < cw3_tools.length; i++ )    {
-    elt = xGetElementById(cw3_tools[i]);
-    xAddEventListener(elt, 'click', hidePdfFeature, false);
-    elt = xGetElementById(cw3_tools[i] + "_icon");
-    xAddEventListener(elt, 'click', hidePdfFeature, false);
-  }
-}
-EventManager.Add(window, 'load', addToolPdfListeners, false);
-
-
 
 /***** PDF tools ****/
 
@@ -93,12 +76,8 @@ Map.prototype.getPdfFeature = function(aDisplay) {
 }
 
 Map.prototype.hidePdfFeature = function(aDisplayName) {
-  var aDisplay = this.getDisplay(aDisplayName);
-
-  var feature = this.getPdfFeature(aDisplay);
-  if (aDisplay.getDisplayFeature(feature) != null) {
-    aDisplay.currentLayer.removeChild(aDisplay.getDisplayFeature(feature));
-  }
+  var aLayer = xGetElementById('map_drawing');
+  aLayer.innerHTML = '';
 }
 
 Map.prototype.showPdfFeature = function(aDisplayName) {
@@ -106,7 +85,7 @@ Map.prototype.showPdfFeature = function(aDisplayName) {
 
   var feature = this.getPdfFeature(aDisplay);
   if (aDisplay.getDisplayFeature(feature) == null) {
-    aDisplay.drawFeature(aDisplay.currentLayer, feature, _OFF, false); 
+    aDisplay.drawFeature(aDisplay.currentLayer, feature, _OFF, false);     
   }
 }
 
@@ -122,14 +101,15 @@ Map.prototype.removePdfFeature = function(aDisplayName) {
   this.hidePdfFeature(aDisplayName);
   var aDisplay = this.getDisplay(aDisplayName);
   var feature = this.getPdfFeature(aDisplay);
-  this.currentLayer.features.pop(feature);
+  this.currentLayer.features.pop(feature);  
 }
 
 Map.prototype.pdfrotate = function(aDisplay) {
   this.resetMapEventHandlers();
-  
+    
   this.getDisplay(aDisplay).mouseAction = new RotateFeatureTool(this.getDisplay(aDisplay));
-  
+
+  this.setCurrentLayer('drawing');
   this.showPdfFeature(aDisplay);
 
   this.onFeatureSelected = function(aFeature) {
@@ -142,6 +122,10 @@ Map.prototype.pdfrotate = function(aDisplay) {
     myform.pdfMapCenterX.value = center.vertices[0].x;
     myform.pdfMapCenterY.value = center.vertices[0].y;
     myform.pdfMapAngle.value = this.getDisplay(aDisplay).angle;
+  }
+  this.onToolUnset = function() {
+    //clear the layer
+    this.getDisplay(aDisplay).clearLayer('drawing');
   }
 }
 
