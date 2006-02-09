@@ -59,7 +59,7 @@ function selectTool(e) {
 // initialise event listener for the different elements on the page
 function addOutlineToolListeners() {
 
-  var onClicElements = new Array('outline_point_symbol_d','outline_point_color_d',
+  var onClickElements = new Array('outline_point_symbol_d','outline_point_color_d',
                     'outline_line_color_d','outline_polygon_outline_color_d',
                     'outline_polygon_background_color_d');
 
@@ -68,7 +68,7 @@ function addOutlineToolListeners() {
                     'outline_polygon_outline_color','outline_polygon_background_color',
                     'outline_polygon_transparency');
 
-  for (var i = 0; i < onClicElements.length; i++){
+  for (var i = 0; i < onClickElements.length; i++){
     elm = xGetElementById(onClicElements[i]);
     EventManager.Add(elm, 'click', selectTool, false);
   }
@@ -76,6 +76,8 @@ function addOutlineToolListeners() {
   for (var i = 0; i < onFocusElements.length; i++){
     elm = xGetElementById(onFocusElements[i]);
     EventManager.Add(elm, 'focus', selectTool, false);
+    /* add attribute to input element */
+    elm.setAttribute('autocomplete','off');
   }
 }
 EventManager.Add(window, 'load', addOutlineToolListeners, false);

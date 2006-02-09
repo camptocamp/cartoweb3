@@ -21,7 +21,7 @@
 <input type="hidden" id="outline_point_symbol" name="outline_point_symbol" value="{$outline_point_symbol_selected}" />
 
 <div class="outl_block_center">          
-  {t}size{/t}:<br /><input type="text" id="outline_point_size" autocomplete="off" name="outline_point_size" size="3" value="{$outline_point_size_selected}" />    
+  {t}size{/t}:<br /><input type="text" id="outline_point_size" name="outline_point_size" size="3" value="{$outline_point_size_selected}" />    
 </div>
 
 <div class="outl_block_center">
@@ -29,7 +29,7 @@
   <center>
   <div id="outline_point_color_d" class="outl_color_block" style="{if $outline_point_color_selected != ''}background-color:{$outline_point_color_selected};{/if}"  onclick="javascript:toolPicker('1','outline_point_color');" ></div>
   </center>
-  <input type="text" id="outline_point_color" name="outline_point_color" autocomplete="off" size="7" value="{$outline_point_color_selected}" />
+  <input type="text" id="outline_point_color" name="outline_point_color" size="7" value="{$outline_point_color_selected}" />
 </div>
 </fieldset>
 
@@ -38,7 +38,7 @@
 
 <div class="outl_block_center">          
   {t}border size{/t}:<br />
-  <input type="text" id="outline_line_size" name="outline_line_size" autocomplete="off" size="3" value="{$outline_line_size_selected}" />  
+  <input type="text" id="outline_line_size" name="outline_line_size" size="3" value="{$outline_line_size_selected}" />  
 </div>
 
 <div class="outl_block_center">
@@ -46,12 +46,12 @@
   <center>
   <div id="outline_line_color_d" class="outl_color_block" style="{if $outline_line_color_selected != ''}background-color:{$outline_line_color_selected};{/if}"  onclick="javascript:toolPicker('1','outline_line_color');" ></div>
   </center>
-  <input type="text" id="outline_line_color" name="outline_line_color" autocomplete="off" size="7" value="{$outline_line_color_selected}" />
+  <input type="text" id="outline_line_color" name="outline_line_color" size="7" value="{$outline_line_color_selected}" />
 </div>
 
 <div class="outl_block_center">          
   {t}transparency{/t}:<br />
-  <input type="text" id="outline_line_transparency" name="outline_line_transparency" autocomplete="off" size="3" value="{$outline_line_transparency_selected}" />    
+  <input type="text" id="outline_line_transparency" name="outline_line_transparency" size="3" value="{$outline_line_transparency_selected}" />    
 </div>
 
 </fieldset>
@@ -64,7 +64,7 @@
   <center>
   <div id="outline_polygon_outline_color_d" class="outl_color_block" style="{if $outline_polygon_outline_color_selected != ''}background-color:{$outline_polygon_outline_color_selected};{/if}"  onclick="javascript:toolPicker('1','outline_polygon_outline_color');" ></div>
   </center>
-  <input type="text" id="outline_polygon_outline_color" name="outline_polygon_outline_color" autocomplete="off" size="7" value="{$outline_polygon_outline_color_selected}" />
+  <input type="text" id="outline_polygon_outline_color" name="outline_polygon_outline_color" size="7" value="{$outline_polygon_outline_color_selected}" />
 </div>
 
 <div class="outl_block_center">
@@ -72,12 +72,12 @@
   <center>
   <div id="outline_polygon_background_color_d" class="outl_color_block" style="{if $outline_polygon_background_color_selected != ''}background-color:{$outline_polygon_background_color_selected};{/if}"  onclick="javascript:toolPicker('1','outline_polygon_background_color');" ></div>
   </center>
-  <input type="text" id="outline_polygon_background_color" name="outline_polygon_background_color" autocomplete="off" size="7" value="{$outline_polygon_background_color_selected}" />
+  <input type="text" id="outline_polygon_background_color" name="outline_polygon_background_color" size="7" value="{$outline_polygon_background_color_selected}" />
 </div>
 
 <div class="outl_block_center">          
   {t}transparency{/t}:<br />
-  <input type="text" id="outline_polygon_transparency" name="outline_polygon_transparency" autocomplete="off" size="3" value="{$outline_polygon_transparency_selected}" />    
+  <input type="text" id="outline_polygon_transparency" name="outline_polygon_transparency" size="3" value="{$outline_polygon_transparency_selected}" />    
 </div>
 </fieldset>
 
