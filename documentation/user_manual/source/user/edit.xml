@@ -110,13 +110,13 @@ END]]></programlisting>
       </listitem>
       <listitem>
         <formalpara>
-          <title>At that point, you may launch <emphasis>edit_db.sql</emphasis></title>
+          <title>At that point, you may launch <emphasis>demo_edit.sql</emphasis></title>
           <para>
           located in the
           </para>
         </formalpara>
         <para>
-          <filename>&lt;CARTOWEB_HOME&gt;/projects/editProject/server_conf/sql</filename> directory.
+          <filename>&lt;CARTOWEB_HOME&gt;/projects/demoEdit/server_conf/sql</filename> directory.
         </para>
         <para>This will create 3 sample geometry tables, one for each type of geometry.
         </para>
