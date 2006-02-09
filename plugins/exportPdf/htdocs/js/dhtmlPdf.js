@@ -1,6 +1,23 @@
 /* Copyright 2005 Camptocamp SA. 
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
+function hidePdfFeature(event) {
+  mainmap.removePdfFeature('map');
+}
+function addToolPdfListeners() { 
+
+  for (var i = 0; i < cw3_tools.length; i++ )    {
+    if (cw3_tools[i] != 'pdfrotate') {
+      elt = xGetElementById(cw3_tools[i]);
+      xAddEventListener(elt, 'click', hidePdfFeature, false);
+      elt = xGetElementById(cw3_tools[i] + "_icon");
+      xAddEventListener(elt, 'click', hidePdfFeature, false);
+    }
+  }
+}
+EventManager.Add(window, 'load', addToolPdfListeners, false);
+
+
 
 /***** PDF tools ****/
 
@@ -78,6 +95,14 @@ Map.prototype.getPdfFeature = function(aDisplay) {
 Map.prototype.hidePdfFeature = function(aDisplayName) {
   var aLayer = xGetElementById('map_drawing');
   aLayer.innerHTML = '';
+/*
+  var aDisplay = this.getDisplay(aDisplayName);
+
+  var feature = this.getPdfFeature(aDisplay);
+  if (aDisplay.getDisplayFeature(feature) != null) {
+    aDisplay.currentLayer.removeChild(aDisplay.getDisplayFeature(feature));
+  }
+*/
 }
 
 Map.prototype.showPdfFeature = function(aDisplayName) {
@@ -122,10 +147,6 @@ Map.prototype.pdfrotate = function(aDisplay) {
     myform.pdfMapCenterX.value = center.vertices[0].x;
     myform.pdfMapCenterY.value = center.vertices[0].y;
     myform.pdfMapAngle.value = this.getDisplay(aDisplay).angle;
-  }
-  this.onToolUnset = function() {
-    //clear the layer
-    this.getDisplay(aDisplay).clearLayer('drawing');
   }
 }
 
