@@ -97,9 +97,9 @@
           {include file="toolbar.tpl" group="1" header="1"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="3"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           {include file="toolbar.tpl" group="4"}
-          {if $exportPdf|default:''}
+          <span {if !$exportPdf}style="display:none; "{/if}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{include file="toolbar.tpl" group="2"}
-          {/if}
+          </span>
         </td>
       </tr>
       <tr>
