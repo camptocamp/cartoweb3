@@ -98,6 +98,10 @@ fetch_contrib()
 
 create_tarball()
 {
+# How to rebuild the patch (patch_include):
+# cp -r include include_orig
+# > Modify include
+# diff -dup8r include_orig include > patch_include
 
     [ -f patch_include ] && (cd include; patch -p1 < ../patch_include)
 
