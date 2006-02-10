@@ -24,7 +24,7 @@ msgstr ""
 
 #: coreplugins/query/server/ServerQuery.php:449
 msgid "Query"
-msgstr ""
+msgstr "Informationen"
 
 #: plugins/routing/server/ServerRouting.php:545
 msgid "No path found"
