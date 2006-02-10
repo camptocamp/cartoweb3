@@ -59,6 +59,7 @@
 <table>
   <tr>
     <td valign="top" width="250">
+      <img src="{r type=gfx}spacer.gif{/r}" width="250" height="1"/>
       <input type="submit" name="refresh" value="refresh" class="form_button" />
       <input type="submit" name="reset_session" value="reset_session" class="form_button" 
             onclick="javascript:document.carto_form.posted.value=0;FormItemSelected();"/>
