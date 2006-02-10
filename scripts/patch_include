@@ -1,57 +1,23 @@
-diff -dur include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php
---- include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2005-10-14 09:00:17.000000000 +0000
-+++ include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2005-10-14 08:53:38.000000000 +0000
-@@ -97,7 +97,7 @@
-      * @static
-      */
-     public static function factory($type, $out = NULL) {
--        require_once 'PHPUnit2/Util/TestDox/ResultPrinter_' . $type . '.php';
-+        require_once 'PHPUnit2/Util/TestDox/ResultPrinter/' . $type . '.php';
+diff -dup8r include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php
+--- include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2006-02-10 15:05:53.000000000 +0100
++++ include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2006-02-10 15:10:47.000000000 +0100
+@@ -232,17 +232,17 @@ abstract class PHPUnit2_Util_TestDox_Res
+     }
  
-         $class = 'PHPUnit2_Util_TestDox_ResultPrinter_' . $type;
-         return new $class($out);
-@@ -211,7 +211,7 @@
+     /**
+      * @access private
+      * @since  Method available since Release 2.3.0
       */
      private function doEndClass() {
          foreach ($this->tests as $name => $data) {
--            if ($data['failures'] == 0) {
-+            if (isset($data['failures']) && $data['failures'] == 0) {
+-            if ($data['failure'] == 0) {
++            if (isset($data['failure']) && $data['failure'] == 0) {
                  $this->onTest($name);
              }
          }
-diff -dur include_orig/pear/PhpDocumentor/phpDocumentor/Io.inc include/pear/PhpDocumentor/phpDocumentor/Io.inc
---- include_orig/pear/PhpDocumentor/phpDocumentor/Io.inc	2005-10-14 09:00:52.000000000 +0000
-+++ include/pear/PhpDocumentor/phpDocumentor/Io.inc	2005-10-14 10:38:29.000000000 +0000
-@@ -469,7 +469,8 @@
-             if (!$path) $path = '/';
-             $file1 = $file;
-             $file = basename($file);
--            $ext = array_pop(explode('.',$file));
-+            $tmp = explode('.',$file);
-+            $ext = array_pop($tmp);
-             if (strlen($ext) == strlen($file)) $ext = '';
-             $struc[$path][] = array('file' => $file,'ext' => $ext,'path' => $file1);
-         }
-diff -dur include_orig/pear/PhpDocumentor/phpDocumentor/Setup.inc.php include/pear/PhpDocumentor/phpDocumentor/Setup.inc.php
---- include_orig/pear/PhpDocumentor/phpDocumentor/Setup.inc.php	2005-10-14 09:00:52.000000000 +0000
-+++ include/pear/PhpDocumentor/phpDocumentor/Setup.inc.php	2005-10-14 10:35:52.000000000 +0000
-@@ -512,7 +512,8 @@
-                     {
-                         // Make sure the file isn't a hidden file
-                         $file = strtr($file, "\\", "/");
--                        $test = array_pop(explode("/",$file));
-+                        $tmp = explode("/",$file);
-+                        $test = array_pop($tmp);
-                         if (substr($test,0,1) != ".") 
-                         {
-                                if (!$this->setup->checkIgnore(basename($file),str_replace('\\','/',dirname($file)),$this->ignore_files))
-@@ -624,7 +625,8 @@
-             {
-                 phpDocumentor_out("Reading file $file");
-                 flush();
--                $this->parse->parse($this->setup->readPhpFile($file, $this->render->quietMode),$file,$base,$this->packages);
-+                $tmp = $this->setup->readPhpFile($file, $this->render->quietMode);
-+                $this->parse->parse($tmp,$file,$base,$this->packages);
-     
-             }
-             $b = (time() - $this->parse_start_time);
+ 
+         $this->endClass($this->prettifier->prettifyTestClass($this->testClass));
+     }
+ 
+     /**
+Only in include/pear/PhpDocumentor/phpDocumentor: Setup.inc.php~
