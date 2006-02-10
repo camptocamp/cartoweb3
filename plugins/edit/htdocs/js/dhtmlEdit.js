@@ -461,6 +461,8 @@ function selectEditFeature(id) {
 
 function uncheckFeaturesRadios() {
     var radArray = myform['edit_selected'];
+    if (radArray == null)
+      return;
     if (typeof radArray.length == "undefined") // only one radio
       radArray.checked = false;
     for (i = 0; i < radArray.length; i++) {
