@@ -121,3 +121,30 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   margin: 0;
   display: none;
 }
+
+.help_h1 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.help_h2 {
+  font-weight: bold;
+}
+.table_help{
+  border:0;
+  width:95%;
+  background-color:#FAD54D;
+}
+#folder5 {
+  text-align: justify;
+  font-size: 0.9em;
+  height:300px;
+  overflow:auto;
+}
+#folder5 ul{
+  margin-left: 5px;
+  padding: 0px 0px 0px 15px;
+}
+#folder5 ul li {
+  padding: 0px 0px 3px 5px;
+}
+
