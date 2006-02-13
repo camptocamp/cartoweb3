@@ -75,8 +75,11 @@ createMap = function() {
   mainmap.snap("map");
   
   // initial selected tool
-  if (typeof cw3_initial_selected_tool != "undefined")
+  if (typeof cw3_initial_selected_tool != "undefined") {
+    // prevent interface failure if last selected tool was pdfrotate, set it to default zoomin 
+    cw3_initial_selected_tool = cw3_initial_selected_tool.replace(/pdfrotate/g, "zoomin");
   	eval (cw3_initial_selected_tool);
+  }
   
   xHide(xGetElementById('loadbarDiv'));
 };
