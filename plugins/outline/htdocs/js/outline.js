@@ -79,6 +79,8 @@ function addOutlineToolListeners() {
   
   for (var i = 0; i < onFocusElements.length; i++){
     elm = xGetElementById(onFocusElements[i]);
+    if (!elm)
+      continue;
     EventManager.Add(elm, 'focus', selectTool, false);
     /* add attribute to input element */
     elm.setAttribute('autocomplete','off');
