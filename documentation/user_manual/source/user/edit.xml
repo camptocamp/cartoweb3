@@ -116,7 +116,7 @@ END]]></programlisting>
           </para>
         </formalpara>
         <para>
-          <filename>&lt;CARTOWEB_HOME&gt;/projects/demoEdit/server_conf/sql</filename> directory.
+          <filename>&lt;CARTOWEB_HOME&gt;/projects/demoEdit/</filename> directory.
         </para>
         <para>This will create 3 sample geometry tables, one for each type of geometry.
         </para>
