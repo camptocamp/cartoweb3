@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Example of table rules.
  *
