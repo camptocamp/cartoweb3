@@ -457,12 +457,16 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
         A few demos are embedded in &cartoweb; to demonstrate the range of functionalities that &cartoweb; offers and give users examples on how to implement them:
         <itemizedlist>
           <listitem>
-            <para><emphasis>demoCW3</emphasis> : this is an overview of the standard functionalities 
+            <para><emphasis>demoCW3</emphasis>: this is an overview of the standard functionalities 
             that are somehow visible for an end-user in &cartoweb;,</para>
           </listitem>
           <listitem>
-            <para><emphasis>demoPlugins</emphasis> : it shows the new functionalities that 
-            are available in &cartoweb; since the latest version,</para>
+            <para><emphasis>demoPlugins</emphasis>: it shows the new functionalities that 
+            are available in latest &cartoweb; versions,</para>
+          </listitem>
+          <listitem>
+            <para><emphasis>demoEdit</emphasis>: a simple demonstration of the geographical objects 
+            edition and persistent storage tools.</para>
           </listitem>
         </itemizedlist>
       </para>
@@ -556,7 +560,7 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
           <formalpara>
             <title>Execute <filename>cw3setup.php</filename></title> 
             <para>
-              file, with the <emphasis>--fetch-demo</emphasis> option to download geographic datas.
+              file, with the <emphasis>--fetch-demo</emphasis> option to download geographical data.
             </para>
           </formalpara>
         </listitem>
@@ -669,11 +673,11 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       <sect3 id="user.install.demo.details.demoLocation">
         <title>demoLocation Extension</title>
         <para>
-          This extension allows you to select geographic objects of a layer by specifying a name.
+          This extension allows you to select geographical objects of a layer by specifying a name.
         </para>
         <para>
           According to the name selected, the corresponding id is fetched from the search name 
-          database and submitted to the recentering coreplugin. This coreplugin selects the geographic
+          database and submitted to the recentering coreplugin. This coreplugin selects the geographical
           object in the shapefile according to the id, the selected layer and recenter on it.
         </para>
         <para>
@@ -874,6 +878,10 @@ END]]></screen>
             </itemizedlist>
           </para>
         </sect4>
+      </sect3>
+      <sect3 id="user.install.demo.details.demoEdit">
+        <title>demoEdit Extension</title>
+        <para>Some useful tips are available in <xref linkend="user.edit.howto"/>.</para>
       </sect3>
     </sect2>
   </sect1>
