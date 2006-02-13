@@ -24,11 +24,11 @@ onchange="javascript: mainmap.updatePdfFeature('map');">
 <div id="pdf_orientation"><fieldset><legend>{t}Orientation{/t}</legend>
 <input type="radio" name="pdfOrientation" id="ptt" value="portrait" 
 {if $pdfOrientation == 'portrait'}checked="checked"{/if} 
-onchange="javascript: mainmap.updatePdfFeature('map');" /><label 
+onclick="javascript: mainmap.updatePdfFeature('map');" /><label 
 for="ptt">{t}Portrait{/t}</label>
 <input type="radio" name="pdfOrientation" id="lsp" value="landscape"
 {if $pdfOrientation == 'landscape'}checked="checked"{/if} 
-onchange="javascript: mainmap.updatePdfFeature('map');" /><label
+onclick="javascript: mainmap.updatePdfFeature('map');" /><label
 for="lsp">{t}Landscape{/t}</label>
 </fieldset></div>
 
