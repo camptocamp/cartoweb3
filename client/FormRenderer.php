@@ -261,7 +261,7 @@ class FormRenderer {
             $this->drawUserAndRoles();
             
             // ToolPicker
-            $this->smarty->assign('toolpicker_active' => 
+            $this->smarty->assign('toolpicker_active', 
                                   $this->cartoclient->getConfig()->toolPickerOn);
             
             // lang links
