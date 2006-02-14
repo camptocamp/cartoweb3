@@ -301,7 +301,7 @@ client.ini configuration file, by setting toolPickerOn = true.</para>
           <emphasis>inverted image</emphasis> need the php library GD to create 
           an inverted version of the symbol, which is then used for the selected 
           symbol.</para>
-          <para>The hiligh mode is set in the <emphasis>client.ini</emphasis> 
+          <para>The hiligh mode is set in the <emphasis>server_conf/outline.ini</emphasis> 
           file:</para>
           <itemizedlist>
             <listitem>

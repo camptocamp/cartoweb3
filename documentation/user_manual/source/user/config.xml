@@ -171,11 +171,6 @@ languages list.</para>
         <para> toolPickerOn = true|false: enable the ToolPicker dhtml. See 
         <xref linkend="user.annotate.toolpicker"/>.</para>
       </listitem>
-      <listitem>
-        <para> symbolPickerHilight = inversed|borderhilight: set the hilight
-mode to use in the SymbolPicker interface. See 
-<xref linkend="user.annotate.toolpicker.usage.symbol"/>.</para>
-      </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.config.server">
