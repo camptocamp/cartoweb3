@@ -104,6 +104,11 @@
             before it is returned to the client. For example, people can use it 
             to convert square meters to square kilometers. </para>
         </listitem>
+        <listitem>
+        <para> symbolPickerHilight = inversed|borderhilight: set the hilight
+mode to use in the SymbolPicker interface. See 
+<xref linkend="user.annotate.toolpicker.usage.symbol"/>.</para>
+      </listitem>
       </itemizedlist>
     </sect2>
   </sect1>
