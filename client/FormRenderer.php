@@ -259,13 +259,11 @@ class FormRenderer {
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
             $this->drawUserAndRoles();
-    
+            
             // ToolPicker
-            $this->smarty->assign(array('toolpicker_active' => 
-                                  $this->cartoclient->getConfig()->toolPickerOn,
-                                        'symbolPickerHilight' => 
-                                  $this->cartoclient->getConfig()->symbolPickerHilight));
-
+            $this->smarty->assign('toolpicker_active' => 
+                                  $this->cartoclient->getConfig()->toolPickerOn);
+            
             // lang links
             $this->smarty->assign(array('locales'     => I18n::getLocales(),
                                         'currentLang' => LANG,
