@@ -41,6 +41,7 @@
           <element name="pathToSymbols" type="xsd:string"/>
           <element name="symbolType" type="xsd:string"/>
           <element name="outlineDefaultValues" type="types:ArrayOfDefaultValues"/>
+          <element name="symbolPickerHilight" type="xsd:string"/>
         </all>
       </complexType>
 

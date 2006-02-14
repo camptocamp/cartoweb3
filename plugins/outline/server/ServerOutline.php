@@ -397,7 +397,12 @@ class ServerOutline extends ClientResponderAdapter
         }        
 
         $outlineInit->outlineDefaultValues = $defaultValuesList;
-
+        
+        $outlineInit->symbolPickerHilight = $this->getConfig()->
+                                       symbolPickerHilight ? 
+                                       $this->getConfig()->symbolPickerHilight :
+                                       'borderhilight';
+                                            
         return $outlineInit;
     }
 
@@ -453,8 +458,11 @@ class ServerOutline extends ClientResponderAdapter
                     $newIcon = $newClass->createLegendIcon(30,30);
                     $check = $newIcon->saveImage($iconPath);
                     $newIcon->free(); // Frees resources
-                    Utils::invertImage($iconPath, $invertedIconPath, 
-                                       true, $this->symbolType);
+                      
+                    if ($this->getConfig()->symbolPickerHilight == 'inversed') {
+                        Utils::invertImage($iconPath, $invertedIconPath, 
+                                            true, $this->symbolType);
+                    }
 
                     if ($check < 0) {
                         throw new CartoserverException(

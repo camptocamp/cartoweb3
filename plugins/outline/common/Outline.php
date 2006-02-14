@@ -164,6 +164,11 @@ class OutlineInit extends CwSerializable {
     public $outlineDefaultValues;
 
     /**
+     * @var string
+     */
+    public $symbolPickerHilight;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
@@ -176,6 +181,8 @@ class OutlineInit extends CwSerializable {
         $this->symbolType           = self::unserializeValue($struct, 'symbolType');
         $this->outlineDefaultValues = self::unserializeArray($struct, 
                                                             'outlineDefaultValues');
+        $this->symbolPickerHilight  = self::unserializeValue($struct,
+                                                             'symbolPickerHilight');
     }
 
 }

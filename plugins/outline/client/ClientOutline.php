@@ -377,6 +377,7 @@ class ClientOutline extends ClientPlugin
         foreach($this->symbols->pointLabels as $val) {
             $transSymbols[] = I18n::gt($val);
         }
+
         $template->assign(array('outline_active' => true,
                                 'outline'        => $this->drawOutline(),
                                 'outlinelabel'   => $this->drawOutlinelabel(),
@@ -388,6 +389,8 @@ class ClientOutline extends ClientPlugin
                                                  => $transSymbols,
                                 'outline_line_available_symbols' 
                                                  => $this->symbols->line,
+                                'symbolPickerHilight' => $this->symbols->
+                                                         symbolPickerHilight
                                 ));
     }
 
