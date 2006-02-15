@@ -344,8 +344,11 @@ List of options:
           </listitem>
           <listitem>
             <para>
-              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;. Restart your web server.
+              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;. 
             </para>
+          </listitem>
+          <listitem>
+            <para>Reboot Windows when prompted.</para>
           </listitem>
           <listitem>
             <para>
