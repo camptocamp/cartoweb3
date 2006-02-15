@@ -791,7 +791,7 @@ function removeDevFilesIfProd() {
         return;
     }
     
-    $filesToRemove = array('htdocs/info.php', 'htdocs/index.html');
+    $filesToRemove = array('htdocs/info.php');
     foreach ($filesToRemove as $file) {
         if (!is_file($file) && !is_link($file)) {
             continue;
