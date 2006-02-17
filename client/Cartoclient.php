@@ -59,6 +59,7 @@ class CartoclientException extends CartowebException {
  * @package Client
  */
 class CartoForm {
+    
     const BUTTON_NONE = 1;
     const BUTTON_MAINMAP = 2;
     const BUTTON_KEYMAP = 3;
@@ -335,6 +336,11 @@ class Cartoclient {
      * Prefix for session key.
      */
     const CLIENT_SESSION_KEY = 'CW3_client_session_key';
+
+    /**
+     * CartoWeb version of the Cartoclient
+     */
+    const CARTOCLIENT_VERSION = 'HEAD';
     
     /**
      * Constructor
@@ -493,6 +499,14 @@ class Cartoclient {
 
         return array('location', 'layers', 'images', 'query', 'statictools',
                      'tables');
+    }
+
+    /**
+     * Returns CartoWeb version of the Cartoclient
+     * @return string
+     */
+    public function getClientVersion() {
+        return self::CARTOCLIENT_VERSION;
     }
 
     /**
