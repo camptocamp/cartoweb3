@@ -64,19 +64,19 @@
       </listitem>
       <listitem>
         <para> 
-          weightZoomIn<indexterm><primary>weightZoomIn</primary></indexterm>: 
-          integer defining display order of the zoom_in tool icon in toolbar 
+          weightZoomin<indexterm><primary>weightZoomin</primary></indexterm>: 
+          integer defining display order of the zoomin tool icon in toolbar 
           (if not specified, default to 10). A negative weight disables the 
           tool. </para>
       </listitem>
       <listitem>
         <para> 
-          weightZoomOut<indexterm><primary>weightZoomOut</primary></indexterm>: 
-          see weightZoomIn (default to 11) </para>
+          weightZoomout<indexterm><primary>weightZoomout</primary></indexterm>: 
+          see weightZoomin (default to 11) </para>
       </listitem>
       <listitem>
         <para> weightPan<indexterm><primary>weightPan</primary></indexterm>: 
-          see weightZoomIn (default to 12) </para>
+          see weightZoomin (default to 12) </para>
       </listitem>
       <listitem>
         <para> crosshairSymbol<indexterm><primary>crosshairSymbol</primary></indexterm>:
