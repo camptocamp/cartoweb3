@@ -1,4 +1,3 @@
-toto
 
 <div id='menu1' class='menu'>
 {if $edit_allowed|default:''}

@@ -305,6 +305,23 @@ Map.prototype.edit_del_feature = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('delete.feature');
   this.onFeatureChange = function(aFeature) {
+    var editTable = xGetElementById("edit_table");
+    
+    // unset the feature in the features' array
+    if (aFeature.operation == 'insert') {
+      this.editTableRemoveRow(editTable, aFeature);
+      var l = this.currentLayer.features.length;
+      for (var i = 0; i < l; i++) {
+        if (this.currentLayer.features[i].id == aFeature.id) {
+          alert (i);
+          var index = i;
+          continue;
+        }
+      }
+      this.currentLayer.features = array_unset(this.currentLayer.features, index);
+    } else {
+      this.editTableDeleteRow(editTable, aFeature);
+    }
     this.displayFeaturesCount();
   }
 };
@@ -444,6 +461,8 @@ function selectEditFeature(id) {
 
 function uncheckFeaturesRadios() {
     var radArray = myform['edit_selected'];
+    if (radArray == null)
+      return;
     if (typeof radArray.length == "undefined") // only one radio
       radArray.checked = false;
     for (i = 0; i < radArray.length; i++) {
@@ -457,6 +476,7 @@ function uncheckFeaturesRadios() {
 Map.prototype.editTableAddRow = function(table, aFeature) {
   var tbody = xGetElementsByTagName('tbody', table)[0];
   var row = xCreateElement("tr");
+  row.id = 'edit_row_' + aFeature.id;
   // hilight table row and display feature
   row.onmouseover = function() {
     this.style.backgroundColor = "#F4F5F7";
@@ -578,6 +598,28 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   xAppendChild(tbody, row);
 }
 
+/**
+ * Removes a row to the edit features table
+ */
+Map.prototype.editTableRemoveRow = function(table, aFeature) {
+  var row = xGetElementById('edit_row_' + aFeature.id);
+  table.firstChild.removeChild(row);
+}
+
+/**
+ * Removes a row to the edit features table
+ */
+Map.prototype.editTableDeleteRow = function(table, aFeature) {
+  var row = xGetElementById('edit_row_' + aFeature.id);
+  row.className = 'deleted';
+  var inputs = xGetElementsByTagName('input', row);
+  var l = inputs.length;
+  for (var i = 0; i < l; i++) {
+    inputs[i].setAttribute('disabled',true);
+  }
+}
+
+
 function validateFormInput(type, value) {
   if (type == "integer") {
     if (isNaN(value)) {
@@ -587,4 +629,16 @@ function validateFormInput(type, value) {
       
   }
   return true;
+}
+
+function array_unset(array,index) {
+  // unset $array[$index], shifting others values
+  var res = new Array();
+  var i = 0;
+  var l = array.length;
+  for (var i = 0; i < l; i++) {
+    if (i != index)
+      res.push(array[i]);
+  }
+  return res;
 }
