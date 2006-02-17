@@ -399,7 +399,7 @@ class Cartoclient {
                 if (!isset($GLOBALS['headless']))
                     header('HTTP/1.1 500 Internal Server Error');
                 print 'An exception in early stage occured: <pre>';
-                var_dump($exception);
+                var_export($exception);
                 print '</pre>';
             }
             // Cartoclient was not initialized, exit
