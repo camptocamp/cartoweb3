@@ -739,7 +739,9 @@ class Cartoclient {
      * $_REQUEST, $_ENV, client.ini, auto (first initialMapState found).
      * @return InitialMapState
      */
-    private function getInitialMapState() {
+    public function getInitialMapState() {
+        if (!isset($this->initialMapState)) {
+
             $mapStates = $this->getMapInfo()->initialMapStates;
         
             if (empty($mapStates))
@@ -753,21 +755,22 @@ class Cartoclient {
                 // currently it generates a failure...
                 $stateId = $_REQUEST['initialState'];
                 $stateSource = 'REQUEST variable';
-                $initialMapState = $this->getMapInfo()
+                $this->initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } elseif (!empty($_ENV['CW3_INITIAL_MAP_STATE_ID'])) { 
                 // tries ENV
                 $stateId = $_ENV['CW3_INITIAL_MAP_STATE_ID'];
                 $stateSource = 'ENV variable';
-                $initialMapState = $this->getMapInfo()
+                $this->initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } elseif (@$this->config->initialMapStateId) {
                 // tries client.ini
                 $stateId = $this->config->initialMapStateId;
                 $stateSource = 'INI file';
-                $initialMapState = $this->getMapInfo()
+
+                $this->initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } else {
@@ -775,19 +778,19 @@ class Cartoclient {
                 $statesIds = array_keys($mapStates);
                 $stateId = $statesIds[0];
                 $states = array_values($mapStates);
-                $initialMapState = $states[0];
+                $this->initialMapState = $states[0];
                 $stateSource = 'auto';
             }
             
-            if ($initialMapState == NULL) {
+            if ($this->initialMapState == NULL) {
                 throw 
                    new CartoclientException("cant find initial map state $stateId");
             }
 
             $this->log->debug("Using '$stateId' initialMapState,"
                               . " detected from $stateSource.");
-
-            return $initialMapState;
+        }
+        return $this->initialMapState;
     }
 
     /**

@@ -265,7 +265,7 @@ class ClientLocation extends ClientPlugin
             $this->cartoclient->getPluginManager()->getPlugin('outline') != NULL) {
 
             $this->locationState->crosshair = new StyledShape();
-            $this->locationState->crosshair->shapeStyle = new ShapeStyle();
+            $this->locationState->crosshair->shapeStyle = new StyleOverlay();
 
             $symbol = $this->getConfig()->crosshairSymbol;
             if (!empty($symbol)) {
@@ -414,10 +414,13 @@ class ClientLocation extends ClientPlugin
             $layersLabel[] = I18n::gt($layer->label); 
         }
 
-        if (!empty($this->locationState->idRecenterSelected))
+        if (!empty($this->locationState->idRecenterSelected)) {
             $idRecenterSelected = $this->locationState->idRecenterSelected;
-        else
+        } elseif (isset($layersId[0])) {
             $idRecenterSelected = $layersId[0];
+        } else {
+            $idRecenterSelected = 0;
+        }
 
         $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
                                     'id_recenter_layers_label' => $layersLabel,
@@ -770,6 +773,10 @@ class ClientLocation extends ClientPlugin
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
                         $this->locationState->bbox->getCenter());
+                          
+        $locationType = $locationRequest->locationType;                      
+        $locationRequest->$locationType->showRefMarks
+            = $this->getConfig()->showRefMarks; 
         return $locationRequest;
     }
 
@@ -791,18 +798,26 @@ class ClientLocation extends ClientPlugin
      * @return float
      */
     public function getCurrentScale() {
-        return $this->locationResult->scale;
+        if (isset($this->locationResult))
+            return $this->locationResult->scale;
     }
 
     /**
      * @see InitUser::handleInit()
      */
     public function handleInit($locationInit) {
+
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
-        $this->fullExtent = $locationInit->fullExtent;
+
+        if($this->cartoclient->getInitialMapState()->location->bbox) {
+            $this->fullExtent = $this->cartoclient->getInitialMapState()
+                                ->location->bbox;
+        } else {
+            $this->fullExtent = $locationInit->fullExtent;  
+        }
     }
     
     /**
@@ -966,6 +981,13 @@ class ClientLocation extends ClientPlugin
                     break;
             
             }
+        }
+        
+        $showRefMarks = $configuration->getShowRefMarks();
+        if (!is_null($showRefMarks)) {
+
+            $locationType = $locationRequest->locationType;            
+            $locationRequest->$locationType->showRefMarks = $showRefMarks;            
         }
     }
 }
