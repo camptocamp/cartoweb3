@@ -5,12 +5,9 @@
 {t}Choose layer{/t}<br />
 <select name="edit_layer" onchange="javascript:FormItemSelected();">
 <option value="0">layer to edit</option>
-{foreach from=$edit_layers item=edit_layer}
-  <option value="{$edit_layer->id}"
-  {if $edit_layer->disabled && $edit_layer->id != $edit_layer_selected}disabled="disabled"{/if}
-  {if $edit_layer->id == $edit_layer_selected}selected="selected"{/if}
-  >{t}{$edit_layer->label}{/t}</option>
-{/foreach}
+
+{html_options values=$edit_layers_id output=$edit_layers_label
+    selected=$edit_layer_selected}
 </select><br />
 {t}Features: {/t}<span id="features_num"></span><br />
 {t}Inserted: {/t}<span id="inserted_features_num"></span><br />

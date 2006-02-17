@@ -739,9 +739,7 @@ class Cartoclient {
      * $_REQUEST, $_ENV, client.ini, auto (first initialMapState found).
      * @return InitialMapState
      */
-    public function getInitialMapState() {
-        if (!isset($this->initialMapState)) {
-
+    private function getInitialMapState() {
             $mapStates = $this->getMapInfo()->initialMapStates;
         
             if (empty($mapStates))
@@ -755,22 +753,21 @@ class Cartoclient {
                 // currently it generates a failure...
                 $stateId = $_REQUEST['initialState'];
                 $stateSource = 'REQUEST variable';
-                $this->initialMapState = $this->getMapInfo()
+                $initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } elseif (!empty($_ENV['CW3_INITIAL_MAP_STATE_ID'])) { 
                 // tries ENV
                 $stateId = $_ENV['CW3_INITIAL_MAP_STATE_ID'];
                 $stateSource = 'ENV variable';
-                $this->initialMapState = $this->getMapInfo()
+                $initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } elseif (@$this->config->initialMapStateId) {
                 // tries client.ini
                 $stateId = $this->config->initialMapStateId;
                 $stateSource = 'INI file';
-
-                $this->initialMapState = $this->getMapInfo()
+                $initialMapState = $this->getMapInfo()
                                         ->getInitialMapStateById($stateId);
             
             } else {
@@ -778,19 +775,19 @@ class Cartoclient {
                 $statesIds = array_keys($mapStates);
                 $stateId = $statesIds[0];
                 $states = array_values($mapStates);
-                $this->initialMapState = $states[0];
+                $initialMapState = $states[0];
                 $stateSource = 'auto';
             }
             
-            if ($this->initialMapState == NULL) {
+            if ($initialMapState == NULL) {
                 throw 
                    new CartoclientException("cant find initial map state $stateId");
             }
 
             $this->log->debug("Using '$stateId' initialMapState,"
                               . " detected from $stateSource.");
-        }
-        return $this->initialMapState;
+
+            return $initialMapState;
     }
 
     /**
@@ -885,22 +882,22 @@ class Cartoclient {
 
                 $request = new FilterRequestModifier($_REQUEST);
                 $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
-												'FilterProvider',
-												'filterPostRequest', $request);
+                                                'FilterProvider',
+                                                'filterPostRequest', $request);
                 $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
-												'GuiProvider', 
-												'handleHttpPostRequest',
-												$request->getRequest());
+                                                'GuiProvider', 
+                                                'handleHttpPostRequest',
+                                                $request->getRequest());
             }
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
             $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
-												'FilterProvider',
-												'filterGetRequest', $request);
+                                                'FilterProvider',
+                                                'filterGetRequest', $request);
             $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS, 'GuiProvider',
-												'handleHttpGetRequest',
-												$request->getRequest());
+                                                'handleHttpGetRequest',
+                                                $request->getRequest());
         }
         
         // If flow is not interrupted and client not allowed, 
@@ -914,19 +911,19 @@ class Cartoclient {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
-        	if (!isset($_REQUEST['ajaxActionRequest']))
-            	return $this->formRenderer->showForm();
+            if (!isset($_REQUEST['ajaxActionRequest']))
+                return $this->formRenderer->showForm();
             else
-            	$this->formRenderer->showAjaxPluginResponse();                        
+                $this->formRenderer->showAjaxPluginResponse();                        
         }
 
         $mapRequest = $this->getMapRequest();
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
-												'ServerCaller', 'buildRequest',
-												$mapRequest);
+                                                'ServerCaller', 'buildRequest',
+                                                $mapRequest);
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
-												'ServerCaller', 'overrideRequest',
-												$mapRequest);
+                                                'ServerCaller', 'overrideRequest',
+                                                $mapRequest);
 
         // Save mapRequest for future use
         $this->clientSession->lastMapRequest = 
@@ -945,12 +942,12 @@ class Cartoclient {
         $this->log->debug($this->mapResult);
 
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
-												'ServerCaller', 'initializeResult',
-												$this->mapResult);
+                                                'ServerCaller', 'initializeResult',
+                                                $this->mapResult);
 
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_SERVERCALL,
-												'ServerCaller', 'handleResult',
-												$this->mapResult);
+                                                'ServerCaller', 'handleResult',
+                                                $this->mapResult);
 
         $this->log->debug('client context to display');
 
@@ -960,25 +957,25 @@ class Cartoclient {
             $this->getPluginManager()->getPlugin('images')->outputMainmap();
             $output = '';
         } else {
-        	if (!isset($_REQUEST['ajaxActionRequest']))
-	            $output = $this->formRenderer->showForm();
+            if (!isset($_REQUEST['ajaxActionRequest']))
+                $output = $this->formRenderer->showForm();
             else
-            	$this->formRenderer->showAjaxPluginResponse();                        
+                $this->formRenderer->showAjaxPluginResponse();                        
         }
 
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
-												'Sessionable', 'saveSession');
+                                                'Sessionable', 'saveSession');
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
 
         if (!isset($_REQUEST['ajaxActionRequest']))
-        	return $output;
+            return $output;
     }
 
     private function doMainAsync() {
 
-		$requestedActionId = $_REQUEST['ajaxActionRequest'];
+        $requestedActionId = $_REQUEST['ajaxActionRequest'];
         
         // Check the action format consistancy
         if (!ereg("^.+\..+$", $requestedActionId)) {
@@ -987,37 +984,37 @@ class Cartoclient {
                 'It should look like: PluginName.ActionName ' .
                 '(current value: '.$requestedActionId.')');
         }
-        		
-		// Determines what plugin triggered what action 
-		list($requestedPluginName, $requestedActionName) = 
-				explode('.', $requestedActionId, 2);
-		
-		// Lowercase the first letter of $requestedPluginName
-		$requestedPluginName = strtolower($requestedPluginName{0}) 
-			. substr($requestedPluginName, 1);
+                
+        // Determines what plugin triggered what action 
+        list($requestedPluginName, $requestedActionName) = 
+                explode('.', $requestedActionId, 2);
+        
+        // Lowercase the first letter of $requestedPluginName
+        $requestedPluginName = strtolower($requestedPluginName{0}) 
+            . substr($requestedPluginName, 1);
 
-		// Check if requested plugin exists, if not, throw an exception
-		if ($this->pluginManager->getPlugin($requestedPluginName) == null)
-			throw new AjaxException(
-				'Requested plugin ' . $requestedPluginName . ' is not loaded. ' .
-				'Check your AJAX call parameters (currently ajaxActionRequest=' . 
-				$_REQUEST['ajaxActionRequest'] . ')');		
-		
-		$pluginEnabler = new PluginEnabler($this);
-		
-		// Plugins are disabled by default in async mode
-		$pluginEnabler->disablePlugins();
+        // Check if requested plugin exists, if not, throw an exception
+        if ($this->pluginManager->getPlugin($requestedPluginName) == null)
+            throw new AjaxException(
+                'Requested plugin ' . $requestedPluginName . ' is not loaded. ' .
+                'Check your AJAX call parameters (currently ajaxActionRequest=' . 
+                $_REQUEST['ajaxActionRequest'] . ')');      
+        
+        $pluginEnabler = new PluginEnabler($this);
+        
+        // Plugins are disabled by default in async mode
+        $pluginEnabler->disablePlugins();
 
-		// Ask plugins to give their plugins directives for the given $actionId
+        // Ask plugins to give their plugins directives for the given $actionId
         $this->callPluginsImplementing('Ajaxable', 'ajaxHandleAction',
-									$requestedActionId, &$pluginEnabler);
+                                    $requestedActionId, &$pluginEnabler);
                                     
         // Give the $requestedPlugin the last word
         $this->pluginManager->callPluginImplementing($requestedPluginName,
                                     'Ajaxable', 'ajaxHandleAction',
                                     $requestedActionId, &$pluginEnabler);
 
-    	$this->doMain();
+        $this->doMain();
     }
 
     /**
@@ -1116,32 +1113,32 @@ class Cartoclient {
         $this->log->debug($_REQUEST);
         Common::initializeCartoweb($this->config);
         
-    	/**
-    	 * [ajaxDev]
-    	 * AJAX Switch:
-    	 * If the "ajaxRequest" HTTP parameter is set (POST or GET),
-    	 * switch to the async mode.
-    	 * Else, use the traditional sync mecanism.
-    	 */
-    	if (isset($_REQUEST['ajaxActionRequest'])) {
-	        try {
-	            $this->doMainAsync();
-	        } catch (Exception $exception) {
-	            return $this->formRenderer->showFailure($exception);
-	        }
-    	} else {
-	        try {
-	            if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
-	                $this->outputType == self::OUTPUT_IMAGE ||
-	                !$exportPlugin = $this->getValidExportType()) {
-	                return $this->doMain();
-	            } else {
-	                return $this->doExport($exportPlugin);
-	            }
-	        } catch (Exception $exception) {
-	            return $this->formRenderer->showFailure($exception);
-	        }
-    	}
+        /**
+         * [ajaxDev]
+         * AJAX Switch:
+         * If the "ajaxRequest" HTTP parameter is set (POST or GET),
+         * switch to the async mode.
+         * Else, use the traditional sync mecanism.
+         */
+        if (isset($_REQUEST['ajaxActionRequest'])) {
+            try {
+                $this->doMainAsync();
+            } catch (Exception $exception) {
+                return $this->formRenderer->showFailure($exception);
+            }
+        } else {
+            try {
+                if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
+                    $this->outputType == self::OUTPUT_IMAGE ||
+                    !$exportPlugin = $this->getValidExportType()) {
+                    return $this->doMain();
+                } else {
+                    return $this->doExport($exportPlugin);
+                }
+            } catch (Exception $exception) {
+                return $this->formRenderer->showFailure($exception);
+            }
+        }
     }
 }
 ?>

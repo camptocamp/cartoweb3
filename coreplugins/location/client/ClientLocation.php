@@ -265,7 +265,7 @@ class ClientLocation extends ClientPlugin
             $this->cartoclient->getPluginManager()->getPlugin('outline') != NULL) {
 
             $this->locationState->crosshair = new StyledShape();
-            $this->locationState->crosshair->shapeStyle = new StyleOverlay();
+            $this->locationState->crosshair->shapeStyle = new ShapeStyle();
 
             $symbol = $this->getConfig()->crosshairSymbol;
             if (!empty($symbol)) {
@@ -414,13 +414,10 @@ class ClientLocation extends ClientPlugin
             $layersLabel[] = I18n::gt($layer->label); 
         }
 
-        if (!empty($this->locationState->idRecenterSelected)) {
+        if (!empty($this->locationState->idRecenterSelected))
             $idRecenterSelected = $this->locationState->idRecenterSelected;
-        } elseif (isset($layersId[0])) {
+        else
             $idRecenterSelected = $layersId[0];
-        } else {
-            $idRecenterSelected = 0;
-        }
 
         $this->smarty->assign(array('id_recenter_layers_id' => $layersId,
                                     'id_recenter_layers_label' => $layersLabel,
@@ -773,10 +770,6 @@ class ClientLocation extends ClientPlugin
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
                         $this->locationState->bbox->getCenter());
-                          
-        $locationType = $locationRequest->locationType;                      
-        $locationRequest->$locationType->showRefMarks
-            = $this->getConfig()->showRefMarks; 
         return $locationRequest;
     }
 
@@ -798,26 +791,18 @@ class ClientLocation extends ClientPlugin
      * @return float
      */
     public function getCurrentScale() {
-        if (isset($this->locationResult))
-            return $this->locationResult->scale;
+        return $this->locationResult->scale;
     }
 
     /**
      * @see InitUser::handleInit()
      */
     public function handleInit($locationInit) {
-
         $this->scales = $locationInit->scales;
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
-
-        if($this->cartoclient->getInitialMapState()->location->bbox) {
-            $this->fullExtent = $this->cartoclient->getInitialMapState()
-                                ->location->bbox;
-        } else {
-            $this->fullExtent = $locationInit->fullExtent;  
-        }
+        $this->fullExtent = $locationInit->fullExtent;
     }
     
     /**
@@ -860,7 +845,7 @@ class ClientLocation extends ClientPlugin
         $shortcuts_active = $this->getConfig()->shortcutsActive;
         $scale = number_format($this->locationResult->scale, 0, ',',"'");
 
-		$assignArray['variables'] = array(
+        $assignArray['variables'] = array(
             'bboxMinX' => $this->locationState->bbox->minx,
             'bboxMinY' => $this->locationState->bbox->miny,
             'bboxMaxX' => $this->locationState->bbox->maxx,
@@ -871,56 +856,56 @@ class ClientLocation extends ClientPlugin
             'scales_active' => $scales_active,
             'id_recenter_active' => $id_recenter_active,
             'shortcuts_active' => $shortcuts_active,
-		);
-		
-		$assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
+        );
+        
+        $assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
 
         if ($recenter_active)
-			$assignArray['htmlCode']['recenter'] = $this->drawRecenter();
+            $assignArray['htmlCode']['recenter'] = $this->drawRecenter();
         if ($scales_active)
-			$assignArray['htmlCode']['scales'] = $this->drawScales();
+            $assignArray['htmlCode']['scales'] = $this->drawScales();
         if ($id_recenter_active)
-			$assignArray['htmlCode']['id_recenter'] = $this->drawIdRecenter();
+            $assignArray['htmlCode']['id_recenter'] = $this->drawIdRecenter();
         if ($shortcuts_active)
-			$assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
-		
-		return $assignArray;
+            $assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
+        
+        return $assignArray;
     }
                
     public function renderForm(Smarty $template) {
-    	$assignArray = $this->renderFormPrepare();     	
+        $assignArray = $this->renderFormPrepare();      
         $template->assign($assignArray['variables']);
         $template->assign($assignArray['htmlCode']);
     }
 
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
-    	$assignArray = $this->renderFormPrepare(); 
-    	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
-	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
-    	}    	
-    	foreach ($assignArray['htmlCode'] as $assignKey => $assignValue) {
-	    	$ajaxPluginResponse->addHtmlCode($assignKey, $assignValue);
-    	}    	
+        $assignArray = $this->renderFormPrepare(); 
+        foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addVariable($assignKey, $assignValue);
+        }       
+        foreach ($assignArray['htmlCode'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addHtmlCode($assignKey, $assignValue);
+        }       
     }
 
-	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
-		switch ($actionName) {
-			case 'Location.Pan':
-				$pluginEnabler->disableCoreplugins();
-				$pluginEnabler->enableCoreplugin('location');
-				$pluginEnabler->enableCoreplugin('images');
-			break;			
-			case 'Location.FullExtent':
-			case 'Location.Recenter':
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Location.Pan':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('location');
+                $pluginEnabler->enableCoreplugin('images');
+            break;          
+            case 'Location.FullExtent':
+            case 'Location.Recenter':
             case 'Location.RecenterIds':
-			case 'Location.Zoom':
-				$pluginEnabler->disableCoreplugins();
-				$pluginEnabler->enableCoreplugin('location');
-				$pluginEnabler->enableCoreplugin('layers');
-				$pluginEnabler->enableCoreplugin('images');
-			break;
-		}
-	}
+            case 'Location.Zoom':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('location');
+                $pluginEnabler->enableCoreplugin('layers');
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+        }
+    }
 
     /**
      * @see Sessionable::saveSession()
@@ -981,13 +966,6 @@ class ClientLocation extends ClientPlugin
                     break;
             
             }
-        }
-        
-        $showRefMarks = $configuration->getShowRefMarks();
-        if (!is_null($showRefMarks)) {
-
-            $locationType = $locationRequest->locationType;            
-            $locationRequest->$locationType->showRefMarks = $showRefMarks;            
         }
     }
 }

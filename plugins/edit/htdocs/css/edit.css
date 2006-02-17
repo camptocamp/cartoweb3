@@ -22,12 +22,8 @@ table.edit th {
   background-color: #DFDFDF;
 }
 
-table.edit td {
+table.edit td
   margin: 0;
   padding: 2px;
-}
-
-/* style of row when feature is deleted */
-table.edit tr.deleted td {
-  text-decoration: line-through;
+  border: 1px solid blue;
 }

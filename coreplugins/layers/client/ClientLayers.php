@@ -410,12 +410,6 @@ class ClientLayers extends ClientPlugin
             }
         }
 
-        // if switch_id set on new session
-        if (isset($_REQUEST['switch_id']))
-            $this->setSwitch($_REQUEST['switch_id']);
-        elseif (isset($_ENV['switch_id']))
-            $this->setSwitch($_ENV['switch_id']);
-            
         $this->hiddenUnselectedLayers = array();
         $this->hiddenSelectedLayers = $this->fetchHiddenSelectedLayers('root');
 
@@ -1301,26 +1295,26 @@ class ClientLayers extends ClientPlugin
     }
 
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
-    	$ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
-    	$ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
-		$ajaxPluginResponse->addHtmlCode('switch_id', $this->layersState->switchId);
-    	$ajaxPluginResponse->addVariable('startOpenNodes',
-    					$startOpenNodes = "'".implode('\',\'', $this->unfoldedIds)."'");
+        $ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
+        $ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
+        $ajaxPluginResponse->addHtmlCode('switch_id', $this->layersState->switchId);
+        $ajaxPluginResponse->addVariable('startOpenNodes',
+                        $startOpenNodes = "'".implode('\',\'', $this->unfoldedIds)."'");
     }
 
-	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
-		switch ($actionName) {
-			case 'Layers.LayerShowHide':
-				$pluginEnabler->disableCoreplugins();
-				$pluginEnabler->enableCoreplugin('images');
-			break;
-			case 'Layers.LayerDropDownChange':
-				$pluginEnabler->disableCoreplugins();
-				$pluginEnabler->enableCoreplugin('layers');
-				$pluginEnabler->enableCoreplugin('images');
-			break;
-		}
-	}
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Layers.LayerShowHide':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+            case 'Layers.LayerDropDownChange':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('layers');
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+        }
+    }
 
     /**
      * Returns icon full path.
@@ -1360,27 +1354,6 @@ class ClientLayers extends ClientPlugin
 
         return $data;
     }
-    
-    /**
-     * Tells if given layer is visible at current scale
-     * Checks for classes scale visibility
-     * @param string layer id
-     * @return boolean
-     */
-    public function isLayerVisibleAtCurrentScale($layerId) {
-        $layer = $this->getLayerByName($layerId, false);
-        $scale = $this->getCurrentScale();
-
-        if (($layer->maxScale && $scale > $layer->maxScale) ||
-            ($layer->minScale && $scale < $layer->minScale))
-            return false;
-        else if (!$layer instanceof LayerClass && $layer->children) {    
-            $children =& $layer->children;
-            foreach ($layer->getChildren($this->layersState->switchId) as $childId)
-                return $this->isLayerVisibleAtCurrentScale($childId);
-        }
-        return true;
-    }
 
     /**
      * Recursively detects selected layers parent nodes and substitutes them 
@@ -1412,10 +1385,6 @@ class ClientLayers extends ClientPlugin
                         array_merge($printedNodes[$layerId]['children'],
                                     $printedNodes[$childId]['children']);
                     unset($printedNodes[$childId]);
-                } else {
-                    $childData = $printedNodes[$childId];
-                    unset($printedNodes[$childId]);
-                    $printedNodes[$childId] = $childData;
                 }
                 unset($selectedLayers[$key]);
             } else {
@@ -1446,6 +1415,9 @@ class ClientLayers extends ClientPlugin
         
         $this->getPrintedParents('root', $selectedLayers, $printedNodes);
         return $printedNodes;
+
+        // TODO: instead of printing parents at the end of the list,
+        // draw them where their aggregated children should have been placed.
     }
 
     /**
@@ -1472,22 +1444,13 @@ class ClientLayers extends ClientPlugin
     public function adjustExportMapRequest(ExportConfiguration $configuration,
                                     MapRequest $mapRequest) {
         
-        $switchId = $configuration->getSwitchId();
-        if (!is_null($switchId)) {
-            $this->setSwitch($switchId);
-            $this->useNewSwitch = true;
-            $mapRequest->layersRequest = $this->buildRequest();
-        }
-        
         $resolution = $configuration->getResolution();
-        if (!is_null($resolution)) {
+        if (!is_null($resolution))
             $mapRequest->layersRequest->resolution = $resolution;
-        }
-        
+
         $layerIds = $configuration->getLayerIds();
-        if (!is_null($layerIds)) {
+        if (!is_null($layerIds))
             $mapRequest->layersRequest->layerIds = $layerIds;
-        }
     }
 }
 ?>

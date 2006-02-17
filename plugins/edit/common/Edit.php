@@ -47,22 +47,10 @@ class EditRequest extends CwSerializable {
     public $layer;
     
     /** 
-     * features to insert, update or delete
-     * @var array
-     */
-    public $features;
-    
-    /** 
      * id of the object
      * @var string
      */
     public $featuresIds;
-    
-    /** 
-     * is validate button clicked
-     * @var boolean
-     */
-    public $validateAll;
     
     /**
      * @see CwSerializable::unserialize()
@@ -70,7 +58,7 @@ class EditRequest extends CwSerializable {
     public function unserialize($struct) {
         $this->shapes   = CwSerializable::unserializeObjectMap($struct, 'shapes');
         $this->layer    = CwSerializable::unserializeValue($struct, 'layer', 'string');
-        $this->features = CwSerializable::unserializeArray($struct, 'features', 'Feature');
+        $this->features    = CwSerializable::unserializeValue($struct, 'features');
         $this->featuresIds    = CwSerializable::unserializeValue($struct, 'featuresIds', 'string');
         $this->validateAll = CwSerializable::unserializeValue($struct, 'validateAll', 'boolean');
     }    
@@ -89,10 +77,22 @@ class EditResult extends CwSerializable {
     public $shapeType;
     
     /**
+     * Selected object geometry
+     * @var string
+     */
+    public $objectWKT;
+    
+    /**
      * Features
      * @var array of Feature
      */
     public $features;
+    
+    /**
+     * Table group to edit attributes
+     * @var TableGroup
+     */
+    public $tableGroup;
     
     /**
      * List of fields names to display in table
@@ -111,9 +111,8 @@ class EditResult extends CwSerializable {
      */
     public function unserialize($struct) {
         $this->shapeType = CwSerializable::unserializeValue($struct, 'shapeType', 'string');
-        $this->features = CwSerializable::unserializeArray($struct, 'features', 'Feature');
-        $this->attributeNames = CwSerializable::unserializeValue($struct, 'attributeNames');
-        $this->attributeTypes = CwSerializable::unserializeValue($struct, 'attributeTypes');
+        $this->features = CwSerializable::unserializeValue($struct, 'features', 'Feature');
+        $this->tableGroup = CwSerializable::unserializeValue($struct, 'tableGroup', 'TableGroup');
     }
 }
 
