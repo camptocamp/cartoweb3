@@ -123,10 +123,6 @@
 Request:
 {$debug_request}
 </pre>
-<pre>
-ClientContext:
-{$debug_clientcontext}
-</pre>
 
   <p>&copy; <a href="http://camptocamp.com/" target="_blank">Camptocamp SA</a> -
   <a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
