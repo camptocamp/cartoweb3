@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="user.accounting">
+ <title><indexterm><primary>Accounting</primary></indexterm>Accounting</title>
+  <para>&cartoweb; provides a mechanism to store accounting informations. These 
+  informations can be used to generate statistics of the application usage.
+    </para>
+  <sect1 id="user.accounting.config">
+    <title>Accounting Configuration</title>
+    <sect2 id="user.accounting.config.introduction">
+      <title>Introduction</title>
+      <para>Accounting configuration specifies if the accounting is enabled or not, 
+      and how to store the accounting information. The configuration is
+      the same for the client or server. Notice however that if you are using
+      &cartoweb; in direct mode, the server accounting configuration is not taken
+      into account. See <xref linkend="user.config.client"/> for more information
+      about direct mode.</para>
+      <para>When you enable accounting, you also need to activate the accounting
+      plugin in your configuration. This is done through the 
+      <parameter>loadPlugins</parameter>parameter> parameter of 
+      <filename>client.ini</filename> and 
+      <parameter>mapInfo.loadPlugins</parameter> of your 
+      <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> file.
+      </para>
+      </sect2>
+    <sect2 id="user.accounting.config.client_or_server">
+      <title>client.ini or server.ini</title>
+      <para>Here are the options that can be set on the client or server: </para>
+      <itemizedlist>
+        <listitem>
+          <para> 
+            <parameter>accountingOn</parameter> (boolean: 'true'|'false'):
+            sets whether accounting is enable or not.
+            </para>
+        </listitem>
+        <listitem>
+          <para> 
+            <parameter>accountingStorage</parameter> (string: 'file'|'db'):
+            controls how the accounting information is stored.
+            </para>
+            <para>
+             <parameter>file</parameter> means that accounting information
+            will be stored in files named 
+            <filename>cartoweb3/www-data/accounting/&lt;MAP_ID&gt;/{client|server}_accounting.log</filename>
+            where <parameter>&lt;MAP_ID&gt;</parameter> is the mapId currently used.
+            </para>
+            <para>
+             <parameter>db</parameter> means that accounting information
+            is stored inside a database table. This table can be created 
+            using the following command:
+            <screen>CREATE TABLE cw_accounting (date timestamp, info text);</screen>
+            The database to be used can be configured using the <parameter>accountingDsn</parameter>
+            parameter. See next item.
+            </para>
+        </listitem>
+        <listitem>
+          <para> 
+             <parameter>accountingDsn</parameter> (string): DSN (Data Source Name),
+             used to specify which database to use for storing accounting information.
+             This is only used when  <parameter>accountingStorage</parameter> is set 
+             to <literal>db</literal>.
+            </para>
+        </listitem>
+      </itemizedlist>
+      <note>
+        <para>Do not forget to enable the accounting plugin if you want to use
+        this feature.</para>
+      </note>
+    </sect2>
+  </sect1>
+  <sect1 id="user.accounting.management">
+    <title>Managing Accounting Information</title>
+    <sect2 id="user.accounting.management.file">
+      <title>Accounting Log Files Administration</title>
+      <para>Accounting log file are used to store one line of accounting information
+      each time a request is made on &cartoweb;. The log files will grow with
+      time, as more and more data are stored inside. This means that special
+      care has to be taken by the &cartoweb; administrator to avoid that the 
+      log file eats all the available free disk space.</para>
+      <para>It exists several tools which can be used to manage the log files
+      and to avoid it takes too much place. For instance the 
+      <productname>Logrotate</productname> software can be used to rotate the
+      log files regularly.</para>
+      <!-- TODO: logrotate exmample -->
+      <warning><para>Activating accounting and not taking care of log file 
+      management can slow down or interrupt &cartoweb; good working if the log
+      file becomes too large.</para></warning>
+    </sect2>
+  </sect1>
+</chapter>

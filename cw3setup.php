@@ -57,6 +57,7 @@ $CW3_DIRS_TO_CREATE = array(
                   'www-data/wsdl_cache',
                   'www-data/pdf_cache',
                   'www-data/views',
+                  'www-data/accounting',
                   'templates_c'
                   );
 
@@ -136,6 +137,7 @@ List of options:
  --profile PROFILENAME      The profile to use (development/production/custom).
                             NOTE: default is 'production'
  --clean-views              Clean views (must be used with --clean).
+ --clean-accounting         Clean accounting (must be used with --clean).
  
 <?php
     exit();
@@ -217,6 +219,7 @@ function processArgs() {
             case '--fetch-from-cvs':
             case '--no-symlinks':
             case '--clean-views':
+            case '--clean-accounting':
             case '--with-demo':
                 setOption($i);
                 break;
@@ -1256,6 +1259,11 @@ function cleanFiles() {
         if (is_dir('www-data/views'))
             rename('www-data/views', 'views');
     }
+    if (!isset($OPTIONS['clean-accounting'])) {
+        @rmdirr('accounting');
+        if (is_dir('www-data/accounting'))
+            rename('www-data/accounting', 'accounting');
+    }
 
     foreach($CW3_DIRS_TO_CREATE as $dir) {
         debug("checking $dir");
@@ -1276,6 +1284,10 @@ function cleanFiles() {
     if (!isset($OPTIONS['clean-views'])) {
         if (is_dir('views'))
             rename('views', 'www-data/views');
+    }
+    if (!isset($OPTIONS['clean-accounting'])) {
+        if (is_dir('accounting'))
+            rename('accounting', 'www-data/accounting');
     }
 }
 

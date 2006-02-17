@@ -471,6 +471,14 @@ class ServerQuery extends ClientResponderAdapter {
             }
         }
         
+        $this->account('server_version', 0);
+        $this->account('performed', true);
+
+        $resultsCount = 0;
+        foreach ($queryResult->tableGroup->tables as $table)
+            $resultsCount += $table->numRows;
+        $this->account('results_count', $resultsCount);
+        
         return $queryResult;
     }    
 }

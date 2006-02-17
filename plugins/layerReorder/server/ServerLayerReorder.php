@@ -105,7 +105,7 @@ class ServerLayerReorder extends ClientResponderAdapter
 
 
     /**
-     * Reorder MapServer layers lists and transparency from CartoClient request
+     * Reorder MapServer layers lists and transparency from Cartoclient request
      */
     public function initializeRequest($requ) {
 

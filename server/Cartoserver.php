@@ -44,6 +44,7 @@ require_once(CARTOWEB_HOME . 'server/ServerContext.php');
 require_once(CARTOWEB_HOME . 'server/ServerPlugin.php');
 require_once(CARTOWEB_HOME . 'server/ServerPluginHelper.php');
 require_once(CARTOWEB_HOME . 'server/MapResultCache.php');
+require_once(CARTOWEB_HOME . 'server/ServerAccounting.php');
 
 /**
  * Exception to be used by the server.
@@ -132,7 +133,7 @@ class ServerPluginConfig extends PluginConfig {
  * Cartoserver main class. Contains method exported to the webservice.
  * @package Server
  */
-class Cartoserver {
+class Cartoserver extends Cartocommon {
     
     /**
      * @var Logger
@@ -251,7 +252,8 @@ class Cartoserver {
         // serverContext MapResult reset (in case of two calls)
         $serverContext->reset();
         
-        if ($serverContext->isDevelMessagesEnabled()) {
+        if ($serverContext->isDevelMessagesEnabled() ||
+            $serverContext->getConfig()->accountingOn) {
             require_once('pear/Benchmark/Timer.php');
             $this->timer = new Benchmark_Timer();
             $this->timer->start();
@@ -279,6 +281,10 @@ class Cartoserver {
         // This is called here to handle the case where a plugin changed the
         //  mapObj in its initializeRequest method.
         $serverContext->updateStateFromMapObj();
+
+        if ($pluginManager->getPlugin('accounting')) {
+            $pluginManager->getPlugin('accounting')->doAccounting();
+        }
 
         // images size
         // PRE_DRAW: 1) images
@@ -314,6 +320,12 @@ class Cartoserver {
 
         $this->log->debug("result is:");
         $this->log->debug($mapResult);
+
+        if (!is_null($this->timer)) {
+            $this->timer->stop();
+            Accounting::getInstance()->account('general.elapsed_time', 
+                                            $this->timer->timeElapsed());
+        }
         
         if ($serverContext->isDevelMessagesEnabled())
             $developerMessages = $this->getDeveloperMessages();

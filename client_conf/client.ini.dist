@@ -117,4 +117,11 @@ viewLogErrors = false
 viewUpgradeOutdated = false
 
 ;## toolPicker ##
+
 toolPickerOn = true
+
+;## Accounting ##
+
+accountingOn = false
+accountingStorage = file
+accountingDsn = pgsql://www-data@localhost/cw3_test

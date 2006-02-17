@@ -5,7 +5,7 @@ cartoserverDirectAccess = false
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, views, layerReorder, testMainLocation, filterIdrecenter, testMainTableRules
+loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, views, layerReorder, testMainLocation, filterIdrecenter, testMainTableRules, accounting
 
 ; views
 viewOn = true
@@ -17,3 +17,7 @@ toolbarRendering = outline
 
 ; available languages
 langList = en, fr
+
+; accounting
+accountingOn = true
+accountingStorage = file

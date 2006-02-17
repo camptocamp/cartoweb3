@@ -194,10 +194,13 @@ class MapResultCache {
         
         if (filesize($mapResultFile) == 0) {
             $this->log->debug('second call, caching mapResult');            
+            Accounting::getInstance()->account('general.cache_id', md5($mapResultFile));         
             return $this->cacheMapResult($mapRequest);   
         }
         
         $this->log->debug('Returning cached mapResult');
+
+        Accounting::getInstance()->account('general.cache_hit', md5($mapResultFile));         
         $mapResult = $this->readMapResult($mapRequest);   
         // FIXME: there is no config loaded there, messages are always sent.
         // PERFORMANCE: remove this if too much impact (time + network size)

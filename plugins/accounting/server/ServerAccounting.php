@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Server accounting plugin
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,39 +16,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * @copyright 2005 Camptocamp SA
- * @package Tests
+ * @copyright 2006 Camptocamp SA
+ * @package CorePlugins
  * @version $Id$
  */
-
+ 
 /**
- * Abstract test suite
+ * Server part of Accounting plugin
+ * @package CorePlugins
+ * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+class ServerAccounting extends ServerPlugin {
 
-/**
- * All client tests
- */
-require_once 'client/InternationalizationTest.php';
-require_once 'client/ViewsTest.php';
-require_once 'client/ClientAccountingTest.php';
+    /**
+     * @var Logger
+     */
+    private $log;
 
-/**
- * @package Tests
- * @author Yves Bolognini <yves.bolognini@camptocamp.com>
- */
-class client_AllTests {
-    
-    public static function suite() {
-    
-        $suite = new PHPUnit2_Framework_TestSuite;
+    /** 
+     * Constructor
+     */
+    public function __construct() {
+        
+        parent::__construct();
+        $this->log =& LoggerManager::getLogger(__CLASS__);
+    }
 
-        // uncomment once ok
-        //$suite->addTestSuite('client_InternationalizationTest');
-        $suite->addTestSuite('client_ViewsTest');
-        $suite->addTestSuite('client_ClientAccountingTest');
+    /**
+     * Perform general accounting recording 
+     */
+    public function doAccounting() {
 
-        return $suite;
+        $accounting = Accounting::getInstance();
+        $accounting->pluginLoaded();
+        $accounting->account('general.server_version', 0);
     }
 }
 

@@ -157,6 +157,7 @@ class SoapXMLCache {
      * @param string
      */
     public function printSoapXML($soapRequest) {
+
         if ($this->skipCache($soapRequest)) {
             $this->log->debug('not caching soapXML, calling server');
             $this->printSoapXMLFromServer($soapRequest);
@@ -173,11 +174,13 @@ class SoapXMLCache {
         }
         
         if (filesize($soapXMLFile) == 0) {
-            $this->log->debug('second call, caching soapXML');            
+            $this->log->debug('second call, caching soapXML');
+            Accounting::getInstance()->account('general.cache_id', md5($soapXMLFile));         
             $this->cacheSoapXML($soapRequest);   
             return;
         }
         
+        Accounting::getInstance()->account('general.cache_hit', md5($soapXMLFile));         
         $this->log->debug('Returning cached soapXML');
         $soapXML = $this->readSoapXML($soapRequest);   
     }   

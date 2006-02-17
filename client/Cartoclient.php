@@ -33,6 +33,7 @@ require_once(CARTOWEB_HOME . 'client/ClientPluginHelper.php');
 require_once(CARTOWEB_HOME . 'client/ClientProjectHandler.php');
 require_once(CARTOWEB_HOME . 'client/Internationalization.php');
 require_once(CARTOWEB_HOME . 'client/Views.php');
+require_once(CARTOWEB_HOME . 'client/ClientAccounting.php');
 
 require_once(CARTOWEB_HOME . 'common/Common.php');
 require_once(CARTOWEB_HOME . 'common/Utils.php');
@@ -209,7 +210,7 @@ class ClientSession {
  * Main Cartoclient class
  * @package Client
  */
-class Cartoclient {
+class Cartoclient extends Cartocommon {
 
     /**
      * @var Logger
@@ -325,6 +326,12 @@ class Cartoclient {
      * @var InitialMapState
      */
     private $initialMapState;
+    
+    /**
+     * Singleton
+     * @var Cartoclient
+     */
+    private static $instance;
 
     /**
      * Output formats constants.
@@ -356,6 +363,7 @@ class Cartoclient {
      */
     public function __construct() {
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        self::$instance = $this;
         
         $this->projectHandler = new ClientProjectHandler();
         
@@ -407,6 +415,17 @@ class Cartoclient {
         }
     }
 
+    /**
+     * Returns the instance of this class. There is only one during the
+     * cartoclient lifetime.
+     */
+    public static function getInstance() {
+        if (is_null(self::$instance))
+            throw new CartoclientException('Cartoclient instance ' .
+                                           'not yet initialized');
+        return self::$instance;
+    }
+        
     /**
      * @return ClientConfig
      */
@@ -495,10 +514,8 @@ class Cartoclient {
      * Returns the names of core plugins
      * @return array names
      */
-    private function getCorePluginNames() {
-
-        return array('location', 'layers', 'images', 'query', 'statictools',
-                     'tables');
+    protected function getCorePluginNames() {
+        return array_merge(parent::getCorePluginNames(), array('statictools'));   
     }
 
     /**
@@ -953,6 +970,8 @@ class Cartoclient {
         } else {
             $plugin->handleHttpGetRequest($_REQUEST);
         }
+        Accounting::getInstance()->account('general.export_plugin', 
+                                           $plugin->getName());
         return $plugin->output();
     }
 
@@ -1038,13 +1057,16 @@ class Cartoclient {
             if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
                 $this->outputType == self::OUTPUT_IMAGE ||
                 !$exportPlugin = $this->getValidExportType()) {
-                return $this->doMain();
+                $output = $this->doMain();
             } else {
-                return $this->doExport($exportPlugin);
+                $output = $this->doExport($exportPlugin);
             }
+            Accounting::getInstance()->save();
+
         } catch (Exception $exception) {
-            return $this->formRenderer->showFailure($exception);
+            $output = $this->formRenderer->showFailure($exception);
         }
+        return $output;
     }
 }
 ?>

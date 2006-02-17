@@ -86,6 +86,10 @@ $soapAddress = getSoapAddress($serverContext->getConfig());
 $queryString = getQueryString($serverContext->getConfig());
 $queryString['mapId'] = $mapId;                
 
+if (isset($_GET['requ_id'])) {
+    $queryString['requ_id'] = $_GET['requ_id'];
+}
+
 $soapAddress .= '/server.php';
 
 $wsdlContent = file_get_contents(CARTOWEB_HOME . 'server/cartoserver.wsdl');

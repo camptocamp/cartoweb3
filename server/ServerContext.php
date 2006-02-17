@@ -36,7 +36,7 @@ require_once(CARTOWEB_HOME . 'server/ServerProjectHandler.php');
 /**
  * @package Server
  */
-class ServerContext {
+class ServerContext extends Cartocommon {
 
     /**
      * @var Logger
@@ -130,11 +130,18 @@ class ServerContext {
     public $globalMap = false;
 
     /**
+     * Singleton
+     * @var ServerContext
+     */
+    private static $instance;
+
+    /**
      * Constructor
      * @param string map id
      */
     public function __construct($mapId) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
+        self::$instance = $this;
 
         // Remembers mapId for future MapInfo creation
         $this->mapId = $mapId;
@@ -152,6 +159,17 @@ class ServerContext {
         }
 
         $this->reset();
+    }
+
+    /**
+     * Returns the instance of this class. There is only one during the
+     * ServerContext lifetime.
+     */
+    public static function getInstance() {
+        if (is_null(self::$instance))
+            throw new CartoserverException('ServerContext instance ' .
+                                           'not yet initialized');
+        return self::$instance;
     }
 
     /**
@@ -444,10 +462,8 @@ class ServerContext {
      * Returns list of coreplugins names.
      * @return array
      */
-    private function getCorePluginNames() {
-        // TODO : factorize with cartoclient?
-        return array('images', 'location', 'layers', 'query', 'mapquery',
-                     'tables');
+    protected function getCorePluginNames() {
+        return array_merge(parent::getCorePluginNames(), array('mapquery'));
     }
 
     /**

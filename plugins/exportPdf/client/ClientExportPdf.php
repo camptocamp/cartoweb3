@@ -1098,6 +1098,11 @@ class ClientExportPdf extends ExportPlugin
         $config->setMapHeight($mapHeight);
         $config->setMapAngle($mapAngle);
       
+        // accounting
+        $this->account('client_version', 0);
+        $this->account('format', $this->getFormat()->label);
+        $this->account('resolution', $this->general->mapServerResolution);
+      
         // scale:
         $scale *= $this->general->mapServerResolution;
         $scale /= $this->general->selectedResolution;

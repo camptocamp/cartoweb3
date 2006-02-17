@@ -831,6 +831,12 @@ class ServerLocation extends ClientResponderAdapter
         $locationResult->bbox->setFromMsExtent($msMapObj->extent);
         
         $locationResult->scale = round($msMapObj->scale, 4);
+
+        $this->account('server_version', 0);
+        $bboxStr = $locationResult->bbox->toRemoteString(',');
+        $this->account('bbox', $bboxStr);
+        $this->account('scale', $locationResult->scale);
+
         return $locationResult;
     }
 

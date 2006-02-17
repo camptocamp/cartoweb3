@@ -180,6 +180,8 @@ class SecurityManager {
     public function setUser($username) {
         $this->username = $username;
         
+        Accounting::getInstance()->account('general.security.user', $username);
+        
         $roles = array();
         if (!is_null($this->securityContainer)) {
             $roles = $this->securityContainer->getRoles($username);

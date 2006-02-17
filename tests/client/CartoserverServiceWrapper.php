@@ -121,6 +121,7 @@ abstract class client_CartoserverServiceWrapper extends common_GeographicalAsser
         $config->useWsdl = true;
         $config->cartoserverBaseUrl = $this->getCartoserverBaseUrl();        
         $config->writablePath = CARTOWEB_HOME . '/www-data/';
+        $config->accountingOn = false;
         $this->assertNotNull($config->cartoserverBaseUrl, 'You need to set cartoserverBaseUrl in client.ini');
         
         if ($direct) {

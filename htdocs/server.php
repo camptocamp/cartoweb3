@@ -79,4 +79,9 @@ if (empty($HTTP_RAW_POST_DATA))
 $cache = new SoapXMLCache();
 $cache->printSoapXML($HTTP_RAW_POST_DATA);
 
+if (isset($_GET['requ_id'])) {
+    Accounting::getInstance()->account('general.request_id', $_GET['requ_id']);
+}
+Accounting::getInstance()->save();
+
 ?>

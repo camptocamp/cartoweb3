@@ -201,6 +201,10 @@ class ServerLayers extends ClientResponderAdapter
                                            'layerIds is not an array.');
             return;
         }
+
+        $this->account('server_version', 0);
+        $this->account('layers', implode(',', $layerIds));
+
         $this->requestedLayerNames = $layerIds;
 
         $this->log->debug('layers to draw: ');

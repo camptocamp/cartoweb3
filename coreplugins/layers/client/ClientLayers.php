@@ -1290,7 +1290,7 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Assigns the layers interface output in the general CartoClient template.
+     * Assigns the layers interface output in the general Cartoclient template.
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {

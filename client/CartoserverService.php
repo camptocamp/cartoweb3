@@ -136,8 +136,14 @@ class CartoserverService {
 
         if ($url == '' || $url == '/')
             throw new CartoclientException('No cartoserverBaseUrl set in config file');
-        else
-            return $url . $script . '?mapId=' . $this->config->mapId;
+
+        $url .= $script . "?mapId={$this->config->mapId}";
+        if ($this->config->accountingOn) {
+            $requId = md5(uniqid() . session_id());
+            Accounting::getInstance()->account('general.request_id', $requId);
+            $url .= "&requ_id=$requId";
+        }
+        return $url;
     }
 
     /**

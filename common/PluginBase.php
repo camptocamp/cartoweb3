@@ -145,6 +145,19 @@ abstract class PluginBase {
     }
 
     /**
+     * Records an accounting message for plugins
+     * 
+     * @param string the label to identify the accounting information. The final
+     *        label will be scoped with the name of the current plugin.
+     * @param string accounting data
+     */
+     public function account($pluginLabel, $message) {
+        $accounting = Accounting::getInstance();
+        $label = sprintf("%s.%s", $this->getName(), $pluginLabel);
+        $accounting->account($label, $message);  
+     }
+
+    /**
      * Plugin pre initialization. In most cases, plugins should use 
      * @see PluginBase::initialize(). This method should be overriden when
      * a plugin has to change properties which will impact the Cartoclient

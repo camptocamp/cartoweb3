@@ -171,6 +171,21 @@ class CartocommonException extends CartowebException {
 }
 
 /**
+ * Base class shared by {@link Cartoclient} and {@link ServerContext} 
+ */
+class Cartocommon {
+
+    /**
+     * Returns the names of core plugins shared by client and server
+     * @return array names
+     */
+    protected function getCorePluginNames() {
+
+        return array('location', 'layers', 'images', 'query', 'tables');
+    }
+}
+
+/**
  * Class containing general common code shared by client and server.
  * For example, it handles common initialization.
  * 
@@ -254,7 +269,7 @@ class Common {
             $errno | E_NOTICE)
             return true;
         // ignores the session started error in Pear Auth
-        if (strpos($errfile, 'Auth.php') !== false && $errline == 247)
+        if (strpos($errfile, 'Auth.php') !== false && $errline == 266)
             return true;
         return false;
     }

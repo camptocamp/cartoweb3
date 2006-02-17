@@ -34,6 +34,7 @@
     //-->
   </script>
   {/if}
+  {if $jsAccounting|default:''}<script type="text/javascript" src="{r type=js plugin=accounting}accounting.js{/r}"></script>{/if}
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
@@ -54,11 +55,14 @@
   <input type="hidden" name="selection_coords" />
   <input type="hidden" name="features" />
   {if $collapsibleKeymap|default:''}
-  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+    <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-{if $outline_active|default:''}
-  {$outlinelabel}
-{/if}
+  {if $jsAccounting|default:''}
+    <input type="hidden" name="js_accounting"/>
+  {/if}
+  {if $outline_active|default:''}
+    {$outlinelabel}
+  {/if}
   <div id="content">
 
     {include file="toolbar.tpl" group=1 header=1}

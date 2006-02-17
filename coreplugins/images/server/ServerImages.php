@@ -186,6 +186,10 @@ class ServerImages extends ClientResponderAdapter
     public function drawMainmap($requ) {
         $msMapObj = $this->serverContext->getMapObj();
 
+        $this->account('server_version', 0);
+        $this->account('mainmap.width', $requ->mainmap->width);
+        $this->account('mainmap.height', $requ->mainmap->height);
+
         if (!$msMapObj->web->imagepath) {
             $imagePath = $this->serverContext->getConfig()->webWritablePath .
                 self::IMAGES_WRITE_PATH;
