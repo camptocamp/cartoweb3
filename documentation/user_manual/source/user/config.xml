@@ -343,7 +343,22 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
        </listitem>
        <listitem>
         <para>
-         weightQuery: 40
+         weightQueryByPoint: 40
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightQueryByBbox: 41
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightQueryByPolygon: 42
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightQueryByCircle: 43
         </para>
        </listitem>
        <listitem>

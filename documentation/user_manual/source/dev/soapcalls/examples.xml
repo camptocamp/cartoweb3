@@ -369,10 +369,11 @@ $request->locationRequest->bboxLocationRequest->bbox->maxy = 150000;
       attributes will be returned.<programlisting><![CDATA[
 $request->queryRequest->className = 'QueryRequest';
 
-$request->queryRequest->bbox->minx = 570000;
-$request->queryRequest->bbox->miny = 120000;
-$request->queryRequest->bbox->maxx = 580000;
-$request->queryRequest->bbox->maxy = 130000;
+$request->queryRequest->shape->className = 'Bbox';
+$request->queryRequest->shape->minx = 570000;
+$request->queryRequest->shape->miny = 120000;
+$request->queryRequest->shape->maxx = 580000;
+$request->queryRequest->shape->maxy = 130000;
 $request->queryRequest->queryAllLayers = true;
 $request->queryRequest->defaultMaskMode = false;
 $request->queryRequest->defaultTableFlags->returnAttributes = true;

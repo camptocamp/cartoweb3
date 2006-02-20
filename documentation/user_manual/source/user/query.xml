@@ -85,9 +85,24 @@
         </listitem>
         <listitem>
           <para> 
-            weightQuery<indexterm><primary>weightQuery</primary></indexterm>: 
-            integer which defines display order of the query tool icon in 
+            weightQueryByPoint<indexterm><primary>weightQueryByPoint</primary></indexterm>: 
+            integer which defines display order of the query by point tool icon in 
             toolbar (default: 40). Negative weighted tools are disabled</para>
+        </listitem>
+        <listitem>
+          <para> 
+            weightQueryByBbox<indexterm><primary>weightQueryByBbox</primary></indexterm>: 
+            see weightQueryByPoint (default: 41).</para>
+        </listitem>
+        <listitem>
+          <para> 
+            weightQueryByPolygon<indexterm><primary>weightQueryByPolygon</primary></indexterm>: 
+            see weightQueryByPoint (default: 42).</para>
+        </listitem>
+        <listitem>
+          <para> 
+            weightQueryByCircle<indexterm><primary>weightQueryByCircle</primary></indexterm>: 
+            see weightQueryByPoint (default: 43). </para>
         </listitem>
       </itemizedlist>
     </sect2>

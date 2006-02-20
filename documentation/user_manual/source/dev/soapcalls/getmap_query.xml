@@ -104,7 +104,7 @@
 <complexType name="QueryRequest">
   <all>
     <element name="className" type="xsd:string"/>
-    <element name="bbox" type="types:Bbox"/>
+    <element name="shape" type="types:Shape"/>
     <element name="queryAllLayers" type="xsd:boolean"/>
     <element name="defaultMaskMode" type="xsd:boolean"/>
     <element name="defaultHilight" type="xsd:boolean"/>
@@ -118,9 +118,10 @@
             implements an extension</para>
         </listitem>
         <listitem>
-          <para>bbox - bounding box when querying with a rectangle (see <xref 
+          <para>shape - type of query object dependant. It can be a bounding box, 
+	    a polygon, a circle or a point (see <xref 
             linkend="dev.soapcalls.structures.shapes" /> for a description of 
-            type Bbox)</para>
+            differents types)</para>
         </listitem>
         <listitem>
           <para>queryAllLayers - if true, will execute query on all selected 
