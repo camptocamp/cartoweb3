@@ -13,10 +13,11 @@
     </para>
   <para>Depending on configuration and user choices, queries are executed on 
     one layer, several layers or all layers currently displayed on map.</para>
-  <para>Queries can be executed on a rectangle selection or using a list of 
-    object IDs. This second way to execute a query is used in particular to 
-    maintain selection persistence: object IDs are stored client-side and sent 
-    to server each time the page is reloaded.</para>
+  <para>Queries can be executed on a geographic selection or using a list of 
+    object IDs. Geographic selection can be a point, a rectangle, a polygon or
+    a circle but is a rectangle by default. The second way to execute a query is 
+    used in particular to maintain selection persistence: object IDs are stored 
+    client-side and sent to server each time the page is reloaded.</para>
   <para>Hilighting objects can be done using standard Mapserver queries or 
     using special Hilight plugin. See <xref 
     linkend="user.query.mapfile.hilight" /> for more information.</para>
