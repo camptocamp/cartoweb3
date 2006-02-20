@@ -540,7 +540,7 @@ $ psql -d demo_plugins -f spatial_ref_sys.sql]]></screen>
               district</emphasis> and <emphasis>town</emphasis> in PostgreSQL/PostGIS tables by typing 
               the following command:
               <screen><![CDATA[
-$ shp2pgsql aerofacp.shp airport > /tmp/aiport.sql
+$ shp2pgsql aerofacp.shp airport > /tmp/airport.sql
 $ psql -d demo_plugins -f /tmp/airport.sql
 
 $ shp2pgsql builtupa.shp agglo > /tmp/agglo.sql
