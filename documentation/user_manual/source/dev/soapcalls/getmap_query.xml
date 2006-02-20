@@ -119,7 +119,7 @@
         </listitem>
         <listitem>
           <para>shape - type of query object dependant. It can be a bounding box, 
-	    a polygon, a circle or a point (see <xref 
+            a polygon, a circle or a point (see <xref 
             linkend="dev.soapcalls.structures.shapes" /> for a description of 
             differents types)</para>
         </listitem>
