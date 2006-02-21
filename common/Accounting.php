@@ -29,7 +29,7 @@
 abstract class Accounting {
 
     /**
-     * Array of accounting messages
+     * Hash of accounting messages. Indexed by labels
      * @var array
      */
     private $accountings = array();
@@ -45,6 +45,19 @@ abstract class Accounting {
      * @var Accounting
      */
     private static $instance;
+
+    /**
+     * True when a cache hit on server occured, to prevent error message of 
+     *  accounting plugin not loaeded
+     * @var boolean
+     */
+    private $cacheHit = false;
+    
+    /**
+     * True when accounting is active. Used to shut down accounting temporarily
+     * @var boolean
+     */
+    private $active = true;
 
     /**
      * Constructor. Can't be called directly, use getInstance() instead.
@@ -76,8 +89,18 @@ abstract class Accounting {
      * @param string accounting data
      */
     public function account($label, $value) {
-        $value = str_replace('"', '_', $value);
-        $this->accountings[] = sprintf('%s="%s"', $label, $value);
+
+        if (!$this->isActive()) {
+            return;
+        }
+
+        if (isset($this->accountings[$label]) && 
+            // XXX strange behaviour with this label
+            $label != 'general.request_id') {
+            throw new CartocommonException("Duplicate accounting label $label");
+        }
+        
+        $this->accountings[$label] = $value;
     }
 
     /**
@@ -154,6 +177,34 @@ abstract class Accounting {
         $res = $db->query($sql);
         Utils::checkDbError($res);
     }
+
+    /**
+     * Sets whether accounting is active or not. Can be used to disable 
+     * accounting temporarily
+     * @param active boolean
+     */
+    public function setActive($active) {
+
+        $this->active = $active;
+    }
+
+    /**
+     * Returns true if accounting is active and enabled
+     * @return boolean
+     */
+    public function isActive() {
+
+        return $this->getConfig()->accountingOn && $this->active;
+    }
+    
+    /**
+     * Tells accounting that a cache hit occured. This is used to prevent
+     * false error message in some situations.
+     */
+    public function setCacheHit() {
+
+        $this->cacheHit = true;
+    }
     
     /**
      * Saves all accounting messages to persistent storage. This should be called
@@ -161,18 +212,24 @@ abstract class Accounting {
      */
     public function save() {
         
-        if (!$this->getConfig()->accountingOn) {
+        if (!$this->isActive()) {
             return;
         }
 
-        if (!$this->pluginLoaded) {
+        if (!$this->pluginLoaded && !$this->cacheHit) {
             throw new CartocommonException(sprintf('Accounting is turned on, ' .
                     'but Accounting plugin is not loaded on %s. You must load ' .
                     'accounting plugin to enable accounting.', 
                     $this->getKind()));
         }
         
-        $accountingPacket = implode(';', $this->accountings);
+        $accountings = array();
+        foreach($this->accountings as $label => $value) {
+            $value = str_replace('"', '_', $value);
+            $accountings[] = sprintf('%s="%s"', $label, $value);
+        }
+        $accountingPacket = implode(';', $accountings);
+
         if ($this->getConfig()->accountingStorage == 'db')
             $this->saveDb($accountingPacket);
         else

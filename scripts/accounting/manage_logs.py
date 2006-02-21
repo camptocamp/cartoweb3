@@ -62,7 +62,7 @@ fields_client = {
 
     # Plugins
     'exportpdf': {
-        'client_version': 0,
+        'client_version': 1,
         'format': (str,),
         'resolution': (int,),
     },                  
@@ -88,7 +88,7 @@ fields_server = {
     },
     'layers': {
         'server_version': 0,
-          'layers': (str,),
+        'layers': (str,),
     },
     'location': {
         'server_version': 0,
@@ -96,9 +96,9 @@ fields_server = {
          'scale': (float,),
     },
     'query': {
-        'server_version': 0,
-        'performed': (bool,), # Needed ??
+        'server_version': 1,
         'results_count': (int,),
+        'results_table_count': (str,),
     },
     # Plugins
     
@@ -111,10 +111,11 @@ for (field_group, sub_fields) in fields_server.iteritems():
 ##########################
 # Update functions
 
-# sample
-def update_client_general_0_to_1(fields):
-    log.debug("Sample update client general 0 -> 1")
-    return fields
+def update_client_exportpdf_0_to_1(fields):
+    raise "Client exportpdf version 0 not supported"
+
+def update_server_query_0_to_1(fields):
+    raise "Server query version 0 not supported"
 
 ###########################
 
@@ -143,6 +144,9 @@ def update_fields_versioning(fields, fields_descr, kind):
                 update_func_name = "update_%s_%s_%s_to_%s" % (kind, field_group, i, i + 1)
                 log.debug("Update func: %s", update_func_name)
                 fields = globals()[update_func_name](fields)
+        elif version > curr_version:
+            raise Exception("Version %s (max %s) not yet supported in field group %s %s" % 
+                     (version, curr_version, kind, field_group))
     return fields
 
 def update_fields(fields, table_name):
@@ -270,6 +274,7 @@ def merge_client_server():
     log.debug("SQL %s", sql)
     curs = conn.cursor()
     curs.execute(sql)
+    log.debug("Affected rows: %s", curs.rowcount)
     conn.commit()
     
 def parse_accounting_dir(ac_dir):

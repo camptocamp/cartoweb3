@@ -623,8 +623,12 @@ class Cartoclient extends Cartocommon {
      */
     public function getMapInfo() {
         if (!$this->mapInfo) {
+            // Mapinfo requests should not be accounted
+            Accounting::getInstance()->setActive(false);
+
             $this->mapInfo = $this->getMapInfoCache()->
                                             getMapInfo($this->config->mapId);
+            Accounting::getInstance()->setActive(true);
         }
         
         return $this->mapInfo;

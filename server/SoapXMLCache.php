@@ -181,6 +181,7 @@ class SoapXMLCache {
         }
         
         Accounting::getInstance()->account('general.cache_hit', md5($soapXMLFile));         
+        Accounting::getInstance()->setCacheHit();
         $this->log->debug('Returning cached soapXML');
         $soapXML = $this->readSoapXML($soapRequest);   
     }   
