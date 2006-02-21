@@ -94,11 +94,13 @@ abstract class Accounting {
             return;
         }
 
+        /* XXX Fix this later
         if (isset($this->accountings[$label]) && 
             // XXX strange behaviour with this label
             $label != 'general.request_id') {
             throw new CartocommonException("Duplicate accounting label $label");
         }
+        */
         
         $this->accountings[$label] = $value;
     }
