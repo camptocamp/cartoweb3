@@ -1099,10 +1099,11 @@ class ClientExportPdf extends ExportPlugin
         $config->setMapAngle($mapAngle);
       
         // accounting
-        $this->account('client_version', 0);
+        $this->account('client_version', 1);
         $this->account('format', $this->getFormat()->label);
         $this->account('resolution', $this->general->mapServerResolution);
-      
+        $this->account('orientation', $this->general->selectedOrientation);
+        
         // scale:
         $scale *= $this->general->mapServerResolution;
         $scale /= $this->general->selectedResolution;
@@ -1349,9 +1350,12 @@ class ClientExportPdf extends ExportPlugin
                                                  'static' : 'none'));
  
         if ($keymap == 'overview') {
+            // Disable accounting for the overview map
+            Accounting::getInstance()->setActive(false);
             $mapBbox = $mapResult->locationResult->bbox;
             $overviewResult = $this->getExportResult(
                                   $this->getConfiguration($keymap, $mapBbox));
+            Accounting::getInstance()->setActive(true);
         } else {
             $overviewResult = false;
         }
