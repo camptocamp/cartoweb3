@@ -412,7 +412,7 @@ class RecenterLocationCalculator extends LocationCalculator {
             return NULL;
 
         $results = $pluginManager->mapquery->queryByIdSelection($idSelection, 
-            $mayFail=true);
+                                                                true);
 
         if (empty($results)) {
              $this->locationPlugin->getServerContext()->addMessage(
