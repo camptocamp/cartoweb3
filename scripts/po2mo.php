@@ -132,11 +132,16 @@ function getMapPo($project, $mapId = null) {
     if ($direct) {
         $url = CARTOWEB_HOME . 'htdocs/';
     } else {
-        if (empty($iniArray['cartoserverBaseUrl'])) {
+        
+        if (!empty($iniArray['cartoserverBaseUrl'])) {
+            $url = $iniArray['cartoserverBaseUrl'];
+        } elseif (!empty($iniArray['cartoclientBaseUrl'])) {
+            $url = $iniArray['cartoclientBaseUrl'];
+        } else {
             warn("Warning: Project $project base URL not set in client.ini");
             return '';
         }
-        $url = $iniArray['cartoserverBaseUrl'];
+        
         if (substr($url, -1) != '/' && substr($url, -1) != '\\') {
             $url .= '/';
         }
