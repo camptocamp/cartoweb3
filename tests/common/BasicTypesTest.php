@@ -331,18 +331,16 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
      */
     public function testCircleUnserialize() {
         
-        $structCenter = new stdclass();
-        $structCenter->x = 12;
-        $structCenter->y = 34;
         $struct = new stdclass();
-        $struct->center = $structCenter;
+        $struct->x = 12;
+        $struct->y = 34;
         $struct->radius = 7;
 
         $circle = new Circle();
         $circle->unserialize($struct);
         
-        $this->assertEquals(12, $circle->center->x);
-        $this->assertEquals(34, $circle->center->y);
+        $this->assertEquals(12.0, $circle->x);
+        $this->assertEquals(34.0, $circle->y);
         $this->assertEquals(7.0,  $circle->radius);
     }
 }
