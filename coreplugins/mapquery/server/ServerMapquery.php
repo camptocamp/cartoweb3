@@ -149,23 +149,23 @@ class ServerMapquery extends ServerPlugin {
      * @return array an array of shapes
      */
     protected function queryLayerByAttributes(ServerContext $serverContext,
-                                            $layerId, $idAttribute, $query,
-                                            $mayFail=false) { 
+                                              $layerId, $idAttribute, $query,
+                                              $mayFail = false) { 
         $log =& LoggerManager::getLogger(__METHOD__);
         
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
 
-        // save extent, and set it to max extent
+        // Saves extent and sets it to max extent.
         $savedExtent = clone($msMapObj->extent); 
         $maxExtent = $serverContext->getMaxExtent();
         $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
                              $maxExtent->maxx, $maxExtent->maxy);
         
         $log->debug("queryLayerByAttributes layer: $msLayer->name " .
-                "idAttribute: $idAttribute query: $query");
-        // layer has to be activated for query
+                    "idAttribute: $idAttribute query: $query");
+        // Layer has to be activated for query.
         $msLayer->set('status', MS_ON);
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
 
@@ -214,7 +214,8 @@ class ServerMapquery extends ServerPlugin {
      *                returned)
      * @return array an array of shapes
      */
-    public function queryByIdSelection(IdSelection $idSelection, $mayFail=false) {
+    public function queryByIdSelection(IdSelection $idSelection, 
+                                       $mayFail = false) {
 
         $serverContext = $this->getServerContext();
         $layersInit = $serverContext->getMapInfo()->layersInit;
