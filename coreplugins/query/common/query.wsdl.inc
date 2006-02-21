@@ -3,7 +3,7 @@
       <complexType name="QueryRequest">
         <all>
           <element name="className" type="xsd:string"/>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="shape" type="types:Shape"/>
           <element name="queryAllLayers" type="xsd:boolean"/>
           <element name="defaultMaskMode" type="xsd:boolean"/>
           <element name="defaultHilight" type="xsd:boolean"/>

@@ -57,7 +57,7 @@ class projects_testQueryHilight_coreplugins_query_server_RemoteServerQueryTest
         $queryRequest = new QueryRequest();
         $bbox = new Bbox();
         $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
-        $queryRequest->bbox = $bbox;
+        $queryRequest->shape = $bbox;
         $queryRequest->defaultTableFlags = new TableFlags();
         $queryRequest->defaultTableFlags->returnAttributes = true;
         $queryRequest->defaultTableFlags->returnTable = true;

@@ -48,42 +48,16 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     }
 
     /**    
-     * Returns a {@link MapRequest} for a query on all selected layers
-     * with a rubber band (bbox) like query
-     * @return MapRequest
-     */
-    private function getMapBboxRequestAllLayers() {
-    
-        $queryRequest = new QueryRequest();
-        $bbox = new Bbox();
-        $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
-        $queryRequest->bbox = $bbox;
-        $queryRequest->defaultTableFlags = new TableFlags();
-        $queryRequest->defaultTableFlags->returnAttributes = true;
-        $queryRequest->defaultTableFlags->returnTable = true;
-        $queryRequest->queryAllLayers = true;
-
-        $mapRequest = $this->createRequest();
-        $mapRequest->queryRequest = $queryRequest;        
-        $mapRequest->layersRequest = new LayersRequest();
-        $mapRequest->layersRequest->layerIds = 
-                    array('POLYGON1', 'line', 'point');
-        
-        return $mapRequest;
-    }
-    
-    /**    
      * Returns a {@link MapRequest} for a query on a point type layers
      * with a point like query
      * @return MapRequest
      */
     private function getMapPointRequestAllLayers() {
 
-    
         $queryRequest = new QueryRequest();
-        $bbox = new Bbox();
-        $bbox->setFromBbox(-0.5285, 51.7589, -0.5285, 51.7589);
-        $queryRequest->bbox = $bbox;
+        $point = new Point();
+        $point->setXY(-0.5285, 51.7589);
+        $queryRequest->shape = $point;
         $queryRequest->defaultTableFlags = new TableFlags();
         $queryRequest->defaultTableFlags->returnAttributes = true;
         $queryRequest->defaultTableFlags->returnTable = true;
@@ -106,6 +80,93 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         return $mapRequest;
     }
 
+    /**   
+     * Returns a {@link MapRequest} for a query on all selected layers
+     * with a rubber band (bbox) like query
+     * @return MapRequest
+     */
+    private function getMapBboxRequestAllLayers() {
+    
+        $queryRequest = new QueryRequest();
+        $bbox = new Bbox();
+        $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
+        $queryRequest->shape = $bbox;
+        $queryRequest->defaultTableFlags = new TableFlags();
+        $queryRequest->defaultTableFlags->returnAttributes = true;
+        $queryRequest->defaultTableFlags->returnTable = true;
+        $queryRequest->queryAllLayers = true;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = 
+                    array('POLYGON1', 'line', 'point');
+        
+        return $mapRequest;
+    }
+    
+    /**    
+     * Returns a {@link MapRequest} for a query on all selected layers
+     * with a polygon like query
+     * @return MapRequest
+     */
+    private function getMapPolygonRequestAllLayers() {
+    
+        $queryRequest = new QueryRequest();
+        $point1 = new Point();
+        $point1->setXY(-0.75, 51);
+        $point2 = new Point();
+        $point2->setXY(-0.75, 51.5);
+        $point3 = new Point();
+        $point3->setXY(0.80, 52);
+        $point4 = new Point();
+        $point4->setXY(0.75, 51);
+        $point5 = new Point();
+        $point5->setXY(-0.75, 51);
+        $polygon = new Polygon();
+        $polygon->points = array($point1, $point2, $point3, $point4, $point5);
+        $queryRequest->shape = $polygon;
+        $queryRequest->defaultTableFlags = new TableFlags();
+        $queryRequest->defaultTableFlags->returnAttributes = true;
+        $queryRequest->defaultTableFlags->returnTable = true;
+        $queryRequest->queryAllLayers = true;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = 
+                    array('POLYGON1', 'line', 'point');
+        
+        return $mapRequest;
+    }
+    
+    /**   
+     * Returns a {@link MapRequest} for a query on all selected layers
+     * with a circle like query
+     * @return MapRequest
+     */
+    private function getMapCircleRequestAllLayers() {
+    
+        $circle = new Circle();
+        $circle->x = 0;
+        $circle->y = 51.48;
+        $circle->radius = 0.73;
+        $queryRequest = new QueryRequest();
+        $queryRequest->shape = $circle;
+        $queryRequest->defaultTableFlags = new TableFlags();
+        $queryRequest->defaultTableFlags->returnAttributes = true;
+        $queryRequest->defaultTableFlags->returnTable = true;
+        $queryRequest->queryAllLayers = true;
+
+        $mapRequest = $this->createRequest();
+        $mapRequest->queryRequest = $queryRequest;        
+        $mapRequest->layersRequest = new LayersRequest();
+        $mapRequest->layersRequest->layerIds = 
+                    array('POLYGON1', 'line', 'point');
+        
+        return $mapRequest;
+    }
+    
     /**
      * Returns a {@link MapRequest} for a query with no attributes
      * @return MapRequest
@@ -137,7 +198,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $queryRequest = new QueryRequest();
         $bbox = new Bbox();
         $bbox->setFromBbox(-0.75, 51, 0.75, 51.5);
-        $queryRequest->bbox = $bbox;
+        $queryRequest->shape = $bbox;
         $queryRequest->queryAllLayers = false;
         $querySelections = array();
         $querySelection = new QuerySelection();
@@ -175,7 +236,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $queryRequest = new QueryRequest();
         $bbox = new Bbox();
         $bbox->setFromBbox(-0.75, 51, 0.75, 52);
-        $queryRequest->bbox = $bbox;
+        $queryRequest->shape = $bbox;
         $queryRequest->queryAllLayers = false;
         $querySelections = array();
         $querySelection = new QuerySelection();
@@ -191,23 +252,6 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $mapRequest->queryRequest = $queryRequest;        
         
         return $mapRequest;
-    }
-
-    /**
-     * Checks for query with attributes
-     * @param QueryResult
-     */
-    private function assertQueryResultWithAttributes($queryResult) {
-
-        $this->assertEquals(3, count($queryResult->tableGroup->tables));
-        $this->assertEquals("POLYGON1", 
-                            $queryResult->tableGroup->tables[0]->tableId);
-
-        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
-        $this->assertEquals(1, count($polygonRows));
-        $this->assertEquals('1', $polygonRows[0]->rowId); 
-        $this->assertEquals(array('1', 'Cé bô le françès'), 
-                            $polygonRows[0]->cells);        
     }
     
     /**
@@ -228,7 +272,58 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $this->assertEquals(array('N'), 
                             $rows[0]->cells);        
     }
+    
+    /**
+     * Checks for query with attributes
+     * @param QueryResult
+     */
+    private function assertQueryResultWithAttributes($queryResult) {
 
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("POLYGON1", 
+                            $queryResult->tableGroup->tables[0]->tableId);
+
+        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
+        $this->assertEquals(1, count($polygonRows));
+        $this->assertEquals('1', $polygonRows[0]->rowId); 
+        $this->assertEquals(array('1', 'Cé bô le françès'), 
+                            $polygonRows[0]->cells);        
+    }
+    
+    /**
+     * Checks for query using polygon like query
+     * @param QueryResult
+     */
+    private function assertQueryPolygonResultWithAttributes($queryResult) {
+
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("POLYGON1", 
+                            $queryResult->tableGroup->tables[0]->tableId);
+
+        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
+        $this->assertEquals(1, count($polygonRows));
+        $this->assertEquals('1', $polygonRows[0]->rowId); 
+        $this->assertEquals(array('1', 'Cé bô le françès'), 
+                            $polygonRows[0]->cells);        
+    }
+
+    /**
+     * Checks for query using circle like query
+     * @param QueryResult
+     */
+    private function assertQueryCircleResultWithAttributes($queryResult) {
+
+        $this->assertEquals(3, count($queryResult->tableGroup->tables));
+        $this->assertEquals("POLYGON1", 
+                            $queryResult->tableGroup->tables[0]->tableId);
+
+        $polygonRows = $queryResult->tableGroup->tables[0]->rows; 
+        $this->assertEquals(1, count($polygonRows));
+        $this->assertEquals('1', $polygonRows[0]->rowId); 
+        $this->assertEquals(array('1', 'Cé bô le françès'), 
+                            $polygonRows[0]->cells);        
+    }
+    
     /**
      * Checks for query with no attributes
      * @param QueryResult
@@ -280,6 +375,20 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
 
     /**
      * Tests a query on all selected layers
+     * using a point like query
+     * @param boolean
+     */
+    public function testQueryPointAllLayers($direct = false) {
+
+        $mapRequest = $this->getMapPointRequestAllLayers();
+        $mapResult = $this->getMap($mapRequest);
+        $this->assertQueryPointResultWithAttributes($mapResult->queryResult);
+
+        $this->redoDirect($direct, __METHOD__);
+    }
+    
+    /**
+     * Tests a query on all selected layers
      * using a rubber band (box) like query
      * @param boolean
      */
@@ -288,25 +397,38 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
         $this->assertQueryResultWithAttributes($mapResult->queryResult);
+        
+        $this->redoDirect($direct, __METHOD__);
+    }
+
+    /**
+     * Tests a query on all selected layers
+     * using a polygon like query
+     * @param boolean
+     */
+    public function testQueryPolygonAllLayers($direct = false) {
+
+        $mapRequest = $this->getMapPolygonRequestAllLayers();
+        $mapResult = $this->getMap($mapRequest);
+        $this->assertQueryPolygonResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
 
     /**
      * Tests a query on all selected layers
-     * using a point like query
+     * using a circle like query
      * @param boolean
      */
-    public function testQueryPointAllLayers($direct = false) {
+    public function testQueryCircleAllLayers($direct = false) {
 
-        $mapRequest = $this->getMapPointRequestAllLayers();
+        $mapRequest = $this->getMapCircleRequestAllLayers();
         $mapResult = $this->getMap($mapRequest);
-
-        $this->assertQueryPointResultWithAttributes($mapResult->queryResult);
+        $this->assertQueryCircleResultWithAttributes($mapResult->queryResult);
 
         $this->redoDirect($direct, __METHOD__);
     }
-
+    
     /**
      * Tests a query in mask mode
      * @param boolean
@@ -416,5 +538,4 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
         $this->redoDirect($direct, __METHOD__);
     }
 }
-
 ?>

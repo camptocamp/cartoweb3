@@ -96,7 +96,6 @@ fillForm = function(aFeature) {
     coords += aFeature.vertices[i].x + "," + aFeature.vertices[i].y + ";";
   }
   coords = coords.substring(0, coords.length -1);
-  myform.selection_coords.value = coords;
   switch (aFeature.type) {
     case "point" :
       var shapeType = "point";
@@ -107,7 +106,12 @@ fillForm = function(aFeature) {
     case "polygon" :
       var shapeType = "polygon";
       break;
+    case "circle" :
+      var shapeType = "circle";
+      coords += ";" + aFeature.radius;
+      break;
   }
+  myform.selection_coords.value = coords;
   myform.selection_type.value = shapeType;
 };
 
@@ -262,11 +266,6 @@ Map.prototype.fullextent = function(aDisplay) {
   doSubmit();
 }
 
-Map.prototype.query = function(aDisplay) {
-  this.selectionBox(aDisplay, 'Query.Perform');
-  this.getDisplay(aDisplay).docObj.style.cursor = "help";
-};
-  
 Map.prototype.pan = function(aDisplay) {
   this.resetMapEventHandlers();
   this.getDisplay(aDisplay).setTool('pan');
@@ -276,6 +275,60 @@ Map.prototype.pan = function(aDisplay) {
     storeFeatures();
     doSubmit();
   }
+};
+
+Map.prototype.query_by_point = function(aDisplay) {
+  this.zoomout(aDisplay);
+  this.getDisplay(aDisplay).docObj.style.cursor = "help";
+};
+
+Map.prototype.query_by_bbox = function(aDisplay) {
+  this.selectionBox(aDisplay, 'Query.Perform');
+  this.getDisplay(aDisplay).docObj.style.cursor = "help";
+};
+  
+Map.prototype.query_by_polygon = function(aDisplay) {
+  this.resetMapEventHandlers();
+  this.setCurrentLayer('drawing');
+  this.getDisplay(aDisplay).setTool('draw.poly');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
+    fillForm(aFeature);
+    doSubmit();
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('drawing');
+    this.onCancel();
+  };
+  this.onCancel = function() {
+    emptyForm();
+  };
+};
+
+Map.prototype.query_by_circle = function(aDisplay) {
+  this.resetMapEventHandlers();
+  this.setCurrentLayer('drawing');
+  this.getDisplay(aDisplay).setTool('draw.circle');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
+    fillForm(aFeature);
+    doSubmit();
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('drawing');
+    this.onCancel();
+  };
+  this.onCancel = function() {
+    emptyForm();
+  };
 };
 
 /***** STATICTOOLS ****/

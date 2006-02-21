@@ -92,9 +92,9 @@ class QuerySelection extends IdSelection {
 class QueryRequest extends CwSerializable {
 
     /**
-     * @var Bbox
+     * @var Shape
      */
-    public $bbox;
+    public $shape;
        
     /**   
      * If true, will query all selected layers
@@ -134,8 +134,7 @@ class QueryRequest extends CwSerializable {
      */
     public function unserialize($struct) {
     
-        $this->bbox              = self::unserializeObject($struct,
-                                       'bbox', 'Bbox');
+        $this->shape             = self::unserializeObject($struct, 'shape');
         $this->queryAllLayers    = self::unserializeValue($struct,
                                        'queryAllLayers', 'boolean');
         $this->defaultMaskMode   = self::unserializeValue($struct,

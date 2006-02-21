@@ -241,6 +241,9 @@ Display.prototype.setTool = function(tool) {
   case "draw.poly":
     this.mouseAction = new DrawPolygonTool(this);
     break;
+  case "draw.circle":
+    this.mouseAction = new DrawCircleTool(this);
+    break;
   case "sel.point":
     this.mouseAction = new SelPointTool(this);
     break;
@@ -715,6 +718,87 @@ DrawPolygonTool.prototype.onKeyEnter = function(aDisplay) {
 DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
   aDisplay.dml.innerHTML = "";
   aDisplay.dml2.innerHTML = "";
+  aDisplay.currentLayer.removeChild(aDisplay.dShape);
+  aDisplay.tmpFeature = undefined;
+  if (aDisplay._map.onCancel) {
+    aDisplay._map.onCancel();
+  }
+};
+
+/**
+ * Creates a draw circle tool (see Display.mouseAction)
+ * @param aDisplay display object
+ */
+function DrawCircleTool(aDisplay) {
+  xShow(aDisplay.eventPad);
+  aDisplay.docObj.style.cursor = "crosshair";
+  xDisableDrag(aDisplay.rootDisplayLayer);
+  // deselect all previously selected features
+  changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
+};
+DrawCircleTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  aDisplay.isDrawing = 'circle';
+
+  if (aDisplay._map.onNewFeature)
+    aDisplay._map.onNewFeature(feature);
+  
+  // new circle
+  if (!aDisplay.tmpFeature) {
+    var feature = new Circle();
+    feature.operation = 'insert';
+    aDisplay._map.currentLayer.features.push(feature);
+    var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
+    aDisplay.tmpFeature = feature;
+    dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
+    dShape.X = new Array();
+    dShape.Y = new Array();
+    aDisplay.dShape = dShape;
+  }
+  aDisplay.downx = ex;
+  aDisplay.downy = ey;
+};
+DrawCircleTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
+
+  if (aDisplay.tmpFeature) {
+    aDisplay.dShape.innerHTML = '';
+    var dx = ex - aDisplay.downx;
+    var dy = ey - aDisplay.downy;
+    var radius = Math.sqrt(dx * dx + dy * dy);
+    
+    aDisplay.drawEllipse(aDisplay.dShape, aDisplay.downx - radius, aDisplay.downy - radius,
+      radius * 2, radius * 2, _OFF);
+  }
+};
+DrawCircleTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
+  
+  // fire a map event, box is drawn
+  if (aDisplay.tmpFeature) {
+  
+    // fill the circle
+    
+    var dx = ex - aDisplay.downx;
+    var dy = ey - aDisplay.downy;
+    var radius = Math.sqrt(dx * dx + dy * dy);
+    
+    aDisplay.fillEllipse(aDisplay.dShape, aDisplay.downx - radius, aDisplay.downy - radius,
+      radius * 2, radius * 2, _OFF);
+    
+    var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
+        pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+    aDisplay.tmpFeature.vertices.push(vertex);
+    
+    // TODO manage non orthonormed reference systems
+    aDisplay.tmpFeature.radius = Math.abs(pix2Geo(radius, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax) - aDisplay._map.extent.xmin);
+    
+    if (aDisplay._map.onFeatureInput) {
+      aDisplay._map.onFeatureInput(aDisplay.tmpFeature);
+    }
+  }
+  
+  aDisplay.downx = aDisplay.downy = undefined;
+  aDisplay.tmpFeature = undefined;
+}
+DrawCircleTool.prototype.onKeyEscape = function(aDisplay) {
   aDisplay.currentLayer.removeChild(aDisplay.dShape);
   aDisplay.tmpFeature = undefined;
   if (aDisplay._map.onCancel) {
@@ -1412,6 +1496,45 @@ Display.prototype.fillPolygon = function(aPolygon, status) {
   jg.paint();
 
   xWalkTree(aPolygon, function(elt) {elt._display = pg._display});
+};
+
+/**
+ * Draws an ellipse
+ * @param aCircle circle to draw
+ * @param cls className for the filling divs
+ */
+Display.prototype.fillEllipse = function(aEllipse, x, y ,w , h, status) {
+  var pg = aEllipse;
+
+  if (!pg.pf) {
+    pg.pf = xCreateElement('div');
+    pfc = true;
+    pg.pf.id = 'pf' + pfi++;
+    xAppendChild(pg, pg.pf);
+    pg.style.position = "absolute";
+  } else {
+    pfc = false;
+    pg.pf.innerHTML = '';
+  }
+  var jg = new jsGraphics(pg.pf.id);
+  jg.fillEllipse(x, y, w, h, polygonfillCN + status);
+  jg.paint();
+
+
+  xWalkTree(aEllipse, function(elt) {elt._display = pg._display});
+};
+
+/**
+ * Fills an ellipse
+ * @param aPolygon drawn circle to fill
+ * @param cls className for the filling divs
+ */
+Display.prototype.drawEllipse = function(obj, x, y ,w , h, status) {
+
+  var jg = new jsGraphics(obj.id);
+  jg.setStroke(2);
+  jg.drawEllipse(x, y, w, h, linepointCN + status);
+  jg.paint();
 };
 
 /**

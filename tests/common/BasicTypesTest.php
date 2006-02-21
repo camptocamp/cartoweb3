@@ -325,6 +325,25 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(15, $center->x);
         $this->assertEquals(34, $center->y);
     }
-}
 
+    /**
+     * Tests Circle unserialization
+     */
+    public function testCircleUnserialize() {
+        
+        $structCenter = new stdclass();
+        $structCenter->x = 12;
+        $structCenter->y = 34;
+        $struct = new stdclass();
+        $struct->center = $structCenter;
+        $struct->radius = 7;
+
+        $circle = new Circle();
+        $circle->unserialize($struct);
+        
+        $this->assertEquals(12, $circle->center->x);
+        $this->assertEquals(34, $circle->center->y);
+        $this->assertEquals(7.0,  $circle->radius);
+    }
+}
 ?>

@@ -216,13 +216,12 @@ class ServerQuery extends ClientResponderAdapter {
 
     /**
      * Executes query on layer
-     *
-     * Query can be done using a {@link Bbox}, a list of Ids, or both
-     * @param Bbox
+     * Query can be done using a {@link Shape}, a list of Ids, or both
+     * @param Shape
      * @param QuerySelection
      * @return Table
      */
-    protected function queryLayer($bbox, $querySelection) {
+    protected function queryLayer($shape, $querySelection) {
 
         if (is_null($querySelection->tableFlags)) {
             $querySelection->tableFlags = new TableFlags;
@@ -287,14 +286,14 @@ class ServerQuery extends ClientResponderAdapter {
             }                        
         }
 
-        $tableBbox = null;        
-        if (!is_null($bbox) && $querySelection->useInQuery) {
+        $tableShape = null;        
+        if (!is_null($shape) && $querySelection->useInQuery) {
             if (!empty($pluginManager->mapquery)) {
                   
-                $resultBbox = $pluginManager->mapquery
-                                    ->queryByBbox($querySelection->layerId, 
-                                                  $bbox); 
-                $tableBbox = $this->resultToTable($resultBbox,
+                $resultShape = $pluginManager->mapquery->queryByShape(
+                                                  $querySelection->layerId,
+                                                  $shape);
+                $tableShape = $this->resultToTable($resultShape,
                                                   $querySelection->layerId,  
                                                   $idAttribute,
                                                   $attributes,
@@ -302,19 +301,19 @@ class ServerQuery extends ClientResponderAdapter {
             }                                    
         }
 
-        if (is_null($tableIds) && is_null($tableBbox)) {
+        if (is_null($tableIds) && is_null($tableShape)) {
             $table = new Table();
             $table->tableId = $querySelection->layerId;
             return $table;
         }
         if (is_null($tableIds)) {
-            return $tableBbox;
+            return $tableShape;
         }
-        if (is_null($tableBbox)) {
+        if (is_null($tableShape)) {
             return $tableIds;
         }
 
-        return $this->mergeTables($tableIds, $tableBbox,
+        return $this->mergeTables($tableIds, $tableShape,
                                   $querySelection->policy);
     }
 
@@ -427,7 +426,7 @@ class ServerQuery extends ClientResponderAdapter {
                         $querySelection->useInQuery = true;                                               
                     }
                 }
-                $tables[] = $this->queryLayer($requ->bbox, $querySelection);
+                $tables[] = $this->queryLayer($requ->shape, $querySelection);
                 $layersOk[] = $layerName;
                 $hilightQuerySelections[$layerName] = $querySelection;
                 if (!$querySelection->tableFlags->returnTable) {
@@ -439,7 +438,7 @@ class ServerQuery extends ClientResponderAdapter {
             
             if (!in_array($querySelection->layerId, $layersOk)) {
             
-                $tables[] = $this->queryLayer($requ->bbox, $querySelection);                
+                $tables[] = $this->queryLayer($requ->shape, $querySelection);                
                 $layersOk[] = $querySelection->layerId;
                 $hilightQuerySelections[$querySelection->layerId]
                                                             = $querySelection;

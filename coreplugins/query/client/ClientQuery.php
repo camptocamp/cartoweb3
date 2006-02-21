@@ -58,15 +58,18 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     protected $queryState;
     
     /**
-     * @var Bbox
+     * @var Shape
      */
-    protected $bbox;
+    protected $shape;
     
     /**
      * Query tool name
      */
-    const TOOL_QUERY = 'query';
-
+    const TOOL_QUERY_BY_POINT = 'query_by_point';
+    const TOOL_QUERY_BY_BBOX = 'query_by_bbox';
+    const TOOL_QUERY_BY_POLYGON = 'query_by_polygon';
+    const TOOL_QUERY_BY_CIRCLE = 'query_by_circle';
+    
     /**
      * Default flags for queries
      */
@@ -137,17 +140,6 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */
     public function handleMainmapTool(ToolDescription $tool, 
                                Shape $mainmapShape) {
-        
-        if ($mainmapShape instanceof Point) {
-            $bbox = new Bbox();
-            $bbox->setFrom2Points($mainmapShape, $mainmapShape);
-            $mainmapShape = $bbox;   
-        } 
-        
-        if (!$mainmapShape instanceof Bbox) 
-            throw new CartoclientException('Only bbox shapes are supported ' .
-                                           'for queries');
-            
         return $mainmapShape;    
     }
     
@@ -167,7 +159,10 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see ToolProvider::getTools()
      */
     public function getTools() {
-        return array(new ToolDescription(self::TOOL_QUERY, true, 40));
+        return array(new ToolDescription(self::TOOL_QUERY_BY_POINT, true, 40),
+                     new ToolDescription(self::TOOL_QUERY_BY_BBOX, true, 41),
+                     new ToolDescription(self::TOOL_QUERY_BY_POLYGON, true, 42),
+                     new ToolDescription(self::TOOL_QUERY_BY_CIRCLE, true, 43));
     }
 
     /**
@@ -415,7 +410,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */
     public function handleHttpPostRequest($request) {
 
-        $this->bbox = $this->cartoclient->getHttpRequestHandler()
+        $this->shape = $this->cartoclient->getHttpRequestHandler()
                         ->handleTools($this);
 
         $this->handleQuery($request);
@@ -445,7 +440,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      */ 
     public function buildRequest() {
     
-        if (!is_null($this->bbox) || (!is_null($this->queryState)
+        if (!is_null($this->shape) || (!is_null($this->queryState)
             && count($this->queryState->querySelections) > 0)) {
             $queryRequest = new QueryRequest();
             $queryRequest->queryAllLayers = $this->queryState->queryAllLayers;
@@ -471,8 +466,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                                               $this->getConfig()->defaultTable;
             }
             $queryRequest->querySelections = $this->queryState->querySelections;        
-            $queryRequest->bbox = $this->bbox;
-
+            $queryRequest->shape = $this->shape;
+            
             return $queryRequest;
         }
         return null;
@@ -511,7 +506,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             $ids = $table->getIds();
             $querySelection = $this->findQuerySelection($table->tableId);
             if (is_null($querySelection) && $table->numRows > 0) {            
-                // Ids selected by bbox
+                // Ids selected by shape
                 $querySelection = $this->addDefaultQuerySelection($table->tableId);
             }
             if (!is_null($querySelection)) {

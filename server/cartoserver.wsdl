@@ -39,8 +39,9 @@
           <element name="maxx" type="xsd:double" minOccurs="0"/>
           <element name="maxy" type="xsd:double" minOccurs="0"/>
           <element name="points" type="types:ArrayOfPoint" minOccurs="0"/>
+          <element name="radius" type="xsd:double" minOccurs="0"/>
         </all>
-      </complexType>     
+      </complexType>
 
       <complexType name="ArrayOfShape">
         <complexContent>

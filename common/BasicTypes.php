@@ -456,8 +456,6 @@ class Rectangle extends Bbox {
         }
         parent::unserialize($struct);
     }
-    
-
 }
 
 /**
@@ -523,6 +521,64 @@ class Polygon extends Shape {
             }
             return abs($area / 2.0);
         }        
+    }
+}
+
+/**
+ * A circle
+ * @package Common
+ * @author Florent Giraud <florent.giraud@camptocamp.com>
+ */
+class Circle extends Shape {
+    
+    /**
+     * Center x
+     * @var object
+     */
+    public $x;
+
+    /**
+     * Center y
+     * @var object
+     */
+    public $y;
+
+    /**
+     * Radius
+     * @var double
+     */
+    public $radius;
+
+    /**
+     * @see CwSerializable::unserialize()
+     */
+    public function unserialize($struct) {
+        $this->x = self::unserializeValue($struct, 'x', 'double');
+        $this->y = self::unserializeValue($struct, 'y', 'double');
+        $this->radius = self::unserializeValue($struct, 'radius', 'double');
+        parent::unserialize($struct);
+    }
+
+    /**
+     * @see Shape::getCenter()
+     * @return Point
+     */
+    public function getCenter() {
+
+        $center = new Point();
+        $center->x = $this->x;
+        $center->y = $this->y;
+        
+        return $this->center;
+    }
+    
+    /**
+     * @see Shape::getArea()
+     * @return double
+     */
+    public function getArea() {
+        
+        return M_PI * $radius * $radius;
     }
 }
 

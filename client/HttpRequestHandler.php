@@ -45,7 +45,6 @@ class PixelCoordsConverter {
             $pixelPos = $pixelMax - $pixelPos;
 
         $factor = $geoWidth / $pixelMax;
-        $deltaGeo = $pixelPos * $factor;
         $geoPos = $geoMin + ($pixelPos * $factor);
 
         return $geoPos;
@@ -95,6 +94,22 @@ class DhtmlSelectionParser {
     }
     
     /**
+     * Parses coords array data stored in $_REQUEST and converts it to Point
+     * @param Dimension image size
+     * @param Bbox current bbox in geographical coordinates
+     * @return Point point in geographical coordinates
+     */
+    private function getPointShape(Dimension $imageSize, Bbox $bbox) {
+
+        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
+                                       $imageSize, $bbox);
+        if (count($points) != 1)
+            throw new CartoclientException("can't parse point dhtml coords");
+        
+        return $points[0];
+    }
+    
+    /**
      * Parses coord data and converts it to Point
      * @param string serialized coordinates
      * @param Dimension image size
@@ -109,9 +124,9 @@ class DhtmlSelectionParser {
         if ($this->cartoclient->getConfig()->noDhtml) {
             // if no DHTML, assumed that coords given in pixels
             return PixelCoordsConverter::point2Coords($point, $imageSize, $bbox);
-        }
-        else
+        } else {
             return $point;
+        }
     }
     
     /**
@@ -204,21 +219,34 @@ class DhtmlSelectionParser {
     }
 
     /**
-     * Parses coords array data stored in $_REQUEST and converts it to Point
+     * Parses coords array data stored in $_REQUEST and converts it to a Circle
      * @param Dimension image size
      * @param Bbox current bbox in geographical coordinates
-     * @return Point point in geographical coordinates
+     * @return Circle circle in geographical coordinates
      */
-    private function getPointShape(Dimension $imageSize, Bbox $bbox) {
-
-        $points = self::coordsToPoints($_REQUEST[self::SELECTION_COORDS],
-                                       $imageSize, $bbox);
-        if (count($points) != 1)
-            throw new CartoclientException("can't parse point dhtml coords");
+    private function getCircleShape(Dimension $imageSize, Bbox $bbox) {
         
-        return $points[0];
+        $params = explode(';', $_REQUEST[self::SELECTION_COORDS]);
+        if (count($params) != 2)
+            throw new CartoclientException("can't parse circle dhtml coords");
+            
+        $center = self::coordToPoint($params[0], $imageSize, $bbox);     
+        if ($this->cartoclient->getConfig()->noDhtml) {
+            // if no DHTML, assumed that coords given in pixels
+            $radius = $params[1] * PixelCoordsConverter::pixel2Coord(1, 
+                $imageSize->width, $bbox->minx, $bbox->maxx, false);
+        } else {
+            $radius = $params[1];
+        }
+        
+        $circle = new Circle();
+        $circle->x = $center->x;
+        $circle->y = $center->y;
+        $circle->radius = $radius;
+        
+        return $circle;        
     }
-    
+
     /**
      * Converts coords array data to a Shape
      * @param CartoForm 
@@ -237,18 +265,26 @@ class DhtmlSelectionParser {
         }
 
         $type = $_REQUEST[self::SELECTION_TYPE];
-        if ($type == 'point') 
-            return self::getPointShape($imageSize, $bbox); 
-        else if ($type == 'polyline') 
-            return self::getLineShape($imageSize, $bbox);
-        else if ($type == 'rectangle') 
-            return self::getRectangleShape($imageSize, $bbox);
-        else if ($type == 'polygon')
-            return self::getPolygonShape($imageSize, $bbox); 
-        else
-            throw new CartoclientException("unknown selection_type: $type");
+        switch ($type) {
+            case 'point' :
+                return self::getPointShape($imageSize, $bbox);
+                break;
+            case 'polyline' : 
+                return self::getLineShape($imageSize, $bbox);
+                break;
+            case 'rectangle' : 
+                return self::getRectangleShape($imageSize, $bbox);
+                break;
+            case 'polygon' :
+                return self::getPolygonShape($imageSize, $bbox);
+                break;
+            case 'circle' :
+                return self::getCircleShape($imageSize, $bbox);
+                break;
+            default:
+                throw new CartoclientException("unknown selection_type: $type");
+        }
     }
-    
 }
 
 /**

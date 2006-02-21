@@ -35,6 +35,21 @@ function Point() {
 };
 
 /**
+ * Create a circle
+ * circle cannot be considered like other features
+ * @return Circle object created
+ */
+function Circle() {
+  this.vertices = Array();
+  this.radius = 0;
+  this.type = "circle";
+
+  var now = new Date();
+  this.id = now.getTime() + "" + Math.round(Math.random() * 1000);
+  return this;
+};
+
+/**
  * Create a feature
  * @param wktString coords given using WKT format
  * @return the CW3 feature object created
@@ -64,6 +79,7 @@ function Feature(wktString) {
   return this;
 };
 Feature.prototype.getArea = function() {
+  //TODO area for circle
   if (this.vertices.length > 1) {
     //surface calculation
     var measure = 0;

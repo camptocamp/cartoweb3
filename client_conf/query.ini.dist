@@ -1,5 +1,8 @@
-;integer defining appearance order of the query tool icon in toolbar (if not specified, default to 40). 
-;weightQuery = 40
+;integer defining appearance order of the query tools icons in toolbar
+weightQueryByPoint = -1 ;default 40
+weightQueryByBbox = 41 ;default 41
+weightQueryByPolygon = -1 ;default 42
+weightQueryByCircle = -1 ;default 43
 
 ;allows client to ask for attributes
 returnAttributesActive = true

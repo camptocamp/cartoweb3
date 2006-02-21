@@ -258,12 +258,12 @@ class ServerMapquery extends ServerPlugin {
     }      
 
     /**
-     * Performs a query based on a bbox on a given layer
+     * Performs a query based on a {@link Shape} object on a given layer.
      * @param string layerId
-     * @param Bbox
+     * @param Shape geographic selection
      * @return array an array of shapes
      */
-    public function queryByBbox($layerId, Bbox $bbox) {
+    public function queryByShape($layerId, Shape $shape) {
 
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
@@ -272,27 +272,54 @@ class ServerMapquery extends ServerPlugin {
         // layer has to be activated for query
         $msLayer->set('status', MS_ON);
         
-        if ($bbox->minx == $bbox->maxx && $bbox->miny == $bbox->maxy) {
-            $point = ms_newPointObj();
-            $point->setXY($bbox->minx, $bbox->miny);
+        if ($shape instanceof Point) {
+            $msPoint = ms_newPointObj();
+            $msPoint->setXY($shape->x, $shape->y);
             
             // no tolerance set by default, must be set in mapfile
-            $ret = @$msLayer->queryByPoint($point, MS_MULTIPLE, -1);
+            $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, -1);
             
             $this->log->debug("Query on layer $layerId: " .
-                    "queryByPoint($point, MS_MULTIPLE, -1)");
-        } else {
-            $rect = ms_newRectObj();
-            $rect->setextent($bbox->minx, $bbox->miny, $bbox->maxx, $bbox->maxy);
+                              "queryByPoint($msPoint, MS_MULTIPLE, -1)");
+        } elseif ($shape instanceof Bbox || $shape instanceOf Rectangle) {
+            $msRect = ms_newRectObj();
+            $msRect->setextent($shape->minx, $shape->miny, 
+                               $shape->maxx, $shape->maxy);
         
-            $ret = @$msLayer->queryByRect($rect);
-        
-            $this->log->debug("Query on layer $layerId: queryByRect($rect)");        
+            $ret = @$msLayer->queryByRect($msRect);
             
+            $this->log->debug("Query on layer $layerId: queryByRect($msRect)");        
+        } elseif ($shape instanceof Polygon) {
+            $msShape = ms_newShapeObj(MS_SHAPE_POLYGON);
+            $msLine = ms_newLineObj();
+            foreach ($shape->points as $point) {
+                $msLine->addXY($point->x, $point->y);
+            }
+            $msShape->add($msLine);
+
+            $ret = @$msLayer->queryByShape($msShape);
+            
+            $this->log->debug("Query on layer $layerId: queryByShape($msShape)");        
+        } elseif ($shape instanceof Circle) {
+            //force mapscipt to consider radius units as geographic
+            if ($msLayer->toleranceunits == MS_PIXELS)
+                $msLayer->toleranceunits = $msMapObj->units;
+
+            $msPoint = ms_newPointObj();
+                   
+            $msPoint->setXY($shape->x, $shape->y);
+            
+            $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, $shape->radius);
+            
+            $this->log->debug("Query on layer $layerId: queryByPoint(" .
+                              "$msPoint, MS_MULTIPLE, $shape->radius)");
+        } else {
+            $this->CartoserverException(sprintf("Query can't be done on %s " .
+                                        'type selection', get_class($shape)));
         }
         
         $this->serverContext->resetMsErrors();
-
+        
         if ($ret != MS_SUCCESS || 
             $msLayer->getNumResults() == 0) 
             return array();
