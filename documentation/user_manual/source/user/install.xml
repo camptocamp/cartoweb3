@@ -676,8 +676,8 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       <para>
         The aim of this part is to give you further informations on creation of demoPlugins and 
         demoEdit plugins extensions. If you create a new plugin or adapt an existing one, we guess 
-        it will be helpful to take these plugin extensions for example or use one of these two 
-        ressources:
+        it will be helpful to take these plugins extensions for example or use one of these two 
+        resources:
         <itemizedlist>
           <listitem>
             <para>
