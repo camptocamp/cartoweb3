@@ -76,10 +76,20 @@ abstract class Accounting {
             } else if (class_exists('ServerAccountingImpl')) {
                 self::$instance = new ServerAccountingImpl();
             } else {
-                throw new CartocommonException('invalid accounting class');
+                self::$instance = new DummyAccounting();
             }
         }
         return self::$instance;
+    }
+
+    /**
+     * Resets accounting messages
+     */
+    public function reset() {
+        $this->accountings = array();
+        $this->pluginLoaded = false;
+        $this->active = true;
+        $this->cacheHit = false;
     }
 
     /**
@@ -94,7 +104,7 @@ abstract class Accounting {
             return;
         }
 
-        /* XXX Fix this later
+        /* FIXME: disabled because it does not work with tests
         if (isset($this->accountings[$label]) && 
             // XXX strange behaviour with this label
             $label != 'general.request_id') {
@@ -237,6 +247,42 @@ abstract class Accounting {
         else
             $this->saveFile($accountingPacket);
     }
+}
+
+/**
+ * Dummy accounting implementation used in case Cartoclient/server is not loaded
+ */
+class DummyAccounting extends Accounting {
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+    }
+
+    /**
+     * @see Accounting::getKind()
+     */
+    protected function getKind() {
+        return 'dummy';   
+    }
+
+    /**
+     * @see Accounting::getMapId()
+     */
+    protected function getMapId() {
+        return 'dummy_mapid';
+    }
+
+    /**
+     * @see Accounting::getConfig()
+     */
+    protected function getConfig() {
+        $obj = new stdclass();
+        $obj->accountingOn = false;
+        return $obj;
+    }    
 }
 
 ?>
