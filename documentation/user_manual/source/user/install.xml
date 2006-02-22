@@ -675,21 +675,21 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       <title>Plugins extensions further information</title>
       <para>
         The aim of this part is to give you further informations on creation of demoPlugins and 
-	demoEdit plugins extensions. If you create a new plugin or adapt an existing one, we guess 
-	it will be helpful to take these plugin extensions for example or use one of these two 
-	ressources:
-	<itemizedlist>
+        demoEdit plugins extensions. If you create a new plugin or adapt an existing one, we guess 
+        it will be helpful to take these plugin extensions for example or use one of these two 
+        ressources:
+        <itemizedlist>
           <listitem>
             <para>
-	      User HowTo: <ulink url="http://www.cartoweb.org/cwiki/HowTo"/>,
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Dev tutorial new plugins part: <xref linkend="dev.newplugin"/>.
-	    </para>
-	  </listitem>
-	</itemizedlist>
+              User HowTo: <ulink url="http://www.cartoweb.org/cwiki/HowTo"/>,
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Dev tutorial new plugins part: <xref linkend="dev.newplugin"/>.
+            </para>
+          </listitem>
+        </itemizedlist>
       </para>
       <sect3 id="user.install.demo.details.demoLocation">
         <title>demoLocation Extension</title>
