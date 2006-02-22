@@ -26,6 +26,7 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
+require_once(CARTOWEB_HOME . 'common/Accounting.php');
 require_once(CARTOWEB_HOME . 'common/Utils.php');
 require_once(CARTOWEB_HOME . 'common/SecurityManager.php');
 
