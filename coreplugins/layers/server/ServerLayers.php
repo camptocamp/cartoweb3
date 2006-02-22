@@ -215,6 +215,8 @@ class ServerLayers extends ClientResponderAdapter
             $msLayer = $msMapObj->getLayer($i);
             $msLayer->set('status', MS_OFF);
         }
+
+        $currentScale = isset($msMapObj->scale) ? $msMapObj->scale : 0;
         
         foreach ($this->getRequestedLayerNames() as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
@@ -227,10 +229,30 @@ class ServerLayers extends ClientResponderAdapter
                 $this->updateRatioParameters($msLayer, $this->resRatio);
             
             $forceImageType = $msLayer->getMetaData('force_imagetype');
-            if (!empty($forceImageType)) {
+            if (!empty($forceImageType) && 
+                $this->isLayerVisible($msLayer, $currentScale)) {
                 $this->imageType = $forceImageType;
             }
         }
+    }
+
+    /**
+     * Tells if given layer is visible at given scale.
+     * @param LayerObj
+     * @param float scale
+     * @return boolean
+     */
+    protected function isLayerVisible($msLayer, $scale) {
+        if (!$scale) {
+            return true;
+        }
+    
+        $minscale = $msLayer->minscale > 0 ? $msLayer->minscale : 0;
+        $maxscale = $msLayer->maxscale > 0 ? $msLayer->maxscale : 0;
+
+        $isVisible = ((!$minscale || $scale >= $minscale) && 
+                      (!$maxscale || $scale <= $maxscale));
+        return $isVisible;
     }
     
     /**
