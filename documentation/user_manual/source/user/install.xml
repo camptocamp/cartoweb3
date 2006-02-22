@@ -453,7 +453,7 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
     </sect2>
   </sect1>   
   <sect1 id="user.install.demo">
-    <title>Demos Installation</title>
+    <title>Demos</title>
     <sect2 id="user.install.demo.intoduction">
       <title>Introduction</title>
       <para>
@@ -672,7 +672,25 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
       </para>      
     </sect2>
     <sect2 id="user.install.demo.details">
-      <title>Extensions Description</title>
+      <title>Plugins extensions further information</title>
+      <para>
+        The aim of this part is to give you further informations on creation of demoPlugins and 
+	demoEdit plugins extensions. If you create a new plugin or adapt an existing one, we guess 
+	it will be helpful to take these plugin extensions for example or use one of these two 
+	ressources:
+	<itemizedlist>
+          <listitem>
+            <para>
+	      User HowTo: <ulink url="http://www.cartoweb.org/cwiki/HowTo"/>,
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Dev tutorial new plugins part: <xref linkend="dev.newplugin"/>.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
       <sect3 id="user.install.demo.details.demoLocation">
         <title>demoLocation Extension</title>
         <para>
