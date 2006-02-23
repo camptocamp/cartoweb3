@@ -327,6 +327,18 @@ class ServerMapquery extends ServerPlugin {
 
         return $this->extractResults($layerId, true);
     }
+
+    /**
+     * Performs a query based on a bbox on a given layer
+     * DEPRECATED: this method should no more be used.
+     * Use {@link ServerMapquery::queryByShape()} instead
+     * @param string layerId
+     * @param Bbox
+     * @return array an array of shapes
+     */
+    public function queryByBbox($layerId, Bbox $bbox) {
+        return $this->queryByShape($layerId, $bbox);
+    } 
 }
 
 ?>
