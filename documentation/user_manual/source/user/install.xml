@@ -741,19 +741,18 @@ END]]></screen>
           <title>Europe Road Geodata Importation in PostGIS</title>
           <para>
             <screen><![CDATA[
-$ shp2pgsql roadl.shp roads_europe_tmp > /tmp/roadl.sql
+$ shp2pgsql roadl.shp roads_europe > /tmp/roadl.sql
 $ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
           </para>
         </sect4>
         <sect4 id="user.install.demo.details.demoRouting.graphimportation">
           <title>Graph Importation</title>
           <para>
-            The first step is to delete unneeded columns of the table roads_europe_tmp. To do so, you can type:
+            The first step is to add needed columns of the table roads_europe. To do so, you can type:
             <screen><![CDATA[
-$ CREATE TABLE roads_europe (gid int UNIQUE, source_id int, target_id int);
-$ SELECT AddGeometryColumn('roads_europe', 'the_geom', -1, 'MULTILINESTRING', 2 );
-$ INSERT INTO roads_europe (gid, the_geom) (SELECT gid, the_geom FROM roads_europe);]]></screen>
-            The resulting table is so <emphasis>roads_europe</emphasis>.
+$ ALTER TABLE roads_europe ADD COLUMN source_id int;
+$ ALTER TABLE roads_europe ADD COLUMN target_id int;
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
             You can then fill the columns <emphasis>source_id</emphasis> and <emphasis>target_id</emphasis> with the
              "assign_vertex_id" function.
             <screen><![CDATA[
@@ -772,17 +771,16 @@ $ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe 
             source-target pairs of vertices).
             For example, to check that you have duplicated edges, you can type:
             <screen><![CDATA[
-$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roadl group by 
+$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roads_europe group by 
 source_id, target_id order by c)
 AS foo where foo.c = 2;]]></screen>
             If there is duplicated edges, to delete one of two rows, you can type: 
             <screen><![CDATA[
-$ CREATE TABLE roads_europe_tmp AS SELECT * FROM roads_europe WHERE gid  in
+$ CREATE TABLE doublons AS SELECT * FROM roads_europe WHERE gid  in
 (SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid 
 FROM roads_europe) AS doublon);
 $ DELETE FROM roads_europe;
-$ INSERT INTO roads_europe (SELECT * FROM roads_europe_tmp);
-$ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
+$ INSERT INTO roads_europe (SELECT * FROM doublons);]]></screen>
             The following step is to create and fill the edges and vertices tables of the resulting graph. 
             To do so, you can use "create_graph_tables" function.
             <screen><![CDATA[
@@ -810,7 +808,11 @@ $ SELECT update_cost_from_distance('roads_europe');]]></screen>
   3 |      5 |      6 | 14040.5673116933 |
 (3 lignes)]]></screen>
             Now, all is set up correctly for using the shortest path function on these data. 
-            But to include the routing fonctionnalities in a custom project, we must respect some rules 
+            But to enhance database performance you should add an index:
+            <screen><![CDATA[
+CREATE UNIQUE INDEX gid_idx ON roads_europe(gid);
+            ]]></screen>
+            To include the routing fonctionnalities in a custom project, we also must respect some rules 
             dictated by the routing plugin.
           </para>
         </sect4>
