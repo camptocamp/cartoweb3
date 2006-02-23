@@ -748,7 +748,7 @@ $ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
         <sect4 id="user.install.demo.details.demoRouting.graphimportation">
           <title>Graph Importation</title>
           <para>
-            The first step is to add needed columns of the table roads_europe. To do so, you can type:
+            The first step is to add needed columns to the table roads_europe. To do so, you can type:
             <screen><![CDATA[
 $ ALTER TABLE roads_europe ADD COLUMN source_id int;
 $ ALTER TABLE roads_europe ADD COLUMN target_id int;
@@ -808,11 +808,7 @@ $ SELECT update_cost_from_distance('roads_europe');]]></screen>
   3 |      5 |      6 | 14040.5673116933 |
 (3 lignes)]]></screen>
             Now, all is set up correctly for using the shortest path function on these data. 
-            But to enhance database performance you should add an index:
-            <screen><![CDATA[
-CREATE UNIQUE INDEX gid_idx ON roads_europe(gid);
-            ]]></screen>
-            To include the routing fonctionnalities in a custom project, we also must respect some rules 
+            But to include the routing fonctionnalities in a custom project, we also must respect some rules 
             dictated by the routing plugin.
           </para>
         </sect4>
