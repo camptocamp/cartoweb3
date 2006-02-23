@@ -320,8 +320,10 @@ class ClientExportPdf extends ExportPlugin
     protected function setTableBlock($request, $iniObjects, $id) {
         $this->log->debug(__METHOD__);
         
+        $blockIds = array_keys($this->blocks);
+        
         if ($this->blocks[$id]->caption && 
-            !in_array($this->blocks[$id]->caption, $this->blocks)) {
+            !in_array($this->blocks[$id]->caption, $blockIds)) {
             
             $caption = $this->blocks[$id]->caption;
             $this->createBlock($request, $iniObjects, $caption);
@@ -341,7 +343,7 @@ class ClientExportPdf extends ExportPlugin
         }
      
         if ($this->blocks[$id]->headers &&
-            !in_array($this->blocks[$id]->headers, $this->blocks)) {
+            !in_array($this->blocks[$id]->headers, $blockIds)) {
             
             $headers = $this->blocks[$id]->headers;
             $this->createBlock($request, $iniObjects, $headers);
