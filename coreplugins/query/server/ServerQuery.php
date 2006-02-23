@@ -473,9 +473,8 @@ class ServerQuery extends ClientResponderAdapter {
         $this->account('server_version', 1);
 
         $resultsPerTable = array();
-        foreach ($queryResult->tableGroup->tables as $table) {
-            $resultsPerTable[] = sprintf('%s=%s', $table->tableId,
-                                         $table->numRows);
+        foreach ($queryResult->tableGroup->tables as $t) {
+            $resultsPerTable[] = sprintf('%s=%s', $t->tableId, $t->numRows);
         }
         $this->account('results_table_count', implode(';', $resultsPerTable));
         
