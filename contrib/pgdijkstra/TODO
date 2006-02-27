@@ -1,0 +1,14 @@
+
+Add an index to create_graph_tables function:
+
+La modification concerne la fonction create_graph_tables.
+En effet dans cette fonction on vient faire un UPDATE de la table qui 
+contient les géométries (table d'origine) en s'appuyant sur le champ gid 
+(WHERE gid = 'value').
+Il est donc intéressant de créer au paravant un index sur ce champ gid, 
+quitte à le supprimer ensuite.
+
+
+EXECUTE 'UPDATE ' || quote_ident(geom_table) || ' SET edge_id = '
+                                  || edge_id || ' WHERE gid = ' || 
+quote_literal(geom.id);
