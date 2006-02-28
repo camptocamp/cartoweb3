@@ -327,6 +327,9 @@ Map.prototype.surface = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
+    if (typeof aFeature == 'undefined') {
+        return;
+    }
     var surface = aFeature.getArea();
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
