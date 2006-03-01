@@ -163,7 +163,8 @@ AjaxPlugins.Location.Actions.Pan = {
 			left: parseInt(AjaxPlugins.Location.Actions.Pan.mapRootLayerLeft.substring(0, AjaxPlugins.Location.Actions.Pan.mapRootLayerLeft.length-2))
 		};
 		xMoveTo($('map_rootLayer'), rootPos.left, rootPos.top);
-		      
+		xMoveTo($('map_eventPad'), 0, 0);
+
 		// Remove the clip style property, it will be reset on next drag
 		// by dhtmlAPI.js
 		xClip('map_rootLayer', 'none');
