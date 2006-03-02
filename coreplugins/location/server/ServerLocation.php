@@ -880,7 +880,9 @@ class ServerLocation extends ClientResponderAdapter
         $maxBbox = NULL;
         if (isset($requ->locationConstraint->maxBbox))
             $maxBbox = $requ->locationConstraint->maxBbox;
-        $this->doBboxAdjusting($maxBbox);
+            
+        if (!$this->getConfig()->noBboxAdjusting)
+            $this->doBboxAdjusting($maxBbox);            
 
         return $this->getLocationResult();
     }
