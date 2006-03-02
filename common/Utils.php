@@ -203,7 +203,7 @@ class Utils {
      * @return array
      */
     static public function parseArray($string, $divider = ',') {
-        if (empty($string)) {
+        if (is_null($string)) {
             return array();
         }
         
