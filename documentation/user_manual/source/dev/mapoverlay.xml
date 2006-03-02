@@ -109,7 +109,9 @@
     
   <sect1 id="dev.mapoverlay.usage"> 
           <title>Plugin usage</title>
-          <para>This chapter contains some basic examples of the plugin usage.</para>
+          <para>This chapter contains some basic examples of the
+          plugin usage. All the code listed here must be placed in the
+          server part of a plugin.</para>
     <sect2>
           <title>Class creation</title>
           <para>Consider this code excerpt:</para>
