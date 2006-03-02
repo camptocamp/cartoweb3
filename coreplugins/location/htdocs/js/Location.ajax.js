@@ -25,17 +25,20 @@ AjaxPlugins.Location = {
 		AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHTML', pluginOutput.htmlCode.scales);
 
 		// Updates distance/surface measure tools units
-		distanceLabel = $('distanceValueLabel').innerHTML;
-		distanceUnit = factor == 1000 ? 'km' : 'm';
-		surfaceLabel = $('surfaceValueLabel').innerHTML;
-		surfaceUnit = factor == 1000 ? 'km&sup2;' : 'm&sup2;';
-	    mainmap.distanceUnits = '<span id="distanceValueLabel">' + distanceLabel + '</span>' + " %s " + distanceUnit;
-	    mainmap.surfaceUnits = '<span id="surfaceValueLabel">' + surfaceLabel + '</span>' + " %s " + surfaceUnit;
-		// Clears measures
-    	mainmap.getDisplay('map').clearLayer('distance');
-    	mainmap.getDisplay('map').clearLayer('surface');
-	    mainmap.distanceTag.style.display = "none";
-	    mainmap.surfaceTag.style.display = "none";				
+		if ($('distanceValueLabel')) {
+			distanceLabel = $('distanceValueLabel').innerHTML;
+			distanceUnit = factor == 1000 ? 'km' : 'm';		
+			mainmap.distanceUnits = '<span id="distanceValueLabel">' + distanceLabel + '</span>' + " %s " + distanceUnit;
+	    	mainmap.getDisplay('map').clearLayer('distance');				    	
+		   mainmap.distanceTag.style.display = "none";	    	
+		}
+		if ($('surfaceValueLabel')) {
+			surfaceLabel = $('surfaceValueLabel').innerHTML;
+			surfaceUnit = factor == 1000 ? 'km&sup2;' : 'm&sup2;';		
+		   mainmap.surfaceUnits = '<span id="surfaceValueLabel">' + surfaceLabel + '</span>' + " %s " + surfaceUnit;			
+	    	mainmap.getDisplay('map').clearLayer('surface');
+	    	mainmap.surfaceTag.style.display = "none";		   
+		} 
 	}
 };
 
