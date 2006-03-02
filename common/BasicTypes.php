@@ -195,6 +195,7 @@ class Point extends Shape {
     
     /**
      * @see Shape::getArea()
+     * @return double
      */
     public function getArea() {
         return 0.0;
