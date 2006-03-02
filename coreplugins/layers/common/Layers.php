@@ -346,6 +346,7 @@ class LayersRequest extends CwSerializable {
 
     /**
      * Current switch
+     * @var string
      */
     public $switchId;
 
