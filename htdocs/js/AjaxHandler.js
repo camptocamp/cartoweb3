@@ -52,7 +52,7 @@ AjaxHandler = {
 
 	/**
 	 * Sets the profile for AjaxHandler 
-	 * @param string Cartoweb's profile (production or development)
+	 * @param string Cartoweb's profile (production, development, ...)
 	 */
 	setProfile: function(profile) {
     	Logger.trace('Setting Ajaxhandler\'s profile to <b>' + profile + '</b>...');
@@ -72,7 +72,16 @@ AjaxHandler = {
 
 	/**
 	 * Sets the profile for AjaxHandler
-	 * @param string Cartoweb's profile (production or development)
+	 * @return string Cartoweb's profile (production, development, ...)
+	 */
+	getProfile: function() {
+	    return this.profile;
+	}	
+
+	/**
+	 * Sets the profile for AjaxHandler
+	 * @param string Cartoweb's profile (production, development, ...)
+	 * @see AjaxHandler.setProfile()
 	 * @deprecated
 	 */
 	setMode: function(profile) {

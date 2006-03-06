@@ -153,6 +153,7 @@ class FormRenderer {
         $messages = array_merge($this->cartoclient->getMapResult()
                                             ->serverMessages,
                                 $this->cartoclient->getMessages());
+        return $messages;
     }
     
     /**
@@ -306,6 +307,10 @@ class FormRenderer {
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
             $this->drawUserAndRoles();
+
+            // Profile for AjaxHandler
+            $this->smarty->assign('cwProfile',
+                                  $this->cartoclient->getConfig()->profile);
     
             // ToolPicker
             $this->smarty->assign('toolpicker_active', 
@@ -346,23 +351,33 @@ class FormRenderer {
 		$ajaxPluginResponses = array();
 		foreach ($plugins as $plugin) {
 	    	$ajaxPluginResponse = new AjaxPluginResponse();
+            $ajaxAction = $this->cartoclient->getAjaxAction(); 
 		    $this->cartoclient->callEnabledPluginImplementing(
 		    			ClientPlugin::ENABLE_LEVEL_FULL, $plugin->getName(),
-						'Ajaxable', 'ajaxGetPluginResponse', &$ajaxPluginResponse);
+						'Ajaxable', 'ajaxGetPluginResponse', &$ajaxPluginResponse, $ajaxAction);
 		    if (!$ajaxPluginResponse->isEmpty())
 		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
 	    }
         
-        // Sets the XML encoding
-        $this->smarty->assign('encoding', Encoder::getCharset());
-
-        // Adds user and developer messages to ajaxPluginResponses
+        /* The logic below generates a response for a pseudo-plugin
+         * named 'cartoMessages', used to send user and developer messages to
+         * the javascript AjaxHandler.
+         */           
         $ajaxPluginResponse = new AjaxPluginResponse();
         $messages = $this->getMessages();
         $userMessages = $this->getUserMessages($messages);
-        $ajaxPluginResponse->addHtmlCode('userMessages', $this->getUserMessages($messages));
-        $ajaxPluginResponse->addHtmlCode('developerMessages', $this->getDeveloperMessages($messages));
-        $ajaxPluginResponses['cartoweb'] = $ajaxPluginResponse;        
+        $developerMessages = $this->getDeveloperMessages($messages);
+        $ajaxPluginResponse->addHtmlCode('userMessages',
+                                         Json::fromPhpArrayToArray($userMessages));
+        $ajaxPluginResponse->addHtmlCode('developerMessages',
+                                         Json::fromPhpArrayToArray($developerMessages));
+        $ajaxPluginResponses['cartoMessages'] = $ajaxPluginResponse;
+        /*
+         * End of the pseudo-plugin logic
+         */        
+
+        // Sets the XML encoding
+        $this->smarty->assign('encoding', Encoder::getCharset());
 
  		// Switches to the XML tpl to be sent as async response
 		$this->setCustomForm('ajaxPluginResponse.xml.tpl');

@@ -323,6 +323,12 @@ class Cartoclient {
     private $isNewSession;
 
     /**
+     * Current AJAX action, null if no AJAX action requested
+     * @var string
+     */
+    private $ajaxAction = null;
+    
+    /**
      * Output formats constants.
      */
     const OUTPUT_HTML_VIEWER = 'viewer';
@@ -473,6 +479,13 @@ class Cartoclient {
      */
     public function getCartoserverService() {
         return $this->cartoserverService;
+    }
+
+    /**
+     * @return string Requested AJAX action, or null if no AJAX action requested
+     */
+    public function getAjaxAction() {
+        return $this->ajaxAction;
     }
 
     /**
@@ -911,7 +924,7 @@ class Cartoclient {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
-            if (!isset($_REQUEST['ajaxActionRequest']))
+            if (empty($this->ajaxAction))
                 return $this->formRenderer->showForm();
             else
                 $this->formRenderer->showAjaxPluginResponse();                        
@@ -957,7 +970,7 @@ class Cartoclient {
             $this->getPluginManager()->getPlugin('images')->outputMainmap();
             $output = '';
         } else {
-            if (!isset($_REQUEST['ajaxActionRequest']))
+            if (empty($this->ajaxAction))
                 $output = $this->formRenderer->showForm();
             else
                 $this->formRenderer->showAjaxPluginResponse();                        
@@ -969,25 +982,23 @@ class Cartoclient {
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
 
-        if (!isset($_REQUEST['ajaxActionRequest']))
+        if (empty($this->ajaxAction))
             return $output;
     }
 
-    private function doMainAsync() {
-
-        $requestedActionId = $_REQUEST['ajaxActionRequest'];
+    private function prepareAsync() {
         
         // Check the action format consistancy
-        if (!ereg("^.+\..+$", $requestedActionId)) {
+        if (!ereg("^.+\..+$", $this->ajaxAction)) {
             throw new AjaxException(
                 'ajaxActionRequest parameter\'s value is not correctly formatted. ' .
                 'It should look like: PluginName.ActionName ' .
-                '(current value: '.$requestedActionId.')');
+                '(current value: '.$this->ajaxAction.')');
         }
                 
         // Determines what plugin triggered what action 
         list($requestedPluginName, $requestedActionName) = 
-                explode('.', $requestedActionId, 2);
+                explode('.', $this->ajaxAction, 2);
         
         // Lowercase the first letter of $requestedPluginName
         $requestedPluginName = strtolower($requestedPluginName{0}) 
@@ -998,7 +1009,7 @@ class Cartoclient {
             throw new AjaxException(
                 'Requested plugin ' . $requestedPluginName . ' is not loaded. ' .
                 'Check your AJAX call parameters (currently ajaxActionRequest=' . 
-                $_REQUEST['ajaxActionRequest'] . ')');      
+                $this->ajaxAction . ')');      
         
         $pluginEnabler = new PluginEnabler($this);
         
@@ -1007,14 +1018,12 @@ class Cartoclient {
 
         // Ask plugins to give their plugins directives for the given $actionId
         $this->callPluginsImplementing('Ajaxable', 'ajaxHandleAction',
-                                    $requestedActionId, &$pluginEnabler);
+                                    $this->ajaxAction, &$pluginEnabler);
                                     
         // Give the $requestedPlugin the last word
         $this->pluginManager->callPluginImplementing($requestedPluginName,
                                     'Ajaxable', 'ajaxHandleAction',
-                                    $requestedActionId, &$pluginEnabler);
-
-        $this->doMain();
+                                    $this->ajaxAction, &$pluginEnabler);
     }
 
     /**
@@ -1122,7 +1131,9 @@ class Cartoclient {
          */
         if (isset($_REQUEST['ajaxActionRequest'])) {
             try {
-                $this->doMainAsync();
+                $this->ajaxAction = $_REQUEST['ajaxActionRequest']; 
+                $this->prepareAsync();
+                $this->doMain();
             } catch (Exception $exception) {
                 return $this->formRenderer->showFailure($exception);
             }
