@@ -76,7 +76,7 @@ AjaxHandler = {
 	 */
 	getProfile: function() {
 	    return this.profile;
-	}	
+	},	
 
 	/**
 	 * Sets the profile for AjaxHandler
