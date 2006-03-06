@@ -40,6 +40,15 @@ function initMap() {{/literal}
 
     mainmap.currentLayer = drawLayer;    
     
-}{/literal}
+}
+
+// Sets the profile (production, development, ...) for the AjaxHandler
+var cwProfile = {/literal}'{$cwProfile}'{literal}
+if (typeof AjaxHandler != undefined) {
+    AjaxHandler.setProfile(cwProfile);
+}
+
+{/literal}
+
 /*]]>*/
 </script>

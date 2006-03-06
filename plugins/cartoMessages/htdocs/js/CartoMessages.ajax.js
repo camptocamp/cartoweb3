@@ -6,6 +6,7 @@
 AjaxPlugins.CartoMessages = {
 
     notifyUserMsgs: true,
+    notifyDeveloperMsgs: false;
     
 	handleResponse: function(pluginOutput) {
 		// Shows developer and user messages in jsTrace debugger window
@@ -13,6 +14,7 @@ AjaxPlugins.CartoMessages = {
     		var developerMsgs = eval(pluginOutput.htmlCode.developerMessages);
     		Logger.trace('Developer messages: ' + developerMsgs.length);
     	    if (developerMsgs.length > 0) Logger.note(this.formatHtml(developerMsgs));
+            if (this.notifyDeveloperMsgs) this.notify(developerMsgs);
 		}
 		if (pluginOutput.htmlCode.userMessages != '') {
 			var userMsgs = eval(pluginOutput.htmlCode.userMessages);
