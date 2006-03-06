@@ -135,7 +135,9 @@ var AjaxHelper = {
     },
 
     /**
-     * Unescapes '&' ('&#38;') entity for Safari
+     * Unescapes '&' ('&#38;') entity for Safari.
+     * Safari doesn't decode responses' content correcty, so we need to
+     * decode some for it.
      * @param string Escaped string
      * @return string Unescaped string
      */
@@ -193,6 +195,11 @@ var AjaxHelper = {
             }                    
         }
         return selectedTool;
+    },
+    
+    exists: function(variableName) {
+        eval('variableType = typeof(' + variableName + ')');
+        return variableType != 'undefined';
     },
 
 	/* 

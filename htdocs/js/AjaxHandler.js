@@ -18,20 +18,67 @@ AjaxHandler = {
 	/*
 	 * Constants
 	 */
-	MODE_DEVELOPMENT: 'development',
-	MODE_PRODUCTION: 'production',
+	PROFILE_DEVELOPMENT: 'development',
+	PROFILE_PRODUCTION: 'production',
+	PROFILE_CUSTOM: 'custom',
 
-	/*
-	 * Properties
+
+	/**
+	 * URL to send AJAX request to (uses current url if empty)
 	 */
-	baseUrl: '', // uses current url if empty
+	baseUrl: '',
+
+	/**
+	 * Id of the CartoWeb's HTML form element
+	 */
 	cartoFormId: 'carto_form',
-	mode: 'development', // Mode: development or production
-	processActions: true, // wether AJAX actions are processed (true) or ignored (false)
 
-	/*
-	 * Methods
+	/**
+	 * Profile: development or production
 	 */
+	profile: this.PROFILE_PRODUCTION,
+
+	/**
+	 * Wether AJAX actions are processed (true) or ignored (false)
+	 */
+	processActions: true,
+
+	/**
+	 * Number of actions pending (requests that haven't received a reply)
+	 */
+	pendingActions: 0,
+
+
+
+	/**
+	 * Sets the profile for AjaxHandler 
+	 * @param string Cartoweb's profile (production or development)
+	 */
+	setProfile: function(profile) {
+    	Logger.trace('Setting Ajaxhandler\'s profile to <b>' + profile + '</b>...');
+		switch(profile) {
+		    case 'development':
+		    case 'production':
+		    case 'custom':
+		        this.profile = profile;
+		    break;
+		    default:
+		        this.profile = this.PROFILE_PRODUCTION;
+            	Logger.warn('Incorrect profile: ' + profile + ', setting default profile.');
+		    break;
+		}
+		Logger.confirm('Profile set to <b>'+this.profile+'</b>.');
+	},
+
+	/**
+	 * Sets the profile for AjaxHandler
+	 * @param string Cartoweb's profile (production or development)
+	 * @deprecated
+	 */
+	setMode: function(profile) {
+	    this.setProfile(profile);
+	},
+
 
 	/**
 	 * Sets cartoweb's base url
@@ -159,8 +206,25 @@ AjaxHandler = {
 			pluginName = pluginArray[i]['pluginName'];
 			pluginName = pluginName.charAt(0).toUpperCase() + pluginName.substr(1); // ucfisrt()
 			Logger.header('Updating GUI for plugin ' + pluginName);
-			eval('AjaxPlugins.' + pluginName + '.handleResponse(pluginArray[i], argObject)');
+			
+			// Checks the existence of JS plugin objects
+			if (!AjaxHelper.exists('AjaxPlugins.'+pluginName)) {
+			    Logger.warn('AjaxHandler.handlePluginReponse(): ' +
+                    'object <b>AjaxPlugins.'+pluginName+'</b> not found. ' +
+                    'AJAX response processing will be ignored for ' +
+                    'this plugin.');
+			} else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName)) {
+			    Logger.warn('AjaxHandler.handlePluginReponse(): ' +
+                    'method <b>AjaxPlugins.'+pluginName+'.handleResponse()</b> ' +
+                    'not found. AJAX response processing will be ' +
+                    'ignored for this plugin.');
+			} else {
+    			eval('AjaxPlugins.' + pluginName + '.handleResponse(pluginArray[i], argObject)');
+			}
 		}
+
+		// Decrements the number of pending actions
+        this.pendingActions--;
 	},
 
     /**
@@ -174,6 +238,10 @@ AjaxHandler = {
 
 		Logger.trace('Initiating async request');
 
+        // Increments the number of pending actions
+        this.pendingActions++;
+		Logger.trace('Pending actions: ' + this.pendingActions);
+		
 		// Adds triggered actionId to GET parameters
 		queryObject.get = 'ajaxActionRequest=' + actionId + '&' + queryObject.get;
 				
@@ -191,10 +259,16 @@ AjaxHandler = {
                  responseTag = response.responseText.substring(0, 5);
 
                  if (responseTag != '<?xml') {
-                     Logger.error('AjaxHandler.actionRequest(): received response is malformed!');
-                     if (AjaxHandler.mode == AjaxHandler.MODE_PRODUCTION) {
-                         if (typeof(AjaxPlugins.Common.onCartoclientError) != 'undefined') {
+                     Logger.error('AjaxHandler.actionRequest(): ' +
+                                  'received response is malformed!');
+                     if (AjaxHandler.profile == AjaxHandler.PROFILE_PRODUCTION) {
+                         if (typeof(AjaxPlugins.Common.onCartoclientError) != 'undefined') {                     
 	                         AjaxPlugins.Common.onCartoclientError();
+                         } else {
+                             Logger.warn('AjaxHandler.actionRequest(): object ' +
+                                         'AjaxPlugins.Common.onCartoclientError ' +
+                                         'not found. User will not be notified ' +
+                                         'on errors');
                          }
                      } else {
 	                     showFaillure = confirm('Ajax response is no XML, probably a CartoClient faillure.\r\nClick OK to show it.');
@@ -221,12 +295,20 @@ AjaxHandler = {
                      AjaxPlugins.Common.onAfterAjaxCall(actionId);
                      
                  } else {					    
+                     // Calls Plugins refresh login
                      AjaxHandler.handlePluginReponse(response, argObject);
-                     // Call onAfterAjaxCall method for the called action
+
+                     // Calls onAfterAjaxCall method for the called plugin's action
                      requestedPluginName = actionId.substr(0, actionId.indexOf('.'));
                      requestedActionName = actionId.substr(actionId.indexOf('.') + 1);
                      eval('AjaxPlugins.' + requestedPluginName + '.Actions.' + requestedActionName + '.onAfterAjaxCall(argObject)');
-                     AjaxPlugins.Common.onAfterAjaxCall(actionId);
+
+                     // Calls common onAfterAjaxCall logic
+                     if (typeof AjaxPlugins.Common.onAfterAjaxCall != 'undefined') {
+                         AjaxPlugins.Common.onAfterAjaxCall(actionId);
+                     }
+
+
                  }
                  Logger.header('--- Action ' + actionId + ' complete ---<br />');
              }
@@ -261,22 +343,64 @@ AjaxHandler = {
 		actionName = actionId.substr(actionId.indexOf('.') + 1);
 		argObject.actionName = actionName;
 		argObject.pluginName = pluginName;
-		/*
-		 * Ask the plugin that triggered the action to build GET and POST queries
-		 */
-		eval('httpPostQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
-		eval('httpGetQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
-		/*
-		 * Call the common and plugin's onBeforeAjaxCall logic
-		 */
-		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
-		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
-		/*
-		 * Call actionRequest() to perform the AJAX call
-		 */
-		this.actionRequest(actionId, argObject, {post: httpPostQuery, get: httpGetQuery});		
+
+        // Checks the existence of the required objects and methods
+        if (!AjaxHelper.exists('AjaxPlugins')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'object <b>AjaxPlugins</b> not found. ' +
+                'AJAX action aborted.');
+		} else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName)) {
+		    Logger.error('AjaxHandler.doAction(): ' +
+                'object <b>AjaxPlugins.'+pluginName+'</b> not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'object <b>AjaxPlugins.'+pluginName+'.Actions</b> not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions.'+actionName)) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'object <b>AjaxPlugins.'+pluginName+'.Actions.'+actionName+'</b> ' +
+                'not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions.'+actionName+'.buildPostRequest')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'method <b>AjaxPlugins.'+pluginName+'.Actions.'+actionName+
+                '.buildPostRequest()</b> ' +
+                'not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions.'+actionName+'.buildGetRequest')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'method <b>AjaxPlugins.'+pluginName+'.Actions.'+actionName+
+                '.buildGetRequest()</b> ' +
+                'not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions.'+actionName+'.onBeforeAjaxCall')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'method <b>AjaxPlugins.'+pluginName+'.Actions.'+actionName+
+                '.onBeforeAjaxCall()</b> ' +
+                'not found. ' +
+                'AJAX action aborted.');
+        } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName+'.Actions.'+actionName+'.onAfterAjaxCall')) {
+            Logger.error('AjaxHandler.doAction(): ' +
+                'method <b>AjaxPlugins.'+pluginName+'.Actions.'+actionName+
+                '.onAfterAjaxCall()</b> ' +
+                'not found. ' +
+                'AJAX action aborted.');
+        } else {
+    		// Ask the plugin that triggered the action to build GET and POST queries
+    		eval('httpPostQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildPostRequest(argObject)');
+    		eval('httpGetQuery = AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.buildGetRequest(argObject)');
+    
+    		// Call the common and plugin's onBeforeAjaxCall logic
+    		eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName + '.onBeforeAjaxCall(argObject)');
+    		if (typeof(AjaxPlugins.Common.onBeforeAjaxCall) != 'undefined') {
+        		AjaxPlugins.Common.onBeforeAjaxCall(actionId);
+    		}
+    
+    		// Call actionRequest() to perform the AJAX call
+    		this.actionRequest(actionId, argObject, {post: httpPostQuery, get: httpGetQuery});
+    	}
 	},
-	
 	
 	/**
 	 * Attaches an action to the given element (HTML element),
@@ -367,43 +491,5 @@ AjaxHandler = {
 		eval('element.'+property+' = value');
 		Logger.confirm('Done.');
 		return true;
-	},
-
-
-	// waitFor() is Bogous, don't use it for now
-	waitFor: function(elementId, functionToExecute, timeout, waitTimeout,  timesChecked) { // timeout in seconds
-		if (typeof(elementId) == 'undefined') {
-            elementId = '';
-        }
-		if (typeof(functionToExecute) == 'undefined') {
-            functionToExecute = function() {};
-        }
-		if (typeof(timeout) == 'undefined') {
-            timeout = 5; // timeout in seconds
-        }
-		if (typeof(waitTimeout) == 'undefined') {
-            waitTimeout = 5000; // waitTimeout in ms
-        }
-		if (typeof(timesChecked) == 'undefined') {
-			timesChecked = 0;
-		} else {
-			timesChecked += 1;
-		}
-
-		if (timesChecked > 1)
-        alert('waitTimout('+timesChecked+'): ' + waitTimeout * timesChecked / 1000 + ' < ' + timeout);
-		
-		// Initialise only if elementId element exists, else
-		// wait a little while before trying again
-		if ($(elementId) == null) {
-			if (waitTimeout * timesChecked / 1000 < timeout) {
-				setTimeout(AjaxHandler.waitFor(elementId, functionToExecute, timeout, waitTimeout, timesChecked), waitTimeout);
-			} else {
-				alert('AjaxHandler.waitFor(): Timeout reached, element ' + elementId + ' still doesn\'t exists...');
-			}
-		} else {
-			// When the elementId element exists, perform the given function
-			functionToExecute();
-		}	
 	}
 };

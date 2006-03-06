@@ -1,51 +1,73 @@
 /* Copyright 2005 Camptocamp SA. 
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
-/*
+/* The logic contained in this file defines:
+ *  - Onload event attachement to trigger AJAX JS logic execution
+ *  - Common plugin behaviour for:
+ *     - onBeforeAjaxCall: logic called before an AJAX request is sent
+ *     - onAfterAjaxCall: logic called after an AJAX response is received
+ *       and after plugin have refreshed their UI
+ *     - onCartoclientError: logic called in production profile
+ *                           when Cartoclient returns an faillure
+ *
  * Uses: Prototype-1.3.1.js - for $() and $F() functions
  * Uses: AjaxHelper.js - for common features (i.e. getHttpPostRequest)
  *
  * Used by: AjaxHandler.js
  */
 
-// Initialises plugins on window load
+/*
+ * Plugin initialisation
+ */
 AjaxHelper.addEvent(window, 'load', function() {
-  frameSourceUrl = window.location.href;
-  lastChar = frameSourceUrl.substr(frameSourceUrl.length-1);
-  if (lastChar == "#"){
-    baseUrl = frameSourceUrl.substring(0,frameSourceUrl.length-1);
-  } else {
-    baseUrl = frameSourceUrl;
-  }
-  qmark = frameSourceUrl.indexOf("?");
-  if (qmark >= 0){
-    baseUrl = frameSourceUrl.substring(0,qmark);
-  }
+    // Initialises plugins on window load
+    frameSourceUrl = window.location.href;
+    lastChar = frameSourceUrl.substr(frameSourceUrl.length-1);
+    if (lastChar == "#"){
+        baseUrl = frameSourceUrl.substring(0,frameSourceUrl.length-1);
+    } else {
+        baseUrl = frameSourceUrl;
+    }
 
-  if (typeof(AjaxHandler) != 'undefined') {
-	AjaxPlugins.Common.init();
-	AjaxHandler.setBaseUrl(baseUrl);
-  }
+    qmark = frameSourceUrl.indexOf("?");
+    if (qmark >= 0){
+        baseUrl = frameSourceUrl.substring(0,qmark);
+    }
+    
+    if (typeof(AjaxHandler) != 'undefined') {
+        AjaxPlugins.Common.init();
+        AjaxHandler.setBaseUrl(baseUrl);
+    }
 });
 
 AjaxPlugins = {};
 
 AjaxPlugins.Common = {
 
+	// Map cursor-style backup
 	mapCursorStyle: null,
+	
+	// Images.ajax.js plugin can set this to false, when it wants to
+	// clear the waiting message itself (i.e. after raster is loaded)
 	doClearWaitingMessage: true,
+
+	// Number of actions pending (that haven't received a reply yet)
+	pendingActions: 0,
 
 	/* Plugins' actions initialisation */
 	init: function() {
-		Logger.header('Initiating actions');	
+	    Logger.setDisplayLevel(6);
+		Logger.header('Initiating actions');
 		AjaxPlugins.Location.Actions.Pan.init();
 	},
 
-	/* General plugins behaviour for before and after ajax calls */
+	/* General plugins behaviour, called before any ajax call */
 	onBeforeAjaxCall: function(actionId) {
 		this.setWaitingMessage()
 		this.setWaitingCursor();
 	},
+
+	/* General plugins behaviour, called after any ajax call */
 	onAfterAjaxCall: function(actionId) {
 		this.clearDhtmlDrawings();
 		this.clearDhtmlStoredFeatures();
@@ -56,7 +78,7 @@ AjaxPlugins.Common = {
 		}
 	},
 	onCartoclientError: function() {
-		alert('User error message');
+		alert('Error! This application will reload.');
 	},
 	
 	/* Helper methods */
@@ -107,16 +129,3 @@ AjaxPlugins.Common = {
 	}
 
 }
-
-/*
- * This is a pseudo plugin, used to retrieve Cartoweb general informations
- */
-AjaxPlugins.Cartoweb = {
-	handleResponse: function(pluginOutput) {
-		// Shows developer and user messages in jsTrace debugger window
-		if (pluginOutput.htmlCode.developerMessages != '')
-			Logger.note ('Developer messages: <br />' + pluginOutput.htmlCode.developerMessages);		
-		if (pluginOutput.htmlCode.userMessages != '')
-			Logger.note ('User messages: <br />' + pluginOutput.htmlCode.userMessages);
-	}
-};
