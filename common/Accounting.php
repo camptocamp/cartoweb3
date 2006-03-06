@@ -148,8 +148,12 @@ abstract class Accounting {
      */
     private function saveFile($accountingPacket) {
 
-        $accountingPath = CARTOWEB_HOME . 'www-data/accounting/';
-        $accountingPath .= $this->getMapId() . '/';
+        $basePath = CARTOWEB_HOME . 'www-data/accounting/';
+        if ($this->getConfig()->accountingBasePath) {
+            $basePath = $this->getConfig()->accountingBasePath;
+        }
+        
+        $accountingPath = $basePath . '/' . $this->getMapId() . '/';
        
         if (!is_dir($accountingPath)) {
             Utils::makeDirectoryWithPerms($accountingPath, 

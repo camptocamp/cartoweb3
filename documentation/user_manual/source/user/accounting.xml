@@ -60,6 +60,14 @@
         </listitem>
         <listitem>
           <para> 
+             <parameter>accountingBasePath</parameter> (string): Optional base path
+             where to store the accounting log files.
+             This is only used when  <parameter>accountingStorage</parameter> is set 
+             to <literal>file</literal>.
+            </para>
+        </listitem>
+        <listitem>
+          <para> 
              <parameter>accountingDsn</parameter> (string): DSN (Data Source Name),
              used to specify which database to use for storing accounting information.
              This is only used when  <parameter>accountingStorage</parameter> is set 

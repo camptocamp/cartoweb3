@@ -124,4 +124,5 @@ toolPickerOn = true
 
 accountingOn = false
 accountingStorage = file
+;accountingBasePath = /path/to/accounting/
 accountingDsn = pgsql://www-data@localhost/cw3_test
