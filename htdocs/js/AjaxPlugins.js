@@ -123,7 +123,7 @@ AjaxPlugins.Common = {
 	},
 	
 	clearDhtmlOutlineLabel: function() {
-		if (typeof(hideLabel != 'undefined')) {
+		if (typeof hideLabel != 'undefined') {
 			hideLabel();
 		}
 	}
