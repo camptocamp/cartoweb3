@@ -311,6 +311,10 @@ class FormRenderer {
             // Profile for AjaxHandler
             $this->smarty->assign('cwProfile',
                                   $this->cartoclient->getConfig()->profile);
+
+            // Ajax switch
+            $this->smarty->assign('useAjax',
+                                  $this->cartoclient->getConfig()->useAjax);
     
             // ToolPicker
             $this->smarty->assign('toolpicker_active', 

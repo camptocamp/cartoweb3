@@ -18,7 +18,6 @@ _m_delete_feature = "{t}Are you sure ?{/t}";
 _m_bad_object = "{t}Not conform object{/t}";
 
 
-
 {literal}
 function initMap() {{/literal}
     mainmap.setExtent({$bboxMinX},{$bboxMinY},{$bboxMaxX},{$bboxMaxY});
@@ -42,9 +41,10 @@ function initMap() {{/literal}
     
 }
 
+
 // Sets the profile (production, development, ...) for the AjaxHandler
 var cwProfile = {/literal}'{$cwProfile}'{literal}
-if (typeof AjaxHandler != undefined) {
+if (typeof(AjaxHandler) != 'undefined') {
     AjaxHandler.setProfile(cwProfile);
 }
 

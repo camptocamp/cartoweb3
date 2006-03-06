@@ -35,7 +35,7 @@
 
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
 
-
+{if $useAjax|default:''}
   <!-- Ajax related js includes - Debug Tool: jsTrace -->
   <!-- Remove these two links to get rid of the logger (i.e. in production mode -->
   <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
@@ -61,7 +61,7 @@
   {if true}<script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
-
+{/if}
 
   {include file="dhtmlcode.tpl"}
         
