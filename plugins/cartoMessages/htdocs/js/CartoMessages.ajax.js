@@ -6,7 +6,7 @@
 AjaxPlugins.CartoMessages = {
 
     notifyUserMsgs: true,
-    notifyDeveloperMsgs: false;
+    notifyDeveloperMsgs: false,
     
 	handleResponse: function(pluginOutput) {
 		// Shows developer and user messages in jsTrace debugger window
