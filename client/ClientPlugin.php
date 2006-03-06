@@ -332,6 +332,27 @@ interface FilterProvider {
 abstract class ClientPlugin extends PluginBase {
 
     /**
+     * Enable level of the plugin (used for AJAX calls)
+     * @var int
+     * @see PluginEnabler
+     * @see Cartoclient::callEnabledPluginImplementing()
+     * @see Cartoclient::callEnabledPluginsImplementing()
+     */
+     protected $enabledLevel = ClientPlugin::ENABLE_LEVEL_FULL;
+
+    /* 
+     * Enable levels definition
+     */
+    // ENABLE_LEVEL_LOAD: Load/create plugin session
+    const ENABLE_LEVEL_LOAD = 0;
+    // ENABLE_LEVEL_PROCESS: LOAD + filter+handle http request and save session
+    const ENABLE_LEVEL_PROCESS = 1;
+    // ENABLE_LEVEL_SERVER CALL: PROCESS + build server request and handle results
+    const ENABLE_LEVEL_SERVERCALL = 2;
+    // ENABLE_LEVEL_FULL: ENABLE_LEVEL_SERVERCALL + render GUI
+    const ENABLE_LEVEL_FULL = 3;
+
+    /**
      * @var Logger
      */
     private $log;
@@ -441,28 +462,6 @@ abstract class ClientPlugin extends PluginBase {
         }
         return NULL;
     }
-
-
-    /**
-     * Enable level of the plugin
-     * @var int
-     * @see PluginEnabler
-     * @see Cartoclient::callEnabledPluginImplementing()
-     * @see Cartoclient::callEnabledPluginsImplementing()
-     */
-     protected $enabledLevel = ClientPlugin::ENABLE_LEVEL_FULL;
-
-	/* 
-	 * Enable levels définition
-	 */
-	// ENABLE_LEVEL_LOAD: Load/create plugin session
-	const ENABLE_LEVEL_LOAD = 0;
-	// ENABLE_LEVEL_PROCESS: LOAD + filter+handle http request and save session
-	const ENABLE_LEVEL_PROCESS = 1;
-	// ENABLE_LEVEL_SERVER CALL: PROCESS + build server request and handle results
-	const ENABLE_LEVEL_SERVERCALL = 2;
-	// ENABLE_LEVEL_FULL: ENABLE_LEVEL_SERVERCALL + render GUI
-	const ENABLE_LEVEL_FULL = 3;
 	
 	public function setEnableLevel($enableLevel) {
 		// TODO: Check if enableLevel exists, if not
