@@ -20,18 +20,18 @@
  * Plugin initialisation
  */
 AjaxHelper.addEvent(window, 'load', function() {
-    // Initialises plugins on window load
-    frameSourceUrl = window.location.href;
-    lastChar = frameSourceUrl.substr(frameSourceUrl.length-1);
-    if (lastChar == "#"){
-        baseUrl = frameSourceUrl.substring(0,frameSourceUrl.length-1);
-    } else {
-        baseUrl = frameSourceUrl;
-    }
 
-    qmark = frameSourceUrl.indexOf("?");
+    // Initialises plugins on window load    
+    var href = window.location.href;
+    lastChar = href.substr(href.length-1);
+    if (lastChar == "#"){
+        baseUrl = href.substring(0,href.length-1);
+    } else {
+        baseUrl = href;
+    }
+    qmark = href.indexOf("?");
     if (qmark >= 0){
-        baseUrl = frameSourceUrl.substring(0,qmark);
+        baseUrl = href.substring(0,qmark);
     }
     
     if (typeof(AjaxHandler) != 'undefined') {
