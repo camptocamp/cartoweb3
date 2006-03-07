@@ -93,12 +93,12 @@ class ClientEdit extends ClientPlugin
     /**
      * @var EditState
      */
-    private $editState;
+    protected $editState;
     
     /**
      * @var EditGeneral
      */
-    private $general;
+    protected $general;
     
     const TOOL_POINT = 'edit_point';
     const TOOL_LINE = 'edit_line';
