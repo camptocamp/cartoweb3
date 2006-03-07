@@ -21,7 +21,7 @@
  */
 AjaxHelper.addEvent(window, 'load', function() {
 
-    // Initialises plugins on window load    
+    // Fetches the url from the browser and trims the trailing '#' or querystring
     var href = window.location.href;
     lastChar = href.substr(href.length-1);
     if (lastChar == "#"){
@@ -34,6 +34,7 @@ AjaxHelper.addEvent(window, 'load', function() {
         baseUrl = href.substring(0,qmark);
     }
     
+    // Initialises plugins on window load    
     if (typeof(AjaxHandler) != 'undefined') {
         AjaxPlugins.Common.init();
         AjaxHandler.setBaseUrl(baseUrl);
