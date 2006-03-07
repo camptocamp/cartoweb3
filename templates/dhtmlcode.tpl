@@ -3,9 +3,11 @@
 <link rel="stylesheet" type="text/css" href="{r type=css}dhtml.css{/r}" />
 <script type="text/javascript" src="{r type=js}x_cartoweb.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}wz_jsgraphics.js{/r}"></script>
+<script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlAPI.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlFeatures.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlInit.js{/r}"></script>
+{if $edit_allowed|default:''}<script type="text/javascript" src="{r type=js plugin=edit}dhtmlEdit.js{/r}"></script>{/if}
 <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -16,14 +18,13 @@ _m_delete_feature = "{t}Are you sure ?{/t}";
 _m_bad_object = "{t}Not conform object{/t}";
 
 
-
 {literal}
 function initMap() {{/literal}
     mainmap.setExtent({$bboxMinX},{$bboxMinY},{$bboxMaxX},{$bboxMaxY});
     factor = {$factor};{literal}
 
     var rasterLayer = new Layer("raster");{/literal}
-    var feature = new Raster('{$mainmap_path}');{literal}
+    var feature = new Raster('{$mainmap_path}', 'map_raster_img');{literal}
     rasterLayer.addFeature(feature);
     mainmap.addLayer(mainmap,rasterLayer);
 
@@ -38,6 +39,16 @@ function initMap() {{/literal}
 
     mainmap.currentLayer = drawLayer;    
     
-}{/literal}
+}
+
+
+// Sets the profile (production, development, ...) for the AjaxHandler
+var cwProfile = {/literal}'{$cwProfile}'{literal}
+if (typeof(AjaxHandler) != 'undefined') {
+    AjaxHandler.setProfile(cwProfile);
+}
+
+{/literal}
+
 /*]]>*/
 </script>

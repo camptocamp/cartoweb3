@@ -109,12 +109,27 @@ class ClientRouting extends ClientPlugin
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
+
+        $this->doRouting = false;
     
+        if (!is_null($this->getHttpValue($request, 'routing_reset'))) {
+            $this->routingState = new RoutingState();
+            return;
+        }
+
+        if (is_null($this->getHttpValue($request, 'routing_submit')))
+            return;
+
         $from = $this->getHttpValue($request, 'routing_from');
         $to   = $this->getHttpValue($request, 'routing_to');
         $options = $this->getHttpValue($request, 'routing_options');
+
+        if ($from == $to) {
+            $this->cartoclient->addMessage(
+                    I18nNoop::gt("Can't compute path: same source and destination"));
+            return;
+        }
         
-        $this->doRouting = false;
         if ($from != $this->routingState->from
             || $to != $this->routingState->to
             || $options != $this->routingState->options) {
@@ -135,6 +150,9 @@ class ClientRouting extends ClientPlugin
      * @see ServerCaller::buildRequest()
      */
     public function buildRequest() {
+        
+        if (!$this->doRouting && is_null($this->routingState->graph))
+            return NULL;
         
         $request = new RoutingRequest();
         $request->graph = $this->routingState->graph;

@@ -10,8 +10,9 @@
 {if $collapsibleKeymap|default:''}
   <div id="keymapContainer">
     <div id="floatkeymap">
-      <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
-      style="width:{$keymap_width}px;height:{$keymap_height}px;" /></div>
+      <input type="image" name="keymap" id="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
+      style="width:{$keymap_width}px;height:{$keymap_height}px;" />
+    </div>
     <div id="keymapswitcher">
       <a href="#" onclick="javascript:collapseKeymap();"><img
       src="{r type=gfx/layout}keymap_off.gif{/r}" title="{t}Collapse keymap{/t}"

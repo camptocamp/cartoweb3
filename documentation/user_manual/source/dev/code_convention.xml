@@ -78,7 +78,7 @@
    <para>
     Developers should use the PEAR coding standards as the coding style reference
     in &cartoweb;, with some exceptions. Have a look at
-    <ulink url="http://pear.sourceforge.net/en/standards.php" />.
+    <ulink url="http://pear.php.net/manual/en/standards.php" />.
    </para>
    <para>
     Following are briefly described some guidelines to respect.

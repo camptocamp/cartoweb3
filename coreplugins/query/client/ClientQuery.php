@@ -45,7 +45,7 @@ class QueryState {
  * @package CorePlugins
  */
 class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
-                             ServerCaller, ToolProvider, Exportable {
+                             ServerCaller, ToolProvider, Exportable, Ajaxable {
                   
     /**                 
      * @var Logger
@@ -155,9 +155,13 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {
-        /* nothing to do */
-    }
+                            Shape $keymapShape) {}
+    
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
+
 
     /**
      * @see ToolProvider::getTools()
@@ -234,13 +238,30 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $querySelection = new QuerySelection();
         $querySelection->layerId = $layerId;
         $querySelection->policy = self::DEFAULT_POLICY;
+        if (!is_null($this->getConfig()->defaultPolicy)) {
+            $querySelection->policy = $this->getConfig()->defaultPolicy;            
+        }
         $querySelection->maskMode = self::DEFAULT_MASKMODE;
+        if (!is_null($this->getConfig()->defaultMaskmode)) {
+            $querySelection->maskMode = $this->getConfig()->defaultMaskmode;
+        }
         $querySelection->hilight = self::DEFAULT_HILIGHT;
+        if (!is_null($this->getConfig()->defaultHilight)) {
+            $querySelection->hilight = $this->getConfig()->defaultHilight;
+        }
         $querySelection->tableFlags = new TableFlags();
         $querySelection->tableFlags->returnAttributes =
                                           self::DEFAULT_ATTRIBUTES;
+        if (!is_null($this->getConfig()->defaultAttributes)) {
+            $querySelection->tableFlags->returnAttributes =
+                                          $this->getConfig()->defaultAttributes;
+        }
         $querySelection->tableFlags->returnTable = 
                                           self::DEFAULT_TABLE;
+        if (!is_null($this->getConfig()->defaultTable)) {
+            $querySelection->tableFlags->returnTable =
+                                          $this->getConfig()->defaultTable;
+        }
         $querySelection->selectedIds = array();
         $this->queryState->querySelections[] = $querySelection;
         
@@ -429,12 +450,26 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             $queryRequest = new QueryRequest();
             $queryRequest->queryAllLayers = $this->queryState->queryAllLayers;
             $queryRequest->defaultMaskMode = self::DEFAULT_MASKMODE;
+            if (!is_null($this->getConfig()->defaultMaskmode)) {
+                $queryRequest->defaultMaskMode = $this->getConfig()->defaultMaskmode;
+            }
             $queryRequest->defaultHilight = self::DEFAULT_HILIGHT;
+            if (!is_null($this->getConfig()->defaultHilight)) {
+                $queryRequest->defaultHilight = $this->getConfig()->defaultHilight;
+            }
             $queryRequest->defaultTableFlags = new TableFlags();
             $queryRequest->defaultTableFlags->returnAttributes =
-                                             self::DEFAULT_ATTRIBUTES;
-            $queryRequest->defaultTableFlags->returnTable =
-                                             self::DEFAULT_TABLE;    
+                                              self::DEFAULT_ATTRIBUTES;
+            if (!is_null($this->getConfig()->defaultAttributes)) {
+                $queryRequest->defaultTableFlags->returnAttributes =
+                                              $this->getConfig()->defaultAttributes;
+            }
+            $queryRequest->defaultTableFlags->returnTable = 
+                                              self::DEFAULT_TABLE;
+            if (!is_null($this->getConfig()->defaultTable)) {
+                $queryRequest->defaultTableFlags->returnTable =
+                                              $this->getConfig()->defaultTable;
+            }
             $queryRequest->querySelections = $this->queryState->querySelections;        
             $queryRequest->bbox = $this->bbox;
 
@@ -536,9 +571,25 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-      $template->assign('query_result', $this->drawQuery());    
+		$template->assign('query_result', $this->drawQuery());    
     }
 
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+    	$ajaxPluginResponse->addHtmlCode('queryResult', $this->drawQuery());
+    }
+
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Query.Perform':
+			case 'Query.Clear':
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enableCoreplugin('images');
+				$pluginsDirectives->enableCoreplugin('query');
+				$pluginsDirectives->enableCoreplugin('tables');
+			break;
+		}
+	}
+	
     /**    
      * @see Exportable::adjustExportMapRequest()
      */ 

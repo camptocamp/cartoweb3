@@ -34,12 +34,6 @@ require_once(CARTOWEB_HOME . 'common/Encoding.php');
 require_once(CARTOWEB_HOME . 'server/ServerProjectHandler.php');
 
 /**
- * If true, Cartoweb will not run if you are using PHP as a module
- * with php_mapscript loaded in your php.ini
- */
-define('PHP_DSO_WARNING', true);
-
-/**
  * @package Server
  */
 class ServerContext {
@@ -53,12 +47,12 @@ class ServerContext {
      * @var string
      */
     private $mapId;
-    
+
     /**
      * @var Mapscript MapObj
      */
     private $msMapObj;
-    
+
     /**
      * @var Mapscript RectObj
      */
@@ -68,9 +62,9 @@ class ServerContext {
      * @var int
      */
     private $imageType;
-    
+
     /**
-     * @var Mapscript ImageObj 
+     * @var Mapscript ImageObj
      */
     private $msMainmapImage;
 
@@ -83,7 +77,7 @@ class ServerContext {
      * @var MapInfoHandler
      */
     private $mapInfoHandler;
-    
+
     /**
      * @var MapRequest
      */
@@ -98,27 +92,27 @@ class ServerContext {
      * @var ServerConfig
      */
     private $config;
-    
+
     /**
      * @var array
      */
     private $messages = array();
-    
+
     /**
      * @var ProjectHandler
      */
     private $projectHandler;
-    
+
     /**
      * @var ResourceHandler
      */
     private $resourceHandler;
-    
+
     /**
      * @var array
      */
     private $plugins;
-    
+
     /**
      * @var PluginManager
      */
@@ -133,7 +127,7 @@ class ServerContext {
      * If true, complete mapfile is used, if false, switch mapfile is used
      * @var boolean
      */
-    public $globalMap = false;    
+    public $globalMap = false;
 
     /**
      * Constructor
@@ -147,7 +141,7 @@ class ServerContext {
 
         $this->projectHandler = new ServerProjectHandler($mapId);
         $this->config = new ServerConfig($this->projectHandler);
-        
+
         $this->pluginManager = null;
         $this->plugins = array();
 
@@ -155,11 +149,11 @@ class ServerContext {
         if (count(Encoder::$encoders) == 0) {
             // Was not initialized --> SOAP mode
             Encoder::init($this->config);
-        }          
+        }
 
-        $this->reset();        
+        $this->reset();
     }
-    
+
     /**
      * Returns the current mapId.
      * @return string
@@ -167,7 +161,7 @@ class ServerContext {
     public function getMapId() {
         return $this->mapId;
     }
-    
+
     /**
      * Resets map result object.
      */
@@ -181,9 +175,9 @@ class ServerContext {
      * @param Mapscript ImageObj
      */
     public function setMsMainmapImage($msMainmapImage) {
-        $this->msMainmapImage = $msMainmapImage;   
+        $this->msMainmapImage = $msMainmapImage;
     }
-    
+
     /**
      * @return Mapscript ImageObj
      */
@@ -192,7 +186,7 @@ class ServerContext {
             throw new CartoserverException('mainmap image not generated yet');
         return $this->msMainmapImage;
     }
-   
+
     /**
      * Tells (from INI file) if developpers messages must be shown.
      * @return boolean
@@ -200,9 +194,9 @@ class ServerContext {
     public function isDevelMessagesEnabled() {
         if (is_null($this->config))
             return false;
-        return $this->config->showDevelMessages;   
+        return $this->config->showDevelMessages;
     }
-    
+
     /**
      * Adds a message to be returned to the client
      * @param PluginBase the plugin attached to this message
@@ -210,13 +204,13 @@ class ServerContext {
      * @param string the text of the message
      * @param int the channel identifier of the message
      */
-    public function addMessage(PluginBase $plugin, $messageId, $message, 
+    public function addMessage(PluginBase $plugin, $messageId, $message,
                                             $channel = Message::CHANNEL_USER) {
 
-        $this->messages[] = new Message($message, $channel, $plugin->getName(), 
+        $this->messages[] = new Message($message, $channel, $plugin->getName(),
                                                                     $messageId);
     }
-    
+
     /**
      * Returns messages list.
      * @return array
@@ -255,13 +249,13 @@ class ServerContext {
         }
 
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/',
-                                               $mapFile);                                             
+                                               $mapFile);
         return CARTOWEB_HOME . $path . $mapFile;
-    } 
+    }
 
     /**
      * Returns the file path of the main .ini file of the current mapfile. It
-     * has the same location and name as the mapfile being used, but its 
+     * has the same location and name as the mapfile being used, but its
      * extension is .ini instead of .map
      * @return string the location of the .ini file related to the mapfile
      */
@@ -271,7 +265,7 @@ class ServerContext {
         $file = $mapName . '.ini';
         $path = $this->projectHandler->getPath('server_conf/' . $mapName . '/', $file);
         $iniPath = CARTOWEB_HOME . $path . $file;
-        return $iniPath;        
+        return $iniPath;
     }
 
     /**
@@ -281,7 +275,7 @@ class ServerContext {
     public function getTimestamp() {
         $mapPath = $this->getMapPath(true);
         $iniPath = $this->getMapIniPath();
-        
+
         $timestamp = (filemtime($mapPath) + filemtime($iniPath)) / 2;
         return (int)$timestamp;
     }
@@ -292,13 +286,13 @@ class ServerContext {
      * been created.
      */
     public function updateStateFromMapObj() {
-        
+
         if (is_null($this->msMapObj))
             return;
 
         if (is_null($this->maxExtent))
             $this->maxExtent = clone($this->msMapObj->extent);
-        
+
         $this->imageType = $this->msMapObj->imagetype;
     }
 
@@ -311,16 +305,18 @@ class ServerContext {
      * @return Mapscript MapObj
      */
     public function getMapObj() {
-        if (!$this->msMapObj) {        
+
+        $disablePHPModuleCheck = $this->getConfig()->disablePHPModuleCheck;
+
+        if (!$this->msMapObj) {
             if (!extension_loaded('mapscript')) {
-                $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
-                if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
+                if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
                 $this->mapscriptLoaded = true;
             } else {
                 // WARNING: this code should be in sync with info.php
-                if (PHP_DSO_WARNING && !$this->mapscriptLoaded
+                if (!$disablePHPModuleCheck && !$this->mapscriptLoaded
                     && !in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
                     throw new CartoserverException("You are not using PHP as " .
                         "a cgi and PHP Mapscript extension is loaded in your " .
@@ -328,8 +324,8 @@ class ServerContext {
                         "CartoWeb stopped.\n You need to remove the " .
                         "php_mapscript extension loading of your php.ini " .
                         "file. \n If you want to remove this message, edit " .
-                        "server/ServerContext.php and set the PHP_DSO_WARNING " .
-                        "constant to false at the top of the file.");
+                        "server_conf/server.ini and set the disablePHPModuleCheck " .
+                        "parameter to true.");
                 }
             }
             $mapPath = $this->getMapPath($this->globalMap);
@@ -337,18 +333,18 @@ class ServerContext {
             $this->msMapObj = ms_newMapObj($mapPath);
             $this->checkMsErrors();
 
-            if (!$this->msMapObj) { // could this happen ??
+            if (!$this->msMapObj) { // could this happen?
                 throw new CartoserverException("cannot open mapfile $mapId " .
                                                "for map $mapId");
             }
-            
+
             $this->updateStateFromMapObj();
         }
         return $this->msMapObj;
     }
 
     /**
-     * @return Mapscript RectObj 
+     * @return Mapscript RectObj
      */
     public function getMaxExtent() {
         return $this->maxExtent;
@@ -365,7 +361,7 @@ class ServerContext {
      * @return MapInfoHandler
      */
     public function getMapInfoHandler() {
-        if (!$this->mapInfoHandler) {        
+        if (!$this->mapInfoHandler) {
             $this->mapInfoHandler = new MapInfoHandler($this);
         }
         return $this->mapInfoHandler;
@@ -387,11 +383,11 @@ class ServerContext {
     public function resetMsErrors() {
         $error = ms_GetErrorObj();
         while($error && $error->code != MS_NOERR) {
-            $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n", 
+            $errorMsg = sprintf("ignoring ms error in %s: %s<br>\n",
                                 $error->routine, $error->message);
             $this->log->debug($errorMsg);
             $error = $error->next();
-        } 
+        }
         ms_ResetErrorList();
     }
 
@@ -402,16 +398,16 @@ class ServerContext {
         $error = ms_GetErrorObj();
         if (!$error || $error->code == MS_NOERR)
             return;
-        
+
         $errorMessages = '';
         while($error && $error->code != MS_NOERR) {
-            $errorMsg = sprintf("Error in %s: %s<br>\n", 
+            $errorMsg = sprintf("Error in %s: %s<br>\n",
                                 $error->routine, $error->message);
             $this->log->fatal($errorMsg);
-            
+
             $errorMessages .= $errorMsg;
             $error = $error->next();
-        } 
+        }
 
         throw new CartoserverException("Mapserver error: " . $errorMessages);
     }
@@ -436,13 +432,13 @@ class ServerContext {
     public function getMapResult() {
         return $this->mapResult;
     }
-    
+
     /**
      * @return ServerConfig
      */
     public function getConfig() {
         return $this->config;
-    }    
+    }
 
     /**
      * Returns list of coreplugins names.
@@ -450,7 +446,7 @@ class ServerContext {
      */
     private function getCorePluginNames() {
         // TODO : factorize with cartoclient?
-        return array('images', 'location', 'layers', 'query', 'mapquery', 
+        return array('images', 'location', 'layers', 'query', 'mapquery',
                      'tables');
     }
 
@@ -461,7 +457,7 @@ class ServerContext {
 
         if (!is_null($this->pluginManager))
             return; /* already loaded */
-            
+
         $this->pluginManager = new PluginManager(PluginManager::SERVER,
                                                  $this->projectHandler);
         $corePluginNames = $this->getCorePluginNames();
@@ -481,7 +477,7 @@ class ServerContext {
         }
         $this->pluginManager->loadPlugins($pluginNames, $this);
     }
-    
+
     /**
      * Returns the plugin manager
      * @return PluginManager
@@ -497,23 +493,23 @@ class ServerContext {
     public function getProjectHandler() {
         return $this->projectHandler;
     }
-        
+
     /**
      * Returns the resource handler
      * @return ResourceHandler
      */
     public function getResourceHandler() {
         if (!$this->resourceHandler) {
-            $this->resourceHandler = new ResourceHandler($this->config, 
+            $this->resourceHandler = new ResourceHandler($this->config,
                                                 $this->getProjectHandler());
         }
         return $this->resourceHandler;
     }
-    
+
     /*
      * Utility methods shared by several plugins
      */
-    
+
     /**
      * Returns Mapserver id_attribute_string for given layer.
      * @param string layer id
@@ -521,24 +517,24 @@ class ServerContext {
      */
     private function getIdAttributeString($layerId) {
         $serverLayer = $this->getMapInfo()->layersInit->getLayerById($layerId);
-        if (!$serverLayer) 
+        if (!$serverLayer)
             throw new CartoserverException("layerid $layerId not found");
 
         // retrieve from metadata
         $msLayer = $this->msMapObj->getLayerByName($serverLayer->msLayer);
         $this->checkMsErrors();
-        
+
         if (empty($msLayer)) {
             return NULL;
         }
         $idAttribute = $msLayer->getMetaData('id_attribute_string');
         if (!empty($idAttribute)) {
-            return $idAttribute;   
+            return $idAttribute;
         }
-        
+
         return NULL;
-    } 
-    
+    }
+
     /**
      * Returns the default id attribute for given layer.
      * @param string layer id
@@ -550,12 +546,12 @@ class ServerContext {
             return NULL;
         $explodedAttr = explode('|', $idAttributeString);
         assert(count($explodedAttr) >= 1);
-        return $explodedAttr[0]; 
+        return $explodedAttr[0];
      }
 
     /**
      * Returns the type of the default attribute.
-     * It may be "string" or "integer"     
+     * It may be "string" or "integer"
      * @param string layer id
      * @return string
      */
@@ -569,7 +565,7 @@ class ServerContext {
         $type = $explodedAttr[1];
         if (!in_array($type, array('int', 'string')))
             throw new CartoserverException("bad id attribute type: $type");
-        return $type; 
+        return $type;
      }
 }
 

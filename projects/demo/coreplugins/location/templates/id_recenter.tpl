@@ -27,7 +27,7 @@
     <tr>
       <td align="center">
         <input type="submit" name="refresh" value="{t}Recenter{/t}" 
-     class="form_button" />
+     class="form_button" onclick="javascript:AjaxHandler.doAction('Location.Recenter');return false;" />
       </td>
     </tr>
   </table>

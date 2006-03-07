@@ -52,7 +52,7 @@ class LocationState {
  */
 class ClientLocation extends ClientPlugin
                      implements Sessionable, GuiProvider, ServerCaller,
-                                InitUser, ToolProvider, Exportable {
+                                InitUser, ToolProvider, Exportable, Ajaxable {
                                 
     /**
      * @var Logger
@@ -85,11 +85,17 @@ class ClientLocation extends ClientPlugin
     protected $shortcuts;
 
     /**
+     * @var Bbox
+     */
+    protected $fullExtent;
+
+    /**
      * Tool constants.
      */
-    const TOOL_ZOOMIN   = 'zoomin';
-    const TOOL_ZOOMOUT  = 'zoomout';
-    const TOOL_PAN      = 'pan';
+    const TOOL_ZOOMIN     = 'zoomin';
+    const TOOL_ZOOMOUT    = 'zoomout';
+    const TOOL_PAN        = 'pan';
+    const TOOL_FULLEXTENT = 'fullextent';
 
     /**
      * @var Smarty_Plugin
@@ -396,8 +402,7 @@ class ClientLocation extends ClientPlugin
         $layersLabel = array();
         $idRecenterLayersStr = $this->getConfig()->idRecenterLayers;
         if (!empty($idRecenterLayersStr)) {
-            $idRecenterLayers = explode(',', $idRecenterLayersStr);
-            $idRecenterLayers = array_map('trim', $idRecenterLayers);
+            $idRecenterLayers = Utils::parseArray($idRecenterLayersStr);
         }
         foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)
@@ -532,6 +537,22 @@ class ClientLocation extends ClientPlugin
     }
 
     /**
+     * Handles full extent 
+     * @return LocationRequest
+     */
+    protected function handleFullExtent() {
+
+        $bboxRequest = new BboxLocationRequest();
+        $bboxRequest->bbox = $this->fullExtent;
+        $locationRequest = new LocationRequest();                
+        $locationType = $bboxRequest->type;
+        $locationRequest->locationType = $locationType;
+        $locationRequest->$locationType = $bboxRequest;
+
+        return $locationRequest;
+    }
+
+    /**
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
@@ -575,7 +596,7 @@ class ClientLocation extends ClientPlugin
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
-    
+
         $this->locationRequest = $this->handleBboxRecenter($request);
         if (!is_null($this->locationRequest))
             return;
@@ -599,7 +620,7 @@ class ClientLocation extends ClientPlugin
         $this->locationRequest = $this->handleShortcuts($request);
         if (!is_null($this->locationRequest))
             return;
-        
+
         $this->locationRequest = $this->cartoclient->getHttpRequestHandler()
                                                    ->handleTools($this);  
     }
@@ -709,8 +730,15 @@ class ClientLocation extends ClientPlugin
      * @see ToolProvider::handleKeymapTool() 
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                              Shape $keymapShape) {
-        /* nothing to do */                         
+                              Shape $keymapShape) {}
+    
+    /**
+     * @see ToolProvider::handleApplicationTool() 
+     */
+    public function handleApplicationTool(ToolDescription $tool) {
+
+        if ($tool->id == self::TOOL_FULLEXTENT)
+            return $this->handleFullExtent();
     }
 
     /**
@@ -724,6 +752,8 @@ class ClientLocation extends ClientPlugin
                         11),
                      new ToolDescription(self::TOOL_PAN, true,
                         12),
+                     new ToolDescription(self::TOOL_FULLEXTENT, true,
+                        14, ToolDescription::APPLICATION, true),
                    );
     }
 
@@ -735,7 +765,7 @@ class ClientLocation extends ClientPlugin
         $locationRequest = NULL;
         if (!is_null($this->locationRequest)) 
             $locationRequest = $this->locationRequest;
-        
+
         if (is_null($locationRequest)) // stay at the same location
             $locationRequest = $this->buildZoomPointRequest(
                         ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
@@ -772,6 +802,7 @@ class ClientLocation extends ClientPlugin
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
+        $this->fullExtent = $locationInit->fullExtent;
     }
     
     /**
@@ -801,7 +832,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderForm(Smarty $template) {
+    protected function renderFormPrepare() {
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
@@ -813,28 +844,67 @@ class ClientLocation extends ClientPlugin
         $id_recenter_active = $this->getConfig()->idRecenterActive;
         $shortcuts_active = $this->getConfig()->shortcutsActive;
         $scale = number_format($this->locationResult->scale, 0, ',',"'");
-               
-        $template->assign(array('location_info' => $this->getLocationInformation(),
-                                'bboxMinX' => $this->locationState->bbox->minx,
-                                'bboxMinY' => $this->locationState->bbox->miny,
-                                'bboxMaxX' => $this->locationState->bbox->maxx,
-                                'bboxMaxY' => $this->locationState->bbox->maxy,
-                                'factor' => $factor,
-                                'currentScale' => $scale,
-                                'recenter_active' => $recenter_active,
-                                'scales_active' => $scales_active,
-                                'id_recenter_active' => $id_recenter_active,
-                                'shortcuts_active' => $shortcuts_active,
-                                ));
+
+        $assignArray['variables'] = array(
+            'bboxMinX' => $this->locationState->bbox->minx,
+            'bboxMinY' => $this->locationState->bbox->miny,
+            'bboxMaxX' => $this->locationState->bbox->maxx,
+            'bboxMaxY' => $this->locationState->bbox->maxy,
+            'factor' => $factor,
+            'currentScale' => $scale,
+            'recenter_active' => $recenter_active,
+            'scales_active' => $scales_active,
+            'id_recenter_active' => $id_recenter_active,
+            'shortcuts_active' => $shortcuts_active,
+        );
+        
+        $assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
 
         if ($recenter_active)
-            $template->assign('recenter', $this->drawRecenter());
+            $assignArray['htmlCode']['recenter'] = $this->drawRecenter();
         if ($scales_active)
-            $template->assign('scales', $this->drawScales());
+            $assignArray['htmlCode']['scales'] = $this->drawScales();
         if ($id_recenter_active)
-            $template->assign('id_recenter', $this->drawIdRecenter());
+            $assignArray['htmlCode']['id_recenter'] = $this->drawIdRecenter();
         if ($shortcuts_active)
-            $template->assign('shortcuts', $this->drawShortcuts());
+            $assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
+        
+        return $assignArray;
+    }
+               
+    public function renderForm(Smarty $template) {
+        $assignArray = $this->renderFormPrepare();      
+        $template->assign($assignArray['variables']);
+        $template->assign($assignArray['htmlCode']);
+    }
+
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $assignArray = $this->renderFormPrepare(); 
+        foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addVariable($assignKey, $assignValue);
+        }       
+        foreach ($assignArray['htmlCode'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addHtmlCode($assignKey, $assignValue);
+        }       
+    }
+
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Location.Pan':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('location');
+                $pluginEnabler->enableCoreplugin('images');
+            break;          
+            case 'Location.FullExtent':
+            case 'Location.Recenter':
+            case 'Location.RecenterIds':
+            case 'Location.Zoom':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('location');
+                $pluginEnabler->enableCoreplugin('layers');
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+        }
     }
 
     /**

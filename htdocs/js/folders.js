@@ -30,7 +30,7 @@ function ontop(id) {
   xUA = navigator.userAgent.toLowerCase();
   i = xUA.indexOf('safari');
   if (i>0) {
-      v = xUA.slice(i+7,xUA.length);
+      v = xUA.slice(i+7,i+10);
       if (v <= 312 || v == 412) {
           safari = true;
       }

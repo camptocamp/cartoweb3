@@ -47,7 +47,7 @@ class ClientExportHtml extends ExportPlugin {
      * @return string
      */ 
     public function getBaseUrl() {
-        return '../';
+        return './';
     }
 
     /**

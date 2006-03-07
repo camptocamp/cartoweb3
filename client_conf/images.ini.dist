@@ -19,3 +19,9 @@ mapSizes.3.height = 1000
 
 ;if true, keymap is shown on map, and possibly hidden
 ;collapsibleKeymap = true
+
+;if true, keymap will not be drawn at all
+;noDrawKeymap = true
+
+;if true, scalebar will not be drawn
+;noDrawScalebar = true

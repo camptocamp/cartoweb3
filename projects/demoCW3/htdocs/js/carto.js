@@ -1,33 +1,33 @@
 function FormItemSelected() {
-  document.carto_form.submit();
-  xShow(xGetElementById('mapAnchorDiv'));
+  doSubmit();
 }
   
-function CheckRadio(theIndex) {
-  document.carto_form.tool[theIndex].checked = true;
+function checkRadio(id) {
+  xGetElementById(id).checked = 'checked';
 }
 
-function setActiveButton(toolname, outline) {
-  var tools = new Array('zoomin', 'zoomout', 'pan', 'query',
-	'outline_point', 'outline_line', 'outline_rectangle', 'outline_poly');
-
-  for (var i = 0; i < tools.length; i++) {
-    var elt = xGetElementById(tools[i] + '_icon');
+function setActiveToolButton(toolid) {
+  for (var i = 0; i < cw3_tools.length; i++) {
+    var elt = xGetElementById(cw3_tools[i] + "_icon");
 
     if(elt == null) return;
-
-    if (tools[i] == toolname) {
+    
+    if (cw3_tools[i] == toolid) {
       elt.className = "toolbar_on";
     } else {
       elt.className = "toolbar_off";
     }
   }
-
-  if(outline) {
-        if(toolname == 'outline_point' || toolname == 'outline_line' || 
-        	toolname == 'outline_rectangle' || toolname == 'outline_poly')
-        	ontop(5);
-        if(toolname == 'query') ontop(7);
+  var elt = xGetElementById("tool");
+  elt.value = toolid;
+  
+  if (typeof myfolders != "undefined") { // not on page load
+    if(toolid.indexOf('outline')!=-1){
+      ontop(5);
+    }
+    if(toolid.indexOf('query')!=-1){
+      ontop(7);
+    }
   }
 }
 
@@ -42,5 +42,12 @@ function resetSession() {
     elm.name = 'reset_session';
     elm.value = 'reset_session';
     document.carto_form.posted.value=0;
-    FormItemSelected();
+    doSubmit();
+}
+
+function clearQuery() {
+    elm = xGetElementById('fake_query');
+    elm.name = 'query_clear';
+    elm.value = 'query_clear';
+    doSubmit();
 }

@@ -16,7 +16,7 @@
     Unit tests are an important componant in the &cartoweb; development 
     environment. 
     The framework used for unit testing is based on  
-      <ulink url="http://www.sebastian-bergmann.de/en/phpunit.php">PHPUnit2</ulink>,
+      <ulink url="http://www.phpunit.de/en/index.php">PHPUnit2</ulink>,
    a <acronym>PEAR</acronym> package.
    For more informations abouth PHPUnit2, see <ulink 
    url="http://pear.php.net/reference/PHPUnit2-2.0.3/">http://pear.php.net/reference/PHPUnit2-2.0.3/</ulink>

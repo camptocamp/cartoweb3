@@ -1,10 +1,10 @@
 ; if false, will outline only one shape at a time (default true)
 multipleShapes = false
 
-; if true, will ask for a label after shape is drawn
+; if true, will ask for a label after shape is drawn (default true)
 labelMode = true
 
-;modify tools weights to change icons display order in the toolbar
+; modify tools weights to change icons display order in the toolbar
 ; use negative weights to disable some statictools
 ;weightOutlinePoint = -1  ;default 70
 ;weightOutlineLine = -1  ;default 71

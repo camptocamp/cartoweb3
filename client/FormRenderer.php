@@ -132,10 +132,73 @@ class FormRenderer {
                 if (!empty($toolsIds))
                     $clientSession->selectedTool = $tools[$toolsIds[0]]->id;
             }
-        }       
-        $smarty->assign('selected_tool', $clientSession->selectedTool);
+        }
+        
+        if ($this->cartoclient->getConfig()->toolbarRendering)
+            $toolbarRendering = $this->cartoclient->getConfig()->toolbarRendering;
+        else
+            $toolbarRendering = 'radio';
+            
+        $smarty->assign(array('selected_tool' => $clientSession->selectedTool,
+                              'tools' => $tools,
+                              'toolbar_rendering' => $toolbarRendering));
                 
-        $smarty->assign('tools', $tools);        
+    }
+
+    /**
+     * Returns CartoWeb's user and developer messages
+     * @return array array of messages (user and developer)
+     */
+    private function getMessages() {
+        $messages = array_merge($this->cartoclient->getMapResult()
+                                            ->serverMessages,
+                                $this->cartoclient->getMessages());
+        return $messages;
+    }
+    
+    /**
+     * Returns user messages' HTML code
+     * @param array array of messages
+     * @return string user messages' HTML code if any, null otherwise
+     */
+    private function getUserMessages($messages) {
+        
+        if (empty($messages))
+            return;
+        
+        $userMessages = array();
+        foreach ($messages as $message) {
+            if ($message->channel == Message::CHANNEL_USER)
+                $userMessages[] = I18N::gt($message->message);
+        }
+
+        if (!empty($userMessages))
+            return $userMessages;
+        else
+            return null;
+    }
+
+    /**
+     * Returns developer messages' HTML code
+     * @param array array of messages
+     * @return string developer messages' HTML code if any, null otherwise
+     */
+    private function getDeveloperMessages($messages) {
+        
+        if (empty($messages))
+            return;
+        
+        $developerMessages = array();
+        foreach ($messages as $message) {
+            if ($message->channel == Message::CHANNEL_DEVELOPER)
+                $developerMessages[] = I18N::gt($message->message);
+        }
+
+        if (!empty($developerMessages) &&
+            $this->cartoclient->getConfig()->showDevelMessages)
+            return $developerMessages;
+        else
+            return null;
     }
 
     /**
@@ -146,18 +209,12 @@ class FormRenderer {
         
         if (empty($messages))
             return;
-        
-        $userMessages = array();
-        $developerMessages = array();
-        foreach ($messages as $message) {
-            if ($message->channel == Message::CHANNEL_USER)
-                $userMessages[] = I18N::gt($message->message);
-            if ($message->channel == Message::CHANNEL_DEVELOPER)
-                $developerMessages[] = I18N::gt($message->message);
-        }
+
+        $userMessages = $this->getUserMessages($messages);
+        $developerMessages = $this->getDeveloperMessages($messages);
 
         $smarty = $this->smarty;
-        
+
         if (!empty($userMessages))
             $smarty->assign('user_messages', $userMessages);
         if (!empty($developerMessages) &&
@@ -188,7 +245,7 @@ class FormRenderer {
         $this->smarty->assign('project', $this->cartoclient->getProjectHandler()->
                                         getProjectName());
 
-        $chooserActive =  $this->cartoclient->getConfig()->showProjectChooser;
+        $chooserActive = $this->cartoclient->getConfig()->showProjectChooser;
         $this->smarty->assign('projects_chooser_active', $chooserActive);
 
         // no more drawing if no project chooser
@@ -245,14 +302,24 @@ class FormRenderer {
 
             $this->drawTools($this->cartoclient);
     
-            $messages = array_merge($this->cartoclient->getMapResult()
-                                                ->serverMessages,
-                                    $this->cartoclient->getMessages());
+            $messages = $this->getMessages();
             $this->drawMessages($messages);
             $this->drawJavascriptFolders();
             $this->drawProjectsChooser();
             $this->drawUserAndRoles();
+
+            // Profile for AjaxHandler
+            $this->smarty->assign('cwProfile',
+                                  $this->cartoclient->getConfig()->profile);
+
+            // Ajax switch
+            $this->smarty->assign('useAjax',
+                                  $this->cartoclient->getConfig()->useAjax);
     
+            // ToolPicker
+            $this->smarty->assign('toolpicker_active', 
+                                  $this->cartoclient->getConfig()->toolPickerOn);
+
             // lang links
             $this->smarty->assign(array('locales'     => I18n::getLocales(),
                                         'currentLang' => LANG,
@@ -277,6 +344,55 @@ class FormRenderer {
                 : 'cartoclient.tpl';
         
         return $this->specialOutput . $this->smarty->fetch($form);
+    }
+
+    public function showAjaxPluginResponse() {
+
+		$plugins = $this->cartoclient->getPluginManager()->getPlugins();
+
+		// Creates an AjaxPluginResponse object and passes it by reference
+		// to all enabled  plugin's renderAjaxResponse() method that will populate it
+		$ajaxPluginResponses = array();
+		foreach ($plugins as $plugin) {
+	    	$ajaxPluginResponse = new AjaxPluginResponse();
+            $ajaxAction = $this->cartoclient->getAjaxAction(); 
+		    $this->cartoclient->callEnabledPluginImplementing(
+		    			ClientPlugin::ENABLE_LEVEL_FULL, $plugin->getName(),
+						'Ajaxable', 'ajaxGetPluginResponse', &$ajaxPluginResponse, $ajaxAction);
+		    if (!$ajaxPluginResponse->isEmpty())
+		    	$ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
+	    }
+        
+        /* The logic below generates a response for a pseudo-plugin
+         * named 'cartoMessages', used to send user and developer messages to
+         * the javascript AjaxHandler.
+         */           
+        $ajaxPluginResponse = new AjaxPluginResponse();
+        $messages = $this->getMessages();
+        $userMessages = $this->getUserMessages($messages);
+        $developerMessages = $this->getDeveloperMessages($messages);
+        $ajaxPluginResponse->addHtmlCode('userMessages',
+                                         Json::fromPhpArrayToArray($userMessages));
+        $ajaxPluginResponse->addHtmlCode('developerMessages',
+                                         Json::fromPhpArrayToArray($developerMessages));
+        $ajaxPluginResponses['cartoMessages'] = $ajaxPluginResponse;
+        /*
+         * End of the pseudo-plugin logic
+         */        
+
+        // Sets the XML encoding
+        $this->smarty->assign('encoding', Encoder::getCharset());
+
+ 		// Switches to the XML tpl to be sent as async response
+		$this->setCustomForm('ajaxPluginResponse.xml.tpl');
+		
+	    // Populates the AjaxPluginResponse.XML template
+	    $this->smarty->assign('pluginResponses', $ajaxPluginResponses);
+		header ('Content-Type: text/xml');
+        
+        // Shows async response and dies
+	    $this->smarty->display($this->customForm);
+        
     }
 
     /**

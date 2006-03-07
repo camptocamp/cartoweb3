@@ -6,6 +6,8 @@
 <br />{t}options{/t} <select name="routing_options" id="routing_options">
 {html_options values=$routing_options_values output=$routing_options_labels selected=$routing_options}
 </select></p>
-<p><input type="button" name="refresh" value="{t}routing_compute{/t}"
-    class="form_button" onclick="javascript:FormItemSelected();" />
+<p><input type="submit" name="routing_submit" value="{t}routing_compute{/t}"
+    class="form_button"/>
+   <input type="submit" name="routing_reset" value="{t}Reset{/t}"
+    class="form_button"/>
 </p>

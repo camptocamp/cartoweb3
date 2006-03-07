@@ -84,6 +84,9 @@ class Smarty_Cartoclient extends Smarty {
         // Block function for translation
         $this->register_block('t', array($this, 'smartyTranslate'));        
 
+        // Modifier function for translation
+        $this->register_modifier('tr', array($this, 'smartyTranslateModifier'));        
+
         $this->assignCommonVariables($cartoclient);
     }
 
@@ -250,6 +253,16 @@ class Smarty_Cartoclient extends Smarty {
         }
     
         return $text;
+    }
+
+    /**
+     * Smarty modifier function, provides gettext support for Smarty
+     *
+     * @param string text to translate
+     * @return string translated text
+     */
+    public function smartyTranslateModifier($text) {
+        return I18n::gt($text);
     }
 }
 

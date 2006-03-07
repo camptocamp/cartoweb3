@@ -11,32 +11,17 @@
   <title>Mapserver Debian Installation</title>
   <para>Some Debian packages are available for Php5 and Mapserver<footnote>
     <para>Some of the packages were inspired from 
-      <ulink url="http://agrogeomatic.educagri.fr/"/></para>
-    </footnote>. For now
-    only the cgi version of Php is available because of threading issues with 
-    Mapserver. 
+      <ulink url="http://agrogeomatic.educagri.fr/"/>.</para>
+    </footnote>
   </para>
-  <sect1>
-  <title>Prerequisites for Debian Woody</title>  
-  <para>
-    These packages have some dependencies on packages available in the so-called
-    Sarge Debian repository version. Thus, if you are using Debian Woody, you 
-    will need to add the following lines to your 
-      <filename>/etc/apt/sources.list</filename>:
-      <screen><![CDATA[#debian sarge
-deb http://ftp.<country>.debian.org/debian/ sarge main contrib]]></screen>
-    Of course, replace &lt;country&gt; by two-letter country code of your nearest mirror.
-    See <ulink url="http://www.debian.org/mirror/list"/> for the full mirrors list.
-  </para>
-  </sect1>
   
   <sect1>
   <title>Setting Up Your Repository and Preferences File</title>  
   <para>
     Add the following to your <filename>/etc/apt/sources.list</filename>  :
     <screen># cartoweb
-deb http://dev.camptocamp.com/packages/debian/ sarge main
-deb-src http://dev.camptocamp.com/packages/debian/ sarge main</screen>
+deb http://dev.camptocamp.com/packages/debian/prod/ sarge main
+deb-src http://dev.camptocamp.com/packages/debian/prod/ sarge main</screen>
   </para>
   <para>
     You may want to pin c2c packages higher than 1000 to have them preferred over
@@ -53,17 +38,24 @@ Pin-Priority: 1100</screen>
     To install Mapscript and PHP 5, type the following:
 <screen>
 apt-get update
-apt-get install  php5-mapscript 
+apt-get install php5-mapscript 
 </screen>
   </para>
   <para>
     If want to install PostGIS and PostgreSQL:
 <screen>
-apt-get install  postgis
+apt-get install libpostgis1-pg80
+</screen>
+  </para>
+  <para>
+    If want to install the pgdijkstra PostgreSQL extension:
+<screen>
+apt-get install pgdijkstra
 </screen>
   </para>
   </sect1>  
 
+<!-- This should now be done automatically by the Debian pacakges
   <sect1>
   <title>Additional Steps</title>  
   <para>
@@ -84,4 +76,5 @@ apt-get install  postgis
     </orderedlist>    
   </para>
   </sect1>
+  -->
 </appendix>

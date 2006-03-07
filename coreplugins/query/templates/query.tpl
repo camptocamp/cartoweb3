@@ -45,5 +45,7 @@
 </p>
 {/if}
 <p>
-<input type="submit" name="query_clear" value="{t}query_clear{/t}" class="form_button" />
+<input type="submit" name="query_clear" value="{t}query_clear{/t}" class="form_button"
+	onclick="{literal}if (typeof(AjaxHandler) != 'undefined')
+		{AjaxHandler.doAction('Query.Clear'); return false;}{/literal}" />
 </p>

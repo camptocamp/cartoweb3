@@ -26,7 +26,7 @@
  * @package Plugins
  */
 class ClientHello extends ClientPlugin
-                  implements Sessionable, GuiProvider {
+                  implements Sessionable, GuiProvider, Ajaxable {
 
     const HELLO_INPUT = 'hello_input';
 
@@ -84,6 +84,7 @@ class ClientHello extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
         $this->count = $this->count + 1;
+        $this->message = '';
         $this->message = isset($request[self::HELLO_INPUT])
                          ? $request[self::HELLO_INPUT] : '';
     }
@@ -100,9 +101,31 @@ class ClientHello extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
 
-        $template->assign('hello_active', true);
-        $template->assign('hello_message', "message: " . $this->message . 
-                          " count: " . $this->count);
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+        $template->assign(array('hello_active'  => true,
+                                'hello_message' => $message));
     }
+
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+		$ajaxPluginResponse->addHtmlCode('hello_message', $message);
+    }
+
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
+		switch ($actionName) {
+			case 'Hello.Change':
+				$pluginsDirectives->disableCoreplugins();
+				$pluginsDirectives->enablePlugin('hello');				
+			break;
+			case 'Location.Pan':
+				// Hello plugin will run on Location.mapPanByKeymap action
+				$pluginsDirectives->enablePlugin('hello');								
+			break;
+		}
+	}
 }
 ?>

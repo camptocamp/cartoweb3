@@ -91,6 +91,12 @@ ul#tabnav2 li {
   font-size:small;
 }
 
+.folder legend {font-weight:bolder;}
+
+#folder1 legend {
+  font-weight:normal;
+  font-size:11px;
+}
 
 #folder4 ul {
   margin-left: 18px;
@@ -104,11 +110,11 @@ ul#tabnav2 li {
 }
 
 #folder6 {
-  overflow:auto;padding:0px;padding-top:5px;
+  overflow:auto;padding:0px;padding-top:15px;
 }
 
 #folder6 p {
-  text-align:justify;font-size:0.9em;
+  text-align:justify;font-size:0.9em;padding-left:5px;padding-right:5px;
 }
 
 #folder7 {

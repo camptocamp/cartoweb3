@@ -539,6 +539,12 @@ class ServerPostgresRouting extends ServerRouting {
         Utils::checkDbError($db);
                 
         $result = $this->shortestPathQuery($node1, $node2, $parameters);
+        if (Pear::isError($result) &&
+            strpos($result->userinfo, 'No path found') !== false) {
+            $this->getServerContext()->addMessage($this, 'pathNotFound',
+                     I18nNoop::gt("No path found"));        
+            return NULL;
+        }
         Utils::checkDbError($result);
 
         $routingResult = new RoutingResult();

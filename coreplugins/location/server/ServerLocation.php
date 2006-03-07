@@ -764,7 +764,7 @@ class ServerLocation extends ClientResponderAdapter
 
         $msMapObj->setExtent($bbox->minx, $bbox->miny, 
                              $bbox->maxx, $bbox->maxy);
-        
+
         if ($scale) {            
             $center = ms_newPointObj();
             $center->setXY($msMapObj->width/2, $msMapObj->height/2); 
@@ -846,10 +846,9 @@ class ServerLocation extends ClientResponderAdapter
         if (!class_exists($locationCalculatorClass))
             throw new CartoserverException('Unknown location request: ' .
                                            $requ->locationType);
-        
+
         $calculator = new $locationCalculatorClass($this,
                                                    $requ->$locationType);
-        
         $bbox = $calculator->getBbox();
         if (is_null($bbox))
             throw new CartoserverException('null bbox returned from location' .
@@ -871,15 +870,19 @@ class ServerLocation extends ClientResponderAdapter
 
         $this->doLocation($bbox, $scale);
 
-        // Save the crosshair StyledShape. The shape will be draw later in $this->handleDrawing()
-        if (isset($calculator->requ->crosshair) && !is_null($calculator->requ->crosshair)) {
+        // Save the crosshair StyledShape. 
+        // The shape will be draw later in $this->handleDrawing()
+        if (isset($calculator->requ->crosshair) 
+            && !is_null($calculator->requ->crosshair)) {
             $this->crosshair = $calculator->requ->crosshair;
         }
 
         $maxBbox = NULL;
         if (isset($requ->locationConstraint->maxBbox))
             $maxBbox = $requ->locationConstraint->maxBbox;
-        $this->doBboxAdjusting($maxBbox);
+            
+        if (!$this->getConfig()->noBboxAdjusting)
+            $this->doBboxAdjusting($maxBbox);            
 
         return $this->getLocationResult();
     }
@@ -903,11 +906,16 @@ class ServerLocation extends ClientResponderAdapter
             $locShortcuts[] = $locShortcut;
         }
                                                     
+        $msMapObj = $this->serverContext->getMapObj();
+
         $init = new LocationInit();
         $init->scales = $this->visibleScales;
         $init->minScale = $this->getConfig()->minScale;
         $init->maxScale = $this->getConfig()->maxScale;
         $init->shortcuts = $locShortcuts;
+        $init->fullExtent = new Bbox();
+        $init->fullExtent->setFromMsExtent($msMapObj->extent);
+
         return $init;
     }
 }

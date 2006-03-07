@@ -3,24 +3,25 @@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-
-mapId = demoPlugins;
+mapId = demoPlugins
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, views, layerReorder, search, routing, demoRouting
+loadPlugins = exportCsv, outline, views, layerReorder, demoLocation, checkInstall @ROUTING_PLUGINS@
 
-authLang = fr, en
-orderLang = en, fr
+;## Internationalization ##
+defaultLang = fr
+langList = fr, en
+
+; Indicates how to render toolbar
+toolbarRendering = outline
 
 ; Views management
 viewOn = true
-viewStorage = db
-viewablePlugins = location, layers, query, outline
+viewStorage = file     ;possible values are 'file' and 'db'
+viewablePlugins = demoLocation, layers, query, outline
 viewMetas = author
-viewDsn = pgsql://www-data@localhost/demodb
 viewAuth = all
-;viewSavedRequest = personalVar1, personalVar2

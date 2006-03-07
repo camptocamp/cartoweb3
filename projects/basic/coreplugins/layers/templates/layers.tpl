@@ -32,7 +32,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 {if $element.isDropDown}
   <select name="layers_dropdown_{$element.parentId}">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
-  </select>
+  </select><br />
 {/if}
 
 {if $element.elements}

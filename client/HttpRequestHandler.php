@@ -239,7 +239,7 @@ class DhtmlSelectionParser {
         $type = $_REQUEST[self::SELECTION_TYPE];
         if ($type == 'point') 
             return self::getPointShape($imageSize, $bbox); 
-        else if ($type == 'line') 
+        else if ($type == 'polyline') 
             return self::getLineShape($imageSize, $bbox);
         else if ($type == 'rectangle') 
             return self::getRectangleShape($imageSize, $bbox);
@@ -277,7 +277,9 @@ class HttpRequestHandler {
      * @return boolean
      */
     static function isButtonPushed($name) {
-        return isset($_REQUEST[$name . '_x']) || isset($_REQUEST[$name . '_y']);
+        return isset($_REQUEST[$name])
+        	|| isset($_REQUEST[$name . '_x'])
+        	|| isset($_REQUEST[$name . '_y']);
     }
 
     /**
@@ -370,21 +372,20 @@ class HttpRequestHandler {
      * @return mixed request
      */
     private function handleTool(ClientPlugin $plugin, ToolDescription $tool) {
-    
+
         $cartoForm = $this->cartoclient->getCartoForm();
-        
+
         if ($cartoForm->pushedButton == CartoForm::BUTTON_MAINMAP) {
             if (!($tool->appliesTo & ToolDescription::MAINMAP)) {
                 return NULL;
             }
-            return $plugin->handleMainmapTool($tool, 
-                            $cartoForm->mainmapShape);
+            return $plugin->handleMainmapTool($tool, $cartoForm->mainmapShape);
+
         } else if ($cartoForm->pushedButton == CartoForm::BUTTON_KEYMAP) {
             if (!($tool->appliesTo & ToolDescription::KEYMAP)) {
                 return NULL;
             }
-            return $plugin->handleKeymapTool($tool, 
-                            $cartoForm->keymapShape);
+            return $plugin->handleKeymapTool($tool, $cartoForm->keymapShape);
         }
     }
 
@@ -411,6 +412,13 @@ class HttpRequestHandler {
         $tools = $this->cartoclient->getPluginManager()->
                 callPluginImplementing($plugin, 'ToolProvider', 'getTools');
         
+        foreach ($tools as $tool) {
+            if ($this->isButtonPushed($tool->id) &&
+                $tool->appliesTo & ToolDescription::APPLICATION) {
+                    return $plugin->handleApplicationTool($tool);
+            }
+        }
+
         foreach ($tools as $tool) {
             $this->log->debug('tool is ' . $tool->id);
             $this->log->debug('request ' . $toolRequest);

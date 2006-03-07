@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-23 19:09+0200\n"
+"POT-Creation-Date: 2005-11-06 11:56+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,18 +89,21 @@ msgid "Zoom out to see layer"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Id Recentering"
+msgid "Id recentering"
 msgstr ""
 
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on:"
-msgstr ""
+#correction bug
+msgid "IdRecentering"
+msgstr "Identifiers recentering"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's:"
-msgstr ""
+msgid "Layer to center on : "
+msgstr "Layer :"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's : "
+msgstr ""
+
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
 msgstr ""
@@ -110,8 +113,9 @@ msgid "X :"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
-msgid "Y:"
-msgstr ""
+#, fuzzy
+msgid "Y :"
+msgstr "Y :"
 
 #: projects/demoCW3/coreplugins/location/templates/scales.tpl
 msgid "Scale :"
@@ -162,36 +166,11 @@ msgstr ""
 msgid "query_clear"
 msgstr "Clear query"
 
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Click to Close"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Drag to Move"
-msgstr ""
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Resultats de la requete"
-msgstr "Query results"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Zonage"
-msgstr "Layer"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Nombre de resultats"
-msgstr "Number of results"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Retour"
-msgstr "Top of the page"
-
-#: projects/demoCW3/coreplugins/tables/templates/tables.tpl
-msgid "Download CSV"
-msgstr ""
-
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "please"
+msgstr "please"
+
 msgid "login"
 msgstr ""
 
@@ -317,27 +296,6 @@ msgstr ""
 msgid "Clear outline"
 msgstr ""
 
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Search service"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Search"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Search by ..."
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Enter a name"
-msgstr ""
-
-#: projects/demoCW3/plugins/search/templates/search.tpl
-msgid "Select an option"
-msgstr ""
-
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr ""
@@ -353,14 +311,6 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "welcome"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "reset session"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Reset session"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -400,6 +350,10 @@ msgid "Themes"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid "Outline"
 msgstr ""
 
@@ -416,11 +370,11 @@ msgid "Data sources"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Nima:"
+msgid "Nima :"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Gtopo30:"
+msgid "Gtopo30 :"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -437,10 +391,6 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "EPSG 32632"
-msgstr ""
-
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "Your browser does not support search services"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -467,7 +417,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
-"Once you have chosen your data, click on the Refresh button, located beneath "
+"Once you have chosen your data, click on the OK button, located beneath "
 "the tab, to update your changes"
 msgstr ""
 
@@ -779,7 +729,8 @@ msgid ""
 "Access to different elements of Cartoweb can be allowed or denied according "
 "to who is currently using the application. Both functionnalities and data "
 "may have access restrictions. For this demo, you can access to more rights "
-"on the data by using login 'demo' and password 'demo'."
+"by using login 'demo' and password 'demo'. You can then access to the train "
+"data and to the print fonctionnalities."
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -787,7 +738,7 @@ msgid "For more information, you can have a look to the "
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Cartoweb Documentation"
+msgid "Cartoweb documentation"
 msgstr ""
 
 #: projects/demoCW3/templates/mainmap.tpl
@@ -814,32 +765,17 @@ msgstr "Help"
 msgid "print"
 msgstr "Print"
 
-#: plugins/search/client/ClientSearch.php:268
-#, php-format
-msgid "%s results"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "reset session"
 msgstr ""
 
-#: toolbar
-#msgid "zoomin"
-#msgstr "Zoom in"
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "Reset session"
+msgstr ""
 
-#msgid "zoomout"
-#msgstr "Zoom out"
-
-#msgid "pan"
-#msgstr "Pan"
-
+# Dynamic elements
 msgid "query"
 msgstr "Query"
 
-#msgid "outline_point"
-#msgstr "Point"
-
-#msgid "outline_rectangle"
-#msgstr "Rectangle"
-
 msgid "outline_poly"
 msgstr "Polygon"
-
-#~ msgid "Recherche"
-#~ msgstr "Search"

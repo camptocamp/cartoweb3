@@ -320,8 +320,11 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
         $username = $this->auth->getUsername();
         $securityManager->setUser($username);
         
-        if ($this->getCartoclient()->clientAllowed())
+        if (empty($this->loginFailed) && 
+            $this->getCartoclient()->clientAllowed()) {
             return;
+       }
+
         $this->showLogin();
     }
     

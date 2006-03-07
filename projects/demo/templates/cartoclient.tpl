@@ -25,16 +25,35 @@
     //-->
   </script>
   {/if}
+
+  <!-- Ajax related js includes - External libraries -->
+  <script type="text/javascript" src="{r type=js}prototype-1.3.1.js{/r}"></script>
+
+  <!-- Ajax related js includes - Global logic -->
+  <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxHandler.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
+
+  <!-- Ajax related js includes - Per plugin logic -->
+  <!-- Coreplugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=location}Location.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=layers}Layers.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=images}Images.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>{/if}
+  <!-- Plugins -->
+  {if true}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
+  {if true}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
   <script language="JavaScript" type="text/javascript">
     <!--
     {literal}
     window.onload = function() {
-      if (typeof onLoadString == "string") {
+      if (typeof onLoadString == "string") {      
         eval(onLoadString);
       }
-    }
+    }	
     {/literal}
     //-->
   </script>
@@ -54,7 +73,7 @@
       {if $lang == $currentLang}
         <img class="lang_on" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" />
       {else}
-        <a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
+        <a href="javascript:document.carto_form.action='{$selfUrl}?lang={$lang}';FormItemSelected();" onclick="javascript:xShow(xGetElementById('mapAnchorDiv'));"><img class="lang_off" name="{$lang}" src="{r type=gfx/layout}language_{$lang}.gif{/r}" alt="{$lang}" /></a>
       {/if}
     {/foreach}
   </div>
@@ -62,13 +81,13 @@
 </div>
 <!-- header ends here -->
 
-<form method="post" action="{$smarty.server.PHP_SELF}" name="carto_form">
+<form method="post" action="{$selfUrl}" name="carto_form" id="carto_form">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
   <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
-  <input type="hidden" name="selection_type" />
-  <input type="hidden" name="selection_coords" />
-  <input type="hidden" name="features" />
+  <input type="hidden" name="selection_type" id="selection_type" />
+  <input type="hidden" name="selection_coords" id="selection_coords" />
+  <input type="hidden" name="features" id="features" />
   <input type="hidden" name="project" value="{$project}" />
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
@@ -93,21 +112,21 @@
         </td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
-        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" alt="NE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" id="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" id="pan_n" alt="N" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" id="pan_ne" alt="NE" /></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
+        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" id="pan_w" alt="W" /></td>
         <td valign="top">
           {include file="mainmap.tpl"}
         </td>
-        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
+        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" id="pan_e" alt="E" /></td>
       </tr> 
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" id="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" id="pan_s" alt="S" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" id="pan_se" alt="SE" /></td>
       </tr>
       <tr>
         <td colspan="3">
@@ -124,7 +143,7 @@
        <tr>
          <td colspan="2" valign="top" align="center">
               {if $scalebar_path|default:''}
-               <img src="{$scalebar_path}" 
+               <img id="scalebar" src="{$scalebar_path}" 
                 alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
                 height="{$scalebar_height}" title="" />
               {/if}
@@ -167,7 +186,7 @@
       </tr>
       {/if}
 
-  {if $tables_result|default:''}
+  {if $tables_result|default:true}
   <tr>
    <td colspan="3">
     <center>
@@ -178,14 +197,16 @@
       <tr>
         <td>
          <center>
-          {$tables_result}
+         	<div id="tables_result">
+          		{$tables_result}
+          	</div>
          </center>
         </td>
      </tr>
      <tr>
       <td align="center">
         &nbsp;<br />
-    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button"/>
+    <input type="submit" name="query_clear" value="{t}Query Clear{/t}" class="form_button" onClick="{literal}AjaxHandler.doAction('Query.Clear', {clickedElement: this});return false;{/literal}" />
       </td>
      </tr>
      </table>
@@ -225,7 +246,6 @@
     <div id="container">
     <!-- folder 1 starts here -->
     <div id="folder1" class="folder">
-      <br />
       {$layers}
     </div>
     <!-- end of folder 1 -->
@@ -241,7 +261,6 @@
 
     <!-- folder 4 starts here -->
     <div id="folder4" class="folder">
-      <br />
       <fieldset>
        <legend>{t}Data sources{/t}</legend>
        <ul>
@@ -263,13 +282,14 @@
   
     <!-- folder 3 starts here -->
     <div id="folder3" class="folder">
-      <br />
-    
-      {if $hello_active|default:''}
-      <p>Hello plugin test: <br />
-      {$hello_message} <br />
-      <input type="text" name="hello_input" /></p>
-      {/if}
+      <div id="helloPlugin">
+	      {if $hello_active|default:''}
+	      <p>Hello plugin test: <br />
+	      <span id="hello_message">{$hello_message}</span> <br />
+	      <input type="text" name="hello_input" id="hello_input" /></p>
+	      <input type="submit" name="hello_submit" id="hello_submit" />
+	      {/if}
+      </div>
     
       {if $shortcuts_active|default:''}
       {$shortcuts}
@@ -292,7 +312,6 @@
   
     <!-- folder 2 starts here -->
     <div id="folder2" class="folder">
-      <br />
         {if $exportPdf|default:''}
           {$exportPdf}
         {else}

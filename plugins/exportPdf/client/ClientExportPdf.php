@@ -85,10 +85,16 @@ class ClientExportPdf extends ExportPlugin
     protected $charset;
 
     /**
+     * GUI mode constants
+     */
+    const GUIMODE_CLASSIC = 'classic';
+    const GUIMODE_ROTATE  = 'rotate';
+
+    /**
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log =& LoggerManager::getLogger(__CLASS__);        
         parent::__construct();
     }
 
@@ -119,6 +125,9 @@ class ClientExportPdf extends ExportPlugin
      * @see InitUser::handleInit()
      */
     public function handleInit($exportPdfInit) {
+        if (empty($exportPdfInit->mapServerResolution)) {
+            throw new CartoclientException('MapServer resolution is missing.');
+        }
         $this->mapServerResolution = $exportPdfInit->mapServerResolution;
     }
 
@@ -352,7 +361,7 @@ class ClientExportPdf extends ExportPlugin
         if (!(isset($request[$pdfItem]) && trim($request[$pdfItem])) &&
             in_array($id, $this->optionalInputs))
             return;
-        
+       
         if (isset($iniObjects->blocks->$id))
             $block = $iniObjects->blocks->$id;
         else
@@ -460,9 +469,13 @@ class ClientExportPdf extends ExportPlugin
     protected function setGeneral($iniObjects, $request = array()) {
     
         $this->general = new PdfGeneral;
-        $this->general->mapServerResolution = $this->mapServerResolution;
-        
         $this->overrideProperties($this->general, $iniObjects->general);
+        
+        if (empty($this->mapServerResolution)) {
+            throw new CartoclientException(
+                'Plugin exportPdf is not activated on your CartoServer.');
+        }
+        $this->general->mapServerResolution = $this->mapServerResolution;
         
         $simple = (count($request) != 0);
         $this->general->formats = $this->getArrayFromList(
@@ -474,6 +487,10 @@ class ClientExportPdf extends ExportPlugin
                                                    $this->general->resolutions,
                                                    $simple);
         
+        $this->general->scales = $this->getArrayFromList(
+                                                   $this->general->scales,
+                                                   $simple);
+
         $this->general->activatedBlocks = $this->getArrayFromList(
                                                $this->general->activatedBlocks, 
                                                true);
@@ -487,10 +504,26 @@ class ClientExportPdf extends ExportPlugin
                                                    $this->general->resolutions,
                                                    $request);
 
+        $this->general->selectedScale = $this->getSelectedValue(
+                                                   'scale',
+                                                   $this->general->scales,
+                                                   $request);
+
         $this->general->selectedOrientation = $this->getSelectedValue(
                                                 'orientation',
                                                 array('portrait', 'landscape'),
                                                 $request);
+                                                
+        if (isset($request['pdfMapAngle'])) {
+            $this->general->mapAngle = $request['pdfMapAngle'];
+        }
+        if (isset($request['pdfMapCenterX'])) {
+            $this->general->mapCenterX = $request['pdfMapCenterX'];
+        }
+        if (isset($request['pdfMapCenterY'])) {
+            $this->general->mapCenterY = $request['pdfMapCenterY'];
+        }
+                                                
     }
 
     /**
@@ -589,7 +622,6 @@ class ClientExportPdf extends ExportPlugin
      * @param Smarty
      */
     public function renderForm(Smarty $template) {
-
         $template->assign('exportPdf', $this->drawUserForm());
     }
 
@@ -622,11 +654,11 @@ class ClientExportPdf extends ExportPlugin
                    'pdfFormat_options'      => $this->general->formats,
                    'pdfFormat_selected'     => $this->general->selectedFormat,
                    'pdfResolution_options'  => $pdfResolution_options,
-                   'pdfResolution_selected' => $this->general->
-                                                            selectedResolution,
+                   'pdfResolution_selected' => $this->general->selectedResolution,
                    'pdfAllowedResolutions'  => $allowedResolutions,
-                   'pdfOrientation'         => $this->general->
-                                                            defaultOrientation,
+                   'pdfScale_options'       => $this->general->scales,
+                   'pdfScale_selected'      => $this->general->selectedScale,
+                   'pdfOrientation'         => $this->general->defaultOrientation,
                        ));
 
         foreach ($this->optionalInputs as $input) {
@@ -635,8 +667,9 @@ class ClientExportPdf extends ExportPlugin
                                            $this->general->activatedBlocks));
         }
         
-        return $this->smarty->fetch('form.tpl');
-    }
+        $tplFile = 'form' . ucfirst($this->general->guiMode) . '.tpl';
+        return $this->smarty->fetch($tplFile);
+    } 
 
     /**
      * Returns given distance at selected printing resolution.
@@ -679,6 +712,90 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Returns shape (a rectangle or a rotated rectangle) that will be
+     * drawn on overview
+     * @return StyledShape
+     */
+    private function getOverviewShape($mapBbox) {
+
+        $angle = 0;
+        if (!empty($this->general->mapAngle)) {
+            $angle = deg2rad($this->general->mapAngle);            
+        }
+        if (is_null($angle) || $angle == 0) {
+            
+            // No rotation, returns a rectangle
+            $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
+                                     $mapBbox->maxx, $mapBbox->maxy);
+        } else {
+            
+            // Rotation, returns a rotated rectangle (polygon)
+            $points = array();
+            
+            // Center
+            $cx = ($mapBbox->maxx + $mapBbox->minx) / 2;
+            $cy = ($mapBbox->maxy + $mapBbox->miny) / 2;
+            
+            // Move to origin
+            $x1 = $mapBbox->maxx - $cx;
+            $y1 = $mapBbox->maxy - $cy;
+            
+            // Rotate
+            $x1p = $x1 * cos($angle) - $y1 * sin($angle);
+            $y1p = $x1 * sin($angle) + $y1 * cos($angle);
+            
+            // Move to origin                        
+            $x2 = $mapBbox->minx - $cx;
+            $y2 = $mapBbox->maxy - $cy;
+            
+            // Rotate
+            $x2p = $x2 * cos($angle) - $y2 * sin($angle);
+            $y2p = $x2 * sin($angle) + $y2 * cos($angle);
+
+            // Create polygon
+            $points[] = new Point($mapBbox->maxx - $x1 + $x1p,
+                                  $mapBbox->maxy - $y1 + $y1p);                                   
+            $points[] = new Point($mapBbox->minx - $x2 + $x2p,
+                                  $mapBbox->maxy - $y2 + $y2p);
+            $points[] = new Point($mapBbox->minx + $x1 - $x1p,
+                                  $mapBbox->miny + $y1 - $y1p);
+            $points[] = new Point($mapBbox->maxx + $x2 - $x2p,
+                                  $mapBbox->miny + $y2 - $y2p);                                                                                  
+            $outline = new Polygon();            
+            $outline->points = $points; 
+        }
+        $styledOutline = new StyledShape();
+        $styledOutline->shape = $outline;
+                
+        $shapeStyle = new ShapeStyle();
+                
+        if (isset($this->general->overviewColor) && 
+            $this->general->overviewColor &&
+            $this->general->overviewColor != 'none') {
+  
+            list($r, $g, $b) = PrintTools::switchColorToRgb(
+                                    $this->general->overviewColor);
+            $shapeStyle->color->setFromRGB($r, $g, $b);
+        } else {
+            $shapeStyle->color->setFromRGB(-1, -1, -1);
+        }
+                
+        if (isset($this->general->overviewOutlineColor) &&
+            $this->general->overviewOutlineColor &&
+            $this->general->overviewOutlineColor != 'none') {
+
+            list($r, $g, $b) = PrintTools::switchColorToRgb(
+                               $this->general->overviewOutlineColor);
+            $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
+        } else {
+            $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
+        }
+                
+        $styledOutline->shapeStyle = $shapeStyle;
+        return $styledOutline;
+    }
+
+    /**
      * Builds export configuration.
      * @param string keymap/overview type
      * @param Bbox if set, indicates mainmap extent to outline in overview map
@@ -688,8 +805,15 @@ class ClientExportPdf extends ExportPlugin
         
         $config = new ExportConfiguration();
 
-        $scale = $this->getLastScale();
+        if (isset($this->general->guiMode) &&
+            $this->general->guiMode == self::GUIMODE_ROTATE &&
+            !empty($this->general->selectedScale)) {
+            $scale = $this->general->selectedScale;
+        } else {
+            $scale = $this->getLastScale();
+        }
         $mapWidth = $mapHeight = 0;
+        $mapAngle = NULL;
 
         if ($keymap == 'overview') {
             // getting overview map
@@ -708,37 +832,7 @@ class ClientExportPdf extends ExportPlugin
                 $this->cartoclient->getPluginManager()
                                   ->getPlugin('outline') != NULL) {
                 
-                $outline = new Rectangle($mapBbox->minx, $mapBbox->miny,
-                                         $mapBbox->maxx, $mapBbox->maxy);
-                $styledOutline = new StyledShape();
-                $styledOutline->shape = $outline;
-                
-                $shapeStyle = new ShapeStyle();
-                
-                if (isset($this->general->overviewColor) && 
-                    $this->general->overviewColor &&
-                    $this->general->overviewColor != 'none') {
-  
-                    list($r, $g, $b) = PrintTools::switchColorToRgb(
-                                                $this->general->overviewColor);
-                    $shapeStyle->color->setFromRGB($r, $g, $b);
-                } else {
-                    $shapeStyle->color->setFromRGB(-1, -1, -1);
-                }
-                
-                if (isset($this->general->overviewOutlineColor) &&
-                    $this->general->overviewOutlineColor &&
-                    $this->general->overviewOutlineColor != 'none') {
-
-                    list($r, $g, $b) = PrintTools::switchColorToRgb(
-                                         $this->general->overviewOutlineColor);
-                    $shapeStyle->outlineColor->setFromRGB($r, $g, $b);
-                } else {
-                    $shapeStyle->outlineColor->setFromRGB(-1, -1, -1);
-                }
-                
-                $styledOutline->shapeStyle = $shapeStyle;
-                
+                $styledOutline = $this->getOverviewShape($mapBbox);
                 $config->setPrintOutline($styledOutline);
             }
             
@@ -758,8 +852,7 @@ class ClientExportPdf extends ExportPlugin
                 // new map dimensions:
                 $mapWidth = $this->getNewMapDim($mainmap->width);
                 $mapHeight = $this->getNewMapDim($mainmap->height);
-
-                // scale: no change ("paper" scale = "screen" scale)
+                $mapAngle = $this->general->mapAngle;
             }
         }
        
@@ -770,6 +863,7 @@ class ClientExportPdf extends ExportPlugin
         // map dimensions:
         $config->setMapWidth($mapWidth);
         $config->setMapHeight($mapHeight);
+        $config->setMapAngle($mapAngle);
       
         // scale:
         $scale *= $this->general->mapServerResolution;
@@ -781,9 +875,16 @@ class ClientExportPdf extends ExportPlugin
         
         // map center coordinates:
         $savedBbox = $this->getLastBbox();
-        $center = $savedBbox->getCenter();
+        $center = NULL;
+        if (!is_null($this->general->mapCenterX)
+            && !is_null($this->general->mapCenterY)) {
+            $center = new Point($this->general->mapCenterX,
+                                $this->general->mapCenterY);
+        } else {
+            $center = $savedBbox->getCenter();
+        }
         $config->setPoint($center);
-
+        
         $config->setBbox($savedBbox);      
         $config->setZoomType('ZOOM_SCALE');
         $config->setLocationType('zoomPointLocationRequest');

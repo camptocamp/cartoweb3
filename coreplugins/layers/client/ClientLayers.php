@@ -184,7 +184,7 @@ class LayerNode {
  */
 class ClientLayers extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable, InitUser {
+                              Exportable, InitUser, Ajaxable {
     /**
      * @var Logger
      */
@@ -312,7 +312,7 @@ class ClientLayers extends ClientPlugin
     const RENDERING_TREE = 'tree';
     const RENDERING_RADIO = 'radio';
     const RENDERING_DROPDOWN = 'dropdown';
-
+    
     /**
      * Constructor
      */
@@ -653,11 +653,32 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Handles data from GET request. Not used/implemented yet.
+     * Handles data from GET request.
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
         $this->handleSwitches($request);
+       
+        // Unselects layers listed as is in GET request.
+        if (!empty($request['layer_unselect'])) {
+            $layersToRemove = explode(',', $request['layer_unselect']);
+            foreach ($layersToRemove as $layerId) {
+                if (isset($this->layersData[$layerId])) {
+                    $this->layersData[$layerId]->selected = false;
+                }
+            }
+        }
+        
+        // Selects layers listed as is in GET request.
+        if (!empty($request['layer_select'])) {
+            $layersToAdd = explode(',', $request['layer_select']);
+            foreach ($layersToAdd as $layerId) {
+                if (isset($this->layersData[$layerId])) {
+                    $this->layersData[$layerId]->selected = true;
+                }
+            }
+              
+        }
     }
     
     /**
@@ -1238,6 +1259,10 @@ class ClientLayers extends ClientPlugin
      */
     protected function drawSwitches() {
 
+        if (empty($this->layersState->switchId)) {
+            $this->layersState->switchId = ChildrenSwitch::DEFAULT_SWITCH;
+        }
+
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $switchValues = array(ChildrenSwitch::DEFAULT_SWITCH);
         $switchLabels = array(I18n::gt('Default'));
@@ -1251,7 +1276,7 @@ class ClientLayers extends ClientPlugin
         
         if (count($switchValues) == 1)
             return '';
-
+            
         $this->smarty->assign(array('switch_values' => $switchValues,
                                     'switch_labels' => $switchLabels,
                                     'switch_id' => $this->layersState->switchId));
@@ -1263,8 +1288,32 @@ class ClientLayers extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-        $template->assign('layers', $this->drawLayersList());
-        $template->assign('switches', $this->drawSwitches());
+        $template->assign(array('layers'    => $this->drawLayersList(),
+                                'switches'  => $this->drawSwitches(),
+                                'switch_id' => $this->layersState->switchId,
+                                ));
+    }
+
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
+        $ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
+        $ajaxPluginResponse->addHtmlCode('switch_id', $this->layersState->switchId);
+        $ajaxPluginResponse->addVariable('startOpenNodes',
+                        $startOpenNodes = "'".implode('\',\'', $this->unfoldedIds)."'");
+    }
+
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Layers.LayerShowHide':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+            case 'Layers.LayerDropDownChange':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enableCoreplugin('layers');
+                $pluginEnabler->enableCoreplugin('images');
+            break;
+        }
     }
 
     /**

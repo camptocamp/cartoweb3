@@ -41,8 +41,7 @@ if ($type == 'file') {
         terminate('Source is not valid.');
     }
 
-    //define('VIEWS_HOME', sprintf('%swww-data/views/%s/', CARTOWEB_HOME, $source));
-    define('VIEWS_HOME', sprintf('%sscripts/views/%s/', CARTOWEB_HOME, $source));
+    define('VIEWS_HOME', sprintf('%swww-data/views/%s/', CARTOWEB_HOME, $source));
 
     if (!$files = @scandir(VIEWS_HOME)) {
         terminate(printf('Directory %s does not exist or is not readable.',
@@ -60,8 +59,7 @@ if ($type == 'file') {
         
         $newViewData = $wf->encapsulate($viewData);
         
-        // FIXME: following htmlspecialchars seems not converting " (!?)
-        $newViewData = htmlspecialchars(serialize($newViewData));
+        $newViewData = htmlspecialchars($newViewData);
         $viewContent->sessionData = $newViewData;
         
         file_put_contents(VIEWS_HOME . $file, $viewContent->asXML());
@@ -78,7 +76,7 @@ if ($type == 'file') {
         terminate('Failed opening DB connection: ' . $db->getMessage());
     }
 
-    $res = $db->query('SELECT views_id, sessiondata FROM views');
+    $res = $db->query('SELECT views_id FROM views');
 
     if (DB::isError($res)) {
         terminate('Error while querying views table: ' . $res->getMessage());
@@ -91,16 +89,36 @@ if ($type == 'file') {
 
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
         $id = $row['views_id'];
-        $viewData = unserialize($row['sessiondata']);
+
+        $sql = sprintf('SELECT sessiondata FROM views where views_id = %d', $id);
+        $res2 = $db->query($sql);
+
+        if (DB::isError($res2)) {
+            print "Failed to get sessiondata from view #$id: "
+                  . $res2->getMessage() . ".\n";
+            continue;
+        }
+
+        $row2 =& $res2->fetchRow(DB_FETCHMODE_ASSOC);
+
+        $viewData = unserialize($row2['sessiondata']);
+
+        $res2->free();
+        
+        if (empty($viewData)) {
+            print "Failed retrieving data from view #$id\n";
+            continue;
+        }
+
         $newViewData = $wf->encapsulate($viewData);
 
         $sql = sprintf("UPDATE views set sessiondata = '%s' " .
                        'WHERE views_id = %d',
-                       addslashes(serialize($newViewData)), $id);
-        $res2 = $db->query($sql);
+                       addslashes($newViewData), $id);
+        $res3 = $db->query($sql);
 
-        if (DB::isError($res2)) {
-            print "Failed to update view #$id: " . $res2->getMessage() . ".\n";
+        if (DB::isError($res3)) {
+            print "Failed to update view #$id: " . $res3->getMessage() . ".\n";
         } else {
             print "View #$id updated.\n";
         }

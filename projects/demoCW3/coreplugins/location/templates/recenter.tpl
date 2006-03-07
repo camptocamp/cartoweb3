@@ -8,14 +8,14 @@
     <td width="50%" align="center">
       <label>{t}Y:{/t}</label>&nbsp;<input type="text" class="input_text" name="recenter_y" size="7" maxlength="7" />
     </td>
+    <td>
+      <a href="javascript:doSubmit();"><img src="{r type=gfx/layout}xy.gif{/r}" id="refresh_recenter" alt="{t}Recenter{/t}" title="{t}Recenter{/t}"></img></a>
+    </td>
   </tr>
   <tr>
     <td style="font-size:0.7em;" align="center">(142 776 - 1 083 857)</td>
     <td style="font-size:0.7em;" align="center">(4 757 216 - 5 409 261)</td>
   </tr>
 </table>
-<center>
-<input type="submit" name="refresh" value="{t}Recenter{/t}" class="form_button"/>
-</center>
 </fieldset>
 </div>

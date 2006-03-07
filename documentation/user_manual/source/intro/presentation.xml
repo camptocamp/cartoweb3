@@ -37,24 +37,29 @@
    <itemizedlist>
     <listitem>
      <para>
-     Sylvain Pasche
-     </para>
-    </listitem>
-    <listitem>
-     <para>
      Yves Bolognini
      </para>
     </listitem>
     <listitem>
      <para>
-     Alexandre Saunier
+     Mathieu Bornoz
      </para>
-    </listitem>  
+    </listitem>
     <listitem>
      <para>
-     Pierre Giraud
+     Oliver Christen
      </para>
-    </listitem>  
+    </listitem>
+    <listitem>
+     <para>
+     Damien Corpataux
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Olivier Courtin
+     </para>
+    </listitem>    
     <listitem>
      <para>
      Daniel Faivre
@@ -67,12 +72,32 @@
     </listitem>
     <listitem>
      <para>
-     Olivier Courtin
+     Marc Fournier
      </para>
-    </listitem>    
+    </listitem>
     <listitem>
      <para>
-     Arnaud Saint Leger
+     Florent Giraud
+     </para>
+    </listitem>  
+    <listitem>
+     <para>
+     Pierre Giraud
+     </para>
+    </listitem>  
+    <listitem>
+     <para>
+     David Jonglez
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+     Frédéric Junod
+     </para>
+    </listitem>  
+    <listitem>
+     <para>
+     Sylvain Pasche
      </para>
     </listitem>
     <listitem>
@@ -82,14 +107,14 @@
     </listitem>
     <listitem>
      <para>
-     David Jonglez
+     Arnaud Saint Leger
      </para>
     </listitem>
     <listitem>
      <para>
-     Marc Fournier
+     Alexandre Saunier
      </para>
-    </listitem>
+    </listitem>  
    </itemizedlist>
   </para>
  </sect1>

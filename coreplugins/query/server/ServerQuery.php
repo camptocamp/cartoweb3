@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Query plugin, server
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -175,6 +175,13 @@ class ServerQuery extends ClientResponderAdapter {
         $resultTable->tableTitle = $table1->tableTitle;
         $resultTable->columnIds = $table1->columnIds;
         $resultTable->columnTitles = $table1->columnTitles;
+        if ($policy == QuerySelection::POLICY_REPLACE) {
+            
+            $resultTable->rows = $table2->rows;
+            $resultTable->numRows = $table2->numRows;
+            return $resultTable;
+        }
+        
         $resultTable->rows = array();
         $resultTable->numRows = 0;
         

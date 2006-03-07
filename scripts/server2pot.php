@@ -28,44 +28,6 @@ if (isset($argv[1])) {
 }
 
 /**
- * Parses an INI file looking for variable ending with '.label'
- * @param string
- * @param string
- * @param array map text_to_translate => references
- * @return boolean
- */
-function parseIni($project, $mapId, &$texts) {
-
-    $iniPath = CARTOWEB_HOME;
-    if (!is_null($project)) {
-        $iniPath .= ProjectHandler::PROJECT_DIR . '/' . $project. '/';
-    }
-    $iniPath .= 'server_conf/' . $mapId . '/';
-    
-    if (!is_dir($iniPath)) {
-        return true;
-    }
-    $d = dir($iniPath);
-    while (false !== ($entry = $d->read())) {
-        if (!is_dir($entry) && substr($entry, -4) == '.ini') {
-            $iniFile = $iniPath . $entry;
-            $iniArray = parse_ini_file($iniFile);
-            foreach($iniArray as $key => $value) {
-                if (substr($key, -6) == '.label') {
-                    $info = $entry . ':' . $key;
-                    if (array_key_exists($value, $texts)) {
-                        $texts[$value] .= ',' . $info;
-                    } else {
-                        $texts[$value] = $info;
-                    }
-                }
-            }
-        }
-    }
-    return true;
-}
-
-/**
  * Adds a reference
  * @param string
  * @param string
@@ -236,7 +198,7 @@ foreach ($projects as $project) {
 
         print "Creating new template $fileName for project $project ";
         
-        parseIni($project, $mapId, $texts);
+        parseIni($project, $texts, $mapId);
         if (!parseMap($project, $mapId, $texts)) continue;
 
         $fh = fopen($file, 'w');

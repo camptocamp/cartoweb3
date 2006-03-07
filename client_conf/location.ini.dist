@@ -19,3 +19,6 @@ idRecenterActive = true
 
 ; ratio for panning, default is 1.0
 ;panRatio = 0.25
+
+; adds following icons in separated toolbar group
+groupFullextent = 2

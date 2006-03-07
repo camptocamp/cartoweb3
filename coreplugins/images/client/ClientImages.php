@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 class ImagesState {
  
     /**
-     * Main map height ans width
+     * Main map height and width
      * @var Dimension
      */
     public $mainmapDimension;
@@ -51,7 +51,7 @@ class ImagesState {
  */
 class ClientImages extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable {
+                              Exportable, Ajaxable {
     /**
      * @var Logger
      */
@@ -172,6 +172,11 @@ class ClientImages extends ClientPlugin
      */
     public function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
+
+        if ($this->getConfig()->collapsibleKeymap) {
+            $this->collapseKeymap = isset($request['collapse_keymap']) ?
+                                    $request['collapse_keymap'] : 0;
+        }
     }
     
     /**
@@ -231,14 +236,14 @@ class ClientImages extends ClientPlugin
         $drawAll = ($this->getCartoclient()->getOutputType()
                     != Cartoclient::OUTPUT_IMAGE);
 
-        // TODO: read from config if drawn        
         $scalebar_image = new Image();
-        $scalebar_image->isDrawn = $drawAll;
+        $scalebar_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawScalebar);
         $images->scalebar = $scalebar_image;
 
-        // TODO: read from config if drawn        
         $keymap_image = new Image();
-        $keymap_image->isDrawn = $drawAll;
+        $keymap_image->isDrawn = ($drawAll 
+            && !$this->getConfig()->noDrawKeymap);
         $images->keymap = $keymap_image;
 
         $mainmap_image = new Image();
@@ -325,44 +330,59 @@ class ClientImages extends ClientPlugin
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderForm(Smarty $template) {
-       
-        $template->assign(array(
+    public function renderFormPrepare() {
+        $assignArray['variables'] = array(
             'mainmap_path' => 
                  $this->getImageUrl($this->imagesResult->mainmap->path, false),
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
-                                ));
-    
+        ); 
+
         if ($this->imagesResult->keymap->isDrawn) {
-            $template->assign(array(
-                'keymap_path' => 
-                    $this->getImageUrl($this->imagesResult->keymap->path),
-                'keymap_width' => $this->imagesResult->keymap->width,
-                'keymap_height' => $this->imagesResult->keymap->height,
-                                    ));
+            $assignArray['variables']['keymap_path'] = $this->getImageUrl($this->imagesResult->keymap->path);
+            $assignArray['variables']['keymap_width'] = $this->imagesResult->keymap->width;
+            $assignArray['variables']['keymap_height'] = $this->imagesResult->keymap->height;
         }
         
         if ($this->imagesResult->scalebar->isDrawn) {
-            $template->assign(array(
-                'scalebar_path' => 
-                    $this->getImageUrl($this->imagesResult->scalebar->path),
-                'scalebar_width' => $this->imagesResult->scalebar->width,
-                'scalebar_height' => $this->imagesResult->scalebar->height,
-                                    ));
+            $assignArray['variables']['scalebar_path'] = $this->getImageUrl($this->imagesResult->scalebar->path);
+            $assignArray['variables']['scalebar_width'] = $this->imagesResult->scalebar->width;
+            $assignArray['variables']['scalebar_height'] = $this->imagesResult->scalebar->height;
         }
 
-        $mapSizesActive = $this->getConfig()->mapSizesActive;
-        $template->assign(array('mapsizes_active' => $mapSizesActive,
-                                'mapsizes' => $this->drawMapSizes(),
-                                ));
+        $assignArray['variables']['mapsizes_active'] = $this->getConfig()->mapSizesActive;
+        $assignArray['htmlCode']['mapsizes'] = $this->drawMapSizes();
 
         if ($this->getConfig()->collapsibleKeymap) {
-            $template->assign(array('collapseKeymap' => $this->collapseKeymap,
-                                    'collapsibleKeymap' => true,
-                                    ));
+	        $assignArray['variables']['collapseKeymap'] = $this->collapseKeymap;
+	        $assignArray['variables']['collapsibleKeymap'] = true;
         }
+        
+        return $assignArray;
     }
+
+    public function renderForm(Smarty $template) {
+    	$assignArray = $this->renderFormPrepare();
+    	$template->assign($assignArray['variables']);
+    	$template->assign($assignArray['htmlCode']);
+    }
+    
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+    	$assignArray = $this->renderFormPrepare();
+    	foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+	    	$ajaxPluginResponse->addVariable($assignKey, $assignValue);
+    	}    	
+    }
+
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+		switch ($actionName) {
+			case 'Images.changeMapSize':
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('location');
+				$pluginEnabler->enableCoreplugin('images');
+			break;
+		}			
+	}
 
     /**
      * @see Sessionable::saveSession()
@@ -397,6 +417,10 @@ class ClientImages extends ClientPlugin
         $mapWidth = $configuration->getMapWidth();
         if (!is_null($mapWidth))
             $mapRequest->imagesRequest->mainmap->width = $mapWidth;
+
+        $mapAngle = $configuration->getMapAngle();
+        if (!is_null($mapAngle))
+            $mapRequest->imagesRequest->mainmap->angle = $mapAngle;
     }    
 
     /**

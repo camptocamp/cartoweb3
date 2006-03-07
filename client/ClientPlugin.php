@@ -33,16 +33,12 @@ class ToolDescription {
      */
     const MAINMAP = 2;
     const KEYMAP = 4;
+    const APPLICATION = 8;
 
     /** 
      * @var string
      */
     public $id;
-    
-    /**
-     * @var string
-     */
-    public $action;
     
     /**
      * @var boolean
@@ -70,21 +66,30 @@ class ToolDescription {
     public $appliesTo;
     
     /**
+     * @var boolean
+     */
+    public $stateless;
+    
+    /**
      * Constructor
      * @param string
      * @param boolean
      * @param int
+     * @param int
      * @param boolean
      * @param int
+     * @param boolean
      */
-    public function __construct($id, $hasIcon, 
-                         $weight, $group = 1, $plugin = false, $appliesTo = self::MAINMAP) {
+    public function __construct($id, $hasIcon, $weight, 
+        $appliesTo=self::MAINMAP, $stateless = false, $group=1, $plugin=false) {
+        
         $this->id = $id;
         $this->hasIcon = $hasIcon;
         $this->weight = $weight;
+        $this->appliesTo = $appliesTo;
+        $this->stateless= $stateless;
         $this->group = $group;
         $this->plugin = $plugin;
-        $this->appliesTo = $appliesTo;
     }
 }
 
@@ -103,12 +108,18 @@ interface ToolProvider {
                                Shape $mainmapShape);
     
     /**
-     * Handles tool when key map was clicked
+     * Handles tool when keymap was clicked
      * @param ToolDescription description of tool
      * @param Shape selection on map
      */
     public function handleKeymapTool(ToolDescription $tool, 
                               Shape $keymapShape);
+
+    /**
+     * Handles tool when stateless application was clicked
+     * @param ToolDescription description of tool
+     */
+    public function handleApplicationTool(ToolDescription $tool);
 
     /** 
      * Returns the provided tools
@@ -169,6 +180,25 @@ interface GuiProvider {
      * @param string Smarty template object
      */
     public function renderForm(Smarty $template);
+}
+
+/**
+ * Interface for plugins that generate asynchronous responses
+ * @package Client
+ */
+interface Ajaxable {
+	/*
+	 * Modifies plugins' enable level for the given action
+	 * @param $actionName string Name Name of the action
+	 * @param $pluginEnabler PluginEnabler @see PluginEnabler
+	 */
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler);
+
+	/*
+	 * Populates a plugin' XML response to asynchronous request
+	 * @param $ajaxPluginResponse AjaxPluginResponse @see AjaxPluginResponse
+	 */
+	public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse);
 }
 
 /** 
@@ -302,6 +332,27 @@ interface FilterProvider {
 abstract class ClientPlugin extends PluginBase {
 
     /**
+     * Enable level of the plugin (used for AJAX calls)
+     * @var int
+     * @see PluginEnabler
+     * @see Cartoclient::callEnabledPluginImplementing()
+     * @see Cartoclient::callEnabledPluginsImplementing()
+     */
+     protected $enabledLevel = ClientPlugin::ENABLE_LEVEL_FULL;
+
+    /* 
+     * Enable levels definition
+     */
+    // ENABLE_LEVEL_LOAD: Load/create plugin session
+    const ENABLE_LEVEL_LOAD = 0;
+    // ENABLE_LEVEL_PROCESS: LOAD + filter+handle http request and save session
+    const ENABLE_LEVEL_PROCESS = 1;
+    // ENABLE_LEVEL_SERVER CALL: PROCESS + build server request and handle results
+    const ENABLE_LEVEL_SERVERCALL = 2;
+    // ENABLE_LEVEL_FULL: ENABLE_LEVEL_SERVERCALL + render GUI
+    const ENABLE_LEVEL_FULL = 3;
+
+    /**
      * @var Logger
      */
     private $log;
@@ -411,7 +462,26 @@ abstract class ClientPlugin extends PluginBase {
         }
         return NULL;
     }
-    
+	
+	public function setEnableLevel($enableLevel) {
+		// TODO: Check if enableLevel exists, if not
+		// throw new AjaxException ("ClientPlugin::$level is not defined");
+		$this->enabledLevel = $enableLevel;
+	}	
+	public function getEnabledLevel() {
+		return $this->enabledLevel;
+	}
+
+	public function enable() {
+		$this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_FULL);
+	}
+	public function disable() {
+		$this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_SERVERCALL);
+	}
+
+	public function isEnabledAtLevel($enableLevel) {
+		return $this->enabledLevel >= $enableLevel;
+	}
 }
 
 ?>

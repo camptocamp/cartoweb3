@@ -154,6 +154,7 @@ END]]> </programlisting> </para>
     </sect2>
     <sect2 id="user.query.mapfile.hilight">
       <title>Hilight Configuration</title>
+      <indexterm><primary>Hilight</primary></indexterm>
       <para> Hilight plugin can be used by any plugin to hilight objects on the 
         map. In basic &cartoweb; installation, only Query plugin uses this 
         functionality. As Hilight plugin is not a core plugin, it must be 

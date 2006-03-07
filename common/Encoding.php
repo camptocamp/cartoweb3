@@ -80,24 +80,40 @@ class Encoder {
     }
     
     /**
-     * Calls encoder's encode
-     * @param string
-     * @return string
+     * Calls encoder encode
+     * @param mixed
+     * @return mixed
      */
     static public function encode($text, $context = 'output') {
         //$array = debug_backtrace();
         //self::$log->debug("ENCODE($text,$context), " . $array[2]['class'] . "." . $array[2]['function']);     
+
+        if (is_array($text) || is_object($text)) {
+            foreach ($text as &$content) {
+                $content = self::encode($content, $context);
+            }
+            return $text;
+        }
+        
         return self::getEncoder($context)->encode($text);
     }
 
     /**
-     * Calls encoder's decode
-     * @param string
-     * @return string
+     * Calls encoder decode
+     * @param mixed
+     * @return mixed
      */
     static public function decode($text, $context = 'output') {
         //$array = debug_backtrace();
         //self::$log->debug("DECODE($text,$context), " . $array[2]['class'] . "." . $array[2]['function']);     
+
+        if (is_array($text) || is_object($text)) {
+            foreach ($text as &$content) {
+                $content = self::decode($content, $context);
+            }
+            return $text;
+        }
+        
         return self::getEncoder($context)->decode($text);
     }
     

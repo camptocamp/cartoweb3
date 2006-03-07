@@ -5,7 +5,7 @@
  * Double clic parameters
  * (DblClick emulation is required for some browsers)
  */
-dbl_click_delay = 200; // ms
+dbl_click_delay = 333; // ms
 dbl_click_tol = 3; // pixels
 /**
  * Min distance betwwen vertex when drawing lines
@@ -74,15 +74,10 @@ createMap = function() {
   mainmap.displayFeaturesCount();
   mainmap.snap("map");
   
-  // get the checked tool and its values
-  for (var i =0; i < myform.tool.length ; i++) {
-    if (myform.tool[i].checked) {
-      var func = myform.tool[i].onclick;
-      var start = func.toString().indexOf('{');
-      var end = func.toString().indexOf('}');
-      eval (func.toString().substring(start + 1, end));
-    }
-  }
+  // initial selected tool
+  if (typeof cw3_initial_selected_tool != "undefined")
+  	eval (cw3_initial_selected_tool);
+  
   xHide(xGetElementById('loadbarDiv'));
 };
 
@@ -92,6 +87,10 @@ createMap = function() {
  * @param aFeature
  */
 fillForm = function(aFeature) {
+  if (typeof(aFeature) == 'undefined') {
+  	return; // prevents from an error when pressing enter in the label input
+  }
+
   // TODO let the possibility to send more than one feature
   var coords = new String();
   for (var i=0;i<aFeature.vertices.length;i++) {
@@ -104,7 +103,7 @@ fillForm = function(aFeature) {
       var shapeType = "point";
       break;
     case "polyline" :
-      var shapeType = "line";
+      var shapeType = "polyline";
       break;
     case "polygon" :
       var shapeType = "polygon";
@@ -126,13 +125,53 @@ emptyForm = function() {
  */
 storeFeatures = function() {
   for (var i=0;i < mainmap.currentLayer.features.length; i++) {
-    var feature = mainmap.currentLayer.features[i];
-    if (feature.operation != 'undefined')
-        myform.features.value += feature.getWKT() + '|' + feature.id + '|' + feature.attributes +  '|' + feature.operation + '||';
+    var aFeature = mainmap.currentLayer.features[i];
+    for (var j=0; j < mainmap.editAttributeNames.length; j++) {
+      if (mainmap.editAttributeTypes[j] == "")
+      	continue;
+      var input = eval("myform['edit_feature_" + aFeature.id + "[" + mainmap.editAttributeNames[j] + "]']");
+      if (!validateFormInput(mainmap.editAttributeTypes[j], input.value)) {
+        return false;
+      }
+    }
+    if (aFeature.operation != 'undefined') {
+      // store geometry
+      createInput(myform, "edit_feature_" + aFeature.id + "[WKTString]", aFeature.getWKT(), 'hidden');
+      // store operation
+      createInput(myform, "edit_feature_" + aFeature.id + "[operation]", aFeature.operation, 'hidden');
+    }
   }
-  if (myform.features)
-      myform.features.value = myform.features.value.substring(0, myform.features.value.length - 2);
+  return true;
 };
+
+/**
+ * Store the feature operation in the form
+ */
+setFeatureOperation = function(aFeature, operation) {
+  aFeature.operation = operation;
+  mainmap.displayFeaturesCount();
+};
+
+/**
+ * Creates an form input
+ * @param form form name
+ * @param name name of the input
+ * @param value value of the input
+ */
+createInput = function(elt, name, value, type) {
+  if (document.all) {
+    var str = '<input type="'+type+'" name="'+name+'" value="'+value+'" />';
+    var input = xCreateElement(str);
+  }
+  else {
+    var input = xCreateElement("input");
+    input.type = type;
+    input.name = name;
+    input.value = value;
+  }
+  xAppendChild(elt, input);
+  return input;
+}
 
 /**
  * Submits the form
@@ -151,6 +190,10 @@ Map.prototype.snap = function(aDisplay) {
 };
 
 Map.prototype.resetMapEventHandlers = function() {
+  if (this.onToolUnset != undefined) {
+    this.onToolUnset();
+  }
+  this.onToolUnset = undefined;
   this.onFeatureInput = undefined;
   this.onClic = undefined;
   this.onSelPoint = undefined;
@@ -188,28 +231,48 @@ Map.prototype.displayFeaturesCount = function() {
 /***** LOCATION ****/
 Map.prototype.zoomout = function(aDisplay) {
   this.resetMapEventHandlers();
+  
+  this.setCurrentLayer('drawing');
   this.getDisplay(aDisplay).setTool('sel.point');
   this.onSelPoint = function(x, y) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    doSubmit();
+    if (typeof(AjaxHandler) == 'undefined') {
+      doSubmit();
+    } else {
+      AjaxHandler.doAction('Location.Zoom');
+    }
   }
 };
-  
-Map.prototype.zoomin = function(aDisplay) {
+
+Map.prototype.selectionBox = function(aDisplay, action) {
   this.resetMapEventHandlers();
+
+  this.setCurrentLayer('drawing');
   this.getDisplay(aDisplay).setTool('sel.box');
   this.onSelBox = function(x1, y1, x2, y2) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-    doSubmit();
+    if (typeof(AjaxHandler) == 'undefined') {
+      doSubmit();
+    } else {
+      AjaxHandler.doAction(action);
+    }    
   }
 };
+  
+Map.prototype.zoomin = function(aDisplay) {
+  this.selectionBox(aDisplay, 'Location.Zoom');
+};
+
+Map.prototype.fullextent = function(aDisplay) {
+  doSubmit();
+}
 
 Map.prototype.query = function(aDisplay) {
-  this.zoomin(aDisplay);
+  this.selectionBox(aDisplay, 'Query.Perform');
   this.getDisplay(aDisplay).docObj.style.cursor = "help";
 };
   
@@ -220,13 +283,18 @@ Map.prototype.pan = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    doSubmit();
+	if (typeof(AjaxHandler) == 'undefined') {
+      doSubmit();
+    } else {
+      AjaxHandler.doAction('Location.Pan', {source: 'map'});
+    }
   }
 };
 
 /***** STATICTOOLS ****/
 Map.prototype.distance = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('distance');
   this.getDisplay(aDisplay).setTool('draw.line');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
@@ -234,167 +302,160 @@ Map.prototype.distance = function(aDisplay) {
     distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
-  }
+    if (this.distanceTag.style.position == "absolute")
+      xMoveTo(this.distanceTag, mouse_x, mouse_y);
+  };
   this.onNewFeature = function(aFeature) {
-    for (var i = 0; i < this.currentLayer.features.length; i++) {
-      if (this.currentLayer.features[i].operation == "") {
-        dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
-        dShape.innerHTML = "";
-      }
-    }
-  }
+    this.onToolUnset();
+  };
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
-  }
+  };
+  this.onToolUnset = function() {
+    //clear the distance's display layer
+    this.getDisplay(aDisplay).clearLayer('distance');
+    this.onCancel();
+  };
+  this.onCancel = function(aFeature) {
+    this.distanceTag.style.display = "none";
+  };
 };
  
 Map.prototype.surface = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('surface');  
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
+    if (typeof aFeature == 'undefined') {
+        return;
+    }
     var surface = aFeature.getArea();
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
-  }
+    xMoveTo(this.surfaceTag, mouse_x, mouse_y);
+  };
   this.onNewFeature = function(aFeature) {
-    for (var i = 0; i < this.currentLayer.features.length; i++) {
-      if (this.currentLayer.features[i].operation == "") {
-        dShape = this.getDisplay(aDisplay).getDisplayFeature(this.currentLayer.features[i]);
-        dShape.innerHTML = "";
-      }
-    }
-  }
+    this.onToolUnset();
+  };
   this.onFeatureInput = function(aFeature) {
     aFeature.operation = "";
-  }
+  };
+  this.onToolUnset = function() {
+    //clear the surface's display layer
+    this.getDisplay(aDisplay).clearLayer('surface');
+    this.onCancel();
+  };
+  this.onCancel = function(aFeature) {
+    this.surfaceTag.style.display = "none";
+  };
 };
 /***** OUTLINE ****/
 Map.prototype.outline_poly = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_poly');
   this.getDisplay(aDisplay).setTool('draw.poly');
-  this.onFeatureInput = function(aFeature) {
-    addLabel(polyDefaultLabel, mouse_x, mouse_y);
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(polyDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_poly');
+    this.onCancel();
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
 
 Map.prototype.outline_line = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_line');
   this.getDisplay(aDisplay).setTool('draw.line');
-  this.onFeatureInput = function(aFeature) {
-    addLabel(lineDefaultLabel, mouse_x, mouse_y);
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(lineDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_line');
+    this.onCancel();
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
 
 Map.prototype.outline_rectangle = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_rectangle');
   this.getDisplay(aDisplay).setTool('draw.box');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_rectangle');
+    this.onCancel();
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
 };
   
 Map.prototype.outline_point = function(aDisplay) {
   this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_point');
   this.getDisplay(aDisplay).setTool('draw.point');
+
+  this.onNewFeature = function(aFeature) {
+  	this.onToolUnset();
+  };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
-    addLabel(pointDefaultLabel, mouse_x, mouse_y);
     fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(pointDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_point');
+    this.onCancel();
   };
   this.onCancel = function() {
-    hideLabel();
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
     emptyForm();
   };
-};
-
-/***** EDIT ****/
-Map.prototype.edit_point = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.point');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_poly = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.poly');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_line = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.line');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-
-Map.prototype.edit_box = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('draw.box');
-  this.onFeatureInput = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
- 
-Map.prototype.edit_move = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('move');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_sel = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('sel.point');
-  this.onSelPoint = function(x, y) {
-    myform.selection_coords.value = x + "," + y;
-    myform.selection_type.value = "point";
-    storeFeatures();
-    doSubmit();
-  }
-};
-  
-Map.prototype.edit_del_vertex = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('delete.vertex');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_add_vertex = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('add.vertex');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
-};
-  
-Map.prototype.edit_del_feature = function(aDisplay) {
-  this.resetMapEventHandlers();
-  this.getDisplay(aDisplay).setTool('delete.feature');
-  this.onFeatureChange = function(aFeature) {
-    this.displayFeaturesCount();
-  }
 };

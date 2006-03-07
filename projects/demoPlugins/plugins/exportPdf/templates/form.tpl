@@ -24,12 +24,12 @@ function pdfFormSubmit(myForm) {
 <div id="pdf">
 <input type="hidden" name="pdfExport" value="1" />
 <div id="pdf_format"><fieldset><legend>{t}Format and Resolution (dpi){/t}</legend>
-<select name="pdfFormat" class="select"
+<select name="pdfFormat"
 onchange="javascript:updateResolutions({$pdfResolution_selected});">
 {html_options options=$pdfFormat_options selected=$pdfFormat_selected}
 </select>
 &nbsp;&nbsp;&nbsp;
-<select name="pdfFormat" class="select">
+<select name="pdfFormat">
 {html_options name="pdfResolution" options=$pdfResolution_options 
 selected=$pdfResolution_selected}</select></fieldset></div>
 

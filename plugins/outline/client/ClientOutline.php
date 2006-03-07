@@ -52,7 +52,7 @@ class OutlineState {
  */
 class ClientOutline extends ClientPlugin
                     implements Sessionable, GuiProvider, ServerCaller,
-                    ToolProvider, Exportable {
+                    ToolProvider, Exportable, Ajaxable {
                     
     /**                    
      * @var Logger
@@ -123,9 +123,12 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleKeymapTool()
      */
     public function handleKeymapTool(ToolDescription $tool, 
-                            Shape $keymapShape) {
-        /* nothing to do */
-    }
+                            Shape $keymapShape) {}
+
+    /**
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
 
     /**
      * Returns outline tools : Point, Rectangle and Polygon
@@ -176,7 +179,7 @@ class ClientOutline extends ClientPlugin
             $styledShape->shape = $shape;
             if ($this->getConfig()->labelMode
                     && !empty($request['outline_label_text'])) {
-                $styledShape->label = $request['outline_label_text'];
+                $styledShape->label = Encoder::encode($request['outline_label_text'], 'output');
             }
             if (!is_null($this->getConfig()->multipleShapes)
                     && !$this->getConfig()->multipleShapes) {
@@ -242,18 +245,40 @@ class ClientOutline extends ClientPlugin
         return $this->smarty->fetch('outlinelabel.tpl');
     }
 
+    protected function renderFormPrepare() {
+        return array('outline_active' => true,
+                     'outline' => $this->drawOutline(),
+                     'outlinelabel' => $this->drawOutlinelabel());
+    }
+
     /**
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-
-        $outline_active = $this->getConfig()->outlineActive;
-       
-        $template->assign(array('outline_active' => true,
-                                'outline' => $this->drawOutline(),
-                                'outlinelabel' => $this->drawOutlinelabel()));
+        $template->assign($this->renderFormPrepare());
     }
 
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+    	$output = $this->renderFormPrepare();
+    	$ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
+
+    }
+    
+	public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+		switch ($actionName) {
+			case 'Outline.AddFeature':
+			case 'Outline.Clear':
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('images');
+				$pluginEnabler->enablePlugin('outline');
+			break;
+			case 'Outline.ChangeMode':			
+				$pluginEnabler->disableCoreplugins();
+				$pluginEnabler->enableCoreplugin('images');
+			break;
+		}
+	}
+	
     /**
      * @see Exportable::adjustExportMapRequest
      */

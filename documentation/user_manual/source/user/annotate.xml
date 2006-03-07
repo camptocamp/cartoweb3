@@ -76,7 +76,7 @@
           <para> 
             pointLayer<indexterm><primary>pointLayer</primary></indexterm>: 
             defines the name of the mapserver LAYER set in the mapfile to 
-            display points. If not set, the polygon layer is automaticaly used 
+            display points. If not set, the polygon layer is automatically used 
             instead. </para>
         </listitem>
         <listitem>

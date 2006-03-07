@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-07-01 10:49+0200\n"
+"POT-Creation-Date: 2005-11-10 13:13+0100\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -13,31 +13,37 @@ msgstr ""
 
 # exportPdf.ini:formats.a4.label
 # exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
 
 # exportPdf.ini:formats.a3.label
 # exportPdf.ini:formats.A3.label
+#: exportPdf.ini:formats.A3.label
 msgid "A3"
 msgstr "A3"
 
 # images.ini:mapSizes.0.label
 # images.ini:mapSizes.0.label
+#: images.ini:mapSizes.0.label
 msgid "small"
 msgstr "small"
 
 # images.ini:mapSizes.1.label
 # images.ini:mapSizes.1.label
+#: images.ini:mapSizes.1.label
 msgid "normal"
 msgstr "normal"
 
 # images.ini:mapSizes.2.label
 # images.ini:mapSizes.2.label
+#: images.ini:mapSizes.2.label
 msgid "big"
 msgstr "big"
 
 # images.ini:mapSizes.3.label
 # images.ini:mapSizes.3.label
+#: images.ini:mapSizes.3.label
 msgid "giant"
 msgstr "giant"
 
@@ -82,6 +88,10 @@ msgid "Switches"
 msgstr ""
 
 #: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
 msgid "Layer to center on"
 msgstr "Layer to center on"
 
@@ -113,42 +123,39 @@ msgstr "Selection information:"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Layer"
-msgstr ""
+msgstr "Layer"
 
 #: coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr ""
+msgstr "In Query"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Policy"
-msgstr ""
+msgstr "Policy"
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Mask Mode"
 msgstr "Mask mode"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Hilight"
-msgstr ""
+msgstr "Hilight"
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Attributes"
-msgstr "Show attributes"
+msgstr "Attributes"
 
 #: coreplugins/query/templates/query.tpl
-#, fuzzy
 msgid "Table"
-msgstr "Scale"
+msgstr "Table"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
-msgstr ""
+msgstr "Query all selected layers"
 
 #: coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr ""
+msgstr "Clear Query"
 
 #: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
 msgid "Id"
@@ -158,47 +165,45 @@ msgstr "Id"
 msgid "Download CSV"
 msgstr "Download CSV"
 
+#: plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr "Login"
+
+#: plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "Logout"
+
 #: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (EN)"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
-msgstr ""
+msgstr "Login Dialog"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
-msgstr ""
+msgstr "You've been logged out."
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Please enter your login and password"
-msgstr ""
+msgstr "Please enter your login and password:"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Submit"
-msgstr ""
+msgstr "Submit"
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
-msgstr ""
-
-# images.ini:mapSizes.3.label
-#: plugins/auth/templates/auth.tpl
-#, fuzzy
-msgid "login"
-msgstr "giant"
-
-#: plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr ""
+msgstr "Click here to go back to the map"
 
 #: plugins/exportHtml/templates/export.tpl
 #: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
@@ -257,6 +262,46 @@ msgstr "In new page"
 msgid "None"
 msgstr "None"
 
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr "Up"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr "Down"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr "Refresh"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr "Line label"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr "Polygon label"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr "Rectangle label"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr "Point label"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr "Your label"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr "OK"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Outliner plugin:"
+msgstr "Outlining tools:"
+
 #: plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr "Draw"
@@ -269,105 +314,110 @@ msgstr "Mask"
 msgid "Total area"
 msgstr "Total area"
 
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr "Clear outlines"
+
 #: plugins/routing/templates/routing.tpl
 msgid "Find path"
-msgstr ""
+msgstr "Find path"
 
 #: plugins/routing/templates/routing.tpl
 msgid "from"
-msgstr ""
+msgstr "from"
 
 #: plugins/routing/templates/routing.tpl
 msgid "to"
-msgstr ""
+msgstr "to"
 
 #: plugins/routing/templates/routing.tpl
 msgid "options"
-msgstr ""
+msgstr "options"
 
 #: plugins/routing/templates/routing.tpl
 msgid "routing_compute"
-msgstr ""
+msgstr "Compute Path"
+
+#: plugins/routing/templates/routing.tpl
+#, fuzzy
+msgid "Reset"
+msgstr "Results:"
 
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
-msgstr ""
+msgstr "Are you sure you want to delete view #"
 
 #: plugins/views/templates/views.tpl
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: plugins/views/templates/views.tpl
 msgid "Go to view"
-msgstr ""
+msgstr "Go to view"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Title"
 msgstr "Title:"
 
 #: plugins/views/templates/views.tpl
 msgid "or"
-msgstr ""
+msgstr "or"
 
 #: plugins/views/templates/views.tpl
 msgid "Load view"
-msgstr ""
+msgstr "Load view"
 
 #: plugins/views/templates/views.tpl
 msgid "No view available"
-msgstr ""
+msgstr "No view available"
 
 #: plugins/views/templates/views.tpl
 msgid "Edit view"
-msgstr ""
+msgstr "Edit view"
 
 #: plugins/views/templates/views.tpl
 msgid "View #"
-msgstr ""
+msgstr "View #"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "new view"
-msgstr "Overview"
+msgstr "New view"
 
 #: plugins/views/templates/views.tpl
 msgid "Memorize form"
-msgstr ""
+msgstr "Memorize this view"
 
 #: plugins/views/templates/views.tpl
 msgid "Author"
-msgstr ""
+msgstr "Author"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Show view"
-msgstr "Show keymap"
+msgstr "Show view"
 
 #: plugins/views/templates/views.tpl
 msgid "Place view label before"
-msgstr ""
+msgstr "Place view label before"
 
 #: plugins/views/templates/views.tpl
 msgid "Update view"
-msgstr ""
+msgstr "Update view"
 
 #: plugins/views/templates/views.tpl
 msgid "Save as new view"
-msgstr ""
+msgstr "Save as new view"
 
 #: plugins/views/templates/views.tpl
-#, fuzzy
 msgid "Save view"
-msgstr "Overview"
+msgstr "Save view"
 
 #: plugins/views/templates/views.tpl
 msgid "Delete view"
-msgstr ""
+msgstr "Delete view"
 
 #: plugins/views/templates/views.tpl
 msgid "Delete view #"
-msgstr ""
+msgstr "Delete view #"
 
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "Collapse keymap"
@@ -376,6 +426,22 @@ msgstr "Collapse keymap"
 #: templates/cartoclient.tpl
 msgid "Show keymap"
 msgstr "Show keymap"
+
+#: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Current scale:"
+
+#: templates/cartoclient.tpl
+msgid "Coords (m):"
+msgstr "Coords (m): "
+
+#: templates/cartoclient.tpl
+msgid "Dist approx.:"
+msgstr "Approx. distance: "
+
+#: templates/cartoclient.tpl
+msgid "Approx. surface :"
+msgstr "Approx. surface: "
 
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
@@ -391,7 +457,15 @@ msgstr " Developer messages "
 
 #: templates/cartoclient.tpl
 msgid "Choose project"
-msgstr ""
+msgstr "Choose project"
+
+#: templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Refresh"
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr "Reset"
 
 #: templates/cartoclient.tpl
 msgid "Navigation"
@@ -407,11 +481,11 @@ msgstr "PDF"
 
 #: templates/cartoclient.tpl
 msgid "Views"
-msgstr ""
+msgstr "Views"
 
 #: templates/cartoclient.tpl
 msgid "Layers reorder"
-msgstr ""
+msgstr "Layers Reorder"
 
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "keymap_alt"
@@ -419,40 +493,19 @@ msgstr "keymap_alt"
 
 #: templates/cartoclient.tpl
 msgid "Views:"
-msgstr ""
+msgstr "Views:"
 
 #: templates/dhtmlcode.tpl
-msgid "Approx. distance: "
-msgstr "Approx. distance: "
+msgid "overlapping polygons are not allowed"
+msgstr "Overlapping polygons is not allowd."
 
 #: templates/dhtmlcode.tpl
-msgid "Approx. surface: "
-msgstr "Approx. surface: "
+msgid "Are you sure ?"
+msgstr "Are you sure?"
 
 #: templates/dhtmlcode.tpl
-msgid "Coords (m): "
-msgstr "Coords (m): "
-
-#: templates/dhtmlcode.tpl
-#, fuzzy
-msgid "Overlapping polygons forbidden"
-msgstr "Overlapping polygons fobidden"
-
-#: templates/dhtmlcode.tpl
-msgid "Number of segments limited to "
-msgstr "Number of segments limited to "
-
-#: templates/dhtmlcode.tpl
-msgid " currently drawn"
-msgstr " currently drawn"
-
-#: templates/mainmap.tpl
-msgid "Main map"
-msgstr "Main map"
-
-#: templates/mainmap.tpl
-msgid "Current scale:"
-msgstr ""
+msgid "Not conform object"
+msgstr "Object is not conform."
 
 #: templates/mainmap.tpl
 msgid "Loading message"
@@ -460,150 +513,147 @@ msgstr "Loading..."
 
 #: templates/unauthorized.tpl
 msgid "Unauthorized"
-msgstr ""
+msgstr "Unauthorized"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:149
+#: client/Views.php:161
 msgid "Action halted: invalid view Id"
-msgstr ""
+msgstr "Action halted: invalid view Id"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:173
-msgid "You are not allowed to perform"
-msgstr ""
+#: client/Views.php:186
+msgid "You are not allowed to perform this action"
+msgstr "You are not allowed to perform this action"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:174
-msgid " this action"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/client/Views.php:564
+#: client/Views.php:935
 #, php-format
 msgid "Loaded view #%d"
-msgstr ""
+msgstr "Loaded view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:570
+#: client/Views.php:941
 #, php-format
 msgid "New view recorded with id %d"
-msgstr ""
+msgstr "New view recorded with id %d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:575
+#: client/Views.php:946
 #, php-format
 msgid "View #%d updated"
-msgstr ""
+msgstr "View #%d updated"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:580
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1055
+#: client/Views.php:951 client/Views.php:1412
 #, php-format
 msgid "View #%d deleted"
-msgstr ""
+msgstr "View #%d deleted"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:945
+#: client/Views.php:1301
 #, php-format
 msgid "Failed to open view #%d"
-msgstr ""
+msgstr "Failed to open view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:969
+#: client/Views.php:1325
 #, php-format
 msgid "Unable to read view #%d"
-msgstr ""
+msgstr "Unable to read view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:981
+#: client/Views.php:1337
 #, php-format
 msgid "Unable to write view #%d"
-msgstr ""
+msgstr "Unable to write view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1058
+#: client/Views.php:1415
 #, php-format
 msgid "Failed deleting view #%d"
-msgstr ""
+msgstr "Failed deleting view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1135
+#: client/Views.php:1474
 msgid "Unable to open ViewDbContainer: "
-msgstr ""
+msgstr "Unable to open ViewDbContainer: "
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1137
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1205
+#: client/Views.php:1476 client/Views.php:1545
 msgid "Service failed."
-msgstr ""
+msgstr "Service failed."
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1203
+#: client/Views.php:1543
 msgid "Unable to process view."
-msgstr ""
+msgstr "Unable to process view."
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1214
+#: client/Views.php:1554
 #, php-format
 msgid "No result for view #%d"
-msgstr ""
+msgstr "No result for view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1238
+#: client/Views.php:1578
 #, php-format
 msgid "More than one view affected while editing view #%d"
-msgstr ""
+msgstr "More than one view affected while editing view #%d"
 
-#: /home/afellay/public_html/cartoweb3/client/Views.php:1357
+#: client/Views.php:1690
 msgid "Unable to build views catalog"
-msgstr ""
+msgstr "Unable to build views catalog"
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/images/client/ClientImages.php:310
+#: coreplugins/images/client/ClientImages.php:321
+#, fuzzy
 msgid "label"
-msgstr ""
+msgstr "Your label"
 
-#: /home/afellay/public_html/cartoweb3/coreplugins/layers/client/ClientLayers.php:1186
+#: coreplugins/layers/client/ClientLayers.php:1243
 msgid "Default"
-msgstr ""
+msgstr "Default"
 
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
-msgid "about file [about_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/about.php:26
-msgid ".html] not found"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/contact.php:26
-msgid "contact file [contact_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/copyright.php:26
-msgid "copyright file [copyright_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/disclaimer.php:26
-msgid "disclaimer file [disclaimer_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/htdocs/uhperi/help.php:26
-msgid "help file [help_"
-msgstr ""
-
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/ClientExportPdf.php:1125
+#: plugins/exportPdf/client/ClientExportPdf.php:1168
 msgid "Click here to display PDF file"
 msgstr "Click here to display PDF file"
 
-#: /home/afellay/public_html/cartoweb3/plugins/exportPdf/client/CwFpdf.php:873
+#: plugins/exportPdf/client/CwFpdf.php:873
 msgid "Page"
 msgstr "Page"
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:171
+#: plugins/hello/client/ClientHello.php:103
+#, php-format
+msgid "message: %s count: %d"
+msgstr "Message: %s count: %d"
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:191
 msgid "fastest"
-msgstr ""
+msgstr "fastest"
 
-#: /home/afellay/public_html/cartoweb3/plugins/routing/client/ClientRouting.php:172
+#: plugins/routing/client/ClientRouting.php:192
 msgid "shortest"
-msgstr ""
+msgstr "shortest"
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:272
+#: plugins/views/client/ClientViews.php:286
 msgid "Views main controller is OFF!!"
-msgstr ""
+msgstr "Views main controller is OFF!!"
 
-#: /home/afellay/public_html/cartoweb3/plugins/views/client/ClientViews.php:276
+#: plugins/views/client/ClientViews.php:290
 msgid "Memorizing view to update"
-msgstr ""
+msgstr "Memorizing view to update"
+
+#: plugins/views/client/ClientViews.php:319
+msgid "(placed at the end)"
+msgstr "(placed at the end)"
+
+#: scripts/testgettext.php:55
+msgid "PHP-Gettext is not installed correctly !"
+msgstr "PHP-Gettext is not installed correctly!"
+
+#~ msgid "Approx. distance: "
+#~ msgstr "Approx. distance: "
+
+#~ msgid "Number of segments limited to "
+#~ msgstr "Number of segments limited to "
+
+#~ msgid " currently drawn"
+#~ msgstr " currently drawn"
+
+#~ msgid "Main map"
+#~ msgstr "Main map"
 
 #, fuzzy
 #~ msgid "Clear selection"
 #~ msgstr "clear selection"
-
-#~ msgid "Results:"
-#~ msgstr "Results:"
 
 #~ msgid "Select a hilight layer"
 #~ msgstr "Select a hilight layer"
