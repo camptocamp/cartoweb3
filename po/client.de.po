@@ -521,6 +521,264 @@ msgstr ""
 msgid "Delete view #"
 msgstr ""
 
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Explore WMS layers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "You need to choose a layer to add it in the mapfile"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "BROWSE: "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Select a server in the list below to browse its WMS layers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "ADD LAYER: "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid ""
+"Click the 'Add' button at the bottom of this dialog to add the selected "
+"layer to the map"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Loading image..."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Add selected layer to the map"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Add layer"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Close"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Close this dialog"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Explore WMS layers - iframe"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Select a layer"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "You can't add this layer, one of its metadatas values is null"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Title: "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Abstract: "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Metadatas: "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Select a server..."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Manage available WMS servers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Manage servers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid ""
+"This server is disconnected. Please connect it in manage servers popup to "
+"explore its layers."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/loadingbar.tpl templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Bitte warten..."
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid ""
+"In the list of available datastores below, server names prefaced with [c] "
+"and [d] are 'Connected' and 'Disconnected' respectively.\n"
+"To modify a server's properties, select it from the list."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Available servers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Connect selected server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Disconnect selected server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Refresh selected server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Test selected server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Remove selected server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid ""
+"Please supply the properties below then click 'Add' to add a new server to "
+"the datastores list. \n"
+"*The only required field is URL."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Server properties"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Comments"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Add server"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Add server to list"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Update server entry"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Server last refreshed"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Output"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "The following parameters should not be included in the URL:"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Adding server [%1] to list .... "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Failed"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid ""
+"Adding server .... cancelled [this server is already registred in wms cache]"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Testing server [%1] .... "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Not available"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server [%1] .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Refreshing server [%1] .... "
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "An error occured parsing capabilities..."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Updating existing server [%1] .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Disconnecting server [%1] .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Connecting server .... cancelled [no server selected]"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Connecting server [%1] .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Disconnecting server .... cancelled [no server selected]"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server .... cancelled [no server selected]"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Testing server .... cancelled [no server selected]"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Building servers list .... OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "No servers in the list."
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Execution complete"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Errors occurred"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/wmsBrowser.tpl
+msgid "Add WMS layers"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/wmsBrowser.tpl
+msgid "Remove all WMS layers"
+msgstr ""
+
 #: templates/toolPicker.tpl
 msgid "Tools"
 msgstr "Kategorien"
@@ -616,10 +874,6 @@ msgstr "Sind Sie sicher ?"
 #: templates/dhtmlcode.tpl
 msgid "Not conform object"
 msgstr "Ungültiges Objekt"
-
-#: templates/mainmap.tpl
-msgid "Loading message"
-msgstr "Bitte warten..."
 
 #: templates/mainmap.tpl templates/cartoclient.tpl
 msgid "keymap_alt"

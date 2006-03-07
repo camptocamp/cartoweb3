@@ -57,7 +57,7 @@ MAP
   END
 
   PROJECTION
-    "init=epsg:4326"
+    "init=epsg:32632"
   END
 
   LEGEND

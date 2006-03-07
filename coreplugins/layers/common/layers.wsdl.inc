@@ -1,17 +1,11 @@
       <!-- layers -->
-
+      
       <complexType name="LayersRequest">
         <all>
           <element name="className" type="xsd:string"/>
           <element name="layerIds" type="types:ArrayOfLayerId"/>
           <element name="resolution" type="xsd:int"/>
           <element name="switchId" type="xsd:string"/>
-        </all>
-      </complexType>
-
-      <complexType name="LayersResult">
-        <all>
-          <element name="className" type="xsd:string"/>
         </all>
       </complexType>
 
@@ -60,6 +54,7 @@
           <element name="aggregate" type="xsd:boolean" minOccurs="0"/>
           <element name="rendering" type="xsd:string" minOccurs="0"/>
           <element name="metadata" type="types:ArrayOfString" minOccurs="0"/>
+          <element name="transparency" type="xsd:int" minOccurs="0"/>
         </all>
       </complexType>
 
@@ -78,15 +73,36 @@
         </all>
       </complexType>
       
+      <complexType name="LayersResult">
+        <all>
+          <element name="className" type="xsd:string"/>
+          <element name="userLayers" type="types:ArrayOfUserLayer" minOccurs="0"/>
+        </all>
+      </complexType>
+     
+      <complexType name="ArrayOfUserLayer">
+        <complexContent>
+          <restriction base="enc11:Array">
+            <attribute ref="enc11:arrayType" wsdl:arrayType="types:UserLayer[]"/>
+          </restriction>
+        </complexContent>
+      </complexType>     
+     
+      <complexType name="UserLayer">
+        <all>
+          <element name="className" type="xsd:string"/>
+          <element name="action" type="xsd:int"/>
+          <element name="layer" type="types:Layer"/>
+        </all>
+      </complexType>
+      
       <complexType name="LayersInit">
         <all>
           <element name="className" type="xsd:string"/>
-
           <element name="notAvailableIcon" type="xsd:string"/>
           <element name="notAvailablePlusIcon" type="xsd:string"/>
           <element name="notAvailableMinusIcon" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfLayer"/>
           <element name="switches" type="types:ArrayOfSwitchInit" minOccurs="0"/>
-
         </all>
       </complexType>

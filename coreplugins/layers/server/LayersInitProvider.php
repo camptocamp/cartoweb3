@@ -96,7 +96,7 @@ class LayersInitProvider implements InitProvider {
      * Fills properties of the given LayerBase object.
      * @param LayerBase
      */    
-    protected function fillDynamicLayerBase(LayerBase $layerBase) {
+    public function fillDynamicLayerBase(LayerBase $layerBase) {
 
         if (!empty($layerBase->icon))
             $layerBase->icon = $this->getIconUrl($layerBase->icon, false);
@@ -213,12 +213,15 @@ class LayersInitProvider implements InitProvider {
                     "Unable to retrieve WMS metadata on layer: $LayerId");
 
             $url = $msLayer->connection;
-            $url .= "&Service=WMS&Request=getLegendGraphic&Format=image/png";
-            $url .= sprintf("&Version=%s", $wmsVersion);
-            $url .= sprintf("&Layer=%s", $wmsName);
-            $url .= sprintf("&Width=%s", $msMapObj->keysizex);
-            $url .= sprintf("&Height=%s", $msMapObj->keysizey);
-
+            $url .= '&Service=WMS&Request=getLegendGraphic&Format=image/png';
+            $url .= sprintf('&Version=%s', $wmsVersion);
+            $url .= sprintf('&Layer=%s', $wmsName);
+            $url .= sprintf('&Width=%s', $msMapObj->keysizex);
+            $url .= sprintf('&Height=%s', $msMapObj->keysizey);
+            
+            if ($style = $msLayer->getMetadata('wms_style')) 
+                $url .= sprintf('&Style=%s', $style);
+            
             if (!extension_loaded('curl'))
                 throw new CartoserverException(
                     "Curl extension must be installed to use WMS legend graphic");
@@ -256,7 +259,7 @@ class LayersInitProvider implements InitProvider {
      * corresponding mapserver layer object.
      * @param Layer
      */
-    protected function fillDynamicLayer(Layer $layer) {
+    public function fillDynamicLayer(Layer $layer) {
 
         $layersInit = $this->layersInit;
         $msMapObj = $this->serverContext->getMapObj();
@@ -278,7 +281,12 @@ class LayersInitProvider implements InitProvider {
         else $layer->minScale = 0;
         if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
         else $layer->maxScale = 0;
-
+        
+        if(!empty($msLayer->transparency)) 
+            $layer->transparency = $msLayer->transparency;
+        else
+            $layer->transparency = '100';
+        
         if($msLayer->connectiontype == MS_WMS &&
             $msLayer->getMetadata('wms_legend_graphic'))
             $layer->icon = $this->getWmsIcon($layer->id, $msMapObj, $msLayer);

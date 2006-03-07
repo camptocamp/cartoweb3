@@ -58,6 +58,7 @@ $CW3_DIRS_TO_CREATE = array(
                   'www-data/pdf_cache',
                   'www-data/views',
                   'www-data/accounting',
+                  'www-data/wms_cache',
                   'templates_c'
                   );
 

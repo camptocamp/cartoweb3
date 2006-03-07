@@ -308,11 +308,17 @@ class Layer extends LayerContainer {
     public $msLayer;
 
     /**
+     * @var string
+     */
+    public $transparency;
+    
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         parent::unserialize($struct);
-        $this->msLayer           = self::unserializeValue($struct, 'msLayer'); 
+        $this->msLayer      = self::unserializeValue($struct, 'msLayer');
+        $this->transparency = self::unserializeValue($struct, 'transparency');
     }
 }
 
@@ -362,11 +368,54 @@ class LayersRequest extends CwSerializable {
 }
 
 /**
- * Result of a layers request. It is empty.
- *
+ * Result of a layers request. User added layers.
  * @package CorePlugins
  */
-class LayersResult {}
+class LayersResult extends CwSerializable {
+
+    /**
+     * User added layers
+     * @var array of UserLayer
+     */
+    public $userLayers;
+   
+    /**
+     * @see CwSerializable::unserialize()
+     */
+    public function unserialize ($struct) {
+        $this->userLayers = self::unserializeObjectMap($struct, 'userLayers', 'UserLayer');
+    } 
+}
+
+/**
+ * User Layer
+ * @package CorePlugins
+ */
+class UserLayer extends CwSerializable {
+    
+    const ACTION_INSERT = 0;
+    const ACTION_REMOVE = 1;
+    
+    /**
+     * Action
+     * @var int
+     */
+    public $action = self::ACTION_INSERT;
+    
+    /**
+     * Layer name
+     * @var string
+     */
+    public $layer;
+
+    /**
+     * @see CwSerializable::unserialize()
+     */
+    public function unserialize ($struct) {
+        $this->action = self::unserializeValue($struct, 'action', 'int');
+        $this->layer  = self::unserializeObject($struct, 'layer', 'Layer');
+    } 
+}
 
 /**
  * Switch information
@@ -498,11 +547,11 @@ class LayersInit extends CwSerializable {
     public function addChildLayerBase($parentLayer, $childLayer) {
         
         $childLayerId = $childLayer->id;
-
-        if (in_array($childLayerId, array_keys($this->layers)))
+        
+        if (array_key_exists($childLayerId, $this->layers)) {
             throw new CartocommonException('Trying to replace existing layer ' .
             $childLayerId);
-
+        }
         if (!is_null($parentLayer)) {
             // Adding a class
             
@@ -510,14 +559,46 @@ class LayersInit extends CwSerializable {
                 $parentLayer->children[0] = new ChildrenSwitch();
                 $parentLayer->children[0]->id = '0';  
             }
-            if (!in_array($childLayerId, $parentLayer->children[0]->layers)) {
-                $parentLayer->children['0']->layers[] = $childLayerId;
+            if (isset($parentLayer->
+                    children[ChildrenSwitch::DEFAULT_SWITCH]->layers))
+                $childrenLayers =& $parentLayer->
+                    children[ChildrenSwitch::DEFAULT_SWITCH]->layers;
+            else
+                $childrenLayers =& $parentLayer->children[0]->layers;
+
+            if (!in_array($childLayerId, $childrenLayers)) {
+                $childrenLayers[] = $childLayerId;
             }
         }
         
         $this->layers[$childLayerId] = $childLayer;
     }
     
+    /**
+     * Removes a layer
+     * @param LayerBase The parent layer where to remove this layer, or NULL if no parent
+     * @param LayerBase The child layer to delete.
+     */
+    public function removeChildLayerBase($parentLayer, $childLayer) {
+        
+        $childLayerId = $childLayer->id;
+
+        if (!is_null($parentLayer)) {
+            // Deleting a layer
+            if (isset($parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]->layers))
+                $childrenLayers =& $parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]->layers;
+            else
+                $childrenLayers =& $parentLayer->children[0]->layers;
+
+            if ($key = array_search($childLayerId, $childrenLayers)) {
+                unset($childrenLayers[$key]);
+            }
+        }
+        if (isset($this->layers[$childLayerId])) {
+            unset($this->layers[$childLayerId]);
+        }
+    }
+        
     /**
      * @see CwSerializable::unserialize()
      */

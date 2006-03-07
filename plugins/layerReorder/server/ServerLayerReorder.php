@@ -29,7 +29,7 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
  * @package Plugins
  */
 class ServerLayerReorder extends ClientResponderAdapter
-    implements InitProvider {
+                         implements InitProvider {
 
     /**
      * @var Logger
@@ -54,46 +54,11 @@ class ServerLayerReorder extends ClientResponderAdapter
 
         $msMapObj = $this->serverContext->getMapObj();
         $layersOrder = $msMapObj->getlayersdrawingorder();
-        $layersInit = $this->serverContext->getMapInfo()->layersInit;
-
-        $labels = array();
-        $transparency = array();
-        $extents = array();
-        $mapExtent = $msMapObj->extent;
-
-        foreach ($layersInit->getLayers() as $name => $layer) {
-            if (!$layer instanceof Layer) continue;
-
-            // retrieve layer label
-            $labels[$layer->msLayer] =
-                I18nNoop::gt($layersInit->getLayerById($name)->label);
-
-            $msCurrentLayer = $layersInit->getLayerById($name)->msLayer;
-
-            // retrieve layer transparency 
-            $transparency[$layer->msLayer]
-                = $msMapObj->getLayerByName($msCurrentLayer) ->transparency;
-            if (empty($transparency[$layer->msLayer]))
-                $transparency[$layer->msLayer] = '100';
-
-        }
-
-
-        // Init Object creation
         $layers = array();
         foreach ($layersOrder as $layer) {
             $id = $msMapObj->getLayer($layer)->name;
-            
-            if (empty($id)) {
-                continue;
-            }
-
-            $layerInit = new LayerInit();
-            $layerInit->id = $id;
-            $layerInit->label = $labels[$id];
-            $layerInit->transparency = $transparency[$id];
-
-            $layers[] = $layerInit;
+            if (empty($id)) continue;
+            $layers[] = $id;
         }
 
         $layerReorderInit = new LayerReorderInit();
@@ -107,21 +72,53 @@ class ServerLayerReorder extends ClientResponderAdapter
     /**
      * Reorder MapServer layers lists and transparency from Cartoclient request
      */
-    public function initializeRequest($requ) {
+    public function handlePreDrawing($requ) {
 
         $this->log->debug('layerReorder initializeRequest: ');
         $this->log->debug($requ);
 
-        // Update layer reorder
+        // update layer reorder
         $msMapObj = $this->serverContext->getMapObj();
-        $layersOrder = array_flip($msMapObj->getlayersdrawingorder());
+        
+        $layersOrder = $msMapObj->getlayersdrawingorder();
         foreach ($layersOrder as $layer) {
-            $layerOrderIds[] = $msMapObj->getLayer($layer)->name;
+            $layerOrderIds[$layer] = $msMapObj->getLayer($layer)->name;
         }
+        
+        // insert user added layers in reodering layers list
+        $layerIds = $requ->layerIds;
+        $layerReorderResult = new LayerReorderResult();
+        $first = true;    
+        $key = -1; 
+        $insertUserLayersAfter = -1;
+        foreach ($layerOrderIds as $layer) {
+            if (in_array($layer, $layerIds)) {
+                $key = array_search($layer, $layerIds);
+            } else {
+                if ($first) {
+                    $first = false;
+                    if ($key != -1)
+                        $insertUserLayersAfter = $key;
+                }
+                $userLayers[] = $layer;
+            }
+        }
+        if (isset($userLayers)) {
+            $nUserLayers = count($userLayers);
+            $n = count($layerIds) - 1;
+            for ($i = $n ; $i > $insertUserLayersAfter ; $i--) {
+                $layerIds[$i + $nUserLayers] = $layerIds[$i];
+            }
+            foreach ($userLayers as $userLayer) {
+                $layerIds[++$insertUserLayersAfter] = $userLayer;
+            }
+            $layerReorderResult->layers = $layerIds;
+        }
+        
         $layerOrderIds = array_flip($layerOrderIds);
 
         $layerReorder = array();
-        foreach ($requ->layerIds as $layerId) {
+        foreach ($layerIds as $layerId) {
             if (isset($layerOrderIds[$layerId])) {
                 $layerReorder[] = $layerOrderIds[$layerId];
             }
@@ -129,7 +126,7 @@ class ServerLayerReorder extends ClientResponderAdapter
 
         $msMapObj->setlayersdrawingorder($layerReorder);
 
-        // Update transparency level
+        // update transparency level
         if (!empty($requ->layerTransparencies)) {
             foreach ($requ->layerTransparencies as $layerTransparency) {
                 $layer = $msMapObj->getLayerByName($layerTransparency->id);
@@ -138,6 +135,8 @@ class ServerLayerReorder extends ClientResponderAdapter
                 }
             }
         }
+
+        return $layerReorderResult;
     }
 
 }

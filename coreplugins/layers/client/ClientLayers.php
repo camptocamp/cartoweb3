@@ -67,6 +67,16 @@ class LayersState {
      * @var string
      */
     public $switchId;
+
+    /**
+     * @var LayersInit
+     */
+    public $layersInit;
+
+    /**
+     * @var boolean;
+     */
+    public $userLayers;
 }
 
 /**
@@ -200,6 +210,11 @@ class ClientLayers extends ClientPlugin
      */
     protected $layersInit;
 
+    /**
+     * @var boolean
+     */
+    protected $userLayers = false;
+    
     /**
      * @var LayersState
      */
@@ -362,7 +377,10 @@ class ClientLayers extends ClientPlugin
             =& $this->layersState->frozenUnselectedLayers;
 
         $this->nodesIds =& $this->layersState->nodesIds;
-        
+        $this->layersInit =& $this->layersState->layersInit;
+        $this->userLayers =& $this->layersState->userLayers;
+        if ($this->userLayers) $this->getLayers(true);
+
         // Set switch if set before loadSession
         if ($this->overrideSwitch) {
             $this->layersState->switchId = $overridedSwitchId;
@@ -423,6 +441,7 @@ class ClientLayers extends ClientPlugin
         $this->frozenSelectedLayers = $this->fetchFrozenSelectedLayers('root');
         
         $this->selectedLayers = array(); // resets selectedLayers array
+        $this->layersState->layersInit =& $this->layersInit;
 
         foreach ($this->getLayers() as $layer) {
             if (!isset($this->layersData[$layer->id])) {
@@ -435,6 +454,7 @@ class ClientLayers extends ClientPlugin
         }
 
         $this->layersState->nodesIds =& $this->nodesIds;
+        $this->layersState->userLayers =& $this->userLayers;
     }
 
     /**
@@ -504,10 +524,11 @@ class ClientLayers extends ClientPlugin
     /**
      * Returns the list of Layer|LayerGroup|LayerClass objects available 
      * in MapInfo.
+     * @param boolean if true, force refresh list (default: false)
      * @return array
      */
-    protected function getLayers() {
-        if(!is_array($this->layers)) {
+    public function getLayers($forceRefresh = false) {
+        if(!is_array($this->layers) || $forceRefresh) {
             $this->layers = array();
             foreach ($this->getLayersSecurityFiltered() as $layer)
                 $this->layers[$layer->id] = $layer;
@@ -521,7 +542,7 @@ class ClientLayers extends ClientPlugin
      * @param boolean if true (default), throws exception if invalid layername
      * @return LayerBase layer object of type Layer|LayerGroup|LayerClass
      */
-    protected function getLayerByName($layername, $strict = true) {
+    public function getLayerByName($layername, $strict = true) {
         $layers =& $this->getLayers();
         if (isset($layers[$layername])) 
             return $layers[$layername];
@@ -934,12 +955,50 @@ class ClientLayers extends ClientPlugin
     /**
      * @see ServerCaller::initializeResult()
      */
-    public function initializeResult($mapResult) {}
+    public function initializeResult($layersResult) {
+        // manage user added layers
+        if (empty($layersResult->userLayers)) {
+            return;
+        }
+        
+        // retrieve user layers LayerGroup config setting
+        $userLayerGroup = $this->getConfig()->userLayerGroup;
+        $layerGroup = new LayerBase();
+        $layerGroup = $this->layersInit->getLayerById($userLayerGroup);
+        foreach ($layersResult->userLayers as $userLayer) {
+            $layer = $userLayer->layer;
+            if ($userLayer->action == UserLayer::ACTION_REMOVE &&
+                isset($this->layersData[$layer->id])) {
+                $this->layersInit->removeChildLayerBase($layerGroup, $layer);
+                unset($this->layersData[$layer->id]);
+                $key = array_search($layer->id, $this->selectedLayers);
+                if ($key) unset($this->selectedLayers[$key]);
+                $key = array_search($layer->id, $this->layerIds);
+                if ($key) unset($this->layerIds[$key]);
+                $key = array_search($layer->id, $this->nodesIds);
+                if ($key) unset($this->nodesIds[$key]);
+            }
+            if ($userLayer->action == UserLayer::ACTION_INSERT &&
+                !isset($this->layersData[$layer->id])) {
+                $this->layersInit->addChildLayerBase($layerGroup, $layer);
+                $this->layersData[$layer->id] = new LayerState;
+                $this->layersData[$layer->id]->id = $layer->id;
+                $this->layersData[$layer->id]->selected = true;
+                $this->selectedLayers[] = $layer->id;
+                $this->layerIds[] = $layer->id;
+                $this->nodesIds[] = $layer->id;
+            }
+        }
+        // refresh cache
+        $this->userLayers = true;
+        $layerGroup->getChildren($this->layersState->switchId, true);
+        $this->getLayers(true);
+    }
 
     /**
      * @see ServerCaller::handleResult()
      */
-    public function handleResult($mapResult) {}
+    public function handleResult($layersResult) {}
 
    /**
      * Recursively retrieves the list of Mapserver Classes bound to the layer

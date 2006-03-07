@@ -485,8 +485,8 @@ class LayerOverlay extends BasicOverlay {
         $this->copyName       = self::unserializeValue($struct, 'copyName');
         $this->data           = self::unserializeValue($struct, 'data');
         $this->maxScale       = self::unserializeValue($struct, 'maxScale');
-        $this->metadatas      = self::unserializeArray($struct, 'metadatas',
-                                                       'MetadataOverlay');
+        $this->metadatas      = self::unserializeObjectMap($struct, 'metadatas',
+                                                           'MetadataOverlay');
         $this->minScale       = self::unserializeValue($struct, 'minScale');
         $this->name           = self::unserializeValue($struct, 'name');
         $this->transparency   = self::unserializeValue($struct, 'transparency', 

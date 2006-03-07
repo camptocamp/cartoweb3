@@ -622,5 +622,90 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
       </para>
     </sect2>
   </sect1>
+
+  <sect1 id="user.layers.wms_browser">
+    <title>WMS Browser Plugin</title>
+    <para>
+      Ability to access map data using web services could be appreciated by end 
+      user. For instance, it allows you to view map data without copy data to
+      your location or to access realtime map data constantly changing such as 
+      hurricane location...
+    </para>
+    <para>
+      It can be usefull to save WMS servers properties locally to preview its 
+      layers, manage these servers (upgrade, delete, refresh properties, disconnect it if
+      remote server isn't avaible, ...), add a choosen WMS layer to the map and delete all
+      added WMS layers.
+      The WMS Browser plugin <indexterm><primary>wmsBrowser</primary></indexterm>
+      is designed to do so. 
+    </para>
+    <para>
+      To use it, you have to install Chameleon XML parser php API, load plugin and set a few configuration
+      files parameters.
+    </para>
+    <sect2>
+      <title>Install Chameleon XML parser php API</title>
+      <para>
+        <itemizedlist mark='opencircle'>
+          <listitem>
+            <para>
+              Download Chameleon php extension package from <ulink url="http://cartoweb.org/downloads.html"/>.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Uncompress the archive and follow steps described in 
+              <filename>chameleon/ext/README.txt</filename> file to compile it.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Copy <filename>chameleon/ext/php/modules/chameleon.so</filename> extension to 
+              your php extensions directory and load it in your <filename>php.ini</filename>.
+            </para>
+          </listitem>
+        </itemizedlist>
+        <warning>
+          <para>
+            If your web browser isn't running as CGI, don't forget to restart it.
+          </para>
+        </warning>
+      </para>
+    </sect2>
+    <sect2>
+      <title>Plugin activation</title>
+      <para>
+        To activate the plugin, load mapOverlay and wmsBrowser plugins from both &cartoclient; 
+        and &cartoserver; configuration files: 
+        <filename>client_conf/client.ini</filename> and
+        <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.  
+        For instance: <programlisting>loadPlugins = mapOverlay, wmsBrowser</programlisting>
+      </para>
+    </sect2>
+    <sect2>
+      <title>Position to which insert WMS layers</title>
+      <para>
+        To insert a WMS layer on the map, you must specify after which 
+        mapfile layer you want insert it. The layer will be added
+        after the last added WMS layer or after this mapfile layer (if no WMS 
+        layer has ever been added). 
+      </para>
+      <para>
+        To do so, in 
+        <filename>server_conf/&lt;mapId&gt;/wmsBrowser.ini</filename>,
+        specify the mapfile layer name in the 
+        <parameter>wmsInsertLayerAfter</parameter> parameter.
+      </para>
+    </sect2>
+    <sect2>
+      <title>Perform added WMS layers appearance in the layers list</title>
+      <para>
+        If you want to perform added WMS layers appearance in the layers list, you still have to
+        affect them a parent LayerGroup. Specify, in <filename>client_conf/layers.ini</filename>,
+        the LayerGroup name in the 
+        <parameter>userLayerGroup</parameter> parameter (default is root).
+      </para>
+    </sect2>
+  </sect1>
   
 </chapter>

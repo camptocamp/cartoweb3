@@ -421,7 +421,7 @@ msgstr "Recherche"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder"
-msgstr "Couches"
+msgstr "Ordre des Couches"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "A route"

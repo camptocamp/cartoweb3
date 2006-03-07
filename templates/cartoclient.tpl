@@ -176,6 +176,7 @@ Request:
       <ul class="tabnav" id="tabnav2">
         {if $outline_active|default:''}<li id="label6"><a href="javascript:ontop(6)">{t}Outline{/t}</a></li>{/if}
         {if $layerReorder|default:''}<li id="label5"><a href="javascript:ontop(5)">{t}Layers reorder{/t}</a></li>{/if}
+        {if $wmsBrowser|default:''}<li id="label7"><a href="javascript:ontop(7)">{t}WMS layers{/t}</a></li>{/if}
       </ul>
       <ul class="tabnav" id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Navigation{/t}</a></li>
@@ -274,9 +275,16 @@ Request:
 
     {if $outline_active|default:''}
     <div id="folder6" class="folder">
-    {$outline}
+      {$outline}
     </div>
     <!-- end of folder6 -->
+    {/if}
+
+    {if $wmsBrowser|default:''}
+    <div id="folder7" class="folder">
+      {$wmsBrowser}
+    </div>
+    <!-- end of folder7 -->
     {/if}
   </div>
 </div>

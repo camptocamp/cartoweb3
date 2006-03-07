@@ -260,17 +260,18 @@
    </table>
    </div>
    </td>
-   <td width="280px" valign="top" nowrap="nowrap" rowspan="2">
+   <td width="330px" valign="top" nowrap="nowrap" rowspan="2">
      <div>
        <ul id="tabnav2">
-         {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
-         <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
-         <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
+         {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
+         {if $wmsBrowser|default:''}<li id="label7"><a href="javascript:ontop(7)">{t}WMS layers{/t}</a></li>{/if}
        </ul>
        <ul id="tabnav1">
          <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
          <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
-         {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
+         <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
+         {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if} 
+         <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>      
        </ul>
      </div>
 
@@ -402,6 +403,15 @@
       <br /><br />
     </div>
     <!-- end of floder 6 -->
+    {if $wmsBrowser|default:''}
+    <div id="folder7" class="folder">
+      <br />
+      <center>
+        {$wmsBrowser}
+      </center> 
+    </div>
+    {/if}
+    <!-- end of folder7 -->
     
     </div> <!--container-->
   </td>

@@ -59,6 +59,12 @@ class ServerLayers extends ClientResponderAdapter
     protected $switchId;
     
     /**
+     * User added layers
+     * @var array
+     */
+    public $userLayers;
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -69,6 +75,28 @@ class ServerLayers extends ClientResponderAdapter
         $this->imageType = null;
     }
    
+    /**
+     * Add user layers
+     * @var array of UserLayer
+     */
+    public function addUserLayers($userLayers) {
+        $msMapObj = $this->serverContext->getMapObj();
+        foreach ($userLayers as $key => $userLayer) {
+            if ($userLayer->action == UserLayer::ACTION_INSERT) {
+                $layer   =& $userLayer->layer;
+                $msLayer = $msMapObj->getLayerByName($layer->id);
+                //update layer msLayer & label
+                $layer->msLayer = $layer->id;
+                if (!empty($msLayer))
+                    $layer->label   = $msLayer->getMetadata('wms_title');
+                if (empty($layer->label)) $layer->label = $layer->id;
+
+                $userLayers[$key] = $userLayer;
+            }
+        }
+        $this->userLayers = $userLayers;
+    }
+            
     /**
      * Returns the list of layers requested to be drawn by the client.
      * @return array
@@ -218,10 +246,35 @@ class ServerLayers extends ClientResponderAdapter
 
         $currentScale = isset($msMapObj->scale) ? $msMapObj->scale : 0;
         
-        foreach ($this->getRequestedLayerNames() as $requLayerId) {
+        // manage user layers
+        $layersResult = new LayersResult();
+        $requestedLayerNames = $this->getRequestedLayerNames();
+        if(!is_null($this->userLayers)) {
+            $layersInitProvider = new LayersInitProvider(
+                $this->getServerContext(), $this);
+            foreach ($this->userLayers as $key => $userLayer) {
+                if ($userLayer->action == UserLayer::ACTION_INSERT) {
+                    $layersInitProvider->fillDynamicLayerBase($userLayer->layer);
+                    $layersInitProvider->fillDynamicLayer($userLayer->layer);
+
+                    $requestedLayerNames[] = $userLayer->layer->msLayer;
+                    $this->userLayers[$key] = $userLayer;
+                } else {
+                    $key = array_search($userLayer->layer->id, 
+                                        $requestedLayerNames);
+                    if ($key) unset($requestedLayerNames[$key]);
+                }
+            }
+            $layersResult->userLayers = $this->userLayers;
+        }
+
+        $this->userLayers = NULL;
+        foreach ($requestedLayerNames as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
-            
-            $msLayer = $this->serverContext->getMapInfo()->layersInit->
+            if (in_array($requLayerId, $msMapObj->getAllLayerNames()))
+                $msLayer = $msMapObj->getLayerByName($requLayerId);
+            else
+                $msLayer = $this->serverContext->getMapInfo()->layersInit->
                                     getMsLayerById($msMapObj, $requLayerId);
             $msLayer->set('status', MS_ON);
 
@@ -233,6 +286,8 @@ class ServerLayers extends ClientResponderAdapter
                 $this->imageType = $forceImageType;
             }
         }
+        
+        return $layersResult;
     }
     
     /**

@@ -147,7 +147,7 @@ class ClientLayerReorder extends ClientPlugin
                                   InitialMapState $initialMapState) {
 
         $this->layerReorderState = new LayerReorderState;
-        $this->layerReorderState->layers = array();
+        $this->layerReorderState->layerIds = array();
         $this->layerReorderState->orderedMsLayerIds = array();
         $this->layerReorderState->layerUserTransparencies = array();
     }
@@ -199,18 +199,8 @@ class ClientLayerReorder extends ClientPlugin
         }
 
         // init properties from init result
-        $layers = $initObject->layers;
-        foreach ($layers as $layer) {
-            $this->layerIds[] = $layer->id;
-            $this->layerLabels[] = $layer->label;
-            $this->layerTransparencies[] = $layer->transparency;
-            $this->layerUserTransparencies[$layer->id]
-                = $this->getCloserTransparency($layer->transparency);
-        }
-
-        if (empty($this->orderedMsLayerIds)) {
-            $this->orderedMsLayerIds = $this->layerIds;
-        }
+        $this->orderedMsLayerIds = $initObject->layers;
+        $this->setMsLayerProperties();
 
         // handle top and bottom exclusion setting
         $this->topLayers = array();
@@ -228,6 +218,34 @@ class ClientLayerReorder extends ClientPlugin
     }
 
 
+    /**
+     * Sets mapfile layers properties
+     */
+    protected function setMsLayerProperties() {
+        $this->layerIds = array();
+        $this->layerLabels = array();
+        $this->layerTransparencies = array();
+        $corepluginLayers = 
+            $this->cartoclient->getPluginManager()->getPlugin('layers');
+        $layersInit = $corepluginLayers->getLayersInit();
+        $layers = $layersInit->getLayers();
+        foreach ($this->orderedMsLayerIds as $msLayer) {
+            foreach ($layers as $layer) {
+                if (isset($layer->msLayer) && $layer->msLayer == $msLayer) {
+                    $this->layerIds[] = $layer->msLayer;
+                    $this->layerLabels[] = $layer->label;
+                    $this->layerTransparencies[] = $layer->transparency;
+                    if (!isset($this->layerUserTransparencies[$layer->msLayer])) {
+                        $this->layerUserTransparencies[$layer->msLayer]
+                            = $this->getCloserTransparency($layer->transparency);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    
+    
     /**
      * @see ServerCaller::buildRequest()
      */
@@ -360,7 +378,13 @@ class ClientLayerReorder extends ClientPlugin
     /**
      * @see ServerCaller::handleResult()
      */
-    public function handleResult($result) {}
+    public function handleResult($layerReorderResult) {
+        
+        if (empty($layerReorderResult->layers))
+            return;
+        $this->orderedMsLayerIds = $layerReorderResult->layers;
+        $this->setMsLayerProperties();
+    }
 
 
     /**

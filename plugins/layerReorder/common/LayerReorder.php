@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'common/CwSerializable.php');
 class LayerReorderInit extends CwSerializable {
 
     /**
-     * @var array array of Layer
+     * @var array array of msLayer ids
      */
     public $layers;
 
@@ -41,8 +41,7 @@ class LayerReorderInit extends CwSerializable {
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->layers 
-            = self::unserializeObjectMap($struct, 'layers', 'LayerInit');
+        $this->layers = self::unserializeArray($struct, 'layers');
     }
 }
 
@@ -100,31 +99,17 @@ class LayerTransparency extends CwSerializable {
 /**
  * @package Plugins
  */
-class LayerInit extends CwSerializable {
-
+class LayerReorderResult extends CwSerializable {
     /**
-     * @var string Layer Id
+     * @var array array of msLayer ids
      */
-    public $id;
-
-    /**
-     * @var string Layer label
-     */
-    public $label;
-
-    /**
-     * @var int Layer transparency
-     */
-    public $transparency;
+    public $layers;
 
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->id = self::unserializeValue($struct, 'id');
-        $this->label = self::unserializeValue($struct, 'label');
-        $this->transparency = self::unserializeValue($struct, 'transparency');
-    }
+        $this->layers  = self::unserializeArray($struct, 'layers');
+    } 
 }
-
 ?>
