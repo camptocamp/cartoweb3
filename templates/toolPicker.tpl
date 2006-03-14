@@ -85,7 +85,7 @@
 
     <div id="color2" class="colorbox">
       <div class="switchCbloc"><a href="javascript:switchColorTool('Cgradient')">{t}Switch to color gradient{/t}</a></div>
-      <div id="colortable" style="width=100%;"></div>
+      <div id="colortable" style="width:100%;"></div>
       <div class="colorresult">
         <div id="colorresult2a" class="colorBox" ></div>
         <div id="colorresult3a" class="colorBox" ></div>  
@@ -101,7 +101,7 @@
   <div id="tool2" class="toolbox" ></div>
   <div id="tool3" class="toolbox"></div>
   <div id="tool4" class="toolbox">
-    <div id="symboltable" style="width=auto;"></div>
+    <div id="symboltable" style="width:auto;"></div>
     <div class="buttonarea" >
       <input type="button" onclick="javascript:toolPickerReturn();javascript:closeTool();" value="OK" />
       <span id="symbolName" class="defaultFont"></span>
