@@ -58,13 +58,14 @@ endef
 all:
 	:
 
-fetch_cw3setup:
-	test -f cw3setup.php && rm cw3setup.php || :
-	test -d tmp && rm -rf tmp || :
-	mkdir tmp
-	(cd tmp&& cvs -d $(CVSROOT_CW) co $(DEPLOY_REVISION) cartoweb3/cw3setup.php)
-	mv tmp/cartoweb3/cw3setup.php .
+define fetch_cw3setup
+	test -f cw3setup.php && rm cw3setup.php || :; \
+	test -d tmp && rm -rf tmp || :; \
+	mkdir tmp; \
+	(cd tmp&& cvs -d $(CVSROOT_CW) co $$(echo $(1)) cartoweb3/cw3setup.php); \
+	mv tmp/cartoweb3/cw3setup.php .; \
 	rm -rf tmp
+endef
 
 
 cur_make_target = $(filter-out %/,$(subst /,/ ,$@))
@@ -140,11 +141,14 @@ instance_cvs_option = $(if $(call get_inst_var,REVISION), --cartoweb-cvs-option 
 
 SED_CMD := sed 's/^.*evision: \([^ ]*\) .*$$/\1/g'
 
-$(patsubst %,pre_fetch_instance/%,$(ALL_INSTANCES)) :: pre_fetch_instance/% : fetch_cw3setup # $(call targets_for_instance,%) # This does not work for unknown reason!
+$(patsubst %,pre_fetch_instance/%,$(ALL_INSTANCES)) :: pre_fetch_instance/% : # $(call targets_for_instance,%) # This does not work for unknown reason!
 	@echo "### Fetching instance $(cur_instance)"
 
 	$(call makedirs,$(cur_target))
-	cp cw3setup.php $(cur_target)
+
+	(cd $(cur_target)&& $(call fetch_cw3setup,$(call get_inst_var,REVISION)))
+	test -f $(cur_target)/cw3setup.php || { echo "Error: Couldn't fetch cw3setup.php"; exit -1; }
+
 ifndef NO_CONFIRM
 	@if [ -d $(cur_target)/cartoweb3 ]; then \
 		read -p "Warning: The $(cur_target)/cartoweb3 directory will be removed, unsaved changes will be lost. Press <ctrl-c> to stop, or enter to continue"; \
