@@ -11,6 +11,18 @@ a {text-decoration: none;color:#5C74BB;}
 
 a:hover {text-decoration: underline;color:#D0670A;}
 
+#ajaxErrorMessage {
+/* This element is shown on Cartoclient errors when in AJAX mode  */
+  position: absolute;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+  padding: 5px;
+  color: black;
+  background-color: silver;
+  border: 3px solid red;
+}
+
 #banner {
   border: 1px #ccc dashed;
   margin:10px;

@@ -51,7 +51,7 @@ class ImagesState {
  */
 class ClientImages extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable {
+                              Exportable, Ajaxable {
     /**
      * @var Logger
      */
@@ -328,45 +328,86 @@ class ClientImages extends ClientPlugin
     }
 
     /**
-     * @see GuiProvider::renderForm()
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
-       
-        $template->assign(array(
+    protected function renderFormPrepare() {
+        $assignArray['variables'] = array(
             'mainmap_path' => 
                  $this->getImageUrl($this->imagesResult->mainmap->path, false),
             'mainmap_width' => $this->imagesResult->mainmap->width,
             'mainmap_height' => $this->imagesResult->mainmap->height,
-                                ));
-    
+        ); 
+
         if ($this->imagesResult->keymap->isDrawn) {
-            $template->assign(array(
-                'keymap_path' => 
-                    $this->getImageUrl($this->imagesResult->keymap->path),
-                'keymap_width' => $this->imagesResult->keymap->width,
-                'keymap_height' => $this->imagesResult->keymap->height,
-                                    ));
+            $assignArray['variables']['keymap_path'] =
+                $this->getImageUrl($this->imagesResult->keymap->path);
+            $assignArray['variables']['keymap_width'] =
+                $this->imagesResult->keymap->width;
+            $assignArray['variables']['keymap_height'] =
+                $this->imagesResult->keymap->height;
         }
         
         if ($this->imagesResult->scalebar->isDrawn) {
-            $template->assign(array(
-                'scalebar_path' => 
-                    $this->getImageUrl($this->imagesResult->scalebar->path),
-                'scalebar_width' => $this->imagesResult->scalebar->width,
-                'scalebar_height' => $this->imagesResult->scalebar->height,
-                                    ));
+            $assignArray['variables']['scalebar_path'] =
+                $this->getImageUrl($this->imagesResult->scalebar->path);
+            $assignArray['variables']['scalebar_width'] =
+                $this->imagesResult->scalebar->width;
+            $assignArray['variables']['scalebar_height'] =
+                $this->imagesResult->scalebar->height;
         }
 
-        $mapSizesActive = $this->getConfig()->mapSizesActive;
-        $template->assign(array('mapsizes_active' => $mapSizesActive,
-                                'mapsizes' => $this->drawMapSizes(),
-                                ));
+        $assignArray['variables']['mapsizes_active'] =
+            $this->getConfig()->mapSizesActive;
+        $assignArray['htmlCode']['mapsizes'] =
+            $this->drawMapSizes();
 
-        if ($this->getConfig()->collapsibleKeymap) {         
-            $template->assign(array('collapseKeymap' => $this->collapseKeymap,
-                                    'collapsibleKeymap' => true,
-                                    ));
+        if ($this->getConfig()->collapsibleKeymap) {
+            $assignArray['variables']['collapseKeymap'] =
+                $this->collapseKeymap;
+            $assignArray['variables']['collapsibleKeymap'] = true;
         }
+        
+        return $assignArray;
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function renderForm(Smarty $template) {
+        $assignArray = $this->renderFormPrepare();
+        $template->assign($assignArray['variables']);
+        $template->assign($assignArray['htmlCode']);
+    }
+    
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $assignArray = $this->renderFormPrepare();
+        foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addVariable($assignKey, $assignValue);
+        }        
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Images.changeMapSize':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('location');
+                $pluginEnabler->enablePlugin('images');
+            break;
+        }            
     }
 
     /**

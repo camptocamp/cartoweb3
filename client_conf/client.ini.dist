@@ -7,6 +7,9 @@ cartoserverDirectAccess = true
 ;  This will override some parameter values
 profile = production
 
+; AJAX switch: if true, AJAX will be enabled on the client side (browser)
+ajaxOn = false;
+
 ; -------------------------------------------------------------------
 ;  The following parameters are only taken into account when profile=custom
 ;

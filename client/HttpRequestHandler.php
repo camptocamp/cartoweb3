@@ -313,7 +313,9 @@ class HttpRequestHandler {
      * @return boolean
      */
     static function isButtonPushed($name) {
-        return isset($_REQUEST[$name . '_x']) || isset($_REQUEST[$name . '_y']);
+        return isset($_REQUEST[$name . '_x'])
+            || isset($_REQUEST[$name . '_y'])
+            || isset($_REQUEST[$name]);
     }
 
     /**

@@ -26,7 +26,7 @@
  * @package Plugins
  */
 class ClientHello extends ClientPlugin
-                  implements Sessionable, GuiProvider {
+                  implements Sessionable, GuiProvider, Ajaxable {
 
     const HELLO_INPUT = 'hello_input';
 
@@ -105,6 +105,32 @@ class ClientHello extends ClientPlugin
 
         $template->assign(array('hello_active'  => true,
                                 'hello_message' => $message));
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     */ 
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $message = sprintf(I18n::gt('message: %s count: %d'),
+                           $this->message, $this->count);
+
+        $ajaxPluginResponse->addHtmlCode('hello_message', $message);
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */ 
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
+        switch ($actionName) {
+            case 'Hello.Change':
+                $pluginsDirectives->disableCoreplugins();
+                $pluginsDirectives->enablePlugin('hello');                
+            break;
+            case 'Location.Pan':
+                // Hello plugin will run on Location.mapPanByKeymap action
+                $pluginsDirectives->enablePlugin('hello');                                
+            break;
+        }
     }
 }
 ?>

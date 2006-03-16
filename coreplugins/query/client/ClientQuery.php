@@ -45,7 +45,7 @@ class QueryState {
  * @package CorePlugins
  */
 class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
-                             ServerCaller, ToolProvider, Exportable {
+                             ServerCaller, ToolProvider, Exportable, Ajaxable {
                   
     /**                 
      * @var Logger
@@ -566,9 +566,31 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-      $template->assign('query_result', $this->drawQuery());    
+        $template->assign('query_result', $this->drawQuery());    
     }
 
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addHtmlCode('queryResult', $this->drawQuery());
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
+        switch ($actionName) {
+            case 'Query.Perform':
+            case 'Query.Clear':
+                $pluginsDirectives->disableCoreplugins();
+                $pluginsDirectives->enablePlugin('images');
+                $pluginsDirectives->enablePlugin('query');
+                $pluginsDirectives->enablePlugin('tables');
+            break;
+        }
+    }
+    
     /**    
      * @see Exportable::adjustExportMapRequest()
      */ 

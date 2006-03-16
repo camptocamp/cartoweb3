@@ -1,4 +1,4 @@
-<input type="hidden" id="openNodes" name="openNodes" />
+<input type="hidden" id="openNodes" name="openNodes" value="{$startOpenNodes}" />
 <script type="text/javascript">
   <!--
   var openNodes = new Array('{$startOpenNodes}');
@@ -7,8 +7,8 @@
 </script>
 <div id="layerscmd"><a href="javascript:expandAll('layersroot');">{t}expand tree{/t}</a> -
 <a href="javascript:closeAll('layersroot');">{t}close tree{/t}</a><br />
-<a href="javascript:checkChildren('layersroot');">{t}check all{/t}</a> -
-<a href="javascript:checkChildren('layersroot',false);">{t}uncheck all{/t}</a></div>
+<a href="javascript:checkChildren('layersroot'); CartoWeb.trigger('Layers.LayerShowHide');">{t}check all{/t}</a> -
+<a href="javascript:checkChildren('layersroot',false); CartoWeb.trigger('Layers.LayerShowHide');">{t}uncheck all{/t}</a></div>
 <div id="layersroot">
 
 {defun name="drawChildren" element=$element}
@@ -19,7 +19,9 @@
 {if $element.layerRendering == 'radio'}type="radio" name="layers_{$element.parentId}"
 {else}type="checkbox" name="layers[]" {/if}
 value="{$element.layerId}" id="in{$element.nodeId}"
-  onclick="javascript:updateChecked('{$element.nodeId}');" {if $element.layerChecked}checked="checked"{/if} />
+  onclick="javascript:updateChecked('{$element.nodeId}');
+    CartoWeb.trigger('Layers.LayerShowHide');"
+  {if $element.layerChecked}checked="checked"{/if} />
 {/if}
 {/capture}
 
@@ -50,7 +52,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {if $element.isDropDown}
   <select name="layers_dropdown_{$element.parentId}" 
-  onchange="javascript:FormItemSelected();">
+  onchange="javascript:CartoWeb.trigger('Layers.LayerDropDownChange', 'formItemSelected()');">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>
 {/if}

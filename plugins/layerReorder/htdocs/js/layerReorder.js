@@ -95,7 +95,7 @@ function reorderNextPosition(idFrom)
 function reorderLayerMove(idFrom, idTo) 
 {
     if (idFrom == idTo) {
-   	 return;
+        return;
     }
     var container = xGetElementById("layerReorderContainer");
     var layers = xGetElementsByClassName('layerReorder', container, 'div');
@@ -103,22 +103,22 @@ function reorderLayerMove(idFrom, idTo)
     var str ='';
 
     for (i=0 ; i < layers.length ; i++) { 
-    	if (layers[i].id.substr(13) == idFrom) {
-	    from = '<div id="layerReorder_' + idFrom + '" class="layerReorder">'
-	           + layers[i].innerHTML + '</div>';
-	}
+        if (layers[i].id.substr(13) == idFrom) {
+        from = '<div id="layerReorder_' + idFrom + '" class="layerReorder">'
+               + layers[i].innerHTML + '</div>';
     }
-	    
+    }
+        
     for (i=0 ; i < layers.length ; i++) {
-    	var currentId = layers[i].id.substr(13);
+        var currentId = layers[i].id.substr(13);
 
- 	if (currentId == idTo) str += from;
-	
-    	if (currentId != idFrom) {
-	    str += '<div id="layerReorder_' + currentId 
-	           + '" class="layerReorder">' 
-	           + layers[i].innerHTML + '</div>';
-	}
+     if (currentId == idTo) str += from;
+    
+        if (currentId != idFrom) {
+        str += '<div id="layerReorder_' + currentId 
+               + '" class="layerReorder">' 
+               + layers[i].innerHTML + '</div>';
+    }
     }
 
     container.innerHTML = '<div id="layerReorderContainer">' + str + '</div>';
@@ -134,7 +134,7 @@ function retrieveOrder()
    
     var OrderedIds = new Array();
     for (i=0 ; i < layers.length - 1 ; i++)
-    	OrderedIds.push(layers[i].id.substr(13));
+        OrderedIds.push(layers[i].id.substr(13));
 
     document.carto_form.layersReorder.value = OrderedIds.join(",");
 }

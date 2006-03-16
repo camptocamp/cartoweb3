@@ -52,7 +52,7 @@ class LocationState {
  */
 class ClientLocation extends ClientPlugin
                      implements Sessionable, GuiProvider, ServerCaller,
-                                InitUser, ToolProvider, Exportable {
+                                InitUser, ToolProvider, Exportable, Ajaxable {
                                 
     /**
      * @var Logger
@@ -845,9 +845,11 @@ class ClientLocation extends ClientPlugin
     }
     
     /**
-     * @see GuiProvider::renderForm()
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
+    protected function renderFormPrepare() {
 
         $scaleUnitLimit = $this->getConfig()->scaleUnitLimit;
         if ($scaleUnitLimit && $this->locationResult->scale >= $scaleUnitLimit)
@@ -859,28 +861,82 @@ class ClientLocation extends ClientPlugin
         $id_recenter_active = $this->getConfig()->idRecenterActive;
         $shortcuts_active = $this->getConfig()->shortcutsActive;
         $scale = number_format($this->locationResult->scale, 0, ',',"'");
-               
-        $template->assign(array('location_info' => $this->getLocationInformation(),
-                                'bboxMinX' => $this->locationState->bbox->minx,
-                                'bboxMinY' => $this->locationState->bbox->miny,
-                                'bboxMaxX' => $this->locationState->bbox->maxx,
-                                'bboxMaxY' => $this->locationState->bbox->maxy,
-                                'factor' => $factor,
-                                'currentScale' => $scale,
-                                'recenter_active' => $recenter_active,
-                                'scales_active' => $scales_active,
-                                'id_recenter_active' => $id_recenter_active,
-                                'shortcuts_active' => $shortcuts_active,
-                                ));
+
+        $assignArray['variables'] = array(
+            'bboxMinX' => $this->locationState->bbox->minx,
+            'bboxMinY' => $this->locationState->bbox->miny,
+            'bboxMaxX' => $this->locationState->bbox->maxx,
+            'bboxMaxY' => $this->locationState->bbox->maxy,
+            'factor' => $factor,
+            'currentScale' => $scale,
+            'recenter_active' => $recenter_active,
+            'scales_active' => $scales_active,
+            'id_recenter_active' => $id_recenter_active,
+            'shortcuts_active' => $shortcuts_active,
+        );
+        
+        $assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
 
         if ($recenter_active)
-            $template->assign('recenter', $this->drawRecenter());
+            $assignArray['htmlCode']['recenter'] = $this->drawRecenter();
         if ($scales_active)
-            $template->assign('scales', $this->drawScales());
+            $assignArray['htmlCode']['scales'] = $this->drawScales();
         if ($id_recenter_active)
-            $template->assign('id_recenter', $this->drawIdRecenter());
+            $assignArray['htmlCode']['id_recenter'] = $this->drawIdRecenter();
         if ($shortcuts_active)
-            $template->assign('shortcuts', $this->drawShortcuts());
+            $assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
+        
+        return $assignArray;
+    }
+               
+    /**
+     * @see GuiProvider::renderForm()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function renderForm(Smarty $template) {
+        $assignArray = $this->renderFormPrepare();      
+        $template->assign($assignArray['variables']);
+        $template->assign($assignArray['htmlCode']);
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */ 
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $assignArray = $this->renderFormPrepare(); 
+        foreach ($assignArray['variables'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addVariable($assignKey, $assignValue);
+        }       
+        foreach ($assignArray['htmlCode'] as $assignKey => $assignValue) {
+            $ajaxPluginResponse->addHtmlCode($assignKey, $assignValue);
+        }       
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Location.Pan':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('location');
+                $pluginEnabler->enablePlugin('images');
+            break;          
+            case 'Location.FullExtent':
+            case 'Location.Recenter':
+            case 'Location.RecenterIds':
+            case 'Location.Zoom':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('location');
+                $pluginEnabler->enablePlugin('layers');
+                $pluginEnabler->enablePlugin('images');
+            break;
+        }
     }
 
     /**

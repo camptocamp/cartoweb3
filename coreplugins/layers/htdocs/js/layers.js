@@ -153,7 +153,7 @@ function isChildrenUnchecked(id) {
 
 function updateChecked(id,skipChildren) {
   var refresh = xGetElementById("refresh");
-  if (refresh != null)
+  if (refresh != null && !CartoWeb.isAjaxMode())
     refresh.className = "form_button_hilight";
 
   var obj = document.getElementById('in' + id);

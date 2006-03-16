@@ -36,6 +36,36 @@
   {/if}
   {if $jsAccounting|default:''}<script type="text/javascript" src="{r type=js plugin=accounting}accounting.js{/r}"></script>{/if}
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
+
+  {if $ajaxOn|default:''}
+    <!-- Ajax related js includes - Debug Tool: jsTrace -->
+    <!-- Remove these two links to get rid of the logger (i.e. in production mode -->
+    <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+
+    <!-- Ajax related js includes - External libraries -->
+    <script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
+
+    <!-- Ajax related js includes - Global logic -->
+    <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js}AjaxHandler.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
+
+    <!-- Ajax related js includes - Per plugin logic -->
+    <!-- Coreplugins -->
+    <script type="text/javascript" src="{r type=js plugin=location}Location.ajax.js{/r}"></script>
+    {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}Layers.ajax.js{/r}"></script>{/if}
+    <script type="text/javascript" src="{r type=js plugin=images}Images.ajax.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js plugin=query}Query.ajax.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js plugin=tables}Tables.ajax.js{/r}"></script>
+    <!-- Plugins -->
+    {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}LayerReorder.ajax.js{/r}"></script>{/if}
+    {if $outline_active|default:''}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
+    {if $hello_active|default:''}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
+    <!-- Pseudo-plugin -->
+    <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
+  {/if}
   
   {include file="dhtmlcode.tpl"}
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
@@ -47,15 +77,15 @@
 
 <div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
 
-<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
+<form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
-  <input type="hidden" name="posted" value="1" />
-  <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
-  <input type="hidden" name="selection_type" />
-  <input type="hidden" name="selection_coords" />
-  <input type="hidden" name="features" />
+  <input type="hidden" name="posted" id="posted" value="1" />
+  <input type="hidden" name="js_folder_idx" id="js_folder_idx" value="{$jsFolderIdx}" />
+  <input type="hidden" name="selection_type" id="selection_type" />
+  <input type="hidden" name="selection_coords" id="selection_coords" />
+  <input type="hidden" name="features" id="features" />
   {if $collapsibleKeymap|default:''}
-    <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+    <input type="hidden" name="collapse_keymap" id="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
   {if $jsAccounting|default:''}
     <input type="hidden" name="js_accounting"/>
@@ -69,41 +99,42 @@
     {include file="toolbar.tpl" group=2}
 
     <table>
-      <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} 1:{$currentScale}</div></td></tr>
+      <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} <span id="currentScale">1:{$currentScale}</span></div></td></tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
-        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" alt="NE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" id="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" id="pan_n" alt="N" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" id="pan_ne" alt="NE" /></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
+        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" id="pan_w" alt="W" /></td>
         <td valign="top">
           {include file="mainmap.tpl"}
         </td>
-        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
+        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" id="pan_e" alt="E" /></td>
       </tr> 
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" id="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" id="pan_s" alt="S" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" id="pan_se" alt="SE" /></td>
       </tr>
       <tr>
         <td colspan="3">
           <table width="100%"><tr>
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coords (m):{/t} %s / %s</div></td>
-            <td width="50%"><div id="floatDistance" class="locationInfo">{t}Dist approx.:{/t}%s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+            <td width="50%">
+              <div id="floatDistance" class="locationInfo"><span id="distanceValueLabel">{t}Dist approx.:{/t}</span> %s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo"><span id="surfaceValueLabel">{t}Approx. surface :{/t}</span> %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
           </tr></table>
         </td>
       </tr>
       {if $scalebar_path|default:''}
-      <tr><td align="center" colspan="3"><img src="{$scalebar_path}" 
+      <tr><td align="center" colspan="3"><img src="{$scalebar_path}" id="scalebar" 
       alt="{t}scalebar_alt{/t}" width="{$scalebar_width}" height="{$scalebar_height}" title="" /></td></tr>
       {/if}
     </table>
 
   Current user: {$username} roles: {$roles}
-  <p> LocationInfo: {$location_info} </p>
+  <p id="location_info"> LocationInfo: {$location_info} </p>
 
   {if $user_messages|default:''}
    <span style="color: blue;">
@@ -129,8 +160,10 @@
   {$query_result}
   {/if}
 
-  {if $tables_result|default:''}
-  {$tables_result}
+  {if $tables_result|default:true}
+  <div id="tables_result">
+    {$tables_result}
+  </div>
   {/if}
 
 <pre>
@@ -165,7 +198,7 @@ Request:
                                         selected=$project}
         </select><br />
       {else}
-        <input type="hidden" name="project" value="{$project}" />
+        <input type="hidden" name="project" id="project" value="{$project}" />
       {/if}
          
       <input type="submit" id="refresh" name="refresh" value="{t}refresh{/t}" class="form_button" />
@@ -190,15 +223,15 @@ Request:
 
     
       {if $keymap_path|default:'' && !$collapsibleKeymap|default:''}
-      <div id="keymap">
-      <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
+      <div id="keymapDiv">
+      <input type="image" name="keymap" id="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
       style="width:{$keymap_width}px;height:{$keymap_height}px;" />
       </div>
       {/if}
     
       {if $hello_active|default:''}
       <p>Hello plugin test: <br />
-      {$hello_message} <br />
+      <span id="hello_message">{$hello_message}</span><br />
       <input type="text" name="hello_input" /></p>
       {/if}
     
@@ -207,7 +240,9 @@ Request:
       {/if}
     
       {if $scales_active|default:''}
-      {$scales}
+      <div id="recenter_scale_div">
+        {$scales}
+      </div>
       {/if}
     
       {if $shortcuts_active|default:''}
@@ -231,9 +266,9 @@ Request:
       <select name="viewBrowseId" onchange="javascript:loadView();">
       {html_options options=$viewsList selected=$selectedView}
       </select></p>
-      <input type="hidden" name="viewBrowse" value="0" />
+      <input type="hidden" name="viewBrowse" id="viewBrowse" value="0" />
       {if !$views}
-      <input type="hidden" name="handleView" value="0" />
+      <input type="hidden" name="handleView" id="handleView" value="0" />
       {/if}
       {/if}
 

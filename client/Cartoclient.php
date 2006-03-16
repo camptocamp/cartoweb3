@@ -24,6 +24,7 @@
 require_once(CARTOWEB_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
+require_once(CARTOWEB_HOME . 'client/AjaxHelper.php');
 require_once(CARTOWEB_HOME . 'client/ClientMapInfoCache.php');
 require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
 require_once(CARTOWEB_HOME . 'client/HttpRequestHandler.php');
@@ -65,7 +66,7 @@ class CartoForm {
     const BUTTON_MAINMAP = 2;
     const BUTTON_KEYMAP = 3;
     const BUTTON_APPLICATION = 4;
-
+    
     // FIXME: is this needed ?, or rather test **shape if not null
     /**
      * @var int
@@ -334,6 +335,17 @@ class Cartoclient extends Cartocommon {
     private static $instance;
 
     /**
+     * Current AJAX action, null if no AJAX action requested
+     * @var string
+     */
+    private $ajaxAction = null;
+
+    /**
+     * HTTP parameter name for AJAX actions
+     */
+    const AJAXACTION_PARAM_NAME = 'ajaxActionRequest';
+    
+    /**
      * Output formats constants.
      */
     const OUTPUT_HTML_VIEWER = 'viewer';
@@ -506,6 +518,50 @@ class Cartoclient extends Cartocommon {
     }
 
     /**
+     * Tell is the Cartoclient runs in AJAX mode
+     * @return bool true if the Cartoclient runs in AJAX mode,
+     *              false otherwise
+     */
+    public function isAjaxMode() {
+        return !empty($this->ajaxAction);
+    }
+    
+    /**
+     * Sets the current AJAX action
+     * @return string Requested AJAX action, or null if no AJAX action requested
+     */
+    public function setAjaxAction($ajaxAction) {
+        if (!ereg("^.+\..+$", $ajaxAction)) {
+            throw new AjaxException(
+                "ajaxActionRequest parameter\'s value is not correctly " .
+                'formatted. It should look like: PluginName.ActionName ' .
+                "(current value: '$ajaxAction')");
+        }
+                
+        list($requestedPluginName, $requestedActionName) = 
+                explode('.', $ajaxAction, 2);
+        
+        $requestedPluginName = strtolower($requestedPluginName{0}) 
+                               . substr($requestedPluginName, 1);
+
+        if ($this->getPluginManager()->getPlugin($requestedPluginName) == NULL)
+            throw new AjaxException(
+                "Requested plugin $requestedPluginName is not loaded. " .
+                'Check your AJAX call parameters ' .
+                '(currently ajaxActionRequest=' . $ajaxAction . ')');      
+
+        $this->ajaxAction = $ajaxAction;
+    }
+
+    /**
+     * Returns the requested AJAX action
+     * @return string Requested AJAX action, or null if no AJAX action requested
+     */
+    public function getAjaxAction() {
+        return $this->ajaxAction;
+    }
+
+    /**
      * @param ClientSession
      */
     public function setClientSession($clientSession) {
@@ -516,7 +572,7 @@ class Cartoclient extends Cartocommon {
      * Returns the names of core plugins
      * @return array names
      */
-    protected function getCorePluginNames() {
+    public function getCorePluginNames() {
         return array_merge(parent::getCorePluginNames(), array('statictools'));   
     }
 
@@ -607,6 +663,45 @@ class Cartoclient extends Cartocommon {
                                                       $functionName, $args);
     }
 
+    /**
+     * Calls enabled plugins implementing an interface
+     * A plugin is enabled if its enable level is equal or higher than
+     * the given $enableLevel
+     * Interfaces are declared in {@link ClientPlugin}.
+     * @param int minimum enable level for a plugin to be called
+     * @param string interface name
+     * @param string function name
+     */
+    public function callEnabledPluginsImplementing($enableLevel, $interface,
+                                                   $functionName) {
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        $this->pluginManager->callEnabledPluginsImplementing($enableLevel,
+                                              $interface, $functionName, $args);
+    }
+
+    /**
+     * Calls a given $pluginName implementing an interface if its enable level
+     * is equal or higher than the given $enableLevel
+     * Interfaces are declared in {@link ClientPlugin}.
+     * @param int minimum enable level for the plugin to be called
+     * @param string plugin name
+     * @param string interface name
+     * @param string function name
+     */
+    public function callEnabledPluginImplementing($enableLevel, $pluginName,
+                                                  $interface, $functionName) {
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        array_shift($args);
+        $this->pluginManager->callEnabledPluginImplementing($enableLevel,
+                                 $pluginName, $interface, $functionName, $args);
+    }
+    
     /**
      * Returns the MapInfoCache
      * @return MapInfoCache
@@ -880,20 +975,30 @@ class Cartoclient extends Cartocommon {
                                                         $this->cartoForm);
 
                 $request = new FilterRequestModifier($_REQUEST);
-                $this->callPluginsImplementing('FilterProvider',
-                                               'filterPostRequest', $request);
-                $this->callPluginsImplementing('GuiProvider', 
-                                               'handleHttpPostRequest',
-                                               $request->getRequest());
+                $this->callEnabledPluginsImplementing(
+                                             ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                             'FilterProvider',
+                                             'filterPostRequest',
+                                             $request);
+                $this->callEnabledPluginsImplementing(
+                                             ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                             'GuiProvider', 
+                                             'handleHttpPostRequest',
+                                             $request->getRequest());
             }
         } else {
             
             $request = new FilterRequestModifier($_REQUEST);
-            $this->callPluginsImplementing('FilterProvider',
-                                           'filterGetRequest', $request);
-            $this->callPluginsImplementing('GuiProvider',
-                                           'handleHttpGetRequest',
-                                           $request->getRequest());
+            $this->callEnabledPluginsImplementing(
+                                             ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                             'FilterProvider',
+                                             'filterGetRequest',
+                                             $request);
+            $this->callEnabledPluginsImplementing(
+                                             ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                             'GuiProvider',
+                                             'handleHttpGetRequest',
+                                             $request->getRequest());
         }
         
         // If flow is not interrupted and client not allowed, 
@@ -907,19 +1012,23 @@ class Cartoclient extends Cartocommon {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
-            $output = $this->formRenderer->showForm();
-            $this->callPluginsImplementing('Sessionable', 'saveSession');
             $this->saveSession($this->clientSession);
+            $output = $this->formRenderer->render();
+            $this->callPluginsImplementing('Sessionable', 'saveSession');
             return $output;
         }
 
         $mapRequest = $this->getMapRequest();
-        $this->callPluginsImplementing('ServerCaller', 'buildRequest',
-                                       $mapRequest);
-        $this->callPluginsImplementing('ServerCaller', 'overrideRequest',
-                                       $mapRequest);
+        $this->callEnabledPluginsImplementing(
+                                          ClientPlugin::ENABLE_LEVEL_SERVERCALL,
+                                          'ServerCaller', 'buildRequest',
+                                          $mapRequest);
+        $this->callEnabledPluginsImplementing(
+                                          ClientPlugin::ENABLE_LEVEL_SERVERCALL,
+                                          'ServerCaller', 'overrideRequest',
+                                          $mapRequest);
 
-        // Save mapRequest for future use
+        // Saves mapRequest for future use
         $this->clientSession->lastMapRequest = 
             StructHandler::deepClone($mapRequest);
 
@@ -928,18 +1037,21 @@ class Cartoclient extends Cartocommon {
 
         $this->mapResult = $this->getMapResultFromRequest($mapRequest);
 
-        // Save mapResult for future use
+        // Saves mapResult for future use
         $this->clientSession->lastMapResult = 
             StructHandler::deepClone($this->mapResult);
 
         $this->log->debug('mapresult:');
         $this->log->debug($this->mapResult);
 
-        $this->callPluginsImplementing('ServerCaller', 'initializeResult',
-                                       $this->mapResult);
-
-        $this->callPluginsImplementing('ServerCaller', 'handleResult',
-                                       $this->mapResult);
+        $this->callEnabledPluginsImplementing(
+                                          ClientPlugin::ENABLE_LEVEL_SERVERCALL,
+                                          'ServerCaller', 'initializeResult',
+                                          $this->mapResult);
+        $this->callEnabledPluginsImplementing(
+                                          ClientPlugin::ENABLE_LEVEL_SERVERCALL,
+                                          'ServerCaller', 'handleResult',
+                                          $this->mapResult);
 
         $this->log->debug('client context to display');
 
@@ -949,15 +1061,51 @@ class Cartoclient extends Cartocommon {
             $this->getPluginManager()->getPlugin('images')->outputMainmap();
             $output = '';
         } else {
-            $output = $this->formRenderer->showForm();
+            $output = $this->formRenderer->render();
         }
 
-        $this->callPluginsImplementing('Sessionable', 'saveSession');
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                              'Sessionable',
+                                              'saveSession');
 
         $this->saveSession($this->clientSession);
         $this->log->debug("session saved\n");
 
         return $output;
+    }
+
+    /**
+     * Prepares the AJAX mode by setting plugins enable level
+     * according the given ajaxAction.
+     * @param string AJAX action
+     */    
+    private function prepareAjax($ajaxAction) {
+
+        $this->setAjaxAction($ajaxAction);
+
+        // Determines what plugin triggered what action 
+        list($requestedPluginName, $requestedActionName) = 
+                explode('.', $this->getAjaxAction(), 2);        
+        // Lowercases the first letter of $requestedPluginName
+        $requestedPluginName = strtolower($requestedPluginName{0}) 
+                               . substr($requestedPluginName, 1);
+
+        
+        $pluginEnabler = new PluginEnabler($this);
+        
+        // Plugins are disabled by default in AJAX mode
+        $pluginEnabler->disablePlugins();
+
+        // Asks plugins to give their plugins directives for the given $actionId
+        $this->callPluginsImplementing('Ajaxable', 'ajaxHandleAction',
+                                       $this->ajaxAction, $pluginEnabler);
+
+        // Gives the $requestedPlugin the last word
+        $this->pluginManager->callPluginImplementing($requestedPluginName,
+                                                     'Ajaxable',
+                                                     'ajaxHandleAction',
+                                                     $this->ajaxAction,
+                                                     $pluginEnabler);
     }
 
     /**
@@ -1063,12 +1211,15 @@ class Cartoclient extends Cartocommon {
             if ($this->outputType == self::OUTPUT_HTML_VIEWER ||
                 $this->outputType == self::OUTPUT_IMAGE ||
                 !$exportPlugin = $this->getValidExportType()) {
+                // Triggers the AJAX mode if an ajaxActionRequest was received               
+                if (isset($_REQUEST[self::AJAXACTION_PARAM_NAME])) {
+                    $this->prepareAjax($_REQUEST[self::AJAXACTION_PARAM_NAME]);
+                }
                 $output = $this->doMain();
             } else {
                 $output = $this->doExport($exportPlugin);
             }
             Accounting::getInstance()->save();
-
         } catch (Exception $exception) {
             $output = $this->formRenderer->showFailure($exception);
         }

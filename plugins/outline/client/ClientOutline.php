@@ -368,9 +368,11 @@ class ClientOutline extends ClientPlugin
     }
 
     /**
-     * @see GuiProvider::renderForm()
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
+    protected function renderFormPrepare() {
 
         $transSymbols = array();
 
@@ -378,20 +380,53 @@ class ClientOutline extends ClientPlugin
             $transSymbols[] = I18n::gt($val);
         }
 
-        $template->assign(array('outline_active' => true,
-                                'outline'        => $this->drawOutline(),
-                                'outlinelabel'   => $this->drawOutlinelabel(),
-                                'pathToSymbols'  => $this->symbols->pathToSymbols,
-                                'symbolType'     => $this->symbols->symbolType,
-                                'outline_point_available_symbols' 
-                                                 => $this->symbols->point,
-                                'outline_point_available_symbolsLabels' 
-                                                 => $transSymbols,
-                                'outline_line_available_symbols' 
-                                                 => $this->symbols->line,
-                                'symbolPickerHilight' => $this->symbols->
-                                                         symbolPickerHilight
-                                ));
+        return array('outline_active' => true,
+                     'outline'        => $this->drawOutline(),
+                     'outlinelabel'   => $this->drawOutlinelabel(),
+                     'pathToSymbols'  => $this->symbols->pathToSymbols,
+                     'symbolType'     => $this->symbols->symbolType,
+                     'outline_point_available_symbols' 
+                                      => $this->symbols->point,
+                     'outline_point_available_symbolsLabels' 
+                                      => $transSymbols,
+                     'outline_line_available_symbols' 
+                                      => $this->symbols->line,
+                     'symbolPickerHilight'
+                                      => $this->symbols->symbolPickerHilight
+                    );
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     */
+    public function renderForm(Smarty $template) {
+        $template->assign($this->renderFormPrepare());
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $output = $this->renderFormPrepare();
+        $ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
+    }
+    
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Outline.AddFeature':
+            case 'Outline.Clear':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('images');
+                $pluginEnabler->enablePlugin('outline');
+            break;
+            case 'Outline.ChangeMode':            
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('images');
+            break;
+        }
     }
 
     /**

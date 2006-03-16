@@ -64,7 +64,7 @@ class LayerReorderState {
  * @package Plugins
  */
 class ClientLayerReorder extends ClientPlugin
-    implements InitUser, ServerCaller, GuiProvider, Sessionable {
+    implements InitUser, ServerCaller, GuiProvider, Sessionable, Ajaxable {
 
     /**
      * @var Logger
@@ -452,13 +452,12 @@ class ClientLayerReorder extends ClientPlugin
 
     }
 
-
     /**
-     * Manages form output rendering
-     * @param string Smarty template object
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
-
+    protected function renderFormPrepare() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         // IHM use reverse order...
         $smarty->assign('layerReorder',
@@ -473,8 +472,47 @@ class ClientLayerReorder extends ClientPlugin
             $smarty->assign('enableTransparency', true);
         }
 
-        $output = $smarty->fetch('layerReorder.tpl');
-        $template->assign('layerReorder', $output);
+        return $smarty->fetch('layerReorder.tpl');
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function renderForm(Smarty $template) {
+        $template->assign('layerReorder', $this->renderFormPrepare());        
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addHtmlCode('gui', $this->renderFormPrepare());
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'LayerReorder.Apply':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('location');
+                $pluginEnabler->enablePlugin('layers');
+                $pluginEnabler->enablePlugin('images');
+                $pluginEnabler->enablePlugin('layerReorder');
+            break;
+            case 'Layers.LayerShowHide':
+            case 'Layers.LayerDropDownChange':
+            default:
+                $pluginEnabler->enablePlugin('layerReorder');
+            break;
+        }
     }
 
 }

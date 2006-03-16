@@ -1,18 +1,66 @@
 /* Copyright 2005 Camptocamp SA. 
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
-/* Tested browsers
-Macintosh
- SAFARI
- Firefox: 1.7.3
- Netscape: 7.2
+//----------------------------------------------------------------------------//
 
-Windows
- Netscape: 7.2
- Mozilla:1.7.3
- Firefox: 1.0.2
- IE: 5.0.1, 5.5, 6.0.23, 6.0.28, 6.0.29
-*/
+/**
+ * CartoWeb object for AJAX actions triggering
+ */
+CartoWeb = {
+    /**
+     * Triggers the given ajaxAction if AJAX is enabled, else executes
+     * the given nonAjaxInstruction.
+     * @param string AJAX Action to trigger
+     * @param string Non AJAX instruction(s) to execute if not in AJAX mode
+     * @param object Object containing custom information for action processing
+     */
+    trigger: function (ajaxAction, nonAjaxInstruction, ajaxArgObject) {
+        ajaxArgObject = typeof(ajaxArgObject) == 'object' ? ajaxArgObject : {};
+        nonAjaxInstruction = nonAjaxInstruction || '';
+        if (this.isAjaxMode()) {
+            AjaxHandler.doAction(ajaxAction, ajaxArgObject);
+            return false;
+        } else {
+            eval(nonAjaxInstruction);
+        }
+    },
+    
+    disableAjax: function() {
+        if (typeof(AjaxHandler) != 'undefined') {
+            AjaxHandler.processActions = false;
+        }
+    },
+    enableAjax: function() {
+        if (typeof(AjaxHandler) != 'undefined') {
+            AjaxHandler.processActions = true;
+        }
+    },
+    
+    /**
+     * Returns wether AJAX mode is enabled or not
+     * @return bool True if AJAX mode is enabled, false otherwise.
+     */ 
+    isAjaxMode: function() {
+        return typeof(AjaxHandler) != 'undefined' && AjaxHandler.processActions;
+    }    
+} 
+
+//----------------------------------------------------------------------------//
+
+ /** 
+  * dhtmlAPI Core
+  *
+  * Tested browsers
+  * - Macintosh
+  *   - SAFARI
+  *   - Firefox: 1.7.3
+  *   - Netscape: 7.2
+  * - Windows
+  *   - Netscape: 7.2
+  *   - Mozilla:1.7.3
+  *   - Firefox: 1.0.2
+  *   - IE: 5.0.1, 5.5, 6.0.23, 6.0.28, 6.0.29
+  */
 
 // Drawing objects indexes
 var pi = 0;    // point id

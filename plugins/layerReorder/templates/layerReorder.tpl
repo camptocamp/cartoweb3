@@ -1,3 +1,4 @@
+<div id="layerReorderDiv">
    <div id="layerReorderPicto">
      <img src="{r type=gfx plugin=layerReorder}reorderUp.gif{/r}" 
           alt="{t}Upside{/t}" title="{t}Upside{/t}" 
@@ -40,5 +41,8 @@
    </div>
   <br />
   <input type="hidden" name="layersReorder" value="" />
-  <input type="button" onclick="javascript:retrieveOrder();FormItemSelected();"
-         value="{t}Refresh{/t}" class="form_button" />
+  <input type="button" value="{t}Refresh{/t}" class="form_button"
+           onclick="javascript: retrieveOrder();
+             CartoWeb.trigger('LayerReorder.Apply', 'FormItemSelected()');
+  "/>
+</div>

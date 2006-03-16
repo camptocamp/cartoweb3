@@ -194,7 +194,7 @@ class LayerNode {
  */
 class ClientLayers extends ClientPlugin
                    implements Sessionable, GuiProvider, ServerCaller, 
-                              Exportable, InitUser {
+                              Exportable, InitUser, Ajaxable {
     /**
      * @var Logger
      */
@@ -1357,6 +1357,34 @@ class ClientLayers extends ClientPlugin
                                 'switches'  => $this->drawSwitches(),
                                 'switch_id' => $this->layersState->switchId,
                                 ));
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addHtmlCode('layers', $this->drawLayersList());
+        $ajaxPluginResponse->addHtmlCode('switches', $this->drawSwitches());
+        $ajaxPluginResponse->addHtmlCode('switch_id', $this->layersState->switchId);
+        $ajaxPluginResponse->addVariable('startOpenNodes',
+                              "'" . implode('\',\'', $this->unfoldedIds) . "'");
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        switch ($actionName) {
+            case 'Layers.LayerShowHide':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('images');
+            break;
+            case 'Layers.LayerDropDownChange':
+                $pluginEnabler->disableCoreplugins();
+                $pluginEnabler->enablePlugin('layers');
+                $pluginEnabler->enablePlugin('images');
+            break;
+        }
     }
 
     /**

@@ -8,5 +8,7 @@
 
 <br/>
 {t}Comma separated id's{/t} 
-<input type="text" id="id_recenter_ids" name="id_recenter_ids" /> 
+<input type="text" id="id_recenter_ids" name="id_recenter_ids" />
+<input type="submit" name="refresh" value="{t}refresh{/t}" class="form_button"
+    onclick="javascript: return CartoWeb.trigger('Location.Recenter');" />
 </p>

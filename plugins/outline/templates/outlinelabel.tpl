@@ -13,6 +13,6 @@
       value="{t}your label{/t}" onfocus="this.value = '';
       {literal}this.form.onsubmit = function() {doSubmit()};"{/literal} />
       <input type="button" value="{t}ok{/t}" style="margin:1px"
-      onclick="doSubmit();" />
+      onclick="return CartoWeb.trigger('Outline.AddFeature', 'doSubmit()');" />
   </div>
 </div>

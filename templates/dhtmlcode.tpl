@@ -25,7 +25,7 @@ function initMap() {{/literal}
     factor = {$factor};{literal}
 
     var rasterLayer = new Layer("raster");{/literal}
-    var feature = new Raster('{$mainmap_path}');{literal}
+    var feature = new Raster('{$mainmap_path}', 'map_raster_img');{literal}
     rasterLayer.addFeature(feature);
     mainmap.addLayer(mainmap,rasterLayer);
 
@@ -59,5 +59,13 @@ function initMap() {{/literal}
 {/if} {* end edit allowed *}
 {literal}
 }{/literal}
+
+
+// Sets the profile (production, development or custom) for the AjaxHandler
+var profile = '{$profile}'{literal}
+if (typeof(AjaxHandler) != 'undefined') {
+    AjaxHandler.setProfile(profile);
+}{/literal}
+
 /*]]>*/
 </script>

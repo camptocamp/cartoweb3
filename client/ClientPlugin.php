@@ -182,6 +182,27 @@ interface GuiProvider {
     public function renderForm(Smarty $template);
 }
 
+/**
+ * Interface for plugins that generate AJAX responses
+ * @package Client
+ */
+interface Ajaxable {
+
+    /**
+     * Modifies plugins enable level for the given action
+     * @param string Name Name of the action
+     * @param $pluginEnabler PluginEnabler @see PluginEnabler
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler);
+
+    /**
+     * Populates a plugin XML response to AJAX request
+     * @param AjaxPluginResponse
+     * @see AjaxPluginResponse
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse);
+}
+
 /** 
  * Interface for plugins that may call server
  * @package Client
@@ -313,6 +334,27 @@ interface FilterProvider {
 abstract class ClientPlugin extends PluginBase {
 
     /**
+     * Enable level of the plugin (used for AJAX calls).
+     * @var int
+     * @see PluginEnabler
+     * @see Cartoclient::callEnabledPluginImplementing()
+     * @see Cartoclient::callEnabledPluginsImplementing()
+     */
+     protected $enabledLevel = ClientPlugin::ENABLE_LEVEL_FULL;
+
+    /* 
+     * Enable level definitions
+     * ENABLE_LEVEL_LOAD: Load/create plugin session
+     * ENABLE_LEVEL_PROCESS: LOAD + filter+handle http request and save session
+     * ENABLE_LEVEL_SERVERCALL: PROCESS + build server request and handle results
+     * ENABLE_LEVEL_FULL: SERVERCALL + render GUI 
+     */
+    const ENABLE_LEVEL_LOAD = 0;
+    const ENABLE_LEVEL_PROCESS = 1;
+    const ENABLE_LEVEL_SERVERCALL = 2;
+    const ENABLE_LEVEL_FULL = 3;
+
+    /**
      * @var Logger
      */
     private $log;
@@ -423,6 +465,50 @@ abstract class ClientPlugin extends PluginBase {
         return NULL;
     }
     
+    /**
+     * Sets the enable level (to be used with the AJAX mode).
+     * @param int
+     */
+    public function setEnableLevel($enableLevel) {
+        if ($enableLevel < ClientPlugin::ENABLE_LEVEL_LOAD ||
+            $enableLevel > ClientPlugin::ENABLE_LEVEL_FULL) {
+            throw new AjaxException("The specified enable level ($enableLevel)" .
+                                    'does not exist!');
+        }
+        $this->enabledLevel = $enableLevel;
+    }
+
+    /**
+     * Returns the enable level.
+     * @return int the current enable level.
+     */
+    public function getEnabledLevel() {
+        return $this->enabledLevel;
+    }
+    
+    /**
+     * Sets the enable level to ClientPlugin::ENABLE_LEVEL_FULL.
+     */
+    public function enable() {
+        $this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_FULL);
+    }
+
+    /**
+     * Sets the enable level to ClientPlugin::ENABLE_LEVEL_SERVERCALL.
+     */
+    public function disable() {
+        $this->setEnableLevel(ClientPlugin::ENABLE_LEVEL_SERVERCALL);
+    }
+    
+    /**
+     * Sets the enable level to ClientPlugin::ENABLE_LEVEL_FULL.
+     * @return bool true if the current enable level is equal or greater than
+     *              the given enable level, false otherwise.
+     */
+    public function isEnabledAtLevel($enableLevel) {
+        return $this->enabledLevel >= $enableLevel;
+    }
+
 }
 
 ?>

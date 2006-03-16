@@ -35,7 +35,7 @@ require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php')
  * @package CorePlugins
  */
 class ClientTables extends ClientPlugin
-                   implements GuiProvider {
+                   implements GuiProvider, Ajaxable {
                    
     /**
      * @var Logger
@@ -183,19 +183,48 @@ class ClientTables extends ClientPlugin
     }
     
     /**
-     * @see GuiProvider::renderForm()
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
+    protected function renderFormPrepare() {
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign('tables', $this->tableGroups);
         
         $this->assignExportCsv($smarty);
         
-        $output = $smarty->fetch('tables.tpl');
-        
+        return $smarty->fetch('tables.tpl');
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function renderForm(Smarty $template) {
+
+        $output = $this->renderFormPrepare();        
         $template->assign('tables_result', $output);
     }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     * FIXME: when all the values in the $assignArray are to be assigned,
+     *        an automatism will be created to avoid coding the same piece
+     *        of code all the time. @see bug #1354
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addHtmlCode('tableResult', $this->renderFormPrepare());
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginsDirectives) {
+        // Activation done in ClientQuery::ajaxHandleAction()                
+    }    
 }
 
 ?>

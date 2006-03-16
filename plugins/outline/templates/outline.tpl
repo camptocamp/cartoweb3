@@ -1,10 +1,12 @@
 <fieldset class="outl">
   <legend>{t}Drawing mode{/t}</legend>
   <label>
-    <input type="radio" name="outline_mask" value="no"{if $outline_mask_selected eq "no"} checked="checked"{/if} />{t}Draw{/t}
+    <input type="radio" name="outline_mask" value="no"{if $outline_mask_selected eq "no"} checked="checked"{/if}
+     onclick="javascript: CartoWeb.trigger('Outline.ChangeMode');" />{t}Draw{/t}
   </label><br />
   <label>
-    <input type="radio" name="outline_mask" value="yes"{if $outline_mask_selected eq "yes"} checked="checked"{/if} />{t}Mask{/t}
+    <input type="radio" name="outline_mask" value="yes"{if $outline_mask_selected eq "yes"} checked="checked"{/if}
+     onclick="javascript: CartoWeb.trigger('Outline.ChangeMode');" />{t}Mask{/t}
   </label>
 </fieldset>
 

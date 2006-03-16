@@ -280,9 +280,45 @@ class PluginManager {
     public function callPluginsImplementing($interface, $functionName, 
                                      $args = array()) {
 
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->plugins as $plugin) {            
             $this->callPluginImplementing($plugin, $interface, $functionName, 
                                           $args);
+        }
+    }
+
+    /**
+     * Calls a function on a plugin implementing an interface
+     * IF the plugin is enabled.
+     * An enabled plugin is a plugin whose enableLevel property value is
+     * bigger or equal to the given $enableLevel argument.
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
+    public function callEnabledPluginImplementing($enableLevel, $pluginName, 
+                                  $interface, $functionName, $args = array()) {
+
+        $plugin = $this->getPlugin($pluginName);
+        if ($plugin->isEnabledAtLevel($enableLevel)) {
+            $this->callPluginImplementing($plugin, $interface, $functionName, 
+                                          $args);
+        }
+    }
+
+    /**
+     * Calls a function on enabled plugins implementing an interface.
+     * @param string interface name
+     * @param string function name
+     * @param array function arguments
+     */
+    public function callEnabledPluginsImplementing($enableLevel, $interface,
+                                                   $functionName,
+                                                   $args = array()) {
+        foreach ($this->plugins as $plugin) {
+            if ($plugin->isEnabledAtLevel($enableLevel)) {
+                $this->callPluginImplementing($plugin, $interface, 
+                                              $functionName, $args);
+            }
         }
     }
 

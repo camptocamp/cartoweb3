@@ -78,7 +78,7 @@ createMap = function() {
   if (typeof cw3_initial_selected_tool != "undefined") {
     // prevent interface failure if last selected tool was pdfrotate, set it to default zoomin 
     cw3_initial_selected_tool = cw3_initial_selected_tool.replace(/pdfrotate/g, "zoomin");
-  	eval (cw3_initial_selected_tool);
+    eval (cw3_initial_selected_tool);
   }
   
   xHide(xGetElementById('loadbarDiv'));
@@ -90,6 +90,10 @@ createMap = function() {
  * @param aFeature
  */
 fillForm = function(aFeature) {
+  if (typeof(aFeature) == 'undefined') {
+      return; // prevents from an error when pressing enter in the label input
+  }
+
   // TODO let the possibility to send more than one feature
   var coords = new String();
   for (var i=0;i<aFeature.vertices.length;i++) {
@@ -131,7 +135,7 @@ storeFeatures = function() {
     var aFeature = mainmap.currentLayer.features[i];
     for (var j=0; j < mainmap.editAttributeNames.length; j++) {
       if (mainmap.editAttributeTypes[j] == "")
-      	continue;
+          continue;
       var input = eval("myform['edit_feature_" + aFeature.id + "[" + mainmap.editAttributeNames[j] + "]']");
       if (!validateFormInput(mainmap.editAttributeTypes[j], input.value)) {
         return false;
@@ -231,21 +235,7 @@ Map.prototype.displayFeaturesCount = function() {
 /**
  * Tools specific functionnalities
  */
-/***** LOCATION ****/
-Map.prototype.zoomout = function(aDisplay) {
-  this.resetMapEventHandlers();
-  
-  this.setCurrentLayer('drawing');
-  this.getDisplay(aDisplay).setTool('sel.point');
-  this.onSelPoint = function(x, y) {
-    myform.selection_coords.value = x + "," + y;
-    myform.selection_type.value = "point";
-    storeFeatures();
-    doSubmit();
-  }
-};
-
-Map.prototype.selectionBox = function(aDisplay, action) {
+Map.prototype.selectionBox = function(aDisplay, ajaxAction) {
   this.resetMapEventHandlers();
 
   this.setCurrentLayer('drawing');
@@ -254,10 +244,28 @@ Map.prototype.selectionBox = function(aDisplay, action) {
     myform.selection_coords.value = x1 + "," + y1 + ";" + x2 + "," + y2;
     myform.selection_type.value = "rectangle";
     storeFeatures();
-    doSubmit();
+    CartoWeb.trigger(ajaxAction, "doSubmit()");
   }
 };
+
+Map.prototype.selectionPoint = function(aDisplay, ajaxAction) {
+  this.resetMapEventHandlers();
   
+  this.setCurrentLayer('drawing');
+  this.getDisplay(aDisplay).setTool('sel.point');
+  this.onSelPoint = function(x, y) {
+    myform.selection_coords.value = x + "," + y;
+    myform.selection_type.value = "point";
+    storeFeatures();
+    CartoWeb.trigger(ajaxAction, "doSubmit()");
+  }
+}
+
+/***** LOCATION ****/
+Map.prototype.zoomout = function(aDisplay) {
+  this.selectionPoint(aDisplay, 'Location.Zoom');
+};
+
 Map.prototype.zoomin = function(aDisplay) {
   this.selectionBox(aDisplay, 'Location.Zoom');
 };
@@ -273,12 +281,12 @@ Map.prototype.pan = function(aDisplay) {
     myform.selection_coords.value = x + "," + y;
     myform.selection_type.value = "point";
     storeFeatures();
-    doSubmit();
+    CartoWeb.trigger('Location.Pan', "doSubmit()", {source: 'map'});
   }
 };
 
 Map.prototype.query_by_point = function(aDisplay) {
-  this.zoomout(aDisplay);
+  this.selectionPoint(aDisplay, 'Query.Perform');
   this.getDisplay(aDisplay).docObj.style.cursor = "help";
 };
 
@@ -293,11 +301,11 @@ Map.prototype.query_by_polygon = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.poly');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
-    doSubmit();
+    CartoWeb.trigger('Query.Perform', "doSubmit()");
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -315,11 +323,11 @@ Map.prototype.query_by_circle = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.circle');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
-    doSubmit();
+    CartoWeb.trigger('Query.Perform', "doSubmit()");
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -367,6 +375,9 @@ Map.prototype.surface = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.poly');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
+    if (typeof aFeature == 'undefined') {
+        return;
+    }
     var surface = aFeature.getArea();
     surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
@@ -396,7 +407,7 @@ Map.prototype.outline_poly = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.poly');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
@@ -423,7 +434,7 @@ Map.prototype.outline_line = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.line');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
@@ -450,7 +461,7 @@ Map.prototype.outline_rectangle = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.box');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
@@ -477,7 +488,7 @@ Map.prototype.outline_point = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.point');
 
   this.onNewFeature = function(aFeature) {
-  	this.onToolUnset();
+      this.onToolUnset();
   };
   this.onFeatureInput = this.onFeatureChange = function(aFeature) {
     fillForm(aFeature);
