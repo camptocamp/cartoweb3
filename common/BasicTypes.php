@@ -570,7 +570,7 @@ class Circle extends Shape {
         $center->x = $this->x;
         $center->y = $this->y;
         
-        return $this->center;
+        return $center;
     }
     
     /**
@@ -579,7 +579,7 @@ class Circle extends Shape {
      */
     public function getArea() {
         
-        return M_PI * $radius * $radius;
+        return M_PI * $this->radius * $this->radius;
     }
 }
 

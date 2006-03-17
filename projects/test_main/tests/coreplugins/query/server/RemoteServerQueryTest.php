@@ -395,7 +395,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     public function testQueryBboxAllLayers($direct = false) {
 
         $mapRequest = $this->getMapBboxRequestAllLayers();
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /*$mapResult = $this->getMap($mapRequest);
         $this->assertQueryResultWithAttributes($mapResult->queryResult);*/
         
@@ -410,7 +410,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     public function testQueryPolygonAllLayers($direct = false) {
 
         $mapRequest = $this->getMapPolygonRequestAllLayers();
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /*$mapResult = $this->getMap($mapRequest);
         $this->assertQueryPolygonResultWithAttributes($mapResult->queryResult);*/
 
@@ -425,7 +425,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     public function testQueryCircleAllLayers($direct = false) {
 
         $mapRequest = $this->getMapCircleRequestAllLayers();
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /* $mapResult = $this->getMap($mapRequest);
         $this->assertQueryCircleResultWithAttributes($mapResult->queryResult);*/
 
@@ -440,7 +440,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
 
         $mapRequest = $this->getMapBboxRequestAllLayers();
         $mapRequest->queryRequest->defaultMaskMode = true;
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /*$mapResult = $this->getMap($mapRequest);
         $this->assertQueryResultWithAttributes($mapResult->queryResult);*/
 
@@ -454,7 +454,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     public function testQueryNoAttributes($direct = false) {
 
         $mapRequest = $this->getMapRequestNoAttributes();
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /* $mapResult = $this->getMap($mapRequest);
         $this->assertQueryResultNoAttributes($mapResult->queryResult);*/
 
@@ -468,7 +468,7 @@ class projects_testMain_coreplugins_query_server_RemoteServerQueryTest
     public function testQueryNoTable($direct = false) {
 
         $mapRequest = $this->getMapRequestNoTable();
-        // test broken (layers update)
+        // FIXME: Bug 1343
         /* $mapResult = $this->getMap($mapRequest);
         $this->assertQueryResultNoTable($mapResult->queryResult);*/
 

@@ -619,7 +619,18 @@ class LayersInit extends CwSerializable {
         
         $this->switches = self::unserializeObjectMap($struct, 'switches',
                                                      'SwitchInit');
-    }    
+    }
+    
+    /**
+     * Clone array of layers
+     */
+    public function __clone() {
+        $layers = array();
+        foreach ($this->layers as $key => $value) {
+            $layers[$key] = clone($value);
+        }
+        $this->layers = $layers;
+    }
 }
 
 ?>

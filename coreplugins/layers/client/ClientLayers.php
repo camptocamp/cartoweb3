@@ -72,11 +72,6 @@ class LayersState {
      * @var LayersInit
      */
     public $layersInit;
-
-    /**
-     * @var boolean;
-     */
-    public $userLayers;
 }
 
 /**
@@ -210,11 +205,6 @@ class ClientLayers extends ClientPlugin
      */
     protected $layersInit;
 
-    /**
-     * @var boolean
-     */
-    protected $userLayers = false;
-    
     /**
      * @var LayersState
      */
@@ -378,9 +368,7 @@ class ClientLayers extends ClientPlugin
 
         $this->nodesIds =& $this->layersState->nodesIds;
         $this->layersInit =& $this->layersState->layersInit;
-        $this->userLayers =& $this->layersState->userLayers;
-        if ($this->userLayers) $this->getLayers(true);
-
+        
         // Set switch if set before loadSession
         if ($this->overrideSwitch) {
             $this->layersState->switchId = $overridedSwitchId;
@@ -454,7 +442,6 @@ class ClientLayers extends ClientPlugin
         }
 
         $this->layersState->nodesIds =& $this->nodesIds;
-        $this->layersState->userLayers =& $this->userLayers;
     }
 
     /**
@@ -483,7 +470,8 @@ class ClientLayers extends ClientPlugin
      */
     protected function getLayerNode() {
         
-        $layers = $this->layersInit->layers;
+        $layersInit = clone $this->layersInit;
+        $layers = $layersInit->layers;
                 
         $layersMap = array();
         foreach ($layers as $layer) {
@@ -503,8 +491,10 @@ class ClientLayers extends ClientPlugin
      */
     protected function getLayersSecurityFiltered() {
     
-        if (!$this->getConfig()->applySecurity)
-            return $this->layersInit->layers;
+        if (!$this->getConfig()->applySecurity) {
+            $layersInit = clone $this->layersInit;
+            return $layersInit->layers;
+        }
 
         // TODO: Analyse the performances of the layerNode tree creation and 
         //  filtering
@@ -990,7 +980,6 @@ class ClientLayers extends ClientPlugin
             }
         }
         // refresh cache
-        $this->userLayers = true;
         $layerGroup->getChildren($this->layersState->switchId, true);
         $this->getLayers(true);
     }
