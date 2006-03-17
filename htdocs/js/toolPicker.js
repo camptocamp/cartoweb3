@@ -257,6 +257,7 @@ function colorPickerInit(color) {
  *  @param string color : color rgb value
 */
 function colorArrayInit (color) {
+
     updateColorBox(modifiedColor, 'colorresult2a');
     updateColorBox(modifiedColor, 'colorresult3a');
     updateHexColorBox (modifiedColor, 'hexStatic');
@@ -882,7 +883,7 @@ function updateInput (outputColorSpace, colorValues) {
     // update input's value
     for (var i = 0; i < colorSpaceAr.length; i++) {
         colorValueCont = xGetElementById(colorSpaceAr[i]);
-        colorValueCont.value = color[i];
+        colorValueCont.value = color[i] < 0 ? 0 : color[i] > colorSpaceWidth(outputColorSpace) ? colorSpaceWidth(outputColorSpace) : color[i];
     }
 }
 /** 
@@ -1290,7 +1291,9 @@ function switchColorTool(panel) {
            C1.style.display = 'block';
            C2.style.display = 'none';
            colorPickerSetup();
-           colorPickerInit(modifiedColor)
+           fctName = colorSpace.toUpperCase()+"toHEX";
+           color = functionList[fctName](modifiedColor);
+           colorPickerInit(color);
       }
     } else {
         // display color block
