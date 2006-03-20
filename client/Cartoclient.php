@@ -1012,9 +1012,9 @@ class Cartoclient extends Cartocommon {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
-            $this->saveSession($this->clientSession);
             $output = $this->formRenderer->render();
             $this->callPluginsImplementing('Sessionable', 'saveSession');
+            $this->saveSession($this->clientSession);
             return $output;
         }
 
