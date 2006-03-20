@@ -66,7 +66,8 @@ class ClientHello extends ClientPlugin
      * Initializes session-saved var "count" to 0.
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, InitialMapState $initialMapState) {
+    public function createSession(MapInfo $mapInfo,
+                                  InitialMapState $initialMapState) {
         $this->count = 0;
     }
 
