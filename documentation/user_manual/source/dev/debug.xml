@@ -32,6 +32,15 @@
     of similarities with Log4j, and users familiar with it will have no
     problems understanding it.
   </para>
+  <sect2 id="dev.debug.log.enable">
+	<title>Log4php Activation</title>
+	<para>To activate the logging with the default settings, uncomment the line :
+		<programlisting><![CDATA[
+		;log4php.rootLogger=DEBUG, A1
+		]]>  </programlisting>
+		in <filename>client_conf/cartoclientLogger.properties</filename>
+	</para>
+  </sect2>
   <sect2 id="dev.debug.log.config">
     <title>Log4php Configuration Files</title>
     <para>Log4php settings are customizable in the 
@@ -67,9 +76,7 @@
   <sect2 id="dev.debug.log.default_location">
     <title>Default Log File Location</title>
     <para>
-      From what was said in the previous section, just uncommenting the line 
-        <literal>log4php.rootLogger=...</literal>
-      means that the &cartoclient; log messages will be written to 
+      Default log messages will be written to 
         <filename>log/cartoclient.log</filename> and the &cartoserver; ones to
         <filename>log/cartoserver.log</filename>. Of course, the
       Log4php configuration files can be adapted to write messages elsewhere.
