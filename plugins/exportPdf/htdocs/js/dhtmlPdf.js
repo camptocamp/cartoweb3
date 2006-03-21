@@ -93,16 +93,16 @@ Map.prototype.getPdfFeature = function(aDisplay) {
 }
 
 Map.prototype.hidePdfFeature = function(aDisplayName) {
+/*
   var aLayer = xGetElementById('map_drawing');
   aLayer.innerHTML = '';
-/*
+*/
   var aDisplay = this.getDisplay(aDisplayName);
 
   var feature = this.getPdfFeature(aDisplay);
   if (aDisplay.getDisplayFeature(feature) != null) {
     aDisplay.currentLayer.removeChild(aDisplay.getDisplayFeature(feature));
   }
-*/
 }
 
 Map.prototype.showPdfFeature = function(aDisplayName) {
