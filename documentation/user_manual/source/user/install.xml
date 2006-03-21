@@ -154,7 +154,7 @@
     </sect2>
 
     <sect2 id="user.install.main.setup">
-      <title>UNIX-like Installation</title>
+      <title>Command Line Installation</title>
       <para>
         &cartoweb; installer is <filename>cw3setup.php</filename>, located in the root directory of the application.
       </para>
