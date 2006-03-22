@@ -1178,7 +1178,7 @@ class ServerLocation extends ClientResponderAdapter
         $locShortcuts = array();
         foreach($shortcuts as $shortcut) {
             $locShortcut = new LocationShortcut();
-            $locShortcut->label = $shortcut->label;
+            $locShortcut->label = Encoder::encode($shortcut->label, 'config');
             $locShortcut->bbox = new Bbox();
             $locShortcut->bbox->setFromString($shortcut->bbox);
             $locShortcuts[] = $locShortcut;
