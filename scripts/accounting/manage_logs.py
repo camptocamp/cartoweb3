@@ -42,13 +42,14 @@ FIELDS_PAT = re.compile('([\.\w]+)="([^"]*)"')
 
 fields_client = {
     'general': {
-        'client_version': 0,
+        'client_version': 1,
         # Cartoclient
         'export_plugin': (str,),
         # ClientAccounting
         'browser_info': (str,),
         'mapid': (str,),
         'time': (datetime,),
+        'ip': (str,),
         'ua': (str,),
         'sessid': (str,),
         'direct_access': (bool,), # Is this useful ?
@@ -110,6 +111,11 @@ for (field_group, sub_fields) in fields_server.iteritems():
 
 ##########################
 # Update functions
+
+def update_client_general_0_to_1(fields):
+    """Added ip field"""
+    fields["general_ip"] = "0.0.0.0"
+    return fields
 
 def update_client_exportpdf_0_to_1(fields):
     raise "Client exportpdf version 0 not supported"

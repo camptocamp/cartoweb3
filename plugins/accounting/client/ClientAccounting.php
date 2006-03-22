@@ -55,13 +55,19 @@ class ClientAccounting extends ClientPlugin implements Sessionable, GuiProvider 
         
         $accounting = Accounting::getInstance();
         $accounting->pluginLoaded();        
-        $accounting->account('general.client_version', 0);
+        $accounting->account('general.client_version', 1);
         $tod = gettimeofday();
         $accounting->account('general.mapid', $this->getCartoclient()->
                              getConfig()->mapId);
         $accounting->account('general.time', $tod['sec']);
         if (isset($_SERVER['HTTP_USER_AGENT']))
             $accounting->account('general.ua', $_SERVER['HTTP_USER_AGENT']);
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $accounting->account('general.ip', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        else if (isset($_SERVER['REMOTE_ADDR']))
+            $accounting->account('general.ip', $_SERVER['REMOTE_ADDR']);
+
         
         $accounting->account('general.sessid', session_id());
 
