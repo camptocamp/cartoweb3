@@ -977,6 +977,62 @@ msgstr "Outil de tracé"
 msgid "Views:"
 msgstr "Vues:"
 
+#: templates/toolbar.tpl
+msgid "zoomin"
+msgstr "Zoom avant"
+
+#: templates/toolbar.tpl
+msgid "zoomout"
+msgstr "Zoom arrière"
+
+#: templates/toolbar.tpl
+msgid "pan"
+msgstr "Déplacement"
+
+#: templates/toolbar.tpl
+msgid "query_by_point"
+msgstr "Requête par point"
+
+#: templates/toolbar.tpl
+msgid "query_by_bbox"
+msgstr "Requête par rectangle"
+
+#: templates/toolbar.tpl
+msgid "query_by_polygon"
+msgstr "Requête par polygone"
+
+#: templates/toolbar.tpl
+msgid "query_by_circle"
+msgstr "Requête par cercle"
+
+#: templates/toolbar.tpl
+msgid "outline_point"
+msgstr "Point"
+
+#: templates/toolbar.tpl
+msgid "outline_line"
+msgstr "Ligne"
+
+#: templates/toolbar.tpl
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+#: templates/toolbar.tpl
+msgid "outline_poly"
+msgstr "Polygone"
+
+#: templates/toolbar.tpl
+msgid "distance"
+msgstr "Distance"
+
+#: templates/toolbar.tpl
+msgid "surface"
+msgstr "Surface"
+
+#: templates/toolbar.tpl
+msgid "fullextent"
+msgstr "Vue générale"
+
 #: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr "Action interrompue : n° de vue invalide"

@@ -958,6 +958,62 @@ msgstr "Outline"
 msgid "Views:"
 msgstr "Views:"
 
+#: templates/toolbar.tpl
+msgid "zoomin"
+msgstr "Zoom in"
+
+#: templates/toolbar.tpl
+msgid "zoomout"
+msgstr "Zoom out"
+
+#: templates/toolbar.tpl
+msgid "pan"
+msgstr "Pan"
+
+#: templates/toolbar.tpl
+msgid "query_by_point"
+msgstr "Query by point"
+
+#: templates/toolbar.tpl
+msgid "query_by_bbox"
+msgstr "Query by rectangle"
+
+#: templates/toolbar.tpl
+msgid "query_by_polygon"
+msgstr "Query by polygon"
+
+#: templates/toolbar.tpl
+msgid "query_by_circle"
+msgstr "Query by circle"
+
+#: templates/toolbar.tpl
+msgid "outline_point"
+msgstr "Point"
+
+#: templates/toolbar.tpl
+msgid "outline_line"
+msgstr "Line"
+
+#: templates/toolbar.tpl
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+#: templates/toolbar.tpl
+msgid "outline_poly"
+msgstr "Polygone"
+
+#: templates/toolbar.tpl
+msgid "distance"
+msgstr "Distance"
+
+#: templates/toolbar.tpl
+msgid "surface"
+msgstr "Area"
+
+#: templates/toolbar.tpl
+msgid "fullextent"
+msgstr "Full extent"
+
 #: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr "Action halted: invalid view Id"

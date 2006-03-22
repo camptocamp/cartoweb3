@@ -960,6 +960,62 @@ msgstr ""
 msgid "Views:"
 msgstr ""
 
+#: templates/toolbar.tpl
+msgid "zoomin"
+msgstr "Hineinzoomen"
+
+#: templates/toolbar.tpl
+msgid "zoomout"
+msgstr "Herauszoomen"
+
+#: templates/toolbar.tpl
+msgid "pan"
+msgstr "Neu zentrieren"
+
+#: templates/toolbar.tpl
+msgid "query_by_point"
+msgstr "Punkt-Abfrage"
+
+#: templates/toolbar.tpl
+msgid "query_by_bbox"
+msgstr "Rechteck-Abfrage"
+
+#: templates/toolbar.tpl
+msgid "query_by_polygon"
+msgstr "Polygon-Abfrage"
+
+#: templates/toolbar.tpl
+msgid "query_by_circle"
+msgstr "Kreis-Abfrage"
+
+#: templates/toolbar.tpl
+msgid "outline_point"
+msgstr "Punkt zeichnen"
+
+#: templates/toolbar.tpl
+msgid "outline_line"
+msgstr "Linie zeichnen"
+
+#: templates/toolbar.tpl
+msgid "outline_rectangle"
+msgstr "Rechteck zeichnen"
+
+#: templates/toolbar.tpl
+msgid "outline_poly"
+msgstr "Polygon zeichnen"
+
+#: templates/toolbar.tpl
+msgid "distance"
+msgstr "Distanz messen"
+
+#: templates/toolbar.tpl
+msgid "surface"
+msgstr "Fläche messen"
+
+#: templates/toolbar.tpl
+msgid "fullextent"
+msgstr "Zum ganzen Perimeter"
+
 #: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr ""
