@@ -357,11 +357,6 @@ class Cartoclient extends Cartocommon {
     const CLIENT_SESSION_KEY = 'CW3_client_session_key';
 
     /**
-     * CartoWeb version of the Cartoclient
-     */
-    const CARTOCLIENT_VERSION = 'HEAD';
-    
-    /**
      * Constructor
      *
      * Initializes:
@@ -581,7 +576,12 @@ class Cartoclient extends Cartocommon {
      * @return string
      */
     public function getClientVersion() {
-        return self::CARTOCLIENT_VERSION;
+        $versionFile = CARTOWEB_HOME . 'VERSION';
+        if (is_readable($versionFile)) {
+            $cw = simplexml_load_file($versionFile);
+            return (string)$cw->version;
+        }
+        return '(unknown version)';
     }
 
     /**
