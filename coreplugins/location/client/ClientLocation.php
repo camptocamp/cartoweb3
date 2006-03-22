@@ -962,6 +962,11 @@ class ClientLocation extends ClientPlugin
             $locationRequest->locationType = $type;
 
             $locationType = $locationRequest->locationType;
+
+            if ($locationType == 'zoomPointLocationRequest' &&
+                !empty($locationRequest->$locationType->crosshair)) {
+                $crosshair = $locationRequest->$locationType->crosshair;
+            }
   
             $locationRequests = array('bboxLocationRequest',
                                       'panLocationRequest', 
@@ -975,8 +980,13 @@ class ClientLocation extends ClientPlugin
    
             switch($locationType) {
                 case 'zoomPointLocationRequest':
+                
                     $locationRequest->$locationType = 
                         new ZoomPointLocationRequest;
+
+                    if (!is_null($crosshair)) {
+                        $locationRequest->$locationType->crosshair = $crosshair;
+                    }
                     
                     $bbox = $configuration->getBbox();
                     if (!is_null($bbox))
