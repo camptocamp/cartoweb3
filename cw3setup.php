@@ -308,6 +308,7 @@ function processArgs() {
             setupLinks();
             replaceDotIn();
             init();
+            removeInstallWarning();
 
             info('Installation finished...');
         
@@ -806,6 +807,19 @@ function removeDevFilesIfProd() {
         } else {
             info("Failed to removed $file");
         }
+    }
+}
+
+function removeInstallWarning() {
+    $indexFile = 'htdocs/index.html';
+    $bakFile = 'scripts/index.html.bak';
+
+    if (!is_file($indexFile) || !unlink($indexFile)) {
+        info('Failed to removed installation warning');
+    }
+
+    if (!is_file($bakFile) || !copy($bakFile, $indexFile)) {
+        info('Failed to copy standard home file');
     }
 }
 
