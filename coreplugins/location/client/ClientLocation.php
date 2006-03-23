@@ -984,7 +984,7 @@ class ClientLocation extends ClientPlugin
                     $locationRequest->$locationType = 
                         new ZoomPointLocationRequest;
 
-                    if (!is_null($crosshair)) {
+                    if (isset($crosshair)) {
                         $locationRequest->$locationType->crosshair = $crosshair;
                     }
                     
