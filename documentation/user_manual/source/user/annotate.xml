@@ -76,13 +76,12 @@
           <para> 
             pointLayer<indexterm><primary>pointLayer</primary></indexterm>: 
             defines the name of the mapserver LAYER set in the mapfile to 
-            display points. If not set, the polygon layer is automatically used 
-            instead. </para>
+            display points.</para>
         </listitem>
         <listitem>
           <para> lineLayer<indexterm><primary>lineLayer</primary></indexterm>: 
             defines the name of the mapserver LAYER set in the mapfile to 
-            display lines. </para>
+            display lines.</para>
         </listitem>
         <listitem>
           <para> polyLayer<indexterm><primary>polyLayer</primary></indexterm>: 

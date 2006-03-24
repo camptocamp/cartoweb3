@@ -108,6 +108,16 @@ class ServerOutline extends ClientResponderAdapter
                                            'check your outline.ini');
         }
 
+        // Checks if mapOverlay is loaded
+        try {
+            $mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
+        } catch (Exception $e) {
+            throw new CartoserverException('mapOverlay plugin not loaded, ' . 
+                                           'and needed by outline: ' .
+                                           'add "mapOverlay" to your ' .
+                                           'server-side "loadPlugins" parameter');
+        }
+
         // Finds or creates a mapserver class for this style.
         $layer = new LayerOverlay();
         $layer->name = $layerName;
@@ -118,14 +128,6 @@ class ServerOutline extends ClientResponderAdapter
         $layer->classes = array($this->getMsClass($shape->shapeStyle, 
                                                   $shape->labelStyle));
         // Gets the class index
-        try {
-            $mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
-        } catch (Exception $e) {
-            throw new CartoserverException('mapOverlay plugin not loaded, ' . 
-                                           'and needed by outline: ' .
-                                           'add "mapOverlay" to your ' .
-                                           'server-side "loadPlugins" parameter');
-        }
         $result = $mapOverlay->updateMap($layer);
 
         $f = $this->toShapeObj($shape->shape);
@@ -165,11 +167,8 @@ class ServerOutline extends ClientResponderAdapter
      */
     protected function drawPoint($point) {
 
-        $layerName = $this->getConfig()->pointLayer;
-        if (!$layerName) {
-            $layerName = $this->getConfig()->polygonLayer;
-        }
-        $this->drawFeature($point, $layerName);
+        $this->drawFeature($point,
+                           $this->getConfig()->pointLayer);
     }
 
 
@@ -346,14 +345,18 @@ class ServerOutline extends ClientResponderAdapter
 
         foreach ($targetList as $targetLayerType) {
           
+            $targetlayer = $this->getConfig()->$targetLayerType;
+
+            // check if layer reference exist, continue if not
+            if (!$targetlayer || $targetlayer == NULL || $targetlayer == '') continue;
+
             $currentDefaultValue = new OutlineDefaultValue();
             $currentShapeStyle = new StyleOverlay();
           
             // Sets type
             $currentDefaultValue->type = $targetLayerType;
 
-            $currentLayer = $msMapObj->getLayerByName($this->getConfig()
-                                                           ->$targetLayerType);
+            $currentLayer = $msMapObj->getLayerByName($targetlayer);
             
             // Gets layer transparency
             $currentShapeStyle->transparency = $currentLayer->transparency;
