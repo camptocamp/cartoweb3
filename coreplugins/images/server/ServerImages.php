@@ -244,11 +244,11 @@ class ServerImages extends ClientResponderAdapter
         if ($imgCount > self::MAX_IMAGES_WARNING) {
             $msg = sprintf('Warning: you have a high number of generated ' .
                            'images (%u [warning threshold %u]]). You should ' .
-                           'run the cleaning script. ' .
-                    'See http://dev.camptocamp.com/c2cwiki/CartowebScripts', 
-                    $imgCount, self::MAX_IMAGES_WARNING);
+                           'run the following instruction in a command line ' .
+                           'prompt: php cw3setup.php --clean', 
+                           $imgCount, self::MAX_IMAGES_WARNING);
             $serverContext->addMessage($this, 'tooManyImages', $msg, 
-                                                    Message::CHANNEL_DEVELOPER);
+                                       Message::CHANNEL_DEVELOPER);
         }
     }
 
