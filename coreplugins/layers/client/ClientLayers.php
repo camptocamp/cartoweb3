@@ -22,6 +22,8 @@
  * @version $Id$
  */
 
+define('LAYERS_SESSION_VERSION', 2);
+
 /**
  * Container for session-saved data. See also {@link ClientLayers}.
  * @package CorePlugins
@@ -72,6 +74,16 @@ class LayersState {
      * @var LayersInit
      */
     public $layersInit;
+}
+
+/**
+ * Upgrades from V1 to V2
+ */
+class LayersV1ToV2 extends ViewUpgrader {
+
+    protected function callFilters() {
+        $this->add('layersInit', new LayersInit());
+    }
 }
 
 /**
@@ -314,8 +326,8 @@ class ClientLayers extends ClientPlugin
      */
     protected $overrideSwitch = false;
 
-    const RENDERING_TREE = 'tree';
-    const RENDERING_RADIO = 'radio';
+    const RENDERING_TREE     = 'tree';
+    const RENDERING_RADIO    = 'radio';
     const RENDERING_DROPDOWN = 'dropdown';
 
     /**
