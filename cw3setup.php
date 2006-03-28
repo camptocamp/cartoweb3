@@ -812,14 +812,18 @@ function removeDevFilesIfProd() {
 
 function removeInstallWarning() {
     $indexFile = 'htdocs/index.html';
-    $bakFile = 'scripts/index.html.bak';
+    $bakFile   = 'htdocs/index.html.bak';
+
+    if (!is_file($bakFile)) {
+        return;
+    }
 
     if (!is_file($indexFile) || !unlink($indexFile)) {
         info('Failed to removed installation warning');
     }
 
-    if (!is_file($bakFile) || !copy($bakFile, $indexFile)) {
-        info('Failed to copy standard home file');
+    if (!rename($bakFile, $indexFile)) {
+        info('Failed to rename standard home file');
     }
 }
 
