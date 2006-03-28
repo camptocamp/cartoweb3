@@ -77,7 +77,7 @@ class LayerBase extends CwSerializable {
      * requested.
      * @var array
      */
-    protected $metaHash;
+    public $metaHash;
 
     /**
      * Fills the $metaHash property from the metadata values in metadata field
@@ -179,7 +179,7 @@ class LayerContainer extends LayerBase {
      * Layer Ids cache
      * @var array
      */
-    protected $layerIds = NULL;
+    public $layerIds = NULL;
     
     /**
      * Returns children depending on current switch
@@ -575,9 +575,10 @@ class LayersInit extends CwSerializable {
     }
     
     /**
-     * Removes a layer
-     * @param LayerBase The parent layer where to remove this layer, or NULL if no parent
-     * @param LayerBase The child layer to delete.
+     * Removes a layer.
+     * @param LayerBase parent layer where to remove this layer 
+     *                  or NULL if no parent
+     * @param LayerBase child layer to delete
      */
     public function removeChildLayerBase($parentLayer, $childLayer) {
         
@@ -585,11 +586,14 @@ class LayersInit extends CwSerializable {
 
         if (!is_null($parentLayer)) {
             // Deleting a layer
-            if (isset($parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]->layers))
-                $childrenLayers =& $parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]->layers;
-            else
+            if (isset($parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]
+                                  ->layers)) {
+                $childrenLayers =& 
+                    $parentLayer->children[ChildrenSwitch::DEFAULT_SWITCH]->layers;
+            } else {
                 $childrenLayers =& $parentLayer->children[0]->layers;
-
+            }
+            
             if ($key = array_search($childLayerId, $childrenLayers)) {
                 unset($childrenLayers[$key]);
             }
