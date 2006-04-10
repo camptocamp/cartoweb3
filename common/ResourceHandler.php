@@ -97,7 +97,7 @@ class ResourceHandler {
      * @param boolean True for resources on the client, false for server
      * @param boolean True to obtain an absolute URL in any case
      * @param boolean True to make URL XHTML-compliant
-     * @return A relative URL to the resource if possible, or an absolute one
+     * @return string A relative URL to the resource if possible, or an absolute one
      */
      public function getFinalUrl($relativeUrl, $client, $forceAbsolute = false,
                                  $useXhtml = true) {
@@ -150,6 +150,7 @@ class ResourceHandler {
      * @param string the project name
      * @param string the resource to access. It may contain a path, like
      * css/style.css, or gfx/my_icon.png
+     * @return string The URL for resources in htdocs directory
      */
     public function getHtdocsUrl($plugin, $project, $resource) {
         
@@ -180,6 +181,7 @@ class ResourceHandler {
      * @param string the project name
      * @param string the mapId to use
      * @param string the resource to access (icon name, without path)
+     * @return string
      */
     public function getIconUrl($project, $mapId, $resource) {
         
@@ -193,6 +195,7 @@ class ResourceHandler {
      * 
      * @param string the resource to access (this is the resource name relative
      * to the directory of generated files (www-data usually))
+     * @return string
      */
     public function getGeneratedUrl($resource) {
 
