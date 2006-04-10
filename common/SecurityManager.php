@@ -164,6 +164,9 @@ class SecurityManager {
      */
     public function setUserAndRoles($username, $roles) {
         $this->username = $username;
+
+        Accounting::getInstance()->account('general.security.user', $username);
+
         $anonymous = empty($username);
         $this->roles = array_merge($this->getPredefinedRoles($anonymous), $roles);
     }
@@ -179,8 +182,6 @@ class SecurityManager {
      */        
     public function setUser($username) {
         $this->username = $username;
-        
-        Accounting::getInstance()->account('general.security.user', $username);
         
         $roles = array();
         if (!is_null($this->securityContainer)) {
