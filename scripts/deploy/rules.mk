@@ -71,6 +71,11 @@ endef
 cur_make_target = $(filter-out %/,$(subst /,/ ,$@))
 
 cur_project = $(cur_make_target)
+
+define cur_cw_project
+$(call get_proj_var,CW3_NAME)
+endef
+
 cur_project_target = cartowebs/$($(cur_project)_INSTANCE)
 
 define get_var
@@ -92,7 +97,7 @@ $(patsubst %,update_config_project/%,$(ALL_PROJECTS)) :: update_config_project/%
 	echo Project $(cur_project)
 	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --clean)
 	(cd $(cur_project_target)/cartoweb3; CW3_VARS='$(call get_proj_var,CW3_VARS)' $(PHP) cw3setup.php --install \
-			$(if $(call get_proj_var,NO_DEPLOY_CONFIG),,--config-from-project $(cur_project)) --project $(cur_project) )
+			$(if $(call get_proj_var,NO_DEPLOY_CONFIG),,--config-from-project $(cur_cw_project)) --project $(cur_cw_project) )
 
 	$(if $(call get_proj_var,BASE_URL),\
 		perl -pi -e 's#^;?cartoclientBaseUrl = ".*"$$#cartoclientBaseUrl = "$(call get_proj_var,BASE_URL)"#g' \
@@ -107,14 +112,14 @@ $(patsubst %,update_config_project/%,$(ALL_PROJECTS)) :: update_config_project/%
 $(patsubst %,pre_fetch_project/%,$(ALL_PROJECTS)) :: pre_fetch_project/% :
 	@echo Pre Fetching project $(cur_project)
 
-	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(call get_proj_var,CW3_NAME)  \
+	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(cur_cw_project)  \
 			--base-url _undefined_ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) )
 
-	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(call get_proj_var,CW3_NAME)'; require_once('client.php'); ?>" > \
-		$(cur_project_target)/cartoweb3/htdocs/$(call get_proj_var,CW3_NAME).php
+	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(cur_cw_project)'; require_once('client.php'); ?>" > \
+		$(cur_project_target)/cartoweb3/htdocs/$(cur_cw_project).php
 	$(call makedirs,htdocs)
-	@test -h htdocs/$(call get_proj_var,CW3_NAME) && rm htdocs/$(call get_proj_var,CW3_NAME) || :
-	ln -s ../cartowebs/$(call get_proj_var,INSTANCE)/cartoweb3/htdocs htdocs/$(call get_proj_var,CW3_NAME)
+	@test -h htdocs/$(cur_cw_project) && rm htdocs/$(cur_cw_project) || :
+	ln -s ../cartowebs/$(call get_proj_var,INSTANCE)/cartoweb3/htdocs htdocs/$(cur_cw_project)
 
 
 $(patsubst %,post_fetch_project/%,$(ALL_PROJECTS)) :: post_fetch_project/% : update_config_project/%
@@ -165,7 +170,7 @@ endif
 	@# Version check
 	@new_version=$$(grep 'RE[V].*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \
 	this_version=$$(echo "$(REV)" | $(SED_CMD)); \
-	echo "Version just fetched: $$new_version; current version: $$this_version"; \
+	echo "Deploy version just fetched: $$new_version; current version: $$this_version"; \
 	if test -n "$$new_version"; then \
 	dpkg --compare-versions $$new_version gt $$this_version && \
 		read -p "Warning: A new version of the deploy script is available. Press enter to continue, or control-c to abort so that you can update. See http://cartoweb.org/cwiki/AutomaticDeployment#deploy_update" \
