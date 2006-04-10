@@ -250,7 +250,7 @@ function merge($project, $file1, $file2, $file2Project, $output) {
         }
         
         execWrapper('msgcat --to-code=' . getCharset('client', $project)
-             . " --use-first --output=$fileOutput $file1path $file2path");
+             . " --use-first --output=\"$fileOutput\" \"$file1path\" \"$file2path\"");
         
         debug("Done\n");    
     }
@@ -292,7 +292,7 @@ function compile($project, $fileName) {
                         'be sure to have gettext installed correctly.');   
             }   
 
-            execWrapper('msgfmt -o ' . CARTOCLIENT_LOCALEDIR . "$outputFile $file");
+            execWrapper('msgfmt -o "' . CARTOCLIENT_LOCALEDIR . "$outputFile\" \"$file\"");
             debug("Done\n");
         } else {
             warn("Warning: Project $project compile - file $file not found.");
