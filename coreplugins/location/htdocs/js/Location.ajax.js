@@ -127,7 +127,7 @@ AjaxPlugins.Location.Actions.Pan = {
         AjaxHandler.attachAction('keymap', 'click', 'Location.Pan', {source: 'keymap'});
     },
     initMap: function(timesExecuted) {
-        if (timesExecuted == undefined)
+        if (typeof(timesExecuted) == 'undefined')
             timesExecuted = 0;
         // TODO: debug AjaxHandler.waitFor() and use it.
         if ($('map_raster_img') == undefined) {
