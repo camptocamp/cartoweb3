@@ -8,7 +8,7 @@ cartoserverDirectAccess = true
 profile = production
 
 ; AJAX switch: if true, AJAX will be enabled on the client side (browser)
-ajaxOn = false;
+ajaxOn = false
 
 ; -------------------------------------------------------------------
 ;  The following parameters are only taken into account when profile=custom
