@@ -282,14 +282,14 @@ AjaxHandler = {
                          if (AjaxHelper.exists('AjaxPlugins.Common.onCartoclientError')) {
                              AjaxPlugins.Common.onCartoclientError();
                          } else {
-                             Logger.warn('AjaxHandler.actionRequest(): object ' +
+                             Logger.warn('AjaxHandler.actionRequest(): method ' +
                                          'AjaxPlugins.Common.onCartoclientError ' +
                                          'not found. User will not be notified ' +
                                          'on errors');
                          }
                      } else {
                          var showFaillure = confirm('Ajax response is no XML, ' +
-                                        'probably a CartoClient faillure.\r\n' +
+                                        'probably a CartoWeb failure.\r\n' +
                                         'Click OK to show it.');
                          if (showFaillure) {
                              ajaxErrorDivElement = document.createElement('div');
