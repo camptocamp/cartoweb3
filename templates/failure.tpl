@@ -27,7 +27,7 @@ html {
 <h1>Failure</h1>
 
 <pre>
-CartoWeb version: {$cw_version}
+CartoWeb version: {$cw_version.version} [{$cw_version.revision}]
 class:   {$exception_class}
 message:   {$failure_message}
 </pre>

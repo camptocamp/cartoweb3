@@ -171,7 +171,7 @@ Request:
 {$debug_request}
 </pre>
 
-  <p>Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb {$cw_version}</a> -
+  <p>Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb {$cw_version.version}</a> -
   &copy; <a href="http://camptocamp.com/" target="_blank">Camptocamp SA</a> -
   <a href="http://validator.w3.org/check/referer" target="_blank">XHTML Validator</a></p>
   

@@ -579,9 +579,11 @@ class Cartoclient extends Cartocommon {
         $versionFile = CARTOWEB_HOME . 'VERSION';
         if (is_readable($versionFile)) {
             $cw = simplexml_load_file($versionFile);
-            return (string)$cw->version;
+            return array('version'  => (string)$cw->version,
+                         'revision' => (string)$cw->revision);
         }
-        return '(unknown version)';
+        return array('version'  => '(unknown version)',
+                     'revision' => '(unknown revision)');
     }
 
     /**
