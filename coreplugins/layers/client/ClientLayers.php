@@ -82,7 +82,7 @@ class LayersState {
 class LayersV1ToV2 extends ViewUpgrader {
 
     protected function callFilters() {
-        $this->add('layersInit', new LayersInit());
+        $this->add('layersInit', $this->getFromDefaultSession('layersInit'));
     }
 }
 
