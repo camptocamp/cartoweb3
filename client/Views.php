@@ -610,7 +610,7 @@ class ViewFilter {
      * @return stdClass
      */
     public function checkVersion($data, $viewId) {
-       
+
         foreach ($data as $pluginName => &$pluginVal) {
             if ($this->pluginsVersions[$pluginName] 
                 < $this->getRecorderVersion($pluginName)) {
@@ -705,7 +705,7 @@ class ViewFilter {
      * @param string plugin name, if empty method will return full storage 
      * @return mixed
      */
-    private function getDefaultData($storage = '') {
+    public function getDefaultData($storage = '') {
         if (!isset($this->defaultSession)) {
             $this->defaultSession = $this->cartoclient->getViewManager()
                                          ->getDefaultSessionData()
@@ -735,17 +735,15 @@ class ViewFilter {
      */
     private function upgrade($pluginName, &$pluginVal, 
                             $initialVersion, $finalVersion) {
-       
+ 
         $shortName = $this->getPluginName($pluginName);
         
         // checks if conversion filter is available
         $filterPath = $this->getFilterFilePath($shortName);
-        if (!$filterPath) {
-            $this->log->warn("Failed finding $pluginName filters file"); 
-            return false;
+        if (!empty($filterPath)) {
+            require_once($filterPath);
         }
-        require_once($filterPath);
-
+        
         // checks that correct sequence of filters is available
         $sequence = $this->getFiltersSequence($shortName, $initialVersion, 
                                                            $finalVersion);
@@ -757,7 +755,7 @@ class ViewFilter {
         $data = unserialize($pluginVal);
         
         foreach ($sequence as $filter) {
-            $f = new $filter;
+            $f = new $filter($this, $pluginName);
             if (!$f->upgrade($data)) {
                 $this->log->warn("$filter upgrade failed");
                 return false;
@@ -1739,6 +1737,43 @@ abstract class ViewUpgrader {
     protected $storage;
 
     /**
+     * @var ViewFilter
+     */
+    protected $viewFilter;
+
+    /**
+     * @var stdClass
+     */
+    protected $sessionData;
+
+    /**
+     * @var string
+     */
+    protected $pluginName;
+
+    /**
+     * Constructor
+     * @param ViewFilter
+     * @param string plugin name
+     */
+    public function __construct($viewFilter, $pluginName) {
+        $this->viewFilter = $viewFilter;
+        $this->pluginName =& $pluginName;
+    }
+
+    /**
+     * Retrieves default session data.
+     * @return ClientSession
+     */
+    protected function getDefaultSessionData() {
+        if (!isset($this->sessionData)) {
+            $this->sessionData = $this->viewFilter
+                                      ->getDefaultData($this->pluginName);
+        }
+        return $this->sessionData;
+    }
+
+    /**
      * Upgrades given plugin storage. 
      * @param stdclass plugin storage to upgrade
      * @return bool true if success
@@ -1793,7 +1828,18 @@ abstract class ViewUpgrader {
         $this->remove($from);
     }
 
-    // TODO: define a method to retrieve some data in cached default session???
+    /**
+     * Retrieves some data in cached default session
+     * @param string name of data to retrieve
+     * @return mixed retrieved data
+     */
+    protected function getFromDefaultSession($dataname) {
+        $sessionData =& $this->getDefaultSessionData();
+        if (isset($sessionData->$dataname)) {
+            return $sessionData->$dataname;
+        }
+        return NULL;
+    }
 
     // Define filter-specific transformers in extended class!
 }
