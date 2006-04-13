@@ -191,7 +191,7 @@ class ServerLayers extends ClientResponderAdapter
         if ($layer->toleranceunits == MS_PIXELS)
             $this->updateProperties($layer, array('tolerance'), $resRatio);
 
-        $this->updateProperties($layer, array('minscale', 'maxscale'),
+        $this->updateProperties($layer, array('symbolscale', 'minscale', 'maxscale'),
                                 $invResRatio);
         
         for ($j = 0; $j < $layer->numclasses; $j++) {
