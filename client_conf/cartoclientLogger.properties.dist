@@ -13,7 +13,7 @@ log4php.appender.A1.layout=LoggerLayoutTTCC
 
 ; You can override more specifically the severity of some classes/module
 ;log4php.logger.PluginManager = DEBUG
-;log4php.logger.LayersPlugin = DEBUG
+;log4php.logger.ClientLayers = DEBUG
 ;log4php.logger.Cartoclient = DEBUG
 ;log4php.logger.ClientPlugin = DEBUG
  
