@@ -138,15 +138,12 @@
       <tr>
         <td></td>
         <td>
-        <table width="100%">
-          <tr>
-            <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coordonnees (m):{/t} %s / %s</div></td>
+          <table width="100%"><tr>
+            <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coord (m):{/t} %s / %s</div></td>
             <td width="50%" align="right">
-              <div id="floatDistance" class="locationInfo">{t}Distance approx.: {/t}%s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo">{t}Surface approx. : {/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div>
-            </td>
-          </tr>
-        </table>
+              <div id="floatDistance" class="locationInfo">{t}Approx. distance :{/t} %s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+          </tr></table>
         </td>
         <td></td>
       </tr>
