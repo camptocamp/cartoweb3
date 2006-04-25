@@ -123,7 +123,7 @@
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coord (m):{/t} %s / %s</div></td>
             <td width="50%">
               <div id="floatDistance" class="locationInfo"><span id="distanceValueLabel">{t}Approx. distance :{/t}</span> %s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo"><span id="surfaceValueLabel">{t}Approx. surface :{/t}</span> %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+              <div id="floatSurface" class="locationInfo"><span id="surfaceValueLabel">{t}Approx. area :{/t}</span> %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
           </tr></table>
         </td>
       </tr>
