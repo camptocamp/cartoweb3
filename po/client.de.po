@@ -901,11 +901,11 @@ msgid "Coords (m):"
 msgstr "Koord. (m) : "
 
 #: templates/cartoclient.tpl
-msgid "Dist approx.:"
+msgid "Approx. distance :"
 msgstr "Ungefähre Distanz : "
 
 #: templates/cartoclient.tpl
-msgid "Approx. surface :"
+msgid "Approx. area :"
 msgstr "Ungefähre Fläche : "
 
 #: templates/cartoclient.tpl

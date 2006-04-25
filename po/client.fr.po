@@ -918,11 +918,11 @@ msgid "Coords (m):"
 msgstr "Coord. (m) :"
 
 #: templates/cartoclient.tpl
-msgid "Dist approx.:"
+msgid "Approx. distance :"
 msgstr "Distance approx. :"
 
 #: templates/cartoclient.tpl
-msgid "Approx. surface :"
+msgid "Approx. area :"
 msgstr "Surface approx. :"
 
 #: templates/cartoclient.tpl
