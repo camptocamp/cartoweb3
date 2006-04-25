@@ -272,14 +272,19 @@ class ClientExportPdf extends ExportPlugin
         $name = strtolower($name);
         $reqname = 'pdf' . ucfirst($name);
 
-        if (isset($request[$reqname]) && 
-            in_array($request[$reqname], $choices))
-            return $request[$reqname];
+        if (isset($request[$reqname])) {
+            $value =& $request[$reqname];
+            if (in_array($value, array_keys($choices)) ||
+                in_array($value, $choices)) {
+                return $value;
+            }
+        }
 
-        if (isset($this->general->{'default' . ucfirst($name)}))
+        if (isset($this->general->{'default' . ucfirst($name)})) {
             return $this->general->{'default' . ucfirst($name)};
+        }
 
-        return false;
+        return '';
     }
 
     /**
