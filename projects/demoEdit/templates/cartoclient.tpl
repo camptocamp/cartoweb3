@@ -256,8 +256,8 @@ Click on the Validate button to validate the polygon vertex modifications.{/t}</
             <td colspan="3">
               <table width="100%"><tr>
                 <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coords (m):{/t} %s / %s</div></td>
-                <td width="50%"><div id="floatDistance" class="locationInfo" nowrap="nowrap">{t}Dist approx.:{/t}%s{if $factor == 1000} km{else} m{/if}</div>
-                  <div id="floatSurface" class="locationInfo">{t}Approx. surface :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+                <td width="50%"><div id="floatDistance" class="locationInfo" nowrap="nowrap">{t}Approx. distance :{/t}%s{if $factor == 1000} km{else} m{/if}</div>
+                  <div id="floatSurface" class="locationInfo">{t}Approx. area :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
               </tr></table>
             </td>
           </tr>
