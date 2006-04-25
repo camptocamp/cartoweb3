@@ -75,8 +75,8 @@
         <listitem>
           <para> 
             authActive<indexterm><primary>authActive</primary></indexterm>: 
-            boolean Whether to show the Authentification login/logout buttons. 
-            (note: this is not related to the fact the authentification system 
+            boolean Whether to show the Authentication login/logout buttons. 
+            (note: this is not related to the fact the authentication system 
             will be active or not) </para>
         </listitem>
         <listitem>

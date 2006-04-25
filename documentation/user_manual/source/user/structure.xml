@@ -108,7 +108,7 @@
           plugins, see <xref linkend="user.structure.plugin"/> </para>
         <itemizedlist>
           <listitem>
-            <para> <filename>auth</filename>: authentification plugin, see 
+            <para> <filename>auth</filename>: authentication plugin, see 
               <xref linkend="user.security"/> </para>
           </listitem>
           <listitem>

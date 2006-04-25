@@ -1,6 +1,6 @@
 <?php
 /**
- * Client authentification based on PEAR:Auth
+ * Client authentication based on PEAR:Auth
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -164,14 +164,14 @@ class DbSecurityContainer extends SecurityContainer {
 }
 
 /**
- * Extends the PEAR::Auth container to proxy is authentification requests to the
+ * Extends the PEAR::Auth container to proxy if authentication requests to the
  * SecurityManager.
  * @package Plugins
  */
 class ProxyAuthContainer extends Auth_Container {
     
     /**
-     * Current security manager where username/password authentification 
+     * Current security manager where username/password authentication 
      * request are proxied.
      * @var SecurityManager
      */
@@ -195,7 +195,7 @@ class ProxyAuthContainer extends Auth_Container {
 }
 
 /**
- * Client authentification plugin based on PEAR:Auth
+ * Client authentication plugin based on PEAR:Auth
  */
 class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     
