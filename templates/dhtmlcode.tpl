@@ -7,6 +7,8 @@
 <script type="text/javascript" src="{r type=js}dhtmlAPI.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlFeatures.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}dhtmlInit.js{/r}"></script>
+{if $mapUnits == 'dd'}<script type="text/javascript" src="{r type=js}LatLon.js{/r}"></script>{/if}
+
 {if $edit_allowed|default:''}<script type="text/javascript" src="{r type=js plugin=edit}dhtmlEdit.js{/r}"></script>{/if}
 <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
 <script type="text/javascript">
@@ -22,7 +24,9 @@ _m_bad_object = "{t}Not conform object{/t}";
 {literal}
 function initMap() {{/literal}
     mainmap.setExtent({$bboxMinX},{$bboxMinY},{$bboxMaxX},{$bboxMaxY});
-    factor = {$factor};{literal}
+    factor = {$factor};
+    mainmap.mapUnits = '{$mapUnits}';
+    mainmap.scalebarUnits = '{$scalebarUnits}';{literal}
 
     var rasterLayer = new Layer("raster");{/literal}
     var feature = new Raster('{$mainmap_path}', 'map_raster_img');{literal}
