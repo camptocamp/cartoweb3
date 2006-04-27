@@ -2,7 +2,7 @@
   <div id="needJsDiv">
     <table style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
       <tr>
-        <td align="center" valign="middle"><div id="needJs">{t}JavaScript must be enabled to use CartoWeb{/t}<br />
+        <td align="center" valign="middle"><div id="needJs">{t}JavaScript must be enabled to use CartoWeb{/t}</div></td>
       </tr>
     </table>
   </div>
