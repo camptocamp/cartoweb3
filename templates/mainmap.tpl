@@ -1,4 +1,14 @@
 <div id="mapBorder">
+  <div id="needJsDiv">
+    <table style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
+      <tr>
+        <td align="center" valign="middle"><div id="needJs">{t}JavaScript must be enabled to use CartoWeb{/t}<br />
+      </tr>
+    </table>
+  </div>
+  <script type="text/javascript">
+        document.getElementById('needJsDiv').style.display = 'none';
+  </script>
   <div id="loadbarDiv" class="dhtmldiv" style="position:absolute;z-index:3;">
     <table style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
       <tr>

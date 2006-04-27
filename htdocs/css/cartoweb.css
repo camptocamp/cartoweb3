@@ -58,6 +58,18 @@ a:hover {text-decoration: underline;color:#D0670A;}
 
 #content {z-index: 0;margin-left: 258px;}
 
+#needJsDiv { 
+  position:absolute;
+  z-index:4;
+  background-color:white;
+}
+
+#needJs { 
+  color:red;
+  font-size:2em;
+  font-weight:bold;
+}
+
 #loadbar {
   width:170px;
   padding:10px;
