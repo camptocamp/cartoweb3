@@ -83,7 +83,7 @@ class I18n {
      */
     static public function getLocales() {
 
-        $authLang = Utils::parseArray(self::$langList);
+        $langList = Utils::parseArray(self::$langList);
 
         // Looks in directory locale
         $dir = CARTOWEB_HOME . 'locale/';
@@ -93,8 +93,8 @@ class I18n {
             if ($entry == '.' || $entry == '..' || strlen($entry) != 2) {
                 continue;
             }
-            if (sizeof($authLang) >= 1 && $authLang[0] != '') {
-                if(!in_array($entry, $authLang))
+            if (sizeof($langList) >= 1 && $langList[0] != '') {
+                if (!in_array($entry, $langList))
                     continue;
             }
             $locales[] = $entry;
@@ -103,7 +103,7 @@ class I18n {
         if (self::$langList != '') {
             $locales = self::localesSort($locales);
         }
-
+        
         return $locales;
     }
     
