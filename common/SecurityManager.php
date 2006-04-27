@@ -67,7 +67,7 @@ class SecurityManager {
     private $securityContainer;
     
     /**
-     * The current authenticated username, or empty of none.
+     * The current authenticated username, or empty if none.
      * @var string
      */
     private $username = '';
