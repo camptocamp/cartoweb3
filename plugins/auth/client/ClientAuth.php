@@ -362,7 +362,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * Handles Get and Post requests
      */
-    protected function handleHttpCommonRequest($request){
+    protected function handleHttpCommonRequest($request) {
         if (isset($request['logout'])) {
             $this->auth->logout();
             $this->interruptFlow();
