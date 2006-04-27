@@ -985,7 +985,7 @@ function linkOrCopy($src, $dest) {
  */
 function setupLinks() {
 
-    info("Copying/linking ressources into htdocs");
+    info('Copying/linking resources into htdocs');
     if (!is_dir('htdocs/gfx/icons'))
         mkdir('htdocs/gfx/icons');
 
