@@ -343,6 +343,11 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
        </listitem>
        <listitem>
         <para>
+         weightFullextent: 14
+        </para>
+       </listitem>
+       <listitem>
+        <para>
          weightQueryByPoint: 40
         </para>
        </listitem>
@@ -393,6 +398,10 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
        </listitem>
       </itemizedlist>
      </para>
+     <para>
+        Use a negative value to deactivate a tool.
+     </para>
+     <programlisting>weightFullextent = -1</programlisting>
     </sect2>
     <sect2 id="user.config.plugins.group">
      <title>Grouping Tools Icons</title>

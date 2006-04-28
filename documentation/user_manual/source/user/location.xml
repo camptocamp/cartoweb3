@@ -79,6 +79,10 @@
           see weightZoomin (default to 12) </para>
       </listitem>
       <listitem>
+        <para> weightFullextent<indexterm><primary>weightFullextent</primary></indexterm>: 
+          see weightZoomin (default to 14) </para>
+      </listitem>
+      <listitem>
         <para> crosshairSymbol<indexterm><primary>crosshairSymbol</primary></indexterm>:
                (integer) numerical id of symbol to use to materialize recentering point 
                (see your <parameter>symbolset</parameter> file)</para>
