@@ -272,9 +272,11 @@ Request:
       {/if}
       {/if}
 
+      <p>
       {if $exporthtml_active|default:''}
-      <p><a href="{$exporthtml_url}" target="print">{t}Print{/t}</a></p>
+      <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a> -
       {/if}
+      <a href="{$selfUrl}?mode=image" target="print">{t}Raw image{/t}</a></p>
 
     </div>
     <!-- end of folder1 -->
