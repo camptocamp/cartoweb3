@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-12-07 09:53+0100\n"
+"POT-Creation-Date: 2006-04-27 11:15+0200\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -16,36 +16,6 @@ msgstr ""
 #: exportPdf.ini:formats.A4.label
 msgid "A4"
 msgstr "A4"
-
-# exportPdf.ini:formats.a3.label
-# exportPdf.ini:formats.A3.label
-#: exportPdf.ini:formats.A3.label
-msgid "A3"
-msgstr "A3"
-
-# images.ini:mapSizes.0.label
-# images.ini:mapSizes.0.label
-#: images.ini:mapSizes.0.label
-msgid "small"
-msgstr "small"
-
-# images.ini:mapSizes.1.label
-# images.ini:mapSizes.1.label
-#: images.ini:mapSizes.1.label
-msgid "normal"
-msgstr "normal"
-
-# images.ini:mapSizes.2.label
-# images.ini:mapSizes.2.label
-#: images.ini:mapSizes.2.label
-msgid "big"
-msgstr "big"
-
-# images.ini:mapSizes.3.label
-# images.ini:mapSizes.3.label
-#: images.ini:mapSizes.3.label
-msgid "giant"
-msgstr "giant"
 
 #: coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize:"
@@ -98,6 +68,10 @@ msgstr "Layer to center on"
 #: coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's"
 msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Refresh"
 
 #: coreplugins/location/templates/recenter.tpl
 msgid "X"
@@ -203,11 +177,87 @@ msgstr "Submit"
 msgid "Click here to go back to the map"
 msgstr "Click here to go back to the map"
 
+#: plugins/edit/templates/edit.tpl
+msgid "Choose layer"
+msgstr "Choose layer"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Features: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Inserted: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Modified: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Deleted: "
+msgstr "Deleted:"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Validate"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Cancel"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Edition not allowed"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "please login"
+msgstr ""
+
 #: plugins/exportHtml/templates/export.tpl
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl templates/cartoclient.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
 msgid "Print"
 msgstr "Print"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Title:"
+msgstr "Title:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Note:"
+msgstr "Note:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Scalebar"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Overview"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "QueryResult"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Legend"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "On map"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "In new page"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "None"
+
+#: plugins/exportPdf/templates/form.tpl
+#, fuzzy
+msgid "Reset Form"
+msgstr "Reset"
 
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
@@ -229,62 +279,17 @@ msgstr "Portrait"
 msgid "Landscape"
 msgstr "Landscape"
 
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Title:"
-msgstr "Title:"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Note:"
-msgstr "Note:"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Scalebar"
-msgstr "Scalebar"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Overview"
-msgstr "Overview"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "QueryResult"
-msgstr "QueryResult"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Legend"
-msgstr "Legend"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "On map"
-msgstr "On map"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "In new page"
-msgstr "In new page"
-
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "None"
-msgstr "None"
-
 #: plugins/exportPdf/templates/formRotate.tpl
 msgid "Scale:"
 msgstr "Scale:"
 
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Rotation:"
-msgstr "Rotation:"
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "PDF export"
+msgstr ""
 
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Position:"
-msgstr "Position:"
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "Click here to display PDF file"
+msgstr "Click here to display PDF file"
 
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
@@ -405,42 +410,6 @@ msgstr "Compute Path"
 #: plugins/routing/templates/routing.tpl
 msgid "Reset"
 msgstr "Reset"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Choose layer"
-msgstr "Choose layer"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Features: "
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "Inserted: "
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "Modified: "
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "Deleted: "
-msgstr "Deleted:"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Validate"
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "Cancel"
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "Edition not allowed"
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
-msgid "please login"
-msgstr ""
 
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
@@ -777,6 +746,102 @@ msgstr ""
 msgid "Remove all WMS layers"
 msgstr ""
 
+#: templates/cartoclient.tpl templates/mainmap.tpl
+msgid "Collapse keymap"
+msgstr "Collapse keymap"
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Show keymap"
+
+#: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Current scale:"
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Coord (m):"
+msgstr "Coords (m): "
+
+#: templates/cartoclient.tpl
+msgid "Approx. distance :"
+msgstr "Approx. distance: "
+
+#: templates/cartoclient.tpl
+msgid "Approx. area :"
+msgstr "Approx. surface: "
+
+#: templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr "scalebar_alt"
+
+#: templates/cartoclient.tpl
+msgid " User messages "
+msgstr " User messages "
+
+#: templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr " Developer messages "
+
+#: templates/cartoclient.tpl
+msgid "Choose project"
+msgstr "Choose project"
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr "Reset"
+
+#: templates/cartoclient.tpl
+msgid "Outline"
+msgstr "Outline"
+
+#: templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr "Layers Reorder"
+
+#: templates/cartoclient.tpl
+msgid "WMS layers"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Navigation"
+msgstr "Navigation"
+
+#: templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Themes"
+
+#: templates/cartoclient.tpl
+msgid "PDF"
+msgstr "PDF"
+
+#: templates/cartoclient.tpl
+msgid "Views"
+msgstr "Views"
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr "keymap_alt"
+
+#: templates/cartoclient.tpl
+msgid "Views:"
+msgstr "Views:"
+
+#: templates/dhtmlcode.tpl
+msgid "overlapping polygons are not allowed"
+msgstr "Overlapping polygons is not allowd."
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr "Are you sure?"
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr "Object is not conform."
+
+#: templates/mainmap.tpl
+msgid "JavaScript must be enabled to use CartoWeb"
+msgstr "JavaScript must be enabled to use CartoWeb"
 
 #: templates/toolPicker.tpl
 msgid "Tools"
@@ -862,157 +927,9 @@ msgstr ""
 msgid "more colors"
 msgstr "more colors"
 
-#: templates/dhtmlcode.tpl
-msgid "overlapping polygons are not allowed"
-msgstr "Overlapping polygons is not allowd."
-
-#: templates/dhtmlcode.tpl
-msgid "Are you sure ?"
-msgstr "Are you sure?"
-
-#: templates/dhtmlcode.tpl
-msgid "Not conform object"
-msgstr "Object is not conform."
-
-#: templates/mainmap.tpl templates/cartoclient.tpl
-msgid "keymap_alt"
-msgstr "keymap_alt"
-
-#: templates/mainmap.tpl templates/cartoclient.tpl
-msgid "Collapse keymap"
-msgstr "Collapse keymap"
-
 #: templates/unauthorized.tpl
 msgid "Unauthorized"
 msgstr "Unauthorized"
-
-#: templates/cartoclient.tpl
-msgid "Show keymap"
-msgstr "Show keymap"
-
-#: templates/cartoclient.tpl
-msgid "Current scale:"
-msgstr "Current scale:"
-
-#: templates/cartoclient.tpl
-msgid "Coords (m):"
-msgstr "Coords (m): "
-
-#: templates/cartoclient.tpl
-msgid "Approx. distance :"
-msgstr "Approx. distance: "
-
-#: templates/cartoclient.tpl
-msgid "Approx. area :"
-msgstr "Approx. surface: "
-
-#: templates/cartoclient.tpl
-msgid "scalebar_alt"
-msgstr "scalebar_alt"
-
-#: templates/cartoclient.tpl
-msgid " User messages "
-msgstr " User messages "
-
-#: templates/cartoclient.tpl
-msgid " Developer messages "
-msgstr " Developer messages "
-
-#: templates/cartoclient.tpl
-msgid "Choose project"
-msgstr "Choose project"
-
-#: templates/cartoclient.tpl
-msgid "refresh"
-msgstr "Refresh"
-
-#: templates/cartoclient.tpl
-msgid "reset_session"
-msgstr "Reset"
-
-#: templates/cartoclient.tpl
-msgid "Navigation"
-msgstr "Navigation"
-
-#: templates/cartoclient.tpl
-msgid "Themes"
-msgstr "Themes"
-
-#: templates/cartoclient.tpl
-msgid "PDF"
-msgstr "PDF"
-
-#: templates/cartoclient.tpl
-msgid "Views"
-msgstr "Views"
-
-#: templates/cartoclient.tpl
-msgid "Layers reorder"
-msgstr "Layers Reorder"
-
-#: templates/cartoclient.tpl
-msgid "Outline"
-msgstr "Outline"
-
-#: templates/cartoclient.tpl
-msgid "Views:"
-msgstr "Views:"
-
-#: templates/toolbar.tpl
-msgid "zoomin"
-msgstr "Zoom in"
-
-#: templates/toolbar.tpl
-msgid "zoomout"
-msgstr "Zoom out"
-
-#: templates/toolbar.tpl
-msgid "pan"
-msgstr "Pan"
-
-#: templates/toolbar.tpl
-msgid "query_by_point"
-msgstr "Query by point"
-
-#: templates/toolbar.tpl
-msgid "query_by_bbox"
-msgstr "Query by rectangle"
-
-#: templates/toolbar.tpl
-msgid "query_by_polygon"
-msgstr "Query by polygon"
-
-#: templates/toolbar.tpl
-msgid "query_by_circle"
-msgstr "Query by circle"
-
-#: templates/toolbar.tpl
-msgid "outline_point"
-msgstr "Point"
-
-#: templates/toolbar.tpl
-msgid "outline_line"
-msgstr "Line"
-
-#: templates/toolbar.tpl
-msgid "outline_rectangle"
-msgstr "Rectangle"
-
-#: templates/toolbar.tpl
-msgid "outline_poly"
-msgstr "Polygone"
-
-#: templates/toolbar.tpl
-msgid "distance"
-msgstr "Distance"
-
-#: templates/toolbar.tpl
-msgid "surface"
-msgstr "Area"
-
-#: templates/toolbar.tpl
-msgid "fullextent"
-msgstr "Full extent"
 
 #: client/Views.php:161
 msgid "Action halted: invalid view Id"
@@ -1022,69 +939,69 @@ msgstr "Action halted: invalid view Id"
 msgid "You are not allowed to perform this action"
 msgstr "You are not allowed to perform this action"
 
-#: client/Views.php:935
+#: client/Views.php:933
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Loaded view #%d"
 
-#: client/Views.php:941
+#: client/Views.php:939
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "New view recorded with id %d"
 
-#: client/Views.php:946
+#: client/Views.php:944
 #, php-format
 msgid "View #%d updated"
 msgstr "View #%d updated"
 
-#: client/Views.php:951 client/Views.php:1413
+#: client/Views.php:949 client/Views.php:1411
 #, php-format
 msgid "View #%d deleted"
 msgstr "View #%d deleted"
 
-#: client/Views.php:1302
+#: client/Views.php:1300
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Failed to open view #%d"
 
-#: client/Views.php:1326
+#: client/Views.php:1324
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Unable to read view #%d"
 
-#: client/Views.php:1338
+#: client/Views.php:1336
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Unable to write view #%d"
 
-#: client/Views.php:1416
+#: client/Views.php:1414
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Failed deleting view #%d"
 
-#: client/Views.php:1475
+#: client/Views.php:1473
 msgid "Unable to open ViewDbContainer: "
 msgstr "Unable to open ViewDbContainer: "
 
-#: client/Views.php:1477 client/Views.php:1546
+#: client/Views.php:1475 client/Views.php:1544
 msgid "Service failed."
 msgstr "Service failed."
 
-#: client/Views.php:1544
+#: client/Views.php:1542
 msgid "Unable to process view."
 msgstr "Unable to process view."
 
-#: client/Views.php:1555
+#: client/Views.php:1553
 #, php-format
 msgid "No result for view #%d"
 msgstr "No result for view #%d"
 
-#: client/Views.php:1579
+#: client/Views.php:1577
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "More than one view affected while editing view #%d"
 
-#: client/Views.php:1691
+#: client/Views.php:1689
 msgid "Unable to build views catalog"
 msgstr "Unable to build views catalog"
 
@@ -1092,42 +1009,13 @@ msgstr "Unable to build views catalog"
 msgid "label"
 msgstr "label"
 
-#: coreplugins/layers/client/ClientLayers.php:1247
+#: coreplugins/layers/client/ClientLayers.php:1334
 msgid "Default"
 msgstr "Default"
 
-#: htdocs/elk/about.php:26
-msgid "about file [about_"
-msgstr ""
-
-#: htdocs/elk/about.php:26
-msgid ".html] not found"
-msgstr ""
-
-#: htdocs/elk/contact.php:26
-msgid "contact file [contact_"
-msgstr ""
-
-#: htdocs/elk/copyright.php:26
-msgid "copyright file [copyright_"
-msgstr ""
-
-#: htdocs/elk/disclaimer.php:26
-msgid "disclaimer file [disclaimer_"
-msgstr ""
-
-#: plugins/exportPdf/client/ClientExportPdf.php:1263
-msgid "Click here to display PDF file"
-msgstr "Click here to display PDF file"
-
-#: plugins/exportPdf/client/CwFpdf.php:873
+#: plugins/exportPdf/client/CwFpdf.php:1036
 msgid "Page"
 msgstr "Page"
-
-#: plugins/hello/client/ClientHello.php:103
-#, php-format
-msgid "message: %s count: %d"
-msgstr "Message: %s count: %d"
 
 #: plugins/routing/client/ClientRouting.php:129
 msgid "Can't compute path: same source and destination"
@@ -1156,3 +1044,79 @@ msgstr "(placed at the end)"
 #: scripts/testgettext.php:55
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext is not installed correctly!"
+
+# exportPdf.ini:formats.a3.label
+# exportPdf.ini:formats.A3.label
+#~ msgid "A3"
+#~ msgstr "A3"
+
+# images.ini:mapSizes.0.label
+# images.ini:mapSizes.0.label
+#~ msgid "small"
+#~ msgstr "small"
+
+# images.ini:mapSizes.1.label
+# images.ini:mapSizes.1.label
+#~ msgid "normal"
+#~ msgstr "normal"
+
+# images.ini:mapSizes.2.label
+# images.ini:mapSizes.2.label
+#~ msgid "big"
+#~ msgstr "big"
+
+# images.ini:mapSizes.3.label
+# images.ini:mapSizes.3.label
+#~ msgid "giant"
+#~ msgstr "giant"
+
+#~ msgid "Rotation:"
+#~ msgstr "Rotation:"
+
+#~ msgid "Position:"
+#~ msgstr "Position:"
+
+#~ msgid "zoomin"
+#~ msgstr "Zoom in"
+
+#~ msgid "zoomout"
+#~ msgstr "Zoom out"
+
+#~ msgid "pan"
+#~ msgstr "Pan"
+
+#~ msgid "query_by_point"
+#~ msgstr "Query by point"
+
+#~ msgid "query_by_bbox"
+#~ msgstr "Query by rectangle"
+
+#~ msgid "query_by_polygon"
+#~ msgstr "Query by polygon"
+
+#~ msgid "query_by_circle"
+#~ msgstr "Query by circle"
+
+#~ msgid "outline_point"
+#~ msgstr "Point"
+
+#~ msgid "outline_line"
+#~ msgstr "Line"
+
+#~ msgid "outline_rectangle"
+#~ msgstr "Rectangle"
+
+#~ msgid "outline_poly"
+#~ msgstr "Polygone"
+
+#~ msgid "distance"
+#~ msgstr "Distance"
+
+#~ msgid "surface"
+#~ msgstr "Area"
+
+#~ msgid "fullextent"
+#~ msgstr "Full extent"
+
+#~ msgid "message: %s count: %d"
+#~ msgstr "Message: %s count: %d"
