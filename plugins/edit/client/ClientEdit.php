@@ -315,12 +315,12 @@ class ClientEdit extends ClientPlugin
             $this->getConfig()->editDisplayAction : 'both';       
 
         $template->assign(array('edit_active' => true,
-                               'edit_allowed' => $allowed,
-                               'edit_snapping' => $this->editState->snapping,
-                               'edit_shape_type' => $this->editState->shapeType,
-                               'edit_max_insert' => $edit_max_insert,
-                               'edit_resultNbCol' => $editResultNbCol,
-                               'edit_displayAction' => $editDisplayAction));
+                                'edit_allowed' => $allowed,
+                                'edit_snapping' => $this->editState->snapping,
+                                'edit_shape_type' => $this->editState->shapeType,
+                                'edit_max_insert' => $edit_max_insert,
+                                'edit_resultNbCol' => $editResultNbCol,
+                                'edit_displayAction' => $editDisplayAction));
                                
         // editable layers list
         $layersList =  $this->getConfig()->editLayers;
