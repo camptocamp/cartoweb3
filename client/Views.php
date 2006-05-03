@@ -400,9 +400,12 @@ class ViewManager {
      * @return string parameter value
      */
     private function getRequestValue($name) {
-        $req = array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : '';
+        $req = array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : 0;
         if ($req) {
             $req = strip_tags($req);
+        }
+        if ($req === 'on') {
+            $req = 1;
         }
         return $req;
     }
@@ -413,10 +416,6 @@ class ViewManager {
     private function setMetasFromRequest() {
         foreach ($this->getMetasList() as $metaName) {
             $this->metas[$metaName] = $this->getRequestValue($metaName);
-            
-            if ($metaName == 'viewShow') {
-                $this->metas[$metaName] = ($this->metas[$metaName] == 'on');  
-            }
         }
     }
 
