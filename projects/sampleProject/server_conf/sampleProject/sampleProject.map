@@ -1,0 +1,74 @@
+MAP
+  NAME "myFirstProject"
+  EXTENT 72705 1620431 1197822 2677441
+  IMAGETYPE PNG
+  IMAGECOLOR 255 255 255
+  STATUS ON
+  UNITS METERS
+  FONTSET "fonts.txt"
+  SYMBOLSET "symbols.txt"
+  SHAPEPATH "data"
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE PC256
+    EXTENSION "png"
+    FORMATOPTION "INTERLACE=OFF"
+    TRANSPARENT OFF
+  END
+ 
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER "GD/JPEG"
+    MIMETYPE "image/jpeg"
+    IMAGEMODE RGB
+    EXTENSION "jpg"
+    FORMATOPTION "INTERLACE=OFF"
+    FORMATOPTION "QUALITY=80"
+  END
+ 
+  REFERENCE
+    IMAGE images/keymap_france.png
+    EXTENT -168827.05 1620431 1414509.05 2677441
+    STATUS ON
+    COLOR -1 -1 -1
+    OUTLINECOLOR 200 0 0
+    SIZE 224 150
+  END
+
+  SCALEBAR
+    POSTLABELCACHE TRUE
+    STYLE 0
+    UNITS kilometers
+    SIZE 350 3
+    TRANSPARENT TRUE
+    COLOR 77 77 88
+    IMAGECOLOR 242 255 195
+    BACKGROUNDCOLOR 222 222 222
+    LABEL
+      TYPE BITMAP
+      SIZE SMALL
+      COLOR 0 0 0
+      POSITION UR
+      BUFFER 10
+    END
+  END
+
+  LEGEND
+    KEYSIZE 20 15
+  END
+
+  ##########
+  # LAYERS #
+  ##########
+  
+  # add your layers definitions here
+  
+  ##############
+  # END LAYERS #
+  ##############
+  
+  
+END

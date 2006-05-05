@@ -1,0 +1,21 @@
+SYMBOL
+    NAME "circle" 
+    TYPE ellipse 
+    FILLED true 
+    POINTS 1 1 END 
+END
+
+SYMBOL
+    NAME 'line-dashed'
+    TYPE ellipse
+    POINTS 1 1 END
+    FILLED true
+    STYLE 10 10 END
+END
+
+SYMBOL
+    NAME "full_triangle"
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS 0 1 .5 0 1 1 0 1 END
+END

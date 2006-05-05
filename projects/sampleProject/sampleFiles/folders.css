@@ -1,0 +1,64 @@
+/* tabs / labels */
+
+ul.tabnav {
+    font-weight: bold;
+    font-size: 11px;
+    list-style-type: none;
+    z-index: 2;
+}
+
+ul.tabnav li {
+    float: left;
+    height: 21px;
+    background-color: #efefef;
+}
+
+.tabnav a {
+    float: left;
+    display: block;
+    color: green;
+    text-decoration: none;
+    padding: 4px;
+}
+
+.tabnav li:hover {
+    background: #fff;
+}
+
+ul#tabnav1 {
+    border-bottom: 1px solid darkgreen;
+    margin: 0;
+    padding: 0 0 24px 0px;
+}
+
+ul#tabnav1 li {
+    margin: 2px 2px 0px 0px;
+    border: 1px solid #ACA;
+    border-bottom: 1px solid darkgreen;
+}
+
+ul#tabnav1 li.active {
+    border: 1px solid darkgreen;
+    border-bottom: 1px solid white;
+    background-color: white;
+}
+
+ul#tabnav1 li.active a {
+    color: darkgreen;
+}
+
+/*  folders container box */
+#container {
+  border: 1px solid darkgreen;
+  border-width: 0 1px 1px 1px;
+  background-color: white;
+}
+
+.folder {
+  display: none;
+  text-align:center;
+  padding:5px;
+}
+
+
+select.folder {max-width:160px;}

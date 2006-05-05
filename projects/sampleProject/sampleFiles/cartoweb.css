@@ -1,0 +1,140 @@
+body, html {
+  color: green; /* main text color */
+  font-size:small;
+  font-family:verdana, arial, sans-serif;
+  background: white; /* main background color */
+  padding:0;
+  margin:0; 
+}
+
+a {
+  text-decoration: none;
+  color:#057;
+}
+
+a:hover {
+  text-decoration: underline;
+  color:#D0670A;
+}
+
+#banner {
+  border: 1px dashed darkgreen;
+  margin:10px;
+  background-color: #CFC;
+}
+
+#banner h1 {
+  text-align:center;
+  margin:5px;
+  padding:0;
+  font-size:1.1em;
+}
+
+#loginform {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 40px;
+  padding:0;
+  z-index: 3;
+}
+
+#leftbar {
+  position: absolute;
+  top: 40px;
+  width: 250px;
+  padding:4px;
+  z-index: 3;
+}
+
+#leftbar p {text-align:center;margin:10px;}
+
+#keymap {text-align:center;margin:10px;}
+#keymap input {border:1px solid #eee;}
+
+#layerscmd {text-align:center;padding:5px;}
+
+#content {z-index: 0;margin-left: 258px;}
+
+#loadbar {
+  width:170px;
+  padding:10px;
+  background-color:white;
+  border:1px solid #eee;
+  font-weight:bold;
+}
+#loadbar img {border:0;margin-top:10px;}
+
+pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
+
+.form_button {
+  height:20px;
+  border:1px solid #fff;
+  border-bottom-color: #aaa;
+  border-right-color: #aaa;
+  background-color:#eee;
+  color:darkgreen;
+  font-size:0.8em;
+  margin:2px;
+}
+
+.form_button_hilight {
+  height:20px;
+  border:1px solid #fff;
+  border-bottom-color: #aaa;
+  border-right-color: #aaa;
+  background-color:#eee;
+  color:red;
+  font-size:0.8em;
+  margin:2px;
+}
+
+.toolbar_on {
+  border: 1px solid darkgreen;
+  cursor: pointer;
+}
+
+.toolbar_off {
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}
+
+#dummy {
+  width:0;
+  height:0;
+  border:0;
+}
+
+#scaleContainer {
+  position:absolute;
+  z-index:3;
+}
+
+#floatScale {
+  position:relative;
+/*  top: -15px;*/
+  padding:0;
+  margin:0;
+}
+
+#floatGeo {
+  padding:0;
+  margin:0;
+}
+
+#floatDistance {
+  padding:0;
+  margin: 0;
+  display: none;
+}
+
+#floatSurface {
+  padding:0;
+  margin: 0;
+  display: none;
+}
+
+input,select {
+	border: 1px solid #555;
+	background-color: #EFE;
+}
