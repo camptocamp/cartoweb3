@@ -390,6 +390,7 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
     /**
      * Draws the login/logout buttons. Their availibility depends on whether the
      * user is logged in or not.
+     * @return string
      */
     protected function drawAuth() {
 
