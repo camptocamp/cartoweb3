@@ -793,7 +793,7 @@ class CwFpdf implements PdfWriter {
         $yi = $this->p->GetY();
         $shift = $this->legendLevel * $this->legendShift;
        
-        $iWidth = 0;
+        $iWidth = $iHeight = 0;
         $icon =& ResourceHandler::convertXhtml($layer['icon'], true);
         if ($icon) {
             
