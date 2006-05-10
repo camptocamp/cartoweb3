@@ -216,6 +216,36 @@ function xHeight(e,h)
   return h;
 }
 
+function xClientHeight()
+{
+  var h=0;
+  if(xOp6Dn) h=window.innerHeight;
+  else if(document.compatMode == 'CSS1Compat' && !window.opera && document.documentElement && document.documentElement.clientHeight)
+    h=document.documentElement.clientHeight;
+  else if(document.body && document.body.clientHeight)
+    h=document.body.clientHeight;
+  else if(xDef(window.innerWidth,window.innerHeight,document.width)) {
+    h=window.innerHeight;
+    if(document.width>window.innerWidth) h-=16;
+  }
+  return h;
+}
+
+function xClientWidth()
+{
+  var w=0;
+  if(xOp6Dn) w=window.innerWidth;
+  else if(document.compatMode == 'CSS1Compat' && !window.opera && document.documentElement && document.documentElement.clientWidth)
+    w=document.documentElement.clientWidth;
+  else if(document.body && document.body.clientWidth)
+    w=document.body.clientWidth;
+  else if(xDef(window.innerWidth,window.innerHeight,document.height)) {
+    w=window.innerWidth;
+    if(document.height>window.innerHeight) w-=16;
+  }
+  return w;
+}
+
 function xNum()
 {
   for(var i=0; i<arguments.length; ++i){if(isNaN(arguments[i]) || typeof(arguments[i])!='number') return false;}
