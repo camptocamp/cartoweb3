@@ -130,6 +130,8 @@
     xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="appendix/windows_install.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="appendix/create_new_project.xml" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="appendix/make_doc.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
 
