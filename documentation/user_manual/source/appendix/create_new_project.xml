@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+]>
+
+<!-- $Id$ -->
+
+<appendix id="appendix.create_new_project">
+  <title>Create a New Project</title>
+  <para>This appendix describes how to configure your own project.
+    The main steps are detailed here.
+  </para>
+  
+  <sect1>
+  <title>Project Directory</title>
+  <para>Get in the <filename>projects</filename> folder of Cartoweb. Rename the 
+    <filename>sampleProject</filename> directory to the name of your project.</para>
+  <para>Edit the <filename>client.ini.in</filename> of this new project, and modify
+     the mapId parameter value with the name of your project:
+<screen><![CDATA[
+mapId = your_project_name]]></screen></para>
+  <para>Open the <filename>server_conf</filename> directory and rename the
+    <filename>sampleProject</filename> directory to the name of your project.</para>
+  <para>In this folder, two more files need to be renamed (
+    <filename>sampleProject.map</filename> and <filename>sampleProject.ini</filename>)
+    with the name of the new project.</para>
+  </sect1>
+  
+  <sect1>
+  <title>Setup Your Project</title>  
+  <para>
+    In a command line prompt (DOS, shell), launch the <filename>cw3setup.php</filename>
+     setup script.
+    <screen><![CDATA[<PHP-INTERPRETER> cw3setup.php --install
+     --base-url http://localhost/cartoweb3/htdocs/ --profile development
+     --project <nameOfYourProject>]]></screen>
+  </para>
+  <para>See <xref linkend="user.install"/> for more info on the installation script.
+  </para>
+  <para>If no error occured, you should be able to access your project by typing
+    <ulink url="http://localhost/cartoweb3/htdocs/client.php" /> in your
+     browser and selecting your project from the projects drop-down menu.
+  </para>
+  </sect1>  
+
+  <sect1>
+  <title>Project Shortcut</title>  
+  <para>To make development easier, you can create a shortcut file to access
+   your project directly. Go in <filename>cartoweb3/htdocs/</filename> and copy
+    the file <filename>demoCW3.php</filename>.
+  </para>
+  <para>Rename the file to any name (usually your project name). Edit the file
+   and replace <emphasis>'demoCW3'</emphasis> by <emphasis>'your_project_name'</emphasis>.
+   Your project is now directly available with the URL
+   <ulink url="http://localhost/cartoweb3/htdocs/your_project_name.php" />.
+   (the URL given above depends on your installation, see the previous comments
+   about cartoclientBaseUrl and --base-url).
+  </para>
+  </sect1>  
+
+  <sect1>
+  <title>Loading Data</title>  
+  <para>As you can see, the project you created is hopelessly empty. Then,
+   we'll load spatial data in it.</para>
+  <para>Add the following in the mapfile (<filename>your_project_name.map</filename>) :
+  <screen>
+  LAYER
+    NAME "region"
+    TYPE POLYGON
+    DATA "reg_france"
+    TEMPLATE "ttt"
+    CLASS
+      NAME "region"
+      STYLE
+        COLOR 240 240 240
+        OUTLINECOLOR 255 165 96
+      END
+    END
+    METADATA
+      "id_attribute_string" "CODE"
+    END
+  END
+  </screen>
+  </para>
+  <para>And in the <filename>layers.ini</filename> file
+   (<filename>server_conf/your_project_name/</filename>) add the following :
+  <screen>layers.region.className = Layer
+layers.region.label = Régions
+layers.region.msLayer = region</screen>
+  </para>
+  <para>And add the new layer id in the root layer children list :
+  <screen>layers.root.children = region</screen>
+  </para>
+  <para>For more details on how to fill the layers.ini file, see
+   <xref linkend="user.layers"/>.
+  </para>
+  <para>Also edit the <filename>your_project_name.ini</filename> file in a text
+   editor in order to set some initial mapstates such as default selected
+   layers.</para>
+  <para>Add the following :
+  <screen>mapInfo.initialMapStates.default.layers.region.selected = true</screen>
+  </para>
+  <para>See <xref linkend="user.config.server.maps_config.initial" /> for more
+   info about initialMapStates.</para>
+  <para>In your browser, click on the <emphasis>reset_session</emphasis> button
+   and you should now see the France regions.</para>
+  </sect1>
+  
+  <sect1>
+  <title>Location Parameters</title>
+  <para>Move the location.ini file you will find in the sampleFiles folder into
+   the <filename>server_conf/your_project_name/</filename> one.
+  </para>
+  <para>This file defines some parameters such as scales or shortcuts. For more
+   details on how to configure those parameters, see
+   <xref linkend="user.location" />
+  </para>
+  <para>Click on the reset_session button in your browser page. New elements
+   should appear. You should be able to choose a scale and a shortcut.</para>
+  </sect1>
+  
+  <sect1>
+  <title>Your Own Data</title>
+  <para>After that the next point is to add your own data. You should just have
+   to :
+  <itemizedlist>
+    <listitem>
+      <para>get your data available, by default in the data folder or somewhere
+       else on your filesystem,</para>
+    </listitem>
+    <listitem><para>modify the mapfile extent,</para>
+    </listitem>
+    <listitem><para>modify the extent defined in the initialMapstates
+     (<filename>your_project_name.ini</filename>),</para>
+    </listitem>
+    <listitem><para>add layers definitions in the mapfile
+     (<filename>your_project_name.map</filename>),</para>
+    </listitem>
+    <listitem><para>add layers definitions in the
+     <filename>layers.ini</filename>.</para>
+    </listitem>
+    <listitem><para>reset the session in the browser, and get your data displayed.</para>
+    </listitem>
+  </itemizedlist>
+  </para>
+  </sect1>
+  
+  <sect1>
+  <title>Outline</title>
+  <para>Let's see how to load a plugin. Edit the <filename>client.ini.in</filename>
+   file (<filename>client_conf/</filename>) and add the outline plugin in the
+    list of plugins to load:
+  <screen>loadPlugins = outline</screen>
+  </para>
+  <para>Do the same in the <filename>your_project_name.ini</filename> file on
+   server-side (<filename>server_conf/your_project_name/</filename>) but also
+   add the mapOverLay plugin :
+   <screen>mapInfo.loadPlugins = outline, mapOverlay</screen>
+  </para>
+  <para>Move the <filename>outline.ini</filename> file from
+   <filename>sampleFiles</filename> to <filename>server_conf/your_project_name/</filename>.
+  </para>
+  <para>In the mapfile (<filename>your_project_name.map</filename>), add the
+   following at the bottom of the layers definition section :
+  <screen>
+  LAYER
+    NAME "cartoweb_point_outline"
+    TYPE POINT
+    CLASS
+      STYLE
+        SYMBOL "circle"
+        COLOR 0 0 205
+        SIZE 10
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        OUTLINECOLOR 255 255 255
+        POSITION lc
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_line_outline"
+    TYPE LINE
+    TRANSPARENCY 100
+    CLASS
+      STYLE
+        OUTLINECOLOR 255 0 0
+        SYMBOL "line-dashed"
+        SIZE 3
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        OUTLINECOLOR 255 255 255
+        ANGLE auto
+        POSITION uc
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_polygon_outline"
+    TYPE POLYGON
+    TRANSPARENCY 60
+    CLASS
+      STYLE
+        COLOR 255 153 0
+        OUTLINECOLOR 0 0 0
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        OUTLINECOLOR 255 255 255
+        COLOR 0 0 0
+        POSITION cc
+      END
+    END
+  END</screen>
+  </para>
+  <para>Launch the setup script. This step is compulsary to convert
+   <filename>.ini.in</filename> files into <filename>.ini</filename>
+    configuration files read by Cartoweb.
+  </para>
+  <para>By clicking on the <emphasis>reset_session</emphasis> button in the
+   browser window, you should see new buttons in the toolbar and the
+   corresponding folder in the leftbar.</para>
+  </sect1>
+  
+  <sect1>
+  <title>Pdf Printing</title>
+  <para>As done for the outline plugin, add <emphasis>"exportPdf"</emphasis> to
+   the list of plugins to load on both client and server-side.
+  </para>
+  <para>After launching the setup script and refreshing the application
+   (reset_session), you should be able to test the new functionality as a new
+   folder appeared in the interface. But a warning printed in the pdf file
+   advices you to edit your <filename>exportPdf.ini</filename> file.
+  </para>
+  <para>So move <filename>exportPdf.ini</filename> from
+   <filename>sampleFiles</filename> to <filename>client_conf</filename>. Take
+    care that this is a client-side configuration file. Try a new print (no
+    need to reset).
+  </para>
+  <para>For more information on how to edit your
+   <filename>exportPdf.ini</filename> file, see <xref linkend="user.pdf" />.
+  </para>
+  </sect1>
+  
+  <sect1>
+  <title>Templating and Layout</title>
+  <para>Create a new <filename>templates</filename> folder in your project
+   directory and move the <filename>cartoclient.tpl</filename> file from 
+   <filename>sampleFiles</filename> to this new folder.
+  </para>
+  <para>This file is the main template for CartoWeb.
+  </para>
+  <para>Refresh the application in your browser (refresh button) and enjoy!</para>
+  <para>To customize your project even more, you may apply styles sheets.
+   To do so, first create a <filename>htdocs</filename> folder in your project
+   directory. In this folder, create a new folder named <filename>css</filename>. Then move
+   <filename>cartoweb.css</filename> and <filename>folders.css</filename> from
+   <filename>sampleFiles</filename> to this new folder.</para>
+  <para>At this step, you need to launch the setup script so that the new
+   ressources you just created are copied or linked (depending on your OS)
+   in a web reachable folder.</para>
+  <para>You can now refresh the browser and see the new colors and styles.</para>
+  </sect1>
+  
+</appendix>
