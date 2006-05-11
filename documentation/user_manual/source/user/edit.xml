@@ -110,7 +110,8 @@ END]]></programlisting>
       </listitem>
       <listitem>
         <formalpara>
-          <title>At that point, you may launch <emphasis>demo_edit.sql</emphasis></title>
+          <title>At that point, you may launch <emphasis>demoEdit_schema.sql</emphasis>
+          and <emphasis>demoEdit_data.sql</emphasis></title>
           <para>
           located in the
           </para>
