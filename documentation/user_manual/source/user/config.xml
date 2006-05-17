@@ -27,9 +27,9 @@
       <listitem>
         <para> profile = development|production|custom: current settings profile. 
           The <parameter>development</parameter> profile has no cache activated 
-		  and makes SOAP work in WSDL mode. 
+          and makes SOAP work in WSDL mode. 
           The <parameter>production</parameter> profile has all caches activated 
-		  for best performances.
+          for best performances.
           Setting this parameter to development or production will override
           some parameters in the configuration. The custom profile means
           the parameters about caching and other are not overrided.</para>
@@ -38,7 +38,7 @@
         <para> useWsdl = true|false: if true, WSDL will be used for sending 
           SOAP requests. This will add some processing time but ensures 
           that SOAP requests are well-structured. In addition, WSDL is necessary when 
-		  interfacing the Web Service with a strong-typed language built application.</para>
+          interfacing the Web Service with a strong-typed language built application.</para>
       </listitem>
     </itemizedlist>
     <para> Cache options. See <xref linkend="user.caches.config"/>. </para>
@@ -72,20 +72,20 @@
       </listitem>
       <listitem>
         <para> initialMapStateId = string. Tells what <parameter>initialMapState</parameter> 
-		to use when creating a new &cartoweb; session (see also 
-		<xref linkend="user.config.server.maps_config.initial"/>).</para>
+        to use when creating a new &cartoweb; session (see also 
+        <xref linkend="user.config.server.maps_config.initial"/>).</para>
         <tip>
          <para>
           <parameter>initialMapStateId</parameter> may be determined using several 
-		  means. By order of priority: 
+          means. By order of priority: 
           <orderedlist>
            <listitem><para>URLs (using GET parameter <parameter>initialState</parameter>)</para></listitem>
            <listitem><para>PHP environment variables. Place 
-		   <programlisting>$_ENV['CW3_INITIAL_MAP_STATE_ID'] = 'foobar';</programlisting> 
-		   in your PHP code before calling &cartoweb;.</para></listitem>
+           <programlisting>$_ENV['CW3_INITIAL_MAP_STATE_ID'] = 'foobar';</programlisting> 
+           in your PHP code before calling &cartoweb;.</para></listitem>
            <listitem><para>client.ini</para></listitem>
            <listitem><para>If no <parameter>initialMapStateId</parameter> can be determined, 
-		   &cartoweb; use first <parameter>initialMapState</parameter> available.</para></listitem>
+           &cartoweb; use first <parameter>initialMapState</parameter> available.</para></listitem>
           </orderedlist>
          </para>
         </tip>
@@ -95,20 +95,20 @@
     <itemizedlist>
       <listitem>
         <para> sessionNameSuffix = string. Optional suffix used to distinguish &cartoclient; 
-		sessions parts for a given user. In most cases it is not necessary but may be needed 
-		when using, for instance, "sub-projects". This string is an ulimited comma-separated list of
-		<parameter>type</parameter>:<parameter>value</parameter> couples. Three types are available:
+        sessions parts for a given user. In most cases it is not necessary but may be needed 
+        when using, for instance, "sub-projects". This string is an ulimited comma-separated list of
+        <parameter>type</parameter>:<parameter>value</parameter> couples. Three types are available:
           <itemizedlist>
             <listitem>
               <para><parameter>str</parameter>: a constant string</para>
             </listitem>
             <listitem>
               <para><parameter>conf</parameter>: uses value of one of the current 
-			  <filename>client.ini</filename> configuration parameters</para>
+              <filename>client.ini</filename> configuration parameters</para>
             </listitem>
             <listitem>
               <para><parameter>env</parameter>: uses value of given PHP environment 
-			  variable, if set.</para>
+              variable, if set.</para>
             </listitem>
           </itemizedlist>
           For instance: 
@@ -128,10 +128,10 @@ sessionNameSuffix = "env:CW3_APP_ID"</programlisting>
       </listitem>
       <listitem>
         <para> toolbarRendering: indicates how to render tools selectors icons within 
-		toolbar. Possible values are 'radio' (default), 'outline', 'swap'. If 'radio': 
-		an HTML radio button appear nexts to each tool icon. If 'outline': active tool 
-		icon is outlined with a colored border. If 'swap': an alternate icon ("over") 
-		is displayed to mark the active tool.</para> 
+        toolbar. Possible values are 'radio' (default), 'outline', 'swap'. If 'radio': 
+        an HTML radio button appear nexts to each tool icon. If 'outline': active tool 
+        icon is outlined with a colored border. If 'swap': an alternate icon ("over") 
+        is displayed to mark the active tool.</para> 
       </listitem>
     </itemizedlist>
     <para> Project handling configuration:</para>
@@ -325,11 +325,11 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
   <sect1 id="user.config.plugins">
     <title>Ini Files for Plugins</title>
     <para> Each plugin may have a configuration file associated with it. It may be found in 
-		<filename>client_conf/</filename> or <filename>server_conf/your_project_name/</filename> 
-		directory depending which side needs to access the parameters. They have the same name 
-		as the plugin and ends with <filename>.ini</filename> extension. For instance, the 
-		<literal>layers</literal> plugin has a configuration file named 
-		<filename>layers.ini</filename>.</para>
+        <filename>client_conf/</filename> or <filename>server_conf/your_project_name/</filename> 
+        directory depending which side needs to access the parameters. They have the same name 
+        as the plugin and ends with <filename>.ini</filename> extension. For instance, the 
+        <literal>layers</literal> plugin has a configuration file named 
+        <filename>layers.ini</filename>.</para>
     <para> All plugins configuration files are described in the next sections 
       of this chapter. </para>
     <para>
@@ -339,11 +339,11 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
      <title>Ordering Tools Icons</title>
      <para>
       To modify the toolbar icons sequence, update the tools weight values. Icons with the 
-	  lowest weights are placed first in the toolbar. Parameters naming convention is to 
-	  concatenate the 'weight' prefix to the capitalized-first-lettered tool name as in 
-	  <parameter>weightDistance</parameter>. For two-word tool names (eg. 'exemple_tool'), 
-	  each word has its first letter capitalized and the '_' (underscore) is removed. 
-	  For instance: 
+      lowest weights are placed first in the toolbar. Parameters naming convention is to 
+      concatenate the 'weight' prefix to the capitalized-first-lettered tool name as in 
+      <parameter>weightDistance</parameter>. For two-word tool names (eg. 'exemple_tool'), 
+      each word has its first letter capitalized and the '_' (underscore) is removed. 
+      For instance: 
      </para>
      <programlisting>exempleTool = something</programlisting>
      <para>
@@ -430,26 +430,26 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
      <title>Grouping Tools Icons</title>
      <para>
       &cartoweb; offers the possibility to display tools icons in separated locations 
-	  of its interface. For instance browsing icons may be displayed in the general 
-	  toolbar whereas outline pictos may only appear in a dedicated folder. To do so, 
-	  simply add an integer group index for each tool in matching plugin configuration 
-	  file. For instance:
+      of its interface. For instance browsing icons may be displayed in the general 
+      toolbar whereas outline pictos may only appear in a dedicated folder. To do so, 
+      simply add an integer group index for each tool in matching plugin configuration 
+      file. For instance:
       <programlisting>groupDistance = 2</programlisting>
       By default, all tools icons are affected to group 1. Note that the parameters 
-	  naming convention is the same than for weight parameters (see <xref linkend="user.config.plugins.order"/>), 
-	  only substituting the 'group' prefix to the 'weight' one.
+      naming convention is the same than for weight parameters (see <xref linkend="user.config.plugins.order"/>), 
+      only substituting the 'group' prefix to the 'weight' one.
      </para>
      <para>
       It is also possible to specify a global plugin group index that will be applied to 
-	  all the given plugin tools if no individual group index has been set. To do so, 
-	  use the <parameter>groupPlugin</parameter> in the matching plugin configuration 
-	  file as follows:
+      all the given plugin tools if no individual group index has been set. To do so, 
+      use the <parameter>groupPlugin</parameter> in the matching plugin configuration 
+      file as follows:
       <programlisting>groupPlugin = 3</programlisting>
      </para>
      <para>
       To take benefit of the tools groups, update the main &cartoweb; template file 
-	  <filename>templates/cartoclient.tpl</filename> by including the <filename>toolbar.tpl</filename> 
-	  template at the correct places with the correct group indexes as follows:
+      <filename>templates/cartoclient.tpl</filename> by including the <filename>toolbar.tpl</filename> 
+      template at the correct places with the correct group indexes as follows:
       <programlisting>{include file="toolbar.tpl" group=2}</programlisting>
       For more information about templates writing, see <xref linkend="user.template"/>.
      </para>
