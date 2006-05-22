@@ -63,9 +63,10 @@ function parseMap($project, $mapId, &$texts) {
     
     if (!extension_loaded('mapscript')) {
         $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
-        if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX))
+        if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX)) {
             print 'Error: Cannot load Mapscript library.';
             return false;
+        }
     }
     
     if (!file_exists($mapFile)) {
