@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>{t}Cartoclient Title{/t}</title>
+  <title>{$cartoclient_title}</title>
   
   <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
   <meta name="author" content="Sylvain Pasche" />
@@ -75,7 +75,7 @@
 
 <body>
 
-<div id="banner"><h1>{t}Cartoclient Title{/t}</h1></div>
+<div id="banner"><h1>{$cartoclient_title}</h1></div>
 
 <form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />

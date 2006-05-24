@@ -55,6 +55,11 @@ class FormRenderer {
     private $customForm;
 
     /**
+     * @var string the page title. To be used instead of the default one.
+     */
+    private $customTitle;
+
+    /**
      * @var string some string to output in addition to regular output
      */
     private $specialOutput = '';
@@ -68,6 +73,9 @@ class FormRenderer {
         $this->cartoclient = $cartoclient;
 
         $this->smarty = $this->getSmarty();
+        
+        // default title        
+        $this->customTitle = I18n::gt('Cartoclient Title');
     }
 
     /**
@@ -293,6 +301,14 @@ class FormRenderer {
         $this->customForm = $customForm;
     }
     
+    /**
+     * Sets a different title
+     * @param string new title
+     */
+    public function setCustomTitle($customTitle) {
+        $this->customTitle = $customTitle;
+    }
+    
     public function render() {
         if ($this->cartoclient->isAjaxMode()) {
             return $this->showAjaxPluginResponse();
@@ -344,6 +360,9 @@ class FormRenderer {
             $this->cartoclient->callPluginsImplementing('GuiProvider', 
                                                         'renderForm',
                                                         $this->smarty);
+                                                                                                       
+            // set title
+            $this->smarty->assign('cartoclient_title', $this->customTitle);            
         }
 
         // if set to false, smarty display is skipped
