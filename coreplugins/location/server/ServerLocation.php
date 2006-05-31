@@ -720,7 +720,7 @@ class ServerLocation extends ClientResponderAdapter
                 // Bbox was too large to fit
                 $newBbox->maxx = $maxExtent->maxx;
             }
-        } else if ($maxExtent->maxx > 0 && $newBbox->maxx > $maxExtent->maxx) {
+        } elseif ($maxExtent->maxx > 0 && $newBbox->maxx > $maxExtent->maxx) {
             $newBbox->minx = $newBbox->minx + $maxExtent->maxx 
                              - $newBbox->maxx;
             $newBbox->maxx = $maxExtent->maxx;
@@ -739,7 +739,7 @@ class ServerLocation extends ClientResponderAdapter
                 // Bbox was too high to fit
                 $newBbox->maxy = $maxExtent->maxy;
             }
-        } else if ($maxExtent->maxy > 0 && $newBbox->maxy > $maxExtent->maxy) {
+        } elseif ($maxExtent->maxy > 0 && $newBbox->maxy > $maxExtent->maxy) {
             $newBbox->miny = $newBbox->miny + $maxExtent->maxy 
                              - $newBbox->maxy;
             $newBbox->maxy = $maxExtent->maxy;
@@ -787,12 +787,14 @@ class ServerLocation extends ClientResponderAdapter
             $center->setXY($msMapObj->width/2, $msMapObj->height/2);
             
             $maxGeoRefExtent = ms_newRectObj();
-            $maxGeoRefExtent->setextent($this->initialExtent->minx, $this->initialExtent->miny,
-                $this->initialExtent->maxx, $this->initialExtent->maxy);
+            $maxGeoRefExtent->setextent($this->initialExtent->minx, 
+                                        $this->initialExtent->miny,
+                                        $this->initialExtent->maxx, 
+                                        $this->initialExtent->maxy);
                 
             $msMapObj->zoomscale($scale, $center,
-                $msMapObj->width, $msMapObj->height, $msMapObj->extent,
-                $maxGeoRefExtent);
+                                 $msMapObj->width, $msMapObj->height, 
+                                 $msMapObj->extent, $maxGeoRefExtent);
         }
     }
 
@@ -840,6 +842,17 @@ class ServerLocation extends ClientResponderAdapter
         return $locationResult;
     }
 
+    /**
+     * Adds RefMark shapes.
+     * @param array array of StyledShape
+     * @param array array of Point
+     * @param double
+     * @param double
+     * @param double
+     * @param StyleOverlay
+     * @param LabelOverlay
+     * @param string
+     */
     protected function addRefMarksShape(&$shapes, $points,
                                         $cx, $cy,
                                         $r, $style,
@@ -1008,7 +1021,9 @@ class ServerLocation extends ClientResponderAdapter
             $y = $maxy * $intervaly + $originy;              
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x, $y + $length - ($i - $minx) * $offset - $lineSize);
+            $points[] = new Point($x, 
+                                  $y + $length - ($i - $minx) * $offset - $lineSize
+                                  );
             $this->addRefMarksShape($shapes, $points,
                                     $extentcenterx, $extentcentery,
                                     $radius, $style, $label, $x);
@@ -1022,7 +1037,9 @@ class ServerLocation extends ClientResponderAdapter
             $y = $miny * $intervaly + $originy;
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x, $y + $length - ($i - $minx) * $offset + $lineSize);
+            $points[] = new Point($x, 
+                                  $y + $length - ($i - $minx) * $offset + $lineSize
+                                  );
             $this->addRefMarksShape($shapes, $points,
                                     $extentcenterx, $extentcentery,
                                     $radius, $style, $label, $x);
@@ -1046,7 +1063,8 @@ class ServerLocation extends ClientResponderAdapter
             $x = $maxx * $intervalx + $originx;              
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x + $length - ($maxy - $i) * $offset - $lineSize, $y);
+            $points[] = new Point($x + $length - ($maxy - $i) * $offset - $lineSize,
+                                  $y);
             $this->addRefMarksShape($shapes, $points,
                                     $extentcenterx, $extentcentery,
                                     $radius, $style, $label, $y);
@@ -1060,7 +1078,8 @@ class ServerLocation extends ClientResponderAdapter
             $x = $minx * $intervalx + $originx;
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x + $length - ($maxy - $i) * $offset + $lineSize, $y);
+            $points[] = new Point($x + $length - ($maxy - $i) * $offset + $lineSize,
+                                  $y);
             $this->addRefMarksShape($shapes, $points,
                                     $extentcenterx, $extentcentery,
                                     $radius, $style, $label, $y);
@@ -1116,7 +1135,7 @@ class ServerLocation extends ClientResponderAdapter
         // get calculator from request:
        
         $locationType = $requ->locationType;
-        $classPrefix = substr($locationType, 0, -strlen('LocationRequest'));
+        $classPrefix = substr($locationType, 0, -1 * strlen('LocationRequest'));
         $classPrefix = ucfirst($classPrefix);
         $locationCalculatorClass = $classPrefix . 'LocationCalculator';
         if (!class_exists($locationCalculatorClass))
