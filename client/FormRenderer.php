@@ -73,9 +73,6 @@ class FormRenderer {
         $this->cartoclient = $cartoclient;
 
         $this->smarty = $this->getSmarty();
-        
-        // default title        
-        $this->customTitle = I18n::gt('Cartoclient Title');
     }
 
     /**
@@ -362,7 +359,10 @@ class FormRenderer {
                                                         $this->smarty);
                                                                                                        
             // set title
-            $this->smarty->assign('cartoclient_title', $this->customTitle);            
+            $cartoclient_title = !is_null($this->customTitle) 
+                                 ? $this->customTitle 
+                                 : I18n::gt('Cartoclient Title');
+            $this->smarty->assign('cartoclient_title', $cartoclient_title); 
         }
 
         // if set to false, smarty display is skipped
