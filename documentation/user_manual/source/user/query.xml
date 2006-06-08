@@ -179,7 +179,7 @@
           <para> 
             "id_attribute_string"<indexterm><primary>id_attribute_string</primary></indexterm> 
             "name|type": describes the attribute used for the id, and the type 
-            of the id. Type can be either "integer" or "string". Caution: case 
+            of the id. Type can be either "int" or "string". Caution: case 
             sensitive</para>
         </listitem>
         <listitem>
