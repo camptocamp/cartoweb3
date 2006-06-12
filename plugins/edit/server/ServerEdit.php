@@ -398,18 +398,20 @@ class ServerEdit extends ClientResponderAdapter {
                                     * $tolerance;
                     
                     $sql = sprintf('SELECT *, astext(%s) as %s FROM %s.%s ' .
-                                   "WHERE %s && '%s'::box3d ".
+                                   "WHERE %s && setSRID('%s'::box3d, %s) ".
                                    "AND distance (%s, GeometryFromText( '".
-                                   "POINT(%s %s)', -1 ) ) < %s",
+                                   "POINT(%s %s)', %s ) ) < %s",
                                    $this->geomColumn,
                                    $this->geomColumn,
                                    $this->editSchema,
                                    $this->editTable,
                                    $this->geomColumn,
                                    $bbox3D,
+                                   $this->getSrid(),
                                    $this->geomColumn,
                                    $shape->x,
                                    $shape->y,
+                                   $this->getSrid(),
                                    $toleranceGeo
                                    );
                     $this->log->debug($sql);
