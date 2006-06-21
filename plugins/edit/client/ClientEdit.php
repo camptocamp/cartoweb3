@@ -349,9 +349,11 @@ class ClientEdit extends ClientPlugin
         // get attributes of the different features
         foreach ($this->editState->features as $feature) {
             $str = "";
-            foreach ($feature->attributes as $key=>$val) {
-                if (in_array($key, $this->editState->attributeNames))
-                    $str .= "\"" . Encoder::decode($val) . "\",";
+            foreach ($feature->attributes as $key => $val) {
+                if (in_array($key, $this->editState->attributeNames)) {
+                    $encodedVal = Encoder::decode(str_replace('"', '\"', $val));
+                    $str .= "\"$encodedVal\",";
+                }
             }
             $str = substr($str, 0, strlen($str) - 1);
             $feature->attributesAsString = $str;
