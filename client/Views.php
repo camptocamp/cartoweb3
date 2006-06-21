@@ -48,6 +48,11 @@ class ViewManager {
     private $wf;
     
     /**
+     * @var ViewHook
+     */
+    private $wh;
+    
+    /**
      * @var int
      */
     private $viewId;
@@ -117,6 +122,31 @@ class ViewManager {
         }
 
         $this->wf = new ViewFilter($cartoclient);
+
+        $viewHooks = $this->cartoclient->getConfig()->viewHooksClassName;
+        if (!empty($viewHooks)) {
+            $hooksFile = 
+                sprintf('%sprojects/%s/plugins/views/client/%s.php',
+                        CARTOWEB_HOME,
+                        $cartoclient->getProjectHandler()->getProjectName(),
+                        $viewHooks);
+            if (!is_readable($hooksFile)) {
+                throw new CartoclientException("Unable to open file $hooksFile");
+            }
+            require_once $hooksFile;
+            
+            if (!class_exists($viewHooks)) {
+                throw new CartoclientException("Class $viewHooks does not exist.");
+            }
+            $this->wh = new $viewHooks($cartoclient);
+
+            if (!$this->wh instanceof ViewHooks) {
+                throw new CartoclientException("Class $viewHooks does not " .
+                                               'extends class ViewHooks.');
+            }
+        } else {
+            $this->wh = new ViewHooks($cartoclient);
+        }
     }
 
     /**
@@ -282,7 +312,11 @@ class ViewManager {
                 }
                 
                 $this->data = $this->wf->decapsulate($viewData);
-                $this->data = $this->wf->checkVersion($this->data, $this->viewId);
+                $this->data = $this->wf->checkVersion($this->data,
+                                                      $this->viewId);
+
+                $this->data = $this->wh->handlePreLoading($this->data, 
+                                                          $this->viewId);
     
                 if ($this->data) {
                     // overrides session with view content
@@ -327,6 +361,11 @@ class ViewManager {
                     $this->metas['viewLocationId'] = $this->wc->getLocationId();
                 
                     $processed = true;
+                } else {
+                    $this->message = I18n::gt('Cannot load view');
+                    $this->isActionSuccess = false;
+                    $this->metas = array();
+                    break;
                 }
             }
             
@@ -1493,7 +1532,7 @@ class ViewDbContainer extends ViewContainer {
     protected function processResource() {
  
         if (isset($this->viewId)) {
-            $this->viewId = addslashes($this->viewId);
+            $this->viewId = Utils::addslashes($this->viewId);
         } else {
             $this->setViewId();
         }
@@ -1513,7 +1552,7 @@ class ViewDbContainer extends ViewContainer {
                                %s) VALUES (%d, 'now()', '%s', '%s')",
                                implode(', ', $this->metasList),
                                $this->viewId,
-                               addslashes($this->data),
+                               Utils::addslashes($this->data),
                                implode("', '", $this->metas)
                                );
                 break;
@@ -1523,7 +1562,7 @@ class ViewDbContainer extends ViewContainer {
                 $sql = sprintf("UPDATE views 
                                SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
-                               addslashes($this->data),
+                               Utils::addslashes($this->data),
                                $this->makeMetasSql(),
                                $this->viewId);
                 break;
@@ -1597,9 +1636,7 @@ class ViewDbContainer extends ViewContainer {
             $this->metas['viewShow'] = 0;
         }
 
-        foreach ($this->metas as &$meta) {
-            $meta = addslashes($meta);
-        }
+        $this->metas = Utils::addslashes($this->metas);
     }
 
     /**
@@ -1841,5 +1878,35 @@ abstract class ViewUpgrader {
     }
 
     // Define filter-specific transformers in extended class!
+}
+
+/**
+ * Extendable class providing various project-specific hooks in views processing.
+ * @package Client
+ */
+class ViewHooks {
+
+    /**
+     * @var Cartoclient
+     */
+    protected $cartoclient;
+
+    /**
+     * Constructor.
+     * @param Cartoclient
+     */
+    public function __construct(Cartoclient $cartoclient) {
+        $this->cartoclient = $cartoclient;
+    }
+    
+    /**
+     * Processes view data before it is loaded.
+     * @param stdClass
+     * @param integer
+     * @return stdClass
+     */
+    public function handlePreLoading($data, $viewId) {
+        return $data;
+    }
 }
 ?>
