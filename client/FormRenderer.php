@@ -344,28 +344,28 @@ class FormRenderer {
             $this->smarty->assign('toolpicker_active', 
                                   $this->cartoclient->getConfig()->toolPickerOn);
             
-            // lang links
+            // Lang links
             $this->smarty->assign(array('locales'     => I18n::getLocales(),
                                         'currentLang' => LANG,
                                         ));
             
-            // debug printing
+            // Debug printing
             $this->smarty->assign('debug_request', var_export($_REQUEST, 
                                                               true));
     
-            // handle plugins
+            // Handles plugins
             $this->cartoclient->callPluginsImplementing('GuiProvider', 
                                                         'renderForm',
                                                         $this->smarty);
                                                                                                        
-            // set title
+            // Sets title
             $cartoclient_title = !is_null($this->customTitle) 
                                  ? $this->customTitle 
                                  : I18n::gt('Cartoclient Title');
             $this->smarty->assign('cartoclient_title', $cartoclient_title); 
         }
 
-        // if set to false, smarty display is skipped
+        // If set to false, smarty display is skipped
         if (!is_null($this->customForm) && $this->customForm === false) {
             return $this->specialOutput;
         }
