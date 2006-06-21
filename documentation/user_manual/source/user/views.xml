@@ -95,6 +95,11 @@
        <parameter>viewUpgradeOutdated</parameter> (boolean): if true, &cartoweb; will try to upgrade outdated views on the fly. Else view outdated parts will be discarded and current plugin session data will be used instead.
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>viewHooksClassName</parameter> (string): name of the PHP class used to customize some views processing. See <xref linkend="dev.views_upgrade.hooks"/> for details on how to write customized views hooks.
+      </para>
+     </listitem>
     </itemizedlist>
     For instance:
     <programlisting>; Views management
@@ -107,6 +112,7 @@ viewAuth = admin,
 viewSavedRequest = personalVar1, personalVar2
 viewLogErrors = true
 viewUpgradeOutdated = true
+viewHooksClassName = FoobarViewHooks
 </programlisting>
    </para>
    <para>

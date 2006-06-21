@@ -81,4 +81,32 @@ class LocationV2ToV3 extends ViewUpgrader {
      </sect2>
     </sect1>
 
+    <sect1 id="dev.views_upgrade.hooks">
+     <title>Customizing Views Processing Using Project Hooks</title>
+     <para>&cartoweb; offers the ability to add some project-specific controls ("hooks") within the views processing.</para>
+     <para>For now only one hook is available, right before the data of the loaded view is merged with the current session data. See method <parameter>ViewManager::handleView()</parameter> in <filename>client/Views.php</filename>.</para>
+     <para>To create hooks, write a PHP class extending the basic <parameter>ViewHooks</parameter> class defined in <filename>client/Views.php</filename>. The extended class must be saved in a file with the same name, located in your project <filename>plugins/views/client/</filename> directory. If the latter directory does not exist, simply create it. The standard "views" plugin is not required to have hooks working. Finally, set the <parameter>viewHooksClassName</parameter> with your extended class name in <filename>client.ini</filename>.</para>
+     <programlisting>; configuration in client.ini
+viewOn = true
+viewStorage = db
+viewablePlugins = location, layers, query, outline
+viewMetas = author
+...
+viewHooksClassName = FoobarViewHooks</programlisting>
+     <programlisting><![CDATA[<?php
+/**
+ * projects/<your_project>/plugins/views/client/FoobarViewHooks.php
+ */
+class FoobarViewHooks extends ViewHooks {
+
+    /**
+     * @see ViewHooks::handlePreLoading()
+     */
+    public function handlePreLoading($data, $viewId) {
+        // Your customized code...
+    }
+}
+?>]]></programlisting>
+    </sect1>
+
   </chapter>
