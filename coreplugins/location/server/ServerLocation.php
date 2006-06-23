@@ -565,8 +565,8 @@ class RecenterLocationCalculator extends LocationCalculator {
 
         if (is_null($defaultScale) || $defaultScale < 0)
             throw new CartoserverException('you need to set a ' .
-                                           'recenterDefaultScale parameter in' .
-                                           ' the server location.ini');
+                                           'recenterDefaultScale (or recenterMargin) ' .
+                                           ' parameter in the server location.ini');
         
         return $defaultScale;
     }
