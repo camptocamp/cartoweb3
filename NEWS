@@ -3,6 +3,8 @@ CVS version
 
 - Added accounting infrastucture, to be log request informations. This can be used for statistics.
 - Added tools for queries by point, polygon and circle (in addition to existing query-by-bbox tool)
+- Added AJAX support in plugins
+- Added some hook capabilities in views processing
 
 2006-02-14: CartoWeb 3.2.0 
 ==========================
