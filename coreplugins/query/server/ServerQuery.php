@@ -260,7 +260,7 @@ class ServerQuery extends ClientResponderAdapter {
         $tableIds = null;
         if (count($querySelection->selectedIds) > 0) {
             if (!empty($pluginManager->mapquery)) {
-            
+
                 $resultIds = $pluginManager->mapquery
                                     ->queryByIdSelection($querySelection);
 
@@ -301,6 +301,37 @@ class ServerQuery extends ClientResponderAdapter {
 
         return $this->mergeTables($tableIds, $tableBbox,
                                   $querySelection->policy);
+    }
+
+    // XXX: this does not belong to here
+    private function hilightLubis($querySelection) {
+
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        
+        $serverLayer = $layersInit->getLayerById($querySelection->layerId);
+        if (!$serverLayer)
+            throw new CartoserverException("can't find serverLayer " .
+                                           $querySelection->layerId);
+        
+        $msMapObj = $this->serverContext->getMapObj();
+        
+        $msLayer = @$msMapObj->getLayerByName($serverLayer->msLayer);
+        if (empty($msLayer))
+            throw new CartoserverException("can't find mslayer " .
+                                           $serverLayer->msLayer);
+        // activate this layer to be visible
+        $msLayer->set('status', MS_ON);
+        $msLayer->set('maxscale', 1000000000);
+
+	$lubisQuery = $msLayer->getMetaData('lubis_query');
+	if (!$lubisQuery) {
+	  throw new CartoserverException("Missing lubis_query metadata");
+	}
+	
+        $queryString = implode("','", $querySelection->selectedIds);
+
+	$data = sprintf($lubisQuery, $queryString);
+	$msLayer->set('data', $data);
     }
 
     /**
@@ -379,6 +410,16 @@ class ServerQuery extends ClientResponderAdapter {
         $noReturnTables = array();
         
         $querySelections = $requ->querySelections;
+
+	// XXX: special case for lubis
+	// this should be generic
+	if ($this->serverContext->getMapId() == "toposhop.lubis" 
+	    && count($querySelections) == 1) {
+	  $this->hilightLubis($querySelections[0]);
+	  return;
+	}
+
+
         if (is_null($querySelections)) {
             $querySelections = array();
         }    
@@ -452,7 +493,7 @@ class ServerQuery extends ClientResponderAdapter {
                 $table->rows = array();
             }
         }
-        
+
         return $queryResult;
     }    
 }
