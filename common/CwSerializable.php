@@ -195,7 +195,7 @@ abstract class CwSerializable {
     /**
      * Returns an unserialized object from a stdClass structure
      *
-     * If object is an instance of {@link Serializable}, calls 
+     * If object is an instance of {@link CwSerializable}, calls 
      * {@link CwSerializable::unserialize()}. If not, all structure's properties
      * are copied into object.
      * @param stdClass
