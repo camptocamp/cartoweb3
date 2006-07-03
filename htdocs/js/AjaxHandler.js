@@ -398,7 +398,7 @@ AjaxHandler = {
             // Call the common and plugin's onBeforeAjaxCall logic
             // if the methods are defined
             if (AjaxHelper.exists('AjaxPlugins.' + pluginName +
-                '.Actions.' + actionName + '.buildGetRequest')) {
+                '.Actions.' + actionName + '.onBeforeAjaxCall')) {
                 eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName +
                      '.onBeforeAjaxCall(argObject)');
             }            
