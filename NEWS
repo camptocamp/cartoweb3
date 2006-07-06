@@ -1,7 +1,7 @@
 CVS version
 ==========================
 
-- Added accounting infrastucture, to be log request informations. This can be used for statistics.
+- Added accounting infrastucture, to log request informations. This can be used for statistics.
 - Added tools for queries by point, polygon and circle (in addition to existing query-by-bbox tool)
 - Added AJAX support in plugins
 - Added WMS-layers browsing plugin
