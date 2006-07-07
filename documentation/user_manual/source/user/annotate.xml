@@ -84,7 +84,7 @@
             display lines.</para>
         </listitem>
         <listitem>
-          <para> polyLayer<indexterm><primary>polyLayer</primary></indexterm>: 
+          <para> polygonLayer<indexterm><primary>polygonLayer</primary></indexterm>: 
             defines the name of the mapserver LAYER set in the mapfile to 
             display polygons. Note that rectangles are displayed as polygons. 
             </para>
