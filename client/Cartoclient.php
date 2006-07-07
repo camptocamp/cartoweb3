@@ -427,6 +427,7 @@ class Cartoclient extends Cartocommon {
     /**
      * Returns the instance of this class. There is only one during the
      * cartoclient lifetime.
+     * @return Cartoclient
      */
     public static function getInstance() {
         if (is_null(self::$instance))
@@ -513,7 +514,7 @@ class Cartoclient extends Cartocommon {
     }
 
     /**
-     * Tell is the Cartoclient runs in AJAX mode
+     * Tells if the Cartoclient runs in AJAX mode
      * @return bool true if the Cartoclient runs in AJAX mode,
      *              false otherwise
      */
@@ -572,8 +573,8 @@ class Cartoclient extends Cartocommon {
     }
 
     /**
-     * Returns CartoWeb version of the Cartoclient
-     * @return string
+     * Returns CartoWeb version and revision strings of the Cartoclient
+     * @return array
      */
     public function getClientVersion() {
         $versionFile = CARTOWEB_HOME . 'VERSION';
