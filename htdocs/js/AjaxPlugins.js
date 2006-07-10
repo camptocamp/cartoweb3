@@ -104,22 +104,44 @@ AjaxPlugins.Common = {
     },
 
     clearDhtmlDrawings: function() {
+        Logger.note('Clearing DHTML drawings...');
         var dhtmlDrawingDivId = 'map_drawing';
-          // remove drawed layers on mainmap object by deleting all childs of mapDrawing
-          // TODO use the proper dhtmlAPI method, if exists...
-          mapDrawingLayer = $(dhtmlDrawingDivId);
-          var childNodesLength = mapDrawingLayer.childNodes.length;
-        for (i=0; i<childNodesLength; i++) {
-            mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
+        // remove drawed layers on mainmap object by deleting all childs of mapDrawing
+        // TODO use the proper dhtmlAPI method, if exists...
+        if ($(dhtmlDrawingDivId) == null) {
+            Logger.warn('Element id' + dhtmlDrawingDivId + ' not found.' +
+                        'Unable to clear DHTML drawings');
+        } else {
+            mapDrawingLayer = $(dhtmlDrawingDivId);
+            var childNodesLength = mapDrawingLayer.childNodes.length;
+            for (i=0; i<childNodesLength; i++) {
+                mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
+            }
         }
     },
     
     clearDhtmlStoredFeatures: function() {
+        Logger.note('Clearing stored features...');
         // Clear the carto_form's selection_type and selection_coords hidden inputs
         // hidden input fields' value
-        $('selection_type').value = '';
-        $('selection_coords').value = '';
-        $('features').value = '';
+        if ($('selection_type') == null) {
+            Logger.error('Unable to clear stored features: "selection_type" element not found');
+        } else {
+            $('selection_type').value = '';
+        }
+
+        if ($('selection_coords') == null) {
+            Logger.error('Unable to clear stored features: "selection_coords" element not found');
+        } else {
+            $('selection_coords').value = '';
+        }
+
+        if ($('features') == null) {
+            Logger.warn('Clear stored features: "features" elements not found');
+        } else {
+            $('features').value = '';            
+        }
+
     },
     
     clearDhtmlOutlineLabel: function() {
