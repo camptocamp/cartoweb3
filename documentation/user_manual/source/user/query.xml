@@ -171,6 +171,20 @@
   </sect1>
   <sect1 id="user.query.mapfile">
     <title>Related Elements in Mapfile</title>
+    <sect2 id="user.query.mapfile.queriable">
+      <title>Making a Layer Queriable</title>
+      <para>
+        To make a MapServer layer queriable, one have to add a <parameter>TEMPLATE</parameter> parameter 
+        in the mapfile layer definition. In our case, any value fits. For instance:
+      </para>
+      <programlisting>LAYER
+  NAME "foobar"
+  ...
+  TEMPLATE "ttt"
+  ...
+END
+</programlisting>
+    </sect2>
     <sect2 id="user.query.mapfile.metadata">
       <title>Meta Data</title>
       <para> Here are the meta data that can be set to mapfile's layers: </para>
