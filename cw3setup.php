@@ -157,7 +157,17 @@ function checkIncludePath() {
     }
 }
 
+/**
+ * register_argc_argv must be set to "on" in php.ini
+ */
+function checkRegisterArgcArgv() {
+    if (!ini_get('register_argc_argv')) {
+        die("Parameter register_argc_argv must be set to On in your php.ini\n");
+    }
+}
+
 checkIncludePath();
+checkRegisterArgcArgv();
 
 function setOption(&$i, $takesArgument = false) {
     global $OPTIONS;
