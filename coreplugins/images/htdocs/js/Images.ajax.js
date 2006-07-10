@@ -18,7 +18,7 @@ AjaxPlugins.Images = {
             xHide(AjaxPlugins.Images.mainmapId);
             $(AjaxPlugins.Images.mainmapId).src = newRaster.src;
             AjaxPlugins.Location.Actions.Pan.placeRaster(e);
-            setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 1);
+            setTimeout("xShow(AjaxPlugins.Images.mainmapId)", 100);
             AjaxPlugins.Common.clearWaitingMessage();
             AjaxPlugins.Common.doClearWaitingMessage = true;
         });
