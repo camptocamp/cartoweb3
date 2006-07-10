@@ -302,8 +302,6 @@ AjaxHandler = {
                              $('carto_form').appendChild(ajaxErrorDivElement);
                          }
                      }
-                     // Executes the common onAfterAjaxCall in anyway
-                     AjaxPlugins.Common.onAfterAjaxCall(actionId);
                      
                  } else {                        
                      // Calls Plugins refresh logic
@@ -314,25 +312,27 @@ AjaxHandler = {
                      
                      // Calls onAfterAjaxCall method for the called plugin's action
                      // if the method exists
-                    if (AjaxHelper.exists('AjaxPlugins.' + requestedPluginName +
-                        '.Actions.' + requestedActionName + '.onAfterAjaxCall')) {
-                         // Calls AjaxPlugins.<pluginName>.Actions.<actionName>.onAfterAjaxCall
-                         eval('AjaxPlugins.' + requestedPluginName +
-                              '.Actions.' + requestedActionName +
-                              '.onAfterAjaxCall(argObject)');
-                     }
+                     Logger.header('Calling ' + 
+                                   requestedPluginName+ '.' +requestedActionName +
+                                   ' onAfterAjaxCall()');
+                     if (AjaxHelper.exists('AjaxPlugins.' + requestedPluginName +
+                         '.Actions.' + requestedActionName + '.onAfterAjaxCall')) {
+                          // Calls AjaxPlugins.<pluginName>.Actions.<actionName>.onAfterAjaxCall
+                          eval('AjaxPlugins.' + requestedPluginName +
+                               '.Actions.' + requestedActionName +
+                               '.onAfterAjaxCall(argObject)');
+                      }
 
-                     // Calls common onAfterAjaxCall logic
-                     if (typeof AjaxPlugins.Common.onAfterAjaxCall != 'undefined') {
-                         AjaxPlugins.Common.onAfterAjaxCall(actionId);
-                     }
+                  }
 
-
-                 }
-                 Logger.header('--- Action ' + actionId + ' complete ---<br />');
-             }
-            }
-        );
+                  // Executes the common onAfterAjaxCall in anyway
+                  Logger.header('Calling AjaxPlugins.Common.onAfterAjaxCall()');
+                  if (typeof AjaxPlugins.Common.onAfterAjaxCall != 'undefined') {
+                      AjaxPlugins.Common.onAfterAjaxCall(actionId);
+                  }
+                  Logger.header('--- Action ' + actionId + ' complete ---<br />');
+              }
+          });
     },
     
     /**
@@ -397,11 +397,16 @@ AjaxHandler = {
     
             // Call the common and plugin's onBeforeAjaxCall logic
             // if the methods are defined
+            Logger.header('Calling ' + 
+                          pluginName+ '.' +actionName +
+                          ' onBeforeAjaxCall()');
             if (AjaxHelper.exists('AjaxPlugins.' + pluginName +
                 '.Actions.' + actionName + '.onBeforeAjaxCall')) {
                 eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName +
                      '.onBeforeAjaxCall(argObject)');
             }            
+
+            Logger.header('Calling AjaxPlugins.Common.onBeforeAjaxCall()');
             if (AjaxHelper.exists(AjaxPlugins.Common.onBeforeAjaxCall)) {
                 AjaxPlugins.Common.onBeforeAjaxCall(actionId);
             }
