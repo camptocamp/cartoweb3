@@ -66,7 +66,7 @@ function initMap() {{/literal}
 
 
 // Sets the profile (production, development or custom) for the AjaxHandler
-var profile = '{$profile}'{literal}
+var profile = '{$cartoclient_profile}'{literal}
 if (typeof(AjaxHandler) != 'undefined') {
     AjaxHandler.setProfile(profile);
 }{/literal}

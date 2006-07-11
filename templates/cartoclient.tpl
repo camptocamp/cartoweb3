@@ -40,8 +40,10 @@
   {if $ajaxOn|default:''}
     {* Ajax related js includes - Debug Tool: jsTrace *}
     {* Remove these two links to get rid of the logger (i.e. in production mode *}
-    <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
-    <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+	{if $cartoclient_profile == 'development'}
+      <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
+      <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+    {/if}
 
     {* Ajax related js includes - External libraries *}
     <script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>

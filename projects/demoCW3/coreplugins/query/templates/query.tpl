@@ -40,7 +40,7 @@
 {/if}
 <p style="vertical-align:middle; text-align:right;">
 <br />
-<a href="javascript:clearQuery();">
+<a href="javascript:return CartoWeb.trigger('Query.Clear', 'clearQuery()');">
     <img  style="margin-left:5px;" src="{r type=gfx/layout}reinitialize.gif{/r}"
     title="{t}query_clear{/t}" alt="{t}query_clear{/t}" /></a>&nbsp;&nbsp;
 <a href="javascript:FormItemSelected();">

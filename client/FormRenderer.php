@@ -333,7 +333,10 @@ class FormRenderer {
             $this->drawUserAndRoles();
 
             // Profile for AjaxHandler
+            // Note: usage of {$profile} is deprecated, use {$cartoclient_profile}
             $this->smarty->assign('profile',
+                                  $this->cartoclient->getConfig()->profile);
+            $this->smarty->assign('cartoclient_profile',
                                   $this->cartoclient->getConfig()->profile);
 
             // Ajax switch
