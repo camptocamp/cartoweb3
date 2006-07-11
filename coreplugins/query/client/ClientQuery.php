@@ -587,7 +587,14 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                 $pluginsDirectives->enablePlugin('images');
                 $pluginsDirectives->enablePlugin('query');
                 $pluginsDirectives->enablePlugin('tables');
+            default:
+                if ($this->getConfig()->persistentQueries == false) {                    
+                    $pluginsDirectives->enablePlugin('images');
+                    $pluginsDirectives->enablePlugin('query');
+                    $pluginsDirectives->enablePlugin('tables');
+                }
             break;
+            
         }
     }
     
