@@ -78,7 +78,12 @@ AjaxPlugins.Common = {
         }
     },
     onCartoclientError: function() {
-        alert('Error! This application will reload.');
+        var errorString = 'An error has occured. Press OK to reload this application';
+        var doReload = confirm(errorString);
+        if (doReload) {
+            var sURL = unescape(window.location.pathname);
+            window.location.replace( sURL );
+        }
     },
     
     /* Helper methods */
