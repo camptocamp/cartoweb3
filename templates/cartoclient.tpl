@@ -40,7 +40,7 @@
   {if $ajaxOn|default:''}
     {* Ajax related js includes - Debug Tool: jsTrace *}
     {* Remove these two links to get rid of the logger (i.e. in production mode *}
-	{if $cartoclient_profile == 'development'}
+    {if $cartoclient_profile == 'development'}
       <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
       <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
     {/if}
