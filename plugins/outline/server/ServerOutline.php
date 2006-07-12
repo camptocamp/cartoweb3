@@ -22,15 +22,6 @@
  */
 
 /**
- * Exception to be used by the server.
- * 
- * @package Plugins
- */
-class CartopluginException extends CartowebException {
-
-}
-
-/**
  * Server Outline class
  * @package Plugins
  */
