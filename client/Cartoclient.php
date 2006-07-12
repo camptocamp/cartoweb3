@@ -773,13 +773,16 @@ class Cartoclient extends Cartocommon {
     }
 
     /**
-     * Save session in a variable different for each mapId
-     * @param ClientSession object to save in session 
+     * Saves session data in a different container for each mapId
      */
-    private function saveSession($clientSession) {
-    
+    public function saveSession() {
+        
+        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
+                                              'Sessionable',
+                                              'saveSession');
+
         $this->log->debug('saving session:');
-        $this->log->debug($clientSession);
+        $this->log->debug($this->clientSession);
 
         $_SESSION[$this->getSessionName()] = $this->clientSession;
         session_write_close();
@@ -790,6 +793,8 @@ class Cartoclient extends Cartocommon {
             $this->getViewManager()
                  ->makeSessionCache($_SESSION[$this->getSessionName()]); 
         }
+        
+        $this->log->debug("session saved\n");
     }
 
     /**
@@ -1016,8 +1021,7 @@ class Cartoclient extends Cartocommon {
         //  then this method stops here
         if ($this->isInterruptFlow()) {
             $output = $this->formRenderer->render();
-            $this->callPluginsImplementing('Sessionable', 'saveSession');
-            $this->saveSession($this->clientSession);
+            $this->saveSession();
             return $output;
         }
 
@@ -1067,13 +1071,8 @@ class Cartoclient extends Cartocommon {
             $output = $this->formRenderer->render();
         }
 
-        $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
-                                              'Sessionable',
-                                              'saveSession');
-
-        $this->saveSession($this->clientSession);
-        $this->log->debug("session saved\n");
-
+        $this->saveSession();
+        
         return $output;
     }
 
