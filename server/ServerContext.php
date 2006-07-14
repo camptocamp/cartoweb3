@@ -333,7 +333,10 @@ class ServerContext extends Cartocommon {
                                                    'library');
                 $this->mapscriptLoaded = true;
             } else {
-                // WARNING: this code should be in sync with info.php
+                // Safety check for Mapserver bug 1322:
+                //   http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322
+                // WARNING: this code should be in sync between:
+                //  server/ServerContext.php, htdocs/info.php and scripts/info.php
                 if (!$disablePHPModuleCheck && !$this->mapscriptLoaded
                     && !in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
                     throw new CartoserverException("You are not using PHP as " .

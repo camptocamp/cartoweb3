@@ -4,7 +4,10 @@
  * @version $Id$
  */
 
-// WARNING: this code should be in sync with ServerContext.php::getMapObj()
+// Safety check for Mapserver bug 1322:
+//   http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322
+// WARNING: this code should be in sync between:
+//  server/ServerContext.php, htdocs/info.php and scripts/info.php
 if (!extension_loaded('mapscript')) {
     if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
         print("WARNING: can't load mapscript library");
