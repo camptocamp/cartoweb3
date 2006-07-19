@@ -613,7 +613,7 @@ class ViewFilter {
             
             $plugins[$pluginName] = array(
                 'recorderVersion' => $this->getRecorderVersion($pluginName),
-                'data'            => htmlspecialchars($pluginData),
+                'data'            => Encoder::decode(htmlspecialchars($pluginData)),
                 );
         }
 
@@ -1405,7 +1405,7 @@ class ViewFileContainer extends ViewContainer {
     private function readXmlContent($content) {
         $xml = simplexml_load_string($content);
     
-        $this->data = html_entity_decode((string)$xml->sessionData);
+        $this->data = Encoder::decode(html_entity_decode((string)$xml->sessionData));
         
         $metas = get_object_vars($xml->metadata);
         $this->metas = array();
