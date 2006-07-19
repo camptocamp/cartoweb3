@@ -104,7 +104,7 @@ class LayersInitProvider implements InitProvider {
         $meta = array();
         if (!empty($layerBase->metadata)) {
             foreach($layerBase->metadata as $key => $val) {
-                $meta[] = sprintf('%s=%s', $key, $val);
+                $meta[] = sprintf('%s=%s', $key, Encoder::encode($val, 'config'));
             }
         }
         $layerBase->metadata = $meta;
