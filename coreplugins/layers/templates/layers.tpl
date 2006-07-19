@@ -36,7 +36,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {capture name=icon}
 {if $element.layerIcon}
-{if $element.nextscale}<a href="javascript:goToScale('{$element.nextscale}')">{/if}
+{if $element.nextscale}<a href="javascript:void(0);" onclick="javascript:goToScale('{$element.nextscale}');">{/if}
 <img src="{$element.layerIcon}" alt="" class="pic"
 {if $element.nextscale}title="{t}Click to go to next visible scale:{/t} 1:{$element.nextscale}"
 {elseif $element.layerOutRange > 0}title="{t}Zoom in to see layer{/t}"

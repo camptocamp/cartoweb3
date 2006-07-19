@@ -190,5 +190,9 @@ function goToScale(scale) {
   newOpt.value = scale;
   newOpt.selected = true;
   document.carto_form.recenter_scale.options.add(newOpt);
-  FormItemSelected();
+  if (typeof CartoWeb != 'null') {
+    CartoWeb.trigger('Location.Zoom', "FormItemSelected()");
+  } else {
+    FormItemSelected();
+  }
 }
