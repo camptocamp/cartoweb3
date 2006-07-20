@@ -32,7 +32,5 @@
   <div id="map" class="map" style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
 {* nothing here, DHTML API will run with the given class name *}
   </div>
-{if $collapsibleKeymap|default:''}
-  
-{/if}
+
 </div>
