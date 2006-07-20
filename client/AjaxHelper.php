@@ -257,10 +257,11 @@ class Json {
     /**
      * Serializes a PHP variable to a JSON array 
      * @param mixed PHP variable
+     * @param bool Escape quotes
      */
-    public static function arrayFromPhp($phpVariable) {
+    public static function arrayFromPhp($phpVariable, $doEscape = true) {
         if (is_array($phpVariable)) {
-            return self::fromPhpArrayToJsonArray($phpVariable);
+            return self::fromPhpArrayToJsonArray($phpVariable, $doEscape);
         } elseif (false) {
             // Other PHP variable types
         } elseif (is_null($phpVariable)) {
@@ -275,13 +276,15 @@ class Json {
     /**
      * Serializes a PHP array to a JSON array 
      * @param array PHP array to be serialized in JSON array
+     * @param bool Escape quotes
      */
-    private static function fromPhpArrayToJsonArray($phpArray) {
+    private static function fromPhpArrayToJsonArray($phpArray, $doEscape = true) {
         $jsonString = '[ ';
         foreach ($phpArray as $value) {
             $value = addslashes($value);
             if (is_string($value)) {
-                $jsonString .= '\'' . Json::encodeQuotes($value) . '\'';
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
             } elseif (is_bool($value)) {
                 $jsonString .= $value ? 'true' : 'false';
             } elseif (is_numeric($value)) {
@@ -302,7 +305,7 @@ class Json {
         return $jsonString;
     }
 
-    private static function encodeQuotes($stringToEncode) {
+    private static function escapeQuotes($stringToEncode) {
         return str_replace("'", "\'", $stringToEncode);
     }
 }

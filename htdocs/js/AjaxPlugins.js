@@ -102,10 +102,13 @@ AjaxPlugins.Common = {
     },
     
     setWaitingMessage: function() {
-        xShow($('loadbarDiv'));
+        var timeoutFn = function() {
+            xShow(xGetElementById($('loadbarDiv')));
+        }
+        setTimeout(timeoutFn, 10);
     },    
     clearWaitingMessage: function() {
-        xHide($('loadbarDiv'));
+        xHide(xGetElementById($('loadbarDiv')));
     },
 
     clearDhtmlDrawings: function() {

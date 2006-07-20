@@ -15,11 +15,11 @@ AjaxPlugins.Location = {
         /* Plugin general behaviour */
         // Redefine the map extent in mainmap object
         Logger.trace('Updating dhtmlAPI\'s bbox and factor properties...');        
-        bboxMinX = pluginOutput.variables.bboxMinX;
-        bboxMinY = pluginOutput.variables.bboxMinY;
-        bboxMaxX = pluginOutput.variables.bboxMaxX;
-        bboxMaxY = pluginOutput.variables.bboxMaxY;
-        factor = pluginOutput.variables.factor;
+        var bboxMinX = pluginOutput.variables.bboxMinX;
+        var bboxMinY = pluginOutput.variables.bboxMinY;
+        var bboxMaxX = pluginOutput.variables.bboxMaxX;
+        var bboxMaxY = pluginOutput.variables.bboxMaxY;
+        var factor = pluginOutput.variables.factor;
         mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
         Logger.confirm('Done: new bbox (' + bboxMinX + ', ' + bboxMinY + ', '
                        + bboxMaxX + ', ' + bboxMaxY + ') , factor ('
@@ -28,6 +28,7 @@ AjaxPlugins.Location = {
         // Updates the location/scale info string
         AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHTML',
                                      pluginOutput.htmlCode.scales);        
+
         AjaxHandler.updateDomElement(this.currentScaleId, 'innerHTML',
                                      '1:' + pluginOutput.variables.currentScale);        
         
@@ -37,21 +38,29 @@ AjaxPlugins.Location = {
 
         // Updates distance/surface measure tools units
         if ($('distanceValueLabel')) {
-            distanceLabel = $('distanceValueLabel').innerHTML;
-            distanceUnit = factor == 1000 ? 'km' : 'm';        
+            var distanceLabel = $('distanceValueLabel').innerHTML;
+            var distanceUnit = factor == 1000 ? 'km' : 'm';        
             mainmap.distanceUnits = '<span id="distanceValueLabel">'
                 + distanceLabel + '</span>' + " %s " + distanceUnit;
             mainmap.getDisplay('map').clearLayer('distance');                        
             mainmap.distanceTag.style.display = "none";            
         }
         if ($('surfaceValueLabel')) {
-            surfaceLabel = $('surfaceValueLabel').innerHTML;
-            surfaceUnit = factor == 1000 ? 'km&sup2;' : 'm&sup2;';        
+            var surfaceLabel = $('surfaceValueLabel').innerHTML;
+            var surfaceUnit = factor == 1000 ? 'km&sup2;' : 'm&sup2;';        
             mainmap.surfaceUnits = '<span id="surfaceValueLabel">' 
                 + surfaceLabel + '</span>' + " %s " + surfaceUnit;            
             mainmap.getDisplay('map').clearLayer('surface');
             mainmap.surfaceTag.style.display = "none";           
         } 
+
+        // Selects the first element of the shortcuts dropdown
+        if ($(this.shortcutIdId)) {
+            var options = $(this.shortcutIdId).getElementsByTagName('option');
+            var timeoutFn = function() { options[0].selected = true };
+            setTimeout(timeoutFn, 1500);
+        }
+        
     }
 };
 

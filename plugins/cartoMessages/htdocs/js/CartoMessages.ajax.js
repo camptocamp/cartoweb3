@@ -33,7 +33,9 @@ AjaxPlugins.CartoMessages = {
     formatHtml: function(messageArray) {
         var formattedString = '';
         messageArray.each(function(msg) {
-            formattedString += '&nbsp;&nbsp;&nbsp;*&nbsp;' + msg + '<br />';
+            formattedString += '<span style="color: yellow">';
+            formattedString += '&nbsp;&nbsp;&nbsp;*&nbsp;' + msg;
+            formattedString += '</span><br />';
         });
         return formattedString;
     },

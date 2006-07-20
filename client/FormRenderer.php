@@ -416,9 +416,9 @@ class FormRenderer {
         $userMessages = $this->getUserMessages($messages);
         $developerMessages = $this->getDeveloperMessages($messages);
         $ajaxPluginResponse->addVariable('userMessages',
-                                         Json::arrayFromPhp($userMessages));
+                             Json::arrayFromPhp($userMessages, false));
         $ajaxPluginResponse->addVariable('developerMessages',
-                                         Json::arrayFromPhp($developerMessages));
+                             Json::arrayFromPhp($developerMessages, false));
         $ajaxPluginResponses['cartoMessages'] = $ajaxPluginResponse;
         /*
          * End of the pseudo-plugin logic
