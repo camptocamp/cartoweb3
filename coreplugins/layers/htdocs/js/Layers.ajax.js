@@ -14,11 +14,11 @@ AjaxPlugins.Layers = {
         
         /* Reopen open nodes */
         if ($(this.layersFolderId) != null) {
-	        startOpenNodes = pluginOutput.variables.startOpenNodes;
-	        // Uses layers.tpl + layers.js mecanism
-	        eval("var openNodes = new Array(" + startOpenNodes + ");");
-	        writeOpenNodes(true);
-	    }
+            startOpenNodes = pluginOutput.variables.startOpenNodes;
+            // Uses layers.tpl + layers.js mecanism
+            eval("var openNodes = new Array(" + startOpenNodes + ");");
+            writeOpenNodes(true);
+        }
     }  
 };
 
