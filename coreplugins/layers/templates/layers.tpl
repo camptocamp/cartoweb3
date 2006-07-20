@@ -7,8 +7,8 @@
 </script>
 <div id="layerscmd"><a href="javascript:void(0);" onclick="javascript:expandAll('layersroot');">{t}expand tree{/t}</a> -
 <a href="javascript:void(0);" onclick="javascript:closeAll('layersroot');">{t}close tree{/t}</a><br />
-<a href="javascript:void(0);" onclick="checkChildren('layersroot',false); CartoWeb.trigger('Layers.LayerShowHide');">{t}check all{/t}</a> -
-<a href="javascript:void(0);" onclick="checkChildren('layersroot'); CartoWeb.trigger('Layers.LayerShowHide');">{t}uncheck all{/t}</a></div>
+<a href="javascript:void(0);" onclick="javascript:checkChildren('layersroot',false); CartoWeb.trigger('Layers.LayerShowHide');">{t}check all{/t}</a> -
+<a href="javascript:void(0);" onclick="javascript:checkChildren('layersroot'); CartoWeb.trigger('Layers.LayerShowHide');">{t}uncheck all{/t}</a></div>
 <div id="layersroot">
 
 {defun name="drawChildren" element=$element}
