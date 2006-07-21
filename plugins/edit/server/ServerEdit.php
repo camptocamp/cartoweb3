@@ -444,18 +444,19 @@ class ServerEdit extends ClientResponderAdapter {
                     
                 case 'Rectangle':
                     $sql = sprintf('SELECT *, astext(%s) as %s FROM %s.%s ' .
-                                   'WHERE intersects (%s, ' .
-                                   "'BOX3D(%s %s, %s %s)'::box3d)",
-                                   $this->geomColumn,
-                                   $this->geomColumn,
-                                   $this->editSchema,
-                                   $this->editTable,
-                                   $this->geomColumn,
-                                   $shape->minx,
-                                   $shape->miny,
-                                   $shape->maxx,
-                                   $shape->maxy
-                                   );
+                                  'WHERE intersects (%s, ' .
+                                  "SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s))",
+                                  $this->geomColumn,
+                                  $this->geomColumn,
+                                  $this->editSchema,
+                                  $this->editTable,
+                                  $this->geomColumn,
+                                  $shape->minx,
+                                  $shape->miny,
+                                  $shape->maxx,
+                                  $shape->maxy,
+                                  $this->getSrid()
+                                  );
                     
                     $this->log->debug($sql);
                     $db = $this->getDb($this->layer);
