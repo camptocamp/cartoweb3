@@ -251,8 +251,9 @@
       <para> Here's an example of a security metadata key used in layer of the 
         mapfile: </para>
       <programlisting><![CDATA[METADATA
-  "exported_values" "security_view,security_edit"
-  "security_view" "admin" 
+    "exported_values" "security_view,some_specific_parameter"
+    "security_view" "admin" 
+    "some_specific_parameter" "value"
   
   "id_attribute_string" "FID|string"
   "mask_transparency" "50"

@@ -243,9 +243,9 @@ layers.layerId.children = layer4]]></programlisting>
   NAME "my_layer"
   [...]
   METADATA
-    "exported_values" "security_view,security_edit"
+    "exported_values" "security_view,some_specific_parameter"
     "security_view" "admin" 
-    "security_edit" "admin,editors"
+    "some_specific_parameter" "value"
     
     "id_attribute_string" "FID|string" 
     "mask_transparency" "50"
