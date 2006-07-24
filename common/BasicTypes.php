@@ -534,13 +534,13 @@ class Circle extends Shape {
     
     /**
      * Center x
-     * @var object
+     * @var double
      */
     public $x;
 
     /**
      * Center y
-     * @var object
+     * @var double
      */
     public $y;
 
