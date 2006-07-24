@@ -1,7 +1,23 @@
 <div id="query">
+
+<p style="vertical-align:middle; text-align:right; float:right;">
+<a href="javascript:void(0);" onclick="javascript:CartoWeb.trigger('Query.Clear', 'clearQuery()');">
+    <img  style="margin-left:5px;" src="{r type=gfx/layout}reinitialize.gif{/r}"
+    title="{t}query_clear{/t}" alt="{t}query_clear{/t}" /></a>&nbsp;&nbsp;
+<a href="javascript:void(0);" onclick="javascript:CartoWeb.trigger('Query.Perform', 'FormItemSelected();');">
+  <img src="{r type=gfx/layout}reload.gif{/r}" name="refresh" alt="refresh" 
+  title="{t}Refresh{/t}" />
+</a>
+</p>
+
+<p style="text-align:left;">
+<input type="checkbox" value="1" name="query_alllayers"
+{if $query_alllayers} checked="checked"{/if}/>&nbsp;{t}Query all selected layers{/t}        
+</p>
+
 {if $query_display_selection|default:''}
 {foreach from=$query_selections item=selection key=index}
-<fieldset>
+<fieldset style="clear: both;">
  <legend>{$selection->layerLabel}</legend>
 <input type="hidden" value="{$selection->layerId}" name="query_layerid[]" />
 
@@ -33,20 +49,6 @@
 {/foreach}
 
 
-<p>{t}Query all selected layers{/t}&nbsp;
-<input type="checkbox" value="1" name="query_alllayers"
-        {if $query_alllayers} checked="checked"{/if}/>
-</p>
 {/if}
-<p style="vertical-align:middle; text-align:right;">
-<br />
-<a href="javascript:return CartoWeb.trigger('Query.Clear', 'clearQuery()');">
-    <img  style="margin-left:5px;" src="{r type=gfx/layout}reinitialize.gif{/r}"
-    title="{t}query_clear{/t}" alt="{t}query_clear{/t}" /></a>&nbsp;&nbsp;
-<a href="javascript:FormItemSelected();">
-  <img src="{r type=gfx/layout}reload.gif{/r}" name="refresh" alt="refresh" 
-  title="{t}Refresh{/t}" />
-</a>
-</p>
 </div>
 

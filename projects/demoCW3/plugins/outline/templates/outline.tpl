@@ -2,11 +2,21 @@
 <fieldset>
 <legend>{t}Mode{/t}</legend>
   <p>
-    <label><input type="radio" name="outline_mask" value="no"{if $outline_mask_selected eq "no"} checked="checked"{/if} />{t}Draw{/t}</label>&nbsp;&nbsp;&nbsp;
-    <label><input type="radio" name="outline_mask" value="yes"{if $outline_mask_selected eq "yes"} checked="checked"{/if} />{t}Mask{/t}</label>
+    <label>
+      <input type="radio" name="outline_mask" value="no"{if $outline_mask_selected eq "no"}
+             checked="checked"{/if} onclick="javascript: CartoWeb.trigger('Outline.ChangeMode');" />
+      {t}Draw{/t}
+    </label>
+    &nbsp;&nbsp;&nbsp;
+    <label>
+      <input type="radio" name="outline_mask" value="yes"{if $outline_mask_selected eq "yes"}
+             checked="checked"{/if} onclick="javascript: CartoWeb.trigger('Outline.ChangeMode');" />
+      {t}Mask{/t}
+    </label>
   </p>
   <center>
-    <input type="submit" value="{t}Change Mode{/t}" class="form_button"/>
+    <input type="submit" value="{t}Change Mode{/t}" class="form_button"
+           onclick="javascript: return CartoWeb.trigger('Outline.ChangeMode');" />
   </center>
   </fieldset>
 </div>
@@ -18,7 +28,7 @@
   <table width="97%"><tr style="text-align:center;">
     <tr><td>
       <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button"
-              onclick="javascript: CartoWeb.trigger('Outline.Clear');" />
+              onclick="javascript: return CartoWeb.trigger('Outline.Clear');" />
     </td></tr>
   </table>
 </div>

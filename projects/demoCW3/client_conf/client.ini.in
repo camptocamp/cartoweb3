@@ -3,6 +3,8 @@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
+ajaxOn = true
+
 mapId = demoCW3
 
 ; Shows a drop-down list for selecting the active project

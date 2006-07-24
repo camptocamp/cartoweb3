@@ -1,5 +1,18 @@
 <div id="mapBorder">
-  <div id="loadbarDiv" class="dhtmldiv" style="position:absolute;z-index:3;">
+
+  <div id="needJsDiv">
+    <table style="position:absolute;width:{$mainmap_width}px;height:{$mainmap_height}px;font-weight:bold;color:red">
+      <tr>
+        <td align="center" valign="middle"><div id="needJs">{t}JavaScript must be enabled to use CartoWeb{/t}</div></td>
+      </tr>
+    </table>
+  </div>
+  <script type="text/javascript">
+        document.getElementById('needJsDiv').style.display = 'none';
+        xShow(xGetElementById('loadbarDiv'));
+  </script>
+  
+  <div id="loadbarDiv" class="dhtmldiv" style="position:absolute;z-index:3;visibility:hidden">
     <table style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
       <tr>
         <td align="center" valign="middle"><div id="loadbar">{t}Loading message{/t}<br />
@@ -7,10 +20,11 @@
       </tr>
     </table>
   </div>
+
 {if $collapsibleKeymap|default:''}
   <div id="keymapContainer">
     <div id="floatkeymap">
-      <input type="image" name="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
+      <input type="image" name="keymap" id="keymap" src="{$keymap_path}" alt="{t}keymap_alt{/t}" 
       style="width:{$keymap_width}px;height:{$keymap_height}px;" /></div>
     <div id="keymapswitcher">
       <a href="#" onclick="javascript:collapseKeymap();"><img
@@ -22,7 +36,5 @@
   <div id="map" class="map" style="width:{$mainmap_width}px;height:{$mainmap_height}px;">
 {* nothing here, DHTML API will run with the given class name *}
   </div>
-{if $collapsibleKeymap|default:''}
-  
-{/if}
+
 </div>

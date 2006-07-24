@@ -29,6 +29,11 @@
   </script>
   {/if}
   
+  {include file="cartoclient_ajaxHeader.tpl"}
+  {if $ajaxOn|default:''}
+  <script type="text/javascript" src="{r type=js}custom.ajax.js{/r}"></script>
+  {/if}
+
   {include file="dhtmlcode.tpl"}
   
   {if $exportPdf|default:''}
@@ -74,19 +79,19 @@
 <tr><td>
 <!-- header ends here -->
 
-<form method="post" action="{$selfUrl}" name="carto_form" onsubmit="doSubmit();">
+<form method="post" action="{$selfUrl}" name="carto_form" id="carto_form" onsubmit="doSubmit();">
   <input type="image" name="dummy" alt="" id="dummy" />
   <input type="hidden" name="posted" value="1" />
-  <input type="hidden" name="js_folder_idx" value="{$jsFolderIdx}" />
-  <input type="hidden" name="selection_type" />
-  <input type="hidden" name="selection_coords" />
-  <input type="hidden" name="features" />
-  <input type="hidden" name="project" value="{$project}" />
+  <input type="hidden" name="js_folder_idx" id="js_folder_idx" value="{$jsFolderIdx}" />
+  <input type="hidden" name="selection_type" id="selection_type" />
+  <input type="hidden" name="selection_coords" id="selection_coords" />
+  <input type="hidden" name="features" id="features" />
+  <input type="hidden" name="project" id="projects" value="{$project}" />
   {if $collapsibleKeymap|default:''}
-  <input type="hidden" name="collapse_keymap" value="{$collapseKeymap}" />
+  <input type="hidden" name="collapse_keymap" id="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-  <input type="hidden" id="fake_reset" name="fake_reset" />
-  <input type="hidden" id="fake_query" name="fake_query" />
+  <input type="hidden" id="fake_reset" name="fake_reset" id="fake_reset" />
+  <input type="hidden" id="fake_query" name="fake_query" id="fake_query" />
   {if $outline_active|default:''}
   {$outlinelabel}
   {/if}
@@ -103,16 +108,16 @@
         </td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" alt="NW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" alt="N" /></td>
-        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" alt="NE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" id="pan_nw" alt="NW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" id="pan_n" alt="N" /></td>
+        <td><input type="image" src="{r type=gfx/layout}north_east.gif{/r}" name="pan_ne" id="pan_ne" alt="NE" /></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" alt="W" /></td>
+        <td><input type="image" src="{r type=gfx/layout}west.gif{/r}" name="pan_w" id="pan_w" alt="W" /></td>
         <td valign="top">
           {include file="mainmap.tpl"}
         </td>
-        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" alt="E" /></td>
+        <td><input type="image" src="{r type=gfx/layout}east.gif{/r}" name="pan_e" id="pan_e" alt="E" /></td>
       </tr> 
       <tr>
         <td></td>
@@ -120,16 +125,16 @@
           <table width="100%"><tr>
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coord (m):{/t} %s / %s</div></td>
             <td width="50%" align="right">
-              <div id="floatDistance" class="locationInfo">{t}Approx. distance :{/t} %s{if $factor == 1000} km{else} m{/if}</div>
-              <div id="floatSurface" class="locationInfo">{t}Approx. area :{/t} %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
+              <div id="floatDistance" class="locationInfo"><span id="distanceValueLabel">{t}Approx. distance :{/t}</span> %s{if $factor == 1000} km{else} m{/if}</div>
+              <div id="floatSurface" class="locationInfo"><span id="surfaceValueLabel">{t}Approx. area :{/t}</span> %s{if $factor == 1000} km&sup2;{else} m&sup2;{/if}</div></td>
           </tr></table>
         </td>
         <td></td>
       </tr>
       <tr>
-        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" alt="SW" /></td>
-        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" alt="S" /></td>
-        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" alt="SE" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_west.gif{/r}" name="pan_sw" id="pan_sw" alt="SW" /></td>
+        <td align="center"><input type="image" src="{r type=gfx/layout}south.gif{/r}" name="pan_s" id="pan_s" alt="S" /></td>
+        <td><input type="image" src="{r type=gfx/layout}south_east.gif{/r}" name="pan_se" id="pan_se" alt="SE" /></td>
       </tr>
       <tr>
         <td  colspan="3"><br /></td>
@@ -141,7 +146,7 @@
            <tr>
              <td colspan="3" valign="top" align="center" width="80%">
                {if $scalebar_path|default:''}
-               <img src="{$scalebar_path}" 
+               <img id="scalebar" src="{$scalebar_path}" 
                alt="{t}scalebar_alt{/t}" width="{$scalebar_width}"
                height="{$scalebar_height}" title="" />
                {/if}
@@ -150,7 +155,9 @@
            <tr>
              <td width="10%" align="center">
                {if $scales_active|default:''}
+		       <div id="recenter_scale_div">
                  {$scales}
+               </div>
                {/if}
              </td>
              <td width="80%"></td> 
@@ -168,18 +175,22 @@
          <td  colspan="3"><br /></td>
        </tr>
          
-       {if $tables_result|default:''}
+       {if $tables_result OR $ajaxOn}
        <tr>
          <td colspan ="3">
-         <table style="border:1px solid black;" width="100%">
-           <tr>
-             <td>
-               <center>
-                 {$tables_result}
-               </center>
-             </td>
-           </tr>
-         </table>
+           <table id="tables_result_container"
+                  style="{if $ajaxOn}display:none;{/if}border:1px solid black;"
+                  width="100%">
+             <tr>
+               <td>
+                 <center>
+                   <div id="tables_result">        
+                     {$tables_result}
+                   </div>
+                 </center>
+               </td>
+             </tr>
+           </table>
          </td>
        </tr>  
        {/if}
