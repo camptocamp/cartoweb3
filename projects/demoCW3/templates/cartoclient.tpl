@@ -155,7 +155,7 @@
            <tr>
              <td width="10%" align="center">
                {if $scales_active|default:''}
-		       <div id="recenter_scale_div">
+               <div id="recenter_scale_div">
                  {$scales}
                </div>
                {/if}
