@@ -84,4 +84,4 @@
 </fieldset>
 
 {t}Total area{/t}: {$outline_area}<br />
-<input type="button" name="outline_clear" value="{t}outline_clear{/t}" class="form_button" onclick="javascript: CartoWeb.trigger('Outline.Clear', 'query_clear()');"/>
+<input type="button" name="outline_clear" value="{t}outline_clear{/t}" class="form_button" onclick="javascript: CartoWeb.trigger('Outline.Clear');"/>
