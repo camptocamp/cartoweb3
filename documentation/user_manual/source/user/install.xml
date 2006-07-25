@@ -237,7 +237,8 @@ List of options:
  --base-url BASEURL         URL where you can find client.php.
  --profile PROFILENAME      The profile to use (development/production/custom).
                             NOTE: default is 'development'
- --clean-views              Clean views (must be used with --clean).]]></screen>
+ --clean-views              Clean views (must be used with --clean).
+ --clean-accounting         Clean accounting (must be used with --clean).]]></screen>
         </para>
       </sect3>
 
