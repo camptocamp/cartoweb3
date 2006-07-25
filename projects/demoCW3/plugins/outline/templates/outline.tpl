@@ -27,8 +27,7 @@
 </fieldset>
   <table width="97%"><tr style="text-align:center;">
     <tr><td>
-      <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button"
-              onclick="javascript: return CartoWeb.trigger('Outline.Clear');" />
+      <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
     </td></tr>
   </table>
 </div>
