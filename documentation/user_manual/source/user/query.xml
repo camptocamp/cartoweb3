@@ -134,7 +134,7 @@
         </listitem>
         <listitem>
           <para> 
-            noRowId<indexterm><primary>roRowId</primary></indexterm>: 
+            noRowId<indexterm><primary>noRowId</primary></indexterm>: 
             if true, row id will not be included in the table. In this
             case the row id will not be displayed in the output table
             (html, pdf, etc.). (default:
