@@ -1758,8 +1758,8 @@ class ViewDbContainer extends ViewContainer {
  * Basis of views upgrade filters
  *
  * This class must be extended to define plugin view data filters.
- * Extended classes must be stored in &lt;plugin&gt;/client/ViewsUpgrade.php
- * and named for instance MyPluginV34ToV35. Each filter must be design to
+ * Extended classes must be stored in <plugin>/client/ViewsUpgrade.php
+ * and named for instance MyPluginV34ToV35. Each filter must be designed to
  * upgrade view data from given version N to version N+1.
  *
  * This class provides generic filtering methods
