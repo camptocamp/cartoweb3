@@ -35,3 +35,18 @@ function resetSession() {
     document.carto_form.posted.value=0;
     doSubmit();
 }
+
+function redirectTo(url) {
+  var version = 0;
+  if (navigator.appVersion.indexOf("MSIE") != -1) {
+    temp = navigator.appVersion.split("MSIE");
+    version = parseFloat(temp[1]);
+  }
+
+  if (version >= 6.0) {
+    // only for IE6
+    document.URL = url;
+  } else {
+    window.location.href = url;
+  }
+}
