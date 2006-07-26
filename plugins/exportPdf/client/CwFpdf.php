@@ -32,7 +32,7 @@ require_once 'fpdf/fpdf.php';
 class cFPDF extends FPDF {
 
     /**
-     * Builds text labels with 90�-increment orientation.
+     * Builds text labels with 90-degree-increment orientation.
      * See http://fpdf.org/fr/script/script31.php
      * "TextWithRotation" is available at the same location as well.
      * @param float reference point x-coord
@@ -804,12 +804,13 @@ class CwFpdf implements PdfWriter {
             list($iWidth, $iHeight, $iType) = $imageData;
             
             switch($iType) {
+                case 1: $iType = 'GIF'; break;
                 case 2: $iType = 'JPEG'; break;
                 case 3: $iType = 'PNG'; break;
                 default:
                     throw new CartoclientException(sprintf(
-                        'unsupported format for icon: %s (layer: %s)',
-                        $icon, $layer['label']
+                        'unsupported format (type=%s) for icon: %s (layer: %s)',
+                        $iType, $icon, $layer['label']
                         ));
             }
 
