@@ -392,7 +392,7 @@ abstract class ClientPlugin extends PluginBase {
     /**
      * @return ClientConfig
      */
-    final function getConfig() {
+    final public function getConfig() {
         return $this->config;
     }
 
