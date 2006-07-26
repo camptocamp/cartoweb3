@@ -323,8 +323,9 @@
            {include file="toolbar.tpl" group="3"}
          </td></tr>
        </table>
-       </center>
        {$outline}
+       {if $exportDxf}{$exportDxf}{/if}
+       </center>
      </div>
      <!-- end of folder 5 -->
     
