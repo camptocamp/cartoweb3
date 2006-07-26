@@ -71,6 +71,4 @@
 </div>
 </fieldset>
 
-<center>
 <input type="submit" name="outline_clear" value="{t}Clear outline{/t}" class="form_button" />
-</center>
