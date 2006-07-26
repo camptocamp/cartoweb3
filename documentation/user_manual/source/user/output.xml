@@ -9,12 +9,12 @@
 
 <chapter id="user.output">
  <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
- <subtitle>exportCsv, exportHtml Plugins</subtitle>
+ <subtitle>exportCsv, exportHtml, exportDxf Plugins</subtitle>
 
  <sect1 id="user.output.intro"> 
   <title>Introduction</title>
   <para>
-   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Four formats are available: PDF, CSV, HTML and raw image. 
+   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Five formats are available: PDF, CSV, HTML, DXF and raw image. 
   </para>
   <para>
    The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
@@ -90,6 +90,28 @@ fileName = "[date,Ymd-Hi]_[table].csv"
 ; if true, exported CSV file will be UTF-8 encoded 
 ; if false, it will be ISO-8859-1 encoded, default 
 charsetUtf8 = false]]></programlisting>
+  </para>
+ </sect1>
+
+ <sect1 id="user.output.dxf">
+  <title><indexterm><primary>DXF export</primary></indexterm>DXF Export</title>
+  <para>
+   DXF is a drawing format supported by AutoCAD and assimilated software. With &cartoweb;, it is possible to export a DXF description of the shapes drawn with the <parameter>outline</parameter> plugin. The latter plugin must be activated before using <parameter>exportDxf</parameter> plugin.
+  </para>
+  <para>
+   A few configuration parameters are available in <filename>client_conf/exportDxf.ini</filename>:
+   <itemizedlist>
+    <listitem>
+     <para>
+      <indexterm><primary>roundLevel, DXF</primary></indexterm><parameter>roundLevel</parameter> (integer) indicates how many digits must appear after the decimal point in points coordinates. Default is "2". 
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      <indexterm><primary>fileName, DXF</primary></indexterm><parameter>fileName</parameter> (string) specifies the filename naming convention to use. It may be static or contain athe generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>export_[date,Ymd-Hi].dxf</parameter> which gives for instance <filename>export_20060725-2021.dxf</filename>.
+     </para>
+    </listitem>
+   </itemizedlist>
   </para>
  </sect1>
 

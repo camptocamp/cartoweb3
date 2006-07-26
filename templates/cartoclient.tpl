@@ -288,6 +288,7 @@ Request:
     {if $outline_active|default:''}
     <div id="folder6" class="folder">
       {$outline}
+      {if $exportDxf}{$exportDxf}{/if}
     </div>
     <!-- end of folder6 -->
     {/if}

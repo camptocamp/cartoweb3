@@ -7,6 +7,7 @@ CVS version
 - Added WMS-layers browsing plugin
 - Added hooks capabilities in views processing
 - Added sampleProject, a start project to build your own ones upon it
+- Added DXF export
 
 2006-02-14: CartoWeb 3.2.0 
 ==========================
