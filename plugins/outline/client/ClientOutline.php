@@ -285,7 +285,7 @@ class ClientOutline extends ClientPlugin
      */
     public function buildRequest() {
 
-        if (!empty($this->outlineState->shapes)) {
+        if ($this->hasShapes()) {
             $outlineRequest = new OutlineRequest();
             $outlineRequest->shapes   = $this->outlineState->shapes;        
             $outlineRequest->maskMode = $this->outlineState->maskMode;
@@ -493,6 +493,14 @@ class ClientOutline extends ClientPlugin
                 }
             }
         }
+    }
+
+    /**
+     * Tells if shapes are stored in session.
+     * @return boolean
+     */
+    public function hasShapes() {
+        return !empty($this->outlineState->shapes);
     }
 }
 
