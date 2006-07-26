@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+  %cartoweb;
+]>
+<!-- $Id$ -->
+<chapter id="user.locate">
+  <title>Plugin Locate
+  </title>
+  <para>
+    The plugin locate is the plugin that deals with the autocompletion
+    inputs to recenter on a feature on the map.
+  </para>
+  <para>
+    The locate plugin add a recenter feature based on AJAX requests.
+    An input tag enable to type some few characters, and an Ajax request
+    is processed on the database defined by its DSN. The 10 (or more) first
+    results containing theses firsts characters are displayed in a sort
+    of drop down element.
+  </para>
+  <para>When one result is clicked, the map is recentered on this result.
+  </para>
+  <para>
+    The javascript part of this plugin is based on the 
+    <ulink url="http://localhost/cartoweb3/htdocs/client.php">scriptaculous</ulink> Autocompleter.
+  </para>
+  <sect1 id="user.locate.activation">
+    <title>Activation</title>
+    <para>
+      The plugin needs obviously to be activated using the 
+      <filename>client_conf/client.ini</filename>
+      <parameter>loadPlugins</parameter> parameter. For instance: 
+      <programlisting>loadPlugins = auth, exportPdf, views</programlisting>
+    </para>
+    <para>To enable the plugin, you also need to add required parts in the
+      <filename>cartoclient.tpl</filename> template.
+      In the head :
+      <screen><![CDATA[{if $locate_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=locate}locate.css{/r}" />{/if}
+      ...
+{if $locate_active|default:''}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}]]></screen>
+      And in the body of the page (for example in the navigation folder) :
+      <screen><![CDATA[
+      {if $locate_active|default:''}
+           {$locate_form}
+      {/if}]]></screen>
+      <tip><para>Warning: ensure that id_recenter is active !!!</para></tip>
+    </para>
+  </sect1>
+  <sect1 id="user.locate.configuration">
+    <title>Configuration</title>
+    <para>
+      <itemizedlist>
+      <listitem>
+        <para> 
+          locate.#.id (# = 0, 1, 2, ...): id of the layer in layers.ini to 
+          recenter on.
+        </para>
+      </listitem>
+      <listitem>
+        <para> 
+          locate.#.label (# = 0, 1, 2, ...): label of the locate input;
+          Note that if you use the same label as in the layers.ini translations
+          will operate.
+        </para>
+      </listitem>
+      <listitem>
+        <para> 
+          locate.#.sql (# = 0, 1, 2, ...): SQL statement for the ajax request
+          to the database. It must return two fields :
+          <itemizedlist>
+            <listitem><para>an identifier : the value of the id_attribute_string field
+            of the layer, in order to be able to recenter on the feature,</para>
+            </listitem>
+            <listitem><para>a label : a name for the feature to recenter on.</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+      </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+</chapter>

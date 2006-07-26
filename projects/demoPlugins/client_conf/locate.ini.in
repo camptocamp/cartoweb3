@@ -1,0 +1,32 @@
+; Locate plugin configuration file.
+; The locate plugin add a recenter feature based on Ajax requests.
+; An input tag enable to type some few characters, and an Ajax request
+; is processed on the database defined by its DSN. 10 firsts results
+; containing theses firsts characters are displayed.
+; When one result is cliqued, the map is recentered on this result.
+
+; Warning: ensure that id_recenter is active !!!
+
+; DSN of the database to search into
+dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_LOCATE_NAME@
+
+; Layers for location. The id is the layer name,
+; and the sql must return two fields:
+; 1) an identifier
+; 2) a label field (the name field, if exist)
+;
+locate.0.id = district
+locate.0.label = "Disctricts"
+locate.0.sql= "SELECT OGC_FID, NAM FROM district WHERE NAM ~* '%s' LIMIT 10"
+
+locate.1.id = agglo
+locate.1.label = "Agglomerations"
+locate.1.sql= "SELECT OGC_FID, NAM FROM agglo WHERE NAM ~* '%s' LIMIT 10"
+
+locate.2.id = airport
+locate.2.label = "Airports"
+locate.2.sql= "SELECT OGC_FID, NAM FROM airport WHERE NAM ~* '%s' LIMIT 10"
+
+locate.3.id = town
+locate.3.label = "Towns"
+locate.3.sql= "SELECT OGC_FID, TXT FROM town WHERE TXT ~* '%s' LIMIT 10"

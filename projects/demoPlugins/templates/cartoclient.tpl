@@ -12,6 +12,7 @@
   {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
+  {if $locate_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=locate}locate.css{/r}" />{/if}
   
   <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
 
@@ -32,6 +33,7 @@
   </script>
   {/if}
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
+  {if $locate_active|default:''}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}
   {include file="dhtmlcode.tpl"}
 </head>
 
@@ -297,7 +299,12 @@
        <fieldset>
        <legend>{t}A geographic object{/t}</legend>
        <br />
+         {if $locate_active|default:''}
+           {$locate_form}
+         {/if}
+         <span style="display:none">
          {$id_recenter}
+         </span>
        </fieldset>
        {/if}
        

@@ -535,7 +535,8 @@ $ psql -d demo_plugins -f spatial_ref_sys.sql]]></screen>
         </listitem>
         <listitem>
           <formalpara>
-            <title>Create tables used by the DemoLocation extension to allow you to do a search by name.</title>
+            <title>Create tables used by the locate plugin to allow you to do a recenter
+            on features by searching their names.</title>
             <para>  
               To do so, you should export the free downloadable layers <emphasis>airport, agglo, 
               district</emphasis> and <emphasis>town</emphasis> in PostgreSQL/PostGIS tables by typing 
@@ -578,8 +579,10 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
               <filename>cartoweb3/projects/demoPlugins/demo.properties</filename> file. You need to edit this file
               and change the parameter to match your environment. In particular the <emphasis>DB_HOST</emphasis>, 
               <emphasis>DB_USER</emphasis>, <emphasis>DB_PASSWD</emphasis> and <emphasis>DB_PORT</emphasis> options
-              need to match your database access configuration. This file contains comments about the description
-              of each variables.
+              need to match your database access configuration.
+              <emphasis>DB_LOCATE_NAME</emphasis> must be set to the name
+              of the database for the locate plugin.
+              This file contains comments about the description of each variables.
               Here's an example how to call the <emphasis>cw3setup.php</emphasis> script with the 
               <emphasis>--config-from-file</emphasis> option.
               <screen><![CDATA[php cw3setup.php --install --base-url http://www.example.com/cartoweb 
@@ -672,6 +675,24 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
         </itemizedlist>
       </para>      
     </sect2>
+    <sect2 id="user.install.demo.locate">
+      <title>Locate Plugin specific installation</title>
+      <para>
+        This plugin allows user to search features by their names, and recenter on them.
+      </para>
+      <para>
+        By typing the first letters of a name, user is given a list of corresponding
+        names. Clicking on one of them recenters the map on it.
+        <note><para>
+        In the <filename>locate.ini</filename>, you also need to specify the layers on which you want to do a search
+        by name and the sql statements to request the database.
+        </para></note>
+        <tip><para>
+        Ensure that the tables have the correct privileges (GRANT SELECT) in
+         the database.
+        </para></tip>
+      </para>
+    </sect2>
     <sect2 id="user.install.demo.details">
       <title>Plugins extensions further information</title>
       <para>
@@ -692,37 +713,6 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
           </listitem>
         </itemizedlist>
       </para>
-      <sect3 id="user.install.demo.details.demoLocation">
-        <title>demoLocation Extension</title>
-        <para>
-          This extension allows you to select geographical objects of a layer by specifying a name.
-        </para>
-        <para>
-          According to the name selected, the corresponding id is fetched from the search name 
-          database and submitted to the recentering coreplugin. This coreplugin selects the geographical
-          object in the shapefile according to the id, the selected layer and recenter on it.
-        </para>
-        <para>
-          The names of the id and the names on which the search is done must be specified in the 
-          metadata of the mapfile for each queryable layer.
-          These metadata are respectively "id_attribute_string" for the id and "recenter_name_string" 
-          for the name.
-          You also will have to use the metadata "exported_values" to transmit these metadata to the client.
-          For example, you can type:
-          <screen><![CDATA[
-METADATA
-  "exported_values" "recenter_name_string,id_attribute_string"
-  "recenter_name_string" "NAM"
-  "id_attribute_string" "OGC_FID|string"
-END]]></screen>
-          The name of the database must be specified in the <filename>location.ini</filename> file.
-          <note><para>
-          In the <filename>location.ini</filename>, you also need to specify the layers on which you want to do a search
-          by name (idRecenterLayers options) and activate the coreplugin idRecenter (idRecenterActive
-          option).
-          </para></note>
-        </para>
-      </sect3>
       <sect3 id="user.install.demo.details.demoRouting">
         <title>demoRouting Extension</title>
         <para>

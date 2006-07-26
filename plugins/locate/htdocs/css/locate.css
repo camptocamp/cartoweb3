@@ -1,0 +1,67 @@
+.locate td {
+        font-size: 10px;
+        padding: 2px;
+        text-align: left;
+}
+
+td.label {
+        text-align: right;
+}
+
+input.locinput {
+        border: 1px solid #555;
+        background-color: #DFDFDF;
+        font-size: 10px;
+        width: 200px;
+}
+
+input[type=image] {
+        border: 0;
+}
+
+
+input.small, select.small {
+        width: 60px;
+}
+
+.note {
+        color: #999;
+        text-align: center;
+}
+
+div.locate_results {
+        background: #fff;
+        cursor: arrow;
+}
+
+div.locate_results ul {
+        border: 1px solid #888;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        list-style-type: none;
+        cursor: arrow;
+        overflow: hidden;
+}
+
+div.locate_results ul li {
+        margin: 0;
+        padding: 3px;
+        cursor: arrow;
+}
+
+div.locate_results ul li.selected {
+        background-color: #ffb;
+        cursor: arrow;
+}
+
+div.locate_results ul strong.highlight {
+        color: #800;
+        margin: 0;
+        padding: 0;
+        cursor: arrow;
+}
+
+td.label {
+        width: 90px;
+}
