@@ -21,8 +21,8 @@
  * @version $Id$
  */
  
-require_once(CARTOWEB_HOME . 'common/Utils.php');
-require_once(CARTOWEB_HOME . 'common/Common.php'); // for CartocommonException
+require_once(CARTOCOMMON_HOME . 'common/Utils.php');
+require_once(CARTOCOMMON_HOME . 'common/Common.php'); // for CartocommonException
 
 /**
  * Abstract class for all classes that can be serialized
@@ -63,7 +63,7 @@ abstract class CwSerializable {
      * @return mixed value
      */
     private static function getValue($struct, $property) {
-        if (is_null($struct))
+        if (!$struct)
             return NULL;
         if ($property) {
             $objVars = get_object_vars($struct);
@@ -87,9 +87,7 @@ abstract class CwSerializable {
                                             $type = 'string') {
         
         $value = self::getValue($struct, $property);
-        if (is_null($value))
-            return NULL;
-  
+        
         switch($type) {
         case 'boolean':
             return (strtolower($value) == 'true' || $value == '1');
@@ -133,7 +131,7 @@ abstract class CwSerializable {
     /**
      * Returns an array of typed values from a string
      *
-     * Uses {@link Utils::parseArray()}.
+     * Uses {@link ConfigParser::parseArray()}.
      * @param stdClass
      * @param string
      * @param string
@@ -147,7 +145,7 @@ abstract class CwSerializable {
             return $value;
         
             
-        $values = Utils::parseArray($value);
+        $values = ConfigParser::parseArray($value);
         $array = array();
         foreach ($values as $val) {
             $array[] = self::unserializeValue($val, NULL, $type);
@@ -157,21 +155,19 @@ abstract class CwSerializable {
     
     /**
      * Tries to guess the class to use from the property being unserialised.
-     * It is useful when dealing with non-PHP clients who do not put "className"
+     * It is useful when dealing with non-php client who to not put "className"
      * fields in requests, containing the object class to use.
-     * If the property name ends with "Request" or "Result", it is used as the 
-     * class name.
+     * If the property finishes with "Request", it is used as the class name.
      * 
      * @param string
      * @return string
      * @throws CartoserverException if name could not be guessed
      */
     static private function guessClassName($property) {
-        if (strpos($property, 'Request') === false &&
-            strpos($property, 'Result') === false) {
+        if (strpos($property, 'Request') === false) {
             throw new CartocommonException('Object to unserialize has no ' .
                                            'className attribute, and no class '
-                                           . "name was given: $property");
+                                           . 'name was given' . $type);
         }
         return $property;
     }
@@ -219,13 +215,13 @@ abstract class CwSerializable {
             $type = $className;
         }      
         if (!class_exists($type)) {
-            // Class does not exist: 
-            // This can be the case when matching client plugin is not active.
-            return null;
-        }        
+            throw new CartocommonException('unserializing non existant class' .
+                                           " \"$type\"");
+        }
+        
         $obj = new $type;
      
-        if ($obj instanceof CwSerializable || !is_object($value)) {
+        if ($obj instanceof CwSerializable) {
             $obj->unserialize($value);
         } else {
             self::copyAllVars($value, $obj);
@@ -245,14 +241,15 @@ abstract class CwSerializable {
 
         $value = self::getValue($struct, $property);
         if (is_null($value))
-            return $value;        
+            return $value;
+        
 
         $array = array();
         foreach ($value as $key => $val) {
         
-            if (is_object($val) && empty($val->id))
+            if (empty($val->id))
                 $val->id = $key;
-            $array[$key] = self::unserializeObject($val, NULL, $className);          
+            $array[$key] = self::unserializeObject($val, NULL, $className);
         }        
         return $array;
     }
