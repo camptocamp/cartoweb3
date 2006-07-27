@@ -27,7 +27,7 @@
  * Theses messages are intended to be displayed to the client.
  * @package Common
  */
-class Message extends Serializable {
+class Message extends CwSerializable {
 
     /**
      * Constants to define the different the purpose of the message. Used for 
@@ -84,10 +84,10 @@ class Message extends Serializable {
      * Sets object properties from $struct data.
      */
     public function unserialize($struct) {
-        $this->plugin = Serializable::unserializeValue($struct, 'plugin');
-        $this->messageId = Serializable::unserializeValue($struct, 'messageId');
-        $this->message = Serializable::unserializeValue($struct, 'message');
-        $this->channel = Serializable::unserializeValue($struct, 'channel', 
+        $this->plugin = CwSerializable::unserializeValue($struct, 'plugin');
+        $this->messageId = CwSerializable::unserializeValue($struct, 'messageId');
+        $this->message = CwSerializable::unserializeValue($struct, 'message');
+        $this->channel = CwSerializable::unserializeValue($struct, 'channel', 
                                                         'int');
     }
 }

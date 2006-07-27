@@ -25,7 +25,7 @@
  * Request sent from client to server
  * @package Common
  */
-class MapRequest extends Serializable {
+class MapRequest extends CwSerializable {
 
     /** 
      * @var string
@@ -51,7 +51,7 @@ class MapRequest extends Serializable {
      * Sets object properties from $struct data.
      */
     public function unserialize($struct) {
-        $this->mapId = Serializable::unserializeValue($struct, 'mapId');
+        $this->mapId = CwSerializable::unserializeValue($struct, 'mapId');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -7) == 'Request') {
@@ -65,7 +65,7 @@ class MapRequest extends Serializable {
  * Result sent from server to client
  * @package Common
  */
-class MapResult extends Serializable {
+class MapResult extends CwSerializable {
 
     /**
      * @var int
@@ -82,10 +82,10 @@ class MapResult extends Serializable {
      * Sets object properties from $struct data.
      */
     public function unserialize($struct) {
-        $this->timestamp = Serializable::unserializeValue($struct, 'timestamp',
+        $this->timestamp = CwSerializable::unserializeValue($struct, 'timestamp',
                                                           'int');
         $this->serverMessages 
-                         = Serializable::unserializeObjectMap($struct, 
+                         = CwSerializable::unserializeObjectMap($struct, 
                                                               'serverMessages',
                                                               'Message');
             

@@ -24,14 +24,14 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
  * Represents an image's dimension
  * @package Common
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class Dimension extends Serializable {
+class Dimension extends CwSerializable {
 
     /**
      * Width of the image
@@ -57,7 +57,7 @@ class Dimension extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->width = $struct->width;
@@ -70,7 +70,7 @@ class Dimension extends Serializable {
  * @package Common
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class GeoDimension extends Serializable {
+class GeoDimension extends CwSerializable {
 
     /**
      * @var Dimension
@@ -90,7 +90,7 @@ class GeoDimension extends Serializable {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->dimension = self::unserializeObject($struct, 'dimension', 'Dimension');
@@ -103,7 +103,7 @@ class GeoDimension extends Serializable {
  * @package Common
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-abstract class Shape extends Serializable {
+abstract class Shape extends CwSerializable {
     /**
      * @var string
      */
@@ -122,7 +122,7 @@ abstract class Shape extends Serializable {
     abstract public function getArea();
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->label = (isset($struct->label))? $struct->label : '';
@@ -159,7 +159,7 @@ class Point extends Shape {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->x = $struct->x;
@@ -238,7 +238,7 @@ class Line extends Shape {
     public $points;
      
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');
@@ -315,7 +315,7 @@ class Bbox extends Shape {
      * Value passed can be either a string (format "11, 22, 33, 44") or
      * a structure.
      * @param mixed a string or stdclass
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         if (is_string($struct)) {
@@ -430,7 +430,7 @@ class Bbox extends Shape {
  */
 class Rectangle extends Bbox {
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         if (is_string($struct)) {
@@ -461,7 +461,7 @@ class Polygon extends Shape {
     public $points;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->points = self::unserializeObjectMap($struct, 'points', 'Point');

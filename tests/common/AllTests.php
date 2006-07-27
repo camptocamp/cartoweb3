@@ -32,7 +32,7 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
 require_once 'common/MiscTest.php';
 require_once 'common/BasicTypesTest.php';
 require_once 'common/MapInfoTest.php';
-require_once 'common/SerializableTest.php';
+require_once 'common/CwSerializableTest.php';
 require_once 'common/SecurityManagerTest.php';
 
 /**
@@ -48,7 +48,7 @@ class common_AllTests {
         $suite->addTestSuite('common_MiscTest');
         $suite->addTestSuite('common_BasicTypesTest');
         $suite->addTestSuite('common_MapInfoTest');
-        $suite->addTestSuite('common_SerializableTest');
+        $suite->addTestSuite('common_CwSerializableTest');
         $suite->addTestSuite('common_SecurityManagerTest');
         return $suite;
     }

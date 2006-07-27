@@ -24,7 +24,7 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
  * Standard classes
@@ -35,7 +35,7 @@ require_once(CARTOCOMMON_HOME . 'common/BasicTypes.php');
  * Position on a map
  * @package Common
  */
-class Location extends Serializable {
+class Location extends CwSerializable {
     
     /**
      * @var Bbox
@@ -43,7 +43,7 @@ class Location extends Serializable {
     public $bbox;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
@@ -63,7 +63,7 @@ class InitialLocation extends Location {
  * Layer display state
  * @package Common
  */
-class LayerState extends Serializable {
+class LayerState extends CwSerializable {
 
     /**
      * State's ID
@@ -92,7 +92,7 @@ class LayerState extends Serializable {
     public $unfolded;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
@@ -109,7 +109,7 @@ class LayerState extends Serializable {
  * Initial display state for a mapfile 
  * @package Common
  */
-class InitialMapState extends Serializable {
+class InitialMapState extends CwSerializable {
 
     /**
      * State's ID
@@ -130,7 +130,7 @@ class InitialMapState extends Serializable {
     public $layers;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id       = self::unserializeValue($struct, 'id');
@@ -145,7 +145,7 @@ class InitialMapState extends Serializable {
  * Main MapInfo class
  * @package Common
  */
-class MapInfo extends Serializable {
+class MapInfo extends CwSerializable {
 
     /**
      * Timestamp for cache check
@@ -199,7 +199,7 @@ class MapInfo extends Serializable {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->timestamp        = self::unserializeValue($struct, 'timestamp');

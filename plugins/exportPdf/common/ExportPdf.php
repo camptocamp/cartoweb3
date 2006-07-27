@@ -23,13 +23,13 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
  * ExportPdf initialization information
  * @package Plugins
  */
-class ExportPdfInit extends Serializable {
+class ExportPdfInit extends CwSerializable {
 
     /**
      * @var int
@@ -37,7 +37,7 @@ class ExportPdfInit extends Serializable {
     public $mapServerResolution;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->mapServerResolution = self::unserializeValue($struct,

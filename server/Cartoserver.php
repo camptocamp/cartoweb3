@@ -261,7 +261,7 @@ class Cartoserver {
         $this->checkRequest($mapRequest);
 
         // Unserialize MapRequest
-        $mapRequest = Serializable::unserializeObject($mapRequest, NULL, 'MapRequest');
+        $mapRequest = CwSerializable::unserializeObject($mapRequest, NULL, 'MapRequest');
 
         $serverContext->setMapRequest($mapRequest);
 

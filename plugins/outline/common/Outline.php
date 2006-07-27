@@ -1,6 +1,6 @@
 <?php
 /**
- * Outline plugin Serializable objects
+ * Outline plugin CwSerializable objects
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * Request
  * @package Plugins
  */
-class OutlineRequest extends Serializable {
+class OutlineRequest extends CwSerializable {
     
     /** 
      * Shapes to be drawn
@@ -51,7 +51,7 @@ class OutlineRequest extends Serializable {
     public $wholeDataLayer;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->shapes   = self::unserializeObjectMap($struct, 'shapes');
@@ -67,7 +67,7 @@ class OutlineRequest extends Serializable {
  * Result
  * @package Plugins
  */
-class OutlineResult extends Serializable {
+class OutlineResult extends CwSerializable {
     
     /**
      * Total shapes area
@@ -81,7 +81,7 @@ class OutlineResult extends Serializable {
     public $isOutside;    
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->area = self::unserializeValue($struct, 'area', 'double');

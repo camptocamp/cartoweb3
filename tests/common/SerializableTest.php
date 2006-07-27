@@ -26,14 +26,14 @@
  */
 require_once 'PHPUnit2/Framework/TestCase.php';
 
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
- * Unit tests for class Serializable
+ * Unit tests for class CwSerializable
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class common_SerializableTest extends PHPUnit2_Framework_TestCase {
+class common_CwSerializableTest extends PHPUnit2_Framework_TestCase {
 
     /**
      * Tests string array unserialization (from array)
@@ -43,7 +43,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->strArray = array('toto', 'titi', 'tutu');
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertEquals('toto', $testObj->strArray[0]);
@@ -59,7 +59,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->strArray = 'toto, titi, tutu';
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertEquals('toto', $testObj->strArray[0]);
@@ -75,7 +75,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->intArray = array(1, 2, 3);
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertEquals(1, $testObj->intArray[0]);
@@ -91,7 +91,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->intArray = '1, 2, 3';
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertEquals(1, $testObj->intArray[0]);
@@ -107,7 +107,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->boolArray = array(true, false);
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertTrue($testObj->boolArray[0]);
@@ -122,7 +122,7 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct = new stdclass();
         $struct->boolArray = 'true, false, 1, 0';
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct);
         
         $this->assertTrue($testObj->boolArray[0]);
@@ -138,14 +138,14 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         
         $struct1 = new stdclass();
         $struct2 = new stdclass();
-        $struct2->className = 'SerializableTestClass2';
+        $struct2->className = 'CwSerializableTestClass2';
         $struct2->integer   = 123;
         $struct1->obj = $struct2;
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj));
+        $this->assertEquals('CwSerializableTestClass2', get_class($testObj->obj));
         $this->assertEquals(123, $testObj->obj->integer);
     } 
 
@@ -157,17 +157,17 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct1 = new stdclass();
         $struct2 = new stdclass();
         $struct3 = new stdclass();
-        $struct3->className = 'SerializableTestClass2';
+        $struct3->className = 'CwSerializableTestClass2';
         $struct3->integer   = 123;
-        $struct2->className = 'SerializableTestClass1';
+        $struct2->className = 'CwSerializableTestClass1';
         $struct2->obj = $struct3;
         $struct1->obj = $struct2;
         
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals('SerializableTestClass1', get_class($testObj->obj));
-        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj->obj));
+        $this->assertEquals('CwSerializableTestClass1', get_class($testObj->obj));
+        $this->assertEquals('CwSerializableTestClass2', get_class($testObj->obj->obj));
         $this->assertEquals(123, $testObj->obj->obj->integer);
     } 
     
@@ -179,16 +179,16 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
         $struct1 = new stdclass();
         $struct2 = new stdclass();
         $struct3 = new stdclass();
-        $struct3->className = 'SerializableTestClass2';
+        $struct3->className = 'CwSerializableTestClass2';
         $struct3->integer   = 123;
-        $struct2->className = 'SerializableTestClass1';
+        $struct2->className = 'CwSerializableTestClass1';
         $struct1->objMap = array('obj1' => $struct3, 'obj2' => $struct2);
 
-        $testObj = new SerializableTestClass1('tata');
+        $testObj = new CwSerializableTestClass1('tata');
         $testObj->unserialize($struct1);
         
-        $this->assertEquals('SerializableTestClass2', get_class($testObj->objMap['obj1']));
-        $this->assertEquals('SerializableTestClass1', get_class($testObj->objMap['obj2']));
+        $this->assertEquals('CwSerializableTestClass2', get_class($testObj->objMap['obj1']));
+        $this->assertEquals('CwSerializableTestClass1', get_class($testObj->objMap['obj2']));
         $this->assertEquals(123, $testObj->objMap['obj1']->integer);        
     }
     
@@ -198,54 +198,54 @@ class common_SerializableTest extends PHPUnit2_Framework_TestCase {
     public function testComplete() {
     
         $structRoot = new stdclass();
-        $structRoot->className = 'SerializableTestClass1';
+        $structRoot->className = 'CwSerializableTestClass1';
         $structRoot->str = 'toto';
         $structRoot->strArray = 'titi, tutu';
         $structRoot->intArray = array(123, 456);
         $structRoot->boolArray = 'true, false, 1, 0';
         
         $structObj1 = new stdclass();
-        $structObj1->className = 'SerializableTestClass2';
+        $structObj1->className = 'CwSerializableTestClass2';
         $structObj1->integer = 111;
         
         $structObj2 = new stdclass();
-        $structObj2->className = 'SerializableTestClass2';
+        $structObj2->className = 'CwSerializableTestClass2';
         $structObj2->integer = 222;
         
         $structObj3 = new stdclass();
-        $structObj3->className = 'SerializableTestClass1';
+        $structObj3->className = 'CwSerializableTestClass1';
         $structObj3->strArray = array('tete', 'tyty');
         $structObj3->intArray = '333, 444';
         $structObj3->boolArray = array(true, false);
         $structObj3->obj = $structObj1;
         
         $structObj4 = new stdclass();
-        $structObj4->className = 'SerializableTestClass2';
+        $structObj4->className = 'CwSerializableTestClass2';
         $structObj4->integer = 555;
         $structRoot->obj = $structObj4;
         
         $structRoot->objMap = array ('obj2' => $structObj2, 'obj3' => $structObj3);
         
         // Property testClass exists, so unserializeObject knows the class
-        $testObj = Serializable::unserializeObject($structRoot);
+        $testObj = CwSerializable::unserializeObject($structRoot);
 
-        $this->assertEquals('SerializableTestClass1', get_class($testObj));
-        $this->assertEquals('SerializableTestClass2', get_class($testObj->obj));
-        $this->assertEquals('SerializableTestClass2',
+        $this->assertEquals('CwSerializableTestClass1', get_class($testObj));
+        $this->assertEquals('CwSerializableTestClass2', get_class($testObj->obj));
+        $this->assertEquals('CwSerializableTestClass2',
                             get_class($testObj->objMap['obj2']));
-        $this->assertEquals('SerializableTestClass1',
+        $this->assertEquals('CwSerializableTestClass1',
                             get_class($testObj->objMap['obj3']));       
-        $this->assertEquals('SerializableTestClass2',
+        $this->assertEquals('CwSerializableTestClass2',
                             get_class($testObj->objMap['obj3']->obj));       
     }
 }
 
 /**
- * Test class used to test abstract class Serializable (all types of attribute)
+ * Test class used to test abstract class CwSerializable (all types of attribute)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class SerializableTestClass1 extends Serializable {
+class CwSerializableTestClass1 extends Serializable {
     
     /**
      * @var string
@@ -287,7 +287,7 @@ class SerializableTestClass1 extends Serializable {
     }
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->str       = self::unserializeValue($struct, 'str');
@@ -300,11 +300,11 @@ class SerializableTestClass1 extends Serializable {
 }
 
 /**
- * Test class used to test abstract class Serializable (simple)
+ * Test class used to test abstract class CwSerializable (simple)
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class SerializableTestClass2 extends Serializable {
+class CwSerializableTestClass2 extends Serializable {
     
     /**
      * @var int
@@ -312,7 +312,7 @@ class SerializableTestClass2 extends Serializable {
     public $integer;
      
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->integer = (int)$struct->integer;

@@ -24,7 +24,7 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 require_once(CARTOCOMMON_HOME . 'coreplugins/tables/common/Tables.php');
 
 /**
@@ -67,7 +67,7 @@ class QuerySelection extends IdSelection {
     public $tableFlags; 
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
     
@@ -88,7 +88,7 @@ class QuerySelection extends IdSelection {
 /**
  * @package CorePlugins
  */
-class QueryRequest extends Serializable {
+class QueryRequest extends CwSerializable {
 
     /**
      * @var Bbox
@@ -129,7 +129,7 @@ class QueryRequest extends Serializable {
     public $querySelections;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
     
@@ -151,7 +151,7 @@ class QueryRequest extends Serializable {
 /**
  * @package CorePlugins
  */
-class QueryResult extends Serializable {
+class QueryResult extends CwSerializable {
 
     /**
      * @var TableGroup
@@ -159,11 +159,11 @@ class QueryResult extends Serializable {
     public $tableGroup;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
     
-        $this->tableGroup = Serializable::unserializeObject($struct, 
+        $this->tableGroup = CwSerializable::unserializeObject($struct, 
                                         'tableGroup', 'TableGroup');
     }
 }

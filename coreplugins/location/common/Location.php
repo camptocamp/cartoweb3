@@ -24,13 +24,13 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
  * Request information for plugin Location
  * @package CorePlugins
  */
-class LocationRequest extends Serializable {
+class LocationRequest extends CwSerializable {
 
     /**
      * LocationType constants
@@ -71,7 +71,7 @@ class LocationRequest extends Serializable {
     public $locationConstraint;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->locationType = self::unserializeValue($struct, 'locationType');
@@ -95,7 +95,7 @@ class LocationRequest extends Serializable {
  * TODO: add contraints for minScale, maxScale and others
  * @package CorePlugins
  */
-class LocationConstraint extends Serializable {
+class LocationConstraint extends CwSerializable {
     
     /**
      * Maximum bbox authorized to be viewed. Requests wanting a greater bbox
@@ -105,7 +105,7 @@ class LocationConstraint extends Serializable {
     public $maxBbox;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->maxBbox = self::unserializeObject($struct, 'maxBbox', 'Bbox');
@@ -116,7 +116,7 @@ class LocationConstraint extends Serializable {
  * Result information for plugin Location
  * @package CorePlugins
  */
-class LocationResult extends Serializable {
+class LocationResult extends CwSerializable {
     
     /**
      * @var Bbox
@@ -129,7 +129,7 @@ class LocationResult extends Serializable {
     public $scale;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
@@ -141,7 +141,7 @@ class LocationResult extends Serializable {
  * Predefined scale for display in scales dropdown box
  * @package CorePlugins
  */
-class LocationScale extends Serializable {
+class LocationScale extends CwSerializable {
 
     /**
      * @var string
@@ -154,7 +154,7 @@ class LocationScale extends Serializable {
     public $value;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->label = self::unserializeValue($struct, 'label');
@@ -166,7 +166,7 @@ class LocationScale extends Serializable {
  * Predefined shortcut for display in shortcuts dropdown box
  * @package CorePlugins
  */
-class LocationShortcut extends Serializable {
+class LocationShortcut extends CwSerializable {
 
     /**
      * @var string
@@ -179,7 +179,7 @@ class LocationShortcut extends Serializable {
     public $bbox;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->label = self::unserializeValue($struct, 'label');
@@ -191,7 +191,7 @@ class LocationShortcut extends Serializable {
  * Location initialization information
  * @package CorePlugins
  */
-class LocationInit extends Serializable {
+class LocationInit extends CwSerializable {
 
     /**
      * @var array
@@ -214,7 +214,7 @@ class LocationInit extends Serializable {
     public $shortcuts;
     
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->scales = self::unserializeObjectMap($struct, 'scales', 
@@ -231,7 +231,7 @@ class LocationInit extends Serializable {
  * Basic location request
  * @package CorePlugins
  */
-abstract class RelativeLocationRequest extends Serializable {
+abstract class RelativeLocationRequest extends CwSerializable {
     
     /**
      * @var Bbox
@@ -239,7 +239,7 @@ abstract class RelativeLocationRequest extends Serializable {
     public $bbox;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
@@ -258,7 +258,7 @@ class BboxLocationRequest extends RelativeLocationRequest {
     public $type = LocationRequest::LOC_REQ_BBOX;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->type = self::unserializeValue($struct, 'type');
@@ -304,7 +304,7 @@ class PanDirection {
     }
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->verticalPan = self::unserializeValue($struct, 'verticalPan');
@@ -330,7 +330,7 @@ class PanLocationRequest extends RelativeLocationRequest {
     public $panDirection;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->type = self::unserializeValue($struct, 'type');
@@ -389,7 +389,7 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
     public $scale;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->zoomType = self::unserializeValue($struct, 'zoomType');
@@ -407,7 +407,7 @@ class ZoomPointLocationRequest extends ZoomLocationRequest {
  * This object is used by other plugins, like the Selection plugin.
  * @package CorePlugins
  */
-class IdSelection extends Serializable {
+class IdSelection extends CwSerializable {
     
     /**
      * @var string
@@ -430,7 +430,7 @@ class IdSelection extends Serializable {
     public $selectedIds;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerId = self::unserializeValue($struct, 'layerId');
@@ -444,7 +444,7 @@ class IdSelection extends Serializable {
  * Location request for recentering on Ids
  * @package CorePlugins
  */
-class RecenterLocationRequest extends Serializable {
+class RecenterLocationRequest extends CwSerializable {
 
     /**
      * @var string
@@ -463,7 +463,7 @@ class RecenterLocationRequest extends Serializable {
     public $fallbackBbox;
  
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->idSelections = self::unserializeObjectMap($struct, 'idSelections', 

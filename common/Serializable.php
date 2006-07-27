@@ -27,10 +27,10 @@ require_once(CARTOCOMMON_HOME . 'common/Common.php'); // for CartocommonExceptio
 /**
  * Abstract class for all classes that can be serialized
  *
- * Serializable classes are typically used to transfer objects through SOAP.
+ * CwSerializable classes are typically used to transfer objects through SOAP.
  * @package Common
  */
-abstract class Serializable {
+abstract class CwSerializable {
     
     /**
      * @var string
@@ -41,8 +41,8 @@ abstract class Serializable {
      * Constructor
      *
      * Stores class name to use it during object unserialization in
-     * {@link Serializable::unserializeObject()} or
-     * {@link Serializable::unserializeObjectMap()}.
+     * {@link CwSerializable::unserializeObject()} or
+     * {@link CwSerializable::unserializeObjectMap()}.
      */
     public function __construct() {
         $this->className = get_class($this);
@@ -104,7 +104,7 @@ abstract class Serializable {
      * Returns an array of typed values
      *
      * If structure property is a string, considers that it is an array
-     * serialized in a string (see {@link Serializable::unserializeStringArray()}).
+     * serialized in a string (see {@link CwSerializable::unserializeStringArray()}).
      * @param stdClass
      * @param string
      * @param string
@@ -191,8 +191,8 @@ abstract class Serializable {
     /**
      * Returns an unserialized object from a stdClass structure
      *
-     * If object is an instance of {@link Serializable}, calls 
-     * {@link Serializable::unserialize()}. If not, all structure's properties
+     * If object is an instance of {@link CwSerializable}, calls 
+     * {@link CwSerializable::unserialize()}. If not, all structure's properties
      * are copied into object.
      * @param stdClass
      * @param string
@@ -221,7 +221,7 @@ abstract class Serializable {
         
         $obj = new $type;
      
-        if ($obj instanceof Serializable) {
+        if ($obj instanceof CwSerializable) {
             $obj->unserialize($value);
         } else {
             self::copyAllVars($value, $obj);

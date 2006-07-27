@@ -25,7 +25,7 @@
 /**
  * Abstract serializable
  */
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 
 /**
@@ -37,7 +37,7 @@ require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
  * Add flags and management on server
  * @package CorePlugins
  */
-class TableFlags extends Serializable {
+class TableFlags extends CwSerializable {
        
     /**
      * If false, returns Ids only
@@ -52,13 +52,13 @@ class TableFlags extends Serializable {
     public $returnTable;
        
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
 
-        $this->returnAttributes = Serializable::unserializeValue($struct,
+        $this->returnAttributes = CwSerializable::unserializeValue($struct,
                                         'returnAttributes', 'boolean');
-        $this->returnTable = Serializable::unserializeValue($struct,
+        $this->returnTable = CwSerializable::unserializeValue($struct,
                                         'returnTable', 'boolean');
     }
 }
@@ -67,7 +67,7 @@ class TableFlags extends Serializable {
  * A table row
  * @package CorePlugins
  */
-class TableRow extends Serializable {
+class TableRow extends CwSerializable {
 
     /**
      * @var string
@@ -80,12 +80,12 @@ class TableRow extends Serializable {
     public $cells;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
     
-        $this->rowId = Serializable::unserializeValue($struct, 'rowId');
-        $this->cells = Serializable::unserializeArray($struct, 'cells');
+        $this->rowId = CwSerializable::unserializeValue($struct, 'rowId');
+        $this->cells = CwSerializable::unserializeArray($struct, 'cells');
     }
 }
 
@@ -93,7 +93,7 @@ class TableRow extends Serializable {
  * A table
  * @package CorePlugins
  */
-class Table extends Serializable {
+class Table extends CwSerializable {
     
     /**
      * @var string
@@ -141,31 +141,31 @@ class Table extends Serializable {
     public $rows = array();
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
     
-        $this->tableId       = Serializable::unserializeValue($struct,
+        $this->tableId       = CwSerializable::unserializeValue($struct,
                                                              'tableId');
-        $this->tableTitle    = Serializable::unserializeValue($struct,
+        $this->tableTitle    = CwSerializable::unserializeValue($struct,
                                                              'tableTitle');
-        $this->numRows       = Serializable::unserializeValue($struct, 
+        $this->numRows       = CwSerializable::unserializeValue($struct, 
                                                              'numRows',
                                                              'int');
-        $this->totalRows     = Serializable::unserializeValue($struct, 
+        $this->totalRows     = CwSerializable::unserializeValue($struct, 
                                                              'totalRows',
                                                              'int');
-        $this->offset        = Serializable::unserializeValue($struct, 
+        $this->offset        = CwSerializable::unserializeValue($struct, 
                                                              'offset',
                                                              'int');
-        $this->columnIds     = Serializable::unserializeArray($struct,
+        $this->columnIds     = CwSerializable::unserializeArray($struct,
                                                              'columnIds');
-        $this->columnTitles  = Serializable::unserializeArray($struct,
+        $this->columnTitles  = CwSerializable::unserializeArray($struct,
                                                              'columnTitles');
-        $this->noRowId       = Serializable::unserializeValue($struct, 
+        $this->noRowId       = CwSerializable::unserializeValue($struct, 
                                                              'noRowId',
                                                              'boolean');
-        $this->rows          = Serializable::unserializeObjectMap($struct,
+        $this->rows          = CwSerializable::unserializeObjectMap($struct,
                                                                  'rows',
                                                                  'TableRow');
     }
@@ -193,7 +193,7 @@ class Table extends Serializable {
  * A group of tables
  * @package CorePlugins
  */
-class TableGroup extends Serializable {
+class TableGroup extends CwSerializable {
     
     /**
      * @var string
@@ -211,14 +211,14 @@ class TableGroup extends Serializable {
     public $tables;
 
     /**
-     * @see Serializable::unserialize()
+     * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {    
-        $this->groupId    = Serializable::unserializeValue($struct,        
+        $this->groupId    = CwSerializable::unserializeValue($struct,        
                                                         'groupId');
-        $this->groupTitle = Serializable::unserializeValue($struct,        
+        $this->groupTitle = CwSerializable::unserializeValue($struct,        
                                                         'groupTitle');
-        $this->tables     = Serializable::unserializeObjectMap($struct,
+        $this->tables     = CwSerializable::unserializeObjectMap($struct,
                                                                'tables',
                                                                'Table');
     }

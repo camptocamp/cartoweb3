@@ -8,7 +8,7 @@
 /**
  * @package Tests
  */
-class ProjectTableRequest extends Serializable {
+class ProjectTableRequest extends CwSerializable {
 
     public function unserialize($struct) {
     }
@@ -17,7 +17,7 @@ class ProjectTableRequest extends Serializable {
 /**
  * @package Tests
  */
-class ProjectTableResult extends Serializable {
+class ProjectTableResult extends CwSerializable {
 
     /**
      * @var Table

@@ -22,7 +22,7 @@
  */
  
 require_once('log4php/LoggerManager.php');
-require_once(CARTOCOMMON_HOME . 'common/Serializable.php');
+require_once(CARTOCOMMON_HOME . 'common/CwSerializable.php');
 
 /**
  * Wrapper for server calls
@@ -169,7 +169,7 @@ class CartoserverService {
                                     'getMap' => 'MapResult');
             if (array_key_exists($function, $unserializeMap)) {
                 $targetType = $unserializeMap[$function];
-                $mapResult = Serializable::unserializeObject($mapResult, 
+                $mapResult = CwSerializable::unserializeObject($mapResult, 
                                                             NULL, $targetType);
             }
         }
