@@ -243,20 +243,25 @@
             </listitem>
             <listitem>
               <para><parameter>query_maskmode</parameter> - '0' or '1', default 
-                is '0'. If '1', will show selection as a mask</para>
+                is '0'. If '1', will show selection as a mask.</para>
             </listitem>
             <listitem>
               <para><parameter>query_hilight</parameter> - '0' or '1', default 
-                is '1'. If '0', won't shows selection hilighted</para>
+                is '1'. If '0', won't shows selection hilighted.</para>
             </listitem>
             <listitem>
               <para><parameter>query_return_attributes</parameter> - '0' or 
                 '1', default is '1'. If '0', won't return attributes other than 
-                IDs</para>
+                IDs.</para>
             </listitem>
             <listitem>
               <para><parameter>query_return_table</parameter> - '0' or '1', 
-                default is '1'. If '0', won't return any table results</para>
+                default is '1'. If '0', won't return any table results.</para>
+            </listitem>
+            <listitem>
+              <para><parameter>query_clear</parameter> - '0' or '1',
+                default is '0'. If '1', previous query results are purged even 
+                if they were marked as persistent.</para>  
             </listitem>
           </itemizedlist>
         </listitem>
