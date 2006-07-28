@@ -1265,7 +1265,7 @@ if ($outputType == 'pdf') {
      <para>
       For instance: 
     </para>
-    <programlisting><![CDATA[blocks.legend.type = legendp
+    <programlisting><![CDATA[blocks.legend.type = legend
 blocks.legend.zIndex = 1
 blocks.legend.weight = 40
 blocks.legend.fontSize = 8
