@@ -6,7 +6,7 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.locate">
-  <title><indexterm><primary>locate</primary></indexterm>Plugin Locate</title>
+  <title><indexterm><primary>locate</primary></indexterm>Locate Plugin</title>
   <sect1 id="user.locate.intro">
    <title>Introduction</title>
    <para>
