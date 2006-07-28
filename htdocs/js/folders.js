@@ -11,7 +11,7 @@ function setupFolders() {
 function ontop(id) {
   for (i = 0; i < myfolders.length; i++) {
     currentFolder = myfolders[i];
-    current = currentFolder.id.substring(6,7);
+    current = currentFolder.id.substring(6);
     currentLabel = xGetElementById('label' + current);
     if (current == id) {
       currentFolder.style.display = "block";
