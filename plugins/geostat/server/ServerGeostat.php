@@ -237,6 +237,7 @@ class ServerGeostat extends ClientResponderAdapter
             new DistributionSummary($distribution);
 
         $this->geostatResult->choroplethDrawn = true;
+        $this->geostatResult->choroplethParams = $choroplethParams;
 
     }
 
@@ -252,7 +253,25 @@ class ServerGeostat extends ClientResponderAdapter
         $this->log->debug($msLayer);
 
         $msLayer->open();
-        $msLayer->whichShapes($mapObj->extent);
+        $bbox = new Bbox (
+            $this->geostatResult->choroplethParams->bbox->minx,
+            $this->geostatResult->choroplethParams->bbox->miny,
+            $this->geostatResult->choroplethParams->bbox->maxx,
+            $this->geostatResult->choroplethParams->bbox->maxy);
+        $this->geostatResult->choroplethParams->bbox=$bbox;
+        
+        if($this->geostatResult->choroplethParams->bbox == new Bbox()) {
+            $this->geostatResult->choroplethParams->bbox = new Bbox();
+            $this->geostatResult->choroplethParams->bbox->
+                setFromMsExtent($mapObj->extent);
+        }
+        
+        $rect = ms_newRectObj();
+        $rect->set('minx',$this->geostatResult->choroplethParams->bbox->minx);
+        $rect->set('miny',$this->geostatResult->choroplethParams->bbox->miny);
+        $rect->set('maxx',$this->geostatResult->choroplethParams->bbox->maxx);
+        $rect->set('maxy',$this->geostatResult->choroplethParams->bbox->maxy);
+        $msLayer->whichShapes($rect);
         try {
             while ($shape = $msLayer->nextShape()) {
                 $values[] = $shape->values[$attrib];

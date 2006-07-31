@@ -111,6 +111,8 @@ class ClientGeostat extends ClientPlugin
         $this->geostatClientState = new GeostatClientState();
         $this->geostatClientState->choroplethParams = 
             new GeostatChoropleth();
+            
+        $this->geostatClientState->choroplethParams->bbox = new Bbox();
         
         $this->geostatClientState->choroplethParams->classificationMethod =
             $this->getConfig()->choroplethClassifMethodDefault;
@@ -237,9 +239,15 @@ class ClientGeostat extends ClientPlugin
      * @see ServerCaller::buildRequest()
      */
     public function buildRequest() {
+        
+        if($this->getConfig()->choroplethDataFromCurrentBoundingBox) {
+            print $this->getConfig()->choroplethDataFromCurrentBoundingBox;
+            $this->geostatClientState->choroplethParams->bbox = new Bbox();
+        }
         $geostatRequest = new GeostatRequest();
         
         $geostatRequest->status = $this->geostatClientState->status;
+        
         $geostatRequest->choroplethParams = 
             $this->geostatClientState->choroplethParams;
             

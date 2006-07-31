@@ -78,6 +78,11 @@ class GeostatChoropleth extends CwSerializable {
     public $indicator;
     
     /**
+     * @var Bbox Bounding box of choropleth dataset
+     */
+    public $bbox;
+    
+    /**
      * @var int Classification Method. Use const defined in Distribution class
      * from themamp
      */
@@ -122,8 +127,9 @@ class GeostatChoropleth extends CwSerializable {
      */
     public function unserialize($struct) {
         $this->layer = self::unserializeValue($struct, 'layer', 'string');
-        $this->indicator =  
+        $this->indicator =   
             self::unserializeValue($struct, 'indicator', 'string');
+        $this->bbox = self::unserializeObject($struct, 'bbox', 'Bbox');
         $this->classificationMethod = self::unserializeValue($struct,
             'classificationMethod', 'int');
         $this->nbBins = self::unserializeValue($struct, 'nbBins', 'int');
