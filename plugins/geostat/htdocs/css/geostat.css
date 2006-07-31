@@ -1,0 +1,40 @@
+#geostatGUI #geostat_choropleth_univar,
+#geostatGUI #geostat_choropleth_representation{
+    border-style:solid; 
+    border-width:1px;
+    border-color:grey;
+    overflow:auto;
+}
+
+#geostatGUI span.geostat_choropleth_color_box {
+    border-color:gray;
+    border-style:solid; 
+    border-width:1px; 
+    position:relative; 
+    width:40px; 
+}
+
+#geostatGUI label {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    font-size: 85%;
+}
+
+#geostatGUI select,
+#geostatGUI fieldset {
+    margin-bottom: 1em;
+}
+
+#geostatGUI fieldset {
+    background-color: #FFFFEA;
+    padding: 1em;
+    padding-top: 0px;
+}
+
+#geostatGUI a img {
+    border: none;
+}
+
+#geostat_choropleth_color_box {
+    display:block;
+}
