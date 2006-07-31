@@ -1,0 +1,4 @@
+;@BLURB@
+profile = @PROFILE@
+EncoderClass.config = EncoderUTF
+EncodreClass.output = EncoderUTF

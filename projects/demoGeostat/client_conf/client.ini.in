@@ -1,0 +1,24 @@
+;@BLURB@
+
+cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+profile = @PROFILE@
+
+mapId = demoGeostat
+
+; Shows a drop-down list for selecting the active project
+showProjectChooser = true
+
+;## Plugins ##
+; the list of plugins to load, separated by comma
+loadPlugins = mapOverlay, geostat, checkInstall
+
+; Indicates how to render toolbar
+toolbarRendering = outline
+
+toolPickerOn = true
+
+; Charset encoder class
+EncoderClass.config = EncoderUTF
+EncoderClass.output = EncoderUTF
+
+ajaxOn = true

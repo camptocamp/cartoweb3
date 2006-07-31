@@ -1,0 +1,118 @@
+MAP
+  NAME "demoGeostat"
+  EXTENT 5638.0 1620431.0 1197822.0 2677441.0
+  IMAGETYPE PNG
+  IMAGECOLOR 255 255 255
+  STATUS ON
+  UNITS METERS
+  FONTSET "fonts.txt"
+  SYMBOLSET "symbols.txt"
+  SHAPEPATH "data"
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE PC256
+    EXTENSION "png"
+    FORMATOPTION "INTERLACE=OFF"
+    TRANSPARENT OFF
+  END
+ 
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER "GD/JPEG"
+    MIMETYPE "image/jpeg"
+    IMAGEMODE RGB
+    EXTENSION "jpg"
+    FORMATOPTION "INTERLACE=OFF"
+    FORMATOPTION "QUALITY=80"
+  END
+ 
+  REFERENCE
+    IMAGE images/keymap.png
+    EXTENT 5638.0 1620431.0 1197822.0 2677441.0
+    STATUS ON
+    COLOR -1 -1 -1
+    OUTLINECOLOR 200 0 0
+    SIZE 224 150
+  END
+
+  SCALEBAR
+    POSTLABELCACHE TRUE
+    STYLE 0
+    UNITS kilometers
+    SIZE 350 3
+    TRANSPARENT TRUE
+    COLOR 77 77 88
+    IMAGECOLOR 242 255 195
+    BACKGROUNDCOLOR 222 222 222
+    LABEL
+      TYPE BITMAP
+      SIZE SMALL
+      COLOR 0 0 0
+      POSITION UR
+      BUFFER 10
+    END
+  END
+
+  LEGEND
+    KEYSIZE 20 15
+  END
+
+  PROJECTION
+      "proj=lcc" 
+      "a=6378249.2" 
+      "b=6356515.0" 
+      "lat_0=46d48'0.0""N" 
+      "lon_0=2d20'14.025""E" 
+      "lat_1=45d53'56.108""N" 
+      "lat_2=47d41'45.652""N" 
+      "x_0=600000.0" 
+      "y_0=2200000.0" 
+      "towgs84=-168,-60,+320" 
+      "units=m"
+  END
+
+  ##########
+  # LAYERS #
+  ##########
+  
+  LAYER
+    NAME "bound"
+    TYPE LINE
+    DATA "lim_adm_france_dom"
+    TEMPLATE "ttt"
+    CLASS
+      NAME "Boundaries"
+      STYLE
+        COLOR 255 165 96
+      END
+    END
+  END
+
+
+  
+  ##############
+  # END LAYERS #
+  ##############
+  
+  LAYER
+    NAME "pres2002"
+    TYPE POLYGON
+    DATA "dep_france_dom"
+    TEMPLATE "ttt"
+    CLASS
+      STYLE
+        COLOR 255 255 255
+        OUTLINECOLOR 50 50 50
+      END
+    END
+  END
+  
+  ##################
+  # GEOSTAT LAYERS #
+  ##################
+  
+  
+END
