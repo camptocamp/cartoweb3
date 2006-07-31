@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<!-- $Id$ -->
+
+<chapter id="user.geostat">  
+ <title><indexterm><primary>Geostatistics</primary></indexterm>
+ Geostatistics</title>
+ <subtitle>Plugin geostat</subtitle>
+                                    
+ <sect1 id="user.geostat.inter">
+  <title>Introduction</title>
+  <para>
+   This chapter describes how to configure geostatistics functionnalities.
+  </para>
+ </sect1>
+ <sect1 id="user.geostat.concepts">
+  <title>General behaviour</title>
+  <para>
+   The Geostat plugin allows advanced cartographic representation based on 
+   attributes of geospatial data. Currently, there is only support for 
+   polygonal entities. There will be support for ponctual symbol very soon. 
+   Every vectorial formats supported by Mapserver may be use.
+  </para>
+  <para>
+   The client side of the plugin allow the specification of the mandatory and 
+   optional paramaters. These parameters will be passed to the server side 
+   which will create the map layer and return some informations about the 
+   dataset.
+  </para>
+ </sect1>
+ <sect1 id="user.geostat.server">
+  <title>Server-side Configuration</title>
+  <sect2 id="user.geostat.server.mapserver">
+   <title>Mapfile Configuration</title>
+   <para>
+    On the server side, the first configuration step is made within the mapfile.
+    The only requirement is a least on polygonal layer which expose at least one
+    attribute. You may consider an attribute as exposed if you can use it as 
+    CLASSITEM for this layer. You must add one (and only one) class to this 
+    layer. It will be use as template for the generated classes. You may use
+    this class to define border color, label or other default parameter.
+    You should not add this layer to the <filename>layers.ini</filename> 
+    configuration file.
+   </para>
+  </sect2>
+  <sect2 id="user.geostat.server.ini">
+   <title><filename>geostat.ini</filename> Configuration</title>
+   <para>
+    Choropleth layers are managed differently then ordinary layer within 
+    cartoweb. <filename>server_conf/mapId/geostat.ini</filename> is used to 
+    define layers that may be used for geostatistics. Take a look to a sample
+    of this file.
+   </para>
+     <programlisting>
+    <![CDATA[
+geostat.0.mslayer = region_geostat_fill
+geostat.0.label = Region
+geostat.0.choropleth = true
+geostat.0.choropleth_attribs = POPULATION,HOUSINCOME
+geostat.0.choropleth_attribs_label = "Population","Average house income"]]>
+  </programlisting>
+  <para>
+   These example represents a single layer definition. The general for of 
+   parameter is geostat.<parameter>n</parameter>.<parameter>key</parameter> = 
+   <parameter>value</parameter>. <parameter>n</parameter> is an incremental 
+   number (first layer of the config file is 0. <parameter>key</parameter> is 
+   a parameter for this layer. <parameter>value</parameter> is the value 
+   associated to the following parameter. The following parameters defined 
+   choropleth generation :
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para><parameter>msLayer</parameter> : name of the layer in the mapfile
+    </para>
+   </listitem>
+   <listitem>
+    <para><parameter>label</parameter> : Label for the layer in the interface
+    </para>
+   </listitem>
+   <listitem>
+    <para><parameter>choropleth</parameter> : Should choropleth be activated. 
+    This is present for future development</para>
+   </listitem>
+   <listitem>
+    <para><parameter>choropleth_attribs</parameter> : Comma separated list of
+    attributes that may be used for choropleth</para>
+   </listitem>
+   <listitem>
+    <para><parameter>choropleth_attribs_label</parameter> : Comma separated 
+    list of labels to display as description of the preceding attributes</para>
+   </listitem>
+  </itemizedlist>
+  </sect2>
+ </sect1>
+ <sect1 id="user.geostat.client">
+  <title>Client-side Configuration</title>
+  <para>
+   Client-side configuration allow to specify which algorithms should be display
+   within the user interface. Currently, there are 2 algoriths families that
+   may be configured. The first is about classification algorithms. The
+   second is about generation of color ramp. The signification of the parameter
+   is pretty straightforward. 
+  </para>
+  <programlisting>
+    <![CDATA[
+;The following classification method are currently supported
+;   Custom : 0
+;   Equal intervals : 1
+;   Quantils : 2
+;   Modes : 3
+choroplethClassifMethodDefault = 2
+choroplethClassifMethodsList = 0,2,3
+;The following color ramp generation method are currently supported
+;   Custom : 0
+;   RGB interpolation : 1
+;   HSV interpolation : 2
+;   Max diffrence : 3
+choroplethColorRampMethodDefault = 1
+choroplethColorRampMethodList = 1,3]]>
+  </programlisting>
+ </sect1>
+</chapter>
