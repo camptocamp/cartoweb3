@@ -50,7 +50,7 @@ class ClientLocate extends ClientPlugin implements GuiProvider {
     private function getList($layerId, $substr) {
 
         $locate = ConfigParser::parseObjectArray($this->getConfig(), 'locate',
-						array('id', 'sql'));
+                        array('id', 'sql'));
 
         foreach($locate as $layer) {
             if ($layer->id == $layerId) {
@@ -128,7 +128,7 @@ class ClientLocate extends ClientPlugin implements GuiProvider {
         foreach ($result as $resultItem) {
             $keys = array_keys($resultItem);
             printf('<li id="%s" title="%s">%s</li>', $resultItem[$keys[0]],
-			    $resultItem[$keys[1]], $resultItem[$keys[1]]);
+                $resultItem[$keys[1]], $resultItem[$keys[1]]);
         }
         print '</ul>';
         die;
