@@ -204,6 +204,15 @@ class ServerGeostat extends ClientResponderAdapter
 
             $classIndex++;
         }
+        
+        //Correction for the first class
+        //We connot trust Mapserver for float equality
+        $overlayClasses[0]->expression = sprintf(
+            '([%s] >= %.20f and [%s] < %.20f)',
+            $choroplethParams->indicator,
+            $boundsArray[0] - 0.001,
+            $choroplethParams->indicator,
+            $boundsArray[1]);
 
         //Correction for the last class
         $classIndex--;
@@ -214,7 +223,7 @@ class ServerGeostat extends ClientResponderAdapter
                     $choroplethParams->indicator,
                     $boundsArray[$classIndex],
                     $choroplethParams->indicator,
-                    $boundsArray[$classIndex+1]);
+                    $boundsArray[$classIndex+1]+0.001);
         }
 
         $layerOverlay = new LayerOverlay();
