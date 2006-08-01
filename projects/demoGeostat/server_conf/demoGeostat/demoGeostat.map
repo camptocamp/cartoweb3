@@ -81,12 +81,16 @@ MAP
   LAYER
     NAME "bound"
     TYPE LINE
-    DATA "lim_adm_france_dom"
+    DATA "dep_france_dom"
     TEMPLATE "ttt"
+    METADATA
+      "id_attribute_string" "ID_GEOFLA"
+    END
     CLASS
       NAME "Boundaries"
       STYLE
-        COLOR 255 165 96
+        COLOR 200 200 200
+        OUTLINECOLOR 255 165 96
       END
     END
   END

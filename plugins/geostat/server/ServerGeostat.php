@@ -175,7 +175,7 @@ class ServerGeostat extends ClientResponderAdapter
             if ($choroplethParams->classificationMethod !=
                     Distribution::CLASSIFY_BY_MODES) {
                 $overlayClasses[$classIndex]->expression = sprintf(
-                    '([%s] >= %f and [%s] < %f)',
+                    '([%s] >= %.20f and [%s] < %.20f)',
                     $choroplethParams->indicator,
                     $boundsArray[$classIndex],
                     $choroplethParams->indicator,
@@ -210,7 +210,7 @@ class ServerGeostat extends ClientResponderAdapter
         if ($choroplethParams->classificationMethod !=
             Distribution::CLASSIFY_BY_MODES) {
         $overlayClasses[$classIndex]->expression=sprintf(
-                    '([%s] >= %f and [%s] <= %f)',
+                    '([%s] >= %.20f and [%s] <= %.20f)',
                     $choroplethParams->indicator,
                     $boundsArray[$classIndex],
                     $choroplethParams->indicator,
