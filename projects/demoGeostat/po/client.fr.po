@@ -1,0 +1,221 @@
+# translation of demoGeostat.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# <>, 2006.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: demoGeostat 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-08-01 18:09+0200\n"
+"PO-Revision-Date: 2006-08-01 18:13+0200\n"
+"Last-Translator:  <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: "
+
+# CartoWeb 3 translation template 
+#
+
+#: images.ini:mapSizes.0.label
+msgid "430x300"
+msgstr "430x300"
+
+#: images.ini:mapSizes.1.label
+msgid "600x420"
+msgstr "600x420"
+
+#: images.ini:mapSizes.2.label
+msgid "860x600"
+msgstr "860x600"
+
+#: images.ini:mapSizes.3.label
+msgid "1240x840"
+msgstr "1240x840"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Geostatistical tools for Cartoweb"
+msgstr "Outils géostatistiques pour Cartoweb"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Collapse keymap"
+msgstr "Réduire la vignette"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Afficher la vignette"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Échelle:"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Coord (m):"
+msgstr "Coord·(m):"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Approx. distance :"
+msgstr "Distance approx.:"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Approx. area :"
+msgstr "Aire approx.:"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr "Échelle graphique"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid " User messages "
+msgstr "Messages utilisateur"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr "Messages développeur"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Choose project"
+msgstr "Choisir un projet"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Rafraîchir"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "reset_session"
+msgstr "Réinitialiser la session"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Outline"
+msgstr "Dessin"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr "Réorganisation"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "WMS layers"
+msgstr "WMS"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Navigation"
+msgstr "Navigation"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Thèmes"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "PDF"
+msgstr "PDF"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Views"
+msgstr "Vues"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Geostat"
+msgstr "Géostat"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "keymap_alt"
+msgstr "Vignette"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Views:"
+msgstr "Vues:"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Print"
+msgstr "Imprimer"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Raw image"
+msgstr "Image seules"
+
+#: projects/demoGeostat/templates/cartoclient.tpl
+msgid "Choropleth dataset configuration"
+msgstr "Configuration du jeu de données pour les choroplèthes"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of data :"
+msgstr "Nombre de données"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Min. :"
+msgstr "Min. :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Max. :"
+msgstr "Max. :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Mean :"
+msgstr "Moy. :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Std Div :"
+msgstr "Écart-type :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of classes"
+msgstr "Nombre de classes"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Classification method"
+msgstr "Méthode de classification"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Class limits"
+msgstr "Limites de classes"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Choropleth representation configuration"
+msgstr "Paramètres visuels des choroplèthes"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Coloring Method"
+msgstr "Échelle chromatique"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Initialization Colors"
+msgstr "Couleurs de base"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Classes Color"
+msgstr "Couleurs des classes"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Apply"
+msgstr "Appliquer"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Choropleth"
+msgstr "Choroplèthe"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select geographic entities..."
+msgstr "Choisir les données spatiales..."
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select indicator..."
+msgstr "Choisir l'indicateur..."
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configuration"
+msgstr "Configuration"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure dataset..."
+msgstr "Configurer le jeu de données"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure representation..."
+msgstr "Configurer la représentation"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Display geostatistics"
+msgstr "Activer les fonctions géostatistiques"

@@ -1,0 +1,41 @@
+# translation of demoGeostat.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# <>, 2006.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: demoGeostat 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-08-01 18:13+0200\n"
+"PO-Revision-Date: 2006-08-01 18:15+0200\n"
+"Last-Translator:  <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: "
+
+# CartoWeb 3 translation template 
+#
+
+#: geostat.ini:geostat.0.label
+msgid "Presidential 2002 - First Ballot"
+msgstr "Premier tour des présendentielles 2002"
+
+#: layers.ini:layers.bound.label
+msgid "State"
+msgstr "Département"
+
+#: demoGeostat.map
+msgid "bound"
+msgstr "bound"
+
+#: demoGeostat.map
+msgid "Boundaries"
+msgstr "Limites admistratives"
+
+#: demoGeostat.map
+msgid "pres2002"
+msgstr "pres2002"
+

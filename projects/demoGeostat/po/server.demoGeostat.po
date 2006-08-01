@@ -1,0 +1,29 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2006-08-01 16:05+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: geostat.ini:geostat.0.label
+msgid "Presidential 2002 - First Ballot"
+msgstr ""
+
+#: layers.ini:layers.bound.label
+msgid "State"
+msgstr ""
+
+#: demoGeostat.map
+msgid "bound"
+msgstr ""
+
+#: demoGeostat.map
+msgid "Boundaries"
+msgstr ""
+
+#: demoGeostat.map
+msgid "pres2002"
+msgstr ""
