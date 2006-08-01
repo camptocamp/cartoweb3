@@ -26,10 +26,7 @@
  * Locate web service
  * @package Plugins
  */
-class ClientLocate extends ClientPlugin
-                   implements GuiProvider {
-
-// TODO set the variables for tables and fields
+class ClientLocate extends ClientPlugin implements GuiProvider {
 
     /**
      * @var Logger
@@ -46,40 +43,53 @@ class ClientLocate extends ClientPlugin
 
     /**
      * Retrieves list of records
+     * @param string Layer id
+     * @param string feature name
+     * @return array Db result array
      */
-    private function getList($lyrid, $nom) {
-        $loc = ConfigParser::parseObjectArray($this->getConfig(),
-                                              'locate',
-                                              array('id', 'sql'));
-                                              
-        foreach($loc as $lyr) {
-            if ($lyr->id == $lyrid) {
-                $sql = $lyr->sql;
+    private function getList($layerId, $substr) {
+
+        $locate = ConfigParser::parseObjectArray($this->getConfig(), 'locate',
+						array('id', 'sql'));
+
+        foreach($locate as $layer) {
+            if ($layer->id == $layerId) {
+                $sql = $layer->sql;
                 break;
             }
         }
+
         if (!isset($sql)) return false;
-        $sql = sprintf($sql, $nom);
+        $sql = sprintf($sql, $substr);
+
         $this->db = Utils::getDb($this->db, $this->getConfig()->dsn);
 
-        $res = $this->db->getAll($sql);
-        
-        if (DB::isError($res))
-            die($res->getMessage());
+        $result = $this->db->getAll($sql);
+
+        if (DB::isError($result))
+            die($result->getMessage());
         $this->db->setFetchMode(DB_FETCHMODE_ASSOC);
-        
-        //return false;
-        return $res;
+
+        return $result;
     }
 
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
     public function handleHttpPostRequest($request) {}
 
+    /**
+     * @see GuiProvider::handleHttpGetRequest()
+     */
     public function handleHttpGetRequest($request) {
-        if (isset ($request['locate_layer_id']) && $request['locate_layer_id']) {
+        if (isset($request['locate_layer_id']) && $request['locate_layer_id']) {
             $formRenderer = $this->getCartoclient()->getFormRenderer();
             $formRenderer->setCustomForm('locateResults.tpl');
             $this->getCartoclient()->setInterruptFlow(true);
-            $result = $this->getList($request['locate_layer_id'], $request['locate_'.$request['locate_layer_id']]);
+
+            $result = $this->getList($request['locate_layer_id'],
+                $request['locate_'.$request['locate_layer_id']]);
+
             if ($result) {
                 print $this->drawLocateUlLi($result);
             } else {
@@ -87,39 +97,38 @@ class ClientLocate extends ClientPlugin
             }
         }
     }
-    
-    
+
+
     /**
      * Draws locate specific template
-     * @return string
-     */ 
+     * @return string fetched template
+     */
     protected function drawLocate() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-        
         $locateArray = ConfigParser::parseObjectArray($this->getConfig(),
-                                              'locate',
-                                              array('id', 'label', 'sql'));
-        $smarty->assign('locates', $locateArray);                                      
-        
+            'locate', array('id', 'label', 'sql'));
+        $smarty->assign('locates', $locateArray);
         return $smarty->fetch('locate.tpl');
     }
 
+    /**
+     * @see GuiProvider::renderForm()
+     */
     public function renderForm(Smarty $template) {
         $template->assign('locate_form', $this->drawLocate());
         $template->assign('locate_active', true);
     }
 
     /**
-     *
+     * Generates HTML code for dropdown element (autocompleter)
+     * @param array Array of results (key[0] means id, key[1] means title)
      */
     public function drawLocateUlLi($result) {
-        // This generates HTML code to go in the HTML page from the $result array
-        $i = 0;
         print '<ul>';
         foreach ($result as $resultItem) {
-            $i++;
             $keys = array_keys($resultItem);
-            print "<li id=\"".$resultItem[$keys[0]]."\" title=\"". $resultItem[$keys[1]] . "\">". $resultItem[$keys[1]] . "</li>";
+            printf('<li id="%s" title="%s">%s</li>', $resultItem[$keys[0]],
+			    $resultItem[$keys[1]], $resultItem[$keys[1]]);
         }
         print '</ul>';
         die;
