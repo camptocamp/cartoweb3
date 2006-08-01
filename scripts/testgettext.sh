@@ -62,6 +62,7 @@ gcc -o $LOCALE_PATH/$MAIN $LOCALE_PATH/$MAIN.c
     
 # Now set [fr] as default language
 export LANG=$LOCALE
+export LANGUAGE=$LOCALE
 
 # Run the program
 $LOCALE_PATH/sample

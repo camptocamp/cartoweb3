@@ -50,6 +50,7 @@ if ($error) {
 
 setlocale(LC_ALL, $LOCALE);
 putenv("LANG=$LOCALE"); 
+putenv("LANGUAGE=$LOCALE");
 bindtextdomain($MAIN, $LOCALE_PATH); 
 textdomain($MAIN);
 printf("<pre><b>%s</b></pre>\n", gettext("PHP-Gettext is not installed correctly !"));
