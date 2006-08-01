@@ -2,7 +2,7 @@
 
 <div id="geostat_choropleth_univar">
 <p>Number of data : {$geostatChoroplethNbVal} </p>
-<p>Min. : {$geostatChoroplethMin} &emsp; Max. :{$geostatChoroplethMax}  </p>
+<p>Min. : {$geostatChoroplethMin} &emsp; Max. : {$geostatChoroplethMax}  </p>
 <p>Mean : {$geostatChoroplethMean} </p>
 <p>Std Div : {$geostatChoroplethStdDev} </p>
 </div>
