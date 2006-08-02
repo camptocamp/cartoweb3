@@ -116,7 +116,6 @@ class ClientGeostat extends ClientPlugin
         
         $this->geostatClientState->choroplethParams->classificationMethod =
             $this->getConfig()->choroplethClassifMethodDefault;
-        
         $this->geostatClientState->choroplethAvalaibleClassifMethods =
             array_combine(
             explode(',',$this->getConfig()->choroplethClassifMethodsList),
@@ -129,6 +128,7 @@ class ClientGeostat extends ClientPlugin
             explode(',',$this->getConfig()->choroplethColorRampMethodList),
             explode(',',$this->getConfig()->choroplethColorRampMethodList)
             );
+            
         //Default Colors
         $colorA = new ColorRgb(99,255,202);
         $colorB = new ColorRgb(54,38,211);
@@ -356,6 +356,11 @@ class ClientGeostat extends ClientPlugin
                 explode(',',$layer->choropleth_attribs_label);
             
         }
+        array_walk($LayersChoroplethDesc, 
+            array($this, 'translate_array_elem'));
+        //print_r($LayersChoroplethLabels);
+        array_walk_recursive($LayersChoroplethLabels, 
+            array($this, 'translate_array_elem'));
         
         $smarty->assign('geostatChoroplethLayersId',$LayersChoroplethId);
         $smarty->assign('geostatChoroplethLayersDesc',$LayersChoroplethDesc);
@@ -471,6 +476,13 @@ class ClientGeostat extends ClientPlugin
             
         return $smarty->fetch('geostat_choropleth_representation.tpl');
     }
+    
+    /**
+     * Use this function with array_walk to translate array
+     */
+    function translate_array_elem(&$item) {
+        $item = I18n::gt($item);
+    } 
 
 }
 
