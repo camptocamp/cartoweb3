@@ -480,7 +480,7 @@ class ClientGeostat extends ClientPlugin
     /**
      * Use this function with array_walk to translate array
      */
-    function translate_array_elem(&$item) {
+    function protected translate_array_elem(&$item) {
         $item = I18n::gt($item);
     } 
 
