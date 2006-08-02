@@ -151,7 +151,7 @@ editLayers = edit_poly, edit_line, edit_point
           <para>
             <programlisting><![CDATA[
 LAYER
-  NAME EDITPOLY
+  NAME "edit_poly"
   STATUS ON
   TYPE POLYGON
   CONNECTIONTYPE POSTGIS
