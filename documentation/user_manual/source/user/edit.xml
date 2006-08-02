@@ -6,9 +6,9 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.edit">
-  <title>Edition</title>
-  <subtitle>Plugin Edit</subtitle>
-  <para> The Edit plugin allows user to edit geographical data on the browser
+  <title>Editing</title>
+  <subtitle>Edit Plugin</subtitle>
+  <para> The <parameter>edit</parameter> plugin allows users to edit geographical data from their web browser.
     </para>
   <sect1 id="user.edit.client">
     <title>Client-side Configuration</title>
@@ -97,7 +97,7 @@ END]]></programlisting>
     </sect2>
   </sect1>
   <sect1 id="user.edit.howto">
-    <title>How to</title>
+    <title>How To</title>
     <para>In this section are described the steps to get the edit plugin working
     on a cartoweb project.
     </para>
