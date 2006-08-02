@@ -131,7 +131,7 @@ class ClientLocate extends ClientPlugin implements GuiProvider {
                 $resultItem[$keys[1]], $resultItem[$keys[1]]);
         }
         print '</ul>';
-        die;
+        die();
     }
 }
 ?>
