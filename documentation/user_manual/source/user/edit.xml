@@ -184,6 +184,9 @@ END
 ]]></programlisting>
           </para>
         </formalpara>
+        <warning>
+          <para>Make sure that your <parameter>edit_attributes</parameter> list does not include spaces between attributes.</para>
+        </warning>
       </listitem>
     </itemizedlist>
   </sect1>
