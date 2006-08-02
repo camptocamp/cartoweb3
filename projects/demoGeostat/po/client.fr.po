@@ -219,3 +219,4 @@ msgstr "Configurer la représentation"
 #: plugins/geostat/templates/geostat.tpl
 msgid "Display geostatistics"
 msgstr "Activer les fonctions géostatistiques"
+
