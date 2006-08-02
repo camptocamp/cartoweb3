@@ -8,7 +8,7 @@ BLOCK
 8
 0
 2
-{$shape->label}
+BLK{counter name=blocks}
 70
 2
 10
@@ -101,9 +101,10 @@ ENTITIES
 0
 {foreach from=$shapes item=shape}
 {assign var=point value=$shape->points.0}
+{capture assign=blk}BLK{counter name=inserts}{/capture}
 INSERT
 2
-{$shape->label}
+{$blk}
 8
 0
 66
@@ -127,7 +128,11 @@ ATTRIB
 40
 0.2
 1
+{if $shape->label}
 {$shape->label}
+{else}
+{$blk}
+{/if}
 2
 INFORMATION
 70
