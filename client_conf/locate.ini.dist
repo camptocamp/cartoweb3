@@ -1,0 +1,21 @@
+; Locate plugin configuration file.
+; The locate plugin add a recenter feature based on Ajax requests.
+; An input tag enable to type some few characters, and an Ajax request
+; is processed on the database defined by its DSN. 10 firsts results
+; containing theses firsts characters are displayed.
+; When one result is cliqued, the map is recentered on this result.
+
+; Warning: ensure that id_recenter is active !!!
+
+; DSN of the database to search into
+dsn = pgsql://user:password@localhost/test
+
+; Layers for location. The id is the layer name,
+; and the sql must return two fields:
+; 1) an identifier
+; 2) a label field (the name field, if exist)
+;
+
+;locate.0.id = layer_id
+;locate.0.label = "Label for the layer"
+;locate.0.sql= "SELECT id, name FROM table_name WHERE name ~* '%s' LIMIT 10"
