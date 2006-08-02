@@ -18,7 +18,7 @@
  *
  * @copyright 2006 Camptocamp SA
  * @package Plugins
- * @version $Id $
+ * @version $Id$
  */
 
 
@@ -301,7 +301,11 @@ class ClientGeostat extends ClientPlugin
             $pluginEnabler->enablePlugin('geostat');
         }
     }
-
+    
+    /**
+     * This function builds geostat template
+     * @return Smarty_Plugin
+     */
     public function renderFormPrepare() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         
@@ -324,7 +328,10 @@ class ClientGeostat extends ClientPlugin
         $template->assign('geostat', $this->renderFormPrepare());
     }
 
-    
+    /**
+     * This function return form about Geostat status
+     * @return Smarty_Plugin
+     */
     protected function renderSwitch() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
 
@@ -332,7 +339,11 @@ class ClientGeostat extends ClientPlugin
         $smarty->assign('geostatStatusSelected', $this->geostatClientState->status);
         return $smarty->fetch('geostat_switch.tpl');
     }
-     
+    
+    /**
+     * This function return form about datasource
+     * @return Smarty_Plugin
+     */
     protected function renderDataSource() {
         
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -357,10 +368,10 @@ class ClientGeostat extends ClientPlugin
             
         }
         array_walk($LayersChoroplethDesc, 
-            array($this, 'translate_array_elem'));
+            array($this, 'translateArrayElem'));
         //print_r($LayersChoroplethLabels);
         array_walk_recursive($LayersChoroplethLabels, 
-            array($this, 'translate_array_elem'));
+            array($this, 'translateArrayElem'));
         
         $smarty->assign('geostatChoroplethLayersId',$LayersChoroplethId);
         $smarty->assign('geostatChoroplethLayersDesc',$LayersChoroplethDesc);
@@ -385,6 +396,10 @@ class ClientGeostat extends ClientPlugin
         return $smarty->fetch('geostat_data_source.tpl');
     }
     
+    /**
+     * This function return form about choropleth dataset
+     * @return Smarty_Plugin
+     */
     protected function renderChoroplethDataset() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         
@@ -436,6 +451,10 @@ class ClientGeostat extends ClientPlugin
         return $smarty->fetch('geostat_choropleth_dataset.tpl');
     }
     
+    /**
+     * This function return form about choropleth representation
+     * @return Smarty_Plugin
+     */
     protected function renderChoroplethRepresentation() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         
@@ -480,7 +499,7 @@ class ClientGeostat extends ClientPlugin
     /**
      * Use this function with array_walk to translate array
      */
-    function protected translate_array_elem(&$item) {
+    protected function translateArrayElem(&$item) {
         $item = I18n::gt($item);
     } 
 

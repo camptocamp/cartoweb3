@@ -1,10 +1,11 @@
-<h4>Choropleth dataset configuration</h4>
+<h4>{t}Choropleth dataset configuration{/t}</h4>
 
 <div id="geostat_choropleth_univar">
-<p>Number of data : {$geostatChoroplethNbVal} </p>
-<p>Min. : {$geostatChoroplethMin} &emsp; Max. : {$geostatChoroplethMax}  </p>
-<p>Mean : {$geostatChoroplethMean} </p>
-<p>Std Div : {$geostatChoroplethStdDev} </p>
+<p>{t}Number of data :{/t} {$geostatChoroplethNbVal} </p>
+<p>{t}Min. :{/t} {$geostatChoroplethMin} &emsp; 
+{t}Max. :{/t} {$geostatChoroplethMax}  </p>
+<p>{t}Mean :{/t} {$geostatChoroplethMean} </p>
+<p>{t}Std Div :{/t} {$geostatChoroplethStdDev} </p>
 </div>
 
 <p>
@@ -21,7 +22,7 @@ selected=$geostatChoroplethClassifMethodSelected}
 </select>
 </p>
 
-<p>Class limits</p>
+<p>{t}Class limits{/t}</p>
 {foreach from=$geostatChoroplethBounds item=bound}
     <input name="geostatChoroplethBounds[]" type="text" size="5" 
     value="{$bound}"/><br/>

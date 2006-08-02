@@ -10,7 +10,7 @@ selected=$geostatChoroplethColorMethodSelected}
 </p>
 
 <p>
-<label>{t}Intialization Colors{/t}</label>
+<label>{t}Initialization Colors{/t}</label>
 <br />
 <span class="geostat_choropleth_color_box" 
 style="background-color:{$geostatChoroplethColorAValue};" 

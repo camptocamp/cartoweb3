@@ -18,7 +18,7 @@
  *
  * @copyright 2006 Camptocamp SA
  * @package Plugins
- * @version $Id $
+ * @version $Id$
  */
 
 
