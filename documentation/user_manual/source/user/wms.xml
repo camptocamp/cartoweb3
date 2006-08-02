@@ -6,17 +6,17 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.wms">
-  <title><indexterm><primary>wms</primary></indexterm>WmsBrowser Plugin</title>
+  <title><indexterm><primary>wms</primary></indexterm>WMS Browser</title>
   <sect1 id="user.wms.intro">
    <title>Introduction</title>
    <para>
-   WmsBrowser plugin allows you to save WMS servers properties locally to preview 
-   its layers, manage these servers (upgrade, delete, refresh properties, 
-   disconnect it if remote server isn't avaible, ...), add a choosen WMS 
+   <parameter>wmsBrowser</parameter> plugin allows you to save WMS servers properties locally to preview 
+   their layers, manage these servers (upgrade, delete, refresh properties, 
+   disconnect a remote server that is no more avaible, ...), add a chosen WMS 
    layer to the map and delete all added WMS layers.
    </para>
    <para>
-   To install it, you have to install Chameleon XML parser first, load plugin and 
+   To have the plugin working, you must install <ulink url="http://chameleon.maptools.org/">Chameleon</ulink> XML parser first, load plugin and 
    set a few configuration files parameters.
    </para>
   </sect1>
@@ -57,12 +57,12 @@ loadPlugins = mapOverlay, wmsBrowser
     <title>Position to Which Insert WMS Layers</title>
     <para>
     To insert a WMS layer on the map, you must specify after which mapfile 
-    layer you want insert it. The layer will be added after the last added 
+    layer you want to insert it. The layer will be added after the last added 
     WMS layer or after this mapfile layer (if no WMS layer has ever been added).
     </para>
     <para>
 To do so, in <filename>server_conf/"mapId"/wmsBrowser.ini</filename>, specify 
-the mapfile layer name in the wmsInsertLayerAfter parameter.
+the mapfile layer name in the <parameter>wmsInsertLayerAfter</parameter> parameter.
     </para>
   </sect1>
   <sect1 id="user.wms.add">
