@@ -41,8 +41,8 @@
         <listitem>
           <para> 
             editDisplayAction<indexterm><primary>editDisplayAction</primary></indexterm>: 
-            this boolean parameter is used to tell if the "validate" and "cancel" buttons
-            have to be displayed also under the attributes table</para>
+            this string parameter is used to tell if the "validate" and "cancel" buttons
+            have to be displayed also under the attributes table. If empty or <parameter>both</parameter>, buttons will be displayed both in the folder and under the attributes table. If <parameter>folder</parameter>, buttons will be displayed only in the folder.</para>
         </listitem>
       </itemizedlist>
     </sect2>
