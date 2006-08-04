@@ -21,7 +21,7 @@
    </para>
   </sect1>
   <sect1 id="user.wms.parser">
-    <title>Install Chameleon XML Parser</title>
+    <title>Installing Chameleon XML Parser</title>
     <para>
      <itemizedlist>
       <listitem>
@@ -37,8 +37,13 @@
       </listitem>
      </itemizedlist>
     </para>
+    <tip>
+     <para>If using Debian or Ubuntu OS, you may install our precompiled package:</para>
+     <programlisting>apt-get install php5-chameleon</programlisting>
+     <para>See <xref linkend="appendix.debian_mapserver"/> for instructions about <command>apt</command>.</para>
+    </tip>
     <warning>
-        <para>If your PHP isn't running as CGI, don't forget to restart your web server.</para>
+     <para>If your PHP isn't running as CGI, don't forget to restart your web server.</para>
     </warning>
   </sect1>
   <sect1 id="user.wms.activation">
