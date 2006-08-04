@@ -9,7 +9,7 @@
 
 <appendix id="appendix.debian_mapserver">
   <title>Mapserver Debian Installation</title>
-  <para>Some Debian packages are available for Php5 and Mapserver<footnote>
+  <para>Some Debian packages are available for PHP 5 and MapServer<footnote>
     <para>Some of the packages were inspired from 
       <ulink url="http://agrogeomatic.educagri.fr/"/>.</para>
     </footnote>
@@ -33,22 +33,22 @@ Pin-Priority: 1100</screen>
   </sect1>  
 
   <sect1>
-  <title>Installing the packages</title>  
+  <title>Installing the Packages</title>  
   <para>
-    To install Mapscript and PHP 5, type the following:
+    To install PHP/MapScript and PHP 5, type the following:
 <screen>
 apt-get update
 apt-get install php5-mapscript 
 </screen>
   </para>
   <para>
-    If want to install PostGIS and PostgreSQL:
+    If you want to install PostGIS and PostgreSQL:
 <screen>
 apt-get install libpostgis1-pg80
 </screen>
   </para>
   <para>
-    If want to install the pgdijkstra PostgreSQL extension:
+    If you want to install the Pgdijkstra PostgreSQL extension:
 <screen>
 apt-get install pgdijkstra
 </screen>
