@@ -2,7 +2,8 @@
 <script type="text/javascript">
 {strip}
 {foreach from=$tools item=tool name=tool}
-  {if $smarty.foreach.tool.first}cw3_tools = new Array("{$tool->id}",
+  {if $smarty.foreach.tool.first && $smarty.foreach.tool.last}cw3_tools = new Array("{$tool->id}");
+  {elseif $smarty.foreach.tool.first}cw3_tools = new Array("{$tool->id}",
   {elseif $smarty.foreach.tool.last}"{$tool->id}");
   {else}"{$tool->id}",
   {/if}
