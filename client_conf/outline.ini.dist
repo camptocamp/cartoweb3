@@ -1,5 +1,5 @@
 ; if false, will outline only one shape at a time (default true)
-multipleShapes = false
+multipleShapes = true
 
 ; if true, will ask for a label after shape is drawn (default true)
 labelMode = true
