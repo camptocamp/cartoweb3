@@ -157,7 +157,7 @@ class ClientExportDxf extends ExportPlugin {
     } 
 
     /**
-     * @see ExportPlugin::getExportResult
+     * @see ExportPlugin::getExport
      */
     protected function getExport() {
         $shapes = array();
