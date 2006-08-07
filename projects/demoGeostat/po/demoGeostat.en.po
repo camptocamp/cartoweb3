@@ -156,7 +156,7 @@ msgid ""
 "This query hit the maximum number of results on '%s', truncating results."
 msgstr ""
 
-#: coreplugins/query/server/ServerQuery.php:455
+#: coreplugins/query/server/ServerQuery.php:449
 msgid "Query"
 msgstr ""
 
@@ -164,7 +164,7 @@ msgstr ""
 msgid "No path found"
 msgstr ""
 
-#: scripts/testgettext.php:56
+#: scripts/testgettext.php:55
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext is not installed correctly!"
 
@@ -298,7 +298,7 @@ msgstr "Login"
 msgid "logout"
 msgstr "Logout"
 
-#: plugins/auth/templates/login_page.tpl
+#: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (EN)"
 
@@ -331,17 +331,8 @@ msgid "Click here to go back to the map"
 msgstr "Click here to go back to the map"
 
 #: plugins/edit/templates/edit.tpl
-msgid "Editing plugin:"
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
 msgid "Choose layer"
 msgstr "Choose layer"
-
-#: plugins/edit/templates/edit.tpl
-#, fuzzy
-msgid "layer to edit"
-msgstr "Layer to center on"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Features: "
@@ -368,15 +359,11 @@ msgid "Cancel"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
-msgid "Editing not allowed"
+msgid "Edition not allowed"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
 msgid "please login"
-msgstr ""
-
-#: plugins/exportDxf/templates/form.tpl
-msgid "Export DXF"
 msgstr ""
 
 #: plugins/exportPdf/templates/form.tpl
@@ -907,64 +894,6 @@ msgstr ""
 msgid "Remove all WMS layers"
 msgstr ""
 
-#: plugins/geostat/templates/geostat.tpl
-#, fuzzy
-msgid "Configuration"
-msgstr "Navigation"
-
-#: plugins/geostat/templates/geostat.tpl
-msgid "Configure dataset..."
-msgstr ""
-
-#: plugins/geostat/templates/geostat.tpl
-msgid "Configure representation..."
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
-msgid "Number of classes"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
-msgid "Classification method"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Apply"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Choropleth"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Select geographic entities..."
-msgstr ""
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Select indicator..."
-msgstr ""
-
-#: plugins/geostat/templates/geostat_switch.tpl
-msgid "Display geostatistics"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Choropleth representation configuration"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Coloring Method"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Intialization Colors"
-msgstr ""
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Classes Color"
-msgstr ""
-
 #: templates/dhtmlcode.tpl
 msgid "overlapping polygons are not allowed"
 msgstr "Overlapping polygons is not allowd."
@@ -1069,82 +998,77 @@ msgstr "more colors"
 msgid "Unauthorized"
 msgstr "Unauthorized"
 
-#: client/Views.php:191
+#: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr "Action halted: invalid view Id"
 
-#: client/Views.php:216
+#: client/Views.php:186
 msgid "You are not allowed to perform this action"
 msgstr "You are not allowed to perform this action"
 
-#: client/Views.php:365
-#, fuzzy
-msgid "Cannot load view"
-msgstr "Load view"
-
-#: client/Views.php:971
+#: client/Views.php:933
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Loaded view #%d"
 
-#: client/Views.php:977
+#: client/Views.php:939
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "New view recorded with id %d"
 
-#: client/Views.php:982
+#: client/Views.php:944
 #, php-format
 msgid "View #%d updated"
 msgstr "View #%d updated"
 
-#: client/Views.php:987 client/Views.php:1449
+#: client/Views.php:949 client/Views.php:1411
 #, php-format
 msgid "View #%d deleted"
 msgstr "View #%d deleted"
 
-#: client/Views.php:1338
+#: client/Views.php:1300
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Failed to open view #%d"
 
-#: client/Views.php:1362
+#: client/Views.php:1324
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Unable to read view #%d"
 
-#: client/Views.php:1374
+#: client/Views.php:1336
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Unable to write view #%d"
 
-#: client/Views.php:1452
+#: client/Views.php:1414
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Failed deleting view #%d"
 
-#: client/Views.php:1511
+#: client/Views.php:1473
 msgid "Unable to open ViewDbContainer: "
 msgstr "Unable to open ViewDbContainer: "
 
-#: client/Views.php:1513 client/Views.php:1582
+#: client/Views.php:1475 client/Views.php:1544
 msgid "Service failed."
 msgstr "Service failed."
 
-#: client/Views.php:1580
+#: client/Views.php:1542
 msgid "Unable to process view."
 msgstr "Unable to process view."
 
-#: client/Views.php:1591
+#: client/Views.php:1553
 #, php-format
 msgid "No result for view #%d"
 msgstr "No result for view #%d"
 
-#: client/Views.php:1615
+#: client/Views.php:1577
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "More than one view affected while editing view #%d"
 
-#: client/Views.php:1725
+#: client/Views.php:1689
 msgid "Unable to build views catalog"
 msgstr "Unable to build views catalog"
 
@@ -1156,7 +1080,7 @@ msgstr "label"
 msgid "Default"
 msgstr "Default"
 
-#: plugins/exportPdf/client/CwFpdf.php:1037
+#: plugins/exportPdf/client/CwFpdf.php:1036
 msgid "Page"
 msgstr "Page"
 

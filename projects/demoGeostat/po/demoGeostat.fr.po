@@ -255,7 +255,7 @@ msgid ""
 "This query hit the maximum number of results on '%s', truncating results."
 msgstr ""
 
-#: coreplugins/query/server/ServerQuery.php:455
+#: coreplugins/query/server/ServerQuery.php:449
 msgid "Query"
 msgstr "Informations"
 
@@ -263,7 +263,7 @@ msgstr "Informations"
 msgid "No path found"
 msgstr ""
 
-#: scripts/testgettext.php:56
+#: scripts/testgettext.php:55
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext n'est pas installé correctement !"
 
@@ -397,7 +397,7 @@ msgstr "Connexion"
 msgid "logout"
 msgstr "Déconnexion"
 
-#: plugins/auth/templates/login_page.tpl
+#: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (FR)"
 
@@ -430,17 +430,8 @@ msgid "Click here to go back to the map"
 msgstr "Retour à la carte"
 
 #: plugins/edit/templates/edit.tpl
-msgid "Editing plugin:"
-msgstr ""
-
-#: plugins/edit/templates/edit.tpl
 msgid "Choose layer"
 msgstr "Choix de la couche"
-
-#: plugins/edit/templates/edit.tpl
-#, fuzzy
-msgid "layer to edit"
-msgstr "Couche pour le centrage"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Features: "
@@ -467,15 +458,11 @@ msgid "Cancel"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
-msgid "Editing not allowed"
+msgid "Edition not allowed"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
 msgid "please login"
-msgstr ""
-
-#: plugins/exportDxf/templates/form.tpl
-msgid "Export DXF"
 msgstr ""
 
 #: plugins/exportPdf/templates/form.tpl
@@ -1020,10 +1007,6 @@ msgstr "Ajouter des couches wms"
 msgid "Remove all WMS layers"
 msgstr "Supprimer les couches wms ajoutées"
 
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Intialization Colors"
-msgstr ""
-
 #: templates/dhtmlcode.tpl
 msgid "overlapping polygons are not allowed"
 msgstr "Polygones croisés non autorisés"
@@ -1128,82 +1111,77 @@ msgstr "Plus de couleurs"
 msgid "Unauthorized"
 msgstr "Accès non autorisé"
 
-#: client/Views.php:191
+#: client/Views.php:161
 msgid "Action halted: invalid view Id"
 msgstr "Action interrompue : n° de vue invalide"
 
-#: client/Views.php:216
+#: client/Views.php:186
 msgid "You are not allowed to perform this action"
 msgstr "Vous n'avez pas la permission d'exécuter cette action !"
 
-#: client/Views.php:365
-#, fuzzy
-msgid "Cannot load view"
-msgstr "Charger la vue"
-
-#: client/Views.php:971
+#: client/Views.php:933
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Vue n°%d chargée"
 
-#: client/Views.php:977
+#: client/Views.php:939
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "Nouvelle vue créée avec le n°%d"
 
-#: client/Views.php:982
+#: client/Views.php:944
 #, php-format
 msgid "View #%d updated"
 msgstr "Vue n°%d mise à jour"
 
-#: client/Views.php:987 client/Views.php:1449
+#: client/Views.php:949 client/Views.php:1411
 #, php-format
 msgid "View #%d deleted"
 msgstr "Vue n°%d supprimée"
 
-#: client/Views.php:1338
+#: client/Views.php:1300
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Impossible d'ouvrir la vue n°%d"
 
-#: client/Views.php:1362
+#: client/Views.php:1324
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Impossible de charger la vue n°%d"
 
-#: client/Views.php:1374
+#: client/Views.php:1336
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Impossible d'enregistrer la vue n°%d"
 
-#: client/Views.php:1452
+#: client/Views.php:1414
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Impossible de supprimer la vue n°%d"
 
-#: client/Views.php:1511
+#: client/Views.php:1473
 msgid "Unable to open ViewDbContainer: "
 msgstr "Impossible d'ouvrir ViewDbContainer : "
 
-#: client/Views.php:1513 client/Views.php:1582
+#: client/Views.php:1475 client/Views.php:1544
 msgid "Service failed."
 msgstr "Service indisponible"
 
-#: client/Views.php:1580
+#: client/Views.php:1542
 msgid "Unable to process view."
 msgstr "Impossible de traiter la vue"
 
-#: client/Views.php:1591
+#: client/Views.php:1553
 #, php-format
 msgid "No result for view #%d"
 msgstr "Pas de résultat pour la vue n°%d"
 
-#: client/Views.php:1615
+#: client/Views.php:1577
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "Plus d'une vue affectées par l'édition de la vue n°%d"
 
-#: client/Views.php:1725
+#: client/Views.php:1689
 msgid "Unable to build views catalog"
 msgstr "Impossible de créer la liste des vues"
 
@@ -1215,7 +1193,7 @@ msgstr ""
 msgid "Default"
 msgstr "Défaut"
 
-#: plugins/exportPdf/client/CwFpdf.php:1037
+#: plugins/exportPdf/client/CwFpdf.php:1036
 msgid "Page"
 msgstr "Page"
 
