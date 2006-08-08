@@ -83,12 +83,14 @@ fetch_contrib()
 
     wget -O- "$LOG4PHP"|tar zxf -
     mv log4php*/src/log4php .
+    mv log4php*/LICENSE log4php
     rm -r log4php?*
 
     ## smarty
 
     wget -O- "$SMARTY"|tar zxf -
     mv Smarty-*/libs smarty
+    mv Smarty-*/COPYING.lib smarty
     rm -r Smarty-*
 
     ## fpdf
