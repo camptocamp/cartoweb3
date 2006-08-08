@@ -1,9 +1,10 @@
 #!/bin/sh
 
-#
-# This script creates the tarball with librairies for cartoweb3
+# This script creates the tarball with librairies for CartoWeb3.
+# Usage: sh create_lib_tarball.sh
+# $Id: $
 # 
-# You need to adjust the URLs of the libraries if you need a newer version
+# Adjust the URLs of the libraries if you need newer versions.
 
 set -e
 
