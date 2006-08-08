@@ -160,7 +160,9 @@
                </div>
                {/if}
              </td>
-             <td width="80%"></td> 
+             <td width="80%" align="center">
+                 {$projections}
+             </td> 
              <td width="10%" align="center">
                {if $mapsizes_active|default:''}
                  {$mapsizes}
@@ -177,9 +179,9 @@
          
        {if $tables_result OR $ajaxOn}
        <tr>
-         <td colspan ="3">
+         <td colspan="3">
            <table id="tables_result_container"
-                  style="{if $ajaxOn}display:none;{/if}border:1px solid black;"
+                  style="{if $ajaxOn && !$tables_result}display:none;{/if}border:1px solid black;"
                   width="100%">
              <tr>
                <td>
