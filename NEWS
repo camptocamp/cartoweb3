@@ -2,12 +2,13 @@ CVS version
 ==========================
 
 - Added accounting infrastucture, to log request informations. This can be used for statistics.
-- Added tools for queries by point, polygon and circle (in addition to existing query-by-bbox tool)
-- Added AJAX support in plugins
-- Added WMS-layers browsing plugin
-- Added hooks capabilities in views processing
-- Added sampleProject, a start project to build your own ones upon it
-- Added DXF export
+- Added tools for queries by point, polygon and circle (in addition to existing query-by-bbox tool).
+- Added AJAX support in plugins.
+- Added WMS-layers browsing plugin.
+- Added hooks capabilities in views processing.
+- Added sampleProject, a start project to build your own ones upon it.
+- Added DXF export.
+- Added geostatistical plugin for choropleth map visualization.
 
 2006-02-14: CartoWeb 3.2.0 
 ==========================
