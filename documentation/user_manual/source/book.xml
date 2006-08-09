@@ -95,6 +95,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/wms.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/ajax.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
   <part id="cartoweb.dev">
     <title>Developer Manual</title>
@@ -126,6 +128,8 @@
     <xi:include href="dev/performance.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="dev/views_upgrade.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="dev/ajax.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
 

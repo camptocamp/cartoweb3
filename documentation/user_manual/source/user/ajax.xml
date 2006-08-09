@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="user.ajax">
+  <title><indexterm><primary>AJAX</primary></indexterm>AJAX</title>
+  <sect1 id="user.ajax.intro">
+    <title>Introduction</title>
+    <para> &cartoweb; implements an AJAX layer, enabling asynchronous update
+      of the HTML GUI. </para>
+    <sect2 id="user.ajax.intro.compatibility">
+      <title>Browser Compatibility</title>
+      <para> Browser compatibility: </para>
+      <itemizedlist>
+        <listitem>
+          <para> Mozilla 1.7+ </para>
+        </listitem>
+        <listitem>
+          <para> Firefox 1.0.7+ </para>
+        </listitem>
+        <listitem>
+          <para> Internet Explorer 6+ </para>
+        </listitem>
+        <listitem>
+          <para> Safari 1.3.2+ </para>
+        </listitem>
+      </itemizedlist>
+      <para> Known browser incompatibility: </para>
+      <itemizedlist>
+        <listitem>
+          <para> Opera </para>
+        </listitem>
+        <listitem>
+          <para> Internet Explorer 5 for Mac </para>
+        </listitem>
+        <listitem>
+          <para> Konqueror </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+  <sect1 id="user.ajax.project">
+    <title>Make Your Project AJAX Enabled</title>
+    <para> To enable your project with AJAX, it is recommended that you build
+      your project based on demoCW3 or test_main projects 
+      (&cartoweb; version 3.3.0 or higher). A project based on demoCW3 won't
+      need any tuning. A project based on test_main will require the following: </para>
+    <itemizedlist>
+      <listitem>
+        <para> Enable AJAX in your client.ini (or client.ini.in): </para>
+      </listitem>
+    </itemizedlist>
+    <para> If you have a project running since version 3.2.0 or before, and want
+      to enable AJAX, you'll need to: </para>
+    <itemizedlist>
+      <listitem>
+        <para> Enable AJAX in your <filename>client.ini</filename>
+          (or <filename>client.ini.in</filename>)</para>
+      </listitem>
+      <listitem>
+        <para> Adapt your <filename>cartoclient.tpl</filename>,
+          <filename>mainmap.tpl</filename> and all redefined plugin templates
+          (if they are based on test_main or demoCW3 
+          project templates from &cartoweb; version &lt;= 3.2.0). </para>
+      </listitem>
+    </itemizedlist>            
+    <sect2 id="user.ajax.project.config">
+      <title>Client.ini Configuration</title>
+      <para> Add the ajaxOn directive and set it to true in your
+        <filename>/project/[yourProjectName]/client_conf/client.ini</filename> or
+        <filename>/project/[yourProjectName]/client_conf/client.ini.in</filename>
+      </para>
+      <programlisting>ajaxOn = true</programlisting>
+    </sect2>
+    <sect2 id="user.ajax.project.templates">
+      <title>Templates Adaptation</title>
+      <warning>
+        <para> Adapting your templates is a tricky bit. Unless you customized
+          your templates thoroughly, we recommend that you start over again
+          your templates customization using demoCW3 or test_main as a basis,
+          as these projects templates are AJAX ready. </para>
+      </warning>
+      <para> We recommend that you diff your cartoclient.tpl, mainmap.tpl and 
+        all redefined plugin templates with the upstream. This is the best way 
+        to be up to date, especially if you use the latest CVS version of
+        &cartoweb;. </para>
+      <tip>
+        <para> Also, you can have a look at the templates patch:
+          <ulink url="http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view"/>
+        </para>
+      </tip>
+    </sect2>
+  </sect1>  
+</chapter>

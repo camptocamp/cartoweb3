@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<!-- $Id$ -->
+<chapter id="dev.ajaxplugin">
+  <title>AJAX Implementation</title>
+  <sect1 id="dev.ajax.intro">
+    <title>Introduction</title>
+    <para> &cartoweb; implements an AJAX layer, enabling asynchronous update
+      of the HTML GUI. </para>
+  </sect1>
+  <sect1 id="dev.ajax.implementation">
+    <title>AJAX Implementation Outline</title>
+    <para> The implementation of AJAX in &cartoweb; is achieved by extending the
+      Cartoclient and creating a lightweight Javascript engine. It introduces
+      a few new concepts: </para>
+    <itemizedlist>
+      <listitem>
+        <para> Synchronous and asynchronous modes </para>
+      </listitem>
+      <listitem>
+        <para> Ajaxable interface </para>
+      </listitem>
+      <listitem>
+        <para> Plugins Javascript side </para>
+      </listitem>
+      <listitem>
+        <para> Plugins actions </para>
+      </listitem>
+      <listitem>
+        <para> Plugins enablement level </para>
+      </listitem>
+    </itemizedlist>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata  fileref="images/SyncAsyncModes.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>&cartoweb; AJAX layer</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <sect2 id="dev.ajax.implementation.modes">
+      <title>Synchronous And Asynchronous Modes</title>
+      <para> In addition to the implicit synchronous mode
+        (traditional until-now Cartoclient execution flow), an asynchronous
+        mode has been implemented to process AJAX calls. </para>
+      <itemizedlist>
+        <listitem>
+          <para> The synchronous mode is the default Cartoclient execution
+          flow, that processes each plugin's logic and renders a monolithic
+          HTML page. Non-AJAX projects will run the synchronous mode without
+          any alteration. </para>
+        </listitem>
+        <listitem>
+          <para> The asynchronous mode is the execution flow specifically
+            built to process AJAX calls. In this mode, a subset of the
+            plugins features is processed and an XML document, containing
+            plugins output, is rendered - to be processed by the Javascript
+            part. </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="dev.ajax.implementation.ajaxable">
+      <title>Ajaxable Interface</title>
+      <para> Client plugins can now implement an interface called Ajaxable
+        that enables a plugin to handle an asynchronous request and render
+        XML. </para>
+      <para> See
+        <ulink url="http://www.&cartoweb;.org/doc/cw3.3/apidoc/Client/Ajaxable.html">
+        &cartoweb; 3.3 API documentation, interface Ajaxable</ulink>. </para>
+    </sect2>
+    <sect2 id="dev.ajax.implementation.javascript">
+      <title>Plugins Javascript Side</title>
+      <para> Each Ajaxable plugin is made of a Javascript part that
+        handles: </para>
+      <itemizedlist>
+        <listitem>
+          <para> HTTP POST/GET parameters generation for AJAX requests </para>
+        </listitem>
+        <listitem>
+          <para> GUI refresh logic: processing of the plugin XML response and
+            DOM injection/manipulation. </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="dev.ajax.implementation.actions">
+      <title>Plugins Actions</title>
+      <para> AJAX introduces the concept of actions. An action is provided by
+        a plugin and is used to define: </para>
+      <itemizedlist>
+        <listitem>
+          <para> From the Javascript side, what are the HTTP parameters
+            (GET &amp; POST) to be sent to the Cartoclient </para>
+        </listitem>
+        <listitem>
+          <para> From the Caroclient side, what subset of each plugin's logic
+            is to be processed </para>
+        </listitem>
+      </itemizedlist>
+      <para> In example, the Location coreplugin provides the
+        following actions: </para>
+      <itemizedlist>
+        <listitem>
+          <para> Location.Pan </para>
+        </listitem>
+        <listitem>
+          <para> Location.Zoom </para>
+        </listitem>
+        <listitem>
+          <para> Location.FullExtent </para>
+        </listitem>
+        <listitem>
+          <para> Location.Recenter </para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+    <sect2 id="dev.ajax.implementation.enablementlevel">
+      <title>Plugins Enablement Level</title>
+      <para> When the Cartoclient's asynchronous mode is triggered,
+        the action is used to determine what subset of each plugin's logic
+        should be processed. Processing a subset of a plugin's logic is
+        achieved by changing it's <emphasis>enablement level</emphasis>.
+        Enablement levels are by default set to <emphasis>Full</emphasis>
+        (i.e. the whole logic is processed). </para>
+      <para> Here are the yet available enablement levels: </para>
+      <itemizedlist>
+        <listitem>
+          <para> <emphasis>Load</emphasis>: The plugin is loaded </para>
+        </listitem>
+        <listitem>
+          <para> <emphasis>Process</emphasis>: The plugin is loaded and handles GET/POST Requests </para>
+        </listitem>
+        <listitem>
+          <para> <emphasis>ServerCall</emphasis>: The plugin handles GET/POST requests,
+            builds/overrides server request and handles server result </para>
+        </listitem>
+        <listitem>
+          <para> <emphasis>Full</emphasis>: The plugin's whole logic is executed </para>
+        </listitem>
+      </itemizedlist>        
+      <para> Note that all enablement levels perform a
+        Sessionable::saveSession(). </para>
+    </sect2>
+  </sect1>      
+
+  <sect1 id="dev.ajax.plugin">
+    <title>Making Your Plugin Ajaxable</title>
+    <para> An ajaxable plugin has the ability to refresh the &cartoweb; GUI
+      asynchronously, if the project using it enables the AJAX mode
+      (see how to enable AJAX in a project: <xref linkend="user.ajax.project"/>
+    </para>
+    <para> Please have a look at the wiki for an up-to-date howto explaining
+      how to make a plugin ajaxable:
+      <ulink url="http://www.cartoweb.org/cwiki/HowToAjaxablePlugin"/> </para> 
+  </sect1>
+  
+</chapter>
