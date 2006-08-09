@@ -21,7 +21,7 @@ msgstr ""
 
 #: geostat.ini:geostat.0.label
 msgid "Presidential 2002 - First Ballot"
-msgstr "Présendentielles 2002 (1er tour)"
+msgstr "Présidentielles 2002 (1er tour)"
 
 #: geostat.ini
 msgid "Voters"
