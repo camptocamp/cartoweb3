@@ -1,11 +1,10 @@
 # CartoWeb 3 translation template 
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2006-08-01 16:06+0000\n"
+"POT-Creation-Date: 2006-08-09 12:15+0200\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: images.ini:mapSizes.0.label
@@ -24,7 +23,6 @@ msgstr ""
 msgid "1240x840"
 msgstr ""
 
-#: projects/demoGeostat/templates/cartoclient.tpl
 #: projects/demoGeostat/templates/cartoclient.tpl
 msgid "Geostatistical tools for Cartoweb"
 msgstr ""
