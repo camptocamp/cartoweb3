@@ -1,6 +1,5 @@
 <u>{t}Editing plugin:{/t}</u><br />
-{if $edit_allowed|default:''}
-
+{if $edit_allowed}
 {t}Choose layer{/t}<br />
 <select name="edit_layer" onchange="javascript:FormItemSelected();">
 <option value="0">{t}layer to edit{/t}</option>
