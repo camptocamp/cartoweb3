@@ -179,7 +179,7 @@ msgstr "Click here to go back to the map"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_poly"
-msgstr "Add polygon"
+msgstr "Add a polygon"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_move"
@@ -187,15 +187,27 @@ msgstr "Move"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_del_vertex"
-msgstr "Delete node"
+msgstr "Delete a node"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_add_vertex"
-msgstr "Add node"
+msgstr "Add a node"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_del_feature"
-msgstr "Delete feature"
+msgstr "Delete a feature"
+
+msgid "edit_sel"
+msgstr "Select a feature"
+
+msgid "edit_point"
+msgstr "Add apoint"
+
+msgid "edit_line"
+msgstr "Add a line"
+
+msgid "edit_polygon"
+msgstr "Add a polygon"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Editing plugin:"

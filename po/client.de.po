@@ -198,6 +198,18 @@ msgstr ""
 msgid "edit_del_feature"
 msgstr ""
 
+msgid "edit_sel"
+msgstr ""
+
+msgid "edit_point"
+msgstr ""
+
+msgid "edit_line"
+msgstr ""
+
+msgid "edit_polygon"
+msgstr ""
+
 #: plugins/edit/templates/edit.tpl
 msgid "Editing plugin:"
 msgstr ""

@@ -179,7 +179,7 @@ msgstr "Retour à la carte"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_poly"
-msgstr "Créer un polygone"
+msgstr "Ajouter un polygone"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_move"
@@ -196,6 +196,18 @@ msgstr "Ajouter un noeud"
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_del_feature"
 msgstr "Supprimer un élément"
+
+msgid "edit_sel"
+msgstr "Sélectionner un élément"
+
+msgid "edit_point"
+msgstr "Ajouter un point"
+
+msgid "edit_line"
+msgstr "Ajouter une ligne"
+
+msgid "edit_polygon"
+msgstr "Ajouter un polygone"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Editing plugin:"
