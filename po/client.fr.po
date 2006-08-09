@@ -352,7 +352,7 @@ msgstr "Moyenne :"
 
 #: plugins/geostat/templates/geostat_choropleth_dataset.tpl
 msgid "Std Div :"
-msgstr "Déviation standard"
+msgstr "Ecart-type :"
 
 #: plugins/geostat/templates/geostat_choropleth_dataset.tpl
 msgid "Number of classes"
