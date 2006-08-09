@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2006-04-27 11:15+0200\n"
+"POT-Creation-Date: 2006-08-09 12:15+0200\n"
 "PO-Revision-Date: 2004-12-22 10:43+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
@@ -145,7 +145,7 @@ msgstr "Login"
 msgid "logout"
 msgstr "Logout"
 
-#: plugins/auth/templates/login_page.tpl templates/cartoclient.tpl
+#: plugins/auth/templates/login_page.tpl
 msgid "Cartoclient Title"
 msgstr "Cartoclient (EN)"
 
@@ -177,9 +177,37 @@ msgstr "Submit"
 msgid "Click here to go back to the map"
 msgstr "Click here to go back to the map"
 
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_poly"
+msgstr "Add polygon"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_move"
+msgstr "Move"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_del_vertex"
+msgstr "Delete node"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_add_vertex"
+msgstr "Add node"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_del_feature"
+msgstr "Delete feature"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Editing plugin:"
+msgstr ""
+
 #: plugins/edit/templates/edit.tpl
 msgid "Choose layer"
 msgstr "Choose layer"
+
+#: plugins/edit/templates/edit.tpl
+msgid "layer to edit"
+msgstr ""
 
 #: plugins/edit/templates/edit.tpl
 msgid "Features: "
@@ -206,7 +234,7 @@ msgid "Cancel"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
-msgid "Edition not allowed"
+msgid "Editing not allowed"
 msgstr ""
 
 #: plugins/edit/templates/edit.tpl
@@ -255,7 +283,6 @@ msgid "None"
 msgstr "None"
 
 #: plugins/exportPdf/templates/form.tpl
-#, fuzzy
 msgid "Reset Form"
 msgstr "Reset"
 
@@ -290,6 +317,91 @@ msgstr ""
 #: plugins/exportPdf/templates/outputLink.tpl
 msgid "Click here to display PDF file"
 msgstr "Click here to display PDF file"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configuration"
+msgstr ""
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure dataset..."
+msgstr "Dataset"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure representation..."
+msgstr "Representation"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Choropleth dataset configuration"
+msgstr "Choropleth settings"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of data :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Min. :"
+msgstr "Min.:"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Max. :"
+msgstr "Max.:"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Mean :"
+msgstr "Mean value:"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Std Div :"
+msgstr "Standard deviation: "
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of classes"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Classification method"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Class limits"
+msgstr "Classes boundaries"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Apply"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Choropleth representation configuration"
+msgstr "Choropleth settings"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Coloring Method"
+msgstr "Coloring method"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Initialization Colors"
+msgstr "Initialization colors"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Classes Color"
+msgstr "Classes colors"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Choropleth"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select geographic entities..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select indicator..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat_switch.tpl
+msgid "Display geostatistics"
+msgstr ""
 
 #: plugins/layerReorder/templates/layerReorder.tpl
 msgid "Upside"
@@ -410,6 +522,10 @@ msgstr "Compute Path"
 #: plugins/routing/templates/routing.tpl
 msgid "Reset"
 msgstr "Reset"
+
+#: plugins/exportDxf/templates/form.tpl
+msgid "Export DXF"
+msgstr "DXF export"
 
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
@@ -759,7 +875,6 @@ msgid "Current scale:"
 msgstr "Current scale:"
 
 #: templates/cartoclient.tpl
-#, fuzzy
 msgid "Coord (m):"
 msgstr "Coords (m): "
 
@@ -826,6 +941,10 @@ msgstr "keymap_alt"
 #: templates/cartoclient.tpl
 msgid "Views:"
 msgstr "Views:"
+
+#: templates/cartoclient.tpl
+msgid "Raw image"
+msgstr ""
 
 #: templates/dhtmlcode.tpl
 msgid "overlapping polygons are not allowed"
@@ -931,77 +1050,81 @@ msgstr "more colors"
 msgid "Unauthorized"
 msgstr "Unauthorized"
 
-#: client/Views.php:161
+#: client/Views.php:191
 msgid "Action halted: invalid view Id"
 msgstr "Action halted: invalid view Id"
 
-#: client/Views.php:186
+#: client/Views.php:216
 msgid "You are not allowed to perform this action"
 msgstr "You are not allowed to perform this action"
 
-#: client/Views.php:933
+#: client/Views.php:365
+msgid "Cannot load view"
+msgstr ""
+
+#: client/Views.php:971
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Loaded view #%d"
 
-#: client/Views.php:939
+#: client/Views.php:977
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "New view recorded with id %d"
 
-#: client/Views.php:944
+#: client/Views.php:982
 #, php-format
 msgid "View #%d updated"
 msgstr "View #%d updated"
 
-#: client/Views.php:949 client/Views.php:1411
+#: client/Views.php:987 client/Views.php:1449
 #, php-format
 msgid "View #%d deleted"
 msgstr "View #%d deleted"
 
-#: client/Views.php:1300
+#: client/Views.php:1338
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Failed to open view #%d"
 
-#: client/Views.php:1324
+#: client/Views.php:1362
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Unable to read view #%d"
 
-#: client/Views.php:1336
+#: client/Views.php:1374
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Unable to write view #%d"
 
-#: client/Views.php:1414
+#: client/Views.php:1452
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Failed deleting view #%d"
 
-#: client/Views.php:1473
+#: client/Views.php:1511
 msgid "Unable to open ViewDbContainer: "
 msgstr "Unable to open ViewDbContainer: "
 
-#: client/Views.php:1475 client/Views.php:1544
+#: client/Views.php:1513 client/Views.php:1582
 msgid "Service failed."
 msgstr "Service failed."
 
-#: client/Views.php:1542
+#: client/Views.php:1580
 msgid "Unable to process view."
 msgstr "Unable to process view."
 
-#: client/Views.php:1553
+#: client/Views.php:1591
 #, php-format
 msgid "No result for view #%d"
 msgstr "No result for view #%d"
 
-#: client/Views.php:1577
+#: client/Views.php:1615
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "More than one view affected while editing view #%d"
 
-#: client/Views.php:1689
+#: client/Views.php:1725
 msgid "Unable to build views catalog"
 msgstr "Unable to build views catalog"
 
@@ -1013,7 +1136,7 @@ msgstr "label"
 msgid "Default"
 msgstr "Default"
 
-#: plugins/exportPdf/client/CwFpdf.php:1036
+#: plugins/exportPdf/client/CwFpdf.php:1037
 msgid "Page"
 msgstr "Page"
 
@@ -1041,82 +1164,79 @@ msgstr "Memorizing view to update"
 msgid "(placed at the end)"
 msgstr "(placed at the end)"
 
-#: scripts/testgettext.php:55
+#: scripts/testgettext.php:56
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext is not installed correctly!"
 
 # exportPdf.ini:formats.a3.label
 # exportPdf.ini:formats.A3.label
-#~ msgid "A3"
-#~ msgstr "A3"
+msgid "A3"
+msgstr "A3"
 
 # images.ini:mapSizes.0.label
 # images.ini:mapSizes.0.label
-#~ msgid "small"
-#~ msgstr "small"
+msgid "small"
+msgstr "small"
 
 # images.ini:mapSizes.1.label
 # images.ini:mapSizes.1.label
-#~ msgid "normal"
-#~ msgstr "normal"
+msgid "normal"
+msgstr "normal"
 
 # images.ini:mapSizes.2.label
 # images.ini:mapSizes.2.label
-#~ msgid "big"
-#~ msgstr "big"
+msgid "big"
+msgstr "big"
 
 # images.ini:mapSizes.3.label
 # images.ini:mapSizes.3.label
-#~ msgid "giant"
-#~ msgstr "giant"
+msgid "giant"
+msgstr "giant"
 
-#~ msgid "Rotation:"
-#~ msgstr "Rotation:"
+msgid "Position:"
+msgstr "Position:"
 
-#~ msgid "Position:"
-#~ msgstr "Position:"
+msgid "zoomin"
+msgstr "Zoom in"
 
-#~ msgid "zoomin"
-#~ msgstr "Zoom in"
+msgid "zoomout"
+msgstr "Zoom out"
 
-#~ msgid "zoomout"
-#~ msgstr "Zoom out"
+msgid "pan"
+msgstr "Pan"
 
-#~ msgid "pan"
-#~ msgstr "Pan"
+msgid "query_by_point"
+msgstr "Query by point"
 
-#~ msgid "query_by_point"
-#~ msgstr "Query by point"
+msgid "query_by_bbox"
+msgstr "Query by rectangle"
 
-#~ msgid "query_by_bbox"
-#~ msgstr "Query by rectangle"
+msgid "query_by_polygon"
+msgstr "Query by polygon"
 
-#~ msgid "query_by_polygon"
-#~ msgstr "Query by polygon"
+msgid "query_by_circle"
+msgstr "Query by circle"
 
-#~ msgid "query_by_circle"
-#~ msgstr "Query by circle"
+msgid "outline_point"
+msgstr "Point"
 
-#~ msgid "outline_point"
-#~ msgstr "Point"
+msgid "outline_line"
+msgstr "Line"
 
-#~ msgid "outline_line"
-#~ msgstr "Line"
+msgid "outline_rectangle"
+msgstr "Rectangle"
 
-#~ msgid "outline_rectangle"
-#~ msgstr "Rectangle"
+msgid "outline_poly"
+msgstr "Polygone"
 
-#~ msgid "outline_poly"
-#~ msgstr "Polygone"
+msgid "distance"
+msgstr "Distance"
 
-#~ msgid "distance"
-#~ msgstr "Distance"
+msgid "surface"
+msgstr "Area"
 
-#~ msgid "surface"
-#~ msgstr "Area"
+msgid "fullextent"
+msgstr "Full extent"
 
-#~ msgid "fullextent"
-#~ msgstr "Full extent"
-
-#~ msgid "message: %s count: %d"
-#~ msgstr "Message: %s count: %d"
+msgid "message: %s count: %d"
+msgstr "Message: %s count: %d"
