@@ -17,8 +17,4 @@ toolbarRendering = outline
 
 toolPickerOn = true
 
-; Charset encoder class
-EncoderClass.config = EncoderUTF
-EncoderClass.output = EncoderUTF
-
 ajaxOn = true
