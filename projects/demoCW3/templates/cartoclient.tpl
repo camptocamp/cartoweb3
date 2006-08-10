@@ -271,7 +271,9 @@
     <!-- folder 1 starts here -->
     <div id="folder1" class="folder">
       <br />
-      {$layers}
+      <div id="layerTree">
+        {$layers}
+      </div>
       <br />
       <p style="text-align:right; vertical-align:middle;">
 

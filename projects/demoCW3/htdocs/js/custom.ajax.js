@@ -1,2 +1,2 @@
-AjaxPlugins.Layers.layersFolderId = 'folder1';
+AjaxPlugins.Layers.layersFolderId = 'layerTree';
 AjaxPlugins.Outline.outlineFolderId = 'folder5';
