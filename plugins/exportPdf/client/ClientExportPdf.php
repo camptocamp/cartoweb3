@@ -475,7 +475,11 @@ class ClientExportPdf extends ExportPlugin
 
         if ($this->isPrintingPdf($request) && 
             ($id == 'title' || $id == 'note')) {
-            $this->blocks[$id]->content = trim($request[$pdfItem]);
+            $content = trim($request[$pdfItem]);
+            if (get_magic_quotes_gpc()) {
+                $content = stripslashes($content);
+            }
+            $this->blocks[$id]->content = $content;
         }
 
         // translation for language dependent block content (text, URL, etc.)
