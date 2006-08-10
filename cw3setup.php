@@ -37,10 +37,10 @@ define('CW3_SETUP_REVISION', '$Revision$');
 define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
 
-// URL of required libraries (md5sum: 987eac5f21e38a0f473d9079906d3262):
-define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.2/cartoweb-includes-3.2.0.tar.gz');
-// URL of demo data (md5sum: 4333abbed3bfc2b1734f38808cea2172):
-define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.1/cartoweb-demodata-3.1.0.tar.gz');
+// URL of required libraries (md5sum: 6224ec2db6815b6d9c21465b7b868a00):
+define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.3/cartoweb-includes-3.3.0.tar.gz');
+// URL of demo data (md5sum: c1d654245f725ca3fa157f21423c8fc3):
+define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.3/cartoweb-demodata-3.3.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
@@ -97,7 +97,7 @@ List of options:
                             NOTE: You must be located where cartoweb3 directory
                             will be created, not inside like other commands.
  --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout
-                            command of cartoweb (not projects!).
+                            command of CartoWeb (not projects!).
                             For instance, to fetch a specific branch, 
                             use '-r MY_BRANCH'. Or for a specific date, 
                             use '-D "2005-09-05 11:00"'.
@@ -421,6 +421,15 @@ function rmdirr($dir) {
 }
 
 /**
+ * rmdirr() if target exists
+ */
+function rmdirrIfExists($target) {
+    if (file_exists($target)) {
+        rmdirr($target);
+    }
+}
+
+/**
  *  Recursive copy
  */
 function copyr($source, $dest) {
@@ -455,6 +464,15 @@ function copyr($source, $dest) {
     // Clean up
     $dir->close();
     return true;
+}
+
+/**
+ * Throws an exception if copyr() failed
+ */
+function tryToCopyr($source, $target) {
+    if (!copyr($source, $target)) {
+        throw new InstallException("Failed copying $source => $target");
+    }
 }
 
 /**
@@ -555,14 +573,14 @@ function checkCw3setupVersion() {
     debug("Revision of this installer: $this_revision");
     if (defined('MINIMUM_REVISION')) {
         if ($cvs_revision < MINIMUM_REVISION) 
-            throw new InstallException("The version of cartoweb you just " .
-                    "retrieved is not compatible with the installer");
+            throw new InstallException('The version of CartoWeb you have just ' .
+                    'retrieved is not compatible with the installer.');
     }
     
     if ($cvs_revision > $this_revision)
-        throw new InstallException("The version of cw3setup.php that has just been " .
-                "installed is more recent that the one you are currently running. " .
-                "You MUST update cw3setup.php and try again.");
+        throw new InstallException('The version of cw3setup.php that has just been ' .
+                'installed is more recent that the one you are currently running. ' .
+                'You MUST update cw3setup.php and try again.');
 }
 
 function fetchCartoWeb() {
@@ -786,17 +804,31 @@ function fetchLibs() {
 
 function fetchDemo() {
 
-    fetchArchive(CW3_DEMO_URL, 'projects/demoCW3/server_conf/demoCW3/data');
+    fetchArchive(CW3_DEMO_URL, 'demodata');
 
+    // Installing demoCW3 data
+    $source = 'demodata/demoCW3/data';
+    $target = 'projects/demoCW3/server_conf/demoCW3/data';
+    rmdirrIfExists($target);
+    tryToCopyr($source, $target);
+
+    // Installing demoPlugins data
     $source = 'projects/demoCW3/server_conf/demoCW3';
     $target = 'projects/demoPlugins/server_conf/demoPlugins';
-    if (file_exists($target))
-        rmdirr($target);
-    if (!copyr($source, $target))
-        throw InstallException("demo copy $source => $target failed");
+    rmdirrIfExists($target);
+    tryToCopyr($source, $target);
     
     rename('projects/demoPlugins/server_conf/demoPlugins/demoCW3.map.in',
            'projects/demoPlugins/server_conf/demoPlugins/demoPlugins.map.in');
+
+    // Installing demoGeostat data
+    $source = 'demodata/demoGeostat/data';
+    $target = 'projects/demoGeostat/server_conf/demoGeostat/data';
+    rmdirrIfExists($target);
+    tryToCopyr($source, $target);
+
+    // Removing temporary directory
+    rmdirr('demodata');
 }
 
 function removeDevFilesIfProd() {
