@@ -231,7 +231,7 @@ AjaxHandler = {
                     'this plugin.');
             } else if (!AjaxHelper.exists('AjaxPlugins.'+pluginName)) {
                 Logger.warn('AjaxPlugins.' + pluginName + '.handlePluginReponse(): ' +
-                    'method <b>AjaxPlugins.' + pluginNam + '.handleResponse()</b> ' +
+                    'method <b>AjaxPlugins.' + pluginName + '.handleResponse()</b> ' +
                     'not found. AJAX response processing will be ' +
                     'ignored for this plugin.');
             } else {
