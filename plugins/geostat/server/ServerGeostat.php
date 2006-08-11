@@ -54,6 +54,9 @@ class ServerGeostat extends ClientResponderAdapter
         $geostatInit = new GeostatInit();
 
         $geostatInit->serverConfigParams = $this->getConfLayers();
+        
+        $this->log->debug('Geostat Init');
+        $this->log->debug(print_r($geostatInit,true));
 
         return $geostatInit;
     }
@@ -150,14 +153,26 @@ class ServerGeostat extends ClientResponderAdapter
             if (count($choroplethParams->colorInit) < 2) {
                 $colorA = new ColorRgb(99,255,202);
                 $colorB = new ColorRgb(54,38,211);
-                $choroplethParams->colorInit = array($colorA, $colorB);
+                $choroplethParams->colorInit = array(
+                    TwColorRgbHelper::ColorRgb2TwColorRgb($colorA), 
+                    TwColorRgbHelper::ColorRgb2TwColorRgb($colorB));
             }
+            $this->log->debug(print_r($choroplethParams->colorInit,true));
 
-            $colorPalette = new ColorLut($choroplethParams->colorInit);
-            $choroplethParams->colors =
-                $colorPalette->getColorsByWellKnownMethod(
+            $colorPalette = new ColorLut(
+                TwColorRgbHelper::TwColorRgbArray2ColorRgbArray(
+                    $choroplethParams->colorInit));
+            $colors = $colorPalette->getColorsByWellKnownMethod(
                 $choroplethParams->colorLutMethod,
                 $choroplethParams->nbBins);
+            $colorsRgb = array();
+            foreach($colors as $color) {
+                $colorsRgb[] = $color->getColorRgb();
+            }
+           
+            $choroplethParams->colors = 
+                TwColorRgbHelper::ColorRgbArray2TwColorRgbArray($colorsRgb);
+                
         }
 
         $overlayClasses = array();
@@ -190,11 +205,14 @@ class ServerGeostat extends ClientResponderAdapter
             $overlayClasses[$classIndex]->name = $label;
 
             $overlayColor = new ColorOverlay();
-            $overlayColor->red = $choroplethParams->colors[$classIndex]->
+            $overlayColor->red = TwColorRgbHelper::TwColorRgb2ColorRgb(
+                $choroplethParams->colors[$classIndex])->
                 getColorRgb()->getRedLevel();
-            $overlayColor->blue = $choroplethParams->colors[$classIndex]->
+            $overlayColor->blue = TwColorRgbHelper::TwColorRgb2ColorRgb(
+                $choroplethParams->colors[$classIndex])->
                 getColorRgb()->getBlueLevel();
-            $overlayColor->green = $choroplethParams->colors[$classIndex]->
+            $overlayColor->green = TwColorRgbHelper::TwColorRgb2ColorRgb(
+                $choroplethParams->colors[$classIndex])->
                 getColorRgb()->getGreenLevel();
 
             $overlayStyle = new StyleOverlay();
@@ -241,9 +259,14 @@ class ServerGeostat extends ClientResponderAdapter
 
         $mapObj->save('/tmp/debug3.map');
 
-        $this->geostatResult->choroplethClassification = $classification;
+        $this->geostatResult->choroplethClassification = 
+            TwClassificationHelper::Classification2Twclassification(
+                $classification);
+        $choroplethStats = new DistributionSummary($distribution);
         $this->geostatResult->choroplethStats =
-            new DistributionSummary($distribution);
+            TwDistributionSummaryHelper::DistSummary2TwDistSummary(
+                $choroplethStats);
+        $this->log->debug(print_r($this->geostatResult->choroplethStats,true));
 
         $this->geostatResult->choroplethDrawn = true;
         $this->geostatResult->choroplethParams = $choroplethParams;
@@ -301,10 +324,30 @@ class ServerGeostat extends ClientResponderAdapter
      * @return array Parameters for each layer
      */
     protected function getConfLayers() {
-        return ConfigParser::parseObjectArray( $this->getConfig(), 'geostat',
+        $conf = ConfigParser::parseObjectArray( $this->getConfig(), 'geostat',
         array('mslayer','label','choropleth','symbols', 'choropleth_attribs',
             'choropleth_attribs_label','symbols_attribs',
             'symbols_attribs_label'));
+                             
+        $layersParams = array();
+        foreach($conf as $layerConf) {
+            $params = new GeostatLayerParams();
+            $params->msLayer = $layerConf->mslayer;
+            $params->label = $layerConf->label;
+            $params->choropleth = (bool)$layerConf->choropleth;
+            $params->symbols = (bool)$layerConf->symbols;
+            $params->choropleth_attribs = 
+                $layerConf->choropleth_attribs;
+            $params->choropleth_attribs_label = 
+                $layerConf->choropleth_attribs_label;
+            $params->symbols_attribs = $layerConf->symbols_attribs;
+            $params->symbols_attribs_label = 
+                $layerConf->symbols_attribs_label;
+            
+            $layersParams[] = $params;
+        }
+        
+        return $layersParams;
     }
 }
 ?>

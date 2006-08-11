@@ -101,6 +101,8 @@ class ClientGeostat extends ClientPlugin
      */
     public function handleInit($geostatInit) {
          $this->geostatInit = $geostatInit;
+         $this->log->debug('Geostat Init');
+         $this->log->debug(print_r($geostatInit,true));
     }
     
     /**
@@ -132,8 +134,9 @@ class ClientGeostat extends ClientPlugin
         //Default Colors
         $colorA = new ColorRgb(99,255,202);
         $colorB = new ColorRgb(54,38,211);
-        $this->geostatClientState->choroplethParams->colorInit =
-            array($colorA, $colorB);
+        $this->geostatClientState->choroplethParams->colorInit = array(
+            TwColorRgbHelper::ColorRgb2TwColorRgb($colorA), 
+            TwColorRgbHelper::ColorRgb2TwColorRgb($colorB));
     }
     
     /**
@@ -209,8 +212,9 @@ class ClientGeostat extends ClientPlugin
                 ColorRgb::hex2rgbArray($requ['geostatChoroplethColorB']);
             $colorA = new ColorRgb($colorArgb[0],$colorArgb[1],$colorArgb[2]);
             $colorB = new ColorRgb($colorBrgb[0],$colorBrgb[1],$colorBrgb[2]);
-            $this->geostatClientState->choroplethParams->colorInit = 
-                array($colorA, $colorB);
+            $this->geostatClientState->choroplethParams->colorInit = array(
+                TwColorRgbHelper::ColorRgb2TwColorRgb($colorA), 
+                TwColorRgbHelper::ColorRgb2TwColorRgb($colorB));
         }
         //We check if the first color is defined. If it's true, we suppose
         //that every color will be defined
@@ -224,7 +228,12 @@ class ClientGeostat extends ClientPlugin
                         strval($i)]);
                 $colors[] = new ColorRgb($color[0],$color[1],$color[2]);    
             }
-            $this->geostatClientState->choroplethParams->colors = $colors;
+            $colorsRgb = array();
+            foreach($colors as $color) {
+                $colorsRgb[] = $color->getColorRgb();
+            }
+            $this->geostatClientState->choroplethParams->colors = 
+            TwColorRgbHelper::ColorRgbArray2TwColorRgbArray($colorsRgb);
         }
     }
 
@@ -258,13 +267,17 @@ class ClientGeostat extends ClientPlugin
      * @see ServerCaller::initializeResult()
      */
     public function initializeResult($geostatResult) {
+        $this->log->debug('Geostat Result');
+        $this->log->debug($geostatResult);
         $this->geostatClientState->choroplethDrawn =
             $geostatResult->choroplethDrawn;
         if ($geostatResult->choroplethDrawn) {
             $this->geostatClientState->choroplethClassification =
-                $geostatResult->choroplethClassification;
+                TwClassificationHelper::TwClassification2Classification(
+                    $geostatResult->choroplethClassification);
             $this->geostatClientState->choroplethStats =
-                 $geostatResult->choroplethStats;
+                TwDistributionSummaryHelper::TwDistSummary2DistSummary(
+                    $geostatResult->choroplethStats);
         }
         
         $this->geostatClientState->choroplethParams =
@@ -349,27 +362,29 @@ class ClientGeostat extends ClientPlugin
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         
         //TODO: Maybe this must be move elsewhere ?
+        //Maybe ServerGeostat::getConfLayers()...
         $geostatLayers = $this->geostatInit->serverConfigParams;
         $LayersChoroplethId = array();
         $LayersChoroplethDesc = array();
         $LayersChroplethAttributes = array();
         $LayersChroplethLabels = array();
         foreach($geostatLayers as $layer) {
-            $LayersId[] = $layer->mslayer;
+            $this->log->debug('Describe layer');
+            $this->log->debug(print_r($layer,true));
+            $LayersId[] = $layer->msLayer;
             $LayersDesc[] = $layer->label;
             if ($layer->choropleth) {
-                $LayersChoroplethId[] = $layer->mslayer;
+                $LayersChoroplethId[] = $layer->msLayer;
                 $LayersChoroplethDesc[] = $layer->label;
             }
-            $LayersChoroplethAttributes[$layer->mslayer] = 
+            $LayersChoroplethAttributes[$layer->msLayer] = 
                 explode(',',$layer->choropleth_attribs);
-            $LayersChoroplethLabels[$layer->mslayer] = 
+            $LayersChoroplethLabels[$layer->msLayer] = 
                 explode(',',$layer->choropleth_attribs_label);
             
         }
         array_walk($LayersChoroplethDesc, 
             array($this, 'translateArrayElem'));
-        //print_r($LayersChoroplethLabels);
         array_walk_recursive($LayersChoroplethLabels, 
             array($this, 'translateArrayElem'));
         
@@ -469,22 +484,24 @@ class ClientGeostat extends ClientPlugin
         $smarty->assign('geostatChoroplethColorMethodSelected',
             $this->geostatClientState->choroplethParams->colorLutMethod);
         $smarty->assign('geostatChoroplethColorAValue',
-            '#' . 
-            $this->geostatClientState->choroplethParams->colorInit[0]->
-            getRgbHexString());
+            '#' . TwColorRgbHelper::TwColorRgb2ColorRgb(
+                $this->geostatClientState->choroplethParams->colorInit[0])->
+                getRgbHexString());
         $smarty->assign('geostatChoroplethColorBValue',
-            '#' . 
-            $this->geostatClientState->choroplethParams->colorInit[1]->
-            getRgbHexString());
+            '#' . TwColorRgbHelper::TwColorRgb2ColorRgb(
+                $this->geostatClientState->choroplethParams->colorInit[1])->
+                getRgbHexString());
         
         if (!is_null($this->geostatClientState->choroplethClassification)) {
             $smarty->assign('geostatChoroplethLabels',
                 $this->geostatClientState->choroplethClassification->
-                getLabelsArray());
+                    getLabelsArray());
             $choroplethClassesColor = array();
             foreach($this->geostatClientState->choroplethParams->colors 
                 as $color) {
-                $choroplethClassesColor[] = '#' . $color->getRgbHexString();
+                $choroplethClassesColor[] = '#' . 
+                TwColorRgbHelper::TwColorRgb2ColorRgb($color)->
+                    getRgbHexString();
             }
             $smarty->assign('geostatChoroplethClassesColor',
                 $choroplethClassesColor);
