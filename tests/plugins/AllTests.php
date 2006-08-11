@@ -30,6 +30,8 @@ require_once 'PHPUnit2/Framework/TestSuite.php';
  * All plugins tests
  */
 require_once 'plugins/auth/client/AuthClientTest.php';
+require_once 'plugins/geostat/common/GeostatTest.php';
+
 
 /**
  * @package Tests
@@ -42,6 +44,7 @@ class plugins_AllTests {
         $suite = new PHPUnit2_Framework_TestSuite;
 
         $suite->addTestSuite('plugins_auth_client_AuthClientTest');
+        $suite->addTestSuite('plugins_geostat_client_GeostatTest');
 
         return $suite;
     }
