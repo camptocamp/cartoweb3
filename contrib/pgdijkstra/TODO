@@ -12,3 +12,8 @@ quitte à le supprimer ensuite.
 EXECUTE 'UPDATE ' || quote_ident(geom_table) || ' SET edge_id = '
                                   || edge_id || ' WHERE gid = ' || 
 quote_literal(geom.id);
+
+Index creation:
+---------------
+
+CREATE INDEX geomtable_gid_idx ON geomtable (gid);
