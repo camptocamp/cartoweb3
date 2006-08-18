@@ -145,7 +145,7 @@ BEGIN
         END;
 
         EXECUTE 'UPDATE ' || quote_ident(geom_table) || '_edges SET cost = (SELECT sum( length( g.the_geom ) ) FROM ' || quote_ident(geom_table)
-                          || ' g WHERE g.edge_id = id GROUP BY id)';
+                          || ' g WHERE g.edge_id = ' || quote_ident(geom_table) || '_edges.id GROUP BY ' || quote_ident(geom_table) || '_edges.id)';
 
         RETURN;
 END;
