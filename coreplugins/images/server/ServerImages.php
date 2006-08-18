@@ -271,8 +271,14 @@ class ServerImages extends ClientResponderAdapter
                 throw new CartoserverException('drawMainmap was not called ' .
                                                'before getResult');
             $this->serverContext->setMsMainmapImage($ms_mainmap);
-            $msMapObj->drawLabelCache($ms_mainmap);
-                        
+
+            // XXX It looks like the Mapserver API changed and now
+            //  drawLabelCache is called implicitely after a map drawing.
+            // Maybe add a check against Mapserver version and enable it 
+            //  accordingly
+            // See http://bugzilla.maptools.org/show_bug.cgi?id=1541
+            //$msMapObj->drawLabelCache($ms_mainmap);
+
             $imagesResult->mainmap = $this->getImage($ms_mainmap);
         } else {
             $imagesResult->mainmap = $notdrawnImage;
