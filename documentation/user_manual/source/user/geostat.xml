@@ -16,7 +16,7 @@
   </para>
  </sect1>
  <sect1 id="user.geostat.concepts">
-  <title>General behaviour</title>
+  <title>General Behavior</title>
   <para>
    The Geostat plugin allows advanced cartographic representation based on 
    attributes of geospatial data. Currently, there is only support for 
