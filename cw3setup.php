@@ -198,7 +198,8 @@ define('ACTION_NOP', 0);
 define('ACTION_INSTALL', 1);
 define('ACTION_CLEAN', 2);
 define('ACTION_FETCH_DEMO', 3);
-define('ACTION_PREPARE_ARCHIVE', 4);
+define('ACTION_INSTALL_DEMO_DATA', 4);
+define('ACTION_PREPARE_ARCHIVE', 5);
 
 define('LOG_LEVEL_DEBUG', 0);
 define('LOG_LEVEL_INFO', 1);
@@ -274,6 +275,10 @@ function processArgs() {
                 $action = ACTION_FETCH_DEMO;
                 break;
 
+            case '--install-demo-data':
+                $action = ACTION_INSTALL_DEMO_DATA;
+                break;
+
             case '--prepare-archive':
                 $action = ACTION_PREPARE_ARCHIVE;
                 break;
@@ -300,6 +305,7 @@ function processArgs() {
             info('No action given, doing nothing. Use --help to see usage');
             exit(0);
             break;
+
         case ACTION_INSTALL:
             info('installing');
             
@@ -323,9 +329,11 @@ function processArgs() {
             info('Installation finished...');
         
             break;
+        
         case ACTION_CLEAN:
             cleanFiles();
             break;
+        
         case ACTION_FETCH_DEMO:
             info('Fetching demo');
             fetchDemo();
@@ -333,11 +341,17 @@ function processArgs() {
             // launch init() for running po2mo
             init();
             break;
+        
+        case ACTION_INSTALL_DEMO_DATA:
+            installDemoData();
+            break;
+        
         case ACTION_PREPARE_ARCHIVE:
             fetchLibs();
             if (isset($OPTIONS['with-demo']))
                 fetchDemo();
             break;
+        
         default:
             fail('Should not happen');
             exit(-1);
@@ -805,7 +819,16 @@ function fetchLibs() {
 function fetchDemo() {
 
     fetchArchive(CW3_DEMO_URL, 'demodata');
+    installDemoData();
+}
 
+function installDemoData() {
+
+    if (!file_exists('demodata')) {
+        fail('Directory demodata/ is missing. ' .
+             'You might rather use action --fetch-demo.');
+    }
+    
     // Installing demoCW3 data
     $source = 'demodata/demoCW3/data';
     $target = 'projects/demoCW3/server_conf/demoCW3/data';
