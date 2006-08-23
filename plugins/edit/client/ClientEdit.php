@@ -346,14 +346,14 @@ class ClientEdit extends ClientPlugin
         $template->assign(array('edit_layers' => $layers,
                                 'edit_layer_selected' => $this->editState->layer));
 
-        // get attributes of the different features
+        // get attributes of the different features 
+        // and reorder according to attribute order
         foreach ($this->editState->features as $feature) {
-            $str = "";
-            foreach ($feature->attributes as $key => $val) {
-                if (in_array($key, $this->editState->attributeNames)) {
-                    $encodedVal = Encoder::decode(str_replace('"', '\"', $val));
-                    $str .= "\"$encodedVal\",";
-                }
+            $str = '';
+            foreach ($this->editState->attributeNames as $attrname) {
+                $val = array_key_exists($attrname, $feature->attributes) ?
+                        $feature->attributes[$attrname] : '';
+                $str .= '"' . Encoder::decode($val) . '",';
             }
             $str = substr($str, 0, strlen($str) - 1);
             $feature->attributesAsString = $str;
