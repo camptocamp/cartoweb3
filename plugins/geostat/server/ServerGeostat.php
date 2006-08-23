@@ -224,7 +224,7 @@ class ServerGeostat extends ClientResponderAdapter
         }
         
         //Correction for the first class
-        //We connot trust Mapserver for float equality
+        //We cannot trust Mapserver for float equality
         $overlayClasses[0]->expression = sprintf(
             '([%s] >= %.20f and [%s] < %.20f)',
             $choroplethParams->indicator,
@@ -257,8 +257,6 @@ class ServerGeostat extends ClientResponderAdapter
 
         $msLayer->set('status', 1);
 
-        $mapObj->save('/tmp/debug3.map');
-
         $this->geostatResult->choroplethClassification = 
             TwClassificationHelper::Classification2Twclassification(
                 $classification);
@@ -266,7 +264,7 @@ class ServerGeostat extends ClientResponderAdapter
         $this->geostatResult->choroplethStats =
             TwDistributionSummaryHelper::DistSummary2TwDistSummary(
                 $choroplethStats);
-        $this->log->debug(print_r($this->geostatResult->choroplethStats,true));
+        $this->log->debug(print_r($this->geostatResult->choroplethStats, true));
 
         $this->geostatResult->choroplethDrawn = true;
         $this->geostatResult->choroplethParams = $choroplethParams;
