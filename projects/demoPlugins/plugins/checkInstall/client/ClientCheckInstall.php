@@ -47,7 +47,10 @@ class ClientCheckInstall extends ClientPlugin {
                     "in order to use the demo.\n Use the --fetch-demo parameter " .
                     "of the cw3setup.php installer, \n or have a look at the " .
                     'CartoWeb Installation section of the manual on ' .
-                    'http://www.cartoweb.org/'); 
+                    "http://www.cartoweb.org/.\n" . 
+                    'In case you have installed CartoWeb using the Windows ' .
+                    "installer,\nnote there is a demo data Windows installer " .
+                    'as well.');
         }
     }
 
