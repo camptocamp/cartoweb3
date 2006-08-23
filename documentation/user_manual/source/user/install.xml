@@ -542,16 +542,16 @@ $ psql -d demo_plugins -f spatial_ref_sys.sql]]></screen>
               district</emphasis> and <emphasis>town</emphasis> in PostgreSQL/PostGIS tables by typing 
               the following command:
               <screen><![CDATA[
-$ shp2pgsql aerofacp.shp airport > /tmp/airport.sql
+$ shp2pgsql -I aerofacp.shp airport > /tmp/airport.sql
 $ psql -d demo_plugins -f /tmp/airport.sql
 
-$ shp2pgsql builtupa.shp agglo > /tmp/agglo.sql
+$ shp2pgsql -I builtupa.shp agglo > /tmp/agglo.sql
 $ psql -d demo_plugins -f /tmp/agglo.sql
 
-$ shp2pgsql polbnda.shp district > /tmp/district.sql
+$ shp2pgsql -I polbnda.shp district > /tmp/district.sql
 $ psql -d demo_plugins -f /tmp/district.sql
 
-$ shp2pgsql mispopp.shp town > /tmp/town.sql
+$ shp2pgsql -I mispopp.shp town > /tmp/town.sql
 $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
               <note><para>
                 <emphasis>shp2pgsql</emphasis> is a command-line program that exports a shapefile into SQL commands.
@@ -732,8 +732,12 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
           <title>Europe Road Geodata Importation in PostGIS</title>
           <para>
             <screen><![CDATA[
-$ shp2pgsql roadl.shp roads_europe > /tmp/roadl.sql
-$ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
+$ shp2pgsql -I roadl.shp roads_europe > /tmp/roadl.sql
+$ psql -d demo_plugins -f /tmp/roadl.sql
+# Only lauch the following commmands if you did not import the town table already
+$ shp2pgsql -I mispopp.shp town > /tmp/town.sql
+$ psql -d demo_plugins -f /tmp/town.sql
+]]></screen>
           </para>
         </sect4>
         <sect4 id="user.install.demo.details.demoRouting.graphimportation">
@@ -743,7 +747,10 @@ $ psql -d demo_plugins -f /tmp/roadl.sql]]></screen>
             <screen><![CDATA[
 $ ALTER TABLE roads_europe ADD COLUMN source_id int;
 $ ALTER TABLE roads_europe ADD COLUMN target_id int;
-$ ALTER TABLE roads_europe ADD COLUMN edge_id int;]]></screen>
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;
+-- next line is to work around a pgdijkstra bug in update_cost_from_distance (fixed in latest CVS)
+$ ALTER TABLE roads_europe RENAME id TO id_old;
+]]></screen>
             You can then fill the columns <emphasis>source_id</emphasis> and <emphasis>target_id</emphasis> with the
              "assign_vertex_id" function.
             <screen><![CDATA[
@@ -771,7 +778,8 @@ $ CREATE TABLE doublons AS SELECT * FROM roads_europe WHERE gid  in
 (SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid 
 FROM roads_europe) AS doublon);
 $ DELETE FROM roads_europe;
-$ INSERT INTO roads_europe (SELECT * FROM doublons);]]></screen>
+$ INSERT INTO roads_europe (SELECT * FROM doublons);
+$ DROP TABLE doublons;]]></screen>
             The following step is to create and fill the edges and vertices tables of the resulting graph. 
             To do so, you can use "create_graph_tables" function.
             <screen><![CDATA[
@@ -798,6 +806,55 @@ $ SELECT update_cost_from_distance('roads_europe');]]></screen>
   2 |      3 |      4 | 37349.9592156392 |
   3 |      5 |      6 | 14040.5673116933 |
 (3 lignes)]]></screen>
+            Then you need to add the column which will contain the town labels,
+            which will be shown in the drop-down list for selecting the two
+            points of a path.
+            </para>            
+            <para>
+            The label information is contained in the <literal>roads</literal>
+            table which was originally imported using the 
+            <command>shp2pgsql</command> utility. The following
+            commands will create a temporary table, fill it with the town
+            information, and then update the vertices table. The towns contained
+            in the shapefile may not be on the exact same point that the intersections
+            of the roads. Thus, all intersections which are in a distance
+            less that 2000 meters are associated to the town label. This distance
+            may be adjusted according to the dataset you are using.
+            </para>
+            <screen><![CDATA[
+$ CREATE TABLE roads_source_town AS
+   SELECT DISTINCT t.txt, source_id, distance(PointN(r.the_geom, 1), t.the_geom) AS d 
+     FROM roads_europe r, town t, roads_europe_vertices 
+     WHERE t.txt != 'UNK' AND distance(PointN(r.the_geom, 1), t.the_geom) < 2000 
+      AND geom_id = source_id ORDER BY t.txt, d; 
+$ CREATE TABLE roads_source_town_uniq AS
+   SELECT * FROM roads_source_town a WHERE a.txt IN 
+     (SELECT b.txt FROM roads_source_town b where a.txt = b.txt LIMIT 1)
+     AND a.d IN (SELECT b.d FROM roads_source_town b WHERE a.txt = b.txt LIMIT 1);   
+$ ALTER TABLE  roads_europe_vertices ADD COLUMN txt character varying(50);
+$ SELECT AddGeometryColumn('','roads_europe_vertices','the_geom','-1','POINT',2);
+$ UPDATE roads_europe_vertices SET txt = (SELECT DISTINCT txt 
+   FROM roads_source_town_uniq 
+    WHERE roads_europe_vertices.geom_id = roads_source_town_uniq.source_id);
+-- clean the temporary tables
+$ DROP TABLE roads_source_town;
+$ DROP TABLE roads_source_town_uniq;
+            ]]></screen>
+            <para>
+            The last step is to fill the geometry column of the vertices table:
+            </para>
+            <screen><![CDATA[
+$ CREATE TABLE roads_europe_vertices_geom AS 
+    SELECT v.id, v.geom_id, v.txt,startPoint(geometryn(r.the_geom, 1)) AS 
+      the_geom FROM roads_europe r LEFT JOIN roads_europe_vertices v ON v.geom_id = r.source_id;
+$ INSERT INTO roads_europe_vertices_geom 
+    SELECT v.id, v.geom_id, v.txt, endPoint(geometryn(r.the_geom, 1)) AS the_geom 
+      FROM roads_europe r LEFT JOIN roads_europe_vertices v ON v.geom_id = r.target_id;
+$ DELETE FROM roads_europe_vertices;
+$ INSERT INTO roads_europe_vertices SELECT DISTINCT ON (id) * FROM roads_europe_vertices_geom;
+$ DROP TABLE roads_europe_vertices_geom;
+            ]]></screen>
+            <para>
             Now, all is set up correctly for using the shortest path function on these data. 
             But to include the routing fonctionnalities in a custom project, we also must respect some rules 
             dictated by the routing plugin.
