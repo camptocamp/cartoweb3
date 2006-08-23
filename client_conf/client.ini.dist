@@ -101,7 +101,7 @@ smartyDebugging = false
 defaultLang = en
 
 ; languages to make available in the viewer, list order gives links order
-;langList = de, en, fr
+;langList = en, fr
 
 ; Charset encoder class
 EncoderClass.config = EncoderISO

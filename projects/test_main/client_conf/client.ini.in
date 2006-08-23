@@ -16,7 +16,7 @@ toolPickerOn = true
 toolbarRendering = outline
 
 ; available languages
-langList = en, fr, de
+langList = en, fr
 
 ; accounting
 accountingOn = true
