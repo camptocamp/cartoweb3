@@ -1,4 +1,4 @@
-/* Copyright 2005 Camptocamp SA. 
+/* Copyright 2005 Camptocamp SA.
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 /* The logic contained in this file defines:
@@ -23,15 +23,15 @@ AjaxHelper.addEvent(window, 'load', function() {
 
     // Fetches the url from the browser and trims the trailing '#' or querystring
     var href = window.location.href;
-    lastChar = href.substr(href.length-1);
-    if (lastChar == "#"){
-        baseUrl = href.substring(0,href.length-1);
+    lastChar = href.substr(href.length - 1);
+    if (lastChar == "#") {
+        baseUrl = href.substring(0, href.length - 1);
     } else {
         baseUrl = href;
     }
     qmark = href.indexOf("?");
-    if (qmark >= 0){
-        baseUrl = href.substring(0,qmark);
+    if (qmark >= 0) {
+        baseUrl = href.substring(0, qmark);
     }
     
     // Initialises plugins on window load    
@@ -47,7 +47,7 @@ AjaxPlugins.Common = {
 
     // Map cursor-style backup
     mapCursorStyle: null,
-    
+
     // Images.ajax.js plugin can set this to false, when it wants to
     // clear the waiting message itself (i.e. after raster is loaded)
     doClearWaitingMessage: true,
@@ -82,14 +82,15 @@ AjaxPlugins.Common = {
         var doReload = confirm(errorString);
         if (doReload) {
             var sURL = unescape(window.location.pathname);
-            window.location.replace( sURL );
+            window.location.replace(sURL);
         }
     },
     
     /* Helper methods */
     setWaitingCursor: function() {
-        if (this.mapCursorStyle == null)
+        if (this.mapCursorStyle == null) {
             this.mapCursorStyle = $("map").style.cursor;
+        }
         $("map").style.cursor = "progress";
         document.getElementsByTagName("body")[0].style.cursor = "progress";
     },
@@ -106,7 +107,8 @@ AjaxPlugins.Common = {
             xShow(xGetElementById($('loadbarDiv')));
         }
         setTimeout(timeoutFn, 10);
-    },    
+    },
+ 
     clearWaitingMessage: function() {
         xHide(xGetElementById($('loadbarDiv')));
     },
@@ -122,8 +124,8 @@ AjaxPlugins.Common = {
         } else {
             mapDrawingLayer = $(dhtmlDrawingDivId);
             var childNodesLength = mapDrawingLayer.childNodes.length;
-            for (i=0; i<childNodesLength; i++) {
-                mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[0]);
+            for (i = 0; i < childNodesLength; i++) {
+                mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[i]);
             }
         }
     },
@@ -147,7 +149,7 @@ AjaxPlugins.Common = {
         if ($('features') == null) {
             Logger.warn('Clear stored features: "features" elements not found');
         } else {
-            $('features').value = '';            
+            $('features').value = '';
         }
 
     },
@@ -157,5 +159,4 @@ AjaxPlugins.Common = {
             hideLabel();
         }
     }
-
 }
