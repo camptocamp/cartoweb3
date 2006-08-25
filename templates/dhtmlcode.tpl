@@ -1,5 +1,3 @@
-
-
 <link rel="stylesheet" type="text/css" href="{r type=css}dhtml.css{/r}" />
 <script type="text/javascript" src="{r type=js}x_cartoweb.js{/r}"></script>
 <script type="text/javascript" src="{r type=js}wz_jsgraphics.js{/r}"></script>
@@ -70,6 +68,32 @@ var profile = '{$cartoclient_profile}'{literal}
 if (typeof(AjaxHandler) != 'undefined') {
     AjaxHandler.setProfile(profile);
 }{/literal}
+
+{if $toolTips_active|default:''}
+  /* Assigns JS state variables:
+   * layerListIds and scale for toolTipsRequests
+   */  
+  {literal}
+  function initToolTips() {
+      if (typeof(AjaxPlugins.ToolTips) != 'undefined') {
+        {/literal}
+        AjaxPlugins.ToolTips.serviceUrl = '{$selfUrl}?toolTips=1';
+        AjaxPlugins.ToolTips.charSet = '{$charset}';
+        AjaxPlugins.ToolTips.lang = '{$toolTips_currentLanguage}';
+        {literal}
+      }
+
+      // init the imagemap (area tags)
+      if ($('map1')) {
+          var imagemapTag = $('map1');
+          xAppendChild(mainmap.getDisplay('map').rootDisplayLayer, imagemapTag); 
+          AjaxPlugins.ToolTips.useMap();
+      }
+  }
+  {/literal}
+
+  EventManager.Add(window, 'load', initToolTips, false);
+{/if}
 
 /*]]>*/
 </script>
