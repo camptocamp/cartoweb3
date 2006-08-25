@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+  %cartoweb;
+]>
+<!-- $Id$ -->
+<chapter id="user.tooltips">
+  <title><indexterm><primary>tooltips</primary></indexterm>ToolTips</title>
+  <sect1 id="user.tooltips.intro">
+   <title>Introduction</title>
+   <para>The tooltips plugin aim is to show features attributive information on
+     top of the map without refreshing the whole page. This can be achieved
+     using three different methods.</para>
+   <para>
+    The choice must be done regarding advantages or disadvantages of each method.
+   </para>
+  </sect1>
+  <sect1 id="user.tooltips.basic">
+    <title>Basic Usage</title>
+    <sect2 id="user.tooltips.basic.timeoutasync">
+      <title>Mouse Timeout Asynchronous</title>
+      <sect3 id="user.tooltips.basic.timeoutasync.intro">
+        <title>Introduction</title>
+        <para>When user moves the mouse over the map and stops during several
+         milliseconds, an <emphasis>AJAX</emphasis> request is sent to the
+          &cartoclient; using the geographical coordinates of the cursor.
+        </para>
+        <para>If the webserver finds features corresponding to the defined
+         <emphasis>timeout_async</emphasis> layers, a response is sent back to
+         the browser with some generated HTML code showing some attributive
+         information.
+        </para>
+      </sect3>
+      <sect3 id="user.tooltips.basic.timeoutasync.proscons">
+        <title>Pros / Cons</title>
+        <para>Pros</para>
+        <itemizedlist>
+          <listitem>
+            <para>fully customizable layout,</para>
+          </listitem>
+          <listitem>
+            <para>several results can be displayed even for stacked features,
+            </para>
+          </listitem>
+          <listitem>
+            <para>isn't dependant to the feature counts, performances should
+           not fail even for huge quantity of feature</para>
+          </listitem>
+        </itemizedlist>
+        <para>Cons</para>
+        <itemizedlist>
+          <listitem>
+            <para>database (postGIS) required</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+      <sect3 id="user.tooltips.basic.timeoutasync.configuration">
+        <title>Configuration</title>
+        <para>Here are defined parameters available for <emphasis>timeout_async
+         layers</emphasis></para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>label</parameter>
+            <indexterm><primary>label</primary></indexterm>: (optional) label
+             for the layer. If not set, layerId is diplayed</para>
+          </listitem>
+          <listitem>
+            <para><parameter>dsn</parameter>
+            <indexterm><primary>dsn</primary></indexterm>: connection string to
+             database (Data Source Name)</para>
+          </listitem>
+          <listitem>
+            <para><parameter>dbTableName</parameter>
+            <indexterm><primary>dbTableName</primary></indexterm>: name of the
+             table in database</para>
+          </listitem>
+          <listitem>
+            <para><parameter>attributes</parameter>
+            <indexterm><primary>attributes</primary></indexterm>: comma
+             separated list of attributes to be displayed</para>
+          </listitem>
+          <listitem>
+            <para><parameter>template</parameter>
+            <indexterm><primary>template</primary></indexterm>: (optional)
+             custom template, must be in overriden <literal>toolTips</literal>
+             plugin templates directory. If not set, generic 
+             <filename>layerResult.tpl</filename> is used.
+             The template to use can also be set in 
+             <function>renderResult</function>() method in PHP code
+             if <classname>QueryableLayer</classname> is extended (See
+             <xref linkend="user.tooltips.custom.extendclass" />)</para>
+          </listitem>
+        </itemizedlist>
+        <programlisting><![CDATA[timeout_async.region.label = "Régions"
+timeout_async.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
+timeout_async.region.dbTableName = region
+timeout_async.region.attributes = "nom, code"
+timeout_async.region.template = "layerResult_region.tpl"]]></programlisting>
+      </sect3>
+    </sect2>
+    <sect2 id="user.tooltips.basic.areaasync">
+      <title>Area Asynchronous</title>
+      <sect3 id="user.tooltips.basic.areaasync.intro">
+        <title>Introduction</title>
+        <para>For the <emphasis>area_async</emphasis> defined layers, area tags
+         are sent within
+         the HTML source of the page. So, interactive areas are available on
+          the map on top of corresponding features.</para>
+        <para>When the user moves the mouse over each area, and stopping during
+         several milliseconds, an <emphasis>AJAX</emphasis> request is sent to 
+         &cartoweb; using the id of the given feature. A response is sent back
+          to the browser within the HTML code, in regard to the selected
+          feature.</para>
+      </sect3>
+      <sect3 id="user.tooltips.basic.areaasync.proscons">
+        <title>Pros / Cons</title>
+        <para>Pros</para>
+        <itemizedlist>
+          <listitem>
+            <para>semi live result,</para>
+          </listitem>
+          <listitem>
+            <para>the layout for the result can be customized
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>Cons</para>
+        <itemizedlist>
+          <listitem>
+            <para>does not work for line type features,</para>
+          </listitem>
+          <listitem>
+            <para>may be ressource consuming and performances may fail for
+             large amount of features (but less than with the 
+             <emphasis>area_direct</emphasis> method),</para>
+          </listitem>
+          <listitem>
+            <para>database (postgresql) required,</para>
+          </listitem>
+          <listitem>
+            <para>only one result at a time, if several features are stacked
+             on each other, only the result of the uppermost feature is
+             displayed.</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+      <sect3 id="user.tooltips.basic.areaasync.configuration">
+        <title>Configuration</title>
+        <para>Here are defined parameters available for 
+        <emphasis>area_async</emphasis> layers</para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>label</parameter>
+            <indexterm><primary>label</primary></indexterm>: (optional) label
+             fo the layer. If not set, layerId is diplayed</para>
+          </listitem>
+          <listitem>
+            <para><parameter>dsn</parameter>
+            <indexterm><primary>dsn</primary></indexterm>: connection string
+             to database (Data Source Name)</para>
+          </listitem>
+          <listitem>
+            <para><parameter>dbTableName</parameter>
+            <indexterm><primary>dbTableName</primary></indexterm>: name of
+             the table in database</para>
+          </listitem>
+          <listitem>
+            <para><parameter>attributes</parameter>
+            <indexterm><primary>attributes</primary></indexterm>: comma
+             separated list of attributes to be displayed</para>
+          </listitem>
+          <listitem>
+            <para><parameter>idAttributeString</parameter>
+            <indexterm><primary>idAttributeString</primary></indexterm>: name
+             of the field in the database matching to the <parameter>id_attribute_string</parameter> metadata in mapfile</para>
+          </listitem>
+          <listitem>
+            <para><parameter>template</parameter>
+            <indexterm><primary>template</primary></indexterm>: (optional)
+             custom template, must be in overriden <literal>toolTips</literal>
+             plugin templates directory. If not set, generic 
+             <filename>layerResult.tpl</filename> is used.
+             The template to use can also be set in 
+             <function>renderResult</function>() method in PHP code if 
+             <classname>QueryableLayer</classname> is extended (See 
+             <xref linkend="user.tooltips.custom.extendclass" />)</para>
+          </listitem>
+        </itemizedlist>
+        <programlisting><![CDATA[area_async.members.label = "Members"
+area_async.members.dsn = "pgsql://www-data:www-data@localhost:5432/france"
+area_async.members.dbTableName = points
+area_async.members.attributes = "name,age,place"]]></programlisting>
+        <note>
+          <para>For <emphasis>area_async</emphasis> layers, layer definition
+           in mapfile doesn't have to be a postgis (connectiontype) layer.
+           For example, user is able to draw geographical data coming from a
+           shapefile and show attribute values coming from a non geographical
+           database.</para>
+        </note>
+      </sect3>
+    </sect2>
+    <sect2 id="user.tooltips.basic.areadirect">
+      <title>Area Direct</title>
+      <sect3 id="user.tooltips.basic.areadirect.intro">
+        <title>Introduction</title>
+        <para>For the <emphasis>area_direct</emphasis> defined layers, area
+         tags are sent within the HTML source of the page, as well as the
+         relative attributes (names and values). Interactive areas area
+         available on the map on top of corresponding features.</para>
+        <para>When the user moves the mouse over each area, and stops during
+         several milliseconds, a basic HTML table is built with the attributes
+         using javascript and display with the tooltip.</para>
+      </sect3>
+      <sect3 id="user.tooltips.basic.areadirect.proscons">
+        <title>Pros / Cons</title>
+        <para>Pros</para>
+        <itemizedlist>
+          <listitem>
+            <para>simplest way to use tooltips,</para>
+          </listitem>
+          <listitem>
+            <para>no database needed, can work with shapefiles (or data files)
+            </para>
+          </listitem>
+          <listitem>
+            <para>no server call, live result
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>Cons</para>
+        <itemizedlist>
+          <listitem>
+            <para>cannot work for line type features,</para>
+          </listitem>
+          <listitem>
+            <para>may be ressource consuming and performances may fail for
+             large amount of features,</para>
+          </listitem>
+          <listitem>
+            <para>only one result at one time, if several features are stacked
+             on each other, only the result of the uppermost feature is
+             displayed,</para>
+          </listitem>
+          <listitem>
+            <para>the layout cannot be customized</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+      <sect3 id="user.tooltips.basic.areadirect.configuration">
+        <title>Configuration</title>
+        <para>Here are defined parameters available for 
+        <emphasis>area_direct layers</emphasis></para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>label</parameter>
+            <indexterm><primary>label</primary></indexterm>: label fo the layer
+            </para>
+          </listitem>
+        </itemizedlist>
+        <programlisting><![CDATA[area_direct.region.label = "Regions"
+area_direct.users.label = "Users"]]></programlisting>
+        <para>The list of attributes names and values that are displayed in the
+        tooltip is set with the "query_returned_attributes" metadata in the
+        mapfile as used for the query tool.
+        </para>
+      </sect3>
+    </sect2>
+  </sect1>
+  <sect1 id="user.tooltips.custom">
+    <title>Custom Tooltips</title>
+    <sect2 id="user.tooltips.custom.templates">
+      <title>Templates</title>
+      <tip>
+        <para>Make sure that the custom templates are in the
+        <filename>templates</filename> folder in the 
+        <filename>toolTips</filename> plugin directory in your project.</para>
+      </tip>
+      <sect3 id="user.tooltips.custom.templates.main">
+        <title>Main Template</title>
+        <para>As for the other plugins, templates can be overriden in the
+        projects. Then, user can define a new 
+        <filename>layerResult.tpl</filename> template for all 
+        <emphasis>timeout_async</emphasis> or <emphasis>area_async</emphasis>
+         layers.</para>
+      </sect3>
+      <sect3 id="user.tooltips.custom.templates.specific">
+        <title>Layer Specific Template</title>
+        <para>One can also define a specific template for each layer of 
+        <emphasis>timeout_async</emphasis> and <emphasis>area_async</emphasis>
+         ones. It can be defined using the template parameter (See 
+         <xref linkend="user.tooltips.basic.timeoutasync.configuration" /> or 
+         <xref linkend="user.tooltips.basic.areaasync.configuration" />) or in
+         <function>renderResult</function>() method in PHP code if 
+         <classname>QueryableLayer</classname> is extended (see above).</para>
+      </sect3>
+    </sect2>
+    <sect2 id="user.tooltips.custom.extendclass">
+      <title>Extending classes</title>
+      <para>For the <emphasis>timeout_async</emphasis> layers, if a class extending
+      <classname>ByXyQueryableLayer</classname> with a name like 
+      <classname>LayerIdQueryableLayer</classname> exists, it will be taken
+      into account.
+      </para>
+      <para>Similarly, for the <emphasis>area_async</emphasis>, the classes
+       extending <classname>ByIdQueryableLayer</classname> will be taken into
+       account.</para>
+      <para>To do so, you should extend (replace) the 
+      <literal>toolTips</literal> plugin (See 
+      <xref linkend="dev.newplugin.adapting.extending" />).
+      You can name it <literal>ProjectToolTips</literal> for example.</para>
+      <para>So create a <filename>ClientProjectToolTips.php</filename> file
+       containing something like :</para>
+      <programlisting><![CDATA[require_once 'CustomLayers.php';
+
+/**
+ * Client part of ClientToolTips plugin
+ * @package Plugins
+ */
+class ClientProjectToolTips extends ClientToolTips {
+
+    /**
+     * @see PluginManager::replacePlugin()
+     */
+    public function replacePlugin() {
+        return 'toolTips';
+    }
+}]]></programlisting>
+      <para>Then create a new PHP file in the same directory named 
+      <filename>CustomLayers.php</filename>.
+      </para>
+      <important>
+        <para>The name of the class that extends 
+        <classname>ByXyQueryableLayer</classname> or 
+        <classname>ByIdQueryableLayer</classname> should match the layerId.
+        </para>
+      </important>
+      <para>
+      It should look like :
+      </para>
+      <programlisting><![CDATA[class DepQueryableLayer extends ByXyQueryableLayer {
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->addReturnedAttribute('nom_chf_l');
+    }
+
+    /**
+     * Sets the type of ResultLayer returned by ResultLayer::queryLayer()
+     * @see QueryableLayer::newLayerResult()
+     */
+    protected function newLayerResult() {
+        return new DepLayerResult();
+    }
+}
+
+class DepLayerResult extends LayerResult {
+
+    /**
+     * @see LayerResult::renderResult()
+     */
+    public function renderResult($smarty) {
+        $smarty->assign('layerId', $this->getId());
+        $smarty->assign('layerLabel', Encoder::encode($this->getLabel(), 'config'));
+        $smarty->assign('depName', $this->getAttribute('nom_dept'));
+        $smarty->assign('depCode', $this->getAttribute('code_dept'));
+        $smarty->assign('depChefLieu', ucfirst(strtolower($this->getAttribute('nom_chf_l'))));
+        return $smarty->fetch('layerResult_depLayer.tpl');
+
+    }
+}]]></programlisting>
+      <para>This method allows people to build tooltips with results coming
+      from several sources (joined tables for example).</para>
+      <tip>
+        <para>Don't forget to load the plugin on client-side (
+        <filename>client_conf/client.ini</filename>)</para>
+      </tip>
+    </sect2>
+    <sect2 id="user.tooltips.custom.styling">
+      <title>Styling</title>
+      <para>Here are some considerations on how to customize the tooltip
+      appearance.</para>
+      <para>TODO</para>
+    </sect2>
+  </sect1>
+</chapter>
