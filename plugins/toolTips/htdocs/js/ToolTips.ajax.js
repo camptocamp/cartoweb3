@@ -250,7 +250,7 @@ AjaxPlugins.ToolTips = {
     useMap: function() {
         var image = xCreateElement('img');
         image.style.position = "absolute";
-        image.src = "blank.gif";
+        image.src = "gfx/layout/blank.gif";
         image.border = 0;
         image.id = mainmap.id + "_imagemap";
         this.imagemapId = image.id;
