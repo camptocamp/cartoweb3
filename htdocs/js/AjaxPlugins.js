@@ -59,6 +59,9 @@ AjaxPlugins.Common = {
     init: function() {
         Logger.header('Initiating actions');
         AjaxPlugins.Location.Actions.Pan.init();
+        if (typeof AjaxPlugins.ToolTips != 'undefined') {
+            AjaxPlugins.ToolTips.init();
+        }
     },
 
     /* General plugins behaviour, called before any ajax call */
