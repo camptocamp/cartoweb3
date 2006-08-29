@@ -1,4 +1,4 @@
-/* Copyright 2005 Camptocamp SA. 
+/* Copyright 2005 Camptocamp SA.
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 //----------------------------------------------------------------------------//
@@ -24,7 +24,7 @@ CartoWeb = {
             eval(nonAjaxInstruction);
         }
     },
-    
+
     disableAjax: function() {
         if (typeof(AjaxHandler) != 'undefined') {
             AjaxHandler.processActions = false;
@@ -35,19 +35,19 @@ CartoWeb = {
             AjaxHandler.processActions = true;
         }
     },
-    
+
     /**
      * Returns wether AJAX mode is enabled or not
      * @return bool True if AJAX mode is enabled, false otherwise.
-     */ 
+     */
     isAjaxMode: function() {
         return typeof(AjaxHandler) != 'undefined' && AjaxHandler.processActions;
-    }    
-} 
+    }
+}
 
 //----------------------------------------------------------------------------//
 
- /** 
+ /**
   * dhtmlAPI Core
   *
   * Tested browsers
@@ -84,7 +84,7 @@ function Map(className) {
 
   // displays array
   this.displays = new Array();
-  
+
   this.currentEditFeature = null;
 
   // get all elements with className = "map", create display object with each
@@ -127,7 +127,7 @@ Map.prototype.addLayer = function(obj, aLayer) {
 
   if (typeof obj.layers[aLayer] != 'undefined')
     return aLayer;
-    
+
   //var aLayer= new layerObj(name);
   aLayer._map = obj; //reference to the parent
 
@@ -145,7 +145,7 @@ Map.prototype.addLayer = function(obj, aLayer) {
   }
   return aLayer;
 };
-  
+
 /**
  * Updates the map features count
  */
@@ -191,8 +191,8 @@ Map.prototype.setCurrentLayer = function(aLayerId) {
   if (layer == null) {
     layer = new Layer(aLayerId);
     this.addLayer(this, layer);
-  }  
-  this.currentLayer = layer;  
+  }
+  this.currentLayer = layer;
 };
 
 /**
@@ -206,7 +206,7 @@ function Layer(name) {
   this.layers = new Array();
   // features array
   this.features = new Array();
-      
+
   this.addFeature = function(aFeature) {
     this.features.push(aFeature);
   };
@@ -221,24 +221,24 @@ function Display(docObj) {
   // TODO change cursor to wait for some operation
   this._posx = xPageX(docObj);
   this._posy = xPageY(docObj);
-    
+
   this._width = xWidth(docObj);
   this._height = xHeight(docObj);
-    
+
   this.id = this.name = docObj.id;
-  
+
   docObj._display = this;
-  
+
   docObj.innerHTML = "";
-  
+
   this.docObj = docObj;
-  
+
   this.features = new Array();
-  
+
   // draw a root layer (container)
   this.rootDisplayLayer = this.addLayer(docObj, "rootLayer", layerCN);
   xMoveTo(this.rootDisplayLayer, this._posx, this._posy);
-  
+
   // draw a specific event pad layer needed for some tools
   this.eventPad = this.addLayer(this.rootDisplayLayer, "eventPad", layerCN);
   // hack for IE windows : allow to click and move over an image
@@ -250,7 +250,7 @@ function Display(docObj) {
   xResizeTo(this.eventPad, this._width, this._height);
   xHide(this.eventPad);
   this.eventPad.style.zIndex = 1;
-  
+
   // ***************************
   // map displays event handlers
   EventManager.Add(this.rootDisplayLayer, 'mouseover', display_onmouseover, false);
@@ -259,7 +259,7 @@ function Display(docObj) {
   EventManager.Add(this.rootDisplayLayer, 'mouseup', display_onmouseup, false);
   EventManager.Add(this.rootDisplayLayer, 'mouseout', display_onmouseout, false);
   EventManager.Add(document, 'keydown', display_onkeydown, false);
-  
+
   return this;
 };
 
@@ -270,9 +270,9 @@ Display.prototype.setTool = function(tool) {
   this.mouseAction = tool;
   // current drawing layer
   this.currentLayer = xGetElementById(this.id + "_" + this._map.currentLayer.id);
-  
+
   this.dShape = undefined;
-  
+
   switch(tool) {
   case "pan":
     this.mouseAction = new PanTool(this);
@@ -322,14 +322,15 @@ Display.prototype.setTool = function(tool) {
  */
 function PanTool(aDisplay) {
   aDisplay.docObj.style.cursor = "move";
-  xShow(aDisplay.eventPad);
+  xHide(aDisplay.eventPad);
   xEnableDrag(aDisplay.rootDisplayLayer, aDisplay.dragStart, aDisplay.drag, aDisplay.dragEnd);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 PanTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   var layer = xGetElementById(aDisplay.currentLayer.id);
-  layer.style.display = "none";
+  xHide(layer);
 };
 PanTool.prototype.onDrag = function(elt,x,y) {
   var aDisplay = elt._display;
@@ -352,10 +353,13 @@ PanTool.prototype.onDragEnd = function(elt,x,y) {
     var pixCenterX = (aDisplay._width / 2) - dx;
     var pixCenterY = (aDisplay._height / 2) - dy;
   }
-        
+
   var centerX = pix2Geo(pixCenterX, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax);
   var centerY = pix2Geo(pixCenterY, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin);
   if (aDisplay._map.onPan) aDisplay._map.onPan(centerX, centerY);
+  
+  var layer = xGetElementById(aDisplay.currentLayer.id);
+  xShow(layer);
 };
 
 /**
@@ -363,36 +367,42 @@ PanTool.prototype.onDragEnd = function(elt,x,y) {
  * @param aDisplay display object
  */
 function DrawPointTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
+  
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 DrawPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   var feature = new Point();
-    
+
   if (aDisplay._map.onNewFeature)
     aDisplay._map.onNewFeature(feature);
 
   // aDisplay._map.currentLayer.features.push(feature);
-      
+
   var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
   dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
   dShape.X = new Array();
   dShape.Y = new Array();
   aDisplay.feature = feature;
   aDisplay.dShape = dShape;
-  
+
   aDisplay._map.updateFeaturesCount();
-  
+
   // store the new point coordinates
   var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
   vertex.index = aDisplay.feature.vertices.length;
   aDisplay.dShape.X.push(ex);
   aDisplay.dShape.Y.push(ey);
-             
+
   var dp = aDisplay.drawPoint(aDisplay.dShape, ex, ey, null, null, _OFF);
   dp.index = aDisplay.feature.vertices.length;
   aDisplay.feature.vertices.push(vertex);
@@ -416,16 +426,21 @@ DrawPointTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawLineTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   aDisplay.isDrawing = 'line';
   if (typeof(dblclick) != "undefined") return; // double click
-  
+
 
   if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
     ex = aDisplay.snapToX;
@@ -436,10 +451,10 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     var feature = new Polyline();
     if (aDisplay._map.onNewFeature)
       aDisplay._map.onNewFeature(feature)
-      
+
   // moving line
     aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
-      
+
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
@@ -455,7 +470,7 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
       _OFF);
     }
   }
-  
+
   aDisplay._map.updateFeaturesCount();
   // store the new point coordinates
   var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
@@ -463,7 +478,7 @@ DrawLineTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   vertex.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.dShape.X.push(ex);
   aDisplay.dShape.Y.push(ey);
-             
+
   var dp = aDisplay.drawPoint(aDisplay.dShape, ex, ey, null, null, _OFF);
   dp.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.tmpFeature.vertices.push(vertex);
@@ -525,7 +540,7 @@ DrawLineTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
            aDisplay.dShape.X[vl - 1], aDisplay.dShape.Y[vl - 1],
            _OFF);
       }
-    }        
+    }
   }
 };
 DrawLineTool.prototype.onDblClick = function(aDisplay, ex, ey) {
@@ -552,13 +567,18 @@ DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawBoxTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 DrawBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   aDisplay.isDrawing = 'box';
 
   if (aDisplay._map.onNewFeature)
@@ -602,7 +622,7 @@ DrawBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
   aDisplay.feature.vertices.push(vertex);
-         
+
   aDisplay.downx = aDisplay.downy = aDisplay.upx = aDisplay.upy = undefined;
   // fire a map event, box is drawn
   if (aDisplay._map.onFeatureInput) {
@@ -623,16 +643,21 @@ DrawBoxTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawPolygonTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   aDisplay.isDrawing = 'line';
   if (typeof(dblclick) != 'undefined') return; // double click
-    
+
   if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
     ex = aDisplay.snapToX;
     ey = aDisplay.snapToY;
@@ -640,24 +665,24 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   // new polygon
   if (!aDisplay.tmpFeature) {
     var feature = new Polygon();
-    
+
     if (aDisplay._map.onNewFeature)
       aDisplay._map.onNewFeature(feature)
-  
+
     // moving line
     aDisplay.dml = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
     // moving line
     aDisplay.dml2 = aDisplay.drawLine(aDisplay.currentLayer, 0, 0, 0, 0);
-    
+
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.features.push(dShape);
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
     dShape.X = new Array();
     dShape.Y = new Array();
-        
+
     aDisplay.tmpFeature = feature;
     aDisplay.dShape = dShape; // assign the object to the map display
-    
+
     aDisplay._map.updateFeaturesCount();
   } else if (aDisplay.tmpFeature.closing) {
     // close the polygon
@@ -698,7 +723,7 @@ DrawPolygonTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   vertex.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.dShape.X.push(ex);
   aDisplay.dShape.Y.push(ey);
-             
+
   var dp = aDisplay.drawPoint(aDisplay.dShape, ex, ey, null, null, _OFF);
   dp.index = aDisplay.tmpFeature.vertices.length;
   aDisplay.tmpFeature.vertices.push(vertex);
@@ -722,7 +747,7 @@ DrawPolygonTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
     this.lineDraw = new DrawLineTool(aDisplay);
   }
   this.lineDraw.onMouseMove(aDisplay, ex, ey);
-  
+
   if (aDisplay.isDrawing != "line" && aDisplay.tmpFeature &&
       aDisplay.dShape.X.length > 1 &&
       distance2Pts(aDisplay.dShape.X[0],aDisplay.dShape.Y[0],ex,ey) < snappingDistance) {
@@ -739,7 +764,7 @@ DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   aDisplay.dml2.innerHTML = "";
   // close the polygon
   var vl = aDisplay.tmpFeature.vertices.length; // number of vertex
-  var dln = aDisplay.drawLine(aDisplay.dShape, aDisplay.dShape.X[0], aDisplay.dShape.Y[0], 
+  var dln = aDisplay.drawLine(aDisplay.dShape, aDisplay.dShape.X[0], aDisplay.dShape.Y[0],
       aDisplay.dShape.X[vl-1], aDisplay.dShape.Y[vl-1], _OFF);
   // store the first point coordinates
   var vertex = new Vertex(aDisplay.tmpFeature.vertices[0].x, aDisplay.tmpFeature.vertices[0].y);
@@ -750,7 +775,7 @@ DrawPolygonTool.prototype.onDblClick = function(aDisplay, ex, ey) {
   if (aDisplay._map.onFeatureInput) {
     aDisplay._map.onFeatureInput(aDisplay.tmpFeature);
   }
-  
+
   if (typeof aDisplay.snapToVertex != "undefined") {
     aDisplay.snapToVertex.className = vertexCN + _OFF;
     aDisplay.snapToVertex = undefined;
@@ -778,18 +803,23 @@ DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawCircleTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 DrawCircleTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   aDisplay.isDrawing = 'circle';
 
   if (aDisplay._map.onNewFeature)
     aDisplay._map.onNewFeature(feature);
-  
+
   // new circle
   if (!aDisplay.tmpFeature) {
     var feature = new Circle();
@@ -812,37 +842,37 @@ DrawCircleTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
     var dx = ex - aDisplay.downx;
     var dy = ey - aDisplay.downy;
     var radius = Math.sqrt(dx * dx + dy * dy);
-    
+
     aDisplay.drawEllipse(aDisplay.dShape, aDisplay.downx - radius, aDisplay.downy - radius,
       radius * 2, radius * 2, _OFF);
   }
 };
 DrawCircleTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
-  
+
   // fire a map event, box is drawn
   if (aDisplay.tmpFeature) {
-  
+
     // fill the circle
-    
+
     var dx = ex - aDisplay.downx;
     var dy = ey - aDisplay.downy;
     var radius = Math.sqrt(dx * dx + dy * dy);
-    
+
     aDisplay.fillEllipse(aDisplay.dShape, aDisplay.downx - radius, aDisplay.downy - radius,
       radius * 2, radius * 2, _OFF);
-    
+
     var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
         pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
     aDisplay.tmpFeature.vertices.push(vertex);
-    
+
     // TODO manage non orthonormed reference systems
     aDisplay.tmpFeature.radius = Math.abs(pix2Geo(radius, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax) - aDisplay._map.extent.xmin);
-    
+
     if (aDisplay._map.onFeatureInput) {
       aDisplay._map.onFeatureInput(aDisplay.tmpFeature);
     }
   }
-  
+
   aDisplay.downx = aDisplay.downy = undefined;
   aDisplay.tmpFeature = undefined;
 }
@@ -860,7 +890,11 @@ DrawCircleTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function MoveTool(aDisplay) {
-  xHide(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -929,7 +963,7 @@ MoveTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
     var dShape = xParent(xParent(umo, true), true);
     if (cn.indexOf(_SEL) == -1) changeStatus(aDisplay.currentLayer, _OFF, true, true);
     changeStatus(dShape, _SEL, true, true);
-  
+
     var feature = aDisplay.getMapFeature(dShape);
     if (feature.operation != 'insert') feature.operation = 'update';
     aDisplay._map.updateFeaturesCount();
@@ -939,14 +973,14 @@ MoveTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
 };
 MoveTool.prototype.onDrag = function(elt, x, y) {
   var aDisplay = elt._display;
-  
+
   var cn = elt.className;
   var currentLayer = aDisplay._map.currentLayer;
   var xmin = aDisplay._map.extent.xmin;
   var xmax = aDisplay._map.extent.xmax;
   var ymin = aDisplay._map.extent.ymin;
   var ymax = aDisplay._map.extent.ymax;
-  
+
   if (cn.indexOf(vertexCN) != -1) { // clicked on a vertex
     // TODO use snapping when moving vertices
     xMoveTo(elt,xLeft(elt) + x, xTop(elt) + y);
@@ -961,19 +995,19 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
   var xmax = aDisplay._map.extent.xmax;
   var ymin = aDisplay._map.extent.ymin;
   var ymax = aDisplay._map.extent.ymax;
-  
+
   if (cn.indexOf(vertexCN) != -1) { // clicked on a vertex
     var dShape = xParent(xParent(elt, true), true);
-    
+
     var feature = aDisplay.getMapFeature(dShape);
     if (feature.operation != 'insert') feature.operation = 'update';
-        
+
     // get the index of the moved vertex
     var currentVertexIndex = xParent(elt, true).index;
     if (typeof currentVertexIndex == "undefined") {
       return;
     }
-    
+
     if (typeof aDisplay.snapToX != "undefined" && typeof aDisplay.snapToY != "undefined") {
       var newX = aDisplay.snapToX;
       var newY = aDisplay.snapToY;
@@ -985,7 +1019,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
     // change the coordinates in the map object
     var newGeoX = pix2Geo(newX + xOffsetLeft(dShape), 0, aDisplay._width, xmin, xmax);
     var newGeoY = pix2Geo(newY + xOffsetTop(dShape), 0, aDisplay._height, ymax, ymin);
-        
+
     //get the next and previous lines, and next and previous vertex
     var pl, nl, pv, nv;
     // closed polygon case
@@ -995,7 +1029,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
       feature.vertices[feature.vertices.length - 1].y = feature.vertices[0].y = newGeoY;
       dShape.X[dShape.X.length-1] = dShape.X[0] = newX;
       dShape.Y[dShape.Y.length-1] = dShape.Y[0] = newY;
-          
+
       // previous line is the last element of the dShape
       // TODO error with polygon fill
       var nextElt = xFirstChild(dShape);
@@ -1017,7 +1051,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
       dShape.X[currentVertexIndex] = newX;
       dShape.Y[currentVertexIndex] = newY;
     }
-          
+
     if (!feature.clipped) {
       // redraw the previous and next lines
       if (pl) {
@@ -1030,7 +1064,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
         dShape.Y[nv], newX,
         newY, _SEL);
       }
-          
+
       // refill the closed polygons
       if (isClosedPolygon(feature)){
         aDisplay.fillPolygon(dShape, _SEL);
@@ -1040,7 +1074,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
       aDisplay.currentLayer.removeChild(prevFeature);
       aDisplay.drawFeature(aDisplay.currentLayer, feature, _SEL);
     }
-    
+
   } else {// complete feature moved
     // get the corresponding map feature
     for (i = 0; i < currentLayer.features.length;i++) {
@@ -1050,8 +1084,8 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
         continue;
       }
     }
-        
-    // change all the coordinates 
+
+    // change all the coordinates
     if (!feature) {
       alert ("drag on feature which not defined");
       return;
@@ -1060,7 +1094,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
       feature.vertices[i].x += (x - elt.startX) * (xmax - xmin) / aDisplay._width;
       feature.vertices[i].y += (y - elt.startY) * (ymin - ymax) / aDisplay._height;
     }
-    
+
     // redraw the polygon if clipped
     if (feature.clipped) {
       var prevFeature = xGetElementById(aDisplay.id + "_" + feature.id);
@@ -1077,13 +1111,18 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
  * @param aDisplay display object
  */
 function SelPointTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 SelPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   aDisplay.addDiv(aDisplay.currentLayer, ex - 4, ey, 10, 2, linepointCN + _OFF);
   aDisplay.addDiv(aDisplay.currentLayer, ex, ey - 4, 2, 10, linepointCN + _OFF);
   var x = pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax);
@@ -1097,13 +1136,18 @@ SelPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function SelBoxTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
   changeStatus(aDisplay.rootDisplayLayer, _OFF, true, true);
 };
 SelBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
+  xShow(aDisplay.eventPad);
   if (!aDisplay.dShape) {
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, ex, ey, null, null, boxCN + _OFF);
     aDisplay.addDiv(dShape, 0, 0, null, null, boxfillCN + _OFF);
@@ -1124,12 +1168,12 @@ SelBoxTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
 SelBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   aDisplay.upx = ex;
   aDisplay.upy = ey;
-  
+
   var xmin = pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax);
   var xmax = pix2Geo(aDisplay.upx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax);
   var ymin = pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin);
   var ymax = pix2Geo(aDisplay.upy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin);
-  
+
   if (aDisplay._map.onSelBox) aDisplay._map.onSelBox(xmin, ymin, xmax, ymax);
   aDisplay.downx = aDisplay.downy = aDisplay.upx = aDisplay.upy = undefined;
   aDisplay.dShape = undefined;
@@ -1140,7 +1184,11 @@ SelBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function DeleteVertexTool(aDisplay) {
-  xHide(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -1153,20 +1201,20 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   } else {
     var cn = umo.className;
     var dShape = xParent(xParent(umo, true), true); // clicked on a line of a polyline or polygon
-          
+
     if (cn.indexOf(_SEL) == -1) {
       // unselect all the others features
       changeStatus(aDisplay.currentLayer, _OFF, true, true);
       changeStatus(dShape, _SEL, true, true);
     } else if (cn.indexOf(vertexCN) != -1) {
       var feature = aDisplay.getMapFeature(dShape);
-      
+
       if (feature.operation != 'insert') feature.operation = 'update';
       aDisplay._map.updateFeaturesCount();
-      
-      
+
+
       var currentVertexIndex = xParent(umo, true).index;
-        
+
       // remove the vertex in the feature
       var newGeo = new Array();
       var newX = new Array();
@@ -1180,7 +1228,7 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
         newX.push(dShape.X[i]);
         newY.push(dShape.Y[i]);
       }
-          
+
       // case of closed polygon first vertex
       if (currentVertexIndex == 0 && isClosedPolygon(feature)) {
         var vertex = new Vertex(newGeo[0].x, newGeo[0].y);
@@ -1189,15 +1237,15 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
         newX[newX.length - 1] = newX[0];
         newY[newX.length - 1] = newY[0];
       }
-          
+
       // replace with the new coordinates
       feature.vertices = newGeo;
       dShape.X = newX;
       dShape.Y = newY;
-      
+
       aDisplay.currentLayer.removeChild(dShape);
       aDisplay.drawFeature(aDisplay.currentLayer, feature, _SEL);
-      
+
       //aDisplay.fillPolygon(dShape, _SEL);
       if (aDisplay._map.onFeatureChange) aDisplay._map.onFeatureChange(feature);
     }
@@ -1209,37 +1257,41 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function AddVertexTool(aDisplay) {
-  xHide(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
 AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!umo) return;
     // clicked on map
-  
+
   if (umo.className.indexOf(layerCN) != -1) {
     if (aDisplay._map.onUnselectFeatures) aDisplay._map.onUnselectFeatures();
     changeStatus(aDisplay.currentLayer, _OFF, true, true);
   } else {
     var cn = umo.className;
     var dShape = xParent(xParent(umo, true), true); // clicked on a line of a polyline or polygon
-        
+
     if (cn.indexOf(_SEL) == -1) {
       // unselect all the others features
       changeStatus(aDisplay.currentLayer, _OFF, true, true);
       changeStatus(dShape, _SEL, true, true);
       return;
     } else {
-    
+
       if (cn.indexOf(linepointCN) == -1) // clicked on a line of a polyline or polygon
         return;
       var feature = aDisplay.getMapFeature(dShape);
-      
+
       var line = xParent(umo, true);
       //get the next and previous lines, and next and previous vertex
       var pv = xPrevSib(line);
       var nv = xNextSib(line);
-          
+
       // get the index of the previous vertex
       var currentVertexIndex = pv.index;
 
@@ -1269,7 +1321,7 @@ AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
       dShape.X = newX;
       dShape.Y = newY;
       if (aDisplay._map.onFeatureChange) aDisplay._map.onFeatureChange(feature);
-      
+
       aDisplay.currentLayer.removeChild(dShape);
       aDisplay.drawFeature(aDisplay.currentLayer, feature, _SEL);
     }
@@ -1281,7 +1333,11 @@ AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function DeleteFeatureTool(aDisplay) {
-  xHide(aDisplay.eventPad);
+  if (document.getElementById('map_imagemap')) {
+    xHide(aDisplay.eventPad);
+  } else {
+    xShow(aDisplay.eventPad);
+  }
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -1294,16 +1350,16 @@ DeleteFeatureTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   else {
     var cn = umo.className;
     var dShape = xParent(xParent(umo, true), true); // clicked on a line of a polyline or polygon
-  
+
     if (cn.indexOf(_SEL) == -1) {
       // unselect all the others features
       changeStatus(aDisplay.currentLayer, _OFF, true, true);
       changeStatus(dShape, _SEL, true, true);
     } else {
-      
+
       if (! confirm(_m_delete_feature + "\n" + dShape.id)) return;
       xHide(dShape);
-    
+
       var feature = aDisplay.getMapFeature(dShape);
       if (feature.operation != 'insert') feature.operation = 'delete';
       aDisplay._map.updateFeaturesCount();
@@ -1330,7 +1386,7 @@ Display.prototype.drag = function(elt, x, y) {
   if (elt._display.mouseAction && elt._display.mouseAction.onDrag)
     elt._display.mouseAction.onDrag(elt,x,y);
 };
-  
+
 /**
  * End drag event
  */
@@ -1347,16 +1403,16 @@ Display.prototype.dragEnd = function(elt, x, y) {
 Display.prototype.addLayer = function(obj, name) {
 
   var aLayer = xCreateElement('div');
-      
+
   var layer;
 
   if (typeof(obj.className) == "undefined") // obj name given
     layer = xGetElementById(this.id + "_" + obj.id)
   else
     layer = obj;
-  if (layer == null) 
+  if (layer == null)
     layer = this.rootDisplayLayer;
-      
+
   aLayer.className = layerCN;
   aLayer.id = this.id + "_" + name;
   aLayer.X = new Array();
@@ -1409,7 +1465,7 @@ Display.prototype.clearLayer = function(aLayerId) {
 	  this.tmpFeature = undefined;
 	  return aLayer;
   }
-}; 
+};
 
 /**
  * Draws a point
@@ -1440,7 +1496,7 @@ Display.prototype.drawPoint = function(obj, x1, y1, x2, y2, status) {
 
   return aPoint;
 };
-  
+
 /**
  * Draws a line
  * @param obj object to add a line to, or object line that already exists
@@ -1455,7 +1511,7 @@ Display.prototype.drawLine = function(obj, x1, y1, x2, y2, status) {
   this.dSpacing = 10;
 
   var status = (typeof(status) != 'undefined' && status != "") ? status : _OFF;
-  
+
   // already existing object
   if ((typeof(obj.id) != 'undefined' && obj.id != "") && (obj.id.substr(0,2) == 'li')) {
     var aLine = obj;
@@ -1479,7 +1535,7 @@ Display.prototype.drawLine = function(obj, x1, y1, x2, y2, status) {
 
   return aLine;
 };
-  
+
 /**
  * Draws a line with points
  * @param obj object to add a line to, or object line that already exists
@@ -1516,7 +1572,7 @@ Display.prototype.drawLinePts = function(obj, x1, y1, x2, y2, status) {
   jg.paint();
 
   xWalkTree(aLine, function(elt) {elt._display = obj._display});
-    
+
   return aLine;
 };
 
@@ -1602,12 +1658,12 @@ Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
     status = _OFF;
   if (typeof allowClipping == "undefined")
     allowClipping = true;
-    
+
   switch (feature.getObjectClass()) {
     case "Raster":
       // add a div for the raster image
       var dr = this.addDiv(obj, 0, 0, null, null);
-       
+
       img = xCreateElement('img');
       if (typeof(feature.id != 'undefined')) {
         img.id = feature.id;
@@ -1635,7 +1691,7 @@ Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
         feature.clipped = false;
         featureToDraw = feature;
 	  }
-      
+
 	  switch (feature.type) {
 	    case "point":
 	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
@@ -1691,7 +1747,7 @@ Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
 	      this.fillPolygon(dShape, status);
 	      break;
 	  }
-   
+
     default :
       break;
   }
@@ -1753,12 +1809,12 @@ function display_onmouseover(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display; // reference to the display
-  
+
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
-    
+
   if (_display.dragon) return;
-  
+
   // umo is "Under Mouse Object"
   umo = e.target;
 
@@ -1771,14 +1827,14 @@ function display_onmouseover(evt) {
  * Handles Display onmousedown events
  * @param evt event
  */
-function display_onmousedown(evt) {  
+function display_onmousedown(evt) {
   // If left click
   if (((evt.which) && (evt.which == 1)) ||
       ((evt.button) && (evt.button == 1))) {
     display_onmousedown_left(evt);
   } else {
     display_onmousedown_right(evt);
-  }  
+  }
 };
 
 /**
@@ -1786,14 +1842,19 @@ function display_onmousedown(evt) {
  * @param evt event
  */
 function display_onmousedown_left(evt) {
+  
+  if (document.getElementById('map_imagemap')) {
+    document.getElementById('map_rootLayer').removeChild(document.getElementById('map_imagemap'));
+  }
+
   var e = new xEvent(evt);
 
   var _display = e.target._display; // reference to the display
-  
+
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
-    
-  window.status = e.target.id  
+
+  window.status = e.target.id
 
   if (_display.mouseAction && _display.mouseAction.onMouseDown) {
     _display.mouseAction.onMouseDown(_display, ex, ey);
@@ -1814,27 +1875,27 @@ function display_onmousedown_right(evt) {
  */
 function display_onmousemove(evt) {
   var e = new xEvent(evt);
-  
+
   mouse_x = e.pageX;
   mouse_y = e.pageY;
-  
+
   var _display = e.target._display;// reference to the display
-  
-  
+
+
   currentDisplay = _display; // global variable for key events
-  
+
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
 
   geoX = pix2Geo(ex, 0, _display._width, _display._map.extent.xmin, _display._map.extent.xmax);
   geoY = pix2Geo(ey, 0, _display._height, _display._map.extent.ymax, _display._map.extent.ymin);
-  
+
   var e = new xEvent(evt);
-  
+
   if (_display.mouseAction && _display.mouseAction.onMouseMove) {
     _display.mouseAction.onMouseMove(_display, ex, ey);
   }
-    
+
   if (_display._map.onMove) {
     _display._map.onMove(geoX, geoY);
   }
@@ -1854,7 +1915,7 @@ function display_onmouseup(evt) {
     display_onmouseup_left(evt);
   } else {
     display_onmouseup_right(evt);
-  }  
+  }
 }
 
 /**
@@ -1865,16 +1926,16 @@ function display_onmouseup_left(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display;// reference to the display
-    
+
   _display.isDrawing = false;
-  
+
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
 
   if (_display.mouseAction && _display.mouseAction.onMouseUp) {
     _display.mouseAction.onMouseUp(_display, ex, ey);
   }
-  
+
   if (_display._map.onClic) {
     _display._map.onClic(_display.tmpFeature);
   }
@@ -1923,15 +1984,15 @@ function display_onmouseout(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display;// reference to the display
-  
+
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
-    
+
   if (_display.dragon) return;
-  
+
   // umo is "Under Mouse Object"
-  umo = e.target;    
-  
+  umo = e.target;
+
   if (_display.mouseAction && _display.mouseAction.onMouseOut) {
     _display.mouseAction.onMouseOut(_display, ex, ey);
   }
@@ -1942,14 +2003,15 @@ function display_onmouseout(evt) {
  * @param evt event
  */
 function display_onkeydown(evt) {
+
   e = new xEvent(evt);
-  
+
   // no display selected (mouse moved on)
   if (typeof currentDisplay == 'undefined')
     return;
-  
+
   var _display = currentDisplay;// reference to the display currently in use
-  
+
 /*
 13: enter
 27: escape
@@ -2026,7 +2088,7 @@ if(typeof Array.prototype.push == 'undefined')
     for(i;i<a.length;i++)this[b+i] = a[i];
     return this.length
   };
-  
+
 /**
  * Returns the class of the argument or undefined if it's not a valid JavaScript
  * object.
@@ -2082,7 +2144,7 @@ function sprintf() {
   while (a = re.exec(str)) {
     var leftpart = a[1], pPad = a[2], pJustify = a[3], pMinLength = a[4];
     var pPrecision = a[5], pType = a[6], rightPart = a[7];
-    
+
     //alert(a + '\n' + [a[0], leftpart, pPad, pJustify, pMinLength, pPrecision);
 
     numMatches++;
@@ -2147,4 +2209,4 @@ function nullifyProperties(object) {
     object = null;
   }
   catch (e) { }
-}; 
+};
