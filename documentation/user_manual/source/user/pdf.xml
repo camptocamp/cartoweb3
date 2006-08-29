@@ -963,9 +963,9 @@ formats.A3.maxResolution = 150]]></programlisting>
       <listitem>
        <para>
         adding or editing blocks <parameter>content</parameter> parameters to specify default values for text inputs (such as title or note) and other options (legend, scalebar, overview, query results,...). See <xref linkend="user.pdf.tutorial.block"/>. For instance:
-        <programlisting>blocks.title.content = My default title
-blocs.scalebar.content = 1  ; scalebar is checked by default
-blocs.legend.content = in   ; legend is checked as included in map by default</programlisting>
+        <programlisting>blocks.title.content = "My default title"
+blocks.scalebar.content = 1  ; scalebar is checked by default
+blocks.legend.content = in   ; legend is checked as included in map by default</programlisting>
        </para>
       </listitem>
      </itemizedlist>
