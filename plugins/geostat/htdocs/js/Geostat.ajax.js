@@ -1,7 +1,9 @@
 AjaxPlugins.Geostat = {
 
+    folderId: 'folder8',
+
     handleResponse: function(pluginOutput) {
-        AjaxHandler.updateDomElement('folder8', 
+        AjaxHandler.updateDomElement(this.folderId, 
             'innerHTML', pluginOutput.htmlCode.geostat);
     }
 
