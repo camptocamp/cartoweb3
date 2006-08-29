@@ -52,6 +52,9 @@ AjaxPlugins.Common = {
     // clear the waiting message itself (i.e. after raster is loaded)
     doClearWaitingMessage: true,
 
+    // set this to false to disable the dhtml drawing clear
+    doClearDhtmlDrawings: true,
+
     // Number of actions pending (that haven't received a reply yet)
     pendingActions: 0,
 
@@ -72,7 +75,9 @@ AjaxPlugins.Common = {
 
     /* General plugins behaviour, called after any ajax call */
     onAfterAjaxCall: function(actionId) {
-        this.clearDhtmlDrawings();
+        if (this.doClearDhtmlDrawings) {
+            this.clearDhtmlDrawings();
+        }
         this.clearDhtmlStoredFeatures();
         this.clearDhtmlOutlineLabel();
         this.clearWaitingCursor();        
@@ -107,29 +112,23 @@ AjaxPlugins.Common = {
     
     setWaitingMessage: function() {
         var timeoutFn = function() {
-            xShow(xGetElementById($('loadbarDiv')));
+            xShow($('loadbarDiv'));
         }
         setTimeout(timeoutFn, 10);
     },
  
     clearWaitingMessage: function() {
-        xHide(xGetElementById($('loadbarDiv')));
+        xHide($('loadbarDiv'));
     },
-
+    
     clearDhtmlDrawings: function() {
         Logger.note('Clearing DHTML drawings...');
-        var dhtmlDrawingDivId = 'map_drawing';
         // remove drawed layers on mainmap object by deleting all childs of mapDrawing
         // TODO use the proper dhtmlAPI method, if exists...
-        if ($(dhtmlDrawingDivId) == null) {
-            Logger.warn('Element id' + dhtmlDrawingDivId + ' not found.' +
-                        'Unable to clear DHTML drawings');
-        } else {
-            mapDrawingLayer = $(dhtmlDrawingDivId);
-            var childNodesLength = mapDrawingLayer.childNodes.length;
-            for (i = 0; i < childNodesLength; i++) {
-                mapDrawingLayer.removeChild(mapDrawingLayer.childNodes[i]);
-            }
+        try {
+            $A($('map_drawing').childNodes).each(function(e) {e.parentNode.removeChild(e);});
+        } catch (e) {
+            Logger.warn('Unable to clear DHTML drawings: ' + e.message);
         }
     },
     
