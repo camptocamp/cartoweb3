@@ -97,10 +97,11 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
         </listitem>
         <listitem>
           <para> layers.layerId.icon = filename : filename of the static picto 
-            that illustrates this Layer in the layer tree. The path is relative 
-            to <filename>layers.ini</filename>. See also <xref 
-            linkend="user.layers.legend"/> for a description of the automatic 
-            legending process. </para>
+            that illustrates this Layer in the layer tree. The file is expected
+            to be in <filename>server_conf/&lt;mapId&gt;/icons</filename> and
+            a setup script launch is in most cases required.
+            See also <xref linkend="user.layers.legend"/> for a description of
+            the automatic legending process. </para>
         </listitem>
         <listitem>
           <para> layers.layerId.link = url : provides a link for the layer 
