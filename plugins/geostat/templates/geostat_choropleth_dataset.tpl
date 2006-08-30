@@ -25,8 +25,8 @@ selected=$geostatChoroplethClassifMethodSelected}
 <p>
 <label>{t}Class limits{/t}</label>
 {foreach from=$geostatChoroplethBounds item=bound}
-    <input name="geostatChoroplethBounds[]" type="text" size="5" 
-    value="{$bound}" /><br/>
+<br /><input name="geostatChoroplethBounds[]" type="text" size="5" 
+value="{$bound}" />
 {/foreach}
 </p>
 <input type="submit" value="{t}Apply{/t}" onclick="javascript:return CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');" />
