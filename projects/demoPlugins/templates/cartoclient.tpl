@@ -302,9 +302,6 @@
          {if $locate_active|default:''}
            {$locate_form}
          {/if}
-         <span style="display:none">
-         {$id_recenter}
-         </span>
        </fieldset>
        {/if}
        
