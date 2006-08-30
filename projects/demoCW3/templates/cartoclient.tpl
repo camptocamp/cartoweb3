@@ -90,8 +90,8 @@
   {if $collapsibleKeymap|default:''}
   <input type="hidden" name="collapse_keymap" id="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
-  <input type="hidden" id="fake_reset" name="fake_reset" id="fake_reset" />
-  <input type="hidden" id="fake_query" name="fake_query" id="fake_query" />
+  <input type="hidden" id="fake_reset" name="fake_reset" />
+  <input type="hidden" id="fake_query" name="fake_query" />
   {if $outline_active|default:''}
   {$outlinelabel}
   {/if}
