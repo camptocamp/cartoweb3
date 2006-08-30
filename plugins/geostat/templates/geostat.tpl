@@ -14,7 +14,7 @@
   <legend>
     <a href="javascript:toggleGeostatPane('geostat_choropleth_dataset')">
       <img src="{r type=gfx plugin=geostat}{if $smarty.post.geostat_choropleth_dataset_display != 'block'}arrow_closed.gif{else}arrow_opened.gif{/if}{/r}"
-           id ="geostat_choropleth_dataset_img" />
+           id ="geostat_choropleth_dataset_img" alt="" />
       {t}Configure dataset...{/t}
     </a>
   </legend>
@@ -32,7 +32,7 @@
   <legend>
     <a href="javascript:toggleGeostatPane('geostat_choropleth_representation')">
       <img src="{r type=gfx plugin=geostat}{if $smarty.post.geostat_choropleth_representation_display != 'block'}arrow_closed.gif{else}arrow_opened.gif{/if}{/r}"
-           id ="geostat_choropleth_representation_img" />
+           id ="geostat_choropleth_representation_img" alt="" />
       {t}Configure representation...{/t}
     </a>
   </legend>
@@ -53,7 +53,7 @@
        value="{$geostat_shownElementsIdsCsv}" />
 
 {literal}
-<script language="javascript">
+<script type="text/javascript">
     function toggleGeostatPane(elementId) {
         if ($(elementId) == null) return;
 

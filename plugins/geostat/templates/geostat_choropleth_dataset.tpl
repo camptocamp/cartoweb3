@@ -10,21 +10,23 @@
 
 <p>
 <label for="geostatChoroplethNbClasses">{t}Number of classes{/t}</label> 
-<input name="geostatChoroplethNbClasses" type="text" size="3"
+<input name="geostatChoroplethNbClasses" id="geostatChoroplethNbClasses" type="text" size="3"
 value="{$geostatChoroplethNbBins}" onblur="doSubmit()"/>
 </p>
 
 <p>
-<label for="geostatChoroplethNbClasses">{t}Classification method{/t}</label> 
+<label>{t}Classification method{/t}</label> 
 <select name="geostatChoroplethClassifMethod" onchange="doSubmit()">
 {html_options options=$geostatChoroplethClassifMethod 
 selected=$geostatChoroplethClassifMethodSelected}
 </select>
 </p>
 
-<p>{t}Class limits{/t}</p>
+<p>
+<label>{t}Class limits{/t}</label>
 {foreach from=$geostatChoroplethBounds item=bound}
     <input name="geostatChoroplethBounds[]" type="text" size="5" 
-    value="{$bound}"/><br/>
+    value="{$bound}" /><br/>
 {/foreach}
-<input type="submit" value="{t}Apply{/t}" onclick="javascript:return CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');">
+</p>
+<input type="submit" value="{t}Apply{/t}" onclick="javascript:return CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');" />

@@ -1,7 +1,7 @@
 <h4>{t}Choropleth representation configuration{/t}</h4>
 
 <p>
-<label for="geostatChoroplethColorMethod">{t}Coloring Method{/t}</label>
+<label>{t}Coloring Method{/t}</label>
 <select name="geostatChoroplethColorMethod"
         onchange="javascript:CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');">
 {html_options options=$geostatChoroplethColorMethod 
@@ -32,6 +32,7 @@ value="{$geostatChoroplethColorBValue}" />
 </p>
 
 <label>{t}Classes Color{/t}</label>
+{if $geostatChoroplethLabels}
 <table align="center">
 {foreach from=$geostatChoroplethLabels item=label key=labelId}
     <tr>
@@ -51,6 +52,6 @@ value="{$geostatChoroplethColorBValue}" />
     </p>
 {/foreach}
 </table>
-</p>
+{/if}
 
-<input type="submit" value="{t}Apply{/t}" onclick="javascript:return CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');">
+<input type="submit" value="{t}Apply{/t}" onclick="javascript:return CartoWeb.trigger('Geostat.UpdateAll', 'doSubmit()');" />
