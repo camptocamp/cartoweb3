@@ -89,7 +89,7 @@ class OutlineV2ToV3 extends ViewUpgrader {
  */
 class ClientOutline extends ClientPlugin 
                     implements Sessionable, GuiProvider, ServerCaller, 
-                               ToolProvider, Exportable, InitUser {
+                               ToolProvider, Exportable, InitUser, Ajaxable {
                     
     /**                    
      * @var Logger
