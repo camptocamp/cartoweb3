@@ -1,4 +1,4 @@
-CVS version
+2006-08-31: CartoWeb 3.3.0
 ==========================
 
 - Added accounting infrastucture, to log request informations. This can be used for statistics.
