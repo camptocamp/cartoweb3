@@ -22,7 +22,7 @@ toolbarRendering = outline
 ; Views management
 viewOn = true
 viewStorage = file     ;possible values are 'file' and 'db'
-viewablePlugins = demoLocation, layers, query, outline
+viewablePlugins = location, layers, query, outline
 viewMetas = author
 viewAuth = all
 
