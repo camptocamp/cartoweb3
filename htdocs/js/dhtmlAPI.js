@@ -1341,9 +1341,10 @@ DeleteFeatureTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!umo) return;
   // clicked on map
 
-  if (umo.className.indexOf(layerCN) != -1)
-    changeStatus(docObj, _OFF, true, true);
-  else {
+  if (umo.className.indexOf(layerCN) != -1) {
+    if (aDisplay._map.onUnselectFeatures) aDisplay._map.onUnselectFeatures();
+    changeStatus(aDisplay.currentLayer, _OFF, true, true);
+  } else {
     var cn = umo.className;
     var dShape = xParent(xParent(umo, true), true); // clicked on a line of a polyline or polygon
 
@@ -1586,6 +1587,7 @@ Display.prototype.fillPolygon = function(aPolygon, status) {
     pg.pf.id = 'pf' + pfi++;
     xAppendChild(pg, pg.pf);
     pg.style.position = "absolute";
+    pg.style.zIndex = 1;
   } else {
     pfc = false;
     pg.pf.innerHTML = '';
@@ -1612,6 +1614,7 @@ Display.prototype.fillEllipse = function(aEllipse, x, y ,w , h, status) {
     pg.pf.id = 'pf' + pfi++;
     xAppendChild(pg, pg.pf);
     pg.style.position = "absolute";
+    pg.style.zIndex = 1;
   } else {
     pfc = false;
     pg.pf.innerHTML = '';
