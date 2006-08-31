@@ -385,8 +385,6 @@ DrawPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (aDisplay._map.onNewFeature)
     aDisplay._map.onNewFeature(feature);
 
-  // aDisplay._map.currentLayer.features.push(feature);
-
   var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
   dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
   dShape.X = new Array();
@@ -587,7 +585,6 @@ DrawBoxTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!aDisplay.feature) {
     var feature = new Polygon();
     feature.operation = 'insert';
-    aDisplay._map.currentLayer.features.push(feature);
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, ex, ey, null, null, boxCN + _OFF);
     aDisplay.addDiv(dShape, 0, 0, null, null, boxfillCN + _OFF);
     aDisplay.feature = feature;
@@ -824,7 +821,6 @@ DrawCircleTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
   if (!aDisplay.tmpFeature) {
     var feature = new Circle();
     feature.operation = 'insert';
-    aDisplay._map.currentLayer.features.push(feature);
     var dShape = aDisplay.addDiv(aDisplay.currentLayer, 0, 0, null, null);
     aDisplay.tmpFeature = feature;
     dShape.id = dShape.title = aDisplay.id + "_" + feature.id;
