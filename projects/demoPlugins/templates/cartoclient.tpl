@@ -302,7 +302,7 @@
          {if $locate_active|default:''}
            {$locate_form}
          {/if}
-	 {$id_recenter}
+         {$id_recenter}
        </fieldset>
        {/if}
        
