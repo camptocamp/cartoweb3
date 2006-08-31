@@ -19,7 +19,8 @@ AjaxPlugins.Location = {
         var bboxMinY = pluginOutput.variables.bboxMinY;
         var bboxMaxX = pluginOutput.variables.bboxMaxX;
         var bboxMaxY = pluginOutput.variables.bboxMaxY;
-        var factor = pluginOutput.variables.factor;
+        // There is no "var" keyword before variable "factor" below: it is global.
+	factor = pluginOutput.variables.factor;
         mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
         Logger.confirm('Done: new bbox (' + bboxMinX + ', ' + bboxMinY + ', '
                        + bboxMaxX + ', ' + bboxMaxY + ') , factor ('
