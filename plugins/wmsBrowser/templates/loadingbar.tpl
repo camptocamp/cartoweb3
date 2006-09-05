@@ -4,9 +4,9 @@
     loadLoadingbar = function() {
       //compute loading bar position
       xGetElementById('loadbarDivTable').style.width = 
-      window.innerWidth;
+      window.innerWidth?window.innerWidth:document.body.clientWidth;
       xGetElementById('loadbarDivTable').style.height = 
-      window.innerHeight;
+      window.innerHeight?window.innerHeight:document.body.clientHeight;
       //hide loading bar
       xHide(xGetElementById('loadbarDiv'));
     }
