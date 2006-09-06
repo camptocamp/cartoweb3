@@ -9,11 +9,7 @@
 
 <appendix id="appendix.debian_mapserver">
   <title>Mapserver Debian Installation</title>
-  <para>Some Debian packages are available for PHP 5 and MapServer<footnote>
-    <para>Some of the packages were inspired from 
-      <ulink url="http://agrogeomatic.educagri.fr/"/>.</para>
-    </footnote>
-  </para>
+  <para>Some Debian packages are available for PHP 5 and MapServer.</para>
   
   <sect1>
   <title>Setting Up Your Repository and Preferences File</title>  
