@@ -85,10 +85,9 @@ AjaxPlugins.Common = {
             this.clearWaitingMessage();
         }
     },
+
     onCartoclientError: function() {
-        var errorString = 'An error has occured. Press OK to reload this application';
-        var doReload = confirm(errorString);
-        if (doReload) {
+        if (confirm('An error has occured. Press OK to reload this application')) {
             var sURL = unescape(window.location.pathname);
             window.location.replace(sURL);
         }
@@ -102,6 +101,7 @@ AjaxPlugins.Common = {
         $("map").style.cursor = "progress";
         document.getElementsByTagName("body")[0].style.cursor = "progress";
     },
+
     clearWaitingCursor: function() {
         document.getElementsByTagName("body")[0].style.cursor = "default";
         if (this.mapCursorStyle != null) {
@@ -136,24 +136,24 @@ AjaxPlugins.Common = {
         Logger.note('Clearing stored features...');
         // Clear the carto_form's selection_type and selection_coords hidden inputs
         // hidden input fields' value
-        if ($('selection_type') == null) {
-            Logger.error('Unable to clear stored features: "selection_type" element not found');
-        } else {
+        try {
             $('selection_type').value = '';
+        } catch (e) {
+            Logger.error('Unable to clear stored features: ' + e.message);
         }
-
-        if ($('selection_coords') == null) {
-            Logger.error('Unable to clear stored features: "selection_coords" element not found');
-        } else {
+        
+        try {
             $('selection_coords').value = '';
+        } catch (e) {
+            Logger.error('Unable to clear stored features: ' + e.message);
         }
-
-        if ($('features') == null) {
-            Logger.warn('Clear stored features: "features" elements not found');
-        } else {
+        
+        try {
             $('features').value = '';
+        } catch (e) {
+            Logger.warn('Clear stored features: ' + e.message);
         }
-
+       
     },
     
     clearDhtmlOutlineLabel: function() {
