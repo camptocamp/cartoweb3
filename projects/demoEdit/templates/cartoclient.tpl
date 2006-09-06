@@ -32,7 +32,6 @@
     
   </script>
   {/if}
-  <script type="text/javascript" src="{r type=js}toolbar.js{/r}" ></script>
   {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="dhtmlcode.tpl"}
