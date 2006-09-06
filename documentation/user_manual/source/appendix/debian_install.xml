@@ -17,19 +17,7 @@
   
   <sect1>
   <title>Setting Up Your Repository and Preferences File</title>  
-  <para>
-    Add the following to your <filename>/etc/apt/sources.list</filename>  :
-    <screen># cartoweb
-deb http://dev.camptocamp.com/packages/debian/prod/ sarge main
-deb-src http://dev.camptocamp.com/packages/debian/prod/ sarge main</screen>
-  </para>
-  <para>
-    You may want to pin c2c packages higher than 1000 to have them preferred over
-     the upstream ones, even if downgrading. Add in <filename>/etc/apt/preferences</filename>:
-     <screen>Package: *
-Pin: release o=c2c
-Pin-Priority: 1100</screen>
-  </para>
+  <para>Up-to-date repository informations are available on &cartoweb; wiki at  <ulink url="http://cartoweb.org/cwiki/DebianPackages"/>.</para>
   </sect1>  
 
   <sect1>
