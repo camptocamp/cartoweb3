@@ -25,7 +25,7 @@
    <para>
        <note><para>If the wms layer is not displayed after you selected it, it may have several causes. 
        <itemizedlist>
-            <listitem><para>First, try to refresh cartoweb main map.</para></listitem>
+            <listitem><para>First, try to refresh &cartoweb; main map.</para></listitem>
             <listitem><para>If the layer still doesnt show up, it may be under some of your selected layers. Be sure you have set the userLayerGroup correctly, see below for details.</para></listitem>
             <listitem><para>The wms layer extent may be different from your actual map extent, hence appearing totally outside of the viewable area.</para></listitem>
             <listitem><para>If that's not the case, then that wms layer or wms server is not compatible with the current version of the WMS Browser plugin.</para></listitem></itemizedlist></para></note>
@@ -79,18 +79,20 @@ loadPlugins = mapOverlay, wmsBrowser
     <para>
 To do so, in <filename>server_conf/"mapId"/wmsBrowser.ini</filename>, specify 
 the mapfile layer name in the <parameter>wmsInsertLayerAfter</parameter> parameter.
+Exemple:
+    <screen> wmsInsertLayerAfter = raster </screen>
+    where 'raster' is the layer id in the <filename>layers.ini</filename> file above which will appear the WMS layers.
     </para>
   </sect1>
   <sect1 id="user.wms.add">
-    <title>Perform Added WMS Layers Appearance in the Layers List</title>
+    <title>Display Added WMS Layers in the Layers List</title>
     <para>
-    If you want to perform added WMS layers appearance in the layers list, you 
-    still have to affect them a parent LayerGroup. Specify, in 
+    If you want to display the WMS layers in the layers list and be able to select/unselect them, you have to set a parent LayerGroup for the WMS layers. Specify, in 
     <filename>client_conf/layers.ini</filename>, 
     the LayerGroup name in the userLayerGroup parameter (set to 'root' in the original config file).
     Exemple:
-    <screen> userLayerGroup = raster </screen>
-    where 'raster' is the layer id in the <filename>layers.ini</filename> file above which will appear the wms layer.
+    <screen> userLayerGroup = wmsLayers </screen>
+    where 'wmsLayers' is a layerGroup id defined in the <filename>layers.ini</filename> file.
     </para>
   </sect1>
 </chapter>
