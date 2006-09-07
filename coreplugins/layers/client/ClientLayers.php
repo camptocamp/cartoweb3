@@ -965,6 +965,10 @@ class ClientLayers extends ClientPlugin
         
         // retrieve user layers LayerGroup config setting
         $userLayerGroup = $this->getConfig()->userLayerGroup;
+        if (empty($userLayerGroup)) {
+            throw new CartoclientException('userLayerGroup not set, it must be'
+                                    .'set in client side layers.ini config file');
+        }
         $layerGroup = new LayerBase();
         $layerGroup = $this->layersInit->getLayerById($userLayerGroup);
         foreach ($layersResult->userLayers as $userLayer) {
