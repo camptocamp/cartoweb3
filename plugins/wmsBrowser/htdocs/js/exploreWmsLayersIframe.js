@@ -57,7 +57,7 @@ function doSubmit() {
  * @param string image format 
  * @param string layer bbox(comma-separated)
  */ 
-function previewLayer(name, title, connection, version, srs, format, bbox, abs, metadataUrl) {
+function previewLayer(name, title, connection, version, srs, format, bbox, metadataUrl) {
   metadatas = new Array(name, connection, version, srs, format, bbox);
   if (!checkMetadatas(metadatas))
     return;
@@ -77,7 +77,13 @@ function previewLayer(name, title, connection, version, srs, format, bbox, abs, 
   url += "exceptions=application/vnd.ogc.se_inimage";
   parent.document.images.mapimage.src = url;
   //show abstract and add layer
-  showAbstract(title, abs, metadataUrl);
+  abst = xGetElementById(name + '_abs');
+  if (abst){
+    abst = abst.value;
+  } else {
+    abst = '';
+  }
+  showAbstract(title, abst, metadataUrl);
   selectLayer(name);
 }
 

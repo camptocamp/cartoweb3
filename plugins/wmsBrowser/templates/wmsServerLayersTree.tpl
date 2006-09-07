@@ -44,10 +44,10 @@
                    src="{r plugin=wmsBrowser type=gfx/layout/exploreWmsLayers}treeLayers.gif{/r}" />
             </td><td nowrap="nowrap" valign="middle" width="100%">
               <span class="treeLink" id="itemSpan{$wmsLayer.layer_id}">
-                <a href="javascript:previewLayer('{$wmsLayer.name}', '{$wmsLayer.title}', '{$wmsLayer.onlineresource}', '{$wmsLayer.server_version}', '{$wmsLayer.srs}', '{$wmsLayer.format}', '{$wmsLayer.latlonboundingbox}', '{$wmsLayer.abstract}', '{$wmsLayer.metadataurl_href}');" 
+                <a href="javascript:previewLayer('{$wmsLayer.name}', '{$wmsLayer.title}', '{$wmsLayer.onlineresource}', '{$wmsLayer.server_version}', '{$wmsLayer.srs}', '{$wmsLayer.format}', '{$wmsLayer.latlonboundingbox}', '{$wmsLayer.metadataurl_href}');" 
                    id="itemTextLink{$wmsLayer.layer_id}" class="treeLink">
                   {$wmsLayer.title}
-                </a>
+                </a><input type="hidden" id="{$wmsLayer.name}_abs" value="{$wmsLayer.abstract}" />
               </span>
             </td></tr>
           </tbody></table>
