@@ -19,6 +19,17 @@
    To have the plugin working, you must install <ulink url="http://chameleon.maptools.org/">Chameleon</ulink> XML parser first, load plugin and 
    set a few configuration files parameters.
    </para>
+   <para>
+       <warning><para>At this time the WMS Browser plugin is not compatible with the Query tool! This is an actual known issue and it should get fixed in the next version of the plugin.</para></warning>
+   </para>
+   <para>
+       <note><para>If the wms layer is not displayed after you selected it, it may have several causes. 
+       <itemizedlist>
+            <listitem><para>First, try to refresh cartoweb main map.</para></listitem>
+            <listitem><para>If the layer still doesnt show up, it may be under some of your selected layers. Be sure you have set the userLayerGroup correctly, see below for details.</para></listitem>
+            <listitem><para>The wms layer extent may be different from your actual map extent, hence appearing totally outside of the viewable area.</para></listitem>
+            <listitem><para>If that's not the case, then that wms layer or wms server is not compatible with the current version of the WMS Browser plugin.</para></listitem></itemizedlist></para></note>
+   </para>
   </sect1>
   <sect1 id="user.wms.parser">
     <title>Installing Chameleon XML Parser</title>
@@ -76,7 +87,10 @@ the mapfile layer name in the <parameter>wmsInsertLayerAfter</parameter> paramet
     If you want to perform added WMS layers appearance in the layers list, you 
     still have to affect them a parent LayerGroup. Specify, in 
     <filename>client_conf/layers.ini</filename>, 
-    the LayerGroup name in the userLayerGroup parameter (default is root).
+    the LayerGroup name in the userLayerGroup parameter (set to 'root' in the original config file).
+    Exemple:
+    <screen> userLayerGroup = raster </screen>
+    where 'raster' is the layer id in the <filename>layers.ini</filename> file above which will appear the wms layer.
     </para>
   </sect1>
 </chapter>
