@@ -552,6 +552,7 @@ class WmsServerManager {
                                         $abstract = false, $metadata = false) {
         $layerMetadatas['name'] =  $capabRec['name'];
         $layerMetadatas['title'] = str_replace("\n", ' ', $capabRec['title']);
+        $layerMetadatas['title'] = str_replace("'", "\'", $layerMetadatas['title']);
         $bbox = new Bbox();
         $bbox->setFromBbox($capabRec['ll_minx'], $capabRec['ll_miny'],
                            $capabRec['ll_maxx'], $capabRec['ll_maxy']);   
@@ -594,7 +595,7 @@ class WmsServerManager {
                 $layerAbstract = $this->fetchLayerAbstract(
                     $capabRec['server_id'], $abstractId);
             }
-            $layerMetadatas['abstract'] = $layerAbstract;
+            $layerMetadatas['abstract'] = htmlentities($layerAbstract);
         }
         // metadatas
         if ($metadata) {
