@@ -25,7 +25,7 @@
  * Server WMS Browser
  * @package Plugins
  */
-class ServerWmsBrowser extends ClientResponderAdapter {
+class ServerWmsBrowser extends ClientResponderAdapter implements InitProvider {
     
     /**
      * Logger
@@ -47,7 +47,15 @@ class ServerWmsBrowser extends ClientResponderAdapter {
             throw new CartoserverException('Projection must be set in map ' .
                                            'file to add WMS layers!');
     }
-    
+
+
+    /**
+     * @see InitProvider::getInit()
+     */
+    public function getInit() {
+        return true;    
+    }    
+
     /**
      * @see ClientResponder::initializeRequest
      * Dynamically insert WMS layers in the current mapfile
@@ -58,6 +66,7 @@ class ServerWmsBrowser extends ClientResponderAdapter {
             $map = new MapOverlay();
             $map->layers = $request->wmsLayers;
             $id = $this->getConfig()->wmsInsertLayerAfter;
+
             if (empty($id)) {
                 throw new CartoserverException('wmsInsertLayerAfter parameter ' .
                     'needed, set it in wmsBrowser server-side configuration file');
