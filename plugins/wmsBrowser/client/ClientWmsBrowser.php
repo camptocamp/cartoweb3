@@ -60,13 +60,19 @@ class WmsBrowserState {
  * @package Plugins
  */
 class ClientWmsBrowser extends ClientPlugin
-implements GuiProvider, Sessionable, ServerCaller {
+implements GuiProvider, Sessionable, ServerCaller, InitUser {
 
     /**                    
      * Logger
      * @var string
      */
     private $log;
+
+    /**                    
+     * Server side initialised
+     * @var boolean
+     */
+    private $wmsBrowserInit;
 
     /**
      * Current project
@@ -196,6 +202,13 @@ implements GuiProvider, Sessionable, ServerCaller {
     }
 
     /**
+     * @see InitUser::handleInit()
+     */
+    public function handleInit($wmsBrowserInit) {
+        $this->wmsBrowserInit = $wmsBrowserInit;
+    }
+
+    /**
      * @see Sessionable::createSession()
      */
     public function createSession(MapInfo $mapInfo, 
@@ -205,6 +218,13 @@ implements GuiProvider, Sessionable, ServerCaller {
         $this->wmsBrowserState->activeServerUrl = '';
         $this->wmsBrowserState->wmsLayerToAdd = '';
         $this->wmsBrowserState->openNodes = array();
+        
+        /* if ServerWmsBrowser is not loaded, handleInit is totally bypassed, 
+        hence the check in the next operation */
+        if (!$this->wmsBrowserInit) {
+            throw new CartoclientException('WmsBrowser plugin is not loaded'.
+                                                            ' on server side');
+        }
     }
 
     /**
@@ -513,19 +533,22 @@ implements GuiProvider, Sessionable, ServerCaller {
         
         if (count($url) == 1)
             return true;
-        
+        $log = array();
+
         parse_str($url[1], $urlParams);
         foreach ($urlParams as $key => $value) {
-            $this->userLogStatus = false;
-            if (in_array(trim(strtoupper($key)), $keywords))
+            if (in_array(trim(strtoupper($key)), $keywords)) {
                 $log[] = sprintf(' * %s => %s', $key, $value);
+            }
         }
         
-        if ($this->userLogStatus) {
-            return true;
-        } else {
+        if (count($log) >= 1) {
+            // only return error if some invalid parameter was included in the url
+            $this->userLogStatus = false;
             $this->userLog['urlParams'] = $log;
             return false;
+        } else {
+            return true;
         }
     }
     
@@ -537,6 +560,7 @@ implements GuiProvider, Sessionable, ServerCaller {
     protected function add($newServerUrl, $userComment) {
         $this->userLog['action'] = 'ADD';
         $this->userLog['serverUrl'] = $newServerUrl;
+
         if (!$this->controlUrl($newServerUrl)) {
             $this->userLogStatus = false;
             $this->userLog['case'] = 0;
