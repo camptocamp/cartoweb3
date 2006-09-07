@@ -76,7 +76,6 @@ class ServerEdit extends ClientResponderAdapter {
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
-        $dsn = $this->getMetadataValueString($layerId, 'edit_dsn');
         $dsn = $this->getDsn($layerId);
         
         if (!$dsn)
