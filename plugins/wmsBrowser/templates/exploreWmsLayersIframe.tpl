@@ -81,13 +81,14 @@
       {literal}
       if (abs != '') {
       {/literal}
-        abstractContent += "<strong>{t}Abstract: {/t}</strong>&nbsp;"
+        abs = decodeURI(abs);
+        abstractContent += "<strong>{t}Abstract: {/t}</strong>&nbsp;";
         abstractContent += abs + "<br />";
       {literal}
       }
       if (metadataUrl != '') {
       {/literal}
-        abstractContent += "<strong>{t}Metadatas: {/t}</strong>&nbsp;"
+        abstractContent += "<strong>{t}Metadatas: {/t}</strong>&nbsp;";
         abstractContent += metadataUrl + "<br />";
       {literal}
       }
