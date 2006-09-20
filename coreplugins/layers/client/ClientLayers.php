@@ -1185,7 +1185,7 @@ class ClientLayers extends ClientPlugin
         if ($layer->id == 'root')
             $nodeId = 0;
         else
-            $nodeId = implode('.', $this->nodeId);
+            $nodeId = implode('-', $this->nodeId);
 
         $metadata = $layer->getAllMetadata();
         $metadata['lang'] = LANG;
