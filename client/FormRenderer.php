@@ -63,6 +63,11 @@ class FormRenderer {
      * @var string some string to output in addition to regular output
      */
     private $specialOutput = '';
+
+    /**
+     *  @var array of activated tools appearing in the interface
+     */
+    private $tools;
     
     /**
      * Constructor
@@ -139,10 +144,13 @@ class FormRenderer {
             }
         }
         
-        if ($this->cartoclient->getConfig()->toolbarRendering)
+        if ($this->cartoclient->getConfig()->toolbarRendering) {
             $toolbarRendering = $this->cartoclient->getConfig()->toolbarRendering;
-        else
+        } else {
             $toolbarRendering = 'radio';
+        }
+
+        $this->tools =& $tools;
             
         $smarty->assign(array('selected_tool' => $clientSession->selectedTool,
                               'tools' => $tools,
@@ -456,6 +464,14 @@ class FormRenderer {
         $smarty->assign('exception_class', get_class($exception));
         $smarty->assign('failure_message', $message);
         return $smarty->fetch('failure.tpl');
+    }
+
+    /**
+     * Return the list of activated tools, see drawTools()
+     * @return array
+     */
+    public function getTools() {
+        return $this->tools;
     }
 }
 
