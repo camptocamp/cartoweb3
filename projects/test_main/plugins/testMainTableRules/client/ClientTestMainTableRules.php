@@ -50,7 +50,7 @@ class ClientTestMainTableRules extends ClientPlugin {
         $url = '';
         if (!empty($inputValues['FID'])) {
             $url = sprintf('<a href="%s%d" target="_blank">%s</a>',
-                           'http://some/base/url?id=',
+                           'http://example.com/?id=',
                            $inputValues['FID'],
                            I18n::gt('More'));
         }
