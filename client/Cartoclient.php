@@ -776,6 +776,11 @@ class Cartoclient extends Cartocommon {
      * Saves session data in a different container for each mapId
      */
     public function saveSession() {
+
+        if (array_key_exists('prevent_save_session', $_REQUEST)) {
+            $this->log->debug('session save bypassed');
+            return;
+        }
         
         $this->callEnabledPluginsImplementing(ClientPlugin::ENABLE_LEVEL_PROCESS,
                                               'Sessionable',
