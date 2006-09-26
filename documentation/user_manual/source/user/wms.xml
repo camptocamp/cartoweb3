@@ -26,7 +26,7 @@
        <note><para>If the wms layer is not displayed after you selected it, it may have several causes. 
        <itemizedlist>
             <listitem><para>First, try to refresh &cartoweb; main map.</para></listitem>
-            <listitem><para>If the layer still doesnt show up, it may be under some of your selected layers. Be sure you have set the userLayerGroup correctly, see below for details.</para></listitem>
+            <listitem><para>If the layer still doesnt show up, it may be under some of your selected layers. Be sure you have set the <parameter>wmsInsertLayerAfter</parameter> parameter correctly, see below for details.</para></listitem>
             <listitem><para>The wms layer extent may be different from your actual map extent, hence appearing totally outside of the viewable area.</para></listitem>
             <listitem><para>If that's not the case, then that wms layer or wms server is not compatible with the current version of the WMS Browser plugin.</para></listitem></itemizedlist></para></note>
    </para>
