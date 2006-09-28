@@ -18,38 +18,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @copyright 2005 Camptocamp SA
- * @package CorePlugins
+ * @package Plugins
  * @version $Id$
  */
 
-class LayerResult {
+require_once('ToolTipsLayerBase.php');
+
+/**
+ * @package Plugins
+ */
+class LayerResult extends ToolTipsLayerBase {
 
     /**
-     * Layer Id
-     * @var string 
-     */    
-    protected $id;
-
-    /**
-     * Layer label
-     * @var string 
-     */    
-    protected $label;
-
-    /**
-     * Layer custom template
-     * @var string 
-     */    
-    protected $template;
-    
-    /**
-     * Returned attributes and their value
-     * @var array of key => value array representing attributes values
-     */    
-    protected $returnedAttributes = array();
-
-    /**
-     * Html code representing the result
+     * HTML code rendering the result
      * @var string
      */    
     protected $resultHtml;
@@ -58,49 +39,6 @@ class LayerResult {
      * Constructor
      */
     public function __construct() {}
-
-    /**
-     * Sets id
-     */
-    public function setId($id) {
-        $this->id = $id;
-    }
-    
-    /**
-     * Gets id
-     */
-    public function getId() {
-        return $this->id;
-    }        
-    
-    /**
-     * Sets label
-     */
-    public function setLabel($label) {
-        $this->label = $label;
-    }    
-    
-    /**
-     * Returns label
-     * If not defined returns id
-     */
-    public function getLabel() {
-        return isset($this->label) ? $this->label : $this->getId();
-    }
-    
-    /**
-     * Set layer custom template
-     */
-    public function setCustomTemplate($template) {
-        $this->template = $template;
-    }    
-
-    /**
-     * Returns custom template name
-     */
-    public function getCustomTemplate() {
-        return $this->template;
-    }  
 
     /**
      * Adds attribute to the layer result
@@ -126,8 +64,8 @@ class LayerResult {
      * @param string name of the attribute 
      */
     public function getAttribute($name) {
-        // TODO: check if array index exists
-        return $this->returnedAttributes[$name];
+        return !empty($this->returnedAttributes[$name]) ?
+               $this->returnedAttributes[$name] : NULL;
     }    
 
     /**
@@ -159,23 +97,11 @@ class LayerResult {
      * @return string HTML code
      */
     public function renderResult($smarty) {
-        // Assigns a key => value attributes array to layerResults smarty
-        // variable
-        $smarty->assign('layerId', $this->getId());
-        $smarty->assign('layerLabel',
-            Encoder::encode($this->getLabel(), 'config'));
-        
-        $template = $this->getCustomTemplate();
-        if ($template) {
-            foreach ($this->returnedAttributes as $key => $value) {
-                $smarty->assign($key, $value);
-            }
-            return $smarty->fetch($template);
-        } else {
-            $smarty->assign('layerResults', $this->returnedAttributes);
-            return $smarty->fetch('layerResult.tpl');
-        }
+        $label = Encoder::encode($this->getLabel(), 'config');
+        $smarty->assign(array('layerId'      => $this->getId(),
+                              'layerLabel'   => $label,
+                              'layerResults' => $this->getAttributes()));
+        return $smarty->fetch($this->getTemplate());
     }
 }
- 
 ?>

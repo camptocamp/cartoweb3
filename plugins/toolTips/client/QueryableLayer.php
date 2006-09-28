@@ -21,131 +21,69 @@
  * @package Plugins
  * @version $Id$
  */
- 
-class QueryableLayer {
 
-    /**
-     * Layer Id
-     * @var string 
-     */    
-    protected $id;
+require_once('ToolTipsLayerBase.php');
 
-    /**
-     * Layer label
-     * @var string 
-     */    
-    protected $label;
-
-    /**
-     * Returned attributes
-     * @var array array of string
-     */    
-    protected $returnedAttributes = array();
+/**
+ * @package Plugins
+ */
+class QueryableLayer extends ToolTipsLayerBase {
 
     /**
      * DSN for DB connection; if null, connection will not be established
      * @var string
      */    
-    protected $dsn = NULL;
+    protected $dsn;
     
-    /**
-     * Custom template; if null, default template is use to render tooltip
-     * @var string
-     */    
-    protected $template = NULL;
-
     /**
      * DB table name to query
      * @var string
      */    
-    protected $dbTableName = NULL;
+    protected $dbTableName;
 
     /**
      * PEAR::DB connection object for queries
      * @var PEAR::DB
      */    
-    protected $db = NULL;
+    protected $db;
 
     /**
      * Constructor
      */
     public function __construct() {}
-    
-    /**
-     * Sets the id of the layer
-     * @param string Id of the layer
-     */
-    public function setId($id) {
-        $this->id = $id;
-    }    
 
-    /**
-     * Gets id
-     */
-    public function getId() {
-        return $this->id;
-    }    
-
-    /**
-     * Sets the label of the layer
-     * @param string Label of the layer
-     */
-    public function setLabel($label) {
-        $this->label = $label;
-    }    
-
-    /**
-     * Gets label
-     */
-    public function getLabel() {
-        return isset($this->label) ? $this->label : $this->getId();
-    }    
-    
-    /**
-     * Sets dsn
+   /**
+     * Sets DSN.
      */
     public function setDsn($dsn) {
         $this->dsn = $dsn;
     }
     
     /**
-     * Returns dsn
+     * Returns DSN.
+     * @return string
      */
     public function getDsn() {
         return $this->dsn;
     }
 
     /**
-     * Sets the PEAR::DB object for queries
+     * Sets the PEAR::DB object for queries.
      * @param PEAR::DB PEAR::DB connection
      */
     public function setDb($db) {
         $this->db = $db;
     }    
+    
+    /**
+     * @return PEAR::DB
+     */
     public function getDb() {
         return $this->db;
     }    
-// TODO : remove checks, checks are done before in ToolTipsService construct
+    
     /**
-     * Checks if id is set
-     */
-    public function checkId() {
-        if (empty($this->id)) {
-            throw new Exception ("Id is not set!");
-        }
-    }
-
-    /**
-     * Checks if a dsn is set
-     */
-    public function checkDsn() {
-        if (empty($this->dsn)) {
-            throw new Exception ("DSN is not set for layer id: $this->id");
-        }
-    }
-
-    /**
-     * Sets db table name
+     * Sets DB table name.
      * @param string
      */
     public function setDbTableName($dbTableName) {
@@ -153,50 +91,19 @@ class QueryableLayer {
     }
 
     /**
-     * Checks if db table name is set
+     * Stores the list of attributes to be returned (DB field names)
+     * @param string
      */
-    public function checkDbTableName() {
-        if (empty($this->dbTableName)) {
-            throw new Exception ("DB table name is not set for layer id: " .
-                $this->id. "Please use QueryableLayer::setDbTableName().");
-        }
-    }
-
-    public function checkReturnedAttributes() {
-        if (empty($this->returnedAttributes)) {
-            throw new Exception ("No 'returned attributes' set for layer id: " .
-                $this->id. "Please use QueryableLayer::addReturnedAttributes().");
-        }
+    public function setReturnedAttributes($attributes) {
+        $this->returnedAttributes = $attributes;
     }
     
     /**
-     * Sets the PEAR::DB object for queries
-     * @param PEAR::DB PEAR::DB connection
+     * Gets the list of attributes to be returned for the current layer.
+     * @return string
      */
-    public function setCustomTemplate($template) {
-        $this->template = $template;
-    }
-    public function getCustomTemplate() {
-        return $this->template;
-    }
-
-    /**
-     * @param string attribute name to be returned (DB field name)
-     */
-    public function addReturnedAttribute($attributeName) {
-        $this->returnedAttributes[] = $attributeName;
-    }
-    
-    /**
-     * Returns a coma separated list of attributes
-     */
-    protected function getAttributesList() {
-        $attributeList = '';
-        foreach ($this->returnedAttributes as $attributeName) {
-            $attributeList .= $attributeName . ',';
-        }
-        // Trims the last comma
-        return substr($attributeList, 0, -1);
+    protected function getReturnedAttributes() {
+        return $this->returnedAttributes;
     }
     
     /**
@@ -210,7 +117,7 @@ class QueryableLayer {
 
     /**
      * This is a hook to let child classes modify the LayerResult array
-     * before it is added to the layer results to be rendered 
+     * before it is added to the layer results to be rendered.
      * @param array array of LayerResult
      * @return array array of LayerResult
      */
@@ -249,12 +156,15 @@ class ByXyQueryableLayer extends QueryableLayer {
      * @var string
      */    
     protected $srid = -1;
-    
-    public function __construct() {}
 
     /**
-     * Sets the geographic tolerance
-     * @param int tolerance in pixels 
+     * Constructor
+     */
+    public function __construct() {}
+    
+    /**
+     * Sets the geographic tolerance.
+     * @param integer tolerance in pixels 
      */
     public function setTolerancePx($tolerance) {
         // Unsets toleranceGeo if new tolerancePx is set
@@ -273,6 +183,10 @@ class ByXyQueryableLayer extends QueryableLayer {
         $this->toleranceGeo = $this->tolerancePx * $scale;
     }
 
+    /**
+     * Sets the name of the geometry column in the DB table.
+     * @param string
+     */
     public function setDbGeomColumnName($dbGeomColumnName) {
         $this->dbGeomColumnName = $dbGeomColumnName;
     }
@@ -280,23 +194,20 @@ class ByXyQueryableLayer extends QueryableLayer {
     /**
      * converts a geographical point to a Box3D using tolerance
      * @param Dimension image size
-     * @param x geo coordinate
-     * @param y geo coordinate
+     * @param float x geo coordinate
+     * @param float y geo coordinate
      * @param Bbox current bbox in geographical coordinates
      * @param tolerance tolerance given in pixel
-     * @return box3D
+     * @return string
      */
     protected function pointToBox3D($x, $y, $width, $height, 
                                     Bbox $bbox, $tolerance = 3) {
         $deltax = ($bbox->maxx - $bbox->minx) / $width * $tolerance / 2;
         $deltay = ($bbox->maxy - $bbox->miny) / $height * $tolerance / 2;
         
-        $bbox3D = sprintf('BOX3D(%s %s, %s %s)',
-                          $x - $deltax, $y - $deltay,
-                          $x + $deltax, $y + $deltay
-                          );
-        
-        return $bbox3D;        
+        return sprintf('BOX3D(%s %s, %s %s)',
+                       $x - $deltax, $y - $deltay,
+                       $x + $deltax, $y + $deltay);
     }
 
     /**
@@ -309,40 +220,32 @@ class ByXyQueryableLayer extends QueryableLayer {
      * @param Bbox current mainmap extent
      * @return string an SQL query
      */
-    protected function getXySqlQuery($geoX, $geoY, Dimension $dimension,
-        Bbox $bbox) {
-        $this->checkDbTableName();
-        $this->checkReturnedAttributes();
-
-        $attributesList = $this->getAttributesList();
-        $tableName = $this->dbTableName;
-        $dbGeomColumnName = $this->dbGeomColumnName;        
-                
+    protected function getXySqlQuery($geoX, $geoY,
+                                     Dimension $dimension, Bbox $bbox) {
+        
         // TODO get tolerance from config
         $tolerance = 10;
         $bbox3D = $this->pointToBox3D($geoX, $geoY,
                                       $dimension->width,
                                       $dimension->height,
-                                      $bbox, 
-                                      $tolerance);
+                                      $bbox, $tolerance);
         $toleranceGeo = ($bbox->maxx - $bbox->minx) / $dimension->width 
                         * $tolerance;
         
-        $sql = sprintf('SELECT %s FROM %s ' .
-                       "WHERE %s && '%s'::box3d ".
-                       "AND distance (%s, GeometryFromText( '".
-                       "POINT(%s %s)', -1 ) ) < %s",
-                       $attributesList,
-                       $tableName,
-                       $dbGeomColumnName,
+        return sprintf('SELECT %s FROM %s ' .
+                       "WHERE %s && setSRID('%s'::box3d, %s) ".
+                       "AND Distance(%s, GeometryFromText( '".
+                       "POINT(%s %s)', %d ) ) < %s",
+                       $this->getReturnedAttributes(),
+                       $this->dbTableName,
+                       $this->dbGeomColumnName,
                        $bbox3D,
-                       $dbGeomColumnName,
+                       $this->srid,
+                       $this->dbGeomColumnName,
                        $geoX,
                        $geoY,
-                       $toleranceGeo
-                       );
-         return $sql;
-        
+                       $this->srid,
+                       $toleranceGeo);
     }
 
     /**
@@ -355,16 +258,12 @@ class ByXyQueryableLayer extends QueryableLayer {
      * @param Bbox current mainmap extent
      * @return array array of LayerResult
      */
-    public function queryLayerByXy($geoX, $geoY, Dimension $dimension,
-        Bbox $bbox) {
+    public function queryLayerByXy($geoX, $geoY, 
+                                   Dimension $dimension, Bbox $bbox) {
         $db = $this->getDb();
-        $dbResult = $db->query($this->getXySqlQuery($geoX,
-            $geoY, $dimension, $bbox));
-        
-        if (DB::isError($dbResult)) {
-            throw new Exception("$dbResult->message, userinfo: " .
-                    $dbResult->userinfo);
-        }
+        $dbResult = $db->query($this->getXySqlQuery($geoX, $geoY,
+                                                    $dimension, $bbox));
+        Utils::checkDbError($dbResult);
 
         $layerResults = array();
         $resultArray = array();
@@ -373,7 +272,7 @@ class ByXyQueryableLayer extends QueryableLayer {
             $layerResult->setId($this->getId());
             $layerResult->setLabel($this->getLabel());
             $layerResult->addAttributes($resultArray);
-            $layerResult->setCustomTemplate($this->getCustomTemplate());
+            $layerResult->setTemplate($this->getTemplate());
             $layerResults[] = $layerResult;
         }
         return $layerResults;
@@ -393,10 +292,13 @@ class ByIdQueryableLayer extends QueryableLayer {
      */    
     protected $idAttribute = NULL;
 
+    /**
+     * Constructor
+     */
     public function __construct() {}
     
     /**
-     * Sets the id attribute of the layer
+     * Sets the id attribute of the layer.
      * @param string id attribute of the layer
      */
     public function setIdAttribute($idAttribute) {
@@ -411,25 +313,13 @@ class ByIdQueryableLayer extends QueryableLayer {
      * @return string an SQL query
      */
     protected function getIdSqlQuery($id) {
-        $this->checkDbTableName();
-        $this->checkReturnedAttributes();
-
-        $attributesList = $this->getAttributesList();
-        $tableName = $this->dbTableName;
         
-        $idAttributeName = $this->idAttribute;       
-                
-        // TODO get tolerance from config
-        
-        $sql = sprintf('SELECT %s FROM %s ' .
+        return sprintf('SELECT %s FROM %s ' .
                        "WHERE %s = '%s'",
-                       $attributesList,
-                       $tableName,
-                       $idAttributeName,
-                       $id
-                       );
-         return $sql;
-        
+                       $this->getReturnedAttributes(),
+                       $this->dbTableName,
+                       $this->idAttribute,
+                       $id);
     }
     
     /**
@@ -445,11 +335,7 @@ class ByIdQueryableLayer extends QueryableLayer {
     public function queryLayerById($id) {
         $db = $this->getDb();
         $dbResult = $db->query($this->getIdSqlQuery($id));
-        
-        if (DB::isError($dbResult)) {
-            throw new Exception("$dbResult->message, userinfo: " .
-                    $dbResult->userinfo);
-        }
+        Utils::checkDbError($dbResult);
 
         $layerResults = array();
         $resultArray = array();
@@ -458,11 +344,10 @@ class ByIdQueryableLayer extends QueryableLayer {
             $layerResult->setId($this->getId());
             $layerResult->setLabel($this->getLabel());
             $layerResult->addAttributes($resultArray);
-            $layerResult->setCustomTemplate($this->getCustomTemplate());
+            $layerResult->setTemplate($this->getTemplate());
             $layerResults[] = $layerResult;
         }
         return $layerResults;
     }
 }
-
 ?>

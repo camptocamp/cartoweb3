@@ -103,115 +103,98 @@ class ToolTipsService {
     }
     
     /**
-     * Adds byXyQueryableLayer with a given list of layers
+     * Adds ByXyQueryableLayer with a given list of layers.
+     * @param stdClass
      */
     protected function addByXyQueryableLayers($layers) {
         foreach ($layers as $layerId => $layer) {
-            // instanciate object with dynamic class
-            if (class_exists(ucfirst($layerId) . "QueryableLayer")) {
-                $extendedPhpClass = ucfirst($layerId) . "QueryableLayer";
-                $queryableLayer = new $extendedPhpClass; 
-                if (!$queryableLayer instanceof ByIdQueryableLayer) {
-                    throw new Exception('Argument has to be a ' .
-                            'ByXyQueryableLayer extension : ' .
-                            $extendedPhpClass);
-                }
-            } else {
-                $queryableLayer = new ByXyQueryableLayer;
-            }
-            $queryableLayer->setId($layerId);
-            
-            if (!isset($layer->label)) {
-                $queryableLayer->setLabel($layerId);
-            } else {
-                $queryableLayer->setLabel($layer->label);
-            }
-            
-            if (!isset($layer->dsn)) {
-                throw new Exception ("dsn is not set for layer id: $layerId. ");
-            } else {
-                $queryableLayer->setDsn($layer->dsn);
-            }
-            
-            if (!isset($layer->dbTableName)) {
-                throw new Exception ("DB table name is not set for layer id: " .
-                        $layerId . ".");
-            } else {
-                $queryableLayer->setDbTableName($layer->dbTableName);
-            }
-            
-            if (isset($layer->template)) {
-                $queryableLayer->setCustomTemplate($layer->template);
-            }
-            if (!isset($layer->attributes)) {
-                throw new Exception ("No attributes are set for layer id: " .
-                        $layerId . ". ");
-            } else {
-                $queryableLayer->addReturnedAttribute($layer->attributes);
-            }
-            
+            $queryableLayer = 
+                $this->createQueryableLayer($layerId, 'ByXyQueryableLayer');
+            $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
             $this->addQueryableLayer($queryableLayer);
         }
     }
     
     /**
-     * Adds queryableLayers with a given list of layers
-     * @param array
+     * Adds ByIdQueryableLayers with a given list of layers.
+     * @param stdClass
      */
     protected function addByIdQueryableLayers($layers) {
         foreach ($layers as $layerId => $layer) {
-            
-            // instanciate object with dynamic class
-            if (class_exists(ucfirst($layerId) . "QueryableLayer")) {
-                $extendedPhpClass = ucfirst($layerId) . "QueryableLayer";
-                $queryableLayer = new $extendedPhpClass;
-                if (!$queryableLayer instanceof ByIdQueryableLayer) {
-                    throw new Exception('Argument has to be a ' .
-                            'ByIdQueryableLayer extension : ' .
-                            $extendedPhpClass);
-                }
-            } else {
-                $queryableLayer = new ByIdQueryableLayer;
-            }
-            $queryableLayer->setId($layerId);
-            
-            if (!isset($layer->label)) {
-                $queryableLayer->setLabel($layerId);
-            } else {
-                $queryableLayer->setLabel($layer->label);
-            }
-            
-            if (!isset($layer->dsn)) {
-                throw new Exception ("dsn is not set for layer id: $layerId. ");
-            } else {
-                $queryableLayer->setDsn($layer->dsn);
-            }
-            
-            if (!isset($layer->dbTableName)) {
-                throw new Exception ('DB table name is not set for layer id: ' .
-                        $layerId . '. ');
-            } else {
-                $queryableLayer->setDbTableName($layer->dbTableName);
-            }
-            
-            if (isset($layer->template)) {
-                $queryableLayer->setCustomTemplate($layer->template);
-            }
-            if (!isset($layer->attributes)) {
-                throw new Exception ('No attributes are set for layer id: ' .
-                        $layerId . '. ');
-            } else {
-                $queryableLayer->addReturnedAttribute($layer->attributes);
-            }
-            
-            if (!isset($layer->idAttributeString)) {
-                throw new Exception ('id_attribute_string is not set for ' .
-                        "layer id: $layerId. ");
+            $queryableLayer = 
+                $this->createQueryableLayer($layerId, 'ByIdQueryableLayer');
+            $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
+
+            if (empty($layer->idAttributeString)) {
+                throw new CartoclientException(
+                    "id_attribute_string is not set for layer id: $layerId.");
             } else {
                 $queryableLayer->setIdAttribute($layer->idAttributeString);
             }
             
             $this->addQueryableLayer($queryableLayer);
+        }
+    }
+
+    /**
+     * Creates an object of the class matching the given layer Id, if possible.
+     * @param string layer Id
+     * @param string base QueryableLayer class to extend
+     * @return QueryableLayer
+     */
+    protected function createQueryableLayer($layerId, $queryableLayerClass) {
+        // instanciates object with dynamic class
+        $extendedPhpClass = ucfirst($layerId) . 'QueryableLayer';
+        if (class_exists($extendedPhpClass)) {
+            $queryableLayer = new $extendedPhpClass;
+            if (!$queryableLayer instanceof $queryableLayerClass) {
+                throw new CartoclientException('Argument has to be a ' .
+                    "$queryableLayerClass extension: $extendedPhpClass");
+            }
+        } else {
+            $queryableLayer = new $queryableLayerClass;
+        }
+        return $queryableLayer;
+    }
+
+    /**
+     * Common settings of ByXyQueryableLayers and ByIdQueryableLayers.
+     * @param QueryableLayer target object
+     * @param stdClass source object, retrieved from config
+     * @param string layerId
+     */
+    protected function setQueryableLayerMembers(QueryableLayer $queryableLayer,
+                                                stdClass $layer, $layerId) {
+        $queryableLayer->setId($layerId);
+ 
+        if (empty($layer->label)) {
+            $queryableLayer->setLabel($layerId);
+        } else {
+            $queryableLayer->setLabel($layer->label);
+        }
+ 
+        if (empty($layer->dsn)) {
+            throw new CartoclientException("DSN is not set for layer id: $layerId");
+        } else {
+            $queryableLayer->setDsn($layer->dsn);
+        }
+ 
+        if (empty($layer->dbTableName)) {
+            throw new CartoclientException('DB table name is not set for layer id:'
+                                           . $layerId);
+        } else {
+            $queryableLayer->setDbTableName($layer->dbTableName);
+        }
+ 
+        if (!empty($layer->template)) {
+            $queryableLayer->setTemplate($layer->template);
+        }
+ 
+        if (empty($layer->attributes)) {
+            throw new CartoclientException('No attributes are set for layer id: '
+                                           . $layerId);
+        } else {
+            $queryableLayer->setReturnedAttributes($layer->attributes);
         }
     }
     
@@ -220,13 +203,13 @@ class ToolTipsService {
      * @return MapRequest
      */
     public function getLastMapRequest() {
-        $mapRequest = StructHandler::deepClone($this->cartoclient->
-                                               getClientSession()->
-                                               lastMapRequest);
+        $mapRequest = StructHandler::deepClone($this->cartoclient
+                                                    ->getClientSession()
+                                                    ->lastMapRequest);
 
         if (!$mapRequest) {
-            throw new CartoclientException('Session expired: reload' .
-                    ' calling page!');
+            throw new CartoclientException('Session expired: reload'
+                                           . ' calling page!');
         }
 
         return $mapRequest;
@@ -288,16 +271,13 @@ class ToolTipsService {
     }
     
     /**
-     * Returns a PEAR::DB connexion
+     * Returns a PEAR::DB connection relative to the given layer properties.
      * @param string layerId Id of the layer whose DSN is to be returned
-     * @return PEAR::DB DB connexion for the given layerId
+     * @return PEAR::DB DB connection for the given layerId
      */
     protected function getDb($layerId) {
         $queryableLayer = $this->getQueryableLayer($layerId);
-        $queryableLayer->checkDsn();
-        
         Utils::getDb($db, $queryableLayer->getDsn());
-        Utils::checkDbError($db);
         return $db;
     }
 
@@ -305,17 +285,13 @@ class ToolTipsService {
      * Adds the given QueryableLayer to the toolTipsService queryableLayers array
      * @param QueryableLayer
      */
-    public function addQueryableLayer($queryableLayer) {
-        if (!$queryableLayer instanceof QueryableLayer) {
-            throw new Exception('Given argument has to be a QueryableLayer' .
-                    ' instance');
-        }
-        $queryableLayer->checkId();
+    public function addQueryableLayer(QueryableLayer $queryableLayer) {
         $this->queryableLayers[$queryableLayer->getId()] = $queryableLayer;
     }
 
     /**
      * Gives the list of queryableLayers
+     * @param string
      * @return array
      */
     protected function getQueryableLayer($layerId) {
@@ -328,7 +304,8 @@ class ToolTipsService {
      */
     protected function addLayerResult($layerResult) {
         if ($layerResult instanceof LayerResult) {
-            throw new Exception('Argument has to be a LayerResult instance');
+            throw new CartoclientException(
+                'Argument has to be a LayerResult instance');
         }
         $this->layerResults[] = $layerResult;
     }
@@ -346,46 +323,47 @@ class ToolTipsService {
         }        
     }
 
+    /**
+     * Returns the results related to the given layer.
+     * @param string layerId
+     * @return LayerResult
+     */
     protected function getLayerResult($layerId) {
         // TODO: checks
         return $this->layerResults[$layerId];
     }
     
     /**
-     * Retrieve list of selected layers
+     * Retrieves the list of selected layers.
      * @return array
      */
     protected function getSelectedLayers() {
         $lastMapRequest = $this->getLastMapRequest();
-        
-        $selectedLayers = $lastMapRequest->layersRequest->layerIds;
-        
-        return $selectedLayers;
+        return $lastMapRequest->layersRequest->layerIds;
     }
     
     /**
-      * Queries all selected layers
-      * @return 
+      * Queries all selected layers.
       */   
     protected function queryLayers() {
         if (isset($_REQUEST['geoX']) && isset($_REQUEST['geoY'])) {
             $this->queryLayersByXy($_REQUEST['geoX'], $_REQUEST['geoY']);
-        } else if (isset($_REQUEST['layer']) && isset($_REQUEST['id'])) {
+        } elseif (isset($_REQUEST['layer']) && isset($_REQUEST['id'])) {
             $this->queryLayerById($_REQUEST['layer'], $_REQUEST['id']);
         } else {
-            throw new Exception('There are missing or incorrect parameter(s) ' .
-                    'in HTTP request');
+            throw new CartoclientException(
+                'There are missing or incorrect parameter(s) in HTTP request');
         }
     }
      
     /**
      * Queries all selected layers with given coordinates
-     * @return 
+     * @param float X coord
+     * @param float Y coord
      */   
     protected function queryLayersByXy($geoX, $geoY) {
         
         $lastDsn = NULL;
-        
         $layersCorePlugin = $this->cartoclient->getPluginManager()->
                                                  getPlugin('layers');
         $printedLayers = $layersCorePlugin->
@@ -397,7 +375,7 @@ class ToolTipsService {
                 $layerId = $activeLayerId;
                 $queryableLayer = $this->getQueryableLayer($layerId);
 
-                // only query xy layers
+                // Only queries xy layers
                 if (!$queryableLayer instanceof ByXyQueryableLayer) {
                     continue;
                 }
@@ -426,8 +404,9 @@ class ToolTipsService {
     
          
     /**
-     * Queries given layer with given id
-     * @return 
+     * Queries given layer with given id.
+     * @param string layerId
+     * @param string
      */   
     protected function queryLayerById($layerId, $id) {
         
@@ -451,12 +430,12 @@ class ToolTipsService {
     }
 
     /**
-     * Sets the Html result for each layer
+     * Sets the HTML result for each layer.
      */
     protected function renderResults() {
         foreach ($this->layerResults as $layerId => $layerResult) {
-            $layerResult->
-                setResultHtml($layerResult->renderResult($this->getSmarty()));
+            $layerResult->setResultHtml(
+                $layerResult->renderResult($this->getSmarty()));
         }
     }
 
