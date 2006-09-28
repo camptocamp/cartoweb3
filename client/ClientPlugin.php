@@ -428,6 +428,10 @@ abstract class ClientPlugin extends PluginBase {
      * @return boolean
      */
     public function checkBool($value, $variable) {
+        if (is_bool($value)) {
+            return true;
+        }
+
         if (is_null($value) ||
             (is_numeric($value) && (intval($value) == 0 || 
                                     intval($value) == 1))) {
