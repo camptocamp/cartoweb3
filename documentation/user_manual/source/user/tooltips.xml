@@ -15,9 +15,23 @@
    <para>
     The choice must be done regarding advantages or disadvantages of each method.
    </para>
+   <warning>
+    <para>Please note that the tooltips plugin and its documentation are not fully completed yet.</para>
+   </warning>
   </sect1>
   <sect1 id="user.tooltips.basic">
     <title>Basic Usage</title>
+    <sect2 id="user.tooltips.basic.general">
+     <title>General Considerations</title>
+     <para>The tooltips plugin must be activated on both &cartoclient; and &cartoserver; ie. the <parameter>loadPlugins</parameter> parameter must contain <parameter>tooltips</parameter> in your project <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.</para>
+     <para>Tooltips offers three modes that may be used simultaneously and that are described below:</para>
+     <itemizedlist>
+      <listitem><para>Mouse Timeout Asynchronous</para></listitem>
+      <listitem><para>Area Asynchronous</para></listitem>
+      <listitem><para>Area Direct</para></listitem>
+     </itemizedlist>
+     <para>Those modes are configured on the &cartoclient; side of your project in the <filename>client_conf/tooltips.ini</filename> file.</para>
+    </sect2>
     <sect2 id="user.tooltips.basic.timeoutasync">
       <title>Mouse Timeout Asynchronous</title>
       <sect3 id="user.tooltips.basic.timeoutasync.intro">
@@ -266,6 +280,35 @@ area_direct.users.label = "Users"]]></programlisting>
         </para>
       </sect3>
     </sect2>
+    <sect2 id="user.tooltips.basic.example">
+     <title>Configuration Example</title>
+     <para>Here is an example of the <filename>tooltips.ini</filename> configuration file. Notice the possibility to have all the three modes activated at the same time.</para>
+     <programlisting>;---------------------
+; Here are defined parameters relative to timeout_async layers
+;---------------------
+
+timeout_async.country.label = "Contries"
+timeout_async.country.dsn = "psql://username:password@hostname:5432/dbname"
+timeout_async.country.dbTableName = country
+timeout_async.country.attributes = "name, area"
+timeout_async.country.template = "layerResult_country.tpl"
+
+;---------------------
+; Here are defined parameters relative to area_async layers
+;---------------------
+
+area_async.members.label = "Members"
+area_async.members.dsn = "psql://username:password@hostname:5432/dbname"
+area_async.members.dbTableName = points
+area_async.members.attributes = "name,age,place"
+
+
+;---------------------
+; Here are defined parameters relative to area_direct layers
+;---------------------
+
+area_direct.users.label = "Users"</programlisting>
+    </sect2>
   </sect1>
   <sect1 id="user.tooltips.custom">
     <title>Custom Tooltips</title>
@@ -299,7 +342,7 @@ area_direct.users.label = "Users"]]></programlisting>
       <title>Extending classes</title>
       <para>For the <emphasis>timeout_async</emphasis> layers, if a class extending
       <classname>ByXyQueryableLayer</classname> with a name like 
-      <classname>LayerIdQueryableLayer</classname> exists, it will be taken
+      <classname>&lt;LayerId&gt;QueryableLayer</classname> exists, it will be taken
       into account.
       </para>
       <para>Similarly, for the <emphasis>area_async</emphasis>, the classes
@@ -332,11 +375,11 @@ class ClientProjectToolTips extends ClientToolTips {
       <important>
         <para>The name of the class that extends 
         <classname>ByXyQueryableLayer</classname> or 
-        <classname>ByIdQueryableLayer</classname> should match the layerId.
+        <classname>ByIdQueryableLayer</classname> should use the <classname>&lt;LayerId&gt;QueryableLayer</classname> pattern, &lt;LayerId&gt; being the layer name with its first letter capitalized. For instance <classname>Big_citiesQueryableLayer</classname> corresponds to the <parameter>big_cities</parameter> layer.
         </para>
       </important>
       <para>
-      It should look like :
+      It should look like:
       </para>
       <programlisting><![CDATA[class DepQueryableLayer extends ByXyQueryableLayer {
 
@@ -373,8 +416,7 @@ class DepLayerResult extends LayerResult {
       <para>This method allows people to build tooltips with results coming
       from several sources (joined tables for example).</para>
       <tip>
-        <para>Don't forget to load the plugin on client-side (
-        <filename>client_conf/client.ini</filename>)</para>
+        <para>Don't forget to load the plugin on client-side (<filename>client_conf/client.ini</filename>)</para>
       </tip>
     </sect2>
     <sect2 id="user.tooltips.custom.styling">
