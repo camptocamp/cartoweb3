@@ -30,6 +30,7 @@
 
       <complexType name="LocationScale">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
           <element name="value" type="xsd:double"/>
         </all>
@@ -45,6 +46,7 @@
 
       <complexType name="LocationShortcut">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
         </all>
@@ -62,6 +64,7 @@
 
       <complexType name="LocationConstraint">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="maxBbox" type="types:Bbox"/>
         </all>
       </complexType>
@@ -77,6 +80,7 @@
 
       <complexType name="BboxLocationRequest">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
           <element name="showRefMarks" type="xsd:boolean"/>
         </all>
@@ -102,6 +106,7 @@
 
       <complexType name="PanLocationRequest">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
           <element name="showRefMarks" type="xsd:boolean"/>
           <element name="panDirection" type="types:PanDirection"/>
@@ -120,6 +125,7 @@
 
       <complexType name="ZoomPointLocationRequest">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
           <element name="showRefMarks" type="xsd:boolean"/>
           <element name="point" type="types:Point"/>
@@ -139,6 +145,7 @@
 
       <complexType name="IdSelection">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="layerId" type="xsd:string"/>
           <element name="idAttribute" type="xsd:string"/>
           <!-- should be a struct (string|integer) -->
@@ -150,6 +157,7 @@
 
       <complexType name="RecenterLocationRequest">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="idSelections" type="types:ArrayOfIdSelection"/>
           <element name="fallbackBbox" type="types:Bbox"/>
         </all>

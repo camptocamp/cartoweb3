@@ -2,6 +2,7 @@
 
       <complexType name="TableFlags">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="returnAttributes" type="xsd:boolean"/>
           <element name="returnTable" type="xsd:boolean"/>
         </all>
@@ -17,6 +18,7 @@
       
       <complexType name="TableGroup">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="groupId" type="xsd:string"/>
           <element name="groupTitle" type="xsd:string"/>
           <element name="tables" type="types:ArrayOfTable"/>
@@ -33,6 +35,7 @@
       
       <complexType name="Table">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="tableId" type="xsd:string"/>
           <element name="tableTitle" type="xsd:string"/>
           <element name="numRows" type="xsd:integer"/>
@@ -55,6 +58,7 @@
       
       <complexType name="TableRow">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="rowId" type="xsd:string"/>
           <element name="cells" type="types:ArrayOfString"/>
         </all>

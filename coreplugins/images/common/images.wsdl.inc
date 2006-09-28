@@ -20,6 +20,7 @@
 
       <complexType name="Image">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="isDrawn" type="xsd:boolean"/>
           <element name="path" type="xsd:string"/>
           <element name="width" type="xsd:int"/>

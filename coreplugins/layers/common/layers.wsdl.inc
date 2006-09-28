@@ -27,6 +27,7 @@
 
       <complexType name="ChildrenSwitch">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfLayerId" minOccurs="0"/>
         </all>
@@ -68,6 +69,7 @@
 
       <complexType name="SwitchInit">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
         </all>

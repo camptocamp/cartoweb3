@@ -2,6 +2,7 @@
       
       <complexType name="PositionOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="type" type="xsd:int"/>
           <element name="index" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
@@ -10,6 +11,7 @@
       
       <complexType name="ColorOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>
@@ -23,6 +25,7 @@
       
       <complexType name="StyleOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>
@@ -39,6 +42,7 @@
       
       <complexType name="LabelOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>
@@ -62,6 +66,7 @@
       
       <complexType name="ClassOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>
@@ -79,6 +84,7 @@
       
       <complexType name="MetadataOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>
@@ -107,6 +113,7 @@
       
       <complexType name="LayerOverlay">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="action" type="xsd:int"/>
           <element name="id" type="xsd:string"/>
           <element name="index" type="xsd:int"/>

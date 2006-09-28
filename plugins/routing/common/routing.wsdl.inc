@@ -2,6 +2,7 @@
 
       <complexType name="Parameter">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="value" type="xsd:string"/>
         </all>
@@ -17,6 +18,7 @@
 
       <complexType name="Attribute">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="value" type="xsd:string"/>
         </all>

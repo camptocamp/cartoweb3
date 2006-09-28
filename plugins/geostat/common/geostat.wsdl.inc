@@ -10,6 +10,7 @@
       <!-- themamap -->
       <complexType name="TwColorRgb">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="redLevel" type="xsd:integer"/>
           <element name="greenLevel" type="xsd:integer"/>
           <element name="blueLevel" type="xsd:integer"/>
@@ -27,6 +28,7 @@
       
       <complexType name="TwBin">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
           <element name="nbVal" type="xsd:integer"/>
           <element name="lowerBound" type="xsd:decimal"/>
@@ -46,12 +48,14 @@
       
       <complexType name="TwClassification">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="bins" type="types:ArrayOfTwBin"/>
         </all>
       </complexType>
       
       <complexType name="TwDistributionSummary">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="nbVal" type="xsd:integer"/>
           <element name="minVal" type="xsd:decimal"/>
           <element name="maxVal" type="xsd:decimal"/>
@@ -63,6 +67,7 @@
       <!-- geostat -->
       <complexType name="GeostatChoropleth">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="layer" type="xsd:string"/>
           <element name="indicator" type="xsd:string"/>
           <element name="bbox" type="types:Bbox"/>
@@ -121,6 +126,7 @@
       
       <complexType name="GeostatInit">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="serverConfigParams" 
             type="types:ArrayOfGeostatLayerParams"/>
         </all>

@@ -2,6 +2,7 @@
 
       <complexType name="StyledShape">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="shapeStyle" type="types:StyleOverlay"/>
           <element name="labelStyle" type="types:LabelOverlay"/>
           <element name="shape" type="types:Shape"/>
@@ -34,6 +35,7 @@
 
       <complexType name="OutlineInit">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="point" type="types:ArrayOfString"/>
           <element name="pointLabels" type="types:ArrayOfString"/>
           <element name="line" type="types:ArrayOfString"/>
@@ -55,6 +57,7 @@
 
       <complexType name="DefaultValues">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="type" type="xsd:string"/>
           <element name="shapeStyle" type="types:StyleOverlay"/>
         </all>

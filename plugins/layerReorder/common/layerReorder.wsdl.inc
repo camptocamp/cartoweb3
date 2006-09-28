@@ -2,6 +2,7 @@
 
       <complexType name="LayerReorderInit">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="layers" type="types:ArrayOfString"/>
         </all>
       </complexType>
@@ -16,6 +17,7 @@
 
       <complexType name="LayerTransparency">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="transparency" type="xsd:string"/>
         </all>

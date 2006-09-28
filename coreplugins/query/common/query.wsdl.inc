@@ -21,6 +21,7 @@
 
       <complexType name="QuerySelection">
         <all>
+          <element name="className" type="xsd:string"/>
           <element name="layerId" type="xsd:string"/>
           <element name="idAttribute" type="xsd:string"/>
           <element name="idType" type="xsd:string"/>
