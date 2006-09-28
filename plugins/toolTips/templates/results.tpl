@@ -1,4 +1,1 @@
-{foreach key=key item=item from=$layersHtmlResult}
-  {$item}
-{foreachelse}
-{/foreach}
+{foreach key=key item=item from=$layersHtmlResult}{$item}{/foreach}
