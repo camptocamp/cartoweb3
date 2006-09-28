@@ -330,8 +330,8 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             }
             
             $querySelection->policy = $queryPolicy;
-            $querySelection->maskMode = $queryMaskMode;
-            $querySelection->hilight = $queryHilight;
+            $querySelection->maskMode = (bool)$queryMaskMode;
+            $querySelection->hilight = (bool)$queryHilight;
             $querySelection->tableFlags = new TableFlags();
             $querySelection->tableFlags->returnAttributes = $queryRetAttr;
             $querySelection->tableFlags->returnTable = $queryRetTable;
