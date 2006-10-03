@@ -314,15 +314,13 @@ interface FilterProvider {
 
     /**
      * Modifies POST requests
-     * @param ExportConfiguration configuration
-     * @param MapRequest map request (will be modified)
+     * @param FilterRequestModifier request (will be modified)
      */
     public function filterPostRequest(FilterRequestModifier $request);
 
     /**
      * Modifies GET requests
-     * @param ExportConfiguration configuration
-     * @param MapRequest map request (will be modified)
+     * @param FilterRequestModifier request (will be modified)
      */
     public function filterGetRequest(FilterRequestModifier $request);
 }
