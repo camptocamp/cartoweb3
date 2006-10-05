@@ -132,8 +132,24 @@ class ClientGeostat extends ClientPlugin
             );
             
         //Default Colors
-        $colorA = new ColorRgb(99,255,202);
-        $colorB = new ColorRgb(54,38,211);
+        $configColorA = explode(',', $this->getConfig()->choroplethDefaultInitialColorA);
+        $configColorB = explode(',', $this->getConfig()->choroplethDefaultInitialColorB);
+        if (count($configColorA) != 3) {
+            // default color A
+            $colorA = new ColorRgb(99,255,202);            
+        } else {
+            $colorA = new ColorRgb((int)$configColorA[0],
+                                   (int)$configColorA[1],
+                                   (int)$configColorA[2]);
+        }
+        if (count($configColorB) != 3) {
+            // default color B
+            $colorB = new ColorRgb(54,38,211);
+        } else {            
+            $colorB = new ColorRgb((int)$configColorB[0],
+                                   (int)$configColorB[1],
+                                   (int)$configColorB[2]);
+        }
         $this->geostatClientState->choroplethParams->colorInit = array(
             TwColorRgbHelper::ColorRgb2TwColorRgb($colorA), 
             TwColorRgbHelper::ColorRgb2TwColorRgb($colorB));
