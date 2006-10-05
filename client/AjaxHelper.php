@@ -262,26 +262,28 @@ class Json {
     public static function arrayFromPhp($phpVariable, $doEscape = true) {
         if (is_array($phpVariable)) {
             return self::fromPhpArrayToJsonArray($phpVariable, $doEscape);
+        } elseif (is_object($phpVariable)) {
+            return self::fromPhpObjectToJsonArray($phpVariable, $doEscape);
         } elseif (false) {
             // Other PHP variable types
         } elseif (is_null($phpVariable)) {
             return '[]';
         } else {
             throw new Exception('The JSON serialization of the given ' .
-                                '$phpVariable (' . gettype($phpVariable) . ') ' .
+                                'variable type (' . gettype($phpVariable) . ') ' .
                                 'is not yet implemented, sorry!');
         }
     }
 
     /**
-     * Serializes a PHP array to a JSON array 
+     * Serializes a PHP array to a JSON array
+     * (warning: keys will be lost)
      * @param array PHP array to be serialized in JSON array
      * @param bool Escape quotes
      */
     private static function fromPhpArrayToJsonArray($phpArray, $doEscape = true) {
         $jsonString = '[ ';
         foreach ($phpArray as $value) {
-            $value = addslashes($value);
             if (is_string($value)) {
                 $value = $doEscape ? Json::escapeQuotes($value) : $value;
                 $jsonString .= '\'' . $value . '\'';
@@ -292,12 +294,15 @@ class Json {
             } elseif (is_null($value)) {
                 $jsonString .= 'null';
             } elseif (is_array($value)) {
-                $jsonString .= Json::fromPhpArray($value);
+                $jsonString .= Json::arrayFromPhp($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::arrayFromPhp($value);
             } else {
                 $jsonString .= 'null';
             }
-            $jsonString .= ' , ';
+            $jsonString .= ', ';
         }
+        
         if (count($phpArray)) {
             $jsonString = substr($jsonString, 0, -2);
         }
@@ -305,6 +310,144 @@ class Json {
         return $jsonString;
     }
 
+    /**
+     * Serializes a PHP object to a JSON array 
+     * @param mixed PHP object
+     * @param bool Escape quotes
+     */
+    private static function fromPhpObjectToJsonArray($phpObject, $doEscape = true) {
+        $jsonString = '[ ';
+        $objectProps = get_object_vars($phpObject);
+        foreach ($objectProps as $propValue) {
+            $value = $propValue;
+            if (is_string($value)) {
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
+            } elseif (is_bool($value)) {
+                $jsonString .= $value ? 'true' : 'false';
+            } elseif (is_numeric($value)) {
+                $jsonString .= $value;
+            } elseif (is_null($value)) {
+                $jsonString .= 'null';
+            } elseif (is_array($value)) {
+                $jsonString .= Json::arrayFromPhp($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::arrayFromPhp($value);
+            } else {
+                $jsonString .= 'null';
+            }
+            $jsonString .= ' , ';
+        }
+
+        if (count($phpObject)) {
+            $jsonString = substr($jsonString, 0, -2);
+        }
+        $jsonString .= ' ]';
+        return $jsonString;
+    }
+
+
+
+    /**
+     * Serializes a PHP variable to a JSON object
+     * (warning: properties name will be lost)
+     * @param mixed PHP variable
+     * @param bool Escape quotes
+     */
+    public static function objectFromPhp($phpVariable, $doEscape = true) {
+        if (is_array($phpVariable)) {
+            return self::fromPhpArrayToJsonObject($phpVariable, $doEscape);
+        } elseif (is_object($phpVariable)) {
+            return self::fromPhpObjectToJsonObject($phpVariable, $doEscape);
+        } elseif (false) {
+            // Other PHP variable types
+        } elseif (is_null($phpVariable)) {
+            return '{}';
+        } else {
+            throw new Exception('The JSON serialization of the given ' .
+                                'variable type (' . gettype($phpVariable) . ') ' .
+                                'is not yet implemented, sorry!');
+        }
+    }
+
+    /**
+     * Serializes a PHP array to a JSON array 
+     * @param array PHP array to be serialized in JSON array
+     * @param bool Escape quotes
+     */
+    private static function fromPhpArrayToJsonObject($phpArray, $doEscape = true) {
+        $jsonString = '{ ';
+        foreach ($phpArray as $key => $value) {
+            $jsonString .= $key . ': ';
+            if (is_string($value)) {
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
+            } elseif (is_bool($value)) {
+                $jsonString .= $value ? 'true' : 'false';
+            } elseif (is_numeric($value)) {
+                $jsonString .= $value;
+            } elseif (is_null($value)) {
+                $jsonString .= 'null';
+            } elseif (is_array($value)) {
+                $jsonString .= Json::objectFromPhp($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::objectFromPhp($value);
+            } else {
+                $jsonString .= 'null';
+            }
+            $jsonString .= ', ';
+        }
+        
+        if (count($phpArray)) {
+            $jsonString = substr($jsonString, 0, -2);
+        }
+        $jsonString .= ' }';
+        return $jsonString;
+    }
+
+    /**
+     * Serializes a PHP object to a JSON object 
+     * @param mixed PHP object
+     * @param bool Escape quotes
+     */
+    private static function fromPhpObjectToJsonObject($phpObject, $doEscape = true) {
+        $jsonString = '{ ';
+        $objectProps = get_object_vars($phpObject);
+        foreach ($objectProps as $propName => $propValue) {
+            $jsonString .= $propName . ': ';                
+            $value = $phpObject->$propName;
+            if (is_string($value)) {
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
+            } elseif (is_bool($value)) {
+                $jsonString .= $value ? 'true' : 'false';
+            } elseif (is_numeric($value)) {
+                $jsonString .= $value;
+            } elseif (is_null($value)) {
+                $jsonString .= 'null';
+            } elseif (is_array($value)) {
+                $jsonString .= Json::objectFromPhp($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::objectFromPhp($value);
+            } else {
+                $jsonString .= 'null';
+            }
+            $jsonString .= ' , ';
+        }
+
+        if (count($phpObject)) {
+            $jsonString = substr($jsonString, 0, -2);
+        }
+        $jsonString .= ' }';
+        return $jsonString;
+    }
+
+
+    /**
+     * Escapes single quotes (using a backslash) 
+     * @param mixed PHP variable
+     * @param bool Escape quotes
+     */
     private static function escapeQuotes($stringToEncode) {
         return str_replace("'", "\'", $stringToEncode);
     }
