@@ -12,7 +12,7 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall, mapOverlay, wmsBrowser
+loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall
 
 ;## Internationalization ##
 defaultLang = fr
