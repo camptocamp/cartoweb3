@@ -635,18 +635,23 @@ DrawBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   // fill the coordinates arrays as it was a polygon
   var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+  vertex.index = 0;
   aDisplay.feature.vertices.push(vertex);
   var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+  vertex.index = 1;
   aDisplay.feature.vertices.push(vertex);
   var vertex = new Vertex(pix2Geo(ex, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+  vertex.index = 2;
   aDisplay.feature.vertices.push(vertex);
   var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(ey, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+  vertex.index = 3;
   aDisplay.feature.vertices.push(vertex);
   var vertex = new Vertex(pix2Geo(aDisplay.downx, 0, aDisplay._width, aDisplay._map.extent.xmin, aDisplay._map.extent.xmax),
     pix2Geo(aDisplay.downy, 0, aDisplay._height, aDisplay._map.extent.ymax, aDisplay._map.extent.ymin));
+  vertex.index = 4;
   aDisplay.feature.vertices.push(vertex);
 
   aDisplay.downx = aDisplay.downy = aDisplay.upx = aDisplay.upy = undefined;
@@ -915,11 +920,7 @@ DrawCircleTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function MoveTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xHide(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
