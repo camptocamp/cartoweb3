@@ -133,13 +133,15 @@ emptyForm = function() {
 storeFeatures = function() {
   for (var i=0;i < mainmap.currentLayer.features.length; i++) {
     var aFeature = mainmap.currentLayer.features[i];
-    for (var j=0; j < mainmap.editAttributeNames.length; j++) {
-      if (mainmap.editAttributeTypes[j] == "")
-          continue;
-      var input = eval("myform['edit_feature_" + aFeature.id + "[" + mainmap.editAttributeNames[j] + "]']");
-      if (!validateFormInput(mainmap.editAttributeTypes[j], input.value)) {
-        return false;
-      }
+    if (typeof(mainmap.editAttributeNames) != 'undefined') {
+      for (var j = 0; j < mainmap.editAttributeNames.length; j++) {
+        if (mainmap.editAttributeTypes[j] == "")
+            continue;
+        var input = eval("myform['edit_feature_" + aFeature.id + "[" + mainmap.editAttributeNames[j] + "]']");
+        if (!validateFormInput(mainmap.editAttributeTypes[j], input.value)) {
+          return false;
+        }
+      } 
     }
     if (aFeature.operation != 'undefined') {
       // store geometry
