@@ -324,6 +324,13 @@ class Cartoclient extends Cartocommon {
     private $isNewSession;
 
     /**
+     * Boolean value allowing to bypass the saveSession() call, hence the 
+     * map state remain unmodified on next call
+     * @var bool
+     */
+    private $preventSaveSession;
+
+    /**
      * @var InitialMapState
      */
     private $initialMapState;
@@ -381,6 +388,9 @@ class Cartoclient extends Cartocommon {
                 // POST reset is made consistent with GET behavior.
                 $_REQUEST = array('reset_session' => '') + $_COOKIE;
             }
+
+            $this->preventSaveSession = array_key_exists('prevent_save_session',
+                                                         $_REQUEST);
 
             if (array_key_exists('mode', $_REQUEST)) {
                 $this->outputType = $_REQUEST['mode'];
@@ -632,7 +642,23 @@ class Cartoclient extends Cartocommon {
     public function getOutputType() {
         return $this->outputType;
     }
-    
+
+    /**
+     * Set the current output type (pdf, csv, html, etc.).
+     * @param string one of the predefined output type
+     */
+    public function setOutputType($outputType) {
+        $this->outputType = $outputType;
+    }
+
+    /**
+     * Activate session bypass
+     * @param bool preventSaveSession session bypassed if true
+     */
+    public function setPreventSaveSession($preventSaveSession) {
+        $this->preventSaveSession = $preventSaveSession;
+    }
+
     /**
      * Initializes core and normal client plugins
      */
@@ -777,7 +803,7 @@ class Cartoclient extends Cartocommon {
      */
     public function saveSession() {
 
-        if (array_key_exists('prevent_save_session', $_REQUEST)) {
+        if ($this->preventSaveSession) {
             $this->log->debug('session save bypassed');
             return;
         }
