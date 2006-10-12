@@ -210,6 +210,35 @@ function Layer(name) {
   this.addFeature = function(aFeature) {
     this.features.push(aFeature);
   };
+  // replace an existing feature from the features list
+  this.updateFeature = function(aFeature, feature_id) {
+    if (!feature_id || feature_id == ''){
+        // FIXME this will need to be translated somehow once a system for js internationalisation is ready
+        alert('missing id when trying to remove a fature. The id is mandatory. The feature was NOT updated.');
+        return false;
+    }
+    for (var i = 0; i < this.features.length; i++) {
+      if (this.features[i].id && this.features[i].id == feature_id) {
+        this.features[i] = aFeature;
+      }
+    }
+  };
+  // remove a feature from the features list
+  this.delFeature = function(aFeature, feature_id) {
+    if (!feature_id || feature_id == ''){
+        // FIXME this will need to be translated somehow once a system for js internationalisation is ready
+        alert('missing id when trying to remove a fature. The id is mandatory. The feature was NOT deleted.');
+        return false;
+    }
+    var tmpArray = new Array();
+    for (var i = 0; i < this.features.length; i++) {
+      if (this.features[i].id && this.features[i].id == feature_id) {
+        continue;
+      }
+      tmpArray.push(this.features[i])
+    }
+    this.features = tmpArray;
+  };
 };
 
 /**
