@@ -353,7 +353,7 @@ function mkLin2D(x1, y1, x2, y2, cls)
 
 
 function mkLinePts(x1,y1,x2,y2,d2pts,cls) { //function added to draw lines with few points
-  	this.printing = true;
+        this.printing = true;
 	var dx = x2-x1;
 	var dy = y2-y1;
 	var darc = Math.sqrt(dx * dx + dy * dy); //arc length	

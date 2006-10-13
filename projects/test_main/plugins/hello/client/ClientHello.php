@@ -43,8 +43,22 @@ class ClientHello extends ClientPlugin
     /**
      * @var int
      */
-    protected $count;
+    protected $tiketnumber;
 
+	/*
+	 * @var string  
+	 */
+	 private $reclamation;
+	 
+	 /*
+	  * @var string 
+	 */
+	 private $reclamationsubject;
+	 /*
+	  * @var 
+	  */
+	  private $sbl;
+	
     /** 
      * Constructor
      */
