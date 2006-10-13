@@ -97,14 +97,14 @@ Map.prototype.edit_polygon = function(aDisplay) {
         if (button != null)
           xGetElementById('edit_polygon').disabled = true;
         this.getDisplay(aDisplay).setTool('move');
-        
-            var button = xGetElementById('edit_move');
-            if (button != null)
-              button.checked = true;
-            else
-              setActiveToolButton('edit_move');
-            return false;
-            break;
+  	
+  	    var button = xGetElementById('edit_move');
+  	    if (button != null)
+  	      button.checked = true;
+  	    else
+  	      setActiveToolButton('edit_move');
+  	    return false;
+  	    break;
       }
     case false:
       var button = xGetElementById('edit_polygon');
@@ -123,7 +123,7 @@ Map.prototype.edit_polygon = function(aDisplay) {
     aFeature.operation = 'insert';
     if (this.currentEditFeature == null
         && typeof insert_feature_max_num != 'undefined'
-        	&& this.insertedNum >= insert_feature_max_num) {
+  		&& this.insertedNum >= insert_feature_max_num) {
       alert ("insert new feature not allowed");
       return false;
     }
@@ -181,14 +181,14 @@ Map.prototype.edit_line = function(aDisplay) {
         if (button != null)
           xGetElementById('edit_line').disabled = true;
         this.getDisplay(aDisplay).setTool('move');
-        
-            var button = xGetElementById('edit_move');
-            if (button != null)
-              button.checked = true;
-            else
-              setActiveToolButton('edit_move');
-            return false;
-            break;
+  	
+  	    var button = xGetElementById('edit_move');
+  	    if (button != null)
+  	      button.checked = true;
+  	    else
+  	      setActiveToolButton('edit_move');
+  	    return false;
+  	    break;
       }
     case false:
       var button = xGetElementById('edit_line');

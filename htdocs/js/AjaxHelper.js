@@ -70,8 +70,6 @@ var AjaxHelper = {
                 // Do nothing. Sending the submit inputs in POST Request would make
                 // the serverside act like all buttons on the form were clicked.
                 // And we don't want that.
-            } else if (inputType == 'textarea') {
-                
             } else {    
                 queryString = queryString + this.buildQueryFrom(currentElement) + '&';
             }
