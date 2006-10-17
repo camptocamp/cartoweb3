@@ -139,13 +139,13 @@ AjaxPlugins.Common = {
         try {
             $('selection_type').value = '';
         } catch (e) {
-            Logger.error('Unable to clear stored features: ' + e.message);
+            Logger.error('Unable to clear selection type: ' + e.message);
         }
         
         try {
             $('selection_coords').value = '';
         } catch (e) {
-            Logger.error('Unable to clear stored features: ' + e.message);
+            Logger.error('Unable to clear selection coords: ' + e.message);
         }
         
         try {
