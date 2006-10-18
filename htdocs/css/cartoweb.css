@@ -77,7 +77,12 @@ a:hover {text-decoration: underline;color:#D0670A;}
   border:1px solid #eee;
   font-weight:bold;
 }
-#loadbar img {border:0;margin-top:10px;}
+#loadbar img {
+    border:0;
+    margin-top:10px;
+    width: 140px;
+    height: 10px;
+}
 
 pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
 
