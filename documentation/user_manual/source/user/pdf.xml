@@ -223,6 +223,11 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
      <listitem>
       <para>
+       guiMode: classic
+      </para>
+     </listitem>
+     <listitem>
+      <para>
        distUnit:        mm
       </para>
      </listitem>
@@ -303,6 +308,14 @@ formats.A4.bigDimension = 297]]></programlisting>
      </listitem>
     </itemizedlist>
    </para>
+   <tip>
+    <para>
+     Should you use the <parameter>rotate guiMode</parameter>, do not forget to add a general PROJECTION tag in your mapfile. For instance:
+<programlisting>PROJECTION
+  "init=epsg:21781"
+END</programlisting>
+    </para>
+   </tip>
   </sect2>
  
   <sect2 id="user.pdf.reference.format"> 
