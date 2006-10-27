@@ -38,6 +38,7 @@
 
 {/if}
 
-{if $toolTips_active|default:''}<script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
+{if $toolTips_active|default:''}
+  <script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=toolTips}ToolTips.ajax.js{/r}"></script>
 {/if}
