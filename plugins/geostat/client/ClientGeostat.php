@@ -174,12 +174,6 @@ class ClientGeostat extends ClientPlugin
      * @param array $request HTTP request
      */
     public function handleHttpPostRequest($request) {
-        if (array_key_exists('geostatStatus',$request)) {
-            $this->geostatClientState->status = true;
-        } else {
-            $this->geostatClientState->status = false;
-        }
-
         $this->handleHttpRequest($request);
     }
      
@@ -196,6 +190,12 @@ class ClientGeostat extends ClientPlugin
      * @see ClientGeostat::handleHttpGetRequest()
      */
     protected function handleHttpRequest($requ) {
+        if (array_key_exists('geostatStatus',$requ)) {
+            $this->geostatClientState->status = true;
+        } else {
+            $this->geostatClientState->status = false;
+        }
+
         if (array_key_exists('geostatChoroplethLayer',$requ)) {
             $this->geostatClientState->choroplethParams->layer = 
                $requ['geostatChoroplethLayer'];
@@ -535,6 +535,15 @@ class ClientGeostat extends ClientPlugin
     protected function translateArrayElem(&$item) {
         $item = I18n::gt($item);
     } 
+
+    protected function formatBoundsArray($boundsArray) {
+            // Format numbers in the boundsArray
+            $formattedBoundsArray = array();
+            foreach ($boundsArray as $bound) {
+                $formattedBoundsArray[] = number_format($bound, 2, '.', '');
+            }
+            return $$formattedBoundsArray;
+    }
 
 }
 
