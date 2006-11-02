@@ -475,8 +475,16 @@ class CwFpdf implements PdfWriter {
                 $this->p->MultiCell($block->width, $block->height,
                                     $block->content, $border, $textAlign, 1);
             } else {
+                if (substr(strtolower($block->content), 0, 4) == 'http' && 
+                    strpos(' ', $block->content) === false) {
+                    // Content is a link if starts with "http" and 
+                    // has no white spaces.
+                    $link = $block->content;
+                } else {
+                    $link = NULL;
+                }
                 $this->p->Cell($block->width, $block->height, $block->content,
-                               $border, 0, $textAlign, 1);
+                               $border, 0, $textAlign, 1, $link);
             }
         }
 
