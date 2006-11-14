@@ -32,13 +32,26 @@
   {if $outline_active|default:''}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if $hello_active|default:''}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
 
+  {if $toolTips_active|default:''}
+    <script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js plugin=toolTips}ToolTips.ajax.js{/r}"></script>
+  {/if}
 
   {* Service plugin for AJAX *}
   <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
 
 {/if}
 
-{if $toolTips_active|default:''}
+{* Load the required libraries for Tooltips plugin if ajaxOn = false *}
+{if $toolTips_active|default:'' && !$ajaxOn|default:''}
+  <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxHandler.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=toolTips}ToolTips.ajax.js{/r}"></script>
 {/if}
