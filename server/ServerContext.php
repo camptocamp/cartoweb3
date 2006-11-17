@@ -119,11 +119,6 @@ class ServerContext extends Cartocommon {
     private $pluginManager;
 
     /**
-     * @var boolean True when mapscript module has beed loaded
-     */
-    private $mapscriptLoaded;
-
-    /**
      * If true, complete mapfile is used, if false, switch mapfile is used
      * @var boolean
      */
@@ -324,29 +319,26 @@ class ServerContext extends Cartocommon {
      */
     public function getMapObj() {
 
-        $disablePHPModuleCheck = $this->getConfig()->disablePHPModuleCheck;
-
         if (!$this->msMapObj) {
             if (!extension_loaded('mapscript')) {
                 if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
-                $this->mapscriptLoaded = true;
+                
             } else {
-                // Safety check for Mapserver bug 1322:
+                // Safety check for MapServer bug 1322 (MS < 4.10.0):
                 //   http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322
-                // WARNING: this code should be in sync between:
-                //  server/ServerContext.php, htdocs/info.php and scripts/info.php
-                if (!$disablePHPModuleCheck && !$this->mapscriptLoaded
-                    && !in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
-                    throw new CartoserverException("You are not using PHP as " .
-                        "a cgi and PHP Mapscript extension is loaded in your " .
+                if (!self::isMsNewerOrSameThan('4.10.0')         &&
+                    !$this->getConfig()->disablePHPModuleCheck &&
+                    !in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
+                    throw new CartoserverException('You are not using PHP as ' .
+                        'a CGI and PHP Mapscript extension is loaded in your ' .
                         "php.ini.\n As this will cause stability problems, " .
                         "CartoWeb stopped.\n You need to remove the " .
-                        "php_mapscript extension loading of your php.ini " .
+                        'php_mapscript extension loading of your php.ini ' .
                         "file. \n If you want to remove this message, edit " .
-                        "server_conf/server.ini and set the disablePHPModuleCheck " .
-                        "parameter to true.");
+                        'server_conf/server.ini and set the disablePHPModuleCheck' .
+                        ' parameter to true.');
                 }
             }
             $mapPath = $this->getMapPath($this->globalMap);
@@ -430,7 +422,57 @@ class ServerContext extends Cartocommon {
             $error = $error->next();
         }
 
-        throw new CartoserverException("Mapserver error: " . $errorMessages);
+        throw new CartoserverException("MapServer error: $errorMessages");
+    }
+
+    /**
+     * Returns the MapServer version.
+     * @return string
+     */
+    static public function getMsVersion() {
+        if (preg_match('/^MapServer version ([0-9.]+) (.*)/',
+                       ms_GetVersion(), $regs)) {
+            return $regs[1];
+        }
+
+        return '';
+    }
+
+    /**
+     * Tells if MapServer version is newer or same than the given version.
+     *
+     * The reference version might only specify the major version (eg. '4')
+     * or the major+minor versions (eg. '4.10') 
+     * or the full version (eg. '4.10.0').
+     * @param string version to compare to
+     * @return boolean
+     */
+    static public function isMsNewerOrSameThan($version) {
+        $refVersion = explode('.', $version);
+        $msVersion  = explode('.', self::getMsVersion());
+
+        $diff = count($refVersion) - count($msVersion);
+        // Tests if arrays have the same size, if not adds 0s to the shorter one.
+        switch (true) {
+            case $diff == 0:
+                break;
+
+            case $diff < 0:
+                $refVersion = array_pad($refVersion, count($msVersion), 0);
+                break;
+
+            default: //$diff > 0
+                $msVersion = array_pad($msVersion, count($refVersion), 0);
+        }
+
+        foreach ($msVersion as $level => $part) {
+            if ($part != $refVersion[$level]) {
+                return $part > $refVersion[$level];
+            }
+        }
+
+        // At this point, versions are equal.
+        return true;
     }
 
     /**
