@@ -186,6 +186,10 @@ class ToolTipsService {
             $queryableLayer->setDbTableName($layer->dbTableName);
         }
  
+        if (!empty($layer->geomColName)) {
+            $queryableLayer->setDbGeomColumnName($layer->geomColName);
+        }
+
         if (!empty($layer->template)) {
             $queryableLayer->setTemplate($layer->template);
         }

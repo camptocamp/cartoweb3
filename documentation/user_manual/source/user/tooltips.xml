@@ -90,6 +90,11 @@
              table in database</para>
           </listitem>
           <listitem>
+            <para><parameter>geomColName</parameter>
+            <indexterm><primary>geomColName</primary></indexterm>: (optional) 
+             name of the geometry column. Default is 'the_geom'.</para>
+          </listitem>
+          <listitem>
             <para><parameter>attributes</parameter>
             <indexterm><primary>attributes</primary></indexterm>: comma
              separated list of attributes to be displayed</para>
@@ -109,6 +114,7 @@
         <programlisting><![CDATA[timeout_async.region.label = "Régions"
 timeout_async.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
 timeout_async.region.dbTableName = region
+timeout_async.region.geomColName = position
 timeout_async.region.attributes = "nom, code"
 timeout_async.region.template = "layerResult_region.tpl"]]></programlisting>
       </sect3>
