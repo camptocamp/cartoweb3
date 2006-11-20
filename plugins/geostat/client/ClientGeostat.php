@@ -333,7 +333,7 @@ class ClientGeostat extends ClientPlugin
     
     /**
      * This function builds geostat template
-     * @return Smarty_Plugin
+     * @return string
      */
     public function renderFormPrepare() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -359,7 +359,7 @@ class ClientGeostat extends ClientPlugin
 
     /**
      * This function return form about Geostat status
-     * @return Smarty_Plugin
+     * @return string
      */
     protected function renderSwitch() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -371,7 +371,7 @@ class ClientGeostat extends ClientPlugin
     
     /**
      * This function return form about datasource
-     * @return Smarty_Plugin
+     * @return string
      */
     protected function renderDataSource() {
         
@@ -429,7 +429,7 @@ class ClientGeostat extends ClientPlugin
     
     /**
      * This function return form about choropleth dataset
-     * @return Smarty_Plugin
+     * @return string
      */
     protected function renderChoroplethDataset() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -484,7 +484,7 @@ class ClientGeostat extends ClientPlugin
     
     /**
      * This function return form about choropleth representation
-     * @return Smarty_Plugin
+     * @return string
      */
     protected function renderChoroplethRepresentation() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
