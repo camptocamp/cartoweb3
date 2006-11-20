@@ -119,6 +119,11 @@ class ServerContext extends Cartocommon {
     private $pluginManager;
 
     /**
+     * @var boolean True when mapscript module has beed loaded     
+     */      
+    private $mapscriptLoaded;
+
+    /**
      * If true, complete mapfile is used, if false, switch mapfile is used
      * @var boolean
      */
@@ -324,15 +329,18 @@ class ServerContext extends Cartocommon {
                 if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
                     throw new CartoserverException("can't load mapscript " .
                                                    'library');
+                $this->mapscriptLoaded = true;
+                // in case this method is called more than once...
                 
             } else {
                 // Safety check for MapServer bug 1322 (MS < 4.10.0):
                 //   http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322
-                if (!self::isMsNewerOrSameThan('4.10.0')         &&
+                if (empty($this->mapscriptLoaded)              &&
+                    !self::isMsNewerOrSameThan('4.10.0')       &&
                     !$this->getConfig()->disablePHPModuleCheck &&
                     !in_array(substr(php_sapi_name(), 0, 3), array('cgi', 'cli'))) {
                     throw new CartoserverException('You are not using PHP as ' .
-                        'a CGI and PHP Mapscript extension is loaded in your ' .
+                        'a CGI and PHP/MapScript extension is loaded in your ' .
                         "php.ini.\n As this will cause stability problems, " .
                         "CartoWeb stopped.\n You need to remove the " .
                         'php_mapscript extension loading of your php.ini ' .
