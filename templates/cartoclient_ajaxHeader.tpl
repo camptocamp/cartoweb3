@@ -51,7 +51,7 @@
   <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}AjaxHandler.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}AjaxPlugins.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
+  <script type="text/javascript" src="{r type=js plugin=toolTips}overlib_mini.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=toolTips}ToolTips.ajax.js{/r}"></script>
 {/if}

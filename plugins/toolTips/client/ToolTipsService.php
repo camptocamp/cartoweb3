@@ -93,12 +93,39 @@ class ToolTipsService {
         // gets list of timeout_async layers
         if (isset($configStruct->timeout_async)) {
             $timeout_async = $configStruct->timeout_async;
+            $this->copyLayerGroupsConfig($timeout_async);
             $this->addByXyQueryableLayers($timeout_async);
         }
         // gets list of area_async layers
         if (isset($configStruct->area_async)) {
             $area_async = $configStruct->area_async;
+            $this->copyLayerGroupsConfig($area_async);
             $this->addByIdQueryableLayers($area_async);
+        }
+    }
+    
+    /**
+     * Copies config for all layers of each layer group
+     * @param layerId
+     */
+    protected function copyLayerGroupsConfig($config) {
+        
+        $layers = $this->cartoclient->getPluginManager()->getPlugin('layers');
+        $layerIds = array_keys(get_object_vars($config));
+
+        foreach ($layerIds as $layerId) {
+            $subLayerIds = $layers->fetchChildrenFromLayerGroup(array($layerId));  
+            if (count($subLayerIds) > 0) {      
+                foreach ($subLayerIds as $subLayerId) {
+                    if (!array_key_exists($subLayerId, $layerIds)) {
+                        $config->$subLayerId = $config->$layerId;
+                        
+                        // remembers layer group id
+                        $config->$subLayerId->layerGroup = $layerId;
+                    }
+                }
+                unset($config->$layerId);
+            }
         }
     }
     
@@ -108,8 +135,12 @@ class ToolTipsService {
      */
     protected function addByXyQueryableLayers($layers) {
         foreach ($layers as $layerId => $layer) {
+            $id = $layerId;
+            if (isset($layer->layerGroup)) {
+                $id = $layer->layerGroup;
+            }
             $queryableLayer = 
-                $this->createQueryableLayer($layerId, 'ByXyQueryableLayer');
+                $this->createQueryableLayer($id, 'ByXyQueryableLayer');
             $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
             $this->addQueryableLayer($queryableLayer);
         }
@@ -121,8 +152,12 @@ class ToolTipsService {
      */
     protected function addByIdQueryableLayers($layers) {
         foreach ($layers as $layerId => $layer) {
+            $id = $layerId;
+            if (isset($layer->layerGroup)) {
+                $id = $layer->layerGroup;
+            }
             $queryableLayer = 
-                $this->createQueryableLayer($layerId, 'ByIdQueryableLayer');
+                $this->createQueryableLayer($id, 'ByIdQueryableLayer');
             $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
 
             if (empty($layer->idAttributeString)) {
