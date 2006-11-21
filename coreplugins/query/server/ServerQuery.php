@@ -426,6 +426,13 @@ class ServerQuery extends ClientResponderAdapter {
                         $querySelection->useInQuery = true;                                               
                     }
                 }
+
+                $msMapObj = $this->serverContext->getMapObj();
+                $layerConnexType = $msMapObj->getLayerByName($layerName)->connectiontype;
+                if ($layerConnexType == MS_WMS || $layerConnexType == MS_WFS ){
+                    continue;
+                }
+
                 $tables[] = $this->queryLayer($requ->shape, $querySelection);
                 $layersOk[] = $layerName;
                 $hilightQuerySelections[$layerName] = $querySelection;
