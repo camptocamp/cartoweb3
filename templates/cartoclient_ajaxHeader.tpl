@@ -44,8 +44,10 @@
 
 {* Load the required libraries for Tooltips plugin if ajaxOn = false *}
 {if $toolTips_active|default:'' && !$ajaxOn|default:''}
-  <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
-  <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+  {if $cartoclient_profile == 'development'}
+    <script type="text/javascript" src="{r type=js}jsTrace/dom-drag.js{/r}"></script>
+    <script type="text/javascript" src="{r type=js}jsTrace/jsTrace.js{/r}"></script>
+  {/if}
   <script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}Logger.js{/r}"></script>
   <script type="text/javascript" src="{r type=js}AjaxHelper.js{/r}"></script>
