@@ -265,10 +265,30 @@
             </listitem>
           </itemizedlist>
         </listitem>
+        <listitem>
+          <para>Layers plugin</para>
+          <itemizedlist>
+            <listitem>
+              <para><parameter>switch_id</parameter> - id of the switch to be used when the children switching is activated (see <xref linkend="user.layers.tree.children"/>).</para>
+            </listitem>
+            <listitem>
+              <para><parameter>layer_select</parameter> - comma-separated list of layers or layerGroups id's that must be added into the activated layers list.</para>
+            </listitem>
+            <listitem>
+              <para><parameter>layer_unselect</parameter> - comma-separated list of layers or layerGroups id's that must be removed from the activated layers list. In some cases, layerGroups children might have to be explicitely listed to actually be removed.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
       </itemizedlist>
-      <para>Note that for Query plugin, display of extended selection must be 
+      <warning>
+        <para>Note that for Query plugin, display of extended selection must be 
         disabled in client's <filename>query.ini</filename> in order to use 
         above parameters (see <xref linkend="user.query.client" />).</para>
+      </warning>
+      <tip>
+        <para>To make &cartoweb; outputs a map as a raw image file (no HTML generated), you may use the GET parameter <parameter>mode=image</parameter>. For instance:
+        <programlisting>http://example.com/cartoweb3/client.php?mode=image&amp;mapsize=2</programlisting></para>
+      </tip>
     </sect3>
     <sect3 id="dev.newplugin.special.filters.example">
       <title>Example</title>
