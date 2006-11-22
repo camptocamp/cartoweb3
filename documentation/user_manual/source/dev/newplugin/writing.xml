@@ -137,6 +137,8 @@ return array('images', 'location', 'layers', 'query', 'mapquery',
         </textobject>
       </mediaobject>
     </screenshot>
+    <para>(Get a high quality version of this diagram 
+    <ulink url="http://www.cartoweb.org/doc/misc/plugins_diagram.pdf">here</ulink>.)</para>
   </sect2>
   <sect2 id="dev.newplugin.writing.checklist">
     <title>Plugin Creation Check-List</title>
