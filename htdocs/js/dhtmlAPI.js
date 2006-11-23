@@ -1842,6 +1842,11 @@ function display_onmouseover(evt) {
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
 
+  if (xIE4Up){
+    ex = ex >= 2 ? ex - 2 : 0;
+    ey = ey >= 2 ? ey - 2 : 0;
+  }
+
   if (_display.dragon) return;
 
   // umo is "Under Mouse Object"
@@ -1883,6 +1888,11 @@ function display_onmousedown_left(evt) {
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
 
+  if (xIE4Up){
+    ex = ex >= 2 ? ex - 2 : 0;
+    ey = ey >= 2 ? ey - 2 : 0;
+  }
+
   window.status = e.target.id
 
   if (_display.mouseAction && _display.mouseAction.onMouseDown) {
@@ -1915,6 +1925,11 @@ function display_onmousemove(evt) {
 
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
+
+  if (xIE4Up){
+    ex = ex >= 2 ? ex - 2 : 0;
+    ey = ey >= 2 ? ey - 2 : 0;
+  }
 
   geoX = pix2Geo(ex, 0, _display._width, _display._map.extent.xmin, _display._map.extent.xmax);
   geoY = pix2Geo(ey, 0, _display._height, _display._map.extent.ymax, _display._map.extent.ymin);
@@ -1960,6 +1975,11 @@ function display_onmouseup_left(evt) {
 
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
+  
+  if (xIE4Up){
+    ex = ex >= 2 ? ex - 2 : 0;
+    ey = ey >= 2 ? ey - 2 : 0;
+  }
 
   if (_display.mouseAction && _display.mouseAction.onMouseUp) {
     _display.mouseAction.onMouseUp(_display, ex, ey);
@@ -2016,6 +2036,11 @@ function display_onmouseout(evt) {
 
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
+
+  if (xIE4Up){
+    ex = ex >= 2 ? ex - 2 : 0;
+    ey = ey >= 2 ? ey - 2 : 0;
+  }
 
   if (_display.dragon) return;
 
