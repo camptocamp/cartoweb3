@@ -144,7 +144,6 @@ class Point extends Shape {
      * Constructor
      * @param double
      * @param double
-     * @param string
      */
     public function __construct($x = 0, $y = 0) {
         parent::__construct();
