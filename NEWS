@@ -1,3 +1,9 @@
+CartoWeb HEAD
+=============
+
+- Added some new images plugin filter parameters.
+- Made URLs clickable in exportPdf documents.
+
 2006-08-31: CartoWeb 3.3.0
 ==========================
 
