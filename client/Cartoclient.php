@@ -1096,7 +1096,7 @@ class Cartoclient extends Cartocommon {
         if (!$this->isInterruptFlow() && 
             $this->outputType == self::OUTPUT_IMAGE) {
             // Returns raw mainmap image
-            $this->getPluginManager()->getPlugin('images')->outputMainmap();
+            $this->getPluginManager()->getPlugin('images')->outputMap();
             $output = '';
         } else {
             $output = $this->formRenderer->render();
