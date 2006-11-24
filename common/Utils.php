@@ -350,6 +350,26 @@ class Utils {
         $angle = rad2deg($angle);
         return $angle;
     }
+
+    /**
+     * Tests if argument is an integer.
+     * @param mixed argument to be tested
+     * @param boolean if true, test if argument is positive as well (optional)
+     * @return boolean
+     */
+    static public function isInteger($arg, $positive = false) {
+        // checks if integer
+        if (!is_numeric($arg) || (int)$arg != $arg) {
+            return false;
+        }
+
+        // checks if positive (if required)
+        if ($positive && $arg < 0) {
+            return false;
+        }
+
+        return true;
+    }
 }
 
 /**
