@@ -82,6 +82,24 @@ class ClientImages extends ClientPlugin
     protected $collapseKeymap = 0;
 
     /**
+     * Indicates if scalebar must be drawn.
+     * @var boolean
+     */
+    protected $drawScalebar;
+
+    /**
+     * Indicates if keymap must be drawn.
+     * @var boolean
+     */
+    protected $drawKeymap;
+    
+    /**
+     * Indicates if mainmap must be drawn.
+     * @var boolean
+     */
+    protected $drawMainmap;
+
+    /**
      * Default map width, if not specified in config
      */
     const DEF_MAP_WIDTH  = 400;
@@ -90,6 +108,18 @@ class ClientImages extends ClientPlugin
      * Default map height, if not specified in config
      */
     const DEF_MAP_HEIGHT = 200;
+
+    /**
+     * Default max map width, if not specified in config.
+     * Test is performed only when using $_REQUEST customMapsize.
+     */
+    const DEF_MAX_MAP_WIDTH  = 1500;
+
+    /**
+     * Default max map height, if not specified in config.
+     * Test is performed only when using $_REQUEST customMapsize.
+     */
+    const DEF_MAX_MAP_HEIGHT = 1000;
 
     /**
      * Constructor
@@ -131,7 +161,7 @@ class ClientImages extends ClientPlugin
     
         $mapSize = $this->getHttpValue($request, 'mapsize');
 
-        if (!is_null($mapSize)) {        
+        if (!empty($mapSize)) {        
 
             if ($check) {
                 if (!$this->checkInt($mapSize, 'mapsize'))
@@ -149,7 +179,55 @@ class ClientImages extends ClientPlugin
             $this->setMapDimensions($mapWidth, $mapHeight);
             $this->imagesState->mainmapDimension->width  = $mapWidth;
             $this->imagesState->mainmapDimension->height = $mapHeight;
+            return NULL;
         }
+
+        $customMapSize = $this->getHttpValue($request, 'customMapsize');
+
+        if (!empty($customMapSize)) {
+            // customMapsize parameter is something like [width]x[height]
+            // with [width] and [height] being integers.
+            $mapSize = Utils::parseArray($customMapSize, 'x');
+            if (count($mapSize) != 2 || 
+                !$this->checkMapDimensions($mapSize[0], $mapSize[1])) {
+                return NULL;
+            }
+            $this->imagesState->mainmapDimension->width  = $mapSize[0];
+            $this->imagesState->mainmapDimension->height = $mapSize[1];
+        }
+    }
+
+    /**
+     * Checks if required map width and height are allowed.
+     * @param mixed width
+     * @param mixed height
+     * @return boolean
+     */
+    protected function checkMapDimensions($width, $height) {
+        // tests if dimensions are integer and positive
+        if (!Utils::isInteger($width,  true) ||
+            !Utils::isInteger($height, true)) {
+            return false;
+        }
+
+        // tests if dimensions are too big
+        $maxWidth = $this->getConfig()->maxMapWidth;
+        if (empty($maxWidth)) {
+            $maxWidth = self::DEF_MAX_MAP_WIDTH;
+        }
+        if ($width > $maxWidth) {
+            return false;
+        }
+
+        $maxHeight = $this->getConfig()->maxMapHeight;
+        if (empty($maxHeight)) {
+            $maxHeight = self::DEF_MAX_MAP_HEIGHT;
+        }
+        if ($height > $maxHeight) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -160,11 +238,7 @@ class ClientImages extends ClientPlugin
         $this->log->debug($this->imagesState);
         
         $this->handleMapSize($request);
-
-        if ($this->getConfig()->collapsibleKeymap) {
-            $this->collapseKeymap = isset($request['collapse_keymap']) ?
-                                    $request['collapse_keymap'] : 0;
-        }
+        $this->handleHttpRequest($request);
     }
 
     /**
@@ -172,13 +246,45 @@ class ClientImages extends ClientPlugin
      */
     public function handleHttpGetRequest($request) {
         $this->handleMapSize($request, true);        
+        $this->handleHttpRequest($request);
+    }
 
+    /**
+     * Common part of self::handleHttpPostRequest() and
+     * self::handleHttpGetRequest()
+     */
+    protected function handleHttpRequest($request) {
         if ($this->getConfig()->collapsibleKeymap) {
             $this->collapseKeymap = isset($request['collapse_keymap']) ?
                                     $request['collapse_keymap'] : 0;
         }
+
+        $this->detectIfImageDrawn('scalebar', $request);
+        $this->detectIfImageDrawn('keymap',   $request);
+        $this->detectIfImageDrawn('mainmap',  $request);
     }
     
+    /**
+     * Tries to decide if the mainmap (resp. scalebar, keymap) must be drawn
+     * or not.
+     * @param string image name
+     * @param array request data
+     */
+    protected function detectIfImageDrawn($image, &$request) {
+        if (!in_array($image, array('scalebar', 'keymap', 'mainmap'))) {
+            return;
+        }
+
+        $drawImage = 'draw' . ucfirst($image); // eg. drawMainmap
+        if (isset($request[$drawImage])) {
+            if (!is_null($request[$drawImage])) {
+                $this->$drawImage = (bool)$request[$drawImage];
+            } else {
+                $this->$drawImage = true;
+            }
+        }
+    }
+
     /**
      * Returns the dimensions of the main map. It may be used by other plugins.
      * @return Dimension
@@ -211,12 +317,12 @@ class ClientImages extends ClientPlugin
         if ($this->getConfig()->mapSizesActive) {
             $mapSizes = $this->getMapSizes();
             if (isset($mapSizes[$this->imagesState->selectedSize])) {
-                $mapSize =& $mapSizes[$this->imagesState->selectedSize];
-                $mapWidth = $mapSize['width'];
-                $mapHeight = $mapSize['height'];
+                $mapSize   =& $mapSizes[$this->imagesState->selectedSize];
+                $mapWidth  =  $mapSize['width'];
+                $mapHeight =  $mapSize['height'];
             }
         } else {
-            $mapWidth = $this->getConfig()->mapWidth;
+            $mapWidth  = $this->getConfig()->mapWidth;
             $mapHeight = $this->getConfig()->mapHeight;
         }
         
@@ -236,18 +342,34 @@ class ClientImages extends ClientPlugin
         $drawAll = ($this->getCartoclient()->getOutputType()
                     != Cartoclient::OUTPUT_IMAGE);
 
+        if (!isset($this->drawMainmap)) {
+            $this->drawMainmap = $drawAll;
+        }
+        if (!isset($this->drawKeymap)) {
+            $this->drawKeymap = $drawAll;
+        }
+        if (!isset($this->drawScalebar)) {
+            $this->drawScalebar = $drawAll;
+        }
+
+        if (!$drawAll && !$this->drawScalebar && !$this->drawKeymap) {
+            // sets mainmap output by default if image mode and
+            // if neither scalebar nor keymap are requested
+            $this->drawMainmap = true;
+        }
+
         $scalebar_image = new Image();
-        $scalebar_image->isDrawn = ($drawAll 
+        $scalebar_image->isDrawn = ($this->drawScalebar
             && !$this->getConfig()->noDrawScalebar);
         $images->scalebar = $scalebar_image;
 
         $keymap_image = new Image();
-        $keymap_image->isDrawn = ($drawAll 
+        $keymap_image->isDrawn = ($this->drawKeymap
             && !$this->getConfig()->noDrawKeymap);
         $images->keymap = $keymap_image;
 
         $mainmap_image = new Image();
-        $mainmap_image->isDrawn = true;
+        $mainmap_image->isDrawn = $this->drawMainmap;
         $mainmap_image->width = $this->imagesState->mainmapDimension->width;
         $mainmap_image->height = $this->imagesState->mainmapDimension->height;
         $images->mainmap = $mainmap_image;
@@ -452,13 +574,22 @@ class ClientImages extends ClientPlugin
     /**
      * Outputs raw mainmap image.
      */
-    public function outputMainmap() {
+    public function outputMap() {
         if (empty($this->imagesResult)) {
             return false;
         }
+
+        if ($this->drawKeymap) {
+            $mapPath = $this->getImageUrl($this->imagesResult->keymap->path,
+                                          false, true);
+        } elseif ($this->drawScalebar) {
+            $mapPath = $this->getImageUrl($this->imagesResult->scalebar->path,
+                                          false, true);
+        } else {
+            $mapPath = $this->getImageUrl($this->imagesResult->mainmap->path,
+                                          false, true);
+        }        
         
-        $mapPath = $this->getImageUrl($this->imagesResult->mainmap->path,
-                                      false, true);
         $infos = getimagesize($mapPath);
         $mime = !empty($infos['mime']) ? $infos['mime'] : '';
         if (!$mime) {

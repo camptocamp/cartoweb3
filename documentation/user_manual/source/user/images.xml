@@ -78,6 +78,22 @@
             (among the above #). Only when mapSizesActive = true.
           </para>
         </listitem>
+        <listitem>
+          <para>
+            maxMapWidth <indexterm><primary>maxMapWidth</primary></indexterm>:
+            maximum allowed width in pixels of the generated mainmap when setting manually 
+            the mapsize using GET or POST requests. If no value is specified, default max width
+            is 1500 px.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            maxMapHeight <indexterm><primary>maxMapHeight</primary></indexterm>:
+            maximum allowed height in pixels of the generated mainmap when setting manually 
+            the mapsize using GET or POST requests. If no value is specified, default max height
+            is 1000 px.
+          </para>
+        </listitem>
       </itemizedlist>
       <para>
         If no mapsize settings are found, the default mapsize is 400x200

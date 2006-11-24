@@ -180,7 +180,19 @@
           <itemizedlist>
             <listitem>
               <para><parameter>mapsize</parameter> - ID of the selected map 
-                size (see <xref linkend="user.images.client" />) </para>
+                size (see <xref linkend="user.images.client" />)</para>
+            </listitem>
+            <listitem>
+              <para><parameter>customMapsize</parameter> - this string parameter enables to specify a customized map size using the syntax <parameter>[width]x[height]</parameter>, <parameter>[width]</parameter> and <parameter>[height]</parameter> being positive integers (size in pixels). You may specify dimensions limitations in <filename>client_conf/images.ini</filename> (see <xref linkend="user.images.client" />)</para>
+            </listitem>
+            <listitem>
+              <para><parameter>drawMainmap</parameter> - boolean indicating if the mainmap must be drawn or not.</para>
+            </listitem>
+            <listitem>
+              <para><parameter>drawKeymap</parameter> - boolean indicating if the keymap must be drawn or not.</para>
+            </listitem>
+            <listitem>
+              <para><parameter>drawScalebar</parameter> - boolean indicating if the scalebar must be drawn or not.</para>
             </listitem>
           </itemizedlist>
         </listitem>
