@@ -22,3 +22,7 @@ mapSizesActive = true
 
 ;if true, scalebar will not be drawn
 ;noDrawScalebar = true
+
+;mainmap dimensions limits when using customMapsize REQUEST parameter (pixels)
+;maxMapWidth = 1500
+;maxMapHeight = 1000
