@@ -161,8 +161,7 @@ class ClientImages extends ClientPlugin
     
         $mapSize = $this->getHttpValue($request, 'mapsize');
 
-        if (!empty($mapSize)) {        
-
+        if (!is_null($mapSize)) {
             if ($check) {
                 if (!$this->checkInt($mapSize, 'mapsize'))
                     return NULL;
@@ -172,7 +171,6 @@ class ClientImages extends ClientPlugin
                     return NULL;
                 }
             }
-            
             $this->imagesState->selectedSize = $mapSize;
 
             $mapWidth = $mapHeight = 0;
@@ -181,7 +179,7 @@ class ClientImages extends ClientPlugin
             $this->imagesState->mainmapDimension->height = $mapHeight;
             return NULL;
         }
-
+        
         $customMapSize = $this->getHttpValue($request, 'customMapsize');
 
         if (!empty($customMapSize)) {
@@ -194,6 +192,8 @@ class ClientImages extends ClientPlugin
             }
             $this->imagesState->mainmapDimension->width  = $mapSize[0];
             $this->imagesState->mainmapDimension->height = $mapSize[1];
+            // reset stored predefined mapsize, otherwise it will conflict
+            $this->imagesState->selectedSize = NULL;
         }
     }
 
@@ -326,10 +326,12 @@ class ClientImages extends ClientPlugin
             $mapHeight = $this->getConfig()->mapHeight;
         }
         
-        if (!isset($mapWidth) || !$mapWidth)
+        if (empty($mapWidth)) {
             $mapWidth = self::DEF_MAP_WIDTH;
-        if (!isset($mapHeight) || !$mapHeight) 
+        }
+        if (empty($mapHeight)) {
             $mapHeight = self::DEF_MAP_HEIGHT;
+        }
     }
 
     /**
@@ -438,7 +440,10 @@ class ClientImages extends ClientPlugin
      */
     protected function drawMapSizes() {
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-        $mapsizesOptions = array();
+        /* we need to add an empty option because, if the mapsize is custom, none of the 
+        predefined mapsize value must be selected, and by default a select will have the first 
+        option selected */
+        $mapsizesOptions = array('' => '');
         foreach ($this->getMapSizes() as $id => $mapSize)
             $mapsizesOptions[$id] = I18n::gt($mapSize['label']);
 
