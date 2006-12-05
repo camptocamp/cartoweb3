@@ -327,6 +327,12 @@ AjaxPlugins.ToolTips = {
  */
 
 AjaxPlugins.ToolTips.Result = Class.create();
+
+/**
+ * timeout before the tooltip is hidden
+ */
+AjaxPlugins.ToolTips.Result.overlibTimeout = 3000;
+
 AjaxPlugins.ToolTips.Result.prototype = {
     /**
      * title for the result
@@ -338,7 +344,7 @@ AjaxPlugins.ToolTips.Result.prototype = {
      * html content
      * @var string
      */
-    content: '',
+    content: '',    
 
     initialize: function(element) {
         // needed to get the 'overDiv' element when the page is loaded
@@ -382,8 +388,12 @@ AjaxPlugins.ToolTips.Result.prototype = {
         // AjaxHandler.updateDomElement('resultContainer', 'innerHTML', this.content);
 
         // or in an overlib tooltip
-        return overlib(this.content, CAPTION, this.title, STICKY, NOCLOSE,
-            TIMEOUT, 3000);
+        if (this.overlibTimeout != null) {
+            return overlib(this.content, CAPTION, this.title,
+                           STICKY, NOCLOSE, TIMEOUT, this.overlibTimeout);
+        } else {
+            return overlib(this.content, CAPTION, this.title, STICKY);
+        }              
     },
 
     hide: function() {
