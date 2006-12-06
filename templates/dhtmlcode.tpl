@@ -86,9 +86,33 @@ if (typeof(AjaxHandler) != 'undefined') {
       // init the imagemap (area tags)
       if ($('map1')) {
           var imagemapTag = $('map1');
-          xAppendChild(mainmap.getDisplay('map').rootDisplayLayer, imagemapTag); 
-          AjaxPlugins.ToolTips.useMap();
+          args = new Array();
+          args[0] = imagemapTag;
+          checkMainmapExistence('callToolTips', args);
       }
+  }
+
+  /*
+   * args is an array containing all the arguments passed originally
+   */
+  function callToolTips(args) {
+    xAppendChild(mainmap.getDisplay('map').rootDisplayLayer, args[0]); 
+    AjaxPlugins.ToolTips.useMap();
+  }
+
+  /*
+   * generic loop function to wait till the mainmap object is ready
+   * receive the name of the output function and an array containing the parameters to pass to this function
+   */
+  function checkMainmapExistence(functionCall, args) {
+      try {
+        mainmap
+      } catch (e){
+        setTimeout(function() { checkMainmapExistence(functionCall, args); }, 100);
+        return;
+      }
+      // call to dynamically named function
+      this[functionCall](args);
   }
   {/literal}
 
