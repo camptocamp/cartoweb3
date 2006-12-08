@@ -162,7 +162,13 @@ function updateChecked(id,skipChildren) {
   
   if (!skipChildren) checkChildren('id' + id, val);
   
-  var pid = obj.parentNode.getAttribute('id');
+  /* get the parent element of type DIV (in case table were used to format the tree, 
+  hence the first parent will be a TD) */
+  var objparent = obj.parentNode;
+  while (objparent.nodeName.toLowerCase() != 'div'){
+    objparent = objparent.parentNode;
+  }
+  var pid = objparent.getAttribute('id');
   if (!pid) return;
   var iid = pid.substr(2);
   var iparent = document.getElementById('in' + iid);
