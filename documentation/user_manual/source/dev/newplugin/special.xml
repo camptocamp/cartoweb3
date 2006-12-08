@@ -491,8 +491,17 @@ static function myCallbackMethod('table_id', 'column_id',
 public function addRowUnselector($groupId, $tableId,
                                  $columnId, $rowIds)]]></programlisting>
         <para>Row unselector rules allow to remove some rows from a table. 
-          Parameter <parameter>rowIds</parameter> contain IDs of row that must 
+          Parameter <parameter>rowIds</parameter> contains IDs of row that must 
           be removed.</para>
+      </sect4>
+      <sect4 id="dev.newplugin.special.tables.setrules.rowselector">
+        <title>Row Selector</title>
+        <programlisting><![CDATA[
+public function addRowSelector($groupId, $tableId,
+                                 $columnId, $rowIds)]]></programlisting>
+        <para>Row selector rules allow to keep only some rows from a table. 
+          Parameter <parameter>rowIds</parameter> contains IDs of row that must 
+          be kept.</para>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.columnadder">
         <title>ColumnAdder</title>

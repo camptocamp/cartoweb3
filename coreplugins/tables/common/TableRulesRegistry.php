@@ -846,6 +846,61 @@ class RowUnselector extends TableRule {
 }
 
 /**
+ * Rule to keep only a subset of the rows of a table
+ */
+class RowSelector extends TableRule {
+
+    /**
+     * @var array list of values for which the rows will be kept if it 
+     *  matched in column columnId.
+     */
+    protected $rowIds;
+
+    /**
+     * Constructor
+     * @param string
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function __construct($groupId, $tableId, $columnId, $rowIds) {
+        parent::__construct();
+        $this->groupId   = $groupId;
+        $this->tableId   = $tableId;
+        $this->columnId  = $columnId;        
+        $this->rowIds    = $rowIds;        
+    }    
+    
+    /**
+     * Executes a rule on every rows of a table
+     * @param Table
+     * @param string
+     * @param array
+     */
+    public function applyRule($table, $columnId) {
+        if ($table->numRows == 0) {
+            return;
+        }
+
+        $indexes = $this->getIndexes($table);
+        $isRowId = $this->columnId == 'row_id';
+        if (!$isRowId)
+            $columnIndex = $indexes[$this->columnId];
+
+        $rows = array();
+        foreach ($table->rows as $index => $row) {
+            $value = $isRowId ? $row->rowId : $row->cells[$columnIndex];
+            if (!in_array($value, $this->rowIds)) {            
+                $table->numRows--;
+            } else {
+                $rows[] = $row;
+            }
+        }
+        $table->rows = $rows;
+    }
+}
+
+/**
  * Rule to add one or more columns and compute content of cells one by one
  *
  * Callback method should have the following signature:
@@ -1369,7 +1424,19 @@ class TableRulesRegistry {
        $rule = new RowUnselector($groupId, $tableId, $columnId, $rowIds);
        $this->addRule($rule); 
     }
-        
+  
+    /**
+     * Adds a RowSelector rule
+     * @param string
+     * @param string
+     * @param string
+     * @param array
+     */
+    public function addRowSelector($groupId, $tableId, $columnId, $rowIds) {
+       $rule = new RowSelector($groupId, $tableId, $columnId, $rowIds);
+       $this->addRule($rule); 
+    }
+      
     /**
      * Adds a ColumnAdder rule
      * @param string
