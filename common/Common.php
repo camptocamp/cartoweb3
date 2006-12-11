@@ -72,6 +72,8 @@ class CartowebException extends Exception {
                     $args .= 'Unknown';
                 }
             }
+            $bt['line'] = isset($bt['line']) ?  $bt['line'] : 'UNKNOWN';
+            $bt['file'] = isset($bt['file']) ?  $bt['file'] : 'UNKNOWN';
             $output .= "\nfile: {$bt['line']} - {$bt['file']}\n";
             $bt['class'] = isset($bt['class']) ?  $bt['class'] : '';
             $bt['type'] = isset($bt['type']) ?  $bt['type'] : '';
