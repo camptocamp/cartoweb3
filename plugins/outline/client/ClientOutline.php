@@ -89,7 +89,7 @@ class OutlineV2ToV3 extends ViewUpgrader {
  */
 class ClientOutline extends ClientPlugin 
                     implements Sessionable, GuiProvider, ServerCaller, 
-                               ToolProvider, Exportable, InitUser, Ajaxable {
+                               ToolProvider, Exportable, InitUser, Ajaxable, FilterProvider {
                     
     /**                    
      * @var Logger
@@ -112,11 +112,15 @@ class ClientOutline extends ClientPlugin
      */
     protected $symbols;
 
+    /** 
+     * @var string geometry type
+     */
+    protected $geomType;
+
     const TOOL_POINT     = 'outline_point';
     const TOOL_LINE      = 'outline_line';
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
-
 
     /**
      * Constructor
@@ -197,6 +201,42 @@ class ClientOutline extends ClientPlugin
     }
 
     /**
+     * @see FilterProvider::filterPostRequest()
+     */
+    public function filterPostRequest(FilterRequestModifier $request) {}
+
+    /**
+     * @see FilterProvider::filterGetRequest()
+     */
+    public function filterGetRequest(FilterRequestModifier $request) {
+        // gets geometry type from GET request
+        $this->geomType = '';
+        $poly = $request->getValue('outline_poly');
+        $line = $request->getValue('outline_line');
+        $point = $request->getValue('outline_point');
+
+        // set correct parameters for new shape depending on type
+        if (!empty($poly)) {
+            $this->geomType = $tool = self::TOOL_POLYGON;
+            $selection_coords = $poly;
+            $selection_type = 'polygon';
+        } elseif (!empty($line)) {
+            $this->geomType = $tool = self::TOOL_LINE;
+            $selection_coords = $line;
+            $selection_type = 'polyline';
+        } elseif (!empty($point)) {
+            $this->geomType = $tool = self::TOOL_POINT;  
+            $selection_coords = $point;
+            $selection_type = 'point';
+        } else {
+            return;
+        }
+        $request->setValue('selection_coords', $selection_coords);
+        $request->setValue('selection_type', $selection_type);
+        $request->setValue('tool', $tool);
+    }
+
+    /**
      * @see GuiProvider::handleHttpPostRequest()
      */
     public function handleHttpPostRequest($request) {
@@ -237,49 +277,68 @@ class ClientOutline extends ClientPlugin
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
 
         if ($shape) {
-            $styledShape = new StyledShape();
-
-            // Gets options
-            switch ($this->getCartoclient()->getClientSession()->selectedTool) {
-            case self::TOOL_POINT:
-                $styledShape->shapeStyle = clone $this->outlineState->pointStyle;
-                break;
-                
-            case self::TOOL_LINE:
-                $styledShape->shapeStyle = clone $this->outlineState->lineStyle;
-                break;
-
-            case self::TOOL_RECTANGLE:
-            case self::TOOL_POLYGON:
-                $styledShape->shapeStyle = clone $this->outlineState->polygonStyle;
-                break;
-
-            default:
-                // We should never come here...
-                break;
-            }
-
-            $styledShape->shape = $shape;
-
-            if ($this->getConfig()->labelMode &&
-                !empty($request['outline_label_text'])) {
-                $styledShape->label = 
-                    Encoder::encode(stripslashes($request['outline_label_text']), 
-                                    'output');
-            }
-            if (!is_null($this->getConfig()->multipleShapes) &&
-                !$this->getConfig()->multipleShapes) {
-                $this->outlineState->shapes = array();
-            }
-            $this->outlineState->shapes[] = $styledShape;
+            $this->handleShape($shape);
         }
     }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
-    public function handleHttpGetRequest($request) {}
+    public function handleHttpGetRequest($request) {
+
+        $geomValues = isset($request[$this->geomType]) ? $request[$this->geomType] : '';
+        
+        if  (!empty($this->geomType)) {
+            $shape = $this->getShape($this->geomType, $geomValues);
+
+            if ($shape) {
+                $this->handleShape($shape);
+            }
+        }
+    }
+
+    /**
+     * common new shape handling for HttpPostRequet and HttpGetRequest
+     */
+    protected function handleShape($shape) {
     
+        $styledShape = new StyledShape();
+
+        // Gets options
+        switch ($this->getCartoclient()->getClientSession()->selectedTool) {
+        case self::TOOL_POINT:
+            $styledShape->shapeStyle = clone $this->outlineState->pointStyle;
+            break;
+            
+        case self::TOOL_LINE:
+            $styledShape->shapeStyle = clone $this->outlineState->lineStyle;
+            break;
+
+        case self::TOOL_RECTANGLE:
+        case self::TOOL_POLYGON:
+            $styledShape->shapeStyle = clone $this->outlineState->polygonStyle;
+            break;
+
+        default:
+            // We should never come here...
+            break;
+        }
+
+        $styledShape->shape = $shape;
+
+        if ($this->getConfig()->labelMode &&
+            !empty($request['outline_label_text'])) {
+            $styledShape->label = 
+                Encoder::encode(stripslashes($request['outline_label_text']), 
+                                'output');
+        }
+        if (!is_null($this->getConfig()->multipleShapes) &&
+            !$this->getConfig()->multipleShapes) {
+            $this->outlineState->shapes = array();
+        }
+        $this->outlineState->shapes[] = $styledShape;    
+    }
+
     /**
      * @see ServerCaller::buildRequest()
      */
@@ -501,6 +560,59 @@ class ClientOutline extends ClientPlugin
      */
     public function hasShapes() {
         return !empty($this->outlineState->shapes);
+    }
+
+    /**
+     * Gets a geometry type (point, line, polygon)
+     * and the points coordinates of the geometry
+     * @param string type : type of feature (polygon, line or point)
+     * @param string values : list of point coordinates, x1,y1;x2,y2...
+     * @return Shape
+     */
+    protected function getShape($type, $values) {
+
+        switch ($type) {
+            case self::TOOL_POLYGON :
+                $points = Utils::parseArray($values, ';');
+                if (sizeOf($points) <= 0) return false;
+
+                $shape = new Polygon;
+                for ($i = 0; $i < sizeOf($points); $i++) {
+                    $point = new Point;
+                    $pointXY = Utils::parseArray($points[$i]);
+                    if (sizeOf($pointXY) != 2) return false;
+
+                    $point->setXY($pointXY[0], $pointXY[1]);
+                    $shape->points[] = $point;
+                }
+                return $shape;
+            break;
+            case self::TOOL_LINE :
+                $points = Utils::parseArray($values, ';');
+                if (sizeOf($points) <= 0) return false;
+            
+                $shape = new Line;
+                for ($i = 0; $i < sizeOf($points); $i++) {
+                    $point = new Point;
+                    $pointXY = Utils::parseArray($points[$i]);
+                    if (sizeOf($pointXY) != 2) return false;
+
+                    $point->setXY($pointXY[0], $pointXY[1]);
+                    $shape->points[] = $point;
+                }
+                return $shape;
+            break;
+            case self::TOOL_POINT :
+                $shape = new Point;
+                $pointXY = Utils::parseArray($values);
+                if (sizeOf($pointXY) != 2) return false;
+
+                $shape->setXY($pointXY[0], $pointXY[1]);
+                return $shape;
+            break;
+            default :
+                return false;
+        }
     }
 }
 

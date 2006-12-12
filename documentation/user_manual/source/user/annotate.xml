@@ -166,6 +166,42 @@ END]]></programlisting> You will find more examples looking in the test.map
         file in server_conf directory. </para>
     </sect2>
   </sect1>
+
+  <sect1 id="user.annotate.getparam">
+    <title>GET Parameters</title>
+    <para>Creates outline drawing on-the-fly by passing a geometry type and one 
+    or more point coordinates via the URL.</para>
+    <sect2 id="user.annotate.getparam.paramlist">
+      <title>Accepted Parameters</title>
+      <para>Parameters list</para>
+      <itemizedlist>
+        <listitem>
+          <para>outline_point
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_point=611748,5232242</screen>
+          </para>
+        </listitem>
+        <listitem>
+          <para>outline_line
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_line=611748,5232242;748204,5232242;748204,5050300;611748,5050300</screen>
+          </para>
+        </listitem>
+        <listitem>
+          <para>outline_poly
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_poly=611748,5232242;748204,5232242;748204,5050300;611748,5050300;611748,5232242</screen>
+          </para>
+        </listitem>
+      </itemizedlist>
+      <note>
+        <para>If you do not want to have persistent outline, you can add the 
+          <emphasis>prevent_save_session</emphasis> parameter in the URL. For example:
+            <screen>http://www.example.com/cartoweb/myproject.php?outline_point=611748,5232242&amp;prevent_save_session</screen>
+            This may be useful if you use the <emphasis>mode=image</emphasis> output:
+            <screen>http://www.example.com/cartoweb/myproject.php?mode=image&amp;outline_point=611748,5232242&amp;prevent_save_session</screen>
+        </para>
+      </note>
+    </sect2>
+  </sect1>
+
   <sect1 id="user.annotate.toolpicker">
     <title>The ToolPicker</title>
     <sect2 id="user.annotate.toolpicker.what">
