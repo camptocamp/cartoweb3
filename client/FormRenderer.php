@@ -408,7 +408,7 @@ class FormRenderer {
                                                 $plugin->getName(),
                                                 'Ajaxable',
                                                 'ajaxGetPluginResponse',
-                                                &$ajaxPluginResponse,
+                                                $ajaxPluginResponse,
                                                 $ajaxAction);
             if (!$ajaxPluginResponse->isEmpty())
                 $ajaxPluginResponses[$plugin->getName()] = $ajaxPluginResponse;
