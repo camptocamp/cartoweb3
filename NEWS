@@ -1,7 +1,9 @@
 CartoWeb HEAD
 =============
 
-- Added some new images plugin filter parameters.
+- Added some new images plugin filter parameters:
+    o Map image size set dynamically via GET parameters ;
+    o Image mode now allow output of map, keymap and scalebar separately.
 - Made URLs clickable in exportPdf documents.
 - Added GET capabilities to outline plugin to generate on-the-fly point, line or polygon outline via URL.
 
