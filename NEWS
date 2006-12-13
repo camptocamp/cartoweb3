@@ -3,6 +3,7 @@ CartoWeb HEAD
 
 - Added some new images plugin filter parameters.
 - Made URLs clickable in exportPdf documents.
+- Added GET capabilities to outline plugin to generate on-the-fly point, line or polygon outline via URL.
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
