@@ -205,6 +205,23 @@ function bt($a = "__died__\n") {
  * For debugging purpose only
  * @param mixed
  */
+function bt2() {
+	$bt = debug_backtrace();
+	echo "<pre>";
+	foreach($bt as $b) {
+		//var_dump($b);
+		$fi = isset($b['file']) ? $b['file'] : 'no_file';
+		$li = isset($b['line']) ? $b['line'] : 'no_line';
+		$fu = isset($b['function']) ? $b['function'] : 'no_function';
+		echo "$fu - $li - $fi\n";
+	}
+	die();
+}
+
+/**
+ * For debugging purpose only
+ * @param mixed
+ */
 function l($arg = false) {
     $i = 100;
     if ($arg !== false)

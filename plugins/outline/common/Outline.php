@@ -26,13 +26,6 @@
  * @package Plugins
  */
 class OutlineRequest extends CwSerializable {
-
-    /**
-     * SwissimageMode constants
-     */
-    const MODE_LEVEL1 = 'MODE_LEVEL1'; 
-    const MODE_LEVEL2_25 = 'MODE_LEVEL2_25'; 
-    const MODE_LEVEL2_50_200 = 'MODE_LEVEL2_50_200'; 
     
     /** 
      * Shapes to be drawn
@@ -57,9 +50,6 @@ class OutlineRequest extends CwSerializable {
      */
     public $wholeDataLayer;
     
-    public $swissimageMode;
-    public $swissimageLevel2_25;
-    
     /**
      * @see CwSerializable::unserialize()
      */
@@ -70,8 +60,6 @@ class OutlineRequest extends CwSerializable {
         $this->labelMode = self::unserializeValue($struct, 'labelMode', 
                                                  'boolean');
         $this->wholeDataLayer = self::unserializeValue($struct, 'wholeDataLayer', 'string');
-        
-        $this->swissimageMode = self::unserializeValue($struct, 'swissimageMode');
     }    
 }
 
@@ -82,15 +70,6 @@ class OutlineRequest extends CwSerializable {
 class OutlineResult extends CwSerializable {
     
     /**
-     * SwissimageStatus constants
-     */
-    const STATUS_VALID = 'STATUS_VALID'; 
-	const STATUS_MIXING_LEVELS = 'STATUS_MIXING_LEVELS';
-	const STATUS_OUTSIDE_LEVEL1 = 'STATUS_OUTSIDE_LEVEL1';
-	const STATUS_OUTSIDE_LEVEL2 = 'STATUS_OUTSIDE_LEVEL2';
-	const STATUS_OUTSIDE_LEVEL2_25 = 'STATUS_OUTSIDE_LEVEL2_25';
-    
-    /**
      * Total shapes area
      * @var double
      */
@@ -99,14 +78,7 @@ class OutlineResult extends CwSerializable {
     /**
      * Swisstopo specific
      */
-    public $isOutside;    
-    
-    /**
-     * Swissimage parameters
-     */
-    public $swissimageStatus;
-    public $swissimageInternalStatus;
-    public $swissimageLevel2_50Area;
+    public $isOutside;
     
     /**
      * @see CwSerializable::unserialize()
@@ -114,10 +86,6 @@ class OutlineResult extends CwSerializable {
     public function unserialize($struct) {
         $this->area = self::unserializeValue($struct, 'area', 'double');
         $this->isOutside = self::unserializeValue($struct, 'isOutside', 'boolean');
-
-        $this->swissimageStatus = self::unserializeValue($struct, 'swissimageStatus');
-        $this->swissimageInternalStatus = self::unserializeValue($struct, 'swissimagInternalStatus', 'int');
-        $this->swissimageLevel2_50Area = self::unserializeValue($struct, 'swissimageLevel2_50Area', 'double');
     }
 }
 
