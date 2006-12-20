@@ -20,7 +20,7 @@ AjaxPlugins.Location = {
         var bboxMaxX = pluginOutput.variables.bboxMaxX;
         var bboxMaxY = pluginOutput.variables.bboxMaxY;
         // There is no "var" keyword before variable "factor" below: it is global.
-	factor = pluginOutput.variables.factor;
+        factor = pluginOutput.variables.factor;
         mainmap.setExtent(bboxMinX, bboxMinY, bboxMaxX, bboxMaxY);
         Logger.confirm('Done: new bbox (' + bboxMinX + ', ' + bboxMinY + ', '
                        + bboxMaxX + ', ' + bboxMaxY + ') , factor ('
@@ -57,11 +57,11 @@ AjaxPlugins.Location = {
 
         // Selects the first element of the shortcuts dropdown
         if ($(this.shortcutIdId)) {
-            var options = $(this.shortcutIdId).getElementsByTagName('option');
-            var timeoutFn = function() { options[0].selected = true };
+            var optionsElm = $(this.shortcutIdId).getElementsByTagName('option');
+            var firstOption = optionsElm[0];
+            var timeoutFn = function() { firstOption.selected = true };
             setTimeout(timeoutFn, 1500);
         }
-        
     }
 };
 
