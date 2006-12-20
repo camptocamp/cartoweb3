@@ -630,7 +630,7 @@ class ViewFilter {
      * @return stdClass
      */
     public function decapsulate($viewXml) {
-        $xml = simplexml_load_string($viewXml);
+        $xml = simplexml_load_string(Encoder::encode($viewXml));
         $view = new stdClass;
         foreach ($xml->plugin as $plugin) {
             $pluginName = (string)$plugin['name'];
