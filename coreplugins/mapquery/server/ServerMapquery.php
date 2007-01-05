@@ -281,7 +281,7 @@ class ServerMapquery extends ServerPlugin {
             $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, -1);
             
             $this->log->debug("Query on layer $layerId: " .
-                              "queryByPoint($msPoint, MS_MULTIPLE, -1)");
+                              "queryByPoint(msPoint, MS_MULTIPLE, -1)");
         } elseif ($shape instanceof Bbox || $shape instanceOf Rectangle) {
             $msRect = ms_newRectObj();
             $msRect->setextent($shape->minx, $shape->miny, 
@@ -289,7 +289,7 @@ class ServerMapquery extends ServerPlugin {
         
             $ret = @$msLayer->queryByRect($msRect);
             
-            $this->log->debug("Query on layer $layerId: queryByRect($msRect)");        
+            $this->log->debug("Query on layer $layerId: queryByRect(msRect)");        
         } elseif ($shape instanceof Polygon) {
             $msShape = ms_newShapeObj(MS_SHAPE_POLYGON);
             $msLine = ms_newLineObj();
@@ -300,7 +300,7 @@ class ServerMapquery extends ServerPlugin {
 
             $ret = @$msLayer->queryByShape($msShape);
             
-            $this->log->debug("Query on layer $layerId: queryByShape($msShape)");        
+            $this->log->debug("Query on layer $layerId: queryByShape(msShape)");        
         } elseif ($shape instanceof Circle) {
             //force mapscipt to consider radius units as geographic
             if ($msLayer->toleranceunits == MS_PIXELS)
@@ -313,7 +313,7 @@ class ServerMapquery extends ServerPlugin {
             $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, $shape->radius);
             
             $this->log->debug("Query on layer $layerId: queryByPoint(" .
-                              "$msPoint, MS_MULTIPLE, $shape->radius)");
+                              "msPoint, MS_MULTIPLE, $shape->radius)");
         } else {
             $this->CartoserverException(sprintf("Query can't be done on %s " .
                                         'type selection', get_class($shape)));
