@@ -62,7 +62,7 @@ abstract class Accounting {
     /**
      * Constructor. Can't be called directly, use getInstance() instead.
      */
-    private function __construct() {
+    protected function __construct() {
         self::$instance = $this;
     }
 
