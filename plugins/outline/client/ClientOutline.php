@@ -277,7 +277,7 @@ class ClientOutline extends ClientPlugin
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
 
         if ($shape) {
-            $this->handleShape($shape);
+            $this->handleShape($shape, $request);
         }
     }
 
@@ -292,7 +292,7 @@ class ClientOutline extends ClientPlugin
             $shape = $this->getShape($this->geomType, $geomValues);
 
             if ($shape) {
-                $this->handleShape($shape);
+                $this->handleShape($shape, $request);
             }
         }
     }
@@ -300,7 +300,7 @@ class ClientOutline extends ClientPlugin
     /**
      * common new shape handling for HttpPostRequet and HttpGetRequest
      */
-    protected function handleShape($shape) {
+    protected function handleShape($shape, $request) {
     
         $styledShape = new StyledShape();
 
