@@ -73,7 +73,6 @@ class ServerPluginHelper {
         $this->log->warn("calling function $functionName");
         $result = $plugin->$functionName($request);
 
-        $this->log->debug("plugin result: $resultName = $result");
         $request = $serverContext->getMapRequest()->$requestName;
 
         if ($resultName) {
