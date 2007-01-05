@@ -161,8 +161,8 @@ AjaxPlugins.ToolTips = {
     displayResult: function(result) {
         this._result.stopWaiting();
         var responseHtml = result.responseText;
-	    if (responseHtml != '' && responseHtml != null ) {
-		    this._result.content = responseHtml;
+        if (responseHtml != '' && responseHtml != null ) {
+            this._result.content = responseHtml;
             this._result.show();
         } else {
             Logger.note('AjaxPlugins.ToolTips: no result');
@@ -221,17 +221,17 @@ AjaxPlugins.ToolTips = {
 
         var url = this.serviceUrl + '&' + this.buildQueryString(argObject);
         Logger.send('Request sent with url :' + url);
-		this._ajaxRequest = new Ajax.Request (
+        this._ajaxRequest = new Ajax.Request (
             url,
-			{method: 'get', onComplete: showResponse, onFailure: reportError}
-		);
+            {method: 'get', onComplete: showResponse, onFailure: reportError}
+        );
 
-		function showResponse(result) {
-		    AjaxPlugins.ToolTips.displayResult(result);
-		}
-		function reportError(e) {
-			Logger.error('Error: ' + e.toString());
-		}
+        function showResponse(result) {
+            AjaxPlugins.ToolTips.displayResult(result);
+        }
+        function reportError(e) {
+            Logger.error('Error: ' + e.toString());
+        }
 
     },
 
@@ -312,7 +312,7 @@ AjaxPlugins.ToolTips = {
     },
 
     handleResponse: function(pluginOutput) {
-    	var imagemapHtmlCode = pluginOutput.htmlCode.imagemapHtmlCode;
+        var imagemapHtmlCode = pluginOutput.htmlCode.imagemapHtmlCode;
         AjaxHandler.updateDomElement('map1', 'innerHTML', imagemapHtmlCode);
         AjaxPlugins.ToolTips.useMap();
         xHide(mainmap.getDisplay('map').eventPad);

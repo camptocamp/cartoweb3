@@ -1487,10 +1487,10 @@ Display.prototype.addDiv = function(obj, x, y, w,h, cls) {
 Display.prototype.clearLayer = function(aLayerId) {
   var aLayer = xGetElementById(this.id + "_" + aLayerId);
   if (aLayer != null) {
-	  Logger.send('Display.clearLayer : ' + aLayer.id);
-	  aLayer.innerHTML = '';
-	  this.tmpFeature = undefined;
-	  return aLayer;
+      Logger.send('Display.clearLayer : ' + aLayer.id);
+      aLayer.innerHTML = '';
+      this.tmpFeature = undefined;
+      return aLayer;
   }
 };
 
@@ -1709,73 +1709,73 @@ Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
     case "Feature":
       // TODO change extent use in mapObj( rectangle2D);
       var buffer = ((xmax - xmin) * 5 / 100 + (ymax - ymin) * 5 / 100 ) / 2;
-	  var clippingExtent = new Rectangle2D(xmin - buffer , ymin - buffer , xmax + buffer , ymax + buffer);
-	  if (allowClipping && feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
+      var clippingExtent = new Rectangle2D(xmin - buffer , ymin - buffer , xmax + buffer , ymax + buffer);
+      if (allowClipping && feature.vertices.length > 0 && !feature.isWithinRectangle2D(clippingExtent)
         && feature.type != 'point') {
-	    clippedFeature = feature.clipByRectangle2D(clippingExtent);
-	    clippedFeature.id = feature.id;
-	    feature.clipped = true;
-	    featureToDraw = clippedFeature;
-	  } else {
+        clippedFeature = feature.clipByRectangle2D(clippingExtent);
+        clippedFeature.id = feature.id;
+        feature.clipped = true;
+        featureToDraw = clippedFeature;
+      } else {
         feature.clipped = false;
         featureToDraw = feature;
-	  }
+      }
 
-	  switch (feature.type) {
-	    case "point":
-	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
-	      dShape.id = dShape.title = this.id + "_" + feature.id;
-	      dShape.X = new Array();
-	      dShape.Y = new Array();
+      switch (feature.type) {
+        case "point":
+          var dShape = this.addDiv(obj, 0, 0, null, null, status);
+          dShape.id = dShape.title = this.id + "_" + feature.id;
+          dShape.X = new Array();
+          dShape.Y = new Array();
           var vl = featureToDraw.vertices.length;
           for (i=0;i<vl;i++) {
             dShape.X.push(geo2Pix(feature.vertices[0].x, xmin, xmax, 0, this._width));
-	        dShape.Y.push(geo2Pix(feature.vertices[0].y, ymax, ymin, 0, this._height));
-	        var dp = this.drawPoint(dShape, dShape.X[0], dShape.Y[0], null, null, status);
-	        dp.index = 0;
+            dShape.Y.push(geo2Pix(feature.vertices[0].y, ymax, ymin, 0, this._height));
+            var dp = this.drawPoint(dShape, dShape.X[0], dShape.Y[0], null, null, status);
+            dp.index = 0;
             dp.title = this.id + "_" + feature.id;
           }
-	      break;
-	    case "polyline":
-	      // add a div for the polyline
-	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
-	      obj._display.features.push(dShape);
-	      dShape.id = dShape.title = this.id + "_" + feature.id;
-	      dShape.X = new Array();
-	      dShape.Y = new Array();
-	      var vl = featureToDraw.vertices.length;
-	      for (i=0;i<vl;i++) {
-	        dShape.X.push(Math.round(geo2Pix(featureToDraw.vertices[i].x, xmin, xmax, 0, this._width)));
-	        dShape.Y.push(Math.round(geo2Pix(featureToDraw.vertices[i].y, ymax, ymin, 0, this._height)));
-	        if (i>0)
-	          var dln = this.drawLine(dShape, dShape.X[i], dShape.Y[i], dShape.X[i-1], dShape.Y[i-1], status);
-	        var dp = this.drawPoint(dShape, dShape.X[i], dShape.Y[i], null,  null, status);
-	        dp.index = featureToDraw.vertices[i].index;
-	        dp.title = this.id + "_" + feature.id;
-	      }
-	      break;
-	    case "polygon":
-	      // add a div for the polygon
-	      var dShape = this.addDiv(obj, 0, 0, null, null, status);
-	      obj._display.features.push(dShape);
-	      dShape.id = dShape.title = this.id + "_" + feature.id;
-	      dShape.X = new Array();
-	      dShape.Y = new Array();
-	      var vl = featureToDraw.vertices.length;
-	      for (i = 0; i < vl; i++) {
-	        dShape.X.push(Math.round(geo2Pix(featureToDraw.vertices[i].x, xmin, xmax, 0, this._width)));
-	        dShape.Y.push(Math.round(geo2Pix(featureToDraw.vertices[i].y, ymax, ymin, 0, this._height)));
-	        if (i>0)
-	          var dln = this.drawLine(dShape, dShape.X[i], dShape.Y[i], dShape.X[i-1], dShape.Y[i-1], status);
-	        // polygon complete, don't draw the closing point
-	        if (i == vl - 1 && featureToDraw.vertices[0].x == featureToDraw.vertices[vl - 1].x && featureToDraw.vertices[0].y == featureToDraw.vertices[vl - 1].y) break;
-	        var dp = this.drawPoint(dShape, dShape.X[i], dShape.Y[i], null,  null, status);
-	        dp.index = featureToDraw.vertices[i].index;
-	        dp.title = this.id + "_" + feature.id;
-	      }
-	      this.fillPolygon(dShape, status);
-	      break;
-	  }
+          break;
+        case "polyline":
+          // add a div for the polyline
+          var dShape = this.addDiv(obj, 0, 0, null, null, status);
+          obj._display.features.push(dShape);
+          dShape.id = dShape.title = this.id + "_" + feature.id;
+          dShape.X = new Array();
+          dShape.Y = new Array();
+          var vl = featureToDraw.vertices.length;
+          for (i=0;i<vl;i++) {
+            dShape.X.push(Math.round(geo2Pix(featureToDraw.vertices[i].x, xmin, xmax, 0, this._width)));
+            dShape.Y.push(Math.round(geo2Pix(featureToDraw.vertices[i].y, ymax, ymin, 0, this._height)));
+            if (i>0)
+              var dln = this.drawLine(dShape, dShape.X[i], dShape.Y[i], dShape.X[i-1], dShape.Y[i-1], status);
+            var dp = this.drawPoint(dShape, dShape.X[i], dShape.Y[i], null,  null, status);
+            dp.index = featureToDraw.vertices[i].index;
+            dp.title = this.id + "_" + feature.id;
+          }
+          break;
+        case "polygon":
+          // add a div for the polygon
+          var dShape = this.addDiv(obj, 0, 0, null, null, status);
+          obj._display.features.push(dShape);
+          dShape.id = dShape.title = this.id + "_" + feature.id;
+          dShape.X = new Array();
+          dShape.Y = new Array();
+          var vl = featureToDraw.vertices.length;
+          for (i = 0; i < vl; i++) {
+            dShape.X.push(Math.round(geo2Pix(featureToDraw.vertices[i].x, xmin, xmax, 0, this._width)));
+            dShape.Y.push(Math.round(geo2Pix(featureToDraw.vertices[i].y, ymax, ymin, 0, this._height)));
+            if (i>0)
+              var dln = this.drawLine(dShape, dShape.X[i], dShape.Y[i], dShape.X[i-1], dShape.Y[i-1], status);
+            // polygon complete, don't draw the closing point
+            if (i == vl - 1 && featureToDraw.vertices[0].x == featureToDraw.vertices[vl - 1].x && featureToDraw.vertices[0].y == featureToDraw.vertices[vl - 1].y) break;
+            var dp = this.drawPoint(dShape, dShape.X[i], dShape.Y[i], null,  null, status);
+            dp.index = featureToDraw.vertices[i].index;
+            dp.title = this.id + "_" + feature.id;
+          }
+          this.fillPolygon(dShape, status);
+          break;
+      }
 
     default :
       break;
