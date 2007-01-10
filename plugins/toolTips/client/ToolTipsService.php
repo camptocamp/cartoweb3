@@ -114,8 +114,12 @@ class ToolTipsService {
         $layerIds = array_keys(get_object_vars($config));
 
         foreach ($layerIds as $layerId) {
-            $subLayerIds = $layers->fetchChildrenFromLayerGroup(array($layerId));  
-            if (count($subLayerIds) > 0) {      
+            $layer = $layers->getLayerByName($layerId, false);
+            if (!$layer instanceof LayerGroup){
+                continue;
+            }
+            $subLayerIds = $layers->fetchChildrenFromLayerGroup(array($layerId));
+            if (count($subLayerIds) > 0) {
                 foreach ($subLayerIds as $subLayerId) {
                     if (!array_key_exists($subLayerId, $layerIds)) {
                         $config->$subLayerId = $config->$layerId;
