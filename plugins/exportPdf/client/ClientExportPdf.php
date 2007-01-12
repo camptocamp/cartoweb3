@@ -1237,11 +1237,14 @@ class ClientExportPdf extends ExportPlugin
             return array();
 
         $results = array();
+        $addedGroups = array();
         foreach ($tableGroups as $group) {
 
-            if ($groups && !in_array($group->groupId, $groups)) {
+            if (($groups && !in_array($group->groupId, $groups)) ||
+                in_array($group->groupId, $addedGroups)) {
                 continue;
             }
+            $addedGroups[] = $group->groupId;
 
             foreach ($group->tables as $table) {
 
