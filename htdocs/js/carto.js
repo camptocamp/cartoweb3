@@ -14,15 +14,18 @@ function setActiveToolButton(toolid) {
 
     if (typeof toolbar_rendering != 'undefined' && 
         toolbar_rendering == 'swap') {
-      if (cw3_tools[i] == toolid) {
-        var from = cw3_tools[i] + '.gif';
-        var to = cw3_tools[i] + '_over.gif';
-      } else {
-        var from = cw3_tools[i] + '_over.gif';
-        var to = cw3_tools[i] + '.gif';
-      }
 
       var pic = elt.getAttribute('src');
+      var picExt = pic.substr(pic.lastIndexOf('.') + 1);
+
+      if (cw3_tools[i] == toolid) {
+        var from = cw3_tools[i] + '.' + picExt;
+        var to = cw3_tools[i] + '_over.' + picExt;
+      } else {
+        var from = cw3_tools[i] + '_over.' + picExt;
+        var to = cw3_tools[i] + '.' + picExt;
+      }
+
       var re = new RegExp(from);
       var newpic = pic.replace(re, to);
        
