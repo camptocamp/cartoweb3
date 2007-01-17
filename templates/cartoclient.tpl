@@ -236,6 +236,10 @@ Request:
       {$routing}
       {/if}
 
+      {if $search_active|default:''}
+      {$search}
+      {/if}
+
       {if $viewsList|default:''}
       <p>{t}Views:{/t}
       <select name="viewBrowseId" onchange="javascript:loadView();">

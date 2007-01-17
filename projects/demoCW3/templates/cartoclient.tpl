@@ -349,6 +349,10 @@
       <a href="{$exporthtml_url}" target="print">{t}Print{/t}</a>
       {/if}
 
+      {if $search_active|default:''}
+      {$search}
+      {/if}
+
     </div>
     <!-- end of folder 3 -->
   
