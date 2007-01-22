@@ -121,6 +121,21 @@ class Table extends CwSerializable {
     public $offset = 0;
     
     /**
+     * @var int
+     */
+    public $page = 0; 
+
+    /**
+     * @var int
+     */
+    public $totalPages = 0; 
+    
+    /**
+     * @var int
+     */
+    public $rowsPage = 0;
+    
+    /**
      * @var array array of Ids
      */
     public $columnIds = array();
@@ -157,6 +172,15 @@ class Table extends CwSerializable {
                                                              'int');
         $this->offset        = CwSerializable::unserializeValue($struct, 
                                                              'offset',
+                                                             'int');
+        $this->totalPages    = CwSerializable::unserializeValue($struct, 
+                                                             'totalPages',
+                                                             'int');
+        $this->page          = CwSerializable::unserializeValue($struct, 
+                                                             'page',
+                                                             'int');
+        $this->rowsPage      = CwSerializable::unserializeValue($struct, 
+                                                             'rowsPage',
                                                              'int');
         $this->columnIds     = CwSerializable::unserializeArray($struct,
                                                              'columnIds');

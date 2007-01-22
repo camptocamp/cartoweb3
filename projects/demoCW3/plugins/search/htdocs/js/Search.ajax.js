@@ -27,6 +27,10 @@ AjaxPlugins.Search.Actions.DoIt = {
 function search(config) {
     
     $('search_config').value = config;
+    if (config == 'airports') {
+        $('search_number').value = 10;
+    }
+    
     CartoWeb.trigger('Search.DoIt');
 }
 

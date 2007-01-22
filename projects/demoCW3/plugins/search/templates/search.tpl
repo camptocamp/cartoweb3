@@ -20,8 +20,15 @@
 </table>
 <p>
   <input type="submit" value="{t}Search{/t}" class="form_button"
-           onclick="javascript: search('airports'); return false;" />
-  <input type="hidden" name="search_config" id="search_config" />
+           onclick="javascript: $('search_page').value = 1;
+                                search('airports');
+                                return false;" />
+  <input type="hidden" id="search_config" name="search_config" />
+  <input type="hidden" id="search_sort_column" name="search_sort_column" />
+  <input type="hidden" id="search_sort_direction" name="search_sort_direction" value="asc" />
+  <input type="hidden" id="search_number" name="search_number" />
+  <input type="hidden" id="search_page" name="search_page" />
+ 
 <div id="search_results_div"></div>
 </p>
 </fieldset>

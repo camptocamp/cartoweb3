@@ -41,6 +41,9 @@
           <element name="numRows" type="xsd:integer"/>
           <element name="totalRows" type="xsd:integer"/>
           <element name="offset" type="xsd:integer"/>
+          <element name="totalPages" type="xsd:integer"/>
+          <element name="page" type="xsd:integer"/>
+          <element name="rowsPage" type="xsd:integer"/>
           <element name="columnIds" type="types:ArrayOfString"/>
           <element name="columnTitles" type="types:ArrayOfString"/>
           <element name="noRowId" type="xsd:boolean"/>

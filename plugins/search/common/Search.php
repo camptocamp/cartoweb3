@@ -91,6 +91,11 @@ abstract class ResultProvider {
     protected $plugin;
         
     /**
+     * @var int maximum number of results
+     */
+    public $maxNumber;
+        
+    /**
      * @var string ID column
      */
     public $id;
@@ -190,10 +195,33 @@ class DbResultProvider extends ResultProvider {
     }
     
     /**
+     * @param SearchRequest
      * @return string
      */
-    protected function getSql() {
-        return $this->sql;
+    protected function getOrderBy(SearchRequest $request) {
+
+        $sortColumn = $request->getParameter('sort_column');
+        $sortDirection = $request->getParameter('sort_direction');
+        if (is_null($sortColumn)) {
+            return '';
+        }
+        if (is_null($sortDirection)) {
+            return $sortColumn;
+        }
+        return $sortColumn . ' ' . $sortDirection;                        
+    }
+    
+    /**
+     * @param SearchRequest
+     * @return string
+     */
+    protected function getSql(SearchRequest $request) {
+        
+        $orderBy = $this->getOrderBy($request);
+        if ($orderBy != '') {
+            $sql .= ' ORDER BY ' . $orderBy;
+        }        
+        return $sql;
     }
     
     /**
@@ -201,14 +229,41 @@ class DbResultProvider extends ResultProvider {
      */
     public function getResult(SearchRequest $request) {
         
-        $sql = $this->getSql();
+        $sql = $this->getSql($request);
         foreach ($request->parameters as $parameter) {
             $sql = str_replace('@' . $parameter->key . '@', 
                                $parameter->value, $sql);
         }
 
+        $number = $request->getParameter('number');
+        if (!is_null($this->maxNumber) && 
+            (is_null($number) || $number > $this->maxNumber)) {
+                
+            // Global max number was set and number not set or larger
+            $number = $this->maxNumber;
+        }
+        $offset = $request->getParameter('offset');
+        $page = $request->getParameter('page');
+        if (!is_null($page)) {
+            $offset = ($page - 1) * $number;            
+        } else if (is_null($offset)) {
+            $offset = 0;            
+        }
+
         Utils::getDb($this->db, $this->getDsn());
-        $dbResult = $this->db->query($sql);    
+        $totalNumber = NULL;
+        if (!is_null($number)) {
+            $dbResult = $this->db->limitQuery($sql, $offset, $number);
+
+            // Retrieving total number of rows            
+            $dbTotalResult = $this->db->query($sql);
+            Utils::checkDbError($dbTotalResult, 'Failed executing total SQL query');
+            $totalNumber = $dbTotalResult->numRows();
+        } else {
+            
+            // Simple query without pages
+            $dbResult = $this->db->query($sql);
+        }    
         Utils::checkDbError($dbResult, 'Failed executing search SQL query');
                 
         $table = new Table();
@@ -216,7 +271,20 @@ class DbResultProvider extends ResultProvider {
         $table->columnIds = $this->columns;
         $table->noRowId = false;
         $table->rows = array();
-        $table->numRows = $dbResult->numRows();        
+        $table->numRows = $dbResult->numRows();  
+        if (!is_null($totalNumber)) {
+            $table->totalRows = $totalNumber;
+        } else {
+            $table->totalRows = $table->numRows;
+        } 
+        $table->offset = $offset;
+        if (!is_null($number)) {
+            
+            // Generates pages information
+            $table->rowsPage = $number;
+            $table->totalPages = floor(($table->totalRows - 1) / $table->rowsPage) + 1;
+            $table->page = floor($table->offset / $table->rowsPage) + 1;
+        }
         $row = NULL;
         while ($dbResult->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $newRow = new TableRow();
@@ -229,6 +297,7 @@ class DbResultProvider extends ResultProvider {
 
         $result = new SearchResult();
         $result->table = $table;
+
         return $result;
     }
 }
@@ -252,20 +321,24 @@ class TableResultProvider extends DbResultProvider {
     /**
      * @return string
      */
-    protected function getWhere() {
+    protected function getWhere(SearchRequest $request) {
         return $this->where;
     }
     
-    protected function getSql() {
+    protected function getSql(SearchRequest $request) {
         
         $columns = array_merge(array($this->id), $this->columns);
         $columns = implode(', ', $columns);
         $sql = 'SELECT DISTINCT ' . $columns . ' FROM ' . $this->table;
-        $where = $this->getWhere();
-        if ($where == '') {
-            return $sql;
+        $where = $this->getWhere($request);
+        if ($where != '') {
+            $sql .= ' WHERE ' . $where;
         }            
-        return $sql . ' WHERE ' . $where; 
+        $orderBy = $this->getOrderBy($request);
+        if ($orderBy != '') {
+            $sql .= ' ORDER BY ' . $orderBy;
+        }
+        return $sql; 
     }
 }
 
@@ -283,7 +356,7 @@ class FulltextTableResultProvider extends TableResultProvider {
     /**
      * @return string
      */
-    protected function getWhere() {
+    protected function getWhere($request) {
         
         $where = '';
         foreach ($this->fulltextColumns as $column) {
@@ -346,6 +419,9 @@ class SearchRequest extends CwSerializable {
         
         foreach ($this->parameters as $param) {
             if ($param->key == $index) {
+                if ($param->value == '') {
+                    return NULL;
+                }
                 return $param->value;
             }
         }
