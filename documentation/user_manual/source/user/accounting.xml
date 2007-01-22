@@ -22,7 +22,7 @@
       about direct mode.</para>
       <para>When you enable accounting, you also need to activate the accounting
       plugin in your configuration. This is done through the 
-      <parameter>loadPlugins</parameter>parameter> parameter of 
+      <parameter>loadPlugins</parameter> parameter of 
       <filename>client.ini</filename> and 
       <parameter>mapInfo.loadPlugins</parameter> of your 
       <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename> file.
