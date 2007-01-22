@@ -299,7 +299,7 @@ AjaxHandler = {
                                  // Removes this error div when clicked
                                  Element.remove(this);
                              };
-                             $('carto_form').appendChild(ajaxErrorDivElement);
+                             $(this.cartoFormId).appendChild(ajaxErrorDivElement);
                          }
                      }
                      
