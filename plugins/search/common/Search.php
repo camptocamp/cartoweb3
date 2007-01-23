@@ -169,6 +169,16 @@ class DbResultProvider extends ResultProvider {
     public $sql;
     
     /**
+     * @var string default sort column
+     */
+    public $sortColumn;
+    
+    /**
+     * @var string default sort direction
+     */
+    public $sortDirection;
+    
+    /**
      * @var DB connection
      */
     protected $db;
@@ -203,10 +213,16 @@ class DbResultProvider extends ResultProvider {
         $sortColumn = $request->getParameter('sort_column');
         $sortDirection = $request->getParameter('sort_direction');
         if (is_null($sortColumn)) {
-            return '';
+            if (is_null($this->sortColumn)) {
+                return '';
+            }
+            $sortColumn = $this->sortColumn;
         }
         if (is_null($sortDirection)) {
-            return $sortColumn;
+            if (is_null($this->sortDirection)) {                
+                return $sortColumn;
+            }
+            $sortDirection = $this->sortDirection;
         }
         return $sortColumn . ' ' . $sortDirection;                        
     }
