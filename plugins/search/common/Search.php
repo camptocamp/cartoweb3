@@ -179,6 +179,11 @@ class DbResultProvider extends ResultProvider {
     public $sortDirection;
     
     /**
+     * @var array defines order for other sort columns 
+     */
+    public $sortPriorities;
+     
+    /**
      * @var DB connection
      */
     protected $db;
@@ -220,11 +225,20 @@ class DbResultProvider extends ResultProvider {
         }
         if (is_null($sortDirection)) {
             if (is_null($this->sortDirection)) {                
-                return $sortColumn;
+                $sortDirection = '';
             }
             $sortDirection = $this->sortDirection;
         }
-        return $sortColumn . ' ' . $sortDirection;                        
+        $sortClause = $sortColumn . ' ' . $sortDirection;
+        if (count($this->sortPriorities) == 0) {
+            return $sortClause;
+        }
+        foreach ($this->sortPriorities as $column) {
+            if ($column != $sortColumn) {
+                $sortClause .= ', ' . $column;
+            }
+        }                        
+        return $sortClause;
     }
     
     /**
