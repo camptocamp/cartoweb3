@@ -608,7 +608,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
             $this->getConfig()->persistentQueries) {
             
             // Do not re-query in case of persistent queries
-            $mapRequest->queryRequest->bbox = null;
+            $mapRequest->queryRequest->shape = null;
             
             // In case last request was a rectangle query, add current
             // selection to last request
@@ -623,7 +623,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
 
         $queryBbox = $configuration->getQueryBbox();
         if (!is_null($queryBbox)) {
-            $mapRequest->queryRequest->bbox = $queryBbox;
+            $mapRequest->queryRequest->shape = $queryBbox;
         }
     }
 }
