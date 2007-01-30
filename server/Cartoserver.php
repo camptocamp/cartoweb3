@@ -244,6 +244,13 @@ class Cartoserver {
      */
     private function doGetMap($mapRequest) {
 
+        // TODO: this should be generic
+        $checkAccess = "../projects/toposhop/checkAccess.php";
+        if (file_exists($checkAccess)) {
+            include($checkAccess);
+            checkAccess($mapRequest->mapId);
+        }
+
         // serverContext init
         $serverContext = $this->getServerContext($mapRequest->mapId);
         // serverContext MapResult reset (in case of two calls)
