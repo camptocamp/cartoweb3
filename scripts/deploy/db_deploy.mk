@@ -38,7 +38,7 @@ pre_deploy_db: check_user launch_tunnel sync_misc
 	$(DB_OPTS_TARGET) createdb $(DB_TMP)
 	$(DB_OPTS) pg_dump $(DB) |gzip --fast > $(SQL_FILE)
 	scp $(SQL_FILE) $(TARGET_HOST):$(SQL_PATH)
-	ssh $(TARGET_HOST) $(MAKE) -C $(TOPSRCDIR) fill_db_tmp
+	ssh $(TARGET_HOST) $(MAKE) -C $(TOPSRCDIR) fill_db_tmp DB=$(DB)
 
 fill_db_tmp:
 	gzip -cd $(SQL_FILE) | $(DB_OPTS) psql $(DB_TMP)
