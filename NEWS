@@ -7,6 +7,7 @@ CartoWeb HEAD
 - Made URLs clickable in exportPdf documents.
 - Added addRowSelector table rule tool.
 - Added GET capabilities to outline plugin to generate on-the-fly point, line or polygon outline via URL.
+- Added new --clean-views and --clean-accounting options to cw3setup.php
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
