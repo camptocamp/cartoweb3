@@ -139,6 +139,9 @@ List of options:
                             NOTE: default is 'production'
  --clean-views              Clean views (must be used with --clean).
  --clean-accounting         Clean accounting (must be used with --clean).
+ --keep-directories         Do not remove the generated directories during
+                            cleaning (must be used with --clean).
+ --keep-permissions         Do not alter the permissions of writable directories.
  
 <?php
     exit();
@@ -233,6 +236,8 @@ function processArgs() {
             case '--clean-views':
             case '--clean-accounting':
             case '--with-demo':
+            case '--keep-directories':
+            case '--keep-permissions':
                 setOption($i);
                 break;
     
@@ -413,10 +418,10 @@ function showFailure(InstallException $exception) {
 /**
  * Recursively remove
  */
-function rmdirr($dir) {
+function rmdirr($dir, $keepDirs = false) {
     $dh = @opendir($dir);
     if (!$dh)
-        return false;
+        return;
     while ($file = readdir($dh)) {
         if ($file == '.' || $file == '..') 
             continue;
@@ -425,13 +430,12 @@ function rmdirr($dir) {
         if (!is_dir($fullpath) || is_link($fullpath))
             unlink($fullpath);
         else
-            rmdirr($fullpath);
+            rmdirr($fullpath, $keepDirs);
     }
     closedir($dh);
-    if (@rmdir($dir))
-        return true;
-    else
-        return false;
+
+    if (!$keepDirs)
+        @rmdir($dir);
 }
 
 /**
@@ -905,6 +909,10 @@ function makeDirs() {
 
 function setPermissions() {
     global $CW3_WRITABLE_DIRS;
+    global $OPTIONS;
+
+    if (isset($OPTIONS['keep-permissions']))
+        return;
 
     info("Setting permissions");
     // todo, for win32, using cacls, BUT ONLY FOR NTFS
@@ -1353,7 +1361,7 @@ function cleanFiles() {
         debug("checking $dir");
         if (is_dir($dir)) {
             debug("removing $dir");
-            rmdirr($dir);
+            rmdirr($dir, isset($OPTIONS['keep-directories']));
             /* FIXME: strange behaviour, uncomment if fixed
             if (!rmdirr($dir)) {
                 throw new InstallException("Failed to remove recursively $dir");

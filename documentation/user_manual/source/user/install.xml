@@ -238,7 +238,10 @@ List of options:
  --profile PROFILENAME      The profile to use (development/production/custom).
                             NOTE: default is 'development'
  --clean-views              Clean views (must be used with --clean).
- --clean-accounting         Clean accounting (must be used with --clean).]]></screen>
+ --clean-accounting         Clean accounting (must be used with --clean).
+ --keep-directories         Do not remove the generated directories during
+                            cleaning (must be used with --clean).
+ --keep-permissions         Do not alter the permissions of writable directories.]]></screen>
         </para>
       </sect3>
 
