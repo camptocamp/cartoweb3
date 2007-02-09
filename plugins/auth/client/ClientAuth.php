@@ -326,7 +326,7 @@ class LdapSecurityContainer extends SecurityContainer {
      * @param  string scope
      * @return string ldap search function
      */
-    function scope2function($scope) {
+    private function scope2function($scope) {
         switch($scope) {
         case 'one':
             $function = 'ldap_list';

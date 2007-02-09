@@ -209,8 +209,8 @@
               filter that will be added to the search filter when
               searching for a group:
               <literal><![CDATA[
-			  (&(groupattr=group)(memberattr=username)(groupfilter))]]>
-			  </literal>
+              (&(groupattr=group)(memberattr=username)(groupfilter))]]>
+              </literal>
               <literal>(objectClass=groupOfUniqueNames)</literal> (default).
               For instance: <literal>(objectClass=posixGroup)</literal>
               or <literal>(cn=cw*)(objectClass=posixGroup)</literal> if you 
