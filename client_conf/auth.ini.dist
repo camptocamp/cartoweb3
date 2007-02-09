@@ -4,7 +4,7 @@
 ; active or not)
 authActive = true
 
-; The type of security container. Now ini or db can be used
+; The type of security container. Now ini, db or ldap can be used
 securityContainer = ini
 
 ; db security container configuration
@@ -29,3 +29,31 @@ securityContainer = ini
 ;roles.toto = admin, editor
 ;roles.alice = editor
 ;roles.x = admin, editor
+
+; LDAP security container configuration
+; inspired from Pear::Auth_Container_LDAP
+;
+; host:        localhost (default), ldap.netsols.de or 127.0.0.1
+; port:        389 (default) or 636 or whereever your server runs
+; basedn:      the base dn of your server
+;              example: dc=ldap,dc=netsols,dc=de
+; userattr:    the user attribute to search for (default: uid)
+; groupdn:     gets prepended to basedn when searching for group
+;              example: ou=Groups
+; groupattr:   the group attribute to search for (default: cn)
+; groupfilter: filter that will be added to the search filter when
+;              searching for a group:
+;              (&(groupattr=group)(memberattr=username)(groupfilter))
+;              default: (objectClass=groupOfUniqueNames)
+;              example1: (objectClass=posixGroup)
+;              example2: (cn=cw*)(objectClass=posixGroup)
+; memberattr : the attribute of the group object where the user dn
+;              may be found (default: uniqueMember)
+; groupscope:  Scope for group searching: one, sub (default), or base
+
+;ldap.host = ldap.netsols.de
+;ldap.basedn = "dc=ldap,dc=netsols,dc=de"
+;ldap.groupdn = "ou=Groups"
+;ldap.groupfilter = "(objectClass=posixGroup)"
+;ldap.memberattr = memberuid
+;ldap.groupscope = one

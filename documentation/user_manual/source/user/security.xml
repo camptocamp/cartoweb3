@@ -100,8 +100,8 @@
         </listitem>
       </itemizedlist>
       <para>
-      It is possible to use two different location where user and password are
-      stored. There are two mechanisms built-in in &cartoweb;:
+      It is possible to use three different locations where user and password are
+      stored. There are three mechanisms built-in in &cartoweb;:
       <orderedlist>
         <listitem>
           <para>.ini file</para>
@@ -109,43 +109,131 @@
         <listitem>
           <para>database</para>
         </listitem>
+        <listitem>
+          <para>ldap</para>
+        </listitem>
       </orderedlist>
       </para>
       <para>
       The parameter <constant>securityContainer</constant> controls which backend is
-      used, as described below (with parameters specific to the database backend):
+      used.
       </para>
       <itemizedlist>
         <listitem>
           <para> 
             securityContainer<indexterm><primary>securityContainer</primary></indexterm>: 
-            can be <constant>file</constant> for the file storage of users/password,
-            or <constant>db</constant> for the dabase storage.</para>
+            can be <constant>ini</constant> for the file storage,
+            <constant>db</constant> for the dabase storage, or 
+            <constant>ldap</constant> for the ldap storage.</para>
         </listitem>
-        <listitem>
+      </itemizedlist>
+      <para>Parameters for database and ldap storage are described below</para>
+      <sect3 id="user.security.auth.users_roles.db">
+        <title>database storage</title>
+        <itemizedlist>
+          <listitem>
+            <para> 
+              dbSecurityDsn<indexterm><primary>dbSecurityDsn</primary></indexterm>:
+              The database connection string to be used. For instance 
+              <literal>pgsql://user:password@localhost/test</literal>.
+              </para>
+          </listitem>
+          <listitem>
+            <para> 
+              dbSecurityQueryUser<indexterm><primary>dbSecurityQueryUser</primary></indexterm>:
+              The SQL query to perform to check a username/password pair is valid. It 
+              should return a row if the pair is correct. For instance:
+              <literal>"SELECT * FROM users WHERE username='%s' AND password='%s'"</literal>.
+              </para>
+          </listitem>
+          <listitem>
           <para> 
-            dbSecurityDsn<indexterm><primary>dbSecurityDsn</primary></indexterm>:
-            The database connection string to be used. For instance 
-            <literal>pgsql://user:password@localhost/test</literal>.
-            </para>
-        </listitem>
-        <listitem>
+              dbSecurityQueryRoles<indexterm><primary>dbSecurityQueryRoles</primary></indexterm>:
+              The SQL query used to retrieve roles for a given user. It should return one column
+              with all roles for the user each row. For instance:
+              <literal>"SELECT roles FROM users WHERE username='%s'"</literal>
+              </para>
+          </listitem>
+        </itemizedlist> 
+      </sect3>
+      <sect3 id="user.security.auth.users_roles.ldap">
+        <title>ldap storage</title>
+        <para>The following parameters are inspired from Pear::Auth_Container_LDAP</para>
+        <itemizedlist>
+          <listitem>
+            <para> 
+              host<indexterm><primary>host</primary></indexterm>:
+              hostname of the server that hosts the ldap server
+              <literal>localhost</literal> (default), 
+              <literal>ldap.netsols.de</literal>.
+              </para>
+          </listitem>
+          <listitem>
+            <para> 
+              port<indexterm><primary>port</primary></indexterm>:
+              Port number on which the ldap server listens
+              <literal>389</literal> (default).
+              </para>
+          </listitem>
+          <listitem>
           <para> 
-            dbSecurityQueryUser<indexterm><primary>dbSecurityQueryUser</primary></indexterm>:
-            The SQL query to perform to check a username/password pair is valid. It 
-            should return a row if the pair is correct. For instance:
-            <literal>"SELECT * FROM users WHERE username='%s' AND password='%s'"</literal>.
-            </para>
-        </listitem>
-        <listitem>
+              basedn<indexterm><primary>basedn</primary></indexterm>:
+              the base dn (Distinguished Name) of the ldap server
+              For instance: <literal>dc=ldap,dc=netsols,dc=de</literal>
+              </para>
+          </listitem>
+          <listitem>
           <para> 
-            dbSecurityQueryRoles<indexterm><primary>dbSecurityQueryRoles</primary></indexterm>:
-            The SQL query used to retrieve roles for a given user. It should return one column
-            with all roles for the user each row. For instance:
-            <literal>"SELECT roles FROM users WHERE username='%s'"</literal>
-            </para>
-        </listitem>
-      </itemizedlist>      
+              userattr<indexterm><primary>userattr</primary></indexterm>:
+              the user attribute to search for.
+              <literal>uid</literal> (default)
+              </para>
+          </listitem>
+          <listitem>
+          <para> 
+              groupdn<indexterm><primary>groupdn</primary></indexterm>:
+              gets prepended to basedn when searching for group.
+              For instance: <literal>ou=Groups</literal>
+              </para>
+          </listitem>
+          <listitem>
+          <para> 
+              groupattr<indexterm><primary>groupattr</primary></indexterm>:
+              the group attribute to search for.
+              <literal>cn</literal> (default)
+              </para>
+          </listitem>
+          <listitem>
+          <para> 
+              groupfilter<indexterm><primary>groupfilter</primary></indexterm>:
+              filter that will be added to the search filter when
+              searching for a group:
+              <literal><![CDATA[
+			  (&(groupattr=group)(memberattr=username)(groupfilter))]]>
+			  </literal>
+              <literal>(objectClass=groupOfUniqueNames)</literal> (default).
+              For instance: <literal>(objectClass=posixGroup)</literal>
+              or <literal>(cn=cw*)(objectClass=posixGroup)</literal> if you 
+              have groups starting with "cw" specifically set for Cartoweb.
+              </para>
+          </listitem>
+          <listitem>
+          <para> 
+              memberattr<indexterm><primary>memberattr</primary></indexterm>:
+              the attribute of the group object where the user dn
+              may be found
+              <literal>uniqueMember</literal> (default)
+              </para>
+          </listitem>
+          <listitem>
+          <para> 
+              groupscope<indexterm><primary>groupscope</primary></indexterm>:
+              Scope for group searching: <literal>one</literal>, 
+              <literal>sub</literal> (default), or <literal>base</literal>
+              </para>
+          </listitem>
+        </itemizedlist> 
+      </sect3>
     </sect2>
     <sect2 id="user.security.auth.special_roles">
       <title>Special Role Names</title>

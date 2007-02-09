@@ -164,6 +164,184 @@ class DbSecurityContainer extends SecurityContainer {
 }
 
 /**
+ * Security container which reads the usernames, passwords and roles 
+ * from ldap storage.
+ * @package Plugins
+ */
+class LdapSecurityContainer extends SecurityContainer {
+
+    /**
+     * @var LDAP link identifier
+     */
+    protected $ldap;
+
+    /**
+     * @var ClientPluginConfig
+     */
+    protected $config;
+
+    /**
+     * Constructor
+     * 
+     * @param ClientPluginConfig the plugin configuration to use for fetching
+     * users and roles.
+     */
+    public function __construct(ClientPluginConfig $config) {
+        
+        $this->setDefaults();
+        
+        $configStruct = StructHandler::loadFromArray($config->getIniArray());
+        
+        if (is_object($configStruct->ldap)) {
+            $this->parseConfig($configStruct->ldap);
+        }
+    }
+    
+    /**
+     * Sets some default options
+     */
+    private function setDefaults() {
+        $this->config->host = 'localhost';
+        $this->config->port = '389';
+        $this->config->basedn = '';
+        $this->config->userattr  = 'uid';
+        $this->config->groupattr = 'cn';
+        $this->config->groupdn = '';
+        $this->config->groupfilter = '(objectClass=groupOfUniqueNames)';
+        $this->config->memberattr  = 'uniqueMember';
+        $this->config->groupscope  = 'sub';
+    }
+    
+    /**
+     * Parses config parameters
+     * 
+     * @param stdclass configstruct object
+     */
+    private function parseConfig($object) {
+        foreach ($object as $key => $value) {
+            if (array_key_exists($key, $this->config)) {
+                $this->config->$key = $value;
+            }
+        }
+    }
+    
+    /**
+     * Returns the LDAP link identifier
+     * @return Object LDAP link identifier
+     */
+    protected function getLdap() {
+        try {
+            $ldap = ldap_connect($this->config->host, $this->config->port);
+        } catch(Exception $e) {
+            throw new CartoclientException('Message: '. ldap_error($ldap));
+        }
+        
+        return $ldap;        
+    }
+
+    /**
+     * @see SecurityContainer::checkUser()
+     */
+    public function checkUser($username, $password) {
+        $ldap = $this->getLdap();
+        
+        // bind to ldap connection
+        if (($bind = @ldap_bind($ldap)) == false) {
+            throw new CartoclientException('Message: '. ldap_error($ldap));
+        }
+       
+        // search for user
+        if (($res_id = @ldap_search($ldap,
+                                    $this->config->basedn,
+                                    $this->config->userattr . '=' . $username)
+                                    ) == false) {
+            throw new CartoclientException('Message: '. ldap_error($ldap));
+        }
+        
+        if (ldap_count_entries($ldap, $res_id) != 1) {
+            return false;
+        }
+        
+        // authenticate user
+        if (($entry_id = ldap_first_entry($ldap, $res_id)) == false) {
+            return false;
+        }
+        if (($user_dn = ldap_get_dn($ldap, $entry_id)) == false) {
+            return false;
+        }
+        if (($link_id = ldap_bind($ldap, $user_dn, $password)) == false) {
+            throw new CartoclientException('Message: '. ldap_error($ldap));
+        }
+       
+        ldap_close($ldap);
+        return true;
+    }
+
+    /**
+     * @see SecurityContainer::getRoles()
+     */     
+    public function getRoles($username) {
+        // connect to ldap server        
+        $ldap = $this->getLdap($this->config->host, $this->config->port);
+        
+        // make search base dn using group dn if set
+        $searchBasedn = $this->config->groupdn;
+        if ($searchBasedn != '' && substr($searchBasedn, -1) != ',') {
+            $searchBasedn .= ',';
+        }
+        $searchBasedn .= $this->config->basedn;
+        
+        $funcParams = array($ldap, $searchBasedn, $this->config->groupfilter,
+                             array($this->config->memberattr, $this->config->groupattr));
+        $funcName = $this->scope2function($this->config->groupscope);
+        
+        // call ldap search function depending on scope
+        // ie. ldap_list, ldap_read, ldap_search
+        // and return corresponding ldap group entries
+        if (($resultId = @call_user_func_array($funcName, $funcParams)) != false) {
+            $entries = ldap_get_entries($ldap, $resultId);
+        } else {
+            return array();
+        }
+        
+        // check if user is member of list of groups
+        // uses member attribute
+        $roles = array();
+        foreach ($entries as $entry) {
+            if (!isset ($entry[$this->config->memberattr])) {
+                continue;
+            }
+            if (in_array($username, $entry[$this->config->memberattr])) {
+                array_push($roles, $entry[$this->config->groupattr][0]);            
+            }
+        }
+        
+        return $roles;
+    }
+    
+    
+    /**
+     * Returns search function for scope
+     *
+     * @param  string scope
+     * @return string ldap search function
+     */
+    function scope2function($scope) {
+        switch($scope) {
+        case 'one':
+            $function = 'ldap_list';
+            break;
+        case 'base':
+            $function = 'ldap_read';
+            break;
+        default:
+            $function = 'ldap_search';
+        }
+        return $function;
+    }
+}
+
+/**
  * Extends the PEAR::Auth container to proxy if authentication requests to the
  * SecurityManager.
  * @package Plugins
