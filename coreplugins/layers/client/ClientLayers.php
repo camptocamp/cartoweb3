@@ -738,7 +738,7 @@ class ClientLayers extends ClientPlugin
      * @param boolean optional (default: false), if true, forces result refresh
      * @return array
      */
-    protected function getSelectedLayers($refresh = false) {
+    public function getSelectedLayers($refresh = false) {
         return $this->getMatchingLayers('selected', 'selectedLayers', 
                                         $refresh);
     }
