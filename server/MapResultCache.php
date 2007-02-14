@@ -40,11 +40,6 @@ class MapResultCache {
      * @var Cartoserver
      */
     private $cartoserver;
-    
-    /**
-     * @var string
-     */
-    private $mapResultFile;
 
     /**
      * True if the the last mapResult should not be cached.
@@ -88,12 +83,9 @@ class MapResultCache {
      */
     private function getMapResultFile($mapRequest) {
         
-        if (!$this->mapResultFile) {
-            $this->mapResultFile = $this->cartoserver->
-                getServerContext($mapRequest->mapId)->getConfig()->writablePath . 
-                'mapresult_cache/mapResult.' . $this->getDigest($mapRequest);
-        }
-        return $this->mapResultFile;    
+        return $this->cartoserver->getServerContext($mapRequest->mapId)->
+                      getConfig()->writablePath . 'mapresult_cache/mapResult.' .
+                      $this->getDigest($mapRequest);
     }
 
     /**
