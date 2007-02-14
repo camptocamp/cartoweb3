@@ -303,7 +303,27 @@ class ServerImages extends ClientResponderAdapter
                 $msMapObj->scalebar->set('height', $msMapObj->scalebar->height
                                                    * $resRatio);
             }
-            
+
+            $locationPlugin = $this->serverContext->getPluginManager()->
+                              getPlugin('location');        
+            $scaleUnitLimit = $locationPlugin->getConfig()->scaleUnitLimit;
+            if (!is_null($scaleUnitLimit)) {
+                $current_scale = $msMapObj->scale;
+                // The on-the-fly scalebar unit modification is not supported for Pixels Inches and DD 
+                if ($msMapObj->units == MS_METERS || $msMapObj->units == MS_KILOMETERS) {
+                    if ($current_scale < $scaleUnitLimit ) {
+                        $msMapObj->scalebar->set('units', MS_METERS);
+                    } else { 
+                        $msMapObj->scalebar->set('units', MS_KILOMETERS);
+                    }
+                } elseif ($msMapObj->units == MS_FEET || $msMapObj->units == MS_MILES) {
+                    if ($current_scale < $scaleUnitLimit ) {
+                        $msMapObj->scalebar->set('units', MS_FEET);
+                    } else { 
+                        $msMapObj->scalebar->set('units', MS_MILES);
+                    }
+                }
+            }
             $ms_scalebar = $msMapObj->drawScalebar();
             $imagesResult->scalebar = $this->getImage($ms_scalebar);
         } else {
@@ -330,6 +350,5 @@ class ServerImages extends ClientResponderAdapter
     public function getAngle() {
         return $this->angle;
     }    
-}
-
+}    
 ?>
