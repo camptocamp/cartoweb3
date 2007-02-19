@@ -20,3 +20,6 @@ langList = fr, en
 
 ; Indicates how to render toolbar
 toolbarRendering = outline
+
+; Encoding for search plugin
+EncoderClass.searchDb = EncoderISO

@@ -286,7 +286,16 @@ class ClientSearch extends ClientPlugin
             return NULL;
         }
         $config = $this->configs[$this->searchRequest->config];
-        $text = $config->formatter->getResponse($this->searchResult);
+        
+        foreach ($this->searchResult->table->rows as $rowKey => $row) {
+            
+            foreach ($row->cells as $cellKey => $cell) {
+                $this->searchResult->table->rows[$rowKey]->cells[$cellKey] = 
+                    Encoder::decode($cell);
+            }
+        }
+        
+        $text = $config->formatter->getResponse($this->searchResult);                
         $ajaxPluginResponse->addHtmlCode($this->searchRequest->config, $text);
     }
 

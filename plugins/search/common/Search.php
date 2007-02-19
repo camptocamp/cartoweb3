@@ -164,6 +164,11 @@ class DbResultProvider extends ResultProvider {
     public $dsn;
     
     /**
+     * @var string context for the encoding
+     */
+    public $encodingContext;
+    
+    /**
      * @var string SQL query
      */
     public $sql;
@@ -262,7 +267,9 @@ class DbResultProvider extends ResultProvider {
         $sql = $this->getSql($request);
         foreach ($request->parameters as $parameter) {
             $sql = str_replace('@' . $parameter->key . '@', 
-                               $parameter->value, $sql);
+                               Encoder::decode($parameter->value, 
+                                               $this->encodingContext),
+                               $sql);
         }
 
         $number = $request->getParameter('number');
@@ -320,7 +327,8 @@ class DbResultProvider extends ResultProvider {
             $newRow = new TableRow();
             $newRow->rowId = $row[$this->id];
             foreach ($this->columns as $column) {
-                $newRow->cells[] = $row[$column];
+                $newRow->cells[] = Encoder::encode($row[$column],
+                                                   $this->encodingContext);
             }
             $table->rows[] = $newRow;
         }
