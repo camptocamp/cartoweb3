@@ -24,6 +24,12 @@ require_once(CARTOWEB_HOME . 'common/Encoding.php');
 require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
+ * Dirs to exclude while looking for no PHP files
+ */
+global $excludedGenDirs;
+$excludedGenDirs = array('.', '..', 'CVS', '.svn');
+
+/**
  * Finds charset in client.ini
  * @param string
  * @return string
@@ -64,12 +70,12 @@ function getCharset($type, $project) {
  */
 function getProjects($projectname = false) {
 
+    //global $excludedGenDirs;
     $projects = array();
     $dir = CARTOWEB_HOME . ProjectHandler::PROJECT_DIR . '/';
     $d = dir($dir);
     while (false !== ($entry = $d->read())) {
-        if (is_dir($dir . $entry) && $entry != '.'
-            && $entry != '..' && $entry != 'CVS') {
+        if (is_dir($dir . $entry) && !in_array($entry, $excludedGenDirs)) {
             $projects[] = $entry;
         }
     }
@@ -91,7 +97,8 @@ function getProjects($projectname = false) {
  * @return array
  */
 function getMapIds($project) {
-    
+
+    //global $excludedGenDirs;
     $mapIds = array();
     $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
@@ -101,8 +108,7 @@ function getMapIds($project) {
     if (is_dir($dir)) {
         $d = dir($dir);
         while (false !== ($entry = $d->read())) {
-            if (is_dir($dir . $entry) && $entry != '.'
-                && $entry != '..' && $entry != 'CVS') {
+            if (is_dir($dir . $entry) && !in_array($entry, $excludedGenDirs)) {
                 $mapIds[] = $entry;
             }
         }
@@ -113,10 +119,12 @@ function getMapIds($project) {
 /**
  * Dirs to exclude while looking for PHP files
  */
-$exclude_dirs = array('pear_base', 'include', 'www-data',
+$excludedPhpDirs = array('pear_base', 'include', 'www-data',
                       'doc', 'client_conf', 'server_conf', 'locale',
                       'po', 'templates', 'templates_c', 'log',
-                      'documentation', '.', '..', 'CVS');
+                      'documentation');
+
+$excludedPhpDirs += $excludedGenDirs;
 
 /**
  * Finds recursively all strings in PHP code and add them to PO template 
@@ -126,7 +134,7 @@ $exclude_dirs = array('pear_base', 'include', 'www-data',
  * @param string
  */
 function addPhpStrings($type, $path, $poTemplate, $project) {
-    global $exclude_dirs;
+    global $excludedPhpDirs;
     
     $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
@@ -135,7 +143,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
     if (is_dir($path)) {
         $d = dir($path);
         while (false !== ($entry = $d->read())) {
-            if (!is_dir($path . $entry) &&
+            if (!is_dir($path . $entry) && 
                 substr($entry, -4) == '.php') {
 
                 exec("xgettext --from-code=" . getCharset($type, $project)
@@ -158,7 +166,7 @@ function addPhpStrings($type, $path, $poTemplate, $project) {
                     unlink($dir . CARTOCOMMON_PODIR . "_tmp_xgettext.po");
                 }
             } else if (is_dir($path . $entry)
-                       && !in_array($entry, $exclude_dirs)
+                       && !in_array($entry, $excludedPhpDirs)
                        &&
                        (
                         (is_null($project)
