@@ -70,7 +70,7 @@ function getCharset($type, $project) {
  */
 function getProjects($projectname = false) {
 
-    //global $excludedGenDirs;
+    global $excludedGenDirs;
     $projects = array();
     $dir = CARTOWEB_HOME . ProjectHandler::PROJECT_DIR . '/';
     $d = dir($dir);
@@ -98,7 +98,7 @@ function getProjects($projectname = false) {
  */
 function getMapIds($project) {
 
-    //global $excludedGenDirs;
+    global $excludedGenDirs;
     $mapIds = array();
     $dir = CARTOWEB_HOME;
     if (!is_null($project)) {
