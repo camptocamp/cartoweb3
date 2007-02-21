@@ -163,24 +163,11 @@ class ByXyQueryableLayer extends QueryableLayer {
     public function __construct() {}
     
     /**
-     * Sets the geographic tolerance.
+     * Sets the tolerance.
      * @param integer tolerance in pixels 
      */
-    public function setTolerancePx($tolerance) {
-        // Unsets toleranceGeo if new tolerancePx is set
-        if ($this->tolerancePx != $tolerance) {
-            unset($this->toleranceGeo);
-            $this->tolerancePx = $tolerance;
-        }
-    }
-
-    /**
-     * Sets the geographic tolerance from the set pixel tolerance using the
-     * given scale
-     * @param float scale (in geo unit per pixel)
-     */
-    public function convertTolerance($scale) {
-        $this->toleranceGeo = $this->tolerancePx * $scale;
+    public function setTolerance($tolerance) {
+        $this->tolerance = $tolerance;
     }
 
     /**
@@ -223,8 +210,7 @@ class ByXyQueryableLayer extends QueryableLayer {
     protected function getXySqlQuery($geoX, $geoY,
                                      Dimension $dimension, Bbox $bbox) {
         
-        // TODO get tolerance from config
-        $tolerance = 10;
+        $tolerance = (isset($this->tolerance)) ? $this->tolerance : 10;
         $bbox3D = $this->pointToBox3D($geoX, $geoY,
                                       $dimension->width,
                                       $dimension->height,

@@ -146,6 +146,7 @@ class ToolTipsService {
             $queryableLayer = 
                 $this->createQueryableLayer($id, 'ByXyQueryableLayer');
             $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
+            $this->setByXyQueryableLayerMembers($queryableLayer, $layer, $layerId);
             $this->addQueryableLayer($queryableLayer);
         }
     }
@@ -238,6 +239,23 @@ class ToolTipsService {
                                            . $layerId);
         } else {
             $queryableLayer->setReturnedAttributes($layer->attributes);
+        }
+    }
+    
+    /**
+     * Specific settings of ByXyQueryableLayers
+     * @param QueryableLayer target object
+     * @param stdClass source object, retrieved from config
+     * @param string layerId
+     */
+    protected function setByXyQueryableLayerMembers(QueryableLayer $queryableLayer,
+                                                stdClass $layer, $layerId) {
+        if (!empty($layer->geomColName)) {
+            $queryableLayer->setDbGeomColumnName($layer->geomColName);
+        }
+        
+        if (!empty($layer->tolerance)) {
+            $queryableLayer->setTolerance($layer->tolerance);
         }
     }
     

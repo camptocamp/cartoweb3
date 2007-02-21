@@ -110,13 +110,20 @@
              if <classname>QueryableLayer</classname> is extended (See
              <xref linkend="user.tooltips.custom.extendclass" />)</para>
           </listitem>
+          <listitem>
+            <para><parameter>tolerance</parameter>
+            <indexterm><primary>tolerance</primary></indexterm>: (optional)
+             value for the tolerance given in pixels. Default value is 10.
+            </para>
+          </listitem>
         </itemizedlist>
         <programlisting><![CDATA[timeout_async.region.label = "Régions"
 timeout_async.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
 timeout_async.region.dbTableName = region
 timeout_async.region.geomColName = position
 timeout_async.region.attributes = "nom, code"
-timeout_async.region.template = "layerResult_region.tpl"]]></programlisting>
+timeout_async.region.template = "layerResult_region.tpl"
+timeout_async.region.tolerance = 6]]></programlisting>
       </sect3>
     </sect2>
     <sect2 id="user.tooltips.basic.areaasync">
