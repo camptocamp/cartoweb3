@@ -1438,9 +1438,10 @@ class ClientLayers extends ClientPlugin
      * @return boolean
      */
     public function isLayerVisibleAtCurrentScale($layerId) {
-        $layer = $this->getLayerByName($layerId, false);
+        if (!($layer = $this->getLayerByName($layerId, false))) {
+            return false;
+        }
         $scale = $this->getCurrentScale();
-
         if (($layer->maxScale && $scale > $layer->maxScale) ||
             ($layer->minScale && $scale < $layer->minScale))
             return false;
