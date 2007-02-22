@@ -124,7 +124,7 @@ $excludedPhpDirs = array('pear_base', 'include', 'www-data',
                       'po', 'templates', 'templates_c', 'log',
                       'documentation');
 
-$excludedPhpDirs += $excludedGenDirs;
+$excludedPhpDirs = $excludedGenDirs + $excludedPhpDirs;
 
 /**
  * Finds recursively all strings in PHP code and add them to PO template 
