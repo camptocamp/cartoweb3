@@ -225,7 +225,7 @@ class PluginEnabler {
      */
     public function disablePlugin($pluginName) {
         $this->checkLoaded($pluginName);
-        $this->getPlugin($pluginName)->enable();
+        $this->getPlugin($pluginName)->disable();
     }  
 
     /**
