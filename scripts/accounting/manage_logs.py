@@ -67,6 +67,10 @@ fields_client = {
         'format': (str,),
         'resolution': (int,),
     },                  
+    'layers': {
+        'client_version': 0,
+        'visible_layers': (str,),
+    },
 }
 
 fields_server = {
@@ -342,7 +346,7 @@ if __name__ == "__main__":
         log.error(""" For instance, use DSN="dbname=stats user=my_user password=my_passord port=5432" """)
         sys.exit()
     conn = psycopg.connect(DSN)
-
+    
     if "-raw_stats" in sys.argv:
         raw_stats()
     if "-gen-schema" in sys.argv:

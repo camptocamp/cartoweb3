@@ -958,6 +958,16 @@ class ClientLayers extends ClientPlugin
      * @see ServerCaller::initializeResult()
      */
     public function initializeResult($layersResult) {
+
+        // accounting
+        $this->account('client_version', 0);                                                                                                                                                                   
+        $visibleLayers = array();                                                                                                                                                                              
+        foreach ($this->layerIds as $layerId) {
+            if ($this->isLayerVisibleAtCurrentScale($layerId)) {
+                $visibleLayers[] = $layerId;                                                                                                                                                                  
+            }
+        }
+        $this->account('visible_layers', implode(',', $visibleLayers));                                                                                                                                        
         // manage user added layers
         if (empty($layersResult->userLayers)) {
             return;
