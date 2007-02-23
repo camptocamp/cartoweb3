@@ -230,8 +230,9 @@ class ServerLayers extends ClientResponderAdapter
             return;
         }
 
-        $this->account('server_version', 0);
+        $this->account('server_version', 1);
         $this->account('layers', implode(',', $layerIds));
+        $this->account('switch_id', $this->switchId);
 
         $this->requestedLayerNames = $layerIds;
 

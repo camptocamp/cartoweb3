@@ -88,8 +88,9 @@ fields_server = {
         'mainmap.height': (int,),
     },
     'layers': {
-        'server_version': 0,
+        'server_version': 1,
         'layers': (str,),
+        'switch_id': (str,),
     },
     'location': {
         'server_version': 0,
@@ -122,6 +123,11 @@ def update_client_exportpdf_0_to_1(fields):
 
 def update_server_query_0_to_1(fields):
     raise "Server query version 0 not supported"
+
+def update_server_layers_0_to_1(fields):
+    """Added switch id"""
+    fields["switch_id"] = "unknown"
+    return fields
 
 ###########################
 
