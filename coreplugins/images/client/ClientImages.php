@@ -153,6 +153,14 @@ class ClientImages extends ClientPlugin
     }
 
     /**
+     * Returns the last server result
+     * @return ImagesResult
+     */
+    public function getImagesResult() {
+        return $this->imagesResult;
+    }
+
+    /**
      * Handles map sizes dropdown box
      * @param array HTTP request
      * @param boolean checks?
