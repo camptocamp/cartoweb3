@@ -419,6 +419,21 @@ function showFailure(InstallException $exception) {
  * Recursively remove
  */
 function rmdirr($dir, $keepDirs = false) {
+    global $OPTIONS;
+
+    if (!isset($OPTIONS['clean-views'])) {
+        if ($dir == 'www-data/views') {
+            print("Skipping views delete\n");
+            return;
+        }
+    }
+    if (!isset($OPTIONS['clean-accounting'])) {
+        if ($dir == 'www-data/accounting') {
+            print("Skipping accounting delete\n");
+            return;
+        }
+    }
+
     $dh = @opendir($dir);
     if (!$dh)
         return;
@@ -1346,17 +1361,6 @@ function cleanFiles() {
 
     info('Removing generated files');
 
-    if (!isset($OPTIONS['clean-views'])) {
-        @rmdirr('views');
-        if (is_dir('www-data/views'))
-            rename('www-data/views', 'views');
-    }
-    if (!isset($OPTIONS['clean-accounting'])) {
-        @rmdirr('accounting');
-        if (is_dir('www-data/accounting'))
-            rename('www-data/accounting', 'accounting');
-    }
-
     foreach($CW3_DIRS_TO_CREATE as $dir) {
         debug("checking $dir");
         if (is_dir($dir)) {
@@ -1372,15 +1376,6 @@ function cleanFiles() {
 
     makeDirs();
     setPermissions();
-
-    if (!isset($OPTIONS['clean-views'])) {
-        if (is_dir('views'))
-            rename('views', 'www-data/views');
-    }
-    if (!isset($OPTIONS['clean-accounting'])) {
-        if (is_dir('accounting'))
-            rename('accounting', 'www-data/accounting');
-    }
 }
 
 ?>
