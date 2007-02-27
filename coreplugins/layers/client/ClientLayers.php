@@ -690,7 +690,10 @@ class ClientLayers extends ClientPlugin
        
         // Unselects layers listed as is in GET request.
         if (!empty($request['layer_unselect'])) {
-            $layersToRemove = explode(',', $request['layer_unselect']);
+
+            $layersToRemove = Utils::parseArray($request['layer_unselect']);
+            $layersToRemove = $this->fetchChildrenFromLayerGroup($layersToRemove,
+                                                                 true);
             foreach ($layersToRemove as $layerId) {
                 if (isset($this->layersData[$layerId])) {
                     $this->layersData[$layerId]->selected = false;
@@ -700,13 +703,12 @@ class ClientLayers extends ClientPlugin
         
         // Selects layers listed as is in GET request.
         if (!empty($request['layer_select'])) {
-            $layersToAdd = explode(',', $request['layer_select']);
+            $layersToAdd = Utils::parseArray($request['layer_select']);
             foreach ($layersToAdd as $layerId) {
                 if (isset($this->layersData[$layerId])) {
                     $this->layersData[$layerId]->selected = true;
                 }
             }
-              
         }
     }
     
@@ -863,24 +865,29 @@ class ClientLayers extends ClientPlugin
      * Only keeps Layer objects that are not detected as {hidden AND 
      * not selected}.
      * @param array list of layers names
+     * @param boolean if true, layerGroups will be listed as well (default: false)
      * @return array list of children, grand-children... of given layers
      */
-    public function fetchChildrenFromLayerGroup($layersList) {
+    public function fetchChildrenFromLayerGroup($layersList, 
+                                                $listLayerGroups = false) {
         if (!$layersList || !is_array($layersList))
             return array();
 
         $cleanList = array();
-        foreach ($layersList as $key => $layerId) {
+        foreach ($layersList as $layerId) {
             $layer = $this->getLayerByName($layerId, false);
             if (!$layer) continue;
 
-            // removes non Layer objects
-            if ($layer instanceof Layer) {
+            // detects if current layer/layerGroup must be added to the list
+            if ($layer instanceof Layer ||
+                ($listLayerGroups && $layer instanceof LayerGroup)) {
+                
                 if (in_array($layerId, $this->getSelectedLayers()) ||
                     (!in_array($layerId, $this->hiddenUnselectedLayers) &&
-                    !in_array($layerId, $this->frozenUnselectedLayers)))
+                    !in_array($layerId, $this->frozenUnselectedLayers))) {
+                    
                     $cleanList[] = $layerId;
-                continue;
+                }
             }
 
             // no use to browse more if object is not a LayerGroup
@@ -888,7 +895,8 @@ class ClientLayers extends ClientPlugin
 
             // recursively gets sublayers from current layer children
             $newList = $this->fetchChildrenFromLayerGroup(
-                           $layer->getChildren($this->layersState->switchId));
+                           $layer->getChildren($this->layersState->switchId),
+                           $listLayerGroups);
             if ($newList) {
                 $cleanList = array_merge($cleanList, $newList);
                 $cleanList = array_unique($cleanList);
