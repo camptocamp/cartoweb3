@@ -264,14 +264,15 @@ class DbResultProvider extends ResultProvider {
      */
     public function getResult(SearchRequest $request) {
         
+        Utils::getDb($this->db, $this->getDsn());
         $sql = $this->getSql($request);
         foreach ($request->parameters as $parameter) {
             $sql = str_replace('@' . $parameter->key . '@', 
-                               Encoder::decode($parameter->value, 
-                                               $this->encodingContext),
+                               $this->db->escapeSimple(Encoder::decode($parameter->value, 
+                                               $this->encodingContext)),
                                $sql);
         }
-
+        
         $number = $request->getParameter('number');
         if (!is_null($this->maxNumber) && 
             (is_null($number) || $number > $this->maxNumber)) {
@@ -286,8 +287,6 @@ class DbResultProvider extends ResultProvider {
         } else if (is_null($offset)) {
             $offset = 0;            
         }
-
-        Utils::getDb($this->db, $this->getDsn());
         $totalNumber = NULL;
         if (!is_null($number)) {
             $dbResult = $this->db->limitQuery($sql, $offset, $number);
