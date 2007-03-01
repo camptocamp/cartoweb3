@@ -150,8 +150,8 @@ def update_fields_versioning(fields, fields_descr, kind):
         except KeyError:
             if len(fields.keys()) == 1: # special case for general_request_id
                 continue
-            if True in [k.startswith(field_group) for k in fields.keys()]:
-                log.warn("Missing version field in field group %s %s" % (kind, field_group))
+            #if True in [k.startswith(field_group) for k in fields.keys()]:
+            #    log.warn("Missing version field in field group %s %s" % (kind, field_group))
             continue
         
         log.debug("Found field for %s", field_group)
@@ -233,8 +233,10 @@ def parse_log(log_file, fields_descr, table_name):
         keys_filtered =  Set(keys)
         keys_filtered.intersection_update(Set(cols))
         
-        # XXX escaping !!
-        values = ["'%s'" % fields[k] for k in keys_filtered]
+        def escape(s):
+            return "".join([ord(c) < 128 and c.replace("'", "_") or "_" for c in s])
+
+        values = ["'%s'" % escape(fields[k]) for k in keys_filtered]
         sql = """insert into %s (%s) values (%s)""" % \
             (table_name, ",".join(keys_filtered), ",".join(values))
         log.debug(sql)
@@ -370,7 +372,10 @@ if __name__ == "__main__":
             sql += " );"
             curs.execute(sql)
             conn.commit()
-
+        curs.execute("create index stats_general_cache_hit on stats (general_cache_hit)")
+        conn.commit()
+        curs.execute("create index stats_general_cache_id on stats (general_cache_id)")
+        conn.commit()
     if "-import" in sys.argv:
         for p in sys.argv[2:]:
             for ac_dir in glob.glob(p + "/*"):
