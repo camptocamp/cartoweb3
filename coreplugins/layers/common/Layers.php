@@ -403,8 +403,7 @@ class UserLayer extends CwSerializable {
     public $action = self::ACTION_INSERT;
     
     /**
-     * Layer name
-     * @var string
+     * @var Layer
      */
     public $layer;
 

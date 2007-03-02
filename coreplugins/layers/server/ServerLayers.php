@@ -86,11 +86,11 @@ class ServerLayers extends ClientResponderAdapter
                 $layer   =& $userLayer->layer;
                 $msLayer = $msMapObj->getLayerByName($layer->id);
                 //update layer msLayer & label
-                $layer->msLayer = $layer->id;
-                if (!empty($msLayer))
-                    $layer->label   = $msLayer->getMetadata('wms_title');
+                $layer->msLayer = $layer->id;                
+                if (!empty($msLayer) && empty($layer->label)) {
+                    $layer->label = $msLayer->getMetadata('wms_title');
+                }
                 if (empty($layer->label)) $layer->label = $layer->id;
-
                 $userLayers[$key] = $userLayer;
             }
         }
