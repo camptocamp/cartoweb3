@@ -263,7 +263,9 @@ class ServerLayers extends ClientResponderAdapter
                 } else {
                     $key = array_search($userLayer->layer->id, 
                                         $requestedLayerNames);
-                    if ($key) unset($requestedLayerNames[$key]);
+                    if ($key) {
+                        unset($requestedLayerNames[$key]);
+                    }
                 }
             }
             $layersResult->userLayers = $this->userLayers;
@@ -272,11 +274,18 @@ class ServerLayers extends ClientResponderAdapter
         $this->userLayers = NULL;
         foreach ($requestedLayerNames as $requLayerId) {
             $this->log->debug("testing id $requLayerId");
-            if (in_array($requLayerId, $msMapObj->getAllLayerNames()))
+            if (in_array($requLayerId, $msMapObj->getAllLayerNames())) {
                 $msLayer = $msMapObj->getLayerByName($requLayerId);
-            else
-                $msLayer = $this->serverContext->getMapInfo()->layersInit->
-                                    getMsLayerById($msMapObj, $requLayerId);
+            } else {
+                $msLayer = $this->serverContext->getMapInfo()->layersInit
+                                ->getMsLayerById($msMapObj, $requLayerId);
+            }
+
+            if (empty($msLayer)) {
+                $this->log->warn("Layer $requLayerId does not exist.");
+                continue;
+            }
+            
             $msLayer->set('status', MS_ON);
 
             if ($this->resRatio && $this->resRatio != 1)
