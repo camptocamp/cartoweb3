@@ -382,8 +382,8 @@ class ClientGeostat extends ClientPlugin
         $geostatLayers = $this->geostatInit->serverConfigParams;
         $LayersChoroplethId = array();
         $LayersChoroplethDesc = array();
-        $LayersChroplethAttributes = array();
-        $LayersChroplethLabels = array();
+        $LayersChoroplethAttributes = array();
+        $LayersChoroplethLabels = array();
         foreach($geostatLayers as $layer) {
             $this->log->debug('Describe layer');
             $this->log->debug(print_r($layer,true));
