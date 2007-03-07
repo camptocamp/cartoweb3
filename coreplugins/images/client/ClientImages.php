@@ -305,7 +305,7 @@ class ClientImages extends ClientPlugin
      * Returns the list of map sizes to display.
      * @return array Array of map sizes (Map with label, with and height keys) 
      */ 
-    protected function getMapSizes() {
+    public function getMapSizes() {
         if (is_array($this->mapSizes)) return $this->mapSizes;
 
         return $this->initMapSizes();
