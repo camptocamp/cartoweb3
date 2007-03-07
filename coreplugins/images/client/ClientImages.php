@@ -306,9 +306,11 @@ class ClientImages extends ClientPlugin
      * @return array Array of map sizes (Map with label, with and height keys) 
      */ 
     public function getMapSizes() {
-        if (is_array($this->mapSizes)) return $this->mapSizes;
-
-        return $this->initMapSizes();
+        if (is_array($this->mapSizes)) { 
+            return $this->mapSizes;
+        } else {
+            return $this->initMapSizes();
+        }
     }
 
     /**
