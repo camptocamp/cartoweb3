@@ -74,11 +74,19 @@ class ServerMapquery extends ServerPlugin {
      * @return array
      */
     protected function databaseQueryString($idAttribute, $idType, $selectedIds) {
-        if (count($selectedIds) == 0)
+        if (count($selectedIds) == 0) {
             return array('false');
-        $idGlue = $idType == 'string' ? "','" : ',';
-        $queryString = implode($idGlue, $selectedIds);
-        return array("$idAttribute in ('$queryString')");
+        }
+
+        if ($idType == 'string') {
+            $queryString  = "'";
+            $queryString .= implode("', '", $selectedIds);
+            $queryString .= "'";
+        } else {
+            $queryString = implode(', ', $selectedIds);
+        }
+
+        return array("$idAttribute IN ($queryString)");
     }
 
     /**
