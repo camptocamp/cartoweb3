@@ -19,6 +19,7 @@
  * @copyright 2005 Camptocamp SA
  * @package CorePlugins
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
+ * @version $Id$
  */
 
 /**
