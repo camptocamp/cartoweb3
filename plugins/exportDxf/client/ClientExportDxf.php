@@ -57,7 +57,8 @@ class DxfShape {
 /**
  * @package Plugins
  */
-class ClientExportDxf extends ExportPlugin {
+class ClientExportDxf extends ExportPlugin 
+                        implements Ajaxable {
 
     /**
      * @var Logger
@@ -105,9 +106,11 @@ class ClientExportDxf extends ExportPlugin {
     public function handleHttpGetRequest($request) {}
 
     /**
-     * @see GuiProvider::renderForm()
+     * This method factors the plugin output for both GuiProvider::renderForm()
+     * and Ajaxable::ajaxGetPluginResponse().
+     * @return array array of variables and html code to be assigned
      */
-    public function renderForm(Smarty $template) {
+    protected function renderFormPrepare() {
         // Export button is displayed only if there are shapes to export.
         if ($this->outline->hasShapes()) {
             $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -116,7 +119,32 @@ class ClientExportDxf extends ExportPlugin {
         } else {
             $exportDxf = '';
         }
-        $template->assign('exportDxf', $exportDxf);
+        return $exportDxf;
+    }
+
+    /**
+     * @see GuiProvider::renderForm()
+     */
+    public function renderForm(Smarty $template) {
+        $template->assign('exportDxf', $this->renderFormPrepare());
+    }
+
+    /**
+     * @see Ajaxable::ajaxGetPluginResponse()
+     */
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        $ajaxPluginResponse->addVariable('exportDxf', $this->renderFormPrepare());
+        $ajaxPluginResponse->addVariable('exportDxfContainerName', 
+                                       $this->getConfig()->exportDxfContainerName);
+    }
+
+    /**
+     * @see Ajaxable::ajaxHandleAction()
+     */
+    public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
+        if ($actionName == 'Outline.AddFeature' || $actionName == 'Outline.Clear') {
+            $pluginEnabler->enablePlugin('exportDxf');
+        }
     }
 
     /**
