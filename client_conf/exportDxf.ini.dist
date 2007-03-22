@@ -3,3 +3,6 @@ roundLevel = 2
 
 ; filename format
 fileName = "export_[date,Ymd-His].dxf"
+
+; template target when ajax mode is on
+exportDxfContainerName = "exportDxfContainer"
