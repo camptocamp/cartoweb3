@@ -111,6 +111,13 @@ charsetUtf8 = false]]></programlisting>
       <indexterm><primary>fileName, DXF</primary></indexterm><parameter>fileName</parameter> (string) specifies the filename naming convention to use. It may be static or contain athe generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>export_[date,Ymd-Hi].dxf</parameter> which gives for instance <filename>export_20060725-2021.dxf</filename>.
      </para>
     </listitem>
+    <listitem>
+     <para>
+      <indexterm><primary>exportDxfContainerName, DXF</primary></indexterm><parameter>exportDxfContainerName</parameter> (string) specifies the ID of the block containing the <parameter>{$exportDxf}</parameter> variable in the template when working with Ajax mode enabled. For exemple:
+      <programlisting><![CDATA[exportDxfContainerName = "exportDxfContainer"]]></programlisting> in <filename>exportDxf.ini</filename> and 
+      <programlisting><![CDATA[<div id="exportDxfContainer">{$exportDxf}</div>]]></programlisting> in your <filename>cartoclient.tpl</filename>.
+     </para>
+    </listitem>
    </itemizedlist>
   </para>
  </sect1>
