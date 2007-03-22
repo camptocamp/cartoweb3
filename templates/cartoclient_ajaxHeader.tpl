@@ -32,6 +32,7 @@
   {if $outline_active|default:''}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if $search_active|default:''}<script type="text/javascript" src="{r type=js plugin=search}Search.ajax.js{/r}"></script>{/if}
   {if $hello_active|default:''}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
+  {if $exportDxf|default:''}<script type="text/javascript" src="{r type=js plugin=exportDxf}ExportDxf.ajax.js{/r}"></script>{/if}
 
   {if $toolTips_active|default:''}
     <script type="text/javascript" src="{r type=js}overlib_mini.js{/r}"></script>
