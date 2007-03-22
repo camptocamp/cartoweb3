@@ -25,9 +25,10 @@ require_once(CARTOWEB_HOME . 'common/ProjectHandler.php');
 
 /**
  * Dirs to exclude while looking for no PHP files
+ * Keep this list synchronized with cw3setup.php::fileIgnored()
  */
 global $excludedGenDirs;
-$excludedGenDirs = array('.', '..', 'CVS', '.svn');
+$excludedGenDirs = array('.', '..', 'CVS', '.cvsignore', '.svn');
 
 /**
  * Finds charset in client.ini

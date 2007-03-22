@@ -937,7 +937,8 @@ function setPermissions() {
 }
 
 function fileIgnored($file) {
-    return in_array($file, array('..', '.', 'CVS', '.cvsignore'));
+    // Keep this list synchronized with scripts/pot_tools::$excludedGenDirs
+    return in_array($file, array('.', '..', 'CVS', '.cvsignore', '.svn'));
 }
 
 function setPermissionsCallback($file, $context) {
