@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+<!-- $Id: cartoweb.ent,v 1.11 2006/08/31 17:17:51 asaunier Exp $ --><!ENTITY c2c "Camptocamp">
+<!ENTITY cartoweb "CartoWeb">
+<!ENTITY cartoclient "CartoClient">
+<!ENTITY cartoserver "CartoServer">
+<!ENTITY cw_version "HEAD">
+<!ENTITY dollar "$">
+]>
+<!-- $Id: tooltips.xml,v 1.4 2007/02/21 10:45:40 pgiraud Exp $ -->
+<chapter id="user.search">
+    <title><indexterm><primary>Search</primary></indexterm>Search</title>
+    <sect1 id="user.search.intro">
+        <title>Introduction</title>
+        <para>The search plugin aim is to offer standards search features (like recentering, result offset, guided search, ajax features...) in a generic way. Take note that in his current state the plugin only offers a server framework. There is not yet any generic JavaScript framework.</para>
+        <warning>
+            <para>Please note that the search plugin and its documentation are not fully completed yet.</para>
+        </warning>
+    </sect1>
+    <sect1 id="user.search.basic">
+        <title>Basic Usage</title>
+        <sect2 id="user.search.basic.general">
+            <title>General Considerations</title>
+            <para>The search plugin must be activated on both &cartoclient; and &cartoserver; side ie. the <parameter>loadPlugins</parameter> parameter must contain <parameter>search</parameter> in your project <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.</para>
+            <para>Search use is mainly based on three files.  <filename>client_conf/client.ini/search.ini</filename> ,    <filename>plugins/search/htdocs/js/Search.ajax.js</filename> <filename>plugins/search/templates/search.tpl</filename></para>
+            <para>The search plugin use the PEAR DB abstraction class and should be able to handle all databases supported by PEAR DB</para>
+        </sect2>
+        <sect2 id="user.search.basic.Sample">
+            <title>Basic Mechanism and Setup</title>
+            <para>The data set and the query specification are set in the <filename>search.ini</filename> file.  The design and the fields of the search form is set in the <filename>search.tpl</filename> file. The search behavior mainly reside in the <filename>Search.ajax.js.</filename>  </para>
+            <para>Let's imagine that we want to do a search with a recenter on data that are represented on a layer Addresses. The source of the data is a table in a PostGIS database. </para>
+            
+           <para> The data are stored in a table "addresses" with the followings rows:
+                adr_num, adr_street, adr_zip, adr_town, adr_xy, gid and the_geom. Pkey is gid. </para>
+                
+            First we have to set the table in the <filename>client_conf/client.ini/search.ini</filename> like this:
+             <programlisting>
+                 config.Adresses.provider.type = fulltextTable
+                 config.Adresses.provider.table = addresses
+                 config.Adresses.provider.id = gid
+                 config.Adresses.provider.columns = adr_num, adr_street, adr_zip, adr_town,
+                 config.Adresses.provider.fulltextColumns = adr_num, adr_street, adr_zip, adr_town
+                 config.Adresses.provider.sortColumn = adr_num
+                 config.Adresses.provider.sortDirection = asc
+                 config.Adresses.provider.sortPriorities = adr_num, adr_street, adr_zip, adr_town
+                 config.Adresses.provider.labels =  adr_num, adr_street, adr_zip, adr_town
+                 config.Adresses.formatter.type = smarty
+                 config.Adresses.formatter.template = search_results
+            
+             </programlisting>      
+             <para>
+                 <itemizedlist>
+                     <listitem>
+                         The config.XXXX is used for making a differentiation on tables. 
+                     </listitem>
+                     <listitem>
+                         The  config.Adresses.provider.type defines the type of query that should be done on the table. Value can be :
+                         <itemizedlist>
+                              <listitem>
+                                  fulltextTable: That means the search is a textual search   (ilike clause) that will be done on the fields listed in the config.Adresses.provider.fulltextColumns.  
+                              </listitem>
+                              <listitem>
+                                    table: In this case a where clause should be set. (see Guided search)
+                              </listitem>
+                              <listitem>
+                                      user-defined (see chapter Writing a Provider).
+                              </listitem>
+                          </itemizedlist> 
+                    </listitem>
+                    <listitem>
+                        The  config.Adresses.provider.table  specifies the name of the table to query.
+                    </listitem>
+                    <listitem>
+                        The config.Adresses.provider.id  designate the unique value used for recentering.
+                        For example, if you want to do a recenter by id (gid in our case) the id value should be set to gid. (Do not forget the id-attribute-sting in the mapFile)
+                    </listitem>
+                    <listitem>
+                        The config.Adresses.provider.columns specifies the columns to be returned by the query. 
+                   
+                        It contains the columns names separated by a coma.
+                     </listitem>
+                     <listitem>
+                             The config.Adresses.provider.fulltextColumns specifies the columns to be use in the ilike clause when the config.Adresses.provider.type is fulltextColumns. It contains the columns names separated by a coma. !!!This parameter should not be use if the type is Table.!!!
+                             
+                     </listitem>
+                     <listitem>
+                         The config.Adresses.provider.sortColumn  specifies the columns to by use for ordering the rows.
+                    </listitem>
+                    <listitem>
+                        The config.Adresses.provider.sortDirection give the ordre type. It value can be asc or desc for ascendent or descendent. 
+                    </listitem>
+                    <listitem>
+                        The  config.Adresses.formatter.type specifies the method for presenting the result(s). Actually only smarty is implemented. 
+                        But it is possible to write your own Formatter (see chapter Writing a Formatter). 
+                    </listitem>
+                    <listitem>
+                        The config.Adresses.formatter.template specifies the name of the template for formatting query results. The file must be in the template folder of the plugin search in your project directory. 
+                    </listitem>
+                    <listitem>
+                        The config.Adresses.provider.labels specifies the label of the columns that should be shown (the label will be used in the translation files). 
+                    </listitem>
+                 </itemizedlist>
+                 </para>
+                 <para>
+                    Now we must set up the form that will be used for doing the search. 
+                    Edit or create the <filename>plugins/search/templates/search.tpl</filename> file
+                    and write:
+                       <programlisting>
+                            <![CDATA[
+                            
+                            <div id="search_div">
+                            <fieldset><legend>{t}My Title{/t}</legend> <br/>
+                            <table width="100%">
+                            <tr>
+                            <td>
+                              {t}Street: {/t}
+                            </td>
+                            <td>
+                            <input type="text" id="search_adr_street" name="search_adr_street" size="13"/> 
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                            {t}adr_town: {/t}
+                            </td>
+                            <td> 
+                            <input type="text" id="search_adr_town" name="search_adr_town" size="13"/> 
+                            </td>
+                            </tr>
+                            
+                            ...
+                            
+                            </table>
+                            <p>
+                              <input type="submit" value="{t}Search{/t}" class="your_form_button_class"
+                                       onclick="JavaScript: CartoWeb.trigger('Search.DoIt'); return false;"/>
+                                                            
+                              <input type="hidden" id="search_config" name="search_config" value="Adresses" />
+                              <input type="hidden" id="search_sort_column" name="search_sort_column" value="adr_num"/>
+                              <input type="hidden" id="search_sort_direction" name="search_sort_direction" value="asc" />
+                              <input type="hidden" id="search_number" name="search_number" />
+        
+
+                            <div id="search_results_div"></div>
+                            </p>
+                            </fieldset>
+                            </div>
+                            
+                             ]]>
+                        </programlisting>    
+                        Each field present in the fulltextColumns parameter of the configuration file
+                        must have a corresponding input in the template. Each input should have an id composed of the name of the column prefixed with the key-word "search_". For example, the the column adr_num should give: 
+                          <programlisting>
+                             <![CDATA[<input type="text" id="search_adr_num" name="search_adr_num" size="13"/> ]]> 
+                          </programlisting>            
+                        <para>The template contains a submit button that calls the CartoWeb.trigger('Search.DoIt') JavaScript method. This method defined in the search.ajax.js file  (see below) launches the action.</para>
+                        <para>
+                            You may notice the hidden inputs in the template. They provide
+                            parameters that can be dynamically changed by JavaScript:
+                            <itemizedlist>
+                                <listitem>
+                                     The search_config input determined the table to be queried. Its value should correspond to the name of a table defines in the <filename>search.ini</filename> (config.here_is_the_value). This value allow to set different table in the configuration file and to dynamically choose which table should be queried    !!!! This input is not optional and the search plugin will generate an error !!!!
+                                </listitem>
+                                <listitem>
+                                    The search_sort_column input defines the column to be used by the sort clause. If this input is not set  or has no value, it's overridden by the sortColumn parameter defined in <filename>search.ini</filename>. If this parameter is also not set in the configuration file it will be ignored. 
+                                </listitem>
+                                <listitem>
+                                    The search_sort_direction input defines the sort order. It should be asc or desc. If this input is not set  or has no value, it's overridden by the sortColumnDirection parameter defined in <filename>search.ini</filename>. If this parameter is also not set in the configuration file it will be ignored. 
+                                </listitem>
+                                <listitem>
+                                    The search_number input define the maximum number of rows to be returned by the query. If this input is not set  or has no value, it will be ignored.
+                                </listitem>
+                            </itemizedlist>
+                            There is also two other inputs parameters available:
+                            <itemizedlist>
+                                 <listitem>
+                                     offset 
+                                 </listitem>
+                                 <listitem>
+                                     page
+                                 </listitem>
+                            </itemizedlist>
+                            They allow the creation of a navigation of the query result. The offset input give the number of rows a "page" of result should contains. And page gives the current page number.
+                            
+                        </para>
+                                          
+                    
+                    Note: The form is injected in the <filename>cartoclient.tpl</filename> inside the Smarty tag search:
+                    <programlisting>
+                        <![CDATA[ {if $search_active|default:''}
+                          {$search}
+                          {/if}
+                        ]]>
+                    </programlisting>        
+                    !!! Do not forget to include the <filename>Search.ajax.js</filename> file in your <filename>cartoclient.tpl</filename>.   
+                    <programlisting>
+                        <![CDATA[{if $search_active|default:''}<script type="text/javascript" src="{r type=js plugin=search}Search.ajax.js{/r}"></script>{/if}]]>
+                    </programlisting>
+                 </para>
+                 <para>
+                 Now we must set up the result template file. Create or edit the <filename>plugins/search/templates/search_results.tpl</filename> that has been defined in the configuration file</para> and wirte:
+                 <programlisting>
+                    <![CDATA[ {if $table->numRows > 0}
+                     <table class="yourCssClass">
+                         <tr>
+                           <th>{t}Id{/t}</th>
+                           {foreach from=$table->columnIds item=column}
+                           <th> <a href="JavaScript: order('{$column}');">{t}{$column}{/t}</a></th>               
+                           {/foreach}
+                         </tr>
+                         {foreach from=$table->rows item=row}
+                         <tr>
+                            <td>{$row->rowId}</td>
+                            {foreach from=$row->cells item=value}
+                            <td><a href="JavaScript: recenter('{$row->rowId}');">{$value}</a></td>
+                            {/foreach}
+                         </tr>
+                         {/foreach}
+                     </table>
+                     {else}
+                     {t}No results{/t}
+                     {/if}]]>
+                </programlisting>
+                <para>
+                    This will return a table with the columns defined in the configuration file. By clicking on a row you will call the recenter method. By clicking on a row Header you will order the result.
+                </para> 
+                <para>
+                    Note that the place of the result table is defined by a div that will be modified by the JavaScript. 
+                    <programlisting>
+                        <![CDATA[ <div id="search_results_div"></div> ]]>
+                    </programlisting>
+                </para>
+                 
+                 <para>
+                     Finally we have to set up the java script file. Open or create the <filename>plugins/search/htdocs/js/Search.ajax.js</filename> and write:
+                      <programlisting>
+                          AjaxPlugins.Search = {
+
+                              handleResponse: function(pluginOutput) {
+
+                                  if (pluginOutput.htmlCode.myconfig) //should be the same value as the input search_config
+                                      $('search_results').innerHTML = pluginOutput.htmlCode.myconfig;        
+                              }  
+                          };
+
+
+                          /*
+                           * Search plugin's Actions
+                           */
+
+                          AjaxPlugins.Search.Actions = {};
+
+                          AjaxPlugins.Search.Actions.DoIt = {
+
+                              buildPostRequest: function(argObject) {
+                                  return AjaxHandler.buildPostRequest();
+                              }
+                          };
+                          
+                          function order(column) {
+
+                              if (column != $('search_sort_column').value) {
+                                  $('search_sort_column').value = column;
+                                  $('search_sort_direction').value = 'asc';
+                              } else {
+                                  if ($('search_sort_direction').value == 'asc') {
+                                      $('search_sort_direction').value = 'desc';
+                                  } else {
+                                      $('search_sort_direction').value = 'asc';
+                                  }
+                              }
+                            
+                              CartoWeb.trigger('Search.DoIt')
+                          }
+                          
+                          function recenter(id){
+                              if ($('search_config').value == 'Adresses') {
+                                  $('id_recenter_ids').value = id; //id to recenter
+                                  $('recenter_scale').value = 2000;//scale for recentering
+                                  $('recenter_doit').value = '1';
+
+                                  CartoWeb.trigger('Location.Recenter');
+                                } 
+                         }
+                      </programlisting>
+                 </para>
+                 
+                 
+            <sect3 id="user.search.basic.Guided_search">
+                <title>Guided Search</title>
+                
+              
+             </sect3>
+              <sect3 id="user.search.basic.Multitable_search">
+                <title>Multi table Search</title>
+                     TODO
+            </sect3>
+            <sect3 id="user.Search.advance.Writing_a_provider">
+                <title>Writing a Provider</title>
+                    TODO
+            </sect3>
+            <sect3 id="user.Search.advance.Writing_a_fromatter">
+               <title>Writing a Formatter</title>
+                    TODO
+            </sect3>
+        </sect2>
+    </sect1>
+</chapter>
