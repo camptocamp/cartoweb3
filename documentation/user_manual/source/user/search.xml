@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
-<!-- $Id: search.xml,v 1.1 2007/03/23 12:53:43 nbessi Exp $ --><!ENTITY c2c "Camptocamp">
+<!-- $Id: search.xml,v 1.2 2007/03/23 15:01:17 nbessi Exp $ --><!ENTITY c2c "Camptocamp">
 <!ENTITY cartoweb "CartoWeb">
 <!ENTITY cartoclient "CartoClient">
 <!ENTITY cartoserver "CartoServer">
 <!ENTITY cw_version "HEAD">
 <!ENTITY dollar "$">
 ]>
-<!-- $Id: search.xml,v 1.1 2007/03/23 12:53:43 nbessi Exp $ -->
+<!-- $Id: search.xml,v 1.2 2007/03/23 15:01:17 nbessi Exp $ -->
 <chapter id="user.search">
     <title><indexterm><primary>Search</primary></indexterm>Search</title>
     <sect1 id="user.search.intro">
         <title>Introduction</title>
         <para>The search plugin aim is to offer standards search features (like recentering, result offset, guided search, ajax features...) in a generic way. Take note that in his current state the plugin only offers a server framework. There is not yet any generic JavaScript framework.</para>
+        <warning>
+            <para>The search plugin only work with AJAX mode on !</para>
+        </warning>
         <warning>
             <para>Please note that the search plugin and its documentation are not fully completed yet.</para>
         </warning>
