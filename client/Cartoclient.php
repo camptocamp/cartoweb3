@@ -1007,6 +1007,12 @@ class Cartoclient extends Cartocommon {
         if (isset($_REQUEST['posted'])) {        
             if ($_REQUEST['posted'] != '0') {
         
+                // Checks cookies
+                if (!isset($_COOKIE['TestCookie'])) {
+                    $this->setInterruptFlow(true);
+                    $this->formRenderer->setCustomForm('nocookies.tpl');
+                }
+
                 // Maps clicks cannot be modified by filters
                 $this->cartoForm = 
                     $this->httpRequestHandler->handleHttpRequest(
@@ -1026,7 +1032,10 @@ class Cartoclient extends Cartocommon {
                                              $request->getRequest());
             }
         } else {
-            
+    
+            // Tries to set a cookie
+            setcookie('TestCookie', 'OK');            
+                        
             $request = new FilterRequestModifier($_REQUEST);
             $this->callEnabledPluginsImplementing(
                                              ClientPlugin::ENABLE_LEVEL_PROCESS,

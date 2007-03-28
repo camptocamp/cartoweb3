@@ -1249,3 +1249,9 @@ msgstr "Fläche messen"
 
 msgid "fullextent"
 msgstr "Zum ganzen Perimeter"
+
+msgid "Cookies must be enabled in order to use this application"
+msgstr "Um diese Anwendung zu benutzen brauchen Sie die Cookies zu aktivieren"
+
+msgid "Please enable cookies and reload this page."
+msgstr "Bitte aktivieren Sie die Cookies und laden Sie die Seite wieder."

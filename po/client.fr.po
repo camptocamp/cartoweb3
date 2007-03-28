@@ -1267,3 +1267,9 @@ msgstr "Vue générale"
 
 msgid "message: %s count: %d"
 msgstr "Message : %s compte : %d"
+
+msgid "Cookies must be enabled in order to use this application"
+msgstr "Vous devez activer les cookies pour utiliser cette application"
+
+msgid "Please enable cookies and reload this page."
+msgstr "Merci d'activer les cookies et de recharger cette page."
