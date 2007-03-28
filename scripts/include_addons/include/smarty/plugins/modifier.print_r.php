@@ -27,6 +27,9 @@
  * Type:     modifier
  * Name:     print_r
  * Purpose:  Dump out the object, reasonably formatted
+ * Use: in template : {$some_smarty_variable|@print_r}
+ * @ is needed if the variable is an array
+ * see http://smarty.php.net/manual/en/language.modifiers.php
  * -------------------------------------------------------------
  */
 function smarty_modifier_print_r($object) {
