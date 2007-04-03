@@ -37,8 +37,9 @@ base policy
  Use:
 
     for ($i = 0; $i < 10; i++) {
-    	if (! something ($i))
+    	if (! something ($i)) {
 		    continue;
+		}
 	    doMore ();
     }
     
