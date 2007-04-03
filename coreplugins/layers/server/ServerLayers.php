@@ -76,25 +76,58 @@ class ServerLayers extends ClientResponderAdapter
     }
    
     /**
-     * Add user layers
+     * Adds user layers
      * @var array of UserLayer
      */
-    public function addUserLayers($userLayers) {
+    public function addUserLayers($userLayers) {        
         $msMapObj = $this->serverContext->getMapObj();
-        foreach ($userLayers as $key => $userLayer) {
-            if ($userLayer->action == UserLayer::ACTION_INSERT) {
+        foreach ($userLayers as $key => &$userLayer) {
+            if ($userLayer instanceof Layer) {
+                $newUserLayer = new UserLayer();
+                $newUserLayer->action = UserLayer::ACTION_INSERT;
+                $newUserLayer->layer = $userLayer;
+                $userLayer = $newUserLayer;
+            }
+            if ($userLayer instanceof UserLayer) {
                 $layer   =& $userLayer->layer;
                 $msLayer = $msMapObj->getLayerByName($layer->id);
                 //update layer msLayer & label
                 $layer->msLayer = $layer->id;                
-                if (!empty($msLayer) && empty($layer->label)) {
+                if (count($msLayer) && !count($layer->label)) {
                     $layer->label = $msLayer->getMetadata('wms_title');
                 }
-                if (empty($layer->label)) $layer->label = $layer->id;
-                $userLayers[$key] = $userLayer;
+                if (!count($layer->label)) {
+                    $layer->label = $layer->id;
+                }                    
+                $this->userLayers[] = $userLayer;            
             }
         }
-        $this->userLayers = $userLayers;
+    }
+
+   
+    /**
+     * Removes user layers
+     * @var array of UserLayer
+     */
+    public function removeUserLayers($userLayers) {
+        foreach ($userLayers as $key => $userLayer) {
+            if ($userLayer instanceof Layer) {
+                $newUserLayer = new UserLayer();
+                $newUserLayer->action = UserLayer::ACTION_REMOVE;
+                $newUserLayer->layer = $userLayer;
+                $userLayer = $newUserLayer;
+            }
+            if (!($userLayer instanceof UserLayer)) {
+                throw new CartoserverException('You can only remove a ' .
+                                                     'UserLayer or Layer type');
+            } 
+            if ($userLayer->action == UserLayer::ACTION_REMOVE) {
+                $this->userLayers[] = $userLayer;
+            } else {
+                throw new CartoserverException('Please use ' .
+                        'ServerLayer::addUserLayers() to add a new UserLayer');
+            }
+        }
     }
             
     /**
@@ -263,7 +296,7 @@ class ServerLayers extends ClientResponderAdapter
                 } else {
                     $key = array_search($userLayer->layer->id, 
                                         $requestedLayerNames);
-                    if ($key) {
+                    if ($key !== false) {
                         unset($requestedLayerNames[$key]);
                     }
                 }

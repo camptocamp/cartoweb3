@@ -989,19 +989,68 @@ class ClientLayers extends ClientPlugin
         }
         $layerGroup = new LayerBase();
         $layerGroup = $this->layersInit->getLayerById($userLayerGroup);
+
         foreach ($layersResult->userLayers as $userLayer) {
-            $layer = $userLayer->layer;
-            if ($userLayer->action == UserLayer::ACTION_REMOVE &&
-                isset($this->layersData[$layer->id])) {
+            $layer = $userLayer->layer;            
+            if ($userLayer->action == UserLayer::ACTION_REMOVE) {
                 $this->layersInit->removeChildLayerBase($layerGroup, $layer);
-                unset($this->layersData[$layer->id]);
                 $key = array_search($layer->id, $this->selectedLayers);
-                if ($key) unset($this->selectedLayers[$key]);
+                if ($key !== FALSE) {
+                    unset($this->selectedLayers[$key]);
+                }
                 $key = array_search($layer->id, $this->layerIds);
-                if ($key) unset($this->layerIds[$key]);
+                if ($key !== FALSE) {
+                    unset($this->layerIds[$key]);
+                }
                 $key = array_search($layer->id, $this->nodesIds);
-                if ($key) unset($this->nodesIds[$key]);
+                if ($key !== FALSE) {
+                    unset($this->nodesIds[$key]);
+                }
+                if (isset($this->layersData[$layer->id])) {
+                    unset($this->layersData[$layer->id]);
+                }
+                if (isset($this->layers[$layer->id])) {
+                    unset($this->layers[$layer->id]);
+                }
+/*
+                // removing children reference in layerGroups
+                // will make the removing, then adding of the same layer fail,
+                // and doesn't affect the layer removal in layertree
+                foreach ($this->layers as $layerGroup) {
+                    if ($layerGroup instanceof LayerGroup) {
+                        foreach ($layerGroup->children as $child) {
+                            $key = array_search($layer->id, $child->layers);
+                            if ($key !== FALSE) {
+                                unset($child->layers[$key]);
+                            }
+                        }
+                        $key = array_search($layer->id, $layerGroup->layerIds);
+                        if ($key !== FALSE) {
+                            unset($layerGroup->layerIds[$key]);
+                        }
+                    }
+                }
+*/                
+                if (isset($this->layersInit->layers[$layer->id])) {
+                    unset($this->layersInit->layers[$layer->id]);
+                }
+                foreach ($this->layersInit->layers as $layerInit) {
+                    if ($layerInit instanceof LayerGroup) {
+                        foreach ($layerInit->children as $child) {
+                            $key = array_search($layer->id, $child->layers);
+                            if ($key !== FALSE) {
+                                unset($child->layers[$key]);
+                            }
+                        }                   
+                        if (!is_null($layerInit->layerIds) && $key = array_search($layer->id, $layerInit->layerIds)) {
+                            unset($layerInit->layerIds[$key]);
+                        }
+                    }
+                }
+                //$layerGroup->getChildren($this->layersState->switchId, true);
+                $this->getLayers(true);
             }
+
             if ($userLayer->action == UserLayer::ACTION_INSERT &&
                 !isset($this->layersData[$layer->id])) {
                 $this->layersInit->addChildLayerBase($layerGroup, $layer);
@@ -1011,10 +1060,10 @@ class ClientLayers extends ClientPlugin
                 $this->selectedLayers[] = $layer->id;
                 $this->layerIds[] = $layer->id;
                 $this->nodesIds[] = $layer->id;
-            }
+            }            
         }
         // refresh cache
-        $layerGroup->getChildren($this->layersState->switchId, true);
+        //$layerGroup->getChildren($this->layersState->switchId, true);
         $this->getLayers(true);
     }
 
