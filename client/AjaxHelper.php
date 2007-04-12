@@ -274,7 +274,7 @@ class Json {
             throw new Exception('The JSON serialization of the given ' .
                                 'variable type (' . gettype($phpVariable) . ') ' .
                                 'is not yet implemented, sorry!');
-        }    	
+        }
     }
 
     /**
