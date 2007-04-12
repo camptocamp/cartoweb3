@@ -255,6 +255,29 @@ class PluginEnabler {
 class Json {
 
     /**
+     * Serializes a PHP variable to a Javascript variable representation
+     * (respects object/array types during recursion)
+     * (warning: keys will be lost)
+     * @param array PHP array to be serialized in JSON array
+     * @param bool Escape quotes
+     */
+    public static function serialize($phpVariable, $doEscape = true) {
+        if (is_array($phpVariable)) {
+            return self::fromPhpArray($phpVariable, $doEscape);
+        } elseif (is_object($phpVariable)) {
+            return self::fromPhpObject($phpVariable, $doEscape);
+        } elseif (false) {
+            // Other PHP variable types
+        } elseif (is_null($phpVariable)) {
+            return '{}';
+        } else {
+            throw new Exception('The JSON serialization of the given ' .
+                                'variable type (' . gettype($phpVariable) . ') ' .
+                                'is not yet implemented, sorry!');
+        }    	
+    }
+
+    /**
      * Serializes a PHP variable to a JSON array 
      * @param mixed PHP variable
      * @param bool Escape quotes
@@ -268,6 +291,29 @@ class Json {
             // Other PHP variable types
         } elseif (is_null($phpVariable)) {
             return '[]';
+        } else {
+            throw new Exception('The JSON serialization of the given ' .
+                                'variable type (' . gettype($phpVariable) . ') ' .
+                                'is not yet implemented, sorry!');
+        }
+    }
+
+
+    /**
+     * Serializes a PHP variable to a JSON object
+     * (warning: properties name will be lost)
+     * @param mixed PHP variable
+     * @param bool Escape quotes
+     */
+    public static function objectFromPhp($phpVariable, $doEscape = true) {
+        if (is_array($phpVariable)) {
+            return self::fromPhpArrayToJsonObject($phpVariable, $doEscape);
+        } elseif (is_object($phpVariable)) {
+            return self::fromPhpObjectToJsonObject($phpVariable, $doEscape);
+        } elseif (false) {
+            // Other PHP variable types
+        } elseif (is_null($phpVariable)) {
+            return '{}';
         } else {
             throw new Exception('The JSON serialization of the given ' .
                                 'variable type (' . gettype($phpVariable) . ') ' .
@@ -346,30 +392,6 @@ class Json {
         return $jsonString;
     }
 
-
-
-    /**
-     * Serializes a PHP variable to a JSON object
-     * (warning: properties name will be lost)
-     * @param mixed PHP variable
-     * @param bool Escape quotes
-     */
-    public static function objectFromPhp($phpVariable, $doEscape = true) {
-        if (is_array($phpVariable)) {
-            return self::fromPhpArrayToJsonObject($phpVariable, $doEscape);
-        } elseif (is_object($phpVariable)) {
-            return self::fromPhpObjectToJsonObject($phpVariable, $doEscape);
-        } elseif (false) {
-            // Other PHP variable types
-        } elseif (is_null($phpVariable)) {
-            return '{}';
-        } else {
-            throw new Exception('The JSON serialization of the given ' .
-                                'variable type (' . gettype($phpVariable) . ') ' .
-                                'is not yet implemented, sorry!');
-        }
-    }
-
     /**
      * Serializes a PHP array to a JSON array 
      * @param array PHP array to be serialized in JSON array
@@ -378,6 +400,7 @@ class Json {
     private static function fromPhpArrayToJsonObject($phpArray, $doEscape = true) {
         $jsonString = '{ ';
         foreach ($phpArray as $key => $value) {
+            if (is_numeric($key)) continue;
             $jsonString .= $key . ': ';
             if (is_string($value)) {
                 $value = $doEscape ? Json::escapeQuotes($value) : $value;
@@ -442,6 +465,78 @@ class Json {
         return $jsonString;
     }
 
+    /**
+     * Serializes a PHP array to a JSON array (respects object/array types during recursion)
+     * (warning: keys will be lost)
+     * @param array PHP array to be serialized in JSON array
+     * @param bool Escape quotes
+     */
+    private static function fromPhpArray($phpArray, $doEscape = true) {
+        $jsonString = '[ ';
+        foreach ($phpArray as $value) {
+            if (is_string($value)) {
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
+            } elseif (is_bool($value)) {
+                $jsonString .= $value ? 'true' : 'false';
+            } elseif (is_numeric($value)) {
+                $jsonString .= $value;
+            } elseif (is_null($value)) {
+                $jsonString .= 'null';
+            } elseif (is_array($value)) {
+                $jsonString .= Json::fromPhpArray($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::fromPhpObject($value);
+            } else {
+                $jsonString .= 'null';
+            }
+            $jsonString .= ', ';
+        }
+        
+        if (count($phpArray)) {
+            $jsonString = substr($jsonString, 0, -2);
+        }
+        $jsonString .= ' ]';
+        return $jsonString;
+    }
+
+    /**
+     * Serializes a PHP object to a JSON object (respects object/array types during recursion)
+     * @param mixed PHP object
+     * @param bool Escape quotes
+     */
+    private static function fromPhpObject($phpObject, $doEscape = true) {
+        $jsonString = '{ ';
+        $objectProps = get_object_vars($phpObject);
+        foreach ($objectProps as $propName => $propValue) {
+            if (is_numeric($propName)) continue;
+            $jsonString .= $propName . ': ';                
+            $value = $phpObject->$propName;
+            if (is_string($value)) {
+                $value = $doEscape ? Json::escapeQuotes($value) : $value;
+                $jsonString .= '\'' . $value . '\'';
+            } elseif (is_bool($value)) {
+                $jsonString .= $value ? 'true' : 'false';
+            } elseif (is_numeric($value)) {
+                $jsonString .= $value;
+            } elseif (is_null($value)) {
+                $jsonString .= 'null';
+            } elseif (is_array($value)) {
+                $jsonString .= Json::fromPhpArray($value);
+            } elseif (is_object($value)) {
+                $jsonString .= Json::fromPhpObject($value);
+            } else {
+                $jsonString .= 'null';
+            }
+            $jsonString .= ' , ';
+        }
+
+        if (count($phpObject)) {
+            $jsonString = substr($jsonString, 0, -2);
+        }
+        $jsonString .= ' }';
+        return $jsonString;
+    }
 
     /**
      * Escapes single quotes (using a backslash) 
