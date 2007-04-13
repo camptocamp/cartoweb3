@@ -909,6 +909,10 @@ class ServerLocation extends ClientResponderAdapter
         }
         if (!is_null($interval)) {
             list($intervalx, $intervaly) = explode(',', $interval);
+        } else {
+            throw new CartoserverException('refMarksInterval are missing or not '
+            . 'set correctly in configuration file, please check your server side '
+            . 'location.ini configuration.');
         }
         $style = new StyleOverlay();
         $symbol = $this->getConfig()->refMarksSymbol;
