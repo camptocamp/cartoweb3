@@ -37,6 +37,17 @@ foreach ($projects as $project) {
 }
 
 /**
+ * Prints an error
+ * @param string
+ */
+function error($message, $continue = false) {    
+    print "$message\n";
+    if (!$continue) {
+        exit(-1);
+    }
+}
+
+/**
  * Make maps for a project
  * @param string
  */
@@ -58,7 +69,7 @@ function findSwitchLayers($rootDir) {
 
     $layersIni = parse_ini_file($rootDir . 'layers.ini');
     if (empty($layersIni)) {
-        print "File layers.ini not found for project $project, mapId $mapId.\n";
+        error("File layers.ini not found for project $project, mapId $mapId.", true);
         return;
     }
     
@@ -181,14 +192,13 @@ function printName() {
     print $globalName . $globalIndex;
 }
 
-function printSwitchLayers($layers, $content) {
+function printSwitchLayers($layers, $indexes, $content) {
     global $globalName, $globalIndex;
-    global $autoIndexes;
-
+    
     foreach($layers as $layer) {
         if (strlen($layer) > strlen($globalName)
             && substr($layer, 0, strlen($globalName)) == $globalName
-            && in_array(substr($layer, strlen($globalName)), $autoIndexes)) {
+            && in_array(substr($layer, strlen($globalName)), $indexes)) {
             // There is a layer to generate
             $globalIndex = substr($layer, strlen($globalName));
             eval('?>' . $content . '<?php '); 
@@ -200,11 +210,27 @@ function printLayer($name, $content) {
     global $globalName, $globalSwitch, $globalIndex;
     global $switchLayers, $allLayers, $autoIndexes;
 
-    $globalName = $name;
-    if ($globalSwitch == 'all') {
-        printSwitchLayers($allLayers, $content);
+    $layers = $allLayers;
+    if ($globalSwitch != 'all') {
+        $layers = $switchLayers[$globalSwitch];
+    }
+
+    if (is_array($name)) {
+        if (!is_array($content) || count($content) != count($name)) {
+            error('Array count is not the same for names and contents');
+        }
+        
+        foreach($autoIndexes as $autoIndex) {
+            for($i = 0; $i < count($name); $i++) {
+         
+                $globalName = $name[$i];
+                printSwitchLayers($layers, array($autoIndex), $content[$i]);
+            }       
+        }
     } else {
-        printSwitchLayers($switchLayers[$globalSwitch], $content);
+        
+        $globalName = $name;
+        printSwitchLayers($layers, $autoIndexes, $content);
     }
 }
 
@@ -215,7 +241,7 @@ function includeFile($file) {
         $fileMap = file_get_contents($rootDir . $file);
         eval('?>' . $fileMap . '<?php ');
     } else {
-        print "File $file not found.\n";
+        error("File $file not found");
     } 
 }
 
