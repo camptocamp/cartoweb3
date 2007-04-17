@@ -46,6 +46,8 @@
                 First we have to set the table in the <filename>client_conf/client.ini/search.ini</filename> like this:</para>
             <programlisting>
                 dsn = SEARCHDSN
+                encodingContext = myencoding_context ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO (or any other context) 
+                ; in your client_conf/client.ini
                 
                 config.Adresses.provider.type = fulltextTable
                 config.Adresses.provider.table = addresses
