@@ -7,7 +7,7 @@
 <!ENTITY cw_version "HEAD">
 <!ENTITY dollar "$">
 ]>
-<!-- $Id: search.xml,v 1.5 2007/04/17 09:45:13 nbessi Exp $ -->
+<!-- $Id: search.xml,v 1.6 2007/04/17 10:30:09 nbessi Exp $ -->
 <chapter id="user.search">
     <title><indexterm><primary>Search</primary></indexterm>Search</title>
     <sect1 id="user.search.intro">
@@ -26,7 +26,7 @@
         <sect2 id="user.search.basic.general">
             <title>General Considerations</title>
             <para>The search plugin must be activated on both &cartoclient; and &cartoserver; side ie. the <parameter>loadPlugins</parameter> parameter must contain <parameter>search</parameter> in your project <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.</para>
-            <para>Search use is mainly based on three files.  <filename>client_conf/client.ini/search.ini</filename> ,    <filename>plugins/search/htdocs/js/Search.ajax.js</filename> <filename>plugins/search/templates/search.tpl</filename></para>
+            <para>Search use is mainly based on three files.  <filename>client_conf/search.ini</filename> ,    <filename>plugins/search/htdocs/js/Search.ajax.js</filename> <filename>plugins/search/templates/search.tpl</filename></para>
             <para>The search plugin use the PEAR DB abstraction class and should be able to handle all databases supported by PEAR DB</para>
         </sect2>
     </sect1>
