@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
-<!-- $Id: search.xml,v 1.3 2007/03/26 07:17:43 ochriste Exp $ --><!ENTITY c2c "Camptocamp">
 <!ENTITY cartoweb "CartoWeb">
 <!ENTITY cartoclient "CartoClient">
 <!ENTITY cartoserver "CartoServer">
 <!ENTITY cw_version "HEAD">
 <!ENTITY dollar "$">
 ]>
-<!-- $Id: search.xml,v 1.3 2007/03/26 07:17:43 ochriste Exp $ -->
+<!-- $Id: search.xml,v 1.5 2007/04/17 09:45:13 nbessi Exp $ -->
 <chapter id="user.search">
     <title><indexterm><primary>Search</primary></indexterm>Search</title>
     <sect1 id="user.search.intro">
