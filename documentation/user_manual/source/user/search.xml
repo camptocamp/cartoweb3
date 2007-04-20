@@ -248,6 +248,7 @@
                     <programlisting>
                         <![CDATA[ <div id="search_results_div"></div> ]]>
                     </programlisting>
+                    <warning><para>The div id must be the same as the target id in function ''handleResponse'' ! (see below)</para></warning>
                 </para>
                 
                 <para>
@@ -258,7 +259,7 @@
                         handleResponse: function(pluginOutput) {
                         
                         if (pluginOutput.htmlCode.myconfig) //should be the same value as the input search_config
-                        $('search_results').innerHTML = pluginOutput.htmlCode.myconfig;        
+                        $('search_results_div').innerHTML = pluginOutput.htmlCode.myconfig;        
                         }  
                         };
                         
