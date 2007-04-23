@@ -9,28 +9,28 @@
   <title><indexterm><primary>tooltips</primary></indexterm>ToolTips</title>
   <sect1 id="user.tooltips.intro">
    <title>Introduction</title>
-   <para>The tooltips plugin aim is to show features attributive information on
+   <para>The toolTips plugin aim is to show features attributive information on
      top of the map without refreshing the whole page. This can be achieved
      using three different methods.</para>
    <para>
     The choice must be done regarding advantages or disadvantages of each method.
    </para>
    <warning>
-    <para>Please note that the tooltips plugin and its documentation are not fully completed yet.</para>
+    <para>Please note that the toolTips plugin and its documentation are not fully completed yet.</para>
    </warning>
   </sect1>
   <sect1 id="user.tooltips.basic">
     <title>Basic Usage</title>
     <sect2 id="user.tooltips.basic.general">
      <title>General Considerations</title>
-     <para>The tooltips plugin must be activated on both &cartoclient; and &cartoserver; ie. the <parameter>loadPlugins</parameter> parameter must contain <parameter>tooltips</parameter> in your project <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.</para>
+     <para>The toolTips plugin must be activated on both &cartoclient; and &cartoserver; ie. the <parameter>loadPlugins</parameter> parameter must contain <parameter>toolTips</parameter> in your project <filename>client_conf/client.ini</filename> and <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.</para>
      <para>Tooltips offers three modes that may be used simultaneously and that are described below:</para>
      <itemizedlist>
       <listitem><para>Mouse Timeout Asynchronous</para></listitem>
       <listitem><para>Area Asynchronous</para></listitem>
       <listitem><para>Area Direct</para></listitem>
      </itemizedlist>
-     <para>Those modes are configured on the &cartoclient; side of your project in the <filename>client_conf/tooltips.ini</filename> file.</para>
+     <para>Those modes are configured on the &cartoclient; side of your project in the <filename>client_conf/toolTips.ini</filename> file.</para>
     </sect2>
     <sect2 id="user.tooltips.basic.timeoutasync">
       <title>Mouse Timeout Asynchronous</title>
@@ -244,7 +244,7 @@ area_async.members.attributes = "name,age,place"]]></programlisting>
         <para>Pros</para>
         <itemizedlist>
           <listitem>
-            <para>simplest way to use tooltips,</para>
+            <para>simplest way to use toolTips,</para>
           </listitem>
           <listitem>
             <para>no database needed, can work with shapefiles (or data files)
@@ -295,7 +295,7 @@ area_direct.users.label = "Users"]]></programlisting>
     </sect2>
     <sect2 id="user.tooltips.basic.example">
      <title>Configuration Example</title>
-     <para>Here is an example of the <filename>tooltips.ini</filename> configuration file. Notice the possibility to have all the three modes activated at the same time.</para>
+     <para>Here is an example of the <filename>toolTips.ini</filename> configuration file. Notice the possibility to have all the three modes activated at the same time.</para>
      <programlisting>;---------------------
 ; Here are defined parameters relative to timeout_async layers
 ;---------------------
