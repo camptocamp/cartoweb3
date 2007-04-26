@@ -48,13 +48,15 @@ if ($error) {
     die();
 }
 
-setlocale(LC_ALL, $LOCALE);
-putenv("LANG=$LOCALE"); 
-putenv("LANGUAGE=$LOCALE");
-bindtextdomain($MAIN, $LOCALE_PATH); 
-textdomain($MAIN);
-printf("<pre><b>%s</b></pre>\n", gettext("PHP-Gettext is not installed correctly !"));
-
+if (setlocale(LC_ALL, $LOCALE) != $LOCALE) {
+    echo "error: setlocale() failed !\n";
+} else {
+    putenv("LANG=$LOCALE"); 
+    putenv("LANGUAGE=$LOCALE");
+    bindtextdomain($MAIN, $LOCALE_PATH); 
+    textdomain($MAIN);
+    printf("<pre><b>%s</b></pre>\n", gettext("PHP-Gettext is not installed correctly !"));
+}
 system("rm -fR $LOCALE_PATH/$LOCALE $file", $error);
 if ($error) {
     echo "error: can't delete temp files !\n";
