@@ -74,6 +74,8 @@ function addOutlineToolListeners() {
 
   for (var i = 0; i < onClickElements.length; i++){
     elm = xGetElementById(onClickElements[i]);
+    if (!elm)
+      continue;
     EventManager.Add(elm, 'click', selectTool, false);
   }
   
