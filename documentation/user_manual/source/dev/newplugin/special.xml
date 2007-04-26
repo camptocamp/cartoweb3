@@ -172,8 +172,39 @@
     </sect3>
     <sect3 id="dev.newplugin.special.filters.parameters">
       <title>Available Parameters</title>
+      <para>This is the list of global parameters accepted by &cartoweb; via GET</para>
+          <itemizedlist>
+            <listitem>
+              <para><parameter>reset_session</parameter> : This will reset all 
+              session parameters to default value. Useful when you want to go 
+              back to the initial stats of the application
+              <programlisting><![CDATA[
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?reset_session
+              ]]></programlisting></para>
+            </listitem>
+            <listitem>
+              <para><parameter>prevent_save_session</parameter> : This will bypass 
+              the session save. Useful when you want to performe an action without 
+              effect on the actual state of the application. This was added 
+              specifically when using the mode=image global parameter
+              <programlisting><![CDATA[
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?prevent_save_session
+              ]]></programlisting>
+              </para>
+            </listitem>
+            <listitem>
+              <para><parameter>mode</parameter> : This will define the kind of output of &cartoweb;. By default it will be html. Another possible output is <parameter>image</parameter>. In this case, &cartoweb; will only output an image.
+              <programlisting><![CDATA[
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?mode=image
+              ]]></programlisting>
+              The image mode can be used with other plugin specific parameters:
+              <programlisting><![CDATA[
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?mode=image&recenter_x=300000&recenter_y=5150000&recenter_scale=150000
+              ]]></programlisting></para>
+            </listitem>
+          </itemizedlist>
       <para>This is the list of parameters that can be set in a filter plugin 
-        using function <function>setValue()</function>:</para>
+        using function <function>setValue()</function> (in php file) or GET request (URL query string):</para>
       <itemizedlist>
         <listitem>
           <para>Images plugin</para>
