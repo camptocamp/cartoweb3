@@ -52,8 +52,8 @@ function selectTool(e) {
       case 'outline_polygon_outline_color' :
       case 'outline_polygon_background_color' :
       case 'outline_polygon_transparency' :
-        mainmap.outline_rectangle('map');
-        setActiveToolButton('outline_rectangle');
+        mainmap.outline_poly('map');
+        setActiveToolButton('outline_poly');
       break;
     }
 }
