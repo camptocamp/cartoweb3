@@ -277,10 +277,15 @@ LAYER
   NAME "foo"
   ...
   CLASS
+    EXPRESSION /_always_false_/
     NAME "hilight"
     STYLE
       ...
     END
+  END
+  # other layer classes
+  CLASS
+    ...
   END
 END]]> </programlisting> </para>
         <para>Hilight using dynamically generated layer <programlisting><![CDATA[
