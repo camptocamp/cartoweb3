@@ -445,6 +445,16 @@ class LayerOverlay extends BasicOverlay {
     public $data;
     
     /**
+     * @var string 
+     */
+    public $filter;
+    
+    /**
+     * @var string 
+     */
+    public $filteritem;
+    
+    /**
      * @var string
      */
     public $maxScale;
@@ -484,6 +494,8 @@ class LayerOverlay extends BasicOverlay {
         $this->connectionType = self::unserializeValue($struct, 'connectionType');
         $this->copyName       = self::unserializeValue($struct, 'copyName');
         $this->data           = self::unserializeValue($struct, 'data');
+        $this->filter         = self::unserializeValue($struct, 'filter');
+        $this->filteritem     = self::unserializeValue($struct, 'filteritem');
         $this->maxScale       = self::unserializeValue($struct, 'maxScale');
         $this->metadatas      = self::unserializeObjectMap($struct, 'metadatas',
                                                            'MetadataOverlay');

@@ -124,6 +124,8 @@
           <element name="connectionType" type="xsd:string"/>
           <element name="copyName" type="xsd:string"/>
           <element name="data" type="xsd:string"/>
+          <element name="filter" type="xsd:string"/>
+          <element name="filteritem" type="xsd:string"/>
           <element name="maxScale" type="xsd:string"/>
           <element name="metadatas" type="types:ArrayOfMetadataOverlay"/>
           <element name="minScale" type="xsd:string"/>

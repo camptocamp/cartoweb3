@@ -736,6 +736,16 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->data = $overlay->data;
                 $msLayer->set('data', $result->data);
             }
+            if (!is_null($overlay->filter) && 
+                $msLayer->getFilter() != $overlay->filter) {
+                $result->filter = $overlay->filter;
+                $msLayer->setFilter('"' . $result->filter . '"');
+            }
+            if (!is_null($overlay->filteritem) && 
+                $msLayer->filteritem != $overlay->filteritem) {
+                $result->filteritem = $overlay->filteritem;
+                $msLayer->set('filteritem', $result->filteritem);
+            }
             if (!is_null($overlay->maxScale) && 
                 $msLayer->maxScale != $overlay->maxScale) {
                 $result->maxScale = $overlay->maxScale;
@@ -773,6 +783,10 @@ class ServerMapOverlay extends ServerPlugin {
                          $msSearchLayer->connectionType == $overlay->connectionType) &&
                         (is_null($overlay->data) || 
                          $msSearchLayer->data == $overlay->data) &&
+                        (is_null($overlay->filter) || 
+                         $msSearchLayer->getFilter() == $overlay->filter) &&
+                        (is_null($overlay->filteritem) || 
+                         $msSearchLayer->filteritem == $overlay->filteritem) &&
                         (is_null($overlay->maxScale) ||
                          $msSearchLayer->maxScale == $overlay->maxScale) &&
                         (is_null($overlay->minScale) ||
@@ -814,6 +828,16 @@ class ServerMapOverlay extends ServerPlugin {
                     $result->data = $overlay->data;
                     $msLayer->set('data', $result->data);
                 }
+                if (!is_null($overlay->filter) && 
+                    $msLayer->getFilter() != $overlay->filter) {
+                    $result->filter = $overlay->filter;
+                    $msLayer->setFilter('"'.$result->filter.'"');
+                }
+                if (!is_null($overlay->filteritem) && 
+                    $msLayer->filteritem != $overlay->filteritem) {
+                    $result->filteritem = $overlay->filteritem;
+                    $msLayer->set('filteritem', $result->filteritem);
+                }
                 if (!is_null($overlay->maxScale) && 
                     $msLayer->maxScale != $overlay->maxScale) {
                     $result->maxScale = $overlay->maxScale;
@@ -853,6 +877,14 @@ class ServerMapOverlay extends ServerPlugin {
             if (!is_null($overlay->data)) {
                 $result->data = $overlay->data;
                 $msLayer->set('data', $result->data);
+            }
+            if (!is_null($overlay->filter)) {
+                $result->filter = $overlay->filter;
+                $msLayer->setFilter('"'.$result->filter.'"');
+            }
+            if (!is_null($overlay->filteritem)) {
+                $result->filteritem = $overlay->filteritem;
+                $msLayer->set('filteritem', $result->filteritem);
             }
             if (!is_null($overlay->maxScale)) {
                 $result->maxScale = $overlay->maxScale;
