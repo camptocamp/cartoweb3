@@ -221,6 +221,16 @@ The <envar>DATA</envar> field of the <envar>field</envar> layer is
 update to only display some informations.
 <envar>$farmId</envar> is defined elsewhere.
         </para>
+        <para>
+In this case, a much more clever solution is to use the <envar>filter</envar> attribute of the <envar>LayerOverlay</envar> object.
+          <programlisting><![CDATA[
+$layer = new LayerOverlay();
+$layer->name = "field";
+$layer->filter = "farm_id = {$farmId})";
+        
+$mapOverlay = $this->serverContext->getPluginManager()->mapOverlay;
+$mapOverlay->updateMap($layer);]]></programlisting>
+        </para>
     </sect2>
 
     <sect2>
@@ -235,8 +245,3 @@ $this->serverContext->getMapObj()->save('/tmp/debug.map');
     </sect2>
   </sect1>    
 </chapter>
-
-<!--  LocalWords:  MetadataOverlay mapfile MapOverlay LayerOverlay updateMap
- -->
-<!--  LocalWords:  StyleOverlay LabelOverlay outlineColor ClassOverlay foobar
- -->
