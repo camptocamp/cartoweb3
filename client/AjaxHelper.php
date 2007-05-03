@@ -544,7 +544,10 @@ class Json {
      * @param bool Escape quotes
      */
     private static function escapeQuotes($stringToEncode) {
-        return str_replace("'", "\'", $stringToEncode);
+        // IE fail to parse json with ' and \n
+        $stringToEncode = str_replace("'", "&#039;", $stringToEncode);
+        $stringToEncode = str_replace("\n", "", $stringToEncode);
+        return $stringToEncode;
     }
 }
 ?>
