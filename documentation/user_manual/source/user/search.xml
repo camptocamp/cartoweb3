@@ -473,9 +473,17 @@
                     
                     function recenter(id){
                         if ($('search_config').value == 'Adresses') {
-                            $('id_recenter_ids').value = id; //id to recenter
-                            $('recenter_scale').value = 2000;//scale for recentering
-                            $('recenter_doit').value = '1';
+                            //id to recenter, be sure there is a hidden input with that name and id in your template! if not, add it
+                            $('id_recenter_ids').value = id;
+
+                            /* if the search database table name is the same as the related layer to recenter on, you can set it as below
+                               be sure there is a hidden input with that name and id in your template! if not, add it */
+                            $('id_recenter_layer').value = $('search_config').value;
+    
+                            /* do not use the recenter_scale parameter if you recenter on ids, only use it with recenter on x,y.
+                               you can set the recenter scale in location.ini on server side */
+                            
+                            /* do not use the recenter_doit parameter if you recenter on ids, only use it with recenter on x,y. */
                     
                             CartoWeb.trigger('Location.Recenter');
                         } 
