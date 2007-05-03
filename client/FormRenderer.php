@@ -316,6 +316,11 @@ class FormRenderer {
     
     public function render() {
         if ($this->cartoclient->isAjaxMode()) {
+            if ($this->cartoclient->getConfig()->profile == 'development') {
+                // add REQUEST dump for debugging purpose
+                $this->cartoclient->addMessage(var_export($_REQUEST, true), 
+                                               Message::CHANNEL_DEVELOPER);
+            }
             return $this->showAjaxPluginResponse();
         } else {
             return $this->showForm();
@@ -424,9 +429,9 @@ class FormRenderer {
         $userMessages = $this->getUserMessages($messages);
         $developerMessages = $this->getDeveloperMessages($messages);
         $ajaxPluginResponse->addVariable('userMessages',
-                             Json::arrayFromPhp($userMessages, false));
+                             Json::arrayFromPhp($userMessages));
         $ajaxPluginResponse->addVariable('developerMessages',
-                             Json::arrayFromPhp($developerMessages, false));
+                             Json::arrayFromPhp($developerMessages));
         $ajaxPluginResponses['cartoMessages'] = $ajaxPluginResponse;
         /*
          * End of the pseudo-plugin logic
