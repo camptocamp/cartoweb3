@@ -119,6 +119,7 @@
    {/foreach}   
   {/if}
 
+<div id="developperMsgs">
   {if $developer_messages|default:''}
    <span style="color: green; border: 10px; background-color: yellow;">
    {t} Developer messages {/t}</span>
@@ -126,6 +127,7 @@
      <p>{$message}</p>
    {/foreach}   
   {/if}
+</div>
 
   {if $selection_result|default:''}
   {$selection_result}
