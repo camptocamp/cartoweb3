@@ -1083,7 +1083,6 @@ function changeColorFromHexInput(ev) {
     // update sliders, input and colorbox
     for (i=0;i<activeColorSpace.length;i++){
         updateSlider(activeColorSpace[i], pickedColor);
-      if (colorSpace != activeColorSpace[i]) // only update input if different from current input
         updateInput(activeColorSpace[i], pickedColor);
     }
     updateColorBox(pickedColor, 'colorresult3');
