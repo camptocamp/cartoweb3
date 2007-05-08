@@ -1082,7 +1082,7 @@ class ColumnAdder extends TableFilter {
                     $oldWeight = $ruleweight['weights'][$newColumnId];
                     $oldArrayKey = $key;
                 }
-                if ($ruleweight['rule'] == $this) {
+                if ($ruleweight['rule'] === $this) {
                     $currentArrayKey = $key;
                 }
             }
