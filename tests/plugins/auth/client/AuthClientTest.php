@@ -55,8 +55,7 @@ class plugins_auth_client_AuthClientTest extends PHPUnit2_Framework_TestCase {
     
     public function testAuth() {
         $cartoclient = new Cartoclient();
-        $authTestConfig = new AuthTestClientPluginConfig($cartoclient->
-                                        getPluginManager()->getPlugin('auth'), 
+        $authTestConfig = new AuthTestClientPluginConfig('auth',
                                         $cartoclient->getProjectHandler());
         $iniContainer = new IniSecurityContainer($authTestConfig);
         $this->assertFalse($iniContainer->checkUser('non_existant', ''));
@@ -69,8 +68,7 @@ class plugins_auth_client_AuthClientTest extends PHPUnit2_Framework_TestCase {
     public function testRoles() {
     
         $cartoclient = new Cartoclient();
-        $authTestConfig = new AuthTestClientPluginConfig($cartoclient->
-                                        getPluginManager()->getPlugin('auth'), 
+        $authTestConfig = new AuthTestClientPluginConfig('auth',
                                         $cartoclient->getProjectHandler());
         $iniContainer = new IniSecurityContainer($authTestConfig);
 
