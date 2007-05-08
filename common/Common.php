@@ -259,11 +259,14 @@ class Common {
         if (strpos($errfile, 'include/log4php/' ) !== false && 
             $errno | E_NOTICE)
             return true;
-        // ignore Pear::DB warnings
-        if (strpos($errfile, 'include/pear/DB/' ) !== false && 
-            $errno | E_WARNING) {
+        // ignore Pear.php @dl() call
+        if (strpos($errfile, 'include/pear/PEAR.php' ) !== false && 
+            $errno | E_WARNING &&
+            $errline == 753)
             return true;        
-            }
+        if (strpos($errfile, 'include/pear/DB/' ) !== false &&
+            $errno | E_WARNING)
+            return true;
         // ignore smarty notices
         if (strpos($errfile, '/templates_c/') !== false && 
             $errno | E_NOTICE)
