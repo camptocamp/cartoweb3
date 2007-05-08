@@ -10,7 +10,8 @@
   DocBook Documentation Generation
  </title>
  <para>
-  &cartoweb; documentation source are in DocBook XML format and located in
+  &cartoweb; documentation source are in <ulink url=
+  "http://www.docbook.org">DocBook XML</ulink> format and located in
   <filename>documentation/user_manual/source</filename> in &cartoweb;
   archive.
  </para>
