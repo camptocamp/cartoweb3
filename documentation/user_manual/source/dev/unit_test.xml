@@ -79,7 +79,7 @@
   <title>General Information About Writing Tests</title>
   <para>
    Test cases are located in directory <filename>tests</filename> for testing
-   the core of &cartoweb; and in the directoies <filename>&lt;project&gt;/tests</filename>
+   the core of &cartoweb; and in the directories <filename>&lt;project&gt;/tests</filename>
    for for tests specific to project <filename>&lt;project&gt;</filename>.
    Inside these <filename>tests</filename> directories, path hierarchy mirrors
    the existing hierarchy they are testing. For instance, the <filename>tests</filename>
