@@ -804,8 +804,12 @@ class ServerMapOverlay extends ServerPlugin {
                 throw new CartoserverException('search Layer: no layers found with that name');
             }
             
-            if (is_null($msLayer)) {
-                // No layers found, adding a layer.
+            if (is_null($msLayer) || !strpos($msLayer->name, '@@')) {
+                /* No layers found, adding a layer.
+                   or if the layer name is identical to the reference layer name 
+                   in the mapfile, we force a new layer to prevent having feature(s) 
+                   added to the reference layer and then wrongly duplicated when 
+                   the reference layer is copied via the ms_newLayerObj below */
                 $original = $this->mapObj->getLayerByName($overlay->name);
                 $msLayer = ms_newLayerObj($this->mapObj, $original);
                 
