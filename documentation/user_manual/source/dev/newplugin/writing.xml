@@ -200,6 +200,17 @@ class ServerYourPlugin extends ServerPlugin {
             data and treatment used by client and server classes. </para>
         </listitem>
         <listitem>
+          <para>If your plugin is implementing <parameter>ServerCaller</parameter>
+          and <parameter>ClientResponder</parameter>, you will need to write the
+          WSDL code for the plugin request and response. See 
+          <xref linkend="dev.newplugin.intro"/> for examples on how to write
+          such WSDL documents.
+          </para>
+          <note><para>You need to add a <parameter>className</parameter> 
+          element in the WSDL file for a proper parsing from &cartoweb;
+          </para></note>
+        </listitem>
+        <listitem>
           <para> Activate your plugin by adding its name to the 
             <parameter>loadPlugins</parameter> of the matching project 
             configuration files. </para>
