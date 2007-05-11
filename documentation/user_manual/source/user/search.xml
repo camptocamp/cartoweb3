@@ -45,7 +45,8 @@
                 First we have to set the table in the <filename>client_conf/client.ini/search.ini</filename> like this:</para>
             <programlisting>
                 dsn = SEARCHDSN
-                encodingContext = myencoding_context ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO (or any other context) 
+                encodingContext = myencoding_context 
+                ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO (or any other context) 
                 ; in your client_conf/client.ini
                 
                 config.Adresses.provider.type = fulltextTable
@@ -331,7 +332,7 @@
                     config.Adresses_init_street.provider.columns = adr_street
                     config.Adresses_init_street.provider.sortColumn = adr_street
                     config.Adresses_init_street.provider.sortDirection = asc
-                    config.Adresses_init_street.provider.where = "adr_street like '@adr_adr_street_init@'"
+                    config.Adresses_init_street.provider.where = "adr_town like '@adr_town_init@'"
                     config.Adresses_init_street.formatter.type = smarty
                     config.Adresses_init_street.formatter.template = init_adresse_adr_street_select
                     
@@ -364,15 +365,17 @@
                     <programlisting> config.Adresses.provider.where</programlisting>
                    This parameter allows to specifiy a where clause. 
                    The where clause is written in traditional sql but the data corresponding to the value of the form have to be replaced
-                   by @the_field_name@. <warning> <para>Do not forget to remove the "search_" prefix.</para></warning>
+                    by @the_field_name@. <warning> <para>Do not forget to remove the "search_" prefix that is in the select name when defining the @the_field_name@ parameter in the ini file.</para></warning>
                 </para>
-                <para>On the first two tables, the template file have been modified in order not to give back a result table but a select containing all the data requiered</para>
-                <programlisting>   config.Adresses_init_street.formatter.type = smarty
-                config.Adresses_init_street.formatter.template = init_adresse_adr_street_select </programlisting>   
-                <para>Here is thwe content of the <filename>init_adresse_town_select.tpl</filename> file :</para>
+                <para>For the first two tables, the template file have been modified in order not to give back a result table but a select containing all the data requiered</para>
+                <programlisting>
+                config.Adresses_init_street.formatter.type = smarty
+                config.Adresses_init_street.formatter.template = init_adresse_adr_street_select 
+                </programlisting>   
+                <para>Here is the content of the <filename>init_adresse_town_select.tpl</filename> file :</para>
                 <programlisting>
                    <![CDATA[ {t}Town:{/t}<br />
-                    <select name="search_adr_street_init" id="search_adr_town_init"  onchange="javascript: initializeStreet()">
+                    <select name="search_adr_town_init" id="search_adr_town_init"  onchange="javascript: initializeStreet()">
                         <option value="">&nbsp </option>
                             {foreach from=$table->rows item=row}
                             <option value="{$row->rowId}">
@@ -383,10 +386,10 @@
                             {/foreach}
                     </select>]]>
                 </programlisting>
-                <para>Here is thwe content of the <filename>adr_street_init.tpl</filename> file :</para>
+                <para>Here is the content of the <filename>init_adresse_adr_street_select.tpl</filename> file :</para>
                 <programlisting><![CDATA[
                     {t}Street:{/t} <br />
-                    <select name="search_guided_adr_rue" id="adr_street_init" onchange="search()" >
+                    <select name="search_adr_street_init" id="search_adr_street_init" onchange="search()" >
                         <option value="">&nbsp </option>
                             {foreach from=$table->rows item=row}
                             <option value="{$row->rowId}">
@@ -398,13 +401,35 @@
                     </select>
                     ]]>
                 </programlisting>
+                <para>Now we have to setup the <filename>search.tpl</filename> file.</para>
+                <programlisting>
+                    <![CDATA[
+                            
+                            <div id="search_div">
+                            <fieldset><legend>{t}My Title{/t}</legend> <br/>
+                              here we inser the placeholder for the select(s)
+                              <br />
+                              <div id="town_select_div"> Here comes the list containing the towns </div>
+                              <br />
+                              <div id ="street_select_div"> Here comes the list containing the streets  </div>
+                              <br />
+                              <input type="hidden" id="search_config" name="search_config" value="" />
+                              <input type="hidden" id="search_sort_column" name="search_sort_column" value=""/>
+                              <input type="hidden" id="search_sort_direction" name="search_sort_direction" value="asc" />
+                              <input type="hidden" id="search_number" name="search_number" />
+                            <div id="search_results_div"></div>
+                            </fieldset>
+                            </div>
+                            
+                             ]]>
+                </programlisting>
                 <para>
                     Finally we have to set up the java script file. Open or create the <filename>plugins/search/htdocs/js/Search.ajax.js</filename> file and write:</para>
                 <programlisting>
                     AjaxPlugins.Search = {
                     
                     handleResponse: function(pluginOutput) {
-                    
+                    //we inject the select input in the HTML
                     if (pluginOutput.htmlCode.Adresses_init_town) //should be the same value as the input search_config
                     $('town_select_div').innerHTML = pluginOutput.htmlCode.Adresses_init_town;        
                     }  
@@ -450,7 +475,8 @@
                     }
                     
                     
-                    
+                    //we empty the old selects and reinsert the new ones instead
+                    //Please do not forget to modify the search_config input value
                     function initializeTown() {
                     $('town_select_div').innerHTML = '';
                          var myinput = $('search_config');
@@ -488,8 +514,8 @@
                             CartoWeb.trigger('Location.Recenter');
                         } 
                         
-                        Event.observe(window, 'load', initializeTown, true);
                     }
+                   Event.observe(window, 'load', initializeTown, true);
                 </programlisting>
                 <para>
                     For each initialisation, we have to set the correct value inside the search_config input and add on event listener on the "onload" event in order to initialize the town selwect when the page is loaded.
@@ -504,7 +530,8 @@
             <programlisting>
                 config.parcels.provider.type = table
                 config.parcels.provider.table = parcelles, addresses
-                config.parcels.provider.id = parcel_id
+                ;//be sure not to have twice the same id column name in different tables
+                config.parcels.provider.id = parcel_id 
                 config.parcels.provider.columns = parcel_ref, adr_street
                 config.parcels.provider.fulltextColumns = parcel_ref, adr_num, adr_street, adr_zip, adr_town,
                 config.parcels.provider.sortColumn = parcel_ref, adr_street
@@ -522,6 +549,7 @@
             </sect3>
             <sect3 id="user.Search.advance.Writing_a_provider">
                 <title>Writing a Provider</title>
+                <warning> <para>Documentation below is still in draft state</para></warning>
                 <para>A provider is an interface implementation that allows you to acess a type of data that is not supported by PEAR DB.</para>
                 <para> You have to modify the <filename>Search.php</filename>. In this file there is an abstract class that is named :
                 <programlisting>abstract class ResultProvider </programlisting></para>
