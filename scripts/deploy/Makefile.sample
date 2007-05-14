@@ -35,15 +35,10 @@ DEPLOY_DIR := $(wildcard $(TOPSRCDIR)/deploy)
 CVSCO := cvs -d $(CVSROOT_CW) co $(DEPLOY_REVISION)
 run_for_side_effects := \
   $(shell  \
-     if ! test -d "$(DEPLOY_DIR)"; then \
-	if test -d cartoweb3; then \
-	   rm -rf cartoweb3; \
-	fi; \
-        $(CVSCO) cartoweb3/scripts/deploy; \
-	mv cartoweb3/scripts/deploy .; \
-	rm -rf cartoweb3; \
-     else true; \
-     fi; )
+    if ! test -d "$(DEPLOY_DIR)"; then \
+      $(CVSCO) -d deploy cartoweb3/scripts/deploy; \
+    else true; \
+    fi; )
 
 include $(TOPSRCDIR)/deploy/defs.mk
 
@@ -91,15 +86,15 @@ ALL_INSTANCES := myinstance1 myinstance2
 
 default_CVSROOT := :pserver:user@example.com:/var/lib/cvs/
 
-# example project
+# example project, using CVS
 
 myproject1_INSTANCE := myinstance1
 myproject1_CVSROOT := :pserver:user@example.com:/var/lib/cvs/
 
-# example project
+# example project, using SVN
 
 myproject2_INSTANCE := myinstance2
-myproject2_CVSROOT := :pserver:user@example2.com:/var/lib/cvs/
+myproject2_SVN_CO_OPTIONS := --username foo co https://example.com/svn/sample/trunk/myproject2/
 
 # This MUST contain all project names
 ALL_PROJECTS := myproject1 myproject2

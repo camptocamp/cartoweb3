@@ -220,12 +220,20 @@ List of options:
                             variable replacement in .in files.
                             NOTE: You may either use a path relative to the
                             target cartoweb3 directory or an absolute path.
---config-from-project PROJECT Read the configuration file containing variables
+ --config-from-project PROJECT Read the configuration file containing variables
                             to replace in .in files from the specified project.
 
  --fetch-project-cvs PROJECT Fetch the given project from CVS (see --cvs-root
                             option). To fetch several projects at a time,
                             specify this option as many times as necessary.
+ --fetch-project-svn PROJECT Fetch the given project from SVN (you will need to
+                            give --svn-co-options to specifiy the checkout 
+                            command to be used).
+                            To fetch several projects at a time, 
+                            specify this option as many times as necessary.
+ --svn-co-options           Checkout command to use for fetching project with
+                            SVN. For instance "--username foo --no-auth-cache
+                            checkout https://myproject/svn/bar/".
  --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
                             fetch several projects at a time, specify this
                             option as many times as necessary.

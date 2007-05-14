@@ -112,8 +112,13 @@ $(patsubst %,update_config_project/%,$(ALL_PROJECTS)) :: update_config_project/%
 $(patsubst %,pre_fetch_project/%,$(ALL_PROJECTS)) :: pre_fetch_project/% :
 	@echo Pre Fetching project $(cur_project)
 
-	(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(cur_cw_project)  \
-			--base-url _undefined_ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) )
+	$(if $(call get_proj_var,SVN_CO_OPTIONS),\
+		(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-svn $(cur_cw_project)  \
+				--base-url _undefined_ --delete-existing --svn-co-options "$(call get_proj_var,SVN_CO_OPTIONS)" ) \
+	,\
+		(cd $(cur_project_target)/cartoweb3; $(PHP) cw3setup.php --install  --fetch-project-cvs $(cur_cw_project)  \
+				--base-url _undefined_ --delete-existing $(if $(call get_proj_var,CVSROOT),--cvs-root $(call get_proj_var,CVSROOT)) ) \
+	)
 
 	echo "<?php \$$_ENV['CW3_PROJECT'] = '$(cur_cw_project)'; require_once('client.php'); ?>" > \
 		$(cur_project_target)/cartoweb3/htdocs/$(cur_cw_project).php
@@ -163,9 +168,10 @@ endif
 	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-cvs $(instance_cvs_option) \
 			--delete-existing --base-url _undefined_)
 
-	@# Override cw3setup.php with this one.
+	@# Override cw3setup.php with this one
+	@# XXX why is this needed, and what is "this one"???
 	@#  Define NO_CW3SETUP_OVERRIDE to prevent this
-	$(if $(call get_proj_var,NO_CW3SETUP_OVERRIDE),,cp cw3setup.php $(cur_target)/cartoweb3/)
+	#$(if $(call get_proj_var,NO_CW3SETUP_OVERRIDE),,cp cw3setup.php $(cur_target)/cartoweb3/)
 
 	@# Version check
 	@new_version=$$(grep 'RE[V].*ev.sion:' $(cur_target)/cartoweb3/scripts/deploy/rules.mk | $(SED_CMD)); \

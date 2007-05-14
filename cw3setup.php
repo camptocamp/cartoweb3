@@ -126,6 +126,14 @@ List of options:
  --fetch-project-cvs PROJECT Fetch the given project from CVS (see --cvs-root 
                             option). To fetch several projects at a time, 
                             specify this option as many times as necessary.
+ --fetch-project-svn PROJECT Fetch the given project from SVN (you will need to
+                            give --svn-co-options to specifiy the checkout 
+                            command to be used).
+                            To fetch several projects at a time, 
+                            specify this option as many times as necessary.
+ --svn-co-options           Checkout command to use for fetching project with
+                            SVN. For instance "--username foo --no-auth-cache
+                            checkout https://myproject/svn/bar/".
  --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
                             fetch several projects at a time, specify this
                             option as many times as necessary.
@@ -179,8 +187,7 @@ function setOption(&$i, $takesArgument = false) {
     $argument = true;
     if ($takesArgument) {
         $i++;
-        if (!isset($_SERVER['argv'][$i]) || 
-                substr($_SERVER['argv'][$i], 0, 2) == '--') {
+        if (!isset($_SERVER['argv'][$i])) {
             fail("Missing argument for option $option");
             exit(-1);   
         }
@@ -243,6 +250,7 @@ function processArgs() {
     
             case '--cvs-root':
             case '--cartoweb-cvs-option':
+            case '--svn-co-options':
             case '--config-from-file':
             case '--install-location':
             case '--fetch-from-dir':
@@ -254,6 +262,7 @@ function processArgs() {
                 break;      
     
             case '--fetch-project-cvs':
+            case '--fetch-project-svn':
             case '--fetch-project-dir':
             case '--project':
                 $option = substr($_SERVER['argv'][$i], 2);
@@ -551,12 +560,19 @@ function getCvsRoot() {
     return ':pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public';
 }
 
-function execWrapper($command, $quiet=false) {
+function execWrapper($command, $quiet=false, $usePassThru=false) {
 
     $output = '';
     $status = 0;
 
-    exec("$command 2>&1", $output, $status);
+    debug("Executing command: $command");
+    if ($usePassThru) {
+        $output = ""; // no output returned
+        passthru($command, $status);
+    } else {
+        exec("$command 2>&1", $output, $status);
+    }
+
     $output = implode("\n", $output);
     if ($status)
         throw new InstallException("Failure while launching \"$command\" (output is $output)");
@@ -694,6 +710,24 @@ function fetchProjects() {
                 execWrapper("mv projects/{$project}.tmp/cartoweb3/projects/$project projects");
                 rmdirr("projects/{$project}.tmp");
             }
+        }
+    }
+    if (isset($OPTIONS['fetch-project-svn'])) {
+    
+        foreach($OPTIONS['fetch-project-svn'] as $project) {
+            
+            info("Fetching project $project from SVN");
+            removeDirectory("projects/$project");
+
+            // TODO: make this win32 portable
+            if (isWin32())
+                throw new InstallException('Sorry, project fetching from SVN is not supported on Win32 yet');
+
+            if (!isset($OPTIONS['svn-co-options']))
+                throw new InstallException("You need the --svn-co-options when fetching a project fron SVN");
+            
+            $svnCoOptions = $OPTIONS['svn-co-options'];
+            execWrapper("cd projects ; svn $svnCoOptions $project 2>&1", false, true);
         }
     }
 
@@ -1311,8 +1345,16 @@ function getSearchReplaceContext() {
 function getRequestedProjects() {
     global $OPTIONS;
 
+    // XXX we should concatenate all options together and return the array, so
+    //  that multiple fetch-project-cvs and fetch-project-dir can be used for 
+    //  instance
+    
     if (!empty($OPTIONS['fetch-project-cvs'])) {
         return $OPTIONS['fetch-project-cvs'];
+    }
+
+    if (!empty($OPTIONS['fetch-project-svn'])) {
+        return $OPTIONS['fetch-project-svn'];
     }
 
     if (!empty($OPTIONS['fetch-project-dir'])) {
