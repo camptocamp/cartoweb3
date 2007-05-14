@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
