@@ -28,18 +28,18 @@ base policy
  * Avoid nesting blocks too deep:
  
  Instead of:
-	for ($i = 0; $i < 10; i++) {
-    	if (something ($i)) {
-		    doMore ();
-	    }
+    for ($i = 0; $i < 10; i++) {
+        if (something ($i)) {
+            doMore ();
+        }
     }
 
  Use:
 
     for ($i = 0; $i < 10; i++) {
-    	if (! something ($i)) {
-		    continue;
-		}
-	    doMore ();
+        if (! something ($i)) {
+            continue;
+        }
+        doMore ();
     }
-    
+
