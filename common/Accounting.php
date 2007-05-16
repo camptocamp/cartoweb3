@@ -47,12 +47,12 @@ abstract class Accounting {
     private static $instance;
 
     /**
-     * True when a cache hit on server occured, to prevent error message of 
+     * True when a cache hit on server occured, to prevent error message of
      *  accounting plugin not loaeded
      * @var boolean
      */
     private $cacheHit = false;
-    
+
     /**
      * True when accounting is active. Used to shut down accounting temporarily
      * @var boolean
@@ -94,7 +94,7 @@ abstract class Accounting {
 
     /**
      * Records an accounting message
-     * 
+     *
      * @param string the label to identify the accounting information
      * @param string accounting data
      */
@@ -105,13 +105,13 @@ abstract class Accounting {
         }
 
         /* FIXME: disabled because it does not work with tests
-        if (isset($this->accountings[$label]) && 
+        if (isset($this->accountings[$label]) &&
             // XXX strange behaviour with this label
             $label != 'general.request_id') {
             throw new CartocommonException("Duplicate accounting label $label");
         }
         */
-        
+
         $this->accountings[$label] = $value;
     }
 
@@ -122,7 +122,7 @@ abstract class Accounting {
     public function pluginLoaded() {
         $this->pluginLoaded = true;
     }
-    
+
     /**
      * Returns type of Accoungint ('client' or 'server')
      * @return string
@@ -134,7 +134,7 @@ abstract class Accounting {
      * @return string mapId
      */
     abstract protected function getMapId();
-    
+
     /**
      * Returns the client or server configuration object
      * @return Config
@@ -152,14 +152,14 @@ abstract class Accounting {
         if ($this->getConfig()->accountingBasePath) {
             $basePath = $this->getConfig()->accountingBasePath;
         }
-        
+
         $accountingPath = $basePath . '/' . $this->getMapId() . '/';
-       
+
         if (!is_dir($accountingPath)) {
-            Utils::makeDirectoryWithPerms($accountingPath, 
+            Utils::makeDirectoryWithPerms($accountingPath,
                 $this->getConfig()->webWritablePath);
         }
-       
+
         $accountingFile = $accountingPath . $this->getKind() . '_accounting.log';
         $fp = fopen($accountingFile, 'a');
         if (!flock($fp, LOCK_EX)) {
@@ -175,27 +175,73 @@ abstract class Accounting {
      *  storage
      * @param accoutingPacket string
      */
-    private function saveDb($accountingPacket) {
-
+    private function saveDb($accountingPacket, $isSimple = true) {
         require_once 'DB.php';
         $dsn = $this->getConfig()->accountingDsn;
         $options = array();
         $db =& DB::connect($dsn, $options);
-        Utils::checkDbError($db);        
+        Utils::checkDbError($db);
 
-        $accountingPacket = addslashes($accountingPacket);
-        
-        // Table schema:
-        // CREATE TABLE cw_accounting (date timestamp, info text);
-        
-        $sql = "INSERT INTO cw_accounting (date, info) VALUES " . 
-               "(now(), '$accountingPacket')";
+
+        if ($isSimple) {
+            $accountingPacket = addslashes($accountingPacket);
+
+            // Table schema:
+            // CREATE TABLE cw_accounting (date timestamp, info text);
+
+            $sql = "INSERT INTO cw_accounting (date, info) VALUES " .
+                "(now(), '$accountingPacket')";
+        } else {
+            
+            $missing_in_cache = array("general_elapsed_time",
+                                      "images_mainmap_width",
+                                      "images_mainmap_height",
+                                      "layers_layers",
+                                      "layers_switch_id",
+                                      "location_bbox",
+                                      "location_scale",
+                                      "query_results_count",
+                                      "query_results_table_count");
+
+            foreach($missing_in_cache as $label) {
+                $sets[] = "{$label} = s.{$label}";
+            }
+            $sets = implode(', ', $sets);
+
+            $re_line = '/([^=^;]*)="([^"]*)"/';
+            preg_match_all($re_line, $accountingPacket, $matches, PREG_SET_ORDER);
+            $cache_hit = false;
+
+            foreach ($matches as $match) {
+                $key = str_replace('.', '_', $match[1]);
+
+                if ($key == 'general_time') {
+                    // convert unix timestamp to postgresql timestamp
+                    $data[$key] = "{$match[2]}::abstime::timestamp";
+                } else if ($key == 'general_cache_hit') {
+                    $cache_hit = $match[2];
+                    $data[$key] = "'{$match[2]}'";
+                } else {
+                    $data[$key] = "'{$match[2]}'";
+                }
+            }
+            $sql = "INSERT INTO stats(" . 
+                implode(',', array_keys($data)) . 
+                ") VALUES(" . 
+                implode(',', array_values($data)) . ");";
+            if ($cache_hit) {
+                // cache hit: updates the row with the original result
+                $sql .= "UPDATE stats SET {$sets} FROM stats s " .
+                    "WHERE stats.general_cache_hit = '{$cache_hit}' AND ".
+                    "s.general_cache_id = '{$cache_hit}';";
+            }
+        }
         $res = $db->query($sql);
         Utils::checkDbError($res);
     }
 
     /**
-     * Sets whether accounting is active or not. Can be used to disable 
+     * Sets whether accounting is active or not. Can be used to disable
      * accounting temporarily
      * @param active boolean
      */
@@ -212,7 +258,7 @@ abstract class Accounting {
 
         return $this->getConfig()->accountingOn && $this->active;
     }
-    
+
     /**
      * Tells accounting that a cache hit occured. This is used to prevent
      * false error message in some situations.
@@ -221,13 +267,13 @@ abstract class Accounting {
 
         $this->cacheHit = true;
     }
-    
+
     /**
      * Saves all accounting messages to persistent storage. This should be called
      * only once per request (client or server).
      */
     public function save() {
-        
+
         if (!$this->isActive()) {
             return;
         }
@@ -235,10 +281,10 @@ abstract class Accounting {
         if (!$this->pluginLoaded && !$this->cacheHit) {
             throw new CartocommonException(sprintf('Accounting is turned on, ' .
                     'but Accounting plugin is not loaded on %s. You must load ' .
-                    'accounting plugin to enable accounting.', 
+                    'accounting plugin to enable accounting.',
                     $this->getKind()));
         }
-        
+
         $accountings = array();
         foreach($this->accountings as $label => $value) {
             $value = str_replace('"', '_', $value);
@@ -246,10 +292,17 @@ abstract class Accounting {
         }
         $accountingPacket = implode(';', $accountings);
 
-        if ($this->getConfig()->accountingStorage == 'db')
+        $storage = $this->getConfig()->accountingStorage;
+        if ($storage == 'db') {
             $this->saveDb($accountingPacket);
-        else
+        } else if ($storage == 'file') {
             $this->saveFile($accountingPacket);
+        } else if ($storage == 'db_direct') {
+            $this->saveDb($accountingPacket, false);
+        } else {
+            throw new CartocommonException("Unknown 'accountingStorage' ".
+                                           "type : '{$storage}'");
+        }
     }
 }
 
@@ -269,7 +322,7 @@ class DummyAccounting extends Accounting {
      * @see Accounting::getKind()
      */
     protected function getKind() {
-        return 'dummy';   
+        return 'dummy';
     }
 
     /**
@@ -286,7 +339,7 @@ class DummyAccounting extends Accounting {
         $obj = new stdclass();
         $obj->accountingOn = false;
         return $obj;
-    }    
+    }
 }
 
 ?>
