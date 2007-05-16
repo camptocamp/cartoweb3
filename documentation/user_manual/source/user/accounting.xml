@@ -40,7 +40,7 @@
         </listitem>
         <listitem>
           <para> 
-            <parameter>accountingStorage</parameter> (string: 'file'|'db'):
+            <parameter>accountingStorage</parameter> (string: 'file'|'db'|'db_direct'):
             controls how the accounting information is stored.
             </para>
             <para>
@@ -57,6 +57,15 @@
             The database to be used can be configured using the <parameter>accountingDsn</parameter>
             parameter. See next item.
             </para>
+            <para>
+             <parameter>db_direct</parameter> the information is stored inside a database table. 
+            Unlike <parameter>db</parameter> the data are not inserted in an unique columns but are 
+            directly splited.
+            <warning><para>This mode can only be used if this client and the server are in direct mode. 
+                           See <xref linkend="user.config.client"/> for more information about direct mode.
+                     </para>
+            </warning>
+            </para>
         </listitem>
         <listitem>
           <para> 
@@ -71,7 +80,7 @@
              <parameter>accountingDsn</parameter> (string): DSN (Data Source Name),
              used to specify which database to use for storing accounting information.
              This is only used when  <parameter>accountingStorage</parameter> is set 
-             to <literal>db</literal>.
+             to <literal>db</literal> or <literal>db_direct</literal>.
             </para>
         </listitem>
       </itemizedlist>
