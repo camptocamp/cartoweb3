@@ -10,6 +10,7 @@ CartoWeb HEAD
 - Added new --clean-views and --clean-accounting options to cw3setup.php
 - Added LDAP storage for auth plugin
 - LayerOverlay accepts 'filter' and 'filteritem' attributes (patch from Dirk Jesko)
+- Added 'db_direct' method to store accounting information
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
