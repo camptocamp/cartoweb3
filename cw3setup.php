@@ -567,7 +567,7 @@ function execWrapper($command, $quiet=false, $usePassThru=false) {
 
     debug("Executing command: $command");
     if ($usePassThru) {
-        $output = ""; // no output returned
+        $output = array(); // no output returned
         passthru($command, $status);
     } else {
         exec("$command 2>&1", $output, $status);
