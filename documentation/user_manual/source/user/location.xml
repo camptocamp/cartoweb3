@@ -28,6 +28,29 @@
       </listitem>
       <listitem>
         <para> 
+          freeScaleActive<indexterm><primary>freeScaleActive</primary></indexterm>: 
+          boolean, if true, the free scales input is displayed (default: 
+          false). This allow the user to freely set a scale value that is different from 
+          the predefined scales. There are a few conditions for this to work:
+            <itemizedlist>
+              <listitem>
+                <para>scalesActive must be activated (see above).</para>
+              </listitem>
+              <listitem>
+                <para>scaleModeDiscrete must be deactivated (false) (see Server-side 
+                Configuration).</para>
+              </listitem>
+              <listitem>
+                <para>location.js must be loaded.</para>
+              </listitem>
+              <listitem>
+                <para>prototype.js must be loaded (by default if ajax is on).</para>
+              </listitem>
+            </itemizedlist>
+          </para>
+      </listitem>      
+      <listitem>
+        <para> 
           recenterActive<indexterm><primary>recenterActive</primary></indexterm>: 
           boolean, if true, the coords recentering form is displayed (default: 
           false) </para>

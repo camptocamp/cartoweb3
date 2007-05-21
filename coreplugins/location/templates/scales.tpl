@@ -11,5 +11,8 @@ onchange="javascript:document.carto_form.recenter_doit.value=1;
 {html_options values=$recenter_scaleValues selected=$recenter_scale 
 output=$recenter_scaleLabels}
 </select>
+{if $freescale}
+{t}Custom_Scale{/t}&nbsp;&nbsp;1: <input id="custom_scale" type="text" onkeypress="javascript: setCustomScale(event)" size="10" />  
+{/if}
 {/if}
 </p>

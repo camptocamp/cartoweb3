@@ -325,7 +325,9 @@ class ClientLocation extends ClientPlugin
                                     'recenter_scaleValues' => $scaleValues,
                                     'recenter_scaleLabels' => $scaleLabels,
                                     'recenter_scale'       => 
-                                        $this->locationResult->scale));
+                                        $this->locationResult->scale,
+                                    'freescale' => $this->getConfig()->
+                                        freeScaleActive));
         return $this->smarty->fetch('scales.tpl');
     }
 
@@ -858,6 +860,11 @@ class ClientLocation extends ClientPlugin
 
         $recenter_active = $this->getConfig()->recenterActive;
         $scales_active = $this->getConfig()->scalesActive;
+        $freescale_active = $this->getConfig()->freeScaleActive;
+        if ($freescale_active && !$scales_active) {
+            throw new CartoclientException(I18n::gt('normal scales must be active'.
+                                                 'in order to use the free scale'));
+        }
         $id_recenter_active = $this->getConfig()->idRecenterActive;
         $shortcuts_active = $this->getConfig()->shortcutsActive;
         $scale = number_format($this->locationResult->scale, 0, ',',"'");
@@ -868,23 +875,28 @@ class ClientLocation extends ClientPlugin
             'bboxMaxX' => $this->locationState->bbox->maxx,
             'bboxMaxY' => $this->locationState->bbox->maxy,
             'factor' => $factor,
-            'currentScale' => $scale,
+            'currentScale_value' => $scale,
             'recenter_active' => $recenter_active,
             'scales_active' => $scales_active,
+            'freescale' => $freescale_active,
             'id_recenter_active' => $id_recenter_active,
             'shortcuts_active' => $shortcuts_active,
         );
         
-        $assignArray['htmlCode']['location_info'] = $this->getLocationInformation();
+        $assignArray['htmlCode']['location_info_value'] = $this->getLocationInformation();
 
-        if ($recenter_active)
+        if ($recenter_active) {
             $assignArray['htmlCode']['recenter'] = $this->drawRecenter();
-        if ($scales_active)
+        }
+        if ($scales_active) {
             $assignArray['htmlCode']['scales'] = $this->drawScales();
-        if ($id_recenter_active)
+        }
+        if ($id_recenter_active) {
             $assignArray['htmlCode']['id_recenter'] = $this->drawIdRecenter();
-        if ($shortcuts_active)
+        }
+        if ($shortcuts_active) {
             $assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
+        }
         
         return $assignArray;
     }
@@ -896,7 +908,7 @@ class ClientLocation extends ClientPlugin
      *        of code all the time. @see bug #1354
      */
     public function renderForm(Smarty $template) {
-        $assignArray = $this->renderFormPrepare();      
+        $assignArray = $this->renderFormPrepare();
         $template->assign($assignArray['variables']);
         $template->assign($assignArray['htmlCode']);
     }

@@ -4,6 +4,9 @@ recenterActive = true
 ; if true, shows scale form
 scalesActive = true
 
+; if true, shows free scale form (scalesActive must be true too)
+freeScaleActive = true
+
 ; if true, shows shortcuts form
 shortcutsActive = true
 

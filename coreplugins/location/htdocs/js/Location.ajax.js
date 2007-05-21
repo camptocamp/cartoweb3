@@ -29,13 +29,11 @@ AjaxPlugins.Location = {
         // Updates the location/scale info string
         AjaxHandler.updateDomElement(this.recenterScaleDivId, 'innerHTML',
                                      pluginOutput.htmlCode.scales);        
-
         AjaxHandler.updateDomElement(this.currentScaleId, 'innerHTML',
-                                     '1:' + pluginOutput.variables.currentScale);        
-        
+                                     '1:' + pluginOutput.variables.currentScale_value);        
         // Redraw the scale select
         AjaxHandler.updateDomElement(this.locationInfoId, 'innerHTML',
-                                     pluginOutput.htmlCode.location_info);
+                                     pluginOutput.htmlCode.location_info_value);
 
         // Updates distance/surface measure tools units
         if ($('distanceValueLabel')) {
