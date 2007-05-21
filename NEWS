@@ -11,6 +11,7 @@ CartoWeb HEAD
 - Added LDAP storage for auth plugin
 - LayerOverlay accepts 'filter' and 'filteritem' attributes (patch from Dirk Jesko)
 - Added 'db_direct' method to store accounting information
+- Added free (user) scale input in location coreplugin
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
