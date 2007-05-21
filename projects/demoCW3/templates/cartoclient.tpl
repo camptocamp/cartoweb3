@@ -19,6 +19,7 @@
   {if $layers|default:''}<script type="text/javascript" src="{r type=js plugin=layers}layers.js{/r}"></script>{/if}
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}layerReorder.js{/r}"></script>{/if}
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
+  {if $freescale}<script type="text/javascript" src="{r type=js plugin=location}location.js{/r}"></script>{/if}
   {if $collapsibleKeymap|default:''}<script type="text/javascript" src="{r type=js}keymap.js{/r}"></script>
   <script language="JavaScript" type="text/javascript">
     <!--
@@ -153,7 +154,7 @@
              </td>
            </tr>
            <tr>
-             <td width="10%" align="center">
+             <td>
                {if $scales_active|default:''}
                <div id="recenter_scale_div">
                  {$scales}
@@ -205,12 +206,12 @@
             </span></th>
        </tr>
        <tr>
-         <td>
+         <td><div id="developperMsgs">
             <ul>
               {foreach from=$developer_messages item=message}
               <li>{$message}</li>
               {/foreach}   
-            </ul>
+            </ul></div>
          </td>
        </tr> 
        </table>
