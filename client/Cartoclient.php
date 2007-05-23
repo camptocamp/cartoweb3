@@ -550,11 +550,12 @@ class Cartoclient extends Cartocommon {
         $requestedPluginName = strtolower($requestedPluginName{0}) 
                                . substr($requestedPluginName, 1);
 
-        if ($this->getPluginManager()->getPlugin($requestedPluginName) == NULL)
+        if ($this->getPluginManager()->getPlugin($requestedPluginName) == NULL) {
             throw new AjaxException(
                 "Requested plugin $requestedPluginName is not loaded. " .
                 'Check your AJAX call parameters ' .
                 '(currently ajaxActionRequest=' . $ajaxAction . ')');      
+        }
 
         $this->ajaxAction = $ajaxAction;
     }
