@@ -166,6 +166,16 @@
         Windows, it can be <literal>c:\wamp\php\php.exe</literal> or on Unix
         <literal>/usr/lib/cgi-bin/php</literal>.
       </para>
+      <para>
+       <note>
+         <para>
+	   There is a deployment mechanism to automate CartoWeb installation and updates.
+	   If you are using different servers like: development, tests and production,
+	   it is highly recommended to use it:
+	   <ulink url="http://www.cartoweb.org/cwiki/AutomaticDeployment/"/>
+	  </para>
+       </note>
+      </para>
 
       <sect3 id="user.install.main.setup.commands.list">
         <title>List of Available Options</title>
