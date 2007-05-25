@@ -205,10 +205,6 @@ class ToolTipsService {
             $queryableLayer->setTemplate($layer->template);
         }
         
-        if (!empty($layer->geomColName)) {
-            $queryableLayer->setDbGeomColumnName($layer->geomColName);
-        }
-        
         if (!empty($layer->tolerance)) {
             $queryableLayer->setTolerance($layer->tolerance);
         }
