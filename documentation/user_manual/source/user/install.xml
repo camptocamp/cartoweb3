@@ -169,11 +169,11 @@
       <para>
        <note>
          <para>
-	   There is a deployment mechanism to automate CartoWeb installation and updates.
-	   If you are using different servers like: development, tests and production,
-	   it is highly recommended to use it:
-	   <ulink url="http://www.cartoweb.org/cwiki/AutomaticDeployment/"/>
-	  </para>
+       There is a deployment mechanism to automate CartoWeb installation and updates.
+       If you are using different servers like: development, tests and production,
+       it is highly recommended to use it:
+       <ulink url="http://www.cartoweb.org/cwiki/AutomaticDeployment/"/>
+      </para>
        </note>
       </para>
 

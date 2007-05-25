@@ -285,13 +285,13 @@ msgstr ""
                             <emphasis>development</emphasis> mode.</para> </note>
                         </para>
                 </listitem>
-		<listitem>
-		  <para>
-		    If your are running PHP in a webserver as a module,
-		    the compiled .mo files are cached. If no change happens after compiling
-		    new .mo files, it could be useful to restart the webserver.
-		  </para>
-		</listitem>
+        <listitem>
+          <para>
+            If your are running PHP in a webserver as a module,
+            the compiled .mo files are cached. If no change happens after compiling
+            new .mo files, it could be useful to restart the webserver.
+          </para>
+        </listitem>
             </itemizedlist>
         </sect2>
     </sect1>
