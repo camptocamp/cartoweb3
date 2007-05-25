@@ -1,0 +1,1 @@
+var ol_fgcolor="#FFCC66";

@@ -1,0 +1,22 @@
+;@BLURB@
+
+cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+profile = @PROFILE@
+
+ajaxOn = true
+
+mapId = demoToolTips
+
+; Shows a drop-down list for selecting the active project
+showProjectChooser = false
+
+;## Plugins ##
+; the list of plugins to load, separated by comma
+loadPlugins = toolTips, projectToolTips
+
+;## Internationalization ##
+defaultLang = fr
+langList = fr, en
+
+; Indicates how to render toolbar
+toolbarRendering = outline

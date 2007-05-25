@@ -1,0 +1,14 @@
+#overDiv {
+	background-color: #FFFFFF;
+}
+
+#overDiv .layerResult {
+	border-top: 1px solid #555;
+}
+
+#overDiv .layerResult .gsm_pt {
+	background-color:#00FFFF
+}
+#overDiv .layerResult .radio_pt {
+	 background-color:#FFFF00;
+}

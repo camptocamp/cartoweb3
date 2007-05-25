@@ -1,0 +1,3 @@
+Vera    ./vera/Vera.ttf
+VeraBd  ./vera/VeraBd.ttf
+opens___  ./openoffice/opens___.ttf

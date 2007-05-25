@@ -1,0 +1,50 @@
+; -------------------------
+; Here are defined parameters relative to tooltips layers
+
+; label: (optional) label fo the layer
+: if not set, layerId is diplayed
+
+; dsn: connection string to database (Data Source Name)
+
+; dbTableName: name of the table in database
+
+; geomColName: name of the geometry field in the table, default is "the_geom"
+
+; attributes: coma separated list of attributes to be displayed
+
+; srid: srid of the geometry in the database, default is "-1"
+
+; template: (optional) custom template, must be in overriden toolTips plugin templates directory
+; if not set, generic layerResult.tpl is used
+; it can also be set in renderResult() method in php code if QueryableLayer is extended
+
+; If a class extending QueryableLayer with a name
+; like LayerIdQueryableLayer exists, it will be taken into account
+;
+; i.e. if we have a layer definition like following
+; the corresponding extendedPhpClass would be CountryQueryableLayer
+
+; tooltips.country.label = "Contries"
+; tooltips.country.dsn = "psql://www-data:www-data@hostname:5432/dbname"
+; tooltips.country.dbTableName = country
+; tooltips.country.attributes = "name, area"
+; tooltips.country.template = "layerResult_country.tpl"
+
+;---------------------------
+
+tooltips.town.label = "Towns"
+tooltips.town.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
+tooltips.town.dbTableName = town
+tooltips.town.attributes = "txt"
+
+tooltips.radio_pt.label = "Radio"
+tooltips.radio_pt.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
+tooltips.radio_pt.dbTableName = radio
+tooltips.radio_pt.attributes = "id, name, power"
+tooltips.radio_pt.template = layerResult_radioLayer.tpl
+
+tooltips.gsm_pt.label = "GSM"
+tooltips.gsm_pt.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
+tooltips.gsm_pt.dbTableName = gsm
+tooltips.gsm_pt.attributes = "name, power"
+tooltips.gsm_pt.template = layerResult_gsmLayer.tpl
