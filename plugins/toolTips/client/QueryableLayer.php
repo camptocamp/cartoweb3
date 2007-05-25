@@ -169,6 +169,14 @@ class ByXyQueryableLayer extends QueryableLayer {
     public function setTolerance($tolerance) {
         $this->tolerance = $tolerance;
     }
+    
+    /**
+     * Sets the srid of the geometry column in the DB table.
+     * @param string
+     */
+    public function setSrid($srid) {
+        $this->srid = $srid;
+    }
 
     /**
      * Sets the name of the geometry column in the DB table.
@@ -249,78 +257,6 @@ class ByXyQueryableLayer extends QueryableLayer {
         $db = $this->getDb();
         $dbResult = $db->query($this->getXySqlQuery($geoX, $geoY,
                                                     $dimension, $bbox));
-        Utils::checkDbError($dbResult);
-
-        $layerResults = array();
-        $resultArray = array();
-        while ($dbResult->fetchInto($resultArray, DB_FETCHMODE_ASSOC)) {
-            $layerResult = $this->newLayerResult(); // new LayerResult();
-            $layerResult->setId($this->getId());
-            $layerResult->setLabel($this->getLabel());
-            $layerResult->addAttributes($resultArray);
-            $layerResult->setTemplate($this->getTemplate());
-            $layerResults[] = $layerResult;
-        }
-        return $layerResults;
-    }
-}
-
-/*
- * Tooltips
- * Layer that can be queried with given id (timeout_async)
- * @package Plugins
- */
-class ByIdQueryableLayer extends QueryableLayer {
-    
-    /**
-     * Layer id attribute
-     * @var string 
-     */    
-    protected $idAttribute = NULL;
-
-    /**
-     * Constructor
-     */
-    public function __construct() {}
-    
-    /**
-     * Sets the id attribute of the layer.
-     * @param string id attribute of the layer
-     */
-    public function setIdAttribute($idAttribute) {
-        $this->idAttribute = $idAttribute;
-    }
-    
-    /**
-     * This method is able to query attributes on a single table only;
-     * if you want to perform a more complex query,
-     * this method is to be redefined in a child class.
-     * @param string id of the feature
-     * @return string an SQL query
-     */
-    protected function getIdSqlQuery($id) {
-        
-        return sprintf('SELECT %s FROM %s ' .
-                       "WHERE %s = '%s'",
-                       $this->getReturnedAttributes(),
-                       $this->dbTableName,
-                       $this->idAttribute,
-                       $id);
-    }
-    
-    /**
-     * Returns the attributes to be returned specified in the given
-     * QueryableLayer
-     * @param QueryableLayer layer to query
-     * @param float geographic x coordinate for spatial condition
-     * @param float geographic y coordinate for spatial condition
-     * @param Dimension mainmap dimensions (width, height)
-     * @param Bbox current mainmap extent
-     * @return array array of LayerResult
-     */
-    public function queryLayerById($id) {
-        $db = $this->getDb();
-        $dbResult = $db->query($this->getIdSqlQuery($id));
         Utils::checkDbError($dbResult);
 
         $layerResults = array();

@@ -36,7 +36,7 @@ class ToolTipsState {
  * @package Plugins
  */
 class ClientToolTips extends ClientPlugin
-                      implements GuiProvider, ServerCaller, Ajaxable {
+                      implements GuiProvider, Ajaxable {
 
     /**
      * @var Logger
@@ -48,12 +48,6 @@ class ClientToolTips extends ClientPlugin
      * @var bool
      */
     protected $sessionCreated = false;
-
-    /**
-     * html code containing map and area tags
-     * @var string
-     */
-    protected $imagemap = '';
 
     /**
      * Constructor
@@ -94,40 +88,8 @@ class ClientToolTips extends ClientPlugin
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
-        $template->assign(
-            array('toolTips_active' => true,
-                  'imagemap_active' => true,
-                  'imagemap' => $this->drawImagemap($template)));
+        $template->assign('toolTips_active', $this->isToolTipsActive());
     }
-
-    /**
-     * Renders imagemap javascript code
-     * @return string
-     */
-    protected function drawImagemapJavascriptCode() {
-        $this->smarty2 = new Smarty_Plugin($this->getCartoclient(), $this);
-
-        $this->smarty2->assign('imagemapFeatures', $this->imagemapFeatures);
-
-        return $this->smarty2->fetch('imagemapJavascript.tpl');
-    }
-
-    /**
-     * Renders imagemap HTML code (map and area tags)
-     * Used in standard flow (i.e. no interrupt flow)
-     * @return string
-     */
-    protected function drawImagemap() {
-        $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-
-        $this->smarty->assign(array(
-            'imagemapHtmlCode' => $this->imagemapHtmlCode,
-            'imagemapJavascriptCode' => $this->drawImagemapJavascriptCode()));
-
-        return $this->smarty->fetch('imagemap.tpl');
-    }
-
-
 
     /**
      * Handles a toolTipsService, run it and build toolTips HTML
@@ -136,6 +98,10 @@ class ClientToolTips extends ClientPlugin
      * @return string
      */
     private function drawCustomForm() {
+        if ($this->cartoclient->getConfig()->profile != 'development') {
+            set_error_handler(array('ClientToolTips', 'errorHandler'), E_ALL);
+        }
+
         $toolTipsService = new ToolTipsService($this->cartoclient);
         $toolTipsService->run();
         $response = $toolTipsService->getResponse();
@@ -152,90 +118,54 @@ class ClientToolTips extends ClientPlugin
             if (isset($_REQUEST['debug'])) print $e->__toString();
         }
     }
-
+    
     /**
-     * Gets the list of imagemapable layers (area_async, area_direct)
-     * TODO get it from saved session
-     * @return array
+     * Tells if tooltips can be activate
+     * for example don't send ajax request if no tooltipsable layer is visible
+     * @return boolean 
      */
-    protected function getImagemapLayers() {
-        $imagemapLayers = array();
-
-        $iniArray = $this->getConfig()->getIniArray();
-        $configStruct = StructHandler::loadFromArray($iniArray);
-
-        //TODO : rename $imagemapLayers -> areaLayers ?
-        if (isset($configStruct->area_async)) {
-            $area_async = $configStruct->area_async;
-            foreach ($area_async as $layerId => $layer) {
-                $imagemapLayer = array();
-                $imagemapLayer['id'] = $layerId;
-                $imagemapLayer['retrieveAttributes'] = false;
-                $imagemapLayers[] = $imagemapLayer;
-            }
-        }
-        if (isset($configStruct->area_direct)) {
-            $area_direct = $configStruct->area_direct;
-            foreach ($area_direct as $layerId => $layer) {
-                $imagemapLayer = array();
-                $imagemapLayer['id'] = $layerId;
-                $imagemapLayer['retrieveAttributes'] = true; 
-                $imagemapLayers[] = $imagemapLayer;
-            }
-        }
-        return $imagemapLayers;
+    private function isToolTipsActive() {
+        $toolTipsService = new ToolTipsService($this->cartoclient);
+        
+        return true;
     }
-
-    /**
-     * @see ServerCaller::buildRequest()
-     */
-    public function buildRequest() {
-        $toolTipsRequest = new TooltipsRequest();
-
-        $toolTipsRequest->imagemapLayers = $this->getImagemapLayers();
-
-        return $toolTipsRequest;
-    }
-
-    /**
-     * @see ServerCaller::initializeResult()
-     */
-    public function initializeResult($toolTipsResult) {}
-
-    /**
-     * @see ServerCaller::handleResult()
-     */
-    public function handleResult($toolTipsResult) {
-        if (!$toolTipsResult) {
-            throw new Exception ("ToolTips plugin is not loaded on server side");
-        }
-        $this->imagemapHtmlCode = $toolTipsResult->imagemapHtmlCode;
-        $this->imagemapFeatures = $toolTipsResult->imagemapFeatures;
-    }
-
+    
     /**
      * @see Ajaxable::ajaxGetPluginResponse()
      */
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
-        $ajaxPluginResponse->addHtmlCode('imagemapHtmlCode',
-            $this->imagemapHtmlCode);
-        $ajaxPluginResponse->addHtmlCode('imagemapJavascriptCode',
-            $this->drawImagemapJavascriptCode());
+        $ajaxPluginResponse->addVariable('toolTips_active', $this->isToolTipsActive());
     }
-
+    
     /**
      * @see Ajaxable::ajaxHandleAction()
      */
     public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
         switch ($actionName) {
-            case 'Location.Zoom':
-            case 'Location.Pan':
             case 'Layers.LayerShowHide':
-            case 'Layers.LayerDropDownChange':
                 $pluginEnabler->enablePlugin('toolTips');
             break;
-        }
+            case 'Layers.LayerDropDownChange':
+                $pluginEnabler->enablePlugin('toolTips');
+             break;
+         }
     }
+    
+    /**
+     * Error handler for tooltips plugin
+     */
+    public static function errorHandler($errno, $errstr, $errfile, 
+                                                $errline) {
+        $log =& LoggerManager::getLogger(__METHOD__);
+
+        if (Common::isErrorIgnored($errno, $errstr, $errfile, $errline))
+            return;
+    
+        $log->warn(sprintf("Error in php: errno: %i\n errstr: %s\n" .
+                           " errfile: %s (line %i)", 
+                           $errno, $errstr, $errfile, $errline));
+    }
+    
 }
 
 ?>

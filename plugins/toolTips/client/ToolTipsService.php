@@ -85,22 +85,15 @@ class ToolTipsService {
         $this->mapScale = $this->getLastScale();
         
         // create all QueryableLayer's from ini file
-        // TODO: use InitProvider as in layers plugin
         $plugins = $this->cartoclient->getPluginManager();
         $iniArray = $plugins->getPlugin('toolTips')->getConfig()->getIniArray();
         $configStruct = StructHandler::loadFromArray($iniArray);
 
-        // gets list of timeout_async layers
-        if (isset($configStruct->timeout_async)) {
-            $timeout_async = $configStruct->timeout_async;
-            $this->copyLayerGroupsConfig($timeout_async);
-            $this->addByXyQueryableLayers($timeout_async);
-        }
-        // gets list of area_async layers
-        if (isset($configStruct->area_async)) {
-            $area_async = $configStruct->area_async;
-            $this->copyLayerGroupsConfig($area_async);
-            $this->addByIdQueryableLayers($area_async);
+        // gets list of layers
+        if (isset($configStruct->tooltips)) {
+            $tooltips = $configStruct->tooltips;
+            $this->copyLayerGroupsConfig($tooltips);
+            $this->addByXyQueryableLayers($tooltips);
         }
     }
     
@@ -146,32 +139,6 @@ class ToolTipsService {
             $queryableLayer = 
                 $this->createQueryableLayer($id, 'ByXyQueryableLayer');
             $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
-            $this->setByXyQueryableLayerMembers($queryableLayer, $layer, $layerId);
-            $this->addQueryableLayer($queryableLayer);
-        }
-    }
-    
-    /**
-     * Adds ByIdQueryableLayers with a given list of layers.
-     * @param stdClass
-     */
-    protected function addByIdQueryableLayers($layers) {
-        foreach ($layers as $layerId => $layer) {
-            $id = $layerId;
-            if (isset($layer->layerGroup)) {
-                $id = $layer->layerGroup;
-            }
-            $queryableLayer = 
-                $this->createQueryableLayer($id, 'ByIdQueryableLayer');
-            $this->setQueryableLayerMembers($queryableLayer, $layer, $layerId);
-
-            if (empty($layer->idAttributeString)) {
-                throw new CartoclientException(
-                    "id_attribute_string is not set for layer id: $layerId.");
-            } else {
-                $queryableLayer->setIdAttribute($layer->idAttributeString);
-            }
-            
             $this->addQueryableLayer($queryableLayer);
         }
     }
@@ -229,9 +196,21 @@ class ToolTipsService {
         if (!empty($layer->geomColName)) {
             $queryableLayer->setDbGeomColumnName($layer->geomColName);
         }
+        
+        if (!empty($layer->srid)) {
+            $queryableLayer->setSrid($layer->srid);
+        }
 
         if (!empty($layer->template)) {
             $queryableLayer->setTemplate($layer->template);
+        }
+        
+        if (!empty($layer->geomColName)) {
+            $queryableLayer->setDbGeomColumnName($layer->geomColName);
+        }
+        
+        if (!empty($layer->tolerance)) {
+            $queryableLayer->setTolerance($layer->tolerance);
         }
  
         if (empty($layer->attributes)) {
@@ -243,27 +222,10 @@ class ToolTipsService {
     }
     
     /**
-     * Specific settings of ByXyQueryableLayers
-     * @param QueryableLayer target object
-     * @param stdClass source object, retrieved from config
-     * @param string layerId
-     */
-    protected function setByXyQueryableLayerMembers(QueryableLayer $queryableLayer,
-                                                stdClass $layer, $layerId) {
-        if (!empty($layer->geomColName)) {
-            $queryableLayer->setDbGeomColumnName($layer->geomColName);
-        }
-        
-        if (!empty($layer->tolerance)) {
-            $queryableLayer->setTolerance($layer->tolerance);
-        }
-    }
-    
-    /**
      * Returns session-saved last MapRequest.
      * @return MapRequest
      */
-    public function getLastMapRequest() {
+    protected function getLastMapRequest() {
         $mapRequest = StructHandler::deepClone($this->cartoclient
                                                     ->getClientSession()
                                                     ->lastMapRequest);
@@ -280,7 +242,7 @@ class ToolTipsService {
      * Returns session-saved last MapResult.
      * @return MapResult
      */
-    public function getLastMapResult() {
+    protected function getLastMapResult() {
         $mapResult = StructHandler::deepClone($this->cartoclient->
                                               getClientSession()->
                                               lastMapResult);
@@ -346,7 +308,7 @@ class ToolTipsService {
      * Adds the given QueryableLayer to the toolTipsService queryableLayers array
      * @param QueryableLayer
      */
-    public function addQueryableLayer(QueryableLayer $queryableLayer) {
+    protected function addQueryableLayer(QueryableLayer $queryableLayer) {
         $this->queryableLayers[$queryableLayer->getId()] = $queryableLayer;
     }
 
@@ -398,7 +360,7 @@ class ToolTipsService {
      * Retrieves the list of selected layers.
      * @return array
      */
-    protected function getSelectedLayers() {
+    public function getSelectedLayers() {
         $lastMapRequest = $this->getLastMapRequest();
         return $lastMapRequest->layersRequest->layerIds;
     }
@@ -409,8 +371,6 @@ class ToolTipsService {
     protected function queryLayers() {
         if (isset($_REQUEST['geoX']) && isset($_REQUEST['geoY'])) {
             $this->queryLayersByXy($_REQUEST['geoX'], $_REQUEST['geoY']);
-        } elseif (isset($_REQUEST['layer']) && isset($_REQUEST['id'])) {
-            $this->queryLayerById($_REQUEST['layer'], $_REQUEST['id']);
         } else {
             throw new CartoclientException(
                 'There are missing or incorrect parameter(s) in HTTP request');
@@ -430,7 +390,7 @@ class ToolTipsService {
         $printedLayers = $layersCorePlugin->
             getPrintedLayers($this->getSelectedLayers(), $this->mapScale);
         
-        foreach ($this->getSelectedLayers() as $activeLayerId) {
+        foreach ($this->getSelectedLayers() as $activeLayerId) {  
             if (array_key_exists($activeLayerId, $this->queryableLayers) &&
                 $layersCorePlugin->isLayerVisibleAtCurrentScale($activeLayerId)) {
                 $layerId = $activeLayerId;
@@ -457,37 +417,12 @@ class ToolTipsService {
                 
                 $layerResults = $queryableLayer->queryLayerByXy($geoX, $geoY,
                     $mainmapDimensions, $bbox);
+                    
                 $layerResults = $queryableLayer->filterResults($layerResults);         
-                $this->addLayerResults($layerResults);               
+                $this->addLayerResults($layerResults);
+                
             }
         }
-    }
-    
-         
-    /**
-     * Queries given layer with given id.
-     * @param string layerId
-     * @param string
-     */   
-    protected function queryLayerById($layerId, $id) {
-        
-        $lastDsn = NULL;
-        
-        $queryableLayer = $this->getQueryableLayer($layerId);
-                
-        // Requires a new DB connection only if the current cannot be
-        // reused 
-        if ($lastDsn != $queryableLayer->getDsn()) {
-            $db = $this->getDb($layerId);
-            $lastDsn = $queryableLayer->getDsn();
-        }
-
-        $queryableLayer->setDb($db);
-        
-        $layerResults = $queryableLayer->queryLayerById($id);
-        $layerResults = $queryableLayer->filterResults($layerResults);
-        
-        $this->addLayerResults($layerResults);
     }
 
     /**
