@@ -396,11 +396,7 @@ PanTool.prototype.onDragEnd = function(elt,x,y) {
  * @param aDisplay display object
  */
 function DrawPointTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
@@ -453,11 +449,7 @@ DrawPointTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawLineTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -594,11 +586,8 @@ DrawLineTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawBoxTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
+
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -674,11 +663,7 @@ DrawBoxTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawPolygonTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -834,11 +819,7 @@ DrawPolygonTool.prototype.onKeyEscape = function(aDisplay) {
  * @param aDisplay display object
  */
 function DrawCircleTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -1137,11 +1118,7 @@ MoveTool.prototype.onDragEnd = function(elt, x, y) {
  * @param aDisplay display object
  */
 function SelPointTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -1162,11 +1139,7 @@ SelPointTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function SelBoxTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "crosshair";
   xDisableDrag(aDisplay.rootDisplayLayer);
   // deselect all previously selected features
@@ -1210,11 +1183,7 @@ SelBoxTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function DeleteVertexTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -1283,11 +1252,7 @@ DeleteVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function AddVertexTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -1359,11 +1324,7 @@ AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function DeleteFeatureTool(aDisplay) {
-  if (document.getElementById('map_imagemap')) {
-    xHide(aDisplay.eventPad);
-  } else {
-    xShow(aDisplay.eventPad);
-  }
+  xShow(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
@@ -1876,10 +1837,6 @@ function display_onmousedown(evt) {
  * @param evt event
  */
 function display_onmousedown_left(evt) {
-  
-  if (document.getElementById('map_imagemap')) {
-    document.getElementById('map_rootLayer').removeChild(document.getElementById('map_imagemap'));
-  }
 
   var e = new xEvent(evt);
 
