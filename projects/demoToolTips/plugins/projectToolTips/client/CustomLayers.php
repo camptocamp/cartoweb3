@@ -52,7 +52,7 @@ class Radio_ptQueryableLayer extends ByXYQueryableLayer {
      * @param int station id
      * @return array of channels
      */
-    function getChannelsForStation($station_id) {
+    private function getChannelsForStation($station_id) {
         $sql = 'SELECT service, program, freqchan ' .
                 'FROM channel ' .
                 "WHERE id_radio = $station_id";
