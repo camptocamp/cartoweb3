@@ -106,6 +106,7 @@
           <span {if !$exportPdf}style="display:none; "{/if}>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{include file="toolbar.tpl" group="2"}
           </span>
+          {$bboxHistoryForm}
         </td>
       </tr>
       <tr>
