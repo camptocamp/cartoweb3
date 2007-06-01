@@ -120,7 +120,8 @@ class cFPDF extends FPDF {
         }
     
         $trns = '';
-        if ($gif->m_img->m_bTrans && ($nColors > 0)) {
+        if (isset($gif->m_img->m_bTrans) &&
+            $gif->m_img->m_bTrans && ($nColors > 0)) {
             $trns = array($gif->m_img->m_nTrans);
         }
     
