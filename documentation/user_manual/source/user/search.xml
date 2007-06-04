@@ -312,7 +312,6 @@
         CartoWeb.trigger('Location.Recenter');
       } 
     }
-    Event.observe(window, 'load', initializeTown, true);
 
                     </programlisting>
                 </para>
@@ -328,6 +327,9 @@
                 <para>As mentioned above we have to set the <filename>search.ini</filename> file</para>
                 <programlisting>
     dsn = SEARCHDSN
+    ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO (or any other context) 
+    ; in your client_conf/client.ini
+    
     config.Adresses_init_town.provider.type = table
     config.Adresses_init_town.provider.table = addresses
     config.Adresses_init_town.provider.id = adr_town
@@ -449,7 +451,7 @@
         }  
 
         if (pluginOutput.htmlCode.Adresses) { //should be the same value as the input search_config
-          $('search_results').innerHTML = pluginOutput.htmlCode.Adresses;        
+        $('search_results_div').innerHTML = pluginOutput.htmlCode.Adresses;        
         }
       }
     };
@@ -502,7 +504,7 @@
 
     function search() {
         var myinput = $('search_config');
-        myinput.value = 'Adresse';
+        myinput.value = 'Adresses';
         CartoWeb.trigger('Search.DoIt');
     }
 
