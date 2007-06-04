@@ -42,7 +42,7 @@
       {if $locate_active|default:''}
            {$locate_form}
       {/if}]]></screen>
-      <tip><para>Warning: make sure that <parameter>id_recenter</parameter> is active!</para></tip>
+      <tip><para>Warning: make sure that the recentering in enabled (<parameter>recenterActive = true</parameter> in <filename>client_conf/location.ini</filename>)! The hidden inputs <parameter>id_recenter_layer</parameter> and <parameter>id_recenter_ids</parameter> are needed so the recentering functionnality works correctly.</para></tip>
     </para>
   </sect1>
   <sect1 id="user.locate.configuration">
