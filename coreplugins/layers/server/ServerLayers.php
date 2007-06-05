@@ -214,8 +214,11 @@ class ServerLayers extends ClientResponderAdapter
      * @param ms_layer_obj Mapserver layer object
      * @param float resolutions ratio
      */
-    protected function updateRatioParameters($layer, $resRatio) {
- 
+    public function updateRatioParameters($layer, $resRatio) {
+        if ($layer->getMetaData('ratio_updated') == 'ok') {
+            // don't update the same layer
+            return;
+        }
         $invResRatio = 1 / $resRatio;
         
         $label_props = array('size', 'mindistance', 'minfeaturesize', 
@@ -248,6 +251,7 @@ class ServerLayers extends ClientResponderAdapter
             $label = $class->label;
             $this->updateProperties($label, $label_props, $resRatio);
         }
+        $layer->setMetaData('ratio_updated', 'ok');
     }
 
     /**

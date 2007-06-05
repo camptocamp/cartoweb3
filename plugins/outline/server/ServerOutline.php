@@ -130,6 +130,14 @@ class ServerOutline extends ClientResponderAdapter
                                           getLayer($result->layers[0]->index);
         $msLayer->addFeature($f);
         $msLayer->set('status', MS_ON);    
+
+        // update ratio parameters
+        $layers = $this->serverContext->getPluginManager()->layers;
+
+        $ratio = $layers->getResRatio();
+        if (!is_null($ratio)) {
+            $layers->updateRatioParameters($msLayer, $ratio);
+        }
     }
 
     /**
