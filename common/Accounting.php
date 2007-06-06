@@ -193,21 +193,6 @@ abstract class Accounting {
                 "(now(), '$accountingPacket')";
         } else {
             
-            $missing_in_cache = array("general_elapsed_time",
-                                      "images_mainmap_width",
-                                      "images_mainmap_height",
-                                      "layers_layers",
-                                      "layers_switch_id",
-                                      "location_bbox",
-                                      "location_scale",
-                                      "query_results_count",
-                                      "query_results_table_count");
-
-            foreach($missing_in_cache as $label) {
-                $sets[] = "{$label} = s.{$label}";
-            }
-            $sets = implode(', ', $sets);
-
             $re_line = '/([^=^;]*)="([^"]*)"/';
             preg_match_all($re_line, $accountingPacket, $matches, PREG_SET_ORDER);
             $cache_hit = false;
@@ -230,6 +215,22 @@ abstract class Accounting {
                 ") VALUES(" . 
                 implode(',', array_values($data)) . ");";
             if ($cache_hit) {
+                
+                $missing_in_cache = array("general_elapsed_time",
+                                          "images_mainmap_width",
+                                          "images_mainmap_height",
+                                          "layers_layers",
+                                          "layers_switch_id",
+                                          "location_bbox",
+                                          "location_scale",
+                                          "query_results_count",
+                                          "query_results_table_count");
+                $sets = array();
+                foreach($missing_in_cache as $label) {
+                    $sets[] = "{$label} = s.{$label}";
+                }
+                $sets = implode(', ', $sets);
+
                 // cache hit: updates the row with the original result
                 $sql .= "UPDATE stats SET {$sets} FROM stats s " .
                     "WHERE stats.general_cache_hit = '{$cache_hit}' AND ".
