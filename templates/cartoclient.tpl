@@ -73,7 +73,7 @@
     {include file="toolbar.tpl" group=2}
 
     <table>
-      <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} <span id="currentScale">1:{$currentScale}</span></div></td></tr>
+      <tr><td colspan="3"><div id="floatScale" class="locationInfo">{t}Current scale:{/t} <span id="currentScale">1:{$currentScale_value}</span></div></td></tr>
       <tr>
         <td><input type="image" src="{r type=gfx/layout}north_west.gif{/r}" name="pan_nw" id="pan_nw" alt="NW" /></td>
         <td align="center"><input type="image" src="{r type=gfx/layout}north.gif{/r}" name="pan_n" id="pan_n" alt="N" /></td>
