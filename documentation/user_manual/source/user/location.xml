@@ -251,11 +251,15 @@
                 <primary>refLinesSize</primary></indexterm>: size in pixel of
                 reference marks on page borders. </para>
         </listitem>
-        <listitem>
-            <para> refLinesFontSize<indexterm>
-                <primary>refLinesFontSize</primary></indexterm>: size of font for
-                reference marks on page borders.</para>
-        </listitem>
+      <listitem>
+        <para> refLinesFontSize<indexterm>
+          <primary>refLinesFontSize</primary></indexterm>: size of font for
+          reference marks on page borders.</para>
+      </listitem>
+      <listitem>
+        <para> scaleUnitLimit<indexterm>
+          <primary>scaleUnitLimit</primary></indexterm>: scale above which the scalebar use km ; below, m is used.</para>
+      </listitem>
     </itemizedlist>
   </sect1>
   <sect1 id="user.location.mapfile">
