@@ -471,9 +471,12 @@ class Json {
      * @param array PHP array to be serialized in JSON array
      * @param bool Escape quotes
      */
-    private static function fromPhpArray($phpArray, $doEscape = true) {
-        $jsonString = '[ ';
-        foreach ($phpArray as $value) {
+    private static function fromPhpArray($phpArray, $doEscape = true) {        
+        $jsonString = self::is_vector($phpArray) ? '[ ' : '{ ';
+        foreach ($phpArray as $key => $value) {            
+            if (!self::is_vector($phpArray)) {                
+                $jsonString .= is_numeric($key) ? 'a' . $key . ': ' : $key . ': ';
+            }
             if (is_string($value)) {
                 $value = $doEscape ? Json::escapeQuotes($value) : $value;
                 $jsonString .= '\'' . $value . '\'';
@@ -496,8 +499,19 @@ class Json {
         if (count($phpArray)) {
             $jsonString = substr($jsonString, 0, -2);
         }
-        $jsonString .= ' ]';
+        $jsonString .= self::is_vector($phpArray) ? ' ]' : ' }';
         return $jsonString;
+    }
+    /**
+     * Tells if an array indexes are all numeric (not necessarily sequenctial)
+     * @param array
+     * @return bool True is the given array is a vector
+     */
+    protected function is_vector(&$array) {
+        foreach ($array as $k=>$v) {
+            if (!is_int($k)) return false;
+        }
+        return true;
     }
 
     /**
