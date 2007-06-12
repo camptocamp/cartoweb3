@@ -1799,6 +1799,7 @@ function display_onmouseover(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display; // reference to the display
+  if (!e.target._display) return;
 
   var ex = e.pageX - _display._posx;
   var ey = e.pageY - _display._posy;
@@ -1839,6 +1840,7 @@ function display_onmousedown(evt) {
 function display_onmousedown_left(evt) {
 
   var e = new xEvent(evt);
+  if (!e.target._display) return;
 
   var _display = e.target._display; // reference to the display
 
@@ -1871,6 +1873,7 @@ function display_onmousedown_right(evt) {
  */
 function display_onmousemove(evt) {
   var e = new xEvent(evt);
+  if (!e.target._display) return;
 
   mouse_x = e.pageX;
   mouse_y = e.pageY;
@@ -1927,6 +1930,7 @@ function display_onmouseup_left(evt) {
   var e = new xEvent(evt);
 
   var _display = e.target._display;// reference to the display
+  if (!e.target._display) return;
 
   _display.isDrawing = false;
 
@@ -1974,6 +1978,7 @@ function display_onmouseup_right(evt) {
  */
 function display_ondblclick(evt) {
   var e = new xEvent(evt);
+  if (!e.target._display) return;
 
   var _display = e.target._display;// reference to the display
 
@@ -1988,6 +1993,7 @@ function display_ondblclick(evt) {
  */
 function display_onmouseout(evt) {
   var e = new xEvent(evt);
+  if (!e.target._display) return;
 
   var _display = e.target._display;// reference to the display
 
@@ -2016,6 +2022,7 @@ function display_onmouseout(evt) {
 function display_onkeydown(evt) {
 
   e = new xEvent(evt);
+  if (!e.target._display) return;
 
   // no display selected (mouse moved on)
   if (typeof currentDisplay == 'undefined')
