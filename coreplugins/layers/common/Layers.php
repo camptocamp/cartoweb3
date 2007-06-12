@@ -554,7 +554,7 @@ class LayersInit extends CwSerializable {
         if (!is_null($parentLayer)) {
             // Adding a class
             
-            if (count($parentLayer->children) == 0) {
+            if (isset($parentLayer->children) && count($parentLayer->children) == 0) {
                 $parentLayer->children[0] = new ChildrenSwitch();
                 $parentLayer->children[0]->id = '0';  
             }
@@ -565,7 +565,7 @@ class LayersInit extends CwSerializable {
             else
                 $childrenLayers =& $parentLayer->children[0]->layers;
 
-            if (!in_array($childLayerId, $childrenLayers)) {
+            if (is_array($childrenLayers) && !in_array($childLayerId, $childrenLayers)) {
                 $childrenLayers[] = $childLayerId;
             }
         }
@@ -593,7 +593,7 @@ class LayersInit extends CwSerializable {
                 $childrenLayers =& $parentLayer->children[0]->layers;
             }
             
-            if ($key = array_search($childLayerId, $childrenLayers)) {
+            if (is_array($childrenLayers) && $key = array_search($childLayerId, $childrenLayers)) {
                 unset($childrenLayers[$key]);
             }
         }
