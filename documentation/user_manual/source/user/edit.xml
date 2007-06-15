@@ -91,7 +91,7 @@ END]]></programlisting>
             string, comma separated list of attributes used for edition.</para>
           <para>Each value represents the attribute name and type separated by a
             pipe symbol. Only attributes with type set are editable.</para>
-          <para>Attribute types available values are string and integer.</para>
+          <para><warning><para>Attribute types available values are <emphasis>'string'</emphasis> and <emphasis>'integer'</emphasis>.</para></warning></para>
         </listitem>
       </itemizedlist>
     </sect2>
