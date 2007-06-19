@@ -1,6 +1,6 @@
 ;@BLURB@
 
-cartoserverDirectAccess = true
+cartoserverDirectAccess = false
 
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
