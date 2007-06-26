@@ -37,8 +37,8 @@ define('CW3_SETUP_REVISION', '$Revision$');
 define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
 
-// URL of required libraries (md5sum: 1803a12711da027a8a77920d5c422f25):
-define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.3/cartoweb-includes-3.3.1.tar.gz');
+// URL of required libraries (md5sum: d82a690784df96ce08ccd4ed888de155):
+define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.4/cartoweb-includes-3.4.0.tar.gz');
 // URL of demo data (md5sum: c1d654245f725ca3fa157f21423c8fc3):
 define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.3/cartoweb-demodata-3.3.0.tar.gz');
 
