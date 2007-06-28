@@ -175,14 +175,14 @@ class ServerLayers extends ClientResponderAdapter
             $this->switchId = $requ->switchId;
         }
         
+        $this->resRatio = 1;
         if (isset($requ->resolution) && $requ->resolution) {
         
             $msMapObj = $this->serverContext->getMapObj();
         
-            if ($requ->resolution != $msMapObj->resolution)
+            if ($requ->resolution != $msMapObj->resolution) {
                 $this->resRatio = $requ->resolution / $msMapObj->resolution;
-            else
-                $this->resRatio = 1;
+            }
         }
     }    
 
