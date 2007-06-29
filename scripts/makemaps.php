@@ -235,14 +235,29 @@ function printLayer($name, $content) {
 }
 
 function includeFile($file) {
+ 
     global $rootDir;
     
-    if (file_exists($rootDir . $file)) {
-        $fileMap = file_get_contents($rootDir . $file);
-        eval('?>' . $fileMap . '<?php ');
+    $pat1 ='`^[A-Z]:\\\`'; 
+    $pat2 ='`^/`';
+    
+    if ((preg_match($pat1, $file)) || (preg_match($pat2, $file))) {
+     
+        if (file_exists($file)) {
+            $fileMap = file_get_contents($file);
+            eval('?>' . $fileMap . '<?php ');
+        } else {
+            error("File $file not found");
+        } 
     } else {
-        error("File $file not found");
-    } 
+        if (file_exists($rootDir . $file)) {
+            $fileMap = file_get_contents($rootDir . $file);
+            eval('?>' . $fileMap . '<?php ');
+        } else {
+            $fileMap = $rootDir.$file;
+            error("File $fileMap not found");
+        } 
+    }
 }
 
 ?>
