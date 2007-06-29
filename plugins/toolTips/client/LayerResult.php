@@ -97,10 +97,9 @@ class LayerResult extends ToolTipsLayerBase {
      * @return string HTML code
      */
     public function renderResult($smarty) {
-        $label = Encoder::encode($this->getLabel(), 'config');
         $smarty->assign(array('layerId'      => $this->getId(),
-                              'layerLabel'   => $label,
-                              'layerResults' => $this->getAttributes()));
+                              'layerLabel'   => $this->getLabel(),
+                              'layerResults' => Encoder::encode($this->getAttributes(), 'config')));
         return $smarty->fetch($this->getTemplate());
     }
 }
