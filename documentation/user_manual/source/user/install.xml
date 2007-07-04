@@ -163,7 +163,7 @@
         available options. For instance:
         <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --help</screen>
         where &lt;PHP-INTERPRETER&gt; is the location of your php interpreter. On
-        Windows, it can be <literal>c:\wamp\php\php.exe</literal> or on Unix
+        Windows, it can be <literal>C:\ms4w\Apache\cgi-bin\php.exe</literal> or on Unix
         <literal>/usr/lib/cgi-bin/php</literal>.
       </para>
       <para>
@@ -361,31 +361,23 @@ List of options:
         <itemizedlist>
           <listitem>
             <para>
-              Download the WAMP installer at <ulink url="http://www.wampserver.com/"/>. Double-click on the executable to launch it. This will install Apache with PHP5.
+              Download the MS4W installer at <ulink url="http://www.maptools.org/dl/ms4w/ms4w-2.2.4-setup.exe"/>. Double-click on the executable to launch it. This will install Apache with PHP5.2.3, 4.10.2 CGI and MapScript.
             </para>
           </listitem>
           <listitem>
             <para>
-              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install MapServer and &cartoweb;. 
+              Download the &cartoweb; installer at <ulink url="http://cartoweb.org/downloads.html"/>. Double-click on the executable to launch it. This will install &cartoweb;. You can also optionaly install the cartoweb demo data and Gettext (for internationalisation).
             </para>
           </listitem>
           <listitem>
-            <para>Reboot Windows when prompted.</para>
+            <para>You need to reboot Windows after the installation if you want to use the internationalisation system with Gettext .</para>
           </listitem>
           <listitem>
             <para>
               That's it! Point your browser to <ulink url="http://localhost/cartoweb3/htdocs/client.php"/>.
             </para>
           </listitem>
-          <listitem>
-            <para>
-             An installer for the demo data is available as well. Download it at <ulink url="http://cartoweb.org/downloads.html"/> and double-click on the executable to launch it. This will only install the demo data, &cartoweb; must have been previously installed.
-            </para>
-          </listitem>
         </itemizedlist>
-        <warning>
-          <para>Do not forget to restart your web server (WAMP > Services > Restart Apache) after installing &cartoweb;!</para>
-        </warning>
         <para>
           Once it is installed, you can modify &cartoweb; setup with the command-line script <filename>cw3setup.php</filename> (<xref linkend="user.install.main.setup"/>) from either a DOS or a Cygwin prompt. See <xref linkend="user.install.win32.setup"/> for more info about how to use those interfaces.
         </para>
@@ -406,16 +398,16 @@ List of options:
         <sect4 id="user.install.win32.installer.dos">
           <title>&cartoweb; Setup with DOS</title>
           <para>Open a command prompt (Start menu > Run > "cmd") and go to the &cartoweb; root:
-            <screen>cd C:\wamp\www\cartoweb3</screen>
+            <screen>cd C:\ms4w\apps\cartoweb3</screen>
             Then see <xref linkend="user.install.main.setup.example.basic"/>
             <note><para>To enable you to execute PHP scripts easily (like <parameter>php cw3setup.php --someparameters</parameter> 
-              instead of <filename>C:\wamp\php.exe cw3setup.php --someparameters</filename>), set the path to the PHP binary 
+              instead of <filename>C:\ms4w\Apache\cgi-bin\php.exe cw3setup.php --someparameters</filename>), set the path to the PHP binary 
               in your PATH environment variable (control panel > system > Advanced > Environment Variables. 
               If there is no PATH variable, add a new one. If a PATH variable is already present, you can 
               add the path to php.exe at the end of the existing path values, but add a ";" inbetween: 
               path1;path2;path3):
-              <screen><![CDATA[C:\wamp\php;]]></screen>
-              The example above is true if the PHP binary are installed in <filename>C:\wamp\php</filename>.</para>
+              <screen><![CDATA[C:\ms4w\Apache\cgi-bin;]]></screen>
+              The example above is true if the PHP binary are installed in <filename>C:\ms4w\Apache\cgi-bin</filename>.</para>
             </note>
             <note>
               <para> If you are using the demo, you need to have Gettext
@@ -446,7 +438,7 @@ List of options:
           <para>Open a Cygwin window  and go to the &cartoweb; root:
             <screen>
 cd C:
-cd wamp/www/cartoweb3/</screen>
+cd ms4w/apps/cartoweb3/</screen>
             Then see <xref linkend="user.install.main.setup.example.basic"/>
           </para>
           <note><para>
@@ -461,8 +453,8 @@ cd wamp/www/cartoweb3/</screen>
           <note><para>
           To enable you to execute PHP scripts easily, set the path to the PHP binary in your 
             <filename>.bashrc</filename> (in <filename>C:\cygwin\home\Administrator\</filename> by default):
-            <screen><![CDATA[export PATH=$PATH:/cygdrive/c/wamp/php]]></screen>
-            The example above is true if the PHP binary are installed in <filename>c:\wamp\php</filename>.</para>
+            <screen><![CDATA[export PATH=$PATH:/cygdrive/c/ms4w/Apache/cgi-bin]]></screen>
+            The example above is true if the PHP binary are installed in <filename>C:\ms4w\Apache\cgi-bin</filename>.</para>
             <para>If you do not want to install the <emphasis>cvs</emphasis> and <emphasis>gettext</emphasis> Cygwin package, 
             you need to add also the path to the external CVS and gettext binaries. 
             <screen><![CDATA[export PATH=$PATH:/cygdrive/c/program Files/GnuWin32/bin
