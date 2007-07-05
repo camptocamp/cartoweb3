@@ -351,12 +351,12 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       <itemizedlist>
        <listitem>
         <para>
-         weightZoomIn: 10
+         weightZoomin: 10
         </para>
        </listitem>
        <listitem>
         <para>
-         weightZoomOut: 11
+         weightZoomout: 11
         </para>
        </listitem>
        <listitem>
