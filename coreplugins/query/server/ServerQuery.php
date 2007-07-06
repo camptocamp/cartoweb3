@@ -427,11 +427,14 @@ class ServerQuery extends ClientResponderAdapter {
                     }
                 }
 
-                /*$msMapObj = $this->serverContext->getMapObj();
-                $layerConnexType = $msMapObj->getLayerByName($layerName)->connectiontype;
-                if ($layerConnexType == MS_WMS || $layerConnexType == MS_WFS ){
-                    continue;
-                }*/
+                $msMapObj = $this->serverContext->getMapObj();
+                $msLayer = $msMapObj->getLayerByName($layerName);
+                if (!empty($msLayer)) {
+                    $layerConnexType = $msLayer->connectiontype;
+                    if ($layerConnexType == MS_WMS || $layerConnexType == MS_WFS ) {
+                        continue;
+                    }
+                }
 
                 $tables[] = $this->queryLayer($requ->shape, $querySelection);
                 $layersOk[] = $layerName;
