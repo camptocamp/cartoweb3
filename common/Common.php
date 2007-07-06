@@ -274,6 +274,10 @@ class Common {
         // ignores the session started error in Pear Auth
         if (strpos($errfile, 'Auth.php') !== false && $errline == 266)
             return true;
+        // ignores Get Capabilities errors
+        if (strpos($errfile, 'OwsInfoHarwester') !== false &&
+            $errno | E_WARNING)
+            return true;
         return false;
     }
     
