@@ -105,7 +105,7 @@ class OwsInfoHarwesterOLL {
      */
     public function getLayer($name){
         if (empty($this->layers)) {
-        	return null;
+            return null;
         }
         foreach ($this->layers as $layer){
             if ($layer->Name == $name){

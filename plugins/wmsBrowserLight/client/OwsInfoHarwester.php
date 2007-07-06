@@ -53,7 +53,7 @@ class OwsInfoHarwester {
                 
                 // WMS time support
                 if (!empty($src->Extent)) {
-                	// Default is used if no plan to do movies
+                    // Default is used if no plan to do movies
                     $time = '#' . $src->Extent['default'] . '#' . $src->Extent['default'] 
                             . "#" . $src->Extent[0]; 
                 } else { 
