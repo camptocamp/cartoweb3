@@ -272,11 +272,15 @@ class Common {
             $errno | E_NOTICE)
             return true;
         // ignores the session started error in Pear Auth
-        if (strpos($errfile, 'Auth.php') !== false && $errline == 266)
+        if (strpos($errfile, 'Auth.php') !== false && $errline == 276)
             return true;
         // ignores Get Capabilities errors
         if (strpos($errfile, 'OwsInfoHarwester') !== false &&
             $errno | E_WARNING)
+            return true;
+        // ignore SMARTY unlink error for inexistant files (windows)
+        if (strpos($errstr, 'unlink') !== false && 
+            strpos($errfile, 'core.write_file.php') !== false)
             return true;
         return false;
     }
