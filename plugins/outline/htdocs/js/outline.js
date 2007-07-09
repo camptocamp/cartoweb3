@@ -37,6 +37,7 @@ function selectTool(e) {
       case 'outline_point_color_d' :
       case 'outline_point_size' :
       case 'outline_point_color' :
+      case 'outline_point_transparency' :
         mainmap.outline_point('map');
         setActiveToolButton('outline_point');
       break;

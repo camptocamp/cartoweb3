@@ -256,6 +256,8 @@ class ClientOutline extends ClientPlugin
             $this->getHttpValue($request, 'outline_point_size');
         $this->outlineState->pointStyle->color->setFromHex(
             $this->getHttpValue($request, 'outline_point_color'));
+        $this->outlineState->pointStyle->transparency = 
+            $this->getHttpValue($request, 'outline_point_transparency');
 
         $this->outlineState->lineStyle->symbol = 
             $this->getHttpValue($request, 'outline_line_symbol');
@@ -388,6 +390,8 @@ class ClientOutline extends ClientPlugin
                 $this->outlineState->pointStyle->size,
             'outline_point_color_selected'  => 
                 $this->outlineState->pointStyle->color->getHex(),
+            'outline_point_transparency_selected' => 
+                $this->outlineState->pointStyle->transparency,  
             
             'outline_line_symbol_selected'       => 
                 $this->outlineState->lineStyle->symbol,

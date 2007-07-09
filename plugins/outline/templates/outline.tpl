@@ -33,6 +33,12 @@
   </center>
   <input type="text" id="outline_point_color" name="outline_point_color" size="7" value="{$outline_point_color_selected}" />
 </div>
+
+<div class="outl_block_center">          
+  {t}transparency{/t}:<br />
+  <input type="text" id="outline_point_transparency" name="outline_point_transparency" size="3" value="{$outline_point_transparency_selected}" />    
+</div>
+
 </fieldset>
 
 <fieldset class="outl">
