@@ -165,6 +165,14 @@ class ServerHilight extends ServerPlugin {
                                            . "layer $msLayer");    
 
         $expression = $this->buildExpression($querySelection);
+
+        $useLogExp = $msLayer->getMetaData('hilight_use_logical_expressions');
+        if ($useLogExp == 'true') {
+            $origExp = $class->getExpression();
+            if (strlen($origExp) > 0)
+                $expression = sprintf("(%s AND %s)", $origExp, $expression);
+        }
+
         $this->log->debug("setting expression $expression");
         $class->setexpression($expression);
     }

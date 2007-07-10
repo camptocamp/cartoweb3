@@ -203,6 +203,16 @@ END
             returned by a query. If not set, all fields are returned. Caution: 
             case sensitive</para>
         </listitem>
+        <listitem>
+          <para> 
+            "hilight_use_logical_expressions"<indexterm>
+               <primary>hilight_use_logical_expressions</primary></indexterm> 
+            "true"/"false": Set this to true if you are using a layer for
+             hilight (using the convention <code>yourlayer_hilight</code>) and
+             you want to preserve your expressions in the hilight layer for
+             hilighted objects. IMPORTANT: you need to set this metadata on the
+             hilight layer, not the original one.</para>
+        </listitem>
       </itemizedlist>
       <para>Example:<programlisting><![CDATA[
 METADATA
