@@ -244,7 +244,7 @@ class Common {
      * 
      * @return boolean true if the given error is to be ignored
      */
-    private static function isErrorIgnored($errno, $errstr, $errfile, 
+    public static function isErrorIgnored($errno, $errstr, $errfile, 
                                            $errline) {
         $errfile = Utils::pathToUnix($errfile);
 
