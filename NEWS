@@ -1,5 +1,5 @@
-CartoWeb HEAD
-=============
+CartoWeb 3.4.0 BETA
+===================
 
 - Added some new images plugin filter parameters:
     o Map image size set dynamically via GET parameters ;
