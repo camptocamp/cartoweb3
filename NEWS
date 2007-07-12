@@ -13,6 +13,7 @@ CartoWeb 3.4.0
 - Added 'db_direct' method to store accounting information
 - Added free (user) scale input in location coreplugin
 - Added 'bboxHistory' plugin: allows the user to navigate through bbox history.
+- Added WMS browser light and OgcLayerLoader plugins to make WMS layers loading more user-friendly.
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
