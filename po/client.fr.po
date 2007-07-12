@@ -177,9 +177,17 @@ msgstr "Soumettre"
 msgid "Click here to go back to the map"
 msgstr "Retour à la carte"
 
-#: plugins/edit/templates/edit_toolbar.tpl
-msgid "edit_poly"
-msgstr "Ajouter un polygone"
+#: plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr "Retour à la carte"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Back"
+msgstr "Retour"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Next"
+msgstr "Suivant"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_move"
