@@ -178,6 +178,14 @@ msgstr ""
 msgid "Click here to go back to the map"
 msgstr "Zurück zur Karte"
 
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Back"
+msgstr "Rückwärts"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Next"
+msgstr "Vorwärts"
+
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_poly"
 msgstr ""
