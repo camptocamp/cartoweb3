@@ -177,10 +177,6 @@ msgstr "Soumettre"
 msgid "Click here to go back to the map"
 msgstr "Retour à la carte"
 
-#: plugins/auth/templates/login_page.tpl
-msgid "Click here to go back to the map"
-msgstr "Retour à la carte"
-
 #: plugins/bboxHistory/templates/bbox_history_form.tpl
 msgid "Back"
 msgstr "Retour"
