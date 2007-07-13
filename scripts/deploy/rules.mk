@@ -166,7 +166,7 @@ ifndef NO_CONFIRM
 	fi
 endif
 	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-cvs $(instance_cvs_option) \
-			--delete-existing --base-url _undefined_)
+			--cvs-root $(CVSROOT_CW) --delete-existing --base-url _undefined_)
 
 	@# Override cw3setup.php with this one
 	@# XXX why is this needed, and what is "this one"???
