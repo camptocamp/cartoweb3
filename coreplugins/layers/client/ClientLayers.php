@@ -1490,9 +1490,9 @@ class ClientLayers extends ClientPlugin
             $icon = substr($layer->icon, 0, -4) . '@' . $resolution . '.png';
             $icon = $this->getPrintedIconPath($icon);
             try {
-            	$foo = getimagesize($icon);
+                $foo = getimagesize($icon);
             } catch (Exception $e) {
-            	$icon = $this->getPrintedIconPath($layer->icon);
+                $icon = $this->getPrintedIconPath($layer->icon);
             }
         }
         $data = array('label' => I18n::gt($layer->label),
