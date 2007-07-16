@@ -92,6 +92,16 @@ class ClientExportPdf extends ExportPlugin
     protected $mapServerResolution;
 
     /**
+     * @var int
+     */
+    protected $legendIconWidth;
+
+    /**
+     * @var int
+     */
+    protected $legendIconHeight;
+
+    /**
      * @var string
      */
     protected $charset;
@@ -170,6 +180,8 @@ class ClientExportPdf extends ExportPlugin
             throw new CartoclientException('MapServer resolution is missing.');
         }
         $this->mapServerResolution = $exportPdfInit->mapServerResolution;
+        $this->legendIconWidth     = $exportPdfInit->legendIconWidth;
+        $this->legendIconHeight    = $exportPdfInit->legendIconHeight;
     }
 
     /**
@@ -431,7 +443,8 @@ class ClientExportPdf extends ExportPlugin
         
         $this->blocks[$id]->content =
             $layersCorePlugin->getPrintedLayers($selectedLayers,
-                                                $this->getLastScale());
+                                                $this->getLastScale(),
+                                                $this->general->selectedResolution);
         
         if ($request['pdfLegend'] == 'out')
             $this->blocks[$id]->inNewPage = true;
@@ -576,7 +589,9 @@ class ClientExportPdf extends ExportPlugin
             throw new CartoclientException(
                 'Plugin exportPdf is not activated on your CartoServer.');
         }
-        $this->general->mapServerResolution = $this->mapServerResolution;
+        $this->general->mapServerResolution = $this->mapServerResolution;        
+        $this->general->legendIconWidth = $this->legendIconWidth;        
+        $this->general->legendIconHeight = $this->legendIconHeight;               
         
         $this->general->formats = $this->getArrayFromList($this->general->formats);
         

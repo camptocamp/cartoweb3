@@ -208,6 +208,31 @@ class ServerLayers extends ClientResponderAdapter
         }
     }
 
+    public function updateRatioClassParameters($class, $resRatio) {
+
+        $label_props = array('size', 'mindistance', 'minfeaturesize', 
+                             'minsize', 'maxsize', 'offsetx', 'offsety');
+        $invResRatio = 1 / $resRatio;
+
+        for ($k = 0; $k < $class->numstyles; $k++) {
+            $style = $class->getStyle($k);
+
+            // style sizes not totally resized by the ratio factor,
+            // to improve readability:
+            $styleRatio = $resRatio * 1.0;
+            $this->updateProperties($style, 
+                                    array('size','offsetx', 'offsety',
+                                          'minsize', 'maxsize'),
+                                    $styleRatio);
+        }
+        
+        $this->updateProperties($class, array('minscale', 'maxscale'),
+                                $invResRatio);
+        
+        $label = $class->label;
+        $this->updateProperties($label, $label_props, $resRatio);
+    }
+
     /**
      * Updates mapfile objects (layers, classes, styles) properties
      * according to the ratio between required resolution and mapserver one.
@@ -221,9 +246,6 @@ class ServerLayers extends ClientResponderAdapter
         }
         $invResRatio = 1 / $resRatio;
         
-        $label_props = array('size', 'mindistance', 'minfeaturesize', 
-                             'minsize', 'maxsize', 'offsetx', 'offsety');
-
         if ($layer->toleranceunits == MS_PIXELS) {
             $this->updateProperties($layer, array('tolerance'), $resRatio);
         }
@@ -232,24 +254,9 @@ class ServerLayers extends ClientResponderAdapter
                                 $invResRatio);
         
         for ($j = 0; $j < $layer->numclasses; $j++) {
+            
             $class = $layer->getclass($j);
-
-            for ($k = 0; $k < $class->numstyles; $k++) {
-                $style = $class->getStyle($k);
-                // style sizes not totally resized by the ratio factor,
-                // to improve readability:
-                $styleRatio = $resRatio * 1.0;
-                $this->updateProperties($style, 
-                                        array('size','offsetx', 'offsety',
-                                              'minsize', 'maxsize'),
-                                        $styleRatio);
-            }
-            
-            $this->updateProperties($class, array('minscale', 'maxscale'),
-                                    $invResRatio);
-            
-            $label = $class->label;
-            $this->updateProperties($label, $label_props, $resRatio);
+            $this->updateRatioClassParameters($class, $resRatio);
         }
         $layer->setMetaData('ratio_updated', 'ok');
     }

@@ -1477,22 +1477,32 @@ class ClientLayers extends ClientPlugin
      * @param string layer id
      * @return array
      */
-    protected function getPrintedLayerData($layerId) {
+    protected function getPrintedLayerData($layerId, $resolution) {
         $layer = $this->getLayerByName($layerId, false);
         $scale = $this->getCurrentScale();
         
         if (($layer->maxScale && $scale > $layer->maxScale) ||
             ($layer->minScale && $scale < $layer->minScale))
             return array();
-        
+
+        $icon = '';
+        if ($layer->icon) {
+            $icon = substr($layer->icon, 0, -4) . '@' . $resolution . '.png';
+            $icon = $this->getPrintedIconPath($icon);
+            try {
+            	$foo = getimagesize($icon);
+            } catch (Exception $e) {
+            	$icon = $this->getPrintedIconPath($layer->icon);
+            }
+        }
         $data = array('label' => I18n::gt($layer->label),
-                      'icon' => $this->getPrintedIconPath($layer->icon),
+                      'icon' => $icon,
                       'children' => array());
         
         if (!$layer instanceof LayerClass && $layer->children) {    
             $children =& $data['children'];
             foreach ($layer->getChildren($this->layersState->switchId) as $childId)
-                $children[] = $this->getPrintedLayerData($childId);
+                $children[] = $this->getPrintedLayerData($childId, $resolution);
         }
 
         return $data;
@@ -1570,12 +1580,12 @@ class ClientLayers extends ClientPlugin
      * @param float scale value
      * @return array complete list of printed layers, layergroups, layerclasses
      */
-    public function getPrintedLayers($selectedLayers, $scale) {
+    public function getPrintedLayers($selectedLayers, $scale, $resolution) {
         $printedNodes = array();
         $this->currentScale = $scale;
        
         foreach ($selectedLayers as $key => $layerId) {
-            $layerData = $this->getPrintedLayerData($layerId);
+            $layerData = $this->getPrintedLayerData($layerId, $resolution);
             if ($layerData)
                 $printedNodes[$layerId] = $layerData;
             else

@@ -162,7 +162,7 @@ class LayersInitProvider implements InitProvider {
      * @param ClassObj
      * @return string
      */
-    protected function getClassIcon($classId, $msMapObj, $msClassObj) {
+    protected function getClassIcon($classId, $msMapObj, $msLayerObj, $msClassIndex) {
         
         $writablePath = $this->serverContext->getConfig()->webWritablePath;
         $iconRelativePath = $this->getIconsRelativePath() . $classId . '.png';
@@ -176,11 +176,40 @@ class LayersInitProvider implements InitProvider {
             (file_exists($this->getSymPath()) && 
              filemtime($this->getSymPath()) > filemtime($iconAbsolutePath))) {
 
+            $msClassObj = $msLayerObj->getClass($msClassIndex);
             $lgdIcon = $msClassObj->createLegendIcon($msMapObj->keysizex, 
                                                      $msMapObj->keysizey);
             if ($lgdIcon->saveImage($iconAbsolutePath) < 0)
                 throw new CartoserverException("Failed writing $iconAbsolutePath");
             $this->serverContext->checkMsErrors();
+    
+            $otherRes = $this->serverLayers->getConfig()->legendResolutions;
+            if ($otherRes) {
+                            
+                $otherRes = Utils::parseArray($otherRes);
+                $oldRes = $msMapObj->resolution;
+                
+                $pluginManager = $this->serverContext->getPluginManager();   
+                $layerPlugin = $pluginManager->layers;      
+                   
+                foreach ($otherRes as $res) {
+    
+                    $tempLayer = ms_newLayerObj($msMapObj, $msLayerObj);
+                    $mul = $res / $oldRes;
+                    $tempLayer->setMetaData('ratio_updated', '');
+                    $layerPlugin->updateRatioParameters($tempLayer, $mul);
+                    
+                    $tempClass = $tempLayer->getClass($msClassIndex);                                
+                    $lgdIcon = $tempClass->createLegendIcon($msMapObj->keysizex * $mul, 
+                                                            $msMapObj->keysizey * $mul);
+                    $iconRelativePath2 = $this->getIconsRelativePath() . $classId . '@' . $res . '.png';
+                    $iconAbsolutePath2 = $writablePath . $iconRelativePath2;
+                    if ($lgdIcon->saveImage($iconAbsolutePath2) < 0)
+                        throw new CartoserverException("Failed writing $iconAbsolutePath2");
+                    $this->serverContext->checkMsErrors();
+                    $tempLayer->set('status', MS_DELETE);
+                }
+            }                                      
         }
         return $this->getIconUrl($iconRelativePath, true);
     }
@@ -304,7 +333,8 @@ class LayersInitProvider implements InitProvider {
                 if ($layersInit->autoClassLegend) {
                     $layerClass->icon = $this->getClassIcon($layerClass->id, 
                                                             $msMapObj,
-                                                            $msClass);
+                                                            $msLayer,
+                                                            $i);
                 }
 
                 if ($msClass->minscale >= $layer->minScale)

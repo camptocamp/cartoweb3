@@ -358,6 +358,16 @@ END
     <para> Provided that no static icon is defined for a layer in 
       <filename>layers.ini</filename>, the icon of the first visible class is 
       used for the layer. </para>
+    <para>Legend icons are also used when exporting maps in PDF (see
+    <xref linkend="user.pdf"/>). Standard legend icons are used by default,
+    which means that they may seem pixelized when printing a 300 dpi map.
+    To resolve this issue, the following parameter can be set in 
+    <filename>layers.ini</filename>:</para>
+    <screen><![CDATA[
+legendResolutions = 96, 150, 300]]></screen>
+    <para>Each resolution must correspond to one of those set in PDF Export
+    configuration file. This file is described in
+    <xref linkend="user.pdf.reference.general"/>.</para>
   </sect1>
   <sect1 id="user.layers.wms_legend">
     <title>WMS Layers Legends</title>

@@ -823,18 +823,16 @@ class CwFpdf implements PdfWriter {
                         ));
             }
 
-            $iWidth  = PrintTools::switchDistUnit($iWidth, 'pt',
+            $iWidth  = PrintTools::switchDistUnit($this->general->legendIconWidth, 'pt',
                                                   $this->general->distUnit);
-            $iHeight = PrintTools::switchDistUnit($iHeight, 'pt',
+            $iHeight = PrintTools::switchDistUnit($this->general->legendIconHeight, 'pt',
                                                   $this->general->distUnit);
             
             if ($iHeight > $block->height) {
                 $iWidth *= $block->height / $iHeight;
                 $iHeight = $block->height;
-                $yii = $yi;
-            } else {
-                $yii = $yi + ($block->height - $iHeight) / 2;
             }
+            $yii = $yi + ($block->height - $iHeight) / 2;
         }
 
         $cWidth = $block->width - $shift - $iWidth - 3 * $block->padding;

@@ -75,7 +75,8 @@ formats.A4.bigDimension = 297]]></programlisting>
      <listitem>
       <para>
        <parameter>general.resolutions</parameter> (comma-separated list of integers): 
-       list of available resolutions in dot-per-inch (dpi).
+       list of available resolutions in dot-per-inch (dpi). To have legend icons generated in same
+       resolutions, you must configure resolutions in plugin Layers (see <xref linkend="user.layers.legend"/>).
       </para>
      </listitem>
      <listitem>

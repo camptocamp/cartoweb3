@@ -50,6 +50,8 @@ class ServerExportPdf extends ServerPlugin
         
         $init = new ExportPdfInit();
         $init->mapServerResolution = (int)$msMapObj->resolution;
+        $init->legendIconWidth = (int)$msMapObj->keysizex;
+        $init->legendIconHeight = (int)$msMapObj->keysizey;
         return $init;
     }
 }

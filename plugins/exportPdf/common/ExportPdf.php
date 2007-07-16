@@ -37,11 +37,25 @@ class ExportPdfInit extends CwSerializable {
     public $mapServerResolution;
 
     /**
+     * @var int
+     */
+    public $legendIconWidth;
+
+    /**
+     * @var int
+     */
+    public $legendIconHeight;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->mapServerResolution = self::unserializeValue($struct,
                                         'mapServerResolution', 'int');
+        $this->legendIconWidth = self::unserializeValue($struct,
+                                        'legendIconWidth', 'int');
+        $this->legendIconHeight = self::unserializeValue($struct,
+                                        'legendIconHeight', 'int');
     }
 }
 
