@@ -543,7 +543,7 @@ Map.prototype.adjust_mapsize = function(aDisplay) {
 
     cartoForm = document.forms['carto_form'];
 
-    cartoForm.custom_mapsize.value = w + "x" + h;
+    cartoForm.customMapsize.value = w + "x" + h;
 
     doSubmit();
 }
