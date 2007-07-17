@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+  %cartoweb;
+]>
+<!-- $Id$ -->
+<chapter id="user.wmslight">
+ <title><indexterm><primary>wmslight</primary></indexterm>WMS Browser Light</title>
+  <sect1 id="user.wmslight.intro">
+   <title>Introduction</title>
+   <para>
+   <parameter>wmsBrowserLight</parameter> plugin allows you to add WMS layers to your map using the ogcLayerLoader plugin. 
+	Main difference between the wmsBrowerLight and the wmsBroser plugin is the managment of the server list. The plugins manage
+	WMS servers compatible with version 1.1.1 of the OGC WMS spec..
+	
+	Using the wmsBrowerLight plugin you have three ways to add specify the server end point (url). 
+     <itemizedlist>
+      <listitem>
+        <para>Simply type in the text box the server you heard about like http://mywmsserverurl.iheard.about (Do not set the version 
+		or any other parameters). 
+	</para>
+      </listitem>
+      <listitem>  
+		<para>Define a list of WMS servers using the ini file of the plugin. The servers will be presented to the end user in 
+		a list box.</para>
+      </listitem>
+      <listitem>  
+		<para>Connect to a GeoNetwork node having metadata on WMS services and load server urls from this catalog. </para>
+      </listitem>
+    </itemizedlist>
+    </para>
+  </sect1>
+  <sect1 id="user.wmslight.activation">
+    <title>Plugin Activation</title>
+    <para>
+        To activate the plugin, load ogcLayerLoader from both CartoClient and CartoServer configuration files
+	 and wmsBrowserLight plugins from CartoClient configuration files: 
+        <filename>client_conf/client.ini</filename> and 
+        <filename>server_conf/"mapId"/"mapId".ini</filename>. For instance:
+        <screen><![CDATA[
+loadPlugins = mapOverlay, ogcLayerLoader, wmsBrowserLight
+        ]]></screen>
+    </para>
+  </sect1>
+  <sect1 id="user.wmslight.ini">
+    <title>Define a list of WMS servers using the ini file</title>
+    <para>
+	To do so, in <filename>client_conf/wmsBrowserLight.ini</filename>, set the following parameters in the ini file of the plugin.
+    
+	<screen>
+		catalogtype = ini
+		
+		servers.0.label = Sandre / Ouvrage
+		servers.0.url = http://services.sandre.eaufrance.fr/geo/ouvrage
+
+		servers.1.label = Données administratives et routières en France (Geosignal)
+		servers.1.url = http://www.geosignal.org/cgi-bin/wmsmap
+	</screen></para>
+  </sect1>
+
+  <sect1 id="user.wmslight.gn">
+    <title>Connect to a GeoNetwork node having metadata on WMS services</title>
+    <para>In order to use this type of connection the name of the GeoNetwork node has to be known. 
+		Optionnaly, the plugin will first logged into the node if user and password are specified. 	
+	To do so, in <filename>client_conf/wmsBrowserLight.ini</filename>, set the following parameters in the ini file of the plugin.
+    
+	<screen>
+		catalogtype = gn
+		gn = http://sandre.eaufrance.fr/geonetwork
+		; unset gnuser and gnpassword if no login has to be made
+		gnuser = cartoweb
+		gnpassword = cartoweb
+		gnlang = en
+		; gnQuery is how CartoWeb could get the list of services in the node
+		gnQuery = "category=Services"
+	</screen></para>
+	<para>
+		For the time being, there is no way to query GeoNetwork for services in a consistent manner using the ISO 19115 information. 
+		It should be possible to get this information from the tag ScopeCd of the DataQuality section. But this is not 
+		a searchable criteria in version 2.0.2. On tip is to create on the GeoNetwork node a category set to "services" 
+		and then used this categrory to get the list of server to propose to the end user.
+	</para>
+  </sect1>
+</chapter>

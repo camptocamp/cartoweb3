@@ -93,8 +93,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/locate.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <xi:include href="user/wms.xml" 
-      xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <!-- <xi:include href="user/wms.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
     <xi:include href="user/ajax.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/geostat.xml" 
@@ -102,6 +102,10 @@
     <xi:include href="user/tooltips.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/search.xml"
+       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/ogcLayerLoader.xml"
+       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/wmsBrowserLight.xml"
        xmlns:xi="http://www.w3.org/2001/XInclude" />
   </part>
   <part id="cartoweb.dev">

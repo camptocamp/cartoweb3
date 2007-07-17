@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+  %cartoweb;
+]>
+<!-- $Id$ -->
+<chapter id="user.ogcLayerLoader">
+ <title><indexterm><primary>ogcLayerLoader</primary></indexterm>OGC Layer Loader</title>
+  <sect1 id="user.ogcLayerLoader.intro">
+   <title>Introduction</title>
+   <para>The
+   <parameter>ogcLayerLoader</parameter> plugin allows user to add OGC layers such as WMS and WFS through a call by URL. 
+</para><para>
+For exemple, using a simple URL, you could call your cartoweb project and add an OGC layer at startup.
+</para><para>
+Once the layer added, the coreplugin Layer will be called to update user layers. Added layer could then be used by other plugin in the project (legend, layer reorder, ...). This plugin is used by wmsBrowserLight and catalog to add OGC layers to the map.
+    </para>
+  </sect1>
+  <sect1 id="user.ogcLayerLoader.activation">
+    <title>Plugin Activation</title>
+    <para>
+        To activate the plugin, load  from both CartoClient and CartoServer configuration files: 
+        <filename>client_conf/client.ini</filename> and 
+        <filename>server_conf/"mapId"/"mapId".ini</filename>. For instance:
+        <screen><![CDATA[
+loadPlugins = mapOverlay, ogcLayerLoader
+        ]]></screen>
+    </para>
+  </sect1>
+  <sect1 id="user.ogcLayerLoader.ini">
+    <title>Define where to insert OGC layers</title>
+    <para>
+	To do so, in <filename>server_conf/"mapId"/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
+	<screen>
+ogcInsertLayerAfter = raster ; raster is the name of the layer 
+	</screen></para>
+  </sect1>
+  <sect1 id="user.ogcLayerLoader.gn">
+    <title>Define where to link a geonetwork catalog</title>
+    <para>
+	To do so, in <filename>client_conf/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
+	<screen>
+urlCatalog = http://my.linked.geonetwork.catalog ;
+	</screen></para>
+  </sect1>
+</chapter>
