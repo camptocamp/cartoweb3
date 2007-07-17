@@ -8,7 +8,7 @@
 <chapter id="user.ogcLayerLoader">
  <title><indexterm><primary>ogcLayerLoader</primary></indexterm>OGC Layer Loader</title>
   <sect1 id="user.ogcLayerLoader.intro">
-   <title>Introduction</title>
+   <title>Introduction</title>     
    <para>The
    <parameter>ogcLayerLoader</parameter> plugin allows user to add OGC layers such as WMS and WFS through a call by URL. 
 </para><para>
@@ -31,17 +31,17 @@ loadPlugins = mapOverlay, ogcLayerLoader
   <sect1 id="user.ogcLayerLoader.ini">
     <title>Define where to insert OGC layers</title>
     <para>
-	To do so, in <filename>server_conf/"mapId"/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
-	<screen>
+    To do so, in <filename>server_conf/"mapId"/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
+    <screen>
 ogcInsertLayerAfter = raster ; raster is the name of the layer 
-	</screen></para>
+    </screen></para>
   </sect1>
   <sect1 id="user.ogcLayerLoader.gn">
     <title>Define where to link a geonetwork catalog</title>
     <para>
-	To do so, in <filename>client_conf/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
-	<screen>
+    To do so, in <filename>client_conf/ogcLayerLoader.ini</filename>, set the following parameters in the ini file of the plugin.
+    <screen>
 urlCatalog = http://my.linked.geonetwork.catalog ;
-	</screen></para>
+    </screen></para>
   </sect1>
 </chapter>
