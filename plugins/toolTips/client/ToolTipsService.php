@@ -383,8 +383,6 @@ class ToolTipsService {
         $lastDsn = NULL;
         $layersCorePlugin = $this->cartoclient->getPluginManager()->
                                                  getPlugin('layers');
-        $printedLayers = $layersCorePlugin->
-            getPrintedLayers($this->getSelectedLayers(), $this->mapScale);
         
         foreach ($this->getSelectedLayers() as $activeLayerId) {  
             if (array_key_exists($activeLayerId, $this->queryableLayers) &&
