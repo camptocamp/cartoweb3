@@ -511,3 +511,39 @@ Map.prototype.outline_point = function(aDisplay) {
     emptyForm();
   };
 };
+
+/**** adjustMapsize ****/
+
+frameWidth = function() {
+
+    if (window.innerWidth)
+        return window.innerWidth;
+    else if (document.body && document.body.offsetWidth)
+        return document.body.offsetWidth;
+    else
+        return 0;
+};
+
+frameHeight = function() {
+
+    if (window.innerHeight) 
+        return window.innerHeight;
+    else if (document.body && document.body.offsetHeight)
+        return document.body.offsetHeight;
+    else
+        return 0;
+};
+
+Map.prototype.adjust_mapsize = function(aDisplay) {
+    
+    /**** header (200) - layertree (300) ****/
+
+    var h = frameHeight() - 200;
+    var w = frameWidth() - 330;
+
+    cartoForm = document.forms['carto_form'];
+
+    cartoForm.custom_mapsize.value = w + "x" + h;
+
+    doSubmit();
+}
