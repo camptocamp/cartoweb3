@@ -1580,7 +1580,7 @@ class ClientLayers extends ClientPlugin
      * @param float scale value
      * @return array complete list of printed layers, layergroups, layerclasses
      */
-    public function getPrintedLayers($selectedLayers, $scale, $resolution) {
+    public function getPrintedLayers($selectedLayers, $scale, $resolution = 72) {
         $printedNodes = array();
         $this->currentScale = $scale;
        
