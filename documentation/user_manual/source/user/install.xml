@@ -485,6 +485,11 @@ export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS]]></screen>
             <para><emphasis>demoEdit</emphasis>: a simple demonstration of the geographical objects 
             edition and persistent storage tools.</para>
           </listitem>
+          <listitem>
+            <para><emphasis>demoToolTips</emphasis>: it demonstrates the usage of the tooltips using 
+            pseudo real data. Follow the installation notes below and also the specific database 
+            installation in <xref linkend="user.install.demo.tooltips"/></para>
+          </listitem>
         </itemizedlist>
       </para>
       <para>
@@ -682,6 +687,55 @@ $ psql -d demo_plugins -f /tmp/town.sql]]></screen>
               <para>
                 file, with the <emphasis>--config-from-file</emphasis> option as
                 described in the previous steps.
+              </para>
+            </formalpara>
+          </listitem>
+        </itemizedlist>
+      </para>      
+    </sect2>
+    <sect2 id="user.install.demo.tooltips">
+      <title>ToolTips demo specific installation</title>
+      <para>
+        <tip>
+          <para>The database used to store data is the same as for the demoPlugins</para>
+        </tip>
+        <itemizedlist>
+          <listitem>
+            <formalpara>
+              <title>Create the tables for layers radio and gsm</title>
+              <para>
+                <note><para>
+                  To do so, convert the radio and gsm data from shapefile to postGIS tables.
+                  The shapefiles should be available in 
+                  <filename>projects/demoCW3/server_conf/demoCW3/data</filename> where all
+                  demos data are.
+                </para></note>
+                <screen><![CDATA[
+$ shp2pgsql -I radio.shp radio > /tmp/radio.sql 
+$ psql -d demo_plugins -f /tmp/radio.sql
+
+$ shp2pgsql -I gsm.shp gsm > /tmp/gsm.sql
+$ psql -d demo_plugins -f /tmp/gsm.sql
+]]></screen>
+              </para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Create the table for channel data</title>
+              <para>
+              <screen><![CDATA[$ psql -d demo_plugins -f channels.sql ]]></screen>
+              The <filename>channels.sql</filename> is located in the 
+              <filename>projects/demoToolTips/server_conf/demoToolTips/sql</filename>
+              folder</para>
+            </formalpara>
+          </listitem>
+          <listitem>
+            <formalpara>
+              <title>Launch the install script in your &cartoweb; root directory</title>
+              <para>
+                <screen><![CDATA[php cw3setup.php --install --base-url <base-url> --profile development
+                 --project demoToolTips --config-from-file projects/demoPlugins/demo.properties]]></screen>
               </para>
             </formalpara>
           </listitem>
