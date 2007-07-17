@@ -5,7 +5,7 @@ cartoserverDirectAccess = false
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, exportDxf, views, layerReorder, testMainLocation, filterIdrecenter, testMainTableRules, accounting
+loadPlugins = auth, hello, outline, exportPdf, exportHtml, exportCsv, exportDxf, exportRtf, views, layerReorder, testMainLocation, filterIdrecenter, testMainTableRules, accounting
 
 ; views
 viewOn = true

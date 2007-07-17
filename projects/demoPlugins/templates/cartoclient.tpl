@@ -264,6 +264,7 @@
        <ul id="tabnav2">
          {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
          {if $wmsBrowser|default:''}<li id="label7"><a href="javascript:ontop(7)">{t}WMS layers{/t}</a></li>{/if}
+         {if $exportRtf|default:''}<li id="label10"><a href="javascript:ontop(10)">{t}RTF{/t}</a></li>{/if}
        </ul>
        <ul id="tabnav1">
          <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
@@ -414,8 +415,13 @@
       </center> 
     </div>
     {/if}
-    <!-- end of folder7 -->
-    
+    <!-- end of folder10 -->
+    {if $exportRtf|default:''}
+    <div id="folder10" class="folder">
+      {$exportRtf}
+    </div>
+    <!-- end of folder8 -->
+    {/if}
     </div> <!--container-->
   </td>
    </tr>  

@@ -10,7 +10,7 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, outline, views, layerReorder, mapOverlay, wmsBrowser, checkInstall, locate, exportDxf @ROUTING_PLUGINS@
+loadPlugins = exportCsv, outline, views, layerReorder, mapOverlay, wmsBrowser, checkInstall, locate, exportRtf, exportDxf @ROUTING_PLUGINS@
 
 ;## Internationalization ##
 defaultLang = fr
