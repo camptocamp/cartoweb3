@@ -58,7 +58,7 @@
   <input type="hidden" name="selection_type" id="selection_type" />
   <input type="hidden" name="selection_coords" id="selection_coords" />
   <input type="hidden" name="features" id="features" />
-  <input type="hidden" name="customMapsize" id="customMapsize" /
+  <input type="hidden" name="customMapsize" id="customMapsize" />
   {if $collapsibleKeymap|default:''}
     <input type="hidden" name="collapse_keymap" id="collapse_keymap" value="{$collapseKeymap}" />
   {/if}
