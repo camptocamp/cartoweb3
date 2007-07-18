@@ -1,82 +1,81 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
-  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
-  %cartoweb;
-]>
-
-<!-- $Id$ -->
-
-<chapter id="user.output">
- <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
- <subtitle>exportCsv, exportHtml, exportDxf Plugins</subtitle>
-
- <sect1 id="user.output.intro"> 
-  <title>Introduction</title>
-  <para>
-   It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Five formats are available: PDF, CSV, HTML, DXF and raw image. 
-  </para>
-  <para>
-   The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
-  </para>
- </sect1>
-
- <sect1 id="user.output.html"> 
-  <title><indexterm><primary>HTML export plugin</primary></indexterm>HTML Export</title>
-  <para>
-   The <parameter>exportHtml</parameter> plugin outputs an HTML simplified version of the viewer: main map, keymap and layers list. It is often launched by clicking on a "HTML print" link or button and opens a new browser window. It is specially useful to quickly (basic HTML layout, same maps used than in viewer) display raw maps in order to print them.
-  </para>
-  <para>
-   No configuration is required. To enable or deactivate this plugin, simply add or remove <parameter>exportHtml</parameter> from the <parameter>loadPlugins</parameter> parameter in <filename>client_conf/client.ini</filename>. For instance:
-   <programlisting><![CDATA[[...]
+ "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+ <!ENTITY % cartoweb SYSTEM "../cartoweb.ent">
+ %cartoweb;
+ ]>
+  <!-- $Id$ -->
+  
+  <chapter id="user.output">
+   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
+   <subtitle>exportCsv, exportHtml, exportDxf, exportRtf Plugins</subtitle>
+   
+   <sect1 id="user.output.intro"> 
+    <title>Introduction</title>
+    <para>
+     It is possible to export maps and data from the viewer (ie. the &cartoweb; user interface) in order to print them or to save them on the user's computer. Six formats are available: PDF, CSV, HTML, DXF, RTF and raw image. 
+    </para>
+    <para>
+     The PDF export plugin is precisely described (usage, configuration) in next chapter: <xref linkend="user.pdf" />.
+    </para>
+   </sect1>
+   
+   <sect1 id="user.output.html"> 
+    <title><indexterm><primary>HTML export plugin</primary></indexterm>HTML Export</title>
+    <para>
+     The <parameter>exportHtml</parameter> plugin outputs an HTML simplified version of the viewer: main map, keymap and layers list. It is often launched by clicking on a "HTML print" link or button and opens a new browser window. It is specially useful to quickly (basic HTML layout, same maps used than in viewer) display raw maps in order to print them.
+    </para>
+    <para>
+     No configuration is required. To enable or deactivate this plugin, simply add or remove <parameter>exportHtml</parameter> from the <parameter>loadPlugins</parameter> parameter in <filename>client_conf/client.ini</filename>. For instance:
+     <programlisting><![CDATA[[...]
 
 ; exportHtml is listed as activated:
 loadPlugins = auth, outline, exportHtml
 
 [...]]]></programlisting>
-   To customized the exported page layout, simply edit the plugin template file <filename>exportHtml/templates/export.tpl</filename>. It is recommended not to modify the regular template file but to override it in a project version of the <parameter>exportHtml</parameter> plugin. For more info about projects, see <xref linkend="user.structure.project"/>.
-  </para>
-  <para>
-   To get advanced printing capabilities, rather use the &cartoweb; PDF export plugin, <link linkend="user.pdf"><parameter>exportPdf</parameter></link>, described in next chapter.
-  </para>
- </sect1>
-
- <sect1 id="user.output.csv"> 
-  <title><indexterm><primary>CSV export plugin</primary></indexterm>CSV Export</title>
-  <para>
-   The <parameter>exportCsv</parameter> plugin enables to export tabular data from various queries results in a comma-separated (CSV) or assimilated text format. The returned CSV file can then be opened and edited in any text editor or rendered as a table document in OpenOffice or MS Excel. For instance:
-   <programlisting><![CDATA["Id";"Object Description"
+     To customized the exported page layout, simply edit the plugin template file <filename>exportHtml/templates/export.tpl</filename>. It is recommended not to modify the regular template file but to override it in a project version of the <parameter>exportHtml</parameter> plugin. For more info about projects, see <xref linkend="user.structure.project"/>.
+    </para>
+    <para>
+     To get advanced printing capabilities, rather use the &cartoweb; PDF export plugin, <link linkend="user.pdf"><parameter>exportPdf</parameter></link>, described in next chapter.
+    </para>
+   </sect1>
+   
+   <sect1 id="user.output.csv"> 
+    <title><indexterm><primary>CSV export plugin</primary></indexterm>CSV Export</title>
+    <para>
+     The <parameter>exportCsv</parameter> plugin enables to export tabular data from various queries results in a comma-separated (CSV) or assimilated text format. The returned CSV file can then be opened and edited in any text editor or rendered as a table document in OpenOffice or MS Excel. For instance:
+     <programlisting><![CDATA["Id";"Object Description"
 "1";"A Line"]]></programlisting>
-  </para>
-  <para>
-   "CSV export" links are generally displayed in the viewer at the bottom of each queries results tables. Each link can only export a single layer table at a time.
-  </para>
-  <para>
-   A few configuration parameters are available in <filename>client_conf/exportCsv.ini</filename>:
-   <itemizedlist>
-    <listitem>
-     <para>
-      <indexterm><primary>separator, CSV</primary></indexterm><parameter>separator</parameter> indicates what character should be used to distinguish each tabular cell value. Default is ";" (semi-colon).
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      <indexterm><primary>textDelimiter, CSV</primary></indexterm><parameter>textDelimiter</parameter> tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <parameter>separator</parameter> may be found within the cell content. Default parameter value is <parameter>double-quote</parameter> ie. `"`. The alias is defined to overcome INI syntax issues.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      <indexterm><primary>filename, CSV</primary></indexterm><parameter>filename</parameter> specifies the filename naming convention to use. It can include the table name (using the <parameter>[table]</parameter> keyword) and the generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>[date,Ymd-Hi]_[table].csv</parameter> which gives for instance <filename>20050220-2021_myLayer.csv</filename>.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      <indexterm><primary>charsetUtf8, CSV</primary></indexterm>If the <parameter>charsetUtf8</parameter> boolean is set to <parameter>true</parameter> the result file will be UTF-8 encoded. Else ISO-8859-1 encoding is used, which is the default behavior.
-     </para>
-    </listitem>
-   </itemizedlist>
-   After initial &cartoweb; installation, <filename>client_conf/exportCsv.ini</filename> is set as follows:
-   <programlisting><![CDATA[; separator between each value, default is ";"
+    </para>
+    <para>
+     "CSV export" links are generally displayed in the viewer at the bottom of each queries results tables. Each link can only export a single layer table at a time.
+    </para>
+    <para>
+     A few configuration parameters are available in <filename>client_conf/exportCsv.ini</filename>:
+     <itemizedlist>
+      <listitem>
+       <para>
+        <indexterm><primary>separator, CSV</primary></indexterm><parameter>separator</parameter> indicates what character should be used to distinguish each tabular cell value. Default is ";" (semi-colon).
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        <indexterm><primary>textDelimiter, CSV</primary></indexterm><parameter>textDelimiter</parameter> tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <parameter>separator</parameter> may be found within the cell content. Default parameter value is <parameter>double-quote</parameter> ie. `"`. The alias is defined to overcome INI syntax issues.
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        <indexterm><primary>filename, CSV</primary></indexterm><parameter>filename</parameter> specifies the filename naming convention to use. It can include the table name (using the <parameter>[table]</parameter> keyword) and the generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>[date,Ymd-Hi]_[table].csv</parameter> which gives for instance <filename>20050220-2021_myLayer.csv</filename>.
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        <indexterm><primary>charsetUtf8, CSV</primary></indexterm>If the <parameter>charsetUtf8</parameter> boolean is set to <parameter>true</parameter> the result file will be UTF-8 encoded. Else ISO-8859-1 encoding is used, which is the default behavior.
+       </para>
+      </listitem>
+     </itemizedlist>
+     After initial &cartoweb; installation, <filename>client_conf/exportCsv.ini</filename> is set as follows:
+     <programlisting><![CDATA[; separator between each value, default is ";"
 separator = ";"
 
 ; delimiter before and after each value, default is double-quote
@@ -90,43 +89,210 @@ fileName = "[date,Ymd-Hi]_[table].csv"
 ; if true, exported CSV file will be UTF-8 encoded 
 ; if false, it will be ISO-8859-1 encoded, default 
 charsetUtf8 = false]]></programlisting>
-  </para>
- </sect1>
-
- <sect1 id="user.output.dxf">
-  <title><indexterm><primary>DXF export</primary></indexterm>DXF Export</title>
-  <para>
-   DXF is a drawing format supported by AutoCAD and assimilated software. With &cartoweb;, it is possible to export a DXF description of the shapes drawn with the <parameter>outline</parameter> plugin. The latter plugin must be activated before using <parameter>exportDxf</parameter> plugin.
-  </para>
-  <para>
-   A few configuration parameters are available in <filename>client_conf/exportDxf.ini</filename>:
-   <itemizedlist>
-    <listitem>
-     <para>
-      <indexterm><primary>roundLevel, DXF</primary></indexterm><parameter>roundLevel</parameter> (integer) indicates how many digits must appear after the decimal point in points coordinates. Default is "2". 
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      <indexterm><primary>fileName, DXF</primary></indexterm><parameter>fileName</parameter> (string) specifies the filename naming convention to use. It may be static or contain athe generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>export_[date,Ymd-Hi].dxf</parameter> which gives for instance <filename>export_20060725-2021.dxf</filename>.
-     </para>
-    </listitem>
-    <listitem>
-     <para>
-      <indexterm><primary>exportDxfContainerName, DXF</primary></indexterm><parameter>exportDxfContainerName</parameter> (string) specifies the ID of the block containing the <parameter>{$exportDxf}</parameter> variable in the template when working with Ajax mode enabled. For exemple:
-      <programlisting><![CDATA[exportDxfContainerName = "exportDxfContainer"]]></programlisting> in <filename>exportDxf.ini</filename> and 
-      <programlisting><![CDATA[<div id="exportDxfContainer">{$exportDxf}</div>]]></programlisting> in your <filename>cartoclient.tpl</filename>.
-     </para>
-    </listitem>
-   </itemizedlist>
-  </para>
- </sect1>
-
- <sect1 id="user.output.image">
-  <title><indexterm><primary>image mode</primary></indexterm>Image Output</title>
-  <para>
-   &cartoweb; enables to return a raw image map with no HTML. It is not an export plugin and thus has not to be activated anywhere. &cartoweb; simply needs to receive a <parameter>mode=image</parameter> REQUEST parameter (GET or POST). For instance: <programlisting><![CDATA[http://your/cartoweb3/?recenter_x=123456&recenter_y=654321&show_crosshair=1&mode=image]]></programlisting>
-  </para>
- </sect1>
-
-</chapter>
+    </para>
+   </sect1>
+   
+   <sect1 id="user.output.dxf">
+    <title><indexterm><primary>DXF export</primary></indexterm>DXF Export</title>
+    <para>
+     DXF is a drawing format supported by AutoCAD and assimilated software. With &cartoweb;, it is possible to export a DXF description of the shapes drawn with the <parameter>outline</parameter> plugin. The latter plugin must be activated before using <parameter>exportDxf</parameter> plugin.
+    </para>
+    <para>
+     A few configuration parameters are available in <filename>client_conf/exportDxf.ini</filename>:
+     <itemizedlist>
+      <listitem>
+       <para>
+        <indexterm><primary>roundLevel, DXF</primary></indexterm><parameter>roundLevel</parameter> (integer) indicates how many digits must appear after the decimal point in points coordinates. Default is "2". 
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        <indexterm><primary>fileName, DXF</primary></indexterm><parameter>fileName</parameter> (string) specifies the filename naming convention to use. It may be static or contain athe generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). Default filename convention is <parameter>export_[date,Ymd-Hi].dxf</parameter> which gives for instance <filename>export_20060725-2021.dxf</filename>.
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        <indexterm><primary>exportDxfContainerName, DXF</primary></indexterm><parameter>exportDxfContainerName</parameter> (string) specifies the ID of the block containing the <parameter>{$exportDxf}</parameter> variable in the template when working with Ajax mode enabled. For exemple:
+        <programlisting><![CDATA[exportDxfContainerName = "exportDxfContainer"]]></programlisting> in <filename>exportDxf.ini</filename> and 
+        <programlisting><![CDATA[<div id="exportDxfContainer">{$exportDxf}</div>]]></programlisting> in your <filename>cartoclient.tpl</filename>.
+       </para>
+      </listitem>
+     </itemizedlist>
+    </para>
+   </sect1>
+   
+   <sect1 id="user.output.rtf">
+    <title><indexterm><primary>RTF Export</primary></indexterm>RTF Export</title>
+    <para>
+     The Rich Text Format (RTF) is a document file format used for cross-platform document interchange. 
+     Most word processors are able to read and write RTF documents. 
+     RTF should not be confused with enriched text format which is a completely different specification.
+    </para>
+    <para>
+     The main goal of The ExportRtf plugin is to allow users to create templates directly in a word editor. 
+     The plugin compatibility has been tested on :
+     
+     <itemizedlist>
+      <listitem>
+       <para>
+        Office Word 2004 and later (Mac, Windows),
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        OpenOffice 2.0 and later,
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        NeoOffice (Mac)
+       </para>
+      </listitem>
+     </itemizedlist>
+     
+     Known incompatibilities :
+     <itemizedlist>
+      <listitem>
+       <para>
+        Pages (Mac),
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        TextEdit (Mac) images are not supported,     
+       </para>
+      </listitem>
+     </itemizedlist>
+     Supported image formats (set in the mapFile):
+     <itemizedlist>
+      <listitem>
+       <para>
+        JPEG,
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        GIF,     
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        PNG,     
+       </para>
+      </listitem>
+     </itemizedlist>
+    </para>
+    <sect2 id="user.output.rtf.templating">
+     <title>Setting-up the template</title>
+      <para>   
+       
+       Open your editor and do your layout setup by opening the <filename>exportRtf.rtf</filename> file in the plugin template folder.
+      </para>
+      <note>
+       <para>
+        Please take into consideration that the RTF template will be generated by your editor. 
+        You may encounter some compatibility issues. 
+        For example: an RTF template done with Word can be open with OpenOffice without too many difficulties while an RTF generated with OpenOffice may not open correctly with Word.
+       </para>
+      </note>
+      <para>
+       You can insert different fields in the template by typing keywords inside triple brackets. 
+       For Example : [[[$TITLE]]]       
+       <itemizedlist>
+        <listitem>
+         <para>
+          $TITLE stands for a specific title of the form.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          $MAP stands for the map. The map dimensions are defined in the exportRtf.ini.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          $QUERYRESULTS stands for the query results. If you want to customize the table output, edit the results.tpl file.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          $SCALEBAR stands for the scale bar.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          $KEYMAP stands for the minimap.
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+      <para>
+       You can apply word formatting and alignment to your tags. The formatting will then be reported to their contents.
+       <warning>
+        <para>When you write your tags in the file, please write them in a continuous way and without spaces and/or formatting. 
+         If you want to apply any formatting, you need to select all the tags with the "[[[ ]]]" included. 
+         If by mistake an RTF tag is inserted inside the brackets, you will have to erase the tag and rewrite it or edit the RTF sources and remove the RTF keywords.
+        </para>
+       </warning>
+      </para>
+    </sect2>
+    <sect2 id="user.output.rtf.params">
+    <title>Configuration parameters</title>
+    <para>
+     You will find some configuration parameters in the <filename>exportRtf.ini</filename> file
+     <programlisting><![CDATA[;fields shown in the form
+activatedBlocks = mainmap,title,scalebar,overview,queryResult
+;dimention of the map in pixels X*Y
+mapDimention ="400*400"
+;allowed roles for the Auth plugin 
+allowedRoles = all
+;rtf optional inputs 
+optionalValues = ref,num,other
+]]></programlisting>
+     
+    </para>
+    </sect2>
+    <sect2 id="user.output.rtf.optional">
+    <title>Optional Inputs</title>
+    <para>
+     You can add free dynamic content inside your RTF. 
+     For instance, to insert a reference number in you RTF file:
+     
+    </para>
+    <para>
+     First, you have to add the name of your optional fields in the <filename>exportRtf.ini</filename> file. Please do not use special characters there.
+     Please do not use special characters here.
+     <programlisting><![CDATA[optionalValues = ref,num,other]]></programlisting>
+     Then, open the exportRtf.rtf file with you favorite word editor and just add tags the same way you do it for standard components.
+     <programlisting><![CDATA[ [[[$REF]]] [[[$NUM]]] [[[$OTHER]]] ]]></programlisting>
+     This tags are case sensitive and have to be in UPPER CASE. 
+     The optionalValues parameters that you have set in the ini file have generated some hidden inputs in the HTML output. 
+     These inputs are named with the prefix "optRtf" and the tag name.
+     
+     <programlisting><![CDATA[<input id="optRtfref" type="hidden" name="optRtfref" value=""/>
+]]></programlisting>
+    </para>
+    <para>
+     To have a value shown in the RTF, you just have to set a value to the corresponding HTML input.
+     <programlisting><![CDATA[//JavaScript
+     $('optRtfref').value ='123';]]></programlisting>
+     <note>
+      <para>
+       If you want to have an optional input available in a form (like a text input), you can simply remove its name from the ini file. 
+       Then open an HTML template and add a form field name, which must contain the prefix "optRtf" and the tag name.
+      </para>
+     </note>
+    </para>
+     </sect2>
+   </sect1>
+   
+   <sect1 id="user.output.image">
+    <title><indexterm><primary>image mode</primary></indexterm>Image Output</title>
+    <para>
+     &cartoweb; enables to return a raw image map with no HTML. It is not an export plugin and thus has not to be activated anywhere. &cartoweb; simply needs to receive a <parameter>mode=image</parameter> REQUEST parameter (GET or POST). For instance: <programlisting><![CDATA[http://your/cartoweb3/?recenter_x=123456&recenter_y=654321&show_crosshair=1&mode=image]]></programlisting>
+    </para>
+  
+   </sect1>
+   
+  </chapter>
+  
