@@ -43,6 +43,8 @@ AjaxHelper.addEvent(window, 'load', function() {
 
 AjaxPlugins = {};
 
+AjaxPlugins.initializablePlugins = new Array();
+
 AjaxPlugins.Common = {
 
     // Map cursor-style backup
@@ -62,8 +64,13 @@ AjaxPlugins.Common = {
     init: function() {
         Logger.header('Initiating actions');
         AjaxPlugins.Location.Actions.Pan.init();
-        if (typeof AjaxPlugins.ToolTips != 'undefined') {
-            AjaxPlugins.ToolTips.init();
+        
+        // call init method in Ajax plugin if the are in the initializable list
+        for( var i = 0; i < AjaxPlugins.initializablePlugins.length; i++ ) {
+            var plugin = AjaxPlugins.initializablePlugins[i];
+            if (typeof plugin.init != 'undefined') {
+                plugin.init();
+            }
         }
     },
 

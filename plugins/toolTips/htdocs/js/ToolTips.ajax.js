@@ -206,6 +206,9 @@ AjaxPlugins.ToolTips = {
     }
 };
 
+// add the toolTips plugin to the list of Ajax initializable plugins
+AjaxPlugins.initializablePlugins.push(AjaxPlugins.ToolTips);
+
 /*
  * Plugin actions
  */
