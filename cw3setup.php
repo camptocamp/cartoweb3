@@ -39,8 +39,8 @@ define('CW3_SETUP_INCLUDED', true);
 
 // URL of required libraries (md5sum: d82a690784df96ce08ccd4ed888de155):
 define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.4/cartoweb-includes-3.4.0.tar.gz');
-// URL of demo data (md5sum: c1d654245f725ca3fa157f21423c8fc3):
-define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.3/cartoweb-demodata-3.3.0.tar.gz');
+// URL of demo data (md5sum: 781f6d3207fda3ebf4d6e51d354a4336):
+define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.4/cartoweb-demodata-3.4.0.tar.gz');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
