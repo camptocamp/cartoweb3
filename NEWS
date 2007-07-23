@@ -14,7 +14,8 @@ CartoWeb 3.4.0
 - Added free (user) scale input in location coreplugin
 - Added 'bboxHistory' plugin: allows the user to navigate through bbox history.
 - Added WMS browser light and OgcLayerLoader plugins to make WMS layers loading more user-friendly.
-- Added multiple resolutions for legend icons
+- Added exportRtf plugin which gives the possibility to export the map in a RTF format.
+- Added multiple resolutions for legend icons.
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
