@@ -490,6 +490,19 @@ static function myCallbackMethod('table_id', 'column_id',
                                  array ('column_1' => 'value_1',
                                         'column_2' => 'value_2'))
     return 'cell_value']]></programlisting>
+        <para>
+            <note><para>
+                To return all column's data to the callback function, you can
+                use <emphasis>NULL</emphasis>.
+        <programlisting><![CDATA[
+        $registry->addCellFilter('query', 'table_name', '*', NULL,
+                   array('TableRulesClassName', 'callbackFunctionName'));        
+        ]]></programlisting>
+        This will apply the <emphasis>callbackFunctionName</emphasis> function to all 
+        column of table <emphasis>table_name</emphasis> and the callback function 
+        will receive an array containing the values of all columns.
+            </para></note>    
+        </para>
       </sect4>
       <sect4 id="dev.newplugin.special.tables.setrules.cellfilterbatch">
         <title>Cell Filter (Batch)</title>
