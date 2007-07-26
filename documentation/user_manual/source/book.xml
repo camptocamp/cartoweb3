@@ -93,8 +93,6 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/locate.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
-    <!-- <xi:include href="user/wms.xml" 
-      xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
     <xi:include href="user/ajax.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/geostat.xml" 
