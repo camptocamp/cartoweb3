@@ -13,7 +13,7 @@
     The main steps are detailed here.
   </para>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.directory">
   <title>Project Directory</title>
   <para>Get in the <filename>projects</filename> folder of Cartoweb. Rename the 
     <filename>sampleProject</filename> directory to the name of your project.</para>
@@ -28,7 +28,7 @@ mapId = your_project_name]]></screen></para>
     with the name of the new project.</para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.setup">
   <title>Setup Your Project</title>  
   <para>
     In a command line prompt (DOS, shell), launch the <filename>cw3setup.php</filename>
@@ -45,7 +45,7 @@ mapId = your_project_name]]></screen></para>
   </para>
   </sect1>  
 
-  <sect1>
+  <sect1 id="appendix.create_new_project.shortcut">
   <title>Project Shortcut</title>  
   <para>To make development easier, you can create a shortcut file to access
    your project directly. Go in <filename>cartoweb3/htdocs/</filename> and copy
@@ -60,7 +60,7 @@ mapId = your_project_name]]></screen></para>
   </para>
   </sect1>  
 
-  <sect1>
+  <sect1 id="appendix.create_new_project.loading_data">
   <title>Loading Data</title>  
   <para>As you can see, the project you created is hopelessly empty. Then,
    we'll load spatial data in it.</para>
@@ -108,7 +108,7 @@ layers.region.msLayer = region</screen>
    and you should now see the France regions.</para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix_create_new_project.location">
   <title>Location Parameters</title>
   <para>Move the location.ini file you will find in the sampleFiles folder into
    the <filename>server_conf/your_project_name/</filename> one.
@@ -121,7 +121,7 @@ layers.region.msLayer = region</screen>
    should appear. You should be able to choose a scale and a shortcut.</para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.data">
   <title>Your Own Data</title>
   <para>After that the next point is to add your own data. You should just have
    to :
@@ -147,7 +147,7 @@ layers.region.msLayer = region</screen>
   </para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.outline">
   <title>Outline</title>
   <para>Let's see how to load a plugin. Edit the <filename>client.ini.in</filename>
    file (<filename>client_conf/</filename>) and add the outline plugin in the
@@ -236,7 +236,7 @@ layers.region.msLayer = region</screen>
    corresponding folder in the leftbar.</para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.pdf">
   <title>Pdf Printing</title>
   <para>As done for the outline plugin, add <emphasis>"exportPdf"</emphasis> to
    the list of plugins to load on both client and server-side.
@@ -256,7 +256,7 @@ layers.region.msLayer = region</screen>
   </para>
   </sect1>
   
-  <sect1>
+  <sect1 id="appendix.create_new_project.templating">
   <title>Templating and Layout</title>
   <para>Create a new <filename>templates</filename> folder in your project
    directory and move the <filename>cartoclient.tpl</filename> file from 

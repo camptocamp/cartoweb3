@@ -174,7 +174,7 @@ directory &lt;cartoweb_home&gt;/locale/ and do
 parameter to specify a list of languages to use. The order in which you 
 input the languages codes will be used to display the languages links in 
 the interface.</para>
-         <example>
+         <example id="user.config.client.example">
          <title>langList usage</title>
          <programlisting>langList = it,de,fr</programlisting>
          </example>

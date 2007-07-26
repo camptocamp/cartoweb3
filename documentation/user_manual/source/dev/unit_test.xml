@@ -133,7 +133,7 @@ misc
   <para>
   The following example shows a test in <filename>common/BasicTypeTest.php</filename> 
   file:
-   <example>
+   <example id="dev.unit_test.writing.basic">
     <title>Simple test case (<filename>BasicTypesTests.php</filename>)</title>
     <programlisting><![CDATA[<?php
 require_once 'PHPUnit2/Framework/TestCase.php';
@@ -172,7 +172,7 @@ class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
     As stated previously, all test classes have to belong to a test suite. The
     next example shows how such a test suite is built, by grouping all tests
     together in the <methodname>suite()</methodname> method.
-  <example>
+  <example id="dev.unit_test.writing.all_test">
    <title>
     Test suite (<filename>AllTests.php</filename>) 
    </title>
@@ -202,7 +202,7 @@ class client_AllTests {
   <para>
     All test suites are then grouped together into the root test suite. It is
     shown there for information.
-  <example>
+  <example id="dev.unit_test.writing.root">
    <title>
     Root directory's AllTests.php:
    </title>

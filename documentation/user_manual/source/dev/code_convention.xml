@@ -284,7 +284,7 @@
    But, here are some things people must know to get XHTML valid 
    generated pages.
   </para>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.nesting">
    <title>Nesting</title>
    <subtitle>Elements Must Be Properly Nested</subtitle>
    <para>
@@ -302,7 +302,7 @@
 </html>]]></programlisting>
    </para>
   </sect2>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.lower">
    <title>Lower Case</title>
    <subtitle>Tag Names and Attribute Names Must Be in Lower Case</subtitle>
    <para>
@@ -332,9 +332,9 @@
     <programlisting><![CDATA[<table width="100%">]]></programlisting>    
    </para>
   </sect2>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.closing">
    <title>Closing</title>
-   <sect3>
+   <sect3 id="dev.code_convention.xhtml.element">
     <title>All Elements</title>
     <subtitle>All XHTML Elements Must Be Closed</subtitle>
     <para>
@@ -351,7 +351,7 @@
 <p>This is another paragraph</p>]]></programlisting>    
     </para>
    </sect3>
-   <sect3>
+   <sect3 id="dev.code_convention.xhtml.closing.empty">
     <title>Empty Elements</title>
     <subtitle>Empty Elements Must Also Be Closed</subtitle>
     <para>
@@ -381,7 +381,7 @@ Here's an image <img src="happy.gif" alt="Happy face" />
     </para>
    </sect3>
   </sect2>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.minimization">
    <title>Minimization</title>
    <subtitle>Attribute Minimization Is Forbidden</subtitle>
    <para>
@@ -415,7 +415,7 @@ Here's an image <img src="happy.gif" alt="Happy face" />
 <frame noresize="noresize" />
 ]]></programlisting>
   </sect2>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.id">
    <title>Id vs Name</title>
    <subtitle>The id Attribute Replaces The name Attribute</subtitle>
    <para>
@@ -445,7 +445,7 @@ Here's an image <img src="happy.gif" alt="Happy face" />
     you should add an extra space before the "/" symbol. 
    </para>
   </sect2>
-  <sect2>
+  <sect2 id="dev.code_convention.xhtml.alt">
    <title>Image "alt"</title>
    <subtitle>Tip: Image "alt" Attribute</subtitle>
    <para>

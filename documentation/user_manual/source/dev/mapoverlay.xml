@@ -112,7 +112,7 @@
           <para>This chapter contains some basic examples of the
           plugin usage. All the code listed here must be placed in the
           server part of a plugin.</para>
-    <sect2>
+    <sect2 id="dev.mapoverlay.usage.class">
           <title>Class creation</title>
           <para>Consider this code excerpt:</para>
           <para>
@@ -169,7 +169,7 @@ the mapfile is updated.
      </para>
 
     </sect2>
-    <sect2>
+    <sect2 id="dev.mapoverlay.usage.feature">
         <title>Add a feature</title>
           <para>The goal of this example is to add a
           feature with a specific style and transparency. 
@@ -205,7 +205,7 @@ mapOverlay code.
 </para>
     </sect2>
 
-    <sect2>
+    <sect2 id="dev.mapoverlay.usage.filter">
       <title>Filter data</title>
         <para>
           <programlisting><![CDATA[
@@ -233,7 +233,7 @@ $mapOverlay->updateMap($layer);]]></programlisting>
         </para>
     </sect2>
 
-    <sect2>
+    <sect2 id="dev.mapoverlay.usage.debug">
       <title>Debugging</title>
         <para>
         At any time you can see the result of the modifications by calling:

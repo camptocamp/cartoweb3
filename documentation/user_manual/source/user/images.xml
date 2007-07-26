@@ -21,7 +21,7 @@
     <title>
       Client-side Configuration
     </title>
-    <sect2>
+    <sect2 id="user.images.client.main_map">
       <title>
         Main Map Options
       </title>

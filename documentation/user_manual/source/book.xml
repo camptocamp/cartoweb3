@@ -153,5 +153,5 @@
   <xi:include href="appendix/make_doc.xml" 
     xmlns:xi="http://www.w3.org/2001/XInclude" />
 
-  <index/>
+  <index id="cartoweb.index" />
 </book>

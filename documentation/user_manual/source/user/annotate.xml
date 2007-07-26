@@ -284,7 +284,7 @@ client.ini configuration file, by setting toolPickerOn = true.</para>
         the symbol will be <emphasis>return_symbol_12_d</emphasis>.</para>
         <para>The SymbolPicker is used with &cartoweb; outline plugin usually, 
         but it also can be used without the plugin.</para>
-        <sect4>
+        <sect4 id="user.annotate.toolpicker.usage.symbol.within">
           <title>Within the Outline Plugin</title>
           <para>In &cartoweb; <emphasis>server_conf/yourprojectname/outline.ini</emphasis> 
           file defines a list of symbols to use. For each kind of symbols 
@@ -303,7 +303,7 @@ client.ini configuration file, by setting toolPickerOn = true.</para>
           using the gettext functionnality. Add the corresponding translations 
           in the server .po files.</para>
         </sect4>
-        <sect4>
+        <sect4  id="user.annotate.toolpicker.usage.symbol.without">
           <title>Without the Outline Plugin (Standalone Use)</title>
           <para>If you do not use the outline plugin, you will need to set the 
           following javaScript variable somewhere in your page:
@@ -329,7 +329,7 @@ client.ini configuration file, by setting toolPickerOn = true.</para>
            symbol_1_over.gif</para>
            <para>Put them in the same folder.</para>
         </sect4>
-        <sect4>
+        <sect4 id="user.annotate.toolpicker.usage.symbol.hilight">
           <title>Symbol Hilight Mode</title>
           <para>There are two modes to hilight the selected symbol in the 
           <emphasis>SymbolPicker</emphasis> interface. You can select between 

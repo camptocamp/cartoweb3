@@ -271,7 +271,7 @@
         </varlistentry>
       </variablelist>
 
-      <example>
+      <example id="user.security.auth.users_roles.example">
         <title>Special Role Name Usage</title>
         <programlisting><![CDATA[general.allowedRoles = loggedIn]]></programlisting>
       </example>   
@@ -294,7 +294,7 @@
           </para>
       </listitem>
     </itemizedlist>
-      <example>
+      <example id="user.security.global_permissions.example">
         <title>Global Permissions Usage</title>
         <programlisting><![CDATA[securityAllowedRoles = loggedIn]]></programlisting>
       </example> 

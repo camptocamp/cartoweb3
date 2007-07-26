@@ -83,7 +83,7 @@
     </para>
   </sect2>
   
-  <sect2>
+  <sect2 id="dev.debug.log.source">
     <title>Using Log4php in Source Files</title>
     <para>
       The Log4php usage in code is quite easy.
