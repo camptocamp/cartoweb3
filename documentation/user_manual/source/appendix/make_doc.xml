@@ -30,7 +30,7 @@
    <para>
     Uncompress the <ulink url=
      "http://www.cartoweb.org/downloads/docbook/tiny-docbook-1-6-16.tar.bz2">
-    tiny-docbook-1-6-16.tar.bz2</ulink> archive somewhere in your filesystem.
+    tiny-docbook-1-6-17.tar.bz2</ulink> archive somewhere in your filesystem.
    </para>
    <para>
     Execute:
@@ -38,49 +38,6 @@
 $ ./configure --enable-install
 $ make install]]></screen>
     to install and configure Tiny DocBook environment.
-   </para>
-  </sect2>
-  <sect2 id="appendix.make_doc.unix.jai">
-   <title>
-    JAI Install
-   </title>
-   <para>
-    For <acronym>PNG</acronym> support with <acronym>PDF</acronym> generation
-    you will also need to install <acronym>JAI</acronym>. If you don't plan
-    to produce <acronym>PDF</acronym>, you could jump to next step, otherwise
-    process as following:
-    <orderedlist>
-     <listitem>
-      <para>
-       Retrieve <acronym>JAI</acronym> archive from<ulink url=
-        "http://java.sun.com/products/java-media/jai/downloads/download-1_1_2_01.html">
-       Sun site</ulink>, (took the classpath one for your platform).
-      </para>
-     </listitem>
-     <listitem>
-      <para>
-       Uncompress it in your Tiny DocBook install dir:
-       <screen><![CDATA[
-$ tar xvzf jai-1_1_2_01-lib-linux-i586.tar.gz]]></screen>
-      </para>
-     </listitem>
-     <listitem>
-      <para>
-       Move <filename>jai-1_1_2_01/lib/jai_codec.jar</filename> and <filename>
-       jai-1_1_2_01/lib/jai_core.jar</filename> to <filename>fop/lib
-       </filename>.
-       <screen><![CDATA[
-$ mv jai-1_1_2_01/lib/jai_codec.jar fop/lib/
-$ mv jai-1_1_2_01/lib/jai_core.jar fop/lib/]]></screen>
-      </para>
-     </listitem>
-     <listitem>
-      <para>
-       Remove the becoming useless <acronym>JAI</acronym> archive, like that:
-       <screen><![CDATA[$ rm -rf jai-1_1_2_01*]]></screen>
-      </para>
-     </listitem>
-    </orderedlist>
    </para>
   </sect2>
   <sect2 id="appendix.make_doc.unix.link">
