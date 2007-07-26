@@ -16,6 +16,7 @@ CartoWeb 3.4.0
 - Added WMS browser light and OgcLayerLoader plugins to make WMS layers loading more user-friendly.
 - Added exportRtf plugin which gives the possibility to export the map in a RTF format.
 - Added multiple resolutions for legend icons.
+- Added exportImg plugin, similar to mode=image but via a template and allowing direct access to the generated image.
 
 2006-08-31: CartoWeb 3.3.0
 ==========================
