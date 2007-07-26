@@ -288,7 +288,7 @@ optionalValues = ref,num,other
    
    <sect1 id="user.output.image">
     <title><indexterm><primary>image export</primary></indexterm>Image Export</title>
-    <para>Cartoweb offer 2 way to get an image.</para>
+    <para>&cartoweb; offers 2 way to get an image.</para>
         <sect2 id="user.output.image.exportimg">
             <title>exportImg</title>
             <para>To display only the map image without the other elements of the main template, you can simply add <parameter>?exportImg</parameter> to the url.
