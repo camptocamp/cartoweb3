@@ -21,11 +21,6 @@
  * @version $Id$
  */
 
-/**
- * For debugging purpose only
- */
-@include_once('client_debug.php');
-
 define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 require_once(CARTOWEB_HOME . 'common/Common.php');
