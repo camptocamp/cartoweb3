@@ -106,6 +106,11 @@ abstract class ResultProvider {
     public $columns;
     
     /**
+     * @var string[] column aliases
+     */
+    public $aliases;
+    
+    /**
      * @param PluginBase plugin
      */
     public function __construct(PluginBase $plugin) {
@@ -132,9 +137,38 @@ abstract class ResultProvider {
             return NULL;
         }
         
-        return SearchUtils::getFromConfig('ResultProvider', $config,
-                                          $defaultValues, $plugin);
+        $provider = SearchUtils::getFromConfig('ResultProvider', $config,
+                                               $defaultValues, $plugin);
+        if (!is_null($provider->aliases)) {
+            
+            $aliases = array();
+            $alias = NULL;
+            foreach ($provider->aliases as $item) {
+                
+            	if (is_null($alias)) {
+            		$alias = $item;
+            	} else {
+                    $aliases[$alias] = $item;
+            		$alias = NULL;
+            	}
+            }
+            $provider->aliases = $aliases;
+        } 
+        return $provider;                                          
     }    
+    
+    /**
+     * Gets DB column name, uses alias if needed
+     * @param string column name or alias
+     * @return string DB column name
+     */
+    public function getColumnName($column) {
+    	
+        if (array_key_exists($column, $this->aliases)) {
+        	return $this->aliases[$column];
+        }
+        return $column;
+    }
 }
 
 /**
@@ -266,11 +300,20 @@ class DbResultProvider extends ResultProvider {
         
         Utils::getDb($this->db, $this->getDsn());
         $sql = $this->getSql($request);
+        
+        // Parameters
         foreach ($request->parameters as $parameter) {
+            
             $sql = str_replace('@' . $parameter->key . '@', 
                                $this->db->escapeSimple(Encoder::decode($parameter->value, 
                                                $this->encodingContext)),
                                $sql);
+        }
+        
+        // Aliases
+        foreach ($this->aliases as $alias => $column) {
+        	
+            $sql = str_replace($alias, $column, $sql);
         }
         
         $number = $request->getParameter('number');
@@ -292,22 +335,38 @@ class DbResultProvider extends ResultProvider {
             $dbResult = $this->db->limitQuery($sql, $offset, $number);
 
             // Retrieving total number of rows            
-            $dbTotalResult = $this->db->query($sql);
+            $dbTotalResult = $this->db->query('SELECT COUNT(*) FROM (' . $sql . ')');
+
             Utils::checkDbError($dbTotalResult, 'Failed executing total SQL query');
-            $totalNumber = $dbTotalResult->numRows();
+            $row = NULL;
+            $dbTotalResult->fetchInto($row);                        
+            $totalNumber = $row[0];
         } else {
             
             // Simple query without pages
             $dbResult = $this->db->query($sql);
         }    
         Utils::checkDbError($dbResult, 'Failed executing search SQL query');
-                
+  
         $table = new Table();
         $table->tableId = 'search';
         $table->columnIds = $this->columns;
         $table->noRowId = false;
         $table->rows = array();
-        $table->numRows = $dbResult->numRows();  
+
+        $row = NULL;
+        $table->numRows = 0;  
+        while ($dbResult->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+            $newRow = new TableRow();
+            $newRow->rowId = $row[$this->getColumnName($this->id)];
+            foreach ($this->columns as $column) {
+                $newRow->cells[] = Encoder::encode($row[$this->getColumnName($column)],
+                                                   $this->encodingContext);
+            }
+            $table->rows[] = $newRow;
+            $table->numRows++;  
+        }
+
         if (!is_null($totalNumber)) {
             $table->totalRows = $totalNumber;
         } else {
@@ -320,16 +379,6 @@ class DbResultProvider extends ResultProvider {
             $table->rowsPage = $number;
             $table->totalPages = floor(($table->totalRows - 1) / $table->rowsPage) + 1;
             $table->page = floor($table->offset / $table->rowsPage) + 1;
-        }
-        $row = NULL;
-        while ($dbResult->fetchInto($row, DB_FETCHMODE_ASSOC)) {
-            $newRow = new TableRow();
-            $newRow->rowId = $row[$this->id];
-            foreach ($this->columns as $column) {
-                $newRow->cells[] = Encoder::encode($row[$column],
-                                                   $this->encodingContext);
-            }
-            $table->rows[] = $newRow;
         }
 
         $result = new SearchResult();
@@ -364,7 +413,8 @@ class TableResultProvider extends DbResultProvider {
     
     protected function getSql(SearchRequest $request) {
         
-        $columns = array_merge(array($this->id), $this->columns);
+        $columns = array_diff($this->columns, array($this->id));
+        $columns = array_merge(array($this->id), $columns);
         $columns = implode(', ', $columns);
         $sql = 'SELECT DISTINCT ' . $columns . ' FROM ' . $this->table;
         $where = $this->getWhere($request);

@@ -37,7 +37,7 @@
             <para>Let's imagine that we want to do a search with a recenter on data that are represented on a layer Addresses. The source of the data is a table in a PostGIS database. </para>
             
             <para> The data are stored in a table "addresses" with the followings rows:
-                adr_num, adr_street, adr_zip, adr_town, adr_xy, gid and the_geom. Primary key is gid. </para>
+                num, street, zipcode, town, gid and the_geom. Primary key is gid. </para>
             <para>    
                 First we have to set the configuration in the <filename>client_conf/client.ini/search.ini</filename> like this:</para>
             <programlisting>
@@ -48,6 +48,7 @@
 
     config.Adresses.provider.type = fulltextTable
     config.Adresses.provider.table = addresses
+    config.Adresses.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
     config.Adresses.provider.id = gid
     config.Adresses.provider.columns = adr_num, adr_street, adr_zip, adr_town,
     config.Adresses.provider.fulltextColumns = adr_num, adr_street, adr_zip, adr_town
@@ -90,6 +91,9 @@
                     </listitem>
                     <listitem>
                         <para>The  config.Adresses.provider.table  specifies the name of the table to query.  </para>
+                    </listitem>
+                    <listitem>
+                        <para>The  config.Adresses.provider.aliases  defines column names aliases. This could be useful if there are two tables with same column name, or if you want to migrate from one set of tables to another with different column names.  </para>
                     </listitem>
                     <listitem>
                         <para>The config.Adresses.provider.id  designate the unique value used for recentering.
@@ -343,6 +347,7 @@
     
     config.Adresses_init_town.provider.type = table
     config.Adresses_init_town.provider.table = addresses
+    config.Adresses_init_town.provider.aliases = adr_town, town
     config.Adresses_init_town.provider.id = adr_town
     config.Adresses_init_town.provider.columns = adr_town
     config.Adresses_init_town.provider.sortColumn = adr_town
@@ -352,6 +357,7 @@
     
     config.Adresses_init_street.provider.type = table
     config.Adresses_init_street.provider.table = addresses
+    config.Adresses_init_street.provider.aliases = adr_street, street, adr_town, town
     config.Adresses_init_street.provider.id = adr_street
     config.Adresses_init_street.provider.columns = adr_street
     config.Adresses_init_street.provider.sortColumn = adr_street
@@ -363,6 +369,7 @@
     
     config.Adresses.provider.type = table
     config.Adresses.provider.table = addresses
+    config.Adresses.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
     config.Adresses.provider.id = gid
     config.Adresses.provider.columns = adr_num, adr_street, adr_zip, adr_town
     config.Adresses.provider.sortColumn = adr_num
@@ -554,7 +561,8 @@
             <programlisting>
     config.parcels.provider.type = table
     config.parcels.provider.table = parcelles, addresses
-    ;//be sure not to have twice the same id column name in different tables
+    config.parcels.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
+    ;//be sure not to have twice the same id column name in different tables (or use aliases)
     config.parcels.provider.id = parcel_id 
     config.parcels.provider.columns = parcel_ref, adr_street
     config.parcels.provider.fulltextColumns = parcel_ref, adr_num, adr_street, adr_zip, adr_town,
