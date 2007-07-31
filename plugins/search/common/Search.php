@@ -145,12 +145,12 @@ abstract class ResultProvider {
             $alias = NULL;
             foreach ($provider->aliases as $item) {
                 
-            	if (is_null($alias)) {
-            		$alias = $item;
-            	} else {
+                if (is_null($alias)) {
+                    $alias = $item;
+                } else {
                     $aliases[$alias] = $item;
-            		$alias = NULL;
-            	}
+                    $alias = NULL;
+                }
             }
             $provider->aliases = $aliases;
         } 
@@ -163,9 +163,9 @@ abstract class ResultProvider {
      * @return string DB column name
      */
     public function getColumnName($column) {
-    	
+        
         if (array_key_exists($column, $this->aliases)) {
-        	return $this->aliases[$column];
+            return $this->aliases[$column];
         }
         return $column;
     }
@@ -312,7 +312,7 @@ class DbResultProvider extends ResultProvider {
         
         // Aliases
         foreach ($this->aliases as $alias => $column) {
-        	
+            
             $sql = str_replace($alias, $column, $sql);
         }
         
