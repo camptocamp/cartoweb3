@@ -90,7 +90,14 @@
           weightZoomin<indexterm><primary>weightZoomin</primary></indexterm>: 
           integer defining display order of the zoomin tool icon in toolbar 
           (if not specified, default to 10). A negative weight disables the 
-          tool. </para>
+          tool.
+            <note>
+                <para>Zoomin is the default tool and it will be activated automaticaly. 
+                If you want to deactivate it, you need to set another default tool. See 
+                <parameter>initialTool</parameter> in <xref linkend="user.config.client"/>.
+                </para>
+            </note>          
+          </para>
       </listitem>
       <listitem>
         <para> 
