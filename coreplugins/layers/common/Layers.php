@@ -408,11 +408,20 @@ class UserLayer extends CwSerializable {
     public $layer;
 
     /**
+     * Id of the layergroup in which the layer is to be added (defined in
+     * server_conf/layers.ini). If null, uses the userLayerGroup directive
+     * defined in client_conf/layers.ini. 
+     * @var string LayerGroup  
+     */
+    public $layerGroup = null;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize ($struct) {
         $this->action = self::unserializeValue($struct, 'action', 'int');
-        $this->layer  = self::unserializeObject($struct, 'layer', 'Layer');
+        $this->layer = self::unserializeObject($struct, 'layer', 'Layer');
+        $this->layerGroup = self::unserializeValue($struct, 'layerGroup');
     } 
 }
 

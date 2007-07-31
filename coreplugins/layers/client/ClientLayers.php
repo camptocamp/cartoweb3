@@ -976,23 +976,29 @@ class ClientLayers extends ClientPlugin
             }
         }
         $this->account('visible_layers', implode(',', $visibleLayers));                                                                                                                                        
+
         // manage user added layers
         if (empty($layersResult->userLayers)) {
             return;
         }
-        
-        // retrieve user layers LayerGroup config setting
-        $userLayerGroup = $this->getConfig()->userLayerGroup;
-        if (empty($userLayerGroup)) {
-            throw new CartoclientException('userLayerGroup not set, it must be'
-                                    .'set in client side layers.ini config file');
-        }
-        $layerGroup = new LayerBase();
-        $layerGroup = $this->layersInit->getLayerById($userLayerGroup);
-
         foreach ($layersResult->userLayers as $userLayer) {
+            // retrieve the layergroup            
+            $userLayerGroup = $userLayer->layerGroup;
+            if (is_null($userLayerGroup)) {
+                $userLayerGroup = $this->getConfig()->userLayerGroup;
+            }
+            if (empty($userLayerGroup)) {
+                throw new CartoclientException(
+                    'userLayerGroup not set, it must be set in client side ' .
+                    'layers.ini config file'
+                );
+            }
+            $layerGroup = new LayerBase();
+            $layerGroup = $this->layersInit->getLayerById($userLayerGroup);
+
             $layer = $userLayer->layer;            
             if ($userLayer->action == UserLayer::ACTION_REMOVE) {
+                // LayerGroup name should not be used in this remove process
                 $this->layersInit->removeChildLayerBase($layerGroup, $layer);
                 $key = array_search($layer->id, $this->selectedLayers);
                 if ($key !== FALSE) {
