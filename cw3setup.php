@@ -48,6 +48,7 @@ $CW3_DIRS_TO_CREATE = array(
                   'htdocs/generated/images',
                   'htdocs/generated/icons',
                   'htdocs/generated/pdf',
+                  'htdocs/generated/geostat',
 
                   'www-data',
                   'www-data/mapinfo_cache',
