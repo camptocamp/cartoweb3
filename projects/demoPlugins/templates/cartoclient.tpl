@@ -263,7 +263,7 @@
      <div>
        <ul id="tabnav2">
          {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
-         {if $wmsBrowser|default:''}<li id="label7"><a href="javascript:ontop(7)">{t}WMS layers{/t}</a></li>{/if}
+         {if $wmsBrowserLight|default:''}<li id="label7"><a href="javascript:ontop(7)">{t}WMS layers{/t}</a></li>{/if}
          {if $exportRtf|default:''}<li id="label10"><a href="javascript:ontop(10)">{t}RTF{/t}</a></li>{/if}
        </ul>
        <ul id="tabnav1">
@@ -407,11 +407,12 @@
       <br /><br />
     </div>
     <!-- end of floder 6 -->
-    {if $wmsBrowser|default:''}
+    {if $wmsBrowserLight|default:''}
     <div id="folder7" class="folder">
       <br />
       <center>
-        {$wmsBrowser}
+        {$wmsBrowserLight}
+    	{$ogcLayerLoader}
       </center> 
     </div>
     {/if}

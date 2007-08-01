@@ -1,5 +1,5 @@
 ; plugin configuration and loading
-mapInfo.loadPlugins = outline, hilight, layerReorder, mapOverlay, @ROUTING_PLUGINS@
+mapInfo.loadPlugins = outline, hilight, layerReorder, mapOverlay, ogcLayerLoader, @ROUTING_PLUGINS@
 
 ; initial map states
 mapInfo.initialMapStates.default.location.bbox = "142776, 4757216, 1083857, 5409261"
