@@ -18,7 +18,7 @@ gnQuery = "category=Services"
 
 
 ; List of predefined servers diplayed in combobox
-servers.0.label = "Données administratives et routières en France (Geosignal)"
+servers.0.label = Geosignal
 servers.0.url = http://www.geosignal.org/cgi-bin/wmsmap
 
 servers.1.label = Sandre / Ouvrage
