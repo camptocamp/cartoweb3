@@ -412,7 +412,7 @@
       <br />
       <center>
         {$wmsBrowserLight}
-    	{$ogcLayerLoader}
+        {$ogcLayerLoader}
       </center> 
     </div>
     {/if}
