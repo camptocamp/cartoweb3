@@ -301,6 +301,13 @@ class ClientLayerReorder extends ClientPlugin
         return $orderedSelected;
     }
 
+    /*
+     * Returns the ordered list of MapServer layers ids
+     * @return array
+     */
+    public function getOrderedMsLayerIds() {
+        return $this->orderedMsLayerIds;
+    }
 
     /**
      * Retrieve CW3 layer ids array, with for each the corresponding MapServer
@@ -413,7 +420,11 @@ class ClientLayerReorder extends ClientPlugin
      */
     protected function handleRequest($request) {
 
-        if (!empty($request['layersReorder'])) {
+        if (!empty($request['layersReorderLayers'])) {
+            $this->orderedMsLayerIds = 
+                Utils::parseArray($request['layersReorderLayers']);
+
+        } else if (!empty($request['layersReorder'])) {
             $layers = explode(',', $request['layersReorder']);
 
             $this->orderedMsLayerIds = array();
