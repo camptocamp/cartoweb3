@@ -192,8 +192,7 @@ class ClientLayerReorder extends ClientPlugin
         // retrieve transparency config setting
         $transparencyLevels = $this->getConfig()->transparencyLevels;
         if (!empty($transparencyLevels)) {
-            $this->transparencyLevels 
-                = Utils::parseArray($transparencyLevels);
+            $this->transparencyLevels = Utils::parseArray($transparencyLevels);
         } else {
             $this->transparencyLevels = array('10', '25', '50', '75', '100');
         }
@@ -380,8 +379,9 @@ class ClientLayerReorder extends ClientPlugin
      */
     public function handleResult($layerReorderResult) {
         
-        if (empty($layerReorderResult->layers))
+        if (empty($layerReorderResult->layers)) {
             return;
+        }
         $this->orderedMsLayerIds = $layerReorderResult->layers;
         $this->setMsLayerProperties();
     }
@@ -393,9 +393,7 @@ class ClientLayerReorder extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
 
-        if (!empty($request['layersReorder'])) {
-            $this->handleRequest($request);
-        }
+        $this->handleRequest($request);
     }
 
 
@@ -405,9 +403,7 @@ class ClientLayerReorder extends ClientPlugin
      */
     public function handleHttpGetRequest($request) {
 
-        if (!empty($request['layersReorder'])) {
-            $this->handleRequest($request);
-        }
+        $this->handleRequest($request);
     }
 
 
@@ -417,39 +413,40 @@ class ClientLayerReorder extends ClientPlugin
      */
     protected function handleRequest($request) {
 
-        $layers = explode(',', $request['layersReorder']);
+        if (!empty($request['layersReorder'])) {
+            $layers = explode(',', $request['layersReorder']);
 
-        $this->orderedMsLayerIds = array();
-        $mapIds = $this->getCwLayerIds();
+            $this->orderedMsLayerIds = array();
+            $mapIds = $this->getCwLayerIds();
 
-        // put config top layers on top of the stack
-        foreach ($this->topLayers as $layer) {
-            $this->orderedMsLayerIds[] = $mapIds[$layer];
-        }
-
-        // put new ordered msLayer on the stack (IHM use reverse order...)
-        $layers = array_reverse($layers, true);
-        foreach ($layers as $id) {
-            if(isset($request['layersTransparency_' . $id])) {
-                $this->layerUserTransparencies[$this->selectedMsLayerIds[$id]]
-                    = $request['layersTransparency_' . $id];
+            // put config top layers on top of the stack
+            foreach ($this->topLayers as $layer) {
+                $this->orderedMsLayerIds[] = $mapIds[$layer];
             }
-           $this->orderedMsLayerIds[] = $this->selectedMsLayerIds[$id];
-        }
 
-        // add to the stack all other msLayer (undisplayed ones)
-        foreach ($this->layerIds as $layer) {
-            if (!in_array($layer, $this->orderedMsLayerIds) &&
-                !in_array($layer, $this->bottomLayers)) {
+            // put new ordered msLayer on the stack (IHM use reverse order...)
+            $layers = array_reverse($layers, true);
+            foreach ($layers as $id) {
+                if(isset($request['layersTransparency_' . $id])) {
+                    $this->layerUserTransparencies[$this->selectedMsLayerIds[$id]]
+                        = $request['layersTransparency_' . $id];
+                }
+                $this->orderedMsLayerIds[] = $this->selectedMsLayerIds[$id];
+            }
+
+            // add to the stack all other msLayer (undisplayed ones)
+            foreach ($this->layerIds as $layer) {
+                if (!in_array($layer, $this->orderedMsLayerIds) &&
+                    !in_array($layer, $this->bottomLayers)) {
                     $this->orderedMsLayerIds[] = $layer;
+                }
+            }
+
+            // end with config bottom layers
+            foreach ($this->bottomLayers as $layer) {
+                $this->orderedMsLayerIds[] = $mapIds[$layer];
             }
         }
-
-        // end with config bottom layers
-        foreach ($this->bottomLayers as $layer) {
-            $this->orderedMsLayerIds[] = $mapIds[$layer];
-        }
-
     }
 
     /**
