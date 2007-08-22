@@ -874,3 +874,6 @@ msgstr "Requête"
 
 msgid "outline_poly"
 msgstr "Polygone"
+
+msgid "Custom_Scale"
+msgstr "Echelle libre"

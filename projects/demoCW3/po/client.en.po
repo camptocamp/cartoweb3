@@ -779,3 +779,6 @@ msgstr "Query"
 
 msgid "outline_poly"
 msgstr "Polygon"
+
+msgid "Custom_Scale"
+msgstr "Custom scale"
