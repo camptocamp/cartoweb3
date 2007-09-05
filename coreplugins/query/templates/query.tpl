@@ -45,6 +45,6 @@
 </p>
 {/if}
 <p>
-<input type="submit" name="query_clear" value="{t}query_clear{/t}" class="form_button"
+<input type="button" name="query_clear" value="{t}query_clear{/t}" class="form_button"
     onclick="CartoWeb.trigger('Query.Clear', 'queryClear()');" />
 </p>
