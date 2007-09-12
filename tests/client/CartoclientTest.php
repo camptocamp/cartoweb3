@@ -29,6 +29,8 @@ require_once 'projects/AllTests.php';
 
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
+// There is an issue when running Java inside OpenVZ. This option is
+// required to avoid out of memory errors.
 define(JAVA_ARGS, "-Xmx256m");
 
 /**
