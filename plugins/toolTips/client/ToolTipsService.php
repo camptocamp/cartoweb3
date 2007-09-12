@@ -105,6 +105,7 @@ class ToolTipsService {
         
         $layers = $this->cartoclient->getPluginManager()->getPlugin('layers');
         $layerIds = array_keys(get_object_vars($config));
+        $addedLayers = array();
 
         foreach ($layerIds as $layerId) {
             $layer = $layers->getLayerByName($layerId, false);
@@ -114,8 +115,11 @@ class ToolTipsService {
             $subLayerIds = $layers->fetchChildrenFromLayerGroup(array($layerId));
             if (count($subLayerIds) > 0) {
                 foreach ($subLayerIds as $subLayerId) {
-                    if (!array_key_exists($subLayerId, $layerIds)) {
+                    if (!array_key_exists($subLayerId, $layerIds) &&
+                        !in_array($layerId, $addedLayers)) {
+                        
                         $config->$subLayerId = $config->$layerId;
+                        $addedLayers[] = $layerId;
                         
                         // remembers layer group id
                         $config->$subLayerId->layerGroup = $layerId;
