@@ -29,6 +29,8 @@ require_once 'projects/AllTests.php';
 
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 
+define(JAVA_ARGS, "-Xmx256m");
+
 /**
  * Abstract unit tests for Cartoclient.
  * @package Tests
@@ -91,7 +93,8 @@ abstract class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
 
         $projectConvertedName = projects_AllTests::convertName($this->getProjectName());
         $class = "Cartoweb{$projectConvertedName}Test";
-        $javaCmd = "$java_path -classpath $classpath $class $clientUrl 2>&1";
+        $javaArgs = JAVA_ARGS;
+        $javaCmd = "$java_path $javaArgs -classpath $classpath $class $clientUrl 2>&1";
         //print "HttpUnit command: $javaCmd\n";
         $java_output = shell_exec($javaCmd);
 
@@ -153,7 +156,8 @@ abstract class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
         if (is_dir($temp_dir))
             $this->rmdirr($temp_dir);
         mkdir($temp_dir);
-        $javaCmd = "$java_path -classpath $classpath " .
+        $javaArgs = JAVA_ARGS;
+        $javaCmd = "$java_path $javaArgs -classpath $classpath " .
                 "org.apache.axis.wsdl.WSDL2Java " .
                 "-o $temp_dir -a $serverUrl 2>&1"; 
         //print "CheckWsdl command: $javaCmd\n";
