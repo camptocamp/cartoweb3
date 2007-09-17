@@ -164,7 +164,7 @@ abstract class ResultProvider {
      */
     public function getColumnName($column) {
         
-        if (array_key_exists($column, $this->aliases)) {
+        if (is_array($column) && array_key_exists($column, $this->aliases)) {
             return $this->aliases[$column];
         }
         return $column;
@@ -311,9 +311,11 @@ class DbResultProvider extends ResultProvider {
         }
         
         // Aliases
-        foreach ($this->aliases as $alias => $column) {
-            
-            $sql = str_replace($alias, $column, $sql);
+        if (sizeof($this->aliases) > 0) {
+            foreach ($this->aliases as $alias => $column) {
+                
+                $sql = str_replace($alias, $column, $sql);
+            }
         }
         
         $number = $request->getParameter('number');
