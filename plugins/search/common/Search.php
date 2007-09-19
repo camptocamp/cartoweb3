@@ -164,7 +164,7 @@ abstract class ResultProvider {
      */
     public function getColumnName($column) {
         
-        if (is_array($column) && array_key_exists($column, $this->aliases)) {
+        if (is_array($this->aliases) && array_key_exists($column, $this->aliases)) {
             return $this->aliases[$column];
         }
         return $column;
