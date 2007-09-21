@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<chapter id="user.bboxHistory">
+  <title>Bounding box history plugin</title>
+    <para>The bboxHistory plugin allow the user to navigate through the bbox he
+    or she visits: just like the back and forward buttons of a web browser.
+    </para>
+    <para>
+    Note that the ajax mode must be enabled to use the plugin and it has no configuration file.
+    </para>
+  <sect1 id="user.bboxHistory.activate">
+    <title>Plugin activation</title>
+      <para>
+        To activate the plugin, add it to 
+        <parameter>loadPlugins</parameter> from &cartoclient; configuration file: 
+        <filename>client_conf/client.ini</filename>.
+        For instance: <programlisting>loadPlugins = bboxHistory</programlisting>
+      </para>
+      <para>
+        You also need to add the plugin's template into the project template <filename>templates/cartoclient.tpl</filename>.
+        For instance:
+<programlisting>
+...
+{include file="toolbar.tpl" group=1 header=1}
+{include file="toolbar.tpl" group=2}
+{$bboxHistoryForm}
+...
+</programlisting>
+      </para>
+  </sect1>
+
+</chapter>
+
