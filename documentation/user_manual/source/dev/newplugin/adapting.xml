@@ -191,7 +191,7 @@ class ClientYourProjectImages extends ClientImages {
 
     // indicates that we want to use current plugin instead of 
     // regular images plugin
-    public replacePlugin() {
+    public function replacePlugin() {
         return 'images';
     }
 
