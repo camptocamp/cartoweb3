@@ -468,6 +468,10 @@ class FormRenderer {
 
         $smarty->assign('exception_class', get_class($exception));
         $smarty->assign('failure_message', $message);
+
+        $this->smarty->assign('cartoclient_profile',
+                              $this->cartoclient->getConfig()->profile);
+
         return $smarty->fetch('failure.tpl');
     }
 
