@@ -412,6 +412,9 @@ class ServerOutline extends ClientResponderAdapter
      * Generate symbol icons to be used with symbol picker
      */
     protected function generateSymbolIcon() {
+
+        $symbolSize = $this->getConfig()->symbolSize;
+        $symbolSize = !empty($symbolSize) ? $symbolSize : '30';
         
         $msMapObj = $this->serverContext->getMapObj();
         $this->symbolType = $msMapObj->outputformat->extension;
@@ -431,7 +434,7 @@ class ServerOutline extends ClientResponderAdapter
         $newClass = ms_newClassObj($newLayer);
         $newStyle = ms_newStyleObj($newClass);
         $newStyle->color->setRGB(255, 0, 0);    // important
-        $newStyle->set('size', 30);             // important
+        $newStyle->set('size', $symbolSize);             // important
         
         $refIndex = $newLayer->index;
          
@@ -457,7 +460,7 @@ class ServerOutline extends ClientResponderAdapter
                     filemtime($this->serverContext->getMapPath()) > 
                     filemtime($iconPath)) {
 
-                    $newIcon = $newClass->createLegendIcon(30,30);
+                    $newIcon = $newClass->createLegendIcon($symbolSize,$symbolSize);
                     $check = $newIcon->saveImage($iconPath);
                     $newIcon->free(); // Frees resources
                       

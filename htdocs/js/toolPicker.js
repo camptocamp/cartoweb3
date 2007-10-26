@@ -323,7 +323,7 @@ function symbolTable() {
       
       table += '<div style="float:left;"'
             + 'class="'+hilightstyle+'" title="'+symbolLabelArray[counter]+'"><img src="'+imgPath
-            + symbolNamesArray[counter]+imgOver+'.'+symbolType+'" id="'+symbolNamesArray[counter]+'" style="height:30px;width:30px;" /></div>';
+            + symbolNamesArray[counter]+imgOver+'.'+symbolType+'" id="'+symbolNamesArray[counter]+'" class="symbolSize" /></div>';
       counter++;
     }
     table += '</div>';

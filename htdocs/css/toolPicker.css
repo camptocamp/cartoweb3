@@ -212,3 +212,8 @@
   clear: both;
   font-size: 1px;
 }
+
+.symbolSize {
+    height:30px;
+    width:30px;
+}

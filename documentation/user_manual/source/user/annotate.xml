@@ -107,7 +107,12 @@
         <para> symbolPickerHilight = inversed|borderhilight: set the hilight
 mode to use in the SymbolPicker interface. See 
 <xref linkend="user.annotate.toolpicker.usage.symbol"/>.</para>
-      </listitem>
+        </listitem>
+        <listitem>
+          <para> symbolSize<indexterm><primary>symbolSize</primary></indexterm>: 
+            defines the size (in pixel) of the symbold images generated when using the
+            symbolPicker. The value is used for width and height. The default value is 30.</para>
+        </listitem>
       </itemizedlist>
     </sect2>
   </sect1>
