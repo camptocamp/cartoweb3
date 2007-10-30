@@ -86,7 +86,7 @@ class QueryableLayer extends ToolTipsLayerBase {
      */
     public function getDb() {
         if (is_null($this->db)) {
-        	throw new CartoclientException(
+            throw new CartoclientException(
                 'No DB connector available, ' .
                 'because no dsn is set for layer id: ' . $this->getId()
             );

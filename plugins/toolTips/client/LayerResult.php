@@ -45,9 +45,9 @@ class LayerResult extends ToolTipsLayerBase {
      * Constructor
      */
     public function __construct($encoderName = NULL) {
-    	if (!is_null($encoderName)) {
-    		$this->setEncoderName($encoderName);
-    	}
+        if (!is_null($encoderName)) {
+            $this->setEncoderName($encoderName);
+        }
     }
 
     /**
@@ -135,7 +135,7 @@ class LayerResult extends ToolTipsLayerBase {
      * @return mixed Encoded string or array of string
      */
     protected function encode($content) {
-    	return Encoder::encode($content, $this->encoderName);
+        return Encoder::encode($content, $this->encoderName);
     }
 }
 ?>
