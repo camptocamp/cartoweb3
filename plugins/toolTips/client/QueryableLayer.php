@@ -33,7 +33,7 @@ class QueryableLayer extends ToolTipsLayerBase {
      * DSN for DB connection; if null, connection will not be established
      * @var string
      */    
-    protected $dsn;
+    protected $dsn = NULL;
     
     /**
      * DB table name to query
@@ -45,7 +45,13 @@ class QueryableLayer extends ToolTipsLayerBase {
      * PEAR::DB connection object for queries
      * @var PEAR::DB
      */    
-    protected $db;
+    protected $db = NULL;
+
+    /**
+     * Name of the cartoweb encoder to use
+     * @var string
+     */    
+    protected $encoderName = 'config';
 
     /**
      * Constructor
@@ -79,7 +85,14 @@ class QueryableLayer extends ToolTipsLayerBase {
      * @return PEAR::DB
      */
     public function getDb() {
-        return $this->db;
+        if (is_null($this->db)) {
+        	throw new CartoclientException(
+                'No DB connector available, ' .
+                'because no dsn is set for layer id: ' . $this->getId()
+            );
+        } else {
+            return $this->db;
+        }
     }    
     
     /**
@@ -105,6 +118,22 @@ class QueryableLayer extends ToolTipsLayerBase {
     protected function getReturnedAttributes() {
         return $this->returnedAttributes;
     }
+
+    /**
+     * Sets the encoder name
+     * @param string
+     */
+    public function setEncoderName($encoderName) {
+        $this->encoderName = $encoderName;
+    }
+
+    /**
+     * Returns the encoder name
+     * @return string
+     */
+    public function getEncoderName() {
+        return $this->encoderName;
+    }
     
     /**
      * This method is to be redefined to use a custom (extended)
@@ -112,7 +141,7 @@ class QueryableLayer extends ToolTipsLayerBase {
      * @return LayerResult
      */
     protected function newLayerResult() {
-        return new LayerResult();
+        return new LayerResult($this->getEncoderName());
     }
 
     /**

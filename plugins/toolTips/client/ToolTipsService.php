@@ -81,7 +81,7 @@ class ToolTipsService {
     public function __construct(Cartoclient $cartoclient) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
-        
+
         $this->mapScale = $this->getLastScale();
         
         // create all QueryableLayer's from ini file
@@ -184,15 +184,17 @@ class ToolTipsService {
             $queryableLayer->setLabel($layer->label);
         }
  
-        if (empty($layer->dsn)) {
-            throw new CartoclientException("DSN is not set for layer id: $layerId");
-        } else {
+        if (!empty($layer->dsn)) {
             $queryableLayer->setDsn($layer->dsn);
         }
  
         if (empty($layer->dbTableName)) {
-            throw new CartoclientException('DB table name is not set for layer id:'
-                                           . $layerId);
+            if (!empty($layer->dsn)) {
+                // Only throw an error is dsn is not null
+                throw new CartoclientException(
+                    'DB table name is not set for layer id: ' . $layerId
+                );
+            }
         } else {
             $queryableLayer->setDbTableName($layer->dbTableName);
         }
@@ -211,6 +213,10 @@ class ToolTipsService {
         
         if (!empty($layer->tolerance)) {
             $queryableLayer->setTolerance($layer->tolerance);
+        }
+
+        if (!empty($layer->encoderName)) {
+            $queryableLayer->setEncoderName($layer->encoderName);
         }
  
         if (empty($layer->attributes)) {
@@ -387,7 +393,7 @@ class ToolTipsService {
         $lastDsn = NULL;
         $layersCorePlugin = $this->cartoclient->getPluginManager()->
                                                  getPlugin('layers');
-        
+
         foreach ($this->getSelectedLayers() as $activeLayerId) {  
             if (array_key_exists($activeLayerId, $this->queryableLayers) &&
                 $layersCorePlugin->isLayerVisibleAtCurrentScale($activeLayerId)) {
@@ -398,15 +404,18 @@ class ToolTipsService {
                 if (!$queryableLayer instanceof ByXyQueryableLayer) {
                     continue;
                 }
-                
-                // Requires a new DB connection only if the current cannot be
-                // reused 
-                if ($lastDsn != $queryableLayer->getDsn()) {
-                    $db = $this->getDb($layerId);
-                    $lastDsn = $queryableLayer->getDsn();
-                }
 
-                $queryableLayer->setDb($db);
+                // Assigns a PEAR::DB instance to the current QueryableLayer
+                // only if QueryableLayer::db is not NULL
+                if ($queryableLayer->getDsn() != NULL) {
+                    // Requires a new DB connection only if the current cannot be
+                    // reused 
+                    if ($lastDsn != $queryableLayer->getDsn()) {
+                        $db = $this->getDb($layerId);
+                        $lastDsn = $queryableLayer->getDsn();
+                    }
+                    $queryableLayer->setDb($db);
+                }
                 
                 $plugins = $this->cartoclient->getPluginManager();
                 $mainmapDimensions = $plugins->getPlugin('images')->

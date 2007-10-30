@@ -36,9 +36,19 @@ class LayerResult extends ToolTipsLayerBase {
     protected $resultHtml;
 
     /**
+     * Name of the cartoweb encoder to use
+     * @var string
+     */    
+    protected $encoderName = 'config';
+
+    /**
      * Constructor
      */
-    public function __construct() {}
+    public function __construct($encoderName = NULL) {
+    	if (!is_null($encoderName)) {
+    		$this->setEncoderName($encoderName);
+    	}
+    }
 
     /**
      * Adds attribute to the layer result
@@ -77,6 +87,22 @@ class LayerResult extends ToolTipsLayerBase {
     }    
 
     /**
+     * Sets the encoder name
+     * @param string
+     */
+    public function setEncoderName($encoderName) {
+        $this->encoderName = $encoderName;
+    }    
+
+    /**
+     * Returns the encoder name
+     * @return string
+     */
+    public function getEncoderName() {
+        return $this->encoderName;
+    }
+    
+    /**
      * Sets result html code with given html code
      * @param string html code
      */
@@ -99,8 +125,17 @@ class LayerResult extends ToolTipsLayerBase {
     public function renderResult($smarty) {
         $smarty->assign(array('layerId'      => $this->getId(),
                               'layerLabel'   => $this->getLabel(),
-                              'layerResults' => Encoder::encode($this->getAttributes(), 'config')));
+                              'layerResults' => $this->encode($this->getAttributes())));
         return $smarty->fetch($this->getTemplate());
+    }
+    
+    /**
+     * Encodes the given content
+     * @param mixed String or array of string to encode
+     * @return mixed Encoded string or array of string
+     */
+    protected function encode($content) {
+    	return Encoder::encode($content, $this->encoderName);
     }
 }
 ?>
