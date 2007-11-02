@@ -77,6 +77,11 @@
      </listitem>
      <listitem>
       <para>
+       <parameter>viewSchema</parameter> (string): Let you specify a schema in the database. By default, no schema are specified. This parameter is totally optional.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
        <parameter>viewAuth</parameter> (comma-separated list of strings): list of roles allowed to perform views edition actions. Given roles must match <filename>client_conf/auth.ini</filename> defined ones. See also <xref linkend="user.security"/>.
       </para>
      </listitem>
