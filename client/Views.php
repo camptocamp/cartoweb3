@@ -110,10 +110,12 @@ class ViewManager {
         switch (strtolower($storage)) {
             case 'db':
                 $dsn = $cartoclient->getConfig()->viewDsn;
+                $schema = $cartoclient->getConfig()->viewSchema;
                 $showDevMsg = $cartoclient->getConfig()->showDevelMessages;
                 $this->wc = new ViewDbContainer($dsn,
                                                 $this->getMetasList(),
-                                                $showDevMsg);
+                                                $showDevMsg,
+                                                $schema);
                 break;
 
             case 'file':
@@ -1473,6 +1475,11 @@ class ViewDbContainer extends ViewContainer {
     private $db;
 
     /**
+     * @var schema
+     */
+    private $schema;
+
+    /**
      * @var array
      */
     private $metasList;
@@ -1488,13 +1495,14 @@ class ViewDbContainer extends ViewContainer {
      * @param array list of metadata fields names
      * @param boolean if true, DB error messages are more verbose
      */
-    public function __construct($dsn, $metasList, $showDevMsg) {
+    public function __construct($dsn, $metasList, $showDevMsg, $schema = NULL) {
         parent::__construct();
         $this->log->debug('Using DB storage as ViewContainer.');
         
         $this->dsn =& $dsn;
         $this->metasList =& $metasList;
         $this->showDevMsg = $showDevMsg;
+        $this->schema =& $schema;
 
         require_once 'DB.php';
     }
@@ -1541,15 +1549,17 @@ class ViewDbContainer extends ViewContainer {
 
             case 'select':
                 $sql = sprintf('SELECT %s, sessiondata
-                                FROM views WHERE views_id = %d',
-                               strtolower(implode(',', $this->metasList)), 
+                                FROM %sviews WHERE views_id = %d',
+                               strtolower(implode(',', $this->metasList)),
+                               $this->getSchema(),
                                $this->viewId);
                 break;
 
             case 'insert':
                 $this->filterMetas();
-                $sql = sprintf("INSERT INTO views (views_id, views_ts, sessiondata,
+                $sql = sprintf("INSERT INTO %sviews (views_id, views_ts, sessiondata,
                                %s) VALUES (%d, 'now()', '%s', '%s')",
+                               $this->getSchema(),
                                implode(', ', $this->metasList),
                                $this->viewId,
                                Utils::addslashes($this->data),
@@ -1559,16 +1569,18 @@ class ViewDbContainer extends ViewContainer {
                 
             case 'update':
                 $this->filterMetas();
-                $sql = sprintf("UPDATE views 
+                $sql = sprintf("UPDATE %sviews 
                                SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
+                               $this->getSchema(),
                                Utils::addslashes($this->data),
                                $this->makeMetasSql(),
                                $this->viewId);
                 break;
 
             case 'delete':
-                $sql = sprintf('DELETE FROM views WHERE views_id = %d', 
+                $sql = sprintf('DELETE FROM %sviews WHERE views_id = %d', 
+                               $this->getSchema(),
                                $this->viewId);
                 break;         
         }
@@ -1687,11 +1699,11 @@ class ViewDbContainer extends ViewContainer {
             // TODO: use SQL SET TRANSACTION?
             
             case 'pgsql':
-                $sql = 'LOCK TABLE views IN SHARE ROW EXCLUSIVE MODE';
+                $sql = 'LOCK TABLE '.$this->getSchema().'views IN SHARE ROW EXCLUSIVE MODE';
                 break;
 
             case 'mysql':
-                $sql = 'LOCK TABLES views';
+                $sql = 'LOCK TABLES '.$this->getSchema().'views';
                 break;
 
             default:
@@ -1719,7 +1731,7 @@ class ViewDbContainer extends ViewContainer {
   
         // TODO: lock
          
-        $sql = 'SELECT views_id, viewtitle, viewshow, weight FROM views';
+        $sql = 'SELECT views_id, viewtitle, viewshow, weight FROM '.$this->getSchema().'views';
         $res =& $this->db->query($sql);
         if (DB::isError($res)) {
             $this->message = I18n::gt('Unable to build views catalog');
@@ -1751,6 +1763,18 @@ class ViewDbContainer extends ViewContainer {
      */
     protected function writeCatalog() {
         // Nothing to do (everything is done in processResource())
+    }
+
+    /**
+     * allow the use of schema in sql queries
+     * @return string
+     */
+    private function getSchema() {
+        if (!empty($this->schema)) {
+            return $this->schema . '.';
+        } else {
+            return '';
+        }
     }
 }
 
