@@ -1446,6 +1446,7 @@ class ClientLayers extends ClientPlugin
         $ajaxPluginResponse->addHtmlCode('switch_id', $this->layersState->switchId);
         $ajaxPluginResponse->addVariable('startOpenNodes',
                               "'" . implode('\',\'', $this->unfoldedIds) . "'");
+        $ajaxPluginResponse->addVariable('layersFolderId', $this->getFolderId());
     }
 
     /**

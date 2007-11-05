@@ -5,6 +5,11 @@ AjaxPlugins.Outline = {
 
     handleResponse: function(pluginOutput) {
         /* Plugin general behaviour */
+        
+        if (pluginOutput.variables.outlineFolderId) {
+            this.outlineFolderId = pluginOutput.variables.outlineFolderId;
+        }
+
         AjaxHandler.updateDomElement(this.outlineFolderId, 'innerHTML',
                                      pluginOutput.htmlCode.outline);
     }  

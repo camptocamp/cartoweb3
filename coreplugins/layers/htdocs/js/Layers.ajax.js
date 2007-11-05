@@ -6,6 +6,10 @@ AjaxPlugins.Layers = {
   
     handleResponse: function(pluginOutput) {
         /* Plugin general behaviour */
+
+        if (pluginOutput.variables.layersFolderId) {
+            this.layersFolderId = pluginOutput.variables.layersFolderId;
+        }
         
         /* Redraws layers HTML Code */        
         AjaxHandler.updateDomElement(this.layersFolderId, 'innerHTML',

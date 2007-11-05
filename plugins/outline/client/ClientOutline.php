@@ -472,6 +472,7 @@ class ClientOutline extends ClientPlugin
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
         $output = $this->renderFormPrepare();
         $ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
+        $ajaxPluginResponse->addVariable('outlineFolderId', $this->getFolderId());
     }
     
     /**

@@ -190,6 +190,16 @@ languages list.</para>
         <xref linkend="user.annotate.toolpicker"/>.</para>
       </listitem>
     </itemizedlist>
+    <para> Interface (GUI):</para>
+    <itemizedlist>
+      <listitem>
+        <para> initialFolder = folder# : Set the default "folder" (menu tab) to by active 
+        by default. folder# is the id of the element in the template containing the corresponding 
+        plugin's specific interface. For example:</para>
+        <programlisting>initialFolder = folder2</programlisting>
+        <para>By default, <parameter>folder1</parameter> is active.</para>
+      </listitem>
+    </itemizedlist>    
   </sect1>
   <sect1 id="user.config.server">
     <title>Server Configuration Files</title>
@@ -453,6 +463,34 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       <programlisting>{include file="toolbar.tpl" group=2}</programlisting>
       For more information about templates writing, see <xref linkend="user.template"/>.
      </para>
+    </sect2>
+    <sect2 id="user.config.plugins.folder">
+     <title>Plugins Template "folder" Target Id</title>
+     <para>When using &cartoweb; with ajax mode enabled, all plugins which need to update
+     some page content require an id to target the correct element in the template. The following 
+     plugins are known to have this behaviour:</para>
+     <itemizedlist>
+      <listitem>
+        <para><literallayout>layers
+default target id: <parameter>folder2</parameter></literallayout></para>
+      </listitem>
+      <listitem>
+        <para><literallayout>outline
+default target id: <parameter>folder6</parameter></literallayout></para>
+      </listitem>
+      <listitem>
+        <para><literallayout>geostat
+default target id: <parameter>folder8</parameter></literallayout></para>
+      </listitem>
+     </itemizedlist>
+     <para>
+        The targeted element are usualy the menu "tabs" containing each plugin specific 
+        interface. If you want to modify the default target id, you can simply add the following 
+        parameter in the corresponding plugin's .ini file on CLIENT SIDE!
+     </para>
+     <para>For example :</para>
+     <programlisting>folderId = layerTree</programlisting>
+     <para>See actual usage in the demoCW3 project.</para>
     </sect2>
   </sect1>
   <sect1 id="user.config.developer">

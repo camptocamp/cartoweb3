@@ -244,7 +244,10 @@ class FormRenderer {
             
         $jsFolderIdx = (isset($_REQUEST['js_folder_idx']) &&
                         is_numeric($_REQUEST['js_folder_idx']))
-                        ? $_REQUEST['js_folder_idx'] : '1';
+                        ? $_REQUEST['js_folder_idx'] : 
+                        $this->cartoclient->getConfig()->initialFolder ? 
+                        $this->cartoclient->getConfig()->initialFolder :
+                        '1';
         $smarty->assign('jsFolderIdx', $jsFolderIdx);
     }
     

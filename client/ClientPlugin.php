@@ -511,6 +511,14 @@ abstract class ClientPlugin extends PluginBase {
         return $this->enabledLevel >= $enableLevel;
     }
 
+    /**
+    * get folder id if set in plugin config
+    * @return string
+    */
+    protected function getFolderId() {
+        return $this->getConfig()->folderId;
+    }
+
 }
 
 ?>

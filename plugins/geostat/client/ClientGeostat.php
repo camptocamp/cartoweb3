@@ -258,6 +258,7 @@ class ClientGeostat extends ClientPlugin
      */
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
         $ajaxPluginResponse->addHtmlCode('geostat', $this->renderFormPrepare());
+        $ajaxPluginResponse->addVariable('geostatFolderId', $this->getFolderId());
      }
       
     /**
@@ -544,7 +545,6 @@ class ClientGeostat extends ClientPlugin
             }
             return $$formattedBoundsArray;
     }
-
 }
 
 ?>
