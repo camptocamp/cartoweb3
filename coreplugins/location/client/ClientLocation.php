@@ -1018,7 +1018,15 @@ class ClientLocation extends ClientPlugin
                         $locationRequest->$locationType->zoomType = 
                             ZoomPointLocationRequest::ZOOM_SCALE;
                     break;
-            
+
+                case 'bboxLocationRequest':
+                    $bbox = $configuration->getBbox();
+                    if (!is_null($bbox)) {
+                        $locationRequest->$locationType->bbox = $bbox;
+                    }
+
+                    break;            
+
             }
         }
         
