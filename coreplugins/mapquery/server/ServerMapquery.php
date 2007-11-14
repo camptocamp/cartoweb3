@@ -184,6 +184,9 @@ class ServerMapquery extends ServerPlugin {
         if ($ret == MS_FAILURE) {
             if ($mayFail) {
                 $serverContext->resetMsErrors();
+                // restore extent
+                $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
+                                     $savedExtent->maxx, $savedExtent->maxy);
                 return array();
             }
             throw new CartoserverException('Attribute query returned no ' .

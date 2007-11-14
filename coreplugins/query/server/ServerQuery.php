@@ -221,7 +221,8 @@ class ServerQuery extends ClientResponderAdapter {
      * @param QuerySelection
      * @return Table
      */
-    protected function queryLayer($shape, $querySelection) {
+    protected function queryLayer($shape, $querySelection,
+                                  $mayFail = false) {
 
         if (is_null($querySelection->tableFlags)) {
             $querySelection->tableFlags = new TableFlags;
@@ -276,7 +277,7 @@ class ServerQuery extends ClientResponderAdapter {
             if (!empty($pluginManager->mapquery)) {
             
                 $resultIds = $pluginManager->mapquery
-                                    ->queryByIdSelection($querySelection);
+                                    ->queryByIdSelection($querySelection, $mayFail);
 
                 $tableIds = $this->resultToTable($resultIds,
                                                  $querySelection->layerId,
@@ -322,7 +323,8 @@ class ServerQuery extends ClientResponderAdapter {
      * @param array tables
      * @param array 
      */
-    protected function hilight($tables, $hilightQuerySelections) {
+    protected function hilight($tables, $hilightQuerySelections,
+                               $mayFail = false) {
 
         $pluginManager = $this->serverContext->getPluginManager();
         if ($this->getConfig()->drawQueryUsingHilight) {
@@ -377,7 +379,7 @@ class ServerQuery extends ClientResponderAdapter {
                 // Redo query so hilight by drawQuery works
                 $querySelection->selectedIds = $table->getIds();
                 $resultIds = $pluginManager->mapquery
-                                     ->queryByIdSelection($querySelection);                                  
+                                     ->queryByIdSelection($querySelection, $mayFail);                                  
             }
  
             $this->drawQuery = true;
