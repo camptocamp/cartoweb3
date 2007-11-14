@@ -85,6 +85,16 @@
            if <classname>QueryableLayer</classname> is extended (See
            <xref linkend="user.tooltips.custom.extendclass" />)</para>
         </listitem>
+       <listitem>
+         <para><parameter>geomColName</parameter> 	 
+         <indexterm><primary>geomColName</primary></indexterm>: (optional) 	 
+          name of the geometry column. Default is 'the_geom'.</para> 	 
+       </listitem>
+       <listitem>
+         <para><parameter>srid</parameter> 	 
+         <indexterm><primary>srid</primary></indexterm>: (optional) 	 
+          name of the projection system to use. Default is '-1'.</para> 	 
+       </listitem>
       </itemizedlist>
       <programlisting><![CDATA[tooltips.region.label = "Régions"
 tooltips.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
