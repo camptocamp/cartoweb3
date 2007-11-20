@@ -16,15 +16,17 @@ Map.prototype.edit_point = function(aDisplay) {
       if (this.currentEditFeature == null
           || this.currentEditFeature.vertices != 0) {
         var button = xGetElementById('edit_point');
-        if (button != null)
+        if (button != null) {
           xGetElementById('edit_point').disabled = true;
+        }
         this.getDisplay(aDisplay).setTool('move');
     
         var button = xGetElementById('edit_move');
-        if (button != null)
+        if (button != null) {
           button.checked = true;
-        else
+        } else {
           setActiveToolButton('edit_move');
+        }
         return false;
         break;
       }
@@ -94,15 +96,17 @@ Map.prototype.edit_polygon = function(aDisplay) {
       if (this.currentEditFeature == null
           || this.currentEditFeature.vertices != 0) {
         var button = xGetElementById('edit_polygon');
-        if (button != null)
+        if (button != null) {
           xGetElementById('edit_polygon').disabled = true;
+        }
         this.getDisplay(aDisplay).setTool('move');
     
         var button = xGetElementById('edit_move');
-        if (button != null)
+        if (button != null) {
           button.checked = true;
-        else
+        } else {
           setActiveToolButton('edit_move');
+        }
         return false;
         break;
       }
@@ -178,15 +182,17 @@ Map.prototype.edit_line = function(aDisplay) {
       if (this.currentEditFeature == null
           || this.currentEditFeature.vertices != 0) {
         var button = xGetElementById('edit_line');
-        if (button != null)
+        if (button != null) {
           xGetElementById('edit_line').disabled = true;
+        }
         this.getDisplay(aDisplay).setTool('move');
     
         var button = xGetElementById('edit_move');
-        if (button != null)
+        if (button != null) {
           button.checked = true;
-        else
+        } else {
           setActiveToolButton('edit_move');
+        }
         return false;
         break;
       }
@@ -364,9 +370,11 @@ Map.prototype.drawEditAttributesTable = function() {
     var row = xCreateElement ('tr');
 
     for (var i = 0; i < this.editAttributeNamesI18n.length; i++) {
-      var cell = xCreateElement('th');
-      cell.innerHTML = this.editAttributeNamesI18n[i];
-      xAppendChild(row, cell);
+      if (this.editAttributeRendering[i] != 'hidden') {
+        var cell = xCreateElement('th');
+        cell.innerHTML = this.editAttributeNamesI18n[i];
+        xAppendChild(row, cell);
+      }
     }
 
     // add column for radio button
@@ -381,7 +389,7 @@ Map.prototype.drawEditAttributesTable = function() {
 
   xAppendChild(editDiv, table); 
 
-  if (editDisplayAction != 'folder'){  
+  if (editDisplayAction != 'folder') {  
     // add validate and cancel buttons
     var validate_all = myform['validate_all'].cloneNode(true);
     validate_all.id = "validate2";
@@ -411,8 +419,9 @@ function hilightFeature(id) {
       }
     }
     dShape = mainmap.getDisplay("map").getDisplayFeature(feature);
-    if (dShape != null && typeof dShape.innerHTML != "undefined")
+    if (dShape != null && typeof dShape.innerHTML != "undefined") {
       changeStatus(dShape, _SEL, true, true);
+    }
   } else if (typeof dShape != "undefined" && dShape != null) {
     if ( !(mainmap.currentEditFeature != null
         && dShape.id.substr((mainmap.id + "_").length) == mainmap.currentEditFeature.id)) {
@@ -461,10 +470,12 @@ function selectEditFeature(id) {
 
 function uncheckFeaturesRadios() {
     var radArray = myform['edit_selected'];
-    if (radArray == null)
+    if (radArray == null) {
       return;
-    if (typeof radArray.length == "undefined") // only one radio
+    }
+    if (typeof radArray.length == "undefined") { // only one radio
       radArray.checked = false;
+    }
     for (i = 0; i < radArray.length; i++) {
         radArray[i].checked = false;
     }
@@ -499,42 +510,57 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   }
   // fill the table row with cells and corresponding input forms
   for (var i = 0; i < this.editAttributeNames.length; i++) {
+   
+    if (this.editAttributeRendering[i] != 'hidden') {
+      var td = xCreateElement("td");
+    }
 
-    var td = xCreateElement("td");
-    // add cell title if multiline
-    if (editResultNbCol > 0) {
+    // add cell title if multiline, if: nb col is specified and element rendering is not hidden
+    if (editResultNbCol > 0 && this.editAttributeRendering[i] != 'hidden') {
       var inputTitle = document.createTextNode(this.editAttributeNamesI18n[i]);
       var inputBr = xCreateElement("br");
       td.appendChild(inputTitle);
       td.appendChild(inputBr);
     }
     // editable field
-    if (this.editAttributeTypes[i] == 'string' || this.editAttributeTypes[i] == 'integer') {
-      if (typeof aFeature.attributes != "undefined")
+    if (this.editAttributeTypes[i] == 'string' || 
+      this.editAttributeTypes[i] == 'integer') {
+      if (typeof aFeature.attributes != "undefined") {
         var value = aFeature.attributes[i];
-      else var value = '';
+      } else { 
+        var value = '';
+      }
+      // get input type from list, if set, default to 'text'
+      var inputtype = this.editAttributeRendering[i] == '' ? 'text' : 
+                      this.editAttributeRendering[i];
+      
       var input = createInput(td,
-        "edit_feature_" + aFeature.id + "[" + this.editAttributeNames[i] + "]", value, 'text')
-      input.onkeypress = function() {
-        if (!this.changed) {
-          if (aFeature.operation != 'insert')
-            setFeatureOperation(aFeature, "update");
-          var validate = xGetElementById('validate_all');
-          validate.className = "form_button_hilight";
-          if (editDisplayAction != 'folder'){
-            var validate = xGetElementById('validate2');
+        "edit_feature_" + aFeature.id + "[" + this.editAttributeNames[i] + "]", 
+        value, inputtype)
+      
+      if (this.editAttributeRendering[i] != 'hidden') {
+        input.onkeypress = function() {
+          if (!this.changed) {
+            if (aFeature.operation != 'insert')
+              setFeatureOperation(aFeature, "update");
+            var validate = xGetElementById('validate_all');
             validate.className = "form_button_hilight";
+            if (editDisplayAction != 'folder') {
+              var validate = xGetElementById('validate2');
+              validate.className = "form_button_hilight";
+            }
           }
+          this.changed = true;
         }
-        this.changed = true;
       }
     }
     // not editable field
     else {
-      if (typeof aFeature.attributes != "undefined")
+      if (typeof aFeature.attributes != "undefined") {
         td.innerHTML = aFeature.attributes[i];
-      else
+      } else {
         td.innerHTML = "";
+      }
     }
 
     if (editResultNbCol > 0) {
@@ -545,9 +571,14 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
 
     if (editResultNbCol > 0) {
       // if the elements is the xth, happend existing row and create a new row
-      if ((i+1) % editResultNbCol == 0){
-        xAppendChild(innerbody, innerrow);
-        innerrow = xCreateElement("tr");
+      if ((i+1) % editResultNbCol == 0 && 
+        this.editAttributeRendering[i] != 'hidden') {
+        if (this.editAttributeRendering[i] != 'hidden') {
+          xAppendChild(innerbody, innerrow);
+        }
+        if (this.editAttributeRendering[i+1] != 'hidden') {
+          innerrow = xCreateElement("tr");
+        }
       }
     }
   }
@@ -579,16 +610,20 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
     image.href = "#";
     image.onclick = function() {
       var id_recenter_ids = xGetElementById('id_recenter_ids');
-      if (id_recenter_ids == null)
-        var input = createInput(myform, 'id_recenter_ids', aFeature.id, 'hidden');
-      else
+      if (id_recenter_ids == null) {
+        var input = createInput(myform, 'id_recenter_ids', aFeature.id, 
+                    'hidden');
+      } else {
         id_recenter_ids.value = aFeature.id;
+      }
       
       var id_recenter_layer = xGetElementById('id_recenter_layer');
-      if (id_recenter_layer == null)
-        var input = createInput(myform, 'id_recenter_layer', myform.edit_layer.value, 'hidden');
-      else
+      if (id_recenter_layer == null) {
+        var input = createInput(myform, 'id_recenter_layer', 
+                    myform.edit_layer.value, 'hidden');
+      } else {
         id_recenter_layer.value = myform.edit_layer.value;
+      }
       doSubmit();
     }
     xAppendChild(td, image);
@@ -637,8 +672,9 @@ function array_unset(array,index) {
   var i = 0;
   var l = array.length;
   for (var i = 0; i < l; i++) {
-    if (i != index)
+    if (i != index) {
       res.push(array[i]);
+    }
   }
   return res;
 }

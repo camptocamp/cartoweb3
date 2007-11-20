@@ -107,6 +107,12 @@ class EditResult extends CwSerializable {
     public $attributeTypes;
     
     /**
+     * List of rendering type (for attributes)
+     * @var array
+     */
+    public $attributeRendering;
+
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
@@ -114,6 +120,7 @@ class EditResult extends CwSerializable {
         $this->features = CwSerializable::unserializeArray($struct, 'features', 'Feature');
         $this->attributeNames = CwSerializable::unserializeValue($struct, 'attributeNames');
         $this->attributeTypes = CwSerializable::unserializeValue($struct, 'attributeTypes');
+        $this->attributeRendering = CwSerializable::unserializeValue($struct, 'attributeRendering');
     }
 }
 

@@ -75,6 +75,12 @@ class EditState {
      */
     public $snapping;
 
+    /**
+     * List of attribute rendering types of the selected layer
+     * @var array
+     */
+    public $attributeRendering;
+
 }
 
 /**
@@ -381,7 +387,6 @@ class ClientEdit extends ClientPlugin
             }
             $str = substr($str, 0, strlen($str) - 1);
             $str_i18n = substr($str_i18n, 0, strlen($str_i18n) - 1);
-
             $template->assign('attribute_names', $str);
             $template->assign('attribute_names_i18n', $str_i18n);
         }
@@ -395,7 +400,16 @@ class ClientEdit extends ClientPlugin
             $str = substr($str, 0, strlen($str) - 1);
             $template->assign('attribute_types', $str);
         }
-        
+
+        // get the attributes rendering list
+        if (!empty($this->editState->attributeRendering)) {
+            $str = "";
+            foreach ($this->editState->attributeRendering as $val)
+                $str .= "'".$val."',";
+            $str = substr($str, 0, strlen($str) - 1);
+            $template->assign('attribute_rendering', $str);
+        }
+
     }
     
     /**
@@ -436,22 +450,30 @@ class ClientEdit extends ClientPlugin
      * @see ServerCaller::handleResult()
      */ 
     public function handleResult($editResult) {
-        if (isset($editResult->shapeType))
+        if (isset($editResult->shapeType)) {
             $this->editState->shapeType = $editResult->shapeType;
+        }
         if (isset($editResult->features) && !empty($editResult->features)) {
             foreach ($editResult->features as $feature) {
                 $this->editState->features[$feature->id] = $feature;
             }
         }
-        if (isset($editResult->attributeNames))
+        if (isset($editResult->attributeNames)) {
             $this->editState->attributeNames = $editResult->attributeNames;
+        }
         
-        if (isset($editResult->attributeTypes))
+        if (isset($editResult->attributeTypes)) {
             $this->editState->attributeTypes = $editResult->attributeTypes;
+        }
             
         // clear the editState on validation
         if (isset($this->editValidateAll) && $this->editValidateAll) {
             $this->editState->features = array();
+        }
+
+        // get renderType
+        if (isset($editResult->attributeRendering)) {
+            $this->editState->attributeRendering = $editResult->attributeRendering;
         }
     }
     

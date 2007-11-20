@@ -55,6 +55,12 @@ class ServerEdit extends ClientResponderAdapter {
      * @var array
      */
     protected $attributes;
+    
+    /**
+     * List of rendering type (for attributes)
+     * @var array
+     */
+    protected $attributeRendering;
 
     /**
      * Constructor
@@ -141,6 +147,7 @@ class ServerEdit extends ClientResponderAdapter {
         
         $editableAttributesList = $this->getMetaDataValueString($layerId, 
                                                                 'edit_attributes');
+
         if (empty($editableAttributesList)) {
             throw new CartoserverException('No edit attributes parameter set ' .
                                            "in the mapfile for layer: $layerId");
@@ -158,7 +165,32 @@ class ServerEdit extends ClientResponderAdapter {
                 $attributes[$val[0]]['editable'] = false;
             }
         }
-        
+
+        /* get parameters' rendering, if set (only when there are some valid 
+        parameters) */
+        if (!empty($editableAttributesList)){
+
+            $editableAttributesRenderingList = $this->getMetaDataValueString(
+                                               $layerId, 'edit_rendering');
+            $nbAttr = sizeof($attributes);
+
+            if (empty($editableAttributesRenderingList)) {
+                /* no rendering, use default (empty string, equal type text when 
+                generating the form) */
+                $rendering = array_fill(0, $nbAttr-1, '');
+            } else {
+                $rendering = explode(',', $editableAttributesRenderingList);
+                // sanity check
+                if (sizeof($rendering) != $nbAttr) {
+                    throw new CartoserverException('The quantity of ' . 
+                        'edit_rendering types must be equal to the quantity ' . 
+                        'of edit_attributes.');
+                }
+                
+            }
+            $this->attributeRendering = $rendering;
+        }
+
         return $attributes;
     }
     
@@ -584,8 +616,9 @@ class ServerEdit extends ClientResponderAdapter {
         
         // retrieve selected edit layer metadata
         $this->idAttribute = $this->serverContext->getIdAttribute($requ->layer);
+
         $this->attributes = $this->getAttributes($requ->layer);
-        
+
         $this->geomColumn = $this->getGeomColumn();
         
         
@@ -664,6 +697,8 @@ class ServerEdit extends ClientResponderAdapter {
             $result->attributeTypes[] = (isset ($attribute['type'])) 
                                         ? $attribute['type'] : '';
         }
+
+        $result->attributeRendering = $this->attributeRendering;
         
         return $result;
     }

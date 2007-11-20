@@ -18,5 +18,6 @@
           <element name="attributeNames" type="types:ArrayOfString"/>
           <element name="attributeTypes" type="types:ArrayOfString"/>
           <element name="features" type="types:ArrayOfFeatures"/>
+          <element name="attributeRendering" type="types:ArrayOfString"/>
         </all>
       </complexType>
