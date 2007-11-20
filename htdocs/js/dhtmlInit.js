@@ -169,17 +169,41 @@ setFeatureOperation = function(aFeature, operation) {
  * @param value value of the input
  */
 createInput = function(elt, name, value, type) {
+
+  if (type == 'textarea') {
+    var input = createTextarea(name, value);
+  } else {
+    if (document.all) {
+      var str = '<input type="' + type + '" name="' + name + '" value="' + value + '" />';
+      var input = xCreateElement(str);
+    }
+    else {
+      var input = xCreateElement("input");
+      input.type = type;
+      input.name = name;
+      input.value = value;
+    }
+  }
+  xAppendChild(elt, input);
+  return input;
+}
+
+/**
+ * Creates an form input
+ * @param form form name
+ * @param name name of the input
+ * @param value value of the input
+ */
+createTextarea = function(name, value) {
   if (document.all) {
-    var str = '<input type="'+type+'" name="'+name+'" value="'+value+'" />';
+    var str = '<textarea id="' + name + '" name="' + name + '">';
     var input = xCreateElement(str);
   }
   else {
-    var input = xCreateElement("input");
-    input.type = type;
+    var input = xCreateElement("textarea");
     input.name = name;
-    input.value = value;
   }
-  xAppendChild(elt, input);
+  input.innerHTML = value;
   return input;
 }
 
