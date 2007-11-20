@@ -61,6 +61,7 @@ METADATA
     'edit_geometry_type' 'polygon' # PostGIS geometry type
     'edit_srid' '-1'
     'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+    'edit_rendering' ',,textarea,hidden,' # OPTIONAL! list of visual rendering of inputs in the form
 END]]></programlisting>
       <itemizedlist>
         <listitem>
@@ -92,6 +93,20 @@ END]]></programlisting>
           <para>Each value represents the attribute name and type separated by a
             pipe symbol. Only attributes with type set are editable.</para>
           <para><warning><para>Attribute types available values are <emphasis>'string'</emphasis> and <emphasis>'integer'</emphasis>.</para></warning></para>
+        </listitem>
+        <listitem>
+          <para> 
+            edit_rendering<indexterm><primary>edit_rendering</primary></indexterm>: 
+            OPTIONAL! string, comma separated list of rendering type used when displaying the edition form. </para>
+          <para>Each value represents the type of input the user will see in the form when editing a feature. </para>
+          <para>Attribute type available values are: 
+            <itemizedlist>
+                <listitem><para><emphasis>(empty)</emphasis> : if no type is set, an input type text is displayed. This is the default behaviour.</para></listitem>
+                <listitem><para><emphasis>hidden</emphasis> : input type hidden.</para></listitem>
+                <listitem><para><emphasis>textarea</emphasis> : textarea element.</para></listitem>
+            </itemizedlist>
+            <warning><para>edit_rendering is absolutly optional. If edit_rendering is not set, all inputs will be simple text input.</para></warning>
+          </para>
         </listitem>
       </itemizedlist>
     </sect2>
