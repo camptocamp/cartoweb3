@@ -185,7 +185,7 @@ AjaxPlugins.ToolTips = {
     },
 
     handleResponse: function(pluginOutput) {
-        eval(pluginOutput.variable.tooltips_active);
+        eval(pluginOutput.variables.tooltips_active);
     },
 
     checkMouseLeave: function(element, evt) {
