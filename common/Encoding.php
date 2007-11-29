@@ -46,7 +46,11 @@ class Encoder {
      */
     static private function setDefault($context) {
         if (!array_key_exists($context, self::$encoders)) {
-            self::$encoders[$context] = new EncoderUTF();
+            if ($context == 'data' && array_key_exists('config', self::$encoders)) {
+                self::$encoders[$context] = self::$encoders['config'];
+            } else {
+                self::$encoders[$context] = new EncoderUTF();
+            }
         }
     }
     
@@ -69,7 +73,8 @@ class Encoder {
         }
         self::setDefault('config');
         self::setDefault('output');
-    }    
+        self::setDefault('data');
+    }
    
     /**
      * @param string context

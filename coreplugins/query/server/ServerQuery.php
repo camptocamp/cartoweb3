@@ -39,6 +39,12 @@ class ServerQuery extends ClientResponderAdapter {
     protected $drawQuery = false;
 
     /**
+     * metadata parameters
+     */
+    const ID_ATTRIBUTE_STRING = 'id_attribute_string';
+    const RETURNED_ATTRIBUTES_METADATA_NAME = 'query_returned_attributes';
+
+    /**
      * Constructor
      */ 
     public function __construct() {
@@ -60,10 +66,8 @@ class ServerQuery extends ClientResponderAdapter {
         if (empty($msLayer)) {
             return array();
         }
-    
-        $returnedAttributesMetadataName = 'query_returned_attributes';
-        
-        $retAttrString = $msLayer->getMetaData($returnedAttributesMetadataName);
+            
+        $retAttrString = $msLayer->getMetaData(self::RETURNED_ATTRIBUTES_METADATA_NAME);
         if (empty($retAttrString)) {
             // fallback to header property for compatibility
 
@@ -122,6 +126,7 @@ class ServerQuery extends ClientResponderAdapter {
             $attributes = array_diff(array_keys($result[0]->values),
                                      array($idAttribute));
         }
+
         $table->noRowId = false;
         if (empty($idAttribute) || $this->getConfig()->noRowId) {
             $table->noRowId = true;
@@ -133,13 +138,11 @@ class ServerQuery extends ClientResponderAdapter {
                 && !is_null($tableFlags)
                 && $tableFlags->returnAttributes) {
                 $columnIds = array();
-                $columnTitles = array();
-                foreach ($attributes as $columnId) {
+                 foreach ($attributes as $columnId) {
                     $columnIds[] = $columnId;
-                    $columnTitles[] = $columnId;
                 }
                 $table->columnIds = Encoder::encode($columnIds, 'config');
-                $table->columnTitles = Encoder::encode($columnTitles, 'config');
+                $table->columnTitles = $table->columnIds; 
             }
             
             $tableRow = new TableRow();
@@ -153,7 +156,7 @@ class ServerQuery extends ClientResponderAdapter {
                     $cells[] = $shape->values[$columnId];
                 }
             }
-            $tableRow->cells = Encoder::encode($cells, 'config');
+            $tableRow->cells = Encoder::encode($cells, 'data');
             
             $table->rows[] = $tableRow;
             $table->numRows ++;
@@ -365,7 +368,7 @@ class ServerQuery extends ClientResponderAdapter {
                 if (empty($msLayer)) {
                     continue;
                 }
-                $idAttribute = $msLayer->getMetaData('id_attribute_string');
+                $idAttribute = $msLayer->getMetaData(self::ID_ATTRIBUTE_STRING);
                 if (empty($idAttribute)) {
                     continue;
                 }
