@@ -311,6 +311,15 @@ msgstr ""
 EncoderClass.config = <encoder_class>]]></programlisting>
             </listitem>
             <listitem>
+                <para>how source data (shapefile, database, .. must be encoded. To
+                    set this encoding, add the following line in
+                    <filename>client.ini</filename>:</para>
+                
+                <programlisting><![CDATA[
+EncoderClass.data = <encoder_class>]]></programlisting>
+                <para>If not set, default to the same encoding as config, to keep backward compatibility</para>
+            </listitem>
+            <listitem>
                 <para>how &cartoweb; exports (including HTML output) must be encoded. To
                     set this encoding, add the following line in
                     <filename>client.ini</filename>:</para>
