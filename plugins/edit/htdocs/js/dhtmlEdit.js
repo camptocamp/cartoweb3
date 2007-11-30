@@ -488,6 +488,7 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
   var tbody = xGetElementsByTagName('tbody', table)[0];
   var row = xCreateElement("tr");
   row.id = 'edit_row_' + aFeature.id;
+  row.className = 'edit_row';
   // hilight table row and display feature
   row.onmouseover = function() {
     this.style.backgroundColor = "#F4F5F7";
