@@ -50,12 +50,16 @@ function initMap() {{/literal}
     mainmap.editAttributeNames = new Array({$attribute_names});
     mainmap.editAttributeNamesI18n = new Array({$attribute_names_i18n});
 {/if}
+{if $attribute_rendering|default:''}
+    mainmap.editAttributeRendering = new Array({$attribute_rendering});
+{/if}
 {if $attribute_types|default:''}
     mainmap.editAttributeTypes = new Array({$attribute_types});    
 {/if}
 {if $attribute_names|default:''}
     mainmap.drawEditAttributesTable();
 {/if}
+mainmap.editAttributeRendertype = new Array({$attribute_rendertype});
 //    mainmap.handleEditTable();
     insert_feature_max_num = {$edit_max_insert};
 {/if} {* end edit allowed *}
