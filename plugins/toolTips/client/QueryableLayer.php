@@ -51,7 +51,7 @@ class QueryableLayer extends ToolTipsLayerBase {
      * Name of the cartoweb encoder to use
      * @var string
      */    
-    protected $encoderName = 'config';
+    protected $encoderName = 'data';
 
     /**
      * Constructor
