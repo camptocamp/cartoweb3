@@ -364,6 +364,9 @@ class ClientEdit extends ClientPlugin
             foreach ($this->editState->attributeNames as $attrname) {
                 $val = array_key_exists($attrname, $feature->attributes) ?
                         $feature->attributes[$attrname] : '';
+                if (strpos($val, '"')) {
+                    $val = str_replace('"', '\"', $val);
+                }
                 $str .= '"' . Encoder::decode($val) . '",';
             }
             $str = substr($str, 0, strlen($str) - 1);
