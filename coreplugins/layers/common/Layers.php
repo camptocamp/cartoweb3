@@ -104,7 +104,7 @@ class LayerBase extends CwSerializable {
     }
 
     /**
-     * Returns an associative array of all metadata variables containted in
+     * Returns an associative array of all metadata variables contained in
      * this layer.
      * @return array an associative array of all metadata
      */
