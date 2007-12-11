@@ -244,9 +244,10 @@ layers.layerId.children = layer4]]></programlisting>
   NAME "my_layer"
   [...]
   METADATA
-    "exported_values" "security_view,some_specific_parameter"
+    "exported_values" "security_view,some_specific_parameter,data_encoding"
     "security_view" "admin" 
     "some_specific_parameter" "value"
+    "data_encoding" "value_iso"
     
     "id_attribute_string" "FID|string" 
     "mask_transparency" "50"
@@ -275,6 +276,8 @@ END]]></programlisting>
       <programlisting><![CDATA[layers.group_admin.className = LayerGroup 
 layers.group_admin.children = grid_defaulthilight 
 layers.group_admin.metadata.security_view = admin]]></programlisting>
+<programlisting><![CDATA[layers.foo.className = Layer
+layers.foo.metadata.data_encoding = value_iso]]></programlisting>
        <note>
         <para>It is possible to specify <parameter>minScale</parameter> and 
          <parameter>maxScale</parameter> attributes as <filename>layers.ini</filename> 

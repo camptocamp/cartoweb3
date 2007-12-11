@@ -341,4 +341,23 @@ EncoderClass.output = <encoder_class>]]></programlisting>
             </listitem>
         </itemizedlist>
     </sect1>
+    <sect1 id="user.i18n.data">
+        <title>Character Set Encoding Configuration for Data Sources</title>
+        <para>When you have layers data with heterogeneous encoding (typicaly iso and utf8), 
+        you can define specific EncoderClass by layer. Simply add "data_encoding" in the 
+        METADATA section in the mapfile or in the layers.ini for the layers which need it.</para>
+        <para>The encoding used when reading data depends of the parameters set. The fallback order is:</para>
+        <itemizedlist>
+            <listitem><para>data_encoding (in mapfile or <filename>layers.ini</filename>, with the corresponding 
+            EncoderClass in <filename>client.ini</filename>)(specific by layer)</para></listitem>
+            <listitem><para>EncoderClass.data (client.ini)(general for all layers)</para></listitem>
+            <listitem><para>EncoderClass.config (client.ini)(for backward compatibility)</para></listitem>
+            <listitem><para>UTF8 is the default if nothing is set.</para></listitem>
+        </itemizedlist>
+        <para>See <xref linkend="user.layers.metadata" /> for example of usage in mapfile and <filename>layers.ini</filename>.</para>
+        <para>The EncoderClass defined in <filename>client.ini</filename> would be for example:</para>
+        <programlisting><![CDATA[EncoderClass.data = EncoderUTF
+EncoderClass.value_iso = EncoderISO]]></programlisting>
+        <para>This example would be in the case most of your layers are in utf8 and only some are in iso.</para>
+    </sect1>
 </chapter>

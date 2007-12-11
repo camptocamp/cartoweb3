@@ -213,6 +213,14 @@ END
              hilighted objects. IMPORTANT: you need to set this metadata on the
              hilight layer, not the original one.</para>
         </listitem>
+        <listitem>
+          <para> 
+            "data_encoding"<indexterm><primary>data_encoding</primary></indexterm> 
+            any EncoderClass defined in client.ini: see <xref linkend="user.i18n.data" />.
+            You must also specify that parameter in the "exported_values" metadata! 
+            See <xref linkend="user.layers.metadata" /> for details.
+            </para>
+        </listitem>
       </itemizedlist>
       <para>Example:<programlisting><![CDATA[
 METADATA
