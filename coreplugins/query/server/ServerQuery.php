@@ -43,6 +43,7 @@ class ServerQuery extends ClientResponderAdapter {
      */
     const ID_ATTRIBUTE_STRING = 'id_attribute_string';
     const RETURNED_ATTRIBUTES_METADATA_NAME = 'query_returned_attributes';
+    const DATA_ENCODING = 'data_encoding';
 
     /**
      * Constructor
@@ -134,6 +135,11 @@ class ServerQuery extends ClientResponderAdapter {
         
         foreach ($result as $shape) {
 
+            /* encode using layer's encoding metadata if present, otherwise, 
+            use default data encoding */
+            $rawencoding = $layer->getMetadata(self::DATA_ENCODING);
+            $encoding = !empty($rawencoding) ? $rawencoding : 'data';
+
             if (empty($table->columnTitles)
                 && !is_null($tableFlags)
                 && $tableFlags->returnAttributes) {
@@ -156,7 +162,7 @@ class ServerQuery extends ClientResponderAdapter {
                     $cells[] = $shape->values[$columnId];
                 }
             }
-            $tableRow->cells = Encoder::encode($cells, 'data');
+            $tableRow->cells = Encoder::encode($cells, $encoding);
             
             $table->rows[] = $tableRow;
             $table->numRows ++;
