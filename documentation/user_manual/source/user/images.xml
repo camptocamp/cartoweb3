@@ -7,7 +7,7 @@
 <!-- $Id$ -->
 <chapter id="user.images">
   <title>
-    Image Format Options
+    Image Format Options <subscript>[coreplugin] (images)</subscript>
   </title>
   <subtitle>
     Plugin Images

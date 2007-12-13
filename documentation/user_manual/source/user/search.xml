@@ -9,7 +9,7 @@
 ]>
 <!-- $Id: search.xml,v 1.7 2007/04/17 12:35:35 nbessi Exp $ -->
 <chapter id="user.search">
-    <title><indexterm><primary>Search</primary></indexterm>Search</title>
+    <title><indexterm><primary>Search</primary></indexterm>Search <subscript>[plugin]</subscript></title>
     <sect1 id="user.search.intro">
         <title>Introduction</title>
         <para>The search plugin aim is to offer standards search features (like recentering, result offset, guided search, ajax features...) in a generic way. Take note that in his current state the plugin only offers a server framework. There is not yet any generic JavaScript framework.</para>

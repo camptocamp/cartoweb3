@@ -5,7 +5,7 @@
   %cartoweb;
   ]>
 <chapter id="user.bboxHistory">
-  <title>Bounding box history plugin</title>
+  <title>Bounding box history plugin <subscript>[plugin] (bboxHistory)</subscript></title>
     <para>The bboxHistory plugin allow the user to navigate through the bbox he
     or she visits: just like the back and forward buttons of a web browser.
     </para>

@@ -7,7 +7,7 @@
   <!-- $Id$ -->
   
   <chapter id="user.output">
-   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins</title>
+   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins <subscript>[plugin] (exportCsv, exportHtml, exportDxf, exportRtf, exportImg)</subscript></title>
    <subtitle>exportCsv, exportHtml, exportDxf, exportRtf Plugins</subtitle>
    
    <sect1 id="user.output.intro"> 

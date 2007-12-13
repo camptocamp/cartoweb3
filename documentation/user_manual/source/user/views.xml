@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.views">
- <title><indexterm><primary>Views</primary></indexterm>Views</title>
+ <title><indexterm><primary>Views</primary></indexterm>Views <subscript>[plugin]</subscript></title>
  <subtitle>Bookmarking &cartoweb; States</subtitle>
 
  <sect1 id="user.views.intro"> 

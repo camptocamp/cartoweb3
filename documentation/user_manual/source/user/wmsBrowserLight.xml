@@ -6,7 +6,7 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.wmslight">
- <title><indexterm><primary>wmslight</primary></indexterm>WMS Browser Light</title>
+ <title><indexterm><primary>wmslight</primary></indexterm>WMS Browser Light <subscript>[plugin]</subscript></title>
   <sect1 id="user.wmslight.intro">
    <title>Introduction</title>
    <para>

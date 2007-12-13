@@ -6,7 +6,7 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.ogcLayerLoader">
- <title><indexterm><primary>ogcLayerLoader</primary></indexterm>OGC Layer Loader</title>
+ <title><indexterm><primary>ogcLayerLoader</primary></indexterm>OGC Layer Loader <subscript>[plugin]</subscript></title>
   <sect1 id="user.ogcLayerLoader.intro">
    <title>Introduction</title>     
    <para>The

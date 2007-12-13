@@ -6,7 +6,7 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.tooltips">
-  <title><indexterm><primary>tooltips</primary></indexterm>ToolTips</title>
+  <title><indexterm><primary>tooltips</primary></indexterm>ToolTips <subscript>[plugin]</subscript></title>
   <sect1 id="user.tooltips.intro">
    <title>Introduction</title>
    <para>The tooltips plugin aim is to show features attributive information on

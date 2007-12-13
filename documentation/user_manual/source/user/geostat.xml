@@ -6,7 +6,7 @@
 
 <chapter id="user.geostat">  
  <title><indexterm><primary>Geostatistics</primary></indexterm>
- Geostatistics</title>
+ Geostatistics <subscript>[plugin] (geostats)</subscript></title>
  <subtitle>Plugin geostat</subtitle>
                                     
  <sect1 id="user.geostat.inter">

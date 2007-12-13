@@ -6,7 +6,7 @@
 ]>
 <!-- $Id$ -->
 <chapter id="user.routing">
-  <title><indexterm><primary>routing</primary></indexterm>Routing Plugin</title>
+  <title><indexterm><primary>routing</primary></indexterm>Routing <subscript>[plugin]</subscript></title>
   <sect1 id="user.routing.intro">
    <title>Introduction</title>
    <para>

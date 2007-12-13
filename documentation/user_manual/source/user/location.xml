@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.location">
-  <title>Navigation</title>
+  <title>Navigation <subscript>[coreplugin] (location)</subscript></title>
   <subtitle>Plugin Location</subtitle>
   <para> The plugin location is the core plugin that deals with geographic 
     navigation on the map. It handles bboxes (visible areas) and scales; it 

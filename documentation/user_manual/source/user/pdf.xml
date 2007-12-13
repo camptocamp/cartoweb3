@@ -8,7 +8,7 @@
 <!-- $Id$ -->
 
 <chapter id="user.pdf">
- <title><indexterm><primary>PDF</primary></indexterm>PDF Export</title>
+ <title><indexterm><primary>PDF</primary></indexterm>PDF Export <subscript>[plugin]</subscript></title>
  <subtitle>Plugin exportPdf</subtitle>
 
  <sect1 id="user.pdf.intro"> 

@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.layers">
-  <title>Layers</title>
+  <title>Layers <subscript>[coreplugin]</subscript></title>
   <sect1 id="user.layers.intro">
     <title>Introduction</title>
     <para> Geographical data are most often apprehended as thematic layers: you 

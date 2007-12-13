@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.annotate">
-  <title>Annotation and Redlining</title>
+  <title>Annotation and Redlining <subscript>[plugin] (outline)</subscript></title>
   <subtitle>Plugin Outline</subtitle>
   <para> Imagine you want to draw some features (points, lines, polygons ...) 
     in your map to show specific data and/or print it. The outline plugin is 

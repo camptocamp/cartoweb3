@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.edit">
-  <title>Editing</title>
+  <title>Editing <subscript>[plugin] (edit)</subscript></title>
   <subtitle>Edit Plugin</subtitle>
   <para> The <parameter>edit</parameter> plugin allows users to edit geographical data from their web browser.
     </para>

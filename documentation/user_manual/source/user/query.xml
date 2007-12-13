@@ -6,7 +6,7 @@
   ]>
 <!-- $Id$ -->
 <chapter id="user.query">
-  <title>Queries</title>
+  <title>Queries <subscript>[coreplugin] (query)</subscript></title>
   <subtitle>Plugins Query, MapQuery, Hilight and Tables</subtitle>
   <para>Core plugin Query allows to search for geographical objects. Found 
     objects are hilighted and if requested related data are returned to client. 
