@@ -1496,9 +1496,7 @@ class ClientLayers extends ClientPlugin
         if ($layer->icon) {
             $icon = substr($layer->icon, 0, -4) . '@' . $resolution . '.png';
             $icon = $this->getPrintedIconPath($icon);
-            try {
-                $foo = getimagesize($icon);
-            } catch (Exception $e) {
+            if (!file_exists($icon)) {
                 $icon = $this->getPrintedIconPath($layer->icon);
             }
         }
