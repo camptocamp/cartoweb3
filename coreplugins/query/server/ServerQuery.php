@@ -75,7 +75,7 @@ class ServerQuery extends ClientResponderAdapter {
             $retAttrString = $msLayer->header;
             if (!empty($retAttrString))
                 $this->log->warn('Using compatibility header property for layer'
-                                 . " instead of $returnedAttributesMetadataName"
+                                 . ' instead of ' . self::RETURNED_ATTRIBUTES_METADATA_NAME
                                  . ' metadata field, please update your '
                                  . 'Mapfile!!');
         }
