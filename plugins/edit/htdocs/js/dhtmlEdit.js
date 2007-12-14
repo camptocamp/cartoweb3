@@ -595,6 +595,7 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
 
   var td = xCreateElement("td");
   var input = createInput(td, 'edit_selected', aFeature.id, 'radio');
+  input.className = 'edit_selected_radio';
   input.onclick = function() {
     selectEditFeature(aFeature.id);
     eval ("mainmap.edit_" + aFeature.type + "('map');");
