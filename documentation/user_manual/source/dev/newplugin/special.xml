@@ -263,6 +263,9 @@
                 size (see <xref linkend="user.location.server" />)</para>
             </listitem>
           </itemizedlist>
+          <warning>
+            <para>A layer must be queryable before id recentering works! Add <parameter>TEMPLATE "ttt"</parameter> to that layer in the mapfile.</para>
+          </warning>
         </listitem>
         <listitem>
           <para>Query plugin</para>
