@@ -7,7 +7,7 @@
     <tr>
       {if !$table->noRowId}<th>{t}Id{/t}</th>{/if}
       {foreach from=$table->columnTitles item=column}
-      <th>{$column}</th>               
+      <th>{t}{$column}{/t}</th>               
       {/foreach}
     </tr>
     {foreach from=$table->rows item=row}
