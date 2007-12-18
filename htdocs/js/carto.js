@@ -10,7 +10,7 @@ function setActiveToolButton(toolid) {
   for (var i = 0; i < cw3_tools.length; i++) {
   
     var elt = xGetElementById(cw3_tools[i] + '_icon');
-    if(elt == null) return;
+    if(elt == null) continue;
 
     if (typeof toolbar_rendering != 'undefined' && 
         toolbar_rendering == 'swap') {
