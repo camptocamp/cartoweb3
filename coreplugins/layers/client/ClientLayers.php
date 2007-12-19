@@ -1520,10 +1520,22 @@ class ClientLayers extends ClientPlugin
      * @return boolean
      */
     public function isLayerVisibleAtCurrentScale($layerId) {
+        $scale = $this->getCurrentScale();
+        $visible = $this->isLayerVisibleAtScale($layerId, $scale);
+        return $visible;
+    }
+
+    /**
+     * Tells if given layer is visible at given scale
+     * Checks for classes scale visibility
+     * @param string layer id
+     * @param int scale
+     * @return boolean
+     */
+    public function isLayerVisibleAtScale($layerId, $scale) {
         if (!($layer = $this->getLayerByName($layerId, false))) {
             return false;
         }
-        $scale = $this->getCurrentScale();
         if (($layer->maxScale && $scale > $layer->maxScale) ||
             ($layer->minScale && $scale < $layer->minScale))
             return false;
@@ -1532,7 +1544,7 @@ class ClientLayers extends ClientPlugin
             foreach ($layer->getChildren($this->layersState->switchId) as $childId)
                 return $this->isLayerVisibleAtCurrentScale($childId);
         }
-        return true;
+        return true;        
     }
 
     /**
