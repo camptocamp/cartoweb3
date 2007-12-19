@@ -396,7 +396,7 @@ class ToolTipsService {
 
         foreach ($this->getSelectedLayers() as $activeLayerId) {  
             if (array_key_exists($activeLayerId, $this->queryableLayers) &&
-                $layersCorePlugin->isLayerVisibleAtCurrentScale($activeLayerId)) {
+                $layersCorePlugin->isLayerVisibleAtScale($activeLayerId, $this->mapScale)) {
                 $layerId = $activeLayerId;
                 $queryableLayer = $this->getQueryableLayer($layerId);
 
