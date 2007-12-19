@@ -1311,6 +1311,13 @@ blocks.north.inFlow = false
 blocks.north.horizontalMargin = 15
 blocks.north.verticalMargin = 5]]></programlisting>
    </sect3>
+   <sect3 id="user.pdf.tutorial.block.currentuser">
+    <title><indexterm><primary>Currentuser, PDF</primary></indexterm>Currentuser Block</title>
+    <para>You can use the <parameter>currentuser</parameter> block to display somewhere the username of the user who initiated the pdf generation.</para>
+     <para>
+      This block do not require any special parameters beside the common positionning and styling.
+    </para>
+   </sect3>
   </sect2>
   
   <sect2 id="user.pdf.tutorial.roles">
