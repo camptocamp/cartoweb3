@@ -1425,6 +1425,12 @@ class ClientExportPdf extends ExportPlugin
             }
         }
 
+        if (isset($this->blocks['currentuser'])) {
+            $sm = SecurityManager::getInstance();
+            $user = $sm->getUser();
+            $this->blocks['currentuser']->content = $user;
+        }
+
         $pdf->initializeDocument();
  
         if(isset($this->blocks['mainmap'])) {
