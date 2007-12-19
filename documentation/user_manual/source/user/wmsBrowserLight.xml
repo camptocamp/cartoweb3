@@ -56,7 +56,9 @@ loadPlugins = mapOverlay, ogcLayerLoader, wmsBrowserLight
 
         servers.1.label = Données administratives et routières en France (Geosignal)
         servers.1.url = http://www.geosignal.org/cgi-bin/wmsmap
-    </screen></para>
+    </screen><warning><para>If your url contains aditional parameter (<filename>..?map=foo</filename>), you MUST enclose the url between doublequotes<screen>
+        servers.1.url = "http://www.foo.org/cgi-bin/mapserv?map=bar"
+    </screen></para></warning></para>
   </sect1>
 
   <sect1 id="user.wmslight.gn">
