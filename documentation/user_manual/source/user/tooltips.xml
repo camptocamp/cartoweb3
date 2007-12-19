@@ -101,6 +101,14 @@ tooltips.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
 tooltips.region.dbTableName = region
 tooltips.region.attributes = "nom, code"
 tooltips.region.template = "layerResult_region.tpl"]]></programlisting>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>timeoutBeforeHide</parameter>
+          <indexterm><primary>timeoutBeforeHide</primary></indexterm>: (optional) The time 
+          in millisecond before the tooltips result box disappear (if the user has not put 
+          the mouse cursor on it). Set to 3000 by default.</para>
+        </listitem>
+      </itemizedlist>
     </sect2>
   </sect1>
   <sect1 id="user.tooltips.custom">
