@@ -50,6 +50,11 @@ class ClientToolTips extends ClientPlugin
     protected $sessionCreated = false;
 
     /**
+     * @var int
+     */
+    protected $toolTipsTimeoutBeforeHide;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -89,6 +94,7 @@ class ClientToolTips extends ClientPlugin
      */
     public function renderForm(Smarty $template) {
         $template->assign('toolTips_active', $this->isToolTipsActive());
+        $template->assign('toolTipsTimeoutBeforeHide', $this->getToolTipsTimeoutBeforeHide());
     }
 
     /**
@@ -166,6 +172,17 @@ class ClientToolTips extends ClientPlugin
                            $errno, $errstr, $errfile, $errline));
     }
     
+    /**
+     * get timeout value (before tooltips result disappear)
+     * @return int toolTipsTimeoutBeforeHide
+     */
+    protected function getToolTipsTimeoutBeforeHide() {
+        if (!$this->toolTipsTimeoutBeforeHide) {
+            $timeout = $this->getConfig()->timeoutBeforeHide;
+            $this->toolTipsTimeoutBeforeHide = !empty($timeout) ? $timeout : 3000;
+        }
+        return $this->toolTipsTimeoutBeforeHide;
+    }
 }
 
 ?>
