@@ -84,7 +84,9 @@ AjaxPlugins.ToolTips = {
     processInit: function() {
         Event.observe(this.eventDivId, 'mousemove', this.mouseMove.bindAsEventListener(this));
         Event.observe(this.eventDivId, 'mouseout', this.mouseOut.bindAsEventListener(this));
-        this._result = new AjaxPlugins.ToolTips.Result();
+        var opt = new Object();
+        opt.timeoutBeforeHide = _toolTipsTimeoutBeforeHide;
+        this._result = new AjaxPlugins.ToolTips.Result(opt);
     },
 
     isToolTipsActive: function() {
@@ -244,7 +246,7 @@ AjaxPlugins.ToolTips.Result.prototype = {
         overlib('');
         nd();
         
-//        this.timeoutBeforeHide = options.timeoutBeforeHide;
+        this.timeoutBeforeHide = options.timeoutBeforeHide;
 
         // some things to get sticky overlib working
         function mouseOverTooltip() {
