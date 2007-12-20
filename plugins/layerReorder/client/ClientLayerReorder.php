@@ -99,7 +99,7 @@ class ClientLayerReorder extends ClientPlugin
      * Layers user Transparency array indexed by msLayer name
      * @var array
      */
-    protected $layerUserTransparencies;
+    public $layerUserTransparencies;
 
     /**
      * Array of MapServer layers id selected (currently displayed)
@@ -365,7 +365,7 @@ class ClientLayerReorder extends ClientPlugin
      * @param int transparency transparency value in map file
      * @return int
      */
-    protected function getCloserTransparency($transparency) {
+    public function getCloserTransparency($transparency) {
 
         if (in_array($transparency, $this->transparencyLevels)) {
             return $transparency;
