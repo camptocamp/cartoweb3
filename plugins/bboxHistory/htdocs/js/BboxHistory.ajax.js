@@ -1,6 +1,8 @@
 AjaxPlugins.BboxHistory = {
     handleResponse: function(pluginOutput) {
-        $('bbox_history_form').replace(pluginOutput.htmlCode.bboxHistoryForm);
+        if ($('bbox_history_form')) {
+            $('bbox_history_form').replace(pluginOutput.htmlCode.bboxHistoryForm);
+        }
     }
 };
 
