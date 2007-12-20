@@ -992,7 +992,7 @@ blocks.legend.content = in   ; legend is checked as included in map by default</
     Whatever their types (image, text, table, legend, north), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
    </para>
    <para>
-    Blocks naming is quite free but some names are reserved to system-defined blocks such as title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords, north. System blocks should not be renamed.
+    Blocks naming is quite free but some names are reserved to system-defined blocks such as <parameter>title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords, north, currentuser</parameter>. System blocks should not be renamed.
    </para>
    <para>
     Note that blocks that are not mentioned in <parameter>general.activatedBlocks</parameter> won't be displayed in any case.
