@@ -106,7 +106,9 @@ tooltips.region.template = "layerResult_region.tpl"]]></programlisting>
           <para><parameter>timeoutBeforeHide</parameter>
           <indexterm><primary>timeoutBeforeHide</primary></indexterm>: (optional) The time 
           in millisecond before the tooltips result box disappear (if the user has not put 
-          the mouse cursor on it). Set to 3000 by default.</para>
+          the mouse cursor on it). Set to 3000 by default. This is a general parameter and
+          it has a more common syntax.
+          <programlisting>timeoutBeforeHide = 7000</programlisting></para>
         </listitem>
       </itemizedlist>
     </sect2>
