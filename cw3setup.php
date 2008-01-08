@@ -340,7 +340,8 @@ function processArgs() {
             replaceDotIn();
             init();
             removeInstallWarning();
-
+            launchProjectsFinalDeployScript();
+            
             info('Installation finished...');
         
             break;
@@ -779,6 +780,21 @@ function fetchProjects() {
                     "you now have to use the --cartoweb-cvs-option" .
                     " parameter to have the same effect\n. You have to remove" .
                     "this file from the project to avoid this failure.");
+        }
+    }
+}
+
+function launchProjectsFinalDeployScript() {
+    // launch project deploy script
+    $projects = getRequestedProjects();
+    if (empty($projects)) {
+        $projects = cw3setupGetProjects('projects');
+    }
+    foreach ($projects as $project) {
+        if (is_file("projects/$project/deployment/install_final.php")) {
+            $_ENV['project'] = $project;
+            info("Lanching project $project final install script");
+            include("projects/$project/deployment/install_final.php");
         }
     }
 }
