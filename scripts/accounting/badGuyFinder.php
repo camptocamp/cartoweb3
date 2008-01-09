@@ -1,4 +1,4 @@
-#!/usr/bin/php 
+#!/usr/bin/php
 <?php
 
 /**********************************************************************
@@ -64,145 +64,145 @@ $statsMap=array();
 # read the stats
 $count=0;
 while(!feof(STDIN)) {
-	$curLine=fgets(STDIN);
-	$fields=processLine($curLine);
-	if(!array_key_exists('general_cache_hit', $fields)) {
-		$key=$fields[$keyField];
-		if($key) {
-			$stats=$statsMap[$key];
-			if(!$stats) {
-				$stats=new Stats();
-				$statsMap[$key]=$stats;				
-			}
-			$stats->add($fields);
+    $curLine=fgets(STDIN);
+    $fields=processLine($curLine);
+    if(!array_key_exists('general_cache_hit', $fields)) {
+        $key=$fields[$keyField];
+        if($key) {
+            $stats=$statsMap[$key];
+            if(!$stats) {
+                $stats=new Stats();
+                $statsMap[$key]=$stats;
+            }
+            $stats->add($fields);
 
-			# clean records that don't look suspicious
-			if(++$count>$cleanupFrequency) {
-				$old=$fields['general_time']-$inactiveTime;
-				$nbDeleted=0;
-				foreach($statsMap as $key=>$stats) {
-					if($stats->canDelete($old)) {
-						++$nbDeleted;
-						unset($statsMap[$key]);
-					}
-				}
-				$count=0;
-			}
-		}
-	}
+            # clean records that don't look suspicious
+            if(++$count>$cleanupFrequency) {
+                $old=$fields['general_time']-$inactiveTime;
+                $nbDeleted=0;
+                foreach($statsMap as $key=>$stats) {
+                    if($stats->canDelete($old)) {
+                        ++$nbDeleted;
+                        unset($statsMap[$key]);
+                    }
+                }
+                $count=0;
+            }
+        }
+    }
 }
 
 
 # print the results sorted by badGuyNess
 usort($statsMap, 'cmpStats');
 foreach($statsMap as $key=>$stats) {
-	if($stats->isBadGuy()) {
-		print $stats->__toString()."\n";
-	}
+    if($stats->isBadGuy()) {
+        print $stats->__toString()."\n";
+    }
 }
 
 
 class Stats {
-	public $count=0;
-	public $lastScale;
-	public $curNbSameScale=0;
-	public $maxNbSameScale=0;
-	public $lastTime;
-	public $sessionIds=array();
-	public $ips=array();
-	public $scales=array();
-	public $badGuyTime=0;
-	public $ua;
+    public $count=0;
+    public $lastScale;
+    public $curNbSameScale=0;
+    public $maxNbSameScale=0;
+    public $lastTime;
+    public $sessionIds=array();
+    public $ips=array();
+    public $scales=array();
+    public $badGuyTime=0;
+    public $ua;
 
-	public function add(&$fields) {
-		$this->count++;
-		$this->ips[str_replace('unknown, ', '', $fields['general_ip'])]++;
-		$this->lastTime=$fields['general_time'];
-		$this->sessionIds[$fields['general_sessid']]++;
-		$this->ua=$fields['general_ua'];
+    public function add(&$fields) {
+        $this->count++;
+        $this->ips[str_replace('unknown, ', '', $fields['general_ip'])]++;
+        $this->lastTime=$fields['general_time'];
+        $this->sessionIds[$fields['general_sessid']]++;
+        $this->ua=$fields['general_ua'];
 
-		$scale=$fields['location_scale'];
-		$this->scales[$scale]++;
-		if($scale==$this->lastScale){
-			$this->curNbSameScale++;
-		} else {
-			$this->lastScale=$scale;
-			$this->maxNbSameScale=$this->getMaxNbSameScale();
-			$this->curNbSameScale=1;
-		}
+        $scale=$fields['location_scale'];
+        $this->scales[$scale]++;
+        if($scale==$this->lastScale){
+            $this->curNbSameScale++;
+        } else {
+            $this->lastScale=$scale;
+            $this->maxNbSameScale=$this->getMaxNbSameScale();
+            $this->curNbSameScale=1;
+        }
 
-		if(!$this->badGuyTime && $this->isBadGuy()) {
-			$this->badGuyTime=$this->lastTime;
-		}
-	}
+        if(!$this->badGuyTime && $this->isBadGuy()) {
+            $this->badGuyTime=$this->lastTime;
+        }
+    }
 
-	private function getMaxNbSameScale() {
-		return max($this->maxNbSameScale, $this->curNbSameScale);
-	}
+    private function getMaxNbSameScale() {
+        return max($this->maxNbSameScale, $this->curNbSameScale);
+    }
 
-	public function __toString() {
-		$result="count=$this->count;maxSameScale=".$this->getMaxNbSameScale().";";
-		$result.="badGuyTime=".strftime('%X %x',$this->badGuyTime).";";
-		//$result.="ua=\"$this->ua\";";
-		$result.="scales=";
-		foreach($this->scales as $scale=>$count) {
-			$result.="$scale($count)";
-		}
-		$result.=";";
+    public function __toString() {
+        $result="count=$this->count;maxSameScale=".$this->getMaxNbSameScale().";";
+        $result.="badGuyTime=".strftime('%X %x',$this->badGuyTime).";";
+        //$result.="ua=\"$this->ua\";";
+        $result.="scales=";
+        foreach($this->scales as $scale=>$count) {
+            $result.="$scale($count)";
+        }
+        $result.=";";
 
-		if(sizeof($this->ips)>5) {
-			$result.="nbIPs=".sizeof($this->ips);
-		} else {
-			$result.="IPs=";
-			foreach($this->ips as $ip=>$count) {
-				$result.="$ip($count)";
-			}
-		}
-		$result.=";";
+        if(sizeof($this->ips)>5) {
+            $result.="nbIPs=".sizeof($this->ips);
+        } else {
+            $result.="IPs=";
+            foreach($this->ips as $ip=>$count) {
+                $result.="$ip($count)";
+            }
+        }
+        $result.=";";
 
-		if(sizeof($this->sessionIds)>5) {
-			$result.="nbSessions=".sizeof($this->sessionIds);
-		} else {
-			$result.="sessions=";
-			foreach($this->sessionIds as $id=>$count) {
-				$result.="$id($count)";
-			}
-		}
-		return $result;
-	}
+        if(sizeof($this->sessionIds)>5) {
+            $result.="nbSessions=".sizeof($this->sessionIds);
+        } else {
+            $result.="sessions=";
+            foreach($this->sessionIds as $id=>$count) {
+                $result.="$id($count)";
+            }
+        }
+        return $result;
+    }
 
-	public function isBadGuy() {
-		global $badGuySameScale, $badGuyCount;
-		return $this->getMaxNbSameScale() > $badGuySameScale || $this->count > $badGuyCount;
-	}
+    public function isBadGuy() {
+        global $badGuySameScale, $badGuyCount;
+        return $this->getMaxNbSameScale() > $badGuySameScale || $this->count > $badGuyCount;
+    }
 
-	public function canDelete($old) {
-		return $this->lastTime<$old && !$this->isBadGuy();
-	}
+    public function canDelete($old) {
+        return $this->lastTime<$old && !$this->isBadGuy();
+    }
 }
 
 
 # Parse a line and return a map {name=>value}
 function processLine($line) {
-	global $config;
+    global $config;
 
-	preg_match_all('/([^=^;]*)="([^"]*)"/', 
-		       $line, $matches, PREG_SET_ORDER);
-	$data = array();
-	foreach ($matches as $match) {
-		$key = str_replace('.', '_', $match[1]);
+    preg_match_all('/([^=^;]*)="([^"]*)"/', 
+               $line, $matches, PREG_SET_ORDER);
+    $data = array();
+    foreach ($matches as $match) {
+        $key = str_replace('.', '_', $match[1]);
 
-		$data[$key] = $match[2];
-	}
-	return $data;   
+        $data[$key] = $match[2];
+    }
+    return $data;
 }
 
 function cmpStats($a, $b) {
-	if($a->count != $b->count) {
-		return ($a->count < $b->count)?1:-1;
-	} else {
-		return strcmp($a->ip, $b->ip);
-	}
+    if($a->count != $b->count) {
+        return ($a->count < $b->count)?1:-1;
+    } else {
+        return strcmp($a->ip, $b->ip);
+    }
 }
 
 ?>
