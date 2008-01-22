@@ -64,4 +64,9 @@
   <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=toolTips}overlib_mini.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=toolTips}ToolTips.ajax.js{/r}"></script>
+  <script type="text/javascript">
+  /*<![CDATA[*/
+    _toolTipsTimeoutBeforeHide = '{$toolTipsTimeoutBeforeHide}';
+  /*]]>*/
+  </script>
 {/if}
