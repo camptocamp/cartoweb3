@@ -104,6 +104,7 @@ class ToolTipsService {
     protected function copyLayerGroupsConfig($config) {
         
         $layers = $this->cartoclient->getPluginManager()->getPlugin('layers');
+        $selected = $layers->fetchChildrenFromLayerGroup($layers->getSelectedLayers());        
         $layerIds = array_keys(get_object_vars($config));
         $addedLayers = array();
 
@@ -116,7 +117,8 @@ class ToolTipsService {
             if (count($subLayerIds) > 0) {
                 foreach ($subLayerIds as $subLayerId) {
                     if (!array_key_exists($subLayerId, $layerIds) &&
-                        !in_array($layerId, $addedLayers)) {
+                        !in_array($layerId, $addedLayers) &&
+                        in_array($subLayerId, $selected)) {
                         
                         $config->$subLayerId = $config->$layerId;
                         $addedLayers[] = $layerId;
