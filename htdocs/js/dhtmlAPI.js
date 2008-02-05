@@ -1324,7 +1324,7 @@ AddVertexTool.prototype.onMouseDown = function(aDisplay, ex, ey) {
  * @param aDisplay display object
  */
 function DeleteFeatureTool(aDisplay) {
-  xShow(aDisplay.eventPad);
+  xHide(aDisplay.eventPad);
   aDisplay.docObj.style.cursor = "auto";
   xDisableDrag(aDisplay.rootDisplayLayer);
 };
