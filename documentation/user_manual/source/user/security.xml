@@ -367,7 +367,7 @@ layers.group_admin.metadata.security_view = admin]]></programlisting>
         the very similar syntax as used in the mapfile. </para>
       <warning>
         <para>Don't forget to set <constant>applySecurity</constant> to True in 
-          the <filename>layers.ini</filename> &cartoclient; configuration file, 
+          the <filename>layers.ini</filename> &cartoclient; configuration file (in client_conf !), 
           otherwise security metadata keys won't be taken into account.</para>
       </warning>
     </sect2>
