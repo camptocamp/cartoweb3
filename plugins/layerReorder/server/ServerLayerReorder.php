@@ -37,6 +37,12 @@ class ServerLayerReorder extends ClientResponderAdapter
     private $log;
 
     /**
+     * Client request
+     */
+    public $request;
+
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -44,6 +50,12 @@ class ServerLayerReorder extends ClientResponderAdapter
         $this->log =& LoggerManager::getLogger(__CLASS__);
     }
 
+    /**
+     * @see ClientResponder::initializeRequest()
+     */
+    public function initializeRequest($requ) {
+        $this->request = $requ;
+    }
 
     /**
      * Send to Cartoclient current ordered layers, labels and
