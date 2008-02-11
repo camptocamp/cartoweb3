@@ -56,6 +56,9 @@ function selectTool(e) {
         mainmap.outline_poly('map');
         setActiveToolButton('outline_poly');
       break;
+      case 'outline_circle_radius' :
+        mainmap.outline_circle('map');
+        setActiveToolButton('outline_circle');
     }
 }
 
@@ -71,7 +74,7 @@ function addOutlineToolListeners() {
   var onFocusElements = new Array('outline_point_size','outline_point_color',
                     'outline_line_size','outline_line_color','outline_line_transparency',
                     'outline_polygon_outline_color','outline_polygon_background_color',
-                    'outline_polygon_transparency');
+                    'outline_polygon_transparency','outline_circle_radius');
 
   for (var i = 0; i < onClickElements.length; i++){
     elm = xGetElementById(onClickElements[i]);

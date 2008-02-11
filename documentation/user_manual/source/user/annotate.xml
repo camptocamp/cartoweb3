@@ -63,6 +63,11 @@
             weightOutlinePoly<indexterm><primary>weightOutlinePoly</primary></indexterm>: 
             see weightOutlinePoint (default to 73) </para>
         </listitem>
+        <listitem>
+          <para> 
+            weightOutlineCircle<indexterm><primary>weightOutlineCircle</primary></indexterm>: 
+            see weightOutlinePoint (default to 74) </para>
+        </listitem>
       </itemizedlist>
     </sect2>
   </sect1>
@@ -191,6 +196,11 @@ END]]></programlisting> You will find more examples looking in the test.map
         <listitem>
           <para>outline_poly
           <screen>http://www.example.com/cartoweb/myproject.php?outline_poly=611748,5232242;748204,5232242;748204,5050300;611748,5050300;611748,5232242</screen>
+          </para>
+        </listitem>
+        <listitem>
+          <para>outline_circle
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_circle=611748,5232242;50000</screen>
           </para>
         </listitem>
       </itemizedlist>

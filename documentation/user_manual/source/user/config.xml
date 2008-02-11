@@ -421,6 +421,11 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
        </listitem>
        <listitem>
         <para>
+         weightOutlineCircle: 74
+        </para>
+       </listitem>
+       <listitem>
+        <para>
          weightDistance: 80
         </para>
        </listitem>

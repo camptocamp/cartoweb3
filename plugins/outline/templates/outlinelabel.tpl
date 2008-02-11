@@ -5,6 +5,7 @@
     var polyDefaultLabel = '{t}polygon label{/t}';
     var rectangleDefaultLabel = '{t}rectangle label{/t}';
     var pointDefaultLabel = '{t}point label{/t}';
+    var circleDefaultLabel = '{t}circle label{/t}';
   /*]]>*/
 </script>
 <div id="outlineLabelInputDiv">

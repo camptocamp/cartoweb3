@@ -428,6 +428,33 @@ Map.prototype.surface = function(aDisplay) {
   };
 };
 /***** OUTLINE ****/
+Map.prototype.outline_circle = function(aDisplay) {
+  this.resetMapEventHandlers();
+  this.setCurrentLayer('outline_poly');
+  this.getDisplay(aDisplay).setTool('draw.circle');
+
+  this.onNewFeature = function(aFeature) {
+      this.onToolUnset();
+  };
+  this.onFeatureInput = this.onFeatureChange = function(aFeature) {
+    fillForm(aFeature);
+    if (typeof addLabel == 'undefined')
+      doSubmit();
+    else
+      addLabel(circleDefaultLabel, mouse_x, mouse_y);
+  };
+  this.onToolUnset = function() {
+    //clear the outline_poly's display layer
+    this.getDisplay(aDisplay).clearLayer('outline_poly');
+    this.onCancel();
+  };
+  this.onCancel = function() {
+    if (typeof hideLabel != 'undefined')
+      hideLabel();
+    emptyForm();
+  };
+};
+
 Map.prototype.outline_poly = function(aDisplay) {
   this.resetMapEventHandlers();
   this.setCurrentLayer('outline_poly');

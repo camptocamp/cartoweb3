@@ -71,6 +71,13 @@ class ServerOutline extends ClientResponderAdapter
             $p->addXY($shape->maxx, $shape->miny); 
             $p->addXY($shape->minx, $shape->miny);
             $p->addXY($shape->minx, $shape->maxy);
+        } else if ($className == 'Circle') {
+            $f = ms_newShapeObj(MS_SHAPE_POLYGON);
+            for ($i = 0; $i <= 360; $i = $i + 10) {
+                $x = $shape->x + (cos($i * (22 / 7) / 180) * $shape->radius);
+                $y = $shape->y - (sin($i * (22 / 7) / 180) * $shape->radius);
+                $p->addXY($x, $y);
+            }
         } else {
             if ($className == 'Line') {
                 $f = ms_newShapeObj(MS_SHAPE_LINE);
@@ -278,6 +285,7 @@ class ServerOutline extends ClientResponderAdapter
                 break;
             case 'Rectangle':
             case 'Polygon':
+            case 'Circle':
                 $this->drawPolygon($shape, $maskMode);
                 break;
             default:

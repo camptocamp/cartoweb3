@@ -58,6 +58,12 @@ class OutlineState {
      * @var StyleOverlay
      */
     public $polygonStyle;
+
+    /**
+     * Circle radius
+     * @var radius
+     */
+    public $radius;
 }
 
 /**
@@ -121,6 +127,7 @@ class ClientOutline extends ClientPlugin
     const TOOL_LINE      = 'outline_line';
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
+    const TOOL_CIRCLE   = 'outline_circle';
 
     /**
      * Constructor
@@ -156,6 +163,7 @@ class ClientOutline extends ClientPlugin
         $this->outlineState->pointStyle = new StyleOverlay();
         $this->outlineState->lineStyle = new StyleOverlay();
         $this->outlineState->polygonStyle = new StyleOverlay();
+        $this->outlineState->radius = false;
     }
 
     /**
@@ -172,8 +180,7 @@ class ClientOutline extends ClientPlugin
      * @see ToolProvider::handleMainmapTool()
      */
     public function handleMainmapTool(ToolDescription $tool, 
-                                      Shape $mainmapShape) {
-        
+                                      Shape $mainmapShape) {        
         return $mainmapShape;
     }
     
@@ -197,6 +204,7 @@ class ClientOutline extends ClientPlugin
                      new ToolDescription(self::TOOL_LINE, true, 71),
                      new ToolDescription(self::TOOL_RECTANGLE, true, 72),
                      new ToolDescription(self::TOOL_POLYGON, true, 73),
+                     new ToolDescription(self::TOOL_CIRCLE, true, 74),
                      );
     }
 
@@ -211,9 +219,10 @@ class ClientOutline extends ClientPlugin
     public function filterGetRequest(FilterRequestModifier $request) {
         // gets geometry type from GET request
         $this->geomType = '';
-        $poly = $request->getValue('outline_poly');
-        $line = $request->getValue('outline_line');
-        $point = $request->getValue('outline_point');
+        $poly = $request->getValue(self::TOOL_POLYGON);
+        $line = $request->getValue(self::TOOL_LINE);
+        $point = $request->getValue(self::TOOL_POINT);
+        $circle = $request->getValue(self::TOOL_CIRCLE);
 
         // set correct parameters for new shape depending on type
         if (!empty($poly)) {
@@ -228,6 +237,10 @@ class ClientOutline extends ClientPlugin
             $this->geomType = $tool = self::TOOL_POINT;  
             $selection_coords = $point;
             $selection_type = 'point';
+        } elseif (!empty($circle)) {
+            $this->geomType = $tool = self::TOOL_CIRCLE;  
+            $selection_coords = $circle;
+            $selection_type = 'circle';
         } else {
             return;
         }
@@ -235,7 +248,6 @@ class ClientOutline extends ClientPlugin
         $request->setValue('selection_type', $selection_type);
         $request->setValue('tool', $tool);
     }
-
     /**
      * @see GuiProvider::handleHttpPostRequest()
      */
@@ -277,6 +289,13 @@ class ClientOutline extends ClientPlugin
             $this->getHttpValue($request, 'outline_polygon_transparency');
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
+        
+        // allow circle radius to be set by hand, under conditions
+        if ($request['tool'] == self::TOOL_CIRCLE && 
+            !empty($request['outline_circle_radius']) && $shape->radius == 0) {
+            $shape->radius = $this->outlineState->radius = 
+                $this->getHttpValue($request, 'outline_circle_radius');
+        } 
 
         if ($shape) {
             $this->handleShape($shape, $request);
@@ -318,6 +337,7 @@ class ClientOutline extends ClientPlugin
 
         case self::TOOL_RECTANGLE:
         case self::TOOL_POLYGON:
+        case self::TOOL_CIRCLE:
             $styledShape->shapeStyle = clone $this->outlineState->polygonStyle;
             break;
 
@@ -408,6 +428,8 @@ class ClientOutline extends ClientPlugin
                 $this->outlineState->polygonStyle->color->getHex(),
             'outline_polygon_transparency_selected'     => 
                 $this->outlineState->polygonStyle->transparency,
+
+            'outline_circle_radius' => $this->outlineState->radius,
             
             'pathToSymbols' => $this->symbols->pathToSymbols,
             'symbolType'    => $this->symbols->symbolType,            
@@ -577,6 +599,17 @@ class ClientOutline extends ClientPlugin
     protected function getShape($type, $values) {
 
         switch ($type) {
+            case self::TOOL_CIRCLE :
+                $points = Utils::parseArray($values, ';');
+                if (sizeOf($points) != 2) return false;
+
+                $shape = new Circle;
+                $xy = Utils::parseArray($points[0], ',');
+                $shape->x = $xy[0];
+                $shape->y = $xy[1];
+                $shape->radius = $points[1];
+                return $shape;
+            break;
             case self::TOOL_POLYGON :
                 $points = Utils::parseArray($values, ';');
                 if (sizeOf($points) <= 0) return false;

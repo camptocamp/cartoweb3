@@ -6,6 +6,7 @@ CartoWeb HEAD
 - Added parameters for general encoding of data sources and specific encoding by layers (EncoderClass.data, data_encoding) (doc 16.3).
 - Added input definition parameter in edit plugin metadata definition and support for input type hidden and textarea (edit_rendering) (doc 14.2.1).
 - Fixed: toolTips now respect min/max scale of related layers.
+- Added circle drawing tool in outline plugin
 
 2007-07-26: CartoWeb 3.4.0
 ===================

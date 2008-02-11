@@ -484,12 +484,24 @@ msgid "background color"
 msgstr "Couleur surface"
 
 #: plugins/outline/templates/outline.tpl
+msgid "To draw a circle, either clic&drag on the map or set a value for the radius and clic on the map."
+msgstr "Pour dessiner un cercle, soit cliquez/déplacez le curseur sur la carte, soit spécifiez un rayon et cliquez sur la carte."
+
+#: plugins/outline/templates/outline.tpl
+msgid "circle radius"
+msgstr "Rayon du cercle"
+
+#: plugins/outline/templates/outline.tpl
 msgid "Total area"
 msgstr "Surface totale"
 
 #: plugins/outline/templates/outline.tpl
 msgid "outline_clear"
 msgstr "Effacer les dessins"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "circle label"
+msgstr "titre du cercle"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "line label"
@@ -510,6 +522,14 @@ msgstr "titre du point"
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "your label"
 msgstr "votre titre"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "Rectangle/polygon/circle"
+msgstr "Rectangle/polygone/cercle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "Circle"
+msgstr "Cercle"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "ok"
