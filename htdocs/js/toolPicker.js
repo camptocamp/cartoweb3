@@ -20,6 +20,7 @@ var pickedColor = new Array(255,255,255); // default
 var modifiedColor = new Array(255,255,255); // default
 var colorSpace = 'rgb'; // default
 var colorLevel = 'less'; // default
+var colorType;
 
 var Trgb = new Array('rgbR','rgbG','rgbB');
 var Thsl = new Array('hslH','hslS','hslL');
@@ -33,7 +34,7 @@ var currentSymbol = '';
 // var symbolPickerHilight dans template page
 
 // common functions list for callback (avoid using eval() )
-functionList = new Array();
+var functionList = new Array();
 
 functionList["RGBtoHSL"]=RGBtoHSL;
 functionList["HSLtoRGB"]=HSLtoRGB;
@@ -99,7 +100,8 @@ function toolPicker(toollist, inputlist, outputlist) {
   //setup menu : display only menu accordingly to parameter toollist
   // if none are specified, all are displayed
   if (toollist == '') {
-    toolMenuList = xGetElementsByClassName('toolmenuDisabled', null, null);
+    var pele = xGetElementById('toolcontainer');
+    var toolMenuList = xGetElementsByClassName('toolmenuDisabled', pele, null);
     for (i=0;i<toolMenuList.length;i++ ) {
       toolMenuList[i].className = 'toolmenuOff';
     }
@@ -145,7 +147,7 @@ function toolPicker(toollist, inputlist, outputlist) {
   // recover incomming value accordingly to target element passed in parameter and the tools activated
   // then launch the init function for the select tool
   // refList: list of id of activated tools
-  refList = new Array();
+  var refList = new Array();
   if (menuList == '') {
     for (var i=0;i<toolArrayRef.length;i++){
       refList[i] = i+1;
@@ -158,9 +160,9 @@ function toolPicker(toollist, inputlist, outputlist) {
   for (i=0;i<refList.length;i++) {
     t = xGetElementById(toolPickerInputIds[i]);
     if (!t) {
-      Tvalue = '';
+      var Tvalue = '';
     } else {
-      Tvalue = t.value;
+      var Tvalue = t.value;
     }
     fctName = toolArrayRef[refList[i]-1]+"Init";
     functionList[fctName](Tvalue);
@@ -177,7 +179,7 @@ function toolPicker(toollist, inputlist, outputlist) {
  *  @param string toolname : name of the tool to setup
 */
 function setupTool(toolname) {
-    fctName = toolname+'Setup';
+    var fctName = toolname+'Setup';
     functionList[fctName]();
 }
 /** 
@@ -188,29 +190,29 @@ function toolPickerReturn() {
     // many activated tools
     // check if there is an existing id at pos of tool index
     for (i=0;i<menuList.length;i++){
-      toolname = toolArrayRef[menuList[i]-1];
+      var toolname = toolArrayRef[menuList[i]-1];
 
       if (!toolPickerReturnIds[i]) {
           if (!toolPickerInputIds[i]) {
             return alert("return id for "+toolname+", id "+menuList[i]+" is missing");
           } else {
-            targetElmName = toolPickerInputIds[i];
+            var targetElmName = toolPickerInputIds[i];
           }
       } else {
-        targetElmName = toolPickerReturnIds[i];
+        var targetElmName = toolPickerReturnIds[i];
       }
       if (!xGetElementById(targetElmName))
         return alert ("element "+targetElmName+" does not exist");
-      targetElm = xGetElementById(targetElmName);
+      var targetElm = xGetElementById(targetElmName);
       
-      fctName = toolname+'Return';
+      var fctName = toolname+'Return';
       // call tool specific return value functions
-      returnValues = functionList[fctName]();
+      var returnValues = functionList[fctName]();
       targetElm.value = returnValues;
       // call tool specific display result functions
       if (!xGetElementById(targetElmName+'_d'))
         return alert ("element "+targetElmName+"_d does not exist");
-      targetHiddenElm = xGetElementById(targetElmName+'_d');
+      var targetHiddenElm = xGetElementById(targetElmName+'_d');
       toolPickerDisplay(targetHiddenElm, toolname);
     }
 }
@@ -218,7 +220,7 @@ function toolPickerReturn() {
  *  generic function to display values 
 */
 function toolPickerDisplay(targetElm, toolname) {
-    fctName = toolname+'Display';
+    var fctName = toolname+'Display';
     functionList[fctName](targetElm);
 }
 
@@ -234,7 +236,7 @@ function colorPickerInit(color) {
     if (color != ''){
       // check if color is a correct hex
       if (typeof(color) == 'string') {
-        cl = color.length;
+        var cl = color.length;
         if (cl == 6 || cl == 7) {
           pickedColor = modifiedColor = HEXtoRGB(color); 
         } else {
@@ -300,13 +302,14 @@ function symbolArraySetup() {
 // create symbol table
 function symbolTable() {
 
-  nbSy = 5; //nb sybol per lines
-  nbLines = Math.ceil(symbolNamesArray.length/nbSy);
+  var nbSy = 5; //nb sybol per lines
+  var nbLines = Math.ceil(symbolNamesArray.length/nbSy);
   if (symbolNamesArray.length%nbSy > 0)
     nbLines += 1;
 
-  table = '';
-  counter = counterL = 0;
+  var table = '';
+  var counterL = 0;
+  var counter = 0;
   for (var i=0;i<nbLines;i++){
     table += '<div id="T'+counterL+'" style="float:left;clear:both;width:100%;">';
     for (j=0;j<nbSy;j++){
@@ -314,11 +317,11 @@ function symbolTable() {
         break;
       }
       if (symbolPickerHilight == 'inversed') {
-        imgOver = symbolNamesArray[counter] == currentSymbol ? '_over' : '';
-        hilightstyle = 'ArS';
+        var imgOver = symbolNamesArray[counter] == currentSymbol ? '_over' : '';
+        var hilightstyle = 'ArS';
       } else {
-        imgOver = '';
-        hilightstyle = symbolNamesArray[counter] == currentSymbol ? 'ArSs' : 'ArS';
+        var imgOver = '';
+        var hilightstyle = symbolNamesArray[counter] == currentSymbol ? 'ArSs' : 'ArS';
       }
       
       table += '<div style="float:left;"'
@@ -329,15 +332,15 @@ function symbolTable() {
     table += '</div>';
     counterL++;
   }
-  tableElm = xGetElementById('symboltable');
+  var tableElm = xGetElementById('symboltable');
   tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';
 }
 // set event listener on created symbol blocks
 function setSymbolArrayListener() {
-    children = xGetElementById('symboltable').childNodes;
+    var children = xGetElementById('symboltable').childNodes;
     for (i=0;i<children.length;i++) {
       if (children[i].id) {
-        child2 = children[i].childNodes;
+        var child2 = children[i].childNodes;
         for (j=0;j<child2.length;j++) {
           addEvent(child2[j], 'click', getSymbolFromArray, false);
         }
@@ -361,15 +364,15 @@ function getSymbolFromArray(ev) {
 */
 function updateSymbol(){
     // reset existing symbol
-    sybmElmList = xGetElementById('symboltable').childNodes;
+    var sybmElmList = xGetElementById('symboltable').childNodes;
     for (var k = 0; k < sybmElmList.length; k++ ) {
         for (var i = 0; i < sybmElmList[k].childNodes.length; i++ ) {
           if (symbolPickerHilight == 'inversed'){
             for (var j = 0; j < sybmElmList[k].childNodes[i].childNodes.length; j++ ) {
-              imgSrc = sybmElmList[k].childNodes[i].childNodes[j].src
+              var imgSrc = sybmElmList[k].childNodes[i].childNodes[j].src
               // position of last dot
-              dotPos = imgSrc.lastIndexOf('.');
-              toCheck = imgSrc.substring(dotPos-5, dotPos);
+              var dotPos = imgSrc.lastIndexOf('.');
+              var toCheck = imgSrc.substring(dotPos-5, dotPos);
               if (toCheck == '_over'){
                 sybmElmList[k].childNodes[i].childNodes[j].src = imgSrc.substring(0, dotPos-5) + '.' + symbolType;
               }
@@ -381,7 +384,7 @@ function updateSymbol(){
         }
     }
     // active new symbol
-    activeSym = xGetElementById(currentSymbol);
+    var activeSym = xGetElementById(currentSymbol);
     if (symbolPickerHilight == 'inversed'){
       activeSym.src = imgPath+currentSymbol+'_over.'+symbolType;
     } else {
@@ -421,7 +424,7 @@ function symbolArrayDisplay (targetElm) {
 // setup colorarray
 function colorArraySetup()
 {
-    stepsval = 1; //default value for color matrice calculation steps
+    var stepsval = 1; //default value for color matrice calculation steps
     if (colorLevel == 'more') {
         stepsval = 0.5;
     } else if (colorLevel == 'less') {
@@ -436,13 +439,13 @@ function colorArraySetup()
 */
 function colorMatrice(steps) {
     steps = steps?steps:1; // change value to a value between 0 and 1 to get more color variations
-    colorArray = new Array();
+    var colorArray = new Array();
     for (i=0;i<=1;i+=steps) {
-        r = Math.round(255*i);
+        var r = Math.round(255*i);
         for (j=0;j<=1;j+=steps) {
-            g = Math.round(255*j);
+            var g = Math.round(255*j);
             for (k=0;k<=1;k+=steps) {
-                b = Math.round(255*k);
+                var b = Math.round(255*k);
                 colorArray.push(new Array(r, g, b));
             }
         }
@@ -454,25 +457,25 @@ function colorMatrice(steps) {
  *  @param array matrice : array of arrays or arrays of values between 0 and 255
 */
 function colorTable(matrice) {
-  table = '';
-  counter = counterL = 0;
-  steps = 10; // increase value to get more variation for one color
+  var table = '';
+  var counter = counterL = 0;
+  var steps = 10; // increase value to get more variation for one color
   for (i=0;i<matrice.length;i++){
       table += '<div id="L'+counterL+'" style="float:left;clear:both;width:100%;">';
       // from black to full saturation
       for (j=0;j<=steps;j++){
-        r = Math.round(matrice[i][0] / steps * j);
-        g = Math.round(matrice[i][1] / steps * j);
-        b = Math.round(matrice[i][2] / steps * j);
+        var r = Math.round(matrice[i][0] / steps * j);
+        var g = Math.round(matrice[i][1] / steps * j);
+        var b = Math.round(matrice[i][2] / steps * j);
         
         table += '<div id="C'+counter+'" style="float:left;background-color:rgb('+r+','+g+','+b+');" class="ArC"></div>';
         counter++;
       }
       // from full saturation to white
       for (j=1;j<=steps-1;j++){
-        r = matrice[i][0] + Math.round((255 - matrice[i][0]) / steps * j);
-        g = matrice[i][1] + Math.round((255 - matrice[i][1]) / steps * j);
-        b = matrice[i][2] + Math.round((255 - matrice[i][2]) / steps * j);
+        var r = matrice[i][0] + Math.round((255 - matrice[i][0]) / steps * j);
+        var g = matrice[i][1] + Math.round((255 - matrice[i][1]) / steps * j);
+        var b = matrice[i][2] + Math.round((255 - matrice[i][2]) / steps * j);
         
         table += '<div id="C'+counter+'" style="float:left;background-color:rgb('+r+','+g+','+b+');" class="ArC"></div>';
         counter++;
@@ -480,12 +483,12 @@ function colorTable(matrice) {
     table += '</div>';
     counterL++;
   }
-  tableElm = xGetElementById('colortable');
+  var tableElm = xGetElementById('colortable');
   tableElm.innerHTML = table + '<div class="clear">&nbsp;</div>';
 }
 // set event listener on created color blocks
 function setColorArrayListener() {
-    children = xGetElementById('colortable').childNodes;
+    var children = xGetElementById('colortable').childNodes;
     for (i=0;i<children.length;i++) {
       addEvent(children[i], 'mouseover', getcolorFromArray, false);
       addEvent(children[i], 'click', getcolorUniqueFromArray, false);
@@ -495,16 +498,16 @@ function setColorArrayListener() {
 function switchColors() {
   // get current color level
   if (colorLevel == 'more') {
-    newLevel = 'less';
-    symbol = '+';
+    var newLevel = 'less';
+    var symbol = '+';
   }
   if (colorLevel == 'less') {
-    newLevel = 'more';
-    symbol = '-';
+    var newLevel = 'more';
+    var symbol = '-';
   }
   colorLevel = newLevel;
   colorArraySetup();
-  switchElmCh = xGetElementById('colSwitch').childNodes;
+  var switchElmCh = xGetElementById('colSwitch').childNodes;
   for (i=0; i<switchElmCh.length; i++) {
     if (switchElmCh[i].nodeName == 'A') {
       switchElmCh[i].innerHTML = symbol;
@@ -533,23 +536,23 @@ function colorPickerSetup()
     xShow(d1);
     // initialise sliders, set position accordingly to initial color values
     for (i=0;i<activeColorSpace.length;i++){
-      varName = 'T'+activeColorSpace[i];
-      colorSpaceAr = varList[varName];
+      var varName = 'T'+activeColorSpace[i];
+      var colorSpaceAr = varList[varName];
       // convert initial color to other colorspace if needed
       if (activeColorSpace[i] != 'rgb'){
-          fctName = "RGBto"+activeColorSpace[i].toUpperCase();
-          initialColor = functionList[fctName](modifiedColor);
+          var fctName = "RGBto"+activeColorSpace[i].toUpperCase();
+          var initialColor = functionList[fctName](modifiedColor);
       } else {
-          initialColor = modifiedColor;
+          var initialColor = modifiedColor;
       }
 
       for (j=0;j<colorSpaceAr.length;j++){
         var slider = 'slider' + colorSpaceAr[j];
         var thumb = 'thumb' + colorSpaceAr[j];
-        s = xGetElementById(slider);
-        d = xGetElementById(thumb);
+        var s = xGetElementById(slider);
+        var d = xGetElementById(thumb);
 
-        newX = Math.round(initialColor[j]*(xWidth(s)-xWidth(d)-2)/(colorSpaceWidth(activeColorSpace[i])));
+        var newX = Math.round(initialColor[j]*(xWidth(s)-xWidth(d)-2)/(colorSpaceWidth(activeColorSpace[i])));
         xMoveTo(thumb, newX, 0);
 
 
@@ -584,7 +587,7 @@ function OnDragStart(ele, mx, my)
 */
 function OnDrag(ele, mdx, mdy)
 {
-    newX = xLeft(ele) + mdx;
+    var newX = xLeft(ele) + mdx;
     // limit displacement in the parent element enclosure
     if (newX >= 1 && newX < xWidth(ele.parentNode) - xWidth(ele) - 2) {
         xMoveTo(ele, newX, 0);
@@ -605,26 +608,26 @@ function OnDrag(ele, mdx, mdy)
 */
 function dOnDrag(ele, mdx, mdy)
 {
-    newX = xLeft(ele) + mdx;
+    var newX = xLeft(ele) + mdx;
     // limit displacement in the parent element enclosure
     if (newX >= 1 && newX < xWidth(ele.parentNode) - xWidth(ele) - 2) {
       xMoveTo(ele, newX, 0);
     }
     ele.totalMX += mdx;
     // get slider id, use it to access the correct input, correct the value
-    elId = ele.id.substr(ele.id.length-4);    
-    sliderColorSpace = getColorSpace(elId);
+    var elId = ele.id.substr(ele.id.length-4);    
+    var sliderColorSpace = getColorSpace(elId);
     // if the slider colorspace is different from the current pickedColor colorspace -> conversion
     if (sliderColorSpace != colorSpace) {
-        fctName = colorSpace.toUpperCase()+"to"+sliderColorSpace.toUpperCase();
+        var fctName = colorSpace.toUpperCase()+"to"+sliderColorSpace.toUpperCase();
         modifiedColor = functionList[fctName](modifiedColor);
         colorSpace = sliderColorSpace;
     }
     // calculate the new color value
-    newColorValue = Math.round(255 * newX / (xWidth(ele.parentNode) - xWidth(ele) - 2));
+    var newColorValue = Math.round(255 * newX / (xWidth(ele.parentNode) - xWidth(ele) - 2));
     // access the correct sliders id array, depends of the colorspace, see 'T'-like array defined 
     // at the beginning of the page
-    varName = 'T'+sliderColorSpace;
+    var varName = 'T'+sliderColorSpace;
     colorSpaceAr = varList[varName];
     // update the color array with the new value
     for (var i=0;i<colorSpaceAr.length;i++) {
@@ -677,11 +680,11 @@ function dOnDragEnd(ele, mx, my){
  *  @return float level : brightness level
 */
 function getBrightnessLevel () {
-    box = xGetElementById('slider');
-    cursor = xGetElementById('thumb');
-    boxX = findPosX(box); // x coord of slider box
-    cursorX = findPosX(cursor); // x coord of slider cursor
-    level = 1 - ((cursorX-boxX) / (xWidth(box)-xWidth(cursor)-4)); //brightness level, value between 1 and 0
+    var box = xGetElementById('slider');
+    var cursor = xGetElementById('thumb');
+    var boxX = findPosX(box); // x coord of slider box
+    var cursorX = findPosX(cursor); // x coord of slider cursor
+    var level = 1 - ((cursorX-boxX) / (xWidth(box)-xWidth(cursor)-4)); //brightness level, value between 1 and 0
     level = level<0?0:level;
     
     return level;
@@ -692,11 +695,11 @@ function getBrightnessLevel () {
  *  main color is not updated, only temp color is updated
 */
 function changeBrightness () {
-    level = getBrightnessLevel();
-    newval = new Array();
+    var level = getBrightnessLevel();
+    var newval = new Array();
     
     if (colorSpace != 'rgb') {
-        fctName = colorSpace.toUpperCase()+"toRGB";
+        var fctName = colorSpace.toUpperCase()+"toRGB";
         pickedColor = functionList[fctName](pickedColor);
         modifiedColor = functionList[fctName](modifiedColor);
         colorSpace = 'rgb';
@@ -717,11 +720,11 @@ function changeBrightness () {
  *  all color are updated
 */
 function setBrightness() {
-    level = getBrightnessLevel();
-    newval = new Array();
+    var level = getBrightnessLevel();
+    var newval = new Array();
 
     if (colorSpace != 'rgb') {
-        fctName = colorSpace.toUpperCase()+"toRGB";
+        var fctName = colorSpace.toUpperCase()+"toRGB";
         pickedColor = modifiedColor = functionList[fctName](pickedColor);
         colorSpace = 'rgb';
     }
@@ -742,7 +745,7 @@ function setBrightness() {
  *  reset brightness cursor to pos 0
 */
 function resetBrightness() {
-    d = xGetElementById('thumb');
+    var d = xGetElementById('thumb');
     xMoveTo(d, 0, 0);
 }
 
@@ -851,18 +854,18 @@ function updateSlider (outputColorSpace, colorValues) {
     // colorSpace is global
     if (outputColorSpace == colorSpace) {
         // if the event colorspace is the same as the current colorspace, use color values directly
-        color = colorValues;
+        var color = colorValues;
     } else {
         // convert color values to output colorspace, see functionList array at the beginning of the page
-        fctName = colorSpace.toUpperCase()+"to"+outputColorSpace.toUpperCase();        
-        color = functionList[fctName](colorValues);
+        var fctName = colorSpace.toUpperCase()+"to"+outputColorSpace.toUpperCase();        
+        var color = functionList[fctName](colorValues);
     }
-    varName = 'T'+outputColorSpace;
-    colorSpaceAr = varList[varName];
+    var varName = 'T'+outputColorSpace;
+    var colorSpaceAr = varList[varName];
     // move the sliders
     for (var i=0;i<colorSpaceAr.length;i++) {
-        ele = xGetElementById('thumb' + colorSpaceAr[i]); 
-        newX = Math.round(color[i]*(xWidth(ele.parentNode)-xWidth(ele)-2)/(colorSpaceWidth(outputColorSpace)));
+        var ele = xGetElementById('thumb' + colorSpaceAr[i]); 
+        var newX = Math.round(color[i]*(xWidth(ele.parentNode)-xWidth(ele)-2)/(colorSpaceWidth(outputColorSpace)));
         xMoveTo(ele, newX, 0);
     }
 }
@@ -873,16 +876,16 @@ function updateSlider (outputColorSpace, colorValues) {
 */
 function updateInput (outputColorSpace, colorValues) {
     if (outputColorSpace == colorSpace) {
-        color = colorValues;
+        var color = colorValues;
     } else {
-        fctName = colorSpace.toUpperCase()+"to"+outputColorSpace.toUpperCase();
-        color = functionList[fctName](colorValues);
+        var fctName = colorSpace.toUpperCase()+"to"+outputColorSpace.toUpperCase();
+        var color = functionList[fctName](colorValues);
     }    
-    varName = 'T'+outputColorSpace;
-    colorSpaceAr = varList[varName];
+    var varName = 'T'+outputColorSpace;
+    var colorSpaceAr = varList[varName];
     // update input's value
     for (var i = 0; i < colorSpaceAr.length; i++) {
-        colorValueCont = xGetElementById(colorSpaceAr[i]);
+        var colorValueCont = xGetElementById(colorSpaceAr[i]);
         colorValueCont.value = color[i] < 0 ? 0 : color[i] > colorSpaceWidth(outputColorSpace) ? colorSpaceWidth(outputColorSpace) : color[i];
     }
 }
@@ -896,12 +899,12 @@ function updateInput (outputColorSpace, colorValues) {
 */
 function updateColorBox (colorValues, boxID) {
     if (colorSpace == 'rgb') {
-        color = colorValues;
+        var color = colorValues;
     } else {
-        fctName = colorSpace.toUpperCase()+"toRGB";
-        color = functionList[fctName](colorValues);
+        var fctName = colorSpace.toUpperCase()+"toRGB";
+        var color = functionList[fctName](colorValues);
     }
-    colorContainer = xGetElementById(boxID);
+    var colorContainer = xGetElementById(boxID);
     // set background color of container
     colorContainer.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
 }
@@ -912,10 +915,10 @@ function updateColorBox (colorValues, boxID) {
  *  @param string boxID : id of the box to update
 */
 function updateHexColorBox (colorValues, boxID) {
-    fctName = colorSpace.toUpperCase()+"toHEX";
-    color = functionList[fctName](colorValues);
+    var fctName = colorSpace.toUpperCase()+"toHEX";
+    var color = functionList[fctName](colorValues);
     // update input's value
-    colorContainer = xGetElementById(boxID);
+    var colorContainer = xGetElementById(boxID);
     colorContainer.value = color;
 }
 // ###############################################################################################################################
@@ -929,11 +932,11 @@ function getcolor(e) {
     // if current colorspace is different from rgb, convert the stored color to rgb
     // to prevent colorspace conflict between modified and picked color
     if (colorSpace != 'rgb'){
-        fctName = colorSpace.toUpperCase()+"toRGB";
+        var fctName = colorSpace.toUpperCase()+"toRGB";
         modifiedColor = functionList[fctName](modifiedColor);
     }
 
-    tmpColor = coordToRGB (e); // get rgb from xy and store values
+    var tmpColor = coordToRGB (e); // get rgb from xy and store values
     colorSpace = 'rgb';
     for (i=0;i<activeColorSpace.length;i++){
         updateSlider(activeColorSpace[i], tmpColor);
@@ -966,7 +969,7 @@ function getcolorFromArray(ev) {
     var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
-      color = t.style.backgroundColor;
+      var color = t.style.backgroundColor;
       xGetElementById('colorresult2a').style.backgroundColor = color;
     }
 }
@@ -979,12 +982,12 @@ function getcolorUniqueFromArray(ev) {
     var t = e.target ? e.target : e.srcElement;
     
     if (t.id) {
-      color = t.style.backgroundColor;
+      var color = t.style.backgroundColor;
       xGetElementById('colorresult3a').style.backgroundColor = color;
     }
-    colorS = color.indexOf('(');
-    colorE = color.indexOf(')');
-    colorV = color.substring(colorS+1,colorE);
+    var colorS = color.indexOf('(');
+    var colorE = color.indexOf(')');
+    var colorV = color.substring(colorS+1,colorE);
     modifiedColor = colorV.split(',');
     xGetElementById('hexStatic').innerHTML = RGBtoHEX(modifiedColor);
 }
@@ -994,10 +997,10 @@ function getcolorUniqueFromArray(ev) {
  *  @return string inputColorSpace
 */
 function getColorSpace(elId) {
-    inputColorSpace = '';
+    var inputColorSpace = '';
     for (i=0;i<activeColorSpace.length;i++){
-      varName = 'T'+activeColorSpace[i];
-      colorSpaceAr = varList[varName];
+      var varName = 'T'+activeColorSpace[i];
+      var colorSpaceAr = varList[varName];
 
       for (j=0;j<colorSpaceAr.length;j++){
         if (elId == colorSpaceAr[j]){
@@ -1022,17 +1025,17 @@ function getColorSpace(elId) {
 function changeColorFromInput(ev) {
   var e = window.event ? window.event : ev;
   var t = e.target ? e.target : e.srcElement;
-  elId = t.id;
-  inputColorSpace = getColorSpace(elId);
+  var elId = t.id;
+  var inputColorSpace = getColorSpace(elId);
   // if the input colorspace is different from the current pickedColor colorspace -> conversion
   if (inputColorSpace != colorSpace) {
-      fctName = colorSpace.toUpperCase()+"to"+inputColorSpace.toUpperCase();
-      newColor = functionList[fctName](modifiedColor);
+      var fctName = colorSpace.toUpperCase()+"to"+inputColorSpace.toUpperCase();
+      var newColor = functionList[fctName](modifiedColor);
       modifiedColor = newColor;
       colorSpace = inputColorSpace;
   }
   // get the new color value
-  newColorValue = t.value;
+  var newColorValue = t.value;
   // check if value is in acceptable range
   if (newColorValue > 255) {
     newColorValue = 255;
@@ -1044,8 +1047,8 @@ function changeColorFromInput(ev) {
   }
   // access the correct input id array, depends of the colorspace, see 'T'-like array defined 
   // at the beginning of the page
-  varName = 'T'+inputColorSpace;
-  colorSpaceAr = varList[varName];
+  var varName = 'T'+inputColorSpace;
+  var colorSpaceAr = varList[varName];
   // update the color array with the new value
   for (var i=0;i<colorSpaceAr.length;i++) {
       if (colorSpaceAr[i] == elId){
@@ -1073,7 +1076,7 @@ function changeColorFromHexInput(ev) {
     var e = window.event ? window.event : ev;
     var t = e.target ? e.target : e.srcElement;
 
-    hex = t.value;
+    var hex = t.value;
     if (hex.substring(0,1) == '#') hex = hex.substr(1,hex.length);
     if (hex.length != 6)
         return;
@@ -1115,21 +1118,21 @@ function coordToRGB (ev) {
  *  @return array
 */
 function RGBtoHSL(colorset) {
-    r = colorset[0]; g = colorset[1]; b = colorset[2];
-    min = Math.min(r,Math.min(g,b));
-    max = Math.max(r,Math.max(g,b));
+    var r = colorset[0]; g = colorset[1]; b = colorset[2];
+    var min = Math.min(r,Math.min(g,b));
+    var max = Math.max(r,Math.max(g,b));
     // l (L)
-    l = Math.round((max+min)/2);
+    var l = Math.round((max+min)/2);
     // achromatic ?
-    if(max==min) {h=160;s=0;}
+    if(max==min) {var h=160;var s=0;}
     else {
     // s
-      if (l<128) s=Math.round(255*(max-min)/(max+min));
-      else s=Math.round(255*(max-min)/(510-max-min));
+      if (l<128) var s=Math.round(255*(max-min)/(max+min));
+      else var s=Math.round(255*(max-min)/(510-max-min));
     // h
-      if (r==max)h=(g-b)/(max-min);
-      else if (g==max) h=2+(b-r)/(max-min);
-      else h=4+(r-g)/(max-min);
+      if (r==max) var h=(g-b)/(max-min);
+      else if (g==max) var h=2+(b-r)/(max-min);
+      else var h=4+(r-g)/(max-min);
       h*=60;
       if (h<0) h+=360;
       h=Math.round(h*255/360);
@@ -1143,12 +1146,12 @@ function RGBtoHSL(colorset) {
  *  @return array
 */
 function HSLtoRGB (colorset) {
-    h = colorset[0]; s = colorset[1]; l = colorset[2];
+    var h = colorset[0]; var s = colorset[1]; var l = colorset[2];
     if (s == 0) s = 1;
     h=h*360/255;s/=255;l/=255;
-    if (l <= 0.5) rm2 = l + l * s;
-    else rm2 = l + s - l * s;
-    rm1 = 2.0 * l - rm2;
+    if (l <= 0.5) var rm2 = l + l * s;
+    else var rm2 = l + s - l * s;
+    var rm1 = 2.0 * l - rm2;
     r = ToRGB1(rm1, rm2, h + 120.0)
     g = ToRGB1(rm1, rm2, h)
     b = ToRGB1(rm1, rm2, h - 120.0)
@@ -1178,14 +1181,14 @@ function ToRGB1(rm1,rm2,rh) {
 */
 function RGBtoHEX(colorset) {
     var c="0123456789abcdef";
-    r = colorset[0]; g = colorset[1]; b = colorset[2];
-    r1=c.substring(Math.floor(r/16),Math.floor(r/16)+1);
-    r2=c.substring(r%16,(r%16)+1);
-    g1=c.substring(Math.floor(g/16),Math.floor(g/16)+1);
-    g2=c.substring(g%16,(g%16)+1);
-    b1=c.substring(Math.floor(b/16),Math.floor(b/16)+1);
-    b2=c.substring(b%16,(b%16)+1);
-    color = '#'+r1+''+r2+''+g1+''+g2+''+b1+''+b2;
+    var r = colorset[0]; var g = colorset[1]; var b = colorset[2];
+    var r1=c.substring(Math.floor(r/16),Math.floor(r/16)+1);
+    var r2=c.substring(r%16,(r%16)+1);
+    var g1=c.substring(Math.floor(g/16),Math.floor(g/16)+1);
+    var g2=c.substring(g%16,(g%16)+1);
+    var b1=c.substring(Math.floor(b/16),Math.floor(b/16)+1);
+    var b2=c.substring(b%16,(b%16)+1);
+    var color = '#'+r1+''+r2+''+g1+''+g2+''+b1+''+b2;
     return color;
 }
 /** 
@@ -1204,9 +1207,9 @@ function HSLtoHEX(colorset) {
 function HEXtoRGB(hex) {
     var c="0123456789abcdef";
     if (hex.substring(0,1) == '#') hex = hex.substr(1,6);
-    red=c.indexOf(hex.substring(0,1))*16+c.indexOf(hex.substring(1,2));
-    green=c.indexOf(hex.substring(2,3))*16+c.indexOf(hex.substring(3,4));
-    blue=c.indexOf(hex.substring(4,5))*16+c.indexOf(hex.substring(5,6));
+    var red=c.indexOf(hex.substring(0,1))*16+c.indexOf(hex.substring(1,2));
+    var green=c.indexOf(hex.substring(2,3))*16+c.indexOf(hex.substring(3,4));
+    var blue=c.indexOf(hex.substring(4,5))*16+c.indexOf(hex.substring(5,6));
 
     return new Array(red, green, blue);
 }
@@ -1216,15 +1219,15 @@ function HEXtoRGB(hex) {
 */
 function colorPickerReturn () {
     
-    fctName = colorSpace.toUpperCase()+"toHEX";
-    newColor = functionList[fctName](modifiedColor);
+    var fctName = colorSpace.toUpperCase()+"toHEX";
+    var newColor = functionList[fctName](modifiedColor);
 
     return newColor;
 } 
 function colorPickerDisplay(targetElm) {
 
     if (colorSpace != 'rgb') {
-        fctName = colorSpace.toUpperCase()+"toRGB";
+        var fctName = colorSpace.toUpperCase()+"toRGB";
         modifiedColor = functionList[fctName](modifiedColor);
         colorSpace = 'rgb';
     }
@@ -1239,16 +1242,17 @@ function colorPickerDisplay(targetElm) {
  *  @param integer id
 */
 function switchToolMenu(id) {
-    onoff = new Array('On', 'Off');
-    toolMenuOn = xGetElementsByClassName('toolmenuOn', null, null);
-    toolMenuOff = xGetElementsByClassName('toolmenuOff', null, null);
-    toolBoxs = xGetElementsByClassName('toolbox', null, null);
+    var onoff = new Array('On', 'Off');
+    var pele = xGetElementById('toolcontainer');
+    var toolMenuOn = xGetElementsByClassName('toolmenuOn', pele, null);
+    var toolMenuOff = xGetElementsByClassName('toolmenuOff', pele, null);
+    var toolBoxs = xGetElementsByClassName('toolbox', pele, null);
     varList["toolMenuOn"]=toolMenuOn;
     varList["toolMenuOff"]=toolMenuOff;
     // set label
     for (j=0;j<onoff.length;j++) {
-      varName = 'toolMenu'+onoff[j];
-      toolMenu = varList[varName];
+      var varName = 'toolMenu'+onoff[j];
+      var toolMenu = varList[varName];
 
       for (i=0;i<toolMenu.length;i++) {
           cId = toolMenu[i].id.charAt(4);
@@ -1261,7 +1265,7 @@ function switchToolMenu(id) {
     }
     // set box
     for (i=0;i<toolBoxs.length;i++) {
-        cId = toolBoxs[i].id.charAt(4);
+        var cId = toolBoxs[i].id.charAt(4);
         if (cId != id) {
             toolBoxs[i].style.display = "none";
         } else {
@@ -1279,8 +1283,8 @@ function switchToolMenu(id) {
 function switchColorTool(panel) {
     // change color tool panel display
     if (panel) {
-      C1 = xGetElementById('color1');
-      C2 = xGetElementById('color2');
+      var C1 = xGetElementById('color1');
+      var C2 = xGetElementById('color2');
       if (panel == 'Carray') {
            C1.style.display = 'none';
            C2.style.display = 'block';
@@ -1290,8 +1294,8 @@ function switchColorTool(panel) {
            C1.style.display = 'block';
            C2.style.display = 'none';
            colorPickerSetup();
-           fctName = colorSpace.toUpperCase()+"toHEX";
-           color = functionList[fctName](modifiedColor);
+           var fctName = colorSpace.toUpperCase()+"toHEX";
+           var color = functionList[fctName](modifiedColor);
            colorPickerInit(color);
       }
     } else {
@@ -1305,30 +1309,30 @@ function switchColorTool(panel) {
 */
 function positionTool(){
  
-  refElmClass = '#toolcontainer';
-  elm = xGetElementById(toolPickerInputIds[0]+'_d');
-  Pelm =  xGetElementById('toolcontainer');
-  px = findPosX(elm);
-  py = findPosY(elm);
+  var refElmClass = '#toolcontainer';
+  var elm = xGetElementById(toolPickerInputIds[0]+'_d');
+  var Pelm =  xGetElementById('toolcontainer');
+  var px = findPosX(elm);
+  var py = findPosY(elm);
   
   //opera Netscape 6 Netscape 4x Mozilla 
   if (window.innerWidth || window.innerHeight){ 
-    docwidth = window.innerWidth; 
-    docheight = window.innerHeight; 
+    var docwidth = window.innerWidth; 
+    var docheight = window.innerHeight; 
   } 
   //IE Mozilla 
   if (document.body.clientWidth || document.body.clientHeight){ 
-    docwidth = document.body.clientWidth; 
-    docheight = document.body.clientHeight;
+    var docwidth = document.body.clientWidth; 
+    var docheight = document.body.clientHeight;
   }
   if (document.documentElement) {
-    docwidth2 = document.documentElement.offsetWidth;
-    docheight2 = document.documentElement.offsetHeight;
+    var docwidth2 = document.documentElement.offsetWidth;
+    var docheight2 = document.documentElement.offsetHeight;
   }
 
   if (docwidth > docwidth2) {
-    width = docwidth;
-  } else width = docwidth2;
+    var width = docwidth;
+  } else var width = docwidth2;
   if ((px+Pelm.offsetWidth)>width){
     px = width - Pelm.offsetWidth;
   }
@@ -1339,7 +1343,7 @@ function positionTool(){
     alert("IE");
   } else height = docheight2;
   */
-  height = docheight;
+  var height = docheight;
   if ((py+Pelm.offsetHeight)>height){
     py = height - Pelm.offsetHeight;
   }
@@ -1458,8 +1462,8 @@ function addListeners() {
     addEvent(bwgradient, 'mouseout', stopMouseCoord, false);
     // attach event to inputs
     for (i=0;i<activeColorSpace.length;i++){
-      varName = 'T'+activeColorSpace[i];
-      colorSpaceAr = varList[varName];
+      var varName = 'T'+activeColorSpace[i];
+      var colorSpaceAr = varList[varName];
       for (j=0;j<colorSpaceAr.length;j++){
         //colorSpaceAr[j] //id
         var colorInput = xGetElementById(colorSpaceAr[j]);
