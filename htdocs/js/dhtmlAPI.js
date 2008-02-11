@@ -1772,23 +1772,23 @@ Display.prototype.getDisplayFeature = function(feature) {
 Display.prototype.getPointSize = function() {
   if (document.styleSheets) {
     for (var i = 0; i<document.styleSheets.length; i++) {
-      if (document.styleSheets.item(i).href.indexOf("dhtml.css") != -1) {
+      if (typeof(document.styleSheets.item(i).href) == 'string' && document.styleSheets.item(i).href.indexOf("dhtml.css") != -1) {
         dhtmlStyleSheet = document.styleSheets[i];
-        if (dhtmlStyleSheet.cssRules)
+        if (dhtmlStyleSheet.cssRules) {
           var rules = dhtmlStyleSheet.cssRules;
-        else if (dhtmlStyleSheet.rules)
+        } else if (dhtmlStyleSheet.rules) {
           var rules = dhtmlStyleSheet.rules;
+        }
         for (var j = 0; j < rules.length; j++) {
           if (rules[j].selectorText.indexOf(this._map.id) != -1 &&
             rules[j].selectorText.indexOf(vertexCN + _OFF) != -1) {
             pointSize = rules[j].style.width;
-            break;
+            return pointSize.substr(0, pointSize.length - 2);
           }
         }
       }
     }
   }
-  return pointSize.substr(0, pointSize.length - 2);
 };
 
 /**
