@@ -555,20 +555,17 @@ Map.prototype.editTableAddRow = function(table, aFeature) {
         }
         input.onkeyup = function() {
           if (window.event) { //special IE
-            var k = window.event.keyCode;
-            if (k == 8 || k == 46) { //backspace & delete
-              if (!this.changed) {
-                if (aFeature.operation != 'insert')
-                  setFeatureOperation(aFeature, "update");
-                var validate = xGetElementById('validate_all');
+            if (!this.changed) {
+              if (aFeature.operation != 'insert')
+                setFeatureOperation(aFeature, "update");
+              var validate = xGetElementById('validate_all');
+              validate.className = "form_button_hilight";
+              if (editDisplayAction != 'folder'){
+                var validate = xGetElementById('validate2');
                 validate.className = "form_button_hilight";
-                if (editDisplayAction != 'folder'){
-                  var validate = xGetElementById('validate2');
-                  validate.className = "form_button_hilight";
-                }
               }
-              this.changed = true; 
             }
+            this.changed = true;
           }
         }
       }
