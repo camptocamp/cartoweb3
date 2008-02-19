@@ -108,20 +108,26 @@ class ClientToolTips extends ClientPlugin
             set_error_handler(array('ClientToolTips', 'errorHandler'), E_ALL);
         }
 
-        $toolTipsService = new ToolTipsService($this->cartoclient);
-        $toolTipsService->run();
-        $response = $toolTipsService->getResponse();
-        try {
-            if (empty($response)) {
-                die();
-            } else {
-                $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-                $smarty->assign('layersHtmlResult', $response);
-                print $smarty->fetch('results.tpl');
+        // Checks session
+        if (!empty($this->getCartoclient()->getClientSession()->pluginStorage)) {
+            $toolTipsService = new ToolTipsService($this->cartoclient);
+            $toolTipsService->run();
+            $response = $toolTipsService->getResponse();
+            try {
+                if (empty($response)) {
+                    die();
+                } else {
+                    $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+                    $smarty->assign('layersHtmlResult', $response);
+                    print $smarty->fetch('results.tpl');
+                }
+            } catch(Exception $e) {
+                print "Error... ";
+                if (isset($_REQUEST['debug'])) print $e->__toString();
             }
-        } catch(Exception $e) {
-            print "Error... ";
-            if (isset($_REQUEST['debug'])) print $e->__toString();
+        } else {
+            $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+            print $smarty->fetch('session.tpl');
         }
     }
     
