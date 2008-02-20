@@ -132,9 +132,10 @@ Map.prototype.removePdfFeature = function(aDisplayName) {
 Map.prototype.pdfrotate = function(aDisplay) {
   this.resetMapEventHandlers();
     
-  this.getDisplay(aDisplay).mouseAction = new RotateFeatureTool(this.getDisplay(aDisplay));
-
   this.setCurrentLayer('drawing');
+  this.getDisplay(aDisplay).currentLayer = xGetElementById(this.getDisplay(aDisplay).id + "_" + this.getDisplay(aDisplay)._map.currentLayer.id);
+  this.getDisplay(aDisplay).mouseAction = new RotateFeatureTool(this.getDisplay(aDisplay));
+  
   this.showPdfFeature(aDisplay);
 
   this.onFeatureSelected = function(aFeature) {
