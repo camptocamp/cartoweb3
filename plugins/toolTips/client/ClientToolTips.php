@@ -109,7 +109,8 @@ class ClientToolTips extends ClientPlugin
         }
 
         // Checks session
-        if (!empty($this->getCartoclient()->getClientSession()->pluginStorage)) {
+        if (!empty($this->getCartoclient()->getClientSession()->pluginStorage) && 
+            !empty($this->getCartoclient()->getClientSession()->lastMapRequest)) {
             $toolTipsService = new ToolTipsService($this->cartoclient);
             $toolTipsService->run();
             $response = $toolTipsService->getResponse();
