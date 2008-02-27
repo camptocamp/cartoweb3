@@ -1,0 +1,14 @@
+#linkItBox {
+  border: 1px solid #FF9900;
+  background-color: #FFEAC0;
+  padding: 2px 5px 20px 5px;
+  width: 30em;
+}
+
+#linkItUrl {
+  width: 29em;
+}
+
+#linkItBox a {
+  float:right;
+}
