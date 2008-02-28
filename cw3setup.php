@@ -259,6 +259,7 @@ function processArgs() {
             case '--default-project':
             case '--base-url':
             case '--profile':
+            case '--writableowner':
                 setOption($i, true);
                 break;      
     
