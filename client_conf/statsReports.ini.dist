@@ -1,0 +1,10 @@
+datas.cartoweb.label = Statistiques Cartoweb
+datas.cartoweb.dsn = pgsql://user:password@localhost/test
+datas.cartoweb.prefix = stats
+
+datas.wms.label = Statistiques WMS
+datas.wms.dsn = pgsql://user:password@localhost/test_wms
+datas.wms.prefix = stats_wms
+
+tempDsn = pgsql://user:password@localhost/test_temp
+nColors = 16
