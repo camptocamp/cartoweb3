@@ -203,7 +203,7 @@ class ProjectStatsField extends StatsField {
     
     protected $id = 'project';
     
-    function getDbField() {
+    public function getDbField() {
         return 'general_mapid';
     }
 }
@@ -212,7 +212,7 @@ class MapsizeStatsField extends ProjectStatsField {
     
     protected $id = 'mapsize';
     
-    function getDbField() {
+    public function getDbField() {
         return 'map_size';
     }
 }
@@ -221,7 +221,7 @@ class ThemeStatsField extends ProjectStatsField {
     
     protected $id = 'theme';
 
-    function getDbField() {
+    public function getDbField() {
         return 'layers_switch_id';
     }
 }
@@ -230,7 +230,7 @@ class LayerStatsField extends ProjectStatsField {
 
     protected $id = 'layer';
 
-    function getDbField() {
+    public function getDbField() {
         return 'layer';
     }
     // TODO    
@@ -240,7 +240,7 @@ class ScaleStatsField extends ProjectStatsField {
 
     protected $id = 'scale';
 
-    function getDbField() {
+    public function getDbField() {
         return 'location_scale';
     }
     
@@ -268,7 +268,7 @@ class PdfFormatStatsField extends ProjectStatsField {
 
     protected $id = 'pdfFormat';
 
-    function getDbField() {
+    public function getDbField() {
         return 'exportpdf_format';
     }
     // TODO 
@@ -278,7 +278,7 @@ class PdfResStatsField extends ProjectStatsField {
 
     protected $id = 'pdfRes';
 
-    function getDbField() {
+    public function getDbField() {
         return 'exportpdf_resolution';
     }
     // TODO 
@@ -288,7 +288,7 @@ class UserStatsField extends ProjectStatsField {
     
     protected $id = 'user';
 
-    function getDbField() {
+    public function getDbField() {
         return 'general_security_user';
     }
 }
@@ -297,7 +297,7 @@ class XStatsField extends StatsField {
     
     protected $id = 'x';
 
-    function getDbField() {
+    public function getDbField() {
         return 'x';
     }
 
@@ -310,7 +310,7 @@ class YStatsField extends StatsField {
     
     protected $id = 'y';
 
-    function getDbField() {
+    public function getDbField() {
         return 'y';
     }
 

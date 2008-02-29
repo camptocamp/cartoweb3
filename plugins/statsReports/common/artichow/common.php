@@ -70,20 +70,6 @@ function array_max($array) {
     return NULL;
 
 }
-/*
- * Define file_put_contents() if needed
- */
-if(function_exists('file_put_contents') === FALSE) {
-
-    function file_put_contents($file, $content) {
-        $fp = fopen($file, 'w');
-        if($fp) {
-            fwrite($fp, $content);
-            fclose($fp);
-        }
-    }
-    
-}
 
 /*
  * Change error handler
