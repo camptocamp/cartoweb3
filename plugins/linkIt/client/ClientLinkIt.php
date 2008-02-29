@@ -157,10 +157,7 @@ class ClientLinkIt extends ClientPlugin
         $params['layer_select'] = implode(',', $lastMapRequest->layersRequest->layerIds);
 
         // location data
-        $params['recenter_scale'] = $lastMapResult->locationResult->scale;
-        $center = $lastMapResult->locationResult->bbox->getCenter();
-        $params['recenter_x'] = $center->getX();
-        $params['recenter_y'] = $center->getY();
+        $params['recenter_bbox'] = $lastMapResult->locationResult->bbox->toRemoteString(',');
 
         // image data
         if (isset($this->mapsize)) {
