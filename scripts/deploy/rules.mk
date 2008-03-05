@@ -226,6 +226,7 @@ sync_misc:
 	test -f apache.conf && rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/apache.conf $(TARGET_HOST):$(TOPSRCDIR)/ || :
 	test -f local.mk && rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/local.mk $(TARGET_HOST):$(TOPSRCDIR)/ || :
 	rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/htdocs $(TARGET_HOST):$(TOPSRCDIR)/
+	test -d *_management && rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/*_management $(TARGET_HOST):$(TOPSRCDIR)/ || :
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/searchserver $(TARGET_HOST):$(TOPSRCDIR)/
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/mapfiles $(TARGET_HOST):$(TOPSRCDIR)/
 	#rsync $(RSYNC_FLAGS) -av $(TOPSRCDIR)/kogis_management $(TARGET_HOST):$(TOPSRCDIR)/
