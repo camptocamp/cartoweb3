@@ -1,0 +1,79 @@
+WHAT?
+=====
+
+A set of java utilities to build a CartoWeb statistics database.
+
+
+HOW TO BUILD?
+=============
+
+To build this project, you need:
+  - Maven 2 (http://maven.apache.org/)
+  - JRE >= 1.5
+  - A postgres server with a database created (createdb MYDB)
+
+The other external libs are taken care of by maven
+
+The build command to use is (change the db/username/password):
+  export STATS_DB="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD"
+  mvn clean install
+
+
+HOW TO RUN?
+===========
+
+To run the first import:
+  java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import --initialize --format=WMS --db=... --logDir=...
+
+To run the incremental import:
+  java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import --format=WMS --db=... --logDir=...
+
+To generate the reports:
+  java -cp target/stats-standalone.jar org.cartoweb.stats.report.Reports --db=... --iniFilename=...
+
+To clean the stats table:
+  java -cp target/stats-standalone.jar org.cartoweb.stats.purge.Purge --db=... --nbDays=...
+
+Help on the possible parameters for a command can be obtained by starting it
+without parameters. 
+
+
+SQL
+===
+
+If you want to be able to sum the grid results, you may want to add this in your
+DB (warning, slow):
+
+CREATE LANGUAGE plpgsql
+
+CREATE OR REPLACE FUNCTION array_add(bigint[],bigint[]) RETURNS bigint[] AS '
+  DECLARE
+    x ALIAS FOR $1;
+    y ALIAS FOR $2;
+    a int;
+    b int;
+    i int;
+    res bigint[];
+  BEGIN
+    res = x;
+
+    a := array_lower (y, 1);
+    b := array_upper (y, 1);
+
+    IF a IS NOT NULL THEN
+      FOR i IN a .. b LOOP
+        res[i] := coalesce(res[i],0) + y[i];
+      END LOOP;
+    END IF;
+
+    RETURN res;
+  END;
+'
+LANGUAGE plpgsql STRICT IMMUTABLE;
+
+CREATE AGGREGATE sum (
+    sfunc = array_add,
+    basetype = bigint[],
+    stype = bigint[],
+    initcond = '{}'
+);

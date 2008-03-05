@@ -1,0 +1,134 @@
+Syntax of the reports definition files
+======================================
+
+The format used is the same as in the legacy windows INI files.
+
+Each section represents a different report, with the section name being the
+report name.
+
+A typical section looks like that:
+--------------
+[scale project]
+; A comment
+label = Stats per scale and per project
+type = simple
+periods.day = 30
+periods.month = 12
+periods.year = 5
+values = pixel, count,countPDF,countDXF
+dimensions = project
+filters.project = sitn, jura
+--------------
+
+The fields are:
+  - label:      Label show on the GUI for the report
+  - type:       Type of report (see bellow)
+  - periods.*:  How to divide the time (see bellow)
+  - values:     What are the values show (see bellow)
+  - dimensions: What criteria you want to be able to specify in the GUI (see bellow)
+  - filters.*:  What records you want to take into account (see bellow)
+
+
+Types
+=====
+
+The currently available types are:
+  - simple:     For generating graphs or tables
+  - gridbbox:   For generating colored maps based on the bbox of the viewed maps
+  - gridcenter: For generating colored maps based on the center of the viewed maps
+
+If the type is "gridbox" or "gridcenter", you have to add a few fields in the
+configuration that will define the position, size and granularity of the grid
+box. For example:
+--------------
+type = gridbbox
+minx = 522000
+miny = 187000
+size = 500
+nx = 106
+ny = 76
+--------------
+
+
+Periods
+=======
+
+The possible period units are:
+  - hour
+  - day
+  - week
+  - month
+  - year
+
+The value specifies the number of those units to keep in the DB. Here is an
+example for generating a report aggregated by week, for the last 12 weeks:
+--------------
+periods.week = 12
+--------------
+
+The report generator consider the current time as being the time of the last
+hit matching the filters. A period is taken into account even if there is no
+record for this period. 
+
+
+Values
+======
+
+A list, separated by ',' of any of the following:
+  - count:    The number of hits (no PDF or DXF outputs)
+  - countPDF: The number of PDF generated
+  - countDXF: The number of DXF generated
+  - pixel:    The sum of pixels generated
+
+
+Dimensions
+==========
+
+A list, separted by ',' of any of the following:
+  - project
+  - user
+  - scale
+  - width
+  - height
+  - theme
+  - layer
+  - pdfFormat
+  - pdfRes
+
+If you use the "scale" dimension, you have to add a field to specifiy the limits
+for the discretization of the scale value. For example:
+--------------
+dimensions = scale
+scales=1000,5000,10000,50000,100000,500000,1000000,5000000
+--------------
+
+
+Filters
+=======
+
+You can put as many filters as you want, one line per filter. The filters
+available are (you must prepend 'filters.'):
+  - scale:     a range of scales (floating points)
+               ex: filter.scale=1000.5-5000
+  - width:     a range of map width
+               ex: filter.width=290-350
+  - height:    a range of map height
+               ex: filter.height=290-350
+  - project:   a list, separated by ',' of project names
+               ex: filter.project=sitn,agri
+  - layer:     a list, separated by ',' of layer names
+               ex: filter.layer=cn*,rel35b
+  - theme:     a list, separated by ',' of theme names
+               ex: filter.theme=orthophotos,default
+  - user:      a list, separated by ',' of user names
+               ex: filter.user=Jules,Jean
+  - pdfFormat: a list, separated by ',' of PDF format names
+               ex: filter.pdfFormat=A4,A5
+  - pdfRes:    a range of PDF resolution
+               ex: filter.pdfRes=290-350
+
+For list of names, you can use '*' for matching any string of character. For
+example, "cn*" will match "cn25" and "cn50".
+
+For ranges of values, you can give either a range like '2-5' or a simple value
+like '4'.
