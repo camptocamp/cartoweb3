@@ -90,6 +90,11 @@ class ClientLocation extends ClientPlugin
     protected $fullExtent;
 
     /**
+     * @var int
+     */
+    protected $recenterDefaultScale;
+
+    /**
      * Tool constants.
      */
     const TOOL_ZOOMIN     = 'zoomin';
@@ -230,7 +235,13 @@ class ClientLocation extends ClientPlugin
 
         $scale        = $this->getHttpValue($request, 'recenter_scale');
         $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
-                            
+
+        // get default recenter scale if scale not set and recenterXY is triggered
+        if (!empty($recenterX) && !empty($recenterY) && empty($scale)) {
+            $scale = $this->recenterDefaultScale;
+            $recenterDoit = 1; // disable scale override
+        }
+
         if (!is_null($recenterX) && !is_null($recenterY)) {            
             $point->setXY($recenterX, $recenterY);
         }
@@ -813,6 +824,7 @@ class ClientLocation extends ClientPlugin
         $this->minScale = $locationInit->minScale;
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
+        $this->recenterDefaultScale = $locationInit->recenterDefaultScale;
         
         if($this->cartoclient->getInitialMapState()->location->bbox) {
             $this->fullExtent = $this->cartoclient->getInitialMapState()
