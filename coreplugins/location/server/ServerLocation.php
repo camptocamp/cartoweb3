@@ -1216,6 +1216,7 @@ class ServerLocation extends ClientResponderAdapter
         $init->shortcuts = $locShortcuts;
         $init->fullExtent = new Bbox();
         $init->fullExtent->setFromMsExtent($msMapObj->extent);
+        $init->recenterDefaultScale = $this->getConfig()->recenterDefaultScale;
 
         return $init;
     }
