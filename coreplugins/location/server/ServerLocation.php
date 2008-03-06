@@ -618,6 +618,11 @@ class ServerLocation extends ClientResponderAdapter
     protected $initialExtent;
 
     /**
+     * @var int
+     */
+    protected $recenterDefaultScale;
+
+    /**
      * Constructor
      */
     public function __construct() {
