@@ -26,19 +26,19 @@
  * @package CorePlugins
  */
 class LocationState {
-    
+
     /**
      * Current bbox being viewed
      * @var Bbox
      */
     public $bbox;
-    
+
     /**
      * Current layer identifier selected in the recenter drop-down
      * @var string
      */
     public $idRecenterSelected;
-    
+
     /**
      * Current crosshair beeing displayed.
      * @var StyledShape
@@ -53,12 +53,12 @@ class LocationState {
 class ClientLocation extends ClientPlugin
                      implements Sessionable, GuiProvider, ServerCaller,
                                 InitUser, ToolProvider, Exportable, Ajaxable {
-                                
+
     /**
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var LocationState
      */
@@ -68,17 +68,17 @@ class ClientLocation extends ClientPlugin
      * @var LocationRequest
      */
     protected $locationRequest;
-    
+
     /**
      * @var LocationResult
      */
     protected $locationResult;
-    
+
     /**
      * @var array
      */
     protected $scales;
-    
+
     /**
      * @var array
      */
@@ -142,14 +142,14 @@ class ClientLocation extends ClientPlugin
      */
     protected function handlePanButtons() {
         $panButtonToDirection = array(
-            'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH, 
+            'pan_nw' => array(PanDirection::VERTICAL_PAN_NORTH,
                               PanDirection::HORIZONTAL_PAN_WEST),
-            'pan_n' => array(PanDirection::VERTICAL_PAN_NORTH, 
+            'pan_n' => array(PanDirection::VERTICAL_PAN_NORTH,
                              PanDirection::HORIZONTAL_PAN_NONE),
-            'pan_ne' => array(PanDirection::VERTICAL_PAN_NORTH, 
+            'pan_ne' => array(PanDirection::VERTICAL_PAN_NORTH,
                               PanDirection::HORIZONTAL_PAN_EAST),
 
-            'pan_w' => array(PanDirection::VERTICAL_PAN_NONE, 
+            'pan_w' => array(PanDirection::VERTICAL_PAN_NONE,
                              PanDirection::HORIZONTAL_PAN_WEST),
             'pan_e' => array(PanDirection::VERTICAL_PAN_NONE,
                              PanDirection::HORIZONTAL_PAN_EAST),
@@ -161,20 +161,20 @@ class ClientLocation extends ClientPlugin
             'pan_se' => array(PanDirection::VERTICAL_PAN_SOUTH,
                               PanDirection::HORIZONTAL_PAN_EAST),
             );
-                            
+
         foreach ($panButtonToDirection as $buttonName => $directions) {
             if (!HttpRequestHandler::isButtonPushed($buttonName))
                 continue;
-            $verticalPan = $directions[0];                
-            $horizontalPan = $directions[1];                
+            $verticalPan = $directions[0];
+            $horizontalPan = $directions[1];
 
             $panRatio = $this->getConfig()->panRatio;
-            if (!$panRatio) {                
+            if (!$panRatio) {
                 $panRatio = 1.0;
             }
-               
+
             $bbox = $this->locationState->bbox;
-            $xOffset = $bbox->getWidth() * $panRatio * 
+            $xOffset = $bbox->getWidth() * $panRatio *
                 $this->panDirectionToFactor($horizontalPan);
             $yOffset = $bbox->getHeight() * $panRatio *
                 $this->panDirectionToFactor($verticalPan);
@@ -182,7 +182,7 @@ class ClientLocation extends ClientPlugin
             $center = $bbox->getCenter();
             $point = new Point($center->x + $xOffset,
                          $center->y + $yOffset);
-                
+
             return $this->buildZoomPointRequest(
                     ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
         }
@@ -196,16 +196,16 @@ class ClientLocation extends ClientPlugin
     protected function handleKeymapButton() {
 
         $cartoForm = $this->cartoclient->getCartoForm();
-        
-        $keymapShape = $cartoForm->keymapShape; 
+
+        $keymapShape = $cartoForm->keymapShape;
 
         if (is_null($keymapShape))
             return;
         if (!$keymapShape instanceof Point) {
             throw new CartoclientException('shapes other than point ' .
                                            'unsupported for keymap');
-            return;   
-        } 
+            return;
+        }
 
         $point = $keymapShape;
 
@@ -216,25 +216,25 @@ class ClientLocation extends ClientPlugin
     /**
      * Handles recenter/scales HTTP request
      *
-     * When useDoit parameter is true, scale is changed only if a scale 
+     * When useDoit parameter is true, scale is changed only if a scale
      * selection was done on form. In this case, a form value ("doit") is
-     * set to '1' using Javascript.      
+     * set to '1' using Javascript.
      * @param array HTTP request
-     * @param boolean 
+     * @param boolean
      * @return LocationRequest
      */
     protected function handleRecenterScales($request,
-                                          $useDoit = true, 
+                                          $useDoit = true,
                                           $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center); 
-        
+        $point = clone($center);
+
         $recenterX = $this->getHttpValue($request, 'recenter_x');
         $recenterY = $this->getHttpValue($request, 'recenter_y');
 
         $scale        = $this->getHttpValue($request, 'recenter_scale');
-        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');                            
+        $recenterDoit = $this->getHttpValue($request, 'recenter_doit');
 
         // get default recenter scale if scale not set and recenterXY is triggered
         if (!empty($recenterX) && !empty($recenterY) && empty($scale)) {
@@ -242,10 +242,10 @@ class ClientLocation extends ClientPlugin
             $recenterDoit = 1; // disable scale override
         }
 
-        if (!is_null($recenterX) && !is_null($recenterY)) {            
+        if (!is_null($recenterX) && !is_null($recenterY)) {
             $point->setXY($recenterX, $recenterY);
         }
-        
+
         if ($check) {
             if (!$this->checkNumeric($recenterX, 'recenter_x'))
                 return NULL;
@@ -262,16 +262,16 @@ class ClientLocation extends ClientPlugin
                 return NULL;
             }
         }
-               
+
         if (is_null($scale) || ($recenterDoit != '1' && $useDoit)) {
             $scale = 0;
-        }         
+        }
         if ($point == $center && $scale == 0) {
             return NULL;
         }
-        
+
         $showCrosshair = $this->getHttpValue($request, 'show_crosshair');
-        if (!is_null($showCrosshair) && 
+        if (!is_null($showCrosshair) &&
             ($showCrosshair == 1 || $showCrosshair == 'on') &&
             $this->cartoclient->getPluginManager()->getPlugin('outline') != NULL) {
 
@@ -287,13 +287,13 @@ class ClientLocation extends ClientPlugin
             if (!empty($size)) {
                 $this->locationState->crosshair->shapeStyle->size = $size;
             }
-            
+
             $color = $this->getConfig()->crosshairSymbolColor;
             if (!empty($color)) {
                 list($r, $g, $b) = explode(',', $color);
                 $this->locationState->crosshair->shapeStyle->color->setFromRGB($r, $g, $b);
             }
-            
+
             $this->locationState->crosshair->shape = new Point($recenterX,
                                                                $recenterY);
         }
@@ -303,7 +303,7 @@ class ClientLocation extends ClientPlugin
                       ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, $point);
         } else {
             return $this->buildZoomPointRequest(
-                      ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);        
+                      ZoomPointLocationRequest::ZOOM_SCALE, $point, 0, $scale);
         }
     }
 
@@ -326,16 +326,16 @@ class ClientLocation extends ClientPlugin
         $scaleLabels = array('');
         $scales = $this->scales;
         if (!is_array($scales)) $scales = array();
-        
-        $noScales = count($scales) == 0;        
+
+        $noScales = count($scales) == 0;
         foreach ($scales as $scale) {
             $scaleValues[] = $scale->value;
-            $scaleLabels[] = I18n::gt($scale->label);            
+            $scaleLabels[] = I18n::gt($scale->label);
         }
         $this->smarty->assign(array('recenter_noscales'    => $noScales,
                                     'recenter_scaleValues' => $scaleValues,
                                     'recenter_scaleLabels' => $scaleLabels,
-                                    'recenter_scale'       => 
+                                    'recenter_scale'       =>
                                         $this->locationResult->scale,
                                     'freescale' => $this->getConfig()->
                                         freeScaleActive));
@@ -345,23 +345,23 @@ class ClientLocation extends ClientPlugin
     /**
      * Handles recenter on Ids HTTP request
      * @param array HTTP request
-     * @param boolean 
+     * @param boolean
      * @return LocationRequest
      */
     protected function handleIdRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
         $point = clone($center);
-        
+
         $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
-        $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');    
-               
+        $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');
+
         if (is_null($idRecenterLayer) || is_null($idRecenterIds)) {
             return NULL;
         }
-        
+
         $ids = explode(',', $idRecenterIds);
-        
+
         if ($check) {
             $found = false;
             $layersInit = $this->cartoclient->getMapInfo()->layersInit;
@@ -378,7 +378,7 @@ class ClientLocation extends ClientPlugin
                 return NULL;
             }
         }
-        
+
         $recenterRequest = new RecenterLocationRequest();
 
         $lastMapResult = $this->cartoclient->getClientSession()->lastMapResult;
@@ -387,19 +387,19 @@ class ClientLocation extends ClientPlugin
         } else {
             $recenterRequest->fallbackBbox = $this->locationState->bbox;
         }
-        
+
         $idSelection = new IdSelection();
         $idSelection->layerId = $idRecenterLayer;
         $this->locationState->idRecenterSelected = $idSelection->layerId;
         $idSelection->selectedIds = $ids;
-        
+
         $recenterRequest->idSelections = array($idSelection);
-        
-        $locationRequest = new LocationRequest();              
+
+        $locationRequest = new LocationRequest();
         $locationType = $recenterRequest->type;
         $locationRequest->locationType = $locationType;
         $locationRequest->$locationType = $recenterRequest;
-        
+
         return $locationRequest;
     }
 
@@ -420,11 +420,11 @@ class ClientLocation extends ClientPlugin
         foreach($layersInit->getLayers() as $layer) {
             if (! $layer instanceof Layer)
                 continue;
-            if (!empty($idRecenterLayers) && 
+            if (!empty($idRecenterLayers) &&
                 !in_array($layer->id, $idRecenterLayers))
                 continue;
-            $layersId[] = $layer->id; 
-            $layersLabel[] = I18n::gt($layer->label); 
+            $layersId[] = $layer->id;
+            $layersLabel[] = I18n::gt($layer->label);
         }
 
         if (!empty($this->locationState->idRecenterSelected)) {
@@ -448,34 +448,34 @@ class ClientLocation extends ClientPlugin
      * @param boolean
      * @return LocationRequest
      */
-    protected function handleShortcuts($request, $useDoit = true, 
+    protected function handleShortcuts($request, $useDoit = true,
                                                  $check = false) {
-        
+
         $shortcut_id  = $this->getHttpValue($request, 'shortcut_id');
-        $shortcutDoit = $this->getHttpValue($request, 'shortcut_doit');                            
+        $shortcutDoit = $this->getHttpValue($request, 'shortcut_doit');
 
         if (is_null($shortcut_id) || ($shortcutDoit != '1' && $useDoit)) {
             return NULL;
         }
-        
+
         if ($check) {
             if (!$this->checkInt($shortcut_id, 'shortcut_id'))
                 return NULL;
-                
+
             if (!array_key_exists($shortcut_id, $this->shortcuts)) {
                 $this->cartoclient->addMessage('Shortcut ID not found');
                 return NULL;
             }
         }
-                   
+
         $bboxRequest = new BboxLocationRequest();
         $bboxRequest->bbox = $this->shortcuts[$request['shortcut_id']]->bbox;
 
-        $locationRequest = new LocationRequest();                
+        $locationRequest = new LocationRequest();
         $locationRequest->locationType = LocationRequest::LOC_REQ_BBOX;
         $locationRequest->bboxLocationRequest = $bboxRequest;
-        
-        return $locationRequest;        
+
+        return $locationRequest;
     }
 
     /**
@@ -490,7 +490,7 @@ class ClientLocation extends ClientPlugin
         if (!is_array($shortcuts)) $shortcuts = array();
         foreach ($shortcuts as $key => $shortcut) {
             $shortcutValues[] = $key;
-            $shortcutLabels[] = I18n::gt($shortcut->label);            
+            $shortcutLabels[] = I18n::gt($shortcut->label);
         }
         $this->smarty->assign(array('shortcut_values' => $shortcutValues,
                                     'shortcut_labels' => $shortcutLabels));
@@ -504,12 +504,12 @@ class ClientLocation extends ClientPlugin
      * @return LocationRequest
      */
     protected function handleBboxRecenter($request, $check = false) {
-        
+
         $recenterBbox = $this->getHttpValue($request, 'recenter_bbox');
         if (is_null($recenterBbox)) {
             return NULL;
         }
-       
+
         $values = explode(',', $recenterBbox);
         if (count($values) != 4) {
             $this->cartoclient->
@@ -528,7 +528,7 @@ class ClientLocation extends ClientPlugin
                 return NULL;
             if (!$this->checkNumeric($maxy, 'recenter_bbox (maxy)'))
                 return NULL;
-            
+
             if ($minx >= $maxx) {
                 $this->cartoclient->
                     addMessage('Parameter recenter_bbox minx must be < maxx');
@@ -544,23 +544,23 @@ class ClientLocation extends ClientPlugin
 
         $bboxRequest = new BboxLocationRequest();
         $bboxRequest->bbox = $bbox;
-        $locationRequest = new LocationRequest();                
+        $locationRequest = new LocationRequest();
         $locationType = $bboxRequest->type;
         $locationRequest->locationType = $locationType;
         $locationRequest->$locationType = $bboxRequest;
-        
+
         return $locationRequest;
     }
 
     /**
-     * Handles full extent 
+     * Handles full extent
      * @return LocationRequest
      */
     protected function handleFullExtent() {
 
         $bboxRequest = new BboxLocationRequest();
         $bboxRequest->bbox = $this->fullExtent;
-        $locationRequest = new LocationRequest();                
+        $locationRequest = new LocationRequest();
         $locationType = $bboxRequest->type;
         $locationRequest->locationType = $locationType;
         $locationRequest->$locationType = $bboxRequest;
@@ -581,7 +581,7 @@ class ClientLocation extends ClientPlugin
     /**
      * @see Sessionable::createSession()
      */
-    public function createSession(MapInfo $mapInfo, 
+    public function createSession(MapInfo $mapInfo,
                                   InitialMapState $initialMapState) {
         $this->log->debug('creating session:');
 
@@ -632,20 +632,20 @@ class ClientLocation extends ClientPlugin
         $this->locationRequest = $this->handleIdRecenter($request);
         if (!is_null($this->locationRequest))
             return;
-        
+
         $this->locationRequest = $this->handleShortcuts($request);
         if (!is_null($this->locationRequest))
             return;
 
         $this->locationRequest = $this->cartoclient->getHttpRequestHandler()
-                                                   ->handleTools($this);  
+                                                   ->handleTools($this);
     }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
-        
+
         $this->locationRequest = $this->handleBboxRecenter($request, true);
         if (!is_null($this->locationRequest))
             return;
@@ -663,7 +663,7 @@ class ClientLocation extends ClientPlugin
         if (!is_null($this->locationRequest))
             return;
     }
-    
+
     /**
      * Returns zoom factor depending on selected rectangle
      * @param Rectangle
@@ -675,12 +675,12 @@ class ClientLocation extends ClientPlugin
             $rectangle->getHeight() == 0) {
             return 0;
         }
-        
+
         $bbox = $this->locationState->bbox;
-        
+
         $widthRatio = $bbox->getWidth() / $rectangle->getWidth();
         $heightRatio = $bbox->getHeight() / $rectangle->getHeight();
-        
+
         return min($widthRatio, $heightRatio);
     }
 
@@ -692,36 +692,36 @@ class ClientLocation extends ClientPlugin
      * @param double
      * @return LocationRequest
      */
-    protected function buildZoomPointRequest($zoomType, Point $point, 
+    protected function buildZoomPointRequest($zoomType, Point $point,
                                            $zoomFactor = 0, $scale = 0) {
 
         $zoomRequest = new ZoomPointLocationRequest();
         $zoomRequest->locationType = LocationRequest::LOC_REQ_ZOOM_POINT;
-        $zoomRequest->point = $point; 
+        $zoomRequest->point = $point;
         $zoomRequest->zoomType = $zoomType;
         $zoomRequest->zoomFactor = $zoomFactor;
         $zoomRequest->scale = $scale;
         $zoomRequest->bbox = $this->locationState->bbox;
         $zoomRequest->crosshair = $this->locationState->crosshair;
 
-        $locationRequest = new LocationRequest();                
+        $locationRequest = new LocationRequest();
         $locationType = $zoomRequest->locationType;
         $locationRequest->locationType = $locationType;
         $locationRequest->$locationType = $zoomRequest;
-        
+
         return $locationRequest;
     }
 
     /**
-     * @see ToolProvider::handleMainmapTool() 
+     * @see ToolProvider::handleMainmapTool()
      */
-    public function handleMainmapTool(ToolDescription $tool, 
+    public function handleMainmapTool(ToolDescription $tool,
                                Shape $mainmapShape) {
 
         $toolToZoomType = array(
                 self::TOOL_ZOOMIN =>
                   ZoomPointLocationRequest::ZOOM_DIRECTION_IN,
-                self::TOOL_PAN => 
+                self::TOOL_PAN =>
                   ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
                 self::TOOL_ZOOMOUT =>
                   ZoomPointLocationRequest::ZOOM_DIRECTION_OUT);
@@ -733,23 +733,23 @@ class ClientLocation extends ClientPlugin
         $point = $mainmapShape->getCenter();
 
         $zoomFactor = 0;
-        if ($tool->id == self::TOOL_ZOOMIN && 
+        if ($tool->id == self::TOOL_ZOOMIN &&
             $mainmapShape instanceof Rectangle) {
             $zoomType = ZoomPointLocationRequest::ZOOM_FACTOR;
             $zoomFactor = $this->getZoomInFactor($mainmapShape);
         }
-        
+
         return $this->buildZoomPointRequest($zoomType, $point, $zoomFactor);
     }
-    
+
     /**
-     * @see ToolProvider::handleKeymapTool() 
+     * @see ToolProvider::handleKeymapTool()
      */
-    public function handleKeymapTool(ToolDescription $tool, 
+    public function handleKeymapTool(ToolDescription $tool,
                               Shape $keymapShape) {}
-    
+
     /**
-     * @see ToolProvider::handleApplicationTool() 
+     * @see ToolProvider::handleApplicationTool()
      */
     public function handleApplicationTool(ToolDescription $tool) {
 
@@ -758,10 +758,10 @@ class ClientLocation extends ClientPlugin
     }
 
     /**
-     * @see ToolProvider::getTools() 
+     * @see ToolProvider::getTools()
      */
     public function getTools() {
-        
+
         return array(new ToolDescription(self::TOOL_ZOOMIN, true,
                         10),
                      new ToolDescription(self::TOOL_ZOOMOUT, true,
@@ -779,17 +779,17 @@ class ClientLocation extends ClientPlugin
     public function buildRequest() {
 
         $locationRequest = NULL;
-        if (!is_null($this->locationRequest)) 
+        if (!is_null($this->locationRequest))
             $locationRequest = $this->locationRequest;
 
         if (is_null($locationRequest)) // stay at the same location
             $locationRequest = $this->buildZoomPointRequest(
-                        ZoomPointLocationRequest::ZOOM_DIRECTION_NONE, 
+                        ZoomPointLocationRequest::ZOOM_DIRECTION_NONE,
                         $this->locationState->bbox->getCenter());
-                          
-        $locationType = $locationRequest->locationType;                      
+
+        $locationType = $locationRequest->locationType;
         $locationRequest->$locationType->showRefMarks
-            = $this->getConfig()->showRefMarks; 
+            = $this->getConfig()->showRefMarks;
         return $locationRequest;
     }
 
@@ -825,21 +825,21 @@ class ClientLocation extends ClientPlugin
         $this->maxScale = $locationInit->maxScale;
         $this->shortcuts = $locationInit->shortcuts;
         $this->recenterDefaultScale = $locationInit->recenterDefaultScale;
-        
+
         if($this->cartoclient->getInitialMapState()->location->bbox) {
             $this->fullExtent = $this->cartoclient->getInitialMapState()
                                 ->location->bbox;
         } else {
-            $this->fullExtent = $locationInit->fullExtent;  
+            $this->fullExtent = $locationInit->fullExtent;
         }
     }
-    
+
     /**
      * Returns a string with some location information (scale, bbox, etc.)
      * @return string
      */
     protected function getLocationInformation() {
-        
+
         $delta = $this->maxScale - $this->minScale;
         if ($delta > 0) {
             $percent = (($this->locationResult->scale - $this->minScale) * 100) /
@@ -848,16 +848,16 @@ class ClientLocation extends ClientPlugin
         } else {
             $percent = '#ERR';
         }
-        
+
         $locationInfo = sprintf('Bbox: %s  <br/> scale: min:%s current: %s ' .
-                                'max: %s (percent: %s)', 
+                                'max: %s (percent: %s)',
                     $this->locationState->bbox->__toString(),
-                    $this->minScale, $this->locationResult->scale, 
+                    $this->minScale, $this->locationResult->scale,
                     $this->maxScale, $percent);
-        
+
         return $locationInfo;
     }
-    
+
     /**
      * This method factors the plugin output for both GuiProvider::renderForm()
      * and Ajaxable::ajaxGetPluginResponse().
@@ -894,7 +894,7 @@ class ClientLocation extends ClientPlugin
             'id_recenter_active' => $id_recenter_active,
             'shortcuts_active' => $shortcuts_active,
         );
-        
+
         $assignArray['htmlCode']['location_info_value'] = $this->getLocationInformation();
 
         if ($recenter_active) {
@@ -909,10 +909,10 @@ class ClientLocation extends ClientPlugin
         if ($shortcuts_active) {
             $assignArray['htmlCode']['shortcuts'] = $this->drawShortcuts();
         }
-        
+
         return $assignArray;
     }
-               
+
     /**
      * @see GuiProvider::renderForm()
      * FIXME: when all the values in the $assignArray are to be assigned,
@@ -930,15 +930,15 @@ class ClientLocation extends ClientPlugin
      * FIXME: when all the values in the $assignArray are to be assigned,
      *        an automatism will be created to avoid coding the same piece
      *        of code all the time. @see bug #1354
-     */ 
+     */
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
-        $assignArray = $this->renderFormPrepare(); 
+        $assignArray = $this->renderFormPrepare();
         foreach ($assignArray['variables'] as $assignKey => $assignValue) {
             $ajaxPluginResponse->addVariable($assignKey, $assignValue);
-        }       
+        }
         foreach ($assignArray['htmlCode'] as $assignKey => $assignValue) {
             $ajaxPluginResponse->addHtmlCode($assignKey, $assignValue);
-        }       
+        }
     }
 
     /**
@@ -950,7 +950,7 @@ class ClientLocation extends ClientPlugin
                 $pluginEnabler->disableCoreplugins();
                 $pluginEnabler->enablePlugin('location');
                 $pluginEnabler->enablePlugin('images');
-            break;          
+            break;
             case 'Location.FullExtent':
             case 'Location.Recenter':
             case 'Location.RecenterIds':
@@ -991,43 +991,43 @@ class ClientLocation extends ClientPlugin
                 !empty($locationRequest->$locationType->crosshair)) {
                 $crosshair = $locationRequest->$locationType->crosshair;
             }
-  
+
             $locationRequests = array('bboxLocationRequest',
-                                      'panLocationRequest', 
+                                      'panLocationRequest',
                                       'zoomPointLocationRequest',
                                       'recenterLocationRequest');
             // FIXME: what if some new kind of request is added?
             foreach ($locationRequest as $name => $member) {
-                if (in_array($name, $locationRequests)) 
+                if (in_array($name, $locationRequests))
                     $locationRequest->$name = NULL;
             }
-   
+
             switch($locationType) {
                 case 'zoomPointLocationRequest':
-                
-                    $locationRequest->$locationType = 
+
+                    $locationRequest->$locationType =
                         new ZoomPointLocationRequest;
 
                     if (isset($crosshair)) {
                         $locationRequest->$locationType->crosshair = $crosshair;
                     }
-                    
+
                     $bbox = $configuration->getBbox();
                     if (!is_null($bbox))
                         $locationRequest->$locationType->bbox = $bbox;
-       
+
                     $point = $configuration->getPoint();
                     if (!is_null($point))
                         $locationRequest->$locationType->point = $point;
-       
+
                     $scale = $configuration->getScale();
                     if (!is_null($scale))
                         $locationRequest->$locationType->scale = $scale;
-       
+
                     $zoomType = $configuration->getZoomType();
                     // FIXME: use given zoomType instead of ZOOM_SCALE
                     if (!is_null($zoomType))
-                        $locationRequest->$locationType->zoomType = 
+                        $locationRequest->$locationType->zoomType =
                             ZoomPointLocationRequest::ZOOM_SCALE;
                     break;
 
@@ -1037,16 +1037,16 @@ class ClientLocation extends ClientPlugin
                         $locationRequest->$locationType->bbox = $bbox;
                     }
 
-                    break;            
+                    break;
 
             }
         }
-        
+
         $showRefMarks = $configuration->getShowRefMarks();
         if (!is_null($showRefMarks)) {
 
-            $locationType = $locationRequest->locationType;            
-            $locationRequest->$locationType->showRefMarks = $showRefMarks;            
+            $locationType = $locationRequest->locationType;
+            $locationRequest->$locationType->showRefMarks = $showRefMarks;
         }
     }
 }

@@ -35,7 +35,7 @@ require_once('log4php/LoggerManager.php');
  * Base abstract class for classes used to calculate bbox's and scales
  *
  * There is a one to one mapping between LocationRequests and these
- * LocationCalculator's. 
+ * LocationCalculator's.
  * @package CorePlugins
  */
 abstract class LocationCalculator {
@@ -44,17 +44,17 @@ abstract class LocationCalculator {
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var ServerLocation
      */
     public $locationPlugin;
-    
+
     /**
      * @var LocationRequest
      */
     public $requ;
-    
+
     /**
      * Constructor
      * @param ServerLocation
@@ -65,13 +65,13 @@ abstract class LocationCalculator {
         $this->locationPlugin = $locationPlugin;
         $this->requ = $requ;
     }
-    
+
     /**
      * Computes new Bbox
      * @return Bbox
      */
     abstract function getBbox();
-    
+
     /**
      * Computes new scale
      * @return double
@@ -84,7 +84,7 @@ abstract class LocationCalculator {
  * @package CorePlugins
  */
 class BboxLocationCalculator extends LocationCalculator {
-    
+
     /**
      * @var Logger
      */
@@ -99,7 +99,7 @@ class BboxLocationCalculator extends LocationCalculator {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
-    
+
     /**
      * @see LocationCalculator::getBbox()
      */
@@ -125,7 +125,7 @@ class PanLocationCalculator extends LocationCalculator {
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var double
      */
@@ -139,7 +139,7 @@ class PanLocationCalculator extends LocationCalculator {
     public function __construct($locationPlugin, PanLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
-        
+
         $this->panRatio = $this->locationPlugin->getConfig()->panRatio;
     }
 
@@ -163,24 +163,24 @@ class PanLocationCalculator extends LocationCalculator {
             throw new CartoserverException("unknown pan direction $panDirection");
         }
     }
-    
+
     /**
      * @see LocationCalculator::getBbox()
      */
     public function getBbox() {
         $oldBbox = $this->requ->bbox;
-        
+
         $panRatio = $this->panRatio;
-        if (!$panRatio) {                
+        if (!$panRatio) {
             $panRatio = 1.0;
         }
 
-        $xOffset = $oldBbox->getWidth() * $panRatio * 
+        $xOffset = $oldBbox->getWidth() * $panRatio *
             $this->panDirectionToFactor($this->requ->panDirection->horizontalPan);
         $yOffset = $oldBbox->getHeight() * $panRatio *
             $this->panDirectionToFactor($this->requ->panDirection->verticalPan);
         $bbox = new Bbox();
-        $bbox->setFromBbox($oldBbox->minx + $xOffset, 
+        $bbox->setFromBbox($oldBbox->minx + $xOffset,
                            $oldBbox->miny + $yOffset,
                            $oldBbox->maxx + $xOffset,
                            $oldBbox->maxy + $yOffset);
@@ -200,12 +200,12 @@ class PanLocationCalculator extends LocationCalculator {
  * @package CorePlugins
  */
 class ZoomPointLocationCalculator extends LocationCalculator {
-    
+
     /**
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var boolean
      */
@@ -216,11 +216,11 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @param ServerLocation
      * @param ZoomPointLocationRequest
      */
-    public function __construct($locationPlugin, 
+    public function __construct($locationPlugin,
                                 ZoomPointLocationRequest $requ) {
         $this->log =& LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
-        
+
         $this->scaleModeDiscrete = $this->locationPlugin->getConfig()->
                                        scaleModeDiscrete;
         $this->zoomFactor = $this->locationPlugin->getConfig()->zoomFactor;
@@ -234,10 +234,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      */
     public function getBbox() {
         $oldBbox = $this->requ->bbox;
-        
+
         $xHalf = $oldBbox->getWidth() / 2;
         $yHalf = $oldBbox->getHeight() / 2;
-        
+
         $bbox = new Bbox();
         $bbox->setFromBbox($this->requ->point->x - $xHalf,
                            $this->requ->point->y - $yHalf,
@@ -263,9 +263,9 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         if ($newScale == 0) {
             $newScale = $oldScale;
         }
-        return $newScale; 
+        return $newScale;
     }
-    
+
     /**
      * Finds the next scale in the scales list
      * @param double
@@ -286,7 +286,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         return $newScale;
     }
 
-    /** 
+    /**
      * Finds the nearest scale in the scales list
      * @param double
      * @return double
@@ -300,7 +300,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
                 $min = $diff;
                 $newScale = $scale->value;
             }
-        }         
+        }
         if ($newScale == 0) {
             $newScale = $oldScale;
         }
@@ -313,9 +313,9 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      */
     protected function calculateOldScale() {
         $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
-        
+
         $oldBbox = $this->requ->bbox;
-        $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny, 
+        $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny,
                              $oldBbox->maxx, $oldBbox->maxy);
         $oldScale = $msMapObj->scale;
         return $oldScale;
@@ -325,10 +325,10 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      * @see LocationCalculator::getScale()
      */
     public function getScale() {
- 
+
         $oldScale = $this->calculateOldScale();
         $this->log->debug("old scale is $oldScale");
-       
+
         $scale = 0;
         switch ($this->requ->zoomType) {
         case ZoomPointLocationRequest::ZOOM_DIRECTION_IN:
@@ -354,7 +354,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
                 $zoom = (1.0 / $zoom);
             else if ($zoom < 0)
                 $zoom = abs($zoom);
-            $contScale = $oldScale * $zoom;           
+            $contScale = $oldScale * $zoom;
             if ($this->scaleModeDiscrete) {
                 $scale = $this->getNearestScale($contScale);
             } else {
@@ -378,12 +378,12 @@ class ZoomPointLocationCalculator extends LocationCalculator {
  * @package CorePlugins
  */
 class RecenterLocationCalculator extends LocationCalculator {
-    
+
     /**
      * @var Logger
      */
     private $log;
-    
+
     /**
      * @var boolean
      */
@@ -411,12 +411,12 @@ class RecenterLocationCalculator extends LocationCalculator {
         if (empty($pluginManager->mapquery))
             return NULL;
 
-        $results = $pluginManager->mapquery->queryByIdSelection($idSelection, 
+        $results = $pluginManager->mapquery->queryByIdSelection($idSelection,
                                                                 true);
 
         if (empty($results)) {
              $this->locationPlugin->getServerContext()->addMessage(
-                 $this->locationPlugin, 'NoneUnavailableId', 
+                 $this->locationPlugin, 'NoneUnavailableId',
                  'Recenter Id canceled, unable to find selected Id.'
                   );
              return NULL;
@@ -436,7 +436,7 @@ class RecenterLocationCalculator extends LocationCalculator {
         if ($msLayer->getProjection() && ($msLayer->getProjection() != $msMapObj->getProjection())) {
             $bbox = $this->convertCoords($bbox, $msLayer->getProjection());
         }
-        
+
         return $bbox;
     }
 
@@ -449,15 +449,15 @@ class RecenterLocationCalculator extends LocationCalculator {
         if (empty($bboxes))
             throw new CartoserverException('trying to merge empty bboxes');
         if (count($bboxes) == 1)
-            return $bboxes[0]; 
+            return $bboxes[0];
         $mergedBbox = $bboxes[0];
-        foreach(array_slice($bboxes, 1) as $bbox) { 
+        foreach(array_slice($bboxes, 1) as $bbox) {
             $mergedBbox->minx = min($bbox->minx, $mergedBbox->minx);
             $mergedBbox->miny = min($bbox->miny, $mergedBbox->miny);
             $mergedBbox->maxx = max($bbox->maxx, $mergedBbox->maxx);
             $mergedBbox->maxy = max($bbox->maxy, $mergedBbox->maxy);
         }
-        return $mergedBbox;        
+        return $mergedBbox;
     }
 
     /**
@@ -467,7 +467,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @return Bbox
      */
     protected function addMargin(Bbox $bbox, $margin) {
-        
+
         $width = $bbox->getWidth();
         $xDelta = $width * ($margin / 100);
         $height = $bbox->getHeight();
@@ -478,21 +478,21 @@ class RecenterLocationCalculator extends LocationCalculator {
 
     /**
      * Adds a border to a bbox
-     * 
-     * Used to transform zero sized (width or height is zero) bboxes 
+     *
+     * Used to transform zero sized (width or height is zero) bboxes
      * to non zero sized ones.
      * @param Bbox
      * @return Bbox
      */
     protected function addBboxBorders($bbox) {
-     
-        // FIXME: is there a better way than using this constant ? 
+
+        // FIXME: is there a better way than using this constant ?
         $border = 1.0;
         $bbox = new Bbox($bbox->minx - $border, $bbox->miny - $border,
                          $bbox->minx + $border, $bbox->miny + $border);
         return $bbox;
     }
-    
+
     /**
      * Converts coordinates when specific projection set for the layer
      * @param Bbox
@@ -500,19 +500,19 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @return Bbox
      */
     protected function convertCoords($bbox, $projection) {
-        $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();        
-        
+        $msMapObj = $this->locationPlugin->getServerContext()->getMapObj();
+
         $rectangle = ms_newRectObj();
         $rectangle->setExtent($bbox->minx,
                               $bbox->miny,
                               $bbox->maxx,
                               $bbox->maxy);
-                              
+
         $projInObj = ms_newprojectionobj($projection);
         $projOutObj = ms_newprojectionobj($msMapObj->getProjection());
-        
+
         $rectangle->project($projInObj, $projOutObj);
-        
+
         $bbox = new Bbox($rectangle->minx, $rectangle->miny,
                          $rectangle->maxx, $rectangle->maxy);
         return $bbox;
@@ -527,7 +527,7 @@ class RecenterLocationCalculator extends LocationCalculator {
         foreach($this->requ->idSelections as $idSelection) {
             $bbox = $this->getIdSelectionBbox($idSelection);
             if (!is_null($bbox))
-                $bboxes[] = $bbox; 
+                $bboxes[] = $bbox;
         }
         if (empty($bboxes))
             return $this->requ->fallbackBbox;
@@ -535,7 +535,7 @@ class RecenterLocationCalculator extends LocationCalculator {
         $bbox = $this->mergeBboxes($bboxes);
 
         $margin = $this->locationPlugin->getConfig()->recenterMargin;
-        
+
         $emptyBbox =  $bbox->getWidth() == 0 && $bbox->getHeight() == 0;
         if (is_null($margin)) {
             $this->useDefaultScale = true;
@@ -543,10 +543,10 @@ class RecenterLocationCalculator extends LocationCalculator {
             $bbox = $this->addMargin($bbox, $margin);
             // in case of an empty bbox, use the scale from configuration
             $this->useDefaultScale = $emptyBbox;
-        }        
-        
+        }
+
         if ($emptyBbox) {
-            $bbox = $this->addBboxBorders($bbox);        
+            $bbox = $this->addBboxBorders($bbox);
         }
         return $bbox;
     }
@@ -557,17 +557,17 @@ class RecenterLocationCalculator extends LocationCalculator {
     public function getScale() {
         if (!$this->useDefaultScale)
             return NULL;
-        
+
         $defaultScale = $this->locationPlugin->getConfig()->
                             recenterDefaultScale;
-        
+
         /* TODO: override the default scale from layers metadata */
 
         if (is_null($defaultScale) || $defaultScale < 0)
             throw new CartoserverException('you need to set a ' .
                                            'recenterDefaultScale (or recenterMargin) ' .
                                            ' parameter in the server location.ini');
-        
+
         return $defaultScale;
     }
 }
@@ -576,9 +576,9 @@ class RecenterLocationCalculator extends LocationCalculator {
  * Server part of Location plugin
  * @package CorePlugins
  */
-class ServerLocation extends ClientResponderAdapter 
+class ServerLocation extends ClientResponderAdapter
                      implements CoreProvider, InitProvider {
-    
+
     /**
      * @var Logger
      */
@@ -604,20 +604,20 @@ class ServerLocation extends ClientResponderAdapter
      * @var array
      */
     protected $scales;
-    
+
     /**
      * Scales to be displayed in dropdown box
-     * @var array 
+     * @var array
      */
     protected $visibleScales;
 
     /**
      * Initial Extent of the map (the mapfile one)
      * @var Bbox
-     */    
+     */
     protected $initialExtent;
 
-    /** 
+    /**
      * Constructor
      */
     public function __construct() {
@@ -640,16 +640,16 @@ class ServerLocation extends ClientResponderAdapter
             $locScale->label = $scale->label;
             if ($scale->visible || is_null($scale->visible)) {
                 $this->visibleScales[] = $locScale;
-            } 
+            }
             $this->scales[] = $locScale;
-        }                                        
+        }
     }
-    
+
     /**
      * @return array
      */
     public function getScales() {
-        
+
         if (is_null($this->scales))
             throw new CartoserverException('scales not initialized');
         return $this->scales;
@@ -662,13 +662,13 @@ class ServerLocation extends ClientResponderAdapter
      */
     protected function getScaleFromBbox($bbox) {
         $msMapObj = $this->getServerContext()->getMapObj();
-        
-        $msMapObj->setExtent($bbox->minx, $bbox->miny, 
+
+        $msMapObj->setExtent($bbox->minx, $bbox->miny,
                              $bbox->maxx, $bbox->maxy);
         $scale = $msMapObj->scale;
         return $scale;
     }
-    
+
     /**
      * Adjusts scale using min/max set in configuration
      * @param double
@@ -697,31 +697,31 @@ class ServerLocation extends ClientResponderAdapter
      * @return Bbox
      */
     protected function adjustBbox($oldBbox, $maxExtent = NULL) {
- 
+
         if (is_null($maxExtent))
             $maxExtent = $this->serverContext->getMaxExtent();
-        
+
         if ($maxExtent->minx == -1 && $maxExtent->miny == -1 &&
             $maxExtent->maxx == -1 && $maxExtent->maxy == -1) {
             return $oldBbox;
         }
-        
+
         $newBbox = clone $oldBbox;
-        
+
         // Old ratio so we can check ratios
         $oldRatio = $oldBbox->getWidth() / $oldBbox->getHeight();
-        
-        // Horizontal 
+
+        // Horizontal
         if ($newBbox->minx < $maxExtent->minx) {
-            $newBbox->maxx = $newBbox->maxx + $maxExtent->minx 
+            $newBbox->maxx = $newBbox->maxx + $maxExtent->minx
                              - $newBbox->minx;
-            $newBbox->minx = $maxExtent->minx;            
+            $newBbox->minx = $maxExtent->minx;
             if ($newBbox->maxx > $maxExtent->maxx) {
                 // Bbox was too large to fit
                 $newBbox->maxx = $maxExtent->maxx;
             }
         } elseif ($maxExtent->maxx > 0 && $newBbox->maxx > $maxExtent->maxx) {
-            $newBbox->minx = $newBbox->minx + $maxExtent->maxx 
+            $newBbox->minx = $newBbox->minx + $maxExtent->maxx
                              - $newBbox->maxx;
             $newBbox->maxx = $maxExtent->maxx;
             if ($newBbox->minx < $maxExtent->minx) {
@@ -732,7 +732,7 @@ class ServerLocation extends ClientResponderAdapter
 
         // Vertical
         if ($newBbox->miny < $maxExtent->miny) {
-            $newBbox->maxy = $newBbox->maxy + $maxExtent->miny 
+            $newBbox->maxy = $newBbox->maxy + $maxExtent->miny
                              - $newBbox->miny;
             $newBbox->miny = $maxExtent->miny;
             if ($newBbox->maxy > $maxExtent->maxy) {
@@ -740,7 +740,7 @@ class ServerLocation extends ClientResponderAdapter
                 $newBbox->maxy = $maxExtent->maxy;
             }
         } elseif ($maxExtent->maxy > 0 && $newBbox->maxy > $maxExtent->maxy) {
-            $newBbox->miny = $newBbox->miny + $maxExtent->maxy 
+            $newBbox->miny = $newBbox->miny + $maxExtent->maxy
                              - $newBbox->maxy;
             $newBbox->maxy = $maxExtent->maxy;
             if ($newBbox->miny < $maxExtent->miny) {
@@ -752,18 +752,18 @@ class ServerLocation extends ClientResponderAdapter
         if ($newBbox->getWidth() == 0 || $newBbox->getHeight() == 0) {
             return $oldBbox;
         }
-        
+
         // Checking ratios
         $newRatio = $newBbox->getWidth() / $newBbox->getHeight();
         if ($oldRatio > $newRatio) {
             // Too high
-            $newHeightDiff = ($newBbox->getHeight() - 
+            $newHeightDiff = ($newBbox->getHeight() -
                               ($newBbox->getWidth() / $oldRatio)) / 2.0;
             $newBbox->miny += $newHeightDiff;
             $newBbox->maxy -= $newHeightDiff;
         } else if ($oldRatio < $newRatio) {
             // Too large
-            $newWidthDiff = ($newBbox->getWidth() - 
+            $newWidthDiff = ($newBbox->getWidth() -
                              ($newBbox->getHeight() * $oldRatio)) / 2.0;
             $newBbox->minx += $newWidthDiff;
             $newBbox->maxx -= $newWidthDiff;
@@ -771,7 +771,7 @@ class ServerLocation extends ClientResponderAdapter
         return $newBbox;
     }
 
-    /** 
+    /**
      * Applies location changes to MapServer
      * @param Bbox
      * @param double
@@ -779,21 +779,21 @@ class ServerLocation extends ClientResponderAdapter
     protected function doLocation($bbox, $scale) {
         $msMapObj = $this->serverContext->getMapObj();
 
-        $msMapObj->setExtent($bbox->minx, $bbox->miny, 
+        $msMapObj->setExtent($bbox->minx, $bbox->miny,
                              $bbox->maxx, $bbox->maxy);
 
-        if ($scale) {            
+        if ($scale) {
             $center = ms_newPointObj();
             $center->setXY($msMapObj->width/2, $msMapObj->height/2);
-            
+
             $maxGeoRefExtent = ms_newRectObj();
-            $maxGeoRefExtent->setextent($this->initialExtent->minx, 
+            $maxGeoRefExtent->setextent($this->initialExtent->minx,
                                         $this->initialExtent->miny,
-                                        $this->initialExtent->maxx, 
+                                        $this->initialExtent->maxx,
                                         $this->initialExtent->maxy);
-                
+
             $msMapObj->zoomscale($scale, $center,
-                                 $msMapObj->width, $msMapObj->height, 
+                                 $msMapObj->width, $msMapObj->height,
                                  $msMapObj->extent, $maxGeoRefExtent);
         }
     }
@@ -817,7 +817,7 @@ class ServerLocation extends ClientResponderAdapter
         $this->log->debug($newBbox);
 
         // TODO: do not setExtent if the bbox is the same
-        $msMapObj->setExtent($newBbox->minx, $newBbox->miny, 
+        $msMapObj->setExtent($newBbox->minx, $newBbox->miny,
                              $newBbox->maxx, $newBbox->maxy);
     }
 
@@ -827,11 +827,11 @@ class ServerLocation extends ClientResponderAdapter
      */
     protected function getLocationResult() {
         $msMapObj = $this->serverContext->getMapObj();
-        
+
         $locationResult = new LocationResult();
         $locationResult->bbox = new Bbox();
         $locationResult->bbox->setFromMsExtent($msMapObj->extent);
-        
+
         $locationResult->scale = round($msMapObj->scale, 4);
 
         $this->account('server_version', 0);
@@ -864,8 +864,8 @@ class ServerLocation extends ClientResponderAdapter
                 $display = true;
                 break;
             }
-        }                       
-        if ($display) {                      
+        }
+        if ($display) {
             $shape = new StyledShape();
             $shape->shapeStyle = $style;
             $shape->shape = new Line();
@@ -883,7 +883,7 @@ class ServerLocation extends ClientResponderAdapter
      * @return array array of shapes
      */
     protected function getRefMarksShapes() {
-        
+
         $shapes = array();
         if (!$this->showRefMarks) {
             return $shapes;
@@ -891,7 +891,7 @@ class ServerLocation extends ClientResponderAdapter
 
         $pluginManager = $this->serverContext->getPluginManager();
         $msMapObj = $this->serverContext->getMapObj();
-        $ratio = $pluginManager->layers->getResRatio();                                
+        $ratio = $pluginManager->layers->getResRatio();
 
         $origin = $this->getConfig()->refMarksOrigin;
         if (!is_null($origin)) {
@@ -902,7 +902,7 @@ class ServerLocation extends ClientResponderAdapter
                                                     array('maxScale', 'interval'));
         $interval = NULL;
         foreach ($intervals as $int) {
-            $interval = $int->interval;                
+            $interval = $int->interval;
             if ($int->maxScale >= $msMapObj->scale * $ratio) {
                 break;
             }
@@ -929,21 +929,21 @@ class ServerLocation extends ClientResponderAdapter
         $color = $this->getConfig()->refMarksColor;
         if (!is_null($color)) {
             list($r, $g, $b) = explode(',', $color);
-            $style->color->setFromRGB($r, $g, $b);                    
-        }            
+            $style->color->setFromRGB($r, $g, $b);
+        }
         $transp = $this->getConfig()->refMarksTransparency;
         if (!is_null($transp)) {
-            $style->transparency = $transp;                    
-        }            
+            $style->transparency = $transp;
+        }
 
-        $extentwidth = ($msMapObj->extent->maxx - $msMapObj->extent->minx) / 2;         
-        $extentheight = ($msMapObj->extent->maxy - $msMapObj->extent->miny) / 2;         
+        $extentwidth = ($msMapObj->extent->maxx - $msMapObj->extent->minx) / 2;
+        $extentheight = ($msMapObj->extent->maxy - $msMapObj->extent->miny) / 2;
         $extentcenterx = $extentwidth + $msMapObj->extent->minx;
         $extentcentery = $extentheight + $msMapObj->extent->miny;
-        $radius = sqrt(pow($extentwidth, 2) + pow($extentheight, 2));                                              
-        $minx = floor(($extentcenterx - $radius - $originx) / $intervalx);     
+        $radius = sqrt(pow($extentwidth, 2) + pow($extentheight, 2));
+        $minx = floor(($extentcenterx - $radius - $originx) / $intervalx);
         $miny = floor(($extentcentery - $radius - $originy) / $intervaly);
-        $maxx = floor(($extentcenterx + $radius - $originx) / $intervalx) + 1;      
+        $maxx = floor(($extentcenterx + $radius - $originx) / $intervalx) + 1;
         $maxy = floor(($extentcentery + $radius - $originy) / $intervaly) + 1;
 
         // Crosses
@@ -952,7 +952,7 @@ class ServerLocation extends ClientResponderAdapter
         if (!is_null($ratio)) {
             $crossSize *= $ratio;
         }
-                      
+
         for ($i = $minx; $i <= $maxx; $i++) {
             for ($j = $miny; $j <= $maxy; $j++) {
                 $centerx = $i * $intervalx + $originx;
@@ -977,15 +977,15 @@ class ServerLocation extends ClientResponderAdapter
         // Now lines
         if (!$this->getConfig()->refLinesActive) {
             return $shapes;
-        }           
+        }
 
         $lineSize = $this->getConfig()->refLinesSize;
         $lineSize = $lineSize * $msMapObj->scale /
                     $msMapObj->resolution * 0.0254;
         if (!is_null($ratio)) {
             $lineSize *= $ratio;
-        }   
-        
+        }
+
         $label = new LabelOverlay();
         $fontSize = $this->getConfig()->refLinesFontSize;
         if (!is_null($ratio)) {
@@ -994,21 +994,21 @@ class ServerLocation extends ClientResponderAdapter
         if (!is_null($fontSize)) {
             $label->size = $fontSize;
         }
-                           
-        $angle = $pluginManager->images->getAngle();        
+
+        $angle = $pluginManager->images->getAngle();
         $angle = 360 - $angle;
         while ($angle < 0) {
             $angle += 360;
-        } 
+        }
         $switch = false;
         while ($angle > 45) {
             $angle -= 90;
             $switch = !$switch;
         }
         $arad = deg2rad($angle);
-        
+
         $offset = $intervalx * tan($arad);
-        
+
         if ($switch) {
             $xprime = $extentwidth * sin($arad);
             $yprime = $extentwidth * cos($arad);
@@ -1016,16 +1016,16 @@ class ServerLocation extends ClientResponderAdapter
             $xprime = $extentheight * sin($arad);
             $yprime = $extentheight * cos($arad);
         }
-        $rx = $extentcenterx - ($minx * $intervalx + $originx);            
+        $rx = $extentcenterx - ($minx * $intervalx + $originx);
         $ry = $maxy * $intervaly + $originy - $extentcentery;
         $length = $yprime + ($rx + $xprime) * tan($arad) - $ry;
         for ($i = $minx; $i <= $maxx; $i++) {
-            
-            $x = $i * $intervalx + $originx;                
-            $y = $maxy * $intervaly + $originy;              
+
+            $x = $i * $intervalx + $originx;
+            $y = $maxy * $intervaly + $originy;
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x, 
+            $points[] = new Point($x,
                                   $y + $length - ($i - $minx) * $offset - $lineSize
                                   );
             $this->addRefMarksShape($shapes, $points,
@@ -1041,7 +1041,7 @@ class ServerLocation extends ClientResponderAdapter
             $y = $miny * $intervaly + $originy;
             $points = array();
             $points[] = new Point($x, $y);
-            $points[] = new Point($x, 
+            $points[] = new Point($x,
                                   $y + $length - ($i - $minx) * $offset + $lineSize
                                   );
             $this->addRefMarksShape($shapes, $points,
@@ -1058,13 +1058,13 @@ class ServerLocation extends ClientResponderAdapter
             $xprime = $extentwidth * cos($arad);
             $yprime = $extentwidth * sin($arad);
         }
-        $ry = $maxy * $intervaly + $originy - $extentcentery;                        
+        $ry = $maxy * $intervaly + $originy - $extentcentery;
         $rx = $maxx * $intervalx + $originx - $extentcenterx;
         $length = $xprime + ($ry + $yprime) * tan($arad) - $rx;
         for ($i = $maxy; $i >= $miny; $i--) {
 
-            $y = $i * $intervaly + $originy;                
-            $x = $maxx * $intervalx + $originx;              
+            $y = $i * $intervaly + $originy;
+            $x = $maxx * $intervalx + $originx;
             $points = array();
             $points[] = new Point($x, $y);
             $points[] = new Point($x + $length - ($maxy - $i) * $offset - $lineSize,
@@ -1073,7 +1073,7 @@ class ServerLocation extends ClientResponderAdapter
                                     $extentcenterx, $extentcentery,
                                     $radius, $style, $label, $y);
         }
-        
+
         $rx = $extentcenterx - ($minx * $intervalx + $originx);
         $length = $rx - $xprime + ($ry - $yprime) * tan($arad);
         for ($i = $maxy; $i >= $miny; $i--) {
@@ -1097,13 +1097,13 @@ class ServerLocation extends ClientResponderAdapter
      * @see ClientResponderAdapter::handleDrawing()
      */
     public function handleDrawing($requ) {
-        
+
         if (!is_null($this->crosshair)
             || $this->showRefMarks
             || $this->showRefLines) {
             $pluginManager = $this->serverContext->getPluginManager();
             if (empty($pluginManager->outline)) {
-                throw new CartoserverException('outline plugin not loaded, ' . 
+                throw new CartoserverException('outline plugin not loaded, ' .
                                                'and needed for the crosshair or ' .
                                                'reference marks drawing');
             }
@@ -1129,15 +1129,15 @@ class ServerLocation extends ClientResponderAdapter
 
         $this->log->debug('handleCorePlugin: ');
         $this->log->debug($requ);
-        
+
         $msMapObj = $this->serverContext->getMapObj();
         $this->initialExtent = new Bbox();
         $this->initialExtent->setFromMsExtent($msMapObj->extent);
 
         $this->initScales();
-        
+
         // get calculator from request:
-       
+
         $locationType = $requ->locationType;
         $classPrefix = substr($locationType, 0, -1 * strlen('LocationRequest'));
         $classPrefix = ucfirst($classPrefix);
@@ -1163,19 +1163,19 @@ class ServerLocation extends ClientResponderAdapter
         $this->log->debug($scale);
 
         $scale = $this->adjustScale($scale);
-        
+
         $this->log->debug('scale after adjust is');
         $this->log->debug($scale);
 
         $this->doLocation($bbox, $scale);
 
-        // Save the crosshair StyledShape and showRefMarks. 
+        // Save the crosshair StyledShape and showRefMarks.
         // The shapes will be drawn later in $this->handleDrawing()
-        if (isset($calculator->requ->crosshair) 
+        if (isset($calculator->requ->crosshair)
             && !is_null($calculator->requ->crosshair)) {
             $this->crosshair = $calculator->requ->crosshair;
-        }                    
-        if (isset($calculator->requ->showRefMarks) 
+        }
+        if (isset($calculator->requ->showRefMarks)
             && !is_null($calculator->requ->showRefMarks)) {
             $this->showRefMarks = $calculator->requ->showRefMarks;
         }
@@ -1183,11 +1183,11 @@ class ServerLocation extends ClientResponderAdapter
         $maxBbox = NULL;
         if (isset($requ->locationConstraint->maxBbox))
             $maxBbox = $requ->locationConstraint->maxBbox;
-        
+
         if (!$this->getConfig()->noBboxAdjusting)
             $this->doBboxAdjusting($maxBbox);
     }
-       
+
     /**
      * @see InitProvider::getInit()
      */
@@ -1206,7 +1206,7 @@ class ServerLocation extends ClientResponderAdapter
             $locShortcut->bbox->setFromString($shortcut->bbox);
             $locShortcuts[] = $locShortcut;
         }
-                                                    
+
         $msMapObj = $this->serverContext->getMapObj();
 
         $init = new LocationInit();
