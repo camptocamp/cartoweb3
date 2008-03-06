@@ -212,6 +212,11 @@ class LocationInit extends CwSerializable {
      * @var array
      */
     public $shortcuts;
+
+    /**
+     * @var int
+     */
+    public $recenterDefaultScale;
     
     /**
      * @see CwSerializable::unserialize()
@@ -224,6 +229,8 @@ class LocationInit extends CwSerializable {
 
         $this->shortcuts = self::unserializeObjectMap($struct, 'shortcuts',
                                                       'LocationShortcut');
+        $this->recenterDefaultScale = self::unserializeValue($struct, 
+                                    'recenterDefaultScale', 'double');
     }
 }
 

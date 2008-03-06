@@ -59,6 +59,7 @@
           <element name="minScale" type="xsd:double"/>
           <element name="maxScale" type="xsd:double"/>
           <element name="shortcuts" type="types:ArrayOfLocationShortcut"/>
+          <element name="recenterDefaultScale" type="xsd:double"/>
         </all>
       </complexType>
 
