@@ -21,8 +21,8 @@ essayez de suivre pas à pas ces étapes :
    1) Décompressez la dernière version de Artichow dans un dossier
    2) Ecrasez le fichier Artichow.cfg.php avec votre ancien fichier
    3) Copiez vos patterns dans le dossier patterns/ de la nouvelle version
-	4) Supprimez l'ancienne version de Artichow de votre disque
-	5) Copiez la nouvelle version là où était l'ancienne
+    4) Supprimez l'ancienne version de Artichow de votre disque
+    5) Copiez la nouvelle version là où était l'ancienne
 Une fois ces cinq étapes effectuées, vous n'aurez plus qu'à mettre
 éventuellement à jour vos graphiques, en fonction des dernières évolutions de
 l'API de Artichow. Pour cela, voyez le titre "Migrer d'une version à l'autre"
