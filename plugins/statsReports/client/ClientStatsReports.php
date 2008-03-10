@@ -1059,7 +1059,7 @@ class ClientStatsReports extends ClientPlugin
             return null;
         }
     
-        $colors = array('blue', 'red', 'green', 'gray');
+        $colors = array(new awBlue, new awRed, new awGreen, new awMidGray);
     
         $fileName = "graph_$md5.png";
         
@@ -1076,6 +1076,91 @@ class ClientStatsReports extends ClientPlugin
         if (file_exists($path . $fileName)) {
             return "generated/stats/graphs/$fileName";
         }
+        
+        $graph = new awGraph(650, 500);
+        $graph->border->hide();
+        
+        $i = 0;
+        $plots = array();
+        $group = new awPlotGroup();
+        $group->setSize(0.92, 0.92);
+        $group->setCenter(0.54, 0.46);           
+        $group->setSpace(2, 2, 0, 0);     
+        $group->axis->bottom->label->setAngle(90); 
+
+        foreach ($data as $graphLabel => $graphData) {
+            
+            $plotData = array_values($graphData);
+            $plotLabel = array_keys($graphData);
+
+            switch ($type) {
+            case 'line':
+                $plot = new awLinePlot(array_values($plotData));
+
+                $plot->mark->SetType(awMark::SQUARE, 6);
+                $plot->mark->SetFill($colors[$i]);
+                $plot->SetColor($colors[$i]);
+                $plot->SetThickness(3);                
+
+                $group->axis->bottom->setLabelText($plotLabel); 
+/*
+                if (count($data) > 1) {
+                    $plot->SetLegend($graphLabel);
+                }
+                
+ */                 
+                // Add lineplot to graph
+                if (count($data) == 2) {
+                	
+                    if ($i == 0) {
+                    	$plot->setYAxis(awPlot::LEFT);
+                        $group->axis->left->setColor($colors[$i]);
+                    } else {
+                        $plot->setYAxis(awPlot::RIGHT);
+                        $group->axis->right->setColor($colors[$i]);
+                        $group->setSize(0.86, 0.92);
+                        $group->setCenter(0.50, 0.46);                
+                    }
+                } else { 
+                    //$graph->Add($plot);
+                }
+                $group->add($plot);
+                break;
+            case 'bar':
+                $plot = new BarPlot(array_values($plotData));               
+                $plot->SetFillColor($colors[$i]);
+                
+                if (count($data) > 1) {
+                    $plot->SetLegend($graphLabel);
+                }
+
+                $plots[] = $plot;
+                break;
+            }        
+
+            $i++;
+            if ($i == count($colors)) {
+                $i = 0;
+            }
+        }
+
+        $graph->add($group);
+/*
+        switch ($type) {
+        case 'line':
+            break;
+        case 'bar':
+            $group = new GroupBarPlot($plots);
+            $graph->Add($group);
+            break;
+        }        
+*/        
+        // save file
+        ob_start();
+        $graph->draw();
+        file_put_contents($path . $fileName, ob_get_contents());
+        ob_end_clean();
+        
 /*
  // TODO: migrate to Artichow
         $graph = new awGraph(650, 500,'auto');

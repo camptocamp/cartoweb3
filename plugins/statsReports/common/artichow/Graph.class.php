@@ -261,7 +261,7 @@ class awGraph extends awImage {
      *
      * @param string $mode Display mode (can be a file name)
      */
-    public function draw($mode = Graph::DRAW_DISPLAY) {
+    public function draw($mode = awGraph::DRAW_DISPLAY) {
         
         if($this->timing) {
             $time = microtimeFloat();
@@ -291,19 +291,19 @@ class awGraph extends awImage {
         
         switch($mode) {
         
-            case Graph::DRAW_DISPLAY :
+            case awGraph::DRAW_DISPLAY :
                 $this->sendHeaders();
                 echo $data;
                 break;
         
-            case Graph::DRAW_RETURN :
+            case awGraph::DRAW_RETURN :
                 return $data;
             
             default :
                 if(is_string($mode)) {
                     file_put_contents($mode, $data);
                 } else {
-                    awImage::drawError("Class Graph: Unable to draw the graph.");
+                    awImage::drawError("Class awGraph: Unable to draw the graph.");
                 }
         
         }
@@ -371,7 +371,7 @@ class awGraph extends awImage {
         if(ARTICHOW_CACHE and $this->name !== NULL) {
             
             if(is_writable(ARTICHOW_CACHE_DIRECTORY) === FALSE) {
-                awImage::drawError("Class Graph: Cache directory is not writable.");
+                awImage::drawError("Class awGraph: Cache directory is not writable.");
             }
         
             file_put_contents($this->fileCache, $data);
