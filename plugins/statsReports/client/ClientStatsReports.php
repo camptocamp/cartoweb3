@@ -1087,8 +1087,8 @@ class ClientStatsReports extends ClientPlugin
         $group->setCenter(0.54, 0.46);           
         $group->setSpace(2, 2, 0, 0);     
         $group->axis->bottom->label->setAngle(90); 
-        $group->legend->setPosition(0.94, 0.15);
-        $group->legend->setAlign(awLegend::RIGHT);
+        $group->legend->setPosition(0.92, 0.1);
+        $group->legend->setAlign(awLegend::RIGHT, awLegend::TOP);
         $group->legend->shadow->smooth(TRUE);
 
         foreach ($data as $graphLabel => $graphData) {
@@ -1131,7 +1131,6 @@ class ClientStatsReports extends ClientPlugin
                     $group->axis->right->setColor($colors[$i]);
                     $group->setSize(0.86, 0.92);
                     $group->setCenter(0.50, 0.46);                
-                    $group->legend->setPosition(0.94, 0.13);
                 }
             }
             $group->axis->bottom->setLabelText($plotLabel); 
