@@ -85,7 +85,7 @@ class LayerBase extends CwSerializable {
     protected function generateMetaHash() {
         $this->metaHash = array();
         foreach ($this->metadata as $meta) {
-            list($k, $val) = explode('=', $meta);
+            list($k, $val) = explode('=', $meta, 2);
             $this->metaHash[$k] = $val;
         }        
     }
