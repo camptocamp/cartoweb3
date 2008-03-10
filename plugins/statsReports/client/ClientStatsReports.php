@@ -127,7 +127,7 @@ class ValueStatsField extends StatsField {
         $values = $this->plugin->explodeList($report->options['values']);
         $options = array();
         foreach ($values as $value) {
-            $options[$value] = $value;
+            $options[$value] = I18n::gt(ucfirst($value));
         }
         return $options;
     }
@@ -1028,18 +1028,33 @@ class ClientStatsReports extends ClientPlugin
                 }
             }
             $graphType = 'bar';
+            $xUnit = $this->column;
+            $yUnit = $this->line;
             if ($this->column == 'time') {
                 $graphType = 'line';
+                $xUnit = $this->periodtype;
             }
+            if ($this->line == 'time') {
+                $yUnit = $this->periodtype;            	
+            }
+            $graphTitle = '';
+            foreach ($this->value as $value) {
+            	if ($graphTitle != '') {
+            		$graphTitle .= ' + ';
+            	}
+                $graphTitle .= I18n::gt(ucfirst($value));
+            } 
             if ($this->display == 'graph1') {
                 $md5Final = 'foo';
                 foreach ($md5 as $m) {
                     $md5Final = md5($md5Final . '-' . $m);
-                }             
-                $graphs[] = $this->getGraph('', $graphType, $graphValues, $md5Final);
+                }                             
+                $graphs[] = $this->getGraph($graphTitle, $graphType, I18n::gt(ucfirst($xUnit)),
+                                            $graphValues, $md5Final);
             } else {
                 foreach ($graphValues as $title => $values) {
-                    $graphs[] = $this->getGraph($title, $graphType,
+                    $graphs[] = $this->getGraph($graphTitle . ' (' . I18n::gt(ucfirst($yUnit)) . ' ' . $title . ')',
+                                                $graphType, I18n::gt(ucfirst($xUnit)),
                                                 array($title => $values),
                                                 $md5[$title]);
                 }
@@ -1053,7 +1068,7 @@ class ClientStatsReports extends ClientPlugin
         }
     }
     
-    protected function getGraph($title, $type, $data, $md5) {
+    protected function getGraph($title, $type, $xUnit, $data, $md5) {
         
         if (!$data) {
             return null;
@@ -1087,9 +1102,13 @@ class ClientStatsReports extends ClientPlugin
         $group->setCenter(0.54, 0.46);           
         $group->setSpace(2, 2, 0, 0);     
         $group->axis->bottom->label->setAngle(90); 
+        $group->axis->bottom->title->set($xUnit);
+        $group->axis->bottom->setTitleAlignment(awLabel::LEFT);
+        $group->axis->bottom->setTitlePosition(-0.1);
         $group->legend->setPosition(0.92, 0.1);
         $group->legend->setAlign(awLegend::RIGHT, awLegend::TOP);
         $group->legend->shadow->smooth(TRUE);
+        $group->title->set($title);
 
         foreach ($data as $graphLabel => $graphData) {
             
@@ -1118,9 +1137,7 @@ class ClientStatsReports extends ClientPlugin
                 break;
             }        
             
-            if (count($data) == 1) {
-                $group->title->set($graphLabel);
-            } else {
+            if (count($data) > 1) {
                 $group->legend->add($plot, $graphLabel, $legendType);
             }
 
@@ -1132,7 +1149,7 @@ class ClientStatsReports extends ClientPlugin
                 } else {
                     $plot->setYAxis(awPlot::RIGHT);
                     $group->axis->right->setColor($colors[$i]);
-                    $group->setSize(0.86, 0.92);
+                    $group->setSize(0.86, 0.88);
                     $group->setCenter(0.50, 0.46);                
                 }
             }
