@@ -1083,7 +1083,7 @@ class ClientStatsReports extends ClientPlugin
         $i = 0;
         $plots = array();
         $group = new awPlotGroup();
-        $group->setSize(0.92, 0.92);
+        $group->setSize(0.92, 0.88);
         $group->setCenter(0.54, 0.46);           
         $group->setSpace(2, 2, 0, 0);     
         $group->axis->bottom->label->setAngle(90); 
@@ -1096,6 +1096,7 @@ class ClientStatsReports extends ClientPlugin
             $plotData = array_values($graphData);
             $plotLabel = array_keys($graphData);
 
+            $legendType = NULL;
             switch ($type) {
             case 'line':
             
@@ -1106,19 +1107,21 @@ class ClientStatsReports extends ClientPlugin
                 $plot->setColor($colors[$i]);
                 $plot->setThickness(3);                
                 
+                $legendType = awLegend::LINE;
                 break;
             case 'bar':
             
                 $plot = new awBarPlot(array_values($plotData), $i+1, count($data));               
                 $plot->SetBarColor($colors[$i]);
 
+                $legendType = awLegend::BACKGROUND;
                 break;
             }        
             
             if (count($data) == 1) {
-            	$group->title->set($graphLabel);
+                $group->title->set($graphLabel);
             } else {
-                $group->legend->add($plot, $graphLabel);
+                $group->legend->add($plot, $graphLabel, $legendType);
             }
 
             if (count($data) == 2) {
