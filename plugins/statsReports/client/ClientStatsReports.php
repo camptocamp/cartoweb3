@@ -1035,14 +1035,16 @@ class ClientStatsReports extends ClientPlugin
                 $xUnit = $this->periodtype;
             }
             if ($this->line == 'time') {
-                $yUnit = $this->periodtype;            	
+                $yUnit = $this->periodtype;                
             }
             $graphTitle = '';
-            foreach ($this->value as $value) {
-            	if ($graphTitle != '') {
-            		$graphTitle .= ' + ';
-            	}
-                $graphTitle .= I18n::gt(ucfirst($value));
+            if ($this->line != 'value') {
+                foreach ($this->value as $value) {
+                    if ($graphTitle != '') {                        
+                        $graphTitle .= ' + ';
+                    }
+                    $graphTitle .= I18n::gt(ucfirst($value));
+                }
             } 
             if ($this->display == 'graph1') {
                 $md5Final = 'foo';
@@ -1053,8 +1055,13 @@ class ClientStatsReports extends ClientPlugin
                                             $graphValues, $md5Final);
             } else {
                 foreach ($graphValues as $title => $values) {
-                    $graphs[] = $this->getGraph($graphTitle . ' (' . I18n::gt(ucfirst($yUnit)) . ' ' . $title . ')',
-                                                $graphType, I18n::gt(ucfirst($xUnit)),
+                    
+                    $finalTitle = I18n::gt(ucfirst($yUnit)) . ' ' . $title;
+                    if ($graphTitle != '') {
+                        $finalTitle = $graphTitle . " ($finalTitle)";
+                    }
+                    $graphs[] = $this->getGraph($finalTitle, $graphType,
+                                                I18n::gt(ucfirst($xUnit)),
                                                 array($title => $values),
                                                 $md5[$title]);
                 }
