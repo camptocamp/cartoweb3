@@ -1087,6 +1087,9 @@ class ClientStatsReports extends ClientPlugin
         $group->setCenter(0.54, 0.46);           
         $group->setSpace(2, 2, 0, 0);     
         $group->axis->bottom->label->setAngle(90); 
+        $group->legend->setPosition(0.94, 0.15);
+        $group->legend->setAlign(awLegend::RIGHT);
+        $group->legend->shadow->smooth(TRUE);
 
         foreach ($data as $graphLabel => $graphData) {
             
@@ -1095,48 +1098,44 @@ class ClientStatsReports extends ClientPlugin
 
             switch ($type) {
             case 'line':
+            
                 $plot = new awLinePlot(array_values($plotData));
 
-                $plot->mark->SetType(awMark::SQUARE, 6);
-                $plot->mark->SetFill($colors[$i]);
-                $plot->SetColor($colors[$i]);
-                $plot->SetThickness(3);                
-
-                $group->axis->bottom->setLabelText($plotLabel); 
-/*
-                if (count($data) > 1) {
-                    $plot->SetLegend($graphLabel);
-                }
+                $plot->mark->setType(awMark::SQUARE, 6);
+                $plot->mark->setFill($colors[$i]);
+                $plot->setColor($colors[$i]);
+                $plot->setThickness(3);                
                 
- */                 
-                // Add lineplot to graph
-                if (count($data) == 2) {
-                	
-                    if ($i == 0) {
-                    	$plot->setYAxis(awPlot::LEFT);
-                        $group->axis->left->setColor($colors[$i]);
-                    } else {
-                        $plot->setYAxis(awPlot::RIGHT);
-                        $group->axis->right->setColor($colors[$i]);
-                        $group->setSize(0.86, 0.92);
-                        $group->setCenter(0.50, 0.46);                
-                    }
-                } else { 
-                    //$graph->Add($plot);
-                }
-                $group->add($plot);
                 break;
             case 'bar':
-                $plot = new BarPlot(array_values($plotData));               
-                $plot->SetFillColor($colors[$i]);
-                
-                if (count($data) > 1) {
-                    $plot->SetLegend($graphLabel);
-                }
+            
+                $plot = new awBarPlot(array_values($plotData), $i+1, count($data));               
+                $plot->SetBarColor($colors[$i]);
 
-                $plots[] = $plot;
                 break;
             }        
+            
+            if (count($data) == 1) {
+            	$group->title->set($graphLabel);
+            } else {
+                $group->legend->add($plot, $graphLabel);
+            }
+
+            if (count($data) == 2) {
+                
+                if ($i == 0) {
+                    $plot->setYAxis(awPlot::LEFT);
+                    $group->axis->left->setColor($colors[$i]);
+                } else {
+                    $plot->setYAxis(awPlot::RIGHT);
+                    $group->axis->right->setColor($colors[$i]);
+                    $group->setSize(0.86, 0.92);
+                    $group->setCenter(0.50, 0.46);                
+                    $group->legend->setPosition(0.94, 0.13);
+                }
+            }
+            $group->axis->bottom->setLabelText($plotLabel); 
+            $group->add($plot);
 
             $i++;
             if ($i == count($colors)) {
@@ -1145,99 +1144,13 @@ class ClientStatsReports extends ClientPlugin
         }
 
         $graph->add($group);
-/*
-        switch ($type) {
-        case 'line':
-            break;
-        case 'bar':
-            $group = new GroupBarPlot($plots);
-            $graph->Add($group);
-            break;
-        }        
-*/        
+
         // save file
         ob_start();
         $graph->draw();
         file_put_contents($path . $fileName, ob_get_contents());
         ob_end_clean();
         
-/*
- // TODO: migrate to Artichow
-        $graph = new awGraph(650, 500,'auto');
-        $graph->img->SetMargin(60,60,20,80);
-        $graph->SetAlphaBlending();       
-        $graph->SetScale('textlin');                
-        $graph->xaxis->SetLabelAngle(90);
-        $graph->title->Set($title);
-        $graph->legend->SetPos(0.15, 0.10, 'right', 'top');        
-        
-        if (count($data) == 2 && $type == 'line') {
-            $graph->SetY2Scale('lin');    
-            $graph->yaxis->SetColor($colors[0]);
-            $graph->y2axis->SetColor($colors[1]);
-        }
-    
-        $i = 0;
-        $plots = array();
-        foreach ($data as $graphLabel => $graphData) {
-            
-            $plotData = array_values($graphData);
-            $plotLabel = array_keys($graphData);
-
-            switch ($type) {
-            case 'line':
-                $plot = new LinePlot(array_values($plotData), array_keys($plotData));
-
-                $plot->mark->SetType(MARK_SQUARE);
-                $plot->mark->SetWidth(6);
-                $plot->mark->SetColor($colors[$i]);  
-                $plot->mark->SetFillColor($colors[$i]);
-
-                if (count($data) > 1) {
-                    $plot->SetLegend($graphLabel);
-                }
-                
-                $plot->SetColor($colors[$i]);
-                $plot->SetWeight(3);
-                  
-                // Add lineplot to graph
-                if (count($data) == 2 && $i == 1) {
-                    $graph->AddY2($plot);
-                } else {
-                    $graph->Add($plot);
-                }
-                break;
-            case 'bar':
-                $plot = new BarPlot(array_values($plotData));               
-                $plot->SetFillColor($colors[$i]);
-                
-                if (count($data) > 1) {
-                    $plot->SetLegend($graphLabel);
-                }
-
-                $plots[] = $plot;
-                break;
-            }        
-
-            $i++;
-            if ($i == count($colors)) {
-                $i = 0;
-            }
-        }
-        $graph->xaxis->SetTickLabels($plotLabel);        
-
-        switch ($type) {
-        case 'line':
-            break;
-        case 'bar':
-            $group = new GroupBarPlot($plots);
-            $graph->Add($group);
-            break;
-        }        
-        
-        // save file
-        $graph->Stroke($path . $fileName);
-*/
         return "generated/stats/graphs/$fileName";
     }    
     
