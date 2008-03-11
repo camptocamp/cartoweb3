@@ -94,10 +94,10 @@ public class Report {
         }
     }
 
-    public void compute(final Connection con, String tableName) throws SQLException {
+    public void compute(final Connection con, String statsTableName) throws SQLException {
         LOGGER.info("Starting to compute report [" + name + "] for id>" + lastIdSeen);
         long startTime = System.currentTimeMillis();
-        final String query = buildSelectQuery(tableName);
+        final String query = buildSelectQuery(statsTableName);
 
         JdbcUtilities.runSelectQuery("reading stats for " + name, query, con, new JdbcUtilities.SelectTask() {
             public void setupStatement(PreparedStatement stmt) throws SQLException {
@@ -159,10 +159,37 @@ public class Report {
         });
 
         purgeOld(con);
-        saveStatus(con, tableName);
-
+        saveStatus(con, statsTableName);
+        saveDimensionsValues(con, statsTableName);
         con.commit();
         LOGGER.info("Time to run [" + name + "]: " + UnitUtilities.toElapsedTime(System.currentTimeMillis() - startTime) + " lastId=" + lastIdSeen + " lastTime=" + lastTimeSeen);
+    }
+
+    private void saveDimensionsValues(Connection con, String tableName) throws SQLException {
+        JdbcUtilities.runDeleteQuery("removing old dimensions for [" + name + "]",
+                "DELETE FROM " + tableName + "_dimensions WHERE report_name=?",
+                con, new JdbcUtilities.DeleteTask() {
+            public void setupStatement(PreparedStatement stmt) throws SQLException {
+                stmt.setString(1, name);
+            }
+        });
+
+        final String reportTableName = classifier.getBiggestTimeScaleTableName();
+        for (int i = 0; i < dimensionMetaDatas.length; ++i) {
+            DimensionMetaData<?> dimensionMetaData = dimensionMetaDatas[i];
+            final String[] fieldNames = dimensionMetaData.getReportFieldNames().split(",");
+            for (int j = 0; j < fieldNames.length; ++j) {
+                final String fieldName = fieldNames[j];
+                JdbcUtilities.runDeleteQuery("inserting values for [" + fieldName + "] for [" + name + "]",
+                        "INSERT INTO " + tableName + "_dimensions (report_name, field_name, id) SELECT ?,?," + fieldName + " FROM " + reportTableName + " GROUP BY " + fieldName,
+                        con, new JdbcUtilities.DeleteTask() {
+                    public void setupStatement(PreparedStatement stmt) throws SQLException {
+                        stmt.setString(1, name);
+                        stmt.setString(2, fieldName);
+                    }
+                });
+            }
+        }
     }
 
     private void purgeOld(Connection con) throws SQLException {
@@ -228,7 +255,7 @@ public class Report {
         }
     }
 
-    private String buildSelectQuery(String tableName) throws SQLException {
+    private String buildSelectQuery(String statsTableName) throws SQLException {
         final StringBuilder query = new StringBuilder();
         query.append("select id,general_time");
         if (classifier.getSQLFields() != null) {
@@ -256,7 +283,7 @@ public class Report {
                 query.append(result.getSQLFields());
             }
         }
-        query.append(" from ").append(tableName).append(" f").append(" where id>? ");
+        query.append(" from ").append(statsTableName).append(" f").append(" where id>? ");
         for (int i = 0; i < filters.length; ++i) {
             Filter filter = filters[i];
             String whereClause = filter.getSelectWhereClause();

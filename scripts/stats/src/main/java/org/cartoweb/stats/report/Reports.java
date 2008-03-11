@@ -277,6 +277,13 @@ public class Reports extends BaseStats {
                     "CREATE TABLE " + tableName + "_reports (name text, config text, last_id bigint, last_time timestamp without time zone, tables text, label text)",
                     con, null);
         }
+
+        if (!Utils.doesTableExist(con, tableName + "_dimensions")) {
+            LOGGER.warn("Table " + tableName + "_dimensions missing. Creating it.");
+            JdbcUtilities.runDeleteQuery("creating table " + tableName + "_dimensions",
+                    "CREATE TABLE " + tableName + "_dimensions (report_name text, field_name text, id int)",
+                    con, null);
+        }
     }
 
     public static void main(String[] args) {

@@ -180,4 +180,25 @@ public abstract class Classifier<RESULT> {
     public String getResultTableName() {
         return resultTableName;
     }
+
+    /**
+     * @return The name of the report table spanning on the biggest time.
+     */
+    public String getBiggestTimeScaleTableName() {
+        return getBiggestTimeScale().getTableName(resultTableName);
+    }
+
+    /**
+     * @return The timescale going the furthest in the past.
+     */
+    private TimeScaleDefinition getBiggestTimeScale() {
+        TimeScaleDefinition result = null;
+        for (int i = 0; i < timeScales.length; ++i) {
+            TimeScaleDefinition timeScale = timeScales[i];
+            if (result == null || result.getMinTime() > timeScale.getMinTime()) {
+                result = timeScale;
+            }
+        }
+        return result;
+    }
 }

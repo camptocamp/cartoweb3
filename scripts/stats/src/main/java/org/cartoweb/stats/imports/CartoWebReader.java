@@ -84,8 +84,11 @@ public class CartoWebReader extends StatsReader {
         final Integer width = getInt(fields, "images.mainmap.width");
         result.setImagesMainmapHeight(height);
         result.setImagesMainmapWidth(width);
-        if (height != null && width != null) {
-            sideTables.mapSize.get(height + "x" + width, generalMapid);
+        if (height != null) {
+            sideTables.imagesMainmapHeight.get(Integer.toString(height), generalMapid);
+        }
+        if (width != null) {
+            sideTables.imagesMainmapWidth.get(Integer.toString(width), generalMapid);
         }
 
         result.setQueryResultsTableCount(fields.get("query.results_table_count"));
