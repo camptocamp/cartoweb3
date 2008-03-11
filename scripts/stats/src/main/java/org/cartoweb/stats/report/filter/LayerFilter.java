@@ -91,13 +91,17 @@ public class LayerFilter implements Filter {
                 ok = false;
                 for (int i = 0; !ok && i < layers.length; ++i) {
                     String layer = layers[i];
-                    if (ids.contains(layer)) ok = true;
+                    if (ids.contains(layer)) {
+                        ok = true;
+                    }
                 }
             } else {
                 ok = true;
                 for (int i = 0; ok && i < layers.length; ++i) {
                     String layer = layers[i];
-                    if (!ids.contains(layer)) ok = false;
+                    if (!ids.contains(layer)) {
+                        ok = false;
+                    }
                 }
             }
         }

@@ -40,7 +40,9 @@ public class DbMapWithProject extends BaseDbMap {
     }
 
     public Integer get(String text, int generalMapId) {
-        if (text == null) return null;
+        if (text == null) {
+            return null;
+        }
 
         final Key key = new Key(text, generalMapId);
         Info result = values.get(key);
@@ -94,8 +96,12 @@ public class DbMapWithProject extends BaseDbMap {
         }
 
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Key key = (Key) o;
 

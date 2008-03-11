@@ -147,8 +147,9 @@ public class Import extends BaseStats {
         for (int i = 0; i < files.size(); i++) {
             File file = files.get(i);
             progress.update(i);
-            if (LOGGER.isDebugEnabled())
+            if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Reading file " + (i + 1) + "/" + files.size() + ": " + file);
+            }
             convertFile(con, file);
         }
 
@@ -271,13 +272,15 @@ public class Import extends BaseStats {
             int read;
             do {
                 read = fin.read(buffer);
-                if (read > 0)
+                if (read > 0) {
                     md5.update(buffer, 0, read);
+                }
             } while (read != -1);
             fin.close();
             byte[] digest = md5.digest();
-            if (digest == null)
+            if (digest == null) {
                 return "";
+            }
             String strDigest = "0x";
             for (int i = 0; i < digest.length; i++) {
                 strDigest += Integer.toString((digest[i] & 0xff)
@@ -426,7 +429,9 @@ public class Import extends BaseStats {
             //takes around 21m for the same 4M records and is optimal for incremental updates...
             try {
                 final PreparedStatement updateStmt = con.prepareStatement("UPDATE " + tableName + " SET general_elapsed_time=?, images_mainmap_width=?, images_mainmap_height=?, layers=?, layers_switch_id=?, bbox_minx=?, bbox_miny=?, bbox_maxx=?, bbox_maxy=?, location_scale=?, query_results_count=?, query_results_table_count=? WHERE general_cache_hit=?");
-                if (hits.size() == 0) return;
+                if (hits.size() == 0) {
+                    return;
+                }
 
                 JdbcUtilities.runSelectQuery("reading cached values",
                         "SELECT general_cache_id, general_elapsed_time, images_mainmap_width, images_mainmap_height, layers, layers_switch_id, bbox_minx, bbox_miny, bbox_maxx, bbox_maxy, location_scale, query_results_count, query_results_table_count FROM " + tableName + " WHERE general_cache_id IS NOT NULL",

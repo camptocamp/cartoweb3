@@ -164,7 +164,9 @@ public class SimpleClassifier extends Classifier<long[]> {
         StringBuilder query = new StringBuilder();
         for (int j = 0; j < results.length; ++j) {
             Result result = results[j];
-            if (j > 0) query.append(',');
+            if (j > 0) {
+                query.append(',');
+            }
             query.append(result.getType()).append(" bigint");
         }
         return query.toString();

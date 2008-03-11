@@ -195,7 +195,7 @@ public class GridClassifier extends Classifier<long[][][]> {
                         curValues.put(dimensions, cur);
                     }
                     for (int i = 0; i < results.length; ++i) {
-                        long[] curResult = (long[]) rs.getArray(++pos).getArray();
+                        Long[] curResult = (Long[]) rs.getArray(++pos).getArray();
                         int cpt = 0;
                         for (int j = 0; j < cur.length; ++j) {
                             long[][] line = cur[j];
@@ -218,7 +218,6 @@ public class GridClassifier extends Classifier<long[][][]> {
             grid[i] = new long[nbY][];
             for (int j = 0; j < grid[i].length; ++j) {
                 grid[i][j] = new long[nbResults];
-
             }
         }
         return grid;
@@ -240,7 +239,9 @@ public class GridClassifier extends Classifier<long[][][]> {
         StringBuilder query = new StringBuilder();
         for (int j = 0; j < results.length; ++j) {
             Result result = results[j];
-            if (j > 0) query.append(',');
+            if (j > 0) {
+                query.append(',');
+            }
             query.append(result.getType()).append(" bigint[]");
         }
         return query.toString();

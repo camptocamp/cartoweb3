@@ -5,11 +5,11 @@
   <groupId>org.cartoweb</groupId>
   <artifactId>stats</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <name>CartoWeb's stats</name>
   <description>Statistic analysis tools for CartoWeb.
   </description>
-  <!--<url>http://www.thus.ch/~patrick/projects/pvalsecc</url>-->
+  <url>http://www.cartoweb.org/</url>
 
   <build>
     <plugins>
@@ -49,15 +49,15 @@
   </build>
 
   <scm>
-    <!--<connection>
-      scm:svn:https://project.camptocamp.com/svn/sitn_stats/trunk/sitn_stats2/java
-    </connection>-->
+    <connection>
+      scm:cvs:pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public:cartoweb3/scripts/stats
+    </connection>
     <developerConnection>
-      scm:svn:https://project.camptocamp.com/svn/sitn_stats/trunk/sitn_stats2/java
+      scm:cvs:pserver:dev.camptocamp.com:/var/lib/cvs/public:cartoweb3/scripts/stats
     </developerConnection>
     <tag>HEAD</tag>
-    <url>https://project.camptocamp.com/svn/sitn_stats/trunk/sitn_stats2/java
-    </url>
+    <!--<url>https://project.camptocamp.com/svn/sitn_stats/trunk/sitn_stats2/java
+    </url>-->
   </scm>
 
   <licenses>
@@ -109,7 +109,7 @@
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>8.2-507.jdbc3</version>
+      <version>8.3-603.jdbc3</version>
     </dependency>
     <dependency>
       <groupId>ch.thus</groupId>

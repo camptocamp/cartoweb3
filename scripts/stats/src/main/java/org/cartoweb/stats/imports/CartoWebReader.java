@@ -100,7 +100,9 @@ public class CartoWebReader extends StatsReader {
         result.setGeneralCacheHit(fields.get("general.cache_hit"));
 
         String layers = fields.get("layers.visible_layers");
-        if (layers == null) layers = fields.get("layers.layers");
+        if (layers == null) {
+            layers = fields.get("layers.layers");
+        }
         fillLayers(result, layers, generalMapid);
 
         result.setLocationScale(getFloat(fields, "location.scale"));

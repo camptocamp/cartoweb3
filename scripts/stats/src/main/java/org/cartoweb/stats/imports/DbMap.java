@@ -41,7 +41,9 @@ public class DbMap extends BaseDbMap {
     }
 
     public Integer get(String text) {
-        if (text == null) return null;
+        if (text == null) {
+            return null;
+        }
 
         Info result = values.get(text);
         if (result == null) {
