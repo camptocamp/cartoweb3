@@ -30,7 +30,7 @@ public class WmsReaderTest extends BaseTestCase {
     public void testSimple() {
         SideTables sideTables = new SideTables("test");
         StatsReader reader = new WmsReader(sideTables, true, "GET /([^/]+)/wms\\?");
-        StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /ogc-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=388.235294118&Layers=cn100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
+        StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
 
         Timestamp time = createTimestamp(2, 2007, 4, 13, 23, 46, 30, 0);
         assertEquals("148.196.1.37", record.getGeneralIp());

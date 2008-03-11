@@ -76,7 +76,7 @@ public class CartoWebReader extends StatsReader {
         result.setGeneralBrowserInfo(sideTables.browserInfo.get(fields.get("general.browser_info")));
 
         result.setExportpdfFormat(sideTables.exportPdfFormat.get(fields.get("exportpdf.format"), generalMapid));
-        result.setLayersSwitchId(sideTables.layerSwitch.get(fields.get("layers.switch_id"), generalMapid));
+        result.setLayersSwitchId(sideTables.layerSwitch.get(toLowerCase(fields.get("layers.switch_id")), generalMapid));
         result.setGeneralIp(fields.get("general.ip"));
         result.setGeneralMapid(generalMapid);
 
@@ -91,7 +91,7 @@ public class CartoWebReader extends StatsReader {
         result.setQueryResultsTableCount(fields.get("query.results_table_count"));
         result.setGeneralRequestId(fields.get("general.request_id"));
         result.setGeneralDirectAccess("1".equals(fields.get("general.direct_access")));
-        result.setGeneralSecurityUser(sideTables.user.get(fields.get("general.security_user"), generalMapid));
+        result.setGeneralSecurityUser(sideTables.user.get(toLowerCase(fields.get("general.security_user")), generalMapid));
         result.setGeneralCacheId(fields.get("general.cache_id"));
         result.setGeneralElapsedTime(getFloat(fields, "general.elapsed_time"));
         result.setGeneralExportPlugin(sideTables.exportPlugin.get(fields.get("general.export_plugin")));
@@ -121,7 +121,7 @@ public class CartoWebReader extends StatsReader {
     }
 
     private String convertGeneralMapId(String value) {
-        return value.substring(0, value.indexOf("."));
+        return value.substring(0, value.indexOf(".")).toLowerCase();
     }
 
     private Timestamp getTimestamp(Map<String, String> fields) {

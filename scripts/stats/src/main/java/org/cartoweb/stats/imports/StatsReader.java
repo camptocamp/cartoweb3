@@ -92,6 +92,7 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
     protected void fillLayers(StatsRecord result, String value, int generalMapid) {
         String layersTxt = null;
         List<Integer> layerList = null;
+        value = toLowerCase(value);
         if (value != null && value.length() != 0) {
             StringBuilder result11 = new StringBuilder();
             int curBegin = 0;
@@ -118,6 +119,10 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
 
         result.setLayers(layersTxt);
         result.setLayerArray(layerList);
+    }
+
+    protected String toLowerCase(String value) {
+        return value != null ? value.toLowerCase() : null;
     }
 
     protected void fillBbox(StatsRecord result, String bbox) {

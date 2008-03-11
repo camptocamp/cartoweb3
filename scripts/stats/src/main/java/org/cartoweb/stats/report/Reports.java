@@ -119,17 +119,17 @@ public class Reports extends BaseStats {
                 if (type.equalsIgnoreCase("scale")) {
                     filterList.add(new DoubleRangeFilter("location_scale", cur.getValue(), type));
                 } else if (type.equalsIgnoreCase("project")) {
-                    filterList.add(new IdSetFilter(con, tableName, "general_mapid", cur.getValue(), type));
+                    filterList.add(new IdSetFilter(con, tableName, "general_mapid", cur.getValue().toLowerCase(), type));
                 } else if (type.equalsIgnoreCase("layer")) {
-                    filterList.add(new LayerFilter(con, tableName, cur.getValue()));
+                    filterList.add(new LayerFilter(con, tableName, cur.getValue().toLowerCase()));
                 } else if (type.equalsIgnoreCase("width")) {
                     filterList.add(new IntegerRangeFilter("images_mainmap_width", cur.getValue(), type));
                 } else if (type.equalsIgnoreCase("height")) {
                     filterList.add(new IntegerRangeFilter("images_mainmap_height", cur.getValue(), type));
                 } else if (type.equalsIgnoreCase("theme")) {
-                    filterList.add(new IdSetFilter(con, tableName, "layers_switch_id", cur.getValue(), type));
+                    filterList.add(new IdSetFilter(con, tableName, "layers_switch_id", cur.getValue().toLowerCase(), type));
                 } else if (type.equalsIgnoreCase("user")) {
-                    filterList.add(new IdSetFilter(con, tableName, "general_security_user", cur.getValue(), type));
+                    filterList.add(new IdSetFilter(con, tableName, "general_security_user", cur.getValue().toLowerCase(), type));
                 } else if (type.equalsIgnoreCase("pdfFormat")) {
                     filterList.add(new IdSetFilter(con, tableName, "exportpdf_format", cur.getValue(), type));
                 } else if (type.equalsIgnoreCase("pdfRes")) {

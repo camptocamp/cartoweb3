@@ -109,10 +109,10 @@ public class WmsReader extends StatsReader {
 
     private StatsRecord createRecord(String address, String user, String time, String mapId, Map<String, String> fields) {
         StatsRecord result = new StatsRecord();
-        int generalMapId = sideTables.generalMapId.get(mapId);
+        int generalMapId = sideTables.generalMapId.get(toLowerCase(mapId));
         result.setGeneralMapid(generalMapId);
         result.setGeneralIp(address);
-        result.setGeneralSecurityUser(sideTables.user.get(user.equals("-") ? null : user, generalMapId));
+        result.setGeneralSecurityUser(sideTables.user.get(user.equals("-") ? null : toLowerCase(user), generalMapId));
         result.setGeneralTime(parseTime(time));
         fillLayers(result, fields.get("layers"), generalMapId);
         fillBbox(result, fields.get("bbox"));
