@@ -101,15 +101,34 @@ abstract class StatsField {
     }
 }
 
-abstract class StatsProjectField {
-        
+abstract class StatsProjectField extends StatsField {
+
+    // FIXME: Find a way to select options from selected project(s)        
     protected function getOptionsSql($project = NULL) {
 
-        if (is_null($project)) {
+        return 'SELECT d.id AS id, d.descr AS dim, p.descr AS project FROM '
+               . $this->getDbTable() . ' d, stats_general_mapid p ' .
+               'WHERE d.general_mapid = p.id ORDER BY d.descr, p.descr';        
+
+/*        if (is_null($project)) {
             return parent::getOptionsSql();
         }
         return 'SELECT id, descr FROM ' . $this->getDbTable() . 
-               ' WHERE general_mapid = ' . $project . ' ORDER BY descr';        
+               ' WHERE general_mapid = ' . $project . ' ORDER BY descr'; */                       
+    }
+
+    public function getOptions($project = NULL) {
+
+        $db = $this->plugin->getCurrentDb();
+        $dbResult = $db->query($this->getOptionsSql());
+        
+        Utils::checkDbError($dbResult, 'Failed querying ' . $this->getDbTable());
+
+        $options = array();
+        while ($dbResult->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+            $options[$row['id']] = $row['dim'] . ' (' . $row['project']. ')';
+        }
+        return $options;
     }
 }
 
@@ -208,16 +227,25 @@ class ProjectStatsField extends StatsField {
     }
 }
 
-class MapsizeStatsField extends ProjectStatsField {
+class WidthStatsField extends StatsProjectField {
     
-    protected $id = 'mapsize';
+    protected $id = 'width';
     
     public function getDbField() {
-        return 'map_size';
+        return 'images_mainmap_width';
     }
 }
 
-class ThemeStatsField extends ProjectStatsField {
+class HeightStatsField extends StatsProjectField {
+    
+    protected $id = 'height';
+    
+    public function getDbField() {
+        return 'images_mainmap_height';
+    }
+}
+
+class ThemeStatsField extends StatsProjectField {
     
     protected $id = 'theme';
 
@@ -226,17 +254,16 @@ class ThemeStatsField extends ProjectStatsField {
     }
 }
 
-class LayerStatsField extends ProjectStatsField { 
+class LayerStatsField extends StatsProjectField { 
 
     protected $id = 'layer';
 
     public function getDbField() {
         return 'layer';
     }
-    // TODO    
 }
 
-class ScaleStatsField extends ProjectStatsField { 
+class ScaleStatsField extends StatsProjectField { 
 
     protected $id = 'scale';
 
@@ -264,27 +291,25 @@ class ScaleStatsField extends ProjectStatsField {
     }
 }
 
-class PdfFormatStatsField extends ProjectStatsField { 
+class PdfFormatStatsField extends StatsProjectField { 
 
     protected $id = 'pdfFormat';
 
     public function getDbField() {
         return 'exportpdf_format';
     }
-    // TODO 
 }
 
-class PdfResStatsField extends ProjectStatsField { 
+class PdfResStatsField extends StatsProjectField { 
 
     protected $id = 'pdfRes';
 
     public function getDbField() {
         return 'exportpdf_resolution';
     }
-    // TODO 
 }
 
-class UserStatsField extends ProjectStatsField {
+class UserStatsField extends StatsProjectField {
     
     protected $id = 'user';
 
@@ -342,8 +367,8 @@ class ClientStatsReports extends ClientPlugin
 
     // Form values
     protected $dimensions = array('time', 'project',
-                                  'mapsize', 'theme',
-                                  'layer', 'scale',
+                                  'width', 'height',
+                                  'theme', 'layer', 'scale',
                                   'user', 'pdfFormat',
                                   'pdfRes', 'value');
     
@@ -359,7 +384,8 @@ class ClientStatsReports extends ClientPlugin
     protected $time;
     
     protected $project;
-    protected $mapsize;
+    protected $width;
+    protected $height;
     protected $theme;
     protected $layer;
     protected $scale;
@@ -628,7 +654,7 @@ class ClientStatsReports extends ClientPlugin
         $prefix = $this->datas[$this->data]->prefix;
 
         // TODO: Look for labels
-        $sql = 'SELECT name, config FROM ' . $prefix . '_reports ORDER BY name';        
+        $sql = 'SELECT name, config, label FROM ' . $prefix . '_reports ORDER BY name';        
         $dbResult = $db->query($sql);
         
         Utils::checkDbError($dbResult, 'Failed querying ' . $prefix . '_reports');
@@ -638,7 +664,7 @@ class ClientStatsReports extends ClientPlugin
             
             $report = new stdClass();
             $report->name = $row['name'];
-            $report->label = $row['name']; // FIXME
+            $report->label = $row['label'];
             
             $lines = explode("\n", $row['config']);
             $options = array();
@@ -865,7 +891,7 @@ class ClientStatsReports extends ClientPlugin
             }
         }
         $where = implode(' AND ', $wheres);
-        
+   
         $groupBy = '';
         if ($this->line != 'value') {
             $groupBy .= $this->getDbField($this->line);
