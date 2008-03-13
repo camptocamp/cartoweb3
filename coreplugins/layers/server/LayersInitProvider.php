@@ -311,10 +311,13 @@ class LayersInitProvider implements InitProvider {
         if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
         else $layer->maxScale = 0;
         
-        if(!empty($msLayer->transparency)) 
+        // empty(0) returns true but this is a valid transparency. In this case
+        // the layer transparency should not be initialized with 100.
+        if ($msLayer->transparency == 0 || !empty($msLayer->transparency)) {
             $layer->transparency = $msLayer->transparency;
-        else
-            $layer->transparency = '100';
+        } else {
+            $layer->transparency = 100;
+        }
         
         if($msLayer->connectiontype == MS_WMS &&
             $msLayer->getMetadata('wms_legend_graphic'))
