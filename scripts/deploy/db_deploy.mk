@@ -30,12 +30,14 @@ SQL_FILE=$(SQL_PATH)$(DB).sql.gz
 launch_tunnel:
 	@$(call launch_tunnel,$(TARGET_HOST),20005)
 
+CREATEDB=createdb $(CREATEDB_OPTS)
+
 pre_deploy_db: check_user launch_tunnel sync_misc
 	if $(DB_OPTS_TARGET) psql -l|grep -q "\W$(DB_TMP)\W" ; then \
 		read -p "Error: database $(DB_TMP) is on the way. Press <ctrl-c> to stop, or enter to remove it"; \
 		$(DB_OPTS_TARGET) dropdb $(DB_TMP); \
 	fi
-	$(DB_OPTS_TARGET) createdb $(DB_TMP)
+	$(DB_OPTS_TARGET) $(CREATEDB) $(DB_TMP)
 	$(DB_OPTS) pg_dump $(DB) |gzip --fast > $(SQL_FILE)
 	scp $(SQL_FILE) $(TARGET_HOST):$(SQL_PATH)
 	ssh $(TARGET_HOST) $(MAKE) -C $(TOPSRCDIR) fill_db_tmp DB=$(DB)
@@ -93,7 +95,7 @@ undeploy_db: check_user launch_tunnel
 	if $(DB_OPTS) psql -l|grep -q "\W$(DB)\W" ; then \
 		$(DB_OPTS) dropdb $(DB); \
 	fi
-	$(DB_OPTS) createdb $(DB); \
+	$(DB_OPTS) $(CREATEDB) $(DB); \
 	$(DB_OPTS_TARGET) pg_dump $(DB) | $(DB_OPTS) psql $(DB)
 
 TABLE_WORDS := $(subst ., ,$(DEPLOY_TABLE))
