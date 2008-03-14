@@ -243,9 +243,10 @@ class ClientExportDxf extends ExportPlugin
          if ($filename && preg_match('/^(.*)\[date,(.*)\](.*)$/',
                                      $filename, $regs)) {
              $filename = $regs[1] . date($regs[2]) . $regs[3];
-         } else {
-             $filename = 'cartoweb_outline.dxf';
-         }
+         } 
+
+         if (empty($filename)) $filename = 'cartoweb_outline.dxf';
+
          return $filename;
      }
 }
