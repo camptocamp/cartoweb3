@@ -51,7 +51,7 @@ public class LayerFilter implements Filter {
     private void addLayers(Connection con, String tableName, final String cur) throws SQLException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT id FROM ").append(tableName).append("_layer WHERE descr LIKE ?");
-        int nbBefore = ids.size();
+        final int[] nbAdded = new int[]{0};
         JdbcUtilities.runSelectQuery("Reading layers matching " + cur, query.toString(), con, new JdbcUtilities.SelectTask() {
             public void setupStatement(PreparedStatement stmt) throws SQLException {
                 stmt.setString(1, cur.replace('*', '%'));
@@ -60,10 +60,11 @@ public class LayerFilter implements Filter {
             public void run(ResultSet rs) throws SQLException {
                 while (rs.next()) {
                     ids.add(Integer.toString(rs.getInt(1)));
+                    nbAdded[0]++;
                 }
             }
         });
-        if (nbBefore == ids.size()) {
+        if (nbAdded[0] == 0) {
             throw new RuntimeException("No layer found matching '" + cur + "'");
         }
     }
