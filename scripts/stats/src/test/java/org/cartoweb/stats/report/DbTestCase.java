@@ -91,6 +91,7 @@ public abstract class DbTestCase extends BaseTestCase {
 
     private void cleanDB() throws SQLException {
         Utils.dropTable(con, TABLE_NAME + "_reports", true);
+        Utils.dropTable(con, TABLE_NAME + "_dimensions", true);
     }
 
     private Connection getConnection() throws ClassNotFoundException, SQLException {
