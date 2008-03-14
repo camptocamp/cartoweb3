@@ -29,6 +29,7 @@ abstract class StatsField {
     
     protected $plugin;
     protected $id;
+    protected $onchange = false;
 
     public function __construct($plugin) {
         $this->plugin = $plugin;
@@ -43,13 +44,18 @@ abstract class StatsField {
     
     protected function getOptionsSql($project = NULL) {
         
-        return 'SELECT id, descr FROM ' . $this->getDbTable() . ' ORDER BY descr';        
+        return 'SELECT t.id, t.descr FROM ' . $this->getDbTable() .
+               ' AS t , ' . $this->plugin->getCurrentPrefix() .
+               '_dimensions AS d WHERE d.report_name = \'' .
+               $this->plugin->getCurrentReport()->name .
+               '\' AND d.field_name = \'' .
+               $this->getDbField() . '\' AND d.id = t.id ORDER BY t.descr';        
     }
     
     public function getOptions($project = NULL) {
 
         $db = $this->plugin->getCurrentDb();
-        $dbResult = $db->query($this->getOptionsSql());
+        $dbResult = $db->query($this->getOptionsSql($project));
         
         Utils::checkDbError($dbResult, 'Failed querying ' . $this->getDbTable());
 
@@ -65,7 +71,8 @@ abstract class StatsField {
         $smarty = new Smarty_Plugin($this->plugin->getCartoclient(), $this->plugin);
         $smarty->assign(array('stats_options'  => $this->getOptions($project),
                               'stats_id'       => $this->id,
-                              'stats_label'    => I18n::gt(ucfirst($this->id))));
+                              'stats_label'    => I18n::gt(ucfirst($this->id)),
+                              'stats_onchange' => $this->onchange));
 
         $field = $this->plugin->getField($this->id);            
 
@@ -103,24 +110,32 @@ abstract class StatsField {
 
 abstract class StatsProjectField extends StatsField {
 
-    // FIXME: Find a way to select options from selected project(s)        
     protected function getOptionsSql($project = NULL) {
 
-        return 'SELECT d.id AS id, d.descr AS dim, p.descr AS project FROM '
-               . $this->getDbTable() . ' d, stats_general_mapid p ' .
-               'WHERE d.general_mapid = p.id ORDER BY d.descr, p.descr';        
-
-/*        if (is_null($project)) {
-            return parent::getOptionsSql();
+        $projects = '1=1';
+        if (!is_null($project)) {
+        	
+            $projects = '1=0';
+            if (is_array($project) && count($project) > 0) {
+            	
+                $projects = 'p.id IN (\'' . implode('\'', $project) . '\')';
+            }
         }
-        return 'SELECT id, descr FROM ' . $this->getDbTable() . 
-               ' WHERE general_mapid = ' . $project . ' ORDER BY descr'; */                       
+
+        return 'SELECT t.id AS id, t.descr AS dim, p.descr AS project FROM ' . $this->getDbTable() .
+               ' AS t , ' . $this->plugin->getCurrentPrefix() .
+               '_dimensions AS d, ' . $this->plugin->getCurrentPrefix() .
+               '_general_mapid AS p WHERE d.report_name = \'' .
+               $this->plugin->getCurrentReport()->name .
+               '\' AND d.field_name = \'' .
+               $this->getDbField() . '\' AND d.id = t.id AND t.general_mapid = p.id AND ' .
+               $projects . ' ORDER BY t.descr';                
     }
 
     public function getOptions($project = NULL) {
 
         $db = $this->plugin->getCurrentDb();
-        $dbResult = $db->query($this->getOptionsSql());
+        $dbResult = $db->query($this->getOptionsSql($project));
         
         Utils::checkDbError($dbResult, 'Failed querying ' . $this->getDbTable());
 
@@ -221,6 +236,7 @@ class TimeStatsField extends StatsField {
 class ProjectStatsField extends StatsField {
     
     protected $id = 'project';
+    protected $onchange = true;
     
     public function getDbField() {
         return 'general_mapid';
@@ -802,7 +818,7 @@ class ClientStatsReports extends ClientPlugin
             
             $class = ucfirst($dimension) . 'StatsField';
             $field = new $class($this);
-            $options .= $field->drawForm();
+            $options .= $field->drawForm($this->project);
         }
         
         if ($this->display == 'table' ||
