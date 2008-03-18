@@ -49,8 +49,8 @@ public class CartoWebReaderTest extends BaseTestCase {
         assertEquals(209645.83, record.getBboxMaxy());
 
         assertEquals(50000.0F, record.getLocationScale());
-        assertEquals(Integer.valueOf(600), record.getImagesMainmapWidth());
-        assertEquals(Integer.valueOf(400), record.getImagesMainmapHeight());
+        assertEquals(sideTables.imagesMainmapWidth.get("600", mapId), record.getImagesMainmapWidth());
+        assertEquals(sideTables.imagesMainmapHeight.get("400", mapId), record.getImagesMainmapHeight());
 
         Integer layerCom = sideTables.layer.get("communes_interrogation", mapId);
         Integer layerCan = sideTables.layer.get("cantons_interrogation", mapId);

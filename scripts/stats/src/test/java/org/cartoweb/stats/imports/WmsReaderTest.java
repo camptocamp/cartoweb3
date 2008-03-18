@@ -44,8 +44,8 @@ public class WmsReaderTest extends BaseTestCase {
         assertEquals(564900.0, record.getBboxMaxx());
         assertEquals(207300.0, record.getBboxMaxy());
 
-        assertEquals(Integer.valueOf(600), record.getImagesMainmapWidth());
-        assertEquals(Integer.valueOf(388), record.getImagesMainmapHeight());
+        assertEquals(sideTables.imagesMainmapWidth.get("600",mapId), record.getImagesMainmapWidth());
+        assertEquals(sideTables.imagesMainmapHeight.get("388", mapId), record.getImagesMainmapHeight());
 
         Integer layerCn100 = sideTables.layer.get("cn100", mapId);
         Integer layerToto = sideTables.layer.get("to=té", mapId);
