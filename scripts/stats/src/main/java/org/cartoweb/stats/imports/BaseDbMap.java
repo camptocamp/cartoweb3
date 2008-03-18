@@ -50,11 +50,18 @@ public abstract class BaseDbMap {
 
     public abstract void save(Connection con) throws SQLException;
 
-    public void createIndexes(Connection con, String statsTableName) throws SQLException {
+    public void createForeignKeys(Connection con, String statsTableName) throws SQLException {
         if (foreignKey) {
             JdbcUtilities.runDeleteQuery("creating the foreign key for " + tableName,
                     "ALTER TABLE " + statsTableName + " ADD CONSTRAINT fk_" + tableName +
                             " FOREIGN KEY (" + columnName + ") REFERENCES " + tableName + " (id)", con, null);
+        }
+    }
+
+    public void dropForeignKeys(Connection con, String statsTableName) throws SQLException {
+        if (foreignKey) {
+            JdbcUtilities.runDeleteQuery("creating the foreign key for " + tableName,
+                    "ALTER TABLE " + statsTableName + " DROP CONSTRAINT fk_" + tableName, con, null);
         }
     }
 

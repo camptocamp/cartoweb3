@@ -121,7 +121,7 @@ public class Import extends BaseStats {
 
             public void run(ResultSet rs) throws SQLException {
                 while (rs.next()) {
-                    curId = rs.getLong(1);
+                    curId = rs.getLong(1) + 1;
                 }
             }
         });
@@ -137,6 +137,7 @@ public class Import extends BaseStats {
         } else {
             findLastId(con);
             sideTables.load(con);
+            sideTables.dropForeignKeys(con, tableName);
         }
 
         List<File> files = getFiles(new File(logDir));
@@ -158,6 +159,9 @@ public class Import extends BaseStats {
         LOGGER.info("Time to import " + files.size() + " files: " + UnitUtilities.toElapsedTime(System.currentTimeMillis() - startTime));
         if (initialize) {
             createIndexes(con);
+        } else {
+            Progress progressI = new Progress(10 * 1000, sideTables.size(), "Foreign key creation", LOGGER);
+            sideTables.createForeignKeys(con, progressI, 0, tableName);
         }
         fillCacheHits(con);
         vacuum(con);
@@ -329,8 +333,7 @@ public class Import extends BaseStats {
                         MAPPER.saveToDb(stmt, item, 1);
 
                         if (wantLayers && item.getLayerArray() != null) {
-                            for (int i = 0; i < item.getLayerArray().size(); i++)
-                            {
+                            for (int i = 0; i < item.getLayerArray().size(); i++) {
                                 Integer val = item.getLayerArray().get(i);
                                 layerStmt.setLong(1, item.getId());
                                 layerStmt.setInt(2, val);
@@ -409,7 +412,7 @@ public class Import extends BaseStats {
             JdbcUtilities.runDeleteQuery("indexing general_cache_hit", "CREATE INDEX i_" + tableName + "_general_cache_hit ON " + tableName + " (general_cache_hit)", con, null);
         }
         progress.update(6);
-        sideTables.createIndexes(con, progress, tableName);
+        sideTables.createForeignKeys(con, progress, 7, tableName);
         con.commit();
         LOGGER.info("Indexes created");
     }
@@ -499,7 +502,7 @@ public class Import extends BaseStats {
         LOGGER.info("Doing full vacuum.");
         JdbcUtilities.runDeleteQuery("vacuuming " + tableName, "VACUUM FULL ANALYZE " + tableName, con, null);
         sideTables.vacuum(con);
-        LOGGER.info("Vaacum done.");
+        LOGGER.info("Vacuum done.");
     }
 
     public SideTables getSideTables() {

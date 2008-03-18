@@ -108,11 +108,18 @@ public class SideTables {
         return sideTables.length;
     }
 
-    public void createIndexes(Connection con, Progress progress, String tableName) throws SQLException {
+    public void createForeignKeys(Connection con, Progress progress, int initialProgress, String tableName) throws SQLException {
         for (int i = 0; i < sideTables.length; ++i) {
             BaseDbMap sideTable = sideTables[i];
-            sideTable.createIndexes(con, tableName);
-            progress.update(7 + i);
+            sideTable.createForeignKeys(con, tableName);
+            progress.update(initialProgress + i);
+        }
+    }
+
+    public void dropForeignKeys(Connection con, String tableName) throws SQLException {
+        for (int i = 0; i < sideTables.length; ++i) {
+            BaseDbMap sideTable = sideTables[i];
+            sideTable.dropForeignKeys(con, tableName);
         }
     }
 
