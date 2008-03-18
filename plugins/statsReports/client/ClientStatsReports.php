@@ -114,10 +114,10 @@ abstract class StatsProjectField extends StatsField {
 
         $projects = '1=1';
         if (!is_null($project)) {
-        	
+            
             $projects = '1=0';
             if (is_array($project) && count($project) > 0) {
-            	
+                
                 $projects = 'p.id IN (\'' . implode('\',\'', $project) . '\')';
             }
         }
