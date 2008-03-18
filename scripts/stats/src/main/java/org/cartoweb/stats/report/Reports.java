@@ -261,9 +261,13 @@ public class Reports extends BaseStats {
         Connection con = getConnection();
         lastRecordDate = getLastRecordDate(con);
 
-        checkDB(con);
-        parseIniFile(con);
-        generate(con);
+        if (lastRecordDate != null) {
+            checkDB(con);
+            parseIniFile(con);
+            generate(con);
+        } else {
+            LOGGER.warn("No data found in " + tableName);
+        }
     }
 
     private void checkDB(Connection con) throws SQLException {

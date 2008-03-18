@@ -82,14 +82,8 @@ public class CartoWebReader extends StatsReader {
 
         final Integer height = getInt(fields, "images.mainmap.height");
         final Integer width = getInt(fields, "images.mainmap.width");
-        result.setImagesMainmapHeight(height);
-        result.setImagesMainmapWidth(width);
-        if (height != null) {
-            sideTables.imagesMainmapHeight.get(Integer.toString(height), generalMapid);
-        }
-        if (width != null) {
-            sideTables.imagesMainmapWidth.get(Integer.toString(width), generalMapid);
-        }
+        result.setImagesMainmapHeight(sideTables.imagesMainmapHeight.get(height != null ? Integer.toString(height) : null, generalMapid));
+        result.setImagesMainmapWidth(sideTables.imagesMainmapWidth.get(width != null ? Integer.toString(width) : null, generalMapid));
 
         result.setQueryResultsTableCount(fields.get("query.results_table_count"));
         result.setGeneralRequestId(fields.get("general.request_id"));
@@ -110,14 +104,11 @@ public class CartoWebReader extends StatsReader {
 
         result.setLocationScale(getFloat(fields, "location.scale"));
         result.setGeneralSessid(sideTables.session.get(fields.get("general.sessid")));
-
-        final Integer pdfRes = getInt(fields, "exportpdf.resolution");
-        result.setExportpdfResolution(pdfRes);
-        if (pdfRes != null) {
-            sideTables.exportPdfRes.get(Integer.toString(pdfRes), generalMapid);
-        }
-
         result.setGeneralTime(getTimestamp(fields));
+
+        final Integer exportPdf = getInt(fields, "exportpdf.resolution");
+        result.setExportpdfResolution(sideTables.exportPdfRes.get(exportPdf != null ? Integer.toString(exportPdf) : null, generalMapid));
+
         final String bbox = fields.get("location.bbox");
         fillBbox(result, bbox);
         return result;
