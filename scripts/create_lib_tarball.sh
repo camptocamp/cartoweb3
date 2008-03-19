@@ -33,7 +33,7 @@ PEAR_PACKAGES_DEVEL="PhpDocumentor"
 
 
 LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
-SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.18.tar.gz"
+SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.19.tar.gz"
 FPDF="http://www.fpdf.org/fr/dl.php?v=153&f=tgz"
 THEMAMAP="http://cartoweb.org/downloads/themamap/themamap-0.41.tar.gz" 
 
