@@ -17,7 +17,7 @@
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
   {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
-  {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=linkIt}linkIt.css{/r}" />{/if}
+  {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}
 
   <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
   

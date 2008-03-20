@@ -22,7 +22,10 @@
         You also need to add the plugin output variable <parameter>{$linkIt}</parameter> into the project main template <filename>templates/cartoclient.tpl</filename> (see upstream template for instance). It is recommended to add it outside of the main &cartoweb; &lt;form&gt; tag since the generated HTML may contain an additional &lt;form&gt; tag. Use CSS to place the result box.
       </para>
       <para>
-        Ajax is used to generate and display the resulting URL, using the Prototype Javascript Framework. If your &cartoweb; does not run in the <parameter>ajaxOn</parameter> mode, you need to add the Prototype file in the main template <filename>templates/cartoclient.tpl</filename>. To do so add the following HTML code within the &lt;head&gt; tag: <programlisting>{if $linkIt|default:'' &amp;&amp; !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}</programlisting>.
+        Ajax is used to generate and display the resulting URL, using the Prototype Javascript Framework. If your &cartoweb; does not run in the <parameter>ajaxOn</parameter> mode, you need to add the Prototype file in the main template <filename>templates/cartoclient.tpl</filename>. To do so add the following HTML code within the &lt;head&gt; tag: <programlisting><![CDATA[{if $linkIt|default:'' && !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}]]></programlisting>.
+      </para>
+      <para>Also add the CSS file inclusion in <filename>templates/cartoclient.tpl</filename>:
+      <programlisting><![CDATA[{if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}]]></programlisting>
       </para>
   </sect1>
   <sect1 id="user.linkIt.config">
