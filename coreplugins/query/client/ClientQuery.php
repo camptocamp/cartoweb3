@@ -278,7 +278,12 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         $queryMaskMode = $this->getHttpValue($request, 'query_maskmode');    
         $queryHilight  = $this->getHttpValue($request, 'query_hilight');    
         $queryRetAttr  = $this->getHttpValue($request, 'query_return_attributes'); 
-        $queryRetTable = $this->getHttpValue($request, 'query_return_table');    
+        
+        // if attributes are required, then table must be displayed
+        $queryRetTable = !empty($queryRetAttr) ? true :
+                         $this->getHttpValue($request, 'query_return_table');    
+        
+        $queryBlocks   = $this->getHttpValue($request, 'query_blocks');
     
         $queryLayers = array();
         $queryLayersLabel = array();
@@ -300,41 +305,66 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                 return;
         }            
     
-        if (is_null($queryLayer)) {
+        if (is_null($queryLayer) && is_null($queryBlocks)) {
             $this->queryState->queryAllLayers = true;
         } else {
         
-            // Query on only one layer
-            $this->queryState->queryAllLayers = false; 
-        
-            // Finds out if layer has been already queried            
-            $querySelection = $this->findQuerySelection($queryLayer);
-            if (is_null($querySelection)) {
-                $querySelection = $this->addDefaultQuerySelection($queryLayer);
-            }
-                       
-            if (!is_null($querySelect)) {                
-                $selectIds = urldecode($querySelect);
-                $selectIds = explode(',', $selectIds);            
-                $querySelection->selectedIds = array_merge(
-                    $querySelection->selectedIds, $selectIds);
-                $querySelection->selectedIds = array_unique(
-                    $querySelection->selectedIds);
-            }
-        
-            if (!is_null($queryUnSelect)) {
-                $unselectIds = urldecode($queryUnSelect);
-                $unselectIds = explode(',', $unselectIds);
-                $querySelection->selectedIds = array_diff(
-                    $querySelection->selectedIds, $unselectIds);
+            $queries = array();
+            if (!empty($queryBlocks)) {
+                if (!is_array($queryBlocks)) return;
+
+                foreach($queryBlocks as $layerId => $select) {
+                    if (empty($layerId) || empty($select)) continue;
+                    $queries[$layerId] = array('select'   => $select,
+                                               'unselect' => NULL);;
+                }
+
+                if (empty($queries)) return;
+
+                $queryPolicy = self::DEFAULT_POLICY;
+                $this->queryState->queryAllLayers = true;
+            
+            } else {
+                // Query only on some layers
+                $this->queryState->queryAllLayers = false; 
+                $queries[$queryLayer] = array('select'   => $querySelect,
+                                              'unselect' => $queryUnSelect);
             }
             
-            $querySelection->policy = $queryPolicy;
-            $querySelection->maskMode = (bool)$queryMaskMode;
-            $querySelection->hilight = (bool)$queryHilight;
-            $querySelection->tableFlags = new TableFlags();
-            $querySelection->tableFlags->returnAttributes = $queryRetAttr;
-            $querySelection->tableFlags->returnTable = $queryRetTable;
+
+            foreach($queries as $layerId => $query) {
+
+                // Finds out if layer has been already queried            
+                $querySelection = $this->findQuerySelection($layerId);
+                if (is_null($querySelection)) {
+                    $querySelection = $this->addDefaultQuerySelection($layerId);
+                }
+
+                $select = $query['select'];
+                if (!empty($select)) {                
+                    $selectIds = urldecode($select);
+                    $selectIds = explode(',', $selectIds);            
+                    $querySelection->selectedIds = array_merge(
+                        $querySelection->selectedIds, $selectIds);
+                    $querySelection->selectedIds = array_unique(
+                        $querySelection->selectedIds);
+                }
+            
+                $unselect = $query['unselect'];
+                if (!empty($unselect)) {
+                    $unselectIds = urldecode($unselect);
+                    $unselectIds = explode(',', $unselectIds);
+                    $querySelection->selectedIds = array_diff(
+                        $querySelection->selectedIds, $unselectIds);
+                }
+                
+                $querySelection->policy = $queryPolicy;
+                $querySelection->maskMode = (bool)$queryMaskMode;
+                $querySelection->hilight = (bool)$queryHilight;
+                $querySelection->tableFlags = new TableFlags();
+                $querySelection->tableFlags->returnAttributes = $queryRetAttr;
+                $querySelection->tableFlags->returnTable = $queryRetTable;
+            }
         }
     }
     

@@ -1249,6 +1249,9 @@ msgstr "Rechteck zeichnen"
 msgid "outline_poly"
 msgstr "Polygon zeichnen"
 
+msgid "outline_circle"
+msgstr "Kreis"
+
 msgid "distance"
 msgstr "Distanz messen"
 
@@ -1263,3 +1266,12 @@ msgstr "Um diese Anwendung zu benutzen brauchen Sie die Cookies zu aktivieren"
 
 msgid "Please enable cookies and reload this page."
 msgstr "Bitte aktivieren Sie die Cookies und laden Sie die Seite wieder."
+
+msgid "linkit"
+msgstr "Get this page URL"
+
+msgid "The current page is available using following URL:"
+msgstr "The current page is available using following URL:"
+
+msgid "URL is too long"
+msgstr "URL is too long"

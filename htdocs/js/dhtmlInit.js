@@ -598,3 +598,12 @@ Map.prototype.adjust_mapsize = function(aDisplay) {
 
     doSubmit();
 }
+
+Map.prototype.linkit = function(aDisplay) {
+    box = xGetElementById('linkItBox');
+    if (box.style.display == 'none') {
+        box.style.display = 'block';
+    } else {
+        box.style.display = 'none';
+    }
+}

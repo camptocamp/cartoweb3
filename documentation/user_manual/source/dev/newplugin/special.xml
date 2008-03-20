@@ -309,6 +309,14 @@
                 default is '0'. If '1', previous query results are purged even 
                 if they were marked as persistent.</para>  
             </listitem>
+            <listitem>
+              <para><parameter>query_blocks</parameter> - an "associative array" parameter used 
+                to select objects from several layers at once. Indexes are layers ids whereas
+                values are ids of objects to query. For instance <parameter>query_blocks[layer1]
+                = 123,345,358&amp;query_blocks[layer2]=4,2345,98</parameter>. When this parameter
+                is used, <parameter>query_select</parameter> and <parameter>query_unselect</parameter>
+                parameters are ignored.</para>
+            </listitem>
           </itemizedlist>
         </listitem>
         <listitem>
@@ -322,6 +330,14 @@
             </listitem>
             <listitem>
               <para><parameter>layer_unselect</parameter> - comma-separated list of layers or layerGroups id's that must be removed from the activated layers list. In some cases, layerGroups children might have to be explicitely listed to actually be removed.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Outline plugin</para>
+          <itemizedlist>
+            <listitem>
+              <para>GET parameters are available to interact with the outline plugin. See <xref linkend="user.annotate.getparam" />.</para>
             </listitem>
           </itemizedlist>
         </listitem>

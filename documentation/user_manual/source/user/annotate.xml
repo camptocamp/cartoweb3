@@ -203,6 +203,14 @@ END]]></programlisting> You will find more examples looking in the test.map
           <screen>http://www.example.com/cartoweb/myproject.php?outline_circle=611748,5232242;50000</screen>
           </para>
         </listitem>
+        <listitem>
+          <para>It is possible to describe several shapes, including of different types:</para>
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_point[]=611748,5232242&amp;outline_point[]=748204,5232242&amp;outline_line=611748,5232242;748204,5232242;748204,5050300;611748,5050300</screen>
+        </listitem>
+        <listitem>
+          <para>Customized labels may be linked to shapes using the following syntax:</para>
+          <screen>http://www.example.com/cartoweb/myproject.php?outline_circle=611748,5232242;50000|some+blue+circle</screen>
+        </listitem>
       </itemizedlist>
       <note>
         <para>If you do not want to have persistent outline, you can add the 

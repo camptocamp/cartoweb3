@@ -40,7 +40,7 @@ var toolbar_rendering = '{$toolbar_rendering}';
           src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
           {if $toolbar_rendering != 'radio'}
           class="toolbar_off" 
-          onclick="mainmap.{$tool->id}('map');setActiveToolButton('{$tool->id}');"
+          onclick="mainmap.{$tool->id}('map');{if !$tool->oneshot}setActiveToolButton('{$tool->id}');{/if}"
           {/if}
           />
       {else}

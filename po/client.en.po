@@ -1249,6 +1249,9 @@ msgstr "Rectangle"
 msgid "outline_poly"
 msgstr "Polygone"
 
+msgid "outline_circle"
+msgstr "Circle"
+
 msgid "distance"
 msgstr "Distance"
 
@@ -1266,3 +1269,12 @@ msgstr "Cookies must be enabled in order to use this application"
 
 msgid "Please enable cookies and reload this page."
 msgstr "Please enable cookies and reload this page."
+
+msgid "linkit"
+msgstr "Get this page URL"
+
+msgid "The current page is available using following URL:"
+msgstr "The current page is available using following URL:"
+
+msgid "URL is too long"
+msgstr "URL is too long"

@@ -8,7 +8,7 @@
   <title>Saving Map Context as an URL <subscript>[plugin] (linkIt)</subscript></title>
     <para>The linkIt plugin displays in &cartoweb; interface a URL that saves the main caracteristics of the current page.
     Saved data are selected layers, layers switch id, recentering info (center and scale), mapsize as well as outlined shapes 
-    and map queries (outline and query: not yet available).
+    and map queries.
     </para>
   <sect1 id="user.linkIt.activate">
     <title>Plugin Activation</title>
@@ -25,6 +25,10 @@
   <sect1 id="user.linkIt.config">
     <title>Plugin Configuration</title>
       <para>Generated URL GET parameters may be obfuscated or "compressed" by setting the <parameter>compressUrl</parameter> to <parameter>true</parameter> (default is <parameter>false</parameter>) in <filename>client_conf/linkIt.ini</filename>. When obfuscation/compression is activated, regular URLs (with standard &cartoweb; GET parameters) are still accepted.</para>
+      <para>Generated URL may be rather long and thus overflow browsers or servers limits. <parameter>urlMaxLength</parameter> can be used to  make &cartoweb; output a warning message when the generated URL is longer than the specified value.</para>
+      <para>For instance:</para>
+      <programlisting>compressUrl = true
+urlMaxLength = 2000</programlisting>
   </sect1>
 
 </chapter>

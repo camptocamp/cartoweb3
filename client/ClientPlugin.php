@@ -69,6 +69,11 @@ class ToolDescription {
      * @var boolean
      */
     public $stateless;
+
+    /**
+     * @var boolean
+     */
+    public $oneshot;
     
     /**
      * Constructor
@@ -79,9 +84,11 @@ class ToolDescription {
      * @param boolean
      * @param int
      * @param boolean
+     * @param boolean
      */
     public function __construct($id, $hasIcon, $weight, 
-        $appliesTo=self::MAINMAP, $stateless = false, $group=1, $plugin=false) {
+        $appliesTo = self::MAINMAP, $stateless = false, $group = 1,
+        $plugin = false, $oneshot = false) {
         
         $this->id = $id;
         $this->hasIcon = $hasIcon;
@@ -90,6 +97,7 @@ class ToolDescription {
         $this->stateless= $stateless;
         $this->group = $group;
         $this->plugin = $plugin;
+        $this->oneshot = $oneshot;
     }
 }
 

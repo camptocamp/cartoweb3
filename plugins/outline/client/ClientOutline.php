@@ -226,27 +226,35 @@ class ClientOutline extends ClientPlugin
 
         // set correct parameters for new shape depending on type
         if (!empty($poly)) {
-            $this->geomType = $tool = self::TOOL_POLYGON;
+            $this->geomType = self::TOOL_POLYGON;
             $selection_coords = $poly;
             $selection_type = 'polygon';
         } elseif (!empty($line)) {
-            $this->geomType = $tool = self::TOOL_LINE;
+            $this->geomType = self::TOOL_LINE;
             $selection_coords = $line;
             $selection_type = 'polyline';
         } elseif (!empty($point)) {
-            $this->geomType = $tool = self::TOOL_POINT;  
+            $this->geomType = self::TOOL_POINT;  
             $selection_coords = $point;
             $selection_type = 'point';
         } elseif (!empty($circle)) {
-            $this->geomType = $tool = self::TOOL_CIRCLE;  
+            $this->geomType = self::TOOL_CIRCLE;  
             $selection_coords = $circle;
             $selection_type = 'circle';
         } else {
             return;
         }
+
+        if (is_array($selection_coords)) {
+            if (count($selection_coords) > 1) {
+                return;
+            }
+            $selection_coords = $selection_coords[0];
+        }
+
         $request->setValue('selection_coords', $selection_coords);
         $request->setValue('selection_type', $selection_type);
-        $request->setValue('tool', $tool);
+        $request->setValue('tool', $this->geomType);
     }
     /**
      * @see GuiProvider::handleHttpPostRequest()
@@ -306,14 +314,28 @@ class ClientOutline extends ClientPlugin
      * @see GuiProvider::handleHttpGetRequest()
      */
     public function handleHttpGetRequest($request) {
+        $types = array(self::TOOL_POLYGON, self::TOOL_LINE,
+                       self::TOOL_POINT, self::TOOL_CIRCLE);
+        foreach ($types as $type) {
+            if (!empty($request[$type])) {
+                $this->addShapes($type, $request);
+            }
+        }
+    }
 
-        $geomValues = isset($request[$this->geomType]) ? $request[$this->geomType] : '';
-        
-        if  (!empty($this->geomType)) {
-            $shape = $this->getShape($this->geomType, $geomValues);
+    protected function addShapes($type, $request) {
+        $data = $request[$type];
+        if (!is_array($data)) {
+            $data = array($data);
+        }
 
+        foreach ($data as $data_item) { 
+            $data_parts = explode('|', $data_item);
+
+            $shape = $this->getShape($type, $data_parts[0]);
             if ($shape) {
-                $this->handleShape($shape, $request);
+                $label = !empty($data_parts[1]) ? $data_parts[1] : NULL;
+                $this->handleShape($shape, $request, $label);
             }
         }
     }
@@ -321,7 +343,7 @@ class ClientOutline extends ClientPlugin
     /**
      * common new shape handling for HttpPostRequet and HttpGetRequest
      */
-    protected function handleShape($shape, $request) {
+    protected function handleShape($shape, $request, $label = NULL) {
     
         $styledShape = new StyledShape();
 
@@ -348,11 +370,15 @@ class ClientOutline extends ClientPlugin
 
         $styledShape->shape = $shape;
 
-        if ($this->getConfig()->labelMode &&
-            !empty($request['outline_label_text'])) {
-            $styledShape->label = 
-                Encoder::encode(stripslashes($request['outline_label_text']), 
-                                'output');
+        if ($this->getConfig()->labelMode) {
+            if (!empty($label)) {
+                $styledShape->label = Encoder::encode(stripslashes($label),
+                                                      'output');
+            } elseif (!empty($request['outline_label_text'])) {
+                $styledShape->label =
+                    Encoder::encode(stripslashes($request['outline_label_text']),
+                                    'output');
+            }
         }
         if (!is_null($this->getConfig()->multipleShapes) &&
             !$this->getConfig()->multipleShapes) {
@@ -612,13 +638,20 @@ class ClientOutline extends ClientPlugin
             break;
             case self::TOOL_POLYGON :
                 $points = Utils::parseArray($values, ';');
-                if (sizeOf($points) <= 0) return false;
+                $nb_points = count($points);
+                if ($nb_points <= 0) return false;
+
+                // make polygon "loops" if last point is different from first one
+                if ($points[0] != $points[$nb_points - 1]) {
+                    array_push($points, $points[0]);
+                    $nb_points++;
+                }
 
                 $shape = new Polygon;
-                for ($i = 0; $i < sizeOf($points); $i++) {
+                for ($i = 0; $i < $nb_points; $i++) {
                     $point = new Point;
                     $pointXY = Utils::parseArray($points[$i]);
-                    if (sizeOf($pointXY) != 2) return false;
+                    if (count($pointXY) != 2) return false;
 
                     $point->setXY($pointXY[0], $pointXY[1]);
                     $shape->points[] = $point;

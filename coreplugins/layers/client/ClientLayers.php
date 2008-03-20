@@ -460,7 +460,7 @@ class ClientLayers extends ClientPlugin
      * Callback used to remove nodes which are not visible by the current user.
      * If it returns true, the node will be ignored in the tree.
      * @param LayerNode The node on which to check access
-     * @return boolean True of this node is not accepted (meaning access denied)
+     * @return boolean True if this node is not accepted (meaning access denied)
      */
     public function nodesFilterSecurity(LayerNode $node) {
         

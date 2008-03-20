@@ -151,3 +151,8 @@ pre {border: 1px #ccc dashed;padding:20px;margin-right:10px;}
   margin: 0;
   display: none;
 }
+
+.alert {
+  font-weight:bold;
+  color:red;
+}

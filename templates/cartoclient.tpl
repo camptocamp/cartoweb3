@@ -17,6 +17,7 @@
   {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
   {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
+  {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=linkIt}linkIt.css{/r}" />{/if}
 
   <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
   
@@ -110,9 +111,10 @@
       {/if}
     </table>
 
+
   Current user: {$username} roles: {$roles}
   <p id="location_info"> LocationInfo: {$location_info} </p>
-
+  
   {if $user_messages|default:''}
    <span style="color: blue;">
    {t} User messages {/t}</span>
@@ -324,6 +326,8 @@ Request:
    {if $toolpicker_active|default:''}
      {include file="toolPicker.tpl"}
    {/if}
+
+   {if $linkIt|default:''}{$linkIt}{/if}
 
 </body>
 </html>
