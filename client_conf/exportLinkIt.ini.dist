@@ -1,2 +1,2 @@
-compressUrl = true
+compressUrl = false
 urlMaxLength = 2000
