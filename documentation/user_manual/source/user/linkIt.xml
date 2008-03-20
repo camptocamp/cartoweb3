@@ -5,8 +5,8 @@
   %cartoweb;
   ]>
 <chapter id="user.linkIt">
-  <title>Saving Map Context as an URL <subscript>[plugin] (linkIt)</subscript></title>
-    <para>The linkIt plugin displays in &cartoweb; interface a URL that saves the main caracteristics of the current page.
+  <title>Saving Map Context as an URL <subscript>[plugin] (exportLinkIt)</subscript></title>
+    <para>The exportLinkIt plugin displays in &cartoweb; interface a URL that saves the main caracteristics of the current page.
     Saved data are selected layers, layers switch id, recentering info (center and scale), mapsize as well as outlined shapes 
     and map queries.
     </para>
@@ -16,15 +16,18 @@
         To activate the plugin, add it to 
         <parameter>loadPlugins</parameter> from &cartoclient; configuration file: 
         <filename>client_conf/client.ini</filename>.
-        For instance: <programlisting>loadPlugins = linkIt</programlisting>
+        For instance: <programlisting>loadPlugins = exportLinkIt</programlisting>
       </para>
       <para>
-        You also need to add the plugin output variable <parameter>{$linkIt}</parameter> into the project main template <filename>templates/cartoclient.tpl</filename> (see upstream template for instance).
+        You also need to add the plugin output variable <parameter>{$linkIt}</parameter> into the project main template <filename>templates/cartoclient.tpl</filename> (see upstream template for instance). It is recommended to add it outside of the main &cartoweb; &lt;form&gt; tag since the generated HTML may contain an additional &lt;form&gt; tag. Use CSS to place the result box.
+      </para>
+      <para>
+        Ajax is used to generate and display the resulting URL, using the Prototype Javascript Framework. If your &cartoweb; does not run in the <parameter>ajaxOn</parameter> mode, you need to add the Prototype file in the main template <filename>templates/cartoclient.tpl</filename>. To do so add the following HTML code within the &lt;head&gt; tag: <programlisting>{if $linkIt|default:'' &amp;&amp; !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}</programlisting>.
       </para>
   </sect1>
   <sect1 id="user.linkIt.config">
     <title>Plugin Configuration</title>
-      <para>Generated URL GET parameters may be obfuscated or "compressed" by setting the <parameter>compressUrl</parameter> to <parameter>true</parameter> (default is <parameter>false</parameter>) in <filename>client_conf/linkIt.ini</filename>. When obfuscation/compression is activated, regular URLs (with standard &cartoweb; GET parameters) are still accepted.</para>
+      <para>Generated URL GET parameters may be obfuscated or "compressed" by setting the <parameter>compressUrl</parameter> to <parameter>true</parameter> (default is <parameter>false</parameter>) in <filename>client_conf/exportLinkIt.ini</filename>. When obfuscation/compression is activated, regular URLs (with standard &cartoweb; GET parameters) are still accepted.</para>
       <para>Generated URL may be rather long and thus overflow browsers or servers limits. <parameter>urlMaxLength</parameter> can be used to  make &cartoweb; output a warning message when the generated URL is longer than the specified value.</para>
       <para>For instance:</para>
       <programlisting>compressUrl = true

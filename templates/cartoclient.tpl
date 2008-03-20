@@ -45,6 +45,7 @@
 
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $exportPdfRotate|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>{/if}
+  {if $linkIt|default:'' && !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}
 
 </head>
 

@@ -600,10 +600,18 @@ Map.prototype.adjust_mapsize = function(aDisplay) {
 }
 
 Map.prototype.linkit = function(aDisplay) {
-    box = xGetElementById('linkItBox');
+    var linkbox = xGetElementById('linkItBox');
     if (box.style.display == 'none') {
-        box.style.display = 'block';
+        // warning: requires prototypejs lib
+        new Ajax.Request(linkItRequestUrl, {
+          method: 'get',
+          onSuccess: function(transport) {
+            linkbox.innerHTML = transport.responseText;
+          }
+        });
+        
+        linkbox.style.display = 'block';
     } else {
-        box.style.display = 'none';
+        linkbox.style.display = 'none';
     }
 }

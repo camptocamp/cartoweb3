@@ -34,7 +34,6 @@
   {if $hello_active|default:''}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
   {if $exportDxf|default:''}<script type="text/javascript" src="{r type=js plugin=exportDxf}ExportDxf.ajax.js{/r}"></script>{/if}
   {if $bboxHistoryForm|default:''}<script type="text/javascript" src="{r type=js plugin=bboxHistory}BboxHistory.ajax.js{/r}"></script>{/if}
-  {if $linkIt|default:''}<script type="text/javascript" src="{r type=js plugin=linkIt}LinkIt.ajax.js{/r}"></script>{/if}
 
   {if $toolTips_active|default:''}
     <script type="text/javascript" src="{r type=js plugin=toolTips}overlib_mini.js{/r}"></script>

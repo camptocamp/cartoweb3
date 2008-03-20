@@ -9,7 +9,7 @@ CartoWeb HEAD
 - Added circle drawing tool in outline plugin
 - Extended support of outline GET parameters to enable description of several shapes - possibly of different types - at once
 - Extended support of query GET parameters to enable querying of multiple objets - possibly from different layers - at once
-- Added linkIt plugin (returns URL of current page state)
+- Added exportLinkIt plugin (returns URL of current page state)
 
 2007-07-26: CartoWeb 3.4.0
 ===================
