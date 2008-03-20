@@ -601,7 +601,7 @@ Map.prototype.adjust_mapsize = function(aDisplay) {
 
 Map.prototype.linkit = function(aDisplay) {
     var linkbox = xGetElementById('linkItBox');
-    if (box.style.display == 'none') {
+    if (linkbox.style.display == 'none') {
         // warning: requires prototypejs lib
         new Ajax.Request(linkItRequestUrl, {
           method: 'get',
