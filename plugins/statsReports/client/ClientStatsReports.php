@@ -21,8 +21,8 @@
  * @version $Id$
  */
  
-require_once CARTOWEB_HOME . 'plugins/statsReports/common/artichow/LinePlot.class.php';
-require_once CARTOWEB_HOME . 'plugins/statsReports/common/artichow/BarPlot.class.php';
+require_once 'artichow/LinePlot.class.php';
+require_once 'artichow/BarPlot.class.php';
 
 
 abstract class StatsField {
@@ -1123,7 +1123,10 @@ class ClientStatsReports extends ClientPlugin
             return null;
         }
     
-        $colors = array(new awBlue, new awRed, new awGreen, new awMidGray);
+        $colors = array(new awBlue, new awRed, new awGreen,
+                        new awMagenta, new awCyan, new awMidGray,
+                        new awOrange, new awPink, new awPurple,
+                        new awDarkBlue, new awDarkRed, new awDarkGreen);
     
         $fileName = "graph_$md5.png";
         
