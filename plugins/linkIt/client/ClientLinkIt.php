@@ -26,7 +26,7 @@
  * @package Plugins
  */
 class ClientLinkIt extends ClientPlugin
-                   implements GuiProvider, FilterProvider, Ajaxable {
+                   implements GuiProvider, FilterProvider, ToolProvider, Ajaxable {
 
     /**
      * @var Logger
@@ -47,6 +47,31 @@ class ClientLinkIt extends ClientPlugin
      * @var integer
      */
     protected $mapsize;
+
+    /**
+     * @var boolean
+     */
+    protected $isUrlTooLong = false;
+
+    /**
+     * @var array
+     */
+    protected $params = array();
+
+    /**
+     * @var MapRequest
+     */
+    protected $lastMapRequest;
+
+    /**
+     * @var MapResult
+     */
+    protected $lastMapResult;
+
+    /**
+     * Tool constant
+     */
+    const TOOL_LINKIT = 'linkit';
 
     /** 
      * Constructor
@@ -71,16 +96,47 @@ class ClientLinkIt extends ClientPlugin
      */
     public function filterGetRequest(FilterRequestModifier $request) {
         if ($this->isUrlCompressed && $request->getValue('q')) {
-            $query_string = base64_decode($request->getValue('q'));
+            
+            // char "+" may be used by base64 encoding but might be interpreted
+            // by PHP as a white space in $_REQUEST. To avoid that unwished 
+            // decoding, replace ' ' by '+'. TODO: find a better fix?
+            $q = str_replace(' ', '+', $request->getValue('q'));
+            $query_string = urldecode(gzinflate(base64_decode($q)));
+            
             foreach (explode('&', $query_string) as $param) {
                 if (empty($param)) continue;
 
-                list($key, $value) = explode('=', $param);
-                if (is_null($value)) {
-                    $value = '';
+                $param_parts = explode('=', $param);
+                if (count($param_parts) == 1) {
+                    $param_parts[1] = '';
                 }
-                $request->setValue($key, $value);
+                list($key, $value) = $param_parts;
+                
+                // case of "array" parameters (eg. "outline_point[]")
+                if (preg_match('/(.*)\[(.*)\]/', $key, $regs)) {
+                    $key = $regs[1];
+                    $sub_key = $regs[2];
+                    if (is_null($request->getValue($key))) {
+                        if (!empty($sub_key)) {
+                            $request->setValue($key, array($sub_key => $value));
+                        } else {
+                            $request->setValue($key, array($value));
+                        }
+                    } else {
+                        $array = $request->getValue($key);
+                        if (!empty($sub_key)) {
+                            $array[$sub_key] = $value;
+                        } else {
+                            $array[] = $value;
+                        }
+                        $request->setValue($key, $array);
+                    }
+                } else {
+                    $request->setValue($key, $value);
+                }
             }
+
+            $request->setValue('q', NULL);
         }
     }
 
@@ -118,7 +174,8 @@ class ClientLinkIt extends ClientPlugin
      */
     protected function drawLinkBox() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-        $smarty->assign(array('linkItUrl' => $this->getLinkUrl()));
+        $smarty->assign(array('linkItUrl' => $this->getLinkUrl(),
+                              'isUrlTooLong' => $this->isUrlTooLong));
         return $smarty->fetch('link_box.tpl');
     }
 
@@ -131,13 +188,19 @@ class ClientLinkIt extends ClientPlugin
         $this->setContextQueryString();
         
         if ($this->isUrlCompressed) {
-            //$this->queryString = 'q=' . convert_uuencode($this->queryString);
-            $this->queryString = 'q=' . base64_encode($this->queryString);
+            $this->queryString = 'q=' . base64_encode(gzdeflate($this->queryString, 9));
         }
-        $this->queryString = basename($_SERVER['PHP_SELF']) . '?' . $this->queryString;
+        $this->queryString = basename($_SERVER['PHP_SELF']) . '?reset_session&' . $this->queryString;
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
-        return $resourceHandler->getFinalUrl($this->queryString, true, true, $useXhtml);
+        $url = $resourceHandler->getFinalUrl($this->queryString, true, true, $useXhtml);
+    
+        $urlMaxLength = $this->getConfig()->urlMaxLength;
+        if (!empty($urlMaxLength) && strlen($url) > $urlMaxLength) {
+            $this->isUrlTooLong = true;
+        }
+
+        return $url;
     }
 
     /**
@@ -145,52 +208,149 @@ class ClientLinkIt extends ClientPlugin
      */
     protected function setContextQueryString() {
         $session = $this->cartoclient->getClientSession();
-        $lastMapRequest = $session->lastMapRequest;
-        $lastMapResult = $session->lastMapResult;
-
-        $params = array();
+        $this->lastMapRequest = $session->lastMapRequest;
+        $this->lastMapResult = $session->lastMapResult;
 
         // layers data
-        if (!empty($lastMapRequest->layersRequest->switchId)) {
-            $params['switch_id'] = $lastMapRequest->layersRequest->switchId;
-        }
-        $params['layer_select'] = implode(',', $lastMapRequest->layersRequest->layerIds);
+        $this->addLayersParams();
 
         // location data
-        $params['recenter_bbox'] = $lastMapResult->locationResult->bbox->toRemoteString(',');
+        $this->addLocationParams();
 
         // image data
-        if (isset($this->mapsize)) {
-            $params['mapsize'] = $this->mapsize;
-        }
+        $this->addImageParams();
 
         // outline data
-        // TODO
+        $this->addOutlineParams();
 
         // query data
-        // TODO
+        $this->addQueryParams();
 
         // customized params
-        $this->addCustomizedParams($params);
+        $this->addCustomizedParams();
 
-        $query_array = array();
-        foreach ($params as $key => $value) {
-            $query_array[] = "$key=$value"; 
+        $this->queryString = implode('&', $this->params);
+    }
+
+    /**
+     * Sets GET parameters for layer data.
+     */
+    protected function addLayersParams() {
+        if (!empty($this->lastMapRequest->layersRequest->switchId)) {
+            $this->params[] = 'switch_id=' . $this->lastMapRequest
+                                                  ->layersRequest->switchId;
         }
-        $this->queryString = implode('&', $query_array);
+        $this->params[] = 'layer_select=' . implode(',', $this->lastMapRequest
+                                                              ->layersRequest
+                                                              ->layerIds);
+    }
+
+    /**
+     * Sets GET parameters for location data.
+     */
+    protected function addLocationParams() {
+        $this->params[] = 'recenter_bbox=' . $this->lastMapResult->locationResult
+                                                  ->bbox->toRemoteString(',');
+    }
+
+    /**
+     * Sets GET parameters for image data.
+     */
+    protected function addImageParams() {
+        if (isset($this->mapsize)) {
+            $this->params[] = 'mapsize=' . $this->mapsize;
+        }
+    }
+
+    /**
+     * Sets GET parameters for outline data.
+     */
+    protected function addOutlineParams() {
+        if (empty($this->lastMapRequest->outlineRequest)) return;
+
+        foreach($this->lastMapRequest->outlineRequest->shapes as $shape) {
+            
+            $points = array();
+            switch($shape->shape->className) {
+                case 'Polygon': 
+                case 'Line':
+                    $points = $shape->shape->points;
+                    
+                    if ($shape->shape->className == 'Polygon') {
+                        $param_name = 'outline_poly[]';
+                        array_pop($points);
+                    } else {
+                        $param_name = 'outline_line[]';
+                    }
+
+                    $points_coords = array();
+                    foreach ($points as $point) {
+                        $points_coords[] = $point->x . ',' . $point->y;
+                    }
+                    $param_value = $param_name . '=' . implode(';', $points_coords);
+                    break;
+                
+                case 'Point':
+                    $param_value = 'outline_point[]=' . 
+                                   $shape->shape->x . ',' . $shape->shape->y;
+                    break;
+
+                case 'Circle':
+                    $param_value = 'outline_circle[]=' .
+                                   $shape->shape->x . ',' . $shape->shape->y .
+                                   ';' . $shape->shape->radius;
+                    break;
+            }
+
+            if (empty($param_value)) continue;
+            if (!empty($shape->label)) {
+                $param_value .= '|' . urlencode($shape->label);
+            }
+            $this->params[] = $param_value;
+        }
+    }
+
+    /**
+     * Sets GET parameters for query data.
+     */
+    protected function addQueryParams() {
+        if (empty($this->lastMapResult->queryResult) ||
+            empty($this->lastMapResult->queryResult->tableGroup)) return;
+
+        $group = $this->lastMapResult->queryResult->tableGroup;
+        if ($group->groupId != 'query') return;
+
+        $hasQueryParams = false;
+        foreach($group->tables as $table) {
+            if ($table->numRows == 0 || !empty($table->noRowId)) continue;
+
+            $hasQueryParams = true;
+            $selectedIds = array();
+            foreach($table->rows as $row) {
+                $selectedIds[] = urlencode($row->rowId);
+            }
+            $this->params[] = sprintf('query_blocks[%s]=%s',
+                                      $table->tableId,
+                                      implode(',', $selectedIds));
+        }
+
+        if ($hasQueryParams) {
+            $this->params[] = 'query_hilight=1';
+            $this->params[] = 'query_return_attributes=1';
+        }
     }
 
     /**
      * Use this method to add your own parameters from customized plugins.
-     * @param array
      */
-    protected function addCustomizedParams(&$params) {}
+    protected function addCustomizedParams() {}
 
     /** 
      * @see Ajaxable::ajaxGetPluginResponse()
      */
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
         $ajaxPluginResponse->addVariable('linkItUrl', $this->getLinkUrl(false));
+        $ajaxPluginResponse->addVariable('isUrlTooLong', $this->isUrlTooLong);
     }
 
     /** 
@@ -199,4 +359,30 @@ class ClientLinkIt extends ClientPlugin
     public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
         $pluginEnabler->enablePlugin('linkIt');
     } 
+
+    /** 
+     * @see ToolProvider::handleMainmapTool()
+     */
+    public function handleMainmapTool(ToolDescription $tool,
+                               Shape $mainmapShape) {}
+    
+    /** 
+     * @see ToolProvider::handleKeymapTool()
+     */
+    public function handleKeymapTool(ToolDescription $tool,
+                              Shape $keymapShape) {}
+
+    /** 
+     * @see ToolProvider::handleApplicationTool()
+     */
+    public function handleApplicationTool(ToolDescription $tool) {}
+
+    /** 
+     * @see ToolProvider::getTools()
+     */
+    public function getTools() {
+        return array(new ToolDescription(self::TOOL_LINKIT, true, 120,
+                                         ToolDescription::MAINMAP, false, 
+                                         1, false, true));
+    }
 }

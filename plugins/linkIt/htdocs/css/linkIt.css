@@ -1,12 +1,17 @@
 #linkItBox {
+  position: absolute;
+  top: 0;
+  left: 0;
   border: 1px solid #FF9900;
   background-color: #FFEAC0;
   padding: 2px 5px 20px 5px;
-  width: 30em;
+  z-index: 1000;
+  margin:10px;
 }
 
 #linkItUrl {
-  width: 29em;
+  width: 90%;
+  background-color: white;
 }
 
 #linkItBox a {
