@@ -311,9 +311,9 @@ class LayersInitProvider implements InitProvider {
         if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
         else $layer->maxScale = 0;
         
-        // empty(0) returns true but this is a valid transparency. In this case
-        // the layer transparency should not be initialized with 100.
-        if ($msLayer->transparency == 0 || !empty($msLayer->transparency)) {
+        // BUG: if the layer transparency is set to 0 in the mapfile, the Layer
+        // transparency is set to 100.
+        if (!empty($msLayer->transparency)) {
             $layer->transparency = $msLayer->transparency;
         } else {
             $layer->transparency = 100;
