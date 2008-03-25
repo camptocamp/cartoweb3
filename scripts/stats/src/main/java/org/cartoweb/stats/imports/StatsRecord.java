@@ -46,6 +46,9 @@ public class StatsRecord implements Cloneable {
     private Integer imagesMainmapHeight;
 
     @Column
+    private Integer imagesMainmapSize;
+
+    @Column
     private boolean generalDirectAccess;
 
     @Column
@@ -247,6 +250,14 @@ public class StatsRecord implements Cloneable {
 
     public void setImagesMainmapWidth(Integer imagesMainmapWidth) {
         this.imagesMainmapWidth = imagesMainmapWidth;
+    }
+
+    public Integer getImagesMainmapSize() {
+        return imagesMainmapSize;
+    }
+
+    public void setImagesMainmapSize(Integer imagesMainmapSize) {
+        this.imagesMainmapSize = imagesMainmapSize;
     }
 
     public Integer getExportpdfResolution() {

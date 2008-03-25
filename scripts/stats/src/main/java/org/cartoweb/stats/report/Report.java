@@ -133,8 +133,7 @@ public class Report {
                         Dimension[][] dimensions = null;
                         if (dimensionMetaDatas.length > 0) {
                             dimensions = new Dimension[dimensionMetaDatas.length][];
-                            for (int i = 0; i < dimensionMetaDatas.length; ++i)
-                            {
+                            for (int i = 0; i < dimensionMetaDatas.length; ++i) {
                                 DimensionMetaData<?> meta = dimensionMetaDatas[i];
                                 dimensions[i] = meta.buildFromStatResultSet(rs, pos + 1);
                                 pos += meta.getNbStatsFieldNames();
@@ -342,5 +341,9 @@ public class Report {
 
     public void dropStructure(Connection con, String tableName) throws SQLException {
         Utils.dropReportTables(con, tableName, name);
+    }
+
+    public String getName() {
+        return name;
     }
 }

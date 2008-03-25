@@ -88,8 +88,7 @@ A list, separted by ',' of any of the following:
   - project
   - user
   - scale
-  - width
-  - height
+  - size
   - theme
   - layer
   - pdfFormat

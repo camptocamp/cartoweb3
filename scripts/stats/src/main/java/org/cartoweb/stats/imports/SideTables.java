@@ -37,8 +37,7 @@ public class SideTables {
     final DbMapWithProject layerSwitch;
     public final DbMapWithProject layer;
     final DbMap session;
-    final DbMapWithProject imagesMainmapHeight;
-    final DbMapWithProject imagesMainmapWidth;
+    final DbMapWithProject imagesMainmapSize;
     final DbMapWithProject exportPdfRes;
 
     /**
@@ -56,8 +55,7 @@ public class SideTables {
         layerSwitch = new DbMapWithProject(tableName, "layers_switch_id", true);
         layer = new DbMapWithProject(tableName, "layer", false);
         session = new DbMap(tableName, "general_sessid", true);
-        imagesMainmapHeight = new DbMapWithProject(tableName, "images_mainmap_height", false);
-        imagesMainmapWidth = new DbMapWithProject(tableName, "images_mainmap_width", false);
+        imagesMainmapSize = new DbMapWithProject(tableName, "images_mainmap_size", false);
         exportPdfRes = new DbMapWithProject(tableName, "exportpdf_resolution", false);
         sideTables = new BaseDbMap[]{
                 browserInfo,
@@ -69,8 +67,7 @@ public class SideTables {
                 layerSwitch,
                 layer,
                 session,
-                imagesMainmapHeight,
-                imagesMainmapWidth,
+                imagesMainmapSize,
                 exportPdfRes
         };
     }

@@ -116,11 +116,12 @@ public class WmsReader extends StatsReader {
         result.setGeneralTime(parseTime(time));
         fillLayers(result, fields.get("layers"), generalMapId);
         fillBbox(result, fields.get("bbox"));
-        final Float width = getFloat(fields, "width");
-        final Float height = getFloat(fields, "height");
-        result.setImagesMainmapWidth(sideTables.imagesMainmapWidth.get(width != null ? Integer.toString(Math.round(width)) : null, generalMapId));
-        result.setImagesMainmapHeight(sideTables.imagesMainmapHeight.get(height != null ? Integer.toString(Math.round(height)) : null, generalMapId));
+        result.setImagesMainmapWidth(getFloat(fields, "width") != null ? Math.round(getFloat(fields, "width")) : null);
+        result.setImagesMainmapHeight(getFloat(fields, "height") != null ? Math.round(getFloat(fields, "height")) : null);
         result.setLocationScale(getScale(result));
+
+        //not in WMS "by design":
+        //result.setImagesMainmapSize(sideTables.imagesMainmapSize.get(String.format("%d x %d", width, height), generalMapid));
 
         return result;
     }

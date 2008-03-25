@@ -79,12 +79,13 @@ public class CartoWebReader extends StatsReader {
         result.setLayersSwitchId(sideTables.layerSwitch.get(toLowerCase(fields.get("layers.switch_id")), generalMapid));
         result.setGeneralIp(fields.get("general.ip"));
         result.setGeneralMapid(generalMapid);
-
         final Integer height = getInt(fields, "images.mainmap.height");
         final Integer width = getInt(fields, "images.mainmap.width");
-        result.setImagesMainmapHeight(sideTables.imagesMainmapHeight.get(height != null ? Integer.toString(height) : null, generalMapid));
-        result.setImagesMainmapWidth(sideTables.imagesMainmapWidth.get(width != null ? Integer.toString(width) : null, generalMapid));
-
+        result.setImagesMainmapHeight(height);
+        result.setImagesMainmapWidth(width);
+        if (height != null && width != null) {
+            result.setImagesMainmapSize(sideTables.imagesMainmapSize.get(String.format("%d x %d", width, height), generalMapid));
+        }
         result.setQueryResultsTableCount(fields.get("query.results_table_count"));
         result.setGeneralRequestId(fields.get("general.request_id"));
         result.setGeneralDirectAccess("1".equals(fields.get("general.direct_access")));

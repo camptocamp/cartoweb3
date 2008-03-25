@@ -190,10 +190,8 @@ public class Reports extends BaseStats {
                 } else if (dimension.equalsIgnoreCase("scale")) {
                     final String scales = getMandatoryField(section, "scales");
                     dimensionMetaDatas[i] = new RangeDoubleFieldMetaData("location_scale", scales, dimension);
-                } else if (dimension.equalsIgnoreCase("width")) {
-                    dimensionMetaDatas[i] = new IntFieldMetaData("images_mainmap_width", dimension, false);
-                } else if (dimension.equalsIgnoreCase("height")) {
-                    dimensionMetaDatas[i] = new IntFieldMetaData("images_mainmap_height", dimension, false);
+                } else if (dimension.equalsIgnoreCase("size")) {
+                    dimensionMetaDatas[i] = new IntFieldMetaData("images_mainmap_size", dimension, false);
                 } else if (dimension.equalsIgnoreCase("theme")) {
                     dimensionMetaDatas[i] = new IntFieldMetaData("layers_switch_id", dimension, true);
                 } else if (dimension.equalsIgnoreCase("layer")) {
@@ -251,6 +249,8 @@ public class Reports extends BaseStats {
                 report.compute(con, tableName);
             } catch (ConfigurationChangeException ex) {
                 LOGGER.warn(ex.getMessage());
+                LOGGER.warn("Report [" + report.getName() + "] not generated, use --purgeOnConfigurationChange to force the generation.");
+                con.rollback();
             }
         }
         con.close();
