@@ -243,21 +243,32 @@ class ProjectStatsField extends StatsField {
     }
 }
 
-class WidthStatsField extends StatsProjectField {
+class SizeStatsField extends StatsProjectField {
     
-    protected $id = 'width';
+    protected $id = 'size';
     
     public function getDbField() {
-        return 'images_mainmap_width';
+        return 'images_mainmap_size';
     }
-}
 
-class HeightStatsField extends StatsProjectField {
-    
-    protected $id = 'height';
-    
-    public function getDbField() {
-        return 'images_mainmap_height';
+    public function getOptions($project = NULL) {
+
+        $options = parent::getOptions($project);
+        
+        $optionsOrder = array();
+        foreach ($options as $id => $text) {
+            list($x, $text2) = explode(' x ', $text);
+            list($y, $text2) = explode(' (', $text2);
+            $order = str_pad($x, 6, '0', STR_PAD_LEFT) .
+                     'x' . str_pad($y, 6, '0', STR_PAD_LEFT) . $text2;
+            $optionsOrder[$order] = array($id, $text);
+        }
+        ksort($optionsOrder);
+        $options = array();
+        foreach ($optionsOrder as $option) {
+            $options[$option[0]] = $option[1];
+        }
+        return $options;
     }
 }
 
@@ -383,8 +394,8 @@ class ClientStatsReports extends ClientPlugin
 
     // Form values
     protected $dimensions = array('time', 'project',
-                                  'width', 'height',
-                                  'theme', 'layer', 'scale',
+                                  'size', 'theme',
+                                  'layer', 'scale',
                                   'user', 'pdfFormat',
                                   'pdfRes', 'value');
     
@@ -400,8 +411,7 @@ class ClientStatsReports extends ClientPlugin
     protected $time;
     
     protected $project;
-    protected $width;
-    protected $height;
+    protected $size;
     protected $theme;
     protected $layer;
     protected $scale;
