@@ -199,6 +199,7 @@ Request:
         {if $exportPdf|default:''}<li id="label3"><a href="javascript:ontop(3)">{t}PDF{/t}</a></li>{/if}
         {if $views|default:''}<li id="label4"><a href="javascript:ontop(4)">{t}Views{/t}</a></li>{/if}
         {if $exportRtf|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}RTF{/t}</a></li>{/if}
+        {if $layerFilter|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers Filter{/t}</a></li>{/if}
       </ul>
     </div>
     <div id="container">
@@ -316,6 +317,12 @@ Request:
       {$exportRtf}
     </div>
     <!-- end of folder8 -->
+    {/if}
+    {if $layerFilter|default:''}
+    <div id="folder9" class="folder">
+      {$layerFilter}
+    </div>
+    <!-- end of folder9 -->
     {/if}
   </div>
 </div>

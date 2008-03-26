@@ -637,4 +637,69 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
     </sect2>
   </sect1>
 
+  <sect1 id="user.layers.layer_filter">
+    <title>Layer Filter Plugin</title>
+    <para>This plugin is used to filter objects displayed on the map according to some criteria. Those criteria are set by users using a special form, automatically built according to the plugin configuration.</para>
+    <sect2 id="user.layers.layer_filter.activation">
+      <title>Plugin activation</title>
+      <para>
+        To activate the plugin, add it to 
+        <parameter>loadPlugins</parameter> from Both &cartoclient; and 
+        &cartoserver; configuration files: 
+        <filename>client_conf/client.ini</filename> and
+        <filename>server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</filename>.
+        For instance: <programlisting>loadPlugins = layerFilter</programlisting>
+      </para>
+    </sect2>
+    <sect2 id="user.layers.layer_filter.client_config">
+      <title>Client Configuration</title>
+      <para>Client configuration is mainly used to described what the filter form must look like. Aside from a <parameter>i18n</parameter> parameter - a boolean telling if form inputs titles and labels must be internationalized - the configuration uses an object-like notation to list filter form inputs and their properties. Three types of inputs are available: radio buttons, checkboxes and dropdowns. Each input config object has a "criterion name" and several properties:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>title</parameter>, title of the criterion</para>
+        </listitem>
+        <listitem>
+          <para><parameter>type</parameter>, (checkbox|radio|dropdown), rendering of the criterion input</para>
+        </listitem>
+        <listitem>
+          <para><parameter>options</parameter>, a list of object-like options with an "option name" a <parameter>label</parameter> and a <parameter>selected</parameter> boolean status (indicates the initial state of the filter form).</para>
+        </listitem>
+      </itemizedlist>
+      <para>For instance:</para>
+      <programlisting><![CDATA[i18n = true
+
+criteria.foo.title = foobar 
+criteria.foo.type = checkbox
+criteria.foo.options.bou.label = some text
+criteria.foo.options.bou.selected = true
+criteria.foo.options.bla.label = blabla
+criteria.foo.options.bla.selected = true
+criteria.foo.options.chon.label = some other option not checked]]></programlisting>
+      <para>If users check all the boxes of a criterion, no filter will be applied for this criterion.</para>
+      <para>For <parameter>radio</parameter> and <parameter>dropdown</parameter> criterion, it is possible to specify a neutral option (if selected, no filter is applied for this criterion) using the <parameter>null</parameter> keyword. For instance:</para>
+      <programlisting><![CDATA[criteria.foo.title = foobar
+criteria.foo.type = dropdown
+criteria.foo.options.bou.label = some text
+criteria.foo.options.chon.label = some other text
+criteria.foo.options.null.label = no filter
+criteria.foo.options.null.selected = true]]></programlisting>
+    </sect2>
+    <sect2 id="user.layers.layer_filter.server_config">
+      <title>Server Configuration</title>
+      <para>The plugin server-side configuration described what layers criteria must apply to and what the conditions matching the criteria options (PostGIS or ShapeFile FILTER syntax) are. An object-like notation, symetrical to the client-side configuration, is used. Each criterion owns the following properties:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>layers</parameter>, a comma-separated list of one or more layers to whom the criterion applies</para>
+        </listitem>
+        <listitem>
+          <para><parameter>options</parameter>, a collection of options "objects" with a <parameter>filter</parameter> property that indicates what PostGIS or ShapeFile filter to apply. If you need to use double-quotes (") within that property (for instance to enclose a table field name), rather user # characters instead to avoid conflicts. The plugin will then replace them by double-quotes characters.</para>
+        </listitem>
+      </itemizedlist>
+      <para>For instance:</para>
+      <programlisting><![CDATA[criteria.surf.layers = zone_a, zone_b
+criteria.surf.options.surf1.filter = "#SOME_FIELD# < 1"
+criteria.surf.options.surf2.filter = "MAX(some_other_field) BETWEEN 1 AND 2"]]></programlisting>
+    </sect2>
+  </sect1>
+
 </chapter>

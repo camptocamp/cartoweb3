@@ -29,6 +29,7 @@
 
   {* Plugins *}
   {if $layerReorder|default:''}<script type="text/javascript" src="{r type=js plugin=layerReorder}LayerReorder.ajax.js{/r}"></script>{/if}
+  {if $layerFilter|default:''}<script type="text/javascript" src="{r type=js plugin=layerFilter}LayerFilter.ajax.js{/r}"></script>{/if}
   {if $outline_active|default:''}<script type="text/javascript" src="{r type=js plugin=outline}Outline.ajax.js{/r}"></script>{/if}
   {if $search_active|default:''}<script type="text/javascript" src="{r type=js plugin=search}Search.ajax.js{/r}"></script>{/if}
   {if $hello_active|default:''}<script type="text/javascript" src="{r type=js plugin=hello}Hello.ajax.js{/r}"></script>{/if}
