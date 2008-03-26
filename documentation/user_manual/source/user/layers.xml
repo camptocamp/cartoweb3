@@ -675,7 +675,7 @@ criteria.foo.options.bou.selected = true
 criteria.foo.options.bla.label = blabla
 criteria.foo.options.bla.selected = true
 criteria.foo.options.chon.label = some other option not checked]]></programlisting>
-      <para>If users check all the boxes of a criterion, no filter will be applied for this criterion.</para>
+      <para>If users check all the boxes of a criterion, no filter will be applied for this criterion. If no box is checked for a criterion, all its filters will be applied.</para>
       <para>For <parameter>radio</parameter> and <parameter>dropdown</parameter> criterion, it is possible to specify a neutral option (if selected, no filter is applied for this criterion) using the <parameter>null</parameter> keyword. For instance:</para>
       <programlisting><![CDATA[criteria.foo.title = foobar
 criteria.foo.type = dropdown
