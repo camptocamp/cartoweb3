@@ -184,6 +184,22 @@ class ServerLayers extends ClientResponderAdapter
                 $this->resRatio = $requ->resolution / $msMapObj->resolution;
             }
         }
+
+        $layerIds = $requ->layerIds;
+        if (!is_array($layerIds)) {
+            throw new CartoserverException('Invalid layer request: ' .
+                                           'layerIds is not an array.');
+            return;
+        }
+
+        $this->account('server_version', 1);
+        $this->account('layers', implode(',', $layerIds));
+        $this->account('switch_id', $this->switchId);
+
+        $this->requestedLayerNames = $layerIds;
+
+        $this->log->debug('layers to draw: ');
+        $this->log->debug($layerIds);
     }    
 
     /**
@@ -267,22 +283,6 @@ class ServerLayers extends ClientResponderAdapter
     public function handleCorePlugin($requ) {
 
         $msMapObj = $this->serverContext->getMapObj();
-
-        $layerIds = $requ->layerIds;
-        if (!is_array($layerIds)) {
-            throw new CartoserverException('Invalid layer request: ' .
-                                           'layerIds is not an array.');
-            return;
-        }
-
-        $this->account('server_version', 1);
-        $this->account('layers', implode(',', $layerIds));
-        $this->account('switch_id', $this->switchId);
-
-        $this->requestedLayerNames = $layerIds;
-
-        $this->log->debug('layers to draw: ');
-        $this->log->debug($layerIds);
       
         // disable all layers
         for ($i = 0; $i < $msMapObj->numlayers; $i++) {
