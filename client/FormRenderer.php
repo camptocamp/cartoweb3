@@ -209,7 +209,8 @@ class FormRenderer {
         }
 
         if (!empty($developerMessages) &&
-            $this->cartoclient->getConfig()->showDevelMessages)
+            ($this->cartoclient->getConfig()->showDevelMessages || 
+            $this->cartoclient->getConfig()->profile == 'development'))
             return $developerMessages;
         else
             return array();
@@ -232,7 +233,8 @@ class FormRenderer {
         if (!empty($userMessages))
             $smarty->assign('user_messages', $userMessages);
         if (!empty($developerMessages) &&
-            $this->cartoclient->getConfig()->showDevelMessages)
+            ($this->cartoclient->getConfig()->showDevelMessages || 
+            $this->cartoclient->getConfig()->profile == 'development'))
             $smarty->assign('developer_messages', $developerMessages);
     }
     
