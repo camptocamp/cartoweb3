@@ -1334,6 +1334,9 @@ msgstr "Temps"
 msgid "Project"
 msgstr "Projet"
 
+msgid "Size"
+msgstr "Taille"
+
 msgid "WARNING, no value selected, aborting."
 msgstr "ATTENTION! Aucune valeur sélectionnée, abandon."
 
