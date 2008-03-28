@@ -5,5 +5,5 @@
 </select>
 </span>
 <div class="stats_subblock" id="stats_options_block" name="stats_options_block" style="display: none"></div>
-
+<span class="mandatory_stats_option">{t}* = mandatory options{/t}</span>
 <div class="stats_subblock"><input type="button" value="{t}Generer{/t}" onclick="CartoWeb.trigger('StatsReports.ComputeReport');"/></div>

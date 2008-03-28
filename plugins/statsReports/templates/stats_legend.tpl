@@ -1,4 +1,4 @@
-  <fieldset>
+<fieldset>
     <legend class="stats_blocktitle">{t}Legende{/t}</legend>
     <div class="stats_block">
 <table width="100%">
