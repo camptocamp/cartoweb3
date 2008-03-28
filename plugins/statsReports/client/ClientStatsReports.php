@@ -902,6 +902,11 @@ class ClientStatsReports extends ClientPlugin
     }
     
     protected function getSimpleResults() {
+
+        if (empty($this->line) || empty($this->column)) {
+            $this->cartoclient->addMessage(I18n::gt('WARNING, you didnt select either a line or column type, aborting.'));
+            return;
+        }
         
         $report = $this->getCurrentReport();
         $db = $this->getDb($this->datas[$this->data]->dsn);
@@ -1052,9 +1057,11 @@ class ClientStatsReports extends ClientPlugin
     protected function drawResult() {
         
         if (empty($this->column) || empty($this->line) || empty($this->value)) {
+            /*
             if (empty($this->column) || empty($this->line)) {
                 $this->cartoclient->addMessage(I18n::gt('WARNING, you need to set column and line parameters'));
             }
+            */
         } else {
             $columnOptions = $this->getSelectedOptions($this->column);
             $lineOptions = $this->getSelectedOptions($this->line);
