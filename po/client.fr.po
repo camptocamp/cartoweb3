@@ -1309,3 +1309,42 @@ msgstr "La page courante est disponible via l'URL suivante :"
 
 msgid "URL is too long"
 msgstr "L'URL est trop longue. Certaines informations risquent de ne pas être transmises correctement."
+
+msgid "* = mandatory options"
+msgstr "* = paramètre(s) obligatoire(s)"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "Day"
+msgstr "Jour"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Time"
+msgstr "Temps"
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "WARNING, no value selected, aborting."
+msgstr "ATTENTION! Aucune valeur sélectionnée, abandon."
+
+msgid "WARNING, you didnt select either a line or column type, aborting."
+msgstr "ATTENTION! Vous n'avez pas sélectionné de type de ligne ou de colonne, abandon."
+
+msgid "WARNING, you need to set column and line parameters"
+msgstr "ATTENTION! Vous devez sélectionner le type de ligne et de colonne."
+
+msgid "WARNING, report \""
+msgstr "ATTENTION! Le rapport \""
+
+msgid "\" specified in statsReport.ini was not generated beforehand with Patrick Java report script !"
+msgstr "\" définit dans statsReport.ini n'a pas été généré au préalable via le script JAVA de génération de rapports."
