@@ -1348,3 +1348,27 @@ msgstr "ATTENTION! Le rapport \""
 
 msgid "\" specified in statsReport.ini was not generated beforehand with Patrick Java report script !"
 msgstr "\" définit dans statsReport.ini n'a pas été généré au préalable via le script JAVA de génération de rapports."
+
+msgid "Generer"
+msgstr "Générer"
+
+msgid "Tableau"
+msgstr ""
+
+msgid "Graphique (combine)"
+msgstr "Graphique (combiné)"
+
+msgid "Graphiques"
+msgstr ""
+
+msgid "Pixel"
+msgstr "Nombre de pixels"
+
+msgid "Count"
+msgstr "Nombre de cartes"
+
+msgid "Count_pdf"
+msgstr "Nombre de PDF"
+
+msgid "Count_dxf"
+msgstr "Nombre de DXF"
