@@ -1213,13 +1213,13 @@ class ClientStatsReports extends ClientPlugin
         $group->setCenter(0.54, 0.46);           
         $group->setSpace(2, 2, 0, 0);     
         $group->axis->bottom->label->setAngle(90); 
-        $group->axis->bottom->title->set($xUnit);
+        $group->axis->bottom->title->set(encoder::decode($xUnit, 'artichow'));
         $group->axis->bottom->setTitleAlignment(awLabel::LEFT);
         $group->axis->bottom->setTitlePosition(-0.1);
         $group->legend->setPosition(0.92, 0.1);
         $group->legend->setAlign(awLegend::RIGHT, awLegend::TOP);
         $group->legend->shadow->smooth(TRUE);
-        $group->title->set($title);
+        $group->title->set(encoder::decode($title, 'artichow'));
 
         foreach ($data as $graphLabel => $graphData) {
             
