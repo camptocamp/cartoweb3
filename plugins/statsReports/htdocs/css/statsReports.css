@@ -1,7 +1,10 @@
 .stats_label {
+    float: left;
 }
 
 .stats_field {
+    display: block;
+    margin-left: 85px;
 }
 
 .stats_blocktitle {
@@ -18,4 +21,16 @@
     border-top: 1px solid;
     margin-top: 5px;
     padding-top: 5px;
+}
+
+.stats_block SELECT {
+    max-width: 160px;
+    min-width: 160px;
+}
+* html .stats_block SELECT {
+    width: 160px;
+}
+
+.mandatory_stats_option {
+    color: red;
 }
