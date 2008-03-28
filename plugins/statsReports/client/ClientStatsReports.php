@@ -73,6 +73,9 @@ abstract class StatsField {
                               'stats_id'       => $this->id,
                               'stats_label'    => I18n::gt(ucfirst($this->id)),
                               'stats_onchange' => $this->onchange));
+        if (isset($this->mandatory) && $this->mandatory) {
+            $smarty->assign('mandatory', true);
+        }
 
         $field = $this->plugin->getField($this->id);            
 
@@ -150,6 +153,8 @@ abstract class StatsProjectField extends StatsField {
 class ValueStatsField extends StatsField {
     
     protected $id = 'value';
+
+    protected $mandatory = true;
     
     public function getDbField() {
         return '';
@@ -396,7 +401,7 @@ class ClientStatsReports extends ClientPlugin
     protected $dimensions = array('time', 'project',
                                   'size', 'theme',
                                   'layer', 'scale',
-                                  'user', 'pdfFormat',
+                                  'user', 'pdfFormat', 
                                   'pdfRes', 'value');
     
     // Form selections
@@ -461,7 +466,22 @@ class ClientStatsReports extends ClientPlugin
                 }
             }
         }
+        $this->datasChecked = array();
         
+        foreach($this->datas as $key => $data) {
+            // check if report has been generated beforehand
+            $db = $this->getDb($data->dsn);
+            $dbResult = $db->getOne('SELECT * FROM ' . $data->prefix . '_reports;');
+
+            if (!PEAR::isError($dbResult)) {
+                $this->datasChecked[$key] = $data;
+            } else {
+                $this->cartoclient->addMessage(I18n::gt('WARNING, report "') . $data->prefix . 
+                    I18n::gt('" specified in statsReport.ini was not generated beforehand with Patrick Java report script !'), 2);
+            }
+        }
+        $this->datas = $this->datasChecked;
+
         Utils::getDb($this->tempDb, $this->getConfig()->tempDsn);
     }
     
@@ -821,7 +841,7 @@ class ClientStatsReports extends ClientPlugin
         $options = '';
         
         $dimensions = $this->explodeList($report->options['dimensions']);
-        $dimensions = array_merge(array('time', 'value'), $dimensions);
+        $dimensions = array_merge(array('value', 'time'), $dimensions);
 
         // TODO manage projects
         foreach ($dimensions as $dimension) {
@@ -891,20 +911,29 @@ class ClientStatsReports extends ClientPlugin
         $valueSql = '';
         if ($this->column == 'value' ||
             $this->line == 'value') {
-            foreach ($this->value as $value) {
-                if ($valueSql != '') {              
-                   $valueSql .= ',';
+            if (!empty($this->value)) {
+                foreach ($this->value as $value) {
+                    if ($valueSql != '') {              
+                       $valueSql .= ',';
+                    }
+                    $valueSql .= "SUM($value) AS $value";
                 }
-                $valueSql .= "SUM($value) AS $value";
             }
         } else {
-            foreach ($this->value as $value) {
-                if ($valueSql != '') {              
-                   $valueSql .= ' + ';
+            if (!empty($this->value)) {
+                foreach ($this->value as $value) {
+                    if ($valueSql != '') {              
+                       $valueSql .= ' + ';
+                    }
+                    $valueSql .= "SUM($value)";
                 }
-                $valueSql .= "SUM($value)";
+                $valueSql .= " AS value";
             }
-            $valueSql .= " AS value";           
+        }
+
+        if (empty($valueSql)) {
+            $this->cartoclient->addMessage(I18n::gt('WARNING, no value selected, aborting.'));
+            return;
         }
         
         $wheres = array('1=1');
@@ -919,14 +948,19 @@ class ClientStatsReports extends ClientPlugin
         $where = implode(' AND ', $wheres);
    
         $groupBy = '';
-        if ($this->line != 'value') {
+        if ($this->line != 'value' && !empty($this->line)) {
             $groupBy .= $this->getDbField($this->line);
         }
-        if ($this->column != 'value') {
+        if ($this->column != 'value' && !empty($this->column)) {
             if ($groupBy != '') {
                 $groupBy .= ',';        
             }
             $groupBy .= $this->getDbField($this->column);
+        }
+
+        if (empty($groupBy)) {
+            $this->cartoclient->addMessage(I18n::gt('WARNING, you didnt select either a line or column type, aborting.'));
+            return;
         }
         
         $sql = "SELECT $valueSql";
@@ -966,13 +1000,15 @@ class ClientStatsReports extends ClientPlugin
         $db = $this->getDb($this->datas[$this->data]->dsn);
         
         $tableName = $this->getCurrentTableName();
-                             
+
         $valueSql = '';
-        foreach ($this->value as $value) {
-            if ($valueSql != '') {              
-                $valueSql .= ',';
+        if (!empty($this->value)) {
+            foreach ($this->value as $value) {
+                if ($valueSql != '') {              
+                    $valueSql .= ',';
+                }
+                $valueSql .= $value;
             }
-            $valueSql .= $value;
         }
         
         $wheres = array('1=1');
@@ -1013,117 +1049,123 @@ class ClientStatsReports extends ClientPlugin
         $this->lines = $lines;
     }
     
-    protected function drawResult() {                
-            
-        $columnOptions = $this->getSelectedOptions($this->column);
-        $lineOptions = $this->getSelectedOptions($this->line);
+    protected function drawResult() {
+        
+        if (empty($this->column) || empty($this->line) || empty($this->value)) {
+            if (empty($this->column) || empty($this->line)) {
+                $this->cartoclient->addMessage(I18n::gt('WARNING, you need to set column and line parameters'));
+            }
+        } else {
+            $columnOptions = $this->getSelectedOptions($this->column);
+            $lineOptions = $this->getSelectedOptions($this->line);
 
-        switch ($this->display) {
-        case 'table':
+            switch ($this->display) {
+            case 'table':
 
-            $linesTemplate = array();
-            foreach ($lineOptions as $lineKey => $lineTitle) {
-                
-                $lineTemplate = new stdClass();
-                $lineTemplate->lineTitle = $lineOptions[$lineKey];
-                $values = array();
-                if (isset($this->lines[$lineKey])) {
+                $linesTemplate = array();
+                foreach ($lineOptions as $lineKey => $lineTitle) {
                     
-                    $line = $this->lines[$lineKey];
-                    foreach ($columnOptions as $columnKey => $columnTitle) {
-                        if (isset($line[$columnKey])) {
-                            $values[] = $line[$columnKey];
-                        } else {
+                    $lineTemplate = new stdClass();
+                    $lineTemplate->lineTitle = $lineOptions[$lineKey];
+                    $values = array();
+                    if (isset($this->lines[$lineKey])) {
+                        
+                        $line = $this->lines[$lineKey];
+                        foreach ($columnOptions as $columnKey => $columnTitle) {
+                            if (isset($line[$columnKey])) {
+                                $values[] = $line[$columnKey];
+                            } else {
+                                $values[] = 0;
+                            }
+                        }
+                    } else {
+                        
+                        foreach ($columnOptions as $columnKey => $columnTitle) {
                             $values[] = 0;
                         }
                     }
-                } else {
-                    
-                    foreach ($columnOptions as $columnKey => $columnTitle) {
-                        $values[] = 0;
-                    }
-                }
-                $lineTemplate->values = $values;
-                $linesTemplate[] = $lineTemplate;
-            }            
-            
-            $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-            $smarty->assign(array('stats_columnTitles' => $columnOptions,
-                                  'stats_lines' => $linesTemplate));
-            return $smarty->fetch('stats_results_table.tpl'); 
-
-            break;
-        case 'graph1':
-        case 'graph2':
-            
-            $graphs = array();
-            $graphValues = array();
-            $md5 = array();
-            foreach ($lineOptions as $lineKey => $lineTitle) {
+                    $lineTemplate->values = $values;
+                    $linesTemplate[] = $lineTemplate;
+                }            
                 
-                if (isset($this->lines[$lineKey])) {
-                    
-                    $line = $this->lines[$lineKey];
-                    $graphValues[$lineTitle] = array();
-                    $md5[$lineTitle] = 'foo';
-                    foreach ($columnOptions as $columnKey => $columnTitle) {
-                        if (isset($line[$columnKey])) {
-                            $graphValues[$lineTitle][$columnTitle] = $line[$columnKey];
-                        } else {
-                            $graphValues[$lineTitle][$columnTitle] = 0;
-                        }
-                        $md5[$lineTitle] = md5($md5[$lineTitle] . '-' . $lineTitle .
-                                               '-' . $columnTitle . '-' .
-                                               $graphValues[$lineTitle][$columnTitle]);
-                    }
-                    
-                }
-            }
-            $graphType = 'bar';
-            $xUnit = $this->column;
-            $yUnit = $this->line;
-            if ($this->column == 'time') {
-                $graphType = 'line';
-                $xUnit = $this->periodtype;
-            }
-            if ($this->line == 'time') {
-                $yUnit = $this->periodtype;                
-            }
-            $graphTitle = '';
-            if ($this->line != 'value') {
-                foreach ($this->value as $value) {
-                    if ($graphTitle != '') {                        
-                        $graphTitle .= ' + ';
-                    }
-                    $graphTitle .= I18n::gt(ucfirst($value));
-                }
-            } 
-            if ($this->display == 'graph1') {
-                $md5Final = 'foo';
-                foreach ($md5 as $m) {
-                    $md5Final = md5($md5Final . '-' . $m);
-                }                             
-                $graphs[] = $this->getGraph($graphTitle, $graphType, I18n::gt(ucfirst($xUnit)),
-                                            $graphValues, $md5Final);
-            } else {
-                foreach ($graphValues as $title => $values) {
-                    
-                    $finalTitle = I18n::gt(ucfirst($yUnit)) . ' ' . $title;
-                    if ($graphTitle != '') {
-                        $finalTitle = $graphTitle . " ($finalTitle)";
-                    }
-                    $graphs[] = $this->getGraph($finalTitle, $graphType,
-                                                I18n::gt(ucfirst($xUnit)),
-                                                array($title => $values),
-                                                $md5[$title]);
-                }
-            }
+                $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+                $smarty->assign(array('stats_columnTitles' => $columnOptions,
+                                      'stats_lines' => $linesTemplate));
+                return $smarty->fetch('stats_results_table.tpl'); 
 
-            $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-            $smarty->assign(array('stats_graphs' => $graphs));
-            return $smarty->fetch('stats_results_graphs.tpl'); 
-            
-            break;
+                break;
+            case 'graph1':
+            case 'graph2':
+                
+                $graphs = array();
+                $graphValues = array();
+                $md5 = array();
+                foreach ($lineOptions as $lineKey => $lineTitle) {
+                    
+                    if (isset($this->lines[$lineKey])) {
+                        
+                        $line = $this->lines[$lineKey];
+                        $graphValues[$lineTitle] = array();
+                        $md5[$lineTitle] = 'foo';
+                        foreach ($columnOptions as $columnKey => $columnTitle) {
+                            if (isset($line[$columnKey])) {
+                                $graphValues[$lineTitle][$columnTitle] = $line[$columnKey];
+                            } else {
+                                $graphValues[$lineTitle][$columnTitle] = 0;
+                            }
+                            $md5[$lineTitle] = md5($md5[$lineTitle] . '-' . $lineTitle .
+                                                   '-' . $columnTitle . '-' .
+                                                   $graphValues[$lineTitle][$columnTitle]);
+                        }
+                        
+                    }
+                }
+                $graphType = 'bar';
+                $xUnit = $this->column;
+                $yUnit = $this->line;
+                if ($this->column == 'time') {
+                    $graphType = 'line';
+                    $xUnit = $this->periodtype;
+                }
+                if ($this->line == 'time') {
+                    $yUnit = $this->periodtype;                
+                }
+                $graphTitle = '';
+                if ($this->line != 'value') {
+                    foreach ($this->value as $value) {
+                        if ($graphTitle != '') {                        
+                            $graphTitle .= ' + ';
+                        }
+                        $graphTitle .= I18n::gt(ucfirst($value));
+                    }
+                } 
+                if ($this->display == 'graph1') {
+                    $md5Final = 'foo';
+                    foreach ($md5 as $m) {
+                        $md5Final = md5($md5Final . '-' . $m);
+                    }                             
+                    $graphs[] = $this->getGraph($graphTitle, $graphType, I18n::gt(ucfirst($xUnit)),
+                                                $graphValues, $md5Final);
+                } else {
+                    foreach ($graphValues as $title => $values) {
+                        
+                        $finalTitle = I18n::gt(ucfirst($yUnit)) . ' ' . $title;
+                        if ($graphTitle != '') {
+                            $finalTitle = $graphTitle . " ($finalTitle)";
+                        }
+                        $graphs[] = $this->getGraph($finalTitle, $graphType,
+                                                    I18n::gt(ucfirst($xUnit)),
+                                                    array($title => $values),
+                                                    $md5[$title]);
+                    }
+                }
+
+                $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+                $smarty->assign(array('stats_graphs' => $graphs));
+                return $smarty->fetch('stats_results_graphs.tpl'); 
+                
+                break;
+            }
         }
     }
     
