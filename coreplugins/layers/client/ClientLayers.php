@@ -923,7 +923,7 @@ class ClientLayers extends ClientPlugin
             return $mask;
 
         if ($layer->rendering == 'dropdown') {
-            if (isset($this->layersState->dropDownSelected[$layerId]))
+            if (isset($this->layersState->dropDownSelected[$layerId])) {
                 $childId = $this->layersState->dropDownSelected[$layerId];
                 // check if selected layer is restricted
                 if (!array_key_exists($childId, $this->layers)) {
