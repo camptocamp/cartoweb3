@@ -10,6 +10,7 @@ CartoWeb HEAD
 - Extended support of outline GET parameters to enable description of several shapes - possibly of different types - at once
 - Extended support of query GET parameters to enable querying of multiple objets - possibly from different layers - at once
 - Added exportLinkIt plugin (returns URL of current page state)
+- Added layerFilter plugin: generates a layer attributes filter form and applies the resulting filters 
 
 2007-07-26: CartoWeb 3.4.0
 ===================

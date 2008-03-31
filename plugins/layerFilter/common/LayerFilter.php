@@ -32,13 +32,19 @@ class LayerFilterRequest extends CwSerializable {
     /**
      * @var array
      */
-    public $criteria;
+    public $criteria_keys;
+
+    /**
+     * @var array
+     */
+    public $criteria_values;
 
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
-        $this->criteria = self::unserializeArray($struct, 'criteria');
+        $this->criteria_keys   = self::unserializeArray($struct, 'criteria_keys');
+        $this->criteria_values = self::unserializeArray($struct, 'criteria_values');
     }
 }
 

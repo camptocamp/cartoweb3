@@ -1278,3 +1278,12 @@ msgstr "The current page is available using following URL:"
 
 msgid "URL is too long"
 msgstr "URL is too long"
+
+msgid "Layers Filter"
+msgstr "Layers Filter"
+
+msgid "Filter criteria"
+msgstr "Filter Criteria"
+
+msgid "Filter"
+msgstr "Filter"

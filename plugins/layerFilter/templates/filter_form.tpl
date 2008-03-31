@@ -23,5 +23,11 @@
   </div>
 {/foreach}
 </fieldset>
-<input type="submit" id="layerFilterSubmit" name="layerFilterSubmit" value="{t}Search{/t}" />
-<input type="submit" id="layerFilterReset" name="layerFilterReset" value="{t}Reset{/t}" />
+{if !$ajaxOn}
+<input type="submit" id="layerFilterSubmit" name="layerFilterSubmit" value="{t}Filter{/t}" class="form_button" />
+<input type="submit" id="layerFilterReset" name="layerFilterReset" value="{t}Reset{/t}" class="form_button" />
+{else}
+<input type="hidden" id="layerFilterReset" name="layerFilterReset" value="" />
+<input type="button" value="{t}Filter{/t}" class="form_button" onclick="CartoWeb.trigger('LayerFilter.Apply', 'FormItemSelected()');" /> 
+<input type="button" value="{t}Reset{/t}" class="form_button" onclick="CartoWeb.trigger('LayerFilter.Reset', 'FormItemSelected()');" /> 
+{/if}

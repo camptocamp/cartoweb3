@@ -1375,3 +1375,12 @@ msgstr "Nombre de PDF"
 
 msgid "Count_dxf"
 msgstr "Nombre de DXF"
+
+msgid "Layers Filter"
+msgstr "Filtre des couches"
+
+msgid "Filter criteria"
+msgstr "Critères de filtre"
+
+msgid "Filter"
+msgstr "Filtrer"

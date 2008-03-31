@@ -26,7 +26,8 @@ class ServerLayerFilter extends ClientResponderAdapter {
      */
     public function initializeRequest($requ) {
         
-        if (empty($requ->criteria)) {
+        if (empty($requ->criteria_keys) || empty($requ->criteria_values) ||
+            count($requ->criteria_keys) != count($requ->criteria_values)) {
             return;
         }
 
@@ -40,7 +41,9 @@ class ServerLayerFilter extends ClientResponderAdapter {
         // array associating layers to criteria that affect them
         $layersFilters = array();
 
-        foreach ($requ->criteria as $critname => $critopt) {
+        foreach ($requ->criteria_values as $critid => $critopt) {
+            $critname = $requ->criteria_keys[$critid];
+
             // skips criterion if it is not listed in config
             if (empty($config->$critname)) continue;
 

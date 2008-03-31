@@ -47,10 +47,9 @@ class ClientLayerFilter extends ClientPlugin
     protected $criteria;
 
     /**
-     * session object
-     * @var LayerFilterState
+     * @var boolean
      */
-    protected $layerFilterState;
+    protected $reset = false;
 
     /** 
      * Constructor
@@ -67,7 +66,8 @@ class ClientLayerFilter extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
         
-        if (array_key_exists('layerFilterReset', $request)) {
+        if (!empty($request['layerFilterReset'])) {
+            $this->reset = true;
             return;
         }
 
@@ -185,7 +185,8 @@ class ClientLayerFilter extends ClientPlugin
     protected function drawFilterForm() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign(array('formObjects' => $this->getFormObjects(),
-                              'i18n'        => $this->i18n));
+                              'i18n'        => $this->i18n,
+                              'ajaxOn'      => $this->cartoclient->getConfig()->ajaxOn));
         return $smarty->fetch('filter_form.tpl');
     }
 
@@ -214,7 +215,10 @@ class ClientLayerFilter extends ClientPlugin
 
         if (count($this->criteria) > 0) {
             $layerFilterRequest = new LayerFilterRequest;
-            $layerFilterRequest->criteria = $this->criteria;
+            // Keys and values are transmitted separately because WSDL does not
+            // support associative arrays with "dynamic" key names.
+            $layerFilterRequest->criteria_keys   = array_keys($this->criteria);
+            $layerFilterRequest->criteria_values = array_values($this->criteria);
             return $layerFilterRequest;
         }
     }
@@ -232,7 +236,11 @@ class ClientLayerFilter extends ClientPlugin
     /**
      * @see Ajaxable::ajaxGetPluginResponse()
      */
-    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {}
+    public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
+        if ($this->reset) {
+            $ajaxPluginResponse->addHtmlCode('gui', $this->drawFilterForm());
+        }
+    }
 
     /**
      * @see Ajaxable::ajaxHandleAction()

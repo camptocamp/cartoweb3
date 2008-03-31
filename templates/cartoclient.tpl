@@ -320,7 +320,9 @@ Request:
     {/if}
     {if $layerFilter|default:''}
     <div id="folder9" class="folder">
+      <div id="layerFilter">
       {$layerFilter}
+      </div>
     </div>
     <!-- end of folder9 -->
     {/if}
