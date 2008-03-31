@@ -925,7 +925,16 @@ class ClientLayers extends ClientPlugin
         if ($layer->rendering == 'dropdown') {
             if (isset($this->layersState->dropDownSelected[$layerId]))
                 $childId = $this->layersState->dropDownSelected[$layerId];
-            else {
+                // check if selected layer is restricted
+                if (!array_key_exists($childId, $this->layers)) {
+                    // select first available children in the dropdown child list
+                    $children = $layer->getChildren($this->layersState->switchId,
+                                                    $resetCache);
+                    $childId = $children[0];
+                    // correct the value of the selected child in the parent dropDownSelected property
+                    $this->layersState->dropDownSelected[$layerId] = $childId;
+                }
+            } else {
                 $children = $layer->getChildren($this->layersState->switchId,
                                                 $resetCache);
                 $childId = $children[0];
