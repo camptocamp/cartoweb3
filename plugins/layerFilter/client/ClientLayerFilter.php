@@ -78,7 +78,7 @@ class ClientLayerFilter extends ClientPlugin
             
             if ($critprop->type == 'checkbox') {
 
-                $all_checked = true;
+                $all_checked = !empty($critprop->allOptionsListed);
                 $values = array();
                 foreach ($critprop->options as $optname => &$optprop) {
                     if (!empty($request[$critname . '_' . $optname])) {
@@ -140,10 +140,17 @@ class ClientLayerFilter extends ClientPlugin
 
             if ($critprop->type == 'checkbox') {
                 $options = array();
+                $all_checked = !empty($critprop->allOptionsListed);
                 foreach ($critprop->options as $optname => $optprop) {
                     if (!empty($optprop->selected)) {
                         $options[] = $optname;
+                    } else {
+                        $all_checked = false;
                     }
+                }
+
+                if ($all_checked) {
+                    continue;
                 }
 
                 if (count($options) > 0) {

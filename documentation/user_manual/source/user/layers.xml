@@ -662,6 +662,9 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
           <para><parameter>type</parameter>, (checkbox|radio|dropdown), rendering of the criterion input</para>
         </listitem>
         <listitem>
+          <para><parameter>allOptionsListed</parameter>, (boolean), only relevant when <parameter>type=checkbox</parameter>. If this setting is <parameter>true</parameter>, no filter is applied when all boxes are checked. Default setting is <parameter>false</parameter>.</para>
+        </listitem>
+        <listitem>
           <para><parameter>options</parameter>, a list of object-like options with an "option name" a <parameter>label</parameter> and a <parameter>selected</parameter> boolean status (indicates the initial state of the filter form).</para>
         </listitem>
       </itemizedlist>
@@ -670,6 +673,7 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
 
 criteria.foo.title = foobar 
 criteria.foo.type = checkbox
+criteria.foo.allOptionsListed = true
 criteria.foo.options.bou.label = some text
 criteria.foo.options.bou.selected = true
 criteria.foo.options.bla.label = blabla
