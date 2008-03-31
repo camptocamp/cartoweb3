@@ -700,6 +700,11 @@ criteria.foo.options.null.selected = true]]></programlisting>
 criteria.surf.options.surf1.filter = "#SOME_FIELD# < 1"
 criteria.surf.options.surf2.filter = "MAX(some_other_field) BETWEEN 1 AND 2"]]></programlisting>
     </sect2>
+    <sect2 id="user.layers.layer_filter.templates">
+      <title>Insertion in Layout</title>
+      <para>In order to make the filter form available in the general layout, a Smarty <parameter>{$layerFilter}</parameter> tag must be included in the <filename>templates/cartoclient.tpl</filename> template. If the AJAX mode is activated, make sure that it is encapsulated within a <parameter><![CDATA[<div id="layerFilter"></div>]]></parameter> element:</para>
+      <programlisting><![CDATA[<div id="layerFilter">{$layerFilter}</div>]]></programlisting>
+    </sect2>
   </sect1>
 
 </chapter>
