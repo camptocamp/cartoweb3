@@ -111,6 +111,8 @@
        xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/linkIt.xml"
        xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/stats.xml"
+       xmlns:xi="http://www.w3.org/2001/XInclude" />
 
   </part>
   <part id="cartoweb.dev">

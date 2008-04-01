@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<chapter id="user.stats">
+  <title>CartoWeb and WMS Usage Statistics <subscript>[plugin] (statsReports)</subscript></title>
+    <para>StatsReports plugin allows to visualize statistics on &cartoweb; and WMS usage. Results
+    can be shown in a form of tables, charts or maps.
+    </para>
+  <sect1 id="user.stats.java">
+    <title>Import and Reports</title>
+      <para>Statistics are generated out of &cartoweb;'s Accounting plugin output or out of Apache
+      logs (for WMS statistics). A Java application proccesses the logs and stores raw data in a 
+      PostGreSQL database.
+      </para>
+      <sect2 id="user.stats.java.build">
+      <title>How To Build?</title>
+      <para>
+      Source of Java application are located in <filename>scripts/stats</filename>. To build this
+      project, you need: </para>      
+      <itemizedlist>
+        <listitem>
+        <para>Maven 2 (http://maven.apache.org)</para>
+        </listitem>
+        <listitem>
+        <para>Java Runtime Environment JRE >= 1.5</para>
+        </listitem>
+        <listitem>
+        <para>A PostgreSQL database</para>
+        </listitem>
+      </itemizedlist> 
+      <para>The other external librairies are taken care of by Maven.</para>
+      <para>Now you must set <parameter>STATS_DB</parameter>
+      environment variable. On Linux it will look like:</para>
+        <programlisting>
+<![CDATA[export STATS_DB="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD"]]></programlisting>
+      <para>This is needed by post-build automatic tests. Then simply run following build command:</para>
+        <programlisting>
+<![CDATA[mvn clean install]]></programlisting>
+      </sect2>
+      <sect2 id="user.stats.java.runimport">
+      <title>Running Import</title>
+      <para>
+      &cartoweb; logs are imported using the following command (remove end-of-line backslashes on Windows): 
+      </para>
+        <programlisting>
+<![CDATA[java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD" \
+     --logDir=/my/log/dir/ --format=cartoweb \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$"]]></programlisting>
+      <para>
+      where:
+      </para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>-Xmx1G</parameter> - tells Java to use a maximum of 1 Gb for the import.
+        This should be enough even for very large log files</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--initialize</parameter> - tells the application to create the database.
+        Remove this option to use incremental import once the database has been created</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--tableName</parameter> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both &cartoweb; and WMS logs in the same database</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--db</parameter> - connection string</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--logDir</parameter> - logs directory. Directory will be 
+        recursively processed</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--format</parameter> - format. Currently values are 
+        <parameter>cartoweb</parameter> or <parameter>wms</parameter></para>
+        </listitem>
+        <listitem>
+        <para><parameter>--logRegExp</parameter>- regular expression to limit processed 
+        file logs to those matching the expression</para>
+        </listitem>
+      </itemizedlist> 
+      <para>WMS imports use one more mandatory option:</para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>--mapIdRegExp</parameter> - regular expression that finds
+        the project name in WMS query. This allows to have several WMS application on one
+        server with the same Apache logs. Example for a WMS import:</para>
+        </listitem>
+      </itemizedlist>
+        <programlisting>
+<![CDATA[java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats_wms \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD" \
+     --logDir=/my/log/apachedir/ --format=wms \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$" --mapIdRegExp="GET /wms-([^\/]*)\//"]]></programlisting>
+      <para>Help on the possible parameters for a command can be obtained by starting it without parameters.</para>
+      </sect2>
+      <sect2 id="user.stats.java.configreports">
+      <title>Configuring Reports</title>
+      <para>
+      A report is a set of parameters that defines how data will be aggregated in order to visualize statistics.
+      For instance, parameters include the list of criteria (dimensions) that will be available to the end user.
+      Reports are defined in an INI file. A typical section looks like:
+      </para>
+        <programlisting>
+<![CDATA[[scale project]
+; A comment
+label = Stats per project
+type = simple
+periods.day = 30
+periods.month = 12
+periods.year = 5
+values = pixel, count, countPDF, countDXF
+dimensions = project
+filters.project = sitn, jura
+]]></programlisting>
+      <para>The fields are:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>label</parameter> - report name for the GUI</para>
+        </listitem>
+        <listitem>
+          <para><parameter>type</parameter> - type of report (see below)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>periods.*</parameter> - how to divide the time (see below)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>values</parameter> - what values are stored (see below)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>dimensions</parameter> - what criteria user will be able to specify in the GUI (see below)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>filters.*</parameter> - what records you want to take into account (see below)</para>
+        </listitem>
+      </itemizedlist>
+      <sect3 id="user.stats.java.configreports.types">
+      <title>Report Types</title>
+      <para>Currently available types are:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>simple</parameter> - graphs or tables</para>
+        </listitem>
+        <listitem>
+          <para><parameter>gridbbox</parameter> - colored maps based on the bounding box
+          of the viewed maps</para>
+        </listitem>
+        <listitem>
+          <para><parameter>gridcenter</parameter> - colored maps based on the center
+          of the viewed maps </para>
+        </listitem>
+      </itemizedlist>
+      <para>If the type is <parameter>gridbox</parameter> or <parameter>gridcenter</parameter>,
+      you have to add a few fields in the configuration that will define the position, size and
+      granularity of the grid box. For example:
+      </para>
+        <programlisting>
+<![CDATA[type = gridbbox
+minx = 522000
+miny = 187000
+size = 500
+nx = 106
+ny = 76]]></programlisting>      
+      </sect3>
+      <sect3 id="user.stats.java.configreports.periods">
+      <title>Periods</title>
+      <para>The possible period units are:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>hour</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>day</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>week</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>month</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>year</parameter></para>
+        </listitem>
+      </itemizedlist>      
+      <para>The value specifies the number of those units to keep in the DB. Here is an
+      example for generating a report aggregated by week, for the last 12 weeks:</para>
+        <programlisting>
+<![CDATA[periods.week = 12]]></programlisting>     
+      <para>The report generator consider the current time as being the time of the last
+      hit matching the filters. A period is taken into account even if there is no
+      record for this period.</para> 
+      </sect3>
+      <sect3 id="user.stats.java.configreports.values">
+      <title>Values</title>
+      <para>A list, separated by <parameter>','</parameter> of any of the following:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>count</parameter> - the number of hits (no PDF or DXF outputs)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>countPDF</parameter> - the number of PDF generated</para>
+        </listitem>
+        <listitem>
+          <para><parameter>countDXF</parameter> - the number of DXF generated</para>
+        </listitem>
+        <listitem>
+          <para><parameter>pixel</parameter> - the sum of pixels generated</para>
+        </listitem>
+      </itemizedlist>
+      </sect3>
+      <sect3 id="user.stats.java.configreports.dimensions">
+      <title>Dimensions</title>
+      <para>A list, separted by <parameter>','</parameter> of any of the following:</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>project</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>user</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>scale</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>size</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>theme</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>layer</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>pdfFormat</parameter></para>
+        </listitem>
+        <listitem>
+          <para><parameter>pdfRes</parameter></para>
+        </listitem>
+      </itemizedlist>
+      <para>If you use the <parameter>scale</parameter> dimension, you have to add a field to specifiy the limits
+      for the discretization of the scale value. For example:</para>
+        <programlisting>
+<![CDATA[dimensions = scale
+scales=1000,5000,10000,50000,100000,500000,1000000,5000000]]></programlisting>           
+      </sect3>
+      <sect3 id="user.stats.java.configreports.filters">
+      <title>Filters</title>
+      <para>You can put as many filters as you want, one line per filter. The filters
+      available are (you must prepend <parameter>filters.</parameter>):</para>
+      <itemizedlist>
+        <listitem>
+          <para><parameter>scale</parameter> - a range of scales (floating point)</para>
+        </listitem>
+        <listitem>
+          <para><parameter>width</parameter> - a range of map width</para>
+        </listitem>
+        <listitem>
+          <para><parameter>height</parameter> - a range of map height</para>
+        </listitem>
+        <listitem>
+          <para><parameter>project</parameter> - a list, separated by <parameter>','</parameter>
+          of project names</para>
+        </listitem>
+        <listitem>
+          <para><parameter>layer</parameter> - a list, separated by <parameter>','</parameter>
+          of layer names</para>
+        </listitem>
+        <listitem>
+          <para><parameter>theme</parameter> - a list, separated by <parameter>','</parameter>
+          of theme names</para>
+        </listitem>
+        <listitem>
+          <para><parameter>user</parameter> - a list, separated by <parameter>','</parameter>
+          of user names</para>
+        </listitem>
+        <listitem>
+          <para><parameter>pdfFormat</parameter> - a list, separated by <parameter>','</parameter>
+          of PDF format names</para>
+        </listitem>
+        <listitem>
+          <para><parameter>pdfRes</parameter> - a range of PDF resolution</para>
+        </listitem>
+      </itemizedlist>
+      <para>For list of names, you can use <parameter>'*'</parameter> for matching
+      any string of character. For example, <parameter>cn*</parameter> will match <parameter>cn25</parameter>
+      and <parameter>cn50</parameter>. For ranges of values, you can give either a range like <parameter>2-5</parameter>
+      or a simple value. Some examples of filters:</para>
+      <programlisting>
+<![CDATA[filters.scale = 1000.5-5000
+filters.width = 290-350
+filters.height = 290-350
+filters.project = sitn, agri
+filters.layer = cn*, adresses
+filters.theme = orthophotos, default
+filters.user = Jules, Jean
+filters.pdfFormat = A4, A5
+filters.pdfRes = 290-350]]></programlisting>           
+      </sect3>
+      </sect2>
+      <sect2 id="user.stats.java.runreports">
+      <title>Running Reports Generation</title>
+      <para>
+      Raw data imported with Import application are aggregated using the following command
+      (remove end-of-line backslashes on Windows): 
+      </para>
+        <programlisting>
+<![CDATA[java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.report.Reports \
+     --iniFilename=myReports.ini --tableName=stats \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD" \
+     --purgeOnConfigurationChange]]></programlisting>
+      <para>
+      where:
+      </para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>-Xmx1G</parameter> - tells Java to use a maximum of 1 Gb for the aggregation.
+        This should be enough even for very large amount of data</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--iniFilename</parameter> - name of INI configuration file</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--tableName</parameter> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both &cartoweb; and WMS logs in the same database</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--db</parameter> - connection string</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--purgeOnConfigurationChange</parameter> - tells the application
+        to drop all aggregated data when a change was found in a report configuration. Without
+        this option, a warning is displayed and old data is not erased. Warning: you will NOT
+        be able to get report aggregated data again if original raw data has been purged!</para>
+        </listitem>
+      </itemizedlist>
+      </sect2>
+  </sect1>
+  <sect1 id="user.stats.visualization">
+    <title>Statistics Visualization</title>
+      <para>
+      StatsReports visualization plugin is a standard &cartoweb; client and server plugin.
+      It must be activated on both sides.
+      </para>
+      <sect2 id="user.stats.visualization.client">
+      <title>Client-side Configuration</title>
+      <para>Typical client-side <filename>statsReports.ini</filename> looks like:</para>
+        <programlisting>
+<![CDATA[datas.cartoweb.label = Statistiques Cartoweb
+datas.cartoweb.dsn = pgsql://MYUSER:MYPASSWORD@localhost/MYDB
+datas.cartoweb.prefix = stats
+
+datas.wms.label = Statistiques WMS
+datas.wms.dsn = pgsql://MYUSER:MYPASSWORD@localhost/MYDB
+datas.wms.prefix = statswms
+
+tempDsn = pgsql://MYUSER:MYPASSWORD@localhost/MYTEMPDB
+nColors = 16]]></programlisting>
+      <para>where:</para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>datas.*.label</parameter> - environment label (for the GUI)</para>
+        </listitem>
+        <listitem>
+        <para><parameter>datas.*.dsn</parameter> - database connection</para>
+        </listitem>
+        <listitem>
+        <para><parameter>datas.*.prefix</parameter> - table prefix (to use more than one environment 
+        on one database)</para>
+        </listitem>
+        <listitem>
+        <para><parameter>tempDsn</parameter> - database connection for temporary tables (could 
+        be the same as other database connection)</para>
+        </listitem>
+        <listitem>
+        <para><parameter>nColors</parameter> - number of colors for map statistics (linear
+        distribution)</para>
+        </listitem>
+      </itemizedlist>
+      <para>Please note that there should be one session at a time for each &cartoweb; user.
+      This is due to the cache management (one graph/map per user).</para>
+      </sect2>
+      <sect2 id="user.stats.visualization.server">
+      <title>Server-side Configuration</title>
+      <para>Typical server-side <filename>statsReports.ini</filename> looks like:</para>
+        <programlisting>
+<![CDATA[layer = my_stats_layer]]></programlisting>
+      <para>where:</para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>layer</parameter> - name of Mapfile statistics layer (see below).
+        Default value is <parameter>stats</parameter></para>
+        </listitem>
+      </itemizedlist>
+      </sect2>
+      <sect2 id="user.stats.visualization.mapfile">
+      <title>Related Elements in Mapfile</title>
+      <para>In order to display map statistics, the following layer must be added to 
+      the mapfile. Name of layer must be the one set in INI file.</para>
+        <programlisting>
+<![CDATA[LAYER
+  NAME "my_stats_layer"
+  TYPE RASTER
+  DATA ""
+  TRANSPARENCY 80
+  STATUS ON
+END]]></programlisting>
+      </sect2>
+  </sect1>
+</chapter>
+
