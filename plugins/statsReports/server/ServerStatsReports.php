@@ -47,7 +47,15 @@ class ServerStatsReports extends ClientResponderAdapter {
     public function initializeRequest($requ) {
       
         $msMapObj = $this->serverContext->getMapObj();
-        $statsLayer = $msMapObj->getLayerByName('stats');
+        
+        $layerName = 'stats';
+        if (!is_null($this->getConfig()->layer)) {
+            $layerName = $this->getConfig()->layer;
+        }        
+        $statsLayer = $msMapObj->getLayerByName($layerName);
+        if (empty($statsLayer)) {
+            throw new CartoserverException("Layer $layerName not found");        
+        }
         
         if ($requ->imageFile == '') {
             $statsLayer->set('status', MS_OFF);
