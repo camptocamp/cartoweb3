@@ -109,6 +109,23 @@
             to convert square meters to square kilometers. </para>
         </listitem>
         <listitem>
+          <para> 
+            areaPrecision<indexterm><primary>areaPrecision</primary></indexterm>: 
+            defines an optional way to obtain a formatted area surface value. 
+<literallayout>"{(int) nb decimal}#{(str) decimal separator}#{(str) thousand separator}"
+</literallayout></para>
+          <para>If areaPrecision is present in outline.ini (server_conf) without any parameters the 
+		  following formatter will be apply : 2 decimal, .(dot) as decimal separator, " "(space) as thousand separator.
+		  which correspond to the areaPrecision = "2#.# ". It's better to double-quote your parameter, avoiding trouble by the ini parser
+		  if you want to use a space at the end. 
+		  If you want a 4 decimal, with comma decimal separator, and single-quote for thousand separator you would change this to 
+		  areaPrecision = "4#,#'"
+		  </para>
+		  <para>Note : this is absolutely not locales aware, you could only have one formater for all language your project support.
+		  Would perharps change with php6 version. 
+		  </para>
+        </listitem>        
+        <listitem>
         <para> symbolPickerHilight = inversed|borderhilight: set the hilight
 mode to use in the SymbolPicker interface. See 
 <xref linkend="user.annotate.toolpicker.usage.symbol"/>.</para>
