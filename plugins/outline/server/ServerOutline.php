@@ -306,7 +306,18 @@ class ServerOutline extends ClientResponderAdapter
             $areaFactor = (double)$areaFactor;
         }
 
-        return $area * $areaFactor;
+        $areaPrecision = $this->getConfig()->areaPrecision;
+        if (is_null($areaPrecision)) {
+            return $area * $areaFactor; 
+        } else {
+            $aP = split("#", $areaPrecision);
+            // We ensure some default value in case areaPrecision is existant in 
+            // server outline.ini but with anything specified
+            $aP[0] = ( !isset($aP[0]) ) ? "2" : $aP[0];
+            $aP[1] = ( !isset($aP[1]) ) ? "." : $aP[1];
+            $aP[2] = ( !isset($aP[2]) ) ? " " : $aP[2];
+            return number_format($area * $areaFactor, $aP[0], $aP[1], $aP[2]);
+        }
     }
     
     /**
