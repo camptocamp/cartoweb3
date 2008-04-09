@@ -72,7 +72,6 @@ class ClientLayerFilter extends ClientPlugin
         }
 
         $this->criteria = array();
-        $this->getFormObjects();
         
         $formObjects = $this->getFormObjects();
         foreach ($formObjects as $critname => &$critprop) {
