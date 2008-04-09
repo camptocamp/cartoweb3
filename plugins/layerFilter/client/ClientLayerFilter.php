@@ -74,7 +74,8 @@ class ClientLayerFilter extends ClientPlugin
         $this->criteria = array();
         $this->getFormObjects();
         
-        foreach ($this->formObjects as $critname => &$critprop) {
+        $formObjects = $this->getFormObjects();
+        foreach ($formObjects as $critname => &$critprop) {
             
             if ($critprop->type == 'checkbox') {
 
@@ -136,7 +137,8 @@ class ClientLayerFilter extends ClientPlugin
         }
 
         // else get default criteria from config
-        foreach ($this->getFormObjects() as $critname => $critprop) {
+        $formObjects = $this->getFormObjects();
+        foreach ($formObjects as $critname => &$critprop) {
 
             if ($critprop->type == 'checkbox') {
                 $options = array();
