@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding='ISO-8859-1'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+  "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
+  %cartoweb;
+  ]>
+<chapter id="user.throttling">
+  <title>Throttling Configuration</title>
+  <sect1 id="user.throttling.intro">
+    <title>Introduction</title>
+    <para>The throttling plugin allows to protect a cartoweb instance
+    against fast and massive usage from users. For example if a user tries to
+    download all your map data using a shell script with a combination of
+    <parameter>mode=image</parameter> and <parameter>recenter_bbox</parameter>
+    GET parameters.</para>
+
+    <para>If the plugin detects that a user (represented by its IP address)
+    is using the application in a such wrong way, the user will be blacklisted
+    for a configurable number a seconds and will receive an HTTP error
+    code.</para>
+
+    <para> The throttling plugin is not a core plugin. That's why you need to enable
+      it if you want to enable users to log-in. See <xref linkend="user.config"/>
+      how to enable it in the list of plugins.</para>
+  </sect1>
+
+  <sect1 id="user.throttling.configuration">
+    <title>Throttling configuration</title>
+        <para>In practice, you have to define rules of maximum request allowed
+        in a certain period. If the user overflow one such rule he is
+        blacklisted as described above.</para>
+
+      <sect2 id="user.throttling.configuration.main">
+        <title>Main throttling configuration</title>
+        <para>The plugin configuration file is located in
+        <parameter>client_conf/throttling.ini</parameter>. The configuration
+        options are: </para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>dontBlock</parameter> - Set to 1 to populate the
+                black list without blocking the ip. Useful for fine tuning the
+                parameters before really blocking.</para>
+          </listitem>
+          <listitem>
+            <para><parameter>whiteListPath</parameter> - White list
+                location. 
+                Read <xref linkend="user.throttling.configuration.whitelist"/>
+                to have more information on this option.</para> 
+          </listitem>
+          <listitem>
+            <para><parameter>blackListPeriod</parameter> - How long does a
+                blacklisted must remains blocked (in seconds).</para> 
+          </listitem>
+          <listitem>
+            <para><parameter>blackListLog</parameter> - Location of the log
+                file. If the path is relative it is relative to CARTOWEB_HOME. Note
+                that 'www-data' user (or the user who start apache) have to be able the
+                write into this file. If this file is not writable, the content will be
+                written into CARTOWEB_HOME/www-data/throttling/throttling.log</para>
+          </listitem>
+          <listitem>
+            <para><parameter>blackListMail</parameter> - A list of comma
+                separated emails that will be notified every time an IP is
+                added or removed from the blacklist.</para>
+          </listitem>
+          <listitem>
+            <para><parameter>buffer.*.period</parameter> and
+                <parameter>buffer.*.maxRequest</parameter> - Buffers
+                configuration. Read 
+                <xref linkend="user.throttling.configuration.buffer"/> to
+                see how buffers works.</para>
+          </listitem>
+        </itemizedlist>
+      </sect2>
+      <sect2 id="user.throttling.configuration.buffer">
+        <title>Throttling rules configuration</title>
+        <para>Access rules (named <parameter>buffer</parameter> in the plugin)
+        represents the maximum request/period you want to allow for each IP
+        addresses. You can configure one or more buffers in the
+        <parameter>client_conf/throttling.ini</parameter> file.</para>
+
+        <para>Each buffer is defined by a name, a period and a maximum of
+        request. For example, if you want to allow a maximum of 20 request in
+        10 second for each IP, you will write:</para>
+      <programlisting>
+<![CDATA[buffer.short.period = 10
+buffer.short.maxRequest = 20
+]]></programlisting>           
+
+        <para>Where <parameter>short</parameter> is the symbolic buffer name,
+        this name will be specified in the log file and in the mail.</para>
+
+        <para>If you want to create more than one buffer you just have to
+      populate the config file and dont forget to change the symbolic name. For
+      instance:</para>
+      <programlisting>
+<![CDATA[buffer.short.period = 10
+buffer.short.maxRequest = 20
+
+buffer.long.period = 3600
+buffer.long.maxRequest = 500
+
+buffer.foo.period = 100
+buffer.foo.maxRequest = 500
+]]></programlisting>           
+
+      </sect2>
+      <sect2 id="user.throttling.configuration.whitelist">
+        <title>Whitelist configuration</title>
+        <para>A list of IP addresses or IP networks can be specified in
+      the main throttling configuration file, this list will contains addresses
+      of hosts or networks that will not be taken into account by the
+      plugin. For example, you should add your own IP address in this list to FIXME.</para> 
+        <para>Addresses are in Classless Inter-Domain Routing format, if you
+      want to include a single IP address you have to write:
+      <screen>127.0.0.1/32</screen>
+      <parameter>127.0.0.1</parameter> is the ip address and
+      <parameter>/32</parameter> is the network mask.
+        </para>
+        <para>To include a whole IP network, you have to write:
+        <screen>192.168.3.0/24</screen>
+        Where <parameter>192.168.3.0</parameter> represent the network and
+      <parameter>/24</parameter> the network mask. In this case, the whitelist
+      will include all addresses from <parameter>192.168.3.1</parameter> to <parameter>192.168.3.255</parameter>
+
+        <para>
+        </para>For more information about this format, see: 
+              <a href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</a>
+        </para>
+
+
+      </sect2>
+
+  </sect1>
+</chapter>

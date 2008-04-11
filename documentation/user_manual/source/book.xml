@@ -85,6 +85,8 @@
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/security.xml" 
       xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="user/throttling.xml" 
+      xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/i18n.xml"
       xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href="user/template.xml" 
