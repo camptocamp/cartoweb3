@@ -129,11 +129,11 @@ formats.A4.bigDimension = 297]]></programlisting>
        Default: 'red'.
       </para>
      </listitem>
-        <listitem>
-            <para> <parameter>general.showRefMarks</parameter> (boolean): if true,
-                reference marks are added to the exported main map. They are never displayed
-                on the overview.</para>
-        </listitem>
+     <listitem>
+        <para> <parameter>general.showRefMarks</parameter> (boolean): if true,
+            reference marks are added to the exported main map. They are never displayed
+            on the overview.</para>
+     </listitem>
      <listitem>
       <para>
        <parameter>general.pdfEngine</parameter> (CwFpdf|PdfLibLite): name of the PDF engine to
@@ -205,6 +205,11 @@ formats.A4.bigDimension = 297]]></programlisting>
       <para>
        <parameter>general.extraFonts</parameter> (comma-separated list of strings): list of additional fonts to import in FPDF (not available for other pdfEngines). Each font contains the font family name, the font style (optional) and the font PHP definition file (optional), separated by "/". PHP definition files must be uploaded in FPDF fonts directory. Parameters are described in <ulink url="http://fpdf.org/en/doc/addfont.htm">FPDF AddFont() documentation</ulink>. Definition files generation is explained <ulink url="http://fpdf.org/en/tutorial/tuto7.htm">here</ulink>. Example:
        <programlisting>general.extraFonts = Comic/I/comici.php, MyFont/BI/myfontbi.php, MyOtherFont</programlisting>
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>general.outputFormat</parameter> (string): define a specific outputFormat to use for the exported image. A corresponding OUTPUTFORMAT must exist in the mapfile.
       </para>
      </listitem>
     </itemizedlist>

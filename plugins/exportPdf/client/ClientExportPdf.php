@@ -1157,6 +1157,10 @@ class ClientExportPdf extends ExportPlugin
 
         $config->setShowRefMarks($showRefMarks);
 
+        if (isset($this->general->outputFormat) && !empty($this->general->outputFormat)) {
+            $config->setOutputFormat($this->general->outputFormat);
+        }
+
         $this->log->debug('Selected resolution: ' .
                           $this->general->selectedResolution);
         $this->log->debug('Print config:');

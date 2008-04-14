@@ -26,5 +26,6 @@
           <element name="width" type="xsd:int"/>
           <element name="height" type="xsd:int"/>
           <element name="angle" type="xsd:double"/>
+          <element name="outputFormat" type="xsd:string"/>
         </all>
       </complexType>

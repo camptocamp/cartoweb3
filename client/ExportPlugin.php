@@ -120,6 +120,11 @@ class ExportConfiguration {
      * @var boolean
      */
     private $showRefMarks;
+
+    /**
+     * @var string
+     */
+    private $outputFormat;
     
     /**
      * @param boolean
@@ -371,6 +376,20 @@ class ExportConfiguration {
      */
     public function getShowRefMarks() {
         return $this->showRefMarks;
+    }
+
+    /**
+     * @param string
+     */
+    public function setOutputFormat($outputFormat) {
+        $this->outputFormat = $outputFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutputFormat() {
+        return $this->outputFormat;
     }
 }
 

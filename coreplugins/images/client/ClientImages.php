@@ -584,6 +584,11 @@ class ClientImages extends ClientPlugin
         $mapAngle = $configuration->getMapAngle();
         if (!is_null($mapAngle))
             $mapRequest->imagesRequest->mainmap->angle = $mapAngle;
+
+        $exportOutputFormat = $configuration->getOutputFormat();
+        if (!is_null($exportOutputFormat))
+            $mapRequest->imagesRequest->mainmap->outputFormat = $exportOutputFormat;
+
     }    
 
     /**

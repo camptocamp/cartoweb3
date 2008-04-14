@@ -217,6 +217,10 @@ class ServerImages extends ClientResponderAdapter
                     }
                 }
             }
+            if (!empty($requ->mainmap->outputFormat)){
+                $msMapObj->imagetype = $requ->mainmap->outputFormat;
+                $msMapObj->selectOutputFormat($requ->mainmap->outputFormat);
+            }
             if ($this->isDrawQuery()) {
                 $this->serverContext->setMsMainmapImage($msMapObj->drawQuery());
             } else {
@@ -270,7 +274,9 @@ class ServerImages extends ClientResponderAdapter
             if (!$ms_mainmap) 
                 throw new CartoserverException('drawMainmap was not called ' .
                                                'before getResult');
-            $this->serverContext->setMsMainmapImage($ms_mainmap);
+            //$this->serverContext->setMsMainmapImage($ms_mainmap);
+            /* whats the use of this? we just retrieved it! */
+
 
             // XXX It looks like the Mapserver API changed and now
             //  drawLabelCache is called implicitely after a map drawing.
@@ -284,7 +290,9 @@ class ServerImages extends ClientResponderAdapter
             $imagesResult->mainmap = $notdrawnImage;
         }
 
-        $msMapObj->selectOutputFormat($this->serverContext->getImageType());            
+        //$msMapObj->selectOutputFormat($this->serverContext->getImageType());
+        /* whats the use of this? the main map image is already generated, isnt it already too late to set the OutputFormat? */
+
 
         if ($requ->keymap->isDrawn) {
             $ms_keymap = $msMapObj->drawreferencemap();

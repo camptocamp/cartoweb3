@@ -62,6 +62,12 @@ class Image extends CwSerializable {
      * @var double
      */    
     public $angle;
+
+    /**
+     * OutputFormat
+     * @var string
+     */    
+    public $outputFormat;
         
     /**
      * @see CwSerializable::unserialize()
@@ -73,7 +79,8 @@ class Image extends CwSerializable {
         $this->height = self::unserializeValue($struct, 'height', 'int');
         $this->width  = self::unserializeValue($struct, 'width', 'int');
         
-        $this->angle  = self::unserializeValue($struct, 'angle', 'double');        
+        $this->angle  = self::unserializeValue($struct, 'angle', 'double');
+        $this->outputFormat  = self::unserializeValue($struct, 'outputFormat');
     }
 }
 
