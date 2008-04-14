@@ -122,10 +122,9 @@ buffer.foo.maxRequest = 500
         Where <parameter>192.168.3.0</parameter> represent the network and
       <parameter>/24</parameter> the network mask. In this case, the whitelist
       will include all addresses from <parameter>192.168.3.1</parameter> to <parameter>192.168.3.255</parameter>
-
-        <para>
-        </para>For more information about this format, see: 
-              <a href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</a>
+        </para>
+        <para>For more information about this format, see: 
+              <ulink url="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</ulink>
         </para>
 
 
