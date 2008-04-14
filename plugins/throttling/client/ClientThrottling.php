@@ -199,10 +199,16 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
         $this->sync();
 
         // Notify the user that he is blocked and immediately stop cartoweb
-        // Can't use FormRenderer here because we immediately stop
         if (!$isAllowed && $this->blockAccess) {
             header('HTTP/1.1 503 Service Unavailable');
-            print "HTTP/1.1 503 Service Unavailable";
+
+            $formRenderer = $this->getCartoclient()->getFormRenderer();
+            $formRenderer->setCustomForm(false);
+            $this->getCartoclient()->setInterruptFlow(true);
+
+            $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+            print $smarty->fetch('blacklisted.tpl');
+
             exit();
         }
     }
