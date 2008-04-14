@@ -12,6 +12,7 @@ CartoWeb HEAD
 - Added exportLinkIt plugin (returns URL of current page state)
 - Added layerFilter plugin: generates a layer attributes filter form and applies the resulting filters 
 - Added throttling plugin: used to temporary ban ip that have overflowed configurable requests/second rules
+- Added support for outputFormat in export plugins, implemented in exportPdf
 
 2007-07-26: CartoWeb 3.4.0
 ===================
