@@ -10,12 +10,12 @@
   <sect1 id="user.routing.intro">
    <title>Introduction</title>
    <para>
-     The routing plugins deals with the <ulink url="http://script.aculo.us/">pgRouting</ulink> Postgresql extension
+     The routing plugins deals with the <ulink url="http://pgrouting.postlbs.org/">pgRouting</ulink> Postgresql extension
      allowing to perform, among several algorithms, computation of the shortest path between two nodes of a graph.
      This plugin provides a graphical user interface to query a Postgresql/PostGiS database with pgRouting functions installed on it.
    </para>
    <para>
-     Extended documentation on pgRouting functions can be found at the <ulink url="http://script.aculo.us/">pgRouting website</ulink>. 
+     Extended documentation on pgRouting functions can be found at the <ulink url="http://pgrouting.postlbs.org/">pgRouting website</ulink>. 
    </para>
    <para>
      The demo_plugins demonstration shows an example of the routing plugin.
@@ -50,6 +50,12 @@
                         <ulink url="http://www.davidgis.fr/documentation/win32/html/apa.html"/>
                       </para>
                     </listitem>
+                    <listitem>
+                      <para>
+                        On Debian, you need the following packages: cmake, g++, libboost-graph-dev, postgresql-server-dev-8.1 (it may depend of your version of Postgres)
+                        Then you can execute the "cmake .", "make" and "make install" given in the pgRouting install instruction. You may require administrative right to execute correctly these commands.
+                      </para>
+                    </listitem>
                   </itemizedlist>
                 </para></note>
               </para>
@@ -57,18 +63,11 @@
           </listitem>
           <listitem>
             <formalpara>
-              <title>Execute the <emphasis>routing.sql</emphasis> file to install the functions in 
+              <title>Execute the <emphasis>routing_core.sql</emphasis> and <emphasis>routing_core_wrappers.sql</emphasis> files to install the functions in 
                 your database by typing:</title>
               <para>
-                <screen><![CDATA[$ psql -d demo_plugins -f routing.sql]]></screen>
-              </para>
-            </formalpara>
-          </listitem>
-          <listitem>
-            <formalpara>
-              <title>If you have PostGIS installed, you should launch <emphasis>routing_postgis.sql</emphasis> :</title>
-              <para>
-                <screen><![CDATA[$ psql -d demo_plugins -f routing_postgis.sql]]></screen>
+                <screen><![CDATA[$ psql -d demo_plugins -f routing_core.sql]]></screen>
+                These file are in the pgRouting installation package in folder <emphasis>/core/sql/</emphasis>
               </para>
             </formalpara>
           </listitem>
@@ -78,7 +77,8 @@
                 plugin routing database.</title>
               <para>
                 To do so, simply execute the <emphasis>demo_routing.sql</emphasis> file, located 
-                in the <filename>&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</filename> directory.
+                in the <filename>&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</filename> directory. 
+                You may need to uncompress the file with <emphasis>gunzip</emphasis> before usage.
                 <note><para>These steps are detailed in the next section.</para></note>
               </para>
             </formalpara>
