@@ -58,23 +58,32 @@ class ClientCheckInstall extends ClientPlugin {
      * Checks if the database configuration is ok, and shows a failure if not.
      */
     protected function checkDatabaseInstalled () {
-        $locationPlugin = $this->getCartoclient()->getPluginManager()
-                            ->getPlugin('location');
-        $locationDsn = !is_null($locationPlugin) ? 
-                            $locationPlugin->getConfig()->dsn : '';
+        $locatePlugin = $this->getCartoclient()->getPluginManager()
+                            ->getPlugin('locate');
+        $locateDsn = !is_null($locatePlugin) ? 
+                            $locatePlugin->getConfig()->dsn : '';
                                 
         $routingPlugin = $this->getCartoclient()->getPluginManager()
                            ->getPlugin('routing'); 
         $routingDsn = !is_null($routingPlugin) ? 
                             $routingPlugin->getConfig()->dsn : '';
 
-        if (strpos($locationDsn, '@DB') !== false || 
-            strpos($routingDsn, '@DB') !== false) {
+        if (empty($locateDsn) || strpos($locateDsn, '@DB') !== false) {
             throw new CartoclientException('You need to install and configure' .
                     " a database to be able to use the demoPlugins project.\n" .
                     'See the CartoWeb Installation section of the manual on ' .
                     'http://www.cartoweb.org'); 
         }
+
+        if (!is_null($routingPlugin) && (empty($routingDsn) || 
+            strpos($routingDsn, '@DB') !== false)) {
+            throw new CartoclientException('You need to install and configure' .
+                    ' a database to be able to use the routing functionality in' . 
+                    " the demoPlugins project.\n" .
+                    'See the CartoWeb Installation section of the manual on ' .
+                    'http://www.cartoweb.org'); 
+        }
+
     }
 
     /**
