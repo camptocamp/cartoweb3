@@ -110,7 +110,7 @@ buffer.foo.maxRequest = 500
         <para>A list of IP addresses or IP networks can be specified in
       the main throttling configuration file, this list will contains addresses
       of hosts or networks that will not be taken into account by the
-      plugin. For example, you should add your own IP address in this list to FIXME.</para> 
+      plugin.</para> 
         <para>Addresses are in Classless Inter-Domain Routing format, if you
       want to include a single IP address you have to write:
       <screen>127.0.0.1/32</screen>
@@ -123,12 +123,15 @@ buffer.foo.maxRequest = 500
       <parameter>/24</parameter> the network mask. In this case, the whitelist
       will include all addresses from <parameter>192.168.3.1</parameter> to <parameter>192.168.3.255</parameter>
         </para>
-        <para>For more information about this format, see: 
+        <para>Note that if the user's IP address can't be properly detected, it
+        is never declared as belonging to the whitelist. It sometimes appends
+        if the user's computer is behind a miss-configured proxy: a proxy that
+        don't properly set the <parameter>HTTP_X_FORWARDED_FOR</parameter>,
+        <parameter>HTTP_X_FORWARDED</parameter> or
+        <parameter>HTTP_CLIENT_IP</parameter> header.</para>
+        <para>For more information about the Classless Inter-Domain Routing format, see: 
               <ulink url="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</ulink>
         </para>
-
-
       </sect2>
-
   </sect1>
 </chapter>
