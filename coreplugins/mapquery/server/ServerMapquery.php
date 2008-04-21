@@ -314,7 +314,7 @@ class ServerMapquery extends ServerPlugin {
             
             $this->log->debug("Query on layer $layerId: queryByShape(msShape)");        
         } elseif ($shape instanceof Circle) {
-            //force mapscipt to consider radius units as geographic
+            // force mapscript to consider radius units as geographic
             if ($msLayer->toleranceunits == MS_PIXELS)
                 $msLayer->toleranceunits = $msMapObj->units;
 
@@ -331,6 +331,32 @@ class ServerMapquery extends ServerPlugin {
                                         'type selection', get_class($shape)));
         }
         
+        $this->serverContext->resetMsErrors();
+        
+        if ($ret != MS_SUCCESS || 
+            $msLayer->getNumResults() == 0) 
+            return array();
+
+        return $this->extractResults($layerId, true);
+    }
+
+    /**
+     * Performs a query based on a MapServer ms_shape_obj object on a given layer.
+     * @param string layerId
+     * @param ms_shape_obj geographic selection
+     * @return array an array of shapes
+     */
+    public function queryByMsShape($layerId, ms_shape_obj $shape) {
+        
+        $msMapObj = $this->serverContext->getMapObj();
+        $layersInit = $this->serverContext->getMapInfo()->layersInit;
+        $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
+        
+        // layer has to be activated for query
+        $msLayer->set('status', MS_ON);
+        
+        $ret = @$msLayer->queryByShape($shape);
+
         $this->serverContext->resetMsErrors();
         
         if ($ret != MS_SUCCESS || 

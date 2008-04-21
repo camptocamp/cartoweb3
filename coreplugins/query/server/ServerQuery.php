@@ -425,6 +425,9 @@ class ServerQuery extends ClientResponderAdapter {
             $defaultQuerySelection->maskMode    = $requ->defaultMaskMode;
             $defaultQuerySelection->hilight     = $requ->defaultHilight;
             $defaultQuerySelection->tableFlags  = $requ->defaultTableFlags;
+            
+            $msMapObj = $this->serverContext->getMapObj();
+            
             foreach ($layerNames as $layerName) {
             
                 $querySelection = clone($defaultQuerySelection);
@@ -438,7 +441,6 @@ class ServerQuery extends ClientResponderAdapter {
                     }
                 }
 
-                $msMapObj = $this->serverContext->getMapObj();
                 $msLayer = $msMapObj->getLayerByName($layerName);
                 if (!empty($msLayer)) {
                     $layerConnexType = $msLayer->connectiontype;
