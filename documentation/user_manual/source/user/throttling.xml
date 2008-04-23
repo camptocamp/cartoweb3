@@ -124,7 +124,7 @@ buffer.foo.maxRequest = 500
       will include all addresses from <parameter>192.168.3.1</parameter> to <parameter>192.168.3.255</parameter>
         </para>
         <para>Note that if the user's IP address can't be properly detected, it
-        is never declared as belonging to the whitelist. It sometimes appends
+        is never declared as belonging to the whitelist. It sometimes happens
         if the user's computer is behind a miss-configured proxy: a proxy that
         don't properly set the <parameter>HTTP_X_FORWARDED_FOR</parameter>,
         <parameter>HTTP_X_FORWARDED</parameter> or
