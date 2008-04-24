@@ -214,7 +214,7 @@ class ClientExportCsv extends ExportPlugin {
      * @see ExportPlugin::output()
      */
     public function output() {
-       header('Content-Type: application/csv-tab-delimited-table; charset='
+       header('Content-Type: text/comma-separated-values; charset='
               . Encoder::getCharset());
        header('Content-disposition: filename=' . $this->fileName);
        print $this->getExport()->getContents();
