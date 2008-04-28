@@ -259,5 +259,29 @@ var AjaxHelper = {
         
         return {x: mX - findPosX(t),
                 y: mY - findPosY(t)};
-    }    
+    },
+
+    /* 
+     * Handle catch error and display extensive informations if possible
+     *
+     * @param Object Error
+     */
+    handleError: function(e) {
+        var str = "Message:\n\n";
+        str += e.name + ":\n" + e.message +"\n\n";
+        if (e.fileName){
+            str += "in file:\n";
+            str += e.fileName + "\n\n";
+        }
+        if (e.lineNumber) {
+            str += "on line:\n";
+            str += e.lineNumber + "\n\n";
+        }
+        if (AjaxHandler.profile == AjaxHandler.PROFILE_PRODUCTION) {
+            alert('An error occured, please contact the site administrator.');
+        } else {
+            Logger.error(str);
+            alert(str);
+        }
+    }
 };

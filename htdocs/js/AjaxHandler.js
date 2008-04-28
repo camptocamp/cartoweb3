@@ -235,8 +235,13 @@ AjaxHandler = {
                     'not found. AJAX response processing will be ' +
                     'ignored for this plugin.');
             } else {
-                eval('AjaxPlugins.' + pluginName 
-                     + '.handleResponse(pluginArray[i], argObject)');
+                try {
+                    eval('AjaxPlugins.' + pluginName 
+                         + '.handleResponse(pluginArray[i], argObject)');                  
+                } catch (e) {
+                    Logger.error('An error occured in Plugins ' + pluginName);
+                    AjaxHelper.handleError(e);
+                }
             }
         }
     },
@@ -318,9 +323,14 @@ AjaxHandler = {
                      if (AjaxHelper.exists('AjaxPlugins.' + requestedPluginName +
                          '.Actions.' + requestedActionName + '.onAfterAjaxCall')) {
                           // Calls AjaxPlugins.<pluginName>.Actions.<actionName>.onAfterAjaxCall
-                          eval('AjaxPlugins.' + requestedPluginName +
-                               '.Actions.' + requestedActionName +
-                               '.onAfterAjaxCall(argObject)');
+                          try {
+                              eval('AjaxPlugins.' + requestedPluginName +
+                                   '.Actions.' + requestedActionName +
+                                   '.onAfterAjaxCall(argObject)');
+                          } catch (e) {
+                              Logger.error('An error occured in Plugins ' + pluginName);
+                              AjaxHelper.handleError(e);
+                          }
                       }
 
                   }
@@ -386,13 +396,23 @@ AjaxHandler = {
             var httpGetQuery = '';
             if (AjaxHelper.exists('AjaxPlugins.' + pluginName +
                 '.Actions.' + actionName + '.buildPostRequest')) {
-                eval('httpPostQuery = AjaxPlugins.' + pluginName + '.Actions.' +
-                     actionName + '.buildPostRequest(argObject)');
+                try {
+                    eval('httpPostQuery = AjaxPlugins.' + pluginName + '.Actions.' +
+                         actionName + '.buildPostRequest(argObject)');
+                } catch (e) {
+                    Logger.error('An error occured in Plugins ' + pluginName);
+                    AjaxHelper.handleError(e);
+                }
             }            
             if (AjaxHelper.exists('AjaxPlugins.' + pluginName +
                 '.Actions.' + actionName + '.buildGetRequest')) {
-                eval('httpGetQuery = AjaxPlugins.' + pluginName + '.Actions.' +
-                     actionName + '.buildGetRequest(argObject)');
+                try {
+                    eval('httpGetQuery = AjaxPlugins.' + pluginName + '.Actions.' +
+                         actionName + '.buildGetRequest(argObject)');
+                } catch (e) {
+                    Logger.error('An error occured in Plugins ' + pluginName);
+                    AjaxHelper.handleError(e);
+                }
             }            
     
             // Call the common and plugin's onBeforeAjaxCall logic
@@ -402,8 +422,13 @@ AjaxHandler = {
                           ' onBeforeAjaxCall()');
             if (AjaxHelper.exists('AjaxPlugins.' + pluginName +
                 '.Actions.' + actionName + '.onBeforeAjaxCall')) {
-                eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName +
-                     '.onBeforeAjaxCall(argObject)');
+                try {
+                    eval('AjaxPlugins.' + pluginName + '.Actions.' + actionName +
+                         '.onBeforeAjaxCall(argObject)');
+                } catch (e) {
+                    Logger.error('An error occured in Plugins ' + pluginName);
+                    AjaxHelper.handleError(e);
+                }
             }            
 
             Logger.header('Calling AjaxPlugins.Common.onBeforeAjaxCall()');
@@ -496,13 +521,24 @@ AjaxHandler = {
             return false;
         }
 
-        eval('elementAttr = element.' + property);
+        try {
+            eval('elementAttr = element.' + property);
+        } catch (e) {
+            Logger.error('An error occured in Plugins ' + pluginName);
+            AjaxHelper.handleError(e);
+        }
+
         if (typeof(elementAttr) == 'undefined') {
             Logger.warn('property ' + element.id + '.' + property
                         + ' was not found in the DOM!');        
             return false;
         }
-        eval('element.' + property + ' = value');
+        try {
+            eval('element.' + property + ' = value');
+        } catch (e) {
+            Logger.error('An error occured in Plugins ' + pluginName);
+            AjaxHelper.handleError(e);
+        }
         Logger.confirm('Done.');
         return true;
     }
