@@ -124,15 +124,17 @@
    {/foreach}   
   {/if}
 
-<div id="developperMsgs">
-  {if $developer_messages|default:''}
-   <span style="color: green; border: 10px; background-color: yellow;">
-   {t} Developer messages {/t}</span>
-   {foreach from=$developer_messages item=message}
-     <p>{$message}</p>
-   {/foreach}   
+  {if $profile == 'development'}
+  <div id="developperMsgs">
+    {if $developer_messages|default:''}
+     <span style="color: green; border: 10px; background-color: yellow;">
+     {t} Developer messages {/t}</span>
+     {foreach from=$developer_messages item=message}
+       <p>{$message}</p>
+     {/foreach}   
+    {/if}
+  </div>
   {/if}
-</div>
 
   {if $selection_result|default:''}
   {$selection_result}
@@ -148,10 +150,12 @@
   </div>
   {/if}
 
-<pre>
-Request:
-{$debug_request}
-</pre>
+  {if $profile == 'development'}
+  <pre>
+  Request:
+  {$debug_request}
+  </pre>
+  {/if}
 
   <p>Powered by <a href="http://www.cartoweb.org/" target="_blank">CartoWeb {$cw_version.version}</a> -
   &copy; <a href="http://camptocamp.com/" target="_blank">Camptocamp SA</a> -
