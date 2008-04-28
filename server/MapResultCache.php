@@ -100,9 +100,10 @@ class MapResultCache {
     /**
      * Saves map result in cache file.
      * @param MapRequest
+     * @param string
      * @return MapResult
      */
-    private function cacheMapResult($mapRequest) {
+    private function cacheMapResult($mapRequest, $mapResultFile) {
          
         $mapResult = $this->getMapResultFromServer($mapRequest);
         if ($this->skipCaching) {
@@ -111,8 +112,7 @@ class MapResultCache {
             return $mapResult;
         }
         $mapResultSerialized = serialize($mapResult);        
-        $amount = file_put_contents($this->getMapResultFile($mapRequest),
-                                    $mapResultSerialized);
+        $amount = file_put_contents($mapResultFile, $mapResultSerialized);
         if ($amount != strlen($mapResultSerialized)) {
             throw new CartoserverException('could not write mapResult cache');
         }
@@ -122,12 +122,12 @@ class MapResultCache {
     /**
      * Reads map result from cache file.
      * @param MapRequest
+     * @param string
      * @return MapResult
      */
-    private function readMapResult($mapRequest) {
+    private function readMapResult($mapRequest, $mapResultFile) {
 
-        $mapResultSerialized = file_get_contents(
-                                   $this->getMapResultFile($mapRequest));
+        $mapResultSerialized = file_get_contents($mapResultFile);
         if ($mapResultSerialized === FALSE) {
             throw new CartoserverException('could not read cached mapResult');
         }
@@ -187,13 +187,13 @@ class MapResultCache {
         if (filesize($mapResultFile) == 0) {
             $this->log->debug('second call, caching mapResult');            
             Accounting::getInstance()->account('general.cache_id', md5($mapResultFile));         
-            return $this->cacheMapResult($mapRequest);   
+            return $this->cacheMapResult($mapRequest, $mapResultFile);
         }
         
         $this->log->debug('Returning cached mapResult');
 
         Accounting::getInstance()->account('general.cache_hit', md5($mapResultFile));         
-        $mapResult = $this->readMapResult($mapRequest);   
+        $mapResult = $this->readMapResult($mapRequest, $mapResultFile);
         // FIXME: there is no config loaded there, messages are always sent.
         // PERFORMANCE: remove this if too much impact (time + network size)
         if (isset($mapResult->serverMessages) && 
