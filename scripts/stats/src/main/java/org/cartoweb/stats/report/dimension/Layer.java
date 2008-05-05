@@ -20,16 +20,21 @@ package org.cartoweb.stats.report.dimension;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class Layer implements Dimension {
-    private final int id;
+    private final Integer id;
 
-    public Layer(int id) {
+    public Layer(Integer id) {
         this.id = id;
     }
 
     public int fillStatement(PreparedStatement s, int pos) throws SQLException {
-        s.setInt(++pos, id);
+        if (id != null) {
+            s.setInt(++pos, id);
+        } else {
+            s.setNull(++pos, Types.INTEGER);
+        }
         return pos;
     }
 
@@ -43,12 +48,11 @@ public class Layer implements Dimension {
 
         Layer layer = (Layer) o;
 
-        return id == layer.id;
-
+        return id == null ? layer.id == null : id.equals(layer.id);
     }
 
     public int hashCode() {
-        return id;
+        return id != null ? id.hashCode() : 0;
     }
 
     public String toString() {

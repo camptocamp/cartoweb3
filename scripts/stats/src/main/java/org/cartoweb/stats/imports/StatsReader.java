@@ -18,6 +18,9 @@
 
 package org.cartoweb.stats.imports;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +33,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public abstract class StatsReader implements Iterator<StatsRecord> {
+    private static final Log LOGGER = LogFactory.getLog(StatsReader.class);
     private final BufferedReader reader;
 
     protected final SideTables sideTables;
@@ -39,21 +43,24 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
 
     private boolean hasNextCalled = false;
     protected final File file;
+    private final boolean skipErrors;
 
-    public StatsReader(File file, SideTables sideTables, boolean wantLayers) throws FileNotFoundException {
+    public StatsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws FileNotFoundException {
         this.file = file;
         this.sideTables = sideTables;
         this.wantLayers = wantLayers;
+        this.skipErrors = skipErrors;
         reader = new BufferedReader(new FileReader(file));
     }
 
     /**
      * For tests only.
      */
-    protected StatsReader(SideTables sideTables, boolean wantLayers) {
+    protected StatsReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
         this.file = null;
         this.sideTables = sideTables;
         this.wantLayers = wantLayers;
+        this.skipErrors = skipErrors;
         reader = null;
     }
 
@@ -153,5 +160,14 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
     protected Integer getInt(Map<String, String> fields, String name) {
         final String val = fields.get(name);
         return val != null ? Integer.parseInt(val) : null;
+    }
+
+    protected void parseError(String message, String curLine) {
+        if (skipErrors) {
+            LOGGER.warn(message + " in [" + file + "]:");
+            LOGGER.warn("  " + curLine);
+        } else {
+            throw new RuntimeException(message + " in [" + file + "]: [" + curLine + "]");
+        }
     }
 }

@@ -48,7 +48,7 @@ public class IntField implements Dimension {
 
         IntField intField = (IntField) o;
 
-        return !(value != null ? !value.equals(intField.value) : intField.value != null);
+        return value != null ? value.equals(intField.value) : intField.value == null;
 
     }
 

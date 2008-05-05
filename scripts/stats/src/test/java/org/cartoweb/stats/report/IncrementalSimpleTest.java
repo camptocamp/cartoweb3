@@ -95,6 +95,33 @@ public class IncrementalSimpleTest extends DbTestCase {
         checkValue(50 * 150 + 50 * 250, "WHERE layer=" + layer2Id, "pixel");
     }
 
+    /**
+     * Checks that a null layer works.
+     */
+    public void testNullLayer() throws SQLException, ClassNotFoundException {
+        long id = 0;
+        StatsRecord record = new StatsRecord();
+        record.setId(id++);
+        record.setImagesMainmapWidth(50);
+        record.setImagesMainmapHeight(150);
+        record.setLayers(null);
+        record.setGeneralTime(createGmtTimestamp(2007, 1, 5, 8, 21, 12));
+        addRecord(record);
+        computeReport(false);
+
+        checkValue(50 * 150, "WHERE layer is null", "pixel");
+
+        record.setId(id++);
+        record.setGeneralTime(createGmtTimestamp(2007, 1, 5, 8, 21, 13));
+        record.setImagesMainmapHeight(250);
+        record.setLayers(null);
+        addRecord(record);
+
+        computeReport(false);
+
+        checkValue(50 * 150 + 50 * 250, "WHERE layer is null", "pixel");
+    }
+
     protected Report createReport() {
         DimensionMetaData<?>[] dimensionMetaDatas = {
                 new LayerMetaData()

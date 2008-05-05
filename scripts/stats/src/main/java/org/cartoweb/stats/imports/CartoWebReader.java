@@ -18,9 +18,6 @@
 
 package org.cartoweb.stats.imports;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Timestamp;
@@ -30,41 +27,48 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CartoWebReader extends StatsReader {
-    private static final Log LOGGER = LogFactory.getLog(CartoWebReader.class);
     private static final Pattern PATTERN = Pattern.compile("([^=]+)=\"([^\"]*)\";?");
 
-    public CartoWebReader(File file, SideTables sideTables, boolean wantLayers) throws FileNotFoundException {
-        super(file, sideTables, wantLayers);
+    public CartoWebReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws FileNotFoundException {
+        super(file, sideTables, wantLayers, skipErrors);
     }
 
     /**
      * For tests only.
      */
-    protected CartoWebReader(SideTables sideTables, boolean wantLayers) {
-        super(sideTables, wantLayers);
+    protected CartoWebReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
+        super(sideTables, wantLayers, skipErrors);
     }
 
     protected StatsRecord parse(String curLine) {
         Matcher matcher = PATTERN.matcher(curLine);
         if (matcher.find()) {
             Map<String, String> fields = new HashMap<String, String>();
-            int prevEnd;
+            int prevEnd = 0;
             do {
+                //check we didn't skip chars
+                if (matcher.start() != prevEnd ||
+                        (prevEnd != 0 && !curLine.substring(prevEnd - 1, prevEnd).equals(";"))) {
+                    parseError("Invalid input line", curLine);
+                    return null;
+                }
                 fields.put(matcher.group(1).toLowerCase(), matcher.group(2));
                 prevEnd = matcher.end();
             } while (matcher.find());
             if (prevEnd != curLine.length()) {
-                throw new RuntimeException("Invalid input line in [" + file + "]: [" + curLine + "]");
+                parseError("Invalid input line", curLine);
+                return null;
             }
 
             try {
                 return createRecord(fields);
             } catch (RuntimeException ex) {
-                LOGGER.error("Line with error in [" + file + "]: [" + curLine + "]");
-                throw ex;
+                parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);
+                return null;
             }
         } else {
-            throw new RuntimeException("Invalid input line in [" + file + "]: [" + curLine + "]");
+            parseError("Invalid input line", curLine);
+            return null;
         }
     }
 
@@ -116,7 +120,11 @@ public class CartoWebReader extends StatsReader {
     }
 
     private String convertGeneralMapId(String value) {
-        return value.substring(0, value.indexOf(".")).toLowerCase();
+        if (value != null) {
+            return value.substring(0, value.indexOf(".")).toLowerCase();
+        } else {
+            return null;
+        }
     }
 
     private Timestamp getTimestamp(Map<String, String> fields) {

@@ -40,7 +40,7 @@ public class LayerMetaData implements DimensionMetaData<Layer> {
     public Layer[] buildFromStatResultSet(ResultSet rs, int pos) throws SQLException {
         final String txt = rs.getString(pos);
         if (rs.wasNull()) {
-            return null;
+            return new Layer[]{new Layer(null)};
         } else {
             String[] subs = txt.split(",");
             Layer[] ids = new Layer[subs.length];
@@ -52,7 +52,8 @@ public class LayerMetaData implements DimensionMetaData<Layer> {
     }
 
     public Layer buildFromReportResultSet(ResultSet rs, int pos) throws SQLException {
-        return new Layer(rs.getInt(pos));
+        final int id = rs.getInt(pos);
+        return new Layer(rs.wasNull() ? null : id);
     }
 
     public String getFieldDefinitions() {

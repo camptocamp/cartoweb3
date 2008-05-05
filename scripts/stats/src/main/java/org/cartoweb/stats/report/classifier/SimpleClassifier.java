@@ -61,8 +61,7 @@ public class SimpleClassifier extends Classifier<long[]> {
                         values.append(',');
                     }
                     fields.append(dimensionMetaData.getReportFieldNames());
-                    for (int j = 0; j < dimensionMetaData.getNbReportFields(); ++j)
-                    {
+                    for (int j = 0; j < dimensionMetaData.getNbReportFields(); ++j) {
                         if (j > 0) {
                             values.append(',');
                         }
@@ -136,8 +135,7 @@ public class SimpleClassifier extends Classifier<long[]> {
                         pos = dimension.fillStatement(stmt, pos);
                     } else {
                         DimensionMetaData<?> dimensionMetaData = dimensionMetaDatas[i];
-                        for (int j = 0; j < dimensionMetaData.getNbReportFields(); ++j)
-                        {
+                        for (int j = 0; j < dimensionMetaData.getNbReportFields(); ++j) {
                             stmt.setNull(++pos, Types.INTEGER);
                         }
                     }

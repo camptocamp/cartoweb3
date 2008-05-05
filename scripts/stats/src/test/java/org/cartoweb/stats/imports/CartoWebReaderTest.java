@@ -29,7 +29,7 @@ public class CartoWebReaderTest extends BaseTestCase {
 
     public void testSimple() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new CartoWebReader(sideTables, true);
+        StatsReader reader = new CartoWebReader(sideTables, true, false);
         StatsRecord record = reader.parse("general.client_version=\"1\";general.mapid=\"Sitn.Sitn\";general.time=\"1192657761\";general.ua=\"Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)\";general.ip=\"148.196.4.153\";general.sessid=\"ejfmo4v0d8l2djcfrp11ib0194\";general.direct_access=\"1\";general.cache_hit=\"37c8ad8d460de21a0cf80bd01f29374e\";layers.client_version=\"0\";layers.visible_layers=\"communes_Interrogation,cantons_interrogation\";location.bbox=\"567675,204354.17,575612.49,209645.83\";location.scale=\"50000\";images.mainmap.width=\"600\";images.mainmap.height=\"400\"");
 
         assertEquals(Integer.valueOf(1), record.getGeneralClientVersion());
@@ -57,5 +57,33 @@ public class CartoWebReaderTest extends BaseTestCase {
         assertEquals(2, record.getLayerArray().size());
         assertEquals(layerCom, record.getLayerArray().get(0));
         assertEquals(layerCan, record.getLayerArray().get(1));
+    }
+
+    public void testError() {
+        SideTables sideTables = new SideTables("test");
+        StatsReader reader = new CartoWebReader(sideTables, true, false);
+        try {
+            reader.parse("general.client_version=\"a\";general.mapid=\"Sitn.Sitn\";general.time=\"1192657761\";general.ua=\"Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)\";general.ip=\"148.196.4.153\";general.sessid=\"ejfmo4v0d8l2djcfrp11ib0194\";general.direct_access=\"1\";general.cache_hit=\"37c8ad8d460de21a0cf80bd01f29374e\";layers.client_version=\"0\";layers.visible_layers=\"communes_Interrogation,cantons_interrogation\";location.bbox=\"567675,204354.17,575612.49,209645.83\";location.scale=\"50000\";images.mainmap.width=\"600\";images.mainmap.height=\"400\"");
+            fail("No exception raised");
+        } catch (RuntimeException ex) {
+            //expected
+        }
+
+        try {
+            reader.parse("general.client_version=\"1\",general.mapid=\"Sitn.Sitn\";general.time=\"1192657761\";general.ua=\"Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)\";general.ip=\"148.196.4.153\";general.sessid=\"ejfmo4v0d8l2djcfrp11ib0194\";general.direct_access=\"1\";general.cache_hit=\"37c8ad8d460de21a0cf80bd01f29374e\";layers.client_version=\"0\";layers.visible_layers=\"communes_Interrogation,cantons_interrogation\";location.bbox=\"567675,204354.17,575612.49,209645.83\";location.scale=\"50000\";images.mainmap.width=\"600\";images.mainmap.height=\"400\"");
+            fail("No exception raised");
+        } catch (RuntimeException ex) {
+            //expected
+        }
+    }
+
+    public void testSkipError() {
+        SideTables sideTables = new SideTables("test");
+        StatsReader reader = new CartoWebReader(sideTables, true, true);
+        StatsRecord record = reader.parse("general.client_version=\"a\";general.mapid=\"Sitn.Sitn\";general.time=\"1192657761\";general.ua=\"Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)\";general.ip=\"148.196.4.153\";general.sessid=\"ejfmo4v0d8l2djcfrp11ib0194\";general.direct_access=\"1\";general.cache_hit=\"37c8ad8d460de21a0cf80bd01f29374e\";layers.client_version=\"0\";layers.visible_layers=\"communes_Interrogation,cantons_interrogation\";location.bbox=\"567675,204354.17,575612.49,209645.83\";location.scale=\"50000\";images.mainmap.width=\"600\";images.mainmap.height=\"400\"");
+        assertNull(record);
+
+        record = reader.parse("general.client_version=\"1\",general.mapid=\"Sitn.Sitn\";general.time=\"1192657761\";general.ua=\"Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5)\";general.ip=\"148.196.4.153\";general.sessid=\"ejfmo4v0d8l2djcfrp11ib0194\";general.direct_access=\"1\";general.cache_hit=\"37c8ad8d460de21a0cf80bd01f29374e\";layers.client_version=\"0\";layers.visible_layers=\"communes_Interrogation,cantons_interrogation\";location.bbox=\"567675,204354.17,575612.49,209645.83\";location.scale=\"50000\";images.mainmap.width=\"600\";images.mainmap.height=\"400\"");
+        assertNull(record);
     }
 }

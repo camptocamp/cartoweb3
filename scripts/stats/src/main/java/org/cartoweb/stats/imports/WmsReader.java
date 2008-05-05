@@ -18,9 +18,6 @@
 
 package org.cartoweb.stats.imports;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
@@ -35,7 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WmsReader extends StatsReader {
-    private static final Log LOGGER = LogFactory.getLog(WmsReader.class);
     private static final Pattern URL_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+");
     private static final Pattern PARAM_PATTERN = Pattern.compile("([^=]+)=([^&]*)&?");
     private static final Pattern TIME_PATTERN = Pattern.compile("(\\d{2})/(\\w{3})/(\\d{4}):(\\d{2}):(\\d{2}):(\\d{2}) ([+-])(\\d{2})(\\d{2})");
@@ -46,13 +42,13 @@ public class WmsReader extends StatsReader {
 
     private final Pattern mapIdRegExp;
 
-    public WmsReader(File file, SideTables sideTables, boolean wantLayers, String mapIdRegExp) throws FileNotFoundException {
-        super(file, sideTables, wantLayers);
+    public WmsReader(File file, SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) throws FileNotFoundException {
+        super(file, sideTables, wantLayers, skipErrors);
         this.mapIdRegExp = Pattern.compile(mapIdRegExp);
     }
 
-    protected WmsReader(SideTables sideTables, boolean wantLayers, String mapIdRegExp) {
-        super(sideTables, wantLayers);
+    protected WmsReader(SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) {
+        super(sideTables, wantLayers, skipErrors);
         this.mapIdRegExp = Pattern.compile(mapIdRegExp);
     }
 
@@ -63,24 +59,25 @@ public class WmsReader extends StatsReader {
                 String params = matcher.group(5);
                 Map<String, String> fields = parseParams(params);
                 if (fields == null) {
-                    throw new RuntimeException("Invalid input line in [" + file + "]: [" + curLine + "]");
+                    parseError("Invalid input line", curLine);
                 }
 
                 Matcher mapIdMatcher = mapIdRegExp.matcher(curLine);
                 if (!mapIdMatcher.find()) {
-                    throw new RuntimeException("Cannot find the mapId (project) from line in [" + file + "]: [" + curLine + "]");
+                    parseError("Cannot find the mapId (project) from line", curLine);
                 } else if (mapIdMatcher.groupCount() != 1) {
-                    throw new RuntimeException("Cannot get the mapId (project) from line in [" + file + "]: [" + curLine + "]");
+                    parseError("Cannot get the mapId (project) from line", curLine);
                 }
 
                 try {
                     return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapIdMatcher.group(1), fields);
                 } catch (RuntimeException ex) {
-                    LOGGER.error("Line with error in [" + file + "]: [" + curLine + "]");
-                    throw ex;
+                    parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);
+                    return null;
                 }
             } else {
-                throw new RuntimeException("Invalid input line in [" + file + "]: [" + curLine + "]");
+                parseError("Invalid input line", curLine);
+                return null;
             }
         } else {
             //not a WMS request

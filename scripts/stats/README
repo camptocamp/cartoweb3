@@ -37,6 +37,11 @@ To clean the stats table:
 Help on the possible parameters for a command can be obtained by starting it
 without parameters. 
 
+To understand how your OS mangled your regular expression's '\' characters, you
+can add a buggy parameter at the end of your command. That will display an error
+message, but you'll find the actual values of each parameter in the
+"default to [...]" region.
+
 
 SQL
 ===

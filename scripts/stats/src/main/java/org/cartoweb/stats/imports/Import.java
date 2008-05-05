@@ -88,6 +88,10 @@ public class Import extends BaseStats {
             environment = "STATS_FORMAT")
     private String mapIdRegExp = null;
 
+    @Option(desc = "Continue the import in case of parsing error",
+            environment = "STATS_SKIP_ERRORS")
+    private boolean skipErrors = false;
+
     /**
      * List of all the side tables used to categorize some fields.
      */
@@ -362,9 +366,9 @@ public class Import extends BaseStats {
 
     private StatsReader createReader(File file) throws FileNotFoundException {
         if (format.equalsIgnoreCase("WMS")) {
-            return new WmsReader(file, sideTables, wantLayers, mapIdRegExp);
+            return new WmsReader(file, sideTables, wantLayers, mapIdRegExp, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {
-            return new CartoWebReader(file, sideTables, wantLayers);
+            return new CartoWebReader(file, sideTables, wantLayers, skipErrors);
         } else {
             throw new RuntimeException("Format not supported: " + format);
         }
