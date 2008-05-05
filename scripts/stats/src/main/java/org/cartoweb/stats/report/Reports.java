@@ -228,7 +228,7 @@ public class Reports extends BaseStats {
     private String getMandatoryField(Ini.Section section, String name) {
         final String result = section.get(name);
         if (result == null) {
-            throw new RuntimeException("Missing mandatory field");
+            throw new RuntimeException("Missing mandatory field [" + name + "]");
         }
         return result;
     }
