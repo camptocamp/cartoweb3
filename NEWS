@@ -14,6 +14,7 @@ CartoWeb HEAD
 - Added throttling plugin: used to temporary ban ip that have overflowed configurable requests/second rules
 - Added support for outputFormat in export plugins, implemented in exportPdf
 - Fixed: proper javascript error handling in plugin's Ajax response evaluation
+- Added ServerMapquery::queryByMsShape(), useful to perform queries using MapScript ShapeObj objects
 
 2007-07-26: CartoWeb 3.4.0
 ===================

@@ -355,6 +355,9 @@ class ServerMapquery extends ServerPlugin {
         // layer has to be activated for query
         $msLayer->set('status', MS_ON);
         
+        // useful to avoid selection differences when scale varies
+        $msLayer->set('tolerance', 0); 
+        
         $ret = @$msLayer->queryByShape($shape);
 
         $this->serverContext->resetMsErrors();
