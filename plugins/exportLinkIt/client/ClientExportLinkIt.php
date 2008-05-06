@@ -336,16 +336,23 @@ class ClientExportLinkIt extends ExportPlugin
 
         $hasQueryParams = false;
         foreach($group->tables as $table) {
-            if ($table->numRows == 0 || !empty($table->noRowId)) continue;
 
-            $hasQueryParams = true;
+            $rowHasId = false;
+
+            if ($table->numRows == 0) continue;
+
             $selectedIds = array();
             foreach($table->rows as $row) {
-                $selectedIds[] = urlencode($row->rowId);
+                if (!empty($row->rowId)) {
+                    $hasQueryParams = $rowHasId = true;
+                    $selectedIds[] = urlencode($row->rowId);
+                }
             }
-            $this->params[] = sprintf('query_blocks[%s]=%s',
-                                      $table->tableId,
-                                      implode(',', $selectedIds));
+            if ($rowHasId) {
+                $this->params[] = sprintf('query_blocks[%s]=%s',
+                                          $table->tableId,
+                                          implode(',', $selectedIds));
+            }
         }
 
         if ($hasQueryParams) {
