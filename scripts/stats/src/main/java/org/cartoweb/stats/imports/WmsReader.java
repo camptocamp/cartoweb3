@@ -57,19 +57,19 @@ public class WmsReader extends StatsReader {
             Matcher matcher = URL_PATTERN.matcher(curLine);
             if (matcher.matches()) {
                 String params = matcher.group(5);
-                Map<String, String> fields = parseParams(params);
-                if (fields == null) {
-                    parseError("Invalid input line", curLine);
-                }
-
-                Matcher mapIdMatcher = mapIdRegExp.matcher(curLine);
-                if (!mapIdMatcher.find()) {
-                    parseError("Cannot find the mapId (project) from line", curLine);
-                } else if (mapIdMatcher.groupCount() != 1) {
-                    parseError("Cannot get the mapId (project) from line", curLine);
-                }
-
                 try {
+                    Map<String, String> fields = parseParams(params);
+                    if (fields == null) {
+                        parseError("Invalid input line", curLine);
+                    }
+
+                    Matcher mapIdMatcher = mapIdRegExp.matcher(curLine);
+                    if (!mapIdMatcher.find()) {
+                        parseError("Cannot find the mapId (project) from line", curLine);
+                    } else if (mapIdMatcher.groupCount() != 1) {
+                        parseError("Cannot get the mapId (project) from line", curLine);
+                    }
+
                     return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapIdMatcher.group(1), fields);
                 } catch (RuntimeException ex) {
                     parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);

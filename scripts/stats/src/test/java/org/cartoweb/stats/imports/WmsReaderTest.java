@@ -65,6 +65,13 @@ public class WmsReaderTest extends BaseTestCase {
         }
     }
 
+    public void testErrorEncoding() {
+        SideTables sideTables = new SideTables("test");
+        StatsReader reader = new WmsReader(sideTables, true, "GET /([^/]+)/wms\\?", true);
+        StatsRecord record = reader.parse("148.196.1.37 - - [19/Feb/2008:17:43:49 +0100] \"GET /ogc-sitn/wms?VERSION=1.1.1&REQUEST=GetMap&LAYERS=cn25&SRS=EPSG:9814&BBOX=550000,214600,550900,215800&WIDTH=300&HEIGHT=400%22%20width=%22100% HTTP/1.1\" 200 78562");
+        assertNull(record);
+    }
+
     public void testSkipError() {
         SideTables sideTables = new SideTables("test");
         StatsReader reader = new WmsReader(sideTables, true, "GET /([^/]+)/wms\\?", true);
