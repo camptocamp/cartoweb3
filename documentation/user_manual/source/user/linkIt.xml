@@ -35,6 +35,9 @@
       <para>For instance:</para>
       <programlisting>compressUrl = true
 urlMaxLength = 2000</programlisting>
+      <note><para>
+        The Generated URL will only contains the query parameters if the queried layers have the <emphasis>id_attribute_string</emphasis> metadata specified in the mapfile! (see <xref linkend="user.query.mapfile.metadata"/>)
+      </para></note>
   </sect1>
 
 </chapter>
