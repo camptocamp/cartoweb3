@@ -390,6 +390,9 @@ class StatsReportsState {
 
     // Image file name for grids
     public $imageFile;
+    
+    // Key to invalidate cache
+    public $cacheKey;
 }
 
 class ClientStatsReports extends ClientPlugin
@@ -635,7 +638,7 @@ class ClientStatsReports extends ClientPlugin
         
         $request = new StatsReportsRequest();
         $request->imageFile = $this->statsReportsState->imageFile;
-        
+        $request->cacheKey = $this->statsReportsState->cacheKey;
         return $request;    
     }
 
@@ -1422,6 +1425,7 @@ class ClientStatsReports extends ClientPlugin
         }
         $imageFile = $basePath . SecurityManager::getInstance()->getUser() . '_image'; 
         $this->statsReportsState->imageFile = $imageFile . '.png';
+        $this->statsReportsState->cacheKey = microtime();
         imagepng($image, $this->statsReportsState->imageFile, 9);   
         
         // Creates world file

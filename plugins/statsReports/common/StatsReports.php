@@ -33,12 +33,18 @@ class StatsReportsRequest extends CwSerializable {
      */
     public $imageFile;
     
+    /**
+     * Key to invalidate cache
+     * @var string
+     */
+    public $cacheKey;
     
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->imageFile = self::unserializeValue($struct, 'imageFile', 'string');
+        $this->cacheKey = self::unserializeValue($struct, 'cacheKey', 'string');
     }
 }
 
