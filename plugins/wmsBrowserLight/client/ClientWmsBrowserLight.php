@@ -68,7 +68,7 @@ class ClientWmsBrowserLight extends ClientPlugin
      * Servers
      * @var array
      */
-    private $servers;
+    protected $servers;
 
     /**                    
      * User server
@@ -80,7 +80,7 @@ class ClientWmsBrowserLight extends ClientPlugin
      * catalogtype in order if the catalogue is from the config file (ini) or from GeoNetwork (gn).
      * @var string
      */
-    private $catalogtype;
+    protected $catalogtype;
 
     /**
      * Current project
@@ -212,7 +212,7 @@ class ClientWmsBrowserLight extends ClientPlugin
     protected function handleHttpRequest($request) {
 
         // owsInfoHarwester ajax process to get all layer from a capability    
-        if (isset($request['owsInfoHarwester']) && $request['owsInfoHarwester']) {
+        if (!empty($request['owsInfoHarwester'])) {
             $formRenderer = $this->getCartoclient()->getFormRenderer();
             $formRenderer->setCustomForm(false);
             $this->getCartoclient()->setInterruptFlow(true);  
@@ -264,7 +264,6 @@ class ClientWmsBrowserLight extends ClientPlugin
                             if ((string) $src->protocol == self::GnWmsProtocol) {
                                 $this->servers[] = array('label' => (string)$label,
                                                          'url'   => (string)$src->linkage); 
-    
                             }
                         }                
                     }
