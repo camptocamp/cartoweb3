@@ -141,10 +141,10 @@ function loadMapResults($resultCachedir) {
  */
 function loadSoapXMLs($soapCachedir) {
 
-    $soapFiles = scandir($soapCachedir);
     $soapXMLs = array();
 
-    foreach ($soapFiles as $filename) {
+    $dh = opendir($soapCachedir);
+    while ($filename = readdir($dh)) {
         $file = $soapCachedir . '/' . $filename;
         if (!is_dir($file) 
             && filesize($file) > 0) {
@@ -162,6 +162,7 @@ function loadSoapXMLs($soapCachedir) {
             }  
         }
     }    
+    closedir($dh);
     return $soapXMLs;
 }
 
@@ -172,9 +173,9 @@ function loadSoapXMLs($soapCachedir) {
  */
 function deleteOldFiles($cachedir, $deleteAll = false) {
     global $ageCache;
-    $files = scandir($cachedir);
 
-    foreach ($files as $filename) {
+    $dh = opendir($cachedir);
+    while ($filename = readdir($dh)) {
         $file = $cachedir . '/' . $filename;
         $emptyCondition = $deleteAll || (filesize($file) == 0);
         if (!is_dir($file) && $emptyCondition &&
@@ -182,6 +183,7 @@ function deleteOldFiles($cachedir, $deleteAll = false) {
             unlink($file);
         }
     }
+    closedir($dh);
 }
 
 /**
