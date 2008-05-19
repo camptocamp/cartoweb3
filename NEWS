@@ -15,6 +15,7 @@ CartoWeb HEAD
 - Added support for outputFormat in export plugins, implemented in exportPdf
 - Fixed: proper javascript error handling in plugin's Ajax response evaluation
 - Added ServerMapquery::queryByMsShape(), useful to perform queries using MapScript ShapeObj objects
+- Added statsReports plugin / stats script: generate human readable visual report based on Cartoweb and WMS log
 
 2007-07-26: CartoWeb 3.4.0
 ===================
