@@ -387,6 +387,35 @@ nColors = 16]]></programlisting>
       </itemizedlist>
       <para>Please note that there should be one session at a time for each &cartoweb; user.
       This is due to the cache management (one graph/map per user).</para>
+      <para>Additional parameters are available to configure the cvs export of the tabular data:</para>
+      <programlisting>
+<![CDATA[outputCsv = 1
+csvShowHeaders = 1
+csvSeparator = ";"
+filename = statsReport_cursomfilename.csv
+csvUseTextDelimiter = 1
+csvTextDelimiter = #
+]]></programlisting>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>outputCsv</parameter> - set to 1 to enable csv export link, 0 to disable. Default is 1.</para>
+        </listitem>
+        <listitem>
+        <para><parameter>csvShowHeaders</parameter> - set to 1 to display line and column headers in the csv, 0 to hide. Default is 1.</para>
+        </listitem>
+        <listitem>
+        <para><parameter>csvSeparator</parameter> - define the character to use as separator in the csv. Default is "," (comma).</para>
+        </listitem>
+        <listitem>
+        <para><parameter>filename</parameter> - define a custom defined filename. It may be static or contain a generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <parameter>date</parameter>, followed by a comma and PHP date()-like date format. (see <ulink url="http://php.net/date">http://php.net/date</ulink>). For example  <parameter>export_[date,Ymd-Hi].csv</parameter> which gives for instance <filename>export_20060725-2021.csv</filename>. Default is <filename>cartoweb_statsReport.csv</filename>.</para>
+        </listitem>
+        <listitem>
+        <para><parameter>csvTextDelimiter</parameter> - tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <parameter>csvSeparator</parameter> may be found within the cell content. Default parameter value is <parameter>double-quote</parameter> ie. `"`.</para>
+        </listitem>
+        <listitem>
+        <para><parameter>csvUseTextDelimiter</parameter> - set to 1 enable text delimiter usage, 0 to disable. Default is 0.</para>
+        </listitem>
+      </itemizedlist>
       </sect2>
       <sect2 id="user.stats.visualization.server">
       <title>Server-side Configuration</title>

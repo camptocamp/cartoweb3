@@ -393,6 +393,9 @@ class StatsReportsState {
     
     // Key to invalidate cache
     public $cacheKey;
+    
+    // cached result returned by getSimpleResults()
+    public $cachedResult;
 }
 
 class ClientStatsReports extends ClientPlugin
@@ -446,6 +449,11 @@ class ClientStatsReports extends ClientPlugin
 
     // Temporary report results
     protected $lines = array();
+
+    /**
+     * Boolean, display export csv link or not
+     */
+    protected $getCsv;
     
     /**
      * Initialization 
@@ -493,7 +501,9 @@ class ClientStatsReports extends ClientPlugin
      */
     public function loadSession($sessionObject) {
 
-        $this->statsReportsState = $sessionObject;                
+        $this->statsReportsState = $sessionObject;
+        //print "sessionloaded";
+        //print_r($this->statsReportsState);
     }
 
     /**
@@ -562,7 +572,15 @@ class ClientStatsReports extends ClientPlugin
             } else {
                 $this->getSimpleResults();                            
             }
-        }        
+        }
+
+        if (!empty($request['getStatsCsv'])) {
+            $this->display = 'csv';
+            $this->getCsv = true;
+            $this->lines = $this->statsReportsState->cachedResult;
+            $this->drawResult();
+            die();
+        }
     }
 
     /**
@@ -599,12 +617,15 @@ class ClientStatsReports extends ClientPlugin
             if ($this->display != 'map') {
                 $ajaxPluginResponse->addHtmlCode('result', $this->drawResult());
                 $ajaxPluginResponse->addVariable('resulttype', 'not_map');
+                if ($this->getConfig()->outputCsv) {
+                    $ajaxPluginResponse->addHtmlCode('showcsvlink', $this->drawCsvLink());
+                }
             } else {
                 $ajaxPluginResponse->addHtmlCode('legend', $this->drawLegend());
                 $ajaxPluginResponse->addVariable('resulttype', 'map');
             }
             break;
-        }                
+        }              
     }
  
     /**
@@ -996,7 +1017,7 @@ class ClientStatsReports extends ClientPlugin
                 $lines[$row[$this->getDbField($this->line)]][$row[$this->getDbField($this->column)]] = $row['value'];
             }            
         }
-        $this->lines = $lines;
+        $this->lines = $this->statsReportsState->cachedResult = $lines;
     }
     
     protected function getGridResults() {
@@ -1068,35 +1089,56 @@ class ClientStatsReports extends ClientPlugin
         } else {
             $columnOptions = $this->getSelectedOptions($this->column);
             $lineOptions = $this->getSelectedOptions($this->line);
-
+            
             switch ($this->display) {
-            case 'table':
-
-                $linesTemplate = array();
-                foreach ($lineOptions as $lineKey => $lineTitle) {
-                    
-                    $lineTemplate = new stdClass();
-                    $lineTemplate->lineTitle = $lineOptions[$lineKey];
-                    $values = array();
-                    if (isset($this->lines[$lineKey])) {
-                        
-                        $line = $this->lines[$lineKey];
-                        foreach ($columnOptions as $columnKey => $columnTitle) {
-                            if (isset($line[$columnKey])) {
-                                $values[] = $line[$columnKey];
-                            } else {
-                                $values[] = 0;
-                            }
-                        }
-                    } else {
-                        
-                        foreach ($columnOptions as $columnKey => $columnTitle) {
-                            $values[] = 0;
-                        }
+            case 'csv' :
+                $linesTemplate = $this->getTabularData($lineOptions, $columnOptions);
+                $csv = '';
+                $separator = $this->getConfig()->csvSeparator;
+                $separator = !empty($separator) ? $separator : ',';
+                $utd = $this->getConfig()->csvUseTextDelimiter;
+                $td = $this->getConfig()->csvTextDelimiter;
+                $td = !empty($td) ? $td : '"';
+                
+                if ($this->getConfig()->csvShowHeaders) {
+                    $csv .= $separator;
+                    foreach ($columnOptions as $key => $value) {
+                        if ($utd) $csv .= $td;
+                        $csv .= $value;
+                        if ($utd) $csv .= $td;
+                        $csv .= $separator;
                     }
-                    $lineTemplate->values = $values;
-                    $linesTemplate[] = $lineTemplate;
-                }            
+                    $csv .= "\r\n";
+                }
+                foreach ($linesTemplate as $line => $values) {
+                    if ($this->getConfig()->csvShowHeaders) {
+                        if ($utd) $csv .= $td;
+                        $csv .= $values->lineTitle;
+                        if ($utd) $csv .= $td;
+                        $csv .= $separator;
+                    }
+                    foreach ($values->values as $key => $value) {
+                        if ($utd) $csv .= $td;
+                        $csv .= $value;
+                        if ($utd) $csv .= $td;
+                        $csv .= $separator;
+                    }
+                    $csv .= "\r\n";
+                }
+                
+                header('Content-Type: text/comma-separated-values; charset='
+                      . Encoder::getCharset());
+                header('Content-disposition: filename='.$this->getFilename());
+                print_r($csv);
+
+                return '';
+
+                break;
+            case 'table':
+                
+                $linesTemplate = $this->getTabularData($lineOptions, $columnOptions);
+
+                //print_r($linesTemplate);
                 
                 $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
                 $smarty->assign(array('stats_columnTitles' => $columnOptions,
@@ -1178,7 +1220,43 @@ class ClientStatsReports extends ClientPlugin
             }
         }
     }
-    
+
+    /**
+    * generate a complex object containing array of values with column and line headers
+    * @param array $lineOptions line headers
+    * @param array $columnOptions column headers
+    * @return object stdClass
+    */
+    protected function getTabularData($lineOptions, $columnOptions) {
+        $linesTemplate = array();
+        foreach ($lineOptions as $lineKey => $lineTitle) {
+
+            $lineTemplate = new stdClass();
+            $lineTemplate->lineTitle = $lineOptions[$lineKey];
+            $values = array();
+            if (isset($this->lines[$lineKey])) {
+                
+                $line = $this->lines[$lineKey];
+                //print_r($line);
+                foreach ($columnOptions as $columnKey => $columnTitle) {
+                    if (isset($line[$columnKey])) {
+                        $values[] = $line[$columnKey];
+                    } else {
+                        $values[] = 0;
+                    }
+                }
+            } else {
+                
+                foreach ($columnOptions as $columnKey => $columnTitle) {
+                    $values[] = 0;
+                }
+            }
+            $lineTemplate->values = $values;
+            $linesTemplate[] = $lineTemplate;
+        }
+        return $linesTemplate;
+    }
+
     protected function getGraph($title, $type, $xUnit, $data, $md5) {
         
         if (!$data) {
@@ -1516,6 +1594,31 @@ class ClientStatsReports extends ClientPlugin
                str_replace(' ', '_', $this->report) . '_' .
                $this->periodtype;
     }
+
+   /**
+    * handle the templates to display a link to export the result to csv
+    * @return string smarty template
+    */
+    protected function drawCsvLink() {
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+        return $smarty->fetch('stats_cvslink.tpl');
+    }
+
+    /**
+     * Builds exported file name.
+     * @return string
+     */
+     protected function getFilename() {
+         $filename = $this->getConfig()->filename;
+         if ($filename && preg_match('/^(.*)\[date,(.*)\](.*)$/',
+                                     $filename, $regs)) {
+             $filename .= $regs[1] . date($regs[2]) . $regs[3];
+         } 
+
+         if (empty($filename)) $filename = 'cartoweb_statsReport.csv';
+
+         return $filename;
+     }
 }
 
 ?>

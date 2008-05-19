@@ -23,7 +23,12 @@ AjaxPlugins.StatsReports = {
           if (pluginOutput.htmlCode.result) {
               
             toggleGeneratedResult('show');              
-            $('generated_result').innerHTML = pluginOutput.htmlCode.result;              
+            $('generated_result').innerHTML = pluginOutput.htmlCode.result;
+            if (pluginOutput.htmlCode.showcsvlink) {
+              var cvslink = $('statscvslink');
+              cvslink.innerHTML = pluginOutput.htmlCode.showcsvlink;
+              cvslink.style.display = 'block';
+            }
           } else if (pluginOutput.variables.resulttype == 'map') {
             toggleGeneratedResult('hide');              
           }
@@ -143,4 +148,11 @@ function changeDisplay() {
         $('stats_options_block').show();
         CartoWeb.trigger('StatsReports.RefreshOptions');    
     }    
+}
+
+
+function getStatsCsv() {
+    $('getStatsCsv').value = 1;
+    doSubmit();
+    $('getStatsCsv').value = 0;
 }

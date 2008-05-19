@@ -8,3 +8,10 @@ datas.wms.prefix = stats_wms
 
 tempDsn = pgsql://user:password@localhost/test_temp
 nColors = 16
+
+outputCsv = 1
+csvShowHeaders = 1
+;csvSeparator = ";"
+;filename = statsReport_cursomfilename.csv
+;csvUseTextDelimiter = 1
+;csvTextDelimiter = #
