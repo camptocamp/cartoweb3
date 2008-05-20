@@ -623,6 +623,12 @@ class ClientLayers extends ClientPlugin
         }
         
         $this->layersState->switchId = $newSwitch;
+
+        foreach ($this->getLayers(true) as $layer) {
+            if ($layer instanceof LayerGroup || $layer instanceof Layer) {
+                $this->nodesIds[] = $layer->id;
+            }
+        }        
     }
 
     /**
