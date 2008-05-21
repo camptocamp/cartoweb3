@@ -106,6 +106,7 @@ defaultLang = en
 ; Charset encoder class
 EncoderClass.config = EncoderISO
 EncoderClass.output = EncoderUTF
+;EncoderClass.data = EncoderUTF
 EncoderClass.artichow = EncoderISO
 
 ;## Views management ##
