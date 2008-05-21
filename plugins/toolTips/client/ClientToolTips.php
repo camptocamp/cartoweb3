@@ -103,7 +103,7 @@ class ClientToolTips extends ClientPlugin
      * Used when flow is interrupted
      * @return string
      */
-    private function drawCustomForm() {
+    protected function drawCustomForm() {
         if ($this->cartoclient->getConfig()->profile != 'development') {
             set_error_handler(array('ClientToolTips', 'errorHandler'), E_ALL);
         }
@@ -137,7 +137,7 @@ class ClientToolTips extends ClientPlugin
      * for example don't send ajax request if no tooltipsable layer is visible
      * @return boolean 
      */
-    private function isToolTipsActive() {
+    protected function isToolTipsActive() {
         $toolTipsService = new ToolTipsService($this->cartoclient);
         
         return true;
