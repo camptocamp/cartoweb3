@@ -713,7 +713,11 @@ class ClientStatsReports extends ClientPlugin
                               'stats_data' => $this->data));
         return $smarty->fetch('stats_reports_form.tpl');        
     }      
-    
+
+   /**
+    * get basic info about reports
+    * @return array
+    */    
     protected function getReports() {
         
         if (count($this->reports) > 0) {
@@ -734,7 +738,7 @@ class ClientStatsReports extends ClientPlugin
             
             $report = new stdClass();
             $report->name = $row['name'];
-            $report->label = $row['label'];
+            $report->label = Encoder::encode($row['label'], 'data');
             
             $lines = explode("\n", $row['config']);
             $options = array();
@@ -760,18 +764,26 @@ class ClientStatsReports extends ClientPlugin
         }   
         return $this->reports;
     }
-        
+
+   /**
+    * generate report option list based on the main report object
+    * @return array associative array report name => report label
+    */
     protected function getReportOptions() {
     
         $options = array('_empty' => '');
         $reports = $this->getReports();
         foreach ($reports as $report) {
-            $options[$report->name] = $report->label;
+            $options[$report->name] = I18n::gt($report->label);
         }
         
         return $options;
     }
-    
+
+   /**
+    * generate report option list template
+    * @return string smarty template
+    */
     protected function drawReportForm() {
 
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
@@ -780,6 +792,10 @@ class ClientStatsReports extends ClientPlugin
         return $smarty->fetch('stats_report_form.tpl');            
     }           
 
+   /**
+    * generate PeriodType option list based on the main report object
+    * @return array report period => period (max)
+    */
     protected function getPeriodTypeOptions() {
     
         $options = array();
@@ -794,7 +810,11 @@ class ClientStatsReports extends ClientPlugin
              
         return $options;
     }
-    
+
+   /**
+    * generate PeriodType option list template
+    * @return string smarty template
+    */
     protected function drawPeriodTypeForm() {
 
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
