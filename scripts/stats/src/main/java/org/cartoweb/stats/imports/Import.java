@@ -32,7 +32,6 @@ import org.pvalsecc.opts.Option;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -67,7 +66,7 @@ public class Import extends BaseStats {
 
     @Option(desc = "Regular expression to be matched (on the absolute path) for a log file to be taken",
             environment = "STATS_LOG_REGEXP")
-    private String logRegexp = "\\.log$";
+    private String logRegexp = "\\.log(\\.gz)?$";
 
     @Option(desc = "If true, will delete everything and start from scratch",
             environment = "STATS_INITIALIZE")
@@ -364,7 +363,7 @@ public class Import extends BaseStats {
         }
     }
 
-    private StatsReader createReader(File file) throws FileNotFoundException {
+    private StatsReader createReader(File file) throws IOException {
         if (format.equalsIgnoreCase("WMS")) {
             return new WmsReader(file, sideTables, wantLayers, mapIdRegExp, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {

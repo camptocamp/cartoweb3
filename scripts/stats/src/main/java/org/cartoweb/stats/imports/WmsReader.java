@@ -19,7 +19,7 @@
 package org.cartoweb.stats.imports;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
@@ -42,7 +42,7 @@ public class WmsReader extends StatsReader {
 
     private final Pattern mapIdRegExp;
 
-    public WmsReader(File file, SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) throws FileNotFoundException {
+    public WmsReader(File file, SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
         this.mapIdRegExp = Pattern.compile(mapIdRegExp);
     }

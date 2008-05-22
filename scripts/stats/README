@@ -42,6 +42,15 @@ can add a buggy parameter at the end of your command. That will display an error
 message, but you'll find the actual values of each parameter in the
 "default to [...]" region.
 
+SUPPORTED FORMATS
+=================
+
+Support files in those formats:
+  - WMS (apache log files)
+  - CartoWeb
+
+Files whose name ends by ".gz" are assumed to be in GZIP format and are
+de-compressed on the fly.
 
 SQL
 ===

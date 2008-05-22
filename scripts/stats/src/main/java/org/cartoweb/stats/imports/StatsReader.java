@@ -23,14 +23,16 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.zip.GZIPInputStream;
 
 public abstract class StatsReader implements Iterator<StatsRecord> {
     private static final Log LOGGER = LogFactory.getLog(StatsReader.class);
@@ -45,12 +47,16 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
     protected final File file;
     private final boolean skipErrors;
 
-    public StatsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws FileNotFoundException {
+    public StatsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
         this.file = file;
         this.sideTables = sideTables;
         this.wantLayers = wantLayers;
         this.skipErrors = skipErrors;
-        reader = new BufferedReader(new FileReader(file));
+        if (file.getName().endsWith(".gz")) {
+            reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(file))));
+        } else {
+            reader = new BufferedReader(new FileReader(file));
+        }
     }
 
     /**

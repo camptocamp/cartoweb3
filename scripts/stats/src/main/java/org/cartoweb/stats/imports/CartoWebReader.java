@@ -19,7 +19,7 @@
 package org.cartoweb.stats.imports;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 public class CartoWebReader extends StatsReader {
     private static final Pattern PATTERN = Pattern.compile("([^=]+)=\"([^\"]*)\";?");
 
-    public CartoWebReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws FileNotFoundException {
+    public CartoWebReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
     }
 
