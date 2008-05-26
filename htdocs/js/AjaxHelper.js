@@ -24,7 +24,7 @@ var AjaxHelper = {
         
         inputType = htmlElement.getAttribute('type');
         paramName = htmlElement.getAttribute('name');
-        if (inputType == 'text') {
+        if (inputType == 'text' || inputType == 'password') {
             paramValue = htmlElement.value;
         } else {
             paramValue = htmlElement.getAttribute('value');
