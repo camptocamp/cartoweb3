@@ -671,12 +671,12 @@ class ServerMapOverlay extends ServerPlugin {
 
         case BasicOverlay::ACTION_REMOVE:
             if (!is_null($overlay->name)) {
-                $msLayer->removeMetadata($result->name);
+                $msLayer->removeMetadata($overlay->name);
             }
+            break;
 
         default:
             throw new CartoserverException('updateMetadata: unknown action');
-            break;
         }
         return $result;
     }
