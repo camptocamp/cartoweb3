@@ -65,6 +65,9 @@ class ClientExportLinkIt extends ExportPlugin
      */
     protected $lastMapResult;
 
+    /**
+     * @var ClientSession
+     */
     protected $session;
 
     /**
