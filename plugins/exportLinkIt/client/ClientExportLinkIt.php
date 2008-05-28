@@ -65,6 +65,8 @@ class ClientExportLinkIt extends ExportPlugin
      */
     protected $lastMapResult;
 
+    protected $session;
+
     /**
      * Tool constant
      */
@@ -206,9 +208,9 @@ class ClientExportLinkIt extends ExportPlugin
      * Sets query string var with map context info.
      */
     protected function setContextQueryString() {
-        $session = $this->cartoclient->getClientSession();
-        $this->lastMapRequest = $session->lastMapRequest;
-        $this->lastMapResult = $session->lastMapResult;
+        $this->session = $this->cartoclient->getClientSession();
+        $this->lastMapRequest = $this->session->lastMapRequest;
+        $this->lastMapResult = $this->session->lastMapResult;
 
         // layers data
         $this->addLayersParams();
@@ -239,9 +241,17 @@ class ClientExportLinkIt extends ExportPlugin
             $this->params[] = 'switch_id=' . $this->lastMapRequest
                                                   ->layersRequest->switchId;
         }
-        $this->params[] = 'layer_select=' . implode(',', $this->lastMapRequest
-                                                              ->layersRequest
-                                                              ->layerIds);
+
+        $clientLayers = unserialize($this->session->pluginStorage->ClientLayers);
+        if (!empty($clientLayers->layersData)) {
+            $selected_layers = array();
+            foreach ($clientLayers->layersData as $layerId => $layerState) {
+                if ($layerState->selected) {
+                    $selected_layers[] = $layerId;
+                }
+            }
+            $this->params[] = 'layer_select=' . implode(',', $selected_layers);
+        }
     }
 
     /**
