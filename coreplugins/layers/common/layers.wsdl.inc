@@ -72,6 +72,7 @@
           <element name="className" type="xsd:string"/>
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
+          <element name="security_view" type="xsd:string"/>
         </all>
       </complexType>
       

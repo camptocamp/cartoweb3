@@ -365,6 +365,14 @@ layers.group_admin.metadata.security_view = admin]]></programlisting>
       <para> In this example, the <constant>admin</constant> role is set for 
         the layerGroup called <constant>group_admin</constant>. You can notice 
         the very similar syntax as used in the mapfile. </para>
+      <para> Security can also be set for a whole switch (see <xref 
+            linkend="user.layers.tree.children"/>): </para>
+      <programlisting><![CDATA[switches.switch1.label = Switch 1
+switches.switch1.security_view = admin
+switches.switch2.label = Switch 2]]></programlisting>
+      <para> In this case all layers set as children for this switch 
+        will only be visible for users having the 
+        <constant>admin</constant> role. </para>
       <warning>
         <para>Don't forget to set <constant>applySecurity</constant> to True in 
           the <filename>layers.ini</filename> &cartoclient; configuration file (in client_conf !), 

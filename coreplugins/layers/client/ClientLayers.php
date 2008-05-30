@@ -299,6 +299,11 @@ class ClientLayers extends ClientPlugin
     protected $childrenCache = array();
 
     /**
+     * @var array
+     */
+    protected $unauthorizedSwitches = array();
+
+    /**
      * @var float
      */
     protected $currentScale;
@@ -457,6 +462,58 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
+     * Initializes list of unauthorized layers due to switches marked
+     * as unauthorized.
+     * @param current layer
+     */
+    protected function initUnauthorizedSwitches(LayerContainer $layer) {
+        
+        if ($layer->id == 'root') {
+            $this->unauthorizedSwitches = array();
+        } 
+            
+        $switches = $this->layersInit->switches;
+        if (!is_array($switches)) {
+            $switches = array();
+        }            
+                 
+        foreach ($switches as $switch) {
+            if ($this->getConfig()->applySecurity &&
+                !empty($switch->security_view) &&
+                !SecurityManager::getInstance()
+                    ->hasRole(Utils::parseArray($switch->security_view))) {
+
+                // Refresh children cache because looking for other switches
+                $children = $layer->getChildren($switch->id, true);
+                $unauthChildren = array();                   
+                if (is_array($layer->children) &&
+                    isset($layer->children[$switch->id])) {
+                    $chswitch = $layer->children[$switch->id];
+                    if ($chswitch instanceof ChildrenSwitch) {
+                        $unauthChildren = $chswitch->layers;
+                    }    
+                }
+         
+                foreach ($children as $child) {
+                    
+                    if (!in_array($child, $this->unauthorizedSwitches)) {
+                        
+                        $layers = $this->getLayersInit()->layers;
+                        if ($layers[$child] instanceof LayerContainer) {
+                            $this->initUnauthorizedSwitches($layers[$child]);
+                        }     
+                        if (in_array($child, $unauthChildren)) {
+                            $this->unauthorizedSwitches[] = $child;
+                        }
+                    }
+                }
+                // Restore old children cache
+                $children = $layer->getChildren($this->layersState->switchId, true);
+            }            
+        }
+    }
+
+    /**
      * Callback used to remove nodes which are not visible by the current user.
      * If it returns true, the node will be ignored in the tree.
      * @param LayerNode The node on which to check access
@@ -464,8 +521,11 @@ class ClientLayers extends ClientPlugin
      */
     public function nodesFilterSecurity(LayerNode $node) {
         
-        // TODO: add constants for security_view
+        if (in_array($node->layer->id, $this->unauthorizedSwitches)) {
+            return true;
+        }
         
+        // TODO: add constants for security_view        
         $roles = Utils::parseArray($node->layer->getMetadata('security_view'));
         
         if (empty($roles)) {
@@ -511,7 +571,8 @@ class ClientLayers extends ClientPlugin
         // TODO: Analyse the performances of the layerNode tree creation and 
         //  filtering
         
-        $layerNode = $this->getLayerNode();     
+        $layerNode = $this->getLayerNode();  
+        $this->initUnauthorizedSwitches($layerNode->layer); 
         $layerNode->filterNodes(array($this, 'nodesFilterSecurity'));
         return $layerNode->getLayersMap(array());
     }
@@ -1428,10 +1489,15 @@ class ClientLayers extends ClientPlugin
         $switchLabels = array(I18n::gt('Default'));
         $switches = $this->layersInit->switches;
         if (!is_array($switches)) $switches = array();
-     
+                 
         foreach ($switches as $switch) {
-            $switchValues[] = $switch->id;
-            $switchLabels[] = I18n::gt($switch->label);            
+            if (!$this->getConfig()->applySecurity ||
+                empty($switch->security_view) ||
+                SecurityManager::getInstance()
+                    ->hasRole(Utils::parseArray($switch->security_view))) {
+                $switchValues[] = $switch->id;
+                $switchLabels[] = I18n::gt($switch->label);
+            }            
         }
         
         if (count($switchValues) == 1)

@@ -442,11 +442,17 @@ class SwitchInit extends CwSerializable {
     public $label;
     
     /**
+     * Switch's security
+     */
+    public $security_view;
+    
+    /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id    = self::unserializeValue($struct, 'id');
         $this->label = self::unserializeValue($struct, 'label');
+        $this->security_view = self::unserializeValue($struct, 'security_view');
     }
 }
 
