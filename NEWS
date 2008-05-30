@@ -17,6 +17,7 @@ CartoWeb HEAD
 - Added ServerMapquery::queryByMsShape(), useful to perform queries using MapScript ShapeObj objects
 - Added statsReports plugin / stats script: generate human readable visual report based on Cartoweb and WMS log
 - Added portuguese translations (thanks to K2 Sistemas)
+- Added security parameter "security_view" for children switching
 
 2007-07-26: CartoWeb 3.4.0
 ===================
