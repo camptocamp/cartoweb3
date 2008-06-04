@@ -202,3 +202,5 @@ function goToScale(scale) {
     FormItemSelected();
   }
 }
+
+EventManager.Add(window, 'load', layersInit, false);
