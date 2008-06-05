@@ -56,6 +56,11 @@ class ClientExportLinkIt extends ExportPlugin
     protected $params = array();
 
     /**
+     * @var string
+     */
+    protected $paramSwitch;
+
+    /**
      * @var MapRequest
      */
     protected $lastMapRequest;
@@ -97,6 +102,10 @@ class ClientExportLinkIt extends ExportPlugin
      * @see FilterProvider::filterGetRequest()
      */
     public function filterGetRequest(FilterRequestModifier $request) {
+
+        // unselect all layer (of selected switch)
+        $request->setValue('layer_unselect', 'root');
+
         if ($this->isUrlCompressed && $request->getValue('q')) {
             
             // char "+" may be used by base64 encoding but might be interpreted
@@ -194,7 +203,7 @@ class ClientExportLinkIt extends ExportPlugin
         if ($this->isUrlCompressed) {
             $this->queryString = 'q=' . base64_encode(gzdeflate($this->queryString, 9));
         }
-        $this->queryString = basename($_SERVER['PHP_SELF']) . '?reset_session&' . $this->queryString;
+        $this->queryString = basename($_SERVER['PHP_SELF']) . '?reset_session&' . $this->paramSwitch.$this->queryString;
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $url = $resourceHandler->getFinalUrl($this->queryString, true, true, $useXhtml);
@@ -241,8 +250,8 @@ class ClientExportLinkIt extends ExportPlugin
      */
     protected function addLayersParams() {
         if (!empty($this->lastMapRequest->layersRequest->switchId)) {
-            $this->params[] = 'switch_id=' . $this->lastMapRequest
-                                                  ->layersRequest->switchId;
+            $this->paramSwitch = 'switch_id=' . $this->lastMapRequest
+                                                  ->layersRequest->switchId . '&';
         }
 
         $clientLayers = unserialize($this->session->pluginStorage->ClientLayers);
