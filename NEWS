@@ -18,6 +18,7 @@ CartoWeb HEAD
 - Added statsReports plugin / stats script: generate human readable visual report based on Cartoweb and WMS log
 - Added portuguese translations (thanks to K2 Sistemas)
 - Added security parameter "security_view" for children switching
+- Added config in exportPdf to show/hide some blocks if some layers are activated
 
 2007-07-26: CartoWeb 3.4.0
 ===================

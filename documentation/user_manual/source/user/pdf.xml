@@ -212,6 +212,16 @@ formats.A4.bigDimension = 297]]></programlisting>
        <parameter>general.outputFormat</parameter> (string): define a specific outputFormat to use for the exported image. A corresponding OUTPUTFORMAT must exist in the mapfile.
       </para>
      </listitem>
+     <listitem>
+      <para>
+       <parameter>general.specialLayers.&lt;layername&gt;.addBlocks</parameter> (comma-separated list of strings): if layer <parameter>layername</parameter> is activated, the given blocks will be added to the list of activated blocks (see <parameter>general.activatedBlocks</parameter>). To add blocks for several layers, use dedicated lines with matching layer names.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <parameter>general.specialLayers.&lt;layername&gt;.removeBlocks</parameter> (comma-separated list of strings): if layer <parameter>layername</parameter> is activated, the given blocks will be removed from the list of activated blocks (see <parameter>general.activatedBlocks</parameter>). To remove blocks for several layers, use dedicated lines with matching layer names.
+      </para>
+     </listitem>
     </itemizedlist>
    </para>
    <para>

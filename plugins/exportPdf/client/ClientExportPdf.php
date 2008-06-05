@@ -688,6 +688,40 @@ class ClientExportPdf extends ExportPlugin
     }
 
     /**
+     * Returns the list of activated blocks using config info.
+     * Make sure that ClientExportPdf::setGeneral() has been called before.
+     * @param array request array
+     * @return array
+     */
+    protected function getActivatedBlocks($request) {
+        $activatedBlocks = $this->general->activatedBlocks;
+
+        if ($this->isPrintingPdf($request) && !empty($this->general->specialLayers)) {
+            $layerIds = $this->getLastMapRequest()->layersRequest->layerIds;
+            
+            foreach ($this->general->specialLayers as $layername => $blocksList) {
+                // test if given special layer is activated 
+                if (!in_array($layername, $layerIds)) {
+                    continue;
+                }
+                
+                if (!empty($blocksList->addBlocks)) {
+                    $addBlocks = $this->getArrayFromList($blocksList->addBlocks);
+                    $activatedBlocks = array_merge($activatedBlocks, $addBlocks);
+                    $activatedBlocks = array_unique($activatedBlocks);
+                }
+
+                if (!empty($blocksList->removeBlocks)) {
+                    $removeBlocks = $this->getArrayFromList($blocksList->removeBlocks);
+                    $activatedBlocks = array_diff($activatedBlocks, $removeBlocks);
+                }
+            }
+        }
+        
+        return $activatedBlocks;
+    }
+
+    /**
      * Sets PdfGeneral, PdfFormat and PdfBlock objects from config and
      * from request data if any.
      * @param array request data
@@ -706,7 +740,7 @@ class ClientExportPdf extends ExportPlugin
         $this->blockTemplate = new PdfBlock;
         $this->overrideProperties($this->blockTemplate, $iniObjects->template);
 
-        foreach ($this->general->activatedBlocks as $id) {
+        foreach ($this->getActivatedBlocks($request) as $id) {
             $this->createBlock($request, $iniObjects, $id);
         }
 
