@@ -67,6 +67,11 @@ fr    fr_CH.ISO-8859-1
                 <para>These scripts need that locales have been correctly configured.
                     They were tested on GNU/Linux with a Debian/Sarge install.</para>
                 </note>
+                <note>
+                  <para>On debian etch systems <filename>locale.alias</filename> path
+                    has changed. You should find it in
+                    <filename>/usr/share/locale/locale.alias</filename>.</para>
+                </note>
                 
             </sect3>
             <sect3 id="user.i18n.translations.config.win32">
