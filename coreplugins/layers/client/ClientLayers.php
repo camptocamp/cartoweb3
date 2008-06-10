@@ -980,7 +980,7 @@ class ClientLayers extends ClientPlugin
      * @param bool if true, children cache is ignored (default: false)
      * @return array layers list
      */
-    protected function getLayersMask($layerId = 'root', $resetCache = false) {
+    public function getLayersMask($layerId = 'root', $resetCache = false) {
         $layer = $this->getLayerByName($layerId);
         
         if ($layer instanceof LayerClass)
