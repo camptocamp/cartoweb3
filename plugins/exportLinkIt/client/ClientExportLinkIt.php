@@ -251,8 +251,8 @@ class ClientExportLinkIt extends ExportPlugin
      */
     protected function addLayersParams() {
         if (!empty($this->lastMapRequest->layersRequest->switchId)) {
-            $this->paramSwitch = 'switch_id=' . $this->lastMapRequest
-                                                  ->layersRequest->switchId . '&';
+            $switch_id = $this->lastMapRequest->layersRequest->switchId;
+            $this->paramSwitch = 'switch_id=' . $switch_id . '&';
         }
 
         $clientLayers = unserialize($this->session->pluginStorage->ClientLayers);
@@ -263,6 +263,11 @@ class ClientExportLinkIt extends ExportPlugin
                     $selected_layers[] = $layerId;
                 }
             }
+            // keep only layers that are actually displayed 
+            // (eg. not those from other switches)
+            $layersPlugin = $this->cartoclient->getPluginManager()->getPlugin('layers');
+            $layers_mask = $layersPlugin->getLayersMask();
+            $selected_layers = array_intersect($selected_layers, $layers_mask);
             $this->params[] = 'layer_select=' . implode(',', $selected_layers);
         }
     }
