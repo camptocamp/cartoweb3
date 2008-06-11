@@ -46,6 +46,8 @@
     </script>
   {/if}
 
+  {if $linkIt|default:''}<script type="text/javascript" src="{r type=js plugin=exportLinkIt}linkit.js{/r}"></script>{/if}
+
   {* Service plugin for AJAX *}
   <script type="text/javascript" src="{r type=js plugin=cartoMessages}CartoMessages.ajax.js{/r}"></script>
 
