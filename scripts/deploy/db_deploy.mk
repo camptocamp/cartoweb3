@@ -123,4 +123,4 @@ endif
 
 	echo $(SCHEMA),$(SCHEMAPREFIX),$(TABLE)
 	(echo "delete from $(SCHEMAPREFIX)$(TABLE);"; \
-	$(DB_OPTS) pg_dump $(if $(SCHEMA),-n $(SCHEMA)) -t $(TABLE) $(DB) -a ) | $(DB_OPTS_TARGET) psql $(DB)
+	$(DB_OPTS) pg_dump $(if $(SCHEMA),-t $(SCHEMA).$(TABLE)) -t $(TABLE) $(DB) -a ) | $(DB_OPTS_TARGET) psql $(DB)
