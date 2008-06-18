@@ -33,6 +33,7 @@ AjaxPlugins.Outline.Actions.AddFeature = {
         mainmap.getDisplay('map').clearLayer('outline_line');
         mainmap.getDisplay('map').clearLayer('outline_rectangle');
         mainmap.getDisplay('map').clearLayer('outline_point');
+        mainmap.getDisplay('map').clearLayer('outline_circle');
     }
 };
 
