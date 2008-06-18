@@ -607,7 +607,7 @@ Map.prototype.linkit = function(aDisplay) {
           method: 'get',
           onSuccess: function(transport) {
             linkbox.innerHTML = transport.responseText;
-            xGetElementById('linkItUrl').focus();
+            xGetElementById('linkItUrl').select();
           }
         });
         
