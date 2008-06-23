@@ -103,6 +103,13 @@
       <filename>/projects/my_project/plugins</filename>. To load the new 
       plugin, add its name in <filename>client.ini</filename> and/or 
       <filename>my_mapfile.ini</filename> (loadPlugins variable). </para>
+    <para>
+        <note>
+          <para>You MUST execute the cw3setup script with option --install so the 
+          new/overriding files are linked (linux) / copied (windows) in the main htdocs 
+          folder, see <xref linkend="user.install.main.setup"/> for details.</para>
+        </note>
+    </para>
   </sect1>
   <sect1 id="user.project.use">
     <title>Using Projects</title>
