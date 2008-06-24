@@ -75,8 +75,208 @@
       </para>
       <programlisting>ajaxOn = true</programlisting>
     </sect2>
+
+
+    <sect2 id="user.ajax.project.general">
+      <title>Plugin Ajaxisation Generalities</title>
+      <para> There are several steps needed to add ajax support to a plugin : </para>
+      <itemizedlist>
+        <listitem><para>PHP</para></listitem>
+        <listitem><para>javascript</para></listitem>
+        <listitem><para>template</para></listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2 id="user.ajax.project.php">
+      <title>PHP side</title>
+      <para>Your plugin php class must implements the Ajaxable interface.</para>
+      <para><screen>class ClientYourPlugin extends ClientPlugin implements Ajaxable { ...</screen></para>
+      <para>You can then add two functions:</para>
+      <itemizedlist>
+        <listitem><para>ajaxGetPluginResponse</para></listitem>
+        <listitem><para>ajaxHandleAction</para></listitem>
+      </itemizedlist>
+
+      <sect3 id="user.ajax.project.php.ajaxgetpluginresponse">
+        <title>ajaxGetPluginResponse</title>
+        <para><filename>ajaxGetPluginResponse</filename> will send back your plugin's response. 
+        It behaves the same way as the usual <filename>renderForm</filename> function.</para>
+        <para>
+          instead of doing :
+          <screen>$template->assign($some_content);</screen>
+          you do :
+          <screen>$ajaxPluginResponse->addHtmlCode('some_variable_name', $some_content);
+$ajaxPluginResponse->addVariable('another_variable_name', $some_content);</screen>
+        </para>
+        <para><filename>HtmlCode</filename> and <filename>Variable</filename> are pretty much 
+        the same thing, it only differentiates 
+        the treatments between html output and javascript variables.</para>
+      </sect3>
+
+      <sect3 id="user.ajax.project.php.ajaxhandleaction">
+        <title>ajaxHandleAction</title>
+        <para><filename>ajaxHandleAction</filename> is where you specify which plugin(s) is 
+        activated when an action is triggered through your plugin.
+        The content is usualy a switch on the action name:</para>
+        <para>
+          <screen><![CDATA[
+switch ($actionName) {
+    case 'YourPlugin.SomeAction':
+        $pluginEnabler->disableCoreplugins();
+        $pluginEnabler->enablePlugin('images');
+        $pluginEnabler->enablePlugin('yourplugin');
+    break;
+    case 'YourPlugin.AnotherAction':            
+        $pluginEnabler->disableCoreplugins();
+        $pluginEnabler->enablePlugin('yourplugin');
+    break;
+}]]></screen>
+        </para>
+        <para>You must explicitly enable your plugin
+<screen>$pluginEnabler->enablePlugin('yourplugin');</screen>
+otherwise your plugin will not send back anything.</para>
+        <para><filename>disableCoreplugins();</filename> explicitly deactivate all coreplugin. It means nothing 
+        will be sent back to the browser.</para>
+        <para>You can activate plugin case by case, for example:
+<screen>$pluginEnabler->disableCoreplugins();
+$pluginEnabler->enablePlugin('images');</screen>
+        will only enable the images coreplugin and the map will then be refreshed.
+        </para>
+     </sect3>
+    </sect2>
+
+    <sect2 id="user.ajax.project.js">
+      <title>Javascript browser's side</title>
+      <para>Create a new javascript file named <filename>YourPlugin.ajax.js</filename></para>
+      <para>Place it in <filename>plugins/yourPlugin/htdocs/js/</filename></para>
+      <para>Add it to your <filename>cartoclient.tpl</filename> header:
+<screen><![CDATA[<script type="text/javascript" src="{r type=js plugin=yourPlugin}YourPlugin.ajax.js{/r}"></script>}]]></screen>
+      be careful to not place it before {include file="cartoclient_ajaxHeader.tpl"}, you will 
+      get a javscript error because the plugin's javascript code use some objects which are 
+      defined only in files inluded via the cartoclient_ajaxHeader.tpl file.</para>
+      <para>The YourPlugin.ajax.js contains basicaly two parts, one to trigger the action 
+      and another to handle the answer and update your html/javascript</para>
+
+      <sect3 id="user.ajax.project.js.answer">
+        <title>Ajax Answer Handling</title>
+        <para><screen><![CDATA[
+AjaxPlugins.YourPlugin = {
+  
+    handleResponse: function(pluginOutput) {
+        /* Plugin general behaviour */
+        
+        if (pluginOutput.variables.variable_name) {
+	    // do something with your variable
+	    alert(pluginOutput.variables.another_variable_name);
+        }
+
+        AjaxHandler.updateDomElement('target_id', 'innerHTML',
+                                     pluginOutput.htmlCode.some_variable_name);
+    }  
+};
+}]]></screen>
+        </para>
+        <para>The answer sent by PHP is handled in handleResponse. Here you recover the variables and htmlCodes.</para>
+        <para>The function updateDomElement will handle all the html insertion. It takes 3 parameters: </para>
+        <itemizedlist>
+          <listitem><para>the target id of the existing element in your current html which will serve as container for the new content.</para></listitem>
+          <listitem><para>the insertion methode, always 'innerHTML'.</para></listitem>
+          <listitem><para>the new content.</para></listitem>
+        </itemizedlist>
+     </sect3>
+
+      <sect3 id="user.ajax.project.js.action">
+        <title>Ajax Action Triggering</title>
+        <para>In this part, you simply define all your actions and what to do before, when and after the actions are triggered.</para>
+        <para><screen><![CDATA[
+AjaxPlugins.YourPlugin.Actions = {};
+// always empty, it only define a Actions object which will store our various actions.
+
+AjaxPlugins.YourPlugin.Actions.SomeAction = {
+
+    buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+    },
+    .
+    onBeforeAjaxCall: function(argObject) {
+        Logger.note('Clearing outline dhtml layers...');
+        callSomeJavascriptFunctions();
+    },
+
+    onAfterAjaxCall: function(argObject) {
+        Logger.note('Clearing outline dhtml layers...');
+        callSomeJavascriptFunctions();
+    },
+
+    oneCustomFunction: function() {
+        // you can also define functions 
+        ...
+    },
+};
+
+AjaxPlugins.YourPlugin.Actions.AnotherAction = {
+
+    buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+    }
+};
+]]></screen>
+          <warning><para>BE CAREFUL FOR CLOSING "," and ";" !!!!</para>
+            <para>these are json syntax and it is a bit different than your usual javascript.</para></warning>
+        </para>
+
+        <para><filename>buildPostRequest</filename> is always executed, it simply parses your html and recover 
+        all the inputs (text, hidden, select, radio, checkbox, password, textarea) values and send them to the server.</para>
+
+        <para><filename>onBeforeAjaxCall</filename> and <filename>onAfterAjaxCall</filename> are optional.</para>
+        <para>These functions are called before and after the action. For example if you want 
+        to modify some inputs value just before it's being sent to the server. Or you want too add some post-treatments.</para>
+        <para>Note that <filename>onAfterAjaxCall</filename> is called AFTER the response is 
+        being treated in the normal <filename>handleResponse</filename> stage (see <xref linkend="user.ajax.project.js.answer"/>).</para>
+
+      <sect4 id="user.ajax.project.js.action.attach">
+        <title>Add Event</title>
+        <para>If the html fragment your are inserting must implement on-the-fly javascript 
+        event, you can attach some event on existing elements via the attachAction function:
+<screen>AjaxHandler.attachAction('target_element_id', 'type_of_event', 'callback_function', json_defined_arguments);</screen>
+        </para>
+        <para>for example: 
+        <screen>AjaxHandler.attachAction('pan_n', 'click', 'Location.Pan', {source: 'button'});</screen>
+        </para>
+      </sect4>
+
+      <sect4 id="user.ajax.project.js.action.custom">
+        <title>Custom Functions</title>
+        <para>You can define custom functions as well, see the <filename>oneCustomFunction</filename> above. But 
+        you will need to explicitly call these functions from <filename>buildPostRequest</filename>, 
+        <filename>onBeforeAjaxCall</filename> or <filename>onAfterAjaxCall</filename>.</para>
+        <para>The function is called like this: <filename>this.oneCustomFunction();</filename></para>
+      </sect4>
+
+      <sect4 id="user.ajax.project.js.action.log">
+        <title>Log Messages</title>
+        <para>You can output some notice or warning in the <filename>JSTraceDebugger</filename> windows by adding:
+            <screen>Logger.note('Some text that will appear in the debugger');</screen>
+        </para>
+        <para>You can also use 'send', 'header', 'error', 'warn', 'trace' or 'confirm'. 
+        They have slightly different styling. See file <filename>Logger.js</filename> for details.</para>   
+      </sect4>
+     </sect3>
+    </sect2>
+
     <sect2 id="user.ajax.project.templates">
       <title>Templates Adaptation</title>
+      <para>To trigger the actions defined in YourPlugin.ajax.js, you simply call them like this:</para>
+      <para><screen><![CDATA[
+<input type="button" value="{t}ok{/t}" onclick="return CartoWeb.trigger('YourPlugin.AnotherAction');" />
+}]]></screen>
+      </para>
+      <para>or if you want to provide a non-ajax fallback, you can do it like that:</para>
+      <para><screen><![CDATA[
+<input type="button" value="{t}ok{/t}" onclick="return CartoWeb.trigger('YourPlugin.AnotherAction', 'doSubmit()');" />
+}]]></screen>
+      </para>
+
       <warning>
         <para> Adapting your templates is a tricky bit. Unless you customized
           your templates thoroughly, we recommend that you start over again
@@ -88,7 +288,7 @@
         to be up to date, especially if you use the latest CVS version of
         &cartoweb;. </para>
       <tip>
-        <para> Also, you can have a look at the templates patch:
+        <para> Original templates patch:
           <ulink url="http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view"/>
         </para>
       </tip>
