@@ -166,8 +166,8 @@ AjaxPlugins.YourPlugin = {
         /* Plugin general behaviour */
         
         if (pluginOutput.variables.variable_name) {
-	    // do something with your variable
-	    alert(pluginOutput.variables.another_variable_name);
+        // do something with your variable
+        alert(pluginOutput.variables.another_variable_name);
         }
 
         AjaxHandler.updateDomElement('target_id', 'innerHTML',
