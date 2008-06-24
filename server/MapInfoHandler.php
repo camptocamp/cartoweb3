@@ -131,7 +131,7 @@ class MapInfoHandler {
 
         if (isset($configStruct->mapInfo->layers))
             throw new CartoserverException('Your layers configuration is obsolete. ' .
-                    'See http://dev.camptocamp.com/c2cwiki/IncompatibleUpdates');
+                    'See http://cartoweb.org/cwiki/IncompatibleUpdates');
 
         $this->mapInfo = new MapInfo();
         $this->mapInfo->unserialize($configStruct->mapInfo);
