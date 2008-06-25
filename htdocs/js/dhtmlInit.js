@@ -76,10 +76,15 @@ createMap = function() {
   
   // initial selected tool
   if (typeof cw3_initial_selected_tool != "undefined") {
-    // prevent interface failure if last selected tool was pdfrotate, set it to default zoomin
-    // FIXME replace this hack by a check in ClientExportPdf.php, maybe in Initialize() or so
-    cw3_initial_selected_tool = cw3_initial_selected_tool.replace(/pdfrotate/g, "zoomin");
-    eval (cw3_initial_selected_tool);
+    // prevent interface failure if last selected tool is not available anymore, set tool to zoomin
+    try {
+      eval(cw3_initial_selected_tool);
+    } catch (e) {
+      mainmap.zoomin('map');
+      if (toolbar_rendering != 'radio' ) {
+        setActiveToolButton('zoomin');
+      }
+    }
   }
   
   xHide(xGetElementById('loadbarDiv'));
