@@ -167,7 +167,7 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
             <listitem>
               <para> tree (default value): children layers are rendered below 
                 the LayerGroup with an indentation. If children are not 
-                declared as "frozen" or "hidden" they will be preceded by a 
+                declared as "frozen" or "hidden" (see <xref linkend="user.config.server.maps_config.initial"/>) they will be preceded by a 
                 checkbox input. A node folding/unfolding link is displayed 
                 before the LayerGroup. </para>
             </listitem>
