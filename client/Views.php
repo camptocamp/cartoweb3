@@ -1562,7 +1562,7 @@ class ViewDbContainer extends ViewContainer {
                                $this->getSchema(),
                                implode(', ', $this->metasList),
                                $this->viewId,
-                               Utils::addslashes($this->data),
+                               addslashes($this->data),
                                implode("', '", $this->metas)
                                );
                 break;
@@ -1573,7 +1573,7 @@ class ViewDbContainer extends ViewContainer {
                                SET views_ts = 'now()', sessiondata = '%s', 
                                 %s WHERE views_id = %d",
                                $this->getSchema(),
-                               Utils::addslashes($this->data),
+                               addslashes($this->data),
                                $this->makeMetasSql(),
                                $this->viewId);
                 break;
