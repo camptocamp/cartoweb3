@@ -618,6 +618,6 @@ Map.prototype.linkit = function(aDisplay) {
         
         linkbox.style.display = 'block';
     } else {
-        linkItClose();
+        linkbox.style.display = 'none';
     }
 }

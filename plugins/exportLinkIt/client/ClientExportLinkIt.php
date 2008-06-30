@@ -178,8 +178,7 @@ class ClientExportLinkIt extends ExportPlugin
      */
     protected function drawLinkBoxContainer() {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
-        $smarty->assign(array('linkItRequestUrl' => $this->getExportUrl(),
-                              'onLinkitClose' => $this->getConfig()->onLinkitClose));
+        $smarty->assign(array('linkItRequestUrl' => $this->getExportUrl()));
         return $smarty->fetch('link_container.tpl');
     }
 

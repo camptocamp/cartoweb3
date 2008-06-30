@@ -1,4 +1,2 @@
 compressUrl = false
 urlMaxLength = 2000
-; on linkit close, switch to tool:
-; onLinkitClose = zoomin
