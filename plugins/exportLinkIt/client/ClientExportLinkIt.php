@@ -254,12 +254,13 @@ class ClientExportLinkIt extends ExportPlugin
             $switch_id = $this->lastMapRequest->layersRequest->switchId;
             $this->paramSwitch = 'switch_id=' . $switch_id . '&';
         }
-
-        $clientLayers = unserialize($this->session->pluginStorage->ClientLayers);
+        $className = get_class($this->cartoclient->getPluginManager()->getPlugin('layers'));
+        $clientLayers = unserialize($this->session->pluginStorage->$className);
+        
         if (!empty($clientLayers->layersData)) {
             $selected_layers = array();
             foreach ($clientLayers->layersData as $layerId => $layerState) {
-                if ($layerState->selected) {
+                if (isset($layerState->selected) && $layerState->selected) {
                     $selected_layers[] = $layerId;
                 }
             }
