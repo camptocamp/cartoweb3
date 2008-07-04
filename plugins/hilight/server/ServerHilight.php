@@ -294,7 +294,7 @@ class ServerHilight extends ServerPlugin {
                                            $serverLayer->msLayer);
         }
 
-        if ($msLayer->type = MS_LAYER_RASTER) {
+        if ($msLayer->type == MS_LAYER_RASTER) {
             // No hilights on raster
             return;
         }
