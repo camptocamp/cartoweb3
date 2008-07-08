@@ -221,6 +221,22 @@ doSubmit = function() {
   myform.submit();
 };
 
+computeDistance = function(aFeature) {
+  var distance = aFeature.getLength();
+  distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
+  return distance;
+}
+
+computeSurface = function(aFeature) {
+  var surface = aFeature.getArea();
+  surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
+  return surface;
+}
+
+removeTags = function(text) {
+  return text.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
 EventManager.Add(window, 'load', createMap, false);
 
 Map.prototype.snap = function(aDisplay) {
@@ -378,8 +394,8 @@ Map.prototype.distance = function(aDisplay) {
   this.getDisplay(aDisplay).setTool('draw.line');
   this.getDisplay(aDisplay).useSnapping = false;
   this.onClic = function(aFeature) {
-    var distance = aFeature.getLength();
-    distance = (factor == 1000) ? Math.round(distance /1000 * 100) / 100 : Math.round(distance);
+
+    var distance = computeDistance(aFeature);
     this.distanceTag.innerHTML = sprintf(this.distanceUnits, distance);
     this.distanceTag.style.display = "block";
     if (this.distanceTag.style.position == "absolute")
@@ -410,8 +426,7 @@ Map.prototype.surface = function(aDisplay) {
     if (typeof aFeature == 'undefined') {
         return;
     }
-    var surface = aFeature.getArea();
-    surface = (factor == 1000) ? Math.round(surface / 1000000 * 10000) / 10000 : Math.round(surface);
+    var surface = computeSurface(aFeature);
     this.surfaceTag.innerHTML = sprintf(this.surfaceUnits, surface);
     this.surfaceTag.style.display = "block";
     if (this.surfaceTag.style.position == "absolute")
@@ -445,8 +460,14 @@ Map.prototype.outline_circle = function(aDisplay) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
-    else
-      addLabel(circleDefaultLabel, mouse_x, mouse_y);
+    else {
+      if (displayMeasures) {
+        var surface = sprintf(this.surfaceUnits, computeSurface(aFeature));
+        addLabel(removeTags(surface), mouse_x, mouse_y);
+      } else {
+        addLabel(circleDefaultLabel, mouse_x, mouse_y);
+      }
+    }
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -472,8 +493,14 @@ Map.prototype.outline_poly = function(aDisplay) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
-    else
-      addLabel(polyDefaultLabel, mouse_x, mouse_y);
+    else {
+      if (displayMeasures) {
+        var surface = sprintf(this.surfaceUnits, computeSurface(aFeature));
+        addLabel(removeTags(surface), mouse_x, mouse_y);
+      } else {
+        addLabel(polyDefaultLabel, mouse_x, mouse_y);
+      }
+    }
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -499,8 +526,14 @@ Map.prototype.outline_line = function(aDisplay) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
-    else
-      addLabel(lineDefaultLabel, mouse_x, mouse_y);
+    else {
+      if (displayMeasures) {
+        var distance = sprintf(this.distanceUnits, computeDistance(aFeature));
+        addLabel(removeTags(distance), mouse_x, mouse_y);
+      } else {
+        addLabel(lineDefaultLabel, mouse_x, mouse_y);
+      }
+    }
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -526,8 +559,14 @@ Map.prototype.outline_rectangle = function(aDisplay) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
-    else
-      addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+    else {
+      if (displayMeasures) {
+        var surface = sprintf(this.surfaceUnits, computeSurface(aFeature));
+        addLabel(removeTags(surface), mouse_x, mouse_y);
+      } else {
+        addLabel(rectangleDefaultLabel, mouse_x, mouse_y);
+      }
+    }
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer
@@ -553,8 +592,13 @@ Map.prototype.outline_point = function(aDisplay) {
     fillForm(aFeature);
     if (typeof addLabel == 'undefined')
       doSubmit();
-    else
-      addLabel(pointDefaultLabel, mouse_x, mouse_y);
+    else {
+      if (displayMeasures) {
+        addLabel('', mouse_x, mouse_y);
+      } else {
+        addLabel(pointDefaultLabel, mouse_x, mouse_y);
+      }
+    }
   };
   this.onToolUnset = function() {
     //clear the outline_poly's display layer

@@ -42,6 +42,10 @@
             to annotate drawn shape. </para>
         </listitem>
         <listitem>
+          <para> displayMeasures<indexterm><primary>displayMeasures</primary></indexterm>: 
+            boolean, if true, label text will contain surface or distance measure. </para>
+        </listitem>
+        <listitem>
           <para> 
             weightOutlinePoint<indexterm><primary>weightOutlinePoint</primary></indexterm>: 
             integer defining display order of the outline_point tool icon in 

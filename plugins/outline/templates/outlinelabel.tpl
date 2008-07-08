@@ -6,6 +6,8 @@
     var rectangleDefaultLabel = '{t}rectangle label{/t}';
     var pointDefaultLabel = '{t}point label{/t}';
     var circleDefaultLabel = '{t}circle label{/t}';
+    
+    var displayMeasures = {if $outline_displayMeasures|default:''}true{else}false{/if};
   /*]]>*/
 </script>
 <div id="outlineLabelInputDiv">

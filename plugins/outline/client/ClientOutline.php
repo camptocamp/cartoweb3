@@ -475,6 +475,8 @@ class ClientOutline extends ClientPlugin
         }
         
         $this->smarty = new Smarty_Plugin($this->getCartoclient(), $this);
+        $this->smarty->assign(array('outline_displayMeasures' => 
+                                    $this->getConfig()->displayMeasures));
         return $this->smarty->fetch('outlinelabel.tpl');
     }
 

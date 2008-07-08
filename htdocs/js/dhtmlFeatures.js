@@ -48,6 +48,9 @@ function Circle() {
   this.id = now.getTime() + "" + Math.round(Math.random() * 1000);
   return this;
 };
+Circle.prototype.getArea = function() {
+    return Math.abs(Math.PI * this.radius * this.radius);
+};
 
 /**
  * Create a feature
@@ -79,7 +82,7 @@ function Feature(wktString) {
   return this;
 };
 Feature.prototype.getArea = function() {
-  //TODO area for circle
+
   if (this.vertices.length > 1) {
     //surface calculation
     var measure = 0;

@@ -19,6 +19,7 @@ CartoWeb HEAD
 - Added portuguese translations (thanks to K2 Sistemas)
 - Added security parameter "security_view" for children switching
 - Added config in exportPdf to show/hide some blocks if some layers are activated
+- Added displayMeasures parameter in plugin Outline to display area/distance in label
 
 2007-07-26: CartoWeb 3.4.0
 ===================
