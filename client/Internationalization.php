@@ -42,6 +42,12 @@ class I18n {
      static private $langList;
 
     /**
+     * Domain
+     * @var string
+     */
+     static private $domain;
+
+    /**
      * Guess the I18nInterface class to use
      * @return I18nInterface The i18n interface to use.
      */
@@ -70,9 +76,10 @@ class I18n {
         
         self::setLocale($config->defaultLang);
 
-        $domain = $project->getProjectName() . '.' . $config->mapId;
-        self::$i18n->bindtextdomain($domain, CARTOWEB_HOME . 'locale/');
-        self::$i18n->textdomain($domain);
+        self::$domain = $project->getProjectName() . '.' . $config->mapId;
+        self::$i18n->bindtextdomain(self::$domain, CARTOWEB_HOME . 'locale/');
+        self::$i18n->textdomain(self::$domain);
+        
     }
     
     /**
@@ -205,7 +212,17 @@ class I18n {
     static private function textdomain($domain) {
         return self::$i18n->textdomain($domain);
     }
-    
+
+
+    /**
+     * Calls translator's bind_textdomain_codeset
+     * @param string codeset
+     * @return string codeset
+     */
+    static public function bind_textdomain_codeset($codeset) {
+        return self::$i18n->bind_textdomain_codeset(self::$domain, $codeset);
+    }       
+
     /**
      * Calls translator's gettext
      * @param string text to translate
@@ -282,6 +299,15 @@ interface I18nInterface {
      * @param string domain
      */ 
     public function textdomain($domain);
+
+
+    /**
+     * Calls translator's bind_textdomain_codeset
+     * @param string domain
+     * @param string codeset
+     * @return string codeset
+     */
+    public function bind_textdomain_codeset($domain, $codeset);
     
     /**
      * Wrapper for function gettext
@@ -316,6 +342,12 @@ class I18nDummy implements I18nInterface {
      * @see I18nInterface::textdomain()
      */
     public function textdomain($domain) {
+    }
+
+    /**
+     * @see I18nInterface::bind_textdomain_codeset()
+     */
+    public function bind_textdomain_codeset($domain, $codeset) {
     }
     
     /**
@@ -358,7 +390,16 @@ class I18nGettext implements I18nInterface {
         $log =& LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: textdomain ' . $domain);
     }
-    
+
+    /**
+     * @see I18nInterface::bind_textdomain_codeset()
+     */
+    public function bind_textdomain_codeset($domain, $codeset) {
+        bind_textdomain_codeset($domain, $codeset);
+        $log =& LoggerManager::getLogger(__METHOD__); 
+        $log->debug('LANG: bind_textdomain_codeset ' . $domain . ' ' . $codeset);
+    }        
+
     /**
      * @see I18nInterface::gettext()
      */

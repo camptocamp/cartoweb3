@@ -74,6 +74,8 @@ class Encoder {
         self::setDefault('config');
         self::setDefault('output');
         self::setDefault('data');
+
+        I18n::bind_textdomain_codeset(Encoder::getCharset('config'));
     }
    
     /**
