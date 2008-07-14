@@ -1212,6 +1212,11 @@ class Cartoclient extends Cartocommon {
         // Encoding
         Encoder::init($this->getConfig());
 
+        /* define the bind_textdomain_codeset for gettext, needs encoding context 
+        defined in I18n and config charset defined in Encoder. Because Encoder is 
+        a common class, we cant call an I18n function from there, so we do it here */
+        I18n::bind_textdomain_codeset(Encoder::getCharset('config'));
+
         // initialize objects
         $this->cartoserverService = new CartoserverService($this->getConfig());
         $this->httpRequestHandler = new HttpRequestHandler($this);
