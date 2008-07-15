@@ -262,7 +262,7 @@ class ServerLayers extends ClientResponderAdapter
         }
         $invResRatio = 1 / $resRatio;
         
-        if ($layer->toleranceunits == MS_PIXELS) {
+        if ($layer->toleranceunits == MS_PIXELS && $layer->tolerance > 0) {            
             $this->updateProperties($layer, array('tolerance'), $resRatio);
         }
 
