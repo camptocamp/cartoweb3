@@ -19,7 +19,10 @@
 * @package Plugins
 * @version $Id: ClientExportRtf.php,v 1.0  
 */
+
 include dirname(__FILE__) . '/PageCode.php';
+require_once CARTOWEB_HOME . 'client/ExportPlugin.php';
+
 /**
   * Overall class for generating RTF
   */
