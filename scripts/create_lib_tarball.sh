@@ -39,7 +39,7 @@ THEMAMAP="http://cartoweb.org/downloads/themamap/themamap-0.41.tar.gz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
-TARBALL="cartoweb3_includes.tgz"
+ARCHIVE_BASENAME="cartoweb-includes-3.4.2"
 
 prepare()
 {
@@ -49,8 +49,9 @@ prepare()
 
 fetch_pear()
 {
-    PEAR_DIRECTORY=pear_base
-    PEAR_PHP_DIR=pear
+    PWD=`pwd`
+    PEAR_DIRECTORY=$PWD/pear_base
+    PEAR_PHP_DIR=$PWD/pear
 
     # Warning: please remove preferred_state=devel when phpDocumentor is php 5 compatible
 
@@ -118,7 +119,8 @@ create_tarball()
     (cd include_addons_tmp; \cp -rf --parents include/ .. )
     rm -rf include_addons_tmp
 
-    tar zcf $TARBALL include
+    tar zcf $ARCHIVE_BASENAME".tar.gz" include
+    zip -rq $ARCHIVE_BASENAME".zip" include
     rm -r include
 }
 
