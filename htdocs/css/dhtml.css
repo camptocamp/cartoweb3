@@ -13,6 +13,7 @@
 }
 #map .layer {
   position: absolute;
+  -moz-user-select: none;
 }
 #map .vertex_off {
   position: absolute;
