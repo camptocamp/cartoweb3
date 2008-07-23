@@ -178,10 +178,16 @@ class projects_testMain_coreplugins_location_server_RemoteServerLocationTest
         $zoomPointLocationRequest->zoomFactor = 8; 
 
         $this->doTestZoomPointLocationRequest($zoomPointLocationRequest,
+                                              /* old values, changed because of difference in php5/mapserver5
                                               new Bbox(-1.97638879364,
                                                        51.3236112064,
                                                        -1.62361120636,
                                                        51.6763887936),
+                                              */
+                                              new Bbox(-1.97550684967,
+                                                       51.3244931503,
+                                                       -1.62449315033,
+                                                       51.6755068497),
                                               NULL, $direct);
         $this->redoDirect($direct, __METHOD__);
     }
@@ -332,8 +338,12 @@ class projects_testMain_coreplugins_location_server_RemoteServerLocationTest
         $idSelection->selectedIds = array('1');
         $idSelections[] = $idSelection;
         $this->doTestRecenterLocationRequest($idSelections, 
+                                  /* old values, changed because of difference in php5/mapserver5
                                    new Bbox(-0.705555174556, 50.7716668254, 
                                             0.705555174556, 52.1827771746),
+                                  */
+                                   new Bbox(-0.702027398683, 50.7751946013, 
+                                            0.702027398683, 52.1792493987),
                                    NULL, $direct);        
         $this->redoDirect($direct, __METHOD__);
     }
