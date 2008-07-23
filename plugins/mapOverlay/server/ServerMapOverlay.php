@@ -26,7 +26,7 @@
  * @package Plugins
  */
 class ServerMapOverlay extends ServerPlugin {
-    
+
     /**
      * @var Logger
      */
@@ -38,7 +38,7 @@ class ServerMapOverlay extends ServerPlugin {
     protected $mapObj;
 
 
-    /** 
+    /**
      * Constructor
      */
     public function __construct() {
@@ -47,7 +47,7 @@ class ServerMapOverlay extends ServerPlugin {
     }
 
     /**
-     * Update the color. 
+     * Update the color.
      * 'property' is one of 'color', 'outlinecolor' or 'backroundcolor'
      *
      * @param ms_style_obj
@@ -72,7 +72,7 @@ class ServerMapOverlay extends ServerPlugin {
             if (!is_null($overlay->blue) && $msColor->blue != $overlay->blue) {
                 $result->blue = $overlay->blue;
             }
-            if (!is_null($result->red) || !is_null($result->green) || 
+            if (!is_null($result->red) || !is_null($result->green) ||
                 !is_null($result->blue)) {
                 $msColor->setRGB($overlay->red, $overlay->green, $overlay->blue);
             }
@@ -88,9 +88,9 @@ class ServerMapOverlay extends ServerPlugin {
             throw new CartoserverException('insert Color: operation not permitted');
             break;
 
-        case BasicOverlay::ACTION_REMOVE:    
+        case BasicOverlay::ACTION_REMOVE:
             $msObject->$property->setRGB(-1, -1, -1);
-            return NULL; 
+            return NULL;
 
         default:
             throw new CartoserverException('updateColor: unknown action');
@@ -152,7 +152,7 @@ class ServerMapOverlay extends ServerPlugin {
                     break;
                 case PositionOverlay::TYPE_RELATIVE:
                     if (is_null($overlay->position->id)) {
-                        throw new CartoserverException('insert Style: id cannot be null when position is relative');                       
+                        throw new CartoserverException('insert Style: id cannot be null when position is relative');
                     }
                     for ($i = 0; $i < $msClass->numstyles; $i++) {
                         $msSearchStyle = $msClass->getStyle($i);
@@ -162,10 +162,10 @@ class ServerMapOverlay extends ServerPlugin {
                         }
                     }
                     if ($pos == $msStyle->numclasses) {
-                        throw new CartoserverException('insert Style: id not found');                       
+                        throw new CartoserverException('insert Style: id not found');
                     }
                     $pos += $overlay->position->index;
-                    
+
                     break;
                 }
             }
@@ -175,29 +175,32 @@ class ServerMapOverlay extends ServerPlugin {
                 $pos = $msClass->numstyles;
             }
             $originalStyle = $this->getStyle($msClass, $overlay, true);
-            if (is_null($originalStyle)) {
-                $originalStyle = $msClass->getClass(0);
+
+            if (!is_null($originalStyle)) {
+                $msStyle = ms_newStyleObj($msClass, $originalStyle);
+            } else {
+                $msStyle = ms_newStyleObj($msClass);
             }
-            $msStyle = ms_newStyleObj($msClass, $originalStyle);
+
             for ($i = $msClass->numstyles - 1; $i > $pos; $i--) {
                 $msStyle->movestyleup($i);
             }
-            
-            // since the class position has change, we need to fetch 
+
+            // since the class position has change, we need to fetch
             // the style again (mapserver issue)
             $msStyle = $msClass->getStyle($pos);
 
             $result->index = $pos;
             break;
         case BasicOverlay::ACTION_REMOVE:
-       
+
             $msClass->deletestyle($overlay->index);
             return NULL;
         default:
             throw new CartoserverException('updateStyle: unknown action');
             break;
         }
-        
+
         if (!is_null($overlay->color) && $overlay->color->isValid()) {
             $resultColor = $this->updateColor($msStyle, 'color', $overlay->color);
             if (!is_null($resultColor)) {
@@ -220,6 +223,29 @@ class ServerMapOverlay extends ServerPlugin {
         return $result;
     }
 
+
+    /**
+     * Return
+     *
+     * @param ms_class_obj
+     * @param ClassOverlay
+     * @param boolean
+     * @return ms_style_obj
+     */
+    private function getStyle($msClass, $overlay, $copy = false) {
+
+        if ($copy) {
+            $index = $overlay->copyIndex;
+        } else {
+            $index = $overlay->index;
+        }
+        if (!is_null($index)) {
+            return $msClass->getStyle($index);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * @param ms_class_obj
      * @param LabelOverlay
@@ -235,7 +261,7 @@ class ServerMapOverlay extends ServerPlugin {
 
         switch ($overlay->action) {
         case BasicOverlay::ACTION_UPDATE:
-        
+
             $msLabel = $msClass->label;
             if (!is_null($overlay->font) && $msLabel->font != $overlay->font) {
                 $result->font = $overlay->font;
@@ -247,13 +273,13 @@ class ServerMapOverlay extends ServerPlugin {
             }
             break;
         case BasicOverlay::ACTION_SEARCH:
-        
+
             throw new CartoserverException('search Label: operation not permitted');
             break;
         case BasicOverlay::ACTION_INSERT:
             // TODO
             break;
-        case BasicOverlay::ACTION_REMOVE:    
+        case BasicOverlay::ACTION_REMOVE:
             // TODO
             return NULL;
         default:
@@ -283,7 +309,7 @@ class ServerMapOverlay extends ServerPlugin {
     }
 
     /**
-     * Return 
+     * Return
      *
      * @param ms_layer_obj
      * @param ClassOverlay
@@ -302,7 +328,7 @@ class ServerMapOverlay extends ServerPlugin {
         if (!is_null($index)) {
             return $msLayer->getClass($index);
         }
-        
+
         // No getClassByName ??
         $msClass = NULL;
         for ($i = 0; $i < $msLayer->numclasses; $i++) {
@@ -327,7 +353,7 @@ class ServerMapOverlay extends ServerPlugin {
         }
         return -1;
     }
-    
+
     /**
      * @param ms_color_obj
      * @param string
@@ -349,14 +375,14 @@ class ServerMapOverlay extends ServerPlugin {
         }
         return true;
     }
-    
+
     /**
      * @param ms_style_obj
      * @param StyleOverlay
      * @return boolean
      */
     public function checkStyle($msStyle, StyleOverlay $overlay) {
-        
+
         if (!is_null($overlay->symbol)) {
             if (is_numeric($overlay->symbol)) {
                 if ($overlay->symbol != $msStyle->symbol)
@@ -375,13 +401,13 @@ class ServerMapOverlay extends ServerPlugin {
             !$this->checkColor($msStyle, 'color', $overlay->color)) {
             return false;
         }
-        
+
         if (!is_null($overlay->outlineColor) &&
             !$this->checkColor($msStyle, 'outlinecolor', $overlay->outlineColor)) {
             return false;
-            
+
         }
-        
+
         if (!is_null($overlay->backgroundColor) &&
             !$this->checkColor($msStyle, 'backgroundcolor', $overlay->backgroundColor)) {
             return false;
@@ -389,7 +415,7 @@ class ServerMapOverlay extends ServerPlugin {
 
         return true;
     }
-    
+
     /**
      * Finds out if class styles match overlay styles
      * @return boolean
@@ -417,24 +443,24 @@ class ServerMapOverlay extends ServerPlugin {
                     return false;
                 }
             }
-            return true;        
+            return true;
         }
-    }       
-    
+    }
+
     /**
      * Finds out if class label matches overlay label
-     * @param ms_class_obj 
+     * @param ms_class_obj
      * @param ClassOverlay
      */
     public function checkClassLabel($msClass, ClassOverlay $overlay) {
         if (is_null($overlay->label)) {
             return true;
         } else {
-            if (!is_null($overlay->label->font) && 
+            if (!is_null($overlay->label->font) &&
                 $msClass->label->font != $overlay->label->font) {
                 return false;
             }
-            if (!is_null($overlay->label->size) && 
+            if (!is_null($overlay->label->size) &&
                 $msClass->label->size != $overlay->label->size) {
                 return false;
             }
@@ -473,7 +499,7 @@ class ServerMapOverlay extends ServerPlugin {
             if (is_null($msClass)) {
                 throw new CartoserverException('update Class: can\'t find class');
             }
-            
+
             $result->index = $this->getClassIndex($msLayer, $overlay->name);
 
             if (!is_null($overlay->index) && !is_null($overlay->name) &&
@@ -486,18 +512,18 @@ class ServerMapOverlay extends ServerPlugin {
             // Setting properties
             if (!is_null($overlay->expression) &&
                 $msClass->getExpression() != $overlay->expression) {
-                    
+
                 $result->expression = $overlay->expression;
                 $msClass->setExpression($result->expression);
             }
             if (!is_null($overlay->minScale) &&
                 $msClass->minscale != $overlay->minScale) {
-                
+
                 $msClass->minscale = $result->minScale = $overlay->minScale;
             }
             if (!is_null($overlay->maxScale) &&
                 $msClass->maxscale != $overlay->maxScale) {
-                
+
                 $msClass->maxscale = $result->maxScale = $overlay->maxScale;
             }
             break;
@@ -506,24 +532,24 @@ class ServerMapOverlay extends ServerPlugin {
             $originalClass = NULL;
             for ($i = 0; $i < $msLayer->numclasses; $i++) {
                 $msSearchClass = $msLayer->getClass($i);
-                
+
                 if (substr($msSearchClass->name, 0, strlen($overlay->name) + 2)
                     == $overlay->name . '@@' || $msSearchClass->name == $overlay->name) {
                     $nFound ++;
-                    
+
                     // Checking properties
                     if ((is_null($overlay->expression)
                          || $msSearchClass->getExpression() == $overlay->expression)
                         && $this->checkClassStyles($msSearchClass, $overlay)
-                        && $this->checkClassLabel($msSearchClass, $overlay)) {     
+                        && $this->checkClassLabel($msSearchClass, $overlay)) {
                          $result->name = $msSearchClass->name;
                          $result->index = $this->getClassIndex($msLayer, $result->name);
                          $msClass = $msSearchClass;
                      }
-                }           
+                }
                 if ($msSearchClass->name == $overlay->name) {
                     $originalClass = $msSearchClass;
-                } 
+                }
             }
             if ($nFound == 0) {
                 // No classes found with that name, taking first
@@ -539,8 +565,8 @@ class ServerMapOverlay extends ServerPlugin {
 
                 // Setting new properties
                 if ($msClass->getExpression() != $overlay->expression) {
-                    
-                    $result->expression = $overlay->expression; 
+
+                    $result->expression = $overlay->expression;
                     $msClass->setExpression($result->expression);
                 }
             }
@@ -565,10 +591,10 @@ class ServerMapOverlay extends ServerPlugin {
                         }
                     }
                     if ($pos == $msLayer->numclasses) {
-                        throw new CartoserverException('insert Class: id not found');                       
+                        throw new CartoserverException('insert Class: id not found');
                     }
                     $pos += $overlay->position->index;
-                    
+
                     break;
                 }
             }
@@ -582,31 +608,35 @@ class ServerMapOverlay extends ServerPlugin {
                 $originalClass = $msLayer->getClass(0);
             }
 
-            $msClass = ms_newClassObj($msLayer, $originalClass);
-            
+            if (!is_null($originalClass)) {
+                $msClass = ms_newClassObj($msLayer, $originalClass);
+            } else {
+                $msClass = ms_newClassObj($msLayer);
+            }
+
             $result->index = $pos;
             $result->name = $overlay->name;
             $msClass->set('name', $result->name);
 
             // Setting new properties
-            if ($msClass->getExpression() != $overlay->expression) {                
-                $result->expression = $overlay->expression; 
+            if ($msClass->getExpression() != $overlay->expression) {
+                $result->expression = $overlay->expression;
                 $msClass->setExpression($result->expression);
             }
-            
+
             for ($i = $msLayer->numclasses - 1; $i > $pos; $i--) {
                 $msLayer->moveclassup($i);
             }
-            
-            // since the class position has change, we need to fetch 
+
+            // since the class position has change, we need to fetch
             // the class again (mapserver issue)
             $msClass = $msLayer->getClass($pos);
 
             break;
-        case BasicOverlay::ACTION_REMOVE: 
-            
+        case BasicOverlay::ACTION_REMOVE:
+
             $msClass = $this->getClass($msLayer, $overlay);
-            $msLayer->removeClass($msClass->index); 
+            $msLayer->removeClass($msClass->index);
 
             return NULL;
         default:
@@ -615,11 +645,11 @@ class ServerMapOverlay extends ServerPlugin {
         }
 
         if (!empty($overlay->styles)) {
-            foreach ($overlay->styles as $style) {                
+            foreach ($overlay->styles as $style) {
                 $resultStyle = $this->updateStyle($msClass, $style);
                 if (!is_null($resultStyle)) {
                     $result->styles[] = $resultStyle;
-                }                
+                }
             }
         }
         if (!is_null($overlay->label)) {
@@ -630,17 +660,17 @@ class ServerMapOverlay extends ServerPlugin {
         }
         return $result;
     }
-    
+
     /**
      * @param MetadataOverlay
      * @return MetadataOverlay
      */
     public function updateMetadata($msLayer, MetadataOverlay $overlay) {
-        
+
         $result = new MetadataOverlay();
         // Remembers old ID
         $result->id = $overlay->id;
-        
+
         switch ($overlay->action) {
         case BasicOverlay::ACTION_UPDATE:
             if (!is_null($overlay->name) && !is_null($overlay->value) &&
@@ -680,8 +710,8 @@ class ServerMapOverlay extends ServerPlugin {
         }
         return $result;
     }
-    
-    
+
+
     public function getLayer($overlay, $copy = false) {
 
         if ($copy) {
@@ -691,7 +721,7 @@ class ServerMapOverlay extends ServerPlugin {
             $index = $overlay->index;
             $name = $overlay->name;
         }
-        
+
         if (!is_null($index)) {
             return $this->mapObj->getLayer($index);
         } else {
@@ -709,7 +739,7 @@ class ServerMapOverlay extends ServerPlugin {
         // Remembers old ID
         $result->id = $overlay->id;
         $msLayer = NULL;
-        
+
         switch ($overlay->action) {
         case BasicOverlay::ACTION_UPDATE:
             $msLayer = $this->getLayer($overlay);
@@ -719,7 +749,7 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->name = $overlay->name;
                 $msLayer->set('name', $result->name);
             }
-           
+
             // Setting properties
             if (!is_null($overlay->connection) &&
                 $msLayer->connection != $overlay->connection) {
@@ -729,41 +759,43 @@ class ServerMapOverlay extends ServerPlugin {
             if (!is_null($overlay->connectionType) &&
                 $msLayer->connectionType != $overlay->connectionType) {
                 $result->connectionType = $overlay->connectionType;
+                print "connectionType:".$result->connectionType."]";
                 $msLayer->set('connectiontype', $result->connectionType);
             }
-            if (!is_null($overlay->data) && 
+            if (!is_null($overlay->data) &&
                 $msLayer->data != $overlay->data) {
                 $result->data = $overlay->data;
                 $msLayer->set('data', $result->data);
             }
-            if (!is_null($overlay->filter) && 
+            if (!is_null($overlay->filter) &&
                 $msLayer->getFilter() != $overlay->filter) {
                 $result->filter = $overlay->filter;
                 $msLayer->setFilter('"' . $result->filter . '"');
             }
-            if (!is_null($overlay->filteritem) && 
+            if (!is_null($overlay->filteritem) &&
                 $msLayer->filteritem != $overlay->filteritem) {
                 $result->filteritem = $overlay->filteritem;
                 $msLayer->set('filteritem', $result->filteritem);
             }
-            if (!is_null($overlay->maxScale) && 
+            if (!is_null($overlay->maxScale) &&
                 $msLayer->maxScale != $overlay->maxScale) {
                 $result->maxScale = $overlay->maxScale;
                 $msLayer->set('maxscale', $result->maxScale);
             }
-            if (!is_null($overlay->minScale) && 
+            if (!is_null($overlay->minScale) &&
                 $msLayer->minScale != $overlay->minScale) {
                 $result->minScale = $overlay->minScale;
                 $msLayer->set('minscale', $result->minScale);
             }
-            if (!is_null($overlay->transparency) && 
+            if (!is_null($overlay->transparency) &&
                 $msLayer->transparency != $overlay->transparency) {
                 $result->transparency = $overlay->transparency;
                 $msLayer->set('transparency', $result->transparency);
             }
-            if (!is_null($overlay->type) && 
+            if (!is_null($overlay->type) &&
                 $msLayer->type != $overlay->type) {
                 $result->type = $overlay->type;
+                print "type:".$result->type."]";
                 $msLayer->set('type', $result->type);
             }
             break;
@@ -775,47 +807,47 @@ class ServerMapOverlay extends ServerPlugin {
                 if (substr($msSearchLayer->name, 0, strlen($overlay->name) + 2)
                     == $overlay->name . '@@' || $msSearchLayer->name == $overlay->name) {
                     $nFound ++;
-                    
+
                     // Checking properties
-                    if ((is_null($overlay->connection) || 
+                    if ((is_null($overlay->connection) ||
                          $msSearchLayer->connection == $overlay->connection) &&
-                        (is_null($overlay->connectionType) || 
+                        (is_null($overlay->connectionType) ||
                          $msSearchLayer->connectionType == $overlay->connectionType) &&
-                        (is_null($overlay->data) || 
+                        (is_null($overlay->data) ||
                          $msSearchLayer->data == $overlay->data) &&
-                        (is_null($overlay->filter) || 
+                        (is_null($overlay->filter) ||
                          $msSearchLayer->getFilter() == $overlay->filter) &&
-                        (is_null($overlay->filteritem) || 
+                        (is_null($overlay->filteritem) ||
                          $msSearchLayer->filteritem == $overlay->filteritem) &&
                         (is_null($overlay->maxScale) ||
                          $msSearchLayer->maxScale == $overlay->maxScale) &&
                         (is_null($overlay->minScale) ||
                          $msSearchLayer->minScale == $overlay->minScale) &&
-                        (is_null($overlay->transparency) || 
+                        (is_null($overlay->transparency) ||
                          $msSearchLayer->transparency == $overlay->transparency) &&
-                        (is_null($overlay->type) || 
+                        (is_null($overlay->type) ||
                          $msSearchLayer->type == $overlay->type)) {
                          $result->name = $msSearchLayer->name;
                          $msLayer = $msSearchLayer;
                     }
-                }            
+                }
             }
             if ($nFound == 0) {
                 throw new CartoserverException('search Layer: no layers found with that name');
             }
-            
+
             if (is_null($msLayer) || !strpos($msLayer->name, '@@')) {
                 /* No layers found, adding a layer.
-                   or if the layer name is identical to the reference layer name 
-                   in the mapfile, we force a new layer to prevent having feature(s) 
-                   added to the reference layer and then wrongly duplicated when 
+                   or if the layer name is identical to the reference layer name
+                   in the mapfile, we force a new layer to prevent having feature(s)
+                   added to the reference layer and then wrongly duplicated when
                    the reference layer is copied via the ms_newLayerObj below */
                 $original = $this->mapObj->getLayerByName($overlay->name);
                 $msLayer = ms_newLayerObj($this->mapObj, $original);
-                
+
                 $result->name = $overlay->name . '@@' . $nFound;
                 $msLayer->set("name", $result->name);
-                
+
                 //Setting new properties
                 if (!is_null($overlay->connection) &&
                     $msLayer->connection != $overlay->connection) {
@@ -827,48 +859,48 @@ class ServerMapOverlay extends ServerPlugin {
                     $result->connectionType = $overlay->connectionType;
                     $msLayer->set('connectiontype', $result->connectionType);
                 }
-                if (!is_null($overlay->data) && 
+                if (!is_null($overlay->data) &&
                     $msLayer->data != $overlay->data) {
                     $result->data = $overlay->data;
                     $msLayer->set('data', $result->data);
                 }
-                if (!is_null($overlay->filter) && 
+                if (!is_null($overlay->filter) &&
                     $msLayer->getFilter() != $overlay->filter) {
                     $result->filter = $overlay->filter;
                     $msLayer->setFilter('"'.$result->filter.'"');
                 }
-                if (!is_null($overlay->filteritem) && 
+                if (!is_null($overlay->filteritem) &&
                     $msLayer->filteritem != $overlay->filteritem) {
                     $result->filteritem = $overlay->filteritem;
                     $msLayer->set('filteritem', $result->filteritem);
                 }
-                if (!is_null($overlay->maxScale) && 
+                if (!is_null($overlay->maxScale) &&
                     $msLayer->maxScale != $overlay->maxScale) {
                     $result->maxScale = $overlay->maxScale;
                     $msLayer->set('maxscale', $result->maxScale);
                 }
-                if (!is_null($overlay->minScale) && 
+                if (!is_null($overlay->minScale) &&
                     $msLayer->minScale != $overlay->minScale) {
                     $result->minScale = $overlay->minScale;
                     $msLayer->set('minscale', $result->minScale);
                 }
-                if (!is_null($overlay->transparency) && 
+                if (!is_null($overlay->transparency) &&
                     $msLayer->transparency != $overlay->transparency) {
                     $result->transparency = $overlay->transparency;
                     $msLayer->set('transparency', $result->transparency);
                 }
-                if (!is_null($overlay->type) && 
+                if (!is_null($overlay->type) &&
                     $msLayer->type != $overlay->type) {
                     $result->type = $overlay->type;
                     $msLayer->set('type', $result->type);
-                }     
+                }
             }
             break;
-            
+
         case BasicOverlay::ACTION_INSERT:
 
             $msLayer = ms_newLayerObj($this->mapObj);
-            
+
             //setting properties
             if (!is_null($overlay->connection)) {
                 $result->connection = $overlay->connection;
@@ -910,11 +942,11 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->type = $overlay->type;
                 $msLayer->set('type', $result->type);
             }
-            
+
             // no insertLayer function in PHP MapScript. see mapserver bug #762
             $msLayer->set("status", MS_ON);
-            
-            // layer position 
+
+            // layer position
             if (!is_null($overlay->position)) {
                 $msMap = $this->serverContext->getMapObj();
 
@@ -941,7 +973,7 @@ class ServerMapOverlay extends ServerPlugin {
                     }
                     break;
                 }
-                
+
                 $order = $msMap->getlayersdrawingorder();
                 $newOrder = array();
                 foreach ($order as $key => $value) {
@@ -956,7 +988,7 @@ class ServerMapOverlay extends ServerPlugin {
                 $msMap->setlayersdrawingorder($newOrder);
             }
             break;
-            
+
         case BasicOverlay::ACTION_REMOVE:
 
             if ($msLayer = $this->getLayer($overlay)) {
@@ -964,12 +996,12 @@ class ServerMapOverlay extends ServerPlugin {
                 $msLayer->set('status', MS_DELETE);
             }
             return NULL;
-            
+
         default:
             throw new CartoserverException('updateLayer: unknown action');
             break;
         }
-        
+
         $result->metadatas = array();
         if (!empty($overlay->metadatas)) {
             foreach ($overlay->metadatas as $metadata) {
@@ -979,7 +1011,7 @@ class ServerMapOverlay extends ServerPlugin {
                 }
             }
         }
-        
+
         $result->classes = array();
         if (!empty($overlay->classes)) {
             foreach ($overlay->classes as $class) {
@@ -998,7 +1030,7 @@ class ServerMapOverlay extends ServerPlugin {
 
         return $result;
     }
-    
+
     /**
      * Updates mapfile using a MapOverlay or a LayerOverlay, returns the same
      * object with useful info
@@ -1009,7 +1041,7 @@ class ServerMapOverlay extends ServerPlugin {
         $this->mapObj = $this->serverContext->getMapObj();
         $result = new MapOverlay();
         $result->layers = array();
-        
+
         if ($overlay instanceof LayerOverlay) {
 
             // Only one layer
@@ -1034,7 +1066,7 @@ class ServerMapOverlay extends ServerPlugin {
                 throw new CartoserverException('updateMap: unknown action');
                 break;
             }
-            
+
             if (!empty($overlay->layers)) {
                 foreach ($overlay->layers as $layer) {
                     // Process each layer
@@ -1047,7 +1079,7 @@ class ServerMapOverlay extends ServerPlugin {
         } else {
             throw new CartoserverException('updateMap: bad parameter type');
         }
-        
+
         return $result;
     }
 }
