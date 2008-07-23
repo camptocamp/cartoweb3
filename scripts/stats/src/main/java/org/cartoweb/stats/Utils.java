@@ -18,6 +18,7 @@
 
 package org.cartoweb.stats;
 
+import org.postgresql.PGConnection;
 import org.pvalsecc.jdbc.JdbcUtilities;
 
 import java.sql.Connection;
@@ -59,6 +60,9 @@ public abstract class Utils {
     }
 
     public static boolean doesTableExist(Connection con, final String tableName) throws SQLException {
+        if (!(con instanceof PGConnection)) {
+            throw new SQLException("Data base not supported: " + con.getClass());
+        }
         return JdbcUtilities.countTable(con, "pg_tables WHERE tablename=?", new JdbcUtilities.DeleteTask() {
             public void setupStatement(PreparedStatement preparedStatement) throws SQLException {
                 preparedStatement.setString(1, tableName);
@@ -68,6 +72,9 @@ public abstract class Utils {
     }
 
     public static boolean doesSequenceExist(Connection con, final String tableName) throws SQLException {
+        if (!(con instanceof PGConnection)) {
+            throw new SQLException("Data base not supported: " + con.getClass());
+        }
         return JdbcUtilities.countTable(con, "pg_class WHERE relname=? and relkind='S'", new JdbcUtilities.DeleteTask() {
             public void setupStatement(PreparedStatement preparedStatement) throws SQLException {
                 preparedStatement.setString(1, tableName);
@@ -77,6 +84,9 @@ public abstract class Utils {
     }
 
     public static void dropSequence(Connection con, String sequenceName, boolean ignoreMissing) throws SQLException {
+        if (!(con instanceof PGConnection)) {
+            throw new SQLException("Data base not supported: " + con.getClass());
+        }
         if (!ignoreMissing || doesSequenceExist(con, sequenceName)) {
             JdbcUtilities.runDeleteQuery("deleting sequence " + sequenceName, "DROP SEQUENCE " + sequenceName, con, null);
         }

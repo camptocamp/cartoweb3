@@ -366,6 +366,8 @@ public class Import extends BaseStats {
     private StatsReader createReader(File file) throws IOException {
         if (format.equalsIgnoreCase("WMS")) {
             return new WmsReader(file, sideTables, wantLayers, mapIdRegExp, skipErrors);
+        } else if (format.equalsIgnoreCase("SecureWMS")) {
+            return new SecureWmsReader(file, sideTables, wantLayers, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {
             return new CartoWebReader(file, sideTables, wantLayers, skipErrors);
         } else {

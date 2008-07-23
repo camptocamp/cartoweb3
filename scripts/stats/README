@@ -47,6 +47,7 @@ SUPPORTED FORMATS
 
 Support files in those formats:
   - WMS (apache log files)
+  - SecureWMS
   - CartoWeb
 
 Files whose name ends by ".gz" are assumed to be in GZIP format and are

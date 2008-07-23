@@ -20,8 +20,6 @@ package org.cartoweb.stats.imports;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -31,14 +29,10 @@ import java.util.SimpleTimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WmsReader extends StatsReader {
-    private static final Pattern URL_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+");
-    private static final Pattern PARAM_PATTERN = Pattern.compile("([^=]+)=([^&]*)&?");
+public class WmsReader extends BaseWmsReader {
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+");
     private static final Pattern TIME_PATTERN = Pattern.compile("(\\d{2})/(\\w{3})/(\\d{4}):(\\d{2}):(\\d{2}):(\\d{2}) ([+-])(\\d{2})(\\d{2})");
     private static final Map<String, Integer> MONTH;
-
-    private static final double RESOLUTION = 96;
-    private static final double INCHES_IN_M = 39.3701;
 
     private final Pattern mapIdRegExp;
 
@@ -54,20 +48,24 @@ public class WmsReader extends StatsReader {
 
     protected StatsRecord parse(String curLine) {
         if (curLine.toLowerCase().contains("request=getmap")) {
-            Matcher matcher = URL_PATTERN.matcher(curLine);
+            Matcher matcher = LINE_PATTERN.matcher(curLine);
             if (matcher.matches()) {
                 String params = matcher.group(5);
                 try {
-                    Map<String, String> fields = parseParams(params);
-                    if (fields == null) {
+                    Map<String, String> fields = new HashMap<String, String>();
+
+                    if (!parseUrl(params, fields)) {
                         parseError("Invalid input line", curLine);
+                        return null;
                     }
 
                     Matcher mapIdMatcher = mapIdRegExp.matcher(curLine);
                     if (!mapIdMatcher.find()) {
                         parseError("Cannot find the mapId (project) from line", curLine);
+                        return null;
                     } else if (mapIdMatcher.groupCount() != 1) {
                         parseError("Cannot get the mapId (project) from line", curLine);
+                        return null;
                     }
 
                     return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapIdMatcher.group(1), fields);
@@ -81,25 +79,6 @@ public class WmsReader extends StatsReader {
             }
         } else {
             //not a WMS request
-            return null;
-        }
-    }
-
-    private Map<String, String> parseParams(String params) {
-        Matcher matcher = PARAM_PATTERN.matcher(params);
-        if (matcher.find()) {
-            Map<String, String> fields = new HashMap<String, String>();
-            int prevEnd;
-            do {
-                fields.put(decode(matcher.group(1).toLowerCase()), decode(matcher.group(2)));
-                prevEnd = matcher.end();
-            } while (matcher.find());
-            if (prevEnd != params.length()) {
-                return null;
-            }
-
-            return fields;
-        } else {
             return null;
         }
     }
@@ -121,17 +100,6 @@ public class WmsReader extends StatsReader {
         //result.setImagesMainmapSize(sideTables.imagesMainmapSize.get(String.format("%d x %d", width, height), generalMapid));
 
         return result;
-    }
-
-    private Float getScale(StatsRecord result) {
-        final double minx = result.getBboxMinx();
-        final double maxx = result.getBboxMaxx();
-        final Integer width = result.getImagesMainmapWidth();
-        if (width != null && minx != 0 && maxx != 0 && minx != maxx) {
-            return (float) ((maxx - minx) / (width / (RESOLUTION * INCHES_IN_M)));
-        } else {
-            return null;
-        }
     }
 
     private Timestamp parseTime(String time) {
@@ -159,17 +127,6 @@ public class WmsReader extends StatsReader {
         calendar.set(year, month, day, hour, minute, second);
         calendar.set(Calendar.MILLISECOND, 0);
         return new Timestamp(calendar.getTimeInMillis());
-    }
-
-    /**
-     * Decode the %XX stuff.
-     */
-    private static String decode(String s) {
-        try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     static {
