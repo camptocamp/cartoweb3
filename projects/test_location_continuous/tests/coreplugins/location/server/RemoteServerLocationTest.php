@@ -114,7 +114,8 @@ class projects_testLocationContinuous_coreplugins_location_server_RemoteServerLo
         $zoomPointLocationRequest = new ZoomPointLocationRequest();
         $zoomPointLocationRequest->zoomType = ZoomPointLocationRequest::ZOOM_DIRECTION_IN;
         $bbox = new Bbox(-.5, 50.5, .5, 51.5);
-        $scale = 14.173236;
+        //$scale = 14.173236; old values, changed because of difference in php5/mapserver5
+        $scale = 14.24445;
         $zoomFactor = 1.5;
         $zoomPointLocationRequest->bbox = $bbox;
         $point = new Point(0, 51);
