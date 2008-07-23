@@ -24,7 +24,7 @@
 /**
  * Abstract test suite
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'client/CartoclientTest.php';
 
 require_once(CARTOWEB_HOME . 'client/ClientProjectHandler.php');
@@ -58,7 +58,9 @@ class projects_AllTests {
         $file = 'tests/client/CartoclientTest.php';
         if (self::$clientProjectHandler->isProjectFile($file)) {
             require_once(CARTOWEB_HOME . self::$clientProjectHandler->getPath($file));
-            self::$suite->addTestSuite($class);
+            if (is_object($class)) {
+                self::$suite->addTestSuite($class);
+            }
         }       
     }
 
@@ -135,7 +137,7 @@ class projects_AllTests {
 
     public static function suite() {
     
-        self::$suite = new PHPUnit2_Framework_TestSuite();
+        self::$suite = new PHPUnit_Framework_TestSuite();
         self::$clientProjectHandler = new ClientProjectHandler();
 
         if (isset($_ENV['CARTOWEB_TEST_PROJECT'])) {

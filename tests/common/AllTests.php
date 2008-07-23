@@ -24,7 +24,7 @@
 /**
  * Abstract test suite
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
  * All common tests
@@ -42,9 +42,8 @@ class common_AllTests {
 
     public static function suite() {
 
-        $suite = new PHPUnit2_Framework_TestSuite;
+        $suite = new PHPUnit_Framework_TestSuite;
 
-        $suite->addTestSuite('common_MiscTest');
         $suite->addTestSuite('common_BasicTypesTest');
         $suite->addTestSuite('common_MapInfoTest');
         $suite->addTestSuite('common_SerializableTest');

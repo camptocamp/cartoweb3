@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'projects/AllTests.php';
 
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
@@ -39,7 +39,7 @@ define(JAVA_ARGS, "-Xmx256m");
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-abstract class client_CartoclientTest extends PHPUnit2_Framework_TestCase {
+abstract class client_CartoclientTest extends PHPUnit_Framework_TestCase {
 
     protected abstract function getProjectName();
 

@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'server/ServerContext.php');
 
@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'server/ServerContext.php');
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class projects_testMain_server_ServerContextTest extends PHPUnit2_Framework_TestCase {
+class projects_testMain_server_ServerContextTest extends PHPUnit_Framework_TestCase {
 
     public function testConstruct() {
      

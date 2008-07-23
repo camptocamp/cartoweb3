@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'client/Views.php');
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
@@ -40,7 +40,7 @@ class TestViewFileContainer extends ViewFileContainer {
  * Unit tests for Views
  * @package Tests
  */
-class client_ViewsTest extends PHPUnit2_Framework_TestCase {
+class client_ViewsTest extends PHPUnit_Framework_TestCase {
 
     const VIEW_ID = 123456;
     const DATA_1 = 'Some serialized data';

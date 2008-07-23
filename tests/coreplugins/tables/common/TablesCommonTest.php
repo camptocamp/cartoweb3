@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'coreplugins/tables/common/Tables.php');
 require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php');
@@ -35,7 +35,7 @@ require_once(CARTOWEB_HOME . 'coreplugins/tables/common/TableRulesRegistry.php')
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
 class coreplugins_tables_common_TablesCommonTest
-                                    extends PHPUnit2_Framework_TestCase {
+                                    extends PHPUnit_Framework_TestCase {
     
     /**
      * Returns an array of interesting {@link TableGroup}s

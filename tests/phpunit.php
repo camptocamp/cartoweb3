@@ -2,8 +2,6 @@
 /**
  * Unit tests launcher
  *
- * This was originally a PHPUnit2 file called PHPUnit2/pear-phpunit
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -41,5 +39,9 @@ $GLOBALS['headless']=true;
 set_include_path(get_include_path() . PATH_SEPARATOR . 
                  CARTOWEB_HOME . 'tests/');
 
-require 'PHPUnit2/TextUI/TestRunner.php';
+require_once 'PHPUnit/Util/Filter.php';
+
+PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
+
+require 'PHPUnit/TextUI/Command.php';
 ?>

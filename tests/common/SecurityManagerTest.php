@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'common/Accounting.php');
 require_once(CARTOWEB_HOME . 'common/Utils.php');
@@ -66,7 +66,7 @@ class TestSecurityContainer extends SecurityContainer {
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class common_SecurityManagerTest extends PHPUnit2_Framework_TestCase {
+class common_SecurityManagerTest extends PHPUnit_Framework_TestCase {
 
     public function testLogin() {
         $securityManager = new SecurityManager();

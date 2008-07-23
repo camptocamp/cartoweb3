@@ -7,7 +7,7 @@
 
 set -e
 
-PEAR_PACKAGES_STABLE="Benchmark PHPUnit2 PEAR DB Archive_Tar XML_RPC Console_Getopt Auth HTML_Crypt"
+PEAR_PACKAGES_STABLE="Benchmark PEAR DB MDB2 Archive_Tar XML_RPC Console_Getopt Auth HTML_Crypt"
 PEAR_PACKAGES_DEVEL="PhpDocumentor"
 
 # Dependencies:
@@ -36,10 +36,11 @@ LOG4PHP="http://www.vxr.it/log4php/log4php-0.9.tar.gz"
 SMARTY="http://smarty.php.net/do_download.php?download_file=Smarty-2.6.19.tar.gz"
 FPDF="http://www.fpdf.org/fr/dl.php?v=153&f=tgz"
 THEMAMAP="http://cartoweb.org/downloads/themamap/themamap-0.41.tar.gz" 
+ARTICHOW="http://www.artichow.org/data/Artichow-1.1.0-php5.tar.gz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
-ARCHIVE_BASENAME="cartoweb-includes-3.4.2"
+ARCHIVE_BASENAME="cartoweb-includes-3.5.0beta1"
 
 prepare()
 {
@@ -52,6 +53,8 @@ fetch_pear()
     PWD=`pwd`
     PEAR_DIRECTORY=$PWD/pear_base
     PEAR_PHP_DIR=$PWD/pear
+
+    pear -s -c $PEAR_DIRECTORY/.pearrc -d php_dir=$PEAR_PHP_DIR channel-update pear.php.net
 
     # Warning: please remove preferred_state=devel when phpDocumentor is php 5 compatible
 
@@ -75,6 +78,9 @@ fetch_pear()
         pear -c $PEAR_DIRECTORY/.pearrc install --nodeps $i
     done
 
+    # Retrieving of PHPUnit 3
+    pear -s -c $PEAR_DIRECTORY/.pearrc -d php_dir=$PEAR_PHP_DIR channel-discover pear.phpunit.de
+    pear -s -c $PEAR_DIRECTORY/.pearrc -d php_dir=$PEAR_PHP_DIR install phpunit/PHPUnit
     
 }
 
@@ -103,6 +109,11 @@ fetch_contrib()
 
     wget -O- "$THEMAMAP"|tar zxf -
     mv themamap-* themamap
+
+    ## artichow
+
+    wget -O- "$ARTICHOW"|tar zxf -
+    mv Artichow-php5 artichow
 }
 
 create_tarball()

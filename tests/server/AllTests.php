@@ -24,7 +24,7 @@
 /**
  * Abstract test suite
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
  * All server tests
@@ -38,7 +38,7 @@ class server_AllTests {
 
     public static function suite() {
 
-        $suite = new PHPUnit2_Framework_TestSuite;
+        $suite = new PHPUnit_Framework_TestSuite;
 
         return $suite;
     }

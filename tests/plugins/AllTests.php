@@ -24,7 +24,7 @@
 /**
  * Abstract test suite
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
  * All plugins tests
@@ -41,7 +41,7 @@ class plugins_AllTests {
     
     public static function suite() {
     
-        $suite = new PHPUnit2_Framework_TestSuite;
+        $suite = new PHPUnit_Framework_TestSuite;
 
         $suite->addTestSuite('plugins_auth_client_AuthClientTest');
         $suite->addTestSuite('plugins_geostat_client_GeostatTest');

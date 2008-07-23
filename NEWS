@@ -20,6 +20,8 @@ CartoWeb HEAD
 - Added security parameter "security_view" for children switching
 - Added config in exportPdf to show/hide some blocks if some layers are activated
 - Added displayMeasures parameter in plugin Outline to display area/distance in label
+- Unit tests now use PHPUnit 3 instead of PHPUnit 2
+- Upgraded PEAR libs + added MDB2
 
 2007-07-26: CartoWeb 3.4.0
 ===================

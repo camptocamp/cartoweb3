@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 /**
  * Miscellaneous unit tests for cartoweb.
@@ -32,7 +32,7 @@ require_once 'PHPUnit2/Framework/TestCase.php';
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class misc_MiscTest extends PHPUnit2_Framework_TestCase {
+class misc_MiscTest extends PHPUnit_Framework_TestCase {
 
     /* uncomment if you have python > 2.3
     public function testTabs() {

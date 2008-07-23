@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
 
@@ -33,7 +33,7 @@ require_once(CARTOWEB_HOME . 'common/BasicTypes.php');
  * @package Tests
  * @author Yves Bolognini <yves.bolognini@camptocamp.com>
  */
-class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
+class common_BasicTypesTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Tests Dimension constructor

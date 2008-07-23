@@ -20,7 +20,7 @@
  * @package Tests
  * @version $Id$
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 /**
  * Class extending TestCase with additional geographical assertions
@@ -28,7 +28,7 @@ require_once 'PHPUnit2/Framework/TestCase.php';
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class common_GeographicalAssert extends PHPUnit2_Framework_TestCase {
+class common_GeographicalAssert extends PHPUnit_Framework_TestCase {
     
     protected function almostEq($val1, $val2) {
         return round($val1 - $val2, 3) == 0.0;

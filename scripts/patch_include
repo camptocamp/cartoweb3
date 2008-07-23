@@ -1,14 +1,14 @@
-diff -dup8r include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php
---- include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2006-02-10 15:05:53.000000000 +0100
-+++ include/pear/PHPUnit2/Util/TestDox/ResultPrinter.php	2006-02-10 15:10:47.000000000 +0100
-@@ -232,17 +232,17 @@ abstract class PHPUnit2_Util_TestDox_Res
+diff -U 8 -dpr include/pear/PHPUnit/Util/TestDox/ResultPrinter.php include/pear/PHPUnit/Util/TestDox/ResultPrinter_cw3.php
+--- include/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-07-22 17:11:08.000000000 +0200
++++ include/pear/PHPUnit/Util/TestDox/ResultPrinter_cw3.php	2008-07-22 17:16:24.000000000 +0200
+@@ -266,17 +266,17 @@ abstract class PHPUnit_Util_TestDox_Resu
      }
  
      /**
-      * @access private
       * @since  Method available since Release 2.3.0
       */
-     private function doEndClass() {
+     protected function doEndClass()
+     {
          foreach ($this->tests as $name => $data) {
 -            if ($data['failure'] == 0) {
 +            if (isset($data['failure']) && $data['failure'] == 0) {
@@ -16,8 +16,7 @@ diff -dup8r include_orig/pear/PHPUnit2/Util/TestDox/ResultPrinter.php include/pe
              }
          }
  
-         $this->endClass($this->prettifier->prettifyTestClass($this->testClass));
+         $this->endClass($this->testClass);
      }
  
      /**
-Only in include/pear/PhpDocumentor/phpDocumentor: Setup.inc.php~

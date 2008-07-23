@@ -25,7 +25,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'common/Utils.php');
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
@@ -51,7 +51,7 @@ class AuthTestClientPluginConfig extends ClientPluginConfig {
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class plugins_auth_client_AuthClientTest extends PHPUnit2_Framework_TestCase {
+class plugins_auth_client_AuthClientTest extends PHPUnit_Framework_TestCase {
     
     public function testAuth() {
         $cartoclient = new Cartoclient();

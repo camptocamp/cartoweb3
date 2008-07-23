@@ -29,7 +29,7 @@
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com> 
  */
- class client_ClientAccountingTest extends PHPUnit2_Framework_TestCase {
+ class client_ClientAccountingTest extends PHPUnit_Framework_TestCase {
  
     public function testFileAccounting() {
         $targetAccountingFile =  CARTOWEB_HOME . 

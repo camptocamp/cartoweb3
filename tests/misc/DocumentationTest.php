@@ -24,7 +24,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'client/Internationalization.php');
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
@@ -34,7 +34,7 @@ require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
  * @package Tests
  * @author Sylvain Pasche <sylvain.pasche@camptocamp.com>
  */
-class misc_DocumentationTest extends PHPUnit2_Framework_TestCase {
+class misc_DocumentationTest extends PHPUnit_Framework_TestCase {
 
     public function testXmlValid() {
 

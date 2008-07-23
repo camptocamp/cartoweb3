@@ -34,7 +34,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once('client/CartoserverServiceWrapper.php');
 
 require_once(CARTOWEB_HOME . 'plugins/selection/common/Selection.php');

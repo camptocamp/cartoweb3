@@ -25,7 +25,7 @@
 /**
  * Abstract test case
  */
-require_once 'PHPUnit2/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 
 require_once(CARTOWEB_HOME . 'common/Utils.php');
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
@@ -37,7 +37,7 @@ require_once(CARTOWEB_HOME . 'plugins/geostat/common/Geostat.php');
  * Unit tests for common Geostat plugin
  * @package Tests
  */
-class plugins_geostat_client_GeostatTest extends PHPUnit2_Framework_TestCase {
+class plugins_geostat_client_GeostatTest extends PHPUnit_Framework_TestCase {
     
     public function testConvertColorRgb2TwColorRgb() {
         $colorRgb = new ColorRgb(1,10,100);

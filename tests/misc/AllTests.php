@@ -24,7 +24,7 @@
 /**
  * Abstract test suite
  */
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
  * All misc tests
@@ -39,7 +39,7 @@ class misc_AllTests {
     
     public static function suite() {
     
-        $suite = new PHPUnit2_Framework_TestSuite;
+        $suite = new PHPUnit_Framework_TestSuite;
 
         $suite->addTestSuite('misc_DocumentationTest');
         $suite->addTestSuite('misc_MiscTest');
