@@ -161,7 +161,6 @@ class FormRenderer {
     /**
      * Returns CartoWeb's user and developer messages
      * @return array array of messages (user and developer)
-     * @todo Factor getUserMessages() and getDeveloperMessages (bug #1345)
      */
     private function getMessages() {
         $messages = array_merge(
