@@ -298,10 +298,10 @@ List of options:
           <para>
             <screen>&lt;PHP-INTERPRETER&gt; cw3setup.php --clean</screen>
           </para>
-	  <tip>
+          <tip>
             <para>On production servers, <filename>scripts/clean.php</filename> should be used instead of <filename>cw3setup.php --clean</filename> since it is smoother.</para>
-	    <para>Be aware however that some changes were made in <filename>cw3setup.php --clean</filename> that might not have been ported to <filename>clean.php</filename>.</para>
-	  </tip>
+            <para>Be aware however that some changes were made in <filename>cw3setup.php --clean</filename> that might not have been ported to <filename>clean.php</filename>.</para>
+          </tip>
         </sect4>
         <sect4 id="user.install.main.setup.example.demo">
           <title>Fetching the Demo Data</title>
