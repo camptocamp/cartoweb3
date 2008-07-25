@@ -275,7 +275,10 @@ function Display(docObj) {
       && navigator.appVersion.toLowerCase().indexOf('windows') != -1) {
     this.eventPad.style.backgroundColor = "blue";
     this.eventPad.style.filter = "alpha(opacity=0)";
+    // for Opera >= 9.5
+    this.eventPad.style.opacity = "0";
   }
+  
   xResizeTo(this.eventPad, this._width, this._height);
   xHide(this.eventPad);
   this.eventPad.style.zIndex = 1;
@@ -389,6 +392,9 @@ PanTool.prototype.onDragEnd = function(elt,x,y) {
   
   var layer = xGetElementById(aDisplay.currentLayer.id);
   xShow(layer);
+  
+  // solve unmovable pdf feature after pan bug
+  aDisplay.dragon = false;
 };
 
 /**

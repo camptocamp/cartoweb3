@@ -2,7 +2,7 @@
    Licensed under the GPL (www.gnu.org/copyleft/gpl.html) */
 
 function hidePdfFeature(event) {
-  mainmap.removePdfFeature('map');
+  mainmap.removePdfFeature(mainmapid);
 }
 function addToolPdfListeners() { 
 
@@ -76,7 +76,7 @@ Map.prototype.form2PdfFeature = function(feature, aDisplay) {
 
 Map.prototype.getPdfFeature = function(aDisplay) {
   var feature = null;
-  for (var i=0; i < this.currentLayer.features.length; i++) {    
+  for (var i=0; i < this.currentLayer.features.length; i++) { 
     if (this.currentLayer.features[i].id == "pdf_overview") {
       feature = this.currentLayer.features[i];
     }
@@ -129,12 +129,28 @@ Map.prototype.removePdfFeature = function(aDisplayName) {
   this.currentLayer.features.pop(feature);  
 }
 
+/**
+* remove feature and reset angle and position, redisplay new feature centered with angle = 0
+*/
+Map.prototype.resetPdfFeature = function(aDisplayName) {
+  this.removePdfFeature(aDisplayName);
+  // reset angle and center
+  myform.pdfMapAngle.value = null;
+  myform.pdfMapCenterX.value = null;
+  myform.pdfMapCenterY.value = null;
+  updatePdfAngleInterface(0);
+  this.showPdfFeature(aDisplayName);
+}
+
 Map.prototype.pdfrotate = function(aDisplay) {
   this.resetMapEventHandlers();
     
   this.setCurrentLayer('drawing');
   this.getDisplay(aDisplay).currentLayer = xGetElementById(this.getDisplay(aDisplay).id + "_" + this.getDisplay(aDisplay)._map.currentLayer.id);
   this.getDisplay(aDisplay).mouseAction = new RotateFeatureTool(this.getDisplay(aDisplay));
+
+  // reset current display dmpts (solve bug of feature going crazy after changing scale (bug id 1685))
+  delete this.getDisplay(aDisplay).dmpts;
   
   this.showPdfFeature(aDisplay);
 
@@ -151,8 +167,108 @@ Map.prototype.pdfrotate = function(aDisplay) {
   }
 }
 
+/*
+ * Rotate pdf feature by x degree
+ * @param float angledegree
+ * @param bool absolute, ignore feature current angle
+ */
+Map.prototype.rotatePdfFeature = function(angledegree, absolute) {
 
+  // convert degree to radian
+  var anglerad = angledegree * Math.PI / 180;
 
+  // update current angle
+  if (!absolute) {
+    var currentangle = this.getDisplay(mainmapid).angle;
+    var nangle = currentangle + anglerad;
+  } else {
+    var nangle = anglerad;
+  }
+
+  // update stored angle
+  myform.pdfMapAngle.value = nangle;
+
+  // update interface
+  updatePdfAngleInterface(nangle);
+
+  // update feature
+  this.updatePdfFeature(mainmapid);
+}
+
+/**
+ * update pdf angle interface
+ * @param float angle (rad)
+ */
+function updatePdfAngleInterface(angle) {
+  var elm = xGetElementById('pdfrotate_angledegree');
+  if (elm){
+    angledegree = angle * 180 / Math.PI;
+    if (angledegree < 0) {
+      angledegree = 360 + angledegree;
+    }
+    elm.innerHTML = Math.round(angledegree);
+  }
+}
+
+/*
+ * Recenter on pdf feature
+ */
+Map.prototype.pdfRecenter = function() {
+    Logger.trace('pdfRecenter');
+  // get current pdf caneva largest diagonal dimension
+  var aDisplay = this.getDisplay(mainmapid);
+  var feature = this.getPdfFeature(aDisplay);
+  var center = feature.getCentroid();
+  var cx = center.vertices[0].x;
+  var cy = center.vertices[0].y;
+  
+  var cxl = Array();
+  var cyl = Array();
+  for (var i = 0; i < feature.vertices.length; i++){
+    cxl[i] = feature.vertices[i].x;
+    cyl[i] = feature.vertices[i].y;
+  }
+  cxl.sort();
+  cyl.sort();
+
+  cxmin = cxl[0];
+  cxmax = cxl[cxl.length-1];
+  cymin = cyl[0];
+  cymax = cyl[cyl.length-1];
+
+  var cxm = cxmax - cxmin;
+  var cym = cymax - cymin;
+  var dl = Math.sqrt(cxm * cxm + cym * cym);
+
+  // generate a recentering bbox
+  var nbbox_minx = cx - dl;
+  var nbbox_maxx = cx + dl;
+  var nbbox_miny = cy - dl;
+  var nbbox_maxy = cy + dl;
+  var nbbox = nbbox_minx+','+nbbox_miny+','+nbbox_maxx+','+nbbox_maxy;
+
+  // set in dom the recenter_bbox input+value
+  var rbbox = document.carto_form['recenter_bbox'];
+  if (typeof(rbbox) == 'undefined') {
+    // create an input
+    var rbbox = document.createElement("input");
+    rbbox.setAttribute("type", "hidden");
+    rbbox.setAttribute("name", "recenter_bbox");
+    rbbox.setAttribute("id", "recenter_bbox");
+    rbbox.setAttribute("value", nbbox);
+    document.carto_form.appendChild(rbbox);
+  } else {
+    rbbox.value = nbbox;
+  }
+  // call recentering
+  CartoWeb.trigger('Location.Recenter', 'formItemSelected()');
+
+}
+
+/*
+ * Rotate pdf feature vertices by angle (rad)
+ * @param float angle (rad)
+ */
 Feature.prototype.rotate = function(angle) {
   if (angle != null && angle != 0) {
             
@@ -275,6 +391,9 @@ RotateFeatureTool.prototype.onMouseUp = function(aDisplay, ex, ey) {
   
   if (aDisplay._map.onFeatureChange) aDisplay._map.onFeatureChange(feature);
   
+  // update angle displayed in interface
+  updatePdfAngleInterface(aDisplay.angle);
+  
 };
 RotateFeatureTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
   if (aDisplay.mode == 'drag') {
@@ -318,6 +437,9 @@ RotateFeatureTool.prototype.onMouseMove = function(aDisplay, ex, ey) {
     aDisplay.prevx = ex;
     aDisplay.prevy = ey;
   }
+  
+  // update angle displayed in interface
+  updatePdfAngleInterface(aDisplay.angle);
 }
 
 RotateFeatureTool.prototype.onDrag = function(elt, x, y) {
