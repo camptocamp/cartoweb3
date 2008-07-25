@@ -45,6 +45,11 @@ div_updated_num_id = "modified_features_num"; // number of updated features
 div_deleted_num_id = "deleted_features_num"; // number of deleted features
 
 /**
+ * dhtml main object id
+ */
+ mainmapid = "map";
+
+/**
  * User defined functionnalities
  * Function called on window onload event
  */
@@ -52,7 +57,7 @@ createMap = function() {
   myform = document.forms['carto_form'];
   
   // create a new map object with a className as argument
-  mainmap = new Map("map");
+  mainmap = new Map(mainmapid);
   
   mainmap.geoTag = xGetElementById(div_geo_id);
   if (mainmap.geoTag != null) {
@@ -72,7 +77,7 @@ createMap = function() {
   initMap();
 
   mainmap.displayFeaturesCount();
-  mainmap.snap("map");
+  mainmap.snap(mainmapid);
   
   // initial selected tool
   if (typeof cw3_initial_selected_tool != "undefined") {
@@ -238,6 +243,28 @@ removeTags = function(text) {
 }
 
 EventManager.Add(window, 'load', createMap, false);
+
+/**
+ * enable a tool in dhtml and on toolbar
+ * @param string toolid
+ * @param bool noToolbarCall, true to avoid activation of tool in toolbar
+ */
+function enableTool(toolid, noToolbarCall) {
+  var currentTool = xGetElementById('tool').value;
+  // dhtml activation
+  try {
+    eval("mainmap."+toolid+"('map');");
+  } catch (e) {
+    // the tool not available, using current tool
+    toolid = currentTool;
+  }
+  // toolbar activation
+  if (toolbar_rendering != 'radio' && 
+      xGetElementById(toolid+'_icon').lang.indexOf('cw_stateless') == -1 &&
+      !noToolbarCall) {
+    setActiveToolButton(toolid);
+  }
+}
 
 Map.prototype.snap = function(aDisplay) {
   this.getDisplay(aDisplay).useSnapping =

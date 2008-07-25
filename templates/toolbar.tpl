@@ -26,12 +26,13 @@ var toolbar_rendering = '{$toolbar_rendering}';
         <input type="image" id="{$tool->id}_icon" alt="{$tool->id}" 
            name="{$tool->id}" 
            title="{t}{$tool->id}{/t}" 
-               src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
-               onclick="mainmap.{$tool->id}('map');" />
+               src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}" 
+               onclick="enableTool('{$tool->id}');" 
+               lang="cw_stateless" />
       {/if}
     {else}
       {if $toolbar_rendering == 'radio'}
-        <label for="{$tool->id}" onclick="checkRadio(this.htmlFor);mainmap.{$tool->id}('map');" >
+        <label for="{$tool->id}" onclick="checkRadio(this.htmlFor);enableTool('{$tool->id}');" >
         <input type="radio" id="{$tool->id}" name="tool" value="{$tool->id}" 
         {if $selected_tool == $tool->id}checked="checked"{/if} />
       {/if}
@@ -40,7 +41,7 @@ var toolbar_rendering = '{$toolbar_rendering}';
           src="{r type=gfx plugin=$tool->plugin}{$tool->id}.gif{/r}"
           {if $toolbar_rendering != 'radio'}
           class="toolbar_off" 
-          onclick="mainmap.{$tool->id}('map');{if !$tool->oneshot}setActiveToolButton('{$tool->id}');{/if}"
+          onclick="enableTool('{$tool->id}'{if $tool->oneshot},true{/if});"
           {/if}
           />
       {else}
