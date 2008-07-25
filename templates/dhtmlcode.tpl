@@ -7,6 +7,10 @@
 <script type="text/javascript" src="{r type=js}dhtmlInit.js{/r}"></script>
 {if $mapUnits == 'dd'}<script type="text/javascript" src="{r type=js}LatLon.js{/r}"></script>{/if}
 
+{if $cartoclient_profile == 'development'}
+  <script type="text/javascript" src="{r type=js}print_r.js{/r}"></script>
+{/if}
+
 {if $edit_allowed|default:''}<script type="text/javascript" src="{r type=js plugin=edit}dhtmlEdit.js{/r}"></script>{/if}
 <script type="text/javascript" src="{r type=js}folders.js{/r}"></script>
 <script type="text/javascript">
