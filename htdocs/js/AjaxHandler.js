@@ -340,6 +340,26 @@ AjaxHandler = {
                   if (typeof AjaxPlugins.Common.onAfterAjaxCall != 'undefined') {
                       AjaxPlugins.Common.onAfterAjaxCall(actionId);
                   }
+
+                  // Call the plugin's onAfterAjaxCallGeneral logic
+                  // if the methods is defined
+                  Logger.header('Calling plugin onAfterAjaxCallGeneral()');
+                  for(var pluginName in AjaxPlugins) {
+                    if (typeof(AjaxPlugins[pluginName]) == 'object' && 
+                        pluginName.toLowerCase() != 'common' && 
+                        pluginName.toLowerCase() != 'initializableplugins') {
+                      Logger.note('Calling AjaxPlugins.' + pluginName + '.onAfterAjaxCallGeneral');
+                      if (AjaxHelper.exists('AjaxPlugins.' + pluginName + '.onAfterAjaxCallGeneral')) {
+                          try {
+                              eval('AjaxPlugins.' + pluginName + '.onAfterAjaxCallGeneral(argObject)');
+                          } catch (e) {
+                              Logger.error('An error occured when calling onAfterAjaxCallGeneral in plugin ' + pluginName);
+                              AjaxHelper.handleError(e);
+                          }
+                      }
+                    }
+                  }
+
                   Logger.header('--- Action ' + actionId + ' complete ---<br />');
               }
           });
@@ -430,6 +450,25 @@ AjaxHandler = {
                     AjaxHelper.handleError(e);
                 }
             }            
+
+            // Call the plugin's onBeforeAjaxCallGeneral logic
+            // if the methods is defined
+            Logger.header('Calling plugin onBeforeAjaxCallGeneral()');
+            for(var pluginName in AjaxPlugins) {
+              if (typeof(AjaxPlugins[pluginName]) == 'object' && 
+                  pluginName.toLowerCase() != 'common' && 
+                  pluginName.toLowerCase() != 'initializableplugins') {
+                Logger.note('Calling AjaxPlugins.' + pluginName + '.onBeforeAjaxCallGeneral');
+                if (AjaxHelper.exists('AjaxPlugins.' + pluginName + '.onBeforeAjaxCallGeneral')) {
+                    try {
+                        eval('AjaxPlugins.' + pluginName + '.onBeforeAjaxCallGeneral(argObject)');
+                    } catch (e) {
+                        Logger.error('An error occured when calling onBeforeAjaxCallGeneral in plugin ' + pluginName);
+                        AjaxHelper.handleError(e);
+                    }
+                }
+              }
+            }
 
             Logger.header('Calling AjaxPlugins.Common.onBeforeAjaxCall()');
             if (AjaxHelper.exists(AjaxPlugins.Common.onBeforeAjaxCall)) {
