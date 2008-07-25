@@ -199,16 +199,27 @@ AjaxPlugins.YourPlugin.Actions.SomeAction = {
     },
     .
     onBeforeAjaxCall: function(argObject) {
-        Logger.note('Clearing outline dhtml layers...');
+        Logger.note('Output something in the JSTraceDebugger window');
         callSomeJavascriptFunctions();
     },
 
     onAfterAjaxCall: function(argObject) {
-        Logger.note('Clearing outline dhtml layers...');
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    onBeforeAjaxCallGeneral: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    onAfterAjaxCallGeneral: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
         callSomeJavascriptFunctions();
     },
 
     oneCustomFunction: function() {
+        Logger.note('Output something in the JSTraceDebugger window');
         // you can also define functions 
         ...
     },
@@ -224,15 +235,22 @@ AjaxPlugins.YourPlugin.Actions.AnotherAction = {
           <warning><para>BE CAREFUL FOR CLOSING "," and ";" !!!!</para>
             <para>these are json syntax and it is a bit different than your usual javascript.</para></warning>
         </para>
+        <itemizedlist>
+          <listitem><para><filename>buildPostRequest</filename> is always executed, it simply parses your html and recover 
+        all the inputs (text, hidden, select, radio, checkbox, password, textarea) values and send them to the server.</para></listitem>
 
-        <para><filename>buildPostRequest</filename> is always executed, it simply parses your html and recover 
-        all the inputs (text, hidden, select, radio, checkbox, password, textarea) values and send them to the server.</para>
-
-        <para><filename>onBeforeAjaxCall</filename> and <filename>onAfterAjaxCall</filename> are optional.</para>
+          <listitem><para><filename>onBeforeAjaxCall</filename> and <filename>onAfterAjaxCall</filename> are optional. </para>
         <para>These functions are called before and after the action. For example if you want 
-        to modify some inputs value just before it's being sent to the server. Or you want too add some post-treatments.</para>
+        to modify some inputs value just before it's being sent to the server. Or you want too add some post-treatments. </para>
         <para>Note that <filename>onAfterAjaxCall</filename> is called AFTER the response is 
-        being treated in the normal <filename>handleResponse</filename> stage (see <xref linkend="user.ajax.project.js.answer"/>).</para>
+        being treated in the normal <filename>handleResponse</filename> stage (see <xref linkend="user.ajax.project.js.answer"/>).</para></listitem>
+        
+          <listitem><para><filename>onBeforeAjaxCallGeneral</filename> and <filename>onAfterAjaxCallGeneral</filename> are optional. </para>
+        <para>These functions are called EVERYTIME an AJAX call is triggered by ANY plugins. </para>
+        <para>If you add these functions in your plugin, the functions will be called even if the action was triggered by another plugin. </para>
+        <para><filename>onBeforeAjaxCallGeneral</filename> is called BEFORE <filename>onBeforeAjaxCall</filename>.
+        <filename>onAfterAjaxCallGeneral</filename> is called AFTER <filename>onAfterAjaxCall</filename>.</para></listitem>
+      </itemizedlist>
 
       <sect4 id="user.ajax.project.js.action.attach">
         <title>Add Event</title>

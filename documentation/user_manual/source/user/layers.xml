@@ -204,7 +204,7 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
         for one layer group. The children that will be displayed is choosen by 
         a special parameter : the switch ID. </para>
       <para>Switch IDs and labels are listed in file 
-        <filename>layers.ini</filename>. In default test environment, a 
+        <filename>layers.ini</filename>(server side). In default test environment, a 
         dropdown is constructed using this list and displayed in the GUI.</para>
       <programlisting><![CDATA[switches.switch1.label = Switch 1
 switches.switch2.label = Switch 2
@@ -226,6 +226,40 @@ layers.layerId.children.default =]]></programlisting>
 layers.layerId.children.default = layer4]]></programlisting>
       <programlisting><![CDATA[layers.layerId.className = LayerGroup
 layers.layerId.children = layer4]]></programlisting>
+        <sect3 id="user.layers.tree.children.target">
+            <title>Change Switch position in template</title>
+            <para>By default, the switch input is positionned above the layers tree. If you wish to change its position, simply place the <filename>{$switches}</filename> variable somewhere else in your template. If you are using AJAX, you also need to define the <filename>switchTargetId</filename> parameter in <filename>client_conf/layers.ini</filename>.
+            </para>
+            <itemizedlist>
+                <listitem>
+                  <para> switchTargetId = elementid : the id of the element in the template, containing the <filename>{$switches}</filename> variable. For example :</para>
+<programlisting><![CDATA[<div id="switchTarget">
+    {$switches}
+</div>]]></programlisting>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+        <sect3 id="user.layers.tree.children.default">
+            <title>Define an existing switch as default switch</title>
+            <para>If you do not wish to duplicate the "default" switch and the switch you want to use as reference (default behaviour), you can use the <filename>relatedDefaultSwitchId</filename> parameter.</para>
+            <itemizedlist>
+                <listitem>
+                  <para> relatedDefaultSwitchId = switchid : the id of the switch you want to use as default switch (you need to modify the <filename>switches.tpl</filename> template!).</para>
+                </listitem>
+            </itemizedlist>
+            <para>For example :</para>
+<programlisting>switches.switch1.label = human
+switches.switch2.label = categ
+
+; layers
+layers.root.className = LayerGroup
+;layers.root.children =  background, human, categ, wmsLayers
+layers.root.children.default = background, human, wmsLayers
+layers.root.children.switch2 = background, categ, wmsLayers
+layers.root.rendering = block </programlisting>
+            <para>We have 2 switchs defined: switch1 and switch2. By default, the switch select in the interface will contains 3 switchs: default, switch1, switch2. If we set <filename>relatedDefaultSwitchId = switch1</filename> and modify the template accordingly (see the example in project demoCW3), the select will contains only switch1 and switch2.</para>
+            <para>In the layers definition, we only use default and switch2. If the user select switch1 in the interface, the default switch will be used as switch1 is not defined: no more duplicate definition of switch.</para>
+        </sect3>
     </sect2>
   </sect1>
   <sect1 id="user.layers.metadata">
