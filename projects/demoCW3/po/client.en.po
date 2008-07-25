@@ -782,3 +782,9 @@ msgstr "Polygon"
 
 msgid "Custom_Scale"
 msgstr "Custom scale"
+
+msgid "human"
+msgstr "Human activities"
+
+msgid "categ"
+msgstr "Category"

@@ -1505,7 +1505,8 @@ class ClientLayers extends ClientPlugin
             
         $this->smarty->assign(array('switch_values' => $switchValues,
                                     'switch_labels' => $switchLabels,
-                                    'switch_id' => $this->layersState->switchId));
+                                    'switch_id' => $this->layersState->switchId,
+                                    'relatedDefaultSwitchId' => $this->getConfig()->relatedDefaultSwitchId));
         return $this->smarty->fetch('switches.tpl');            
     }
 
@@ -1530,6 +1531,7 @@ class ClientLayers extends ClientPlugin
         $ajaxPluginResponse->addVariable('startOpenNodes',
                               "'" . implode('\',\'', $this->unfoldedIds) . "'");
         $ajaxPluginResponse->addVariable('layersFolderId', $this->getFolderId());
+        $ajaxPluginResponse->addVariable('switchTargetId', $this->getSwitchTargetId());
     }
 
     /**
@@ -1736,6 +1738,14 @@ class ClientLayers extends ClientPlugin
         if (!is_null($layerIds)) {
             $mapRequest->layersRequest->layerIds = $layerIds;
         }
+    }
+
+    /**
+    * get target id for switch
+    * @return string
+    */
+    protected function getSwitchTargetId() {
+        return $this->getConfig()->switchTargetId;
     }
 }
 ?>

@@ -10,11 +10,22 @@ AjaxPlugins.Layers = {
         if (pluginOutput.variables.layersFolderId) {
             this.layersFolderId = pluginOutput.variables.layersFolderId;
         }
-        
-        /* Redraws layers HTML Code */        
-        AjaxHandler.updateDomElement(this.layersFolderId, 'innerHTML',
+
+        if (pluginOutput.variables.switchTargetId) {
+            this.switchTargetId = pluginOutput.variables.switchTargetId;
+            /* Redraws layers HTML Code */        
+            AjaxHandler.updateDomElement(this.layersFolderId, 'innerHTML',
+                                         pluginOutput.htmlCode.layers);
+            /* Redraws switch HTML Code */        
+            AjaxHandler.updateDomElement(this.switchTargetId, 'innerHTML',
+                                     pluginOutput.htmlCode.switches);
+
+        } else {
+            /* Redraws switch+layers HTML Code */        
+            AjaxHandler.updateDomElement(this.layersFolderId, 'innerHTML',
                                      pluginOutput.htmlCode.switches
                                      + pluginOutput.htmlCode.layers);
+        }
         
         /* Reopen open nodes */
         if ($(this.layersFolderId) != null) {

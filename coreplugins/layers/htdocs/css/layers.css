@@ -9,3 +9,50 @@
 #layersroot .leaf {margin-left:12px;}
 #layersroot select {margin-bottom:5px;}
 #layersroot fieldset {margin:8px;margin-left:0;}
+
+#switchmenucontainer {
+    height: 20px;
+    margin:0;
+    padding:0;
+    list-style-type: none;
+}
+#switchmenucontainer li {
+    height: 20px;
+    cursor: pointer;
+}
+.switchmenu {
+    float: left;
+    margin:0;
+    padding:0;
+    text-align: center;
+}
+.switchmenu_l, .switchmenu_r {
+    width: 10px;
+    height: 20px;
+}
+.switchmenu_l {
+    float: left;
+}
+.switchmenu_r {
+    float: right;
+}
+.switchheader {
+    float:left;
+    margin-right:10px;    
+}
+#switch_default {
+   width: 70px 
+}
+/* specific to the switch labels in fr and en */
+.switchmenu_switch1_fr {
+    width: 130px
+}
+.switchmenu_switch1_en {
+    width: 115px
+}
+.switchmenu_switch2_fr {
+    width: 80px
+}
+.switchmenu_switch2_en {
+    width: 75px
+}

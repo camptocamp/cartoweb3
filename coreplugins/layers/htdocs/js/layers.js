@@ -203,4 +203,28 @@ function goToScale(scale) {
   }
 }
 
+/**
+ * activate/deactivate a swtich tab
+ */
+function switchSwitch(switchId) {
+  // set switch id hidden input
+  $('switch_id').value = switchId;
+  // switch menu
+  var sC = $('switchmenucontainer');
+  var sList = xGetElementsByTagName('li', sC);
+  for (var i = 0; i < sList.length; i++) {
+    var classNames = sList[i].className.split(' ');
+    var nClassNames = '';
+    for (var j = 0; j < classNames.length; j++) {
+      if (classNames[j] != 'switchmenuactiv') {
+        nClassNames += classNames[j] + ' ';
+      }
+    }
+    if (sList[i].id == ('switch_' + switchId)) {
+      nClassNames += 'switchmenuactiv';
+    }
+    sList[i].className = nClassNames;
+  }
+}
+
 EventManager.Add(window, 'load', layersInit, false);

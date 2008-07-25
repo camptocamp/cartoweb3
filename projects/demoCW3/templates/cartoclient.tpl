@@ -31,9 +31,6 @@
   {/if}
   
   {include file="cartoclient_ajaxHeader.tpl"}
-  {if $ajaxOn|default:''}
-  <script type="text/javascript" src="{r type=js}custom.ajax.js{/r}"></script>
-  {/if}
 
   {include file="dhtmlcode.tpl"}
   
@@ -41,6 +38,26 @@
   <script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>
   <script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>
   {/if}
+  <style>
+    .switchmenu {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbgi.png{/r});
+    {literal}}{/literal}
+    .switchmenu .switchmenu_l {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbgli.png{/r});
+    {literal}}{/literal}
+    .switchmenu_r {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbgri.png{/r});
+    {literal}}{/literal}
+    .switchmenuactiv {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbg.png{/r});
+    {literal}}{/literal}
+    .switchmenuactiv .switchmenu_l {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbgl.png{/r});
+    {literal}}{/literal}
+    .switchmenuactiv .switchmenu_r {literal}{{/literal}
+      background-image:url({r type=gfx plugin=layers}switchbgr.png{/r});
+    {literal}}{/literal}
+  </style>
 </head>
 
 <body>
@@ -124,6 +141,9 @@
       <tr>
         <td></td>
         <td>
+          <div id="switchTarget">
+            {$switches}
+          </div>
           <table width="100%"><tr>
             <td width="50%"><div id="floatGeo" class="locationInfo">{t}Coord (m):{/t} %s / %s</div></td>
             <td width="50%" align="right">
@@ -255,7 +275,7 @@
   <div id="leftbar">
     <div>
       <ul id="tabnav2">
-        <li id="label2"><a href="javascript:ontop(2)">{t}Print{/t}</a></li>
+        <li id="label2"><a href="javascript:ontop(2);enableTool('pdfrotate')">{t}Print{/t}</a></li>
         <li id="label4"><a href="javascript:ontop(4)">{t}About{/t}</a></li>
         <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
       </ul>
