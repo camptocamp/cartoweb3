@@ -788,3 +788,6 @@ msgstr "Human activities"
 
 msgid "categ"
 msgstr "Category"
+
+msgid "PDF recenter"
+msgstr "Recenter"

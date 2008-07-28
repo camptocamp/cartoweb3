@@ -883,3 +883,12 @@ msgstr "Activités humaines"
 
 msgid "categ"
 msgstr "Catégorie"
+
+msgid "PDF recenter"
+msgstr "Recentrer"
+
+msgid "Free rotate"
+msgstr "Rotation libre"
+
+msgid "set"
+msgstr "Go"
