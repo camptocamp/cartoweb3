@@ -126,6 +126,11 @@ AjaxPlugins.Common = {
  
     clearWaitingMessage: function() {
         xHide($('loadbarDiv'));
+        // force hide after 10, solve non closing waiting msg bug
+        var timeoutFn = function() {
+            xHide($('loadbarDiv'));
+        }
+        setTimeout(timeoutFn, 10);
     },
     
     clearDhtmlDrawings: function() {
