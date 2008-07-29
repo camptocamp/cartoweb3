@@ -22,10 +22,11 @@ CartoWeb HEAD
 - Added displayMeasures parameter in plugin Outline to display area/distance in label
 - Unit tests now use PHPUnit 3 instead of PHPUnit 2
 - Upgraded PEAR libs + added MDB2
-- Added : PDFrotate : recentering, manual rotation
-- Fixed : PDFrotate : stability issues
-- Added : AJAX : general access points (onBeforeAjaxCallGeneral & onAfterAjaxCallGeneral) available to all plugins
-- Added : Switch : posibility to define any switch as the default switch
+- Added: PDFrotate: recentering, manual rotation
+- Fixed: PDFrotate: stability issues
+- Added: AJAX: general access points (onBeforeAjaxCallGeneral & onAfterAjaxCallGeneral) made available to all plugins
+- Added: Layers switch: possibility to define any switch as the default switch
+- Fixed a compatibility issue with eAccelerator
 
 2007-07-26: CartoWeb 3.4.0
 ===================

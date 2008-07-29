@@ -24,6 +24,16 @@
 require_once(CARTOWEB_HOME . 'common/Log4phpInit.php');
 initializeLog4php(true);
 
+require_once(CARTOWEB_HOME . 'common/Common.php');
+
+/**
+ * Cartoclient exception 
+ * Class definition is placed before files inclusions below
+ * to avoid PHP Fatal Error when eAccelerator is activated.
+ * @package Client
+ */
+class CartoclientException extends CartowebException {}
+
 require_once(CARTOWEB_HOME . 'client/AjaxHelper.php');
 require_once(CARTOWEB_HOME . 'client/ClientMapInfoCache.php');
 require_once(CARTOWEB_HOME . 'client/CartoserverService.php');
@@ -36,7 +46,6 @@ require_once(CARTOWEB_HOME . 'client/Internationalization.php');
 require_once(CARTOWEB_HOME . 'client/Views.php');
 require_once(CARTOWEB_HOME . 'client/ClientAccounting.php');
 
-require_once(CARTOWEB_HOME . 'common/Common.php');
 require_once(CARTOWEB_HOME . 'common/Utils.php');
 require_once(CARTOWEB_HOME . 'common/Config.php');
 require_once(CARTOWEB_HOME . 'common/PluginManager.php');
@@ -47,14 +56,6 @@ require_once(CARTOWEB_HOME . 'common/Request.php');
 require_once(CARTOWEB_HOME . 'common/StructHandler.php');
 require_once(CARTOWEB_HOME . 'common/Message.php');
 require_once(CARTOWEB_HOME . 'common/Encoding.php');
-
-/**
- * Cartoclient exception 
- * @package Client
- */
-class CartoclientException extends CartowebException {
-
-}
 
 /**
  * Stores if mainmap or keymap were clicked, and if yes where
