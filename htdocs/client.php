@@ -24,7 +24,7 @@
 define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 require_once(CARTOWEB_HOME . 'common/Common.php');
-Common::preInitializeCartoweb(array('client' => true, 'apd' => true));
+Common::preInitializeCartoweb(array('client' => true, 'apd' => false));
 
 require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 

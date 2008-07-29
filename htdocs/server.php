@@ -10,7 +10,7 @@
 define('CARTOWEB_HOME', realpath(dirname(__FILE__) . '/..') . '/');
 
 require_once(CARTOWEB_HOME . 'common/Common.php');
-Common::preInitializeCartoweb(array('client' => false, 'apd' => true));
+Common::preInitializeCartoweb(array('client' => false, 'apd' => false));
 
 require_once(CARTOWEB_HOME . 'server/Cartoserver.php');
 require_once(CARTOWEB_HOME . 'server/SoapXMLCache.php');

@@ -226,8 +226,9 @@ class Common {
     
         $client = isset($args['client']) && $args['client']; 
         self::setIncludePath($client);
-        if (isset($args['apd']))
+        if (!empty($args['apd'])) {
             self::initializeApd($client);
+        }
     }
     
     /**
