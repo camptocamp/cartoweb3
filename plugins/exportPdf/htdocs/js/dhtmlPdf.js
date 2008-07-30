@@ -221,9 +221,9 @@ Map.prototype.pdfRecenter = function() {
   var center = feature.getCentroid();
   var cx = center.vertices[0].x;
   var cy = center.vertices[0].y;
-  
   var cxl = Array();
   var cyl = Array();
+
   for (var i = 0; i < feature.vertices.length; i++){
     cxl[i] = feature.vertices[i].x;
     cyl[i] = feature.vertices[i].y;
@@ -236,9 +236,12 @@ Map.prototype.pdfRecenter = function() {
   cymin = cyl[0];
   cymax = cyl[cyl.length-1];
 
-  var cxm = cxmax - cxmin;
-  var cym = cymax - cymin;
-  var dl = Math.sqrt(cxm * cxm + cym * cym);
+  var cxm = feature.vertices[0].x - cx;
+  var cym = feature.vertices[0].y - cy;
+  var dl = Math.sqrt((cxm * cxm) + (cym * cym));
+
+  // add small buffer around enclosing bbox
+  dl = dl * 1.5;
 
   // generate a recentering bbox
   var nbbox_minx = cx - dl;
@@ -246,7 +249,7 @@ Map.prototype.pdfRecenter = function() {
   var nbbox_miny = cy - dl;
   var nbbox_maxy = cy + dl;
   var nbbox = nbbox_minx+','+nbbox_miny+','+nbbox_maxx+','+nbbox_maxy;
-
+  
   // set in dom the recenter_bbox input+value
   var rbbox = document.carto_form['recenter_bbox'];
   if (typeof(rbbox) == 'undefined') {
