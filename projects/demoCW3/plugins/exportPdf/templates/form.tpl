@@ -61,6 +61,10 @@ for="legendOut">{t}In new page{/t}</label></div>
 
 <center>
 <input type="button" name="pdfPrint" value="{t}Print{/t}" class="form_button" onclick="pdfFormSubmit(this.form)" />
+{if $isModeRotate}
+<input type="button" name="pdfReset" value="{t}Reset Form{/t}" class="form_button" onclick="mainmap.resetPdfFeature('map');"/>
+{else}
 <input type="submit" name="pdfReset" value="{t}Reset Form{/t}" class="form_button" />
+{/if}
 </center>
 </div>
