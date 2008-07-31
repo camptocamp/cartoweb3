@@ -110,11 +110,13 @@ class ClientGeostat extends ClientPlugin
      */
     public function createSession(MapInfo $mapInfo,
                                   InitialMapState $initialMapState) {
+
         $this->geostatClientState = new GeostatClientState();
         $this->geostatClientState->choroplethParams = 
             new GeostatChoropleth();
             
-        $this->geostatClientState->choroplethParams->bbox = new Bbox();
+        $this->geostatClientState->choroplethParams->bbox = 
+            $initialMapState->location->bbox;
         
         $this->geostatClientState->choroplethParams->classificationMethod =
             $this->getConfig()->choroplethClassifMethodDefault;
