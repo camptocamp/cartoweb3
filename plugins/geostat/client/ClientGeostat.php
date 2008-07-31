@@ -267,7 +267,6 @@ class ClientGeostat extends ClientPlugin
     public function buildRequest() {
         
         if($this->getConfig()->choroplethDataFromCurrentBoundingBox) {
-            print $this->getConfig()->choroplethDataFromCurrentBoundingBox;
             $this->geostatClientState->choroplethParams->bbox = new Bbox();
         }
         $geostatRequest = new GeostatRequest();
