@@ -436,6 +436,43 @@ class Bbox extends Shape {
         
         return call_user_func_array('sprintf', $args);
     }
+
+    /**
+     * Rotate a bbox
+     * @param float angle (degree)
+     * @return object Polygon
+     */
+    public function rotate($angle) {
+        $minx = $this->minx;
+        $miny = $this->miny;
+        $maxx = $this->maxx;
+        $maxy = $this->maxy;
+        $c = $this->getCenter();
+
+        $angle = deg2rad($angle);
+
+        /* formule:
+        xa'=(xa-xg).cos théta - (ya-yg).sin théta + xg
+        ya'=(ya-yg).cos théta + (xa-xg).sin théta + yg
+        */
+
+        $p1x = ($minx - $c->x) * cos($angle) - ($miny - $c->y) * sin($angle) + $c->x;
+        $p1y = ($minx - $c->x) * sin($angle) + ($miny - $c->y) * cos($angle) + $c->y;
+        $p2x = ($maxx - $c->x) * cos($angle) - ($miny - $c->y) * sin($angle) + $c->x;
+        $p2y = ($maxx - $c->x) * sin($angle) + ($miny - $c->y) * cos($angle) + $c->y;
+        $p3x = ($maxx - $c->x) * cos($angle) - ($maxy - $c->y) * sin($angle) + $c->x;
+        $p3y = ($maxx - $c->x) * sin($angle) + ($maxy - $c->y) * cos($angle) + $c->y;
+        $p4x = ($minx - $c->x) * cos($angle) - ($maxy - $c->y) * sin($angle) + $c->x;
+        $p4y = ($minx - $c->x) * sin($angle) + ($maxy - $c->y) * cos($angle) + $c->y;
+
+        $poly = new Polygon();
+        $poly->points[] = new Point($p1x, $p1y); // bottom-left
+        $poly->points[] = new Point($p2x, $p2y); // bottom-right
+        $poly->points[] = new Point($p3x, $p3y); // top-right
+        $poly->points[] = new Point($p4x, $p4y); // top-left
+
+        return $poly;
+    }
 }
 
 /**
