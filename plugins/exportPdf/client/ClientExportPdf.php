@@ -1184,8 +1184,8 @@ class ClientExportPdf extends ExportPlugin
             $center = $savedBbox->getCenter();
         }
         $config->setPoint($center);
-        
-        $config->setBbox($savedBbox);      
+
+        $config->setBbox($savedBbox);
         $config->setZoomType('ZOOM_SCALE');
         $config->setLocationType('zoomPointLocationRequest');
 
@@ -1331,13 +1331,39 @@ class ClientExportPdf extends ExportPlugin
     protected function getCornerCoords(PdfBlock $block, MapResult $mapResult) {
         switch ($block->id) {
             case 'tlcoords':
-                $x = $mapResult->locationResult->bbox->minx;
-                $y = $mapResult->locationResult->bbox->maxy;
+                // recalculate bbox if pdfrotate
+                if ($this->isModeRotate()) {
+                    $mapAngle = Utils::negativeRad2Deg($this->getFormField('pdfMapAngle'));
+                    if ($mapAngle != 0) {
+                        $poly = $mapResult->locationResult->bbox->rotate($mapAngle);
+                        $x = $poly->points[3]->x; // [3] is top-left (minx-maxy)
+                        $y = $poly->points[3]->y;
+                    } else {
+                        $x = $mapResult->locationResult->bbox->minx;
+                        $y = $mapResult->locationResult->bbox->maxy;
+                    }
+                } else {
+                    $x = $mapResult->locationResult->bbox->minx;
+                    $y = $mapResult->locationResult->bbox->maxy;
+                }
                 break;
             
             case 'brcoords':
-                $x = $mapResult->locationResult->bbox->maxx;
-                $y = $mapResult->locationResult->bbox->miny;
+                // recalculate bbox if pdfrotate
+                if ($this->isModeRotate()) {
+                    $mapAngle = Utils::negativeRad2Deg($this->getFormField('pdfMapAngle'));
+                    if ($mapAngle != 0) {
+                        $poly = $mapResult->locationResult->bbox->rotate($mapAngle);
+                        $x = $poly->points[1]->x; // [1] is bottom-right (maxx-miny)
+                        $y = $poly->points[1]->y;
+                    } else {
+                        $x = $mapResult->locationResult->bbox->maxx;
+                        $y = $mapResult->locationResult->bbox->miny;
+                    }
+                } else {
+                    $x = $mapResult->locationResult->bbox->maxx;
+                    $y = $mapResult->locationResult->bbox->miny;
+                }
                 break;
 
             default: return;
