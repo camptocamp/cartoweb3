@@ -901,6 +901,10 @@ class ServerLocation extends ClientResponderAdapter
         $origin = $this->getConfig()->refMarksOrigin;
         if (!is_null($origin)) {
             list($originx, $originy) = explode(',', $origin);
+        } else {
+            throw new CartoserverException('refMarksOrigin definition is missing' .
+                                           ' in location.ini (server side),' .
+                                           ' see documentation.');
         }
         $intervals = ConfigParser::parseObjectArray($this->getConfig(),
                                                     'refMarksInterval',
