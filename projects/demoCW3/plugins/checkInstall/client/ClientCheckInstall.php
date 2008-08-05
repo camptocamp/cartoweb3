@@ -43,7 +43,7 @@ class ClientCheckInstall extends ClientPlugin {
 
         if (!file_exists(CARTOWEB_HOME . 
                             "projects/$project/server_conf/$mapId/data")) {
-            throw new CartoclientException('You need to install the demo data ' .
+            throw new CartoclientException('WARNING, READ THIS: You need to install the demo data ' .
                     "in order to use the demo.\n Use the --fetch-demo parameter " .
                     "of the cw3setup.php installer, \n or have a look at the " .
                     'CartoWeb Installation section of the manual on ' .
@@ -55,10 +55,25 @@ class ClientCheckInstall extends ClientPlugin {
     }
 
     /**
+     * check if the sqlite extension are loaded
+     */
+    protected function checkSlite() {
+        $loadedModules = get_loaded_extensions();
+        if (!in_array('PDO', $loadedModules) && !in_array('pdo_sqlite', $loadedModules) &&
+            !in_array('SQLite', $loadedModules)) {
+            throw new CartoclientException('WARNING, READ THIS: You need to enable Sqlite in your php.ini ' .
+                'in order to use the demoCW3.' . "\n" .
+                'At least one of the following extensions must be loaded:' . "\n" .
+                "* sqlite\n* pdo_sqlite\n* pdo\n\n");             
+        }        
+    }
+
+    /**
      * @see PluginBase::initialize()
      */
     public function initialize() {
         $this->checkDemoData();
+        $this->checkSlite();
     }    
 }
 ?>
