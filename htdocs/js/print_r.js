@@ -25,7 +25,7 @@ function print_r(input, _max_level, show_function, show_number, showinpopup) {
   var show_function = show_function ? show_function : false;
   var show_number = show_number ? show_number : false
   // call main recursive function
-  var output = _print_r(input, _max_level, show_function, show_number);
+  var output = _print_r(input, show_function, show_number, _max_level);
 
   if (inline) {
     return output;
