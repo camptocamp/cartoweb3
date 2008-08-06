@@ -93,6 +93,7 @@ Map.prototype.getPdfFeature = function(aDisplay) {
 }
 
 Map.prototype.hidePdfFeature = function(aDisplayName) {
+
 /*
   var aLayer = xGetElementById('map_drawing');
   aLayer.innerHTML = '';
@@ -101,7 +102,9 @@ Map.prototype.hidePdfFeature = function(aDisplayName) {
 
   var feature = this.getPdfFeature(aDisplay);
   if (aDisplay.getDisplayFeature(feature) != null) {
-    aDisplay.currentLayer.removeChild(aDisplay.getDisplayFeature(feature));
+    var pdfLayer = xGetElementById(aDisplay.id + "_drawing"); // see Map.prototype.pdfrotate
+    var removedNode = pdfLayer.removeChild(aDisplay.getDisplayFeature(feature));
+    delete removedNode;
   }
 }
 
