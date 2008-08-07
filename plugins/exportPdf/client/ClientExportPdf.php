@@ -661,6 +661,11 @@ class ClientExportPdf extends ExportPlugin
 
         if (!$this->general->width || !$this->general->height)
             throw new CartoclientException('invalid exportPdf dimensions');
+
+        // get all format labels
+        foreach ($iniObjects->formats as $formatid => $formatvalues) {
+            $this->format->labels[$formatid] = I18n::gt($formatvalues->label);
+        }
     }
 
     /**
@@ -885,7 +890,7 @@ class ClientExportPdf extends ExportPlugin
         $this->smarty->assign(array(
                    'exportScriptPath'       => $this->getExportUrl(),
                    'isModeRotate'           => $isModeRotate,
-                   'pdfFormat_options'      => $this->general->formats,
+                   'pdfFormat_options'      => $this->format->labels,
                    'pdfResolution_options'  => $pdfResolution_options,
                    'pdfAllowedResolutions'  => $allowedResolutions,
                    'pdfScale_options'       => $this->general->scales,
