@@ -280,6 +280,18 @@ AjaxPlugins.YourPlugin.Actions.AnotherAction = {
         They have slightly different styling. See file <filename>Logger.js</filename> for details.</para>   
       </sect4>
      </sect3>
+
+     <sect3 id="user.ajax.project.js.action.init">
+        <title>Initialize plugin</title>
+        <para>You may want to call some functions or define some variables on page load. To do so simply add your plugin into the AjaxPlugins.initializablePlugins array, like this:
+        </para>
+        <para><screen><![CDATA[
+// add your plugin to the list of Ajax initializable plugins
+AjaxPlugins.initializablePlugins.push(AjaxPlugins.YourPluginName);
+]]></screen></para>
+        <para>Add this after your main <screen><![CDATA[AjaxPlugins.YourPluginName = {...};]]></screen></para>
+     </sect3>    
+    
     </sect2>
 
     <sect2 id="user.ajax.project.templates">
