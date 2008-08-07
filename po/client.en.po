@@ -473,7 +473,7 @@ msgstr ""
 
 #: plugins/outline/templates/outline.tpl
 msgid "transparency"
-msgstr ""
+msgstr "opacity"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Rectangle/polygon"

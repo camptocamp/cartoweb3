@@ -469,7 +469,7 @@ msgstr "Epaisseur"
 
 #: plugins/outline/templates/outline.tpl
 msgid "transparency"
-msgstr "Transparence"
+msgstr "Opacité"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Rectangle/polygon"
