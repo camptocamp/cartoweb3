@@ -404,7 +404,7 @@ class ServerPostgresRouting extends ServerRouting {
         
         $table = $this->getConfig()->postgresRoutingTable;
         $id = $db->getOne("SELECT id FROM {$table}_vertices WHERE geom_id ILIKE '$nodeId'");
-        Utils::checkDbError($db);
+        Utils::checkDbError($id);
         
         return $id;
     }
