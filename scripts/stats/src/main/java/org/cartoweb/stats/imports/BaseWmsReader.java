@@ -65,7 +65,7 @@ public abstract class BaseWmsReader extends StatsReader {
         final double minx = result.getBboxMinx();
         final double maxx = result.getBboxMaxx();
         final Integer width = result.getImagesMainmapWidth();
-        if (width != null && minx != 0 && maxx != 0 && minx != maxx) {
+        if (width != null && width != 0 && minx != 0 && maxx != 0 && minx != maxx) {
             return (float) ((maxx - minx) / (width / (RESOLUTION * INCHES_IN_M)));
         } else {
             return null;

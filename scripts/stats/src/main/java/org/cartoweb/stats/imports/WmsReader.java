@@ -30,7 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WmsReader extends BaseWmsReader {
-    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+");
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+.*");
     private static final Pattern TIME_PATTERN = Pattern.compile("(\\d{2})/(\\w{3})/(\\d{4}):(\\d{2}):(\\d{2}):(\\d{2}) ([+-])(\\d{2})(\\d{2})");
     private static final Map<String, Integer> MONTH;
 
