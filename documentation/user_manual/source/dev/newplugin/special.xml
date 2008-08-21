@@ -193,6 +193,17 @@
               </para>
             </listitem>
             <listitem>
+              <para><parameter>force_map_refresh</parameter> : This will force the map to be 
+              redrawn by Mapserver, effectively removing all cache.
+              <programlisting><![CDATA[
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?force_map_refresh
+              ]]></programlisting>
+              </para>
+              <warning>
+                <para>This may impact performances and load. It's adviced to only use it for development purpose.</para>
+              </warning>
+            </listitem>
+            <listitem>
               <para><parameter>mode</parameter> : This will define the kind of output of &cartoweb;. By default it will be html. Another possible output is <parameter>image</parameter>. In this case, &cartoweb; will only output an image.
               <programlisting><![CDATA[
     http://www.yoursite.org/cartoweb3/htdocs/client.php?mode=image

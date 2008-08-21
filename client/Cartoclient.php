@@ -349,6 +349,11 @@ class Cartoclient extends Cartocommon {
     private $ajaxAction = null;
 
     /**
+     * @var bool forceMapRefresh
+     */
+    private $forceMapRefresh;
+
+    /**
      * HTTP parameter name for AJAX actions
      */
     const AJAXACTION_PARAM_NAME = 'ajaxActionRequest';
@@ -385,6 +390,14 @@ class Cartoclient extends Cartocommon {
         try {
             Accounting::getInstance()->reset();
             
+            // reset current project cookie value
+            if (array_key_exists('reset_session', $_REQUEST)) {
+                $current_project_cookie_name = $this->projectHandler->
+                                                      getCurrentProjectCookieName();
+                if (isset($_COOKIE[$current_project_cookie_name]))
+                    $_COOKIE[$current_project_cookie_name] = '';
+            }
+
             if (array_key_exists('reset_session', $_POST)) {
                 // POST reset is made consistent with GET behavior.
                 $_REQUEST = array('reset_session' => '') + $_COOKIE;
@@ -398,7 +411,7 @@ class Cartoclient extends Cartocommon {
             } else {
                 $this->outputType = self::OUTPUT_HTML_VIEWER;
             }
-            
+
             $this->initializePlugins();
 
             if (!isset($GLOBALS['headless']))
@@ -412,7 +425,7 @@ class Cartoclient extends Cartocommon {
 
             $this->callPluginsImplementing('InitUser', 'handleInit',
                                        $this->getMapInfo());
-            
+
             $this->initializeSession();
             
             // Plugin initialization is called before the main() call, 
@@ -659,6 +672,25 @@ class Cartoclient extends Cartocommon {
      */
     public function setPreventSaveSession($preventSaveSession) {
         $this->preventSaveSession = $preventSaveSession;
+    }
+
+     /**
+     * Set map cache bypass local var, can be called by plugins
+     */
+    public function setForceMapRefresh() {
+        $this->forceMapRefresh = true;
+    }
+
+    /**
+     * Activate map cache bypass
+     * @param object $mapRequest
+     * @return object $mapRequest
+     */
+    private function setCacheOverride($mapRequest) {
+        if ($this->forceMapRefresh) {
+            $mapRequest->forceMapRefresh = true;
+        }
+        return $mapRequest;
     }
 
     /**
@@ -1022,6 +1054,12 @@ class Cartoclient extends Cartocommon {
                                                         $this->cartoForm);
 
                 $request = new FilterRequestModifier($_REQUEST);
+
+                // if ajax, request has been encoded to UTF8 automaticaly. need to decode
+                if ($this->isAjaxMode()) {
+                    $request->ajaxTranscodeFix();
+                }
+
                 $this->callEnabledPluginsImplementing(
                                              ClientPlugin::ENABLE_LEVEL_PROCESS,
                                              'FilterProvider',
@@ -1076,6 +1114,14 @@ class Cartoclient extends Cartocommon {
                                           ClientPlugin::ENABLE_LEVEL_SERVERCALL,
                                           'ServerCaller', 'overrideRequest',
                                           $mapRequest);
+
+        if (array_key_exists('force_map_refresh', $_REQUEST)) {
+            // force map refresh
+            $this->log->debug('force map refresh triggered by user');
+            $this->setForceMapRefresh();
+        }
+        // set cache override if needed
+        $mapRequest = $this->setCacheOverride($mapRequest);
 
         // Saves mapRequest for future use
         $this->clientSession->lastMapRequest = 

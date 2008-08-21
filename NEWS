@@ -2,7 +2,7 @@ CartoWeb HEAD
 =============
 - Added new "currentuser" pdf block to output current user login name.
 - Added new "timeoutBeforeHide" parameter for toolTips timeout value.
-- No more forced "folder" id by plugin! now use 'folderId' parameter in .ini (doc 4.4.3).
+- No more forced "folder" id by plugin! now use 'folderId' parameter in .ini (doc 4.4.3)(bug 1814).
 - Added parameters for general encoding of data sources and specific encoding by layers (EncoderClass.data, data_encoding) (doc 16.3).
 - Added input definition parameter in edit plugin metadata definition and support for input type "hidden" and "textarea" (edit_rendering) (doc 14.2.1).
 - Fixed: toolTips now respect min/max scale of related layers.
@@ -26,7 +26,12 @@ CartoWeb HEAD
 - Fixed: PDFrotate: stability issues
 - Added: AJAX: general access points (onBeforeAjaxCallGeneral & onAfterAjaxCallGeneral) made available to all plugins
 - Added: Layers switch: possibility to define any switch as the default switch
-- Fixed a compatibility issue with eAccelerator
+- Upgraded Prototype to 1.6.0 (bug 1763)
+- Added: "force_map_refresh" parameter and related mecanism to bypass map request cache (bug 1850)
+- Fixed: compatibility issue with eAccelerator (bug 1804)
+- Fixed: proper encoding/decoding if encoding in browser different from UTF8 (bug 1534)
+- Fixed: project id correctly recovered if/when accessing a project via client.php (bug 1748)
+- Fixed: displayed coordinates when using PDF rotate mode (bug 1282)
 
 2007-07-26: CartoWeb 3.4.0
 ===================

@@ -159,6 +159,26 @@ class MapResultCache {
     }
 
     /**
+     * Remove all cache files
+     * @param MapRequest
+     */
+    private function clearCache($mapRequest) {
+
+        $path = $this->cartoserver->getServerContext($mapRequest->mapId)->
+                      getConfig()->writablePath . 'mapresult_cache/';
+        
+        $dh = opendir($path);
+        while ($filename = readdir($dh)) {
+            $file = $path . '/' . $filename;
+            $emptyCondition = strpos($filename, 'mapResult.') !== false ? true : false;
+            if (!is_dir($file) && $emptyCondition) {
+                unlink($file);
+            }
+        }
+        closedir($dh);
+    }
+
+    /**
      * Retrieved map result.
      *
      * If cache is OFF: computes map result.
@@ -176,6 +196,11 @@ class MapResultCache {
         if ($this->skipCache($mapRequest)) {
             $this->log->debug('not caching mapResult, calling server');
             return $this->getMapResultFromServer($mapRequest);
+        }
+
+        if ($mapRequest->forceMapRefresh) {
+            $this->log->debug('Removing cache files');
+            $this->clearCache($mapRequest);
         }
 
         if (!file_exists($mapResultFile)) {

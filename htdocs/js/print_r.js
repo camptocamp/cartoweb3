@@ -78,7 +78,7 @@ function _print_r(input, show_function, show_number, _max_level)
                       }
                     break;
                   }
-                  if (doit) {
+                  if (doit == true) {
                     if (print_r_recurs_level < print_r_max_level){
                       output += indent + "[" + i + "] => " + _print_r(input[i], show_function, show_number);
                       print_r_recurs_level--;

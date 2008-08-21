@@ -47,11 +47,17 @@ class MapRequest extends CwSerializable {
      */
     public $layersRequest;
 
+     /**
+     * @var forceMapRefresh
+     */
+    public $forceMapRefresh;
+
     /**
      * Sets object properties from $struct data.
      */
     public function unserialize($struct) {
         $this->mapId = CwSerializable::unserializeValue($struct, 'mapId');
+        $this->forceMapRefresh = CwSerializable::unserializeValue($struct, 'forceMapRefresh', 'boolean');
             
         foreach (get_object_vars($struct) as $attr => $value) {
             if (substr($attr, -7) == 'Request') {

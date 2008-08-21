@@ -59,6 +59,11 @@ class ClientProjectHandler extends ProjectHandler {
     const CURRENT_PROJECT_FILE = 'current_project.txt';
     
     /**
+     * Current project cookie name
+     */
+    const CURRENT_PROJECT_COOKIE_NAME = 'CW3_current_project_cookie';
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -79,7 +84,7 @@ class ClientProjectHandler extends ProjectHandler {
     public function getProjectName() {
         if (!isset($this->projectName)) {
             $projectFileName = CARTOWEB_HOME . self::CURRENT_PROJECT_FILE;
-           
+                       
             if (array_key_exists(self::PROJECT_REQUEST, $_REQUEST))
                 $this->projectName = $_REQUEST[self::PROJECT_REQUEST];
     
@@ -94,15 +99,30 @@ class ClientProjectHandler extends ProjectHandler {
     
             elseif (is_readable($projectFileName))
                 $this->projectName = rtrim(file_get_contents($projectFileName));
-    
+
+            elseif (isset($_COOKIE[self::CURRENT_PROJECT_COOKIE_NAME]) && 
+                    !empty($_COOKIE[self::CURRENT_PROJECT_COOKIE_NAME])) {
+                $this->projectName = $_COOKIE[self::CURRENT_PROJECT_COOKIE_NAME];
+            }
             else
                 $this->projectName = ProjectHandler::DEFAULT_PROJECT;
 
+            // storing project id into cookie, expire at the end of session
+            setcookie(self::CURRENT_PROJECT_COOKIE_NAME, $this->projectName, 0);
+
             $this->log->debug('current project is ' . $this->projectName);
         }
+        
         return $this->projectName;
     }
 
+    /**
+     * accessor for CURRENT_PROJECT_COOKIE_NAME
+     * @return string CURRENT_PROJECT_COOKIE_NAME
+     */
+    public function getCurrentProjectCookieName() {
+        return self::CURRENT_PROJECT_COOKIE_NAME;
+    }
 }
 
 ?>

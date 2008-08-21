@@ -156,7 +156,8 @@ Map.prototype.updateFeaturesCount = function() {
   this.deletedNum = 0;
   for (var j = 0;j < this.layers.length; j++) {
     for (var i = 0;i < this.layers[j].features.length; i++) {
-      if (this.layers[j].features[i].getObjectClass() == 'Raster') continue;
+      var objectClass = getObjectClass(this.layers[j].features[i]);
+      if (objectClass == 'Raster') continue;
       this.featuresNum++;
       var feature = this.layers[j].features[i];
       switch (feature.operation) {
@@ -1655,7 +1656,9 @@ Display.prototype.drawFeature = function(obj, feature, status, allowClipping) {
   if (typeof allowClipping == "undefined")
     allowClipping = true;
 
-  switch (feature.getObjectClass()) {
+  var objectClass = getObjectClass(feature);
+
+  switch (objectClass) {
     case "Raster":
       // add a div for the raster image
       var dr = this.addDiv(obj, 0, 0, null, null);
@@ -2059,7 +2062,8 @@ function display_onkeydown(evt) {
  * @param aPolygon
  */
 function isClosedPolygon(aPolygon) {
-  return (aPolygon.getObjectClass() == 'Feature' &&
+  var objectClass = getObjectClass(aPolygon);
+  return (objectClass == 'Feature' &&
       aPolygon.type == 'polygon' &&
       aPolygon.vertices[0].x == aPolygon.vertices[aPolygon.vertices.length - 1].x &&
       aPolygon.vertices[0].y == aPolygon.vertices[aPolygon.vertices.length - 1].y)
@@ -2117,14 +2121,15 @@ if(typeof Array.prototype.push == 'undefined')
  * Returns the class of the argument or undefined if it's not a valid JavaScript
  * object.
  */
-Object.prototype.getObjectClass = function() {
-  if (this && this.constructor && this.constructor.toString) {
-    var arr = this.constructor.toString().match(/function\s*(\w+)/);
+function getObjectClass(obj) {
+  if (obj && obj.constructor && obj.constructor.toString) {
+    var arr = obj.constructor.toString().match(/function\s*(\w+)/);
     return arr && arr.length == 2 ? arr[1] : undefined;
   } else {
     return undefined;
   }
 };
+
 
 /**
  * converts pixel coordinates to geo

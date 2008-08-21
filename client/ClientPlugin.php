@@ -312,6 +312,18 @@ class FilterRequestModifier {
             return null; 
         }
     }
+
+    /**
+     * Ajax response are always forcefuly encoded in UTF-8, we need to do a decode to 
+     * find the "normal" encoding as expected in non-ajax mode.
+     */
+    public function ajaxTranscodeFix() {
+        $newRequest = array();
+        foreach ($this->request as $key => $value) {
+            $newRequest[$key] = Encoder::decode($value, 'output');
+        }
+        $this->request = $newRequest;
+    }
 }
 
 /** 

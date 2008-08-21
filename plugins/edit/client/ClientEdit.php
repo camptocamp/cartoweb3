@@ -438,7 +438,20 @@ class ClientEdit extends ClientPlugin
                 $editRequest->features = $this->editState->features;
             if (isset($this->editValidateAll))
                 $editRequest->validateAll = $this->editValidateAll;
-                
+
+            // disable map cache (only for insert/update/delete)
+            foreach ($this->editState->features as $feature) {
+                if (isset($feature->operation)){
+                    switch ($feature->operation) {
+                        case 'insert' :
+                        case 'update' :
+                        case 'delete' :
+                            $this->cartoclient->setForceMapRefresh();
+                        break;
+                    }
+                }
+            }
+
             return $editRequest;
         }
     }
