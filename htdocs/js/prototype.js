@@ -2741,7 +2741,7 @@ var Selector = Class.create({
         p = ps[i];
         if (m = e.match(p)) {
           this.matcher.push(Object.isFunction(c[i]) ? c[i](m) :
-    	      new Template(c[i]).evaluate(m));
+            new Template(c[i]).evaluate(m));
           e = e.replace(m[0], '');
           break;
         }
@@ -3074,7 +3074,7 @@ Object.extend(Selector, {
 
     nextElementSibling: function(node) {
       while (node = node.nextSibling)
-	      if (node.nodeType == 1) return node;
+        if (node.nodeType == 1) return node;
       return null;
     },
 
