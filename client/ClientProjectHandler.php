@@ -108,7 +108,8 @@ class ClientProjectHandler extends ProjectHandler {
                 $this->projectName = ProjectHandler::DEFAULT_PROJECT;
 
             // storing project id into cookie, expire at the end of session
-            setcookie(self::CURRENT_PROJECT_COOKIE_NAME, $this->projectName, 0);
+            if (!isset($GLOBALS['headless'])) // prevent problem with unittests
+                setcookie(self::CURRENT_PROJECT_COOKIE_NAME, $this->projectName, 0);
 
             $this->log->debug('current project is ' . $this->projectName);
         }
