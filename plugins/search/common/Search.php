@@ -111,10 +111,21 @@ abstract class ResultProvider {
     public $aliases;
     
     /**
+     * @var string layer to recenter on
+     */
+    public $recenter;
+    
+    /**
+     * @var string layer to hilight
+     */
+    public $hilight;
+    
+    /**
      * @param PluginBase plugin
      */
     public function __construct(PluginBase $plugin) {
         $this->plugin = $plugin;
+        $this->recenter = NULL;
     }
     
     /**
@@ -361,9 +372,12 @@ class DbResultProvider extends ResultProvider {
         while ($dbResult->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $newRow = new TableRow();
             $newRow->rowId = $row[$this->getColumnName($this->id)];
-            foreach ($this->columns as $column) {
-                $newRow->cells[] = Encoder::encode($row[$this->getColumnName($column)],
-                                                   $this->encodingContext);
+            $newRow->cells = array();
+            if (!empty($this->columns)) {
+                foreach ($this->columns as $column) {
+                    $newRow->cells[] = Encoder::encode($row[$this->getColumnName($column)],
+                                                       $this->encodingContext);
+                }
             }
             $table->rows[] = $newRow;
             $table->numRows++;  
@@ -414,8 +428,11 @@ class TableResultProvider extends DbResultProvider {
     }
     
     protected function getSql(SearchRequest $request) {
-        
-        $columns = array_diff($this->columns, array($this->id));
+       
+        $columns = array();
+        if (!empty($this->columns)) {
+            $columns = array_diff($this->columns, array($this->id));
+        } 
         $columns = array_merge(array($this->id), $columns);
         $columns = implode(', ', $columns);
         $sql = 'SELECT DISTINCT ' . $columns . ' FROM ' . $this->table;

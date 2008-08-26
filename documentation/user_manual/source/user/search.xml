@@ -609,6 +609,17 @@
                 <para>You have to implements the getResult fonction. It should return a Table() instance.</para>
                
             </sect3>
+            <sect3 id="user.search.basic.recenter_hilight">
+                <title>Recenter and Hilight</title>
+                <para>In previous samples, recentering is done afterwards, by clicking on on result. If you want to recenter and hilight
+                on search results directly during the search, you can add those two lines in <filename>search.ini</filename>: </para>
+            <programlisting>
+    config.my_config.provider.recenter = recenter_layer
+    config.my_config.provider.hilight = hilight_layer                               
+            </programlisting>
+                <para>The two layers must exist in the mapfile. They will be used in ordre to recenter on and hilight search results.</para>
+                <para>This option is only available for client-side search configurations.</para>
+            </sect3>
             <sect3 id="user.Search.advance.Writing_a_fromatter">
                 <title>Writing a Formatter</title>
                 <warning> <para>Documentation below is still in draft state</para></warning>

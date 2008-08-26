@@ -892,3 +892,18 @@ msgstr "Rotation libre"
 
 msgid "set"
 msgstr "Go"
+
+msgid "Country"
+msgstr "Pays "
+
+msgid "Airport"
+msgstr "Aéroport "
+
+msgid "Area"
+msgstr "Aire "
+
+msgid "Recenter and Hilight"
+msgstr "Recentrer et colorier"
+
+msgid "Clear Hilight"
+msgstr "Effacer coloriage"

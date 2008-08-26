@@ -128,7 +128,8 @@ class SearchConfig {
 class ClientSearch extends ClientPlugin
                    implements GuiProvider,
                               ServerCaller,
-                              Ajaxable {
+                              Ajaxable,
+                              FilterProvider {
     
     /**
      * @var SearchConfig[] Search configurations
@@ -175,12 +176,11 @@ class ClientSearch extends ClientPlugin
                     ResultProvider::getProviderFromConfig($config->provider,
                                                           $defaultValues, $this);
                 
-                if (!isset($config->formatter)) {
-                    throw new CartoclientException("Search config $name has no formatter");
+                if (isset($config->formatter)) {
+                    $newConfig->formatter =
+                        ResponseFormatter::getFormatterFromConfig($config->formatter,
+                                                                  $defaultValues, $this);
                 }
-                $newConfig->formatter =
-                    ResponseFormatter::getFormatterFromConfig($config->formatter,
-                                                              $defaultValues, $this);
                 
                 $this->configs[$name] = $newConfig;                
             }
@@ -211,20 +211,53 @@ class ClientSearch extends ClientPlugin
     }
     
     /**
-     * @see GuiProvider::handleHttpPostRequest()
+     * @see GuiProvider::filterPostRequest()
      */
-    public function handleHttpPostRequest($request) {
-        
-        $action = $this->getHttpValue($request, 'ajaxActionRequest');
+    public function filterPostRequest(FilterRequestModifier $request) {
+
+        $action = $request->getValue('ajaxActionRequest');
         if ($action == 'Search.DoIt') {
-            $this->searchRequest = $this->buildSearchRequest($request);
+            $this->searchRequest = $this->buildSearchRequest($request->getRequest());
+            if (is_null($this->searchRequest)) {
+                return;
+            }
 
             if (!isset($this->searchRequest->config) ||
                 !array_key_exists($this->searchRequest->config, $this->configs)) {
-                throw new CartoclientException("Empty config or config not found");
+                throw new CartoclientException("Empty config or config not found '" .
+                        $this->searchRequest->config . "'");
+            }
+            $config = $this->configs[$this->searchRequest->config];
+            if (!$config->isServer()) {
+                $this->searchResult = $config->provider->getResult($this->searchRequest);
+
+                $ids = implode(',', $this->searchResult->table->getIds());
+                $recenter = $this->configs[$this->searchRequest->config]->provider->recenter;
+                if (!empty($recenter)) {
+                    $request->setValue('id_recenter_ids', $ids);
+                    $request->setValue('id_recenter_layer', $recenter);
+                }
+                $hilight = $this->configs[$this->searchRequest->config]->provider->hilight;
+                if (!empty($hilight)) {
+                    $request->setValue('query_select', $ids);
+                    $request->setValue('query_layer', $hilight);
+                    $request->setValue('query_hilight', true);
+                    $request->setValue('query_return_attributes', true);
+                }
             }
         }
     }
+
+    /**
+     * @see GuiProvider::filterGetRequest()
+     */
+    public function filterGetRequest(FilterRequestModifier $request) {}
+    
+    
+    /**
+     * @see GuiProvider::handleHttpPostRequest()
+     */
+    public function handleHttpPostRequest($request) { }
 
     /**
      * @see GuiProvider::handleHttpGetRequest()
@@ -265,11 +298,9 @@ class ClientSearch extends ClientPlugin
             return NULL;
         }
         $config = $this->configs[$this->searchRequest->config];
-        if (!$config->isServer()) {
-            $this->searchResult = $config->provider->getResult($this->searchRequest);
-            return;
+        if ($config->isServer()) {        
+            $this->searchResult = $result;
         }
-        $this->searchResult = $result;
     }
 
     /**
@@ -295,8 +326,10 @@ class ClientSearch extends ClientPlugin
             }
         }
         
-        $text = $config->formatter->getResponse($this->searchResult);                
-        $ajaxPluginResponse->addHtmlCode($this->searchRequest->config, $text);
+        if (!empty($config->formatter)) {
+            $text = $config->formatter->getResponse($this->searchResult);                
+            $ajaxPluginResponse->addHtmlCode($this->searchRequest->config, $text);
+        }
     }
 
     /**
@@ -305,7 +338,22 @@ class ClientSearch extends ClientPlugin
     public function ajaxHandleAction($actionName, PluginEnabler $pluginEnabler) {
 
         if ($actionName == 'Search.DoIt') {
+                        
             $pluginEnabler->disableCoreplugins();
+            if (isset($_POST['search_config'])) {
+                $config = $this->configs[$_POST['search_config']];   
+
+                if (!empty($config->provider->recenter) || !empty($config->provider->hilight)) {
+                    $pluginEnabler->enablePlugin('images');
+                }
+                if (!empty($config->provider->recenter)) {
+                    $pluginEnabler->enablePlugin('location');
+                }   
+                if (!empty($config->provider->hilight)) {
+                    $pluginEnabler->enablePlugin('query');
+                    $pluginEnabler->enablePlugin('tables');
+                }   
+            }
             $pluginEnabler->enablePlugin('search');
         }
     }

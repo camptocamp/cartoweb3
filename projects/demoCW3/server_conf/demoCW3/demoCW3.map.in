@@ -1,6 +1,7 @@
 MAP
   NAME "demoPlugins"
-  EXTENT 142776 4757216 1083857 5409261
+  #EXTENT 142776 4757216 1083857 5409261
+  EXTENT -2000000 2000000 4000000 8000000
   IMAGETYPE PNG
   IMAGECOLOR 255 255 255
   STATUS ON
@@ -99,6 +100,23 @@ MAP
       "recenter_name_string" "NAM"
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "NAM" 
+    END
+    CLASS
+      STYLE
+        COLOR 80 160 74
+        OUTLINECOLOR 86 86 74
+      END
+    END
+  END
+
+  LAYER
+    NAME "district_recenter"
+    TYPE POLYGON
+    DATA "polbnda"
+    TEMPLATE "ttt"
+    METADATA
+      "id_attribute_string" "NAM|string"
+      "query_returned_attributes" "ID" 
     END
     CLASS
       STYLE

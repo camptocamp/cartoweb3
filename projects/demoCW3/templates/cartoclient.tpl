@@ -449,7 +449,7 @@
     {t}Using the query tool, you can geographically search for objects. Found objects are hilighted and their attributes are displayed.{/t}<br />
     {t}The queries are persistent (i.e. you can add new objects to already selected objects).
     Note : {/t}<i>{t}only the layers which are specified questionnable by the administrator of the website are concerned by the query.{/t}</i><br /><br />
-    {t}This tab allows you to parametrize your search. For each layers, which can be interrogated, the following options can be set :{/t}<br />
+    <!-- {t}This tab allows you to parametrize your search. For each layers, which can be interrogated, the following options can be set :{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Hilight{/t}</span>{t} : allows to activate/desactivate features hilight;{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Attributes{/t}</span>{t} : if it's checked, the layers attributes can be requested. Instead, only object IDs will be returned;{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Table{/t}</span>{t} : allows to display the query result;{/t}<br />
@@ -458,7 +458,7 @@
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Intersection{/t}</span>{t} : when selecting a group of objects, only already selected are kept selected;{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}InQuery{/t}</span>{t} : if it's checked, you force query to use this layer;{/t}<br />
     <img src="{r type=gfx/layout/help}endturn.gif{/r}" alt="{t}pet{/t}" /><span class="s">{t}Mask{/t}</span>{t} : if it's checked, you apply a mask instead of a simple selection. This don't work when using highlight mecanism;{/t}<br />
-    <br /><i>{t}If "Query all selected layers" option is checked, the query will handle all the questionnable layers{/t}</i>
+    <br /><i>{t}If "Query all selected layers" option is checked, the query will handle all the questionnable layers{/t}</i> -->
     </p><br />
     
     <table  class="table_help" cellpadding="0" cellspacing="0">

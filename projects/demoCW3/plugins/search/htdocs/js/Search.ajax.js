@@ -7,6 +7,10 @@ AjaxPlugins.Search = {
 
         if (pluginOutput.htmlCode.airports)
             $('search_results_div').innerHTML = pluginOutput.htmlCode.airports;
+            
+        if (pluginOutput.htmlCode.country_districts)
+            $('search_country_district_div').innerHTML = pluginOutput.htmlCode.country_districts;
+            
     }  
 };
 
@@ -26,9 +30,15 @@ AjaxPlugins.Search.Actions.DoIt = {
 
 function search(config) {
     
+    $('query_clear').value = 0;
     $('search_config').value = config;
     if (config == 'airports') {
         $('search_number').value = 10;
+    }
+    if (config == 'districts') {
+        area = $('search_area').value.split('-');
+        $('search_area_min').value = area[0];
+        $('search_area_max').value = area[1];
     }
     
     CartoWeb.trigger('Search.DoIt');
@@ -37,6 +47,7 @@ function search(config) {
 function initializeCountry() {
 
     search('countries');
+    search('country_districts');
 }
 
 Event.observe(window, 'load', initializeCountry, true);

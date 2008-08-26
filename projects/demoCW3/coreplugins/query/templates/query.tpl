@@ -10,10 +10,12 @@
 </a>
 </p>
 
+<!--
 <p style="text-align:left;">
 <input type="checkbox" value="1" name="query_alllayers"
 {if $query_alllayers} checked="checked"{/if}/>&nbsp;{t}Query all selected layers{/t}        
 </p>
+-->
 
 {if $query_display_selection|default:''}
 {foreach from=$query_selections item=selection key=index}
