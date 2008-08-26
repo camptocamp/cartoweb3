@@ -65,7 +65,7 @@
                                 return false;" />
   <input type="submit" value="{t}Clear Hilight{/t}" class="form_button"
            onclick="javascript: $('query_clear').value = 1;
-           						CartoWeb.trigger('Query.Clear');
+           CartoWeb.trigger('Query.Clear');
                                 return false;" />
 <input type="hidden" id="query_clear" name="query_clear" />
 </p>
