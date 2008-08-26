@@ -1100,6 +1100,8 @@ class Cartoclient extends Cartocommon {
         // If the flow has to be interrupted (no cartoserver call), 
         //  then this method stops here
         if ($this->isInterruptFlow()) {
+            $this->mapResult = new MapResult();
+            $this->mapResult->serverMessages = array();
             $output = $this->formRenderer->render();
             $this->saveSession();
             return $output;
