@@ -1,6 +1,98 @@
-diff -U 8 -dpr include/pear/PHPUnit/Util/TestDox/ResultPrinter.php include/pear/PHPUnit/Util/TestDox/ResultPrinter_cw3.php
---- include/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-07-22 17:11:08.000000000 +0200
-+++ include/pear/PHPUnit/Util/TestDox/ResultPrinter_cw3.php	2008-07-22 17:16:24.000000000 +0200
+diff -dup8r include_orig/artichow/Artichow.cfg.php include/artichow/Artichow.cfg.php
+--- include_orig/artichow/Artichow.cfg.php	2008-08-28 12:37:16.000000000 +0000
++++ include/artichow/Artichow.cfg.php	2008-08-28 12:43:10.000000000 +0000
+@@ -55,17 +55,17 @@ if(!defined('ARTICHOW_CACHE_DIRECTORY'))
+ 	define('ARTICHOW_CACHE_DIRECTORY', ARTICHOW.DIRECTORY_SEPARATOR.'cache');
+ 	
+ 	}
+ 
+ /*
+  * Prefix for class names
+  * No prefix by default
+  */
+-define('ARTICHOW_PREFIX', '');
++define('ARTICHOW_PREFIX', 'aw');
+ 
+ /*
+  * Trigger errors when use of a deprecated feature
+  */
+ define('ARTICHOW_DEPRECATED', TRUE);
+ 
+ /*
+  * Defines the default driver
+@@ -77,9 +77,14 @@ define('ARTICHOW_DRIVER', 'gd');
+  */
+ $fonts = array(
+ 	'Tuffy',
+ 	'TuffyBold',
+ 	'TuffyBoldItalic',
+ 	'TuffyItalic'
+ );
+ 
+-?>
+\ No newline at end of file
++/*
++ * Allows to use Artichow without image aliasing
++ */ 
++function imageantialias() {}
++
++?>
+diff -dup8r include_orig/artichow/common.php include/artichow/common.php
+--- include_orig/artichow/common.php	2008-08-28 12:37:16.000000000 +0000
++++ include/artichow/common.php	2008-08-28 12:42:11.000000000 +0000
+@@ -83,14 +83,14 @@ if(function_exists('file_put_contents') 
+ 		}
+ 	}
+ 	
+ }
+ 
+ /*
+  * Change error handler
+  */
+-set_error_handler('errorHandlerArtichow');
++//set_error_handler('errorHandlerArtichow');
+ 
+ function errorHandlerArtichow($level, $message, $file, $line) {
+ 	awImage::drawError($message.' in '.$file.' on line '.$line.'.');
+ }
+ ?>
+diff -dup8r include_orig/artichow/inc/drivers/gd.class.php include/artichow/inc/drivers/gd.class.php
+--- include_orig/artichow/inc/drivers/gd.class.php	2008-08-28 12:37:16.000000000 +0000
++++ include/artichow/inc/drivers/gd.class.php	2008-08-28 12:41:33.000000000 +0000
+@@ -10,17 +10,17 @@
+ require_once dirname(__FILE__)."/../Driver.class.php";
+ 
+ /**
+  * Draw your objects
+  *
+  * @package Artichow
+  */
+ 
+-class awGDDriver extends Driver {
++class awGDDriver extends awDriver {
+ 	
+ 	/**
+ 	 * A GD resource
+ 	 *
+ 	 * @var $resource
+ 	 */
+ 	public $resource;
+ 	
+@@ -1328,9 +1328,9 @@ registerClass('GDGradientDriver');
+ 
+ /*
+  * Check for GD2
+  */
+ if(function_exists('imagecreatetruecolor') === FALSE) {
+ 	awImage::drawErrorFile('missing-gd2');
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+diff -dup8r include_orig/pear/PHPUnit/Util/TestDox/ResultPrinter.php include/pear/PHPUnit/Util/TestDox/ResultPrinter.php
+--- include_orig/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-08-28 12:39:18.000000000 +0000
++++ include/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-07-23 13:53:24.000000000 +0000
 @@ -266,17 +266,17 @@ abstract class PHPUnit_Util_TestDox_Resu
      }
  
