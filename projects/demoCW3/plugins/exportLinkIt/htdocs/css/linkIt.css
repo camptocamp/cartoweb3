@@ -1,0 +1,20 @@
+#linkItBox {
+  position: absolute;
+  top: 140px;
+  left: 350px;
+  z-index: 1000;
+  margin:0;
+  background-color: white;
+  width: 500px;
+  border: 1px solid black;
+  padding:5px;
+}
+#linkItInnerBox {
+  margin: 10px;
+  padding: 4px;
+  background-color: white;
+}
+#linkItUrl {
+  width: 99%;
+  background-color: white;
+}

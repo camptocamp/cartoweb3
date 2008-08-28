@@ -9,6 +9,7 @@
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
+  {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}
 
   <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
   
@@ -539,5 +540,7 @@
 </td></tr>
 <tr><td></td></tr>
 </table>
+
+{if $linkIt|default:''}{$linkIt}{/if}
 </body>
 </html>

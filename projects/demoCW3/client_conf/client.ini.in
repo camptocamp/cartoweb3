@@ -12,7 +12,7 @@ showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall, bboxHistory, search
+loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall, bboxHistory, search, exportLinkIt
 
 ;## Internationalization ##
 defaultLang = fr
