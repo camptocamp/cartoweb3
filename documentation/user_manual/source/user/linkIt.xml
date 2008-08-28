@@ -24,16 +24,20 @@
       <para>
         Ajax is used to generate and display the resulting URL, using the Prototype Javascript Framework. If your &cartoweb; does not run in the <parameter>ajaxOn</parameter> mode, you need to add the Prototype file in the main template <filename>templates/cartoclient.tpl</filename>. To do so add the following HTML code within the &lt;head&gt; tag: <programlisting><![CDATA[{if $linkIt|default:'' && !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}]]></programlisting>
       </para>
-      <para>If Ajax mode is on, add the following code at the end of the "ajax = on" section of <filename>templates/cartoclient_ajaxHeader.tpl</filename> if it is customized in your project:
+      <para>If Ajax mode is on, add the following code at the end of the "ajax = on" section of <filename>templates/cartoclient_ajaxHeader.tpl</filename> if it is customized in your project. If you use the regular <filename>templates/cartoclient_ajaxHeader.tpl</filename>, the JS script is already included.
       <programlisting><![CDATA[{if $linkIt|default:''}<script type="text/javascript" src="{r type=js plugin=exportLinkIt}linkit.js{/r}"></script>{/if}]]></programlisting>
       </para>
       <para>Also add the CSS file inclusion in <filename>templates/cartoclient.tpl</filename>:
       <programlisting><![CDATA[{if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}]]></programlisting>
       </para>
-      <para>
-        <warning><para>Your toolbar.tpl MUST contains the '{if !$tool->oneshot}...{/if}' condition on the tool activation action!!!</para>
-        <para>This is especialy important if you overrided that template in your project. Please compare with the latest cvs version of the toolbar.tpl file to be sure you have the correct conditional code.</para></warning>
+      <warning>
+        <para>Your toolbar.tpl MUST contains the '{if !$tool->oneshot}...{/if}' condition on the tool activation action!!!</para>
+        <para>This is especialy important if you overrided that template in your project. Please compare with the latest cvs version of the toolbar.tpl file to be sure you have the correct conditional code.</para>
+      </warning>
+      <para>Finally right before the <parameter>&lt;/body&gt;</parameter> closing tag of your <filename>templates/cartoclient.tpl</filename> add
+      <programlisting><![CDATA[{if $linkIt|default:''}{$linkIt}{/if}]]></programlisting>
       </para>
+
   </sect1>
   <sect1 id="user.linkIt.config">
     <title>Plugin Configuration</title>
