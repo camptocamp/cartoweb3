@@ -365,7 +365,7 @@ filters.pdfRes = 290-350]]></programlisting>
       </itemizedlist>
       </sect2>
       <sect2 id="user.stats.java.purgereports">
-      <title>Puring the data</title>
+      <title>Purging the Data</title>
       <para>
       Raw report data is purged using the following command
       (remove end-of-line backslashes on Windows):
