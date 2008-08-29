@@ -340,7 +340,7 @@ public class Report {
     }
 
     public void dropStructure(Connection con, String tableName) throws SQLException {
-        Utils.dropReportTables(con, tableName, name);
+        Utils.dropReportTables(con, tableName, name);        
     }
 
     public String getName() {

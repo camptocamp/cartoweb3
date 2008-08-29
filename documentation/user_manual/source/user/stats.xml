@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
   "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
   <!ENTITY % cartoweb SYSTEM "../cartoweb.ent" >
   %cartoweb;
@@ -12,14 +12,14 @@
   <sect1 id="user.stats.java">
     <title>Import and Reports</title>
       <para>Statistics are generated out of &cartoweb;'s Accounting plugin output or out of Apache
-      logs (for WMS statistics). A Java application proccesses the logs and stores raw data in a 
+      logs (for WMS statistics). A Java application proccesses the logs and stores raw data in a
       PostGreSQL database.
       </para>
       <sect2 id="user.stats.java.build">
       <title>How To Build?</title>
       <para>
       Source of Java application are located in <filename>scripts/stats</filename>. To build this
-      project, you need: </para>      
+      project, you need: </para>
       <itemizedlist>
         <listitem>
         <para>Maven 2 (http://maven.apache.org)</para>
@@ -30,7 +30,7 @@
         <listitem>
         <para>A PostgreSQL database</para>
         </listitem>
-      </itemizedlist> 
+      </itemizedlist>
       <para>The other external librairies are taken care of by Maven.</para>
       <para>Now you must set <parameter>STATS_DB</parameter>
       environment variable. On Linux it will look like:</para>
@@ -43,7 +43,7 @@
       <sect2 id="user.stats.java.runimport">
       <title>Running Import</title>
       <para>
-      &cartoweb; logs are imported using the following command (remove end-of-line backslashes on Windows): 
+      &cartoweb; logs are imported using the following command (remove end-of-line backslashes on Windows):
       </para>
         <programlisting>
 <![CDATA[java -Xmx1G \
@@ -73,26 +73,32 @@
         <para><parameter>--db</parameter> - connection string</para>
         </listitem>
         <listitem>
-        <para><parameter>--logDir</parameter> - logs directory. Directory will be 
+        <para><parameter>--logDir</parameter> - logs directory. Directory will be
         recursively processed</para>
         </listitem>
         <listitem>
-        <para><parameter>--format</parameter> - format. Currently values are 
+        <para><parameter>--format</parameter> - format. Currently values are
         <parameter>cartoweb</parameter> or <parameter>wms</parameter></para>
         </listitem>
         <listitem>
-        <para><parameter>--logRegExp</parameter>- regular expression to limit processed 
+        <para><parameter>--logRegExp</parameter>- regular expression to limit processed
         file logs to those matching the expression</para>
         </listitem>
-      </itemizedlist> 
-      <para>WMS imports use one more mandatory option:</para>
+      </itemizedlist>
+      <para>For WMS imports, you need to speficy one of those two options:</para>
       <itemizedlist>
         <listitem>
         <para><parameter>--mapIdRegExp</parameter> - regular expression that finds
         the project name in WMS query. This allows to have several WMS application on one
-        server with the same Apache logs. Example for a WMS import:</para>
+        server with the same Apache logs.</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--mapIdConfig</parameter> - filename for a .ini file that contains a
+        <parameter>[mapIDs]</parameter> section that defines what map ID to set in function of
+        partial string matched against the WMS log entry.</para>
         </listitem>
       </itemizedlist>
+      <para>Example for a WMS import with a regular expression:</para>
         <programlisting>
 <![CDATA[java -Xmx1G \
      -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
@@ -100,6 +106,21 @@
      --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD" \
      --logDir=/my/log/apachedir/ --format=wms \
      --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$" --mapIdRegExp="GET /wms-([^\/]*)\//"]]></programlisting>
+      <para>Example for a WMS import with a configuration file:</para>
+        <programlisting>
+<![CDATA[java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats_wms \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD" \
+     --logDir=/my/log/apachedir/ --format=wms \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$" --mapIdConfig="mapIDs.ini"]]></programlisting>
+      <para>Content of the <parameter>mapIDs.ini</parameter> file:</para>
+        <programlisting>
+<![CDATA[[mapIDs]
+GET /ogc-sitn/wms = main
+GET /ogc-sitn-annuaire/wms = annuaire
+GET /ogc-sitn-v1/wms = v1
+GET /ogc-sitj-v1/wms = jv1]]></programlisting>
       <para>Help on the possible parameters for a command can be obtained by starting it without parameters.</para>
       </sect2>
       <sect2 id="user.stats.java.configreports">
@@ -168,7 +189,7 @@ minx = 522000
 miny = 187000
 size = 500
 nx = 106
-ny = 76]]></programlisting>      
+ny = 76]]></programlisting>
       </sect3>
       <sect3 id="user.stats.java.configreports.periods">
       <title>Periods</title>
@@ -189,14 +210,14 @@ ny = 76]]></programlisting>
         <listitem>
           <para><parameter>year</parameter></para>
         </listitem>
-      </itemizedlist>      
+      </itemizedlist>
       <para>The value specifies the number of those units to keep in the DB. Here is an
       example for generating a report aggregated by week, for the last 12 weeks:</para>
         <programlisting>
-<![CDATA[periods.week = 12]]></programlisting>     
+<![CDATA[periods.week = 12]]></programlisting>
       <para>The report generator consider the current time as being the time of the last
       hit matching the filters. A period is taken into account even if there is no
-      record for this period.</para> 
+      record for this period.</para>
       </sect3>
       <sect3 id="user.stats.java.configreports.values">
       <title>Values</title>
@@ -249,7 +270,7 @@ ny = 76]]></programlisting>
       for the discretization of the scale value. For example:</para>
         <programlisting>
 <![CDATA[dimensions = scale
-scales=1000,5000,10000,50000,100000,500000,1000000,5000000]]></programlisting>           
+scales=1000,5000,10000,50000,100000,500000,1000000,5000000]]></programlisting>
       </sect3>
       <sect3 id="user.stats.java.configreports.filters">
       <title>Filters</title>
@@ -302,14 +323,14 @@ filters.layer = cn*, adresses
 filters.theme = orthophotos, default
 filters.user = Jules, Jean
 filters.pdfFormat = A4, A5
-filters.pdfRes = 290-350]]></programlisting>           
+filters.pdfRes = 290-350]]></programlisting>
       </sect3>
       </sect2>
       <sect2 id="user.stats.java.runreports">
       <title>Running Reports Generation</title>
       <para>
       Raw data imported with Import application are aggregated using the following command
-      (remove end-of-line backslashes on Windows): 
+      (remove end-of-line backslashes on Windows):
       </para>
         <programlisting>
 <![CDATA[java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.report.Reports \
@@ -343,6 +364,37 @@ filters.pdfRes = 290-350]]></programlisting>
         </listitem>
       </itemizedlist>
       </sect2>
+      <sect2 id="user.stats.java.purgereports">
+      <title>Puring the data</title>
+      <para>
+      Raw report data is purged using the following command
+      (remove end-of-line backslashes on Windows):
+      </para>
+        <programlisting>
+<![CDATA[java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.purge.Purge \
+     --tableName=stats --nbDays=100 \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&password=MYPASSWORD"]]></programlisting>
+      <para>
+      where:
+      </para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>-Xmx1G</parameter> - tells Java to use a maximum of 1 Gb for the aggregation.
+        This should be enough even for very large amount of data</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--tableName</parameter> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both &cartoweb; and WMS logs in the same database</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--nbDays</parameter> - Sets the number of days to keep in the raw data</para>
+        </listitem>
+        <listitem>
+        <para><parameter>--db</parameter> - connection string</para>
+        </listitem>
+      </itemizedlist>
+      </sect2>
   </sect1>
   <sect1 id="user.stats.visualization">
     <title>Statistics Visualization</title>
@@ -373,11 +425,11 @@ nColors = 16]]></programlisting>
         <para><parameter>datas.*.dsn</parameter> - database connection</para>
         </listitem>
         <listitem>
-        <para><parameter>datas.*.prefix</parameter> - table prefix (to use more than one environment 
+        <para><parameter>datas.*.prefix</parameter> - table prefix (to use more than one environment
         on one database)</para>
         </listitem>
         <listitem>
-        <para><parameter>tempDsn</parameter> - database connection for temporary tables (could 
+        <para><parameter>tempDsn</parameter> - database connection for temporary tables (could
         be the same as other database connection)</para>
         </listitem>
         <listitem>
@@ -432,7 +484,7 @@ csvTextDelimiter = #
       </sect2>
       <sect2 id="user.stats.visualization.mapfile">
       <title>Related Elements in Mapfile</title>
-      <para>In order to display map statistics, the following layer must be added to 
+      <para>In order to display map statistics, the following layer must be added to
       the mapfile. Name of layer must be the one set in INI file.</para>
         <programlisting>
 <![CDATA[LAYER
@@ -445,4 +497,4 @@ END]]></programlisting>
       </sect2>
   </sect1>
 </chapter>
-
+        

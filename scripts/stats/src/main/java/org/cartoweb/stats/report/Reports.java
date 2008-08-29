@@ -40,16 +40,13 @@ import org.cartoweb.stats.report.result.SurfaceResult;
 import org.ini4j.Ini;
 import org.pvalsecc.jdbc.JdbcUtilities;
 import org.pvalsecc.misc.UnitUtilities;
+import org.pvalsecc.misc.StringUtils;
 import org.pvalsecc.opts.Option;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -164,8 +161,7 @@ public class Reports extends BaseStats {
         final Classifier<?> classifier;
         if (reportType.equalsIgnoreCase("simple")) {
             classifier = new SimpleClassifier(resultTable, timeScales);
-        } else
-        if (reportType.equalsIgnoreCase("gridbbox") || reportType.equalsIgnoreCase("gridcenter")) {
+        } else if (reportType.equalsIgnoreCase("gridbbox") || reportType.equalsIgnoreCase("gridcenter")) {
             classifier = new GridClassifier(getMandatoryDoubleField(section, "minx"), getMandatoryDoubleField(section, "size"), getMandatoryIntField(section, "nx"),
                     getMandatoryDoubleField(section, "miny"), getMandatoryDoubleField(section, "size"), getMandatoryIntField(section, "ny"),
                     reportType.equalsIgnoreCase("gridbbox"),
@@ -240,6 +236,34 @@ public class Reports extends BaseStats {
         }
     }
 
+    private void checkDeletedReports(Connection con) throws SQLException {
+        final Set<String> missings = new HashSet<String>();
+        JdbcUtilities.runSelectQuery("reading list of existing reports", "SELECT name FROM " + tableName + "_reports", con, new JdbcUtilities.SelectTask() {
+            public void setupStatement(PreparedStatement stmt) throws SQLException {
+            }
+
+            public void run(ResultSet rs) throws SQLException {
+                while (rs.next()) {
+                    final String name = rs.getString(1);
+                    if (!hasReport(name)) {
+                        missings.add(name);
+                    }
+                }
+            }
+        });
+
+        if (missings.size() > 0) {
+            if (!purgeOnConfigurationChange) {
+                throw new ConfigurationChangeException("Some reports have been deleted: "+ StringUtils.join(missings, ", "));                
+            } else {
+                for (String missing : missings) {
+                    LOGGER.info("Report ["+missing+"] has been removed, deleting its DB content.");
+                    Utils.dropReportTables(con, tableName, missing);
+                }
+            }
+        }
+    }
+
     private void generate(Connection con) throws SQLException {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < reports.size(); i++) {
@@ -264,6 +288,7 @@ public class Reports extends BaseStats {
         if (lastRecordDate != null) {
             checkDB(con);
             parseIniFile(con);
+            checkDeletedReports(con);
             generate(con);
         } else {
             LOGGER.warn("No data found in " + tableName);
@@ -288,6 +313,15 @@ public class Reports extends BaseStats {
                     "CREATE TABLE " + tableName + "_dimensions (report_name text, field_name text, id int)",
                     con, null);
         }
+    }
+
+    private boolean hasReport(String name) {
+        for (int i = 0; i < reports.size(); i++) {
+            if (reports.get(i).getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

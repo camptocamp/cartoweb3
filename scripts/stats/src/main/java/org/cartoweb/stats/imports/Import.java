@@ -87,6 +87,10 @@ public class Import extends BaseStats {
             environment = "STATS_FORMAT")
     private String mapIdRegExp = null;
 
+    @Option(desc = "Used only if format='WMS'. Configuration file name (.ini) that contains the strings to search for the map IDs and the name to use.",
+            environment = "STATS_FORMAT")
+    private String mapIdConfig = null;
+
     @Option(desc = "Continue the import in case of parsing error",
             environment = "STATS_SKIP_ERRORS")
     private boolean skipErrors = false;
@@ -110,8 +114,13 @@ public class Import extends BaseStats {
         super();
         parseArgs(args);
 
-        if (format.equalsIgnoreCase("WMS") && mapIdRegExp == null) {
-            printUsage("Missing parameter 'mapIdRegExp'");
+        if (format.equalsIgnoreCase("WMS")) {
+            if (mapIdRegExp == null && mapIdConfig == null) {
+                printUsage("Missing parameter 'mapIdRegExp' or 'mapIdConfig'");
+            }
+            if(mapIdRegExp != null && mapIdConfig != null) {
+                printUsage("You cannot set both 'mapIdRegExp' and 'mapIdConfig'");                
+            }
         }
         sideTables = new SideTables(tableName);
     }
@@ -365,13 +374,22 @@ public class Import extends BaseStats {
 
     private StatsReader createReader(File file) throws IOException {
         if (format.equalsIgnoreCase("WMS")) {
-            return new WmsReader(file, sideTables, wantLayers, mapIdRegExp, skipErrors);
+            MapIdExtractor mapIdExtractor = createMapIdExtractor();
+            return new WmsReader(file, sideTables, wantLayers, mapIdExtractor, skipErrors);
         } else if (format.equalsIgnoreCase("SecureWMS")) {
             return new SecureWmsReader(file, sideTables, wantLayers, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {
             return new CartoWebReader(file, sideTables, wantLayers, skipErrors);
         } else {
             throw new RuntimeException("Format not supported: " + format);
+        }
+    }
+
+    private MapIdExtractor createMapIdExtractor() throws IOException {
+        if(mapIdRegExp!=null) {
+            return new RegExpMapIdExtractor(mapIdRegExp);
+        } else {
+            return new ConfigMapIdExtractor(mapIdConfig);
         }
     }
 

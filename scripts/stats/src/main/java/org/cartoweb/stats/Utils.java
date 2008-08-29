@@ -46,6 +46,12 @@ public abstract class Utils {
             JdbcUtilities.runSelectQuery("reading the existing tables for report [" + name + "]",
                     "SELECT tables FROM " + statsTableName + "_reports WHERE name=?",
                     con, deleter);
+
+            JdbcUtilities.runDeleteQuery("Remove the report ["+name+"] information from the reports", "DELETE FROM " + statsTableName + "_reports WHERE name=?", con, new JdbcUtilities.DeleteTask() {
+                public void setupStatement(PreparedStatement stmt) throws SQLException {
+                    stmt.setString(1, name);
+                }
+            });
         } catch (SQLException ex) {
             //OK, no tables...
             return;

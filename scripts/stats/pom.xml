@@ -114,7 +114,7 @@
     <dependency>
       <groupId>ch.thus</groupId>
       <artifactId>pvalsecc</artifactId>
-      <version>0.3</version>
+      <version>0.6</version>
     </dependency>
     <dependency>
       <groupId>org.jvnet.hudson.plugins.mercurial</groupId>
@@ -142,8 +142,8 @@
 
   <repositories>
     <repository>
-      <id>ch.thus</id>
-      <url>http://www.thus.ch/~patrick/maven</url>
+      <id>org.mapfish</id>
+      <url>http://dev.mapfish.org/maven/repository</url>
     </repository>
     <repository>
       <id>net.java.download</id>

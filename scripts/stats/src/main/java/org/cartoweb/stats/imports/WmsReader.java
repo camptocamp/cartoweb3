@@ -34,16 +34,16 @@ public class WmsReader extends BaseWmsReader {
     private static final Pattern TIME_PATTERN = Pattern.compile("(\\d{2})/(\\w{3})/(\\d{4}):(\\d{2}):(\\d{2}):(\\d{2}) ([+-])(\\d{2})(\\d{2})");
     private static final Map<String, Integer> MONTH;
 
-    private final Pattern mapIdRegExp;
+    private final MapIdExtractor mapIdExtractor;
 
-    public WmsReader(File file, SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) throws IOException {
+    public WmsReader(File file, SideTables sideTables, boolean wantLayers, MapIdExtractor mapIdExtractor, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
-        this.mapIdRegExp = Pattern.compile(mapIdRegExp);
+        this.mapIdExtractor = mapIdExtractor;
     }
 
-    protected WmsReader(SideTables sideTables, boolean wantLayers, String mapIdRegExp, boolean skipErrors) {
+    protected WmsReader(SideTables sideTables, boolean wantLayers, MapIdExtractor mapIdExtractor, boolean skipErrors) {
         super(sideTables, wantLayers, skipErrors);
-        this.mapIdRegExp = Pattern.compile(mapIdRegExp);
+        this.mapIdExtractor = mapIdExtractor;
     }
 
     protected StatsRecord parse(String curLine) {
@@ -59,16 +59,13 @@ public class WmsReader extends BaseWmsReader {
                         return null;
                     }
 
-                    Matcher mapIdMatcher = mapIdRegExp.matcher(curLine);
-                    if (!mapIdMatcher.find()) {
+                    String mapId = mapIdExtractor.extract(curLine);
+                    if (mapId==null) {
                         parseError("Cannot find the mapId (project) from line", curLine);
-                        return null;
-                    } else if (mapIdMatcher.groupCount() != 1) {
-                        parseError("Cannot get the mapId (project) from line", curLine);
                         return null;
                     }
 
-                    return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapIdMatcher.group(1), fields);
+                    return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapId, fields);
                 } catch (RuntimeException ex) {
                     parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);
                     return null;
