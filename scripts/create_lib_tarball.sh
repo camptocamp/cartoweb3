@@ -14,7 +14,7 @@ PEAR_PACKAGES_DEVEL="PhpDocumentor"
 #
 #Benchmark
 #
-#PHPUnit2
+#PHPUnit3
 #    Console_Getopt
 #    PEAR
 #
@@ -40,7 +40,7 @@ ARTICHOW="http://www.artichow.org/data/Artichow-1.1.0-php5.tar.gz"
 
 # uncomment to upload with scp to this address
 #UPLOAD_HOST="malmurainza.c2c:public_html/cartoweb3/"
-ARCHIVE_BASENAME="cartoweb-includes-3.5.0beta1"
+ARCHIVE_BASENAME="cartoweb-includes-3.5.0"
 
 prepare()
 {

@@ -90,25 +90,3 @@ diff -dup8r include_orig/artichow/inc/drivers/gd.class.php include/artichow/inc/
 -?>
 \ No newline at end of file
 +?>
-diff -dup8r include_orig/pear/PHPUnit/Util/TestDox/ResultPrinter.php include/pear/PHPUnit/Util/TestDox/ResultPrinter.php
---- include_orig/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-08-28 12:39:18.000000000 +0000
-+++ include/pear/PHPUnit/Util/TestDox/ResultPrinter.php	2008-07-23 13:53:24.000000000 +0000
-@@ -266,17 +266,17 @@ abstract class PHPUnit_Util_TestDox_Resu
-     }
- 
-     /**
-      * @since  Method available since Release 2.3.0
-      */
-     protected function doEndClass()
-     {
-         foreach ($this->tests as $name => $data) {
--            if ($data['failure'] == 0) {
-+            if (isset($data['failure']) && $data['failure'] == 0) {
-                 $this->onTest($name);
-             }
-         }
- 
-         $this->endClass($this->testClass);
-     }
- 
-     /**
