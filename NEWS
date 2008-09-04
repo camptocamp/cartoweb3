@@ -1,5 +1,6 @@
-CartoWeb HEAD
-=============
+2008-09-04: CartoWeb 3.5.0
+==========================
+
 - Added new "currentuser" pdf block to output current user login name.
 - Added new "timeoutBeforeHide" parameter for toolTips timeout value.
 - No more forced "folder" id by plugin! now use 'folderId' parameter in .ini (doc 4.4.3)(bug 1814).
@@ -34,7 +35,7 @@ CartoWeb HEAD
 - Fixed: displayed coordinates when using PDF rotate mode (bug 1282)
 
 2007-07-26: CartoWeb 3.4.0
-===================
+==========================
 
 - Added some new images plugin filter parameters:
     o Map image size set dynamically via GET parameters ;
