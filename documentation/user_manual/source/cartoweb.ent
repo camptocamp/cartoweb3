@@ -4,5 +4,5 @@
 <!ENTITY cartoweb "CartoWeb">
 <!ENTITY cartoclient "CartoClient">
 <!ENTITY cartoserver "CartoServer">
-<!ENTITY cw_version "3.5.0">
+<!ENTITY cw_version "HEAD">
 <!ENTITY dollar "$">
