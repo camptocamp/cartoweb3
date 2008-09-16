@@ -309,11 +309,42 @@ scales=1000,5000,10000,50000,100000,500000,1000000,5000000]]></programlisting>
         <listitem>
           <para><parameter>pdfRes</parameter> - a range of PDF resolution</para>
         </listitem>
+        <listitem>
+          <para><parameter>ip</parameter> - a list of IP</para>
+        </listitem>
       </itemizedlist>
       <para>For list of names, you can use <parameter>'*'</parameter> for matching
       any string of character. For example, <parameter>cn*</parameter> will match <parameter>cn25</parameter>
       and <parameter>cn50</parameter>. For ranges of values, you can give either a range like <parameter>2-5</parameter>
-      or a simple value. Some examples of filters:</para>
+      or a simple value.</para>
+      <para>List of IP addresses are list of IP criteria, separated by a coma. An
+      IP criteria can have several forms:</para>
+      <itemizedlist>
+          <listitem>
+              <para><parameter>192.168.1.34</parameter> - match only the given IP address</para>
+          </listitem>
+          <listitem>
+              <para><parameter>192.168.1.0/24</parameter> - match every IP address
+                  in the range from 192.168.1.0 to 192.168.1.255</para>
+          </listitem>
+          <listitem>
+              <para><parameter>192.168.1.0/255.255.255.0</parameter> - match every
+                  IP address in the range from 192.168.1.0 to 192.168.1.255</para>
+          </listitem>
+      </itemizedlist>
+      <para>If an IP criteria is preceded by a <parameter>!</parameter> sign, every
+          record with IP address matched will not be taken. The criteria are checked
+          in order and the first one matching will determine the result of the filter.
+          If no criteria is matched, the record is ignored. So, for example:</para>
+      <programlisting>
+<![CDATA[192.168.1.10, !192.168.1.0/255.255.255.0, 0.0.0.0/0]]>
+      </programlisting>
+      <itemizedlist>
+          <listitem><para><parameter>192.168.1.1</parameter> - is ignored</para></listitem>
+          <listitem><para><parameter>192.168.1.10</parameter> - is taken</para></listitem>
+          <listitem><para><parameter>114.12.27.10</parameter> - is taken</para></listitem>
+      </itemizedlist>
+      <para>Some examples of filters:</para>
       <programlisting>
 <![CDATA[filters.scale = 1000.5-5000
 filters.width = 290-350
@@ -323,7 +354,8 @@ filters.layer = cn*, adresses
 filters.theme = orthophotos, default
 filters.user = Jules, Jean
 filters.pdfFormat = A4, A5
-filters.pdfRes = 290-350]]></programlisting>
+filters.pdfRes = 290-350
+filters.ip = 192.168.1.10, !192.168.1.0/255.255.255.0, 0.0.0.0/0]]></programlisting>
       </sect3>
       </sect2>
       <sect2 id="user.stats.java.runreports">

@@ -118,8 +118,8 @@ public class Import extends BaseStats {
             if (mapIdRegExp == null && mapIdConfig == null) {
                 printUsage("Missing parameter 'mapIdRegExp' or 'mapIdConfig'");
             }
-            if(mapIdRegExp != null && mapIdConfig != null) {
-                printUsage("You cannot set both 'mapIdRegExp' and 'mapIdConfig'");                
+            if (mapIdRegExp != null && mapIdConfig != null) {
+                printUsage("You cannot set both 'mapIdRegExp' and 'mapIdConfig'");
             }
         }
         sideTables = new SideTables(tableName);
@@ -146,37 +146,43 @@ public class Import extends BaseStats {
             dropStructure(con);
             createStructure(con);
             con.commit();
-        } else {
-            findLastId(con);
-            sideTables.load(con);
-            sideTables.dropForeignKeys(con, tableName);
         }
 
+        //get the list of files to load
         List<File> files = getFiles(new File(logDir));
-
         files = checkFiles(con, files);
 
-        Progress progress = new Progress(10 * 1000, files.size(), "Files reading", LOGGER);
-        for (int i = 0; i < files.size(); i++) {
-            File file = files.get(i);
-            progress.update(i);
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Reading file " + (i + 1) + "/" + files.size() + ": " + file);
+        if (!files.isEmpty()) {
+            if(!initialize) {
+                findLastId(con);
+                sideTables.load(con);
+                sideTables.dropForeignKeys(con, tableName);
             }
-            convertFile(con, file);
-        }
+            Progress progress = new Progress(10 * 1000, files.size(), "Files reading", LOGGER);
+            for (int i = 0; i < files.size(); i++) {
+                File file = files.get(i);
+                progress.update(i);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Reading file " + (i + 1) + "/" + files.size() + ": " + file);
+                }
+                convertFile(con, file);
+            }
 
-        sideTables.save(con);
+            sideTables.save(con);
 
-        LOGGER.info("Time to import " + files.size() + " files: " + UnitUtilities.toElapsedTime(System.currentTimeMillis() - startTime));
-        if (initialize) {
-            createIndexes(con);
+            LOGGER.info("Time to import " + files.size() + " files: " + UnitUtilities.toElapsedTime(System.currentTimeMillis() - startTime));
+            if (initialize) {
+                createIndexes(con);
+            } else {
+                Progress progressI = new Progress(10 * 1000, sideTables.size(), "Foreign key creation", LOGGER);
+                sideTables.createForeignKeys(con, progressI, 0, tableName);
+            }
+            fillCacheHits(con);
+            vacuum(con);
         } else {
-            Progress progressI = new Progress(10 * 1000, sideTables.size(), "Foreign key creation", LOGGER);
-            sideTables.createForeignKeys(con, progressI, 0, tableName);
+            LOGGER.info("No new file to import");
         }
-        fillCacheHits(con);
-        vacuum(con);
+
         con.close();
     }
 
@@ -271,7 +277,7 @@ public class Import extends BaseStats {
                             throw new RuntimeException();
                         }
                     } else {
-                        LOGGER.info("On " + importedWhen + " file " + file + " was already imported");
+                        LOGGER.debug("On " + importedWhen + " file " + file + " was already imported");
                     }
                     toImport[0] = false;
                 }
@@ -386,7 +392,7 @@ public class Import extends BaseStats {
     }
 
     private MapIdExtractor createMapIdExtractor() throws IOException {
-        if(mapIdRegExp!=null) {
+        if (mapIdRegExp != null) {
             return new RegExpMapIdExtractor(mapIdRegExp);
         } else {
             return new ConfigMapIdExtractor(mapIdConfig);

@@ -27,10 +27,9 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LayerFilter implements Filter {
+public class LayerFilter extends SoftOnlyFilter {
     private final Set<String> ids;
     private final boolean or;
-    private boolean ok = false;
     private String config = "";
 
 
@@ -69,14 +68,6 @@ public class LayerFilter implements Filter {
         }
     }
 
-    public String getSelectWhereClause() {
-        return null;
-    }
-
-    public int setSelectWhereParams(PreparedStatement stmt, int pos) throws SQLException {
-        return pos;
-    }
-
     public String getSQLFields() {
         return "layers";
     }
@@ -107,10 +98,6 @@ public class LayerFilter implements Filter {
             }
         }
         return pos;
-    }
-
-    public boolean softCheck() {
-        return ok;
     }
 
     public void getIniFile(StringBuilder result) {

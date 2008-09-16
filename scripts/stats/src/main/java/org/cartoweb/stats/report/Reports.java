@@ -29,11 +29,7 @@ import org.cartoweb.stats.report.dimension.DimensionMetaData;
 import org.cartoweb.stats.report.dimension.IntFieldMetaData;
 import org.cartoweb.stats.report.dimension.LayerMetaData;
 import org.cartoweb.stats.report.dimension.RangeDoubleFieldMetaData;
-import org.cartoweb.stats.report.filter.DoubleRangeFilter;
-import org.cartoweb.stats.report.filter.Filter;
-import org.cartoweb.stats.report.filter.IdSetFilter;
-import org.cartoweb.stats.report.filter.IntegerRangeFilter;
-import org.cartoweb.stats.report.filter.LayerFilter;
+import org.cartoweb.stats.report.filter.*;
 import org.cartoweb.stats.report.result.CounterResult;
 import org.cartoweb.stats.report.result.Result;
 import org.cartoweb.stats.report.result.SurfaceResult;
@@ -131,6 +127,8 @@ public class Reports extends BaseStats {
                     filterList.add(new IdSetFilter(con, tableName, "exportpdf_format", cur.getValue(), type));
                 } else if (type.equalsIgnoreCase("pdfRes")) {
                     filterList.add(new IntegerRangeFilter("exportpdf_resolution", cur.getValue(), type));
+                } else if (type.equalsIgnoreCase("ip")) {
+                    filterList.add(new IPFilter(cur.getValue()));
                 } else {
                     throw new RuntimeException("Unknown filter type: " + type);
                 }
