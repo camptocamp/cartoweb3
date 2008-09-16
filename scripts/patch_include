@@ -90,3 +90,50 @@ diff -dup8r include_orig/artichow/inc/drivers/gd.class.php include/artichow/inc/
 -?>
 \ No newline at end of file
 +?>
+diff -dup8r include_orig/artichow/Graph.class.php include/artichow/Graph.class.php
+--- include_orig/artichow/Graph.class.php	2008-09-16 10:19:15.000000000 +0200
++++ include/artichow/Graph.class.php	2008-09-15 15:15:23.000000000 +0200
+@@ -256,17 +256,17 @@ class awGraph extends awImage {
+ 		
+ 	}
+ 	
+ 	/**
+ 	 * Build the graph and draw component on it
+ 	 *
+ 	 * @param string $mode Display mode (can be a file name)
+ 	 */
+-	public function draw($mode = Graph::DRAW_DISPLAY) {
++	public function draw($mode = awGraph::DRAW_DISPLAY) {
+ 		
+ 		if($this->timing) {
+ 			$time = microtimeFloat();
+ 		}
+ 	
+ 		$this->create();
+ 		
+ 		foreach($this->components as $component) {
+@@ -286,22 +286,22 @@ class awGraph extends awImage {
+ 		// Create graph
+ 		$data = $this->get();
+ 				
+ 		// Put the graph in the cache if needed
+ 		$this->cache($data);
+ 		
+ 		switch($mode) {
+ 		
+-			case Graph::DRAW_DISPLAY :
++			case awGraph::DRAW_DISPLAY :
+ 				$this->sendHeaders();
+ 				echo $data;
+ 				break;
+ 		
+-			case Graph::DRAW_RETURN :
++			case awGraph::DRAW_RETURN :
+ 				return $data;
+ 			
+ 			default :
+ 				if(is_string($mode)) {
+ 					file_put_contents($mode, $data);
+ 				} else {
+ 					awImage::drawError("Class Graph: Unable to draw the graph.");
+ 				}
