@@ -437,6 +437,45 @@ mapInfo.initialMapStates.map25.layers.polygon.unfolded = true]]></programlisting
       </itemizedlist>
      </para>
      <para>
+        Other tool weight available:
+      <itemizedlist>
+       <listitem>
+        <para>
+         weightEditPoint
+        </para>
+       </listitem>
+       <listitem>
+        <para>
+         weightEditLine
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditPolygon
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditMove
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditDelVertex
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditAddVertex
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditSel
+        </para>
+       </listitem><listitem>
+        <para>
+         weightEditDelFeature
+        </para>
+       </listitem>
+      </itemizedlist>
+     </para>
+     <para>
         Use a negative value to deactivate a tool.
      </para>
      <programlisting>weightFullextent = -1</programlisting>
