@@ -63,7 +63,7 @@
           </listitem>
           <listitem>
             <formalpara>
-              <title>Execute the <emphasis>routing_core.sql</emphasis> and <emphasis>routing_core_wrappers.sql</emphasis> files to install the functions in 
+              <title>Execute the <emphasis>routing_core.sql</emphasis> and <emphasis>routing_core_wrappers.sql</emphasis> and <emphasis>routing_topology.sql</emphasis> files to install the functions in 
                 your database by typing:</title>
               <para>
                 <screen><![CDATA[$ psql -d demo_plugins -f routing_core.sql]]></screen>
