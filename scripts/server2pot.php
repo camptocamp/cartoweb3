@@ -60,15 +60,13 @@ function parseMap($project, $mapId, &$texts) {
     }
     $mapFileDir .= 'server_conf/' . $mapId . '/';
     $mapFile = $mapFileDir . $mapId . '.map';
-    
-    if (!extension_loaded('mapscript')) {
-        $prefix = (PHP_SHLIB_SUFFIX == 'dll') ? '' : 'php_';
-        if (!dl($prefix . 'mapscript.' . PHP_SHLIB_SUFFIX)) {
-            print 'Error: Cannot load Mapscript library.';
-            return false;
-        }
+        
+    if (!extension_loaded('mapscript') &&
+        !dl('php_mapscript.' . PHP_SHLIB_SUFFIX)) {
+        print 'Error: Cannot load Mapscript library.';
+        return false;
     }
-    
+
     if (!file_exists($mapFile)) {
         // Trying generated mapfile
         $mapFile = $mapFileDir . 'auto.' . $mapId . '.all.map';
@@ -78,9 +76,7 @@ function parseMap($project, $mapId, &$texts) {
         return false;
     }
     
-    $old_error_handler = set_error_handler("dummyErrorHandler");
     $map = ms_newMapObj($mapFile);
-    restore_error_handler();
     if (empty($map)) {
         print "\nWarning: Error while loading mapfile $mapFile.\n";
         return false;
