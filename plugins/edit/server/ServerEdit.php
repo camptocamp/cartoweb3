@@ -177,7 +177,7 @@ class ServerEdit extends ClientResponderAdapter {
             if (empty($editableAttributesRenderingList)) {
                 /* no rendering, use default (empty string, equal type text when 
                 generating the form) */
-                $rendering = array_fill(0, $nbAttr-1, '');
+                $rendering = array_fill(0, $nbAttr, '');
             } else {
                 $rendering = explode(',', $editableAttributesRenderingList);
                 // sanity check
