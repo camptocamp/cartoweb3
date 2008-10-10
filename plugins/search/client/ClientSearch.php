@@ -201,9 +201,9 @@ class ClientSearch extends ClientPlugin
                 $name = substr($var, 7, strlen($var) - 7);
                 
                 if ($name == 'config') {
-                    $searchRequest->$name = $val;
+                    $searchRequest->$name = Encoder::encode($val);
                 } else {
-                    $searchRequest->setParameter($name, $val);
+                    $searchRequest->setParameter($name, Encoder::encode($val));
                 }
             }
         }
