@@ -299,7 +299,7 @@ class ClientOutline extends ClientPlugin
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
         
         // allow circle radius to be set by hand, under conditions
-        if ($request['tool'] == self::TOOL_CIRCLE && 
+        if (isset($request['tool']) && $request['tool'] == self::TOOL_CIRCLE && 
             !empty($request['outline_circle_radius']) && $shape->radius == 0) {
             $shape->radius = $this->outlineState->radius = 
                 $this->getHttpValue($request, 'outline_circle_radius');
