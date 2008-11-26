@@ -1,6 +1,8 @@
 CartoWeb HEAD
 =============
 
+- Fixed multithreads conflicts in throttling plugin.
+
 
 2008-09-04: CartoWeb 3.5.0
 ==========================
