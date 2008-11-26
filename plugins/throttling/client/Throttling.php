@@ -109,12 +109,10 @@ class Buffer extends ListInFile {
     }
 
     /**
-     * Update the buffer and returns whatever the maximum of request for the
-     * period has been reached.
+     * Update the buffer.
      *
      * @param String ip
      * @param Integer now timestamp
-     * @return Boolean
      */
     public function update($ip, $now) {
         // Create record if needed
@@ -125,9 +123,19 @@ class Buffer extends ListInFile {
 
         if ($this->list[$ip]['count'] >= $this->maxRequest) {
             unset($this->list[$ip]);
-            return true;
         }
-        return false;
+    }
+
+    /**
+     * Test if IP is already listed and if yes, if it has reached the max 
+     * request limit.
+     *
+     * @param String ip
+     * @return Boolean
+     */
+    public function checkOverflow($ip) {
+        return array_key_exists($ip, $this->list) &&
+               $this->list[$ip]['count'] + 1 >= $this->maxRequest;
     }
 
     /**
@@ -150,11 +158,51 @@ class Buffer extends ListInFile {
      * @param String value
      * @return String
      */
-    public function writeLine($key, $value) {
+    protected function writeLine($key, $value) {
         return "{$key}:{$value['start']}:{$value['count']}\n";
     }
-}
 
+    /**
+     * Writes list content to matching buffer file.
+     *
+     * @param ressource file pointer
+     */
+    protected function writeToFile($fp) {
+        $lines = array();
+        foreach ($this->list as $key => $value) {
+            $lines[] = $this->writeLine($key, $value);
+        }
+        fwrite($fp, implode('', $lines));
+    }
+
+    /**
+     * Update and write the full list to the file.
+     *
+     * @param integer IP
+     * @param boolean
+     */
+    public function sync($ip, $update_required) {
+
+        ThrottlingUtils::mkdirname($this->file);
+
+        $fp = fopen($this->file, 'w+');
+
+        if (flock($fp, LOCK_EX)) {
+            $this->populateList($fp);
+            $now = time();
+            $this->clear($now);
+            if ($update_required) {
+                $this->update($ip, $now);
+            }
+            $this->writeToFile($fp);
+            flock($fp, LOCK_UN);
+        } else {
+            throw new CartoclientException("Couldn't lock the file ".
+                                           "({$this->file})");
+        }
+        fclose($fp);
+    }
+}
 
 /**
  * A WhiteList is a list of zero or more IP networks. The list is read from a
@@ -182,10 +230,6 @@ class WhiteList extends ListInFile {
             $this->list[] = array('low'  => $low,
                                   'high' => $high);
         }
-    }
-
-    public function sync() {
-        // never write list to file !!
     }
 
     /**
@@ -220,7 +264,6 @@ class BlackList extends ListInFile {
      */
     protected $period;
 
-
     /**
      * @see ListInFile::__construct()
      */
@@ -244,7 +287,6 @@ class BlackList extends ListInFile {
         return $removed;
     }
 
-
     /**
      * Add an ip to the black list.
      *
@@ -263,58 +305,6 @@ class BlackList extends ListInFile {
      */
     public function contains($ip) {
         return array_key_exists($ip, $this->list);
-    }
-}
-
-
-/**
- * Handle
- */
-class ListInFile {
-
-    /*
-     * @var String file name
-     */
-    protected $file;
-
-    /**
-     * @var Array internal list
-     */
-    protected $list;
-
-
-    /**
-     * ListInFile constructor.
-     * Reads the file content and update the internal list.
-     *
-     * @param String file
-     */
-    public function __construct($file) {
-        $this->file = $file;
-        $this->list = array();
-
-        if (file_exists($this->file)) {
-            if (($fp = fopen($this->file, 'r')) === FALSE) {
-                throw new CartoclientException("Couldn't open the file " .
-                                               "for reading ({$this->file})");
-            }
-            if (flock($fp, LOCK_SH)) {
-                while (!feof($fp)) {
-                    $line = trim(fgets($fp));
-                    $first = substr($line, 0, 1);
-
-                    // skip comments
-                    if ($first != ';' && $first != '#') {
-                        $this->readLine($line);
-                    }
-                }
-                flock($fp, LOCK_UN);
-            } else {
-                throw new CartoclientException("Couldn't lock the file ".
-                                               "({$this->file})");
-            }
-            fclose($fp);
-        }
     }
 
     /**
@@ -341,18 +331,6 @@ class ListInFile {
     }
 
     /**
-     * Convert a raw line from the file to it's internal representation.
-     *
-     * @param String raw line
-     */
-    public function readLine($line) {
-        if ($line) {
-            list($key, $value) = explode(':', $line);
-            $this->list[$key] = intval($value);
-        }
-    }
-
-    /**
      * Return a formated record.
      *
      * @param String key
@@ -364,4 +342,73 @@ class ListInFile {
     }
 }
 
-?>
+/**
+ * Handle
+ */
+class ListInFile {
+
+    /*
+     * @var String file name
+     */
+    protected $file;
+
+    /**
+     * @var Array internal list
+     */
+    protected $list;
+
+    /**
+     * ListInFile constructor.
+     * Reads the file content and update the internal list.
+     *
+     * @param String file
+     */
+    public function __construct($file) {
+        $this->file = $file;
+        $this->list = array();
+
+        if (file_exists($this->file)) {
+            if (($fp = fopen($this->file, 'r')) === FALSE) {
+                throw new CartoclientException("Couldn't open the file " .
+                                               "for reading ({$this->file})");
+            }
+            if (flock($fp, LOCK_SH)) {
+                $this->populateList($fp);
+                flock($fp, LOCK_UN);
+            } else {
+                throw new CartoclientException("Couldn't lock the file ".
+                                               "({$this->file})");
+            }
+            fclose($fp);
+        }
+    }
+
+    /**
+     * Reads file and builds matching list.
+     *
+     * @param ressource file pointer
+     */
+    protected function populateList($fp) {
+        while (!feof($fp)) {
+            $line = trim(fgets($fp));
+            $first = substr($line, 0, 1);
+
+            // skip comments
+            if ($first != ';' && $first != '#') {
+                $this->readLine($line);
+            }
+        }
+    }
+
+    /**
+     * Convert a raw line from the file to it's internal representation.
+     *
+     * @param String raw line
+     */
+    protected function readLine($line) {
+        if ($line) {
+            list($key, $value) = explode(':', $line);
+            $this->list[$key] = intval($value);
+        }
+    }
+}

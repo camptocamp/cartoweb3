@@ -56,6 +56,10 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
      */
     protected $blockAccess = true;
 
+    /**
+     * @var Boolean
+     */
+    protected $buffersUpdateRequired = false;
 
     /**
      * @see ClientPlugin::__construct()
@@ -66,10 +70,9 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
     }
 
     /**
-     * @see Sessionable::initializeConfig()
+     * Instanciates lists objects and some config vars.
      */
-    public function initializeConfig($initArgs) {
-        parent::initializeConfig($initArgs);
+    protected function initLists() {
 
         $project = $this->cartoclient->getProjectHandler()->getProjectName();
         $config = $this->getConfig()->getIniArray();
@@ -102,7 +105,7 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
                                      'www-data/throttling/throttling.blacklist.txt',
                                      $config['blackListPeriod']);
 
-        // pupulate the buffers array
+        // populate the buffers array
         foreach ($config as $ckey => $cvalue) {
             $exploded = explode('.', $ckey);
             if (count($exploded) == 3 && $exploded[0] == 'buffer' &&
@@ -159,6 +162,10 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
         }
 
         $ip = ThrottlingUtils::getRemoteAddress();
+
+        // instanciate blacklist, whitelist, buffers
+        $this->initLists();
+
         $now = time();
 
         // remove entries that have not generated overflows from buffers.
@@ -170,17 +177,17 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
             $this->notify($r, "removed from blacklist", $now);
         }
 
-        $isAllowed = false;
         if ($this->white->contains($ip)) {
             // ip is in the white list: don't block
             $isAllowed = true;
-        } else if($this->black->contains($ip)) {
+        } elseif($this->black->contains($ip)) {
             // ip is already blacklisted: block
             $isAllowed = false;
         } else {
             // not in the white or black list: update all buffers and check 
             // if the request triggered an overflow
-            list($newInBlackList, $bufferId) = $this->updateBuffers($ip, $now);
+            list($newInBlackList, $bufferId) = $this->checkBuffersOverflow($ip);
+            $this->buffersUpdateRequired = true;
 
             if ($newInBlackList) {
                 // the request have triggered an overflow: notify and add the 
@@ -192,11 +199,13 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
 
                 $isAllowed = false;
             } else {
-                // the request don't triggered an overflow
+                // the request hasn't triggered an overflow
                 $isAllowed = true;
             }
         }
-        $this->sync();
+
+        // update lists
+        $this->sync($ip);
 
         // Notify the user that he is blocked and immediately stop cartoweb
         if (!$isAllowed && $this->blockAccess) {
@@ -248,24 +257,23 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
     /**
      * Synchronize the blacklist and all buffers.
      */
-    public function sync() {
+    protected function sync($ip) {
         $this->black->sync();
         foreach ($this->buffers as $buffer) {
-            $buffer->sync();
+            $buffer->sync($ip, $this->buffersUpdateRequired);
         }
     }
 
     /**
-     * Update all buffers.
+     * Checks if given IP has reached the max request limit of some buffer.
      *
      * @param Integer ip
-     * @param Integer now timestamp
      * @return array Return whatever the user overflow the buffer and the
      * buffer name.
      */
-    protected function updateBuffers($ip, $now) {
+    protected function checkBuffersOverflow($ip) {
         foreach($this->buffers as $id => $buffer) {
-            if ($buffer->update($ip, $now)) {
+            if ($buffer->checkOverflow($ip)) {
                 return array(true, $id);
             }
         }
