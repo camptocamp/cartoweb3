@@ -52,7 +52,7 @@ title="{t}more info on{/t} {$element.layerLabel}">{$element.layerLabel}</a>
 
 {if $element.isDropDown}
   <select name="layers_dropdown_{$element.parentId}" 
-  onchange="javascript:CartoWeb.trigger('Layers.LayerDropDownChange', 'formItemSelected()');">
+  onchange="javascript:CartoWeb.trigger('Layers.LayerDropDownChange', 'FormItemSelected()');">
   {html_options options=$element.dropDownChildren selected=$element.dropDownSelected}
   </select>
 {/if}

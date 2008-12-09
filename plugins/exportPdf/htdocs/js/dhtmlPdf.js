@@ -267,7 +267,7 @@ Map.prototype.pdfRecenter = function() {
     rbbox.value = nbbox;
   }
   // call recentering
-  CartoWeb.trigger('Location.Recenter', 'formItemSelected()');
+  CartoWeb.trigger('Location.Recenter', 'FormItemSelected()');
 
 }
 
