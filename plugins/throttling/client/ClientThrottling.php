@@ -241,6 +241,7 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
         $fp = fopen($this->abuseFile, 'a');
         if (flock($fp, LOCK_EX)) {
             fwrite($fp, $line . "\n");
+            fflush($fp);
             flock($fp, LOCK_UN);
         } else {
             throw new CartoclientException("Couldn't lock the file " .

@@ -6,7 +6,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -164,15 +164,16 @@ class Buffer extends ListInFile {
 
     /**
      * Writes list content to matching buffer file.
-     *
-     * @param ressource file pointer
      */
-    protected function writeToFile($fp) {
+    protected function writeToFile() {
         $lines = array();
         foreach ($this->list as $key => $value) {
             $lines[] = $this->writeLine($key, $value);
         }
-        fwrite($fp, implode('', $lines));
+        fseek($this->fp, 0);
+        ftruncate($this->fp, 0);
+        fwrite($this->fp, implode('', $lines));
+        fflush($this->fp);
     }
 
     /**
@@ -182,25 +183,11 @@ class Buffer extends ListInFile {
      * @param boolean
      */
     public function sync($ip, $update_required) {
-
-        ThrottlingUtils::mkdirname($this->file);
-
-        $fp = fopen($this->file, 'w+');
-
-        if (flock($fp, LOCK_EX)) {
-            $this->populateList($fp);
-            $now = time();
-            $this->clear($now);
-            if ($update_required) {
-                $this->update($ip, $now);
-            }
-            $this->writeToFile($fp);
-            flock($fp, LOCK_UN);
-        } else {
-            throw new CartoclientException("Couldn't lock the file ".
-                                           "({$this->file})");
-        }
-        fclose($fp);
+        $now = time();
+        $this->clear($now);
+        $this->update($ip, $now);
+        $this->writeToFile();
+        fclose($this->fp);
     }
 }
 
@@ -209,6 +196,21 @@ class Buffer extends ListInFile {
  * config file.
  */
 class WhiteList extends ListInFile {
+
+    /**
+     * ListInFile constructor.
+     * Reads the file content and update the internal list.
+     *
+     * @param String file
+     */
+    public function __construct($file) {
+        $this->file = $file;
+        $this->list = array();
+
+        $this->fp = fopen($this->file, 'r');
+        $this->populateList();
+        fclose($this->fp);
+    }
 
     /**
      * Convert a raw line from the file to it's internal representation.
@@ -315,19 +317,12 @@ class BlackList extends ListInFile {
         foreach ($this->list as $key => $value) {
             $lines[] = $this->writeLine($key, $value);
         }
-
-        ThrottlingUtils::mkdirname($this->file);
-
-        $fp = fopen($this->file, 'w');
-
-        if (flock($fp, LOCK_EX)) {
-            fwrite($fp, implode("", $lines));
-            flock($fp, LOCK_UN);
-        } else {
-            throw new CartoclientException("Couldn't lock the file ".
-                                           "({$this->file})");
-        }
-        fclose($fp);
+    
+        fseek($this->fp, 0);
+        ftruncate($this->fp, 0);
+        fwrite($this->fp, implode("", $lines));
+        fflush($this->fp);
+        fclose($this->fp);
     }
 
     /**
@@ -352,6 +347,11 @@ class ListInFile {
      */
     protected $file;
 
+    /*
+     * @var resource file pointer resource
+     */
+    protected $fp;
+    
     /**
      * @var Array internal list
      */
@@ -367,30 +367,27 @@ class ListInFile {
         $this->file = $file;
         $this->list = array();
 
-        if (file_exists($this->file)) {
-            if (($fp = fopen($this->file, 'r')) === FALSE) {
-                throw new CartoclientException("Couldn't open the file " .
-                                               "for reading ({$this->file})");
-            }
-            if (flock($fp, LOCK_SH)) {
-                $this->populateList($fp);
-                flock($fp, LOCK_UN);
-            } else {
+        ThrottlingUtils::mkdirname($this->file);
+        if (($this->fp = fopen($this->file, 'a+')) === FALSE) {
+                throw new CartoclientException("Couldn't open the file in append mode ".
+                                               "({$this->file})");
+        }
+        
+        if (flock($this->fp, LOCK_EX)) {
+            fseek($this->fp, 0);
+            $this->populateList();
+        } else {
                 throw new CartoclientException("Couldn't lock the file ".
                                                "({$this->file})");
-            }
-            fclose($fp);
         }
     }
 
     /**
      * Reads file and builds matching list.
-     *
-     * @param ressource file pointer
      */
-    protected function populateList($fp) {
-        while (!feof($fp)) {
-            $line = trim(fgets($fp));
+    protected function populateList() {
+        while (!feof($this->fp)) {
+            $line = trim(fgets($this->fp));
             $first = substr($line, 0, 1);
 
             // skip comments
@@ -412,3 +409,4 @@ class ListInFile {
         }
     }
 }
+
