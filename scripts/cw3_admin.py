@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #
 # This scripts manages the setup of the initial files for cartoweb.
