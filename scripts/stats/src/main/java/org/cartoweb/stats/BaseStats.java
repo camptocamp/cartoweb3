@@ -93,12 +93,13 @@ public abstract class BaseStats {
         try {
             runImpl();
         } catch (Throwable e) {
-            LOGGER.error(e.toString());
             if (LOGGER.isDebugEnabled()) {
                 final Writer result = new StringWriter();
                 final PrintWriter printWriter = new PrintWriter(result);
                 e.printStackTrace(printWriter);
-                LOGGER.debug(result.toString());
+                LOGGER.error(result.toString());
+            } else {
+                LOGGER.error(e.toString());
             }
         }
     }

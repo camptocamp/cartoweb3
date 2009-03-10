@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class SecureWmsReader extends BaseWmsReader {
     private static final Pattern LINE_PATTERN = Pattern.compile("^\\d+ - (.*)$");
-    private static final Pattern PARAM_PATTERN = Pattern.compile("([^=]+)=([^;]*);?");
+    private static final Pattern PARAM_PATTERN = Pattern.compile("([^=]+)=([^;]*)(;|$)");
 
     public SecureWmsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
@@ -53,7 +53,7 @@ public class SecureWmsReader extends BaseWmsReader {
                         parseError("Invalid input line", curLine);
                         return null;
                     }
-                    return createRecord(fields);
+                    return createRecord(fields, curLine);
                 } catch (RuntimeException ex) {
                     parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);
                     return null;
@@ -75,8 +75,12 @@ public class SecureWmsReader extends BaseWmsReader {
                 return null;
             }
             Map<String, String> fields = new HashMap<String, String>();
-            int prevEnd;
+            int prevEnd = 0;
             do {
+                if (prevEnd != matcher.start()) {
+                    parseError("Invalid parameters format", params);
+                    return null;
+                }
                 final String key = decode(matcher.group(1));
                 final String value = decode(matcher.group(2));
                 if (key.equals("request")) {
@@ -98,10 +102,15 @@ public class SecureWmsReader extends BaseWmsReader {
         }
     }
 
-    private StatsRecord createRecord(Map<String, String> fields) {
+    private StatsRecord createRecord(Map<String, String> fields, String curLine) {
         StatsRecord result = new StatsRecord();
-        final String[] mapIdPath = fields.get("requestURI").split("/");
-        String mapId = mapIdPath[mapIdPath.length - 1];
+        final String requestURI = fields.get("requestURI");
+        if (requestURI == null) {
+            parseError("Cannot find the mapId (requestURI) from line", curLine);
+            return null;
+        }
+        final String[] mapIdPath = requestURI.split("/");
+        final String mapId = mapIdPath[mapIdPath.length - 1];
         int generalMapId = sideTables.generalMapId.get(toLowerCase(mapId));
         result.setGeneralMapid(generalMapId);
         result.setGeneralIp(fields.get("remote_host"));
