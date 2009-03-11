@@ -35,18 +35,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.sql.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,15 +118,15 @@ public class Import extends BaseStats {
     private void findLastId(Connection con) throws SQLException {
         JdbcUtilities.runSelectQuery("finding the last id in table " + tableName,
                 "SELECT max(id) FROM " + tableName, con, new JdbcUtilities.SelectTask() {
-            public void setupStatement(PreparedStatement stmt) throws SQLException {
-            }
+                    public void setupStatement(PreparedStatement stmt) throws SQLException {
+                    }
 
-            public void run(ResultSet rs) throws SQLException {
-                while (rs.next()) {
-                    curId = rs.getLong(1) + 1;
-                }
-            }
-        });
+                    public void run(ResultSet rs) throws SQLException {
+                        while (rs.next()) {
+                            curId = rs.getLong(1) + 1;
+                        }
+                    }
+                });
     }
 
     protected void runImpl() throws ClassNotFoundException, SQLException, IOException {
@@ -153,7 +143,7 @@ public class Import extends BaseStats {
         files = checkFiles(con, files);
 
         if (!files.isEmpty()) {
-            if(!initialize) {
+            if (!initialize) {
                 findLastId(con);
                 sideTables.load(con);
                 sideTables.dropForeignKeys(con, tableName);
@@ -210,13 +200,13 @@ public class Import extends BaseStats {
 
         JdbcUtilities.runInsertQuery("inserting entries in " + tableName + "_all_files",
                 "INSERT INTO " + tableName + "_all_files (imported_date, size, path, checksum) VALUES (now(),?,?,?)", con, result, 500, new JdbcUtilities.InsertTask<File>() {
-            public boolean marshall(PreparedStatement stmt, File item) throws SQLException {
-                stmt.setLong(1, item.length());
-                stmt.setString(2, item.getAbsolutePath());
-                stmt.setString(3, md5ByFile.get(item));
-                return true;
-            }
-        });
+                    public boolean marshall(PreparedStatement stmt, File item) throws SQLException {
+                        stmt.setLong(1, item.length());
+                        stmt.setString(2, item.getAbsolutePath());
+                        stmt.setString(3, md5ByFile.get(item));
+                        return true;
+                    }
+                });
 
         LOGGER.info("Files checking done.");
 
@@ -239,22 +229,22 @@ public class Import extends BaseStats {
         if (!hasNoHistory) {
             JdbcUtilities.runSelectQuery("checking no file has checksum=" + md5,
                     "SELECT imported_date, path FROM " + tableName + "_all_files WHERE checksum=?", con, new JdbcUtilities.SelectTask() {
-                public void setupStatement(PreparedStatement stmt) throws SQLException {
-                    stmt.setString(1, md5);
-                }
-
-                public void run(ResultSet rs) throws SQLException {
-                    while (rs.next()) {
-                        Timestamp importedWhen = rs.getTimestamp(1);
-                        String path = rs.getString(2);
-                        LOGGER.warn("On " + importedWhen + ", same file was already imported. It's name has now changed! (old path=" + path + ", new path=" + file + ")");
-                        if (!ignore) {
-                            throw new RuntimeException();
+                        public void setupStatement(PreparedStatement stmt) throws SQLException {
+                            stmt.setString(1, md5);
                         }
-                        sameFileFound[0] = true;
-                    }
-                }
-            });
+
+                        public void run(ResultSet rs) throws SQLException {
+                            while (rs.next()) {
+                                Timestamp importedWhen = rs.getTimestamp(1);
+                                String path = rs.getString(2);
+                                LOGGER.warn("On " + importedWhen + ", same file was already imported. It's name has now changed! (old path=" + path + ", new path=" + file + ")");
+                                if (!ignore) {
+                                    throw new RuntimeException();
+                                }
+                                sameFileFound[0] = true;
+                            }
+                        }
+                    });
         }
         return !sameFileFound[0];
     }
@@ -263,26 +253,26 @@ public class Import extends BaseStats {
         final boolean[] toImport = new boolean[]{true};
         JdbcUtilities.runSelectQuery("checking file " + file.getAbsolutePath() + " is known",
                 "SELECT imported_date, size FROM " + tableName + "_all_files WHERE path=?", con, new JdbcUtilities.SelectTask() {
-            public void setupStatement(PreparedStatement stmt) throws SQLException {
-                stmt.setString(1, file.getAbsolutePath());
-            }
-
-            public void run(ResultSet rs) throws SQLException {
-                while (rs.next()) {
-                    Timestamp importedWhen = rs.getTimestamp(1);
-                    long size = rs.getLong(2);
-                    if (size != fileSize) {
-                        LOGGER.warn("On " + importedWhen + " file " + file + " was already imported and it's size has changed");
-                        if (!ignore) {
-                            throw new RuntimeException();
-                        }
-                    } else {
-                        LOGGER.debug("On " + importedWhen + " file " + file + " was already imported");
+                    public void setupStatement(PreparedStatement stmt) throws SQLException {
+                        stmt.setString(1, file.getAbsolutePath());
                     }
-                    toImport[0] = false;
-                }
-            }
-        });
+
+                    public void run(ResultSet rs) throws SQLException {
+                        while (rs.next()) {
+                            Timestamp importedWhen = rs.getTimestamp(1);
+                            long size = rs.getLong(2);
+                            if (size != fileSize) {
+                                LOGGER.warn("On " + importedWhen + " file " + file + " was already imported and it's size has changed");
+                                if (!ignore) {
+                                    throw new RuntimeException();
+                                }
+                            } else {
+                                LOGGER.debug("On " + importedWhen + " file " + file + " was already imported");
+                            }
+                            toImport[0] = false;
+                        }
+                    }
+                });
         return toImport[0];
     }
 
@@ -468,54 +458,54 @@ public class Import extends BaseStats {
                 JdbcUtilities.runSelectQuery("reading cached values",
                         "SELECT general_cache_id, general_elapsed_time, images_mainmap_width, images_mainmap_height, layers, layers_switch_id, bbox_minx, bbox_miny, bbox_maxx, bbox_maxy, location_scale, query_results_count, query_results_table_count FROM " + tableName + " WHERE general_cache_id IS NOT NULL",
                         con, new JdbcUtilities.SelectTask() {
-                    private int cpt = 0;
+                            private int cpt = 0;
 
-                    public void setupStatement(PreparedStatement stmt) throws SQLException {
-                    }
+                            public void setupStatement(PreparedStatement stmt) throws SQLException {
+                            }
 
-                    public void run(ResultSet rs) throws SQLException {
-                        int count = 0;
-                        final int todo = hits.size();
-                        Progress progress = new Progress(10 * 1000, todo, "Cache hit record updating", LOGGER);
-                        while (rs.next()) {
-                            String cacheId = rs.getString(1);
-                            //We can have the same general_cache_id multiple times.
-                            //So we have to remove it from the set.
-                            if (hits.remove(cacheId)) {
-                                StatementUtils.copyFloat(rs, 2, updateStmt, 1);
-                                StatementUtils.copyInt(rs, 3, updateStmt, 2);
-                                StatementUtils.copyInt(rs, 4, updateStmt, 3);
-                                StatementUtils.copyString(rs, 5, updateStmt, 4);
-                                StatementUtils.copyInt(rs, 6, updateStmt, 5);
-                                StatementUtils.copyFloat(rs, 7, updateStmt, 6);
-                                StatementUtils.copyFloat(rs, 8, updateStmt, 7);
-                                StatementUtils.copyFloat(rs, 9, updateStmt, 8);
-                                StatementUtils.copyFloat(rs, 10, updateStmt, 9);
-                                StatementUtils.copyFloat(rs, 11, updateStmt, 10);
-                                StatementUtils.copyInt(rs, 12, updateStmt, 11);
-                                StatementUtils.copyString(rs, 13, updateStmt, 12);
-                                updateStmt.setString(13, cacheId);
-                                updateStmt.addBatch();
+                            public void run(ResultSet rs) throws SQLException {
+                                int count = 0;
+                                final int todo = hits.size();
+                                Progress progress = new Progress(10 * 1000, todo, "Cache hit record updating", LOGGER);
+                                while (rs.next()) {
+                                    String cacheId = rs.getString(1);
+                                    //We can have the same general_cache_id multiple times.
+                                    //So we have to remove it from the set.
+                                    if (hits.remove(cacheId)) {
+                                        StatementUtils.copyFloat(rs, 2, updateStmt, 1);
+                                        StatementUtils.copyInt(rs, 3, updateStmt, 2);
+                                        StatementUtils.copyInt(rs, 4, updateStmt, 3);
+                                        StatementUtils.copyString(rs, 5, updateStmt, 4);
+                                        StatementUtils.copyInt(rs, 6, updateStmt, 5);
+                                        StatementUtils.copyFloat(rs, 7, updateStmt, 6);
+                                        StatementUtils.copyFloat(rs, 8, updateStmt, 7);
+                                        StatementUtils.copyFloat(rs, 9, updateStmt, 8);
+                                        StatementUtils.copyFloat(rs, 10, updateStmt, 9);
+                                        StatementUtils.copyFloat(rs, 11, updateStmt, 10);
+                                        StatementUtils.copyInt(rs, 12, updateStmt, 11);
+                                        StatementUtils.copyString(rs, 13, updateStmt, 12);
+                                        updateStmt.setString(13, cacheId);
+                                        updateStmt.addBatch();
 
-                                if (++cpt % 50 == 0) {
-                                    int[] counts = updateStmt.executeBatch();
-                                    for (int i = 0; i < counts.length; ++i) {
-                                        count += counts[i];
+                                        if (++cpt % 50 == 0) {
+                                            int[] counts = updateStmt.executeBatch();
+                                            for (int i = 0; i < counts.length; ++i) {
+                                                count += counts[i];
+                                            }
+                                        }
+
+                                        progress.update(todo - hits.size());
                                     }
                                 }
+                                ++cpt;
+                                int[] counts = updateStmt.executeBatch();
+                                for (int i = 0; i < counts.length; ++i) {
+                                    count += counts[i];
+                                }
 
-                                progress.update(todo - hits.size());
+                                LOGGER.info(count + " cache hit records updated from " + cpt + " cached values");
                             }
-                        }
-                        ++cpt;
-                        int[] counts = updateStmt.executeBatch();
-                        for (int i = 0; i < counts.length; ++i) {
-                            count += counts[i];
-                        }
-
-                        LOGGER.info(count + " cache hit records updated from " + cpt + " cached values");
-                    }
-                });
+                        });
 
                 updateStmt.close();
             } catch (BatchUpdateException ex) {

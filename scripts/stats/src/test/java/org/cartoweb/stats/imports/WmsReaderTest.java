@@ -72,6 +72,19 @@ public class WmsReaderTest extends BaseTestCase {
         assertNull(record);
     }
 
+    public void testErrorSize() {
+        SideTables sideTables = new SideTables("test");
+        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
+
+        StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600000&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
+        assertNotNull(record);
+        assertEquals("width too big", record.isConsistent());
+
+        record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=600000&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
+        assertNotNull(record);
+        assertEquals("height too big", record.isConsistent());
+    }
+
     public void testSkipError() {
         SideTables sideTables = new SideTables("test");
         StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);

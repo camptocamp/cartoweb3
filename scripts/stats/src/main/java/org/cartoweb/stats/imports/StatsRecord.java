@@ -25,6 +25,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
+/**
+ * Represents one record created in the DB during the import.
+ */
 @Entity(name = "stats")
 public class StatsRecord implements Cloneable {
     @Column
@@ -358,5 +361,18 @@ public class StatsRecord implements Cloneable {
 
     public List<Integer> getLayerArray() {
         return layerArray;
+    }
+
+    /**
+     * @return null if the record is consistent or an error message
+     */
+    public String isConsistent() {
+        if (imagesMainmapWidth != null && imagesMainmapWidth > 500000) {
+            return "width too big";
+        }
+        if (imagesMainmapHeight != null && imagesMainmapHeight > 500000) {
+            return "height too big";
+        }
+        return null;
     }
 }

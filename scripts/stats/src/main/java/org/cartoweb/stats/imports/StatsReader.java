@@ -21,17 +21,8 @@ package org.cartoweb.stats.imports;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 public abstract class StatsReader implements Iterator<StatsRecord> {
@@ -91,6 +82,10 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
         }
 
         result = parse(curLine);
+        final String consistencyError = result.isConsistent();
+        if (consistencyError != null) {
+            parseError("Inconsistent values (" + consistencyError + ")", curLine);
+        }
         hasNextCalled = false;
         curLine = null;
         return result;
