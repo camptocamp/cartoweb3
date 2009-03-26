@@ -1585,7 +1585,8 @@ class ClientLayers extends ClientPlugin
                 $icon = $this->getPrintedIconPath($layer->icon);
             }
         }
-        $data = array('label' => I18n::gt($layer->label),
+        $data = array('id' => $layer->id,
+                      'label' => I18n::gt($layer->label),
                       'icon' => $icon,
                       'children' => array());
         
@@ -1633,46 +1634,132 @@ class ClientLayers extends ClientPlugin
     }
 
     /**
-     * Recursively detects selected layers parent nodes and substitutes them 
-     * if parents are aggregated.
-     * @param string current layer id
-     * @param array selected layers list
+     * Add into $printedNodes the parent nodes which are 'aggregate' or 'showInPdfLegend'
+     * @param string id of layer, we will seek it's parent node info
+     * @param array structure containing data of all layers available with current switch and rights
      * @param array structure containing data of layers to print
+     * @param string child node id, by reference to the printed list, not the complet children list
      */
-    protected function getPrintedParents($layerId, &$selectedLayers, 
-                                       &$printedNodes) {
-        $layer = $this->getLayerByName($layerId, false);
-        
-        if (!$layer instanceof LayerGroup || !$layer->children)
-            return;
-        
-        foreach ($layer->getChildren($this->layersState->switchId) as $childId) {
-            $key = array_search($childId, $selectedLayers);
-            if (is_numeric($key)) {
-                // if parent is aggregated, only display parent
-                if ($layer->aggregate) {
-                    if (!isset($printedNodes[$layerId])) {
-                        $printedNodes[$layerId] = array(
-                            'label' => I18n::gt($layer->label),
-                            'icon' => $this->getPrintedIconPath($layer->icon),
-                            'children' => array());
+    protected function getPrintedParents($layerId, $allLayers, &$printedNodes, $childIdRef) {
+        $parent = $this->getLayerParent($layerId, $allLayers);
+
+        if ($parent->aggregate) {
+            if (!isset($printedNodes[$parent->id])) {
+                $newnode = array(
+                    'id' => $parent->id,
+                    'label' => I18n::gt($parent->label),
+                    'icon' => $this->getPrintedIconPath($parent->icon),
+                    'children' => array(),
+                    'childrenIds' => array($childIdRef),
+                    'type' => 'aggregate');
+                // insert new node in sorted position
+                $newPrintedNodes = array();
+                foreach ($printedNodes as $nodeId => $nodevalue) {
+                    $newPrintedNodes[$nodeId] = $nodevalue;
+                    if ($nodeId == $childIdRef) {
+                        $newPrintedNodes[$parent->id] = $newnode;
                     }
-                    // retrieves layer classes:
-                    $printedNodes[$layerId]['children'] = 
-                        array_merge($printedNodes[$layerId]['children'],
-                                    $printedNodes[$childId]['children']);
-                    unset($printedNodes[$childId]);
-                } else {
-                    $childData = $printedNodes[$childId];
-                    unset($printedNodes[$childId]);
-                    $printedNodes[$childId] = $childData;
                 }
-                unset($selectedLayers[$key]);
+                $printedNodes = $newPrintedNodes;
             } else {
-                $this->getPrintedParents($childId, $selectedLayers,
-                                         $printedNodes);
+                $printedNodes[$parent->id]['childrenIds'] = 
+                    array_unique(array_merge($printedNodes[$parent->id]['childrenIds'], 
+                                             array($childIdRef)));
+            }
+            $childIdRef = $parent->id;
+        } elseif (!empty($parent->metaHash['showInPdfLegend']) && 
+                  $parent->metaHash['showInPdfLegend']) {
+            if (!isset($printedNodes[$parent->id])) {
+                //$printedNodes[$parent->id] = array(
+                $newnode = array(
+                    'id' => $parent->id,
+                    'label' => I18n::gt($parent->label),
+                    'icon' => $this->getPrintedIconPath($parent->icon),
+                    'children' => array(),
+                    'childrenIds' => array($childIdRef),
+                    'type' => 'showInPdfLegend');
+                // insert new node in sorted position
+                $newPrintedNodes = array();
+                foreach ($printedNodes as $nodeId => $nodevalue) {
+                    $newPrintedNodes[$nodeId] = $nodevalue;
+                    if ($nodeId == $childIdRef) {
+                        $newPrintedNodes[$parent->id] = $newnode;
+                    }
+                }
+                $printedNodes = $newPrintedNodes;
+            } else {
+                $printedNodes[$parent->id]['childrenIds'][] = $childIdRef;
+                $printedNodes[$parent->id]['childrenIds'] = 
+                    array_unique($printedNodes[$parent->id]['childrenIds']);
+            }
+            $childIdRef = $parent->id;
+        }     
+
+        if ($parent->id != 'root') {
+            $this->getPrintedParents($parent->id, $allLayers, &$printedNodes, $childIdRef);
+        }
+
+    }
+
+    /**
+     * Hierarchicaly reorder the nodes
+     * @param array structure containing data of layers to print
+     * @param array list of nodes to sort
+     * @param bool prevent infinite loop, default true
+     */
+    protected function orderPrintedNodes($printedNodes, $nodesToSort, $checkOrphan = true) {
+        $newNodesToSort = array();
+        $nodesFound = array();
+        foreach ($printedNodes as $nodeId => $nodeValue) {
+            if (isset($nodeValue['childrenIds'])) {
+                foreach ($nodeValue['childrenIds'] as $childId) {
+                    if (in_array($childId, $nodesToSort)) {
+                        // we found a direct parent of one of the node in nodesToSort
+                        switch ($nodeValue['type']) {
+                            case 'aggregate':
+                                $printedNodes[$nodeId]['children'] = 
+                                    array_merge($printedNodes[$nodeId]['children'],
+                                                $printedNodes[$childId]['children']);
+                            break;
+                            case 'showInPdfLegend':
+                                if (sizeof($printedNodes[$nodeId]['children']) == 0) {
+                                    //first child element, position 0
+                                    $printedNodes[$nodeId]['children'][] = $printedNodes[$childId];
+                                } else {
+                                    // child already exist, trying to reorder
+                                    $newChildren = array();
+                                    foreach ($nodeValue['childrenIds'] as $refNodeId) {
+                                        $found = false;
+                                        foreach ($printedNodes[$nodeId]['children'] as $child) {
+                                            if ($child['id'] == $refNodeId) {
+                                                $newChildren[] = $child;
+                                                $found = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!$found) {
+                                            $newChildren[] = $printedNodes[$childId];
+                                        }
+                                    }
+                                    $printedNodes[$nodeId]['children'] = $newChildren;
+                                }
+                            break;
+                        }
+                        unset($printedNodes[$childId]);
+                        $newNodesToSort[] = $nodeId;
+                        $nodesFound[] = $childId;
+                    }
+                }
             }
         }
+        // look if some node are still orphan
+        $orphan = array_diff($nodesToSort, $nodesFound);
+        if (sizeof($orphan) > 0 && $checkOrphan) {
+            // no parent found means we reached the last level
+            return;
+        }
+        // recursive call
+        $this->orderPrintedNodes(&$printedNodes, array_unique($newNodesToSort));
     }
 
     /**
@@ -1694,8 +1781,35 @@ class ClientLayers extends ClientPlugin
                 unset($selectedLayers[$key]);
         }
         
-        $this->getPrintedParents('root', $selectedLayers, $printedNodes);
+        // add all parent nodes which need to be rendered in the legend "tree", still as a flat list
+        $allLayers = $this->getLayersSecurityFiltered();
+        foreach ($selectedLayers as $key => $layerId) {
+            $this->getPrintedParents($layerId, $allLayers, &$printedNodes, $layerId);
+        }
+
+        // move nodes accordingly to their parent-children hierarchy
+        $this->orderPrintedNodes(&$printedNodes, $selectedLayers, false);
+
         return $printedNodes;
+    }
+
+    /**
+     * Find and return the parent of a layer
+     * @param string layer id
+     * @param array structure containing data of all layers available with current switch and rights
+     * @return object layer node
+     */
+    public function getLayerParent($layerId, $allLayers) {
+        $parent = null;
+        foreach ($allLayers as $layer) {
+            if (($layer->className == 'LayerGroup' || $layer->className == 'LayerGroup') && 
+                sizeof($layer->children[0]->layers) > 0 && 
+                in_array($layerId,$layer->children[0]->layers)) {
+                $parent = $layer;
+                break;
+            }
+        }
+        return $parent;
     }
 
     /**

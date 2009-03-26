@@ -196,6 +196,9 @@ layers.my_layer.msLayer = my_layer]]></programlisting>
         <listitem>
          <para>layers.layerId.metadata.minScale (resp. maxScale): one may specify a numerical minimal (resp. maximal) scale for the given LayerGroup. This parameter has absolutely no effect on Mapserver behavior and is only used to display out-of-scale icons and links in the layers tree. For more info about <filename>layers.ini</filename> metadata parameters, see <xref linkend="user.layers.metadata.inifile"/>.</para>
         </listitem>
+        <listitem>
+         <para>layers.layerId.metadata.showInPdfLegend : set to <parameter>true</parameter> to display this layerGroup in the legend block in the PDF export (layerGroups are not shown by default).</para>
+        </listitem>
       </itemizedlist>
     </sect2>
     <sect2 id="user.layers.tree.children">
