@@ -2,7 +2,8 @@ CartoWeb HEAD
 =============
 
 - Fixed multithreads conflicts in throttling plugin.
-
+- Added a config parameter to print layergroups in PDF legends
+- Added geoloc plugin in trunk
 
 2008-09-04: CartoWeb 3.5.0
 ==========================

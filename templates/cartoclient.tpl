@@ -46,6 +46,12 @@
   {if $exportPdf|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}exportPdf.js{/r}"></script>{/if}
   {if $exportPdfRotate|default:''}<script type="text/javascript" src="{r type=js plugin=exportPdf}dhtmlPdf.js{/r}"></script>{/if}
   {if $linkIt|default:'' && !$ajaxOn}<script type="text/javascript" src="{r type=js}prototype.js{/r}"></script>{/if}
+  {if $geoloc_active}
+    <script type="text/javascript" src="{r type=js plugin=geoloc}geoloc.js{/r}"></script>
+    {if $ajaxOn|default:''}
+    <script type="text/javascript" src="{r type=js plugin=geoloc}Geoloc.ajax.js{/r}"></script>
+    {/if}
+  {/if}
 
 </head>
 
