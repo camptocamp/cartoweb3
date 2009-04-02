@@ -1758,6 +1758,9 @@ class ClientLayers extends ClientPlugin
             // no parent found means we reached the last level
             return;
         }
+        if (sizeof($newNodesToSort) == 0) {
+            return;
+        }
         // recursive call
         $this->orderPrintedNodes(&$printedNodes, array_unique($newNodesToSort));
     }
@@ -1800,16 +1803,31 @@ class ClientLayers extends ClientPlugin
      * @return object layer node
      */
     public function getLayerParent($layerId, $allLayers) {
-        $parent = null;
         foreach ($allLayers as $layer) {
-            if (($layer->className == 'LayerGroup' || $layer->className == 'LayerGroup') && 
+            if ($layer->className == 'Layer' && 
+                !empty($layer->children) &&
                 sizeof($layer->children[0]->layers) > 0 && 
-                in_array($layerId,$layer->children[0]->layers)) {
-                $parent = $layer;
-                break;
+                in_array($layerId, $layer->children[0]->layers)) {
+                return $layer;
+            }
+            
+            if ($layer->className == 'LayerGroup') {
+                if ($this->layersState->switchId != 'default') {
+                    $switches = array($this->layersState->switchId, 'default');
+                } else {
+                    $switches = array('default');
+                }
+                
+                foreach ($switches as $switch) {
+                    if (!empty($layer->children[$switch]) &&
+                        sizeof($layer->children[$switch]->layers) > 0 && 
+                        in_array($layerId, $layer->children[$switch]->layers)) {
+                        return $layer;
+                    }
+                }
             }
         }
-        return $parent;
+        return null;
     }
 
     /**
