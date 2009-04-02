@@ -1667,8 +1667,7 @@ class ClientLayers extends ClientPlugin
                                              array($childIdRef)));
             }
             $childIdRef = $parent->id;
-        } elseif (!empty($parent->metaHash['showInPdfLegend']) && 
-                  $parent->metaHash['showInPdfLegend']) {
+        } elseif ($parent->getMetadata('showInPdfLegend')) {
             if (!isset($printedNodes[$parent->id])) {
                 //$printedNodes[$parent->id] = array(
                 $newnode = array(
