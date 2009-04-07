@@ -683,7 +683,8 @@ Map.prototype.linkit = function(aDisplay) {
           method: 'get',
           onSuccess: function(transport) {
             linkbox.innerHTML = transport.responseText;
-            xGetElementById('linkItUrl').select();
+            $('linkItUrl').select();
+            $('linkItUrl').select(); /* !!!!!!!!!!!!! very important because IE doesnt react to the first call at once */
           }
         });
         
