@@ -21,11 +21,7 @@ package org.cartoweb.stats.imports;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SimpleTimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +56,7 @@ public class WmsReader extends BaseWmsReader {
                     }
 
                     String mapId = mapIdExtractor.extract(curLine);
-                    if (mapId==null) {
+                    if (mapId == null) {
                         parseError("Cannot find the mapId (project) from line", curLine);
                         return null;
                     }

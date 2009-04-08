@@ -82,9 +82,11 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
         }
 
         result = parse(curLine);
-        final String consistencyError = result.isConsistent();
-        if (consistencyError != null) {
-            parseError("Inconsistent values (" + consistencyError + ")", curLine);
+        if (result != null) {
+            final String consistencyError = result.isConsistent();
+            if (consistencyError != null) {
+                parseError("Inconsistent values (" + consistencyError + ")", curLine);
+            }
         }
         hasNextCalled = false;
         curLine = null;
