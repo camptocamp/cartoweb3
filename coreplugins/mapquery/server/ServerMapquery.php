@@ -52,16 +52,7 @@ class ServerMapquery extends ServerPlugin {
      * @return array
      */
     protected function genericQueryString($idAttribute, $idType, $selectedIds) {
-    
-        // FIXME: does queryByAttributes support multiple id's for dbf ?
-        $queryString = array();
-        foreach($selectedIds as $id) {
-            if ($idType == 'string')
-                $queryString[] = "'[$idAttribute]' = '$id'";
-            else
-                $queryString[] = "[$idAttribute] = $id";
-        } 
-        return array('(' . implode(' OR ', $queryString) . ')');
+        return array('("[' . $idAttribute . ']" IN "' . implode(',', $selectedIds) . '")');
     }
     
     /**
