@@ -1,6 +1,7 @@
 CartoWeb HEAD
 =============
 
+- Added select/unselect options in Search plugin to add/remove features to/from Query plugin selection
 - Fixed multithreads conflicts in throttling plugin.
 - Added a config parameter to print layergroups in PDF legends
 - Added geoloc plugin in trunk
