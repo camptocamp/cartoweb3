@@ -30,6 +30,7 @@
   <input type="hidden" id="search_sort_direction" name="search_sort_direction" value="asc" />
   <input type="hidden" id="search_number" name="search_number" />
   <input type="hidden" id="search_page" name="search_page" />
+  <input type="hidden" id="search_selection" name="search_selection" />
  
 <div id="search_results_div"></div>
 </p>
@@ -60,8 +61,13 @@
 </tr>
 </table>
 <p>
-  <input type="submit" value="{t}Recenter and Hilight{/t}" class="form_button"
-           onclick="javascript: search('districts');
+  <input type="submit" value="{t}Add to Selection{/t}" class="form_button"
+           onclick="javascript: $('search_selection').value = 'plus';
+                                search('districts');
+                                return false;" />
+  <input type="submit" value="{t}Remove From Selection{/t}" class="form_button"
+           onclick="javascript: $('search_selection').value = 'minus';
+                                search('districts');
                                 return false;" />
   <input type="submit" value="{t}Clear Hilight{/t}" class="form_button"
            onclick="javascript: $('query_clear').value = 1;

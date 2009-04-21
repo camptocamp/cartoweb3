@@ -232,6 +232,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
     
         $querySelection = new QuerySelection();
         $querySelection->layerId = $layerId;
+        $querySelection->useInQuery = true;
         $querySelection->policy = self::DEFAULT_POLICY;
         if (!is_null($this->getConfig()->defaultPolicy)) {
             $querySelection->policy = $this->getConfig()->defaultPolicy;            
@@ -358,12 +359,24 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                         $querySelection->selectedIds, $unselectIds);
                 }
                 
-                $querySelection->policy = $queryPolicy;
-                $querySelection->maskMode = (bool)$queryMaskMode;
-                $querySelection->hilight = (bool)$queryHilight;
-                $querySelection->tableFlags = new TableFlags();
-                $querySelection->tableFlags->returnAttributes = $queryRetAttr;
-                $querySelection->tableFlags->returnTable = $queryRetTable;
+                if (!empty($queryPolicy)) {
+                    $querySelection->policy = $queryPolicy;
+                }
+                if (!empty($queryMaskMode)) {
+                    $querySelection->maskMode = (bool)$queryMaskMode;
+                }
+                if (!empty($queryHilight)) {
+                    $querySelection->hilight = (bool)$queryHilight;
+                }
+                if (!empty($queryRetAttr) || !empty($queryRetTable)) {
+                    $querySelection->tableFlags = new TableFlags();
+                    if (!empty($queryRetAttr)) {
+                        $querySelection->tableFlags->returnAttributes = (bool)$queryRetAttr;
+                    }
+                    if (!empty($queryRetTable)) {                    
+                        $querySelection->tableFlags->returnTable = (bool)$queryRetTable;
+                    }
+                }
             }
         }
     }
@@ -496,8 +509,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
                                               $this->getConfig()->defaultTable;
             }
             $queryRequest->querySelections = $this->queryState->querySelections;        
-            $queryRequest->shape = $this->shape;
-            
+            $queryRequest->shape = $this->shape;   
             return $queryRequest;
         }
         return null;

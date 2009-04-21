@@ -617,7 +617,28 @@
     config.my_config.provider.recenter = recenter_layer
     config.my_config.provider.hilight = hilight_layer                               
             </programlisting>
-                <para>The two layers must exist in the mapfile. They will be used in ordre to recenter on and hilight search results.</para>
+                <para>The two layers must exist in the mapfile. They will be used in order to recenter on and hilight search results.</para>
+                <para>It is interesting to note that this feature uses plugin Query (see <xref 
+                  linkend="user.query" />). So hilight option can be used as a tool to help the user selecting
+                  objects on the map. He can select objects either by clicking on the map or using
+                  Search plugin.</para>
+                <para>HTTP Post parameter <parameter>search_selection</parameter> can be used to choose whether Search plugin will add objects to
+                  or remove them from selection. Setting <parameter>search_selection</parameter> to <parameter>"plus"</parameter> will tell
+                  the plugin to add objects to selection, while setting it to <parameter>"minus"</parameter> will tell the plugin to 
+                  remove them from selection. For instance:</para>
+            <programlisting>
+<![CDATA[            
+  <input type="hidden" id="search_selection" name="search_selection" />
+  <input type="submit" value="{t}Add to Selection{/t}" class="form_button"
+           onclick="javascript: $('search_selection').value = 'plus';
+                                search('layer');
+                                return false;" />
+  <input type="submit" value="{t}Remove From Selection{/t}" class="form_button"
+           onclick="javascript: $('search_selection').value = 'minus';
+                                search('layer');
+                                return false;" />
+]]>                              
+            </programlisting>
                 <para>This option is only available for client-side search configurations.</para>
             </sect3>
             <sect3 id="user.Search.advance.Writing_a_fromatter">

@@ -232,17 +232,19 @@ class ClientSearch extends ClientPlugin
                 $this->searchResult = $config->provider->getResult($this->searchRequest);
 
                 $ids = implode(',', $this->searchResult->table->getIds());
-                $recenter = $this->configs[$this->searchRequest->config]->provider->recenter;
-                if (!empty($recenter)) {
+                $provider = $this->configs[$this->searchRequest->config]->provider;
+                if (isset($provider->recenter) && !empty($provider->recenter)) {
                     $request->setValue('id_recenter_ids', $ids);
-                    $request->setValue('id_recenter_layer', $recenter);
+                    $request->setValue('id_recenter_layer', $provider->recenter);
                 }
-                $hilight = $this->configs[$this->searchRequest->config]->provider->hilight;
-                if (!empty($hilight)) {
-                    $request->setValue('query_select', $ids);
-                    $request->setValue('query_layer', $hilight);
-                    $request->setValue('query_hilight', true);
-                    $request->setValue('query_return_attributes', true);
+                if (isset($provider->hilight) && !empty($provider->hilight)) {
+                    $select = $request->getValue('search_selection');
+                    if ($select == 'minus') {
+                        $request->setValue('query_unselect', $ids);
+                    } else {
+                        $request->setValue('query_select', $ids);
+                    }
+                    $request->setValue('query_layer', $provider->hilight);
                 }
             }
         }
@@ -341,15 +343,16 @@ class ClientSearch extends ClientPlugin
                         
             $pluginEnabler->disableCoreplugins();
             if (isset($_POST['search_config'])) {
-                $config = $this->configs[$_POST['search_config']];   
+                $provider = $this->configs[$_POST['search_config']]->provider;   
 
-                if (!empty($config->provider->recenter) || !empty($config->provider->hilight)) {
+                if ((isset($provider->recenter) && !empty($provider->recenter))
+                    || (isset($provider->hilight) && !empty($provider->hilight))) {
                     $pluginEnabler->enablePlugin('images');
                 }
-                if (!empty($config->provider->recenter)) {
+                if (isset($provider->recenter) && !empty($provider->recenter)) {
                     $pluginEnabler->enablePlugin('location');
                 }   
-                if (!empty($config->provider->hilight)) {
+                if ((isset($provider->hilight) && !empty($provider->hilight))) {
                     $pluginEnabler->enablePlugin('query');
                     $pluginEnabler->enablePlugin('tables');
                 }   
