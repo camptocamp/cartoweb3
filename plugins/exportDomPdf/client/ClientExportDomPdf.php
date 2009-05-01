@@ -38,7 +38,6 @@ class DPdfImage {
  */
 class ClientExportDomPdf extends ExportPlugin {
 
-
     private $log;
 
     protected $orientations;
@@ -145,28 +144,31 @@ class ClientExportDomPdf extends ExportPlugin {
 
     protected function getConfiguration() {
 
-        $config = new ExportConfiguration();
-
-        $mapServerResolution = $this->getConfig()->mapServerResolution;
-
         $format = $this->size . '.' . $this->orientation;
         $mapWidth = $this->getConfig()->{$format . '.width'};
         $mapHeight = $this->getConfig()->{$format . '.height'};
         $this->mainmap = new DPdfImage;
         $this->mainmap->width = $mapWidth;
         $this->mainmap->height = $mapHeight;
-        $mapWidth *= $this->resolution / $mapServerResolution;
-        $mapHeight *= $this->resolution / $mapServerResolution;
 
+        $config = new ExportConfiguration();
+
+        //$mapServerResolution = $this->getConfig()->mapServerResolution;
+
+        //$mapWidth *= $this->resolution / $mapServerResolution;
+        //$mapHeight *= $this->resolution / $mapServerResolution;
+        
         $config->setMapWidth($mapWidth);
         $config->setMapHeight($mapHeight);
 
+/*
         $scale = $this->getLastScale();
         $scale *= $mapServerResolution;
         $scale /= $this->resolution;
         $config->setScale($scale);
 
         $config->setResolution($this->resolution);
+*/
 
         return $config;
     }
@@ -213,7 +215,6 @@ class ClientExportDomPdf extends ExportPlugin {
         $dompdf->load_html($smarty->fetch('pdf.tpl'));
         $dompdf->render();
         return $dompdf;
-
     }
 
     public function output() {

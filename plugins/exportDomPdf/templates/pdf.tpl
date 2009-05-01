@@ -5,12 +5,11 @@
 {literal}
 body {
   font-family: helvetica;
-  margin: 30px;
-  margin-top: 40px;
+  margin: 40px 30px 40px 30px;
 }
 table.query {
   border: 1px solid black;
-  width: 100%;
+  /*width: 100%;*/
   border-collapse: collapse;
 }
 table.query td, table.query th {
@@ -25,7 +24,9 @@ table.query th {
 table.map {
   width: 90%;
   border:0;
-  border-collapse: collapse;
+}
+table.map td {
+  /*border: 1px solid black;*/
 }
 table.map td.title {
   font-size: 2em;
@@ -35,11 +36,12 @@ table.map td.title {
 </head>
 <body>
 <table class="map">
-  <tr><td colspan="3"><img src="{$mainmapUrl}" width="{$mainmapWidth}" height="{$mainmapHeight}" style="border: 1px solid grey" /></tr>
+  <tr><td colspan="3"><img src="{$mainmapUrl}" width="{$mainmapWidth}" height="{$mainmapHeight}" style="border: 1px solid black;" /></tr>
+  <tr><td colspan="3">&nbsp;</td></tr>
   <tr>
     <td class="title">{$title}</td>
-    <td width="{$keymapWidth}"><img src="{$keymapUrl}" width="{$keymapWidth}" height="{$keymapHeight}" />
-    <td width="{$scalebarWidth}"><img src="{$scalebarUrl}" width="{$scalebarWidth}" height="{$scalebarHeight}" /></td>
+    <td style="text-align:right"><img src="{$keymapUrl}" width="{$keymapWidth}" height="{$keymapHeight}" />
+    <td style="text-align:right"><img src="{$scalebarUrl}" width="{$scalebarWidth}" height="{$scalebarHeight}" /></td>
   </tr>
 </table>
 {if $queryResult}

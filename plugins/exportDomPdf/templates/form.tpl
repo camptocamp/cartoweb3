@@ -22,8 +22,10 @@ function domPdfFormSubmit(myForm) {
 <div>{t}Format:{/t} 
 {html_options name="pdfSize" values=$sizes output=$sizes}</div>
 
+{*
 <div>{t}Resolution:{/t}
 {html_options name="pdfResolution" values=$resolutions output=$resolutions}</div>
+*}
 
 <div>{t}Orientation:{/t}
 {html_options name="pdfOrientation" values=$orientations output=$orientations}</div>
