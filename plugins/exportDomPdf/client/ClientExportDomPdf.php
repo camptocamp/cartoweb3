@@ -25,7 +25,7 @@
  * Export super class
  */
 require_once(CARTOWEB_HOME . 'client/ExportPlugin.php');
-require_once(realpath(dirname(__FILE__) . '/../lib/dompdf/dompdf_config.inc.php'));
+require_once(dirname(__FILE__) . '/dompdf_config.inc.php');
 
 class DPdfImage {
     public $width;
@@ -42,15 +42,11 @@ class ClientExportDomPdf extends ExportPlugin {
 
     protected $orientations;
     protected $sizes;
-    protected $resolutions;
     protected $filename;
 
     protected $orientation;
     protected $size;
-    protected $resolution;
     protected $title = '';
-
-    protected $mapScale;
 
     protected $mainmap;
     protected $keymap;
@@ -67,11 +63,9 @@ class ClientExportDomPdf extends ExportPlugin {
     public function initialize() {
         $this->orientations = $this->getConfigFromList('orientations');
         $this->sizes = $this->getConfigFromList('sizes');
-        $this->resolutions = $this->getConfigFromList('resolutions');
         $this->filename = $this->getConfig()->filename;
 
         $this->orientation = $this->orientations[0];
-        $this->resolution = $this->resolutions[0];
         $this->size = $this->sizes[0];
     }
 
@@ -84,7 +78,6 @@ class ClientExportDomPdf extends ExportPlugin {
     public function handleHttpPostRequest($request) {
         $this->updateFromRequest($request, 'size');
         $this->updateFromRequest($request, 'orientation');
-        $this->updateFromRequest($request, 'resolution');
 
         if (!empty($request['pdfTitle'])) {
             $this->title = $request['pdfTitle'];
@@ -100,10 +93,6 @@ class ClientExportDomPdf extends ExportPlugin {
             case 'orientation':
                 $rname = 'pdfOrientation';
                 $names = 'orientations';
-                break;
-            case 'resolution':
-                $rname = 'pdfResolution';
-                $names = 'resolutions';
                 break;
             default: return;
         }
@@ -124,22 +113,8 @@ class ClientExportDomPdf extends ExportPlugin {
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         $smarty->assign(array('exportScriptPath' => $this->getExportUrl(),
                               'orientations' => $this->orientations,
-                              'resolutions' => $this->resolutions,
                               'sizes' => $this->sizes));
         return $smarty->fetch('form.tpl');
-    }
-
-    // TODO: factorize with exportPdf?
-    protected function getLastScale() {
-        if (!isset($this->mapScale)) {
-            $mapResult = $this->getLastMapResult();
-
-            if (is_null($mapResult))
-                return 0;
-    
-            $this->mapScale = $mapResult->locationResult->scale;
-        }
-        return $this->mapScale;
     }
 
     protected function getConfiguration() {
@@ -153,22 +128,8 @@ class ClientExportDomPdf extends ExportPlugin {
 
         $config = new ExportConfiguration();
 
-        //$mapServerResolution = $this->getConfig()->mapServerResolution;
-
-        //$mapWidth *= $this->resolution / $mapServerResolution;
-        //$mapHeight *= $this->resolution / $mapServerResolution;
-        
         $config->setMapWidth($mapWidth);
         $config->setMapHeight($mapHeight);
-
-/*
-        $scale = $this->getLastScale();
-        $scale *= $mapServerResolution;
-        $scale /= $this->resolution;
-        $config->setScale($scale);
-
-        $config->setResolution($this->resolution);
-*/
 
         return $config;
     }

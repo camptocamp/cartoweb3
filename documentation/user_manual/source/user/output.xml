@@ -7,8 +7,8 @@
   <!-- $Id$ -->
   
   <chapter id="user.output">
-   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins <subscript>[plugin] (exportCsv, exportHtml, exportDxf, exportRtf, exportImg)</subscript></title>
-   <subtitle>exportCsv, exportHtml, exportDxf, exportRtf Plugins</subtitle>
+   <title><indexterm><primary>Export plugins</primary></indexterm>Export Plugins <subscript>[plugin] (exportCsv, exportHtml, exportDxf, exportRtf, exportImg, exportDomPdf)</subscript></title>
+   <subtitle>exportCsv, exportHtml, exportDxf, exportRtf, exportDomPdf Plugins</subtitle>
    
    <sect1 id="user.output.intro"> 
     <title>Introduction</title>
@@ -302,6 +302,13 @@ optionalValues = ref,num,other
             <para>&cartoweb; allows to return a raw image map with no HTML. It is not an export plugin and thus has not to be activated anywhere. &cartoweb; simply needs to receive a <parameter>mode=image</parameter> REQUEST parameter (GET or POST). For instance: <programlisting><![CDATA[http://your/cartoweb3/?recenter_x=123456&recenter_y=654321&show_crosshair=1&mode=image]]></programlisting></para>
             <para>See <xref linkend="dev.newplugin.special.filters.parameters"/> for more details about the possible extra parameters allowed by this feature.</para>
         </sect2>  
+   </sect1>
+
+   <sect1 id="user.output.dompdf">
+     <title><indexterm><primary>PDF export using dompdf</primary></indexterm>PDF Export Using Dompdf</title>
+     <para>The <parameter>exportDomPdf</parameter> plugin offers an alternative to <parameter>exportPdf</parameter> (see <xref linkend="user.pdf" />) for PDF generation. It transforms HTML pages into PDF documents.</para>
+     <para>Configuration is done by overriding the default <filename>client_conf/exportDomPdf.ini</filename> file. Formats, orientations, filename conventions, mapsizes are thus editable.</para>
+     <para>The PDF document layout is adaptable by overriding the <filename>plugins/exportDomPdf/templates/pdf.tpl</filename> template in your project: it is mostly achievable with customized HTML and CSS code. See <ulink url="http://www.digitaljunkies.ca/dompdf/">dompdf website</ulink> for more info.</para>
    </sect1>
    
   </chapter>

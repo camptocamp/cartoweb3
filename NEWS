@@ -5,6 +5,7 @@ CartoWeb HEAD
 - Fixed multithreads conflicts in throttling plugin.
 - Added a config parameter to print layergroups in PDF legends
 - Added geoloc plugin in trunk
+- Added exportDomPdf plugin: uses dompdf lib to transform HTML into PDF
 
 2008-09-04: CartoWeb 3.5.0
 ==========================

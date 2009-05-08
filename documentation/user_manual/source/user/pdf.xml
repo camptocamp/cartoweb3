@@ -20,6 +20,8 @@
   <para>
    First part (<xref linkend="user.pdf.reference"/>) is a comprehensive reference of user-available configuration parameters. Second part (<xref linkend="user.pdf.tutorial"/>) is intended to be a small tutorial giving explanations and examples about how to configure the PDF exportation tool.
   </para>
+
+  <para>Please note that an alternative <parameter>exportDomPdf</parameter> plugin is available as well. It is based on the <ulink url="http://www.digitaljunkies.ca/dompdf/">dompdf</ulink> library to convert HTML/CSS into a PDF document. See <xref linkend="user.output.dompdf"/></para>
  </sect1>
 
  <sect1 id="user.pdf.reference">
