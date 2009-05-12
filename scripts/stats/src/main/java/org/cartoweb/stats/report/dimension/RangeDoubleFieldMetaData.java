@@ -23,6 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
+/**
+ * Does a classification using the list of double separated by comas as slots definition
+ */
 public class RangeDoubleFieldMetaData implements DimensionMetaData<IntField> {
     private final String fieldName;
     private final String type;

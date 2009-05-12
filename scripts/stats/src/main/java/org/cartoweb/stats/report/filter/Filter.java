@@ -25,8 +25,8 @@ import java.sql.SQLException;
 /**
  * Filter specification. There are two ways to filters the records:
  * <ul>
- * <li>SQL:  adds a where clause to the SELECT query
- * <li>Soft: filter the records in Java
+ * <li>SQL:  adds a where clause to the SELECT query (see {@link SQLOnlyFilter})
+ * <li>Soft: filter the records in Java (see {@link SoftOnlyFilter})
  * </ul>
  */
 public interface Filter {

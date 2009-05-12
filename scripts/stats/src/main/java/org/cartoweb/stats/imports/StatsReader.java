@@ -93,6 +93,9 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
         return result;
     }
 
+    /**
+     * Parse one line from the stats file.
+     */
     protected abstract StatsRecord parse(String curLine);
 
     public void remove() {

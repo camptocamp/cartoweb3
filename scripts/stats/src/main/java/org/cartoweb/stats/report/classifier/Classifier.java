@@ -25,11 +25,7 @@ import org.cartoweb.stats.report.dimension.DimensionMetaData;
 import org.cartoweb.stats.report.result.Result;
 import org.pvalsecc.jdbc.JdbcUtilities;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +77,7 @@ public abstract class Classifier<RESULT> {
                 //check we didn't change for another time period
                 final Timestamp prevTime = curTimes[i];
                 if (prevTime != null && prevTime.getTime() != curTime) {
+                    //flush a timescale slot since we don't need it anymore
                     save(con, dimensionMetaDatas, results, curValues, timeScale, prevTime);
                     curTimes[i] = new Timestamp(curTime);
                     curValues.clear();

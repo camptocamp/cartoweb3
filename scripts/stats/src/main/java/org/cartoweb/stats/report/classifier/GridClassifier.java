@@ -19,7 +19,6 @@
 package org.cartoweb.stats.report.classifier;
 
 import org.apache.log4j.Logger;
-import org.cartoweb.stats.report.Report;
 import org.cartoweb.stats.report.TimeScaleDefinition;
 import org.cartoweb.stats.report.dimension.Dimension;
 import org.cartoweb.stats.report.dimension.DimensionMetaData;
@@ -27,18 +26,13 @@ import org.cartoweb.stats.report.result.Result;
 import org.pvalsecc.jdbc.JdbcUtilities;
 import org.pvalsecc.misc.StringUtils;
 
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class GridClassifier extends Classifier<long[][][]> {
-    private static final Logger LOGGER = Logger.getLogger(Report.class);
+    private static final Logger LOGGER = Logger.getLogger(GridClassifier.class);
 
     private final double minX;
     private final double deltaX;

@@ -21,6 +21,9 @@ package org.cartoweb.stats.report.filter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * A filter that uses only SQL to filter records.
+ */
 public abstract class SQLOnlyFilter implements Filter {
     public String getSQLFields() {
         return null;

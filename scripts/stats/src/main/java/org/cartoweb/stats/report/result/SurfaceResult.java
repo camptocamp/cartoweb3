@@ -21,6 +21,9 @@ package org.cartoweb.stats.report.result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Count the number of map pixels.
+ */
 public class SurfaceResult implements Result {
     private int surface;
 

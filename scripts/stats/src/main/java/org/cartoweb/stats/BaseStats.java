@@ -20,11 +20,7 @@ package org.cartoweb.stats;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.log4j.*;
 import org.pvalsecc.jdbc.ConnectionFactory;
 import org.pvalsecc.jdbc.JdbcUtilities;
 import org.pvalsecc.opts.GetOptions;
@@ -34,11 +30,7 @@ import org.pvalsecc.opts.Option;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.List;
 
 /**

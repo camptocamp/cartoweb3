@@ -325,6 +325,9 @@ public class Import extends BaseStats {
         return result;
     }
 
+    /**
+     * Imports one file into the DB.
+     */
     private void convertFile(final Connection con, File file) throws IOException, SQLException {
         try {
             final String query = "INSERT INTO " + tableName + " (" + MAPPER.getFieldNames() + ") VALUES (" + MAPPER.getInsertPlaceHolders() + ")";

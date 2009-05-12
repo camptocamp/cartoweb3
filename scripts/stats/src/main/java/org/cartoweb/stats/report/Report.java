@@ -28,11 +28,7 @@ import org.cartoweb.stats.report.result.Result;
 import org.pvalsecc.jdbc.JdbcUtilities;
 import org.pvalsecc.misc.UnitUtilities;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +54,10 @@ public class Report {
         this.label = label;
     }
 
+    /**
+     * Check the status from the previous run and initialise the {@link #firstRun} property accordingly.
+     * Drops the previous table if the conf changed (if allowed).
+     */
     public void init(final Connection con, final String tableName, final boolean purgeOnConfigurationChange) throws SQLException {
         firstRun = true;
         lastIdSeen = -1;
@@ -77,8 +77,8 @@ public class Report {
                             throw new ConfigurationChangeException("Configuration changed for report '" + name + "'");
                         } else {
                             LOGGER.warn("Configuration changed for report [" + name + "] deleting the old results.");
+                            dropStructure(con, tableName);
                         }
-                        dropStructure(con, tableName);
                     } else {
                         //OK, same config.
                         firstRun = false;
@@ -164,14 +164,21 @@ public class Report {
         LOGGER.info("Time to run [" + name + "]: " + UnitUtilities.toElapsedTime(System.currentTimeMillis() - startTime) + " lastId=" + lastIdSeen + " lastTime=" + lastTimeSeen);
     }
 
+    /**
+     * Save the _dimensions table (for the GUI comboboxes)
+     *
+     * @param con
+     * @param tableName
+     * @throws SQLException
+     */
     private void saveDimensionsValues(Connection con, String tableName) throws SQLException {
         JdbcUtilities.runDeleteQuery("removing old dimensions for [" + name + "]",
                 "DELETE FROM " + tableName + "_dimensions WHERE report_name=?",
                 con, new JdbcUtilities.DeleteTask() {
-            public void setupStatement(PreparedStatement stmt) throws SQLException {
-                stmt.setString(1, name);
-            }
-        });
+                    public void setupStatement(PreparedStatement stmt) throws SQLException {
+                        stmt.setString(1, name);
+                    }
+                });
 
         final String reportTableName = classifier.getBiggestTimeScaleTableName();
         for (int i = 0; i < dimensionMetaDatas.length; ++i) {
@@ -182,15 +189,18 @@ public class Report {
                 JdbcUtilities.runDeleteQuery("inserting values for [" + fieldName + "] for [" + name + "]",
                         "INSERT INTO " + tableName + "_dimensions (report_name, field_name, id) SELECT ?,?," + fieldName + " FROM " + reportTableName + " GROUP BY " + fieldName,
                         con, new JdbcUtilities.DeleteTask() {
-                    public void setupStatement(PreparedStatement stmt) throws SQLException {
-                        stmt.setString(1, name);
-                        stmt.setString(2, fieldName);
-                    }
-                });
+                            public void setupStatement(PreparedStatement stmt) throws SQLException {
+                                stmt.setString(1, name);
+                                stmt.setString(2, fieldName);
+                            }
+                        });
             }
         }
     }
 
+    /**
+     * Clear the old stats we don't need anymore.
+     */
     private void purgeOld(Connection con) throws SQLException {
         for (int i = 0; i < classifier.getTimeScales().length; ++i) {
             TimeScaleDefinition timeScaleDefinition = classifier.getTimeScales()[i];
@@ -198,14 +208,17 @@ public class Report {
             String tableName = timeScaleDefinition.getTableName(classifier.getResultTableName());
             int nb = JdbcUtilities.runDeleteQuery("Purging old (<" + time + ") entries in " + tableName,
                     "DELETE FROM " + tableName + " WHERE general_time<?", con, new JdbcUtilities.DeleteTask() {
-                public void setupStatement(PreparedStatement stmt) throws SQLException {
-                    stmt.setTimestamp(1, time);
-                }
-            });
+                        public void setupStatement(PreparedStatement stmt) throws SQLException {
+                            stmt.setTimestamp(1, time);
+                        }
+                    });
             LOGGER.debug(nb + " entries removed from " + tableName);
         }
     }
 
+    /**
+     * Update the _reports table
+     */
     private void saveStatus(Connection con, final String tableName) throws SQLException {
         JdbcUtilities.runDeleteQuery("deleting the old status for report '" + name + "'", "DELETE FROM " + tableName + "_reports WHERE name=?", con, new JdbcUtilities.DeleteTask() {
             public void setupStatement(PreparedStatement stmt) throws SQLException {
@@ -215,26 +228,26 @@ public class Report {
 
         JdbcUtilities.runDeleteQuery("saving the status for report '" + name + "'",
                 "INSERT INTO " + tableName + "_reports (name, last_id, last_time, config, tables, label) VALUES (?,?,?,?,?,?)", con, new JdbcUtilities.DeleteTask() {
-            public void setupStatement(PreparedStatement stmt) throws SQLException {
-                StringBuilder config = new StringBuilder();
-                getIniFile(config);
-                stmt.setString(1, name);
-                stmt.setLong(2, lastIdSeen);
-                stmt.setTimestamp(3, lastTimeSeen);
-                stmt.setString(4, config.toString());
+                    public void setupStatement(PreparedStatement stmt) throws SQLException {
+                        StringBuilder config = new StringBuilder();
+                        getIniFile(config);
+                        stmt.setString(1, name);
+                        stmt.setLong(2, lastIdSeen);
+                        stmt.setTimestamp(3, lastTimeSeen);
+                        stmt.setString(4, config.toString());
 
-                StringBuilder tables = new StringBuilder();
-                for (int i = 0; i < classifier.getTimeScales().length; ++i) {
-                    TimeScaleDefinition timeScaleDefinition = classifier.getTimeScales()[i];
-                    if (i > 0) {
-                        tables.append(',');
+                        StringBuilder tables = new StringBuilder();
+                        for (int i = 0; i < classifier.getTimeScales().length; ++i) {
+                            TimeScaleDefinition timeScaleDefinition = classifier.getTimeScales()[i];
+                            if (i > 0) {
+                                tables.append(',');
+                            }
+                            tables.append(timeScaleDefinition.getTableName(classifier.getResultTableName()));
+                        }
+                        stmt.setString(5, tables.toString());
+                        stmt.setString(6, label);
                     }
-                    tables.append(timeScaleDefinition.getTableName(classifier.getResultTableName()));
-                }
-                stmt.setString(5, tables.toString());
-                stmt.setString(6, label);
-            }
-        });
+                });
     }
 
     private void updateResults(Timestamp generalTime, Connection con, Dimension[][] dimensions, int depth, List<Dimension> temp) throws SQLException {
@@ -340,7 +353,7 @@ public class Report {
     }
 
     public void dropStructure(Connection con, String tableName) throws SQLException {
-        Utils.dropReportTables(con, tableName, name);        
+        Utils.dropReportTables(con, tableName, name);
     }
 
     public String getName() {

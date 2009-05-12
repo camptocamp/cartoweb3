@@ -35,8 +35,8 @@ import org.cartoweb.stats.report.result.Result;
 import org.cartoweb.stats.report.result.SurfaceResult;
 import org.ini4j.Ini;
 import org.pvalsecc.jdbc.JdbcUtilities;
-import org.pvalsecc.misc.UnitUtilities;
 import org.pvalsecc.misc.StringUtils;
+import org.pvalsecc.misc.UnitUtilities;
 import org.pvalsecc.opts.Option;
 
 import java.io.FileInputStream;
@@ -234,6 +234,9 @@ public class Reports extends BaseStats {
         }
     }
 
+    /**
+     * Check for reports that have been removed from the configuration file.
+     */
     private void checkDeletedReports(Connection con) throws SQLException {
         final Set<String> missings = new HashSet<String>();
         JdbcUtilities.runSelectQuery("reading list of existing reports", "SELECT name FROM " + tableName + "_reports", con, new JdbcUtilities.SelectTask() {
@@ -252,10 +255,10 @@ public class Reports extends BaseStats {
 
         if (missings.size() > 0) {
             if (!purgeOnConfigurationChange) {
-                throw new ConfigurationChangeException("Some reports have been deleted: "+ StringUtils.join(missings, ", "));                
+                throw new ConfigurationChangeException("Some reports have been deleted: " + StringUtils.join(missings, ", "));
             } else {
                 for (String missing : missings) {
-                    LOGGER.info("Report ["+missing+"] has been removed, deleting its DB content.");
+                    LOGGER.info("Report [" + missing + "] has been removed, deleting its DB content.");
                     Utils.dropReportTables(con, tableName, missing);
                 }
             }
@@ -297,6 +300,9 @@ public class Reports extends BaseStats {
         checkDB(con, tableName);
     }
 
+    /**
+     * check the _reports table exists, if not, create it. Same with _dimensions.
+     */
     public static void checkDB(Connection con, final String tableName) throws SQLException {
         if (!Utils.doesTableExist(con, tableName + "_reports")) {
             LOGGER.warn("Table " + tableName + "_reports missing. Creating it.");
