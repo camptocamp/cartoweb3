@@ -330,11 +330,14 @@ class ClientOutline extends ClientPlugin
         }
 
         foreach ($data as $data_item) { 
-            $data_parts = explode('|', $data_item);
+            $pipepos = strpos($data_item, '|');
+            $shapedata = substr($data_item, 0, $pipepos);
+            $shapelabel = substr($data_item, $pipepos + 1);
 
-            $shape = $this->getShape($type, $data_parts[0]);
+            $shape = $this->getShape($type, $shapedata);
+
             if ($shape) {
-                $label = !empty($data_parts[1]) ? $data_parts[1] : NULL;
+                $label = !empty($shapelabel) ? $shapelabel : NULL;
                 $this->handleShape($shape, $request, $label);
             }
         }
