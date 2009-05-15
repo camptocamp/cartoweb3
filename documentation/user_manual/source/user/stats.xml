@@ -39,6 +39,7 @@
       <para>This is needed by post-build automatic tests. Then simply run following build command:</para>
         <programlisting>
 <![CDATA[mvn clean install]]></programlisting>
+<warning><para>Be sure your locale are set to UTF-8, otherwise at least one test will fail (<filename>testSimple(org.cartoweb.stats.imports.WmsReaderTest)</filename>).</para></warning>
       </sect2>
       <sect2 id="user.stats.java.runimport">
       <title>Running Import</title>
