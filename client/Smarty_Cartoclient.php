@@ -247,7 +247,7 @@ class Smarty_Cartoclient extends Smarty {
         }
     
         if (!isset($escape) || $escape == 'html') { // html escape, default
-            $text = nl2br(htmlspecialchars($text));
+            $text = nl2br($text);
         } elseif (isset($escape) && ($escape == 'javascript' || 
                                      $escape == 'js')) { // javascript escape
             $text = str_replace('\'','\\\'', $text);
