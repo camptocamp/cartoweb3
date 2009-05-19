@@ -18,6 +18,7 @@
   {if $outline_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=outline}outline.css{/r}" />{/if}
   {if $toolpicker_active|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}toolPicker.css{/r}" title="stylesheet" />{/if}
   {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}
+  {if $stats_reports_form|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=statsReports}statsReports.css{/r}" />{/if}
 
   <link rel="icon" href="{r type=gfx/layout}cw3.png{/r}" type="image/png" />
   
@@ -52,6 +53,7 @@
     <script type="text/javascript" src="{r type=js plugin=geoloc}Geoloc.ajax.js{/r}"></script>
     {/if}
   {/if}
+  {if $stats_reports_form|default:''}<script type="text/javascript" src="{r type=js plugin=statsReports}StatsReports.js{/r}"></script>{/if}
 
 </head>
 
