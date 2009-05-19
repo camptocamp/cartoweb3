@@ -528,6 +528,10 @@ csvTextDelimiter = #
   STATUS ON
 END]]></programlisting>
       </sect2>
+      <sect2 id="user.stats.visualization.layers">
+      <title>Related Elements in layers.ini</title>
+      <para>In order to display map statistics of type <filename>gridbbox</filename> or <filename>griddenter</filename>, you must also add the "my_stats_layer" in the layers.ini (server side).</para>
+      </sect2>
   </sect1>
 </chapter>
         
