@@ -21,13 +21,20 @@ AjaxPlugins.StatsReports = {
             $('stats_options_block').innerHTML = pluginOutput.htmlCode.options;
           }
           if (pluginOutput.htmlCode.result) {
-              
+            if (!$('generated_result')) {
+                Logger.error('generated_result element does not exist!');
+                return;
+            }
             toggleGeneratedResult('show');              
             $('generated_result').innerHTML = pluginOutput.htmlCode.result;
             if (pluginOutput.htmlCode.showcsvlink) {
-              var cvslink = $('statscvslink');
-              cvslink.innerHTML = pluginOutput.htmlCode.showcsvlink;
-              cvslink.style.display = 'block';
+              if ($('statscvslink')) {
+                var cvslink = $('statscvslink');
+                cvslink.innerHTML = pluginOutput.htmlCode.showcsvlink;
+                cvslink.style.display = 'block';
+              } else {
+                Logger.warn('cvslink element does not exist!');
+              }
             }
           } else if (pluginOutput.variables.resulttype == 'map') {
             toggleGeneratedResult('hide');              
@@ -150,9 +157,17 @@ function changeDisplay() {
     }    
 }
 
-
 function getStatsCsv() {
     $('getStatsCsv').value = 1;
     doSubmit();
     $('getStatsCsv').value = 0;
+}
+
+function toggleGeneratedResult(action) {
+    if (action == 'show') {
+        $('generated_result').innerHTML = '';
+        $('generated_result').show();
+    } else {
+        $('generated_result').hide();
+    } 
 }
