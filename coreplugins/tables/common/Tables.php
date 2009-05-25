@@ -195,7 +195,7 @@ class Table extends CwSerializable {
     }
     
     /**
-     * Returns an array of all row identifiers. Or an empty array of the table
+     * Returns an array of all row identifiers. Or an empty array if the table
      * has no row identifiers.
      * @return array
      */
