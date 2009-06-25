@@ -25,14 +25,14 @@ import java.sql.SQLException;
  * Count the number of map pixels.
  */
 public class SurfaceResult implements Result {
-    private int surface;
+    private long surface;
 
     public String getSQLFields() {
-        return "greatest(least(images_mainmap_width, 99999), 0)*greatest(least(images_mainmap_height, 99999), 0)";
+        return "greatest(least(images_mainmap_width::INT8, 99999), 0)*greatest(least(images_mainmap_height::INT8, 99999), 0)";
     }
 
     public int updateFromResultSet(ResultSet rs, int pos) throws SQLException {
-        surface = rs.getInt(++pos);
+        surface = rs.getLong(++pos);
         return pos;
     }
 
