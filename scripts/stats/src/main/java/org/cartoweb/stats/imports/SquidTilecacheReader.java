@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SquidTilecacheReader extends BaseTilecacheReader {
-    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)   ([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET ([^\"]+) HTTP/[\\d\\.]+\" ([^ ]+) ([^ ]+) \"([^\"]+)\" \"([^\"]+)\" ([^ ]+)");
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+)[ ]+([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)   ([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET ([^\"]+) HTTP/[\\d\\.]+\" ([^ ]+) ([^ ]+) \"([^\"]+)\" \"([^\"]+)\" ([^ ]+)");
 
     private final BaseDateTimeParser dateTimeParser;
     private final TilecacheExtractor tilecacheExtractor;
