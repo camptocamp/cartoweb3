@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HaproxyWmsReader extends BaseWmsReader {
-    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\"");
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+)[ ]+([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\"");
     private static final Pattern MAPID_PATTERN = Pattern.compile("([^/]+)/.*");
     
     private final BaseDateTimeParser dateTimeParser;
