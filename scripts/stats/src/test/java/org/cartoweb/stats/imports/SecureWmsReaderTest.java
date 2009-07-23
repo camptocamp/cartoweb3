@@ -29,7 +29,7 @@ public class SecureWmsReaderTest extends BaseTestCase {
 
     public void testSimple() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new SecureWmsReader(sideTables, true, false);
+        StatsReader reader = new SecureWmsReader(sideTables, true, 96, false);
         StatsRecord record = reader.parse("1216798089606 - local_addr=127.0.0.1;date_unix=1216798089605;date_readable=Wed Jul 23 09:28:09 CEST 2008;local_name=localhost;request=BBOX=-2750560.0,-936638.9999999995,3583870.0,4673120.0&VENDOR_ONLINE_RESOURCE=http://localhost:8888/&SERVICE=WMS&HEIGHT=330&REQUEST=GetMap&STYLES=default&WIDTH=372&EXCEPTIONS=application/vnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&FORMAT=image/png&LAYERS=grid&SRS=EPSG:42304;requestURI=/owsproxyserver/gmap;user_principal=tomcat;local_port=8089;remote_host=127.0.0.2");
 
         assertEquals("127.0.0.2", record.getGeneralIp());
@@ -57,7 +57,7 @@ public class SecureWmsReaderTest extends BaseTestCase {
      */
     public void testOther() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new SecureWmsReader(sideTables, true, false);
+        StatsReader reader = new SecureWmsReader(sideTables, true, 96, false);
 
         StatsRecord record = reader.parse("1216798064664 - local_addr=127.0.0.1;date_unix=1216798064664;date_readable=Wed Jul 23 09:27:44 CEST 2008;local_name=localhost;request=STYLE=&LAYER=road&VENDOR_ONLINE_RESOURCE=http://localhost:8888/&VERSION=1.1.1&FORMAT=image/png&SERVICE=WMS&HEIGHT=16&REQUEST=GetLegendGraphic&WIDTH=16;requestURI=/owsproxyserver/gmap;user_principal=tomcat;local_port=8089;remote_host=127.0.0.1");
         assertNull(record);
@@ -68,7 +68,7 @@ public class SecureWmsReaderTest extends BaseTestCase {
 
     public void testError() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new SecureWmsReader(sideTables, true, false);
+        StatsReader reader = new SecureWmsReader(sideTables, true, 96, false);
         try {
             reader.parse("1216798089606 - local_addr=127.0.0.1;date_unix=1216798089605;date_readable=Wed Jul 23 09:28:09 CEST 2008;local_name=localhost;request=BBOX=-2750560.0,-936r638.9999999995,3583870.0,4673120.0&VENDOR_ONLINE_RESOURCE=http://localhost:8888/&SERVICE=WMS&HEIGHT=330&REQUEST=GetMap&STYLES=default&WIDTH=372&EXCEPTIONS=application/vnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&FORMAT=image/png&LAYERS=grid&SRS=EPSG:42304;requestURI=/owsproxyserver/gmap;user_principal=tomcat;local_port=8089;remote_host=127.0.0.2");
             fail("No exception raised");
@@ -93,7 +93,7 @@ public class SecureWmsReaderTest extends BaseTestCase {
 
     public void testErrorIgnored() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new SecureWmsReader(sideTables, true, true);
+        StatsReader reader = new SecureWmsReader(sideTables, true, 96, true);
 
         StatsRecord record = reader.parse("1216798089606 - local_addr=127.0.0.1;date_unix=1216798089605;date_readable=Wed Jul 23 09:28:09 CEST 2008;local_name=localhost;request=BBOX=-2750560.0,-936r638.9999999995,3583870.0,4673120.0&VENDOR_ONLINE_RESOURCE=http://localhost:8888/&SERVICE=WMS&HEIGHT=330&REQUEST=GetMap&STYLES=default&WIDTH=372&EXCEPTIONS=application/vnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&FORMAT=image/png&LAYERS=grid&SRS=EPSG:42304;requestURI=/owsproxyserver/gmap;user_principal=tomcat;local_port=8089;remote_host=127.0.0.2");
         assertNull(record);

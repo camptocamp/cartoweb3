@@ -49,6 +49,8 @@ Support files in those formats:
   - WMS (apache log files)
   - SecureWMS
   - CartoWeb
+  - HaproxyWMS
+  - SquidTilecache
 
 Files whose name ends by ".gz" are assumed to be in GZIP format and are
 de-compressed on the fly.

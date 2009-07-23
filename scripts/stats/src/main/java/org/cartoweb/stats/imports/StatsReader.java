@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
@@ -174,6 +175,17 @@ public abstract class StatsReader implements Iterator<StatsRecord> {
             LOGGER.warn("  " + curLine);
         } else {
             throw new RuntimeException(message + " in [" + file + "]: [" + curLine + "]");
+        }
+    }
+
+    /**
+     * Decode the %XX stuff.
+     */
+    protected static String decode(String s) {
+        try {
+            return URLDecoder.decode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

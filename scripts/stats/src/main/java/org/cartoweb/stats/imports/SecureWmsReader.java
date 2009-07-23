@@ -30,15 +30,15 @@ public class SecureWmsReader extends BaseWmsReader {
     private static final Pattern LINE_PATTERN = Pattern.compile("^\\d+ - (.*)$");
     private static final Pattern PARAM_PATTERN = Pattern.compile("([^=]+)=([^;]*)(;|$)");
 
-    public SecureWmsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
-        super(file, sideTables, wantLayers, skipErrors);
+    public SecureWmsReader(File file, SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) throws IOException {
+        super(file, sideTables, wantLayers, resolution, skipErrors);
     }
 
     /**
      * For tests only.
      */
-    protected SecureWmsReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
-        super(sideTables, wantLayers, skipErrors);
+    protected SecureWmsReader(SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) {
+        super(sideTables, wantLayers, resolution, skipErrors);
     }
 
     protected StatsRecord parse(String curLine) {

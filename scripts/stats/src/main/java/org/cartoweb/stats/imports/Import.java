@@ -81,6 +81,14 @@ public class Import extends BaseStats {
             environment = "STATS_FORMAT")
     private String mapIdConfig = null;
 
+    @Option(desc = "Used only if format='WMS'. Map resolution.",
+            environment = "STATS_FORMAT")
+    private Integer resolution = null;
+
+    @Option(desc = "Used only if format='SquidTilecache'. Configuration file name (.ini) that contains the options for referers and tilecache.",
+            environment = "STATS_FORMAT")
+    private String tilecacheConfig = null;
+
     @Option(desc = "Continue the import in case of parsing error",
             environment = "STATS_SKIP_ERRORS")
     private boolean skipErrors = false;
@@ -110,6 +118,18 @@ public class Import extends BaseStats {
             }
             if (mapIdRegExp != null && mapIdConfig != null) {
                 printUsage("You cannot set both 'mapIdRegExp' and 'mapIdConfig'");
+            }
+        }
+        if (format.equalsIgnoreCase("WMS") ||
+            format.equalsIgnoreCase("SecureWMS") ||
+            format.equalsIgnoreCase("HaproxyWMS")) {
+            if (resolution == null) {
+                resolution = 96;
+            }
+        }
+        if (format.equalsIgnoreCase("SquidTilecache")) {
+            if (tilecacheConfig == null) {
+                printUsage("Missing parameter 'tilecacheConfig'");
             }
         }
         sideTables = new SideTables(tableName);
@@ -374,11 +394,16 @@ public class Import extends BaseStats {
     private StatsReader createReader(File file) throws IOException {
         if (format.equalsIgnoreCase("WMS")) {
             MapIdExtractor mapIdExtractor = createMapIdExtractor();
-            return new WmsReader(file, sideTables, wantLayers, mapIdExtractor, skipErrors);
+            return new WmsReader(file, sideTables, wantLayers, resolution, mapIdExtractor, skipErrors);
         } else if (format.equalsIgnoreCase("SecureWMS")) {
-            return new SecureWmsReader(file, sideTables, wantLayers, skipErrors);
+            return new SecureWmsReader(file, sideTables, wantLayers, resolution, skipErrors);
+        } else if (format.equalsIgnoreCase("HaproxyWMS")) {
+            return new HaproxyWmsReader(file, sideTables, wantLayers, resolution, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {
             return new CartoWebReader(file, sideTables, wantLayers, skipErrors);
+        } else if (format.equalsIgnoreCase("SquidTilecache")) {
+            TilecacheExtractor tilecacheExtractor = new TilecacheExtractor(tilecacheConfig);
+            return new SquidTilecacheReader(file, sideTables, wantLayers, tilecacheExtractor, skipErrors);
         } else {
             throw new RuntimeException("Format not supported: " + format);
         }
@@ -391,7 +416,7 @@ public class Import extends BaseStats {
             return new ConfigMapIdExtractor(mapIdConfig);
         }
     }
-
+    
     public void dropStructure(Connection con) throws SQLException {
         Utils.dropAllReportTables(con, tableName);
         Utils.dropTable(con, tableName + "_all_files", true);

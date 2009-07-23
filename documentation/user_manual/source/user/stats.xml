@@ -79,14 +79,15 @@
         </listitem>
         <listitem>
         <para><parameter>--format</parameter> - format. Currently values are
-        <parameter>cartoweb</parameter> or <parameter>wms</parameter></para>
+        <parameter>CartoWeb</parameter>, <parameter>WMS</parameter>, <parameter>SecureWMS</parameter>,
+        <parameter>HaproxyWMS</parameter>, <parameter>SquidTilecache</parameter></para>
         </listitem>
         <listitem>
         <para><parameter>--logRegExp</parameter>- regular expression to limit processed
         file logs to those matching the expression</para>
         </listitem>
       </itemizedlist>
-      <para>For WMS imports, you need to speficy one of those two options:</para>
+      <para>For WMS imports, you need to specify one of those two options:</para>
       <itemizedlist>
         <listitem>
         <para><parameter>--mapIdRegExp</parameter> - regular expression that finds
@@ -122,6 +123,37 @@ GET /ogc-sitn/wms = main
 GET /ogc-sitn-annuaire/wms = annuaire
 GET /ogc-sitn-v1/wms = v1
 GET /ogc-sitj-v1/wms = jv1]]></programlisting>
+      <para>For SquidTilecache imports, you need to specify the following option:</para>
+      <itemizedlist>
+        <listitem>
+        <para><parameter>--tilecacheConfig</parameter> - filename for a .ini file that contains 
+        Tilecache configuration.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Content of the Tilecache configuration file:</para>
+        <programlisting>
+<![CDATA[[referers]
+referer1.com = myproject
+referer2.net = myproject
+
+[extent]
+xmin = 420000
+ymin = 30000
+xmax = 900000
+ymax = 350000
+
+[resolutions]
+0 = 4000
+1 = 2500
+2 = 1000
+3 = 500
+4 = 250
+5 = 100
+6 = 50
+
+[tiles]
+size = 256
+dpi = 254]]></programlisting>
       <para>Help on the possible parameters for a command can be obtained by starting it without parameters.</para>
       </sect2>
       <sect2 id="user.stats.java.configreports">

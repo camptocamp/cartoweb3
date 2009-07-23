@@ -29,7 +29,7 @@ public class WmsReaderTest extends BaseTestCase {
 
     public void testSimple() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), false);
+        StatsReader reader = new WmsReader(sideTables, true, 96, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), false);
         StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
 
         Timestamp time = createTimestamp(2, 2007, 4, 13, 23, 46, 30, 0);
@@ -56,7 +56,7 @@ public class WmsReaderTest extends BaseTestCase {
 
     public void testError() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), false);
+        StatsReader reader = new WmsReader(sideTables, true, 96, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), false);
         try {
             reader.parse("148.196.1.37 - - [13/May/2007:23:446:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
             fail("No exception raised");
@@ -67,14 +67,14 @@ public class WmsReaderTest extends BaseTestCase {
 
     public void testErrorEncoding() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
+        StatsReader reader = new WmsReader(sideTables, true, 96, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
         StatsRecord record = reader.parse("148.196.1.37 - - [19/Feb/2008:17:43:49 +0100] \"GET /ogc-sitn/wms?VERSION=1.1.1&REQUEST=GetMap&LAYERS=cn25&SRS=EPSG:9814&BBOX=550000,214600,550900,215800&WIDTH=300&HEIGHT=400%22%20width=%22100% HTTP/1.1\" 200 78562");
         assertNull(record);
     }
 
     public void testErrorSize() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
+        StatsReader reader = new WmsReader(sideTables, true, 96, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
 
         StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:46:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600000&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
         assertNotNull(record);
@@ -87,7 +87,7 @@ public class WmsReaderTest extends BaseTestCase {
 
     public void testSkipError() {
         SideTables sideTables = new SideTables("test");
-        StatsReader reader = new WmsReader(sideTables, true, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
+        StatsReader reader = new WmsReader(sideTables, true, 96, new RegExpMapIdExtractor("GET /([^/]+)/wms\\?"), true);
         StatsRecord record = reader.parse("148.196.1.37 - - [13/May/2007:23:446:30 +0200] \"GET /OGC-sitn/wms?REQUEST=GetMap&VERSION=1.1.1&BBOX=558100,202900,564900,207300&Width=600&Height=388.235294118&Layers=cN100,to%3Dt%C3%A9&Format=JPEG HTTP/1.1\" 200 100667");
         assertNull(record);
 

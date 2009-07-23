@@ -20,8 +20,6 @@ package org.cartoweb.stats.imports;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,15 +27,18 @@ import java.util.regex.Pattern;
 public abstract class BaseWmsReader extends StatsReader {
     private static final Pattern URL_PATTERN = Pattern.compile("([^=]+)=([^&]*)&?");
 
-    private static final double RESOLUTION = 96;
-    private static final double INCHES_IN_M = 39.3701;
+    private static final float METERS_PER_INCH = 0.0254f;
 
-    public BaseWmsReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
+    private final Integer resolution;
+    
+    public BaseWmsReader(File file, SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
+        this.resolution = resolution;
     }
 
-    protected BaseWmsReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
+    protected BaseWmsReader(SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) {
         super(sideTables, wantLayers, skipErrors);
+        this.resolution = resolution;
     }
 
     protected boolean parseUrl(String params, Map<String, String> fields) {
@@ -66,20 +67,9 @@ public abstract class BaseWmsReader extends StatsReader {
         final double maxx = result.getBboxMaxx();
         final Integer width = result.getImagesMainmapWidth();
         if (width != null && width != 0 && minx != 0 && maxx != 0 && minx != maxx) {
-            return (float) ((maxx - minx) / (width / (RESOLUTION * INCHES_IN_M)));
+            return (float) ((maxx - minx) / (width / (this.resolution / METERS_PER_INCH)));
         } else {
             return null;
-        }
-    }
-
-    /**
-     * Decode the %XX stuff.
-     */
-    protected static String decode(String s) {
-        try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
         }
     }
 }

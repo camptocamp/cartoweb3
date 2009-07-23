@@ -25,29 +25,28 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WmsReader extends BaseWmsReader {
-    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\" \\d+ \\d+.*");
-
-    private final MapIdExtractor mapIdExtractor;
+public class HaproxyWmsReader extends BaseWmsReader {
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \\[([^\\]]+)\\] ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) \"GET [^\"?]*\\?([^\"]+) HTTP/[\\d\\.]+\"");
+    private static final Pattern MAPID_PATTERN = Pattern.compile("([^/]+)/.*");
+    
     private final BaseDateTimeParser dateTimeParser;
-
-    public WmsReader(File file, SideTables sideTables, boolean wantLayers, Integer resolution, MapIdExtractor mapIdExtractor, boolean skipErrors) throws IOException {
+    
+    public HaproxyWmsReader(File file, SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, resolution, skipErrors);
-        this.mapIdExtractor = mapIdExtractor;
-        this.dateTimeParser = new WmsDateTimeParser();
+        this.dateTimeParser = new HaproxyDateTimeParser();
     }
 
-    protected WmsReader(SideTables sideTables, boolean wantLayers, Integer resolution, MapIdExtractor mapIdExtractor, boolean skipErrors) {
+    protected HaproxyWmsReader(SideTables sideTables, boolean wantLayers, Integer resolution, boolean skipErrors) {
         super(sideTables, wantLayers, resolution, skipErrors);
-        this.mapIdExtractor = mapIdExtractor;
-        this.dateTimeParser = new WmsDateTimeParser();
+        this.dateTimeParser = new HaproxyDateTimeParser();
     }
 
     protected StatsRecord parse(String curLine) {
         if (curLine.toLowerCase().contains("request=getmap")) {
+
             Matcher matcher = LINE_PATTERN.matcher(curLine);
             if (matcher.matches()) {
-                String params = matcher.group(5);
+                String params = matcher.group(18);
                 try {
                     Map<String, String> fields = new HashMap<String, String>();
 
@@ -56,13 +55,13 @@ public class WmsReader extends BaseWmsReader {
                         return null;
                     }
 
-                    String mapId = mapIdExtractor.extract(curLine);
-                    if (mapId == null) {
-                        parseError("Cannot find the mapId (project) from line", curLine);
-                        return null;
+                    Matcher mapIdMatcher = MAPID_PATTERN.matcher(matcher.group(9));
+                    String mapId = null;
+                    if (mapIdMatcher.matches()) {
+                        mapId = mapIdMatcher.group(1);
                     }
 
-                    return createRecord(matcher.group(1), matcher.group(3), matcher.group(4), mapId, fields);
+                    return createRecord(matcher.group(6), matcher.group(13), matcher.group(7), mapId, fields);
                 } catch (RuntimeException ex) {
                     parseError("Line with error (" + ex.getClass().getSimpleName() + " - " + ex.getMessage() + ")", curLine);
                     return null;
