@@ -28,7 +28,7 @@ public class SurfaceResult implements Result {
     private long surface;
 
     public String getSQLFields() {
-        return "greatest(least(images_mainmap_width::INT8, 99999), 0)*greatest(least(images_mainmap_height::INT8, 99999), 0)";
+        return "(CASE WHEN images_mainmap_width IS NULL THEN NULL ELSE greatest(least(images_mainmap_width::INT8, 99999), 0) END)*(CASE WHEN images_mainmap_height IS NULL THEN NULL ELSE greatest(least(images_mainmap_height::INT8, 99999), 0) END)";
     }
 
     public int updateFromResultSet(ResultSet rs, int pos) throws SQLException {
