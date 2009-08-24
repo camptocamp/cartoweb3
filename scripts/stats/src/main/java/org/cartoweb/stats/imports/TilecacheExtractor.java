@@ -125,8 +125,8 @@ public class TilecacheExtractor {
                     Integer.parseInt(urlFields.get("y3"));
         Float res = extractResolution(urlFields);
         Float tilesize = res * size;
-        Float x1 = x * tilesize + xmin;
-        Float y1 = y * tilesize + ymin;
+        Float x1 = x.floatValue() * tilesize + xmin;
+        Float y1 = y.floatValue() * tilesize + ymin;
         Float x2 = x1 + tilesize;
         Float y2 = y1 + tilesize;
         return x1.toString() + "," + y1.toString() + "," + x2.toString() + "," + y2.toString();
