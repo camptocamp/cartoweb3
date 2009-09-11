@@ -222,7 +222,7 @@ AjaxPlugins.YourPlugin.Actions.SomeAction = {
         Logger.note('Output something in the JSTraceDebugger window');
         // you can also define functions 
         ...
-    },
+    }
 };
 
 AjaxPlugins.YourPlugin.Actions.AnotherAction = {
