@@ -4,6 +4,8 @@
 # $Id$
 #
 
+SYMBOLSET
+
 SYMBOL
     NAME 'line' 
     TYPE ellipse 
@@ -11,4 +13,6 @@ SYMBOL
     POINTS
       1 1 
     END 
+END
+
 END

@@ -1,3 +1,5 @@
+SYMBOLSET
+
 SYMBOL
     NAME 'point'
     TYPE ellipse
@@ -40,4 +42,6 @@ SYMBOL
         10 6 1 6
     END
     FILLED TRUE
+END
+
 END
