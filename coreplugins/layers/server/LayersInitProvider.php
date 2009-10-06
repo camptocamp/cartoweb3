@@ -333,6 +333,19 @@ class LayersInitProvider implements InitProvider {
                 $layerClass->id = $layer->id . '_class_' . $i;
                 $layerClass->label = Encoder::encode($msClass->name, 'config');
 
+                 /* in mapserver 5.4.0-beta1 (2009-02-18) the metadata object 
+                 was converted from an array to a ms_hashtable_obj */
+                 if (is_object($layerClass->metadata) && 
+                     strtolower(get_class($layerClass->metadata)) == 'ms_hashtable_obj') {
+                     $metas = array();
+                     $msmetas = $layerClass->metadata;
+                     $key = null;
+                     while ($key = $msmetas->nextKey($key)) {
+                         $metas[$key] = $msmetas->get($key);
+                     }
+                     $layerClass->metadata = $metas;
+                 }
+
                 if ($layersInit->autoClassLegend) {
                     $layerClass->icon = $this->getClassIcon($layerClass->id, 
                                                             $msMapObj,
