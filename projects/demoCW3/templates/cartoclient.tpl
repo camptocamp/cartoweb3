@@ -276,9 +276,9 @@
   <div id="leftbar">
     <div>
       <ul id="tabnav2">
-        <li id="label2"><a href="javascript:ontop(2);enableTool('pdfrotate')">{t}Print{/t}</a></li>
-        <li id="label4"><a href="javascript:ontop(4)">{t}About{/t}</a></li>
-        <li id="label6"><a href="javascript:ontop(6)">{t}Help Viewer{/t}</a></li>
+        <li id="label2"><a href="javascript:ontop(2);enableTool('pdfrotate');">{t}Print{/t}</a></li>
+        <li id="label4"><a href="javascript:ontop(4);">{t}About{/t}</a></li>
+        <li id="label6"><a href="javascript:ontop(6);">{t}Help Viewer{/t}</a></li>
       </ul>
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
