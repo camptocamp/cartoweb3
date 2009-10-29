@@ -341,7 +341,7 @@ class LayersInitProvider implements InitProvider {
                      $msmetas = $layerClass->metadata;
                      $key = null;
                      while ($key = $msmetas->nextKey($key)) {
-                         $metas[$key] = $msmetas->get($key);
+                         $metas[] = $key . '=' . $msmetas->get($key);
                      }
                      $layerClass->metadata = $metas;
                  }
