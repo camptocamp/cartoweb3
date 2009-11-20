@@ -4,7 +4,7 @@
 #
 # This script count the number of generated PDFs out of Haproxy logs.
 # There must be one log file per day named YYYY-MM-DD-haproxy.log. Log lines
-# containing string /print/info are considered as print requests.
+# containing string /print/create are considered as print requests.
 #
 # Examples:
 #   countprint.sh
@@ -93,7 +93,7 @@ for date in `ls *.log |
        ([[ $date == $dateto ]] || [[ $date < $dateto ]]); then    
         field=0
         echo "Processing file $logdir/$date-haproxy.log"
-        for time in `grep /print/info $date-haproxy.log |
+        for time in `grep /print/create $date-haproxy.log |
 	             awk -F" " '{print $3; print $9}' |
 	             awk -F"/" '{print $1}'`; do
             if [ $field -eq 0 ]; then
