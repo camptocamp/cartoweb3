@@ -87,15 +87,30 @@ fi
 currentdir=`pwd`
 cd $logdir
 count=0
-for date in `ls *.log |
+for date in `ls *.log *.log.gz |
              awk -F"-haproxy" '{print $1}'`; do
+    if [ ! -e $date-haproxy.log.gz -a ! -e $date-haproxy.log ]; then
+        continue
+    fi
     if ([[ $date == $datefrom ]] || [[ $date > $datefrom ]]) &&
        ([[ $date == $dateto ]] || [[ $date < $dateto ]]); then    
         field=0
-        echo "Processing file $logdir/$date-haproxy.log"
-        for time in `grep /print/create $date-haproxy.log |
-	             awk -F" " '{print $3; print $9}' |
-	             awk -F"/" '{print $1}'`; do
+        filename=$date-haproxy.log.gz
+        if [ -e $date-haproxy.log ]; then
+            filename=$date-haproxy.log
+        fi
+        echo "Processing file $logdir/$filename"        
+        list=""
+        if [ -e $date-haproxy.log.gz ]; then
+            list=`gunzip -c $filename | grep /print/create | 
+                  awk -F" " '{print $3; print $9}' |
+                  awk -F"/" '{print $1}'`
+        fi
+        if [ -e $date-haproxy.log ]; then
+            list=`grep /print/create $filename |                                                                                                                    
+                  awk -F" " '{print $3; print $9}' |                                                                                                                                             awk -F"/" '{print $1}'`
+        fi
+        for time in $list; do
             if [ $field -eq 0 ]; then
                 increment=1
                 if [[ $date == $datefrom ]]; then
