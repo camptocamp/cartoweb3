@@ -2,9 +2,11 @@
 # -----------------------------------------------------------------------------
 # countprint.sh
 #
-# This script count the number of generated PDFs out of Haproxy logs.
-# There must be one log file per day named YYYY-MM-DD-haproxy.log. Log lines
-# containing string /print/create are considered as print requests.
+# This script count the number of generated PDFs out of Haproxy or Varnish
+# logs.
+# There must be one log file per day named YYYY-MM-DD-haproxy.log(.gz), or 
+# YYYY-MM-DD.log(.gz) for Varnish logs. Log lines containing string
+# /print/create are considered as print requests.
 #
 # Examples:
 #   countprint.sh
@@ -34,7 +36,8 @@ showhelp() {
     echo "       -tt   To time (format HH:MM:SS)"
     echo "       -p    Project (default all)"
     echo "       -l    Logs directory"
-    echo "       -h    display this help and exit"
+    echo "       -f    Format: haproxy or varnish"
+    echo "       -h    Display this help and exit"
     exit
 }
 
@@ -44,6 +47,8 @@ dateto=9999-99-99
 timeto=99:99:99
 project=all
 logdir=.
+format=haproxy
+postfix=-haproxy
 while [ "$1" != "" ]; do
     case $1 in
         -df )  shift
@@ -63,6 +68,9 @@ while [ "$1" != "" ]; do
                ;;
         -l )   shift
                logdir=$1
+               ;;
+        -f )   shift
+               format=$1               
                ;;
         -h )   showhelp
                exit
@@ -84,31 +92,56 @@ if [ ! -d $logdir ]; then
     showusage
 fi
 
+if [[ $format != 'haproxy' ]] && [[ $format != 'varnish' ]]; then
+    echo "Error: wrong format"
+    showusage
+fi
+if [[ $format == 'varnish' ]]; then
+    postfix=''
+fi
+
 currentdir=`pwd`
 cd $logdir
 count=0
 for date in `ls *.log *.log.gz |
-             awk -F"-haproxy" '{print $1}'`; do
-    if [ ! -e $date-haproxy.log.gz -a ! -e $date-haproxy.log ]; then
+             awk -F"$postfix.log" '{print $1}'`; do
+    if [ ! -e $date$postfix.log.gz -a ! -e $date$postfix.log ]; then
         continue
     fi
     if ([[ $date == $datefrom ]] || [[ $date > $datefrom ]]) &&
        ([[ $date == $dateto ]] || [[ $date < $dateto ]]); then    
         field=0
-        filename=$date-haproxy.log.gz
-        if [ -e $date-haproxy.log ]; then
-            filename=$date-haproxy.log
+        filename=$date$postfix.log.gz
+        if [ -e $date$postfix.log ]; then
+            filename=$date$postfix.log
         fi
         echo "Processing file $logdir/$filename"        
         list=""
-        if [ -e $date-haproxy.log.gz ]; then
-            list=`gunzip -c $filename | grep /print/create | 
-                  awk -F" " '{print $3; print $9}' |
-                  awk -F"/" '{print $1}'`
+        if [[ $format == 'haproxy' ]]; then
+            if [ -e $date$postfix.log.gz ]; then
+                list=`gunzip -c $filename | grep /print/create | 
+                      awk -F" " '{print $3; print $9}' |
+                      awk -F"/" '{print $1}'`
+            fi
+            if [ -e $date$postfix.log ]; then
+                list=`grep /print/create $filename |                                                                       
+                      awk -F" " '{print $3; print $9}' |
+                      awk -F"/" '{print $1}'`
+            fi
         fi
-        if [ -e $date-haproxy.log ]; then
-            list=`grep /print/create $filename |                                                                                                                    
-                  awk -F" " '{print $3; print $9}' |                                                                                                                                             awk -F"/" '{print $1}'`
+        if [[ $format == 'varnish' ]]; then
+            if [ -e $date$postfix.log.gz ]; then
+                list=`gunzip -c $filename | grep /print/create | 
+                      awk -F" " '{print $4; print $11}' |
+                      awk -F"/" '{print $3 ":" $6}' |
+                      awk -F":" '{print $2 ":" $3 ":" $4; print $5}'`
+            fi
+            if [ -e $date$postfix.log ]; then
+                list=`grep /print/create $filename |                                                                       
+                      awk -F" " '{print $4; print $11}' |
+                      awk -F"/" '{print $3 ":" $6}' |
+                      awk -F":" '{print $2 ":" $3 ":" $4; print $5}'`
+            fi
         fi
         for time in $list; do
             if [ $field -eq 0 ]; then
