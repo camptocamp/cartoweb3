@@ -132,15 +132,15 @@ for date in `ls *.log *.log.gz |
         if [[ $format == 'varnish' ]]; then
             if [ -e $date$postfix.log.gz ]; then
                 list=`gunzip -c $filename | grep /print/create | 
-                      awk -F" " '{print $4; print $11}' |
-                      awk -F"/" '{print $3 ":" $6}' |
-                      awk -F":" '{print $2 ":" $3 ":" $4; print $5}'`
+                      awk -F" " '{print $4 ":" $7}' |
+                      awk -F"/" '{print $3 ":" $5}' |
+                      awk -F":" '{print $2 ":" $3 ":" $4; print $7}'`
             fi
             if [ -e $date$postfix.log ]; then
                 list=`grep /print/create $filename |                                                                       
-                      awk -F" " '{print $4; print $11}' |
-                      awk -F"/" '{print $3 ":" $6}' |
-                      awk -F":" '{print $2 ":" $3 ":" $4; print $5}'`
+                      awk -F" " '{print $4 ":" $7}' |
+                      awk -F"/" '{print $3 ":" $5}' |
+                      awk -F":" '{print $2 ":" $3 ":" $4; print $7}'`
             fi
         fi
         for time in $list; do
