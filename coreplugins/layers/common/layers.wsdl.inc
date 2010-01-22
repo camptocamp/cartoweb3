@@ -2,7 +2,7 @@
 
       <complexType name="LayersRequest">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
           <element name="layerIds" type="types:ArrayOfLayerId"/>
           <element name="resolution" type="xsd:int"/>
         </all>
@@ -10,7 +10,7 @@
 
       <complexType name="LayersResult">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
         </all>
       </complexType>
 
@@ -32,7 +32,7 @@
 
       <complexType name="Layer">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
           <element name="id" type="xsd:string"/>
           <element name="label" type="xsd:string"/>
           <element name="children" type="types:ArrayOfLayerId" minOccurs="0"/>
@@ -48,7 +48,7 @@
 
       <complexType name="LayersInit">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
 
           <element name="notAvailableIcon" type="xsd:string"/>
           <element name="notAvailablePlusIcon" type="xsd:string"/>

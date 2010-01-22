@@ -2,7 +2,7 @@
  
       <complexType name="LocationRequest">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
           <element name="locationType"  type="types:LocationType"/>
           <element name="bboxLocationRequest" type="types:BboxLocationRequest" minOccurs="0"/>
           <element name="panLocationRequest" type="types:PanLocationRequest" minOccurs="0"/>
@@ -14,8 +14,8 @@
 
       <complexType name="LocationResult">
         <all>
-          <element name="className" type="xsd:string"/>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="className" type="xsd:string" nillable="true"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
           <element name="scale" type="xsd:double"/>
         </all>
       </complexType>
@@ -46,13 +46,13 @@
       <complexType name="LocationShortcut">
         <all>
           <element name="label" type="xsd:string"/>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
         </all>
       </complexType>
             
       <complexType name="LocationInit">
         <all>
-          <element name="className" type="xsd:string"/>
+          <element name="className" type="xsd:string" nillable="true"/>
           <element name="scales" type="types:ArrayOfLocationScale"/>
           <element name="minScale" type="xsd:double"/>
           <element name="maxScale" type="xsd:double"/>
@@ -77,7 +77,7 @@
 
       <complexType name="BboxLocationRequest">
         <all>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
         </all>
       </complexType>
 
@@ -101,7 +101,7 @@
 
       <complexType name="PanLocationRequest">
         <all>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
           <element name="panDirection" type="types:PanDirection"/>
         </all>
       </complexType>
@@ -118,7 +118,7 @@
 
       <complexType name="ZoomPointLocationRequest">
         <all>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
           <element name="point" type="types:Point"/>
           <element name="zoomType" type="types:ZoomType"/>
           <element name="zoomFactor" type="xsd:float" minOccurs="0"/>
@@ -137,9 +137,9 @@
       <complexType name="IdSelection">
         <all>
           <element name="layerId" type="xsd:string"/>
-          <element name="idAttribute" type="xsd:string"/>
+          <element name="idAttribute" type="xsd:string" nillable="true"/>
           <!-- should be a struct (string|integer) -->
-          <element name="idType" type="xsd:string"/>
+          <element name="idType" type="xsd:string" nillable="true"/>
           <!-- FIXME: integer should be supported also -->
           <element name="selectedIds" type="types:ArrayOfString"/>
         </all>
@@ -148,6 +148,6 @@
       <complexType name="RecenterLocationRequest">
         <all>
           <element name="idSelections" type="types:ArrayOfIdSelection"/>
-          <element name="fallbackBbox" type="types:Bbox"/>
+          <element name="fallbackBbox" type="types:Bbox" nillable="true"/>
         </all>
       </complexType>

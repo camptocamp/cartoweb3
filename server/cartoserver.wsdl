@@ -68,7 +68,7 @@
       <complexType name="GeoDimension">
         <all>
           <element name="dimension" type="types:Dimension"/>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
         </all>
       </complexType>
 
@@ -102,7 +102,7 @@
       
       <complexType name="InitialLocation">
         <all>
-          <element name="bbox" type="types:Bbox"/>
+          <element name="bbox" type="types:Bbox" nillable="true"/>
         </all>
       </complexType>
 
