@@ -197,7 +197,7 @@ class ClientExportRtf extends ExportPlugin {
          * Returns an RTF string containing the map and other choosen data
          * @return string  An RTF string containing the map and other choosen data
          */
-        private function render_rtf(){
+        protected function render_rtf(){
             $RTFsmarty = new Smarty_Plugin($this->getCartoclient(), $this);
             $RTFsmarty->left_delimiter = '[[[';
             $RTFsmarty->right_delimiter = ']]]';
