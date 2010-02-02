@@ -110,6 +110,15 @@ tooltips.region.template = "layerResult_region.tpl"]]></programlisting>
           it has a more common syntax.
           <programlisting>timeoutBeforeHide = 7000</programlisting></para>
         </listitem>
+        <listitem>
+          <para><parameter>tolerance</parameter>
+          <indexterm><primary>tolerance</primary></indexterm>: (optional) The tolerance in pixel around the points. Default is 3px.
+          <programlisting>tolerance = 10</programlisting></para>
+        </listitem>
+        <listitem>
+          <para><parameter>encoderName</parameter>
+          <indexterm><primary>encoderName</primary></indexterm>: (optional) The encoder to use. Default is 'data' (EncoderClass.data). Decoder is always 'output' (EncoderClass.output).</para>
+        </listitem>
       </itemizedlist>
     </sect2>
   </sect1>
