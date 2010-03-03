@@ -24,4 +24,4 @@ idRecenterActive = true
 ;panRatio = 0.25
 
 ; adds following icons in separated toolbar group
-groupFullextent = 2
+;groupFullextent = 2
