@@ -20,7 +20,7 @@
   <para>
    The Geostat plugin allows advanced cartographic representation based on 
    attributes of geospatial data. Currently, there is only support for 
-   polygonal entities. There will be support for ponctual symbol very soon. 
+   polygonal entities. 
    Every vectorial formats supported by Mapserver may be use.
   </para>
   <para>
@@ -62,7 +62,7 @@ geostat.0.choropleth_attribs = POPULATION,HOUSINCOME
 geostat.0.choropleth_attribs_label = "Population","Average house income"]]>
   </programlisting>
   <para>
-   These example represents a single layer definition. The general for of 
+   These example represents a single layer definition. The general form of 
    parameter is geostat.<parameter>n</parameter>.<parameter>key</parameter> = 
    <parameter>value</parameter>. <parameter>n</parameter> is an incremental 
    number (first layer of the config file is 0. <parameter>key</parameter> is 
