@@ -40,7 +40,7 @@ public class DbMapWithProject extends BaseDbMap {
     }
 
     public Integer get(String text, int generalMapId) {
-        if (text == null) {
+        if (text == null || text.indexOf(0) != -1) {
             return null;
         }
 

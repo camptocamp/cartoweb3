@@ -41,10 +41,11 @@ public class DbMap extends BaseDbMap {
     }
 
     public Integer get(String text) {
-        if (text == null) {
+        if (text == null || text.indexOf(0) != -1) {
             return null;
         }
-
+        text.replace((char)0x00, ' ');
+        
         Info result = values.get(text);
         if (result == null) {
             result = new Info(++sequence, false);
