@@ -20,38 +20,34 @@ package org.cartoweb.stats.imports;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class BaseTilecacheReader extends StatsReader {
-    private static final Pattern URL_PATTERN = Pattern.compile("http://(.*)/([^/]+)/(\\d{2})/(\\d{3})/(\\d{3})/(\\d{3})/(\\d{3})/(\\d{3})/(\\d{3}).*");
-
-    public BaseTilecacheReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
+public class SyslogCartoWebReader extends CartoWebReader {
+    private static final Pattern LINE_PATTERN = Pattern.compile("([^ ]+)[ ]+([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) (.*)");
+    
+    public SyslogCartoWebReader(File file, SideTables sideTables, boolean wantLayers, boolean skipErrors) throws IOException {
         super(file, sideTables, wantLayers, skipErrors);
     }
 
-    protected BaseTilecacheReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
+    /**
+     * For tests only.
+     */
+    protected SyslogCartoWebReader(SideTables sideTables, boolean wantLayers, boolean skipErrors) {
         super(sideTables, wantLayers, skipErrors);
     }
 
-    protected boolean parseUrl(String params, Map<String, String> fields) {
-
-        Matcher matcher = URL_PATTERN.matcher(params);
+    protected StatsRecord parse(String curLine) {
+    	
+        Matcher matcher = LINE_PATTERN.matcher(curLine);
         if (matcher.matches()) {
-
-            fields.put("layer", matcher.group(2));
-            fields.put("zoom", matcher.group(3));
-            fields.put("x1", matcher.group(4));
-            fields.put("x2", matcher.group(5));
-            fields.put("x3", matcher.group(6));
-            fields.put("y1", matcher.group(7));
-            fields.put("y2", matcher.group(8));
-            fields.put("y3", matcher.group(9));
-            
-            return true;
+        	return super.parse(matcher.group(6));
         } else {
-            return false;
+            parseError("Invalid input line", curLine);
+            return null;
         }
     }
 }

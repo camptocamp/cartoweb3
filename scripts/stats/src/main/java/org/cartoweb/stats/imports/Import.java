@@ -69,7 +69,7 @@ public class Import extends BaseStats {
     @Option(desc = "If true, a layers table is generated", environment = "STATS_WANT_LAYERS")
     private boolean wantLayers = false;
 
-    @Option(desc = "Format of the log files ('WMS' or 'CartoWeb')", mandatory = true,
+    @Option(desc = "Format of the log files ('CartoWeb', 'SyslogCartoWeb', 'WMS', 'SecureWMS', 'HaproxyWMS', 'SquidTilecache', 'VarnishTilecache')", mandatory = true,
             environment = "STATS_FORMAT")
     private String format = "CartoWeb";
 
@@ -81,11 +81,11 @@ public class Import extends BaseStats {
             environment = "STATS_FORMAT")
     private String mapIdConfig = null;
 
-    @Option(desc = "Used only if format='WMS'. Map resolution.",
+    @Option(desc = "Used only if format='*WMS'. Map resolution.",
             environment = "STATS_FORMAT")
     private Integer resolution = null;
 
-    @Option(desc = "Used only if format='SquidTilecache'. Configuration file name (.ini) that contains the options for referers and tilecache.",
+    @Option(desc = "Used only if format='*Tilecache'. Configuration file name (.ini) that contains the options for referers and tilecache.",
             environment = "STATS_FORMAT")
     private String tilecacheConfig = null;
 
@@ -127,7 +127,8 @@ public class Import extends BaseStats {
                 resolution = 96;
             }
         }
-        if (format.equalsIgnoreCase("SquidTilecache")) {
+        if (format.equalsIgnoreCase("SquidTilecache") ||
+       		format.equalsIgnoreCase("VarnishTilecache")) {
             if (tilecacheConfig == null) {
                 printUsage("Missing parameter 'tilecacheConfig'");
             }
@@ -401,9 +402,14 @@ public class Import extends BaseStats {
             return new HaproxyWmsReader(file, sideTables, wantLayers, resolution, skipErrors);
         } else if (format.equalsIgnoreCase("CartoWeb")) {
             return new CartoWebReader(file, sideTables, wantLayers, skipErrors);
+        } else if (format.equalsIgnoreCase("SyslogCartoWeb")) {
+            return new SyslogCartoWebReader(file, sideTables, wantLayers, skipErrors);
         } else if (format.equalsIgnoreCase("SquidTilecache")) {
             TilecacheExtractor tilecacheExtractor = new TilecacheExtractor(tilecacheConfig);
             return new SquidTilecacheReader(file, sideTables, wantLayers, tilecacheExtractor, skipErrors);
+        } else if (format.equalsIgnoreCase("VarnishTilecache")) {
+            TilecacheExtractor tilecacheExtractor = new TilecacheExtractor(tilecacheConfig);
+            return new VarnishTilecacheReader(file, sideTables, wantLayers, tilecacheExtractor, skipErrors);
         } else {
             throw new RuntimeException("Format not supported: " + format);
         }

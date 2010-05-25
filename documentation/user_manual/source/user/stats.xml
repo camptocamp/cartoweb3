@@ -79,8 +79,8 @@
         </listitem>
         <listitem>
         <para><parameter>--format</parameter> - format. Currently values are
-        <parameter>CartoWeb</parameter>, <parameter>WMS</parameter>, <parameter>SecureWMS</parameter>,
-        <parameter>HaproxyWMS</parameter>, <parameter>SquidTilecache</parameter></para>
+        <parameter>CartoWeb</parameter>, <parameter>SyslogCartoWeb</parameter>, <parameter>WMS</parameter>, <parameter>SecureWMS</parameter>,
+        <parameter>HaproxyWMS</parameter>, <parameter>SquidTilecache</parameter>, <parameter>VarnishTilecache</parameter></para>
         </listitem>
         <listitem>
         <para><parameter>--logRegExp</parameter>- regular expression to limit processed
@@ -123,7 +123,7 @@ GET /ogc-sitn/wms = main
 GET /ogc-sitn-annuaire/wms = annuaire
 GET /ogc-sitn-v1/wms = v1
 GET /ogc-sitj-v1/wms = jv1]]></programlisting>
-      <para>For SquidTilecache imports, you need to specify the following option:</para>
+      <para>For Tilecache imports (SquidTilecache and VarnishTilecache), you need to specify the following option:</para>
       <itemizedlist>
         <listitem>
         <para><parameter>--tilecacheConfig</parameter> - filename for a .ini file that contains 
