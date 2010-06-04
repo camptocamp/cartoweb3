@@ -90,22 +90,6 @@ if (typeof(AjaxHandler) != 'undefined') {
         AjaxPlugins.ToolTips.lang = '{$toolTips_currentLanguage}';
         {literal}
       }
-
-      // init the imagemap (area tags)
-      if ($('map1')) {
-          var imagemapTag = $('map1');
-          args = new Array();
-          args[0] = imagemapTag;
-          checkMainmapExistence('callToolTips', args);
-      }
-  }
-
-  /*
-   * args is an array containing all the arguments passed originally
-   */
-  function callToolTips(args) {
-    xAppendChild(mainmap.getDisplay('map').rootDisplayLayer, args[0]); 
-    AjaxPlugins.ToolTips.useMap();
   }
 
   /*
