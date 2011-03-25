@@ -8,7 +8,7 @@ INSERT INTO edit_poly (name, culture, surf, parc_type, the_geom) VALUES ('my ran
 
 DELETE FROM edit_point;
 
-INSERT INTO edit_point (name, surname, place, age, the_geom) VALUES ('GIRAUD', 'Pierre', 'Chambéry', 27, '01010000007A9EAAAADAB71941555555554F394141');
+INSERT INTO edit_point (name, surname, place, age, the_geom) VALUES ('GIRAUD', 'Pierre', 'ChambÃ©ry', 27, '01010000007A9EAAAADAB71941555555554F394141');
 
 DELETE FROM edit_line;
 
