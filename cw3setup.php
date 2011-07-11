@@ -92,7 +92,11 @@ List of options:
                             generated files.
  
  --cvs-root                 CVS Root directory to use when fetching 
-                            CartoWeb/project out of CVS.
+                            CartoWeb/project out of CVS:
+                            :pserver:username@servername:/path/to/the/repository
+ --svn-root                 SVN URL to use when fetching CartoWeb/project out 
+                            of SVN:
+                            http://servername/path/to/the/repository/
  --fetch-from-cvs           Fetch CartoWeb from CVS and install it in the 
                             current directory, or in the directory given by 
                             the --install-location parameter.
@@ -102,6 +106,18 @@ List of options:
                             command of CartoWeb (not projects!).
                             For instance, to fetch a specific branch, 
                             use '-r MY_BRANCH'. Or for a specific date, 
+                            use '-D "2005-09-05 11:00"'.
+ --fetch-from-svn           Fetch CartoWeb from SVN and install it in the 
+                            current directory, or in the directory given by 
+                            the --install-location parameter.
+                            Use the trunk by default, change this to use a branche or 
+                            tag.
+                            NOTE: You must be located where cartoweb3 directory
+                            will be created, not inside like other commands.
+ --cartoweb-svn-option OPTIONS  A string which will be given to the svn checkout
+                            command of CartoWeb (not projects!).
+                            For instance, to fetch a specific revision, 
+                            use '-r revisionnumber'. Or for a specific date, 
                             use '-D "2005-09-05 11:00"'.
  --fetch-from-dir DIRECTORY Copy CartoWeb from the specified directory into the
                             current directory, or in the directory given by the
@@ -241,6 +257,7 @@ function processArgs() {
     
             case '--delete-existing':
             case '--fetch-from-cvs':
+            case '--fetch-from-svn':
             case '--no-symlinks':
             case '--clean-views':
             case '--clean-accounting':
@@ -561,7 +578,17 @@ function getCvsRoot() {
     if (isset($OPTIONS['cvs-root']))
         return $OPTIONS['cvs-root'];
     
-    return ':pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public';
+    throw new InstallException("\n\nThe official Cartoweb CVS repository has been deactivated on x.x.2011.\nPlease either use the --fetch-from-svn option or specify an alternate cvs repository using the --cvs-root option.\nUse --help for more informations on the options");
+}
+
+function getSvnRoot() {
+
+    global $OPTIONS;
+    
+    if (isset($OPTIONS['svn-root']))
+        return $OPTIONS['svn-root'];
+    
+    return 'https://project.camptocamp.com/svn/cartoweb3/trunk/';
 }
 
 function execWrapper($command, $quiet=false, $usePassThru=false) {
@@ -624,12 +651,14 @@ function checkCw3setupVersion() {
     $this_revision = (int)(substr($matches[1], 2));
     debug("Installer revision of fetched cartoweb: $cvs_revision");
     debug("Revision of this installer: $this_revision");
+    /*
     if (defined('MINIMUM_REVISION')) {
         if ($cvs_revision < MINIMUM_REVISION) 
             throw new InstallException('The version of CartoWeb you have just ' .
                     'retrieved is not compatible with the installer.');
     }
-    
+    */
+
     if ($cvs_revision > $this_revision)
         throw new InstallException('The version of cw3setup.php that has just been ' .
                 'installed is more recent that the one you are currently running. ' .
@@ -640,7 +669,7 @@ function fetchCartoWeb() {
 
     global $OPTIONS;
 
-    if (!isset($OPTIONS['fetch-from-cvs']) && !isset($OPTIONS['fetch-from-dir']))
+    if (!isset($OPTIONS['fetch-from-cvs']) && !isset($OPTIONS['fetch-from-dir']) && !isset($OPTIONS['fetch-from-svn']))
         return;
 
     if (isset($OPTIONS['install-location'])) {
@@ -667,6 +696,21 @@ function fetchCartoWeb() {
 
         execWrapper("cvs -d $cvsRoot co $coOptions cartoweb3 2>&1");
        
+    } else if (isset($OPTIONS['fetch-from-svn'])) {
+    
+        info('fetching cartoweb from svn');
+
+        $coOptions = '';
+        if (isset($OPTIONS['cartoweb-svn-option'])) {
+            $coOptions = $OPTIONS['cartoweb-svn-option'];
+        }
+        $svnRoot = getSvnRoot();
+        if (!hasCommand('svn --version'))
+            throw new InstallException("You need to install the svn command " .
+                    "to be able to fetch CartoWeb from svn");
+
+        execWrapper("svn co $svnRoot cartoweb3 $coOptions 2>&1");
+
     } else if (isset($OPTIONS['fetch-from-dir'])) {
     
         $sourcePath = $OPTIONS['fetch-from-dir'];
