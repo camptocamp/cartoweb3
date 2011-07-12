@@ -269,6 +269,7 @@ function processArgs() {
     
             case '--cvs-root':
             case '--cartoweb-cvs-option':
+            case '--svn-root':
             case '--svn-co-options':
             case '--config-from-file':
             case '--install-location':
