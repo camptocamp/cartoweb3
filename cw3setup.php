@@ -118,7 +118,7 @@ List of options:
                             command of CartoWeb (not projects!).
                             For instance, to fetch a specific revision, 
                             use '-r revisionnumber'. Or for a specific date, 
-                            use '-D "2005-09-05 11:00"'.
+                            use '-r {"2005-09-05 11:00"}'.
  --fetch-from-dir DIRECTORY Copy CartoWeb from the specified directory into the
                             current directory, or in the directory given by the
                             --install-location parameter.
@@ -270,6 +270,7 @@ function processArgs() {
             case '--cvs-root':
             case '--cartoweb-cvs-option':
             case '--svn-root':
+            case '--cartoweb-svn-option':
             case '--svn-co-options':
             case '--config-from-file':
             case '--install-location':
