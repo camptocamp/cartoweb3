@@ -59,14 +59,14 @@ all:
 	:
 
 define fetch_cw3setup
-	test -f cw3setup.php && rm cw3setup.php || :; \
-	test -d tmp && rm -rf tmp || :; \
-	mkdir tmp; \
-	(cd tmp&& cvs -d $(CVSROOT_CW) co $$(echo $(1)) cartoweb3/cw3setup.php); \
-	mv tmp/cartoweb3/cw3setup.php .; \
-	rm -rf tmp
+ test -f cw3setup.php && rm cw3setup.php || :; \
+ test -d tmp && rm -rf tmp || :; \
+ mkdir tmp; \
+ (cd tmp && \
+  svn export $(SVNROOT_CW)trunk/cw3setup.php); \
+ mv tmp/cw3setup.php . ; \
+ rm -rf tmp
 endef
-
 
 cur_make_target = $(filter-out %/,$(subst /,/ ,$@))
 
@@ -147,7 +147,9 @@ endef
 
 cur_instance = $(cur_make_target)
 cur_target = cartowebs/$(cur_instance)
-instance_cvs_option = $(if $(call get_inst_var,REVISION), --cartoweb-cvs-option $(call get_inst_var,REVISION))
+
+instance_svn_option = $(if $(call get_inst_var,REVISION), --cartoweb-svn-option $(call get_inst_var,REVISION))
+instance_tag = $(if $(call get_inst_var,TAG),tags/$$(echo $(call get_inst_var,TAG)),trunk)
 
 SED_CMD := sed 's/^.*evision: \([^ ]*\) .*$$/\1/g'
 
@@ -165,8 +167,8 @@ ifndef NO_CONFIRM
 		rm -rf $(cur_target)/cartoweb3 ;\
 	fi
 endif
-	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-cvs $(instance_cvs_option) \
-			--cvs-root $(CVSROOT_CW) --delete-existing --base-url _undefined_)
+	(cd $(cur_target)&& CW3_NO_VERSION_CHECK=1 $(PHP) cw3setup.php --profile production --install --fetch-from-svn $(instance_svn_option) \
+			--svn-root $(SVNROOT_CW)$(instance_tag) --delete-existing --base-url _undefined_)
 
 	@# Override cw3setup.php with this one
 	@# XXX why is this needed, and what is "this one"???

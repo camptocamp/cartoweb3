@@ -12,7 +12,7 @@
 #REQUIRED_USER := geodata
 
 # Update this variable to use newer deploy scripts
-DEPLOY_REVISION := -D 2008-03-07
+DEPLOY_REVISION := -r {2011-08-30}
 
 # Current file format version. Used to check compatibility
 COMPAT_VERSION := 0
@@ -27,16 +27,16 @@ PHP := php
 # Do not edit this section
 # Used to fetch deploy scripts
 
-CVSROOT_CW := :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
+SVNROOT_CW := https://project.camptocamp.com/svn/cartoweb3/
 
 TOPSRCDIR := $(shell pwd)
 
 DEPLOY_DIR := $(wildcard $(TOPSRCDIR)/deploy)
-CVSCO := cvs -d $(CVSROOT_CW) co $(DEPLOY_REVISION)
+SVNCO := svn co $(SVNROOT_CW)trunk/scripts/deploy deploy $(DEPLOY_REVISION)
 run_for_side_effects := \
   $(shell  \
     if ! test -d "$(DEPLOY_DIR)"; then \
-      $(CVSCO) -d deploy cartoweb3/scripts/deploy; \
+      $(SVNCO); \
     else true; \
     fi; )
 
@@ -51,14 +51,16 @@ include $(TOPSRCDIR)/deploy/defs.mk
 #  instance_name is the name of the instance
 #  VARIABLE can be:
 #   REVISION
-#     The cvs revision to use for the instance
+#     The SVN revision number or date to use for the instance
+#   TAG
+#     The SVN tag name to use for the instance
 
-myinstance1_REVISION := "-D 2006-01-26"
-
-myinstance2_REVISION := "-D 2006-01-25"
+myinstance1_REVISION := "-r {2006-01-26}"
+myinstance2_REVISION := "-r 4567"
+myinstance3_TAG := "CARTOWEB_3_5_0"
 
 # This MUST contain all instance names
-ALL_INSTANCES := myinstance1 myinstance2
+ALL_INSTANCES := myinstance1 myinstance2 myinstance3
 
 # ###################################
 # Project definitions
@@ -77,6 +79,8 @@ ALL_INSTANCES := myinstance1 myinstance2
 #   CW3_VARS
 #     A string with syntax VARIABLE1=value1;VARIABLE2=value2
 #     is corresponds to options that will be replaced automatically in the .in files (see doc #href here#)
+#   SVN_CO_OPTIONS
+#     svn options and svn repository url, SVN_USER being usualy defined in the system environement 
 
 #  Not to use variables
 #   NO_DEPLOY_CONFIG
