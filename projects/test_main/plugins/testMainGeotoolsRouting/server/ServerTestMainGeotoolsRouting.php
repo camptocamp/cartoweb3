@@ -39,7 +39,7 @@ class ServerTestMainGeotoolsRouting extends ServerGeotoolsRouting {
     public function __construct() {
         parent::__construct();
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**

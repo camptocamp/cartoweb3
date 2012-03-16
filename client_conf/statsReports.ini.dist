@@ -1,17 +1,17 @@
-datas.cartoweb.label = Statistiques Cartoweb
-datas.cartoweb.dsn = pgsql://user:password@localhost/test
-datas.cartoweb.prefix = stats
+datas.cartoweb.label = "Statistiques Cartoweb"
+datas.cartoweb.dsn = "pgsql://user:password@localhost/test"
+datas.cartoweb.prefix = "stats"
 
-datas.wms.label = Statistiques WMS
-datas.wms.dsn = pgsql://user:password@localhost/test_wms
-datas.wms.prefix = stats_wms
+datas.wms.label = "Statistiques WMS"
+datas.wms.dsn = "pgsql://user:password@localhost/test_wms"
+datas.wms.prefix = "stats_wms"
 
-tempDsn = pgsql://user:password@localhost/test_temp
-nColors = 16
+tempDsn = "pgsql://user:password@localhost/test_temp"
+nColors = "16"
 
-outputCsv = 1
-csvShowHeaders = 1
+outputCsv = "1"
+csvShowHeaders = "1"
 ;csvSeparator = ";"
-;filename = statsReport_cursomfilename.csv
-;csvUseTextDelimiter = 1
-;csvTextDelimiter = #
+;filename = "statsReport_cursomfilename.csv"
+;csvUseTextDelimiter = "1"
+;csvTextDelimiter = "#"

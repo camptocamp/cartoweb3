@@ -528,5 +528,3 @@ class MapOverlay extends BasicOverlay {
         parent::unserialize($struct);
     }    
 } 
-
-?>

@@ -607,5 +607,3 @@ class coreplugins_tables_common_TablesCommonTest
     }
 
 }
-
-?>

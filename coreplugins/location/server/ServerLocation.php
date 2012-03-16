@@ -61,7 +61,7 @@ abstract class LocationCalculator {
      * @param LocationRequest
      */
     public function __construct($locationPlugin, $requ) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->locationPlugin = $locationPlugin;
         $this->requ = $requ;
     }
@@ -96,7 +96,7 @@ class BboxLocationCalculator extends LocationCalculator {
      * @param BboxLocationRequest
      */
     public function __construct($locationPlugin, BboxLocationRequest $requ) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
 
@@ -137,7 +137,7 @@ class PanLocationCalculator extends LocationCalculator {
      * @param PanLocationRequest
      */
     public function __construct($locationPlugin, PanLocationRequest $requ) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
 
         $this->panRatio = $this->locationPlugin->getConfig()->panRatio;
@@ -218,7 +218,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
      */
     public function __construct($locationPlugin,
                                 ZoomPointLocationRequest $requ) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
 
         $this->scaleModeDiscrete = $this->locationPlugin->getConfig()->
@@ -395,7 +395,7 @@ class RecenterLocationCalculator extends LocationCalculator {
      * @param RecenterLocationRequest
      */
     public function __construct($locationPlugin, RecenterLocationRequest $requ) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct($locationPlugin, $requ);
     }
 
@@ -627,7 +627,7 @@ class ServerLocation extends ClientResponderAdapter
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -1230,5 +1230,3 @@ class ServerLocation extends ClientResponderAdapter
         return $init;
     }
 }
-
-?>

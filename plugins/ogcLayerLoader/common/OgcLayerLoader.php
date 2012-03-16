@@ -52,4 +52,3 @@ class OgcLayerLoaderRequest extends CwSerializable {
             self::unserializeObjectMap($struct, 'userLayers', 'UserLayer');
     }
 }
-?>

@@ -8,7 +8,7 @@
 ; Warning: ensure that id_recenter is active !!!
 
 ; DSN of the database to search into
-dsn = pgsql://user:password@localhost/test
+dsn = "pgsql://user:password@localhost/test"
 
 ; Layers for location. The id is the layer name,
 ; and the sql must return two fields:
@@ -16,6 +16,6 @@ dsn = pgsql://user:password@localhost/test
 ; 2) a label field (the name field, if exist)
 ;
 
-;locate.0.id = layer_id
+;locate.0.id = "layer_id"
 ;locate.0.label = "Label for the layer"
 ;locate.0.sql= "SELECT id, name FROM table_name WHERE name ~* '%s' LIMIT 10"

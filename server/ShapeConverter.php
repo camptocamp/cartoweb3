@@ -143,5 +143,3 @@ class CircleConverter extends ShapeConverter {
     }
     
 }
-
-?>

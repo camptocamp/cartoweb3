@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * viewsConverter.php - converts views from old plain format to new XML one.
@@ -150,4 +150,4 @@ function terminate($msg = '') {
     }
     die("Conversion aborted.\n");
 }
-?>
+

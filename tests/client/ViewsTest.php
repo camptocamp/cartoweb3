@@ -101,5 +101,3 @@ class client_ViewsTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($success);
     }
 }
-
-?>

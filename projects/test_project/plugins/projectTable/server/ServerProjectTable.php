@@ -17,7 +17,7 @@ class ServerProjectTable extends ClientResponderAdapter {
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     public function prefixTableId1($tableId, $tableTitle) {
@@ -101,4 +101,3 @@ class ServerProjectTable extends ClientResponderAdapter {
         return $result;
     }    
 }
-?>

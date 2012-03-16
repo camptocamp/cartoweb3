@@ -73,4 +73,3 @@ class ServerProjectHandler extends ProjectHandler {
     }
 
 }
-?>

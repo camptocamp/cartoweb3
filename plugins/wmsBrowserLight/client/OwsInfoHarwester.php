@@ -135,4 +135,3 @@ class OwsInfoHarwester {
         return $scale;
    }
 }    
-?>

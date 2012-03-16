@@ -52,7 +52,7 @@ main(){
 EOF
 
 xgettext -ao $LOCALE_PATH/$MAIN-tmp.po $LOCALE_PATH/$MAIN.c > /dev/null 2>&1
-head -n 22 $LOCALE_PATH/$MAIN-tmp.po |sed -e 's/""/"Gettext is OK, well done !"/g' -e 's/CHARSET/ISO-8859-1/g' > $LOCALE_PATH/$MAIN.po
+head -n 23 $LOCALE_PATH/$MAIN-tmp.po |sed -e 's/""/"Gettext is OK, well done !"/g' -e 's/CHARSET/UTF-8/g' > $LOCALE_PATH/$MAIN.po
 
 mkdir -p $LOCALE_PATH/$LOCALE/LC_MESSAGES
 msgfmt -o $LOCALE_PATH/$LOCALE/LC_MESSAGES/$MAIN.mo $LOCALE_PATH/$MAIN.po
@@ -68,7 +68,7 @@ export LANGUAGE=$LOCALE
 $LOCALE_PATH/sample
 
 # Clean all
-rm -f $LOCALE_PATH/sample*
-rm -fR $LOCALE_PATH/$LOCALE
+#rm -f $LOCALE_PATH/sample*
+#rm -fR $LOCALE_PATH/$LOCALE
 
 exit 0

@@ -39,7 +39,7 @@ class ServerMapquery extends ServerPlugin {
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -151,7 +151,7 @@ class ServerMapquery extends ServerPlugin {
     protected function queryLayerByAttributes(ServerContext $serverContext,
                                               $layerId, $idAttribute, $query,
                                               $mayFail = false) { 
-        $log =& LoggerManager::getLogger(__METHOD__);
+        $log = LoggerManager::getLogger(__METHOD__);
         
         $msMapObj = $this->serverContext->getMapObj();
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
@@ -372,5 +372,3 @@ class ServerMapquery extends ServerPlugin {
         return $this->queryByShape($layerId, $bbox);
     } 
 }
-
-?>

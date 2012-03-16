@@ -67,7 +67,7 @@ class MapInfoHandler {
      */
     public function __construct(ServerContext $serverContext) {
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->serverContext = $serverContext;
         $this->projectHandler = $serverContext->getProjectHandler();
         $this->mapId = $serverContext->getMapId();
@@ -179,4 +179,3 @@ class MapInfoHandler {
         return $this->mapInfo;
     }
 }
-?>

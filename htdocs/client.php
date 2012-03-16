@@ -31,5 +31,3 @@ require_once(CARTOWEB_HOME . 'client/Cartoclient.php');
 $cartoclient = new Cartoclient();
 
 print $cartoclient->main();
-
-?>

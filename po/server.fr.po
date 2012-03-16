@@ -8,7 +8,7 @@ msgstr ""
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: coreplugins/mapquery/server/ServerMapquery.php:117
@@ -28,11 +28,11 @@ msgstr "Informations"
 
 #: plugins/routing/server/ServerRouting.php:545
 msgid "No path found"
-msgstr ""
+msgstr "Chemin non trouv√©"
 
 #: scripts/testgettext.php:55
 msgid "PHP-Gettext is not installed correctly !"
 msgstr ""
 
 #~ msgid "Recenter Id canceled, unable to find selected Id."
-#~ msgstr "Recentrage : l'identifiant n'a pas ÈtÈ trouvÈ."
+#~ msgstr "Recentrage : l'identifiant n'a pas √©t√© trouv√©."

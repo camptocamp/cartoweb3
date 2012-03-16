@@ -50,7 +50,7 @@ class ServerHilight extends ServerPlugin {
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -395,5 +395,3 @@ class ServerHilight extends ServerPlugin {
         }
     }
 }
-
-?>

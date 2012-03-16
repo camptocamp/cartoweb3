@@ -43,5 +43,3 @@ class server_AllTests {
         return $suite;
     }
 }
-
-?>

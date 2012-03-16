@@ -102,4 +102,3 @@ class ToolTipsLayerBase {
         return $this->template;
     }  
 }
-?>

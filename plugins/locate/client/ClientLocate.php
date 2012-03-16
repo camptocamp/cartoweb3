@@ -38,7 +38,7 @@ class ClientLocate extends ClientPlugin implements GuiProvider {
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -134,4 +134,3 @@ class ClientLocate extends ClientPlugin implements GuiProvider {
         die();
     }
 }
-?>

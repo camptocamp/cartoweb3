@@ -62,5 +62,3 @@ class ServerAccountingImpl extends Accounting {
         return $serverContext->getConfig();
     }    
 }
-
-?>

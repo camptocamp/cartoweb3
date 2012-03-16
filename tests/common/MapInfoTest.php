@@ -346,5 +346,3 @@ class common_MapInfoTest extends PHPUnit_Framework_TestCase {
     }
     */
 }
-
-?>

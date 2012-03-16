@@ -1,5 +1,5 @@
-config.myconfig.provider.type = table
-config.myconfig.formatter.type = smarty
-config.myconfig.formatter.template = search_results
-config.myconfig.provider.id = id
-config.myconfig.provider.columns = name
+config.myconfig.provider.type = "table"
+config.myconfig.formatter.type = "smarty"
+config.myconfig.formatter.template = "search_results"
+config.myconfig.provider.id = "id"
+config.myconfig.provider.columns = "name"

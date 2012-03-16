@@ -159,7 +159,7 @@ class Cartoserver extends Cartocommon {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->mapResultCache = new MapResultCache($this);
     }
 
@@ -435,7 +435,7 @@ function getWsdlUrl($mapId, ServerConfig $config) {
  * @return SoapServer
  */
 function setupSoapService(Cartoserver $cartoserver) {
-    $log =& LoggerManager::getLogger(__METHOD__);
+    $log = LoggerManager::getLogger(__METHOD__);
 
     global $serverGlobal;
     $serverGlobal = $cartoserver;
@@ -444,7 +444,7 @@ function setupSoapService(Cartoserver $cartoserver) {
      * Nested method for getMapInfo webservice
      */
     function getMapInfo($mapId) {
-        $log =& LoggerManager::getLogger(__METHOD__);
+        $log = LoggerManager::getLogger(__METHOD__);
         global $serverGlobal;
         $mapInfo = $serverGlobal->getMapInfo($mapId);
         $log->debug('mapinfo');
@@ -456,7 +456,7 @@ function setupSoapService(Cartoserver $cartoserver) {
      * Nested method for getMap webservice
      */
     function getMap($mapRequest) {
-        $log =& LoggerManager::getLogger(__METHOD__);
+        $log = LoggerManager::getLogger(__METHOD__);
         global $serverGlobal;
         return $serverGlobal->getMap($mapRequest);
     }
@@ -484,5 +484,3 @@ function setupSoapService(Cartoserver $cartoserver) {
 
     return $server;
 }
-
-?>

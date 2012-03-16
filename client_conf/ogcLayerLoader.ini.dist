@@ -1,3 +1,3 @@
 ; Possibility to link wms layers to a geonetwork catalog
 ; url of this linked catalog
-urlCatalog=http://sandre.eaufrance.fr/geonetwork/ 
+urlCatalog="http://sandre.eaufrance.fr/geonetwork/"

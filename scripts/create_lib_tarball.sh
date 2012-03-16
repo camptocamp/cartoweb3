@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # This script creates the tarball with librairies for CartoWeb3.
 # Usage: sh create_lib_tarball.sh

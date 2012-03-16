@@ -96,4 +96,3 @@ class ServerLayerFilter extends ClientResponderAdapter {
         }
     }
 }
-?>

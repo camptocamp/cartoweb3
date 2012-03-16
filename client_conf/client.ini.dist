@@ -5,7 +5,7 @@ cartoserverDirectAccess = true
 
 ; Current profile: may be development, production or custom
 ;  This will override some parameter values
-profile = production
+profile = "production"
 
 ; AJAX switch: if true, AJAX will be enabled on the client side (browser)
 ajaxOn = false
@@ -50,23 +50,23 @@ smartyCompileCheck = false
 ;## Mapfile configuration ##
 
 ; The mapId of the mapfile to use
-mapId = test
+mapId = "test"
 
 ; The id of the initial map state to be loaded on startup
-initialMapStateId = default
+initialMapStateId = "default"
 
 ;## Tools configuration ##
 
 ; Indicates which tool is activated when in initial state. 
 ; If not specified, the first tool in the toolbar is activated. 
 ; Possible values are : zoomin, zoomout, pan, query, distance, surface
-initialTool = zoomin
+initialTool = "zoomin"
 
 ; Indicates how to render tool selectors within toolbar
 ; radio buttons,  icons outlining (uses css classes), image swapping
 ; available values : radio, outline, swap (default is radio)
 ; for outline : make sure that toolbar_on and toolbar_off css classes are set for class rendering
-;toolbarRendering = radio
+;toolbarRendering = "radio"
 
 
 ;## Project handling configuration ##
@@ -87,7 +87,7 @@ loadPlugins = "" ; no plugin is loaded by default (only coreplugins)
 
 ; List of roles which are allowed to access the cartoweb. Set to 'all' if no
 ;  restriction is given.
-securityAllowedRoles = all
+securityAllowedRoles = "all"
 
 ;## Template engine configuration ##
 
@@ -98,26 +98,26 @@ smartyDebugging = false
 ;## Internationalization ##
 
 ; default language
-defaultLang = en
+defaultLang = "en"
 
 ; languages to make available in the viewer, list order gives links order
-;langList = en, fr
+;langList = "en, fr"
 
 ; Charset encoder class
-EncoderClass.config = EncoderISO
-EncoderClass.output = EncoderUTF
-;EncoderClass.data = EncoderUTF
-EncoderClass.artichow = EncoderISO
+EncoderClass.config = "EncoderUTF"
+EncoderClass.output = "EncoderUTF"
+EncoderClass.data = "EncoderUTF"
+EncoderClass.artichow = EncoderUTF
 
 ;## Views management ##
 
 viewOn = false
-viewStorage = file
-viewablePlugins = location, layers, query, outline
-viewMetas = author
-viewDsn = pgsql://www-data@localhost/cw3_test
-viewAuth = admin
-;viewSavedRequest = someRequestVarname
+viewStorage = "file"
+viewablePlugins = "location, layers, query, outline"
+viewMetas = "author"
+viewDsn = "pgsql://www-data@localhost/cw3_test"
+viewAuth = "admin"
+;viewSavedRequest = "someRequestVarname"
 viewLogErrors = false
 viewUpgradeOutdated = false
 
@@ -128,6 +128,6 @@ toolPickerOn = true
 ;## Accounting ##
 
 accountingOn = false
-accountingStorage = file
-;accountingBasePath = /path/to/accounting/
-accountingDsn = pgsql://www-data@localhost/cw3_test
+accountingStorage = "file"
+;accountingBasePath = "/path/to/accounting/"
+accountingDsn = "pgsql://www-data@localhost/cw3_test"

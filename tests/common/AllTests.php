@@ -51,5 +51,3 @@ class common_AllTests {
         return $suite;
     }
 }
-
-?>

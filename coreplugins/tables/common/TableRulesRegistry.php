@@ -82,7 +82,7 @@ abstract class BaseRule {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(get_class($this));
+        $this->log = LoggerManager::getLogger(get_class($this));
     }
 }
 
@@ -1302,7 +1302,7 @@ class TableRulesRegistry {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(get_class($this));
+        $this->log = LoggerManager::getLogger(get_class($this));
     }
 
     /**
@@ -1516,5 +1516,3 @@ class TableRulesRegistry {
         return $groups;
     } 
 }
-
-?>

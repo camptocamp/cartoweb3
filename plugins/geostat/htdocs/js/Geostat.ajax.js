@@ -4,7 +4,6 @@ AjaxPlugins.Geostat = {
     folderId: 'folder8',
 
     handleResponse: function(pluginOutput) {
-
         if (pluginOutput.variables.geostatFolderId) {
             this.folderId = pluginOutput.variables.geostatFolderId;
         }

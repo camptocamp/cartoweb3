@@ -50,7 +50,7 @@ class ServerTables extends ServerPlugin {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
     
@@ -74,5 +74,3 @@ class ServerTables extends ServerPlugin {
         return $this->getTableRulesRegistry()->applyRules($tables);
     }    
 }
-
-?>

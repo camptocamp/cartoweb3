@@ -709,7 +709,7 @@ class SpaceManager {
      * @param array contains page max extent + Y-origin location.
      */
     public function __construct($params) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
 
         $this->minX = $params['horizontalMargin'];
         $this->minY = $params['verticalMargin'];
@@ -934,4 +934,4 @@ class SpaceManager {
         return $this->maxX - $this->minX; 
     }
 }
-?>
+

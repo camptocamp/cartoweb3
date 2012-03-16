@@ -126,7 +126,7 @@ class I18n {
      * @param string default language
      */
     static public function setLocale($defaultLang) {
-        $log =& LoggerManager::getLogger(__METHOD__); 
+        $log = LoggerManager::getLogger(__METHOD__); 
          
         $locales = self::getLocales();
         
@@ -378,7 +378,7 @@ class I18nGettext implements I18nInterface {
      */
     public function bindtextdomain($domain, $path) {
         bindtextdomain($domain, $path);
-        $log =& LoggerManager::getLogger(__METHOD__); 
+        $log = LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: binddomain ' . $domain . ' ' . $path);
     }
     
@@ -387,7 +387,7 @@ class I18nGettext implements I18nInterface {
      */
     public function textdomain($domain) {
         textdomain($domain);
-        $log =& LoggerManager::getLogger(__METHOD__); 
+        $log = LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: textdomain ' . $domain);
     }
 
@@ -396,15 +396,22 @@ class I18nGettext implements I18nInterface {
      */
     public function bind_textdomain_codeset($domain, $codeset) {
         bind_textdomain_codeset($domain, $codeset);
-        $log =& LoggerManager::getLogger(__METHOD__); 
+        $log = LoggerManager::getLogger(__METHOD__); 
         $log->debug('LANG: bind_textdomain_codeset ' . $domain . ' ' . $codeset);
     }        
 
     /**
      * @see I18nInterface::gettext()
+     * BF HACK : we use try/catch to remove stupid error due to getext on long string coming from plugin
+     * convert to text .... 
      */
     static public function gettext($text) {
-        return gettext($text);
+    	try{
+    		$ret = gettext($text);
+    	}catch (Exception $e){
+    		$ret = '';
+    	}
+    	return $ret;
     }
     
     /**
@@ -414,5 +421,3 @@ class I18nGettext implements I18nInterface {
         return ngettext($text, $plural, $count);
     }
 }
-
-?>

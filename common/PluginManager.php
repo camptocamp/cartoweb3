@@ -60,7 +60,7 @@ class PluginManager {
      * @param ProjectHandler
      */
     public function __construct($kind, $projectHandler) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         
         $this->kind = $kind;
         $this->projectHandler = $projectHandler;
@@ -374,4 +374,4 @@ class PluginManager {
         return $this->getPlugin($plugin);
     }
 }
-?>
+

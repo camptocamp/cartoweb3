@@ -48,10 +48,16 @@ class ClientExportCsv extends ExportPlugin {
     public $fileName;
 
     /**
+     * 
+     * @var string
+     */
+    protected $Roles = 'EXPORTCSV';
+    
+    /**
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -76,7 +82,8 @@ class ClientExportCsv extends ExportPlugin {
                                  $tableName);
 
         $fileName = str_replace('[table]', $tableName, $fileName);
-        ereg('(.*)\[date,(.*)\](.*)', $fileName, $match);
+// Remove for php 5.3        ereg('(.*)\[date,(.*)\](.*)', $fileName, $match);
+        preg_match('/(.*)\[date,(.*)\](.*)/',$fileName, $match);
         $fileName = $match[1] . date($match[2]) . $match[3];
 
         return $fileName;
@@ -112,7 +119,9 @@ class ClientExportCsv extends ExportPlugin {
     /**
      * @see GuiProvider::renderForm()
      */
-    public function renderForm(Smarty $template) {}
+    public function renderForm(Smarty $template) {
+        $this->log->debug(__METHOD__);
+    }
 
     /**
      * Builds export configuration.
@@ -221,5 +230,3 @@ class ClientExportCsv extends ExportPlugin {
        return '';
     }
 }
-
-?>

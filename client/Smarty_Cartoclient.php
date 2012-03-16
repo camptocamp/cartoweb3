@@ -285,4 +285,3 @@ class Smarty_Plugin extends Smarty_Cartoclient {
     }
 }
 
-?>

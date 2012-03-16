@@ -167,5 +167,3 @@ $wsdlContent = str_replace('{PLUGINS_INIT}', $pluginsInit, $wsdlContent);
 $wsdlContent = str_replace('{PLUGINS_SPECIFIC_WSDL}', $pluginsSpecificWsdl, $wsdlContent);
 
 print $wsdlContent;
- 
-?>

@@ -204,5 +204,3 @@ class plugins_geostat_client_GeostatTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('C,D',$params->symbols_attribs_label);
     }
 }
-
-?>

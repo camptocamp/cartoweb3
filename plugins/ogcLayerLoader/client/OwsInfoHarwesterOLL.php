@@ -63,7 +63,7 @@ class OwsInfoHarwesterOLL {
      */
     public function __construct($url, $maxExecutionTime=300) {
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->maxExecutionTime = $maxExecutionTime;
 
         // Add ? if needed
@@ -114,5 +114,3 @@ class OwsInfoHarwesterOLL {
         }
     }
 }
-
-?>

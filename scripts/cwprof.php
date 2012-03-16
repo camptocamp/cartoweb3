@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -dvariables_order="GPS" -dauto_prepend_file= -dauto_append_file=
+#!/usr/bin/env php -dvariables_order="GPS" -dauto_prepend_file= -dauto_append_file=
 <?php
 /**
  * cwprof.php - Computes execution times for client, server and Mapserver
@@ -594,5 +594,4 @@ function by_mem($a, $b) {
     global $mem;
     return num_cmp($mem[$b], $mem[$a]);
 }
-    
-?>
+

@@ -54,7 +54,7 @@ abstract class MapInfoCache {
      * @param Config
      */
     public function __construct(Config $config, $mapId) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         
         $this->config = $config;
         $this->mapId = $mapId;
@@ -181,4 +181,4 @@ abstract class MapInfoCache {
         return $mapInfo;
     }
 }
-?>
+

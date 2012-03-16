@@ -452,8 +452,8 @@ class Bbox extends Shape {
         $angle = deg2rad($angle);
 
         /* formule:
-        xa'=(xa-xg).cos théta - (ya-yg).sin théta + xg
-        ya'=(ya-yg).cos théta + (xa-xg).sin théta + yg
+        xa'=(xa-xg).cos thï¿½ta - (ya-yg).sin thï¿½ta + xg
+        ya'=(ya-yg).cos thï¿½ta + (xa-xg).sin thï¿½ta + yg
         */
 
         $p1x = ($minx - $c->x) * cos($angle) - ($miny - $c->y) * sin($angle) + $c->x;
@@ -640,4 +640,3 @@ class Feature {
 
 }
 
-?>

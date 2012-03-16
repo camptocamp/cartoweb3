@@ -232,8 +232,24 @@ class DbResultProvider extends ResultProvider {
      * @var array defines order for other sort columns 
      */
     public $sortPriorities;
-     
+// BF HACK     
     /**
+     * @var string default group column
+     */
+    public $groupColumn;
+
+    /**
+     * @var string default sort direction
+     */
+    public $groupDirection;
+
+    /**
+     * @var array defines order for other group columns
+     */
+    public $groupPriorities;
+    
+
+	/**
      * @var DB connection
      */
     protected $db;
@@ -259,6 +275,36 @@ class DbResultProvider extends ResultProvider {
         return $dsn;
     }
     
+     /**
+     * @param SearchRequest
+     * @return string
+     * BF HACK // This function is added to permit search with optionnal groupBy ini parameter
+     * It replace the select distinct as this one destroy order given in tables and view
+     */
+    protected function getGroupBy(SearchRequest $request) {
+
+        $groupColumn = $request->getParameter('group_column');
+        if (is_null($groupColumn)) {
+            if (is_null($this->groupColumn)) {
+                return '';
+            }
+            $groupColumn = $this->groupColumn;
+        }
+
+        $groupClause = $groupColumn;
+
+        if (count($this->groupPriorities) == 0) {
+            return $groupClause;
+        }
+        foreach ($this->groupPriorities as $column) {
+            if ($column != $groupColumn) {
+                $groupClause .= ', ' . $column;
+            }
+        }
+
+        return $groupClause;
+    }
+
     /**
      * @param SearchRequest
      * @return string
@@ -294,8 +340,14 @@ class DbResultProvider extends ResultProvider {
     /**
      * @param SearchRequest
      * @return string
+     * BF HACK ( Added for the Group option )
      */
     protected function getSql(SearchRequest $request) {
+        
+        $groupBy = $this->getGroupBy($request);
+        if ($groupBy != '') {
+            $sql .= ' GROUP BY ' . $groupBy;
+        }
         
         $orderBy = $this->getOrderBy($request);
         if ($orderBy != '') {
@@ -362,7 +414,8 @@ class DbResultProvider extends ResultProvider {
         Utils::checkDbError($dbResult, 'Failed executing search SQL query');
   
         $table = new Table();
-        $table->tableId = 'search';
+        // BF HACK : put the real name of the table.
+        $table->tableId = $this->table;//'search';
         $table->columnIds = $this->columns;
         $table->noRowId = false;
         $table->rows = array();
@@ -435,11 +488,19 @@ class TableResultProvider extends DbResultProvider {
         } 
         $columns = array_merge(array($this->id), $columns);
         $columns = implode(', ', $columns);
-        $sql = 'SELECT DISTINCT ' . $columns . ' FROM ' . $this->table;
+/** BF HACK : ici le caca de c2c un distinct casse l'ordre établi dans les views //       
+ * $sql = 'SELECT DISTINCT ' . $columns . ' FROM ' . $this->table;
+*/        
+        $sql = 'SELECT ' . $columns . ' FROM ' . $this->table;
         $where = $this->getWhere($request);
         if ($where != '') {
             $sql .= ' WHERE ' . $where;
         }            
+        // BF HACK replace distinct mode by group by as distinct destroy order ...
+        $groupBy = $this->getGroupBy($request);
+        if ($groupBy != '') {
+            $sql .= ' GROUP BY ' . $groupBy;
+        }
         $orderBy = $this->getOrderBy($request);
         if ($orderBy != '') {
             $sql .= ' ORDER BY ' . $orderBy;
@@ -583,5 +644,3 @@ class SearchResult extends CwSerializable {
         $this->table = self::unserializeObject($struct, 'table', 'Table');
     }
 }
-
-?>

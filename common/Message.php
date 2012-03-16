@@ -92,4 +92,3 @@ class Message extends CwSerializable {
     }
 }
 
-?>

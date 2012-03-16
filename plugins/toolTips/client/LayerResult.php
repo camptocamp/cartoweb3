@@ -148,4 +148,3 @@ class LayerResult extends ToolTipsLayerBase {
         return Encoder::decode($content, $this->decoderName);
     }
 }
-?>

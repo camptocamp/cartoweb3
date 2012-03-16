@@ -24,7 +24,7 @@ class ClientProjectplugin extends ClientPlugin
     public function __construct() {
         parent::__construct();
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     public function initialize() {
@@ -81,5 +81,3 @@ class ClientProjectplugin extends ClientPlugin
         $this->initMessage = $init->initMessage;
     }
 }
-
-?>

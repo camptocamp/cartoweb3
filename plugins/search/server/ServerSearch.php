@@ -82,5 +82,3 @@ class ServerSearch extends ClientResponderAdapter {
         return $this->providers[$requ->config]->getResult($requ);        
     }  
 }
-
-?>

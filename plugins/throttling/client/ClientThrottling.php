@@ -65,7 +65,7 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
      * @see ClientPlugin::__construct()
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -299,4 +299,3 @@ class ClientThrottling extends ClientPlugin implements GuiProvider {
         // nothing to do
     }
 }
-?>

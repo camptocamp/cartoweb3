@@ -123,5 +123,3 @@ class EditResult extends CwSerializable {
         $this->attributeRendering = CwSerializable::unserializeValue($struct, 'attributeRendering');
     }
 }
-
-?>

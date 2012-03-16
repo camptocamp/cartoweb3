@@ -106,7 +106,7 @@ abstract class ServerPlugin extends PluginBase {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -186,5 +186,3 @@ abstract class ClientResponderAdapter extends ServerPlugin
      */
     public function handlePostDrawing($requ) {}
 } 
-
-?>

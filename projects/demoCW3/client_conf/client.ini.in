@@ -1,25 +1,25 @@
 ;@BLURB@
 
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
-profile = @PROFILE@
+profile = "@PROFILE@"
 
 ajaxOn = true
 
-mapId = demoCW3
+mapId = "demoCW3"
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall, bboxHistory, search, exportLinkIt
+loadPlugins = "exportCsv, exportPdf, outline, auth, checkInstall, bboxHistory, search, exportLinkIt"
 
 ;## Internationalization ##
-defaultLang = fr
-langList = fr, en
+defaultLang = "fr"
+langList = "fr, en"
 
 ; Indicates how to render toolbar
-toolbarRendering = outline
+toolbarRendering = "outline"
 
 ; Encoding for search plugin
-EncoderClass.searchDb = EncoderISO
+EncoderClass.searchDb = "EncoderUTF"

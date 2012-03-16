@@ -382,7 +382,7 @@ class Cartoclient extends Cartocommon {
      * and in preInitialize().
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         self::$instance = $this;
         
         $this->projectHandler = new ClientProjectHandler();
@@ -551,11 +551,13 @@ class Cartoclient extends Cartocommon {
      * @return string Requested AJAX action, or null if no AJAX action requested
      */
     public function setAjaxAction($ajaxAction) {
-        if (!ereg("^.+\..+$", $ajaxAction)) {
+//BF HACK        if (!ereg("^.+\..+$", $ajaxAction)) {
+// We want it working on php 5.3
+        if (!preg_match('/^.+\..+$/', $ajaxAction)){
             throw new AjaxException(
-                "ajaxActionRequest parameter\'s value is not correctly " .
+                'ajaxActionRequest parameter\'s value is not correctly ' .
                 'formatted. It should look like: PluginName.ActionName ' .
-                "(current value: '$ajaxAction')");
+                '(current value: \''.$ajaxAction.'\')');
         }
                 
         list($requestedPluginName, $requestedActionName) = 
@@ -1323,4 +1325,4 @@ class Cartoclient extends Cartocommon {
         return $output;
     }
 }
-?>
+

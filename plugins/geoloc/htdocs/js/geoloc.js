@@ -2,5 +2,3 @@
 Map.prototype.geoloc = function(aDisplay) {
   this.selectionPoint(aDisplay, 'Geoloc.DoIt');
 };
-
-

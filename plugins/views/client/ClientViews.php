@@ -86,7 +86,7 @@ class ClientViews extends ClientPlugin
     public function __construct() {
         parent::__construct();
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -344,5 +344,3 @@ class ClientViews extends ClientPlugin
         return $this->smarty->fetch('views.tpl');
     }
 }
-
-?>

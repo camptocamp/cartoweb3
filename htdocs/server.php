@@ -29,7 +29,7 @@ function getSavedPostDir() {
  * @return string name of written file
  */
 function savePostData($postData) {
-    $log =& LoggerManager::getLogger(__METHOD__);
+    $log = LoggerManager::getLogger(__METHOD__);
 
     $post_id = substr(md5($postData), 0, 5);
     
@@ -83,5 +83,3 @@ if (isset($_GET['requ_id'])) {
     Accounting::getInstance()->account('general.request_id', $_GET['requ_id']);
 }
 Accounting::getInstance()->save();
-
-?>

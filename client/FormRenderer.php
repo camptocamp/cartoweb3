@@ -74,7 +74,7 @@ class FormRenderer {
      * @param Cartoclient
      */
     public function __construct(Cartoclient $cartoclient) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
 
         $this->smarty = $this->getSmarty();
@@ -486,5 +486,3 @@ class FormRenderer {
         return $this->tools;
     }
 }
-
-?>

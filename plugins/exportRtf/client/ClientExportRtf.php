@@ -372,4 +372,3 @@ class ClientExportRtf extends ExportPlugin {
              return 'NO MAP';
          }
     }
-?>
