@@ -26,11 +26,11 @@ msgstr "Aucun"
 
 #: layers.ini:layers.human.label
 msgid "Human activities"
-msgstr "Activités humaines"
+msgstr "ActivitÃ©s humaines"
 
 #: layers.ini:layers.categ.label
 msgid "Category"
-msgstr "Catégorie"
+msgstr "CatÃ©gorie"
 
 #: layers.ini:layers.relief.label
 msgid "Relief"
@@ -42,7 +42,7 @@ msgstr "Hydrologie"
 
 #: layers.ini:layers.district.label demoCW3.map
 msgid "district"
-msgstr "Régions"
+msgstr "RÃ©gions"
 
 #: layers.ini:layers.sea.label demoCW3.map
 msgid "sea"
@@ -54,7 +54,7 @@ msgstr "Villes"
 
 #: layers.ini:layers.agglo.label
 msgid "Agglomerations"
-msgstr "Agglomérations"
+msgstr "AgglomÃ©rations"
 
 #: layers.ini:layers.transport.label
 msgid "Transports"
@@ -62,11 +62,11 @@ msgstr "Transports"
 
 #: layers.ini:layers.airport.label
 msgid "Airports"
-msgstr "Aéroports"
+msgstr "AÃ©roports"
 
 #: layers.ini:layers.railway.label
 msgid "Railways"
-msgstr "Voies ferrées"
+msgstr "Voies ferrÃ©es"
 
 #: layers.ini:layers.road.label
 msgid "Roads"
@@ -94,7 +94,7 @@ msgstr "Glaciers"
 
 #: layers.ini:layers.river.label
 msgid "Rivers"
-msgstr "Rivières"
+msgstr "RiviÃ¨res"
 
 #: layers.ini:layers.lake.label
 msgid "Lakes"
@@ -106,7 +106,7 @@ msgstr ""
 
 #: location.ini:shortcuts.1.label
 msgid "Leman Lake"
-msgstr "Lac Léman"
+msgstr "Lac LÃ©man"
 
 #: location.ini:shortcuts.2.label
 msgid "Albertville"
@@ -170,11 +170,11 @@ msgstr "Lacs"
 
 #: demoCW3.map
 msgid "river"
-msgstr "Rivières"
+msgstr "RiviÃ¨res"
 
 #: demoCW3.map
 msgid "railway"
-msgstr "Voies ferrées"
+msgstr "Voies ferrÃ©es"
 
 #: demoCW3.map
 #, fuzzy
@@ -208,11 +208,11 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "Agglomérations"
+msgstr "AgglomÃ©rations"
 
 #: demoCW3.map
 msgid "airport"
-msgstr "Aéroports"
+msgstr "AÃ©roports"
 
 #: demoCW3.map
 msgid "town"

@@ -1,0 +1,2305 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-10-27 16:12+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: layers.ini:layers.background.label
+msgid "Background"
+msgstr "Fond de carte"
+
+#: layers.ini:layers.vector.label
+msgid "Vector"
+msgstr "Vecteur"
+
+#: layers.ini:layers.raster.label
+msgid "Raster"
+msgstr ""
+
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr "Aucun"
+
+#: layers.ini:layers.human.label
+msgid "Human activities"
+msgstr "Activités humaines"
+
+#: layers.ini:layers.categ.label
+msgid "Category"
+msgstr "Catégorie"
+
+#: layers.ini:layers.relief.label
+msgid "Relief"
+msgstr "Relief"
+
+#: layers.ini:layers.hydro.label
+msgid "Hydrology"
+msgstr "Hydrologie"
+
+#: layers.ini:layers.district.label demoCW3.map
+msgid "district"
+msgstr "Régions"
+
+#: layers.ini:layers.sea.label demoCW3.map
+msgid "sea"
+msgstr "Mer"
+
+#: layers.ini:layers.towns.label layers.ini:layers.town.label
+msgid "Towns"
+msgstr "Villes"
+
+#: layers.ini:layers.agglo.label
+msgid "Agglomerations"
+msgstr "Agglomérations"
+
+#: layers.ini:layers.transport.label
+msgid "Transports"
+msgstr "Transports"
+
+#: layers.ini:layers.airport.label
+msgid "Airports"
+msgstr "Aéroports"
+
+#: layers.ini:layers.railway.label
+msgid "Railways"
+msgstr "Voies ferrées"
+
+#: layers.ini:layers.road.label
+msgid "Roads"
+msgstr "Routes"
+
+#: layers.ini:layers.freeway_.label
+msgid "Freeway"
+msgstr "Autoroutes"
+
+#: layers.ini:layers.sr.label
+msgid "National highway"
+msgstr "Routes nationales"
+
+#: layers.ini:layers.contour.label
+msgid "Elevation contour"
+msgstr "Contour"
+
+#: layers.ini:layers.mountain.label
+msgid "Mountains"
+msgstr "Montagnes"
+
+#: layers.ini:layers.iceland.label
+msgid "Icelands"
+msgstr "Glaciers"
+
+#: layers.ini:layers.river.label
+msgid "Rivers"
+msgstr "Rivières"
+
+#: layers.ini:layers.lake.label
+msgid "Lakes"
+msgstr "Lacs"
+
+#: location.ini:shortcuts.0.label
+msgid "Mont Blanc"
+msgstr ""
+
+#: location.ini:shortcuts.1.label
+msgid "Leman Lake"
+msgstr "Lac Léman"
+
+#: location.ini:shortcuts.2.label
+msgid "Albertville"
+msgstr "Albertville"
+
+#: location.ini:scales.0.label
+msgid "1/250 000"
+msgstr ""
+
+#: location.ini:scales.1.label
+msgid "1/500 000"
+msgstr ""
+
+#: location.ini:scales.2.label
+msgid "1/750 000"
+msgstr ""
+
+#: location.ini:scales.3.label
+msgid "1/1 500 000"
+msgstr ""
+
+#: location.ini:scales.4.label
+msgid "1/2 500 000"
+msgstr ""
+
+#: location.ini:scales.5.label
+msgid "1/3 500 000"
+msgstr ""
+
+#: location.ini:scales.6.label
+msgid "1/4 750 000"
+msgstr ""
+
+#: demoCW3.map
+msgid "raster"
+msgstr "Raster"
+
+#: demoCW3.map
+msgid "contour"
+msgstr "Contour"
+
+#: demoCW3.map
+msgid "NAM"
+msgstr "NOM"
+
+#: demoCW3.map
+msgid "iceland"
+msgstr "Glacier"
+
+#: demoCW3.map
+msgid "AREA"
+msgstr "SURFACE"
+
+#: demoCW3.map
+msgid "iceland_hilight"
+msgstr ""
+
+#: demoCW3.map
+msgid "lake"
+msgstr "Lacs"
+
+#: demoCW3.map
+msgid "river"
+msgstr "Rivières"
+
+#: demoCW3.map
+msgid "railway"
+msgstr "Voies ferrées"
+
+#: demoCW3.map
+#, fuzzy
+msgid "freeway"
+msgstr "Autoroutes"
+
+#: demoCW3.map
+#, fuzzy
+msgid "national_highway"
+msgstr "Routes nationales"
+
+#: demoCW3.map
+msgid "mountain"
+msgstr "Montagnes"
+
+#: demoCW3.map
+msgid "> 3500m"
+msgstr ""
+
+#: demoCW3.map
+msgid "> 2500m"
+msgstr ""
+
+#: demoCW3.map
+msgid "ZV2"
+msgstr "Altitude"
+
+#: demoCW3.map
+msgid "mountain_hilight"
+msgstr ""
+
+#: demoCW3.map
+msgid "agglo"
+msgstr "Agglomérations"
+
+#: demoCW3.map
+msgid "airport"
+msgstr "Aéroports"
+
+#: demoCW3.map
+msgid "town"
+msgstr "Villes"
+
+#: demoCW3.map
+msgid "TXT"
+msgstr "NOM"
+
+#: demoCW3.map
+msgid "cartoweb_point_outline"
+msgstr ""
+
+#: demoCW3.map
+msgid "cartoweb_line_outline"
+msgstr ""
+
+#: demoCW3.map
+msgid "cartoweb_polygon_outline"
+msgstr ""
+
+# exportPdf.ini:formats.a4.label
+# exportPdf.ini:formats.A4.label
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr "A4"
+
+# exportPdf.ini:formats.a3.label
+# exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr "A3"
+
+#: exportPdf.ini:formats.A3full.label
+msgid "A3full"
+msgstr ""
+
+#: images.ini:mapSizes.0.label
+msgid "430x300"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "620x420"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "860x600"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "1240x840"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
+msgstr "Taille carte :"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr "déplier"
+
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
+msgid "Expand tree"
+msgstr "Déplier"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr "fermer"
+
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
+msgid "Close tree"
+msgstr "Fermer"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr "tout sélectionner"
+
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
+msgid "Check all"
+msgstr "Tout sélectionner"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr "tout déselectionner"
+
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
+msgid "Uncheck all"
+msgstr "Tout désélectionner"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr "plus d'infos sur"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr "Prochaine échelle visible :"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr "Zoomer pour voir la couche"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr "Dézoomer pour voir la couche"
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
+msgstr "Recentrage sur Id"
+
+# correction bug
+msgid "IdRecentering"
+msgstr "Recentrage sur des identifiants"
+
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on : "
+msgstr "Couche :"
+
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's : "
+msgstr "Ids, séparés par des virgules :"
+
+#: projects/demoCW3/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
+msgstr "Recentrer"
+
+#: projects/demoCW3/coreplugins/location/templates/recenter.tpl
+msgid "X :"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/location/templates/recenter.tpl
+msgid "Y :"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr "Echelle :"
+
+#: coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr "Raccourcis"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Hilight"
+msgstr "Mise en évidence"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Attributes"
+msgstr "Attributs"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "Union"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Xor"
+msgstr ""
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "Inter"
+msgstr "Intersection"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr "Dans la requête"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr "Masque"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr "Interroger toutes les couches sélectionnées"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr "Effacer la requête"
+
+#: projects/demoCW3/plugins/auth/templates/auth.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "please"
+msgstr "merci de"
+
+msgid "login"
+msgstr "vous connecter"
+
+#: projects/demoCW3/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "vous déconnecter"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr "Identification"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr "Vous êtes déconnecté"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr "Veuillez entrer votre nom et votre mot de passe"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr "Nom"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr "Mot de passe"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr "Envoyer"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr "Retour à la carte"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Format and Resolution (dpi)"
+msgstr "Format et résolution (dpi)"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Orientation"
+msgstr ""
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Portrait"
+msgstr "Portrait"
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Landscape"
+msgstr "Paysage"
+
+#: plugins/views/templates/views.tpl
+msgid "Title"
+msgstr "Titre"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Echelle"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Aperçu"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "Résultats de la requête"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Légende"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "Carte principale"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "Nouvelle page"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "Aucun"
+
+#: plugins/exportHtml/templates/export.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+msgid "Print"
+msgstr "Imprimer"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Mode"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Dessin"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Change Mode"
+msgstr "Changer de mode"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Surface totale"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Km"
+msgstr ""
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr "Effacer le tracé"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "CartoWeb3 - Demonstration"
+msgstr "CartoWeb3 - Démonstration"
+
+#: templates/cartoclient.tpl templates/mainmap.tpl
+msgid "Collapse keymap"
+msgstr "Cacher la carte de référence"
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr "Afficher la carte de référence"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "welcome"
+msgstr "Bienvenue"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Coordonnees (m):"
+msgstr "Coordonnées (m):"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Distance approx.: "
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Surface approx. : "
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr "Messages développeurs"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "User messages"
+msgstr "Messages utilisateur"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "About"
+msgstr "A propos"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Help Viewer"
+msgstr "Aide"
+
+#: templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Thèmes"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
+msgstr "Recherche"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Outline"
+msgstr "Dessin"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Query"
+msgstr "Requête"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Refresh"
+msgstr "Rafraichir"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Data sources"
+msgstr "Sources des données"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Nima :"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Gtopo30 :"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Projection and datums"
+msgstr "Projections"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "UTM 32 North"
+msgstr "UTM 32 Nord"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "WGS 84"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "EPSG 32632"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "You are not allowed to print maps"
+msgstr "Vous n'êtes pas autorisé à imprimer des cartes"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"This demo is an overview of the standard functionalities that are somehow "
+"visible for an end-user in Cartoweb. To get the most out of it, read through "
+"this Help guide before starting to explore."
+msgstr ""
+"Cette démo est un aperçu des fonctionnalités standard, visibles par un "
+"utilisateur de Cartoweb. Pour l'utiliser pleinement, lisez cette aide avant "
+"de commencer à l'utiliser."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Themes tab"
+msgstr " Onglet Thèmes"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Cartoweb supports an arbitrarily complex hierarchy of layers, with "
+"indefinite path.\n"
+"        The layers which are checked and so selected, are displayed."
+msgstr ""
+"Cartoweb supporte une hiérarchie complexe de couches, avec un nombre de "
+"niveaux infini.\n"
+"Pour afficher une couche, il suffit de la sélectionner."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Once you have chosen your data, click on the OK button, located beneath the "
+"tab, to update your changes"
+msgstr ""
+"Une fois votre couche choisie, cliquez sur le bouton \"OK\" pour mettre à "
+"jour la carte."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search tab"
+msgstr "Onglet Recherche"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"This tab allows you to move the center of the viewing area on a desired "
+"location. You can choose this location by three differents ways :"
+msgstr ""
+"Cet onglet vous permet de déplacer la zone affichée vers celle que vous "
+"voulez. Vous pouvez faire cela de différentes manières :"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "pet"
+msgstr "puce"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "to select a shortcut to a specific location,"
+msgstr "en sélectionnant un raccouci vers un lieu géographique,"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"to entering the coordinates in the box X and Y (to start the search type on "
+"the touch "
+msgstr ""
+"en entrant les coordinées X et Y d'un point (pour lancer la recherche, "
+"tapper sur la touche "
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"to do a search on the name. For it, please select the data on which you are "
+"interested in, type the word or the begining of the word you think "
+"correspond to a feature of the data and follow the instructions."
+msgstr ""
+"en faisant une recherche sur un nom. Pour cela, sélectionnez la couche qui "
+"vous intéresse, tappez le mot ou le début du mot, qui selon vous correspond "
+"à un objet de la couche, et suivez les instructions."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Outline tab"
+msgstr "Onglet Dessin"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"In Cartoweb, it is possible to freely draw points, lines, rectangles and "
+"polygons on the map, and to attach labels to them. These features are "
+"persistent: they survive panning or zooming.\n"
+"    This tab allows you to obtain informations on the drawn features and to "
+"switch on the mask mode, in which everything but the outlined polygon is "
+"masked, is provided too."
+msgstr ""
+"Dans Cartoweb, il est possible de dessiner des points, des lignes, des "
+"rectangles ou des polygones sur la carte, et d'y attacher des étiquettes. "
+"Ces objets sont persistants : au prochain zoom ou déplacement, ils seront "
+"toujours affichés.\n"
+"Cet onglet vous permet d'obtenir des informations sur les objets dessinés et "
+"de basculer vers le mode masque, dans lequel tout est masqué, sauf l'objet "
+"dessiné."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "outline_point"
+msgstr "Point"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "outline_line"
+msgstr "Ligne"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "outline_rectangle"
+msgstr "Rectangle"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "outline_polygon"
+msgstr "Polygone"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "To draw the desired features, you might use outline tools."
+msgstr "Pour dessiner les objets voulus, utilisez les outils de dessin."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Query tab"
+msgstr "Onglet Requête"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Using the query tool, you can geographically search for objects. Found "
+"objects are hilighted and their attributes are displayed."
+msgstr ""
+"En utilisant l'outil Requête, vous pour faire une recherche géographique sur "
+"des objets. Les objets trouvés sont mis en évidence et leurs attributs sont "
+"affichés."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The queries are persistent (i.e. you can add new objects to already selected "
+"objects).\n"
+"    Note : "
+msgstr ""
+"Les requêtes sont persistantes (vous pouvez ajouter de nouveaux objets à "
+"ceux déjà sélectionnés).\n"
+"    Note : "
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"only the layers which are specified questionnable by the administrator of "
+"the website are concerned by the query."
+msgstr ""
+"seulement les couches spécifiées comme interrogeables par l'administateur du "
+"site Web sont concernées par la requête."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"This tab allows you to parametrize your search. For each layers, which can "
+"be interrogated, the following options can be set :"
+msgstr ""
+"Cet onglet vous permet de paramétrer votre requête. Pour chaque couche "
+"interrogeable, les options suivantes peuvent être mises :"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid " : allows to activate/desactivate features hilight;"
+msgstr " : permet d'activer/désactiver la mise en évidence des objets;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+" : if it's checked, the layers attributes can be requested. Instead, only "
+"object IDs will be returned;"
+msgstr ""
+" : si elle est cochée, les attributs des couches peuvent être interrogés. "
+"Sinon, seulement les identifiants des objets seront retournés;"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Table"
+msgstr "Table"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid " : allows to display the query result;"
+msgstr " : permet d'afficher le résultat d'une requête"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Union selection"
+msgstr "Union sélection"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+" : when selecting a group of objects, already selected ones are kept "
+"selected and no yet selected ones are selected;"
+msgstr ""
+" : quand vous sélectionnez un groupe d'objets, ceux qui étaient déjà "
+"sélectionnés le restent et ce qui ne l'étaient pas encore sont sélectionnés;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+" : when selecting a group of objects, already selected ones are unselected "
+"and no yet selected ones are selected (defaut type);"
+msgstr ""
+" : quand vous sélectionnez un group d'objets, ceux qui été sélectionnés sont "
+"désélectionnés et ceux qui ne l'étaient pas sont sélectionnés (par défaut);"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Intersection"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+" : when selecting a group of objects, only already selected are kept "
+"selected;"
+msgstr ""
+" : quand vous sélectionnez un groupe d'objets, seulement ceux qui étaient "
+"déjà sélectionnés seront conservés dans la sélection;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "InQuery"
+msgstr "Dans la requête"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid " : if it's checked, you force query to use this layer;"
+msgstr ""
+" : si cette option est cochée, vous forcez incluez cette couche dans la "
+"requête;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+" : if it's checked, you apply a mask instead of a simple selection. This "
+"don't work when using highlight mecanism;"
+msgstr ""
+" : si elle est cochée, vous appliquerez un masque au lieu de faire une "
+"simple sélection."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"If \"Query all selected layers\" option is checked, the query will handle "
+"all the questionnable layers"
+msgstr ""
+"Si l'option \"Interroger toutes les couches sélectionnées\" est cochée, la "
+"requête portera sur toutes les couches interrogeables."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Print tab"
+msgstr "Onglet Imprimer"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Cartoweb is able to output a PDF document. You can choose in this dialog "
+"tab, the elements you want to display (scalebar, overview, query results, "
+"legend) and specify additional options (format and resolutiion, orientation, "
+"title, note)."
+msgstr ""
+"Cartoweb permet des exports au format PDF. Vous pouvez choisir dans cet "
+"onglet, les éléments de la carte que vous voulez voir s'afficher (barre "
+"d'échelle, vue générale, résultats d'une requête, légende) et des options "
+"spécifiques à l'export (format et réolution, orientation, titre, note)."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "About tab"
+msgstr "Onglet A propos"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"This tab give you some informations on the data and the projections. \n"
+"    All the data are royalty-free. Nima refers to the datasource for the "
+"vector background and Gtopo30 refers to the datasource for the raster "
+"background."
+msgstr ""
+"Cet onglet vous fournit quelques informations sur les projections et les "
+"données.\n"
+"Toutes les données sont libres de droits. Nima fait référence aux sources de "
+"données du fond de carte vecteur et Gtopo30 à celles du fond de carte raster."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Globe"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Mapping tools"
+msgstr "Outils cartographiques"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Navigation interface"
+msgstr "Interface de navigation"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"There are many possibilities to navigate on the main map, that is to change "
+"the scale and the position"
+msgstr ""
+"Elle offre la possibilité de naviguer sur la carte principale, en changeant "
+"l'échelle ou la position d'observation"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "the arrows surrounding the map;"
+msgstr "les flèches de déplacement;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "the dynamic (i.e. clickable) keymap;"
+msgstr "la vue générale dynamique (i.e. cliquable);"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "the navigation tools (zoom and pan), which are detailled below;"
+msgstr ""
+"les outils de navigation (zoom et déplacement), qui seront détaillés après;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "the drop down menu \"Scale\";"
+msgstr "la liste déroulante d'échelles;"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "the various options in the \"Search\" tab."
+msgstr "les options de l'onglet \"Recherche\"."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "The menu \"Mapsize\" is self- explanatory."
+msgstr "la liste déroulante des tailles de cartes possibles"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "zoomin"
+msgstr "Zoom avant"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The Zoom In tool allows you to focus on a specific, smaller region of the "
+"Europe area. Click the Zoom In button and then either click the map near the "
+"center of the region you are interested in or click-and-drag a rectangle "
+"surrounding the area. The Zoom In tool can be used multiple times to move "
+"closer and closer to desired regions."
+msgstr ""
+"L'outil de zoom avant permet de zoomer sur une petite surface de l'Europe. "
+"Cliquez sur cet outil et cliquez sur la carte, sur le centre de la région "
+"qui vous intéresse, ou dessinez un \"rectangle de zoom\" autour de cette "
+"zone. L'outil de zoom peut être utilisé plusieurs fois pour zoomer sur des "
+"zones de plus en plus petites."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "zoomout"
+msgstr "Zoom arrière"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The Zoom Out tool allows you to focus on a larger area of the map than is "
+"currently displayed. Click the Zoom Out button and then click the map near "
+"the center of the larger region you are interested in. The Zoom Out tool can "
+"be used multiple times to view larger and larger regions."
+msgstr ""
+"L'outil de zoom arrière vous permet de vous positionner sur une surface de "
+"la carte plus étendu que l'état actuel.Cliquez sur cet outil et cliquez sur "
+"la carte au centre de la région qui vous intéresse. Le zoom arrière peut "
+"être utilisé plusieurs fois, jusqu'à arriver à la vue générale."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "pan"
+msgstr "Déplacement"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The Pan Map tool allows you to move the center of the viewing area without "
+"changing the scale of the map. Click the Pan Map button and then click and "
+"drag the map image to recenter it."
+msgstr ""
+"L'outil de déplacement vous permets de vous déplacer sur la carte sans "
+"changer l'échelle de la carte. Cliquez sur l'outil de déplacement et "
+"déplacer le centre de visualisation en faisant un \"Cliquer_déplacer\"."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "fullextent"
+msgstr "Vue générale"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The Zoom to Full Extents tool allows you to quickly reset the current map "
+"view to the entire Europe area. There is no need to click on the map to "
+"activate this tool - it is activated as soon as you click the Zoom to Full "
+"Extents button."
+msgstr ""
+"Le zoom vers la carte générale vous permets de quitter le zoom actuel et de "
+"revenir sur l'Europe.Il ne nécessite pas de clic sur la carte pour activer "
+"le déplacement. Il est activé dès que vous cliquez dessus."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Measuring tools"
+msgstr "Outils de mesure"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "distance"
+msgstr "Distance"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "area"
+msgstr "Surface"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Distances and surfaces can be measured on the main map with the above tools."
+msgstr ""
+"Les distances et les surfaces peuvent être mesurés sur la carte avec ces "
+"outils"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Others tools"
+msgstr "Autres outils"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "internationalization"
+msgstr "Internationalisation"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"The internationalization tools allow you to switch langage (Cartoweb uses "
+"gettext for the translation)."
+msgstr ""
+"L'internationalisation vous permet de changer de langage (Cartoweb utilise "
+"gettext pour les traductions)."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid ""
+"Access to different elements of Cartoweb can be allowed or denied according "
+"to who is currently using the application. Both functionnalities and data "
+"may have access restrictions. For this demo, you can access to more rights "
+"by using login 'demo' and password 'demo'. You can then access to the train "
+"data and to the print fonctionnalities."
+msgstr ""
+"L'accès aux différents éléments de Cartoweb peut être accordé ou refusé slon "
+"qui utilise actuellement l'application. Soit les fonctionnalités, soit les "
+"données peuvent être concernées par ces restrictions. Pour la démo, vous "
+"pouvez accéder à plus de droits en vous connectant en tant que utilisateur "
+"'demo', avec le mot de passe 'demo'. Vous pourrez accéder aux données sur "
+"les voies ferrées et aux fonctionnalités d'impression."
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "For more information, you can have a look to the "
+msgstr "Pour plus d'information, vous pouvez aller voir la "
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Cartoweb Documentation"
+msgstr "documentation de Cartoweb"
+
+#: projects/demoCW3/templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Chargement"
+
+#: projects/demoCW3/templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr "vue_generale_alt"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "full_extent"
+msgstr "Vue Générale"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "Help"
+msgstr "Aide"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "help"
+msgstr "aide"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "print"
+msgstr "Imprimer"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "reset session"
+msgstr "Réinitialiser"
+
+#: projects/demoCW3/templates/toolbar.tpl
+msgid "Reset session"
+msgstr "Réinitialiser"
+
+# Elements dynamiques
+msgid "query"
+msgstr "Requête"
+
+msgid "outline_poly"
+msgstr "Polygone"
+
+msgid "Custom_Scale"
+msgstr "Echelle libre"
+
+msgid "human"
+msgstr "Activités humaines"
+
+msgid "categ"
+msgstr "Catégorie"
+
+msgid "PDF recenter"
+msgstr "Recentrer"
+
+msgid "Free rotate"
+msgstr "Rotation libre"
+
+msgid "set"
+msgstr "Go"
+
+msgid "Country"
+msgstr "Pays "
+
+msgid "Airport"
+msgstr "Aéroport "
+
+msgid "Area"
+msgstr "Aire "
+
+msgid "Recenter and Hilight"
+msgstr "Recentrer et colorier"
+
+msgid "Clear Hilight"
+msgstr "Effacer coloriage"
+
+#: coreplugins/mapquery/server/ServerMapquery.php:117
+#, php-format
+msgid "Query spanned too many objects on layer '%s', it was ignored."
+msgstr ""
+
+#: coreplugins/mapquery/server/ServerMapquery.php:126
+#, php-format
+msgid ""
+"This query hit the maximum number of results on '%s', truncating results."
+msgstr ""
+
+#: plugins/routing/server/ServerRouting.php:545
+msgid "No path found"
+msgstr "Chemin non trouvé"
+
+#: scripts/testgettext.php:56
+msgid "PHP-Gettext is not installed correctly !"
+msgstr "PHP-Gettext n'est pas installé correctement !"
+
+#: coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize:"
+msgstr "Taille carte :"
+
+#: coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on"
+msgstr "Couche pour le centrage"
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's"
+msgstr "Id séparés par des virgules"
+
+#: coreplugins/location/templates/id_recenter.tpl templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Actualiser"
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "X"
+msgstr "X"
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "Y"
+msgstr "Y"
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Scale"
+msgstr "Echelle"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query information:"
+msgstr "Information de sélection :"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Layer"
+msgstr "Couche"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Policy"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Mask Mode"
+msgstr "Mode masque"
+
+#: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
+msgid "Id"
+msgstr "Id"
+
+#: coreplugins/tables/templates/tables.tpl
+msgid "Download CSV"
+msgstr "Télécharger CSV"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Cartoclient Title"
+msgstr "Cartoclient (FR)"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Back"
+msgstr "Retour"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Next"
+msgstr "Suivant"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_move"
+msgstr "Déplacer"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_del_vertex"
+msgstr "Supprimer un noeud"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_add_vertex"
+msgstr "Ajouter un noeud"
+
+#: plugins/edit/templates/edit_toolbar.tpl
+msgid "edit_del_feature"
+msgstr "Supprimer un élément"
+
+msgid "edit_sel"
+msgstr "Sélectionner un élément"
+
+msgid "edit_point"
+msgstr "Ajouter un point"
+
+msgid "edit_line"
+msgstr "Ajouter une ligne"
+
+msgid "edit_polygon"
+msgstr "Ajouter un polygone"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Editing plugin:"
+msgstr "Plugin d'édition :"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Choose layer"
+msgstr "Choix de la couche"
+
+#: plugins/edit/templates/edit.tpl
+msgid "layer to edit"
+msgstr "Couche à éditer"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Features: "
+msgstr "Eléments : "
+
+#: plugins/edit/templates/edit.tpl
+msgid "Inserted: "
+msgstr "Insérés : "
+
+#: plugins/edit/templates/edit.tpl
+msgid "Modified: "
+msgstr "Modifiés : "
+
+#: plugins/edit/templates/edit.tpl
+msgid "Deleted: "
+msgstr "Supprimé : "
+
+#: plugins/edit/templates/edit.tpl
+msgid "Validate"
+msgstr "Valider"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Cancel"
+msgstr "Annuler"
+
+#: plugins/edit/templates/edit.tpl
+msgid "Editing not allowed"
+msgstr "Edition non autorisée"
+
+#: plugins/edit/templates/edit.tpl
+msgid "please login"
+msgstr "veuillez vous identifier."
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Title:"
+msgstr "Titre :"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Note:"
+msgstr "Note :"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Reset Form"
+msgstr "Réinitialiser"
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Format:"
+msgstr "Format :"
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Resolution:"
+msgstr "Résolution :"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Scale:"
+msgstr "Echelle"
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "PDF export"
+msgstr "Sortie PDF"
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "Click here to display PDF file"
+msgstr "Voir le fichier PDF produit"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configuration"
+msgstr "Configuration"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure dataset..."
+msgstr "Jeu de données"
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure representation..."
+msgstr "Représentation"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Choropleth dataset configuration"
+msgstr "Paramétrage choroplèthe"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of data :"
+msgstr "Nombre de données :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Min. :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Max. :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Mean :"
+msgstr "Moyenne :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Std Div :"
+msgstr "Ecart-type :"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of classes"
+msgstr "Nombre de classes"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Classification method"
+msgstr "Méthode de classification"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Class limits"
+msgstr "Limites de classe"
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Apply"
+msgstr "Appliquer"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Choropleth representation configuration"
+msgstr "Paramètrage choroplèthe"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Coloring Method"
+msgstr "Méthode de colorisation"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Initialization Colors"
+msgstr "Couleurs d'initialisation"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Classes Color"
+msgstr "Couleurs des classes"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Choropleth"
+msgstr "Choroplèthe"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select geographic entities..."
+msgstr "Choisir une entité"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select indicator..."
+msgstr "Choisir un indicateur"
+
+#: plugins/geostat/templates/geostat_switch.tpl
+msgid "Display geostatistics"
+msgstr "Afficher la thématique"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr "Vers le haut"
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr "Vers le bas"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Drawing mode"
+msgstr "Mode"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr "Point"
+
+#: plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr "Symbole"
+
+#: plugins/outline/templates/outline.tpl
+msgid "size"
+msgstr "Taille"
+
+#: plugins/outline/templates/outline.tpl
+msgid "color"
+msgstr "Couleur"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Line"
+msgstr "Ligne"
+
+#: plugins/outline/templates/outline.tpl
+msgid "border size"
+msgstr "Epaisseur"
+
+#: plugins/outline/templates/outline.tpl
+msgid "transparency"
+msgstr "Opacité"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Rectangle/polygon"
+msgstr "Rectangle/polygone"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline color"
+msgstr "Couleur bordure"
+
+#: plugins/outline/templates/outline.tpl
+msgid "background color"
+msgstr "Couleur surface"
+
+#: plugins/outline/templates/outline.tpl
+msgid ""
+"To draw a circle, either clic&drag on the map or set a value for the radius "
+"and clic on the map."
+msgstr ""
+"Pour dessiner un cercle, soit cliquez/déplacez le curseur sur la carte, soit "
+"spécifiez un rayon et cliquez sur la carte."
+
+#: plugins/outline/templates/outline.tpl
+msgid "circle radius"
+msgstr "Rayon du cercle"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr "Effacer les dessins"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "circle label"
+msgstr "titre du cercle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr "titre de la ligne"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr "titre du polygone"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr "titre du rectangle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr "titre du point"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr "votre titre"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "Rectangle/polygon/circle"
+msgstr "Rectangle/polygone/cercle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "Circle"
+msgstr "Cercle"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr "OK"
+
+#: plugins/routing/templates/routing.tpl
+msgid "Find path"
+msgstr "Chercher le chemin"
+
+#: plugins/routing/templates/routing.tpl
+msgid "from"
+msgstr "de"
+
+#: plugins/routing/templates/routing.tpl
+msgid "to"
+msgstr "à"
+
+#: plugins/routing/templates/routing.tpl
+msgid "options"
+msgstr "options"
+
+#: plugins/routing/templates/routing.tpl
+msgid "routing_compute"
+msgstr "Calculer l'itinéraire"
+
+#: plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: plugins/exportDxf/templates/form.tpl
+msgid "Export DXF"
+msgstr "Sortie DXF"
+
+#: plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr "Supprimer la vue n°"
+
+#: plugins/views/templates/views.tpl
+msgid "?"
+msgstr " ?"
+
+#: plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr "Chargement"
+
+#: plugins/views/templates/views.tpl
+msgid "or"
+msgstr "ou"
+
+#: plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr "Charger la vue"
+
+#: plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr "Aucune vue disponible."
+
+#: plugins/views/templates/views.tpl
+msgid "Edit view"
+msgstr "Edition"
+
+#: plugins/views/templates/views.tpl
+msgid "View #"
+msgstr "Vue n°"
+
+#: plugins/views/templates/views.tpl
+msgid "new view"
+msgstr "nouvelle vue"
+
+#: plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr "Mémoriser la vue"
+
+#: plugins/views/templates/views.tpl
+msgid "Author"
+msgstr "Auteur"
+
+#: plugins/views/templates/views.tpl
+msgid "Show view"
+msgstr "Afficher la vue"
+
+#: plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr "Placer la vue avant"
+
+#: plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr "Modifier la vue"
+
+#: plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr "Sauver comme nouvelle"
+
+#: plugins/views/templates/views.tpl
+msgid "Save view"
+msgstr "Sauver la vue"
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view"
+msgstr "Suppression"
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr "Supprimer la vue n°"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Explore WMS layers"
+msgstr "Rechercher une couche WMS"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "You need to choose a layer to add it in the mapfile"
+msgstr "Pour ajouter une couche sur la carte, vous devez la sélectionner!"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "BROWSE: "
+msgstr "NAVIGATION: "
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Select a server in the list below to browse its WMS layers"
+msgstr ""
+"Sélectionnez un serveur dans la liste suivante pour afficher ses couches WMS"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "ADD LAYER: "
+msgstr "AJOUTER UNE COUCHE: "
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid ""
+"Click the 'Add' button at the bottom of this dialog to add the selected "
+"layer to the map"
+msgstr ""
+"Cliquez sur le bouton 'Ajouter' pour ajouter la couche sélectionnée sur la "
+"carte"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Loading image..."
+msgstr "Veuillez patienter..."
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Add selected layer to the map"
+msgstr "Ajouter la couche sélectionnée sur la carte"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+msgid "Add layer"
+msgstr "Ajouter une couche"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Close"
+msgstr "Fermer"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Close this dialog"
+msgstr "Fermer cette fenêtre"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Explore WMS layers - iframe"
+msgstr "Visualiser des couches WMS - iframe"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Select a layer"
+msgstr "Sélectionnez une couche"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "You can't add this layer, one of its metadatas values is null"
+msgstr ""
+"Vous ne pouvez pas ajouter cette couche, une de ses métadonnées est nulle"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Title: "
+msgstr "Titre: "
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Abstract: "
+msgstr "Résumé: "
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Metadatas: "
+msgstr "Métadonnées: "
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Select a server..."
+msgstr "Sélectionnez un serveur..."
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid "Manage available WMS servers"
+msgstr "Gestion des serveurs WMS disponibles"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Manage servers"
+msgstr "Gestion des serveurs"
+
+#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
+msgid ""
+"This server is disconnected. Please connect it in manage servers popup to "
+"explore its layers."
+msgstr ""
+"Ce serveur est déconnecté. Connectez-le dans la popup de gestion de serveurs "
+"pour visualiser ses couches."
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid ""
+"In the list of available datastores below, server names prefaced with [c] "
+"and [d] are 'Connected' and 'Disconnected' respectively.\n"
+"To modify a server's properties, select it from the list."
+msgstr ""
+"Dans la liste des serveurs ci-dessous, [c] indique que le serveur est "
+"connecté, [d] 'déconnecté'.\n"
+"Vous pouvez modifier les propriétés des serveurs."
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Available servers"
+msgstr "Serveurs disponibles"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Connect selected server"
+msgstr "Se connecter au serveur sélectionné"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Disconnect selected server"
+msgstr "Déconnecter le serveur sélectionné"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Refresh selected server"
+msgstr "Rafraîchir le serveur sélectionné"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Test selected server"
+msgstr "Tester le serveur sélectionné"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Remove selected server"
+msgstr "Supprimer le serveur sélectionné"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid ""
+"Please supply the properties below then click 'Add' to add a new server to "
+"the datastores list. \n"
+"*The only required field is URL."
+msgstr ""
+"Pour ajouter un nouveau serveur à la liste, remplissez ses propriétés et "
+"cliquez sur 'Ajouter'. \n"
+"*Le seul champ à remplir obligatoirement est l'URL."
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Server properties"
+msgstr "Propriétés du serveur"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Comments"
+msgstr "Commentaires"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Add server"
+msgstr "Ajouter un serveur"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Add server to list"
+msgstr "Ajouter un serveur"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Update server entry"
+msgstr "Mettre à jour ce serveur"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Server last refreshed"
+msgstr "Dernier rafraîchissement"
+
+#: plugins/wmsBrowser/templates/manageServers.tpl
+msgid "Output"
+msgstr "Sortie"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "The following parameters should not be included in the URL:"
+msgstr "Les paramètres suivants ne devraient pas être inclus dans l'URL:"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Adding server [%1] to list .... "
+msgstr "Ajout du serveur [%1] .... "
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Failed"
+msgstr "Echec"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid ""
+"Adding server .... cancelled [this server is already registred in wms cache]"
+msgstr ""
+"Ajout du serveur .... annulé [ce serveur est déjà enregistré dans la base de "
+"données]"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "OK"
+msgstr ""
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Testing server [%1] .... "
+msgstr "Test du serveur [%1] .... "
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Not available"
+msgstr "Non disponible"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server [%1] .... OK"
+msgstr "Suppression du serveur [%1] .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Refreshing server [%1] .... "
+msgstr "Rafraîchissement du serveur [%1] .... "
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "An error occured parsing capabilities..."
+msgstr ""
+"Une erreur est survenue pendant la phase de récupération des informations du "
+"serveur..."
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server .... OK"
+msgstr "Suppression du serveur .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Updating existing server [%1] .... OK"
+msgstr "Mise à jour du serveur [%1] .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Disconnecting server [%1] .... OK"
+msgstr "Déconnection du serveur [%1] .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Connecting server .... cancelled [no server selected]"
+msgstr "Connection du serveur .... annulée [aucun serveur n'est sélectionné]"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Connecting server [%1] .... OK"
+msgstr "Connection du serveur [%1] .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Disconnecting server .... cancelled [no server selected]"
+msgstr "Connection du serveur .... annulée [aucun serveur n'est sélectionné]"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Removing server .... cancelled [no server selected]"
+msgstr "Suppression du serveur ... annulée [aucun serveur n'est sélectionné]"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Testing server .... cancelled [no server selected]"
+msgstr "Test du serveur .... annulé [aucun serveur n'est sélectionné]"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Building servers list .... OK"
+msgstr "Mise à jour de la liste des serveurs .... OK"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "No servers in the list."
+msgstr "Aucun serveur n'est encore enregistré"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Execution complete"
+msgstr "Opération réalisée"
+
+#: plugins/wmsBrowser/templates/userLog.tpl
+msgid "Errors occurred"
+msgstr "Corrigez vos erreurs!"
+
+#: plugins/wmsBrowser/templates/wmsBrowser.tpl
+msgid "Add WMS layers"
+msgstr "Ajouter des couches wms"
+
+#: plugins/wmsBrowser/templates/wmsBrowser.tpl
+msgid "Remove all WMS layers"
+msgstr "Supprimer les couches wms ajoutées"
+
+#: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr "Echelle actuelle : "
+
+#: templates/cartoclient.tpl
+msgid "Coord (m):"
+msgstr "Coord. (m) :"
+
+#: templates/cartoclient.tpl
+msgid "Approx. distance :"
+msgstr "Distance approx. :"
+
+#: templates/cartoclient.tpl
+msgid "Approx. area :"
+msgstr "Surface approx. :"
+
+#: templates/cartoclient.tpl
+msgid " User messages "
+msgstr "Messages utilisateurs"
+
+#: templates/cartoclient.tpl
+msgid "Choose project"
+msgstr "Choix du projet"
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr "Réinitialiser"
+
+#: templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr "Ordre des couches"
+
+#: templates/cartoclient.tpl
+msgid "WMS layers"
+msgstr "Couches WMS"
+
+#: templates/cartoclient.tpl
+msgid "Navigation"
+msgstr "Navigation"
+
+#: templates/cartoclient.tpl
+msgid "PDF"
+msgstr "PDF"
+
+#: templates/cartoclient.tpl
+msgid "Views"
+msgstr "Vues"
+
+#: templates/cartoclient.tpl
+msgid "Views:"
+msgstr "Vues:"
+
+#: templates/cartoclient.tpl
+msgid "Raw image"
+msgstr "Image brute"
+
+#: templates/dhtmlcode.tpl
+msgid "overlapping polygons are not allowed"
+msgstr "Polygones croisés non autorisés"
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr "Etes-vous sûr ?"
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr "Objet non conforme"
+
+#: templates/mainmap.tpl
+msgid "JavaScript must be enabled to use CartoWeb"
+msgstr "JavaScript doit être activé pour utiliser CartoWeb"
+
+#: templates/toolPicker.tpl
+msgid "Tools"
+msgstr "Outils"
+
+#: templates/toolPicker.tpl
+msgid "Color"
+msgstr "Couleur"
+
+#: templates/toolPicker.tpl
+msgid "Hash"
+msgstr "Hachure"
+
+#: templates/toolPicker.tpl
+msgid "Pencil"
+msgstr "Pinceau"
+
+#: templates/toolPicker.tpl
+msgid "Symbol"
+msgstr "Symbole"
+
+#: templates/toolPicker.tpl
+msgid "Switch to color array"
+msgstr "Tableau de couleurs"
+
+#: templates/toolPicker.tpl
+msgid "Relative Brightness"
+msgstr "Luminosité relative"
+
+#: templates/toolPicker.tpl
+msgid "R"
+msgstr "R"
+
+#: templates/toolPicker.tpl
+msgid "Red"
+msgstr "Rouge"
+
+#: templates/toolPicker.tpl
+msgid "G"
+msgstr "V"
+
+#: templates/toolPicker.tpl
+msgid "Green"
+msgstr "Vert"
+
+#: templates/toolPicker.tpl
+msgid "B"
+msgstr "B"
+
+#: templates/toolPicker.tpl
+msgid "Blue"
+msgstr "Bleu"
+
+#: templates/toolPicker.tpl
+msgid "H"
+msgstr "T"
+
+#: templates/toolPicker.tpl
+msgid "Hue"
+msgstr "Teinte"
+
+#: templates/toolPicker.tpl
+msgid "S"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Saturation"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "L"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Luminance"
+msgstr "Luminescence"
+
+#: templates/toolPicker.tpl
+msgid "Switch to color gradient"
+msgstr "Palette de couleurs "
+
+#: templates/toolPicker.tpl
+msgid "more colors"
+msgstr "Plus de couleurs"
+
+#: templates/unauthorized.tpl
+msgid "Unauthorized"
+msgstr "Accès non autorisé"
+
+#: client/Views.php:191
+msgid "Action halted: invalid view Id"
+msgstr "Action interrompue : n° de vue invalide"
+
+#: client/Views.php:216
+msgid "You are not allowed to perform this action"
+msgstr "Vous n'avez pas la permission d'exécuter cette action !"
+
+#: client/Views.php:365
+msgid "Cannot load view"
+msgstr "Impossible de charger la vue"
+
+#: client/Views.php:971
+#, php-format
+msgid "Loaded view #%d"
+msgstr "Vue n°%d chargée"
+
+#: client/Views.php:977
+#, php-format
+msgid "New view recorded with id %d"
+msgstr "Nouvelle vue créée avec le n°%d"
+
+#: client/Views.php:982
+#, php-format
+msgid "View #%d updated"
+msgstr "Vue n°%d mise à jour"
+
+#: client/Views.php:987 client/Views.php:1449
+#, php-format
+msgid "View #%d deleted"
+msgstr "Vue n°%d supprimée"
+
+#: client/Views.php:1338
+#, php-format
+msgid "Failed to open view #%d"
+msgstr "Impossible d'ouvrir la vue n°%d"
+
+#: client/Views.php:1362
+#, php-format
+msgid "Unable to read view #%d"
+msgstr "Impossible de charger la vue n°%d"
+
+#: client/Views.php:1374
+#, php-format
+msgid "Unable to write view #%d"
+msgstr "Impossible d'enregistrer la vue n°%d"
+
+#: client/Views.php:1452
+#, php-format
+msgid "Failed deleting view #%d"
+msgstr "Impossible de supprimer la vue n°%d"
+
+#: client/Views.php:1511
+msgid "Unable to open ViewDbContainer: "
+msgstr "Impossible d'ouvrir ViewDbContainer : "
+
+#: client/Views.php:1513 client/Views.php:1582
+msgid "Service failed."
+msgstr "Service indisponible"
+
+#: client/Views.php:1580
+msgid "Unable to process view."
+msgstr "Impossible de traiter la vue"
+
+#: client/Views.php:1591
+#, php-format
+msgid "No result for view #%d"
+msgstr "Pas de résultat pour la vue n°%d"
+
+#: client/Views.php:1615
+#, php-format
+msgid "More than one view affected while editing view #%d"
+msgstr "Plus d'une vue affectées par l'édition de la vue n°%d"
+
+#: client/Views.php:1725
+msgid "Unable to build views catalog"
+msgstr "Impossible de créer la liste des vues"
+
+#: coreplugins/images/client/ClientImages.php:321
+msgid "label"
+msgstr ""
+
+#: coreplugins/layers/client/ClientLayers.php:1334
+msgid "Default"
+msgstr "Défaut"
+
+#: plugins/exportPdf/client/CwFpdf.php:1037
+msgid "Page"
+msgstr "Page"
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
+msgstr "Impossible de calculer le chemin : départ et arrivée identiques"
+
+#: plugins/routing/client/ClientRouting.php:191
+msgid "fastest"
+msgstr "plus rapide"
+
+#: plugins/routing/client/ClientRouting.php:192
+msgid "shortest"
+msgstr "plus court"
+
+#: plugins/views/client/ClientViews.php:286
+msgid "Views main controller is OFF!!"
+msgstr "Le gestionnaire de vues n'est pas activé !"
+
+#: plugins/views/client/ClientViews.php:290
+msgid "Memorizing view to update"
+msgstr "Mémorisation de la vue à modifier"
+
+#: plugins/views/client/ClientViews.php:319
+msgid "(placed at the end)"
+msgstr "(placée à la fin)"
+
+# images.ini:mapSizes.0.label
+# images.ini:mapSizes.0.label
+msgid "small"
+msgstr "petite"
+
+# images.ini:mapSizes.1.label
+# images.ini:mapSizes.1.label
+msgid "normal"
+msgstr "normale"
+
+# images.ini:mapSizes.2.label
+# images.ini:mapSizes.2.label
+msgid "big"
+msgstr "grande"
+
+# images.ini:mapSizes.3.label
+# images.ini:mapSizes.3.label
+msgid "giant"
+msgstr "géante"
+
+msgid "Position:"
+msgstr "Position :"
+
+msgid "query_by_point"
+msgstr "Requête par point"
+
+msgid "query_by_bbox"
+msgstr "Requête par rectangle"
+
+msgid "query_by_polygon"
+msgstr "Requête par polygone"
+
+msgid "query_by_circle"
+msgstr "Requête par cercle"
+
+msgid "outline_circle"
+msgstr "Cercle"
+
+msgid "surface"
+msgstr "Surface"
+
+msgid "message: %s count: %d"
+msgstr "Message : %s compte : %d"
+
+msgid "Cookies must be enabled in order to use this application"
+msgstr "Vous devez activer les cookies pour utiliser cette application"
+
+msgid "Please enable cookies and reload this page."
+msgstr "Merci d'activer les cookies et de recharger cette page."
+
+msgid "linkit"
+msgstr "Obtenir l'URL de cette page"
+
+msgid "The current page is available using following URL:"
+msgstr "La page courante est disponible via l'URL suivante :"
+
+msgid "URL is too long"
+msgstr ""
+"L'URL est trop longue. Certaines informations risquent de ne pas être "
+"transmises correctement."
+
+msgid "* = mandatory options"
+msgstr "* = paramètre(s) obligatoire(s)"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "Day"
+msgstr "Jour"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Time"
+msgstr "Temps"
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "WARNING, no value selected, aborting."
+msgstr "ATTENTION! Aucune valeur sélectionnée, abandon."
+
+msgid "WARNING, you didnt select either a line or column type, aborting."
+msgstr ""
+"ATTENTION! Vous n'avez pas sélectionné de type de ligne ou de colonne, "
+"abandon."
+
+msgid "WARNING, you need to set column and line parameters"
+msgstr "ATTENTION! Vous devez sélectionner le type de ligne et de colonne."
+
+msgid "WARNING, report \""
+msgstr "ATTENTION! Le rapport \""
+
+msgid ""
+"\" specified in statsReport.ini was not generated beforehand with Patrick "
+"Java report script !"
+msgstr ""
+"\" définit dans statsReport.ini n'a pas été généré au préalable via le "
+"script JAVA de génération de rapports."
+
+msgid "Generer"
+msgstr "Générer"
+
+msgid "Tableau"
+msgstr ""
+
+msgid "Graphique (combine)"
+msgstr "Graphique (combiné)"
+
+msgid "Graphiques"
+msgstr ""
+
+msgid "Pixel"
+msgstr "Nombre de pixels"
+
+msgid "Count"
+msgstr "Nombre de cartes"
+
+msgid "Count_pdf"
+msgstr "Nombre de PDF"
+
+msgid "Count_dxf"
+msgstr "Nombre de DXF"
+
+msgid "Layers Filter"
+msgstr "Filtre des couches"
+
+msgid "Filter criteria"
+msgstr "Critères de filtre"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+#~ msgid "Click to Close"
+#~ msgstr "Cliquez pour fermer"
+
+#~ msgid "Drag to Move"
+#~ msgstr "Faites Glisser pour déplacer"
+
+#~ msgid "Zonage"
+#~ msgstr "Couche"
+
+#~ msgid "Retour"
+#~ msgstr "Haut de la page"
+
+#~ msgid "Recenter Id canceled, unable to find selected Id."
+#~ msgstr "Recentrage : l'identifiant n'a pas été trouvé."
