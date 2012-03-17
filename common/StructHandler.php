@@ -44,7 +44,9 @@ class StructHandler {
             $tokens = explode('.', $key);
             $path = implode('->', $tokens);
             $expr = "\$struct->$path = \"$value\";";
-            eval($expr);
+            if ( FALSE === eval($expr) ){
+                throw new RuntimeException("Can't build object with empty expression $expr (key : $key, value = $value<pre>".print_r($array,1)."\n".var_dump($struct)."</pre>", 1000);
+            }
         }
         return $struct;
     }
