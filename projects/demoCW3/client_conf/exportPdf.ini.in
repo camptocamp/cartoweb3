@@ -14,7 +14,7 @@ general.activatedBlocks = "mainmap, title, note, scalebar, overview, copyright, 
 general.showRefMarks = true
 
 general.pdfEngine = "CwFpdf"
-general.pdfVersion = "1.4"
+general.pdfVersion = "1.5"
 general.output = "redirection"
 general.filename = "map-[date,dMY-Hi].pdf"
 general.distUnit = "mm"
@@ -157,7 +157,7 @@ blocks.page.height = "6"
 blocks.page.zIndex = "6"
 
 blocks.logo.type = "image"
-blocks.logo.content = "htdocs/gfx/layout/c2c.png "
+blocks.logo.content = "htdocs/gfx/layout/c2c.png"
 blocks.logo.width = "40"
 blocks.logo.height = "7"
 blocks.logo.padding = "2"
