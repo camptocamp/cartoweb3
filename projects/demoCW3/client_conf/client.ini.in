@@ -1,6 +1,6 @@
 ;@BLURB@
 
-cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
+cartoclientBaseUrl = "@CARTOCLIENT_BASE_URL@"
 profile = "@PROFILE@"
 
 ajaxOn = true

@@ -1,5 +1,5 @@
 ;integer defining appearance order of the query tool icon in toolbar (if not specified, default to 40). 
-weightQuery = 40
+weightQuery = "40"
 
 ;allows client to ask for attributes
 returnAttributesActive = true
@@ -11,8 +11,8 @@ persistentQueries = true
 displayExtendedSelection = false
 
 ; the list of layers which will be shown on the hilight selection list
-;  if this list is not set, all layers are proposed in the list
-queryLayers = airport, mountain, iceland, lake, agglo, town
+; if this list is not set, all layers are proposed in the list
+queryLayers = "airport, mountain, iceland, lake, agglo, town"
 
 ;tool templating
-groupPlugin = 3
+groupPlugin = "3"

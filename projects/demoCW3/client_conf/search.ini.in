@@ -1,25 +1,25 @@
-dbType = sqlite
+dbType = "sqlite"
 dbFile = "projects/demoCW3/server_conf/demoCW3/sql/airports.db"
-encodingContext = searchDb 
+encodingContext = "searchDb"
 
-config.countries.provider.type = server
-config.countries.formatter.type = smarty
-config.countries.formatter.template = search_countries
+config.countries.provider.type = "server"
+config.countries.formatter.type = "smarty"
+config.countries.formatter.template = "search_countries"
 
-config.airports.provider.type = server
-config.airports.formatter.type = smarty
-config.airports.formatter.template = search_results
+config.airports.provider.type = "server"
+config.airports.formatter.type = "smarty"
+config.airports.formatter.template = "search_results"
 
-config.country_districts.provider.type = table
-config.country_districts.provider.table = country
-config.country_districts.provider.id = id
-config.country_districts.provider.columns = name
-config.country_districts.formatter.type = smarty
-config.country_districts.formatter.template = search_districts
+config.country_districts.provider.type = "table"
+config.country_districts.provider.table = "country"
+config.country_districts.provider.id = "id"
+config.country_districts.provider.columns = "name"
+config.country_districts.formatter.type = "smarty"
+config.country_districts.formatter.template = "search_districts"
 
-config.districts.provider.type = table
-config.districts.provider.table = district
-config.districts.provider.id = name
-config.districts.provider.where = "country = '@country_district@' AND area >= @area_min@ AND area <= @area_max@"
-config.districts.provider.recenter = district_recenter
-config.districts.provider.hilight = district_recenter
+config.districts.provider.type = "table"
+config.districts.provider.table = "district"
+config.districts.provider.id = "name"
+config.districts.provider.where = "country = '@country_district@' AND area >= @area_min@ AND area < = @area_max@"
+config.districts.provider.recenter = "district_recenter"
+config.districts.provider.hilight = "district_recenter"
