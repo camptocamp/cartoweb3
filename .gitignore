@@ -7,4 +7,10 @@
 /cw3_configuration
 /cartoweb-includes-3.5.2.tar.gz
 /include
+/projects/*/*.ini
+/projects/*/*.properties
+/projects/*/server_conf/*/data/
+/projects/*/server_conf/*/*.ini
+/projects/*/server_conf/*/*.map
+/projects/*/client_conf/*.ini
 
