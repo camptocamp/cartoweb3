@@ -36,6 +36,7 @@ class StructHandler {
      * Value of key my.little.key will be stored in structure->my->little->key. 
      * @param array
      * @return stdClass
+     * @TODO find a way on strict standard to not create empty object 
      */
     static public function loadFromArray($array) {
         $struct = new stdclass();
