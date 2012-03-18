@@ -114,7 +114,7 @@ abstract class GroupRule extends BaseRule {
      * @param string
      * @return int
      */
-    protected function getWeight($groupId) {
+    protected function getWeight($groupId, $tableId) {
     
         if ($this->groupId == '*') {
             return self::WEIGHT_GROUP_GLOBAL;
@@ -188,7 +188,7 @@ abstract class GroupRule extends BaseRule {
      * @param array array of GroupRule
      * @param TableGroup
      */
-    static public function applyRules($rules, $group) {
+    static public function applyRules($rules, $group, $table) {
         $weights = array();
         foreach ($rules as $rule) {
             $rule->checkRule($group->groupId, $weights);

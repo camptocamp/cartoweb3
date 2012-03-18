@@ -3,13 +3,26 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-11-10 13:20+0100\n"
+"POT-Creation-Date: 2012-03-18 17:32+0100\n"
 "PO-Revision-Date: 2005-03-17 16:19+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: scripts/testgettext.php:58
+msgid "PHP-Gettext is not installed correctly !"
+msgstr "PHP-Gettext não está instalado corretamente!"
+
+#: plugins/routing/server/ServerRouting.php:545
+msgid "No path found"
+msgstr "Trajeto não encontrado"
+
+#: coreplugins/query/server/ServerQuery.php:478
+msgid "Query"
+msgstr "Consulta"
 
 #: coreplugins/mapquery/server/ServerMapquery.php:117
 #, php-format
@@ -20,19 +33,11 @@ msgstr "A consulta abrangeu objetos demais na camada '%s', foi ignorado."
 #, php-format
 msgid ""
 "This query hit the maximum number of results on '%s', truncating results."
-msgstr "Esta consulta superou o número máximo de resultados em '%s', resultado truncado"
-
-#: coreplugins/query/server/ServerQuery.php:449
-msgid "Query"
-msgstr "Consulta"
-
-#: plugins/routing/server/ServerRouting.php:545
-msgid "No path found"
-msgstr "Trajeto não encontrado"
-
-#: scripts/testgettext.php:55
-msgid "PHP-Gettext is not installed correctly !"
-msgstr "PHP-Gettext não está instalado corretamente!"
+msgstr ""
+"Esta consulta superou o número máximo de resultados em '%s', resultado "
+"truncado"
 
 #~ msgid "Recenter Id canceled, unable to find selected Id."
-#~ msgstr "A recentralização da identificação foi cancelada, incapaz de encontrar a identificação selecionada."
+#~ msgstr ""
+#~ "A recentralização da identificação foi cancelada, incapaz de encontrar a "
+#~ "identificação selecionada."

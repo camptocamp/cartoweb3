@@ -7,9 +7,9 @@ switches.switch2.label = "human"
 ; layers
 layers.root.className = "LayerGroup"
 ;layers.root.children = "background, human, categ, wmsLayers"
-layers.root.children.default = "background, categ, wmsLayers"
-layers.root.children.switch2 = "background, human, wmsLayers"
-layers.root.rendering = "block "
+layers.root.children.default = "background, categ, ecogis, wmsLayers"
+layers.root.children.switch2 = "background, human, ecogis, wmsLayers"
+layers.root.rendering = "block"
 
 layers.background.className = "LayerGroup"
 layers.background.label = "Background"
@@ -115,5 +115,53 @@ layers.lake_.label = "Lakes"
 layers.lake_.children = "lake, sea"
 layers.lake_.aggregate = true
 
+
+; wms grouping for ecogis
+layers.ecogis.className = "LayerGroup"
+layers.ecogis.label = "ECOGIS admin.ch"
+layers.ecogis.rendering = "block"
+layers.ecogis.children = "ecocantons, ecocities, ecobln, ecoau, ecojb, ecohm"
+layers.ecogis.rendering = "tree"
+layers.ecogis.metadata.minScale = "50000"
+layers.ecogis.metadata.maxScale = "1000000"
+
+layers.ecocantons.className = "Layer"
+layers.ecocantons.label = "Cantons"
+layers.ecocantons.msLayer = "cantons"
+layers.ecocantons.rendering = "block"
+layers.ecocantons.aggregate = true
+
+layers.ecocities.className = "Layer"
+layers.ecocities.label = "Cities"
+layers.ecocities.msLayer = "cities"
+layers.ecocities.rendering = "block"
+layers.ecocities.aggregate = true
+
+layers.ecobln.className = "Layer"
+layers.ecobln.label = "IFP Inventory"
+layers.ecobln.msLayer = "bln"
+layers.ecobln.rendering = "block"
+layers.ecobln.aggregate = true
+
+layers.ecoau.className = "Layer"
+layers.ecoau.label = "Floodplains"
+layers.ecoau.msLayer = "au"
+layers.ecoau.rendering = "block"
+layers.ecoau.aggregate = true
+
+layers.ecojb.className = "Layer"
+layers.ecojb.label = "Frank federal districts"
+layers.ecojb.msLayer = "jb"
+layers.ecojb.rendering = "block"
+layers.ecojb.aggregate = true
+
+layers.ecohm.className = "Layer"
+layers.ecohm.label = "High marsh"
+layers.ecohm.msLayer = "hm"
+layers.ecohm.rendering = "block"
+layers.ecohm.aggregate = true
+
 layers.wmsLayers.className = "LayerGroup"
 layers.wmsLayers.label = "WMS layers"
+
+

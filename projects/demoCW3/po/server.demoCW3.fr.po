@@ -3,102 +3,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-10-27 16:12+0200\n"
+"POT-Creation-Date: 2012-03-18 17:32+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: layers.ini:layers.background.label
-msgid "Background"
-msgstr "Fond de carte"
-
-#: layers.ini:layers.vector.label
-msgid "Vector"
-msgstr "Vecteur"
-
-#: layers.ini:layers.raster.label
-msgid "Raster"
-msgstr ""
-
-#: layers.ini:layers.nonelayer_.label
-msgid "msgNone"
-msgstr "Aucun"
-
-#: layers.ini:layers.human.label
-msgid "Human activities"
-msgstr "Activités humaines"
-
-#: layers.ini:layers.categ.label
-msgid "Category"
-msgstr "Catégorie"
-
-#: layers.ini:layers.relief.label
-msgid "Relief"
-msgstr "Relief"
-
-#: layers.ini:layers.hydro.label
-msgid "Hydrology"
-msgstr "Hydrologie"
-
-#: layers.ini:layers.district.label demoCW3.map
-msgid "district"
-msgstr "Régions"
-
-#: layers.ini:layers.sea.label demoCW3.map
-msgid "sea"
-msgstr "Mer"
-
-#: layers.ini:layers.towns.label layers.ini:layers.town.label
-msgid "Towns"
-msgstr "Villes"
-
-#: layers.ini:layers.agglo.label
-msgid "Agglomerations"
-msgstr "Agglomérations"
-
-#: layers.ini:layers.transport.label
-msgid "Transports"
-msgstr "Transports"
-
-#: layers.ini:layers.airport.label
-msgid "Airports"
-msgstr "Aéroports"
-
-#: layers.ini:layers.railway.label
-msgid "Railways"
-msgstr "Voies ferrées"
-
-#: layers.ini:layers.road.label
-msgid "Roads"
-msgstr "Routes"
-
-#: layers.ini:layers.freeway_.label
-msgid "Freeway"
-msgstr "Autoroutes"
-
-#: layers.ini:layers.sr.label
-msgid "National highway"
-msgstr "Routes nationales"
-
-#: layers.ini:layers.contour.label
-msgid "Elevation contour"
-msgstr "Contour"
-
-#: layers.ini:layers.mountain.label
-msgid "Mountains"
-msgstr "Montagnes"
-
-#: layers.ini:layers.iceland.label
-msgid "Icelands"
-msgstr "Glaciers"
-
-#: layers.ini:layers.river.label
-msgid "Rivers"
-msgstr "Rivières"
-
-#: layers.ini:layers.lake.label
-msgid "Lakes"
-msgstr "Lacs"
 
 #: location.ini:shortcuts.0.label
 msgid "Mont Blanc"
@@ -106,7 +14,7 @@ msgstr ""
 
 #: location.ini:shortcuts.1.label
 msgid "Leman Lake"
-msgstr "Lac Léman"
+msgstr "Lac LÃ©man"
 
 #: location.ini:shortcuts.2.label
 msgid "Albertville"
@@ -140,6 +48,157 @@ msgstr ""
 msgid "1/4 750 000"
 msgstr ""
 
+#: layers.ini:switches.switch1.label
+#, fuzzy
+msgid "categ"
+msgstr "CatÃ©gorie"
+
+#: layers.ini:switches.switch2.label
+msgid "human"
+msgstr ""
+
+#: layers.ini:layers.background.label
+msgid "Background"
+msgstr "Fond de carte"
+
+#: layers.ini:layers.vector.label
+msgid "Vector"
+msgstr "Vecteur"
+
+#: layers.ini:layers.raster.label
+msgid "Raster"
+msgstr ""
+
+#: layers.ini:layers.nonelayer_.label
+msgid "msgNone"
+msgstr "Aucun"
+
+#: layers.ini:layers.human.label
+#, fuzzy
+msgid "Human activities "
+msgstr "ActivitÃ©s humaines"
+
+#: layers.ini:layers.categ.label
+#, fuzzy
+msgid "Category "
+msgstr "CatÃ©gorie"
+
+#: layers.ini:layers.relief.label
+msgid "Relief"
+msgstr "Relief"
+
+#: layers.ini:layers.hydro.label
+msgid "Hydrology"
+msgstr "Hydrologie"
+
+#: layers.ini:layers.district.label demoCW3.map
+msgid "district"
+msgstr "RÃ©gions"
+
+#: layers.ini:layers.sea.label demoCW3.map
+msgid "sea"
+msgstr "Mer"
+
+#: layers.ini:layers.towns.label layers.ini:layers.town.label
+msgid "Towns"
+msgstr "Villes"
+
+#: layers.ini:layers.agglo.label
+msgid "Agglomerations"
+msgstr "AgglomÃ©rations"
+
+#: layers.ini:layers.transport.label
+msgid "Transports"
+msgstr "Transports"
+
+#: layers.ini:layers.airport.label
+msgid "Airports"
+msgstr "AÃ©roports"
+
+#: layers.ini:layers.railway.label
+msgid "Railways"
+msgstr "Voies ferrÃ©es"
+
+#: layers.ini:layers.road.label
+msgid "Roads"
+msgstr "Routes"
+
+#: layers.ini:layers.freeway_.label
+msgid "Freeway"
+msgstr "Autoroutes"
+
+#: layers.ini:layers.sr.label
+msgid "National highway"
+msgstr "Routes nationales"
+
+#: layers.ini:layers.contour.label
+msgid "Elevation contour"
+msgstr "Contour"
+
+#: layers.ini:layers.mountain.label
+msgid "Mountains"
+msgstr "Montagnes"
+
+#: layers.ini:layers.iceland.label
+msgid "Icelands"
+msgstr "Glaciers"
+
+#: layers.ini:layers.river.label
+msgid "Rivers"
+msgstr "RiviÃ¨res"
+
+#: layers.ini:layers.lake_.label
+msgid "Lakes"
+msgstr "Lacs"
+
+#: layers.ini:layers.ecogis.label
+msgid "ECOGIS admin.ch"
+msgstr ""
+
+#: layers.ini:layers.ecocantons.label
+msgid "Cantons"
+msgstr ""
+
+#: layers.ini:layers.ecocities.label
+msgid "Cities"
+msgstr ""
+
+#: layers.ini:layers.ecobln.label
+msgid "IFP Inventory"
+msgstr ""
+
+#: layers.ini:layers.ecoau.label
+msgid "Floodplains"
+msgstr ""
+
+#: layers.ini:layers.ecojb.label
+msgid "Frank federal districts"
+msgstr ""
+
+#: layers.ini:layers.ecohm.label
+msgid "High marsh"
+msgstr ""
+
+#: layers.ini:layers.wmsLayers.label
+msgid "WMS layers"
+msgstr ""
+
+#: outline.ini:pointSymbols.labels
+msgid "triangle_full"
+msgstr ""
+
+#: outline.ini:pointSymbols.labels
+msgid "point"
+msgstr ""
+
+#: outline.ini:pointSymbols.labels
+msgid "triangle"
+msgstr ""
+
+#: outline.ini:pointSymbols.labels demoCW3.map
+msgid "airport"
+msgstr "AÃ©roports"
+
 #: demoCW3.map
 msgid "raster"
 msgstr "Raster"
@@ -151,6 +210,15 @@ msgstr "Contour"
 #: demoCW3.map
 msgid "NAM"
 msgstr "NOM"
+
+#: demoCW3.map
+#, fuzzy
+msgid "district_recenter"
+msgstr "RÃ©gions"
+
+#: demoCW3.map
+msgid "ID"
+msgstr ""
 
 #: demoCW3.map
 msgid "iceland"
@@ -170,11 +238,11 @@ msgstr "Lacs"
 
 #: demoCW3.map
 msgid "river"
-msgstr "Rivières"
+msgstr "RiviÃ¨res"
 
 #: demoCW3.map
 msgid "railway"
-msgstr "Voies ferrées"
+msgstr "Voies ferrÃ©es"
 
 #: demoCW3.map
 #, fuzzy
@@ -208,11 +276,7 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "Agglomérations"
-
-#: demoCW3.map
-msgid "airport"
-msgstr "Aéroports"
+msgstr "AgglomÃ©rations"
 
 #: demoCW3.map
 msgid "town"
@@ -221,6 +285,14 @@ msgstr "Villes"
 #: demoCW3.map
 msgid "TXT"
 msgstr "NOM"
+
+#: demoCW3.map
+msgid "graph"
+msgstr ""
+
+#: demoCW3.map
+msgid "0"
+msgstr ""
 
 #: demoCW3.map
 msgid "cartoweb_point_outline"
@@ -232,4 +304,40 @@ msgstr ""
 
 #: demoCW3.map
 msgid "cartoweb_polygon_outline"
+msgstr ""
+
+#: demoCW3.map
+msgid "bln"
+msgstr ""
+
+#: demoCW3.map
+msgid "au"
+msgstr ""
+
+#: demoCW3.map
+msgid "jb"
+msgstr ""
+
+#: demoCW3.map
+msgid "hm"
+msgstr ""
+
+#: demoCW3.map
+msgid "CARPETA_CATASTRAL"
+msgstr ""
+
+#: demoCW3.map
+msgid "cantons"
+msgstr ""
+
+#: demoCW3.map
+msgid "cities"
+msgstr ""
+
+#: demoCW3.map
+msgid "gemflaeche"
+msgstr ""
+
+#: demoCW3.map
+msgid "gemname"
 msgstr ""

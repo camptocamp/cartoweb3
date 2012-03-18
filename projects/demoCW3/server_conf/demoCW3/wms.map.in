@@ -1,0 +1,165 @@
+#; project : @CW3_PROJECT@
+#; Date : $Date$
+#; Id : $Id$
+#;@BLURB@
+
+
+# WMS SERVEURS admin.ch #
+# Grouped under FederalInventory
+LAYER
+#Inventaire IFP
+  NAME "bln"
+  TYPE RASTER
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 5000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "foo"
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "bln"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+  END
+END
+
+LAYER
+#Zones alluviales
+  NAME "au"
+  TYPE RASTER
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 5000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "foo"
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "au"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+  END
+END
+
+LAYER
+#Districts francs fédéraux
+  NAME "jb"
+  TYPE RASTER
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 5000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "foo"
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "jb"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+  END
+END
+
+LAYER
+#Haut marais
+  NAME "hm"
+  TYPE RASTER
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 5000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "foo"
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "jb"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+  END 
+END
+
+LAYER
+#Cantons
+  NAME "cantons"
+  TYPE RASTER
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 1000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "foo"
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "ch.swisstopo.gg25-kanton-flaeche.fill"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+	# "query_returned_attributes" "gemflaeche gemname"
+	# "wms_info_format" "text/plain"    
+  END 
+END
+
+LAYER
+#Cantons
+  NAME "cities"
+  TYPE POLYGON
+  STATUS ON
+  CONNECTION "http://ecogis.admin.ch/fr/wms?"
+  CONNECTIONTYPE WMS
+  MINSCALEDENOM 1000
+  MAXSCALEDENOM 1000000
+  TEMPLATE "cities.html"
+  DATA "cities"
+  DUMP TRUE 
+  METADATA
+    "wms_srs"             "EPSG:21781"
+    "wms_name"            "ch.swisstopo.gg25-gemeinde-flaeche.fill"
+    "wms_server_version"  "1.1.1"
+    "wms_format"          "image/png"
+    "wms_connectiontimeout" "30"
+#XML    "wms_exceptions_format" "application/vnd.ogc.se_xml"
+#IMG	
+	"wms_exceptions_format" "application/vnd.ogc.se_inimage"
+    "wms_transparent" "TRUE"
+    "wms_legend_graphic"  "true"
+	"id_attribute_string" "Feature|string"
+	"query_returned_attributes" "gemflaeche gemname perimeter"
+	"wms_include_items"   "all"
+	"gml_include_items"   "all"
+	"wms_enable_request"  "*"	
+	"wms_feature_info_mime_type" "text/html"
+	# "wms_info_format" "text/plain"    
+  END
+END
+# http://ecogis.admin.ch/fr/wms?
+# http://prod.swisstopogeodata.ch/wms-ivs?
+# voir http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/products/services/web_services/wms.html
