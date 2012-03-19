@@ -179,6 +179,7 @@ abstract class Accounting {
     private function saveDb($accountingPacket, $isSimple = true) {
         require_once 'DB.php';
         $dsn = $this->getConfig()->accountingDsn;
+        $tbl = (trim($this->getConfig()->accountingTbl) == '') ? 'cw_accounting' : trim($this->getConfig()->accountingTbl);
         $options = array();
         $db =& DB::connect($dsn, $options);
         Utils::checkDbError($db);
@@ -190,7 +191,7 @@ abstract class Accounting {
             // Table schema:
             // CREATE TABLE cw_accounting (date timestamp, info text);
 
-            $sql = "INSERT INTO cw_accounting (date, info) VALUES (now(), '".$accountingPacket."')";
+            $sql = "INSERT INTO ".$tbl." (date, info) VALUES (now(), '".$accountingPacket."')";
         } else {
             
             $re_line = '/([^=^;]*)="([^"]*)"/';
