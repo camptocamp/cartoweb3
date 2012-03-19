@@ -1,4 +1,3 @@
-#; sigeom sa / 2740 Moutier 
 #; project : @CW3_PROJECT@
 #; Date : $Date$
 #; Id : $Id$
@@ -8,56 +7,27 @@
 # WFS SERVEURS #
 
 LAYER
-  NAME "WFS_L6"
-  TYPE LINE
-  STATUS ON
-  CONNECTION "http://mycw/wfs/wfs?"
-  # SERVICE=WFS&VERSION=1.0.0&REQUEST=getfeature&TYPENAME=L6&MAXFEATURES=100"
-  CONNECTIONTYPE WFS
-  MINSCALEDENOM 500
-  MAXSCALEDENOM 100000
-  TEMPLATE "blabla"
-  METADATA
-    "wfs_srs"             "EPSG:21781"
-    "wfs_name"            "L6"
-    "wfs_server_version"  "1.0.0"
-	"wfs_connectiontimeout" "60"
-    "wfs_maxfeatures"       "100"
-	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
-	"wfs_cache_dir" "/var/tmp/"
-	"wfs_tmpdir" "/var/tmp/" 
-  END
-	PROJECTION
-		"init=epsg:21781"
-	END
-	CLASS
-		NAME "WFS_L5"
-	    STYLE
-	      COLOR 255 128 128
-	      OUTLINECOLOR 96 96 96
-	    END
-	END		
-END
-
-
-LAYER
-  NAME "continents"
+  NAME "wfscontinents"
   TYPE POLYGON
   STATUS ON
   CONNECTION "http://demo.mapserver.org/cgi-bin/wfs?"
   CONNECTIONTYPE WFS
-  TEMPLATE "blipblip"
+  TEMPLATE "wfs-continent"
   METADATA
+    "wfs_srs"             	"EPSG:4326"
     "wfs_typename"          "continents"
     "wfs_version"           "1.0.0"
     "wfs_connectiontimeout" "60"
     "wfs_maxfeatures"       "10"
+	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
+	"wfs_cache_dir" "/var/tmp/"
+	"wfs_tmpdir" "/var/tmp/" 
   END
   PROJECTION
     "init=epsg:4326"
   END
   CLASS
-    NAME "Continents"
+    NAME "WFS Continents"
     STYLE
       COLOR 255 128 128
       OUTLINECOLOR 96 96 96
@@ -65,7 +35,40 @@ LAYER
   END
 END # Layer
 
+LAYER
+  NAME "wfscities"
+  TYPE POINT
+  STATUS ON
+  CONNECTION "http://demo.mapserver.org/cgi-bin/wfs?"
+  CONNECTIONTYPE WFS
+  TEMPLATE "wfs-cities"
+  METADATA
+    "wfs_srs"             	"EPSG:4326"
+    "wfs_typename"          "cities"
+    "wfs_version"           "1.0.0"
+    "wfs_connectiontimeout" "60"
+    "wfs_maxfeatures"       "1000"
+	"wfs_cache_dir" "/var/tmp/"
+	"wfs_tmpdir" "/var/tmp/" 
+	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
+  END
+  PROJECTION
+    "init=epsg:4326"
+  END
+  CLASS
+    NAME "WFS Cities"
+    STYLE
+		SYMBOL "circle"
+		SIZE 16
+		COLOR 255 255 255
+#		OVERLAYSYMBOL "circle"
+#		OVERLAYCOLOR 0 0 0
+#		OVERLAYSIZE 16
+    END
+  END
+END # Layer
+
 
 #WEB
-#    IMAGEPATH "/dev/shm/php5_session/"
+#    IMAGEPATH "/var/tmp/"
 #END

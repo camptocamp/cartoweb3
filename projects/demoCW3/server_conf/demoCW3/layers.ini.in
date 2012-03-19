@@ -7,8 +7,8 @@ switches.switch2.label = "human"
 ; layers
 layers.root.className = "LayerGroup"
 ;layers.root.children = "background, human, categ, wmsLayers"
-layers.root.children.default = "background, categ, ecogis, wmsLayers"
-layers.root.children.switch2 = "background, human, ecogis, wmsLayers"
+layers.root.children.default = "background, categ, ecogis, wfsdemo, wmsLayers"
+layers.root.children.switch2 = "background, human, ecogis, efs,demo,wmsLayers"
 layers.root.rendering = "block"
 
 layers.background.className = "LayerGroup"
@@ -160,6 +160,29 @@ layers.ecohm.label = "High marsh"
 layers.ecohm.msLayer = "hm"
 layers.ecohm.rendering = "block"
 layers.ecohm.aggregate = true
+
+; WFS grouping for demo
+layers.wfsdemo.className = "LayerGroup"
+layers.wfsdemo.label = "WFS Demo"
+layers.wfsdemo.rendering = "block"
+layers.wfsdemo.children = "wfscontinents, wfscities"
+layers.wfsdemo.rendering = "tree"
+layers.wfsdemo.metadata.minScale = "50000"
+layers.wfsdemo.metadata.maxScale = "1000000"
+
+layers.wfscontinents.className = "Layer"
+layers.wfscontinents.label = "WFS Continents"
+layers.wfscontinents.msLayer = "wfscontinents"
+layers.wfscontinents.rendering = "block"
+layers.wfscontinents.aggregate = true
+
+layers.wfscities.className = "Layer"
+layers.wfscities.label = "WFS Cities"
+layers.wfscities.msLayer = "wfscities"
+layers.wfscities.rendering = "block"
+layers.wfscities.aggregate = true
+
+
 
 layers.wmsLayers.className = "LayerGroup"
 layers.wmsLayers.label = "WMS layers"

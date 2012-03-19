@@ -1,5 +1,5 @@
 ; plugin configuration and loading
-mapInfo.loadPlugins = "outline, hilight, exportPdf, mapOverlay, search"
+mapInfo.loadPlugins = "outline, hilight, exportPdf, mapOverlay, search, layerReorder, accounting"
 
 ; initial map states
 mapInfo.initialMapStates.default.location.bbox = "142776, 4757216, 1083857, 5409261"

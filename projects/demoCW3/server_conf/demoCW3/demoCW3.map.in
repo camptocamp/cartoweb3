@@ -650,4 +650,5 @@ MAP
   END
   # External services outsourced in included files
   INCLUDE "./wms.map"
+  INCLUDE "./wfs.map"
 END

@@ -4,5 +4,5 @@
 ; default -1 (unlimited)
 ;nbMaxSegments = "25"
 
-weightDistance = "-80"
-weightSurface = "-81"
+weightDistance = "80"
+weightSurface = "81"
