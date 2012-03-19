@@ -162,4 +162,3 @@ class plugins_selection_server_RemoteServerSelectionTest
         $this->redoDirect($direct, __METHOD__);
     }
 }
-?>

@@ -202,11 +202,12 @@ function getTranslatedPo($type, $project) {
     }
     $d = dir($dir . CARTOCOMMON_PODIR);
 
-    $pattern = "$type\\.(.*)\\.po";
+    $pattern = "/$type\\.(.*)\\.po/";
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir($dir . $entry)) {
-            if (ereg($pattern, $entry, $regs)) {
+// Removed for php 5.3            if (ereg($pattern, $entry, $regs)) {
+            if (preg_match($pattern, $entry, $regs)) {
                 if (strlen($regs[1]) == 2) {
                     $files[] = $entry;
                 }
@@ -272,4 +273,3 @@ function parseIni($project, &$texts, $mapId = null) {
     return true;
 }
 
-?>

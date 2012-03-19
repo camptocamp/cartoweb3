@@ -3,22 +3,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-11-10 11:39+0100\n"
+"POT-Creation-Date: 2012-02-24 14:54+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: exportPdf.ini:formats.A4.label
-msgid "A4"
-msgstr ""
-
-#: exportPdf.ini:formats.A3.label
-msgid "A3"
-msgstr ""
-
-#: exportPdf.ini:formats.A3full.label
-msgid "A3full"
-msgstr ""
 
 #: images.ini:mapSizes.0.label
 msgid "430x300"
@@ -36,8 +24,256 @@ msgstr ""
 msgid "1240x840"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
-msgid "Mapsize :"
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr ""
+
+#: exportPdf.ini:formats.A3full.label
+msgid "A3full"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "size"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "color"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Line"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "border size"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "transparency"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Rectangle/polygon"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+#, fuzzy
+msgid "outline color"
+msgstr "Polygon"
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "background color"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "New view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Title"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Show view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Save view"
+msgstr ""
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Transparency"
+msgstr ""
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Refresh"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr ""
+
+#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr ""
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Start"
+msgstr ""
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Finish"
+msgstr ""
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "reset routing"
+msgstr "Reset"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr ""
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "OK"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Format and Resolution (dpi)"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Orientation"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Portrait"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Landscape"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr ""
+
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Print"
 msgstr ""
 
 #: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
@@ -88,13 +324,16 @@ msgstr ""
 msgid "Zoom out to see layer"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
-msgid "Recenter"
+#: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-msgid "No result for your query"
+#: projects/demoPlugins/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
 msgstr ""
 
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
@@ -104,14 +343,6 @@ msgstr ""
 #: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
 msgid "Y:"
 msgstr "Y :"
-
-#: projects/demoPlugins/coreplugins/location/templates/scales.tpl
-msgid "Scale :"
-msgstr ""
-
-#: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
-msgid "Shortcuts"
-msgstr ""
 
 #: projects/demoPlugins/coreplugins/query/templates/query.tpl
 msgid "Hilight"
@@ -149,209 +380,26 @@ msgstr ""
 msgid "query_clear"
 msgstr "Clear query"
 
-#: projects/demoPlugins/plugins/auth/templates/auth.tpl
-msgid "login"
+#: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
 msgstr ""
 
-#: projects/demoPlugins/plugins/auth/templates/auth.tpl
-msgid "logout"
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "Loading message"
 msgstr ""
 
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Login dialog"
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "keymap_alt"
 msgstr ""
 
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "You've been logged out"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Please enter your login and password"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "(for demonstration use: 'demo' 'demo')"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Username"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Password"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Submit"
-msgstr ""
-
-#: projects/demoPlugins/plugins/auth/templates/login_page.tpl
-msgid "Click here to go back to the map"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Format and Resolution (dpi)"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Orientation"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Portrait"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Landscape"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Title"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Note"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Options"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Scalebar"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Overview"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "QueryResult"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "Legend"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "On map"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "In new page"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-msgid "None"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+#: projects/demoPlugins/templates/mainmap.tpl
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Print"
-msgstr ""
-
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Upside"
-msgstr ""
-
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Downside"
-msgstr ""
-
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Transparency"
-msgstr ""
-
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Refresh"
-msgstr ""
-
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "Start"
-msgstr ""
-
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "Finish"
-msgstr ""
-
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "reset routing"
-msgstr "Reset"
-
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "Reset"
-msgstr ""
-
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "OK"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Are you sure you want to delete view #"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "?"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Go to view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Load view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "No view available"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "New view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Memorize form"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Author"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Show view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Place view label before"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Update view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Save as new view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Save view"
-msgstr ""
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Delete view #"
+msgid "Collapse keymap"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr "CartoWeb3 - New functionalities demonstration"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-#: projects/demoPlugins/templates/mainmap.tpl
-msgid "Collapse keymap"
-msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Show keymap"
@@ -362,15 +410,32 @@ msgid "Views :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Coordonnees (m):"
-msgstr "Coordinates (m):"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Distance approx.: "
+msgid "Help"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Surface approx. : "
+msgid "help"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "reset session"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Reset session"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+#, fuzzy
+msgid "Coord (m):"
+msgstr "Coordinates (m):"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Approx. distance :"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Approx. area :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -386,15 +451,15 @@ msgid "User messages"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Views"
+msgid "Layers reorder"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Outline"
+msgid "WMS layers"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Help Viewer"
+msgid "RTF"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -406,7 +471,15 @@ msgid "Search"
 msgstr "Search"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Layers reorder"
+msgid "Outline"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Help Viewer"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -418,13 +491,9 @@ msgid "A geographic object"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Clear outline"
-msgstr ""
-
-#: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
-"This demo is an overview of the new functionalities, that are available since"
-" the last version of Cartoweb. To get the most out of it, read through "
+"This demo is an overview of the new functionalities, that are available "
+"since the last version of Cartoweb. To get the most out of it, read through "
 "this Help guide before starting to explore."
 msgstr ""
 
@@ -561,34 +630,6 @@ msgstr ""
 msgid "Cartoweb documentation"
 msgstr ""
 
-#: projects/demoPlugins/templates/mainmap.tpl
-msgid "Loading message"
-msgstr ""
-
-#: projects/demoPlugins/templates/mainmap.tpl
-msgid "keymap_alt"
-msgstr ""
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "full_extent"
-msgstr "Full extent"
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "Help"
-msgstr ""
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "help"
-msgstr ""
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "reset session"
-msgstr ""
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "Reset session"
-msgstr ""
-
 #: plugins/demoRouting/client/ClientDemoRouting.php:102
 msgid "fastest"
 msgstr ""
@@ -597,30 +638,30 @@ msgstr ""
 msgid "shortest"
 msgstr ""
 
+#~ msgid "full_extent"
+#~ msgstr "Full extent"
+
 # Elements dynamiques
-msgid "Query result"
-msgstr "Query results"
+#~ msgid "Query result"
+#~ msgstr "Query results"
 
-msgid "zoomin"
-msgstr "Zoom in"
+#~ msgid "zoomin"
+#~ msgstr "Zoom in"
 
-msgid "zoomout"
-msgstr "Zoom out"
+#~ msgid "zoomout"
+#~ msgstr "Zoom out"
 
-msgid "pan"
-msgstr "Pan"
+#~ msgid "pan"
+#~ msgstr "Pan"
 
-msgid "query"
-msgstr "Query"
+#~ msgid "query"
+#~ msgstr "Query"
 
-msgid "outline_point"
-msgstr "Point"
+#~ msgid "outline_point"
+#~ msgstr "Point"
 
-msgid "outline_line"
-msgstr "Line"
+#~ msgid "outline_line"
+#~ msgstr "Line"
 
-msgid "outline_rectangle"
-msgstr "Rectangle"
-
-msgid "outline_poly"
-msgstr "Polygon"
+#~ msgid "outline_rectangle"
+#~ msgstr "Rectangle"

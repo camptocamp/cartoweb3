@@ -2,6 +2,7 @@ AjaxPlugins.Outline = {
   
     /* HTML element's id definitions */
     outlineFolderId: 'folder6',
+    outlineArea: 'outline_area',
 
     handleResponse: function(pluginOutput) {
         /* Plugin general behaviour */
@@ -12,7 +13,14 @@ AjaxPlugins.Outline = {
 
         AjaxHandler.updateDomElement(this.outlineFolderId, 'innerHTML',
                                      pluginOutput.htmlCode.outline);
-    }  
+
+        // Also update outline_area in pure ajax mode
+         if ( $(this.outlineArea) ) {
+        	AjaxHandler.updateDomElement(this.outlineArea, 'innerHTML',
+                                     pluginOutput.variables.outlineArea);
+        }
+        
+	}  
 };
 
 
@@ -47,6 +55,6 @@ AjaxPlugins.Outline.Actions.ChangeMode = {
 AjaxPlugins.Outline.Actions.Clear = {
 
     buildPostRequest: function(argObject) {
-        return 'outline_clear=1' + '&' + AjaxHandler.buildPostRequest();
+        return 'outline_circle_radius=0' + '&' +'outline_clear=1' + '&' + AjaxHandler.buildPostRequest();
     }
 };

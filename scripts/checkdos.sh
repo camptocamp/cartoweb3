@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # Albert, Abel, Example-006 are artichow files. Remove the rules once moved to cartoweb_includes
 

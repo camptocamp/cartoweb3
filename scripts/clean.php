@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * clean.php - cleans old files: images, map results, PDF and SOAP XML cache
@@ -195,4 +195,3 @@ function usage() {
     exit(1);    
 }
 
-?>

@@ -177,6 +177,13 @@ Map.prototype.pdfrotate = function(aDisplay) {
  */
 Map.prototype.rotatePdfFeature = function(angledegree, absolute) {
 
+// check if we are inside the range 0/360 ° 
+  if ( isNaN(angledegree) || Math.abs(parseFloat(angledegree)) > 360 || Math.abs(parseFloat(angledegree)) < 0 ){
+	  if ( isNaN(angledegree) ){
+		  alert('Numerics value between -359 to 359 only !');
+	  }
+	  angledegree = 0.0;
+  }
   // convert degree to radian
   var anglerad = angledegree * Math.PI / 180;
 

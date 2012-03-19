@@ -49,5 +49,3 @@ class plugins_AllTests {
         return $suite;
     }
 }
-
-?>

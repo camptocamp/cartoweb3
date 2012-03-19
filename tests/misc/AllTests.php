@@ -48,5 +48,3 @@ class misc_AllTests {
     }
 
 }
-
-?>

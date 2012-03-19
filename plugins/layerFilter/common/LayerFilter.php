@@ -53,4 +53,3 @@ class LayerFilterRequest extends CwSerializable {
  */
 class LayerFilterResult {}
 
-?>

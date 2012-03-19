@@ -218,7 +218,7 @@ class CwFpdf implements PdfWriter {
      * @param ClientExportPdf
      */
     public function __construct(ClientExportPdf $export) {
-       $this->log =& LoggerManager::getLogger(__CLASS__);
+       $this->log = LoggerManager::getLogger(__CLASS__);
        $this->general =& $export->getGeneral();
        $this->format =& $export->getFormat();
        $this->blocks =& $export->getBlocks();
@@ -1084,7 +1084,9 @@ class CwFpdf implements PdfWriter {
      * @result string
      */
     public function getCharset() {
-        return 'iso-8859-1';
+//BF we only use utf-8 project
+//   	return 'iso-8859-1';
+        return 'utf-8';
     }
 }
-?>
+

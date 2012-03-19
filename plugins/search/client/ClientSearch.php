@@ -361,5 +361,3 @@ class ClientSearch extends ClientPlugin
         }
     }
 }
-
-?>

@@ -36,6 +36,7 @@ class StructHandler {
      * Value of key my.little.key will be stored in structure->my->little->key. 
      * @param array
      * @return stdClass
+     * @TODO find a way on strict standard to not create empty object 
      */
     static public function loadFromArray($array) {
         $struct = new stdclass();
@@ -44,7 +45,9 @@ class StructHandler {
             $tokens = explode('.', $key);
             $path = implode('->', $tokens);
             $expr = "\$struct->$path = \"$value\";";
-            eval($expr);
+            if ( FALSE === eval($expr) ){
+                throw new RuntimeException("Can't build object with empty expression $expr (key : $key, value = $value<pre>".print_r($array,1)."\n".var_dump($struct)."</pre>", 1000);
+            }
         }
         return $struct;
     }
@@ -119,4 +122,3 @@ class StructHandler {
     }
 }
 
-?>

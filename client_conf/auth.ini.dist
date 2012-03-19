@@ -5,11 +5,11 @@
 authActive = true
 
 ; The type of security container. Now ini, db or ldap can be used
-securityContainer = ini
+securityContainer = "ini"
 
 ; db security container configuration
 
-;dbSecurityDsn = pgsql://user:password@localhost/test
+;dbSecurityDsn = "pgsql://user:password@localhost/test"
 
 ;dbSecurityQueryUser = "SELECT * FROM users WHERE username='%s' AND password='%s'"
 ;dbSecurityQueryRoles = "SELECT roles FROM users WHERE username='%s'"
@@ -20,15 +20,15 @@ securityContainer = ini
 ;  to get this value, you can type in a shell:
 ; $ echo -n 'mypassword'|md5sum
 
-;users.toto = c910474431df50cff186d68b4f65956c ; $123pgz
-;users.alice = e3e4faee0cc7fc55ad402f517cdaf40c ; /%12pw
-;users.x = 9dd4e461268c8034f5c8564e155c67a6 ; x
+;users.toto = "c910474431df50cff186d68b4f65956c" ; $123pgz
+;users.alice = "e3e4faee0cc7fc55ad402f517cdaf40c" ; /%12pw
+;users.x = "9dd4e461268c8034f5c8564e155c67a6" ; x
 
 ; List of roles for each user
 
-;roles.toto = admin, editor
-;roles.alice = editor
-;roles.x = admin, editor
+;roles.toto = "admin, editor"
+;roles.alice = "editor"
+;roles.x = "admin, editor"
 
 ; LDAP security container configuration
 ; inspired from Pear::Auth_Container_LDAP
@@ -51,9 +51,9 @@ securityContainer = ini
 ;              may be found (default: uniqueMember)
 ; groupscope:  Scope for group searching: one, sub (default), or base
 
-;ldap.host = ldap.netsols.de
+;ldap.host = "ldap.netsols.de"
 ;ldap.basedn = "dc=ldap,dc=netsols,dc=de"
 ;ldap.groupdn = "ou=Groups"
 ;ldap.groupfilter = "(objectClass=posixGroup)"
-;ldap.memberattr = memberuid
-;ldap.groupscope = one
+;ldap.memberattr = "memberuid"
+;ldap.groupscope = "one"

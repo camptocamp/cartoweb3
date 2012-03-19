@@ -230,4 +230,3 @@ $_dompdf_debug = false;
 
 require_once(DOMPDF_INC_DIR . "/functions.inc.php");
 
-?>

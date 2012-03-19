@@ -172,5 +172,3 @@ abstract class client_CartoserverServiceWrapper extends common_GeographicalAsser
     }
 
 }
-
-?>

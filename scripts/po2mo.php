@@ -66,8 +66,9 @@ function getLocales($project) {
        
     while (false !== ($entry = $d->read())) {
         if (!is_dir($entry)) {
-            $pattern = 'client\.(.*)\.po';
-            if (ereg($pattern, $entry, $locale)) {
+            $pattern = '/client\.(.*)\.po/';
+// Removed for php 5.3            if (ereg($pattern, $entry, $locale)) {
+            if (preg_match($pattern, $entry, $locale)) {
                 $locales[] = $locale[1];
             }
         }
@@ -394,4 +395,3 @@ foreach ($projects as $project) {
     }
 }
 
-?>

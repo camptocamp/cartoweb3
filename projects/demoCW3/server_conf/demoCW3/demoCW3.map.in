@@ -10,6 +10,11 @@ MAP
   SYMBOLSET "symbols.txt"
   SHAPEPATH "data"
 
+# DEBUG capabilities
+#
+  CONFIG "MS_ERRORFILE" "/var/tmp/cw3_mapserver.log"
+  DEBUG 3
+  
   OUTPUTFORMAT
     NAME png
     DRIVER "GD/PNG"
@@ -643,4 +648,7 @@ MAP
       END
     END
   END
+  # External services outsourced in included files
+  INCLUDE "./wms.map"
+  INCLUDE "./wfs.map"
 END

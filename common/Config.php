@@ -240,4 +240,3 @@ abstract class PluginConfig extends Config {
     }
 }
 
-?>

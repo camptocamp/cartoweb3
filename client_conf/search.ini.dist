@@ -1,5 +1,6 @@
-config.myconfig.provider.type = table
-config.myconfig.formatter.type = smarty
-config.myconfig.formatter.template = search_results
-config.myconfig.provider.id = id
-config.myconfig.provider.columns = name
+; commented by default
+;config.myconfig.provider.type = "table"
+;config.myconfig.formatter.type = "smarty"
+;config.myconfig.formatter.template = "search_results"
+;config.myconfig.provider.id = "id"
+;config.myconfig.provider.columns = "name"

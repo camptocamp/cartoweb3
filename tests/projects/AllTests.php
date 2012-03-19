@@ -154,5 +154,3 @@ class projects_AllTests {
         return self::$suite;
     }
 }
-
-?>

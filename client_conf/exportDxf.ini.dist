@@ -1,5 +1,5 @@
 ; number of digits after the decimal point in points coordinates
-roundLevel = 2
+roundLevel = "2"
 
 ; filename format
 fileName = "export_[date,Ymd-His].dxf"

@@ -2,7 +2,7 @@
 
 ; Current profile: may be development, production or custom
 ;  This will override some parameter values
-profile = production
+profile = "production"
 
 ; -------------------------------------------------------------------
 ;  The following parameters are only taken into account when profile=custom
@@ -28,10 +28,10 @@ noSoapXMLCache = false
 ;imageUrl = "/path/to/images/"
 
 ; The url of the reverse proxy, if used
-;reverseProxyUrl = http://host/proxy/address
+;reverseProxyUrl = "http://host/proxy/address"
 
 ; Charset encoder class
-EncoderClass.config = EncoderISO
+EncoderClass.config = "EncoderUTF"
 
 ; If false, CartoWeb will not run if you are using PHP as a 
 ; module and return an error. Set it to true to disable the check.
@@ -40,6 +40,6 @@ disablePHPModuleCheck = false
 ;## Accounting ##
 
 accountingOn = false
-accountingStorage = file
-;accountingBasePath = /path/to/accounting/
-accountingDsn = pgsql://www-data@localhost/cw3_test
+accountingStorage = "file"
+;accountingBasePath = "/path/to/accounting/"
+accountingDsn = "pgsql://www-data@localhost/cw3_test"

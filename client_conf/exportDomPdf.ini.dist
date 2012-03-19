@@ -1,15 +1,15 @@
-orientations = landscape, portrait
-sizes = a4, a3
+orientations = "landscape, portrait"
+sizes = "a4, a3"
 filename = "map-[date,dMY-His].pdf"
 
-a4.landscape.width = 1600
-a4.landscape.height = 900 
+a4.landscape.width = "1600"
+a4.landscape.height = "900"
 
-a4.portrait.width = 1100
-a4.portrait.height = 1300
+a4.portrait.width = "1100"
+a4.portrait.height = "1300"
 
-a3.landscape.width = 2330
-a3.landscape.height = 1400
+a3.landscape.width = "2330"
+a3.landscape.height = "1400"
 
-a3.portrait.width = 1600
-a3.portrait.height = 2100
+a3.portrait.width = "1600"
+a3.portrait.height = "2100"

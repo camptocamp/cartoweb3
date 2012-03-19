@@ -89,4 +89,3 @@ class PageCode {
         return str_replace(self::$WIN_1252_CHAR, self::$WIN_1252_RTF,$text);
     }
 }
-?>

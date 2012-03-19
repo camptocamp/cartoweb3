@@ -3,7 +3,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-07-13 17:45+0200\n"
+"POT-Creation-Date: 2012-03-18 17:32+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: plugins/testMainRouting/server/ServerTestMainRouting.php:53
+msgid "Path not found"
+msgstr ""

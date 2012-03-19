@@ -1,0 +1,12 @@
+; Optional whitelist for the throttling plugin
+; Addesses are in Classless Inter-Domain Routing format
+; see http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
+
+; example:
+; match a subnet (10.27.10.0 with 255.255.255.0 mask)
+;10.27.10.0/24
+
+; match a single ip
+127.0.0.1/32
+
+;question work with ipv6 ?

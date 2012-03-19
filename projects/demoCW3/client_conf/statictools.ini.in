@@ -2,7 +2,7 @@
 
 ; nb max of segments for polylines and polygons (dhtml interface)
 ; default -1 (unlimited)
-;nbMaxSegments = 25
+;nbMaxSegments = "25"
 
-weightDistance =-80
-weightSurface = -81
+weightDistance = "80"
+weightSurface = "81"

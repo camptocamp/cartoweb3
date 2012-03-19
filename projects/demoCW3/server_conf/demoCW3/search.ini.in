@@ -1,0 +1,14 @@
+dbType = "sqlite"
+dbFile = "projects/demoCW3/server_conf/demoCW3/sql/airports.db"
+encodingContext = "searchDb"
+
+config.countries.provider.type = "table"
+config.countries.provider.table = "country"
+config.countries.provider.id = "id"
+config.countries.provider.columns = "name"
+
+config.airports.provider.type = "fulltextTable"
+config.airports.provider.table = "airport"
+config.airports.provider.id = "id"
+config.airports.provider.columns = "id, name"
+config.airports.provider.fulltextColumns = "country, name"

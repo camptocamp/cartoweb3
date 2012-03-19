@@ -61,4 +61,3 @@ class ClientAccountingImpl extends Accounting {
     }
 }
 
-?>

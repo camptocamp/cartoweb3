@@ -574,5 +574,3 @@ abstract class ExportPlugin extends ClientPlugin
      */
     abstract public function output();
 }
-
-?>

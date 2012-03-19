@@ -59,7 +59,7 @@ class Encoder {
      * @param Config
      */
     static public function init(Config $config) {
-        self::$log =& LoggerManager::getLogger(__CLASS__);
+        self::$log = LoggerManager::getLogger(__CLASS__);
 
         self::$encoders = array();
         $iniArray = $config->getIniArray();
@@ -232,4 +232,3 @@ class EncoderISO implements EncoderInterface {
     }
 }
 
-?>

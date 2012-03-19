@@ -564,4 +564,3 @@ class Json {
         return $stringToEncode;
     }
 }
-?>

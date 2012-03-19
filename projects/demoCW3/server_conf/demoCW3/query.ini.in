@@ -1,3 +1,3 @@
 ; if true, the hilight mechanism uses the hilight plugin
-;  instead of the mapserver builtin drawQuery().
+; instead of the mapserver builtin drawQuery().
 drawQueryUsingHilight = true

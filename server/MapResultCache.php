@@ -52,7 +52,7 @@ class MapResultCache {
      * @param Cartoserver
      */
     public function __construct(CartoServer $cartoserver) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         
         $this->cartoserver = $cartoserver;
     }
@@ -230,5 +230,3 @@ class MapResultCache {
         return $mapResult;
     }   
 }
-
-?>

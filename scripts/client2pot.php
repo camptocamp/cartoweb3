@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * client2pot.php - rips gettext strings from templates, client .ini and .php
@@ -205,5 +205,4 @@ foreach ($projects as $project) {
         }                
     }
 }
-    
-?>
+

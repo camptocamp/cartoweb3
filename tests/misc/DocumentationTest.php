@@ -51,5 +51,3 @@ class misc_DocumentationTest extends PHPUnit_Framework_TestCase {
                                implode("\n", $output));
     }
 }
-
-?>

@@ -52,4 +52,3 @@ class common_GeographicalAssert extends PHPUnit_Framework_TestCase {
                             "  does not contain : " . $bbox->__toString());
     }
 }
- 

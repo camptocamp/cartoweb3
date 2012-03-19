@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Mini encapsulation script for renaming files/dir to utf-8
+convmv -r --notest -f iso-8859-15 -t utf-8 $1

@@ -2,6 +2,6 @@
 multipleShapes = true
 
 ;tools templating
-groupPlugin = 4
+groupPlugin = "4"
 
-folderId = folder5
+folderId = "folder5"

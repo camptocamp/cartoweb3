@@ -58,7 +58,7 @@ class ClientTables extends ClientPlugin
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
     
@@ -176,6 +176,11 @@ class ClientTables extends ClientPlugin
                 foreach ($table->rows as $row) {            
                     $row->rowId = Encoder::decode($row->rowId);
                     $row->cells = Encoder::decode($row->cells);
+/** BF HACK // not used translate cell contain 
+					foreach ($row->cells as $key => $data){
+                    	$row->cells[$key] = I18n::gt($data);
+                    }
+*/					
                 }
             }
         }
@@ -226,5 +231,3 @@ class ClientTables extends ClientPlugin
         // Activation done in ClientQuery::ajaxHandleAction()                
     }    
 }
-
-?>

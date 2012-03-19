@@ -212,5 +212,3 @@ class OutlineDefaultValue extends CwSerializable {
                                                     'StyleOverlay');
     }
 }
-
-?>

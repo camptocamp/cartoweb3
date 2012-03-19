@@ -46,7 +46,7 @@ class ServerRouting extends ClientResponderAdapter {
     public function __construct() {
         parent::__construct();
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -372,7 +372,7 @@ class ServerPostgresRouting extends ServerRouting {
 
         parent::__construct();
         require_once('DB.php');                
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -683,5 +683,3 @@ class ServerPostgresRouting extends ServerRouting {
         $msLayer->set('data', $layerData);
     }
 }
-
-?>

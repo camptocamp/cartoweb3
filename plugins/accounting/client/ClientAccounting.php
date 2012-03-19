@@ -45,7 +45,7 @@ class ClientAccounting extends ClientPlugin implements Sessionable, GuiProvider 
     public function __construct() {
 
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -124,5 +124,3 @@ class ClientAccounting extends ClientPlugin implements Sessionable, GuiProvider 
         $template->assign(array('jsAccounting' => $this->firstTime));
     }
 }
-
-?>

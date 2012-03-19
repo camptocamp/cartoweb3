@@ -131,4 +131,3 @@ class ImagesRequest extends Images { }
  */
 class ImagesResult extends Images { }
 
-?>

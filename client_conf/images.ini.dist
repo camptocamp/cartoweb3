@@ -1,18 +1,18 @@
 mapSizesActive = true
 
-;mapSizesDefault = 1
+;mapSizesDefault = "1"
 
-;mapSizes.0.label = small
-;mapSizes.0.width = 300
-;mapSizes.0.height = 150
+;mapSizes.0.label = "small"
+;mapSizes.0.width = "300"
+;mapSizes.0.height = "150"
 ;
-;mapSizes.1.label = normal
-;mapSizes.1.width = 400
-;mapSizes.1.height = 300
+;mapSizes.1.label = "normal"
+;mapSizes.1.width = "400"
+;mapSizes.1.height = "300"
 ;
-;mapSizes.2.label = big
-;mapSizes.2.width = 800
-;mapSizes.2.height = 600
+;mapSizes.2.label = "big"
+;mapSizes.2.width = "800"
+;mapSizes.2.height = "600"
 
 ;if true, keymap is shown on map, and possibly hidden
 ;collapsibleKeymap = true
@@ -24,5 +24,5 @@ mapSizesActive = true
 ;noDrawScalebar = true
 
 ;mainmap dimensions limits when using customMapsize REQUEST parameter (pixels)
-;maxMapWidth = 1500
-;maxMapHeight = 1000
+;maxMapWidth = "1500"
+;maxMapHeight = "1000"

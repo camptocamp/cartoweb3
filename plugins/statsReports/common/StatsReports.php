@@ -59,5 +59,3 @@ class StatsReportsResult extends CwSerializable {
      */
     public function unserialize($struct) {}
 }
-
-?>

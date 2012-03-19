@@ -83,7 +83,7 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -669,5 +669,3 @@ class ClientQuery extends ClientPlugin implements Sessionable, GuiProvider,
         }
     }
 }
-
-?>

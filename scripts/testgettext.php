@@ -62,4 +62,3 @@ if ($error) {
     echo "error: can't delete temp files !\n";
     die();
 }
-?>

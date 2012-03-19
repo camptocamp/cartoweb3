@@ -21,7 +21,7 @@
  * @version $Id$
  */
  
-require_once 'artichow/LinePlot.class.php';
+// Called by barplot require_once 'artichow/LinePlot.class.php';
 require_once 'artichow/BarPlot.class.php';
 
 
@@ -1640,5 +1640,3 @@ class ClientStatsReports extends ClientPlugin
          return $filename;
      }
 }
-
-?>

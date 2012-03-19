@@ -134,7 +134,7 @@ class ClientLayerReorder extends ClientPlugin
      */
     public function __construct() {
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->layerUserTransparencies = array();
         parent::__construct();
     }
@@ -524,5 +524,3 @@ class ClientLayerReorder extends ClientPlugin
     }
 
 }
-
-?>

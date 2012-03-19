@@ -3,43 +3,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2005-11-30 11:52+0100\n"
+"POT-Creation-Date: 2012-03-18 17:32+0100\n"
 "PO-Revision-Date: 2005-02-04 14:15+0100\n"
 "Last-Translator: Yves Bolognini <yves.bolognini@camptocamp.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-# test.ini:mapInfo.layers.polygon.label
-#: layers.ini:layers.polygon.label
-#, fuzzy
-msgid "polygon"
-msgstr "polygone"
-
-# test.ini:mapInfo.layers.linepoint.label
-#: layers.ini:layers.linepoint.label
-msgid "linePoint"
-msgstr "pointLigne"
-
-# test.ini:mapInfo.layers.line.label
-#: layers.ini:layers.line.label
-msgid "line"
-msgstr "ligne"
-
-# test.ini:mapInfo.layers.point.label
-#: layers.ini:layers.point.label
-msgid "point"
-msgstr "point"
-
-# test.ini:mapInfo.layers.grids.label
-#: layers.ini:layers.grids.label
-msgid "grids"
-msgstr "grilles"
-
-#: layers.ini:layers.postgis.label
-msgid "postgis"
-msgstr ""
 
 # location.ini:scales.0.label
 #: location.ini:scales.0.label
@@ -80,6 +51,36 @@ msgstr "Ligne"
 #: location.ini:shortcuts.1.label
 msgid "Point"
 msgstr "Point"
+
+# test.ini:mapInfo.layers.polygon.label
+#: layers.ini:layers.polygon.label
+#, fuzzy
+msgid "polygon"
+msgstr "polygone"
+
+# test.ini:mapInfo.layers.linepoint.label
+#: layers.ini:layers.linepoint.label
+msgid "linePoint"
+msgstr "pointLigne"
+
+# test.ini:mapInfo.layers.line.label
+#: layers.ini:layers.line.label
+msgid "line"
+msgstr "ligne"
+
+# test.ini:mapInfo.layers.point.label
+#: layers.ini:layers.point.label
+msgid "point"
+msgstr "point"
+
+# test.ini:mapInfo.layers.grids.label
+#: layers.ini:layers.grids.label
+msgid "grids"
+msgstr "grilles"
+
+#: layers.ini:layers.postgis.label
+msgid "postgis"
+msgstr ""
 
 #: test_postgis.map
 msgid "POLYGON"

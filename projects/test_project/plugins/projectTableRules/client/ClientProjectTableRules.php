@@ -17,7 +17,7 @@ class ClientProjectTableRules extends ClientPlugin {
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     public function computeQueryUrl($tableId, $inputValues) {
@@ -41,5 +41,3 @@ class ClientProjectTableRules extends ClientPlugin {
         
     }    
 }
-
-?>

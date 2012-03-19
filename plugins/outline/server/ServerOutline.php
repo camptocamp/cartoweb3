@@ -48,7 +48,7 @@ class ServerOutline extends ClientResponderAdapter
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -310,7 +310,7 @@ class ServerOutline extends ClientResponderAdapter
         if (is_null($areaPrecision)) {
             return $area * $areaFactor; 
         } else {
-            $aP = split("#", $areaPrecision);
+            $aP = preg_split("/#/", $areaPrecision);
             // We ensure some default value in case areaPrecision is existant in 
             // server outline.ini but with anything specified
             $aP[0] = ( !isset($aP[0]) ) ? "2" : $aP[0];
@@ -501,5 +501,3 @@ class ServerOutline extends ClientResponderAdapter
         $newLayer->set('status', MS_DELETE);
     }
 }
-
-?>

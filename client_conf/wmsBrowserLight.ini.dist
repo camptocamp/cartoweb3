@@ -3,14 +3,14 @@
 ; Values are : 
 ; - ini : to use the list of servers defined in the current file or 
 ; - gn : if a GeoNetwork node has to be used in order to get a list of WMS sevices.
-catalogtype = ini
-; catalogtype = gn
+catalogtype = "ini"
+; catalogtype = "gn"
 
 gn = http://sandre.eaufrance.fr/geonetwork
 ; unset gnuser and gnpassword if no login has to be made
-gnuser = cartoweb
-gnpassword = cartoweb
-gnlang = en
+gnuser = "cartoweb"
+gnpassword = "cartoweb"
+gnlang = "en"
 ; gnQuery is how CartoWeb could get the list of services in the node
 gnQuery = "category=Services"
 ; gnQuery is used to search for services on a GeoNetwork catalog. For the time being, you have to give this to CartoWeb. 
@@ -18,17 +18,17 @@ gnQuery = "category=Services"
 
 
 ; List of predefined servers diplayed in combobox
-servers.0.label = Geosignal
-servers.0.url = http://www.geosignal.org/cgi-bin/wmsmap
+servers.0.label = "Geosignal"
+servers.0.url = "http://www.geosignal.org/cgi-bin/wmsmap"
 
-servers.1.label = Sandre / Ouvrage
-servers.1.url = http://services.sandre.eaufrance.fr/geo/ouvrage
+servers.1.label = "Sandre / Ouvrage"
+servers.1.url = "http://services.sandre.eaufrance.fr/geo/ouvrage"
 
-servers.2.label = Sandre / Zonage
-servers.2.url = http://services.sandre.eaufrance.fr/geo/zonage
+servers.2.label = "Sandre / Zonage"
+servers.2.url = "http://services.sandre.eaufrance.fr/geo/zonage"
 
-servers.3.label = Sandre / Station de mesure
-servers.3.url = http://services.sandre.eaufrance.fr/geo/station
+servers.3.label = "Sandre / Station de mesure"
+servers.3.url = "http://services.sandre.eaufrance.fr/geo/station"
 
-servers.4.label = Sandre / Station de mesure par reseaux
-servers.4.url = http://services.sandre.eaufrance.fr/geo/stations
+servers.4.label = "Sandre / Station de mesure par reseaux"
+servers.4.url = "http://services.sandre.eaufrance.fr/geo/stations"
