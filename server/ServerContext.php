@@ -140,7 +140,7 @@ class ServerContext extends Cartocommon {
      * @param string map id
      */
     public function __construct($mapId) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         self::$instance = $this;
 
         // Remembers mapId for future MapInfo creation
@@ -637,5 +637,3 @@ class ServerContext extends Cartocommon {
         return $type;
      }
 }
-
-?>

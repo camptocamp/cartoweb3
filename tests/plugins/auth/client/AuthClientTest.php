@@ -93,5 +93,3 @@ class plugins_auth_client_AuthClientTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($securityManager->hasRole(array('editor')));
     }
 }
-
-?>

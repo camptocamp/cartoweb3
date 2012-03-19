@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{r type=css}cartoweb.css{/r}" title="stylesheet" />
   <link rel="stylesheet" type="text/css" href="{r type=css}folders.css{/r}" title="stylesheet" />
   {if $layers|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layers}layers.css{/r}" />{/if}
+  {if $layerReorder|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=layerReorder}layerReorder.css{/r}" />{/if}
   <link rel="stylesheet" type="text/css" href="{r type=css plugin=tables}tables.css{/r}" />
   {if $collapsibleKeymap|default:''}<link rel="stylesheet" type="text/css" href="{r type=css}keymap.css{/r}" />{/if}
   {if $linkIt|default:''}<link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" />{/if}
@@ -30,6 +31,7 @@
     //-->
   </script>
   {/if}
+  {if $views|default:'' || $viewsList|default:''}<script type="text/javascript" src="{r type=js plugin=views}views.js{/r}"></script>{/if}
   
   {include file="cartoclient_ajaxHeader.tpl"}
 
@@ -279,12 +281,17 @@
         <li id="label2"><a href="javascript:ontop(2);enableTool('pdfrotate');">{t}Print{/t}</a></li>
         <li id="label4"><a href="javascript:ontop(4);">{t}About{/t}</a></li>
         <li id="label6"><a href="javascript:ontop(6);">{t}Help Viewer{/t}</a></li>
+        {if $views|default:''}<li id="label8"><a href="javascript:ontop(8)">{t}Views{/t}</a></li>{/if}
+        {if $exportRtf|default:''}<li id="label10"><a href="javascript:ontop(10)">{t}RTF{/t}</a></li>{/if}
+        
       </ul>
       <ul id="tabnav1">
         <li id="label1"><a href="javascript:ontop(1)">{t}Themes{/t}</a></li>
         <li id="label3"><a href="javascript:ontop(3)">{t}Search{/t}</a></li>
         <li id="label5"><a href="javascript:ontop(5)">{t}Outline{/t}</a></li>
         <li id="label7"><a href="javascript:ontop(7)">{t}Query{/t}</a></li>
+        {if $layerReorder|default:''}<li id="label9"><a href="javascript:ontop(9)">{t}Layers reorder{/t}</a></li>{/if}
+        {if $wmsBrowserLight|default:''}<li id="label11"><a href="javascript:ontop(11)">{t}WMS layers{/t}</a></li>{/if}
       </ul>
 
    </div>
@@ -533,6 +540,33 @@
         {/if}  
     </div>
     <!-- end of folder 7 -->
+
+     <!-- folder 8 starts here -->
+     {if $views|default:''}
+       <div id="folder8" class="folder">
+         <br />
+         {$viewsForm}
+       </div>
+     {/if}
+     <!-- end of folder 8 -->
+
+     <!-- folder 9 starts here -->
+     {if $layerReorder|default:''}
+       <div id="folder9" class="folder">
+         <br />
+         <center>
+           {$layerReorder}
+         </center>
+       </div>
+     <!-- end of folder 9 -->
+     {/if}     
+     <!-- folder 10 starts here -->
+    {if $exportRtf|default:''}
+    <div id="folder10" class="folder">
+      {$exportRtf}
+    </div>
+    <!-- end of folder10 -->
+    {/if}
     
   </div> <!--container-->
   </div> <!--leftbar-->

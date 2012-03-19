@@ -11,4 +11,3 @@ if (!extension_loaded('mapscript') &&
 
 phpinfo();
 
-?>

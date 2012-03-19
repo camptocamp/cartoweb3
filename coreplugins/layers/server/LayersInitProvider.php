@@ -67,7 +67,7 @@ class LayersInitProvider implements InitProvider {
      */
     public function __construct(ServerContext $serverContext,
                                 ServerLayers $serverLayers) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->serverContext = $serverContext;
         $this->mapId = $serverContext->getMapId();
         $this->projectHandler = $serverContext->getProjectHandler();
@@ -451,4 +451,3 @@ class LayersInitProvider implements InitProvider {
         return $this->layersInit;
     }
 }
-?>

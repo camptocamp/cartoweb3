@@ -84,10 +84,13 @@ class LayerBase extends CwSerializable {
      */    
     protected function generateMetaHash() {
         $this->metaHash = array();
-        foreach ($this->metadata as $meta) {
-            list($k, $val) = explode('=', $meta, 2);
-            $this->metaHash[$k] = $val;
-        }        
+// BF HACKS
+        if ( is_array($this->metadata)){
+	        foreach ($this->metadata as $meta) {
+	            list($k, $val) = explode('=', $meta, 2);
+	            $this->metaHash[$k] = $val;
+	        }
+        }
     }
     
     /**
@@ -650,5 +653,3 @@ class LayersInit extends CwSerializable {
         $this->layers = $layers;
     }
 }
-
-?>

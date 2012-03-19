@@ -247,5 +247,3 @@ class TableGroup extends CwSerializable {
                                                                'Table');
     }
 }
-
-?>

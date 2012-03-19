@@ -24,11 +24,6 @@
  *
  * @copyright 2005 Camptocamp SA
  * @package Plugins
- * @version $Id$
- */
-
-/**
- * @package Plugins
  * @author Alexandre Saunier
  * @version $Id$
  */
@@ -55,7 +50,7 @@
      * Constructor
      */
     public function __construct(ClientExportPdf $export) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->general =& $export->getGeneral();
         $this->format =& $export->getFormat();
         $this->blocks =& $export->getBlocks();

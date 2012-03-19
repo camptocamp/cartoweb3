@@ -2,8 +2,9 @@
 cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
 profile = @PROFILE@
 
-mapId = test_main.test
+mapId = "test_main.test"
 
-noDhtml = true;
+noDhtml = true
 
-loadPlugins = outline;
+loadPlugins = "outline"
+

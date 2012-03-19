@@ -1,4 +1,4 @@
-#!/home/sypasche/bin/python 
+#!/usr/bin/env python 
 
 #
 # This script makes a checkout of cartoweb cvs, and launches the unit tests.

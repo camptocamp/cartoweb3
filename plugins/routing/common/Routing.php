@@ -202,5 +202,3 @@ class RoutingResult extends CwSerializable {
                                                        'Attribute');
     }
 }
-
-?>

@@ -66,7 +66,7 @@ class ServerEdit extends ClientResponderAdapter {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
         require_once('DB.php');
     }
@@ -206,9 +206,9 @@ class ServerEdit extends ClientResponderAdapter {
         $connectionType = $msLayer->connectiontype;
         $connectionString = $msLayer->connection;
         
-        $values = split(' ', $connectionString);
+        $values = preg_split('/ /', $connectionString);
         foreach ($values as $value) {
-            $param = split('=', $value);
+            $param = preg_split('/=/', $value);
             $key = $param[0];
             $dsn[$key] = $param[1];
         }
@@ -529,7 +529,7 @@ class ServerEdit extends ClientResponderAdapter {
      * @return array array of features 
      */
     protected function selectFeaturesById($featuresIds) {
-        $shapes = split(',', $featuresIds);
+        $shapes = preg_split('/,/', $featuresIds);
         $features = array();
         foreach ($shapes as $shape) {
             $sql = sprintf('SELECT oid, *, astext(%s) as %s FROM %s.%s ' .
@@ -582,7 +582,7 @@ class ServerEdit extends ClientResponderAdapter {
         if (!isset($this->editTable)) 
             throw new CartoserverException('edit_table not set in mapfile');
         
-        $editTableArray = split("\.", $this->editTable);
+        $editTableArray = preg_split("/\./", $this->editTable);
         if (count($editTableArray) > 1) {
             $this->editSchema = $editTableArray[0];
             $this->editTable = $editTableArray[1];
@@ -704,4 +704,3 @@ class ServerEdit extends ClientResponderAdapter {
     }
 }
 
-?>

@@ -47,9 +47,9 @@ function initializeLog4php($isClient) {
 
     class LoggerPropertyOverriderConfigurator extends LoggerPropertyConfigurator {
 
-        public function configure($url = '') {
+        public static function configure($url = '') {
             $configurator = new LoggerPropertyOverriderConfigurator();
-            $repository = & LoggerManager :: getLoggerRepository();
+            $repository =  LoggerManager::getLoggerRepository();
             return $configurator->doConfigure($url, $repository);
         }
 
@@ -71,4 +71,3 @@ function initializeLog4php($isClient) {
     LoggerManagerDefaultInit();
 }
 
-?>

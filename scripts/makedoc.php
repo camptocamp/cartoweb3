@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * Documentation generator using PhpDocumentor
@@ -108,4 +108,3 @@ $_SERVER['argv'] = array('-d',  INCLUDE_FILES,
  */
 include("PhpDocumentor/phpDocumentor/phpdoc.inc");
 
-?>

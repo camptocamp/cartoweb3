@@ -318,5 +318,3 @@ class SerializableTestClass2 extends CwSerializable {
         $this->integer = (int)$struct->integer;
     }
 }
-
-?>

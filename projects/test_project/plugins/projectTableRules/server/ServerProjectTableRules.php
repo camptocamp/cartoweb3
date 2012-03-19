@@ -84,5 +84,3 @@ class ServerProjectTableRules extends ServerPlugin {
         
     }    
 }
-
-?>

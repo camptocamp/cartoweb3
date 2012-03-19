@@ -1,0 +1,12 @@
+#
+#	@descr  : build locales for opensuse host
+#
+#	@Id 	: $Id$
+#   @Date	: $Date$
+#	@Author : $Author$
+#
+
+
+sudo localedef -f UTF-8 -i en_US en
+sudo localedef -f UTF-8 -i de_DE de
+sudo localedef -f UTF-8 -i fr_FR fr

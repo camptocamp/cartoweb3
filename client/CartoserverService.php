@@ -79,7 +79,7 @@ class CartoserverService {
      * @param ClientConfig
      */
     public function __construct($config) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->config = $config;
     }
 
@@ -233,4 +233,4 @@ class CartoserverService {
         return $this->callFunction('getMap', $mapRequest);
     }
 }
-?>
+

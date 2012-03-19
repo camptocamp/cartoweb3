@@ -112,4 +112,3 @@ class LayerReorderResult extends CwSerializable {
         $this->layers  = self::unserializeArray($struct, 'layers');
     } 
 }
-?>

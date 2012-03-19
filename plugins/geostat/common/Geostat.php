@@ -31,7 +31,7 @@ require_once(CARTOWEB_HOME . 'include/themamap/ColorLut.php');
 /**
  * Logger
  */
-//$log =& LoggerManager::getLogger(__METHOD__);
+//$log = LoggerManager::getLogger(__METHOD__);
 
 
 /**
@@ -583,5 +583,3 @@ class TwDistributionSummaryHelper {
     }
     
 }
-
-?>

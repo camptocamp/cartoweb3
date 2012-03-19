@@ -2,48 +2,48 @@
 ; (see cartoweb3/projects/test_main/client_conf/exportPdf.ini)
 
 ;general settings
-general.formats = A4
-general.defaultFormat = A4
-general.resolutions = 96
-general.defaultResolution = 96
-general.activatedBlocks = mainmap, cw3_warning 
-general.distUnit = mm
-general.horizontalMargin = 10
-general.verticalMargin = 10
-general.allowedRoles = all
+general.formats = "A4"
+general.defaultFormat = "A4"
+general.resolutions = "96"
+general.defaultResolution = "96"
+general.activatedBlocks = "mainmap, cw3_warning "
+general.distUnit = "mm"
+general.horizontalMargin = "10"
+general.verticalMargin = "10"
+general.allowedRoles = "all"
 
 ; formats settings
-formats.A4.label = A4
-formats.A4.bigDimension = 297
-formats.A4.smallDimension = 210
+formats.A4.label = "A4"
+formats.A4.bigDimension = "297"
+formats.A4.smallDimension = "210"
 
 ; minimal template
-template.type = text
-template.borderWidth = 0.25
+template.type = "text"
+template.borderWidth = "0.25"
 
 ; blocks settings
 
-blocks.mainmap.zIndex = 0
-blocks.mainmap.weight = 10
-blocks.mainmap.padding = 0
-blocks.mainmap.verticalMargin = 10
-blocks.mainmap.horizontalMargin = 10
+blocks.mainmap.zIndex = "0"
+blocks.mainmap.weight = "10"
+blocks.mainmap.padding = "0"
+blocks.mainmap.verticalMargin = "10"
+blocks.mainmap.horizontalMargin = "10"
 
-blocks.cw3_warning.zIndex = 100
+blocks.cw3_warning.zIndex = "100"
 blocks.cw3_warning.hCentered = true
 blocks.cw3_warning.vCentered = true
-blocks.cw3_warning.fontSize = 20
-blocks.cw3_warning.fontBold = true
-blocks.cw3_warning.fontFamily = arial
-blocks.cw3_warning.height = 50
-blocks.cw3_warning.width = 150
-blocks.cw3_warning.color = red
-blocks.cw3_warning.backgroundColor = white
-blocks.cw3_warning.borderWidth = 1
-blocks.cw3_warning.borderColor = red
-blocks.cw3_warning.borderStyle = solid
-blocks.cw3_warning.padding = 5
-blocks.cw3_warning.textAlign = center
-blocks.cw3_warning.verticalAlign = center
-blocks.cw3_warning.type = text
+blocks.cw3_warning.fontSize = "20"
+blocks.cw3_warning.fontBold = "true"
+blocks.cw3_warning.fontFamily = "arial"
+blocks.cw3_warning.height = "50"
+blocks.cw3_warning.width = "150"
+blocks.cw3_warning.color = "red"
+blocks.cw3_warning.backgroundColor = "white"
+blocks.cw3_warning.borderWidth = "1"
+blocks.cw3_warning.borderColor = "red"
+blocks.cw3_warning.borderStyle = "solid"
+blocks.cw3_warning.padding = "5"
+blocks.cw3_warning.textAlign = "center"
+blocks.cw3_warning.verticalAlign = "center"
+blocks.cw3_warning.type = "text"
 blocks.cw3_warning.content = "Please edit your exportPdf.ini config file!"

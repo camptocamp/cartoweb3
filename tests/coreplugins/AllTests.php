@@ -46,5 +46,3 @@ class coreplugins_AllTests {
         return $suite;
     }
 }
-
-?>

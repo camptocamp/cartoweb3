@@ -46,7 +46,7 @@ class ClientMapInfoCache extends MapInfoCache {
      * @param Cartoclient
      */
     public function __construct(Cartoclient $cartoclient) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
         parent::__construct($cartoclient->getConfig(), 
                         $cartoclient->getConfig()->mapId);
@@ -92,4 +92,4 @@ class ClientMapInfoCache extends MapInfoCache {
         $this->cacheMapInfo();   
     }
 }
-?>
+

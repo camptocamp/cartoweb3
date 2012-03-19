@@ -3,22 +3,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-11-10 11:39+0100\n"
+"POT-Creation-Date: 2012-02-24 14:54+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: exportPdf.ini:formats.A4.label
-msgid "A4"
-msgstr ""
-
-#: exportPdf.ini:formats.A3.label
-msgid "A3"
-msgstr ""
-
-#: exportPdf.ini:formats.A3full.label
-msgid "A3full"
-msgstr ""
 
 #: images.ini:mapSizes.0.label
 msgid "430x300"
@@ -36,118 +24,149 @@ msgstr ""
 msgid "1240x840"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
-msgid "Mapsize :"
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr ""
+
+#: exportPdf.ini:formats.A3full.label
+msgid "A3full"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr ""
+
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+#, fuzzy
+msgid "size"
 msgstr "Taille carte :"
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "expand tree"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "color"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Expand tree"
-msgstr "Déplier"
-
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "close tree"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Line"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Close tree"
-msgstr "Fermer"
-
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "check all"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "border size"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Check all"
-msgstr "Tout sélectionner"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+#, fuzzy
+msgid "transparency"
+msgstr "Transparence"
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "uncheck all"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Rectangle/polygon"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Uncheck all"
-msgstr "Tout déselectionner"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+#, fuzzy
+msgid "outline color"
+msgstr "Polygone"
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "more info on"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "background color"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Click to go to next visible scale:"
+#: projects/demoPlugins/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr "Effacer le tracÃ©"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Zoom in to see layer"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "?"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
-msgid "Zoom out to see layer"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Go to view"
+msgstr "Charger une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Load view"
+msgstr "Charger une vue"
+
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "No view available"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
-msgid "Recenter"
-msgstr "Recentrer"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "New view"
+msgstr "Nouvelle vue"
 
-#: projects/demoPlugins/coreplugins/location/templates/id_recenter.tpl
-msgid "No result for your query"
-msgstr "Aucun résultat ne corrspond à votre requête"
-
-#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
-msgid "X :"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Memorize form"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
-msgid "Y:"
-msgstr "Y :"
-
-#: projects/demoPlugins/coreplugins/location/templates/scales.tpl
-msgid "Scale :"
-msgstr "Echelle :"
-
-#: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
-msgid "Shortcuts"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
+msgid "Title"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Hilight"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Author"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Attributes"
-msgstr "Attributs"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Show view"
+msgstr "Nouvelle vue"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Union"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+msgid "Place view label before"
 msgstr ""
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Xor"
-msgstr ""
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Update view"
+msgstr "Mettre Ã  jour une vue"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Inter"
-msgstr ""
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save as new view"
+msgstr "Sauvegarder une vue"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "In Query"
-msgstr "Requête"
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Save view"
+msgstr "Sauvegarder une vue"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Mask"
-msgstr ""
+#: projects/demoPlugins/plugins/views/templates/views.tpl
+#, fuzzy
+msgid "Delete view #"
+msgstr "Supprimer une vue"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "Query all selected layers"
-msgstr ""
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr "Vers le haut"
 
-#: projects/demoPlugins/coreplugins/query/templates/query.tpl
-msgid "query_clear"
-msgstr "Effacer la requête"
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr "Vers le bas"
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+msgid "Transparency"
+msgstr "Transparence"
+
+#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Refresh"
+msgstr "Rafraichir"
 
 #: projects/demoPlugins/plugins/auth/templates/auth.tpl
 msgid "login"
@@ -155,7 +174,7 @@ msgstr "se connecter"
 
 #: projects/demoPlugins/plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr "se déconnecter"
+msgstr "se dÃ©connecter"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
@@ -171,7 +190,7 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
-msgstr "(Pour la démonstration, utilisez : 'demo' 'demo'"
+msgstr "(Pour la dÃ©monstration, utilisez : 'demo' 'demo'"
 
 #: projects/demoPlugins/plugins/auth/templates/login_page.tpl
 msgid "Username"
@@ -189,9 +208,31 @@ msgstr "Envoyer"
 msgid "Click here to go back to the map"
 msgstr ""
 
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Start"
+msgstr "DÃ©part"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "Finish"
+msgstr "ArrivÃ©e"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+#, fuzzy
+msgid "reset routing"
+msgstr "RÃ©initialiser"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+#, fuzzy
+msgid "Reset"
+msgstr "Recentrer"
+
+#: projects/demoPlugins/plugins/routing/templates/routing.tpl
+msgid "OK"
+msgstr ""
+
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
-msgstr "Format et résolution (dpi)"
+msgstr "Format et rÃ©solution (dpi)"
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
 msgid "Orientation"
@@ -203,11 +244,6 @@ msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
-msgstr ""
-
-#: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Title"
 msgstr ""
 
 #: projects/demoPlugins/plugins/exportPdf/templates/form.tpl
@@ -251,124 +287,134 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Upside"
-msgstr "Vers le haut"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr ""
 
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Downside"
-msgstr "Vers le bas"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Expand tree"
+msgstr "DÃ©plier"
 
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-msgid "Transparency"
-msgstr "Transparence"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr ""
 
-#: projects/demoPlugins/plugins/layerReorder/templates/layerReorder.tpl
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Refresh"
-msgstr "Rafraichir"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Close tree"
+msgstr "Fermer"
 
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "Start"
-msgstr "Départ"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr ""
 
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "Finish"
-msgstr "Arrivée"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Check all"
+msgstr "Tout sÃ©lectionner"
 
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-#, fuzzy
-msgid "reset routing"
-msgstr "Réinitialiser"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr ""
 
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-#, fuzzy
-msgid "Reset"
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Uncheck all"
+msgstr "Tout dÃ©selectionner"
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr ""
+
+#: projects/demoPlugins/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr "Echelle :"
+
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "Recenter"
 msgstr "Recentrer"
 
-#: projects/demoPlugins/plugins/routing/templates/routing.tpl
-msgid "OK"
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "X :"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Are you sure you want to delete view #"
+#: projects/demoPlugins/coreplugins/location/templates/recenter.tpl
+msgid "Y:"
+msgstr "Y :"
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Hilight"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "?"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr "Attributs"
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Union"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Go to view"
-msgstr "Charger une vue"
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Load view"
-msgstr "Charger une vue"
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "No view available"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Xor"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "New view"
-msgstr "Nouvelle vue"
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Memorize form"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Inter"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Author"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr "RequÃªte"
+
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Mask"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Show view"
-msgstr "Nouvelle vue"
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-msgid "Place view label before"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
 msgstr ""
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Update view"
-msgstr "Mettre à jour une vue"
+#: projects/demoPlugins/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr "Effacer la requÃªte"
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Save as new view"
-msgstr "Sauvegarder une vue"
+#: projects/demoPlugins/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
+msgstr "Taille carte :"
 
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Save view"
-msgstr "Sauvegarder une vue"
-
-#: projects/demoPlugins/plugins/views/templates/views.tpl
-#, fuzzy
-msgid "Delete view #"
-msgstr "Supprimer une vue"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - Demonstration"
-msgstr "CartoWeb3 - Demonstration des nouvelles fonctionalités"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
 #: projects/demoPlugins/templates/mainmap.tpl
+msgid "Loading message"
+msgstr ""
+
+#: projects/demoPlugins/templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr ""
+
+#: projects/demoPlugins/templates/mainmap.tpl
+#: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Collapse keymap"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Show keymap"
-msgstr ""
+msgid "CartoWeb3 - Demonstration"
+msgstr "CartoWeb3 - Demonstration des nouvelles fonctionalitÃ©s"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "CartoWeb3 - New Fonctionnalities Demonstration"
-msgstr "CartoWeb3 - Démonstration des nouvelles fonctionnalités"
+msgid "Show keymap"
+msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 #, fuzzy
@@ -376,15 +422,32 @@ msgid "Views :"
 msgstr "Onglet vues"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Coordonnees (m):"
-msgstr "Coordonnées (m) :"
+msgid "Help"
+msgstr "Aide"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Distance approx.: "
+msgid "help"
+msgstr "aide"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "reset session"
+msgstr "rÃ©initialiser"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Reset session"
+msgstr "RÃ©initialiser"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+#, fuzzy
+msgid "Coord (m):"
+msgstr "CoordonnÃ©es (m) :"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Approx. distance :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Surface approx. : "
+msgid "Approx. area :"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -400,16 +463,16 @@ msgid "User messages"
 msgstr "Messages utilisateur"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Views"
+msgid "Layers reorder"
+msgstr "Ordre des Couches"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "WMS layers"
 msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Outline"
-msgstr "Dessin"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Help Viewer"
-msgstr "Aide"
+msgid "RTF"
+msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Themes"
@@ -420,30 +483,34 @@ msgid "Search"
 msgstr "Recherche"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Layers reorder"
-msgstr "Ordre des Couches"
+msgid "Outline"
+msgstr "Dessin"
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: projects/demoPlugins/templates/cartoclient.tpl
+msgid "Help Viewer"
+msgstr "Aide"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "A route"
-msgstr "Un itinéraire"
+msgstr "Un itinÃ©raire"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "A geographic object"
-msgstr "Un objet géographique"
-
-#: projects/demoPlugins/templates/cartoclient.tpl
-msgid "Clear outline"
-msgstr "Effacer le tracé"
+msgstr "Un objet gÃ©ographique"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
-"This demo is an overview of the new functionalities, that are available since"
-" the last version of Cartoweb. To get the most out of it, read through "
+"This demo is an overview of the new functionalities, that are available "
+"since the last version of Cartoweb. To get the most out of it, read through "
 "this Help guide before starting to explore."
 msgstr ""
-"Cette démo est un aperçu des nouvelles fonctionnalités, disponibles "
-"depuis la dernière version de Cartoweb. Pour pouvoir l'utiliser "
-"pleinement, lisez cette aide avant de commencer."
+"Cette dÃ©mo est un aperÃ§u des nouvelles fonctionnalitÃ©s, disponibles depuis "
+"la derniÃ¨re version de Cartoweb. Pour pouvoir l'utiliser pleinement, lisez "
+"cette aide avant de commencer."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Search tab"
@@ -459,7 +526,7 @@ msgstr "puce"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "a route"
-msgstr "un itinéraire"
+msgstr "un itinÃ©raire"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -468,12 +535,12 @@ msgid ""
 "         an other to finish."
 msgstr ""
 " cette option vous permet de trouver le plus court chemin entre deux villes "
-"européennes. Sélectionnez simplement une ville d'où partir et une ville où "
+"europï¿½ennes. Sï¿½lectionnez simplement une ville d'oï¿½ partir et une ville oï¿½ "
 "arriver."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "a geographic object"
-msgstr "un objet géographique"
+msgstr "un objet gï¿½ographique"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -481,8 +548,8 @@ msgid ""
 "select this geographic layer\n"
 "         and type the corresponding name."
 msgstr ""
-"si vous voulez vous déplacer vers une région, une agglomération, une ville "
-"ou un aéroport européen, sélectionnez cette couche géographique et tappez le "
+"si vous voulez vous dÃ©placer vers une rÃ©gion, une agglomÃ©ration, une ville "
+"ou un aÃ©roport europÃ©en, sÃ©lectionnez cette couche gÃ©ographique et tappez le "
 "nom correspondant."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -497,12 +564,12 @@ msgid ""
 "layers, queries, annotations, etc.) under a label of your choice. \n"
 "         It is then possible to access later those saved states."
 msgstr ""
-"Les vues sont des enregistrements de cartes de Cartoweb, faites à un moment "
-"donné. \n"
+"Les vues sont des enregistrements de cartes de Cartoweb, faites Ã  un moment "
+"donnÃ©. \n"
 "Il faut les imaginer comme des marques-pages : pendant que vous construisez "
-"vos cartes dans l'interface de Cartoweb, vous pouvez sauvegarder l'état "
-"courant (l'extension géographique, les couches sélectionnées, les requêtes, "
-"les annotations, etc.) sous un intitulé de votre choix. \n"
+"vos cartes dans l'interface de Cartoweb, vous pouvez sauvegarder l'Ã©tat "
+"courant (l'extension gÃ©ographique, les couches sÃ©lectionnÃ©es, les requÃªtes, "
+"les annotations, etc.) sous un intitulÃ© de votre choix. \n"
 "Vous pourrez y revenir plus tard."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -514,8 +581,8 @@ msgid ""
 "any defined view may be loaded. Loading a view may be achieved selecting it "
 "among a dropdown views list."
 msgstr ""
-"toutes les vues peuvent être chargées. Pour cela, il suffit de sélectionner "
-"la vue désirée dans la liste déroulante."
+"toutes les vues peuvent Ãªtre chargÃ©es. Pour cela, il suffit de sÃ©lectionner "
+"la vue dÃ©sirÃ©e dans la liste dÃ©roulante."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Save a view"
@@ -535,7 +602,7 @@ msgstr ""
 "avec les renseignements que vous voulez lui donner. \n"
 " Pour rendre la carte \"visible\" aux autres utilisateurs, cochez l'option "
 "\"Montrer la vue\" et cliquez sur le bouton \"Enregistrer\".\n"
-"Vous pouvez aussi enregistrer une nouvelle vue en utilisant une vue déjà "
+"Vous pouvez aussi enregistrer une nouvelle vue en utilisant une vue dÃ©jÃ  "
 "existante. Pour cela, chargez la vue que vous voulez, modifiez la et cliquez "
 "sur le bouton \"Enregistrer la vue\"."
 
@@ -553,7 +620,7 @@ msgstr ""
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Update a view"
-msgstr "Mettre à jour une vue"
+msgstr "Mettre Ã  jour une vue"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid ""
@@ -566,16 +633,16 @@ msgid ""
 "your changes (pans, zooms, annotations, layers selections, etc.). Eventually "
 "push the \"Update\" button."
 msgstr ""
-"pour modifier aussi bien les propriétés de la carte d'une vue (couches "
-"sélectionnées, annotations, extension géographique, etc.) que les "
-"métadonnées (titre, \"visibilité\", etc.), chargez la.\n"
-"Si vos changements concernent seulement les métadonnées, mettez à jour les "
-"champs voulus et cliquez sur le bouton \"Mettre à jour\".\n"
-"Pour mettre à jour les propriétés de la carte avec l'état courant, "
-"sélectionnez l'option \"Mémoriser l'état courant\". Les métadonnées et "
-"l'identifiant de vue sélectionnés seront  mémorisés quand vous optimiserez "
-"vos changements (déplacement, zooms, annotations, couches sélectionnées, "
-"etc.). Cliquez éventuellement sur le bouton \"Mettre à jour\"."
+"pour modifier aussi bien les propriÃ©tÃ©s de la carte d'une vue (couches "
+"sÃ©lectionnÃ©es, annotations, extension gÃ©ographique, etc.) que les "
+"mÃ©tadonnÃ©es (titre, \"visibilitÃ©\", etc.), chargez la.\n"
+"Si vos changements concernent seulement les mÃ©tadonnÃ©es, mettez Ã  jour les "
+"champs voulus et cliquez sur le bouton \"Mettre Ã  jour\".\n"
+"Pour mettre Ã  jour les propriÃ©tÃ©s de la carte avec l'Ã©tat courant, "
+"sÃ©lectionnez l'option \"MÃ©moriser l'Ã©tat courant\". Les mÃ©tadonnÃ©es et "
+"l'identifiant de vue sÃ©lectionnÃ©s seront  mÃ©morisÃ©s quand vous optimiserez "
+"vos changements (dÃ©placement, zooms, annotations, couches sÃ©lectionnÃ©es, "
+"etc.). Cliquez Ã©ventuellement sur le bouton \"Mettre Ã  jour\"."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "Layers reorder tab"
@@ -587,9 +654,9 @@ msgid ""
 "smallest on top, and/or even with well used transparent properties. \n"
 "        This tab allows you to :"
 msgstr ""
-" Pour améliorer le rendu de votre carte, vous pouvez mettre les objets "
+" Pour amÃ©liorer le rendu de votre carte, vous pouvez mettre les objets "
 "volumineux en bas de l'arbre des couches et les plus petits en haut, et/ou "
-"jouer avec les propriétés de transparence. \n"
+"jouer avec les propriÃ©tÃ©s de transparence. \n"
 "Cet onglet vous permet de :"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
@@ -597,11 +664,11 @@ msgid ""
 " reorder layers on the displayed stack to improve visibility of one layer, "
 "and/or"
 msgstr ""
-" réagencer les couches pour améliorer la visibilité d'une couche, et/ou"
+" rÃ©agencer les couches pour amÃ©liorer la visibilitÃ© d'une couche, et/ou"
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid " add a transparency value on each layer displayed."
-msgstr " ajouter a valeur de transparence pour chaque couche affichée."
+msgstr " ajouter a valeur de transparence pour chaque couche affichÃ©e."
 
 #: projects/demoPlugins/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "
@@ -611,34 +678,6 @@ msgstr "Pour plus d'information, vous pouvez aller voir la "
 msgid "Cartoweb documentation"
 msgstr "documentation de Cartoweb"
 
-#: projects/demoPlugins/templates/mainmap.tpl
-msgid "Loading message"
-msgstr ""
-
-#: projects/demoPlugins/templates/mainmap.tpl
-msgid "keymap_alt"
-msgstr ""
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "full_extent"
-msgstr "Vue générale"
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "Help"
-msgstr "Aide"
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "help"
-msgstr "aide"
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "reset session"
-msgstr "réinitialiser"
-
-#: projects/demoPlugins/templates/toolbar.tpl
-msgid "Reset session"
-msgstr "Réinitialiser"
-
 #: plugins/demoRouting/client/ClientDemoRouting.php:102
 msgid "fastest"
 msgstr ""
@@ -647,27 +686,33 @@ msgstr ""
 msgid "shortest"
 msgstr ""
 
+#~ msgid "No result for your query"
+#~ msgstr "Aucun rÃ©sultat ne corrspond Ã  votre requÃªte"
+
+#~ msgid "CartoWeb3 - New Fonctionnalities Demonstration"
+#~ msgstr "CartoWeb3 - DÃ©monstration des nouvelles fonctionnalitÃ©s"
+
+#~ msgid "full_extent"
+#~ msgstr "Vue gÃ©nÃ©rale"
+
 # Elements dynamiques
-msgid "zoomin"
-msgstr "Zoom avant"
+#~ msgid "zoomin"
+#~ msgstr "Zoom avant"
 
-msgid "zoomout"
-msgstr "Zoom arrière"
+#~ msgid "zoomout"
+#~ msgstr "Zoom arriÃ¨re"
 
-msgid "pan"
-msgstr "Déplacement"
+#~ msgid "pan"
+#~ msgstr "DÃ©placement"
 
-msgid "query"
-msgstr "Requête"
+#~ msgid "query"
+#~ msgstr "RequÃªte"
 
-msgid "outline_point"
-msgstr "Point"
+#~ msgid "outline_point"
+#~ msgstr "Point"
 
-msgid "outline_line"
-msgstr "Ligne"
+#~ msgid "outline_line"
+#~ msgstr "Ligne"
 
-msgid "outline_rectangle"
-msgstr "Rectangle"
-
-msgid "outline_poly"
-msgstr "Polygone"
+#~ msgid "outline_rectangle"
+#~ msgstr "Rectangle"

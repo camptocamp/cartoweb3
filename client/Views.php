@@ -100,7 +100,7 @@ class ViewManager {
      */
     public function __construct(Cartoclient $cartoclient) {
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
 
         $this->log->debug('Loading Views Manager');
@@ -572,7 +572,7 @@ class ViewFilter {
      * @param Cartoclient
      */
     public function __construct(Cartoclient $cartoclient) {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->cartoclient = $cartoclient;
     }
 
@@ -884,7 +884,7 @@ abstract class ViewContainer {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
     
     /**
@@ -1933,4 +1933,4 @@ class ViewHooks {
         return $data;
     }
 }
-?>
+

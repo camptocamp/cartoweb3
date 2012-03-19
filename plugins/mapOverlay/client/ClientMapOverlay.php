@@ -31,5 +31,3 @@
 class ClientMapOverlay extends ClientPlugin {
                     
 }
-
-?>

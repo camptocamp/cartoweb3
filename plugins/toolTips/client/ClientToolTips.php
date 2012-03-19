@@ -58,7 +58,7 @@ class ClientToolTips extends ClientPlugin
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -169,7 +169,7 @@ class ClientToolTips extends ClientPlugin
      */
     public static function errorHandler($errno, $errstr, $errfile, 
                                                 $errline) {
-        $log =& LoggerManager::getLogger(__METHOD__);
+        $log = LoggerManager::getLogger(__METHOD__);
 
         if (Common::isErrorIgnored($errno, $errstr, $errfile, $errline))
             return;
@@ -191,5 +191,3 @@ class ClientToolTips extends ClientPlugin
         return $this->toolTipsTimeoutBeforeHide;
     }
 }
-
-?>

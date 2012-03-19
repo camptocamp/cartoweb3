@@ -7,7 +7,7 @@
 function addLabel(text,x,y) {
   outlineLabelInput = xGetElementById('outlineLabelInputDiv');
   outlineLabelText = xGetElementById('outline_label_text');
-  outlineLabelText.value = text;
+  outlineLabelText.value = text.trim();
   xMoveTo(outlineLabelInput,x + 5,y + 5);
   outlineLabelInput.style.zIndex = 3;
   xShow(outlineLabelInput);

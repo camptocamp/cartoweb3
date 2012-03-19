@@ -301,4 +301,3 @@ class ByXyQueryableLayer extends QueryableLayer {
         return $layerResults;
     }
 }
-?>

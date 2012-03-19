@@ -1,19 +1,19 @@
 ; Uncomment to enable logging
-;log4php.rootLogger=DEBUG, A1
+;log4php.rootLogger = "DEBUG, A1"
 
 ; An appender which will log into the "log" directory
-log4php.appender.A1=LoggerAppenderFile
-log4php.appender.A1.file="LOG_HOME/cartoserver.log"
-log4php.appender.A1.layout=LoggerPatternLayout
-log4php.appender.A1.layout.ConversionPattern="Cartoserver: %r [%t] %p %c %x - %m%n"
+log4php.appender.A1 = "LoggerAppenderFile"
+log4php.appender.A1.file = "LOG_HOME/cartoserver.log"
+log4php.appender.A1.layout = "LoggerPatternLayout"
+log4php.appender.A1.layout.ConversionPattern = "Cartoserver: %r [%t] %p %c %x - %m%n"
 
 ; Example of another echo appender
-;log4php.appender.A2=LoggerAppenderEcho
-;log4php.appender.A2.layout=LoggerLayoutHtml
+;log4php.appender.A2 = "LoggerAppenderEcho"
+;log4php.appender.A2.layout = "LoggerLayoutHtml"
 ;log4php.appender.A2.layout.locationInfo = "true"
 
 ; You can override more specifically the severity of some classes/module
-;log4php.logger.PluginManager = DEBUG
-;log4php.logger.ServerLayers = DEBUG
-;log4php.logger.Cartoclient = DEBUG
-;log4php.logger.ClientPlugin = DEBUG
+;log4php.logger.PluginManager = "DEBUG"
+;log4php.logger.ServerLayers = "DEBUG"
+;log4php.logger.Cartoclient = "DEBUG"
+;log4php.logger.ClientPlugin = "DEBUG"

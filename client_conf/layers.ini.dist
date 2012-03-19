@@ -4,4 +4,4 @@
 applySecurity = false
 
 ; LayerGroup in which add user layers
-userLayerGroup = root
+userLayerGroup = "root"

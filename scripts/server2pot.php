@@ -1,4 +1,4 @@
-#!/usr/local/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * server2pot.php - generates PO templates, merge with old PO files
@@ -121,11 +121,11 @@ function getTranslatedMapIdPo($project, $mapId) {
     }
     $d = dir($dir . CARTOSERVER_PODIR);
 
-    $pattern = "server\\.$mapId\\.(.*)\\.po";          
+    $pattern = "/server\\.$mapId\\.(.*)\\.po/";          
  
     while (false !== ($entry = $d->read())) {
         if (!is_dir($dir . CARTOSERVER_PODIR . $entry)) {
-            if (ereg($pattern, $entry)) {
+            if (preg_match($pattern, $entry)) {
                 $files[] = $entry;
             };
         }
@@ -236,4 +236,3 @@ foreach ($projects as $project) {
     }
 }
 
-?>

@@ -40,4 +40,3 @@ function smarty_modifier_print_r($object) {
 
     return $content;
 }
-?>

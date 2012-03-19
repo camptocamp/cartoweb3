@@ -72,11 +72,9 @@ class ServerMapInfoCache extends MapInfoCache {
      */
     public function __construct(MapInfoHandler $mapInfoHandler) {
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         $this->mapInfoHandler = $mapInfoHandler;
         parent::__construct($mapInfoHandler->getServerContext()->getConfig(),
                             $mapInfoHandler->getServerContext()->getMapId());
     }    
 }
-
-?>

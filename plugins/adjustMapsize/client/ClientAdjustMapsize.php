@@ -26,4 +26,4 @@ class ClientAdjustMapsize extends ClientPlugin
                                       Shape $mainmapShape) {}
 
 }
-?>
+

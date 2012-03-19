@@ -26,12 +26,12 @@ if (!defined('CARTOWEB_HOME'))
                                         '/..') . '/');
 
 if (defined('CARTOCLIENT_HOME')) {
-    /* Uncomment this for strict plugin compatibility checking.
+    /* Uncomment this for strict plugin compatibility checking. */
     throw new CartocommonException('You need to update your plugin for the ' .
             'new inclusion mechanism: see ' .
             'http://dev.camptocamp.com/c2cwiki/IncompatibleUpdates#new-include-scheme ' .
             'for complete explanation');
-            */    
+                
 }
 
 // For backward compatibility
@@ -291,7 +291,7 @@ class Common {
      */
     public static function cartowebErrorHandler($errno, $errstr, $errfile, 
                                                 $errline) {
-        $log =& LoggerManager::getLogger(__METHOD__);
+        $log = LoggerManager::getLogger(__METHOD__);
 
         if (self::isErrorIgnored($errno, $errstr, $errfile, $errline))
             return;
@@ -357,4 +357,4 @@ class I18nNoop {
         return $text;
     }
 }
-?>
+

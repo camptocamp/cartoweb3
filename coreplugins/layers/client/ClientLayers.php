@@ -339,7 +339,7 @@ class ClientLayers extends ClientPlugin
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
 
@@ -606,7 +606,7 @@ class ClientLayers extends ClientPlugin
      * @return LayerBase layer object of type Layer|LayerGroup|LayerClass
      */
     public function getLayerByName($layername, $strict = true) {
-        $layers =& $this->getLayers();
+        $layers = $this->getLayers();
         if (isset($layers[$layername])) 
             return $layers[$layername];
         elseif ($strict)
@@ -1695,7 +1695,7 @@ class ClientLayers extends ClientPlugin
         }     
 
         if ($parent->id != 'root') {
-            $this->getPrintedParents($parent->id, $allLayers, &$printedNodes, $childIdRef);
+            $this->getPrintedParents($parent->id, $allLayers, $printedNodes, $childIdRef);
         }
 
     }
@@ -1761,7 +1761,7 @@ class ClientLayers extends ClientPlugin
             return;
         }
         // recursive call
-        $this->orderPrintedNodes(&$printedNodes, array_unique($newNodesToSort));
+        $this->orderPrintedNodes($printedNodes, array_unique($newNodesToSort));
     }
 
     /**
@@ -1786,11 +1786,11 @@ class ClientLayers extends ClientPlugin
         // add all parent nodes which need to be rendered in the legend "tree", still as a flat list
         $allLayers = $this->getLayersSecurityFiltered();
         foreach ($selectedLayers as $key => $layerId) {
-            $this->getPrintedParents($layerId, $allLayers, &$printedNodes, $layerId);
+            $this->getPrintedParents($layerId, $allLayers, $printedNodes, $layerId);
         }
 
         // move nodes accordingly to their parent-children hierarchy
-        $this->orderPrintedNodes(&$printedNodes, $selectedLayers, false);
+        $this->orderPrintedNodes($printedNodes, $selectedLayers, false);
 
         return $printedNodes;
     }
@@ -1879,4 +1879,3 @@ class ClientLayers extends ClientPlugin
         return $this->getConfig()->switchTargetId;
     }
 }
-?>

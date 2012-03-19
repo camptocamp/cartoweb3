@@ -69,7 +69,7 @@ class ServerLayers extends ClientResponderAdapter
      */
     public function __construct() {
         parent::__construct();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         
         // If image type is null, will use mapfile image type
         $this->imageType = null;
@@ -355,4 +355,3 @@ class ServerLayers extends ClientResponderAdapter
         return $layersInitProvider->getInit();
     }
 }
-?>

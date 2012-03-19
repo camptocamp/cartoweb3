@@ -344,4 +344,3 @@ class common_BasicTypesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(7.0,  $circle->radius);
     }
 }
-?>

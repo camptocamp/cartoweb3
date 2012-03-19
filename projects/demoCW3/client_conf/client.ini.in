@@ -1,25 +1,52 @@
 ;@BLURB@
 
-cartoclientBaseUrl =  "@CARTOCLIENT_BASE_URL@"
-profile = @PROFILE@
+cartoclientBaseUrl = "@CARTOCLIENT_BASE_URL@"
+profile = "@PROFILE@"
 
 ajaxOn = true
 
-mapId = demoCW3
+mapId = "demoCW3"
 
 ; Shows a drop-down list for selecting the active project
 showProjectChooser = false
 
 ;## Plugins ##
 ; the list of plugins to load, separated by comma
-loadPlugins = exportCsv, exportPdf, outline, auth, checkInstall, bboxHistory, search, exportLinkIt
+loadPlugins = "exportCsv, exportPdf, exportRtf, outline, auth, checkInstall, bboxHistory, search, exportLinkIt, layerReorder, views, accounting"
 
 ;## Internationalization ##
-defaultLang = fr
-langList = fr, en
+defaultLang = "fr"
+langList = "fr, en"
 
 ; Indicates how to render toolbar
-toolbarRendering = outline
+toolbarRendering = "outline"
 
 ; Encoding for search plugin
-EncoderClass.searchDb = EncoderISO
+EncoderClass.searchDb = "EncoderUTF"
+
+;## Views management ##
+viewOn = true
+viewStorage = "db"
+viewablePlugins = "location, layers, query, outline"
+viewMetas = "author"
+viewStorage =  "db" 
+viewablePlugins =  "layers, query, hilight, outline, location, locate, search" 
+viewAuth =  "all" 
+viewDsn =  "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_VIEW_NAME@" 
+viewTbl =  "@TBL_VIEW_NAME@"
+;viewSavedRequest = "someRequestVarname"
+viewLogErrors = true
+viewUpgradeOutdated = true
+
+;## toolPicker ##
+
+toolPickerOn = true
+
+;## Accounting ##
+; accounting 
+accountingOn =  true 
+;accountingStorage =  "file" 
+accountingStorage =  "db" 
+;accountingBasePath =  "/path/to/accounting/" 
+accountingDsn =  "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_ACC_NAME@" 
+accountingTbl =  "@TBL_ACC_NAME@" 

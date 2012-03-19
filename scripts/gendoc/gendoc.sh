@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DOC_PATH=/home/sypasche/public_html/cartoweb_doc
 CVSROOT=:pserver:sypasche@pserver.c2c:/var/cvs/mapserver

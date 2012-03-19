@@ -493,5 +493,3 @@ class RecenterLocationRequest extends CwSerializable {
         $this->fallbackBbox = self::unserializeObject($struct, 'fallbackBbox', 'Bbox');
     }
 }
-
-?>

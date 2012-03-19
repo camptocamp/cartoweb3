@@ -127,13 +127,13 @@ class ClientOutline extends ClientPlugin
     const TOOL_LINE      = 'outline_line';
     const TOOL_RECTANGLE = 'outline_rectangle';
     const TOOL_POLYGON   = 'outline_poly';
-    const TOOL_CIRCLE   = 'outline_circle';
+    const TOOL_CIRCLE    = 'outline_circle';
 
     /**
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
     
@@ -163,7 +163,7 @@ class ClientOutline extends ClientPlugin
         $this->outlineState->pointStyle = new StyleOverlay();
         $this->outlineState->lineStyle = new StyleOverlay();
         $this->outlineState->polygonStyle = new StyleOverlay();
-        $this->outlineState->radius = false;
+        $this->outlineState->radius = 0;
     }
 
     /**
@@ -241,6 +241,7 @@ class ClientOutline extends ClientPlugin
             $this->geomType = self::TOOL_CIRCLE;  
             $selection_coords = $circle;
             $selection_type = 'circle';
+			//@todo we should pick the radius, and correct coords with it In case off radius use  
         } else {
             return;
         }
@@ -263,6 +264,8 @@ class ClientOutline extends ClientPlugin
 
         if (!empty($request['outline_clear'])) {
             $this->outlineState->shapes = array();
+            $this->outlineState->radius = 0;
+            return;
         }
 
         if (!empty($request['outline_mask'])) {
@@ -300,9 +303,11 @@ class ClientOutline extends ClientPlugin
         
         // allow circle radius to be set by hand, under conditions
         if (isset($request['tool']) && $request['tool'] == self::TOOL_CIRCLE && 
-            !empty($request['outline_circle_radius']) && $shape->radius == 0) {
-            $shape->radius = $this->outlineState->radius = 
-                $this->getHttpValue($request, 'outline_circle_radius');
+            !empty($request['outline_circle_radius']) && ($shape) ) {
+				if ( $shape->radius == 0 ){
+            		$shape->radius = $this->outlineState->radius = 
+                	$this->getHttpValue($request, 'outline_circle_radius');
+				}
         } 
 
         if ($shape) {
@@ -498,6 +503,7 @@ class ClientOutline extends ClientPlugin
 
         return array('outline_active' => true,
                      'outline'        => $this->drawOutline(),
+        			 'outline_area'   => $this->area,
                      'outlinelabel'   => $this->drawOutlinelabel(),
                      'pathToSymbols'  => $this->symbols->pathToSymbols,
                      'symbolType'     => $this->symbols->symbolType,
@@ -526,6 +532,7 @@ class ClientOutline extends ClientPlugin
         $output = $this->renderFormPrepare();
         $ajaxPluginResponse->addHtmlCode('outline', $output['outline']);
         $ajaxPluginResponse->addVariable('outlineFolderId', $this->getFolderId());
+        $ajaxPluginResponse->addVariable('outlineArea', $this->area);
     }
     
     /**
@@ -691,5 +698,3 @@ class ClientOutline extends ClientPlugin
         }
     }
 }
-
-?>

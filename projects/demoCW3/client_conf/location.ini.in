@@ -15,17 +15,17 @@ idRecenterActive = true
 
 ; the list of layers which will be shown on the recenter selection list
 ; if this list is not set, all layers are proposed in the list
-idRecenterLayers = airport, agglo, district, town
+idRecenterLayers = "airport, agglo, district, town"
 
 ; if current scale is above this limit, measure unit is km else m
-scaleUnitLimit = 10000
+scaleUnitLimit = "10000"
 
 ; ratio for panning, default is 1.0
-panRatio = 0.75
+panRatio = "0.75"
 
 ;tools templating
-groupPlugin = 1
-groupFullextent = 1
+groupPlugin = "1"
+groupFullextent = "1"
 
 ;name search configuration
-dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_SEARCH_NAME@
+dsn = "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_SEARCH_NAME@"

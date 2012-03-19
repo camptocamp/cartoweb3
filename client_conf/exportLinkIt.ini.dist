@@ -1,2 +1,2 @@
 compressUrl = false
-urlMaxLength = 2000
+urlMaxLength = "2000"

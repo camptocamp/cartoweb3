@@ -2,40 +2,40 @@
 
 ; Set to 1 to populate the black list without blocking
 ; the ip. Useful for fine tuning the parameters.
-dontBlock = 0
+dontBlock = "0"
 
 ; White list location. If the path is relative it is relative to 
 ; CARTOWEB_HOME.
-;whiteListPath = /etc/whitelist.txt
-whiteListPath = client_conf/throttling.whitelist.ini
+;whiteListPath = "/etc/whitelist.txt"
+whiteListPath = "client_conf/throttling.whitelist.ini"
 
 ; How long does we have to put the banned IP in jail ? (in seconds)
-blackListPeriod = 120
+blackListPeriod = "120"
 
 ; Location of the log file. If the path is relative it is relative to 
 ; CARTOWEB_HOME. 
 ; WARNING: Note that 'www-data' user (or the user who start apache) have to be 
 ; able the write into this file. If this file is not writable, the content 
 ; will be written into CARTOWEB_HOME/www-data/throttling/throttling.log
-blackListLog = /var/www/throttling_logs/throttling.log
+blackListLog = "/var/www/throttling_logs/throttling.log"
 
 ; The email address will be notified when an IP is put in the blacklist
-blackListMail = support@example.com,bigboss@example.org
+blackListMail = "support@example.com,bigboss@example.org"
 
 
 ; Buffers configuration
 ; An IP can't make more than 20 hits in 10 second. If one overflow this limit, the 
 ; IP is blacklisted for 'blackListPeriod' seconds.
-buffer.short.period = 10
-buffer.short.maxRequest = 20
+buffer.short.period = "10"
+buffer.short.maxRequest = "20"
 
 ; No more than 500 hit in 1 hour
-buffer.long.period = 3600
-buffer.long.maxRequest = 500
+buffer.long.period = "3600"
+buffer.long.maxRequest = "500"
 
 ; Here you can add as more new buffer as you want.
-;buffer.myBuffer1.period = 100
-;buffer.myBuffer1.maxRequest = 500
+;buffer.myBuffer1.period = "100"
+;buffer.myBuffer1.maxRequest = "500"
 
-;buffer.myBuffer2.period = 200
-;buffer.myBuffer2.maxRequest = 100
+;buffer.myBuffer2.period = "200"
+;buffer.myBuffer2.maxRequest = "100"

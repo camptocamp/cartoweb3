@@ -55,7 +55,7 @@ class SoapXMLCache {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         
         if (array_key_exists('mapId', $_REQUEST))
             $this->mapId = $_REQUEST['mapId'];  
@@ -186,5 +186,3 @@ class SoapXMLCache {
         $soapXML = $this->readSoapXML($soapRequest);   
     }   
 }
-
-?>

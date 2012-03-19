@@ -427,7 +427,7 @@ class ConfigParser {
  * @param mixed
  */
 function x1($a = "__died__ \n") {
-    $log =& LoggerManager::getLogger('__x__');
+    $log = LoggerManager::getLogger('__x__');
     
     print "<pre> type ".gettype($a)."\n";
     if (is_object($a) or is_array($a)) {
@@ -481,4 +481,4 @@ function pre($var) {
     print_r($var);
     print "</pre>\n";
 }
-?>
+

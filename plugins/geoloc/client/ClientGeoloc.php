@@ -41,13 +41,23 @@ class ClientGeoloc extends ClientPlugin
      * status of the plugin, activated or not
      */
     private $pluginStatus;
-
+    
+    /**
+     * @var ClientSession
+     */
+    protected $session;
+    
+    /**
+     * Tool constant
+     */
+    const TOOL_GEOLOC = 'geoloc';
+    
     /** 
      * Constructor
      */
     public function __construct() {
         parent::__construct();  
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
 
         $this->pluginStatus = true;
     }
@@ -56,8 +66,8 @@ class ClientGeoloc extends ClientPlugin
      * @see Sessionable::loadSession()
      */
     public function loadSession($sessionObject) {
-        $this->Geo_x = isset($sessionObject['x']) ? $sessionObject['x'] : '';
-        $this->Geo_y = isset($sessionObject['y']) ? $sessionObject['y'] : '';
+        $this->Geo_x = isset($sessionObject['geo_x']) ? $sessionObject['geo_x'] : '';
+        $this->Geo_y = isset($sessionObject['geo_y']) ? $sessionObject['geo_y'] : '';
     }
 
     /**
@@ -73,8 +83,8 @@ class ClientGeoloc extends ClientPlugin
      * @see Sessionable::saveSession()
      */
     public function saveSession() {
-        return array('x' => $this->Geo_x,
-                     'y' => $this->Geo_y,
+        return array('geo_x' => $this->Geo_x,
+                     'geo_y' => $this->Geo_y,
         );
     }
     
@@ -97,13 +107,15 @@ class ClientGeoloc extends ClientPlugin
      */
     public function handleHttpPostRequest($request) {
 
-        if (isset($request['tool']) && $request['tool'] == 'geoloc') {
+        if ( isset($request['tool']) && $request['tool'] == self::TOOL_GEOLOC ) {
             if (isset($request['selection_coords'])) {
                 $arr_coord = explode(',',$request['selection_coords']);
                 if (sizeof($arr_coord) == 2) {
                     $this->Geo_x = round($arr_coord[0]);
                     $this->Geo_y = round($arr_coord[1]);
-                    $this->getCartoclient()->addMessage('geo_x='.$this->Geo_x.',geo_y='.$this->Geo_y);
+                    // $this->getCartoclient()->addMessage('geo_x='.$this->Geo_x.',geo_y='.$this->Geo_y);
+                    
+                	// return array('geoloc_coords'=>array($this->Geo_x, $this->Geo_y));
                 }
             }
         }
@@ -121,14 +133,19 @@ class ClientGeoloc extends ClientPlugin
      * @return array array of variables and html code to be assigned
      */
     protected function renderFormPrepare() {
-        return array('geoloc_active' => $this->pluginStatus);
+        return array('geoloc_active' => $this->pluginStatus,
+        'geo_x'=> $this->Geo_x,
+        'geo_y'=> $this->Geo_y
+        );
     }
 
     /**
      * @see GuiProvider::renderForm()
      */
     public function renderForm(Smarty $template) {
+        $smarty = new Smarty_Plugin($this->getCartoclient(), $this);            	
         $template->assign($this->renderFormPrepare());
+        $template->assign('geoloc', $smarty->fetch('geoloc.tpl'));
     }
 
     /**
@@ -150,7 +167,10 @@ class ClientGeoloc extends ClientPlugin
      * @see ToolProvider::getTools()
      */
     public function getTools() {
-         return array(new ToolDescription('geoloc', true, 150, 1));
+         return array(new ToolDescription(self::TOOL_GEOLOC, true, 150,
+         							ToolDescription::MAINMAP));
+         							//, false, 
+						           	//1, false, true));
     }
 
     /**
@@ -158,6 +178,10 @@ class ClientGeoloc extends ClientPlugin
      */
     public function ajaxGetPluginResponse(AjaxPluginResponse $ajaxPluginResponse) {
         $output = $this->renderFormPrepare();
+        $ajaxPluginResponse->addVariable('geoloc_active', $output['geoloc_active']);
+        $ajaxPluginResponse->addVariable('geo_x', $output['geo_x']);
+        $ajaxPluginResponse->addVariable('geo_y', $output['geo_y']);
+        
     }
     
     /**
@@ -172,5 +196,3 @@ class ClientGeoloc extends ClientPlugin
         }
     }
 }
-
-?>

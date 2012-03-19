@@ -81,7 +81,7 @@ class ClientRouting extends ClientPlugin
         parent::__construct();
         $this->routingState = new RoutingState();
 
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -205,5 +205,3 @@ class ClientRouting extends ClientPlugin
         $template->assign('routing', $this->drawRouting());
     }
 }
-
-?>

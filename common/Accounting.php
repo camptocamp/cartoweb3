@@ -173,24 +173,25 @@ abstract class Accounting {
     /**
      * Saves an accounting packet (merge of all accounting messages) to database
      *  storage
+     * @todo change db access to something more performant.
      * @param accoutingPacket string
      */
     private function saveDb($accountingPacket, $isSimple = true) {
         require_once 'DB.php';
         $dsn = $this->getConfig()->accountingDsn;
+        $tbl = (trim($this->getConfig()->accountingTbl) == '') ? 'cw_accounting' : trim($this->getConfig()->accountingTbl);
         $options = array();
-        $db =& DB::connect($dsn, $options);
+        $db = DB::connect($dsn, $options);
         Utils::checkDbError($db);
 
 
         if ($isSimple) {
-            $accountingPacket = addslashes($accountingPacket);
-
+ // BF HACK            $accountingPacket = addslashes($accountingPacket);
+// This create a error log in postgresql
             // Table schema:
             // CREATE TABLE cw_accounting (date timestamp, info text);
 
-            $sql = "INSERT INTO cw_accounting (date, info) VALUES " .
-                "(now(), '$accountingPacket')";
+            $sql = "INSERT INTO ".$tbl." (date, info) VALUES (now(), '".$accountingPacket."')";
         } else {
             
             $re_line = '/([^=^;]*)="([^"]*)"/';
@@ -207,7 +208,7 @@ abstract class Accounting {
                     $cache_hit = $match[2];
                     $data[$key] = "'{$match[2]}'";
                 } else {
-                    $data[$key] = "'{$match[2]}'";
+                    $data[$key] =  "'".addslashes($match[2])."'";
                 }
             }
             $sql = "INSERT INTO stats(" . 
@@ -342,5 +343,3 @@ class DummyAccounting extends Accounting {
         return $obj;
     }
 }
-
-?>

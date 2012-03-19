@@ -139,4 +139,3 @@ class common_SecurityManagerTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($securityManager->hasRole(array('editor'))); 
     }
 }
-?>

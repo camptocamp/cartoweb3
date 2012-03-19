@@ -3,7 +3,41 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-07-15 17:21+0200\n"
+"POT-Creation-Date: 2012-02-24 14:54+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: images.ini:mapSizes.0.label
+msgid "small"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "normal"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "big"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "giant"
+msgstr ""
+
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: exportPdf.ini:formats.A3.label
+msgid "A3"
+msgstr ""
+
+#: plugins/hello/client/ClientHello.php:104
+#: plugins/hello/client/ClientHello.php:115
+#, php-format
+msgid "message: %s count: %d"
+msgstr ""
+
+#: plugins/testMainTableRules/client/ClientTestMainTableRules.php:55
+msgid "More"
+msgstr ""

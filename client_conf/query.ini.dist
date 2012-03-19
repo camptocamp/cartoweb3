@@ -1,8 +1,8 @@
 ;integer defining appearance order of the query tools icons in toolbar
-weightQueryByPoint = -1 ;default 40
-weightQueryByBbox = 41 ;default 41
-weightQueryByPolygon = -1 ;default 42
-weightQueryByCircle = -1 ;default 43
+weightQueryByPoint = "-1" ;default 40
+weightQueryByBbox = "41" ;default 41
+weightQueryByPolygon = "-1" ;default 42
+weightQueryByCircle = "-1" ;default 43
 
 ;allows client to ask for attributes
 returnAttributesActive = true
@@ -15,4 +15,4 @@ displayExtendedSelection = true
 
 ; the list of layers which will be shown on the hilight selection list
 ;  if this list is not set, all layers are proposed in the list
-;queryLayers = grid_defaulthilight, grid_classhilight, grid_layerhilight
+;queryLayers = "grid_defaulthilight, grid_classhilight, grid_layerhilight"

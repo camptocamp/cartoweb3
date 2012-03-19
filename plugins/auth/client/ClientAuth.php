@@ -612,5 +612,3 @@ class ClientAuth extends ClientPlugin implements GuiProvider, ServerCaller {
      */ 
     public function handleResult($outlineResult) {}
 }
-
-?>

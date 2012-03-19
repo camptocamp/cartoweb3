@@ -53,7 +53,7 @@ abstract class PluginBase {
      * Constructor
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
     }
 
     /**
@@ -173,4 +173,3 @@ abstract class PluginBase {
     
 }
 
-?>

@@ -18,10 +18,14 @@ idRecenterActive = true
 ;idRecenterLayers = 
 
 ; if current scale is above this limit, measure unit is km else m
-;scaleUnitLimit = 100000
+;deprecated instruction scaleUnitLimit = "100000"
+; if current scale is above this limit, measure unit is km else m 
+; if < 500 render meters + 2 decimals place 
+scaleUnitMaxLimit =  "10000" 
+scaleUnitMinLimit =  "500" 
 
 ; ratio for panning, default is 1.0
-;panRatio = 0.25
+;panRatio = "0.25"
 
 ; adds following icons in separated toolbar group
-;groupFullextent = 2
+;groupFullextent = "2"

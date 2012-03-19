@@ -200,5 +200,3 @@ class plugins_outline_server_RemoteServerOutlineTest
         $this->redoDirect($direct, __METHOD__);
     }
 }
-
-?>

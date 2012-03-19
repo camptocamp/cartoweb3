@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #
 # Accounting log files management (database import, simple stats generation)
 #

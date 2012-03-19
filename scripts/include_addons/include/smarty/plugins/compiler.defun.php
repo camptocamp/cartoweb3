@@ -96,5 +96,3 @@ function smarty_postfilter_defun($source, &$compiler) {
 }
 $this->register_postfilter('smarty_postfilter_defun');
 
-
-?>

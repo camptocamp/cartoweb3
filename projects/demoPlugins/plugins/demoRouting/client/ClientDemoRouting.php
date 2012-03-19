@@ -44,7 +44,7 @@ class ClientDemoRouting extends ClientRouting {
     public function __construct() {
         parent::__construct();
         $this->routingState = new RoutingState();
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         require_once('DB.php');
     }
     

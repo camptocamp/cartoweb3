@@ -92,7 +92,7 @@ class ClientGeostat extends ClientPlugin
      * @see ClientPlugin::__construct()
      */
     public function __construct() {
-        $this->log =& LoggerManager::getLogger(__CLASS__);
+        $this->log = LoggerManager::getLogger(__CLASS__);
         parent::__construct();
     }
     
@@ -547,5 +547,3 @@ class ClientGeostat extends ClientPlugin
             return $$formattedBoundsArray;
     }
 }
-
-?>

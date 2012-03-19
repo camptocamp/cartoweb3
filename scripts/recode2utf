@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# mini encapsulation script for recode
+recode ISO_8859-1..UTF-8 $1

@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2006-08-09 12:15+0200\n"
-"PO-Revision-Date: 2005-03-14 11:07+0100\n"
+"PO-Revision-Date: 2012-03-15 11:07+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # exportPdf.ini:formats.a4.label
@@ -19,11 +19,11 @@ msgstr "A4"
 
 #: coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize:"
-msgstr "Kartengrösse "
+msgstr "KartengrÃ¶sse "
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
-msgstr "Öffnen"
+msgstr "Ã–ffnen"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "close tree"
@@ -43,7 +43,7 @@ msgstr "Mehr Infos"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
-msgstr "Nächster sichtbarer Massstab"
+msgstr "NÃ¤chster sichtbarer Massstab"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
@@ -51,7 +51,7 @@ msgstr "Zoomer pour voir la couche"
 
 #: coreplugins/layers/templates/layers.tpl
 msgid "Zoom out to see layer"
-msgstr "Dézoomer pour voir la couche"
+msgstr "DÃ©zoomer pour voir la couche"
 
 #: coreplugins/layers/templates/switches.tpl
 msgid "Switches"
@@ -91,7 +91,7 @@ msgstr "Direkter Zugang"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Query information:"
-msgstr "Information de sélection :"
+msgstr "Information de sÃ©lection :"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Layer"
@@ -127,7 +127,7 @@ msgstr ""
 
 #: coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr "Löschen"
+msgstr "LÃ¶schen"
 
 #: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
 msgid "Id"
@@ -176,15 +176,15 @@ msgstr ""
 
 #: plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
-msgstr "Zurück zur Karte"
+msgstr "ZurÃ¼ck zur Karte"
 
 #: plugins/bboxHistory/templates/bbox_history_form.tpl
 msgid "Back"
-msgstr "Rückwärts"
+msgstr "RÃ¼ckwÃ¤rts"
 
 #: plugins/bboxHistory/templates/bbox_history_form.tpl
 msgid "Next"
-msgstr "Vorwärts"
+msgstr "VorwÃ¤rts"
 
 #: plugins/edit/templates/edit_toolbar.tpl
 msgid "edit_poly"
@@ -224,7 +224,7 @@ msgstr ""
 
 #: plugins/edit/templates/edit.tpl
 msgid "Choose layer"
-msgstr "Layer wählen"
+msgstr "Layer wÃ¤hlen"
 
 #: plugins/edit/templates/edit.tpl
 msgid "layer to edit"
@@ -236,7 +236,7 @@ msgstr "Objekte :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Inserted: "
-msgstr "Eingefügt :"
+msgstr "EingefÃ¼gt :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Modified: "
@@ -244,11 +244,11 @@ msgstr "Editiert :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Deleted: "
-msgstr "Gelöscht :"
+msgstr "GelÃ¶scht :"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Validate"
-msgstr "Bestätigen"
+msgstr "BestÃ¤tigen"
 
 #: plugins/edit/templates/edit.tpl
 msgid "Cancel"
@@ -281,7 +281,7 @@ msgstr "Massstab"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "Overview"
-msgstr "Übersicht"
+msgstr "Ãœbersicht"
 
 #: plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
@@ -315,7 +315,7 @@ msgstr "Format "
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
 msgid "Resolution:"
-msgstr "Auflösung "
+msgstr "AuflÃ¶sung "
 
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
@@ -458,7 +458,7 @@ msgstr "Symbol"
 
 #: plugins/outline/templates/outline.tpl
 msgid "size"
-msgstr "Grösse "
+msgstr "GrÃ¶sse "
 
 #: plugins/outline/templates/outline.tpl
 msgid "color"
@@ -474,7 +474,7 @@ msgstr "Breite"
 
 #: plugins/outline/templates/outline.tpl
 msgid "transparency"
-msgstr "Opazität"
+msgstr "OpazitÃ¤t"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Rectangle/polygon"
@@ -490,11 +490,11 @@ msgstr "Farbe"
 
 #: plugins/outline/templates/outline.tpl
 msgid "Total area"
-msgstr "Fläche"
+msgstr "FlÃ¤che"
 
 #: plugins/outline/templates/outline.tpl
 msgid "outline_clear"
-msgstr "Löschen"
+msgstr "LÃ¶schen"
 
 #: plugins/outline/templates/outlinelabel.tpl
 msgid "line label"
@@ -884,11 +884,11 @@ msgstr ""
 
 #: templates/cartoclient.tpl templates/mainmap.tpl
 msgid "Collapse keymap"
-msgstr "Übersichtskarte schliessen"
+msgstr "Ãœbersichtskarte schliessen"
 
 #: templates/cartoclient.tpl
 msgid "Show keymap"
-msgstr "Übersichtskarte anzeigen"
+msgstr "Ãœbersichtskarte anzeigen"
 
 #: templates/cartoclient.tpl
 msgid "Current scale:"
@@ -900,11 +900,11 @@ msgstr "Koord. (m) : "
 
 #: templates/cartoclient.tpl
 msgid "Approx. distance :"
-msgstr "Ungefähre Distanz : "
+msgstr "UngefÃ¤hre Distanz : "
 
 #: templates/cartoclient.tpl
 msgid "Approx. area :"
-msgstr "Ungefähre Fläche : "
+msgstr "UngefÃ¤hre FlÃ¤che : "
 
 #: templates/cartoclient.tpl
 msgid "scalebar_alt"
@@ -920,7 +920,7 @@ msgstr ""
 
 #: templates/cartoclient.tpl
 msgid "Choose project"
-msgstr "Projekt wählen"
+msgstr "Projekt wÃ¤hlen"
 
 #: templates/cartoclient.tpl
 msgid "reset_session"
@@ -976,11 +976,11 @@ msgstr "Sind Sie sicher ?"
 
 #: templates/dhtmlcode.tpl
 msgid "Not conform object"
-msgstr "Ungültiges Objekt"
+msgstr "UngÃ¼ltiges Objekt"
 
 #: templates/mainmap.tpl
 msgid "JavaScript must be enabled to use CartoWeb"
-msgstr "CartoWeb ist ohne JavaScript nicht lauffähig"
+msgstr "CartoWeb ist ohne JavaScript nicht lauffÃ¤hig"
 
 #: templates/toolPicker.tpl
 msgid "Tools"
@@ -1024,7 +1024,7 @@ msgstr "G"
 
 #: templates/toolPicker.tpl
 msgid "Green"
-msgstr "Grün"
+msgstr "GrÃ¼n"
 
 #: templates/toolPicker.tpl
 msgid "B"
@@ -1048,7 +1048,7 @@ msgstr ""
 
 #: templates/toolPicker.tpl
 msgid "Saturation"
-msgstr "Sättigung"
+msgstr "SÃ¤ttigung"
 
 #: templates/toolPicker.tpl
 msgid "L"
@@ -1256,7 +1256,7 @@ msgid "distance"
 msgstr "Distanz messen"
 
 msgid "surface"
-msgstr "Fläche messen"
+msgstr "FlÃ¤che messen"
 
 msgid "fullextent"
 msgstr "Zum ganzen Perimeter"
