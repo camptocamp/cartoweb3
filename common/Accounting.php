@@ -181,7 +181,7 @@ abstract class Accounting {
         $dsn = $this->getConfig()->accountingDsn;
         $tbl = (trim($this->getConfig()->accountingTbl) == '') ? 'cw_accounting' : trim($this->getConfig()->accountingTbl);
         $options = array();
-        $db =& DB::connect($dsn, $options);
+        $db = DB::connect($dsn, $options);
         Utils::checkDbError($db);
 
 
