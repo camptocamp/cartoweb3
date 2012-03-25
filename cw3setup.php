@@ -63,6 +63,7 @@ $CW3_DIRS_TO_CREATE = array(
                   'www-data/views',
                   'www-data/accounting',
                   'www-data/wms_cache',
+                  'www-data/wfs_cache',
                   'www-data/throttling',
                   'templates_c'
                   );
@@ -1391,6 +1392,15 @@ function getSearchReplaceContext() {
         $vars['CARTOCLIENT_BASE_URL'] = $OPTIONS['base-url'];
     }
     
+    if (!isset($vars['CARTOCLIENT_GENERATED_FILE'])) {
+    
+        if (!isset($OPTIONS['generated-file']))
+            $OPTIONS['generated-file'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'htdocs' .DIRECTORY_SEPARATOR. 'generated'.DIRECTORY_SEPARATOR.'images'; 
+        
+        $vars['CARTOCLIENT_GENERATED_FILE'] = $OPTIONS['generated-file'];
+    }
+    
+        
     if (isset($OPTIONS['profile']))
         $vars['PROFILE'] = $OPTIONS['profile'];
     if (!isset($vars['PROFILE']))
