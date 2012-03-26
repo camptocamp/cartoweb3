@@ -8,7 +8,7 @@ switches.switch2.label = "human"
 layers.root.className = "LayerGroup"
 ;layers.root.children = "background, human, categ, wmsLayers"
 layers.root.children.default = "background, categ, ecogis, wfsdemo, wmsLayers"
-layers.root.children.switch2 = "background, human, ecogis, efs,demo,wmsLayers"
+layers.root.children.switch2 = "background, human, ecogis, wfsdemo, wmsLayers"
 layers.root.rendering = "block"
 
 layers.background.className = "LayerGroup"

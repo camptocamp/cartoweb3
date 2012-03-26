@@ -1,0 +1,40 @@
+; $Id$
+;
+;
+; Cartoclient base URL
+CARTOCLIENT_BASE_URL = "http://cw3/"
+; Dynamic path for WEB template for WFS usage
+; should be absolute path to the htdocs/generated directory
+; if not set will be created by cw3setup
+; CARTOCLIENT_GENERATED_FILE = ""
+
+; host name of the database server
+DB_HOST = localhost
+; user name used to access the database
+DB_USER = cartoweb
+; password for the database
+DB_PASSWD = cartoweb
+; database listening port
+DB_PORT = 5432
+; Name of the database for searches. Use demo_plugins if you are following the instructions
+DB_LOCATE_NAME = cartoweb
+; Name of the database for routing searches. Use demo_plugins if you are following the instructions
+; DB_NAME = 
+; Name of the database for edition
+DB_EDIT_NAME = cartoweb
+
+;Name of db containing users 
+DB_USERS_NAME = cartoweb
+TBL_USERS_NAME = cartoweb
+
+;Name of db and table for accounting
+DB_ACC_NAME = cartoweb
+TBL_ACC_NAME = accounting
+
+;Name of db and table for views
+DB_VIEW_NAME = cartoweb
+; There's no way to abstract 
+TBL_VIEW_NAME = views
+
+; uncomment the following line to enable routing in demoPlugins
+; ROUTING_PLUGINS= ,routing, demoRouting

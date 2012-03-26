@@ -152,6 +152,8 @@ class ServerQuery extends ClientResponderAdapter {
             }
             
             $tableRow = new TableRow();
+// more debug            
+$this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
             if (!empty($idAttribute)) {
                 $tableRow->rowId = Encoder::encode($shape->values[$idAttribute],
                                                    'config');
@@ -444,8 +446,11 @@ class ServerQuery extends ClientResponderAdapter {
                 $msLayer = $msMapObj->getLayerByName($layerName);
                 if (!empty($msLayer)) {
                     $layerConnexType = $msLayer->connectiontype;
-                    if ($layerConnexType == MS_WMS || $layerConnexType == MS_WFS ) {
+                    if ($layerConnexType == MS_WMS){
                         continue;
+                    }
+                    if ($layerConnexType == MS_WFS){
+                        $this->log->debug(' - ' . __LINE__ . ' Query running on WFS');
                     }
                 }
 
