@@ -81,6 +81,25 @@ class ServerMapquery extends ServerPlugin {
     }
 
     /**
+     * Returns an array of query strings (for use in queryByAttributes), from
+     * a set of id's and an attribute name. 
+     * This query string can be used for WxS layers.
+     * @TODO The perfect syntax should be extracted from the GetFeatureInfo
+     * this is work in progress
+     * @param string
+     * @param string
+     * @param array
+     * @return array
+     */
+    protected function WxSQueryString($idAttribute, $idType, $selectedIds) {
+        $qs = array();
+        foreach ($selectedIds as $id ){
+            $qs[] .= '"([' . $idAttribute . ']" Like "'. $id . '")';
+        }        
+        return $qs;
+    }
+    
+    /**
      * Returns true if layer is linked to a database
      * @param msLayer
      * @return boolean
@@ -93,6 +112,20 @@ class ServerMapquery extends ServerPlugin {
         }
         return false;
     }
+    
+    /**
+     * Returns true if layer is linked to a WxS Service
+     * @param msLayer
+     * @return boolean
+     */
+    protected function isWxSLayer($msLayer) {
+        switch ($msLayer->connectiontype) {
+            case MS_WFS:
+            case MS_WMS:
+                return true;
+        }
+        return false;
+    }    
 
     /**
      * Extracts all shapes in the given msLayer, and returns them in an array
@@ -130,8 +163,8 @@ class ServerMapquery extends ServerPlugin {
         
         for ($i = 0; $i < $numResults; $i++) {
             $result = $msLayer->getResult($i);
-            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
-
+// Fully deprecated in Mapserver 5.0            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
+            $shape = $msLayer->resultsGetShape($result->shapeindex, $result->tileindex);
             $results[] = $shape;
         }
         $msLayer->close();
@@ -200,7 +233,7 @@ class ServerMapquery extends ServerPlugin {
     protected function checkImplementedConnectionTypes($msLayer) {
     
         $implementedConnectionTypes = array(MS_SHAPEFILE, MS_TILED_SHAPEFILE,
-            MS_OGR, MS_POSTGIS, MS_ORACLESPATIAL);
+            MS_OGR, MS_POSTGIS, MS_ORACLESPATIAL, MS_WFS, MS_WMS);
         
         if (in_array($msLayer->connectiontype, $implementedConnectionTypes))
             return;
@@ -247,9 +280,15 @@ class ServerMapquery extends ServerPlugin {
 
         if (self::isDatabaseLayer($msLayer))
             $queryString = self::databaseQueryString($idAttribute, $idType, $ids);
+        elseif (self::isWxSLayer($msLayer))
+            $queryString = self::WxSQueryString($idAttribute, $idType, $ids);
         else
             $queryString = self::genericQueryString($idAttribute, $idType, $ids);
-
+/*Debug part */
+if ($msLayer->connectiontype == "WFS"){
+        $this->log->debug('DEBUGGING' . __FILE__ . ' line: ' . __LINE__ . PHP_EOL . 'Query : ' . $queryString);
+}
+        $mayFail = ($msLayer->connectiontype == "WFS") ? TRUE : $mayFail;
         $results = array();
         foreach($queryString as $query) {
             $new_results = self::queryLayerByAttributes($serverContext,
@@ -292,7 +331,7 @@ class ServerMapquery extends ServerPlugin {
         
             $ret = @$msLayer->queryByRect($msRect);
             
-            $this->log->debug("Query on layer $layerId: queryByRect(msRect)");        
+            $this->log->debug("Query on layer $layerId: queryByRect(msRect) - ret=" . $ret . ' / NumResults='.$msLayer->getNumResults());        
         } elseif ($shape instanceof Polygon) {
             $msShape = ms_newShapeObj(MS_SHAPE_POLYGON);
             $msLine = ms_newLineObj();
@@ -303,7 +342,7 @@ class ServerMapquery extends ServerPlugin {
 
             $ret = @$msLayer->queryByShape($msShape);
             
-            $this->log->debug("Query on layer $layerId: queryByShape(msShape)");        
+            $this->log->debug("Query on layer $layerId: queryByShape(msShape) - ret=" . $ret . ' / NumResults=' .$msLayer->getNumResults());        
         } elseif ($shape instanceof Circle) {
             // force mapscript to consider radius units as geographic
             if ($msLayer->toleranceunits == MS_PIXELS)
@@ -324,8 +363,7 @@ class ServerMapquery extends ServerPlugin {
         
         $this->serverContext->resetMsErrors();
         
-        if ($ret != MS_SUCCESS || 
-            $msLayer->getNumResults() == 0) 
+        if ($ret != MS_SUCCESS || $msLayer->getNumResults() == 0) 
             return array();
 
         return $this->extractResults($layerId, true);

@@ -14,14 +14,14 @@ LAYER
   CONNECTIONTYPE WFS
   TEMPLATE "wfs-continent"
   METADATA
-    "wfs_srs"             	"EPSG:4326"
-    "wfs_typename"          "continents"
-    "wfs_version"           "1.0.0"
-    "wfs_connectiontimeout" "60"
-    "wfs_maxfeatures"       "10"
+    "ows_srs"             	"EPSG:4326"
+    "ows_typename"          "continents"
+    "ows_version"           "1.0.0"
+    "ows_connectiontimeout" "60"
+    "ows_maxfeatures"       "10"
 	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
-	"wfs_cache_dir" "/var/tmp/"
-	"wfs_tmpdir" "/var/tmp/" 
+	"ows_cache_dir" "/var/tmp/"
+	"ows_tmpdir" "/var/tmp/" 
   END
   PROJECTION
     "init=epsg:4326"
@@ -36,36 +36,88 @@ LAYER
 END # Layer
 
 LAYER
+  DEBUG 4
   NAME "wfscities"
   TYPE POINT
   STATUS ON
   CONNECTION "http://demo.mapserver.org/cgi-bin/wfs?"
   CONNECTIONTYPE WFS
-  TEMPLATE "wfs-cities"
+#  TEMPLATE "wfs-cities"
+  TEMPLATE "ttt"
+  DUMP TRUE
   METADATA
-    "wfs_srs"             	"EPSG:4326"
-    "wfs_typename"          "cities"
-    "wfs_version"           "1.0.0"
-    "wfs_connectiontimeout" "60"
-    "wfs_maxfeatures"       "1000"
-	"wfs_cache_dir" "/var/tmp/"
-	"wfs_tmpdir" "/var/tmp/" 
-	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
+  	"ows_encoding" 			"UTF-8"
+    "ows_srs"             	"EPSG:4326"
+    "ows_title"				"cities"
+    "ows_typename"          "cities"
+    "ows_version"           "1.0.0"
+    "ows_connectiontimeout" "60"
+#	"ows_extent"			"minx miny maxx maxy" # IN layer SRS 
+    "ows_maxfeatures"       "1000"
+# Debug simple filer     
+#    "ows_filter"			'<BBOX><PropertyName>Name>NAME</PropertyName><gml:Box><gml:coordinates>9.200000,45.320000 9.400000,45.620000</gml:coordinates></gml:Box></BBOX>'
+	"ows_cache_dir" "/var/tmp/"
+	"ows_tmpdir" "/var/tmp/"
+	"ows_request_method" 	"POST"	# default POST Get is usefull to debug sended queries in log 
+	"ows_enable_request"	"GetCapabilities GetFeature"
+# Mandatory for queries
+	"gml_include_items" 	"NAME POPULATION"
+	"id_attribute_string" "gml_id|string"
+    "query_returned_attributes" "NAME POPULATION" 
+	#XML "ows_exceptions_format" "application/vnd.ogc.se_xml"
   END
   PROJECTION
     "init=epsg:4326"
   END
-  CLASS
-    NAME "WFS Cities"
-    STYLE
+	CLASSITEM "POPULATION"
+	CLASS
+		EXPRESSION ([POPULATION] <= 2499)
 		SYMBOL "circle"
-		SIZE 16
-		COLOR 255 255 255
-#		OVERLAYSYMBOL "circle"
-#		OVERLAYCOLOR 0 0 0
-#		OVERLAYSIZE 16
-    END
-  END
+		SIZE 6
+		COLOR 128 0 0
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 2500 AND [POPULATION] <= 9999)
+		SYMBOL "circle"
+		SIZE 8
+		COLOR 0 192 128
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 10000 AND [POPULATION] <= 19999)
+		SYMBOL "circle"
+		SIZE 10
+		COLOR 100 110 194
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 20000 AND [POPULATION] <= 49999)
+		SYMBOL "circle"
+		SIZE 12
+		COLOR 84 128 255
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 50000 AND [POPULATION] <= 99999)
+		SYMBOL "circle"
+		SIZE 12
+		COLOR 84 92 12
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 100000 AND [POPULATION] <= 499999)
+		SYMBOL "circle"
+		SIZE 18
+		COLOR 128 0 128
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 500000 AND [POPULATION] <= 999999)
+		SYMBOL "circle"
+		SIZE 22
+		COLOR 12 24 48
+	END
+	CLASS
+		EXPRESSION ([POPULATION] >= 1000000)
+		SYMBOL "circle"
+		SIZE 26
+		COLOR 0 84 196
+	END
 END # Layer
 
 

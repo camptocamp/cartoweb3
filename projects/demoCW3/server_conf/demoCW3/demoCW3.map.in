@@ -13,8 +13,19 @@ MAP
 # DEBUG capabilities
 #
   CONFIG "MS_ERRORFILE" "/var/tmp/cw3_mapserver.log"
-  DEBUG 3
-  
+  DEBUG 2
+
+# WFS DEBUG
+#
+   WEB
+    IMAGEPATH "@CARTOCLIENT_GENERATED_FILE@"
+    # Required WEB object parameters:
+	# IMAGEPATH - Must be specified since this directory is used to store the temporary files downloaded from a WFS server.
+    
+    #IMAGEURL "images"
+   END 
+# END WFS DEBUG
+
   OUTPUTFORMAT
     NAME png
     DRIVER "GD/PNG"
