@@ -152,7 +152,8 @@ class ServerQuery extends ClientResponderAdapter {
             }
             
             $tableRow = new TableRow();
-// more debug            $this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
+// more debug            
+$this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
             if (!empty($idAttribute)) {
                 $tableRow->rowId = Encoder::encode($shape->values[$idAttribute],
                                                    'config');

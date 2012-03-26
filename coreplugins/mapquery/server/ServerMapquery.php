@@ -85,18 +85,18 @@ class ServerMapquery extends ServerPlugin {
      * a set of id's and an attribute name. 
      * This query string can be used for WxS layers.
      * @TODO The perfect syntax should be extracted from the GetFeatureInfo
-     * this is work in progress
+     * this is work in progress if the ogr standard doesn't work
      * @param string
      * @param string
      * @param array
      * @return array
      */
     protected function WxSQueryString($idAttribute, $idType, $selectedIds) {
-        $qs = array();
-        foreach ($selectedIds as $id ){
-            $qs[] .= '"([' . $idAttribute . ']" Like "'. $id . '")';
-        }        
-        return $qs;
+        // Return false in case of empty things
+        if (count($selectedIds) == 0) {
+            return array('false');
+        } 
+        return array('("[' . $idAttribute . ']" IN "' . implode(',', $selectedIds) . '")');
     }
     
     /**
@@ -190,14 +190,22 @@ class ServerMapquery extends ServerPlugin {
         $layersInit = $this->serverContext->getMapInfo()->layersInit;
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
 
-        // Saves extent and sets it to max extent.
-        $savedExtent = clone($msMapObj->extent); 
-        $maxExtent = $serverContext->getMaxExtent();
-        $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
-                             $maxExtent->maxx, $maxExtent->maxy);
         
-        $log->debug("queryLayerByAttributes layer: $msLayer->name " .
-                    "idAttribute: $idAttribute query: $query");
+        $savedExtent = clone($msMapObj->extent); 
+        // Saves extent and sets it to max extent.
+        // Only if not a WFS 
+        if ( $msLayer->connectiontype != MS_WFS){
+            $maxExtent = $serverContext->getMaxExtent();
+            $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
+                                 $maxExtent->maxx, $maxExtent->maxy);
+        }
+//         else{
+//             // Debug force manually the extent of the layer
+//             $msMapObj->setExtent(4.40000, 42.73333, 16.88333, 48.85000);            
+//         }       
+        $log->debug(__LINE__ . " queryLayerByAttributes layer: $msLayer->name " .
+                "Extent: " .print_r($savedExtent,1). " " .
+                "idAttribute: $idAttribute query: $query");
         // Layer has to be activated for query.
         $msLayer->set('status', MS_ON);
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);

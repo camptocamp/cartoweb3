@@ -52,8 +52,9 @@ LAYER
     "ows_typename"          "cities"
     "ows_version"           "1.0.0"
     "ows_connectiontimeout" "60"
-#	"ows_extent"			"minx miny maxx maxy" # IN layer SRS 
-    "ows_maxfeatures"       "1000"
+#	"ows_extent"			"minx miny maxx maxy" # IN layer SRS
+	"ows_extent"			"4.40000 42.73333 16.88333 48.85000" # IN layer SRS
+    "ows_maxfeatures"       "10000"
 # Debug simple filer     
 #    "ows_filter"			'<BBOX><PropertyName>Name>NAME</PropertyName><gml:Box><gml:coordinates>9.200000,45.320000 9.400000,45.620000</gml:coordinates></gml:Box></BBOX>'
 	"ows_cache_dir" "/var/tmp/"
