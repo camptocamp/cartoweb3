@@ -5,7 +5,6 @@
 /www-data
 /cw3_moulinette
 /cw3_configuration
-/cartoweb-includes-3.5.2.tar.gz
 /include
 /projects/*/*.ini
 /projects/*/*.properties
@@ -16,3 +15,5 @@
 /htdocs/gfx/icons
 /htdocs/dummy.php
 /log/*.log
+/cartoweb-demodata-*.tar.gz
+/cartoweb-includes-*.tar.gz

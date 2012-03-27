@@ -38,7 +38,10 @@ define('MINIMUM_REVISION', 41);
 define('CW3_SETUP_INCLUDED', true);
 
 // URL of required libraries (md5sum: 0521c8a180b59ee150a536352f23d356):
-define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-includes-3.5.2.tar.gz');
+// define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-includes-3.5.5.tar.gz');
+// URL of required libraries e2f49f75b1dc4cc9cf710a34b09a0adc  cartoweb-includes-3.5.5.tar.gz
+define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-includes-3.5.5.tar.gz');
+define('CW3_LIBS_MD5', 'e2f49f75b1dc4cc9cf710a34b09a0adc');
 // URL of demo data (md5sum: 781f6d3207fda3ebf4d6e51d354a4336):
 define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-demodata-3.5.0.tar.gz');
 
@@ -60,6 +63,7 @@ $CW3_DIRS_TO_CREATE = array(
                   'www-data/views',
                   'www-data/accounting',
                   'www-data/wms_cache',
+                  'www-data/wfs_cache',
                   'www-data/throttling',
                   'templates_c'
                   );
@@ -1388,6 +1392,15 @@ function getSearchReplaceContext() {
         $vars['CARTOCLIENT_BASE_URL'] = $OPTIONS['base-url'];
     }
     
+    if (!isset($vars['CARTOCLIENT_GENERATED_FILE'])) {
+    
+        if (!isset($OPTIONS['generated-file']))
+            $OPTIONS['generated-file'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'htdocs' .DIRECTORY_SEPARATOR. 'generated'.DIRECTORY_SEPARATOR.'images'; 
+        
+        $vars['CARTOCLIENT_GENERATED_FILE'] = $OPTIONS['generated-file'];
+    }
+    
+        
     if (isset($OPTIONS['profile']))
         $vars['PROFILE'] = $OPTIONS['profile'];
     if (!isset($vars['PROFILE']))
