@@ -21,7 +21,8 @@ MAP
     IMAGEPATH "@CARTOCLIENT_GENERATED_FILE@"
     # Required WEB object parameters:
 	# IMAGEPATH - Must be specified since this directory is used to store the temporary files downloaded from a WFS server.
-    
+    # By default now this is dynamically replaced by cw3setup and point to webroot/htdocs/generated/images
+    # @FIXME : is there a better way to handle this restriction
     #IMAGEURL "images"
    END 
 # END WFS DEBUG
