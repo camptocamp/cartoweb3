@@ -1,3 +1,6 @@
+#
+# To test quickly your map against mapserver 6.x
+# shp2img -m demoCW3.map -all_debug 200
 MAP
   NAME "demoPlugins"
   #EXTENT 142776 4757216 1083857 5409261
@@ -37,14 +40,12 @@ MAP
     TRANSPARENT ON
   END
  
+ # Output en 24 bit jpeg Mapserver 6.x 
   OUTPUTFORMAT
     NAME jpeg
-    DRIVER "GD/JPEG"
-    MIMETYPE "image/jpeg"
-    IMAGEMODE RGB
-    EXTENSION "jpg"
-    FORMATOPTION "INTERLACE=OFF"
-    FORMATOPTION "QUALITY=80"
+    DRIVER AGG/JPEG 
+	FORMATOPTION "INTERLACE=ON"
+	FORMATOPTION "QUALITY=98"
   END
  
   REFERENCE
@@ -65,6 +66,7 @@ MAP
     COLOR 77 77 88
     IMAGECOLOR 242 255 195
     BACKGROUNDCOLOR 222 222 222
+    INTERVALS 5
     LABEL
       TYPE BITMAP
       SIZE SMALL
@@ -493,10 +495,22 @@ MAP
         SIZE 8
         COLOR 0 0 0
         POSITION cc
-        BACKGROUNDCOLOR 245 235 235
-        BACKGROUNDSHADOWCOLOR 55 55 55
-        BACKGROUNDSHADOWSIZE 1 1
         WRAP " "
+# Removed in 6x
+#        BACKGROUNDCOLOR 245 235 235
+#        BACKGROUNDSHADOWCOLOR 55 55 55
+#        BACKGROUNDSHADOWSIZE 1 1
+		 # Add the rectangle around
+		 STYLE
+		   GEOMTRANSFORM 'labelpoly'
+		   COLOR 245 235 235
+		   OFFSET 3 2
+		 END
+		 # Add a 1pt shadow around
+		 STYLE
+			GEOMTRANSFORM 'labelpoly'
+			COLOR 55 55 55
+		 END
       END
     END
   END  
@@ -527,9 +541,20 @@ MAP
         SIZE 7
         COLOR 0 0 120
         POSITION lc
-        BACKGROUNDCOLOR 210 210 255
-        BACKGROUNDSHADOWCOLOR 55 55 55
-        BACKGROUNDSHADOWSIZE 1 1
+		 # Add the rectangle around
+		 STYLE
+		   GEOMTRANSFORM 'labelpoly'
+		   COLOR 210 210 255
+		   OFFSET 3 2
+		 END
+		 # Add a 1pt shadow around
+		 STYLE
+			GEOMTRANSFORM 'labelpoly'
+			COLOR 55 55 55
+		 END        
+#        BACKGROUNDCOLOR 210 210 255
+#        BACKGROUNDSHADOWCOLOR 55 55 55
+#        BACKGROUNDSHADOWSIZE 1 1
       END
     END
   END
@@ -567,9 +592,20 @@ MAP
         SIZE 6
         COLOR 0 0 0
         POSITION lc
-        BACKGROUNDCOLOR 245 235 235
-        BACKGROUNDSHADOWCOLOR 55 55 55
-        BACKGROUNDSHADOWSIZE 1 1
+		 # Add the rectangle around
+		 STYLE
+		   GEOMTRANSFORM 'labelpoly'
+		   COLOR 245 235 235
+		   OFFSET 3 2
+		 END
+		 # Add a 1pt shadow around
+		 STYLE
+			GEOMTRANSFORM 'labelpoly'
+			COLOR 55 55 55
+		 END        
+#        BACKGROUNDCOLOR 245 235 235
+#        BACKGROUNDSHADOWCOLOR 55 55 55
+#        BACKGROUNDSHADOWSIZE 1 1
         WRAP " "
       END
     END
