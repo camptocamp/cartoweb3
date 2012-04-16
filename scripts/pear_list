@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+pear install Auth \
+Auth_RADIUS \
+Auth_SASL \
+Benchmark \
+Console_Getopt \
+Crypt_CHAP \
+DB \
+File_Passwd \
+File_SMBPasswd \
+HTML_Crypt \
+HTTP_Client \
+HTTP_Request \
+Log \
+MDB \
+MDB2 \
+MDB2_Driver_mysql \
+MDB2_Driver_pgsql \
+MDB2_Driver_sqlite \
+Mail \
+Net_POP3 \
+Net_SMTP \
+Net_Socket \
+Net_URL \
+PEAR \
+PhpDocumentor \
+Structures_Graph \
+XML_Beautifier \
+XML_Parser \
+XML_RPC \
+XML_Util
