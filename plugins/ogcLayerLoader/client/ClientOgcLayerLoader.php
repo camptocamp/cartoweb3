@@ -139,8 +139,8 @@ class ClientOgcLayerLoader extends ClientPlugin
                     $ogcLayers = $matches[0];
                     $ogcTitles = $matches[1];
                     $ogcSrs    = empty($matches[2]) ? self::DEFAULT_SRS : $matches[2];
-                    $minScale  = $matches[3] ? $matches[3] : -1;
-                    $maxScale  = $matches[4] ? $matches[4] : -1;
+                    $minscaledenom  = $matches[3] ? $matches[3] : -1;
+                    $maxscaledenom  = $matches[4] ? $matches[4] : -1;
 
                     if (sizeof($matches) > 5) {
                         $wmsTime = $matches[5];
@@ -176,11 +176,11 @@ class ClientOgcLayerLoader extends ClientPlugin
                                                     : $request['ogcsrs'];
 
                     if (!empty($layer->ScaleHint)) {
-                        $maxScale = (int) $layer->ScaleHint['max'];
-                        $minScale = (int) $layer->ScaleHint['min'];
+                        $maxscaledenom = (int) $layer->ScaleHint['max'];
+                        $minscaledenom = (int) $layer->ScaleHint['min'];
                     } else { 
-                        $maxScale = -1;
-                        $minScale = -1;
+                        $maxscaledenom = -1;
+                        $minscaledenom = -1;
                     }
         
                     if (!empty($request['userLayerGroup'])){
@@ -226,8 +226,8 @@ class ClientOgcLayerLoader extends ClientPlugin
                                                                     : $request['format']),
                             'timeout' => (empty($request['timeout']) ? self::DEFAULT_TIMEOUT 
                                                                     : $request['timeout']),
-                            'maxscale' => $maxScale,
-                            'minscale' => $minScale,
+                            'maxscaledenom' => $maxscaledenom,
+                            'minscaledenom' => $minscaledenom,
                             'wms_time' => $wmsTime,
                             'wms_timeextent'=> $wmsTimeExtent,
                             'wms_legend_graphic'=> 'true' );
@@ -286,10 +286,10 @@ class ClientOgcLayerLoader extends ClientPlugin
                 $layerOverlay->connection = $layerParams["url"];
                 $layerOverlay->connectionType = 7; //MS_WMS;
 
-                $layerOverlay->maxScale = ($layerParams["maxscale"]==-1 ? -1 
-                                    : $this->computeScale ($layerParams["maxscale"]));
-                $layerOverlay->minScale = ($layerParams["minscale"]==-1 ? -1 
-                                    : $this->computeScale ($layerParams["minscale"]));
+                $layerOverlay->maxscaledenom = ($layerParams["maxscaledenom"]==-1 ? -1 
+                                    : $this->computeScale ($layerParams["maxscaledenom"]));
+                $layerOverlay->minscaledenom = ($layerParams["minscaledenom"]==-1 ? -1 
+                                    : $this->computeScale ($layerParams["minscaledenom"]));
 
                 $layerOverlay->name = $layerParams["layers"];
                 $layerOverlay->type = 3; //MS_LAYER_RASTER;
@@ -412,8 +412,8 @@ class ClientOgcLayerLoader extends ClientPlugin
                 $layer->metadata["sld"]=$params["sld"];
                 $layer->metadata["format"]=$params["format"];
                 $layer->metadata["timeout"]=$params["timeout"];
-                $layer->metadata["maxscale"]=$params["maxscale"];
-                $layer->metadata["minscale"]=$params["minscale"];
+                $layer->metadata["maxscaledenom"]=$params["maxscaledenom"];
+                $layer->metadata["minscaledenom"]=$params["minscaledenom"];
                 $layer->metadata["wms_time"]=$params["wms_time"];
                 $layer->metadata["wms_timeextent"]=$params["wms_timeextent"];
                 $layer->metadata["wms_legend_graphic"]=$params["wms_legend_graphic"];
@@ -421,11 +421,11 @@ class ClientOgcLayerLoader extends ClientPlugin
                                 $this->getConfig()->urlCatalog."srv/fr/metadata.show?" .
                                 "currTab=simple&id=".$params["idLayer"] : null ;
 
-                if($params["maxscale"]!=-1){
-                    $layer->maxScale = $params["maxscale"];
+                if($params["maxscaledenom"]!=-1){
+                    $layer->maxscaledenom = $params["maxscaledenom"];
                 }
-                if($params["minscale"]!=-1){
-                    $layer->minScale = $params["minscale"];
+                if($params["minscaledenom"]!=-1){
+                    $layer->minscaledenom = $params["minscaledenom"];
                 }
     
                 $userLayer = new UserLayer();

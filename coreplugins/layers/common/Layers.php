@@ -46,13 +46,13 @@ class LayerBase extends CwSerializable {
      * Minimum scale where layer is visible
      * @var int
      */
-    public $minScale = 0;
+    public $minscaledenom = 0;
     
     /**
      * Maximum scale where layer is visible
      * @var int
      */
-    public $maxScale = 0;
+    public $maxscaledenom = 0;
     
     /**
      * Icon to display for layer
@@ -124,9 +124,9 @@ class LayerBase extends CwSerializable {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
         $this->link  = self::unserializeValue($struct, 'link');
-        $this->minScale = self::unserializeValue($struct, 'minScale', 
+        $this->minscaledenom = self::unserializeValue($struct, 'minscaledenom', 
                                                  'double');
-        $this->maxScale = self::unserializeValue($struct, 'maxScale',
+        $this->maxscaledenom = self::unserializeValue($struct, 'maxscaledenom',
                                                  'double');
         $this->icon  = self::unserializeValue($struct, 'icon');
         $this->metadata = self::unserializeArray($struct, 'metadata');

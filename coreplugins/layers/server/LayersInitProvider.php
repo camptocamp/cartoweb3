@@ -306,10 +306,10 @@ class LayersInitProvider implements InitProvider {
             }
         }
 
-        if ($msLayer->minscale > 0) $layer->minScale = $msLayer->minscale;
-        else $layer->minScale = 0;
-        if ($msLayer->maxscale > 0) $layer->maxScale = $msLayer->maxscale;
-        else $layer->maxScale = 0;
+        if ($msLayer->minscaledenom > 0) $layer->minscaledenom = $msLayer->minscaledenom;
+        else $layer->minscaledenom = 0;
+        if ($msLayer->maxscaledenom > 0) $layer->maxscaledenom = $msLayer->maxscaledenom;
+        else $layer->maxscaledenom = 0;
         
         // BUG: if the layer transparency is set to 0 in the mapfile, the Layer
         // transparency is set to 100.
@@ -353,15 +353,15 @@ class LayersInitProvider implements InitProvider {
                                                             $i);
                 }
 
-                if ($msClass->minscale >= $layer->minScale)
-                    $layerClass->minScale = $msClass->minscale;
-                else $layerClass->minScale = $layer->minScale;
+                if ($msClass->minscaledenom >= $layer->minscaledenom)
+                    $layerClass->minscaledenom = $msClass->minscaledenom;
+                else $layerClass->minscaledenom = $layer->minscaledenom;
 
-                if ($msClass->maxscale > 0 && 
-                    (!$layer->maxScale ||
-                     $msClass->maxscale <= $layer->maxScale))
-                    $layerClass->maxScale = $msClass->maxscale;
-                else $layerClass->maxScale = $layer->maxScale;
+                if ($msClass->maxscaledenom > 0 && 
+                    (!$layer->maxscaledenom ||
+                     $msClass->maxscaledenom <= $layer->maxscaledenom))
+                    $layerClass->maxscaledenom = $msClass->maxscaledenom;
+                else $layerClass->maxscaledenom = $layer->maxscaledenom;
            
                 $layersInit->addChildLayerBase($layer, $layerClass);
             }

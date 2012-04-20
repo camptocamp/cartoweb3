@@ -379,8 +379,8 @@ class ServerHilight extends ServerPlugin {
                 $hilightClass = ms_newClassObj($msLayer);
                 
             $hilightClass->set('name', 'dynamic_class');
-            $hilightClass->set('minscale', $msLayer->minscale);
-            $hilightClass->set('maxscale', $msLayer->maxscale);
+            $hilightClass->set('minscaledenom', $msLayer->minscaledenom);
+            $hilightClass->set('maxscaledenom', $msLayer->maxscaledenom);
 
             // move the new class to the top
             for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {

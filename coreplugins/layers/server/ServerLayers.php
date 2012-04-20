@@ -242,7 +242,7 @@ class ServerLayers extends ClientResponderAdapter
                                     $styleRatio);
         }
         
-        $this->updateProperties($class, array('minscale', 'maxscale'),
+        $this->updateProperties($class, array('minscaledenom', 'maxscaledenom'),
                                 $invResRatio);
         
         $label = $class->label;
@@ -266,7 +266,7 @@ class ServerLayers extends ClientResponderAdapter
             $this->updateProperties($layer, array('tolerance'), $resRatio);
         }
 
-        $this->updateProperties($layer, array('symbolscale', 'minscale', 'maxscale'),
+        $this->updateProperties($layer, array('symbolscaledenom', 'minscaledenom', 'maxscaledenom'),
                                 $invResRatio);
         
         for ($j = 0; $j < $layer->numclasses; $j++) {
