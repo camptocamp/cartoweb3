@@ -30,8 +30,18 @@ MAP
    END 
 # END WFS DEBUG
 
+# new agg by default
   OUTPUTFORMAT
     NAME png
+    DRIVER "AGG/PNG"
+    MIMETYPE "image/png"
+    EXTENSION "png"
+    TRANSPARENT ON
+    IMAGEMODE RGBA
+  END
+  
+  OUTPUTFORMAT
+    NAME GDpng
     DRIVER "GD/PNG"
     MIMETYPE "image/png"
     IMAGEMODE PC256
@@ -43,7 +53,7 @@ MAP
  # Output en 24 bit jpeg Mapserver 6.x 
   OUTPUTFORMAT
     NAME jpeg
-    DRIVER AGG/JPEG 
+    DRIVER "AGG/JPEG" 
 	FORMATOPTION "INTERLACE=ON"
 	FORMATOPTION "QUALITY=98"
   END
@@ -500,16 +510,17 @@ MAP
 #        BACKGROUNDCOLOR 245 235 235
 #        BACKGROUNDSHADOWCOLOR 55 55 55
 #        BACKGROUNDSHADOWSIZE 1 1
-		 # Add the rectangle around
+		 # shadow
 		 STYLE
 		   GEOMTRANSFORM 'labelpoly'
-		   COLOR 245 235 235
-		   OFFSET 3 2
+		   COLOR 55 55 55
+		   OFFSET 1 1
 		 END
-		 # Add a 1pt shadow around
+		 # bbox
 		 STYLE
 			GEOMTRANSFORM 'labelpoly'
-			COLOR 55 55 55
+			COLOR 245 235 235
+			OUTLINECOLOR 0 0 0
 		 END
       END
     END
@@ -541,20 +552,18 @@ MAP
         SIZE 7
         COLOR 0 0 120
         POSITION lc
-		 # Add the rectangle around
+		 # shadow
 		 STYLE
 		   GEOMTRANSFORM 'labelpoly'
-		   COLOR 210 210 255
-		   OFFSET 3 2
+		   COLOR 55 55 55
+		   OFFSET 1 1
 		 END
-		 # Add a 1pt shadow around
+		 # bbox
 		 STYLE
 			GEOMTRANSFORM 'labelpoly'
-			COLOR 55 55 55
-		 END        
-#        BACKGROUNDCOLOR 210 210 255
-#        BACKGROUNDSHADOWCOLOR 55 55 55
-#        BACKGROUNDSHADOWSIZE 1 1
+			COLOR 245 235 235
+			OUTLINECOLOR 0 0 0
+		 END
       END
     END
   END
@@ -592,21 +601,19 @@ MAP
         SIZE 6
         COLOR 0 0 0
         POSITION lc
-		 # Add the rectangle around
+        WRAP " "
+		 # shadow
 		 STYLE
 		   GEOMTRANSFORM 'labelpoly'
-		   COLOR 245 235 235
-		   OFFSET 3 2
+		   COLOR 55 55 55
+		   OFFSET 1 1
 		 END
-		 # Add a 1pt shadow around
+		 # bbox
 		 STYLE
 			GEOMTRANSFORM 'labelpoly'
-			COLOR 55 55 55
-		 END        
-#        BACKGROUNDCOLOR 245 235 235
-#        BACKGROUNDSHADOWCOLOR 55 55 55
-#        BACKGROUNDSHADOWSIZE 1 1
-        WRAP " "
+			COLOR 245 235 235
+			OUTLINECOLOR 0 0 0
+		 END
       END
     END
   END
@@ -696,7 +703,9 @@ MAP
       END
     END
   END
+  
   # External services outsourced in included files
   INCLUDE "./wms.map"
   INCLUDE "./wfs.map"
+  
 END
