@@ -942,7 +942,7 @@ class ServerLocation extends ClientResponderAdapter
         }
         $transp = $this->getConfig()->refMarksTransparency;
         if (!is_null($transp)) {
-            $style->transparency = $transp;
+            $style->opacity = $transp;
         }
 
         $extentwidth = ($msMapObj->extent->maxx - $msMapObj->extent->minx) / 2;
