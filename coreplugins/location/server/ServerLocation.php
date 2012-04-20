@@ -317,7 +317,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         $oldBbox = $this->requ->bbox;
         $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny,
                              $oldBbox->maxx, $oldBbox->maxy);
-        $oldScale = $msMapObj->scale;
+        $oldScale = $msMapObj->scaledenom;
         return $oldScale;
     }
 
@@ -670,7 +670,7 @@ class ServerLocation extends ClientResponderAdapter
 
         $msMapObj->setExtent($bbox->minx, $bbox->miny,
                              $bbox->maxx, $bbox->maxy);
-        $scale = $msMapObj->scale;
+        $scale = $msMapObj->scaledenom;
         return $scale;
     }
 
@@ -837,7 +837,7 @@ class ServerLocation extends ClientResponderAdapter
         $locationResult->bbox = new Bbox();
         $locationResult->bbox->setFromMsExtent($msMapObj->extent);
 
-        $locationResult->scale = round($msMapObj->scale, 4);
+        $locationResult->scale = round($msMapObj->scaledenom, 4);
 
         $this->account('server_version', 0);
         $bboxStr = $locationResult->bbox->toRemoteString(',');
@@ -912,7 +912,7 @@ class ServerLocation extends ClientResponderAdapter
         $interval = NULL;
         foreach ($intervals as $int) {
             $interval = $int->interval;
-            if ($int->maxscaledenom >= $msMapObj->scale * $ratio) {
+            if ($int->maxscaledenom >= $msMapObj->scaledenom * $ratio) {
                 break;
             }
         }
@@ -957,7 +957,7 @@ class ServerLocation extends ClientResponderAdapter
 
         // Crosses
         $crossSize = $this->getConfig()->refMarksSize / 2;
-        $crossSize = $crossSize * $msMapObj->scale / $msMapObj->resolution * 0.0254;
+        $crossSize = $crossSize * $msMapObj->scaledenom / $msMapObj->resolution * 0.0254;
         if (!is_null($ratio)) {
             $crossSize *= $ratio;
         }
@@ -989,7 +989,7 @@ class ServerLocation extends ClientResponderAdapter
         }
 
         $lineSize = $this->getConfig()->refLinesSize;
-        $lineSize = $lineSize * $msMapObj->scale /
+        $lineSize = $lineSize * $msMapObj->scaledenom /
                     $msMapObj->resolution * 0.0254;
         if (!is_null($ratio)) {
             $lineSize *= $ratio;

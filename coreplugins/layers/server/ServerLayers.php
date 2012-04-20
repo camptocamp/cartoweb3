@@ -290,7 +290,7 @@ class ServerLayers extends ClientResponderAdapter
             $msLayer->set('status', MS_OFF);
         }
 
-        $currentScale = isset($msMapObj->scale) ? $msMapObj->scale : 0;
+        $currentScale = isset($msMapObj->scaledenom) ? $msMapObj->scaledenom : 0;
         
         // manage user layers
         $layersResult = new LayersResult();

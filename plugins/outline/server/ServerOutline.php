@@ -377,7 +377,7 @@ class ServerOutline extends ClientResponderAdapter
             $currentLayer = $msMapObj->getLayerByName($targetlayer);
             
             // Gets layer transparency
-            $currentShapeStyle->transparency = $currentLayer->transparency;
+            $currentShapeStyle->transparency = $currentLayer->opacity;
             // Gets first class
             $currentClass = $currentLayer->getClass(0);
             $currentStyle = $currentClass->getStyle(0);
@@ -481,7 +481,7 @@ class ServerOutline extends ClientResponderAdapter
 
                     $newIcon = $newClass->createLegendIcon($symbolSize,$symbolSize);
                     $check = $newIcon->saveImage($iconPath);
-                    $newIcon->free(); // Frees resources
+                    $newClass->free(); // Frees resources
                       
                     if ($this->getConfig()->symbolPickerHilight == 'inversed') {
                         Utils::invertImage($iconPath, $invertedIconPath, 
