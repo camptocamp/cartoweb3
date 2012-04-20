@@ -311,16 +311,12 @@ class LayersInitProvider implements InitProvider {
         if ($msLayer->maxscaledenom > 0) $layer->maxscaledenom = $msLayer->maxscaledenom;
         else $layer->maxscaledenom = 0;
         
-/**
- *@FIXME isn't it fixed in Mapserver 6x 
-        // BUG: if the layer transparency is set to 0 in the mapfile, the Layer
-        // transparency is set to 100.
         if (!empty($msLayer->opacity)) {
             $layer->opacity = $msLayer->opacity;
         } else {
             $layer->opacity = 100;
         }
-*/        
+        
         if($msLayer->connectiontype == MS_WMS &&
             $msLayer->getMetadata('wms_legend_graphic'))
             $layer->icon = $this->getWmsIcon($layer->id, $msMapObj, $msLayer);

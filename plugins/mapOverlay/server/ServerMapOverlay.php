@@ -787,10 +787,10 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->minscaledenom = $overlay->minscaledenom;
                 $msLayer->set('minscaledenom', $result->minscaledenom);
             }
-            if (!is_null($overlay->transparency) &&
-                $msLayer->transparency != $overlay->transparency) {
-                $result->transparency = $overlay->transparency;
-                $msLayer->set('transparency', $result->transparency);
+            if (!is_null($overlay->opacity) &&
+                $msLayer->opacity != $overlay->opacity) {
+                $result->opacity = $overlay->opacity;
+                $msLayer->set('opacity', $result->opacity);
             }
             if (!is_null($overlay->type) &&
                 $msLayer->type != $overlay->type) {
@@ -823,8 +823,8 @@ class ServerMapOverlay extends ServerPlugin {
                          $msSearchLayer->maxscaledenom == $overlay->maxscaledenom) &&
                         (is_null($overlay->minscaledenom) ||
                          $msSearchLayer->minscaledenom == $overlay->minscaledenom) &&
-                        (is_null($overlay->transparency) ||
-                         $msSearchLayer->transparency == $overlay->transparency) &&
+                        (is_null($overlay->opacity) ||
+                         $msSearchLayer->opacity == $overlay->opacity) &&
                         (is_null($overlay->type) ||
                          $msSearchLayer->type == $overlay->type)) {
                          $result->name = $msSearchLayer->name;
@@ -884,10 +884,10 @@ class ServerMapOverlay extends ServerPlugin {
                     $result->minscaledenom = $overlay->minscaledenom;
                     $msLayer->set('minscaledenom', $result->minscaledenom);
                 }
-                if (!is_null($overlay->transparency) &&
-                    $msLayer->transparency != $overlay->transparency) {
-                    $result->transparency = $overlay->transparency;
-                    $msLayer->set('transparency', $result->transparency);
+                if (!is_null($overlay->opacity) &&
+                    $msLayer->opacity != $overlay->opacity) {
+                    $result->opacity = $overlay->opacity;
+                    $msLayer->set('opacity', $result->opacity);
                 }
                 if (!is_null($overlay->type) &&
                     $msLayer->type != $overlay->type) {
@@ -934,9 +934,9 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->name = $overlay->name;
                 $msLayer->set('name', $result->name);
             }
-            if (!is_null($overlay->transparency)) {
-                $result->transparency = $overlay->transparency;
-                $msLayer->set('transparency', $result->transparency);
+            if (!is_null($overlay->opacity)) {
+                $result->opacity = $overlay->opacity;
+                $msLayer->set('opacity', $result->opacity);
             }
             if (!is_null($overlay->type)) {
                 $result->type = $overlay->type;

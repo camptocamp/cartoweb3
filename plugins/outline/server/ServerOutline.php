@@ -121,7 +121,7 @@ class ServerOutline extends ClientResponderAdapter
         $layer->name = $layerName;
         $layer->action = BasicOverlay::ACTION_SEARCH;
         if (!is_null($shape->shapeStyle)) {
-            $layer->transparency = $shape->shapeStyle->transparency;            
+            $layer->opacity = $shape->shapeStyle->opacity;            
         }
         $layer->classes = array($this->getMsClass($shape->shapeStyle, 
                                                   $shape->labelStyle));
@@ -195,7 +195,7 @@ class ServerOutline extends ClientResponderAdapter
      * If not in mask mode, simply draws Polygon.
      *
      * If in mask mode, uses MapScript pasteImage function to simulate a mask.
-     * This function doesn't include transparency handling. Mask color is set
+     * This function doesn't include opacity handling. Mask color is set
      * in configuration file, key maskColor.
      * @param MsMapObj Mapserver Map object
      * @param StyledShape polygon
@@ -376,8 +376,8 @@ class ServerOutline extends ClientResponderAdapter
 
             $currentLayer = $msMapObj->getLayerByName($targetlayer);
             
-            // Gets layer transparency
-            $currentShapeStyle->transparency = $currentLayer->opacity;
+            // Gets layer opacity
+            $currentShapeStyle->opacity = $currentLayer->opacity;
             // Gets first class
             $currentClass = $currentLayer->getClass(0);
             $currentStyle = $currentClass->getStyle(0);

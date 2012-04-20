@@ -31,15 +31,29 @@ MAP
 # END WFS DEBUG
 
 # new agg by default
+# have a look at http://mapserver.org/mapfile/outputformat.html
   OUTPUTFORMAT
     NAME png
     DRIVER "AGG/PNG"
     MIMETYPE "image/png"
     EXTENSION "png"
-    TRANSPARENT ON
-    IMAGEMODE RGBA
+    IMAGEMODE RGB
+    FORMATOPTION "COMPRESSION=9"
+    FORMATOPTION "GAMMA=1.0"
   END
   
+  #example of output with alpha channel
+  OUTPUTFORMAT
+    NAME pnga
+    DRIVER "AGG/PNG"
+    MIMETYPE "image/png"
+    EXTENSION "png"
+    IMAGEMODE RGBA
+    TRANSPARENT ON
+    FORMATOPTION "COMPRESSION=9"
+    FORMATOPTION "GAMMA=1.0"
+  END
+
   OUTPUTFORMAT
     NAME GDpng
     DRIVER "GD/PNG"
@@ -72,9 +86,12 @@ MAP
     STYLE 0
     UNITS kilometers
     SIZE 350 3
-    TRANSPARENT TRUE
-    COLOR 77 77 88
-    IMAGECOLOR 242 255 195
+#Fully deprecated    TRANSPARENT TRUE
+    COLOR 77 77 88    
+# Color to initialize the scalebar with (i.e. background).
+# Use the background of your tpl.
+    IMAGECOLOR 255 255 255
+# Color to use for scalebar background, not the image background.     
     BACKGROUNDCOLOR 222 222 222
     INTERVALS 5
     LABEL
@@ -164,7 +181,7 @@ MAP
     NAME "iceland"
     TYPE POLYGON
     DATA "landicea"
-    TRANSPARENCY 50
+    OPACITY 50
     TEMPLATE "ttt"
     METADATA
         "id_attribute_string" "OGC_FID|string"
@@ -183,7 +200,7 @@ MAP
     NAME "iceland_hilight"
     TYPE POLYGON
     DATA "landicea"
-    TRANSPARENCY 50
+    OPACITY 50
     CLASS
       STYLE
         COLOR 255 0 104
@@ -195,7 +212,7 @@ MAP
     NAME "sea"
     TYPE POLYGON
     DATA "oceansea"
-    TRANSPARENCY 70
+    OPACITY 30
     CLASS
       STYLE
         COLOR 180 180 240
@@ -208,7 +225,7 @@ MAP
     NAME "lake"
     TYPE POLYGON
     DATA "inwatera"
-    TRANSPARENCY 70
+    OPACITY 30
     METADATA
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "AREA" 
@@ -244,6 +261,7 @@ MAP
         COLOR 0 0 180
       END
     END
+    OPACITY 0
   END
 
   LAYER
@@ -456,7 +474,7 @@ MAP
     NAME "mountain_hilight"
     TYPE POINT
     DATA "elevp"
-    TRANSPARENCY 50
+    OPACITY 50
     CLASS
       NAME "> 3500m"
       EXPRESSION ([ZV2]>3500)
@@ -624,7 +642,7 @@ MAP
   LAYER
     NAME "graph"
     TYPE LINE
-    TRANSPARENCY 80
+    OPACITY 80
     CONNECTIONTYPE postgis
         CONNECTION "user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@ dbname=@DB_NAME@"
         DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique gid using srid=-1"
@@ -665,7 +683,7 @@ MAP
   LAYER
     NAME "cartoweb_line_outline"
     TYPE LINE
-    TRANSPARENCY 100
+    OPACITY 100
     CLASS
       STYLE
         OUTLINECOLOR 255 0 0
@@ -687,7 +705,7 @@ MAP
   LAYER
     NAME "cartoweb_polygon_outline"
     TYPE POLYGON
-    TRANSPARENCY 60
+    OPACITY 60
     CLASS
       STYLE
         COLOR 255 153 0

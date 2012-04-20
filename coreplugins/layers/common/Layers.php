@@ -313,7 +313,7 @@ class Layer extends LayerContainer {
     /**
      * @var string
      */
-    public $transparency;
+    public $opacity;
     
     /**
      * @see CwSerializable::unserialize()
@@ -321,7 +321,7 @@ class Layer extends LayerContainer {
     public function unserialize($struct) {
         parent::unserialize($struct);
         $this->msLayer      = self::unserializeValue($struct, 'msLayer');
-        $this->transparency = self::unserializeValue($struct, 'transparency');
+        $this->opacity = self::unserializeValue($struct, 'opacity');
     }
 }
 

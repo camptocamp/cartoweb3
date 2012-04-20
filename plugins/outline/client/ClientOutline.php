@@ -279,7 +279,7 @@ class ClientOutline extends ClientPlugin
             $this->getHttpValue($request, 'outline_point_size');
         $this->outlineState->pointStyle->color->setFromHex(
             $this->getHttpValue($request, 'outline_point_color'));
-        $this->outlineState->pointStyle->transparency = 
+        $this->outlineState->pointStyle->opacity = 
             $this->getHttpValue($request, 'outline_point_transparency');
 
         $this->outlineState->lineStyle->symbol = 
@@ -288,7 +288,7 @@ class ClientOutline extends ClientPlugin
             $this->getHttpValue($request, 'outline_line_size');
         $this->outlineState->lineStyle->outlineColor->setFromHex(
             $this->getHttpValue($request, 'outline_line_color'));
-        $this->outlineState->lineStyle->transparency = 
+        $this->outlineState->lineStyle->opacity = 
             $this->getHttpValue($request, 'outline_line_transparency');
 
         $this->outlineState->polygonStyle->outlineColor->setFromHex(
@@ -296,7 +296,7 @@ class ClientOutline extends ClientPlugin
         $this->outlineState->polygonStyle->color->setFromHex(
             $this->getHttpValue($request, 'outline_polygon_background_color'));
 
-        $this->outlineState->polygonStyle->transparency = 
+        $this->outlineState->polygonStyle->opacity = 
             $this->getHttpValue($request, 'outline_polygon_transparency');
 
         $shape = $this->cartoclient->getHttpRequestHandler()->handleTools($this);
@@ -445,7 +445,7 @@ class ClientOutline extends ClientPlugin
             'outline_point_color_selected'  => 
                 $this->outlineState->pointStyle->color->getHex(),
             'outline_point_transparency_selected' => 
-                $this->outlineState->pointStyle->transparency,  
+                $this->outlineState->pointStyle->opacity,  
             
             'outline_line_symbol_selected'       => 
                 $this->outlineState->lineStyle->symbol,
@@ -454,14 +454,14 @@ class ClientOutline extends ClientPlugin
             'outline_line_color_selected'        => 
                 $this->outlineState->lineStyle->outlineColor->getHex(),
             'outline_line_transparency_selected' => 
-                $this->outlineState->lineStyle->transparency,
+                $this->outlineState->lineStyle->opacity,
             
             'outline_polygon_outline_color_selected'    => 
                 $this->outlineState->polygonStyle->outlineColor->getHex(),
             'outline_polygon_background_color_selected' => 
                 $this->outlineState->polygonStyle->color->getHex(),
             'outline_polygon_transparency_selected'     => 
-                $this->outlineState->polygonStyle->transparency,
+                $this->outlineState->polygonStyle->opacity,
 
             'outline_circle_radius' => $this->outlineState->radius,
             
@@ -597,9 +597,9 @@ class ClientOutline extends ClientPlugin
                     $outlineStyle->shapeStyle->symbol;
             }
         
-            if (strval($this->outlineState->$objectType->transparency) == ''){
-                $this->outlineState->$objectType->transparency = 
-                    $outlineStyle->shapeStyle->transparency;
+            if (strval($this->outlineState->$objectType->opacity) == ''){
+                $this->outlineState->$objectType->opacity = 
+                    $outlineStyle->shapeStyle->opacity;
             }
         
             foreach ($colorList as $color) {

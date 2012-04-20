@@ -180,9 +180,9 @@ class ServerHilight extends ServerPlugin {
     /**
      * Copies a layer and sets some attributes
      * @param MsLayer layer to be copied
-     * @param string transparency if not specified in source layer
+     * @param string opacity if not specified in source layer
      * @param string color if not specified in source layer
-     * @param string meta data name for transparency
+     * @param string meta data name for opacity
      * @param string meta data name for color
      * @return MsLayer new layer
      */
@@ -191,9 +191,9 @@ class ServerHilight extends ServerPlugin {
 
         $msMapObj = $this->serverContext->getMapObj();
 
-        $transparency = $defaultTrans;
+        $opacity = $defaultTrans;
         if ($msLayer->getMetaData($metaTrans))
-            $transparency = $msLayer->getMetaData($metaTrans);
+            $opacity = $msLayer->getMetaData($metaTrans);
         
         $color = $defaultColor;
 
@@ -202,7 +202,7 @@ class ServerHilight extends ServerPlugin {
 
         $msNewLayer = ms_newLayerObj($msMapObj, $msLayer);
 
-        $msNewLayer->set('transparency', $transparency);
+        $msNewLayer->set('opacity', $opacity);
 
         $class = $msNewLayer->getClass(0);
 
