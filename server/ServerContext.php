@@ -309,9 +309,9 @@ class ServerContext extends Cartocommon {
             return;
 
         if (is_null($this->maxExtent))
-            $this->maxExtent = clone($this->msMapObj->extent);
-
-        $this->imageType = $this->msMapObj->imagetype;
+            $this->maxExtent = &$this->msMapObj->extent;            
+        
+        $this->imageType = $this->msMapObj->outputformat->getOption('imagemode');
     }
 
     /**
