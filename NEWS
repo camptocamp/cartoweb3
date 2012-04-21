@@ -4,8 +4,9 @@ CartoWeb HEAD
 2012-04-15: CartoWeb 3.6.0
 ==========================
 
-- Support of Mapserver/Mapscript >= 6.0.2 & PhP >= 5.3.10 !!! Compatibility BREAKING
-  !!! Projects developped with cw3.6 are not backward compatible with cw3.5 !!! 
+- Support of Mapserver/Mapscript >= 6.0.2 & PhP >= 5.3.10 !!! Compatibility BREAK !!!
+  !!! Projects developped with cw3.6 are not backward compatible with cw3.5 !!!
+  cw3setup.php will check basically if you have supported version or more recent 
 - Transparency/opacity : Take care to cleanup your map of the deprecaded TRANSPARENCY keywords for LAYERS & Scalebar
 	To migrate your old transparency effect use the inverse for opacity : transparency 30 = opacity 70
 	Scalebar : have a look at comment in demoCW3.map.in to catch the details.
