@@ -432,7 +432,7 @@ $this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
             
             foreach ($layerNames as $layerName) {
             
-                $querySelection = clone($defaultQuerySelection);
+                $querySelection = clone $defaultQuerySelection;
                 $querySelection->layerId = $layerName;
                 foreach ($querySelections as $requQuerySelection) {
                     if ($requQuerySelection->layerId == $layerName) {

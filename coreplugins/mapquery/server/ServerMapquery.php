@@ -162,10 +162,9 @@ class ServerMapquery extends ServerPlugin {
         }
         
         for ($i = 0; $i < $numResults; $i++) {
-            $result = $msLayer->getResult($i);
-// Fully deprecated in Mapserver 5.0            $shape = $msLayer->getShape($result->tileindex, $result->shapeindex);
-            $shape = $msLayer->resultsGetShape($result->shapeindex, $result->tileindex);
-            $results[] = $shape;
+            // Full new way for mapserver 6.0            
+            $results[$i] = $msLayer->getShape($msLayer->getResult($i));
+            $this->log->debug("ExtractResults results[$i]: " . print_r($results[$i]->values,1));
         }
         $msLayer->close();
         return $results;        
@@ -191,7 +190,7 @@ class ServerMapquery extends ServerPlugin {
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
 
         
-        $savedExtent = clone($msMapObj->extent); 
+        $savedExtent = $msMapObj->extent; 
         // Saves extent and sets it to max extent.
         // Only if not a WFS 
         if ( $msLayer->connectiontype != MS_WFS){
@@ -331,7 +330,7 @@ if ($msLayer->connectiontype == "WFS"){
             $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, -1);
             
             $this->log->debug("Query on layer $layerId: " .
-                              "queryByPoint(msPoint, MS_MULTIPLE, -1)");
+                              "queryByPoint(msPoint, MS_MULTIPLE, -1) - ret=" . $ret . ' / NumResults='.$msLayer->getNumResults());
         } elseif ($shape instanceof Bbox || $shape instanceOf Rectangle) {
             $msRect = ms_newRectObj();
             $msRect->setextent($shape->minx, $shape->miny, 
@@ -369,7 +368,7 @@ if ($msLayer->connectiontype == "WFS"){
                                         'type selection', get_class($shape)));
         }
         
-        $this->serverContext->resetMsErrors();
+       $this->serverContext->resetMsErrors();
         
         if ($ret != MS_SUCCESS || $msLayer->getNumResults() == 0) 
             return array();

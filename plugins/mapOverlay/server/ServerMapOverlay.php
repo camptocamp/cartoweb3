@@ -564,7 +564,7 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->index = $this->getClassIndex($msLayer, $result->name);
 
                 // Setting new properties
-                if ($msClass->getExpression() != $overlay->expression) {
+                if ($msClass->getExpressionString() != $overlay->expression) {
 
                     $result->expression = $overlay->expression;
                     $msClass->setExpression($result->expression);

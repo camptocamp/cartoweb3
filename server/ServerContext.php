@@ -355,8 +355,8 @@ class ServerContext extends Cartocommon {
             $this->checkMsErrors();
 
             if (!$this->msMapObj) { // could this happen?
-                throw new CartoserverException("cannot open mapfile $mapId " .
-                                               "for map $mapId");
+                throw new CartoserverException("cannot open mapfile $this->mapId " .
+                                               "for map $this->mapId");
             }
 
             $this->updateStateFromMapObj();

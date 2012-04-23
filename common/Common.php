@@ -250,11 +250,11 @@ class Common {
         $errfile = Utils::pathToUnix($errfile);
 
         // ignore mapserver errors
-        if (strpos($errstr, '[MapServer Error]') === 0 ||
-            strpos($errstr, 'getLayerByName') === 0 ||
+        if (strpos($errstr, '[MapServer Error]') !== false ||
+            strpos($errstr, 'getLayerByName') !== false ||
             // mapfile open error are not fatal, so that we stop on 
             //  the more descriptive mapserver message
-            strpos($errstr, 'Failed to open map file') === 0)
+            strpos($errstr, 'Failed to open map file') === false)
             return true;
         // ignore log4php notices
         if (strpos($errfile, 'include/log4php/' ) !== false && 

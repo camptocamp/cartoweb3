@@ -228,7 +228,7 @@ class ClientLocation extends ClientPlugin
                                           $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center);
+        $point = clone $center;
 
         $recenterX = $this->getHttpValue($request, 'recenter_x');
         $recenterY = $this->getHttpValue($request, 'recenter_y');
@@ -351,7 +351,7 @@ class ClientLocation extends ClientPlugin
     protected function handleIdRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center);
+        $point = clone $center;
 
         $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
         $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');
