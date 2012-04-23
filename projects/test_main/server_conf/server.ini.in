@@ -1,6 +1,6 @@
 ;@BLURB@
-profile = @PROFILE@
+profile = "@PROFILE@"
 
 ; accounting
 accountingOn = true
-accountingStorage = file
+accountingStorage = "file"

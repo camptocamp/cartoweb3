@@ -70,7 +70,7 @@ MAP
     TYPE POLYGON
     CONNECTIONTYPE POSTGIS
     CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
-    DATA 'the_geom from (select the_geom, oid, parc_id, name, culture, surf, parc_type  from edit_poly) as foo'
+    DATA 'the_geom from (select the_geom, oid, parc_id, name, culture, surf, parc_type  from edit_poly) as foo using unique parc_id'
     TEMPLATE 'ttt'
     TRANSPARENCY 50
     LABELITEM "name"
@@ -95,7 +95,7 @@ MAP
     METADATA
       'id_attribute_string' 'parc_id' # query
       'query_returned_attributes' 'parc_id name culture surf parc_type'
-      'edit_table' 'edit_poly' # PostGIS table
+      'edit_table' 'public.edit_poly' # PostGIS schema (mandatory) + table
       'edit_geometry_column' 'the_geom' # PostGIS geometry column
       'edit_geometry_type' 'polygon' # PostGIS geometry type
       'edit_srid' '-1'
@@ -110,7 +110,7 @@ MAP
     TYPE LINE
     CONNECTIONTYPE POSTGIS
     CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
-    DATA 'the_geom from (select the_geom, oid, id, name, length from edit_line) as foo'
+    DATA 'the_geom from (select the_geom, oid, id, name, length from edit_line) as foo using unique id'
     TEMPLATE 'ttt'
     MAXSCALE 2000000
     LABELITEM "name"
@@ -137,7 +137,7 @@ MAP
     METADATA
       'id_attribute_string' 'id' # query
       'query_returned_attributes' 'name'
-      'edit_table' 'edit_line' # PostGIS table
+      'edit_table' 'public.edit_line' # PostGIS schema (mandatory) + table 
       'edit_geometry_column' 'the_geom' # PostGIS geometry column
       'edit_geometry_type' 'line'
       'edit_srid' '-1'
@@ -152,7 +152,7 @@ MAP
     TYPE POINT
     CONNECTIONTYPE POSTGIS
     CONNECTION 'dbname=@DB_EDIT_NAME@ user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@'
-    DATA 'the_geom from (select the_geom, oid, id, name, surname, place, age from edit_point) as foo'
+    DATA 'the_geom from (select the_geom, oid, id, name, surname, place, age from edit_point) as foo using unique id'
     TEMPLATE 'ttt'
     MAXSCALE 2000000
     CLASS
@@ -176,7 +176,7 @@ MAP
     METADATA
       'id_attribute_string' 'id' # query
       'query_returned_attributes' 'name surname'
-      'edit_table' 'edit_point' # PostGIS table
+      'edit_table' 'public.edit_point' # PostGIS schema (mandatory) + table
       'edit_geometry_column' 'the_geom' # PostGIS geometry column
       'edit_geometry_type' 'point' # geometry type, may differ from layer type in mapfile
       'edit_srid' '-1'
