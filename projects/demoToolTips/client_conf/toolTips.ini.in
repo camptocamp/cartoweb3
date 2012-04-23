@@ -26,25 +26,25 @@
 
 ; tooltips.country.label = "Contries"
 ; tooltips.country.dsn = "psql://www-data:www-data@hostname:5432/dbname"
-; tooltips.country.dbTableName = country
+; tooltips.country.dbTableName = "country"
 ; tooltips.country.attributes = "name, area"
 ; tooltips.country.template = "layerResult_country.tpl"
 
 ;---------------------------
 
 tooltips.town.label = "Towns"
-tooltips.town.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
-tooltips.town.dbTableName = town
+tooltips.town.dsn = "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@"
+tooltips.town.dbTableName = "town"
 tooltips.town.attributes = "txt"
 
 tooltips.radio_pt.label = "Radio"
-tooltips.radio_pt.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
-tooltips.radio_pt.dbTableName = radio
+tooltips.radio_pt.dsn = "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@"
+tooltips.radio_pt.dbTableName = "radio"
 tooltips.radio_pt.attributes = "id, name, power"
-tooltips.radio_pt.template = layerResult_radioLayer.tpl
+tooltips.radio_pt.template = "layerResult_radioLayer.tpl"
 
 tooltips.gsm_pt.label = "GSM"
-tooltips.gsm_pt.dsn = pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@
-tooltips.gsm_pt.dbTableName = gsm
+tooltips.gsm_pt.dsn = "pgsql://@DB_USER@:@DB_PASSWD@@@DB_HOST@:@DB_PORT@/@DB_NAME@"
+tooltips.gsm_pt.dbTableName = "gsm"
 tooltips.gsm_pt.attributes = "name, power"
-tooltips.gsm_pt.template = layerResult_gsmLayer.tpl
+tooltips.gsm_pt.template = "layerResult_gsmLayer.tpl"

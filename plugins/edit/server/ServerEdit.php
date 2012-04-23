@@ -587,6 +587,8 @@ class ServerEdit extends ClientResponderAdapter {
             $this->editSchema = $editTableArray[0];
             $this->editTable = $editTableArray[1];
         } else {
+            //@FIXME this is wrong in case the database set a different search_path
+            // So the .map is actually setup with schema.table to reflect this bug
             $this->editSchema = 'public';
             $this->editTable = $this->editTable;
         }

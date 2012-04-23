@@ -1,6 +1,28 @@
 CartoWeb HEAD
 =============
 
+2012-04-01: CartoWeb 3.5.5
+==========================
+
+- Fix compatibility with now PhP 5.3.x and mapserver 5.6x (old versions aren't supported)
+- PhP 5.3 impose a massive rework of all .ini files used the format is key = "value" except for boolean true/false
+	you could use the ./scripts/patch_php53_ini.sh script to help you to adjust all values
+- include : need to be refresh with the new libs.tar.gz (cw3setup.php will take care of that with version 3.5.5)
+- include : all pear packages have been removed from include, manage them system wide, or locally check the list in ./scripts/pear_list
+	@todo : Log4php : now version 2.2.1 http://logging.apache.org/log4php/download.html
+	our 0.9x
+	Installation could be done as a pear package too
+	pear channel-discover pear.apache.org/log4php
+	pear install log4php/Apache_log4php
+- Projects : 
+	* demoCW3 is fully functionnal, and has wfs client layers (queryable)
+	* demoEdit, test_main has been fixed
+	* demoTools has its .ini fixed for php5.3
+	* Others are in the old state and need to be checked/fixed 
+
+2009-09-09: CartoWeb 3.5.2
+==========================
+
 - Added select/unselect options in Search plugin to add/remove features to/from Query plugin selection
 - Fixed multithreads conflicts in throttling plugin.
 - Added a config parameter to print layergroups in PDF legends
