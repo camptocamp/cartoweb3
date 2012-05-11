@@ -227,14 +227,15 @@ class ServerOutline extends ClientResponderAdapter
             }
             list($red, $green, $blue) = explode(' ', $color);
             $maskStyle->color->setRGB($red, $green, $blue);
-
-            $rectangle->draw($msMapObj, $maskLayer, $image2, 0, "");
+ 
+            $rectangle->draw($msMapObj, $maskLayer, $image2, 0, "");            
             
             $maskStyle->color->setRGB(255, 0, 0);
             $maskStyle->outlinecolor->setRGB(255, 0, 0);
 
             $p = $this->toShapeObj($polygon->shape);
-            $p->draw($msMapObj, $maskLayer, $image2, 0, "");
+            // Only 3 parameters in 6x
+            $p->draw($msMapObj, $maskLayer, $image2);
 
             // No labels, no styles in mask mode
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
@@ -271,7 +272,7 @@ class ServerOutline extends ClientResponderAdapter
         
         if ($maskMode) {
             $this->drawMap($msMapObj);
-            $msMapObj->labelcache->free();
+            // Removed from 6.x version $msMapObj->labelcache->free();
         }
         
         $area = 0.0;
