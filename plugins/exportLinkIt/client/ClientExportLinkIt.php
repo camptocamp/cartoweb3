@@ -204,7 +204,7 @@ class ClientExportLinkIt extends ExportPlugin
         if ($this->isUrlCompressed) {
             $this->queryString = 'q=' . base64_encode(gzdeflate($this->queryString, 9));
         }
-        $this->queryString = basename($_SERVER['PHP_SELF']) . '?reset_session&linkit=1&' . $this->paramSwitch.$this->queryString;
+        $this->queryString = basename($_SERVER['SCRIPT_NAME']) . '?reset_session&linkit=1&' . $this->paramSwitch.$this->queryString;
 
         $resourceHandler = $this->cartoclient->getResourceHandler();
         $url = $resourceHandler->getFinalUrl($this->queryString, true, true, $useXhtml);
