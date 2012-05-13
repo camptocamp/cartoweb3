@@ -19,6 +19,7 @@
  * @copyright 2005 Camptocamp SA
  * @package Core
  * @version $Id$
+ * @rev $Revision$
  */
 
 /*
@@ -34,7 +35,7 @@
 error_reporting(E_ALL);
 
 define('CW3_SETUP_REVISION', '$Revision$');
-define('MINIMUM_REVISION', 41);
+define('MINIMUM_REVISION', 42);
 define('CW3_SETUP_INCLUDED', true);
 
 // URL of required libraries (md5sum: 0521c8a180b59ee150a536352f23d356):
@@ -44,6 +45,10 @@ define('CW3_LIBS_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-include
 define('CW3_LIBS_MD5', 'e2f49f75b1dc4cc9cf710a34b09a0adc');
 // URL of demo data (md5sum: 781f6d3207fda3ebf4d6e51d354a4336):
 define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-demodata-3.5.0.tar.gz');
+
+// New cw3.6 need minimal version 
+define ('SUPPORTED_MS_VERSION', '6.0.2');
+define ('SUPPORTED_PHP_VERSION', '5.3.8');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
@@ -199,8 +204,84 @@ function checkRegisterArgcArgv() {
     }
 }
 
+/**
+ * Stuff for checking minimal version without having already cw3 deployed
+ *
+ */
+/**
+ * Returns the MapServer version.
+ * @return string
+ */
+function getMsVersion() {
+    if (preg_match('/^MapServer version ([0-9.]+) (.*)/',
+            ms_GetVersion(), $regs)) {
+        return $regs[1];
+    }
+    return '';
+}
+
+/**
+ * Tells if version type is newer or same than the given version.
+ *
+ * The reference version might only specify the major version (eg. '5')
+ * or the major+minor versions (eg. '5.3')
+ * or the full version (eg. '5.3.10').
+ * @param string version to compare to
+ * @param string type ('PHP','MAPSERVER')
+ * @return boolean
+ */
+function isNewerOrSameThan($version,$type='PHP') {
+    $refVersion = explode('.', $version);
+    $typeVersion  = (strtoupper($type) == 'PHP') ? explode('.', PHP_VERSION) : explode('.', getMsVersion());
+    $diff = count($refVersion) - count($typeVersion);
+    // Tests if arrays have the same size, if not adds 0s to the shorter one.
+    switch (true) {
+        case $diff == 0:
+            break;
+
+        case $diff < 0:
+            $refVersion = array_pad($refVersion, count($typeVersion), 0);
+            break;
+
+        default: //$diff > 0
+            $msVersion = array_pad($typeVersion, count($refVersion), 0);
+    }
+
+    foreach ($typeVersion as $level => $part) {
+        if ($part != $refVersion[$level]) {
+            return $part > $refVersion[$level];
+        }
+    }
+    // At this point, versions are equal.
+    return true;
+}
+
+/**
+ * Check version for PhP & Mapserver
+ * @throws InstallException
+ */
+function checkMinimalVersions(){
+    
+    if (!extension_loaded('mapscript')) {
+        if (!dl('php_mapscript.' . PHP_SHLIB_SUFFIX))
+            throw new InstallException("can't load mapscript " . 'library');
+    }
+    
+    // Safety check for MapServer >= 6.0.2
+    // PhP >= 5.3.10
+    if (!isNewerOrSameThan(SUPPORTED_MS_VERSION,'MAPSERVER'))
+        throw new InstallException("Mapserver/Mapscript version can't be less than ".SUPPORTED_MS_VERSION . PHP_EOL);
+    
+    if (!isNewerOrSameThan(SUPPORTED_PHP_VERSION,'PHP'))
+        throw new InstallException("PhP version can't be less than ".SUPPORTED_PHP_VERSION . PHP_EOL);
+    // Everything okay
+}
+
+
+
 checkIncludePath();
 checkRegisterArgcArgv();
+
 
 function setOption(&$i, $takesArgument = false) {
     global $OPTIONS;
@@ -401,7 +482,8 @@ function processArgs() {
 }
 
 if (strpos($_SERVER['argv'][0], 'cw3setup.php') !== false) {
-    try {        
+    try {
+        checkMinimalVersions();
         processArgs();
     } catch (InstallException $e) {
         showFailure($e);
@@ -1472,7 +1554,7 @@ function deleteFilesCallback($file, $context) {
         return;
     debug("Removing $file");
     if (!unlink($file)) {
-        throw InstallException("Unable to remove file $file");
+        throw new InstallException("Unable to remove file $file");
     }
 }
 

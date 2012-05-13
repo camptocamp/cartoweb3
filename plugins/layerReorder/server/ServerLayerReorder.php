@@ -143,7 +143,7 @@ class ServerLayerReorder extends ClientResponderAdapter
             foreach ($requ->layerTransparencies as $layerTransparency) {
                 $layer = $msMapObj->getLayerByName($layerTransparency->id);
                 if (!empty($layer)) {
-                    $layer->set('transparency', $layerTransparency->transparency);
+                    $layer->set('opacity', $layerTransparency->transparency);
                 }
             }
         }

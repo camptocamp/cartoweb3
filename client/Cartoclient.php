@@ -1010,7 +1010,8 @@ class Cartoclient extends Cartocommon {
      * @return string
      */
     public function getSelfUrl() {
-        return './' . basename($_SERVER['PHP_SELF']);
+        // XSS vector attack if using return './' . basename($_SERVER['PHP_SELF']);
+        return './' . basename($_SERVER['SCRIPT_NAME']);
     }
     
     /**
@@ -1325,4 +1326,3 @@ class Cartoclient extends Cartocommon {
         return $output;
     }
 }
-

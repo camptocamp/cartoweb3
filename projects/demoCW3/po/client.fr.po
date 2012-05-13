@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "POT-Creation-Date: 2005-11-06 11:56+0100\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: exportPdf.ini:formats.A4.label
@@ -42,7 +42,7 @@ msgstr "Taille carte :"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
-msgstr ""
+msgstr "Déplier"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Expand tree"
@@ -50,7 +50,7 @@ msgstr "Déplier"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "close tree"
-msgstr ""
+msgstr "Fermer"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Close tree"
@@ -58,7 +58,7 @@ msgstr "Fermer"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "check all"
-msgstr ""
+msgstr "Tout sélectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Check all"
@@ -66,7 +66,7 @@ msgstr "Tout sélectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "uncheck all"
-msgstr ""
+msgstr "Tout déselectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Uncheck all"
@@ -74,24 +74,24 @@ msgstr "Tout désélectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "more info on"
-msgstr ""
+msgstr "Plus d'info sur"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
-msgstr ""
+msgstr "Cliquer pour afficher la prochaine échelle:"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
-msgstr ""
+msgstr "Zoomer pour voir la couche"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Zoom out to see layer"
-msgstr ""
+msgstr "Dézoomer pour voir la couche"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 #, fuzzy
 msgid "Id recentering"
-msgstr ""
+msgstr "Centrage sur identifiants"
 
 #correction bug
 msgid "IdRecentering"
@@ -124,7 +124,7 @@ msgstr "Echelle :"
 
 #: projects/demoCW3/coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
-msgstr ""
+msgstr "Raccourcis"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -157,11 +157,11 @@ msgstr "Dans la requête"
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Mask"
-msgstr ""
+msgstr "Masque"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
-msgstr ""
+msgstr "Requète sur toutes les couches"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "query_clear"
@@ -181,15 +181,15 @@ msgstr "vous déconnecter"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
-msgstr ""
+msgstr "Login dialogue"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
-msgstr ""
+msgstr "Vous avez été déconnecté"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Please enter your login and password"
-msgstr ""
+msgstr "Entez votre identifiant et mot de passe"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
@@ -197,11 +197,11 @@ msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Username"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Submit"
@@ -209,7 +209,7 @@ msgstr "Envoyer"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
-msgstr ""
+msgstr "Cliquer pour retourner à la carte"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
@@ -225,11 +225,11 @@ msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
-msgstr ""
+msgstr "Paysage"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Note"
@@ -241,11 +241,11 @@ msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Scalebar"
-msgstr ""
+msgstr "Echelle"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Overview"
-msgstr ""
+msgstr "Aperçu"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
@@ -253,25 +253,25 @@ msgstr "Résultats de la requête"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Legend"
-msgstr ""
+msgstr "Légende"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "On map"
-msgstr ""
+msgstr "Intégrée à la carte"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "In new page"
-msgstr ""
+msgstr "Dans une nouvelle page"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "None"
-msgstr ""
+msgstr "Aucune"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Mode"
@@ -279,7 +279,7 @@ msgstr ""
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Draw"
-msgstr ""
+msgstr "Dessin"
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Change Mode"
@@ -287,7 +287,7 @@ msgstr "Changer de mode"
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Total area"
-msgstr ""
+msgstr "Aire totale"
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Km"
@@ -304,11 +304,11 @@ msgstr "CartoWeb3 - Démonstration"
 #: projects/demoCW3/templates/cartoclient.tpl
 #: projects/demoCW3/templates/mainmap.tpl
 msgid "Collapse keymap"
-msgstr ""
+msgstr "Masquer l'aperçu"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Show keymap"
-msgstr ""
+msgstr "Monter l'aperçu"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "welcome"
@@ -328,11 +328,11 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "scalebar_alt"
-msgstr ""
+msgstr "échelle_alt"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid " Developer messages "
-msgstr ""
+msgstr "Messages développeur"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "User messages"
@@ -348,7 +348,7 @@ msgstr "Aide"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Themes"
-msgstr ""
+msgstr "Thèmes"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Search"

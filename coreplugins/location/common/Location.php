@@ -92,7 +92,7 @@ class LocationRequest extends CwSerializable {
 /**
  * Constraints for a location
  *
- * TODO: add contraints for minScale, maxScale and others
+ * TODO: add contraints for minscaledenom, maxscaledenom and others
  * @package CorePlugins
  */
 class LocationConstraint extends CwSerializable {
@@ -201,12 +201,12 @@ class LocationInit extends CwSerializable {
     /**
      * @var double
      */
-    public $minScale;
+    public $minscaledenom;
     
     /** 
      *  @var double
      */
-    public $maxScale;
+    public $maxscaledenom;
 
     /**
      * @var array
@@ -224,8 +224,8 @@ class LocationInit extends CwSerializable {
     public function unserialize($struct) {
         $this->scales = self::unserializeObjectMap($struct, 'scales', 
                                                    'LocationScale');
-        $this->minScale = self::unserializeValue($struct, 'minScale', 'float');
-        $this->maxScale = self::unserializeValue($struct, 'maxScale', 'float');
+        $this->minscaledenom = self::unserializeValue($struct, 'minscaledenom', 'float');
+        $this->maxscaledenom = self::unserializeValue($struct, 'maxscaledenom', 'float');
 
         $this->shortcuts = self::unserializeObjectMap($struct, 'shortcuts',
                                                       'LocationShortcut');

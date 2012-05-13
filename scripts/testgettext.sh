@@ -68,7 +68,7 @@ export LANGUAGE=$LOCALE
 $LOCALE_PATH/sample
 
 # Clean all
-#rm -f $LOCALE_PATH/sample*
-#rm -fR $LOCALE_PATH/$LOCALE
+rm -f $LOCALE_PATH/sample*
+rm -fr $LOCALE_PATH/$LOCALE
 
 exit 0

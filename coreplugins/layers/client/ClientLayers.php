@@ -1262,14 +1262,14 @@ class ClientLayers extends ClientPlugin
      * @return boolean
      */
     protected function setOutofScaleIcon($layer) {
-        if ($layer->minScale && 
-            $this->getCurrentScale() < $layer->minScale) {
+        if ($layer->minscaledenom && 
+            $this->getCurrentScale() < $layer->minscaledenom) {
             $layer->icon = $this->notAvailableMinusIcon;
             return true;
         }
         
-        if ($layer->maxScale &&
-            $this->getCurrentScale() > $layer->maxScale) {
+        if ($layer->maxscaledenom &&
+            $this->getCurrentScale() > $layer->maxscaledenom) {
             $layer->icon = $this->notAvailablePlusIcon;
             return true;
         }
@@ -1341,13 +1341,13 @@ class ClientLayers extends ClientPlugin
         $metadata = $layer->getAllMetadata();
         $metadata['lang'] = LANG;
      
-        // LayerGroups minScale|maxScale may be set from layer metadata.
+        // LayerGroups minscaledenom|maxscaledenom may be set from layer metadata.
         if ($layer instanceof LayerGroup) {
-            if (!empty($metadata['minScale'])) {
-                $layer->minScale = $metadata['minScale'];
+            if (!empty($metadata['minscaledenom'])) {
+                $layer->minscaledenom = $metadata['minscaledemon'];
             }
-            if (!empty($metadata['maxScale'])) {
-                $layer->maxScale = $metadata['maxScale'];
+            if (!empty($metadata['maxscaledenom'])) {
+                $layer->maxscaledenom = $metadata['maxscaledemon'];
             }
         }
         
@@ -1403,14 +1403,14 @@ class ClientLayers extends ClientPlugin
                 // TODO: handle notAvailableIcon
                 case $this->notAvailablePlusIcon;
                     $layerOutRange = 1;
-                    if ($layer->maxScale)
-                        $nextscale = round(0.99 * $layer->maxScale);
+                    if ($layer->maxscaledenom)
+                        $nextscale = round(0.99 * $layer->maxscaledenom);
                     break;
 
                 case $this->notAvailableMinusIcon;
                     $layerOutRange = -1;
-                    if ($layer->minScale)
-                        $nextscale = round(1.01 * $layer->minScale);
+                    if ($layer->minscaledenom)
+                        $nextscale = round(1.01 * $layer->minscaledenom);
                     break;
             }
             $element['nextscale'] = $nextscale;
@@ -1573,8 +1573,8 @@ class ClientLayers extends ClientPlugin
         $layer = $this->getLayerByName($layerId, false);
         $scale = $this->getCurrentScale();
         
-        if (($layer->maxScale && $scale > $layer->maxScale) ||
-            ($layer->minScale && $scale < $layer->minScale))
+        if (($layer->maxscaledenom && $scale > $layer->maxscaledenom) ||
+            ($layer->minscaledenom && $scale < $layer->minscaledenom))
             return array();
 
         $icon = '';
@@ -1622,8 +1622,8 @@ class ClientLayers extends ClientPlugin
         if (!($layer = $this->getLayerByName($layerId, false))) {
             return false;
         }
-        if (($layer->maxScale && $scale > $layer->maxScale) ||
-            ($layer->minScale && $scale < $layer->minScale))
+        if (($layer->maxscaledenom && $scale > $layer->maxscaledenom) ||
+            ($layer->minscaledenom && $scale < $layer->minscaledenom))
             return false;
         else if (!$layer instanceof LayerClass && $layer->children) {    
             $children =& $layer->children;

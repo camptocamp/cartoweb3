@@ -317,7 +317,7 @@ class ZoomPointLocationCalculator extends LocationCalculator {
         $oldBbox = $this->requ->bbox;
         $msMapObj->setExtent($oldBbox->minx, $oldBbox->miny,
                              $oldBbox->maxx, $oldBbox->maxy);
-        $oldScale = $msMapObj->scale;
+        $oldScale = $msMapObj->scaledenom;
         return $oldScale;
     }
 
@@ -670,7 +670,7 @@ class ServerLocation extends ClientResponderAdapter
 
         $msMapObj->setExtent($bbox->minx, $bbox->miny,
                              $bbox->maxx, $bbox->maxy);
-        $scale = $msMapObj->scale;
+        $scale = $msMapObj->scaledenom;
         return $scale;
     }
 
@@ -685,12 +685,12 @@ class ServerLocation extends ClientResponderAdapter
         if ($scale < 0)
             throw new CartoserverException('scale to adjust is negative');
         $newScale = $scale;
-        $minScale = $this->getConfig()->minScale;
-        $maxScale = $this->getConfig()->maxScale;
-        if ($minScale && $newScale < $minScale) {
-            $newScale = $minScale;
-        } else if ($maxScale && $newScale > $maxScale) {
-            $newScale = $maxScale;
+        $minscaledenom = $this->getConfig()->minscaledenom;
+        $maxscaledenom = $this->getConfig()->maxscaledenom;
+        if ($minscaledenom && $newScale < $minscaledenom) {
+            $newScale = $minscaledenom;
+        } else if ($maxscaledenom && $newScale > $maxscaledenom) {
+            $newScale = $maxscaledenom;
         }
         return $newScale;
     }
@@ -837,7 +837,7 @@ class ServerLocation extends ClientResponderAdapter
         $locationResult->bbox = new Bbox();
         $locationResult->bbox->setFromMsExtent($msMapObj->extent);
 
-        $locationResult->scale = round($msMapObj->scale, 4);
+        $locationResult->scale = round($msMapObj->scaledenom, 4);
 
         $this->account('server_version', 0);
         $bboxStr = $locationResult->bbox->toRemoteString(',');
@@ -908,11 +908,11 @@ class ServerLocation extends ClientResponderAdapter
         }
         $intervals = ConfigParser::parseObjectArray($this->getConfig(),
                                                     'refMarksInterval',
-                                                    array('maxScale', 'interval'));
+                                                    array('maxscaledenom', 'interval'));
         $interval = NULL;
         foreach ($intervals as $int) {
             $interval = $int->interval;
-            if ($int->maxScale >= $msMapObj->scale * $ratio) {
+            if ($int->maxscaledenom >= $msMapObj->scaledenom * $ratio) {
                 break;
             }
         }
@@ -942,7 +942,7 @@ class ServerLocation extends ClientResponderAdapter
         }
         $transp = $this->getConfig()->refMarksTransparency;
         if (!is_null($transp)) {
-            $style->transparency = $transp;
+            $style->opacity = $transp;
         }
 
         $extentwidth = ($msMapObj->extent->maxx - $msMapObj->extent->minx) / 2;
@@ -957,7 +957,7 @@ class ServerLocation extends ClientResponderAdapter
 
         // Crosses
         $crossSize = $this->getConfig()->refMarksSize / 2;
-        $crossSize = $crossSize * $msMapObj->scale / $msMapObj->resolution * 0.0254;
+        $crossSize = $crossSize * $msMapObj->scaledenom / $msMapObj->resolution * 0.0254;
         if (!is_null($ratio)) {
             $crossSize *= $ratio;
         }
@@ -989,7 +989,7 @@ class ServerLocation extends ClientResponderAdapter
         }
 
         $lineSize = $this->getConfig()->refLinesSize;
-        $lineSize = $lineSize * $msMapObj->scale /
+        $lineSize = $lineSize * $msMapObj->scaledenom /
                     $msMapObj->resolution * 0.0254;
         if (!is_null($ratio)) {
             $lineSize *= $ratio;
@@ -1220,8 +1220,8 @@ class ServerLocation extends ClientResponderAdapter
 
         $init = new LocationInit();
         $init->scales = $this->visibleScales;
-        $init->minScale = $this->getConfig()->minScale;
-        $init->maxScale = $this->getConfig()->maxScale;
+        $init->minscaledenom = $this->getConfig()->minscaledenom;
+        $init->maxscaledenom = $this->getConfig()->maxscaledenom;
         $init->shortcuts = $locShortcuts;
         $init->fullExtent = new Bbox();
         $init->fullExtent->setFromMsExtent($msMapObj->extent);

@@ -309,9 +309,9 @@ class ServerContext extends Cartocommon {
             return;
 
         if (is_null($this->maxExtent))
-            $this->maxExtent = clone($this->msMapObj->extent);
-
-        $this->imageType = $this->msMapObj->imagetype;
+            $this->maxExtent = &$this->msMapObj->extent;            
+        
+        $this->imageType = $this->msMapObj->outputformat->getOption('imagemode');
     }
 
     /**
@@ -355,8 +355,8 @@ class ServerContext extends Cartocommon {
             $this->checkMsErrors();
 
             if (!$this->msMapObj) { // could this happen?
-                throw new CartoserverException("cannot open mapfile $mapId " .
-                                               "for map $mapId");
+                throw new CartoserverException("cannot open mapfile $this->mapId " .
+                                               "for map $this->mapId");
             }
 
             $this->updateStateFromMapObj();

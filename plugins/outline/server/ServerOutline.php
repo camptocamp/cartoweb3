@@ -121,7 +121,7 @@ class ServerOutline extends ClientResponderAdapter
         $layer->name = $layerName;
         $layer->action = BasicOverlay::ACTION_SEARCH;
         if (!is_null($shape->shapeStyle)) {
-            $layer->transparency = $shape->shapeStyle->transparency;            
+            $layer->opacity = $shape->shapeStyle->opacity;            
         }
         $layer->classes = array($this->getMsClass($shape->shapeStyle, 
                                                   $shape->labelStyle));
@@ -195,7 +195,7 @@ class ServerOutline extends ClientResponderAdapter
      * If not in mask mode, simply draws Polygon.
      *
      * If in mask mode, uses MapScript pasteImage function to simulate a mask.
-     * This function doesn't include transparency handling. Mask color is set
+     * This function doesn't include opacity handling. Mask color is set
      * in configuration file, key maskColor.
      * @param MsMapObj Mapserver Map object
      * @param StyledShape polygon
@@ -227,14 +227,15 @@ class ServerOutline extends ClientResponderAdapter
             }
             list($red, $green, $blue) = explode(' ', $color);
             $maskStyle->color->setRGB($red, $green, $blue);
-
-            $rectangle->draw($msMapObj, $maskLayer, $image2, 0, "");
+ 
+            $rectangle->draw($msMapObj, $maskLayer, $image2, 0, "");            
             
             $maskStyle->color->setRGB(255, 0, 0);
             $maskStyle->outlinecolor->setRGB(255, 0, 0);
 
             $p = $this->toShapeObj($polygon->shape);
-            $p->draw($msMapObj, $maskLayer, $image2, 0, "");
+            // Only 3 parameters in 6x
+            $p->draw($msMapObj, $maskLayer, $image2);
 
             // No labels, no styles in mask mode
             $this->serverContext->getMsMainmapImage()->pasteImage($image2,
@@ -271,7 +272,7 @@ class ServerOutline extends ClientResponderAdapter
         
         if ($maskMode) {
             $this->drawMap($msMapObj);
-            $msMapObj->labelcache->free();
+            // Removed from 6.x version $msMapObj->labelcache->free();
         }
         
         $area = 0.0;
@@ -376,8 +377,8 @@ class ServerOutline extends ClientResponderAdapter
 
             $currentLayer = $msMapObj->getLayerByName($targetlayer);
             
-            // Gets layer transparency
-            $currentShapeStyle->transparency = $currentLayer->transparency;
+            // Gets layer opacity
+            $currentShapeStyle->opacity = $currentLayer->opacity;
             // Gets first class
             $currentClass = $currentLayer->getClass(0);
             $currentStyle = $currentClass->getStyle(0);
@@ -481,7 +482,7 @@ class ServerOutline extends ClientResponderAdapter
 
                     $newIcon = $newClass->createLegendIcon($symbolSize,$symbolSize);
                     $check = $newIcon->saveImage($iconPath);
-                    $newIcon->free(); // Frees resources
+                    $newClass->free(); // Frees resources
                       
                     if ($this->getConfig()->symbolPickerHilight == 'inversed') {
                         Utils::invertImage($iconPath, $invertedIconPath, 
@@ -498,6 +499,8 @@ class ServerOutline extends ClientResponderAdapter
         }        
         // Removes the layer
         // no removeLayer function in PHP MapScript. see mapserver bug #762
-        $newLayer->set('status', MS_DELETE);
+        //$newLayer->set('status', MS_DELETE);
+        $newLayer->free();
+        unset($newLayer);
     }
 }

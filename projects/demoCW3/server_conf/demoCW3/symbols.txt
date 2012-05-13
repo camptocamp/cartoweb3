@@ -17,9 +17,9 @@ END
 SYMBOL
     NAME 'line-dashed'
     TYPE ellipse
-    POINTS 1 1 END
     FILLED true
-    STYLE 10 10 END
+    POINTS 1 1 END
+#    STYLE 10 10 END
 END 
 
 
@@ -28,7 +28,7 @@ SYMBOL
     TYPE ellipse 
     FILLED true 
     POINTS 1 1 END 
-    STYLE 5 3 END 
+#    STYLE 5 3 END 
 END
 
 SYMBOL
@@ -63,7 +63,7 @@ SYMBOL
     FONT "opens___"
     CHARACTER "&#9475;"
     ANTIALIAS TRUE
-    GAP 30
+#    GAP 30
 END
 
 SYMBOL
@@ -78,7 +78,7 @@ SYMBOL
   TYPE ellipse
   FILLED TRUE
   POINTS 1 1 END
-  STYLE 50 20 10 20 END
+#  STYLE 50 20 10 20 END
 END
 
 SYMBOL
@@ -87,9 +87,7 @@ SYMBOL
  POINTS
    1 1
  END
- STYLE
-   5 1
- END
+# STYLE 5 1 END
 END 
 
 SYMBOL

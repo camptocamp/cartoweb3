@@ -516,15 +516,15 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->expression = $overlay->expression;
                 $msClass->setExpression($result->expression);
             }
-            if (!is_null($overlay->minScale) &&
-                $msClass->minscale != $overlay->minScale) {
+            if (!is_null($overlay->minscaledenom) &&
+                $msClass->minscaledenom != $overlay->minscaledenom) {
 
-                $msClass->minscale = $result->minScale = $overlay->minScale;
+                $msClass->minscaledenom = $result->minscaledenom = $overlay->minscaledenom;
             }
-            if (!is_null($overlay->maxScale) &&
-                $msClass->maxscale != $overlay->maxScale) {
+            if (!is_null($overlay->maxscaledenom) &&
+                $msClass->maxscaledenom != $overlay->maxscaledenom) {
 
-                $msClass->maxscale = $result->maxScale = $overlay->maxScale;
+                $msClass->maxscaledenom = $result->maxscaledenom = $overlay->maxscaledenom;
             }
             break;
         case BasicOverlay::ACTION_SEARCH:
@@ -564,7 +564,7 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->index = $this->getClassIndex($msLayer, $result->name);
 
                 // Setting new properties
-                if ($msClass->getExpression() != $overlay->expression) {
+                if ($msClass->getExpressionString() != $overlay->expression) {
 
                     $result->expression = $overlay->expression;
                     $msClass->setExpression($result->expression);
@@ -777,20 +777,20 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->filteritem = $overlay->filteritem;
                 $msLayer->set('filteritem', $result->filteritem);
             }
-            if (!is_null($overlay->maxScale) &&
-                $msLayer->maxScale != $overlay->maxScale) {
-                $result->maxScale = $overlay->maxScale;
-                $msLayer->set('maxscale', $result->maxScale);
+            if (!is_null($overlay->maxscaledenom) &&
+                $msLayer->maxscaledenom != $overlay->maxscaledenom) {
+                $result->maxscaledenom = $overlay->maxscaledenom;
+                $msLayer->set('maxscaledenom', $result->maxscaledenom);
             }
-            if (!is_null($overlay->minScale) &&
-                $msLayer->minScale != $overlay->minScale) {
-                $result->minScale = $overlay->minScale;
-                $msLayer->set('minscale', $result->minScale);
+            if (!is_null($overlay->minscaledenom) &&
+                $msLayer->minscaledenom != $overlay->minscaledenom) {
+                $result->minscaledenom = $overlay->minscaledenom;
+                $msLayer->set('minscaledenom', $result->minscaledenom);
             }
-            if (!is_null($overlay->transparency) &&
-                $msLayer->transparency != $overlay->transparency) {
-                $result->transparency = $overlay->transparency;
-                $msLayer->set('transparency', $result->transparency);
+            if (!is_null($overlay->opacity) &&
+                $msLayer->opacity != $overlay->opacity) {
+                $result->opacity = $overlay->opacity;
+                $msLayer->set('opacity', $result->opacity);
             }
             if (!is_null($overlay->type) &&
                 $msLayer->type != $overlay->type) {
@@ -819,12 +819,12 @@ class ServerMapOverlay extends ServerPlugin {
                          $msSearchLayer->getFilter() == $overlay->filter) &&
                         (is_null($overlay->filteritem) ||
                          $msSearchLayer->filteritem == $overlay->filteritem) &&
-                        (is_null($overlay->maxScale) ||
-                         $msSearchLayer->maxScale == $overlay->maxScale) &&
-                        (is_null($overlay->minScale) ||
-                         $msSearchLayer->minScale == $overlay->minScale) &&
-                        (is_null($overlay->transparency) ||
-                         $msSearchLayer->transparency == $overlay->transparency) &&
+                        (is_null($overlay->maxscaledenom) ||
+                         $msSearchLayer->maxscaledenom == $overlay->maxscaledenom) &&
+                        (is_null($overlay->minscaledenom) ||
+                         $msSearchLayer->minscaledenom == $overlay->minscaledenom) &&
+                        (is_null($overlay->opacity) ||
+                         $msSearchLayer->opacity == $overlay->opacity) &&
                         (is_null($overlay->type) ||
                          $msSearchLayer->type == $overlay->type)) {
                          $result->name = $msSearchLayer->name;
@@ -874,20 +874,20 @@ class ServerMapOverlay extends ServerPlugin {
                     $result->filteritem = $overlay->filteritem;
                     $msLayer->set('filteritem', $result->filteritem);
                 }
-                if (!is_null($overlay->maxScale) &&
-                    $msLayer->maxScale != $overlay->maxScale) {
-                    $result->maxScale = $overlay->maxScale;
-                    $msLayer->set('maxscale', $result->maxScale);
+                if (!is_null($overlay->maxscaledenom) &&
+                    $msLayer->maxscaledenom != $overlay->maxscaledenom) {
+                    $result->maxscaledenom = $overlay->maxscaledenom;
+                    $msLayer->set('maxscaledenom', $result->maxscaledenom);
                 }
-                if (!is_null($overlay->minScale) &&
-                    $msLayer->minScale != $overlay->minScale) {
-                    $result->minScale = $overlay->minScale;
-                    $msLayer->set('minscale', $result->minScale);
+                if (!is_null($overlay->minscaledenom) &&
+                    $msLayer->minscaledenom != $overlay->minscaledenom) {
+                    $result->minscaledenom = $overlay->minscaledenom;
+                    $msLayer->set('minscaledenom', $result->minscaledenom);
                 }
-                if (!is_null($overlay->transparency) &&
-                    $msLayer->transparency != $overlay->transparency) {
-                    $result->transparency = $overlay->transparency;
-                    $msLayer->set('transparency', $result->transparency);
+                if (!is_null($overlay->opacity) &&
+                    $msLayer->opacity != $overlay->opacity) {
+                    $result->opacity = $overlay->opacity;
+                    $msLayer->set('opacity', $result->opacity);
                 }
                 if (!is_null($overlay->type) &&
                     $msLayer->type != $overlay->type) {
@@ -922,21 +922,21 @@ class ServerMapOverlay extends ServerPlugin {
                 $result->filteritem = $overlay->filteritem;
                 $msLayer->set('filteritem', $result->filteritem);
             }
-            if (!is_null($overlay->maxScale)) {
-                $result->maxScale = $overlay->maxScale;
-                $msLayer->set('maxscale', $result->maxScale);
+            if (!is_null($overlay->maxscaledenom)) {
+                $result->maxscaledenom = $overlay->maxscaledenom;
+                $msLayer->set('maxscaledenom', $result->maxscaledenom);
             }
-            if (!is_null($overlay->minScale)) {
-                $result->minScale = $overlay->minScale;
-                $msLayer->set('minscale', $result->minScale);
+            if (!is_null($overlay->minscaledenom)) {
+                $result->minscaledenom = $overlay->minscaledenom;
+                $msLayer->set('minscaledenom', $result->minscaledenom);
             }
             if (!is_null($overlay->name)) {
                 $result->name = $overlay->name;
                 $msLayer->set('name', $result->name);
             }
-            if (!is_null($overlay->transparency)) {
-                $result->transparency = $overlay->transparency;
-                $msLayer->set('transparency', $result->transparency);
+            if (!is_null($overlay->opacity)) {
+                $result->opacity = $overlay->opacity;
+                $msLayer->set('opacity', $result->opacity);
             }
             if (!is_null($overlay->type)) {
                 $result->type = $overlay->type;

@@ -126,10 +126,10 @@ class OwsInfoHarwester {
         $node = $capa->xpath("//Layer[Name='".$name."']");
     
         if (!empty($node[0]->ScaleHint)) {
-            $scale = array('minScale'=>$node[0]->ScaleHint['min'], 
-                    'maxScale'=>$node[0]->ScaleHint['max']); 
+            $scale = array('minscaledenom'=>$node[0]->ScaleHint['min'], 
+                    'maxscaledenom'=>$node[0]->ScaleHint['max']); 
         } else {
-            $scale = array('minScale'=>-1, 'maxScale'=>-1); 
+            $scale = array('minscaledenom'=>-1, 'maxscaledenom'=>-1); 
         }
         
         return $scale;
