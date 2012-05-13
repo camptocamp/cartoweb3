@@ -14,7 +14,7 @@ msgstr ""
 
 #: location.ini:shortcuts.1.label
 msgid "Leman Lake"
-msgstr "Lac LÃ©man"
+msgstr "Lac Léman"
 
 #: location.ini:shortcuts.2.label
 msgid "Albertville"
@@ -51,8 +51,9 @@ msgstr ""
 msgid "categ"
 msgstr "Catégorie"
 
+#: layers.ini:switches.switch2.label
 msgid "human"
-msgstr "Activités humaines"
+msgstr "Humain"
 
 #: layers.ini:layers.background.label
 msgid "Background"
@@ -73,12 +74,12 @@ msgstr "Aucun"
 #: layers.ini:layers.human.label
 #, fuzzy
 msgid "Human activities "
-msgstr "ActivitÃ©s humaines"
+msgstr "Activités humaines"
 
 #: layers.ini:layers.categ.label
 #, fuzzy
 msgid "Category "
-msgstr "CatÃ©gorie"
+msgstr "Catégorie"
 
 #: layers.ini:layers.relief.label
 msgid "Relief"
@@ -90,7 +91,7 @@ msgstr "Hydrologie"
 
 #: layers.ini:layers.district.label demoCW3.map
 msgid "district"
-msgstr "RÃ©gions"
+msgstr "Régions"
 
 #: layers.ini:layers.sea.label demoCW3.map
 msgid "sea"
@@ -102,7 +103,7 @@ msgstr "Villes"
 
 #: layers.ini:layers.agglo.label
 msgid "Agglomerations"
-msgstr "AgglomÃ©rations"
+msgstr "Agglomérations"
 
 #: layers.ini:layers.transport.label
 msgid "Transports"
@@ -110,11 +111,11 @@ msgstr "Transports"
 
 #: layers.ini:layers.airport.label
 msgid "Airports"
-msgstr "AÃ©roports"
+msgstr "Aéroports"
 
 #: layers.ini:layers.railway.label
 msgid "Railways"
-msgstr "Voies ferrÃ©es"
+msgstr "Voies ferrées"
 
 #: layers.ini:layers.road.label
 msgid "Roads"
@@ -142,7 +143,7 @@ msgstr "Glaciers"
 
 #: layers.ini:layers.river.label
 msgid "Rivers"
-msgstr "RiviÃ¨res"
+msgstr "Rivières"
 
 #: layers.ini:layers.lake_.label
 msgid "Lakes"
@@ -194,7 +195,7 @@ msgstr ""
 
 #: outline.ini:pointSymbols.labels demoCW3.map
 msgid "airport"
-msgstr "AÃ©roports"
+msgstr "Aéroports"
 
 #: demoCW3.map
 msgid "raster"
@@ -211,7 +212,7 @@ msgstr "NOM"
 #: demoCW3.map
 #, fuzzy
 msgid "district_recenter"
-msgstr "RÃ©gions"
+msgstr "Régions"
 
 #: demoCW3.map
 msgid "ID"
@@ -235,11 +236,11 @@ msgstr "Lacs"
 
 #: demoCW3.map
 msgid "river"
-msgstr "RiviÃ¨res"
+msgstr "Rivières"
 
 #: demoCW3.map
 msgid "railway"
-msgstr "Voies ferrÃ©es"
+msgstr "Voies ferrées"
 
 #: demoCW3.map
 #, fuzzy
@@ -273,7 +274,7 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "AgglomÃ©rations"
+msgstr "Agglomérations"
 
 #: demoCW3.map
 msgid "town"
@@ -1231,12 +1232,14 @@ msgstr "PHP-Gettext n'est pas installé correctement !"
 msgid "No path found"
 msgstr "Chemin non trouvé"
 
+#
 #: coreplugins/mapquery/server/ServerMapquery.php:117
 #, php-format
 msgid "Query spanned too many objects on layer '%s', it was ignored."
 msgstr ""
 "La requête retroune trop de résultats sur la couche '%s', elle est ignorée"
 
+#
 #: coreplugins/mapquery/server/ServerMapquery.php:126
 #, php-format
 msgid ""
