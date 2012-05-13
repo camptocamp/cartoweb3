@@ -48,7 +48,7 @@ define('CW3_DEMO_URL', 'http://www.cartoweb.org/downloads/cw3.5/cartoweb-demodat
 
 // New cw3.6 need minimal version 
 define ('SUPPORTED_MS_VERSION', '6.0.2');
-define ('SUPPORTED_PHP_VERSION', '5.3.10');
+define ('SUPPORTED_PHP_VERSION', '5.3.8');
 
 // Directories to create from cw3 root:
 $CW3_DIRS_TO_CREATE = array(
