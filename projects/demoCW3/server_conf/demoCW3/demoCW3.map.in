@@ -1,10 +1,11 @@
 #
 # To test quickly your map against mapserver 6.x
-# shp2img -m demoCW3.map -all_debug 200
+# shp2img -m projects/demoCW3/server_conf/demoCW3/demoCW3.map -all_debug 200 -s 1920 1080 \
+#	-e 142776 4757216 1083857 5409261 -o /tmp/test.png 
+#	-l "iceland sea lake river railway freeway national_highway mountain agglo airport town wfscities wfscontinents"
 MAP
   NAME "demoPlugins"
   EXTENT 142776 4757216 1083857 5409261
-  # EXTENT -2000000 2000000 4000000 8000000
   IMAGETYPE PNG
   IMAGECOLOR 255 255 255
   STATUS ON
