@@ -11,15 +11,15 @@ CartoWeb HEAD
 
 - MAPSERVER 6x  
 	* Transparency/opacity : 
-	Take care to cleanup your map of the deprecaded TRANSPARENCY keywords for LAYERS & Scalebar
-	To migrate your old transparency effect use the inverse for opacity : transparency 30 = opacity 70
-	Scalebar : have a look at comment in demoCW3.map.in to learn about the details.
+		Take care to cleanup your map of the deprecaded TRANSPARENCY keywords for LAYERS & Scalebar
+		To migrate your old transparency effect use the inverse for opacity : transparency 30 = opacity 70
+		Scalebar : have a look at comment in demoCW3.map.in to learn about the details.
 	* OUTPUTFORMAT : carefully read the instruction on mapserver doc to knows how to migrate to default agg/png etc
-	New examples have been pushed in demoCW3.map.in
+		New examples have been pushed in demoCW3.map.in
 	* QUERY by point on a polygon (at least for wfs) need to have a not null tolerance declared
 		TOLERANCE 0.0001
 		TOLERANCEUNITS pixels	  
-		this is a bug in mapserver6
+		seems to be a bug in mapserver6
 
 - CARTOWEB 3.6
 	* .ini need to be fixed like for the 3.5.5 level (see below)
@@ -33,6 +33,7 @@ CartoWeb HEAD
 	* XSS vulnerability :
 		Some XSS attack could be driven by XSS injection on previous code. PHP_SELF usage was removed and satanized by using
 		SCRIPT_NAME 
+	* Installation or upgrade : no new dependencies are needed compared to 3.5.5 (see below)
 
 2012-04-01: CartoWeb 3.5.5
 ==========================
