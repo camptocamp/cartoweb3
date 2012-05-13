@@ -357,4 +357,3 @@ class I18nNoop {
         return $text;
     }
 }
-

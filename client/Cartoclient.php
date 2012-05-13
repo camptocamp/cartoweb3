@@ -1326,4 +1326,3 @@ class Cartoclient extends Cartocommon {
         return $output;
     }
 }
-
