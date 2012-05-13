@@ -164,7 +164,7 @@ class ServerMapquery extends ServerPlugin {
         for ($i = 0; $i < $numResults; $i++) {
             // Full new way for mapserver 6.0            
             $results[$i] = $msLayer->getShape($msLayer->getResult($i));
-            $this->log->debug("ExtractResults results[$i]: " . print_r($results[$i]->values,1));
+//Extra verbose logging            $this->log->debug("ExtractResults results[$i]: " . print_r($results[$i]->values,1));
         }
         $msLayer->close();
         return $results;        
@@ -191,33 +191,32 @@ class ServerMapquery extends ServerPlugin {
 
         
         $savedExtent = $msMapObj->extent; 
-        // Saves extent and sets it to max extent.
-        // Only if not a WFS 
+        /** Saves extent and sets it to max extent.
+        *    Only if not a WFS
+        *    @todo : check if an extent is setup in .map getMaxExtent return this one
+        *    or what the server is able to serve.
+        */ 
         if ( $msLayer->connectiontype != MS_WFS){
             $maxExtent = $serverContext->getMaxExtent();
             $msMapObj->setExtent($maxExtent->minx, $maxExtent->miny, 
                                  $maxExtent->maxx, $maxExtent->maxy);
-        }
-//         else{
-//             // Debug force manually the extent of the layer
-//             $msMapObj->setExtent(4.40000, 42.73333, 16.88333, 48.85000);            
-//         }       
-        $log->debug(__LINE__ . " queryLayerByAttributes layer: $msLayer->name " .
-                "Extent: " .print_r($savedExtent,1). " " .
-                "idAttribute: $idAttribute query: $query");
+        }        
         // Layer has to be activated for query.
         $msLayer->set('status', MS_ON);
         $ret = @$msLayer->queryByAttributes($idAttribute, $query, MS_MULTIPLE);
 
-        $this->log->debug('Query on layer ' . $msLayer->name . 
-                          ": queryByAttributes($idAttribute, $query)");
-                
+        $log->debug( __FILE__ . ' ' . __LINE__ . " queryLayerByAttributes layer: $msLayer->name "
+                . "Extent: $msMapObj->extent->minx, $msMapObj->extent->miny, $msMapObj->extent->maxx, $msMapObj->extent->maxy" 
+                . " "
+                . "idAttribute: $idAttribute query: $query" . " mayFail = ".($mayFail === true)? 'true':'false');
+        
         if ($ret == MS_FAILURE) {
             if ($mayFail) {
                 $serverContext->resetMsErrors();
                 // restore extent
                 $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
                                      $savedExtent->maxx, $savedExtent->maxy);
+                $this->log->debug(__LINE__ .': Query on layer ' . 'no results found for '.$msLayer->name.' returning empty array');
                 return array();
             }
             throw new CartoserverException('Attribute query returned no ' .
@@ -256,6 +255,8 @@ class ServerMapquery extends ServerPlugin {
      * @param boolean If true, a failure in the query is not fatal (empy array 
      *                returned)
      * @return array an array of shapes
+     * @FIXME : what is really the role of mayFail, by default always called with false.
+     *         changes in 3.6 initialized by ServerQuery always true.
      */
     public function queryByIdSelection(IdSelection $idSelection, 
                                        $mayFail = false) {
@@ -283,19 +284,18 @@ class ServerMapquery extends ServerPlugin {
         $ids = Encoder::decode($idSelection->selectedIds, 'config');
 
         // FIXME: can shapefiles support queryString for multiple id's ?
-        //  if yes, then improve this handling. 
-
+        //  if yes, then improve this handling.
         if (self::isDatabaseLayer($msLayer))
             $queryString = self::databaseQueryString($idAttribute, $idType, $ids);
         elseif (self::isWxSLayer($msLayer))
             $queryString = self::WxSQueryString($idAttribute, $idType, $ids);
         else
             $queryString = self::genericQueryString($idAttribute, $idType, $ids);
-/*Debug part */
-if ($msLayer->connectiontype == "WFS"){
-        $this->log->debug('DEBUGGING' . __FILE__ . ' line: ' . __LINE__ . PHP_EOL . 'Query : ' . $queryString);
-}
-        $mayFail = ($msLayer->connectiontype == "WFS") ? TRUE : $mayFail;
+        
+        /*Debug part */
+        if ($msLayer->connectiontype == "WFS"){
+            $this->log->debug("EXTRA.DEBUG" . __FILE__ . ' line: ' . __LINE__ . PHP_EOL . 'Query : ' . $queryString);
+        }
         $results = array();
         foreach($queryString as $query) {
             $new_results = self::queryLayerByAttributes($serverContext,
@@ -327,6 +327,7 @@ if ($msLayer->connectiontype == "WFS"){
             $msPoint->setXY($shape->x, $shape->y);
             
             // no tolerance set by default, must be set in mapfile
+            // with WFS layer you need to set one like 0.0001 bug in Mapserver 6.0
             $ret = @$msLayer->queryByPoint($msPoint, MS_MULTIPLE, -1);
             
             $this->log->debug("Query on layer $layerId: " .

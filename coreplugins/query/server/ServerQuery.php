@@ -152,8 +152,7 @@ class ServerQuery extends ClientResponderAdapter {
             }
             
             $tableRow = new TableRow();
-// more debug            
-$this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
+// more debug $this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
             if (!empty($idAttribute)) {
                 $tableRow->rowId = Encoder::encode($shape->values[$idAttribute],
                                                    'config');
@@ -233,7 +232,7 @@ $this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
      * @return Table
      */
     protected function queryLayer($shape, $querySelection,
-                                  $mayFail = false) {
+                                  $mayFail = true) {
 
         if (is_null($querySelection->tableFlags)) {
             $querySelection->tableFlags = new TableFlags;
@@ -335,7 +334,7 @@ $this->log->debug(__LINE__ . ' shape debug ' . print_r($shape,1));
      * @param array 
      */
     protected function hilight($tables, $hilightQuerySelections,
-                               $mayFail = false) {
+                               $mayFail = true) {
 
         $pluginManager = $this->serverContext->getPluginManager();
         if ($this->getConfig()->drawQueryUsingHilight) {
