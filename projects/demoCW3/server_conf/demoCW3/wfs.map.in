@@ -18,10 +18,17 @@ LAYER
     "ows_typename"          "continents"
     "ows_version"           "1.0.0"
     "ows_connectiontimeout" "60"
-    "ows_maxfeatures"       "10"
+	"ows_extent"			"4.40000 42.73333 16.88333 48.85000" # IN layer SRS
+    "ows_maxfeatures"       "100"
 	#XML "wfs_exceptions_format" "application/vnd.ogc.se_xml"
 	"ows_cache_dir" "/var/tmp/"
 	"ows_tmpdir" "/var/tmp/" 
+# Mandatory for queries
+	"ows_request_method" 	"POST"	# default POST Get is usefull to debug sended queries in log 
+	"ows_enable_request"	"GetCapabilities GetFeature"
+	"gml_include_items" 	"NA2DESC NA3DESC"
+	"id_attribute_string" "gml_id|string"
+    "query_returned_attributes" "NA2DESC NA3DESC" 
   END
   PROJECTION
     "init=epsg:4326"
@@ -33,6 +40,12 @@ LAYER
       OUTLINECOLOR 96 96 96
     END
   END
+#TOLERANCE [double]
+#    Sensitivity for point based queries (i.e. via mouse and/or map coordinates). Given in TOLERANCEUNITS. If the layer is a POINT or a LINE, the default is 3. For all other layer types, the default is 0. To restrict polygon searches so that the point must occur in the polygon set the tolerance to zero.
+#TOLERANCEUNITS [pixels|feet|inches|kilometers|meters|miles|nauticalmiles|dd]
+#    Units of the TOLERANCE value. Default is pixels. Nauticalmiles was added in MapServer 5.6.
+	TOLERANCE 0.0001
+	TOLERANCEUNITS pixels	  
 END # Layer
 
 LAYER
