@@ -15,7 +15,7 @@
 
 <body>
  <table cellpadding="0" cellspacing="0" align="center">
-  <form method="post" action="{$smarty.server.PHP_SELF}">
+  <form method="post" action="{$smarty.server.SCRIPT_NAME}">
   <tr>
    <th colspan="2" align="center"><h3>{t}Login dialog{/t}</h3></th>
   </tr>
@@ -49,7 +49,7 @@
   </tr>
   <tr>
    <td colspan="2" align="center">
-    <p><br /><a href="{$smarty.server.PHP_SELF}">{t}Click here to go back to the map{/t}</a></p>
+    <p><br /><a href="{$smarty.server.SCRIPT_NAME}">{t}Click here to go back to the map{/t}</a></p>
    </td>
   </form>
  </table>
