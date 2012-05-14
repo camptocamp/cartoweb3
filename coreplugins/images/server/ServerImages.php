@@ -316,7 +316,7 @@ class ServerImages extends ClientResponderAdapter
                               getPlugin('location');        
             $scaleUnitLimit = $locationPlugin->getConfig()->scaleUnitLimit;
             if (!is_null($scaleUnitLimit)) {
-                $current_scale = $msMapObj->scale;
+                $current_scale = $msMapObj->scaledenom;
                 // The on-the-fly scalebar unit modification is not supported for Pixels Inches and DD 
                 if ($msMapObj->units == MS_METERS || $msMapObj->units == MS_KILOMETERS) {
                     if ($current_scale < $scaleUnitLimit ) {

@@ -1,6 +1,40 @@
 CartoWeb HEAD
 =============
 
+2012-05-10: CartoWeb 3.6.0
+==========================
+
+- Support of Mapserver/Mapscript >= 6.0.2 & PhP >= 5.3.8 
+  !!! WARNING : Compatibility BREAK !!!
+  !!! Projects developped with cw3.6 are not backward compatible with cw3.5 !!!
+  cw3setup.php will check basically if you have supported version or more recent
+
+- MAPSERVER 6x  
+	* Transparency/opacity : 
+		Take care to cleanup your map of the deprecaded TRANSPARENCY keywords for LAYERS & Scalebar
+		To migrate your old transparency effect use the inverse for opacity : transparency 30 = opacity 70
+		Scalebar : have a look at comment in demoCW3.map.in to learn about the details.
+	* OUTPUTFORMAT : carefully read the instruction on mapserver doc to knows how to migrate to default agg/png etc
+		New examples have been pushed in demoCW3.map.in
+	* QUERY by point on a polygon (at least for wfs) need to have a not null tolerance declared
+		TOLERANCE 0.0001
+		TOLERANCEUNITS pixels	  
+		seems to be a bug in mapserver6
+
+- CARTOWEB 3.6
+	* .ini need to be fixed like for the 3.5.5 level (see below)
+	* QUERY : query now initialize all query with mayFail = true, mapserver now respect what is documented
+		querybyAttribute and querybyid return only elements that intersect the viewed box. This drive to a new comportment
+		if you query for example in demoCW3 a montain, then pan the map until this montain is no more visible on the map
+		the next query on a new montain, will delete the previous result and not keep it like previously.
+	* Surcharging :
+		If you have surcharged or extented any part of CW3, take time to review any of them against the trunk, and
+		backport your surcharge against the new code.
+	* XSS vulnerability :
+		Some XSS attack could be driven by XSS injection on previous code. PHP_SELF usage was removed and satanized by using
+		SCRIPT_NAME 
+	* Installation or upgrade : no new dependencies are needed compared to 3.5.5 (see below)
+
 2012-04-01: CartoWeb 3.5.5
 ==========================
 

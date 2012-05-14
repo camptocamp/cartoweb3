@@ -234,10 +234,10 @@ class StyleOverlay extends BasicOverlay {
     public $backgroundColor;
 
     /**
-     * FIXME: the transparency is a layer property !!
+     * FIXME: the opacity is a layer property !!
      * @var int
      */
-    public $transparency;
+    public $opacity;
 
     /** 
      * Constructor
@@ -273,8 +273,8 @@ class StyleOverlay extends BasicOverlay {
         $this->backgroundColor = self::unserializeObject($struct, 
                                                          'backgroundColor', 
                                                          'ColorOverlay');
-        $this->transparency    = self::unserializeValue($struct, 
-                                                        'transparency', 'int');
+        $this->opacity    = self::unserializeValue($struct, 
+                                                        'opacity', 'int');
         parent::unserialize($struct);        
     }    
 }
@@ -359,12 +359,12 @@ class ClassOverlay extends BasicOverlay {
     /**
      * @var float
      */
-    public $minScale;
+    public $minscaledenom;
 
     /**
      * @var float
      */
-    public $maxScale;
+    public $maxscaledenom;
     
 
     /**
@@ -378,9 +378,9 @@ class ClassOverlay extends BasicOverlay {
                                                     'LabelOverlay');
         $this->styles     = self::unserializeArray($struct, 'styles', 
                                                    'StyleOverlay');
-        $this->minScale   = self::unserializeValue($struct, 'minScale', 
+        $this->minscaledenom   = self::unserializeValue($struct, 'minscaledenom', 
                                                    'float');
-        $this->maxScale   = self::unserializeValue($struct, 'maxScale', 
+        $this->maxscaledenom   = self::unserializeValue($struct, 'maxscaledenom', 
                                                    'float');
 
         parent::unserialize($struct);
@@ -457,7 +457,7 @@ class LayerOverlay extends BasicOverlay {
     /**
      * @var string
      */
-    public $maxScale;
+    public $maxscaledenom;
     
     /**
      * @var array array of MetadataOverlay
@@ -467,7 +467,7 @@ class LayerOverlay extends BasicOverlay {
     /**
      * @var string
      */
-    public $minScale;
+    public $minscaledenom;
     
     /**
      * @var string
@@ -477,7 +477,7 @@ class LayerOverlay extends BasicOverlay {
     /**
      * @var int
      */
-    public $transparency;
+    public $opacity;
     
     /**
      * @var string
@@ -496,12 +496,12 @@ class LayerOverlay extends BasicOverlay {
         $this->data           = self::unserializeValue($struct, 'data');
         $this->filter         = self::unserializeValue($struct, 'filter');
         $this->filteritem     = self::unserializeValue($struct, 'filteritem');
-        $this->maxScale       = self::unserializeValue($struct, 'maxScale');
+        $this->maxscaledenom       = self::unserializeValue($struct, 'maxscaledenom');
         $this->metadatas      = self::unserializeObjectMap($struct, 'metadatas',
                                                            'MetadataOverlay');
-        $this->minScale       = self::unserializeValue($struct, 'minScale');
+        $this->minscaledenom       = self::unserializeValue($struct, 'minscaledenom');
         $this->name           = self::unserializeValue($struct, 'name');
-        $this->transparency   = self::unserializeValue($struct, 'transparency', 
+        $this->opacity   = self::unserializeValue($struct, 'opacity', 
                                                        'int');
         $this->type           = self::unserializeValue($struct, 'type');
          

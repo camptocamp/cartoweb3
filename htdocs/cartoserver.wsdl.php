@@ -34,7 +34,7 @@ function getSoapAddress(ServerConfig $serverConfig) {
         $soapAddress = $serverConfig->reverseProxyUrl;
     } else {
         $soapAddress = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . 
-                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); 
+                    $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']); 
     }
     return $soapAddress;
 }           

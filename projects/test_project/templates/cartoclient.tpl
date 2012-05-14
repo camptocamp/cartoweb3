@@ -133,7 +133,7 @@ Request:
     {if $locales|default:''}
     <p>
       {foreach from=$locales item=locale name=lang}
-      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$smarty.server.PHP_SELF}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
+      {if $locale != $currentLang}<a href="javascript:document.carto_form.action='{$smarty.server.SCRIPT_NAME}?lang={$locale}';FormItemSelected();">{$locale}</a>{else}<strong>{$locale}</strong>{/if}
       {if !$smarty.foreach.lang.last}|{/if}
       {/foreach}
     </p>

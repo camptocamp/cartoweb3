@@ -357,21 +357,24 @@ class PluginManager {
      * @return PluginBase
      * @deprecated This method is deprecated and should not be used any more.
      *   See the corresponding page on how to update your plugin.
+     *   PHP_SELF lead to XSS attack. 
      */
     public function getCurrentPlugin() {
-        
+        throw new CartocommonException('getCurrentPlugin : deprecated function, no more usable');
+        /*
         if (preg_match('#^(.*)(\/?)([a-z0-9_-]*)(\/?)([a-z0-9_-]*).php$#iU', 
                        $_SERVER['PHP_SELF'],
                        $match)) {
             $plugin = $match[3];
+            die('deprecated method used ');
         } else {
             $plugin = false;
         }
 
         if (!$plugin)
             throw new CartocommonException('Failed to get current plugin id');
-
         return $this->getPlugin($plugin);
+        */
     }
 }
 

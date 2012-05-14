@@ -46,13 +46,13 @@ class LayerBase extends CwSerializable {
      * Minimum scale where layer is visible
      * @var int
      */
-    public $minScale = 0;
+    public $minscaledenom = 0;
     
     /**
      * Maximum scale where layer is visible
      * @var int
      */
-    public $maxScale = 0;
+    public $maxscaledenom = 0;
     
     /**
      * Icon to display for layer
@@ -124,9 +124,9 @@ class LayerBase extends CwSerializable {
         $this->id    = self::unserializeValue($struct, 'id'); 
         $this->label = self::unserializeValue($struct, 'label');
         $this->link  = self::unserializeValue($struct, 'link');
-        $this->minScale = self::unserializeValue($struct, 'minScale', 
+        $this->minscaledenom = self::unserializeValue($struct, 'minscaledenom', 
                                                  'double');
-        $this->maxScale = self::unserializeValue($struct, 'maxScale',
+        $this->maxscaledenom = self::unserializeValue($struct, 'maxscaledenom',
                                                  'double');
         $this->icon  = self::unserializeValue($struct, 'icon');
         $this->metadata = self::unserializeArray($struct, 'metadata');
@@ -313,7 +313,7 @@ class Layer extends LayerContainer {
     /**
      * @var string
      */
-    public $transparency;
+    public $opacity;
     
     /**
      * @see CwSerializable::unserialize()
@@ -321,7 +321,7 @@ class Layer extends LayerContainer {
     public function unserialize($struct) {
         parent::unserialize($struct);
         $this->msLayer      = self::unserializeValue($struct, 'msLayer');
-        $this->transparency = self::unserializeValue($struct, 'transparency');
+        $this->opacity = self::unserializeValue($struct, 'opacity');
     }
 }
 

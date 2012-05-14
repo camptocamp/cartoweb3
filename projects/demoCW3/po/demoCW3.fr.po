@@ -14,7 +14,7 @@ msgstr ""
 
 #: location.ini:shortcuts.1.label
 msgid "Leman Lake"
-msgstr "Lac LÃ©man"
+msgstr "Lac Léman"
 
 #: location.ini:shortcuts.2.label
 msgid "Albertville"
@@ -49,10 +49,11 @@ msgid "1/4 750 000"
 msgstr ""
 
 msgid "categ"
-msgstr "CatÃ©gorie"
+msgstr "Catégorie"
 
+#: layers.ini:switches.switch2.label
 msgid "human"
-msgstr "ActivitÃ©s humaines"
+msgstr "Humain"
 
 #: layers.ini:layers.background.label
 msgid "Background"
@@ -73,12 +74,12 @@ msgstr "Aucun"
 #: layers.ini:layers.human.label
 #, fuzzy
 msgid "Human activities "
-msgstr "ActivitÃ©s humaines"
+msgstr "Activités humaines"
 
 #: layers.ini:layers.categ.label
 #, fuzzy
 msgid "Category "
-msgstr "CatÃ©gorie"
+msgstr "Catégorie"
 
 #: layers.ini:layers.relief.label
 msgid "Relief"
@@ -90,7 +91,7 @@ msgstr "Hydrologie"
 
 #: layers.ini:layers.district.label demoCW3.map
 msgid "district"
-msgstr "RÃ©gions"
+msgstr "Régions"
 
 #: layers.ini:layers.sea.label demoCW3.map
 msgid "sea"
@@ -102,7 +103,7 @@ msgstr "Villes"
 
 #: layers.ini:layers.agglo.label
 msgid "Agglomerations"
-msgstr "AgglomÃ©rations"
+msgstr "Agglomérations"
 
 #: layers.ini:layers.transport.label
 msgid "Transports"
@@ -110,11 +111,11 @@ msgstr "Transports"
 
 #: layers.ini:layers.airport.label
 msgid "Airports"
-msgstr "AÃ©roports"
+msgstr "Aéroports"
 
 #: layers.ini:layers.railway.label
 msgid "Railways"
-msgstr "Voies ferrÃ©es"
+msgstr "Voies ferrées"
 
 #: layers.ini:layers.road.label
 msgid "Roads"
@@ -142,7 +143,7 @@ msgstr "Glaciers"
 
 #: layers.ini:layers.river.label
 msgid "Rivers"
-msgstr "RiviÃ¨res"
+msgstr "Rivières"
 
 #: layers.ini:layers.lake_.label
 msgid "Lakes"
@@ -194,7 +195,7 @@ msgstr ""
 
 #: outline.ini:pointSymbols.labels demoCW3.map
 msgid "airport"
-msgstr "AÃ©roports"
+msgstr "Aéroports"
 
 #: demoCW3.map
 msgid "raster"
@@ -211,7 +212,7 @@ msgstr "NOM"
 #: demoCW3.map
 #, fuzzy
 msgid "district_recenter"
-msgstr "RÃ©gions"
+msgstr "Régions"
 
 #: demoCW3.map
 msgid "ID"
@@ -235,11 +236,11 @@ msgstr "Lacs"
 
 #: demoCW3.map
 msgid "river"
-msgstr "RiviÃ¨res"
+msgstr "Rivières"
 
 #: demoCW3.map
 msgid "railway"
-msgstr "Voies ferrÃ©es"
+msgstr "Voies ferrées"
 
 #: demoCW3.map
 #, fuzzy
@@ -273,7 +274,7 @@ msgstr ""
 
 #: demoCW3.map
 msgid "agglo"
-msgstr "AgglomÃ©rations"
+msgstr "Agglomérations"
 
 #: demoCW3.map
 msgid "town"
@@ -374,51 +375,51 @@ msgstr ""
 msgid "Mapsize :"
 msgstr "Taille carte :"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
-msgstr "déplier"
+msgstr "Déplier"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Expand tree"
-msgstr "DÃ©plier"
+msgstr "Déplier"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "close tree"
-msgstr "fermer"
+msgstr "Fermer"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Close tree"
 msgstr "Fermer"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "check all"
-msgstr "tout sélectionner"
+msgstr "Tout sélectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Check all"
-msgstr "Tout sÃ©lectionner"
+msgstr "Tout sélectionner"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "uncheck all"
-msgstr "tout déselectionner"
+msgstr "Tout déselectionner"
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Uncheck all"
-msgstr "Tout dÃ©sÃ©lectionner"
+msgstr "Tout désélectionner"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "more info on"
-msgstr "plus d'infos sur"
+msgstr "Plus d'info sur"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Click to go to next visible scale:"
-msgstr "Prochaine échelle visible :"
+msgstr "Cliquer pour afficher la prochaine échelle:"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Zoom in to see layer"
 msgstr "Zoomer pour voir la couche"
 
-#: coreplugins/layers/templates/layers.tpl
+#: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "Zoom out to see layer"
 msgstr "Dézoomer pour voir la couche"
 
@@ -436,7 +437,7 @@ msgstr "Couche :"
 
 #: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "Comma separated id's : "
-msgstr "Ids, sÃ©parÃ©s par des virgules :"
+msgstr "Ids, séparés par des virgules :"
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
@@ -454,14 +455,14 @@ msgstr ""
 msgid "Scale :"
 msgstr "Echelle :"
 
-#: coreplugins/location/templates/shortcuts.tpl
+#: projects/demoCW3/coreplugins/location/templates/shortcuts.tpl
 msgid "Shortcuts"
 msgstr "Raccourcis"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Hilight"
-msgstr "Mise en Ã©vidence"
+msgstr "Mise en évidence"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -483,19 +484,21 @@ msgstr "Intersection"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "In Query"
-msgstr "Dans la requÃªte"
+msgstr "Dans la requête"
 
-#: plugins/outline/templates/outline.tpl
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid "Mask"
 msgstr "Masque"
 
-#: coreplugins/query/templates/query.tpl
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "Query all selected layers"
-msgstr "Interroger toutes les couches sélectionnées"
+msgstr "Requète sur toutes les couches"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 msgid "query_clear"
-msgstr "Effacer la requÃªte"
+msgstr "Effacer la requête"
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -507,29 +510,29 @@ msgstr "vous connecter"
 
 #: projects/demoCW3/plugins/auth/templates/auth.tpl
 msgid "logout"
-msgstr "vous dÃ©connecter"
+msgstr "vous déconnecter"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Login dialog"
-msgstr "Identification"
+msgstr "Login dialogue"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "You've been logged out"
-msgstr "Vous êtes déconnecté"
+msgstr "Vous avez été déconnecté"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Please enter your login and password"
-msgstr "Veuillez entrer votre nom et votre mot de passe"
+msgstr "Entez votre identifiant et mot de passe"
 
 #: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "(for demonstration use: 'demo' 'demo')"
-msgstr "(pour la dÃ©monstration, utilisez: 'demo' 'demo')"
+msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Username"
-msgstr "Nom"
+msgstr "Nom d'utilisateur"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -537,13 +540,13 @@ msgstr "Mot de passe"
 msgid "Submit"
 msgstr "Envoyer"
 
-#: plugins/auth/templates/login_page.tpl
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
 msgid "Click here to go back to the map"
-msgstr "Retour à la carte"
+msgstr "Cliquer pour retourner à la carte"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Format and Resolution (dpi)"
-msgstr "Format et rÃ©solution (dpi)"
+msgstr "Format et résolution (dpi)"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Orientation"
@@ -554,12 +557,11 @@ msgstr ""
 msgid "Portrait"
 msgstr "Portrait"
 
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Landscape"
 msgstr "Paysage"
 
-#: plugins/views/templates/views.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Title"
 msgstr "Titre"
 
@@ -571,36 +573,37 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Scalebar"
 msgstr "Echelle"
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Overview"
 msgstr "Aperçu"
 
 #: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "QueryResult"
-msgstr "RÃ©sultats de la requÃªte"
+msgstr "Résultats de la requête"
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "Legend"
 msgstr "Légende"
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "On map"
-msgstr "Carte principale"
+msgstr "Intégrée à la carte"
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "In new page"
-msgstr "Nouvelle page"
+msgstr "Dans une nouvelle page"
 
-#: plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
 msgid "None"
-msgstr "Aucun"
+msgstr "Aucune"
 
-#: plugins/exportHtml/templates/export.tpl
-#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+#: projects/demoCW3/templates/toolbar.tpl
 msgid "Print"
 msgstr "Imprimer"
 
@@ -608,7 +611,7 @@ msgstr "Imprimer"
 msgid "Mode"
 msgstr ""
 
-#: plugins/outline/templates/outline.tpl
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Draw"
 msgstr "Dessin"
 
@@ -616,9 +619,9 @@ msgstr "Dessin"
 msgid "Change Mode"
 msgstr "Changer de mode"
 
-#: plugins/outline/templates/outline.tpl
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Total area"
-msgstr "Surface totale"
+msgstr "Aire totale"
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Km"
@@ -626,19 +629,20 @@ msgstr ""
 
 #: projects/demoCW3/plugins/outline/templates/outline.tpl
 msgid "Clear outline"
-msgstr "Effacer le tracÃ©"
+msgstr "Effacer le tracé"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
-msgstr "CartoWeb3 - DÃ©monstration"
+msgstr "CartoWeb3 - Démonstration"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+#: projects/demoCW3/templates/mainmap.tpl
 msgid "Collapse keymap"
-msgstr "Cacher la carte de référence"
+msgstr "Masquer l'aperçu"
 
-#: templates/cartoclient.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid "Show keymap"
-msgstr "Afficher la carte de référence"
+msgstr "Monter l'aperçu"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "welcome"
@@ -646,7 +650,7 @@ msgstr "Bienvenue"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Coordonnees (m):"
-msgstr "CoordonnÃ©es (m):"
+msgstr "Coordonnées (m):"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Distance approx.: "
@@ -658,11 +662,11 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "scalebar_alt"
-msgstr ""
+msgstr "échelle_alt"
 
-#: templates/cartoclient.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid " Developer messages "
-msgstr "Messages développeurs"
+msgstr "Messages développeur"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "User messages"
@@ -676,7 +680,7 @@ msgstr "A propos"
 msgid "Help Viewer"
 msgstr "Aide"
 
-#: templates/cartoclient.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid "Themes"
 msgstr "Thèmes"
 
@@ -690,7 +694,7 @@ msgstr "Dessin"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Query"
-msgstr "RequÃªte"
+msgstr "Requête"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Refresh"
@@ -698,7 +702,7 @@ msgstr "Rafraichir"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Data sources"
-msgstr "Sources des donnÃ©es"
+msgstr "Sources des données"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Nima :"
@@ -726,7 +730,7 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "You are not allowed to print maps"
-msgstr "Vous n'Ãªtes pas autorisÃ© Ã  imprimer des cartes"
+msgstr "Vous n'êtes pas autorisé à imprimer des cartes"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -734,13 +738,13 @@ msgid ""
 "visible for an end-user in Cartoweb. To get the most out of it, read through "
 "this Help guide before starting to explore."
 msgstr ""
-"Cette dÃ©mo est un aperÃ§u des fonctionnalitÃ©s standard, visibles par un "
+"Cette démo est un aperçu des fonctionnalités standard, visibles par un "
 "utilisateur de Cartoweb. Pour l'utiliser pleinement, lisez cette aide avant "
-"de commencer Ã  l'utiliser."
+"de commencer à l'utiliser."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Themes tab"
-msgstr " Onglet ThÃ¨mes"
+msgstr " Onglet Thèmes"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -748,16 +752,16 @@ msgid ""
 "indefinite path.\n"
 "        The layers which are checked and so selected, are displayed."
 msgstr ""
-"Cartoweb supporte une hiÃ©rarchie complexe de couches, avec un nombre de "
+"Cartoweb supporte une hiérarchie complexe de couches, avec un nombre de "
 "niveaux infini.\n"
-"Pour afficher une couche, il suffit de la sÃ©lectionner."
+"Pour afficher une couche, il suffit de la sélectionner."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "Once you have chosen your data, click on the OK button, located beneath the "
 "tab, to update your changes"
 msgstr ""
-"Une fois votre couche choisie, cliquez sur le bouton \"OK\" pour mettre Ã  "
+"Une fois votre couche choisie, cliquez sur le bouton \"OK\" pour mettre à "
 "jour la carte."
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -769,8 +773,8 @@ msgid ""
 "This tab allows you to move the center of the viewing area on a desired "
 "location. You can choose this location by three differents ways :"
 msgstr ""
-"Cet onglet vous permet de dÃ©placer la zone affichÃ©e vers celle que vous "
-"voulez. Vous pouvez faire cela de diffÃ©rentes maniÃ¨res :"
+"Cet onglet vous permet de déplacer la zone affichée vers celle que vous "
+"voulez. Vous pouvez faire cela de différentes manières :"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "pet"
@@ -778,14 +782,14 @@ msgstr "puce"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "to select a shortcut to a specific location,"
-msgstr "en sÃ©lectionnant un raccouci vers un lieu gÃ©ographique,"
+msgstr "en sélectionnant un raccouci vers un lieu géographique,"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "to entering the coordinates in the box X and Y (to start the search type on "
 "the touch "
 msgstr ""
-"en entrant les coordinÃ©es X et Y d'un point (pour lancer la recherche, "
+"en entrant les coordinées X et Y d'un point (pour lancer la recherche, "
 "tapper sur la touche "
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -794,9 +798,9 @@ msgid ""
 "interested in, type the word or the begining of the word you think "
 "correspond to a feature of the data and follow the instructions."
 msgstr ""
-"en faisant une recherche sur un nom. Pour cela, sÃ©lectionnez la couche qui "
-"vous intÃ©resse, tappez le mot ou le dÃ©but du mot, qui selon vous "
-"correspond Ã  un objet de la couche, et suivez les instructions."
+"en faisant une recherche sur un nom. Pour cela, sélectionnez la couche qui "
+"vous intéresse, tappez le mot ou le début du mot, qui selon vous correspond "
+"à un objet de la couche, et suivez les instructions."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Outline tab"
@@ -812,12 +816,12 @@ msgid ""
 "masked, is provided too."
 msgstr ""
 "Dans Cartoweb, il est possible de dessiner des points, des lignes, des "
-"rectangles ou des polygones sur la carte, et d'y attacher des Ã©tiquettes. "
-"Ces objets sont persistants : au prochain zoom ou dÃ©placement, ils seront "
-"toujours affichÃ©s.\n"
-"Cet onglet vous permet d'obtenir des informations sur les objets dessinÃ©s "
-"et de basculer vers le mode masque, dans lequel tout est masquÃ©, sauf "
-"l'objet dessinÃ©."
+"rectangles ou des polygones sur la carte, et d'y attacher des étiquettes. "
+"Ces objets sont persistants : au prochain zoom ou déplacement, ils seront "
+"toujours affichés.\n"
+"Cet onglet vous permet d'obtenir des informations sur les objets dessinés et "
+"de basculer vers le mode masque, dans lequel tout est masqué, sauf l'objet "
+"dessiné."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "outline_point"
@@ -841,16 +845,16 @@ msgstr "Pour dessiner les objets voulus, utilisez les outils de dessin."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Query tab"
-msgstr "Onglet RequÃªte"
+msgstr "Onglet Requête"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "Using the query tool, you can geographically search for objects. Found "
 "objects are hilighted and their attributes are displayed."
 msgstr ""
-"En utilisant l'outil RequÃªte, vous pour faire une recherche gÃ©ographique "
-"sur des objets. Les objets trouvÃ©s sont mis en Ã©vidence et leurs attributs "
-"sont affichÃ©s."
+"En utilisant l'outil Requête, vous pour faire une recherche géographique sur "
+"des objets. Les objets trouvés sont mis en évidence et leurs attributs sont "
+"affichés."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -858,8 +862,8 @@ msgid ""
 "objects).\n"
 "    Note : "
 msgstr ""
-"Les requÃªtes sont persistantes (vous pouvez ajouter de nouveaux objets Ã  "
-"ceux dÃ©jÃ  sÃ©lectionnÃ©s).\n"
+"Les requêtes sont persistantes (vous pouvez ajouter de nouveaux objets à "
+"ceux déjà sélectionnés).\n"
 "    Note : "
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -867,28 +871,28 @@ msgid ""
 "only the layers which are specified questionnable by the administrator of "
 "the website are concerned by the query."
 msgstr ""
-"seulement les couches spÃ©cifiÃ©es comme interrogeables par l'administateur "
-"du site Web sont concernÃ©es par la requÃªte."
+"seulement les couches spécifiées comme interrogeables par l'administateur du "
+"site Web sont concernées par la requête."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "This tab allows you to parametrize your search. For each layers, which can "
 "be interrogated, the following options can be set :"
 msgstr ""
-"Cet onglet vous permet de paramÃ©trer votre requÃªte. Pour chaque couche "
-"interrogeable, les options suivantes peuvent Ãªtre mises :"
+"Cet onglet vous permet de paramétrer votre requête. Pour chaque couche "
+"interrogeable, les options suivantes peuvent être mises :"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid " : allows to activate/desactivate features hilight;"
-msgstr " : permet d'activer/dÃ©sactiver la mise en Ã©vidence des objets;"
+msgstr " : permet d'activer/désactiver la mise en évidence des objets;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 " : if it's checked, the layers attributes can be requested. Instead, only "
 "object IDs will be returned;"
 msgstr ""
-" : si elle est cochÃ©e, les attributs des couches peuvent Ãªtre interrogÃ©s. "
-"Sinon, seulement les identifiants des objets seront retournÃ©s;"
+" : si elle est cochée, les attributs des couches peuvent être interrogés. "
+"Sinon, seulement les identifiants des objets seront retournés;"
 
 #: coreplugins/query/templates/query.tpl
 msgid "Table"
@@ -896,29 +900,27 @@ msgstr "Table"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid " : allows to display the query result;"
-msgstr " : permet d'afficher le rÃ©sultat d'une requÃªte"
+msgstr " : permet d'afficher le résultat d'une requête"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Union selection"
-msgstr "Union sÃ©lection"
+msgstr "Union sélection"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 " : when selecting a group of objects, already selected ones are kept "
 "selected and no yet selected ones are selected;"
 msgstr ""
-" : quand vous sÃ©lectionnez un groupe d'objets, ceux qui Ã©taient dÃ©jÃ  "
-"sÃ©lectionnÃ©s le restent et ce qui ne l'Ã©taient pas encore sont "
-"sÃ©lectionnÃ©s;"
+" : quand vous sélectionnez un groupe d'objets, ceux qui étaient déjà "
+"sélectionnés le restent et ce qui ne l'étaient pas encore sont sélectionnés;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 " : when selecting a group of objects, already selected ones are unselected "
 "and no yet selected ones are selected (defaut type);"
 msgstr ""
-" : quand vous sÃ©lectionnez un group d'objets, ceux qui Ã©tÃ© sÃ©lectionnÃ©s "
-"sont dÃ©sÃ©lectionnÃ©s et ceux qui ne l'Ã©taient pas sont sÃ©lectionnÃ©s "
-"(par dÃ©faut);"
+" : quand vous sélectionnez un group d'objets, ceux qui été sélectionnés sont "
+"désélectionnés et ceux qui ne l'étaient pas sont sélectionnés (par défaut);"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Intersection"
@@ -929,34 +931,34 @@ msgid ""
 " : when selecting a group of objects, only already selected are kept "
 "selected;"
 msgstr ""
-" : quand vous sÃ©lectionnez un groupe d'objets, seulement ceux qui Ã©taient "
-"dÃ©jÃ  sÃ©lectionnÃ©s seront conservÃ©s dans la sÃ©lection;"
+" : quand vous sélectionnez un groupe d'objets, seulement ceux qui étaient "
+"déjà sélectionnés seront conservés dans la sélection;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "InQuery"
-msgstr "Dans la requÃªte"
+msgstr "Dans la requête"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid " : if it's checked, you force query to use this layer;"
 msgstr ""
-" : si cette option est cochÃ©e, vous forcez incluez cette couche dans la "
-"requÃªte;"
+" : si cette option est cochée, vous forcez incluez cette couche dans la "
+"requête;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 " : if it's checked, you apply a mask instead of a simple selection. This "
 "don't work when using highlight mecanism;"
 msgstr ""
-" : si elle est cochÃ©e, vous appliquerez un masque au lieu de faire une "
-"simple sÃ©lection."
+" : si elle est cochée, vous appliquerez un masque au lieu de faire une "
+"simple sélection."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "If \"Query all selected layers\" option is checked, the query will handle "
 "all the questionnable layers"
 msgstr ""
-"Si l'option \"Interroger toutes les couches sÃ©lectionnÃ©es\" est cochÃ©e, "
-"la requÃªte portera sur toutes les couches interrogeables."
+"Si l'option \"Interroger toutes les couches sélectionnées\" est cochée, la "
+"requête portera sur toutes les couches interrogeables."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Print tab"
@@ -970,10 +972,9 @@ msgid ""
 "title, note)."
 msgstr ""
 "Cartoweb permet des exports au format PDF. Vous pouvez choisir dans cet "
-"onglet, les Ã©lÃ©ments de la carte que vous voulez voir s'afficher (barre "
-"d'Ã©chelle, vue gÃ©nÃ©rale, rÃ©sultats d'une requÃªte, lÃ©gende) et des "
-"options spÃ©cifiques Ã  l'export (format et rÃ©olution, orientation, titre, "
-"note)."
+"onglet, les éléments de la carte que vous voulez voir s'afficher (barre "
+"d'échelle, vue générale, résultats d'une requête, légende) et des options "
+"spécifiques à l'export (format et réolution, orientation, titre, note)."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "About tab"
@@ -987,10 +988,9 @@ msgid ""
 "background."
 msgstr ""
 "Cet onglet vous fournit quelques informations sur les projections et les "
-"donnÃ©es.\n"
-"Toutes les donnÃ©es sont libres de droits. Nima fait rÃ©fÃ©rence aux sources "
-"de donnÃ©es du fond de carte vecteur et Gtopo30 Ã  celles du fond de carte "
-"raster."
+"données.\n"
+"Toutes les données sont libres de droits. Nima fait référence aux sources de "
+"données du fond de carte vecteur et Gtopo30 à celles du fond de carte raster."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Globe"
@@ -1009,26 +1009,25 @@ msgid ""
 "There are many possibilities to navigate on the main map, that is to change "
 "the scale and the position"
 msgstr ""
-"Elle offre la possibilitÃ© de naviguer sur la carte principale, en changeant "
-"l'Ã©chelle ou la position d'observation"
+"Elle offre la possibilité de naviguer sur la carte principale, en changeant "
+"l'échelle ou la position d'observation"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "the arrows surrounding the map;"
-msgstr "les flÃ¨ches de dÃ©placement;"
+msgstr "les flèches de déplacement;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "the dynamic (i.e. clickable) keymap;"
-msgstr "la vue gÃ©nÃ©rale dynamique (i.e. cliquable);"
+msgstr "la vue générale dynamique (i.e. cliquable);"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "the navigation tools (zoom and pan), which are detailled below;"
 msgstr ""
-"les outils de navigation (zoom et dÃ©placement), qui seront dÃ©taillÃ©s "
-"aprÃ¨s;"
+"les outils de navigation (zoom et déplacement), qui seront détaillés après;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "the drop down menu \"Scale\";"
-msgstr "la liste dÃ©roulante d'Ã©chelles;"
+msgstr "la liste déroulante d'échelles;"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "the various options in the \"Search\" tab."
@@ -1036,7 +1035,7 @@ msgstr "les options de l'onglet \"Recherche\"."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "The menu \"Mapsize\" is self- explanatory."
-msgstr "la liste dÃ©roulante des tailles de cartes possibles"
+msgstr "la liste déroulante des tailles de cartes possibles"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomin"
@@ -1051,14 +1050,14 @@ msgid ""
 "closer and closer to desired regions."
 msgstr ""
 "L'outil de zoom avant permet de zoomer sur une petite surface de l'Europe. "
-"Cliquez sur cet outil et cliquez sur la carte, sur le centre de la rÃ©gion "
-"qui vous intÃ©resse, ou dessinez un \"rectangle de zoom\" autour de cette "
-"zone. L'outil de zoom peut Ãªtre utilisÃ© plusieurs fois pour zoomer sur des "
+"Cliquez sur cet outil et cliquez sur la carte, sur le centre de la région "
+"qui vous intéresse, ou dessinez un \"rectangle de zoom\" autour de cette "
+"zone. L'outil de zoom peut être utilisé plusieurs fois pour zoomer sur des "
 "zones de plus en plus petites."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "zoomout"
-msgstr "Zoom arriÃ¨re"
+msgstr "Zoom arrière"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -1067,14 +1066,14 @@ msgid ""
 "the center of the larger region you are interested in. The Zoom Out tool can "
 "be used multiple times to view larger and larger regions."
 msgstr ""
-"L'outil de zoom arriÃ¨re vous permet de vous positionner sur une surface de "
-"la carte plus Ã©tendu que l'Ã©tat actuel.Cliquez sur cet outil et cliquez "
-"sur la carte au centre de la rÃ©gion qui vous intÃ©resse. Le zoom arriÃ¨re "
-"peut Ãªtre utilisÃ© plusieurs fois, jusqu'Ã  arriver Ã  la vue gÃ©nÃ©rale."
+"L'outil de zoom arrière vous permet de vous positionner sur une surface de "
+"la carte plus étendu que l'état actuel.Cliquez sur cet outil et cliquez sur "
+"la carte au centre de la région qui vous intéresse. Le zoom arrière peut "
+"être utilisé plusieurs fois, jusqu'à arriver à la vue générale."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "pan"
-msgstr "DÃ©placement"
+msgstr "Déplacement"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -1082,13 +1081,13 @@ msgid ""
 "changing the scale of the map. Click the Pan Map button and then click and "
 "drag the map image to recenter it."
 msgstr ""
-"L'outil de dÃ©placement vous permets de vous dÃ©placer sur la carte sans "
-"changer l'Ã©chelle de la carte. Cliquez sur l'outil de dÃ©placement et "
-"dÃ©placer le centre de visualisation en faisant un \"Cliquer_dÃ©placer\"."
+"L'outil de déplacement vous permets de vous déplacer sur la carte sans "
+"changer l'échelle de la carte. Cliquez sur l'outil de déplacement et "
+"déplacer le centre de visualisation en faisant un \"Cliquer_déplacer\"."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "fullextent"
-msgstr "Vue gÃ©nÃ©rale"
+msgstr "Vue générale"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
@@ -1097,9 +1096,9 @@ msgid ""
 "activate this tool - it is activated as soon as you click the Zoom to Full "
 "Extents button."
 msgstr ""
-"Le zoom vers la carte gÃ©nÃ©rale vous permets de quitter le zoom actuel et "
-"de revenir sur l'Europe.Il ne nÃ©cessite pas de clic sur la carte pour "
-"activer le dÃ©placement. Il est activÃ© dÃ¨s que vous cliquez dessus."
+"Le zoom vers la carte générale vous permets de quitter le zoom actuel et de "
+"revenir sur l'Europe.Il ne nécessite pas de clic sur la carte pour activer "
+"le déplacement. Il est activé dès que vous cliquez dessus."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Measuring tools"
@@ -1117,7 +1116,7 @@ msgstr "Surface"
 msgid ""
 "Distances and surfaces can be measured on the main map with the above tools."
 msgstr ""
-"Les distances et les surfaces peuvent Ãªtre mesurÃ©s sur la carte avec ces "
+"Les distances et les surfaces peuvent être mesurés sur la carte avec ces "
 "outils"
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -1144,13 +1143,12 @@ msgid ""
 "by using login 'demo' and password 'demo'. You can then access to the train "
 "data and to the print fonctionnalities."
 msgstr ""
-"L'accÃ¨s aux diffÃ©rents Ã©lÃ©ments de Cartoweb peut Ãªtre accordÃ© ou "
-"refusÃ© slon qui utilise actuellement l'application. Soit les "
-"fonctionnalitÃ©s, soit les donnÃ©es peuvent Ãªtre concernÃ©es par ces "
-"restrictions. Pour la dÃ©mo, vous pouvez accÃ©der Ã  plus de droits en vous "
-"connectant en tant que utilisateur 'demo', avec le mot de passe 'demo'. Vous "
-"pourrez accÃ©der aux donnÃ©es sur les voies ferrÃ©es et aux fonctionnalitÃ©s "
-"d'impression."
+"L'accès aux différents éléments de Cartoweb peut être accordé ou refusé slon "
+"qui utilise actuellement l'application. Soit les fonctionnalités, soit les "
+"données peuvent être concernées par ces restrictions. Pour la démo, vous "
+"pouvez accéder à plus de droits en vous connectant en tant que utilisateur "
+"'demo', avec le mot de passe 'demo'. Vous pourrez accéder aux données sur "
+"les voies ferrées et aux fonctionnalités d'impression."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "For more information, you can have a look to the "
@@ -1170,7 +1168,7 @@ msgstr "vue_generale_alt"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "full_extent"
-msgstr "Vue GÃ©nÃ©rale"
+msgstr "Vue Générale"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Help"
@@ -1186,15 +1184,15 @@ msgstr "Imprimer"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "reset session"
-msgstr "RÃ©initialiser"
+msgstr "Réinitialiser"
 
 #: projects/demoCW3/templates/toolbar.tpl
 msgid "Reset session"
-msgstr "RÃ©initialiser"
+msgstr "Réinitialiser"
 
 # Elements dynamiques
 msgid "query"
-msgstr "RequÃªte"
+msgstr "Requête"
 
 msgid "outline_poly"
 msgstr "Polygone"
@@ -1215,7 +1213,7 @@ msgid "Country"
 msgstr "Pays "
 
 msgid "Airport"
-msgstr "AÃ©roport "
+msgstr "Aéroport "
 
 msgid "Area"
 msgstr "Aire "
@@ -1226,7 +1224,7 @@ msgstr "Recentrer et colorier"
 msgid "Clear Hilight"
 msgstr "Effacer coloriage"
 
-#: scripts/testgettext.php:56
+#: scripts/testgettext.php:58
 msgid "PHP-Gettext is not installed correctly !"
 msgstr "PHP-Gettext n'est pas installé correctement !"
 
@@ -1234,16 +1232,20 @@ msgstr "PHP-Gettext n'est pas installé correctement !"
 msgid "No path found"
 msgstr "Chemin non trouvé"
 
+#
 #: coreplugins/mapquery/server/ServerMapquery.php:117
 #, php-format
 msgid "Query spanned too many objects on layer '%s', it was ignored."
 msgstr ""
+"La requête retroune trop de résultats sur la couche '%s', elle est ignorée"
 
+#
 #: coreplugins/mapquery/server/ServerMapquery.php:126
 #, php-format
 msgid ""
 "This query hit the maximum number of results on '%s', truncating results."
 msgstr ""
+"La requête a atteint le maximum de résultats sur '%s', résultats tronqués"
 
 #: coreplugins/images/templates/mapsizes.tpl
 msgid "Mapsize:"
@@ -2394,7 +2396,7 @@ msgstr "Filtrer"
 #~ msgstr "Cliquez pour fermer"
 
 #~ msgid "Drag to Move"
-#~ msgstr "Faites Glisser pour dÃ©placer"
+#~ msgstr "Faites Glisser pour déplacer"
 
 #~ msgid "Zonage"
 #~ msgstr "Couche"

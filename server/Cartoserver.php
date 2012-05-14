@@ -420,7 +420,7 @@ function getWsdlUrl($mapId, ServerConfig $config) {
     
     if (!isset($url))
         $url = (isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . 
-               $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . 
+               $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . 
                '/cartoserver.wsdl.php';
 
     if (isset($mapId))

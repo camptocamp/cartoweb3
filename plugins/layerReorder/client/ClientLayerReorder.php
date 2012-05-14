@@ -233,10 +233,10 @@ class ClientLayerReorder extends ClientPlugin
                 if (isset($layer->msLayer) && $layer->msLayer == $msLayer) {
                     $this->layerIds[] = $layer->msLayer;
                     $this->layerLabels[] = $layer->label;
-                    $this->layerTransparencies[] = $layer->transparency;
+                    $this->layerTransparencies[] = $layer->opacity;
                     if (!isset($this->layerUserTransparencies[$layer->msLayer])) {
                         $this->layerUserTransparencies[$layer->msLayer]
-                            = $this->getCloserTransparency($layer->transparency);
+                            = $this->getCloserTransparency($layer->opacity);
                     }
                     break;
                 }

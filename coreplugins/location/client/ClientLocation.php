@@ -228,7 +228,7 @@ class ClientLocation extends ClientPlugin
                                           $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center);
+        $point = clone $center;
 
         $recenterX = $this->getHttpValue($request, 'recenter_x');
         $recenterY = $this->getHttpValue($request, 'recenter_y');
@@ -351,7 +351,7 @@ class ClientLocation extends ClientPlugin
     protected function handleIdRecenter($request, $check = false) {
 
         $center = $this->locationState->bbox->getCenter();
-        $point = clone($center);
+        $point = clone $center;
 
         $idRecenterLayer = $this->getHttpValue($request, 'id_recenter_layer');
         $idRecenterIds   = $this->getHttpValue($request, 'id_recenter_ids');
@@ -821,8 +821,8 @@ class ClientLocation extends ClientPlugin
     public function handleInit($locationInit) {
 
         $this->scales = $locationInit->scales;
-        $this->minScale = $locationInit->minScale;
-        $this->maxScale = $locationInit->maxScale;
+        $this->minscaledenom = $locationInit->minscaledenom;
+        $this->maxscaledenom = $locationInit->maxscaledenom;
         $this->shortcuts = $locationInit->shortcuts;
         $this->recenterDefaultScale = $locationInit->recenterDefaultScale;
 
@@ -840,10 +840,10 @@ class ClientLocation extends ClientPlugin
      */
     protected function getLocationInformation() {
 
-        $delta = $this->maxScale - $this->minScale;
+        $delta = $this->maxscaledenom - $this->minscaledenom;
         if ($delta > 0) {
-            $percent = (($this->locationResult->scale - $this->minScale) * 100) /
-                        ($this->maxScale - $this->minScale);
+            $percent = (($this->locationResult->scale - $this->minscaledenom) * 100) /
+                        ($this->maxscaledenom - $this->minscaledenom);
             $percent = round($percent, 1);
         } else {
             $percent = '#ERR';
@@ -852,8 +852,8 @@ class ClientLocation extends ClientPlugin
         $locationInfo = sprintf('Bbox: %s  <br/> scale: min:%s current: %s ' .
                                 'max: %s (percent: %s)',
                     $this->locationState->bbox->__toString(),
-                    $this->minScale, $this->locationResult->scale,
-                    $this->maxScale, $percent);
+                    $this->minscaledenom, $this->locationResult->scale,
+                    $this->maxscaledenom, $percent);
 
         return $locationInfo;
     }
