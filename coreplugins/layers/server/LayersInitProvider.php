@@ -317,14 +317,14 @@ class LayersInitProvider implements InitProvider {
             $layer->opacity = 100;
         }
         
-        if($msLayer->connectiontype == MS_WMS &&
-            $msLayer->getMetadata('wms_legend_graphic'))
+        if($msLayer->connectiontype == MS_WMS && $msLayer->getMetadata('wms_legend_graphic'))
             $layer->icon = $this->getWmsIcon($layer->id, $msMapObj, $msLayer);
-
+        
         for ($i = 0; $i < $msLayer->numclasses; $i++) {
-            $msClass = $msLayer->GetClass($i);
-            if (isset($msClass->name) && 
-                strlen(trim($msClass->name)) != 0) { 
+            $msClass = $msLayer->getClass($i);
+            if (!is_null($msClass->name) && 
+                strlen(trim($msClass->name)) != 0) {
+                 
                 $layerClass = new LayerClass();
 
                 Utils::copyVars($msClass, $layerClass);
@@ -345,7 +345,7 @@ class LayersInitProvider implements InitProvider {
                  }
 
                 if ($layersInit->autoClassLegend) {
-                    $layerClass->icon = $this->getClassIcon($layerClass->id, 
+                        $layerClass->icon = $this->getClassIcon($layerClass->id, 
                                                             $msMapObj,
                                                             $msLayer,
                                                             $i);
