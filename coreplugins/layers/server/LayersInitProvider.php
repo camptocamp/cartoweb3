@@ -161,6 +161,7 @@ class LayersInitProvider implements InitProvider {
      * @param MapObj
      * @param ClassObj
      * @return string
+     * @todo : check the opacity value, and modify it to 100%
      */
     protected function getClassIcon($classId, $msMapObj, $msLayerObj, $msClassIndex) {
         
@@ -197,6 +198,7 @@ class LayersInitProvider implements InitProvider {
                     $tempLayer = ms_newLayerObj($msMapObj, $msLayerObj);
                     $mul = $res / $oldRes;
                     $tempLayer->setMetaData('ratio_updated', '');
+//                    $tempLayer->set('opacity', 100);
                     $layerPlugin->updateRatioParameters($tempLayer, $mul);
                     
                     $tempClass = $tempLayer->getClass($msClassIndex);                                
@@ -310,12 +312,9 @@ class LayersInitProvider implements InitProvider {
         else $layer->minscaledenom = 0;
         if ($msLayer->maxscaledenom > 0) $layer->maxscaledenom = $msLayer->maxscaledenom;
         else $layer->maxscaledenom = 0;
-        
-        if (!empty($msLayer->opacity)) {
-            $layer->opacity = $msLayer->opacity;
-        } else {
-            $layer->opacity = 100;
-        }
+// Never use empty, it's true everytime and then wrongly affect 100 to opacity
+        $this->log->debug( $msLayer->name .' opacity : ' .$msLayer->opacity);
+        $layer->opacity = $msLayer->opacity;
         
         if($msLayer->connectiontype == MS_WMS && $msLayer->getMetadata('wms_legend_graphic'))
             $layer->icon = $this->getWmsIcon($layer->id, $msMapObj, $msLayer);

@@ -6,9 +6,9 @@
 ; (first layer on top, coma separated names)
 ;bottomLayers = ""
 
-; Enable transparency level selector on each layer
-;enableTransparency = true
+; Enable opacity level selector on each layer
+;enableOpacity = true
 
-; Set transparency level to use inside selector 
+; Set opacity level to use inside selector 
 ; use comma separated values (from 1 to 100)
-;transparencyLevels = "10,20,30,40,50,60,70,80,90,100"
+;opacityLevels = "10,20,30,40,50,60,70,80,90,100"

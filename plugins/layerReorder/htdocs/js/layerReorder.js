@@ -13,24 +13,24 @@ function reorderUpside()
   var to  = reorderPreviousPosition(from);
   
   var container = xGetElementById("layerReorderContainer");
-  var transparency = 
-    xGetElementsByClassName('layersTransparency', container, 'select');
-  var indexTransparency = new Array();
+  var opacity = 
+    xGetElementsByClassName('layersOpacity', container, 'select');
+  var indexOpacity = new Array();
   
-  for (i=0 ; i < transparency.length ; i++) { 
-    indexTransparency[transparency[i].name.substr(19)] 
-      = transparency[i].selectedIndex;
+  for (i=0 ; i < opacity.length ; i++) { 
+    indexOpacity[opacity[i].name.substr(19)] 
+      = opacity[i].selectedIndex;
   }    
   
   reorderLayerMove(from, to);
   
   var container = xGetElementById("layerReorderContainer");
-  var transparency
-    = xGetElementsByClassName('layersTransparency', container, 'select');
+  var opacity
+    = xGetElementsByClassName('layersOpacity', container, 'select');
   
-  for (i=0 ; i < transparency.length ; i++) { 
-    transparency[i].selectedIndex
-      = indexTransparency[transparency[i].name.substr(19)];
+  for (i=0 ; i < opacity.length ; i++) { 
+    opacity[i].selectedIndex
+      = indexOpacity[opacity[i].name.substr(19)];
   }
 }
 
@@ -44,24 +44,24 @@ function reorderDownside()
   
   var container 
     = xGetElementById("layerReorderContainer");
-  var transparency 
-    = xGetElementsByClassName('layersTransparency', container, 'select');
-  var indexTransparency = new Array();
+  var opacity 
+    = xGetElementsByClassName('layersOpacity', container, 'select');
+  var indexOpacity = new Array();
     
-  for (i=0 ; i < transparency.length ; i++) { 
-    indexTransparency[transparency[i].name.substr(19)]
-      = transparency[i].selectedIndex;
+  for (i=0 ; i < opacity.length ; i++) { 
+    indexOpacity[opacity[i].name.substr(19)]
+      = opacity[i].selectedIndex;
   }    
   
   reorderLayerMove(from, to);
   
   var container = xGetElementById("layerReorderContainer");
-  var transparency 
-    = xGetElementsByClassName('layersTransparency', container, 'select');
+  var opacity 
+    = xGetElementsByClassName('layersOpacity', container, 'select');
     
-  for (i=0 ; i < transparency.length ; i++) { 
-    transparency[i].selectedIndex
-      = indexTransparency[transparency[i].name.substr(19)];
+  for (i=0 ; i < opacity.length ; i++) { 
+    opacity[i].selectedIndex
+      = indexOpacity[opacity[i].name.substr(19)];
   }
 }
 

@@ -56,24 +56,24 @@ class LayerReorderRequest extends CwSerializable {
     public $layerIds;
 
     /**
-     * @var array array of LayerTransparency
+     * @var array array of LayerOpacity
      */
-    public $layerTransparencies;
+    public $layerOpacities;
 
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->layerIds  = self::unserializeArray($struct, 'layerIds');
-        $this->layerTransparencies = self::unserializeObjectMap($struct,
-            'layerTransparencies', 'LayerTransparency');
+        $this->layerOpacities = self::unserializeObjectMap($struct,
+            'layerOpacities', 'LayerOpacity');
     }
 }
 
 /**
  * @package Plugins
  */
-class LayerTransparency extends CwSerializable {
+class LayerOpacity extends CwSerializable {
 
     /**
      * @var string LayerId
@@ -81,17 +81,17 @@ class LayerTransparency extends CwSerializable {
     public $id;
 
     /**
-     * @var int transparency
+     * @var int opacity
      */
-    public $transparency;
+    public $opacity;
 
     /**
      * @see CwSerializable::unserialize()
      */
     public function unserialize($struct) {
         $this->id = self::unserializeValue($struct, 'id', 'string');
-        $this->transparency 
-            = self::unserializeValue($struct, 'transparency', 'int');
+        $this->opacity 
+            = self::unserializeValue($struct, 'opacity', 'int');
     }
 }
 

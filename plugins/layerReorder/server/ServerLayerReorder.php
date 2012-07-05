@@ -82,7 +82,7 @@ class ServerLayerReorder extends ClientResponderAdapter
 
 
     /**
-     * Reorder MapServer layers lists and transparency from Cartoclient request
+     * Reorder MapServer layers lists and opacity from Cartoclient request
      */
     public function handlePreDrawing($requ) {
 
@@ -138,16 +138,17 @@ class ServerLayerReorder extends ClientResponderAdapter
 
         $msMapObj->setlayersdrawingorder($layerReorder);
 
-        // update transparency level
-        if (!empty($requ->layerTransparencies)) {
-            foreach ($requ->layerTransparencies as $layerTransparency) {
-                $layer = $msMapObj->getLayerByName($layerTransparency->id);
+        // update opacity level
+        if (!empty($requ->layerOpacities)) {
+//okay            die() "<pre>".print_r($requ,1)."</pre>");
+            foreach ($requ->layerOpacities as $layerOpacity) {
+                $layer = $msMapObj->getLayerByName($layerOpacity->id);
                 if (!empty($layer)) {
-                    $layer->set('opacity', $layerTransparency->transparency);
+                    $layer->set('opacity', $layerOpacity->opacity);
                 }
             }
         }
-
+        
         return $layerReorderResult;
     }
 
