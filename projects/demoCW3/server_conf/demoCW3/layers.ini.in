@@ -7,8 +7,9 @@ switches.switch2.label = "human"
 ; layers
 layers.root.className = "LayerGroup"
 ;layers.root.children = "background, human, categ, wmsLayers"
-layers.root.children.default = "background, categ, ecogis, wfsdemo, wmsLayers"
-layers.root.children.switch2 = "background, human, ecogis, wfsdemo, wmsLayers"
+layers.root.children.default = "background, categ, wfsdemo, wmsLayers, ecogis" 
+layers.root.children.switch2 = "background, human, wfsdemo, wmsLayers, ecogis"
+
 layers.root.rendering = "block"
 
 layers.background.className = "LayerGroup"
@@ -181,7 +182,6 @@ layers.wfscities.label = "WFS Cities"
 layers.wfscities.msLayer = "wfscities"
 layers.wfscities.rendering = "block"
 layers.wfscities.aggregate = true
-
 
 
 layers.wmsLayers.className = "LayerGroup"

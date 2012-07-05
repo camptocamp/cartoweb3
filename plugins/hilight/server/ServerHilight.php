@@ -37,6 +37,7 @@ define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
  * and doesn't have a client side. Vector hilighting is used by 
  * {@link ServerQuery}.
  * @package Plugins
+ * @todo : check correct implementation of opacity properties with mapserver 6.x
  */
 class ServerHilight extends ServerPlugin {
 
@@ -381,7 +382,8 @@ class ServerHilight extends ServerPlugin {
             $hilightClass->set('name', 'dynamic_class');
             $hilightClass->set('minscaledenom', $msLayer->minscaledenom);
             $hilightClass->set('maxscaledenom', $msLayer->maxscaledenom);
-
+            $hilightClass->set('opacity', $msLayer->opacity);
+            
             // move the new class to the top
             for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {
                 $msLayer->moveclassup($i);

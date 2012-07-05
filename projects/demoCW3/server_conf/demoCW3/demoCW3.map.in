@@ -127,6 +127,7 @@ MAP
     METADATA
        "force_imagetype" "jpeg"
     END
+    OPACITY 60
   END
 
   LAYER
@@ -147,6 +148,7 @@ MAP
     TYPE POLYGON
     DATA "polbnda"
     TEMPLATE "ttt"
+    OPACITY 50
     METADATA
       "exported_values" "recenter_name_string,id_attribute_string"
       "recenter_name_string" "NAM"
@@ -182,7 +184,7 @@ MAP
     NAME "iceland"
     TYPE POLYGON
     DATA "landicea"
-    OPACITY 50
+    OPACITY 70
     TEMPLATE "ttt"
     METADATA
         "id_attribute_string" "OGC_FID|string"
@@ -201,7 +203,7 @@ MAP
     NAME "iceland_hilight"
     TYPE POLYGON
     DATA "landicea"
-    OPACITY 50
+    OPACITY 70
     CLASS
       STYLE
         COLOR 255 0 104
@@ -213,7 +215,7 @@ MAP
     NAME "sea"
     TYPE POLYGON
     DATA "oceansea"
-    OPACITY 30
+    OPACITY 60
     CLASS
       STYLE
         COLOR 180 180 240
@@ -226,7 +228,7 @@ MAP
     NAME "lake"
     TYPE POLYGON
     DATA "inwatera"
-    OPACITY 30
+    OPACITY 60
     METADATA
       "id_attribute_string" "OGC_FID|string"
       "query_returned_attributes" "AREA" 
@@ -245,6 +247,7 @@ MAP
     NAME "river"
     TYPE LINE
     DATA "watrcrsl"
+    OPACITY 60
     MAXSCALE 1000000
     CLASS
       MINSCALE 500000
@@ -262,7 +265,6 @@ MAP
         COLOR 0 0 180
       END
     END
-    OPACITY 0
   END
 
   LAYER

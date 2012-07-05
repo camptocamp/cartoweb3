@@ -40,10 +40,10 @@ class LayerReorderState {
     public $layerLabels;
 
     /**
-     * Layers user Transparency array indexed by msLayer name
+     * Layers user Opacity array indexed by msLayer name
      * @var array
      */
-    public $layerUserTransparencies;
+    public $layerUserOpacities;
 
     /**
      * Array of all MapServer layers id ordered
@@ -90,16 +90,16 @@ class ClientLayerReorder extends ClientPlugin
     protected $layerLabels;
 
     /**
-     * Initial Layers Transparency array sorted
+     * Initial Layers Opacity array sorted
      * @var array
      */
-    protected $layerTransparencies;
+    protected $layerOpacities;
 
     /**
-     * Layers user Transparency array indexed by msLayer name
+     * Layers user Opacities array indexed by msLayer name
      * @var array
      */
-    public $layerUserTransparencies;
+    public $layerUserOpacities;
 
     /**
      * Array of MapServer layers id selected (currently displayed)
@@ -124,9 +124,9 @@ class ClientLayerReorder extends ClientPlugin
     protected $bottomLayers;
 
     /**
-     * Transparency level array allowed for each Ms layer
+     * Opacity level array allowed for each Ms layer
      */
-    protected $transparencyLevels;
+    protected $opacityLevels;
 
 
     /**
@@ -135,7 +135,7 @@ class ClientLayerReorder extends ClientPlugin
     public function __construct() {
 
         $this->log = LoggerManager::getLogger(__CLASS__);
-        $this->layerUserTransparencies = array();
+        $this->layerUserOpacities = array();
         parent::__construct();
     }
 
@@ -149,7 +149,7 @@ class ClientLayerReorder extends ClientPlugin
         $this->layerReorderState = new LayerReorderState;
         $this->layerReorderState->layerIds = array();
         $this->layerReorderState->orderedMsLayerIds = array();
-        $this->layerReorderState->layerUserTransparencies = array();
+        $this->layerReorderState->layerUserOpacities = array();
     }
 
 
@@ -161,8 +161,8 @@ class ClientLayerReorder extends ClientPlugin
         $this->layerLabels = $sessionObject->layerLabels;
         $this->orderedMsLayerIds = $sessionObject->orderedMsLayerIds;
         $this->selectedMsLayerIds = $sessionObject->selectedMsLayerIds;
-        $this->layerUserTransparencies 
-            = $sessionObject->layerUserTransparencies;
+        $this->layerUserOpacities 
+            = $sessionObject->layerUserOpacities;
     }
 
 
@@ -177,8 +177,8 @@ class ClientLayerReorder extends ClientPlugin
         $this->layerReorderState->orderedMsLayerIds = $this->orderedMsLayerIds;
         $this->layerReorderState->selectedMsLayerIds =
             $this->selectedMsLayerIds;
-        $this->layerReorderState->layerUserTransparencies 
-            = $this->layerUserTransparencies;
+        $this->layerReorderState->layerUserOpacities 
+            = $this->layerUserOpacities;
 
         return $this->layerReorderState;
     }
@@ -189,12 +189,12 @@ class ClientLayerReorder extends ClientPlugin
      */
     public function handleInit($initObject) {
 
-        // retrieve transparency config setting
-        $transparencyLevels = $this->getConfig()->transparencyLevels;
-        if (!empty($transparencyLevels)) {
-            $this->transparencyLevels = Utils::parseArray($transparencyLevels);
+        // retrieve opacity config setting
+        $opacityLevels = $this->getConfig()->opacityLevels;
+        if (!empty($opacityLevels)) {
+            $this->opacityLevels = Utils::parseArray($opacityLevels);
         } else {
-            $this->transparencyLevels = array('10', '25', '50', '75', '100');
+            $this->opacityLevels = array('10', '25', '50', '75', '100');
         }
 
         // init properties from init result
@@ -223,7 +223,7 @@ class ClientLayerReorder extends ClientPlugin
     protected function setMsLayerProperties() {
         $this->layerIds = array();
         $this->layerLabels = array();
-        $this->layerTransparencies = array();
+        $this->layerOpacities = array();
         $corepluginLayers = 
             $this->cartoclient->getPluginManager()->getPlugin('layers');
         $layersInit = $corepluginLayers->getLayersInit();
@@ -231,17 +231,20 @@ class ClientLayerReorder extends ClientPlugin
         foreach ($this->orderedMsLayerIds as $msLayer) {
             foreach ($layers as $layer) {
                 if (isset($layer->msLayer) && $layer->msLayer == $msLayer) {
+// die('<pre>Layer '.$layer->label.' opacity='.$layer->opacity.'</pre>');                    
                     $this->layerIds[] = $layer->msLayer;
                     $this->layerLabels[] = $layer->label;
-                    $this->layerTransparencies[] = $layer->opacity;
-                    if (!isset($this->layerUserTransparencies[$layer->msLayer])) {
-                        $this->layerUserTransparencies[$layer->msLayer]
-                            = $this->getCloserTransparency($layer->opacity);
+                    $this->layerOpacities[] = $layer->opacity;
+                    if (!isset($this->layerUserOpacities[$layer->msLayer])) {
+                        $this->layerUserOpacities[$layer->msLayer]
+                            = $this->getCloserOpacity($layer->opacity);
                     }
                     break;
                 }
             }
         }
+//okay        die('<pre>layerUserOpacities '.print_r($this->layerUserOpacities,1).'</pre>');
+        
     }
     
     
@@ -252,13 +255,13 @@ class ClientLayerReorder extends ClientPlugin
         $layerReorderRequest = new LayerReorderRequest();
         $layerReorderRequest->layerIds = $this->orderedMsLayerIds;
 
-        foreach($this->layerUserTransparencies as $layer => $transparency) {
-            $layerTransparency = new LayerTransparency();
-            $layerTransparency->id = $layer;
-            $layerTransparency->transparency = $transparency;
-            $layerReorderRequest->layerTransparencies[] = $layerTransparency;
+        foreach($this->layerUserOpacities as $layer => $opacity) {
+            $layerOpacity = new LayerOpacity();
+            $layerOpacity->id = $layer;
+            $layerOpacity->opacity = $opacity;
+            $layerReorderRequest->layerOpacities[] = $layerOpacity;
         }
-
+//okay        die('<pre>layerUserOpacities '.print_r($layerReorderRequest,1).'</pre>');
         return $layerReorderRequest;
     }
 
@@ -352,7 +355,7 @@ class ClientLayerReorder extends ClientPlugin
             $selected[] = array(
                         'id' => $layerIds[$id],
                         'label' => $labels[$id],
-                        'transparency' => $this->layerUserTransparencies[$id]
+                        'opacity' => $this->layerUserOpacities[$id]
                         );
         }
 
@@ -361,18 +364,18 @@ class ClientLayerReorder extends ClientPlugin
 
 
     /**
-     * Return closer transparency value from available levels 
-     * @param int transparency transparency value in map file
+     * Return closer opacity value from available levels 
+     * @param int opacity opacity value in map file
      * @return int
      */
-    public function getCloserTransparency($transparency) {
+    public function getCloserOpacity($opacity) {
 
-        if (in_array($transparency, $this->transparencyLevels)) {
-            return $transparency;
+        if (in_array($opacity, $this->opacityLevels)) {
+            return $opacity;
         }
 
-        foreach ($this->transparencyLevels as $level) {
-            if ($level > $transparency) {
+        foreach ($this->opacityLevels as $level) {
+            if ($level > $opacity) {
                 return $level;
             }
         }
@@ -434,13 +437,13 @@ class ClientLayerReorder extends ClientPlugin
             foreach ($this->topLayers as $layer) {
                 $this->orderedMsLayerIds[] = $mapIds[$layer];
             }
-
+//@TODO recheck carefully with the opacity change 
             // put new ordered msLayer on the stack (IHM use reverse order...)
             $layers = array_reverse($layers, true);
             foreach ($layers as $id) {
-                if(isset($request['layersTransparency_' . $id])) {
-                    $this->layerUserTransparencies[$this->selectedMsLayerIds[$id]]
-                        = $request['layersTransparency_' . $id];
+                if(isset($request['layersOpacity_' . $id])) {
+                    $this->layerUserOpacities[$this->selectedMsLayerIds[$id]]
+                        = $request['layersOpacity_' . $id];
                 }
                 $this->orderedMsLayerIds[] = $this->selectedMsLayerIds[$id];
             }
@@ -471,13 +474,13 @@ class ClientLayerReorder extends ClientPlugin
         $smarty->assign('layerReorder',
             array_reverse($this->getRenderSelectedLayers(), true), true);
 
-        if ($this->getConfig()->enableTransparency) {
+        if ($this->getConfig()->enableOpacity) {
             $levels = array();
-            foreach($this->transparencyLevels as $level) {
+            foreach($this->opacityLevels as $level) {
                 $levels[$level] = sprintf('%s%%', $level);
             }
-            $smarty->assign('layerTransparencyOptions', $levels);
-            $smarty->assign('enableTransparency', true);
+            $smarty->assign('layerOpacityOptions', $levels);
+            $smarty->assign('enableOpacity', true);
         }
 
         return $smarty->fetch('layerReorder.tpl');
