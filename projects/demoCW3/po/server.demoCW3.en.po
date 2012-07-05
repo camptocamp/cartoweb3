@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2012-03-18 17:32+0100\n"
+"POT-Creation-Date: 2012-07-05 11:25+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -150,32 +150,16 @@ msgstr ""
 msgid "Lakes"
 msgstr ""
 
-#: layers.ini:layers.ecogis.label
-msgid "ECOGIS admin.ch"
+#: layers.ini:layers.wfsdemo.label
+msgid "WFS Demo"
 msgstr ""
 
-#: layers.ini:layers.ecocantons.label
-msgid "Cantons"
+#: layers.ini:layers.wfscontinents.label demoCW3.map
+msgid "WFS Continents"
 msgstr ""
 
-#: layers.ini:layers.ecocities.label
-msgid "Cities"
-msgstr ""
-
-#: layers.ini:layers.ecobln.label
-msgid "IFP Inventory"
-msgstr ""
-
-#: layers.ini:layers.ecoau.label
-msgid "Floodplains"
-msgstr ""
-
-#: layers.ini:layers.ecojb.label
-msgid "Frank federal districts"
-msgstr ""
-
-#: layers.ini:layers.ecohm.label
-msgid "High marsh"
+#: layers.ini:layers.wfscities.label
+msgid "WFS Cities"
 msgstr ""
 
 #: layers.ini:layers.wmsLayers.label
@@ -304,37 +288,57 @@ msgid "cartoweb_polygon_outline"
 msgstr ""
 
 #: demoCW3.map
-msgid "bln"
+msgid "wfscontinents"
 msgstr ""
 
 #: demoCW3.map
-msgid "au"
+msgid "NA2DESC"
 msgstr ""
 
 #: demoCW3.map
-msgid "jb"
+msgid "NA3DESC"
 msgstr ""
 
 #: demoCW3.map
-msgid "hm"
+msgid "wfscities"
 msgstr ""
 
 #: demoCW3.map
-msgid "CARPETA_CATASTRAL"
+msgid "POP < 2500"
 msgstr ""
 
 #: demoCW3.map
-msgid "cantons"
+msgid ">2.5k POP <10k"
 msgstr ""
 
 #: demoCW3.map
-msgid "cities"
+msgid ">10k POP <25k"
 msgstr ""
 
 #: demoCW3.map
-msgid "gemflaeche"
+msgid ">25k POP <50k"
 msgstr ""
 
 #: demoCW3.map
-msgid "gemname"
+msgid ">50k POP <100k"
+msgstr ""
+
+#: demoCW3.map
+msgid ">100k POP <500k"
+msgstr ""
+
+#: demoCW3.map
+msgid "0.5M>POP<1M"
+msgstr ""
+
+#: demoCW3.map
+msgid "POP > 1M"
+msgstr ""
+
+#: demoCW3.map
+msgid "NAME"
+msgstr ""
+
+#: demoCW3.map
+msgid "POPULATION"
 msgstr ""

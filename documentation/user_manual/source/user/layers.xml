@@ -650,26 +650,26 @@ layers.layer2.children = myAutoLayer_index4]]> </programlisting>
         </itemizedlist>
       </para>
     </sect2>
-    <sect2 id="user.layers.layer_reorder.transparency">
-      <title>Transparency selector</title>
+    <sect2 id="user.layers.layer_reorder.opacity">
+      <title>Opacity selector</title>
       <para>
-        <indexterm><primary>enableTransparency</primary></indexterm>
-        You could also add a transparency selector on each layer displayed with
-        this plugin. End user will so be able to choose a different transparency
+        <indexterm><primary>enableOpacity</primary></indexterm>
+        You could also add an opacity selector on each layer displayed with
+        this plugin. End user will so be able to choose a different opacity
         level for each displayed layer.
       </para>
       <para>
-        To activate it, set <parameter>enableTransparency</parameter> to 
+        To activate it, set <parameter>enableOpacity</parameter> to 
         <literal>true</literal> in <filename>client_conf/layerReorder.ini</filename>.
       </para>
       <para>
-        <indexterm><primary>transparencyLevels</primary></indexterm>
-        Default transparency selector values are : 10%, 20%, 50%, 75% and 100%.
-        You could also customize transparency values available in this 
+        <indexterm><primary>opacityLevels</primary></indexterm>
+        Default opacity selector values are : 10%, 20%, 50%, 75% and 100%.
+        You could also customize opacity values available in this 
         selector, with a comma separated value in 
-        <parameter>transparencyLevels</parameter>. A transparency value is a 
-        integer between 1 to 100 ; with 100 mean an opaque layer as 1 mean a 
-        nearly invisible one.
+        <parameter>opacityLevels</parameter>. An opacity value is a 
+        integer between 0 to 100 ; with 100 mean an opaque layer as 0 mean a 
+        invisible one.
       </para>
     </sect2>
   </sect1>
