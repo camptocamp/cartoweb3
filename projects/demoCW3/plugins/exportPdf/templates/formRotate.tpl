@@ -41,8 +41,8 @@ for="lsp">{t}Landscape{/t}</label>
 <br />
 {t}Rotation{/t}: <span id="pdfrotate_angledegree">0 </span>&deg;
 <br />
-<input type="button" name="pdfrotateminus" value="{t}-5°{/t}" onclick="javascript: mainmap.rotatePdfFeature(-5);" class="form_button form_button_inline" />
-<input type="button" name="pdfrotateplus" value="{t}+5°{/t}" onclick="javascript: mainmap.rotatePdfFeature(5);" class="form_button form_button_inline" />
+<input type="button" name="pdfrotateminus" value="{t}-5Â°{/t}" onclick="javascript: mainmap.rotatePdfFeature(-5);" class="form_button form_button_inline" />
+<input type="button" name="pdfrotateplus" value="{t}+5Â°{/t}" onclick="javascript: mainmap.rotatePdfFeature(5);" class="form_button form_button_inline" />
  
 {t}Free rotate{/t}: <input type="text" id="pdfrotatefreevalue" name="pdfrotatefreevalue" size="3" />
 <input type="button" name="pdfrotateset" value="{t}set{/t}" onclick="javascript: mainmap.rotatePdfFeature(xGetElementById('pdfrotatefreevalue').value, true);" class="form_button form_button_inline" />
