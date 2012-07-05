@@ -1,6 +1,17 @@
 CartoWeb HEAD
 =============
 
+2012-05-10: CartoWeb 3.6.1
+==========================
+
+-Revision of LayerReorder : 
+	Deleting all transparency reference, and align the plugin to Mapserver opacity keywords
+	Now we use the positive approach like mapserver which mean an opacity of 100 is full
+	0 is invisible layer
+	Check your LayerReorder .ini.in for new keywords
+	Updated User documentation
+
+
 2012-05-10: CartoWeb 3.6.0
 ==========================
 
