@@ -1,0 +1,1158 @@
+# CartoWeb 3 translation template 
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2012-07-05 11:30+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: wmsBrowserLight.ini:servers.0.label
+msgid "Geosignal"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.1.label
+msgid "Sandre / Ouvrage"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.2.label
+msgid "Sandre / Zonage"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.3.label
+msgid "Sandre / Station de mesure"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.4.label
+msgid "Sandre / Station de mesure par reseaux"
+msgstr ""
+
+#: statsReports.ini:datas.cartoweb.label
+msgid "Statistiques Cartoweb"
+msgstr ""
+
+#: statsReports.ini:datas.wms.label
+msgid "Statistiques WMS"
+msgstr ""
+
+#: exportPdf.ini:formats.A4.label
+msgid "A4"
+msgstr ""
+
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "Quick OGC Layer Loader"
+msgstr ""
+
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "Server URL"
+msgstr ""
+
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "LoadLayersList"
+msgstr ""
+
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+#: plugins/exportLinkIt/templates/link_box.tpl
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "Close"
+msgstr ""
+
+#: plugins/toolTips/templates/session.tpl
+msgid "Session expired"
+msgstr ""
+
+#: plugins/toolTips/templates/session.tpl
+msgid "Please login again"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/pdf.tpl
+msgid "Query"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Title:"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Format:"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Resolution:"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/form.tpl
+msgid "Orientation:"
+msgstr ""
+
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportHtml/templates/export.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+msgid "Print"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Drawing mode"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "size"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "color"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "transparency"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Line"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "border size"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Rectangle/polygon/circle"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline color"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "background color"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Circle"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid ""
+"To draw a circle, either clic&drag on the map or set a value for the radius "
+"and clic on the map."
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "circle radius"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "circle label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr ""
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr ""
+
+#: plugins/ogcLayerLoader/templates/ogcLayerLoader.tpl
+msgid "Remove All Wms Layers"
+msgstr ""
+
+#: plugins/layerFilter/templates/filter_form.tpl
+msgid "Filter criteria"
+msgstr ""
+
+#: plugins/layerFilter/templates/filter_form.tpl
+msgid "Filter"
+msgstr ""
+
+#: plugins/layerFilter/templates/filter_form.tpl
+#: plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Choropleth representation configuration"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Coloring Method"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Initialization Colors"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Classes Color"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Apply"
+msgstr ""
+
+#: plugins/geostat/templates/geostat.tpl
+#: plugins/statsReports/templates/stats_reports_form.tpl
+msgid "Configuration"
+msgstr ""
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure dataset..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat.tpl
+msgid "Configure representation..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat_switch.tpl
+msgid "Display geostatistics"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Choropleth"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select geographic entities..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select indicator..."
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Choropleth dataset configuration"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of data :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Min. :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Max. :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Mean :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Std Div :"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Number of classes"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Classification method"
+msgstr ""
+
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Class limits"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Are you sure you want to delete view #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "?"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Go to view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Title"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "or"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+#: plugins/search/templates/search_results.tpl
+#: coreplugins/tables/templates/tables.tpl
+msgid "Id"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Load view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "No view available"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Edit view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "View #"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "new view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Memorize form"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Author"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Show view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Place view label before"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Update view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Save as new view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Save view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view"
+msgstr ""
+
+#: plugins/views/templates/views.tpl
+msgid "Delete view #"
+msgstr ""
+
+#: plugins/exportDxf/templates/form.tpl
+msgid "Export DXF"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr ""
+
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Editing plugin:"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Choose layer"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "layer to edit"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Features: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Inserted: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Modified: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Deleted: "
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Validate"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Cancel"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "Editing not allowed"
+msgstr ""
+
+#: plugins/edit/templates/edit.tpl
+msgid "please login"
+msgstr ""
+
+#: plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr ""
+
+#: plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Cartoclient Title"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr ""
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr ""
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr ""
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr ""
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr ""
+
+#: plugins/exportRtf/templates/form.tpl
+msgid "Export"
+msgstr ""
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Reset Form"
+msgstr ""
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Back"
+msgstr ""
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Next"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_cvslink.tpl
+msgid "get result in a csv file"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_report_form.tpl
+#: plugins/statsReports/templates/stats_reports_form.tpl
+msgid "Rapport"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+msgid "Visualisation"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+msgid "* = mandatory options"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+msgid "Generer"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_periodtype_form.tpl
+msgid "Period"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_legend.tpl
+msgid "Legende"
+msgstr ""
+
+#: plugins/exportLinkIt/templates/link_box.tpl
+msgid "The current page is available using following URL:"
+msgstr ""
+
+#: plugins/exportLinkIt/templates/link_box.tpl
+msgid "URL is too long"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "Find path"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "from"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "to"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "options"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "routing_compute"
+msgstr ""
+
+#: plugins/geoloc/templates/geoloc.tpl
+#: coreplugins/location/templates/recenter.tpl
+msgid "X"
+msgstr ""
+
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "Point's coordinates:"
+msgstr ""
+
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "The asked point coordinates are"
+msgstr ""
+
+#: plugins/search/templates/search.tpl
+msgid "Search"
+msgstr ""
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Portrait"
+msgstr ""
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Landscape"
+msgstr ""
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "PDF export"
+msgstr ""
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "Click here to display PDF file"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Scale:"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "PDF recenter"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Rotation"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "-5°"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "+5°"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Free rotate"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "set"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Note:"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr ""
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr ""
+
+#: coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr ""
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr ""
+
+#: coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's"
+msgstr ""
+
+#: coreplugins/location/templates/id_recenter.tpl templates/cartoclient.tpl
+msgid "refresh"
+msgstr ""
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Scale"
+msgstr ""
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Custom_Scale"
+msgstr ""
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "Y"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query information:"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Layer"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Policy"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Mask Mode"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Table"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr ""
+
+#: coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr ""
+
+#: coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize:"
+msgstr ""
+
+#: coreplugins/tables/templates/tables.tpl
+msgid "Download CSV"
+msgstr ""
+
+#: templates/unauthorized.tpl
+msgid "Unauthorized"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid "overlapping polygons are not allowed"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr ""
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr ""
+
+#: templates/nocookies.tpl
+msgid "Cookies"
+msgstr ""
+
+#: templates/nocookies.tpl
+msgid "Cookies must be enabled in order to use this application"
+msgstr ""
+
+#: templates/nocookies.tpl
+msgid "Please enable cookies and reload this page."
+msgstr ""
+
+#: templates/mainmap.tpl
+msgid "JavaScript must be enabled to use CartoWeb"
+msgstr ""
+
+#: templates/mainmap.tpl
+msgid "Loading message"
+msgstr ""
+
+#: templates/mainmap.tpl templates/cartoclient.tpl
+msgid "keymap_alt"
+msgstr ""
+
+#: templates/mainmap.tpl templates/cartoclient.tpl
+msgid "Collapse keymap"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Show keymap"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Current scale:"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Coord (m):"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Approx. distance :"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Approx. area :"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "scalebar_alt"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid " User messages "
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid " Developer messages "
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Choose project"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "reset_session"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Outline"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "WMS layers"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Navigation"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Themes"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "PDF"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "RTF"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Layers Filter"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Views:"
+msgstr ""
+
+#: templates/cartoclient.tpl
+msgid "Raw image"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Tools"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Color"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Hash"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Pencil"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Symbol"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Switch to color array"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Relative Brightness"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "R"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Red"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "G"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Green"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "B"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Blue"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "H"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Hue"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "S"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Saturation"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "L"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Luminance"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "Switch to color gradient"
+msgstr ""
+
+#: templates/toolPicker.tpl
+msgid "more colors"
+msgstr ""
+
+#: client/Views.php:193
+msgid "Action halted: invalid view Id"
+msgstr ""
+
+#: client/Views.php:218
+msgid "You are not allowed to perform this action"
+msgstr ""
+
+#: client/Views.php:367
+msgid "Cannot load view"
+msgstr ""
+
+#: client/Views.php:973
+#, php-format
+msgid "Loaded view #%d"
+msgstr ""
+
+#: client/Views.php:979
+#, php-format
+msgid "New view recorded with id %d"
+msgstr ""
+
+#: client/Views.php:984
+#, php-format
+msgid "View #%d updated"
+msgstr ""
+
+#: client/Views.php:989 client/Views.php:1451
+#, php-format
+msgid "View #%d deleted"
+msgstr ""
+
+#: client/Views.php:1340
+#, php-format
+msgid "Failed to open view #%d"
+msgstr ""
+
+#: client/Views.php:1364
+#, php-format
+msgid "Unable to read view #%d"
+msgstr ""
+
+#: client/Views.php:1376
+#, php-format
+msgid "Unable to write view #%d"
+msgstr ""
+
+#: client/Views.php:1454
+#, php-format
+msgid "Failed deleting view #%d"
+msgstr ""
+
+#: client/Views.php:1519
+msgid "Unable to open ViewDbContainer: "
+msgstr ""
+
+#: client/Views.php:1521 client/Views.php:1594
+msgid "Service failed."
+msgstr ""
+
+#: client/Views.php:1592
+msgid "Unable to process view."
+msgstr ""
+
+#: client/Views.php:1603
+#, php-format
+msgid "No result for view #%d"
+msgstr ""
+
+#: client/Views.php:1627
+#, php-format
+msgid "More than one view affected while editing view #%d"
+msgstr ""
+
+#: client/Views.php:1737
+msgid "Unable to build views catalog"
+msgstr ""
+
+#: scripts/testgettext.php:58
+msgid "PHP-Gettext is not installed correctly !"
+msgstr ""
+
+#: plugins/views/client/ClientViews.php:286
+msgid "Views main controller is OFF!!"
+msgstr ""
+
+#: plugins/views/client/ClientViews.php:290
+msgid "Memorizing view to update"
+msgstr ""
+
+#: plugins/views/client/ClientViews.php:319
+msgid "(placed at the end)"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:490
+msgid "WARNING, report \""
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:491
+msgid ""
+"\" specified in statsReport.ini was not generated beforehand with Patrick "
+"Java report script !"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:839
+msgid "Tableau"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:840
+msgid "Graphique (combine)"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:841
+msgid "Graphiques"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:845
+msgid "Carte"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:871
+msgid "Temps"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:873
+msgid "Type de valeurs"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:909
+msgid "Colonne"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:910
+msgid "Ligne"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:914
+msgid "Axe des X"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:915
+msgid "Comparaison"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:951
+#: plugins/statsReports/client/ClientStatsReports.php:1011
+msgid "WARNING, you didnt select either a line or column type, aborting."
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:984
+msgid "WARNING, no value selected, aborting."
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:191
+msgid "fastest"
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:192
+msgid "shortest"
+msgstr ""
+
+#: plugins/exportPdf/client/CwFpdf.php:1044
+msgid "Page"
+msgstr ""
+
+#: coreplugins/layers/client/ClientLayers.php:1489
+msgid "Default"
+msgstr ""
+
+#: coreplugins/location/client/ClientLocation.php:877
+msgid "normal scales must be activein order to use the free scale"
+msgstr ""
