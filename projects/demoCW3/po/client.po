@@ -3,7 +3,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2012-02-24 14:54+0100\n"
+"POT-Creation-Date: 2012-07-05 11:30+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -176,11 +176,11 @@ msgid "Rotation"
 msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
-msgid "-5�"
+msgid "-5°"
 msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
-msgid "+5�"
+msgid "+5°"
 msgstr ""
 
 #: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
@@ -439,6 +439,14 @@ msgid "Help Viewer"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "Views"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "RTF"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid "Themes"
 msgstr ""
 
@@ -449,6 +457,14 @@ msgstr ""
 #: projects/demoCW3/templates/cartoclient.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Query"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Layers reorder"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "WMS layers"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl

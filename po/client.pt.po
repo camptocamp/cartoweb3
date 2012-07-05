@@ -3,13 +3,42 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2006-08-09 12:15+0200\n"
+"POT-Creation-Date: 2012-07-05 11:30+0200\n"
 "PO-Revision-Date: 2005-03-11 19:14+0100\n"
 "Last-Translator: AF <af@c2c.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: wmsBrowserLight.ini:servers.0.label
+msgid "Geosignal"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.1.label
+msgid "Sandre / Ouvrage"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.2.label
+msgid "Sandre / Zonage"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.3.label
+msgid "Sandre / Station de mesure"
+msgstr ""
+
+#: wmsBrowserLight.ini:servers.4.label
+msgid "Sandre / Station de mesure par reseaux"
+msgstr ""
+
+#: statsReports.ini:datas.cartoweb.label
+msgid "Statistiques Cartoweb"
+msgstr ""
+
+#: statsReports.ini:datas.wms.label
+msgid "Statistiques WMS"
+msgstr ""
 
 # exportPdf.ini:formats.a4.label
 # exportPdf.ini:formats.A4.label
@@ -17,324 +46,211 @@ msgstr ""
 msgid "A4"
 msgstr "A4"
 
-#: coreplugins/images/templates/mapsizes.tpl
-msgid "Mapsize:"
-msgstr "Tamanho do mapa:"
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "Quick OGC Layer Loader"
+msgstr ""
 
-#: coreplugins/layers/templates/layers.tpl
-msgid "expand tree"
-msgstr "expandir árvore"
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "Server URL"
+msgstr ""
 
-#: coreplugins/layers/templates/layers.tpl
-msgid "close tree"
-msgstr "fechar árvore"
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+msgid "LoadLayersList"
+msgstr ""
 
-#: coreplugins/layers/templates/layers.tpl
-msgid "check all"
-msgstr "checar todos"
+#: plugins/wmsBrowserLight/templates/wmsBrowserLight.tpl
+#: plugins/exportLinkIt/templates/link_box.tpl
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "Close"
+msgstr "Fechar"
 
-#: coreplugins/layers/templates/layers.tpl
-msgid "uncheck all"
-msgstr "não checar todos"
+#: plugins/toolTips/templates/session.tpl
+msgid "Session expired"
+msgstr ""
 
-#: coreplugins/layers/templates/layers.tpl
-msgid "more info on"
-msgstr "Mais informações sobre"
-
-#: coreplugins/layers/templates/layers.tpl
-msgid "Click to go to next visible scale:"
-msgstr "Clique para ir à escala visível seguinte:"
-
-#: coreplugins/layers/templates/layers.tpl
-msgid "Zoom in to see layer"
-msgstr "Zoom aproximado para ver a camada"
-
-#: coreplugins/layers/templates/layers.tpl
-msgid "Zoom out to see layer"
-msgstr "Zoom afastado para ver a camada"
-
-#: coreplugins/layers/templates/switches.tpl
-msgid "Switches"
-msgstr "Interruptores"
-
-#: coreplugins/location/templates/id_recenter.tpl
-msgid "Id recentering"
-msgstr "Identificação recentralizada"
-
-#: coreplugins/location/templates/id_recenter.tpl
-msgid "Layer to center on"
-msgstr "Camada ao centro sobre"
-
-#: coreplugins/location/templates/id_recenter.tpl
-msgid "Comma separated id's"
-msgstr "Identificação está separada por vírgula"
-
-#: coreplugins/location/templates/id_recenter.tpl templates/cartoclient.tpl
-msgid "refresh"
-msgstr "Atualizar"
-
-#: coreplugins/location/templates/recenter.tpl
-msgid "X"
-msgstr "X"
-
-#: coreplugins/location/templates/recenter.tpl
-msgid "Y"
-msgstr "Y"
-
-#: coreplugins/location/templates/scales.tpl
-msgid "Scale"
-msgstr "Escala"
-
-#: coreplugins/location/templates/shortcuts.tpl
-msgid "Shortcuts"
-msgstr "Atalhos"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Query information:"
-msgstr "Informação da consulta:"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Layer"
-msgstr "Camada"
-
-#: coreplugins/query/templates/query.tpl
-msgid "In Query"
-msgstr "Na consulta"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Policy"
-msgstr "Polícia"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Mask Mode"
-msgstr "Modo de máscara"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Hilight"
-msgstr "Hilight"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Attributes"
-msgstr "Atributos"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Table"
-msgstr "Tabela"
-
-#: coreplugins/query/templates/query.tpl
-msgid "Query all selected layers"
-msgstr "A consulta selecionou todas as camadas"
-
-#: coreplugins/query/templates/query.tpl
-msgid "query_clear"
-msgstr "Limpar consulta"
-
-#: coreplugins/tables/templates/tables.tpl plugins/views/templates/views.tpl
-msgid "Id"
-msgstr "Identificação"
-
-#: coreplugins/tables/templates/tables.tpl
-msgid "Download CSV"
-msgstr "Download CSV"
-
-#: plugins/auth/templates/auth.tpl
-msgid "login"
-msgstr "login"
-
-#: plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr "sair do sistema"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Cartoclient Title"
-msgstr "Cartoclient Title"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Login dialog"
-msgstr "Diálogo do início de uma sessão"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "You've been logged out"
-msgstr "Você foi deslogado"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Please enter your login and password"
-msgstr "Por favor, entre com sua Identificação e senha"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Username"
-msgstr "Username"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Password"
-msgstr "Senha"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Submit"
-msgstr "Enviar"
-
-#: plugins/auth/templates/login_page.tpl
-msgid "Click here to go back to the map"
-msgstr "Clique aqui para voltar para o mapa"
-
-#: plugins/bboxHistory/templates/bbox_history_form.tpl
-msgid "Back"
-msgstr "Voltar"
-
-#: plugins/bboxHistory/templates/bbox_history_form.tpl
-msgid "Next"
-msgstr "Próximo"
-
-#: plugins/edit/templates/edit_toolbar.tpl
-msgid "edit_move"
-msgstr "Editar mover"
-
-#: plugins/edit/templates/edit_toolbar.tpl
-msgid "edit_del_vertex"
-msgstr "Suprimir um vértice"
-
-#: plugins/edit/templates/edit_toolbar.tpl
-msgid "edit_add_vertex"
-msgstr "Adicionar vértice"
-
-#: plugins/edit/templates/edit_toolbar.tpl
-msgid "edit_del_feature"
-msgstr "Editar feição"
-
-msgid "edit_sel"
-msgstr "Selecionar um elemento"
-
-msgid "edit_point"
-msgstr "Juntar ponto"
-
-msgid "edit_line"
-msgstr "Juntar linha"
-
-msgid "edit_polygon"
-msgstr "Juntar polígono"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Editing plugin:"
-msgstr "Edição de pluguin:"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Choose layer"
-msgstr "Escolher camada"
-
-#: plugins/edit/templates/edit.tpl
-msgid "layer to edit"
-msgstr "Editar camada"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Features: "
-msgstr "Feições: "
-
-#: plugins/edit/templates/edit.tpl
-msgid "Inserted: "
-msgstr "Inserir: "
-
-#: plugins/edit/templates/edit.tpl
-msgid "Modified: "
-msgstr "Modificar: "
-
-#: plugins/edit/templates/edit.tpl
-msgid "Deleted: "
-msgstr "Deletar: "
-
-#: plugins/edit/templates/edit.tpl
-msgid "Validate"
-msgstr "Validar"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: plugins/edit/templates/edit.tpl
-msgid "Editing not allowed"
-msgstr "Edição não permitida"
-
-#: plugins/edit/templates/edit.tpl
-msgid "please login"
+#: plugins/toolTips/templates/session.tpl
+#, fuzzy
+msgid "Please login again"
 msgstr "Por favor, realize o login."
 
-#: plugins/exportHtml/templates/export.tpl
-#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
-msgid "Print"
-msgstr "Imprimir"
+#: plugins/exportDomPdf/templates/pdf.tpl
+#, fuzzy
+msgid "Query"
+msgstr "Na consulta"
 
-#: plugins/exportPdf/templates/form.tpl
-msgid "Title"
-msgstr "Título"
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Title:"
+msgstr "Título:"
 
-#: plugins/exportPdf/templates/form.tpl
-msgid "Note:"
-msgstr "Anotação:"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "Scalebar"
-msgstr "Barra de escala"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "Overview"
-msgstr "Visão panorâmica"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "QueryResult"
-msgstr "Resultado da consulta"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "Legend"
-msgstr "Legenda"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "On map"
-msgstr "No mapa"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "In new page"
-msgstr "Na nova página"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "None"
-msgstr "Nenhum"
-
-#: plugins/exportPdf/templates/form.tpl
-msgid "Reset Form"
-msgstr "Reiniciar"
-
+#: plugins/exportDomPdf/templates/form.tpl
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
 msgid "Format:"
 msgstr "Formato:"
 
+#: plugins/exportDomPdf/templates/form.tpl
 #: plugins/exportPdf/templates/formClassic.tpl
 #: plugins/exportPdf/templates/formRotate.tpl
 msgid "Resolution:"
 msgstr "Resolução:"
 
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Portrait"
-msgstr "Retrato"
+#: plugins/exportDomPdf/templates/form.tpl
+#, fuzzy
+msgid "Orientation:"
+msgstr "Orientação"
 
-#: plugins/exportPdf/templates/formClassic.tpl
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Landscape"
-msgstr "Paisagem"
+#: plugins/exportDomPdf/templates/form.tpl
+#: plugins/exportHtml/templates/export.tpl
+#: plugins/exportPdf/templates/form.tpl templates/cartoclient.tpl
+msgid "Print"
+msgstr "Imprimir"
 
-#: plugins/exportPdf/templates/formRotate.tpl
-msgid "Scale:"
-msgstr "Escala"
+#: plugins/outline/templates/outline.tpl
+msgid "Drawing mode"
+msgstr "Modo de desenho"
 
-#: plugins/exportPdf/templates/outputLink.tpl
-msgid "PDF export"
-msgstr "Exportar PDF"
+#: plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Desenhar"
 
-#: plugins/exportPdf/templates/outputLink.tpl
-msgid "Click here to display PDF file"
-msgstr "Clique aqui para acessar a exibição do arquivo PDF"
+#: plugins/outline/templates/outline.tpl
+msgid "Mask"
+msgstr "Máscara"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Point"
+msgstr "Ponto"
+
+#: plugins/outline/templates/outline.tpl
+msgid "symbol"
+msgstr "Símbolo"
+
+#: plugins/outline/templates/outline.tpl
+msgid "size"
+msgstr "Tamanho"
+
+#: plugins/outline/templates/outline.tpl
+msgid "color"
+msgstr "Color"
+
+#: plugins/outline/templates/outline.tpl
+msgid "transparency"
+msgstr "Transparência"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Line"
+msgstr "Linha"
+
+#: plugins/outline/templates/outline.tpl
+msgid "border size"
+msgstr "Tamanho da borda"
+
+#: plugins/outline/templates/outline.tpl
+#, fuzzy
+msgid "Rectangle/polygon/circle"
+msgstr "Retângulo/polígono"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline color"
+msgstr "Cor da borda"
+
+#: plugins/outline/templates/outline.tpl
+msgid "background color"
+msgstr "Cor do pano de fundo"
+
+#: plugins/outline/templates/outline.tpl
+msgid "Circle"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid ""
+"To draw a circle, either clic&drag on the map or set a value for the radius "
+"and clic on the map."
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "circle radius"
+msgstr ""
+
+#: plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Área total"
+
+#: plugins/outline/templates/outline.tpl
+msgid "outline_clear"
+msgstr "Apagar contornos"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "line label"
+msgstr "Rótulo da linha"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "polygon label"
+msgstr "Rótulo do polígono"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "rectangle label"
+msgstr "Rótulo do retângulo"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "point label"
+msgstr "Rótulo do ponto"
+
+#: plugins/outline/templates/outlinelabel.tpl
+#, fuzzy
+msgid "circle label"
+msgstr "Rótulo do retângulo"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "your label"
+msgstr "Seu rótulo"
+
+#: plugins/outline/templates/outlinelabel.tpl
+msgid "ok"
+msgstr "OK"
+
+#: plugins/ogcLayerLoader/templates/ogcLayerLoader.tpl
+#, fuzzy
+msgid "Remove All Wms Layers"
+msgstr "Remover todas as camadas WMS"
+
+#: plugins/layerFilter/templates/filter_form.tpl
+msgid "Filter criteria"
+msgstr ""
+
+#: plugins/layerFilter/templates/filter_form.tpl
+msgid "Filter"
+msgstr ""
+
+#: plugins/layerFilter/templates/filter_form.tpl
+#: plugins/routing/templates/routing.tpl
+msgid "Reset"
+msgstr "reinicializar"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Choropleth representation configuration"
+msgstr "Configuração da representação Choropleth"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Coloring Method"
+msgstr "Método de coloração"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Initialization Colors"
+msgstr "Inicialização das cores"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+msgid "Classes Color"
+msgstr "Cor das classes"
+
+#: plugins/geostat/templates/geostat_choropleth_representation.tpl
+#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
+msgid "Apply"
+msgstr "Aplicar"
 
 #: plugins/geostat/templates/geostat.tpl
+#: plugins/statsReports/templates/stats_reports_form.tpl
 msgid "Configuration"
 msgstr "Configuração"
 
@@ -345,6 +261,22 @@ msgstr "Configure o dataset..."
 #: plugins/geostat/templates/geostat.tpl
 msgid "Configure representation..."
 msgstr "Configure a representação..."
+
+#: plugins/geostat/templates/geostat_switch.tpl
+msgid "Display geostatistics"
+msgstr "Exibir geoestatísticas"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Choropleth"
+msgstr "Choropleth"
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select geographic entities..."
+msgstr "Selecione as entidades geográficas..."
+
+#: plugins/geostat/templates/geostat_data_source.tpl
+msgid "Select indicator..."
+msgstr "Selecione um indicador"
 
 #: plugins/geostat/templates/geostat_choropleth_dataset.tpl
 msgid "Choropleth dataset configuration"
@@ -382,167 +314,6 @@ msgstr "Método de classificação"
 msgid "Class limits"
 msgstr "Limites das classes"
 
-#: plugins/geostat/templates/geostat_choropleth_dataset.tpl
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Apply"
-msgstr "Aplicar"
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Choropleth representation configuration"
-msgstr "Configuração da representação Choropleth"
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Coloring Method"
-msgstr "Método de coloração"
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Initialization Colors"
-msgstr "Inicialização das cores"
-
-#: plugins/geostat/templates/geostat_choropleth_representation.tpl
-msgid "Classes Color"
-msgstr "Cor das classes"
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Choropleth"
-msgstr "Choropleth"
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Select geographic entities..."
-msgstr "Selecione as entidades geográficas..."
-
-#: plugins/geostat/templates/geostat_data_source.tpl
-msgid "Select indicator..."
-msgstr "Selecione um indicador"
-
-#: plugins/geostat/templates/geostat_switch.tpl
-msgid "Display geostatistics"
-msgstr "Exibir geoestatísticas"
-
-#: plugins/layerReorder/templates/layerReorder.tpl
-msgid "Upside"
-msgstr "Upside"
-
-#: plugins/layerReorder/templates/layerReorder.tpl
-msgid "Downside"
-msgstr "Downside"
-
-#: plugins/layerReorder/templates/layerReorder.tpl
-msgid "Refresh"
-msgstr "Atualizar"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Drawing mode"
-msgstr "Modo de desenho"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Draw"
-msgstr "Desenhar"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Mask"
-msgstr "Máscara"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Point"
-msgstr "Ponto"
-
-#: plugins/outline/templates/outline.tpl
-msgid "symbol"
-msgstr "Símbolo"
-
-#: plugins/outline/templates/outline.tpl
-msgid "size"
-msgstr "Tamanho"
-
-#: plugins/outline/templates/outline.tpl
-msgid "color"
-msgstr "Color"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Line"
-msgstr "Linha"
-
-#: plugins/outline/templates/outline.tpl
-msgid "border size"
-msgstr "Tamanho da borda"
-
-#: plugins/outline/templates/outline.tpl
-msgid "transparency"
-msgstr "Transparência"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Rectangle/polygon"
-msgstr "Retângulo/polígono"
-
-#: plugins/outline/templates/outline.tpl
-msgid "outline color"
-msgstr "Cor da borda"
-
-#: plugins/outline/templates/outline.tpl
-msgid "background color"
-msgstr "Cor do pano de fundo"
-
-#: plugins/outline/templates/outline.tpl
-msgid "Total area"
-msgstr "Área total"
-
-#: plugins/outline/templates/outline.tpl
-msgid "outline_clear"
-msgstr "Apagar contornos"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "line label"
-msgstr "Rótulo da linha"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "polygon label"
-msgstr "Rótulo do polígono"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "rectangle label"
-msgstr "Rótulo do retângulo"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "point label"
-msgstr "Rótulo do ponto"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "your label"
-msgstr "Seu rótulo"
-
-#: plugins/outline/templates/outlinelabel.tpl
-msgid "ok"
-msgstr "OK"
-
-#: plugins/routing/templates/routing.tpl
-msgid "Find path"
-msgstr "Encontrar trilha"
-
-#: plugins/routing/templates/routing.tpl
-msgid "from"
-msgstr "de"
-
-#: plugins/routing/templates/routing.tpl
-msgid "to"
-msgstr "à"
-
-#: plugins/routing/templates/routing.tpl
-msgid "options"
-msgstr "opções"
-
-#: plugins/routing/templates/routing.tpl
-msgid "routing_compute"
-msgstr "Calcular itinerário"
-
-#: plugins/routing/templates/routing.tpl
-msgid "Reset"
-msgstr "reinicializar"
-
-#: plugins/exportDxf/templates/form.tpl
-msgid "Export DXF"
-msgstr "Exportar DXF"
-
 #: plugins/views/templates/views.tpl
 msgid "Are you sure you want to delete view #"
 msgstr "Você tem certeza que desja suprimir a vista #"
@@ -556,8 +327,18 @@ msgid "Go to view"
 msgstr "Visualizar"
 
 #: plugins/views/templates/views.tpl
+msgid "Title"
+msgstr "Título"
+
+#: plugins/views/templates/views.tpl
 msgid "or"
 msgstr "ou"
+
+#: plugins/views/templates/views.tpl
+#: plugins/search/templates/search_results.tpl
+#: coreplugins/tables/templates/tables.tpl
+msgid "Id"
+msgstr "Identificação"
 
 #: plugins/views/templates/views.tpl
 msgid "Load view"
@@ -615,277 +396,437 @@ msgstr "Apagar vista"
 msgid "Delete view #"
 msgstr "Apagar vista n°"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "Explore WMS layers"
-msgstr "Explorar camadas WMS"
+#: plugins/exportDxf/templates/form.tpl
+msgid "Export DXF"
+msgstr "Exportar DXF"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "You need to choose a layer to add it in the mapfile"
-msgstr "Você necessita escolher uma camada e adicioná-la ao arquivo de mapa"
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Upside"
+msgstr "Upside"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "BROWSE: "
-msgstr "Navegador: "
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Downside"
+msgstr "Downside"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "Select a server in the list below to browse its WMS layers"
-msgstr "Selecione um servidor na lista abaixo para afixar suas camadas WMS"
+#: plugins/layerReorder/templates/layerReorder.tpl
+msgid "Refresh"
+msgstr "Atualizar"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "ADD LAYER: "
-msgstr "Adicionar camada: "
+#: plugins/edit/templates/edit.tpl
+msgid "Editing plugin:"
+msgstr "Edição de pluguin:"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid ""
-"Click the 'Add' button at the bottom of this dialog to add the selected "
-"layer to the map"
-msgstr "Clique no botão 'adicionar' para acrescentar a camada seleccionada sobre"
-"camada para o mapa"
+#: plugins/edit/templates/edit.tpl
+msgid "Choose layer"
+msgstr "Escolher camada"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "Loading image..."
-msgstr "Carregando imagem..."
+#: plugins/edit/templates/edit.tpl
+msgid "layer to edit"
+msgstr "Editar camada"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "Add selected layer to the map"
-msgstr "adicionar camada selecionada no mapa"
+#: plugins/edit/templates/edit.tpl
+msgid "Features: "
+msgstr "Feições: "
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-msgid "Add layer"
-msgstr "Adicionar camada"
+#: plugins/edit/templates/edit.tpl
+msgid "Inserted: "
+msgstr "Inserir: "
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Close"
-msgstr "Fechar"
+#: plugins/edit/templates/edit.tpl
+msgid "Modified: "
+msgstr "Modificar: "
 
-#: plugins/wmsBrowser/templates/exploreWmsLayers.tpl
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Close this dialog"
-msgstr "Fechar este diálogo"
+#: plugins/edit/templates/edit.tpl
+msgid "Deleted: "
+msgstr "Deletar: "
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Explore WMS layers - iframe"
-msgstr "Explorar camada WMS - iframe"
+#: plugins/edit/templates/edit.tpl
+msgid "Validate"
+msgstr "Validar"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Select a layer"
-msgstr "Selecionar uma camada"
+#: plugins/edit/templates/edit.tpl
+msgid "Cancel"
+msgstr "Cancelar"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "You can't add this layer, one of its metadatas values is null"
-msgstr "Você não pode adicionar esta camada, um dos valores dos seus metadados é nulo"
+#: plugins/edit/templates/edit.tpl
+msgid "Editing not allowed"
+msgstr "Edição não permitida"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Title: "
-msgstr "Título: "
+#: plugins/edit/templates/edit.tpl
+msgid "please login"
+msgstr "Por favor, realize o login."
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Abstract: "
-msgstr "Resumo: "
+#: plugins/auth/templates/auth.tpl
+msgid "login"
+msgstr "login"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Metadatas: "
-msgstr "Metadados: "
+#: plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "sair do sistema"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Select a server..."
-msgstr "Selecione um servidor..."
+#: plugins/auth/templates/login_page.tpl
+msgid "Cartoclient Title"
+msgstr "Cartoclient Title"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid "Manage available WMS servers"
-msgstr "Controle de Servidores WMS disponíveis"
+#: plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr "Diálogo do início de uma sessão"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Manage servers"
-msgstr "Servidores de controle"
+#: plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr "Você foi deslogado"
 
-#: plugins/wmsBrowser/templates/exploreWmsLayersIframe.tpl
-msgid ""
-"This server is disconnected. Please connect it in manage servers popup to "
-"explore its layers."
+#: plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr "Por favor, entre com sua Identificação e senha"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr "Username"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr "Senha"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr "Enviar"
+
+#: plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr "Clique aqui para voltar para o mapa"
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Barra de escala"
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Visão panorâmica"
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "Resultado da consulta"
+
+#: plugins/exportRtf/templates/form.tpl
+msgid "Export"
+msgstr "Exportar"
+
+#: plugins/exportRtf/templates/form.tpl plugins/exportPdf/templates/form.tpl
+msgid "Reset Form"
+msgstr "Reiniciar"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Back"
+msgstr "Voltar"
+
+#: plugins/bboxHistory/templates/bbox_history_form.tpl
+msgid "Next"
+msgstr "Próximo"
+
+#: plugins/statsReports/templates/stats_cvslink.tpl
+msgid "get result in a csv file"
 msgstr ""
-"Este servidor está desconectado. Conecte-se no popup de gestão de servidores "
-"para visualizar as suas camadas."
 
-#: plugins/wmsBrowser/templates/loadingbar.tpl templates/mainmap.tpl
+#: plugins/statsReports/templates/stats_report_form.tpl
+#: plugins/statsReports/templates/stats_reports_form.tpl
+#, fuzzy
+msgid "Rapport"
+msgstr "Exportar"
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+#, fuzzy
+msgid "Visualisation"
+msgstr "Navegação"
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+msgid "* = mandatory options"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_display_form.tpl
+msgid "Generer"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_periodtype_form.tpl
+msgid "Period"
+msgstr ""
+
+#: plugins/statsReports/templates/stats_legend.tpl
+#, fuzzy
+msgid "Legende"
+msgstr "Legenda"
+
+#: plugins/exportLinkIt/templates/link_box.tpl
+msgid "The current page is available using following URL:"
+msgstr ""
+
+#: plugins/exportLinkIt/templates/link_box.tpl
+msgid "URL is too long"
+msgstr ""
+
+#: plugins/routing/templates/routing.tpl
+msgid "Find path"
+msgstr "Encontrar trilha"
+
+#: plugins/routing/templates/routing.tpl
+msgid "from"
+msgstr "de"
+
+#: plugins/routing/templates/routing.tpl
+msgid "to"
+msgstr "à"
+
+#: plugins/routing/templates/routing.tpl
+msgid "options"
+msgstr "opções"
+
+#: plugins/routing/templates/routing.tpl
+msgid "routing_compute"
+msgstr "Calcular itinerário"
+
+#: plugins/geoloc/templates/geoloc.tpl
+#: coreplugins/location/templates/recenter.tpl
+msgid "X"
+msgstr "X"
+
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "Point's coordinates:"
+msgstr ""
+
+#: plugins/geoloc/templates/geoloc.tpl
+msgid "The asked point coordinates are"
+msgstr ""
+
+#: plugins/search/templates/search.tpl
+msgid "Search"
+msgstr ""
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Portrait"
+msgstr "Retrato"
+
+#: plugins/exportPdf/templates/formClassic.tpl
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Landscape"
+msgstr "Paisagem"
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "PDF export"
+msgstr "Exportar PDF"
+
+#: plugins/exportPdf/templates/outputLink.tpl
+msgid "Click here to display PDF file"
+msgstr "Clique aqui para acessar a exibição do arquivo PDF"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Scale:"
+msgstr "Escala"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+#, fuzzy
+msgid "PDF recenter"
+msgstr "Identificação recentralizada"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+#, fuzzy
+msgid "Rotation"
+msgstr "Saturação"
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "-5°"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "+5°"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+msgid "Free rotate"
+msgstr ""
+
+#: plugins/exportPdf/templates/formRotate.tpl
+#, fuzzy
+msgid "set"
+msgstr "reinicializar"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Note:"
+msgstr "Anotação:"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Legenda"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "No mapa"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "Na nova página"
+
+#: plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "Nenhum"
+
+#: coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr "Interruptores"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "expand tree"
+msgstr "expandir árvore"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "close tree"
+msgstr "fechar árvore"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "check all"
+msgstr "checar todos"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "uncheck all"
+msgstr "não checar todos"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "more info on"
+msgstr "Mais informações sobre"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Click to go to next visible scale:"
+msgstr "Clique para ir à escala visível seguinte:"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom in to see layer"
+msgstr "Zoom aproximado para ver a camada"
+
+#: coreplugins/layers/templates/layers.tpl
+msgid "Zoom out to see layer"
+msgstr "Zoom afastado para ver a camada"
+
+#: coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr "Atalhos"
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Id recentering"
+msgstr "Identificação recentralizada"
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Layer to center on"
+msgstr "Camada ao centro sobre"
+
+#: coreplugins/location/templates/id_recenter.tpl
+msgid "Comma separated id's"
+msgstr "Identificação está separada por vírgula"
+
+#: coreplugins/location/templates/id_recenter.tpl templates/cartoclient.tpl
+msgid "refresh"
+msgstr "Atualizar"
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Scale"
+msgstr "Escala"
+
+#: coreplugins/location/templates/scales.tpl
+msgid "Custom_Scale"
+msgstr ""
+
+#: coreplugins/location/templates/recenter.tpl
+msgid "Y"
+msgstr "Y"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query information:"
+msgstr "Informação da consulta:"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Layer"
+msgstr "Camada"
+
+#: coreplugins/query/templates/query.tpl
+msgid "In Query"
+msgstr "Na consulta"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Policy"
+msgstr "Polícia"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Mask Mode"
+msgstr "Modo de máscara"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Hilight"
+msgstr "Hilight"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Attributes"
+msgstr "Atributos"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Table"
+msgstr "Tabela"
+
+#: coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr "A consulta selecionou todas as camadas"
+
+#: coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr "Limpar consulta"
+
+#: coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize:"
+msgstr "Tamanho do mapa:"
+
+#: coreplugins/tables/templates/tables.tpl
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: templates/unauthorized.tpl
+msgid "Unauthorized"
+msgstr "Acesso não autorizado"
+
+#: templates/dhtmlcode.tpl
+msgid "overlapping polygons are not allowed"
+msgstr "Polígonos sobrepostos não são permitidos"
+
+#: templates/dhtmlcode.tpl
+msgid "Are you sure ?"
+msgstr "Você tem certeza?"
+
+#: templates/dhtmlcode.tpl
+msgid "Not conform object"
+msgstr "Objeto não conforme"
+
+#: templates/nocookies.tpl
+msgid "Cookies"
+msgstr ""
+
+#: templates/nocookies.tpl
+msgid "Cookies must be enabled in order to use this application"
+msgstr "Cookies devem ser permitidos para poder utilizar esta aplicação"
+
+#: templates/nocookies.tpl
+msgid "Please enable cookies and reload this page."
+msgstr "Por favor, ative os cookies e recarregue esta página."
+
+#: templates/mainmap.tpl
+msgid "JavaScript must be enabled to use CartoWeb"
+msgstr "JavaScript deve ser ativado para utilizar CartoWeb"
+
+#: templates/mainmap.tpl
 msgid "Loading message"
 msgstr "Carregando ..."
 
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid ""
-"In the list of available datastores below, server names prefaced with [c] "
-"and [d] are 'Connected' and 'Disconnected' respectively.\n"
-"To modify a server's properties, select it from the list."
-msgstr ""
-"Na lista de datastores disponíveis abaixo, nomes de usuário prefaciados com [c]"
-"e [d] são 'Conectado' e 'Disconectado' respectivamente.\n"
-"Para modificar as propriedades do servidor, selecione em uma lista."
+#: templates/mainmap.tpl templates/cartoclient.tpl
+msgid "keymap_alt"
+msgstr "keymap_alt"
 
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Available servers"
-msgstr "Servidores disponíveis"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Connect selected server"
-msgstr "Conectar o servidor selecionado"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Disconnect selected server"
-msgstr "Desconectar o servidor selecionado"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Refresh selected server"
-msgstr "Atualizar servidor selecionado"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Test selected server"
-msgstr "Testar servidor atualizado"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Remove selected server"
-msgstr "Remover servidor selecionado"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid ""
-"Please supply the properties below then click 'Add' to add a new server to "
-"the datastores list. \n"
-"*The only required field is URL."
-msgstr ""
-"Para acrescentar um novo servidor à lista, preenchem as suas propriedades e"
-"Clique em acrescentar. \n"
-"*O único campo que deve ser preenchido obrigatoriamente é."
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Server properties"
-msgstr "Propriedades do servidor"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Comments"
-msgstr "Comentários"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Add server"
-msgstr "Adicionar um servidor"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Add server to list"
-msgstr "Adicionar um servidor à lista"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Update server entry"
-msgstr "Atualizar servidor"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Server last refreshed"
-msgstr "Última atualização do servidor"
-
-#: plugins/wmsBrowser/templates/manageServers.tpl
-msgid "Output"
-msgstr "Saída"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "The following parameters should not be included in the URL:"
-msgstr "Os parâmetros seguintes não deveriam ser incluídos na URL"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Adding server [%1] to list .... "
-msgstr "Adicionando o servidor [%1] .... à lista "
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Failed"
-msgstr "Falhou"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid ""
-"Adding server .... cancelled [this server is already registred in wms cache]"
-msgstr ""
-"Adicionando servidor .... cancelado [este servidor já está registado na WMS Cache"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "OK"
-msgstr "OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Testing server [%1] .... "
-msgstr "Testando servidor [%1] .... "
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Not available"
-msgstr "Não disponível"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Removing server [%1] .... OK"
-msgstr "Removendo servidor [%1] .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Refreshing server [%1] .... "
-msgstr "Atualizando servidor [%1] .... "
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "An error occured parsing capabilities..."
-msgstr ""
-"Um erro ocorreu durante a fase de recuperação das informações"
-"servidor..."
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Removing server .... OK"
-msgstr "Removendo servidor .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Updating existing server [%1] .... OK"
-msgstr "Atualização do servidor [%1] .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Disconnecting server [%1] .... OK"
-msgstr "Desconectando servidor [%1] .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Connecting server .... cancelled [no server selected]"
-msgstr "Conectando servidor .... cancelado [Não há servidor selecionado]"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Connecting server [%1] .... OK"
-msgstr "Conectando servidor [%1] .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Disconnecting server .... cancelled [no server selected]"
-msgstr "Desconectando servidor .... cancelado [Não há servidor selecionado]"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Removing server .... cancelled [no server selected]"
-msgstr "Removendo servidor ... cancelado [Não há servidor selecionado]"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Testing server .... cancelled [no server selected]"
-msgstr "Testando servidor .... cancelado [Não há servidor selecionado]"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Building servers list .... OK"
-msgstr "Atualização da lista dos servidores .... OK"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "No servers in the list."
-msgstr "Não há servidores na lista."
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Execution complete"
-msgstr "Operação relizada"
-
-#: plugins/wmsBrowser/templates/userLog.tpl
-msgid "Errors occurred"
-msgstr "Ocorreram erros!"
-
-#: plugins/wmsBrowser/templates/wmsBrowser.tpl
-msgid "Add WMS layers"
-msgstr "Adicionar camadas WMS"
-
-#: plugins/wmsBrowser/templates/wmsBrowser.tpl
-msgid "Remove all WMS layers"
-msgstr "Remover todas as camadas WMS"
-
-#: templates/cartoclient.tpl templates/mainmap.tpl
+#: templates/mainmap.tpl templates/cartoclient.tpl
 msgid "Collapse keymap"
 msgstr "Esconder o mapa de referência"
 
@@ -957,9 +898,14 @@ msgstr "PDF"
 msgid "Views"
 msgstr "Vistas"
 
-#: templates/cartoclient.tpl templates/mainmap.tpl
-msgid "keymap_alt"
-msgstr "keymap_alt"
+#: templates/cartoclient.tpl
+msgid "RTF"
+msgstr ""
+
+#: templates/cartoclient.tpl
+#, fuzzy
+msgid "Layers Filter"
+msgstr "Ordem Temas"
 
 #: templates/cartoclient.tpl
 msgid "Views:"
@@ -968,22 +914,6 @@ msgstr "Vistas:"
 #: templates/cartoclient.tpl
 msgid "Raw image"
 msgstr "Imagem bruta"
-
-#: templates/dhtmlcode.tpl
-msgid "overlapping polygons are not allowed"
-msgstr "Polígonos sobrepostos não são permitidos"
-
-#: templates/dhtmlcode.tpl
-msgid "Are you sure ?"
-msgstr "Você tem certeza?"
-
-#: templates/dhtmlcode.tpl
-msgid "Not conform object"
-msgstr "Objeto não conforme"
-
-#: templates/mainmap.tpl
-msgid "JavaScript must be enabled to use CartoWeb"
-msgstr "JavaScript deve ser ativado para utilizar CartoWeb"
 
 #: templates/toolPicker.tpl
 msgid "Tools"
@@ -1069,111 +999,87 @@ msgstr "Paleta de cores"
 msgid "more colors"
 msgstr "Mais cores"
 
-#: templates/unauthorized.tpl
-msgid "Unauthorized"
-msgstr "Acesso não autorizado"
-
-#: client/Views.php:191
+#: client/Views.php:193
 msgid "Action halted: invalid view Id"
 msgstr "Ação interrompida: Identificação inválida da vista"
 
-#: client/Views.php:216
+#: client/Views.php:218
 msgid "You are not allowed to perform this action"
 msgstr "Não é permitido que você execute esta ação!"
 
-#: client/Views.php:365
+#: client/Views.php:367
 msgid "Cannot load view"
 msgstr "Não pode carregar a vista"
 
-#: client/Views.php:971
+#: client/Views.php:973
 #, php-format
 msgid "Loaded view #%d"
 msgstr "Carregando vista #%d"
 
-#: client/Views.php:977
+#: client/Views.php:979
 #, php-format
 msgid "New view recorded with id %d"
 msgstr "Nova vista gravada com identificação %d"
 
-#: client/Views.php:982
+#: client/Views.php:984
 #, php-format
 msgid "View #%d updated"
 msgstr "Vista #%d atualizada"
 
-#: client/Views.php:987 client/Views.php:1449
+#: client/Views.php:989 client/Views.php:1451
 #, php-format
 msgid "View #%d deleted"
 msgstr "Vista #%d deletada"
 
-#: client/Views.php:1338
+#: client/Views.php:1340
 #, php-format
 msgid "Failed to open view #%d"
 msgstr "Não abre a vista #%d"
 
-#: client/Views.php:1362
+#: client/Views.php:1364
 #, php-format
 msgid "Unable to read view #%d"
 msgstr "Impossível carregar a vista #%d"
 
-#: client/Views.php:1374
+#: client/Views.php:1376
 #, php-format
 msgid "Unable to write view #%d"
 msgstr "Incapaz de registar a vista #%d"
 
-#: client/Views.php:1452
+#: client/Views.php:1454
 #, php-format
 msgid "Failed deleting view #%d"
 msgstr "Incapaz de deletar a vista #%d"
 
-#: client/Views.php:1511
+#: client/Views.php:1519
 msgid "Unable to open ViewDbContainer: "
 msgstr "Incapaz de abrir ViewDbContainer : "
 
-#: client/Views.php:1513 client/Views.php:1582
+#: client/Views.php:1521 client/Views.php:1594
 msgid "Service failed."
 msgstr "Serviço indisponível"
 
-#: client/Views.php:1580
+#: client/Views.php:1592
 msgid "Unable to process view."
 msgstr "Incapaz de processar a vista"
 
-#: client/Views.php:1591
+#: client/Views.php:1603
 #, php-format
 msgid "No result for view #%d"
 msgstr "Nenhum resultado para a vista #%d"
 
-#: client/Views.php:1615
+#: client/Views.php:1627
 #, php-format
 msgid "More than one view affected while editing view #%d"
 msgstr "Mais de uma vista afetada pela edição da vista #%d"
 
-#: client/Views.php:1725
+#: client/Views.php:1737
 msgid "Unable to build views catalog"
 msgstr "Incapaz de criar o catálogo das vistas"
 
-#: coreplugins/images/client/ClientImages.php:321
-msgid "label"
-msgstr "Rótulo"
-
-#: coreplugins/layers/client/ClientLayers.php:1334
-msgid "Default"
-msgstr "Default"
-
-#: plugins/exportPdf/client/CwFpdf.php:1037
-msgid "Page"
-msgstr "Página"
-
-#: plugins/routing/client/ClientRouting.php:129
-msgid "Can't compute path: same source and destination"
-msgstr "Incapaz de calcular o trajeto: partida e chegada idênticas"
-
-#: plugins/routing/client/ClientRouting.php:191
-msgid "fastest"
-msgstr "mais rápido"
-
-#: plugins/routing/client/ClientRouting.php:192
-msgid "shortest"
-msgstr "mais curto"
+#: scripts/testgettext.php:58
+msgid "PHP-Gettext is not installed correctly !"
+msgstr "PHP-Gettext não está instalado corretamente!"
 
 #: plugins/views/client/ClientViews.php:286
 msgid "Views main controller is OFF!!"
@@ -1187,122 +1093,416 @@ msgstr "Memorizando a vista para atualizar"
 msgid "(placed at the end)"
 msgstr "(localizado na extremidade)"
 
-#: scripts/testgettext.php:56
-msgid "PHP-Gettext is not installed correctly !"
-msgstr "PHP-Gettext não está instalado corretamente!"
+#: plugins/statsReports/client/ClientStatsReports.php:490
+msgid "WARNING, report \""
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:491
+msgid ""
+"\" specified in statsReport.ini was not generated beforehand with Patrick "
+"Java report script !"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:839
+#, fuzzy
+msgid "Tableau"
+msgstr "Tabela"
+
+#: plugins/statsReports/client/ClientStatsReports.php:840
+msgid "Graphique (combine)"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:841
+msgid "Graphiques"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:845
+msgid "Carte"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:871
+msgid "Temps"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:873
+msgid "Type de valeurs"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:909
+#, fuzzy
+msgid "Colonne"
+msgstr "Cor"
+
+#: plugins/statsReports/client/ClientStatsReports.php:910
+msgid "Ligne"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:914
+msgid "Axe des X"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:915
+msgid "Comparaison"
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:951
+#: plugins/statsReports/client/ClientStatsReports.php:1011
+msgid "WARNING, you didnt select either a line or column type, aborting."
+msgstr ""
+
+#: plugins/statsReports/client/ClientStatsReports.php:984
+msgid "WARNING, no value selected, aborting."
+msgstr ""
+
+#: plugins/routing/client/ClientRouting.php:129
+msgid "Can't compute path: same source and destination"
+msgstr "Incapaz de calcular o trajeto: partida e chegada idênticas"
+
+#: plugins/routing/client/ClientRouting.php:191
+msgid "fastest"
+msgstr "mais rápido"
+
+#: plugins/routing/client/ClientRouting.php:192
+msgid "shortest"
+msgstr "mais curto"
+
+#: plugins/exportPdf/client/CwFpdf.php:1044
+msgid "Page"
+msgstr "Página"
+
+#: coreplugins/layers/client/ClientLayers.php:1489
+msgid "Default"
+msgstr "Default"
+
+#: coreplugins/location/client/ClientLocation.php:877
+#, fuzzy
+msgid "normal scales must be activein order to use the free scale"
+msgstr "Cookies devem ser permitidos para poder utilizar esta aplicação"
+
+#~ msgid "edit_move"
+#~ msgstr "Editar mover"
+
+#~ msgid "edit_del_vertex"
+#~ msgstr "Suprimir um vértice"
+
+#~ msgid "edit_add_vertex"
+#~ msgstr "Adicionar vértice"
+
+#~ msgid "edit_del_feature"
+#~ msgstr "Editar feição"
+
+#~ msgid "edit_sel"
+#~ msgstr "Selecionar um elemento"
+
+#~ msgid "edit_point"
+#~ msgstr "Juntar ponto"
+
+#~ msgid "edit_line"
+#~ msgstr "Juntar linha"
+
+#~ msgid "edit_polygon"
+#~ msgstr "Juntar polígono"
+
+#~ msgid "Explore WMS layers"
+#~ msgstr "Explorar camadas WMS"
+
+#~ msgid "You need to choose a layer to add it in the mapfile"
+#~ msgstr "Você necessita escolher uma camada e adicioná-la ao arquivo de mapa"
+
+#~ msgid "BROWSE: "
+#~ msgstr "Navegador: "
+
+#~ msgid "Select a server in the list below to browse its WMS layers"
+#~ msgstr "Selecione um servidor na lista abaixo para afixar suas camadas WMS"
+
+#~ msgid "ADD LAYER: "
+#~ msgstr "Adicionar camada: "
+
+#~ msgid ""
+#~ "Click the 'Add' button at the bottom of this dialog to add the selected "
+#~ "layer to the map"
+#~ msgstr ""
+#~ "Clique no botão 'adicionar' para acrescentar a camada seleccionada "
+#~ "sobrecamada para o mapa"
+
+#~ msgid "Loading image..."
+#~ msgstr "Carregando imagem..."
+
+#~ msgid "Add selected layer to the map"
+#~ msgstr "adicionar camada selecionada no mapa"
+
+#~ msgid "Add layer"
+#~ msgstr "Adicionar camada"
+
+#~ msgid "Close this dialog"
+#~ msgstr "Fechar este diálogo"
+
+#~ msgid "Explore WMS layers - iframe"
+#~ msgstr "Explorar camada WMS - iframe"
+
+#~ msgid "Select a layer"
+#~ msgstr "Selecionar uma camada"
+
+#~ msgid "You can't add this layer, one of its metadatas values is null"
+#~ msgstr ""
+#~ "Você não pode adicionar esta camada, um dos valores dos seus metadados é "
+#~ "nulo"
+
+#~ msgid "Title: "
+#~ msgstr "Título: "
+
+#~ msgid "Abstract: "
+#~ msgstr "Resumo: "
+
+#~ msgid "Metadatas: "
+#~ msgstr "Metadados: "
+
+#~ msgid "Select a server..."
+#~ msgstr "Selecione um servidor..."
+
+#~ msgid "Manage available WMS servers"
+#~ msgstr "Controle de Servidores WMS disponíveis"
+
+#~ msgid "Manage servers"
+#~ msgstr "Servidores de controle"
+
+#~ msgid ""
+#~ "This server is disconnected. Please connect it in manage servers popup to "
+#~ "explore its layers."
+#~ msgstr ""
+#~ "Este servidor está desconectado. Conecte-se no popup de gestão de "
+#~ "servidores para visualizar as suas camadas."
+
+#~ msgid ""
+#~ "In the list of available datastores below, server names prefaced with [c] "
+#~ "and [d] are 'Connected' and 'Disconnected' respectively.\n"
+#~ "To modify a server's properties, select it from the list."
+#~ msgstr ""
+#~ "Na lista de datastores disponíveis abaixo, nomes de usuário prefaciados "
+#~ "com [c]e [d] são 'Conectado' e 'Disconectado' respectivamente.\n"
+#~ "Para modificar as propriedades do servidor, selecione em uma lista."
+
+#~ msgid "Available servers"
+#~ msgstr "Servidores disponíveis"
+
+#~ msgid "Connect selected server"
+#~ msgstr "Conectar o servidor selecionado"
+
+#~ msgid "Disconnect selected server"
+#~ msgstr "Desconectar o servidor selecionado"
+
+#~ msgid "Refresh selected server"
+#~ msgstr "Atualizar servidor selecionado"
+
+#~ msgid "Test selected server"
+#~ msgstr "Testar servidor atualizado"
+
+#~ msgid "Remove selected server"
+#~ msgstr "Remover servidor selecionado"
+
+#~ msgid ""
+#~ "Please supply the properties below then click 'Add' to add a new server "
+#~ "to the datastores list. \n"
+#~ "*The only required field is URL."
+#~ msgstr ""
+#~ "Para acrescentar um novo servidor à lista, preenchem as suas propriedades "
+#~ "eClique em acrescentar. \n"
+#~ "*O único campo que deve ser preenchido obrigatoriamente é."
+
+#~ msgid "Server properties"
+#~ msgstr "Propriedades do servidor"
+
+#~ msgid "Comments"
+#~ msgstr "Comentários"
+
+#~ msgid "Add server"
+#~ msgstr "Adicionar um servidor"
+
+#~ msgid "Add server to list"
+#~ msgstr "Adicionar um servidor à lista"
+
+#~ msgid "Update server entry"
+#~ msgstr "Atualizar servidor"
+
+#~ msgid "Server last refreshed"
+#~ msgstr "Última atualização do servidor"
+
+#~ msgid "Output"
+#~ msgstr "Saída"
+
+#~ msgid "The following parameters should not be included in the URL:"
+#~ msgstr "Os parâmetros seguintes não deveriam ser incluídos na URL"
+
+#~ msgid "Adding server [%1] to list .... "
+#~ msgstr "Adicionando o servidor [%1] .... à lista "
+
+#~ msgid "Failed"
+#~ msgstr "Falhou"
+
+#~ msgid ""
+#~ "Adding server .... cancelled [this server is already registred in wms "
+#~ "cache]"
+#~ msgstr ""
+#~ "Adicionando servidor .... cancelado [este servidor já está registado na "
+#~ "WMS Cache"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Testing server [%1] .... "
+#~ msgstr "Testando servidor [%1] .... "
+
+#~ msgid "Not available"
+#~ msgstr "Não disponível"
+
+#~ msgid "Removing server [%1] .... OK"
+#~ msgstr "Removendo servidor [%1] .... OK"
+
+#~ msgid "Refreshing server [%1] .... "
+#~ msgstr "Atualizando servidor [%1] .... "
+
+#~ msgid "An error occured parsing capabilities..."
+#~ msgstr ""
+#~ "Um erro ocorreu durante a fase de recuperação das informaçõesservidor..."
+
+#~ msgid "Removing server .... OK"
+#~ msgstr "Removendo servidor .... OK"
+
+#~ msgid "Updating existing server [%1] .... OK"
+#~ msgstr "Atualização do servidor [%1] .... OK"
+
+#~ msgid "Disconnecting server [%1] .... OK"
+#~ msgstr "Desconectando servidor [%1] .... OK"
+
+#~ msgid "Connecting server .... cancelled [no server selected]"
+#~ msgstr "Conectando servidor .... cancelado [Não há servidor selecionado]"
+
+#~ msgid "Connecting server [%1] .... OK"
+#~ msgstr "Conectando servidor [%1] .... OK"
+
+#~ msgid "Disconnecting server .... cancelled [no server selected]"
+#~ msgstr "Desconectando servidor .... cancelado [Não há servidor selecionado]"
+
+#~ msgid "Removing server .... cancelled [no server selected]"
+#~ msgstr "Removendo servidor ... cancelado [Não há servidor selecionado]"
+
+#~ msgid "Testing server .... cancelled [no server selected]"
+#~ msgstr "Testando servidor .... cancelado [Não há servidor selecionado]"
+
+#~ msgid "Building servers list .... OK"
+#~ msgstr "Atualização da lista dos servidores .... OK"
+
+#~ msgid "No servers in the list."
+#~ msgstr "Não há servidores na lista."
+
+#~ msgid "Execution complete"
+#~ msgstr "Operação relizada"
+
+#~ msgid "Errors occurred"
+#~ msgstr "Ocorreram erros!"
+
+#~ msgid "Add WMS layers"
+#~ msgstr "Adicionar camadas WMS"
+
+#~ msgid "label"
+#~ msgstr "Rótulo"
 
 # exportPdf.ini:formats.a3.label
 # exportPdf.ini:formats.A3.label
-msgid "A3"
-msgstr "A3"
+#~ msgid "A3"
+#~ msgstr "A3"
 
 # images.ini:mapSizes.0.label
 # images.ini:mapSizes.0.label
-msgid "small"
-msgstr "pequeno"
+#~ msgid "small"
+#~ msgstr "pequeno"
 
 # images.ini:mapSizes.1.label
 # images.ini:mapSizes.1.label
-msgid "normal"
-msgstr "normal"
+#~ msgid "normal"
+#~ msgstr "normal"
 
 # images.ini:mapSizes.2.label
 # images.ini:mapSizes.2.label
-msgid "big"
-msgstr "grande"
+#~ msgid "big"
+#~ msgstr "grande"
 
 # images.ini:mapSizes.3.label
 # images.ini:mapSizes.3.label
-msgid "giant"
-msgstr "gigante"
+#~ msgid "giant"
+#~ msgstr "gigante"
 
-msgid "Position:"
-msgstr "Posição:"
+#~ msgid "Position:"
+#~ msgstr "Posição:"
 
-msgid "zoomin"
-msgstr "zoom in"
+#~ msgid "zoomin"
+#~ msgstr "zoom in"
 
-msgid "zoomout"
-msgstr "zoom out"
+#~ msgid "zoomout"
+#~ msgstr "zoom out"
 
-msgid "pan"
-msgstr "Deslocamento"
+#~ msgid "pan"
+#~ msgstr "Deslocamento"
 
-msgid "query_by_point"
-msgstr "Consulta por ponto"
+#~ msgid "query_by_point"
+#~ msgstr "Consulta por ponto"
 
-msgid "query_by_bbox"
-msgstr "Consulta por caixa"
+#~ msgid "query_by_bbox"
+#~ msgstr "Consulta por caixa"
 
-msgid "query_by_polygon"
-msgstr "Consulta por polígono"
+#~ msgid "query_by_polygon"
+#~ msgstr "Consulta por polígono"
 
-msgid "query_by_circle"
-msgstr "Consulta por círculo"
+#~ msgid "query_by_circle"
+#~ msgstr "Consulta por círculo"
 
-msgid "outline_point"
-msgstr "Ponto"
+#~ msgid "outline_point"
+#~ msgstr "Ponto"
 
-msgid "outline_line"
-msgstr "Linha"
+#~ msgid "outline_line"
+#~ msgstr "Linha"
 
-msgid "outline_rectangle"
-msgstr "Retângulo"
+#~ msgid "outline_rectangle"
+#~ msgstr "Retângulo"
 
-msgid "outline_poly"
-msgstr "Polígono"
+#~ msgid "outline_poly"
+#~ msgstr "Polígono"
 
-msgid "distance"
-msgstr "Distância"
+#~ msgid "distance"
+#~ msgstr "Distância"
 
-msgid "surface"
-msgstr "Superfície"
+#~ msgid "surface"
+#~ msgstr "Superfície"
 
-msgid "fullextent"
-msgstr "Vista geral"
+#~ msgid "fullextent"
+#~ msgstr "Vista geral"
 
-msgid "message: %s count: %d"
-msgstr "Mensagem: %s conta: %d"
+#~ msgid "message: %s count: %d"
+#~ msgstr "Mensagem: %s conta: %d"
 
-msgid "Cookies must be enabled in order to use this application"
-msgstr "Cookies devem ser permitidos para poder utilizar esta aplicação"
+#~ msgid "Transparency"
+#~ msgstr "Transparencia"
 
-msgid "Please enable cookies and reload this page."
-msgstr "Por favor, ative os cookies e recarregue esta página."
+#~ msgid "Export RTF"
+#~ msgstr "Exportar RTF"
 
-msgid "Transparency"
-msgstr "Transparencia"
+#~ msgid "Format and Resolution (dpi)"
+#~ msgstr "Formato e Resolução (dpi)"
 
-msgid "Export RTF"
-msgstr "Exportar RTF"
+#~ msgid "Note"
+#~ msgstr "Anotação"
 
-msgid "Export"
-msgstr "Exportar"
+#~ msgid "Options"
+#~ msgstr "Opções"
 
-msgid "Format and Resolution (dpi)"
-msgstr "Formato e Resolução (dpi)"
+#~ msgid "Edit"
+#~ msgstr "Edição"
 
-msgid "Note"
-msgstr "Anotação"
+#~ msgid "New view"
+#~ msgstr "Nova vista"
 
-msgid "Options"
-msgstr "Opções"
+#~ msgid "Scale :"
+#~ msgstr "Escala:"
 
-msgid "Edit"
-msgstr "Edição"
-
-msgid "New view"
-msgstr "Nova vista"
-
-msgid "Title:"
-msgstr "Título:"
-
-msgid "Orientation"
-msgstr "Orientação"
-
-msgid "Scale :"
-msgstr "Escala:"
-
-msgid "Mapsize :"
-msgstr "Tamanho do mapa :"
-
+#~ msgid "Mapsize :"
+#~ msgstr "Tamanho do mapa :"

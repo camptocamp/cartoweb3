@@ -3,10 +3,26 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2005-11-06 11:56+0100\n"
+"POT-Creation-Date: 2012-07-05 11:30+0200\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: images.ini:mapSizes.0.label
+msgid "430x300"
+msgstr ""
+
+#: images.ini:mapSizes.1.label
+msgid "600x420"
+msgstr ""
+
+#: images.ini:mapSizes.2.label
+msgid "860x600"
+msgstr ""
+
+#: images.ini:mapSizes.3.label
+msgid "1240x840"
+msgstr ""
 
 #: exportPdf.ini:formats.A4.label
 msgid "A4"
@@ -20,25 +36,214 @@ msgstr ""
 msgid "A3full"
 msgstr ""
 
-#: images.ini:mapSizes.0.label
-msgid "430x300"
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Mode"
 msgstr ""
 
-#: images.ini:mapSizes.1.label
-msgid "620x420"
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Draw"
+msgstr "Dessin"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Mask"
+msgstr "Masque"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Change Mode"
+msgstr "Changer de mode"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Total area"
+msgstr "Aire totale"
+
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Km"
 msgstr ""
 
-#: images.ini:mapSizes.2.label
-msgid "860x600"
+#: projects/demoCW3/plugins/outline/templates/outline.tpl
+msgid "Clear outline"
+msgstr "Effacer le tracé"
+
+#: projects/demoCW3/plugins/auth/templates/auth.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "login"
+msgstr "vous connecter"
+
+#: projects/demoCW3/plugins/auth/templates/auth.tpl
+msgid "logout"
+msgstr "vous déconnecter"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Login dialog"
+msgstr "Login dialogue"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "You've been logged out"
+msgstr "Vous avez été déconnecté"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Please enter your login and password"
+msgstr "Entez votre identifiant et mot de passe"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "(for demonstration use: 'demo' 'demo')"
+msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Password"
+msgstr "Mot de passe"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Submit"
+msgstr "Envoyer"
+
+#: projects/demoCW3/plugins/auth/templates/login_page.tpl
+msgid "Click here to go back to the map"
+msgstr "Cliquer pour retourner à la carte"
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Search"
+msgstr "Recherche"
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+msgid "Country"
+msgstr "Pays "
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+msgid "Airport"
+msgstr "Aéroport "
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+msgid "Area"
+msgstr "Aire "
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+#, fuzzy
+msgid "Add to Selection"
+msgstr "Union sélection"
+
+#: projects/demoCW3/plugins/search/templates/search.tpl
+msgid "Remove From Selection"
 msgstr ""
 
-#: images.ini:mapSizes.3.label
-msgid "1240x840"
+#: projects/demoCW3/plugins/search/templates/search.tpl
+msgid "Clear Hilight"
+msgstr "Effacer coloriage"
+
+#: projects/demoCW3/plugins/search/templates/search_results.tpl
+#, fuzzy
+msgid "Total:"
+msgstr "Aire totale"
+
+#: projects/demoCW3/plugins/search/templates/search_results.tpl
+msgid "No results"
 msgstr ""
 
-#: projects/demoCW3/coreplugins/images/templates/mapsizes.tpl
-msgid "Mapsize :"
-msgstr "Taille carte :"
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Format and Resolution (dpi)"
+msgstr "Format et résolution (dpi)"
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+#, fuzzy
+msgid "Scale:"
+msgstr "Echelle :"
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "PDF recenter"
+msgstr "Recentrer"
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Orientation"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Portrait"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Landscape"
+msgstr "Paysage"
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Rotation"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "-5°"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "+5°"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "Free rotate"
+msgstr "Rotation libre"
+
+#: projects/demoCW3/plugins/exportPdf/templates/formRotate.tpl
+msgid "set"
+msgstr "Go"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Title"
+msgstr "Titre"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Note"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Options"
+msgstr ""
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Scalebar"
+msgstr "Echelle"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Overview"
+msgstr "Aperçu"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "QueryResult"
+msgstr "Résultats de la requête"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "Legend"
+msgstr "Légende"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "On map"
+msgstr "Intégrée à la carte"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "In new page"
+msgstr "Dans une nouvelle page"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+msgid "None"
+msgstr "Aucune"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Print"
+msgstr "Imprimer"
+
+#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
+#, fuzzy
+msgid "Reset Form"
+msgstr "Réinitialiser"
+
+#: projects/demoCW3/coreplugins/layers/templates/switches.tpl
+msgid "Switches"
+msgstr ""
 
 #: projects/demoCW3/coreplugins/layers/templates/layers.tpl
 msgid "expand tree"
@@ -88,12 +293,12 @@ msgstr "Zoomer pour voir la couche"
 msgid "Zoom out to see layer"
 msgstr "Dézoomer pour voir la couche"
 
-#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
-#, fuzzy
-msgid "Id recentering"
-msgstr "Centrage sur identifiants"
+#: projects/demoCW3/coreplugins/location/templates/shortcuts.tpl
+msgid "Shortcuts"
+msgstr "Raccourcis"
 
-#correction bug
+# correction bug
+#: projects/demoCW3/coreplugins/location/templates/id_recenter.tpl
 msgid "IdRecentering"
 msgstr "Recentrage sur des identifiants"
 
@@ -105,6 +310,14 @@ msgstr "Couche :"
 msgid "Comma separated id's : "
 msgstr "Ids, séparés par des virgules :"
 
+#: projects/demoCW3/coreplugins/location/templates/scales.tpl
+msgid "Scale :"
+msgstr "Echelle :"
+
+#: projects/demoCW3/coreplugins/location/templates/scales.tpl
+msgid "Custom_Scale"
+msgstr "Echelle libre"
+
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
 msgid "Recenter"
 msgstr "Recentrer"
@@ -114,17 +327,20 @@ msgid "X :"
 msgstr ""
 
 #: projects/demoCW3/coreplugins/location/templates/recenter.tpl
-#, fuzzy
-msgid "Y :"
+msgid "Y:"
 msgstr ""
 
-#: projects/demoCW3/coreplugins/location/templates/scales.tpl
-msgid "Scale :"
-msgstr "Echelle :"
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "query_clear"
+msgstr "Effacer la requête"
 
-#: projects/demoCW3/coreplugins/location/templates/shortcuts.tpl
-msgid "Shortcuts"
-msgstr "Raccourcis"
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "Refresh"
+msgstr "Rafraichir"
+
+#: projects/demoCW3/coreplugins/query/templates/query.tpl
+msgid "Query all selected layers"
+msgstr "Requète sur toutes les couches"
 
 #: projects/demoCW3/coreplugins/query/templates/query.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -153,158 +369,30 @@ msgstr "Intersection"
 msgid "In Query"
 msgstr "Dans la requête"
 
-#: projects/demoCW3/coreplugins/query/templates/query.tpl
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
+#: projects/demoCW3/coreplugins/images/templates/mapsizes.tpl
+msgid "Mapsize :"
+msgstr "Taille carte :"
+
+#: projects/demoCW3/templates/mainmap.tpl
+msgid "JavaScript must be enabled to use CartoWeb"
+msgstr ""
+
+#: projects/demoCW3/templates/mainmap.tpl
+msgid "Loading message"
+msgstr "Chargement"
+
+#: projects/demoCW3/templates/mainmap.tpl
+msgid "keymap_alt"
+msgstr "vue_generale_alt"
+
+#: projects/demoCW3/templates/mainmap.tpl
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Mask"
-msgstr "Masque"
-
-#: projects/demoCW3/coreplugins/query/templates/query.tpl
-msgid "Query all selected layers"
-msgstr "Requète sur toutes les couches"
-
-#: projects/demoCW3/coreplugins/query/templates/query.tpl
-msgid "query_clear"
-msgstr "Effacer la requête"
-
-#: projects/demoCW3/plugins/auth/templates/auth.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-msgid "please"
-msgstr "merci de"
-
-msgid "login"
-msgstr "vous connecter"
-
-#: projects/demoCW3/plugins/auth/templates/auth.tpl
-msgid "logout"
-msgstr "vous déconnecter"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Login dialog"
-msgstr "Login dialogue"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "You've been logged out"
-msgstr "Vous avez été déconnecté"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Please enter your login and password"
-msgstr "Entez votre identifiant et mot de passe"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "(for demonstration use: 'demo' 'demo')"
-msgstr "(pour la démonstration, utilisez: 'demo' 'demo')"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Password"
-msgstr "Mot de passe"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Submit"
-msgstr "Envoyer"
-
-#: projects/demoCW3/plugins/auth/templates/login_page.tpl
-msgid "Click here to go back to the map"
-msgstr "Cliquer pour retourner à la carte"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Format and Resolution (dpi)"
-msgstr "Format et résolution (dpi)"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Orientation"
-msgstr ""
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Portrait"
-msgstr ""
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Landscape"
-msgstr "Paysage"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Title"
-msgstr "Titre"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Note"
-msgstr ""
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Options"
-msgstr ""
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Scalebar"
-msgstr "Echelle"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Overview"
-msgstr "Aperçu"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "QueryResult"
-msgstr "Résultats de la requête"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "Legend"
-msgstr "Légende"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "On map"
-msgstr "Intégrée à la carte"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "In new page"
-msgstr "Dans une nouvelle page"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-msgid "None"
-msgstr "Aucune"
-
-#: projects/demoCW3/plugins/exportPdf/templates/form.tpl
-#: projects/demoCW3/templates/cartoclient.tpl
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "Print"
-msgstr "Imprimer"
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Mode"
-msgstr ""
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Draw"
-msgstr "Dessin"
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Change Mode"
-msgstr "Changer de mode"
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Total area"
-msgstr "Aire totale"
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Km"
-msgstr ""
-
-#: projects/demoCW3/plugins/outline/templates/outline.tpl
-msgid "Clear outline"
-msgstr "Effacer le tracé"
+msgid "Collapse keymap"
+msgstr "Masquer l'aperçu"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "CartoWeb3 - Demonstration"
 msgstr "CartoWeb3 - Démonstration"
-
-#: projects/demoCW3/templates/cartoclient.tpl
-#: projects/demoCW3/templates/mainmap.tpl
-msgid "Collapse keymap"
-msgstr "Masquer l'aperçu"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Show keymap"
@@ -315,15 +403,17 @@ msgid "welcome"
 msgstr "Bienvenue"
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Coordonnees (m):"
+#, fuzzy
+msgid "Coord (m):"
 msgstr "Coordonnées (m):"
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Distance approx.: "
-msgstr ""
+#, fuzzy
+msgid "Approx. distance :"
+msgstr "Distance"
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Surface approx. : "
+msgid "Approx. area :"
 msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
@@ -347,12 +437,16 @@ msgid "Help Viewer"
 msgstr "Aide"
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Themes"
-msgstr "Thèmes"
+msgid "Views"
+msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Search"
-msgstr "Recherche"
+msgid "RTF"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Themes"
+msgstr "Thèmes"
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Outline"
@@ -363,8 +457,32 @@ msgid "Query"
 msgstr "Requête"
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Refresh"
-msgstr "Rafraichir"
+msgid "Layers reorder"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "WMS layers"
+msgstr ""
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Help"
+msgstr "Aide"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "help"
+msgstr "aide"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "reset session"
+msgstr "Réinitialiser"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "Reset session"
+msgstr "Réinitialiser"
+
+#: projects/demoCW3/templates/cartoclient.tpl
+msgid "OK"
+msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Data sources"
@@ -399,6 +517,10 @@ msgid "You are not allowed to print maps"
 msgstr "Vous n'êtes pas autorisé à imprimer des cartes"
 
 #: projects/demoCW3/templates/cartoclient.tpl
+msgid "please"
+msgstr "merci de"
+
+#: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
 "This demo is an overview of the standard functionalities that are somehow "
 "visible for an end-user in Cartoweb. To get the most out of it, read through "
@@ -424,11 +546,11 @@ msgstr ""
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid ""
-"Once you have chosen your data, click on the OK button, located beneath "
-"the tab, to update your changes"
+"Once you have chosen your data, click on the OK button, located beneath the "
+"tab, to update your changes"
 msgstr ""
-"Une fois votre couche choisie, cliquez sur le bouton \"OK\" pour mettre "
-"à jour la carte."
+"Une fois votre couche choisie, cliquez sur le bouton \"OK\" pour mettre à "
+"jour la carte."
 
 #: projects/demoCW3/templates/cartoclient.tpl
 msgid "Search tab"
@@ -821,40 +943,19 @@ msgid "For more information, you can have a look to the "
 msgstr "Pour plus d'information, vous pouvez aller voir la "
 
 #: projects/demoCW3/templates/cartoclient.tpl
-msgid "Cartoweb Documentation"
+#, fuzzy
+msgid "Cartoweb documentation"
 msgstr "documentation de Cartoweb"
 
-#: projects/demoCW3/templates/mainmap.tpl
-msgid "Loading message"
-msgstr "Chargement"
+#, fuzzy
+#~ msgid "Id recentering"
+#~ msgstr "Centrage sur identifiants"
 
-#: projects/demoCW3/templates/mainmap.tpl
-msgid "keymap_alt"
-msgstr "vue_generale_alt"
+#~ msgid "full_extent"
+#~ msgstr "Vue Générale"
 
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "full_extent"
-msgstr "Vue Générale"
-
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "Help"
-msgstr "Aide"
-
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "help"
-msgstr "aide"
-
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "print"
-msgstr "Imprimer"
-
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "reset session"
-msgstr "Réinitialiser"
-
-#: projects/demoCW3/templates/toolbar.tpl
-msgid "Reset session"
-msgstr "Réinitialiser"
+#~ msgid "print"
+#~ msgstr "Imprimer"
 
 #~ msgid "Click to Close"
 #~ msgstr "Cliquez pour fermer"
@@ -869,41 +970,17 @@ msgstr "Réinitialiser"
 #~ msgstr "Haut de la page"
 
 # Elements dynamiques
-msgid "query"
-msgstr "Requête"
+#~ msgid "query"
+#~ msgstr "Requête"
 
-msgid "outline_poly"
-msgstr "Polygone"
+#~ msgid "outline_poly"
+#~ msgstr "Polygone"
 
-msgid "Custom_Scale"
-msgstr "Echelle libre"
+#~ msgid "human"
+#~ msgstr "Activités humaines"
 
-msgid "human"
-msgstr "Activités humaines"
+#~ msgid "categ"
+#~ msgstr "Catégorie"
 
-msgid "categ"
-msgstr "Catégorie"
-
-msgid "PDF recenter"
-msgstr "Recentrer"
-
-msgid "Free rotate"
-msgstr "Rotation libre"
-
-msgid "set"
-msgstr "Go"
-
-msgid "Country"
-msgstr "Pays "
-
-msgid "Airport"
-msgstr "Aéroport "
-
-msgid "Area"
-msgstr "Aire "
-
-msgid "Recenter and Hilight"
-msgstr "Recentrer et colorier"
-
-msgid "Clear Hilight"
-msgstr "Effacer coloriage"
+#~ msgid "Recenter and Hilight"
+#~ msgstr "Recentrer et colorier"
