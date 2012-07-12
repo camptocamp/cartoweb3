@@ -18,7 +18,7 @@ function reorderUpside()
   var indexOpacity = new Array();
   
   for (i=0 ; i < opacity.length ; i++) { 
-    indexOpacity[opacity[i].name.substr(19)] 
+    indexOpacity[opacity[i].name.substr(14)] 
       = opacity[i].selectedIndex;
   }    
   
@@ -30,7 +30,7 @@ function reorderUpside()
   
   for (i=0 ; i < opacity.length ; i++) { 
     opacity[i].selectedIndex
-      = indexOpacity[opacity[i].name.substr(19)];
+      = indexOpacity[opacity[i].name.substr(14)];
   }
 }
 
@@ -49,7 +49,7 @@ function reorderDownside()
   var indexOpacity = new Array();
     
   for (i=0 ; i < opacity.length ; i++) { 
-    indexOpacity[opacity[i].name.substr(19)]
+    indexOpacity[opacity[i].name.substr(14)]
       = opacity[i].selectedIndex;
   }    
   
@@ -61,7 +61,7 @@ function reorderDownside()
     
   for (i=0 ; i < opacity.length ; i++) { 
     opacity[i].selectedIndex
-      = indexOpacity[opacity[i].name.substr(19)];
+      = indexOpacity[opacity[i].name.substr(14)];
   }
 }
 
@@ -70,7 +70,7 @@ function reorderPreviousPosition(idFrom)
   var container = xGetElementById("layerReorderContainer");
   var layers = xGetElementsByClassName('layerReorder', container, 'div');
   
-  for (i=0 ; i < layers.length ; i++) { 
+  for (i=0 ; i < layers.length ; i++) {
     if (layers[i].id.substr(13) == idFrom) {
       if(i == 0) return layers[0].id.substr(13);
       return layers[i-1].id.substr(13);
