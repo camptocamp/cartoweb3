@@ -35,8 +35,8 @@ layers.human.label = "Human activities "
 
 layers.categ.className = "LayerGroup"
 layers.categ.children = "hydro, relief"
-layers.categ.rendering = "dropdown "
-layers.categ.label = "Category "
+layers.categ.rendering = "dropdown"
+layers.categ.label = "Category"
 
 layers.relief.className = "LayerGroup"
 layers.relief.children = "mountain, iceland, contour"
