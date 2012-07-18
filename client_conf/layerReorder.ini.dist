@@ -12,4 +12,9 @@
 ; Set opacity level to use inside selector 
 ; use comma separated values (from 100 to 1)
 ; 100 = full visible, 50 = half visible, 1 almost invisible
+; by default cartoweb will affect the first level opacity <= to the
+; following scale 100,75,50,25,10,5
+; DESC order is mandatory.
+; To resume if a layer in .map has a 60 opacity value, LayerReorder will
+; with the default scale pre-select a 50% value in the selector 
 ; opacityLevels = "100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,35,20,15,10,5,1"
