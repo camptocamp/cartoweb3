@@ -37,7 +37,6 @@ define('MASK_DEFAULT_OUTSIDE', 'default_outside_mask');
  * and doesn't have a client side. Vector hilighting is used by 
  * {@link ServerQuery}.
  * @package Plugins
- * @todo : check correct implementation of opacity properties with mapserver 6.x
  */
 class ServerHilight extends ServerPlugin {
 
@@ -109,6 +108,7 @@ class ServerHilight extends ServerPlugin {
                 $result = '(1=1)';
             }
         }
+        $this->log->debug(__FUNCTION__ . ' result='.$result,'buildExpression');
         return $result;  
     }    
 
@@ -145,6 +145,11 @@ class ServerHilight extends ServerPlugin {
             $color = $label->color; 
             $this->setHilightColor($label->color, $hilightColor);
         }
+        // 
+        $this->log->debug(__FUNCTION__ . 'Comparing opacity in hilight : style.opacity='.$style->opacity.' layer.opacity='.$layer->opacity);
+        if ($style->opacity !== $layer->opacity){
+           $style->set('opacity', $layer->opacity); 
+        }
         return $class;
     }
     
@@ -174,7 +179,7 @@ class ServerHilight extends ServerPlugin {
                 $expression = sprintf("(%s AND %s)", $origExp, $expression);
         }
 
-        $this->log->debug("setting expression $expression");
+        $this->log->debug(__FUNCTION__ ." setting expression $expression");
         $class->setexpression($expression);
     }
     
@@ -195,7 +200,9 @@ class ServerHilight extends ServerPlugin {
         $opacity = $defaultTrans;
         if ($msLayer->getMetaData($metaTrans))
             $opacity = $msLayer->getMetaData($metaTrans);
-        
+        elseif ( $msLayer->opacity != 100)
+            $opacity = $msLayer->opacity;
+            
         $color = $defaultColor;
 
         if ($msLayer->getMetaData($metaColor))
@@ -203,7 +210,7 @@ class ServerHilight extends ServerPlugin {
 
         $msNewLayer = ms_newLayerObj($msMapObj, $msLayer);
 
-        $msNewLayer->set('opacity', $opacity);
+        $msNewLayer->setMetaData('opacity', $opacity);
 
         $class = $msNewLayer->getClass(0);
 
@@ -211,7 +218,8 @@ class ServerHilight extends ServerPlugin {
         $style = $class->getStyle(0);
         $style->color->setRGB($newColor[0], $newColor[1], $newColor[2]);
         $style->outlinecolor->setRGB($newColor[0], $newColor[1], $newColor[2]);
-
+        $style->set('opacity', $opacity);
+        
         return $msNewLayer;
     }
     
@@ -225,7 +233,7 @@ class ServerHilight extends ServerPlugin {
      */
     protected function createHilightLayer($msLayer) {
     
-        return $this->createLayer($msLayer, 20, '255, 255, 0', 
+        return $this->createLayer($msLayer, 80, '255, 255, 0', 
                                   'hilight_transparency', 'hilight_color');
     }
 
@@ -382,7 +390,9 @@ class ServerHilight extends ServerPlugin {
             $hilightClass->set('name', 'dynamic_class');
             $hilightClass->set('minscaledenom', $msLayer->minscaledenom);
             $hilightClass->set('maxscaledenom', $msLayer->maxscaledenom);
-            $hilightClass->set('opacity', $msLayer->opacity);
+            // A CLASS don't have opacity, only class->style object can handle this
+            $this->log->debug(__FUNCTION__ . ' Layer opacity='.$msLayer->opacity);
+            // $hilightClass->set('opacity', $msLayer->opacity);
             
             // move the new class to the top
             for($i = $msLayer->numclasses - 1; $i >= 1; $i--) {

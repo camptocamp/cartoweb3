@@ -194,7 +194,7 @@ class ClientLayerReorder extends ClientPlugin
         if (!empty($opacityLevels)) {
             $this->opacityLevels = Utils::parseArray($opacityLevels);
         } else {
-            $this->opacityLevels = array('10', '25', '50', '75', '100');
+            $this->opacityLevels = array('100', '75', '50', '25', '10', '5');
         }
 
         // init properties from init result
@@ -375,7 +375,7 @@ class ClientLayerReorder extends ClientPlugin
         }
 
         foreach ($this->opacityLevels as $level) {
-            if ($level > $opacity) {
+            if ($level <= $opacity) {
                 return $level;
             }
         }
@@ -472,6 +472,7 @@ class ClientLayerReorder extends ClientPlugin
         $smarty = new Smarty_Plugin($this->getCartoclient(), $this);
         // IHM use reverse order...
         $smarty->assign('layerReorder',
+//            $this->getRenderSelectedLayers(), true);
             array_reverse($this->getRenderSelectedLayers(), true), true);
 
         if ($this->getConfig()->enableOpacity) {
