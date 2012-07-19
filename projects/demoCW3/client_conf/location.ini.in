@@ -15,7 +15,10 @@ idRecenterActive = true
 
 ; the list of layers which will be shown on the recenter selection list
 ; if this list is not set, all layers are proposed in the list
-idRecenterLayers = "airport, agglo, district, town"
+idRecenterLayers = "airport, agglo, district, town, wfscities"
+
+; ids sample for wfs.cities ( around geneva + germany )
+; cities.2492,cities.2484,cities.2470,cities.6743,cities.6969,cities.2479,cities.2480,cities.2498,cities.2476,cities.5901,cities.5703
 
 ; if current scale is above this limit, measure unit is km else m
 scaleUnitLimit = "10000"
