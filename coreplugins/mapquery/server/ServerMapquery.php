@@ -190,7 +190,7 @@ class ServerMapquery extends ServerPlugin {
         $msLayer = $layersInit->getMsLayerById($msMapObj, $layerId);
 
         
-        $savedExtent = $msMapObj->extent; 
+        $savedExtent = clone $msMapObj; 
         /** Saves extent and sets it to max extent.
         *    Only if not a WFS
         *    @todo : check if an extent is setup in .map getMaxExtent return this one
@@ -214,8 +214,8 @@ class ServerMapquery extends ServerPlugin {
             if ($mayFail) {
                 $serverContext->resetMsErrors();
                 // restore extent
-                $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
-                                     $savedExtent->maxx, $savedExtent->maxy);
+                $msMapObj->setExtent($savedExtent->extent->minx, $savedExtent->extent->miny, 
+                                     $savedExtent->extent->maxx, $savedExtent->extent->maxy);
                 $this->log->debug(__LINE__ .': Query on layer ' . 'no results found for '.$msLayer->name.' returning empty array');
                 return array();
             }
@@ -226,8 +226,8 @@ class ServerMapquery extends ServerPlugin {
 
         $serverContext->checkMsErrors();
         // restore extent
-        $msMapObj->setExtent($savedExtent->minx, $savedExtent->miny, 
-                             $savedExtent->maxx, $savedExtent->maxy);
+        $msMapObj->setExtent($savedExtent->extent->minx, $savedExtent->extent->miny, 
+                             $savedExtent->extent->maxx, $savedExtent->extent->maxy);
         
         return $this->extractResults($layerId, false);
     }
